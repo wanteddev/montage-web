@@ -203,8 +203,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(@types/react@18.2.65)(react@18.2.0)
       '@wanteddev/wds-icon':
-        specifier: file:../wds-icon
-        version: file:packages/wds-icon(ts-node@10.9.2)(typescript@5.4.2)
+        specifier: workspace:*
+        version: link:../wds-icon
       aria-hidden:
         specifier: ^1.2.3
         version: 1.2.3
@@ -14333,20 +14333,3 @@ packages:
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
-
-  file:packages/wds-icon(ts-node@10.9.2)(typescript@5.4.2):
-    resolution: {directory: packages/wds-icon, type: directory}
-    id: file:packages/wds-icon
-    name: '@wanteddev/wds-icon'
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      tsup: 8.0.2(ts-node@10.9.2)(typescript@5.4.2)
-    transitivePeerDependencies:
-      - '@microsoft/api-extractor'
-      - '@swc/core'
-      - postcss
-      - supports-color
-      - ts-node
-      - typescript
-    dev: false

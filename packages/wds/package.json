@@ -45,7 +45,7 @@
     "@radix-ui/react-use-controllable-state": "^1.0.1",
     "@radix-ui/react-use-previous": "^1.0.1",
     "@radix-ui/react-use-size": "^1.0.1",
-    "@wanteddev/wds-icon": "file:../wds-icon",
+    "@wanteddev/wds-icon": "workspace:*",
     "aria-hidden": "^1.2.3",
     "lodash.flattendeep": "^4.4.0",
     "next-themes": "^0.3.0",
