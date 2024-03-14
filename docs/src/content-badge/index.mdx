@@ -1,0 +1,77 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# ContentBadge
+
+<Primary />
+
+<Controls />
+
+## Variant
+
+### Outlined
+
+<Canvas>
+  <Story of={Stories.OutlinedNeutral} />
+</Canvas>
+
+### Filled
+
+<Canvas>
+  <Story of={Stories.FilledNeutral} />
+  <Story of={Stories.FilledAccent} />
+</Canvas>
+
+## With Icon
+
+<Canvas>
+  <Story of={Stories.WithLeftIcon} />
+  <Story of={Stories.WithRightIcon} />
+</Canvas>
+
+## Custom
+
+Responsive Props로는
+
+`'size' | 'color' | 'accentColor' | 'variant' | 'css'` 사용 가능합니다.
+
+<Markdown>
+{`
+\`\`\`tsx
+import { css } from '@emotion/react';
+
+import { useMedia, ContentBadge } from '@wanteddev/wds';
+
+const Component = () => {
+const { breakpoint, respondTo } = useMedia();
+
+    return (
+    	<ContentBadge
+    		variant="outlined"
+    		color="neutral"
+    		size="xsmall"
+    		lg={{ size: 'small' }}
+    		css={{
+    			[respondTo(breakpoint.md)]: {
+    				marginTop: '5px',
+    			},
+    		}}
+    	>
+    		원티드
+    	</ContentBadge>
+    );
+
+};
+\`\`\`
+`}
+
+</Markdown>

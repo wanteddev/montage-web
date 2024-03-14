@@ -1,0 +1,108 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Primary,
+  Controls,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Alert
+
+<Primary />
+
+<Controls />
+
+## Variant
+
+### Normal
+
+<Canvas>
+  <Story of={Stories.Normal} />
+</Canvas>
+
+### Others
+
+<Canvas>
+  <Story of={Stories.Success} />
+  <Story of={Stories.Info} />
+  <Story of={Stories.Error} />
+  <Story of={Stories.Warning} />
+</Canvas>
+
+## RegionConfig
+
+alert, snackbar, alert이 나오는 위치를 조정할 수 있습니다.
+언마운트 시 자동으로 기존 설정을 되돌립니다.
+
+<table width="100%">
+  <colgroup>
+    <col width="auto" />
+    <col width="auto" />
+    <col width="auto" />
+    <col width="50px" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>viewportMaxWidth</td>
+      <td>alert 이 표시되는 너비를 정합니다.</td>
+      <td>string</td>
+      <td>'1060px'</td>
+    </tr>
+    <tr>
+      <td>viewportTop</td>
+      <td>alert 이 표시되는 포지션을 정합니다.</td>
+      <td>string</td>
+      <td>'60px'</td>
+    </tr>
+    <tr>
+      <td>viewportBottom</td>
+      <td>toast, snackbar 가 표시되는 포지션을 정합니다.</td>
+      <td>string</td>
+      <td>'0px'</td>
+    </tr>
+  </tbody>
+</table>
+
+### 자동으로 Navigation 높이 만큼 포지션 설정하기
+
+<Markdown>
+{`
+\`\`\`tsx
+import { useState } from 'react';
+import { Alert, useSize, RegionConfig } from '@wanteddev/wds';
+
+const Component = () => {
+const [show, setShow] = useState(false);
+const [nav, setNav] = useState<HTMLDivElement | null>(null);
+
+const { height } = useSize(nav) || { height: 0 }
+
+return (
+<>
+<TopNav ref={(node) => setNav(node)} />
+
+      <Alert show={show} onShowChange={setShow} content="Test" />
+
+      <RegionConfig viewportTop={height + 'px'} />
+
+      <button onClick={() => setShow(true)} />
+    </>
+
+)
+};
+\`\`\`
+`}
+
+</Markdown>

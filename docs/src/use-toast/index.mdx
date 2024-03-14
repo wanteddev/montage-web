@@ -1,0 +1,148 @@
+import { Meta, Story, Canvas, Primary, Markdown } from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Toast
+
+<Primary />
+
+기본적으로 `useToast` 를 활용하여 호출합니다.
+
+<Markdown>
+{`
+\`\`\`tsx
+import { useToast } from '@wanteddev/wds';
+
+const Component = () => {
+const toast = useToast();
+
+return (
+<button onClick={() => toast({ content: 'Test' })} />
+)
+};
+\`\`\`
+`}
+
+</Markdown>
+
+## Options
+
+<table width="100%">
+  <colgroup>
+    <col width="auto" />
+    <col width="auto" />
+    <col width="auto" />
+    <col width="50px" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>content</td>
+      <td>string</td>
+      <td></td>
+      <td>*</td>
+    </tr>
+    <tr>
+      <td>variant</td>
+      <td>'normal' | 'success' | 'error' | 'info' | 'link'</td>
+      <td>'normal'</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>duration</td>
+      <td>number</td>
+      <td>5000</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+## Variant
+
+### Normal
+
+<Canvas>
+  <Story of={Stories.Normal} />
+</Canvas>
+
+### Others
+
+<Canvas>
+  <Story of={Stories.Success} />
+  <Story of={Stories.Info} />
+  <Story of={Stories.Error} />
+  <Story of={Stories.Link} />
+</Canvas>
+
+## RegionConfig
+
+toast, snackbar, alert이 나오는 위치를 조정할 수 있습니다.
+언마운트 시 자동으로 기존 설정을 되돌립니다.
+
+<table width="100%">
+  <colgroup>
+    <col width="auto" />
+    <col width="auto" />
+    <col width="auto" />
+    <col width="50px" />
+  </colgroup>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>viewportMaxWidth</td>
+      <td>alert 이 표시되는 너비를 정합니다.</td>
+      <td>string</td>
+      <td>'1060px'</td>
+    </tr>
+    <tr>
+      <td>viewportTop</td>
+      <td>alert 이 표시되는 포지션을 정합니다.</td>
+      <td>string</td>
+      <td>'60px'</td>
+    </tr>
+    <tr>
+      <td>viewportBottom</td>
+      <td>toast, snackbar 가 표시되는 포지션을 정합니다.</td>
+      <td>string</td>
+      <td>'0px'</td>
+    </tr>
+  </tbody>
+</table>
+
+<Markdown>
+{`
+\`\`\`tsx
+// page root
+import { useToast, RegionConfig } from '@wanteddev/wds';
+
+const Component = () => {
+const toast = useToast();
+
+return (
+<>
+<RegionConfig viewportBottom="20px" />
+
+      <button onClick={() => toast({ content: 'Test' })} />
+    </>
+
+)
+};
+\`\`\`
+`}
+
+</Markdown>

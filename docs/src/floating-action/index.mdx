@@ -1,0 +1,50 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Floating Action
+
+<Primary />
+
+<Controls />
+
+## Basic
+
+<Canvas>
+  <Story of={Stories.Basic} />
+</Canvas>
+
+## With Link
+
+<Canvas>
+  <Story of={Stories.WithLink} />
+</Canvas>
+
+## Responsive
+
+가능한 옵션: `'size' | 'iconSize' | 'css'`
+
+<Markdown>
+{`
+\`\`\`tsx
+import { FloatingAction } from '@wanteddev/wds';
+
+const Component = () => {
+return (
+<FloatingAction
+lg={{ size: '72px' }}
+/>
+);
+};
+\`\`\`
+`}
+
+</Markdown>

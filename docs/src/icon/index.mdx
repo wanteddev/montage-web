@@ -1,0 +1,14 @@
+import { Meta, IconGallery, IconItem } from '@storybook/blocks';
+import * as Icons from '@wanteddev/wds-icon';
+
+<Meta title="Theme/Icon" />
+
+# IconGallery
+
+<IconGallery>
+  {Object.entries(Icons).map(([name, Component]) => (
+    <IconItem name={name} key={name}>
+      <Component />
+    </IconItem>
+  ))}
+</IconGallery>

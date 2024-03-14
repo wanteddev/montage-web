@@ -1,0 +1,103 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Grid
+
+<br/>
+
+## Spacing
+
+Grid 에서는 spacing 개념을 사용합니다.
+0.5px 부터 사용할 수 있으며 내부 Grid Item의 간격을 지정합니다.
+
+`rowSpacing`, `columnSpacing` 를 사용하여 각각 row, column에 대한 간격을 지정할 수 있습니다.
+
+`@default 20`
+
+<Markdown>
+{`
+\`\`\`tsx
+const Component = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={12} />
+    </Grid>
+  );
+};
+\`\`\`
+`}
+</Markdown>
+
+<Markdown>
+{`
+\`\`\`tsx
+const Component = () => {
+  return (
+    <Grid rowSpacing={20} columnSpacing={4}>
+      <GridItem columns={12} />
+    </Grid>
+  );
+};
+\`\`\`
+`}
+</Markdown>
+
+## Columns
+
+Grid는 width 100% 기준으로 12개의 columns으로 구분되어 있습니다.
+
+<Markdown>
+{`
+\`\`\`tsx
+const Component = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={12}>
+        <Item>columns=12</Item>
+      </GridItem>
+    </Grid>
+  );
+};
+\`\`\`
+`}
+</Markdown>
+
+<Markdown>
+{`
+\`\`\`tsx
+const Component = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={10}>
+        <Item>columns=10</Item>
+      </GridItem>
+      <GridItem columns={2}>
+        <Item>columns=2</Item>
+      </GridItem>
+    </Grid>
+  );
+};
+\`\`\`
+`}
+</Markdown>
+
+columns 라는 props를 통해 영역을 얼마나 차지할지 정합니다.
+
+columns는 1 ~ 12 (number), auto (string), true (boolean)
+총 3가지로 활용할 수 있습니다.
+
+<Primary />
+
+`auto` 는 해당 children의 너비만큼 영역을 차지합니다.
+`true` 는 남는 영역을 자동으로 차지합니다.
+
+<Controls />

@@ -1,0 +1,101 @@
+import { css } from '@emotion/react';
+
+import { createResponsiveStyle, typographyStyle } from '@/utils';
+
+import type { SelectProps } from './types';
+import type { Theme } from '@emotion/react';
+
+export const selectWrapperStyle =
+  ({
+    __shouldShowPlaceholder,
+    invalid,
+    disabled,
+    width = 'initial',
+    height = 'auto',
+    xs,
+    sm,
+    md,
+    lg,
+  }: SelectProps & { __shouldShowPlaceholder: boolean }) =>
+  (theme: Theme) => css`
+    width: ${width};
+    height: ${height};
+    position: relative;
+
+    select {
+      padding: 12px 44px 12px 16px;
+      border-radius: 10px;
+      border: 1px solid ${theme.palette.line.normal.normal};
+      background-color: ${theme.palette.background.normal.normal};
+      width: 100%;
+      height: 100%;
+      color: ${theme.palette.label.normal};
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      ${typographyStyle('body1_normal', 'regular')}
+
+      &:focus {
+        outline: none;
+      }
+      &:focus-visible {
+        outline: solid 2px Highlight;
+        outline: solid 2px -webkit-focus-ring-color;
+      }
+
+      option[value=''][disabled] {
+        display: none;
+      }
+
+      ${__shouldShowPlaceholder &&
+      css`
+        ${typographyStyle('body1_normal', 'regular')}
+        color: ${theme.palette.label.assistive};
+      `}
+    }
+
+    & > svg {
+      right: 16px;
+      position: absolute;
+      font-size: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: ${theme.palette.label.normal};
+    }
+
+    ${invalid &&
+    css`
+      select {
+        border-color: ${theme.palette.status.negative};
+      }
+    `}
+
+    ${disabled &&
+    css`
+      select {
+        background-color: ${theme.palette.interaction.disable};
+      }
+
+      & > svg {
+        color: ${theme.palette.label.disable};
+      }
+    `}
+
+  ${createResponsiveStyle(
+      { xs, sm, md, lg },
+      theme,
+    )(
+      (params) => css`
+        ${Boolean(params?.width) &&
+        css`
+          width: ${params!.width};
+        `}
+
+        ${Boolean(params?.height) &&
+        css`
+          height: ${params!.height};
+        `}
+
+      ${params?.css}
+      `,
+    )}
+  `;

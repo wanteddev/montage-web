@@ -1,0 +1,62 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Checkbox
+
+<Primary />
+<Controls />
+
+## Basic
+
+<Canvas>
+  <Story of={Stories.Basic} />
+</Canvas>
+
+## With Label
+
+<Canvas>
+  <Story of={Stories.WithLabel} />
+</Canvas>
+
+## With Form
+
+<Canvas>
+  <Story of={Stories.WithForm} />
+</Canvas>
+
+## With Form Multiple checkbox
+
+<Canvas>
+  <Story of={Stories.WithFormMultiCheckbox} />
+</Canvas>
+
+## Responsive
+
+가능한 옵션: `'size' | 'bold' | 'css'`
+
+<Markdown>
+{`
+\`\`\`tsx
+import { Checkbox } from '@wanteddev/wds';
+
+const Component = () => {
+return (
+<Checkbox
+size="small"
+lg={{ size: 'normal' }}
+/>
+);
+};
+\`\`\`
+`}
+
+</Markdown>

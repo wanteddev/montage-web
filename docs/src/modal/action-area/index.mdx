@@ -1,0 +1,51 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Modal Action Area
+
+<Primary />
+
+<Controls />
+
+## Priority
+<br/>
+
+### Strong
+
+<Canvas>
+  <Story of={Stories.Strong} />
+</Canvas>
+
+### Neutral
+
+<Canvas>
+  <Story of={Stories.Neutral} />
+</Canvas>
+
+### Compact
+
+<Canvas>
+  <Story of={Stories.Compact} />
+</Canvas>
+
+### Single
+
+<Canvas>
+  <Story of={Stories.Single} />
+</Canvas>
+
+## Scroll
+
+<Canvas>
+  <Story of={Stories.Scroll} />
+</Canvas>
+

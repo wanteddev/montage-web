@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../tsconfig.node.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "incremental": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "checkJs": false,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "moduleResolution": "node",
+    "module": "CommonJS"
+  },
+  "include": ["vite.config.ts"],
+  "exclude": ["node_modules"]
+}

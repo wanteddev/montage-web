@@ -1,0 +1,89 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Text Area
+
+<Primary />
+
+<Controls />
+
+## Basic
+
+<Canvas>
+  <Story of={Stories.Basic} />
+</Canvas>
+
+`minRows`, `maxRows` 를 이용하여 TextArea의 높이를 조절할 수 있습니다.
+
+또한 `rightIcon` 의 위치를 변경하고 싶을 때는 `[wds-component='text-area-right-icon']` 을 이용합니다.
+
+<Markdown>
+  {`
+\`\`\`css
+[wds-component="text-area-right-icon"] {
+	bottom: 15px;
+}
+\`\`\`
+`}
+</Markdown>
+
+## With minRows
+
+<Canvas>
+  <Story of={Stories.WithMinRows} />
+</Canvas>
+
+## With maxRows
+
+<Canvas>
+  <Story of={Stories.WithMaxRows} />
+</Canvas>
+
+## With Action
+
+<Canvas>
+  <Story of={Stories.WithAction} />
+</Canvas>
+
+## With ActionIcon
+
+<Canvas>
+  <Story of={Stories.WithActionIcon} />
+</Canvas>
+
+## With Form
+
+<Canvas>
+  <Story of={Stories.WithForm} />
+</Canvas>
+
+## Responsive
+
+가능한 옵션: `'width' | 'css'`
+
+<Markdown>
+{`
+\`\`\`tsx
+import { TextArea } from '@wanteddev/wds';
+
+const Component = () => {
+return (
+<TextArea
+width="300px"
+lg={{ width: '500px' }}
+/>
+);
+};
+\`\`\`
+`}
+
+</Markdown>

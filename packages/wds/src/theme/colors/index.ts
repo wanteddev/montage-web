@@ -1,0 +1,13 @@
+export { default as blue } from './blue';
+export { default as common } from './common';
+export { default as coolNeutral } from './coolNeutral';
+export { default as cyan } from './cyan';
+export { default as green } from './green';
+export { default as lightBlue } from './lightBlue';
+export { default as lime } from './lime';
+export { default as neutral } from './neutral';
+export { default as orange } from './orange';
+export { default as pink } from './pink';
+export { default as red } from './red';
+export { default as violet } from './violet';
+export { default as redOrange } from './redOrange';

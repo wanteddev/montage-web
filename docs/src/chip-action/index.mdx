@@ -1,0 +1,56 @@
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Primary,
+  Markdown,
+} from '@storybook/blocks';
+import * as Stories from './index.stories';
+
+<Meta of={Stories} />
+
+# Chip Action
+
+<Primary />
+
+<Controls />
+
+## Variant
+
+### Filled
+
+<Canvas>
+  <Story of={Stories.Filled} />
+</Canvas>
+
+### Outlined
+
+<Canvas>
+  <Story of={Stories.Outlined} />
+</Canvas>
+
+## Responsive
+
+가능한 옵션: `'size' | 'css'`
+
+`xs`, `sm`, `md`, `lg` 를 이용해 반응형 대응을 할 수 있습니다.
+
+<Canvas>
+  <Story of={Stories.Responsive} />
+</Canvas>
+
+## With Icon
+
+<Canvas>
+  <Story of={Stories.WithLeftIcon} />
+	<Story of={Stories.WithRightIcon} />
+</Canvas>
+
+## As
+
+커스텀 element로 사용이 가능합니다.
+
+<Canvas>
+  <Story of={Stories.WithLink} />
+</Canvas>

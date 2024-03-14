@@ -1,0 +1,21 @@
+import type { Merge, ResponsiveProps } from '@/types';
+import type { CSSProperties, ReactNode } from 'react';
+
+export type TextAreaDefaultProps = {
+  invalid?: boolean;
+  maxLength?: number;
+  rightIcon?: ReactNode;
+  disabled?: boolean;
+  width?: CSSProperties['width'];
+  maxRows?: number;
+  minRows?: number;
+};
+
+export type TextAreaResponsiveProps = ResponsiveProps<
+  Pick<TextAreaDefaultProps, 'width'>
+>;
+
+export type TextAreaProps = Merge<
+  TextAreaDefaultProps,
+  TextAreaResponsiveProps
+>;

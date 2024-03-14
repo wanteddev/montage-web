@@ -1,0 +1,76 @@
+import { Meta, Canvas, Markdown } from '@storybook/blocks';
+import { Typography } from '@wanteddev/wds';
+
+<Meta title="Theme/Typography" />
+
+export const variants = [
+  'display1',
+  'display2',
+  'title1',
+  'title2',
+  'title3',
+  'heading1',
+  'heading2',
+  'headline1',
+  'headline2',
+  'body1_normal',
+  'body1_reading',
+  'body2_normal',
+  'body2_reading',
+  'label1_normal',
+  'label1_reading',
+  'label2',
+  'caption1',
+  'caption2',
+];
+export const weights = ['regular', 'medium', 'bold'];
+
+# Typography
+
+<Canvas>
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+    {variants.map((variant) => (
+      <div
+        key={variant}
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '200px repeat(3,1fr)',
+          gap: '8px',
+          alignItems: 'center',
+        }}
+      >
+        <div style={{ marginRight: '20px', color: 'gray', fontSize: '16px' }}>
+          {variant}
+        </div>
+        {weights.map((weight) => (
+          <Typography variant={variant} weight={weight} key={variant + weight}>
+            원티드
+          </Typography>
+        ))}
+      </div>
+    ))}
+  </div>
+</Canvas>
+
+## Responsive
+
+가능한 옵션: `'variant' | 'weight' | 'align' | 'css'`
+
+<Markdown>
+{`
+\`\`\`tsx
+import { Typography } from '@wanteddev/wds';
+
+const Component = () => {
+return (
+<Typography
+variant="title2"
+weight="bold"
+lg={{ variant: 'title1' }}
+/>
+);
+};
+\`\`\`
+`}
+
+</Markdown>

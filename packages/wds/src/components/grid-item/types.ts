@@ -1,0 +1,32 @@
+import type { Merge, ResponsiveProps } from '@/types';
+import type { CSSProperties } from 'react';
+
+export type GridSize =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 'auto'
+  | true;
+
+export type GridItemDefaultProps = {
+  alignSelf?: CSSProperties['alignSelf'];
+  columns?: GridSize;
+};
+
+export type GridItemResponsiveProps = ResponsiveProps<
+  Pick<GridItemDefaultProps, 'alignSelf' | 'columns'>
+>;
+
+export type GridItemProps = Merge<
+  GridItemDefaultProps,
+  GridItemResponsiveProps
+>;

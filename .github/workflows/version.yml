@@ -1,0 +1,144 @@
+name: Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      increment:
+        description: 'SemVer Increment (prepatch = bump alpha)'
+        required: true
+        default: 'prepatch'
+        type: choice
+        options:
+          - prerelease
+          - prepatch
+          - preminor
+          - premajor
+          - patch
+          - minor
+          - major
+
+env:
+  NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
+  GH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+  SLACK_CHANNEL: '#wds-deploy'
+  SERVICE: 'WDS'
+
+jobs:
+  deploy:
+    permissions:
+      packages: write
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Node.js install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@wanteddev'
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Release Tag
+        run: echo ""
+
+      - name: Publish
+        run: pnpm run lerna-deploy ${{ inputs.increment }} --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} --yes --conventional-commits --registry https://npm.pkg.github.com/ --yes --conventional-commits --create-release=github
+
+  deploy-success:
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: ${{ needs.deploy.result == 'success' }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get current versions
+        run: |
+          git pull
+          echo "RELEASE_URL=${{ github.event.repository.html_url }}/releases" >> $GITHUB_ENV
+          RELEASE=$(printf "%s" "$(git log -1 --pretty=%b)")
+          RELEASE="$(echo "$RELEASE" | sed -z 's/\n/\\n/g')"
+          echo "RELEASE=${RELEASE}" >> $GITHUB_ENV
+
+      - name: Post Slack Message - Deploy Success
+        uses: slackapi/slack-github-action@v1.21.0
+        with:
+          channel-id: ${{ env.SLACK_CHANNEL }}
+          payload: |
+            {
+              "text": "",
+              "attachments": [
+                {
+                  "color": "00E5BA",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "*${{ env.SERVICE }} ${{ inputs.increment }} 배포 완료*"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "배포된 패키지"
+                      }
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "${{ env.RELEASE }}"
+                      },
+                      "accessory": {
+                        "type": "button",
+                        "text": {
+                          "type": "plain_text",
+                          "text": "릴리즈 보러가기"
+                        },
+                        "value": "goto_frontend_design_system_release",
+                        "url": "${{ env.RELEASE_URL }}",
+                        "action_id": "button-action"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://unpkg.com/lerna@6.5.1/schemas/lerna-schema.json",
+  "version": "independent",
+  "packages": ["packages/*"],
+  "npmClient": "pnpm",
+  "command": {
+    "version": {
+      "conventionalCommits": true,
+      "message": "chore(ci): publish packages"
+    },
+    "publish": {
+      "conventionalCommits": true
+    }
+  }
+}

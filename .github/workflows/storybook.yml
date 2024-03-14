@@ -1,0 +1,73 @@
+name: Storybook deploy
+on:
+  push:
+    branches: main
+
+env:
+  AWS_REGION: ap-northeast-2
+  AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+
+jobs:
+  deploy-storybook:
+    permissions:
+      id-token: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Node.js install
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@wanteddev'
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build local packages
+        run: pnpm run build
+
+      - name: Reinstall dependencies
+        run: pnpm install
+
+      - name: Build Storybook
+        run: pnpm run build-storybook
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ env.AWS_DEPLOY_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy bundle and build files to S3
+        run: |
+          echo "build files to s3"
+          aws s3 cp docs/dist/ s3://static.wanted.co.kr/storybook/wds/ --recursive --cache-control 'no-cache, no-store' --acl public-read
+          aws cloudfront create-invalidation --distribution-id E1XLGINQD48MIR --paths "/storybook/wds/*"
