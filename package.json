@@ -17,7 +17,7 @@
     "lint": "lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
     "test": "lerna run test",
-    "lerna-deploy": "lerna publish",
+    "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
     "prepublish": "pnpm run build",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",

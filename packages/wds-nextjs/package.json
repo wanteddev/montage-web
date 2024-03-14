@@ -8,7 +8,6 @@
       "import": "./dist/index.mjs"
     }
   },
-  "private": true,
   "scripts": {
     "build": "tsup",
     "lint": "eslint",

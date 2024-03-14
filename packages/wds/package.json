@@ -1,7 +1,6 @@
 {
   "name": "@wanteddev/wds",
   "version": "0.0.0",
-  "private": true,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
