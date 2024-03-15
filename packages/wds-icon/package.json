@@ -8,6 +8,10 @@
       "import": "./dist/index.mjs"
     }
   },
+  "repository": {
+    "url": "https://github.com/wanteddev/wds",
+    "type": "git"
+  },
   "scripts": {
     "build": "node scripts/build.mjs && tsup",
     "lint": "eslint",

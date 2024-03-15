@@ -20,6 +20,10 @@
     "lint:fix": "eslint --fix",
     "build": "tsup && ts-node --transpile-only -P ./tsconfig.node.json scripts/build.ts"
   },
+  "repository": {
+    "url": "https://github.com/wanteddev/wds",
+    "type": "git"
+  },
   "devDependencies": {
     "@types/lodash.flattendeep": "^4.4.9",
     "@types/node": "^20.11.27",

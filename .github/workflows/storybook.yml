@@ -58,7 +58,7 @@ jobs:
         run: pnpm install
 
       - name: Build Storybook
-        run: pnpm run build-storybook
+        run: pnpm -F docs run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -69,5 +69,5 @@ jobs:
       - name: Deploy bundle and build files to S3
         run: |
           echo "build files to s3"
-          aws s3 cp docs/dist/ s3://static.wanted.co.kr/storybook/wds/ --recursive --cache-control 'no-cache, no-store' --acl public-read
+          aws s3 cp --recursive docs/dist s3://static.wanted.co.kr/storybook/wds/ --recursive --cache-control 'no-cache, no-store' --acl public-read
           aws cloudfront create-invalidation --distribution-id E1XLGINQD48MIR --paths "/storybook/wds/*"
