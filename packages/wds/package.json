@@ -3,7 +3,8 @@
   "version": "0.0.1-alpha.4",
   "files": [
     "dist",
-    "types.d.ts"
+    "types.d.ts",
+    "declaration.d.ts"
   ],
   "exports": {
     ".": {
@@ -17,7 +18,7 @@
       "import": "./dist/style.mjs"
     },
     "./global.css": "./dist/global.css",
-    "./declare.d.ts": "./dist/declare.d.ts"
+    "./declaration": "./declaration.d.ts"
   },
   "scripts": {
     "lint": "eslint",

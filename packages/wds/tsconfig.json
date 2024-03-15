@@ -5,11 +5,11 @@
     "jsxImportSource": "@emotion/react",
     "types": ["node", "./@types/index.d.ts"],
     "declaration": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "removeComments" :false
+    "removeComments": false,
+    "outDir": "./dist"
   },
   "include": ["src"],
   "exclude": ["node_modules"]

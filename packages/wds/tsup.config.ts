@@ -6,7 +6,7 @@ export default defineConfig({
   clean: true,
   minify: true,
   dts: {
-    entry: ['src/index.ts', 'src/declare.ts'],
+    entry: ['src/index.ts'],
   },
   format: ['cjs', 'esm'],
 });

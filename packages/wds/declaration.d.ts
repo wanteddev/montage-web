@@ -1,9 +1,8 @@
 /// <reference types="@emotion/react/types/css-prop" />
-import type { Theme as BaseTheme } from '@/types';
+import type { Theme as BaseTheme } from '@wanteddev/wds';
 
 import '@emotion/react';
 
 declare module '@emotion/react' {
-  // @ts-expect-error
-  export type Theme = BaseTheme;
+  export interface Theme extends BaseTheme {}
 }

@@ -8,6 +8,8 @@ import useThemeControl from '../hooks/use-theme-control';
 
 import StoreProvider from './store-provider';
 
+import type { Theme } from '@emotion/react';
+
 type Props = ComponentProps<typeof NextThemeProvider> & {
   enableDarkMode?: boolean;
 };
@@ -32,7 +34,7 @@ const EmotionThemeProvider = ({ children }: PropsWithChildren) => {
   }, [theme]);
 
   return (
-    <DefaultThemeProvider theme={themeObject}>
+    <DefaultThemeProvider theme={themeObject as Theme}>
       <StoreProvider>{children}</StoreProvider>
 
       <Global
