@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.6...@wanteddev/wds@0.0.1-alpha.7) (2024-03-15)
+
+### Bug Fixes
+
+- **wds:** type instead of export interface ([97dfe17](https://github.com/wanteddev/wds/commit/97dfe17033d800adfdcc9bef81a1f9e68ca6a9a4))
+
 ## [0.0.1-alpha.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.5...@wanteddev/wds@0.0.1-alpha.6) (2024-03-15)
 
 ### Bug Fixes
