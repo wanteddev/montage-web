@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.2...@wanteddev/wds@0.0.1-alpha.3) (2024-03-15)
+
+### Bug Fixes
+
+- **core:** build command 수정 ([f9f605c](https://github.com/wanteddev/wds/commit/f9f605c4eeff79ca22fdb349882abfe7d161138d))
+
 ## [0.0.1-alpha.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.1...@wanteddev/wds@0.0.1-alpha.2) (2024-03-15)
 
 ### Bug Fixes
