@@ -17,7 +17,7 @@
       "import": "./dist/style.mjs"
     },
     "./global.css": "./dist/global.css",
-    "./types.d.ts": "./types.d.ts"
+    "./declare.d.ts": "./dist/declare.d.ts"
   },
   "scripts": {
     "lint": "eslint",

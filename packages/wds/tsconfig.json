@@ -3,7 +3,8 @@
   "extends": "../../tsconfig.react.json",
   "compilerOptions": {
     "jsxImportSource": "@emotion/react",
-    "types": ["node", "./types.d.ts"],
+    "types": ["node", "./@types/index.d.ts"],
+    "declaration": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

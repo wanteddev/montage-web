@@ -1,1 +1,1 @@
-/// <reference types="@wanteddev/wds/types.d.ts" />
+/// <reference types="@wanteddev/wds/declare.d.ts" />
