@@ -6,5 +6,5 @@ import '@emotion/react';
 type BaseTheme = typeof lightTheme | typeof darkTheme;
 
 declare module '@emotion/react' {
-  export interface Theme extends BaseTheme {}
+  export type Theme = BaseTheme;
 }
