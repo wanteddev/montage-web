@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/lerna@6.5.1/schemas/lerna-schema.json",
+  "$schema": "https://unpkg.com/lerna@8.1.2/schemas/lerna-schema.json",
   "version": "independent",
   "packages": ["packages/*"],
   "npmClient": "pnpm",
