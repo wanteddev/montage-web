@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.1-alpha.3...@wanteddev/wds-icon@0.0.1-alpha.4) (2024-03-15)
+
+### Features
+
+- **wds:** type declare 오류 수정 ([7accc78](https://github.com/wanteddev/wds/commit/7accc78eaedbd6b1ba56395afbbf188c6bc64ed8))
+
 ## [0.0.1-alpha.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.1-alpha.2...@wanteddev/wds-icon@0.0.1-alpha.3) (2024-03-15)
 
 ### Bug Fixes
