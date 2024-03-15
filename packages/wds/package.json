@@ -15,6 +15,10 @@
     "./global.css": "./dist/global.css",
     "./types.d.ts": "./types.d.ts"
   },
+  "files": [
+    "dist",
+    "types.d.ts"
+  ],
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",

@@ -8,6 +8,9 @@
       "import": "./dist/index.mjs"
     }
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "url": "https://github.com/wanteddev/wds",
     "type": "git"

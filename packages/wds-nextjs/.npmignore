@@ -1,6 +1,6 @@
 src/
 tsup.config.ts
 scripts/
-eslintrc.cjs
+.eslintrc.cjs
 tsconfig.json
 tsconfig.node.json
