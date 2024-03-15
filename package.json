@@ -50,7 +50,7 @@
   },
   "lint-staged": {
     "*.(ts|tsx)": [
-      "eslint --fix --cache --rule react-hooks/exhaustive-deps:off --rule import/order:off"
+      "eslint --fix --cache"
     ]
   },
   "dependencies": {
