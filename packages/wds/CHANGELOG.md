@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.7...@wanteddev/wds@0.0.1-alpha.8) (2024-03-15)
+
+### Bug Fixes
+
+- **wds:** side Effects option 수정 ([b02217f](https://github.com/wanteddev/wds/commit/b02217f1bcc4774c186f2970158f896c384ff9ae))
+
 ## [0.0.1-alpha.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.6...@wanteddev/wds@0.0.1-alpha.7) (2024-03-15)
 
 ### Bug Fixes
