@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.5...@wanteddev/wds@0.0.1-alpha.6) (2024-03-15)
+
+### Bug Fixes
+
+- **wds:** theme import declare 수정 ([884dfcf](https://github.com/wanteddev/wds/commit/884dfcf043a13097c915ce03d6cc49dd0f5ff053))
+
 ## [0.0.1-alpha.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.4...@wanteddev/wds@0.0.1-alpha.5) (2024-03-15)
 
 ### Features
