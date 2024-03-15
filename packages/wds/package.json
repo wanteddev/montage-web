@@ -67,7 +67,6 @@
   "peerDependencies": {
     "@emotion/react": "^11.11.4"
   },
-  "sideEffects": false,
   "peerDependenciesMeta": {
     "@emotion/react": {
       "optional": true
