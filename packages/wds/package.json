@@ -1,6 +1,10 @@
 {
   "name": "@wanteddev/wds",
   "version": "0.0.1-alpha.2",
+  "files": [
+    "dist",
+    "types.d.ts"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -15,10 +19,6 @@
     "./global.css": "./dist/global.css",
     "./types.d.ts": "./types.d.ts"
   },
-  "files": [
-    "dist",
-    "types.d.ts"
-  ],
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
