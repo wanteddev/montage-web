@@ -32,6 +32,7 @@ export { default as RoundCheckbox } from './round-checkbox';
 export { default as ScrollArea } from './scroll-area';
 export { default as Select } from './select';
 export { default as Skeleton } from './skeleton';
+export * from './tab';
 export { default as Switch } from './switch';
 export { default as TextArea } from './text-area';
 export { default as TextButton } from './text-button';
