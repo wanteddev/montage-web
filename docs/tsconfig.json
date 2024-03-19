@@ -2,14 +2,25 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../tsconfig.react.json",
   "compilerOptions": {
-    "jsxImportSource": "@emotion/react",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "strictNullChecks": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx",  ".storybook/**/*.tsx", ".storybook/**/*.ts", "./@types/wds.d.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".eslintrc.cjs",
+    "sentry.*.config.ts",
+    ".next/types/**/*.ts"
+  ],
   "exclude": ["node_modules"]
 }

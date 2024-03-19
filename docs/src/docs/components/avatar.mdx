@@ -1,0 +1,77 @@
+---
+title: Avatar
+description: Avatar Component
+---
+
+# Avatar
+
+아바타는 사용자(개인) 또는 기업의 시각적 표현이며, 아이콘 또는 이미지를 표시할 수 있습니다.
+
+## 활용
+
+- 사용자를 시각적으로 표현할 때 사용해요.
+- 예외적으로 Variant에 없는 사이즈를 사용할 경우 4배수 크기로 작업합니다.
+- 원형으로 회사 아바타를 사용하지 않아요.
+
+<Demo code={`import { Avatar } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Avatar
+      src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
+      alt="User"
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Type</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>`size`</td>
+      <Type>'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | number</Type>
+      <Type>'large'</Type>
+    </tr>
+    <tr>
+      <td>`variant`</td>
+			<Type>'rounded' | 'square' | 'circle'</Type>
+			<Type>'circle'</Type>
+		</tr>
+			<tr>
+			<td>`fallback`</td>
+			<Type>ReactNode</Type>
+			<Type>\<IconPersonFill \/\></Type>
+		</tr>
+	</tbody>
+</table>
+
+### Fallback
+
+이미지 로드를 실패 했을 때 혹은 아이콘으로 프로필을 표시하고 싶을 때 사용해요.
+
+<Demo code={`import { Avatar } from '@wanteddev/wds';
+import { IconCompany } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Avatar
+      variant="rounded"
+      fallback={<IconCompany />}
+    />
+  )
+}
+
+export default Demo;`}
+/>

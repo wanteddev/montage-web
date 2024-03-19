@@ -1,6 +1,5 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "eslint.packageManager": "pnpm",
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "editor.formatOnSave": true,
   "editor.formatOnType": true,

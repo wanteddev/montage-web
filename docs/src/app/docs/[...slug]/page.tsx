@@ -1,0 +1,39 @@
+import { getAllFrontmatter, getSourceBySlug } from '@/lib/mdx';
+
+import ClientDocsPage from './page.client';
+
+import type { Metadata } from 'next';
+
+type Props = {
+  params: { slug: string | Array<string> };
+};
+
+const parseSlug = (params: Props['params']) =>
+  Array.isArray(params.slug) ? params.slug : [params.slug];
+
+export const generateStaticParams = async () => {
+  const frontmatter = await getAllFrontmatter('/');
+
+  return frontmatter;
+};
+
+export const generateMetadata = async ({
+  params,
+}: Props): Promise<Metadata> => {
+  const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
+
+  return {
+    title: frontmatter.title + ' - WDS',
+    description: frontmatter.description,
+  };
+};
+
+export const dynamic = 'force-static';
+
+const DocsPage = async ({ params }: Props) => {
+  const source = await getSourceBySlug('/', parseSlug(params));
+
+  return <ClientDocsPage source={source} />;
+};
+
+export default DocsPage;

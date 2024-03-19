@@ -4,8 +4,8 @@ const path = require('path');
 module.exports = {
   root: true,
   extends: [
+    'plugin:@next/next/recommended',
     path.join(__dirname, '../.eslintrc.cjs'),
-    'plugin:storybook/recommended',
   ],
   parserOptions: {
     project: './tsconfig.json',
@@ -21,12 +21,10 @@ module.exports = {
       },
     },
   },
-  overrides: [
-    {
-      files: ['vite.config.ts'],
-      parserOptions: {
-        project: ['./tsconfig.node.json'],
-      },
-    },
-  ],
+  rules: {
+    'react/no-unknown-property': [
+      'error',
+      { ignore: ['wds-component', 'wds-ignore-first-focus', 'css'] },
+    ],
+  },
 };

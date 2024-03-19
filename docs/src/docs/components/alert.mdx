@@ -1,0 +1,76 @@
+---
+title: Alert
+description: Alert Component
+---
+
+# Alert
+
+사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
+
+## 활용
+
+- 사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
+- 새 기능이나 사용하지 않는 기능, 또는 현재 컨텍스트와 관련된 정보를 알려줍니다.
+- 사용자가 얼럿을 해제할 때까지 지속됩니다.
+- 가독성을 위해 메시지가 2줄 이상 넘지 않도록 작성합니다.
+
+
+<Demo code={`import { useState } from 'react';
+import { Alert, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Alert
+        show={show}
+        onShowChange={setShow}
+        variant="info"
+      >
+        사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
+      </Alert>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+    	<th>Type</th>
+			<th>Default</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td>`variant`</td>
+			<Type>'normal' | 'success' | 'warning' | 'error' | 'info'</Type>
+			<Type>'normal'</Type>
+		</tr>
+		<tr>
+			<td>`show`</td>
+			<Type>boolean</Type>
+			<Type>false</Type>
+		</tr>
+			<tr>
+			<td>`defaultShow`</td>
+			<Type>boolean</Type>
+			<Type>false</Type>
+		</tr>
+			<tr>
+			<td>`onShowChange`</td>
+			<Type>((state: boolean) => void)</Type>
+			<Type>-</Type>
+		</tr>
+	</tbody>
+
+</table>
