@@ -7,6 +7,7 @@ export const headerWrapperStyle = (theme: Theme) => css`
   ${theme.platform.ios.navigation}
 
   position: sticky;
+  z-index: 1;
   top: 0;
   width: 100%;
   padding: 10px 20px;

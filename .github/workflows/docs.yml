@@ -13,7 +13,7 @@ jobs:
   deploy-docs:
     permissions:
       id-token: write
-      contents: read
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -66,32 +66,10 @@ jobs:
           role-to-assume: ${{ env.AWS_DEPLOY_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Build assets setting
-        run: |
-          mv docs/out/_next .
-          mv docs/out _out
-          mkdir -p out/builds
-          mv _out/* out/builds
-          rm -rf _out
-          mv _next out/
+      - name: Build my App
+        run: touch ./docs/out/.nojekyll
 
-          aws s3 cp --recursive --acl public-read ./out/_next s3://static.wanted.co.kr/wds-docs/_next
-
-          aws s3 cp --recursive --acl public-read ./out/builds s3://static.wanted.co.kr/wds-docs
-
-          cd out/builds
-
-          find . -type f -name '*.html' | while read HTMLFILE;
-          do
-            HTMLFILESHORT=${HTMLFILE:2}
-            HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-5}
-
-            if [ "${HTMLFILESHORT}" == "index.html" ] || [ "${HTMLFILESHORT}" == "404.html" ]
-            then
-              aws s3 cp --recursive --acl public-read ./${HTMLFILESHORT} s3://static.wanted.co.kr/wds-docs/$HTMLFILESHORT
-            else
-              aws s3 cp --recursive --acl public-read ./${HTMLFILESHORT} s3://static.wanted.co.kr/wds-docs/$HTMLFILE_WITHOUT_INDEX
-            fi
-          done
-
-          aws cloudfront create-invalidation --distribution-id E1XLGINQD48MIR --paths "/wds-docs/*"
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.5.0
+        with:
+          folder: docs/out
