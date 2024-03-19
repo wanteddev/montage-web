@@ -23,6 +23,9 @@ export const mdxRootStyle = (theme: Theme) => css`
   h4,
   h5,
   h6 {
+    a {
+      scroll-margin-top: var(--header-height);
+    }
     margin-top: 24px;
     margin-bottom: 16px;
     padding-bottom: 2px;
