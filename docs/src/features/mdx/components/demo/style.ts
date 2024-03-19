@@ -53,7 +53,7 @@ export const collapseWrapperStyle =
     ${collapsed &&
     css`
       &::before {
-        height: 100px;
+        height: 130px;
         content: '';
         position: absolute;
         bottom: 1px;
@@ -61,7 +61,7 @@ export const collapseWrapperStyle =
         border-bottom-right-radius: 8px;
         border-bottom-left-radius: 8px;
         left: 1px;
-        ${gradient(theme.palette.static.black, 'top')}
+        ${gradient(theme.palette.background.normal.alternative, 'top')}
       }
     `}
 

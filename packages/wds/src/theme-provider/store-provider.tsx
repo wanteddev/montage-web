@@ -72,6 +72,7 @@ const RegionArea = () => {
           alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
+          boxSizing: 'content-box',
           maxWidth: 'var(--wds-region-viewport-max-width, 100%)',
           padding: '20px',
           left: '50%',
