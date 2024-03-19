@@ -77,18 +77,20 @@ jobs:
 
           aws s3 cp --recursive --acl public-read ./out/_next s3://static.wanted.co.kr/wds-docs/_next
 
+          aws s3 cp --recursive --acl public-read ./out/builds s3://static.wanted.co.kr/wds-docs
+
           cd out/builds
 
           find . -type f -name '*.html' | while read HTMLFILE;
           do
             HTMLFILESHORT=${HTMLFILE:2}
-            HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-11}
+            HTMLFILE_WITHOUT_INDEX=${HTMLFILESHORT::${#HTMLFILESHORT}-5}
 
             if [ "${HTMLFILESHORT}" == "index.html" ] || [ "${HTMLFILESHORT}" == "404.html" ]
             then
-              aws s3 cp --recursive --acl public-read ${HTMLFILESHORT} s3://static.wanted.co.kr/wds-docs/$HTMLFILESHORT
+              aws s3 cp --recursive --acl public-read ./${HTMLFILESHORT} s3://static.wanted.co.kr/wds-docs/$HTMLFILESHORT
             else
-              aws s3 cp --recursive --acl public-read ${HTMLFILESHORT} s3://static.wanted.co.kr/wds-docs/$HTMLFILE_WITHOUT_INDEX
+              aws s3 cp --recursive --acl public-read ./${HTMLFILESHORT} s3://static.wanted.co.kr/wds-docs/$HTMLFILE_WITHOUT_INDEX
             fi
           done
 
