@@ -81,10 +81,26 @@ yarn add -D @swc/plugin-emotion
 ## React.js
 
 Root App에서 global css를 가져오도록 설정합니다.
+또한 ThemeProvider로 앱을 감싸줍니다.
 
 ```tsx
 // App.tsx
+import { createRoot } from 'react-dom/client';
+import { ThemeProvider } from '@wanteddev/wds';
+
+import App from './App';
+
 import '@wanted-frontend/wds/global.css';
+
+const root = createRoot(document.getElementById('app')!);
+
+root.render(
+  <ThemeProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ThemeProvider>
+);
 ```
 
 ## Next.js
