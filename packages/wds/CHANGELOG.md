@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1...@wanteddev/wds@0.0.2) (2024-03-20)
+
+### Features
+
+- **wds:** tooltip 사용성 개선 ([96ad00f](https://github.com/wanteddev/wds/commit/96ad00f07a98abdd0518b1c23357c377ecf3e6b8))
+
 ## [0.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.13...@wanteddev/wds@0.0.1) (2024-03-20)
 
 ### Bug Fixes

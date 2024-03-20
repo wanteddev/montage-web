@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.1...@wanteddev/wds-icon@0.0.2) (2024-03-20)
+
+### Bug Fixes
+
+- **wds-icon:** icon color가 올바르지 않음 ([69292ed](https://github.com/wanteddev/wds/commit/69292ed94cacdab2502b6071b059d6dffb2ac632))
+
 ## [0.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.1-alpha.4...@wanteddev/wds-icon@0.0.1) (2024-03-20)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
