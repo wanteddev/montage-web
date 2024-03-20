@@ -1,4 +1,5 @@
 import {
+  Fragment,
   forwardRef,
   useCallback,
   useEffect,
@@ -15,6 +16,7 @@ import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
+import NoSsr from '../no-ssr';
 
 import { TooltipProvider, useTooltipContext } from './contexts';
 import {
@@ -46,6 +48,8 @@ const Tooltip = ({
   const containerId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const isDismissed = useRef(false);
+
   const openTimerRef = useRef(0);
   const closeTimerRef = useRef(0);
 
@@ -71,7 +75,7 @@ const Tooltip = ({
       window.clearTimeout(openTimerRef.current);
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = window.setTimeout(async () => {
-        if (containerRef.current) {
+        if (containerRef.current !== null) {
           containerRef.current.style.opacity = '0';
 
           await containerRef.current.animate([{ opacity: 1 }, { opacity: 0 }], {
@@ -105,20 +109,33 @@ const Tooltip = ({
       return;
     }
 
-    handleOpen();
+    if (!isDismissed.current) {
+      handleOpen();
+    }
   };
-  const handleMouseLeave: PointerEventHandler<any> = handleClose;
+
+  const handleMouseLeave: PointerEventHandler<any> = (e) => {
+    if (e.type === 'touchstart') {
+      return;
+    }
+
+    isDismissed.current = false;
+    handleClose();
+  };
+
   const handleFocus: FocusEventHandler<any> = handleOpen;
   const handleBlur: FocusEventHandler<any> = handleClose;
 
-  const handleClick: MouseEventHandler<any> = () => {
+  const handleMouseDown: MouseEventHandler<any> = () => {
     if (mode === 'hover') {
+      isDismissed.current = true;
       setOpen(false);
     }
   };
 
   return (
     <TooltipProvider
+      isDismissed={isDismissed}
       containerRef={containerRef}
       mode={mode}
       variant={variant}
@@ -130,7 +147,7 @@ const Tooltip = ({
       handleMouseLeave={handleMouseLeave}
       handleFocus={handleFocus}
       handleBlur={handleBlur}
-      handleClick={handleClick}
+      handleMouseDown={handleMouseDown}
     >
       <Popper>{children}</Popper>
     </TooltipProvider>
@@ -150,7 +167,7 @@ const TooltipTrigger = forwardRef<
     handleMouseLeave,
     handleFocus,
     handleBlur,
-    handleClick,
+    handleMouseDown,
   } = useTooltipContext(TOOLTIP_TRIGGER_NAME);
 
   return (
@@ -166,7 +183,7 @@ const TooltipTrigger = forwardRef<
         )}
         onFocus={composeEventHandlers(props.onFocus, handleFocus)}
         onBlur={composeEventHandlers(props.onBlur, handleBlur)}
-        onClick={composeEventHandlers(props.onClick, handleClick)}
+        onMouseDown={composeEventHandlers(props.onMouseDown, handleMouseDown)}
       />
     </PopperAnchor>
   );
@@ -186,23 +203,26 @@ const TooltipContent = forwardRef<
     variant,
     mode,
     open,
+    isDismissed,
     handleMouseOver,
     handleMouseLeave,
     handleFocus,
     handleBlur,
-    handleClick,
   } = useTooltipContext(TOOLTIP_CONTENT_NAME);
 
   const composedRef = useComposedRefs(ref, containerRef);
 
+  const Wrapper = mode === 'always' ? NoSsr : Fragment;
+
   return open ? (
-    <>
+    <Wrapper>
       <DismissableLayer
         asChild
         disableOutsidePointerEvents={false}
         onFocusOutside={(event) => event.preventDefault()}
         onDismiss={() => {
           if (mode === 'hover') {
+            isDismissed.current = true;
             onOpenChange(false);
           }
         }}
@@ -214,7 +234,6 @@ const TooltipContent = forwardRef<
             onMouseLeave: handleMouseLeave,
             onFocus: handleFocus,
             onBlur: handleBlur,
-            onClick: handleClick,
           }}
         >
           <FlexBox
@@ -233,11 +252,12 @@ const TooltipContent = forwardRef<
 
               {Boolean(action) && action}
             </FlexBox>
+
             <PopperArrow />
           </FlexBox>
         </PopperContent>
       </DismissableLayer>
-    </>
+    </Wrapper>
   ) : null;
 });
 

@@ -25,6 +25,8 @@ export const tabStyle =
   ({ padding, size, xs, sm, md, lg }: TabProps) =>
   (theme: Theme) => css`
     width: 100%;
+    list-style: none;
+    padding: 0;
 
     & > div {
       min-width: 100%;

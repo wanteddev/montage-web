@@ -5,6 +5,7 @@ import {
   arrow as floatingUIarrow,
   hide,
   limitShift,
+  offset,
   shift,
   size,
   useFloating,
@@ -51,13 +52,6 @@ const OPPOSITE_SIDE = {
   right: 'left',
   bottom: 'top',
   left: 'right',
-};
-
-const MARGIN_OPPOSITE_SIDE = {
-  top: 'marginBottom',
-  right: 'marginLeft',
-  bottom: 'marginTop',
-  left: 'marginRight',
 } as const;
 
 const Popper = ({ children }: PropsWithChildren) => {
@@ -87,27 +81,33 @@ const PopperAnchor = forwardRef<
 
 PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
-const PopperArrow = forwardRef<HTMLElement, HTMLAttributes<SVGSVGElement>>(
+const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
   (props, ref) => {
-    const {
-      onArrowChange,
-      side,
-      arrowX = 0,
-      arrowY = 0,
-    } = usePopperContentContext(POPPER_ARROW_NAME);
+    const { onArrowChange, side, arrowX, arrowY } =
+      usePopperContentContext(POPPER_ARROW_NAME);
 
-    const composedRef = useComposedRefs(ref, (node) => onArrowChange(node));
+    const composedRef = useComposedRefs(
+      ref,
+      onArrowChange as (instance: SVGSVGElement | null) => void,
+    );
 
     return (
-      <span
-        style={{
+      <svg
+        viewBox="0 0 24 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        ref={composedRef}
+        css={{
+          ...props.style,
           position: 'absolute',
+          width: '40px',
+          height: '8px',
+          display: 'block',
           left: arrowX,
           top: arrowY,
-          display: 'flex',
-          alignItems: side === 'top' ? 'initial' : 'center',
-          justifyContent: side === 'top' ? 'initial' : 'center',
-          [OPPOSITE_SIDE[side]]: 0,
+          right: '',
+          bottom: '',
+          [OPPOSITE_SIDE[side]]: '0px',
           transformOrigin: {
             top: '',
             right: '0 0',
@@ -122,22 +122,14 @@ const PopperArrow = forwardRef<HTMLElement, HTMLAttributes<SVGSVGElement>>(
           }[side],
         }}
       >
-        <svg
-          ref={composedRef as unknown as (node: SVGSVGElement) => void}
-          css={{ width: '40px', height: '8px', display: 'block' }}
-          viewBox="0 0 24 8"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            id="Subtract"
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M10.5857 6.58609L7.99993 4.0003L5.75729 1.75766C4.63207 0.632441 3.10595 0.000301838 1.51465 0.000301838H22.4852C20.8939 0.000301838 19.3678 0.632441 18.2426 1.75766L15.9999 4.0003L13.4141 6.58609C13.4138 6.58638 13.4136 6.58668 13.4133 6.58698C12.6321 7.36714 11.3665 7.36684 10.5857 6.58609Z"
-            fill="currentColor"
-          />
-        </svg>
-      </span>
+        <path
+          id="Subtract"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M10.5857 6.58609L7.99993 4.0003L5.75729 1.75766C4.63207 0.632441 3.10595 0.000301838 1.51465 0.000301838H22.4852C20.8939 0.000301838 19.3678 0.632441 18.2426 1.75766L15.9999 4.0003L13.4141 6.58609C13.4138 6.58638 13.4136 6.58668 13.4133 6.58698C12.6321 7.36714 11.3665 7.36684 10.5857 6.58609Z"
+          fill="currentColor"
+        />
+      </svg>
     );
   },
 );
@@ -151,6 +143,7 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
       position = 'top-center',
       offset: givenOffset = 10,
       referenceHidden = false,
+      setContext,
       ...props
     },
     ref,
@@ -174,6 +167,7 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
       placement: placementResult,
       isPositioned,
       middlewareData,
+      context: floatingContext,
     } = useFloating({
       strategy: 'fixed',
       placement: floatingPlacement,
@@ -187,6 +181,7 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
         reference: context.anchor,
       },
       middleware: [
+        offset({ mainAxis: givenOffset + arrowHeight, alignmentAxis: 0 }),
         shift({
           mainAxis: true,
           crossAxis: false,
@@ -210,6 +205,10 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
     }, [content]);
 
     const [side, align] = getSideAlignFromPlacement(placementResult);
+
+    useEffect(() => {
+      setContext?.(floatingContext);
+    }, [setContext, floatingContext]);
 
     return (
       <Portal>
@@ -242,11 +241,6 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
               data-align={align}
               ref={composedRefs}
               {...props}
-              style={{
-                ...props.style,
-                position: 'relative',
-                [MARGIN_OPPOSITE_SIDE[side]]: givenOffset + arrowHeight,
-              }}
             />
           </PopperContentProvider>
         </div>

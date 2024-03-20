@@ -60,6 +60,7 @@ import type {
   ModalActionAreaProps,
   ModalActionButtonProps,
   ModalContainerProps,
+  ModalContentItemProps,
   ModalContentProps,
   ModalDescriptionProps,
   ModalHeadingProps,
@@ -318,7 +319,7 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
 
 ModalContent.displayName = 'ModalContent';
 
-const ModalContentItem = forwardRef<HTMLDivElement, ModalContentProps>(
+const ModalContentItem = forwardRef<HTMLDivElement, ModalContentItemProps>(
   (props, ref) => {
     return (
       <FlexBox

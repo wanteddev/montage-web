@@ -2,10 +2,16 @@ import { createContext } from '@radix-ui/react-context';
 
 import { TOOLTIP_NAME } from './constants';
 
-import type { FocusEventHandler, MouseEventHandler, RefObject } from 'react';
+import type {
+  FocusEventHandler,
+  MouseEventHandler,
+  MutableRefObject,
+  RefObject,
+} from 'react';
 import type { TooltipProps } from './types';
 
 type TooltipContextValue = {
+  isDismissed: MutableRefObject<boolean>;
   mode: Exclude<TooltipProps['mode'], undefined>;
   variant: Exclude<TooltipProps['variant'], undefined>;
   position: Exclude<TooltipProps['position'], undefined>;
@@ -17,7 +23,7 @@ type TooltipContextValue = {
   handleMouseLeave: MouseEventHandler<any>;
   handleFocus: FocusEventHandler<any>;
   handleBlur: FocusEventHandler<any>;
-  handleClick: MouseEventHandler<any>;
+  handleMouseDown: MouseEventHandler<any>;
 };
 
 export const [TooltipProvider, useTooltipContext] =

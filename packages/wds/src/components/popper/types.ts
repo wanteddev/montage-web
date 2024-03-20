@@ -1,3 +1,4 @@
+import type { useFloating } from '@floating-ui/react';
 import type { Slot } from '@radix-ui/react-slot';
 import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
 import type { Merge } from '@/types';
@@ -20,6 +21,7 @@ export type PopperContentProps = Merge<
       | 'left-end';
     referenceHidden?: boolean;
     wrapperProps?: HTMLAttributes<HTMLDivElement>;
+    setContext?: (context: ReturnType<typeof useFloating>['context']) => void;
   },
   ComponentPropsWithoutRef<typeof Slot>
 >;
