@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.9](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.8...@wanteddev/wds@0.0.1-alpha.9) (2024-03-20)
+
+### Bug Fixes
+
+- **wds:** alert content width 변경 ([d0fa3a8](https://github.com/wanteddev/wds/commit/d0fa3a8bb06acff8807a4957692131ca96d28bc1))
+
+### Features
+
+- **wds:** tab component 추가 ([76cd074](https://github.com/wanteddev/wds/commit/76cd074d66c49f239f90f518a9b6937e288b6c87))
+- **wds:** tooltip 컴포넌트 추가 ([271e28e](https://github.com/wanteddev/wds/commit/271e28e1a463a188fd16a0bdb9843484b7c29826))
+
 ## [0.0.1-alpha.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.7...@wanteddev/wds@0.0.1-alpha.8) (2024-03-15)
 
 ### Bug Fixes
