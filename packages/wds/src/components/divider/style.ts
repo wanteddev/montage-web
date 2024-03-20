@@ -48,7 +48,8 @@ const dividerSizeStyle = ({
     border-width: ${thickness};
   `}
 
-  ${Boolean(size) && vertical
+  ${Boolean(size) &&
+  (vertical
     ? css`
         width: 0px;
         height: ${size};
@@ -56,7 +57,7 @@ const dividerSizeStyle = ({
     : css`
         height: 0px;
         width: ${size};
-      `};
+      `)};
 `;
 
 const getPreviousVertical = (
