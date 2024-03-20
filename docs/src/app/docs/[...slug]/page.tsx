@@ -1,4 +1,5 @@
 import { getAllFrontmatter, getSourceBySlug } from '@/lib/mdx';
+import { generatePropTypes } from '@/lib/props';
 
 import ClientDocsPage from './page.client';
 
@@ -32,8 +33,9 @@ export const dynamic = 'force-static';
 
 const DocsPage = async ({ params }: Props) => {
   const source = await getSourceBySlug('/', parseSlug(params));
+  const propTypes = generatePropTypes();
 
-  return <ClientDocsPage source={source} />;
+  return <ClientDocsPage source={source} propTypes={propTypes} />;
 };
 
 export default DocsPage;

@@ -4,20 +4,22 @@ import { FlexBox } from '@wanteddev/wds';
 import { MDXProvider } from '@/features/mdx/context';
 import MDX from '@/features/mdx/components/mdx';
 
+import type { ComponentDoc } from 'react-docgen-typescript';
 import type { serialize } from 'next-mdx-remote/serialize';
 import type { Frontmatter } from '@/types/mdx';
 
 type Props = {
   source: Awaited<ReturnType<typeof serialize<unknown, Frontmatter>>>;
+  propTypes: Array<ComponentDoc>;
 };
 
-const ClientDocsPage = ({ source }: Props) => {
+const ClientDocsPage = ({ source, propTypes }: Props) => {
   return (
     <FlexBox
       flexDirection="column"
       css={{ padding: '0px 20px 20px 20px', width: 'calc(100% - 250px)' }}
     >
-      <MDXProvider frontmatter={source.frontmatter}>
+      <MDXProvider frontmatter={source.frontmatter} propTypes={propTypes}>
         <MDX {...source} />
       </MDXProvider>
     </FlexBox>
