@@ -38,6 +38,7 @@ export { default as TextArea } from './text-area';
 export { default as TextButton } from './text-button';
 export { default as TextField } from './text-field';
 export { default as Thumbnail } from './thumbnail';
+export * from './tooltip';
 export { default as ToggleIcon } from './toggle-icon';
 export { default as Typography } from './typography';
 export { default as WithInteraction } from './with-interaction';

@@ -1,22 +1,25 @@
-import type { MergeElementProps } from '@/types';
+import type { Slot } from '@radix-ui/react-slot';
+import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
+import type { Merge } from '@/types';
 
-export type PopperContentProps = MergeElementProps<
-  'div',
+export type PopperContentProps = Merge<
   {
     offset?: number;
-    placement?:
-      | '1'
-      | '2'
-      | '3'
-      | '4'
-      | '5'
-      | '6'
-      | '7'
-      | '8'
-      | '9'
-      | '10'
-      | '11'
-      | '12';
+    position?:
+      | 'top-start'
+      | 'top-center'
+      | 'top-end'
+      | 'right-start'
+      | 'right-center'
+      | 'right-end'
+      | 'bottom-start'
+      | 'bottom-center'
+      | 'bottom-end'
+      | 'left-start'
+      | 'left-center'
+      | 'left-end';
     referenceHidden?: boolean;
-  }
+    wrapperProps?: HTMLAttributes<HTMLDivElement>;
+  },
+  ComponentPropsWithoutRef<typeof Slot>
 >;

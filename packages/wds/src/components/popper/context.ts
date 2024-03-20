@@ -14,10 +14,9 @@ export const [PopperProvider, usePopperContext] =
 
 type PopperContentContextValue = {
   side: Side;
-  onArrowChange(arrow: HTMLSpanElement | null): void;
+  onArrowChange(arrow: HTMLElement | null): void;
   arrowX?: number;
   arrowY?: number;
-  shouldHideArrow: boolean;
 };
 
 export const [PopperContentProvider, usePopperContentContext] =

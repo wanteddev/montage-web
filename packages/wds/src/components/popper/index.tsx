@@ -5,7 +5,6 @@ import {
   arrow as floatingUIarrow,
   hide,
   limitShift,
-  offset,
   shift,
   size,
   useFloating,
@@ -40,7 +39,11 @@ import {
   POPPER_CONTENT_NAME,
 } from './constants';
 
-import type { HTMLAttributes, PropsWithChildren } from 'react';
+import type {
+  ComponentPropsWithoutRef,
+  HTMLAttributes,
+  PropsWithChildren,
+} from 'react';
 import type { PopperContentProps } from './types';
 
 const OPPOSITE_SIDE = {
@@ -49,6 +52,13 @@ const OPPOSITE_SIDE = {
   bottom: 'top',
   left: 'right',
 };
+
+const MARGIN_OPPOSITE_SIDE = {
+  top: 'marginBottom',
+  right: 'marginLeft',
+  bottom: 'marginTop',
+  left: 'marginRight',
+} as const;
 
 const Popper = ({ children }: PropsWithChildren) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -60,34 +70,43 @@ const Popper = ({ children }: PropsWithChildren) => {
   );
 };
 
-const PopperAnchor = forwardRef<HTMLElement, PropsWithChildren>(
-  ({ children }, forwardedRef) => {
-    const context = usePopperContext(POPPER_ANCHOR_NAME);
-    const ref = useRef<HTMLElement>(null);
-    const composedRefs = useComposedRefs(forwardedRef, ref);
+const PopperAnchor = forwardRef<
+  HTMLElement,
+  ComponentPropsWithoutRef<typeof Slot>
+>((props, forwardedRef) => {
+  const context = usePopperContext(POPPER_ANCHOR_NAME);
+  const ref = useRef<HTMLElement>(null);
+  const composedRefs = useComposedRefs(forwardedRef, ref);
 
-    useEffect(() => {
-      context.onAnchorChange(ref.current);
-    });
+  useEffect(() => {
+    context.onAnchorChange(ref.current);
+  });
 
-    return <Slot ref={composedRefs}>{children}</Slot>;
-  },
-);
+  return <Slot ref={composedRefs} {...props} />;
+});
 
 PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
-const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
+const PopperArrow = forwardRef<HTMLElement, HTMLAttributes<SVGSVGElement>>(
   (props, ref) => {
-    const { onArrowChange, shouldHideArrow, side, arrowX, arrowY } =
-      usePopperContentContext(POPPER_ARROW_NAME);
+    const {
+      onArrowChange,
+      side,
+      arrowX = 0,
+      arrowY = 0,
+    } = usePopperContentContext(POPPER_ARROW_NAME);
+
+    const composedRef = useComposedRefs(ref, (node) => onArrowChange(node));
 
     return (
       <span
-        ref={onArrowChange}
         style={{
           position: 'absolute',
           left: arrowX,
           top: arrowY,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           [OPPOSITE_SIDE[side]]: 0,
           transformOrigin: {
             top: '',
@@ -101,19 +120,20 @@ const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
             bottom: `rotate(180deg)`,
             left: 'translateY(50%) rotate(-90deg) translateX(50%)',
           }[side],
-          visibility: shouldHideArrow ? 'hidden' : undefined,
         }}
       >
         <svg
-          ref={ref}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 10"
-          css={{ width: '48px', height: '10px', display: 'block' }}
+          ref={composedRef as unknown as (node: SVGSVGElement) => void}
+          css={{ width: '40px', height: '8px', display: 'block' }}
+          viewBox="0 0 24 8"
           fill="none"
-          {...props}
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M30.5 -0.000975132L17.5 -0.000976563L24 7.99902L30.5 -0.000975132Z"
+            id="Subtract"
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M10.5857 6.58609L7.99993 4.0003L5.75729 1.75766C4.63207 0.632441 3.10595 0.000301838 1.51465 0.000301838H22.4852C20.8939 0.000301838 19.3678 0.632441 18.2426 1.75766L15.9999 4.0003L13.4141 6.58609C13.4138 6.58638 13.4136 6.58668 13.4133 6.58698C12.6321 7.36714 11.3665 7.36684 10.5857 6.58609Z"
             fill="currentColor"
           />
         </svg>
@@ -124,10 +144,11 @@ const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
-const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
+const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
   (
     {
-      placement = '12',
+      wrapperProps = {},
+      position = 'top-center',
       offset: givenOffset = 10,
       referenceHidden = false,
       ...props
@@ -136,16 +157,16 @@ const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
   ) => {
     const context = usePopperContext(POPPER_CONTENT_NAME);
 
-    const [arrow, setArrow] = useState<HTMLSpanElement | null>(null);
+    const [arrow, setArrow] = useState<HTMLElement | null>(null);
     const arrowSize = useSize(arrow);
 
-    const [content, setContent] = useState<HTMLDivElement | null>(null);
+    const [content, setContent] = useState<HTMLElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setContent(node));
 
-    const arrowWidth = arrowSize?.width ?? 0;
-    const arrowHeight = arrowSize?.height ?? 0;
+    const arrowWidth = arrowSize?.width || 40;
+    const arrowHeight = arrowSize?.height || 8;
 
-    const floatingPlacement = getPlacementMapper(placement);
+    const floatingPlacement = getPlacementMapper(position);
 
     const {
       refs,
@@ -166,10 +187,6 @@ const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
         reference: context.anchor,
       },
       middleware: [
-        offset({
-          mainAxis: givenOffset + arrowHeight,
-          alignmentAxis: 0,
-        }),
         shift({
           mainAxis: true,
           crossAxis: false,
@@ -177,7 +194,7 @@ const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
         }),
         flip(),
         size(),
-        arrow && floatingUIarrow({ element: arrow }),
+        arrow && floatingUIarrow({ element: arrow as Element }),
         transformOrigin({ arrowWidth, arrowHeight }),
         referenceHidden && hide(),
       ],
@@ -185,7 +202,6 @@ const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
 
     const arrowX = middlewareData.arrow?.x;
     const arrowY = middlewareData.arrow?.y;
-    const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0;
 
     const [contentZIndex, setContentZIndex] = useState<string>();
 
@@ -199,7 +215,9 @@ const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
       <Portal>
         <div
           ref={refs.setFloating}
+          {...wrapperProps}
           style={{
+            ...wrapperProps.style,
             ...floatingStyles,
             transform: isPositioned
               ? floatingStyles.transform
@@ -218,13 +236,17 @@ const PopperContent = forwardRef<HTMLDivElement, PopperContentProps>(
             onArrowChange={setArrow}
             arrowX={arrowX}
             arrowY={arrowY}
-            shouldHideArrow={cannotCenterArrow}
           >
             <Slot
               data-side={side}
               data-align={align}
               ref={composedRefs}
               {...props}
+              style={{
+                ...props.style,
+                position: 'relative',
+                [MARGIN_OPPOSITE_SIDE[side]]: givenOffset + arrowHeight,
+              }}
             />
           </PopperContentProvider>
         </div>

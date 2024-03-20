@@ -7,33 +7,25 @@ import type {
 import type { PopperContentProps } from './types';
 
 export const getPlacementMapper = (
-  placement: Required<PopperContentProps>['placement'],
+  placement: Required<PopperContentProps>['position'],
 ): Placement => {
-  switch (placement) {
-    case '1':
-      return 'bottom-end';
-    case '2':
-      return 'left-start';
-    case '3':
-      return 'left';
-    case '4':
-      return 'left-end';
-    case '5':
-      return 'top-start';
-    case '6':
-      return 'top';
-    case '7':
-      return 'top-end';
-    case '8':
-      return 'right-end';
-    case '9':
-      return 'right';
-    case '10':
-      return 'right-start';
-    case '11':
-      return 'bottom-start';
-    case '12':
-      return 'bottom';
+  const [slide = 'top', align = 'center'] = placement.split('-') as [
+    Side,
+    Alignment | 'center',
+  ];
+
+  const mergePlaceSide = () =>
+    align === 'center' ? '' : (`-${align}` as const);
+
+  switch (slide) {
+    case 'top':
+      return `bottom${mergePlaceSide()}`;
+    case 'left':
+      return `right${mergePlaceSide()}`;
+    case 'bottom':
+      return `top${mergePlaceSide()}`;
+    case 'right':
+      return `left${mergePlaceSide()}`;
   }
 };
 
