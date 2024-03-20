@@ -18,7 +18,8 @@
   "scripts": {
     "build": "node scripts/build.mjs && tsup",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "watch": "tsup --watch"
   },
   "devDependencies": {
     "@types/react": "^18.2.64",
