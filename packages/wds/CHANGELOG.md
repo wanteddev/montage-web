@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.3...@wanteddev/wds@0.0.4) (2024-03-20)
+
+### Features
+
+- **wds:** tab sticky style issue ([855625b](https://github.com/wanteddev/wds/commit/855625bc40e9ecadbacd21d7016b5720634b9e0e))
+
 ## [0.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.2...@wanteddev/wds@0.0.3) (2024-03-20)
 
 ### Bug Fixes
