@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.2...@wanteddev/wds@0.0.3) (2024-03-20)
+
+### Bug Fixes
+
+- **wds:** 마지막 tab item 이 클릭 되지 않음 ([4169bfb](https://github.com/wanteddev/wds/commit/4169bfb9f145e6b44a1552d9a323fe5524ef6979))
+
 ## [0.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1...@wanteddev/wds@0.0.2) (2024-03-20)
 
 ### Features
