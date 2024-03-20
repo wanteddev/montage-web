@@ -104,7 +104,7 @@ export const stickyGradientStyle =
       height: 100%;
       right: ${hasRightIcon ? 'calc(100% - 1px)' : 'calc(100% + 10px)'};
       transition: opacity 0.2s ease;
-      visibility: ${isSticky ? 'hidden' : 'visible'};
+      visibility: ${isSticky ? 'visible' : 'hidden'};
       opacity: ${isSticky ? 1 : 0};
       ${gradient(theme.palette.background.normal.normal, 'left')}
     }
@@ -119,7 +119,7 @@ export const stickyGradientStyle =
         right: calc(100% - 2px);
         transition: opacity 0.2s ease;
         opacity: ${isSticky ? 1 : 0};
-        visibility: ${isSticky ? 'hidden' : 'visible'};
+        visibility: ${isSticky ? 'visible' : 'hidden'};
         background-color: ${theme.palette.background.normal.normal};
       }
     `}

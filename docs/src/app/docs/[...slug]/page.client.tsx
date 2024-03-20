@@ -15,7 +15,7 @@ const ClientDocsPage = ({ source }: Props) => {
   return (
     <FlexBox
       flexDirection="column"
-      css={{ padding: '0px 20px 20px 20px', width: '100%' }}
+      css={{ padding: '0px 20px 20px 20px', width: 'calc(100% - 250px)' }}
     >
       <MDXProvider frontmatter={source.frontmatter}>
         <MDX {...source} />
