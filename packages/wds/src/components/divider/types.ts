@@ -10,7 +10,7 @@ export type DividerDefaultProps = {
 };
 
 export type DividerResponsiveProps = ResponsiveProps<
-  Pick<DividerDefaultProps, 'size' | 'thickness'>
+  Pick<DividerDefaultProps, 'size' | 'thickness' | 'vertical'>
 >;
 
 export type DividerProps = Merge<DividerDefaultProps, DividerResponsiveProps>;

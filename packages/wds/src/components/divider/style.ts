@@ -2,7 +2,12 @@ import { css } from '@emotion/react';
 
 import { createResponsiveStyle, getColorByToken } from '@/utils';
 
-import type { DividerProps } from './types';
+import type { BreakPoint } from '@/types';
+import type {
+  DividerDefaultProps,
+  DividerProps,
+  DividerResponsiveProps,
+} from './types';
 import type { Theme } from '@emotion/react';
 
 export const dividerStyle =
@@ -18,11 +23,15 @@ export const dividerStyle =
       { xs, sm, md, lg },
       theme,
     )(
-      (params) => css`
+      (params, breakpoint) => css`
         ${dividerSizeStyle({
           size: params?.size,
           thickness: params?.thickness,
-          vertical,
+          vertical: getPreviousVertical(
+            { xs, sm, md, lg },
+            vertical,
+            breakpoint!,
+          ),
         })}
         ${params?.css}
       `,
@@ -49,3 +58,31 @@ const dividerSizeStyle = ({
         width: ${size};
       `};
 `;
+
+const getPreviousVertical = (
+  params: DividerResponsiveProps,
+  defaultValue: DividerDefaultProps['vertical'],
+  breakpoint: keyof BreakPoint,
+) => {
+  switch (breakpoint) {
+    case 'lg':
+      return params.lg?.vertical ?? defaultValue;
+    case 'md':
+      return params.md?.vertical ?? params.lg?.vertical ?? defaultValue;
+    case 'sm':
+      return (
+        params.sm?.vertical ??
+        params.md?.vertical ??
+        params.lg?.vertical ??
+        defaultValue
+      );
+    case 'xs':
+      return (
+        params.xs?.vertical ??
+        params.sm?.vertical ??
+        params.md?.vertical ??
+        params.lg?.vertical ??
+        defaultValue
+      );
+  }
+};
