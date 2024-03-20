@@ -6,7 +6,7 @@ import * as WdsIcon from '@wanteddev/wds-icon';
 import tsx from 'refractor/lang/tsx';
 import CodeEditor from 'react-simple-code-editor';
 import { toHtml } from 'hast-util-to-html';
-import copy from 'copy-to-clipboard';
+import * as copy from 'copy-to-clipboard';
 
 import { codeBlockStyle } from '../code-block/style';
 
@@ -37,6 +37,7 @@ const Demo = ({ code, hideCode }: Props) => {
         react: React,
         '@wanteddev/wds': Wds,
         '@wanteddev/wds-icon': WdsIcon,
+        'copy-to-clipboard': copy,
       },
     };
   }, []);
@@ -90,7 +91,7 @@ const Demo = ({ code, hideCode }: Props) => {
           <Wds.IconButton
             variant="background"
             onClick={() => {
-              const success = copy(value);
+              const success = copy.default(value);
 
               if (success) {
                 toast({
