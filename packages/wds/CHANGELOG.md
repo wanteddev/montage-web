@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.13...@wanteddev/wds@0.0.1) (2024-03-20)
+
+### Bug Fixes
+
+- **wds:** modal content item type 잘못된 타입 수정 ([d3bf6cb](https://github.com/wanteddev/wds/commit/d3bf6cb636c4dba50b451b80705f0225002f0697))
+
 ## [0.0.1-alpha.13](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.12...@wanteddev/wds@0.0.1-alpha.13) (2024-03-20)
 
 **Note:** Version bump only for package @wanteddev/wds
