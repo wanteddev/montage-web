@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.11](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.10...@wanteddev/wds@0.0.1-alpha.11) (2024-03-20)
+
+### Features
+
+- **wds:** divider responsive props 추가 ([31029c6](https://github.com/wanteddev/wds/commit/31029c63058943a7e80600976467028d7a9fbb22))
+
 ## [0.0.1-alpha.10](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.9...@wanteddev/wds@0.0.1-alpha.10) (2024-03-20)
 
 ### Bug Fixes
