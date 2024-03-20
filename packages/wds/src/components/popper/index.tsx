@@ -105,8 +105,8 @@ const PopperArrow = forwardRef<HTMLElement, HTMLAttributes<SVGSVGElement>>(
           left: arrowX,
           top: arrowY,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: side === 'top' ? 'initial' : 'center',
+          justifyContent: side === 'top' ? 'initial' : 'center',
           [OPPOSITE_SIDE[side]]: 0,
           transformOrigin: {
             top: '',
