@@ -324,7 +324,7 @@ const ModalContentItem = forwardRef<HTMLDivElement, ModalContentProps>(
       <FlexBox
         ref={ref}
         as="div"
-        gap="14px"
+        gap="12px"
         flexDirection="column"
         css={modalContentItemStyle}
         {...props}

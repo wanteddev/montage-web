@@ -25,7 +25,7 @@ export const dividerStyle =
     )(
       (params, breakpoint) => css`
         ${dividerSizeStyle({
-          size: params?.size,
+          size: getPreviousSize({ xs, sm, md, lg }, size, breakpoint!),
           thickness: params?.thickness,
           vertical: getPreviousVertical(
             { xs, sm, md, lg },
@@ -48,8 +48,7 @@ const dividerSizeStyle = ({
     border-width: ${thickness};
   `}
 
-  ${Boolean(size) &&
-  (vertical
+  ${vertical
     ? css`
         width: 0px;
         height: ${size};
@@ -57,8 +56,33 @@ const dividerSizeStyle = ({
     : css`
         height: 0px;
         width: ${size};
-      `)};
+      `};
 `;
+
+const getPreviousSize = (
+  params: DividerResponsiveProps,
+  defaultValue: DividerDefaultProps['size'],
+  breakpoint: keyof BreakPoint,
+) => {
+  switch (breakpoint) {
+    case 'lg':
+      return params.lg?.size ?? defaultValue;
+    case 'md':
+      return params.md?.size ?? params.lg?.size ?? defaultValue;
+    case 'sm':
+      return (
+        params.sm?.size ?? params.md?.size ?? params.lg?.size ?? defaultValue
+      );
+    case 'xs':
+      return (
+        params.xs?.size ??
+        params.sm?.size ??
+        params.md?.size ??
+        params.lg?.size ??
+        defaultValue
+      );
+  }
+};
 
 const getPreviousVertical = (
   params: DividerResponsiveProps,
