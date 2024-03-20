@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.1-alpha.10](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.9...@wanteddev/wds@0.0.1-alpha.10) (2024-03-20)
+
+### Bug Fixes
+
+- **wds:** tooltip bottom 일 때 화살표 위치 조정 ([11fb65b](https://github.com/wanteddev/wds/commit/11fb65b1bfba546b028a2302560f97fa06a180e6))
+
 ## [0.0.1-alpha.9](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.1-alpha.8...@wanteddev/wds@0.0.1-alpha.9) (2024-03-20)
 
 ### Bug Fixes
