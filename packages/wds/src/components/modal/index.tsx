@@ -1,7 +1,9 @@
 'use client';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
+  Children,
   forwardRef,
+  isValidElement,
   useCallback,
   useEffect,
   useId,
@@ -53,6 +55,7 @@ import type {
   ComponentProps,
   ElementType,
   ForwardedRef,
+  NamedExoticComponent,
   ReactNode,
   UIEventHandler,
 } from 'react';
@@ -148,6 +151,20 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
 
     useFocusGuards();
 
+    const otherChildren = Children.toArray(children).filter((child) =>
+      isValidElement(child)
+        ? (child.type as NamedExoticComponent).displayName !==
+          MODAL_ACTION_AREA_NAME
+        : true,
+    );
+
+    const actionButton = Children.toArray(children).filter(
+      (child) =>
+        isValidElement(child) &&
+        (child.type as NamedExoticComponent).displayName ===
+          MODAL_ACTION_AREA_NAME,
+    );
+
     const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
       (e) => {
         const target = e.target as Element;
@@ -210,26 +227,37 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
             id={context.containerId}
             aria-describedby={`${context.descriptionId} ${context.summaryId}`}
             aria-labelledby={`${context.titleId} ${context.headingId}`}
-            css={modalContainerStyle({ variant, size, xs, sm, md, lg })}
             onDismiss={() => context.onOpenChange(false)}
-            asChild
+            css={modalContainerStyle({
+              variant,
+              size,
+              xs,
+              sm,
+              md,
+              lg,
+            })}
             {...props}
           >
             <ScrollArea
               onScrollCapture={handleOnScroll}
               viewportRef={composedInnerContainerRefs}
+              css={{
+                display: 'flex',
+                flexGrow: '1',
+                ['& > div']: {
+                  display: 'block !important',
+                },
+              }}
+              asChild
+              viewPortProps={{
+                css: { flexGrow: 1 },
+              }}
             >
-              <div
-                css={(theme) => ({
-                  display: 'flex',
-                  flexDirection: 'column',
-                  minHeight: '100%',
-                  backgroundColor: theme.palette.background.elevated.normal,
-                })}
-              >
-                {children}
+              <div css={{ height: 'max-content', width: 'fit-content' }}>
+                {otherChildren}
               </div>
             </ScrollArea>
+            {actionButton}
           </DismissableLayer>
         </FocusScope>
       </div>
@@ -244,51 +272,95 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
     const context = useModalContext(MODAL_NAME);
 
     return (
-      <div
-        wds-component="modal-navigation"
-        ref={ref}
-        css={modalNavigationStyle({
-          variant,
-          isScrolled: context.scrollHeight > 0,
-          xs,
-          sm,
-          md,
-          lg,
-        })}
-      >
-        {variant !== 'floating' ? (
-          <>
-            <Typography
-              as="h2"
-              id={context.titleId}
-              variant="headline2"
-              weight="bold"
-              color="palette.label.strong"
-              noWrap
-            >
-              {children}
-            </Typography>
+      <>
+        <div
+          wds-component="modal-navigation"
+          ref={ref}
+          css={[
+            modalNavigationStyle({
+              variant,
+              isScrolled: context.scrollHeight > 0,
+              xs,
+              sm,
+              md,
+              lg,
+            }),
+            { position: 'absolute' },
+          ]}
+        >
+          {variant !== 'floating' ? (
+            <>
+              <Typography
+                as="h2"
+                id={context.titleId}
+                variant="headline2"
+                weight="bold"
+                color="palette.label.strong"
+                noWrap
+              >
+                {children}
+              </Typography>
 
+              <IconButton
+                wds-ignore-first-focus="true"
+                onClick={() => context.onOpenChange(false)}
+                variant="normal"
+                size={24}
+              >
+                <IconCloseThick />
+              </IconButton>
+            </>
+          ) : (
             <IconButton
               wds-ignore-first-focus="true"
               onClick={() => context.onOpenChange(false)}
-              variant="normal"
+              variant="background"
               size={24}
             >
               <IconCloseThick />
             </IconButton>
-          </>
-        ) : (
-          <IconButton
-            wds-ignore-first-focus="true"
-            onClick={() => context.onOpenChange(false)}
-            variant="background"
-            size={24}
-          >
-            <IconCloseThick />
-          </IconButton>
-        )}
-      </div>
+          )}
+        </div>
+
+        <div
+          tabIndex={-1}
+          aria-hidden
+          css={[
+            modalNavigationStyle({
+              variant,
+              isScrolled: context.scrollHeight > 0,
+              xs,
+              sm,
+              md,
+              lg,
+            }),
+            { visibility: 'hidden', touchAction: 'none' },
+          ]}
+        >
+          {variant !== 'floating' ? (
+            <>
+              <Typography
+                as="h2"
+                id={context.titleId}
+                variant="headline2"
+                weight="bold"
+                color="palette.label.strong"
+                noWrap
+              >
+                {children}
+              </Typography>
+
+              <IconButton variant="normal" size={24}>
+                <IconCloseThick />
+              </IconButton>
+            </>
+          ) : (
+            <IconButton variant="background" size={24}>
+              <IconCloseThick />
+            </IconButton>
+          )}
+        </div>
+      </>
     );
   },
 );
@@ -301,6 +373,7 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
       <FlexBox
         ref={ref}
         as="div"
+        wds-component="modal-content"
         flexDirection="column"
         css={modalContentStyle({
           padding,
@@ -336,7 +409,7 @@ const ModalContentItem = forwardRef<HTMLDivElement, ModalContentItemProps>(
 
 ModalContentItem.displayName = 'ModalContentItem';
 
-const ModalHeading = forwardRef<HTMLHeadingElement, ModalHeadingProps>(
+const ModalHeadingFc = forwardRef<HTMLHeadingElement, ModalHeadingProps>(
   (props, ref) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -354,9 +427,13 @@ const ModalHeading = forwardRef<HTMLHeadingElement, ModalHeadingProps>(
   },
 );
 
-ModalHeading.displayName = 'ModalHeading';
+ModalHeadingFc.displayName = 'ModalHeading';
 
-const ModalSummary = forwardRef<HTMLParagraphElement, ModalSummaryProps>(
+const ModalHeading = ModalHeadingFc as <E extends ElementType = 'h1'>(
+  props: ModalHeadingProps<E>,
+) => ReactNode;
+
+const ModalSummaryFc = forwardRef<HTMLParagraphElement, ModalSummaryProps>(
   (props, ref) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -374,9 +451,13 @@ const ModalSummary = forwardRef<HTMLParagraphElement, ModalSummaryProps>(
   },
 );
 
-ModalSummary.displayName = 'ModalSummary';
+ModalSummaryFc.displayName = 'ModalSummary';
 
-const ModalDescription = forwardRef<
+const ModalSummary = ModalSummaryFc as <E extends ElementType = 'p'>(
+  props: ModalSummaryProps<E>,
+) => ReactNode;
+
+const ModalDescriptionFc = forwardRef<
   HTMLParagraphElement,
   ModalDescriptionProps
 >((props, ref) => {
@@ -395,7 +476,11 @@ const ModalDescription = forwardRef<
   );
 });
 
-ModalDescription.displayName = 'ModalDescription';
+ModalDescriptionFc.displayName = 'ModalDescription';
+
+const ModalDescription = ModalDescriptionFc as <E extends ElementType = 'p'>(
+  props: ModalDescriptionProps<E>,
+) => ReactNode;
 
 const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
   (
@@ -426,6 +511,7 @@ const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
     return (
       <ModalActionAreaProvider priority={priority}>
         <FlexBox
+          wds-component="modal-action-area"
           ref={ref}
           flexShrink={0}
           flexDirection="column"

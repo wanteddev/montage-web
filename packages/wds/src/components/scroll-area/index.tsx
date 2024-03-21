@@ -23,6 +23,9 @@ const ScrollArea = forwardRef<
       viewportRef?: Ref<
         ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
       >;
+      viewPortProps?: ComponentPropsWithoutRef<
+        typeof ScrollAreaPrimitive.ScrollAreaViewport
+      >;
     }
   >
 >(
@@ -33,6 +36,7 @@ const ScrollArea = forwardRef<
       viewportRef,
       scrollbars = 'both',
       type = 'hover',
+      viewPortProps = {},
       ...props
     },
     ref,
@@ -64,6 +68,7 @@ const ScrollArea = forwardRef<
             height: '100%',
             width: '100%',
           }}
+          {...viewPortProps}
         >
           {children}
         </ScrollAreaPrimitive.Viewport>

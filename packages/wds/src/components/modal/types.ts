@@ -60,11 +60,12 @@ export type ModalContentItemProps = ComponentPropsWithRef<
   typeof FlexBox<'div'>
 >;
 
-export type ModalHeadingProps = ComponentPropsWithRef<typeof Typography<'h1'>>;
-export type ModalSummaryProps = ComponentPropsWithRef<typeof Typography<'p'>>;
-export type ModalDescriptionProps = ComponentPropsWithRef<
-  typeof Typography<'p'>
->;
+export type ModalHeadingProps<E extends ElementType = 'h1'> =
+  ComponentPropsWithRef<typeof Typography<E>>;
+export type ModalSummaryProps<E extends ElementType = 'p'> =
+  ComponentPropsWithRef<typeof Typography<E>>;
+export type ModalDescriptionProps<E extends ElementType = 'p'> =
+  ComponentPropsWithRef<typeof Typography<E>>;
 
 export type ModalActionAreaProps = PropsWithChildren<
   MergeWithCss<

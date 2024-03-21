@@ -69,7 +69,6 @@ export const modalContainerStyle =
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow: hidden;
     outline: none;
     background-color: ${theme.palette.background.elevated.normal};
 
@@ -95,6 +94,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         max-height: 400px;
         min-width: 320px;
         max-width: 400px;
+        max-width: 100%;
         --wds-modal-content-margin: 20px;
         --wds-modal-navigation-padding: 20px;
       `;
@@ -103,7 +103,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         width: 360px;
         max-height: 360px;
         min-width: 320px;
-        max-width: 360px;
+        max-width: 100%;
         --wds-modal-content-margin: 20px;
         --wds-modal-navigation-padding: 20px;
       `;
@@ -112,7 +112,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         width: 480px;
         max-height: 480px;
         min-width: 320px;
-        max-width: 480px;
+        max-width: 100%;
         --wds-modal-content-margin: 24px;
         --wds-modal-navigation-padding: 20px;
       `;
@@ -121,7 +121,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         width: 560px;
         max-height: 560px;
         min-width: 320px;
-        max-width: 560px;
+        max-width: 100%;
         --wds-modal-content-margin: 32px;
         --wds-modal-navigation-padding: 24px;
       `;
@@ -141,9 +141,14 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
     case 'popup':
       return css`
         border-radius: 12px;
-        [wds-component='modal-navigation'] {
+        [wds-component='modal-navigation'],
+        [wds-component='modal-content'] {
           border-top-left-radius: 12px;
           border-top-right-radius: 12px;
+        }
+        [wds-component='modal-action-area'] {
+          border-bottom-left-radius: 12px;
+          border-bottom-right-radius: 12px;
         }
       `;
     case 'bottom':
@@ -181,6 +186,7 @@ export const modalNavigationStyle =
     align-items: center;
     position: sticky;
     top: 0px;
+    left: 0px;
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s ease;
 
