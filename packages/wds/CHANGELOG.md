@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.4...@wanteddev/wds@0.0.5) (2024-03-21)
+
+### Bug Fixes
+
+- **wds:** modal scroll area 영역 변경 ([614f5ac](https://github.com/wanteddev/wds/commit/614f5ac984c6975a28ad84ed7bcc84206f9c1920))
+- **wds:** tooltip try catch 영역 추가 ([5a60264](https://github.com/wanteddev/wds/commit/5a602642c9f9aa33cab71d7c74ae718c1da7116a))
+
 ## [0.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.3...@wanteddev/wds@0.0.4) (2024-03-20)
 
 ### Features
