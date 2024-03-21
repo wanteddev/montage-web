@@ -76,15 +76,22 @@ const Tooltip = ({
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = window.setTimeout(async () => {
         if (containerRef.current !== null) {
-          containerRef.current.style.opacity = '0';
+          try {
+            containerRef.current.style.opacity = '0';
 
-          await containerRef.current.animate([{ opacity: 1 }, { opacity: 0 }], {
-            duration: 200,
-            easing: 'ease',
-          }).finished;
-          containerRef.current.animate([{ opacity: 0 }], {
-            duration: 200,
-          });
+            await containerRef.current.animate(
+              [{ opacity: 1 }, { opacity: 0 }],
+              {
+                duration: 200,
+                easing: 'ease',
+              },
+            ).finished;
+            containerRef.current.animate([{ opacity: 0 }], {
+              duration: 200,
+            });
+          } catch (err) {
+            //
+          }
 
           setOpen(false);
         } else {
@@ -229,6 +236,7 @@ const TooltipContent = forwardRef<
       >
         <PopperContent
           position={position}
+          role="tooltip"
           wrapperProps={{
             onMouseOver: handleMouseOver,
             onMouseLeave: handleMouseLeave,

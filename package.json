@@ -16,6 +16,7 @@
     "dev": "lerna run dev --no-cache --continue",
     "lint": "lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
+    "watch": "lerna run watch",
     "test": "lerna run test",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
