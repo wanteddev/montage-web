@@ -14,6 +14,8 @@ import { IconCloseThick } from '@wanteddev/wds-icon';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useFocusGuards } from '@radix-ui/react-focus-guards';
 import { Slot } from '@radix-ui/react-slot';
+import { useTheme } from '@emotion/react';
+import { flushSync } from 'react-dom';
 
 import { hideOthers } from '@/utils';
 
@@ -30,14 +32,17 @@ import Typography from '../typography';
 
 import {
   ModalActionAreaProvider,
+  ModalContainerProvider,
   ModalProvider,
   useModalActionAreaContext,
+  useModalContainerContext,
   useModalContext,
 } from './context';
 import {
   MODAL_ACTION_AREA_NAME,
   MODAL_ACTION_BUTTON_NAME,
   MODAL_NAME,
+  MODAL_NAVIGATION_NAME,
 } from './constants';
 import {
   modalActionAreaStyle,
@@ -47,11 +52,14 @@ import {
   modalContentItemStyle,
   modalContentStyle,
   modalDimmerStyle,
+  modalGrabberStyle,
   modalNavigationStyle,
 } from './style';
+import { useDraggable } from './hooks';
 
 import type { ButtonVariant } from '../button/types';
 import type {
+  CSSProperties,
   ComponentProps,
   ElementType,
   ForwardedRef,
@@ -87,17 +95,15 @@ const Modal = ({
     defaultProp: defaultOpen,
     onChange: onOpenChange,
   });
+
+  const containerRef = useRef<HTMLDivElement>(null);
   const innerContainerRef = useRef<HTMLDivElement>(null);
 
   const [scrollHeight, setScrollHeight] = useState(0);
 
-  const handleOpenToggle = useCallback(
-    () => setOpen((prevOpen) => !prevOpen),
-    [setOpen],
-  );
-
   return (
     <ModalProvider
+      containerRef={containerRef}
       innerContainerRef={innerContainerRef}
       scrollHeight={scrollHeight}
       onChangeScrollHeight={setScrollHeight}
@@ -111,7 +117,6 @@ const Modal = ({
       disableOutsideClickClose={disableOutsideClickClose}
       disableEscapeKeyDownClose={disableEscapeKeyDownClose}
       onOpenChange={setOpen}
-      onOpenToggle={handleOpenToggle}
     >
       {open && (
         <>
@@ -132,15 +137,15 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
     ref,
   ) => {
     const {
+      containerRef,
       disableDimmer,
       disableOutsideClickClose,
       disableEscapeKeyDownClose,
       onChangeScrollHeight,
-      onOpenToggle,
+      onOpenChange,
       ...context
     } = useModalContext(MODAL_NAME);
 
-    const containerRef = useRef<HTMLDivElement>(null);
     const composedContainerRefs = useComposedRefs(ref, containerRef);
 
     const innerContainerRef = useRef<HTMLDivElement>(null);
@@ -180,87 +185,140 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       if (content) {
         return hideOthers(content);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const { isEnabled, ...dragProps } = useDraggable({
+      variant,
+      xs,
+      sm,
+      md,
+      lg,
+    });
+
+    const handleClose = useCallback(async () => {
+      if (isEnabled && containerRef.current) {
+        try {
+          containerRef.current.style.setProperty(
+            '--wds-modal-translate',
+            '100%',
+          );
+          await containerRef.current.animate(
+            [
+              {
+                transform: 'translateY(0px)',
+              },
+              {
+                transform: 'translateY(100%)',
+              },
+            ],
+            {
+              duration: 200,
+              easing: 'ease',
+            },
+          ).finished;
+
+          flushSync(() => {
+            onOpenChange(false);
+          });
+        } catch (err) {
+          onOpenChange(false);
+        }
+      } else {
+        onOpenChange(false);
+      }
+    }, [onOpenChange, isEnabled, containerRef]);
+
     return (
-      <div
-        css={modalContainerWrapperStyle({
-          variant,
-          size,
-          xs,
-          sm,
-          md,
-          lg,
-        })}
-      >
-        {!disableDimmer && (
-          <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
-            <div
-              css={modalDimmerStyle}
-              onClick={() => {
-                if (!disableOutsideClickClose) {
-                  onOpenToggle();
+      <ModalContainerProvider handleClose={handleClose}>
+        <div
+          css={modalContainerWrapperStyle({
+            variant,
+            size,
+            xs,
+            sm,
+            md,
+            lg,
+          })}
+        >
+          {!disableDimmer && (
+            <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
+              <div css={modalDimmerStyle} />
+            </RemoveScroll>
+          )}
+          <FocusScope loop trapped={context.open}>
+            <DismissableLayer
+              onPointerDownOutside={(e) => {
+                const originalEvent = e.detail.originalEvent;
+                const ctrlLeftClick =
+                  originalEvent.button === 0 && originalEvent.ctrlKey === true;
+                const isRightClick =
+                  originalEvent.button === 2 || ctrlLeftClick;
+
+                if (isRightClick || disableOutsideClickClose)
+                  e.preventDefault();
+              }}
+              onFocusOutside={(e) => e.preventDefault()}
+              onEscapeKeyDown={(e) => {
+                if (disableEscapeKeyDownClose) {
+                  e.preventDefault();
                 }
               }}
-            />
-          </RemoveScroll>
-        )}
-        <FocusScope loop trapped={context.open}>
-          <DismissableLayer
-            onPointerDownOutside={(e) => {
-              const originalEvent = e.detail.originalEvent;
-              const ctrlLeftClick =
-                originalEvent.button === 0 && originalEvent.ctrlKey === true;
-              const isRightClick = originalEvent.button === 2 || ctrlLeftClick;
-
-              if (isRightClick || disableOutsideClickClose) e.preventDefault();
-            }}
-            onFocusOutside={(e) => e.preventDefault()}
-            onEscapeKeyDown={(e) => {
-              if (disableEscapeKeyDownClose) {
-                e.preventDefault();
-              }
-            }}
-            ref={composedContainerRefs}
-            role="dialog"
-            aria-modal
-            id={context.containerId}
-            aria-describedby={`${context.descriptionId} ${context.summaryId}`}
-            aria-labelledby={`${context.titleId} ${context.headingId}`}
-            onDismiss={() => context.onOpenChange(false)}
-            css={modalContainerStyle({
-              variant,
-              size,
-              xs,
-              sm,
-              md,
-              lg,
-            })}
-            {...props}
-          >
-            <ScrollArea
-              onScrollCapture={handleOnScroll}
-              viewportRef={composedInnerContainerRefs}
-              css={{
-                display: 'flex',
-                flexGrow: '1',
-                ['& > div']: {
-                  display: 'block !important',
-                },
-              }}
-              asChild
-              viewPortProps={{
-                css: { flexGrow: 1 },
-              }}
+              ref={composedContainerRefs}
+              role="dialog"
+              aria-modal
+              id={context.containerId}
+              aria-describedby={`${context.descriptionId} ${context.summaryId}`}
+              aria-labelledby={`${context.titleId} ${context.headingId}`}
+              onDismiss={handleClose}
+              css={modalContainerStyle({
+                variant,
+                size,
+                xs,
+                sm,
+                md,
+                lg,
+              })}
+              {...props}
             >
-              <div css={{ height: 'max-content', width: 'fit-content' }}>
-                {otherChildren}
-              </div>
-            </ScrollArea>
-            {actionButton}
-          </DismissableLayer>
-        </FocusScope>
-      </div>
+              <ScrollArea
+                onScrollCapture={handleOnScroll}
+                viewportRef={composedInnerContainerRefs}
+                css={{
+                  display: 'flex',
+                  flexGrow: '1',
+                  ['& > div']: {
+                    display: 'block !important',
+                  },
+                }}
+                asChild
+                viewPortProps={{
+                  css: { flexGrow: 1 },
+                }}
+              >
+                <div
+                  css={{
+                    height: 'max-content',
+                    width: 'fit-content',
+                    minWidth: '100%',
+                  }}
+                >
+                  {isEnabled && (
+                    <FlexBox
+                      justifyContent="center"
+                      css={modalGrabberStyle}
+                      {...dragProps}
+                    />
+                  )}
+
+                  {otherChildren}
+                </div>
+              </ScrollArea>
+              {actionButton}
+            </DismissableLayer>
+          </FocusScope>
+        </div>
+      </ModalContainerProvider>
     );
   },
 );
@@ -269,17 +327,26 @@ ModalContainer.displayName = 'ModalContainer';
 
 const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
   ({ variant = 'compact', xs, sm, md, lg, children }, ref) => {
-    const context = useModalContext(MODAL_NAME);
+    const context = useModalContext(MODAL_NAVIGATION_NAME);
+    const { handleClose } = useModalContainerContext(MODAL_NAVIGATION_NAME);
+    const theme = useTheme();
 
     return (
       <>
         <div
           wds-component="modal-navigation"
           ref={ref}
+          style={
+            {
+              ['--wds-navigation-border-color']:
+                context.scrollHeight > 0
+                  ? theme.palette.line.normal.normal
+                  : 'transparent',
+            } as CSSProperties
+          }
           css={[
             modalNavigationStyle({
               variant,
-              isScrolled: context.scrollHeight > 0,
               xs,
               sm,
               md,
@@ -303,7 +370,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
 
               <IconButton
                 wds-ignore-first-focus="true"
-                onClick={() => context.onOpenChange(false)}
+                onClick={handleClose}
                 variant="normal"
                 size={24}
               >
@@ -313,7 +380,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
           ) : (
             <IconButton
               wds-ignore-first-focus="true"
-              onClick={() => context.onOpenChange(false)}
+              onClick={handleClose}
               variant="background"
               size={24}
             >
@@ -328,13 +395,12 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
           css={[
             modalNavigationStyle({
               variant,
-              isScrolled: context.scrollHeight > 0,
               xs,
               sm,
               md,
               lg,
             }),
-            { visibility: 'hidden', touchAction: 'none' },
+            { visibility: 'hidden', touchAction: 'none', zIndex: '-1' },
           ]}
         >
           {variant !== 'floating' ? (
@@ -350,12 +416,17 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
                 {children}
               </Typography>
 
-              <IconButton variant="normal" size={24}>
+              <IconButton tabIndex={-1} aria-hidden variant="normal" size={24}>
                 <IconCloseThick />
               </IconButton>
             </>
           ) : (
-            <IconButton variant="background" size={24}>
+            <IconButton
+              tabIndex={-1}
+              aria-hidden
+              variant="background"
+              size={24}
+            >
               <IconCloseThick />
             </IconButton>
           )}

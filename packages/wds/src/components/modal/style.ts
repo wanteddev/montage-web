@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 
 import { createResponsiveStyle, typographyStyle } from '@/utils';
 import { gradient } from '@/utils';
@@ -63,6 +63,24 @@ const modalContainerWrapperVariant = (
   }
 };
 
+const modalBottomMountKeyframes = keyframes`
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(var(--wds-modal-translate, 0px));
+  }
+`;
+
+export const modalBottomUnmountKeyframes = keyframes`
+  0% {
+    transform: translateY(var(--wds-modal-translate, 0px));
+  }
+  100% {
+    transform: translateY(100%);
+  }
+`;
+
 export const modalContainerStyle =
   ({ variant, size, xs, sm, md, lg }: ModalContainerProps) =>
   (theme: Theme) => css`
@@ -71,11 +89,12 @@ export const modalContainerStyle =
     justify-content: space-between;
     outline: none;
     background-color: ${theme.palette.background.elevated.normal};
+    transform: translateY(var(--wds-modal-translate, 0px));
 
     ${modalContainerSize(size)}
     ${modalContainerVariant(variant)}
 
-		${createResponsiveStyle(
+    ${createResponsiveStyle(
       { xs, sm, md, lg },
       theme,
     )(
@@ -83,7 +102,7 @@ export const modalContainerStyle =
         ${Boolean(params?.variant) && modalContainerVariant(params!.variant)}
         ${Boolean(params?.size) && modalContainerSize(params!.size)}
       `,
-    )}
+    )};
   `;
 
 const modalContainerSize = (size: ModalContainerProps['size']) => {
@@ -137,10 +156,24 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         max-width: 100%;
         width: 100%;
         height: 100%;
+        animation: none;
+        max-height: initial;
+        border-radius: 0px;
+        padding: initial;
+
+        [wds-component='modal-navigation'],
+        [wds-component='modal-content'],
+        [wds-component='modal-action-area'] {
+          border-radius: 0px;
+        }
       `;
     case 'popup':
       return css`
         border-radius: 12px;
+        animation: none;
+        max-height: initial;
+        padding: initial;
+
         [wds-component='modal-navigation'],
         [wds-component='modal-content'] {
           border-top-left-radius: 12px;
@@ -154,15 +187,12 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
     case 'bottom':
       return css`
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
-        max-height: calc(
-          100% - env(safe-area-inset-top, 0px) - env(
-              safe-area-inset-bottom,
-              0px
-            )
-        );
+        max-height: calc(100% - env(safe-area-inset-top, 0px) - 40px);
         border-radius: 12px 12px 0px 0px;
+        animation: 0.2s ease ${modalBottomMountKeyframes};
 
-        [wds-component='modal-navigation'] {
+        [wds-component='modal-navigation'],
+        [wds-component='modal-content'] {
           border-top-left-radius: 12px;
           border-top-right-radius: 12px;
         }
@@ -170,15 +200,29 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
   }
 };
 
+export const modalGrabberStyle = (theme: Theme) => css`
+  min-width: inherit;
+  position: absolute;
+  padding-top: 9px;
+  padding-bottom: 5px;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  -webkit-transform: translate3d(0, 0, 0);
+
+  &::after {
+    content: '';
+    border-radius: 1000px;
+    margin-bottom: 9px;
+    width: 40px;
+    height: 5px;
+    display: block;
+    background-color: ${theme.palette.fill.strong};
+  }
+`;
+
 export const modalNavigationStyle =
-  ({
-    variant,
-    isScrolled,
-    xs,
-    sm,
-    md,
-    lg,
-  }: ModalNavigationProps & { isScrolled?: boolean }) =>
+  ({ variant, xs, sm, md, lg }: ModalNavigationProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--wds-modal-navigation-padding, 20px);
@@ -187,13 +231,8 @@ export const modalNavigationStyle =
     position: sticky;
     top: 0px;
     left: 0px;
-    border-bottom: 1px solid transparent;
+    border-bottom: 1px solid var(--wds-navigation-border-color);
     transition: border-color 0.2s ease;
-
-    ${isScrolled &&
-    css`
-      border-bottom: 1px solid ${theme.palette.line.normal.normal};
-    `}
 
     ${modalNavigationVariant(variant, theme)}
 

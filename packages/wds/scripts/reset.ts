@@ -142,7 +142,8 @@ html {
 }
 
 body {
-  min-height: 100vh;
+  min-height: calc(100vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 0px));
+  min-height: 100dvh;
   font-family:
     Pretendard,
     'Pretendard JP',
