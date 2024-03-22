@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.5...@wanteddev/wds@0.0.6) (2024-03-22)
+
+### Features
+
+- **wds:** modal bottom drag 기능 추가 ([b9b1b69](https://github.com/wanteddev/wds/commit/b9b1b69de38f386e6b08d41d8d78097914091349))
+- **wds:** responsive props 처리 공통으로 분리 ([d73541a](https://github.com/wanteddev/wds/commit/d73541a79015ab9dd71e85ead911b0f512488733))
+
 ## [0.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.4...@wanteddev/wds@0.0.5) (2024-03-21)
 
 ### Bug Fixes
