@@ -1,4 +1,5 @@
 import { type SerializedStyles, type Theme, css } from '@emotion/react';
+import objectPath from 'object-path';
 
 import { respondMore } from './media';
 
@@ -15,7 +16,7 @@ export const createResponsiveStyle =
       ${Object.entries(responsive)
         .sort(([a], [b]) => {
           return (
-            order.findIndex((v) => v === b) - order.findIndex((v) => v === a)
+            order.findIndex((v) => v === a) - order.findIndex((v) => v === b)
           );
         })
         .map(([bp, value]) => {
@@ -54,3 +55,36 @@ export const createResponsiveStyle =
         })};
     `;
   };
+
+export const getPreviousValue = <T extends object, K extends keyof T>(
+  params: ResponsiveProps<T>,
+  key: K,
+  defaultValue: T[K],
+  breakpoint: keyof BreakPoint,
+): T[K] => {
+  switch (breakpoint) {
+    case 'lg':
+      return (
+        objectPath.get(params.lg || {}, key as string) ??
+        objectPath.get(params.md || {}, key as string) ??
+        objectPath.get(params.sm || {}, key as string) ??
+        objectPath.get(params.xs || {}, key as string) ??
+        defaultValue
+      );
+    case 'md':
+      return (
+        objectPath.get(params.md || {}, key as string) ??
+        objectPath.get(params.sm || {}, key as string) ??
+        objectPath.get(params.xs || {}, key as string) ??
+        defaultValue
+      );
+    case 'sm':
+      return (
+        objectPath.get(params.sm || {}, key as string) ??
+        objectPath.get(params.xs || {}, key as string) ??
+        defaultValue
+      );
+    case 'xs':
+      return objectPath.get(params.xs || {}, key as string) ?? defaultValue;
+  }
+};

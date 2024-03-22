@@ -4,67 +4,11 @@ import { css as emotionCss, useTheme } from '@emotion/react';
 
 import { ellipsisTypographyStyle, typographyStyle } from '@/utils/typography';
 import { getColorByToken } from '@/utils/color';
-import { createResponsiveStyle } from '@/utils';
+import { createResponsiveStyle, getPreviousValue } from '@/utils';
 
-import type { BreakPoint, Merge, MergeWithCustomElementProps } from '@/types';
+import type { Merge, MergeWithCustomElementProps } from '@/types';
 import type { TypographyProps, TypographyResponsiveProps } from './types';
 import type { ElementType, ForwardedRef, ReactNode } from 'react';
-
-const getPreviousVariant = (
-  params: TypographyResponsiveProps,
-  defaultValue: TypographyProps['variant'],
-  breakpoint: keyof BreakPoint,
-) => {
-  switch (breakpoint) {
-    case 'lg':
-      return params.lg?.variant || defaultValue;
-    case 'md':
-      return params.md?.variant || params.lg?.variant || defaultValue;
-    case 'sm':
-      return (
-        params.sm?.variant ||
-        params.md?.variant ||
-        params.lg?.variant ||
-        defaultValue
-      );
-    case 'xs':
-      return (
-        params.xs?.variant ||
-        params.sm?.variant ||
-        params.md?.variant ||
-        params.lg?.variant ||
-        defaultValue
-      );
-  }
-};
-
-const getPreviousWeight = (
-  params: TypographyResponsiveProps,
-  defaultValue: TypographyProps['weight'],
-  breakpoint: keyof BreakPoint,
-) => {
-  switch (breakpoint) {
-    case 'lg':
-      return params.lg?.weight || defaultValue;
-    case 'md':
-      return params.md?.weight || params.lg?.weight || defaultValue;
-    case 'sm':
-      return (
-        params.sm?.weight ||
-        params.md?.weight ||
-        params.lg?.weight ||
-        defaultValue
-      );
-    case 'xs':
-      return (
-        params.xs?.weight ||
-        params.sm?.weight ||
-        params.md?.weight ||
-        params.lg?.weight ||
-        defaultValue
-      );
-  }
-};
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
   E,
@@ -129,12 +73,18 @@ const Typography = forwardRef(
                 ${
                   (Boolean(params?.variant) || Boolean(params?.weight)) &&
                   typographyStyle(
-                    getPreviousVariant(
+                    getPreviousValue(
                       { xs, sm, md, lg },
+                      'variant',
                       variant,
                       breakpoint!,
                     )!,
-                    getPreviousWeight({ xs, sm, md, lg }, weight, breakpoint!),
+                    getPreviousValue(
+                      { xs, sm, md, lg },
+                      'weight',
+                      weight,
+                      breakpoint!,
+                    ),
                   )
                 }
 
