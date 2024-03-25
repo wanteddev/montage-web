@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.3...@wanteddev/wds-icon@0.0.4) (2024-03-25)
+
+### Bug Fixes
+
+- **wds-icon:** module path ([1ad2cc4](https://github.com/wanteddev/wds/commit/1ad2cc4f942b904301318a410552e5e0f30c5de8))
+
 ## [0.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.2...@wanteddev/wds-icon@0.0.3) (2024-03-25)
 
 ### Bug Fixes
