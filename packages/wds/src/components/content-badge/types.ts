@@ -16,7 +16,8 @@ export type ContentBadgeDefaultProps = {
     | 'redOrange'
     | 'positive'
     | 'cautionary'
-    | 'negative';
+    | 'negative'
+    | 'primary';
 };
 
 export type ContentBadgeResponsiveProps = ResponsiveProps<

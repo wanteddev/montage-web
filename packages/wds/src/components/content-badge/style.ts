@@ -150,5 +150,11 @@ const contentBadgeColorStyle = (
         background: addOpacity(theme.palette.status.positive, theme.opacity[8]),
         border: addOpacity(theme.palette.status.positive, theme.opacity[43]),
       };
+    case 'primary':
+      return {
+        font: theme.palette.primary.normal,
+        background: addOpacity(theme.palette.primary.normal, theme.opacity[8]),
+        border: addOpacity(theme.palette.primary.normal, theme.opacity[43]),
+      };
   }
 };
