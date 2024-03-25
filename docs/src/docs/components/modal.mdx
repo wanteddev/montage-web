@@ -1,0 +1,133 @@
+---
+title: Modal
+description: Modal Component
+---
+
+# Modal
+
+Modal Overlay를 표시합니다.
+
+## 활용
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ModalActionArea,
+  ModalActionButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <ModalContainer size="large" variant="popup">
+          <ModalNavigation variant="compact">
+            Title
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ModalActionArea>
+            <ModalActionButton>
+              액션
+            </ModalActionButton>
+          </ModalActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+Modal 은 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Modal>
+  <ModalContainer>
+    <ModalNavigation />
+
+    <ModalContent>
+      <ModalContentItem>
+        <ModalHeading />
+        <ModalSummary />
+        <ModalDescription />
+      </ModalContentItem>
+    </ModalContent>
+
+    <ModalActionArea>
+      <ModalActionButton />
+    </ModalActionArea>
+  </ModalContainer>
+</Modal>
+```
+
+### Modal
+
+<PropsTable component="Modal" />
+
+### ModalContainer
+
+<PropsTable component="ModalContainer" />
+
+### ModalNavigation
+
+<PropsTable component="ModalNavigation" />
+
+### ModalContent
+
+<PropsTable component="ModalContent" />
+
+### ModalContentItem
+
+`FlexBox` 와 동일한 Props를 사용합니다.
+
+### ModalHeading
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalSummary
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalDescription
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalActionArea
+
+<PropsTable component="ModalActionArea" />
+
+### ModalActionButton
+
+<PropsTable component="ModalActionButton" fallback={[
+{ name: 'variant', types: '\"primary\" | \"secondary\" | \"assistive\"', defaultValue: 'primary' },
+{ name: 'leftIcon', types: 'ReactNode' },
+{ name: 'rightIcon', types: 'ReactNode' }
+]} />

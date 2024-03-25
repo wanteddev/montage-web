@@ -16,6 +16,9 @@ export type ModalProps = PropsWithChildren<{
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?(open: boolean): void;
+  /**
+   * Portal로 표시될 container를 지정합니다.
+   */
   container?: ComponentPropsWithRef<typeof Portal>['container'];
   disableDimmer?: boolean;
   disableOutsideClickClose?: boolean;

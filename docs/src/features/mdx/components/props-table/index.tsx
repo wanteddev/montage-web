@@ -1,3 +1,4 @@
+'use client';
 import { IconCircleInfo } from '@wanteddev/wds-icon';
 import {
   ContentBadge,
@@ -12,12 +13,79 @@ import { useMDXContext } from '../../context';
 
 type Props = {
   component?: string;
+  fallback?: Array<{
+    name: string;
+    description?: string;
+    types: string;
+    defaultValue?: string;
+    required?: boolean;
+  }>;
 };
 
-const PropsTable = ({ component }: Props) => {
+const PropsTable = ({ component, fallback }: Props) => {
   const { propTypes } = useMDXContext();
 
   const types = propTypes.find((c) => c.displayName === component);
+
+  if (fallback?.length) {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Types</th>
+            <th>defaultValue</th>
+          </tr>
+        </thead>
+        <tbody>
+          {fallback.map((value) => (
+            <tr key={value.name}>
+              <td>
+                <FlexBox alignItems="center" gap="4px">
+                  <ContentBadge
+                    size="medium"
+                    color="accent"
+                    accentColor="lightBlue"
+                  >
+                    {`${value.name}${value.required ? ' *' : ''}`}
+                  </ContentBadge>
+                  {value.description && (
+                    <Tooltip variant="inverse" position="bottom-center">
+                      <TooltipTrigger>
+                        <span
+                          css={(theme) => ({
+                            display: 'inline-block',
+                            color: theme.palette.label.alternative,
+                          })}
+                        >
+                          <IconCircleInfo />
+                        </span>
+                      </TooltipTrigger>
+                      <TooltipContent>{value.description}</TooltipContent>
+                    </Tooltip>
+                  )}
+                </FlexBox>
+              </td>
+              <td>
+                <Typography
+                  variant="body1_reading"
+                  weight="regular"
+                  color="palette.accent.redOrange"
+                >
+                  {value.types}
+                </Typography>
+              </td>
+              <td>
+                <ContentBadge size="medium" color="neutral">
+                  {value.defaultValue ?? '-'}
+                </ContentBadge>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
 
   if (!types) {
     return null;

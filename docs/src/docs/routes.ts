@@ -21,6 +21,7 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Alert', slug: '/docs/components/alert' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
+      { title: 'Modal', slug: '/docs/components/modal' },
     ],
   },
 ];

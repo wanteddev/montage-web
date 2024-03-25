@@ -208,6 +208,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
   top: 0;
   left: 0;
   z-index: 10;
+  touch-action: pan-y;
   -webkit-transform: translate3d(0, 0, 0);
 
   &::after {

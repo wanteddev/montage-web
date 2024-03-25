@@ -61,6 +61,7 @@ import type { ButtonVariant } from '../button/types';
 import type {
   CSSProperties,
   ComponentProps,
+  ComponentPropsWithRef,
   ElementType,
   ForwardedRef,
   NamedExoticComponent,
@@ -480,8 +481,11 @@ const ModalContentItem = forwardRef<HTMLDivElement, ModalContentItemProps>(
 
 ModalContentItem.displayName = 'ModalContentItem';
 
-const ModalHeadingFc = forwardRef<HTMLHeadingElement, ModalHeadingProps>(
-  (props, ref) => {
+const ModalHeadingFc = forwardRef(
+  <E extends ElementType = 'h1'>(
+    props: ModalHeadingProps<E>,
+    ref: ForwardedRef<ModalHeadingProps<E>['as']>,
+  ) => {
     const context = useModalContext(MODAL_NAME);
 
     return (
@@ -492,7 +496,7 @@ const ModalHeadingFc = forwardRef<HTMLHeadingElement, ModalHeadingProps>(
         weight="bold"
         color="palette.label.normal"
         id={context.headingId}
-        {...props}
+        {...(props as ComponentPropsWithRef<typeof Typography>)}
       />
     );
   },
@@ -504,8 +508,11 @@ const ModalHeading = ModalHeadingFc as <E extends ElementType = 'h1'>(
   props: ModalHeadingProps<E>,
 ) => ReactNode;
 
-const ModalSummaryFc = forwardRef<HTMLParagraphElement, ModalSummaryProps>(
-  (props, ref) => {
+const ModalSummaryFc = forwardRef(
+  <E extends ElementType = 'p'>(
+    props: ModalSummaryProps<E>,
+    ref: ForwardedRef<ModalSummaryProps<E>['as']>,
+  ) => {
     const context = useModalContext(MODAL_NAME);
 
     return (
@@ -516,7 +523,7 @@ const ModalSummaryFc = forwardRef<HTMLParagraphElement, ModalSummaryProps>(
         weight="regular"
         color="palette.label.alternative"
         id={context.summaryId}
-        {...props}
+        {...(props as ComponentPropsWithRef<typeof Typography>)}
       />
     );
   },
@@ -528,28 +535,30 @@ const ModalSummary = ModalSummaryFc as <E extends ElementType = 'p'>(
   props: ModalSummaryProps<E>,
 ) => ReactNode;
 
-const ModalDescriptionFc = forwardRef<
-  HTMLParagraphElement,
-  ModalDescriptionProps
->((props, ref) => {
-  const context = useModalContext(MODAL_NAME);
+const ModalDescriptionFC = forwardRef(
+  <E extends ElementType = 'p'>(
+    props: ModalDescriptionProps<E>,
+    ref: ForwardedRef<ModalDescriptionProps<E>['as']>,
+  ) => {
+    const context = useModalContext(MODAL_NAME);
 
-  return (
-    <Typography
-      ref={ref}
-      as="p"
-      variant="body1_reading"
-      weight="regular"
-      color="palette.label.normal"
-      id={context.descriptionId}
-      {...props}
-    />
-  );
-});
+    return (
+      <Typography
+        ref={ref}
+        as="p"
+        variant="body1_reading"
+        weight="regular"
+        color="palette.label.normal"
+        id={context.descriptionId}
+        {...(props as ComponentPropsWithRef<typeof Typography>)}
+      />
+    );
+  },
+);
 
-ModalDescriptionFc.displayName = 'ModalDescription';
+ModalDescriptionFC.displayName = 'ModalDescription';
 
-const ModalDescription = ModalDescriptionFc as <E extends ElementType = 'p'>(
+const ModalDescription = ModalDescriptionFC as <E extends ElementType = 'p'>(
   props: ModalDescriptionProps<E>,
 ) => ReactNode;
 

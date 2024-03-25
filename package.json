@@ -22,7 +22,7 @@
     "deploy": "node scripts/deploy.mjs",
     "prepublish": "pnpm run build",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install",
+    "prepare": "husky",
     "pre-commit": "lint-staged",
     "deps:check": "pnpm dlx npm-check-updates@latest --deep",
     "deps:update": "pnpm dlx npm-check-updates@latest -u --deep"
