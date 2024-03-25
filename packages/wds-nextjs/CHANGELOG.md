@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@0.0.1...@wanteddev/wds-nextjs@0.0.2) (2024-03-25)
+
+### Bug Fixes
+
+- **wds:** package.json main field 추가 ([31c3fc1](https://github.com/wanteddev/wds/commit/31c3fc10879acb39144f13c9a1731886c90356b4))
+
 ## [0.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@0.0.1-alpha.4...@wanteddev/wds-nextjs@0.0.1) (2024-03-20)
 
 **Note:** Version bump only for package @wanteddev/wds-nextjs

@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.9](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.8...@wanteddev/wds@0.0.9) (2024-03-25)
+
+### Bug Fixes
+
+- **wds:** package.json main field 추가 ([31c3fc1](https://github.com/wanteddev/wds/commit/31c3fc10879acb39144f13c9a1731886c90356b4))
+
+### Features
+
+- **wds:** content badge primary 추가 ([1f27f7b](https://github.com/wanteddev/wds/commit/1f27f7b689e36c47a05089e1d5fe163e7a95aa99))
+
 ## [0.0.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.7...@wanteddev/wds@0.0.8) (2024-03-25)
 
 **Note:** Version bump only for package @wanteddev/wds
