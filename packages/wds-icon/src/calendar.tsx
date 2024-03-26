@@ -5,7 +5,7 @@ type Props = ComponentProps<'svg'>;
 const IconCalendar = (props: Props) => {
   return (
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path d="M18 14H15V17H18V14Z" />
+      <path d="M18 14H15V17H18V14Z" fill="currentColor" />
       <path
         fill="currentColor"
         fillRule="evenodd"
