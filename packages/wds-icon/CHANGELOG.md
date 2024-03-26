@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.4...@wanteddev/wds-icon@0.0.5) (2024-03-26)
+
+### Bug Fixes
+
+- **wds-icon:** 캘린더 색상 수정 ([#2](https://github.com/wanteddev/wds/issues/2)) ([9df987a](https://github.com/wanteddev/wds/commit/9df987a116b05d395ca39d1b553717694ad9570b))
+
 ## [0.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.3...@wanteddev/wds-icon@0.0.4) (2024-03-25)
 
 ### Bug Fixes
