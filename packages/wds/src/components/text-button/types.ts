@@ -2,7 +2,7 @@ import type { Merge, ResponsiveProps } from '@/types';
 import type { ReactNode } from 'react';
 
 export type TextButtonDefaultProps = {
-  color?: 'primary' | 'assistive';
+  variant?: 'primary' | 'assistive';
   disabled?: boolean;
   size?: 'small' | 'medium';
   disableInteraction?: boolean;
@@ -11,7 +11,7 @@ export type TextButtonDefaultProps = {
 };
 
 export type TextButtonResponsiveProps = ResponsiveProps<
-  Pick<TextButtonDefaultProps, 'size' | 'color'>
+  Pick<TextButtonDefaultProps, 'size'>
 >;
 
 export type TextButtonProps = Merge<

@@ -25,7 +25,8 @@ export const selectWrapperStyle =
     select {
       padding: 12px 44px 12px 16px;
       border-radius: 10px;
-      border: 1px solid ${theme.palette.line.normal.normal};
+      border: none;
+      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
       background-color: ${theme.palette.background.normal.normal};
       width: 100%;
       height: 100%;
@@ -65,7 +66,7 @@ export const selectWrapperStyle =
     ${invalid &&
     css`
       select {
-        border-color: ${theme.palette.status.negative};
+        box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
       }
     `}
 

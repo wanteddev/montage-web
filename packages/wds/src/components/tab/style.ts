@@ -6,10 +6,14 @@ import type { Theme } from '@emotion/react';
 import type { TabProps } from './types';
 
 export const scrollWrapperStyle =
-  ({ padding, xs, sm, md, lg }: TabProps) =>
+  ({ padding, xs, sm, md, lg, isSticky }: TabProps & { isSticky?: boolean }) =>
   (theme: Theme) => css`
     width: 100%;
     ${scrollWrapperPaddingStyle(padding)}
+    ${isSticky &&
+    gradient(theme.palette.background.normal.normal, 'right', '48px')}
+    background-color: ${theme.palette.background.normal.normal};
+    transition: mask-image 0.2s ease;
 
     ${createResponsiveStyle(
       { xs, sm, md, lg },
@@ -26,12 +30,17 @@ export const tabStyle =
   (theme: Theme) => css`
     width: 100%;
     list-style: none;
+    position: relative;
     padding: 0;
 
-    & > div {
-      min-width: 100%;
-      width: max-content;
-      border-bottom: 1px solid ${theme.palette.line.normal.alternative};
+    &::after {
+      position: absolute;
+      background-color: ${theme.palette.line.normal.alternative};
+      content: '';
+      left: 0px;
+      bottom: -1px;
+      height: 1px;
+      width: 100%;
     }
 
     ${tabPaddingStyle(padding)}
@@ -63,7 +72,7 @@ export const tabItemStyle = (theme: Theme) => css`
       content: '';
       position: absolute;
       left: 0;
-      bottom: calc(var(--wds-tab-padding-y) * -1 - 3px);
+      bottom: calc(var(--wds-tab-padding-y) * -1 - 2px);
       max-height: 0px;
       height: 2px;
       width: 100%;
@@ -90,40 +99,13 @@ export const tabItemStyle = (theme: Theme) => css`
   }
 `;
 
-export const stickyGradientStyle =
-  (isSticky: boolean, hasRightIcon: boolean) => (theme: Theme) => css`
-    position: sticky;
-    right: 0px;
-    height: 100%;
-    background-color: ${theme.palette.background.normal.normal};
-
-    &::before {
-      content: '';
-      position: absolute;
-      width: 48px;
-      height: 100%;
-      right: ${hasRightIcon ? 'calc(100% - 1px)' : 'calc(100% + 10px)'};
-      transition: opacity 0.2s ease;
-      visibility: ${isSticky ? 'visible' : 'hidden'};
-      opacity: ${isSticky ? 1 : 0};
-      ${gradient(theme.palette.background.normal.normal, 'left')}
-    }
-
-    ${!hasRightIcon &&
-    css`
-      &::after {
-        content: '';
-        position: absolute;
-        width: 12px;
-        height: 100%;
-        right: calc(100% - 2px);
-        transition: opacity 0.2s ease;
-        opacity: ${isSticky ? 1 : 0};
-        visibility: ${isSticky ? 'visible' : 'hidden'};
-        background-color: ${theme.palette.background.normal.normal};
-      }
-    `}
-  `;
+export const stickyButtonStyle = css`
+  position: sticky;
+  right: 0px;
+  height: 100%;
+  flex-shrink: 0;
+  padding: 0px 12px;
+`;
 
 const tabSizeStyle = (size: TabProps['size']) => {
   switch (size) {
@@ -162,15 +144,19 @@ const tabPaddingStyle = (padding: TabProps['padding']) => {
   switch (padding) {
     case true:
       return css`
-        & > div {
+        [data-radix-scroll-area-viewport] {
           position: relative;
-          left: 0;
+          left: 0px;
+          width: 100%;
         }
       `;
     case false:
       return css`
-        position: relative;
-        left: -12px;
+        [data-radix-scroll-area-viewport] {
+          position: relative;
+          left: -12px;
+          width: calc(100% + 12px);
+        }
       `;
   }
 };

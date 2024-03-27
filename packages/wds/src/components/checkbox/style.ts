@@ -24,6 +24,7 @@ export const checkboxStyle =
     background-color: transparent;
     color: ${theme.palette.static.white};
     border: none;
+    box-shadow: none;
     cursor: pointer;
     border-radius: 3px;
 
@@ -33,7 +34,7 @@ export const checkboxStyle =
     }
 
     & > [wds-component='with-interaction'] {
-      border-radius: 50%;
+      border-radius: 9999px;
     }
 
     span {
@@ -45,11 +46,11 @@ export const checkboxStyle =
       height: 100%;
       background-color: ${theme.palette.background.normal.normal};
       border-radius: 3px;
-      border: 1.5px solid ${theme.palette.line.normal.normal};
+      box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
 
       transition:
         background-color 0.2s ease,
-        border-color 0.2s ease;
+        box-shadow 0.2s ease;
     }
 
     & svg {
@@ -67,7 +68,7 @@ export const checkboxStyle =
     ${checked &&
     css`
       span {
-        border-color: ${theme.palette.primary.normal};
+        box-shadow: inset 0 0 0 1.5px ${theme.palette.primary.normal};
         background-color: ${theme.palette.primary.normal};
 
         svg {

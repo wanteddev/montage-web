@@ -1,6 +1,8 @@
 'use client';
 import { forwardRef } from 'react';
 
+import Typography from '../typography';
+
 import { pushBadgeStyle } from './style';
 
 import type { MergeElementProps } from '@/types';
@@ -40,7 +42,13 @@ const PushBadge = forwardRef<HTMLSpanElement, Props>(
 
     return (
       <span ref={ref} css={pushBadgeStyle({ variant })} {...props}>
-        {renderChild[variant]}
+        {variant === 'dot' ? (
+          renderChild[variant]
+        ) : (
+          <Typography variant="caption2" weight="bold" align="center">
+            {renderChild[variant]}
+          </Typography>
+        )}
       </span>
     );
   },

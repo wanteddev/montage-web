@@ -17,6 +17,7 @@ export const textButtonStyle =
     line-height: initial;
     white-space: nowrap;
     height: fit-content;
+    width: fit-content;
     cursor: pointer;
 
     &:disabled {
@@ -32,14 +33,13 @@ export const textButtonStyle =
       theme,
     )(
       (params = {}) => css`
-        ${getColorTheme(params, theme)}
         ${textButtonSizeStyle(params)}
       `,
     )}
   `;
 
-const getColorTheme = ({ color }: TextButtonProps, theme: Theme) => {
-  switch (color) {
+const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
+  switch (variant) {
     case 'primary':
       return css`
         color: ${theme.palette.primary.normal};

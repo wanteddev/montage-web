@@ -51,6 +51,17 @@ const IconButton = forwardRef(
       }
     };
 
+    const getInteractionVariant = () => {
+      switch (variant) {
+        case 'normal':
+        case 'background':
+        case 'outlined':
+          return 'light';
+        case 'solid':
+          return 'strong';
+      }
+    };
+
     const interactionSize = getInteractionSize();
 
     return (
@@ -59,6 +70,7 @@ const IconButton = forwardRef(
         height={interactionSize}
         color={interactionColor}
         disabled={disableInteraction || disabled}
+        variant={getInteractionVariant()}
         scale={variant === 'normal'}
       >
         <Comp
@@ -76,8 +88,8 @@ const IconButton = forwardRef(
               variant="dot"
               css={{
                 position: 'absolute',
-                right: '-6px',
-                top: '-5px',
+                right: '-8px',
+                top: '-8px',
               }}
             />
           )}

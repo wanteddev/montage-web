@@ -14,7 +14,7 @@ const ContentBadge = forwardRef<HTMLSpanElement, Props>(
       variant = 'filled',
       size = 'small',
       color = 'accent',
-      accentColor = 'cyan',
+      accentColor = 'palette.accent.cyan',
       leftIcon,
       rightIcon,
       children,

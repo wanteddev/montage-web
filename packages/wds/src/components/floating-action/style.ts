@@ -10,7 +10,7 @@ export const floatingActionStyle =
   (theme: Theme) => css`
     background-color: ${theme.palette.primary.normal};
     box-shadow: ${theme.palette.elevation.shadow.strong};
-    border-radius: 50%;
+    border-radius: 9999px;
     cursor: pointer;
     display: flex;
     align-items: center;

@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps } from '@/types';
+import type { Merge, ResponsiveProps, ThemeColorsToken } from '@/types';
 import type { ReactNode } from 'react';
 
 export type ContentBadgeDefaultProps = {
@@ -7,21 +7,11 @@ export type ContentBadgeDefaultProps = {
   size?: 'xsmall' | 'small' | 'medium';
   variant?: 'filled' | 'outlined';
   color?: 'neutral' | 'accent';
-  accentColor?:
-    | 'lime'
-    | 'cyan'
-    | 'lightBlue'
-    | 'violet'
-    | 'pink'
-    | 'redOrange'
-    | 'positive'
-    | 'cautionary'
-    | 'negative'
-    | 'primary';
+  accentColor?: ThemeColorsToken;
 };
 
 export type ContentBadgeResponsiveProps = ResponsiveProps<
-  Pick<ContentBadgeDefaultProps, 'size' | 'color' | 'accentColor' | 'variant'>
+  Pick<ContentBadgeDefaultProps, 'size'>
 >;
 
 export type ContentBadgeProps = Merge<

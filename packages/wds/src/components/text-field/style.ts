@@ -20,7 +20,8 @@ export const textFieldWrapperStyle =
     display: flex;
     align-items: center;
     border-radius: 10px;
-    border: 1px solid ${theme.palette.line.normal.normal};
+    border: none;
+    box-shadow: 0 0 0 1px ${theme.palette.line.normal.normal};
     background-color: ${theme.palette.background.normal.normal};
     width: ${width};
     height: ${height};
@@ -36,18 +37,18 @@ export const textFieldWrapperStyle =
 
     ${invalid &&
     css`
-      border-color: ${theme.palette.status.negative};
+      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
     `}
 
   @supports selector(:has(*)) {
       &:where(:has(input:focus)) {
-        border-color: ${theme.palette.primary.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
       }
     }
 
     @supports not selector(:has(*)) {
       &:where(:focus-within) {
-        border-color: ${theme.palette.primary.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
       }
     }
 

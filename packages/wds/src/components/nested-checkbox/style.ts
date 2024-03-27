@@ -10,7 +10,7 @@ export const nestedCheckboxStyle =
   (theme: Theme) => css`
     padding: 0px;
     background-color: transparent;
-    border-radius: 50%;
+    border-radius: 9999px;
     border: none;
 
     svg {
@@ -23,7 +23,7 @@ export const nestedCheckboxStyle =
       ${getSizeStyle(size)}
       background-color: transparent;
       color: ${theme.palette.label.assistive};
-      border-radius: 50%;
+      border-radius: 9999px;
       border: none;
       box-shadow: none;
     }

@@ -7,7 +7,7 @@ import Typography from '../typography';
 
 import {
   scrollWrapperStyle,
-  stickyGradientStyle,
+  stickyButtonStyle,
   tabItemStyle,
   tabStyle,
 } from './style';
@@ -83,15 +83,11 @@ const Tab = forwardRef<HTMLUListElement, MergeElementProps<'ul', TabProps>>(
     }, []);
 
     return (
-      <ScrollArea
-        css={scrollWrapperStyle({ padding, xs, sm, md, lg })}
-        onScrollCapture={handleOnScroll}
-        scrollbars="horizontal"
-        viewportRef={viewportRef}
-      >
+      <>
         <FlexBox
           as="ul"
           ref={composedRef}
+          alignItems="center"
           css={tabStyle({
             padding,
             size,
@@ -102,19 +98,22 @@ const Tab = forwardRef<HTMLUListElement, MergeElementProps<'ul', TabProps>>(
           })}
           {...props}
         >
-          <FlexBox alignItems="center">
-            {children}
+          <ScrollArea
+            css={scrollWrapperStyle({ padding, xs, sm, md, lg, isSticky })}
+            onScrollCapture={handleOnScroll}
+            scrollbars="horizontal"
+            viewportRef={viewportRef}
+          >
+            <FlexBox>{children}</FlexBox>
+          </ScrollArea>
 
-            <FlexBox
-              css={stickyGradientStyle(isSticky, Boolean(rightIcon))}
-              as="span"
-              alignItems="center"
-            >
-              {Boolean(rightIcon) && rightIcon}
+          {Boolean(rightIcon) && (
+            <FlexBox css={stickyButtonStyle} as="span" alignItems="center">
+              {rightIcon}
             </FlexBox>
-          </FlexBox>
+          )}
         </FlexBox>
-      </ScrollArea>
+      </>
     );
   },
 );

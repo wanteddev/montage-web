@@ -24,8 +24,9 @@ export const radioStyle =
     background-color: transparent;
     color: ${theme.palette.static.white};
     border: none;
+    box-shadow: none;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 9999px;
 
     & ~ label {
       ${typographyStyle('body2_normal', 'regular')}
@@ -35,7 +36,7 @@ export const radioStyle =
 
     span {
       background-color: ${theme.palette.background.normal.normal};
-      border: 1.5px solid ${theme.palette.line.normal.normal};
+      box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
       border-radius: inherit;
       display: flex;
       align-items: center;
@@ -51,7 +52,7 @@ export const radioStyle =
     ${checked &&
     css`
       span {
-        border: none;
+        box-shadow: none;
         background-color: ${theme.palette.primary.normal};
       }
     `}

@@ -91,24 +91,25 @@ const actionVariantStyle = (
       return css`
         color: ${theme.palette.label.normal};
         background-color: ${theme.palette.fill.alternative};
-        border: none;
+        box-shadow: none;
 
         &:disabled {
           color: ${theme.palette.label.assistive};
           background-color: ${theme.palette.fill.alternative};
-          border: none;
+          box-shadow: none;
         }
       `;
     case 'outlined':
       return css`
         color: ${theme.palette.label.normal};
         background-color: transparent;
-        border: 1px solid ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
 
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          border: 1px solid ${theme.palette.line.normal.alternative};
+          box-shadow: inset 0 0 0 1px 1px
+            ${theme.palette.line.normal.alternative};
         }
       `;
   }

@@ -55,7 +55,7 @@ const avatarSizeStyle = (
     switch (variant) {
       case 'circle':
         return css`
-          border-radius: 50%;
+          border-radius: 9999px;
         `;
       case 'rounded':
         return css`

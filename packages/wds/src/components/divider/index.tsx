@@ -13,7 +13,6 @@ const Divider = forwardRef<HTMLHRElement, Props>(
     {
       size = '100%',
       thickness = '1px',
-      variant = 'normal',
       vertical = false,
       color = 'palette.line.normal.normal',
       xs,
@@ -28,7 +27,6 @@ const Divider = forwardRef<HTMLHRElement, Props>(
       <hr
         ref={ref}
         css={dividerStyle({
-          variant,
           thickness,
           xs,
           sm,

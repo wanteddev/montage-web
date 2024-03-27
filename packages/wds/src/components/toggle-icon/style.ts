@@ -11,7 +11,7 @@ export const toggleIconStyle =
     ${toggleIconSizeStyle(size)}
 
     background-color: transparent;
-    border-radius: 50%;
+    border-radius: 9999px;
     border: none;
     color: ${active
       ? getColorByToken(theme, activeColor!)

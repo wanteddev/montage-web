@@ -46,9 +46,22 @@ const Button = forwardRef(
         ? 'palette.primary.normal'
         : 'palette.label.normal';
 
+    const getInteractionVariant = () => {
+      if (variant === 'outlined') {
+        if (color === 'primary') {
+          return 'normal';
+        }
+
+        return 'light';
+      }
+
+      return 'strong';
+    };
+
     return (
       <WithInteraction
         color={interactionColor}
+        variant={getInteractionVariant()}
         disabled={disableInteraction || disabled}
       >
         <Comp

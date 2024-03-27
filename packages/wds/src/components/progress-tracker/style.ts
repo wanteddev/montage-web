@@ -42,7 +42,7 @@ export const progressCircleWrapperStyle =
   (isActive: boolean) => (theme: Theme) => css`
     background-color: transparent;
     padding: 4px;
-    border-radius: 50%;
+    border-radius: 9999px;
 
     ${isActive &&
     css`
@@ -60,7 +60,7 @@ export const progressCircleStyle =
     width: 24px;
     height: 24px;
     position: relative;
-    border-radius: 50%;
+    border-radius: 9999px;
     font-size: 14px;
 
     ${(isActive || completed) &&

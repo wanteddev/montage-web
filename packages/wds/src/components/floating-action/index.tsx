@@ -37,6 +37,7 @@ const FloatingAction = forwardRef(
       <WithInteraction
         color="palette.label.normal"
         disabled={disableInteraction || disabled}
+        variant="strong"
       >
         <Comp
           ref={ref}

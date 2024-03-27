@@ -9,8 +9,8 @@ export const gridItemStyle =
   ({ xs, sm, md, lg, ...props }: GridItemProps) =>
   (theme: Theme) => css`
     min-width: 0px;
-    padding: calc(var(--wds-row-spacing) / 2)
-      calc(var(--wds-column-spacing) / 2);
+    padding-top: calc(var(--wds-column-spacing));
+    padding-left: calc(var(--wds-row-spacing));
 
     ${gridItemAlignStyle(props)}
 
@@ -59,8 +59,10 @@ const gridItemLayoutStyle = (value?: GridSize) => {
   }
 
   return css`
-    width: calc(100% * ${value} / 12);
+    max-width: ${Math.round((value / 12) * 10e7) / 10e5}%;
+    width: initial;
     flex-grow: 0;
-    flex-basis: auto;
+    flex-basis: ${Math.round((value / 12) * 10e7) / 10e5}%;
+    flex-shrink: initial;
   `;
 };

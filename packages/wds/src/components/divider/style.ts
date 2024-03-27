@@ -44,9 +44,15 @@ const dividerSizeStyle = ({
   vertical,
 }: Pick<DividerProps, 'size' | 'thickness' | 'vertical'>) => css`
   ${Boolean(thickness) &&
-  css`
-    border-width: ${thickness};
-  `}
+  (vertical
+    ? css`
+        border-width: 0px;
+        border-right-width: ${thickness};
+      `
+    : css`
+        border-width: 0px;
+        border-bottom-width: ${thickness};
+      `)}
 
   ${vertical
     ? css`

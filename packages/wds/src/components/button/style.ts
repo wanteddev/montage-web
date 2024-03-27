@@ -93,48 +93,48 @@ const buttonColorStyle = (
       return css`
         color: ${theme.palette.static.white};
         background-color: ${theme.palette.primary.normal};
-        border: none;
+        box-shadow: none;
 
         &:disabled {
           color: ${theme.palette.label.assistive};
           background-color: ${theme.palette.interaction.disable};
-          border: none;
+          box-shadow: none;
         }
       `;
     case variant === 'outlined' && color === 'primary':
       return css`
         color: ${theme.palette.primary.normal};
         background-color: transparent;
-        border: 1px solid ${theme.palette.primary.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
 
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          border: 1px solid ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
         }
       `;
     case variant === 'outlined' && color === 'secondary':
       return css`
         color: ${theme.palette.primary.normal};
         background-color: transparent;
-        border: 1px solid ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
 
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          border: 1px solid ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
         }
       `;
     case variant === 'outlined' && color === 'assistive':
       return css`
         color: ${theme.palette.label.normal};
         background-color: transparent;
-        border: 1px solid ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
 
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          border: 1px solid ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
         }
       `;
   }

@@ -1,7 +1,5 @@
 import { css } from '@emotion/react';
 
-import { typographyStyle } from '@/utils';
-
 import type { Theme } from '@emotion/react';
 import type { PushBadgeProps } from './types';
 
@@ -15,24 +13,29 @@ export const pushBadgeStyle =
           justify-content: center;
           flex-shrink: 0;
           align-items: center;
-          padding: 6px;
+          height: 20px;
+          width: 20px;
+          padding: 8px;
         `;
       case 'new':
       case 'number':
       default:
         return css`
+          text-align: center;
           display: inline-flex;
-          min-height: 20px;
-          min-width: 20px;
+          height: 20px;
+          width: 20px;
           justify-content: center;
           align-items: center;
           flex-shrink: 0;
           padding: 0px 6px;
           color: ${theme.palette.static.white};
           background-color: ${theme.palette.primary.normal};
-          border-radius: 50%;
+          border-radius: 9999px;
 
-          ${typographyStyle('caption2', 'bold')}
+          & > span {
+            height: fit-content;
+          }
         `;
     }
   };

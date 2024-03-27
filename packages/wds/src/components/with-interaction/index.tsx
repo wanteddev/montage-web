@@ -27,6 +27,7 @@ type Props = PropsWithChildren<{
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   scale?: boolean;
+  variant?: 'normal' | 'light' | 'strong';
 }>;
 
 const Interaction = ({
@@ -50,8 +51,6 @@ const Interaction = ({
         transition:
           opacity 0.15s ease,
           transform 0.15s ease;
-        border: inherit;
-        border-color: ${getColorByToken(theme, color)};
         transform-origin: center;
         left: 50%;
         top: 50%;
@@ -99,7 +98,12 @@ const Clone = forwardRef<any, Props & { className: string }>(
   },
 );
 
-const WithInteraction = ({ children, scale, ...props }: Props) => {
+const WithInteraction = ({
+  variant = 'normal',
+  children,
+  scale,
+  ...props
+}: Props) => {
   const theme = useTheme();
 
   return (
@@ -118,13 +122,13 @@ const WithInteraction = ({ children, scale, ...props }: Props) => {
             !props.disabled &&
             css`
               &:hover > [wds-component='with-interaction'] {
-                ${hoverInteractionStyle(theme)}
+                ${hoverInteractionStyle(theme, variant)}
               }
               &:focus > [wds-component='with-interaction'] {
-                ${focusInteractionStyle(theme)}
+                ${focusInteractionStyle(theme, variant)}
               }
               &:active > [wds-component='with-interaction'] {
-                ${activeInteractionStyle(theme)}
+                ${activeInteractionStyle(theme, variant)}
               }
               &:focus-visible > [wds-component='with-interaction'] {
                 ${focusVisibleInteractionStyle(theme)}

@@ -20,7 +20,7 @@ const TextButton = forwardRef(
       as,
       disabled = false,
       disableInteraction = false,
-      color = 'primary',
+      variant = 'primary',
       leftIcon,
       rightIcon,
       size = 'medium',
@@ -37,12 +37,13 @@ const TextButton = forwardRef(
     const id = useId();
 
     const interactionColor: ThemeColorsToken =
-      color === 'primary' ? 'palette.primary.normal' : 'palette.label.normal';
+      variant === 'primary' ? 'palette.primary.normal' : 'palette.label.normal';
 
     return (
       <WithInteraction
         color={interactionColor}
         disabled={disableInteraction || disabled}
+        variant={variant === 'primary' ? 'strong' : 'light'}
         scale
       >
         <Comp
@@ -51,7 +52,7 @@ const TextButton = forwardRef(
           ref={ref}
           css={textButtonStyle({
             size,
-            color,
+            variant,
             xs,
             sm,
             md,

@@ -10,8 +10,6 @@ export const gridStyle =
   (theme: Theme) => css`
     display: flex;
     flex-wrap: wrap;
-    padding: calc(var(--wds-column-spacing, 0px) / 2)
-      calc(var(--wds-row-spacing, 0px) / 2);
 
     ${gridContainerStyle(props, theme)}
 
@@ -66,6 +64,16 @@ const gridSpacingStyle = (
   if (typeof spacing === 'number') {
     return css`
       --wds-${type}-spacing: ${theme.spacing[spacing]};
+
+      ${
+        type === 'column'
+          ? css`
+              margin-top: calc(${theme.spacing[spacing]} * -1);
+            `
+          : css`
+              margin-left: calc(${theme.spacing[spacing]} * -1);
+            `
+      }
     `;
   }
 };

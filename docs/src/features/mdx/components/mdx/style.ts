@@ -44,17 +44,6 @@ export const mdxRootStyle = (theme: Theme) => css`
     }
   }
 
-  ul {
-    list-style-type: disc;
-    margin: 24px 0px 24px 24px;
-
-    ul,
-    ol,
-    p {
-      margin: 0;
-    }
-  }
-
   blockquote {
     margin-top: 24px;
     border-left: 4px solid ${theme.palette.line.normal.normal};

@@ -4,10 +4,10 @@ import type { Theme } from '@emotion/react';
 
 export const roundCheckboxStyle = (theme: Theme) => css`
   padding: 2px;
-  border-radius: 50%;
+  border-radius: 9999px;
 
   span {
-    border-radius: 50%;
+    border-radius: 9999px;
   }
 
   & svg {

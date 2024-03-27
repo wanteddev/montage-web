@@ -8,7 +8,8 @@ import type { Theme } from '@emotion/react';
 export const textAreaWrapperStyle =
   ({ disabled, invalid }: TextAreaProps) =>
   (theme: Theme) => css`
-    border: 1px solid ${theme.palette.line.normal.normal};
+    border: none;
+    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
     border-radius: 10px;
     background-color: ${theme.palette.background.normal.normal};
 
@@ -20,7 +21,7 @@ export const textAreaWrapperStyle =
 
     ${invalid &&
     css`
-      border-color: ${theme.palette.status.negative};
+      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
     `}
 
     width: fit-content;

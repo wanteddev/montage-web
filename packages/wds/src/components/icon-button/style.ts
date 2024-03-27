@@ -21,7 +21,7 @@ const getDefaultSize = (
 export const iconButtonStyle =
   ({ xs, sm, md, lg, ...props }: IconButtonProps) =>
   (theme: Theme) => css`
-    border-radius: 50%;
+    border-radius: 9999px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -189,7 +189,7 @@ const iconButtonColorStyle = (
     case 'outlined':
       return css`
         background-color: transparent;
-        border: 1px solid ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
         background-color: ${theme.palette.background.normal.normal};
         ${Boolean(color) &&
         css`
@@ -206,7 +206,7 @@ const iconButtonColorStyle = (
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: ${theme.palette.background.normal.normal};
-          border: 1px solid ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
         }
       `;
     case 'solid':
