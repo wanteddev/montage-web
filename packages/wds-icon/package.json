@@ -19,6 +19,7 @@
     "type": "git"
   },
   "scripts": {
+    "refiner": "node scripts/refiner.mjs",
     "build": "node scripts/build.mjs && tsup",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
@@ -28,6 +29,9 @@
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "change-case": "^5.4.3",
+    "glob": "^10.3.10",
+    "inquirer": "^9.2.16",
+    "shelljs": "^0.8.5",
     "typescript": "^5.4.2"
   },
   "dependencies": {
