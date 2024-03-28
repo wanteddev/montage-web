@@ -12,6 +12,7 @@ export const scrollWrapperStyle =
     sm,
     md,
     lg,
+    xl,
     isSticky,
   }: TabListProps & { isSticky?: boolean }) =>
   (theme: Theme) => css`

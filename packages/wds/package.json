@@ -26,8 +26,8 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "tsup && ts-node --transpile-only -P ./tsconfig.node.json scripts/build.ts",
-    "watch": "tsup --watch && ts-node --transpile-only -P ./tsconfig.node.json scripts/build.ts"
+    "build": "tsc && tsup && ts-node --transpile-only -P ./tsconfig.node.json scripts/build.ts",
+    "watch": "tsc && tsup --watch && ts-node --transpile-only -P ./tsconfig.node.json scripts/build.ts"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",

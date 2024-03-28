@@ -4,7 +4,6 @@
   "compilerOptions": {
     "jsxImportSource": "@emotion/react",
     "types": ["node", "./@types/index.d.ts"],
-    "declaration": true,
     "paths": {
       "@/*": ["./src/*"]
     },
