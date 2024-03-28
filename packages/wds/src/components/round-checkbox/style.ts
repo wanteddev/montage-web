@@ -17,6 +17,7 @@ export const roundCheckboxStyle = (theme: Theme) => css`
   &[aria-checked='true'] {
     span {
       border: none;
+      box-shadow: none;
       background-color: ${theme.palette.primary.normal};
     }
   }

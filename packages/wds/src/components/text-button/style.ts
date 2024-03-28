@@ -45,6 +45,7 @@ const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
         color: ${theme.palette.primary.normal};
         background-color: transparent;
         border: none;
+        box-shadow: none;
 
         &:disabled {
           color: ${theme.palette.label.disable};
@@ -54,6 +55,7 @@ const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
       return css`
         background-color: transparent;
         border: none;
+        box-shadow: none;
         color: ${theme.palette.label.alternative};
 
         &:disabled {

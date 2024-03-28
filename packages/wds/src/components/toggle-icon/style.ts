@@ -13,6 +13,7 @@ export const toggleIconStyle =
     background-color: transparent;
     border-radius: 9999px;
     border: none;
+    box-shadow: none;
     color: ${active
       ? getColorByToken(theme, activeColor!)
       : theme.palette.label.assistive};

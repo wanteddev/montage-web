@@ -11,6 +11,7 @@ import type { Theme } from '@emotion/react';
 
 export const avatarButtonStyle = (theme: Theme) => css`
   border: none;
+  box-shadow: none;
   background-color: transparent;
   width: fit-content;
   height: fit-content;

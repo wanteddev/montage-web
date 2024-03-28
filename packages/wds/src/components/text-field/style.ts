@@ -69,6 +69,7 @@ export const textFieldWrapperStyle =
       background-color: transparent;
       outline: none;
       border: none;
+      box-shadow: none;
       color: ${theme.palette.label.normal};
       ${typographyStyle('body1_normal', 'regular')}
 

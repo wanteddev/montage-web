@@ -11,6 +11,7 @@ export const switchStyle =
     display: flex;
     background-color: ${theme.palette.fill.strong};
     border: none;
+    box-shadow: none;
     justify-content: center;
     flex-direction: column;
     cursor: pointer;

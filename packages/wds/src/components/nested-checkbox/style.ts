@@ -12,6 +12,7 @@ export const nestedCheckboxStyle =
     background-color: transparent;
     border-radius: 9999px;
     border: none;
+    box-shadow: none;
 
     svg {
       opacity: 1;

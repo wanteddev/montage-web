@@ -70,22 +70,23 @@ export const tabListItemStyle = (theme: Theme) => css`
   padding: var(--wds-tab-padding-y) var(--wds-tab-padding-x);
   flex-shrink: 0;
   cursor: pointer;
-  transition: color 0.2s ease;
+
   scroll-margin-inline: 25px;
   ${typographyStyle('headline2', 'bold')}
 
   & > span {
+    transition: color 0.2s ease;
     position: relative;
 
     &::after {
       content: '';
       position: absolute;
       left: 0;
+      transition: background-color 0.2s ease;
       bottom: calc(var(--wds-tab-padding-y) * -1 - 2px);
       max-height: 0px;
       height: 2px;
       width: 100%;
-      transition: all 0.1s ease-in-out 0.1s;
       background-color: transparent;
       will-change: auto;
     }

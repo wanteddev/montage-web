@@ -135,6 +135,7 @@ const iconButtonColorStyle = (
           color: ${getColorByToken(theme, color!)};
         `}
         border: none;
+        box-shadow: none;
 
         ${Boolean(interactionColor) &&
         css`
@@ -146,12 +147,14 @@ const iconButtonColorStyle = (
         &:disabled {
           background-color: transparent;
           color: ${theme.palette.label.disable};
+          box-shadow: none;
           border: none;
         }
       `;
     case 'background':
       return css`
         border: none;
+        box-shadow: none;
         background-color: transparent;
         ${Boolean(color) &&
         css`
@@ -180,6 +183,7 @@ const iconButtonColorStyle = (
           background-color: transparent;
           color: ${theme.palette.label.disable};
           border: none;
+          box-shadow: none;
 
           &::before {
             background-color: ${theme.palette.fill.alternative};
@@ -188,6 +192,7 @@ const iconButtonColorStyle = (
       `;
     case 'outlined':
       return css`
+        border: none;
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
         background-color: ${theme.palette.background.normal.normal};

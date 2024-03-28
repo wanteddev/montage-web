@@ -458,7 +458,7 @@ export const modalActionButtonSingle = (
   if (priority === 'single') {
     return css`
       padding: 12px 28px;
-      border: none;
+      box-shadow: none;
       width: calc((var(--wds-modal-content-margin, 20px) - 8px) * 2 + 100%);
       margin: calc(var(--wds-modal-content-margin, 20px) * -1 + 8px);
     `;
