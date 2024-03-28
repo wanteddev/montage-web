@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.13](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.12...@wanteddev/wds@0.0.13) (2024-03-28)
+
+### Bug Fixes
+
+- **wds:** tab 스타일 오류 수정 ([f9ac665](https://github.com/wanteddev/wds/commit/f9ac665e6539f039f0b44741d07a4d878e29abf5))
+
 ## [0.0.12](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.11...@wanteddev/wds@0.0.12) (2024-03-28)
 
 ### Features
