@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.11](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.10...@wanteddev/wds@0.0.11) (2024-03-28)
+
+### Features
+
+- **wds:** 디자인 시스템 1차 피드백 반영 ([8d183c1](https://github.com/wanteddev/wds/commit/8d183c1e752c69c118f68a3cdd6618020e0ddb09))
+
 ## [0.0.10](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.9...@wanteddev/wds@0.0.10) (2024-03-26)
 
 **Note:** Version bump only for package @wanteddev/wds
