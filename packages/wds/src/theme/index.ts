@@ -13,7 +13,7 @@ export const lightTheme = {
   platform: {
     ios: {
       navigation: `
-        background-color: rgba(var(--palette-background-normal-normal-rgb), 0.8);
+        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.8);
         backdrop-filter: blur(32px);
       `,
     },
@@ -29,7 +29,7 @@ export const darkTheme = {
   platform: {
     ios: {
       navigation: `
-        background-color: rgba(var(--palette-background-normal-normal-rgb), 0.75);
+        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.75);
         backdrop-filter: blur(32px);
       `,
     },
