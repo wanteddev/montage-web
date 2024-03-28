@@ -1,0 +1,87 @@
+---
+title: Media
+description: Media for WDS Utility
+---
+
+# Media
+
+여러 미디어 쿼리를 다룹니다.
+
+## respondTo
+
+```ts
+import { css } from '@emotion/react';
+import { respondTo } from '@wanteddev/wds';
+
+import type { Theme } from '@emotion/react';
+
+export const exampleStyle = (theme: Theme) => css`
+  width: 100px;
+
+  ${respondTo(theme.breakpoint.sm)} {
+    width: 50px;
+  }
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  width: 100px;
+  @media only screen and (max-width: 768px) {
+    width: 50px;
+  }
+}
+```
+
+## respondMore
+
+```ts
+import { css } from '@emotion/react';
+import { respondMore } from '@wanteddev/wds';
+
+import type { Theme } from '@emotion/react';
+
+export const exampleStyle = (theme: Theme) => css`
+  width: 50px;
+
+  ${respondMore(theme.breakpoint.sm)} {
+    width: 100px;
+  }
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  width: 100px;
+  @media only screen and (min-width: 767px) {
+    width: 50px;
+  }
+}
+```
+
+## useMedia
+
+Theme 객체를 직접 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
+
+```tsx
+import { useMedia } from '@wanteddev/wds';
+
+const Component = () => {
+  const { respondTo, respondMore, breakpoint } = useMedia();
+
+  return (
+    <div
+      css={{
+        width: '100px',
+        [respondTo(breakpoint.xs)]: {
+          width: '200px',
+        },
+      }}
+    />
+  );
+};
+```

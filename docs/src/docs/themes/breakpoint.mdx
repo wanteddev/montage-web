@@ -1,0 +1,40 @@
+---
+title: Breakpoint
+description: Breakpoint for WDS Themes
+---
+
+# Breakpoint
+
+Theme에서 사용하는 Breakpoint 입니다.
+
+Breakpoint는 `xs`, `sm`, `md`, `lg`, `xl` 로  구성되어 있습니다.
+
+| Name | Value  |
+|------|--------|
+| `xl` | 1600px |
+| `lg` | 1200px |
+| `md` | 992px  |
+| `sm` | 768px  |
+| `xs` | 0px    |
+
+## Props
+
+컴포넌트들 중 다수가 ResponsiveProps를 사용합니다.
+모든 breakpoint를 사용할 수 있으며 해당 breakpoint 이상일 경우 지원하는 props를 Override 합니다.
+
+<Demo code={`import { Typography } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Typography
+      variant="label1_normal"
+      weight="bold"
+      md={{ variant: 'title1' }}
+    >
+      Typography
+    </Typography>
+  )
+}
+
+export default Demo;`}
+/>

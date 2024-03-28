@@ -6,7 +6,7 @@ import type { PropsWithChildren } from 'react';
 
 const ClientRootLayout = ({ children }: PropsWithChildren) => {
   return (
-    <FlexBox as="main" css={containerStyle()}>
+    <FlexBox as="main" css={containerStyle(true)}>
       {children}
     </FlexBox>
   );

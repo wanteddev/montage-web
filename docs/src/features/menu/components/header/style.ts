@@ -12,7 +12,7 @@ export const headerWrapperStyle = (theme: Theme) => css`
 `;
 
 export const headerStyle = (theme: Theme) => css`
-  ${containerStyle()(theme)}
+  ${containerStyle(true)(theme)}
   font-size: 40px;
   height: 60px;
 

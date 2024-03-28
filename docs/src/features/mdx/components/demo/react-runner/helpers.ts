@@ -7,7 +7,11 @@ import type { RunnerOptions, Scope } from './types';
 const evalCode = (code: string, scope: Scope) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { default: _, import: imports, ...rest } = scope;
-  const finalScope: Scope = { React, require: createRequire(imports), ...rest };
+  const finalScope: Scope = {
+    React,
+    require: createRequire(imports),
+    ...rest,
+  };
   const scopeKeys = Object.keys(finalScope);
   const scopeValues = scopeKeys.map((key) => finalScope[key]);
 
@@ -19,6 +23,8 @@ const evalCode = (code: string, scope: Scope) => {
 const transform = (code: string) => {
   return _transform(code, {
     transforms: ['jsx', 'typescript', 'imports'],
+    jsxImportSource: '@emotion/react',
+    jsxRuntime: 'automatic',
     production: true,
   }).code.substring(13); // remove leading `"use strict";`
 };

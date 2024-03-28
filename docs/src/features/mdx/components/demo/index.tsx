@@ -1,4 +1,5 @@
 'use client';
+import * as emotionReact from '@emotion/react';
 import { refractor } from 'refractor';
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
@@ -7,6 +8,7 @@ import tsx from 'refractor/lang/tsx';
 import CodeEditor from 'react-simple-code-editor';
 import { toHtml } from 'hast-util-to-html';
 import * as copy from 'copy-to-clipboard';
+import * as emotionRuntime from '@emotion/react/jsx-runtime';
 
 import { codeBlockStyle } from '../code-block/style';
 
@@ -38,12 +40,14 @@ const Demo = ({ code, hideCode }: Props) => {
         '@wanteddev/wds': Wds,
         '@wanteddev/wds-icon': WdsIcon,
         'copy-to-clipboard': copy,
+        '@emotion/react': emotionReact,
+        '@emotion/react/jsx-runtime': emotionRuntime,
       },
     };
   }, []);
 
   const { element, error } = useRunner({
-    code: value,
+    code: '/** @jsxImportSource @emotion/react */\n' + value,
     scope,
   });
 

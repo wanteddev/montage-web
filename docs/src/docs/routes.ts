@@ -14,7 +14,10 @@ export const routes: Array<Route> = [
   },
   {
     label: 'Themes',
-    pages: [{ title: 'Icon', slug: '/docs/themes/icon' }],
+    pages: [
+      { title: 'Breakpoint', slug: '/docs/themes/breakpoint' },
+      { title: 'Icon', slug: '/docs/themes/icon' },
+    ],
   },
   {
     label: 'Components',
@@ -22,6 +25,14 @@ export const routes: Array<Route> = [
       { title: 'Alert', slug: '/docs/components/alert' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
       { title: 'Modal', slug: '/docs/components/modal' },
+    ],
+  },
+  {
+    label: 'Utility',
+    pages: [
+      { title: 'Gradient', slug: '/docs/utility/gradient' },
+      { title: 'Media', slug: '/docs/utility/media' },
+      { title: 'Opacity', slug: '/docs/utility/opacity' },
     ],
   },
 ];

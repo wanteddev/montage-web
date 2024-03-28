@@ -11,7 +11,6 @@ description: Avatar Component
 
 - 사용자를 시각적으로 표현할 때 사용해요.
 - 예외적으로 Variant에 없는 사이즈를 사용할 경우 4배수 크기로 작업합니다.
-- 원형으로 회사 아바타를 사용하지 않아요.
 
 <Demo code={`import { Avatar } from '@wanteddev/wds';
 
@@ -30,23 +29,3 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="Avatar" />
-
-
-### Fallback
-
-이미지 로드를 실패 했을 때 혹은 아이콘으로 프로필을 표시하고 싶을 때 사용해요.
-
-<Demo code={`import { Avatar } from '@wanteddev/wds';
-import { IconCompany } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  return (
-    <Avatar
-      variant="rounded"
-      fallback={<IconCompany />}
-    />
-  )
-}
-
-export default Demo;`}
-/>

@@ -32,9 +32,10 @@ export const mdxRootStyle = (theme: Theme) => css`
     border-bottom: 1px solid ${theme.palette.line.normal.normal};
   }
 
-  ol {
-    margin: 24px 0px 24px 24px;
-    list-style-type: decimal;
+  ol,
+  ul {
+    margin-top: 24px;
+    margin-bottom: 24px;
 
     ul,
     ol,
