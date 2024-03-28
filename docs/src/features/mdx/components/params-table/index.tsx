@@ -38,7 +38,7 @@ const ParamsTable = ({ params }: Props) => {
                 <ContentBadge
                   size="medium"
                   color="accent"
-                  accentColor="lightBlue"
+                  accentColor="palette.accent.lightBlue"
                 >
                   {`${name}${required ? ' *' : ''}`}
                 </ContentBadge>

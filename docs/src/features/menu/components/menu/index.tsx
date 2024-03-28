@@ -27,7 +27,7 @@ const Menu = () => {
             key={idx}
             flexDirection="column"
             gap="4px"
-            css={{ marginBottom: '20px', padding: '0px 20px' }}
+            css={{ marginBottom: '20px', paddingRight: '20px' }}
           >
             <Typography
               as="h4"

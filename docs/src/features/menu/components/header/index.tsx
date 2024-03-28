@@ -48,7 +48,7 @@ const Header = () => {
           justifyContent="space-between"
           css={headerStyle}
         >
-          <FlexBox gap="8px" alignItems="center" css={headerStyle}>
+          <FlexBox gap="8px" alignItems="center">
             <IconSymbol />
             <Typography
               variant="headline2"

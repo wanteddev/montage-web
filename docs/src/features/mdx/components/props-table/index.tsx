@@ -45,7 +45,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                   <ContentBadge
                     size="medium"
                     color="accent"
-                    accentColor="lightBlue"
+                    accentColor="palette.accent.lightBlue"
                   >
                     {`${value.name}${value.required ? ' *' : ''}`}
                   </ContentBadge>
@@ -110,7 +110,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                 <ContentBadge
                   size="medium"
                   color="accent"
-                  accentColor="lightBlue"
+                  accentColor="palette.accent.lightBlue"
                 >
                   {`${value.name}${value.required ? ' *' : ''}`}
                 </ContentBadge>
