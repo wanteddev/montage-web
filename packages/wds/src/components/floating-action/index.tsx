@@ -6,7 +6,7 @@ import WithInteraction from '../with-interaction';
 import { floatingActionStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 import type { FloatingActionProps } from './types';
 
 type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
@@ -29,7 +29,7 @@ const FloatingAction = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Comp = as || 'button';
 

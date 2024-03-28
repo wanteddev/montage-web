@@ -5,7 +5,7 @@ import WithInteraction from '../with-interaction';
 
 import { textButtonStyle } from './style';
 
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
 import type { TextButtonProps } from './types';
 
@@ -31,7 +31,7 @@ const TextButton = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Comp = as || 'button';
     const id = useId();

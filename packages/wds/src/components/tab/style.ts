@@ -1,12 +1,19 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle, gradient } from '@/utils';
+import { createResponsiveStyle, gradient, typographyStyle } from '@/utils';
 
 import type { Theme } from '@emotion/react';
-import type { TabProps } from './types';
+import type { TabListProps } from './types';
 
 export const scrollWrapperStyle =
-  ({ padding, xs, sm, md, lg, isSticky }: TabProps & { isSticky?: boolean }) =>
+  ({
+    padding,
+    xs,
+    sm,
+    md,
+    lg,
+    isSticky,
+  }: TabListProps & { isSticky?: boolean }) =>
   (theme: Theme) => css`
     width: 100%;
     ${scrollWrapperPaddingStyle(padding)}
@@ -25,13 +32,16 @@ export const scrollWrapperStyle =
     )}
   `;
 
-export const tabStyle =
-  ({ padding, size, xs, sm, md, lg }: TabProps) =>
+export const tabListStyle =
+  ({ padding, size, xs, sm, md, lg }: TabListProps) =>
   (theme: Theme) => css`
     width: 100%;
     list-style: none;
     position: relative;
     padding: 0;
+
+    ${tabPaddingStyle(padding)}
+    ${tabSizeStyle(size)}
 
     &::after {
       position: absolute;
@@ -43,11 +53,7 @@ export const tabStyle =
       width: 100%;
     }
 
-    ${tabPaddingStyle(padding)}
-    ${tabSizeStyle(size)}
-
-
-		${createResponsiveStyle(
+    ${createResponsiveStyle(
       { xs, sm, md, lg },
       theme,
     )(
@@ -59,11 +65,13 @@ export const tabStyle =
     )}
   `;
 
-export const tabItemStyle = (theme: Theme) => css`
+export const tabListItemStyle = (theme: Theme) => css`
   padding: var(--wds-tab-padding-y) var(--wds-tab-padding-x);
   flex-shrink: 0;
   cursor: pointer;
   transition: color 0.2s ease;
+  scroll-margin-inline: 25px;
+  ${typographyStyle('headline2', 'bold')}
 
   & > span {
     position: relative;
@@ -82,20 +90,33 @@ export const tabItemStyle = (theme: Theme) => css`
     }
   }
 
-  &[aria-current='false'] {
+  &[aria-selected='false']:hover > span {
+    color: ${theme.palette.label.alternative};
+  }
+
+  &[aria-selected='false'] > span {
+    color: ${theme.palette.label.assistive};
     &:hover {
       color: ${theme.palette.label.alternative};
     }
   }
 
-  &[aria-current='page'] > span::after {
-    max-height: 2px;
-    background-color: ${theme.palette.label.strong};
+  &[aria-selected='true'] > span {
+    color: ${theme.palette.label.strong};
+    &::after {
+      max-height: 2px;
+      background-color: ${theme.palette.label.strong};
+    }
   }
 
-  &:focus-visible > span {
-    outline: solid 2px Highlight;
-    outline: solid 2px -webkit-focus-ring-color;
+  &:focus-visible {
+    outline: none;
+
+    & > span {
+      outline: solid 2px Highlight;
+      outline: solid 2px -webkit-focus-ring-color;
+      outline-offset: -1px;
+    }
   }
 `;
 
@@ -107,27 +128,22 @@ export const stickyButtonStyle = css`
   padding: 0px 12px;
 `;
 
-const tabSizeStyle = (size: TabProps['size']) => {
+const tabSizeStyle = (size: TabListProps['size']) => {
   switch (size) {
     case 'small':
       return css`
-        li {
-          --wds-tab-padding-x: 12px;
-          --wds-tab-padding-y: 12px;
-          padding: 12px;
-        }
+        --wds-tab-padding-x: 12px;
+        --wds-tab-padding-y: 12px;
       `;
     case 'large':
-      css`
-        li {
-          --wds-tab-padding-x: 12px;
-          --wds-tab-padding-y: 14px;
-        }
+      return css`
+        --wds-tab-padding-x: 12px;
+        --wds-tab-padding-y: 14px;
       `;
   }
 };
 
-const scrollWrapperPaddingStyle = (padding: TabProps['padding']) => {
+const scrollWrapperPaddingStyle = (padding: TabListProps['padding']) => {
   switch (padding) {
     case true:
       return css`
@@ -140,7 +156,7 @@ const scrollWrapperPaddingStyle = (padding: TabProps['padding']) => {
   }
 };
 
-const tabPaddingStyle = (padding: TabProps['padding']) => {
+const tabPaddingStyle = (padding: TabListProps['padding']) => {
   switch (padding) {
     case true:
       return css`

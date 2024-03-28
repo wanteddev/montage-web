@@ -5,7 +5,7 @@ import { flexBoxStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
 import type { FlexBoxProps } from './types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 
 type Props<E extends ElementType> = MergeWithCustomElementProps<
   E,
@@ -34,7 +34,7 @@ const FlexBox = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Element = as || 'div';
 

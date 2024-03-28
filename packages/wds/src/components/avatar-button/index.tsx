@@ -8,7 +8,7 @@ import { avatarButtonStyle, pushBadgeStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
 import type { AvatarButtonProps } from './types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
   E,
@@ -24,7 +24,7 @@ const AvatarButton = forwardRef(
       disableInteraction = false,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Component = as || 'button';
 

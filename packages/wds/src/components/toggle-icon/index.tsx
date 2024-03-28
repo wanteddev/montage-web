@@ -8,7 +8,7 @@ import WithInteraction from '../with-interaction';
 import { toggleIconStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 import type { ToggleIconProps } from './types';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
@@ -31,7 +31,7 @@ const ToggleIcon = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const [pressed = false, setPressed] = useControllableState({
       prop: active,

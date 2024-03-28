@@ -8,7 +8,7 @@ import { createResponsiveStyle, getPreviousValue } from '@/utils';
 
 import type { Merge, MergeWithCustomElementProps } from '@/types';
 import type { TypographyProps, TypographyResponsiveProps } from './types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
   E,
@@ -31,7 +31,7 @@ const Typography = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const theme = useTheme();
 

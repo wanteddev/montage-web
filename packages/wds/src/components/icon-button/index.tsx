@@ -7,7 +7,7 @@ import PushBadge from '../push-badge';
 import { iconButtonStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 import type { IconButtonProps } from './types';
 
 type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
@@ -35,7 +35,7 @@ const IconButton = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Comp = as || 'button';
 

@@ -6,7 +6,7 @@ import WithInteraction from '../with-interaction';
 import { actionStyle } from './style';
 
 import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 import type { ChipActionProps } from './types';
 
 type Props<E extends ElementType> = MergeWithCustomElementProps<
@@ -32,7 +32,7 @@ const ChipAction = forwardRef(
       lg,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Comp = as || 'button';
     const id = useId();

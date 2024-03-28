@@ -1,13 +1,9 @@
 'use client';
-import {
-  type ElementType,
-  type ForwardedRef,
-  type ReactNode,
-  forwardRef,
-} from 'react';
+import { forwardRef } from 'react';
 
 import { gridItemStyle } from './style';
 
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 import type { MergeWithCustomElementProps } from '@/types';
 import type { GridItemProps } from './types';
 
@@ -19,7 +15,7 @@ type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
 const GridItem = forwardRef(
   <E extends ElementType = 'div'>(
     { as, alignSelf = 'initial', columns, xs, sm, md, lg, ...props }: Props<E>,
-    ref: ForwardedRef<Props<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Element = as || 'div';
 

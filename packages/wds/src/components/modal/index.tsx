@@ -62,6 +62,7 @@ import type {
   CSSProperties,
   ComponentProps,
   ComponentPropsWithRef,
+  ElementRef,
   ElementType,
   ForwardedRef,
   NamedExoticComponent,
@@ -484,7 +485,7 @@ ModalContentItem.displayName = 'ModalContentItem';
 const ModalHeadingFc = forwardRef(
   <E extends ElementType = 'h1'>(
     props: ModalHeadingProps<E>,
-    ref: ForwardedRef<ModalHeadingProps<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -511,7 +512,7 @@ const ModalHeading = ModalHeadingFc as <E extends ElementType = 'h1'>(
 const ModalSummaryFc = forwardRef(
   <E extends ElementType = 'p'>(
     props: ModalSummaryProps<E>,
-    ref: ForwardedRef<ModalSummaryProps<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -538,7 +539,7 @@ const ModalSummary = ModalSummaryFc as <E extends ElementType = 'p'>(
 const ModalDescriptionFC = forwardRef(
   <E extends ElementType = 'p'>(
     props: ModalDescriptionProps<E>,
-    ref: ForwardedRef<ModalDescriptionProps<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -631,7 +632,7 @@ ModalActionArea.displayName = MODAL_ACTION_AREA_NAME;
 const ModalActionButtonFC = forwardRef(
   <E extends ElementType = 'button'>(
     { variant = 'primary', ...props }: ModalActionButtonProps<E>,
-    ref: ForwardedRef<ModalActionButtonProps<E>['as']>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { priority } = useModalActionAreaContext(MODAL_ACTION_AREA_NAME);
 
