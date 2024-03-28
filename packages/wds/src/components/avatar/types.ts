@@ -1,11 +1,10 @@
 import type ImageLoader from '../image-loader';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps } from 'react';
 import type { Merge, ResponsiveProps } from '@/types';
 
 type AvatarDefaultProps = {
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | number;
-  variant?: 'rounded' | 'square' | 'circle';
-  fallback?: ReactNode;
+  variant?: 'person' | 'company' | 'academic';
 };
 
 type AvatarResponsiveProps = ResponsiveProps<Pick<AvatarDefaultProps, 'size'>>;

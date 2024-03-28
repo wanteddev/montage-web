@@ -10,6 +10,7 @@ export const gridStyle =
   (theme: Theme) => css`
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
 
     ${gridContainerStyle(props, theme)}
 

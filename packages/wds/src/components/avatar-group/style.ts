@@ -18,8 +18,21 @@ export const avatarGroupStyle =
 
     [wds-component='avatar'] {
       flex-shrink: 0;
-      border: 1.5px solid ${theme.palette.background.normal.normal};
-      box-shadow: 0 0 0 1px ${theme.palette.line.normal.normal};
+      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        border-radius: inherit;
+        border: 1.5px solid var(--palette-background-normal-normal);
+        margin: -1.5px;
+        box-sizing: content-box;
+      }
     }
 
     ${createResponsiveStyle(

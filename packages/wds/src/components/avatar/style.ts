@@ -21,7 +21,14 @@ export const avatarWrapperStyle =
       width: inherit;
       height: inherit;
       text-align: center;
-      object-fit: cover;
+
+      ${variant === 'person'
+        ? css`
+            object-fit: cover;
+          `
+        : css`
+            object-fit: contain;
+          `}
     }
 
     ${createResponsiveStyle(
@@ -53,17 +60,14 @@ const avatarSizeStyle = (
 ) => {
   const getBorderRadius = (rounded: string) => {
     switch (variant) {
-      case 'circle':
+      case 'person':
         return css`
           border-radius: 9999px;
         `;
-      case 'rounded':
+      case 'academic':
+      case 'company':
         return css`
           border-radius: ${rounded};
-        `;
-      case 'square':
-        return css`
-          border-radius: 0px;
         `;
     }
   };

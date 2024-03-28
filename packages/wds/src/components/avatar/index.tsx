@@ -1,7 +1,10 @@
 'use client';
 import { forwardRef, useState } from 'react';
-import { IconPersonFill } from '@wanteddev/wds-icon';
-import { composeEventHandlers } from '@radix-ui/primitive';
+import {
+  IconCompany,
+  IconGraduation,
+  IconPersonFill,
+} from '@wanteddev/wds-icon';
 
 import ImageLoader from '../image-loader';
 
@@ -16,8 +19,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
   (
     {
       size = 'large',
-      variant = 'circle',
-      fallback = <IconPersonFill />,
+      variant = 'person',
       xs,
       sm,
       md,
@@ -28,6 +30,17 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
     },
     ref,
   ) => {
+    const getDefaultFallback = () => {
+      switch (variant) {
+        case 'person':
+          return <IconPersonFill />;
+        case 'academic':
+          return <IconGraduation />;
+        case 'company':
+          return <IconCompany />;
+      }
+    };
+
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
       'idle' | 'loaded' | 'error'
     >('idle');
@@ -48,15 +61,17 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
             quality={90}
             {...props}
             width={props.width ? props.width : '80px'}
-            onLoad={composeEventHandlers(props.onLoad, () =>
-              setImageLoadingStatus('loaded'),
-            )}
-            onError={composeEventHandlers(props.onError, () =>
-              setImageLoadingStatus('error'),
-            )}
+            onLoad={() => {
+              props.onLoad?.();
+              setImageLoadingStatus('loaded');
+            }}
+            onError={() => {
+              props.onError?.();
+              setImageLoadingStatus('error');
+            }}
           />
         ) : (
-          <div css={fallbackWrapperStyle}>{fallback}</div>
+          <div css={fallbackWrapperStyle}>{getDefaultFallback()}</div>
         )}
         {children}
       </div>

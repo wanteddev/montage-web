@@ -53,10 +53,3 @@ export const gradient = (
   return `mask-image: linear-gradient(to ${variant}, rgb(0, 0, 0) ${getGradientSize(size, 0)}, rgba(0, 0, 0, 0.86) ${getGradientSize(size, 1)}, rgba(0, 0, 0, 0.73) ${getGradientSize(size, 2)}, rgba(0, 0, 0, 0.62) ${getGradientSize(size, 3)}, rgba(0, 0, 0, 0.52) ${getGradientSize(size, 4)}, rgba(0, 0, 0, 0.43) ${getGradientSize(size, 5)}, rgba(0, 0, 0, 0.35) ${getGradientSize(size, 6)}, rgba(0, 0, 0, 0.29) ${getGradientSize(size, 7)}, rgba(0, 0, 0, 0.23) ${getGradientSize(size, 8)}, rgba(0, 0, 0, 0.18) ${getGradientSize(size, 9)}, rgba(0, 0, 0, 0.14) ${getGradientSize(size, 10)}, rgba(0, 0, 0, 0.1) ${getGradientSize(size, 11)}, rgba(0, 0, 0, 0.07) ${getGradientSize(size, 12)}, rgba(0, 0, 0, 0.04) ${getGradientSize(size, 13)}, rgba(0, 0, 0, 0.02) ${getGradientSize(size, 14)}, rgba(0, 0, 0, 0) ${getGradientSize(size, 15)}); background-color: ${color};
   `;
 };
-
-// export const gradientMask = (
-//   size: string,
-//   color: string,
-//   variant: 'top' | 'right' | 'bottom' | 'left',
-// ) =>
-//   `mask-image: linear-gradient(to ${variant}, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.86) 14.03%, rgba(0, 0, 0, 0.73) 26.24%, rgba(0, 0, 0, 0.62) 36.8%, rgba(0, 0, 0, 0.52) 45.9%, rgba(0, 0, 0, 0.43) 53.7%, rgba(0, 0, 0, 0.35) 60.4%, rgba(0, 0, 0, 0.29) 66.16%, rgba(0, 0, 0, 0.23) 71.17%, rgba(0, 0, 0, 0.18) 75.6%, rgba(0, 0, 0, 0.14) 79.63%, rgba(0, 0, 0, 0.1) 83.44%, rgba(0, 0, 0, 0.07) 87.2%, rgba(0, 0, 0, 0.04) 91.1%, rgba(0, 0, 0, 0.02) 95.3%, rgba(0, 0, 0, 0) 100%); background-color: ${color};`;

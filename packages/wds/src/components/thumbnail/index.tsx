@@ -1,6 +1,5 @@
 'use client';
 import { forwardRef, useState } from 'react';
-import { composeEventHandlers } from '@radix-ui/primitive';
 
 import ImageLoader from '../image-loader';
 
@@ -30,12 +29,14 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
         ref={ref}
         css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl })}
         {...props}
-        onLoad={composeEventHandlers(props.onLoad, () =>
-          setImageLoadingStatus('loaded'),
-        )}
-        onError={composeEventHandlers(props.onError, () =>
-          setImageLoadingStatus('error'),
-        )}
+        onLoad={() => {
+          props.onLoad?.();
+          setImageLoadingStatus('loaded');
+        }}
+        onError={() => {
+          props.onError?.();
+          setImageLoadingStatus('error');
+        }}
       />
     ) : (
       <ImageLoader

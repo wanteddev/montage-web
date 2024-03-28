@@ -43,6 +43,6 @@ export const avatarButtonStyle = (theme: Theme) => css`
 
 export const pushBadgeStyle = css`
   position: absolute;
-  right: -8px;
-  top: -8px;
+  right: -10px;
+  top: -10px;
 `;

@@ -1,9 +1,6 @@
 import type { Scope } from '@radix-ui/react-context';
-import type {
-  Theme as EmotionTheme,
-  Interpolation,
-  SerializedStyles,
-} from '@emotion/react';
+import type { Theme as EmotionTheme, Interpolation } from '@emotion/react';
+import type { CSSInterpolation } from '@emotion/serialize';
 import type { darkTheme, lightTheme } from '../theme';
 import type {
   ComponentPropsWithoutRef,
@@ -41,13 +38,23 @@ export type Merge<T, K> = T & Omit<K, keyof T>;
 export type MergeWithCustomElementProps<E extends ElementType, T> = Merge<
   Merge<
     T,
-    { css?: Interpolation<EmotionTheme>; as?: E; ref?: Ref<ElementRef<E>> }
+    {
+      css?: Interpolation<EmotionTheme>;
+      as?: E;
+      ref?: Ref<ElementRef<E>>;
+    }
   >,
   ComponentPropsWithoutRef<E>
 >;
 
 export type MergeElementProps<E extends keyof JSX.IntrinsicElements, T> = Merge<
-  Merge<T, { css?: Interpolation<EmotionTheme>; ref?: Ref<ElementRef<E>> }>,
+  Merge<
+    T,
+    {
+      css?: Interpolation<EmotionTheme>;
+      ref?: Ref<ElementRef<E>>;
+    }
+  >,
   ComponentPropsWithoutRef<E>
 >;
 
@@ -58,8 +65,8 @@ export type MergeWithCss<T, K> = Merge<
 
 export type ResponsiveProps<T> = {
   [key in keyof BreakPoint]?: keyof T extends never
-    ? { css?: SerializedStyles }
-    : Merge<T, { css?: SerializedStyles }>;
+    ? { css?: CSSInterpolation }
+    : Merge<T, { css?: CSSInterpolation }>;
 };
 
 type ScopeName<S extends string> = S extends `${infer P}`

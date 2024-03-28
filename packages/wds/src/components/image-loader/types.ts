@@ -3,4 +3,6 @@ export type ImageLoaderProps = {
   width: number | string;
   alt: string;
   quality?: number | string;
+  onError?: () => void;
+  onLoad?: () => void;
 };

@@ -89,8 +89,8 @@ const IconButton = forwardRef(
               variant="dot"
               css={{
                 position: 'absolute',
-                right: '-8px',
-                top: '-8px',
+                right: '-10px',
+                top: '-10px',
               }}
             />
           )}

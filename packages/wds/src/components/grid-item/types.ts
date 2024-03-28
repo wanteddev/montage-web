@@ -4,6 +4,7 @@ import type { CSSProperties } from 'react';
 export type GridSize =
   | 1
   | 2
+  | 2.4
   | 3
   | 4
   | 5
