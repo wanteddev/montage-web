@@ -22,6 +22,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       sm,
       md,
       lg,
+      xl,
       children,
       ...props
     },
@@ -40,7 +41,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       <div
         ref={ref}
         wds-component="avatar"
-        css={avatarWrapperStyle({ size, variant, xs, sm, md, lg })}
+        css={avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl })}
       >
         {imageLoadingStatus !== 'error' && hasImage(props) ? (
           <ImageLoader

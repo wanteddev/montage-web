@@ -16,6 +16,7 @@ export const checkboxStyle =
     sm,
     md,
     lg,
+    xl,
   }: CheckboxProps) =>
   (theme: Theme) => css`
     display: flex;
@@ -93,7 +94,7 @@ export const checkboxStyle =
     `}
 
       ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

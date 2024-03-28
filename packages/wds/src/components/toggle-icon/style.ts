@@ -6,7 +6,7 @@ import type { Theme } from '@emotion/react';
 import type { ToggleIconProps } from './types';
 
 export const toggleIconStyle =
-  ({ xs, sm, md, lg, activeColor, active, size }: ToggleIconProps) =>
+  ({ xs, sm, md, lg, xl, activeColor, active, size }: ToggleIconProps) =>
   (theme: Theme) => css`
     ${toggleIconSizeStyle(size)}
 
@@ -22,7 +22,7 @@ export const toggleIconStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

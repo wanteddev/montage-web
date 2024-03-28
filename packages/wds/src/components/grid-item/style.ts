@@ -6,7 +6,7 @@ import type { Theme } from '@emotion/react';
 import type { GridItemProps, GridSize } from './types';
 
 export const gridItemStyle =
-  ({ xs, sm, md, lg, ...props }: GridItemProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: GridItemProps) =>
   (theme: Theme) => css`
     min-width: 0px;
     padding-top: calc(var(--wds-column-spacing));
@@ -15,7 +15,7 @@ export const gridItemStyle =
     ${gridItemAlignStyle(props)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

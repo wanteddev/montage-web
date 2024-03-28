@@ -19,7 +19,7 @@ export const modalDimmerStyle = (theme: Theme) => css`
 `;
 
 export const modalContainerWrapperStyle =
-  ({ variant, xs, sm, md, lg }: ModalContainerProps) =>
+  ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
   (theme: Theme) => css`
     position: fixed;
     display: flex;
@@ -29,7 +29,7 @@ export const modalContainerWrapperStyle =
     ${modalContainerWrapperVariant(variant)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
@@ -82,7 +82,7 @@ export const modalBottomUnmountKeyframes = keyframes`
 `;
 
 export const modalContainerStyle =
-  ({ variant, size, xs, sm, md, lg }: ModalContainerProps) =>
+  ({ variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
   (theme: Theme) => css`
     display: flex;
     flex-direction: column;
@@ -95,7 +95,7 @@ export const modalContainerStyle =
     ${modalContainerVariant(variant)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
@@ -223,7 +223,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
 `;
 
 export const modalNavigationStyle =
-  ({ variant, xs, sm, md, lg }: ModalNavigationProps) =>
+  ({ variant, xs, sm, md, lg, xl }: ModalNavigationProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--wds-modal-navigation-padding, 20px);
@@ -238,7 +238,7 @@ export const modalNavigationStyle =
     ${modalNavigationVariant(variant, theme)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
@@ -314,7 +314,16 @@ const modalNavigationVariant = (
 };
 
 export const modalContentStyle =
-  ({ padding, paddingExtra, paddingInfo, xs, sm, md, lg }: ModalContentProps) =>
+  ({
+    padding,
+    paddingExtra,
+    paddingInfo,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ModalContentProps) =>
   (theme: Theme) => css`
     width: 100%;
     height: 100%;
@@ -327,7 +336,7 @@ export const modalContentStyle =
     })}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

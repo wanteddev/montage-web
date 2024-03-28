@@ -6,7 +6,7 @@ import type { Theme } from '@emotion/react';
 import type { ThumbnailProps } from './types';
 
 export const thumbnailStyle =
-  ({ ratio, portrait, xs, sm, md, lg }: ThumbnailProps) =>
+  ({ ratio, portrait, xs, sm, md, lg, xl }: ThumbnailProps) =>
   (theme: Theme) => css`
     object-fit: cover;
     width: 100%;
@@ -14,20 +14,20 @@ export const thumbnailStyle =
     ${thumbnailRatioStyle({ ratio, portrait })}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params, breakpoint) => css`
         ${(params?.ratio !== undefined || params?.portrait !== undefined) &&
         thumbnailRatioStyle({
           ratio: getPreviousValue(
-            { xs, sm, md, lg },
+            { xs, sm, md, lg, xl },
             'ratio',
             ratio,
             breakpoint!,
           ),
           portrait: getPreviousValue(
-            { xs, sm, md, lg },
+            { xs, sm, md, lg, xl },
             'portrait',
             portrait,
             breakpoint!,

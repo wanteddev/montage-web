@@ -5,7 +5,7 @@ import { respondMore } from './media';
 
 import type { BreakPoint, ResponsiveProps } from '../types';
 
-const order: Array<keyof BreakPoint> = ['xs', 'sm', 'md', 'lg'];
+const order: Array<keyof BreakPoint> = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 export const createResponsiveStyle =
   <T extends ResponsiveProps<any>>(responsive: T, theme: Theme) =>
@@ -51,6 +51,12 @@ export const createResponsiveStyle =
                   ${cb(value, 'lg')}
                 }
               `;
+            case 'xl':
+              return css`
+                ${respondMore(theme.breakpoint.xl)} {
+                  ${cb(value, 'xl')}
+                }
+              `;
           }
         })};
     `;
@@ -63,6 +69,15 @@ export const getPreviousValue = <T extends object, K extends keyof T>(
   breakpoint: keyof BreakPoint,
 ): T[K] => {
   switch (breakpoint) {
+    case 'xl':
+      return (
+        objectPath.get(params.xl || {}, key as string) ??
+        objectPath.get(params.lg || {}, key as string) ??
+        objectPath.get(params.md || {}, key as string) ??
+        objectPath.get(params.sm || {}, key as string) ??
+        objectPath.get(params.xs || {}, key as string) ??
+        defaultValue
+      );
     case 'lg':
       return (
         objectPath.get(params.lg || {}, key as string) ??
@@ -85,6 +100,7 @@ export const getPreviousValue = <T extends object, K extends keyof T>(
         defaultValue
       );
     case 'xs':
+    default:
       return objectPath.get(params.xs || {}, key as string) ?? defaultValue;
   }
 };

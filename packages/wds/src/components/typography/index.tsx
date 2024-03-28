@@ -29,6 +29,7 @@ const Typography = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -66,7 +67,7 @@ const Typography = forwardRef(
             }
 
             ${createResponsiveStyle(
-              { xs, sm, md, lg },
+              { xs, sm, md, lg, xl },
               theme,
             )(
               (params, breakpoint) => emotionCss`
@@ -74,13 +75,13 @@ const Typography = forwardRef(
                   (Boolean(params?.variant) || Boolean(params?.weight)) &&
                   typographyStyle(
                     getPreviousValue(
-                      { xs, sm, md, lg },
+                      { xs, sm, md, lg, xl },
                       'variant',
                       variant,
                       breakpoint!,
                     )!,
                     getPreviousValue(
-                      { xs, sm, md, lg },
+                      { xs, sm, md, lg, xl },
                       'weight',
                       weight,
                       breakpoint!,

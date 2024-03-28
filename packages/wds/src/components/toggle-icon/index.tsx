@@ -29,6 +29,7 @@ const ToggleIcon = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -58,6 +59,7 @@ const ToggleIcon = forwardRef(
             sm,
             md,
             lg,
+            xl,
           })}
           {...props}
           ref={ref}

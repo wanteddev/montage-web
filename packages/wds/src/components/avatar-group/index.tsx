@@ -11,14 +11,14 @@ import type { AvatarGroupProps } from './types';
 type Props = MergeElementProps<'div', AvatarGroupProps>;
 
 const AvatarGroup = forwardRef<HTMLDivElement, Props>(
-  ({ size = 'small', xs, sm, md, lg, children, ...props }, ref) => {
+  ({ size = 'small', xs, sm, md, lg, xl, children, ...props }, ref) => {
     const reverseChildren = Children.toArray(children).reverse();
 
     return (
       <FlexBox
         flexDirection="row-reverse"
         ref={ref}
-        css={avatarGroupStyle({ size, xs, sm, md, lg })}
+        css={avatarGroupStyle({ size, xs, sm, md, lg, xl })}
         {...props}
       >
         {reverseChildren}

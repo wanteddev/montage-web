@@ -63,6 +63,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -191,8 +192,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       syncTextAreaHeight();
     }, [syncTextAreaHeight]);
 
-    console.log(rightIconWidth);
-
     return (
       <ScrollArea
         ref={parentRef}
@@ -207,6 +206,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             sm,
             md,
             lg,
+            xl,
             ...props,
           })}
           ref={composedRefs}

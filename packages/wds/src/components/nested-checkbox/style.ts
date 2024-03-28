@@ -6,7 +6,7 @@ import type { NestedCheckboxProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const nestedCheckboxStyle =
-  ({ size, xs, sm, md, lg }: NestedCheckboxProps) =>
+  ({ size, xs, sm, md, lg, xl }: NestedCheckboxProps) =>
   (theme: Theme) => css`
     padding: 0px;
     background-color: transparent;
@@ -37,7 +37,7 @@ export const nestedCheckboxStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

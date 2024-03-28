@@ -45,7 +45,7 @@ export const textAreaWrapperStyle =
   `;
 
 export const textAreaStyle =
-  ({ width = 'initial', xs, sm, md, lg }: TextAreaProps) =>
+  ({ width = 'initial', xs, sm, md, lg, xl }: TextAreaProps) =>
   (theme: Theme) => css`
     height: var(--wds-text-area-height);
     display: flex;
@@ -76,7 +76,7 @@ export const textAreaStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

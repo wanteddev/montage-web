@@ -10,7 +10,7 @@ import type { TextFieldProps } from './types';
 type Props = MergeElementProps<'input', TextFieldProps>;
 
 const TextField = forwardRef<HTMLInputElement, Props>(
-  ({ invalid, rightIcon, className, xs, sm, md, lg, ...props }, ref) => {
+  ({ invalid, rightIcon, className, xs, sm, md, lg, xl, ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
 
@@ -23,6 +23,7 @@ const TextField = forwardRef<HTMLInputElement, Props>(
           sm,
           md,
           lg,
+          xl,
           ...props,
         })}
         onPointerDown={(event) => {

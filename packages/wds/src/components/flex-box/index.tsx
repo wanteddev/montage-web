@@ -32,6 +32,7 @@ const FlexBox = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -58,6 +59,7 @@ const FlexBox = forwardRef(
           sm,
           md,
           lg,
+          xl,
         })}
         {...props}
       />

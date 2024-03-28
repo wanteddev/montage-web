@@ -7,7 +7,7 @@ import type { Theme } from '@emotion/react';
 import type { TextButtonProps } from './types';
 
 export const textButtonStyle =
-  ({ xs, sm, md, lg, ...props }: TextButtonProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: TextButtonProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -29,7 +29,7 @@ export const textButtonStyle =
     ${textButtonSizeStyle(props)}
 
   ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params = {}) => css`

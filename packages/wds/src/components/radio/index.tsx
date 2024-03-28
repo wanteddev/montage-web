@@ -31,6 +31,7 @@ const Radio = forwardRef<HTMLButtonElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -83,6 +84,7 @@ const Radio = forwardRef<HTMLButtonElement, Props>(
               sm,
               md,
               lg,
+              xl,
             })}
             {...props}
             onClick={composeEventHandlers(props.onClick, (event) => {

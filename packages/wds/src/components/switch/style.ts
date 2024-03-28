@@ -6,7 +6,7 @@ import type { SwitchProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const switchStyle =
-  ({ size, checked, disabled, xs, sm, md, lg }: SwitchProps) =>
+  ({ size, checked, disabled, xs, sm, md, lg, xl }: SwitchProps) =>
   (theme: Theme) => css`
     display: flex;
     background-color: ${theme.palette.fill.strong};
@@ -42,7 +42,7 @@ export const switchStyle =
     `}
 
       ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

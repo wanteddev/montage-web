@@ -6,13 +6,13 @@ import type { Theme } from '@emotion/react';
 import type { FlexBoxDefaultProps, FlexBoxProps } from './types';
 
 export const flexBoxStyle =
-  ({ xs, sm, md, lg, ...props }: FlexBoxProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: FlexBoxProps) =>
   (theme: Theme) => css`
     display: flex;
     ${flexibleStyle(props)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

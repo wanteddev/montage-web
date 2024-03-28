@@ -32,6 +32,7 @@ const Button = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E, T>,
     ref: ForwardedRef<Props<E, T>['as']>,
@@ -68,7 +69,17 @@ const Button = forwardRef(
           aria-labelledby={id}
           ref={ref}
           className={className}
-          css={buttonStyle({ variant, size, fullWidth, color, xs, sm, md, lg })}
+          css={buttonStyle({
+            variant,
+            size,
+            fullWidth,
+            color,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}

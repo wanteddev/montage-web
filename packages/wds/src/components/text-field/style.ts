@@ -15,6 +15,7 @@ export const textFieldWrapperStyle =
     sm,
     md,
     lg,
+    xl,
   }: TextFieldProps) =>
   (theme: Theme) => css`
     display: flex;
@@ -82,7 +83,7 @@ export const textFieldWrapperStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

@@ -6,7 +6,7 @@ import type { SkeletonProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const skeletonStyle =
-  ({ xs, sm, md, lg, ...props }: SkeletonProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: SkeletonProps) =>
   (theme: Theme) => css`
     background-color: ${theme.palette.fill.normal};
     margin: 2px 0px;
@@ -14,7 +14,7 @@ export const skeletonStyle =
     ${skeletonSizeStyle(props)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

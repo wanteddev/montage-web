@@ -33,6 +33,7 @@ const IconButton = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -76,7 +77,7 @@ const IconButton = forwardRef(
         <Comp
           ref={ref}
           wds-component="icon-button"
-          css={iconButtonStyle({ variant, size, color, xs, sm, md, lg })}
+          css={iconButtonStyle({ variant, size, color, xs, sm, md, lg, xl })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}

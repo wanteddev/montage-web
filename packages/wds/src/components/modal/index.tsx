@@ -135,7 +135,17 @@ Modal.displayName = MODAL_NAME;
 
 const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
   (
-    { variant = 'popup', size = 'normal', xs, sm, md, lg, children, ...props },
+    {
+      variant = 'popup',
+      size = 'normal',
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const {
@@ -196,6 +206,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       sm,
       md,
       lg,
+      xl,
     });
 
     const handleClose = useCallback(async () => {
@@ -241,6 +252,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
             sm,
             md,
             lg,
+            xl,
           })}
         >
           {!disableDimmer && (
@@ -280,6 +292,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                 sm,
                 md,
                 lg,
+                xl,
               })}
               {...props}
             >
@@ -328,7 +341,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
 ModalContainer.displayName = 'ModalContainer';
 
 const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
-  ({ variant = 'compact', xs, sm, md, lg, children }, ref) => {
+  ({ variant = 'compact', xs, sm, md, lg, xl, children }, ref) => {
     const context = useModalContext(MODAL_NAVIGATION_NAME);
     const { handleClose } = useModalContainerContext(MODAL_NAVIGATION_NAME);
     const theme = useTheme();
@@ -353,6 +366,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
               sm,
               md,
               lg,
+              xl,
             }),
             { position: 'absolute' },
           ]}
@@ -401,6 +415,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
               sm,
               md,
               lg,
+              xl,
             }),
             { visibility: 'hidden', touchAction: 'none', zIndex: '-1' },
           ]}
@@ -441,7 +456,10 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
 ModalNavigation.displayName = 'ModalNavigation';
 
 const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
-  ({ padding, paddingExtra, paddingInfo, xs, sm, md, lg, ...props }, ref) => {
+  (
+    { padding, paddingExtra, paddingInfo, xs, sm, md, lg, xl, ...props },
+    ref,
+  ) => {
     return (
       <FlexBox
         ref={ref}
@@ -456,6 +474,7 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
           sm,
           md,
           lg,
+          xl,
         })}
         {...props}
       />

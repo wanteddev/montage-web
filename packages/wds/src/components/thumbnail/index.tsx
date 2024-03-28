@@ -13,7 +13,7 @@ import type { ThumbnailProps } from './types';
 type Props = Merge<ThumbnailProps, ComponentProps<typeof ImageLoader>>;
 
 const Thumbnail = forwardRef<HTMLImageElement, Props>(
-  ({ ratio = '1:1', portrait = false, xs, sm, md, lg, ...props }, ref) => {
+  ({ ratio = '1:1', portrait = false, xs, sm, md, lg, xl, ...props }, ref) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
       'idle' | 'loaded' | 'error'
     >('idle');
@@ -28,7 +28,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     return imageLoadingStatus !== 'error' ? (
       <ImageLoader
         ref={ref}
-        css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg })}
+        css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl })}
         {...props}
         onLoad={composeEventHandlers(props.onLoad, () =>
           setImageLoadingStatus('loaded'),
@@ -40,7 +40,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ) : (
       <ImageLoader
         ref={ref}
-        css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg })}
+        css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl })}
         {...omitOthers()}
         alt={props.alt ? props.alt + ' load fail' : ''}
         src="https://static.wanted.co.kr/images/jobsfeed/Thumbnail.png"

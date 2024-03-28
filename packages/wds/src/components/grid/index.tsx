@@ -26,6 +26,7 @@ const Grid = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -45,6 +46,7 @@ const Grid = forwardRef(
           sm,
           md,
           lg,
+          xl,
         })}
         {...props}
       />

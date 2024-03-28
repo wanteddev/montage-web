@@ -6,7 +6,7 @@ import type { AvatarGroupProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const avatarGroupStyle =
-  ({ size, xs, sm, md, lg }: AvatarGroupProps) =>
+  ({ size, xs, sm, md, lg, xl }: AvatarGroupProps) =>
   (theme: Theme) => css`
     width: fit-content;
 
@@ -23,7 +23,7 @@ export const avatarGroupStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

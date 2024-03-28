@@ -6,7 +6,7 @@ import type { Theme } from '@emotion/react';
 import type { GridProps } from './types';
 
 export const gridStyle =
-  ({ xs, sm, md, lg, ...props }: GridProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: GridProps) =>
   (theme: Theme) => css`
     display: flex;
     flex-wrap: wrap;
@@ -14,7 +14,7 @@ export const gridStyle =
     ${gridContainerStyle(props, theme)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

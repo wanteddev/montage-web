@@ -22,6 +22,7 @@ const ContentBadge = forwardRef<HTMLSpanElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -38,6 +39,7 @@ const ContentBadge = forwardRef<HTMLSpanElement, Props>(
           sm,
           md,
           lg,
+          xl,
         })}
         {...props}
       >

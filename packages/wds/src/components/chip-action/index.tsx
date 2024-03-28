@@ -30,6 +30,7 @@ const ChipAction = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -48,7 +49,7 @@ const ChipAction = forwardRef(
           aria-labelledby={id}
           ref={ref}
           className={className}
-          css={actionStyle({ variant, size, xs, sm, md, lg })}
+          css={actionStyle({ variant, size, xs, sm, md, lg, xl })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}

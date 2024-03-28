@@ -7,7 +7,7 @@ import type { ChipActionProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const actionStyle =
-  ({ xs, sm, md, lg, ...props }: ChipActionProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: ChipActionProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -28,7 +28,7 @@ export const actionStyle =
     ${actionSizeStyle(props)}
 
   ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

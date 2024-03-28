@@ -11,7 +11,7 @@ import type { Theme } from '@emotion/react';
 import type { ContentBadgeProps } from './types';
 
 export const contentBadgeStyle =
-  ({ xs, sm, md, lg, ...props }: ContentBadgeProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: ContentBadgeProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -24,7 +24,7 @@ export const contentBadgeStyle =
     ${getSizeStyle(props)}
 
 	${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

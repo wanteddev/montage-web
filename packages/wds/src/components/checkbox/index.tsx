@@ -36,6 +36,7 @@ const Checkbox = forwardRef<HTMLButtonElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -102,6 +103,7 @@ const Checkbox = forwardRef<HTMLButtonElement, Props>(
               sm,
               md,
               lg,
+              xl,
             })}
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {

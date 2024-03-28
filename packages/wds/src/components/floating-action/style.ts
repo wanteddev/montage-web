@@ -6,7 +6,7 @@ import type { FloatingActionProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const floatingActionStyle =
-  ({ size, iconSize, xs, sm, md, lg }: FloatingActionProps) =>
+  ({ size, iconSize, xs, sm, md, lg, xl }: FloatingActionProps) =>
   (theme: Theme) => css`
     background-color: ${theme.palette.primary.normal};
     box-shadow: ${theme.palette.elevation.shadow.strong};
@@ -29,7 +29,7 @@ export const floatingActionStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

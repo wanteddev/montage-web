@@ -57,7 +57,9 @@ export type MergeWithCss<T, K> = Merge<
 >;
 
 export type ResponsiveProps<T> = {
-  [key in keyof BreakPoint]?: Merge<T, { css?: SerializedStyles }>;
+  [key in keyof BreakPoint]?: keyof T extends never
+    ? { css?: SerializedStyles }
+    : Merge<T, { css?: SerializedStyles }>;
 };
 
 type ScopeName<S extends string> = S extends `${infer P}`

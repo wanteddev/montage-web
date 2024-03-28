@@ -29,6 +29,7 @@ const TextButton = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -57,6 +58,7 @@ const TextButton = forwardRef(
             sm,
             md,
             lg,
+            xl,
           })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}

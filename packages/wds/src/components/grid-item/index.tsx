@@ -14,7 +14,17 @@ type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
 
 const GridItem = forwardRef(
   <E extends ElementType = 'div'>(
-    { as, alignSelf = 'initial', columns, xs, sm, md, lg, ...props }: Props<E>,
+    {
+      as,
+      alignSelf = 'initial',
+      columns,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      ...props
+    }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const Element = as || 'div';
@@ -29,6 +39,7 @@ const GridItem = forwardRef(
           sm,
           md,
           lg,
+          xl,
         })}
         {...props}
       />

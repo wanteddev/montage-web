@@ -87,6 +87,7 @@ const TabList = forwardRef<
       sm,
       md,
       lg,
+      xl,
       children,
       ...props
     },
@@ -157,11 +158,12 @@ const TabList = forwardRef<
             sm,
             md,
             lg,
+            xl,
           })}
           {...props}
         >
           <ScrollArea
-            css={scrollWrapperStyle({ padding, xs, sm, md, lg, isSticky })}
+            css={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
             viewportRef={viewportRef}

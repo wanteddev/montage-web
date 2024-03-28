@@ -19,7 +19,7 @@ const getDefaultSize = (
 };
 
 export const iconButtonStyle =
-  ({ xs, sm, md, lg, ...props }: IconButtonProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: IconButtonProps) =>
   (theme: Theme) => css`
     border-radius: 9999px;
     cursor: pointer;
@@ -38,7 +38,7 @@ export const iconButtonStyle =
     ${iconButtonColorStyle(props, theme)}
 
   ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params = {}) => css`

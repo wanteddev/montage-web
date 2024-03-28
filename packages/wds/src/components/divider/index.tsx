@@ -19,6 +19,7 @@ const Divider = forwardRef<HTMLHRElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -32,6 +33,7 @@ const Divider = forwardRef<HTMLHRElement, Props>(
           sm,
           md,
           lg,
+          xl,
           vertical,
           color,
           size,

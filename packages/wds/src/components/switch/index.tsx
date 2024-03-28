@@ -33,6 +33,7 @@ const Switch = forwardRef<HTMLButtonElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -90,6 +91,7 @@ const Switch = forwardRef<HTMLButtonElement, Props>(
               sm,
               md,
               lg,
+              xl,
             })}
             {...props}
             onClick={composeEventHandlers(props.onClick, (event) => {

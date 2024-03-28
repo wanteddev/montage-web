@@ -15,6 +15,7 @@ export const radioStyle =
     sm,
     md,
     lg,
+    xl,
   }: RadioProps) =>
   (theme: Theme) => css`
     display: flex;
@@ -72,7 +73,7 @@ export const radioStyle =
     `}
 
       ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

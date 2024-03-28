@@ -23,7 +23,7 @@ export const scrollWrapperStyle =
     transition: mask-image 0.2s ease;
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
@@ -33,7 +33,7 @@ export const scrollWrapperStyle =
   `;
 
 export const tabListStyle =
-  ({ padding, size, xs, sm, md, lg }: TabListProps) =>
+  ({ padding, size, xs, sm, md, lg, xl }: TabListProps) =>
   (theme: Theme) => css`
     width: 100%;
     list-style: none;
@@ -54,7 +54,7 @@ export const tabListStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

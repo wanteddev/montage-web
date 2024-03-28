@@ -27,6 +27,7 @@ const FloatingAction = forwardRef(
       sm,
       md,
       lg,
+      xl,
       ...props
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -41,7 +42,7 @@ const FloatingAction = forwardRef(
       >
         <Comp
           ref={ref}
-          css={floatingActionStyle({ size, iconSize, xs, sm, md, lg })}
+          css={floatingActionStyle({ size, iconSize, xs, sm, md, lg, xl })}
           aria-disabled={disabled ? 'true' : undefined}
           disabled={disabled}
           {...props}

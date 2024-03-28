@@ -7,7 +7,7 @@ import type { ButtonProps, ButtonVariant } from './types';
 import type { Theme } from '@emotion/react';
 
 export const buttonStyle =
-  ({ xs, sm, md, lg, ...props }: ButtonProps<ButtonVariant>) =>
+  ({ xs, sm, md, lg, xl, ...props }: ButtonProps<ButtonVariant>) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -28,7 +28,7 @@ export const buttonStyle =
     ${props.fullWidth ? 'width: 100%;' : 'width: fit-content;'}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

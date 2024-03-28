@@ -6,7 +6,15 @@ import type { Theme } from '@emotion/react';
 import type { ProgressStepIndicatorProps } from './types';
 
 export const progressStepWrapperStyle =
-  ({ size, divider, xs, sm, md, lg }: Partial<ProgressStepIndicatorProps>) =>
+  ({
+    size,
+    divider,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: Partial<ProgressStepIndicatorProps>) =>
   (theme: Theme) => css`
     width: 100%;
     position: relative;
@@ -15,7 +23,7 @@ export const progressStepWrapperStyle =
     ${progressDividerStyle(divider)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

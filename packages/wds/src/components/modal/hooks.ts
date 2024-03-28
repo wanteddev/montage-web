@@ -16,6 +16,7 @@ export const useDraggable = ({
   sm,
   md,
   lg,
+  xl,
 }: ModalContainerProps) => {
   const theme = useTheme();
 
@@ -27,7 +28,7 @@ export const useDraggable = ({
   const variant = useMedia(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg }, 'variant', defaultVariant, v),
+      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', defaultVariant, v),
     ),
     defaultVariant,
   );

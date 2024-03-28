@@ -24,6 +24,7 @@ const Select = forwardRef<HTMLSelectElement, FieldProps>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -45,6 +46,7 @@ const Select = forwardRef<HTMLSelectElement, FieldProps>(
           sm,
           md,
           lg,
+          xl,
           ...props,
         })}
       >

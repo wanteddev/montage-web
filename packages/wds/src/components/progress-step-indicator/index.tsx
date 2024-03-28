@@ -25,6 +25,7 @@ const ProgressStepIndicator = forwardRef<HTMLDivElement, Props>(
       sm,
       md,
       lg,
+      xl,
       ...props
     },
     ref,
@@ -36,7 +37,7 @@ const ProgressStepIndicator = forwardRef<HTMLDivElement, Props>(
         wds-component="progress-step-indicator"
         aria-label="progress"
         ref={ref}
-        css={progressStepWrapperStyle({ size, divider, xs, sm, md, lg })}
+        css={progressStepWrapperStyle({ size, divider, xs, sm, md, lg, xl })}
         {...props}
         style={
           {

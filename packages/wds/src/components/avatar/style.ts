@@ -6,7 +6,7 @@ import type { AvatarProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const avatarWrapperStyle =
-  ({ size, variant, xs, sm, md, lg }: AvatarProps) =>
+  ({ size, variant, xs, sm, md, lg, xl }: AvatarProps) =>
   (theme: Theme) => css`
     background-color: ${theme.palette.background.normal.normal};
     color: ${theme.palette.static.white};
@@ -25,7 +25,7 @@ export const avatarWrapperStyle =
     }
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`

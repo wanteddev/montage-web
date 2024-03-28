@@ -16,6 +16,7 @@ export const selectWrapperStyle =
     sm,
     md,
     lg,
+    xl,
   }: SelectProps & { __shouldShowPlaceholder: boolean }) =>
   (theme: Theme) => css`
     width: ${width};
@@ -82,7 +83,7 @@ export const selectWrapperStyle =
     `}
 
   ${createResponsiveStyle(
-      { xs, sm, md, lg },
+      { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
