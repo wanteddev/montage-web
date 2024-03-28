@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.11...@wanteddev/wds@0.0.12) (2024-03-28)
+
+### Features
+
+- **wds:** layout utility 함수 추가 ([c3f3674](https://github.com/wanteddev/wds/commit/c3f36746d99b629205ad60c16fa1e71bcc9d1902))
+- **wds:** xl breakpoint 추가 ([445de2b](https://github.com/wanteddev/wds/commit/445de2b518dce8084b93774ec1dedb44fdfa6d66))
+- **wds:** 탭 컴포넌트 접근성 처리 및 패널 기능 추가 ([cb49579](https://github.com/wanteddev/wds/commit/cb495794a240af786d2e8b59efa4bf4912641fd0))
+
 ## [0.0.11](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.10...@wanteddev/wds@0.0.11) (2024-03-28)
 
 ### Features
