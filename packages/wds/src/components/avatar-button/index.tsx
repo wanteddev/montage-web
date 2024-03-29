@@ -31,8 +31,8 @@ const AvatarButton = forwardRef(
     return (
       <Component ref={ref} css={avatarButtonStyle} {...props}>
         <WithInteraction
-          width="calc(100% + 16px)"
-          height="calc(100% + 16px)"
+          width="calc(100% + 8px)"
+          height="calc(100% + 8px)"
           disabled={props.disabled || disableInteraction}
         >
           {children}

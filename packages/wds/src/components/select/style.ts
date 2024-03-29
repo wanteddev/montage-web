@@ -40,8 +40,8 @@ export const selectWrapperStyle =
         outline: none;
       }
       &:focus-visible {
-        outline: solid 2px Highlight;
-        outline: solid 2px -webkit-focus-ring-color;
+        outline-style: solid;
+        outline-width: 2px;
       }
 
       option[value=''][disabled] {

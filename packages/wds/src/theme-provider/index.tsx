@@ -42,6 +42,9 @@ const EmotionThemeProvider = ({ children }: PropsWithChildren) => {
           body: {
             backgroundColor: themeObject.palette.background.normal.normal,
           },
+          ['*:focus-visible']: {
+            outlineColor: themeObject.palette.primary.normal,
+          },
         }}
       />
     </DefaultThemeProvider>

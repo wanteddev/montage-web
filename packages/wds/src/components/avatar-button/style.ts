@@ -18,12 +18,15 @@ export const avatarButtonStyle = (theme: Theme) => css`
   position: relative;
   display: block;
 
-  &:focus-visible {
+  &:focus-visible,
+  &[aria-expanded='true'] {
     outline: none;
 
     & > [wds-component='avatar'] {
-      outline: solid 2px Highlight;
-      outline: solid 2px -webkit-focus-ring-color;
+      outline-style: solid;
+      outline-width: 1.5px;
+      outline-offset: 2.5px;
+      outline-color: ${theme.palette.primary.normal};
     }
   }
 
