@@ -1,11 +1,11 @@
 'use client';
 import { useCallback, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { useFocusGuards } from '@radix-ui/react-focus-guards';
 import { hideOthers } from 'aria-hidden';
 
 import { useDialogStore } from '@/stores/dialog-store';
 
+import useFocusGuards from '../../hooks/use-focus-guard';
 import RemoveScroll from '../remove-scroll';
 import {
   DismissableLayer,
@@ -144,14 +144,18 @@ const Item = ({
               gap="24px"
               css={dialogActionStyle}
             >
-              <TextButton size="medium" color="primary" onClick={handleConfirm}>
+              <TextButton
+                size="medium"
+                variant="primary"
+                onClick={handleConfirm}
+              >
                 {confirmText}
               </TextButton>
 
               {Boolean(cancelText) && (
                 <TextButton
                   size="medium"
-                  color="assistive"
+                  variant="assistive"
                   onClick={handleCancel}
                 >
                   {cancelText}

@@ -12,13 +12,13 @@ import {
 } from 'react';
 import { IconCloseThick } from '@wanteddev/wds-icon';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { useFocusGuards } from '@radix-ui/react-focus-guards';
 import { Slot } from '@radix-ui/react-slot';
 import { useTheme } from '@emotion/react';
 import { flushSync } from 'react-dom';
 
 import { hideOthers } from '@/utils';
 
+import useFocusGuards from '../../hooks/use-focus-guard';
 import RemoveScroll from '../remove-scroll';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
@@ -37,7 +37,7 @@ import {
   useModalActionAreaContext,
   useModalContainerContext,
   useModalContext,
-} from './context';
+} from './contexts';
 import {
   MODAL_ACTION_AREA_NAME,
   MODAL_ACTION_BUTTON_NAME,

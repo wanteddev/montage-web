@@ -5,7 +5,7 @@ import { flushSync } from 'react-dom';
 import { getPreviousValue } from '@/utils';
 
 import { MODAL_NAME } from './constants';
-import { useModalContext } from './context';
+import { useModalContext } from './contexts';
 
 import type { BreakPoint } from '@/types';
 import type { ModalContainerProps } from './types';

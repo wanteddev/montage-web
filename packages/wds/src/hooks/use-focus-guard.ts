@@ -30,7 +30,7 @@ const useFocusGuards = () => {
 
 const createFocusGuard = () => {
   const element = document.createElement('span');
-  element.setAttribute('wds-component="focus-guard"', '');
+  element.setAttribute('wds-component', 'focus-guard');
   element.tabIndex = 0;
   element.style.cssText =
     'outline: none; opacity: 0; position: fixed; pointer-events: none';
