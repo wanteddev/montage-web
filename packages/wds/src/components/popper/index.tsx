@@ -28,7 +28,7 @@ import {
   PopperProvider,
   usePopperContentContext,
   usePopperContext,
-} from './context';
+} from './contexts';
 import {
   getPlacementMapper,
   getSideAlignFromPlacement,
@@ -88,16 +88,14 @@ const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
 
     const composedRef = useComposedRefs(
       ref,
-      onArrowChange as (instance: SVGSVGElement | null) => void,
+      onArrowChange as (node: SVGSVGElement | null) => void,
     );
 
     return (
       <svg
-        viewBox="0 0 24 8"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+        wds-component="popper-arrow"
         ref={composedRef}
-        css={{
+        style={{
           ...props.style,
           position: 'absolute',
           width: '40px',
@@ -121,9 +119,11 @@ const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
             left: 'translateY(50%) rotate(-90deg) translateX(50%)',
           }[side],
         }}
+        viewBox="0 0 24 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          id="Subtract"
           fillRule="evenodd"
           clipRule="evenodd"
           d="M10.5857 6.58609L7.99993 4.0003L5.75729 1.75766C4.63207 0.632441 3.10595 0.000301838 1.51465 0.000301838H22.4852C20.8939 0.000301838 19.3678 0.632441 18.2426 1.75766L15.9999 4.0003L13.4141 6.58609C13.4138 6.58638 13.4136 6.58668 13.4133 6.58698C12.6321 7.36714 11.3665 7.36684 10.5857 6.58609Z"

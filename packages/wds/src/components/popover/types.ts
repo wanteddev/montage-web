@@ -1,0 +1,15 @@
+import type { ReactNode } from 'react';
+import type { PopperContentProps } from '../popper/types';
+
+export type PopoverProps = {
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (state: boolean) => void;
+};
+
+export type PopoverContentProps = {
+  children?: ReactNode;
+  position?: PopperContentProps['position'];
+  offset?: PopperContentProps['offset'];
+  showArrow?: boolean;
+};

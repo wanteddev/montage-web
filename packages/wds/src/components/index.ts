@@ -18,6 +18,7 @@ export { default as IconButton } from './icon-button';
 export { default as Label } from './label';
 export * from './modal';
 export { default as NestedCheckbox } from './nested-checkbox';
+export * from './popover';
 export * from './popper';
 export { default as NoSsr } from './no-ssr';
 export { default as Portal } from './portal';
