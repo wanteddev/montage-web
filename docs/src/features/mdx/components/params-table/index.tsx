@@ -43,7 +43,7 @@ const ParamsTable = ({ params }: Props) => {
                   {`${name}${required ? ' *' : ''}`}
                 </ContentBadge>
                 {description && (
-                  <Tooltip variant="inverse" position="bottom-center">
+                  <Tooltip>
                     <TooltipTrigger>
                       <span
                         css={(theme) => ({
@@ -54,7 +54,9 @@ const ParamsTable = ({ params }: Props) => {
                         <IconCircleInfo />
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent>{description}</TooltipContent>
+                    <TooltipContent variant="inverse" position="bottom-center">
+                      {description}
+                    </TooltipContent>
                   </Tooltip>
                 )}
               </FlexBox>

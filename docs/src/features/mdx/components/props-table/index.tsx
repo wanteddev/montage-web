@@ -50,7 +50,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                     {`${value.name}${value.required ? ' *' : ''}`}
                   </ContentBadge>
                   {value.description && (
-                    <Tooltip variant="inverse" position="bottom-center">
+                    <Tooltip>
                       <TooltipTrigger>
                         <span
                           css={(theme) => ({
@@ -61,7 +61,11 @@ const PropsTable = ({ component, fallback }: Props) => {
                           <IconCircleInfo />
                         </span>
                       </TooltipTrigger>
-                      <TooltipContent css={{ maxWidth: '350px' }}>
+                      <TooltipContent
+                        variant="inverse"
+                        position="bottom-center"
+                        css={{ maxWidth: '350px' }}
+                      >
                         {value.description}
                       </TooltipContent>
                     </Tooltip>
@@ -117,7 +121,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                   {`${value.name}${value.required ? ' *' : ''}`}
                 </ContentBadge>
                 {value.description && (
-                  <Tooltip variant="inverse" position="bottom-center">
+                  <Tooltip>
                     <TooltipTrigger>
                       <span
                         css={(theme) => ({
@@ -128,7 +132,9 @@ const PropsTable = ({ component, fallback }: Props) => {
                         <IconCircleInfo />
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent>{value.description}</TooltipContent>
+                    <TooltipContent variant="inverse" position="bottom-center">
+                      {value.description}
+                    </TooltipContent>
                   </Tooltip>
                 )}
               </FlexBox>
