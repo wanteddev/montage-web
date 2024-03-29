@@ -38,8 +38,6 @@ import type {
 
 const Tooltip = ({
   mode = 'hover',
-  variant = 'normal',
-  position = 'top-center',
   open: originOpen,
   defaultOpen = mode === 'always',
   onOpenChange,
@@ -145,8 +143,6 @@ const Tooltip = ({
       isDismissed={isDismissed}
       containerRef={containerRef}
       mode={mode}
-      variant={variant}
-      position={position}
       containerId={containerId}
       open={open}
       onOpenChange={setOpen}
@@ -201,73 +197,76 @@ TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
 const TooltipContent = forwardRef<
   HTMLDivElement,
   MergeElementProps<'div', TooltipContentProps>
->(({ action, children, ...props }, ref) => {
-  const {
-    onOpenChange,
-    position,
-    containerRef,
-    containerId,
-    variant,
-    mode,
-    open,
-    isDismissed,
-    handleMouseOver,
-    handleMouseLeave,
-    handleFocus,
-    handleBlur,
-  } = useTooltipContext(TOOLTIP_CONTENT_NAME);
+>(
+  (
+    { action, children, variant = 'normal', position = 'top-center', ...props },
+    ref,
+  ) => {
+    const {
+      onOpenChange,
+      containerRef,
+      containerId,
+      mode,
+      open,
+      isDismissed,
+      handleMouseOver,
+      handleMouseLeave,
+      handleFocus,
+      handleBlur,
+    } = useTooltipContext(TOOLTIP_CONTENT_NAME);
 
-  const composedRef = useComposedRefs(ref, containerRef);
+    const composedRef = useComposedRefs(ref, containerRef);
 
-  const Wrapper = mode === 'always' ? NoSsr : Fragment;
+    const Wrapper = mode === 'always' ? NoSsr : Fragment;
 
-  return open ? (
-    <Wrapper>
-      <DismissableLayer
-        asChild
-        disableOutsidePointerEvents={false}
-        onFocusOutside={(event) => event.preventDefault()}
-        onDismiss={() => {
-          if (mode === 'hover') {
-            isDismissed.current = true;
-            onOpenChange(false);
-          }
-        }}
-      >
-        <PopperContent
-          position={position}
-          role="tooltip"
-          wrapperProps={{
-            onMouseOver: handleMouseOver,
-            onMouseLeave: handleMouseLeave,
-            onFocus: handleFocus,
-            onBlur: handleBlur,
+    return open ? (
+      <Wrapper>
+        <DismissableLayer
+          asChild
+          disableOutsidePointerEvents={false}
+          onFocusOutside={(event) => event.preventDefault()}
+          onDismiss={() => {
+            if (mode === 'hover') {
+              isDismissed.current = true;
+              onOpenChange(false);
+            }
           }}
         >
-          <FlexBox
-            css={tooltipContentStyle({ variant })}
-            ref={composedRef}
-            {...props}
+          <PopperContent
+            position={position}
+            role="tooltip"
+            wrapperProps={{
+              onMouseOver: handleMouseOver,
+              onMouseLeave: handleMouseLeave,
+              onFocus: handleFocus,
+              onBlur: handleBlur,
+            }}
           >
-            <FlexBox flexDirection="column">
-              <Typography
-                id={containerId}
-                variant="label1_normal"
-                weight="medium"
-              >
-                {children}
-              </Typography>
+            <FlexBox
+              css={tooltipContentStyle({ variant })}
+              ref={composedRef}
+              {...props}
+            >
+              <FlexBox flexDirection="column">
+                <Typography
+                  id={containerId}
+                  variant="label1_normal"
+                  weight="medium"
+                >
+                  {children}
+                </Typography>
 
-              {Boolean(action) && action}
+                {Boolean(action) && action}
+              </FlexBox>
+
+              <PopperArrow />
             </FlexBox>
-
-            <PopperArrow />
-          </FlexBox>
-        </PopperContent>
-      </DismissableLayer>
-    </Wrapper>
-  ) : null;
-});
+          </PopperContent>
+        </DismissableLayer>
+      </Wrapper>
+    ) : null;
+  },
+);
 
 TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
 

@@ -13,8 +13,6 @@ import type { TooltipProps } from './types';
 type TooltipContextValue = {
   isDismissed: MutableRefObject<boolean>;
   mode: Exclude<TooltipProps['mode'], undefined>;
-  variant: Exclude<TooltipProps['variant'], undefined>;
-  position: Exclude<TooltipProps['position'], undefined>;
   containerRef: RefObject<HTMLDivElement>;
   open: boolean;
   onOpenChange: Exclude<TooltipProps['onOpenChange'], undefined>;
