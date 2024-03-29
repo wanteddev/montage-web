@@ -350,7 +350,10 @@ const modalContentPadding = ({
   padding,
   paddingExtra,
   paddingInfo,
-}: ModalContentProps = {}) => css`
+}: Pick<
+  ModalContentProps,
+  'padding' | 'paddingExtra' | 'paddingInfo'
+> = {}) => css`
   ${padding === true &&
   css`
     padding-top: var(--wds-modal-content-margin, 20px);

@@ -24,7 +24,10 @@ export const skeletonStyle =
     )}
   `;
 
-const skeletonSizeStyle = ({ width, height }: SkeletonProps) => css`
+const skeletonSizeStyle = ({
+  width,
+  height,
+}: Pick<SkeletonProps, 'width' | 'height'>) => css`
   ${Boolean(width) &&
   css`
     width: ${width};
