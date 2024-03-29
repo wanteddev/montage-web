@@ -13,7 +13,7 @@ import {
   progressTrackerWrapperStyle,
 } from './style';
 import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
-import { ProgressTrackerProvider, useProgressTrackerContext } from './context';
+import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
 import type { MergeElementProps } from '@/types';
 import type { ReactElement } from 'react';
