@@ -28,8 +28,7 @@ export const gridStyle =
 const gridContainerStyle = (
   {
     alignItems,
-    direction,
-    justify,
+    justifyContent,
     spacing,
     rowSpacing,
     columnSpacing,
@@ -40,13 +39,9 @@ const gridContainerStyle = (
   css`
     align-items: ${alignItems};
   `}
-  ${Boolean(direction) &&
+  ${Boolean(justifyContent) &&
   css`
-    flex-direction: ${direction};
-  `}
-  ${Boolean(justify) &&
-  css`
-    justify-content: ${justify};
+    justify-content: ${justifyContent};
   `}
 
   ${gridSpacingStyle(rowSpacing || spacing, 'row', theme)}

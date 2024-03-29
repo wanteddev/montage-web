@@ -4,11 +4,8 @@ import type { CSSProperties } from 'react';
 export type GridSpacing = keyof Spacing;
 
 export type GridDefaultProps = {
-  direction?: CSSProperties['flexDirection'];
-  justify?: CSSProperties['justifyContent'];
+  justifyContent?: CSSProperties['justifyContent'];
   alignItems?: CSSProperties['alignItems'];
-  wrap?: CSSProperties['flexWrap'];
-  className?: string;
   spacing?: GridSpacing;
   rowSpacing?: GridSpacing;
   columnSpacing?: GridSpacing;
@@ -17,12 +14,7 @@ export type GridDefaultProps = {
 export type GridResponsiveProps = ResponsiveProps<
   Pick<
     GridDefaultProps,
-    | 'direction'
-    | 'justify'
-    | 'alignItems'
-    | 'spacing'
-    | 'rowSpacing'
-    | 'columnSpacing'
+    'justifyContent' | 'alignItems' | 'spacing' | 'rowSpacing' | 'columnSpacing'
   >
 >;
 

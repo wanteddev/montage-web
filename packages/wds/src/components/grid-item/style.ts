@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { createResponsiveStyle } from '@/utils';
 
 import type { Theme } from '@emotion/react';
-import type { GridItemProps, GridSize } from './types';
+import type { GridItemProps } from './types';
 
 export const gridItemStyle =
   ({ xs, sm, md, lg, xl, ...props }: GridItemProps) =>
@@ -36,7 +36,7 @@ const gridItemAlignStyle = ({ columns, alignSelf }: GridItemProps = {}) => {
   `;
 };
 
-const gridItemLayoutStyle = (value?: GridSize) => {
+const gridItemLayoutStyle = (value?: GridItemProps['columns']) => {
   if (!value) {
     return;
   }

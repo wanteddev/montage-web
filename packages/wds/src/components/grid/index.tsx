@@ -16,8 +16,7 @@ const Grid = forwardRef(
   <E extends ElementType = 'div'>(
     {
       as,
-      direction = 'row',
-      justify = 'initial',
+      justifyContent = 'initial',
       alignItems = 'initial',
       spacing = 20,
       rowSpacing = spacing,
@@ -39,8 +38,7 @@ const Grid = forwardRef(
         css={gridStyle({
           rowSpacing,
           columnSpacing,
-          direction,
-          justify,
+          justifyContent,
           alignItems,
           xs,
           sm,
