@@ -1,0 +1,45 @@
+---
+title: useDialog
+description: useDialog for WDS Utility
+---
+
+# useDialog
+
+액션 내용 커스터마이징이 불가능한 웹에서 액션 내용을 맞춰 쓰고자 할 때 사용합니다.
+
+## 활용
+
+<Demo code={`import { useDialog, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  const dialog = useDialog();
+
+  const handleClick = async () => {
+    const result = await dialog({
+      title: '제목',
+      content: '설명',
+      confirmText: '확인',
+      cancelText: '취소',
+    });
+
+    alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="useDialog" fallback={[
+{ name: 'title', types: 'string | undefined' },
+{ name: 'content', types: 'string', required: true },
+{ name: 'cancelText', types: 'string | undefined' },
+{ name: 'confirmText', types: 'string', required: true },
+{ name: 'disableOutsideClickClose', types: 'boolean | undefined', defaultValue: 'false' },
+{ name: 'disableEscapeKeyDownClose', types: 'boolean | undefined', defaultValue: 'false' },
+]} />

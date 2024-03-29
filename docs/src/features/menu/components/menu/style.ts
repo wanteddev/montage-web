@@ -6,6 +6,7 @@ import type { Theme } from '@emotion/react';
 export const menuWrapperStyle = (theme: Theme) => css`
   width: 250px;
   flex-shrink: 0;
+  padding-top: 20px;
   top: calc(var(--header-height) + 20px);
   position: sticky;
   height: calc(100vh - var(--header-height) - 20px);

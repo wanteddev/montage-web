@@ -1,0 +1,197 @@
+---
+title: Checkbox
+description: Checkbox Component
+---
+
+# Checkbox
+
+컨트롤 요소로 Checkbox를 조합해 쓰고자 할 때 사용합니다.
+
+## 활용
+
+- 보통 위계로 활성화 여부를 제어할 때 사용합니다.
+
+<Demo code={`import { Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Checkbox />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="Checkbox" />
+
+## Example
+
+### Label
+
+<Demo code={`import { useId } from 'react';
+import { Checkbox, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  const id = useId();
+
+  return (
+    <FlexBox gap="8px">
+      <Checkbox id={id} />
+      <Label htmlFor={id}>Label</Label>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Form
+
+<Demo code={`import { useId } from 'react';
+import { Button, FlexBox, Checkbox, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
+import { useForm } from 'react-hook-form';
+
+const Demo = () => {
+  const id = useId();
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <FlexBox
+        as="form"
+        flexDirection="column"
+        gap="20px"
+        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      >
+        <FormField
+          control={form.control}
+          name="checked"
+          rules={{
+            required: {
+              value: true,
+              message: "필수 값입니다.",
+            },
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FlexBox gap="8px">
+                <FormControl>
+                  <Checkbox
+                    {...field}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel>체크박스</FormLabel>
+              </FlexBox>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">제출</Button>
+      </FlexBox>
+    </Form>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Multiple Checkbox
+
+<Demo code={`import { useId } from 'react';
+import { Button, FlexBox, Checkbox, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
+import { useForm } from 'react-hook-form';
+
+const Demo = () => {
+  const id = useId();
+  const form = useForm({
+    defaultValues: {
+      selected: [],
+    },
+  });
+
+  const items = [
+    {
+      id: "develop",
+      label: "개발",
+    },
+    {
+      id: "design",
+      label: "디자인",
+    },
+  ];
+
+  return (
+    <Form {...form}>
+      <FlexBox
+        as="form"
+        flexDirection="column"
+        gap="20px"
+        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      >
+        <FormField
+          control={form.control}
+          name="selected"
+          render={() => (
+            <FormItem>
+              <FormLabel>관심 분야</FormLabel>
+
+              {items.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="selected"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "필수 값입니다.",
+                    },
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        flexDirection="row"
+                        alignItems="center"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            {...field}
+                            checked={field.value.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel>{item.label}</FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">제출</Button>
+      </FlexBox>
+    </Form>
+  )
+}
+
+export default Demo;`}
+/>

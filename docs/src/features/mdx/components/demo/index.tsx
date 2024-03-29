@@ -7,6 +7,7 @@ import * as WdsIcon from '@wanteddev/wds-icon';
 import tsx from 'refractor/lang/tsx';
 import CodeEditor from 'react-simple-code-editor';
 import { toHtml } from 'hast-util-to-html';
+import * as hookForm from 'react-hook-form';
 import * as copy from 'copy-to-clipboard';
 import * as emotionRuntime from '@emotion/react/jsx-runtime';
 
@@ -39,6 +40,7 @@ const Demo = ({ code, hideCode }: Props) => {
         react: React,
         '@wanteddev/wds': Wds,
         '@wanteddev/wds-icon': WdsIcon,
+        'react-hook-form': hookForm,
         'copy-to-clipboard': copy,
         '@emotion/react': emotionReact,
         '@emotion/react/jsx-runtime': emotionRuntime,

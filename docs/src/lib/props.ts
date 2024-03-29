@@ -14,7 +14,11 @@ const parser = withCustomConfig(
       if (prop.declarations !== undefined && prop.declarations.length > 0) {
         const hasPropAdditionalDescription = prop.declarations.find(
           (declaration) => {
-            return !declaration.fileName.includes('node_modules');
+            return (
+              declaration.fileName.includes('radix-ui') ||
+              declaration.fileName.includes('react-remove-scroll') ||
+              !declaration.fileName.includes('node_modules')
+            );
           },
         );
 
@@ -35,9 +39,14 @@ export const generatePropTypes = cache(() => {
   // props가 나오지 않는 경우 수동으로 파일을 추가 해야함.
   return [
     ...paths.map((file) => parser.parse(file)).flat(1),
+    ...parser.parse(sync(getPathName('theme-provider/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/avatar-button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/text-button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/icon-button/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/typography/index.tsx'))),
     ...parser.parse(sync(getPathName('components/floating-action/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/grid/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/grid-item/index.tsx'))),
   ];
 });

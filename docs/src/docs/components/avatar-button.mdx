@@ -1,0 +1,37 @@
+---
+title: AvatarButton
+description: AvatarButton Component
+---
+
+# AvatarButton
+
+클릭할 수 있는 아바타에 사용하며 상태를 표시할 수 있습니다.
+
+## 활용
+
+- `Popover` 와 결합해서 사용하기 좋습니다.
+
+<Demo code={`import { Avatar, AvatarButton, Popover, PopoverTrigger, PopoverContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <AvatarButton>
+          <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+        </AvatarButton>
+      </PopoverTrigger>
+
+      <PopoverContent showArrow>
+        This is Content
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="AvatarButton" />

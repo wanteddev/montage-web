@@ -1,0 +1,17 @@
+---
+title: ThemeProvider
+description: WDS Theme ThemeProvider
+---
+
+# ThemeProvider
+
+전체 App을 감싸는 Theme Provider 입니다.
+
+테마 객체를 사용하려면 반드시 루트 App에서 사용해야합니다.
+
+## Props
+
+<PropsTable component="ThemeProvider" fallback={[
+{ name: 'enableDarkMode', types: 'boolean | undefined', defaultValue: 'false' },
+{ name: 'storageKey', description: '로컬 스토리지에 저장할 Theme Key를 지정합니다.', types: 'string | undefined', defaultValue: 'theme' },
+]} />

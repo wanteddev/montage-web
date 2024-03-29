@@ -17,6 +17,8 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Breakpoint', slug: '/docs/themes/breakpoint' },
       { title: 'Icon', slug: '/docs/themes/icon' },
+      { title: 'ThemeProvider', slug: '/docs/themes/theme-provider' },
+      { title: 'Typography', slug: '/docs/themes/typography' },
     ],
   },
   {
@@ -24,12 +26,30 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Alert', slug: '/docs/components/alert' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
+      { title: 'AvatarButton', slug: '/docs/components/avatar-button' },
+      { title: 'AvatarGroup', slug: '/docs/components/avatar-group' },
       { title: 'Button', slug: '/docs/components/button' },
+      { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'FloatingAction', slug: '/docs/components/floating-action' },
+      { title: 'Grid', slug: '/docs/components/grid' },
       { title: 'IconButton', slug: '/docs/components/icon-button' },
       { title: 'ImageLoader', slug: '/docs/components/image-loader' },
       { title: 'Modal', slug: '/docs/components/modal' },
+      { title: 'NestedCheckbox', slug: '/docs/components/nested-checkbox' },
+      { title: 'RoundedCheckbox', slug: '/docs/components/rounded-checkbox' },
       { title: 'TextButton', slug: '/docs/components/text-button' },
+    ],
+  },
+  {
+    label: 'Hooks',
+    pages: [
+      { title: 'useDialog', slug: '/docs/hooks/use-dialog' },
+      { title: 'useFocusGuard', slug: '/docs/hooks/use-focus-guard' },
+      { title: 'useMedia', slug: '/docs/hooks/use-media' },
+      { title: 'useSize', slug: '/docs/hooks/use-size' },
+      { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },
+      { title: 'useThemeControl', slug: '/docs/hooks/use-theme-control' },
+      { title: 'useToast', slug: '/docs/hooks/use-toast' },
     ],
   },
   {

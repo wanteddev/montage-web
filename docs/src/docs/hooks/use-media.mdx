@@ -1,0 +1,27 @@
+---
+title: useMedia
+description: useMedia for WDS Utility
+---
+
+# useMedia
+
+Theme 객체에서 직접 꺼내어 여러 미디어 쿼리를 다룹니다.
+
+```tsx
+import { useMedia } from '@wanteddev/wds';
+
+const Component = () => {
+  const { respondTo, respondMore, breakpoint } = useMedia();
+
+  return (
+    <div
+      css={{
+        width: '100px',
+        [respondTo(breakpoint.xs)]: {
+          width: '200px',
+        },
+      }}
+    />
+  );
+};
+```

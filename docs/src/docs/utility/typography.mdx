@@ -20,11 +20,11 @@ import { typographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@emotion/react';
 
 const Component = () => {
-	return (
-		<div
-			css={typographyStyle('title1', 'bold')}
-		/>
-	)
+  return (
+    <div
+      css={typographyStyle('title1', 'bold')}
+    />
+  )
 }
 ```
 
@@ -57,11 +57,11 @@ import { ellipsisTypographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@emotion/react';
 
 const Component = () => {
-	return (
-		<div
-			css={ellipsisTypographyStyle()}
-		/>
-	)
+  return (
+    <div
+      css={ellipsisTypographyStyle()}
+    />
+  )
 }
 ```
 
@@ -74,6 +74,6 @@ import { ellipsisTypographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@emotion/react';
 
 export const exampleStyle = (theme: Theme) => css`
-  \$\{ellipsisTypographyStyle(3)\}
+  ${ellipsisTypographyStyle(3)}
 `;
 ```

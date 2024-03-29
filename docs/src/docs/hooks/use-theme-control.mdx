@@ -1,0 +1,29 @@
+---
+title: useThemeControl
+description: useThemeControl for WDS Utility
+---
+
+# useThemeControl
+
+현재 테마를 확인하거나 테마를 변경할 때 사용합니다.
+
+<Demo code={`import { Button, useThemeControl } from '@wanteddev/wds';
+
+const Demo = () => {
+  const { theme, setTheme } = useThemeControl();
+
+  const handleClick = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <Button
+      onClick={handleClick}
+    >
+      {theme}
+    </Button>
+  );
+};
+
+export default Demo;`}
+/>

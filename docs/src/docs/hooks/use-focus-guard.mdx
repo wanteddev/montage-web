@@ -1,0 +1,41 @@
+---
+title: useFocusGuard
+description: useFocusGuard for WDS Utility
+---
+
+# useFocusGuard
+
+`Portal` 과 `FocusScope` 를 함께 사용할 때 올바르게 포커스 처리가 되도록 도와주는 Hook입니다.
+
+일반적으로는 사용하지 않으며 직접 `Portal` 과 `FocusScope` 를 사용하여 컴포넌트를 제작할 때 사용합니다.
+
+## 활용
+
+```tsx
+import { useState } from 'react';
+import { Portal, FocusScope, Button, useFocusGuard } from '@wanteddev/wds';
+
+const FocusableContent = () => {
+  useFocusGuard();
+
+  return (
+    <FocusScope loop>
+      <Button>텍스트</Button>
+    </FocusScope>
+  )
+}
+
+const Component = () => {
+  const [open, setOpen] = useState(false);
+
+  if (!open) {
+    return null;
+  }
+
+  return (
+    <Portal>
+      <FocusableContent />
+    </Portal>
+  )
+}
+```

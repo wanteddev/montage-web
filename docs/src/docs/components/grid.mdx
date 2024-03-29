@@ -1,0 +1,68 @@
+---
+title: Grid
+description: Grid Component
+---
+
+# Grid
+
+`Grid`는 width 100% 기준으로 12개의 columns로 구분되어 있습니다.
+
+## GridItem
+
+`GridItem` 은 설정하는 columns prop에 따라 차지하는 영역이 달라집니다.
+
+columns는 1 ~ 12, auto, true 총 3가지로 활용할 수 있습니다.
+
+- `1 ~ 12` 는 `(columns / 12)%` 만큼 영역을 차지합니다.
+- `auto` 는 children의 너비만큼 영역을 차지합니다.
+- `true` 는 남은 영역을 자동으로 차지합니다.
+- 5개의 콘텐츠를 한 줄에 표시하고 싶을 땐 `2.4` 를 사용합니다.
+
+## 활용
+
+- 필요 환경에 맞는 화면 구성을 안내합니다.
+
+<Demo code={`import { Grid, GridItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={10}>
+        <Item>columns=10</Item>
+      </GridItem>
+      <GridItem columns={2}>
+        <Item>columns=2</Item>
+      </GridItem>
+
+      <GridItem columns>
+        <Item>columns=true</Item>
+      </GridItem>
+      <GridItem columns="auto">
+        <Item>columns=auto</Item>
+      </GridItem>
+      <GridItem columns={6}>
+        <Item>columns=6</Item>
+      </GridItem>
+    </Grid>
+  )
+}
+
+const Item = ({ children }) => {
+  return (
+    <div css={theme => ({ border: \`1px solid \$\{theme.palette.line.normal.normal\}\` })}>{children}</div>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Props
+
+### Grid Props
+
+<PropsTable component="Grid" />
+
+### GridItem Props
+
+<PropsTable component="GridItem" />

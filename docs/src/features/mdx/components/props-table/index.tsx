@@ -61,7 +61,9 @@ const PropsTable = ({ component, fallback }: Props) => {
                           <IconCircleInfo />
                         </span>
                       </TooltipTrigger>
-                      <TooltipContent>{value.description}</TooltipContent>
+                      <TooltipContent css={{ maxWidth: '350px' }}>
+                        {value.description}
+                      </TooltipContent>
                     </Tooltip>
                   )}
                 </FlexBox>

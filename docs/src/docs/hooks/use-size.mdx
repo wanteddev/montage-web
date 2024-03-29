@@ -1,0 +1,31 @@
+---
+title: useSize
+description: useSize for WDS Utility
+---
+
+# useSize
+
+Element의 크기를 가져올 때 사용합니다.
+
+<Demo code={`import { useState } from 'react';
+import { useSize } from '@wanteddev/wds';
+
+const Demo = () => {
+  const [node, setNode] = useState<HTMLElement | null>(null);
+  const { width, height } = useSize(node) || {};
+
+  return (
+    <div
+      ref={setNode}
+      css={{
+        width: '100%',
+        height: '20px',
+      }}
+    >
+      {width} {height}
+    </div>
+  );
+};
+
+export default Demo;`}
+/>
