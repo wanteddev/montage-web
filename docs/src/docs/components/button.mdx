@@ -1,0 +1,65 @@
+---
+title: Button
+description: Button Component
+---
+
+# Button
+
+사용자에게 주요 행동을 유도하며, 자기 행동에 대한 결과를 예측할 수 있게 도와줍니다.
+
+## 활용
+
+- 다양한 Button을 한 화면에 구성할 때는 행동의 중요도에 따른 시각적 위계를 부여합니다.
+
+<Demo code={`import { Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Button>텍스트</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Props
+
+`as` Prop 으로 `Link` 등으로 활용할 수 있습니다.
+
+<PropsTable component="Button" />
+
+
+## Variant
+
+### Solid
+
+현재 Solid 버튼은 `primary` 컬러만 지원합니다.
+
+<Demo code={`import { Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Button variant="solid" color="primary">텍스트</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Outlined
+
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <Button variant="outlined" color="primary">텍스트</Button>
+      <Button variant="outlined" color="secondary">텍스트</Button>
+      <Button variant="outlined" color="assistive">텍스트</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

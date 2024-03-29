@@ -1,0 +1,79 @@
+---
+title: Typography
+description: Typography for WDS Utility
+---
+
+# Typography
+
+Typography 스타일을 utility 함수로 사용 가능합니다.
+
+## typographyStyle
+
+`typographyStyle(variant, weight)` 로 사용합니다.
+
+### Css Prop
+
+```tsx
+import { css } from '@emotion/react';
+import { typographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@emotion/react';
+
+const Component = () => {
+	return (
+		<div
+			css={typographyStyle('title1', 'bold')}
+		/>
+	)
+}
+```
+
+### Css 내부에서 사용
+
+```ts
+import { css } from '@emotion/react';
+import { typographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@emotion/react';
+
+export const exampleStyle = (theme: Theme) => css`
+  \$\{typographyStyle(\'title1\', \'bold\')\}
+`;
+```
+
+
+## ellipsisTypographyStyle
+
+`ellipsisTypographyStyle(line)` 으로 사용하며 말줄임 처리를 합니다.
+
+아무 인자도 넣지 않은 경우 기본값은 1입니다.
+
+### Css Prop
+
+```tsx
+import { css } from '@emotion/react';
+import { ellipsisTypographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@emotion/react';
+
+const Component = () => {
+	return (
+		<div
+			css={ellipsisTypographyStyle()}
+		/>
+	)
+}
+```
+
+### Css 내부에서 사용
+
+```ts
+import { css } from '@emotion/react';
+import { ellipsisTypographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@emotion/react';
+
+export const exampleStyle = (theme: Theme) => css`
+  \$\{ellipsisTypographyStyle(3)\}
+`;
+```

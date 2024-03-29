@@ -32,8 +32,12 @@ export const generatePropTypes = cache(() => {
 
   const paths = sync(getPathName('components/index.ts'));
 
+  // props가 나오지 않는 경우 수동으로 파일을 추가 해야함.
   return [
     ...paths.map((file) => parser.parse(file)).flat(1),
     ...parser.parse(sync(getPathName('components/button/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/text-button/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/icon-button/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/floating-action/index.tsx'))),
   ];
 });

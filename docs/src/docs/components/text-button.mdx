@@ -1,0 +1,46 @@
+---
+title: TextButton
+description: TextButton Component
+---
+
+# TextButton
+
+적은 공간으로 행동을 제안할 때 사용합니다.
+
+## 활용
+
+- 다양한 TextButton을 한 화면에 구성할 때는 행동의 중요도에 따른 시각적 위계를 부여합니다.
+
+<Demo code={`import { TextButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TextButton>텍스트</TextButton>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Props
+
+`as` Prop 으로 `Link` 등으로 활용할 수 있습니다.
+
+<PropsTable component="TextButton" />
+
+## Variant
+
+<Demo code={`import { FlexBox, TextButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="20px">
+      <TextButton variant="primary">텍스트</TextButton>
+      <TextButton variant="assistive">텍스트</TextButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
