@@ -38,6 +38,7 @@ export const routes: Array<Route> = [
       { title: 'Modal', slug: '/docs/components/modal' },
       { title: 'NestedCheckbox', slug: '/docs/components/nested-checkbox' },
       { title: 'RoundedCheckbox', slug: '/docs/components/rounded-checkbox' },
+      { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextButton', slug: '/docs/components/text-button' },
     ],
   },
