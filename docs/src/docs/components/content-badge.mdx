@@ -1,0 +1,96 @@
+---
+title: ContentBadge
+description: ContentBadge Component
+---
+
+# ContentBadge
+
+항목을 분류하거나 내용의 추가 속성을 표시하는 데 사용합니다.
+
+## 활용
+
+- 카드 컴포넌트에서 분류되는 항목을 표시해요.
+- 추가 정보를 보여줄 때에 써요.
+- 배경과 텍스트 컬러를 섞어 쓰지 않아요.
+
+<Demo code={`import { ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ContentBadge color="neutral">
+      원티드
+    </ContentBadge>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="ContentBadge" />
+
+## Variant
+
+### Filled
+
+<Demo code={`import { ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ContentBadge color="neutral" variant="filled">
+      원티드
+    </ContentBadge>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Outlined
+
+<Demo code={`import { ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ContentBadge color="neutral" variant="outlined">
+      원티드
+    </ContentBadge>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Color
+
+### Neutral
+
+<Demo code={`import { ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ContentBadge color="neutral">
+      원티드
+    </ContentBadge>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Accent
+
+<Demo code={`import { ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ContentBadge color="accent" accentColor="palette.accent.cyan">
+      원티드
+    </ContentBadge>
+  )
+}
+
+export default Demo;`}
+/>
