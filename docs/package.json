@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm -w run watch & NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
-    "build": "next build",
+    "dev": "node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
+    "build": "node scripts/docgen.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
