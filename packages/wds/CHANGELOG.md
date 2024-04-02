@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.14](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.13...@wanteddev/wds@0.0.14) (2024-04-02)
+
+### Bug Fixes
+
+- **wds:** box shadow 변경 사이드 이펙트 수정 ([4d2f5b6](https://github.com/wanteddev/wds/commit/4d2f5b647a211c639318f860ab6dd6106efc3f24))
+- **wds:** 모달 스타일 버그 수정 ([c030c8c](https://github.com/wanteddev/wds/commit/c030c8cd9f4091a87a66158e169308307f738a65))
+- **wds:** 빌드 오류 수정 ([feec23c](https://github.com/wanteddev/wds/commit/feec23c5298385faeca37d67b83ba02353f62a62))
+- **wds:** 타입 깨지는 현상 수정 ([840160c](https://github.com/wanteddev/wds/commit/840160c6c86b27e8a963dbf1c3870e6423ded097))
+
+### Features
+
+- **wds:** focus guard 내부 컴포넌트 활용 ([131d2de](https://github.com/wanteddev/wds/commit/131d2ded1d0ec4dc4aef12bec78439a4a17f52b3))
+- **wds:** grid, grid-item 스타일명과 동일하게 props 변경 ([b2bd74e](https://github.com/wanteddev/wds/commit/b2bd74e074e2e3fcdf509ead2a3b7144c56f46ad))
+- **wds:** outline color 처리 방법 변경 ([6565161](https://github.com/wanteddev/wds/commit/65651617651eae3cb23f71a7e64dd81730109d9d))
+- **wds:** popover 신규 컴포넌트 추가 ([151abf1](https://github.com/wanteddev/wds/commit/151abf1077f03d75416bfff65ade5d476139ba62))
+- **wds:** tooltip root -> content로 props 위임 ([3a8077f](https://github.com/wanteddev/wds/commit/3a8077ffc0d9ea2f8dedfecd7e631778cb6043ce))
+- **wds:** 이미지 오류 핸들링, 아바타, grid 피드백 반영 ([01d5745](https://github.com/wanteddev/wds/commit/01d5745c79975d90efb13ccae2c504a032369e90))
+
 ## [0.0.13](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.12...@wanteddev/wds@0.0.13) (2024-03-28)
 
 ### Bug Fixes
