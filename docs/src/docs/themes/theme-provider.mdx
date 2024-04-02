@@ -14,4 +14,7 @@ description: WDS Theme ThemeProvider
 <PropsTable component="ThemeProvider" fallback={[
 { name: 'enableDarkMode', types: 'boolean | undefined', defaultValue: 'false' },
 { name: 'storageKey', description: '로컬 스토리지에 저장할 Theme Key를 지정합니다.', types: 'string | undefined', defaultValue: 'theme' },
+{ name: 'forcedTheme', description: '강제로 테마를 덮어씌울 때 사용합니다.', types: '\'light\' | \'dark\' | undefined' },
+{ name: 'enableColorScheme', description: 'color-scheme 를 활성화합니다.', types: 'boolean | undefined', defaultValue: 'true' },
+{ name: 'disableTransitionOnChange', description: 'theme가 변경될 때 모든 transition을 비활성화 합니다.', types: 'boolean | undefined', defaultValue: 'false' },
 ]} />
