@@ -373,16 +373,18 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
         >
           {variant !== 'floating' ? (
             <>
-              <Typography
-                as="h2"
-                id={context.titleId}
-                variant="headline2"
-                weight="bold"
-                color="palette.label.strong"
-                noWrap
-              >
-                {children}
-              </Typography>
+              {Boolean(children) && (
+                <Typography
+                  as="h2"
+                  id={context.titleId}
+                  variant="headline2"
+                  weight="bold"
+                  color="palette.label.strong"
+                  noWrap
+                >
+                  {children}
+                </Typography>
+              )}
 
               <IconButton
                 wds-ignore-first-focus="true"
