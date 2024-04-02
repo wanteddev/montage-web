@@ -6,7 +6,7 @@ import WithInteraction from '../with-interaction';
 import { buttonStyle } from './style';
 
 import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
-import type { ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { ButtonProps, ButtonVariant } from './types';
 
 type Props<
@@ -100,4 +100,4 @@ export default Button as <
   T extends ButtonVariant = 'solid',
 >(
   props: Props<E, T>,
-) => ReactNode;
+) => JSX.Element;

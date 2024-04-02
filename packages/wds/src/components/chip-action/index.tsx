@@ -6,7 +6,7 @@ import WithInteraction from '../with-interaction';
 import { actionStyle } from './style';
 
 import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
 
 type Props<E extends ElementType> = MergeWithCustomElementProps<
@@ -67,4 +67,4 @@ ChipAction.displayName = 'ChipAction';
 
 export default ChipAction as <E extends ElementType = 'button'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

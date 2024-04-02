@@ -8,7 +8,7 @@ import WithInteraction from '../with-interaction';
 import { toggleIconStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ToggleIconProps } from './types';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
@@ -78,4 +78,4 @@ ToggleIcon.displayName = 'ToggleIcon';
 
 export default ToggleIcon as <E extends ElementType = 'button'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

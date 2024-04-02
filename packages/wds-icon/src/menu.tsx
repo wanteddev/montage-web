@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconMenu = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M3.10034 5.0001C3.10034 4.50304 3.50329 4.1001 4.00034 4.1001H20.0003C20.4974 4.1001 20.9003 4.50304 20.9003 5.0001C20.9003 5.49715 20.4974 5.9001 20.0003 5.9001H4.00034C3.50329 5.9001 3.10034 5.49715 3.10034 5.0001Z"

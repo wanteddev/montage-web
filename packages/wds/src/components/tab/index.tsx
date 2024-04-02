@@ -29,7 +29,6 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
-  ReactNode,
   UIEventHandler,
 } from 'react';
 import type { MergeElementProps, MergeWithCustomElementProps } from '@/types';
@@ -270,7 +269,7 @@ TabListItemFc.displayName = TAB_LIST_ITEM_NAME;
 
 const TabListItem = TabListItemFc as <E extends ElementType = 'div'>(
   props: MergeWithCustomElementProps<E, TabListItemProps>,
-) => ReactNode;
+) => JSX.Element;
 
 const TabPanel = forwardRef<
   HTMLDivElement,

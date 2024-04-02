@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconBusinessBag = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M9.49986 12.0001H14.4999V10.2001H9.49986V12.0001Z"

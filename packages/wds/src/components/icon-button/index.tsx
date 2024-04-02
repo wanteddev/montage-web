@@ -7,7 +7,7 @@ import PushBadge from '../push-badge';
 import { iconButtonStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
 
 type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
@@ -104,4 +104,4 @@ IconButton.displayName = 'IconButton';
 
 export default IconButton as <E extends ElementType = 'button'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

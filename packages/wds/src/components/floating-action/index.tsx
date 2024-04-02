@@ -6,7 +6,7 @@ import WithInteraction from '../with-interaction';
 import { floatingActionStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { FloatingActionProps } from './types';
 
 type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
@@ -58,4 +58,4 @@ FloatingAction.displayName = 'FloatingAction';
 
 export default FloatingAction as <E extends ElementType = 'button'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

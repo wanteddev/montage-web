@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconList = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M3.4 4.6001C2.6268 4.6001 2 5.2269 2 6.0001C2 6.7733 2.6268 7.4001 3.4 7.4001C4.1732 7.4001 4.8 6.7733 4.8 6.0001C4.8 5.2269 4.1732 4.6001 3.4 4.6001Z"

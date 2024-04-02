@@ -8,7 +8,7 @@ import { avatarButtonStyle, pushBadgeStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
 import type { AvatarButtonProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
   E,
@@ -48,4 +48,4 @@ AvatarButton.displayName = 'AvatarButton';
 
 export default AvatarButton as <E extends ElementType = 'button'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

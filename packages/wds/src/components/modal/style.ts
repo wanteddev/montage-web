@@ -157,7 +157,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         width: 100%;
         height: 100%;
         animation: none;
-        max-height: initial;
+        max-height: 100%;
         border-radius: 0px;
         padding: initial;
 
@@ -171,7 +171,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       return css`
         border-radius: 12px;
         animation: none;
-        max-height: initial;
+        max-height: 100%;
         padding: initial;
 
         [wds-component='modal-navigation'],
@@ -234,6 +234,7 @@ export const modalNavigationStyle =
     left: 0px;
     border-bottom: 1px solid var(--wds-navigation-border-color);
     transition: border-color 0.2s ease;
+    z-index: 10;
 
     ${modalNavigationVariant(variant, theme)}
 
@@ -258,6 +259,7 @@ const modalNavigationVariant = (
     case 'compact':
       return css`
         ${defaultStyle}
+        min-height: 64px;
 
         justify-content: center;
 
@@ -275,6 +277,7 @@ const modalNavigationVariant = (
     case 'emphasized':
       return css`
         ${defaultStyle}
+        min-height: 64px;
         justify-content: space-between;
 
         h2 {

@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconMenuThick = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M2.75024 5C2.75024 4.30964 3.30989 3.75 4.00024 3.75H20.0002C20.6906 3.75 21.2502 4.30964 21.2502 5C21.2502 5.69036 20.6906 6.25 20.0002 6.25H4.00024C3.30989 6.25 2.75024 5.69036 2.75024 5Z"

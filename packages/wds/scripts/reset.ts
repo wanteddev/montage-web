@@ -164,11 +164,6 @@ body {
     sans-serif;
 }
 
-svg {
-  width: 1em;
-  height: 1em;
-}
-
 html:lang(ja) body {
   font-family:
     'Pretendard JP',

@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { gridItemStyle } from './style';
 
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { MergeWithCustomElementProps } from '@/types';
 import type { GridItemProps } from './types';
 
@@ -51,4 +51,4 @@ GridItem.displayName = 'GridItem';
 
 export default GridItem as <E extends ElementType = 'div'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

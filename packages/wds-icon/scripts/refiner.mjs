@@ -41,7 +41,7 @@ const Icon${componentName} = (props: Props) => {
       .replace(/height="(.*?)"/, '')
       .replace(
         'xmlns="http://www.w3.org/2000/svg"',
-        'xmlns="http://www.w3.org/2000/svg" {...props}',
+        'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" {...props}',
       )
       .replaceAll('fill="#171719"', 'fill="currentColor"')
       .replaceAll('fill-rule', 'fillRule')

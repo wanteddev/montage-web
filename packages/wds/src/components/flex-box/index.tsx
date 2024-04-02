@@ -5,7 +5,7 @@ import { flexBoxStyle } from './style';
 
 import type { MergeWithCustomElementProps } from '@/types';
 import type { FlexBoxProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
 type Props<E extends ElementType> = MergeWithCustomElementProps<
   E,
@@ -71,4 +71,4 @@ FlexBox.displayName = 'FlexBox';
 
 export default FlexBox as <E extends ElementType = 'div'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

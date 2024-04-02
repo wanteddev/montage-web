@@ -25,7 +25,7 @@ export const headerStyle = (theme: Theme) => css`
 export const menuToggleStyle = (theme: Theme) => css`
   display: none;
 
-  ${respondTo(theme.breakpoint.md)} {
+  ${respondTo(theme.breakpoint.sm)} {
     display: flex;
   }
 

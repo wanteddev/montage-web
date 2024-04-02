@@ -1,6 +1,7 @@
 import { MobileMenuProvider } from '@/features/menu/context';
 import Header from '@/features/menu/components/header';
 import Menu from '@/features/menu/components/menu';
+import MobileMenu from '@/features/menu/components/mobile-menu';
 
 import Providers from './providers';
 import ClientRootLayout from './layout.client';
@@ -144,6 +145,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
             <Header />
             <ClientRootLayout>
               <Menu />
+              <MobileMenu />
               {children}
             </ClientRootLayout>
           </MobileMenuProvider>
