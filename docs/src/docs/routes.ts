@@ -30,6 +30,7 @@ export const routes: Array<Route> = [
       { title: 'AvatarGroup', slug: '/docs/components/avatar-group' },
       { title: 'Button', slug: '/docs/components/button' },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
+      { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ContentBadge', slug: '/docs/components/content-badge' },
       { title: 'FloatingAction', slug: '/docs/components/floating-action' },
       { title: 'Grid', slug: '/docs/components/grid' },

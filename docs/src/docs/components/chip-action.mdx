@@ -1,0 +1,76 @@
+---
+title: ChipAction
+description: ChipAction Component
+---
+
+# ChipAction
+
+정보를 선택하고, 내용을 필터링하거나 동작을 표시하는 요소로 사용합니다.
+
+## 활용
+
+- Chip은 반응적이므로 콘텐츠의 특성에 따라 다른 동작을 제공해야 합니다.
+- Chip의 텍스트에 말 줄임표(...) 사용을 지양합니다.
+
+<Demo code={`import { ChipAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipAction>
+      Chip Action
+    </ChipAction>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="ChipAction" />
+
+## Example
+
+### Size
+
+<Demo code={`import { ChipAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipAction size="large">Large</ChipAction>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Variant
+
+<Demo code={`import { ChipAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipAction variant="outlined">
+      Outlined
+    </ChipAction>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Disabled, DisabledInteraction
+
+<Demo code={`import { ChipAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipAction disabled disableInteraction>
+      Disabled, DisabledInteraction
+    </ChipAction>
+  )
+}
+
+export default Demo;`}
+/>
