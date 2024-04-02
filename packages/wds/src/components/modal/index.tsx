@@ -528,7 +528,7 @@ ModalHeadingFc.displayName = 'ModalHeading';
 
 const ModalHeading = ModalHeadingFc as <E extends ElementType = 'h1'>(
   props: ModalHeadingProps<E>,
-) => ReactNode;
+) => JSX.Element;
 
 const ModalSummaryFc = forwardRef(
   <E extends ElementType = 'p'>(
@@ -555,7 +555,7 @@ ModalSummaryFc.displayName = 'ModalSummary';
 
 const ModalSummary = ModalSummaryFc as <E extends ElementType = 'p'>(
   props: ModalSummaryProps<E>,
-) => ReactNode;
+) => JSX.Element;
 
 const ModalDescriptionFC = forwardRef(
   <E extends ElementType = 'p'>(
@@ -582,7 +582,7 @@ ModalDescriptionFC.displayName = 'ModalDescription';
 
 const ModalDescription = ModalDescriptionFC as <E extends ElementType = 'p'>(
   props: ModalDescriptionProps<E>,
-) => ReactNode;
+) => JSX.Element;
 
 const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
   (
@@ -718,7 +718,7 @@ const ModalActionButton = ModalActionButtonFC as <
   E extends ElementType = 'button',
 >(
   props: ModalActionButtonProps<E>,
-) => ReactNode;
+) => JSX.Element;
 
 export {
   Modal,

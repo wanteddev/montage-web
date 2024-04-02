@@ -8,7 +8,7 @@ import { createResponsiveStyle, getPreviousValue } from '@/utils';
 
 import type { Merge, MergeWithCustomElementProps } from '@/types';
 import type { TypographyProps, TypographyResponsiveProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
   E,
@@ -110,4 +110,4 @@ Typography.displayName = 'Typography';
 
 export default Typography as <E extends ElementType = 'span'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

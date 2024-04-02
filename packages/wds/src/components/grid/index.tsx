@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { gridStyle } from './style';
 
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { MergeWithCustomElementProps } from '@/types';
 import type { GridProps } from './types';
 
@@ -56,4 +56,4 @@ Grid.displayName = 'Grid';
 
 export default Grid as <E extends ElementType = 'div'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;

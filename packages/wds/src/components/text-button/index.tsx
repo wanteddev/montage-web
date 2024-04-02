@@ -5,7 +5,7 @@ import WithInteraction from '../with-interaction';
 
 import { textButtonStyle } from './style';
 
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
 import type { TextButtonProps } from './types';
 
@@ -77,4 +77,4 @@ TextButton.displayName = 'TextButton';
 
 export default TextButton as <E extends ElementType = 'button'>(
   props: Props<E>,
-) => ReactNode;
+) => JSX.Element;
