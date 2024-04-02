@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconCameraFill = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M8.39976 12.25C8.39976 10.2618 10.0115 8.65 11.9998 8.65C13.988 8.65 15.5998 10.2618 15.5998 12.25C15.5998 14.2382 13.988 15.85 11.9998 15.85C10.0115 15.85 8.39976 14.2382 8.39976 12.25Z"

@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconMoreHorizontal = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M19.25 13.75C18.2835 13.75 17.5 12.9665 17.5 12C17.5 11.0335 18.2835 10.25 19.25 10.25C20.2165 10.25 21 11.0335 21 12C21 12.9665 20.2165 13.75 19.25 13.75Z"

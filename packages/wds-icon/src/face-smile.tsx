@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconFaceSmile = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M9.99961 10.0001C9.99961 10.5524 9.55189 11.0001 8.99961 11.0001C8.44732 11.0001 7.99961 10.5524 7.99961 10.0001C7.99961 9.44781 8.44732 9.0001 8.99961 9.0001C9.55189 9.0001 9.99961 9.44781 9.99961 10.0001Z"

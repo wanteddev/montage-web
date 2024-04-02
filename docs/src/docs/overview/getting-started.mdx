@@ -91,7 +91,7 @@ import { ThemeProvider } from '@wanteddev/wds';
 
 import App from './App';
 
-import '@wanted-frontend/wds/global.css';
+import '@wantddev/wds/global.css';
 
 const root = createRoot(document.getElementById('app')!);
 
@@ -109,7 +109,7 @@ root.render(
 `_app.tsx` 혹은 `app/layout.tsx` 에 global css를 불러옵니다.
 
 ```typescript
-import '@wanted-frontend/wds/global.css';
+import '@wantddev/wds/global.css';
 ```
 
 서버사이드에서 emotion을 사용하기 위한 추가 설정을 진행합니다.
@@ -129,12 +129,12 @@ yarn add @wanteddev/wds-nextjs
 // app/layout.tsx
 'use client';
 import { Head } from '@wanted-frontend/config';
-import { ThemeProvider } from '@wanted-frontend/wds';
-import { AppRouterCacheProvider } from '@wanted-frontend/wds-nextjs';
+import { ThemeProvider } from '@wantddev/wds';
+import { AppRouterCacheProvider } from '@wantddev/wds-nextjs';
 
 import type { PropsWithChildren } from 'react';
 
-import '@wanted-frontend/wds/global.css';
+import '@wantddev/wds/global.css';
 
 const RootLayout = (props: PropsWithChildren) => {
   return (

@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconLogoGooglePlay = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M15.7178 7.72438L7.22945 2.80299C6.91167 2.61085 6.53478 2.5 6.12832 2.5C5.29879 2.5 4.57981 2.97902 4.22903 3.67049L12.0034 11.4407L15.7178 7.72438Z"

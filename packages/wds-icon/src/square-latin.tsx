@@ -4,7 +4,13 @@ type Props = ComponentProps<'svg'>;
 
 const IconSquareLatin = (props: Props) => {
   return (
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      {...props}
+    >
       <path
         fill="currentColor"
         d="M9.65708 16.2501H7.99985L11.0401 7.7501H12.9477L15.9999 16.2501H14.3426L13.6213 14.1486H10.3724L9.65708 16.2501ZM10.7897 12.9158H13.204L12.0297 9.48767H11.9581L10.7897 12.9158Z"

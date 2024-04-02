@@ -63,6 +63,8 @@ const IconSymbol = (props: Props) => {
       viewBox="0 0 1632 1632"
       role="img"
       aria-labelledby={ariaTitleId}
+      width="1em"
+      height="1em"
       {...props}
     >
       <title id={ariaTitleId}>원티드 심벌</title>
