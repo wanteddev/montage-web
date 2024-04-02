@@ -70,7 +70,9 @@
     "zustand": "^4.5.2"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.11.4"
+    "@emotion/react": "^11.11.4",
+    "react": "^18.0",
+    "react-dom": "^18.0"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {
