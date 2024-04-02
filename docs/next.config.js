@@ -21,6 +21,9 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
+  experimental: {
+    optimizePackageImports: ['@wanteddev/wds-icon', '@wanteddev/wds-nextjs'],
+  },
   env: {
     APP_BUILD_ID: commitHash,
   },

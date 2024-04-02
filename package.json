@@ -55,8 +55,10 @@
     ]
   },
   "dependencies": {
+    "esbuild-plugin-file-path-extensions": "^2.0.0",
     "inquirer": "^9.2.16",
     "shelljs": "^0.8.5",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2"
   }
 }

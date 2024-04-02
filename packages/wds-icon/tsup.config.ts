@@ -1,10 +1,7 @@
 import { defineConfig } from 'tsup';
 
-export default defineConfig({
-  entry: ['src/index.ts'],
-  sourcemap: false,
-  clean: true,
-  minify: true,
-  dts: true,
-  format: ['cjs', 'esm'],
-});
+import { defineConfiguration } from '../../.tsup/defineConfiguration.mjs';
+
+export default defineConfig([
+  defineConfiguration({ entry: ['src/**/*.ts', 'src/**/*.tsx'] }),
+]);

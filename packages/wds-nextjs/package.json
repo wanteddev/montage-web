@@ -4,6 +4,7 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -24,10 +25,8 @@
     "type": "git"
   },
   "devDependencies": {
-    "@swc/plugin-emotion": "^2.5.120",
     "@types/react": "^18.2.65",
     "@types/react-dom": "^18.2.22",
-    "tsup": "^8.0.2",
     "typescript": "^5.4.2"
   },
   "dependencies": {
