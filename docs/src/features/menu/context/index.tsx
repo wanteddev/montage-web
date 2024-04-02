@@ -28,7 +28,7 @@ export const MobileMenuProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia(
-      `(min-width: ${theme.breakpoint.md})`,
+      `(min-width: ${theme.breakpoint.sm})`,
     );
 
     const handleChange = () => {
@@ -38,7 +38,7 @@ export const MobileMenuProvider = ({ children }: PropsWithChildren) => {
     handleChange();
     mediaQueryList.addEventListener('change', handleChange);
     return () => mediaQueryList.removeEventListener('change', handleChange);
-  }, [theme.breakpoint.md]);
+  }, [theme.breakpoint.sm]);
 
   return (
     <MobileMenuContext.Provider value={{ open, setOpen }}>
