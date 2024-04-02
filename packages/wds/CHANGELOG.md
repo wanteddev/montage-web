@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.14...@wanteddev/wds@0.1.0) (2024-04-02)
+
+### Bug Fixes
+
+- **core:** icon size global css -> wds-icon 으로 변경 ([8452c79](https://github.com/wanteddev/wds/commit/8452c798fcdb174cd698bda8d10125729ed1e93a))
+- **wds:** as return type 변경 ([2183daf](https://github.com/wanteddev/wds/commit/2183daf4575ef867a40113660873d55b1ccefb33))
+
+### Features
+
+- **wds:** modal navigation z index 수정 ([f7cf9f4](https://github.com/wanteddev/wds/commit/f7cf9f4e436b873911241f3be60c2f0d5b8d6418))
+
 ## [0.0.14](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.13...@wanteddev/wds@0.0.14) (2024-04-02)
 
 ### Bug Fixes

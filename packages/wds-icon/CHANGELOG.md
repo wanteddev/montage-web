@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.6...@wanteddev/wds-icon@0.1.0) (2024-04-02)
+
+### Bug Fixes
+
+- **core:** icon size global css -> wds-icon 으로 변경 ([8452c79](https://github.com/wanteddev/wds/commit/8452c798fcdb174cd698bda8d10125729ed1e93a))
+
 ## [0.0.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.5...@wanteddev/wds-icon@0.0.6) (2024-03-28)
 
 ### Features
