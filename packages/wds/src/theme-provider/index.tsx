@@ -20,6 +20,8 @@ type Props = PropsWithChildren<{
   storageKey?: string | undefined;
   /* 강제로 테마를 덮어씌울 때 사용합니다. */
   forcedTheme?: 'light' | 'dark' | undefined;
+  /** Use default global style */
+  disableDefaultGlobalStyle?: boolean | undefined;
 }>;
 
 const ThemeProvider = ({
@@ -29,6 +31,7 @@ const ThemeProvider = ({
   disableTransitionOnChange = false,
   forcedTheme,
   storageKey = 'theme',
+  disableDefaultGlobalStyle = false,
 }: Props) => {
   return (
     <NextThemeProvider
@@ -39,12 +42,19 @@ const ThemeProvider = ({
       forcedTheme={forcedTheme}
       storageKey={storageKey}
     >
-      <EmotionThemeProvider>{children}</EmotionThemeProvider>
+      <EmotionThemeProvider
+        disableDefaultGlobalStyle={disableDefaultGlobalStyle}
+      >
+        {children}
+      </EmotionThemeProvider>
     </NextThemeProvider>
   );
 };
 
-const EmotionThemeProvider = ({ children }: PropsWithChildren) => {
+const EmotionThemeProvider = ({
+  children,
+  disableDefaultGlobalStyle,
+}: PropsWithChildren<{ disableDefaultGlobalStyle: boolean }>) => {
   const { theme } = useThemeControl();
 
   const themeObject = useMemo(() => {
@@ -56,14 +66,18 @@ const EmotionThemeProvider = ({ children }: PropsWithChildren) => {
       <StoreProvider>{children}</StoreProvider>
 
       <Global
-        styles={{
-          body: {
-            backgroundColor: themeObject.palette.background.normal.normal,
-          },
-          ['*:focus-visible']: {
-            outlineColor: themeObject.palette.primary.normal,
-          },
-        }}
+        styles={
+          disableDefaultGlobalStyle
+            ? undefined
+            : {
+                body: {
+                  backgroundColor: themeObject.palette.background.normal.normal,
+                },
+                ['*:focus-visible']: {
+                  outlineColor: themeObject.palette.primary.normal,
+                },
+              }
+        }
       />
     </DefaultThemeProvider>
   );
