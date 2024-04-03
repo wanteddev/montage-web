@@ -22,6 +22,8 @@
       "import": "./dist/style.mjs"
     },
     "./global.css": "./dist/global.css",
+    "./theme.css": "./dist/theme.css",
+    "./reset.css": "./dist/reset.css",
     "./declaration": "./declaration.d.ts"
   },
   "scripts": {
