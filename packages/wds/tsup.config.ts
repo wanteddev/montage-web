@@ -1,11 +1,10 @@
 import { defineConfig } from 'tsup';
 
-export default defineConfig({
-  entry: ['src/index.ts'],
-  minify: true,
-  treeshake: true,
-  dts: {
-    entry: ['src/index.ts'],
+import { defineConfiguration } from '../../.tsup/define-configuration';
+
+export default defineConfig([
+  {
+    ...defineConfiguration({ entry: ['src/**/*.ts', 'src/**/*.tsx'] }),
+    dts: 'src/index.ts',
   },
-  format: ['cjs', 'esm'],
-});
+]);

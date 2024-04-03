@@ -5,8 +5,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["**/node_modules", "**/.*/", "./dist", "*.cjs"],
-  "include": ["*/**/vite.config.ts"]
+  "include": ["scripts/**/*.mjs", ".tsup/**/*.ts"]
 }
