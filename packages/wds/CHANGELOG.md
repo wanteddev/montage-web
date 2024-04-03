@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.0...@wanteddev/wds@0.1.1) (2024-04-03)
+
+### Bug Fixes
+
+- **wds:** global.css 하위호환성 제공 ([#4](https://github.com/wanteddev/wds/issues/4)) ([fd9db38](https://github.com/wanteddev/wds/commit/fd9db38b5bb1352831a95d7985160f4c917adee5))
+- **wds:** reset, theme 빌드 css 분리 ([#3](https://github.com/wanteddev/wds/issues/3)) ([e643131](https://github.com/wanteddev/wds/commit/e643131657031a677cae695827007ae5437d0192))
+
+### Features
+
+- **core:** 트리쉐이킹 추가 및 빌드 config 변경 ([364f436](https://github.com/wanteddev/wds/commit/364f436fb7938044c80f18ce4cc4b23a03e0793a))
+
 # [0.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.0.14...@wanteddev/wds@0.1.0) (2024-04-02)
 
 ### Bug Fixes

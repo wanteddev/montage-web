@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.1.0...@wanteddev/wds-icon@0.1.1) (2024-04-03)
+
+### Features
+
+- **core:** 트리쉐이킹 추가 및 빌드 config 변경 ([364f436](https://github.com/wanteddev/wds/commit/364f436fb7938044c80f18ce4cc4b23a03e0793a))
+
 # [0.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.0.6...@wanteddev/wds-icon@0.1.0) (2024-04-02)
 
 ### Bug Fixes
