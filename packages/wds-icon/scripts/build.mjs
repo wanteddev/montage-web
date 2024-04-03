@@ -11,7 +11,7 @@ const files = fs
 const content = `${files
   .map(
     (file) =>
-      `export { default as Icon${changeCase.pascalCase(
+      `export { default as ${changeCase.pascalCase(
         file,
       )} } from \'./${changeCase.kebabCase(file)}\';`,
   )
