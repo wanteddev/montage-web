@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.1...@wanteddev/wds@0.1.2) (2024-04-03)
+
+### Bug Fixes
+
+- **wds:** reset, theme exports ([ba8f611](https://github.com/wanteddev/wds/commit/ba8f611bd7da1ceee4b9cf419103a8530c6435ab))
+- **wds:** 중복 import 구문 변경 ([9cf7289](https://github.com/wanteddev/wds/commit/9cf7289b5e6e0395ac3594994bb40179ad2ddca6))
+
 ## [0.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.0...@wanteddev/wds@0.1.1) (2024-04-03)
 
 ### Bug Fixes
