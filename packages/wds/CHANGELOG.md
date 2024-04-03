@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.2...@wanteddev/wds@0.1.3) (2024-04-03)
+
+### Bug Fixes
+
+- **wds:** theme-provider 기본 스타일 적용 여부 prop 추가 ([c64fafb](https://github.com/wanteddev/wds/commit/c64fafb1c15ba9d2f2898ea1aa20768d4bf59e56))
+
 ## [0.1.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.1...@wanteddev/wds@0.1.2) (2024-04-03)
 
 ### Bug Fixes
