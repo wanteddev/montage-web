@@ -40,9 +40,7 @@ module.exports = {
     ["import", {
       libraryName: "@wanteddev/wds-icon",
       libraryDirectory: "",
-      customName: (name) => {
-        return `${name.replace('Icon', '').replace(/([a-z0–9])([A-Z])/g, "$1-$2").toLowerCase()}`
-      }
+      camel2DashComponentName: true,
     }]
   ]
 }
