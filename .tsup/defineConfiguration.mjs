@@ -13,6 +13,6 @@ export const defineConfiguration = (opts) => {
     outDir: 'dist',
     dts: true,
     clean: true,
-    esbuildPlugins: [esbuildPluginFilePathExtensions({ esmExtension: 'js' })],
+    esbuildPlugins: [esbuildPluginFilePathExtensions({ cjsExtension: 'js' })],
   };
 };
