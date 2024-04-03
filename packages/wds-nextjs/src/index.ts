@@ -1,1 +1,1 @@
-export * from './app';
+export { default as AppRouterCacheProvider } from './app-router-cache-provider';

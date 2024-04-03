@@ -6,11 +6,11 @@ import { type PropsWithChildren, useState } from 'react';
 
 import type { Options as OptionsOfCreateCache } from '@emotion/cache';
 
-export type AppRouterCacheProviderProps = PropsWithChildren<{
+type AppRouterCacheProviderProps = PropsWithChildren<{
   options?: Partial<OptionsOfCreateCache>;
 }>;
 
-export const AppRouterCacheProvider = (props: AppRouterCacheProviderProps) => {
+const AppRouterCacheProvider = (props: AppRouterCacheProviderProps) => {
   const { options, children } = props;
 
   const [registry] = useState(() => {
@@ -89,3 +89,5 @@ export const AppRouterCacheProvider = (props: AppRouterCacheProviderProps) => {
 
   return <CacheProvider value={registry.cache}>{children}</CacheProvider>;
 };
+
+export default AppRouterCacheProvider;
