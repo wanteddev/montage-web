@@ -3,7 +3,7 @@ import type {
   MergeWithCss,
   MergeWithCustomElementProps,
   ResponsiveProps,
-} from '@/types';
+} from '../../types';
 import type Portal from '../portal';
 import type {
   ComponentPropsWithRef,

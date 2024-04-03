@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useRegionStore } from '@/stores/region-store';
+import { useRegionStore } from '../../stores/region-store';
 
 import type { RegionConfigProps } from './types';
 

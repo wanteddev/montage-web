@@ -2,12 +2,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { flushSync } from 'react-dom';
 
-import { getPreviousValue } from '@/utils';
+import { getPreviousValue } from '../../utils';
 
 import { MODAL_NAME } from './constants';
 import { useModalContext } from './contexts';
 
-import type { BreakPoint } from '@/types';
+import type { BreakPoint } from '../../types';
 import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({

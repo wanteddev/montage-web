@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { Merge, ResponsiveProps, ThemeColorsToken } from '@/types';
+import type { Merge, ResponsiveProps, ThemeColorsToken } from '../../types';
 
 type ToggleIconDefaultProps = {
   active?: boolean;

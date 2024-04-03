@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { dividerStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { DividerProps } from './types';
 
 type Props = MergeElementProps<'hr', DividerProps>;

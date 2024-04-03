@@ -5,7 +5,7 @@ import ImageLoader from '../image-loader';
 
 import { thumbnailStyle } from './style';
 
-import type { Merge } from '@/types';
+import type { Merge } from '../../types';
 import type { ComponentProps } from 'react';
 import type { ThumbnailProps } from './types';
 

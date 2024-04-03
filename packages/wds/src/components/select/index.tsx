@@ -5,7 +5,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
 import { selectWrapperStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { SelectProps } from './types';
 
 type FieldProps = MergeElementProps<'select', SelectProps>;

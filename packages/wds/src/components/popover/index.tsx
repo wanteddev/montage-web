@@ -3,8 +3,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import { useFocusGuard } from '@/hooks';
-
+import { useFocusGuard } from '../../hooks';
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
@@ -19,7 +18,7 @@ import {
 import { popoverStyle } from './style';
 
 import type { PopoverContentProps, PopoverProps } from './types';
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 
 const Popover = ({

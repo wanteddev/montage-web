@@ -16,8 +16,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { useTheme } from '@emotion/react';
 import { flushSync } from 'react-dom';
 
-import { hideOthers } from '@/utils';
-
+import { hideOthers } from '../../utils';
 import useFocusGuards from '../../hooks/use-focus-guard';
 import RemoveScroll from '../remove-scroll';
 import DismissableLayer from '../dismissable-layer';

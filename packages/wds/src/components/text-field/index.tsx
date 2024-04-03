@@ -4,7 +4,7 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
 import { textFieldWrapperStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { TextFieldProps } from './types';
 
 type Props = MergeElementProps<'input', TextFieldProps>;

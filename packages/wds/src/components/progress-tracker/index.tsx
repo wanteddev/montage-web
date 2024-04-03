@@ -15,7 +15,7 @@ import {
 import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
 import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ReactElement } from 'react';
 import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
 

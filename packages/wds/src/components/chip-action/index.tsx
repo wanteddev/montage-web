@@ -5,7 +5,10 @@ import WithInteraction from '../with-interaction';
 
 import { actionStyle } from './style';
 
-import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
+import type {
+  MergeWithCustomElementProps,
+  ThemeColorsToken,
+} from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
 

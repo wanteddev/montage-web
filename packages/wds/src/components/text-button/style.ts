@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import { typographyStyle } from '@/utils/typography';
-import { createResponsiveStyle } from '@/utils';
+import { typographyStyle } from '../../utils/typography';
+import { createResponsiveStyle } from '../../utils';
 
 import type { Theme } from '@emotion/react';
 import type { TextButtonProps } from './types';

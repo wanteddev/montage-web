@@ -6,7 +6,7 @@ import PushBadge from '../push-badge';
 
 import { iconButtonStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '@/types';
+import type { MergeWithCustomElementProps } from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
 

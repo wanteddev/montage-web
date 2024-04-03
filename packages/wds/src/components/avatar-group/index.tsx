@@ -5,7 +5,7 @@ import FlexBox from '../flex-box';
 
 import { avatarGroupStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { AvatarGroupProps } from './types';
 
 type Props = MergeElementProps<'div', AvatarGroupProps>;

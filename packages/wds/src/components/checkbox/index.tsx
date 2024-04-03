@@ -11,7 +11,7 @@ import WithInteraction from '../with-interaction';
 
 import { checkboxStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { CheckboxProps } from './types';
 

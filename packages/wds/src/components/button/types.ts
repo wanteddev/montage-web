@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps } from '@/types';
+import type { Merge, ResponsiveProps } from '../../types';
 import type { ReactNode } from 'react';
 
 export type ButtonVariant = 'solid' | 'outlined';

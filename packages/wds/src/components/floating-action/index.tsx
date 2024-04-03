@@ -5,7 +5,7 @@ import WithInteraction from '../with-interaction';
 
 import { floatingActionStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '@/types';
+import type { MergeWithCustomElementProps } from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { FloatingActionProps } from './types';
 

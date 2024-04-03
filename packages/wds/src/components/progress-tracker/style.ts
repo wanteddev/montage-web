@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { addOpacity } from '@/utils/color';
+import { addOpacity } from '../../utils/color';
 
 import type { Theme } from '@emotion/react';
 

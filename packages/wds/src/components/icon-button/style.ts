@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import { getColorByToken } from '@/utils/color';
-import { createResponsiveStyle } from '@/utils';
+import { getColorByToken } from '../../utils/color';
+import { createResponsiveStyle } from '../../utils';
 
 import type { IconButtonProps } from './types';
 import type { Theme } from '@emotion/react';

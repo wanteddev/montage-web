@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle, typographyStyle } from '@/utils';
+import { createResponsiveStyle, typographyStyle } from '../../utils';
 
 import type { TextAreaProps } from './types';
 import type { Theme } from '@emotion/react';

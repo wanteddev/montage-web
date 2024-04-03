@@ -1,4 +1,4 @@
-import type { ResponsiveProps, ThemeColorsToken } from '@/types';
+import type { ResponsiveProps, ThemeColorsToken } from '../../types';
 import type { CSSProperties } from 'react';
 
 export type TypographyVariant =

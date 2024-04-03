@@ -6,7 +6,7 @@ import PushBadge from '../push-badge';
 
 import { avatarButtonStyle, pushBadgeStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '@/types';
+import type { MergeWithCustomElementProps } from '../../types';
 import type { AvatarButtonProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 

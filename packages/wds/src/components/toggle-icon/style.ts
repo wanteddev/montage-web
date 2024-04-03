@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle, getColorByToken } from '@/utils';
+import { createResponsiveStyle, getColorByToken } from '../../utils';
 
 import type { Theme } from '@emotion/react';
 import type { ToggleIconProps } from './types';

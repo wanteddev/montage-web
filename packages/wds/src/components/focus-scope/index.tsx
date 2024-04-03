@@ -20,7 +20,7 @@ import {
   removeLinks,
 } from './helpers';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { FocusScopeProps } from './types';
 import type { KeyboardEventHandler } from 'react';
 

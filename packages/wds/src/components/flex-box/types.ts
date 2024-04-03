@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { Merge, ResponsiveProps } from '@/types';
+import type { Merge, ResponsiveProps } from '../../types';
 
 export type FlexBoxDefaultProps = {
   flexDirection?: CSSProperties['flexDirection'];

@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { MergeWithCss, ResponsiveProps } from '@/types';
+import type { MergeWithCss, ResponsiveProps } from '../../types';
 
 type SkeletonDefaultProps = {
   width?: CSSProperties['width'];

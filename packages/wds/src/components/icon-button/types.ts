@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps, ThemeColorsToken } from '@/types';
+import type { Merge, ResponsiveProps, ThemeColorsToken } from '../../types';
 
 type IconButtonVariant = 'normal' | 'background' | 'outlined' | 'solid';
 

@@ -31,7 +31,10 @@ import type {
   ForwardedRef,
   UIEventHandler,
 } from 'react';
-import type { MergeElementProps, MergeWithCustomElementProps } from '@/types';
+import type {
+  MergeElementProps,
+  MergeWithCustomElementProps,
+} from '../../types';
 import type {
   TabListItemProps,
   TabListProps,

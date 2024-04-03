@@ -5,7 +5,7 @@ import Typography from '../typography';
 
 import { pushBadgeStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ReactNode } from 'react';
 import type { PushBadgeProps } from './types';
 

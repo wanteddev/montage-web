@@ -16,7 +16,7 @@ import {
   textAreaWrapperStyle,
 } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { TextAreaProps } from './types';
 
 const getStyleValue = (value: string) => {

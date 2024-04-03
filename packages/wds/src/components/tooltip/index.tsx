@@ -26,7 +26,7 @@ import {
 } from './constants';
 import { tooltipContentStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { TooltipContentProps, TooltipProps } from './types';
 import type {
   ComponentPropsWithoutRef,

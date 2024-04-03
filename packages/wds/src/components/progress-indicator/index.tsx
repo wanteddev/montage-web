@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { progressIndicatorStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { CSSProperties } from 'react';
 import type { ProgressIndicatorProps } from './types';
 

@@ -1,7 +1,7 @@
 import type { useFloating } from '@floating-ui/react';
 import type { Slot } from '@radix-ui/react-slot';
 import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
-import type { Merge } from '@/types';
+import type { Merge } from '../../types';
 
 export type PopperContentProps = Merge<
   {

@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps } from '@/types';
+import type { Merge, ResponsiveProps } from '../../types';
 import type { CSSProperties, ReactNode } from 'react';
 
 export type TextFieldDefaultProps = {

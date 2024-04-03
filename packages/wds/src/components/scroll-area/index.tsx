@@ -6,7 +6,7 @@ import WithInteraction from '../with-interaction';
 
 import { scrollAreaStyle, scrollBarStyle, scrollBarThumbStyle } from './style';
 
-import type { Merge } from '@/types';
+import type { Merge } from '../../types';
 import type {
   ComponentPropsWithoutRef,
   ElementRef,

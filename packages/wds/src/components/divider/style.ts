@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 
 import {
   createResponsiveStyle,
-  getColorByToken,
   getPreviousValue,
-} from '@/utils';
+} from '../../utils/responsive-props';
+import { getColorByToken } from '../../utils/color';
 
 import type { DividerProps } from './types';
 import type { Theme } from '@emotion/react';

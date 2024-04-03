@@ -2,11 +2,17 @@
 import { forwardRef } from 'react';
 import { css as emotionCss, useTheme } from '@emotion/react';
 
-import { ellipsisTypographyStyle, typographyStyle } from '@/utils/typography';
-import { getColorByToken } from '@/utils/color';
-import { createResponsiveStyle, getPreviousValue } from '@/utils';
+import { getColorByToken } from '../../utils/color';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+} from '../../utils/responsive-props';
+import {
+  ellipsisTypographyStyle,
+  typographyStyle,
+} from '../../utils/typography';
 
-import type { Merge, MergeWithCustomElementProps } from '@/types';
+import type { Merge, MergeWithCustomElementProps } from '../../types';
 import type { TypographyProps, TypographyResponsiveProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 

@@ -10,8 +10,7 @@ import {
 } from '@wanteddev/wds-icon';
 import { useTheme } from '@emotion/react';
 
-import { addOpacity } from '@/utils';
-
+import { addOpacity } from '../../utils/color';
 import Portal from '../portal';
 import Typography from '../typography';
 import FlexBox from '../flex-box';
@@ -21,7 +20,7 @@ import { topRegionStatusStyle } from './style';
 
 import type { CSSProperties, ReactNode } from 'react';
 import type { AlertProps } from './types';
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 
 type Props = MergeElementProps<'div', AlertProps>;
 

@@ -8,8 +8,7 @@ import {
   IconLink,
 } from '@wanteddev/wds-icon';
 
-import { useRegionStore } from '@/stores/region-store';
-
+import { useRegionStore } from '../../stores/region-store';
 import Typography from '../typography';
 import IconButton from '../icon-button';
 import { FlexBox, Portal, TextButton } from '..';
@@ -21,7 +20,7 @@ import {
 } from './style';
 
 import type { AnimationEventHandler, ReactNode } from 'react';
-import type { RegionItem, RegionSnackbarItem } from '@/stores/region-store';
+import type { RegionItem, RegionSnackbarItem } from '../../stores/region-store';
 
 /**
  * @description WDS 패키지로 export 되지 않는 요소 입니다.

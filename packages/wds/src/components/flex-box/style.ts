@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle } from '@/utils';
+import { createResponsiveStyle } from '../../utils';
 
 import type { Theme } from '@emotion/react';
 import type { FlexBoxDefaultProps, FlexBoxProps } from './types';

@@ -1,3 +1,3 @@
-import type { RegionState } from '@/stores/region-store';
+import type { RegionState } from '../../stores/region-store';
 
 export type RegionConfigProps = Partial<RegionState['config']>;

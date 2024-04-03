@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle } from '@/utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { Theme } from '@emotion/react';
 import type { ProgressStepIndicatorProps } from './types';

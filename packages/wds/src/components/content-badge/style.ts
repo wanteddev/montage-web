@@ -1,11 +1,8 @@
 import { css } from '@emotion/react';
 
-import {
-  addOpacity,
-  createResponsiveStyle,
-  getColorByToken,
-  typographyStyle,
-} from '@/utils';
+import { addOpacity, getColorByToken } from '../../utils/color';
+import { typographyStyle } from '../../utils/typography';
+import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { Theme } from '@emotion/react';
 import type { ContentBadgeProps } from './types';

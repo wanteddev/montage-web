@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@/types';
+import type { Merge, ResponsiveProps } from '../../types';
 
 export type TabProps = PropsWithChildren<{
   defaultValue?: string;

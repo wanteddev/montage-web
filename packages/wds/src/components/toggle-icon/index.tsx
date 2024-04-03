@@ -7,7 +7,7 @@ import WithInteraction from '../with-interaction';
 
 import { toggleIconStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '@/types';
+import type { MergeWithCustomElementProps } from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ToggleIconProps } from './types';
 

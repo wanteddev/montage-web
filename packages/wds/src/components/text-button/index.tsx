@@ -6,7 +6,10 @@ import WithInteraction from '../with-interaction';
 import { textButtonStyle } from './style';
 
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
+import type {
+  MergeWithCustomElementProps,
+  ThemeColorsToken,
+} from '../../types';
 import type { TextButtonProps } from './types';
 
 type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<

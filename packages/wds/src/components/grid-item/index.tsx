@@ -4,7 +4,7 @@ import { forwardRef } from 'react';
 import { gridItemStyle } from './style';
 
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { MergeWithCustomElementProps } from '@/types';
+import type { MergeWithCustomElementProps } from '../../types';
 import type { GridItemProps } from './types';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<

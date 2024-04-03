@@ -5,7 +5,10 @@ import WithInteraction from '../with-interaction';
 
 import { buttonStyle } from './style';
 
-import type { MergeWithCustomElementProps, ThemeColorsToken } from '@/types';
+import type {
+  MergeWithCustomElementProps,
+  ThemeColorsToken,
+} from '../../types';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ButtonProps, ButtonVariant } from './types';
 

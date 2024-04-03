@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps } from '@/types';
+import type { Merge, ResponsiveProps } from '../../types';
 
 type AvatarGroupDefaultProps = {
   size?: 'xsmall' | 'small';

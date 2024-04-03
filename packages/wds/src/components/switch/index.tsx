@@ -10,7 +10,7 @@ import WithInteraction from '../with-interaction';
 
 import { switchStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { SwitchProps } from './types';
 

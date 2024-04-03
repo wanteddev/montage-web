@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import type { RovingFocusGroup } from '@radix-ui/react-roving-focus';
-import type { Merge } from '@/types';
+import type { Merge } from '../../types';
 import type { RadioGroupContextType } from './contexts';
 import type Radio from '../radio';
 

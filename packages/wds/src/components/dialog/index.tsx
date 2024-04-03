@@ -2,9 +2,7 @@
 import { useCallback, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 
-import { hideOthers } from '@/utils';
-import { useDialogStore } from '@/stores/dialog-store';
-
+import { hideOthers } from '../../utils/aria-hidden';
 import useFocusGuards from '../../hooks/use-focus-guard';
 import RemoveScroll from '../remove-scroll';
 import {
@@ -16,6 +14,7 @@ import {
   Typography,
 } from '..';
 import FocusScope from '../focus-scope';
+import { useDialogStore } from '../../stores/dialog-store';
 
 import {
   dialogActionStyle,
@@ -26,7 +25,7 @@ import {
   dialogWrapperStyle,
 } from './style';
 
-import type { DialogItem } from '@/stores/dialog-store';
+import type { DialogItem } from '../../stores/dialog-store';
 
 const Dialog = () => {
   const items = useDialogStore((state) => state.items);

@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { flexBoxStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '@/types';
+import type { MergeWithCustomElementProps } from '../../types';
 import type { FlexBoxProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 

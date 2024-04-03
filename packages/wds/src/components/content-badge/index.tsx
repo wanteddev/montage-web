@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 
 import { contentBadgeStyle } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ContentBadgeProps } from './types';
 
 type Props = MergeElementProps<'span', ContentBadgeProps>;

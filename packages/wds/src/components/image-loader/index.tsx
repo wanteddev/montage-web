@@ -1,9 +1,9 @@
 'use client';
 import { forwardRef, useEffect } from 'react';
 
-import { getOptimizedImageSource } from '@/utils';
+import { getOptimizedImageSource } from '../../utils';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { ImageLoaderProps } from './types';
 
 type Props = MergeElementProps<'img', ImageLoaderProps>;

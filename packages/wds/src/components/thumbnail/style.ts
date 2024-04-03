@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle, getPreviousValue } from '@/utils';
+import { createResponsiveStyle, getPreviousValue } from '../../utils';
 
 import type { Theme } from '@emotion/react';
 import type { ThumbnailProps } from './types';

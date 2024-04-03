@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle, gradient, typographyStyle } from '@/utils';
+import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
 
 import type { Theme } from '@emotion/react';
 import type { TabListProps } from './types';

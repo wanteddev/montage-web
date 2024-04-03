@@ -7,7 +7,7 @@ import {
   progressStepWrapperStyle,
 } from './style';
 
-import type { MergeElementProps } from '@/types';
+import type { MergeElementProps } from '../../types';
 import type { CSSProperties } from 'react';
 import type { ProgressStepIndicatorProps } from './types';
 

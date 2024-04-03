@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle } from '@/utils';
+import { createResponsiveStyle } from '../../utils';
 
 import type { FloatingActionProps } from './types';
 import type { Theme } from '@emotion/react';

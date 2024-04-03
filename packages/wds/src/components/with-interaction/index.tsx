@@ -9,7 +9,7 @@ import {
 } from 'react';
 import { composeRefs } from '@radix-ui/react-compose-refs';
 
-import { getColorByToken } from '@/utils/color';
+import { getColorByToken } from '../../utils/color';
 
 import {
   activeInteractionStyle,
@@ -19,7 +19,7 @@ import {
 } from './style';
 
 import type { CSSProperties } from 'react';
-import type { ThemeColorsToken } from '@/types';
+import type { ThemeColorsToken } from '../../types';
 
 type Props = PropsWithChildren<{
   color?: ThemeColorsToken;
