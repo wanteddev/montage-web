@@ -66,9 +66,7 @@ const dark = flattenDeep(objectToCssKey(darkSemantic, 'palette'));
 
 const basic = flattenDeep(objectToCssKey(atomic, 'palette'));
 
-const content = `${reset}
-
-:root {
+const content = `:root {
   ${basic.join('\n  ')}
 
   ${light.join('\n  ')}
@@ -80,9 +78,17 @@ html[data-theme='dark'] {
 `;
 
 fs.writeFile(
-  path.join(path.dirname(__dirname), '/dist/global.css'),
+  path.join(path.dirname(__dirname), '/dist/reset.css'),
+  reset,
+  () => {
+    console.log('Done reset css');
+  },
+);
+
+fs.writeFile(
+  path.join(path.dirname(__dirname), '/dist/theme.css'),
   content,
   () => {
-    console.log('done');
+    console.log('Done theme css');
   },
 );
