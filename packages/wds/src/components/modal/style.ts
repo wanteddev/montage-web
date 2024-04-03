@@ -1,7 +1,8 @@
 import { css, keyframes } from '@emotion/react';
 
-import { createResponsiveStyle, typographyStyle } from '../../utils';
-import { gradient } from '../../utils';
+import { typographyStyle } from '../../utils/typography';
+import { createResponsiveStyle } from '../../utils/responsive-props';
+import { gradient } from '../../utils/color';
 
 import type { Theme } from '@emotion/react';
 import type {

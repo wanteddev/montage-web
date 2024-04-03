@@ -9,10 +9,9 @@ export const defineConfiguration = (opts: Pick<Options, 'entry'>): Options => {
     outDir: 'dist',
     dts: true,
     clean: true,
+    treeshake: true,
     bundle: true,
     external: ['react', 'react-dom', 'react-hook-form'],
-    esbuildPlugins: [
-      esbuildPluginFilePathExtensions({ cjsExtension: 'js' }),
-    ],
+    esbuildPlugins: [esbuildPluginFilePathExtensions({ cjsExtension: 'js' })],
   };
 };

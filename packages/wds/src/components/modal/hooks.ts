@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@emotion/react';
 import { flushSync } from 'react-dom';
 
-import { getPreviousValue } from '../../utils';
+import { getPreviousValue } from '../../utils/responsive-props';
 
 import { MODAL_NAME } from './constants';
 import { useModalContext } from './contexts';

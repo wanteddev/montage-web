@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
-import { createResponsiveStyle, typographyStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/responsive-props';
+import { typographyStyle } from '../../utils/typography';
 
 import type { RadioProps } from './types';
 import type { Theme } from '@emotion/react';

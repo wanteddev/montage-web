@@ -7,7 +7,7 @@ import { useSize } from '@radix-ui/react-use-size';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import ScrollArea from '../scroll-area';
-import { typographyStyle } from '../../utils';
+import { typographyStyle } from '../../utils/typography';
 
 import {
   maxLengthStyle,
