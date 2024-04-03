@@ -1,8 +1,8 @@
 'use client';
 import { useCallback, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { hideOthers } from 'aria-hidden';
 
+import { hideOthers } from '@/utils';
 import { useDialogStore } from '@/stores/dialog-store';
 
 import useFocusGuards from '../../hooks/use-focus-guard';
