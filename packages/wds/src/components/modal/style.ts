@@ -234,7 +234,7 @@ export const modalNavigationStyle =
     left: 0px;
     border-bottom: 1px solid var(--wds-navigation-border-color);
     transition: border-color 0.2s ease;
-    z-index: 10;
+    z-index: 5;
 
     ${modalNavigationVariant(variant, theme)}
 
