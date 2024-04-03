@@ -34,13 +34,15 @@ yarn add -D babel-plugin-import
 
 babelrc를 아래와 같이 구성합니다.
 
-```json
-{
-  "plugins": [
+```js
+module.exports = {
+  plugins: [
     ["import", {
-      "libraryName": "@wanteddev/wds-icon",
-      "libraryDirectory": "",
-      "camel2DashComponentName": true,
+      libraryName: "@wanteddev/wds-icon",
+      libraryDirectory: "",
+      customName: (name) => {
+        return `${name.replace('Icon', '').replace(/([a-z0–9])([A-Z])/g, "$1-$2").toLowerCase()}`
+      }
     }]
   ]
 }
