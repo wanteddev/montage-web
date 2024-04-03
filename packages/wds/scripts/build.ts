@@ -81,7 +81,7 @@ fs.writeFile(
   path.join(path.dirname(__dirname), '/dist/reset.css'),
   reset,
   () => {
-    console.log('Done reset css');
+    console.log('Build done by reset.css');
   },
 );
 
@@ -89,6 +89,16 @@ fs.writeFile(
   path.join(path.dirname(__dirname), '/dist/theme.css'),
   content,
   () => {
-    console.log('Done theme css');
+    console.log('Build done by theme.css');
+  },
+);
+
+fs.writeFile(
+  path.join(path.dirname(__dirname), '/dist/global.css'),
+  `${reset}
+
+${content}`,
+  () => {
+    console.log('Build done by global.css(include reset.css, theme.css)');
   },
 );
