@@ -10,7 +10,10 @@ type Route = {
 export const routes: Array<Route> = [
   {
     label: 'Overview',
-    pages: [{ title: '시작하기', slug: '/docs/overview/getting-started' }],
+    pages: [
+      { title: '시작하기', slug: '/docs/overview/getting-started' },
+      { title: '트리 쉐이킹', slug: '/docs/overview/tree-shacking' },
+    ],
   },
   {
     label: 'Themes',
