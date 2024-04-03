@@ -22,7 +22,7 @@ const nextConfig = {
     emotion: true,
   },
   experimental: {
-    optimizePackageImports: ['@wanteddev/wds-icon', '@wanteddev/wds-nextjs'],
+    optimizePackageImports: ['@wanteddev/wds-icon'],
   },
   env: {
     APP_BUILD_ID: commitHash,
