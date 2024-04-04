@@ -1,0 +1,35 @@
+---
+title: ProgressTracker
+description: ProgressTracker Component
+---
+
+# ProgressTracker
+
+번호를 통해 단계별 진행 상황을 표시합니다.
+
+## 활용
+
+- 번호가 매겨진 단계로 진행 상황을 전달합니다.
+- 클릭 또는 터치할 수 없는 요소로 사용합니다.
+- 단계 편집이 가능한 곳에는 쓰지 않습니다.
+
+<Demo code={`import { ProgressTracker, ProgressTrackerItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker activeStep={0}>
+      <ProgressTrackerItem />
+      <ProgressTrackerItem />
+      <ProgressTrackerItem />
+    </ProgressTracker>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### ProgressTracker
+
+<PropsTable component="ProgressTracker" />

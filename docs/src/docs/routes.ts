@@ -47,6 +47,7 @@ export const routes: Array<Route> = [
         title: 'ProgressStepIndicator',
         slug: '/docs/components/progress-step-indicator',
       },
+      { title: 'ProgressTracker', slug: '/docs/components/progress-tracker' },
       { title: 'RoundedCheckbox', slug: '/docs/components/rounded-checkbox' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextButton', slug: '/docs/components/text-button' },
