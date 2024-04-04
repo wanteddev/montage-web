@@ -26,3 +26,17 @@ export const ellipsisTypographyStyle = (line = 1) =>
         -webkit-box-orient: vertical;
         /* stylelint-enable */
       `;
+
+export const listStyle = css`
+  list-style-type: disc;
+  padding-left: 1.5em;
+
+  ul {
+    list-style-type: circle;
+    padding-left: 1.5em;
+  }
+
+  li::marker {
+    font-size: 0.8em;
+  }
+`;

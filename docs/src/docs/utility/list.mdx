@@ -1,0 +1,47 @@
+---
+title: List
+description: List for WDS Utility
+---
+
+# List
+
+리스트 스타일을 관리합니다.
+
+Css Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
+
+## 활용
+
+<Demo code={`import { css } from '@emotion/react';
+import { listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ul css={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+    </ul>
+  )
+}
+
+export default Demo;`}
+/>
+
+## 중첩 리스트
+
+<Demo code={`import { css } from '@emotion/react';
+import { listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ul css={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+      <ul>
+        <li>List3</li>
+      </ul>
+    </ul>
+  )
+}
+
+export default Demo;`}
+/>

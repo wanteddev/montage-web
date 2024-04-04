@@ -63,6 +63,7 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Container', slug: '/docs/utility/container' },
       { title: 'Gradient', slug: '/docs/utility/gradient' },
+      { title: 'List', slug: '/docs/utility/list' },
       { title: 'Media', slug: '/docs/utility/media' },
       { title: 'Navigation', slug: '/docs/utility/navigation' },
       { title: 'Opacity', slug: '/docs/utility/opacity' },
