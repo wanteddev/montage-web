@@ -1,0 +1,115 @@
+---
+title: ProgressStepIndicator
+description: ProgressStepIndicator Component
+---
+
+# ProgressStepIndicator
+
+진행 중인 프로세스의 상태를 사용자에게 알려줍니다.
+
+## 활용
+
+- 시스템 작업(다운로드, 업로드, 처리 등)의 진행률을 시각적으로 보여줍니다.
+- 작업에 완료 비율을 표시하려면 Step 타입을 사용합니다.
+- 프로필 작성 완료 비율을 보여줄 수 있어요.
+- 이력서 글자 수 정보를 안내할 때 사용해요.
+- 현재 단계와 총 단계를 표시하는 데 사용해요.
+
+<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressStepIndicator
+      steps={[1, 2, 3, 4, 5]}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="ProgressStepIndicator" />
+
+## Example
+
+### size: 'small'
+
+<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressStepIndicator
+      size="small"
+      steps={[1, 2, 3, 4, 5]}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+### divider: false
+
+<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressStepIndicator
+      divider={false}
+      steps={[1, 2, 3, 4, 5]}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Active Step
+<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressStepIndicator
+      activeStep={2}
+      steps={[1, 2, 3, 4, 5]}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Collaboration
+<Demo code={`import { Button, FlexBox, ProgressStepIndicator } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const steps = [1, 2, 3 ,4, 5];
+  const [activeStep, setActiveStep] = useState(3);
+
+  const handleClickPrev = () => {
+    setActiveStep(prev => prev === 0 ? 0 : prev - 1);
+  };
+
+  const handleClickNext = () => {
+    setActiveStep(prev => prev === steps.length ? steps[steps.length - 1] : prev + 1);
+  };
+
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <FlexBox gap="20px">
+        <Button onClick={handleClickPrev}>Prev</Button>
+        <Button onClick={handleClickNext}>Next</Button>
+      </FlexBox>
+      <ProgressStepIndicator
+        activeStep={activeStep}
+        steps={steps}
+      />
+    </Flexbox>
+  )
+}
+
+export default Demo;`}
+/>

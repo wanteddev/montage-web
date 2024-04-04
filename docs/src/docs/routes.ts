@@ -43,6 +43,10 @@ export const routes: Array<Route> = [
       { title: 'ImageLoader', slug: '/docs/components/image-loader' },
       { title: 'Modal', slug: '/docs/components/modal' },
       { title: 'NestedCheckbox', slug: '/docs/components/nested-checkbox' },
+      {
+        title: 'ProgressStepIndicator',
+        slug: '/docs/components/progress-step-indicator',
+      },
       { title: 'RoundedCheckbox', slug: '/docs/components/rounded-checkbox' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextButton', slug: '/docs/components/text-button' },
