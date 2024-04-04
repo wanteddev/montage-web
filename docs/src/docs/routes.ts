@@ -36,6 +36,7 @@ export const routes: Array<Route> = [
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ContentBadge', slug: '/docs/components/content-badge' },
       { title: 'Divider', slug: '/docs/components/divider' },
+      { title: 'FlexBox', slug: '/docs/components/flex-box' },
       { title: 'FloatingAction', slug: '/docs/components/floating-action' },
       { title: 'Grid', slug: '/docs/components/grid' },
       { title: 'IconButton', slug: '/docs/components/icon-button' },

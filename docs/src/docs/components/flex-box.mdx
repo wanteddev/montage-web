@@ -1,0 +1,50 @@
+---
+title: FlexBox
+description: FlexBox Component
+---
+
+# FlexBox
+
+`display: flex;` 레이아웃을 컴포넌트화 하였습니다.
+
+## 활용
+
+- flexiable 한 레이아웃을 그릴 때 사용합니다.
+
+<Demo code={`import { FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox>
+      <FlexBox>Item 1</FlexBox>
+      <FlexBox>Item 2</FlexBox>
+      <FlexBox>Item 3</FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="FlexBox" />
+
+## Example
+
+### flexDirection: column;
+
+<Demo code={`import { FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column">
+      <FlexBox>Item 1</FlexBox>
+      <FlexBox>Item 2</FlexBox>
+      <FlexBox>Item 3</FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

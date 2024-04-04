@@ -44,6 +44,7 @@ const main = () => {
     ...parser.parse(sync(getPathName('components/avatar-button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/chip-action/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/flex-box/index.tsx'))),
     ...parser.parse(sync(getPathName('components/text-button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/icon-button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/typography/index.tsx'))),
