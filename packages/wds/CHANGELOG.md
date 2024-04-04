@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.3...@wanteddev/wds@0.2.0) (2024-04-04)
+
+### Bug Fixes
+
+- **ci:** 빌드상의 문제로 alias 제거 ([255d393](https://github.com/wanteddev/wds/commit/255d39329611f12ee79c6dddf4f704e5364e36fb))
+- **wds:** modal bottom sheet z index 오류 수정 ([8a3e72a](https://github.com/wanteddev/wds/commit/8a3e72a621d99699a057bda762d0c386a5a00acb))
+
+### Features
+
+- **core:** 커스텀 esbuild plugin으로 변경 및 번들 파일 분리 ([720d790](https://github.com/wanteddev/wds/commit/720d79061cb023f86088ebf9e89204596adae1ea))
+- **wds:** tree shacking 활성화 ([b0d5778](https://github.com/wanteddev/wds/commit/b0d577871c85471801c8129ac450eeaaa40b1568))
+- **wds:** typescript 이전 버전 호환성 추가 ([eeef23b](https://github.com/wanteddev/wds/commit/eeef23bd64bd5ca7826b8742e9f8250921b91295))
+
 ## [0.1.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.2...@wanteddev/wds@0.1.3) (2024-04-03)
 
 ### Bug Fixes

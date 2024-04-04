@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@0.0.4...@wanteddev/wds-nextjs@0.1.0) (2024-04-04)
+
+### Features
+
+- **core:** 커스텀 esbuild plugin으로 변경 및 번들 파일 분리 ([720d790](https://github.com/wanteddev/wds/commit/720d79061cb023f86088ebf9e89204596adae1ea))
+- **wds-nextjs:** 번들링 component name <-> file name mapping ([78e043a](https://github.com/wanteddev/wds/commit/78e043a9a57e49d7082bc9901fad93f079eb60dc))
+
 ## [0.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@0.0.3...@wanteddev/wds-nextjs@0.0.4) (2024-04-03)
 
 **Note:** Version bump only for package @wanteddev/wds-nextjs
