@@ -111,13 +111,9 @@ section {
 body {
   line-height: 1;
 }
-ul, ol {
-  list-style-type: disc;
-  padding-left: 24px;
-
-  li::marker {
-    font-size: 0.8em;
-  }
+ol,
+ul {
+  list-style: none;
 }
 blockquote,
 q {
