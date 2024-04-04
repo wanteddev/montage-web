@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.2.1...@wanteddev/wds@0.2.2) (2024-04-04)
+
+### Features
+
+- **wds:** list style utility로 분리 ([4b43d3c](https://github.com/wanteddev/wds/commit/4b43d3c646a2278667c7fa9862843c2cad9893f7))
+
+## [0.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.2.0...@wanteddev/wds@0.2.1) (2024-04-04)
+
+### Features
+
+- **wds:** ul, li style 수정 ([e64d642](https://github.com/wanteddev/wds/commit/e64d642d5b9d59b8c5b6b741219314cc06848de8))
+
 # [0.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.1.3...@wanteddev/wds@0.2.0) (2024-04-04)
 
 ### Bug Fixes

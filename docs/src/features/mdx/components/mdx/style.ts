@@ -34,6 +34,13 @@ export const mdxRootStyle = (theme: Theme) => css`
 
   ol,
   ul {
+    list-style-type: disc;
+    padding-left: 24px;
+
+    li::marker {
+      font-size: 0.8em;
+    }
+
     margin-top: 24px;
     margin-bottom: 24px;
 
