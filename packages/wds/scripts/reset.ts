@@ -202,7 +202,7 @@ html:lang(en) body {
     sans-serif;
 }
 
-textarea {
+textarea, input {
   font-family:
     Pretendard,
     'Pretendard JP',
