@@ -26,7 +26,6 @@ export { default as ProgressIndicator } from './progress-indicator';
 export { default as ProgressStepIndicator } from './progress-step-indicator';
 export * from './progress-tracker';
 export { default as PushBadge } from './push-badge';
-export { default as Radio } from './radio';
 export { default as RegionConfig } from './region-config';
 export * from './radio-group';
 export { default as RoundCheckbox } from './round-checkbox';

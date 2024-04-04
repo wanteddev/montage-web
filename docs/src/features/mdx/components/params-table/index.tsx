@@ -54,7 +54,11 @@ const ParamsTable = ({ params }: Props) => {
                         <IconCircleInfo />
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent variant="inverse" position="bottom-center">
+                    <TooltipContent
+                      variant="inverse"
+                      position="bottom-center"
+                      css={{ maxWidth: '350px' }}
+                    >
                       {description}
                     </TooltipContent>
                   </Tooltip>

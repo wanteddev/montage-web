@@ -1,0 +1,42 @@
+---
+title: Popover
+description: Popover Component
+---
+
+# Popover
+
+특정 요소를 기준으로 오버레이를 띄울 때 사용해요.
+
+## 활용
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>클릭</Button>
+      </PopoverTrigger>
+      <PopoverContent showArrow>
+        콘텐츠
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### Popover
+
+<PropsTable component="Popover" />
+
+### PopoverTrigger
+
+`children` 으로 요소를 지정합니다.
+
+### PopoverContent
+
+<PropsTable component="PopoverContent" />

@@ -132,7 +132,11 @@ const PropsTable = ({ component, fallback }: Props) => {
                         <IconCircleInfo />
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent variant="inverse" position="bottom-center">
+                    <TooltipContent
+                      variant="inverse"
+                      position="bottom-center"
+                      css={{ maxWidth: '350px' }}
+                    >
                       {value.description}
                     </TooltipContent>
                   </Tooltip>

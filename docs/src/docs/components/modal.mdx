@@ -125,12 +125,16 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 ### ModalActionArea
 
-<PropsTable component="ModalActionArea" />
+<PropsTable component="ModalActionAreaFC" fallback={[
+{ name: 'variant', types: '\"normal\" | \"extra\" | undefined', defaultValue: 'normal' },
+{ name: 'priority', types: '\"strong\" | \"neutral\" | \"compact\" | \"single\" | undefined', defaultValue: 'compact' },
+{ name: 'caption', types: 'string | undefined' }
+]} />
 
 ### ModalActionButton
 
 <PropsTable component="ModalActionButton" fallback={[
-{ name: 'variant', types: '\"primary\" | \"secondary\" | \"assistive\"', defaultValue: 'primary' },
+{ name: 'variant', types: '\"primary\" | \"secondary\" | \"assistive\" | undefined', defaultValue: 'primary' },
 { name: 'leftIcon', types: 'ReactNode' },
 { name: 'rightIcon', types: 'ReactNode' }
 ]} />

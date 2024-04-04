@@ -1,0 +1,111 @@
+---
+title: RadioGroup
+description: RadioGroup Component
+---
+
+# RadioGroup
+
+사용자에게 입력해야 할 정보를 명확하게 인지시키고, 정보를 정확하게 입력할 수 있도록 도와줍니다.
+
+## 활용
+
+<Demo code={`import { useId } from 'react';
+import { FlexBox, RadioGroup, Label, RadioGroupItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  const manId = useId();
+  const womanId = useId();
+
+  return (
+    <RadioGroup>
+      <FlexBox gap="8px" alignItems="center">
+        <RadioGroupItem id={manId} value="man" />
+        <Label htmlFor={manId}>Man</Label>
+      </FlexBox>
+
+      <FlexBox gap="8px" alignItems="center">
+        <RadioGroupItem id={womanId} value="woman" />
+        <Label htmlFor={womanId}>Woman</Label>
+      </FlexBox>
+    </RadioGroup>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### RadioGroup
+
+<PropsTable component="RadioGroup" />
+
+### RadioGroupItem
+
+<PropsTable component="RadioGroupItem" />
+
+## Example
+
+### Form
+
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
+import { useForm } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <FlexBox
+        as="form"
+        flexDirection="column"
+        gap="20px"
+        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      >
+        <FormField
+          control={form.control}
+          name="selected"
+          rules={{
+            required: {
+              value: true,
+              message: "필수 값입니다.",
+            },
+          }}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>성별</FormLabel>
+
+              <FormControl>
+                <RadioGroup {...field} onValueChange={field.onChange}>
+                  <FormItem flexDirection="row" alignItems="center">
+                    <FormControl>
+                      <RadioGroupItem value="man" />
+                    </FormControl>
+
+                    <FormLabel>Man</FormLabel>
+                  </FormItem>
+
+                  <FormItem flexDirection="row" alignItems="center">
+                    <FormControl>
+                      <RadioGroupItem value="woman" />
+                    </FormControl>
+                    
+                    <FormLabel>Woman</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">제출</Button>
+      </FlexBox>
+    </Form>
+  )
+}
+
+export default Demo;`}
+/>
+

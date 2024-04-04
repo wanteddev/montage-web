@@ -17,6 +17,7 @@ const parser = withCustomConfig(
             return (
               declaration.fileName.includes('radix-ui') ||
               declaration.fileName.includes('react-remove-scroll') ||
+              declaration.fileName.includes('react-hook-form') ||
               !declaration.fileName.includes('node_modules')
             );
           },
