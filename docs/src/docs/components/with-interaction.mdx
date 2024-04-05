@@ -1,0 +1,102 @@
+---
+title: WithInteraction
+description: WithInteraction Component
+---
+
+# WithInteraction
+
+정보의 계층 및 상태 변화를 시각적인 위계를 통해 구분합니다.
+
+## 활용
+
+- 인터랙션이 있는 요소에서 인터랙션을 안내하기 위해 쓸 수 있어요.
+
+<Demo code={`import { WithInteraction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <WithInteraction>
+      <Item />
+    </WithInteraction>
+  )
+}
+
+const Item = (props) => (
+  <button {...props} css={theme => ({
+    width: '100px',
+    height: '100px',
+    backgroundColor: theme.palette.elevation.alternative,
+    border: \`1px solid \$\{theme.palette.line.normal.normal\}\` })}
+  />
+);
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="WithInteraction" />
+
+## Example
+
+
+### Variant
+
+보다 약하게 혹은 보다 강하게 강조하고 싶을 때 사용합니다.
+
+<Demo code={`import { WithInteraction, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="20px">
+      <WithInteraction variant="light">
+        <Item />
+      </WithInteraction>
+      <WithInteraction variant="normal">
+        <Item />
+      </WithInteraction>
+      <WithInteraction variant="strong">
+        <Item />
+      </WithInteraction>
+    </FlexBox>
+  )
+}
+
+const Item = (props) => (
+  <button {...props} css={theme => ({
+    width: '100px',
+    height: '100px',
+    backgroundColor: theme.palette.elevation.alternative,
+    border: \`1px solid \$\{theme.palette.line.normal.normal\}\` })}
+  />
+);
+
+export default Demo;`}
+/>
+
+### Scale
+
+Hover에 Scale 효과를 줄 때 사용합니다.
+
+<Demo code={`import { WithInteraction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <WithInteraction scale width="calc(100% + 20px)" height="calc(100% + 20px)">
+      <Item />
+    </WithInteraction>
+  )
+}
+
+const Item = (props) => (
+  <button {...props} css={theme => ({
+    width: '100px',
+    height: '100px',
+    backgroundColor: theme.palette.label.normal,
+    borderRadius: '50%',
+  })}
+  />
+);
+
+export default Demo;`}
+/>

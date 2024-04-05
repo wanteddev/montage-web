@@ -1,0 +1,129 @@
+---
+title: Tooltip
+description: Tooltip Component
+---
+
+# Tooltip
+
+행동 사이에서 안내할 내용이 있을 때 사용합니다.
+
+## 활용
+
+- 설명이 필요한 경우에 사용합니다.
+- 요소에 둘 때 쉽게 조합해 쓸 수 있습니다.
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button>마우스 호버</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        내용
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### Tooltip
+
+<PropsTable component="Tooltip" />
+
+### TooltipTrigger
+
+`children` 으로 요소를 지정합니다.
+
+### TooltipContent
+
+<PropsTable component="TooltipContent" />
+
+
+## Examples
+
+### Normal
+
+<Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip mode="always">
+      <TooltipTrigger>
+        <Button>콘텐츠</Button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="normal"
+        action={
+          <TextButton size="small">
+            메시지에 마침표를 찍어요.
+          </TextButton>
+        }
+      >
+        내용
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Inverse
+
+<Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip mode="always">
+      <TooltipTrigger>
+        <Button>콘텐츠</Button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="inverse"
+        action={
+          <TextButton size="small">
+            메시지에 마침표를 찍어요.
+          </TextButton>
+        }
+      >
+        내용
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Accent
+
+<Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip mode="always">
+      <TooltipTrigger>
+        <Button>콘텐츠</Button>
+      </TooltipTrigger>
+      <TooltipContent
+        variant="accent"
+        action={
+          <TextButton size="small">
+            메시지에 마침표를 찍어요.
+          </TextButton>
+        }
+      >
+        내용
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>

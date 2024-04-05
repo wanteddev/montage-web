@@ -1,0 +1,92 @@
+---
+title: Switch
+description: Switch Component
+---
+
+# Switch
+
+켜거나 끌 수 있는 기능을 표시할 때 사용합니다.
+
+## 활용
+
+- 켜거나 끈 상태를 표시할 때 사용해요.
+
+<Demo code={`import { Switch } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Switch />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="Switch" />
+
+## Example
+
+### Label
+
+<Demo code={`import { useId } from 'react';
+import { Switch, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  const id = useId();
+
+  return (
+    <FlexBox alignItems="center" gap="10px">
+      <Label htmlFor={id}>Label</Label>
+      <Switch id={id} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Form
+
+<Demo code={`import { Button, FlexBox, Switch, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
+import { useForm } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <FlexBox
+        as="form"
+        flexDirection="column"
+        gap="20px"
+        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      >
+        <FormField
+          control={form.control}
+          name="checked"
+          render={({ field }) => (
+            <FormItem flexDirection="row" alignItems="center" gap="10px">
+              <FormLabel>스위치</FormLabel>
+
+              <FormControl>
+                <Switch
+                  {...field}
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">제출</Button>
+      </FlexBox>
+    </Form>
+  )
+}
+
+export default Demo;`}
+/>
+

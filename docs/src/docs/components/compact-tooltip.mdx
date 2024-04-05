@@ -1,0 +1,68 @@
+---
+title: CompactTooltip
+description: CompactTooltip Component
+---
+
+# CompactTooltip
+
+행동 사이에서 안내할 내용이 있을 때 사용합니다.
+
+## 활용
+
+- 한 줄 이내의 간단한 내용을 표시할 때 사용합니다.
+- 요소에 둘 때 쉽게 조합해 쓸 수 있습니다.
+
+<Demo code={`import { CompactTooltip, CompactTooltipTrigger, CompactTooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <CompactTooltip>
+      <CompactTooltipTrigger>
+        <Button>마우스 호버</Button>
+      </CompactTooltipTrigger>
+      <CompactTooltipContent>
+        내용
+      </CompactTooltipContent>
+    </CompactTooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### CompactTooltip
+
+<PropsTable component="CompactTooltip" />
+
+### CompactTooltipTrigger
+
+`children` 으로 요소를 지정합니다.
+
+### CompactTooltipContent
+
+<PropsTable component="CompactTooltipContent" />
+
+
+## Examples
+
+### Shortcut
+
+<Demo code={`import { CompactTooltip, CompactTooltipTrigger, CompactTooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <CompactTooltip>
+      <CompactTooltipTrigger>
+        <Button>마우스 호버</Button>
+      </CompactTooltipTrigger>
+      <CompactTooltipContent shortcut="⌘C">
+        내용
+      </CompactTooltipContent>
+    </CompactTooltip>
+  )
+}
+
+export default Demo;`}
+/>

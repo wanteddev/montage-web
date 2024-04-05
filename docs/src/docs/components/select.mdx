@@ -1,0 +1,117 @@
+---
+title: Select
+description: Select Component
+---
+
+# Select
+
+여러 옵션중에 한가지 값을 선택할 때 사용해요.
+
+## 활용
+
+<Demo code={`import { Select } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Select width="300px" placeholder="값을 선택하세요.">
+      <option value="Hello">Hello</option>
+    </Select>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="Select" />
+
+## Example
+
+### OptionGroup
+
+<Demo code={`import { useId } from 'react';
+import { Select, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  const id = useId();
+
+  return (
+    <FlexBox flexDirection="column" gap="10px">
+      <Label htmlFor={id}>Label</Label>
+      <Select id={id} width="300px" placeholder="값을 선택하세요.">
+        <optgroup label="group">
+          <option value="Hello">Hello</option>
+        <optgroup>
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Label
+
+<Demo code={`import { useId } from 'react';
+import { Select, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  const id = useId();
+
+  return (
+    <FlexBox flexDirection="column" gap="10px">
+      <Label htmlFor={id}>Label</Label>
+      <Select id={id} width="300px" placeholder="값을 선택하세요.">
+        <option value="Hello">Hello</option>
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Form
+
+<Demo code={`import { Button, FlexBox, Select, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
+import { useForm } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <Form {...form}>
+      <FlexBox
+        as="form"
+        flexDirection="column"
+        gap="20px"
+        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      >
+        <FormField
+          control={form.control}
+          name="checked"
+          render={({ field }) => (
+            <FormItem flexDirection="row" alignItems="center" gap="10px">
+              <FormLabel>Select</FormLabel>
+
+              <FormControl>
+                <Select {...field} width="300px" placeholder="값을 선택하세요.">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">제출</Button>
+      </FlexBox>
+    </Form>
+  )
+}
+
+export default Demo;`}
+/>
+

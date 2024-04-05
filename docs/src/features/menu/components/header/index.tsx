@@ -32,9 +32,7 @@ const Header = () => {
 
   return (
     <>
-      <NoSsr>
-        <RegionConfig viewportTop="var(--header-height)" />
-      </NoSsr>
+      <RegionConfig viewportTop="var(--header-height)" />
 
       <FlexBox
         suppressHydrationWarning
