@@ -26,6 +26,10 @@ const ScrollArea = forwardRef<
       viewPortProps?: ComponentPropsWithoutRef<
         typeof ScrollAreaPrimitive.ScrollAreaViewport
       >;
+      /**
+       * scroll bar의 zindex를 설정합니다.
+       */
+      zIndex?: number;
     }
   >
 >(
@@ -37,6 +41,7 @@ const ScrollArea = forwardRef<
       scrollbars = 'both',
       type = 'hover',
       viewPortProps = {},
+      zIndex,
       ...props
     },
     ref,
@@ -46,12 +51,12 @@ const ScrollArea = forwardRef<
     } = {
       both: (
         <>
-          <ScrollBar orientation="horizontal" />
-          <ScrollBar orientation="vertical" />
+          <ScrollBar orientation="horizontal" css={{ zIndex }} />
+          <ScrollBar orientation="vertical" css={{ zIndex }} />
         </>
       ),
-      vertical: <ScrollBar orientation="vertical" />,
-      horizontal: <ScrollBar orientation="horizontal" />,
+      vertical: <ScrollBar orientation="vertical" css={{ zIndex }} />,
+      horizontal: <ScrollBar orientation="horizontal" css={{ zIndex }} />,
     };
 
     return (
