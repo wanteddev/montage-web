@@ -5,6 +5,7 @@ export { default as AvatarGroup } from './avatar-group';
 export { default as Button } from './button';
 export { default as Checkbox } from './checkbox';
 export { default as ChipAction } from './chip-action';
+export * from './compact-tooltip';
 export { default as ContentBadge } from './content-badge';
 export { default as DismissableLayer } from './dismissable-layer';
 export { default as Divider } from './divider';
