@@ -13,9 +13,11 @@ yarn add @wanteddev/wds-icon
 
 ## 목록
 
+- 아이콘을 클릭하면 아이콘명이 복사됩니다.
+
 <Demo 
   hideCode
-  code={`import { FlexBox, useToast } from '@wanteddev/wds';
+  code={`import { FlexBox, Tooltip, TooltipContent, TooltipTrigger, useToast } from '@wanteddev/wds';
 import * as Icons from '@wanteddev/wds-icon';
 import copy from 'copy-to-clipboard';
 
@@ -28,7 +30,7 @@ const Demo = () => {
 		if (success) {
 			toast({
 				variant: 'success',
-				content: '클립보드에 복사 했습니다.',
+				content: value + ' 클립보드에 복사 했습니다.',
 			});
 		}
   }
@@ -36,25 +38,34 @@ const Demo = () => {
   return (
     <FlexBox flexWrap="wrap" gap="12px">
       {Object.entries(Icons).map(([name, Component]) => (
-        <FlexBox
-				  as="button"
-          css={theme => ({ 
-					  backgroundColor: theme.palette.background.elevated.alternative,
-						borderRadius: '4px',
-						fontSize: '32px',
-            height: '48px',
-						width: '48px',
-						color: theme.palette.label.normal,
-						cursor: 'pointer',
-					})}
-          alignItems="center"
-          justifyContent="center"
-          name={name}
-          key={name}
-					onClick={handleClick(name)}
-        >
-          <Component />
-        </FlexBox>
+        <Tooltip mode="hover" key={name}>
+          <TooltipTrigger>
+            <FlexBox
+              as="button"
+              css={theme => ({ 
+                backgroundColor: theme.palette.background.elevated.alternative,
+                borderRadius: '4px',
+                fontSize: '32px',
+                height: '48px',
+                width: '48px',
+                color: theme.palette.label.normal,
+                cursor: 'pointer',
+              })}
+              alignItems="center"
+              justifyContent="center"
+              name={name}
+              onClick={handleClick(name)}
+            >
+              <Component />
+            </FlexBox>
+          </TooltipTrigger>
+          <TooltipContent
+            position="bottom-center"
+            variant="inverse"
+          >
+            {name}
+          </TooltipContent>
+        </Tooltip>
       ))}
     </FlexBox>
   )
