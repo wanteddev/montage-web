@@ -5,7 +5,6 @@ import CodeBlock from '../components/code-block';
 import Pre from '../components/pre';
 import Demo from '../components/demo';
 import PropsTable from '../components/props-table';
-import ParamsTable from '../components/params-table';
 
 import type { ReactNode } from 'react';
 
@@ -48,7 +47,6 @@ const MDXComponents: { [key: string]: (props: any) => ReactNode } = {
   code: CodeBlock,
   Demo,
   PropsTable,
-  ParamsTable,
 };
 
 export default MDXComponents;

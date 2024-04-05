@@ -3,6 +3,7 @@ import { IconCircleInfo } from '@wanteddev/wds-icon';
 import {
   ContentBadge,
   FlexBox,
+  ScrollArea,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -29,6 +30,80 @@ const PropsTable = ({ component, fallback }: Props) => {
 
   if (fallback?.length) {
     return (
+      <ScrollArea>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Types</th>
+              <th>defaultValue</th>
+            </tr>
+          </thead>
+          <tbody>
+            {fallback.map((value) => (
+              <tr key={value.name}>
+                <td>
+                  <FlexBox alignItems="center" gap="4px">
+                    <ContentBadge
+                      size="medium"
+                      color="accent"
+                      accentColor="palette.accent.lightBlue"
+                    >
+                      {`${value.name}${value.required ? ' *' : ''}`}
+                    </ContentBadge>
+                    {value.description && (
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <span
+                            css={(theme) => ({
+                              display: 'inline-block',
+                              color: theme.palette.label.alternative,
+                            })}
+                          >
+                            <IconCircleInfo />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          variant="inverse"
+                          position="bottom-center"
+                          css={{ maxWidth: '350px' }}
+                        >
+                          {value.description}
+                        </TooltipContent>
+                      </Tooltip>
+                    )}
+                  </FlexBox>
+                </td>
+                <td>
+                  <Typography
+                    variant="body1_reading"
+                    weight="regular"
+                    color="palette.accent.redOrange"
+                  >
+                    {value.types}
+                  </Typography>
+                </td>
+                <td>
+                  <ContentBadge size="medium" color="neutral">
+                    {value.defaultValue ?? '-'}
+                  </ContentBadge>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </ScrollArea>
+    );
+  }
+
+  if (!types) {
+    return null;
+  }
+
+  const propValues = Object.entries(types.props);
+
+  return (
+    <ScrollArea>
       <table>
         <thead>
           <tr>
@@ -38,8 +113,8 @@ const PropsTable = ({ component, fallback }: Props) => {
           </tr>
         </thead>
         <tbody>
-          {fallback.map((value) => (
-            <tr key={value.name}>
+          {propValues.map(([key, value]) => (
+            <tr key={key}>
               <td>
                 <FlexBox alignItems="center" gap="4px">
                   <ContentBadge
@@ -78,89 +153,19 @@ const PropsTable = ({ component, fallback }: Props) => {
                   weight="regular"
                   color="palette.accent.redOrange"
                 >
-                  {value.types}
+                  {value.type.name}
                 </Typography>
               </td>
               <td>
                 <ContentBadge size="medium" color="neutral">
-                  {value.defaultValue ?? '-'}
+                  {value.defaultValue?.value ?? '-'}
                 </ContentBadge>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    );
-  }
-
-  if (!types) {
-    return null;
-  }
-
-  const propValues = Object.entries(types.props);
-
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Types</th>
-          <th>defaultValue</th>
-        </tr>
-      </thead>
-      <tbody>
-        {propValues.map(([key, value]) => (
-          <tr key={key}>
-            <td>
-              <FlexBox alignItems="center" gap="4px">
-                <ContentBadge
-                  size="medium"
-                  color="accent"
-                  accentColor="palette.accent.lightBlue"
-                >
-                  {`${value.name}${value.required ? ' *' : ''}`}
-                </ContentBadge>
-                {value.description && (
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <span
-                        css={(theme) => ({
-                          display: 'inline-block',
-                          color: theme.palette.label.alternative,
-                        })}
-                      >
-                        <IconCircleInfo />
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      variant="inverse"
-                      position="bottom-center"
-                      css={{ maxWidth: '350px' }}
-                    >
-                      {value.description}
-                    </TooltipContent>
-                  </Tooltip>
-                )}
-              </FlexBox>
-            </td>
-            <td>
-              <Typography
-                variant="body1_reading"
-                weight="regular"
-                color="palette.accent.redOrange"
-              >
-                {value.type.name}
-              </Typography>
-            </td>
-            <td>
-              <ContentBadge size="medium" color="neutral">
-                {value.defaultValue?.value ?? '-'}
-              </ContentBadge>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    </ScrollArea>
   );
 };
 
