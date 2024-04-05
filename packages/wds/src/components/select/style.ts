@@ -36,9 +36,6 @@ export const selectWrapperStyle =
       -moz-appearance: none;
       ${typographyStyle('body1_normal', 'regular')}
 
-      &:focus {
-        outline: none;
-      }
       &:focus-visible {
         outline-style: solid;
         outline-width: 2px;
