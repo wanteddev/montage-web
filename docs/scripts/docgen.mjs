@@ -50,6 +50,7 @@ const main = () => {
     ...parser.parse(sync(getPathName('components/icon-button/index.tsx'))),
     ...parser.parse(sync(getPathName('components/typography/index.tsx'))),
     ...parser.parse(sync(getPathName('components/floating-action/index.tsx'))),
+    ...parser.parse(sync(getPathName('components/focus-scope/index.tsx'))),
     ...parser.parse(sync(getPathName('components/grid/index.tsx'))),
     ...parser.parse(sync(getPathName('components/grid-item/index.tsx'))),
   ];
