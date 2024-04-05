@@ -258,7 +258,7 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
               ? floatingStyles.transform
               : 'translate(0, -200%)',
             minWidth: 'max-content',
-            zIndex: contentZIndex || 10,
+            zIndex: contentZIndex === 'auto' ? 3 : contentZIndex,
             ...(middlewareData.hide?.referenceHidden && {
               visibility: 'hidden',
               pointerEvents: 'none',
