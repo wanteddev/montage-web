@@ -410,20 +410,20 @@ const modalContentPadding = ({
     padding-top: 0px;
   `}
 
-	${paddingExtra === true &&
+  ${paddingExtra === true &&
   css`
     margin: var(--wds-modal-content-margin, 20px) 0px;
   `}
-	${paddingExtra === false &&
+  ${paddingExtra === false &&
   css`
     margin: 0px;
   `}
 
-	${paddingInfo === true &&
+  ${paddingInfo === true &&
   css`
     gap: calc(var(--wds-modal-content-margin, 20px) * 2);
   `}
-	${paddingInfo === false &&
+  ${paddingInfo === false &&
   css`
     gap: calc(var(--wds-modal-content-margin, 20px));
   `}

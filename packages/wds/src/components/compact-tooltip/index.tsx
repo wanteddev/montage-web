@@ -22,7 +22,10 @@ import {
   COMPACT_TOOLTIP_NAME,
   COMPACT_TOOLTIP_TRIGGER_NAME,
 } from './constants';
-import { compactTooltipContentStyle } from './style';
+import {
+  compactTooltipContentStyle,
+  compactTooltipWrapperStyle,
+} from './style';
 
 import type { MergeElementProps } from '../../types';
 import type { CompactTooltipContentProps, CompactTooltipProps } from './types';
@@ -228,7 +231,11 @@ const CompactTooltipContent = forwardRef<
             onBlur: handleBlur,
           }}
         >
-          <FlexBox ref={composedRef} {...props}>
+          <FlexBox
+            ref={composedRef}
+            {...props}
+            css={compactTooltipWrapperStyle}
+          >
             <div css={compactTooltipContentStyle}>
               <Typography
                 id={containerId}

@@ -40,12 +40,9 @@ import {
   POPPER_CONTENT_NAME,
 } from './constants';
 
-import type {
-  ComponentPropsWithoutRef,
-  HTMLAttributes,
-  PropsWithChildren,
-} from 'react';
-import type { PopperContentProps } from './types';
+import type { MergeElementProps } from '../../types';
+import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
+import type { PopperArrowProps, PopperContentProps } from './types';
 
 const OPPOSITE_SIDE = {
   top: 'bottom',
@@ -81,17 +78,20 @@ const PopperAnchor = forwardRef<
 
 PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
-const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
-  (props, ref) => {
-    const { onArrowChange, side, arrowX, arrowY } =
-      usePopperContentContext(POPPER_ARROW_NAME);
+const PopperArrow = forwardRef<
+  SVGSVGElement,
+  MergeElementProps<'svg', PopperArrowProps>
+>(({ overlay, ...props }, ref) => {
+  const { onArrowChange, side, arrowX, arrowY } =
+    usePopperContentContext(POPPER_ARROW_NAME);
 
-    const composedRef = useComposedRefs(
-      ref,
-      onArrowChange as (node: SVGSVGElement | null) => void,
-    );
+  const composedRef = useComposedRefs(
+    ref,
+    onArrowChange as (node: SVGSVGElement | null) => void,
+  );
 
-    return (
+  return (
+    <>
       <svg
         wds-component="popper-arrow"
         ref={composedRef}
@@ -124,15 +124,51 @@ const PopperArrow = forwardRef<SVGSVGElement, HTMLAttributes<SVGSVGElement>>(
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M10.5857 6.58609L7.99993 4.0003L5.75729 1.75766C4.63207 0.632441 3.10595 0.000301838 1.51465 0.000301838H22.4852C20.8939 0.000301838 19.3678 0.632441 18.2426 1.75766L15.9999 4.0003L13.4141 6.58609C13.4138 6.58638 13.4136 6.58668 13.4133 6.58698C12.6321 7.36714 11.3665 7.36684 10.5857 6.58609Z"
+          d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
           fill="currentColor"
         />
       </svg>
-    );
-  },
-);
+
+      {Boolean(overlay) && (
+        <svg
+          style={{
+            ...props.style,
+            position: 'absolute',
+            width: '40px',
+            height: '8px',
+            display: 'block',
+            left: arrowX,
+            top: arrowY,
+            color: overlay,
+            right: '',
+            bottom: '',
+            [OPPOSITE_SIDE[side]]: '0px',
+            transformOrigin: {
+              top: '',
+              right: '0 0',
+              bottom: 'center 0',
+              left: '100% 0',
+            }[side],
+            transform: {
+              top: 'translateY(100%)',
+              right: 'translateY(50%) rotate(90deg) translateX(-50%)',
+              bottom: `rotate(180deg)`,
+              left: 'translateY(50%) rotate(-90deg) translateX(50%)',
+            }[side],
+          }}
+          viewBox="0 0 24 8"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
+            fill="currentColor"
+          />
+        </svg>
+      )}
+    </>
+  );
+});
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
@@ -156,8 +192,8 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
     const [content, setContent] = useState<HTMLElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setContent(node));
 
-    const arrowWidth = arrowSize?.width || 40;
-    const arrowHeight = arrowSize?.height || 8;
+    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 40 : 0;
+    const arrowHeight = Boolean(arrow) ? arrowSize?.height || 8 : 0;
 
     const floatingPlacement = getPlacementMapper(position);
 

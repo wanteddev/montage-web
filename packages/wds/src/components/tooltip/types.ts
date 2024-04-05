@@ -11,6 +11,6 @@ export type TooltipProps = {
 export type TooltipContentProps = {
   action?: ReactNode;
   children?: ReactNode;
-  variant?: 'normal' | 'inverse';
+  variant?: 'normal' | 'inverse' | 'accent';
   position?: PopperContentProps['position'];
 };

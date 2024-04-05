@@ -20,7 +20,7 @@ export const contentBadgeStyle =
     ${contentBadgeColorVariant(props, theme)}
     ${getSizeStyle(props)}
 
-	${createResponsiveStyle(
+  ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(

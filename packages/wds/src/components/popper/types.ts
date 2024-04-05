@@ -25,3 +25,11 @@ export type PopperContentProps = Merge<
   },
   ComponentPropsWithoutRef<typeof Slot>
 >;
+
+export type PopperArrowProps = {
+  /**
+   * 일반적으로는 사용하지 않으며 arrow를 중첩해서 color를 입힐 때만 사용합니다.
+   * tooltip의 accent에서 사용합니다.
+   */
+  overlay?: string;
+};

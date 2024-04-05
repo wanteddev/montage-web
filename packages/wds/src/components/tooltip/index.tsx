@@ -11,12 +11,14 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useTheme } from '@emotion/react';
 
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import NoSsr from '../no-ssr';
+import { addOpacity } from '../../utils';
 
 import { TooltipProvider, useTooltipContext } from './contexts';
 import {
@@ -24,7 +26,7 @@ import {
   TOOLTIP_NAME,
   TOOLTIP_TRIGGER_NAME,
 } from './constants';
-import { tooltipContentStyle } from './style';
+import { tooltipContentStyle, tooltipWrapperStyle } from './style';
 
 import type { MergeElementProps } from '../../types';
 import type { TooltipContentProps, TooltipProps } from './types';
@@ -51,7 +53,7 @@ const Tooltip = ({
   const openTimerRef = useRef(0);
   const closeTimerRef = useRef(0);
 
-  const enterDelay = useMemo(() => 300, []);
+  const enterDelay = useMemo(() => 250, []);
   const leaveDelay = useMemo(() => 300, []);
 
   const [open = false, setOpen] = useControllableState({
@@ -92,8 +94,10 @@ const Tooltip = ({
           }
 
           setOpen(false);
+          isDismissed.current = false;
         } else {
           setOpen(false);
+          isDismissed.current = false;
         }
       }, leaveDelay);
     }
@@ -128,8 +132,17 @@ const Tooltip = ({
     handleClose();
   };
 
-  const handleFocus: FocusEventHandler<any> = handleOpen;
-  const handleBlur: FocusEventHandler<any> = handleClose;
+  const handleFocus: FocusEventHandler<any> = () => {
+    if (!isDismissed.current) {
+      handleOpen();
+    }
+  };
+  const handleBlur: FocusEventHandler<any> = () => {
+    if (mode === 'hover') {
+      isDismissed.current = true;
+      handleClose();
+    }
+  };
 
   const handleMouseDown: MouseEventHandler<any> = () => {
     if (mode === 'hover') {
@@ -219,6 +232,13 @@ const TooltipContent = forwardRef<
 
     const Wrapper = mode === 'always' ? NoSsr : Fragment;
 
+    const theme = useTheme();
+
+    const overlay =
+      variant === 'accent'
+        ? addOpacity(theme.palette.primary.normal, theme.opacity[22])
+        : undefined;
+
     return open ? (
       <Wrapper>
         <DismissableLayer
@@ -242,24 +262,22 @@ const TooltipContent = forwardRef<
               onBlur: handleBlur,
             }}
           >
-            <FlexBox
-              css={tooltipContentStyle({ variant })}
-              ref={composedRef}
-              {...props}
-            >
-              <FlexBox flexDirection="column">
-                <Typography
-                  id={containerId}
-                  variant="label1_normal"
-                  weight="medium"
-                >
-                  {children}
-                </Typography>
+            <FlexBox css={tooltipWrapperStyle} ref={composedRef} {...props}>
+              <FlexBox css={tooltipContentStyle({ variant })}>
+                <FlexBox flexDirection="column" gap="12px">
+                  <Typography
+                    id={containerId}
+                    variant="label1_normal"
+                    weight="medium"
+                  >
+                    {children}
+                  </Typography>
 
-                {Boolean(action) && action}
+                  {Boolean(action) && action}
+                </FlexBox>
+
+                <PopperArrow overlay={overlay} />
               </FlexBox>
-
-              <PopperArrow />
             </FlexBox>
           </PopperContent>
         </DismissableLayer>

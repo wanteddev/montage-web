@@ -14,14 +14,17 @@ const compactTooltipFadeIn = keyframes`
   }
 `;
 
-export const compactTooltipContentStyle = (theme: Theme) => css`
-  padding: 3px 6px;
-  border-radius: 5px;
+export const compactTooltipWrapperStyle = css`
+  backdrop-filter: blur(32px);
   animation: 0.2s ease ${compactTooltipFadeIn};
   opacity: 1;
+`;
+
+export const compactTooltipContentStyle = (theme: Theme) => css`
   background-color: ${addOpacity(
     theme.palette.inverse.background,
     theme.opacity[61],
   )};
-  backdrop-filter: blur(32px);
+  padding: 3px 6px;
+  border-radius: 5px;
 `;
