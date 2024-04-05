@@ -22,7 +22,7 @@ description: RegionConfig Component
 
 ```tsx
 import { useState } from 'react';
-import { NoSsr, Header } from '@wanteddev/wds';
+import { Header } from '@wanteddev/wds';
 
 const Demo = () => {
   const [node, setNode] = useState<HTMLElement | null>(null);
@@ -38,9 +38,8 @@ const Demo = () => {
 
   return (
     <>
-      <NoSsr>
-        <RegionConfig viewportTop="var(--header-height)" />
-      </NoSsr>
+      {/* css variable로 안할 시 NoSsr 태그로 감싸주지 않으면 nextjs hydration error가 발생합니다. */}
+      <RegionConfig viewportTop="var(--header-height)" />
 
       <Header ref={setNode} />
     </>
