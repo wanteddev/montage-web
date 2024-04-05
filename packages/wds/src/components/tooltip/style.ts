@@ -73,6 +73,10 @@ export const tooltipContentStyle =
       color: ${theme.palette.inverse.label};
       position: relative;
 
+      & > div > span {
+        z-index: 1;
+      }
+
       &::before {
         border-radius: inherit;
         background-color: ${addOpacity(
