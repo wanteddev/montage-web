@@ -11,6 +11,7 @@ export const defineConfiguration = (opts: Pick<Options, 'entry'>): Options => {
     clean: true,
     treeshake: true,
     bundle: true,
+    silent: true,
     external: ['react', 'react-dom', 'react-hook-form'],
     esbuildPlugins: [esbuildPluginFilePathExtensions({ cjsExtension: 'js' })],
   };
