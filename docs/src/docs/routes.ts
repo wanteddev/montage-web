@@ -67,6 +67,7 @@ export const routes: Array<Route> = [
       { title: 'ScrollArea', slug: '/docs/components/scroll-area' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextButton', slug: '/docs/components/text-button' },
+      { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
     ],
   },
   {
