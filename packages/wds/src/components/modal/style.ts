@@ -1,7 +1,10 @@
 import { css, keyframes } from '@emotion/react';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+} from '../../utils/responsive-props';
 import { gradient } from '../../utils/color';
 
 import type { Theme } from '@emotion/react';
@@ -99,49 +102,86 @@ export const modalContainerStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
-        ${Boolean(params?.variant) && modalContainerVariant(params!.variant)}
-        ${Boolean(params?.size) && modalContainerSize(params!.size)}
+      (params, breakpoint) => css`
+        ${modalContainerSize(
+          getPreviousValue({ xs, sm, md, lg, xl }, 'size', size, breakpoint!),
+        )}
+        ${modalContainerVariant(
+          getPreviousValue(
+            { xs, sm, md, lg, xl },
+            'variant',
+            variant,
+            breakpoint!,
+          ),
+        )}
+
+        ${params?.css}
       `,
     )};
   `;
 
 const modalContainerSize = (size: ModalContainerProps['size']) => {
   switch (size) {
-    case 'normal':
+    case 'small':
+    case 'small-fixed':
       return css`
-        width: 400px;
-        max-height: 400px;
+        width: 360px;
         min-width: 320px;
-        max-width: 400px;
-        max-width: 100%;
+        max-width: 360px;
+
+        ${size.includes('fixed') &&
+        css`
+          height: 400px;
+        `}
+
         --wds-modal-content-margin: 20px;
         --wds-modal-navigation-padding: 20px;
       `;
-    case 'small':
+    case 'normal':
+    case 'normal-fixed':
       return css`
-        width: 360px;
-        max-height: 360px;
+        width: 400px;
         min-width: 320px;
-        max-width: 100%;
+        max-width: 400px;
+        height: initial;
+
+        ${size.includes('fixed') &&
+        css`
+          height: 480px;
+        `}
+
         --wds-modal-content-margin: 20px;
         --wds-modal-navigation-padding: 20px;
       `;
     case 'medium':
+    case 'medium-fixed':
       return css`
         width: 480px;
-        max-height: 480px;
         min-width: 320px;
         max-width: 100%;
+        height: initial;
+
+        ${size.includes('fixed') &&
+        css`
+          height: 560px;
+        `}
+
         --wds-modal-content-margin: 24px;
         --wds-modal-navigation-padding: 20px;
       `;
     case 'large':
+    case 'large-fixed':
       return css`
         width: 560px;
-        max-height: 560px;
         min-width: 320px;
         max-width: 100%;
+        height: initial;
+
+        ${size.includes('fixed') &&
+        css`
+          height: 640px;
+        `}
+
         --wds-modal-content-margin: 32px;
         --wds-modal-navigation-padding: 24px;
       `;
@@ -191,6 +231,9 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         max-height: calc(100% - env(safe-area-inset-top, 0px) - 40px);
         border-radius: 12px 12px 0px 0px;
         animation: 0.2s ease ${modalBottomMountKeyframes};
+        max-width: 480px;
+        width: 100%;
+        min-width: none;
 
         [wds-component='modal-navigation'],
         [wds-component='modal-content'] {

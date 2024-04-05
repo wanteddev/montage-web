@@ -27,7 +27,15 @@ export type ModalProps = PropsWithChildren<{
 
 type ModalContainerDefaultProps = {
   variant?: 'popup' | 'bottom' | 'full';
-  size?: 'normal' | 'small' | 'medium' | 'large';
+  size?:
+    | 'small'
+    | 'small-fixed'
+    | 'normal'
+    | 'normal-fixed'
+    | 'medium'
+    | 'medium-fixed'
+    | 'large'
+    | 'large-fixed';
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<

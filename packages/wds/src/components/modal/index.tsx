@@ -305,6 +305,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                     display: 'block !important',
                   },
                 }}
+                zIndex={11}
                 asChild
                 viewPortProps={{
                   css: { flexGrow: 1 },
