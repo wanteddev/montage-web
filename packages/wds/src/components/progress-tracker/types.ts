@@ -1,8 +1,9 @@
 export type ProgressTrackerProps = {
-  activeStep?: number;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
 };
 
 export type ProgressTrackerItemProps = {
-  index?: number;
-  isLast?: boolean;
+  value: string;
 };

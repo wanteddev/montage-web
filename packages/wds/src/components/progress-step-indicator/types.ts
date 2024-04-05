@@ -3,9 +3,9 @@ import type { Merge, ResponsiveProps } from '../../types';
 type ProgressStepIndicatorDefaultProps = {
   size?: 'small' | 'medium';
   divider?: boolean;
-  steps: Array<number>;
-  activeStep?: number;
-  onStepClick?: (step: number) => void;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
 };
 
 type ProgressStepIndicatorResponsiveProps = ResponsiveProps<
@@ -16,3 +16,7 @@ export type ProgressStepIndicatorProps = Merge<
   ProgressStepIndicatorDefaultProps,
   ProgressStepIndicatorResponsiveProps
 >;
+
+export type ProgressStepIndicatorItemProps = {
+  value: string;
+};

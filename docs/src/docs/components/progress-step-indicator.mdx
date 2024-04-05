@@ -15,13 +15,17 @@ description: ProgressStepIndicator Component
 - 이력서 글자 수 정보를 안내할 때 사용해요.
 - 현재 단계와 총 단계를 표시하는 데 사용해요.
 
-<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+<Demo code={`import { ProgressStepIndicator, ProgressStepIndicatorItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ProgressStepIndicator
-      steps={[1, 2, 3, 4, 5]}
-    />
+    <ProgressStepIndicator value="1">
+      <ProgressStepIndicatorItem value="1" />
+      <ProgressStepIndicatorItem value="2" />
+      <ProgressStepIndicatorItem value="3" />
+      <ProgressStepIndicatorItem value="4" />
+      <ProgressStepIndicatorItem value="5" />
+    </ProgressStepIndicator>
   )
 }
 
@@ -30,20 +34,29 @@ export default Demo;`}
 
 ## Props
 
+### ProgressStepIndicator
+
 <PropsTable component="ProgressStepIndicator" />
+
+### ProgressStepIndicatorItem
+
+<PropsTable component="ProgressStepIndicatorItem" />
 
 ## Example
 
 ### size: 'small'
 
-<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+<Demo code={`import { ProgressStepIndicator, ProgressStepIndicatorItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ProgressStepIndicator
-      size="small"
-      steps={[1, 2, 3, 4, 5]}
-    />
+    <ProgressStepIndicator value="1" size="small">
+      <ProgressStepIndicatorItem value="1" />
+      <ProgressStepIndicatorItem value="2" />
+      <ProgressStepIndicatorItem value="3" />
+      <ProgressStepIndicatorItem value="4" />
+      <ProgressStepIndicatorItem value="5" />
+    </ProgressStepIndicator>
   )
 }
 
@@ -52,49 +65,41 @@ export default Demo;`}
 
 ### divider: false
 
-<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
+<Demo code={`import { ProgressStepIndicator, ProgressStepIndicatorItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ProgressStepIndicator
-      divider={false}
-      steps={[1, 2, 3, 4, 5]}
-    />
+    <ProgressStepIndicator value="1" divider={false}>
+      <ProgressStepIndicatorItem value="1" />
+      <ProgressStepIndicatorItem value="2" />
+      <ProgressStepIndicatorItem value="3" />
+      <ProgressStepIndicatorItem value="4" />
+      <ProgressStepIndicatorItem value="5" />
+    </ProgressStepIndicator>
   )
 }
 
 export default Demo;`}
 />
 
-### Active Step
-<Demo code={`import { ProgressStepIndicator } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <ProgressStepIndicator
-      activeStep={2}
-      steps={[1, 2, 3, 4, 5]}
-    />
-  )
-}
-
-export default Demo;`}
-/>
 
 ### Collaboration
-<Demo code={`import { Button, FlexBox, ProgressStepIndicator } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, ProgressStepIndicator, ProgressStepIndicatorItem } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const Demo = () => {
-  const steps = [1, 2, 3 ,4, 5];
-  const [activeStep, setActiveStep] = useState(3);
+  const [activeStep, setActiveStep] = useState('3');
 
   const handleClickPrev = () => {
-    setActiveStep(prev => prev === 0 ? 0 : prev - 1);
+    if (activeStep === 0) return;
+
+    setActiveStep(prev => (Number(prev) - 1).toString());
   };
 
   const handleClickNext = () => {
-    setActiveStep(prev => prev === steps.length ? steps[steps.length - 1] : prev + 1);
+    if (activeStep === 5) return;
+
+    setActiveStep(prev => (Number(prev) + 1).toString());
   };
 
   return (
@@ -103,10 +108,13 @@ const Demo = () => {
         <Button onClick={handleClickPrev}>Prev</Button>
         <Button onClick={handleClickNext}>Next</Button>
       </FlexBox>
-      <ProgressStepIndicator
-        activeStep={activeStep}
-        steps={steps}
-      />
+      <ProgressStepIndicator value={activeStep} onValueChange={setActiveStep}>
+        <ProgressStepIndicatorItem value="1" />
+        <ProgressStepIndicatorItem value="2" />
+        <ProgressStepIndicatorItem value="3" />
+        <ProgressStepIndicatorItem value="4" />
+        <ProgressStepIndicatorItem value="5" />
+      </ProgressStepIndicator>
     </Flexbox>
   )
 }

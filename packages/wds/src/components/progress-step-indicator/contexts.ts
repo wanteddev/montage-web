@@ -1,8 +1,8 @@
 import { createContext } from '@radix-ui/react-context';
 
-import { PROGRESS_TRACKER_NAME } from './constants';
+import { PROGRESS_STEP_INDICATOR_NAME } from './constants';
 
-type ProgressTrackerContextValue = {
+type ProgressStepIndicatorContextValue = {
   value: string;
   onValueChange: (value: string) => void;
   steps: Array<string>;
@@ -10,8 +10,9 @@ type ProgressTrackerContextValue = {
   onStepRemove: (value: string) => void;
   getStepIndex: (value: string) => number;
   getActiveStepIndex: () => number;
-  getTotalLength: () => number;
 };
 
-export const [ProgressTrackerProvider, useProgressTrackerContext] =
-  createContext<ProgressTrackerContextValue>(PROGRESS_TRACKER_NAME);
+export const [ProgressStepIndicatorProvider, useProgressStepIndicatorContext] =
+  createContext<ProgressStepIndicatorContextValue>(
+    PROGRESS_STEP_INDICATOR_NAME,
+  );

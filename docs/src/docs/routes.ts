@@ -51,6 +51,10 @@ export const routes: Array<Route> = [
       { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },
       {
+        title: 'ProgressIndicator',
+        slug: '/docs/components/progress-indicator',
+      },
+      {
         title: 'ProgressStepIndicator',
         slug: '/docs/components/progress-step-indicator',
       },

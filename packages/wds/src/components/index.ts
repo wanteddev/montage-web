@@ -23,7 +23,7 @@ export * from './popper';
 export { default as NoSsr } from './no-ssr';
 export { default as Portal } from './portal';
 export { default as ProgressIndicator } from './progress-indicator';
-export { default as ProgressStepIndicator } from './progress-step-indicator';
+export * from './progress-step-indicator';
 export * from './progress-tracker';
 export { default as PushBadge } from './push-badge';
 export { default as RegionConfig } from './region-config';

@@ -1,6 +1,7 @@
 'use client';
-import { Children, cloneElement, forwardRef, isValidElement } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { IconCheckThick } from '@wanteddev/wds-icon';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
 import Typography from '../typography';
 import FlexBox from '../flex-box';
@@ -16,55 +17,95 @@ import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
 import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
 import type { MergeElementProps } from '../../types';
-import type { ReactElement } from 'react';
 import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
 
 const ProgressTracker = forwardRef<
   HTMLDivElement,
   MergeElementProps<'div', ProgressTrackerProps>
->(({ activeStep, children, ...props }, ref) => {
-  const childrenArray = Children.toArray(children).filter((v) =>
-    isValidElement(v),
-  );
-
-  const steps = childrenArray.map((item, index) => {
-    const step = item as ReactElement;
-    return cloneElement(step, {
-      index,
-      isLast: index + 1 === childrenArray.length,
-      ...step.props,
+>(
+  (
+    { value: originValue, defaultValue, onValueChange, children, ...props },
+    ref,
+  ) => {
+    const [value = '', setValue] = useControllableState({
+      prop: originValue,
+      defaultProp: defaultValue,
+      onChange: onValueChange,
     });
-  });
+    const [steps, setSteps] = useState<Array<string>>([]);
 
-  return (
-    <ProgressTrackerProvider activeStep={activeStep}>
-      <div
-        wds-component="progress-tracker"
-        aria-label="progress"
-        ref={ref}
-        css={progressTrackerWrapperStyle}
-        {...props}
+    return (
+      <ProgressTrackerProvider
+        value={value}
+        onValueChange={setValue}
+        steps={steps}
+        onStepAdd={useCallback(
+          (step: string) => {
+            setSteps((prev) => [...prev, step]);
+          },
+          [setSteps],
+        )}
+        getTotalLength={useCallback(() => steps.length, [steps])}
+        onStepRemove={useCallback(
+          (step: string) => {
+            setSteps((prev) => prev.filter((cur) => cur !== step));
+          },
+          [setSteps],
+        )}
+        getStepIndex={useCallback(
+          (step: string) => steps.findIndex((cur) => cur === step),
+          [steps],
+        )}
+        getActiveStepIndex={useCallback(
+          () => steps.findIndex((cur) => cur === value),
+          [steps, value],
+        )}
       >
-        <FlexBox as="ol" alignItems="center">
-          {steps}
-        </FlexBox>
-      </div>
-    </ProgressTrackerProvider>
-  );
-});
+        <div
+          wds-component="progress-tracker"
+          aria-label="progress"
+          ref={ref}
+          css={progressTrackerWrapperStyle}
+          {...props}
+        >
+          <FlexBox as="ol" alignItems="center">
+            {children}
+          </FlexBox>
+        </div>
+      </ProgressTrackerProvider>
+    );
+  },
+);
 
 ProgressTracker.displayName = PROGRESS_TRACKER_NAME;
 
 const ProgressTrackerItem = forwardRef<
   HTMLLIElement,
   MergeElementProps<'li', ProgressTrackerItemProps>
->(({ isLast, index, ...props }, ref) => {
-  const { activeStep } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
+>(({ value, ...props }, ref) => {
+  const {
+    value: contextValue,
+    onStepAdd,
+    onStepRemove,
+    getStepIndex,
+    getActiveStepIndex,
+    getTotalLength,
+  } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
 
-  const isActive = activeStep === index;
-  const isCompleted = (activeStep ?? -1) > (index ?? 0);
+  const isActive = contextValue === value;
+  const index = getStepIndex(value);
+  const activeIndex = getActiveStepIndex();
+
+  const isCompleted = activeIndex > index;
 
   const isFirst = index === 0;
+  const isLast = index === getTotalLength() - 1;
+
+  useEffect(() => {
+    onStepAdd(value);
+
+    return () => onStepRemove(value);
+  }, [onStepAdd, onStepRemove, value]);
 
   return (
     <>
@@ -98,7 +139,7 @@ const ProgressTrackerItem = forwardRef<
               <IconCheckThick />
             ) : (
               <Typography variant="caption1" weight="bold" align="center">
-                {(index ?? 0) + 1}
+                {(index === -1 ? 0 : index) + 1}
               </Typography>
             )}
           </FlexBox>

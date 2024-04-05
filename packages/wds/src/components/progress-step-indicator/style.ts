@@ -39,18 +39,18 @@ export const progressListWrapperStyle = css`
   align-items: center;
   height: 100%;
 
-  & > li:first-child {
+  & > li:first-of-type {
     border-top-left-radius: 999px;
     border-bottom-left-radius: 999px;
   }
 
-  & > li:last-child {
+  & > li:last-of-type {
     border-top-right-radius: 999px;
     border-bottom-right-radius: 999px;
   }
 `;
 
-export const progressListStyle = (completed: boolean) => (theme: Theme) => css`
+export const progressListStyle = (theme: Theme) => css`
   width: var(--wds-progress-step-indicator-width);
   height: 100%;
   position: relative;
@@ -63,23 +63,8 @@ export const progressListStyle = (completed: boolean) => (theme: Theme) => css`
     height: 100%;
     background-color: ${theme.palette.primary.normal};
     position: absolute;
-    inset: 0;
-    left: -100%;
+    inset: var(--wds-progress-step-indicator-inset);
     transition: left 500ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  ${completed &&
-  css`
-    &::after {
-      transition: none;
-      inset: 0;
-    }
-  `}
-
-  &[aria-current='step'] {
-    &::after {
-      inset: 0;
-    }
   }
 `;
 

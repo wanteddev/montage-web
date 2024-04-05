@@ -17,10 +17,10 @@ description: ProgressTracker Component
 
 const Demo = () => {
   return (
-    <ProgressTracker activeStep={0}>
-      <ProgressTrackerItem />
-      <ProgressTrackerItem />
-      <ProgressTrackerItem />
+    <ProgressTracker value="1">
+      <ProgressTrackerItem value="0" />
+      <ProgressTrackerItem value="1" />
+      <ProgressTrackerItem value="2" />
     </ProgressTracker>
   );
 }
@@ -34,8 +34,6 @@ export default Demo;`}
 
 <PropsTable component="ProgressTracker" />
 
-
 ### ProgressTrackerItem
 
-별도의 props 를 직접 주입하지 않습니다.
-`ProgressTracker` 에서 직접 주입됩니다.
+<PropsTable component="ProgressTrackerItem" />

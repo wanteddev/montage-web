@@ -1,69 +1,144 @@
 'use client';
-import { forwardRef } from 'react';
+import { forwardRef, useCallback, useEffect, useState } from 'react';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
 import {
   progressListStyle,
   progressListWrapperStyle,
   progressStepWrapperStyle,
 } from './style';
+import {
+  ProgressStepIndicatorProvider,
+  useProgressStepIndicatorContext,
+} from './contexts';
+import {
+  PROGRESS_STEP_INDICATOR_ITEM_NAME,
+  PROGRESS_STEP_INDICATOR_NAME,
+} from './constants';
 
 import type { MergeElementProps } from '../../types';
 import type { CSSProperties } from 'react';
-import type { ProgressStepIndicatorProps } from './types';
+import type {
+  ProgressStepIndicatorItemProps,
+  ProgressStepIndicatorProps,
+} from './types';
 
-type Props = MergeElementProps<'div', ProgressStepIndicatorProps>;
-
-const ProgressStepIndicator = forwardRef<HTMLDivElement, Props>(
+const ProgressStepIndicator = forwardRef<
+  HTMLDivElement,
+  MergeElementProps<'div', ProgressStepIndicatorProps>
+>(
   (
     {
       size = 'medium',
       divider = true,
-      steps,
-      activeStep,
-      onStepClick,
+      value: originValue,
+      defaultValue,
+      onValueChange,
       xs,
       sm,
       md,
       lg,
       xl,
+      children,
       ...props
     },
     ref,
   ) => {
-    const activeIndex = steps.findIndex((v) => v === activeStep);
+    const [value = '', setValue] = useControllableState({
+      prop: originValue,
+      defaultProp: defaultValue,
+      onChange: onValueChange,
+    });
+    const [steps, setSteps] = useState<Array<string>>([]);
 
     return (
-      <div
-        wds-component="progress-step-indicator"
-        aria-label="progress"
-        ref={ref}
-        css={progressStepWrapperStyle({ size, divider, xs, sm, md, lg, xl })}
-        {...props}
-        style={
-          {
-            ...props.style,
-            '--wds-progress-step-indicator-width': `calc(100% / ${steps.length})`,
-          } as CSSProperties
-        }
+      <ProgressStepIndicatorProvider
+        value={value}
+        onValueChange={setValue}
+        steps={steps}
+        onStepAdd={useCallback(
+          (step: string) => {
+            setSteps((prev) => [...prev, step]);
+          },
+          [setSteps],
+        )}
+        onStepRemove={useCallback(
+          (step: string) => {
+            setSteps((prev) => prev.filter((cur) => cur !== step));
+          },
+          [setSteps],
+        )}
+        getStepIndex={useCallback(
+          (step: string) => steps.findIndex((cur) => cur === step),
+          [steps],
+        )}
+        getActiveStepIndex={useCallback(
+          () => steps.findIndex((cur) => cur === value),
+          [steps, value],
+        )}
       >
-        <ol css={progressListWrapperStyle}>
-          {steps.map((step, i) => {
-            return (
-              <li
-                key={`${step}-${i}`}
-                aria-current={step === activeStep ? 'step' : undefined}
-                css={progressListStyle(activeIndex > i)}
-                aria-label={step.toString()}
-                onClick={() => onStepClick?.(step)}
-              />
-            );
-          })}
-        </ol>
-      </div>
+        <div
+          wds-component="progress-step-indicator"
+          aria-label="progress"
+          ref={ref}
+          css={progressStepWrapperStyle({ size, divider, xs, sm, md, lg, xl })}
+          {...props}
+          style={
+            {
+              ...props.style,
+              '--wds-progress-step-indicator-width': `calc(100% / ${steps.length})`,
+            } as CSSProperties
+          }
+        >
+          <ol css={progressListWrapperStyle}>{children}</ol>
+        </div>
+      </ProgressStepIndicatorProvider>
     );
   },
 );
 
-ProgressStepIndicator.displayName = 'ProgressStepIndicator';
+ProgressStepIndicator.displayName = PROGRESS_STEP_INDICATOR_NAME;
 
-export default ProgressStepIndicator;
+const ProgressStepIndicatorItem = forwardRef<
+  HTMLLIElement,
+  MergeElementProps<'li', ProgressStepIndicatorItemProps>
+>(({ value, ...props }, ref) => {
+  const {
+    value: contextValue,
+    onStepAdd,
+    onStepRemove,
+    getStepIndex,
+    getActiveStepIndex,
+  } = useProgressStepIndicatorContext(PROGRESS_STEP_INDICATOR_ITEM_NAME);
+
+  const isActive = contextValue === value;
+  const index = getStepIndex(value);
+  const activeIndex = getActiveStepIndex();
+
+  useEffect(() => {
+    onStepAdd(value);
+
+    return () => onStepRemove(value);
+  }, [onStepAdd, onStepRemove, value]);
+
+  return (
+    <li
+      ref={ref}
+      wds-component="progress-step-indicator-item"
+      aria-current={isActive ? 'step' : undefined}
+      css={progressListStyle}
+      {...props}
+      style={
+        {
+          ...props.style,
+          ['--wds-progress-step-indicator-inset']:
+            activeIndex >= index ? '0' : '0 0 0 -100%',
+        } as CSSProperties
+      }
+    />
+  );
+});
+
+ProgressStepIndicatorItem.displayName = PROGRESS_STEP_INDICATOR_ITEM_NAME;
+
+export { ProgressStepIndicator, ProgressStepIndicatorItem };
