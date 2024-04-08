@@ -59,6 +59,7 @@ export const lightSemantic = {
     violet: atomic.violet[50],
     pink: atomic.pink[50],
     redOrange: atomic.redOrange[50],
+    purple: atomic.purple[50],
   },
   inverse: {
     primary: atomic.blue[60],
@@ -143,6 +144,7 @@ export const darkSemantic = {
     violet: atomic.violet[60],
     pink: atomic.pink[60],
     redOrange: atomic.redOrange[60],
+    purple: atomic.purple[60],
   },
   inverse: {
     primary: atomic.blue[50],

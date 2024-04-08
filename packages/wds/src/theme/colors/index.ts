@@ -8,6 +8,7 @@ export { default as lime } from './lime';
 export { default as neutral } from './neutral';
 export { default as orange } from './orange';
 export { default as pink } from './pink';
+export { default as purple } from './purple';
 export { default as red } from './red';
 export { default as violet } from './violet';
 export { default as redOrange } from './redOrange';
