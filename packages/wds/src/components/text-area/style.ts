@@ -6,7 +6,16 @@ import type { TextAreaProps } from './types';
 import type { Theme } from '@emotion/react';
 
 export const textAreaWrapperStyle =
-  ({ disabled, invalid }: TextAreaProps) =>
+  ({
+    disabled,
+    invalid,
+    width = 'fit-content',
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: TextAreaProps) =>
   (theme: Theme) => css`
     border: none;
     box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
@@ -24,7 +33,7 @@ export const textAreaWrapperStyle =
       box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
     `}
 
-    width: fit-content;
+    width: ${width};
 
     button {
       flex-shrink: 0;
@@ -42,15 +51,27 @@ export const textAreaWrapperStyle =
         overflow: hidden;
       }
     }
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${Boolean(params?.width) &&
+        css`
+          width: ${params!.width};
+        `}
+      `,
+    )}
   `;
 
 export const textAreaStyle =
-  ({ width = 'initial', xs, sm, md, lg, xl }: TextAreaProps) =>
+  ({ xs, sm, md, lg, xl }: TextAreaProps) =>
   (theme: Theme) => css`
     height: var(--wds-text-area-height);
     display: flex;
     flex-direction: column;
-    width: ${width};
+    width: 100%;
     padding: 12px 16px;
     flex-shrink: 2;
     background-color: transparent;

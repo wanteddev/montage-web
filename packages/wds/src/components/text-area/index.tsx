@@ -198,6 +198,12 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         css={textAreaWrapperStyle({
           invalid: invalid || isInvalidLength,
           disabled,
+          xs,
+          sm,
+          md,
+          lg,
+          xl,
+          ...props,
         })}
       >
         <textarea
