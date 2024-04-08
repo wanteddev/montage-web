@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.0...@wanteddev/wds@0.3.1) (2024-04-08)
+
+### Features
+
+- **wds:** color 팔레트 업데이트 ([c3e9176](https://github.com/wanteddev/wds/commit/c3e9176ed2d9ab4076b55e8b454a434a28cd7c68))
+
 # [0.3.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.2.2...@wanteddev/wds@0.3.0) (2024-04-08)
 
 ### Bug Fixes
