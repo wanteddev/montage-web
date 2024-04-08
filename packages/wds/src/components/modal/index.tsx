@@ -136,7 +136,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
   (
     {
       variant = 'popup',
-      size = 'normal',
+      size = 'normal-fixed',
       xs,
       sm,
       md,
