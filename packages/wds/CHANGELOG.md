@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.2.2...@wanteddev/wds@0.3.0) (2024-04-08)
+
+### Bug Fixes
+
+- **wds:** accent tooltip에서 텍스트가 가려지는 이슈 ([ca58a63](https://github.com/wanteddev/wds/commit/ca58a6317c68c011b952f065d321d5f251dce79a))
+- **wds:** input 폰트 달라지는 현상 수정 ([9369b65](https://github.com/wanteddev/wds/commit/9369b6511aff4a6c25f726ab9cea53b26618337b))
+- **wds:** select 컴포넌트의 outline이 이상한 이슈 ([5ecfd92](https://github.com/wanteddev/wds/commit/5ecfd9295eb3502cd96a9d6411d39fb3fd095d38))
+- **wds:** tooltip z index가 적용이 되지 않는 이슈 ([22f438b](https://github.com/wanteddev/wds/commit/22f438b2ad6d2614536b921024fda1e2fd7bf83b))
+
+### Features
+
+- **wds:** compact tooltip 컴포넌트 추가 ([85de3bb](https://github.com/wanteddev/wds/commit/85de3bb68524ba1f4c504cfbc5beb16fb0960a6a))
+- **wds:** fixed 모달 추가 ([1ea5037](https://github.com/wanteddev/wds/commit/1ea50379d7800dbf283a62e733ecdf8b4f2c3533))
+- **wds:** modal container 기본값 변경 ([38077af](https://github.com/wanteddev/wds/commit/38077af3b068b5ff6967574496e61bace2c15394))
+- **wds:** progress indicator 사용성 개선 ([222646c](https://github.com/wanteddev/wds/commit/222646c259ae01eeac4f3ccdfd5d57e10cd9c3c5))
+- **wds:** scroll bar에 z index 설정할 수 있도록 추가 ([2333de4](https://github.com/wanteddev/wds/commit/2333de468fd94cb99a1808eefd7fa12975a9f979))
+- **wds:** tooltip accent 추가 ([46b9d35](https://github.com/wanteddev/wds/commit/46b9d35d0629e8687759fa73a223a5a10501b58f))
+- **wds:** 번들 파일에 use client 추가 ([f3c5aab](https://github.com/wanteddev/wds/commit/f3c5aaba1f3a05918169a65642f2e70a4ee461fd))
+
 ## [0.2.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.2.1...@wanteddev/wds@0.2.2) (2024-04-04)
 
 ### Features
