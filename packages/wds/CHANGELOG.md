@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.1...@wanteddev/wds@0.3.2) (2024-04-11)
+
+### Bug Fixes
+
+- **wds:** content badge 사이즈별 padding 수정 ([b1309be](https://github.com/wanteddev/wds/commit/b1309bef4f9ccdb9deebb66f7b056e234b3fdcc8))
+- **wds:** divider 반응형 너비가 올바르지 않음 ([75bda28](https://github.com/wanteddev/wds/commit/75bda28290eb77ba6a19031c2dccc4ce46ff106e))
+- **wds:** focus visible outline 수정 ([182a692](https://github.com/wanteddev/wds/commit/182a692854fbdff0805a85a477c128c1e7dc6f1f))
+- **wds:** form과 modal을 함께 사용할 때 포커스가 이상하게 잡히는 이슈 ([1072a5e](https://github.com/wanteddev/wds/commit/1072a5e9872ffd085f21e193fb1849ed76c2591b))
+- **wds:** text-area에서 width 100%가 동작하지 않음 ([f8d52da](https://github.com/wanteddev/wds/commit/f8d52da674eead5c1c4068805b347878dc4ed4e9))
+- **wds:** 비제어 컴포넌트 일 때 text area의 maxLength 속성이 동작하지 않음 ([36634cf](https://github.com/wanteddev/wds/commit/36634cf4a656dc7f0f8a27326ddce34a8936e5f1))
+
+### Features
+
+- **wds:** dialog confirm color 변경 가능하도록 수정 ([9c654c3](https://github.com/wanteddev/wds/commit/9c654c3921c97c3dc105f788541d44254f7ad0a1))
+- **wds:** form error message와 description 분리해서 사용할 수 있게 변경 ([8c3a007](https://github.com/wanteddev/wds/commit/8c3a0078b38a8130672a455487ead18b22c1c0d9))
+- **wds:** skeleton flex shrink 추가 ([904c5ee](https://github.com/wanteddev/wds/commit/904c5ee95cb9aa7ee422738e44a12dde04d573ff))
+- **wds:** skeleton 컴포넌트 고도화 ([9db9a01](https://github.com/wanteddev/wds/commit/9db9a0153dfc74196ab500e18d48f0c42754ebb2))
+- **wds:** text area, select, text field background 투명색으로 변경 ([c25340c](https://github.com/wanteddev/wds/commit/c25340c411c59b260350d5e27f21fdc469386bba))
+
 ## [0.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.0...@wanteddev/wds@0.3.1) (2024-04-08)
 
 ### Features
