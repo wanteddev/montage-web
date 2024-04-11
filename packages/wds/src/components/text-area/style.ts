@@ -23,7 +23,7 @@ export const textAreaWrapperStyle =
     background-color: transparent;
 
     @supports selector(:has(*)) {
-      &:where(:has(input:focus)) {
+      &:where(:has(textarea:focus)) {
         box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
       }
     }
