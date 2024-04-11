@@ -24,12 +24,24 @@ export const textFieldWrapperStyle =
     border-radius: 10px;
     border: none;
     box-shadow: 0 0 0 1px ${theme.palette.line.normal.normal};
-    background-color: ${theme.palette.background.normal.normal};
+    background-color: transparent;
     width: ${width};
     height: ${height};
     padding: 12px 16px;
     gap: 16px;
     cursor: text;
+
+    @supports selector(:has(*)) {
+      &:where(:has(input:focus)) {
+        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+      }
+    }
+
+    @supports not selector(:has(*)) {
+      &:where(:focus-within) {
+        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+      }
+    }
 
     ${disabled &&
     css`
@@ -41,18 +53,6 @@ export const textFieldWrapperStyle =
     css`
       box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
     `}
-
-  @supports selector(:has(*)) {
-      &:where(:has(input:focus)) {
-        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-      }
-    }
-
-    @supports not selector(:has(*)) {
-      &:where(:focus-within) {
-        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-      }
-    }
 
     &:where([type='number']) {
       -moz-appearance: textfield;

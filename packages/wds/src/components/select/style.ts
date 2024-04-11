@@ -28,7 +28,7 @@ export const selectWrapperStyle =
       border-radius: 10px;
       border: none;
       box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
-      background-color: ${theme.palette.background.normal.normal};
+      background-color: transparent;
       width: 100%;
       height: 100%;
       color: ${theme.palette.label.normal};

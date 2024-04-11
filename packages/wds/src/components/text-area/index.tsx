@@ -59,6 +59,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       disabled = false,
       maxRows,
       minRows = 1,
+      className,
       xs,
       sm,
       md,
@@ -195,6 +196,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     return (
       <ScrollArea
         ref={parentRef}
+        className={className}
         css={textAreaWrapperStyle({
           invalid: invalid || isInvalidLength,
           disabled,
