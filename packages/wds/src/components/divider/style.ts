@@ -30,7 +30,12 @@ export const dividerStyle =
             size,
             breakpoint!,
           ),
-          thickness: params?.thickness,
+          thickness: getPreviousValue(
+            { xs, sm, md, lg, xl },
+            'thickness',
+            thickness,
+            breakpoint!,
+          ),
           vertical: getPreviousValue(
             { xs, sm, md, lg, xl },
             'vertical',
