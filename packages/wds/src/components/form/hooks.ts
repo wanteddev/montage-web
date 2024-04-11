@@ -13,6 +13,8 @@ export const useFormField = (componentName: string) => {
     id,
     name,
     formItemId: `${id}-form-item`,
+    formDescriptionId: `${id}-form-item-description`,
+    formErrorMessageId: `${id}-form-item-error-message`,
     formMessageId: `${id}-form-item-message`,
     error: fieldState.error,
   };

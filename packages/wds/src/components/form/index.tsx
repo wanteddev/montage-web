@@ -10,6 +10,8 @@ import FlexBox from '../flex-box';
 import { FormFieldProvider, FormItemProvider } from './contexts';
 import {
   FORM_CONTROL_NAME,
+  FORM_DESCRIPTION_NAME,
+  FORM_ERROR_MESSAGE_NAME,
   FORM_FIELD_NAME,
   FORM_ITEM_NAME,
   FORM_LABEL_NAME,
@@ -21,6 +23,8 @@ import type { ElementRef } from 'react';
 import type { FieldPath, FieldValues } from 'react-hook-form';
 import type {
   FormControlProps,
+  FormDescriptionProps,
+  FormErrorMessageProps,
   FormFieldProps,
   FormItemProps,
   FormLabelProps,
@@ -67,14 +71,23 @@ FormLabel.displayName = FORM_LABEL_NAME;
 
 const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
   (props, ref) => {
-    const { error, formItemId, formMessageId } =
-      useFormField(FORM_CONTROL_NAME);
+    const {
+      error,
+      formItemId,
+      formMessageId,
+      formDescriptionId,
+      formErrorMessageId,
+    } = useFormField(FORM_CONTROL_NAME);
 
     return (
       <Slot
         ref={ref}
         id={formItemId}
-        aria-describedby={formMessageId}
+        aria-describedby={
+          Boolean(error)
+            ? `${formMessageId} ${formDescriptionId} ${formErrorMessageId}`
+            : `${formMessageId} ${formDescriptionId}`
+        }
         aria-invalid={Boolean(error)}
         {...(Boolean(error) && { invalid: Boolean(error).toString() })}
         {...props}
@@ -84,6 +97,61 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
 );
 
 FormControl.displayName = FORM_CONTROL_NAME;
+
+const FormDescription = forwardRef<HTMLParagraphElement, FormDescriptionProps>(
+  ({ children, ...props }, ref) => {
+    const { formDescriptionId } = useFormField(FORM_DESCRIPTION_NAME);
+
+    if (!children) {
+      return null;
+    }
+
+    return (
+      <Typography
+        as="p"
+        ref={ref}
+        id={formDescriptionId}
+        variant="label2"
+        weight="regular"
+        color="palette.label.alternative"
+        {...props}
+      >
+        {children}
+      </Typography>
+    );
+  },
+);
+
+FormDescription.displayName = FORM_DESCRIPTION_NAME;
+
+const FormErrorMessage = forwardRef<
+  HTMLParagraphElement,
+  FormErrorMessageProps
+>(({ children, ...props }, ref) => {
+  const { error, formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
+
+  const message = String(error?.message || '') || children;
+
+  if (!message) {
+    return null;
+  }
+
+  return (
+    <Typography
+      as="p"
+      ref={ref}
+      id={formErrorMessageId}
+      variant="label2"
+      weight="regular"
+      color="palette.status.negative"
+      {...props}
+    >
+      {message}
+    </Typography>
+  );
+});
+
+FormErrorMessage.displayName = FORM_ERROR_MESSAGE_NAME;
 
 const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
   ({ children, ...props }, ref) => {
@@ -117,4 +185,13 @@ const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
 
 FormMessage.displayName = FORM_MESSAGE_NAME;
 
-export { Form, FormItem, FormLabel, FormControl, FormMessage, FormField };
+export {
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormErrorMessage,
+  FormMessage,
+  FormField,
+};

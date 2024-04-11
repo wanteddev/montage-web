@@ -18,6 +18,16 @@ export type FormLabelProps = ComponentPropsWithoutRef<typeof Label>;
 
 export type FormControlProps = ComponentPropsWithoutRef<typeof Slot>;
 
+export type FormDescriptionProps = Omit<
+  ComponentPropsWithoutRef<typeof Typography<'p'>>,
+  'as'
+>;
+
+export type FormErrorMessageProps = Omit<
+  ComponentPropsWithoutRef<typeof Typography<'p'>>,
+  'as'
+>;
+
 export type FormMessageProps = Omit<
   ComponentPropsWithoutRef<typeof Typography<'p'>>,
   'as'
