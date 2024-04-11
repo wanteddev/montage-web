@@ -4,6 +4,7 @@ import { useStore } from 'zustand';
 
 import { generateId } from './helpers';
 
+import type { ThemeColorsToken } from '../types';
 import type { StoreApi } from 'zustand';
 
 export type DialogReturnType = 'cancel' | 'confirm';
@@ -14,6 +15,7 @@ export type DialogItem = {
   content: string;
   confirmText: string;
   cancelText?: string;
+  confirmColor?: ThemeColorsToken;
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
   resolve: (value: DialogReturnType | PromiseLike<DialogReturnType>) => void;

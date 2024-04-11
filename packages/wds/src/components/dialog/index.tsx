@@ -15,6 +15,7 @@ import {
 } from '..';
 import FocusScope from '../focus-scope';
 import { useDialogStore } from '../../stores/dialog-store';
+import { getColorByToken } from '../../utils';
 
 import {
   dialogActionStyle,
@@ -44,6 +45,7 @@ const Item = ({
   content,
   title,
   confirmText,
+  confirmColor = 'palette.primary.normal',
   cancelText,
   disableOutsideClickClose,
   disableEscapeKeyDownClose,
@@ -147,6 +149,12 @@ const Item = ({
                 size="medium"
                 variant="primary"
                 onClick={handleConfirm}
+                css={(theme) => ({
+                  color: getColorByToken(theme, confirmColor),
+                  ['[wds-component="with-interaction"]']: {
+                    backgroundColor: getColorByToken(theme, confirmColor),
+                  },
+                })}
               >
                 {confirmText}
               </TextButton>
