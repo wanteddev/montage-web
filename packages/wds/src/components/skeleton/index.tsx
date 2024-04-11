@@ -8,15 +8,38 @@ import type { SkeletonProps } from './types';
 const Skeleton: ReturnType<typeof forwardRef<HTMLDivElement, SkeletonProps>> =
   forwardRef<HTMLDivElement, SkeletonProps>(
     (
-      { width = '100%', height = '22px', xs, sm, md, lg, xl, ...props },
+      {
+        variant = 'rectangle',
+        width = '100%',
+        height = '22px',
+        radius,
+        xs,
+        sm,
+        md,
+        lg,
+        xl,
+        ...props
+      },
       ref,
     ) => {
       return (
         <div
           ref={ref}
-          css={skeletonStyle({ width, height, xs, sm, md, lg, xl })}
+          css={skeletonStyle({
+            radius,
+            variant,
+            width,
+            height,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          })}
           {...props}
-        />
+        >
+          <span />
+        </div>
       );
     },
   );

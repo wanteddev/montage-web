@@ -2,8 +2,10 @@ import type { CSSProperties } from 'react';
 import type { MergeWithCss, ResponsiveProps } from '../../types';
 
 type SkeletonDefaultProps = {
+  variant?: 'text' | 'circle' | 'rectangle';
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
+  radius?: CSSProperties['borderRadius'];
 };
 
 type SkeletonResponsiveProps = ResponsiveProps<

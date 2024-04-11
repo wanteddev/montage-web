@@ -8,9 +8,16 @@ import type { Theme } from '@emotion/react';
 export const skeletonStyle =
   ({ xs, sm, md, lg, xl, ...props }: SkeletonProps) =>
   (theme: Theme) => css`
-    background-color: ${theme.palette.fill.normal};
-    margin: 2px 0px;
-    border-radius: 3px;
+    position: relative;
+
+    & > span {
+      border-radius: inherit;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    ${skeletonVariantStyle(props, theme)}
     ${skeletonSizeStyle(props)}
 
     ${createResponsiveStyle(
@@ -38,3 +45,36 @@ const skeletonSizeStyle = ({
     height: ${height};
   `}
 `;
+
+const skeletonVariantStyle = (
+  { variant, radius = 'initial' }: Pick<SkeletonProps, 'variant' | 'radius'>,
+  theme: Theme,
+) => {
+  switch (variant) {
+    case 'text':
+      return css`
+        padding: 2px 0px;
+        border-radius: 3px;
+
+        & > span {
+          background-color: ${theme.palette.fill.normal};
+        }
+      `;
+    case 'circle':
+      return css`
+        border-radius: 50%;
+
+        & > span {
+          background-color: ${theme.palette.fill.alternative};
+        }
+      `;
+    case 'rectangle':
+      return css`
+        border-radius: ${radius};
+
+        & > span {
+          background-color: ${theme.palette.fill.alternative};
+        }
+      `;
+  }
+};
