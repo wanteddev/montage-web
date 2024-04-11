@@ -9,6 +9,7 @@ export const skeletonStyle =
   ({ xs, sm, md, lg, xl, ...props }: SkeletonProps) =>
   (theme: Theme) => css`
     position: relative;
+    flex-shrink: 0;
 
     & > span {
       border-radius: inherit;
