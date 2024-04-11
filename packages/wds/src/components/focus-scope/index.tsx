@@ -198,14 +198,7 @@ const FocusScope = forwardRef<HTMLDivElement, Props>(
       [loop, trapped, focusScope.paused],
     );
 
-    return (
-      <Slot
-        ref={composedRefs}
-        tabIndex={-1}
-        onKeyDown={handleKeyDown}
-        {...props}
-      />
-    );
+    return <Slot ref={composedRefs} onKeyDown={handleKeyDown} {...props} />;
   },
 );
 
