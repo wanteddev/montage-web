@@ -2,6 +2,7 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
   Children,
+  Fragment,
   forwardRef,
   isValidElement,
   useCallback,
@@ -90,6 +91,7 @@ const Modal = ({
   disableDimmer = false,
   disableOutsideClickClose = false,
   disableEscapeKeyDownClose = false,
+  disablePortal = false,
 }: ModalProps) => {
   const [open = false, setOpen] = useControllableState({
     prop: openProp,
@@ -101,6 +103,8 @@ const Modal = ({
   const innerContainerRef = useRef<HTMLDivElement>(null);
 
   const [scrollHeight, setScrollHeight] = useState(0);
+
+  const Container = disablePortal ? Fragment : Portal;
 
   return (
     <ModalProvider
@@ -121,9 +125,9 @@ const Modal = ({
     >
       {open && (
         <>
-          <Portal container={container}>
+          <Container container={container}>
             <>{children}</>
-          </Portal>
+          </Container>
         </>
       )}
     </ModalProvider>
@@ -381,6 +385,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
                   weight="bold"
                   color="palette.label.strong"
                   noWrap
+                  css={{ margin: 0, border: 'none' }}
                 >
                   {children}
                 </Typography>

@@ -40,6 +40,7 @@ export const editorStyle = (theme: Theme) => css`
   border-bottom-right-radius: 8px;
   border-bottom-left-radius: 8px;
   border-top-width: 0px;
+  font-size: 0.9em;
 `;
 
 export const collapseWrapperStyle =

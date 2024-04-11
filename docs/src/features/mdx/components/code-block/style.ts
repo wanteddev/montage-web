@@ -17,7 +17,6 @@ export const inlineCodeStyle = (theme: Theme) => css`
 
 export const codeBlockStyle = (theme: Theme) => css`
   width: 100%;
-  font-size: 0.9em;
   color: ${theme.palette.label.normal};
   white-space: pre;
 

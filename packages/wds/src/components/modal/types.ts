@@ -23,6 +23,14 @@ export type ModalProps = PropsWithChildren<{
   disableDimmer?: boolean;
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
+  /**
+   * React Portal은 SSR을 지원하지 않기 때문에
+   * Server Side Rendering을 지원하기 위해 사용합니다.
+   *
+   * h2, div 등 태그를 이용한 스타일을 상위 컴포넌트에서 사용한 경우
+   * UI가 깨질 수 있습니다.
+   */
+  disablePortal?: boolean;
 }>;
 
 type ModalContainerDefaultProps = {

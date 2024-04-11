@@ -17,12 +17,12 @@ export const mdxRootStyle = (theme: Theme) => css`
     color: ${theme.palette.primary.normal};
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  & > h1,
+  & > h2,
+  & > h3,
+  & > h4,
+  & > h5,
+  & > h6 {
     a {
       scroll-margin-top: var(--header-height);
     }
@@ -51,7 +51,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     }
   }
 
-  blockquote {
+  & > blockquote {
     margin-top: 24px;
     border-left: 4px solid ${theme.palette.line.normal.normal};
     padding-left: 12px;
