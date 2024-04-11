@@ -69,6 +69,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     },
     ref,
   ) => {
+    const [length, setLength] = useState(value?.length || 0);
+
     const parentRef = useRef<HTMLDivElement>(null);
 
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -83,10 +85,14 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       width: 0,
     };
 
-    const isInvalidLength =
-      Boolean(value) && Boolean(maxLength)
-        ? maxLength! < value!.toString().length
-        : false;
+    const isInvalidLength = Boolean(maxLength) ? maxLength! < length : false;
+
+    const onChangeLength = useCallback(
+      (v: string) => {
+        setLength(v.length);
+      },
+      [setLength],
+    );
 
     const syncTextAreaHeight = useCallback(() => {
       if (!textAreaRef.current || !shadowRef.current || !parentRef.current) {
@@ -230,8 +236,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
               Boolean(maxLength) ? '22px' : '0px'
             })`,
           }}
-          onChange={composeEventHandlers(props.onChange, () => {
+          onChange={composeEventHandlers(props.onChange, (e) => {
             syncTextAreaHeight();
+            onChangeLength(e.target.value);
           })}
         >
           {value}
@@ -282,7 +289,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             }
             css={maxLengthStyle}
           >
-            {value?.toString().length.toLocaleString() || 0}&#47;
+            {length}&#47;
             {maxLength!.toLocaleString()}
           </Typography>
         )}

@@ -9,6 +9,7 @@ export type TextAreaDefaultProps = {
   width?: CSSProperties['width'];
   maxRows?: number;
   minRows?: number;
+  value?: string;
 };
 
 export type TextAreaResponsiveProps = ResponsiveProps<
