@@ -26,4 +26,5 @@ export const preWrapperStyle = (theme: Theme) => css`
 
 export const preStyle = css`
   display: block;
+  font-size: 0.9em;
 `;
