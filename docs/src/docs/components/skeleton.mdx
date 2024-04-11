@@ -23,3 +23,52 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="Skeleton" />
+
+## Variant
+
+### Rectangle
+
+`rectangle` 에서만 `radius` prop으로 border radius를 조정해서 사용할 수 있어요.
+썸네일 영역 로딩 표시 등에서 사용해요.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton variant="rectangle" />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Text
+
+padding 값이 포함되어 텍스트 영역에 로딩 스켈레톤을 구성할 때 사용해요.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton variant="text" height="22px" />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Circle
+
+원형 스켈레톤에 사용해요.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton variant="circle" width="50px" height="50px" />
+  )
+}
+
+export default Demo;`}
+/>
+
