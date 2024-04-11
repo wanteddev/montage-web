@@ -7,8 +7,15 @@ import Label from '../label';
 import Typography from '../typography';
 import FlexBox from '../flex-box';
 
-import { FormFieldProvider, FormItemProvider, useFormField } from './contexts';
-import { FORM_FIELD_NAME, FORM_ITEM_NAME } from './constants';
+import { FormFieldProvider, FormItemProvider } from './contexts';
+import {
+  FORM_CONTROL_NAME,
+  FORM_FIELD_NAME,
+  FORM_ITEM_NAME,
+  FORM_LABEL_NAME,
+  FORM_MESSAGE_NAME,
+} from './constants';
+import { useFormField } from './hooks';
 
 import type { ElementRef } from 'react';
 import type { FieldPath, FieldValues } from 'react-hook-form';
@@ -45,21 +52,23 @@ const FormItem = forwardRef<HTMLDivElement, FormItemProps>((props, ref) => {
     </FormItemProvider>
   );
 });
+
 FormItem.displayName = FORM_ITEM_NAME;
 
 const FormLabel: ReturnType<
   typeof forwardRef<HTMLLabelElement, FormLabelProps>
 > = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
-  const { formItemId } = useFormField();
+  const { formItemId } = useFormField(FORM_LABEL_NAME);
 
   return <Label ref={ref} htmlFor={formItemId} {...props} />;
 });
 
-FormLabel.displayName = 'FormLabel';
+FormLabel.displayName = FORM_LABEL_NAME;
 
 const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
   (props, ref) => {
-    const { error, formItemId, formMessageId } = useFormField();
+    const { error, formItemId, formMessageId } =
+      useFormField(FORM_CONTROL_NAME);
 
     return (
       <Slot
@@ -73,11 +82,12 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
     );
   },
 );
-FormControl.displayName = 'FormControl';
+
+FormControl.displayName = FORM_CONTROL_NAME;
 
 const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
   ({ children, ...props }, ref) => {
-    const { error, formMessageId } = useFormField();
+    const { error, formMessageId } = useFormField(FORM_MESSAGE_NAME);
 
     const hasError = Boolean(error);
 
@@ -104,6 +114,7 @@ const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
     );
   },
 );
-FormMessage.displayName = 'FormMessage';
+
+FormMessage.displayName = FORM_MESSAGE_NAME;
 
 export { Form, FormItem, FormLabel, FormControl, FormMessage, FormField };
