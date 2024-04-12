@@ -31,6 +31,31 @@ const parser = withCustomConfig(
   },
 );
 
+const lottieParser = withCustomConfig(
+  path.join(process.cwd(), '../packages/wds-lottie/tsconfig.json'),
+  {
+    propFilter: (prop) => {
+      if (prop.name === 'css') {
+        return false;
+      }
+      if (prop.declarations !== undefined && prop.declarations.length > 0) {
+        const hasPropAdditionalDescription = prop.declarations.find(
+          (declaration) => {
+            return (
+              declaration.fileName.includes('lottie-web') ||
+              !declaration.fileName.includes('node_modules')
+            );
+          },
+        );
+
+        return Boolean(hasPropAdditionalDescription);
+      }
+
+      return true;
+    },
+  },
+);
+
 const main = () => {
   const getPathName = (pathname) =>
     path.join(process.cwd(), `../packages/wds/src/${pathname}`);
@@ -53,6 +78,9 @@ const main = () => {
     ...parser.parse(sync(getPathName('components/focus-scope/index.tsx'))),
     ...parser.parse(sync(getPathName('components/grid/index.tsx'))),
     ...parser.parse(sync(getPathName('components/grid-item/index.tsx'))),
+    ...lottieParser.parse(
+      sync(path.join(process.cwd(), `../packages/wds-lottie/src/index.ts`)),
+    ),
   ];
 
   fs.writeFileSync(

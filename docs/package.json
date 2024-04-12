@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "node scripts/docgen.mjs && next build",
+    "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -15,6 +16,7 @@
     "@emotion/react": "^11.11.4",
     "@wanteddev/wds": "workspace:*",
     "@wanteddev/wds-icon": "workspace:*",
+    "@wanteddev/wds-lottie": "workspace:*",
     "@wanteddev/wds-nextjs": "workspace:*",
     "copy-to-clipboard": "^3.3.3",
     "glob": "^10.3.10",

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.react.json",
+  "compilerOptions": {
+    "jsxImportSource": "@emotion/react",
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src", "@types/index.d.ts"],
+  "exclude": ["node_modules"]
+}

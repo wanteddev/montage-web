@@ -99,6 +99,9 @@ importers:
       '@wanteddev/wds-icon':
         specifier: workspace:*
         version: link:../packages/wds-icon
+      '@wanteddev/wds-lottie':
+        specifier: workspace:*
+        version: link:../packages/wds-lottie
       '@wanteddev/wds-nextjs':
         specifier: workspace:*
         version: link:../packages/wds-nextjs
@@ -306,6 +309,25 @@ importers:
       shelljs:
         specifier: ^0.8.5
         version: 0.8.5
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.2
+
+  packages/wds-lottie:
+    dependencies:
+      '@emotion/react':
+        specifier: ^11.11.4
+        version: 11.11.4(@types/react@18.2.73)(react@18.2.0)
+      lottie-web:
+        specifier: ^5.12.2
+        version: 5.12.2
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+    devDependencies:
+      '@types/react':
+        specifier: ^18.2.65
+        version: 18.2.73
       typescript:
         specifier: ^5.4.2
         version: 5.4.2
@@ -6353,6 +6375,10 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+
+  /lottie-web@5.12.2:
+    resolution: {integrity: sha512-uvhvYPC8kGPjXT3MyKMrL3JitEAmDMp30lVkuq/590Mw9ok6pWcFCwXJveo0t5uqYw1UREQHofD+jVpdjBv8wg==}
+    dev: false
 
   /lru-cache@10.2.0:
     resolution: {integrity: sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==}

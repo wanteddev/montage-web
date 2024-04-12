@@ -1,15 +1,16 @@
 'use client';
-import * as emotionReact from '@emotion/react';
+import * as EmotionReact from '@emotion/react';
 import { refractor } from 'refractor';
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
 import * as WdsIcon from '@wanteddev/wds-icon';
+import * as WdsLottie from '@wanteddev/wds-lottie';
 import tsx from 'refractor/lang/tsx';
 import CodeEditor from 'react-simple-code-editor';
 import { toHtml } from 'hast-util-to-html';
-import * as hookForm from 'react-hook-form';
+import * as HookForm from 'react-hook-form';
 import * as copy from 'copy-to-clipboard';
-import * as emotionRuntime from '@emotion/react/jsx-runtime';
+import * as EmotionRuntime from '@emotion/react/jsx-runtime';
 
 import { codeBlockStyle } from '../code-block/style';
 
@@ -40,10 +41,11 @@ const Demo = ({ code, hideCode }: Props) => {
         react: React,
         '@wanteddev/wds': Wds,
         '@wanteddev/wds-icon': WdsIcon,
-        'react-hook-form': hookForm,
+        '@wanteddev/wds-lottie': WdsLottie,
+        'react-hook-form': HookForm,
         'copy-to-clipboard': copy,
-        '@emotion/react': emotionReact,
-        '@emotion/react/jsx-runtime': emotionRuntime,
+        '@emotion/react': EmotionReact,
+        '@emotion/react/jsx-runtime': EmotionRuntime,
       },
     };
   }, []);

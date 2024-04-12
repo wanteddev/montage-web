@@ -103,6 +103,10 @@ export const routes: Array<Route> = [
       { title: 'Typography', slug: '/docs/utility/typography' },
     ],
   },
+  {
+    label: 'Lottie',
+    pages: [{ title: 'Loading', slug: '/docs/lottie/loading' }],
+  },
 ];
 
 export const allRoutes = routes.reduce(
