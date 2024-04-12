@@ -98,47 +98,49 @@ const Demo = () => {
           render={() => (
             <FormItem>
               <FormLabel>관심 분야</FormLabel>
+              <FlexBox gap="8px">
 
-              {items.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="selected"
-                  rules={{
-                    required: {
-                      value: true,
-                      message: "필수 값입니다.",
-                    },
-                  }}
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        flexDirection="row"
-                        alignItems="center"
-                      >
-                        <FormControl>
-                          <ChipMultiSelect
-                            {...field}
-                            checked={field.value.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                          >
-                            {item.label}
-                          </ChipMultiSelect>
-                        </FormControl>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
+                {items.map((item) => (
+                  <FormField
+                    key={item.id}
+                    control={form.control}
+                    name="selected"
+                    rules={{
+                      required: {
+                        value: true,
+                        message: "필수 값입니다.",
+                      },
+                    }}
+                    render={({ field }) => {
+                      return (
+                        <FormItem
+                          key={item.id}
+                          flexDirection="row"
+                          alignItems="center"
+                        >
+                          <FormControl>
+                            <ChipMultiSelect
+                              {...field}
+                              checked={field.value.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value.filter(
+                                        (value) => value !== item.id
+                                      )
+                                    );
+                              }}
+                            >
+                              {item.label}
+                            </ChipMultiSelect>
+                          </FormControl>
+                        </FormItem>
+                      );
+                    }}
+                  />
+                ))}
+              </FlexBox>
 
               <FormMessage />
             </FormItem>
