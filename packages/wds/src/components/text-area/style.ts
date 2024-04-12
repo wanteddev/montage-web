@@ -22,17 +22,21 @@ export const textAreaWrapperStyle =
     border-radius: 10px;
     background-color: transparent;
 
-    @supports selector(:has(*)) {
-      &:where(:has(textarea:focus)) {
-        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+    ${!invalid &&
+    !disabled &&
+    css`
+      @supports selector(:has(*)) {
+        &:where(:has(textarea:focus)) {
+          box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+        }
       }
-    }
 
-    @supports not selector(:has(*)) {
-      &:where(:focus-within) {
-        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+      @supports not selector(:has(*)) {
+        &:where(:focus-within) {
+          box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+        }
       }
-    }
+    `}
 
     ${disabled &&
     css`

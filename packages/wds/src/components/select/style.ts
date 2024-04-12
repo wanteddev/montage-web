@@ -38,7 +38,6 @@ export const selectWrapperStyle =
 
       &:focus-visible {
         outline-style: solid;
-        outline-width: 2px;
       }
 
       option[value=''][disabled] {
