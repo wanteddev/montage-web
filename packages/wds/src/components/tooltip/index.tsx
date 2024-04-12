@@ -212,7 +212,14 @@ const TooltipContent = forwardRef<
   MergeElementProps<'div', TooltipContentProps>
 >(
   (
-    { action, children, variant = 'normal', position = 'top-center', ...props },
+    {
+      arrow = true,
+      action,
+      children,
+      variant = 'normal',
+      position = 'top-center',
+      ...props
+    },
     ref,
   ) => {
     const {
@@ -276,7 +283,7 @@ const TooltipContent = forwardRef<
                   {Boolean(action) && action}
                 </FlexBox>
 
-                <PopperArrow overlay={overlay} />
+                {arrow && <PopperArrow overlay={overlay} />}
               </FlexBox>
             </FlexBox>
           </PopperContent>

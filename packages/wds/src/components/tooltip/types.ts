@@ -9,6 +9,7 @@ export type TooltipProps = {
 };
 
 export type TooltipContentProps = {
+  arrow?: boolean;
   action?: ReactNode;
   children?: ReactNode;
   variant?: 'normal' | 'inverse' | 'accent';
