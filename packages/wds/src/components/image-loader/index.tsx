@@ -18,7 +18,18 @@ const loadImage = (src: string) => {
 };
 
 const ImageLoader = forwardRef<HTMLImageElement, Props>(
-  ({ src, width, quality = 75, onError, onLoad, ...props }: Props, ref) => {
+  (
+    {
+      src,
+      width,
+      quality = 75,
+      onError,
+      onLoad,
+      disableOptimize = false,
+      ...props
+    }: Props,
+    ref,
+  ) => {
     useEffect(() => {
       loadImage(getOptimizedImageSource({ src, width, quality }))
         .then(() => onLoad?.())
@@ -29,7 +40,11 @@ const ImageLoader = forwardRef<HTMLImageElement, Props>(
     return (
       <img
         ref={ref}
-        src={getOptimizedImageSource({ src, width, quality })}
+        src={
+          !disableOptimize
+            ? getOptimizedImageSource({ src, width, quality })
+            : src
+        }
         {...props}
       />
     );
