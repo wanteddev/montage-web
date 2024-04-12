@@ -5,12 +5,13 @@ description: ChipAction Component
 
 # ChipAction
 
-정보를 선택하고, 내용을 필터링하거나 동작을 표시하는 요소로 사용합니다.
+동작을 설정하거나 실행합니다.(e.g. 화면 이동, 추가, 삭제)
 
 ## 활용
 
 - Chip은 반응적이므로 콘텐츠의 특성에 따라 다른 동작을 제공해야 합니다.
 - Chip의 텍스트에 말 줄임표(...) 사용을 지양합니다.
+- Chip의 텍스트에 ‘#’을 붙이지 않아요.
 
 <Demo code={`import { ChipAction } from '@wanteddev/wds';
 
@@ -33,11 +34,15 @@ export default Demo;`}
 
 ### Size
 
-<Demo code={`import { ChipAction } from '@wanteddev/wds';
+<Demo code={`import { ChipAction, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ChipAction size="large">Large</ChipAction>
+    <FlexBox gap="8px">
+      <ChipAction size="small">Small</ChipAction>
+      <ChipAction size="medium">Medium</ChipAction>
+      <ChipAction size="large">Large</ChipAction>
+    </FlexBox>
   )
 }
 
@@ -46,13 +51,18 @@ export default Demo;`}
 
 ### Variant
 
-<Demo code={`import { ChipAction } from '@wanteddev/wds';
+<Demo code={`import { ChipAction, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ChipAction variant="outlined">
-      Outlined
-    </ChipAction>
+    <FlexBox gap="8px">
+      <ChipAction variant="outlined">
+        Outlined
+      </ChipAction>
+      <ChipAction variant="filled">
+        Filled
+      </ChipAction>
+    </FlexBox>
   )
 }
 
@@ -60,14 +70,14 @@ export default Demo;`}
 />
 
 
-### Disabled, DisabledInteraction
+### Disabled
 
 <Demo code={`import { ChipAction } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ChipAction disabled disableInteraction>
-      Disabled, DisabledInteraction
+    <ChipAction disabled>
+      Disabled
     </ChipAction>
   )
 }

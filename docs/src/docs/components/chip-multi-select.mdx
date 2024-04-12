@@ -1,0 +1,155 @@
+---
+title: ChipMultiSelect
+description: ChipMultiSelect Component
+---
+
+# ChipMultiSelect
+
+두 개 이상의 옵션 선택(=다중 선택)이 필요한 경우에 사용합니다.
+
+## 활용
+
+- 단일 선택, 다중 선택 모두 가능해요.
+- 선택 옵션이 한 개인 경우에는 쓰지 않아요.
+
+<Demo code={`import { ChipMultiSelect } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipMultiSelect>텍스트</ChipMultiSelect>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="ChipMultiSelect" />
+
+## Example
+
+### Size
+
+<Demo code={`import { ChipMultiSelect, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ChipMultiSelect size="medium">Medium</ChipMultiSelect>
+      <ChipMultiSelect size="large">Large</ChipMultiSelect>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Disabled
+
+<Demo code={`import { ChipMultiSelect } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipMultiSelect disabled>비활성화</ChipMultiSelect>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Multiple Select Form
+
+<Demo code={`import { useId } from 'react';
+import { Button, FlexBox, ChipMultiSelect, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
+import { useForm } from 'react-hook-form';
+
+const Demo = () => {
+  const id = useId();
+  const form = useForm({
+    defaultValues: {
+      selected: [],
+    },
+  });
+
+  const items = [
+    {
+      id: "develop",
+      label: "개발",
+    },
+    {
+      id: "design",
+      label: "디자인",
+    },
+  ];
+
+  return (
+    <Form {...form}>
+      <FlexBox
+        as="form"
+        flexDirection="column"
+        gap="20px"
+        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      >
+        <FormField
+          control={form.control}
+          name="selected"
+          render={() => (
+            <FormItem>
+              <FormLabel>관심 분야</FormLabel>
+
+              {items.map((item) => (
+                <FormField
+                  key={item.id}
+                  control={form.control}
+                  name="selected"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "필수 값입니다.",
+                    },
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.id}
+                        flexDirection="row"
+                        alignItems="center"
+                      >
+                        <FormControl>
+                          <ChipMultiSelect
+                            {...field}
+                            checked={field.value.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  );
+                            }}
+                          >
+                            {item.label}
+                          </ChipMultiSelect>
+                        </FormControl>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit">제출</Button>
+      </FlexBox>
+    </Form>
+  )
+}
+
+export default Demo;`}
+/>
