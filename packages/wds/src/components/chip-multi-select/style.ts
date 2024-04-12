@@ -50,6 +50,10 @@ export const multiSelectStyle =
       }
     }
 
+    &[aria-invalid='true'] {
+      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
+    }
+
     ${multiSelectSizeStyle(props)}
 
     ${createResponsiveStyle(
