@@ -16,6 +16,7 @@ export const actionStyle =
     box-sizing: border-box;
     line-height: initial;
     white-space: nowrap;
+    height: fit-content;
     cursor: pointer;
     width: fit-content;
 

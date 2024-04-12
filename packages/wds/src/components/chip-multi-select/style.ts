@@ -16,6 +16,7 @@ export const multiSelectStyle =
     box-sizing: border-box;
     line-height: initial;
     white-space: nowrap;
+    height: fit-content;
     cursor: pointer;
     width: fit-content;
     color: ${theme.palette.label.alternative};

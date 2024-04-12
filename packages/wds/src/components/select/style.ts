@@ -11,7 +11,7 @@ export const selectWrapperStyle =
     invalid,
     disabled,
     width = 'initial',
-    height = 'auto',
+    height = 'fit-content',
     xs,
     sm,
     md,

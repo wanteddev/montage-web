@@ -17,6 +17,7 @@ export const scrollWrapperStyle =
   }: TabListProps & { isSticky?: boolean }) =>
   (theme: Theme) => css`
     width: 100%;
+    height: fit-content;
     ${scrollWrapperPaddingStyle(padding)}
     ${isSticky &&
     gradient(theme.palette.background.normal.normal, 'right', '48px')}

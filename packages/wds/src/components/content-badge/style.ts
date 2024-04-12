@@ -15,6 +15,7 @@ export const contentBadgeStyle =
     justify-content: center;
     border-radius: 4px;
     width: fit-content;
+    height: fit-content;
 
     ${contentBadgeColorVariant(props, theme)}
     ${getSizeStyle(props)}
