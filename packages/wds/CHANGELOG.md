@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.2...@wanteddev/wds@0.3.3) (2024-04-16)
+
+### Bug Fixes
+
+- **wds:** flex 하위요소로 있을 때 레이아웃 깨지는 현상 수정 ([aa34f10](https://github.com/wanteddev/wds/commit/aa34f109af27c37ac7a6426d7b30b4e5a5f46650))
+- **wds:** text-area defaultValue가 동작하지 않고 오류 발생 ([4903851](https://github.com/wanteddev/wds/commit/490385105a1090a3b037bd2d74ce4aadeae68ecf))
+
+### Features
+
+- package.json exports 옵션 변경 ([72358b4](https://github.com/wanteddev/wds/commit/72358b4a5895e31bd48f8ed44d1709659b147b0a))
+- **wds:** chip multi select invalid 상태 추가 ([3720310](https://github.com/wanteddev/wds/commit/3720310994bec429e37a91efa792b27a10414de3))
+- **wds:** chip multi select 추가 ([de9b38d](https://github.com/wanteddev/wds/commit/de9b38d454e1cc549a782a0a2cedb5aa9bb92de3))
+- **wds:** control 요소 포커스 스타일 변경 ([42b1e6e](https://github.com/wanteddev/wds/commit/42b1e6ebf6c869bfc28a25b23af5db7ddd8d0db9))
+- **wds:** image loader 이미지 최적화 비활성화 옵션 추가 ([dc31dbf](https://github.com/wanteddev/wds/commit/dc31dbf48d1e11a5e036ab0023d896cfed804791))
+- **wds:** modal에 disablePortal 지원 ([b59773d](https://github.com/wanteddev/wds/commit/b59773d24354bafc4cc13af16576cd1dcf3ac235))
+- **wds:** 툴팁 화살표 비활성화 옵션 추가 ([a5d976b](https://github.com/wanteddev/wds/commit/a5d976b6bc1a123967c9f675819f9363731aab28))
+
 ## [0.3.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.1...@wanteddev/wds@0.3.2) (2024-04-11)
 
 ### Bug Fixes

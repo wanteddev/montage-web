@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.2.0...@wanteddev/wds-icon@0.2.1) (2024-04-16)
+
+### Features
+
+- package.json exports 옵션 변경 ([72358b4](https://github.com/wanteddev/wds/commit/72358b4a5895e31bd48f8ed44d1709659b147b0a))
+
 # [0.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@0.1.2...@wanteddev/wds-icon@0.2.0) (2024-04-04)
 
 ### Features
