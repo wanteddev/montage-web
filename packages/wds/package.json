@@ -12,6 +12,10 @@
   "module": "./dist/index.mjs",
   "exports": {
     "./package.json": "./package.json",
+    "./global.css": "./dist/global.css",
+    "./theme.css": "./dist/theme.css",
+    "./reset.css": "./dist/reset.css",
+    "./declaration": "./declaration.d.ts",
     ".": {
       "import": {
         "types": "./dist/index.d.mts",
