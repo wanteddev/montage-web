@@ -1,9 +1,12 @@
 /// <reference types="@emotion/react/types/css-prop" />
-import type { Theme as BaseTheme } from '../src/types';
+/// <reference types="csstype" />
+
+import type { lightTheme } from '../src/theme';
 
 import '@emotion/react';
 
+type BaseTheme = typeof lightTheme;
+
 declare module '@emotion/react' {
-  // @ts-expect-error
-  export type Theme = BaseTheme;
+  export interface Theme extends BaseTheme {}
 }

@@ -59,9 +59,7 @@ const FormItem = forwardRef<HTMLDivElement, FormItemProps>((props, ref) => {
 
 FormItem.displayName = FORM_ITEM_NAME;
 
-const FormLabel: ReturnType<
-  typeof forwardRef<HTMLLabelElement, FormLabelProps>
-> = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
+const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
   const { formItemId } = useFormField(FORM_LABEL_NAME);
 
   return <Label ref={ref} htmlFor={formItemId} {...props} />;

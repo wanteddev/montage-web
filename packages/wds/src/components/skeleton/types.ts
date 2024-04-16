@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { MergeWithCss, ResponsiveProps } from '../../types';
+import type { Merge, ResponsiveProps } from '../../types';
 
 type SkeletonDefaultProps = {
   variant?: 'text' | 'circle' | 'rectangle';
@@ -12,7 +12,7 @@ type SkeletonResponsiveProps = ResponsiveProps<
   Pick<SkeletonDefaultProps, 'width' | 'height'>
 >;
 
-export type SkeletonProps = MergeWithCss<
+export type SkeletonProps = Merge<
   SkeletonDefaultProps,
   SkeletonResponsiveProps
 >;
