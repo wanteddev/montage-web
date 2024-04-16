@@ -1,6 +1,5 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
-import { composeEventHandlers } from '@radix-ui/primitive';
 import { css } from '@emotion/react';
 import { useSize } from '@radix-ui/react-use-size';
 
@@ -86,13 +85,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     };
 
     const isInvalidLength = Boolean(maxLength) ? maxLength! < length : false;
-
-    const onChangeLength = useCallback(
-      (v: string) => {
-        setLength(v.length);
-      },
-      [setLength],
-    );
 
     const syncTextAreaHeight = useCallback(() => {
       if (!textAreaRef.current || !shadowRef.current || !parentRef.current) {
@@ -197,7 +189,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
 
     useEffect(() => {
       syncTextAreaHeight();
-    }, [syncTextAreaHeight]);
+      setLength(value?.length || 0);
+    }, [syncTextAreaHeight, setLength, value]);
 
     return (
       <ScrollArea
@@ -236,10 +229,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
               Boolean(maxLength) ? '22px' : '0px'
             })`,
           }}
-          onChange={composeEventHandlers(props.onChange, (e) => {
-            syncTextAreaHeight();
-            onChangeLength(e.target.value);
-          })}
         >
           {value}
         </textarea>

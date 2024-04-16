@@ -214,3 +214,12 @@ const Demo = () => {
 }
 
 export default Demo;`}/>
+
+## 자주 겪는 오류
+
+### form.reset
+
+`form.reset()` 이 동작하지 않는 경우가 있습니다.
+이 경우 `defaultValue` 가 설정되어 있는지 확인하세요.
+
+[react-hook-form](https://github.com/orgs/react-hook-form/discussions/5858) 은 undefined value를 지원하지 않습니다.
