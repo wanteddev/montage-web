@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.3...@wanteddev/wds@0.3.4-alpha.0) (2024-04-16)
+
+### Features
+
+- **core:** package json exports 옵션 변경으로 트리쉐이킹 활성화 ([cef269d](https://github.com/wanteddev/wds/commit/cef269d4e12be41c6250a12be905db7dd07da923))
+
 ## [0.3.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.2...@wanteddev/wds@0.3.3) (2024-04-16)
 
 ### Bug Fixes
