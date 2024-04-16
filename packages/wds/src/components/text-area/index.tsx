@@ -229,9 +229,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
               Boolean(maxLength) ? '22px' : '0px'
             })`,
           }}
-        >
-          {value}
-        </textarea>
+        />
         <textarea
           aria-hidden
           readOnly
