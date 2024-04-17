@@ -20,6 +20,7 @@ import {
   useState,
 } from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import { useTheme } from '@emotion/react';
 
 import Portal from '../portal';
 
@@ -184,6 +185,7 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
     },
     ref,
   ) => {
+    const theme = useTheme();
     const context = usePopperContext(POPPER_CONTENT_NAME);
 
     const [arrow, setArrow] = useState<HTMLElement | null>(null);
@@ -258,7 +260,8 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
               ? floatingStyles.transform
               : 'translate(0, -200%)',
             minWidth: 'max-content',
-            zIndex: contentZIndex === 'auto' ? 3 : contentZIndex,
+            zIndex:
+              contentZIndex === 'auto' ? theme.zIndex.modal : contentZIndex,
             ...(middlewareData.hide?.referenceHidden && {
               visibility: 'hidden',
               pointerEvents: 'none',
