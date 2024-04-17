@@ -47,6 +47,7 @@ const RegionArea = () => {
 
   return (
     <div
+      wds-ignore-dismissable-layer="true"
       style={
         {
           '--wds-region-viewport-top': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportTop})`,

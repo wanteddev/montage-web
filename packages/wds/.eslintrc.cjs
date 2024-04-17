@@ -21,7 +21,14 @@ module.exports = {
   rules: {
     'react/no-unknown-property': [
       'error',
-      { ignore: ['wds-component', 'wds-ignore-first-focus', 'css'] },
+      {
+        ignore: [
+          'wds-component',
+          'wds-ignore-first-focus',
+          'wds-ignore-dismissable-layer',
+          'css',
+        ],
+      },
     ],
   },
   overrides: [

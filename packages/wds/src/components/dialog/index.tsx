@@ -83,7 +83,7 @@ const Item = ({
   }, []);
 
   return (
-    <FlexBox css={dialogWrapperStyle}>
+    <FlexBox css={dialogWrapperStyle} wds-ignore-dismissable-layer="true">
       <RemoveScroll as={Slot} allowPinchZoom shards={[ref]}>
         <div
           css={dialogDimmerStyle}
