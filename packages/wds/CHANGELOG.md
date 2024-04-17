@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.4...@wanteddev/wds@0.3.5) (2024-04-17)
+
+### Bug Fixes
+
+- **wds:** tooltip이 모달에 가려지는 이슈 ([d04b8ff](https://github.com/wanteddev/wds/commit/d04b8ff71f22e68873be1f23f78956c52697e470))
+- **wds:** 모달 내부에서 dialog 호출 및 클릭시 모달이 닫히는 이슈 ([4997d7d](https://github.com/wanteddev/wds/commit/4997d7d67ee2b23889c9303df15acd0f68637e43))
+
 ## [0.3.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.4-alpha.0...@wanteddev/wds@0.3.4) (2024-04-17)
 
 ### Bug Fixes
