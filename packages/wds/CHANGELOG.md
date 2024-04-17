@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.4-alpha.0...@wanteddev/wds@0.3.4) (2024-04-17)
+
+### Bug Fixes
+
+- **wds:** exports에 css 추가 ([a9f133d](https://github.com/wanteddev/wds/commit/a9f133d76b0f7221308c9760d41c7e67bca5ce78))
+
+### Features
+
+- **wds,wds-lottie:** 타입 호환성 및 오류 수정 ([1019234](https://github.com/wanteddev/wds/commit/1019234acba513aeb1c3d39e76766efc9e970b06))
+- **wds:** 타입스크립트 하위버전 호환성 개선 ([d914d5a](https://github.com/wanteddev/wds/commit/d914d5a652f82f68d991e9b39d83d6714e3cc93e))
+
 ## [0.3.4-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.3...@wanteddev/wds@0.3.4-alpha.0) (2024-04-16)
 
 ### Features
