@@ -1,5 +1,6 @@
-import type { FlexBox, Typography } from '..';
+import type { FlexBoxProps } from '../flex-box/types';
 import type {
+  MergeElementProps,
   MergeWithCss,
   MergeWithCustomElementProps,
   ResponsiveProps,
@@ -11,6 +12,7 @@ import type {
   PropsWithChildren,
   ReactNode,
 } from 'react';
+import type { TypographyProps } from '../typography/types';
 
 export type ModalProps = PropsWithChildren<{
   open?: boolean;
@@ -75,16 +77,14 @@ export type ModalContentProps = PropsWithChildren<
   MergeWithCss<ModalContentDefaultProps, ModalContentResponsiveProps>
 >;
 
-export type ModalContentItemProps = ComponentPropsWithRef<
-  typeof FlexBox<'div'>
->;
+export type ModalContentItemProps = MergeElementProps<'div', FlexBoxProps>;
 
 export type ModalHeadingProps<E extends ElementType = 'h1'> =
-  ComponentPropsWithRef<typeof Typography<E>>;
+  MergeWithCustomElementProps<E, TypographyProps>;
 export type ModalSummaryProps<E extends ElementType = 'p'> =
-  ComponentPropsWithRef<typeof Typography<E>>;
+  MergeWithCustomElementProps<E, TypographyProps>;
 export type ModalDescriptionProps<E extends ElementType = 'p'> =
-  ComponentPropsWithRef<typeof Typography<E>>;
+  MergeWithCustomElementProps<E, TypographyProps>;
 
 export type ModalActionAreaProps = PropsWithChildren<
   MergeWithCss<

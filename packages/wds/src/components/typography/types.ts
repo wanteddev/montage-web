@@ -1,4 +1,4 @@
-import type { ResponsiveProps, ThemeColorsToken } from '../../types';
+import type { Merge, ResponsiveProps, ThemeColorsToken } from '../../types';
 import type { CSSProperties } from 'react';
 
 export type TypographyVariant =
@@ -23,7 +23,7 @@ export type TypographyVariant =
 
 export type TypographyWeight = 'regular' | 'medium' | 'bold';
 
-export type TypographyProps = {
+export type TypographyDefaultProps = {
   variant?: TypographyVariant;
   weight?: TypographyWeight;
   noWrap?: boolean;
@@ -33,5 +33,10 @@ export type TypographyProps = {
 };
 
 export type TypographyResponsiveProps = ResponsiveProps<
-  Pick<TypographyProps, 'variant' | 'weight' | 'align'>
+  Pick<TypographyDefaultProps, 'variant' | 'weight' | 'align'>
+>;
+
+export type TypographyProps = Merge<
+  TypographyResponsiveProps,
+  TypographyDefaultProps
 >;

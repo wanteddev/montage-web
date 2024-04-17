@@ -3,9 +3,10 @@ import { forwardRef } from 'react';
 
 import Typography from '../typography';
 
-import type { ComponentPropsWithRef } from 'react';
+import type { MergeElementProps } from '../../types';
+import type { TypographyProps } from '../typography/types';
 
-type Props = Omit<ComponentPropsWithRef<typeof Typography<'label'>>, 'as'>;
+type Props = MergeElementProps<'label', TypographyProps>;
 
 const Label = forwardRef<HTMLLabelElement, Props>((props, ref) => {
   return (

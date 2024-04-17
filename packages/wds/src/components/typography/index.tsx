@@ -12,13 +12,13 @@ import {
   typographyStyle,
 } from '../../utils/typography';
 
-import type { Merge, MergeWithCustomElementProps } from '../../types';
-import type { TypographyProps, TypographyResponsiveProps } from './types';
+import type { MergeWithCustomElementProps } from '../../types';
+import type { TypographyProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
-type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
+type Props<E extends ElementType> = MergeWithCustomElementProps<
   E,
-  Merge<TypographyResponsiveProps, TypographyProps>
+  TypographyProps
 >;
 
 const Typography = forwardRef(
