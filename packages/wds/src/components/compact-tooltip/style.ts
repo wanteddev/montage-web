@@ -18,6 +18,7 @@ export const compactTooltipWrapperStyle = css`
   backdrop-filter: blur(32px);
   animation: 0.2s ease ${compactTooltipFadeIn};
   opacity: 1;
+  border-radius: 5px;
 `;
 
 export const compactTooltipContentStyle = (theme: Theme) => css`
@@ -26,5 +27,5 @@ export const compactTooltipContentStyle = (theme: Theme) => css`
     theme.opacity[61],
   )};
   padding: 3px 6px;
-  border-radius: 5px;
+  border-radius: inherit;
 `;
