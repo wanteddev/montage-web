@@ -2,6 +2,7 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
 import { css } from '@emotion/react';
 import { useSize } from '@radix-ui/react-use-size';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
@@ -18,9 +19,6 @@ import {
 import type { MergeElementProps } from '../../types';
 import type { TextAreaProps } from './types';
 
-const getStyleValue = (value: string) => {
-  return parseInt(value, 10) || 0;
-};
 export interface Cancelable {
   clear(): void;
 }
@@ -103,53 +101,61 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       }
 
       shadow.style.width = computedStyle.width;
+      shadow.style.font = computedStyle.font;
+      shadow.style.letterSpacing = computedStyle.letterSpacing;
+      shadow.style.wordSpacing = computedStyle.wordSpacing;
+      shadow.style.whiteSpace = computedStyle.whiteSpace;
+      shadow.style.boxSizing = computedStyle.boxSizing;
+      shadow.style.padding = computedStyle.padding;
+      shadow.style.border = computedStyle.border;
+
+      if (maxLength) {
+        parent.style.paddingBottom = Boolean(maxLength)
+          ? `calc(${computedStyle.paddingBottom} + 16px)`
+          : '0px';
+      }
+
       shadow.value = textArea.value || props.placeholder || 'x';
 
       if (shadow.value.slice(-1) === '\n') {
         shadow.value += ' ';
       }
 
-      const boxSizing = computedStyle.boxSizing;
-      const padding =
-        getStyleValue(computedStyle.paddingBottom) +
-        getStyleValue(computedStyle.paddingTop);
-
-      const border =
-        getStyleValue(computedStyle.borderBottomWidth) +
-        getStyleValue(computedStyle.borderTopWidth);
-
       const innerHeight = shadow.scrollHeight;
 
       shadow.value = 'x';
-      const singleRowHeight = shadow.scrollHeight;
+      const singleRow = shadow.scrollHeight;
+      shadow.value = 'x\nx';
+      const doubleRow = shadow.scrollHeight;
+
+      const singleRowHeight = doubleRow - singleRow;
 
       let outerHeight = innerHeight;
 
       if (minRows) {
-        outerHeight = Math.max(Number(minRows) * singleRowHeight, outerHeight);
-
-        parent.style.setProperty(
-          '--wds-text-area-height',
-          outerHeight +
-            (boxSizing === 'border-box' ? padding + border : 0) +
-            'px',
+        outerHeight = Math.max(
+          Number(minRows) * singleRowHeight + singleRow - singleRowHeight,
+          outerHeight,
         );
+
+        parent.style.setProperty('--wds-text-area-height', outerHeight + 'px');
       }
 
       outerHeight = maxRows
         ? Math.max(
-            Math.min(Number(maxRows) * singleRowHeight, outerHeight),
-            singleRowHeight,
+            Math.min(
+              Number(maxRows) * singleRowHeight + singleRow - singleRowHeight,
+              outerHeight,
+            ),
+            singleRowHeight + singleRow - singleRowHeight,
           )
         : outerHeight;
 
       parent.style.setProperty(
         '--wds-text-area-scroll-height',
-        outerHeight +
-          (boxSizing === 'border-box' ? padding + border : 0) +
-          'px',
+        outerHeight + 'px',
       );
-    }, [maxRows, minRows, props.placeholder]);
+    }, [maxRows, minRows, props.placeholder, maxLength]);
 
     useEffect(() => {
       if (!textAreaRef.current) {
@@ -189,8 +195,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
 
     useEffect(() => {
       syncTextAreaHeight();
-      setLength(value?.length || 0);
-    }, [syncTextAreaHeight, setLength, value]);
+    });
 
     return (
       <ScrollArea
@@ -206,6 +211,9 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
           xl,
           ...props,
         })}
+        style={{
+          paddingRight: `calc(${rightIconWidth}px + 8px)`,
+        }}
       >
         <textarea
           css={textAreaStyle({
@@ -219,16 +227,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
           ref={composedRefs}
           aria-invalid={invalid}
           value={value}
+          onChange={composeEventHandlers(props.onChange, (e) => {
+            syncTextAreaHeight();
+            setLength(e.target.value.length || 0);
+          })}
           {...props}
-          style={{
-            ...props.style,
-            paddingRight: `calc(16px + ${
-              rightIconWidth ? rightIconWidth + 8 : 0
-            }px)`,
-            paddingBottom: `calc(12px + ${
-              Boolean(maxLength) ? '22px' : '0px'
-            })`,
-          }}
         />
         <textarea
           aria-hidden
@@ -247,10 +250,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             left: 0,
             transform: 'translateZ(0)',
             paddingTop: 0,
-            paddingRight: `${
-              (rightIconWidth ? rightIconWidth + 24 : 16) - 1
-            }px`,
-            paddingLeft: '16px',
           }}
         />
 

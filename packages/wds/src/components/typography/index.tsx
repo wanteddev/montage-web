@@ -42,7 +42,7 @@ const Typography = forwardRef(
   ) => {
     const theme = useTheme();
 
-    const Element = as ?? 'span';
+    const Element = as || 'span';
 
     return (
       <Element
