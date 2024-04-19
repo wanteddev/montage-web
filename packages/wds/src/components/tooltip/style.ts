@@ -18,6 +18,7 @@ const tooltipFadeIn = keyframes`
 export const tooltipWrapperStyle = css`
   animation: 0.2s ease ${tooltipFadeIn};
   opacity: 1;
+  border-radius: 10px;
   backdrop-filter: blur(32px);
 `;
 
@@ -25,7 +26,7 @@ export const tooltipContentStyle =
   ({ variant }: TooltipContentProps) =>
   (theme: Theme) => css`
     padding: 14px;
-    border-radius: 10px;
+    border-radius: inherit;
 
     ${variant === 'inverse' &&
     css`
