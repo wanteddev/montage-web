@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.5...@wanteddev/wds@0.3.6-alpha.0) (2024-04-19)
+
+### Bug Fixes
+
+- **wds:** maxLength가 있을 때 textArea 스크롤 깨짐 ([c2db31a](https://github.com/wanteddev/wds/commit/c2db31ae30e4405dab219437dca76e41f37d3f18))
+- **wds:** resize observer 오류 수정 ([401b571](https://github.com/wanteddev/wds/commit/401b571ad929e7b89db5c562caacbffd1f54b2b2))
+- **wds:** safari tooltip style 깨지는 현상 수정 ([b829ad0](https://github.com/wanteddev/wds/commit/b829ad04a01eeb94d728dfad8e63167a1009e101))
+- **wds:** tooltip border radius 오류 수정 ([5c3e53c](https://github.com/wanteddev/wds/commit/5c3e53c7e6ca44ed2175cd06a249e18b1982da48))
+
 ## [0.3.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.4...@wanteddev/wds@0.3.5) (2024-04-17)
 
 ### Bug Fixes
