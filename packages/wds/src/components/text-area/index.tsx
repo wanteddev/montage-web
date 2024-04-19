@@ -161,6 +161,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       if (!textAreaRef.current) {
         return;
       }
+      let resizeObserverEntries: Array<ResizeObserverEntry> = [];
+
       const handleResize = () => {
         syncTextAreaHeight();
       };
@@ -177,15 +179,21 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       containerWindow.addEventListener('resize', debounceHandleResize);
       let resizeObserver: ResizeObserver;
       if (typeof ResizeObserver !== 'undefined') {
-        resizeObserver = new ResizeObserver(
-          process.env.NODE_ENV === 'test' ? rAFHandleResize : handleResize,
-        );
+        resizeObserver = new ResizeObserver((entries) => {
+          resizeObserverEntries = entries;
+
+          const func =
+            process.env.NODE_ENV === 'test' ? rAFHandleResize : handleResize;
+
+          func();
+        });
         resizeObserver.observe(textArea);
       }
       return () => {
         debounceHandleResize.clear();
         cancelAnimationFrame(rAF);
         containerWindow.removeEventListener('resize', debounceHandleResize);
+        resizeObserverEntries.forEach((entry) => entry.target.remove());
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (resizeObserver) {
           resizeObserver.disconnect();
