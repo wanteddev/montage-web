@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.6...@wanteddev/wds@0.3.7) (2024-04-22)
+
+### Bug Fixes
+
+- **wds:** modal action area width 오류 수정 ([c0dc617](https://github.com/wanteddev/wds/commit/c0dc6171a684b044a5c3c213a3f3aca490440666))
+
 ## [0.3.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.6-alpha.0...@wanteddev/wds@0.3.6) (2024-04-22)
 
 ### Features
