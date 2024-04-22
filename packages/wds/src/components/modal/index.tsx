@@ -1,8 +1,10 @@
 'use client';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
+  Children,
   Fragment,
   forwardRef,
+  isValidElement,
   useCallback,
   useEffect,
   useId,
@@ -63,6 +65,7 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
+  NamedExoticComponent,
   ReactNode,
   UIEventHandler,
 } from 'react';
@@ -245,6 +248,20 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       }
     }, [onOpenChange, isEnabled, containerRef]);
 
+    const otherChildren = Children.toArray(children).filter((child) =>
+      isValidElement(child)
+        ? (child.type as NamedExoticComponent).displayName !==
+          MODAL_ACTION_AREA_NAME
+        : true,
+    );
+
+    const actionButton = Children.toArray(children).filter(
+      (child) =>
+        isValidElement(child) &&
+        (child.type as NamedExoticComponent).displayName ===
+          MODAL_ACTION_AREA_NAME,
+    );
+
     return (
       <ModalContainerProvider
         hasScroll={hasScroll}
@@ -305,7 +322,6 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
               {...props}
             >
               <ScrollArea
-                onScrollCapture={handleOnScroll}
                 viewportRef={composedInnerContainerRefs}
                 css={{
                   display: 'flex',
@@ -317,6 +333,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                 zIndex={11}
                 asChild
                 viewPortProps={{
+                  onScroll: handleOnScroll,
                   css: {
                     flexGrow: 1,
                   },
@@ -337,8 +354,10 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                     />
                   )}
 
-                  {children}
+                  {otherChildren}
                 </div>
+
+                {actionButton}
               </ScrollArea>
             </DismissableLayer>
           </FocusScope>
