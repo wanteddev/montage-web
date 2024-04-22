@@ -201,12 +201,6 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         max-height: 100%;
         border-radius: 0px;
         padding: initial;
-
-        [wds-component='modal-navigation'],
-        [wds-component='modal-content'],
-        [wds-component='modal-action-area'] {
-          border-radius: 0px;
-        }
       `;
     case 'popup':
       return css`
@@ -214,16 +208,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         animation: none;
         max-height: 100%;
         padding: initial;
-
-        [wds-component='modal-navigation'],
-        [wds-component='modal-content'] {
-          border-top-left-radius: 12px;
-          border-top-right-radius: 12px;
-        }
-        [wds-component='modal-action-area'] {
-          border-bottom-left-radius: 12px;
-          border-bottom-right-radius: 12px;
-        }
+        overflow: hidden;
       `;
     case 'bottom':
       return css`
@@ -234,12 +219,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         max-width: 480px;
         width: 100%;
         min-width: none;
-
-        [wds-component='modal-navigation'],
-        [wds-component='modal-content'] {
-          border-top-left-radius: 12px;
-          border-top-right-radius: 12px;
-        }
+        overflow: hidden;
       `;
   }
 };
@@ -446,12 +426,15 @@ export const modalActionAreaStyle =
     bottom: 0;
     left: 0;
 
-    ${priority === 'single' &&
-    css`
-      border-top: 1px solid ${theme.palette.line.normal.normal};
-    `}
-
     ${modalActionAreaVariant(theme, variant, isSticky)}
+
+    ${priority === 'single' &&
+    isSticky === false &&
+    css`
+      &::before {
+        border-top: 1px solid ${theme.palette.line.normal.normal};
+      }
+    `}
   `;
 
 const modalActionAreaVariant = (
@@ -466,38 +449,52 @@ const modalActionAreaVariant = (
           ? css`
               &::before {
                 pointer-events: none;
-                ${gradient(theme.palette.background.elevated.normal, 'top')}
+                ${gradient(
+                  theme.palette.background.elevated.normal,
+                  'top',
+                  'calc(var(--wds-modal-content-margin, 20px) * 2)',
+                )}
                 content: '';
-                z-index: 1;
-                position: absolute;
-                left: 0;
-                top: calc(var(--wds-modal-content-margin, 20px) * -1 + -2px);
-                height: calc(var(--wds-modal-content-margin, 20px) * 2);
-                width: 100%;
-              }
-
-              &::after {
-                background: ${theme.palette.background.elevated.normal};
-                content: '';
-                z-index: -1;
+                z-index: 0;
                 position: absolute;
                 left: 0;
                 bottom: 0;
                 height: calc(
-                  100% - var(--wds-modal-content-margin, 20px) + 2px
+                  100% + (var(--wds-modal-content-margin, 20px) * 2)
                 );
                 width: 100%;
               }
             `
           : css`
-              background-color: ${theme.palette.background.elevated.normal};
+              &::before {
+                pointer-events: none;
+                background-color: ${theme.palette.background.elevated.normal};
+                content: '';
+                z-index: 0;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                height: 100%;
+                width: 100%;
+                height: 100%;
+              }
             `}
       `;
     case 'extra':
       return css`
-        border-radius: 12px 12px 0px 0px;
-        background-color: ${theme.palette.background.elevated.normal};
-        box-shadow: ${theme.palette.elevation.shadow.heavy};
+        &::before {
+          border-radius: 12px 12px 0px 0px;
+          pointer-events: none;
+          box-shadow: ${theme.palette.elevation.shadow.heavy};
+          background-color: ${theme.palette.background.elevated.normal};
+          content: '';
+          z-index: 0;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 100%;
+          width: 100%;
+        }
       `;
   }
 };

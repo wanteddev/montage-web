@@ -37,6 +37,11 @@ export type ModalProps = PropsWithChildren<{
 
 type ModalContainerDefaultProps = {
   variant?: 'popup' | 'bottom' | 'full';
+  /**
+   * 모달 내부에서 스크롤을 했을 때
+   * ModalActionArea 의 그라디언트, ModalNavigation의 borderBottom 스타일이 추가됩니다.
+   */
+  sticky?: boolean;
   size?:
     | 'small'
     | 'small-fixed'

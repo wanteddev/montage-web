@@ -12,8 +12,6 @@ import type { ModalActionAreaProps } from './types';
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement>;
   innerContainerRef: RefObject<HTMLDivElement>;
-  scrollHeight: number;
-  onChangeScrollHeight: (value: number) => void;
   containerId: string;
   titleId: string;
   headingId: string;
@@ -31,6 +29,9 @@ export const [ModalProvider, useModalContext] =
 
 type ModalContainerContextValue = {
   handleClose: () => void;
+  scrollHeight: number;
+  sticky: boolean;
+  hasScroll: boolean;
 };
 
 export const [ModalContainerProvider, useModalContainerContext] =

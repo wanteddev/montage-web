@@ -1,10 +1,8 @@
 'use client';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
-  Children,
   Fragment,
   forwardRef,
-  isValidElement,
   useCallback,
   useEffect,
   useId,
@@ -65,7 +63,6 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
-  NamedExoticComponent,
   ReactNode,
   UIEventHandler,
 } from 'react';
@@ -102,16 +99,12 @@ const Modal = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const innerContainerRef = useRef<HTMLDivElement>(null);
 
-  const [scrollHeight, setScrollHeight] = useState(0);
-
   const Container = disablePortal ? Fragment : Portal;
 
   return (
     <ModalProvider
       containerRef={containerRef}
       innerContainerRef={innerContainerRef}
-      scrollHeight={scrollHeight}
-      onChangeScrollHeight={setScrollHeight}
       containerId={useId()}
       titleId={useId()}
       headingId={useId()}
@@ -147,6 +140,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       lg,
       xl,
       children,
+      sticky = true,
       ...props
     },
     ref,
@@ -156,7 +150,6 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       disableDimmer,
       disableOutsideClickClose,
       disableEscapeKeyDownClose,
-      onChangeScrollHeight,
       onOpenChange,
       ...context
     } = useModalContext(MODAL_NAME);
@@ -171,28 +164,35 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
 
     useFocusGuards();
 
-    const otherChildren = Children.toArray(children).filter((child) =>
-      isValidElement(child)
-        ? (child.type as NamedExoticComponent).displayName !==
-          MODAL_ACTION_AREA_NAME
-        : true,
-    );
+    const [scrollHeight, setScrollHeight] = useState(0);
 
-    const actionButton = Children.toArray(children).filter(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as NamedExoticComponent).displayName ===
-          MODAL_ACTION_AREA_NAME,
-    );
+    const [hasScroll, setHasScroll] = useState(false);
 
     const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
       (e) => {
         const target = e.target as Element;
 
-        onChangeScrollHeight(target.scrollTop);
+        setScrollHeight(target.scrollTop);
       },
-      [onChangeScrollHeight],
+      [setScrollHeight],
     );
+
+    useEffect(() => {
+      const handleResize = () => {
+        if (innerContainerRef.current) {
+          setHasScroll(
+            innerContainerRef.current.scrollHeight -
+              innerContainerRef.current.clientHeight !==
+              scrollHeight,
+          );
+        }
+      };
+
+      handleResize();
+      window.addEventListener('resize', handleResize);
+
+      return () => window.removeEventListener('resize', handleResize);
+    }, [innerContainerRef, scrollHeight, setHasScroll]);
 
     useEffect(() => {
       const content = containerRef.current;
@@ -246,7 +246,12 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
     }, [onOpenChange, isEnabled, containerRef]);
 
     return (
-      <ModalContainerProvider handleClose={handleClose}>
+      <ModalContainerProvider
+        hasScroll={hasScroll}
+        scrollHeight={scrollHeight}
+        handleClose={handleClose}
+        sticky={sticky}
+      >
         <div
           css={modalContainerWrapperStyle({
             variant,
@@ -312,7 +317,9 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                 zIndex={11}
                 asChild
                 viewPortProps={{
-                  css: { flexGrow: 1 },
+                  css: {
+                    flexGrow: 1,
+                  },
                 }}
               >
                 <div
@@ -330,10 +337,9 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                     />
                   )}
 
-                  {otherChildren}
+                  {children}
                 </div>
               </ScrollArea>
-              {actionButton}
             </DismissableLayer>
           </FocusScope>
         </div>
@@ -347,7 +353,9 @@ ModalContainer.displayName = 'ModalContainer';
 const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
   ({ variant = 'compact', xs, sm, md, lg, xl, children }, ref) => {
     const context = useModalContext(MODAL_NAVIGATION_NAME);
-    const { handleClose } = useModalContainerContext(MODAL_NAVIGATION_NAME);
+    const { scrollHeight, sticky, handleClose } = useModalContainerContext(
+      MODAL_NAVIGATION_NAME,
+    );
     const theme = useTheme();
 
     return (
@@ -358,7 +366,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
           style={
             {
               ['--wds-navigation-border-color']:
-                context.scrollHeight > 0
+                sticky && scrollHeight > 0
                   ? theme.palette.line.normal.normal
                   : 'transparent',
             } as CSSProperties
@@ -594,26 +602,9 @@ const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
     { variant = 'normal', priority = 'compact', children, caption, ...props },
     ref,
   ) => {
-    const { innerContainerRef, scrollHeight } = useModalContext(MODAL_NAME);
-
-    const [isSticky, setIsSticky] = useState(false);
-
-    useEffect(() => {
-      const handleResize = () => {
-        if (innerContainerRef.current) {
-          setIsSticky(
-            innerContainerRef.current.scrollHeight -
-              innerContainerRef.current.clientHeight !==
-              scrollHeight,
-          );
-        }
-      };
-
-      handleResize();
-      window.addEventListener('resize', handleResize);
-
-      return () => window.removeEventListener('resize', handleResize);
-    }, [innerContainerRef, scrollHeight]);
+    const { sticky: enableSticky, hasScroll } = useModalContainerContext(
+      MODAL_ACTION_AREA_NAME,
+    );
 
     return (
       <ModalActionAreaProvider priority={priority}>
@@ -625,7 +616,8 @@ const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
           css={modalActionAreaStyle({
             variant,
             priority,
-            isSticky: priority === 'single' ? false : isSticky,
+            isSticky:
+              !enableSticky || priority === 'single' ? false : hasScroll,
           })}
           {...props}
         >
