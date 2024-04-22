@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.6-alpha.0...@wanteddev/wds@0.3.6) (2024-04-22)
+
+### Features
+
+- **wds:** sticky modal 옵션 추가 ([b0d1cf7](https://github.com/wanteddev/wds/commit/b0d1cf79fa13046e45131da14602813b142a7c90))
+
 ## [0.3.6-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.5...@wanteddev/wds@0.3.6-alpha.0) (2024-04-19)
 
 ### Bug Fixes
