@@ -85,7 +85,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                 </td>
                 <td>
                   <ContentBadge size="small" color="neutral">
-                    {value.defaultValue ?? '-'}
+                    {value.defaultValue?.toString() ?? '-'}
                   </ContentBadge>
                 </td>
               </tr>
@@ -158,7 +158,7 @@ const PropsTable = ({ component, fallback }: Props) => {
               </td>
               <td>
                 <ContentBadge size="small" color="neutral">
-                  {value.defaultValue?.value ?? '-'}
+                  {value.defaultValue?.value?.toString() ?? '-'}
                 </ContentBadge>
               </td>
             </tr>
