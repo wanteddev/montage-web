@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.8-alpha.0...@wanteddev/wds@0.3.8) (2024-04-23)
+
+### Bug Fixes
+
+- **wds:** theme provider 로컬 스토리지에 이상한 값이 있는 경우 오류 발생 ([4a98dcf](https://github.com/wanteddev/wds/commit/4a98dcf8f4558f57c4a34638dd5fe42129f97017))
+
 ## [0.3.8-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.7...@wanteddev/wds@0.3.8-alpha.0) (2024-04-23)
 
 ### Bug Fixes
