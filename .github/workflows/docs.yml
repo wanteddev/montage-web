@@ -51,6 +51,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - uses: actions/cache@v3
+        name: Nx cache
+        with:
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-nx-store-
+
       - name: Build local packages
         run: pnpm run build
 
