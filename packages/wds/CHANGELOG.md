@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.7...@wanteddev/wds@0.3.8-alpha.0) (2024-04-23)
+
+### Bug Fixes
+
+- **wds:** nextjs에서 suspense가 2번 실행되는 이슈 ([2461922](https://github.com/wanteddev/wds/commit/2461922c4a6daabb224ae5ef4f5d3f07f2f83631))
+
 ## [0.3.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.6...@wanteddev/wds@0.3.7) (2024-04-22)
 
 ### Bug Fixes
