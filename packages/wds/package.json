@@ -65,6 +65,7 @@
     "@wanteddev/wds-icon": "workspace:*",
     "aria-hidden": "^1.2.3",
     "lodash.flattendeep": "^4.4.0",
+    "next-themes": "^0.3.0",
     "object-path": "^0.11.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
