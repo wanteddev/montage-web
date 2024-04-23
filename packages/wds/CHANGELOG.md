@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.8...@wanteddev/wds@0.4.0) (2024-04-23)
+
+### Bug Fixes
+
+- **wds:** modal 스크롤바 높이가 올바르지 않음 ([eb307c1](https://github.com/wanteddev/wds/commit/eb307c1e8c23d5ab5a178f6127592dffeb4b699b))
+
 ## [0.3.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.8-alpha.0...@wanteddev/wds@0.3.8) (2024-04-23)
 
 ### Bug Fixes
