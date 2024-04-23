@@ -1,46 +1,35 @@
 'use client';
 import { ThemeProvider as DefaultThemeProvider, Global } from '@emotion/react';
-import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import { type PropsWithChildren, useMemo } from 'react';
 
 import { theme as themes } from '../theme';
 import useThemeControl from '../hooks/use-theme-control';
 
+import NextThemeProvider from './next-theme-provider';
 import StoreProvider from './store-provider';
 
+import type { ThemeProviderProps } from './next-theme-provider';
 import type { Theme } from '@emotion/react';
 
-type Props = PropsWithChildren<{
-  enableDarkMode?: boolean;
-  /** Disable all CSS transitions when switching themes */
-  disableTransitionOnChange?: boolean | undefined;
-  /** Whether to indicate to browsers which color scheme is used (dark or light) for built-in UI like inputs and buttons */
-  enableColorScheme?: boolean | undefined;
-  /** Key used to store theme setting in localStorage */
-  storageKey?: string | undefined;
-  /* 강제로 테마를 덮어씌울 때 사용합니다. */
-  forcedTheme?: 'light' | 'dark' | undefined;
+type Props = ThemeProviderProps & {
   /** Use default global style */
   disableDefaultGlobalStyle?: boolean | undefined;
-}>;
+};
 
 const ThemeProvider = ({
   children,
-  enableDarkMode,
-  enableColorScheme = true,
+  enableDarkMode = false,
+  defaultTheme = enableDarkMode ? 'system' : 'light',
   disableTransitionOnChange = false,
-  forcedTheme,
   storageKey = 'theme',
   disableDefaultGlobalStyle = false,
 }: Props) => {
   return (
     <NextThemeProvider
-      themes={enableDarkMode ? ['light', 'dark'] : ['light']}
-      enableSystem={enableDarkMode || false}
-      enableColorScheme={enableColorScheme}
+      enableDarkMode={enableDarkMode}
       disableTransitionOnChange={disableTransitionOnChange}
-      forcedTheme={forcedTheme}
       storageKey={storageKey}
+      defaultTheme={defaultTheme}
     >
       <EmotionThemeProvider
         disableDefaultGlobalStyle={disableDefaultGlobalStyle}

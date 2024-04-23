@@ -1,24 +1,11 @@
-import { useTheme } from 'next-themes';
-import { useMemo } from 'react';
+import { useThemeStore } from '../stores/theme-store';
 
 const useThemeControl = () => {
-  const { forcedTheme, resolvedTheme, systemTheme, setTheme } = useTheme();
-
-  const theme = useMemo(() => {
-    if (forcedTheme) {
-      return forcedTheme as 'dark' | 'light';
-    }
-
-    if (resolvedTheme === 'system' && systemTheme) {
-      return systemTheme as 'dark' | 'light';
-    }
-
-    return resolvedTheme ? (resolvedTheme as 'dark' | 'light') : 'light';
-  }, [resolvedTheme, forcedTheme, systemTheme]);
+  const { resolvedTheme, setTheme } = useThemeStore((state) => state);
 
   return {
-    theme,
-    setTheme,
+    theme: resolvedTheme ? (resolvedTheme as 'light' | 'dark') : 'light',
+    setTheme: setTheme as (theme: 'light' | 'dark' | 'system') => void,
   };
 };
 
