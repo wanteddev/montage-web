@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.4.0...@wanteddev/wds@0.4.1) (2024-04-23)
+
+### Bug Fixes
+
+- **wds:** modal fixed에서 이유없이 스크롤이 생기는 이슈 ([e6ff50a](https://github.com/wanteddev/wds/commit/e6ff50a31d0376566f0751f77ef1b9df08bdb291))
+
 # [0.4.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.3.8...@wanteddev/wds@0.4.0) (2024-04-23)
 
 ### Bug Fixes
