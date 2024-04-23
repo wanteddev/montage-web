@@ -327,7 +327,8 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                   display: 'flex',
                   flexGrow: '1',
                   ['& > div']: {
-                    display: 'block !important',
+                    display: 'flex !important',
+                    flexDirection: 'column',
                   },
                 }}
                 zIndex={11}
@@ -344,6 +345,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                     height: 'max-content',
                     width: 'fit-content',
                     minWidth: '100%',
+                    flex: '1',
                   }}
                 >
                   {isEnabled && (

@@ -112,7 +112,6 @@ export const scrollBarStyle =
 export const scrollBarThumbStyle = (theme: Theme) => css`
   cursor: initial;
   position: relative;
-  flex: 1 1 0%;
   border-radius: 10px;
   background-color: ${theme.palette.fill.strong};
   transition: background-color 160ms ease-out;
