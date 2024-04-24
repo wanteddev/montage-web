@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@0.1.2...@wanteddev/wds-nextjs@0.2.0) (2024-04-24)
+
+### Features
+
+- **wds-nextjs:** page router 구성 추가 ([841c277](https://github.com/wanteddev/wds/commit/841c277238e27e5153a14453e0ed238ac03c39cf))
+
 ## [0.1.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@0.1.2-alpha.0...@wanteddev/wds-nextjs@0.1.2) (2024-04-17)
 
 **Note:** Version bump only for package @wanteddev/wds-nextjs
