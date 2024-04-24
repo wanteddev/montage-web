@@ -3,6 +3,7 @@ import { FlexBox } from '@wanteddev/wds';
 
 import { MDXProvider } from '@/features/mdx/context';
 import MDX from '@/features/mdx/components/mdx';
+import SideBar from '@/features/sidebar/components/sidebar';
 
 import type { ComponentDoc } from 'react-docgen-typescript';
 import type { serialize } from 'next-mdx-remote/serialize';
@@ -15,17 +16,27 @@ type Props = {
 
 const ClientDocsPage = ({ source, propTypes }: Props) => {
   return (
-    <FlexBox
-      flexDirection="column"
-      css={{ width: '100%' }}
-      md={{
-        css: { padding: '0px 0px 20px 20px', width: 'calc(100% - 250px)' },
-      }}
-    >
-      <MDXProvider frontmatter={source.frontmatter} propTypes={propTypes}>
-        <MDX {...source} />
-      </MDXProvider>
-    </FlexBox>
+    <>
+      <FlexBox
+        flexDirection="column"
+        css={{ width: '100%' }}
+        sm={{
+          css: { padding: '0px 0px 20px 20px', width: 'calc(100% - 250px)' },
+        }}
+        md={{
+          css: {
+            padding: '0px 20px 20px 20px',
+            width: 'calc(100% - 250px - 150px)',
+          },
+        }}
+      >
+        <MDXProvider frontmatter={source.frontmatter} propTypes={propTypes}>
+          <MDX {...source} />
+        </MDXProvider>
+      </FlexBox>
+
+      <SideBar />
+    </>
   );
 };
 

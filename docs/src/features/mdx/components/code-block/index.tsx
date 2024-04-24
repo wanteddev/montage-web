@@ -53,6 +53,16 @@ const CodeBlock = ({ children, ...props }: Props) => {
 
       <IconButton
         variant="background"
+        css={(theme) => ({
+          ['&::before']: {
+            backgroundColor: theme.palette.inverse.label,
+            border: `1px solid ${theme.palette.line.normal.neutral}`,
+            zIndex: 0,
+          },
+          svg: {
+            zIndex: 1,
+          },
+        })}
         onClick={() => {
           const success = copy(children as string);
 

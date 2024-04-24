@@ -13,12 +13,24 @@ const MDXComponents: { [key: string]: (props: any) => ReactNode } = {
     <Typography {...props} variant="display2" weight="bold" as="h1" />
   ),
   h2: ({ children, id, ...props }) => (
-    <Typography {...props} variant="title1" weight="bold" as="h2">
+    <Typography
+      {...props}
+      data-heading="true"
+      variant="title1"
+      weight="bold"
+      as="h2"
+    >
       <HeadingLink id={id}>{children}</HeadingLink>
     </Typography>
   ),
   h3: ({ children, id, ...props }) => (
-    <Typography {...props} variant="title2" weight="bold" as="h3">
+    <Typography
+      {...props}
+      data-heading="true"
+      variant="title2"
+      weight="bold"
+      as="h3"
+    >
       <HeadingLink id={id}>{children}</HeadingLink>
     </Typography>
   ),

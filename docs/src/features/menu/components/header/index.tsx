@@ -1,12 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
 import {
   FlexBox,
   IconButton,
   NoSsr,
   RegionConfig,
   Typography,
-  useSize,
   useThemeControl,
 } from '@wanteddev/wds';
 import { IconMenu, IconSymbol } from '@wanteddev/wds-icon';
@@ -20,23 +18,12 @@ const Header = () => {
   const { theme, setTheme } = useThemeControl();
   const mobileMenu = useMobileMenuContext();
 
-  const [node, setNode] = useState<HTMLElement | null>(null);
-  const { height } = useSize(node) || { height: 0 };
-
-  useEffect(() => {
-    document.documentElement.style.setProperty(
-      '--header-height',
-      height + 'px',
-    );
-  }, [height]);
-
   return (
     <>
       <RegionConfig viewportTop="var(--header-height)" />
 
       <FlexBox
         suppressHydrationWarning
-        ref={setNode}
         justifyContent="center"
         as="header"
         css={headerWrapperStyle}

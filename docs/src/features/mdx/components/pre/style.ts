@@ -11,7 +11,8 @@ export const preWrapperStyle = (theme: Theme) => css`
   border: 1px solid ${theme.palette.line.normal.normal};
 
   & button {
-    display: none;
+    opacity: 0;
+    transition: opacity ease 0.12s;
     position: absolute;
     right: 16px;
     top: 16px;
@@ -19,7 +20,7 @@ export const preWrapperStyle = (theme: Theme) => css`
 
   &:hover {
     button {
-      display: flex;
+      opacity: 1;
     }
   }
 `;
