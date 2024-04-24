@@ -154,6 +154,136 @@ const RootLayout = (props: PropsWithChildren) => {
 export default RootLayout;
 ```
 
-### Pages Dir
+### Pages Dir (실험적)
 
-준비 중입니다.
+Next.js에서 사용하기 위한 추가 패키지를 설치합니다.
+
+```bash
+yarn add @wanteddev/wds-nextjs
+```
+
+`_app.tsx` 를 아래와 같이 구성합니다.
+
+```tsx
+import { ThemeProvider } from '@wanteddev/wds';
+import { AppCacheProvider } from '@wanteddev/wds-nextjs';
+
+import '@wanteddev/wds/global.css';
+import type { AppProps } from 'next/app';
+
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <AppCacheProvider>
+      <ThemeProvider>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AppCacheProvider>
+  );
+};
+
+export default MyApp;
+```
+
+`_document.tsx` 를 아래와 같이 구성합니다.
+
+```tsx
+import {
+  DocumentHeadTags,
+  documentGetInitialProps,
+} from '@wanteddev/wds-nextjs';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+
+import type { DocumentHeadTagsProps } from '@wanteddev/wds-nextjs';
+import type { DocumentContext, DocumentInitialProps } from 'next/document';
+
+class MyDocument extends Document<DocumentHeadTagsProps> {
+  static async getInitialProps(
+    ctx: DocumentContext,
+  ): Promise<DocumentInitialProps> {
+    const initialProps = await documentGetInitialProps(Document, ctx);
+
+    return initialProps;
+  }
+
+  render() {
+    return (
+      <Html lang="en">
+        <Head>
+          <DocumentHeadTags {...this.props} />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+
+export default MyDocument;
+```
+
+
+#### With Styled-components, Page Dir
+
+```tsx
+import {
+  DocumentHeadTags,
+  documentGetInitialProps,
+} from '@wanteddev/wds-nextjs';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
+import { ServerStyleSheet } from 'styled-components';
+
+import type { DocumentHeadTagsProps } from '@wanteddev/wds-nextjs';
+import type { DocumentContext, DocumentInitialProps } from 'next/document';
+
+class MyDocument extends Document<DocumentHeadTagsProps> {
+  static async getInitialProps(
+    ctx: DocumentContext,
+  ): Promise<DocumentInitialProps> {
+    const styledComponentsSheet = new ServerStyleSheet();
+
+    try {
+      const initialProps = await documentGetInitialProps(Document, ctx, {
+        plugins: [
+          {
+            enhanceApp: (App) => (props) =>
+              styledComponentsSheet.collectStyles(<App {...props} />),
+            resolveProps: async (props) => {
+              return {
+                ...props,
+                styles: (
+                  <>
+                    {props.styles}
+                    {styledComponentsSheet.getStyleElement()}
+                  </>
+                ),
+              };
+            },
+          },
+        ],
+      });
+
+      return initialProps;
+    } finally {
+      styledComponentsSheet.seal();
+    }
+  }
+
+  render() {
+    return (
+      <Html lang="en">
+        <Head>
+          <DocumentHeadTags {...this.props} />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+
+export default MyDocument;
+```
