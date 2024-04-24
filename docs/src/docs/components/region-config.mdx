@@ -21,27 +21,24 @@ description: RegionConfig Component
 보통 `Alert` 컴포넌트는 navigation 아래에 위치하기 때문에 아래와 같은 설정을 사용합니다.
 
 ```tsx
-import { useState } from 'react';
-import { Header } from '@wanteddev/wds';
+import { RegionConfig } from '@wanteddev/wds';
+import { Global } from '@emotion/react';
 
 const Demo = () => {
-  const [node, setNode] = useState<HTMLElement | null>(null);
-  const { height } = useSize(node) || { height: 0 };
-
-  useEffect(() => {
-    // header의 높이는 활용도가 높기 때문에 css variable로 이용
-    document.documentElement.style.setProperty(
-      '--header-height',
-      height + 'px',
-    );
-  }, [height]);
-
   return (
     <>
-      {/* css variable로 안할 시 NoSsr 태그로 감싸주지 않으면 nextjs hydration error가 발생합니다. */}
-      <RegionConfig viewportTop="var(--header-height)" />
+      <Global
+        styles={(theme) => ({
+          [':root']: {
+            '--header-height': '61px',
+            [respondTo(theme.breakpoint.sm)]: {
+              '--header-height': '57px',
+            },
+          },
+        })}
+      />
 
-      <Header ref={setNode} />
+      <RegionConfig viewportTop="var(--header-height)" />
     </>
   )
 }
