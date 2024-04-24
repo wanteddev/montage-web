@@ -111,31 +111,31 @@ const buttonColorStyle = (
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
         }
       `;
     case variant === 'outlined' && color === 'secondary':
       return css`
         color: ${theme.palette.primary.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
 
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
         }
       `;
     case variant === 'outlined' && color === 'assistive':
       return css`
         color: ${theme.palette.label.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
 
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
         }
       `;
   }

@@ -194,7 +194,7 @@ const iconButtonColorStyle = (
       return css`
         border: none;
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
         background-color: ${theme.palette.background.normal.normal};
         ${Boolean(color) &&
         css`
@@ -211,7 +211,7 @@ const iconButtonColorStyle = (
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: ${theme.palette.background.normal.normal};
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
         }
       `;
     case 'solid':
