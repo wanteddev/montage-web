@@ -12,12 +12,12 @@
     "node": ">= 20"
   },
   "scripts": {
-    "build": "lerna run build",
+    "build": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run build",
     "dev": "lerna run dev --no-cache --continue",
-    "lint": "lerna run lint",
+    "lint": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
-    "watch": "lerna run watch",
-    "test": "lerna run test",
+    "watch": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run watch",
+    "test": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run test",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
     "prepublish": "pnpm run build",
