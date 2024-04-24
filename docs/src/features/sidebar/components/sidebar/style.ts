@@ -7,7 +7,7 @@ export const sidebarStyle = (theme: Theme) => css`
   width: 150px;
   position: sticky;
   top: calc(var(--header-height) + 24px);
-  height: calc(100vh - var(--header-height) - 24px);
+  height: calc(100vh - var(--header-height) - 40px);
   display: flex;
   padding-left: 16px;
 
