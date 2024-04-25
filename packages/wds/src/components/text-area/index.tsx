@@ -233,13 +233,13 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             ...props,
           })}
           ref={composedRefs}
+          {...props}
           aria-invalid={invalid}
           value={value}
           onChange={composeEventHandlers(props.onChange, (e) => {
             syncTextAreaHeight();
             setLength(e.target.value.length || 0);
           })}
-          {...props}
         />
         <textarea
           aria-hidden
