@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
-    "build": "node scripts/docgen.mjs && next build",
+    "build": "node scripts/docgen.mjs && next build && next-sitemap",
     "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",
     "lint": "next lint",
@@ -12,6 +12,7 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@docsearch/react": "^3.6.0",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
     "@wanteddev/wds": "workspace:*",
@@ -25,6 +26,7 @@
     "mdx-bundler": "^10.0.1",
     "next": "^14.1.3",
     "next-mdx-remote": "^4.4.1",
+    "next-sitemap": "^4.2.3",
     "react": "^18.2.0",
     "react-docgen-typescript": "^2.2.2",
     "react-dom": "^18.2.0",

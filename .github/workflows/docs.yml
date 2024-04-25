@@ -68,12 +68,6 @@ jobs:
       - name: Build docs
         run: pnpm -F docs run build
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ env.AWS_DEPLOY_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
-
       - name: Build my App
         run: touch ./docs/out/.nojekyll
 
@@ -81,3 +75,21 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           folder: docs/out
+
+  algolia:
+    needs: [deploy-docs]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get the content of algolia.json as config
+        id: algolia_config
+        run: echo "::set-output name=config::$(cat algolia/config.json | jq -r tostring)"
+
+      - name: Push indices to Algolia
+        uses: signcl/docsearch-scraper-action@master
+        env:
+          APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
+          API_KEY: ${{ secrets.API_KEY }}
+          CONFIG: ${{ steps.algolia_config.outputs.config }}
