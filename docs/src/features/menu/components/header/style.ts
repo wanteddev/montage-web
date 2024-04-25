@@ -6,7 +6,7 @@ import type { Theme } from '@emotion/react';
 export const headerWrapperStyle = (theme: Theme) => css`
   ${theme.platform.ios.navigation}
   position: sticky;
-  z-index: 1;
+  z-index: ${theme.zIndex.modal};
   top: 0;
   border-bottom: 1px solid ${theme.palette.line.normal.normal};
 `;

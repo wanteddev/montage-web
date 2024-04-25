@@ -23,7 +23,9 @@ const parser = withCustomConfig(
           },
         );
 
-        return Boolean(hasPropAdditionalDescription);
+        return Boolean(
+          hasPropAdditionalDescription || prop.name === 'wrapperProps',
+        );
       }
 
       return true;
