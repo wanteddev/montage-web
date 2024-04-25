@@ -20,7 +20,8 @@ export const editorWrapperStyle = css`
   position: relative;
 
   & > button {
-    display: none;
+    opacity: 0;
+    transition: opacity ease 0.12s;
     position: absolute;
     right: 16px;
     top: 16px;
@@ -28,7 +29,7 @@ export const editorWrapperStyle = css`
 
   &:hover {
     & > button {
-      display: flex;
+      opacity: 1;
     }
   }
 `;

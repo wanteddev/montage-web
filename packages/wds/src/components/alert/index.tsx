@@ -15,8 +15,9 @@ import Portal from '../portal';
 import Typography from '../typography';
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
+import { useRegionStore } from '../../stores/region-store';
 
-import { topRegionStatusStyle } from './style';
+import { alertWrapperStyle, topRegionStatusStyle } from './style';
 
 import type { CSSProperties, ReactNode } from 'react';
 import type { AlertProps } from './types';
@@ -32,10 +33,13 @@ const Alert = forwardRef<HTMLDivElement, Props>(
       onShowChange,
       variant = 'normal',
       children,
+      wrapperProps,
       ...props
     },
     ref,
   ) => {
+    const config = useRegionStore((state) => state.config);
+
     const [show = false, setShow] = useControllableState({
       prop: originShow,
       defaultProp: defaultShow,
@@ -98,55 +102,58 @@ const Alert = forwardRef<HTMLDivElement, Props>(
     return (
       <>
         {show && (
-          <Portal
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            container={globalThis?.document?.querySelector(
-              '#wds-region-manager-top',
-            )}
-          >
+          <Portal>
             <div
-              ref={ref}
-              aria-atomic
-              role={variant === 'error' ? 'alert' : 'status'}
-              aria-live={variant === 'error' ? 'assertive' : 'polite'}
-              css={topRegionStatusStyle}
-              aria-describedby={descriptionId}
-              {...props}
+              wds-ignore-dismissable-layer="true"
+              {...wrapperProps}
+              css={[alertWrapperStyle, wrapperProps?.css]}
               style={
                 {
-                  ...props.style,
+                  ...wrapperProps?.style,
+                  '--wds-region-viewport-top': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportTop})`,
+                  '--wds-region-viewport-max-width': `calc(${config.viewportMaxWidth})`,
                   '--wds-region-top-item-background': backgroundColor[variant],
                 } as CSSProperties
               }
             >
-              <FlexBox
-                gap="10px"
-                alignItems="center"
-                css={{ ['& svg']: { flexShrink: 0 } }}
+              <div
+                ref={ref}
+                aria-atomic
+                role={variant === 'error' ? 'alert' : 'status'}
+                aria-live={variant === 'error' ? 'assertive' : 'polite'}
+                css={topRegionStatusStyle}
+                aria-describedby={descriptionId}
+                {...props}
               >
-                {iconComponent[variant]}
-
-                <Typography
-                  color="palette.label.normal"
-                  variant="label1_normal"
-                  weight="medium"
-                  id={descriptionId}
+                <FlexBox
+                  gap="10px"
+                  alignItems="center"
+                  css={{ ['& svg']: { flexShrink: 0 } }}
                 >
-                  {children}
-                </Typography>
-              </FlexBox>
+                  {iconComponent[variant]}
 
-              <FlexBox alignItems="center" flexShrink={0}>
-                <IconButton
-                  color="palette.label.alternative"
-                  interactionColor="palette.label.alternative"
-                  onClick={handleShowToggle}
-                  size={20}
-                  css={{ fontSize: '20px' }}
-                >
-                  <IconClose />
-                </IconButton>
-              </FlexBox>
+                  <Typography
+                    color="palette.label.normal"
+                    variant="label1_normal"
+                    weight="medium"
+                    id={descriptionId}
+                  >
+                    {children}
+                  </Typography>
+                </FlexBox>
+
+                <FlexBox alignItems="center" flexShrink={0}>
+                  <IconButton
+                    color="palette.label.alternative"
+                    interactionColor="palette.label.alternative"
+                    onClick={handleShowToggle}
+                    size={20}
+                    css={{ fontSize: '20px' }}
+                  >
+                    <IconClose />
+                  </IconButton>
+                </FlexBox>
+              </div>
             </div>
           </Portal>
         )}

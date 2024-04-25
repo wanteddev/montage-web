@@ -14,6 +14,17 @@ export const topMountKeyFrames = keyframes`
   }
 `;
 
+export const alertWrapperStyle = (theme: Theme) => css`
+  position: fixed;
+  z-index: ${theme.zIndex.modal};
+  width: 100%;
+  max-width: var(--wds-region-viewport-max-width, 100%);
+  padding: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  top: var(--wds-region-viewport-top, 0px);
+`;
+
 export const topRegionStatusStyle = (theme: Theme) => css`
   background-color: ${theme.palette.background.normal.normal};
   padding: 14px 16px;

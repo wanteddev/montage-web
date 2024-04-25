@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type AlertProps = {
   variant?: 'normal' | 'success' | 'warning' | 'error' | 'info';
@@ -6,4 +6,5 @@ export type AlertProps = {
   show?: boolean;
   defaultShow?: boolean;
   onShowChange?: (state: boolean) => void;
+  wrapperProps?: ComponentPropsWithRef<'div'>;
 };

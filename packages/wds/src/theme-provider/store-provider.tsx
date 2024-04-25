@@ -61,27 +61,6 @@ const RegionArea = () => {
       aria-label="Notifications"
     >
       <div
-        id="wds-region-manager-top"
-        css={{
-          position: 'fixed',
-          gap: '14px',
-          zIndex: 5500,
-          justifyContent: 'center',
-          pointerEvents: 'none',
-          width: '100%',
-          minWidth: '100px',
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          boxSizing: 'content-box',
-          maxWidth: 'var(--wds-region-viewport-max-width, 100%)',
-          padding: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          top: 'var(--wds-region-viewport-top, 0px)',
-        }}
-      />
-      <div
         id="wds-region-manager-bottom"
         css={(theme) => ({
           position: 'fixed',
