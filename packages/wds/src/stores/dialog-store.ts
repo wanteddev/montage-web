@@ -16,6 +16,7 @@ export type DialogItem = {
   confirmText: string;
   cancelText?: string;
   confirmColor?: ThemeColorsToken;
+  focusTrap?: 'confirm' | 'cancel';
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
   resolve: (value: DialogReturnType | PromiseLike<DialogReturnType>) => void;

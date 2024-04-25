@@ -26,6 +26,8 @@ import {
   dialogWrapperStyle,
 } from './style';
 
+import type { PropsWithChildren } from 'react';
+import type { ThemeColorsToken } from '../../types';
 import type { DialogItem } from '../../stores/dialog-store';
 
 const Dialog = () => {
@@ -46,6 +48,7 @@ const Item = ({
   title,
   confirmText,
   confirmColor = 'palette.primary.normal',
+  focusTrap = 'confirm',
   cancelText,
   disableOutsideClickClose,
   disableEscapeKeyDownClose,
@@ -140,39 +143,74 @@ const Item = ({
             <Divider color="palette.label.normal" css={dialogDividerStyle} />
 
             <FlexBox
-              flexDirection="row-reverse"
+              flexDirection={focusTrap === 'confirm' ? 'row-reverse' : 'row'}
               alignItems="center"
+              justifyContent={focusTrap === 'confirm' ? 'initial' : 'flex-end'}
               gap="24px"
               css={dialogActionStyle}
             >
-              <TextButton
-                size="medium"
-                variant="primary"
-                onClick={handleConfirm}
-                css={(theme) => ({
-                  color: getColorByToken(theme, confirmColor),
-                  ['[wds-component="with-interaction"]']: {
-                    backgroundColor: getColorByToken(theme, confirmColor),
-                  },
-                })}
-              >
-                {confirmText}
-              </TextButton>
+              {focusTrap === 'confirm' ? (
+                <>
+                  <ConfirmButton onClick={handleConfirm} color={confirmColor}>
+                    {confirmText}
+                  </ConfirmButton>
 
-              {Boolean(cancelText) && (
-                <TextButton
-                  size="medium"
-                  variant="assistive"
-                  onClick={handleCancel}
-                >
-                  {cancelText}
-                </TextButton>
+                  <CancelButton onClick={handleCancel}>
+                    {cancelText}
+                  </CancelButton>
+                </>
+              ) : (
+                <>
+                  <CancelButton onClick={handleCancel}>
+                    {cancelText}
+                  </CancelButton>
+
+                  <ConfirmButton onClick={handleConfirm} color={confirmColor}>
+                    {confirmText}
+                  </ConfirmButton>
+                </>
               )}
             </FlexBox>
           </FlexBox>
         </DismissableLayer>
       </FocusScope>
     </FlexBox>
+  );
+};
+
+type DialogButtonProps = PropsWithChildren<{
+  color: ThemeColorsToken;
+  onClick: () => void;
+}>;
+
+const ConfirmButton = ({ color, onClick, children }: DialogButtonProps) => (
+  <TextButton
+    size="medium"
+    variant="primary"
+    onClick={onClick}
+    css={(theme) => ({
+      color: getColorByToken(theme, color),
+      ['[wds-component="with-interaction"]']: {
+        backgroundColor: getColorByToken(theme, color),
+      },
+    })}
+  >
+    {children}
+  </TextButton>
+);
+
+const CancelButton = ({
+  onClick,
+  children,
+}: Omit<DialogButtonProps, 'color'>) => {
+  if (!children) {
+    return null;
+  }
+
+  return (
+    <TextButton size="medium" variant="assistive" onClick={onClick}>
+      {children}
+    </TextButton>
   );
 };
 
