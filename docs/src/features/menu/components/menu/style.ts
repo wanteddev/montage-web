@@ -19,6 +19,7 @@ export const menuWrapperStyle = (theme: Theme) => css`
 export const menuLinkStyle = (theme: Theme) => css`
   padding: 4px 10px;
   border-radius: 8px;
+  flex: 1;
 
   &[data-active='true'] {
     background-color: ${theme.palette.fill.strong};

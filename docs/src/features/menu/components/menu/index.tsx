@@ -20,11 +20,12 @@ const Menu = () => {
     : '/docs/' + params.slug;
 
   return (
-    <FlexBox css={menuWrapperStyle} flexDirection="column">
+    <FlexBox as="nav" css={menuWrapperStyle} flexDirection="column">
       <ScrollArea>
         {routes.map((route, idx) => (
           <FlexBox
             key={idx}
+            as="ul"
             flexDirection="column"
             gap="4px"
             css={{
@@ -42,23 +43,25 @@ const Menu = () => {
             </Typography>
 
             {route.pages.map((page) => (
-              <WithInteraction key={page.slug}>
-                <Typography
-                  as={Link}
-                  href={page.slug}
-                  data-active={activeSlug === page.slug}
-                  css={menuLinkStyle}
-                  variant="body2_normal"
-                  weight={activeSlug === page.slug ? 'medium' : 'regular'}
-                  color={
-                    activeSlug === page.slug
-                      ? 'palette.primary.normal'
-                      : 'palette.label.normal'
-                  }
-                >
-                  {page.title}
-                </Typography>
-              </WithInteraction>
+              <FlexBox as="li" flex="1" key={page.slug}>
+                <WithInteraction>
+                  <Typography
+                    as={Link}
+                    href={page.slug}
+                    data-active={activeSlug === page.slug}
+                    css={menuLinkStyle}
+                    variant="body2_normal"
+                    weight={activeSlug === page.slug ? 'medium' : 'regular'}
+                    color={
+                      activeSlug === page.slug
+                        ? 'palette.primary.normal'
+                        : 'palette.label.normal'
+                    }
+                  >
+                    {page.title}
+                  </Typography>
+                </WithInteraction>
+              </FlexBox>
             ))}
           </FlexBox>
         ))}
