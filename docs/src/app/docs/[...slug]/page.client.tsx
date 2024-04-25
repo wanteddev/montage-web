@@ -18,6 +18,7 @@ const ClientDocsPage = ({ source, propTypes }: Props) => {
   return (
     <>
       <FlexBox
+        data-algolia-page-scope
         flexDirection="column"
         css={{ width: '100%' }}
         sm={{

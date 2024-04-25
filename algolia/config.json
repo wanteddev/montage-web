@@ -1,16 +1,26 @@
 {
-  "index_name": "WDS_DOCS",
+  "index_name": "wds-docs",
   "start_urls": ["https://wanteddev.github.io/wds"],
   "sitemaps": ["https://wanteddev.github.io/wds/sitemap.xml"],
+  "sitemap_alternate_links": true,
   "selectors": {
-    "lvl0": "[data-algolia-page-scope] h1",
+    "lvl0": {
+      "selector": "[data-algolia-page-scope] h1",
+      "type": "xpath",
+      "global": true,
+      "default_value": "Documentation"
+    },
     "lvl1": "[data-algolia-page-scope] h2",
     "lvl2": "[data-algolia-page-scope] h3",
     "lvl3": "[data-algolia-page-scope] h4",
     "lvl4": "[data-algolia-page-scope] h5",
     "text": "[data-algolia-page-scope] p, [data-algolia-page-scope] li"
   },
-  "min_indexed_level": 1,
   "selectors_exclude": ["[data-algolia-exclude]"],
-  "scrape_start_urls": false
+  "strip_chars": " .,;:#",
+  "custom_settings": {
+    "separatorsToIndex": "_",
+    "attributesForFaceting": ["language", "version", "type", "docusaurus_tag"],
+    "attributesToRetrieve": ["hierarchy", "content", "anchor", "url", "url_without_anchor", "type"]
+  }
 }
