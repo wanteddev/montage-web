@@ -3,7 +3,6 @@ import { useCallback, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 
 import { hideOthers } from '../../utils/aria-hidden';
-import useFocusGuards from '../../hooks/use-focus-guard';
 import RemoveScroll from '../remove-scroll';
 import {
   DismissableLayer,
@@ -74,8 +73,6 @@ const Item = ({
     handleClose();
     resolve('confirm');
   }, [handleClose, resolve]);
-
-  useFocusGuards();
 
   useEffect(() => {
     const element = ref.current;

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 let count = 0;
 
-const useFocusGuards = () => {
+export const useFocusGuards = () => {
   useEffect(() => {
     const edgeGuards = document.querySelectorAll(
       '[wds-component="focus-guard"]',
@@ -36,5 +36,3 @@ const createFocusGuard = () => {
     'outline: none; opacity: 0; position: fixed; pointer-events: none';
   return element;
 };
-
-export default useFocusGuards;

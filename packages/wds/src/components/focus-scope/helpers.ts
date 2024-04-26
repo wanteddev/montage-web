@@ -32,8 +32,8 @@ export const getTabbableEdges = (container: HTMLElement) => {
   const candidates = getTabbableCandidates(container);
 
   const first = findVisible(candidates, container);
-
   const last = findVisible(candidates.reverse(), container);
+
   return [first, last] as const;
 };
 
@@ -55,10 +55,21 @@ export const getTabbableCandidates = (container: HTMLElement) => {
   return nodes;
 };
 
-export const filterCloseButton = (nodes: Array<HTMLElement>) => {
-  return nodes.filter(
-    (node) => node.getAttribute('wds-ignore-first-focus') !== 'true',
-  );
+export const getTabbableForFirstFocus = (nodes: Array<HTMLElement>) => {
+  return nodes.sort((a, b) => {
+    const aIgnoreFirstFocus =
+      a.getAttribute('wds-ignore-first-focus') === 'true';
+    const bIgnoreFirstFocus =
+      b.getAttribute('wds-ignore-first-focus') === 'true';
+
+    if (aIgnoreFirstFocus && !bIgnoreFirstFocus) {
+      return 1;
+    } else if (!aIgnoreFirstFocus && bIgnoreFirstFocus) {
+      return -1;
+    }
+
+    return 0;
+  });
 };
 
 export const arrayRemove = <T>(array: Array<T>, item: T) => {

@@ -3,7 +3,6 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import { useFocusGuard } from '../../hooks';
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
@@ -85,8 +84,6 @@ const PopoverContent = forwardRef<
   const { contentId, open, onOpenChange } =
     usePopoverContext(POPOVER_CONTENT_NAME);
 
-  useFocusGuard();
-
   return open ? (
     <DismissableLayer
       asChild
@@ -96,7 +93,7 @@ const PopoverContent = forwardRef<
       }}
     >
       <PopperContent position={position} offset={offset}>
-        <FocusScope loop>
+        <FocusScope loop trapped>
           <FlexBox
             role="dialog"
             id={contentId}

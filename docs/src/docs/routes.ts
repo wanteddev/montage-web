@@ -80,7 +80,6 @@ export const routes: Array<Route> = [
     label: 'Hooks',
     pages: [
       { title: 'useDialog', slug: '/docs/hooks/use-dialog' },
-      { title: 'useFocusGuard', slug: '/docs/hooks/use-focus-guard' },
       { title: 'useMedia', slug: '/docs/hooks/use-media' },
       { title: 'useSize', slug: '/docs/hooks/use-size' },
       { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },

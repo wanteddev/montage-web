@@ -3,45 +3,54 @@
  * Source by
  * https://github.com/radix-ui/primitives/blob/main/packages/react/focus-scope/src/FocusScope.tsx
  *
- * 모달 닫힘 버튼 첫 focus 제외 코드 커스텀
  */
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { composeEventHandlers } from '@radix-ui/primitive';
 import { Slot } from '@radix-ui/react-slot';
 
 import {
   arrayRemove,
-  filterCloseButton,
   focus,
   focusFirst,
   getTabbableCandidates,
   getTabbableEdges,
+  getTabbableForFirstFocus,
   removeLinks,
 } from './helpers';
 
-import type { MergeElementProps } from '../../types';
+import type { MergeWithCss } from '../../types';
 import type { FocusScopeProps } from './types';
-import type { KeyboardEventHandler } from 'react';
+import type {
+  ComponentPropsWithoutRef,
+  ElementRef,
+  KeyboardEvent,
+} from 'react';
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount';
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount';
 const EVENT_OPTIONS = { bubbles: false, cancelable: true };
 
-type Props = MergeElementProps<'div', FocusScopeProps>;
+type Props = MergeWithCss<
+  ComponentPropsWithoutRef<typeof Slot>,
+  FocusScopeProps
+>;
 
-const FocusScope = forwardRef<HTMLDivElement, Props>(
+const FocusScope = forwardRef<ElementRef<typeof Slot>, Props>(
   (
     {
       loop = false,
-      trapped = false,
+      trapped = true,
       onMountAutoFocus: onMountAutoFocusProp,
       onUnmountAutoFocus: onUnmountAutoFocusProp,
       ...props
     },
     forwardedRef,
   ) => {
-    const [container, setContainer] = useState<HTMLDivElement | null>(null);
+    const [container, setContainer] = useState<ElementRef<typeof Slot> | null>(
+      null,
+    );
     const onMountAutoFocus = useCallbackRef(onMountAutoFocusProp);
     const onUnmountAutoFocus = useCallbackRef(onUnmountAutoFocusProp);
     const lastFocusedElementRef = useRef<HTMLElement | null>(null);
@@ -60,7 +69,6 @@ const FocusScope = forwardRef<HTMLDivElement, Props>(
       },
     }).current;
 
-    // Takes care of trapping focus if focus is moved outside programmatically for example
     useEffect(() => {
       if (trapped) {
         const handleFocusIn = (event: FocusEvent) => {
@@ -124,14 +132,16 @@ const FocusScope = forwardRef<HTMLDivElement, Props>(
           container.addEventListener(AUTOFOCUS_ON_MOUNT, onMountAutoFocus);
           container.dispatchEvent(mountEvent);
           if (!mountEvent.defaultPrevented) {
-            focusFirst(
-              filterCloseButton(removeLinks(getTabbableCandidates(container))),
-              {
-                select: true,
-              },
+            const tabbableElements = getTabbableForFirstFocus(
+              removeLinks(getTabbableCandidates(container)),
             );
-            if (document.activeElement === previouslyFocusedElement) {
+
+            if (tabbableElements.length === 0) {
               focus(container);
+            } else {
+              focusFirst(tabbableElements, {
+                select: true,
+              });
             }
           }
         }
@@ -165,8 +175,8 @@ const FocusScope = forwardRef<HTMLDivElement, Props>(
       }
     }, [container, onMountAutoFocus, onUnmountAutoFocus, focusScope]);
 
-    const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback(
-      (event) => {
+    const handleKeyDown = useCallback(
+      (event: KeyboardEvent) => {
         if (!loop && !trapped) return;
         if (focusScope.paused) return;
 
@@ -178,12 +188,12 @@ const FocusScope = forwardRef<HTMLDivElement, Props>(
         const focusedElement = document.activeElement as HTMLElement | null;
 
         if (isTabKey && focusedElement) {
-          const focusContainer = event.currentTarget as HTMLElement;
-          const [first, last] = getTabbableEdges(focusContainer);
+          const currentTarget = event.currentTarget as HTMLElement;
+          const [first, last] = getTabbableEdges(currentTarget);
           const hasTabbableElementsInside = first && last;
 
           if (!hasTabbableElementsInside) {
-            if (focusedElement === focusContainer) event.preventDefault();
+            if (focusedElement === currentTarget) event.preventDefault();
           } else {
             if (!event.shiftKey && focusedElement === last) {
               event.preventDefault();
@@ -198,7 +208,26 @@ const FocusScope = forwardRef<HTMLDivElement, Props>(
       [loop, trapped, focusScope.paused],
     );
 
-    return <Slot ref={composedRefs} onKeyDown={handleKeyDown} {...props} />;
+    return (
+      <>
+        <Slot
+          tabIndex={-1}
+          ref={composedRefs}
+          {...props}
+          onKeyDown={composeEventHandlers(props.onKeyDown, handleKeyDown)}
+        />
+        <span
+          wds-component="focus-guard"
+          tabIndex={trapped ? 0 : -1}
+          style={{
+            outline: 'none',
+            opacity: '0',
+            position: 'fixed',
+            pointerEvents: 'none',
+          }}
+        />
+      </>
+    );
   },
 );
 
