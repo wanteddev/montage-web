@@ -13,7 +13,6 @@ export const contentBadgeStyle =
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
     width: fit-content;
     height: fit-content;
 
@@ -34,18 +33,21 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
   switch (size) {
     case 'medium':
       return css`
+        border-radius: 8px;
         padding: 6px 12px;
         gap: 4px;
         ${typographyStyle('label1_normal', 'bold')}
       `;
     case 'small':
       return css`
+        border-radius: 6px;
         padding: 4px 8px;
         gap: 3px;
         ${typographyStyle('caption1', 'bold')}
       `;
     case 'xsmall':
       return css`
+        border-radius: 4px;
         padding: 3px 4px;
         gap: 2px;
         ${typographyStyle('caption2', 'bold')}

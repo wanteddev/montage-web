@@ -70,7 +70,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps) => {
     case 'medium':
       return css`
         gap: 4px;
-        border-radius: 5px;
+        border-radius: 6px;
         padding: 4px 0px;
 
         & > [wds-component='with-interaction'] {
@@ -88,7 +88,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps) => {
     case 'small':
       return css`
         gap: 4px;
-        border-radius: 5px;
+        border-radius: 6px;
         padding: 4px 0px;
 
         & > [wds-component='with-interaction'] {

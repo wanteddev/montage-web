@@ -45,7 +45,7 @@ const buttonSizeStyle = ({ size }: ButtonProps<ButtonVariant> = {}) => {
   switch (size) {
     case 'large':
       return css`
-        border-radius: 10px;
+        border-radius: 12px;
         padding: 12px 28px;
         gap: 6px;
 
@@ -58,7 +58,7 @@ const buttonSizeStyle = ({ size }: ButtonProps<ButtonVariant> = {}) => {
       `;
     case 'medium':
       return css`
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 9px 20px;
         gap: 5px;
 
@@ -71,7 +71,7 @@ const buttonSizeStyle = ({ size }: ButtonProps<ButtonVariant> = {}) => {
       `;
     case 'small':
       return css`
-        border-radius: 6px;
+        border-radius: 8px;
         padding: 7px 14px;
         gap: 4px;
 
