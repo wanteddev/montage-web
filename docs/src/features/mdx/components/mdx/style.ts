@@ -17,6 +17,10 @@ export const mdxRootStyle = (theme: Theme) => css`
     color: ${theme.palette.primary.normal};
   }
 
+  & > h1 {
+    scroll-margin-top: var(--header-height);
+  }
+
   & > h1,
   & > h2,
   & > h3,
