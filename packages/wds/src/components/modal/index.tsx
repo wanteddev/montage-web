@@ -1,10 +1,8 @@
 'use client';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
-  Children,
   Fragment,
   forwardRef,
-  isValidElement,
   useCallback,
   useEffect,
   useId,
@@ -18,7 +16,6 @@ import { useTheme } from '@emotion/react';
 import { flushSync } from 'react-dom';
 
 import { hideOthers } from '../../utils';
-import useFocusGuards from '../../hooks/use-focus-guard';
 import RemoveScroll from '../remove-scroll';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
@@ -65,7 +62,6 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
-  NamedExoticComponent,
   ReactNode,
   UIEventHandler,
 } from 'react';
@@ -165,8 +161,6 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       context.innerContainerRef,
     );
 
-    useFocusGuards();
-
     const [scrollHeight, setScrollHeight] = useState(0);
 
     const [hasScroll, setHasScroll] = useState(false);
@@ -248,20 +242,6 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
       }
     }, [onOpenChange, isEnabled, containerRef]);
 
-    const otherChildren = Children.toArray(children).filter((child) =>
-      isValidElement(child)
-        ? (child.type as NamedExoticComponent).displayName !==
-          MODAL_ACTION_AREA_NAME
-        : true,
-    );
-
-    const actionButton = Children.toArray(children).filter(
-      (child) =>
-        isValidElement(child) &&
-        (child.type as NamedExoticComponent).displayName ===
-          MODAL_ACTION_AREA_NAME,
-    );
-
     return (
       <ModalContainerProvider
         hasScroll={hasScroll}
@@ -340,26 +320,15 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                   },
                 }}
               >
-                <div
-                  css={{
-                    height: 'max-content',
-                    width: 'fit-content',
-                    minWidth: '100%',
-                    flex: '1',
-                  }}
-                >
-                  {isEnabled && (
-                    <FlexBox
-                      justifyContent="center"
-                      css={modalGrabberStyle}
-                      {...dragProps}
-                    />
-                  )}
+                {isEnabled && (
+                  <FlexBox
+                    justifyContent="center"
+                    css={modalGrabberStyle}
+                    {...dragProps}
+                  />
+                )}
 
-                  {otherChildren}
-                </div>
-
-                {actionButton}
+                {children}
               </ScrollArea>
             </DismissableLayer>
           </FocusScope>
@@ -372,7 +341,7 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
 ModalContainer.displayName = 'ModalContainer';
 
 const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
-  ({ variant = 'compact', xs, sm, md, lg, xl, children }, ref) => {
+  ({ variant = 'compact', xs, sm, md, lg, xl, children, ...props }, ref) => {
     const context = useModalContext(MODAL_NAVIGATION_NAME);
     const { scrollHeight, sticky, handleClose } = useModalContainerContext(
       MODAL_NAVIGATION_NAME,
@@ -380,84 +349,33 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
     const theme = useTheme();
 
     return (
-      <>
-        <div
-          wds-component="modal-navigation"
-          ref={ref}
-          style={
-            {
-              ['--wds-navigation-border-color']:
-                sticky && scrollHeight > 0
-                  ? theme.palette.line.normal.normal
-                  : 'transparent',
-            } as CSSProperties
-          }
-          css={[
-            modalNavigationStyle({
-              variant,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            }),
-            { position: 'absolute' },
-          ]}
-        >
-          {variant !== 'floating' ? (
-            <>
-              {Boolean(children) && (
-                <Typography
-                  as="h2"
-                  id={context.titleId}
-                  variant="headline2"
-                  weight="bold"
-                  color="palette.label.strong"
-                  noWrap
-                  css={{ margin: 0, border: 'none' }}
-                >
-                  {children}
-                </Typography>
-              )}
-
-              <IconButton
-                wds-ignore-first-focus="true"
-                onClick={handleClose}
-                variant="normal"
-                size={24}
-              >
-                <IconCloseThick />
-              </IconButton>
-            </>
-          ) : (
-            <IconButton
-              wds-ignore-first-focus="true"
-              onClick={handleClose}
-              variant="background"
-              size={24}
-            >
-              <IconCloseThick />
-            </IconButton>
-          )}
-        </div>
-
-        <div
-          tabIndex={-1}
-          aria-hidden
-          css={[
-            modalNavigationStyle({
-              variant,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            }),
-            { visibility: 'hidden', touchAction: 'none', zIndex: '-1' },
-          ]}
-        >
-          {variant !== 'floating' ? (
-            <>
+      <div
+        wds-component="modal-navigation"
+        ref={ref}
+        css={[
+          modalNavigationStyle({
+            variant,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+        ]}
+        {...props}
+        style={
+          {
+            ['--wds-navigation-border-color']:
+              sticky && scrollHeight > 0
+                ? theme.palette.line.normal.normal
+                : 'transparent',
+            ...props.style,
+          } as CSSProperties
+        }
+      >
+        {variant !== 'floating' ? (
+          <>
+            {Boolean(children) && (
               <Typography
                 as="h2"
                 id={context.titleId}
@@ -465,26 +383,32 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
                 weight="bold"
                 color="palette.label.strong"
                 noWrap
+                css={{ margin: 0, border: 'none' }}
               >
                 {children}
               </Typography>
+            )}
 
-              <IconButton tabIndex={-1} aria-hidden variant="normal" size={24}>
-                <IconCloseThick />
-              </IconButton>
-            </>
-          ) : (
             <IconButton
-              tabIndex={-1}
-              aria-hidden
-              variant="background"
+              wds-ignore-first-focus="true"
+              onClick={handleClose}
+              variant="normal"
               size={24}
             >
               <IconCloseThick />
             </IconButton>
-          )}
-        </div>
-      </>
+          </>
+        ) : (
+          <IconButton
+            wds-ignore-first-focus="true"
+            onClick={handleClose}
+            variant="background"
+            size={24}
+          >
+            <IconCloseThick />
+          </IconButton>
+        )}
+      </div>
     );
   },
 );
@@ -497,23 +421,32 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
     ref,
   ) => {
     return (
-      <FlexBox
-        ref={ref}
-        as="div"
-        wds-component="modal-content"
-        flexDirection="column"
-        css={modalContentStyle({
-          padding,
-          paddingExtra,
-          paddingInfo,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        })}
-        {...props}
-      />
+      <div
+        css={{
+          height: 'max-content',
+          width: 'fit-content',
+          minWidth: '100%',
+          flex: '1',
+        }}
+      >
+        <FlexBox
+          ref={ref}
+          as="div"
+          wds-component="modal-content"
+          flexDirection="column"
+          css={modalContentStyle({
+            padding,
+            paddingExtra,
+            paddingInfo,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          })}
+          {...props}
+        />
+      </div>
     );
   },
 );

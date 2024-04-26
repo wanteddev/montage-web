@@ -57,11 +57,13 @@ type ModalContainerResponsiveProps = ResponsiveProps<
   Pick<ModalContainerDefaultProps, 'size' | 'variant'>
 >;
 
-export type ModalContainerProps = PropsWithChildren<
+export type ModalContainerProps = MergeElementProps<
+  'div',
   MergeWithCss<ModalContainerDefaultProps, ModalContainerResponsiveProps>
 >;
 
-export type ModalNavigationProps = PropsWithChildren<
+export type ModalNavigationProps = MergeElementProps<
+  'div',
   MergeWithCss<
     { variant?: 'compact' | 'floating' | 'emphasized' | 'extended' },
     ResponsiveProps<{}>
@@ -78,7 +80,8 @@ type ModalContentResponsiveProps = ResponsiveProps<
   Pick<ModalContentDefaultProps, 'padding' | 'paddingExtra' | 'paddingInfo'>
 >;
 
-export type ModalContentProps = PropsWithChildren<
+export type ModalContentProps = MergeElementProps<
+  'div',
   MergeWithCss<ModalContentDefaultProps, ModalContentResponsiveProps>
 >;
 
@@ -91,7 +94,8 @@ export type ModalSummaryProps<E extends ElementType = 'p'> =
 export type ModalDescriptionProps<E extends ElementType = 'p'> =
   MergeWithCustomElementProps<E, TypographyProps>;
 
-export type ModalActionAreaProps = PropsWithChildren<
+export type ModalActionAreaProps = MergeElementProps<
+  'div',
   MergeWithCss<
     {
       variant?: 'normal' | 'extra';
