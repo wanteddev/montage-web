@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.4.1...@wanteddev/wds@0.4.2) (2024-04-26)
+
+### Bug Fixes
+
+- **wds:** modal 내부에서 form을 사용시 focus 탭이 이상하게 동작함 ([b1ebb4e](https://github.com/wanteddev/wds/commit/b1ebb4eb3925a6a2cc0da16853a68b5ebd9edcca))
+- **wds:** text area 이벤트 핸들러가 동작하지 않는 이슈 ([0499c2f](https://github.com/wanteddev/wds/commit/0499c2f8f68818cf762c569a257dc5f961c2670c))
+
+### Features
+
+- **wds:** alert 쌓임 맥락 개선 및 portal 위치 변경 ([80ce1b0](https://github.com/wanteddev/wds/commit/80ce1b0507d69950166acfa5d210c4061e585f13))
+- **wds:** button, icon button border 색상 변경 ([f8e8ed2](https://github.com/wanteddev/wds/commit/f8e8ed2d9f25f4557367f18b3636e4395dd614ac))
+- **wds:** dialog 첫 포커스 대상 설정 추가 ([06cfc1a](https://github.com/wanteddev/wds/commit/06cfc1aa5f26604a9bfee947fbefdabc494d871b))
+- **wds:** 버튼, 뱃지 border radius 업데이트 ([0e717a0](https://github.com/wanteddev/wds/commit/0e717a0f65b24ecb226d314832c38bd3994a7bda))
+
 ## [0.4.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@0.4.0...@wanteddev/wds@0.4.1) (2024-04-23)
 
 ### Bug Fixes
