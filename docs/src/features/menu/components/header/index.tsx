@@ -11,6 +11,7 @@ import { IconMenu, IconSymbol } from '@wanteddev/wds-icon';
 import Link from 'next/link';
 
 import { useMobileMenuContext } from '../../context';
+import Search from '../search';
 
 import { headerStyle, headerWrapperStyle, menuToggleStyle } from './style';
 
@@ -45,10 +46,11 @@ const Header = () => {
             </Typography>
           </FlexBox>
 
-          <FlexBox gap="24px">
+          <FlexBox gap="12px" sm={{ gap: '24px' }} alignItems="center">
+            <Search />
+
             <IconButton
-              size={18}
-              sm={{ size: 20 }}
+              size={20}
               as={Link}
               href="https://github.com/wanteddev/wds"
               target="_blank"
@@ -58,8 +60,7 @@ const Header = () => {
 
             <NoSsr>
               <IconButton
-                size={18}
-                sm={{ size: 20 }}
+                size={20}
                 type="button"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               >
@@ -69,8 +70,7 @@ const Header = () => {
 
             <IconButton
               type="button"
-              size={18}
-              sm={{ size: 20 }}
+              size={20}
               data-state={mobileMenu.open ? 'open' : 'closed'}
               onClick={() => mobileMenu.setOpen((open) => !open)}
               css={menuToggleStyle}

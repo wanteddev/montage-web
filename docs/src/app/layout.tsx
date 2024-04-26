@@ -10,6 +10,8 @@ import type { PropsWithChildren } from 'react';
 
 import '@wanteddev/wds/global.css';
 
+import '@/features/menu/style/index.css';
+
 export const metadata = {
   title: 'WDS Docs',
 };
