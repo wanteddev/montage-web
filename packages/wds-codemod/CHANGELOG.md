@@ -13,13 +13,3 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 ### Features
 
 - 디자인시스템 자체 엔진 개발 ([#7](https://github.com/wanteddev/wds/issues/7)) ([560e5c2](https://github.com/wanteddev/wds/commit/560e5c220e7e3def3b85b1ef8f80dfc992545373))
-
-# 1.0.0-alpha.0 (2024-05-02)
-
-### Bug Fixes
-
-- **wds-theme:** 빌드 오류 수정 ([dc3b275](https://github.com/wanteddev/wds/commit/dc3b275b9e77363d7bb87e514f476045f39b8772))
-
-### Features
-
-- 디자인시스템 자체 엔진 개발 ([#7](https://github.com/wanteddev/wds/issues/7)) ([560e5c2](https://github.com/wanteddev/wds/commit/560e5c220e7e3def3b85b1ef8f80dfc992545373))
