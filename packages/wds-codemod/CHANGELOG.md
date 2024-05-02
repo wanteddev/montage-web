@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.0-alpha.2...@wanteddev/wds-codemod@1.0.0-alpha.3) (2024-05-02)
+
+### Bug Fixes
+
+- **wds-codemod:** type import, import 구문 변환 ([d43dc72](https://github.com/wanteddev/wds/commit/d43dc722dd8d0ae21411fcae34540e7495da1dd3))
+
 # [1.0.0-alpha.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.0-alpha.1...@wanteddev/wds-codemod@1.0.0-alpha.2) (2024-05-02)
 
 ### Bug Fixes

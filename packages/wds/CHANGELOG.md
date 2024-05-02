@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.1...@wanteddev/wds@1.0.0-alpha.2) (2024-05-02)
+
+### Features
+
+- **wds:** darkmode를 활성화 하지 않는 경우 강제 light모드로 설정 ([e15cf81](https://github.com/wanteddev/wds/commit/e15cf812c14521f3c0025dc0e526da83b7ab326e))
+- **wds:** tab list, icon button 기본 배경 색 투명하게 변경 ([b644b9e](https://github.com/wanteddev/wds/commit/b644b9ea40f531a1559f0a14f20b9f968c807c58))
+
 # [1.0.0-alpha.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.0...@wanteddev/wds@1.0.0-alpha.1) (2024-05-02)
 
 **Note:** Version bump only for package @wanteddev/wds
