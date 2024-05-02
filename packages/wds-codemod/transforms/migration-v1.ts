@@ -460,37 +460,71 @@ export default function transformer(
   });
 
   if (wdsImport.length > 0) {
-    wdsImport.forEach((imp) => {
-      if (imp.node.importKind === 'type') {
-        root
-          .find(j.ImportDeclaration, {
-            source: { value: '@emotion/react' },
-            importKind: 'type',
-          })
-          .forEach((emotionImport) => {
-            hasChanges = true;
-            emotionImport.node.specifiers?.forEach((specifier) => {
-              imp.node.specifiers?.push(specifier);
-            });
+    const typeSpecifiers: Array<
+      ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
+    > = [];
+    const specifiers: Array<
+      ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier
+    > = [];
 
-            j(emotionImport).remove();
-          });
-      } else {
-        root
-          .find(j.ImportDeclaration, {
-            source: { value: '@emotion/react' },
-            importKind: 'value',
-          })
-          .forEach((emotionImport) => {
-            hasChanges = true;
-            emotionImport.node.specifiers?.forEach((specifier) => {
-              imp.node.specifiers?.push(specifier);
-            });
+    root
+      .find(j.ImportDeclaration, {
+        source: { value: '@emotion/react' },
+      })
+      .forEach((emotionImport) => {
+        hasChanges = true;
+        emotionImport.node.specifiers?.forEach((specifier) => {
+          if (emotionImport.node.importKind === 'type') {
+            typeSpecifiers.push(specifier);
+          } else {
+            specifiers.push(specifier);
+          }
+        });
 
-            j(emotionImport).remove();
-          });
-      }
+        j(emotionImport).remove();
+      });
+
+    const typeImport = root.find(j.ImportDeclaration, {
+      source: { value: '@wanteddev/wds' },
+      importKind: 'type',
     });
+
+    if (typeSpecifiers.length > 0) {
+      if (typeImport.length === 0) {
+        root
+          .get()
+          .node.program.body.unshift(
+            j.importDeclaration(
+              typeSpecifiers,
+              j.literal('@wanteddev/wds'),
+              'type',
+            ),
+          );
+      } else {
+        typeSpecifiers.forEach((type) => {
+          typeImport.get().node.specifiers.push(type);
+        });
+      }
+    }
+
+    const impor = root.find(j.ImportDeclaration, {
+      source: { value: '@wanteddev/wds' },
+      importKind: { value: 'type' },
+    });
+
+    if (specifiers.length > 0) {
+      if (impor.length === 0) {
+        root
+          .get()
+          .node.program.body.unshift(
+            j.importDeclaration(specifiers, j.literal('@wanteddev/wds')),
+          );
+      } else {
+        specifiers.forEach((type) => {
+          impor.get().node.specifiers.push(type);
+        });
+      }
+    }
   } else {
     const typeSpecifiers: Array<
       ImportSpecifier | ImportDefaultSpecifier | ImportNamespaceSpecifier

@@ -1,6 +1,6 @@
 import { css, typographyStyle } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
   width: 100%;

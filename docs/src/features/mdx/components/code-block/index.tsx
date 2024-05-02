@@ -13,7 +13,7 @@ import { IconCopy } from '@wanteddev/wds-icon';
 
 import { codeBlockStyle, inlineCodeStyle } from './style';
 
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
 refractor.register(js);
 refractor.register(jsx);
@@ -23,7 +23,7 @@ refractor.register(bash);
 refractor.register(css);
 refractor.register(diff);
 
-type Props = ComponentProps<'pre'>;
+type Props = ComponentPropsWithoutRef<'code'>;
 
 const CodeBlock = ({ children, ...props }: Props) => {
   const toast = useToast();

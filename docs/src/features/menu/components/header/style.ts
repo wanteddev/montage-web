@@ -1,6 +1,6 @@
 import { containerStyle, css, respondTo } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const headerWrapperStyle = (theme: Theme) => css`
   ${theme.platform.ios.navigation}

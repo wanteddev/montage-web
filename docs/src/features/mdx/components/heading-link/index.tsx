@@ -4,9 +4,9 @@ import Link from 'next/link';
 
 import { linkStyle } from './style';
 
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 
-type Props = ComponentProps<'a'>;
+type Props = ComponentPropsWithoutRef<'a'>;
 
 const HeadingLink = ({ id, children, ...props }: Props) => (
   <Box id={id} {...props} href={`#${id}`} sx={linkStyle} as={Link}>

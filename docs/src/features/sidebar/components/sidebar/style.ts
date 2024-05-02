@@ -1,6 +1,6 @@
 import { css, respondTo } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const sidebarStyle = (theme: Theme) => css`
   width: 150px;

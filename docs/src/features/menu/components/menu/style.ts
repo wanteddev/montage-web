@@ -1,6 +1,6 @@
 import { css, respondTo } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const menuWrapperStyle = (theme: Theme) => css`
   width: 250px;

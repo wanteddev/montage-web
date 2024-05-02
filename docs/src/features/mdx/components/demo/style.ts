@@ -1,6 +1,6 @@
 import { css, gradient } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const demoStyle = (hideCode?: boolean) => (theme: Theme) => css`
   border-top-right-radius: 8px;

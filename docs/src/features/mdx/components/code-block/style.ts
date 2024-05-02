@@ -1,6 +1,6 @@
 import { addOpacity, css } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const inlineCodeStyle = (theme: Theme) => css`
   padding: 2px 4px;
