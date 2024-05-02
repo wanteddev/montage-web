@@ -49,7 +49,7 @@ const MDXComponents: { [key: string]: (props: any) => ReactNode } = {
       variant="body1_normal"
       weight="regular"
       as="p"
-      css={{
+      sx={{
         margin: '24px 0px 16px 0px',
         display: 'block',
       }}

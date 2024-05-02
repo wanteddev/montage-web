@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-import { containerStyle, respondTo } from '@wanteddev/wds';
+import { containerStyle, css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@emotion/react';
 

@@ -12,10 +12,9 @@ description: Opacity for WDS Utility
 ### Theme 사용
 
 ```ts
-import { css } from '@emotion/react';
-import { addOpacity } from '@wanteddev/wds';
+import { addOpacity, css } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   background-color: ${addOpacity(
@@ -36,13 +35,12 @@ export const exampleStyle = (theme: Theme) => css`
 ### 기타 Hex 색상
 
 ```ts
-import { css } from '@emotion/react';
-import { addOpacity } from '@wanteddev/wds';
+import { addOpacity, css } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
-  background-color: ${addOpacity(\'#000000\', theme.opacity[12])};
+  background-color: ${addOpacity('#000000', theme.opacity[12])};
 `;
 ```
 

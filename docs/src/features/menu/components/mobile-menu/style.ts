@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const menuLinkStyle = (theme: Theme) => css`
   padding: 4px 10px;

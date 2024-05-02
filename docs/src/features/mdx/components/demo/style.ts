@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-import { gradient } from '@wanteddev/wds';
+import { css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@emotion/react';
 

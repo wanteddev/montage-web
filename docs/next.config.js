@@ -18,9 +18,6 @@ const nextConfig = {
     return commitHash;
   },
   assetPrefix: isProduction ? assetPrefix : undefined,
-  compiler: {
-    emotion: true,
-  },
   transpilePackages: ['next-mdx-remote'],
   env: {
     APP_BUILD_ID: commitHash,

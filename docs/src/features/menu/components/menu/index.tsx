@@ -20,7 +20,7 @@ const Menu = () => {
     : '/docs/' + params.slug;
 
   return (
-    <FlexBox as="nav" css={menuWrapperStyle} flexDirection="column">
+    <FlexBox as="nav" sx={menuWrapperStyle} flexDirection="column">
       <ScrollArea>
         {routes.map((route, idx) => (
           <FlexBox
@@ -28,7 +28,7 @@ const Menu = () => {
             as="ul"
             flexDirection="column"
             gap="4px"
-            css={{
+            sx={{
               marginBottom: '20px',
               paddingRight: '20px',
             }}
@@ -49,7 +49,7 @@ const Menu = () => {
                     as={Link}
                     href={page.slug}
                     data-active={activeSlug === page.slug}
-                    css={menuLinkStyle}
+                    sx={menuLinkStyle}
                     variant="body2_normal"
                     weight={activeSlug === page.slug ? 'medium' : 'regular'}
                     color={

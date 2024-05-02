@@ -20,12 +20,12 @@ const ClientDocsPage = ({ source, propTypes }: Props) => {
       <FlexBox
         data-algolia-page-scope
         flexDirection="column"
-        css={{ width: '100%' }}
+        sx={{ width: '100%' }}
         sm={{
-          css: { padding: '0px 0px 20px 20px', width: 'calc(100% - 250px)' },
+          sx: { padding: '0px 0px 20px 20px', width: 'calc(100% - 250px)' },
         }}
         md={{
-          css: {
+          sx: {
             padding: '0px 20px 20px 20px',
             width: 'calc(100% - 250px - 150px)',
           },

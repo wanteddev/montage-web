@@ -1,6 +1,7 @@
 'use client';
 import { IconCircleInfo } from '@wanteddev/wds-icon';
 import {
+  Box,
   ContentBadge,
   FlexBox,
   ScrollArea,
@@ -54,19 +55,20 @@ const PropsTable = ({ component, fallback }: Props) => {
                     {value.description && (
                       <Tooltip>
                         <TooltipTrigger>
-                          <span
-                            css={(theme) => ({
+                          <Box
+                            sx={(theme) => ({
                               display: 'inline-block',
                               color: theme.palette.label.alternative,
                             })}
+                            as="span"
                           >
                             <IconCircleInfo />
-                          </span>
+                          </Box>
                         </TooltipTrigger>
                         <TooltipContent
                           variant="inverse"
                           position="bottom-center"
-                          css={{ maxWidth: '350px' }}
+                          sx={{ maxWidth: '350px' }}
                         >
                           {value.description}
                         </TooltipContent>
@@ -127,19 +129,20 @@ const PropsTable = ({ component, fallback }: Props) => {
                   {value.description && (
                     <Tooltip>
                       <TooltipTrigger>
-                        <span
-                          css={(theme) => ({
+                        <Box
+                          sx={(theme) => ({
                             display: 'inline-block',
                             color: theme.palette.label.alternative,
                           })}
+                          as="span"
                         >
                           <IconCircleInfo />
-                        </span>
+                        </Box>
                       </TooltipTrigger>
                       <TooltipContent
                         variant="inverse"
                         position="bottom-center"
-                        css={{ maxWidth: '350px' }}
+                        sx={{ maxWidth: '350px' }}
                       >
                         {value.description}
                       </TooltipContent>

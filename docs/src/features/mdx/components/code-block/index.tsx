@@ -8,7 +8,7 @@ import bash from 'refractor/lang/bash';
 import css from 'refractor/lang/css';
 import diff from 'refractor/lang/diff';
 import { toHtml } from 'hast-util-to-html';
-import { IconButton, useToast } from '@wanteddev/wds';
+import { Box, IconButton, useToast } from '@wanteddev/wds';
 import { IconCopy } from '@wanteddev/wds-icon';
 
 import { codeBlockStyle, inlineCodeStyle } from './style';
@@ -30,9 +30,9 @@ const CodeBlock = ({ children, ...props }: Props) => {
 
   if (!props.className) {
     return (
-      <code css={inlineCodeStyle} {...props}>
+      <Box sx={inlineCodeStyle} {...props} as="code">
         {children}
-      </code>
+      </Box>
     );
   }
 
@@ -43,17 +43,18 @@ const CodeBlock = ({ children, ...props }: Props) => {
 
   return (
     <>
-      <code
+      <Box
         {...props}
-        css={codeBlockStyle}
+        sx={codeBlockStyle}
         dangerouslySetInnerHTML={{
           __html: toHtml(result as Parameters<typeof toHtml>[0]),
         }}
+        as="code"
       />
 
       <IconButton
         variant="background"
-        css={(theme) => ({
+        sx={(theme) => ({
           ['&::before']: {
             backgroundColor: theme.palette.inverse.label,
             border: `1px solid ${theme.palette.line.normal.neutral}`,

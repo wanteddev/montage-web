@@ -1,5 +1,4 @@
 'use client';
-import * as EmotionReact from '@emotion/react';
 import { refractor } from 'refractor';
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
@@ -10,7 +9,6 @@ import CodeEditor from 'react-simple-code-editor';
 import { toHtml } from 'hast-util-to-html';
 import * as HookForm from 'react-hook-form';
 import * as copy from 'copy-to-clipboard';
-import * as EmotionRuntime from '@emotion/react/jsx-runtime';
 
 import { codeBlockStyle } from '../code-block/style';
 
@@ -44,14 +42,12 @@ const Demo = ({ code, hideCode }: Props) => {
         '@wanteddev/wds-lottie': WdsLottie,
         'react-hook-form': HookForm,
         'copy-to-clipboard': copy,
-        '@emotion/react': EmotionReact,
-        '@emotion/react/jsx-runtime': EmotionRuntime,
       },
     };
   }, []);
 
   const { element, error } = useRunner({
-    code: '/** @jsxImportSource @emotion/react */\n' + value,
+    code: value,
     scope,
   });
 
@@ -64,16 +60,18 @@ const Demo = ({ code, hideCode }: Props) => {
         } as React.CSSProperties
       }
     >
-      <div css={demoStyle(hideCode)}>
+      <Wds.Box sx={demoStyle(hideCode)}>
         <Wds.NoSsr>{error ? error.toString() : element}</Wds.NoSsr>
-      </div>
+      </Wds.Box>
 
       {!hideCode && (
-        <Wds.FlexBox css={editorWrapperStyle}>
-          <CodeEditor
+        <Wds.FlexBox sx={editorWrapperStyle}>
+          {/* @ts-expect-error */}
+          <Wds.Box
+            as={CodeEditor}
             value={value}
             onValueChange={setValue}
-            css={[codeBlockStyle, editorStyle]}
+            sx={[codeBlockStyle, editorStyle]}
             padding={16}
             highlight={(v) =>
               toHtml(
@@ -83,7 +81,7 @@ const Demo = ({ code, hideCode }: Props) => {
           />
 
           <Wds.FlexBox
-            css={collapseWrapperStyle(collapsed)}
+            sx={collapseWrapperStyle(collapsed)}
             justifyContent="center"
           >
             <Wds.Button
@@ -98,7 +96,7 @@ const Demo = ({ code, hideCode }: Props) => {
 
           <Wds.IconButton
             variant="background"
-            css={(theme) => ({
+            sx={(theme) => ({
               ['&::before']: {
                 backgroundColor: theme.palette.inverse.label,
                 border: `1px solid ${theme.palette.line.normal.neutral}`,

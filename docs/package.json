@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "@docsearch/react": "^3.6.0",
-    "@emotion/cache": "^11.11.0",
-    "@emotion/react": "^11.11.4",
     "@wanteddev/wds": "workspace:*",
     "@wanteddev/wds-icon": "workspace:*",
     "@wanteddev/wds-lottie": "workspace:*",

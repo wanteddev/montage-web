@@ -1,6 +1,6 @@
 'use client';
+import { useTheme } from '@wanteddev/wds';
 import { useEffect, useState } from 'react';
-import { useTheme } from '@emotion/react';
 import { usePathname } from 'next/navigation';
 import { createContext, useContext } from 'react';
 

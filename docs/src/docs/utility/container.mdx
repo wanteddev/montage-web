@@ -15,18 +15,15 @@ description: Container for WDS Utility
 
 `containerStyle(true)(theme)` true를 인자로 넣을 경우 xl breakpoint에서도 대응합니다.
 
-### Css Prop
+### Sx Prop
 
 ```tsx
-import { css } from '@emotion/react';
-import { containerStyle } from '@wanteddev/wds';
-
-import type { Theme } from '@emotion/react';
+import { Box, containerStyle, css } from '@wanteddev/wds';
 
 const Component = () => {
   return (
-    <div
-      css={containerStyle()}
+    <Box
+      sx={containerStyle()}
     />
   )
 }
@@ -35,10 +32,9 @@ const Component = () => {
 ### Css 내부에서 사용
 
 ```ts
-import { css } from '@emotion/react';
-import { addOpacity } from '@wanteddev/wds';
+import { addOpacity, css } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   ${containerStyle()(theme)}

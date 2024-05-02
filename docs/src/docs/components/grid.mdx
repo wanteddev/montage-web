@@ -22,7 +22,7 @@ columns는 1 ~ 12, auto, true 총 3가지로 활용할 수 있습니다.
 
 - 필요 환경에 맞는 화면 구성을 안내합니다.
 
-<Demo code={`import { Grid, GridItem } from '@wanteddev/wds';
+<Demo code={`import { Box, Grid, GridItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -49,7 +49,7 @@ const Demo = () => {
 
 const Item = ({ children }) => {
   return (
-    <div css={theme => ({ border: \`1px solid \$\{theme.palette.line.normal.normal\}\` })}>{children}</div>
+    <Box sx={theme => ({ border: \`1px solid \$\{theme.palette.line.normal.normal\}\` })}>{children}</div>
   )
 }
 

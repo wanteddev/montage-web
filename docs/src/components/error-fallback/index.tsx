@@ -8,7 +8,7 @@ const ErrorFallback = () => {
       flex="1 1 0"
       flexDirection="column"
       gap="8px"
-      css={{ padding: '14px' }}
+      sx={{ padding: '14px' }}
     >
       <Typography
         align="center"
