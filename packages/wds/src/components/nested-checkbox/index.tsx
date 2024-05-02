@@ -10,18 +10,18 @@ import type { ElementRef } from 'react';
 type Props = NestedCheckboxProps;
 
 const NestedCheckbox = forwardRef<ElementRef<typeof Checkbox>, Props>(
-  (props, ref) => {
+  ({ size = 'normal', ...props }, ref) => {
     return (
       <Checkbox
         ref={ref}
-        css={nestedCheckboxStyle({
-          size: props.size || 'normal',
-          xs: props.xs,
-          sm: props.sm,
-          md: props.md,
-          lg: props.lg,
-        })}
         {...props}
+        sx={[
+          nestedCheckboxStyle({
+            ...props,
+            size,
+          }),
+          props.sx,
+        ]}
       />
     );
   },

@@ -4,7 +4,7 @@ import { useStore } from 'zustand';
 
 import { generateId } from './helpers';
 
-import type { ThemeColorsToken } from '../types';
+import type { ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { StoreApi } from 'zustand';
 
 export type DialogReturnType = 'cancel' | 'confirm';

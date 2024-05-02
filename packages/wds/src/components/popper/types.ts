@@ -1,7 +1,7 @@
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 import type { useFloating } from '@floating-ui/react';
 import type { Slot } from '@radix-ui/react-slot';
 import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
-import type { Merge } from '../../types';
 
 export type PopperContentProps = Merge<
   {
@@ -20,7 +20,7 @@ export type PopperContentProps = Merge<
       | 'left-center'
       | 'left-end';
     referenceHidden?: boolean;
-    wrapperProps?: HTMLAttributes<HTMLDivElement>;
+    wrapperProps?: WithSxProps<HTMLAttributes<HTMLDivElement>>;
     setContext?: (context: ReturnType<typeof useFloating>['context']) => void;
   },
   ComponentPropsWithoutRef<typeof Slot>

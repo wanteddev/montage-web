@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconExclamation = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconExclamation = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -21,8 +29,8 @@ const IconExclamation = (props: Props) => {
         clipRule="evenodd"
         d="M11.1001 15.4V4H12.9001V15.4H11.1001Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconExclamation;

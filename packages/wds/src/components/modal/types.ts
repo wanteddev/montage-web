@@ -4,7 +4,7 @@ import type {
   MergeWithCss,
   MergeWithCustomElementProps,
   ResponsiveProps,
-} from '../../types';
+} from '@wanteddev/wds-engine';
 import type Portal from '../portal';
 import type {
   ComponentPropsWithRef,

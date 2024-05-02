@@ -1,9 +1,9 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import { contentBadgeStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
 import type { ContentBadgeProps } from './types';
 
 type Props = MergeElementProps<'span', ContentBadgeProps>;
@@ -28,25 +28,29 @@ const ContentBadge = forwardRef<HTMLSpanElement, Props>(
     ref,
   ) => {
     return (
-      <span
+      <Box
+        as="span"
         ref={ref}
-        css={contentBadgeStyle({
-          variant,
-          size,
-          color,
-          accentColor,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        })}
         {...props}
+        sx={[
+          contentBadgeStyle({
+            variant,
+            size,
+            color,
+            accentColor,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
       >
         {Boolean(leftIcon) && leftIcon}
         <span>{children}</span>
         {Boolean(rightIcon) && rightIcon}
-      </span>
+      </Box>
     );
   },
 );

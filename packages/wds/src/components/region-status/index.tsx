@@ -7,6 +7,7 @@ import {
   IconClose,
   IconLink,
 } from '@wanteddev/wds-icon';
+import { Box } from '@wanteddev/wds-engine';
 
 import { useRegionStore } from '../../stores/region-store';
 import Typography from '../typography';
@@ -64,28 +65,28 @@ const BottomItem = ({
     normal: null,
     success: (
       <IconCircleCheck
-        css={(theme) => ({
+        sx={(theme) => ({
           color: theme.palette.status.positive,
         })}
       />
     ),
     error: (
       <IconCircleExclamation
-        css={(theme) => ({
+        sx={(theme) => ({
           color: theme.palette.status.negative,
         })}
       />
     ),
     info: (
       <IconCircleInfo
-        css={(theme) => ({
+        sx={(theme) => ({
           color: theme.palette.interaction.inactive,
         })}
       />
     ),
     link: (
       <IconLink
-        css={(theme) => ({
+        sx={(theme) => ({
           color: theme.palette.status.positive,
         })}
       />
@@ -104,19 +105,19 @@ const BottomItem = ({
   };
 
   return (
-    <div
+    <Box
       ref={ref}
       aria-atomic
       role={variant === 'error' ? 'alert' : 'status'}
       aria-live={variant === 'error' ? 'assertive' : 'polite'}
-      css={bottomRegionStatusStyle(duration, isMountAnimationDone)}
+      sx={bottomRegionStatusStyle(duration, isMountAnimationDone)}
       onAnimationEnd={handleAnimationEnd}
       aria-describedby={descriptionId}
     >
       <FlexBox
         gap="10px"
         alignItems="center"
-        css={{ ['& svg']: { flexShrink: 0 } }}
+        sx={{ ['& svg']: { flexShrink: 0 } }}
       >
         {iconComponent[variant]}
 
@@ -135,7 +136,7 @@ const BottomItem = ({
           <TextButton
             size="small"
             {...props.action}
-            css={[
+            sx={[
               (theme) => ({
                 margin: '-4px -6px',
                 ['& > span']: {
@@ -148,7 +149,7 @@ const BottomItem = ({
                   backgroundColor: theme.palette.inverse.primary,
                 },
               }),
-              props.action?.css,
+              props.action?.sx,
             ]}
           />
         )}
@@ -159,13 +160,13 @@ const BottomItem = ({
             interactionColor="palette.inverse.label"
             onClick={() => hide(id)}
             size={20}
-            css={{ fontSize: '20px' }}
+            sx={{ fontSize: '20px' }}
           >
             <IconClose />
           </IconButton>
         )}
       </FlexBox>
-    </div>
+    </Box>
   );
 };
 

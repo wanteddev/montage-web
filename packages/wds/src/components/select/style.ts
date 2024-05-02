@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, typographyStyle } from '../../utils';
 
 import type { SelectProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const selectWrapperStyle =
   ({
@@ -93,7 +93,7 @@ export const selectWrapperStyle =
           height: ${params!.height};
         `}
 
-      ${params?.css}
+      ${params?.sx}
       `,
     )}
   `;

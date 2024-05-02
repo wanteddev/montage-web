@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconClose = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconClose = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -17,8 +25,8 @@ const IconClose = (props: Props) => {
         clipRule="evenodd"
         d="M4.61321 4.61321C4.96469 4.26174 5.53453 4.26174 5.88601 4.61321L11.9996 10.7268L18.1132 4.61321C18.4647 4.26174 19.0345 4.26174 19.386 4.61321C19.7375 4.96469 19.7375 5.53453 19.386 5.88601L13.2724 11.9996L19.386 18.1132C19.7375 18.4647 19.7375 19.0345 19.386 19.386C19.0345 19.7375 18.4647 19.7375 18.1132 19.386L11.9996 13.2724L5.88601 19.386C5.53453 19.7375 4.96469 19.7375 4.61321 19.386C4.26174 19.0345 4.26174 18.4647 4.61321 18.1132L10.7268 11.9996L4.61321 5.88601C4.26174 5.53453 4.26174 4.96469 4.61321 4.61321Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconClose;

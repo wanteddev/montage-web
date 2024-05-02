@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconFaceSmileFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconFaceSmileFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -17,8 +25,8 @@ const IconFaceSmileFill = (props: Props) => {
         clipRule="evenodd"
         d="M11.9999 2.1001C6.53223 2.1001 2.09985 6.53248 2.09985 12.0001C2.09985 17.4677 6.53223 21.9001 11.9999 21.9001C17.4675 21.9001 21.8999 17.4677 21.8999 12.0001C21.8999 6.53248 17.4675 2.1001 11.9999 2.1001ZM8.99985 11.0001C9.55213 11.0001 9.99985 10.5524 9.99985 10.0001C9.99985 9.44784 9.55213 9.00012 8.99985 9.00012C8.44756 9.00012 7.99985 9.44784 7.99985 10.0001C7.99985 10.5524 8.44756 11.0001 8.99985 11.0001ZM14.9998 11.0001C15.5521 11.0001 15.9998 10.5524 15.9998 10.0001C15.9998 9.44784 15.5521 9.00012 14.9998 9.00012C14.4476 9.00012 13.9998 9.44784 13.9998 10.0001C13.9998 10.5524 14.4476 11.0001 14.9998 11.0001ZM8.54775 13.022C8.97754 12.7723 9.52837 12.9183 9.77806 13.3481C10.2343 14.1334 11.0848 14.6602 12.0498 14.6602C13.0149 14.6602 13.8654 14.1334 14.3216 13.3481C14.5713 12.9183 15.1222 12.7723 15.552 13.022C15.9817 13.2717 16.1277 13.8225 15.8781 14.2523C15.1143 15.567 13.6848 16.4602 12.0498 16.4602C10.4149 16.4602 8.98542 15.567 8.22164 14.2523C7.97195 13.8225 8.11796 13.2717 8.54775 13.022Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconFaceSmileFill;

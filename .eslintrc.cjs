@@ -17,6 +17,7 @@ module.exports = {
     'prettier/prettier': 'warn',
   },
   rules: {
+    'import/no-cycle': 'off',
     'prettier/prettier': 'warn',
     'react/prop-types': 'off',
     'react/display-name': 'off',
@@ -87,6 +88,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
       ],
       rules: {
+        'import/no-cycle': 'off',
         '@typescript-eslint/array-type': [
           'error',
           { default: 'generic', readonly: 'generic' },

@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { AvatarProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const avatarWrapperStyle =
   ({ size, variant, xs, sm, md, lg, xl }: AvatarProps) =>
@@ -37,7 +37,7 @@ export const avatarWrapperStyle =
     )(
       (params) => css`
         ${avatarSizeStyle(params?.size, variant)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

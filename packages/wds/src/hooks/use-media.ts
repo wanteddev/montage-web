@@ -1,11 +1,11 @@
-import { useTheme } from '@emotion/react';
+import { useTheme } from '@wanteddev/wds-engine';
 
 import {
   respondMore as originRespondMore,
   respondTo as originRespondTo,
 } from '../utils';
 
-import type { BreakPoint } from '../types';
+import type { BreakPoint } from '@wanteddev/wds-engine';
 
 const useMedia = () => {
   const theme = useTheme();

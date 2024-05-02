@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import { CacheProvider, createCache } from '@wanteddev/wds-engine';
 import createEmotionServer from '@emotion/server/create-instance';
 
 import type Document from 'next/document';
 import type { DocumentContext, DocumentInitialProps } from 'next/document';
 import type { AppType } from 'next/app';
-import type { EmotionCache } from '@emotion/react';
+import type { EmotionCache } from '@wanteddev/wds-engine';
 
 const createEmotionCache = () => {
   let insertionPoint;

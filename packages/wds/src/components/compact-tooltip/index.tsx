@@ -10,6 +10,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
@@ -27,7 +28,6 @@ import {
   compactTooltipWrapperStyle,
 } from './style';
 
-import type { MergeElementProps } from '../../types';
 import type { CompactTooltipContentProps, CompactTooltipProps } from './types';
 import type {
   ComponentPropsWithoutRef,
@@ -234,9 +234,9 @@ const CompactTooltipContent = forwardRef<
           <FlexBox
             ref={composedRef}
             {...props}
-            css={compactTooltipWrapperStyle}
+            sx={[compactTooltipWrapperStyle, props.sx]}
           >
-            <div css={compactTooltipContentStyle}>
+            <Box sx={compactTooltipContentStyle}>
               <Typography
                 id={containerId}
                 variant="label2"
@@ -251,7 +251,7 @@ const CompactTooltipContent = forwardRef<
                   variant="label2"
                   weight="regular"
                   color="palette.inverse.label"
-                  css={(theme) => ({
+                  sx={(theme) => ({
                     opacity: theme.opacity[61],
                     marginLeft: '4px',
                     display: 'inline-block',
@@ -260,7 +260,7 @@ const CompactTooltipContent = forwardRef<
                   {shortcut}
                 </Typography>
               )}
-            </div>
+            </Box>
           </FlexBox>
         </PopperContent>
       </DismissableLayer>

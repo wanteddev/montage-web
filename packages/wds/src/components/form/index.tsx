@@ -31,7 +31,7 @@ import type {
   FormMessageProps,
 } from './types';
 
-const Form = FormProvider;
+const Form: typeof FormProvider = FormProvider;
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,

@@ -1,13 +1,12 @@
-import { css } from '@emotion/react';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
-import { getColorByToken } from '../../utils/color';
 
 import type { DividerProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const dividerStyle =
   ({ vertical, color, size, thickness, xs, sm, md, lg, xl }: DividerProps) =>
@@ -43,7 +42,7 @@ export const dividerStyle =
             breakpoint!,
           ),
         })}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconBookFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconBookFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -19,8 +27,8 @@ const IconBookFill = (props: Props) => {
         fill="currentColor"
         d="M21.0839 4.84368C20.0137 4.23218 18.7703 4.1001 17.9498 4.1001C17.129 4.1001 15.9095 4.23277 14.8598 4.75761C13.7608 5.30715 12.7998 6.32734 12.7998 8.0001V20.0001L14.3918 20.5756C15.2416 19.5537 16.5196 18.9056 17.9498 18.9056C19.2473 18.9056 20.4186 19.4387 21.2596 20.3001L21.2696 20.3104C21.3095 20.3513 21.3701 20.4136 21.4271 20.4636C21.4601 20.4926 21.5193 20.5424 21.5974 20.5892C21.6735 20.6349 21.8176 20.7085 22.013 20.7255C22.3347 20.7536 22.6473 20.6263 22.8579 20.3815C23.0716 20.1331 23.0904 19.8439 23.0937 19.7937L23.094 19.7885C23.1 19.7129 23.0999 19.6265 23.0998 19.5715L23.0998 8.5001C23.0998 6.65713 22.2215 5.49375 21.0839 4.84368Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconBookFill;

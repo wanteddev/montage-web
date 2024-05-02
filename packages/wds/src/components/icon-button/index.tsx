@@ -1,12 +1,12 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 import PushBadge from '../push-badge';
 
 import { iconButtonStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
 
@@ -38,8 +38,6 @@ const IconButton = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const Comp = as || 'button';
-
     const getInteractionSize = () => {
       switch (variant) {
         case 'outlined':
@@ -74,27 +72,31 @@ const IconButton = forwardRef(
         variant={getInteractionVariant()}
         scale={variant === 'normal'}
       >
-        <Comp
+        <Box
+          as={(as || 'button') as ElementType}
           ref={ref}
           wds-component="icon-button"
-          css={iconButtonStyle({ variant, size, color, xs, sm, md, lg, xl })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}
+          sx={[
+            iconButtonStyle({ variant, size, color, xs, sm, md, lg, xl }),
+            props.sx,
+          ]}
         >
           {children}
 
           {pushBadge && (
             <PushBadge
               variant="dot"
-              css={{
+              sx={{
                 position: 'absolute',
                 right: '-10px',
                 top: '-10px',
               }}
             />
           )}
-        </Comp>
+        </Box>
       </WithInteraction>
     );
   },

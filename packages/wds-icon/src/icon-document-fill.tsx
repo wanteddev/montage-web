@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconDocumentFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconDocumentFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -21,8 +29,8 @@ const IconDocumentFill = (props: Props) => {
         fill="currentColor"
         d="M19.5646 6.82503L15.7745 2.84543V6.82503H19.5646Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconDocumentFill;

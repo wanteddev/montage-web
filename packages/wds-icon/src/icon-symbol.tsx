@@ -1,6 +1,8 @@
-import { useId } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef, useId } from 'react';
 
-import type { ComponentProps } from 'react';
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
 const WantedLogoGradient2Angular = {
   background:
@@ -27,9 +29,11 @@ const WantedLogoGradient14Angular = {
     'conic-gradient(#6DB1FF 0deg, #7BB0FF 45deg, #8FADFF 90deg, #B4A8FF 180deg, #6DB1FF 360deg)',
 };
 
-type Props = ComponentProps<'svg'>;
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
 
-const IconSymbol = (props: Props) => {
+const IconSymbol = forwardRef<SVGSVGElement, Props>((props, ref) => {
   const ariaTitleId = useId();
 
   const symbolMaskId = useId();
@@ -59,13 +63,15 @@ const IconSymbol = (props: Props) => {
   const mask7 = useId();
 
   return (
-    <svg
+    <Box
       viewBox="0 0 1632 1632"
       role="img"
       aria-labelledby={ariaTitleId}
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <title id={ariaTitleId}>원티드 심벌</title>
       <g transform="translate(121, 95)">
@@ -482,8 +488,8 @@ const IconSymbol = (props: Props) => {
           </radialGradient>
         </defs>
       </g>
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconSymbol;

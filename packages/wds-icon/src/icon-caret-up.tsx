@@ -1,22 +1,30 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconCaretUp = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconCaretUp = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
         d="M13.2147 9.41731C12.7962 8.92907 12.5869 8.68495 12.3379 8.5955C12.1194 8.51699 11.8803 8.51699 11.6618 8.5955C11.4128 8.68495 11.2035 8.92907 10.785 9.41731L8.26379 12.3588C7.5434 13.1992 7.18321 13.6195 7.17438 13.9752C7.16671 14.2844 7.30255 14.5798 7.54231 14.7752C7.81818 15 8.37166 15 9.47861 15H14.5211C15.628 15 16.1815 15 16.4574 14.7752C16.6972 14.5798 16.833 14.2844 16.8253 13.9752C16.8165 13.6195 16.4563 13.1992 15.7359 12.3588L13.2147 9.41731Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconCaretUp;

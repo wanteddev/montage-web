@@ -12,7 +12,9 @@ type Props = RoundCheckboxProps;
 
 const RoundCheckbox = forwardRef<ElementRef<typeof Checkbox>, Props>(
   (props, ref) => {
-    return <Checkbox ref={ref} css={roundCheckboxStyle} {...props} />;
+    return (
+      <Checkbox ref={ref} {...props} sx={[roundCheckboxStyle, props.sx]} />
+    );
   },
 );
 

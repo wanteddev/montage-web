@@ -2,7 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.react.json",
   "compilerOptions": {
-    "jsxImportSource": "@emotion/react",
     "types": ["node", "./@types/index.d.ts"],
     "removeComments": false,
     "outDir": "./dist"

@@ -20,9 +20,10 @@ import {
   useState,
 } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { useTheme } from '@emotion/react';
+import { Box, useTheme } from '@wanteddev/wds-engine';
 
 import Portal from '../portal';
+import { createEmptyResponsiveStyle } from '../../utils';
 
 import {
   PopperContentProvider,
@@ -41,7 +42,7 @@ import {
   POPPER_CONTENT_NAME,
 } from './constants';
 
-import type { MergeElementProps } from '../../types';
+import type { MergeElementProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import type { PopperArrowProps, PopperContentProps } from './types';
 
@@ -173,7 +174,9 @@ const PopperArrow = forwardRef<
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
-const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
+const PopperContent: ReturnType<
+  typeof forwardRef<HTMLElement, PopperContentProps>
+> = forwardRef<HTMLElement, PopperContentProps>(
   (
     {
       wrapperProps = {},
@@ -250,9 +253,10 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
 
     return (
       <Portal>
-        <div
+        <Box
           ref={refs.setFloating}
           {...wrapperProps}
+          sx={[createEmptyResponsiveStyle(wrapperProps), wrapperProps.sx]}
           style={{
             ...wrapperProps.style,
             ...floatingStyles,
@@ -282,7 +286,7 @@ const PopperContent = forwardRef<HTMLElement, PopperContentProps>(
               {...props}
             />
           </PopperContentProvider>
-        </div>
+        </Box>
       </Portal>
     );
   },

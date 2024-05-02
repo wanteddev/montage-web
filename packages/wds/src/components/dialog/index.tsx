@@ -1,6 +1,7 @@
 'use client';
 import { useCallback, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import { Box, getColorByToken } from '@wanteddev/wds-engine';
 
 import { hideOthers } from '../../utils/aria-hidden';
 import RemoveScroll from '../remove-scroll';
@@ -14,7 +15,6 @@ import {
 } from '..';
 import FocusScope from '../focus-scope';
 import { useDialogStore } from '../../stores/dialog-store';
-import { getColorByToken } from '../../utils';
 
 import {
   dialogActionStyle,
@@ -26,7 +26,7 @@ import {
 } from './style';
 
 import type { PropsWithChildren } from 'react';
-import type { ThemeColorsToken } from '../../types';
+import type { ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { DialogItem } from '../../stores/dialog-store';
 
 const Dialog = () => {
@@ -83,10 +83,10 @@ const Item = ({
   }, []);
 
   return (
-    <FlexBox css={dialogWrapperStyle} wds-ignore-dismissable-layer="true">
+    <FlexBox sx={dialogWrapperStyle} wds-ignore-dismissable-layer="true">
       <RemoveScroll as={Slot} allowPinchZoom shards={[ref]}>
-        <div
-          css={dialogDimmerStyle}
+        <Box
+          sx={dialogDimmerStyle}
           onClick={() => {
             if (!disableOutsideClickClose) {
               handleCancel();
@@ -107,68 +107,76 @@ const Item = ({
           onFocusOutside={(e) => e.preventDefault()}
           onDismiss={handleCancel}
           role="presentation"
-          css={dialogStyle}
+          asChild
         >
-          <FlexBox
-            ref={ref}
-            role="alertdialog"
-            aria-describedby={descriptionId}
-            aria-labelledby={titleId}
-            flexDirection="column"
-            css={dialogContentStyle}
-          >
-            <FlexBox flexDirection="column" gap="6px" css={{ padding: '20px' }}>
-              {Boolean(title) && (
-                <Typography
-                  variant="headline1"
-                  weight="bold"
-                  color="palette.label.normal"
-                >
-                  {title}
-                </Typography>
-              )}
-
-              <Typography
-                variant="body2_normal"
-                weight="regular"
-                color="palette.label.alternative"
-              >
-                {content}
-              </Typography>
-            </FlexBox>
-
-            <Divider color="palette.label.normal" css={dialogDividerStyle} />
-
+          <Box sx={dialogStyle}>
             <FlexBox
-              flexDirection={focusTrap === 'confirm' ? 'row-reverse' : 'row'}
-              alignItems="center"
-              justifyContent={focusTrap === 'confirm' ? 'initial' : 'flex-end'}
-              gap="24px"
-              css={dialogActionStyle}
+              ref={ref}
+              role="alertdialog"
+              aria-describedby={descriptionId}
+              aria-labelledby={titleId}
+              flexDirection="column"
+              sx={dialogContentStyle}
             >
-              {focusTrap === 'confirm' ? (
-                <>
-                  <ConfirmButton onClick={handleConfirm} color={confirmColor}>
-                    {confirmText}
-                  </ConfirmButton>
+              <FlexBox
+                flexDirection="column"
+                gap="6px"
+                sx={{ padding: '20px' }}
+              >
+                {Boolean(title) && (
+                  <Typography
+                    variant="headline1"
+                    weight="bold"
+                    color="palette.label.normal"
+                  >
+                    {title}
+                  </Typography>
+                )}
 
-                  <CancelButton onClick={handleCancel}>
-                    {cancelText}
-                  </CancelButton>
-                </>
-              ) : (
-                <>
-                  <CancelButton onClick={handleCancel}>
-                    {cancelText}
-                  </CancelButton>
+                <Typography
+                  variant="body2_normal"
+                  weight="regular"
+                  color="palette.label.alternative"
+                >
+                  {content}
+                </Typography>
+              </FlexBox>
 
-                  <ConfirmButton onClick={handleConfirm} color={confirmColor}>
-                    {confirmText}
-                  </ConfirmButton>
-                </>
-              )}
+              <Divider color="palette.label.normal" sx={dialogDividerStyle} />
+
+              <FlexBox
+                flexDirection={focusTrap === 'confirm' ? 'row-reverse' : 'row'}
+                alignItems="center"
+                justifyContent={
+                  focusTrap === 'confirm' ? 'initial' : 'flex-end'
+                }
+                gap="24px"
+                sx={dialogActionStyle}
+              >
+                {focusTrap === 'confirm' ? (
+                  <>
+                    <ConfirmButton onClick={handleConfirm} color={confirmColor}>
+                      {confirmText}
+                    </ConfirmButton>
+
+                    <CancelButton onClick={handleCancel}>
+                      {cancelText}
+                    </CancelButton>
+                  </>
+                ) : (
+                  <>
+                    <CancelButton onClick={handleCancel}>
+                      {cancelText}
+                    </CancelButton>
+
+                    <ConfirmButton onClick={handleConfirm} color={confirmColor}>
+                      {confirmText}
+                    </ConfirmButton>
+                  </>
+                )}
+              </FlexBox>
             </FlexBox>
-          </FlexBox>
+          </Box>
         </DismissableLayer>
       </FocusScope>
     </FlexBox>
@@ -185,7 +193,7 @@ const ConfirmButton = ({ color, onClick, children }: DialogButtonProps) => (
     size="medium"
     variant="primary"
     onClick={onClick}
-    css={(theme) => ({
+    sx={(theme) => ({
       color: getColorByToken(theme, color),
       ['[wds-component="with-interaction"]']: {
         backgroundColor: getColorByToken(theme, color),

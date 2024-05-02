@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconMagicWand = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconMagicWand = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -24,8 +32,8 @@ const IconMagicWand = (props: Props) => {
         d="M10.8435 7.71128C10.3119 7.44779 9.68762 7.4478 9.15598 7.71133C8.87037 7.85289 8.62979 8.09507 8.42169 8.30454L8.30481 8.42143C8.09539 8.62952 7.85327 8.87011 7.71174 9.15571C7.44829 9.68732 7.4483 10.3115 7.71178 10.8431C7.85333 11.1287 8.09546 11.3693 8.30489 11.5773L17.4217 20.6942C17.6298 20.9037 17.8705 21.1459 18.1561 21.2875C18.6877 21.5509 19.3118 21.5509 19.8434 21.2875C20.1291 21.1459 20.3697 20.9037 20.5778 20.6943L20.6947 20.5774C20.9042 20.3692 21.1464 20.1286 21.288 19.8429C21.5514 19.3114 21.5514 18.6872 21.288 18.1557C21.1464 17.87 20.9042 17.6294 20.6947 17.4213L11.5778 8.30444C11.3697 8.09499 11.1291 7.85283 10.8435 7.71128ZM9.92906 9.34293C9.96811 9.30387 10.0314 9.30387 10.0705 9.34292L14.3632 13.6356L13.6361 14.3628L9.34342 10.07C9.30438 10.031 9.30437 9.96768 9.34342 9.92863L9.92906 9.34293Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconMagicWand;

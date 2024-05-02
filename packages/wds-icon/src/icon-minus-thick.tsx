@@ -1,22 +1,30 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconMinusThick = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconMinusThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
         d="M1.95007 12.0002C1.95007 11.2822 2.5321 10.7002 3.25007 10.7002H20.7501C21.468 10.7002 22.0501 11.2822 22.0501 12.0002C22.0501 12.7182 21.468 13.3002 20.7501 13.3002H3.25007C2.5321 13.3002 1.95007 12.7182 1.95007 12.0002Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconMinusThick;

@@ -1,10 +1,9 @@
-import { css } from '@emotion/react';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { getColorByToken } from '../../utils/color';
 import { createResponsiveStyle } from '../../utils';
 
 import type { IconButtonProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 const getDefaultSize = (
   variant: IconButtonProps['variant'],
@@ -43,7 +42,7 @@ export const iconButtonStyle =
     )(
       (params = {}) => css`
         ${iconButtonSizeStyle(params.size, props.variant)}
-        ${params.css}
+        ${params.sx}
       `,
     )}
   `;

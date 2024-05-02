@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
 
 export const scrollWrapperStyle =
@@ -62,7 +62,7 @@ export const tabListStyle =
       (params) => css`
         ${tabPaddingStyle(params?.padding)}
         ${tabSizeStyle(params?.size)}
-				${params?.css}
+				${params?.sx}
       `,
     )}
   `;

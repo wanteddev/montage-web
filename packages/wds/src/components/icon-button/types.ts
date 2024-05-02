@@ -1,4 +1,8 @@
-import type { Merge, ResponsiveProps, ThemeColorsToken } from '../../types';
+import type {
+  Merge,
+  ResponsiveProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 
 type IconButtonVariant = 'normal' | 'background' | 'outlined' | 'solid';
 

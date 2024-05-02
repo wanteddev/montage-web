@@ -1,11 +1,12 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box } from '@wanteddev/wds-engine';
 
 import { flexBoxStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '../../types';
+import type { MergeWithCustomElementProps } from '@wanteddev/wds-engine';
 import type { FlexBoxProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 
 type Props<E extends ElementType> = MergeWithCustomElementProps<
   E,
@@ -35,33 +36,35 @@ const FlexBox = forwardRef(
       xl,
       ...props
     }: Props<E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
-    const Element = as || 'div';
-
     return (
-      <Element
+      <Box
+        as={(as || 'div') as ElementType}
         ref={ref}
-        css={flexBoxStyle({
-          flexDirection,
-          flexWrap,
-          justifyContent,
-          alignItems,
-          alignContent,
-          order,
-          flex,
-          flexGrow,
-          flexShrink,
-          flexBasis,
-          alignSelf,
-          gap,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        })}
         {...props}
+        sx={[
+          flexBoxStyle({
+            flexDirection,
+            flexWrap,
+            justifyContent,
+            alignItems,
+            alignContent,
+            order,
+            flex,
+            flexGrow,
+            flexShrink,
+            flexBasis,
+            alignSelf,
+            gap,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
       />
     );
   },

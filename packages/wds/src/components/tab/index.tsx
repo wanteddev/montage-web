@@ -34,7 +34,7 @@ import type {
 import type {
   MergeElementProps,
   MergeWithCustomElementProps,
-} from '../../types';
+} from '@wanteddev/wds-engine';
 import type {
   TabListItemProps,
   TabListProps,
@@ -153,19 +153,22 @@ const TabList = forwardRef<
           ref={composedRef}
           dir={dir || 'ltr'}
           alignItems="center"
-          css={tabListStyle({
-            padding,
-            size,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
           {...props}
+          sx={[
+            tabListStyle({
+              padding,
+              size,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
         >
           <ScrollArea
-            css={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
+            sx={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
             viewportRef={viewportRef}
@@ -174,7 +177,7 @@ const TabList = forwardRef<
           </ScrollArea>
 
           {Boolean(rightIcon) && (
-            <FlexBox css={stickyButtonStyle} as="span" alignItems="center">
+            <FlexBox sx={stickyButtonStyle} as="span" alignItems="center">
               {rightIcon}
             </FlexBox>
           )}

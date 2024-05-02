@@ -1,5 +1,5 @@
 import type { FlexBoxProps } from '../flex-box/types';
-import type { MergeElementProps } from '../../types';
+import type { MergeElementProps } from '@wanteddev/wds-engine';
 import type { Slot } from '@radix-ui/react-slot';
 import type Label from '../label';
 import type { ComponentPropsWithoutRef } from 'react';

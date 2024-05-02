@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { ButtonProps, ButtonVariant } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const buttonStyle =
   ({ xs, sm, md, lg, xl, ...props }: ButtonProps<ButtonVariant>) =>
@@ -36,7 +36,7 @@ export const buttonStyle =
         ${buttonSizeStyle(params)}
         ${params?.fullWidth && 'width: 100%;'}
         ${params?.fullWidth === false && 'width: fit-content;'}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

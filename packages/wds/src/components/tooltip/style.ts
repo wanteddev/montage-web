@@ -1,8 +1,8 @@
-import { css, keyframes } from '@emotion/react';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
 import { addOpacity } from '../../utils';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { TooltipContentProps } from './types';
 
 const tooltipFadeIn = keyframes`

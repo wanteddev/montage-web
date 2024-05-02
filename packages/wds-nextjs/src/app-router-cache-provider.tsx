@@ -1,13 +1,12 @@
 'use client';
-import createCache from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, createCache } from '@wanteddev/wds-engine';
 import { useServerInsertedHTML } from 'next/navigation';
 import { type PropsWithChildren, useState } from 'react';
 
-import type { Options as OptionsOfCreateCache } from '@emotion/cache';
+import type { CacheOptions } from '@wanteddev/wds-engine';
 
 type AppRouterCacheProviderProps = PropsWithChildren<{
-  options?: Partial<OptionsOfCreateCache>;
+  options?: Partial<CacheOptions>;
 }>;
 
 const AppRouterCacheProvider = (props: AppRouterCacheProviderProps) => {

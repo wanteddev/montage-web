@@ -1,32 +1,39 @@
 'use client';
 import { forwardRef, useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import { textFieldWrapperStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
+import type { MouseEvent } from 'react';
 import type { TextFieldProps } from './types';
 
 type Props = MergeElementProps<'input', TextFieldProps>;
 
 const TextField = forwardRef<HTMLInputElement, Props>(
-  ({ invalid, rightIcon, className, xs, sm, md, lg, xl, ...props }, ref) => {
+  (
+    { invalid, rightIcon, className, sx, xs, sm, md, lg, xl, ...props },
+    ref,
+  ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
 
     return (
-      <div
+      <Box
         className={className}
-        css={textFieldWrapperStyle({
-          invalid,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-          ...props,
-        })}
-        onPointerDown={(event) => {
+        sx={[
+          textFieldWrapperStyle({
+            invalid,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+            ...props,
+          }),
+          sx,
+        ]}
+        onPointerDown={(event: MouseEvent) => {
           const target = event.target as HTMLElement;
           if (target.closest('input, button, a')) return;
 
@@ -40,7 +47,7 @@ const TextField = forwardRef<HTMLInputElement, Props>(
       >
         <input ref={composedRefs} aria-invalid={invalid} {...props} />
         {rightIcon}
-      </div>
+      </Box>
     );
   },
 );

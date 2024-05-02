@@ -1,22 +1,30 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconMinus = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconMinus = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
         d="M2.34985 11.9996C2.34985 11.5026 2.7528 11.0996 3.24985 11.0996H20.7499C21.2469 11.0996 21.6499 11.5026 21.6499 11.9996C21.6499 12.4967 21.2469 12.8996 20.7499 12.8996H3.24985C2.7528 12.8996 2.34985 12.4967 2.34985 11.9996Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconMinus;

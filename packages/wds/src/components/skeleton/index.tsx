@@ -1,5 +1,6 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box } from '@wanteddev/wds-engine';
 
 import { skeletonStyle } from './style';
 
@@ -22,23 +23,26 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     ref,
   ) => {
     return (
-      <div
+      <Box
         ref={ref}
-        css={skeletonStyle({
-          radius,
-          variant,
-          width,
-          height,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        })}
         {...props}
+        sx={[
+          skeletonStyle({
+            radius,
+            variant,
+            width,
+            height,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
       >
         <span />
-      </div>
+      </Box>
     );
   },
 );

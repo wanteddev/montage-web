@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { CheckboxProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const checkboxStyle =
   ({
@@ -103,7 +103,7 @@ export const checkboxStyle =
           size: params?.size || size,
           bold: params?.bold || bold,
         })}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

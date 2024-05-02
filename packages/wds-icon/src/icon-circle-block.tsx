@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconCircleBlock = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconCircleBlock = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -17,8 +25,8 @@ const IconCircleBlock = (props: Props) => {
         clipRule="evenodd"
         d="M12 2.09961C6.53242 2.09961 2.10004 6.53199 2.10004 11.9996C2.10004 17.4672 6.53242 21.8996 12 21.8996C17.4677 21.8996 21.9 17.4672 21.9 11.9996C21.9 6.53199 17.4677 2.09961 12 2.09961ZM3.90004 11.9996C3.90004 7.5261 7.52653 3.89961 12 3.89961C13.9125 3.89961 15.6702 4.56243 17.056 5.6709L5.67133 17.0555C4.56286 15.6698 3.90004 13.9121 3.90004 11.9996ZM6.94412 18.3283C8.32982 19.4368 10.0875 20.0996 12 20.0996C16.4735 20.0996 20.1 16.4731 20.1 11.9996C20.1 10.0871 19.4372 8.3294 18.3287 6.94369L6.94412 18.3283Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconCircleBlock;

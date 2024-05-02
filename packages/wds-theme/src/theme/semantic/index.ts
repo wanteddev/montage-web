@@ -1,9 +1,8 @@
-import { addHexOpacity } from '../utils';
+import * as atomic from '../atomic';
+import opacity from '../opacity';
+import { addHexOpacity } from '../../utils';
 
-import * as atomic from './colors';
-import opacity from './opacity';
-
-export const lightSemantic = {
+export const light = {
   static: {
     white: atomic.common[100],
     black: atomic.common[0],
@@ -88,7 +87,7 @@ export const lightSemantic = {
   },
 };
 
-export const darkSemantic = {
+export const dark = {
   static: {
     white: atomic.common[100],
     black: atomic.common[0],
@@ -171,48 +170,4 @@ export const darkSemantic = {
         '0px 0px 8px 0px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 20px 0px rgba(0, 0, 0, 0.12);',
     },
   },
-};
-
-const addVarPrefix = (obj: any, prefix: string) => {
-  const newObj: any = {};
-
-  for (const key in obj) {
-    const originPrefix = `${prefix}-${key}`;
-
-    if (typeof obj[key] === 'object') {
-      newObj[key] = addVarPrefix(obj[key], originPrefix);
-    } else if (typeof obj[key] === 'string' && obj[key].startsWith('#')) {
-      newObj[key] = `var(--${originPrefix})`;
-    } else {
-      newObj[key] = obj[key];
-    }
-  }
-  return newObj;
-};
-
-const parsedAtomic = addVarPrefix(atomic, 'palette') as typeof atomic;
-const parsedLight = addVarPrefix(
-  lightSemantic,
-  'palette',
-) as typeof lightSemantic;
-const parsedDark = addVarPrefix(darkSemantic, 'palette') as typeof darkSemantic;
-
-export const lightPalette = {
-  ...parsedAtomic,
-  ...parsedLight,
-};
-
-export const darkPalette = {
-  ...parsedAtomic,
-  ...parsedDark,
-};
-
-export const lightValues = {
-  ...lightSemantic,
-  ...atomic,
-};
-
-export const darkValues = {
-  ...darkSemantic,
-  ...atomic,
 };

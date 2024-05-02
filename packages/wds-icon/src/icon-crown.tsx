@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconCrown = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconCrown = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -23,8 +31,8 @@ const IconCrown = (props: Props) => {
         clipRule="evenodd"
         d="M4.60013 19.9996C4.60013 19.5026 5.00308 19.0996 5.50013 19.0996H18.5001C18.9972 19.0996 19.4001 19.5026 19.4001 19.9996C19.4001 20.4967 18.9972 20.8996 18.5001 20.8996H5.50013C5.00308 20.8996 4.60013 20.4967 4.60013 19.9996Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconCrown;

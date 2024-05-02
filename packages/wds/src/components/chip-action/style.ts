@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { ChipActionProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const actionStyle =
   ({ xs, sm, md, lg, xl, ...props }: ChipActionProps) =>
@@ -34,7 +34,7 @@ export const actionStyle =
     )(
       (params) => css`
         ${actionSizeStyle(params)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

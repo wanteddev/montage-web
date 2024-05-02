@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { getWeightMap, variantMap } from '../components/typography/style';
 

@@ -2,9 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import flattenDeep from 'lodash.flattendeep';
-
-import { darkSemantic, lightSemantic } from '../src/theme/palette';
-import * as atomic from '../src/theme/colors';
+import { darkOriginTheme, lightOriginTheme } from '@wanteddev/wds-engine';
 
 import reset from './reset';
 
@@ -61,14 +59,10 @@ const objectToCssKey = <T extends object>(
     return objectToCssKey(v[1], `${prefix}-${v[0]}`);
   });
 
-const light = flattenDeep(objectToCssKey(lightSemantic, 'palette'));
-const dark = flattenDeep(objectToCssKey(darkSemantic, 'palette'));
-
-const basic = flattenDeep(objectToCssKey(atomic, 'palette'));
+const light = flattenDeep(objectToCssKey(lightOriginTheme.palette, 'palette'));
+const dark = flattenDeep(objectToCssKey(darkOriginTheme.palette, 'palette'));
 
 const content = `:root {
-  ${basic.join('\n  ')}
-
   ${light.join('\n  ')}
 }
 

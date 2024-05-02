@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconSquareFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconSquareFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -17,8 +25,8 @@ const IconSquareFill = (props: Props) => {
         clipRule="evenodd"
         d="M9.6109 2.34961H14.3888C15.4759 2.3496 16.3466 2.34959 17.0503 2.4071C17.773 2.46614 18.3986 2.59027 18.9744 2.88368C19.8964 3.35346 20.646 4.10306 21.1158 5.02506C21.4092 5.6009 21.5333 6.22646 21.5924 6.94913C21.6499 7.6529 21.6499 8.52358 21.6499 9.61066V14.3886C21.6499 15.4756 21.6499 16.3463 21.5924 17.0501C21.5333 17.7728 21.4092 18.3983 21.1158 18.9742C20.646 19.8962 19.8964 20.6458 18.9744 21.1155C18.3986 21.4089 17.773 21.5331 17.0503 21.5921C16.3466 21.6496 15.4759 21.6496 14.3888 21.6496H9.6109C8.52383 21.6496 7.65314 21.6496 6.94937 21.5921C6.22671 21.5331 5.60115 21.4089 5.0253 21.1155C4.10331 20.6458 3.3537 19.8962 2.88392 18.9742C2.59051 18.3983 2.46638 17.7728 2.40734 17.0501C2.34984 16.3463 2.34985 15.4756 2.34985 14.3886V9.61066C2.34985 8.52358 2.34984 7.6529 2.40734 6.94913C2.46638 6.22646 2.59051 5.6009 2.88392 5.02506C3.3537 4.10306 4.10331 3.35346 5.0253 2.88368C5.60115 2.59027 6.22671 2.46614 6.94937 2.4071C7.65315 2.34959 8.52383 2.3496 9.6109 2.34961Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconSquareFill;

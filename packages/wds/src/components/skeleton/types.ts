@@ -1,5 +1,9 @@
 import type { CSSProperties } from 'react';
-import type { Merge, ResponsiveProps } from '../../types';
+import type {
+  Merge,
+  MergeElementProps,
+  ResponsiveProps,
+} from '@wanteddev/wds-engine';
 
 type SkeletonDefaultProps = {
   variant?: 'text' | 'circle' | 'rectangle';
@@ -12,7 +16,7 @@ type SkeletonResponsiveProps = ResponsiveProps<
   Pick<SkeletonDefaultProps, 'width' | 'height'>
 >;
 
-export type SkeletonProps = Merge<
-  SkeletonDefaultProps,
-  SkeletonResponsiveProps
+export type SkeletonProps = MergeElementProps<
+  'div',
+  Merge<SkeletonDefaultProps, SkeletonResponsiveProps>
 >;

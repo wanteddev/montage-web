@@ -2,10 +2,11 @@
 import { forwardRef } from 'react';
 import { IconChevronDown } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import { selectWrapperStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
+import type { ChangeEvent } from 'react';
 import type { SelectProps } from './types';
 
 type FieldProps = MergeElementProps<'select', SelectProps>;
@@ -36,8 +37,8 @@ const Select = forwardRef<HTMLSelectElement, FieldProps>(
     });
 
     return (
-      <div
-        css={selectWrapperStyle({
+      <Box
+        sx={selectWrapperStyle({
           __shouldShowPlaceholder:
             value === '' || (value === undefined && Boolean(placeholder)),
           invalid,
@@ -50,13 +51,16 @@ const Select = forwardRef<HTMLSelectElement, FieldProps>(
           ...props,
         })}
       >
-        <select
+        <Box
+          as="select"
           ref={ref}
           aria-invalid={invalid}
-          value={value}
-          onChange={(event) => setValue(event.target.value)}
           disabled={disabled}
           {...props}
+          value={value}
+          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+            setValue(event.target.value)
+          }
         >
           {Boolean(placeholder) && (
             <option value="" disabled>
@@ -64,14 +68,14 @@ const Select = forwardRef<HTMLSelectElement, FieldProps>(
             </option>
           )}
           {children}
-        </select>
+        </Box>
 
         <IconChevronDown
-          css={{
+          sx={{
             pointerEvents: 'none',
           }}
         />
-      </div>
+      </Box>
     );
   },
 );

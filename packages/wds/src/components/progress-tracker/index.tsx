@@ -2,6 +2,7 @@
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { IconCheckThick } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import Typography from '../typography';
 import FlexBox from '../flex-box';
@@ -16,7 +17,6 @@ import {
 import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
 import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
-import type { MergeElementProps } from '../../types';
 import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
 
 const ProgressTracker = forwardRef<
@@ -61,17 +61,17 @@ const ProgressTracker = forwardRef<
           [steps, value],
         )}
       >
-        <div
+        <Box
           wds-component="progress-tracker"
           aria-label="progress"
           ref={ref}
-          css={progressTrackerWrapperStyle}
           {...props}
+          sx={[progressTrackerWrapperStyle, props.sx]}
         >
           <FlexBox as="ol" alignItems="center">
             {children}
           </FlexBox>
-        </div>
+        </Box>
       </ProgressTrackerProvider>
     );
   },
@@ -109,9 +109,7 @@ const ProgressTrackerItem = forwardRef<
 
   return (
     <>
-      {!isFirst && (
-        <div css={progressConnectorStyle(isActive || isCompleted)} />
-      )}
+      {!isFirst && <Box sx={progressConnectorStyle(isActive || isCompleted)} />}
 
       <FlexBox
         as="li"
@@ -119,19 +117,19 @@ const ProgressTrackerItem = forwardRef<
         wds-component="progress-tracker-item"
         aria-current={isActive ? 'step' : undefined}
         aria-label={`Step ${index}`}
-        css={progressTrackerItemStyle(isFirst, isLast)}
         flexDirection="column"
         alignItems="center"
         {...props}
+        sx={[progressTrackerItemStyle(isFirst, isLast), props.sx]}
       >
         <FlexBox
           alignItems="center"
           justifyContent="center"
           role="presentation"
-          css={progressCircleWrapperStyle(isActive)}
+          sx={progressCircleWrapperStyle(isActive)}
         >
           <FlexBox
-            css={progressCircleStyle(isActive, isCompleted)}
+            sx={progressCircleStyle(isActive, isCompleted)}
             alignItems="center"
             justifyContent="center"
           >

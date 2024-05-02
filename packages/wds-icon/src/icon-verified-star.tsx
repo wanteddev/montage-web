@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconVerifiedStar = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconVerifiedStar = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -21,8 +29,8 @@ const IconVerifiedStar = (props: Props) => {
         fill="currentColor"
         d="M11.6414 7.72737C11.7881 7.43007 12.212 7.43007 12.3587 7.72737L13.3764 9.78945C13.4347 9.90751 13.5473 9.98934 13.6776 10.0083L15.9533 10.3389C16.2814 10.3866 16.4124 10.7898 16.1749 11.0212L14.5283 12.6263C14.434 12.7182 14.391 12.8506 14.4132 12.9804L14.802 15.2468C14.858 15.5736 14.515 15.8228 14.2216 15.6685L12.1862 14.5984C12.0697 14.5372 11.9304 14.5372 11.8139 14.5984L9.77851 15.6685C9.48506 15.8228 9.14208 15.5736 9.19813 15.2468L9.58685 12.9804C9.60911 12.8506 9.56609 12.7182 9.47182 12.6263L7.82514 11.0212C7.58774 10.7898 7.71874 10.3866 8.04683 10.3389L10.3225 10.0083C10.4528 9.98934 10.5654 9.90751 10.6237 9.78945L11.6414 7.72737Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconVerifiedStar;

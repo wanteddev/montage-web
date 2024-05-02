@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconSearchThick = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconSearchThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -17,8 +25,8 @@ const IconSearchThick = (props: Props) => {
         clipRule="evenodd"
         d="M9.99971 1.7002C5.41574 1.7002 1.69971 5.41623 1.69971 10.0002C1.69971 14.5842 5.41574 18.3002 9.99971 18.3002C11.8226 18.3002 13.5083 17.7125 14.8775 16.7163L19.5806 21.4194C20.0883 21.9271 20.9114 21.9271 21.4191 21.4194C21.9268 20.9117 21.9268 20.0886 21.4191 19.5809L16.716 14.8778C17.7121 13.5086 18.2997 11.823 18.2997 10.0002C18.2997 5.41623 14.5837 1.7002 9.99971 1.7002ZM4.29971 10.0002C4.29971 6.85217 6.85168 4.3002 9.99971 4.3002C13.1477 4.3002 15.6997 6.85217 15.6997 10.0002C15.6997 13.1482 13.1477 15.7002 9.99971 15.7002C6.85168 15.7002 4.29971 13.1482 4.29971 10.0002Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconSearchThick;

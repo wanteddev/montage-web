@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { NestedCheckboxProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const nestedCheckboxStyle =
   ({ size, xs, sm, md, lg, xl }: NestedCheckboxProps) =>

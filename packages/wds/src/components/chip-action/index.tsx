@@ -1,14 +1,15 @@
 'use client';
 import { forwardRef, useId } from 'react';
+import {
+  Box,
+  type MergeWithCustomElementProps,
+  type ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { actionStyle } from './style';
 
-import type {
-  MergeWithCustomElementProps,
-  ThemeColorsToken,
-} from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
 
@@ -38,7 +39,6 @@ const ChipAction = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const Comp = as || 'button';
     const id = useId();
 
     const interactionColor: ThemeColorsToken = 'palette.label.normal';
@@ -48,19 +48,20 @@ const ChipAction = forwardRef(
         color={interactionColor}
         disabled={disableInteraction || disabled}
       >
-        <Comp
+        <Box
+          as={(as || 'button') as ElementType}
           aria-labelledby={id}
           ref={ref}
           className={className}
-          css={actionStyle({ variant, size, xs, sm, md, lg, xl })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}
+          sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
           {Boolean(leftIcon) && leftIcon}
           <span id={id}>{children}</span>
           {Boolean(rightIcon) && rightIcon}
-        </Comp>
+        </Box>
       </WithInteraction>
     );
   },

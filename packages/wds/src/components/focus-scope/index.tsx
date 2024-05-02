@@ -20,7 +20,7 @@ import {
   removeLinks,
 } from './helpers';
 
-import type { MergeWithCss } from '../../types';
+import type { MergeWithCss } from '@wanteddev/wds-engine';
 import type { FocusScopeProps } from './types';
 import type {
   ComponentPropsWithoutRef,

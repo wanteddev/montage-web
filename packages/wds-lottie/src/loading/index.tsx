@@ -2,6 +2,7 @@
 
 import lottie from 'lottie-web/build/player/lottie_light.min';
 import { forwardRef, useCallback, useEffect, useRef } from 'react';
+import { Box } from '@wanteddev/wds-engine';
 
 import type { AnimationConfig } from 'lottie-web';
 import type { ComponentPropsWithoutRef, MutableRefObject } from 'react';
@@ -9,7 +10,7 @@ import type { ComponentPropsWithoutRef, MutableRefObject } from 'react';
 const Loading = forwardRef<
   HTMLDivElement,
   Omit<AnimationConfig<'svg'>, 'renderer' | 'container' | 'path'> &
-    ComponentPropsWithoutRef<'div'>
+    ComponentPropsWithoutRef<typeof Box<'div'>>
 >((props, forwardedRef) => {
   const lottieRef = useRef<HTMLDivElement>(null);
 
@@ -43,10 +44,10 @@ const Loading = forwardRef<
   }, [props]);
 
   return (
-    <div
+    <Box
       ref={composedRefs}
-      css={{ margin: '0 auto', width: '135px', padding: '16px' }}
       {...props}
+      sx={[{ margin: '0 auto', width: '135px', padding: '16px' }, props.sx]}
     />
   );
 });

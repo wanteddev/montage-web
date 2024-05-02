@@ -5,6 +5,7 @@ import {
   IconGraduation,
   IconPersonFill,
 } from '@wanteddev/wds-icon';
+import { Box } from '@wanteddev/wds-engine';
 
 import ImageLoader from '../image-loader';
 
@@ -20,6 +21,8 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
     {
       size = 'large',
       variant = 'person',
+      className,
+      sx,
       xs,
       sm,
       md,
@@ -51,10 +54,11 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       'src' in value && Boolean(value.src);
 
     return (
-      <div
+      <Box
         ref={ref}
+        className={className}
         wds-component="avatar"
-        css={avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl })}
+        sx={[avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl }), sx]}
       >
         {imageLoadingStatus !== 'error' && hasImage(props) ? (
           <ImageLoader
@@ -71,10 +75,10 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
             }}
           />
         ) : (
-          <div css={fallbackWrapperStyle}>{getDefaultFallback()}</div>
+          <Box sx={fallbackWrapperStyle}>{getDefaultFallback()}</Box>
         )}
         {children}
-      </div>
+      </Box>
     );
   },
 );

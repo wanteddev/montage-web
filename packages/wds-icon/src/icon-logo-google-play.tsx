@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconLogoGooglePlay = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconLogoGooglePlay = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -27,8 +35,8 @@ const IconLogoGooglePlay = (props: Props) => {
         fill="currentColor"
         d="M16.4487 15.8837L19.8961 13.8956C20.5613 13.5335 21.0121 12.8314 21.0121 12.0259C21.0121 11.2204 20.5686 10.5183 19.9035 10.1636V10.1562H19.8961L16.4333 8.14012L12.5692 12.0063L16.4487 15.8837Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconLogoGooglePlay;

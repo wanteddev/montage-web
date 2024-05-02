@@ -1,8 +1,7 @@
 'use client';
 import { forwardRef } from 'react';
-import { css as emotionCss, useTheme } from '@emotion/react';
+import { Box, css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { getColorByToken } from '../../utils/color';
 import {
   createResponsiveStyle,
   getPreviousValue,
@@ -12,7 +11,7 @@ import {
   typographyStyle,
 } from '../../utils/typography';
 
-import type { MergeWithCustomElementProps } from '../../types';
+import type { MergeWithCustomElementProps } from '@wanteddev/wds-engine';
 import type { TypographyProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
@@ -31,6 +30,7 @@ const Typography = forwardRef(
       display = 'inline',
       align = 'left',
       color,
+      sx,
       xs,
       sm,
       md,
@@ -40,72 +40,62 @@ const Typography = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const theme = useTheme();
-
-    const Element = as || 'span';
-
     return (
-      <Element
+      <Box
+        as={(as || 'span') as ElementType}
         ref={ref}
-        css={emotionCss`
+        sx={[
+          (theme) => css`
             ${typographyStyle(variant, weight)}
             ${noWrap && ellipsisTypographyStyle(1)}
-            ${
-              Boolean(align) &&
-              emotionCss`
-                text-align: ${align};
-              `
-            }
-            ${
-              Boolean(display) &&
-              emotionCss`
-                display: ${display};
-              `
-            }
-            ${
-              Boolean(color)
-                ? emotionCss`
+            ${Boolean(align) &&
+            css`
+              text-align: ${align};
+            `}
+            ${Boolean(display) &&
+            css`
+              display: ${display};
+            `}
+            ${Boolean(color)
+              ? css`
                   color: ${getColorByToken(theme, color!)};
                 `
-                : emotionCss`
+              : css`
                   color: inherit;
-                `
-            }
+                `}
 
             ${createResponsiveStyle(
               { xs, sm, md, lg, xl },
               theme,
             )(
-              (params, breakpoint) => emotionCss`
-                ${
-                  (Boolean(params?.variant) || Boolean(params?.weight)) &&
-                  typographyStyle(
-                    getPreviousValue(
-                      { xs, sm, md, lg, xl },
-                      'variant',
-                      variant,
-                      breakpoint!,
-                    )!,
-                    getPreviousValue(
-                      { xs, sm, md, lg, xl },
-                      'weight',
-                      weight,
-                      breakpoint!,
-                    ),
-                  )
-                }
+              (params, breakpoint) => css`
+                ${(Boolean(params?.variant) || Boolean(params?.weight)) &&
+                typographyStyle(
+                  getPreviousValue(
+                    { xs, sm, md, lg, xl },
+                    'variant',
+                    variant,
+                    breakpoint!,
+                  )!,
+                  getPreviousValue(
+                    { xs, sm, md, lg, xl },
+                    'weight',
+                    weight,
+                    breakpoint!,
+                  ),
+                )}
 
-                ${
-                  Boolean(params?.align) &&
-                  emotionCss`
-                    text-align: ${params?.align};
-                  `
-                }
+                ${Boolean(params?.align) &&
+                css`
+                  text-align: ${params?.align};
+                `}
                 
-                ${params?.css}
-            `,
+                ${params?.sx}
+              `,
             )};
-        `}
+          `,
+          sx,
+        ]}
         {...props}
       />
     );

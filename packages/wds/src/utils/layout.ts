@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { respondMore, respondTo } from './media';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const containerStyle = (xl?: boolean) => (theme: Theme) => css`
   width: 100%;

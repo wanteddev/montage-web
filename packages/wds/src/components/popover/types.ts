@@ -11,5 +11,5 @@ export type PopoverContentProps = {
   children?: ReactNode;
   position?: PopperContentProps['position'];
   offset?: PopperContentProps['offset'];
-  showArrow?: boolean;
+  arrow?: boolean;
 };

@@ -1,11 +1,11 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { floatingActionStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '../../types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { FloatingActionProps } from './types';
 
@@ -32,23 +32,25 @@ const FloatingAction = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const Comp = as || 'button';
-
     return (
       <WithInteraction
         color="palette.label.normal"
         disabled={disableInteraction || disabled}
         variant="strong"
       >
-        <Comp
+        <Box
+          as={(as || 'button') as ElementType}
           ref={ref}
-          css={floatingActionStyle({ size, iconSize, xs, sm, md, lg, xl })}
           aria-disabled={disabled ? 'true' : undefined}
           disabled={disabled}
           {...props}
+          sx={[
+            floatingActionStyle({ size, iconSize, xs, sm, md, lg, xl }),
+            props.sx,
+          ]}
         >
           {children}
-        </Comp>
+        </Box>
       </WithInteraction>
     );
   },

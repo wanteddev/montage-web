@@ -1,11 +1,11 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import Typography from '../typography';
 
 import { pushBadgeStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
 import type { ReactNode } from 'react';
 import type { PushBadgeProps } from './types';
 
@@ -17,31 +17,31 @@ const PushBadge = forwardRef<HTMLSpanElement, Props>(
       [key in Exclude<PushBadgeProps['variant'], undefined>]: ReactNode;
     } = {
       ['dot']: (
-        <svg
+        <Box
+          as="svg"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 4 4"
           fill="none"
-          css={{
+          sx={(theme) => ({
             width: '4px',
             height: '4px',
-          }}
+            color: theme.palette.primary.normal,
+          })}
         >
-          <circle
-            cx="2"
-            cy="2"
-            r="2"
-            css={(theme) => ({
-              fill: theme.palette.primary.normal,
-            })}
-          />
-        </svg>
+          <circle cx="2" cy="2" r="2" fill="currentColor" />
+        </Box>
       ),
       ['number']: children,
       ['new']: 'N',
     };
 
     return (
-      <span ref={ref} css={pushBadgeStyle({ variant })} {...props}>
+      <Box
+        as="span"
+        ref={ref}
+        {...props}
+        sx={[pushBadgeStyle({ variant }), props.sx]}
+      >
         {variant === 'dot' ? (
           renderChild[variant]
         ) : (
@@ -49,7 +49,7 @@ const PushBadge = forwardRef<HTMLSpanElement, Props>(
             {renderChild[variant]}
           </Typography>
         )}
-      </span>
+      </Box>
     );
   },
 );

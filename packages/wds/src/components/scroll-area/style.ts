@@ -1,13 +1,41 @@
-import { css, keyframes } from '@emotion/react';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
-import type { Theme } from '@emotion/react';
-import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import type { ComponentPropsWithoutRef } from 'react';
+import { createResponsiveStyle } from '../../utils';
 
-export const scrollAreaStyle = () => css`
-  position: relative;
-  overflow: hidden;
-`;
+import type { ScrollAreaProps, ScrollBarProps } from './types';
+import type { Theme } from '@wanteddev/wds-engine';
+
+export const scrollAreaStyle =
+  ({ xs, sm, md, lg, xl }: ScrollAreaProps) =>
+  (theme: Theme) => css`
+    position: relative;
+    overflow: hidden;
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.sx}
+      `,
+    )}
+  `;
+
+export const viewportStyle =
+  ({ xs, sm, md, lg, xl }: ScrollAreaProps) =>
+  (theme: Theme) => css`
+    width: 100%;
+    height: 100%;
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.sx}
+      `,
+    )}
+  `;
 
 const fadeIn = keyframes`
   from {
@@ -28,11 +56,7 @@ const fadeOut = keyframes`
   `;
 
 export const scrollBarStyle =
-  ({
-    orientation,
-  }: ComponentPropsWithoutRef<
-    typeof ScrollAreaPrimitive.ScrollAreaScrollbar
-  >) =>
+  ({ orientation, xs, sm, md, lg, xl }: ScrollBarProps) =>
   (theme: Theme) => css`
     display: flex;
     touch-action: none;
@@ -107,6 +131,15 @@ export const scrollBarStyle =
             }
           `}
     }
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.sx}
+      `,
+    )}
   `;
 
 export const scrollBarThumbStyle = (theme: Theme) => css`
