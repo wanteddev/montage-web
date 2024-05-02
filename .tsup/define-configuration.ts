@@ -12,7 +12,7 @@ export const defineConfiguration = (opts: Pick<Options, 'entry'>): Options => {
     treeshake: true,
     bundle: true,
     silent: true,
-    external: ['react', 'react-dom', 'react-hook-form'],
+    external: ['react', 'react-dom', 'react-hook-form', '@wanteddev/wds-engine'],
     esbuildPlugins: [esbuildPluginFilePathExtensions({ cjsExtension: 'js' })],
   };
 };
