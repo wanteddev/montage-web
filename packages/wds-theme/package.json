@@ -29,7 +29,8 @@
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",
-    "type": "git"
+    "type": "git",
+    "directory": "packages/wds-theme"
   },
   "devDependencies": {
     "@types/object-path": "^0.11.4",

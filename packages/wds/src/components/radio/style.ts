@@ -43,6 +43,7 @@ export const radioStyle =
       display: flex;
       align-items: center;
       justify-content: center;
+      color: transparent;
     }
 
     & svg {
@@ -56,6 +57,7 @@ export const radioStyle =
       span {
         box-shadow: none;
         background-color: ${theme.palette.primary.normal};
+        color: ${theme.palette.static.white};
       }
     `}
 

@@ -8,12 +8,16 @@ export {
   Global,
   useTheme,
   theme,
+  CacheProvider,
+  createCache,
   getColorByToken,
   addHexOpacity,
+  Box,
 } from '@wanteddev/wds-engine';
 export type {
   Theme,
   ThemeColorsToken,
   ThemeToken,
   ThemeOpacityToken,
+  CacheOptions,
 } from '@wanteddev/wds-engine';

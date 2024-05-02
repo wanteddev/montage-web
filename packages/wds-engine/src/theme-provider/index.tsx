@@ -33,7 +33,11 @@ const ThemeProvider = ({
 
   return (
     <WdsThemeContext.Provider value={engineTheme!}>
-      <Provider theme={engineTheme!}>{children}</Provider>
+      {Boolean(provider) ? (
+        <Provider theme={engineTheme!}>{children}</Provider>
+      ) : (
+        children
+      )}
     </WdsThemeContext.Provider>
   );
 };
