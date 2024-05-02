@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/react';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../../utils/responsive-props';
 import { gradient } from '../../utils/color';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type {
   ModalActionAreaProps,
   ModalContainerProps,
@@ -40,7 +40,7 @@ export const modalContainerWrapperStyle =
         ${Boolean(params?.variant) &&
         modalContainerWrapperVariant(params!.variant)}
 
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;
@@ -115,7 +115,7 @@ export const modalContainerStyle =
           ),
         )}
 
-        ${params?.css}
+        ${params?.sx}
       `,
     )};
   `;
@@ -267,7 +267,7 @@ export const modalNavigationStyle =
       theme,
     )(
       (params) => css`
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;
@@ -367,7 +367,7 @@ export const modalContentStyle =
     )(
       (params) => css`
         ${modalContentPadding(params)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

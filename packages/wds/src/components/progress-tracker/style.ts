@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { addOpacity } from '../../utils/color';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const progressTrackerWrapperStyle = css`
   width: 100%;

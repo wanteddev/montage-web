@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps } from '../../types';
+import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { CSSProperties } from 'react';
 
 export type GridItemDefaultProps = {

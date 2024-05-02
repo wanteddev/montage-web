@@ -1,9 +1,8 @@
-import { css } from '@emotion/react';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { getColorByToken } from '../../utils/color';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { ToggleIconProps } from './types';
 
 export const toggleIconStyle =
@@ -29,7 +28,7 @@ export const toggleIconStyle =
     )(
       (params) => css`
         ${toggleIconSizeStyle(params?.size)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

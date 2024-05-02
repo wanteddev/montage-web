@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconDesktopFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconDesktopFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -17,8 +25,8 @@ const IconDesktopFill = (props: Props) => {
         clipRule="evenodd"
         d="M4.31766 3.09961C4.06334 3.09959 3.82129 3.09956 3.61733 3.11623C3.39492 3.1344 3.13981 3.17678 2.88483 3.3067C2.52733 3.48886 2.23666 3.77952 2.0545 4.13703C1.92459 4.39201 1.8822 4.64712 1.86403 4.86953C1.84736 5.07349 1.84739 5.31553 1.84741 5.56985V14.9294C1.84739 15.1837 1.84736 15.4257 1.86403 15.6297C1.8822 15.8521 1.92459 16.1072 2.0545 16.3622C2.23666 16.7197 2.52733 17.0104 2.88483 17.1925C3.13981 17.3224 3.39492 17.3648 3.61733 17.383C3.82129 17.3997 4.06333 17.3996 4.31766 17.3996L11.1 17.3996V19.5996H5.99961V21.3996H17.9996V19.5996H12.9V17.3996L19.6772 17.3996C19.9315 17.3996 20.1735 17.3997 20.3775 17.383C20.5999 17.3648 20.855 17.3224 21.11 17.1925C21.4675 17.0104 21.7582 16.7197 21.9403 16.3622C22.0702 16.1072 22.1126 15.8521 22.1308 15.6297C22.1475 15.4258 22.1474 15.1837 22.1474 14.9294V5.56985C22.1474 5.31555 22.1475 5.07347 22.1308 4.86953C22.1126 4.64712 22.0702 4.39201 21.9403 4.13703C21.7582 3.77952 21.4675 3.48886 21.11 3.3067C20.855 3.17678 20.5999 3.1344 20.3775 3.11623C20.1735 3.09956 19.9315 3.09959 19.6772 3.09961H4.31766Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconDesktopFill;

@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { FlexBoxDefaultProps, FlexBoxProps } from './types';
 
 export const flexBoxStyle =
@@ -17,7 +17,7 @@ export const flexBoxStyle =
     )(
       (params) => css`
         ${flexibleStyle(params)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

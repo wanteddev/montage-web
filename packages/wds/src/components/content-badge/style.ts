@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { addOpacity, getColorByToken } from '../../utils/color';
+import { addOpacity } from '../../utils/color';
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { ContentBadgeProps } from './types';
 
 export const contentBadgeStyle =
@@ -25,6 +25,7 @@ export const contentBadgeStyle =
     )(
       (params) => css`
         ${getSizeStyle(params || {})}
+        ${params?.sx}
       `,
     )}
   `;

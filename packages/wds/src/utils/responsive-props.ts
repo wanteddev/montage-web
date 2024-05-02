@@ -1,11 +1,28 @@
-import { type SerializedStyles, type Theme, css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 import objectPath from 'object-path';
 
 import { respondMore } from './media';
 
-import type { BreakPoint, ResponsiveProps } from '../types';
+import type {
+  BreakPoint,
+  ResponsiveProps,
+  SerializedStyles,
+  Theme,
+} from '@wanteddev/wds-engine';
 
 const order: Array<keyof BreakPoint> = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+export const createEmptyResponsiveStyle =
+  (responsive: ResponsiveProps<any>) => (theme: Theme) => css`
+    ${createResponsiveStyle(
+      responsive,
+      theme,
+    )(
+      (params) => css`
+        ${params?.sx}
+      `,
+    )}
+  `;
 
 export const createResponsiveStyle =
   <T extends ResponsiveProps<any>>(responsive: T, theme: Theme) =>

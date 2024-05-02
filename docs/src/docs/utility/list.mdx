@@ -11,15 +11,14 @@ Css Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
 
 ## 활용
 
-<Demo code={`import { css } from '@emotion/react';
-import { listStyle } from '@wanteddev/wds';
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ul css={listStyle}>
+    <Box as="ul" sx={listStyle}>
       <li>List1</li>
       <li>List2</li>
-    </ul>
+    </Box>
   )
 }
 
@@ -28,18 +27,17 @@ export default Demo;`}
 
 ## 중첩 리스트
 
-<Demo code={`import { css } from '@emotion/react';
-import { listStyle } from '@wanteddev/wds';
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ul css={listStyle}>
+    <Box as="ul" sx={listStyle}>
       <li>List1</li>
       <li>List2</li>
       <ul>
         <li>List3</li>
       </ul>
-    </ul>
+    </Box>
   )
 }
 

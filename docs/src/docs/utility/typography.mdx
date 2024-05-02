@@ -11,18 +11,17 @@ Typography 스타일을 utility 함수로 사용 가능합니다.
 
 `typographyStyle(variant, weight)` 로 사용합니다.
 
-### Css Prop
+### Sx Prop
 
 ```tsx
-import { css } from '@emotion/react';
-import { typographyStyle } from '@wanteddev/wds';
+import { Box, css, typographyStyle } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 const Component = () => {
   return (
-    <div
-      css={typographyStyle('title1', 'bold')}
+    <Box
+      sx={typographyStyle('title1', 'bold')}
     />
   )
 }
@@ -31,10 +30,9 @@ const Component = () => {
 ### Css 내부에서 사용
 
 ```ts
-import { css } from '@emotion/react';
-import { typographyStyle } from '@wanteddev/wds';
+import { css, typographyStyle } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   ${typographyStyle('title1', 'bold')}
@@ -48,18 +46,17 @@ export const exampleStyle = (theme: Theme) => css`
 
 아무 인자도 넣지 않은 경우 기본값은 1입니다.
 
-### Css Prop
+### Sx Prop
 
 ```tsx
-import { css } from '@emotion/react';
-import { ellipsisTypographyStyle } from '@wanteddev/wds';
+import { css, Box, ellipsisTypographyStyle } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 const Component = () => {
   return (
-    <div
-      css={ellipsisTypographyStyle()}
+    <Box
+      sx={ellipsisTypographyStyle()}
     />
   )
 }
@@ -68,10 +65,9 @@ const Component = () => {
 ### Css 내부에서 사용
 
 ```ts
-import { css } from '@emotion/react';
-import { ellipsisTypographyStyle } from '@wanteddev/wds';
+import { css, ellipsisTypographyStyle } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   ${ellipsisTypographyStyle(3)}

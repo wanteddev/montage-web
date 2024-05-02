@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps, Spacing } from '../../types';
+import type { Merge, ResponsiveProps, Spacing } from '@wanteddev/wds-engine';
 import type { CSSProperties } from 'react';
 
 export type GridSpacing = keyof Spacing;

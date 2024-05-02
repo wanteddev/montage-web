@@ -37,7 +37,7 @@ const MobileMenu = () => {
                 key={idx}
                 flexDirection="column"
                 gap="4px"
-                css={{
+                sx={{
                   marginBottom: '20px',
                   paddingRight: '20px',
                 }}
@@ -57,7 +57,7 @@ const MobileMenu = () => {
                       as={Link}
                       href={page.slug}
                       data-active={activeSlug === page.slug}
-                      css={menuLinkStyle}
+                      sx={menuLinkStyle}
                       variant="body2_normal"
                       weight={activeSlug === page.slug ? 'medium' : 'regular'}
                       color={

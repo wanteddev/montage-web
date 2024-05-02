@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-import { typographyStyle } from '@wanteddev/wds';
+import { css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@emotion/react';
 

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useTheme } from '@emotion/react';
+import { useTheme } from '@wanteddev/wds-engine';
 import { flushSync } from 'react-dom';
 
 import { getPreviousValue } from '../../utils/responsive-props';
@@ -7,7 +7,7 @@ import { getPreviousValue } from '../../utils/responsive-props';
 import { MODAL_NAME } from './constants';
 import { useModalContext } from './contexts';
 
-import type { BreakPoint } from '../../types';
+import type { BreakPoint } from '@wanteddev/wds-engine';
 import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({

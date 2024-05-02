@@ -1,14 +1,15 @@
 'use client';
-import { ThemeProvider as DefaultThemeProvider, Global } from '@emotion/react';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
-import { type PropsWithChildren, useMemo } from 'react';
+import {
+  Global,
+  ThemeProvider as WdsThemeProvider,
+} from '@wanteddev/wds-engine';
 
-import { theme as themes } from '../theme';
 import useThemeControl from '../hooks/use-theme-control';
 
 import StoreProvider from './store-provider';
 
-import type { Theme } from '@emotion/react';
+import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
   enableDarkMode?: boolean;
@@ -20,7 +21,8 @@ type Props = PropsWithChildren<{
   forcedTheme?: 'light' | 'dark' | undefined;
   /** Use default global style */
   disableDefaultGlobalStyle?: boolean | undefined;
-}>;
+}> &
+  Pick<ComponentPropsWithoutRef<typeof WdsThemeProvider>, 'provider'>;
 
 const ThemeProvider = ({
   children,
@@ -29,6 +31,7 @@ const ThemeProvider = ({
   forcedTheme,
   storageKey = 'theme',
   disableDefaultGlobalStyle = false,
+  provider,
 }: Props) => {
   return (
     <NextThemeProvider
@@ -39,44 +42,43 @@ const ThemeProvider = ({
       forcedTheme={forcedTheme}
       storageKey={storageKey}
     >
-      <EmotionThemeProvider
+      <PrivateThemeProvider
         disableDefaultGlobalStyle={disableDefaultGlobalStyle}
+        provider={provider}
       >
         {children}
-      </EmotionThemeProvider>
+      </PrivateThemeProvider>
     </NextThemeProvider>
   );
 };
 
-const EmotionThemeProvider = ({
+const PrivateThemeProvider = ({
   children,
   disableDefaultGlobalStyle,
-}: PropsWithChildren<{ disableDefaultGlobalStyle: boolean }>) => {
+  provider,
+}: PropsWithChildren<{ disableDefaultGlobalStyle: boolean }> &
+  Pick<ComponentPropsWithoutRef<typeof WdsThemeProvider>, 'provider'>) => {
   const { theme } = useThemeControl();
 
-  const themeObject = useMemo(() => {
-    return themes[theme];
-  }, [theme]);
-
   return (
-    <DefaultThemeProvider theme={themeObject as Theme}>
+    <WdsThemeProvider theme={theme} provider={provider}>
       <StoreProvider>{children}</StoreProvider>
 
       <Global
         styles={
           disableDefaultGlobalStyle
             ? undefined
-            : {
+            : (themeObj) => ({
                 body: {
-                  backgroundColor: themeObject.palette.background.normal.normal,
+                  backgroundColor: themeObj.palette.background.normal.normal,
                 },
                 ['*:focus-visible']: {
-                  outlineColor: themeObject.palette.primary.normal,
+                  outlineColor: themeObj.palette.primary.normal,
                 },
-              }
+              })
         }
       />
-    </DefaultThemeProvider>
+    </WdsThemeProvider>
   );
 };
 

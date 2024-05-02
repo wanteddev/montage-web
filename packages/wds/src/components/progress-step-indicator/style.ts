@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { ProgressStepIndicatorProps } from './types';
 
 export const progressStepWrapperStyle =
@@ -29,7 +29,7 @@ export const progressStepWrapperStyle =
       (params) => css`
         ${progressSizeStyle(params?.size)}
         ${progressDividerStyle(params?.divider)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

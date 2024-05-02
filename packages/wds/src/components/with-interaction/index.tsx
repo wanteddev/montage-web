@@ -1,5 +1,4 @@
 'use client';
-import { ClassNames, css, useTheme } from '@emotion/react';
 import {
   Children,
   type PropsWithChildren,
@@ -8,8 +7,13 @@ import {
   isValidElement,
 } from 'react';
 import { composeRefs } from '@radix-ui/react-compose-refs';
-
-import { getColorByToken } from '../../utils/color';
+import {
+  Box,
+  ClassNames,
+  css,
+  getColorByToken,
+  useTheme,
+} from '@wanteddev/wds-engine';
 
 import {
   activeInteractionStyle,
@@ -18,8 +22,8 @@ import {
   hoverInteractionStyle,
 } from './style';
 
+import type { ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { CSSProperties } from 'react';
-import type { ThemeColorsToken } from '../../types';
 
 type Props = PropsWithChildren<{
   color?: ThemeColorsToken;
@@ -36,10 +40,10 @@ const Interaction = ({
   height = '100%',
 }: Props) => {
   return (
-    <div
+    <Box
       wds-component="with-interaction"
       role="presentation"
-      css={(theme) => css`
+      sx={(theme) => css`
         overflow: hidden;
         position: absolute;
         z-index: 0;

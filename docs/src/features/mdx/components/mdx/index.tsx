@@ -8,7 +8,7 @@ import { mdxRootStyle } from './style';
 
 const MDX = (props: Omit<ComponentProps<typeof MDXRemote>, 'components'>) => {
   return (
-    <FlexBox flexDirection="column" css={mdxRootStyle}>
+    <FlexBox flexDirection="column" sx={mdxRootStyle}>
       <MDXRemote components={MDXComponents} {...props} />
     </FlexBox>
   );

@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, typographyStyle } from '../../utils';
 
 import type { TextAreaProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const textAreaWrapperStyle =
   ({
@@ -122,7 +122,7 @@ export const textAreaStyle =
           width: ${params!.width};
         `}
 
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

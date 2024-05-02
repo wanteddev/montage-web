@@ -12,8 +12,8 @@ import {
 import { IconCloseThick } from '@wanteddev/wds-icon';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
-import { useTheme } from '@emotion/react';
 import { flushSync } from 'react-dom';
+import { Box, useTheme } from '@wanteddev/wds-engine';
 
 import { hideOthers } from '../../utils';
 import RemoveScroll from '../remove-scroll';
@@ -249,8 +249,8 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
         handleClose={handleClose}
         sticky={sticky}
       >
-        <div
-          css={modalContainerWrapperStyle({
+        <Box
+          sx={modalContainerWrapperStyle({
             variant,
             size,
             xs,
@@ -262,11 +262,12 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
         >
           {!disableDimmer && (
             <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
-              <div css={modalDimmerStyle} />
+              <Box sx={modalDimmerStyle} />
             </RemoveScroll>
           )}
           <FocusScope loop trapped={context.open}>
             <DismissableLayer
+              asChild
               onPointerDownOutside={(e) => {
                 const originalEvent = e.detail.originalEvent;
                 const ctrlLeftClick =
@@ -283,56 +284,62 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
                   e.preventDefault();
                 }
               }}
-              ref={composedContainerRefs}
-              role="dialog"
-              aria-modal
-              id={context.containerId}
-              aria-describedby={`${context.descriptionId} ${context.summaryId}`}
-              aria-labelledby={`${context.titleId} ${context.headingId}`}
               onDismiss={handleClose}
-              css={modalContainerStyle({
-                variant,
-                size,
-                xs,
-                sm,
-                md,
-                lg,
-                xl,
-              })}
-              {...props}
+              ref={composedContainerRefs}
             >
-              <ScrollArea
-                viewportRef={composedInnerContainerRefs}
-                css={{
-                  display: 'flex',
-                  flexGrow: '1',
-                  ['& > div']: {
-                    display: 'flex !important',
-                    flexDirection: 'column',
-                  },
-                }}
-                zIndex={11}
-                asChild
-                viewPortProps={{
-                  onScroll: handleOnScroll,
-                  css: {
-                    flexGrow: 1,
-                  },
-                }}
+              <Box
+                role="dialog"
+                aria-modal
+                id={context.containerId}
+                aria-describedby={`${context.descriptionId} ${context.summaryId}`}
+                aria-labelledby={`${context.titleId} ${context.headingId}`}
+                {...props}
+                sx={[
+                  modalContainerStyle({
+                    variant,
+                    size,
+                    xs,
+                    sm,
+                    md,
+                    lg,
+                    xl,
+                  }),
+                  props.sx,
+                ]}
               >
-                {isEnabled && (
-                  <FlexBox
-                    justifyContent="center"
-                    css={modalGrabberStyle}
-                    {...dragProps}
-                  />
-                )}
+                <ScrollArea
+                  viewportRef={composedInnerContainerRefs}
+                  sx={{
+                    display: 'flex',
+                    flexGrow: '1',
+                    ['& > div']: {
+                      display: 'flex !important',
+                      flexDirection: 'column',
+                    },
+                  }}
+                  zIndex={11}
+                  asChild
+                  viewPortProps={{
+                    onScroll: handleOnScroll,
+                    sx: {
+                      flexGrow: 1,
+                    },
+                  }}
+                >
+                  {isEnabled && (
+                    <FlexBox
+                      justifyContent="center"
+                      sx={modalGrabberStyle}
+                      {...dragProps}
+                    />
+                  )}
 
-                {children}
-              </ScrollArea>
+                  {children}
+                </ScrollArea>
+              </Box>
             </DismissableLayer>
           </FocusScope>
-        </div>
+        </Box>
       </ModalContainerProvider>
     );
   },
@@ -349,10 +356,11 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
     const theme = useTheme();
 
     return (
-      <div
+      <Box
         wds-component="modal-navigation"
         ref={ref}
-        css={[
+        {...props}
+        sx={[
           modalNavigationStyle({
             variant,
             xs,
@@ -361,8 +369,8 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
             lg,
             xl,
           }),
+          props.sx,
         ]}
-        {...props}
         style={
           {
             ['--wds-navigation-border-color']:
@@ -383,7 +391,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
                 weight="bold"
                 color="palette.label.strong"
                 noWrap
-                css={{ margin: 0, border: 'none' }}
+                sx={{ margin: 0, border: 'none' }}
               >
                 {children}
               </Typography>
@@ -408,7 +416,7 @@ const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
             <IconCloseThick />
           </IconButton>
         )}
-      </div>
+      </Box>
     );
   },
 );
@@ -421,8 +429,8 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
     ref,
   ) => {
     return (
-      <div
-        css={{
+      <Box
+        sx={{
           height: 'max-content',
           width: 'fit-content',
           minWidth: '100%',
@@ -434,19 +442,22 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
           as="div"
           wds-component="modal-content"
           flexDirection="column"
-          css={modalContentStyle({
-            padding,
-            paddingExtra,
-            paddingInfo,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
           {...props}
+          sx={[
+            modalContentStyle({
+              padding,
+              paddingExtra,
+              paddingInfo,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
         />
-      </div>
+      </Box>
     );
   },
 );
@@ -461,8 +472,8 @@ const ModalContentItem = forwardRef<HTMLDivElement, ModalContentItemProps>(
         as="div"
         gap="12px"
         flexDirection="column"
-        css={modalContentItemStyle}
         {...props}
+        sx={[modalContentItemStyle, props.sx]}
       />
     );
   },
@@ -567,13 +578,16 @@ const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
           ref={ref}
           flexShrink={0}
           flexDirection="column"
-          css={modalActionAreaStyle({
-            variant,
-            priority,
-            isSticky:
-              !enableSticky || priority === 'single' ? false : hasScroll,
-          })}
           {...props}
+          sx={[
+            modalActionAreaStyle({
+              variant,
+              priority,
+              isSticky:
+                !enableSticky || priority === 'single' ? false : hasScroll,
+            }),
+            props.sx,
+          ]}
         >
           {Boolean(caption) && (
             <Typography
@@ -581,7 +595,7 @@ const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
               variant="label2"
               weight="regular"
               color="palette.label.alternative"
-              css={{ marginBottom: '16px' }}
+              sx={{ marginBottom: '16px' }}
             >
               {caption}
             </Typography>
@@ -617,8 +631,8 @@ const ModalActionButtonFC = forwardRef(
           variant={priority === 'single' ? 'outlined' : 'solid'}
           color="primary"
           fullWidth={priority === 'strong'}
-          css={modalActionButtonSingle(priority)}
           {...(props as ComponentProps<typeof Button<E, ButtonVariant>>)}
+          sx={[modalActionButtonSingle(priority), props.sx]}
         />
       ),
       secondary: (
@@ -631,8 +645,8 @@ const ModalActionButtonFC = forwardRef(
               : 'secondary'
           }
           fullWidth={priority === 'strong'}
-          css={modalActionButtonSingle(priority)}
           {...(props as ComponentProps<typeof Button<E, ButtonVariant>>)}
+          sx={[modalActionButtonSingle(priority), props.sx]}
         />
       ),
       assistive:
@@ -641,20 +655,23 @@ const ModalActionButtonFC = forwardRef(
             ref={ref}
             color="assistive"
             size="small"
-            css={{
-              margin: '8px 0px',
-              width: 'fit-content',
-              alignSelf: 'center',
-            }}
             {...(props as ComponentProps<typeof TextButton>)}
+            sx={[
+              {
+                margin: '8px 0px',
+                width: 'fit-content',
+                alignSelf: 'center',
+              },
+              props.sx,
+            ]}
           />
         ) : (
           <Button
             ref={ref}
             variant="outlined"
             color="secondary"
-            css={modalActionButtonSingle(priority)}
             {...(props as ComponentProps<typeof Button<E, ButtonVariant>>)}
+            sx={[modalActionButtonSingle(priority), props.sx]}
           />
         ),
     };

@@ -5,7 +5,7 @@ import ImageLoader from '../image-loader';
 
 import { thumbnailStyle } from './style';
 
-import type { Merge } from '../../types';
+import type { Merge } from '@wanteddev/wds-engine';
 import type { ComponentProps } from 'react';
 import type { ThumbnailProps } from './types';
 
@@ -27,8 +27,8 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     return imageLoadingStatus !== 'error' ? (
       <ImageLoader
         ref={ref}
-        css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl })}
         {...props}
+        sx={[thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl }), props.sx]}
         onLoad={() => {
           props.onLoad?.();
           setImageLoadingStatus('loaded');
@@ -41,8 +41,11 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ) : (
       <ImageLoader
         ref={ref}
-        css={thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl })}
         {...omitOthers()}
+        sx={[
+          thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl }),
+          omitOthers().sx,
+        ]}
         alt={props.alt ? props.alt + ' load fail' : ''}
         src="https://static.wanted.co.kr/images/jobsfeed/Thumbnail.png"
       />

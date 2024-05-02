@@ -1,10 +1,10 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
 
 import { gridStyle } from './style';
 
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { MergeWithCustomElementProps } from '../../types';
 import type { GridProps } from './types';
 
 type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
@@ -30,23 +30,25 @@ const Grid = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const Element = as || 'div';
-
     return (
-      <Element
+      <Box
+        as={(as || 'div') as ElementType}
         ref={ref}
-        css={gridStyle({
-          rowSpacing,
-          columnSpacing,
-          justifyContent,
-          alignItems,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        })}
         {...props}
+        sx={[
+          gridStyle({
+            rowSpacing,
+            columnSpacing,
+            justifyContent,
+            alignItems,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
       />
     );
   },

@@ -1,17 +1,25 @@
-import objectPath from 'object-path';
+export const gradient = (
+  color: string,
+  variant: 'top' | 'right' | 'bottom' | 'left',
+  size = '100%',
+) => {
+  const gradientBase = [
+    0, 0.1403, 0.2624, 0.368, 0.459, 0.537, 0.604, 0.6616, 0.7117, 0.756,
+    0.7963, 0.8344, 0.872, 0.911, 0.953, 1,
+  ] as const;
 
-import type { Theme } from '@emotion/react';
-import type { ThemeColorsToken } from '../types';
+  const getGradientSize = (base: string, idx: number) => {
+    return `calc(100% - (${base} * (1 - ${gradientBase[idx]})))`;
+  };
 
-export const getColorByToken = (theme: Theme, token: ThemeColorsToken) =>
-  objectPath.get(theme, token) as string;
+  return `mask-image: linear-gradient(to ${variant}, rgb(0, 0, 0) ${getGradientSize(size, 0)}, rgba(0, 0, 0, 0.86) ${getGradientSize(size, 1)}, rgba(0, 0, 0, 0.73) ${getGradientSize(size, 2)}, rgba(0, 0, 0, 0.62) ${getGradientSize(size, 3)}, rgba(0, 0, 0, 0.52) ${getGradientSize(size, 4)}, rgba(0, 0, 0, 0.43) ${getGradientSize(size, 5)}, rgba(0, 0, 0, 0.35) ${getGradientSize(size, 6)}, rgba(0, 0, 0, 0.29) ${getGradientSize(size, 7)}, rgba(0, 0, 0, 0.23) ${getGradientSize(size, 8)}, rgba(0, 0, 0, 0.18) ${getGradientSize(size, 9)}, rgba(0, 0, 0, 0.14) ${getGradientSize(size, 10)}, rgba(0, 0, 0, 0.1) ${getGradientSize(size, 11)}, rgba(0, 0, 0, 0.07) ${getGradientSize(size, 12)}, rgba(0, 0, 0, 0.04) ${getGradientSize(size, 13)}, rgba(0, 0, 0, 0.02) ${getGradientSize(size, 14)}, rgba(0, 0, 0, 0) ${getGradientSize(size, 15)}); background-color: ${color};
+  `;
+};
 
-export const addHexOpacity = (hex: string, value: number) =>
-  hex.substring(0, 7) +
-  Math.floor(value * 255)
-    .toString(16)
-    .padStart(2, '0')
-    .toUpperCase();
+export const addOpacity = (color: string, value: number) =>
+  `rgba(${
+    color.startsWith('var(') ? color.replace(')', '-rgb)') : hexToRgb(color)
+  }, ${value})`;
 
 const hexToRgb = (hexColor: string) => {
   const parsedColor = hexColor.replace(
@@ -29,27 +37,4 @@ const hexToRgb = (hexColor: string) => {
   }
 
   return null;
-};
-
-export const addOpacity = (color: string, value: number) =>
-  `rgba(${
-    color.startsWith('var(') ? color.replace(')', '-rgb)') : hexToRgb(color)
-  }, ${value})`;
-
-export const gradient = (
-  color: string,
-  variant: 'top' | 'right' | 'bottom' | 'left',
-  size = '100%',
-) => {
-  const gradientBase = [
-    0, 0.1403, 0.2624, 0.368, 0.459, 0.537, 0.604, 0.6616, 0.7117, 0.756,
-    0.7963, 0.8344, 0.872, 0.911, 0.953, 1,
-  ] as const;
-
-  const getGradientSize = (base: string, idx: number) => {
-    return `calc(100% - (${base} * (1 - ${gradientBase[idx]})))`;
-  };
-
-  return `mask-image: linear-gradient(to ${variant}, rgb(0, 0, 0) ${getGradientSize(size, 0)}, rgba(0, 0, 0, 0.86) ${getGradientSize(size, 1)}, rgba(0, 0, 0, 0.73) ${getGradientSize(size, 2)}, rgba(0, 0, 0, 0.62) ${getGradientSize(size, 3)}, rgba(0, 0, 0, 0.52) ${getGradientSize(size, 4)}, rgba(0, 0, 0, 0.43) ${getGradientSize(size, 5)}, rgba(0, 0, 0, 0.35) ${getGradientSize(size, 6)}, rgba(0, 0, 0, 0.29) ${getGradientSize(size, 7)}, rgba(0, 0, 0, 0.23) ${getGradientSize(size, 8)}, rgba(0, 0, 0, 0.18) ${getGradientSize(size, 9)}, rgba(0, 0, 0, 0.14) ${getGradientSize(size, 10)}, rgba(0, 0, 0, 0.1) ${getGradientSize(size, 11)}, rgba(0, 0, 0, 0.07) ${getGradientSize(size, 12)}, rgba(0, 0, 0, 0.04) ${getGradientSize(size, 13)}, rgba(0, 0, 0, 0.02) ${getGradientSize(size, 14)}, rgba(0, 0, 0, 0) ${getGradientSize(size, 15)}); background-color: ${color};
-  `;
 };

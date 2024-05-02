@@ -30,24 +30,30 @@ const main = async () => {
   }
 
   const getComponentContent = (componentName, content) => {
-    return `import type { ComponentProps } from 'react';
+    return `import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const Icon${componentName} = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & { sx?: SxProp };
+
+const Icon${componentName} = forwardRef<HTMLSvgElement, Props>((props, ref) => {
 	return (
 		${content
       .replace(/width="(.*?)"/, '')
       .replace(/height="(.*?)"/, '')
       .replace(
         'xmlns="http://www.w3.org/2000/svg"',
-        'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" {...props}',
+        'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}',
       )
       .replaceAll('fill="#171719"', 'fill="currentColor"')
       .replaceAll('fill-rule', 'fillRule')
-      .replaceAll('clip-rule', 'clipRule')}
+      .replaceAll('clip-rule', 'clipRule')
+      .replace('<svg', '<Box as="svg" ref={ref}')
+      .replace('</svg', '</Box')}
 	)
-};
+});
 
 export default Icon${componentName};`;
   };

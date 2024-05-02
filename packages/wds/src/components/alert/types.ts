@@ -1,3 +1,4 @@
+import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
 export type AlertProps = {
@@ -6,5 +7,5 @@ export type AlertProps = {
   show?: boolean;
   defaultShow?: boolean;
   onShowChange?: (state: boolean) => void;
-  wrapperProps?: ComponentPropsWithRef<'div'>;
+  wrapperProps?: WithSxProps<ComponentPropsWithRef<'div'>>;
 };

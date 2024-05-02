@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconMenuThick = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconMenuThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -23,8 +31,8 @@ const IconMenuThick = (props: Props) => {
         fill="currentColor"
         d="M4.00024 10.75C3.30989 10.75 2.75024 11.3096 2.75024 12C2.75024 12.6904 3.30989 13.25 4.00024 13.25H20.0002C20.6906 13.25 21.2502 12.6904 21.2502 12C21.2502 11.3096 20.6906 10.75 20.0002 10.75H4.00024Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconMenuThick;

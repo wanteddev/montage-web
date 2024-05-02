@@ -8,7 +8,7 @@ import {
   IconClose,
   IconTriangleExclamation,
 } from '@wanteddev/wds-icon';
-import { useTheme } from '@emotion/react';
+import { Box, useTheme } from '@wanteddev/wds-engine';
 
 import { addOpacity } from '../../utils/color';
 import Portal from '../portal';
@@ -21,7 +21,7 @@ import { alertWrapperStyle, topRegionStatusStyle } from './style';
 
 import type { CSSProperties, ReactNode } from 'react';
 import type { AlertProps } from './types';
-import type { MergeElementProps } from '../../types';
+import type { MergeElementProps } from '@wanteddev/wds-engine';
 
 type Props = MergeElementProps<'div', AlertProps>;
 
@@ -61,28 +61,28 @@ const Alert = forwardRef<HTMLDivElement, Props>(
       normal: null,
       success: (
         <IconCircleCheck
-          css={{
+          sx={{
             color: theme.palette.status.positive,
           }}
         />
       ),
       error: (
         <IconCircleExclamation
-          css={{
+          sx={{
             color: theme.palette.status.negative,
           }}
         />
       ),
       warning: (
         <IconTriangleExclamation
-          css={{
+          sx={{
             color: theme.palette.status.cautionary,
           }}
         />
       ),
       info: (
         <IconCircleInfo
-          css={{
+          sx={{
             color: theme.palette.interaction.inactive,
           }}
         />
@@ -103,10 +103,10 @@ const Alert = forwardRef<HTMLDivElement, Props>(
       <>
         {show && (
           <Portal>
-            <div
+            <Box
               wds-ignore-dismissable-layer="true"
               {...wrapperProps}
-              css={[alertWrapperStyle, wrapperProps?.css]}
+              sx={[alertWrapperStyle, wrapperProps?.sx]}
               style={
                 {
                   ...wrapperProps?.style,
@@ -116,19 +116,19 @@ const Alert = forwardRef<HTMLDivElement, Props>(
                 } as CSSProperties
               }
             >
-              <div
+              <Box
                 ref={ref}
                 aria-atomic
                 role={variant === 'error' ? 'alert' : 'status'}
                 aria-live={variant === 'error' ? 'assertive' : 'polite'}
-                css={topRegionStatusStyle}
                 aria-describedby={descriptionId}
                 {...props}
+                sx={[topRegionStatusStyle, props.sx]}
               >
                 <FlexBox
                   gap="10px"
                   alignItems="center"
-                  css={{ ['& svg']: { flexShrink: 0 } }}
+                  sx={{ ['& svg']: { flexShrink: 0 } }}
                 >
                   {iconComponent[variant]}
 
@@ -148,13 +148,13 @@ const Alert = forwardRef<HTMLDivElement, Props>(
                     interactionColor="palette.label.alternative"
                     onClick={handleShowToggle}
                     size={20}
-                    css={{ fontSize: '20px' }}
+                    sx={{ fontSize: '20px' }}
                   >
                     <IconClose />
                   </IconButton>
                 </FlexBox>
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Portal>
         )}
       </>

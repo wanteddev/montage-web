@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconThumbnail = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconThumbnail = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -35,8 +43,8 @@ const IconThumbnail = (props: Props) => {
         clipRule="evenodd"
         d="M14.2999 13.1499C13.6648 13.1499 13.1499 13.6648 13.1499 14.2999V19.6999C13.1499 20.335 13.6648 20.8499 14.2999 20.8499H19.6999C20.335 20.8499 20.8499 20.335 20.8499 19.6999V14.2999C20.8499 13.6648 20.335 13.1499 19.6999 13.1499H14.2999ZM14.8499 19.1499V14.8499H19.1499V19.1499H14.8499Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconThumbnail;

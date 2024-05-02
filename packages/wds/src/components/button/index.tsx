@@ -1,14 +1,15 @@
 'use client';
 import { forwardRef, useId } from 'react';
+import {
+  Box,
+  type MergeWithCustomElementProps,
+  type ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { buttonStyle } from './style';
 
-import type {
-  MergeWithCustomElementProps,
-  ThemeColorsToken,
-} from '../../types';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ButtonProps, ButtonVariant } from './types';
 
@@ -40,7 +41,6 @@ const Button = forwardRef(
     }: Props<E, T>,
     ref: ForwardedRef<Props<E, T>['as']>,
   ) => {
-    const Comp = as || 'button';
     const id = useId();
 
     const variant = originVariant || 'solid';
@@ -68,29 +68,33 @@ const Button = forwardRef(
         variant={getInteractionVariant()}
         disabled={disableInteraction || disabled}
       >
-        <Comp
+        <Box
+          as={(as || 'button') as ElementType}
           aria-labelledby={id}
           ref={ref}
           className={className}
-          css={buttonStyle({
-            variant,
-            size,
-            fullWidth,
-            color,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}
+          sx={[
+            buttonStyle({
+              variant,
+              size,
+              fullWidth,
+              color,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
         >
           {Boolean(leftIcon) && leftIcon}
           <span id={id}>{children}</span>
           {Boolean(rightIcon) && rightIcon}
-        </Comp>
+        </Box>
       </WithInteraction>
     );
   },

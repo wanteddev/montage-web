@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "module": "commonjs",
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "declaration": false,
+    "target": "es2015",
+    "downlevelIteration": true,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

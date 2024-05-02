@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from './types';
 
 export const textButtonStyle =
@@ -34,6 +34,7 @@ export const textButtonStyle =
     )(
       (params = {}) => css`
         ${textButtonSizeStyle(params)}
+        ${params.sx}
       `,
     )}
   `;

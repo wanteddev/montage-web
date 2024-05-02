@@ -1,4 +1,4 @@
-import { ScrollArea } from '@wanteddev/wds';
+import { Box, ScrollArea } from '@wanteddev/wds';
 
 import { preStyle, preWrapperStyle } from './style';
 
@@ -8,8 +8,8 @@ type Props = ComponentProps<'pre'>;
 
 const Pre = (props: Props) => {
   return (
-    <ScrollArea css={preWrapperStyle}>
-      <pre css={preStyle} {...props} />
+    <ScrollArea sx={preWrapperStyle}>
+      <Box sx={preStyle} {...props} as="pre" />
     </ScrollArea>
   );
 };

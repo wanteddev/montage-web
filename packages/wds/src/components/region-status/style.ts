@@ -1,6 +1,6 @@
-import { css, keyframes } from '@emotion/react';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const bottomMountKeyFrames = keyframes`
   0% {

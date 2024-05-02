@@ -1,4 +1,4 @@
-import type { Merge, ResponsiveProps } from '../../types';
+import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 type ProgressStepIndicatorDefaultProps = {
   size?: 'small' | 'medium';

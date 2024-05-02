@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { GridItemProps } from './types';
 
 export const gridItemStyle =
@@ -20,7 +20,7 @@ export const gridItemStyle =
     )(
       (params) => css`
         ${gridItemAlignStyle(params)}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

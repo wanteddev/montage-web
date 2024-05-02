@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconHome = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconHome = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -18,8 +26,8 @@ const IconHome = (props: Props) => {
         d="M12.5468 2.28468C12.2241 2.03792 11.7761 2.03792 11.4534 2.28468L2.9534 8.78462C2.73072 8.95491 2.6001 9.21922 2.6001 9.49955L2.6001 18.9294C2.60007 19.1837 2.60005 19.4257 2.61671 19.6297C2.63489 19.8521 2.67727 20.1072 2.80719 20.3622C2.98935 20.7197 3.28001 21.0104 3.63752 21.1925C3.8925 21.3224 4.14761 21.3648 4.37001 21.383C4.57396 21.3997 4.81598 21.3996 5.07029 21.3996H18.9299C19.1842 21.3996 19.4262 21.3997 19.6302 21.383C19.8526 21.3648 20.1077 21.3224 20.3627 21.1925C20.7202 21.0104 21.0109 20.7197 21.193 20.3622C21.3229 20.1072 21.3653 19.8521 21.3835 19.6297C21.4002 19.4258 21.4001 19.1837 21.4001 18.9294L21.4001 9.49955C21.4001 9.21922 21.2695 8.95491 21.0468 8.78462L12.5468 2.28468ZM11.9394 4.1791C11.9752 4.15168 12.025 4.15168 12.0608 4.1791L19.5609 9.91434C19.5856 9.93326 19.6001 9.96263 19.6001 9.99378V19.4997C19.6001 19.5549 19.5553 19.5997 19.5001 19.5997H12.9004V13.9996H11.1004V19.5997H4.5001C4.44488 19.5997 4.4001 19.5549 4.4001 19.4997V9.99378C4.4001 9.96263 4.41462 9.93326 4.43936 9.91434L11.9394 4.1791Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconHome;

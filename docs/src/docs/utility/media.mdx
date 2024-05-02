@@ -10,10 +10,9 @@ description: Media for WDS Utility
 ## respondTo
 
 ```ts
-import { css } from '@emotion/react';
-import { respondTo } from '@wanteddev/wds';
+import { css, respondTo } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   width: 100px;
@@ -38,10 +37,9 @@ export const exampleStyle = (theme: Theme) => css`
 ## respondMore
 
 ```ts
-import { css } from '@emotion/react';
-import { respondMore } from '@wanteddev/wds';
+import { css, respondMore } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   width: 50px;
@@ -68,14 +66,14 @@ export const exampleStyle = (theme: Theme) => css`
 Theme 객체를 직접 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
 
 ```tsx
-import { useMedia } from '@wanteddev/wds';
+import { Box, useMedia } from '@wanteddev/wds';
 
 const Component = () => {
   const { respondTo, respondMore, breakpoint } = useMedia();
 
   return (
-    <div
-      css={{
+    <Box
+      sx={{
         width: '100px',
         [respondTo(breakpoint.xs)]: {
           width: '200px',

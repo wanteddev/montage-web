@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, getPreviousValue } from '../../utils';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 import type { ThumbnailProps } from './types';
 
 export const thumbnailStyle =
@@ -33,7 +33,7 @@ export const thumbnailStyle =
             breakpoint!,
           ),
         })}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

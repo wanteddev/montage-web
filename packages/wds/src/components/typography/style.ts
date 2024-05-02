@@ -1,8 +1,8 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { type TypographyVariant, type TypographyWeight } from './types';
 
-import type { SerializedStyles } from '@emotion/react';
+import type { SerializedStyles } from '@wanteddev/wds-engine';
 
 export const variantMap: {
   [key in TypographyVariant]: SerializedStyles;

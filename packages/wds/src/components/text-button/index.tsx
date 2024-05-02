@@ -1,15 +1,16 @@
 'use client';
 import { forwardRef, useId } from 'react';
+import {
+  Box,
+  type MergeWithCustomElementProps,
+  type ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { textButtonStyle } from './style';
 
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type {
-  MergeWithCustomElementProps,
-  ThemeColorsToken,
-} from '../../types';
 import type { TextButtonProps } from './types';
 
 type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
@@ -37,7 +38,6 @@ const TextButton = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const Comp = as || 'button';
     const id = useId();
 
     const interactionColor: ThemeColorsToken =
@@ -50,27 +50,31 @@ const TextButton = forwardRef(
         variant={variant === 'primary' ? 'strong' : 'light'}
         scale
       >
-        <Comp
+        <Box
+          as={(as || 'button') as ElementType}
           wds-component="text-button"
           aria-labelledby={id}
           ref={ref}
-          css={textButtonStyle({
-            size,
-            variant,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}
+          sx={[
+            textButtonStyle({
+              size,
+              variant,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
         >
           {Boolean(leftIcon) && leftIcon}
           <span id={id}>{children}</span>
           {Boolean(rightIcon) && rightIcon}
-        </Comp>
+        </Box>
       </WithInteraction>
     );
   },

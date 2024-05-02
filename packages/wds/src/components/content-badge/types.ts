@@ -1,4 +1,8 @@
-import type { Merge, ResponsiveProps, ThemeColorsToken } from '../../types';
+import type {
+  Merge,
+  ResponsiveProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
 export type ContentBadgeDefaultProps = {

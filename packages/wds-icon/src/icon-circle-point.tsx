@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconCirclePoint = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconCirclePoint = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -21,8 +29,8 @@ const IconCirclePoint = (props: Props) => {
         fill="currentColor"
         d="M9.39976 16.4001V8.0001H12.8416C14.7369 8.0001 15.9055 9.17772 15.8997 10.889C15.9055 12.6236 14.7137 13.7664 12.7835 13.7664H11.3765V16.4001H9.39976ZM11.3765 12.2001H12.423C13.359 12.2059 13.8532 11.6838 13.8532 10.889C13.8532 10.1059 13.359 9.6012 12.423 9.6012H11.3765V12.2001Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconCirclePoint;

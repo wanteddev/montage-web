@@ -5,12 +5,16 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
+import {
+  Box,
+  type MergeElementProps,
+  type SxProp,
+} from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { switchStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { SwitchProps } from './types';
 
@@ -68,14 +72,15 @@ const Switch = forwardRef<HTMLButtonElement, Props>(
             type="checkbox"
             checked={checked}
             defaultChecked={defaultChecked}
-            css={{ display: 'none', pointerEvents: 'none' }}
+            sx={{ display: 'none', pointerEvents: 'none' }}
             control={button}
             bubbles={!hasConsumerStoppedPropagationRef.current}
           />
         )}
 
         <WithInteraction disabled={disabled}>
-          <button
+          <Box
+            as="button"
             type="button"
             role="switch"
             aria-checked={checked}
@@ -83,17 +88,20 @@ const Switch = forwardRef<HTMLButtonElement, Props>(
             aria-required={required}
             disabled={disabled}
             ref={composedRefs}
-            css={switchStyle({
-              size,
-              checked,
-              disabled,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            })}
             {...props}
+            sx={[
+              switchStyle({
+                size,
+                checked,
+                disabled,
+                xs,
+                sm,
+                md,
+                lg,
+                xl,
+              }),
+              props.sx,
+            ]}
             onClick={composeEventHandlers(props.onClick, (event) => {
               setChecked((prevChecked) => !prevChecked);
 
@@ -107,7 +115,7 @@ const Switch = forwardRef<HTMLButtonElement, Props>(
             })}
           >
             <span />
-          </button>
+          </Box>
         </WithInteraction>
       </>
     );
@@ -122,12 +130,14 @@ type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
   checked: boolean;
   control: HTMLElement | null;
   bubbles: boolean;
+  sx?: SxProp;
 };
 
 const BubbleInput = ({
   control,
   checked,
   bubbles = true,
+  sx,
   ...inputProps
 }: BubbleInputProps) => {
   const ref = useRef<HTMLInputElement>(null);
@@ -151,21 +161,25 @@ const BubbleInput = ({
   }, [prevChecked, checked, bubbles]);
 
   return (
-    <input
+    <Box
+      as="input"
       type="checkbox"
       aria-hidden
       defaultChecked={checked}
       {...inputProps}
       tabIndex={-1}
       ref={ref}
-      css={{
-        ...controlSize,
-        transform: 'translateX(-100%)',
-        position: 'absolute',
-        pointerEvents: 'none',
-        opacity: 0,
-        margin: 0,
-      }}
+      sx={[
+        {
+          ...controlSize,
+          transform: 'translateX(-100%)',
+          position: 'absolute',
+          pointerEvents: 'none',
+          opacity: 0,
+          margin: 0,
+        },
+        sx,
+      ]}
     />
   );
 };

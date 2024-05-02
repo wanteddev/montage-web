@@ -1,15 +1,23 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconListCategory = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconListCategory = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fill="currentColor"
@@ -29,8 +37,8 @@ const IconListCategory = (props: Props) => {
         fill="currentColor"
         d="M4 11.125C3.51675 11.125 3.125 11.5168 3.125 12C3.125 12.4832 3.51675 12.875 4 12.875H20C20.4832 12.875 20.875 12.4832 20.875 12C20.875 11.5168 20.4832 11.125 20 11.125H4Z"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconListCategory;

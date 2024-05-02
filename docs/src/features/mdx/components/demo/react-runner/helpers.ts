@@ -23,8 +23,6 @@ const evalCode = (code: string, scope: Scope) => {
 const transform = (code: string) => {
   return _transform(code, {
     transforms: ['jsx', 'typescript', 'imports'],
-    jsxImportSource: '@emotion/react',
-    jsxRuntime: 'automatic',
     production: true,
   }).code.substring(13); // remove leading `"use strict";`
 };

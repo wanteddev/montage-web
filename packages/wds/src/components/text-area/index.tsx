@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
-import { css } from '@emotion/react';
+import { Box, css } from '@wanteddev/wds-engine';
 import { useSize } from '@radix-ui/react-use-size';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
@@ -16,7 +16,7 @@ import {
   textAreaWrapperStyle,
 } from './style';
 
-import type { MergeElementProps } from '../../types';
+import type { MergeElementProps } from '@wanteddev/wds-engine';
 import type { TextAreaProps } from './types';
 
 export interface Cancelable {
@@ -57,6 +57,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       maxRows,
       minRows = 1,
       className,
+      sx,
       xs,
       sm,
       md,
@@ -209,22 +210,28 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       <ScrollArea
         ref={parentRef}
         className={className}
-        css={textAreaWrapperStyle({
-          invalid: invalid || isInvalidLength,
-          disabled,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-          ...props,
-        })}
+        sx={[
+          textAreaWrapperStyle({
+            invalid: invalid || isInvalidLength,
+            disabled,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+            ...props,
+          }),
+          sx,
+        ]}
         style={{
           paddingRight: `calc(${rightIconWidth}px + 8px)`,
         }}
       >
-        <textarea
-          css={textAreaStyle({
+        <Box
+          as="textarea"
+          ref={composedRefs}
+          {...props}
+          sx={textAreaStyle({
             xs,
             sm,
             md,
@@ -232,8 +239,6 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             xl,
             ...props,
           })}
-          ref={composedRefs}
-          {...props}
           aria-invalid={invalid}
           value={value}
           onChange={composeEventHandlers(props.onChange, (e) => {
@@ -241,12 +246,13 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             setLength(e.target.value.length || 0);
           })}
         />
-        <textarea
+        <Box
+          as="textarea"
           aria-hidden
           readOnly
           ref={shadowRef}
           tabIndex={-1}
-          css={css`
+          sx={css`
             ${typographyStyle('body1_normal', 'regular')}
           `}
           style={{
@@ -266,7 +272,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             wds-component="text-area-right-icon"
             alignItems="center"
             ref={composeRefs<HTMLDivElement>((node) => setRightIconRef(node))}
-            css={rightIconStyle}
+            sx={rightIconStyle}
           >
             {rightIcon}
           </FlexBox>
@@ -281,7 +287,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
                 ? 'palette.status.negative'
                 : 'palette.label.alternative'
             }
-            css={maxLengthStyle}
+            sx={maxLengthStyle}
           >
             {length}&#47;
             {maxLength!.toLocaleString()}

@@ -1,10 +1,10 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { TextFieldProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const textFieldWrapperStyle =
   ({
@@ -103,7 +103,7 @@ export const textFieldWrapperStyle =
           height: ${params!.height};
         `}
 
-      ${params?.css}
+      ${params?.sx}
       `,
     )}
   `;

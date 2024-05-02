@@ -1,5 +1,4 @@
-import { css } from '@emotion/react';
-import { addOpacity } from '@wanteddev/wds';
+import { addOpacity, css } from '@wanteddev/wds';
 
 import type { Theme } from '@emotion/react';
 

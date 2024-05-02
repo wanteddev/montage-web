@@ -1,12 +1,12 @@
 'use client';
 import { forwardRef } from 'react';
+import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 import PushBadge from '../push-badge';
 
 import { avatarButtonStyle, pushBadgeStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '../../types';
 import type { AvatarButtonProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
@@ -26,10 +26,13 @@ const AvatarButton = forwardRef(
     }: Props<E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const Component = as || 'button';
-
     return (
-      <Component ref={ref} css={avatarButtonStyle} {...props}>
+      <Box
+        as={(as || 'button') as ElementType}
+        ref={ref}
+        {...props}
+        sx={[avatarButtonStyle, props.sx]}
+      >
         <WithInteraction
           width="calc(100% + 8px)"
           height="calc(100% + 8px)"
@@ -38,8 +41,8 @@ const AvatarButton = forwardRef(
           {children}
         </WithInteraction>
 
-        {pushBadge && <PushBadge css={pushBadgeStyle} variant="dot" />}
-      </Component>
+        {pushBadge && <PushBadge sx={pushBadgeStyle} variant="dot" />}
+      </Box>
     );
   },
 );

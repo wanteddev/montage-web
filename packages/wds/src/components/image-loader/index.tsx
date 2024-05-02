@@ -1,9 +1,9 @@
 'use client';
 import { forwardRef, useEffect } from 'react';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import { getOptimizedImageSource } from '../../utils';
 
-import type { MergeElementProps } from '../../types';
 import type { ImageLoaderProps } from './types';
 
 type Props = MergeElementProps<'img', ImageLoaderProps>;
@@ -38,7 +38,8 @@ const ImageLoader = forwardRef<HTMLImageElement, Props>(
     }, [src, width, quality]);
 
     return (
-      <img
+      <Box
+        as="img"
         ref={ref}
         src={
           !disableOptimize

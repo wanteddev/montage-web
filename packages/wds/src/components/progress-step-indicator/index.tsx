@@ -1,6 +1,7 @@
 'use client';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import {
   progressListStyle,
@@ -16,7 +17,6 @@ import {
   PROGRESS_STEP_INDICATOR_NAME,
 } from './constants';
 
-import type { MergeElementProps } from '../../types';
 import type { CSSProperties } from 'react';
 import type {
   ProgressStepIndicatorItemProps,
@@ -77,12 +77,15 @@ const ProgressStepIndicator = forwardRef<
           [steps, value],
         )}
       >
-        <div
+        <Box
           wds-component="progress-step-indicator"
           aria-label="progress"
           ref={ref}
-          css={progressStepWrapperStyle({ size, divider, xs, sm, md, lg, xl })}
           {...props}
+          sx={[
+            progressStepWrapperStyle({ size, divider, xs, sm, md, lg, xl }),
+            props.sx,
+          ]}
           style={
             {
               ...props.style,
@@ -90,8 +93,10 @@ const ProgressStepIndicator = forwardRef<
             } as CSSProperties
           }
         >
-          <ol css={progressListWrapperStyle}>{children}</ol>
-        </div>
+          <Box as="ol" sx={progressListWrapperStyle}>
+            {children}
+          </Box>
+        </Box>
       </ProgressStepIndicatorProvider>
     );
   },
@@ -122,12 +127,13 @@ const ProgressStepIndicatorItem = forwardRef<
   }, [onStepAdd, onStepRemove, value]);
 
   return (
-    <li
+    <Box
+      as="li"
       ref={ref}
       wds-component="progress-step-indicator-item"
       aria-current={isActive ? 'step' : undefined}
-      css={progressListStyle}
       {...props}
+      sx={[progressListStyle, props.sx]}
       style={
         {
           ...props.style,

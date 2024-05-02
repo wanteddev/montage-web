@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <FlexBox data-algolia-exclude css={sidebarStyle}>
+    <FlexBox data-algolia-exclude sx={sidebarStyle}>
       <aside>
         <ScrollArea>
           <FlexBox as="nav" flexDirection="column" gap="4px">
@@ -43,7 +43,7 @@ const Sidebar = () => {
                     as="li"
                     key={id}
                     data-level={getLevel(nodeName)}
-                    css={sidebarContentStyle}
+                    sx={sidebarContentStyle}
                   >
                     <Link href={`#${id}`}>{text}</Link>
                   </Typography>

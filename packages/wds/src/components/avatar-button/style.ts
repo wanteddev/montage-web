@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import {
   activeInteractionStyle,
@@ -7,7 +7,7 @@ import {
   hoverInteractionStyle,
 } from '../with-interaction/style';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const avatarButtonStyle = (theme: Theme) => css`
   border: none;

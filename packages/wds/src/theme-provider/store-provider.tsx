@@ -1,6 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { type StoreApi } from 'zustand';
+import { Box } from '@wanteddev/wds-engine';
 
 import {
   RegionContext,
@@ -46,7 +47,7 @@ const RegionArea = () => {
   const config = useRegionStore((state) => state.config);
 
   return (
-    <div
+    <Box
       wds-ignore-dismissable-layer="true"
       style={
         {
@@ -60,9 +61,9 @@ const RegionArea = () => {
       id="wds-region-manager"
       aria-label="Notifications"
     >
-      <div
+      <Box
         id="wds-region-manager-bottom"
-        css={(theme) => ({
+        sx={(theme) => ({
           position: 'fixed',
           gap: '14px',
           zIndex: 5500,
@@ -84,6 +85,6 @@ const RegionArea = () => {
           },
         })}
       />
-    </div>
+    </Box>
   );
 };

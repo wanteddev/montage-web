@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconSquarePlusFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconSquarePlusFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -18,8 +26,8 @@ const IconSquarePlusFill = (props: Props) => {
         d="M9.61115 2.34961H14.3891C15.4761 2.3496 16.3468 2.34959 17.0506 2.4071C17.7732 2.46614 18.3988 2.59027 18.9747 2.88368C19.8967 3.35346 20.6463 4.10306 21.116 5.02506C21.4094 5.6009 21.5336 6.22646 21.5926 6.94913C21.6501 7.6529 21.6501 8.52358 21.6501 9.61066V14.3886C21.6501 15.4756 21.6501 16.3463 21.5926 17.0501C21.5336 17.7728 21.4094 18.3983 21.116 18.9742C20.6463 19.8962 19.8967 20.6458 18.9747 21.1155C18.3988 21.4089 17.7732 21.5331 17.0506 21.5921C16.3468 21.6496 15.4761 21.6496 14.3891 21.6496H9.61114C8.52407 21.6496 7.65339 21.6496 6.94962 21.5921C6.22695 21.5331 5.60139 21.4089 5.02555 21.1155C4.10355 20.6458 3.35395 19.8962 2.88417 18.9742C2.59076 18.3983 2.46663 17.7728 2.40758 17.0501C2.35008 16.3463 2.35009 15.4756 2.3501 14.3886V9.61066C2.35009 8.52358 2.35008 7.6529 2.40758 6.94913C2.46663 6.22646 2.59076 5.6009 2.88417 5.02506C3.35395 4.10306 4.10355 3.35346 5.02555 2.88368C5.60139 2.59027 6.22695 2.46614 6.94962 2.4071C7.65339 2.34959 8.52407 2.3496 9.61115 2.34961ZM12.9001 7.09961V11.0996H16.9001V12.8996H12.9001V16.8996H11.1001V12.8996H7.1001V11.0996H11.1001V7.09961H12.9001Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconSquarePlusFill;

@@ -11,7 +11,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { useTheme } from '@emotion/react';
+import { useTheme } from '@wanteddev/wds-engine';
 
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
@@ -28,7 +28,7 @@ import {
 } from './constants';
 import { tooltipContentStyle, tooltipWrapperStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
+import type { MergeElementProps } from '@wanteddev/wds-engine';
 import type { TooltipContentProps, TooltipProps } from './types';
 import type {
   ComponentPropsWithoutRef,
@@ -269,8 +269,12 @@ const TooltipContent = forwardRef<
               onBlur: handleBlur,
             }}
           >
-            <FlexBox css={tooltipWrapperStyle} ref={composedRef} {...props}>
-              <FlexBox css={tooltipContentStyle({ variant })}>
+            <FlexBox
+              {...props}
+              sx={[tooltipWrapperStyle, props.sx]}
+              ref={composedRef}
+            >
+              <FlexBox sx={tooltipContentStyle({ variant })}>
                 <FlexBox flexDirection="column" gap="12px">
                   <Typography
                     id={containerId}

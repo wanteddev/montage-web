@@ -1,37 +1,23 @@
 'use client';
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { forwardRef } from 'react';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
-import { scrollAreaStyle, scrollBarStyle, scrollBarThumbStyle } from './style';
+import {
+  scrollAreaStyle,
+  scrollBarStyle,
+  scrollBarThumbStyle,
+  viewportStyle,
+} from './style';
 
-import type { Merge } from '../../types';
-import type {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  ReactNode,
-  Ref,
-} from 'react';
+import type { ScrollAreaProps, ScrollBarProps } from './types';
+import type { ElementRef, ReactNode } from 'react';
 
 const ScrollArea = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.Root>,
-  Merge<
-    ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>,
-    {
-      scrollbars?: 'vertical' | 'horizontal' | 'both';
-      viewportRef?: Ref<
-        ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
-      >;
-      viewPortProps?: ComponentPropsWithoutRef<
-        typeof ScrollAreaPrimitive.ScrollAreaViewport
-      >;
-      /**
-       * scroll bar의 zindex를 설정합니다.
-       */
-      zIndex?: number;
-    }
-  >
+  ScrollAreaProps
 >(
   (
     {
@@ -42,6 +28,11 @@ const ScrollArea = forwardRef<
       type = 'hover',
       viewPortProps = {},
       zIndex,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     },
     ref,
@@ -51,37 +42,38 @@ const ScrollArea = forwardRef<
     } = {
       both: (
         <>
-          <ScrollBar orientation="horizontal" css={{ zIndex }} />
-          <ScrollBar orientation="vertical" css={{ zIndex }} />
+          <Box as={ScrollBar} orientation="horizontal" sx={{ zIndex }} />
+          <Box as={ScrollBar} orientation="vertical" sx={{ zIndex }} />
         </>
       ),
-      vertical: <ScrollBar orientation="vertical" css={{ zIndex }} />,
-      horizontal: <ScrollBar orientation="horizontal" css={{ zIndex }} />,
+      vertical: <Box as={ScrollBar} orientation="vertical" sx={{ zIndex }} />,
+      horizontal: (
+        <Box as={ScrollBar} orientation="horizontal" sx={{ zIndex }} />
+      ),
     };
 
     return (
-      <ScrollAreaPrimitive.Root
+      <Box
+        as={ScrollAreaPrimitive.Root}
         ref={ref}
-        css={scrollAreaStyle}
         type={type}
         {...props}
+        sx={[scrollAreaStyle({ xs, sm, md, lg, xl }), props.sx]}
       >
-        <ScrollAreaPrimitive.Viewport
+        <Box
+          as={ScrollAreaPrimitive.Viewport}
           asChild={asChild}
           ref={viewportRef}
-          css={{
-            height: '100%',
-            width: '100%',
-          }}
           {...viewPortProps}
+          sx={[viewportStyle({ viewPortProps }), viewPortProps.sx]}
         >
           {children}
-        </ScrollAreaPrimitive.Viewport>
+        </Box>
 
         {scrollbarComponent[scrollbars]}
 
         <ScrollAreaPrimitive.Corner />
-      </ScrollAreaPrimitive.Root>
+      </Box>
     );
   },
 );
@@ -92,19 +84,20 @@ export default ScrollArea;
 
 const ScrollBar = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
-  ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
->(({ orientation = 'vertical', ...props }, ref) => (
-  <ScrollAreaPrimitive.ScrollAreaScrollbar
+  ScrollBarProps
+>(({ orientation = 'vertical', xs, sm, md, lg, xl, ...props }, ref) => (
+  <Box
+    as={ScrollAreaPrimitive.ScrollAreaScrollbar}
     forceMount
     ref={ref}
     orientation={orientation}
-    css={scrollBarStyle({ orientation })}
     {...props}
+    sx={[scrollBarStyle({ orientation, xs, sm, md, lg, xl }), props.sx]}
   >
     <WithInteraction color="palette.label.normal">
-      <ScrollAreaPrimitive.ScrollAreaThumb css={scrollBarThumbStyle} />
+      <Box as={ScrollAreaPrimitive.ScrollAreaThumb} sx={scrollBarThumbStyle} />
     </WithInteraction>
-  </ScrollAreaPrimitive.ScrollAreaScrollbar>
+  </Box>
 ));
 
 ScrollBar.displayName = 'ScrollBar';

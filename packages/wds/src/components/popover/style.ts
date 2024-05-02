@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const popoverStyle = (theme: Theme) => css`
   background-color: ${theme.palette.background.elevated.normal};

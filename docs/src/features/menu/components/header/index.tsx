@@ -27,12 +27,12 @@ const Header = () => {
         suppressHydrationWarning
         justifyContent="center"
         as="header"
-        css={headerWrapperStyle}
+        sx={headerWrapperStyle}
       >
         <FlexBox
           alignItems="center"
           justifyContent="space-between"
-          css={headerStyle}
+          sx={headerStyle}
         >
           <FlexBox gap="8px" alignItems="center">
             <IconSymbol />
@@ -73,7 +73,7 @@ const Header = () => {
               size={20}
               data-state={mobileMenu.open ? 'open' : 'closed'}
               onClick={() => mobileMenu.setOpen((open) => !open)}
-              css={menuToggleStyle}
+              sx={menuToggleStyle}
             >
               <IconMenu width="16" height="16" />
             </IconButton>

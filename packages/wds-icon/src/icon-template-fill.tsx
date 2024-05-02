@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconTemplateFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconTemplateFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -18,8 +26,8 @@ const IconTemplateFill = (props: Props) => {
         d="M5.07034 2.59961H18.9299C19.1842 2.59959 19.4262 2.59956 19.6302 2.61623C19.8526 2.6344 20.1077 2.67678 20.3627 2.8067C20.7202 2.98886 21.0109 3.27952 21.193 3.63703C21.3229 3.89201 21.3653 4.14712 21.3835 4.36953C21.4002 4.57347 21.4001 4.8155 21.4001 5.0698L21.4001 8.60059H2.6001L2.6001 5.06985C2.60007 4.81553 2.60005 4.57349 2.61671 4.36953C2.63489 4.14712 2.67727 3.89201 2.80719 3.63703C2.98935 3.27952 3.28001 2.98886 3.63752 2.8067C3.8925 2.67678 4.14761 2.6344 4.37001 2.61623C4.57398 2.59956 4.81602 2.59959 5.07034 2.59961ZM2.6001 10.4006L2.6001 18.9294C2.60007 19.1837 2.60005 19.4257 2.61671 19.6297C2.63489 19.8521 2.67727 20.1072 2.80719 20.3622C2.98935 20.7197 3.28001 21.0104 3.63752 21.1925C3.8925 21.3224 4.14761 21.3648 4.37001 21.383C4.57396 21.3997 4.81598 21.3996 5.07029 21.3996L8.59994 21.3996V10.4006H2.6001ZM10.3999 21.3996L18.9299 21.3996C19.1842 21.3996 19.4262 21.3997 19.6302 21.383C19.8526 21.3648 20.1077 21.3224 20.3627 21.1925C20.7202 21.0104 21.0109 20.7197 21.193 20.3622C21.3229 20.1072 21.3653 19.8521 21.3835 19.6297C21.4002 19.4258 21.4001 19.1837 21.4001 18.9294L21.4001 10.4006H10.3999V21.3996Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconTemplateFill;

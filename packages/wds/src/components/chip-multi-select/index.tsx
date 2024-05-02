@@ -6,12 +6,13 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
+import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { multiSelectStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
+import type { SxProp } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { ChipMultiSelectProps } from './types';
 
@@ -74,14 +75,15 @@ const ChipMultiSelect = forwardRef<HTMLButtonElement, Props>(
             type="checkbox"
             checked={checked}
             defaultChecked={defaultChecked}
-            css={{ display: 'none', pointerEvents: 'none' }}
+            sx={{ display: 'none', pointerEvents: 'none' }}
             control={button}
             bubbles={!hasConsumerStoppedPropagationRef.current}
           />
         )}
 
         <WithInteraction disabled={disabled}>
-          <button
+          <Box
+            as="button"
             type="button"
             role="checkbox"
             aria-checked={checked}
@@ -90,18 +92,21 @@ const ChipMultiSelect = forwardRef<HTMLButtonElement, Props>(
             disabled={disabled}
             aria-required={required}
             ref={composedRefs}
-            css={multiSelectStyle({
-              size,
-              checked,
-              disabled,
-              invalid,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            })}
             {...props}
+            sx={[
+              multiSelectStyle({
+                size,
+                checked,
+                disabled,
+                invalid,
+                xs,
+                sm,
+                md,
+                lg,
+                xl,
+              }),
+              props.sx,
+            ]}
             onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
               // WAI ARIA 상으로 checkbox는 enter로 선택 하지 않음.
               if (event.key === 'Enter') event.preventDefault();
@@ -120,7 +125,7 @@ const ChipMultiSelect = forwardRef<HTMLButtonElement, Props>(
           >
             {icon}
             <span>{children}</span>
-          </button>
+          </Box>
         </WithInteraction>
       </>
     );
@@ -135,6 +140,7 @@ type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
   checked: boolean;
   control: HTMLElement | null;
   bubbles: boolean;
+  sx?: SxProp;
 };
 
 const BubbleInput = ({
@@ -164,21 +170,25 @@ const BubbleInput = ({
   }, [prevChecked, checked, bubbles]);
 
   return (
-    <input
+    <Box
+      as="input"
       type="checkbox"
       aria-hidden
       defaultChecked={checked}
       {...inputProps}
       tabIndex={-1}
       ref={ref}
-      css={{
-        ...controlSize,
-        transform: 'translateX(-100%)',
-        position: 'absolute',
-        pointerEvents: 'none',
-        opacity: 0,
-        margin: 0,
-      }}
+      sx={[
+        {
+          ...controlSize,
+          transform: 'translateX(-100%)',
+          position: 'absolute',
+          pointerEvents: 'none',
+          opacity: 0,
+          margin: 0,
+        },
+        inputProps.sx,
+      ]}
     />
   );
 };

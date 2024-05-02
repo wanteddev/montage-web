@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconUpload = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconUpload = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -22,8 +30,8 @@ const IconUpload = (props: Props) => {
         d="M16.9054 8.61741C16.5647 8.97937 15.9951 8.99663 15.6332 8.65596L12.9 6.08357V15.5008C12.9 15.9978 12.497 16.4008 12 16.4008C11.5029 16.4008 11.1 15.9978 11.1 15.5008V6.08357L8.36681 8.65596C8.00485 8.99663 7.43526 8.97937 7.0946 8.61741C6.75393 8.25546 6.77119 7.68587 7.13315 7.3452L11.3831 3.34521C11.7297 3.01905 12.2703 3.01905 12.6168 3.34521L16.8668 7.3452C17.2288 7.68587 17.246 8.25546 16.9054 8.61741Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconUpload;

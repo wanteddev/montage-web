@@ -1,8 +1,6 @@
 'use client';
-
 import { AppRouterCacheProvider } from '@wanteddev/wds-nextjs';
-import { ThemeProvider, respondTo } from '@wanteddev/wds';
-import { Global } from '@emotion/react';
+import { Global, ThemeProvider, respondTo } from '@wanteddev/wds';
 
 import type { PropsWithChildren } from 'react';
 

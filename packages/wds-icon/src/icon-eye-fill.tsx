@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconEyeFill = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconEyeFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -18,8 +26,8 @@ const IconEyeFill = (props: Props) => {
         d="M22.3001 12.3914C22.418 12.1435 22.418 11.8557 22.3001 11.6078C20.4692 7.75959 16.5452 5.09961 12 5.09961C7.45481 5.09961 3.53087 7.75959 1.69998 11.6078C1.58202 11.8557 1.58202 12.1435 1.69998 12.3914C3.53087 16.2396 7.45481 18.8996 12 18.8996C16.5452 18.8996 20.4692 16.2396 22.3001 12.3914ZM9.90001 11.9996C9.90001 10.8398 10.8402 9.89963 12 9.89963C13.1598 9.89963 14.1 10.8398 14.1 11.9996C14.1 13.1594 13.1598 14.0996 12 14.0996C10.8402 14.0996 9.90001 13.1594 9.90001 11.9996ZM12 8.09963C9.8461 8.09963 8.10002 9.84572 8.10002 11.9996C8.10002 14.1535 9.8461 15.8996 12 15.8996C14.1539 15.8996 15.9 14.1535 15.9 11.9996C15.9 9.84572 14.1539 8.09963 12 8.09963Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconEyeFill;

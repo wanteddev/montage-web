@@ -1,9 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
 import type { SwitchProps } from './types';
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds-engine';
 
 export const switchStyle =
   ({ size, checked, disabled, xs, sm, md, lg, xl }: SwitchProps) =>
@@ -51,7 +51,7 @@ export const switchStyle =
           size: params?.size || size,
           checked,
         })}
-        ${params?.css}
+        ${params?.sx}
       `,
     )}
   `;

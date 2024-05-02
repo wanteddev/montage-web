@@ -4,8 +4,10 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Box } from '@wanteddev/wds-engine';
 
 import Radio from '../radio';
+import { createEmptyResponsiveStyle } from '../../utils';
 
 import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
@@ -49,13 +51,14 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
           dir={dir || 'ltr'}
           loop={loop}
         >
-          <div
+          <Box
             role="radiogroup"
             aria-required={required}
             aria-orientation={orientation}
             data-disabled={disabled ? '' : undefined}
             dir={dir || 'ltr'}
             {...groupProps}
+            sx={[groupProps.sx, createEmptyResponsiveStyle(groupProps)]}
             ref={ref}
           />
         </RovingFocusGroup.Root>
@@ -101,6 +104,7 @@ const RadioGroupItem = forwardRef<
         required={context.required}
         checked={checked}
         {...itemProps}
+        sx={[itemProps.sx, createEmptyResponsiveStyle(itemProps)]}
         name={context.name}
         ref={composedRefs}
         onCheck={() => context.onValueChange(itemProps.value)}

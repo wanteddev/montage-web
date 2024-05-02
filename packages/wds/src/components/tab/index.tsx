@@ -12,6 +12,11 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import {
+  Box,
+  type MergeElementProps,
+  type MergeWithCustomElementProps,
+} from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 import ScrollArea from '../scroll-area';
@@ -31,10 +36,6 @@ import type {
   ForwardedRef,
   UIEventHandler,
 } from 'react';
-import type {
-  MergeElementProps,
-  MergeWithCustomElementProps,
-} from '../../types';
 import type {
   TabListItemProps,
   TabListProps,
@@ -153,19 +154,22 @@ const TabList = forwardRef<
           ref={composedRef}
           dir={dir || 'ltr'}
           alignItems="center"
-          css={tabListStyle({
-            padding,
-            size,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
           {...props}
+          sx={[
+            tabListStyle({
+              padding,
+              size,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
         >
           <ScrollArea
-            css={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
+            sx={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
             viewportRef={viewportRef}
@@ -174,7 +178,7 @@ const TabList = forwardRef<
           </ScrollArea>
 
           {Boolean(rightIcon) && (
-            <FlexBox css={stickyButtonStyle} as="span" alignItems="center">
+            <FlexBox sx={stickyButtonStyle} as="span" alignItems="center">
               {rightIcon}
             </FlexBox>
           )}
@@ -208,8 +212,6 @@ const TabListItemFc = forwardRef(
 
     const controls = context.panels.find((v) => v === value);
 
-    const Element = as || 'div';
-
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (ARROW_KEYS.includes(event.key)) {
@@ -237,7 +239,8 @@ const TabListItemFc = forwardRef(
 
     return (
       <RovingFocusGroup.Item asChild focusable={!isDisabled} active={isActive}>
-        <Element
+        <Box
+          as={(as || 'div') as ElementType}
           role="tab"
           ref={composedRefs}
           {...props}
@@ -248,21 +251,27 @@ const TabListItemFc = forwardRef(
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          css={tabListItemStyle}
-          onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
-            if (event.key === 'Enter') event.preventDefault();
-          })}
+          sx={tabListItemStyle}
+          onKeyDown={composeEventHandlers(
+            props.onKeyDown,
+            (event: React.KeyboardEvent) => {
+              if (event.key === 'Enter') event.preventDefault();
+            },
+          )}
           onClick={composeEventHandlers(props.onClick, () => {
             context.onValueChange(value);
           })}
-          onFocus={composeEventHandlers(props.onFocus, (e) => {
-            if (isArrowKeyPressedRef.current) {
-              e.currentTarget.click();
-            }
-          })}
+          onFocus={composeEventHandlers(
+            props.onFocus,
+            (e: React.FocusEvent) => {
+              if (isArrowKeyPressedRef.current) {
+                (e.currentTarget as HTMLElement).click();
+              }
+            },
+          )}
         >
           <span id={`${context.id}-${value}`}>{children}</span>
-        </Element>
+        </Box>
       </RovingFocusGroup.Item>
     );
   },

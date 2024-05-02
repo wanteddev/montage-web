@@ -17,7 +17,7 @@ import {
 import { popoverStyle } from './style';
 
 import type { PopoverContentProps, PopoverProps } from './types';
-import type { MergeElementProps } from '../../types';
+import type { MergeElementProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 
 const Popover = ({
@@ -80,7 +80,7 @@ PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 const PopoverContent = forwardRef<
   HTMLDivElement,
   MergeElementProps<'div', PopoverContentProps>
->(({ showArrow, position, offset = 10, children, ...props }, ref) => {
+>(({ arrow, position, offset = 10, children, ...props }, ref) => {
   const { contentId, open, onOpenChange } =
     usePopoverContext(POPOVER_CONTENT_NAME);
 
@@ -99,11 +99,11 @@ const PopoverContent = forwardRef<
             id={contentId}
             ref={ref}
             {...props}
-            css={popoverStyle}
+            sx={[popoverStyle, props.sx]}
           >
             {children}
 
-            {showArrow && <PopperArrow />}
+            {arrow && <PopperArrow />}
           </FlexBox>
         </FocusScope>
       </PopperContent>

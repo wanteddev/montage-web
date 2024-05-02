@@ -5,12 +5,16 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
 import { IconDot } from '@wanteddev/wds-icon';
+import {
+  Box,
+  type MergeElementProps,
+  type SxProp,
+} from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { radioStyle } from './style';
 
-import type { MergeElementProps } from '../../types';
 import type { ComponentPropsWithoutRef } from 'react';
 import type { RadioProps } from './types';
 
@@ -51,7 +55,7 @@ const Radio = forwardRef<HTMLButtonElement, Props>(
             type="radio"
             checked={checked}
             defaultChecked={checked}
-            css={{ display: 'none', pointerEvents: 'none' }}
+            sx={{ display: 'none', pointerEvents: 'none' }}
             control={button}
             bubbles={!hasConsumerStoppedPropagationRef.current}
             name={name}
@@ -65,7 +69,8 @@ const Radio = forwardRef<HTMLButtonElement, Props>(
           height="calc(100% + 8px)"
           disabled={disabled}
         >
-          <button
+          <Box
+            as="button"
             type="button"
             role="radio"
             aria-checked={checked}
@@ -75,18 +80,21 @@ const Radio = forwardRef<HTMLButtonElement, Props>(
             disabled={disabled}
             value={value}
             ref={composedRefs}
-            css={radioStyle({
-              size,
-              // invalid,
-              checked,
-              disabled,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            })}
             {...props}
+            sx={[
+              radioStyle({
+                size,
+                // invalid,
+                checked,
+                disabled,
+                xs,
+                sm,
+                md,
+                lg,
+                xl,
+              }),
+              props.sx,
+            ]}
             onClick={composeEventHandlers(props.onClick, (event) => {
               if (!checked) onCheck?.();
               if (isFormControl) {
@@ -100,7 +108,7 @@ const Radio = forwardRef<HTMLButtonElement, Props>(
             <span>
               <IconDot />
             </span>
-          </button>
+          </Box>
         </WithInteraction>
       </>
     );
@@ -115,6 +123,7 @@ type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
   checked: boolean;
   control: HTMLElement | null;
   bubbles: boolean;
+  sx?: SxProp;
 };
 
 const BubbleInput = ({
@@ -143,21 +152,25 @@ const BubbleInput = ({
   }, [prevChecked, checked, bubbles]);
 
   return (
-    <input
+    <Box
+      as="input"
       type="checkbox"
       aria-hidden
       defaultChecked={checked}
       {...inputProps}
       tabIndex={-1}
       ref={ref}
-      css={{
-        ...controlSize,
-        transform: 'translateX(-100%)',
-        position: 'absolute',
-        pointerEvents: 'none',
-        opacity: 0,
-        margin: 0,
-      }}
+      sx={[
+        {
+          ...controlSize,
+          transform: 'translateX(-100%)',
+          position: 'absolute',
+          pointerEvents: 'none',
+          opacity: 0,
+          margin: 0,
+        },
+        inputProps.sx,
+      ]}
     />
   );
 };

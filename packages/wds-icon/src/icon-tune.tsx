@@ -1,16 +1,24 @@
-import type { ComponentProps } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { forwardRef } from 'react';
 
-type Props = ComponentProps<'svg'>;
+import type { SxProp } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef } from 'react';
 
-const IconTune = (props: Props) => {
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
+
+const IconTune = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
-    <svg
+    <Box
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
       {...props}
+      as="svg"
+      ref={ref}
     >
       <path
         fillRule="evenodd"
@@ -18,8 +26,8 @@ const IconTune = (props: Props) => {
         d="M14.4999 6.3C13.561 6.3 12.7999 7.06112 12.7999 8C12.7999 8.93888 13.561 9.7 14.4999 9.7C15.4388 9.7 16.1999 8.93888 16.1999 8C16.1999 7.06112 15.4388 6.3 14.4999 6.3ZM3 8.99998H11.1448C11.5751 10.4457 12.9144 11.5 14.4999 11.5C16.0854 11.5 17.4247 10.4457 17.855 8.99998H21V7.19998H17.9081C17.5462 5.65251 16.1576 4.5 14.4999 4.5C12.8422 4.5 11.4536 5.65251 11.0918 7.19998H3V8.99998ZM12.855 17H21V15.2H12.9081C12.5462 13.6525 11.1576 12.5 9.4999 12.5C7.84216 12.5 6.4536 13.6525 6.09176 15.2H3V17H6.14483C6.5751 18.4457 7.91438 19.5 9.4999 19.5C11.0854 19.5 12.4247 18.4457 12.855 17ZM7.7999 16C7.7999 15.0611 8.56102 14.3 9.4999 14.3C10.4388 14.3 11.1999 15.0611 11.1999 16C11.1999 16.9389 10.4388 17.7 9.4999 17.7C8.56102 17.7 7.7999 16.9389 7.7999 16Z"
         fill="currentColor"
       />
-    </svg>
+    </Box>
   );
-};
+});
 
 export default IconTune;

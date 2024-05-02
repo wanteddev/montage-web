@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { css } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 export const preWrapperStyle = (theme: Theme) => css`
   max-width: 100%;

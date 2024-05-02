@@ -7,19 +7,18 @@ description: Gradient for WDS Utility
 
 그라디언트 스타일을 관리합니다.
 
-Css Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
+Sx Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
 
 ## Solid
 
 배경 경계를 자연스럽게 표현합니다.
 
-<Demo code={`import { css } from '@emotion/react';
-import { gradient } from '@wanteddev/wds';
+<Demo code={`import { Box, css, gradient } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <div
-      css={[
+    <Box
+      sx={[
         theme => gradient(theme.palette.inverse.background, 'right'),
         {
           width: '100%',
@@ -37,10 +36,9 @@ export default Demo;`}
 
 두 가지 색을 그라디언트로 표현합니다.
 
-<Demo code={`import { css } from '@emotion/react';
-import { gradient } from '@wanteddev/wds';
+<Demo code={`import { Box, css, gradient } from '@wanteddev/wds';
 
-import type { Theme } from '@emotion/react';
+import type { Theme } from '@wanteddev/wds';
 
 const demoStyle = (theme: Theme) => css\`
   position: relative;
@@ -50,18 +48,18 @@ const demoStyle = (theme: Theme) => css\`
   &::before {
     width: 100%;
     height: 100%;
-    content: \'\';
+    content: '';
     position: absolute;
     left: 0px;
     top: 0px;
-    \$\{gradient(theme.palette.inverse.background, \'right\')\}
+    \$\{gradient(theme.palette.inverse.background, 'right')\}
   }
 \`;
 
 const Demo = () => {
   return (
-    <div
-      css={demoStyle}
+    <Box
+      sx={demoStyle}
     />
   )
 }
@@ -73,13 +71,12 @@ export default Demo;`}
 
 요소에 마스크를 씌워 경계를 매끄럽게 표현합니다.
 
-<Demo code={`import { css } from '@emotion/react';
-import { gradient } from '@wanteddev/wds';
+<Demo code={`import { Box, css, gradient } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <div
-      css={[
+    <Box
+      sx={[
         theme => gradient(theme.palette.inverse.background, 'right', '80px'),
         {
           width: '100%',

@@ -1,3 +1,4 @@
+import { Box } from '@wanteddev/wds';
 import { IconLink } from '@wanteddev/wds-icon';
 import Link from 'next/link';
 
@@ -8,11 +9,11 @@ import type { ComponentProps } from 'react';
 type Props = ComponentProps<'a'>;
 
 const HeadingLink = ({ id, children, ...props }: Props) => (
-  <Link id={id} {...props} href={`#${id}`} css={linkStyle}>
+  <Box id={id} {...props} href={`#${id}`} sx={linkStyle} as={Link}>
     {children}
 
     <IconLink aria-hidden />
-  </Link>
+  </Box>
 );
 
 export default HeadingLink;
