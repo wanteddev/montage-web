@@ -17,7 +17,11 @@ export {
   type Theme,
   type ThemeOpacityToken,
 } from '@wanteddev/wds-theme';
-export type { EmotionCache, SerializedStyles } from '@emotion/react';
+export type {
+  EmotionCache,
+  SerializedStyles,
+  Interpolation,
+} from '@emotion/react';
 export type { Options as CacheOptions } from '@emotion/cache';
 
 export type SxProp = Interpolation<Theme>;

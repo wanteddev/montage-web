@@ -194,7 +194,7 @@ const iconButtonColorStyle = (
         border: none;
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
-        background-color: ${theme.palette.background.normal.normal};
+        background-color: transparent;
         ${Boolean(color) &&
         css`
           color: ${getColorByToken(theme, color!)};

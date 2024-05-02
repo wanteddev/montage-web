@@ -19,9 +19,7 @@ export const scrollWrapperStyle =
     width: 100%;
     height: fit-content;
     ${scrollWrapperPaddingStyle(padding)}
-    ${isSticky &&
-    gradient(theme.palette.background.normal.normal, 'right', '48px')}
-    background-color: ${theme.palette.background.normal.normal};
+    ${isSticky && gradient('transparent', 'right', '48px')}
     transition: mask-image 0.2s ease;
 
     ${createResponsiveStyle(

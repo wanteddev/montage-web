@@ -20,4 +20,6 @@ export type {
   ThemeToken,
   ThemeOpacityToken,
   CacheOptions,
+  Interpolation,
+  SerializedStyles,
 } from '@wanteddev/wds-engine';
