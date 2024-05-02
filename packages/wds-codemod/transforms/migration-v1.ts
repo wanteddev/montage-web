@@ -509,7 +509,7 @@ export default function transformer(
 
     const impor = root.find(j.ImportDeclaration, {
       source: { value: '@wanteddev/wds' },
-      importKind: { value: 'type' },
+      importKind: 'value',
     });
 
     if (specifiers.length > 0) {
