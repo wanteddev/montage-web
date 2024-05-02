@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-codemod",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "dependencies": {
     "cheerio": "1.0.0-rc.9",
     "execa": "4.0.3",
