@@ -17,8 +17,6 @@ type Props = PropsWithChildren<{
   disableTransitionOnChange?: boolean | undefined;
   /** Key used to store theme setting in localStorage */
   storageKey?: string | undefined;
-  /* 강제로 테마를 덮어씌울 때 사용합니다. */
-  forcedTheme?: 'light' | 'dark' | undefined;
   /** Use default global style */
   disableDefaultGlobalStyle?: boolean | undefined;
 }> &
@@ -28,7 +26,6 @@ const ThemeProvider = ({
   children,
   enableDarkMode,
   disableTransitionOnChange = false,
-  forcedTheme,
   storageKey = 'theme',
   disableDefaultGlobalStyle = false,
   provider,
@@ -39,7 +36,7 @@ const ThemeProvider = ({
       enableSystem={enableDarkMode || false}
       enableColorScheme
       disableTransitionOnChange={disableTransitionOnChange}
-      forcedTheme={forcedTheme}
+      forcedTheme={enableDarkMode ? undefined : 'light'}
       storageKey={storageKey}
     >
       <PrivateThemeProvider
