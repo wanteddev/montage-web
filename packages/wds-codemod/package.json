@@ -24,7 +24,7 @@
     "type": "git",
     "directory": "packages/wds-codemod"
   },
-  "bin": "bin/cli.js",
+  "bin": "bin/wds-codemod.js",
   "devDependencies": {
     "@types/jscodeshift": "0.11.0"
   }

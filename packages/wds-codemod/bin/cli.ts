@@ -23,7 +23,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   },
 ];
 
-const run = () => {
+export const run = () => {
   const cli = meow({
     help: `
     Usage
@@ -104,5 +104,3 @@ const runTransform = ({ files, transformer }) => {
     throw new Error(`jscodeshift exited with code ${result.exitCode}`);
   }
 };
-
-run();
