@@ -7,6 +7,7 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
+  LegacyRef,
   Ref,
 } from 'react';
 import type { Merge, SxProp } from '../types';
@@ -15,7 +16,7 @@ type Props<T extends ElementType> = Merge<
   {
     sx?: SxProp;
     as?: T;
-    ref?: Ref<ElementRef<T>>;
+    ref?: Ref<ElementRef<T>> | LegacyRef<ElementRef<T>>;
   },
   ComponentPropsWithoutRef<T>
 >;

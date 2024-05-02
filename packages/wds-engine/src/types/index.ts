@@ -2,6 +2,7 @@ import type {
   ComponentPropsWithoutRef,
   ElementRef,
   ElementType,
+  LegacyRef,
   Ref,
 } from 'react';
 import type { Interpolation } from '@emotion/react';
@@ -31,7 +32,7 @@ export type MergeWithCustomElementProps<E extends ElementType, T> = Merge<
     {
       sx?: SxProp;
       as?: E;
-      ref?: Ref<ElementRef<E>>;
+      ref?: Ref<ElementRef<E>> | LegacyRef<ElementRef<E>>;
     }
   >,
   ComponentPropsWithoutRef<E>
@@ -42,7 +43,7 @@ export type MergeElementProps<E extends keyof JSX.IntrinsicElements, T> = Merge<
     T,
     {
       sx?: SxProp;
-      ref?: Ref<ElementRef<E>>;
+      ref?: Ref<ElementRef<E>> | LegacyRef<ElementRef<E>>;
     }
   >,
   ComponentPropsWithoutRef<E>

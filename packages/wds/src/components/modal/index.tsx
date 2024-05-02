@@ -491,7 +491,7 @@ const ModalHeadingFc = forwardRef(
     return (
       <Typography
         ref={ref}
-        as="h1"
+        as={'h1' as ElementType}
         variant="heading2"
         weight="bold"
         color="palette.label.normal"
@@ -518,7 +518,7 @@ const ModalSummaryFc = forwardRef(
     return (
       <Typography
         ref={ref}
-        as="p"
+        as={'p' as ElementType}
         variant="body2_normal"
         weight="regular"
         color="palette.label.alternative"
@@ -545,7 +545,7 @@ const ModalDescriptionFC = forwardRef(
     return (
       <Typography
         ref={ref}
-        as="p"
+        as={'p' as ElementType}
         variant="body1_reading"
         weight="regular"
         color="palette.label.normal"
