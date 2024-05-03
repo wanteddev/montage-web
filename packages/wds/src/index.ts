@@ -5,6 +5,7 @@ export * from './utils';
 export {
   css,
   ClassNames,
+  keyframes,
   Global,
   useTheme,
   theme,
