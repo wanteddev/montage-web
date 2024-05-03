@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.2...@wanteddev/wds@1.0.0-alpha.3) (2024-05-03)
+
+### Bug Fixes
+
+- **wds:** 누락된 export 추가 ([d7aa107](https://github.com/wanteddev/wds/commit/d7aa107076dfd51958b9efec579bafc55940d424))
+
 # [1.0.0-alpha.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.1...@wanteddev/wds@1.0.0-alpha.2) (2024-05-02)
 
 ### Features
