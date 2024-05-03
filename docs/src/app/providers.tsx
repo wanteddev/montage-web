@@ -12,10 +12,6 @@ const Providers = ({ children }: PropsWithChildren) => {
 
         <Global
           styles={(theme) => ({
-            ['code, .npm__react-simple-code-editor__textarea, pre']: {
-              fontFamily:
-                'ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace !important',
-            },
             [':root']: {
               '--header-height': '61px',
               [respondTo(theme.breakpoint.sm)]: {

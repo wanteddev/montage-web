@@ -31,6 +31,7 @@ export const routes: Array<Route> = [
       { title: 'Avatar', slug: '/docs/components/avatar' },
       { title: 'AvatarButton', slug: '/docs/components/avatar-button' },
       { title: 'AvatarGroup', slug: '/docs/components/avatar-group' },
+      { title: 'Box', slug: '/docs/components/box' },
       { title: 'Button', slug: '/docs/components/button' },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
