@@ -1,13 +1,4 @@
-import {
-  Fragment,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-} from 'react';
-import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Fragment, forwardRef, useId } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -27,16 +18,11 @@ import {
   TOOLTIP_TRIGGER_NAME,
 } from './constants';
 import { tooltipContentStyle, tooltipWrapperStyle } from './style';
+import { useTooltip } from './hooks';
 
 import type { MergeElementProps } from '@wanteddev/wds-engine';
 import type { TooltipContentProps, TooltipProps } from './types';
-import type {
-  ComponentPropsWithoutRef,
-  FocusEventHandler,
-  MouseEventHandler,
-  PointerEventHandler,
-  PropsWithChildren,
-} from 'react';
+import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 
 const Tooltip = ({
   mode = 'hover',
@@ -44,126 +30,44 @@ const Tooltip = ({
   defaultOpen = mode === 'always',
   onOpenChange,
   children,
+  enterDelay = 250,
+  leaveDelay = 300,
+  disableCloseOnPointDown = false,
+  disableOpenOnFocus = false,
 }: PropsWithChildren<TooltipProps>) => {
   const containerId = useId();
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const isDismissed = useRef(false);
-
-  const openTimerRef = useRef(0);
-  const closeTimerRef = useRef(0);
-
-  const enterDelay = useMemo(() => 250, []);
-  const leaveDelay = useMemo(() => 300, []);
-
-  const [open = false, setOpen] = useControllableState({
-    prop: originOpen,
-    defaultProp: defaultOpen,
-    onChange: onOpenChange,
+  const {
+    containerRef,
+    open,
+    handleMouseOver,
+    handleMouseLeave,
+    handleFocus,
+    handleBlur,
+    handleMouseDown,
+    handleDismiss,
+  } = useTooltip({
+    mode,
+    open: originOpen,
+    defaultOpen,
+    onOpenChange,
+    enterDelay,
+    leaveDelay,
+    disableCloseOnPointDown,
+    disableOpenOnFocus,
   });
-
-  const handleOpen = useCallback(() => {
-    if (mode === 'hover') {
-      window.clearTimeout(closeTimerRef.current);
-      window.clearTimeout(openTimerRef.current);
-      openTimerRef.current = window.setTimeout(() => setOpen(true), enterDelay);
-    }
-  }, [enterDelay, setOpen, mode]);
-
-  const handleClose = useCallback(() => {
-    if (mode === 'hover') {
-      window.clearTimeout(openTimerRef.current);
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = window.setTimeout(async () => {
-        if (containerRef.current !== null) {
-          try {
-            containerRef.current.style.opacity = '0';
-
-            await containerRef.current.animate(
-              [{ opacity: 1 }, { opacity: 0 }],
-              {
-                duration: 200,
-                easing: 'ease',
-              },
-            ).finished;
-            containerRef.current.animate([{ opacity: 0 }], {
-              duration: 200,
-            });
-          } catch (err) {
-            //
-          }
-
-          setOpen(false);
-          isDismissed.current = false;
-        } else {
-          setOpen(false);
-          isDismissed.current = false;
-        }
-      }, leaveDelay);
-    }
-  }, [leaveDelay, setOpen, mode]);
-
-  useEffect(() => {
-    const openTimer = openTimerRef.current;
-    const closeTimer = closeTimerRef.current;
-
-    return () => {
-      window.clearTimeout(openTimer);
-      window.clearTimeout(closeTimer);
-    };
-  }, []);
-
-  const handleMouseOver: PointerEventHandler<any> = (e) => {
-    if (e.type === 'touchstart') {
-      return;
-    }
-
-    if (!isDismissed.current) {
-      handleOpen();
-    }
-  };
-
-  const handleMouseLeave: PointerEventHandler<any> = (e) => {
-    if (e.type === 'touchstart') {
-      return;
-    }
-
-    isDismissed.current = false;
-    handleClose();
-  };
-
-  const handleFocus: FocusEventHandler<any> = () => {
-    if (!isDismissed.current) {
-      handleOpen();
-    }
-  };
-  const handleBlur: FocusEventHandler<any> = () => {
-    if (mode === 'hover') {
-      isDismissed.current = true;
-      handleClose();
-    }
-  };
-
-  const handleMouseDown: MouseEventHandler<any> = () => {
-    if (mode === 'hover') {
-      isDismissed.current = true;
-      setOpen(false);
-    }
-  };
 
   return (
     <TooltipProvider
-      isDismissed={isDismissed}
       containerRef={containerRef}
       mode={mode}
       containerId={containerId}
       open={open}
-      onOpenChange={setOpen}
       handleMouseOver={handleMouseOver}
       handleMouseLeave={handleMouseLeave}
       handleFocus={handleFocus}
       handleBlur={handleBlur}
       handleMouseDown={handleMouseDown}
+      handleDismiss={handleDismiss}
     >
       <Popper>{children}</Popper>
     </TooltipProvider>
@@ -218,21 +122,22 @@ const TooltipContent = forwardRef<
       children,
       variant = 'normal',
       position = 'top-center',
+      __wdsCustomChildren,
       ...props
     },
     ref,
   ) => {
     const {
-      onOpenChange,
       containerRef,
       containerId,
       mode,
       open,
-      isDismissed,
       handleMouseOver,
       handleMouseLeave,
       handleFocus,
       handleBlur,
+      handleDismiss,
+      handleMouseDown,
     } = useTooltipContext(TOOLTIP_CONTENT_NAME);
 
     const composedRef = useComposedRefs(ref, containerRef);
@@ -252,16 +157,14 @@ const TooltipContent = forwardRef<
           asChild
           disableOutsidePointerEvents={false}
           onFocusOutside={(event) => event.preventDefault()}
-          onDismiss={() => {
-            if (mode === 'hover') {
-              isDismissed.current = true;
-              onOpenChange(false);
-            }
-          }}
+          onPointerDownOutside={handleMouseDown}
+          onDismiss={handleDismiss}
         >
           <PopperContent
             position={position}
             role="tooltip"
+            id={containerId}
+            ref={composedRef}
             wrapperProps={{
               onMouseOver: handleMouseOver,
               onMouseLeave: handleMouseLeave,
@@ -269,27 +172,23 @@ const TooltipContent = forwardRef<
               onBlur: handleBlur,
             }}
           >
-            <FlexBox
-              {...props}
-              sx={[tooltipWrapperStyle, props.sx]}
-              ref={composedRef}
-            >
-              <FlexBox sx={tooltipContentStyle({ variant })}>
-                <FlexBox flexDirection="column" gap="12px">
-                  <Typography
-                    id={containerId}
-                    variant="label1_normal"
-                    weight="medium"
-                  >
-                    {children}
-                  </Typography>
+            {Boolean(__wdsCustomChildren) ? (
+              __wdsCustomChildren
+            ) : (
+              <FlexBox {...props} sx={[tooltipWrapperStyle, props.sx]}>
+                <FlexBox sx={tooltipContentStyle({ variant })}>
+                  <FlexBox flexDirection="column" gap="12px">
+                    <Typography variant="label1_normal" weight="medium">
+                      {children}
+                    </Typography>
 
-                  {Boolean(action) && action}
+                    {Boolean(action) && action}
+                  </FlexBox>
+
+                  {arrow && <PopperArrow overlay={overlay} />}
                 </FlexBox>
-
-                {arrow && <PopperArrow overlay={overlay} />}
               </FlexBox>
-            </FlexBox>
+            )}
           </PopperContent>
         </DismissableLayer>
       </Wrapper>

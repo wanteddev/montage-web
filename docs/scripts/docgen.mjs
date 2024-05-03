@@ -8,7 +8,7 @@ const parser = withCustomConfig(
   path.join(process.cwd(), '../packages/wds/tsconfig.json'),
   {
     propFilter: (prop) => {
-      if (prop.name === 'css') {
+      if (prop.name === 'css' || prop.name === '__wdsCustomChildren') {
         return false;
       }
       if (prop.declarations !== undefined && prop.declarations.length > 0) {
