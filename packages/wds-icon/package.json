@@ -36,7 +36,6 @@
   "devDependencies": {
     "@types/react": "18.2.65",
     "@types/react-dom": "18.2.22",
-    "@wanteddev/wds-engine": "workspace:*",
     "change-case": "^5.4.3",
     "glob": "^10.3.10",
     "inquirer": "^9.2.16",
@@ -44,6 +43,7 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
+    "@wanteddev/wds-engine": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

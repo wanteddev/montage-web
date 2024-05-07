@@ -331,6 +331,9 @@ importers:
 
   packages/wds-icon:
     dependencies:
+      '@wanteddev/wds-engine':
+        specifier: workspace:*
+        version: link:../wds-engine
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -344,9 +347,6 @@ importers:
       '@types/react-dom':
         specifier: 18.2.22
         version: 18.2.22
-      '@wanteddev/wds-engine':
-        specifier: workspace:*
-        version: link:../wds-engine
       change-case:
         specifier: ^5.4.3
         version: 5.4.3
