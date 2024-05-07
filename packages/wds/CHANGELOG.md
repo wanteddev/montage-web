@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.3...@wanteddev/wds@1.0.0-alpha.4) (2024-05-07)
+
+### Features
+
+- **wds:** tooltip 개선 및 코드 리팩토링 ([ce6f3bc](https://github.com/wanteddev/wds/commit/ce6f3bc5413f80acf94f4ccf7895b6836ec1fe42))
+- **wds:** tooltip, popover, alert에 disablePortal 옵션 추가 ([d8ee986](https://github.com/wanteddev/wds/commit/d8ee9866637f36038cd35f06ceb68cdb13298c97))
+- **wds:** wrapper로 스타일 전달할 수 있도록 추가 ([c24a4c2](https://github.com/wanteddev/wds/commit/c24a4c2d8cedfb409cf75ef0ee44f2edfe083451))
+
 # [1.0.0-alpha.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.2...@wanteddev/wds@1.0.0-alpha.3) (2024-05-03)
 
 ### Bug Fixes
