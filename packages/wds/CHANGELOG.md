@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.4...@wanteddev/wds@1.0.0) (2024-05-07)
+
+**Note:** Version bump only for package @wanteddev/wds
+
 # [1.0.0-alpha.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.3...@wanteddev/wds@1.0.0-alpha.4) (2024-05-07)
 
 ### Features
