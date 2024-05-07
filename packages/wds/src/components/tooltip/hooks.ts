@@ -104,9 +104,7 @@ export const useTooltip = ({
         return;
       }
 
-      if (latestOpen.current) {
-        handleClose();
-      }
+      handleClose();
     },
     [handleClose],
   );
