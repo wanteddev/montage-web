@@ -50,7 +50,7 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <ProgressStepIndicator value="1" size="small">
+    <ProgressStepIndicator value="2" size="small">
       <ProgressStepIndicatorItem value="1" />
       <ProgressStepIndicatorItem value="2" />
       <ProgressStepIndicatorItem value="3" />
@@ -69,7 +69,7 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <ProgressStepIndicator value="1" divider={false}>
+    <ProgressStepIndicator value="2" divider={false}>
       <ProgressStepIndicatorItem value="1" />
       <ProgressStepIndicatorItem value="2" />
       <ProgressStepIndicatorItem value="3" />
@@ -88,16 +88,16 @@ export default Demo;`}
 import { useState } from 'react';
 
 const Demo = () => {
-  const [activeStep, setActiveStep] = useState('3');
+  const [activeStep, setActiveStep] = useState('2');
 
   const handleClickPrev = () => {
-    if (activeStep === 0) return;
+    if (activeStep === '0') return;
 
     setActiveStep(prev => (Number(prev) - 1).toString());
   };
 
   const handleClickNext = () => {
-    if (activeStep === 5) return;
+    if (activeStep === '5') return;
 
     setActiveStep(prev => (Number(prev) + 1).toString());
   };
