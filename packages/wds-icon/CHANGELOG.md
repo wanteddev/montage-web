@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.0...@wanteddev/wds-icon@1.0.1-alpha.0) (2024-05-07)
+
+### Bug Fixes
+
+- **wds-icon:** cannot find module wds-engine ([9bfe375](https://github.com/wanteddev/wds/commit/9bfe375cd77c599be129ac9e0a915d209cc27659))
+
 # [1.0.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.0-alpha.2...@wanteddev/wds-icon@1.0.0) (2024-05-07)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
