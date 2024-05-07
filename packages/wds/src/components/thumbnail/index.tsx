@@ -6,13 +6,16 @@ import ImageLoader from '../image-loader';
 import { thumbnailStyle } from './style';
 
 import type { Merge } from '@wanteddev/wds-engine';
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithoutRef } from 'react';
 import type { ThumbnailProps } from './types';
 
-type Props = Merge<ThumbnailProps, ComponentProps<typeof ImageLoader>>;
+type Props = Merge<
+  ThumbnailProps,
+  ComponentPropsWithoutRef<typeof ImageLoader>
+>;
 
 const Thumbnail = forwardRef<HTMLImageElement, Props>(
-  ({ ratio = '1:1', portrait = false, xs, sm, md, lg, xl, ...props }, ref) => {
+  ({ ratio = '4:3', portrait = false, xs, sm, md, lg, xl, ...props }, ref) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
       'idle' | 'loaded' | 'error'
     >('idle');
@@ -28,7 +31,19 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
       <ImageLoader
         ref={ref}
         {...props}
-        sx={[thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl }), props.sx]}
+        sx={[
+          thumbnailStyle({
+            ratio,
+            width: props.width,
+            portrait,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
         onLoad={() => {
           props.onLoad?.();
           setImageLoadingStatus('loaded');
@@ -43,7 +58,16 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
         ref={ref}
         {...omitOthers()}
         sx={[
-          thumbnailStyle({ ratio, portrait, xs, sm, md, lg, xl }),
+          thumbnailStyle({
+            ratio,
+            portrait,
+            width: props.width,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
           omitOthers().sx,
         ]}
         alt={props.alt ? props.alt + ' load fail' : ''}

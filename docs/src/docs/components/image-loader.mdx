@@ -18,7 +18,7 @@ const Demo = () => {
   return (
     <ImageLoader
       quality={90}
-      width="600px"
+      width="300px"
       src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
       alt="Wanted Company Image"
     />
@@ -43,19 +43,19 @@ const Demo = () => {
   return (
     <ImageLoader
       quality={90}
-      width="600px"
+      width="400px"
       src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
       alt="Wanted Company Image"
       srcSet={\`\$\{getOptimizedImageSource({
         src: 'https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png',
-        width: '300px',
+        width: '200px',
         quality: 90
-      })\} 480w, \$\{getOptimizedImageSource({
+      })\} 200w, \$\{getOptimizedImageSource({
         src: 'https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png',
-        width: '600px',
+        width: '400px',
         quality: 90
-      })\} 800w\`}
-      sizes="(max-width: 767px) 480px, 800px"
+      })\} 400w\`}
+      sizes="(max-width: 767px) 200px, 400px"
     />
   )
 }

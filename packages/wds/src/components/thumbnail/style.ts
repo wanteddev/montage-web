@@ -6,10 +6,19 @@ import type { Theme } from '@wanteddev/wds-engine';
 import type { ThumbnailProps } from './types';
 
 export const thumbnailStyle =
-  ({ ratio, portrait, xs, sm, md, lg, xl }: ThumbnailProps) =>
+  ({
+    ratio,
+    portrait,
+    width,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ThumbnailProps & { width: string | number }) =>
   (theme: Theme) => css`
     object-fit: cover;
-    width: 100%;
+    width: ${width};
 
     ${thumbnailRatioStyle({ ratio, portrait })}
 

@@ -7,7 +7,14 @@ export const mdxRootStyle = (theme: Theme) => css`
   color: ${theme.palette.label.normal};
   ${typographyStyle('body1_reading', 'regular')}
 
-  code, .npm__react-simple-code-editor__textarea, pre {
+  * {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  code,
+  .npm__react-simple-code-editor__textarea,
+  pre {
     font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
       'Liberation Mono', monospace !important;
   }

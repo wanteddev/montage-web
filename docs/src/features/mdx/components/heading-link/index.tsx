@@ -10,7 +10,7 @@ type Props = ComponentPropsWithoutRef<'a'>;
 
 const HeadingLink = ({ id, children, ...props }: Props) => (
   <Box id={id} {...props} href={`#${id}`} sx={linkStyle} as={Link}>
-    {children}
+    <span>{children}</span>
 
     <IconLink aria-hidden />
   </Box>

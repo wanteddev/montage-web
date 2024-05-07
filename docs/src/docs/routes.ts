@@ -75,6 +75,7 @@ export const routes: Array<Route> = [
       { title: 'TextArea', slug: '/docs/components/text-area' },
       { title: 'TextButton', slug: '/docs/components/text-button' },
       { title: 'TextField', slug: '/docs/components/text-field' },
+      { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
       { title: 'Tooltip', slug: '/docs/components/tooltip' },
       { title: 'WithInteraction', slug: '/docs/components/with-interaction' },
