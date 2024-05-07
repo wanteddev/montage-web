@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0...@wanteddev/wds@1.0.1) (2024-05-07)
+
+### Bug Fixes
+
+- **wds:** tooltip mouseleave 이벤트 수정 ([9051559](https://github.com/wanteddev/wds/commit/90515598c24485556fef1af7d1313115848efade))
+
 # [1.0.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.0-alpha.4...@wanteddev/wds@1.0.0) (2024-05-07)
 
 **Note:** Version bump only for package @wanteddev/wds
