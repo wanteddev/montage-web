@@ -36,7 +36,9 @@ import { forwardRef } from 'react';
 import type { SxProp } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef } from 'react';
 
-type Props = ComponentPropsWithoutRef<'svg'> & { sx?: SxProp };
+type Props = ComponentPropsWithoutRef<'svg'> & {
+  sx?: SxProp;
+};
 
 const Icon${componentName} = forwardRef<HTMLSvgElement, Props>((props, ref) => {
 	return (
