@@ -31,6 +31,8 @@ export type TooltipContentProps = WithSxProps<{
   children?: ReactNode;
   variant?: 'normal' | 'inverse' | 'accent';
   position?: PopperContentProps['position'];
+  container?: PopperContentProps['container'];
+  disablePortal?: PopperContentProps['disablePortal'];
   /**
    * compact tooltip을 위해 사용
    */

@@ -122,6 +122,8 @@ const TooltipContent = forwardRef<
       children,
       variant = 'normal',
       position = 'top-center',
+      container,
+      disablePortal,
       __wdsCustomChildren,
       ...props
     },
@@ -164,6 +166,8 @@ const TooltipContent = forwardRef<
             position={position}
             role="tooltip"
             id={containerId}
+            container={container}
+            disablePortal={disablePortal}
             ref={composedRef}
             wrapperProps={{
               onMouseOver: handleMouseOver,

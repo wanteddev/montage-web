@@ -11,11 +11,11 @@ import {
 import { Box, useTheme } from '@wanteddev/wds-engine';
 
 import { addOpacity } from '../../utils/color';
-import Portal from '../portal';
 import Typography from '../typography';
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
 import { useRegionStore } from '../../stores/region-store';
+import PortalOrFragment from '../portal-or-fragment';
 
 import { alertWrapperStyle, topRegionStatusStyle } from './style';
 
@@ -34,6 +34,8 @@ const Alert = forwardRef<HTMLDivElement, Props>(
       variant = 'normal',
       children,
       wrapperProps,
+      disablePortal,
+      container,
       ...props
     },
     ref,
@@ -102,7 +104,7 @@ const Alert = forwardRef<HTMLDivElement, Props>(
     return (
       <>
         {show && (
-          <Portal>
+          <PortalOrFragment disablePortal={disablePortal} container={container}>
             <Box
               wds-ignore-dismissable-layer="true"
               {...wrapperProps}
@@ -155,7 +157,7 @@ const Alert = forwardRef<HTMLDivElement, Props>(
                 </FlexBox>
               </Box>
             </Box>
-          </Portal>
+          </PortalOrFragment>
         )}
       </>
     );

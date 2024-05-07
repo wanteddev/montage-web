@@ -22,6 +22,11 @@ export type PopperContentProps = Merge<
     referenceHidden?: boolean;
     wrapperProps?: WithSxProps<HTMLAttributes<HTMLDivElement>>;
     setContext?: (context: ReturnType<typeof useFloating>['context']) => void;
+    /**
+     * Portal로 표시될 container를 지정합니다.
+     */
+    container?: Element | DocumentFragment | null;
+    disablePortal?: boolean;
   },
   ComponentPropsWithoutRef<typeof Slot>
 >;

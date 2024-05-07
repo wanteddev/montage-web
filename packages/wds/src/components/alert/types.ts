@@ -8,4 +8,9 @@ export type AlertProps = {
   defaultShow?: boolean;
   onShowChange?: (state: boolean) => void;
   wrapperProps?: WithSxProps<ComponentPropsWithRef<'div'>>;
+  /**
+   * Portal로 표시될 container를 지정합니다.
+   */
+  container?: Element | DocumentFragment | null;
+  disablePortal?: boolean;
 };

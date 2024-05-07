@@ -1,7 +1,6 @@
 'use client';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
-  Fragment,
   forwardRef,
   useCallback,
   useEffect,
@@ -19,13 +18,13 @@ import { hideOthers } from '../../utils';
 import RemoveScroll from '../remove-scroll';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
-import Portal from '../portal';
 import Button from '../button';
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
 import ScrollArea from '../scroll-area';
 import TextButton from '../text-button';
 import Typography from '../typography';
+import PortalOrFragment from '../portal-or-fragment';
 
 import {
   ModalActionAreaProvider,
@@ -98,8 +97,6 @@ const Modal = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const innerContainerRef = useRef<HTMLDivElement>(null);
 
-  const Container = disablePortal ? Fragment : Portal;
-
   return (
     <ModalProvider
       containerRef={containerRef}
@@ -117,9 +114,9 @@ const Modal = ({
     >
       {open && (
         <>
-          <Container container={container}>
+          <PortalOrFragment disablePortal={disablePortal} container={container}>
             <>{children}</>
-          </Container>
+          </PortalOrFragment>
         </>
       )}
     </ModalProvider>

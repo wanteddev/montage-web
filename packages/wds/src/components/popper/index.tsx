@@ -22,8 +22,8 @@ import {
 import { Slot } from '@radix-ui/react-slot';
 import { Box, useTheme } from '@wanteddev/wds-engine';
 
-import Portal from '../portal';
 import { createEmptyResponsiveStyle } from '../../utils';
+import PortalOrFragment from '../portal-or-fragment';
 
 import {
   PopperContentProvider,
@@ -184,6 +184,8 @@ const PopperContent: ReturnType<
       offset: givenOffset = 10,
       referenceHidden = false,
       setContext,
+      container,
+      disablePortal,
       ...props
     },
     ref,
@@ -252,7 +254,7 @@ const PopperContent: ReturnType<
     }, [setContext, floatingContext]);
 
     return (
-      <Portal>
+      <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
           ref={refs.setFloating}
           {...wrapperProps}
@@ -287,7 +289,7 @@ const PopperContent: ReturnType<
             />
           </PopperContentProvider>
         </Box>
-      </Portal>
+      </PortalOrFragment>
     );
   },
 );

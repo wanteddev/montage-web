@@ -23,42 +23,56 @@ CompactTooltipTrigger.displayName = 'CompactTooltipTrigger';
 const CompactTooltipContent = forwardRef<
   HTMLDivElement,
   MergeElementProps<'div', CompactTooltipContentProps>
->(({ children, shortcut, position = 'top-center', ...props }, ref) => {
-  return (
-    <TooltipContent
-      position={position}
-      ref={ref}
-      __wdsCustomChildren={
-        <FlexBox {...props} sx={[compactTooltipWrapperStyle, props.sx]}>
-          <Box sx={compactTooltipContentStyle}>
-            <Typography
-              variant="label2"
-              weight="regular"
-              color="palette.inverse.label"
-            >
-              {children}
-            </Typography>
-
-            {Boolean(shortcut) && (
+>(
+  (
+    {
+      children,
+      shortcut,
+      container,
+      disablePortal,
+      position = 'top-center',
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <TooltipContent
+        position={position}
+        container={container}
+        disablePortal={disablePortal}
+        ref={ref}
+        __wdsCustomChildren={
+          <FlexBox {...props} sx={[compactTooltipWrapperStyle, props.sx]}>
+            <Box sx={compactTooltipContentStyle}>
               <Typography
                 variant="label2"
                 weight="regular"
                 color="palette.inverse.label"
-                sx={(theme) => ({
-                  opacity: theme.opacity[61],
-                  marginLeft: '4px',
-                  display: 'inline-block',
-                })}
               >
-                {shortcut}
+                {children}
               </Typography>
-            )}
-          </Box>
-        </FlexBox>
-      }
-    />
-  );
-});
+
+              {Boolean(shortcut) && (
+                <Typography
+                  variant="label2"
+                  weight="regular"
+                  color="palette.inverse.label"
+                  sx={(theme) => ({
+                    opacity: theme.opacity[61],
+                    marginLeft: '4px',
+                    display: 'inline-block',
+                  })}
+                >
+                  {shortcut}
+                </Typography>
+              )}
+            </Box>
+          </FlexBox>
+        }
+      />
+    );
+  },
+);
 
 CompactTooltipContent.displayName = 'CompactTooltipContent';
 
