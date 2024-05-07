@@ -57,6 +57,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       maxRows,
       minRows = 1,
       className,
+      style,
       sx,
       xs,
       sm,
@@ -225,6 +226,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         ]}
         style={{
           paddingRight: `calc(${rightIconWidth}px + 8px)`,
+          ...style,
         }}
       >
         <Box

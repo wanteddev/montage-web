@@ -12,7 +12,7 @@ type Props = MergeElementProps<'input', TextFieldProps>;
 
 const TextField = forwardRef<HTMLInputElement, Props>(
   (
-    { invalid, rightIcon, className, sx, xs, sm, md, lg, xl, ...props },
+    { invalid, rightIcon, className, style, sx, xs, sm, md, lg, xl, ...props },
     ref,
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -21,6 +21,7 @@ const TextField = forwardRef<HTMLInputElement, Props>(
     return (
       <Box
         className={className}
+        style={style}
         sx={[
           textFieldWrapperStyle({
             invalid,

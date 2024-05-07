@@ -29,7 +29,6 @@ const Button = forwardRef(
       color = 'primary',
       leftIcon,
       rightIcon,
-      className,
       size = 'medium',
       children,
       xs,
@@ -72,7 +71,6 @@ const Button = forwardRef(
           as={(as || 'button') as ElementType}
           aria-labelledby={id}
           ref={ref}
-          className={className}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}

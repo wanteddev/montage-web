@@ -22,6 +22,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       size = 'large',
       variant = 'person',
       className,
+      style,
       sx,
       xs,
       sm,
@@ -59,6 +60,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
         className={className}
         wds-component="avatar"
         sx={[avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl }), sx]}
+        style={style}
       >
         {imageLoadingStatus !== 'error' && hasImage(props) ? (
           <ImageLoader

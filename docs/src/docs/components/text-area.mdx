@@ -11,7 +11,7 @@ description: TextArea Component
 
 - 입력한 텍스트에 따라 자동으로 늘어나요.
 - `maxRows` 와 `minRows` 로 최대 / 최소로 늘어나는 line 수를 정할 수 있어요.
-- Custom Css로 padding 값을 바꾸면 동작이 달라져요. padding 값은 변경하지 않도록 주의해요.
+- padding 값을 변경할 때 유의가 필요해요. `paddingRight`, `paddingBottom`이 자동으로 동적 변환되기 때문이에요.
 - 너비 값은 `width` prop을 이용해주세요.
 
 <Demo code={`import { TextArea } from '@wanteddev/wds';
