@@ -628,14 +628,17 @@ export default function transformer(
         const prevTagName = html.node.name.name;
 
         html.node.name.name = 'Box';
-        html.node.attributes?.push(
-          j.jsxAttribute(
-            j.jsxIdentifier('as'),
-            jsxElements.includes(prevTagName)
-              ? j.literal(prevTagName)
-              : j.jsxExpressionContainer(j.identifier(prevTagName)),
-          ),
-        );
+
+        if (prevTagName !== 'div') {
+          html.node.attributes?.push(
+            j.jsxAttribute(
+              j.jsxIdentifier('as'),
+              jsxElements.includes(prevTagName)
+                ? j.literal(prevTagName)
+                : j.jsxExpressionContainer(j.identifier(prevTagName)),
+            ),
+          );
+        }
 
         if (!html.node.selfClosing && html.parent?.value?.closingElement) {
           html.parent.value.closingElement = j.jsxClosingElement(
