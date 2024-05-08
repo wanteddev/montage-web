@@ -2,7 +2,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import flattenDeep from 'lodash.flattendeep';
-import { darkOriginTheme, lightOriginTheme } from '@wanteddev/wds-engine';
+import {
+  darkOriginTheme,
+  lightOriginTheme,
+  theme,
+} from '@wanteddev/wds-engine';
+
+console.log(theme.light);
 
 import reset from './reset';
 

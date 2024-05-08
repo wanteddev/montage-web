@@ -2,7 +2,7 @@ import breakpoint from './breakpoint';
 import opacity from './opacity';
 import spacing from './spacing';
 import zIndex from './z-index';
-import * as atomic from './atomic';
+import atomic from './atomic';
 import * as semantic from './semantic';
 
 /**

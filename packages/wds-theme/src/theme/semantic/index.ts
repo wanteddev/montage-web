@@ -1,4 +1,4 @@
-import * as atomic from '../atomic';
+import atomic from '../atomic';
 import opacity from '../opacity';
 import { addHexOpacity } from '../../utils';
 
