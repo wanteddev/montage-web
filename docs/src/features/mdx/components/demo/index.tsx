@@ -73,7 +73,7 @@ const Demo = ({ code, hideCode }: Props) => {
             onValueChange={setValue}
             sx={[codeBlockStyle, editorStyle]}
             padding={16}
-            highlight={(v) =>
+            highlight={(v: string) =>
               toHtml(
                 refractor.highlight(v, 'tsx') as Parameters<typeof toHtml>[0],
               )

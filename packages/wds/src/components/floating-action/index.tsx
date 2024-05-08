@@ -1,18 +1,17 @@
 'use client';
 import { forwardRef } from 'react';
-import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { floatingActionStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { FloatingActionProps } from './types';
-
-type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
-  T,
-  FloatingActionProps
->;
 
 const FloatingAction = forwardRef(
   <E extends ElementType = 'button'>(
@@ -29,7 +28,7 @@ const FloatingAction = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<FloatingActionProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
@@ -54,10 +53,8 @@ const FloatingAction = forwardRef(
       </WithInteraction>
     );
   },
-);
+) as PolymorphicComponent<FloatingActionProps, 'button'>;
 
 FloatingAction.displayName = 'FloatingAction';
 
-export default FloatingAction as <E extends ElementType = 'button'>(
-  props: Props<E>,
-) => JSX.Element;
+export default FloatingAction;

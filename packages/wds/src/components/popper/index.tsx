@@ -22,7 +22,6 @@ import {
 import { Slot } from '@radix-ui/react-slot';
 import { Box, useTheme } from '@wanteddev/wds-engine';
 
-import { createEmptyResponsiveStyle } from '../../utils';
 import PortalOrFragment from '../portal-or-fragment';
 
 import {
@@ -42,7 +41,7 @@ import {
   POPPER_CONTENT_NAME,
 } from './constants';
 
-import type { MergeElementProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import type { PopperArrowProps, PopperContentProps } from './types';
 
@@ -82,7 +81,7 @@ PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
 const PopperArrow = forwardRef<
   SVGSVGElement,
-  MergeElementProps<'svg', PopperArrowProps>
+  DefaultComponentProps<PopperArrowProps, 'svg'>
 >(({ overlay, ...props }, ref) => {
   const { onArrowChange, side, arrowX, arrowY } =
     usePopperContentContext(POPPER_ARROW_NAME);
@@ -94,7 +93,8 @@ const PopperArrow = forwardRef<
 
   return (
     <>
-      <svg
+      <Box
+        as="svg"
         wds-component="popper-arrow"
         ref={composedRef}
         style={{
@@ -124,15 +124,17 @@ const PopperArrow = forwardRef<
         viewBox="0 0 24 8"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        {...props}
       >
         <path
           d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
           fill="currentColor"
         />
-      </svg>
+      </Box>
 
       {Boolean(overlay) && (
-        <svg
+        <Box
+          as="svg"
           style={{
             ...props.style,
             position: 'absolute',
@@ -161,12 +163,13 @@ const PopperArrow = forwardRef<
           viewBox="0 0 24 8"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          {...props}
         >
           <path
             d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
             fill="currentColor"
           />
-        </svg>
+        </Box>
       )}
     </>
   );
@@ -258,7 +261,6 @@ const PopperContent: ReturnType<
         <Box
           ref={refs.setFloating}
           {...wrapperProps}
-          sx={[createEmptyResponsiveStyle(wrapperProps), wrapperProps.sx]}
           style={{
             ...wrapperProps.style,
             ...floatingStyles,

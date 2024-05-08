@@ -1,16 +1,15 @@
 'use client';
 import { forwardRef } from 'react';
-import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { gridStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { GridProps } from './types';
-
-type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
-  E,
-  GridProps
->;
 
 const Grid = forwardRef(
   <E extends ElementType = 'div'>(
@@ -27,12 +26,12 @@ const Grid = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<GridProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
       <Box
-        as={(as || 'div') as ElementType}
+        as={(as || 'div') as E}
         ref={ref}
         {...props}
         sx={[
@@ -52,10 +51,8 @@ const Grid = forwardRef(
       />
     );
   },
-);
+) as PolymorphicComponent<GridProps, 'div'>;
 
 Grid.displayName = 'Grid';
 
-export default Grid as <E extends ElementType = 'div'>(
-  props: Props<E>,
-) => JSX.Element;
+export default Grid;

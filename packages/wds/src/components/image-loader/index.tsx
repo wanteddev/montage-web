@@ -1,12 +1,11 @@
 'use client';
 import { forwardRef, useEffect } from 'react';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { getOptimizedImageSource } from '../../utils';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ImageLoaderProps } from './types';
-
-type Props = MergeElementProps<'img', ImageLoaderProps>;
 
 const loadImage = (src: string) => {
   return new Promise<void>((resolve, reject) => {
@@ -17,7 +16,10 @@ const loadImage = (src: string) => {
   });
 };
 
-const ImageLoader = forwardRef<HTMLImageElement, Props>(
+const ImageLoader = forwardRef<
+  HTMLImageElement,
+  DefaultComponentProps<ImageLoaderProps, 'img'>
+>(
   (
     {
       src,
@@ -27,7 +29,7 @@ const ImageLoader = forwardRef<HTMLImageElement, Props>(
       onLoad,
       disableOptimize = false,
       ...props
-    }: Props,
+    },
     ref,
   ) => {
     useEffect(() => {

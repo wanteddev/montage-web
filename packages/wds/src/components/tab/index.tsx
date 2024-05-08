@@ -12,11 +12,7 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import {
-  Box,
-  type MergeElementProps,
-  type MergeWithCustomElementProps,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 import ScrollArea from '../scroll-area';
@@ -30,6 +26,11 @@ import {
 import { TabProvider, useTabContext } from './contexts';
 import { TAB_LIST_ITEM_NAME, TAB_NAME, TAB_PANEL_NAME } from './constants';
 
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type {
   ElementRef,
   ElementType,
@@ -78,7 +79,7 @@ Tab.displayName = TAB_NAME;
 
 const TabList = forwardRef<
   HTMLDivElement,
-  MergeElementProps<'div', TabListProps>
+  DefaultComponentProps<TabListProps, 'div'>
 >(
   (
     {
@@ -190,18 +191,18 @@ const TabList = forwardRef<
 
 TabList.displayName = 'TabList';
 
-const TabListItemFc = forwardRef(
-  <E extends ElementType = 'div'>(
+const TabListItem = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       children,
       value,
       disabled,
       as,
       ...props
-    }: MergeWithCustomElementProps<E, TabListItemProps>,
-    forwardedRef: ForwardedRef<ElementRef<E>>,
+    }: PolymorphicProps<TabListItemProps, T>,
+    forwardedRef: ForwardedRef<ElementRef<T>>,
   ) => {
-    const ref = useRef<ElementRef<E>>(null);
+    const ref = useRef<ElementRef<T>>(null);
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);
@@ -240,7 +241,7 @@ const TabListItemFc = forwardRef(
     return (
       <RovingFocusGroup.Item asChild focusable={!isDisabled} active={isActive}>
         <Box
-          as={(as || 'div') as ElementType}
+          as={(as || 'div') as T}
           role="tab"
           ref={composedRefs}
           {...props}
@@ -252,40 +253,30 @@ const TabListItemFc = forwardRef(
               : undefined
           }
           sx={tabListItemStyle}
-          onKeyDown={composeEventHandlers(
-            props.onKeyDown,
-            (event: React.KeyboardEvent) => {
-              if (event.key === 'Enter') event.preventDefault();
-            },
-          )}
+          onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
+            if (event.key === 'Enter') event.preventDefault();
+          })}
           onClick={composeEventHandlers(props.onClick, () => {
             context.onValueChange(value);
           })}
-          onFocus={composeEventHandlers(
-            props.onFocus,
-            (e: React.FocusEvent) => {
-              if (isArrowKeyPressedRef.current) {
-                (e.currentTarget as HTMLElement).click();
-              }
-            },
-          )}
+          onFocus={composeEventHandlers(props.onFocus, (e) => {
+            if (isArrowKeyPressedRef.current) {
+              (e.currentTarget as HTMLElement).click();
+            }
+          })}
         >
           <span id={`${context.id}-${value}`}>{children}</span>
         </Box>
       </RovingFocusGroup.Item>
     );
   },
-);
+) as PolymorphicComponent<TabListItemProps, 'div'>;
 
-TabListItemFc.displayName = TAB_LIST_ITEM_NAME;
-
-const TabListItem = TabListItemFc as <E extends ElementType = 'div'>(
-  props: MergeWithCustomElementProps<E, TabListItemProps>,
-) => JSX.Element;
+TabListItem.displayName = TAB_LIST_ITEM_NAME;
 
 const TabPanel = forwardRef<
   HTMLDivElement,
-  MergeElementProps<'div', TabPanelProps>
+  DefaultComponentProps<TabPanelProps, 'div'>
 >(({ value, mountMode = 'force-mount', ...props }, ref) => {
   const context = useTabContext(TAB_PANEL_NAME);
   const [firstRendered, setFirstRendered] = useState(false);

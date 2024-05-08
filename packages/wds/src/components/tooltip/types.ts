@@ -1,4 +1,3 @@
-import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
 
@@ -25,7 +24,7 @@ export type TooltipProps = {
   disableOpenOnFocus?: boolean;
 };
 
-export type TooltipContentProps = WithSxProps<{
+export type TooltipContentProps = {
   arrow?: boolean;
   action?: ReactNode;
   children?: ReactNode;
@@ -37,4 +36,4 @@ export type TooltipContentProps = WithSxProps<{
    * compact tooltip을 위해 사용
    */
   __wdsCustomChildren?: ReactNode;
-}>;
+};

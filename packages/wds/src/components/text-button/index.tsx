@@ -1,22 +1,18 @@
 'use client';
 import { forwardRef, useId } from 'react';
-import {
-  Box,
-  type MergeWithCustomElementProps,
-  type ThemeColorsToken,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { textButtonStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { TextButtonProps } from './types';
-
-type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
-  T,
-  TextButtonProps
->;
 
 const TextButton = forwardRef(
   <E extends ElementType = 'button'>(
@@ -35,7 +31,7 @@ const TextButton = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<TextButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
@@ -78,10 +74,8 @@ const TextButton = forwardRef(
       </WithInteraction>
     );
   },
-);
+) as PolymorphicComponent<TextButtonProps, 'button'>;
 
 TextButton.displayName = 'TextButton';
 
-export default TextButton as <E extends ElementType = 'button'>(
-  props: Props<E>,
-) => JSX.Element;
+export default TextButton;

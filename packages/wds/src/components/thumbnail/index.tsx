@@ -15,7 +15,21 @@ type Props = Merge<
 >;
 
 const Thumbnail = forwardRef<HTMLImageElement, Props>(
-  ({ ratio = '4:3', portrait = false, xs, sm, md, lg, xl, ...props }, ref) => {
+  (
+    {
+      ratio = '4:3',
+      portrait = false,
+      radius,
+      border,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      ...props
+    },
+    ref,
+  ) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
       'idle' | 'loaded' | 'error'
     >('idle');
@@ -34,6 +48,8 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
         sx={[
           thumbnailStyle({
             ratio,
+            radius,
+            border,
             width: props.width,
             portrait,
             xs,
@@ -60,6 +76,8 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
         sx={[
           thumbnailStyle({
             ratio,
+            radius,
+            border,
             portrait,
             width: props.width,
             xs,

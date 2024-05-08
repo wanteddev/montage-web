@@ -16,7 +16,7 @@ import {
   textAreaWrapperStyle,
 } from './style';
 
-import type { MergeElementProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TextAreaProps } from './types';
 
 export interface Cancelable {
@@ -44,9 +44,10 @@ const debounce = <T extends (...args: Array<any>) => any>(
   return debounced as T & Cancelable;
 };
 
-type Props = MergeElementProps<'textarea', TextAreaProps>;
-
-const TextArea = forwardRef<HTMLTextAreaElement, Props>(
+const TextArea = forwardRef<
+  HTMLTextAreaElement,
+  DefaultComponentProps<TextAreaProps, 'textarea'>
+>(
   (
     {
       rightIcon,

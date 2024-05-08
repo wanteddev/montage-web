@@ -9,6 +9,8 @@ export const thumbnailStyle =
   ({
     ratio,
     portrait,
+    radius,
+    border,
     width,
     xs,
     sm,
@@ -21,6 +23,7 @@ export const thumbnailStyle =
     width: ${width};
 
     ${thumbnailRatioStyle({ ratio, portrait })}
+    ${thumbnailBorderRadiusStyle({ radius, border }, theme)}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -42,12 +45,46 @@ export const thumbnailStyle =
             breakpoint!,
           ),
         })}
+        ${thumbnailBorderRadiusStyle(params || {}, theme)}
+
         ${params?.sx}
       `,
     )}
   `;
 
-export const thumbnailRatioStyle = ({
+const thumbnailBorderRadiusStyle = (
+  { radius, border }: Pick<ThumbnailProps, 'radius' | 'border'>,
+  theme: Theme,
+) => css`
+  ${radius === true &&
+  css`
+    border-radius: 12px;
+  `}
+  ${radius === false &&
+  css`
+    border-radius: 0px;
+  `}
+
+  ${border === true &&
+  css`
+    position: relative;
+    &::after {
+      content: '';
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border: 1px solid ${theme.palette.line.normal.neutral};
+    }
+  `}
+
+  ${border === false &&
+  css`
+    border: none;
+  `}
+`;
+
+const thumbnailRatioStyle = ({
   ratio,
   portrait,
 }: Pick<ThumbnailProps, 'ratio' | 'portrait'>) => {

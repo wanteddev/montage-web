@@ -12,60 +12,61 @@ import { createEmptyResponsiveStyle } from '../../utils';
 import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ElementRef } from 'react';
 import type { RadioGroupItemProps, RadioGroupProps } from './types';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
-const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
-  (props: RadioGroupProps, ref) => {
-    const {
-      name,
-      defaultValue,
-      value: valueProp,
-      required = false,
-      disabled = false,
-      orientation,
-      dir,
-      loop = true,
-      onValueChange,
-      ...groupProps
-    } = props;
-    const [value, setValue] = useControllableState({
-      prop: valueProp,
-      defaultProp: defaultValue,
-      onChange: onValueChange,
-    });
+const RadioGroup = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<RadioGroupProps, 'div'>
+>((props, ref) => {
+  const {
+    name,
+    defaultValue,
+    value: valueProp,
+    required = false,
+    disabled = false,
+    orientation,
+    dir,
+    loop = true,
+    onValueChange,
+    ...groupProps
+  } = props;
+  const [value, setValue] = useControllableState({
+    prop: valueProp,
+    defaultProp: defaultValue,
+    onChange: onValueChange,
+  });
 
-    return (
-      <RadioGroupProvider
-        name={name}
-        required={required}
-        disabled={disabled}
-        value={value}
-        onValueChange={setValue}
+  return (
+    <RadioGroupProvider
+      name={name}
+      required={required}
+      disabled={disabled}
+      value={value}
+      onValueChange={setValue}
+    >
+      <RovingFocusGroup.Root
+        asChild
+        orientation={orientation}
+        dir={dir || 'ltr'}
+        loop={loop}
       >
-        <RovingFocusGroup.Root
-          asChild
-          orientation={orientation}
+        <Box
+          role="radiogroup"
+          aria-required={required}
+          aria-orientation={orientation}
+          data-disabled={disabled ? '' : undefined}
           dir={dir || 'ltr'}
-          loop={loop}
-        >
-          <Box
-            role="radiogroup"
-            aria-required={required}
-            aria-orientation={orientation}
-            data-disabled={disabled ? '' : undefined}
-            dir={dir || 'ltr'}
-            {...groupProps}
-            sx={[groupProps.sx, createEmptyResponsiveStyle(groupProps)]}
-            ref={ref}
-          />
-        </RovingFocusGroup.Root>
-      </RadioGroupProvider>
-    );
-  },
-);
+          {...groupProps}
+          ref={ref}
+        />
+      </RovingFocusGroup.Root>
+    </RadioGroupProvider>
+  );
+});
 
 RadioGroup.displayName = RADIO_GROUP_NAME;
 

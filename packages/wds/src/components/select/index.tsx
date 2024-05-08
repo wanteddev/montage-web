@@ -2,16 +2,18 @@
 import { forwardRef } from 'react';
 import { IconChevronDown } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { selectWrapperStyle } from './style';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ChangeEvent } from 'react';
 import type { SelectProps } from './types';
 
-type FieldProps = MergeElementProps<'select', SelectProps>;
-
-const Select = forwardRef<HTMLSelectElement, FieldProps>(
+const Select = forwardRef<
+  HTMLSelectElement,
+  DefaultComponentProps<SelectProps, 'select'>
+>(
   (
     {
       invalid,

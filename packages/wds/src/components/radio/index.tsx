@@ -5,22 +5,19 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
 import { IconDot } from '@wanteddev/wds-icon';
-import {
-  Box,
-  type MergeElementProps,
-  type SxProp,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { radioStyle } from './style';
 
-import type { ComponentPropsWithoutRef } from 'react';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { RadioProps } from './types';
 
-type Props = Omit<MergeElementProps<'button', RadioProps>, 'onChange'>;
-
-const Radio = forwardRef<HTMLButtonElement, Props>(
+const Radio = forwardRef<
+  HTMLButtonElement,
+  Omit<DefaultComponentProps<RadioProps, 'button'>, 'onChange'>
+>(
   (
     {
       name,
@@ -119,12 +116,14 @@ Radio.displayName = 'Radio';
 
 export default Radio;
 
-type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
-  checked: boolean;
-  control: HTMLElement | null;
-  bubbles: boolean;
-  sx?: SxProp;
-};
+type BubbleInputProps = DefaultComponentProps<
+  {
+    checked: boolean;
+    control: HTMLElement | null;
+    bubbles: boolean;
+  },
+  'input'
+>;
 
 const BubbleInput = ({
   control,

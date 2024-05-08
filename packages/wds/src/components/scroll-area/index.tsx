@@ -28,11 +28,6 @@ const ScrollArea = forwardRef<
       type = 'hover',
       viewPortProps = {},
       zIndex,
-      xs,
-      sm,
-      md,
-      lg,
-      xl,
       ...props
     },
     ref,
@@ -58,14 +53,14 @@ const ScrollArea = forwardRef<
         ref={ref}
         type={type}
         {...props}
-        sx={[scrollAreaStyle({ xs, sm, md, lg, xl }), props.sx]}
+        sx={[scrollAreaStyle, props.sx]}
       >
         <Box
           as={ScrollAreaPrimitive.Viewport}
           asChild={asChild}
           ref={viewportRef}
           {...viewPortProps}
-          sx={[viewportStyle({ viewPortProps }), viewPortProps.sx]}
+          sx={[viewportStyle, viewPortProps.sx]}
         >
           {children}
         </Box>
@@ -85,14 +80,14 @@ export default ScrollArea;
 const ScrollBar = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   ScrollBarProps
->(({ orientation = 'vertical', xs, sm, md, lg, xl, ...props }, ref) => (
+>(({ orientation = 'vertical', ...props }, ref) => (
   <Box
     as={ScrollAreaPrimitive.ScrollAreaScrollbar}
     forceMount
     ref={ref}
     orientation={orientation}
     {...props}
-    sx={[scrollBarStyle({ orientation, xs, sm, md, lg, xl }), props.sx]}
+    sx={[scrollBarStyle({ orientation }), props.sx]}
   >
     <WithInteraction color="palette.label.normal">
       <Box as={ScrollAreaPrimitive.ScrollAreaThumb} sx={scrollBarThumbStyle} />

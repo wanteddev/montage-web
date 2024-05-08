@@ -1,22 +1,19 @@
 'use client';
 import { forwardRef, useId } from 'react';
-import {
-  Box,
-  type MergeWithCustomElementProps,
-  type ThemeColorsToken,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { buttonStyle } from './style';
 
-import type { ElementType, ForwardedRef } from 'react';
+import type {
+  DefaultComponentProps,
+  OverrideProps,
+  PolymorphicProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ButtonProps, ButtonVariant } from './types';
-
-type Props<
-  E extends ElementType,
-  T extends ButtonVariant,
-> = MergeWithCustomElementProps<E, ButtonProps<T>>;
 
 const Button = forwardRef(
   <E extends ElementType = 'button', T extends ButtonVariant = 'solid'>(
@@ -37,8 +34,8 @@ const Button = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E, T>,
-    ref: ForwardedRef<Props<E, T>['as']>,
+    }: PolymorphicProps<ButtonProps<T>, E>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
 
@@ -96,13 +93,21 @@ const Button = forwardRef(
       </WithInteraction>
     );
   },
-);
+) as PolymorphicButtonComponent;
 
 Button.displayName = 'Button';
 
-export default Button as <
-  E extends ElementType = 'button',
-  T extends ButtonVariant = 'solid',
->(
-  props: Props<E, T>,
-) => JSX.Element;
+interface PolymorphicButtonComponent {
+  <C extends ElementType, V extends ButtonVariant = 'solid'>(
+    props: {
+      as: C;
+    } & OverrideProps<ButtonProps<V>, C>,
+  ): JSX.Element;
+  <V extends ButtonVariant = 'solid'>(
+    props: DefaultComponentProps<ButtonProps<V>, 'button'>,
+  ): JSX.Element;
+  propTypes?: any;
+  displayName?: string | undefined;
+}
+
+export default Button;

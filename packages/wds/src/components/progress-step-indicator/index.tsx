@@ -1,7 +1,7 @@
 'use client';
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import {
   progressListStyle,
@@ -17,6 +17,7 @@ import {
   PROGRESS_STEP_INDICATOR_NAME,
 } from './constants';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { CSSProperties } from 'react';
 import type {
   ProgressStepIndicatorItemProps,
@@ -25,7 +26,7 @@ import type {
 
 const ProgressStepIndicator = forwardRef<
   HTMLDivElement,
-  MergeElementProps<'div', ProgressStepIndicatorProps>
+  DefaultComponentProps<ProgressStepIndicatorProps, 'div'>
 >(
   (
     {
@@ -106,7 +107,7 @@ ProgressStepIndicator.displayName = PROGRESS_STEP_INDICATOR_NAME;
 
 const ProgressStepIndicatorItem = forwardRef<
   HTMLLIElement,
-  MergeElementProps<'li', ProgressStepIndicatorItemProps>
+  DefaultComponentProps<ProgressStepIndicatorItemProps, 'li'>
 >(({ value, ...props }, ref) => {
   const {
     value: contextValue,

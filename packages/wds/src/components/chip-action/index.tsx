@@ -1,22 +1,18 @@
 'use client';
 import { forwardRef, useId } from 'react';
-import {
-  Box,
-  type MergeWithCustomElementProps,
-  type ThemeColorsToken,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { actionStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
-
-type Props<E extends ElementType> = MergeWithCustomElementProps<
-  E,
-  ChipActionProps
->;
 
 const ChipAction = forwardRef(
   <E extends ElementType = 'button'>(
@@ -35,7 +31,7 @@ const ChipAction = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<ChipActionProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
@@ -48,7 +44,7 @@ const ChipAction = forwardRef(
         disabled={disableInteraction || disabled}
       >
         <Box
-          as={(as || 'button') as ElementType}
+          as={(as || 'button') as E}
           aria-labelledby={id}
           ref={ref}
           disabled={disabled}
@@ -63,10 +59,8 @@ const ChipAction = forwardRef(
       </WithInteraction>
     );
   },
-);
+) as PolymorphicComponent<ChipActionProps, 'button'>;
 
 ChipAction.displayName = 'ChipAction';
 
-export default ChipAction as <E extends ElementType = 'button'>(
-  props: Props<E>,
-) => JSX.Element;
+export default ChipAction;

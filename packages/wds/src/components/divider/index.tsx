@@ -1,14 +1,16 @@
 'use client';
 import { forwardRef } from 'react';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { dividerStyle } from './style';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { DividerProps } from './types';
 
-type Props = MergeElementProps<'hr', DividerProps>;
-
-const Divider = forwardRef<HTMLHRElement, Props>(
+const Divider = forwardRef<
+  HTMLHRElement,
+  DefaultComponentProps<DividerProps, 'hr'>
+>(
   (
     {
       size = '100%',
@@ -26,6 +28,7 @@ const Divider = forwardRef<HTMLHRElement, Props>(
   ) => {
     return (
       <Box
+        as="hr"
         ref={ref}
         {...props}
         sx={[

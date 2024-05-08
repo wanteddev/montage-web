@@ -5,25 +5,19 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
-import {
-  Box,
-  type MergeElementProps,
-  type SxProp,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { switchStyle } from './style';
 
-import type { ComponentPropsWithoutRef } from 'react';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { SwitchProps } from './types';
 
-type Props = Omit<
-  MergeElementProps<'button', SwitchProps>,
-  'onChange' | 'value'
->;
-
-const Switch = forwardRef<HTMLButtonElement, Props>(
+const Switch = forwardRef<
+  HTMLButtonElement,
+  Omit<DefaultComponentProps<SwitchProps, 'button'>, 'onChange' | 'value'>
+>(
   (
     {
       name,
@@ -126,12 +120,14 @@ Switch.displayName = 'Switch';
 
 export default Switch;
 
-type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
-  checked: boolean;
-  control: HTMLElement | null;
-  bubbles: boolean;
-  sx?: SxProp;
-};
+type BubbleInputProps = DefaultComponentProps<
+  {
+    checked: boolean;
+    control: HTMLElement | null;
+    bubbles: boolean;
+  },
+  'input'
+>;
 
 const BubbleInput = ({
   control,

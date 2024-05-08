@@ -11,14 +11,12 @@ import {
   typographyStyle,
 } from '../../utils/typography';
 
-import type { MergeWithCustomElementProps } from '@wanteddev/wds-engine';
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { TypographyProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-
-type Props<E extends ElementType> = MergeWithCustomElementProps<
-  E,
-  TypographyProps
->;
 
 const Typography = forwardRef(
   <E extends ElementType = 'span'>(
@@ -37,7 +35,7 @@ const Typography = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<TypographyProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
@@ -100,10 +98,8 @@ const Typography = forwardRef(
       />
     );
   },
-);
+) as PolymorphicComponent<TypographyProps, 'span'>;
 
 Typography.displayName = 'Typography';
 
-export default Typography as <E extends ElementType = 'span'>(
-  props: Props<E>,
-) => JSX.Element;
+export default Typography;

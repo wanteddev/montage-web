@@ -19,7 +19,11 @@ import {
 } from './constants';
 import { useFormField } from './hooks';
 
-import type { ElementRef } from 'react';
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { FieldPath, FieldValues } from 'react-hook-form';
 import type {
   FormControlProps,
@@ -47,15 +51,26 @@ const FormField = <
 };
 FormField.displayName = FORM_FIELD_NAME;
 
-const FormItem = forwardRef<HTMLDivElement, FormItemProps>((props, ref) => {
-  const id = useId();
+const FormItem = forwardRef(
+  <E extends ElementType = 'div'>(
+    { as, ...props }: PolymorphicProps<FormItemProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    const id = useId();
 
-  return (
-    <FormItemProvider id={id}>
-      <FlexBox ref={ref} flexDirection="column" gap="8px" {...props} />
-    </FormItemProvider>
-  );
-});
+    return (
+      <FormItemProvider id={id}>
+        <FlexBox
+          as={(as || 'div') as E}
+          ref={ref}
+          flexDirection="column"
+          gap="8px"
+          {...props}
+        />
+      </FormItemProvider>
+    );
+  },
+) as PolymorphicComponent<FormItemProps, 'div'>;
 
 FormItem.displayName = FORM_ITEM_NAME;
 
@@ -96,8 +111,11 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
 
 FormControl.displayName = FORM_CONTROL_NAME;
 
-const FormDescription = forwardRef<HTMLParagraphElement, FormDescriptionProps>(
-  ({ children, ...props }, ref) => {
+const FormDescription = forwardRef(
+  <E extends ElementType = 'p'>(
+    { as, children, ...props }: PolymorphicProps<FormDescriptionProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
     const { formDescriptionId } = useFormField(FORM_DESCRIPTION_NAME);
 
     if (!children) {
@@ -106,7 +124,7 @@ const FormDescription = forwardRef<HTMLParagraphElement, FormDescriptionProps>(
 
     return (
       <Typography
-        as="p"
+        as={(as || 'p') as E}
         ref={ref}
         id={formDescriptionId}
         variant="label2"
@@ -118,41 +136,46 @@ const FormDescription = forwardRef<HTMLParagraphElement, FormDescriptionProps>(
       </Typography>
     );
   },
-);
+) as PolymorphicComponent<FormDescriptionProps, 'p'>;
 
 FormDescription.displayName = FORM_DESCRIPTION_NAME;
 
-const FormErrorMessage = forwardRef<
-  HTMLParagraphElement,
-  FormErrorMessageProps
->(({ children, ...props }, ref) => {
-  const { error, formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
+const FormErrorMessage = forwardRef(
+  <E extends ElementType = 'p'>(
+    { as, children, ...props }: PolymorphicProps<FormErrorMessageProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    const { error, formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
 
-  const message = String(error?.message || '') || children;
+    const message = String(error?.message || '') || children;
 
-  if (!message) {
-    return null;
-  }
+    if (!message) {
+      return null;
+    }
 
-  return (
-    <Typography
-      as="p"
-      ref={ref}
-      id={formErrorMessageId}
-      variant="label2"
-      weight="regular"
-      color="palette.status.negative"
-      {...props}
-    >
-      {message}
-    </Typography>
-  );
-});
+    return (
+      <Typography
+        as={(as || 'p') as E}
+        ref={ref}
+        id={formErrorMessageId}
+        variant="label2"
+        weight="regular"
+        color="palette.status.negative"
+        {...props}
+      >
+        {message}
+      </Typography>
+    );
+  },
+) as PolymorphicComponent<FormErrorMessageProps, 'p'>;
 
 FormErrorMessage.displayName = FORM_ERROR_MESSAGE_NAME;
 
-const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
-  ({ children, ...props }, ref) => {
+const FormMessage = forwardRef(
+  <E extends ElementType = 'p'>(
+    { as, children, ...props }: PolymorphicProps<FormMessageProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
     const { error, formMessageId } = useFormField(FORM_MESSAGE_NAME);
 
     const hasError = Boolean(error);
@@ -165,7 +188,7 @@ const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
 
     return (
       <Typography
-        as="p"
+        as={(as || 'p') as E}
         ref={ref}
         id={formMessageId}
         variant="label2"
@@ -179,7 +202,7 @@ const FormMessage = forwardRef<HTMLParagraphElement, FormMessageProps>(
       </Typography>
     );
   },
-);
+) as PolymorphicComponent<FormMessageProps, 'p'>;
 
 FormMessage.displayName = FORM_MESSAGE_NAME;
 

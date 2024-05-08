@@ -1,14 +1,16 @@
 'use client';
 import { forwardRef } from 'react';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { contentBadgeStyle } from './style';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ContentBadgeProps } from './types';
 
-type Props = MergeElementProps<'span', ContentBadgeProps>;
-
-const ContentBadge = forwardRef<HTMLSpanElement, Props>(
+const ContentBadge = forwardRef<
+  HTMLSpanElement,
+  DefaultComponentProps<ContentBadgeProps, 'span'>
+>(
   (
     {
       variant = 'filled',

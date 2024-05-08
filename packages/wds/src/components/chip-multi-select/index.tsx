@@ -6,22 +6,22 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { multiSelectStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ChipMultiSelectProps } from './types';
 
-type Props = Omit<
-  MergeElementProps<'button', ChipMultiSelectProps>,
-  'onChange' | 'value'
->;
-
-const ChipMultiSelect = forwardRef<HTMLButtonElement, Props>(
+const ChipMultiSelect = forwardRef<
+  HTMLButtonElement,
+  Omit<
+    DefaultComponentProps<ChipMultiSelectProps, 'button'>,
+    'onChange' | 'value'
+  >
+>(
   (
     {
       name,
@@ -136,12 +136,14 @@ ChipMultiSelect.displayName = 'ChipMultiSelect';
 
 export default ChipMultiSelect;
 
-type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
-  checked: boolean;
-  control: HTMLElement | null;
-  bubbles: boolean;
-  sx?: SxProp;
-};
+type BubbleInputProps = DefaultComponentProps<
+  {
+    checked: boolean;
+    control: HTMLElement | null;
+    bubbles: boolean;
+  },
+  'input'
+>;
 
 const BubbleInput = ({
   control,

@@ -3,12 +3,13 @@ import { forwardRef } from 'react';
 
 import Typography from '../typography';
 
-import type { MergeElementProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TypographyProps } from '../typography/types';
 
-type Props = MergeElementProps<'label', TypographyProps>;
-
-const Label = forwardRef<HTMLLabelElement, Props>((props, ref) => {
+const Label = forwardRef<
+  HTMLLabelElement,
+  DefaultComponentProps<TypographyProps, 'label'>
+>((props, ref) => {
   return (
     <Typography
       variant="label1_normal"

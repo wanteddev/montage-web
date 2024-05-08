@@ -20,9 +20,9 @@ import {
 import { tooltipContentStyle, tooltipWrapperStyle } from './style';
 import { useTooltip } from './hooks';
 
-import type { MergeElementProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TooltipContentProps, TooltipProps } from './types';
-import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 const Tooltip = ({
   mode = 'hover',
@@ -78,7 +78,7 @@ Tooltip.displayName = TOOLTIP_NAME;
 
 const TooltipTrigger = forwardRef<
   HTMLElement,
-  ComponentPropsWithoutRef<typeof Slot>
+  DefaultComponentProps<{}, typeof Slot>
 >((props, ref) => {
   const {
     containerId,
@@ -113,7 +113,7 @@ TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
 
 const TooltipContent = forwardRef<
   HTMLDivElement,
-  MergeElementProps<'div', TooltipContentProps>
+  DefaultComponentProps<TooltipContentProps, 'div'>
 >(
   (
     {

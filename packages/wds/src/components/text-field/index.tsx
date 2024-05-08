@@ -1,16 +1,17 @@
 'use client';
 import { forwardRef, useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 
 import { textFieldWrapperStyle } from './style';
 
 import type { MouseEvent } from 'react';
 import type { TextFieldProps } from './types';
 
-type Props = MergeElementProps<'input', TextFieldProps>;
-
-const TextField = forwardRef<HTMLInputElement, Props>(
+const TextField = forwardRef<
+  HTMLInputElement,
+  DefaultComponentProps<TextFieldProps, 'input'>
+>(
   (
     { invalid, rightIcon, className, style, sx, xs, sm, md, lg, xl, ...props },
     ref,

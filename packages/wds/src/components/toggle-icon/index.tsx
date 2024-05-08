@@ -2,19 +2,18 @@
 import { forwardRef } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { toggleIconStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ToggleIconProps } from './types';
-
-type Props<E extends ElementType = ElementType> = MergeWithCustomElementProps<
-  E,
-  ToggleIconProps
->;
 
 const ToggleIcon = forwardRef(
   <E extends ElementType = 'button'>(
@@ -31,7 +30,7 @@ const ToggleIcon = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<ToggleIconProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const [pressed = false, setPressed] = useControllableState({
@@ -47,7 +46,7 @@ const ToggleIcon = forwardRef(
         disabled={props.disabled}
       >
         <Box
-          as={(as || 'button') as ElementType}
+          as={as || 'button'}
           type="button"
           aria-pressed={pressed}
           {...props}
@@ -74,10 +73,8 @@ const ToggleIcon = forwardRef(
       </WithInteraction>
     );
   },
-);
+) as PolymorphicComponent<ToggleIconProps, 'button'>;
 
 ToggleIcon.displayName = 'ToggleIcon';
 
-export default ToggleIcon as <E extends ElementType = 'button'>(
-  props: Props<E>,
-) => JSX.Element;
+export default ToggleIcon;

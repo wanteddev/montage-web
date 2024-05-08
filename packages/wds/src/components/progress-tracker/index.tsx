@@ -2,7 +2,7 @@
 import { forwardRef, useCallback, useEffect, useState } from 'react';
 import { IconCheckThick } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import Typography from '../typography';
 import FlexBox from '../flex-box';
@@ -17,11 +17,12 @@ import {
 import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
 import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
 
 const ProgressTracker = forwardRef<
   HTMLDivElement,
-  MergeElementProps<'div', ProgressTrackerProps>
+  DefaultComponentProps<ProgressTrackerProps, 'div'>
 >(
   (
     { value: originValue, defaultValue, onValueChange, children, ...props },
@@ -81,7 +82,7 @@ ProgressTracker.displayName = PROGRESS_TRACKER_NAME;
 
 const ProgressTrackerItem = forwardRef<
   HTMLLIElement,
-  MergeElementProps<'li', ProgressTrackerItemProps>
+  DefaultComponentProps<ProgressTrackerItemProps, 'li'>
 >(({ value, ...props }, ref) => {
   const {
     value: contextValue,

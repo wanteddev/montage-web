@@ -4,10 +4,15 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { skeletonStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { SkeletonProps } from './types';
 
-const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
-  (
+const Skeleton = forwardRef(
+  <E extends ElementType = 'div'>(
     {
       variant = 'rectangle',
       width = '100%',
@@ -19,8 +24,8 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       lg,
       xl,
       ...props
-    },
-    ref,
+    }: PolymorphicProps<SkeletonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
       <Box
@@ -49,4 +54,4 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
 
 Skeleton.displayName = 'Skeleton';
 
-export default Skeleton;
+export default Skeleton as PolymorphicComponent<SkeletonProps, 'div'>;

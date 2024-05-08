@@ -20,7 +20,7 @@ import {
   removeLinks,
 } from './helpers';
 
-import type { MergeWithCss } from '@wanteddev/wds-engine';
+import type { Merge } from '@wanteddev/wds-engine';
 import type { FocusScopeProps } from './types';
 import type {
   ComponentPropsWithoutRef,
@@ -32,12 +32,10 @@ const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount';
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount';
 const EVENT_OPTIONS = { bubbles: false, cancelable: true };
 
-type Props = MergeWithCss<
-  ComponentPropsWithoutRef<typeof Slot>,
-  FocusScopeProps
->;
-
-const FocusScope = forwardRef<ElementRef<typeof Slot>, Props>(
+const FocusScope = forwardRef<
+  ElementRef<typeof Slot>,
+  Merge<FocusScopeProps, ComponentPropsWithoutRef<typeof Slot>>
+>(
   (
     {
       loop = false,

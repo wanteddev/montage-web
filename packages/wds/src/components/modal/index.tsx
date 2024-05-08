@@ -53,11 +53,13 @@ import {
 } from './style';
 import { useDraggable } from './hooks';
 
-import type { ButtonVariant } from '../button/types';
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
-  ComponentProps,
-  ComponentPropsWithRef,
   ElementRef,
   ElementType,
   ForwardedRef,
@@ -125,7 +127,10 @@ const Modal = ({
 
 Modal.displayName = MODAL_NAME;
 
-const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
+const ModalContainer = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ModalContainerProps, 'div'>
+>(
   (
     {
       variant = 'popup',
@@ -344,83 +349,87 @@ const ModalContainer = forwardRef<HTMLDivElement, ModalContainerProps>(
 
 ModalContainer.displayName = 'ModalContainer';
 
-const ModalNavigation = forwardRef<HTMLDivElement, ModalNavigationProps>(
-  ({ variant = 'compact', xs, sm, md, lg, xl, children, ...props }, ref) => {
-    const context = useModalContext(MODAL_NAVIGATION_NAME);
-    const { scrollHeight, sticky, handleClose } = useModalContainerContext(
-      MODAL_NAVIGATION_NAME,
-    );
-    const theme = useTheme();
+const ModalNavigation = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ModalNavigationProps, 'div'>
+>(({ variant = 'compact', xs, sm, md, lg, xl, children, ...props }, ref) => {
+  const context = useModalContext(MODAL_NAVIGATION_NAME);
+  const { scrollHeight, sticky, handleClose } = useModalContainerContext(
+    MODAL_NAVIGATION_NAME,
+  );
+  const theme = useTheme();
 
-    return (
-      <Box
-        wds-component="modal-navigation"
-        ref={ref}
-        {...props}
-        sx={[
-          modalNavigationStyle({
-            variant,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          }),
-          props.sx,
-        ]}
-        style={
-          {
-            ['--wds-navigation-border-color']:
-              sticky && scrollHeight > 0
-                ? theme.palette.line.normal.normal
-                : 'transparent',
-            ...props.style,
-          } as CSSProperties
-        }
-      >
-        {variant !== 'floating' ? (
-          <>
-            {Boolean(children) && (
-              <Typography
-                as="h2"
-                id={context.titleId}
-                variant="headline2"
-                weight="bold"
-                color="palette.label.strong"
-                noWrap
-                sx={{ margin: 0, border: 'none' }}
-              >
-                {children}
-              </Typography>
-            )}
-
-            <IconButton
-              wds-ignore-first-focus="true"
-              onClick={handleClose}
-              variant="normal"
-              size={24}
+  return (
+    <Box
+      wds-component="modal-navigation"
+      ref={ref}
+      {...props}
+      sx={[
+        modalNavigationStyle({
+          variant,
+          xs,
+          sm,
+          md,
+          lg,
+          xl,
+        }),
+        props.sx,
+      ]}
+      style={
+        {
+          ['--wds-navigation-border-color']:
+            sticky && scrollHeight > 0
+              ? theme.palette.line.normal.normal
+              : 'transparent',
+          ...props.style,
+        } as CSSProperties
+      }
+    >
+      {variant !== 'floating' ? (
+        <>
+          {Boolean(children) && (
+            <Typography
+              as="h2"
+              id={context.titleId}
+              variant="headline2"
+              weight="bold"
+              color="palette.label.strong"
+              noWrap
+              sx={{ margin: 0, border: 'none' }}
             >
-              <IconCloseThick />
-            </IconButton>
-          </>
-        ) : (
+              {children}
+            </Typography>
+          )}
+
           <IconButton
             wds-ignore-first-focus="true"
             onClick={handleClose}
-            variant="background"
+            variant="normal"
             size={24}
           >
             <IconCloseThick />
           </IconButton>
-        )}
-      </Box>
-    );
-  },
-);
+        </>
+      ) : (
+        <IconButton
+          wds-ignore-first-focus="true"
+          onClick={handleClose}
+          variant="background"
+          size={24}
+        >
+          <IconCloseThick />
+        </IconButton>
+      )}
+    </Box>
+  );
+});
 
 ModalNavigation.displayName = 'ModalNavigation';
 
-const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
+const ModalContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ModalContentProps, 'div'>
+>(
   (
     { padding, paddingExtra, paddingInfo, xs, sm, md, lg, xl, ...props },
     ref,
@@ -461,26 +470,27 @@ const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>(
 
 ModalContent.displayName = 'ModalContent';
 
-const ModalContentItem = forwardRef<HTMLDivElement, ModalContentItemProps>(
-  (props, ref) => {
-    return (
-      <FlexBox
-        ref={ref}
-        as="div"
-        gap="12px"
-        flexDirection="column"
-        {...props}
-        sx={[modalContentItemStyle, props.sx]}
-      />
-    );
-  },
-);
+const ModalContentItem = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ModalContentItemProps, 'div'>
+>((props, ref) => {
+  return (
+    <FlexBox
+      ref={ref}
+      as="div"
+      gap="12px"
+      flexDirection="column"
+      {...props}
+      sx={[modalContentItemStyle, props.sx]}
+    />
+  );
+});
 
 ModalContentItem.displayName = 'ModalContentItem';
 
-const ModalHeadingFc = forwardRef(
+const ModalHeading = forwardRef(
   <E extends ElementType = 'h1'>(
-    props: ModalHeadingProps<E>,
+    { as, ...props }: PolymorphicProps<ModalHeadingProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -488,26 +498,22 @@ const ModalHeadingFc = forwardRef(
     return (
       <Typography
         ref={ref}
-        as={'h1' as ElementType}
+        as={(as || 'h1') as E}
         variant="heading2"
         weight="bold"
         color="palette.label.normal"
         id={context.headingId}
-        {...(props as ComponentPropsWithRef<typeof Typography>)}
+        {...props}
       />
     );
   },
-);
+) as PolymorphicComponent<ModalHeadingProps, 'h1'>;
 
-ModalHeadingFc.displayName = 'ModalHeading';
+ModalHeading.displayName = 'ModalHeading';
 
-const ModalHeading = ModalHeadingFc as <E extends ElementType = 'h1'>(
-  props: ModalHeadingProps<E>,
-) => JSX.Element;
-
-const ModalSummaryFc = forwardRef(
+const ModalSummary = forwardRef(
   <E extends ElementType = 'p'>(
-    props: ModalSummaryProps<E>,
+    { as, ...props }: PolymorphicProps<ModalSummaryProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -515,26 +521,22 @@ const ModalSummaryFc = forwardRef(
     return (
       <Typography
         ref={ref}
-        as={'p' as ElementType}
+        as={(as || 'p') as E}
         variant="body2_normal"
         weight="regular"
         color="palette.label.alternative"
         id={context.summaryId}
-        {...(props as ComponentPropsWithRef<typeof Typography>)}
+        {...props}
       />
     );
   },
-);
+) as PolymorphicComponent<ModalSummaryProps, 'p'>;
 
-ModalSummaryFc.displayName = 'ModalSummary';
+ModalSummary.displayName = 'ModalSummary';
 
-const ModalSummary = ModalSummaryFc as <E extends ElementType = 'p'>(
-  props: ModalSummaryProps<E>,
-) => JSX.Element;
-
-const ModalDescriptionFC = forwardRef(
+const ModalDescription = forwardRef(
   <E extends ElementType = 'p'>(
-    props: ModalDescriptionProps<E>,
+    { as, ...props }: PolymorphicProps<ModalDescriptionProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -542,24 +544,23 @@ const ModalDescriptionFC = forwardRef(
     return (
       <Typography
         ref={ref}
-        as={'p' as ElementType}
+        as={(as || 'p') as E}
         variant="body1_reading"
         weight="regular"
         color="palette.label.normal"
         id={context.descriptionId}
-        {...(props as ComponentPropsWithRef<typeof Typography>)}
+        {...props}
       />
     );
   },
-);
+) as PolymorphicComponent<ModalDescriptionProps, 'p'>;
 
-ModalDescriptionFC.displayName = 'ModalDescription';
+ModalDescription.displayName = 'ModalDescription';
 
-const ModalDescription = ModalDescriptionFC as <E extends ElementType = 'p'>(
-  props: ModalDescriptionProps<E>,
-) => JSX.Element;
-
-const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
+const ModalActionArea = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ModalActionAreaProps, 'div'>
+>(
   (
     { variant = 'normal', priority = 'compact', children, caption, ...props },
     ref,
@@ -612,9 +613,12 @@ const ModalActionArea = forwardRef<HTMLDivElement, ModalActionAreaProps>(
 
 ModalActionArea.displayName = MODAL_ACTION_AREA_NAME;
 
-const ModalActionButtonFC = forwardRef(
+const ModalActionButton = forwardRef(
   <E extends ElementType = 'button'>(
-    { variant = 'primary', ...props }: ModalActionButtonProps<E>,
+    {
+      variant = 'primary',
+      ...props
+    }: PolymorphicProps<ModalActionButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { priority } = useModalActionAreaContext(MODAL_ACTION_AREA_NAME);
@@ -628,7 +632,7 @@ const ModalActionButtonFC = forwardRef(
           variant={priority === 'single' ? 'outlined' : 'solid'}
           color="primary"
           fullWidth={priority === 'strong'}
-          {...(props as ComponentProps<typeof Button<E, ButtonVariant>>)}
+          {...props}
           sx={[modalActionButtonSingle(priority), props.sx]}
         />
       ),
@@ -642,7 +646,7 @@ const ModalActionButtonFC = forwardRef(
               : 'secondary'
           }
           fullWidth={priority === 'strong'}
-          {...(props as ComponentProps<typeof Button<E, ButtonVariant>>)}
+          {...props}
           sx={[modalActionButtonSingle(priority), props.sx]}
         />
       ),
@@ -652,7 +656,7 @@ const ModalActionButtonFC = forwardRef(
             ref={ref}
             color="assistive"
             size="small"
-            {...(props as ComponentProps<typeof TextButton>)}
+            {...props}
             sx={[
               {
                 margin: '8px 0px',
@@ -667,7 +671,7 @@ const ModalActionButtonFC = forwardRef(
             ref={ref}
             variant="outlined"
             color="secondary"
-            {...(props as ComponentProps<typeof Button<E, ButtonVariant>>)}
+            {...props}
             sx={[modalActionButtonSingle(priority), props.sx]}
           />
         ),
@@ -675,15 +679,9 @@ const ModalActionButtonFC = forwardRef(
 
     return renderComponent[variant];
   },
-);
+) as PolymorphicComponent<ModalActionButtonProps, 'button'>;
 
-ModalActionButtonFC.displayName = MODAL_ACTION_BUTTON_NAME;
-
-const ModalActionButton = ModalActionButtonFC as <
-  E extends ElementType = 'button',
->(
-  props: ModalActionButtonProps<E>,
-) => JSX.Element;
+ModalActionButton.displayName = MODAL_ACTION_BUTTON_NAME;
 
 export {
   Modal,

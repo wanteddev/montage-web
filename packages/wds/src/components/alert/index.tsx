@@ -21,11 +21,12 @@ import { alertWrapperStyle, topRegionStatusStyle } from './style';
 
 import type { CSSProperties, ReactNode } from 'react';
 import type { AlertProps } from './types';
-import type { MergeElementProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
-type Props = MergeElementProps<'div', AlertProps>;
-
-const Alert = forwardRef<HTMLDivElement, Props>(
+const Alert = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<AlertProps, 'div'>
+>(
   (
     {
       show: originShow,

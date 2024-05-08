@@ -1,19 +1,18 @@
 'use client';
 import { forwardRef } from 'react';
-import { Box, type MergeWithCustomElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 import PushBadge from '../push-badge';
 
 import { iconButtonStyle } from './style';
 
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
-
-type Props<T extends ElementType = 'button'> = MergeWithCustomElementProps<
-  T,
-  IconButtonProps
->;
 
 const IconButton = forwardRef(
   <E extends ElementType = 'button'>(
@@ -35,7 +34,7 @@ const IconButton = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<IconButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const getInteractionSize = () => {
@@ -100,10 +99,8 @@ const IconButton = forwardRef(
       </WithInteraction>
     );
   },
-);
+) as PolymorphicComponent<IconButtonProps, 'button'>;
 
 IconButton.displayName = 'IconButton';
 
-export default IconButton as <E extends ElementType = 'button'>(
-  props: Props<E>,
-) => JSX.Element;
+export default IconButton;

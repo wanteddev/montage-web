@@ -1,9 +1,8 @@
-import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { useFloating } from '@floating-ui/react';
 import type { Slot } from '@radix-ui/react-slot';
-import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
 
-export type PopperContentProps = Merge<
+export type PopperContentProps = DefaultComponentProps<
   {
     offset?: number;
     position?:
@@ -20,7 +19,7 @@ export type PopperContentProps = Merge<
       | 'left-center'
       | 'left-end';
     referenceHidden?: boolean;
-    wrapperProps?: WithSxProps<HTMLAttributes<HTMLDivElement>>;
+    wrapperProps?: DefaultComponentProps<{}, 'div'>;
     setContext?: (context: ReturnType<typeof useFloating>['context']) => void;
     /**
      * Portal로 표시될 container를 지정합니다.
@@ -28,7 +27,7 @@ export type PopperContentProps = Merge<
     container?: Element | DocumentFragment | null;
     disablePortal?: boolean;
   },
-  ComponentPropsWithoutRef<typeof Slot>
+  typeof Slot
 >;
 
 export type PopperArrowProps = {

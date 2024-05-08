@@ -6,22 +6,19 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useSize } from '@radix-ui/react-use-size';
 import { usePrevious } from '@radix-ui/react-use-previous';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { checkboxStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { CheckboxProps } from './types';
 
-type Props = Omit<
-  MergeElementProps<'button', CheckboxProps>,
-  'onChange' | 'value'
->;
-
-const Checkbox = forwardRef<HTMLButtonElement, Props>(
+const Checkbox = forwardRef<
+  HTMLButtonElement,
+  Omit<DefaultComponentProps<CheckboxProps, 'button'>, 'onChange' | 'value'>
+>(
   (
     {
       name,
@@ -139,12 +136,14 @@ Checkbox.displayName = 'Checkbox';
 
 export default Checkbox;
 
-type BubbleInputProps = Omit<ComponentPropsWithoutRef<'input'>, 'checked'> & {
-  checked: boolean;
-  control: HTMLElement | null;
-  bubbles: boolean;
-  sx?: SxProp;
-};
+type BubbleInputProps = DefaultComponentProps<
+  {
+    checked: boolean;
+    control: HTMLElement | null;
+    bubbles: boolean;
+  },
+  'input'
+>;
 
 const BubbleInput = ({
   control,

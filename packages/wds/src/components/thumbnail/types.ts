@@ -12,10 +12,12 @@ type ThumbnailDefaultProps = {
     | '2:1'
     | '21:9';
   portrait?: boolean;
+  border?: boolean;
+  radius?: boolean;
 };
 
 type ThumbnailResponsiveProps = ResponsiveProps<
-  Pick<ThumbnailDefaultProps, 'ratio' | 'portrait'>
+  Pick<ThumbnailDefaultProps, 'ratio' | 'portrait' | 'radius' | 'border'>
 >;
 
 export type ThumbnailProps = Merge<

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { Box, type MergeElementProps } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
@@ -10,6 +10,7 @@ import {
   compactTooltipWrapperStyle,
 } from './style';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { CompactTooltipContentProps } from './types';
 
 const CompactTooltip = Tooltip;
@@ -22,7 +23,7 @@ CompactTooltipTrigger.displayName = 'CompactTooltipTrigger';
 
 const CompactTooltipContent = forwardRef<
   HTMLDivElement,
-  MergeElementProps<'div', CompactTooltipContentProps>
+  DefaultComponentProps<CompactTooltipContentProps, 'div'>
 >(
   (
     {

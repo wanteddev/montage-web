@@ -1,14 +1,8 @@
 import type { FlexBoxProps } from '../flex-box/types';
-import type {
-  MergeElementProps,
-  MergeWithCss,
-  MergeWithCustomElementProps,
-  ResponsiveProps,
-} from '@wanteddev/wds-engine';
+import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type Portal from '../portal';
 import type {
   ComponentPropsWithRef,
-  ElementType,
   PropsWithChildren,
   ReactNode,
 } from 'react';
@@ -57,17 +51,14 @@ type ModalContainerResponsiveProps = ResponsiveProps<
   Pick<ModalContainerDefaultProps, 'size' | 'variant'>
 >;
 
-export type ModalContainerProps = MergeElementProps<
-  'div',
-  MergeWithCss<ModalContainerDefaultProps, ModalContainerResponsiveProps>
+export type ModalContainerProps = Merge<
+  ModalContainerDefaultProps,
+  ModalContainerResponsiveProps
 >;
 
-export type ModalNavigationProps = MergeElementProps<
-  'div',
-  MergeWithCss<
-    { variant?: 'compact' | 'floating' | 'emphasized' | 'extended' },
-    ResponsiveProps<{}>
-  >
+export type ModalNavigationProps = Merge<
+  { variant?: 'compact' | 'floating' | 'emphasized' | 'extended' },
+  ResponsiveProps<{}>
 >;
 
 type ModalContentDefaultProps = {
@@ -80,39 +71,25 @@ type ModalContentResponsiveProps = ResponsiveProps<
   Pick<ModalContentDefaultProps, 'padding' | 'paddingExtra' | 'paddingInfo'>
 >;
 
-export type ModalContentProps = MergeElementProps<
-  'div',
-  MergeWithCss<ModalContentDefaultProps, ModalContentResponsiveProps>
+export type ModalContentProps = Merge<
+  ModalContentDefaultProps,
+  ModalContentResponsiveProps
 >;
 
-export type ModalContentItemProps = MergeElementProps<'div', FlexBoxProps>;
+export type ModalContentItemProps = FlexBoxProps;
 
-export type ModalHeadingProps<E extends ElementType = 'h1'> =
-  MergeWithCustomElementProps<E, TypographyProps>;
-export type ModalSummaryProps<E extends ElementType = 'p'> =
-  MergeWithCustomElementProps<E, TypographyProps>;
-export type ModalDescriptionProps<E extends ElementType = 'p'> =
-  MergeWithCustomElementProps<E, TypographyProps>;
+export type ModalHeadingProps = TypographyProps;
+export type ModalSummaryProps = TypographyProps;
+export type ModalDescriptionProps = TypographyProps;
 
-export type ModalActionAreaProps = MergeElementProps<
-  'div',
-  MergeWithCss<
-    {
-      variant?: 'normal' | 'extra';
-      priority?: 'strong' | 'neutral' | 'compact' | 'single';
-      caption?: string;
-    },
-    {}
-  >
->;
+export type ModalActionAreaProps = {
+  variant?: 'normal' | 'extra';
+  priority?: 'strong' | 'neutral' | 'compact' | 'single';
+  caption?: string;
+};
 
-export type ModalActionButtonProps<E extends ElementType> = PropsWithChildren<
-  MergeWithCustomElementProps<
-    E,
-    {
-      leftIcon?: ReactNode;
-      rightIcon?: ReactNode;
-      variant?: 'primary' | 'secondary' | 'assistive';
-    }
-  >
->;
+export type ModalActionButtonProps = {
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  variant?: 'primary' | 'secondary' | 'assistive';
+};

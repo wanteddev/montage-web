@@ -4,14 +4,12 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { flexBoxStyle } from './style';
 
-import type { MergeWithCustomElementProps } from '@wanteddev/wds-engine';
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { FlexBoxProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
-
-type Props<E extends ElementType> = MergeWithCustomElementProps<
-  E,
-  FlexBoxProps
->;
 
 const FlexBox = forwardRef(
   <E extends ElementType = 'div'>(
@@ -35,12 +33,12 @@ const FlexBox = forwardRef(
       lg,
       xl,
       ...props
-    }: Props<E>,
+    }: PolymorphicProps<FlexBoxProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     return (
       <Box
-        as={(as || 'div') as ElementType}
+        as={(as || 'div') as E}
         ref={ref}
         {...props}
         sx={[
@@ -68,10 +66,8 @@ const FlexBox = forwardRef(
       />
     );
   },
-);
+) as PolymorphicComponent<FlexBoxProps, 'div'>;
 
 FlexBox.displayName = 'FlexBox';
 
-export default FlexBox as <E extends ElementType = 'div'>(
-  props: Props<E>,
-) => JSX.Element;
+export default FlexBox;
