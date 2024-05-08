@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.0...@wanteddev/wds-codemod@1.0.1) (2024-05-08)
+
+### Bug Fixes
+
+- **wds-codemod:** 불필요한 as prop 마이그레이션 제거 ([c0bbcf5](https://github.com/wanteddev/wds/commit/c0bbcf5eb4c7f1095abe07566b8615914bae98aa))
+
 # [1.0.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.0-alpha.3...@wanteddev/wds-codemod@1.0.0) (2024-05-07)
 
 **Note:** Version bump only for package @wanteddev/wds-codemod
