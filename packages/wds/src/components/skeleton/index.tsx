@@ -50,8 +50,8 @@ const Skeleton = forwardRef(
       </Box>
     );
   },
-);
+) as PolymorphicComponent<SkeletonProps, 'div'>;
 
 Skeleton.displayName = 'Skeleton';
 
-export default Skeleton as PolymorphicComponent<SkeletonProps, 'div'>;
+export default Skeleton;
