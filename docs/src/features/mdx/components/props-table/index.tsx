@@ -50,7 +50,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                       color="accent"
                       accentColor="palette.accent.lightBlue"
                     >
-                      {`${value.name}${value.required ? ' *' : ''}`}
+                      {`${value.name}${value.required && value.name.toString() !== 'as' ? ' *' : ''}`}
                     </ContentBadge>
                     {value.description && (
                       <Tooltip>
@@ -124,7 +124,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                     color="accent"
                     accentColor="palette.accent.lightBlue"
                   >
-                    {`${value.name}${value.required ? ' *' : ''}`}
+                    {`${value.name}${value.required && value.name !== 'as' ? ' *' : ''}`}
                   </ContentBadge>
                   {value.description && (
                     <Tooltip>

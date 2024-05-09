@@ -7,6 +7,10 @@ import { withCustomConfig } from 'react-docgen-typescript';
 const parser = withCustomConfig(
   path.join(process.cwd(), '../packages/wds/tsconfig.json'),
   {
+    customComponentTypes: [
+      'PolymorphicComponent',
+      'PolymorphicButtonComponent',
+    ],
     propFilter: (prop) => {
       if (prop.name === 'css' || prop.name === '__wdsCustomChildren') {
         return false;
@@ -18,6 +22,7 @@ const parser = withCustomConfig(
               declaration.fileName.includes('radix-ui') ||
               declaration.fileName.includes('react-remove-scroll') ||
               declaration.fileName.includes('react-hook-form') ||
+              declaration.fileName.includes('@wanteddev/wds') ||
               !declaration.fileName.includes('node_modules')
             );
           },
