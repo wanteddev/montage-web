@@ -54,7 +54,7 @@ export const run = () => {
         name: 'files',
         message: 'codemod를 적용할 디렉토리를 입력하세요.',
         when: !cli.input[1],
-        default: '.',
+        default: 'src',
         filter: (files) => files.trim(),
       },
       {
