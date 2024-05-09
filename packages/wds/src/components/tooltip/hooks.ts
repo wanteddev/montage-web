@@ -91,9 +91,7 @@ export const useTooltip = ({
         return;
       }
 
-      if (!latestOpen.current) {
-        handleOpen();
-      }
+      handleOpen();
     },
     [handleOpen],
   );
