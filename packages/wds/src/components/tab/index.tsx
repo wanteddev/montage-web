@@ -252,7 +252,7 @@ const TabListItem = forwardRef(
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          sx={tabListItemStyle}
+          sx={[tabListItemStyle, props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (event.key === 'Enter') event.preventDefault();
           })}
