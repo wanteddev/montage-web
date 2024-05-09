@@ -2,6 +2,7 @@
 import { forwardRef, useState } from 'react';
 
 import ImageLoader from '../image-loader';
+import FlexBox from '../flex-box';
 
 import { thumbnailStyle } from './style';
 
@@ -21,6 +22,10 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
       portrait = false,
       radius,
       border,
+      className,
+      style,
+      children,
+      sx,
       xs,
       sm,
       md,
@@ -42,9 +47,10 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     };
 
     return imageLoadingStatus !== 'error' ? (
-      <ImageLoader
-        ref={ref}
-        {...props}
+      <FlexBox
+        as="figure"
+        className={className}
+        style={style}
         sx={[
           thumbnailStyle({
             ratio,
@@ -58,39 +64,52 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
             lg,
             xl,
           }),
-          props.sx,
+          sx,
         ]}
-        onLoad={() => {
-          props.onLoad?.();
-          setImageLoadingStatus('loaded');
-        }}
-        onError={() => {
-          props.onError?.();
-          setImageLoadingStatus('error');
-        }}
-      />
+      >
+        <ImageLoader
+          ref={ref}
+          {...props}
+          onLoad={() => {
+            props.onLoad?.();
+            setImageLoadingStatus('loaded');
+          }}
+          onError={() => {
+            props.onError?.();
+            setImageLoadingStatus('error');
+          }}
+        />
+        {children}
+      </FlexBox>
     ) : (
-      <ImageLoader
-        ref={ref}
-        {...omitOthers()}
+      <FlexBox
+        as="figure"
+        className={className}
+        style={style}
         sx={[
           thumbnailStyle({
             ratio,
             radius,
             border,
-            portrait,
             width: props.width,
+            portrait,
             xs,
             sm,
             md,
             lg,
             xl,
           }),
-          omitOthers().sx,
+          sx,
         ]}
-        alt={props.alt ? props.alt + ' load fail' : ''}
-        src="https://static.wanted.co.kr/images/jobsfeed/Thumbnail.png"
-      />
+      >
+        <ImageLoader
+          ref={ref}
+          {...omitOthers()}
+          alt={props.alt ? props.alt + ' load fail' : ''}
+          src="https://static.wanted.co.kr/images/jobsfeed/Thumbnail.png"
+        />
+        {children}
+      </FlexBox>
     );
   },
 );

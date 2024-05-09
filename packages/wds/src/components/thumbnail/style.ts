@@ -19,11 +19,17 @@ export const thumbnailStyle =
     xl,
   }: ThumbnailProps & { width: string | number }) =>
   (theme: Theme) => css`
-    object-fit: cover;
     width: ${width};
 
     ${thumbnailRatioStyle({ ratio, portrait })}
     ${thumbnailBorderRadiusStyle({ radius, border }, theme)}
+
+    img {
+      border-radius: inherit;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -68,13 +74,15 @@ const thumbnailBorderRadiusStyle = (
   ${border === true &&
   css`
     position: relative;
+
     &::after {
       content: '';
+      border-radius: inherit;
       inset: 0;
       width: 100%;
       height: 100%;
       position: absolute;
-      border: 1px solid ${theme.palette.line.normal.neutral};
+      box-shadow: inset 0px 0px 1px ${theme.palette.line.normal.neutral};
     }
   `}
 
