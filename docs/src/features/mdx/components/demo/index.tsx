@@ -119,7 +119,7 @@ const Demo = ({ code, hideCode }: Props) => {
 
             <Wds.CompactTooltip>
               <Wds.CompactTooltipTrigger>
-                <Wds.IconButton size={18} onClick={() => {}}>
+                <Wds.IconButton size={18} onClick={() => setValue(code)}>
                   <WdsIcon.IconRefresh />
                 </Wds.IconButton>
               </Wds.CompactTooltipTrigger>
