@@ -73,18 +73,7 @@ const main = () => {
 
   const output = [
     ...paths.map((file) => parser.parse(file)).flat(1),
-    ...parser.parse(sync(getPathName('theme-provider/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/avatar-button/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/button/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/chip-action/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/flex-box/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/text-button/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/icon-button/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/typography/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/floating-action/index.tsx'))),
     ...parser.parse(sync(getPathName('components/focus-scope/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/grid/index.tsx'))),
-    ...parser.parse(sync(getPathName('components/grid-item/index.tsx'))),
     ...lottieParser.parse(
       sync(path.join(process.cwd(), `../packages/wds-lottie/src/index.ts`)),
     ),

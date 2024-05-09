@@ -10,19 +10,14 @@ description: RegionConfig Component
 
 ## Props
 
-<PropsTable component="RegionConfigFC" fallback={[
-{ name: 'viewportMaxWidth', types: 'string | number | undefined', defaultValue: '1060px' },
-{ name: 'viewportTop', types: 'string | number | undefined', defaultValue: '60px' },
-{ name: 'viewportBottom', types: 'string | number | undefined', defaultValue: '0px' },
-]} />
+<PropsTable component="RegionConfig" />
 
 ## Examples
 
 보통 `Alert` 컴포넌트는 navigation 아래에 위치하기 때문에 아래와 같은 설정을 사용합니다.
 
 ```tsx
-import { RegionConfig } from '@wanteddev/wds';
-import { Global } from '@emotion/react';
+import { RegionConfig, Global, respondTo } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
