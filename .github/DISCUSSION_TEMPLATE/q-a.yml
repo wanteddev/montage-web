@@ -1,0 +1,15 @@
+title: '[Question] '
+labels: ['question']
+body:
+  - type: textarea
+    attributes:
+      label: 요약
+      description: 질문에 대한 요약을 입력해주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 상세
+      description: 질문에 대한 상세 내용을 입력해주세요.
+    validations:
+      required: true
