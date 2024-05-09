@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.3...@wanteddev/wds@1.0.4) (2024-05-09)
+
+### Bug Fixes
+
+- **wds-theme:** commonjs 번들 때문에 css variable에 default-\* 가 들어가는 이슈 ([da9d0f6](https://github.com/wanteddev/wds/commit/da9d0f67feeaaa3413adf092dcbc12fd0e4b445a))
+- **wds:** 탭 스타일이 오버라이드 되지 않음 ([8e4f9b6](https://github.com/wanteddev/wds/commit/8e4f9b6033dd15446ee3eac422c4a308df1b38ae))
+
+### Features
+
+- **wds:** thumbnail 컴포넌트 border 옵션 추가 ([f04e987](https://github.com/wanteddev/wds/commit/f04e987040d715b45f28d5851dac1eef9ed09f1d))
+
 ## [1.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.2...@wanteddev/wds@1.0.3) (2024-05-08)
 
 ### Features

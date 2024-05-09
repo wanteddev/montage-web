@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.2...@wanteddev/wds-icon@1.0.3) (2024-05-09)
+
+**Note:** Version bump only for package @wanteddev/wds-icon
+
 ## [1.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.1...@wanteddev/wds-icon@1.0.2) (2024-05-08)
 
 **Note:** Version bump only for package @wanteddev/wds-icon

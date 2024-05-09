@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-engine@1.0.1...@wanteddev/wds-engine@1.0.2) (2024-05-09)
+
+### Features
+
+- **wds-engine:** type 오류 발생했을 때 문구 개선 ([a344872](https://github.com/wanteddev/wds/commit/a3448728de2d33c2fab7c4b13b680c50cbffe5b3))
+
 ## [1.0.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-engine@1.0.0...@wanteddev/wds-engine@1.0.1) (2024-05-08)
 
 ### Features
