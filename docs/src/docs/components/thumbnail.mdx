@@ -33,65 +33,35 @@ export default Demo;`}
 
 ## Props
 
-`border` 옵션은 정비 중이에요 🔧
-
 <PropsTable component="Thumbnail" />
 
 ## Usage
-
-### Portrait
-
-<Demo code={`import { Thumbnail } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <Thumbnail
-      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-      alt="Wanted Company Image"
-      width="200px"
-      quality={95}
-      portrait
-      ratio="4:3"
-    />
-  )
-}
-
-export default Demo;`}
-/>
 
 ### 이미지 깨짐 방지
 
 이미지 깨짐을 방지하기 위해서 `quality` 와 `width` 를 적절하게 조절합니다.
 
-<Demo code={`import { Thumbnail } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <Thumbnail
-      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-      alt="Wanted Company Image"
-      width="400px"
-      quality={95}
-      sx={{ width: '200px' }}
-    />
-  )
-}
-
-export default Demo;`}
-/>
-
 혹은 `disableOptimize` 를 사용합니다.
 
-<Demo code={`import { Thumbnail } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Thumbnail } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Thumbnail
-      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-      alt="Wanted Company Image"
-      width="200px"
-      disableOptimize
-    />
+    <FlexBox>
+      <Thumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="400px"
+        quality={95}
+        sx={{ width: '200px' }}
+      />
+      <Thumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="200px"
+        disableOptimize
+      />
+    </FlexBox>
   )
 }
 
@@ -138,6 +108,48 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Border & Radius
+
+<Demo code={`import { Thumbnail } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      border
+      radius
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+      quality={95}
+      portrait
+      ratio="4:3"
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Portrait
+
+<Demo code={`import { Thumbnail } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+      quality={95}
+      portrait
+      ratio="4:3"
+    />
+  )
+}
+
+export default Demo;`}
+/>
 
 ### Fallback
 

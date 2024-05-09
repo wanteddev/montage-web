@@ -82,7 +82,7 @@ const thumbnailBorderRadiusStyle = (
       width: 100%;
       height: 100%;
       position: absolute;
-      box-shadow: inset 0px 0px 1px ${theme.palette.line.normal.neutral};
+      border: 1px solid ${theme.palette.line.normal.neutral};
     }
   `}
 
