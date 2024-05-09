@@ -9,6 +9,8 @@ export {
   Global,
   useTheme,
   theme,
+  lightOriginTheme,
+  darkOriginTheme,
   CacheProvider,
   createCache,
   getColorByToken,

@@ -1,0 +1,209 @@
+---
+title: Palette
+description: WDS Palette
+---
+
+# Palette
+
+실제 색상은 css variable로 사용합니다.
+
+## Atomic
+
+<Demo 
+  hideCode
+  code={`'use client';
+import { Box, FlexBox, Typography, lightOriginTheme } from '@wanteddev/wds';
+
+const renderItem = (item, key) => {
+  return (
+    <>
+      {Object.entries(item).map(([k, v]) => {
+        if (typeof v === 'object') {
+          return (
+            <FlexBox
+              flexWrap="wrap"
+              key={k}
+              gap="8px"
+            >
+              {renderItem(v, key ? key + '.' + k : k)}
+            </FlexBox>
+          );
+        }
+
+        return (
+          <FlexBox flexDirection="column" gap="4px" key={k} sx={{ width: '75px' }}>
+            <FlexBox
+              sx={theme => ({
+                border: \`1px solid \${theme.palette.line.normal.neutral}\`,
+                backgroundColor: v.toString().startsWith('#') ? v.toString() : undefined,
+                boxShadow: v.toString().startsWith('#') ? undefined : v.toString(),
+                height: '60px',
+                borderRadius: '6px',
+              })}
+            />
+            <Typography variant="caption2" weight="bold" align="center">
+              {key ? key + '.' + k : k}
+            </Typography>
+            <Typography variant="caption2" weight="regular" align="center">
+              {v.toString()}
+            </Typography>
+          </FlexBox>
+        );
+      })}
+    </>
+  );
+};
+
+const Demo = () => {
+  const atomic = (({
+    common,
+    neutral,
+    coolNeutral,
+    blue,
+    red,
+    green,
+    orange,
+    redOrange,
+    lime,
+    cyan,
+    lightBlue,
+    violet,
+    purple,
+    pink,
+  }) => ({
+    common,
+    neutral,
+    coolNeutral,
+    blue,
+    red,
+    green,
+    orange,
+    redOrange,
+    lime,
+    cyan,
+    lightBlue,
+    violet,
+    purple,
+    pink,
+  }))(lightOriginTheme.palette);
+
+  return (
+    <FlexBox flexDirection="column" flex="1">
+      <FlexBox flexDirection="column" gap="28px">
+        {Object.entries(atomic).map(([title, value]) => {
+          return (
+            <FlexBox key={title} flexDirection="column" gap="12px">
+              <Typography variant="headline1" weight="bold">
+                {title}
+              </Typography>
+
+              <FlexBox
+                flexWrap="wrap"
+                gap="8px"
+              >
+                {renderItem(value)}
+              </FlexBox>
+            </FlexBox>
+          );
+        })}
+      </FlexBox>
+    </FlexBox>
+  );
+};
+
+export default Demo;`}
+/>
+
+## Sementic
+
+<Demo 
+  hideCode
+  code={`import { Box, FlexBox, Typography, lightOriginTheme, darkOriginTheme, useThemeControl } from '@wanteddev/wds';
+
+const renderItem = (item, key) => {
+  return (
+    <>
+      {Object.entries(item).map(([k, v]) => {
+        if (typeof v === 'object') {
+          return (
+            <FlexBox
+              flexWrap="wrap"
+              key={k}
+              gap="8px"
+            >
+              {renderItem(v, key ? key + '.' + k : k)}
+            </FlexBox>
+          );
+        }
+
+        return (
+          <FlexBox flexDirection="column" gap="4px" key={k} sx={{ width: '75px' }}>
+            <FlexBox
+              sx={theme => ({
+                border: \`1px solid \${theme.palette.line.normal.neutral}\`,
+                backgroundColor: v.toString().startsWith('#') ? v.toString() : undefined,
+                boxShadow: v.toString().startsWith('#') ? undefined : v.toString(),
+                height: '60px',
+                borderRadius: '6px',
+              })}
+            />
+            <Typography variant="caption2" weight="bold" align="center">
+              {key ? key + '.' + k : k}
+            </Typography>
+            <Typography variant="caption2" weight="regular" align="center">
+              {v.toString()}
+            </Typography>
+          </FlexBox>
+        );
+      })}
+    </>
+  );
+};
+
+const Demo = () => {
+  const { theme } = useThemeControl();
+
+  const atomic = (({
+    common,
+    neutral,
+    coolNeutral,
+    blue,
+    red,
+    green,
+    orange,
+    redOrange,
+    lime,
+    cyan,
+    lightBlue,
+    violet,
+    purple,
+    pink,
+    ...props
+  }) => props)(theme === 'light' ? lightOriginTheme.palette : darkOriginTheme.palette);
+
+  return (
+    <FlexBox flexDirection="column" flex="1">
+      <FlexBox flexDirection="column" gap="28px">
+        {Object.entries(atomic).map(([title, value]) => {
+          return (
+            <FlexBox key={title} flexDirection="column" gap="12px">
+              <Typography variant="headline1" weight="bold">
+                {title}
+              </Typography>
+
+              <FlexBox
+                flexWrap="wrap"
+                gap="8px"
+              >
+                {renderItem(value)}
+              </FlexBox>
+            </FlexBox>
+          );
+        })}
+      </FlexBox>
+    </FlexBox>
+  );
+};
+
+export default Demo;`}
+/>

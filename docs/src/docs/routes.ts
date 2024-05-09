@@ -20,6 +20,7 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Breakpoint', slug: '/docs/themes/breakpoint' },
       { title: 'Icon', slug: '/docs/themes/icon' },
+      { title: 'Palette', slug: '/docs/themes/palette' },
       { title: 'ThemeProvider', slug: '/docs/themes/theme-provider' },
       { title: 'Typography', slug: '/docs/themes/typography' },
     ],
