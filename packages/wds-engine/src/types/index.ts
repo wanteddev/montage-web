@@ -43,9 +43,9 @@ export type ResponsiveProps<T> = {
 export { CSSInterpolation };
 
 export interface PolymorphicComponent<P, E extends ElementType = 'div'> {
-  <C extends ElementType>(
+  <C extends ElementType = E>(
     props: {
-      as: C;
+      as?: C;
     } & OverrideProps<P, C>,
   ): JSX.Element;
   (props: DefaultComponentProps<P, E>): JSX.Element;
