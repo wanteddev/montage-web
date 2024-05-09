@@ -18,6 +18,8 @@ import {
   demoStyle,
   editorStyle,
   editorWrapperStyle,
+  errorStyle,
+  toolbarStyle,
 } from './style';
 
 type Props = {
@@ -46,10 +48,23 @@ const Demo = ({ code, hideCode }: Props) => {
     };
   }, []);
 
+  const deferredCode = React.useDeferredValue(value);
+
   const { element, error } = useRunner({
-    code: value,
+    code: deferredCode,
     scope,
   });
+
+  const handleCopy = () => {
+    const success = copy.default(value);
+
+    if (success) {
+      toast({
+        variant: 'success',
+        content: '클립보드에 복사 했습니다.',
+      });
+    }
+  };
 
   return (
     <Wds.FlexBox
@@ -61,19 +76,92 @@ const Demo = ({ code, hideCode }: Props) => {
       }
     >
       <Wds.Box sx={demoStyle(hideCode)}>
-        <Wds.NoSsr>{error ? error.toString() : element}</Wds.NoSsr>
+        <Wds.NoSsr>{element}</Wds.NoSsr>
+
+        {hideCode && Boolean(error) && (
+          <Wds.FlexBox sx={errorStyle} gap="4px">
+            <WdsIcon.IconCircleExclamation />
+            <Wds.Typography variant="caption1">
+              {error?.toString()}
+            </Wds.Typography>
+          </Wds.FlexBox>
+        )}
       </Wds.Box>
 
       {!hideCode && (
-        <Wds.FlexBox sx={editorWrapperStyle}>
-          {/* @ts-expect-error */}
+        <Wds.FlexBox sx={editorWrapperStyle} flexDirection="column">
+          <Wds.FlexBox
+            alignItems="center"
+            justifyContent="flex-end"
+            gap="16px"
+            sx={toolbarStyle}
+          >
+            <Wds.ChipAction
+              size="small"
+              variant="outlined"
+              color="assistive"
+              onClick={() => setCollapsed((prev) => !prev)}
+              sx={{ borderRadius: '9999px' }}
+            >
+              {collapsed ? 'Expand code' : 'Collapse code'}
+            </Wds.ChipAction>
+
+            <Wds.CompactTooltip>
+              <Wds.CompactTooltipTrigger>
+                <Wds.IconButton size={18} onClick={handleCopy}>
+                  <WdsIcon.IconCopy />
+                </Wds.IconButton>
+              </Wds.CompactTooltipTrigger>
+              <Wds.CompactTooltipContent shortcut="⌘C">
+                Copy
+              </Wds.CompactTooltipContent>
+            </Wds.CompactTooltip>
+
+            <Wds.CompactTooltip>
+              <Wds.CompactTooltipTrigger>
+                <Wds.IconButton size={18} onClick={() => {}}>
+                  <WdsIcon.IconRefresh />
+                </Wds.IconButton>
+              </Wds.CompactTooltipTrigger>
+              <Wds.CompactTooltipContent shortcut="⌘R">
+                Reset
+              </Wds.CompactTooltipContent>
+            </Wds.CompactTooltip>
+          </Wds.FlexBox>
+          {Boolean(error) && (
+            <Wds.FlexBox sx={errorStyle} gap="4px">
+              <WdsIcon.IconCircleExclamation />
+              <Wds.Typography variant="caption1">
+                {error?.toString()}
+              </Wds.Typography>
+            </Wds.FlexBox>
+          )}
           <Wds.Box
             as={CodeEditor}
+            ignoreTabKey={false}
+            insertSpaces
+            tabSize={2}
+            onKeyDown={(e) => {
+              if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c') {
+                  e.preventDefault();
+                  handleCopy();
+                } else if (e.key === 'r') {
+                  e.preventDefault();
+                  setValue(code);
+                }
+              }
+            }}
+            onFocus={() => {
+              if (collapsed) {
+                setCollapsed(false);
+              }
+            }}
             value={value}
             onValueChange={setValue}
             sx={[codeBlockStyle, editorStyle]}
             padding={16}
-            highlight={(v: string) =>
+            highlight={(v) =>
               toHtml(
                 refractor.highlight(v, 'tsx') as Parameters<typeof toHtml>[0],
               )
@@ -83,42 +171,7 @@ const Demo = ({ code, hideCode }: Props) => {
           <Wds.FlexBox
             sx={collapseWrapperStyle(collapsed)}
             justifyContent="center"
-          >
-            <Wds.Button
-              size="small"
-              variant="outlined"
-              color="assistive"
-              onClick={() => setCollapsed((prev) => !prev)}
-            >
-              {collapsed ? '자세히' : '접기'}
-            </Wds.Button>
-          </Wds.FlexBox>
-
-          <Wds.IconButton
-            variant="background"
-            sx={(theme) => ({
-              ['&::before']: {
-                backgroundColor: theme.palette.inverse.label,
-                border: `1px solid ${theme.palette.line.normal.neutral}`,
-                zIndex: 0,
-              },
-              svg: {
-                zIndex: 1,
-              },
-            })}
-            onClick={() => {
-              const success = copy.default(value);
-
-              if (success) {
-                toast({
-                  variant: 'success',
-                  content: '클립보드에 복사 했습니다.',
-                });
-              }
-            }}
-          >
-            <WdsIcon.IconCopy />
-          </Wds.IconButton>
+          ></Wds.FlexBox>
         </Wds.FlexBox>
       )}
     </Wds.FlexBox>

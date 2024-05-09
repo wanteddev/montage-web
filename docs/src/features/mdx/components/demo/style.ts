@@ -7,11 +7,24 @@ export const demoStyle = (hideCode?: boolean) => (theme: Theme) => css`
   border-top-left-radius: 8px;
   padding: 16px;
   border: 1px solid ${theme.palette.line.normal.normal};
+  background-color: ${theme.palette.background.normal.normal};
+  position: relative;
 
   ${hideCode &&
   css`
     border-radius: 8px;
   `}
+`;
+
+export const errorStyle = (theme: Theme) => css`
+  background-color: ${theme.palette.status.negative};
+  color: ${theme.palette.static.white};
+  padding: 2px 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 1;
+  border-radius: 4px;
 `;
 
 export const editorWrapperStyle = css`
@@ -33,6 +46,13 @@ export const editorWrapperStyle = css`
   }
 `;
 
+export const toolbarStyle = (theme: Theme) => css`
+  border: 1px solid ${theme.palette.line.normal.normal};
+  border-top-width: 0px;
+  padding: 10px 16px;
+  background-color: ${theme.palette.background.normal.normal};
+`;
+
 export const editorStyle = (theme: Theme) => css`
   background-color: ${theme.palette.background.elevated.normal};
   border: 1px solid ${theme.palette.line.normal.normal};
@@ -41,6 +61,10 @@ export const editorStyle = (theme: Theme) => css`
   border-bottom-left-radius: 8px;
   border-top-width: 0px;
   font-size: 0.9em;
+
+  textarea {
+    border-radius: inherit;
+  }
 `;
 
 export const collapseWrapperStyle =
