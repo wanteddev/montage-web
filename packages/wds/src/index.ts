@@ -25,4 +25,9 @@ export type {
   CacheOptions,
   Interpolation,
   SerializedStyles,
+  SxProp,
+  PolymorphicComponent,
+  PolymorphicProps,
+  DefaultComponentProps,
+  ResponsiveProps,
 } from '@wanteddev/wds-engine';
