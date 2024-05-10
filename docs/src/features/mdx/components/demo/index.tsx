@@ -55,7 +55,7 @@ const Demo = ({ code, hideCode }: Props) => {
       }
     >
       <Wds.Box sx={demoStyle(hideCode)}>
-        <Wds.NoSsr>{element}</Wds.NoSsr>
+        {element}
 
         {hideCode && Boolean(error) && (
           <Wds.FlexBox sx={errorStyle(hideCode)} gap="4px">
