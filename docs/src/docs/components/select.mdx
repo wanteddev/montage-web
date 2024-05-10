@@ -30,16 +30,12 @@ export default Demo;`}
 
 ### OptionGroup
 
-<Demo code={`import { useId } from 'react';
-import { Select, FlexBox, Label } from '@wanteddev/wds';
+<Demo code={`import { Select, FlexBox, Label } from '@wanteddev/wds';
 
 const Demo = () => {
-  const id = useId();
-
   return (
     <FlexBox flexDirection="column" gap="10px">
-      <Label htmlFor={id}>Label</Label>
-      <Select id={id} width="300px" placeholder="값을 선택하세요.">
+      <Select width="300px" placeholder="값을 선택하세요.">
         <optgroup label="group">
           <option value="Hello">Hello</option>
         </optgroup>
@@ -92,7 +88,7 @@ const Demo = () => {
           control={form.control}
           name="checked"
           render={({ field }) => (
-            <FormItem flexDirection="row" alignItems="center" gap="10px">
+            <FormItem>
               <FormLabel>Select</FormLabel>
 
               <FormControl>

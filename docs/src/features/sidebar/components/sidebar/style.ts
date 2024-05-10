@@ -18,6 +18,7 @@ export const sidebarStyle = (theme: Theme) => css`
 export const sidebarContentStyle = css`
   a {
     display: block;
+    width: fit-content;
   }
 
   &[data-level='2'] {

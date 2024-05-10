@@ -18,6 +18,11 @@ export const preWrapperStyle = (theme: Theme) => css`
     top: 16px;
   }
 
+  & button:focus,
+  & button:focus-visible {
+    opacity: 1;
+  }
+
   &:hover {
     button {
       opacity: 1;
