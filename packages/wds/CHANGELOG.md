@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.4...@wanteddev/wds@1.0.5) (2024-05-13)
+
+### Bug Fixes
+
+- **wds:** checkbox의 bold prop이 동작하지 않음 ([40655cd](https://github.com/wanteddev/wds/commit/40655cd4ac4dd76c9752cfbc23e6932ccfd4facb))
+- **wds:** skeleton에 displayName 추가 ([da6a90d](https://github.com/wanteddev/wds/commit/da6a90d10d23597027b3a0fa3995fe3b65bd6be4))
+- **wds:** tooltip mouseover, mouseleave 즉시 발동해야함 ([98b8c17](https://github.com/wanteddev/wds/commit/98b8c1761e543cc0a87ad52fa2c6e5d6cb27c21f))
+
+### Features
+
+- **wds-icon:** 아이콘 패스 업데이트 및 신규 아이콘 추가 ([895fc70](https://github.com/wanteddev/wds/commit/895fc7094ffef176bc2a5ea6ce6a9c634f8c5b70))
+
 ## [1.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.3...@wanteddev/wds@1.0.4) (2024-05-09)
 
 ### Bug Fixes
