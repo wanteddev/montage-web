@@ -10,6 +10,8 @@ export default defineConfig([
       injectUseClient([
         './dist/box/**/index.{js,mjs}',
         './dist/theme-provider/**/index.{js,mjs}',
+        './dist/context/**/index.{js,mjs}',
+        './dist/hooks/*/*.{js,mjs}',
         './dist/global/**/index.{js,mjs}',
       ]),
   },

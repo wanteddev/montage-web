@@ -22,9 +22,10 @@
     }
   },
   "scripts": {
-    "build": "tsup",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "watch": "tsc && tsup --watch",
+    "build": "tsc && tsup"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",
