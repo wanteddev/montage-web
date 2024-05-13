@@ -38,7 +38,7 @@ const Demo = () => {
   return (
     <FlexBox flexWrap="wrap" gap="12px">
       {Object.entries(Icons).map(([name, Component]) => (
-        <Tooltip mode="hover" key={name}>
+        <Tooltip mode="hover" key={name} enterDelay={10} leaveDelay={10}>
           <TooltipTrigger>
             <FlexBox
               as="button"
@@ -57,6 +57,8 @@ const Demo = () => {
               onClick={handleClick(name)}
             >
               <Component />
+
+              <span style={{ fontSize: '0px' }}>{name}</span>
             </FlexBox>
           </TooltipTrigger>
           <TooltipContent

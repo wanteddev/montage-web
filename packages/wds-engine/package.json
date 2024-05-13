@@ -22,7 +22,8 @@
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsc && tsup",
+    "watch": "tsc && tsup --watch",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
@@ -43,7 +44,6 @@
     "react": "^18.2.0"
   },
   "peerDependencies": {
-    "next": "^13.0.0 || ^14.0.0",
     "react": ">= 18.0.0"
   },
   "peerDependenciesMeta": {

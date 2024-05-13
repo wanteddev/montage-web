@@ -13,6 +13,7 @@ const IconLineHorizontal = forwardRef<SVGSVGElement, Props>((props, ref) => {
     <Box
       as="svg"
       viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
@@ -20,10 +21,10 @@ const IconLineHorizontal = forwardRef<SVGSVGElement, Props>((props, ref) => {
       {...props}
     >
       <path
-        fill="currentColor"
         fillRule="evenodd"
         clipRule="evenodd"
-        d="M5.09985 12.0001C5.09985 11.503 5.5028 11.1001 5.99985 11.1001H17.9999C18.4969 11.1001 18.8999 11.503 18.8999 12.0001C18.8999 12.4972 18.4969 12.9001 17.9999 12.9001H5.99985C5.5028 12.9001 5.09985 12.4972 5.09985 12.0001Z"
+        d="M5.09998 12.0001C5.09998 11.503 5.50292 11.1001 5.99998 11.1001H18C18.497 11.1001 18.9 11.503 18.9 12.0001C18.9 12.4972 18.497 12.9001 18 12.9001H5.99998C5.50292 12.9001 5.09998 12.4972 5.09998 12.0001Z"
+        fill="currentColor"
       />
     </Box>
   );

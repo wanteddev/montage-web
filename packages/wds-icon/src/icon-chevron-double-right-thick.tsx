@@ -12,14 +12,14 @@ const IconChevronDoubleRightThick = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (
       <Box
+        as="svg"
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
         height="1em"
-        {...props}
-        as="svg"
         ref={ref}
+        {...props}
       >
         <path
           fillRule="evenodd"

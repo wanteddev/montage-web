@@ -3,11 +3,11 @@ import { css } from '@wanteddev/wds-engine';
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
-import type { ButtonProps, ButtonVariant } from './types';
+import type { ButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const buttonStyle =
-  ({ xs, sm, md, lg, xl, ...props }: ButtonProps<ButtonVariant>) =>
+  ({ xs, sm, md, lg, xl, ...props }: ButtonProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -41,7 +41,7 @@ export const buttonStyle =
     )}
   `;
 
-const buttonSizeStyle = ({ size }: ButtonProps<ButtonVariant> = {}) => {
+const buttonSizeStyle = ({ size }: ButtonProps = {}) => {
   switch (size) {
     case 'large':
       return css`
@@ -86,7 +86,7 @@ const buttonSizeStyle = ({ size }: ButtonProps<ButtonVariant> = {}) => {
 };
 
 const buttonColorStyle = (
-  { variant, color }: ButtonProps<ButtonVariant> = {},
+  { variant, color }: ButtonProps = {},
   theme: Theme,
 ) => {
   switch (true) {

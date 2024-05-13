@@ -22,7 +22,9 @@ const main = async () => {
   const newPaths = [];
 
   for (const svg of paths) {
-    const filename = svg.split(',')[0].split('=')[1].split('.svg')[0] + '.svg';
+    const filename = svg.includes('Color/')
+      ? svg.split(',')[0].split('=')[1].split('.svg')[0] + 'Color.svg'
+      : svg.split(',')[0].split('=')[1].split('.svg')[0] + '.svg';
 
     fs.renameSync(svg, path.join(ROOT, 'temp/', filename));
 
@@ -40,7 +42,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-const Icon${componentName} = forwardRef<HTMLSvgElement, Props>((props, ref) => {
+const Icon${componentName} = forwardRef<SVGSVGElement, Props>((props, ref) => {
 	return (
 		${content
       .replace(/width="(.*?)"/, '')
@@ -49,10 +51,11 @@ const Icon${componentName} = forwardRef<HTMLSvgElement, Props>((props, ref) => {
         'xmlns="http://www.w3.org/2000/svg"',
         'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}',
       )
+      .replace(content.includes('viewBox="0 0 12 24"') ? 'width="1em"' : '', '')
       .replaceAll('fill="#171719"', 'fill="currentColor"')
       .replaceAll('fill-rule', 'fillRule')
       .replaceAll('clip-rule', 'clipRule')
-      .replace('<svg', '<Box as="svg" ref={ref}')
+      .replace('<svg', '<Box as="svg"')
       .replace('</svg', '</Box')}
 	)
 });
@@ -65,8 +68,8 @@ export default Icon${componentName};`;
   const createdFiles = [];
 
   for (const svg of newPaths) {
-    const filename = changeCase.kebabCase(svg.replace('.svg', ''));
     const componentName = changeCase.pascalCase(svg.replace('.svg', ''));
+    const filename = 'icon-' + changeCase.kebabCase(componentName);
 
     if (fs.existsSync(path.join(ROOT, 'src', filename + '.tsx'))) {
       existFiles.push({ filename, componentName, svg });

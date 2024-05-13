@@ -81,7 +81,7 @@ const Button = forwardRef(
               md,
               lg,
               xl,
-            }),
+            } as ButtonProps),
             props.sx,
           ]}
         >

@@ -11,14 +11,14 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 const IconNavigationSocial = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box
+      as="svg"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
-      {...props}
-      as="svg"
       ref={ref}
+      {...props}
     >
       <path
         d="M19.1126 7.13979C19.1126 9.0672 17.5496 10.6297 15.6215 10.6297C13.6934 10.6297 12.1304 9.0672 12.1304 7.13979C12.1304 5.21238 13.6934 3.6499 15.6215 3.6499C17.5496 3.6499 19.1126 5.21238 19.1126 7.13979Z"

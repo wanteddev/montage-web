@@ -315,9 +315,6 @@ importers:
       '@wanteddev/wds-theme':
         specifier: workspace:*
         version: link:../wds-theme
-      next:
-        specifier: ^13.0.0 || ^14.0.0
-        version: 14.2.2(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
