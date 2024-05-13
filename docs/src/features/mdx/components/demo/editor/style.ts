@@ -2,7 +2,7 @@ import { css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const editorWrapperStyle = css`
+export const editorWrapperStyle = (theme: Theme) => css`
   max-height: var(--demo-max-height);
   position: relative;
 
@@ -12,6 +12,14 @@ export const editorWrapperStyle = css`
     position: absolute;
     right: 16px;
     top: 16px;
+
+    &::before {
+      background-color: ${theme.palette.background.elevated.alternative};
+    }
+
+    svg {
+      z-index: 1;
+    }
   }
 
   & > button:focus,

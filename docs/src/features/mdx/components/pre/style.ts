@@ -16,6 +16,14 @@ export const preWrapperStyle = (theme: Theme) => css`
     position: absolute;
     right: 16px;
     top: 16px;
+
+    &::before {
+      background-color: ${theme.palette.background.elevated.alternative};
+    }
+
+    svg {
+      z-index: 1;
+    }
   }
 
   & button:focus,
