@@ -352,3 +352,24 @@ root.render(
   </CacheProvider>
 );
 ```
+
+### Custom Provider
+
+wds는 css in js의 provider를 지원합니다.
+
+아래와 같이 설정하면 `styled-components` 의 theme에도 디자인 시스템 테마가 주입됩니다.
+
+```tsx
+import { ThemeProvider } from '@wanteddev/wds';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+
+const App = () => {
+  return (
+    <ThemeProvider provider={StyledThemeProvider}>
+      ...
+    </ThemeProvider>
+  )
+}
+
+export default App;
+```
