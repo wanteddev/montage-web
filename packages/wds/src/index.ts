@@ -24,6 +24,7 @@ export type {
   ThemeOpacityToken,
   CacheOptions,
   Interpolation,
+  CSSInterpolation,
   SerializedStyles,
   SxProp,
   PolymorphicComponent,

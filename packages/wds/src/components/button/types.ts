@@ -5,12 +5,8 @@ export type ButtonVariant = 'solid' | 'outlined';
 
 export type ButtonColor = 'primary' | 'secondary' | 'assistive';
 
-export type ButtonDefaultProps<T extends ButtonVariant = 'solid'> = {
+export type ButtonDefaultProps = {
   size?: 'small' | 'medium' | 'large';
-  variant?: T;
-  color?: T extends 'solid'
-    ? Exclude<ButtonColor, 'secondary' | 'assistive'>
-    : ButtonColor;
   disabled?: boolean;
   disableInteraction?: boolean;
   fullWidth?: boolean;
@@ -19,10 +15,17 @@ export type ButtonDefaultProps<T extends ButtonVariant = 'solid'> = {
 };
 
 export type ButtonResponsiveProps = ResponsiveProps<
-  Pick<ButtonDefaultProps<ButtonVariant>, 'fullWidth' | 'size'>
+  Pick<ButtonDefaultProps, 'fullWidth' | 'size'>
 >;
 
-export type ButtonProps<T extends ButtonVariant = 'solid'> = Merge<
-  ButtonDefaultProps<T>,
-  ButtonResponsiveProps
->;
+export type ButtonUnionProps =
+  | (ButtonDefaultProps & {
+      variant: 'outlined';
+      color?: ButtonColor;
+    })
+  | (ButtonDefaultProps & {
+      variant?: 'solid';
+      color?: 'primary';
+    });
+
+export type ButtonProps = Merge<ButtonUnionProps, ButtonResponsiveProps>;

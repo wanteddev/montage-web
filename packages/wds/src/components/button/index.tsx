@@ -7,16 +7,15 @@ import WithInteraction from '../with-interaction';
 import { buttonStyle } from './style';
 
 import type {
-  DefaultComponentProps,
-  OverrideProps,
+  PolymorphicComponent,
   PolymorphicProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { ButtonProps, ButtonVariant } from './types';
+import type { ButtonProps } from './types';
 
 const Button = forwardRef(
-  <E extends ElementType = 'button', T extends ButtonVariant = 'solid'>(
+  <E extends ElementType = 'button'>(
     {
       as,
       variant: originVariant,
@@ -34,7 +33,7 @@ const Button = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ButtonProps<T>, E>,
+    }: PolymorphicProps<ButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
@@ -93,21 +92,8 @@ const Button = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicButtonComponent;
+) as PolymorphicComponent<ButtonProps, 'button'>;
 
 Button.displayName = 'Button';
-
-interface PolymorphicButtonComponent {
-  <C extends ElementType, V extends ButtonVariant = 'solid'>(
-    props: {
-      as: C;
-    } & OverrideProps<ButtonProps<V>, C>,
-  ): JSX.Element;
-  <V extends ButtonVariant = 'solid'>(
-    props: DefaultComponentProps<ButtonProps<V>, 'button'>,
-  ): JSX.Element;
-  propTypes?: any;
-  displayName?: string | undefined;
-}
 
 export default Button;
