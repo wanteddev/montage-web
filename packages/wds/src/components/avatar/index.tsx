@@ -60,6 +60,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
         className={className}
         wds-component="avatar"
         sx={[avatarWrapperStyle({ size, variant, xs, sm, md, lg, xl }), sx]}
+        data-state={imageLoadingStatus}
         style={style}
       >
         {imageLoadingStatus !== 'error' && hasImage(props) ? (

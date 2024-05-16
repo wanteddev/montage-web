@@ -1,6 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
+import { addOpacity } from '../../utils';
 
 import type { AvatarProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -13,13 +14,32 @@ export const avatarWrapperStyle =
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+
+    &[data-state='loaded'] {
+      &::after {
+        box-shadow: inset 0 0 1px
+          ${addOpacity(theme.palette.label.normal, theme.opacity[5])};
+        content: '';
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        color: inherit;
+        font-size: inherit;
+        position: absolute;
+        inset: 0;
+      }
+    }
 
     ${avatarSizeStyle(size, variant)}
 
     img {
+      width: 100%;
+      height: 100%;
       border-radius: inherit;
-      width: inherit;
-      height: inherit;
+      background: inherit;
+      color: inherit;
+      font-size: inherit;
       text-align: center;
 
       ${variant === 'person'
@@ -43,8 +63,8 @@ export const avatarWrapperStyle =
   `;
 
 export const fallbackWrapperStyle = (theme: Theme) => css`
-  width: inherit;
-  height: inherit;
+  width: 100%;
+  height: 100%;
   border-radius: inherit;
   color: inherit;
   font-size: inherit;
