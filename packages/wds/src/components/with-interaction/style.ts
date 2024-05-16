@@ -23,13 +23,13 @@ export const getWrapperStyle = (
       &:focus > [wds-component='with-interaction'] {
         ${focusInteractionStyle(theme, variant)}
       }
-      &:active > [wds-component='with-interaction'] {
-        ${activeInteractionStyle(theme, variant)}
-      }
       &:focus-visible > [wds-component='with-interaction'] {
         ${focusVisibleInteractionStyle(theme)}
       }
-
+      &:active > [wds-component='with-interaction'] {
+        ${activeInteractionStyle(theme, variant)}
+      }
+      
       ${
         scale &&
         `

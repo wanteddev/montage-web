@@ -178,6 +178,17 @@ const iconButtonColorStyle = (
           border-radius: inherit;
         }
 
+        &:focus-visible {
+          outline: none;
+
+          &::before {
+            outline-width: 2px;
+            outline-style: solid;
+            outline-color: Highlight;
+            outline-color: -webkit-focus-ring-color;
+          }
+        }
+
         &:disabled {
           background-color: transparent;
           color: ${theme.palette.label.disable};

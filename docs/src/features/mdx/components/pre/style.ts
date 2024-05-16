@@ -15,15 +15,7 @@ export const preWrapperStyle = (theme: Theme) => css`
     transition: opacity ease 0.12s;
     position: absolute;
     right: 16px;
-    top: 16px;
-
-    &::before {
-      background-color: ${theme.palette.background.elevated.alternative};
-    }
-
-    svg {
-      z-index: 1;
-    }
+    top: 13px;
   }
 
   & button:focus,

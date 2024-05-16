@@ -2,36 +2,9 @@ import { css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const editorWrapperStyle = (theme: Theme) => css`
+export const editorWrapperStyle = css`
   max-height: var(--demo-max-height);
   position: relative;
-
-  & > button {
-    opacity: 0;
-    transition: opacity ease 0.12s;
-    position: absolute;
-    right: 16px;
-    top: 16px;
-
-    &::before {
-      background-color: ${theme.palette.background.elevated.alternative};
-    }
-
-    svg {
-      z-index: 1;
-    }
-  }
-
-  & > button:focus,
-  & > button:focus-visible {
-    opacity: 1;
-  }
-
-  &:hover {
-    & > button {
-      opacity: 1;
-    }
-  }
 `;
 
 export const toolbarStyle = (theme: Theme) => css`

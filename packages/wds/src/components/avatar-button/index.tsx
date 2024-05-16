@@ -33,8 +33,8 @@ const AvatarButton = forwardRef(
         sx={[avatarButtonStyle, props.sx]}
       >
         <WithInteraction
-          width="calc(100% + 8px)"
-          height="calc(100% + 8px)"
+          width="calc(100% + 16px)"
+          height="calc(100% + 16px)"
           disabled={props.disabled || disableInteraction}
         >
           {children}

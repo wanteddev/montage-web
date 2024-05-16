@@ -1,11 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import {
-  activeInteractionStyle,
-  focusInteractionStyle,
-  focusVisibleInteractionStyle,
-  hoverInteractionStyle,
-} from '../with-interaction/style';
+import { activeInteractionStyle } from '../with-interaction/style';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
@@ -18,29 +13,31 @@ export const avatarButtonStyle = (theme: Theme) => css`
   position: relative;
   display: block;
 
-  &:focus-visible,
-  &[aria-expanded='true'] {
+  &:focus-visible {
     outline: none;
 
-    & > [wds-component='avatar'] {
-      outline-style: solid;
-      outline-width: 1.5px;
-      outline-offset: 2.5px;
-      outline-color: ${theme.palette.primary.normal};
+    [wds-component='avatar'] {
+      &::before {
+        content: '';
+        position: absolute;
+        border-radius: inherit;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: calc(100% + 16px);
+        height: calc(100% + 16px);
+        outline-width: 2px;
+        outline-style: solid;
+        outline-color: Highlight;
+        outline-color: -webkit-focus-ring-color;
+      }
     }
   }
 
-  &:hover [wds-component='with-interaction'] {
-    ${hoverInteractionStyle(theme)}
-  }
-  &:focus [wds-component='with-interaction'] {
-    ${focusInteractionStyle(theme)}
-  }
-  &:active [wds-component='with-interaction'] {
-    ${activeInteractionStyle(theme)}
-  }
-  &:focus-visible [wds-component='with-interaction'] {
-    ${focusVisibleInteractionStyle(theme)}
+  &[aria-expanded='true'] {
+    [wds-component='with-interaction'] {
+      ${activeInteractionStyle(theme)}
+    }
   }
 `;
 

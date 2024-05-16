@@ -69,9 +69,6 @@ const PrivateThemeProvider = ({
                 body: {
                   backgroundColor: themeObj.palette.background.normal.normal,
                 },
-                ['*:focus-visible']: {
-                  outlineColor: themeObj.palette.primary.normal,
-                },
               })
         }
       />

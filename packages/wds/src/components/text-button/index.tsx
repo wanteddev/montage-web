@@ -47,7 +47,7 @@ const TextButton = forwardRef(
         scale
       >
         <Box
-          as={(as || 'button') as ElementType}
+          as={(as || 'button') as E}
           wds-component="text-button"
           aria-labelledby={id}
           ref={ref}

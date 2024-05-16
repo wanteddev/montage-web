@@ -53,7 +53,8 @@ const CodeBlock = ({ children, ...props }: Props) => {
       />
 
       <IconButton
-        variant="background"
+        variant="outlined"
+        size="small"
         onClick={() => {
           const success = copy(children as string);
 

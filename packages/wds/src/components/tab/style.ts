@@ -114,7 +114,8 @@ export const tabListItemStyle = (theme: Theme) => css`
     outline: none;
 
     & > span {
-      outline-color: ${theme.palette.primary.normal};
+      outline-color: Highlight;
+      outline-color: -webkit-focus-ring-color;
       outline-style: solid;
       outline-width: 2px;
       outline-offset: -1px;

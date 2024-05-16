@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
@@ -24,9 +24,7 @@ const IconButton = forwardRef(
       variant = 'normal',
       interactionColor = 'palette.label.normal',
       pushBadge = false,
-      color = variant === 'solid'
-        ? 'palette.static.white'
-        : 'palette.label.normal',
+      color: originColor,
       children,
       xs,
       sm,
@@ -37,6 +35,21 @@ const IconButton = forwardRef(
     }: PolymorphicProps<IconButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
+    const color = useMemo(() => {
+      if (originColor) {
+        return originColor;
+      }
+
+      switch (variant) {
+        case 'solid':
+          return 'palette.static.white';
+        case 'background':
+          return 'palette.label.alternative';
+        default:
+          return 'palette.label.normal';
+      }
+    }, [originColor, variant]);
+
     const getInteractionSize = () => {
       switch (variant) {
         case 'outlined':
