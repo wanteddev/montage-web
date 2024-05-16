@@ -1,5 +1,6 @@
 'use client';
 import { forwardRef, useState } from 'react';
+import { IconImage } from '@wanteddev/wds-icon';
 
 import ImageLoader from '../image-loader';
 import FlexBox from '../flex-box';
@@ -38,13 +39,6 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
       'idle' | 'loaded' | 'error'
     >('idle');
-
-    const omitOthers = () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { srcSet, sizes, ...others } = props;
-
-      return others;
-    };
 
     return imageLoadingStatus !== 'error' ? (
       <FlexBox
@@ -86,6 +80,8 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
         as="figure"
         className={className}
         style={style}
+        alignItems="center"
+        justifyContent="center"
         sx={[
           thumbnailStyle({
             ratio,
@@ -99,15 +95,11 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
             lg,
             xl,
           }),
+          { background: '#cccccc33', color: '#B2B2B233' },
           sx,
         ]}
       >
-        <ImageLoader
-          ref={ref}
-          {...omitOthers()}
-          alt={props.alt ? props.alt + ' load fail' : ''}
-          src="https://static.wanted.co.kr/images/jobsfeed/Thumbnail.png"
-        />
+        <IconImage sx={{ width: '33.34%', height: 'auto' }} />
         {children}
       </FlexBox>
     );
