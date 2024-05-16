@@ -53,12 +53,19 @@ const Editor = ({
   const toast = useToast();
 
   const handleCopy = () => {
+    const selection = window.getSelection()?.toString();
+
+    if (selection) {
+      copy(selection);
+      return;
+    }
+
     const success = copy(value);
 
     if (success) {
       toast({
         variant: 'success',
-        content: '클립보드에 복사 했습니다.',
+        content: '코드를 클립보드에 복사 했습니다.',
       });
     }
   };

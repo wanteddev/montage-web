@@ -1,12 +1,5 @@
 'use client';
-import {
-  Children,
-  type PropsWithChildren,
-  cloneElement,
-  forwardRef,
-  isValidElement,
-} from 'react';
-import { composeRefs } from '@radix-ui/react-compose-refs';
+import { Children, cloneElement, isValidElement } from 'react';
 import {
   Box,
   ClassNames,
@@ -15,30 +8,15 @@ import {
   useTheme,
 } from '@wanteddev/wds-engine';
 
-import {
-  activeInteractionStyle,
-  focusInteractionStyle,
-  focusVisibleInteractionStyle,
-  hoverInteractionStyle,
-} from './style';
+import { getWrapperStyle } from './style';
 
-import type { ThemeColorsToken } from '@wanteddev/wds-engine';
-import type { CSSProperties } from 'react';
-
-type Props = PropsWithChildren<{
-  color?: ThemeColorsToken;
-  disabled?: boolean;
-  width?: CSSProperties['width'];
-  height?: CSSProperties['height'];
-  scale?: boolean;
-  variant?: 'normal' | 'light' | 'strong';
-}>;
+import type { WithInteractionProps } from './types';
 
 const Interaction = ({
   color = 'palette.label.normal',
   width = '100%',
   height = '100%',
-}: Props) => {
+}: WithInteractionProps) => {
   return (
     <Box
       wds-component="with-interaction"
@@ -72,92 +50,58 @@ const Interaction = ({
     />
   );
 };
-
-const Clone = forwardRef<any, Props & { className: string }>(
-  (props, forwardedRef) => {
-    const { children, className, ...others } = props;
-
-    if (isValidElement(children)) {
-      const childrenProps = { ...children.props };
-
-      childrenProps.children = (
-        <>
-          {childrenProps.children}
-          <Interaction {...others} />
-        </>
-      );
-
-      return cloneElement(children, {
-        ...childrenProps,
-        className: childrenProps?.className
-          ? `${className} ${childrenProps?.className}`
-          : className,
-        ref: forwardedRef
-          ? composeRefs(forwardedRef, (children as any).ref)
-          : (children as any).ref,
-      });
-    }
-
-    return Children.count(children) > 1 ? Children.only(null) : null;
-  },
-);
-
 const WithInteraction = ({
   variant = 'normal',
   children,
   scale,
+  disabled,
   ...props
-}: Props) => {
+}: WithInteractionProps) => {
   const theme = useTheme();
 
-  return (
-    <ClassNames>
-      {({ css: className }) => (
-        <Clone
-          className={className`
-          position: relative;
+  if (isValidElement(children)) {
+    const childrenProps = { ...children.props };
 
-          &:focus-visible {
-            outline-style: solid;
-            outline-width: 2px;
-          }
+    childrenProps.children = (
+      <>
+        {childrenProps.children}
+        <Interaction {...props} />
+      </>
+    );
 
-          ${
-            !props.disabled &&
-            css`
-              &:hover > [wds-component='with-interaction'] {
-                ${hoverInteractionStyle(theme, variant)}
-              }
-              &:focus > [wds-component='with-interaction'] {
-                ${focusInteractionStyle(theme, variant)}
-              }
-              &:active > [wds-component='with-interaction'] {
-                ${activeInteractionStyle(theme, variant)}
-              }
-              &:focus-visible > [wds-component='with-interaction'] {
-                ${focusVisibleInteractionStyle(theme)}
-              }
+    if (childrenProps.sx) {
+      return cloneElement(children, {
+        ...childrenProps,
+        ref: (children as any).ref ?? children.props.ref,
+        sx: [
+          css(getWrapperStyle(theme, { variant, scale, disabled })),
+          ...(Array.isArray(childrenProps.sx)
+            ? childrenProps.sx
+            : [childrenProps.sx]),
+        ],
+      });
+    }
 
-              ${scale &&
-              css`
-                & > [wds-component='with-interaction'] {
-                  transform: translate(-50%, -50%) scale(0.95);
-                }
+    return (
+      <ClassNames>
+        {({ css: className }) => (
+          <>
+            {cloneElement(children, {
+              ...childrenProps,
+              className: childrenProps?.className
+                ? `${className(getWrapperStyle(theme, { variant, scale, disabled }))} ${childrenProps?.className}`
+                : className(
+                    getWrapperStyle(theme, { variant, scale, disabled }),
+                  ),
+              ref: (children as any).ref ?? children.props.ref,
+            })}
+          </>
+        )}
+      </ClassNames>
+    );
+  }
 
-                &:hover > [wds-component='with-interaction'] {
-                  transform: translate(-50%, -50%) scale(1);
-                }
-              `}
-            `
-          }
-          `}
-          {...props}
-        >
-          {children}
-        </Clone>
-      )}
-    </ClassNames>
-  );
+  return Children.count(children) > 1 ? Children.only(null) : null;
 };
 
 WithInteraction.displayName = 'WithInteraction';
