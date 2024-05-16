@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.5...@wanteddev/wds@1.0.6) (2024-05-16)
+
+### Bug Fixes
+
+- **wds:** with-interaction 에 position absolute가 적용되지 않는 현상 ([de107ed](https://github.com/wanteddev/wds/commit/de107ed5bb6c54ba3fe8d3b3fe54176cdd0a2450))
+
+### Features
+
+- **wds:** avatar 이미지 로드 되었을 때 border 추가 ([9c6fff6](https://github.com/wanteddev/wds/commit/9c6fff6c8e691c85b1d308384f1e200a8274b1ee))
+- **wds:** thumbnail fallback 변경 ([1dced5b](https://github.com/wanteddev/wds/commit/1dced5bf17e65b85c2a1d0ec1577fca30cd7d8f8))
+- **wds:** 모달 handle 프로퍼티 분리 ([91ce19a](https://github.com/wanteddev/wds/commit/91ce19a6ce8b86584a1a3cc0f11dfec89de84502))
+
 ## [1.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.4...@wanteddev/wds@1.0.5) (2024-05-13)
 
 ### Bug Fixes

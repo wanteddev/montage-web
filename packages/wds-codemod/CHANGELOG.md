@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.2...@wanteddev/wds-codemod@1.0.3) (2024-05-16)
+
+### Bug Fixes
+
+- **wds-codemod:** codemod npmignore 추가 ([04954ef](https://github.com/wanteddev/wds/commit/04954eff5ad1926c368539ef4cbc15a1b607be76))
+
 ## [1.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.1...@wanteddev/wds-codemod@1.0.2) (2024-05-13)
 
 ### Features
