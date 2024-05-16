@@ -9,9 +9,7 @@
   },
   "files": [
     "transforms/*.js",
-    "bin/*.js",
-    "lib/**/*.js",
-    "lib/cra-to-next/gitignore"
+    "bin/*.js"
   ],
   "scripts": {
     "lint": "eslint",
