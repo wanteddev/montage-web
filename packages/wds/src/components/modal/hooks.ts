@@ -12,6 +12,7 @@ import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({
   variant: defaultVariant,
+  handle: defaultHandle,
   xs,
   sm,
   md,
@@ -33,7 +34,15 @@ export const useDraggable = ({
     defaultVariant,
   );
 
-  const isEnabled = variant === 'bottom';
+  const handle = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', defaultHandle, v),
+    ),
+    defaultHandle,
+  );
+
+  const isEnabled = variant !== 'popup' && handle;
 
   const context = useModalContext(MODAL_NAME);
   const dragStarted = useRef(false);

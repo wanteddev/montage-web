@@ -32,6 +32,11 @@ export type ModalProps = PropsWithChildren<{
 type ModalContainerDefaultProps = {
   variant?: 'popup' | 'bottom' | 'full';
   /**
+   * variant가 popup 이 아닌 모달에서
+   * 드래그를 통해 모달을 내리고 올릴 수 있습니다.
+   */
+  handle?: boolean;
+  /**
    * 모달 내부에서 스크롤을 했을 때
    * ModalActionArea 의 그라디언트, ModalNavigation의 borderBottom 스타일이 추가됩니다.
    */
@@ -48,7 +53,7 @@ type ModalContainerDefaultProps = {
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<
-  Pick<ModalContainerDefaultProps, 'size' | 'variant'>
+  Pick<ModalContainerDefaultProps, 'size' | 'variant' | 'handle'>
 >;
 
 export type ModalContainerProps = Merge<

@@ -135,6 +135,7 @@ const ModalContainer = forwardRef<
     {
       variant = 'popup',
       size = 'normal-fixed',
+      handle,
       xs,
       sm,
       md,
@@ -204,6 +205,7 @@ const ModalContainer = forwardRef<
 
     const { isEnabled, ...dragProps } = useDraggable({
       variant,
+      handle,
       xs,
       sm,
       md,
