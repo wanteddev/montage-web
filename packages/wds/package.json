@@ -77,13 +77,16 @@
   "peerDependencies": {
     "react": ">= 18",
     "react-dom": ">= 18",
-    "typescript": ">=4.7.4"
+    "react-hook-form": ">= 7"
   },
   "peerDependenciesMeta": {
     "@types/react": {
       "optional": true
     },
     "@types/react-dom": {
+      "optional": true
+    },
+    "react-hook-form": {
       "optional": true
     }
   }
