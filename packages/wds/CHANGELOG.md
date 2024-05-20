@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.6...@wanteddev/wds@1.0.7) (2024-05-20)
+
+### Features
+
+- **wds:** add react-hook-form peer dependecies ([cdcc380](https://github.com/wanteddev/wds/commit/cdcc38080b4ce85b47b19ec09cf538b7bf394730))
+
 ## [1.0.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.5...@wanteddev/wds@1.0.6) (2024-05-16)
 
 ### Bug Fixes
