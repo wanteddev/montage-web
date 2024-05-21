@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@1.0.3...@wanteddev/wds-nextjs@1.0.4) (2024-05-21)
+
+### Bug Fixes
+
+- **wds-theme,wds-nextjs:** peer 종속성 수정 ([a171d03](https://github.com/wanteddev/wds/commit/a171d03ab3a88e3aa3de79cc24fb10761974677f))
+
 ## [1.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@1.0.2...@wanteddev/wds-nextjs@1.0.3) (2024-05-13)
 
 **Note:** Version bump only for package @wanteddev/wds-nextjs
