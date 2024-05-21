@@ -1,0 +1,29 @@
+name: '제안'
+title: 'Suggestion: '
+description: 프로젝트에 아이디어/수정 제안
+assignees: Sh031224
+labels:
+  - 'enhancement'
+body:
+  - type: textarea
+    attributes:
+      label: 목표
+      description: 해결하려는 목표에 대한 간단한 리스트를 입력해주세요.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+ - type: textarea
+    attributes:
+      label: 배경
+      description: 요청을 하게 된 배경을 설명해주세요.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 제안
+      description: 어떻게 해결되었으면 좋겠나요? 해결 방안을 제시해주세요.
+    validations:
+      required: true
