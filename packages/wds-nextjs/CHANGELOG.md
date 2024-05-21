@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@1.0.4...@wanteddev/wds-nextjs@1.0.5) (2024-05-21)
+
+### Bug Fixes
+
+- **wds-nextjs:** commonjs에서 next/navigation import error 수정 ([545f427](https://github.com/wanteddev/wds/commit/545f427b3947abe475bb56646242f96541a65313))
+
 ## [1.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-nextjs@1.0.3...@wanteddev/wds-nextjs@1.0.4) (2024-05-21)
 
 ### Bug Fixes
