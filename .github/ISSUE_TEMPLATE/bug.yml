@@ -1,6 +1,7 @@
 name: 'Bug Report'
 title: 'Bug: '
 description: Bug Report for wds
+assignees: Sh031224
 labels:
   - 'bug'
 body:

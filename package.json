@@ -27,7 +27,7 @@
     "deps:check": "pnpm dlx npm-check-updates@latest --deep",
     "deps:update": "pnpm dlx npm-check-updates@latest -u --deep"
   },
-  "packageManager": "pnpm@8.14.3",
+  "packageManager": "pnpm@9.1.2",
   "devDependencies": {
     "@commitlint/cli": "^19.1.0",
     "@commitlint/config-conventional": "^19.1.0",
