@@ -1,6 +1,6 @@
 'use client';
 import { CacheProvider, createCache } from '@wanteddev/wds-engine';
-import { useServerInsertedHTML } from 'next/navigation';
+import { useServerInsertedHTML } from 'next/navigation.js';
 import { type PropsWithChildren, useState } from 'react';
 
 import type { CacheOptions } from '@wanteddev/wds-engine';
