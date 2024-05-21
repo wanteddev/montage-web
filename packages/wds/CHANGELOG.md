@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.9](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.8...@wanteddev/wds@1.0.9) (2024-05-21)
+
+### Features
+
+- **wds:** 기본 폰트 변경 ([4142977](https://github.com/wanteddev/wds/commit/41429773beb20b7a7aa246b7eb94969e53186dd3))
+
 ## [1.0.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.7...@wanteddev/wds@1.0.8) (2024-05-21)
 
 **Note:** Version bump only for package @wanteddev/wds
