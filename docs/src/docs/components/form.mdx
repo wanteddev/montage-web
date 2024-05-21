@@ -8,6 +8,34 @@ description: Form Component
 `react-hook-form` 과 함께 form action을 다룹니다.
 각 컴포넌트별 활용법은 `TextField`, `TextArea`, `Checkbox`, `Radio` 등을 참고해주세요
 
+<details>
+  <summary>주의사항</summary>
+
+1. `pnpm` 을 사용하지 않는 경우 `react-hook-form` 을 아래와 같이 특정 버전으로 고정해주세요.
+
+```json
+{
+  "resolutions": {
+    "react-hook-form": "7.51.1",
+  }
+}
+```
+
+[pnpm](https://pnpm.io/how-peers-are-resolved) 의 peer 해결 방법을 사용하는게 아니라면, `react-hook-form` 의 Context를 공유하지 못합니다.
+
+2. `react-hook-form` 의 번들이 `@wanteddev/wds` 번들과 다를 때가 있습니다.
+
+<div>
+  <img src="/wds/react-hook-form-esm.png" alt="hook form esm" style={{width: '50%'}} />
+  <img src="/wds/react-hook-form-cjs.png" alt="hook form cjs" style={{width: '50%'}} />
+</div>
+
+위 처럼 cjs, esm 이 각각 다를 경우 프로젝트에서 하나만 사용하도록 설정해주어야합니다.
+
+[참고자료](https://github.com/react-hook-form/react-hook-form/issues/8281)
+
+</details>
+
 ## 활용
 
 <Demo code={`import { Button, FlexBox, TextField, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';

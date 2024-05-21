@@ -140,19 +140,22 @@ html {
 body {
   min-height: calc(100vh - env(safe-area-inset-bottom, 0px) - env(safe-area-inset-top, 0px));
   min-height: 100dvh;
+}
+
+body ,textarea, input {
   font-family:
+    'Pretendard Variable',
+    'Pretendard JP Variable',
     Pretendard,
     'Pretendard JP',
-    'Pretendard Std',
     -apple-system,
-    system-ui,
     BlinkMacSystemFont,
+    system-ui,
     Roboto,
+    'Helvetica Neue',
     'Segoe UI',
-    Helvetica,
-    Arial,
     'Apple SD Gothic Neo',
-    'Nanum Gothic',
+    'Noto Sans KR',
     'Malgun Gothic',
     'Apple Color Emoji',
     'Segoe UI Emoji',
@@ -160,63 +163,27 @@ body {
     sans-serif;
 }
 
-html:lang(ja) body {
+html:lang(ja) body,
+html:lang(ja) textarea,
+html:lang(ja) input {
   font-family:
+    'Pretendard JP Variable',
+    'Pretendard Variable',
     'Pretendard JP',
     Pretendard,
-    'Pretendard Std',
     -apple-system,
-    system-ui,
     BlinkMacSystemFont,
-    Roboto,
-    'Segoe UI',
-    Helvetica,
-    Arial,
-    'Apple SD Gothic Neo',
-    'Nanum Gothic',
-    'Malgun Gothic',
-    'Apple Color Emoji',
-    'Segoe UI Emoji',
-    'Segoe UI Symbol',
-    sans-serif;
-}
-
-html:lang(en) body {
-  font-family:
-    'Pretendard Std',
-    Pretendard,
-    'Pretendard JP',
-    -apple-system,
     system-ui,
-    BlinkMacSystemFont,
     Roboto,
+    'Helvetica Neue',
     'Segoe UI',
-    Helvetica,
-    Arial,
+    'Hiragino Sans',
     'Apple SD Gothic Neo',
-    'Nanum Gothic',
+    Meiryo,
+    'Noto Sans JP',
+    'Noto Sans KR',
     'Malgun Gothic',
-    'Apple Color Emoji',
-    'Segoe UI Emoji',
-    'Segoe UI Symbol',
-    sans-serif;
-}
-
-textarea, input {
-  font-family:
-    Pretendard,
-    'Pretendard JP',
-    'Pretendard Std',
-    -apple-system,
-    system-ui,
-    BlinkMacSystemFont,
-    Roboto,
-    'Segoe UI',
-    Helvetica,
-    Arial,
-    'Apple SD Gothic Neo',
-    'Nanum Gothic',
-    'Malgun Gothic',
+    Osaka,
     'Apple Color Emoji',
     'Segoe UI Emoji',
     'Segoe UI Symbol',

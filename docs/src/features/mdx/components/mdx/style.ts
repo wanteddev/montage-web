@@ -28,6 +28,10 @@ export const mdxRootStyle = (theme: Theme) => css`
     color: ${theme.palette.primary.normal};
   }
 
+  img {
+    max-width: 100%;
+  }
+
   li > a {
     text-decoration: underline;
     color: ${theme.palette.primary.normal};
@@ -52,8 +56,8 @@ export const mdxRootStyle = (theme: Theme) => css`
     border-bottom: 1px solid ${theme.palette.line.normal.normal};
   }
 
-  & > ol,
-  & > ul {
+  ol,
+  ul {
     list-style-type: disc;
     padding-left: 24px;
 
