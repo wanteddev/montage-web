@@ -9,6 +9,8 @@ export type ButtonDefaultProps = {
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   disableInteraction?: boolean;
+  variant?: ButtonVariant;
+  color?: ButtonColor;
   fullWidth?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -18,14 +20,4 @@ export type ButtonResponsiveProps = ResponsiveProps<
   Pick<ButtonDefaultProps, 'fullWidth' | 'size'>
 >;
 
-export type ButtonUnionProps =
-  | (ButtonDefaultProps & {
-      variant: 'outlined';
-      color?: ButtonColor;
-    })
-  | (ButtonDefaultProps & {
-      variant?: 'solid';
-      color?: 'primary';
-    });
-
-export type ButtonProps = Merge<ButtonUnionProps, ButtonResponsiveProps>;
+export type ButtonProps = Merge<ButtonDefaultProps, ButtonResponsiveProps>;
