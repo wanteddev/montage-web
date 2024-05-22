@@ -22,6 +22,9 @@ export const textAreaWrapperStyle =
     border-radius: 10px;
     background-color: transparent;
 
+    --wds-text-area-max-length-padding-bottom: 16px;
+    --wds-text-area-additional-padding-right: 8px;
+
     ${!invalid &&
     !disabled &&
     css`

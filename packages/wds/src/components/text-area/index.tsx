@@ -58,6 +58,7 @@ const TextArea = forwardRef<
       maxRows,
       minRows = 1,
       className,
+      htmlMaxLength,
       style,
       sx,
       xs,
@@ -114,7 +115,7 @@ const TextArea = forwardRef<
 
       if (maxLength) {
         parent.style.paddingBottom = Boolean(maxLength)
-          ? `calc(${computedStyle.paddingBottom} + 16px)`
+          ? `calc(${computedStyle.paddingBottom} + var(--wds-text-area-max-length-padding-bottom))`
           : '0px';
       }
 
@@ -226,7 +227,9 @@ const TextArea = forwardRef<
           sx,
         ]}
         style={{
-          paddingRight: `calc(${rightIconWidth}px + 8px)`,
+          paddingRight: rightIconWidth
+            ? `calc(${rightIconWidth}px + var(--wds-text-area-padding-right))`
+            : 0,
           ...style,
         }}
       >
@@ -234,6 +237,8 @@ const TextArea = forwardRef<
           as="textarea"
           ref={composedRefs}
           {...props}
+          disabled={disabled}
+          maxLength={htmlMaxLength}
           sx={textAreaStyle({
             xs,
             sm,
