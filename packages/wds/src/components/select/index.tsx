@@ -4,7 +4,7 @@ import { IconChevronDown } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import { selectWrapperStyle } from './style';
+import { selectStyle, selectWrapperStyle } from './style';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ChangeEvent } from 'react';
@@ -23,6 +23,9 @@ const Select = forwardRef<
       onChange,
       placeholder,
       children,
+      wrapperProps,
+      width,
+      height,
       xs,
       sm,
       md,
@@ -40,18 +43,20 @@ const Select = forwardRef<
 
     return (
       <Box
-        sx={selectWrapperStyle({
-          __shouldShowPlaceholder:
-            value === '' || (value === undefined && Boolean(placeholder)),
-          invalid,
-          disabled,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-          ...props,
-        })}
+        {...wrapperProps}
+        sx={[
+          selectWrapperStyle({
+            disabled,
+            width,
+            height,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          wrapperProps?.sx,
+        ]}
       >
         <Box
           as="select"
@@ -59,6 +64,21 @@ const Select = forwardRef<
           aria-invalid={invalid}
           disabled={disabled}
           {...props}
+          sx={[
+            selectStyle({
+              disabled,
+              invalid,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+              __shouldShowPlaceholder:
+                value === '' || (value === undefined && Boolean(placeholder)),
+              ...props,
+            }),
+            props.sx,
+          ]}
           value={value}
           onChange={(event: ChangeEvent<HTMLSelectElement>) =>
             setValue(event.target.value)

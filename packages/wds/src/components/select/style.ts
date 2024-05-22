@@ -7,8 +7,6 @@ import type { Theme } from '@wanteddev/wds-engine';
 
 export const selectWrapperStyle =
   ({
-    __shouldShowPlaceholder,
-    invalid,
     disabled,
     width = 'initial',
     height = 'fit-content',
@@ -17,39 +15,14 @@ export const selectWrapperStyle =
     md,
     lg,
     xl,
-  }: SelectProps & { __shouldShowPlaceholder: boolean }) =>
+  }: Pick<
+    SelectProps,
+    'disabled' | 'width' | 'height' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  >) =>
   (theme: Theme) => css`
+    position: relative;
     width: ${width};
     height: ${height};
-    position: relative;
-
-    select {
-      padding: 12px 44px 12px 16px;
-      border-radius: 10px;
-      border: none;
-      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
-      background-color: transparent;
-      width: 100%;
-      height: 100%;
-      color: ${theme.palette.label.normal};
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      ${typographyStyle('body1_normal', 'regular')}
-
-      &:focus-visible {
-        outline-style: solid;
-      }
-
-      option[value=''][disabled] {
-        display: none;
-      }
-
-      ${__shouldShowPlaceholder &&
-      css`
-        ${typographyStyle('body1_normal', 'regular')}
-        color: ${theme.palette.label.assistive};
-      `}
-    }
 
     & > svg {
       right: 16px;
@@ -60,25 +33,14 @@ export const selectWrapperStyle =
       color: ${theme.palette.label.normal};
     }
 
-    ${invalid &&
-    css`
-      select {
-        box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
-      }
-    `}
-
     ${disabled &&
     css`
-      select {
-        background-color: ${theme.palette.interaction.disable};
-      }
-
       & > svg {
         color: ${theme.palette.label.disable};
       }
     `}
 
-  ${createResponsiveStyle(
+    ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
@@ -92,8 +54,64 @@ export const selectWrapperStyle =
         css`
           height: ${params!.height};
         `}
+      `,
+    )}
+  `;
 
-      ${params?.sx}
+export const selectStyle =
+  ({
+    __shouldShowPlaceholder,
+    invalid,
+    disabled,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: SelectProps & { __shouldShowPlaceholder: boolean }) =>
+  (theme: Theme) => css`
+    padding: 12px 44px 12px 16px;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+    background-color: transparent;
+    color: ${theme.palette.label.normal};
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    ${typographyStyle('body1_normal', 'regular')}
+
+    &:focus-visible {
+      outline-style: solid;
+    }
+
+    option[value=''][disabled] {
+      display: none;
+    }
+
+    ${__shouldShowPlaceholder &&
+    css`
+      ${typographyStyle('body1_normal', 'regular')}
+      color: ${theme.palette.label.assistive};
+    `}
+
+    ${invalid &&
+    css`
+      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
+    `}
+
+    ${disabled &&
+    css`
+      background-color: ${theme.palette.interaction.disable};
+    `}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.sx}
       `,
     )}
   `;
