@@ -228,7 +228,7 @@ const TextArea = forwardRef<
         ]}
         style={{
           paddingRight: rightIconWidth
-            ? `calc(${rightIconWidth}px + var(--wds-text-area-padding-right))`
+            ? `calc(${rightIconWidth}px + var(--wds-text-area-additional-padding-right))`
             : 0,
           ...style,
         }}
