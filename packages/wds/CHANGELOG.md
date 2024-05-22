@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.11](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.10...@wanteddev/wds@1.0.11) (2024-05-22)
+
+### Bug Fixes
+
+- **wds:** select 스타일을 wrapper와 분리하여 스타일 적용 ([#12](https://github.com/wanteddev/wds/issues/12)) ([5594754](https://github.com/wanteddev/wds/commit/5594754cebf4c59ea054bb7a74c34c6ee7ceeaf9))
+- **wds:** text area의 disabled가 동작하지 않음 ([#11](https://github.com/wanteddev/wds/issues/11)) ([bbf2b1a](https://github.com/wanteddev/wds/commit/bbf2b1a3793496ee660c2d68109018ccc492007b))
+
 ## [1.0.10](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.9...@wanteddev/wds@1.0.10) (2024-05-22)
 
 ### Bug Fixes
