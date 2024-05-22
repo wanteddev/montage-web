@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.10](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.9...@wanteddev/wds@1.0.10) (2024-05-22)
+
+### Bug Fixes
+
+- **wds:** button union type 제거 ([f51cf3b](https://github.com/wanteddev/wds/commit/f51cf3b5618512101c6c50898a09ba5f7ac51526))
+
 ## [1.0.9](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.8...@wanteddev/wds@1.0.9) (2024-05-21)
 
 ### Features
