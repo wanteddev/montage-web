@@ -80,36 +80,54 @@ PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 const PopoverContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<PopoverContentProps, 'div'>
->(({ arrow, position, offset = 10, children, ...props }, ref) => {
-  const { contentId, open, onOpenChange } =
-    usePopoverContext(POPOVER_CONTENT_NAME);
+>(
+  (
+    {
+      arrow,
+      position,
+      offset = 10,
+      children,
+      disablePortal,
+      container,
+      ...props
+    },
+    ref,
+  ) => {
+    const { contentId, open, onOpenChange } =
+      usePopoverContext(POPOVER_CONTENT_NAME);
 
-  return open ? (
-    <DismissableLayer
-      asChild
-      disableOutsidePointerEvents
-      onDismiss={() => {
-        onOpenChange(false);
-      }}
-    >
-      <PopperContent position={position} offset={offset}>
-        <FocusScope loop trapped>
-          <FlexBox
-            role="dialog"
-            id={contentId}
-            ref={ref}
-            {...props}
-            sx={[popoverStyle, props.sx]}
-          >
-            {children}
+    return open ? (
+      <DismissableLayer
+        asChild
+        disableOutsidePointerEvents
+        onDismiss={() => {
+          onOpenChange(false);
+        }}
+      >
+        <PopperContent
+          position={position}
+          offset={offset}
+          disablePortal={disablePortal}
+          container={container}
+        >
+          <FocusScope loop trapped>
+            <FlexBox
+              role="dialog"
+              id={contentId}
+              ref={ref}
+              {...props}
+              sx={[popoverStyle, props.sx]}
+            >
+              {children}
 
-            {arrow && <PopperArrow />}
-          </FlexBox>
-        </FocusScope>
-      </PopperContent>
-    </DismissableLayer>
-  ) : null;
-});
+              {arrow && <PopperArrow />}
+            </FlexBox>
+          </FocusScope>
+        </PopperContent>
+      </DismissableLayer>
+    ) : null;
+  },
+);
 
 PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 
