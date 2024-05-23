@@ -29,6 +29,7 @@ export type TooltipContentProps = {
   action?: ReactNode;
   children?: ReactNode;
   variant?: 'normal' | 'inverse' | 'accent';
+  offset?: PopperContentProps['offset'];
   position?: PopperContentProps['position'];
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];

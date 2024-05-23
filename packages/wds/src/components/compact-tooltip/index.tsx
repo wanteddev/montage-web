@@ -32,6 +32,7 @@ const CompactTooltipContent = forwardRef<
       container,
       disablePortal,
       position = 'top-center',
+      offset,
       ...props
     },
     ref,
@@ -39,6 +40,7 @@ const CompactTooltipContent = forwardRef<
     return (
       <TooltipContent
         position={position}
+        offset={offset}
         container={container}
         disablePortal={disablePortal}
         ref={ref}
