@@ -64,10 +64,11 @@ const gridSpacingStyle = (
       ${
         type === 'column'
           ? css`
-              margin-top: calc(${theme.spacing[spacing]} * -1);
+              margin-top: calc(var(--wds-${type}-spacing) * -1);
             `
           : css`
-              margin-left: calc(${theme.spacing[spacing]} * -1);
+              width: calc(100% + var(--wds-${type}-spacing));
+              margin-left: calc(var(--wds-${type}-spacing) * -1);
             `
       }
     `;
