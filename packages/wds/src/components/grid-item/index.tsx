@@ -17,6 +17,7 @@ const GridItem = forwardRef(
       as,
       alignSelf = 'initial',
       columns,
+      offset,
       xs,
       sm,
       md,
@@ -35,6 +36,7 @@ const GridItem = forwardRef(
           gridItemStyle({
             columns,
             alignSelf,
+            offset,
             xs,
             sm,
             md,
