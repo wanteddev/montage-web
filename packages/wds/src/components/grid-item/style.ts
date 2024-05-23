@@ -25,7 +25,11 @@ export const gridItemStyle =
     )}
   `;
 
-const gridItemAlignStyle = ({ columns, alignSelf }: GridItemProps = {}) => {
+const gridItemAlignStyle = ({
+  offset,
+  columns,
+  alignSelf,
+}: GridItemProps = {}) => {
   return css`
     ${Boolean(alignSelf) &&
     css`
@@ -33,6 +37,23 @@ const gridItemAlignStyle = ({ columns, alignSelf }: GridItemProps = {}) => {
     `}
 
     ${gridItemLayoutStyle(columns)}
+    ${gridItemOffsetStyle(offset)}
+  `;
+};
+
+const gridItemOffsetStyle = (value?: GridItemProps['offset']) => {
+  if (!value) {
+    return;
+  }
+
+  if (value === 'auto') {
+    return css`
+      margin-left: auto;
+    `;
+  }
+
+  return css`
+    margin-left: calc(100% * ${value} / 12);
   `;
 };
 

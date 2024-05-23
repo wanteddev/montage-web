@@ -66,3 +66,41 @@ export default Demo;`}
 ### GridItem Props
 
 <PropsTable component="GridItem" />
+
+## Examples
+
+### Offset
+
+`offset` 은 (해당 값 / 12) 칸 만큼 오른쪽으로 밀어냅니다.
+
+`auto` 일 경우 가장 오른쪽으로 밀어냅니다.
+
+<Demo code={`import { Box, Grid, GridItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={2}>
+        <Item>1</Item>
+      </GridItem>
+      <GridItem offset="auto" columns={2}>
+        <Item>2</Item>
+      </GridItem>
+      <GridItem columns={2}>
+        <Item>3</Item>
+      </GridItem>
+      <GridItem columns={8} offset={2}>
+        <Item>4</Item>
+      </GridItem>
+    </Grid>
+  )
+}
+
+const Item = ({ children }) => {
+  return (
+    <Box sx={theme => ({ border: \`1px solid \$\{theme.palette.line.normal.normal\}\` })}>{children}</div>
+  )
+}
+
+export default Demo;`}
+/>

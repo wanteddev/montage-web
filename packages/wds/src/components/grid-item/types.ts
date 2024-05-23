@@ -19,10 +19,11 @@ export type GridItemDefaultProps = {
     | 12
     | 'auto'
     | true;
+  offset?: number | 'auto';
 };
 
 export type GridItemResponsiveProps = ResponsiveProps<
-  Pick<GridItemDefaultProps, 'alignSelf' | 'columns'>
+  Pick<GridItemDefaultProps, 'alignSelf' | 'columns' | 'offset'>
 >;
 
 export type GridItemProps = Merge<
