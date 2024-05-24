@@ -375,7 +375,7 @@ const ModalClose = forwardRef(
         onClick={composeEventHandlers(props.onClick, handleClose)}
         ref={ref}
       >
-        {!children && getDefaultCloseIcon(variant)}
+        {children ?? getDefaultCloseIcon(variant)}
       </IconButton>
     );
   },
