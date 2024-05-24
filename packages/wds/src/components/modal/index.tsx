@@ -379,7 +379,7 @@ const ModalClose = forwardRef(
       </IconButton>
     );
   },
-);
+) as PolymorphicComponent<IconButtonProps, 'button'>;
 
 ModalClose.displayName = MODAL_CLOSE_NAME;
 
