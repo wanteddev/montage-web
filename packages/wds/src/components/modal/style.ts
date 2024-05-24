@@ -291,22 +291,16 @@ const modalNavigationVariant = (
           width: 80%;
           text-align: center;
         }
-
-        button {
-          position: absolute;
-          right: var(--wds-modal-navigation-padding, 20px);
-          place-self: center end;
-        }
       `;
     case 'emphasized':
       return css`
         ${defaultStyle}
         min-height: 64px;
-        justify-content: space-between;
+        gap: 16px;
 
         h2 {
           ${typographyStyle('heading2', 'bold')}
-          width: 90%;
+          flex: 1 0 0;
           max-height: 24px;
         }
       `;
@@ -320,22 +314,63 @@ const modalNavigationVariant = (
           ${typographyStyle('title3', 'bold')}
           width: 100%;
         }
-
-        button {
-          align-self: flex-end;
-        }
       `;
     case 'floating':
       return css`
         ${defaultStyle}
         padding: 0px;
+      `;
+  }
+};
 
-        button {
-          display: flex;
-          position: absolute;
-          right: var(--wds-modal-navigation-padding, 20px);
-          top: var(--wds-modal-navigation-padding, 20px);
-        }
+export const modalRightIconStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'compact':
+      return css`
+        position: absolute;
+        right: var(--wds-modal-navigation-padding, 20px);
+        place-self: center end;
+      `;
+    case 'emphasized':
+      return undefined;
+    case 'extended':
+      return css`
+        align-self: flex-end;
+      `;
+    case 'floating':
+      return css`
+        position: absolute;
+        right: var(--wds-modal-navigation-padding, 20px);
+        top: var(--wds-modal-navigation-padding, 20px);
+      `;
+  }
+};
+
+export const modalLeftIconStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'compact':
+      return css`
+        position: absolute;
+        left: var(--wds-modal-navigation-padding, 20px);
+        place-self: center end;
+      `;
+    case 'emphasized':
+      return undefined;
+    case 'extended':
+      return css`
+        position: absolute;
+        left: var(--wds-modal-navigation-padding, 20px);
+        top: var(--wds-modal-navigation-padding, 20px);
+      `;
+    case 'floating':
+      return css`
+        position: absolute;
+        left: var(--wds-modal-navigation-padding, 20px);
+        top: var(--wds-modal-navigation-padding, 20px);
       `;
   }
 };

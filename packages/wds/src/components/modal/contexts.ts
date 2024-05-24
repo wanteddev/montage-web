@@ -4,10 +4,11 @@ import {
   MODAL_ACTION_AREA_NAME,
   MODAL_CONTAINER_NAME,
   MODAL_NAME,
+  MODAL_NAVIGATION_NAME,
 } from './constants';
 
 import type { RefObject } from 'react';
-import type { ModalActionAreaProps } from './types';
+import type { ModalActionAreaProps, ModalNavigationProps } from './types';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement>;
@@ -36,6 +37,13 @@ type ModalContainerContextValue = {
 
 export const [ModalContainerProvider, useModalContainerContext] =
   createContext<ModalContainerContextValue>(MODAL_CONTAINER_NAME);
+
+type ModalNavigationContextValue = {
+  variant: ModalNavigationProps['variant'];
+};
+
+export const [ModalNavigationProvider, useModalNavigationContext] =
+  createContext<ModalNavigationContextValue>(MODAL_NAVIGATION_NAME);
 
 type ModalActionAreaContextValue = Pick<ModalActionAreaProps, 'priority'>;
 
