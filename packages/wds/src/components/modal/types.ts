@@ -62,7 +62,12 @@ export type ModalContainerProps = Merge<
 >;
 
 export type ModalNavigationProps = Merge<
-  { variant?: 'compact' | 'floating' | 'emphasized' | 'extended' },
+  {
+    variant?: 'normal' | 'float' | 'emphasized' | 'extended';
+    rightButton?: ReactNode;
+    leftButton?: ReactNode;
+    toolbar?: ReactNode;
+  },
   ResponsiveProps<{}>
 >;
 

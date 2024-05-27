@@ -151,6 +151,7 @@ const TabList = forwardRef<
     return (
       <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
         <FlexBox
+          wds-component="tab-list"
           role="tablist"
           ref={composedRef}
           dir={dir || 'ltr'}
@@ -245,6 +246,7 @@ const TabListItem = forwardRef(
           role="tab"
           ref={composedRefs}
           {...props}
+          wds-component="tab-list-item"
           aria-selected={isActive}
           aria-labelledby={`${context.id}-${value}`}
           aria-controls={
@@ -321,6 +323,7 @@ const TabPanel = forwardRef<
     <div
       {...props}
       ref={ref}
+      wds-component="tab-panel"
       id={`${context.id}-${value}-panel`}
       aria-labelledby={`${context.id}-${value}`}
       role="tabpanel"

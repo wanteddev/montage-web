@@ -12,6 +12,10 @@ Modal Overlay를 표시합니다.
 
 ## 활용
 
+- `wds-ignore-first-focus="true"` 프로퍼티를 통해 모달이 열렸을 때 첫 포커스 대상에서
+제외할 수 있습니다.
+- padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
+
 <Demo code={`import { useState } from 'react';
 import {
   Button,
@@ -37,8 +41,8 @@ const Demo = () => {
         onOpenChange={setShow}
       >
         <ModalContainer size="large" variant="popup">
-          <ModalNavigation variant="compact">
-            Title
+          <ModalNavigation>
+            제목
           </ModalNavigation>
 
           <ModalContent>
@@ -138,3 +142,236 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 ### ModalActionButton
 
 <PropsTable component="ModalActionButton" />
+
+## Examples
+
+### Left Button
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ModalActionArea,
+  ModalActionButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  IconButton,
+  ModalClose
+} from '@wanteddev/wds';
+import { IconChevronLeft } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <ModalContainer size="normal-fixed" variant="popup">
+          <ModalNavigation
+            variant="emphasized"
+            leftButton={(
+              <IconButton wds-ignore-first-focus="true" size={24}>
+                <IconChevronLeft />
+              </IconButton>
+            )}
+          >
+            제목
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ModalActionArea>
+            <ModalActionButton>
+              액션
+            </ModalActionButton>
+          </ModalActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Right Button
+
+`<ModalClose />` 버튼과 함께 사용합니다.
+rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
+
+만약 leftButton과 rightButton이 많아져 제목의 ellipsis 길이를 수정하고 싶을 땐
+`--wds-navigation-title-width` 로 조정해주세요.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ModalActionArea,
+  ModalActionButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalClose,
+  IconButton
+} from '@wanteddev/wds';
+import { IconMenu } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <ModalContainer size="normal-fixed" variant="popup">
+          <ModalNavigation
+            variant="emphasized"
+            rightButton={(
+              <>
+                <IconButton wds-ignore-first-focus="true" size={24}>
+                  <IconMenu />
+                </IconButton>
+
+                <ModalClose />
+              </>
+            )}
+          >
+            제목
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ModalActionArea>
+            <ModalActionButton>
+              액션
+            </ModalActionButton>
+          </ModalActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Toolbar
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ModalActionArea,
+  ModalActionButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <Tab defaultValue="">
+          <ModalContainer size="normal-fixed" variant="popup">
+            <ModalNavigation
+              variant="emphasized"
+              toolbar={(
+                <TabList padding>
+                  <TabListItem value="">기본</TabListItem>
+                  <TabListItem value="1">추가</TabListItem>
+                </TabList>
+              )}
+            >
+              제목
+            </ModalNavigation>
+
+            <TabPanel value="">
+              <ModalContent padding paddingInfo paddingExtra>
+                <ModalContentItem>
+                  <ModalHeading>기본 설정</ModalHeading>
+                  <ModalSummary>기본 설정을 위한 공간입니다.</ModalSummary>
+                  <ModalDescription>기본 설정을 잘 마쳐주세요.</ModalDescription>
+                </ModalContentItem>
+                <ModalContentItem>
+                  <ModalHeading>기본 설정</ModalHeading>
+                  <ModalSummary>기본 설정을 위한 공간입니다.</ModalSummary>
+                  <ModalDescription>기본 설정을 잘 마쳐주세요.</ModalDescription>
+                </ModalContentItem>
+              </ModalContent>
+            </TabPanel>
+
+            <TabPanel value="1">
+              <ModalContent  padding paddingInfo paddingExtra>
+                <ModalContentItem>
+                  <ModalHeading>추가 설정</ModalHeading>
+                  <ModalSummary>추가 설정을 위한 공간입니다.</ModalSummary>
+                  <ModalDescription>추가 설정은 잘 마쳐야 합니다.</ModalDescription>
+                </ModalContentItem>
+                <ModalContentItem>
+                  <ModalHeading>추가 설정</ModalHeading>
+                  <ModalSummary>추가 설정을 위한 공간입니다.</ModalSummary>
+                  <ModalDescription>추가 설정은 잘 마쳐야 합니다.</ModalDescription>
+                </ModalContentItem>
+              </ModalContent>
+            </TabPanel>
+
+            <ModalActionArea>
+              <ModalActionButton>
+                액션
+              </ModalActionButton>
+            </ModalActionArea>
+          </ModalContainer>
+        </Tab>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>

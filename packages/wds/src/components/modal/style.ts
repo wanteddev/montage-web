@@ -135,7 +135,11 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 20px;
-        --wds-modal-navigation-padding: 20px;
+        --wds-modal-navigation-padding-x: 16px;
+        --wds-modal-navigation-padding-y: 16px;
+        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
+          var(--wds-modal-navigation-padding-x);
+        --wds-modal-navigation-min-height: 64px;
       `;
     case 'normal':
     case 'normal-fixed':
@@ -151,7 +155,11 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 20px;
-        --wds-modal-navigation-padding: 20px;
+        --wds-modal-navigation-padding-x: 16px;
+        --wds-modal-navigation-padding-y: 20px;
+        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
+          var(--wds-modal-navigation-padding-x);
+        --wds-modal-navigation-min-height: 64px;
       `;
     case 'medium':
     case 'medium-fixed':
@@ -167,7 +175,11 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 24px;
-        --wds-modal-navigation-padding: 20px;
+        --wds-modal-navigation-padding-x: 16px;
+        --wds-modal-navigation-padding-y: 20px;
+        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
+          var(--wds-modal-navigation-padding-x);
+        --wds-modal-navigation-min-height: 64px;
       `;
     case 'large':
     case 'large-fixed':
@@ -183,7 +195,11 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 32px;
-        --wds-modal-navigation-padding: 24px;
+        --wds-modal-navigation-padding-x: 20px;
+        --wds-modal-navigation-padding-y: 24px;
+        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
+          var(--wds-modal-navigation-padding-x);
+        --wds-modal-navigation-min-height: 72px;
       `;
   }
 };
@@ -250,8 +266,6 @@ export const modalNavigationStyle =
   ({ variant, xs, sm, md, lg, xl }: ModalNavigationProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding: var(--wds-modal-navigation-padding, 20px);
-    display: flex;
     align-items: center;
     position: sticky;
     top: 0px;
@@ -259,6 +273,16 @@ export const modalNavigationStyle =
     border-bottom: 1px solid var(--wds-navigation-border-color);
     transition: border-color 0.2s ease;
     z-index: 5;
+
+    [wds-component='tab-list'] {
+      &::after {
+        background-color: transparent;
+      }
+    }
+
+    h2 {
+      padding: 0px 4px;
+    }
 
     ${modalNavigationVariant(variant, theme)}
 
@@ -272,70 +296,141 @@ export const modalNavigationStyle =
     )}
   `;
 
+export const modalNavigationWrapperStyle = (
+  variant: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+      return css`
+        width: 100%;
+        padding: var(--wds-modal-navigation-padding, 20px);
+        justify-content: center;
+        min-height: var(--wds-modal-navigation-min-height, 64px);
+      `;
+    case 'emphasized':
+      return css`
+        padding: var(--wds-modal-navigation-padding, 20px);
+        min-height: var(--wds-modal-navigation-min-height, 64px);
+        gap: 16px;
+        width: 100%;
+      `;
+    case 'extended':
+      return css`
+        padding: var(--wds-modal-navigation-padding, 20px);
+        gap: 16px;
+        width: 100%;
+        flex-direction: column-reverse;
+      `;
+    case 'float':
+      return css`
+        padding: 0;
+      `;
+  }
+};
+
 const modalNavigationVariant = (
   variant: ModalNavigationProps['variant'],
   theme: Theme,
 ) => {
-  const defaultStyle =
-    variant !== 'floating' ? theme.platform.ios.navigation : '';
-
   switch (variant) {
-    case 'compact':
+    case 'float':
+      return undefined;
+    case 'normal':
       return css`
-        ${defaultStyle}
-        min-height: 64px;
+        --wds-navigation-title-width: 80%;
+        ${theme.platform.ios.navigation}
+      `;
+    case 'emphasized':
+      return css`
+        --wds-navigation-title-width: 100%;
+        ${theme.platform.ios.navigation}
+      `;
+    case 'extended':
+      return css`
+        --wds-navigation-title-width: 100%;
+        ${theme.platform.ios.navigation}
+      `;
+  }
+};
 
-        justify-content: center;
+export const modalNavigationTitleStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+      return css`
+        width: var(--wds-navigation-title-width);
+        position: relative;
 
         h2 {
-          width: 80%;
+          width: 100%;
           text-align: center;
-        }
-
-        button {
-          position: absolute;
-          right: var(--wds-modal-navigation-padding, 20px);
-          place-self: center end;
         }
       `;
     case 'emphasized':
       return css`
-        ${defaultStyle}
-        min-height: 64px;
-        justify-content: space-between;
+        width: var(--wds-navigation-title-width);
+        max-height: 24px;
 
         h2 {
           ${typographyStyle('heading2', 'bold')}
-          width: 90%;
-          max-height: 24px;
         }
       `;
     case 'extended':
       return css`
-        ${defaultStyle}
-        gap: 16px;
-        flex-direction: column-reverse;
+        width: var(--wds-navigation-title-width);
 
         h2 {
           ${typographyStyle('title3', 'bold')}
-          width: 100%;
-        }
-
-        button {
-          align-self: flex-end;
         }
       `;
-    case 'floating':
-      return css`
-        ${defaultStyle}
-        padding: 0px;
+  }
+};
 
-        button {
-          display: flex;
-          position: absolute;
-          right: var(--wds-modal-navigation-padding, 20px);
-          top: var(--wds-modal-navigation-padding, 20px);
-        }
+export const modalRightIconStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+      return css`
+        position: absolute;
+        right: var(--wds-modal-navigation-padding-x, 20px);
+        top: var(--wds-modal-navigation-padding-y, 20px);
+      `;
+    case 'emphasized':
+      return undefined;
+    case 'extended':
+      return css`
+        margin-left: auto;
+      `;
+    case 'float':
+      return css`
+        position: absolute;
+        right: var(--wds-modal-navigation-padding-x, 20px);
+        top: var(--wds-modal-navigation-padding-y, 20px);
+      `;
+  }
+};
+
+export const modalLeftIconStyle = (
+  variant?: ModalNavigationProps['variant'],
+) => {
+  switch (variant) {
+    case 'normal':
+      return css`
+        position: absolute;
+        left: var(--wds-modal-navigation-padding-x, 20px);
+        place-self: center end;
+      `;
+    case 'emphasized':
+      return undefined;
+    case 'extended':
+      return undefined;
+    case 'float':
+      return css`
+        position: absolute;
+        left: var(--wds-modal-navigation-padding-x, 20px);
+        top: var(--wds-modal-navigation-padding-y, 20px);
       `;
   }
 };

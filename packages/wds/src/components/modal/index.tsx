@@ -8,11 +8,11 @@ import {
   useRef,
   useState,
 } from 'react';
-import { IconCloseThick } from '@wanteddev/wds-icon';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
 import { flushSync } from 'react-dom';
 import { Box, useTheme } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { hideOthers } from '../../utils';
 import RemoveScroll from '../remove-scroll';
@@ -29,14 +29,17 @@ import PortalOrFragment from '../portal-or-fragment';
 import {
   ModalActionAreaProvider,
   ModalContainerProvider,
+  ModalNavigationProvider,
   ModalProvider,
   useModalActionAreaContext,
   useModalContainerContext,
   useModalContext,
+  useModalNavigationContext,
 } from './contexts';
 import {
   MODAL_ACTION_AREA_NAME,
   MODAL_ACTION_BUTTON_NAME,
+  MODAL_CLOSE_NAME,
   MODAL_NAME,
   MODAL_NAVIGATION_NAME,
 } from './constants';
@@ -49,10 +52,16 @@ import {
   modalContentStyle,
   modalDimmerStyle,
   modalGrabberStyle,
+  modalLeftIconStyle,
   modalNavigationStyle,
+  modalNavigationTitleStyle,
+  modalNavigationWrapperStyle,
+  modalRightIconStyle,
 } from './style';
 import { useDraggable } from './hooks';
+import { getDefaultCloseIcon } from './helpers';
 
+import type { IconButtonProps } from '../icon-button/types';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
@@ -351,80 +360,153 @@ const ModalContainer = forwardRef<
 
 ModalContainer.displayName = 'ModalContainer';
 
+const ModalClose = forwardRef(
+  <E extends ElementType = 'button'>(
+    { children, ...props }: PolymorphicProps<IconButtonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    const { handleClose } = useModalContainerContext(MODAL_CLOSE_NAME);
+    const { variant } = useModalNavigationContext(MODAL_CLOSE_NAME);
+
+    return (
+      <IconButton
+        wds-ignore-first-focus="true"
+        variant={variant === 'float' ? 'background' : 'normal'}
+        size={24}
+        {...props}
+        onClick={composeEventHandlers(props.onClick, handleClose)}
+        ref={ref}
+      >
+        {children ?? getDefaultCloseIcon(variant)}
+      </IconButton>
+    );
+  },
+) as PolymorphicComponent<IconButtonProps, 'button'>;
+
+ModalClose.displayName = MODAL_CLOSE_NAME;
+
 const ModalNavigation = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ModalNavigationProps, 'div'>
->(({ variant = 'compact', xs, sm, md, lg, xl, children, ...props }, ref) => {
-  const context = useModalContext(MODAL_NAVIGATION_NAME);
-  const { scrollHeight, sticky, handleClose } = useModalContainerContext(
-    MODAL_NAVIGATION_NAME,
-  );
-  const theme = useTheme();
+>(
+  (
+    {
+      variant = 'normal',
+      leftButton,
+      rightButton = <ModalClose />,
+      toolbar,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const context = useModalContext(MODAL_NAVIGATION_NAME);
+    const { scrollHeight, sticky } = useModalContainerContext(
+      MODAL_NAVIGATION_NAME,
+    );
+    const theme = useTheme();
 
-  return (
-    <Box
-      wds-component="modal-navigation"
-      ref={ref}
-      {...props}
-      sx={[
-        modalNavigationStyle({
-          variant,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        }),
-        props.sx,
-      ]}
-      style={
-        {
-          ['--wds-navigation-border-color']:
-            sticky && scrollHeight > 0
-              ? theme.palette.line.normal.normal
-              : 'transparent',
-          ...props.style,
-        } as CSSProperties
-      }
-    >
-      {variant !== 'floating' ? (
-        <>
-          {Boolean(children) && (
-            <Typography
-              as="h2"
-              id={context.titleId}
-              variant="headline2"
-              weight="bold"
-              color="palette.label.strong"
-              noWrap
-              sx={{ margin: 0, border: 'none' }}
-            >
-              {children}
-            </Typography>
-          )}
+    const leftButtonRedner = Boolean(leftButton) ? (
+      <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
+        {leftButton}
+      </FlexBox>
+    ) : null;
 
-          <IconButton
-            wds-ignore-first-focus="true"
-            onClick={handleClose}
-            variant="normal"
-            size={24}
-          >
-            <IconCloseThick />
-          </IconButton>
-        </>
-      ) : (
-        <IconButton
-          wds-ignore-first-focus="true"
-          onClick={handleClose}
-          variant="background"
-          size={24}
+    const rightButtonRedner = Boolean(rightButton) && (
+      <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
+        {rightButton}
+      </FlexBox>
+    );
+
+    return (
+      <ModalNavigationProvider variant={variant}>
+        <FlexBox
+          wds-component="modal-navigation"
+          ref={ref}
+          flexDirection="column"
+          {...props}
+          sx={[
+            modalNavigationStyle({
+              variant,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
+          style={
+            {
+              ['--wds-navigation-border-color']:
+                sticky && scrollHeight > 0
+                  ? theme.palette.line.normal.normal
+                  : 'transparent',
+              ...props.style,
+            } as CSSProperties
+          }
         >
-          <IconCloseThick />
-        </IconButton>
-      )}
-    </Box>
-  );
-});
+          <FlexBox sx={modalNavigationWrapperStyle(variant)}>
+            {variant !== 'float' ? (
+              <>
+                {variant !== 'extended' && leftButtonRedner}
+
+                {Boolean(children) && (
+                  <FlexBox
+                    alignItems="center"
+                    sx={modalNavigationTitleStyle(variant)}
+                  >
+                    <Typography
+                      as="h2"
+                      id={context.titleId}
+                      variant="headline2"
+                      weight="bold"
+                      color="palette.label.strong"
+                      display="block"
+                      noWrap
+                      sx={{ margin: 0, border: 'none' }}
+                    >
+                      {children}
+                    </Typography>
+                  </FlexBox>
+                )}
+
+                {variant !== 'extended' ? (
+                  rightButtonRedner
+                ) : (
+                  <FlexBox sx={{ width: '100%' }}>
+                    {leftButtonRedner}
+                    {rightButtonRedner}
+                  </FlexBox>
+                )}
+              </>
+            ) : (
+              <>
+                {Boolean(leftButton) && (
+                  <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
+                    {leftButton}
+                  </FlexBox>
+                )}
+                {Boolean(rightButton) && (
+                  <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
+                    {rightButton}
+                  </FlexBox>
+                )}
+              </>
+            )}
+          </FlexBox>
+
+          {toolbar}
+        </FlexBox>
+      </ModalNavigationProvider>
+    );
+  },
+);
 
 ModalNavigation.displayName = 'ModalNavigation';
 
@@ -688,6 +770,7 @@ ModalActionButton.displayName = MODAL_ACTION_BUTTON_NAME;
 export {
   Modal,
   ModalContainer,
+  ModalClose,
   ModalNavigation,
   ModalContent,
   ModalContentItem,
