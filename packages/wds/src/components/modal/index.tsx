@@ -376,7 +376,6 @@ const ModalClose = forwardRef(
 
     return (
       <IconButton
-        wds-ignore-first-focus="true"
         variant={variant === 'float' ? 'background' : 'normal'}
         size={24}
         {...props}

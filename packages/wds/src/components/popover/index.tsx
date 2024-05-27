@@ -89,6 +89,9 @@ const PopoverContent = forwardRef<
       children,
       disablePortal,
       container,
+      trappedContent = false,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
       ...props
     },
     ref,
@@ -110,7 +113,13 @@ const PopoverContent = forwardRef<
           disablePortal={disablePortal}
           container={container}
         >
-          <FocusScope loop trapped>
+          <FocusScope
+            loop
+            trapped
+            trappedContent={trappedContent}
+            onMountAutoFocus={onMountAutoFocus}
+            onUnmountAutoFocus={onUnmountAutoFocus}
+          >
             <FlexBox
               role="dialog"
               id={contentId}
