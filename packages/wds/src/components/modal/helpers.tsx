@@ -6,7 +6,7 @@ export const getDefaultCloseIcon = (
   variant?: ModalNavigationProps['variant'],
 ) => {
   switch (variant) {
-    case 'floating':
+    case 'float':
       return <IconCloseThick />;
     default:
       return <IconClose />;

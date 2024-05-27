@@ -280,10 +280,6 @@ export const modalNavigationStyle =
       }
     }
 
-    h2 {
-      padding: 0px 4px;
-    }
-
     ${modalNavigationVariant(variant, theme)}
 
     ${createResponsiveStyle(
@@ -359,28 +355,34 @@ export const modalNavigationTitleStyle = (
   switch (variant) {
     case 'normal':
       return css`
-        width: var(--wds-navigation-title-width);
-        position: relative;
+        width: 100%;
+        max-height: 24px;
 
         h2 {
-          width: 100%;
+          width: 80%;
+          padding: 0px 4px;
           text-align: center;
         }
       `;
     case 'emphasized':
       return css`
-        width: var(--wds-navigation-title-width);
+        flex: 1 1 auto;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         max-height: 24px;
 
         h2 {
+          padding: 0px 4px;
           ${typographyStyle('heading2', 'bold')}
         }
       `;
     case 'extended':
       return css`
-        width: var(--wds-navigation-title-width);
+        flex: 1 1 auto;
 
         h2 {
+          padding: 0px 4px;
           ${typographyStyle('title3', 'bold')}
         }
       `;
@@ -398,7 +400,9 @@ export const modalRightIconStyle = (
         top: var(--wds-modal-navigation-padding-y, 20px);
       `;
     case 'emphasized':
-      return undefined;
+      return css`
+        flex: 0 0 auto;
+      `;
     case 'extended':
       return css`
         margin-left: auto;
@@ -420,10 +424,12 @@ export const modalLeftIconStyle = (
       return css`
         position: absolute;
         left: var(--wds-modal-navigation-padding-x, 20px);
-        place-self: center end;
+        top: var(--wds-modal-navigation-padding-y, 20px);
       `;
     case 'emphasized':
-      return undefined;
+      return css`
+        flex: 0 0 auto;
+      `;
     case 'extended':
       return undefined;
     case 'float':
