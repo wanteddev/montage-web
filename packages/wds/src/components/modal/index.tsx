@@ -371,7 +371,7 @@ const ModalClose = forwardRef(
     return (
       <IconButton
         wds-ignore-first-focus="true"
-        variant={variant === 'floating' ? 'background' : 'normal'}
+        variant={variant === 'float' ? 'background' : 'normal'}
         size={24}
         {...props}
         onClick={composeEventHandlers(props.onClick, handleClose)}
@@ -391,7 +391,7 @@ const ModalNavigation = forwardRef<
 >(
   (
     {
-      variant = 'compact',
+      variant = 'normal',
       leftButton,
       rightButton = <ModalClose />,
       toolbar,
@@ -452,7 +452,7 @@ const ModalNavigation = forwardRef<
           }
         >
           <FlexBox sx={modalNavigationWrapperStyle(variant)}>
-            {variant !== 'floating' ? (
+            {variant !== 'float' ? (
               <>
                 {variant !== 'extended' && leftButtonRedner}
 
@@ -467,6 +467,7 @@ const ModalNavigation = forwardRef<
                       variant="headline2"
                       weight="bold"
                       color="palette.label.strong"
+                      display="block"
                       noWrap
                       sx={{ margin: 0, border: 'none' }}
                     >

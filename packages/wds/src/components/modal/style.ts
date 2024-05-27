@@ -281,8 +281,6 @@ export const modalNavigationStyle =
     }
 
     h2 {
-      display: flex;
-      align-items: center;
       padding: 0px 4px;
     }
 
@@ -302,7 +300,7 @@ export const modalNavigationWrapperStyle = (
   variant: ModalNavigationProps['variant'],
 ) => {
   switch (variant) {
-    case 'compact':
+    case 'normal':
       return css`
         width: 100%;
         padding: var(--wds-modal-navigation-padding, 20px);
@@ -323,7 +321,7 @@ export const modalNavigationWrapperStyle = (
         width: 100%;
         flex-direction: column-reverse;
       `;
-    case 'floating':
+    case 'float':
       return css`
         padding: 0;
       `;
@@ -335,10 +333,21 @@ const modalNavigationVariant = (
   theme: Theme,
 ) => {
   switch (variant) {
-    case 'floating':
+    case 'float':
       return undefined;
-    default:
+    case 'normal':
       return css`
+        --wds-navigation-title-width: 80%;
+        ${theme.platform.ios.navigation}
+      `;
+    case 'emphasized':
+      return css`
+        --wds-navigation-title-width: 100%;
+        ${theme.platform.ios.navigation}
+      `;
+    case 'extended':
+      return css`
+        --wds-navigation-title-width: 100%;
         ${theme.platform.ios.navigation}
       `;
   }
@@ -348,9 +357,9 @@ export const modalNavigationTitleStyle = (
   variant?: ModalNavigationProps['variant'],
 ) => {
   switch (variant) {
-    case 'compact':
+    case 'normal':
       return css`
-        width: 80%;
+        width: var(--wds-navigation-title-width);
         position: relative;
 
         h2 {
@@ -360,7 +369,7 @@ export const modalNavigationTitleStyle = (
       `;
     case 'emphasized':
       return css`
-        flex: 1 0 0;
+        width: var(--wds-navigation-title-width);
         max-height: 24px;
 
         h2 {
@@ -369,7 +378,7 @@ export const modalNavigationTitleStyle = (
       `;
     case 'extended':
       return css`
-        width: 100%;
+        width: var(--wds-navigation-title-width);
 
         h2 {
           ${typographyStyle('title3', 'bold')}
@@ -382,7 +391,7 @@ export const modalRightIconStyle = (
   variant?: ModalNavigationProps['variant'],
 ) => {
   switch (variant) {
-    case 'compact':
+    case 'normal':
       return css`
         position: absolute;
         right: var(--wds-modal-navigation-padding-x, 20px);
@@ -394,7 +403,7 @@ export const modalRightIconStyle = (
       return css`
         margin-left: auto;
       `;
-    case 'floating':
+    case 'float':
       return css`
         position: absolute;
         right: var(--wds-modal-navigation-padding-x, 20px);
@@ -407,7 +416,7 @@ export const modalLeftIconStyle = (
   variant?: ModalNavigationProps['variant'],
 ) => {
   switch (variant) {
-    case 'compact':
+    case 'normal':
       return css`
         position: absolute;
         left: var(--wds-modal-navigation-padding-x, 20px);
@@ -417,7 +426,7 @@ export const modalLeftIconStyle = (
       return undefined;
     case 'extended':
       return undefined;
-    case 'floating':
+    case 'float':
       return css`
         position: absolute;
         left: var(--wds-modal-navigation-padding-x, 20px);

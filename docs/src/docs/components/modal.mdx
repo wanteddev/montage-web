@@ -41,7 +41,7 @@ const Demo = () => {
         onOpenChange={setShow}
       >
         <ModalContainer size="large" variant="popup">
-          <ModalNavigation variant="compact">
+          <ModalNavigation>
             제목
           </ModalNavigation>
 
@@ -214,6 +214,9 @@ export default Demo;`}
 
 `<ModalClose />` 버튼과 함께 사용합니다.
 rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
+
+만약 leftButton과 rightButton이 많아져 제목의 ellipsis 길이를 수정하고 싶을 땐
+`--wds-navigation-title-width` 로 조정해주세요.
 
 <Demo code={`import { useState } from 'react';
 import {
