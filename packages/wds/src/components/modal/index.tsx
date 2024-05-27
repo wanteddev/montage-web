@@ -263,6 +263,7 @@ const ModalContainer = forwardRef<
         sticky={sticky}
       >
         <Box
+          wds-ignore-dismissable-layer="true"
           sx={modalContainerWrapperStyle({
             variant,
             size,
@@ -275,21 +276,27 @@ const ModalContainer = forwardRef<
         >
           {!disableDimmer && (
             <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
-              <Box sx={modalDimmerStyle} />
+              <Box
+                onPointerDown={(e) => {
+                  const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+                  const isRightClick = e.button === 2 || ctrlLeftClick;
+
+                  if (isRightClick || disableOutsideClickClose) {
+                    e.preventDefault();
+                    return;
+                  }
+
+                  handleClose();
+                }}
+                sx={modalDimmerStyle}
+              />
             </RemoveScroll>
           )}
           <FocusScope loop trapped={context.open}>
             <DismissableLayer
               asChild
               onPointerDownOutside={(e) => {
-                const originalEvent = e.detail.originalEvent;
-                const ctrlLeftClick =
-                  originalEvent.button === 0 && originalEvent.ctrlKey === true;
-                const isRightClick =
-                  originalEvent.button === 2 || ctrlLeftClick;
-
-                if (isRightClick || disableOutsideClickClose)
-                  e.preventDefault();
+                e.preventDefault();
               }}
               onFocusOutside={(e) => e.preventDefault()}
               onEscapeKeyDown={(e) => {

@@ -259,6 +259,7 @@ const PopperContent: ReturnType<
     return (
       <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
+          wds-ignore-dismissable-layer="true"
           ref={refs.setFloating}
           {...wrapperProps}
           style={{
