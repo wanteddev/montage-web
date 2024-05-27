@@ -54,6 +54,8 @@ import {
   modalGrabberStyle,
   modalLeftIconStyle,
   modalNavigationStyle,
+  modalNavigationTitleStyle,
+  modalNavigationWrapperStyle,
   modalRightIconStyle,
 } from './style';
 import { useDraggable } from './hooks';
@@ -392,6 +394,7 @@ const ModalNavigation = forwardRef<
       variant = 'compact',
       leftButton,
       rightButton = <ModalClose />,
+      toolbar,
       xs,
       sm,
       md,
@@ -410,9 +413,10 @@ const ModalNavigation = forwardRef<
 
     return (
       <ModalNavigationProvider variant={variant}>
-        <Box
+        <FlexBox
           wds-component="modal-navigation"
           ref={ref}
+          flexDirection="column"
           {...props}
           sx={[
             modalNavigationStyle({
@@ -435,49 +439,58 @@ const ModalNavigation = forwardRef<
             } as CSSProperties
           }
         >
-          {variant !== 'floating' ? (
-            <>
-              {Boolean(leftButton) && (
-                <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
-                  {leftButton}
-                </FlexBox>
-              )}
+          <FlexBox sx={modalNavigationWrapperStyle(variant)}>
+            {variant !== 'floating' ? (
+              <>
+                {Boolean(leftButton) && (
+                  <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
+                    {leftButton}
+                  </FlexBox>
+                )}
 
-              {Boolean(children) && (
-                <Typography
-                  as="h2"
-                  id={context.titleId}
-                  variant="headline2"
-                  weight="bold"
-                  color="palette.label.strong"
-                  noWrap
-                  sx={{ margin: 0, border: 'none' }}
-                >
-                  {children}
-                </Typography>
-              )}
+                {Boolean(children) && (
+                  <FlexBox
+                    alignItems="center"
+                    sx={modalNavigationTitleStyle(variant)}
+                  >
+                    <Typography
+                      as="h2"
+                      id={context.titleId}
+                      variant="headline2"
+                      weight="bold"
+                      color="palette.label.strong"
+                      noWrap
+                      sx={{ margin: 0, border: 'none' }}
+                    >
+                      {children}
+                    </Typography>
+                  </FlexBox>
+                )}
 
-              {Boolean(rightButton) && (
-                <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
-                  {rightButton}
-                </FlexBox>
-              )}
-            </>
-          ) : (
-            <>
-              {Boolean(leftButton) && (
-                <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
-                  {leftButton}
-                </FlexBox>
-              )}
-              {Boolean(rightButton) && (
-                <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
-                  {rightButton}
-                </FlexBox>
-              )}
-            </>
-          )}
-        </Box>
+                {Boolean(rightButton) && (
+                  <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
+                    {rightButton}
+                  </FlexBox>
+                )}
+              </>
+            ) : (
+              <>
+                {Boolean(leftButton) && (
+                  <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
+                    {leftButton}
+                  </FlexBox>
+                )}
+                {Boolean(rightButton) && (
+                  <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
+                    {rightButton}
+                  </FlexBox>
+                )}
+              </>
+            )}
+          </FlexBox>
+
+          {toolbar}
+        </FlexBox>
       </ModalNavigationProvider>
     );
   },
