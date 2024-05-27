@@ -86,6 +86,8 @@ const PopoverContent = forwardRef<
       arrow,
       position,
       offset = 10,
+      loop = true,
+      trapped = true,
       children,
       disablePortal,
       container,
@@ -114,8 +116,8 @@ const PopoverContent = forwardRef<
           container={container}
         >
           <FocusScope
-            loop
-            trapped
+            loop={loop}
+            trapped={trapped}
             trappedContent={trappedContent}
             onMountAutoFocus={onMountAutoFocus}
             onUnmountAutoFocus={onUnmountAutoFocus}

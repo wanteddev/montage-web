@@ -20,5 +20,9 @@ export type PopoverContentProps = {
   disablePortal?: PopperContentProps['disablePortal'];
 } & Pick<
   FocusScopeProps,
-  'trappedContent' | 'onMountAutoFocus' | 'onUnmountAutoFocus'
+  | 'trappedContent'
+  | 'onMountAutoFocus'
+  | 'onUnmountAutoFocus'
+  | 'trapped'
+  | 'loop'
 >;
