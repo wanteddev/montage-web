@@ -280,6 +280,8 @@ export const modalNavigationStyle =
       }
     }
 
+    --wds-navigation-title-width: 80%;
+
     ${modalNavigationVariant(variant, theme)}
 
     ${createResponsiveStyle(
@@ -331,21 +333,8 @@ const modalNavigationVariant = (
   switch (variant) {
     case 'float':
       return undefined;
-    case 'normal':
-      return css`
-        --wds-navigation-title-width: 80%;
-        ${theme.platform.ios.navigation}
-      `;
-    case 'emphasized':
-      return css`
-        --wds-navigation-title-width: 100%;
-        ${theme.platform.ios.navigation}
-      `;
-    case 'extended':
-      return css`
-        --wds-navigation-title-width: 100%;
-        ${theme.platform.ios.navigation}
-      `;
+    default:
+      return theme.platform.ios.navigation;
   }
 };
 
@@ -359,7 +348,7 @@ export const modalNavigationTitleStyle = (
         max-height: 24px;
 
         h2 {
-          width: 80%;
+          width: var(--wds-navigation-title-width);
           padding: 0px 4px;
           text-align: center;
         }

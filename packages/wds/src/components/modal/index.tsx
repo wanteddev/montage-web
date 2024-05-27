@@ -263,7 +263,6 @@ const ModalContainer = forwardRef<
         sticky={sticky}
       >
         <Box
-          wds-ignore-dismissable-layer="true"
           sx={modalContainerWrapperStyle({
             variant,
             size,

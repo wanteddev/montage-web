@@ -5,13 +5,9 @@ description: Modal Component
 
 # Modal
 
-Modal Overlay를 표시합니다.
-
-> 주의! 중첩 모달을 사용할 경우 `<Modal />` 하위 컴포넌트에서 `<Modal />` 을 사용하지 마세요.
-> 내부에서 Context를 사용하기 때문에 올바르게 동작하지 않을 수 있습니다.
-
 ## 활용
 
+- Modal Overlay를 표시합니다.
 - `wds-ignore-first-focus="true"` 프로퍼티를 통해 모달이 열렸을 때 첫 포커스 대상에서
 제외할 수 있습니다.
 - padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
@@ -215,7 +211,8 @@ export default Demo;`}
 `<ModalClose />` 버튼과 함께 사용합니다.
 rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
 
-만약 leftButton과 rightButton이 많아져 제목의 ellipsis 길이를 수정하고 싶을 땐
+
+variant 가 `normal` 인 navigation에서 leftButton과 rightButton이 많아져 제목의 ellipsis 길이를 수정하고 싶을 땐
 `--wds-navigation-title-width` 로 조정해주세요.
 
 <Demo code={`import { useState } from 'react';
