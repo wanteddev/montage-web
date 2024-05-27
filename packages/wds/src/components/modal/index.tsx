@@ -411,6 +411,18 @@ const ModalNavigation = forwardRef<
     );
     const theme = useTheme();
 
+    const leftButtonRedner = Boolean(leftButton) ? (
+      <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
+        {leftButton}
+      </FlexBox>
+    ) : null;
+
+    const rightButtonRedner = Boolean(rightButton) && (
+      <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
+        {rightButton}
+      </FlexBox>
+    );
+
     return (
       <ModalNavigationProvider variant={variant}>
         <FlexBox
@@ -442,11 +454,7 @@ const ModalNavigation = forwardRef<
           <FlexBox sx={modalNavigationWrapperStyle(variant)}>
             {variant !== 'floating' ? (
               <>
-                {Boolean(leftButton) && (
-                  <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
-                    {leftButton}
-                  </FlexBox>
-                )}
+                {variant !== 'extended' && leftButtonRedner}
 
                 {Boolean(children) && (
                   <FlexBox
@@ -467,9 +475,12 @@ const ModalNavigation = forwardRef<
                   </FlexBox>
                 )}
 
-                {Boolean(rightButton) && (
-                  <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
-                    {rightButton}
+                {variant !== 'extended' ? (
+                  rightButtonRedner
+                ) : (
+                  <FlexBox sx={{ width: '100%' }}>
+                    {leftButtonRedner}
+                    {rightButtonRedner}
                   </FlexBox>
                 )}
               </>

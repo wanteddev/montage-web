@@ -213,6 +213,7 @@ export default Demo;`}
 ### Right Button
 
 `<ModalClose />` 버튼과 함께 사용합니다.
+rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -230,7 +231,7 @@ import {
   ModalClose,
   IconButton
 } from '@wanteddev/wds';
-import { IconChevronLeft } from '@wanteddev/wds-icon';
+import { IconMenu } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   const [show, setShow] = useState(false);
@@ -247,7 +248,7 @@ const Demo = () => {
             rightButton={(
               <>
                 <IconButton wds-ignore-first-focus="true" size={24}>
-                  <IconChevronLeft />
+                  <IconMenu />
                 </IconButton>
 
                 <ModalClose />

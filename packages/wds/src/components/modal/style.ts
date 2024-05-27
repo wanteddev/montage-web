@@ -266,7 +266,6 @@ export const modalNavigationStyle =
   ({ variant, xs, sm, md, lg, xl }: ModalNavigationProps) =>
   (theme: Theme) => css`
     width: 100%;
-    display: flex;
     align-items: center;
     position: sticky;
     top: 0px;
@@ -393,7 +392,7 @@ export const modalRightIconStyle = (
       return undefined;
     case 'extended':
       return css`
-        align-self: flex-end;
+        margin-left: auto;
       `;
     case 'floating':
       return css`
@@ -417,11 +416,7 @@ export const modalLeftIconStyle = (
     case 'emphasized':
       return undefined;
     case 'extended':
-      return css`
-        position: absolute;
-        left: var(--wds-modal-navigation-padding-x, 20px);
-        top: var(--wds-modal-navigation-padding-y, 20px);
-      `;
+      return undefined;
     case 'floating':
       return css`
         position: absolute;
