@@ -297,7 +297,7 @@ const TextArea = forwardRef<
             }
             sx={maxLengthStyle}
           >
-            {length}&#47;
+            {length.toLocaleString()}&#47;
             {maxLength!.toLocaleString()}
           </Typography>
         )}
