@@ -1,3 +1,4 @@
+import type { FocusScopeProps } from '../focus-scope/types';
 import type { ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
 
@@ -17,4 +18,11 @@ export type PopoverContentProps = {
    */
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];
-};
+} & Pick<
+  FocusScopeProps,
+  | 'trappedContent'
+  | 'onMountAutoFocus'
+  | 'onUnmountAutoFocus'
+  | 'trapped'
+  | 'loop'
+>;

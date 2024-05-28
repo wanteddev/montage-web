@@ -40,6 +40,7 @@ const FocusScope = forwardRef<
     {
       loop = false,
       trapped = true,
+      trappedContent = false,
       onMountAutoFocus: onMountAutoFocusProp,
       onUnmountAutoFocus: onUnmountAutoFocusProp,
       ...props
@@ -137,9 +138,13 @@ const FocusScope = forwardRef<
             if (tabbableElements.length === 0) {
               focus(container);
             } else {
-              focusFirst(tabbableElements, {
-                select: true,
-              });
+              if (trappedContent) {
+                focusFirst(tabbableElements, {
+                  select: true,
+                });
+              } else {
+                focus(container);
+              }
             }
           }
         }
@@ -171,7 +176,13 @@ const FocusScope = forwardRef<
           }, 0);
         };
       }
-    }, [container, onMountAutoFocus, onUnmountAutoFocus, focusScope]);
+    }, [
+      container,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
+      focusScope,
+      trappedContent,
+    ]);
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {
