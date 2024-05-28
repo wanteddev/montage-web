@@ -1,6 +1,9 @@
 import { css, keyframes } from '@wanteddev/wds-engine';
 
-import { typographyStyle } from '../../utils/typography';
+import {
+  ellipsisTypographyStyle,
+  typographyStyle,
+} from '../../utils/typography';
 import {
   createResponsiveStyle,
   getPreviousValue,
@@ -139,7 +142,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding-y: 16px;
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
-        --wds-modal-navigation-min-height: 64px;
+        --wds-modal-navigation-min-height: 56px;
       `;
     case 'normal':
     case 'normal-fixed':
@@ -352,6 +355,8 @@ export const modalNavigationTitleStyle = (
         h2 {
           width: var(--wds-navigation-title-width);
           text-align: center;
+          ${ellipsisTypographyStyle(2)}
+          -webkit-line-clamp: 1;
         }
       `;
     case 'emphasized':
@@ -365,6 +370,8 @@ export const modalNavigationTitleStyle = (
 
         h2 {
           ${typographyStyle('heading2', 'bold')}
+          ${ellipsisTypographyStyle(2)}
+          -webkit-line-clamp: 1;
         }
       `;
     case 'extended':
@@ -374,6 +381,8 @@ export const modalNavigationTitleStyle = (
         padding: 0px 4px;
 
         h2 {
+          ${ellipsisTypographyStyle(2)}
+          -webkit-line-clamp: 1;
           ${typographyStyle('title3', 'bold')}
         }
       `;

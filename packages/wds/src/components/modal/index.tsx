@@ -473,7 +473,6 @@ const ModalNavigation = forwardRef<
                       weight="bold"
                       color="palette.label.strong"
                       display="block"
-                      noWrap
                       sx={{ margin: 0, border: 'none' }}
                     >
                       {children}
