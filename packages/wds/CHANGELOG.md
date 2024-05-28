@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.11...@wanteddev/wds@1.1.0) (2024-05-28)
+
+### Bug Fixes
+
+- **wds:** grid 컴포넌트 너비가 일치하지 않음 ([#15](https://github.com/wanteddev/wds/issues/15)) ([6f015bc](https://github.com/wanteddev/wds/commit/6f015bc5c02b049ed224750676f20c11991657a6))
+- **wds:** modal 빌드 오류 수정 ([1ee0320](https://github.com/wanteddev/wds/commit/1ee03206428c8730621c51ea6fe25a23a2ae7984))
+- **wds:** popover에 disablePortal, container가 적용되지 않음 ([#17](https://github.com/wanteddev/wds/issues/17)) ([5daa4db](https://github.com/wanteddev/wds/commit/5daa4db7cb5451ce28b1d1611db3338160b71d4d))
+- **wds:** text area 에서 maxLength 콤마가 표시되지 않음 ([#21](https://github.com/wanteddev/wds/issues/21)) ([14b4dd1](https://github.com/wanteddev/wds/commit/14b4dd18cabd0f1efcaa4f471171afdf1b99f1fe))
+- **wds:** 중첩 모달의 경우 함께 닫히는 이슈 ([70a094e](https://github.com/wanteddev/wds/commit/70a094efa906687a050779a81b6518480d2360a2))
+
+### Features
+
+- **wds:** focus scope 첫 포커스 대상 컨테이너 수정 ([#22](https://github.com/wanteddev/wds/issues/22)) ([03149b1](https://github.com/wanteddev/wds/commit/03149b13a8d95baa29135e53b7e443f6602afb30))
+- **wds:** grid 컴포넌트 offset 기능 추가 ([#16](https://github.com/wanteddev/wds/issues/16)) ([47c2a6b](https://github.com/wanteddev/wds/commit/47c2a6bc9f4dfd776634a16c869735997f0499b3))
+- **wds:** modal navigation 개편 및 modal toolbar 추가 ([#18](https://github.com/wanteddev/wds/issues/18)) ([80f8bca](https://github.com/wanteddev/wds/commit/80f8bca2a533fe2a70d3df1a41552d83557c2592))
+- **wds:** tooltip, compact tooltip offset 조절 기능 추가 ([#14](https://github.com/wanteddev/wds/issues/14)) ([08af7c5](https://github.com/wanteddev/wds/commit/08af7c57aad6f877e0a536aab1fb2cd43facef1d))
+
 ## [1.0.11](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.10...@wanteddev/wds@1.0.11) (2024-05-22)
 
 ### Bug Fixes
