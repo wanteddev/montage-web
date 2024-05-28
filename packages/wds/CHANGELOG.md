@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.0...@wanteddev/wds@1.1.1) (2024-05-28)
+
+### Bug Fixes
+
+- **wds:** modal navigation 텍스트 정렬 오류 ([22491ee](https://github.com/wanteddev/wds/commit/22491eeea0dacb3dec23aa606868638203f32fda))
+
 # [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.0.11...@wanteddev/wds@1.1.0) (2024-05-28)
 
 ### Bug Fixes
