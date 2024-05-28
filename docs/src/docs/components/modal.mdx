@@ -183,12 +183,14 @@ const Demo = () => {
         open={show}
         onOpenChange={setShow}
       >
-        <Form {...form}>
-          <FlexBox
-            as="form"
-            onSubmit={form.handleSubmit}
-          >
-            <ModalContainer size="normal-fixed" variant="popup">
+        <ModalContainer size="normal-fixed" variant="popup">
+          <Form {...form}>
+            <FlexBox
+              as="form"
+              flex="1"
+              flexDirection="column"
+              onSubmit={form.handleSubmit}
+            >
               <ModalNavigation
                 variant="emphasized"
               >
@@ -226,9 +228,9 @@ const Demo = () => {
                   액션
                 </ModalActionButton>
               </ModalActionArea>
-            </ModalContainer>
-          </FlexBox>
-        </Form>
+            </FlexBox>
+          </Form>
+        </ModalContainer>
       </Modal>
 
       <Button onClick={() => setShow(true)}>Click me</Button>
