@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.1...@wanteddev/wds@1.1.2) (2024-05-28)
+
+### Bug Fixes
+
+- **wds:** 모달 네비게이션 br 태그 대응 ([57ac50c](https://github.com/wanteddev/wds/commit/57ac50c112a68e3a6f00fa7ea0d5f2aa5c146e8c))
+
 ## [1.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.0...@wanteddev/wds@1.1.1) (2024-05-28)
 
 ### Bug Fixes
