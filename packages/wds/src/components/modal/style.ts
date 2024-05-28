@@ -345,11 +345,12 @@ export const modalNavigationTitleStyle = (
     case 'normal':
       return css`
         width: 100%;
+        justify-content: center;
         max-height: 24px;
+        padding: 0px 4px;
 
         h2 {
           width: var(--wds-navigation-title-width);
-          padding: 0px 4px;
           text-align: center;
         }
       `;
@@ -360,18 +361,19 @@ export const modalNavigationTitleStyle = (
         overflow: hidden;
         white-space: nowrap;
         max-height: 24px;
+        padding: 0px 4px;
 
         h2 {
-          padding: 0px 4px;
           ${typographyStyle('heading2', 'bold')}
         }
       `;
     case 'extended':
       return css`
         flex: 1 1 auto;
+        max-height: 24px;
+        padding: 0px 4px;
 
         h2 {
-          padding: 0px 4px;
           ${typographyStyle('title3', 'bold')}
         }
       `;
