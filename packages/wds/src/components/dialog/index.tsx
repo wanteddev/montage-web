@@ -47,7 +47,7 @@ const Item = ({
   title,
   confirmText,
   confirmColor = 'palette.primary.normal',
-  focusTrap = 'confirm',
+  direction = 'normal',
   cancelText,
   disableOutsideClickClose,
   disableEscapeKeyDownClose,
@@ -145,35 +145,19 @@ const Item = ({
               <Divider color="palette.label.normal" sx={dialogDividerStyle} />
 
               <FlexBox
-                flexDirection={focusTrap === 'confirm' ? 'row-reverse' : 'row'}
+                flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
                 alignItems="center"
                 justifyContent={
-                  focusTrap === 'confirm' ? 'initial' : 'flex-end'
+                  direction === 'reverse' ? 'initial' : 'flex-end'
                 }
                 gap="24px"
                 sx={dialogActionStyle}
               >
-                {focusTrap === 'confirm' ? (
-                  <>
-                    <ConfirmButton onClick={handleConfirm} color={confirmColor}>
-                      {confirmText}
-                    </ConfirmButton>
+                <CancelButton onClick={handleCancel}>{cancelText}</CancelButton>
 
-                    <CancelButton onClick={handleCancel}>
-                      {cancelText}
-                    </CancelButton>
-                  </>
-                ) : (
-                  <>
-                    <CancelButton onClick={handleCancel}>
-                      {cancelText}
-                    </CancelButton>
-
-                    <ConfirmButton onClick={handleConfirm} color={confirmColor}>
-                      {confirmText}
-                    </ConfirmButton>
-                  </>
-                )}
+                <ConfirmButton onClick={handleConfirm} color={confirmColor}>
+                  {confirmText}
+                </ConfirmButton>
               </FlexBox>
             </FlexBox>
           </Box>

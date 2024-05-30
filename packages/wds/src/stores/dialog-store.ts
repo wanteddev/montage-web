@@ -6,17 +6,18 @@ import { generateId } from './helpers';
 
 import type { ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { StoreApi } from 'zustand';
+import type { ReactNode } from 'react';
 
 export type DialogReturnType = 'cancel' | 'confirm';
 
 export type DialogItem = {
   id: string;
-  title?: string;
-  content: string;
-  confirmText: string;
-  cancelText?: string;
+  title?: ReactNode;
+  content: ReactNode;
+  confirmText: ReactNode;
+  cancelText?: ReactNode;
   confirmColor?: ThemeColorsToken;
-  focusTrap?: 'confirm' | 'cancel';
+  direction?: 'normal' | 'reverse';
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
   resolve: (value: DialogReturnType | PromiseLike<DialogReturnType>) => void;
