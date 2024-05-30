@@ -20,7 +20,6 @@ type ModalContextValue = {
   descriptionId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  disableDimmer: boolean;
   disableOutsideClickClose: boolean;
   disableEscapeKeyDownClose: boolean;
 };
