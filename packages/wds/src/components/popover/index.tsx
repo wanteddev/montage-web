@@ -102,25 +102,25 @@ const PopoverContent = forwardRef<
       usePopoverContext(POPOVER_CONTENT_NAME);
 
     return open ? (
-      <DismissableLayer
-        asChild
-        disableOutsidePointerEvents
-        onDismiss={() => {
-          onOpenChange(false);
-        }}
+      <PopperContent
+        position={position}
+        offset={offset}
+        disablePortal={disablePortal}
+        container={container}
       >
-        <PopperContent
-          position={position}
-          offset={offset}
-          disablePortal={disablePortal}
-          container={container}
+        <FocusScope
+          loop={loop}
+          trapped={trapped}
+          trappedContent={trappedContent}
+          onMountAutoFocus={onMountAutoFocus}
+          onUnmountAutoFocus={onUnmountAutoFocus}
         >
-          <FocusScope
-            loop={loop}
-            trapped={trapped}
-            trappedContent={trappedContent}
-            onMountAutoFocus={onMountAutoFocus}
-            onUnmountAutoFocus={onUnmountAutoFocus}
+          <DismissableLayer
+            asChild
+            disableOutsidePointerEvents
+            onDismiss={() => {
+              onOpenChange(false);
+            }}
           >
             <FlexBox
               role="dialog"
@@ -133,9 +133,9 @@ const PopoverContent = forwardRef<
 
               {arrow && <PopperArrow />}
             </FlexBox>
-          </FocusScope>
-        </PopperContent>
-      </DismissableLayer>
+          </DismissableLayer>
+        </FocusScope>
+      </PopperContent>
     ) : null;
   },
 );
