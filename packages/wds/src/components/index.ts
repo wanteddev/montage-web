@@ -2,6 +2,7 @@ export { default as Alert } from './alert';
 export { default as Avatar } from './avatar';
 export { default as AvatarButton } from './avatar-button';
 export { default as AvatarGroup } from './avatar-group';
+export * from './bottom-navigation';
 export { default as Button } from './button';
 export { default as Checkbox } from './checkbox';
 export { default as ChipAction } from './chip-action';
