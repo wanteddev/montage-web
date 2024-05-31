@@ -55,19 +55,19 @@ const BottomNavigation = forwardRef(
     useEffect(() => {
       const handleScroll = () => {
         setScrollEnd(
-          document.body.clientHeight - window.innerHeight === window.scrollY,
+          document.body.clientHeight - window.innerHeight <= window.scrollY,
         );
       };
 
       handleScroll();
       window.addEventListener('resize', handleScroll);
       window.addEventListener('scroll', handleScroll);
-      window.addEventListener('touchmove', handleScroll);
+      window.addEventListener('gesturechange', handleScroll);
 
       return () => {
         window.removeEventListener('resize', handleScroll);
         window.removeEventListener('scroll', handleScroll);
-        window.removeEventListener('touchmove', handleScroll);
+        window.removeEventListener('gesturechange', handleScroll);
       };
     }, []);
 
