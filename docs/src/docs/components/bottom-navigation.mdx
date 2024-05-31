@@ -60,10 +60,42 @@ BottomNavigation 은 여러 컴포넌트를 조합해서 사용합니다.
 
 <PropsTable component="BottomNavigationItem" />
 
-{/* ### TabListItem */}
-{/* 
-<PropsTable component="TabListItem" fallback={[
-{ name: 'value', required: true, types: 'string' },
-{ name: 'disabled', types: 'boolean | undefined', defaultValue: 'false' },
-{ name: 'as', types: 'Element | undefined', defaultValue: 'div' }
-]} /> */}
+
+## Examples
+
+### 로그인 분기처리
+
+
+<Demo code={`import {
+  BottomNavigation,
+  BottomNavigationItem,
+  Avatar
+} from '@wanteddev/wds';
+import {
+  IconNavigationRecruit,
+  IconNavigationCareer,
+  IconNavigationSocial,
+  IconNavigationMypage,
+  IconNavigationMenu,
+} from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  const isLoggedIn = false;
+
+  return (
+    <BottomNavigation defaultValue="recruit">
+      <BottomNavigationItem value="recruit" label="채용" icon={<IconNavigationRecruit />} />
+      <BottomNavigationItem value="career" label="커리어" icon={<IconNavigationCareer />} />
+      <BottomNavigationItem value="social" label="소셜" icon={<IconNavigationSocial />} />
+      <BottomNavigationItem
+        value="mywanted"
+        label="MY 원티드"
+        icon={isLoggedIn ? <Avatar size="xsmall" /> : <IconNavigationMypage />}
+      />
+      <BottomNavigationItem value="menu" label="전체" icon={<IconNavigationMenu />} />
+    </BottomNavigation>
+  )
+}
+
+export default Demo;`}
+/>

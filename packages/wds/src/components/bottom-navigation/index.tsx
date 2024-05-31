@@ -6,6 +6,7 @@ import { useTheme } from '@wanteddev/wds-engine';
 
 import Typography from '../typography';
 import FlexBox from '../flex-box';
+import WithInteraction from '../with-interaction';
 
 import {
   BottomNavigationProvider,
@@ -61,10 +62,12 @@ const BottomNavigation = forwardRef(
       handleScroll();
       window.addEventListener('resize', handleScroll);
       window.addEventListener('scroll', handleScroll);
+      window.addEventListener('touchmove', handleScroll);
 
       return () => {
         window.removeEventListener('resize', handleScroll);
-        window.addEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('touchmove', handleScroll);
       };
     }, []);
 
@@ -111,30 +114,32 @@ const BottomNavigationItem = forwardRef(
     const isActive = context.value === value;
 
     return (
-      <FlexBox
-        as={(as || 'button') as T}
-        ref={ref}
-        {...props}
-        flex="1 1 0"
-        gap="2px"
-        alignItems="center"
-        justifyContent="center"
-        flexDirection="column"
-        wds-component="bottom-navigation-item"
-        aria-current={isActive ? 'page' : undefined}
-        aria-labelledby={id}
-        sx={[bottomNavigationItemStyle, props.sx]}
-        onClick={composeEventHandlers(props.onClick, () => {
-          context.onValueChange(value);
-        })}
-      >
-        {icon}
-        {Boolean(label) && (
-          <Typography variant="caption2" weight="medium" id={id}>
-            {label}
-          </Typography>
-        )}
-      </FlexBox>
+      <WithInteraction variant="light">
+        <FlexBox
+          as={(as || 'button') as T}
+          ref={ref}
+          {...props}
+          flex="1 1 0"
+          gap="2px"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          wds-component="bottom-navigation-item"
+          aria-current={isActive ? 'page' : undefined}
+          aria-labelledby={id}
+          sx={[bottomNavigationItemStyle, props.sx]}
+          onClick={composeEventHandlers(props.onClick, () => {
+            context.onValueChange(value);
+          })}
+        >
+          {icon}
+          {Boolean(label) && (
+            <Typography variant="caption2" weight="medium" id={id}>
+              {label}
+            </Typography>
+          )}
+        </FlexBox>
+      </WithInteraction>
     );
   },
 ) as PolymorphicComponent<BottomNavigationItemProps, 'button'>;
