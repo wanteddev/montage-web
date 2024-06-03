@@ -106,9 +106,11 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 ### ModalClose
 
-`IconButton` 과 동일한 Props를 사용합니다.
+`ModalNavigationAction` 과 동일한 Props를 사용합니다.
 
-<PropsTable component="ModalClose" />
+### ModalNavigationAction
+
+<PropsTable component="ModalNavigationAction" />
 
 ### ModalContent
 
@@ -118,25 +120,17 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 `FlexBox` 와 동일한 Props를 사용합니다.
 
-<PropsTable component="ModalContentItem" />
-
 ### ModalHeading
 
 `Typography` 와 동일한 Props를 사용합니다.
-
-<PropsTable component="ModalHeading" />
 
 ### ModalSummary
 
 `Typography` 와 동일한 Props를 사용합니다.
 
-<PropsTable component="ModalSummary" />
-
 ### ModalDescription
 
 `Typography` 와 동일한 Props를 사용합니다.
-
-<PropsTable component="ModalDescription" />
 
 ### ModalActionArea
 
@@ -241,7 +235,11 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Left Button
+### Left/Right Button
+
+꼭 `ModalNavigationAction` 혹은 `ModalClose` 로 사용해주세요.
+
+rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -256,7 +254,7 @@ import {
   ModalHeading,
   ModalNavigation,
   ModalSummary,
-  IconButton,
+  ModalNavigationAction,
   ModalClose
 } from '@wanteddev/wds';
 import { IconChevronLeft } from '@wanteddev/wds-icon';
@@ -274,9 +272,9 @@ const Demo = () => {
           <ModalNavigation
             variant="emphasized"
             leftButton={(
-              <IconButton wds-ignore-first-focus="true" size={24}>
+              <ModalNavigationAction>
                 <IconChevronLeft />
-              </IconButton>
+              </ModalNavigationAction>
             )}
           >
             제목
@@ -306,14 +304,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Right Button
-
-`<ModalClose />` 버튼과 함께 사용합니다.
-rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
-
-
-variant 가 `normal` 인 navigation에서 leftButton과 rightButton이 많아져 제목의 ellipsis 길이를 수정하고 싶을 땐
-`--wds-navigation-title-width` 로 조정해주세요.
+`ModalNavigationAction` 에 텍스트 타입으로도 활용 가능합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -328,10 +319,10 @@ import {
   ModalHeading,
   ModalNavigation,
   ModalSummary,
-  ModalClose,
-  IconButton
+  ModalNavigationAction,
+  ModalClose
 } from '@wanteddev/wds';
-import { IconMenu } from '@wanteddev/wds-icon';
+import { IconChevronLeft } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   const [show, setShow] = useState(false);
@@ -344,21 +335,86 @@ const Demo = () => {
       >
         <ModalContainer size="normal-fixed" variant="popup">
           <ModalNavigation
-            variant="emphasized"
+            leftButton={(
+              <ModalNavigationAction variant="text">
+                이전
+              </ModalNavigationAction>
+            )}
             rightButton={(
-              <>
-                <IconButton wds-ignore-first-focus="true" size={24}>
-                  <IconMenu />
-                </IconButton>
-
-                <ModalClose />
-              </>
+              <ModalClose variant="text">
+                닫기
+              </ModalClose>
             )}
           >
             제목
           </ModalNavigation>
 
           <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ModalActionArea>
+            <ModalActionButton>
+              액션
+            </ModalActionButton>
+          </ModalActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+`ModalNavigation` 이 `float` 일 경우 다르게 표시됩니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ModalActionArea,
+  ModalActionButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalNavigationAction,
+  ModalClose
+} from '@wanteddev/wds';
+import { IconChevronLeftThick } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <ModalContainer size="normal-fixed" variant="popup">
+          <ModalNavigation
+            variant="floating"
+            leftButton={(
+              <ModalNavigationAction>
+                <IconChevronLeftThick />
+              </ModalNavigationAction>
+            )}
+          >
+            제목
+          </ModalNavigation>
+
+          <ModalContent sx={{ paddingTop: '50px' }}>
             <ModalContentItem>
               <ModalHeading>Heading</ModalHeading>
               <ModalSummary>Summary</ModalSummary>
@@ -417,7 +473,7 @@ const Demo = () => {
             <ModalNavigation
               variant="emphasized"
               toolbar={(
-                <TabList padding>
+                <TabList padding size="small">
                   <TabListItem value="">기본</TabListItem>
                   <TabListItem value="1">추가</TabListItem>
                 </TabList>

@@ -29,7 +29,7 @@ const MobileMenu = () => {
   return (
     <Modal open={context.open} onOpenChange={context.setOpen}>
       <ModalContainer variant="full">
-        <ModalNavigation variant="float" />
+        <ModalNavigation variant="floating" />
         <ModalContent padding paddingExtra>
           <ModalContentItem>
             {routes.map((route, idx) => (

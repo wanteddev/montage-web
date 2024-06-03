@@ -62,13 +62,18 @@ export type ModalContainerProps = Merge<
 
 export type ModalNavigationProps = Merge<
   {
-    variant?: 'normal' | 'float' | 'emphasized' | 'extended';
+    variant?: 'normal' | 'floating' | 'emphasized' | 'extended';
     rightButton?: ReactNode;
     leftButton?: ReactNode;
     toolbar?: ReactNode;
   },
   ResponsiveProps<{}>
 >;
+
+export type ModalNavigationActionProps = {
+  variant?: 'text' | 'icon';
+  alternative?: boolean;
+};
 
 type ModalContentDefaultProps = {
   padding?: boolean;
