@@ -41,7 +41,7 @@ export const buttonStyle =
     )}
   `;
 
-const buttonSizeStyle = ({ size }: ButtonProps = {}) => {
+const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
   switch (size) {
     case 'large':
       return css`
@@ -49,12 +49,23 @@ const buttonSizeStyle = ({ size }: ButtonProps = {}) => {
         padding: 12px 28px;
         gap: 6px;
 
-        & > svg {
-          font-size: 20px;
-        }
-        & > span {
-          ${typographyStyle('body1_normal', 'bold')}
-        }
+        ${iconOnly
+          ? css`
+              padding: 12px;
+              font-size: 24px;
+
+              svg {
+                flex-shrink: 0;
+              }
+            `
+          : css`
+              & > svg {
+                font-size: 20px;
+              }
+              & > span {
+                ${typographyStyle('body1_normal', 'bold')}
+              }
+            `}
       `;
     case 'medium':
       return css`
@@ -62,12 +73,23 @@ const buttonSizeStyle = ({ size }: ButtonProps = {}) => {
         padding: 9px 20px;
         gap: 5px;
 
-        & > svg {
-          font-size: 18px;
-        }
-        & > span {
-          ${typographyStyle('body2_normal', 'bold')}
-        }
+        ${iconOnly
+          ? css`
+              padding: 10px;
+              font-size: 20px;
+
+              svg {
+                flex-shrink: 0;
+              }
+            `
+          : css`
+              & > svg {
+                font-size: 18px;
+              }
+              & > span {
+                ${typographyStyle('body2_normal', 'bold')}
+              }
+            `}
       `;
     case 'small':
       return css`
@@ -75,12 +97,23 @@ const buttonSizeStyle = ({ size }: ButtonProps = {}) => {
         padding: 7px 14px;
         gap: 4px;
 
-        & > svg {
-          font-size: 16px;
-        }
-        & > span {
-          ${typographyStyle('label2', 'bold')}
-        }
+        ${iconOnly
+          ? css`
+              padding: 7px;
+              font-size: 18px;
+
+              svg {
+                flex-shrink: 0;
+              }
+            `
+          : css`
+              & > svg {
+                font-size: 16px;
+              }
+              & > span {
+                ${typographyStyle('label2', 'bold')}
+              }
+            `}
       `;
   }
 };
@@ -100,6 +133,21 @@ const buttonColorStyle = (
           color: ${theme.palette.label.assistive};
           background-color: ${theme.palette.interaction.disable};
           box-shadow: none;
+        }
+      `;
+    case variant === 'solid' && color === 'assistive':
+      return css`
+        color: ${theme.palette.label.neutral};
+        background-color: ${theme.palette.fill.normal};
+        box-shadow: none;
+        backdrop-filter: blur(32px);
+        will-change: backdrop-filter;
+
+        &:disabled {
+          color: ${theme.palette.label.assistive};
+          background-color: ${theme.palette.interaction.disable};
+          box-shadow: none;
+          backdrop-filter: none;
         }
       `;
     case variant === 'outlined' && color === 'primary':
