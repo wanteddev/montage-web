@@ -94,7 +94,6 @@ const Modal = ({
   defaultOpen,
   onOpenChange,
   container,
-  disableDimmer = false,
   disableOutsideClickClose = false,
   disableEscapeKeyDownClose = false,
   disablePortal = false,
@@ -118,7 +117,6 @@ const Modal = ({
       summaryId={useId()}
       descriptionId={useId()}
       open={open}
-      disableDimmer={disableDimmer}
       disableOutsideClickClose={disableOutsideClickClose}
       disableEscapeKeyDownClose={disableEscapeKeyDownClose}
       onOpenChange={setOpen}
@@ -158,7 +156,6 @@ const ModalContainer = forwardRef<
   ) => {
     const {
       containerRef,
-      disableDimmer,
       disableOutsideClickClose,
       disableEscapeKeyDownClose,
       onOpenChange,
@@ -273,24 +270,22 @@ const ModalContainer = forwardRef<
             xl,
           })}
         >
-          {!disableDimmer && (
-            <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
-              <Box
-                onPointerDown={(e) => {
-                  const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-                  const isRightClick = e.button === 2 || ctrlLeftClick;
+          <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
+            <Box
+              onPointerDown={(e) => {
+                const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+                const isRightClick = e.button === 2 || ctrlLeftClick;
 
-                  if (isRightClick || disableOutsideClickClose) {
-                    e.preventDefault();
-                    return;
-                  }
+                if (isRightClick || disableOutsideClickClose) {
+                  e.preventDefault();
+                  return;
+                }
 
-                  handleClose();
-                }}
-                sx={modalDimmerStyle}
-              />
-            </RemoveScroll>
-          )}
+                handleClose();
+              }}
+              sx={modalDimmerStyle}
+            />
+          </RemoveScroll>
           <FocusScope loop trapped={context.open}>
             <DismissableLayer
               asChild
