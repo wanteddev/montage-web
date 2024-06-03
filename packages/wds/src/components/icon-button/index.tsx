@@ -5,7 +5,7 @@ import { Box } from '@wanteddev/wds-engine';
 import WithInteraction from '../with-interaction';
 import PushBadge from '../push-badge';
 
-import { iconButtonStyle } from './style';
+import { backgroundBlendStyle, iconButtonStyle } from './style';
 
 import type {
   PolymorphicComponent,
@@ -24,6 +24,7 @@ const IconButton = forwardRef(
       variant = 'normal',
       interactionColor = 'palette.label.normal',
       pushBadge = false,
+      alternative,
       color: originColor,
       children,
       xs,
@@ -44,7 +45,7 @@ const IconButton = forwardRef(
         case 'solid':
           return 'palette.static.white';
         case 'background':
-          return 'palette.label.alternative';
+          return undefined;
         default:
           return 'palette.label.normal';
       }
@@ -65,9 +66,10 @@ const IconButton = forwardRef(
     const getInteractionVariant = () => {
       switch (variant) {
         case 'normal':
-        case 'background':
         case 'outlined':
           return 'light';
+        case 'background':
+          return alternative ? 'normal' : 'light';
         case 'solid':
           return 'strong';
       }
@@ -92,10 +94,28 @@ const IconButton = forwardRef(
           aria-disabled={disabled ? 'true' : undefined}
           {...props}
           sx={[
-            iconButtonStyle({ variant, size, color, xs, sm, md, lg, xl }),
+            iconButtonStyle({
+              variant,
+              size,
+              alternative,
+              color,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
             props.sx,
           ]}
         >
+          {variant === 'background' && !alternative && (
+            <Box
+              as="span"
+              role="presentation"
+              data-role="icon-button-background-alternative"
+              sx={backgroundBlendStyle}
+            />
+          )}
           {children}
 
           {pushBadge && (

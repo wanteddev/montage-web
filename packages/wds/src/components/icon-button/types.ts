@@ -14,6 +14,7 @@ export type IconButtonDefaultProps = {
   size?: number | 'normal' | 'small';
   color?: ThemeColorsToken;
   interactionColor?: ThemeColorsToken;
+  alternative?: boolean;
 };
 
 export type IconButtonResponsiveProps = ResponsiveProps<
