@@ -36,12 +36,43 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="useDialog" fallback={[
-{ name: 'title', types: 'string | undefined' },
-{ name: 'content', types: 'string', required: true },
+{ name: 'title', types: 'ReactNode | undefined' },
+{ name: 'content', types: 'ReactNode', required: true },
 { name: 'cancelText', types: 'string | undefined' },
 { name: 'confirmText', types: 'string', required: true },
 { name: 'confirmColor', types: '"palette.label.strong" | "palette.label.normal" | "palette.label.disable" | "palette.label.assistive" | "palette.label.neutral" | "palette.label.alternative" | "palette.line.normal.normal" | ... 197 more ... | undefined', defaultValue: 'palette.primary.normal' },
-{ name: 'focusTrap', types: '"confirm" | "cancel" \ undefined', description: "dialog가 열렸을 때 첫 포커스 대상을 결정합니다.", default: "confirm" },
+{ name: 'direction', types: '"normal" | "reverse" \ undefined', description: "버튼 순서를 변경합니다.", defaultValue: "normal" },
 { name: 'disableOutsideClickClose', types: 'boolean | undefined', defaultValue: 'false' },
 { name: 'disableEscapeKeyDownClose', types: 'boolean | undefined', defaultValue: 'false' },
 ]} />
+
+## Examples
+
+### Reverse
+
+확인과 취소 버튼 위치를 변경합니다.
+
+<Demo code={`import { useDialog, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  const dialog = useDialog();
+
+  const handleClick = async () => {
+    const result = await dialog({
+      title: '제목',
+      content: '설명',
+      confirmText: '확인',
+      cancelText: '취소',
+      direction: 'reverse'
+    });
+
+    alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
