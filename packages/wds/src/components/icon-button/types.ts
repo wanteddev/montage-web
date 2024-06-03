@@ -14,6 +14,10 @@ export type IconButtonDefaultProps = {
   size?: number | 'normal' | 'small';
   color?: ThemeColorsToken;
   interactionColor?: ThemeColorsToken;
+  /**
+   * `background` 버튼으로 사용할 때
+   * alternative를 true로 넘기면 검정 테마가 활성화 됩니다.
+   */
   alternative?: boolean;
 };
 
