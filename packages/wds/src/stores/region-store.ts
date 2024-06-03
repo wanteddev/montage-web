@@ -5,7 +5,7 @@ import { useStore } from 'zustand';
 import { generateId } from './helpers';
 
 import type { TextButton } from '../components';
-import type { ComponentProps } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import type { StoreApi } from 'zustand';
 
 export type RegionToastItem = {
@@ -13,7 +13,7 @@ export type RegionToastItem = {
   type: 'toast';
   duration?: number;
   variant?: 'normal' | 'success' | 'error' | 'info' | 'link';
-  content: string;
+  content: ReactNode;
 };
 
 export type RegionSnackbarItem = {
@@ -22,7 +22,7 @@ export type RegionSnackbarItem = {
   duration?: number;
   variant?: 'normal' | 'success' | 'error' | 'info';
   showCloseIcon?: boolean;
-  content: string;
+  content: ReactNode;
   action?: ComponentProps<typeof TextButton>;
 };
 

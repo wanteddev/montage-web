@@ -41,6 +41,7 @@ import {
   MODAL_ACTION_BUTTON_NAME,
   MODAL_CLOSE_NAME,
   MODAL_NAME,
+  MODAL_NAVIGATION_ACTION_NAME,
   MODAL_NAVIGATION_NAME,
 } from './constants';
 import {
@@ -53,6 +54,8 @@ import {
   modalDimmerStyle,
   modalGrabberStyle,
   modalLeftIconStyle,
+  modalNavigationActionFloat,
+  modalNavigationActionTextStyle,
   modalNavigationStyle,
   modalNavigationTitleStyle,
   modalNavigationWrapperStyle,
@@ -61,7 +64,6 @@ import {
 import { useDraggable } from './hooks';
 import { getDefaultCloseIcon } from './helpers';
 
-import type { IconButtonProps } from '../icon-button/types';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
@@ -83,6 +85,7 @@ import type {
   ModalContentProps,
   ModalDescriptionProps,
   ModalHeadingProps,
+  ModalNavigationActionProps,
   ModalNavigationProps,
   ModalProps,
   ModalSummaryProps,
@@ -363,25 +366,24 @@ ModalContainer.displayName = 'ModalContainer';
 
 const ModalClose = forwardRef(
   <E extends ElementType = 'button'>(
-    { children, ...props }: PolymorphicProps<IconButtonProps, E>,
+    { children, ...props }: PolymorphicProps<ModalNavigationActionProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { handleClose } = useModalContainerContext(MODAL_CLOSE_NAME);
-    const { variant } = useModalNavigationContext(MODAL_CLOSE_NAME);
+    const { variant: navigationVariant } =
+      useModalNavigationContext(MODAL_CLOSE_NAME);
 
     return (
-      <IconButton
-        variant={variant === 'float' ? 'background' : 'normal'}
-        size={24}
+      <ModalNavigationAction
         {...props}
         onClick={composeEventHandlers(props.onClick, handleClose)}
         ref={ref}
       >
-        {children ?? getDefaultCloseIcon(variant)}
-      </IconButton>
+        {children ?? getDefaultCloseIcon(navigationVariant)}
+      </ModalNavigationAction>
     );
   },
-) as PolymorphicComponent<IconButtonProps, 'button'>;
+) as PolymorphicComponent<ModalNavigationActionProps, 'button'>;
 
 ModalClose.displayName = MODAL_CLOSE_NAME;
 
@@ -452,7 +454,7 @@ const ModalNavigation = forwardRef<
           }
         >
           <FlexBox sx={modalNavigationWrapperStyle(variant)}>
-            {variant !== 'float' ? (
+            {variant !== 'floating' ? (
               <>
                 {variant !== 'extended' && leftButtonRedner}
 
@@ -460,6 +462,7 @@ const ModalNavigation = forwardRef<
                   <FlexBox
                     alignItems="center"
                     sx={modalNavigationTitleStyle(variant)}
+                    data-role="navigation-title"
                   >
                     <Typography
                       as="h2"
@@ -508,6 +511,72 @@ const ModalNavigation = forwardRef<
 );
 
 ModalNavigation.displayName = 'ModalNavigation';
+
+const ModalNavigationAction = forwardRef(
+  <E extends ElementType = 'button'>(
+    {
+      children,
+      variant = 'icon',
+      alternative,
+      ...props
+    }: PolymorphicProps<ModalNavigationActionProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    const id = useId();
+    const { variant: navigationVariant } = useModalNavigationContext(
+      MODAL_NAVIGATION_ACTION_NAME,
+    );
+
+    if (variant === 'icon') {
+      return (
+        <IconButton
+          variant={navigationVariant === 'floating' ? 'background' : 'normal'}
+          size={24}
+          alternative={alternative}
+          {...props}
+          wds-component="modal-navigation-action"
+          ref={ref}
+        >
+          {children}
+        </IconButton>
+      );
+    }
+
+    if (navigationVariant === 'floating') {
+      return (
+        <IconButton
+          variant="background"
+          size={24}
+          alternative={alternative}
+          aria-labelledby={id}
+          {...props}
+          sx={[modalNavigationActionFloat({ alternative }), props.sx]}
+          wds-component="modal-navigation-action"
+          ref={ref}
+        >
+          <Typography as="p" variant="body2_normal" weight="medium" id={id}>
+            {children}
+          </Typography>
+        </IconButton>
+      );
+    }
+
+    return (
+      <TextButton
+        variant="assistive"
+        size="medium"
+        {...props}
+        sx={[modalNavigationActionTextStyle, props.sx]}
+        wds-component="modal-navigation-action"
+        ref={ref}
+      >
+        {children}
+      </TextButton>
+    );
+  },
+) as PolymorphicComponent<ModalNavigationActionProps, 'button'>;
+
+ModalNavigationAction.displayName = MODAL_NAVIGATION_ACTION_NAME;
 
 const ModalContent = forwardRef<
   HTMLDivElement,
@@ -769,8 +838,9 @@ ModalActionButton.displayName = MODAL_ACTION_BUTTON_NAME;
 export {
   Modal,
   ModalContainer,
-  ModalClose,
   ModalNavigation,
+  ModalNavigationAction,
+  ModalClose,
   ModalContent,
   ModalContentItem,
   ModalHeading,

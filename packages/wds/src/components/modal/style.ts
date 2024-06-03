@@ -15,6 +15,7 @@ import type {
   ModalActionAreaProps,
   ModalContainerProps,
   ModalContentProps,
+  ModalNavigationActionProps,
   ModalNavigationProps,
 } from './types';
 
@@ -322,7 +323,7 @@ export const modalNavigationWrapperStyle = (
         width: 100%;
         flex-direction: column-reverse;
       `;
-    case 'float':
+    case 'floating':
       return css`
         padding: 0;
       `;
@@ -334,7 +335,7 @@ const modalNavigationVariant = (
   theme: Theme,
 ) => {
   switch (variant) {
-    case 'float':
+    case 'floating':
       return undefined;
     default:
       return theme.platform.ios.navigation;
@@ -407,7 +408,7 @@ export const modalRightIconStyle = (
       return css`
         margin-left: auto;
       `;
-    case 'float':
+    case 'floating':
       return css`
         position: absolute;
         right: var(--wds-modal-navigation-padding-x, 20px);
@@ -432,7 +433,7 @@ export const modalLeftIconStyle = (
       `;
     case 'extended':
       return undefined;
-    case 'float':
+    case 'floating':
       return css`
         position: absolute;
         left: var(--wds-modal-navigation-padding-x, 20px);
@@ -440,6 +441,47 @@ export const modalLeftIconStyle = (
       `;
   }
 };
+
+export const modalNavigationActionFloat =
+  ({ alternative }: ModalNavigationActionProps) =>
+  (theme: Theme) => css`
+    padding: 1px 6px;
+    width: fit-content;
+    flex-shrink: 0;
+
+    p {
+      position: relative;
+    }
+
+    ${!alternative &&
+    css`
+      color: ${theme.palette.label.alternative};
+      p {
+        will-change: mix-blend-mode;
+        mix-blend-mode: difference;
+      }
+    `}
+
+    &:disabled {
+      p {
+        mix-blend-mode: initial;
+      }
+    }
+  `;
+
+export const modalNavigationActionTextStyle = (theme: Theme) => css`
+  color: ${theme.palette.label.normal};
+  padding: 0px;
+  flex-shrink: 0;
+
+  & > span {
+    ${typographyStyle('body2_normal', 'regular')}
+  }
+
+  [wds-component='with-interaction'] {
+    height: calc(100% + 8px);
+  }
+`;
 
 export const modalContentStyle =
   ({

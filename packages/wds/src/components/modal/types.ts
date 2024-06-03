@@ -62,13 +62,22 @@ export type ModalContainerProps = Merge<
 
 export type ModalNavigationProps = Merge<
   {
-    variant?: 'normal' | 'float' | 'emphasized' | 'extended';
+    variant?: 'normal' | 'floating' | 'emphasized' | 'extended';
     rightButton?: ReactNode;
     leftButton?: ReactNode;
     toolbar?: ReactNode;
   },
   ResponsiveProps<{}>
 >;
+
+export type ModalNavigationActionProps = {
+  variant?: 'text' | 'icon';
+  /**
+   * `floating` navigation을 사용할 때
+   * alternative를 true로 넘기면 검정 테마가 활성화 됩니다.
+   */
+  alternative?: boolean;
+};
 
 type ModalContentDefaultProps = {
   padding?: boolean;
@@ -94,7 +103,7 @@ export type ModalDescriptionProps = TypographyProps;
 export type ModalActionAreaProps = {
   variant?: 'normal' | 'extra';
   priority?: 'strong' | 'neutral' | 'compact' | 'single';
-  caption?: string;
+  caption?: ReactNode;
 };
 
 export type ModalActionButtonProps = {
