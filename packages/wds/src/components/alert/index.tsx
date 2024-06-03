@@ -37,6 +37,7 @@ const Alert = forwardRef<
       wrapperProps,
       disablePortal,
       container,
+      closeIcon = true,
       ...props
     },
     ref,
@@ -145,17 +146,19 @@ const Alert = forwardRef<
                   </Typography>
                 </FlexBox>
 
-                <FlexBox alignItems="center" flexShrink={0}>
-                  <IconButton
-                    color="palette.label.alternative"
-                    interactionColor="palette.label.alternative"
-                    onClick={handleShowToggle}
-                    size={20}
-                    sx={{ fontSize: '20px' }}
-                  >
-                    <IconClose />
-                  </IconButton>
-                </FlexBox>
+                {closeIcon && (
+                  <FlexBox alignItems="center" flexShrink={0}>
+                    <IconButton
+                      color="palette.label.alternative"
+                      interactionColor="palette.label.alternative"
+                      onClick={handleShowToggle}
+                      size={20}
+                      sx={{ fontSize: '20px' }}
+                    >
+                      <IconClose />
+                    </IconButton>
+                  </FlexBox>
+                )}
               </Box>
             </Box>
           </PortalOrFragment>

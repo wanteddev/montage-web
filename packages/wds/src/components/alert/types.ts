@@ -13,4 +13,9 @@ export type AlertProps = {
    */
   container?: Element | DocumentFragment | null;
   disablePortal?: boolean;
+
+  /**
+   * 닫기 버튼을 표시합니다.
+   */
+  closeIcon?: boolean;
 };
