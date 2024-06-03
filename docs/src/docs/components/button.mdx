@@ -29,18 +29,20 @@ export default Demo;`}
 
 <PropsTable component="Button" />
 
-
 ## Variant
 
 ### Solid
 
-현재 Solid 버튼은 `primary` 컬러만 지원합니다.
+현재 Solid 버튼은 `primary`, `assistive` 컬러만 지원합니다.
 
-<Demo code={`import { Button } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Button variant="solid" color="primary">텍스트</Button>
+    <FlexBox gap="8px">
+      <Button variant="solid" color="primary">텍스트</Button>
+      <Button variant="solid" color="assistive">텍스트</Button>
+    </FlexBox>
   )
 }
 
@@ -57,6 +59,38 @@ const Demo = () => {
       <Button variant="outlined" color="primary">텍스트</Button>
       <Button variant="outlined" color="secondary">텍스트</Button>
       <Button variant="outlined" color="assistive">텍스트</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## IconOnly
+
+`iconOnly` 에서는 leftIcon, rightIcon을 지원하지 않습니다.
+
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <Button iconOnly variant="solid" color="primary">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="solid" color="assistive">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="outlined" color="primary">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="outlined" color="secondary">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="outlined" color="assistive">
+        <IconPlusThick />
+      </Button>
     </FlexBox>
   )
 }

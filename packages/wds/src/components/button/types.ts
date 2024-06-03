@@ -14,6 +14,7 @@ export type ButtonDefaultProps = {
   fullWidth?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  iconOnly?: boolean;
 };
 
 export type ButtonResponsiveProps = ResponsiveProps<

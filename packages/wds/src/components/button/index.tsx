@@ -23,6 +23,7 @@ const Button = forwardRef(
       disableInteraction = false,
       fullWidth = false,
       color = 'primary',
+      iconOnly,
       leftIcon,
       rightIcon,
       size = 'medium',
@@ -46,15 +47,12 @@ const Button = forwardRef(
         : 'palette.label.normal';
 
     const getInteractionVariant = () => {
-      if (variant === 'outlined') {
-        if (color === 'primary') {
-          return 'normal';
-        }
-
-        return 'light';
+      switch (variant) {
+        case 'outlined':
+          return color === 'primary' ? 'normal' : 'light';
+        case 'solid':
+          return color === 'primary' ? 'strong' : 'normal';
       }
-
-      return 'strong';
     };
 
     return (
@@ -65,7 +63,7 @@ const Button = forwardRef(
       >
         <Box
           as={(as || 'button') as ElementType}
-          aria-labelledby={id}
+          aria-labelledby={iconOnly ? undefined : id}
           ref={ref}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
@@ -73,6 +71,7 @@ const Button = forwardRef(
           sx={[
             buttonStyle({
               variant,
+              iconOnly,
               size,
               fullWidth,
               color,
@@ -85,9 +84,15 @@ const Button = forwardRef(
             props.sx,
           ]}
         >
-          {Boolean(leftIcon) && leftIcon}
-          <span id={id}>{children}</span>
-          {Boolean(rightIcon) && rightIcon}
+          {iconOnly ? (
+            children
+          ) : (
+            <>
+              {Boolean(leftIcon) && leftIcon}
+              <span id={id}>{children}</span>
+              {Boolean(rightIcon) && rightIcon}
+            </>
+          )}
         </Box>
       </WithInteraction>
     );
