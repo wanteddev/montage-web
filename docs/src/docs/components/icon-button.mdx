@@ -10,12 +10,12 @@ description: IconButton Component
 ## 활용
 
 <Demo code={`import { IconButton } from '@wanteddev/wds';
-import { IconPlus } from '@wanteddev/wds-icon';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <IconButton>
-      <IconPlus />
+      <IconPlusThick />
     </IconButton>
   )
 }
@@ -36,12 +36,12 @@ export default Demo;`}
 - 아이콘을 버튼으로 사용합니다.
 
 <Demo code={`import { IconButton } from '@wanteddev/wds';
-import { IconPlus } from '@wanteddev/wds-icon';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <IconButton variant=\"normal\">
-      <IconPlus />
+      <IconPlusThick />
     </IconButton>
   )
 }
@@ -53,14 +53,19 @@ export default Demo;`}
 
 - 하위 레이어와 구분할 때 사용합니다.
 
-<Demo code={`import { IconButton } from '@wanteddev/wds';
-import { IconPlus } from '@wanteddev/wds-icon';
+<Demo code={`import { IconButton, FlexBox } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <IconButton variant=\"background\">
-      <IconPlus />
-    </IconButton>
+    <FlexBox gap="16px">
+      <IconButton variant=\"background\">
+        <IconPlusThick />
+      </IconButton>
+      <IconButton variant=\"background\" alternative>
+        <IconPlusThick />
+      </IconButton>
+    </FlexBox>
   )
 }
 
@@ -72,12 +77,12 @@ export default Demo;`}
 - 다른 요소와 구분할 때 사용합니다.
 
 <Demo code={`import { IconButton } from '@wanteddev/wds';
-import { IconPlus } from '@wanteddev/wds-icon';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <IconButton variant=\"outlined\">
-      <IconPlus />
+      <IconPlusThick />
     </IconButton>
   )
 }
@@ -90,12 +95,12 @@ export default Demo;`}
 - 다른 요소와 명확하게 구분할 때 사용합니다.
 
 <Demo code={`import { IconButton } from '@wanteddev/wds';
-import { IconPlus } from '@wanteddev/wds-icon';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <IconButton variant=\"solid\">
-      <IconPlus />
+      <IconPlusThick />
     </IconButton>
   )
 }

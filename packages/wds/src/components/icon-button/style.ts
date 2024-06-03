@@ -1,6 +1,6 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils';
+import { addOpacity, createResponsiveStyle } from '../../utils';
 
 import type { IconButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -122,7 +122,11 @@ const iconButtonColorStyle = (
     variant,
     color,
     interactionColor,
-  }: Pick<IconButtonProps, 'variant' | 'color' | 'interactionColor'>,
+    alternative,
+  }: Pick<
+    IconButtonProps,
+    'variant' | 'color' | 'interactionColor' | 'alternative'
+  >,
   theme: Theme,
 ) => {
   switch (variant) {
@@ -155,22 +159,44 @@ const iconButtonColorStyle = (
         border: none;
         box-shadow: none;
         background-color: transparent;
+        color: ${alternative
+          ? addOpacity(theme.palette.static.white, theme.opacity[88])
+          : addOpacity(theme.palette.coolNeutral[50], theme.opacity[61])};
+
+        svg {
+          position: relative;
+
+          ${!alternative &&
+          css`
+            will-change: mix-blend-mode;
+            mix-blend-mode: difference;
+          `}
+        }
+
         ${Boolean(color) &&
         css`
           color: ${getColorByToken(theme, color!)};
         `}
 
-        ${Boolean(interactionColor) &&
-        css`
-          & > [wds-component='with-interaction'] {
-            background-color: ${getColorByToken(theme, interactionColor!)};
-          }
-        `}
-
         &::before {
           position: absolute;
           content: '';
-          background-color: ${theme.palette.fill.normal};
+          ${alternative
+            ? css`
+                background-color: ${addOpacity(
+                  theme.palette.coolNeutral[30],
+                  theme.opacity[61],
+                )};
+              `
+            : css`
+                background-color: ${addOpacity(
+                  theme.palette.static.white,
+                  theme.opacity[35],
+                )};
+                mix-blend-mode: plus-lighter;
+                will-change: mix-blend-mode, backdrop-filter;
+                backdrop-filter: blur(4rem);
+              `}
           width: calc(100% + 8px);
           height: calc(100% + 8px);
           top: -4px;
@@ -191,12 +217,25 @@ const iconButtonColorStyle = (
 
         &:disabled {
           background-color: transparent;
-          color: ${theme.palette.label.disable};
+          color: ${addOpacity(
+            theme.palette.coolNeutral[50],
+            theme.opacity[22],
+          )};
           border: none;
           box-shadow: none;
 
           &::before {
             background-color: ${theme.palette.fill.alternative};
+            backdrop-filter: none;
+            mix-blend-mode: initial;
+          }
+
+          svg {
+            mix-blend-mode: initial;
+          }
+
+          & > [data-role='icon-button-background-alternative'] {
+            display: none;
           }
         }
       `;
@@ -209,13 +248,6 @@ const iconButtonColorStyle = (
         ${Boolean(color) &&
         css`
           color: ${getColorByToken(theme, color!)};
-        `}
-
-        ${Boolean(interactionColor) &&
-        css`
-          & > [wds-component='with-interaction'] {
-            background-color: ${getColorByToken(theme, interactionColor!)};
-          }
         `}
 
         &:disabled {
@@ -234,13 +266,6 @@ const iconButtonColorStyle = (
           color: ${getColorByToken(theme, color!)};
         `}
 
-        ${Boolean(interactionColor) &&
-        css`
-          & > [wds-component='with-interaction'] {
-            background-color: ${getColorByToken(theme, interactionColor!)};
-          }
-        `}
-
         &:disabled {
           color: ${theme.palette.label.disable};
           background-color: ${theme.palette.fill.normal};
@@ -249,3 +274,14 @@ const iconButtonColorStyle = (
       `;
   }
 };
+
+export const backgroundBlendStyle = (theme: Theme) => css`
+  position: absolute;
+  content: '';
+  background-color: ${addOpacity(theme.palette.static.black, theme.opacity[5])};
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  top: -4px;
+  left: -4px;
+  border-radius: inherit;
+`;
