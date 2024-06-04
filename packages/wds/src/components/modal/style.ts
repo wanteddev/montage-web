@@ -31,8 +31,15 @@ export const modalContainerWrapperStyle =
   (theme: Theme) => css`
     position: fixed;
     display: flex;
-    inset: 0;
     z-index: ${theme.zIndex.modal};
+    width: 100vw;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
+
+    @supports (height: 100dvh) {
+      height: 100dvh;
+    }
 
     ${modalContainerWrapperVariant(variant)}
 

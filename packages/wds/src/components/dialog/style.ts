@@ -8,8 +8,15 @@ export const dialogWrapperStyle = (theme: Theme) => css`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  inset: 0;
   z-index: ${theme.zIndex.modal};
+  width: 100vw;
+  height: 100vh;
+  left: 0px;
+  top: 0px;
+
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
 `;
 
 export const dialogDimmerStyle = (theme: Theme) => css`
