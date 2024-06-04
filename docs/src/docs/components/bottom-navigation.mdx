@@ -1,0 +1,101 @@
+---
+title: BottomNavigation
+description: BottomNavigation Component
+---
+
+# BottomNavigation
+
+두 개 이상으로 구성된 하위 View를 이동할 때 사용합니다.
+
+## 활용
+
+- `document.body` 의 스크롤이 최하단으로 이동할 때 `border-color` 가 사라집니다.
+
+<Demo code={`import {
+  BottomNavigation,
+  BottomNavigationItem,
+} from '@wanteddev/wds';
+import {
+  IconNavigationRecruit,
+  IconNavigationCareer,
+  IconNavigationSocial,
+  IconNavigationMypage,
+  IconNavigationMenu,
+} from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <BottomNavigation defaultValue="recruit">
+      <BottomNavigationItem value="recruit" label="채용" icon={<IconNavigationRecruit />} />
+      <BottomNavigationItem value="career" label="커리어" icon={<IconNavigationCareer />} />
+      <BottomNavigationItem value="social" label="소셜" icon={<IconNavigationSocial />} />
+      <BottomNavigationItem value="mywanted" label="MY 원티드" icon={<IconNavigationMypage />} />
+      <BottomNavigationItem value="menu" label="전체" icon={<IconNavigationMenu />} />
+    </BottomNavigation>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+BottomNavigation 은 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<BottomNavigation>
+  <BottomNavigationItem />
+  <BottomNavigationItem />
+  <BottomNavigationItem />
+</BottomNavigation>
+```
+
+### BottomNavigation
+
+<PropsTable component="BottomNavigation" />
+
+### BottomNavigationItem
+
+<PropsTable component="BottomNavigationItem" />
+
+
+## Examples
+
+### 로그인 분기처리
+
+
+<Demo code={`import {
+  BottomNavigation,
+  BottomNavigationItem,
+  Avatar
+} from '@wanteddev/wds';
+import {
+  IconNavigationRecruit,
+  IconNavigationCareer,
+  IconNavigationSocial,
+  IconNavigationMypage,
+  IconNavigationMenu,
+} from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  const isLoggedIn = false;
+
+  return (
+    <BottomNavigation defaultValue="recruit">
+      <BottomNavigationItem value="recruit" label="채용" icon={<IconNavigationRecruit />} />
+      <BottomNavigationItem value="career" label="커리어" icon={<IconNavigationCareer />} />
+      <BottomNavigationItem value="social" label="소셜" icon={<IconNavigationSocial />} />
+      <BottomNavigationItem
+        value="mywanted"
+        label="MY 원티드"
+        icon={isLoggedIn ? <Avatar size="xsmall" /> : <IconNavigationMypage />}
+      />
+      <BottomNavigationItem value="menu" label="전체" icon={<IconNavigationMenu />} />
+    </BottomNavigation>
+  )
+}
+
+export default Demo;`}
+/>
