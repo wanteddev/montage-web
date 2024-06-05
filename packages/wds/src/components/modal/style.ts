@@ -558,11 +558,7 @@ export const modalContentItemStyle = () => css`
 `;
 
 export const modalActionAreaStyle =
-  ({
-    isSticky,
-    priority,
-    variant,
-  }: ModalActionAreaProps & { isSticky?: boolean }) =>
+  ({ isSticky, variant }: ModalActionAreaProps & { isSticky?: boolean }) =>
   (theme: Theme) => css`
     width: 100%;
     padding: calc(var(--wds-modal-content-margin, 20px));
@@ -571,14 +567,6 @@ export const modalActionAreaStyle =
     left: 0;
 
     ${modalActionAreaVariant(theme, variant, isSticky)}
-
-    ${priority === 'single' &&
-    isSticky === false &&
-    css`
-      &::before {
-        border-top: 1px solid ${theme.palette.line.normal.normal};
-      }
-    `}
   `;
 
 const modalActionAreaVariant = (

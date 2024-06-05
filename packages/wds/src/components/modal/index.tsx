@@ -340,6 +340,7 @@ const ModalContainer = forwardRef<
                     onScroll: handleOnScroll,
                     sx: {
                       flexGrow: 1,
+                      height: 'initial',
                     },
                   }}
                 >
@@ -741,7 +742,7 @@ const ModalActionArea = forwardRef<
               variant,
               priority,
               isSticky:
-                !enableSticky || priority === 'single' ? false : hasScroll,
+                !enableSticky || variant === 'extra' ? false : hasScroll,
             }),
             props.sx,
           ]}
