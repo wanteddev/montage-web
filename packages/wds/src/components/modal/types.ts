@@ -104,10 +104,15 @@ export type ModalActionAreaProps = {
   variant?: 'normal' | 'extra';
   priority?: 'strong' | 'neutral' | 'compact' | 'single';
   caption?: ReactNode;
+  /**
+   * `variant=extra` 일 때 버튼 위 콘텐츠 영역을 표시할 때 사용합니다.
+   */
+  contents?: ReactNode;
 };
 
 export type ModalActionButtonProps = {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   variant?: 'primary' | 'secondary' | 'assistive';
+  iconOnly?: boolean;
 };
