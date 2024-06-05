@@ -340,6 +340,7 @@ const ModalContainer = forwardRef<
                     onScroll: handleOnScroll,
                     sx: {
                       flexGrow: 1,
+                      height: 'initial',
                     },
                   }}
                 >
@@ -714,7 +715,14 @@ const ModalActionArea = forwardRef<
   DefaultComponentProps<ModalActionAreaProps, 'div'>
 >(
   (
-    { variant = 'normal', priority = 'compact', children, caption, ...props },
+    {
+      variant = 'normal',
+      contents,
+      priority = 'compact',
+      children,
+      caption,
+      ...props
+    },
     ref,
   ) => {
     const { sticky: enableSticky, hasScroll } = useModalContainerContext(
@@ -734,11 +742,25 @@ const ModalActionArea = forwardRef<
               variant,
               priority,
               isSticky:
-                !enableSticky || priority === 'single' ? false : hasScroll,
+                !enableSticky || variant === 'extra' ? false : hasScroll,
             }),
             props.sx,
           ]}
         >
+          {variant === 'extra' && Boolean(contents) && (
+            <FlexBox
+              gap="8px"
+              flexDirection="column"
+              alignItems="center"
+              sx={{
+                marginBottom:
+                  'calc(4px + var(--wds-modal-content-margin, 20px))',
+              }}
+            >
+              {contents}
+            </FlexBox>
+          )}
+
           {Boolean(caption) && (
             <Typography
               align="center"
@@ -782,8 +804,9 @@ const ModalActionButton = forwardRef(
         <Button
           ref={ref}
           variant={priority === 'single' ? 'outlined' : 'solid'}
-          color="primary"
-          fullWidth={priority === 'strong'}
+          color={priority === 'single' ? 'assistive' : 'primary'}
+          size="large"
+          fullWidth={priority === 'strong' || priority === 'single'}
           {...props}
           sx={[modalActionButtonSingle(priority), props.sx]}
         />
@@ -792,6 +815,7 @@ const ModalActionButton = forwardRef(
         <Button
           ref={ref}
           variant="outlined"
+          size="large"
           color={
             priority === 'strong' || priority === 'neutral'
               ? 'primary'
@@ -823,6 +847,7 @@ const ModalActionButton = forwardRef(
             ref={ref}
             variant="outlined"
             color="secondary"
+            size="large"
             {...props}
             sx={[modalActionButtonSingle(priority), props.sx]}
           />

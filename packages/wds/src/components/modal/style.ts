@@ -8,7 +8,7 @@ import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
-import { gradient } from '../../utils/color';
+import { addOpacity, gradient } from '../../utils/color';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -278,12 +278,8 @@ export const modalNavigationStyle =
   (theme: Theme) => css`
     width: 100%;
     align-items: center;
-    position: sticky;
-    top: 0px;
-    left: 0px;
     border-bottom: 1px solid var(--wds-navigation-border-color);
     transition: border-color 0.2s ease;
-    z-index: 5;
 
     [wds-component='tab-list'] {
       &::after {
@@ -345,7 +341,13 @@ const modalNavigationVariant = (
     case 'floating':
       return undefined;
     default:
-      return theme.platform.ios.navigation;
+      return css`
+        ${theme.platform.ios.navigation}
+        z-index: 5;
+        position: sticky;
+        top: 0px;
+        left: 0px;
+      `;
   }
 };
 
@@ -563,11 +565,7 @@ export const modalContentItemStyle = () => css`
 `;
 
 export const modalActionAreaStyle =
-  ({
-    isSticky,
-    priority,
-    variant,
-  }: ModalActionAreaProps & { isSticky?: boolean }) =>
+  ({ isSticky, variant }: ModalActionAreaProps & { isSticky?: boolean }) =>
   (theme: Theme) => css`
     width: 100%;
     padding: calc(var(--wds-modal-content-margin, 20px));
@@ -576,14 +574,6 @@ export const modalActionAreaStyle =
     left: 0;
 
     ${modalActionAreaVariant(theme, variant, isSticky)}
-
-    ${priority === 'single' &&
-    isSticky === false &&
-    css`
-      &::before {
-        border-top: 1px solid ${theme.palette.line.normal.normal};
-      }
-    `}
   `;
 
 const modalActionAreaVariant = (
@@ -631,19 +621,9 @@ const modalActionAreaVariant = (
       `;
     case 'extra':
       return css`
-        &::before {
-          border-radius: 12px 12px 0px 0px;
-          pointer-events: none;
-          box-shadow: ${theme.palette.elevation.shadow.heavy};
-          background-color: ${theme.palette.background.elevated.normal};
-          content: '';
-          z-index: 0;
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          height: 100%;
-          width: 100%;
-        }
+        border-top: 1px solid
+          ${addOpacity(theme.palette.label.normal, theme.opacity[8])};
+        background-color: ${theme.palette.background.elevated.normal};
       `;
   }
 };
@@ -651,15 +631,6 @@ const modalActionAreaVariant = (
 export const modalActionButtonSingle = (
   priority: ModalActionAreaProps['priority'],
 ) => {
-  if (priority === 'single') {
-    return css`
-      padding: 12px 28px;
-      box-shadow: none;
-      width: calc((var(--wds-modal-content-margin, 20px) - 8px) * 2 + 100%);
-      margin: calc(var(--wds-modal-content-margin, 20px) * -1 + 8px);
-    `;
-  }
-
   if (priority === 'neutral') {
     return css`
       flex: 1 1 0;
@@ -667,7 +638,5 @@ export const modalActionButtonSingle = (
     `;
   }
 
-  return css`
-    padding: 12px 28px;
-  `;
+  return undefined;
 };
