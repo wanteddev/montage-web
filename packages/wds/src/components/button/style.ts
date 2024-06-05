@@ -33,7 +33,7 @@ export const buttonStyle =
       theme,
     )(
       (params) => css`
-        ${buttonSizeStyle(params)}
+        ${buttonSizeStyle({ ...params, color: props.color })}
         ${params?.fullWidth && 'width: 100%;'}
         ${params?.fullWidth === false && 'width: fit-content;'}
         ${params?.sx}
@@ -41,7 +41,9 @@ export const buttonStyle =
     )}
   `;
 
-const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
+const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
+  const fontWeight = color === 'assistive' ? 'medium' : 'bold';
+
   switch (size) {
     case 'large':
       return css`
@@ -63,7 +65,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 20px;
               }
               & > span {
-                ${typographyStyle('body1_normal', 'bold')}
+                ${typographyStyle('body1_normal', fontWeight)}
               }
             `}
       `;
@@ -87,7 +89,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 18px;
               }
               & > span {
-                ${typographyStyle('body2_normal', 'bold')}
+                ${typographyStyle('body2_normal', fontWeight)}
               }
             `}
       `;
@@ -111,7 +113,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 16px;
               }
               & > span {
-                ${typographyStyle('label2', 'bold')}
+                ${typographyStyle('label2', fontWeight)}
               }
             `}
       `;
