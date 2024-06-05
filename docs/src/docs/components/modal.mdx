@@ -8,9 +8,8 @@ description: Modal Component
 ## 활용
 
 - Modal Overlay를 표시합니다.
-- `wds-ignore-first-focus="true"` 프로퍼티를 통해 모달이 열렸을 때 첫 포커스 대상에서
-제외할 수 있습니다.
 - padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
+- `ModalNavigation` 에서 leftButton, rightButton 에는 `ModalNavigationAction`, `ModalClose` 를 사용합니다.
 - `ModalContainer`, `ModalNavigation`, `ModalContent`, `ModalActionArea` 의 위계를 변경해서는 안됩니다.
 
 <Demo code={`import { useState } from 'react';
