@@ -1,5 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { respondTo } from '../../utils';
+
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const dialogWrapperStyle = (theme: Theme) => css`
@@ -8,8 +10,15 @@ export const dialogWrapperStyle = (theme: Theme) => css`
   align-items: center;
   justify-content: center;
   padding: 20px;
-  inset: 0;
   z-index: ${theme.zIndex.modal};
+  width: 100vw;
+  height: 100vh;
+  left: 0px;
+  top: 0px;
+
+  @supports (height: 100dvh) {
+    height: 100dvh;
+  }
 `;
 
 export const dialogDimmerStyle = (theme: Theme) => css`
@@ -24,6 +33,7 @@ export const dialogStyle = css`
   align-items: center;
   justify-content: center;
   outline: 0;
+  flex: 1;
 `;
 
 export const dialogContentStyle = (theme: Theme) => css`
@@ -32,6 +42,10 @@ export const dialogContentStyle = (theme: Theme) => css`
   min-width: 320px;
   max-width: 100%;
   outline: none;
+
+  ${respondTo('360px')} {
+    min-width: 100%;
+  }
 `;
 
 export const dialogDividerStyle = (theme: Theme) => css`
