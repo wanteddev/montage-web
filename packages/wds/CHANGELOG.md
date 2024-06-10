@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.2...@wanteddev/wds@1.1.3) (2024-06-10)
+
+### Bug Fixes
+
+- **wds:** dialog, modal이 가로 스크롤이 있을 때 깨짐 ([#37](https://github.com/wanteddev/wds/issues/37)) ([a31c64b](https://github.com/wanteddev/wds/commit/a31c64ba139ab13e849fd72c5df7da10d298fe96))
+- **wds:** popover 컴포넌트에 outline이 이상하게 잡히는 이슈 ([#30](https://github.com/wanteddev/wds/issues/30)) ([c6d8bf4](https://github.com/wanteddev/wds/commit/c6d8bf47675684364f9a76acb8e4deed231e05e2))
+
+### Features
+
+- **wds:** alert 닫기 버튼 숨길 수 있도록 추가 ([#28](https://github.com/wanteddev/wds/issues/28)) ([7ebdfb0](https://github.com/wanteddev/wds/commit/7ebdfb07a0ea7a9ea6efa40689b0f1d422e63753))
+- **wds:** assistive button의 폰트 굵기 조정 ([#36](https://github.com/wanteddev/wds/issues/36)) ([6d3c9df](https://github.com/wanteddev/wds/commit/6d3c9dfa6452fa0e2ab80a6e0e812d63823c9c1e))
+- **wds:** bottom navigation 컴포넌트 제작 ([#31](https://github.com/wanteddev/wds/issues/31)) ([eddc6a4](https://github.com/wanteddev/wds/commit/eddc6a4499e4adee8b0734cc12b0e45c68b4eb17))
+- **wds:** button assistive 추가 및 iconOnly 프로퍼티 추가 ([#33](https://github.com/wanteddev/wds/issues/33)) ([d978b2d](https://github.com/wanteddev/wds/commit/d978b2d7578c9f17c20bc324e516944d0f000e11))
+- **wds:** dialog 버튼 순서 변경 기능 추가, 타입 변경 ([#26](https://github.com/wanteddev/wds/issues/26)) ([2ad9ca1](https://github.com/wanteddev/wds/commit/2ad9ca1457dfa93dd88d184855ff3b9229df65ba))
+- **wds:** icon button alternative 속성 추가 및 디자인 변경 ([#32](https://github.com/wanteddev/wds/issues/32)) ([21bbe69](https://github.com/wanteddev/wds/commit/21bbe695bf1bf86b84666ecde11b218d161634c9))
+- **wds:** modal action area 디자인 변경 ([#38](https://github.com/wanteddev/wds/issues/38)) ([3c0029f](https://github.com/wanteddev/wds/commit/3c0029f1a0a31d6b91010b4e117c43d941e2e5f4))
+- **wds:** modal contents 간격 변경 ([66a4f0c](https://github.com/wanteddev/wds/commit/66a4f0c766917474ad1b5054381dbddd87419193))
+- **wds:** modal navigation action 컴포넌트 추가 ([#34](https://github.com/wanteddev/wds/issues/34)) ([b686ba9](https://github.com/wanteddev/wds/commit/b686ba9cfef9a37199f7ac08e4763509d77f0894))
+
 ## [1.1.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.1...@wanteddev/wds@1.1.2) (2024-05-28)
 
 ### Bug Fixes
