@@ -62,7 +62,6 @@ export const selectStyle =
   ({
     __shouldShowPlaceholder,
     invalid,
-    disabled,
     xs,
     sm,
     md,
@@ -101,10 +100,10 @@ export const selectStyle =
       box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
     `}
 
-    ${disabled &&
-    css`
+    &:disabled {
+      color: ${theme.palette.label.disable};
       background-color: ${theme.palette.interaction.disable};
-    `}
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },

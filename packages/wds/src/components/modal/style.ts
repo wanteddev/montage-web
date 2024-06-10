@@ -8,7 +8,7 @@ import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
-import { addOpacity, gradient } from '../../utils/color';
+import { gradient } from '../../utils/color';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -151,6 +151,9 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 56px;
+        --wds-modal-action-area-contents-margin: calc(
+          4px + var(--wds-modal-content-margin, 20px)
+        );
       `;
     case 'normal':
     case 'normal-fixed':
@@ -171,6 +174,9 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 64px;
+        --wds-modal-action-area-contents-margin: calc(
+          4px + var(--wds-modal-content-margin, 20px)
+        );
       `;
     case 'medium':
     case 'medium-fixed':
@@ -191,6 +197,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 64px;
+        --wds-modal-action-area-contents-margin: var(
+          --wds-modal-content-margin,
+          20px
+        );
       `;
     case 'large':
     case 'large-fixed':
@@ -211,6 +221,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 72px;
+        --wds-modal-action-area-contents-margin: var(
+          --wds-modal-content-margin,
+          20px
+        );
       `;
   }
 };
@@ -621,8 +635,7 @@ const modalActionAreaVariant = (
       `;
     case 'extra':
       return css`
-        border-top: 1px solid
-          ${addOpacity(theme.palette.label.normal, theme.opacity[8])};
+        border-top: 1px solid ${theme.palette.line.normal.neutral};
         background-color: ${theme.palette.background.elevated.normal};
       `;
   }

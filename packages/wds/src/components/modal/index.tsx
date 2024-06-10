@@ -753,8 +753,7 @@ const ModalActionArea = forwardRef<
               flexDirection="column"
               alignItems="center"
               sx={{
-                marginBottom:
-                  'calc(4px + var(--wds-modal-content-margin, 20px))',
+                marginBottom: 'var(--wds-modal-action-area-contents-margin)',
               }}
             >
               {contents}
