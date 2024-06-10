@@ -107,7 +107,11 @@ export type ModalActionAreaProps = {
   /**
    * `variant=extra` 일 때 버튼 위 콘텐츠 영역을 표시할 때 사용합니다.
    */
-  contents?: ReactNode;
+  extraContent?: ReactNode;
+  /**
+   * `priority=compact` 일 때 버튼 좌측 콘텐츠 영역을 표시할 때 사용합니다.
+   */
+  compactContent?: ReactNode;
 };
 
 export type ModalActionButtonProps = {
