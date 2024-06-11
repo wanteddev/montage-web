@@ -1,5 +1,6 @@
 'use client';
 import {
+  ContentBadge,
   FlexBox,
   ScrollArea,
   Typography,
@@ -45,21 +46,36 @@ const Menu = () => {
             {route.pages.map((page) => (
               <FlexBox as="li" flex="1" key={page.slug}>
                 <WithInteraction>
-                  <Typography
+                  <FlexBox
                     as={Link}
                     href={page.slug}
+                    gap="8px"
+                    alignItems="center"
                     data-active={activeSlug === page.slug}
                     sx={menuLinkStyle}
-                    variant="body2_normal"
-                    weight={activeSlug === page.slug ? 'medium' : 'regular'}
-                    color={
-                      activeSlug === page.slug
-                        ? 'palette.primary.normal'
-                        : 'palette.label.normal'
-                    }
                   >
-                    {page.title}
-                  </Typography>
+                    <Typography
+                      variant="body2_normal"
+                      weight={activeSlug === page.slug ? 'medium' : 'regular'}
+                      color={
+                        activeSlug === page.slug
+                          ? 'palette.primary.normal'
+                          : 'palette.label.normal'
+                      }
+                    >
+                      {page.title}
+                    </Typography>
+
+                    {page.stable && (
+                      <ContentBadge
+                        size="xsmall"
+                        color="accent"
+                        accentColor="palette.status.positive"
+                      >
+                        Stable
+                      </ContentBadge>
+                    )}
+                  </FlexBox>
                 </WithInteraction>
               </FlexBox>
             ))}

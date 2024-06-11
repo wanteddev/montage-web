@@ -4,6 +4,7 @@ type Route = {
     title: string;
     slug: string;
     deprecated?: boolean;
+    stable?: boolean;
   }>;
 };
 
@@ -30,31 +31,68 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Alert', slug: '/docs/components/alert' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
-      { title: 'AvatarButton', slug: '/docs/components/avatar-button' },
-      { title: 'AvatarGroup', slug: '/docs/components/avatar-group' },
-      { title: 'BottomNavigation', slug: '/docs/components/bottom-navigation' },
-      { title: 'Box', slug: '/docs/components/box' },
-      { title: 'Button', slug: '/docs/components/button' },
+      {
+        title: 'AvatarButton',
+        slug: '/docs/components/avatar-button',
+      },
+      {
+        title: 'AvatarGroup',
+        slug: '/docs/components/avatar-group',
+      },
+      {
+        title: 'BottomNavigation',
+        slug: '/docs/components/bottom-navigation',
+        stable: true,
+      },
+      { title: 'Box', slug: '/docs/components/box', stable: true },
+      { title: 'Button', slug: '/docs/components/button', stable: true },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
-      { title: 'ChipMultiSelect', slug: '/docs/components/chip-multi-select' },
-      { title: 'CompactTooltip', slug: '/docs/components/compact-tooltip' },
-      { title: 'ContentBadge', slug: '/docs/components/content-badge' },
-      { title: 'DismissableLayer', slug: '/docs/components/dismissable-layer' },
+      {
+        title: 'ChipMultiSelect',
+        slug: '/docs/components/chip-multi-select',
+      },
+      {
+        title: 'CompactTooltip',
+        slug: '/docs/components/compact-tooltip',
+      },
+      {
+        title: 'ContentBadge',
+        slug: '/docs/components/content-badge',
+      },
+      {
+        title: 'DismissableLayer',
+        slug: '/docs/components/dismissable-layer',
+        stable: true,
+      },
       { title: 'Divider', slug: '/docs/components/divider' },
-      { title: 'FlexBox', slug: '/docs/components/flex-box' },
-      { title: 'FloatingAction', slug: '/docs/components/floating-action' },
-      { title: 'FocusScope', slug: '/docs/components/focus-scope' },
+      { title: 'FlexBox', slug: '/docs/components/flex-box', stable: true },
+      {
+        title: 'FloatingAction',
+        slug: '/docs/components/floating-action',
+      },
+      {
+        title: 'FocusScope',
+        slug: '/docs/components/focus-scope',
+        stable: true,
+      },
       { title: 'Form', slug: '/docs/components/form' },
-      { title: 'Grid', slug: '/docs/components/grid' },
+      { title: 'Grid', slug: '/docs/components/grid', stable: true },
       { title: 'IconButton', slug: '/docs/components/icon-button' },
-      { title: 'ImageLoader', slug: '/docs/components/image-loader' },
+      {
+        title: 'ImageLoader',
+        slug: '/docs/components/image-loader',
+        stable: true,
+      },
       { title: 'Label', slug: '/docs/components/label' },
-      { title: 'Modal', slug: '/docs/components/modal' },
-      { title: 'NestedCheckbox', slug: '/docs/components/nested-checkbox' },
-      { title: 'NoSsr', slug: '/docs/components/no-ssr' },
+      { title: 'Modal', slug: '/docs/components/modal', stable: true },
+      {
+        title: 'NestedCheckbox',
+        slug: '/docs/components/nested-checkbox',
+      },
+      { title: 'NoSsr', slug: '/docs/components/no-ssr', stable: true },
       { title: 'Popover', slug: '/docs/components/popover' },
-      { title: 'Portal', slug: '/docs/components/portal' },
+      { title: 'Portal', slug: '/docs/components/portal', stable: true },
       {
         title: 'ProgressIndicator',
         slug: '/docs/components/progress-indicator',
@@ -63,30 +101,54 @@ export const routes: Array<Route> = [
         title: 'ProgressStepIndicator',
         slug: '/docs/components/progress-step-indicator',
       },
-      { title: 'ProgressTracker', slug: '/docs/components/progress-tracker' },
+      {
+        title: 'ProgressTracker',
+        slug: '/docs/components/progress-tracker',
+      },
       { title: 'PushBadge', slug: '/docs/components/push-badge' },
       { title: 'RadioGroup', slug: '/docs/components/radio-group' },
-      { title: 'RegionConfig', slug: '/docs/components/region-config' },
-      { title: 'RemoveScroll', slug: '/docs/components/remove-scroll' },
-      { title: 'RoundCheckbox', slug: '/docs/components/round-checkbox' },
-      { title: 'ScrollArea', slug: '/docs/components/scroll-area' },
+      {
+        title: 'RegionConfig',
+        slug: '/docs/components/region-config',
+      },
+      {
+        title: 'RemoveScroll',
+        slug: '/docs/components/remove-scroll',
+        stable: true,
+      },
+      {
+        title: 'RoundCheckbox',
+        slug: '/docs/components/round-checkbox',
+      },
+      {
+        title: 'ScrollArea',
+        slug: '/docs/components/scroll-area',
+        stable: true,
+      },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
       { title: 'Switch', slug: '/docs/components/switch' },
-      { title: 'Tab', slug: '/docs/components/tab' },
+      { title: 'Tab', slug: '/docs/components/tab', stable: true },
       { title: 'TextArea', slug: '/docs/components/text-area' },
-      { title: 'TextButton', slug: '/docs/components/text-button' },
+      {
+        title: 'TextButton',
+        slug: '/docs/components/text-button',
+        stable: true,
+      },
       { title: 'TextField', slug: '/docs/components/text-field' },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
       { title: 'Tooltip', slug: '/docs/components/tooltip' },
-      { title: 'WithInteraction', slug: '/docs/components/with-interaction' },
+      {
+        title: 'WithInteraction',
+        slug: '/docs/components/with-interaction',
+      },
     ],
   },
   {
     label: 'Hooks',
     pages: [
-      { title: 'useDialog', slug: '/docs/hooks/use-dialog' },
+      { title: 'useDialog', slug: '/docs/hooks/use-dialog', stable: true },
       { title: 'useMedia', slug: '/docs/hooks/use-media' },
       { title: 'useSize', slug: '/docs/hooks/use-size' },
       { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },
