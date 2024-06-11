@@ -5,14 +5,7 @@ import { Box, getColorByToken } from '@wanteddev/wds-engine';
 
 import { hideOthers } from '../../utils/aria-hidden';
 import RemoveScroll from '../remove-scroll';
-import {
-  DismissableLayer,
-  Divider,
-  FlexBox,
-  Portal,
-  TextButton,
-  Typography,
-} from '..';
+import { DismissableLayer, FlexBox, Portal, TextButton, Typography } from '..';
 import FocusScope from '../focus-scope';
 import { useDialogStore } from '../../stores/dialog-store';
 
@@ -20,7 +13,6 @@ import {
   dialogActionStyle,
   dialogContentStyle,
   dialogDimmerStyle,
-  dialogDividerStyle,
   dialogStyle,
   dialogWrapperStyle,
 } from './style';
@@ -137,12 +129,15 @@ const Item = ({
                   variant="body2_normal"
                   weight="regular"
                   color="palette.label.alternative"
+                  sx={{
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'anywhere',
+                  }}
+                  display="block"
                 >
                   {content}
                 </Typography>
               </FlexBox>
-
-              <Divider color="palette.label.normal" sx={dialogDividerStyle} />
 
               <FlexBox
                 flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
