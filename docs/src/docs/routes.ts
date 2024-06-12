@@ -78,7 +78,11 @@ export const routes: Array<Route> = [
       },
       { title: 'Form', slug: '/docs/components/form' },
       { title: 'Grid', slug: '/docs/components/grid', stable: true },
-      { title: 'IconButton', slug: '/docs/components/icon-button' },
+      {
+        title: 'IconButton',
+        slug: '/docs/components/icon-button',
+        stable: true,
+      },
       {
         title: 'ImageLoader',
         slug: '/docs/components/image-loader',
