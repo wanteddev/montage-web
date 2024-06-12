@@ -69,7 +69,10 @@ BottomNavigation 은 여러 컴포넌트를 조합해서 사용합니다.
 <Demo code={`import {
   BottomNavigation,
   BottomNavigationItem,
-  Avatar
+  Avatar,
+  FlexBox,
+  Switch,
+  Label,
 } from '@wanteddev/wds';
 import {
   IconNavigationRecruit,
@@ -78,22 +81,29 @@ import {
   IconNavigationMypage,
   IconNavigationMenu,
 } from '@wanteddev/wds-icon';
+import { useState } from 'react';
 
 const Demo = () => {
-  const isLoggedIn = false;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <BottomNavigation defaultValue="recruit">
-      <BottomNavigationItem value="recruit" label="채용" icon={<IconNavigationRecruit />} />
-      <BottomNavigationItem value="career" label="커리어" icon={<IconNavigationCareer />} />
-      <BottomNavigationItem value="social" label="소셜" icon={<IconNavigationSocial />} />
-      <BottomNavigationItem
-        value="mywanted"
-        label="MY 원티드"
-        icon={isLoggedIn ? <Avatar size="xsmall" /> : <IconNavigationMypage />}
-      />
-      <BottomNavigationItem value="menu" label="전체" icon={<IconNavigationMenu />} />
-    </BottomNavigation>
+    <FlexBox flexDirection="column" gap="20px">
+      <FlexBox alignItems="center" gap="16px">
+        <Switch checked={isLoggedIn} onCheckedChange={setIsLoggedIn} id="login" />
+        <Label htmlFor="login">로그인</Label>
+      </FlexBox>
+      <BottomNavigation defaultValue="recruit">
+        <BottomNavigationItem value="recruit" label="채용" icon={<IconNavigationRecruit />} />
+        <BottomNavigationItem value="career" label="커리어" icon={<IconNavigationCareer />} />
+        <BottomNavigationItem value="social" label="소셜" icon={<IconNavigationSocial />} />
+        <BottomNavigationItem
+          value="mywanted"
+          label="MY 원티드"
+          icon={isLoggedIn ? <Avatar size="xsmall" /> : <IconNavigationMypage />}
+        />
+        <BottomNavigationItem value="menu" label="전체" icon={<IconNavigationMenu />} />
+      </BottomNavigation>
+    </FlexBox>
   )
 }
 
