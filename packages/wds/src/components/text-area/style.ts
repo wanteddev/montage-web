@@ -138,7 +138,8 @@ export const rightIconStyle = css`
   right: 12px;
   bottom: 12px;
 
-  & [wds-component='icon-button'] {
+  & [wds-component='icon-button'][data-variant='solid'],
+  & [wds-component='icon-button'][data-variant='outlined'] {
     margin-right: -4px;
   }
 
