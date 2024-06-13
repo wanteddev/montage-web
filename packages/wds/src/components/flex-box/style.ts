@@ -36,51 +36,51 @@ const flexibleStyle = ({
   flexBasis,
   gap,
 }: FlexBoxDefaultProps = {}) => css`
-  ${Boolean(gap) &&
+  ${gap !== undefined &&
   css`
     gap: ${gap};
   `}
-  ${Boolean(flexDirection) &&
+  ${flexDirection !== undefined &&
   css`
     flex-direction: ${flexDirection};
   `}
-  ${Boolean(flexWrap) &&
+  ${flexWrap !== undefined &&
   css`
     flex-wrap: ${flexWrap};
   `}
-	${Boolean(justifyContent) &&
+	${justifyContent !== undefined &&
   css`
     justify-content: ${justifyContent};
   `}
-	${Boolean(alignItems) &&
+	${alignItems !== undefined &&
   css`
     align-items: ${alignItems};
   `}
-	${Boolean(alignContent) &&
+	${alignContent !== undefined &&
   css`
     align-content: ${alignContent};
   `}
-	${Boolean(order) &&
+	${order !== undefined &&
   css`
     order: ${order};
   `}
-	${Boolean(flex) &&
+	${flex !== undefined &&
   css`
     flex: ${flex};
   `}
-	${Boolean(flexGrow) &&
+	${flexGrow !== undefined &&
   css`
     flex-grow: ${flexGrow};
   `}
-	${Boolean(flexShrink) &&
+	${flexShrink !== undefined &&
   css`
     flex-shrink: ${flexShrink};
   `}
-	${Boolean(alignSelf) &&
+	${alignSelf !== undefined &&
   css`
     align-self: ${alignSelf};
   `}
-  ${Boolean(flexBasis) &&
+  ${flexBasis !== undefined &&
   css`
     align-self: ${flexBasis};
   `}
