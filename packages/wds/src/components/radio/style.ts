@@ -93,6 +93,10 @@ const radioSizeStyle = ({ size }: Pick<RadioProps, 'size'>) => {
         width: 24px;
         height: 24px;
         font-size: 16px;
+
+        span {
+          padding: 2px;
+        }
       `;
 
     case 'small':
@@ -100,6 +104,10 @@ const radioSizeStyle = ({ size }: Pick<RadioProps, 'size'>) => {
         width: 20px;
         height: 20px;
         font-size: 14px;
+
+        span {
+          padding: 1px;
+        }
       `;
   }
 };
