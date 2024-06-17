@@ -1,0 +1,175 @@
+---
+title: ActionArea
+description: ActionArea Component
+---
+
+# ActionArea
+
+## 활용
+
+- 액션 영역을 구성할 때 사용합니다.
+- 내부 간격을 조정할 때는 `--wds-action-area-margin` 를 사용해주세요.
+- 스크롤에 따라 sticky 옵션을 prop 으로 조정해요.
+- 모달 내부에서 사용할 경우에는 별도의 추가 처리가 필요하지 않아요. (sticky, 간격)
+
+<Demo code={`import {
+  ActionArea,
+  ActionAreaButton,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea>
+      <ActionAreaButton>
+        액션
+      </ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### ActionArea
+
+<PropsTable component="ActionArea" />
+
+### ActionAreaButton
+
+<PropsTable component="ActionAreaButton" />
+
+## Examples
+
+### Compact Content
+
+<Demo code={`import {
+  ActionArea,
+  ActionAreaButton,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea priority="compact" compactContent={"Compact Content 입니다."}>
+      <ActionAreaButton>
+        액션
+      </ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Extra Content
+
+<Demo code={`import {
+  ActionArea,
+  ActionAreaButton,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea variant="extra" extraContent={"Extra Content 입니다."}>
+      <ActionAreaButton>
+        액션
+      </ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Caption
+
+<Demo code={`import {
+  ActionArea,
+  ActionAreaButton,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea caption={"caption content 입니다."}>
+      <ActionAreaButton>
+        액션
+      </ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Sticky
+
+<Demo code={`import {
+  FlexBox,
+  ActionArea,
+  ActionAreaButton,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <ActionArea sticky>
+        <ActionAreaButton>
+          액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="sub">
+          보조 액션
+        </ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea sticky priority="strong">
+        <ActionAreaButton>
+          메인 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="sub">
+          보조 액션
+        </ActionAreaButton>
+      </ActionArea>
+
+       <ActionArea sticky priority="neutral">
+        <ActionAreaButton>
+          메인 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="sub">
+          보조 액션
+        </ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea sticky priority="single">
+        <ActionAreaButton>
+          메인 액션
+        </ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea variant="extra">
+        <ActionAreaButton>
+          메인 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션
+        </ActionAreaButton>
+        <ActionAreaButton variant="sub">
+          보조 액션
+        </ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+

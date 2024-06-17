@@ -10,14 +10,14 @@ description: Modal Component
 - Modal Overlay를 표시합니다.
 - padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
 - `ModalNavigation` 에서 leftButton, rightButton 에는 `ModalNavigationAction`, `ModalClose` 를 사용합니다.
-- `ModalContainer`, `ModalNavigation`, `ModalContent`, `ModalActionArea` 의 위계를 변경해서는 안됩니다.
+- `ModalContainer`, `ModalNavigation`, `ModalContent`, `ActionArea` 의 위계를 변경해서는 안됩니다.
 
 <Demo code={`import { useState } from 'react';
 import {
   Button,
   Modal,
-  ModalActionArea,
-  ModalActionButton,
+  ActionArea,
+  ActionAreaButton,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -49,11 +49,11 @@ const Demo = () => {
             </ModalContentItem>
           </ModalContent>
 
-          <ModalActionArea>
-            <ModalActionButton>
+          <ActionArea>
+            <ActionAreaButton>
               액션
-            </ModalActionButton>
-          </ModalActionArea>
+            </ActionAreaButton>
+          </ActionArea>
         </ModalContainer>
       </Modal>
 
@@ -84,9 +84,9 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
       </ModalContentItem>
     </ModalContent>
 
-    <ModalActionArea>
-      <ModalActionButton />
-    </ModalActionArea>
+    <ActionArea>
+      <ActionAreaButton />
+    </ActionArea>
   </ModalContainer>
 </Modal>
 ```
@@ -131,14 +131,6 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 `Typography` 와 동일한 Props를 사용합니다.
 
-### ModalActionArea
-
-<PropsTable component="ModalActionArea" />
-
-### ModalActionButton
-
-<PropsTable component="ModalActionButton" />
-
 ## Examples
 
 ### Form
@@ -147,8 +139,8 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 import {
   Button,
   Modal,
-  ModalActionArea,
-  ModalActionButton,
+  ActionArea,
+  ActionAreaButton,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -216,11 +208,11 @@ const Demo = () => {
                 </ModalContentItem>
               </ModalContent>
 
-              <ModalActionArea>
-                <ModalActionButton type="submit">
+              <ActionArea>
+                <ActionAreaButton type="submit">
                   액션
-                </ModalActionButton>
-              </ModalActionArea>
+                </ActionAreaButton>
+              </ActionArea>
             </FlexBox>
           </Form>
         </ModalContainer>
@@ -244,8 +236,8 @@ rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합
 import {
   Button,
   Modal,
-  ModalActionArea,
-  ModalActionButton,
+  ActionArea,
+  ActionAreaButton,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -287,11 +279,11 @@ const Demo = () => {
             </ModalContentItem>
           </ModalContent>
 
-          <ModalActionArea>
-            <ModalActionButton>
+          <ActionArea>
+            <ActionAreaButton>
               액션
-            </ModalActionButton>
-          </ModalActionArea>
+            </ActionAreaButton>
+          </ActionArea>
         </ModalContainer>
       </Modal>
 
@@ -309,8 +301,8 @@ export default Demo;`}
 import {
   Button,
   Modal,
-  ModalActionArea,
-  ModalActionButton,
+  ActionArea,
+  ActionAreaButton,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -356,11 +348,11 @@ const Demo = () => {
             </ModalContentItem>
           </ModalContent>
 
-          <ModalActionArea>
-            <ModalActionButton>
+          <ActionArea>
+            <ActionAreaButton>
               액션
-            </ModalActionButton>
-          </ModalActionArea>
+            </ActionAreaButton>
+          </ActionArea>
         </ModalContainer>
       </Modal>
 
@@ -378,8 +370,8 @@ export default Demo;`}
 import {
   Button,
   Modal,
-  ModalActionArea,
-  ModalActionButton,
+  ActionArea,
+  ActionAreaButton,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -421,11 +413,11 @@ const Demo = () => {
             </ModalContentItem>
           </ModalContent>
 
-          <ModalActionArea>
-            <ModalActionButton>
+          <ActionArea>
+            <ActionAreaButton>
               액션
-            </ModalActionButton>
-          </ModalActionArea>
+            </ActionAreaButton>
+          </ActionArea>
         </ModalContainer>
       </Modal>
 
@@ -443,8 +435,8 @@ export default Demo;`}
 import {
   Button,
   Modal,
-  ModalActionArea,
-  ModalActionButton,
+  ActionArea,
+  ActionAreaButton,
   ModalContainer,
   ModalContent,
   ModalContentItem,
@@ -511,11 +503,11 @@ const Demo = () => {
               </ModalContent>
             </TabPanel>
 
-            <ModalActionArea>
-              <ModalActionButton>
+            <ActionArea>
+              <ActionAreaButton>
                 액션
-              </ModalActionButton>
-            </ModalActionArea>
+              </ActionAreaButton>
+            </ActionArea>
           </ModalContainer>
         </Tab>
       </Modal>
