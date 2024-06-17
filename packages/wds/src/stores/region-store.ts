@@ -12,7 +12,8 @@ export type RegionToastItem = {
   id?: string;
   type: 'toast';
   duration?: number;
-  variant?: 'normal' | 'success' | 'error' | 'info' | 'link';
+  variant?: 'normal' | 'success' | 'warning' | 'custom';
+  icon?: ReactNode;
   content: ReactNode;
 };
 
@@ -20,10 +21,11 @@ export type RegionSnackbarItem = {
   id?: string;
   type: 'snackbar';
   duration?: number;
-  variant?: 'normal' | 'success' | 'error' | 'info';
-  showCloseIcon?: boolean;
-  content: ReactNode;
-  action?: ComponentProps<typeof TextButton>;
+  variant?: 'normal';
+  heading?: ReactNode;
+  description?: ReactNode;
+  extraContent?: ReactNode;
+  action: ComponentProps<typeof TextButton>;
 };
 
 export type RegionItem = RegionToastItem | RegionSnackbarItem;

@@ -1,27 +1,34 @@
 'use client';
-import { memo, useId, useRef, useState } from 'react';
+import { memo, useId, useState } from 'react';
 import {
-  IconCircleCheck,
-  IconCircleExclamation,
-  IconCircleInfo,
-  IconClose,
-  IconLink,
+  IconCircle,
+  IconCircleCheckFill,
+  IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
 import { useRegionStore } from '../../stores/region-store';
 import Typography from '../typography';
-import IconButton from '../icon-button';
 import { FlexBox, Portal, TextButton } from '..';
+import { ellipsisTypographyStyle } from '../../utils';
 
 import {
   bottomMountKeyFrames,
   bottomRegionStatusStyle,
   bottomUnmountKeyFrames,
+  firstOverlayStyle,
+  messageStyle,
+  secondOverlayStyle,
+  snackbarActionStyle,
+  textStyle,
 } from './style';
+import { isSnackbar } from './helpers';
 
 import type { AnimationEventHandler, ReactNode } from 'react';
-import type { RegionItem, RegionSnackbarItem } from '../../stores/region-store';
+import type {
+  RegionSnackbarItem,
+  RegionToastItem,
+} from '../../stores/region-store';
 
 /**
  * @description WDS 패키지로 export 되지 않는 요소 입니다.
@@ -40,61 +47,45 @@ const RegionStatus = () => {
             '#wds-region-manager-bottom',
           )}
         >
-          <BottomItem {...item} />
+          {isSnackbar(item) ? <Snackbar {...item} /> : <Toast {...item} />}
         </Portal>
       ))}
     </>
   );
 };
 
-const BottomItem = ({
+const Toast = ({
   id,
-  variant = 'normal',
   duration = 5000,
+  variant = 'normal',
+  icon = <IconCircle />,
   ...props
-}: RegionItem) => {
+}: RegionToastItem) => {
   const hide = useRegionStore((state) => state.hide);
-  const descriptionId = useId();
+  const contentId = useId();
 
-  const ref = useRef<HTMLDivElement>(null);
   const [isMountAnimationDone, setIsMountAnimationDone] = useState(false);
 
   const iconComponent: {
-    [key in Exclude<RegionItem['variant'], undefined>]: ReactNode;
+    [key in Exclude<RegionToastItem['variant'], undefined>]: ReactNode;
   } = {
     normal: null,
     success: (
-      <IconCircleCheck
+      <IconCircleCheckFill
         sx={(theme) => ({
           color: theme.palette.status.positive,
         })}
       />
     ),
-    error: (
-      <IconCircleExclamation
+    warning: (
+      <IconCircleExclamationFill
         sx={(theme) => ({
-          color: theme.palette.status.negative,
+          color: theme.palette.status.cautionary,
         })}
       />
     ),
-    info: (
-      <IconCircleInfo
-        sx={(theme) => ({
-          color: theme.palette.interaction.inactive,
-        })}
-      />
-    ),
-    link: (
-      <IconLink
-        sx={(theme) => ({
-          color: theme.palette.status.positive,
-        })}
-      />
-    ),
+    custom: icon,
   };
-
-  const isSnackbar = (item: RegionItem): item is RegionSnackbarItem =>
-    item.type === 'snackbar';
 
   const handleAnimationEnd: AnimationEventHandler<HTMLDivElement> = (e) => {
     if (e.animationName === bottomMountKeyFrames.name) {
@@ -106,16 +97,17 @@ const BottomItem = ({
 
   return (
     <Box
-      ref={ref}
       aria-atomic
-      role={variant === 'error' ? 'alert' : 'status'}
-      aria-live={variant === 'error' ? 'assertive' : 'polite'}
+      role={variant === 'warning' ? 'alert' : 'status'}
+      aria-live={variant === 'warning' ? 'assertive' : 'polite'}
       sx={bottomRegionStatusStyle(duration, isMountAnimationDone)}
       onAnimationEnd={handleAnimationEnd}
-      aria-describedby={descriptionId}
+      aria-describedby={contentId}
     >
+      <Box role="presentation" sx={firstOverlayStyle} />
+      <Box role="presentation" sx={secondOverlayStyle} />
       <FlexBox
-        gap="10px"
+        gap="8px"
         alignItems="center"
         sx={{ ['& svg']: { flexShrink: 0 } }}
       >
@@ -123,48 +115,94 @@ const BottomItem = ({
 
         <Typography
           color="palette.inverse.label"
-          variant="label1_normal"
-          weight="medium"
-          id={descriptionId}
+          variant="body2_normal"
+          weight="bold"
+          id={contentId}
+          sx={[messageStyle, textStyle]}
         >
           {props.content}
         </Typography>
       </FlexBox>
+    </Box>
+  );
+};
 
-      <FlexBox gap="20px" alignItems="center" flexShrink={0}>
-        {isSnackbar(props) && Boolean(props.action) && (
-          <TextButton
-            size="small"
-            {...props.action}
-            sx={[
-              (theme) => ({
-                margin: '-4px -6px',
-                ['& > span']: {
-                  color: theme.palette.inverse.primary,
-                },
-                ['&:disabled > span']: {
-                  color: theme.palette.label.disable,
-                },
-                ["& > [wds-component='with-interaction']"]: {
-                  backgroundColor: theme.palette.inverse.primary,
-                },
-              }),
-              props.action?.sx,
-            ]}
-          />
-        )}
+const Snackbar = ({
+  id,
+  duration = 5000,
+  heading,
+  description,
+  extraContent,
+  action,
+}: RegionSnackbarItem) => {
+  const hide = useRegionStore((state) => state.hide);
+  const headingId = useId();
+  const descriptionId = useId();
 
-        {isSnackbar(props) && props.showCloseIcon && (
-          <IconButton
-            color="palette.inverse.label"
-            interactionColor="palette.inverse.label"
-            onClick={() => hide(id)}
-            size={20}
-            sx={{ fontSize: '20px' }}
+  const [isMountAnimationDone, setIsMountAnimationDone] = useState(false);
+
+  const handleAnimationEnd: AnimationEventHandler<HTMLDivElement> = (e) => {
+    if (e.animationName === bottomMountKeyFrames.name) {
+      setIsMountAnimationDone(true);
+    } else if (e.animationName === bottomUnmountKeyFrames.name) {
+      hide(id);
+    }
+  };
+
+  return (
+    <Box
+      aria-atomic
+      role="status"
+      aria-live="polite"
+      sx={bottomRegionStatusStyle(duration, isMountAnimationDone)}
+      onAnimationEnd={handleAnimationEnd}
+      aria-labelledby={headingId}
+      aria-describedby={descriptionId}
+    >
+      <Box role="presentation" sx={firstOverlayStyle} />
+      <Box role="presentation" sx={secondOverlayStyle} />
+      <FlexBox gap="12px" alignItems="center">
+        {extraContent && (
+          <FlexBox
+            flexShrink={0}
+            sx={{ width: 'fit-content', height: 'fit-content' }}
           >
-            <IconClose />
-          </IconButton>
+            {extraContent}
+          </FlexBox>
         )}
+
+        <FlexBox flexDirection="column" sx={messageStyle}>
+          {heading && (
+            <Typography
+              color="palette.inverse.label"
+              variant="body2_normal"
+              weight="bold"
+              id={headingId}
+              sx={textStyle}
+            >
+              {heading}
+            </Typography>
+          )}
+
+          {description && (
+            <Typography
+              color="palette.inverse.label"
+              variant="label2"
+              weight="regular"
+              id={descriptionId}
+              sx={[textStyle, ellipsisTypographyStyle(2)]}
+            >
+              {description}
+            </Typography>
+          )}
+        </FlexBox>
+
+        <TextButton
+          variant="assistive"
+          size="medium"
+          {...action}
+          sx={[snackbarActionStyle, action.sx]}
+        />
       </FlexBox>
     </Box>
   );

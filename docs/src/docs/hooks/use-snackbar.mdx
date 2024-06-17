@@ -24,7 +24,7 @@ const Demo = () => {
 
   const handleClick = () => {
     snackbar({
-      variant: 'info',
+      variant: 'normal',
       content: '메시지에 마침표를 찍어요.',
     });
   };
@@ -40,9 +40,40 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="useSnackbar" fallback={[
-{ name: 'content', types: 'string', required: true },
 { name: 'duration', types: 'number | undefined', defaultValue: 5000 },
-{ name: 'variant', types: '\"normal\" | \"success\" | \"error\" | \"info\" | undefined', defaultValue: 'normal' },
-{ name: 'showCloseIcon', types: 'boolean | undefined', defaultValue: 'true' },
-{ name: 'action', types: 'ComponentProps<typeof TextButton> | undefined' },
+{ name: 'variant', types: '\"normal\" | undefined', defaultValue: 'normal' },
+{ name: 'heading', types: 'ReactNode' },
+{ name: 'description', types: 'ReactNode' },
+{ name: 'extraContent', types: 'ReactNode' },
+{ name: 'action', types: 'ComponentProps<typeof TextButton>', required: true },
 ]} />
+
+## Example
+
+<Demo code={`import { FlexBox, useSnackbar, Button, Avatar } from '@wanteddev/wds';
+import { IconCircleFill } from '@wanteddev/wds-icon';
+
+const description = '설명이 두 줄 이상 들어갈 때 예외적으로 쓸 수 있게끔 고려해두었습니다.';
+const heading = '메시지에 마침표를 찍어요.';
+const extraContent = <Avatar variant="company" size="medium" />
+
+const Demo = () => {
+  const snackbar = useSnackbar();
+
+  const handleClick = (options = {}) => () => {
+    snackbar({ action: { children: '텍스트' },...options });
+  };
+
+  return (
+    <FlexBox gap="8px">
+      <Button onClick={handleClick({ heading })}>heading</Button>
+      <Button onClick={handleClick({ description })}>description</Button>
+      <Button onClick={handleClick({ heading, description })}>heading + description</Button>
+      <Button onClick={handleClick({ heading, extraContent })}>extraContent1</Button>
+      <Button onClick={handleClick({ heading, description, extraContent })}>extraContent2</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
