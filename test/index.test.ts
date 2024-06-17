@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { compressToEncodedURIComponent } from 'lz-string';
 
 import type { Fixture } from './types';

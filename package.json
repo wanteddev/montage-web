@@ -34,7 +34,6 @@
     "@types/eslint": "^8.56.5",
     "@types/inquirer": "^9.0.7",
     "@types/jest": "^29.5.12",
-    "@types/jest-environment-puppeteer": "^5.0.6",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/shelljs": "^0.8.15",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -67,6 +66,7 @@
   },
   "dependencies": {
     "inquirer": "^9.2.16",
+    "jest-environment-puppeteer": "^10.0.1",
     "lz-string": "^1.5.0",
     "shelljs": "^0.8.5",
     "ts-node": "^10.9.2"

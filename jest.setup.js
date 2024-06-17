@@ -1,5 +1,3 @@
-const { readFileSync } = require('fs');
-
 const { toMatchImageSnapshot } = require('jest-image-snapshot');
 const { glob } = require('glob');
 
