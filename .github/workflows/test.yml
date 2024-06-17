@@ -1,4 +1,4 @@
-name: Docs deploy
+name: PR Check by test
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -7,7 +7,7 @@ env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
 jobs:
-  deploy-docs:
+  run-test:
     permissions:
       id-token: write
       contents: write

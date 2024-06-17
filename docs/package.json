@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
-    "dev-test": "pnpm -w run build && DISABLE_SLUG=true NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
+    "dev-test": "DISABLE_SLUG=true NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "node scripts/docgen.mjs && next build && next-sitemap",
     "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",
