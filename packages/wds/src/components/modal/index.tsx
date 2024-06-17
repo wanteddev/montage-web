@@ -18,7 +18,6 @@ import { hideOthers } from '../../utils';
 import RemoveScroll from '../remove-scroll';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
-import Button from '../button';
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
 import ScrollArea from '../scroll-area';
@@ -37,16 +36,12 @@ import {
   useModalNavigationContext,
 } from './contexts';
 import {
-  MODAL_ACTION_AREA_NAME,
-  MODAL_ACTION_BUTTON_NAME,
   MODAL_CLOSE_NAME,
   MODAL_NAME,
   MODAL_NAVIGATION_ACTION_NAME,
   MODAL_NAVIGATION_NAME,
 } from './constants';
 import {
-  modalActionAreaStyle,
-  modalActionButtonSingle,
   modalContainerStyle,
   modalContainerWrapperStyle,
   modalContentItemStyle,
@@ -74,12 +69,9 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
-  ReactNode,
   UIEventHandler,
 } from 'react';
 import type {
-  ModalActionAreaProps,
-  ModalActionButtonProps,
   ModalContainerProps,
   ModalContentItemProps,
   ModalContentProps,
@@ -257,107 +249,107 @@ const ModalContainer = forwardRef<
 
     return (
       <ModalContainerProvider
-        hasScroll={hasScroll}
         scrollHeight={scrollHeight}
         handleClose={handleClose}
-        sticky={sticky}
       >
-        <Box
-          sx={modalContainerWrapperStyle({
-            variant,
-            size,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
-        >
-          <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
-            <Box
-              onPointerDown={(e) => {
-                const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-                const isRightClick = e.button === 2 || ctrlLeftClick;
-
-                if (isRightClick || disableOutsideClickClose) {
-                  e.preventDefault();
-                  return;
-                }
-
-                handleClose();
-              }}
-              sx={modalDimmerStyle}
-            />
-          </RemoveScroll>
-          <FocusScope loop trapped={context.open}>
-            <DismissableLayer
-              asChild
-              onPointerDownOutside={(e) => {
-                e.preventDefault();
-              }}
-              onFocusOutside={(e) => e.preventDefault()}
-              onEscapeKeyDown={(e) => {
-                if (disableEscapeKeyDownClose) {
-                  e.preventDefault();
-                }
-              }}
-              onDismiss={handleClose}
-              ref={composedContainerRefs}
-            >
+        <ModalActionAreaProvider sticky={sticky} hasScroll={hasScroll}>
+          <Box
+            sx={modalContainerWrapperStyle({
+              variant,
+              size,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            })}
+          >
+            <RemoveScroll as={Slot} allowPinchZoom shards={[containerRef]}>
               <Box
-                role="dialog"
-                aria-modal
-                id={context.containerId}
-                aria-describedby={`${context.descriptionId} ${context.summaryId}`}
-                aria-labelledby={`${context.titleId} ${context.headingId}`}
-                {...props}
-                sx={[
-                  modalContainerStyle({
-                    variant,
-                    size,
-                    xs,
-                    sm,
-                    md,
-                    lg,
-                    xl,
-                  }),
-                  props.sx,
-                ]}
-              >
-                <ScrollArea
-                  viewportRef={composedInnerContainerRefs}
-                  sx={{
-                    display: 'flex',
-                    flexGrow: '1',
-                    ['& > div']: {
-                      display: 'flex !important',
-                      flexDirection: 'column',
-                    },
-                  }}
-                  zIndex={11}
-                  asChild
-                  viewPortProps={{
-                    onScroll: handleOnScroll,
-                    sx: {
-                      flexGrow: 1,
-                      height: 'initial',
-                    },
-                  }}
-                >
-                  {isEnabled && (
-                    <FlexBox
-                      justifyContent="center"
-                      sx={modalGrabberStyle}
-                      {...dragProps}
-                    />
-                  )}
+                onPointerDown={(e) => {
+                  const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+                  const isRightClick = e.button === 2 || ctrlLeftClick;
 
-                  {children}
-                </ScrollArea>
-              </Box>
-            </DismissableLayer>
-          </FocusScope>
-        </Box>
+                  if (isRightClick || disableOutsideClickClose) {
+                    e.preventDefault();
+                    return;
+                  }
+
+                  handleClose();
+                }}
+                sx={modalDimmerStyle}
+              />
+            </RemoveScroll>
+            <FocusScope loop trapped={context.open}>
+              <DismissableLayer
+                asChild
+                onPointerDownOutside={(e) => {
+                  e.preventDefault();
+                }}
+                onFocusOutside={(e) => e.preventDefault()}
+                onEscapeKeyDown={(e) => {
+                  if (disableEscapeKeyDownClose) {
+                    e.preventDefault();
+                  }
+                }}
+                onDismiss={handleClose}
+                ref={composedContainerRefs}
+              >
+                <Box
+                  role="dialog"
+                  aria-modal
+                  id={context.containerId}
+                  aria-describedby={`${context.descriptionId} ${context.summaryId}`}
+                  aria-labelledby={`${context.titleId} ${context.headingId}`}
+                  {...props}
+                  sx={[
+                    modalContainerStyle({
+                      variant,
+                      size,
+                      xs,
+                      sm,
+                      md,
+                      lg,
+                      xl,
+                    }),
+                    props.sx,
+                  ]}
+                >
+                  <ScrollArea
+                    viewportRef={composedInnerContainerRefs}
+                    sx={{
+                      display: 'flex',
+                      flexGrow: '1',
+                      ['& > div']: {
+                        display: 'flex !important',
+                        flexDirection: 'column',
+                      },
+                    }}
+                    zIndex={11}
+                    asChild
+                    viewPortProps={{
+                      onScroll: handleOnScroll,
+                      sx: {
+                        flexGrow: 1,
+                        height: 'initial',
+                      },
+                    }}
+                  >
+                    {isEnabled && (
+                      <FlexBox
+                        justifyContent="center"
+                        sx={modalGrabberStyle}
+                        {...dragProps}
+                      />
+                    )}
+
+                    {children}
+                  </ScrollArea>
+                </Box>
+              </DismissableLayer>
+            </FocusScope>
+          </Box>
+        </ModalActionAreaProvider>
       </ModalContainerProvider>
     );
   },
@@ -409,9 +401,8 @@ const ModalNavigation = forwardRef<
     ref,
   ) => {
     const context = useModalContext(MODAL_NAVIGATION_NAME);
-    const { scrollHeight, sticky } = useModalContainerContext(
-      MODAL_NAVIGATION_NAME,
-    );
+    const { scrollHeight } = useModalContainerContext(MODAL_NAVIGATION_NAME);
+    const { sticky = true } = useModalActionAreaContext() || {};
     const theme = useTheme();
 
     const leftButtonRedner = Boolean(leftButton) ? (
@@ -710,166 +701,6 @@ const ModalDescription = forwardRef(
 
 ModalDescription.displayName = 'ModalDescription';
 
-const ModalActionArea = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<ModalActionAreaProps, 'div'>
->(
-  (
-    {
-      variant = 'normal',
-      extraContent,
-      compactContent,
-      priority = 'compact',
-      children,
-      caption,
-      ...props
-    },
-    ref,
-  ) => {
-    const { sticky: enableSticky, hasScroll } = useModalContainerContext(
-      MODAL_ACTION_AREA_NAME,
-    );
-
-    return (
-      <ModalActionAreaProvider priority={priority}>
-        <FlexBox
-          wds-component="modal-action-area"
-          ref={ref}
-          flexShrink={0}
-          flexDirection="column"
-          {...props}
-          sx={[
-            modalActionAreaStyle({
-              variant,
-              priority,
-              isSticky:
-                !enableSticky || variant === 'extra' ? false : hasScroll,
-            }),
-            props.sx,
-          ]}
-        >
-          {variant === 'extra' && Boolean(extraContent) && (
-            <FlexBox
-              gap="8px"
-              flexDirection="column"
-              alignItems="center"
-              sx={{
-                marginBottom:
-                  'var(--wds-modal-action-area-extra-content-margin)',
-              }}
-            >
-              {extraContent}
-            </FlexBox>
-          )}
-
-          {Boolean(caption) && (
-            <Typography
-              align="center"
-              variant="label2"
-              weight="regular"
-              color="palette.label.alternative"
-              sx={{ marginBottom: '16px' }}
-            >
-              {caption}
-            </Typography>
-          )}
-          {priority === 'compact' && Boolean(compactContent) ? (
-            <FlexBox justifyContent="space-between" alignItems="center">
-              <FlexBox flexDirection="row">{compactContent}</FlexBox>
-              <FlexBox flexShrink={0} gap="8px">
-                {children}
-              </FlexBox>
-            </FlexBox>
-          ) : (
-            <FlexBox
-              flexDirection={priority === 'strong' ? 'column' : 'row'}
-              gap="8px"
-              alignSelf={priority === 'compact' ? 'flex-end' : 'initial'}
-            >
-              {children}
-            </FlexBox>
-          )}
-        </FlexBox>
-      </ModalActionAreaProvider>
-    );
-  },
-);
-
-ModalActionArea.displayName = MODAL_ACTION_AREA_NAME;
-
-const ModalActionButton = forwardRef(
-  <E extends ElementType = 'button'>(
-    {
-      variant = 'primary',
-      ...props
-    }: PolymorphicProps<ModalActionButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
-  ) => {
-    const { priority } = useModalActionAreaContext(MODAL_ACTION_AREA_NAME);
-
-    const renderComponent: {
-      [key in typeof variant]: ReactNode;
-    } = {
-      primary: (
-        <Button
-          ref={ref}
-          variant={priority === 'single' ? 'outlined' : 'solid'}
-          color={priority === 'single' ? 'assistive' : 'primary'}
-          size="large"
-          fullWidth={priority === 'strong' || priority === 'single'}
-          {...props}
-          sx={[modalActionButtonSingle(priority), props.sx]}
-        />
-      ),
-      secondary: (
-        <Button
-          ref={ref}
-          variant="outlined"
-          size="large"
-          color={
-            priority === 'strong' || priority === 'neutral'
-              ? 'primary'
-              : 'secondary'
-          }
-          fullWidth={priority === 'strong'}
-          {...props}
-          sx={[modalActionButtonSingle(priority), props.sx]}
-        />
-      ),
-      assistive:
-        priority === 'strong' ? (
-          <TextButton
-            ref={ref}
-            color="assistive"
-            size="small"
-            {...props}
-            sx={[
-              {
-                margin: '8px 0px',
-                width: 'fit-content',
-                alignSelf: 'center',
-              },
-              props.sx,
-            ]}
-          />
-        ) : (
-          <Button
-            ref={ref}
-            variant="outlined"
-            color="secondary"
-            size="large"
-            {...props}
-            sx={[modalActionButtonSingle(priority), props.sx]}
-          />
-        ),
-    };
-
-    return renderComponent[variant];
-  },
-) as PolymorphicComponent<ModalActionButtonProps, 'button'>;
-
-ModalActionButton.displayName = MODAL_ACTION_BUTTON_NAME;
-
 export {
   Modal,
   ModalContainer,
@@ -881,6 +712,4 @@ export {
   ModalHeading,
   ModalSummary,
   ModalDescription,
-  ModalActionArea,
-  ModalActionButton,
 };
