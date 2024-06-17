@@ -151,7 +151,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 56px;
-        --wds-modal-action-area-contents-margin: calc(
+        --wds-modal-action-area-extra-content-margin: calc(
           4px + var(--wds-modal-content-margin, 20px)
         );
       `;
@@ -174,7 +174,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 64px;
-        --wds-modal-action-area-contents-margin: calc(
+        --wds-modal-action-area-extra-content-margin: calc(
           4px + var(--wds-modal-content-margin, 20px)
         );
       `;
@@ -197,7 +197,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 64px;
-        --wds-modal-action-area-contents-margin: var(
+        --wds-modal-action-area-extra-content-margin: var(
           --wds-modal-content-margin,
           20px
         );
@@ -221,7 +221,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 72px;
-        --wds-modal-action-area-contents-margin: var(
+        --wds-modal-action-area-extra-content-margin: var(
           --wds-modal-content-margin,
           20px
         );
@@ -617,6 +617,10 @@ const modalActionAreaVariant = (
                 );
                 width: 100%;
               }
+
+              & > * {
+                position: relative;
+              }
             `
           : css`
               &::before {
@@ -630,6 +634,10 @@ const modalActionAreaVariant = (
                 height: 100%;
                 width: 100%;
                 height: 100%;
+              }
+
+              & > * {
+                position: relative;
               }
             `}
       `;

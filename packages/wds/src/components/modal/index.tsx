@@ -717,7 +717,8 @@ const ModalActionArea = forwardRef<
   (
     {
       variant = 'normal',
-      contents,
+      extraContent,
+      compactContent,
       priority = 'compact',
       children,
       caption,
@@ -747,16 +748,17 @@ const ModalActionArea = forwardRef<
             props.sx,
           ]}
         >
-          {variant === 'extra' && Boolean(contents) && (
+          {variant === 'extra' && Boolean(extraContent) && (
             <FlexBox
               gap="8px"
               flexDirection="column"
               alignItems="center"
               sx={{
-                marginBottom: 'var(--wds-modal-action-area-contents-margin)',
+                marginBottom:
+                  'var(--wds-modal-action-area-extra-content-margin)',
               }}
             >
-              {contents}
+              {extraContent}
             </FlexBox>
           )}
 
@@ -771,13 +773,22 @@ const ModalActionArea = forwardRef<
               {caption}
             </Typography>
           )}
-          <FlexBox
-            flexDirection={priority === 'strong' ? 'column' : 'row'}
-            gap="8px"
-            alignSelf={priority === 'compact' ? 'flex-end' : 'initial'}
-          >
-            {children}
-          </FlexBox>
+          {priority === 'compact' && Boolean(compactContent) ? (
+            <FlexBox justifyContent="space-between" alignItems="center">
+              <FlexBox flexDirection="row">{compactContent}</FlexBox>
+              <FlexBox flexShrink={0} gap="8px">
+                {children}
+              </FlexBox>
+            </FlexBox>
+          ) : (
+            <FlexBox
+              flexDirection={priority === 'strong' ? 'column' : 'row'}
+              gap="8px"
+              alignSelf={priority === 'compact' ? 'flex-end' : 'initial'}
+            >
+              {children}
+            </FlexBox>
+          )}
         </FlexBox>
       </ModalActionAreaProvider>
     );
