@@ -519,6 +519,7 @@ export const modalContentStyle =
     padding,
     paddingExtra,
     paddingInfo,
+    paddingHeading,
     xs,
     sm,
     md,
@@ -533,6 +534,7 @@ export const modalContentStyle =
       padding: padding || false,
       paddingExtra: paddingExtra || false,
       paddingInfo: paddingInfo || false,
+      paddingHeading: paddingHeading || false,
     })}
 
     ${createResponsiveStyle(
@@ -550,9 +552,10 @@ const modalContentPadding = ({
   padding,
   paddingExtra,
   paddingInfo,
+  paddingHeading,
 }: Pick<
   ModalContentProps,
-  'padding' | 'paddingExtra' | 'paddingInfo'
+  'padding' | 'paddingExtra' | 'paddingInfo' | 'paddingHeading'
 > = {}) => css`
   ${padding === true &&
   css`
@@ -579,6 +582,20 @@ const modalContentPadding = ({
   ${paddingInfo === false &&
   css`
     gap: calc(var(--wds-modal-content-margin, 20px));
+  `}
+
+  ${paddingHeading === true &&
+  css`
+    [data-role='modal-heading'] {
+      padding-top: calc(var(--wds-modal-content-margin, 20px));
+    }
+  `}
+
+  ${paddingHeading === false &&
+  css`
+    [data-role='modal-heading'] {
+      padding-top: 0px;
+    }
   `}
 `;
 
