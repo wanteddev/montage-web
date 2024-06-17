@@ -8,6 +8,17 @@ module.exports = {
     'plugin:import/typescript',
     'prettier',
   ],
+  parserOptions: {
+    project: './tsconfig.node.json',
+    tsconfigRootDir: __dirname,
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {
+        project: [__dirname + '/tsconfig.node.json'],
+      },
+    },
+  },
   env: {
     browser: true,
     es2020: true,

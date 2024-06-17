@@ -1,10 +1,4 @@
-import { MobileMenuProvider } from '@/features/menu/context';
-import Header from '@/features/menu/components/header';
-import Menu from '@/features/menu/components/menu';
-import MobileMenu from '@/features/menu/components/mobile-menu';
-
 import Providers from './providers';
-import ClientRootLayout from './layout.client';
 
 import type { PropsWithChildren } from 'react';
 
@@ -143,16 +137,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         />
       </head>
       <body suppressHydrationWarning>
-        <Providers>
-          <MobileMenuProvider>
-            <Header />
-            <ClientRootLayout>
-              <Menu />
-              <MobileMenu />
-              {children}
-            </ClientRootLayout>
-          </MobileMenuProvider>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

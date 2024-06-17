@@ -13,6 +13,10 @@ const parseSlug = (params: Props['params']) =>
   Array.isArray(params.slug) ? params.slug : [params.slug];
 
 export const generateStaticParams = async () => {
+  if (process.env.DISABLE_SLUG) {
+    return [];
+  }
+
   const frontmatter = await getAllFrontmatter('/');
 
   return frontmatter;

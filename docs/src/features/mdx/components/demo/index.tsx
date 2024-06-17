@@ -14,9 +14,10 @@ import Editor from './editor';
 type Props = {
   code: string;
   hideCode?: boolean;
+  sx?: Wds.SxProp;
 };
 
-const Demo = ({ code, hideCode }: Props) => {
+const Demo = ({ code, hideCode, sx }: Props) => {
   const [value, setValue] = React.useState(code);
 
   const [collapsed, setCollapsed] = React.useState(true);
@@ -53,6 +54,7 @@ const Demo = ({ code, hideCode }: Props) => {
           ['--demo-max-height']: collapsed ? '350px' : 'fit-content',
         } as React.CSSProperties
       }
+      sx={sx}
     >
       <Wds.Box sx={demoStyle(hideCode)}>
         {element}

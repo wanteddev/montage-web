@@ -17,7 +17,7 @@
     "lint": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
     "watch": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run watch",
-    "test": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run test",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
     "prepublish": "pnpm run build",
@@ -33,6 +33,9 @@
     "@commitlint/config-conventional": "^19.1.0",
     "@types/eslint": "^8.56.5",
     "@types/inquirer": "^9.0.7",
+    "@types/jest": "^29.5.12",
+    "@types/jest-environment-puppeteer": "^5.0.6",
+    "@types/jest-image-snapshot": "^6.4.0",
     "@types/shelljs": "^0.8.15",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
@@ -46,9 +49,14 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "glob": "^10.3.10",
     "husky": "^9.0.11",
+    "jest": "^29.7.0",
+    "jest-image-snapshot": "^6.4.0",
+    "jest-puppeteer": "^10.0.1",
     "lerna": "^8.1.2",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
+    "puppeteer": "^22.11.0",
+    "ts-jest": "^29.1.4",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
   },
@@ -59,6 +67,7 @@
   },
   "dependencies": {
     "inquirer": "^9.2.16",
+    "lz-string": "^1.5.0",
     "shelljs": "^0.8.5",
     "ts-node": "^10.9.2"
   }

@@ -5,8 +5,15 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
   "exclude": ["**/node_modules", "**/.*/", "./dist", "*.cjs"],
-  "include": ["scripts/**/*.mjs", ".tsup/**/*.ts"]
+  "include": [
+    "scripts/**/*.mjs",
+    "test/**/*.ts",
+    ".tsup/**/*.ts",
+    "jest.*.js",
+    "jest.*.mjs"
+  ]
 }
