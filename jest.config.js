@@ -11,4 +11,8 @@ module.exports = {
     '**/test/**/__tests__/**/*.ts?(x)',
     '**/test/**/?(*.)+(spec|test).ts?(x)',
   ],
+  modulePathIgnorePatterns: [
+    '<rootDir>/package.json',
+    '<rootDir>/packages/wds/package.json',
+  ],
 };

@@ -56,6 +56,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nx-store-
 
+      - name: Build packages
+        run: pnpm run build
+
       - name: Reinstall dependencies
         run: pnpm install
 
