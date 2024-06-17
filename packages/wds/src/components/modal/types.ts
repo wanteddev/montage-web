@@ -83,10 +83,14 @@ type ModalContentDefaultProps = {
   padding?: boolean;
   paddingExtra?: boolean;
   paddingInfo?: boolean;
+  paddingHeading?: boolean;
 };
 
 type ModalContentResponsiveProps = ResponsiveProps<
-  Pick<ModalContentDefaultProps, 'padding' | 'paddingExtra' | 'paddingInfo'>
+  Pick<
+    ModalContentDefaultProps,
+    'padding' | 'paddingExtra' | 'paddingInfo' | 'paddingHeading'
+  >
 >;
 
 export type ModalContentProps = Merge<

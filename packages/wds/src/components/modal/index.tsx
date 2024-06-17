@@ -575,7 +575,18 @@ const ModalContent = forwardRef<
   DefaultComponentProps<ModalContentProps, 'div'>
 >(
   (
-    { padding, paddingExtra, paddingInfo, xs, sm, md, lg, xl, ...props },
+    {
+      padding,
+      paddingExtra,
+      paddingHeading,
+      paddingInfo,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      ...props
+    },
     ref,
   ) => {
     return (
@@ -598,6 +609,7 @@ const ModalContent = forwardRef<
               padding,
               paddingExtra,
               paddingInfo,
+              paddingHeading,
               xs,
               sm,
               md,
@@ -646,6 +658,7 @@ const ModalHeading = forwardRef(
         variant="heading2"
         weight="bold"
         color="palette.label.normal"
+        data-role="modal-heading"
         id={context.headingId}
         {...props}
       />
@@ -669,6 +682,7 @@ const ModalSummary = forwardRef(
         variant="body2_normal"
         weight="regular"
         color="palette.label.alternative"
+        data-role="modal-summary"
         id={context.summaryId}
         {...props}
       />
@@ -692,6 +706,7 @@ const ModalDescription = forwardRef(
         variant="body1_reading"
         weight="regular"
         color="palette.label.normal"
+        data-role="modal-description"
         id={context.descriptionId}
         {...props}
       />
