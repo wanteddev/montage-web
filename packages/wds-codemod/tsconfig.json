@@ -11,6 +11,6 @@
     "skipLibCheck": true,
     "strictNullChecks": true,
   },
-  "include": ["**/*.ts"],
+  "include": ["bin", "transforms"],
   "exclude": ["node_modules"]
 }

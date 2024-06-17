@@ -21,6 +21,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     name: 'Migration to v1',
     value: 'migration-v1',
   },
+  { name: 'Migration Toast', value: 'migration-toast' },
 ];
 
 export const run = () => {

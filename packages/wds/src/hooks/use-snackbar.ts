@@ -8,7 +8,6 @@ const useSnackbar = () => {
   const show = (item: Omit<RegionSnackbarItem, 'id' | 'type'>) =>
     storeShow({
       type: 'snackbar',
-      showCloseIcon: true,
       ...item,
     });
 

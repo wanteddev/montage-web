@@ -22,7 +22,7 @@ const Demo = () => {
 
   const handleClick = () => {
     toast({
-      variant: 'info',
+      variant: 'normal',
       content: '메시지에 마침표를 찍어요.',
     });
   };
@@ -38,7 +38,37 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="useToast" fallback={[
-{ name: 'content', types: 'string', required: true },
+{ name: 'content', types: 'ReactNode', required: true },
 { name: 'duration', types: 'number | undefined', defaultValue: 5000 },
-{ name: 'variant', types: '\"link\" | \"normal\" | \"error\" | \"success\" | \"info\" | undefined', defaultValue: 'normal' },
+{ name: 'variant', types: '\"normal\" | \"warning\" | \"success\" | undefined', defaultValue: 'normal' },
 ]} />
+
+
+## Example
+
+<Demo code={`import { FlexBox, useToast, Button } from '@wanteddev/wds';
+import { IconCircleFill } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  const toast = useToast();
+
+  const handleClick = (variant = 'normal') => () => {
+    toast({
+      variant,
+      content: '메시지에 마침표를 찍어요.',
+      icon: <IconCircleFill sx={theme => ({ color: theme.palette.accent.cyan })} />
+    });
+  };
+
+  return (
+    <FlexBox gap="8px">
+      <Button onClick={handleClick()}>normal</Button>
+      <Button onClick={handleClick('success')}>success</Button>
+      <Button onClick={handleClick('warning')}>warning</Button>
+      <Button onClick={handleClick('custom')}>custom</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
