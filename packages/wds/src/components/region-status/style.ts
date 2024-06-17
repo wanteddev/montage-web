@@ -72,10 +72,6 @@ export const bottomRegionStatusStyle = (
       animation-play-state: paused;
     }
   `}
-
-  svg {
-    flex-shrink: 0;
-  }
 `;
 
 export const firstOverlayStyle = (theme: Theme) => css`
