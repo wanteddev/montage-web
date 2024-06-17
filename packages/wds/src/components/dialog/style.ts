@@ -40,7 +40,7 @@ export const dialogContentStyle = (theme: Theme) => css`
   background-color: ${theme.palette.background.elevated.normal};
   border-radius: 12px;
   min-width: 320px;
-  max-width: 100%;
+  max-width: 400px;
   outline: none;
 
   ${respondTo('360px')} {
@@ -48,10 +48,6 @@ export const dialogContentStyle = (theme: Theme) => css`
   }
 `;
 
-export const dialogDividerStyle = (theme: Theme) => css`
-  opacity: ${theme.opacity[8]};
-`;
-
 export const dialogActionStyle = css`
-  padding: 12px 20px;
+  padding: 0px 20px 12px 20px;
 `;
