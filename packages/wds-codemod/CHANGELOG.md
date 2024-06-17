@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.3...@wanteddev/wds-codemod@1.1.0) (2024-06-17)
+
+### Features
+
+- **wds,wds-codemod:** 토스트, 스낵바 디자인 업데이트 ([#48](https://github.com/wanteddev/wds/issues/48)) ([44f11e0](https://github.com/wanteddev/wds/commit/44f11e02c8f4ce28917d5127d7d564b42a1f50d6))
+
 ## [1.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.2...@wanteddev/wds-codemod@1.0.3) (2024-05-16)
 
 ### Bug Fixes

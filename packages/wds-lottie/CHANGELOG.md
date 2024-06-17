@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.0.4...@wanteddev/wds-lottie@1.1.0) (2024-06-17)
+
+### Features
+
+- **wds-lottie:** lottie-web peer 종속성으로 표기 ([ad01e1b](https://github.com/wanteddev/wds/commit/ad01e1bc389c7e59ece5607929924ffe49145355))
+
 ## [1.0.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.0.3...@wanteddev/wds-lottie@1.0.4) (2024-05-21)
 
 **Note:** Version bump only for package @wanteddev/wds-lottie

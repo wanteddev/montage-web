@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.3...@wanteddev/wds@1.2.0) (2024-06-17)
+
+### Bug Fixes
+
+- **wds:** dialog 폭 변경 및 디자인 변경 ([#41](https://github.com/wanteddev/wds/issues/41)) ([8785832](https://github.com/wanteddev/wds/commit/8785832edd7b16d1c31a01466fb0fc10706eef63))
+- **wds:** flex-box 스타일이 올바르게 적용되지 않음 ([#45](https://github.com/wanteddev/wds/issues/45)) ([bee378a](https://github.com/wanteddev/wds/commit/bee378a7b8b9efb3dd74e374b0dbb57e25b8889e))
+- **wds:** radio 사이즈가 디자인과 맞지 않음 ([#46](https://github.com/wanteddev/wds/issues/46)) ([bc8e056](https://github.com/wanteddev/wds/commit/bc8e056f77dfa08bc6b6461640a4f67212178fc2))
+- **wds:** text area에서 normal 아이콘 버튼 사용시 스타일 이슈 ([#43](https://github.com/wanteddev/wds/issues/43)) ([60d4013](https://github.com/wanteddev/wds/commit/60d4013d79c44067db0e9f63cc2dd1b984be2a07))
+
+### Features
+
+- **wds,wds-codemod:** 토스트, 스낵바 디자인 업데이트 ([#48](https://github.com/wanteddev/wds/issues/48)) ([44f11e0](https://github.com/wanteddev/wds/commit/44f11e02c8f4ce28917d5127d7d564b42a1f50d6))
+- **wds:** action area 모달 종속성 분리 ([#49](https://github.com/wanteddev/wds/issues/49)) ([6e25050](https://github.com/wanteddev/wds/commit/6e2505005d9c547a1f38eb07744cbe1412177024))
+- **wds:** modal content 영역에 paddingHeading 옵션 추가 ([#50](https://github.com/wanteddev/wds/issues/50)) ([54af5a9](https://github.com/wanteddev/wds/commit/54af5a9a95141c9902462e1e821dedbc9055c013))
+- **wds:** 모달 액션 영역 compactContent, extraContent 추가 ([#40](https://github.com/wanteddev/wds/issues/40)) ([735282c](https://github.com/wanteddev/wds/commit/735282c1a36f1ca7e0253349ab98a05769abb7ba))
+
 ## [1.1.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.2...@wanteddev/wds@1.1.3) (2024-06-10)
 
 ### Bug Fixes
