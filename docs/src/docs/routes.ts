@@ -29,7 +29,11 @@ export const routes: Array<Route> = [
   {
     label: 'Components',
     pages: [
-      { title: 'ActionArea', slug: '/docs/components/action-area' },
+      {
+        title: 'ActionArea',
+        slug: '/docs/components/action-area',
+        stable: true,
+      },
       { title: 'Alert', slug: '/docs/components/alert' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
       {
