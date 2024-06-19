@@ -7,7 +7,7 @@ export type TooltipProps = {
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
   /**
-   * mouseleave 이벤트 이후 사라지기까지 딜레이 (ms)
+   * mouseenter 이벤트 이후 나타나기까지 딜레이 (ms)
    */
   enterDelay?: number;
   /**
