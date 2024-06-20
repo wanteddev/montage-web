@@ -74,6 +74,20 @@ export const bottomRegionStatusStyle = (
   `}
 `;
 
+export const toastCircleIconWrapperStyle = (theme: Theme) => css`
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 50%;
+    height: 50%;
+    background-color: ${theme.palette.static.white};
+  }
+`;
+
 export const firstOverlayStyle = (theme: Theme) => css`
   width: 100%;
   height: 100%;

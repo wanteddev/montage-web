@@ -21,6 +21,7 @@ import {
   secondOverlayStyle,
   snackbarActionStyle,
   textStyle,
+  toastCircleIconWrapperStyle,
 } from './style';
 import { isSnackbar } from './helpers';
 
@@ -66,23 +67,37 @@ const Toast = ({
 
   const [isMountAnimationDone, setIsMountAnimationDone] = useState(false);
 
+  // warning과 success일 때 다크모드 시인성을 위해 흰색 배경 표시
+  // CircleIcon을 사용하기 때문.
   const iconComponent: {
     [key in Exclude<RegionToastItem['variant'], undefined>]: ReactNode;
   } = {
     normal: null,
     success: (
-      <IconCircleCheckFill
-        sx={(theme) => ({
-          color: theme.palette.status.positive,
-        })}
-      />
+      <FlexBox
+        alignItems="center"
+        justifyContent="center"
+        sx={toastCircleIconWrapperStyle}
+      >
+        <IconCircleCheckFill
+          sx={(theme) => ({
+            color: theme.palette.status.positive,
+          })}
+        />
+      </FlexBox>
     ),
     warning: (
-      <IconCircleExclamationFill
-        sx={(theme) => ({
-          color: theme.palette.status.cautionary,
-        })}
-      />
+      <FlexBox
+        alignItems="center"
+        justifyContent="center"
+        sx={toastCircleIconWrapperStyle}
+      >
+        <IconCircleExclamationFill
+          sx={(theme) => ({
+            color: theme.palette.status.cautionary,
+          })}
+        />
+      </FlexBox>
     ),
     custom: icon,
   };
