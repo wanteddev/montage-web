@@ -47,7 +47,7 @@ export default Demo;`}
 
 ## Examples
 
-### Normal
+### Action
 
 <Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
 
@@ -58,7 +58,6 @@ const Demo = () => {
         <Button>콘텐츠</Button>
       </TooltipTrigger>
       <TooltipContent
-        variant="normal"
         action={
           <TextButton size="small">
             더 알아보기
@@ -74,7 +73,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Inverse
+### CloseButton
 
 <Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
 
@@ -85,34 +84,7 @@ const Demo = () => {
         <Button>콘텐츠</Button>
       </TooltipTrigger>
       <TooltipContent
-        variant="inverse"
-        action={
-          <TextButton size="small">
-            더 알아보기
-          </TextButton>
-        }
-      >
-        메시지에 마침표를 찍어요.
-      </TooltipContent>
-    </Tooltip>
-  )
-}
-
-export default Demo;`}
-/>
-
-### Accent
-
-<Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <Tooltip mode="always">
-      <TooltipTrigger>
-        <Button>콘텐츠</Button>
-      </TooltipTrigger>
-      <TooltipContent
-        variant="accent"
+        closeButton
         action={
           <TextButton size="small">
             더 알아보기

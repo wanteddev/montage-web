@@ -3,6 +3,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useTheme } from '@wanteddev/wds-engine';
+import { IconClose } from '@wanteddev/wds-icon';
 
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
@@ -10,6 +11,8 @@ import FlexBox from '../flex-box';
 import Typography from '../typography';
 import NoSsr from '../no-ssr';
 import { addOpacity } from '../../utils';
+import IconButton from '../icon-button';
+import useTransitionStatus from '../../hooks/use-transition-status';
 
 import { TooltipProvider, useTooltipContext } from './contexts';
 import {
@@ -22,7 +25,7 @@ import { useTooltip } from './hooks';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TooltipContentProps, TooltipProps } from './types';
-import type { PropsWithChildren } from 'react';
+import type { CSSProperties, PropsWithChildren } from 'react';
 
 const Tooltip = ({
   mode = 'hover',
@@ -120,11 +123,12 @@ const TooltipContent = forwardRef<
       arrow = true,
       action,
       children,
-      variant = 'normal',
       position = 'top-center',
-      offset,
+      offset = 4,
       container,
       disablePortal,
+      closeButton,
+      animationDuration = 250,
       __wdsCustomChildren,
       ...props
     },
@@ -143,18 +147,20 @@ const TooltipContent = forwardRef<
       handleMouseDown,
     } = useTooltipContext(TOOLTIP_CONTENT_NAME);
 
+    const { hasExited, status } = useTransitionStatus({
+      open,
+      duration: animationDuration,
+    });
+
     const composedRef = useComposedRefs(ref, containerRef);
 
     const Wrapper = mode === 'always' ? NoSsr : Fragment;
 
     const theme = useTheme();
 
-    const overlay =
-      variant === 'accent'
-        ? addOpacity(theme.palette.primary.normal, theme.opacity[22])
-        : undefined;
+    const overlay = addOpacity(theme.palette.primary.normal, theme.opacity[5]);
 
-    return open ? (
+    return !hasExited ? (
       <Wrapper>
         <DismissableLayer
           asChild
@@ -166,6 +172,7 @@ const TooltipContent = forwardRef<
           <PopperContent
             position={position}
             role="tooltip"
+            data-status={status}
             id={containerId}
             container={container}
             disablePortal={disablePortal}
@@ -176,19 +183,49 @@ const TooltipContent = forwardRef<
               onMouseLeave: handleMouseLeave,
               onFocus: handleFocus,
               onBlur: handleBlur,
+              style: {
+                '--wds-tooltip-transition-duration': `${animationDuration}ms`,
+              } as CSSProperties,
             }}
           >
             {Boolean(__wdsCustomChildren) ? (
               __wdsCustomChildren
             ) : (
               <FlexBox {...props} sx={[tooltipWrapperStyle, props.sx]}>
-                <FlexBox sx={tooltipContentStyle({ variant })}>
-                  <FlexBox flexDirection="column" gap="12px">
-                    <Typography variant="label1_normal" weight="medium">
-                      {children}
-                    </Typography>
+                <FlexBox sx={tooltipContentStyle}>
+                  <FlexBox gap="8px" sx={{ zIndex: 1 }}>
+                    <FlexBox
+                      flexDirection="column"
+                      gap="6px"
+                      sx={{
+                        padding: '0px 2px',
+                      }}
+                    >
+                      <Typography
+                        variant="label1_normal"
+                        weight="medium"
+                        sx={{
+                          wordBreak: 'keep-all',
+                          overflowWrap: 'anywhere',
+                        }}
+                      >
+                        {children}
+                      </Typography>
 
-                    {Boolean(action) && action}
+                      {Boolean(action) && action}
+                    </FlexBox>
+
+                    {closeButton && (
+                      <FlexBox sx={{ padding: '0 2px' }}>
+                        <IconButton
+                          variant="normal"
+                          size={16}
+                          onClick={handleDismiss}
+                        >
+                          <IconClose />
+                        </IconButton>
+                      </FlexBox>
+                    )}
                   </FlexBox>
 
                   {arrow && <PopperArrow overlay={overlay} />}

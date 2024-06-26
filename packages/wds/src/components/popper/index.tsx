@@ -100,7 +100,7 @@ const PopperArrow = forwardRef<
         style={{
           ...props.style,
           position: 'absolute',
-          width: '40px',
+          width: '36px',
           height: '8px',
           display: 'block',
           left: arrowX,
@@ -121,13 +121,13 @@ const PopperArrow = forwardRef<
             left: 'translateY(50%) rotate(-90deg) translateX(50%)',
           }[side],
         }}
-        viewBox="0 0 24 8"
+        viewBox="0 0 36 8"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
         <path
-          d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
+          d="M17.2407 6.11417L12 -3.02345e-05H24L18.7593 6.11417C18.3602 6.57978 17.6398 6.57978 17.2407 6.11417Z"
           fill="currentColor"
         />
       </Box>
@@ -138,7 +138,7 @@ const PopperArrow = forwardRef<
           style={{
             ...props.style,
             position: 'absolute',
-            width: '40px',
+            width: '36px',
             height: '8px',
             display: 'block',
             left: arrowX,
@@ -160,13 +160,13 @@ const PopperArrow = forwardRef<
               left: 'translateY(50%) rotate(-90deg) translateX(50%)',
             }[side],
           }}
-          viewBox="0 0 24 8"
+          viewBox="0 0 36 8"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
           {...props}
         >
           <path
-            d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
+            d="M18.7593 6.11393C18.3602 6.57954 17.6398 6.57954 17.2407 6.11393L12 -0.000274372H24L18.7593 6.11393Z"
             fill="currentColor"
           />
         </Box>
@@ -202,7 +202,7 @@ const PopperContent: ReturnType<
     const [content, setContent] = useState<HTMLElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setContent(node));
 
-    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 40 : 0;
+    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 36 : 0;
     const arrowHeight = Boolean(arrow) ? arrowSize?.height || 8 : 0;
 
     const floatingPlacement = getPlacementMapper(position);

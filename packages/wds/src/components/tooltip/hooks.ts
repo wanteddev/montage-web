@@ -52,23 +52,7 @@ export const useTooltip = ({
         window.clearTimeout(openTimerRef.current);
         window.clearTimeout(closeTimerRef.current);
         closeTimerRef.current = window.setTimeout(async () => {
-          if (containerRef.current !== null) {
-            try {
-              containerRef.current.style.opacity = '0';
-
-              await containerRef.current.animate(
-                [{ opacity: 1 }, { opacity: 0 }],
-                {
-                  duration: 200,
-                  easing: 'ease',
-                },
-              ).finished;
-            } catch (err) {
-              //
-            }
-
-            setOpen(false);
-          }
+          setOpen(false);
         }, overrideDelay ?? leaveDelay);
       }
     },
@@ -118,12 +102,10 @@ export const useTooltip = ({
   const handleBlur: FocusEventHandler<any> = useCallback(() => {
     if (mode === 'hover') {
       if (latestOpen.current) {
-        setOpen(false);
-        window.clearTimeout(openTimerRef.current);
-        window.clearTimeout(closeTimerRef.current);
+        handleClose(0);
       }
     }
-  }, [mode, setOpen]);
+  }, [mode, handleClose]);
 
   const handleMouseDown: (
     event: PointerDownOutsideEvent | MouseEvent<any>,
