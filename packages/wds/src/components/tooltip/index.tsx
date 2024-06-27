@@ -124,7 +124,7 @@ const TooltipContent = forwardRef<
       action,
       children,
       position = 'top-center',
-      offset = 4,
+      offset = 2,
       container,
       disablePortal,
       closeButton,

@@ -33,7 +33,7 @@ const CompactTooltipContent = forwardRef<
       disablePortal,
       position = 'top-center',
       variant = 'normal',
-      offset = 12,
+      offset = 4,
       animationDuration = 250,
       ...props
     },
