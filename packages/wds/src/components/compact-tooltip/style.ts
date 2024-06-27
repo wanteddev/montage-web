@@ -64,7 +64,7 @@ const compactTooltipVariantStyle = (
     case 'inverse':
       return css`
         color: ${theme.palette.label.neutral};
-        box-shadow: inset 0 0 1px ${theme.palette.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
         background-color: ${addOpacity(
           theme.palette.background.elevated.normal,
           theme.opacity[88],
