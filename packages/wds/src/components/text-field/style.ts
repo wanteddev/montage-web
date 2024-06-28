@@ -2,8 +2,9 @@ import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
+import { addOpacity } from '../../utils';
 
-import type { TextFieldProps } from './types';
+import type { TextFieldButtonProps, TextFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const textFieldWrapperStyle =
@@ -21,71 +22,139 @@ export const textFieldWrapperStyle =
   (theme: Theme) => css`
     display: flex;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
-    box-shadow: 0 0 0 1px ${theme.palette.line.normal.normal};
+    box-shadow:
+      inset 0 0 0 1px ${theme.palette.line.normal.neutral},
+      0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
     background-color: transparent;
     width: ${width};
     height: ${height};
-    padding: 12px 16px;
-    gap: 16px;
+    padding: 12px;
+    gap: 8px;
     cursor: text;
+    transition: box-shadow ease 0.2s;
 
-    ${!invalid &&
-    !disabled &&
-    css`
-      @supports selector(:has(*)) {
-        &:where(:has(input:focus)) {
-          box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-        }
-      }
+    [data-role='text-field-invalid'],
+    [data-role='text-field-positive'] {
+      display: flex;
+    }
 
-      @supports not selector(:has(*)) {
-        &:where(:focus-within) {
-          box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-        }
-      }
-    `}
-
-    ${disabled &&
-    css`
-      background-color: ${theme.palette.interaction.disable};
-      cursor: default;
-    `}
+    [data-role='text-field-reset'] {
+      display: none;
+    }
 
     ${invalid &&
     css`
-      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
+      box-shadow:
+        inset 0 0 0 2px
+          ${addOpacity(theme.palette.status.negative, theme.opacity[28])},
+        0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
     `}
 
-    &:where([type='number']) {
-      -moz-appearance: textfield;
-    }
-    &::-webkit-inner-spin-button {
-      appearance: none;
-    }
-    &::-webkit-search-cancel-button {
-      appearance: none;
+    ${disabled
+      ? css`
+          background-color: ${theme.palette.interaction.disable};
+          box-shadow:
+            inset 0 0 0 1px ${theme.palette.line.normal.alternative},
+            0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
+          cursor: default;
+        `
+      : css`
+          @supports selector(:has(*)) {
+            &:where(:has(input:focus)) {
+              ${!invalid &&
+              css`
+                box-shadow:
+                  inset 0 0 0 2px
+                    ${addOpacity(
+                      theme.palette.primary.normal,
+                      theme.opacity[43],
+                    )},
+                  0px 1px 2px 0px
+                    ${addOpacity(theme.palette.static.black, 0.03)};
+              `}
+
+              [data-role='text-field-invalid'],
+              [data-role='text-field-positive'] {
+                display: none;
+              }
+
+              [data-role='text-field-reset'] {
+                display: flex;
+              }
+
+              &:where(:has(input:placeholder-shown)) {
+                [data-role='text-field-reset'] {
+                  display: none;
+                }
+                [data-role='text-field-invalid'],
+                [data-role='text-field-positive'] {
+                  display: flex;
+                }
+              }
+            }
+          }
+
+          @supports not selector(:has(*)) {
+            &:where(:focus-within) {
+              ${!invalid &&
+              css`
+                box-shadow:
+                  inset 0 0 0 2px
+                    ${addOpacity(
+                      theme.palette.primary.normal,
+                      theme.opacity[43],
+                    )},
+                  0px 1px 2px 0px
+                    ${addOpacity(theme.palette.static.black, 0.03)};
+              `}
+
+              [data-role='text-field-invalid'],
+              [data-role='text-field-positive'] {
+                display: none;
+              }
+              [data-role='text-field-reset'] {
+                display: flex;
+              }
+            }
+          }
+        `}
+
+    &:where(:has(input:placeholder-shown)) {
+      [data-role='text-field-reset'] {
+        display: none;
+      }
     }
 
     input {
-      padding: 0;
+      padding: 0 4px;
       width: 100%;
       background-color: transparent;
       outline: none;
       border: none;
       box-shadow: none;
       color: ${theme.palette.label.normal};
-      ${typographyStyle('body1_normal', 'regular')}
+      ${typographyStyle('body1_normal', 'medium')}
 
       &::placeholder {
-        ${typographyStyle('body1_normal', 'regular')}
-        color: ${theme.palette.label.assistive};
+        ${typographyStyle('body1_normal', 'medium')}
+        color: ${theme.palette.label.alternative};
       }
-    }
 
-    & > span {
-      padding-left: 12px;
+      [type='number'] {
+        -moz-appearance: textfield;
+      }
+      &::-webkit-inner-spin-button,
+      &::-webkit-search-cancel-button {
+        appearance: none;
+      }
+      &::-webkit-search-decoration,
+      &::-webkit-search-cancel-button,
+      &::-webkit-search-results-button,
+      &::-webkit-search-results-decoration {
+        display: none;
+      }
     }
 
     ${createResponsiveStyle(
@@ -107,3 +176,120 @@ export const textFieldWrapperStyle =
       `,
     )}
   `;
+
+export const invalidIconWrapperStyle = (theme: Theme) => css`
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 50%;
+    height: 50%;
+    background-color: ${theme.palette.static.white};
+  }
+
+  svg {
+    color: ${theme.palette.status.negative};
+    z-index: 1;
+  }
+`;
+
+export const positiveIconWrapperStyle = (theme: Theme) => css`
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 50%;
+    height: 50%;
+    background-color: ${theme.palette.static.white};
+  }
+
+  svg {
+    color: ${theme.palette.primary.normal};
+    z-index: 1;
+  }
+`;
+
+export const textFieldContentStyle = (theme: Theme) => css`
+  flex-shrink: 0;
+  width: fit-content;
+  height: fit-content;
+  max-height: 24px;
+
+  svg {
+    color: ${theme.palette.label.assistive};
+  }
+`;
+
+export const textFieldButtonStyle =
+  ({ position, disabled }: TextFieldButtonProps) =>
+  (theme: Theme) => css`
+    box-shadow: none;
+    padding: 12px 16px;
+    min-width: 80px;
+
+    ${disabled &&
+    css`
+      box-shadow: none;
+      background-color: ${theme.palette.interaction.disable};
+    `}
+
+    ${textFieldButtonPositionStyle({ position, disabled }, theme)}
+
+    &>span {
+      ${typographyStyle('body1_normal', 'bold')};
+    }
+  `;
+
+export const textFieldButtonPositionStyle = (
+  { position, disabled }: TextFieldButtonProps,
+  theme: Theme,
+) => {
+  switch (position) {
+    case 'right':
+      return css`
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          right: 0px;
+          top: 0px;
+          border-radius: inherit;
+          position: absolute;
+          width: calc(100% + 3px);
+          height: calc(100% + 0px);
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+
+          ${disabled &&
+          css`
+            box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.alternative};
+          `}
+        }
+      `;
+    case 'left':
+      return css`
+        overflow: hidden;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+
+        &::before {
+          content: '';
+          left: 0px;
+          top: 0px;
+          border-radius: inherit;
+          position: absolute;
+          width: calc(100% + 3px);
+          height: calc(100% + 0px);
+          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+
+          ${disabled &&
+          css`
+            box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.alternative};
+          `}
+        }
+      `;
+  }
+};

@@ -9,6 +9,9 @@ description: TextField Component
 
 ## 활용
 
+- rightIcon, leftIcon 요소는 `TextFieldContent` 로 래핑해서 사용해요.
+- `type="date"`, `type="file"` 등 텍스트/숫자가 아닌 요소를 입력받을 때는 사용하지 않아요.
+
 <Demo code={`import { TextField } from '@wanteddev/wds';
 
 const Demo = () => {
@@ -22,25 +25,188 @@ export default Demo;`}
 
 ## Props
 
+### TextField
+
 <PropsTable component="TextField" />
+
+### TextFieldContent
+
+<PropsTable component="TextFieldContent" />
+
+### TextFieldButton
+
+<PropsTable component="TextFieldButton" />
 
 ## Example
 
-### Action
+### Icon
 
-<Demo code={`import { TextField, FlexBox, Label, TextButton } from '@wanteddev/wds';
+- 좌/우측에 요소를 추가할 수 있어요.
+- 간격 보정을 위해 `TextFieldContent` 로 래핑해서 사용해요.
+
+아래 예시 코드를 확인 해주세요.
+
+<Demo code={`import { TextField, FlexBox, TextFieldContent, IconButton, ContentBadge } from '@wanteddev/wds';
+import { IconSearch, IconEye } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <TextField
-      placeholder="입력하세요."
-      width="300px"
-      rightIcon={
-        <TextButton size="small">
-          확인
-        </TextButton>
-      }
-    />
+    <FlexBox flexDirection="column" gap="20px">
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent variant="text">
+            텍스트
+          </TextFieldContent>
+        }
+      />
+      
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent variant="badge">
+            <ContentBadge size="small">
+              적절
+            </ContentBadge>
+          </TextFieldContent>
+        }
+      />
+
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent variant="timer">
+            03:00
+          </TextFieldContent>
+        }
+      />
+      
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent variant="timer" color="palette.status.negative">
+            00:00
+          </TextFieldContent>
+        }
+      />
+
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent variant="icon">
+            <IconSearch />
+          </TextFieldContent>
+        }
+      />
+
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent>
+            <IconButton type="button" size={22}>
+              <IconEye />
+            </IconButton>
+          </TextFieldContent>
+        }
+      />
+
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        rightIcon={
+          <TextFieldContent variant="custom">
+            커스텀
+          </TextFieldContent>
+        }
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### TextFieldButton
+
+```css
+.textfield {
+  // bad
+  border-radius: 12px 12px 0px 0px;
+}
+
+.textfield {
+  // good
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+```
+
+TextField의 border radius 2부분을 커스텀 하여서 함께 사용합니다.
+`border-top-right-radius` 이런식의 명확한 코너의 radius를 0으로 설정해야합니다.
+
+
+<Demo code={`import { TextField, FlexBox, TextFieldButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <FlexBox>
+        <TextField
+          placeholder="입력하세요."
+          width="300px"
+          sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0, }}
+        />
+        <TextFieldButton>
+          텍스트
+        </TextFieldButton>
+      </FlexBox>
+
+      <FlexBox>
+        <TextFieldButton position="left">
+          텍스트
+        </TextFieldButton>
+        <TextField
+          placeholder="입력하세요."
+          width="300px"
+          sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, }}
+        />
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Status
+
+오류가 있는 invalid 상태와 유효성 검사를 통과한 positive 상태가 존재합니다.
+사용하는 쪽에서 직접 prop으로 주입해서 사용합니다.
+
+<Demo code={`import { TextField, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        invalid
+      />
+
+      <TextField
+        placeholder="입력하세요."
+        width="300px"
+        positive
+      />
+    </FlexBox>
   )
 }
 
@@ -74,7 +240,7 @@ const Demo = () => {
           }}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>내용</FormLabel>
+              <FormLabel required>내용</FormLabel>
 
               <FormControl>
                 <TextField

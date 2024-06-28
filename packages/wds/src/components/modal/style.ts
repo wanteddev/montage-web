@@ -255,7 +255,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       return css`
         border-radius: 12px;
         animation: none;
-        max-height: 100%;
+        max-height: 760px;
         padding: initial;
         overflow: hidden;
       `;
