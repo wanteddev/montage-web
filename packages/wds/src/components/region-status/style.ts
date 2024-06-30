@@ -80,7 +80,7 @@ export const firstOverlayStyle = (theme: Theme) => css`
   position: absolute;
   background-color: ${addOpacity(
     theme.palette.inverse.background,
-    theme.opacity[61],
+    theme.opacity[52],
   )};
   inset: 0;
 `;
@@ -91,7 +91,7 @@ export const secondOverlayStyle = (theme: Theme) => css`
   position: absolute;
   background-color: ${addOpacity(
     theme.palette.primary.normal,
-    theme.opacity[8],
+    theme.opacity[5],
   )};
   inset: 0;
 `;
