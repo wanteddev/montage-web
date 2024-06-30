@@ -1,17 +1,18 @@
 'use client';
-import { memo, useId, useState } from 'react';
+import { Box } from '@wanteddev/wds-engine';
 import {
   IconCircle,
   IconCircleCheckFill,
   IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
-import { Box } from '@wanteddev/wds-engine';
+import { memo, useId, useState } from 'react';
 
-import { useRegionStore } from '../../stores/region-store';
-import Typography from '../typography';
 import { FlexBox, Portal, TextButton } from '..';
+import { useRegionStore } from '../../stores/region-store';
 import { ellipsisTypographyStyle } from '../../utils';
+import Typography from '../typography';
 
+import { isSnackbar } from './helpers';
 import {
   bottomMountKeyFrames,
   bottomRegionStatusStyle,
@@ -22,7 +23,6 @@ import {
   snackbarActionStyle,
   textStyle,
 } from './style';
-import { isSnackbar } from './helpers';
 
 import type { AnimationEventHandler, ReactNode } from 'react';
 import type {
@@ -114,7 +114,7 @@ const Toast = ({
         {iconComponent[variant]}
 
         <Typography
-          color="palette.inverse.label"
+          color="palette.static.white"
           variant="body2_normal"
           weight="bold"
           id={contentId}
@@ -174,7 +174,7 @@ const Snackbar = ({
         <FlexBox flexDirection="column" sx={messageStyle}>
           {heading && (
             <Typography
-              color="palette.inverse.label"
+              color="palette.static.white"
               variant="body2_normal"
               weight="bold"
               id={headingId}
@@ -186,7 +186,7 @@ const Snackbar = ({
 
           {description && (
             <Typography
-              color="palette.inverse.label"
+              color="palette.static.white"
               variant="label2"
               weight="regular"
               id={descriptionId}
