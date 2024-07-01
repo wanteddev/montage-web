@@ -47,7 +47,7 @@ export const textFieldWrapperStyle =
     ${invalid &&
     css`
       box-shadow:
-        inset 0 0 0 2px
+        inset 0 0 0 1px
           ${addOpacity(theme.palette.status.negative, theme.opacity[28])},
         0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
     `}
@@ -63,17 +63,27 @@ export const textFieldWrapperStyle =
       : css`
           @supports selector(:has(*)) {
             &:where(:has(input:focus)) {
-              ${!invalid &&
-              css`
-                box-shadow:
-                  inset 0 0 0 2px
-                    ${addOpacity(
-                      theme.palette.primary.normal,
-                      theme.opacity[43],
-                    )},
-                  0px 1px 2px 0px
-                    ${addOpacity(theme.palette.static.black, 0.03)};
-              `}
+              ${invalid
+                ? css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.status.negative,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `
+                : css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.primary.normal,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `}
 
               [data-role='text-field-invalid'],
               [data-role='text-field-positive'] {
@@ -98,17 +108,27 @@ export const textFieldWrapperStyle =
 
           @supports not selector(:has(*)) {
             &:where(:focus-within) {
-              ${!invalid &&
-              css`
-                box-shadow:
-                  inset 0 0 0 2px
-                    ${addOpacity(
-                      theme.palette.primary.normal,
-                      theme.opacity[43],
-                    )},
-                  0px 1px 2px 0px
-                    ${addOpacity(theme.palette.static.black, 0.03)};
-              `}
+              ${invalid
+                ? css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.status.negative,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `
+                : css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.primary.normal,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `}
 
               [data-role='text-field-invalid'],
               [data-role='text-field-positive'] {
