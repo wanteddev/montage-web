@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.react.json",
+  "compilerOptions": {
+    "removeComments": false,
+    "types": [
+      "./packages/wds/dist/index.d.mts",
+      "./packages/wds-icon/dist/index.d.mts"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@wanteddev/wds": ["packages/wds/dist"],
+      "@wanteddev/wds-icon": ["packages/wds-icon/dist"]
+    }
+  },
+  "include": ["figma"],
+  "exclude": ["node_modules"]
+}

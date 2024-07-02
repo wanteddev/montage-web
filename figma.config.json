@@ -1,0 +1,15 @@
+{
+  "codeConnect": {
+    "include": ["figma/**/*"],
+    "exclude": ["docs/**/*", "packages/**/*"],
+    "parser": "react",
+    "paths": {
+      "@wanteddev/wds": ["packages/wds/dist"],
+			"@wanteddev/wds-icon": ["packages/wds-icon/dist"]
+    },
+    "documentUrlSubstitutions": {
+			"<FIGMA_ICONS_BASE>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component",
+      "<FIGMA_BUTTON_SOLID_PRIMARY>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=423-8311"
+    }
+  }
+}

@@ -25,17 +25,21 @@
     "prepare": "husky",
     "pre-commit": "lint-staged",
     "deps:check": "pnpm dlx npm-check-updates@latest --deep",
-    "deps:update": "pnpm dlx npm-check-updates@latest -u --deep"
+    "deps:update": "pnpm dlx npm-check-updates@latest -u --deep",
+    "publish:codeconnect": "figma connect publish"
   },
   "packageManager": "pnpm@9.1.2",
   "devDependencies": {
     "@commitlint/cli": "^19.1.0",
     "@commitlint/config-conventional": "^19.1.0",
+    "@figma/code-connect": "^1.0.1",
     "@types/eslint": "^8.56.5",
     "@types/inquirer": "^9.0.7",
+    "@types/react": "18.2.65",
     "@types/shelljs": "^0.8.15",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
+    "change-case": "^5.4.3",
     "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -49,6 +53,7 @@
     "lerna": "^8.1.2",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
+    "react": "^18.2.0",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
   },
