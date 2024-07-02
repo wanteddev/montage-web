@@ -5,6 +5,14 @@ export type TabProps = PropsWithChildren<{
   defaultValue?: string;
   value?: string;
   onValueChange?: (tab: string) => void;
+  /**
+   * 값이 변경되었을 때 스크롤을 이동하지 않음.
+   */
+  disableScrollMoveOnChange?: boolean;
+  /**
+   * 처음 마운트 되었을 때 선택된 값으로 스크롤 활성화.
+   */
+  enableScrollMoveOnMount?: boolean;
 }>;
 
 type TabListDefaultProps = {
