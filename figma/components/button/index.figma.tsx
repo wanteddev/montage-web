@@ -30,3 +30,119 @@ figma.connect(Button, '<FIGMA_BUTTON_SOLID_PRIMARY>', {
     </Button>
   ),
 });
+
+figma.connect(Button, '<FIGMA_BUTTON_SOLID_ASSISTIVE>', {
+  props: {
+    children: figma.boolean('Icon Only', {
+      true: figma.children('Icon'),
+      false: figma.string('Label'),
+    }),
+    leftIcon: figma.boolean('Left Icon', {
+      true: figma.children('Left Icon'),
+      false: undefined,
+    }),
+    rightIcon: figma.boolean('Right Icon', {
+      true: figma.children('Right Icon'),
+      false: undefined,
+    }),
+    iconOnly: figma.boolean('Icon Only'),
+    disabled: figma.boolean('Disable'),
+    size: figma.enum('Size', {
+      Small: 'small',
+      Medium: 'medium',
+      Large: 'large',
+    }),
+  },
+  example: ({ children, ...props }) => (
+    <Button variant="solid" color="assistive" {...props}>
+      {children}
+    </Button>
+  ),
+});
+
+figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_PRIMARY>', {
+  props: {
+    children: figma.boolean('Icon Only', {
+      true: figma.children('Icon'),
+      false: figma.string('Label'),
+    }),
+    leftIcon: figma.boolean('Left Icon', {
+      true: figma.children('Left Icon'),
+      false: undefined,
+    }),
+    rightIcon: figma.boolean('Right Icon', {
+      true: figma.children('Right Icon'),
+      false: undefined,
+    }),
+    iconOnly: figma.boolean('Icon Only'),
+    disabled: figma.boolean('Disable'),
+    size: figma.enum('Size', {
+      Small: 'small',
+      Medium: 'medium',
+      Large: 'large',
+    }),
+  },
+  example: ({ children, ...props }) => (
+    <Button variant="outlined" color="primary" {...props}>
+      {children}
+    </Button>
+  ),
+});
+
+figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_SECONDARY>', {
+  props: {
+    children: figma.boolean('Icon Only', {
+      true: figma.children('Icon'),
+      false: figma.string('Label'),
+    }),
+    leftIcon: figma.boolean('Left Icon', {
+      true: figma.children('Left Icon'),
+      false: undefined,
+    }),
+    rightIcon: figma.boolean('Right Icon', {
+      true: figma.children('Right Icon'),
+      false: undefined,
+    }),
+    iconOnly: figma.boolean('Icon Only'),
+    disabled: figma.boolean('Disable'),
+    size: figma.enum('Size', {
+      Small: 'small',
+      Medium: 'medium',
+      Large: 'large',
+    }),
+  },
+  example: ({ children, ...props }) => (
+    <Button variant="outlined" color="secondary" {...props}>
+      {children}
+    </Button>
+  ),
+});
+
+figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_ASSISTIVE>', {
+  props: {
+    children: figma.boolean('Icon Only', {
+      true: figma.children('Icon'),
+      false: figma.string('Label'),
+    }),
+    leftIcon: figma.boolean('Left Icon', {
+      true: figma.children('Left Icon'),
+      false: undefined,
+    }),
+    rightIcon: figma.boolean('Right Icon', {
+      true: figma.children('Right Icon'),
+      false: undefined,
+    }),
+    iconOnly: figma.boolean('Icon Only'),
+    disabled: figma.boolean('Disable'),
+    size: figma.enum('Size', {
+      Small: 'small',
+      Medium: 'medium',
+      Large: 'large',
+    }),
+  },
+  example: ({ children, ...props }) => (
+    <Button variant="outlined" color="assistive" {...props}>
+      {children}
+    </Button>
+  ),
+});
