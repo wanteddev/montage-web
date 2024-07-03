@@ -45,8 +45,10 @@ export const tooltipContentStyle = (theme: Theme) => css`
   }
 
   button {
-    color: ${theme.palette.inverse.label} !important;
-    opacity: ${theme.opacity[61]};
+    color: ${addOpacity(
+      theme.palette.inverse.label,
+      theme.opacity[61],
+    )} !important;
   }
 
   [wds-component='with-interaction'] {
