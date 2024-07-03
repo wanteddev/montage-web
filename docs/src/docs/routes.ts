@@ -60,6 +60,7 @@ export const routes: Array<Route> = [
       {
         title: 'CompactTooltip',
         slug: '/docs/components/compact-tooltip',
+        stable: true,
       },
       {
         title: 'ContentBadge',
@@ -147,7 +148,7 @@ export const routes: Array<Route> = [
       { title: 'TextField', slug: '/docs/components/text-field' },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
-      { title: 'Tooltip', slug: '/docs/components/tooltip' },
+      { title: 'Tooltip', slug: '/docs/components/tooltip', stable: true },
       {
         title: 'WithInteraction',
         slug: '/docs/components/with-interaction',
