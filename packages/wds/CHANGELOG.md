@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.2.0...@wanteddev/wds@1.2.1) (2024-07-03)
+
+### Features
+
+- **wds:** 툴팁 디자인 업데이트 ([#55](https://github.com/wanteddev/wds/issues/55)) ([d1ddc85](https://github.com/wanteddev/wds/commit/d1ddc85c004e4f9e6870cb449cc35fcfc519a88b))
+
 # [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.1.3...@wanteddev/wds@1.2.0) (2024-06-17)
 
 ### Bug Fixes
