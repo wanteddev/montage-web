@@ -32,7 +32,9 @@ const CompactTooltipContent = forwardRef<
       container,
       disablePortal,
       position = 'top-center',
-      offset,
+      variant = 'normal',
+      offset = 4,
+      animationDuration = 250,
       ...props
     },
     ref,
@@ -43,15 +45,12 @@ const CompactTooltipContent = forwardRef<
         offset={offset}
         container={container}
         disablePortal={disablePortal}
+        animationDuration={animationDuration}
         ref={ref}
         __wdsCustomChildren={
           <FlexBox {...props} sx={[compactTooltipWrapperStyle, props.sx]}>
-            <Box sx={compactTooltipContentStyle}>
-              <Typography
-                variant="label2"
-                weight="regular"
-                color="palette.inverse.label"
-              >
+            <Box sx={compactTooltipContentStyle({ variant })}>
+              <Typography variant="label2" weight="regular">
                 {children}
               </Typography>
 
@@ -59,7 +58,6 @@ const CompactTooltipContent = forwardRef<
                 <Typography
                   variant="label2"
                   weight="regular"
-                  color="palette.inverse.label"
                   sx={(theme) => ({
                     opacity: theme.opacity[61],
                     marginLeft: '4px',
