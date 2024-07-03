@@ -216,7 +216,7 @@ const TextFieldButton = forwardRef(
         disabled={disabled}
         size="large"
         {...props}
-        sx={[textFieldButtonStyle({ position, disabled }), props.sx]}
+        sx={[textFieldButtonStyle({ variant, position, disabled }), props.sx]}
       />
     );
   },

@@ -243,22 +243,24 @@ export const textFieldContentStyle = (theme: Theme) => css`
 `;
 
 export const textFieldButtonStyle =
-  ({ position, disabled }: TextFieldButtonProps) =>
+  ({ position, variant, disabled }: TextFieldButtonProps) =>
   (theme: Theme) => css`
     box-shadow: none;
     padding: 12px 16px;
     min-width: 80px;
 
-    ${disabled &&
-    css`
+    &:disabled {
       box-shadow: none;
       background-color: ${theme.palette.interaction.disable};
-    `}
+    }
 
     ${textFieldButtonPositionStyle({ position, disabled }, theme)}
 
     &>span {
-      ${typographyStyle('body1_normal', 'bold')};
+      ${typographyStyle(
+        'body1_normal',
+        variant === 'assistive' ? 'medium' : 'bold',
+      )};
     }
   `;
 
