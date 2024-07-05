@@ -83,6 +83,7 @@ export const routes: Array<Route> = [
         stable: true,
       },
       { title: 'Form', slug: '/docs/components/form' },
+      { title: 'Form v3', slug: '/docs/components/form-v3' },
       { title: 'Grid', slug: '/docs/components/grid', stable: true },
       {
         title: 'IconButton',
