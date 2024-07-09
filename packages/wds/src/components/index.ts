@@ -15,7 +15,6 @@ export { default as Divider } from './divider';
 export { default as FlexBox } from './flex-box';
 export { default as FloatingAction } from './floating-action';
 export * from './form';
-export * from './form-v3';
 export { default as Grid } from './grid';
 export { default as GridItem } from './grid-item';
 export { default as IconButton } from './icon-button';
