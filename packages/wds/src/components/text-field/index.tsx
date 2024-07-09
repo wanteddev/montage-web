@@ -1,7 +1,7 @@
 'use client';
-import { forwardRef, useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { forwardRef, useRef } from 'react';
 
 import { textFieldWrapperStyle } from './style';
 

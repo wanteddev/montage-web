@@ -21,17 +21,16 @@ import type {
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { FlexBoxProps } from '../flex-box/types';
 import type {
-  FormControlProps,
   FormErrorMessageProps,
-  FormFieldProps,
   FormLabelProps,
   FormMessageProps,
 } from './types';
 
 const FormFieldV3 = forwardRef(
   <E extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicProps<FormFieldProps, E>,
+    { as, ...props }: PolymorphicProps<FlexBoxProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
@@ -48,7 +47,7 @@ const FormFieldV3 = forwardRef(
       </FormFieldProvider>
     );
   },
-) as PolymorphicComponent<FormFieldProps, 'div'>;
+) as PolymorphicComponent<FlexBoxProps, 'div'>;
 
 FormFieldV3.displayName = FORM_FIELD_NAME;
 
@@ -62,27 +61,19 @@ const FormLabelV3 = forwardRef<HTMLLabelElement, FormLabelProps>(
 
 FormLabelV3.displayName = FORM_LABEL_NAME;
 
-const FormControlV3 = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
-  ({ error, ...props }, ref) => {
-    const { formFieldId, formMessageId, formErrorMessageId } =
-      useFormField(FORM_CONTROL_NAME);
+const FormControlV3 = forwardRef<ElementRef<typeof Slot>>((props, ref) => {
+  const { formFieldId, formMessageId, formErrorMessageId } =
+    useFormField(FORM_CONTROL_NAME);
 
-    return (
-      <Slot
-        ref={ref}
-        id={formFieldId}
-        aria-describedby={
-          Boolean(error)
-            ? `${formMessageId} ${formErrorMessageId}`
-            : `${formMessageId}`
-        }
-        aria-invalid={Boolean(error)}
-        {...(Boolean(error) && { invalid: Boolean(error).toString() })}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <Slot
+      ref={ref}
+      id={formFieldId}
+      aria-describedby={`${formMessageId} ${formErrorMessageId}`}
+      {...props}
+    />
+  );
+});
 
 FormControlV3.displayName = FORM_CONTROL_NAME;
 

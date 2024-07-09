@@ -36,9 +36,11 @@ const Demo = () => {
               라벨
             </FormLabelV3>
             
-            <FormControlV3 error={formState.errors.content}>
-              <TextField {...field} width="300px" placeholder="값을 입력하세요." />
+            <FormControlV3>
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={formState.errors.content} />
             </FormControlV3>
+
+            <FormMessageV3>설명</FormMessageV3>
 
             <FormErrorMessageV3>{formState.errors.content?.message}</FormErrorMessageV3>
           </FormFieldV3>
