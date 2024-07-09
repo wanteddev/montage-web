@@ -5,72 +5,51 @@ description: Form Component
 
 # Form
 
-`react-hook-form` 과 함께 form action을 다룹니다.
+form 구조 및 접근성 처리를 다룹니다.
 각 컴포넌트별 활용법은 `TextField`, `TextArea`, `Checkbox`, `Radio` 등을 참고해주세요
 
-<details>
-  <summary>주의사항</summary>
-
-1. `pnpm` 을 사용하지 않는 경우 `react-hook-form` 을 아래와 같이 특정 버전으로 고정해주세요.
-
-```json
-{
-  "resolutions": {
-    "react-hook-form": "7.51.1",
-  }
-}
-```
-
-[pnpm](https://pnpm.io/how-peers-are-resolved) 의 peer 해결 방법을 사용하는게 아니라면, `react-hook-form` 의 Context를 공유하지 못합니다.
-
-2. `react-hook-form` 의 번들이 `@wanteddev/wds` 번들과 다를 때가 있습니다.
-
-<div>
-  <img src="/wds/react-hook-form-esm.png" alt="hook form esm" style={{width: '50%'}} />
-  <img src="/wds/react-hook-form-cjs.png" alt="hook form cjs" style={{width: '50%'}} />
-</div>
-
-위 처럼 cjs, esm 이 각각 다를 경우 프로젝트에서 하나만 사용하도록 설정해주어야합니다.
-
-[참고자료](https://github.com/react-hook-form/react-hook-form/issues/8281)
-
-</details>
+이 문서는 `react-hook-form`과 함께 활용하는 예시를 소개합니다.
 
 ## 활용
 
-<Demo code={`import { Button, FlexBox, TextField, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm();
 
   return (
-    <Form {...form}>
-      <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
-        <FormField
-          control={form.control}
-          name="content"
-          rules={{
-            required: {
-              value: true,
-              message: '필수 값입니다.'
-            }
-          }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>라벨</FormLabel>
+    <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
+      <Controller
+        control={form.control}
+        name="content"
+        rules={{
+        required: {
+            value: true,
+            message: '필수 값입니다.'
+          }
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>라벨</FormLabel>
 
-              <FormControl>
-                <TextField {...field} width="300px" placeholder="값을 입력하세요." />
-              </FormControl>
+            <FormControl>
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+            </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )} />
+            {Boolean(formState.errors.content) ? (
+              <FormErrorMessage>
+                {formState.errors.content?.message}
+              </FormErrorMessage>
+            ) : (
+             <FormMessage>값을 입력해주세요.</FormMessage>
+            )}
+          </FormField>
+        )}
+      />
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 
@@ -81,56 +60,29 @@ export default Demo;`}/>
 아래와 같이 여러 컴포넌트를 조합하여 사용합니다.
 
 ```tsx
-<Form {...form}>
-  <form onSubmit={handleSubmit}>
-    <FormField
-      control={form.control}
-      name="name"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>label</FormLabel>
-          <FormControl>
-            <input {...field} />
-          </FormControl>
+<form onSubmit={handleSubmit}>
+  <FormField>
+    <FormLabel>label</FormLabel>
+    <FormControl>
+      <input {...field} />
+    </FormControl>
 
-          <FormMessage>설명</FormMessage>
-          {/* 혹은 */}
-          <FormDescription>설명</FormDescription>
-          <FormErrorMessage />
-        </FormItem>
-      )}
-    />
+    <FormMessage>설명</FormMessage>
+    <FormErrorMessage>오류 메시지</FormErrorMessage>
+  </FormField>
 
-    <button type="submit" />
-  </form>
-</Form>
-```
-
-### Form
-
-`react-hook-form` 의 `useForm` 반환값을 그대로 전달합니다.
-
-```tsx
-const form = useForm();
-
-return <Form {...form} />
+  <button type="submit" />
+</form>
 ```
 
 ### FormField
 
-`react-hook-form` 의 `Controller` 의 역할을 합니다.
-
-<PropsTable component="FormField" />
-
-### FormItem
-
-form 요소를 렌더링하기 위한 form item 입니다.
-내부적으로 `FormLabel`, `FormMessage`, `FormControl` 에 접근성 처리를 합니다. 
-
+form 요소를 렌더링하기 위한 form field 입니다.
+내부적으로 `FormLabel`, `FormControl`, `FormMessage`, `FormErrorMessage`에 접근성 처리를 합니다.
 
 `FlexBox` 와 같은 props를 사용합니다.
 
-<PropsTable component="FormItem" />
+<PropsTable component="FormField" />
 
 ### FormLabel
 
@@ -142,111 +94,64 @@ form 요소를 렌더링하기 위한 form item 입니다.
 
 children으로 제어 컴포넌트를 넣어 사용합니다.
 
-### FormDescription
-
-`Typography` 과 동일한 Props를 사용합니다.
-
-<PropsTable component="FormDescription" />
-
-### FormErrorMessage
-
-`Typography` 과 동일한 Props를 사용합니다.
-
-<PropsTable component="FormErrorMessage" />
+에러 처리가 필요한 경우, 문서를 참고하여 children 컴포넌트에 invalid Props를 설정하세요.
 
 ### FormMessage
 
-Form의 오류 메시지를 보여주거나 Form에 대한 설명을 추가합니다.
+form field에 대한 설명을 추가합니다.
 
 `Typography` 과 동일한 Props를 사용합니다.
 
 <PropsTable component="FormMessage" />
 
+### FormErrorMessage
+
+children이 없으면 미노출합니다.
+
+`Typography` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="FormErrorMessage" />
+
 ## Advanced
 
-### FormMessage
+### FormErrorMessage + FormMessage
 
-`FormMessage` 은 field에 대한 설명과 오류 메시지를 함께 다룹니다.
+field에 대한 설명과 오류 메시지를 모두 노출합니다.
 
-아래와 같이 오류 메시지가 없을 때는 설명이 나오며, 오류 메시지가 있을 때는 설명을 덮어씌웁니다.
-
-<Demo code={`import { Button, FlexBox, TextField, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm();
 
   return (
-    <Form {...form}>
-      <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
-        <FormField
-          control={form.control}
-          name="content"
-          rules={{
-            required: {
-              value: true,
-              message: '필수 값입니다.'
-            }
-          }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>라벨</FormLabel>
+    <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
+      <Controller
+        control={form.control}
+        name="content"
+        rules={{
+          required: {
+           value: true,
+           message: '필수 값입니다.'
+          }
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>라벨</FormLabel>
 
-              <FormControl>
-                <TextField {...field} width="300px" placeholder="값을 입력하세요." />
-              </FormControl>
+            <FormControl>
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+            </FormControl>
 
-              <FormMessage>설명</FormMessage>
-            </FormItem>
-          )} />
+            <FormMessage>설명</FormMessage>
+            
+            <FormErrorMessage>{formState.errors.content?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
-  )
-}
-
-export default Demo;`}/>
-
-### FormErrorMessage + FormDescription
-
-`FormMessage` 와는 반대로 각각 ErrorMessage, Description을 사용할 수 있습니다.
-
-<Demo code={`import { Button, FlexBox, TextField, Form, FormField, FormItem, FormControl, FormLabel, FormDescription, FormErrorMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
-
-const Demo = () => {
-  const form = useForm();
-
-  return (
-    <Form {...form}>
-      <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
-        <FormField
-          control={form.control}
-          name="content"
-          rules={{
-            required: {
-              value: true,
-              message: '필수 값입니다.'
-            }
-          }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>라벨</FormLabel>
-
-              <FormControl>
-                <TextField {...field} width="300px" placeholder="값을 입력하세요." />
-              </FormControl>
-
-
-              <FormDescription>설명</FormDescription>
-              <FormErrorMessage />
-            </FormItem>
-          )} />
-
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 

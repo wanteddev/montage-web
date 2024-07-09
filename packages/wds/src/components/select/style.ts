@@ -2,8 +2,8 @@ import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, typographyStyle } from '../../utils';
 
-import type { SelectProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
+import type { SelectProps } from './types';
 
 export const selectWrapperStyle =
   ({
