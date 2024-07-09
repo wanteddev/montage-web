@@ -110,49 +110,48 @@ export default Demo;`}
 
 ### Form
 
-<Demo code={`import { Button, FlexBox, TextArea, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+<Demo code={`import { Button, FlexBox, TextArea, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm();
 
   return (
-    <Form {...form}>
-      <FlexBox
-        as="form"
-        flexDirection="column"
-        gap="20px"
-        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-      >
-        <FormField
-          control={form.control}
-          name="content"
-          rules={{
-            required: {
-              value: true,
-              message: "필수 값입니다.",
-            },
-          }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>내용</FormLabel>
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="content"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>내용</FormLabel>
 
-              <FormControl>
-                <TextArea
-                  {...field}
-                  placeholder="입력하세요."
-                  width="300px"
-                />
-              </FormControl>
+            <FormControl>
+              <TextArea
+                {...field}
+                placeholder="입력하세요."
+                width="300px"
+                invalid={Boolean(formState.errors.content)}
+              />
+            </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormErrorMessage>{formState.errors.content?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 

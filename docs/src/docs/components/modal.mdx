@@ -148,15 +148,13 @@ import {
   TextField,
   FlexBox,
   TextField,
-  Form,
   FormField,
-  FormItem,
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormDescription,
+  FormMessage,
 } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const [show, setShow] = useState(false);
@@ -169,52 +167,50 @@ const Demo = () => {
         onOpenChange={setShow}
       >
         <ModalContainer size="normal-fixed" variant="popup">
-          <Form {...form}>
-            <FlexBox
-              as="form"
-              flex="1"
-              flexDirection="column"
-              onSubmit={form.handleSubmit}
+          <FlexBox
+            as="form"
+            flex="1"
+            flexDirection="column"
+            onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+          >
+            <ModalNavigation
+              variant="emphasized"
             >
-              <ModalNavigation
-                variant="emphasized"
-              >
-                제목
-              </ModalNavigation>
+              제목
+            </ModalNavigation>
 
-              <ModalContent padding paddingInfo>
-                <ModalContentItem>
-                  <FormField
-                    control={form.control}
-                    name="test"
-                    rules={{
-                      required: {
-                        value: true,
-                        message: '필수 값입니다.'
-                      }
-                    }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>라벨</FormLabel>
+            <ModalContent padding paddingInfo>
+              <ModalContentItem>
+                <Controller
+                  control={form.control}
+                  name="test"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: '필수 값입니다.'
+                    }
+                  }}
+                  render={({ field, formState }) => (
+                    <FormField>
+                      <FormLabel>라벨</FormLabel>
 
-                        <FormControl>
-                          <TextField {...field} width="300px" placeholder="값을 입력하세요." />
-                        </FormControl>
+                      <FormControl>
+                        <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
+                      </FormControl>
 
-                        <FormDescription>설명</FormDescription>
-                        <FormErrorMessage />
-                      </FormItem>
-                    )} />
-                </ModalContentItem>
-              </ModalContent>
+                      <FormMessage>설명</FormMessage>
+                      <FormErrorMessage>{formState.errors.test?.message}</FormErrorMessage>
+                    </FormField>
+                  )} />
+              </ModalContentItem>
+            </ModalContent>
 
-              <ActionArea>
-                <ActionAreaButton type="submit">
-                  액션
-                </ActionAreaButton>
-              </ActionArea>
-            </FlexBox>
-          </Form>
+            <ActionArea>
+              <ActionAreaButton type="submit">
+                액션
+              </ActionAreaButton>
+            </ActionArea>
+          </FlexBox>
         </ModalContainer>
       </Modal>
 

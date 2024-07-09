@@ -1,22 +1,12 @@
-import { get, useFormContext } from 'react-hook-form';
-
-import { useFormFieldContext, useFormItemContext } from './contexts';
-
-import type { FieldError } from 'react-hook-form';
+import { useFormFieldContext } from './contexts';
 
 export const useFormField = (componentName: string) => {
-  const { name } = useFormFieldContext(componentName);
-  const { id } = useFormItemContext(componentName);
-  const { formState } = useFormContext();
-  const error = get(formState.errors, name) as FieldError | undefined;
+  const { id } = useFormFieldContext(componentName);
 
   return {
     id,
-    name,
-    formItemId: `${id}-form-item`,
-    formDescriptionId: `${id}-form-item-description`,
-    formErrorMessageId: `${id}-form-item-error-message`,
-    formMessageId: `${id}-form-item-message`,
-    error,
+    formFieldId: `${id}-form-field`,
+    formMessageId: `${id}-form-field-message`,
+    formErrorMessageId: `${id}-form-field-error-message`,
   };
 };

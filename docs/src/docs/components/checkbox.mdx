@@ -51,50 +51,48 @@ export default Demo;`}
 
 ### Form
 
-<Demo code={`import { Button, FlexBox, Checkbox, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm();
 
   return (
-    <Form {...form}>
-      <FlexBox
-        as="form"
-        flexDirection="column"
-        gap="20px"
-        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-      >
-        <FormField
-          control={form.control}
-          name="checked"
-          rules={{
-            required: {
-              value: true,
-              message: "필수 값입니다.",
-            },
-          }}
-          render={({ field }) => (
-            <FormItem>
-              <FlexBox gap="8px">
-                <FormControl>
-                  <Checkbox
-                    {...field}
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel>체크박스</FormLabel>
-              </FlexBox>
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="checked"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FlexBox gap="8px">
+              <FormControl>
+                <Checkbox
+                  {...field}
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+              </FormControl>
+              <FormLabel>체크박스</FormLabel>
+            </FlexBox>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormErrorMessage>{formState.errors.checked?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 
@@ -105,8 +103,8 @@ export default Demo;`}
 ### Multiple Checkbox
 
 <Demo code={`import { useId } from 'react';
-import { Button, FlexBox, Checkbox, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const id = useId();
@@ -128,68 +126,66 @@ const Demo = () => {
   ];
 
   return (
-    <Form {...form}>
-      <FlexBox
-        as="form"
-        flexDirection="column"
-        gap="20px"
-        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-      >
-        <FormField
-          control={form.control}
-          name="selected"
-          render={() => (
-            <FormItem>
-              <FormLabel>관심 분야</FormLabel>
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel>관심 분야</FormLabel>
 
-              {items.map((item) => (
-                <FormField
-                  key={item.id}
-                  control={form.control}
-                  name="selected"
-                  rules={{
-                    required: {
-                      value: true,
-                      message: "필수 값입니다.",
-                    },
-                  }}
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={item.id}
-                        flexDirection="row"
-                        alignItems="center"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            {...field}
-                            checked={field.value.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel>{item.label}</FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
+            {items.map((item) => (
+              <Controller
+                key={item.id}
+                control={form.control}
+                name="selected"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "필수 값입니다.",
+                  },
+                }}
+                render={({ field }) => {
+                  return (
+                    <FormField
+                      key={item.id}
+                      flexDirection="row"
+                      alignItems="center"
+                    >
+                      <FormControl>
+                        <Checkbox
+                          {...field}
+                          checked={field.value.includes(item.id)}
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? field.onChange([...field.value, item.id])
+                              : field.onChange(
+                                  field.value.filter(
+                                    (value) => value !== item.id
+                                  )
+                                );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel>{item.label}</FormLabel>
+                    </FormField>
+                  );
+                }}
+              />
+            ))}
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 
