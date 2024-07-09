@@ -68,3 +68,23 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+### Inverse
+
+<Demo code={`import { CompactTooltip, CompactTooltipTrigger, CompactTooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <CompactTooltip>
+      <CompactTooltipTrigger>
+        <Button>마우스 호버</Button>
+      </CompactTooltipTrigger>
+      <CompactTooltipContent variant="inverse" shortcut="⌘C">
+        내용
+      </CompactTooltipContent>
+    </CompactTooltip>
+  )
+}
+
+export default Demo;`}
+/>

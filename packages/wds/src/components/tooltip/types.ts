@@ -28,11 +28,12 @@ export type TooltipContentProps = {
   arrow?: boolean;
   action?: ReactNode;
   children?: ReactNode;
-  variant?: 'normal' | 'inverse' | 'accent';
+  closeButton?: boolean;
   offset?: PopperContentProps['offset'];
   position?: PopperContentProps['position'];
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];
+  animationDuration?: number;
   /**
    * compact tooltip을 위해 사용
    */

@@ -100,7 +100,7 @@ const PopperArrow = forwardRef<
         style={{
           ...props.style,
           position: 'absolute',
-          width: '40px',
+          width: '24px',
           height: '8px',
           display: 'block',
           left: arrowX,
@@ -127,7 +127,7 @@ const PopperArrow = forwardRef<
         {...props}
       >
         <path
-          d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
+          d="M11.2407 6.11563L6 0.00143462H18L12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563Z"
           fill="currentColor"
         />
       </Box>
@@ -138,7 +138,7 @@ const PopperArrow = forwardRef<
           style={{
             ...props.style,
             position: 'absolute',
-            width: '40px',
+            width: '24px',
             height: '8px',
             display: 'block',
             left: arrowX,
@@ -166,7 +166,7 @@ const PopperArrow = forwardRef<
           {...props}
         >
           <path
-            d="M10.5858 6.58609L4 0.000301361H20L13.4142 6.58609C12.6332 7.36714 11.3668 7.36714 10.5858 6.58609Z"
+            d="M12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563L6 0.00143462H18L12.7593 6.11564Z"
             fill="currentColor"
           />
         </Box>
@@ -202,7 +202,7 @@ const PopperContent: ReturnType<
     const [content, setContent] = useState<HTMLElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setContent(node));
 
-    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 40 : 0;
+    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 24 : 0;
     const arrowHeight = Boolean(arrow) ? arrowSize?.height || 8 : 0;
 
     const floatingPlacement = getPlacementMapper(position);
@@ -235,7 +235,17 @@ const PopperContent: ReturnType<
         }),
         flip(),
         size(),
-        arrow && floatingUIarrow({ element: arrow as Element }),
+        arrow &&
+          floatingUIarrow(({ placement, ...a }) => {
+            console.log(placement, a);
+            return {
+              element: arrow as Element,
+              padding:
+                placement.includes('left') || placement.includes('right')
+                  ? 12
+                  : 6,
+            };
+          }),
         transformOrigin({ arrowWidth, arrowHeight }),
         referenceHidden && hide(),
       ],
