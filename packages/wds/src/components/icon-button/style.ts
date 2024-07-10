@@ -195,7 +195,7 @@ const iconButtonColorStyle = (
                 )};
                 mix-blend-mode: plus-lighter;
                 will-change: mix-blend-mode, backdrop-filter;
-                backdrop-filter: blur(4rem);
+                backdrop-filter: blur(32px);
               `}
           width: calc(100% + 8px);
           height: calc(100% + 8px);
