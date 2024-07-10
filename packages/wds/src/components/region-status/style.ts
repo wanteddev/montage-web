@@ -80,6 +80,7 @@ export const toastCircleIconWrapperStyle = (theme: Theme) => css`
   position: relative;
 
   &::before {
+    z-index: -1;
     position: absolute;
     content: '';
     width: 50%;
