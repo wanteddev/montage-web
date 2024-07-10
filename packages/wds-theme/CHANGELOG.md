@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.0.2...@wanteddev/wds-theme@1.0.3) (2024-07-10)
+
+### Features
+
+- **wds-theme:** navigation 테마 opacity 조정 ([#51](https://github.com/wanteddev/wds/issues/51)) ([bdfedc8](https://github.com/wanteddev/wds/commit/bdfedc8d373d94457b8ecb73dd44e716183f1b51))
+
 ## [1.0.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.0.1...@wanteddev/wds-theme@1.0.2) (2024-05-21)
 
 ### Bug Fixes
