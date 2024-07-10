@@ -5,6 +5,7 @@ export const useFormField = (componentName: string) => {
 
   return {
     id,
+    formLabelId: `${id}-form-label`,
     formFieldId: `${id}-form-field`,
     formMessageId: `${id}-form-field-message`,
     formErrorMessageId: `${id}-form-field-error-message`,

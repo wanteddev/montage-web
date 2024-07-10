@@ -52,15 +52,15 @@ const FormField = forwardRef(
 FormField.displayName = FORM_FIELD_NAME;
 
 const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
-  const { formFieldId } = useFormField(FORM_LABEL_NAME);
+  const { formFieldId, formLabelId } = useFormField(FORM_LABEL_NAME);
 
-  return <Label ref={ref} htmlFor={formFieldId} {...props} />;
+  return <Label ref={ref} id={formLabelId} htmlFor={formFieldId} {...props} />;
 });
 
 FormLabel.displayName = FORM_LABEL_NAME;
 
 const FormControl = forwardRef<ElementRef<typeof Slot>>((props, ref) => {
-  const { formFieldId, formMessageId, formErrorMessageId } =
+  const { formFieldId, formLabelId, formMessageId, formErrorMessageId } =
     useFormField(FORM_CONTROL_NAME);
 
   return (
@@ -68,6 +68,7 @@ const FormControl = forwardRef<ElementRef<typeof Slot>>((props, ref) => {
       ref={ref}
       id={formFieldId}
       aria-describedby={`${formMessageId} ${formErrorMessageId}`}
+      aria-labelledby={formLabelId}
       {...props}
     />
   );
