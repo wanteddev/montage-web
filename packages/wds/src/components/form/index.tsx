@@ -23,6 +23,7 @@ import type {
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 import type {
+  FormControlProps,
   FormErrorMessageProps,
   FormLabelProps,
   FormMessageProps,
@@ -59,20 +60,22 @@ const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
 
 FormLabel.displayName = FORM_LABEL_NAME;
 
-const FormControl = forwardRef<ElementRef<typeof Slot>>((props, ref) => {
-  const { formFieldId, formLabelId, formMessageId, formErrorMessageId } =
-    useFormField(FORM_CONTROL_NAME);
+const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
+  (props, ref) => {
+    const { formFieldId, formLabelId, formMessageId, formErrorMessageId } =
+      useFormField(FORM_CONTROL_NAME);
 
-  return (
-    <Slot
-      ref={ref}
-      id={formFieldId}
-      aria-describedby={`${formMessageId} ${formErrorMessageId}`}
-      aria-labelledby={formLabelId}
-      {...props}
-    />
-  );
-});
+    return (
+      <Slot
+        ref={ref}
+        id={formFieldId}
+        aria-describedby={`${formMessageId} ${formErrorMessageId}`}
+        aria-labelledby={formLabelId}
+        {...props}
+      />
+    );
+  },
+);
 
 FormControl.displayName = FORM_CONTROL_NAME;
 
