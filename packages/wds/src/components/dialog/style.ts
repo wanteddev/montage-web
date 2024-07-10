@@ -25,6 +25,7 @@ export const dialogDimmerStyle = (theme: Theme) => css`
   position: fixed;
   inset: 0;
   background-color: ${theme.palette.material.dimmer};
+  opacity: ${theme.opacity[43]};
   z-index: -1;
 `;
 
