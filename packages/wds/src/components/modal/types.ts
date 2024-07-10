@@ -48,7 +48,9 @@ type ModalContainerDefaultProps = {
     | 'medium'
     | 'medium-fixed'
     | 'large'
-    | 'large-fixed';
+    | 'large-fixed'
+    | 'huge'
+    | 'huge-fixed';
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<
