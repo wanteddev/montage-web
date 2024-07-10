@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.0...@wanteddev/wds@1.3.1) (2024-07-10)
+
+### Bug Fixes
+
+- **wds:** form control props 타입 변경 ([a3c81f4](https://github.com/wanteddev/wds/commit/a3c81f4d28379f2a25558f4dc2df86815f7b36cf))
+
+### Features
+
+- **wds:** 기본 버튼 type=button 추가 ([8d8c683](https://github.com/wanteddev/wds/commit/8d8c6837acc2f0d4fe92b178a81345badb381d9e))
+
 # [1.3.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.2.2...@wanteddev/wds@1.3.0) (2024-07-10)
 
 ### Features
