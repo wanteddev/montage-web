@@ -29,6 +29,7 @@ const AvatarButton = forwardRef(
       <Box
         as={(as || 'button') as ElementType}
         ref={ref}
+        type="button"
         {...props}
         sx={[avatarButtonStyle, props.sx]}
       >

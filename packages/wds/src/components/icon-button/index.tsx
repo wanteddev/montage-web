@@ -92,6 +92,7 @@ const IconButton = forwardRef(
           wds-component="icon-button"
           data-variant={variant}
           disabled={disabled}
+          type="button"
           aria-disabled={disabled ? 'true' : undefined}
           {...props}
           sx={[

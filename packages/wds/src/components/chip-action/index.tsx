@@ -46,6 +46,7 @@ const ChipAction = forwardRef(
         <Box
           as={(as || 'button') as E}
           aria-labelledby={id}
+          type="button"
           ref={ref}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}

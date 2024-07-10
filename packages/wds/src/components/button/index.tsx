@@ -67,6 +67,7 @@ const Button = forwardRef(
           ref={ref}
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
+          type="button"
           {...props}
           sx={[
             buttonStyle({
