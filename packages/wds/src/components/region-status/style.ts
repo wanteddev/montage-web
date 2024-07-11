@@ -116,7 +116,7 @@ export const messageStyle = css`
 `;
 
 export const snackbarActionStyle = (theme: Theme) => css`
-  color: ${theme.palette.background.normal.normal};
+  color: ${theme.palette.static.white};
 
   & [wds-component='with-interaction'] {
     background-color: ${theme.palette.background.normal.normal};
