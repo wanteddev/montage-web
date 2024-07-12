@@ -155,10 +155,15 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 56px;
-        --wds-action-area-margin: var(--wds-modal-content-margin);
+        --wds-action-area-margin-x: var(--wds-modal-content-margin);
+        --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-action-area-extra-content-margin: calc(
           4px + var(--wds-action-area-margin, 20px)
         );
+
+        [data-role='navigation-title'] {
+          padding: 0px 4px;
+        }
       `;
     case 'normal':
     case 'normal-fixed':
@@ -179,10 +184,15 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 64px;
-        --wds-action-area-margin: var(--wds-modal-content-margin);
+        --wds-action-area-margin-x: var(--wds-modal-content-margin);
+        --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-action-area-extra-content-margin: calc(
           4px + var(--wds-content-margin, 20px)
         );
+
+        [data-role='navigation-title'] {
+          padding: 0px 4px;
+        }
       `;
     case 'medium':
     case 'medium-fixed':
@@ -203,11 +213,16 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 64px;
-        --wds-action-area-margin: var(--wds-modal-content-margin);
+        --wds-action-area-margin-x: var(--wds-modal-content-margin);
+        --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-modal-action-area-extra-content-margin: var(
           --wds-action-area-margin,
           20px
         );
+
+        [data-role='navigation-title'] {
+          padding: 0px 8px;
+        }
       `;
     case 'large':
     case 'large-fixed':
@@ -228,11 +243,46 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
           var(--wds-modal-navigation-padding-x);
         --wds-modal-navigation-min-height: 72px;
-        --wds-action-area-margin: var(--wds-modal-content-margin);
+        --wds-action-area-margin-x: var(--wds-modal-content-margin);
+        --wds-action-area-margin-y: 24px;
         --wds-action-area-extra-content-margin: var(
           --wds-action-area-margin,
           20px
         );
+
+        [data-role='navigation-title'] {
+          padding: 0px 12px;
+        }
+      `;
+    case 'huge':
+    case 'huge-fixed':
+      return css`
+        width: 640px;
+        min-width: 640px;
+        max-width: 1060px;
+        height: initial;
+
+        ${size.includes('fixed') &&
+        css`
+          height: 760px;
+        `}
+
+        --wds-modal-content-margin: 32px;
+        --wds-modal-navigation-padding-x: 20px;
+        --wds-modal-navigation-padding-y: 24px;
+        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
+          var(--wds-modal-navigation-padding-x);
+        --wds-modal-navigation-min-height: 72px;
+        --wds-action-area-margin-x: var(--wds-modal-content-margin);
+        --wds-action-area-margin-y: 24px;
+        --wds-action-area-extra-content-margin: var(
+          --wds-action-area-margin,
+          20px
+        );
+
+        [data-role='navigation-title'] {
+          padding: 0px 12px;
+        }
       `;
   }
 };
@@ -382,7 +432,6 @@ export const modalNavigationTitleStyle = (
         width: 100%;
         justify-content: center;
         max-height: 24px;
-        padding: 0px 4px;
 
         h2 {
           width: var(--wds-navigation-title-width);
@@ -398,7 +447,6 @@ export const modalNavigationTitleStyle = (
         overflow: hidden;
         white-space: nowrap;
         max-height: 24px;
-        padding: 0px 4px;
 
         h2 {
           ${typographyStyle('heading2', 'bold')}
@@ -410,7 +458,6 @@ export const modalNavigationTitleStyle = (
       return css`
         flex: 1 1 auto;
         max-height: 24px;
-        padding: 0px 4px;
 
         h2 {
           ${ellipsisTypographyStyle(2)}

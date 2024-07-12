@@ -1,22 +1,19 @@
 'use client';
 import { Slot } from '@radix-ui/react-slot';
-import { Controller, FormProvider } from 'react-hook-form';
 import { forwardRef, useId } from 'react';
 
+import FlexBox from '../flex-box';
 import Label from '../label';
 import Typography from '../typography';
-import FlexBox from '../flex-box';
 
-import { FormFieldProvider, FormItemProvider } from './contexts';
 import {
   FORM_CONTROL_NAME,
-  FORM_DESCRIPTION_NAME,
   FORM_ERROR_MESSAGE_NAME,
   FORM_FIELD_NAME,
-  FORM_ITEM_NAME,
   FORM_LABEL_NAME,
   FORM_MESSAGE_NAME,
 } from './constants';
+import { FormFieldProvider } from './contexts';
 import { useFormField } from './hooks';
 
 import type {
@@ -24,42 +21,23 @@ import type {
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { FieldPath, FieldValues } from 'react-hook-form';
+import type { FlexBoxProps } from '../flex-box/types';
 import type {
   FormControlProps,
-  FormDescriptionProps,
   FormErrorMessageProps,
-  FormFieldProps,
-  FormItemProps,
   FormLabelProps,
   FormMessageProps,
 } from './types';
 
-const Form: typeof FormProvider = FormProvider;
-
-const FormField = <
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
->({
-  ...props
-}: FormFieldProps<TFieldValues, TName>) => {
-  return (
-    <FormFieldProvider name={props.name}>
-      <Controller {...props} />
-    </FormFieldProvider>
-  );
-};
-FormField.displayName = FORM_FIELD_NAME;
-
-const FormItem = forwardRef(
+const FormField = forwardRef(
   <E extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicProps<FormItemProps, E>,
+    { as, ...props }: PolymorphicProps<FlexBoxProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
 
     return (
-      <FormItemProvider id={id}>
+      <FormFieldProvider id={id}>
         <FlexBox
           as={(as || 'div') as E}
           ref={ref}
@@ -67,42 +45,32 @@ const FormItem = forwardRef(
           gap="8px"
           {...props}
         />
-      </FormItemProvider>
+      </FormFieldProvider>
     );
   },
-) as PolymorphicComponent<FormItemProps, 'div'>;
+) as PolymorphicComponent<FlexBoxProps, 'div'>;
 
-FormItem.displayName = FORM_ITEM_NAME;
+FormField.displayName = FORM_FIELD_NAME;
 
 const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
-  const { formItemId } = useFormField(FORM_LABEL_NAME);
+  const { formFieldId, formLabelId } = useFormField(FORM_LABEL_NAME);
 
-  return <Label ref={ref} htmlFor={formItemId} {...props} />;
+  return <Label ref={ref} id={formLabelId} htmlFor={formFieldId} {...props} />;
 });
 
 FormLabel.displayName = FORM_LABEL_NAME;
 
 const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
   (props, ref) => {
-    const {
-      error,
-      formItemId,
-      formMessageId,
-      formDescriptionId,
-      formErrorMessageId,
-    } = useFormField(FORM_CONTROL_NAME);
+    const { formFieldId, formLabelId, formMessageId, formErrorMessageId } =
+      useFormField(FORM_CONTROL_NAME);
 
     return (
       <Slot
         ref={ref}
-        id={formItemId}
-        aria-describedby={
-          Boolean(error)
-            ? `${formMessageId} ${formDescriptionId} ${formErrorMessageId}`
-            : `${formMessageId} ${formDescriptionId}`
-        }
-        aria-invalid={Boolean(error)}
-        {...(Boolean(error) && { invalid: Boolean(error).toString() })}
+        id={formFieldId}
+        aria-describedby={`${formMessageId} ${formErrorMessageId}`}
+        aria-labelledby={formLabelId}
         {...props}
       />
     );
@@ -111,12 +79,12 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
 
 FormControl.displayName = FORM_CONTROL_NAME;
 
-const FormDescription = forwardRef(
+const FormMessage = forwardRef(
   <E extends ElementType = 'p'>(
-    { as, children, ...props }: PolymorphicProps<FormDescriptionProps, E>,
+    { as, children, ...props }: PolymorphicProps<FormMessageProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { formDescriptionId } = useFormField(FORM_DESCRIPTION_NAME);
+    const { formMessageId } = useFormField(FORM_MESSAGE_NAME);
 
     if (!children) {
       return null;
@@ -126,7 +94,7 @@ const FormDescription = forwardRef(
       <Typography
         as={(as || 'p') as E}
         ref={ref}
-        id={formDescriptionId}
+        id={formMessageId}
         variant="label2"
         weight="regular"
         color="palette.label.alternative"
@@ -136,20 +104,18 @@ const FormDescription = forwardRef(
       </Typography>
     );
   },
-) as PolymorphicComponent<FormDescriptionProps, 'p'>;
+) as PolymorphicComponent<FormMessageProps, 'p'>;
 
-FormDescription.displayName = FORM_DESCRIPTION_NAME;
+FormMessage.displayName = FORM_MESSAGE_NAME;
 
 const FormErrorMessage = forwardRef(
   <E extends ElementType = 'p'>(
     { as, children, ...props }: PolymorphicProps<FormErrorMessageProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { error, formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
+    const { formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
 
-    const message = String(error?.message || '') || children;
-
-    if (!message) {
+    if (!children) {
       return null;
     }
 
@@ -163,7 +129,7 @@ const FormErrorMessage = forwardRef(
         color="palette.status.negative"
         {...props}
       >
-        {message}
+        {children}
       </Typography>
     );
   },
@@ -171,48 +137,4 @@ const FormErrorMessage = forwardRef(
 
 FormErrorMessage.displayName = FORM_ERROR_MESSAGE_NAME;
 
-const FormMessage = forwardRef(
-  <E extends ElementType = 'p'>(
-    { as, children, ...props }: PolymorphicProps<FormMessageProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
-  ) => {
-    const { error, formMessageId } = useFormField(FORM_MESSAGE_NAME);
-
-    const hasError = Boolean(error);
-
-    const message = String(error?.message || '') || children;
-
-    if (!message) {
-      return null;
-    }
-
-    return (
-      <Typography
-        as={(as || 'p') as E}
-        ref={ref}
-        id={formMessageId}
-        variant="label2"
-        weight="regular"
-        color={
-          hasError ? 'palette.status.negative' : 'palette.label.alternative'
-        }
-        {...props}
-      >
-        {message}
-      </Typography>
-    );
-  },
-) as PolymorphicComponent<FormMessageProps, 'p'>;
-
-FormMessage.displayName = FORM_MESSAGE_NAME;
-
-export {
-  Form,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormDescription,
-  FormErrorMessage,
-  FormMessage,
-  FormField,
-};
+export { FormControl, FormErrorMessage, FormField, FormLabel, FormMessage };

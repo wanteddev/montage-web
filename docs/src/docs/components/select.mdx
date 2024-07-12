@@ -70,41 +70,46 @@ export default Demo;`}
 
 ### Form
 
-<Demo code={`import { Button, FlexBox, Select, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+<Demo code={`import { Button, FlexBox, Select, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm();
 
   return (
-    <Form {...form}>
-      <FlexBox
-        as="form"
-        flexDirection="column"
-        gap="20px"
-        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-      >
-        <FormField
-          control={form.control}
-          name="checked"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Select</FormLabel>
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="checked"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>Select</FormLabel>
 
-              <FormControl>
-                <Select {...field} width="300px" placeholder="값을 선택하세요.">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </Select>
-              </FormControl>
-            </FormItem>
-          )}
-        />
+            <FormControl>
+              <Select {...field} width="300px" placeholder="값을 선택하세요." invalid={Boolean(formState.errors?.checked)}>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </Select>
+            </FormControl>
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+            <FormErrorMessage>{formState.errors.checked?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 

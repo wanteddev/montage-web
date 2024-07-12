@@ -42,6 +42,7 @@ const FloatingAction = forwardRef(
           ref={ref}
           aria-disabled={disabled ? 'true' : undefined}
           disabled={disabled}
+          type="button"
           {...props}
           sx={[
             floatingActionStyle({ size, iconSize, xs, sm, md, lg, xl }),

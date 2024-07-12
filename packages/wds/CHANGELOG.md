@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.0...@wanteddev/wds@1.3.1) (2024-07-10)
+
+### Bug Fixes
+
+- **wds:** form control props 타입 변경 ([a3c81f4](https://github.com/wanteddev/wds/commit/a3c81f4d28379f2a25558f4dc2df86815f7b36cf))
+
+### Features
+
+- **wds:** 기본 버튼 type=button 추가 ([8d8c683](https://github.com/wanteddev/wds/commit/8d8c6837acc2f0d4fe92b178a81345badb381d9e))
+
+# [1.3.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.2.2...@wanteddev/wds@1.3.0) (2024-07-10)
+
+### Features
+
+- **wds:** dialog의 dimmer 투명도 조정 ([#52](https://github.com/wanteddev/wds/issues/52)) ([f9b89c0](https://github.com/wanteddev/wds/commit/f9b89c077b7043830f226ceac5f9a52e07a77262))
+- **wds:** form label 접근성 속성 추가 ([#65](https://github.com/wanteddev/wds/issues/65)) ([b107362](https://github.com/wanteddev/wds/commit/b107362f6a46f58b7cd34808d1c5bee89dae150f))
+- **wds:** form-v3에서 react-hook-form 분리한 구조 작업 ([#62](https://github.com/wanteddev/wds/issues/62)) ([df2b293](https://github.com/wanteddev/wds/commit/df2b2930d4c205085a2d186824e78ed7774e24a6))
+- **wds:** modal huge 사이즈 추가 및 fixed 최대 높이 설정, 기타 간격 조정 ([#53](https://github.com/wanteddev/wds/issues/53)) ([85af85f](https://github.com/wanteddev/wds/commit/85af85f8a1ef9b0a39e1a60259b39c4b587b86ca))
+- **wds:** tab의 상태값이 변경될 때 스크롤 이동 여부 조절 기능 추가 ([#61](https://github.com/wanteddev/wds/issues/61)) ([1079b06](https://github.com/wanteddev/wds/commit/1079b06fc0d5be24be77067b71f9ff65bc26cdbc))
+- **wds:** 토스트 다크모드 시인성 개선 ([#54](https://github.com/wanteddev/wds/issues/54)) ([f3842fc](https://github.com/wanteddev/wds/commit/f3842fc915903d94bba9d8a3b44c58d96c1b020c))
+
+## [1.2.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.2.1...@wanteddev/wds@1.2.2) (2024-07-10)
+
+### Features
+
+- **wds-theme:** navigation 테마 opacity 조정 ([#51](https://github.com/wanteddev/wds/issues/51)) ([bdfedc8](https://github.com/wanteddev/wds/commit/bdfedc8d373d94457b8ecb73dd44e716183f1b51))
+
 ## [1.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.2.0...@wanteddev/wds@1.2.1) (2024-07-03)
 
 ### Features

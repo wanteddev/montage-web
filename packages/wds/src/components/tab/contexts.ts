@@ -10,6 +10,8 @@ export type TabContextType = {
   id: string;
   panels: Array<string>;
   onPanelsChange: Dispatch<SetStateAction<Array<string>>>;
+  disableScrollMoveOnChange?: boolean;
+  enableScrollMoveOnMount?: boolean;
 };
 
 export const [TabProvider, useTabContext] =

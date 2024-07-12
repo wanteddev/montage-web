@@ -74,13 +74,28 @@ export const bottomRegionStatusStyle = (
   `}
 `;
 
+export const toastCircleIconWrapperStyle = (theme: Theme) => css`
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+
+  &::before {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    width: 50%;
+    height: 50%;
+    background-color: ${theme.palette.static.white};
+  }
+`;
+
 export const firstOverlayStyle = (theme: Theme) => css`
   width: 100%;
   height: 100%;
   position: absolute;
   background-color: ${addOpacity(
     theme.palette.inverse.background,
-    theme.opacity[61],
+    theme.opacity[52],
   )};
   inset: 0;
 `;
@@ -91,7 +106,7 @@ export const secondOverlayStyle = (theme: Theme) => css`
   position: absolute;
   background-color: ${addOpacity(
     theme.palette.primary.normal,
-    theme.opacity[8],
+    theme.opacity[5],
   )};
   inset: 0;
 `;

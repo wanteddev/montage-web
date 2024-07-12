@@ -1,5 +1,4 @@
 'use client';
-import { forwardRef, useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 import {
@@ -7,6 +6,7 @@ import {
   IconCircleClose,
   IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
+import { forwardRef, useRef } from 'react';
 
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';

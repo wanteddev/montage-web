@@ -51,6 +51,7 @@ const TextButton = forwardRef(
           wds-component="text-button"
           aria-labelledby={id}
           ref={ref}
+          type="button"
           disabled={disabled}
           aria-disabled={disabled ? 'true' : undefined}
           {...props}

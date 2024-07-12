@@ -25,7 +25,10 @@ const Demo = () => {
   const handleClick = () => {
     snackbar({
       variant: 'normal',
-      content: '메시지에 마침표를 찍어요.',
+      heading: '메시지에 마침표를 찍어요.',
+      action: {
+        children: '텍스트'
+      }
     });
   };
 

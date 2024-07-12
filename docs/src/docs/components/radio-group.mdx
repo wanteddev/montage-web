@@ -48,61 +48,59 @@ export default Demo;`}
 
 ### Form
 
-<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from '@wanteddev/wds';
-import { useForm } from 'react-hook-form';
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm();
 
   return (
-    <Form {...form}>
-      <FlexBox
-        as="form"
-        flexDirection="column"
-        gap="20px"
-        onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-      >
-        <FormField
-          control={form.control}
-          name="selected"
-          rules={{
-            required: {
-              value: true,
-              message: "필수 값입니다.",
-            },
-          }}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>성별</FormLabel>
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>성별</FormLabel>
 
-              <FormControl>
-                <RadioGroup {...field} onValueChange={field.onChange}>
-                  <FormItem flexDirection="row" alignItems="center">
-                    <FormControl>
-                      <RadioGroupItem value="man" />
-                    </FormControl>
+            <FormControl>
+              <RadioGroup {...field} onValueChange={field.onChange}>
+                <FormField flexDirection="row" alignItems="center">
+                  <FormControl>
+                    <RadioGroupItem value="man" />
+                  </FormControl>
 
-                    <FormLabel>Man</FormLabel>
-                  </FormItem>
+                  <FormLabel>Man</FormLabel>
+                </FormField>
 
-                  <FormItem flexDirection="row" alignItems="center">
-                    <FormControl>
-                      <RadioGroupItem value="woman" />
-                    </FormControl>
-                    
-                    <FormLabel>Woman</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
+                <FormField flexDirection="row" alignItems="center">
+                  <FormControl>
+                    <RadioGroupItem value="woman" />
+                  </FormControl>
+                  
+                  <FormLabel>Woman</FormLabel>
+                </FormField>
+              </RadioGroup>
+            </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
 
-        <Button type="submit">제출</Button>
-      </FlexBox>
-    </Form>
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 

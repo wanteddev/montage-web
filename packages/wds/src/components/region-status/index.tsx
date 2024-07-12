@@ -1,17 +1,18 @@
 'use client';
-import { memo, useId, useState } from 'react';
+import { Box } from '@wanteddev/wds-engine';
 import {
   IconCircle,
   IconCircleCheckFill,
   IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
-import { Box } from '@wanteddev/wds-engine';
+import { memo, useId, useState } from 'react';
 
-import { useRegionStore } from '../../stores/region-store';
-import Typography from '../typography';
 import { FlexBox, Portal, TextButton } from '..';
+import { useRegionStore } from '../../stores/region-store';
 import { ellipsisTypographyStyle } from '../../utils';
+import Typography from '../typography';
 
+import { isSnackbar } from './helpers';
 import {
   bottomMountKeyFrames,
   bottomRegionStatusStyle,
@@ -21,8 +22,8 @@ import {
   secondOverlayStyle,
   snackbarActionStyle,
   textStyle,
+  toastCircleIconWrapperStyle,
 } from './style';
-import { isSnackbar } from './helpers';
 
 import type { AnimationEventHandler, ReactNode } from 'react';
 import type {
@@ -66,23 +67,37 @@ const Toast = ({
 
   const [isMountAnimationDone, setIsMountAnimationDone] = useState(false);
 
+  // warning과 success일 때 다크모드 시인성을 위해 흰색 배경 표시
+  // CircleIcon을 사용하기 때문.
   const iconComponent: {
     [key in Exclude<RegionToastItem['variant'], undefined>]: ReactNode;
   } = {
     normal: null,
     success: (
-      <IconCircleCheckFill
-        sx={(theme) => ({
-          color: theme.palette.status.positive,
-        })}
-      />
+      <FlexBox
+        alignItems="center"
+        justifyContent="center"
+        sx={toastCircleIconWrapperStyle}
+      >
+        <IconCircleCheckFill
+          sx={(theme) => ({
+            color: theme.palette.status.positive,
+          })}
+        />
+      </FlexBox>
     ),
     warning: (
-      <IconCircleExclamationFill
-        sx={(theme) => ({
-          color: theme.palette.status.cautionary,
-        })}
-      />
+      <FlexBox
+        alignItems="center"
+        justifyContent="center"
+        sx={toastCircleIconWrapperStyle}
+      >
+        <IconCircleExclamationFill
+          sx={(theme) => ({
+            color: theme.palette.status.cautionary,
+          })}
+        />
+      </FlexBox>
     ),
     custom: icon,
   };
@@ -114,7 +129,7 @@ const Toast = ({
         {iconComponent[variant]}
 
         <Typography
-          color="palette.inverse.label"
+          color="palette.static.white"
           variant="body2_normal"
           weight="bold"
           id={contentId}
@@ -174,7 +189,7 @@ const Snackbar = ({
         <FlexBox flexDirection="column" sx={messageStyle}>
           {heading && (
             <Typography
-              color="palette.inverse.label"
+              color="palette.static.white"
               variant="body2_normal"
               weight="bold"
               id={headingId}
@@ -186,7 +201,7 @@ const Snackbar = ({
 
           {description && (
             <Typography
-              color="palette.inverse.label"
+              color="palette.static.white"
               variant="label2"
               weight="regular"
               id={descriptionId}

@@ -51,6 +51,8 @@ const Tab = ({
   value: valueProp,
   onValueChange,
   children,
+  disableScrollMoveOnChange = false,
+  enableScrollMoveOnMount = false,
 }: TabProps) => {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -69,6 +71,8 @@ const Tab = ({
       onValueChange={setValue}
       panels={panels}
       onPanelsChange={setPanels}
+      disableScrollMoveOnChange={disableScrollMoveOnChange}
+      enableScrollMoveOnMount={enableScrollMoveOnMount}
     >
       {children}
     </TabProvider>
@@ -212,6 +216,8 @@ const TabListItem = forwardRef(
     const isActive = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
 
+    const isMounted = useRef(false);
+
     const controls = context.panels.find((v) => v === value);
 
     useEffect(() => {
@@ -231,13 +237,34 @@ const TabListItem = forwardRef(
     }, []);
 
     useEffect(() => {
-      if (context.value === value) {
-        (ref.current as HTMLElement | null)?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
+      const scrollMove = () => {
+        if (context.value === value) {
+          (ref.current as HTMLElement | null)?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+          });
+        }
+      };
+
+      if (!isMounted.current && context.enableScrollMoveOnMount) {
+        scrollMove();
+      } else if (isMounted.current && !context.disableScrollMoveOnChange) {
+        scrollMove();
       }
-    }, [context.value, value]);
+    }, [
+      context.value,
+      value,
+      context.disableScrollMoveOnChange,
+      context.enableScrollMoveOnMount,
+    ]);
+
+    useEffect(() => {
+      if (isMounted.current) {
+        return;
+      }
+
+      isMounted.current = true;
+    }, []);
 
     return (
       <RovingFocusGroup.Item asChild focusable={!isDisabled} active={isActive}>

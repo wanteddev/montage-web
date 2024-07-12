@@ -20,7 +20,7 @@ export const lightOriginTheme = {
   platform: {
     ios: {
       navigation: `
-        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.74);
+        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
         backdrop-filter: blur(32px);
       `,
     },

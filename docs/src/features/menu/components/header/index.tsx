@@ -4,11 +4,12 @@ import {
   IconButton,
   NoSsr,
   RegionConfig,
-  Typography,
   useThemeControl,
 } from '@wanteddev/wds';
-import { IconMenu, IconSymbol } from '@wanteddev/wds-icon';
+import { IconMenu } from '@wanteddev/wds-icon';
 import Link from 'next/link';
+
+import Logo from '@/assets/logo';
 
 import { useMobileMenuContext } from '../../context';
 import Search from '../search';
@@ -34,16 +35,8 @@ const Header = () => {
           justifyContent="space-between"
           sx={headerStyle}
         >
-          <FlexBox gap="8px" alignItems="center">
-            <IconSymbol />
-            <Typography
-              variant="headline2"
-              sm={{ variant: 'headline1' }}
-              weight="bold"
-              color="palette.label.strong"
-            >
-              WDS
-            </Typography>
+          <FlexBox as={Link} href="/">
+            <Logo />
           </FlexBox>
 
           <FlexBox gap="12px" sm={{ gap: '24px' }} alignItems="center">
