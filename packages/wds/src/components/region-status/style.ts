@@ -1,6 +1,6 @@
 import { css, keyframes } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils';
+import { addOpacity, respondMore, respondTo } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
@@ -28,51 +28,55 @@ export const bottomUnmountKeyFrames = keyframes`
   }
 `;
 
-export const bottomRegionStatusStyle = (
-  duration: number,
-  isMountAnimationDone: boolean,
-) => css`
-  padding: 11px 16px;
-  max-width: 100%;
-  border-radius: 12px;
-  display: flex;
-  gap: 16px;
-  width: fit-content;
-  max-width: 360px;
-  font-size: 20px;
-  pointer-events: auto;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  backdrop-filter: blur(32px);
+export const bottomRegionStatusStyle =
+  (duration: number, isMountAnimationDone: boolean) => (theme: Theme) => css`
+    padding: 11px 16px;
+    max-width: 100%;
+    border-radius: 12px;
+    display: flex;
+    gap: 16px;
+    font-size: 20px;
+    pointer-events: auto;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(32px);
 
-  animation:
-    ${bottomMountKeyFrames} 200ms cubic-bezier(0.4, 0, 0.2, 1),
-    ${bottomUnmountKeyFrames} 200ms ${duration}ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  & > :not([role='presentation']) {
-    z-index: 1;
-  }
-
-  ${isMountAnimationDone &&
-  css`
-    &:hover {
-      animation-play-state: paused;
+    ${respondMore(theme.breakpoint.sm)} {
+      min-width: 356px;
+      max-width: 360px;
+    }
+    ${respondTo(theme.breakpoint.sm)} {
+      width: 100%;
     }
 
-    &:where(:focus-within) {
-      animation-play-state: paused;
+    animation:
+      ${bottomMountKeyFrames} 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      ${bottomUnmountKeyFrames} 200ms ${duration}ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    & > :not([role='presentation']) {
+      z-index: 1;
     }
 
-    &:where(:focus) {
-      animation-play-state: paused;
-    }
+    ${isMountAnimationDone &&
+    css`
+      &:hover {
+        animation-play-state: paused;
+      }
 
-    &:where(:hover) {
-      animation-play-state: paused;
-    }
-  `}
-`;
+      &:where(:focus-within) {
+        animation-play-state: paused;
+      }
+
+      &:where(:focus) {
+        animation-play-state: paused;
+      }
+
+      &:where(:hover) {
+        animation-play-state: paused;
+      }
+    `}
+  `;
 
 export const toastCircleIconWrapperStyle = (theme: Theme) => css`
   width: fit-content;
@@ -116,7 +120,7 @@ export const messageStyle = css`
 `;
 
 export const snackbarActionStyle = (theme: Theme) => css`
-  color: ${theme.palette.background.normal.normal};
+  color: ${theme.palette.static.white};
 
   & [wds-component='with-interaction'] {
     background-color: ${theme.palette.background.normal.normal};
@@ -125,4 +129,8 @@ export const snackbarActionStyle = (theme: Theme) => css`
 
 export const textStyle = (theme: Theme) => css`
   opacity: ${theme.opacity[88]};
+`;
+
+export const fullWidthFlexBoxStyle = css`
+  width: 100%;
 `;
