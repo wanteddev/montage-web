@@ -94,7 +94,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/image-loader',
         stable: true,
       },
-      { title: 'Label', slug: '/docs/components/label' },
+      { title: 'Label', slug: '/docs/components/label', stable: true },
       { title: 'Modal', slug: '/docs/components/modal', stable: true },
       {
         title: 'NestedCheckbox',
@@ -145,7 +145,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/text-button',
         stable: true,
       },
-      { title: 'TextField', slug: '/docs/components/text-field' },
+      { title: 'TextField', slug: '/docs/components/text-field', stable: true },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
       { title: 'Tooltip', slug: '/docs/components/tooltip', stable: true },
