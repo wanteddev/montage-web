@@ -1,5 +1,5 @@
-import type { Box, Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { CSSProperties, ComponentPropsWithoutRef } from 'react';
+import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { CSSProperties } from 'react';
 
 export type SelectDefaultProps = {
   invalid?: boolean;
@@ -11,7 +11,6 @@ export type SelectDefaultProps = {
   defaultValue?: string;
   onChange?: (value: any) => void;
   placeholder?: string;
-  wrapperProps?: ComponentPropsWithoutRef<typeof Box<'div'>>;
 };
 
 export type SelectResponsiveProps = ResponsiveProps<

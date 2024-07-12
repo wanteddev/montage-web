@@ -4,7 +4,9 @@ import { IconChevronDown } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import { selectStyle, selectWrapperStyle } from './style';
+import FlexBox from '../flex-box';
+
+import { selectIconStyle, selectStyle, selectWrapperStyle } from './style';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ChangeEvent } from 'react';
@@ -23,7 +25,6 @@ const Select = forwardRef<
       onChange,
       placeholder,
       children,
-      wrapperProps,
       width,
       height,
       xs,
@@ -42,22 +43,7 @@ const Select = forwardRef<
     });
 
     return (
-      <Box
-        {...wrapperProps}
-        sx={[
-          selectWrapperStyle({
-            disabled,
-            width,
-            height,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          }),
-          wrapperProps?.sx,
-        ]}
-      >
+      <FlexBox alignItems="center" sx={selectWrapperStyle}>
         <Box
           as="select"
           ref={ref}
@@ -68,6 +54,8 @@ const Select = forwardRef<
             selectStyle({
               disabled,
               invalid,
+              width,
+              height,
               xs,
               sm,
               md,
@@ -92,12 +80,8 @@ const Select = forwardRef<
           {children}
         </Box>
 
-        <IconChevronDown
-          sx={{
-            pointerEvents: 'none',
-          }}
-        />
-      </Box>
+        <IconChevronDown sx={selectIconStyle({ disabled })} />
+      </FlexBox>
     );
   },
 );
