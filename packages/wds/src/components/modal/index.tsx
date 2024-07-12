@@ -24,6 +24,7 @@ import ScrollArea from '../scroll-area';
 import TextButton from '../text-button';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
+import useResizeObserver from '../../hooks/use-resize-observer';
 
 import {
   ModalActionAreaProvider,
@@ -69,7 +70,6 @@ import type {
   ElementRef,
   ElementType,
   ForwardedRef,
-  UIEventHandler,
 } from 'react';
 import type {
   ModalContainerProps,
@@ -165,12 +165,13 @@ const ModalContainer = forwardRef<
       context.innerContainerRef,
     );
 
-    const [scrollHeight, setScrollHeight] = useState(0);
+    const detectScrollRef = useRef<HTMLDivElement>(null);
 
+    const [scrollHeight, setScrollHeight] = useState(0);
     const [hasScroll, setHasScroll] = useState(false);
 
-    const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
-      (e) => {
+    const handleOnScroll = useCallback(
+      (e: Event) => {
         const target = e.target as Element;
 
         setScrollHeight(target.scrollTop);
@@ -178,22 +179,29 @@ const ModalContainer = forwardRef<
       [setScrollHeight],
     );
 
+    const handleResize = useCallback(() => {
+      const target = innerContainerRef.current;
+      if (!target) {
+        return;
+      }
+
+      setHasScroll(
+        target.scrollHeight - target.clientHeight !== target.scrollTop,
+      );
+    }, [setHasScroll]);
+
+    useResizeObserver(detectScrollRef.current, handleResize);
+
     useEffect(() => {
-      const handleResize = () => {
-        if (innerContainerRef.current) {
-          setHasScroll(
-            innerContainerRef.current.scrollHeight -
-              innerContainerRef.current.clientHeight !==
-              scrollHeight,
-          );
-        }
-      };
+      const target = innerContainerRef.current;
+      if (!target) {
+        return;
+      }
 
-      handleResize();
-      window.addEventListener('resize', handleResize);
+      target.addEventListener('scroll', handleOnScroll);
 
-      return () => window.removeEventListener('resize', handleResize);
-    }, [innerContainerRef, scrollHeight, setHasScroll]);
+      return () => target.removeEventListener('scroll', handleOnScroll);
+    }, [handleOnScroll]);
 
     useEffect(() => {
       const content = containerRef.current;
@@ -320,30 +328,20 @@ const ModalContainer = forwardRef<
                     sx={{
                       display: 'flex',
                       flexGrow: '1',
-                      ['& > div']: {
-                        display: 'flex !important',
-                        flexDirection: 'column',
-                      },
                     }}
                     zIndex={11}
-                    asChild
-                    viewPortProps={{
-                      onScroll: handleOnScroll,
-                      sx: {
-                        flexGrow: 1,
-                        height: 'initial',
-                      },
-                    }}
                   >
-                    {isEnabled && (
-                      <FlexBox
-                        justifyContent="center"
-                        sx={modalGrabberStyle}
-                        {...dragProps}
-                      />
-                    )}
+                    <FlexBox flexDirection="column" ref={detectScrollRef}>
+                      {isEnabled && (
+                        <FlexBox
+                          justifyContent="center"
+                          sx={modalGrabberStyle}
+                          {...dragProps}
+                        />
+                      )}
 
-                    {children}
+                      {children}
+                    </FlexBox>
                   </ScrollArea>
                 </Box>
               </DismissableLayer>
