@@ -58,6 +58,7 @@ const compactTooltipVariantStyle = (
         }
 
         span {
+          position: relative;
           z-index: 1;
         }
       `;
