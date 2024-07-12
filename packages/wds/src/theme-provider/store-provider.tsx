@@ -1,19 +1,19 @@
 'use client';
+import { Box } from '@wanteddev/wds-engine';
 import { useRef } from 'react';
 import { type StoreApi } from 'zustand';
-import { Box } from '@wanteddev/wds-engine';
 
+import Dialog from '../components/dialog';
+import RegionStatus from '../components/region-status';
+import { DialogContext, createDialogStore } from '../stores/dialog-store';
 import {
   RegionContext,
   createRegionStore,
   useRegionStore,
 } from '../stores/region-store';
-import RegionStatus from '../components/region-status';
-import { DialogContext, createDialogStore } from '../stores/dialog-store';
-import Dialog from '../components/dialog';
 
-import type { DialogStore } from '../stores/dialog-store';
 import type { CSSProperties, PropsWithChildren } from 'react';
+import type { DialogStore } from '../stores/dialog-store';
 import type { RegionStore } from '../stores/region-store';
 
 const StoreProvider = ({ children }: PropsWithChildren) => {
@@ -81,6 +81,7 @@ const RegionArea = () => {
           bottom: 'var(--wds-region-viewport-bottom, 0px)',
           paddingBottom: '40px',
           [`@media (max-width: ${theme.breakpoint.sm})`]: {
+            minWidth: '100%',
             paddingBottom: '34px',
           },
         })}
