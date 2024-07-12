@@ -18,7 +18,7 @@ import {
   bottomRegionStatusStyle,
   bottomUnmountKeyFrames,
   firstOverlayStyle,
-  fullWidthBoxStyle,
+  fullWidthFlexBoxStyle,
   messageStyle,
   secondOverlayStyle,
   snackbarActionStyle,
@@ -177,53 +177,56 @@ const Snackbar = ({
     >
       <Box role="presentation" sx={firstOverlayStyle} />
       <Box role="presentation" sx={secondOverlayStyle} />
-      <Box sx={fullWidthBoxStyle}>
-        <FlexBox gap="12px" alignItems="center" justifyContent="space-between">
-          <FlexBox gap="12px" alignItems="center">
-            {extraContent && (
-              <FlexBox
-                flexShrink={0}
-                sx={{ width: 'fit-content', height: 'fit-content' }}
+      <FlexBox
+        gap="12px"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={fullWidthFlexBoxStyle}
+      >
+        <FlexBox gap="12px" alignItems="center">
+          {extraContent && (
+            <FlexBox
+              flexShrink={0}
+              sx={{ width: 'fit-content', height: 'fit-content' }}
+            >
+              {extraContent}
+            </FlexBox>
+          )}
+
+          <FlexBox flexDirection="column" sx={messageStyle}>
+            {heading && (
+              <Typography
+                color="palette.static.white"
+                variant="body2_normal"
+                weight="bold"
+                id={headingId}
+                sx={textStyle}
               >
-                {extraContent}
-              </FlexBox>
+                {heading}
+              </Typography>
             )}
 
-            <FlexBox flexDirection="column" sx={messageStyle}>
-              {heading && (
-                <Typography
-                  color="palette.static.white"
-                  variant="body2_normal"
-                  weight="bold"
-                  id={headingId}
-                  sx={textStyle}
-                >
-                  {heading}
-                </Typography>
-              )}
-
-              {description && (
-                <Typography
-                  color="palette.static.white"
-                  variant="label2"
-                  weight="regular"
-                  id={descriptionId}
-                  sx={[textStyle, ellipsisTypographyStyle(2)]}
-                >
-                  {description}
-                </Typography>
-              )}
-            </FlexBox>
+            {description && (
+              <Typography
+                color="palette.static.white"
+                variant="label2"
+                weight="regular"
+                id={descriptionId}
+                sx={[textStyle, ellipsisTypographyStyle(2)]}
+              >
+                {description}
+              </Typography>
+            )}
           </FlexBox>
-
-          <TextButton
-            variant="assistive"
-            size="medium"
-            {...action}
-            sx={[snackbarActionStyle, action.sx]}
-          />
         </FlexBox>
-      </Box>
+
+        <TextButton
+          variant="assistive"
+          size="medium"
+          {...action}
+          sx={[snackbarActionStyle, action.sx]}
+        />
+      </FlexBox>
     </Box>
   );
 };

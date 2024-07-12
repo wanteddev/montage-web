@@ -131,6 +131,6 @@ export const textStyle = (theme: Theme) => css`
   opacity: ${theme.opacity[88]};
 `;
 
-export const fullWidthBoxStyle = css`
+export const fullWidthFlexBoxStyle = css`
   width: 100%;
 `;
