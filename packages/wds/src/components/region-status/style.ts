@@ -130,3 +130,7 @@ export const snackbarActionStyle = (theme: Theme) => css`
 export const textStyle = (theme: Theme) => css`
   opacity: ${theme.opacity[88]};
 `;
+
+export const fullWidthBoxStyle = css`
+  width: 100%;
+`;
