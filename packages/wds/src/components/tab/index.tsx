@@ -16,6 +16,7 @@ import { Box } from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 import ScrollArea from '../scroll-area';
+import useResizeObserver from '../../hooks/use-resize-observer';
 
 import {
   scrollWrapperStyle,
@@ -131,26 +132,20 @@ const TabList = forwardRef<
       }
     }, [scrollLeft, scrollWidth]);
 
-    useEffect(() => {
-      const handleResize = () => {
-        if (!viewportRef.current || !containerRef.current) {
-          return;
-        }
+    const handleResize = useCallback(() => {
+      const target = viewportRef.current;
+      if (!target) {
+        return;
+      }
 
-        const width = viewportRef.current.scrollWidth;
-        const left = viewportRef.current.scrollLeft;
+      const width = target.scrollWidth;
+      const left = target.scrollLeft;
 
-        setScrollLeft(left);
-        setScrollWidth(width);
-      };
+      setScrollLeft(left);
+      setScrollWidth(width);
+    }, [setScrollLeft]);
 
-      handleResize();
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }, []);
+    useResizeObserver(viewportRef.current, handleResize);
 
     return (
       <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
