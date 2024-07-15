@@ -14,7 +14,7 @@ const ContentBadge = forwardRef<
   (
     {
       variant = 'filled',
-      size = 'small',
+      size = 'normal',
       color = 'accent',
       accentColor = 'palette.accent.cyan',
       leftIcon,
