@@ -24,6 +24,7 @@ const ToggleIcon = forwardRef(
       onActiveChange,
       activeColor = 'palette.primary.normal',
       size = '24px',
+      disabled,
       xs,
       sm,
       md,
@@ -43,12 +44,14 @@ const ToggleIcon = forwardRef(
       <WithInteraction
         width="calc(100% + 8px)"
         height="calc(100% + 8px)"
-        disabled={props.disabled}
+        disabled={disabled}
       >
         <Box
           as={as || 'button'}
           type="button"
           aria-pressed={pressed}
+          aria-disabled={disabled}
+          disabled={disabled}
           {...props}
           sx={[
             toggleIconStyle({
@@ -65,7 +68,7 @@ const ToggleIcon = forwardRef(
           ]}
           ref={ref}
           onClick={composeEventHandlers(props.onClick, () => {
-            if (!props.disabled) {
+            if (!disabled) {
               setPressed(!pressed);
             }
           })}

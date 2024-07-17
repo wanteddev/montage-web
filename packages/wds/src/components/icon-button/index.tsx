@@ -93,7 +93,7 @@ const IconButton = forwardRef(
           data-variant={variant}
           disabled={disabled}
           type="button"
-          aria-disabled={disabled ? 'true' : undefined}
+          aria-disabled={disabled}
           {...props}
           sx={[
             iconButtonStyle({

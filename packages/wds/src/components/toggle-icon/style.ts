@@ -18,7 +18,8 @@ export const toggleIconStyle =
       ? getColorByToken(theme, activeColor!)
       : theme.palette.label.assistive};
 
-    &:disabled {
+    &:disabled,
+    &[aria-disabled='true'] {
       color: ${theme.palette.label.disable};
     }
 

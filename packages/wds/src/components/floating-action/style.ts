@@ -21,9 +21,7 @@ export const floatingActionStyle =
 
     ${floatingActionSizeStyle({ size, iconSize })}
 
-    &:disabled {
-      pointer-events: none;
-      cursor: not-allowed;
+    &:disabled, &[aria-disabled='true'] {
       color: ${theme.palette.label.assistive};
       background-color: ${theme.palette.interaction.disable};
     }

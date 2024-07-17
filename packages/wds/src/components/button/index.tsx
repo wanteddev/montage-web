@@ -66,7 +66,7 @@ const Button = forwardRef(
           aria-labelledby={iconOnly ? undefined : id}
           ref={ref}
           disabled={disabled}
-          aria-disabled={disabled ? 'true' : undefined}
+          aria-disabled={disabled}
           type="button"
           {...props}
           sx={[

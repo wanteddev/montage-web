@@ -19,7 +19,8 @@ export const buttonStyle =
     height: fit-content;
     cursor: pointer;
 
-    &:disabled {
+    &:disabled,
+    &[aria-disabled='true'] {
       pointer-events: none;
       cursor: not-allowed;
     }
@@ -131,7 +132,8 @@ const buttonColorStyle = (
         background-color: ${theme.palette.primary.normal};
         box-shadow: none;
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.assistive};
           background-color: ${theme.palette.interaction.disable};
           box-shadow: none;
@@ -145,7 +147,8 @@ const buttonColorStyle = (
         backdrop-filter: blur(32px);
         will-change: backdrop-filter;
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.assistive};
           background-color: ${theme.palette.interaction.disable};
           box-shadow: none;
@@ -158,7 +161,8 @@ const buttonColorStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
           background-color: transparent;
           box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
@@ -170,7 +174,8 @@ const buttonColorStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
           background-color: transparent;
           box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
@@ -182,7 +187,8 @@ const buttonColorStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
           background-color: transparent;
           box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};

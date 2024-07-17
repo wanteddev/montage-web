@@ -20,7 +20,8 @@ export const textButtonStyle =
     width: fit-content;
     cursor: pointer;
 
-    &:disabled {
+    &:disabled,
+    &[aria-disabled='true'] {
       pointer-events: none;
       cursor: not-allowed;
     }
@@ -48,7 +49,8 @@ const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
         border: none;
         box-shadow: none;
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
         }
       `;
@@ -59,7 +61,8 @@ const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
         box-shadow: none;
         color: ${theme.palette.label.alternative};
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
         }
       `;

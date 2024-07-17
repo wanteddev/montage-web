@@ -540,7 +540,7 @@ export const modalNavigationActionFloat =
       }
     `}
 
-    &:disabled {
+    &:disabled, &[aria-disabled='true'] {
       p {
         mix-blend-mode: initial;
       }
