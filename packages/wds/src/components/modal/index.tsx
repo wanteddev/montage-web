@@ -329,6 +329,11 @@ const ModalContainer = forwardRef<
                       display: 'flex',
                       flexGrow: '1',
                     }}
+                    viewPortProps={{
+                      sx: {
+                        height: 'initial',
+                      },
+                    }}
                     zIndex={11}
                   >
                     <FlexBox flexDirection="column" ref={detectScrollRef}>
