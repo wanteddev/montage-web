@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useRef, useState } from 'react';
 import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, css } from '@wanteddev/wds-engine';
 import { useSize } from '@radix-ui/react-use-size';
@@ -8,6 +8,7 @@ import FlexBox from '../flex-box';
 import Typography from '../typography';
 import ScrollArea from '../scroll-area';
 import { typographyStyle } from '../../utils/typography';
+import useResizeObserver from '../../hooks/use-resize-observer';
 
 import {
   maxLengthStyle,
@@ -18,31 +19,6 @@ import {
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TextAreaProps } from './types';
-
-export interface Cancelable {
-  clear(): void;
-}
-
-const debounce = <T extends (...args: Array<any>) => any>(
-  func: T,
-  wait = 166,
-) => {
-  let timeout: ReturnType<typeof setTimeout>;
-  function debounced(...args: Parameters<T>) {
-    const later = () => {
-      // @ts-ignore
-      func.apply(this, args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  }
-
-  debounced.clear = () => {
-    clearTimeout(timeout);
-  };
-
-  return debounced as T & Cancelable;
-};
 
 const TextArea = forwardRef<
   HTMLTextAreaElement,
@@ -161,53 +137,7 @@ const TextArea = forwardRef<
       );
     }, [maxRows, minRows, props.placeholder, maxLength]);
 
-    useEffect(() => {
-      if (!textAreaRef.current) {
-        return;
-      }
-      let resizeObserverEntries: Array<ResizeObserverEntry> = [];
-
-      const handleResize = () => {
-        syncTextAreaHeight();
-      };
-      let rAF: any;
-      const rAFHandleResize = () => {
-        cancelAnimationFrame(rAF);
-        rAF = requestAnimationFrame(() => {
-          handleResize();
-        });
-      };
-      const debounceHandleResize = debounce(handleResize);
-      const textArea = textAreaRef.current;
-      const containerWindow = textArea.ownerDocument.defaultView || window;
-      containerWindow.addEventListener('resize', debounceHandleResize);
-      let resizeObserver: ResizeObserver;
-      if (typeof ResizeObserver !== 'undefined') {
-        resizeObserver = new ResizeObserver((entries) => {
-          resizeObserverEntries = entries;
-
-          const func =
-            process.env.NODE_ENV === 'test' ? rAFHandleResize : handleResize;
-
-          func();
-        });
-        resizeObserver.observe(textArea);
-      }
-      return () => {
-        debounceHandleResize.clear();
-        cancelAnimationFrame(rAF);
-        containerWindow.removeEventListener('resize', debounceHandleResize);
-        resizeObserverEntries.forEach((entry) => entry.target.remove());
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        if (resizeObserver) {
-          resizeObserver.disconnect();
-        }
-      };
-    }, [syncTextAreaHeight]);
-
-    useEffect(() => {
-      syncTextAreaHeight();
-    });
+    useResizeObserver(textAreaRef.current, syncTextAreaHeight);
 
     return (
       <ScrollArea
