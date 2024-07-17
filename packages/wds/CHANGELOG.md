@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.1...@wanteddev/wds@1.3.2) (2024-07-17)
+
+### Bug Fixes
+
+- **wds:** as로 변경가능한 요소 disabled 처리 변경 ([#70](https://github.com/wanteddev/wds/issues/70)) ([08c3123](https://github.com/wanteddev/wds/commit/08c3123ad5a996823007fa3afe0971ad8fed9003))
+- **wds:** modal 에서 조건부 렌더링의 경우 스크롤 높이를 감지하지 못 하는 이슈 ([#67](https://github.com/wanteddev/wds/issues/67)) ([aa36582](https://github.com/wanteddev/wds/commit/aa365823a85b6b2e6fe8a917dd306d743ddb93cc))
+- **wds:** 모달 sticky가 되지 않는 현상 수정 ([010b58b](https://github.com/wanteddev/wds/commit/010b58bcd61ceab2bdf7e17a420e65fe620f8459))
+
 ## [1.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.0...@wanteddev/wds@1.3.1) (2024-07-10)
 
 ### Bug Fixes
