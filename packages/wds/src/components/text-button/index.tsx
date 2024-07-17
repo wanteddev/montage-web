@@ -53,7 +53,7 @@ const TextButton = forwardRef(
           ref={ref}
           type="button"
           disabled={disabled}
-          aria-disabled={disabled ? 'true' : undefined}
+          aria-disabled={disabled}
           {...props}
           sx={[
             textButtonStyle({

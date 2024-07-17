@@ -25,10 +25,6 @@ export const iconButtonStyle =
     display: flex;
     align-items: center;
     justify-content: center;
-    &:disabled {
-      pointer-events: none;
-      cursor: not-allowed;
-    }
 
     ${iconButtonSizeStyle(
       props.size || getDefaultSize(props.variant),
@@ -147,7 +143,7 @@ const iconButtonColorStyle = (
           }
         `}
 
-        &:disabled {
+        &:disabled, &[aria-disabled='true'] {
           background-color: transparent;
           color: ${theme.palette.label.disable};
           box-shadow: none;
@@ -215,7 +211,8 @@ const iconButtonColorStyle = (
           }
         }
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           background-color: transparent;
           color: ${addOpacity(
             theme.palette.coolNeutral[50],
@@ -250,7 +247,7 @@ const iconButtonColorStyle = (
           color: ${getColorByToken(theme, color!)};
         `}
 
-        &:disabled {
+        &:disabled, &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
           background-color: ${theme.palette.background.normal.normal};
           box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
@@ -266,7 +263,7 @@ const iconButtonColorStyle = (
           color: ${getColorByToken(theme, color!)};
         `}
 
-        &:disabled {
+        &:disabled, &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
           background-color: ${theme.palette.fill.normal};
           backdrop-filter: blur(32px);

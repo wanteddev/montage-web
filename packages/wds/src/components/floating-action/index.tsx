@@ -40,7 +40,7 @@ const FloatingAction = forwardRef(
         <Box
           as={(as || 'button') as ElementType}
           ref={ref}
-          aria-disabled={disabled ? 'true' : undefined}
+          aria-disabled={disabled}
           disabled={disabled}
           type="button"
           {...props}

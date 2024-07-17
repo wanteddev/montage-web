@@ -11,6 +11,7 @@ type ToggleIconDefaultProps = {
   onActiveChange?: (state: boolean) => void;
   activeColor?: ThemeColorsToken;
   size?: CSSProperties['fontSize'];
+  disabled?: boolean;
 };
 
 type ToggleIconResponsiveProps = ResponsiveProps<

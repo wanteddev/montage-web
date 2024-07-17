@@ -20,7 +20,8 @@ export const actionStyle =
     cursor: pointer;
     width: fit-content;
 
-    &:disabled {
+    &:disabled,
+    &[aria-disabled='true'] {
       pointer-events: none;
       cursor: not-allowed;
     }
@@ -94,7 +95,8 @@ const actionVariantStyle = (
         background-color: ${theme.palette.fill.alternative};
         box-shadow: none;
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.assistive};
           background-color: ${theme.palette.fill.alternative};
           box-shadow: none;
@@ -106,7 +108,8 @@ const actionVariantStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
 
-        &:disabled {
+        &:disabled,
+        &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
           background-color: transparent;
           box-shadow: inset 0 0 0 1px 1px

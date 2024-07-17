@@ -49,7 +49,7 @@ const ChipAction = forwardRef(
           type="button"
           ref={ref}
           disabled={disabled}
-          aria-disabled={disabled ? 'true' : undefined}
+          aria-disabled={disabled}
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
