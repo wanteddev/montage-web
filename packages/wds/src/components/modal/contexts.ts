@@ -8,6 +8,7 @@ import {
   MODAL_NAVIGATION_NAME,
 } from './constants';
 
+import type { TransitionStatus } from '../../hooks/use-transition-status';
 import type { RefObject } from 'react';
 import type { ModalNavigationProps } from './types';
 
@@ -23,13 +24,14 @@ type ModalContextValue = {
   onOpenChange: (open: boolean) => void;
   disableOutsideClickClose: boolean;
   disableEscapeKeyDownClose: boolean;
+  status?: TransitionStatus;
+  setTransitionDuration: (duration: number) => void;
 };
 
 export const [ModalProvider, useModalContext] =
   createContext<ModalContextValue>(MODAL_NAME);
 
 type ModalContainerContextValue = {
-  handleClose: () => void;
   scrollHeight: number;
 };
 

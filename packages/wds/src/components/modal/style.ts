@@ -61,6 +61,8 @@ const modalContainerWrapperVariant = (
     case 'full':
       return css`
         justify-content: center;
+        align-items: initial;
+        padding: 0px;
       `;
     case 'popup':
       return css`
@@ -70,6 +72,7 @@ const modalContainerWrapperVariant = (
       `;
     case 'bottom':
       return css`
+        padding: 0px;
         align-items: flex-end;
         justify-content: center;
       `;
@@ -95,14 +98,38 @@ export const modalBottomUnmountKeyframes = keyframes`
 `;
 
 export const modalContainerStyle =
-  ({ variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
+  ({
+    isBottomSheet,
+    isEnabled,
+    variant,
+    size,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ModalContainerProps & { isBottomSheet?: boolean; isEnabled?: boolean }) =>
   (theme: Theme) => css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     outline: none;
     background-color: ${theme.palette.background.elevated.normal};
-    transform: translateY(var(--wds-modal-translate, 0px));
+    transition-property: transform;
+    transition-duration: 200ms;
+
+    ${(isBottomSheet || isEnabled) &&
+    css`
+      &[data-status='open'] {
+        transform: translateY(var(--wds-modal-translate, 0px));
+      }
+
+      &[data-status='initial'],
+      &[data-status='unmounted'],
+      &[data-status='close'] {
+        transform: translateY(var(--wds-modal-translate, 100%));
+      }
+    `}
 
     [wds-component='action-area'] {
       position: sticky;
@@ -326,18 +353,16 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
 export const modalGrabberStyle = (theme: Theme) => css`
   min-width: inherit;
   position: absolute;
-  padding-top: 9px;
-  padding-bottom: 5px;
+  padding: 7px 2px 8px 2px;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
   z-index: 10;
   touch-action: pan-y;
-  -webkit-transform: translate3d(0, 0, 0);
 
   &::after {
     content: '';
     border-radius: 1000px;
-    margin-bottom: 9px;
     width: 40px;
     height: 5px;
     display: block;

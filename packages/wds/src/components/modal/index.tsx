@@ -10,7 +10,6 @@ import {
 } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
-import { flushSync } from 'react-dom';
 import { Box, useTheme } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
@@ -25,6 +24,7 @@ import TextButton from '../text-button';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/use-resize-observer';
+import { useTransitionStatus } from '../../hooks';
 
 import {
   ModalActionAreaProvider,
@@ -38,6 +38,7 @@ import {
 } from './contexts';
 import {
   MODAL_CLOSE_NAME,
+  MODAL_CONTAINER_NAME,
   MODAL_NAME,
   MODAL_NAVIGATION_ACTION_NAME,
   MODAL_NAVIGATION_NAME,
@@ -102,6 +103,10 @@ const Modal = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const innerContainerRef = useRef<HTMLDivElement>(null);
 
+  const [duration, setDuration] = useState(0);
+
+  const { hasExited, status } = useTransitionStatus({ open, duration });
+
   return (
     <ModalProvider
       containerRef={containerRef}
@@ -115,13 +120,13 @@ const Modal = ({
       disableOutsideClickClose={disableOutsideClickClose}
       disableEscapeKeyDownClose={disableEscapeKeyDownClose}
       onOpenChange={setOpen}
+      status={status}
+      setTransitionDuration={setDuration}
     >
-      {open && (
-        <>
-          <PortalOrFragment disablePortal={disablePortal} container={container}>
-            <>{children}</>
-          </PortalOrFragment>
-        </>
+      {!hasExited && (
+        <PortalOrFragment disablePortal={disablePortal} container={container}>
+          {children}
+        </PortalOrFragment>
       )}
     </ModalProvider>
   );
@@ -154,8 +159,10 @@ const ModalContainer = forwardRef<
       disableOutsideClickClose,
       disableEscapeKeyDownClose,
       onOpenChange,
+      setTransitionDuration,
+      status,
       ...context
-    } = useModalContext(MODAL_NAME);
+    } = useModalContext(MODAL_CONTAINER_NAME);
 
     const composedContainerRefs = useComposedRefs(ref, containerRef);
 
@@ -212,7 +219,7 @@ const ModalContainer = forwardRef<
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const { isEnabled, ...dragProps } = useDraggable({
+    const { isBottomSheet, isEnabled, ...dragProps } = useDraggable({
       variant,
       handle,
       xs,
@@ -222,44 +229,12 @@ const ModalContainer = forwardRef<
       xl,
     });
 
-    const handleClose = useCallback(async () => {
-      if (isEnabled && containerRef.current) {
-        try {
-          containerRef.current.style.setProperty(
-            '--wds-modal-translate',
-            '100%',
-          );
-          await containerRef.current.animate(
-            [
-              {
-                transform: 'translateY(0px)',
-              },
-              {
-                transform: 'translateY(100%)',
-              },
-            ],
-            {
-              duration: 200,
-              easing: 'ease',
-            },
-          ).finished;
-
-          flushSync(() => {
-            onOpenChange(false);
-          });
-        } catch (err) {
-          onOpenChange(false);
-        }
-      } else {
-        onOpenChange(false);
-      }
-    }, [onOpenChange, isEnabled, containerRef]);
+    useEffect(() => {
+      setTransitionDuration(isBottomSheet ? 250 : 0);
+    }, [isBottomSheet, setTransitionDuration]);
 
     return (
-      <ModalContainerProvider
-        scrollHeight={scrollHeight}
-        handleClose={handleClose}
-      >
+      <ModalContainerProvider scrollHeight={scrollHeight}>
         <ModalActionAreaProvider sticky={sticky} hasScroll={hasScroll}>
           <Box
             sx={modalContainerWrapperStyle({
@@ -283,7 +258,7 @@ const ModalContainer = forwardRef<
                     return;
                   }
 
-                  handleClose();
+                  onOpenChange(false);
                 }}
                 sx={modalDimmerStyle}
               />
@@ -300,7 +275,7 @@ const ModalContainer = forwardRef<
                     e.preventDefault();
                   }
                 }}
-                onDismiss={handleClose}
+                onDismiss={() => onOpenChange(false)}
                 ref={composedContainerRefs}
               >
                 <Box
@@ -310,8 +285,11 @@ const ModalContainer = forwardRef<
                   aria-describedby={`${context.descriptionId} ${context.summaryId}`}
                   aria-labelledby={`${context.titleId} ${context.headingId}`}
                   {...props}
+                  data-status={status}
                   sx={[
                     modalContainerStyle({
+                      isBottomSheet,
+                      isEnabled,
                       variant,
                       size,
                       xs,
@@ -358,21 +336,21 @@ const ModalContainer = forwardRef<
   },
 );
 
-ModalContainer.displayName = 'ModalContainer';
+ModalContainer.displayName = MODAL_CONTAINER_NAME;
 
 const ModalClose = forwardRef(
   <E extends ElementType = 'button'>(
     { children, ...props }: PolymorphicProps<ModalNavigationActionProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { handleClose } = useModalContainerContext(MODAL_CLOSE_NAME);
+    const { onOpenChange } = useModalContext(MODAL_CLOSE_NAME);
     const { variant: navigationVariant } =
       useModalNavigationContext(MODAL_CLOSE_NAME);
 
     return (
       <ModalNavigationAction
         {...props}
-        onClick={composeEventHandlers(props.onClick, handleClose)}
+        onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
         ref={ref}
       >
         {children ?? getDefaultCloseIcon(navigationVariant)}

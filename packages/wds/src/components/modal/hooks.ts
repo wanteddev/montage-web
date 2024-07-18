@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
-import { flushSync } from 'react-dom';
 
 import { getPreviousValue } from '../../utils/responsive-props';
 
@@ -11,8 +10,8 @@ import type { BreakPoint } from '@wanteddev/wds-engine';
 import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({
-  variant: defaultVariant,
-  handle: defaultHandle,
+  variant: givenVariant,
+  handle: givenHandle,
   xs,
   sm,
   md,
@@ -29,20 +28,21 @@ export const useDraggable = ({
   const variant = useMedia(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', defaultVariant, v),
+      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', givenVariant, v),
     ),
-    defaultVariant,
+    'popup',
   );
 
   const handle = useMedia(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', defaultHandle, v),
+      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', givenHandle, v),
     ),
-    defaultHandle,
+    givenHandle,
   );
 
   const isEnabled = variant !== 'popup' && handle;
+  const isBottomSheet = variant === 'bottom';
 
   const context = useModalContext(MODAL_NAME);
   const dragStarted = useRef(false);
@@ -60,6 +60,7 @@ export const useDraggable = ({
     }
     startedY.current = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
     dragStarted.current = true;
+    context.containerRef.current?.style.setProperty('transition', 'none');
   };
 
   useEffect(() => {
@@ -96,37 +97,15 @@ export const useDraggable = ({
         return;
       }
 
+      container.style.removeProperty('transition');
+
       const totalHeight = window.innerHeight - startedY.current;
 
-      container.style.transition = 'transform 0.2s ease';
-
       if (window.innerHeight - clientY.current <= totalHeight / 2) {
-        await container.animate(
-          [
-            {
-              transform: 'translateY(var(--wds-modal-translate, 0px))',
-            },
-            {
-              transform: 'translateY(100%)',
-            },
-          ],
-          {
-            duration: 200,
-            easing: 'ease',
-          },
-        ).finished;
-        container.style.setProperty('--wds-modal-translate', '100%');
-
-        flushSync(() => {
-          context.onOpenChange(false);
-        });
-
-        container.style.setProperty('--wds-modal-translate', '0px');
+        context.onOpenChange(false);
       } else {
         container.style.setProperty('--wds-modal-translate', '0px');
       }
-
-      container.style.transition = '';
     };
 
     window.addEventListener('mousemove', onMouseMove);
@@ -143,6 +122,7 @@ export const useDraggable = ({
   }, [context, isEnabled]);
 
   return {
+    isBottomSheet,
     isEnabled,
     onMouseDown,
     onTouchStart: onMouseDown,
@@ -166,7 +146,7 @@ const useMedia = <T>(
     });
   }, [queries]);
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     if (typeof window === 'undefined') {
       return defaultValue;
     }
@@ -176,7 +156,7 @@ const useMedia = <T>(
     return typeof values[index] !== 'undefined'
       ? (values[index] as T)
       : defaultValue;
-  };
+  }, [defaultValue, values, mediaQueryLists]);
 
   useEffect(
     () => {
@@ -195,7 +175,7 @@ const useMedia = <T>(
         );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mediaQueryLists],
+    [mediaQueryLists, getValue],
   );
 
   return value;
