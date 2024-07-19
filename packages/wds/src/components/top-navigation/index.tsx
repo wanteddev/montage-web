@@ -1,0 +1,232 @@
+import { forwardRef, useId } from 'react';
+import { type DefaultComponentProps, useTheme } from '@wanteddev/wds-engine';
+
+import { ModalClose } from '../modal';
+import FlexBox from '../flex-box';
+import Typography from '../typography';
+import { useModalTopNavigationContext } from '../modal/contexts';
+import IconButton from '../icon-button';
+import TextButton from '../text-button';
+
+import {
+  topNavigationButtonFloat,
+  topNavigationButtonTextStyle,
+  topNavigationLeftIconStyle,
+  topNavigationRightIconStyle,
+  topNavigationStyle,
+  topNavigationTitleStyle,
+  topNavigationWrapperStyle,
+} from './style';
+import { TopNavigationProvider, useTopNavigationContext } from './contexts';
+import { TOP_NAVIGATION_ACTION_NAME, TOP_NAVIGATION_NAME } from './constants';
+
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
+import type {
+  CSSProperties,
+  ElementRef,
+  ElementType,
+  ForwardedRef,
+} from 'react';
+import type { TopNavigationButtonProps, TopNavigationProps } from './types';
+
+const TopNavigation = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<TopNavigationProps, 'div'>
+>(
+  (
+    {
+      variant = 'normal',
+      leftButton,
+      rightButton = <ModalClose />,
+      toolbar,
+      scrolled: givenScrolled,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    const modalContext = useModalTopNavigationContext();
+    const scrolled = modalContext?.scrolled ?? givenScrolled;
+    const titleId = modalContext?.titleId;
+
+    const theme = useTheme();
+
+    const leftButtonRender = () =>
+      Boolean(leftButton) ? (
+        <FlexBox gap="16px" sx={topNavigationLeftIconStyle(variant)}>
+          {leftButton}
+        </FlexBox>
+      ) : null;
+
+    const rightButtonRender = () =>
+      Boolean(rightButton) && (
+        <FlexBox gap="16px" sx={topNavigationRightIconStyle(variant)}>
+          {rightButton}
+        </FlexBox>
+      );
+
+    return (
+      <TopNavigationProvider variant={variant}>
+        <FlexBox
+          wds-component="top-navigation"
+          ref={ref}
+          flexDirection="column"
+          {...props}
+          sx={[
+            topNavigationStyle({
+              variant,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
+          style={
+            {
+              ['--wds-top-navigation-border-color']: scrolled
+                ? theme.palette.line.normal.normal
+                : 'transparent',
+              ...props.style,
+            } as CSSProperties
+          }
+        >
+          <FlexBox sx={topNavigationWrapperStyle(variant)}>
+            {variant !== 'floating' ? (
+              <>
+                {variant !== 'extended' && leftButtonRender()}
+
+                {Boolean(children) && (
+                  <FlexBox
+                    alignItems="center"
+                    sx={topNavigationTitleStyle(variant)}
+                    data-role="navigation-title"
+                  >
+                    <Typography
+                      as="h2"
+                      id={titleId}
+                      variant="headline2"
+                      weight="bold"
+                      color="palette.label.strong"
+                      display="block"
+                      sx={{ margin: 0, border: 'none' }}
+                    >
+                      {children}
+                    </Typography>
+                  </FlexBox>
+                )}
+
+                {variant !== 'extended' ? (
+                  rightButtonRender()
+                ) : (
+                  <FlexBox sx={{ width: '100%' }}>
+                    {leftButtonRender()}
+                    {rightButtonRender()}
+                  </FlexBox>
+                )}
+              </>
+            ) : (
+              <>
+                {Boolean(leftButton) && (
+                  <FlexBox gap="16px" sx={topNavigationLeftIconStyle(variant)}>
+                    {leftButton}
+                  </FlexBox>
+                )}
+                {Boolean(rightButton) && (
+                  <FlexBox gap="16px" sx={topNavigationRightIconStyle(variant)}>
+                    {rightButton}
+                  </FlexBox>
+                )}
+              </>
+            )}
+          </FlexBox>
+
+          {toolbar}
+        </FlexBox>
+      </TopNavigationProvider>
+    );
+  },
+);
+
+TopNavigation.displayName = TOP_NAVIGATION_NAME;
+
+const TopNavigationButton = forwardRef(
+  <E extends ElementType = 'button'>(
+    {
+      children,
+      variant = 'icon',
+      alternative,
+      ...props
+    }: PolymorphicProps<TopNavigationButtonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    const id = useId();
+    const { variant: navigationVariant } = useTopNavigationContext() || {};
+
+    if (process.env.NODE_ENV !== 'production' && !navigationVariant) {
+      throw new Error(
+        'TopNavigationButton 은 TopNavigation 내부에서만 사용 가능합니다.',
+      );
+    }
+
+    if (variant === 'icon') {
+      return (
+        <IconButton
+          variant={navigationVariant === 'floating' ? 'background' : 'normal'}
+          size={24}
+          alternative={alternative}
+          {...props}
+          wds-component="top-navigation-button"
+          ref={ref}
+        >
+          {children}
+        </IconButton>
+      );
+    }
+
+    if (navigationVariant === 'floating') {
+      return (
+        <IconButton
+          variant="background"
+          size={24}
+          alternative={alternative}
+          aria-labelledby={id}
+          {...props}
+          sx={[topNavigationButtonFloat({ alternative }), props.sx]}
+          wds-component="top-navigation-button"
+          ref={ref}
+        >
+          <Typography as="p" variant="body2_normal" weight="medium" id={id}>
+            {children}
+          </Typography>
+        </IconButton>
+      );
+    }
+
+    return (
+      <TextButton
+        variant="assistive"
+        size="medium"
+        {...props}
+        sx={[topNavigationButtonTextStyle, props.sx]}
+        wds-component="top-navigation-button"
+        ref={ref}
+      >
+        {children}
+      </TextButton>
+    );
+  },
+) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
+
+TopNavigationButton.displayName = TOP_NAVIGATION_ACTION_NAME;
+
+export { TopNavigation, TopNavigationButton };

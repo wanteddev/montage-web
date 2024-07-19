@@ -1,21 +1,12 @@
 import { css, keyframes } from '@wanteddev/wds-engine';
 
 import {
-  ellipsisTypographyStyle,
-  typographyStyle,
-} from '../../utils/typography';
-import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type {
-  ModalContainerProps,
-  ModalContentProps,
-  ModalNavigationActionProps,
-  ModalNavigationProps,
-} from './types';
+import type { ModalContainerProps, ModalContentProps } from './types';
 
 export const modalDimmerStyle = (theme: Theme) => css`
   position: fixed;
@@ -131,6 +122,13 @@ export const modalContainerStyle =
       }
     `}
 
+    [wds-component='top-navigation'] {
+      z-index: 5;
+      position: sticky;
+      top: 0px;
+      left: 0px;
+    }
+
     [wds-component='action-area'] {
       position: sticky;
       bottom: 0;
@@ -169,19 +167,20 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
       return css`
         width: 360px;
         min-width: 320px;
-        max-width: 360px;
+        max-width: 100%;
 
         ${size.includes('fixed') &&
         css`
           height: 400px;
+          max-height: 100%;
         `}
 
         --wds-modal-content-margin: 20px;
-        --wds-modal-navigation-padding-x: 16px;
-        --wds-modal-navigation-padding-y: 16px;
-        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
-          var(--wds-modal-navigation-padding-x);
-        --wds-modal-navigation-min-height: 56px;
+        --wds-top-navigation-padding-x: 16px;
+        --wds-top-navigation-padding-y: 16px;
+        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
+          var(--wds-top-navigation-padding-x);
+        --wds-top-navigation-min-height: 56px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-action-area-extra-content-margin: calc(
@@ -197,20 +196,21 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
       return css`
         width: 400px;
         min-width: 320px;
-        max-width: 400px;
+        max-width: 100%;
         height: initial;
 
         ${size.includes('fixed') &&
         css`
           height: 480px;
+          max-height: 100%;
         `}
 
         --wds-modal-content-margin: 20px;
-        --wds-modal-navigation-padding-x: 16px;
-        --wds-modal-navigation-padding-y: 20px;
-        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
-          var(--wds-modal-navigation-padding-x);
-        --wds-modal-navigation-min-height: 64px;
+        --wds-top-navigation-padding-x: 16px;
+        --wds-top-navigation-padding-y: 20px;
+        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
+          var(--wds-top-navigation-padding-x);
+        --wds-top-navigation-min-height: 64px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-action-area-extra-content-margin: calc(
@@ -232,14 +232,15 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         ${size.includes('fixed') &&
         css`
           height: 560px;
+          max-height: 100%;
         `}
 
         --wds-modal-content-margin: 24px;
-        --wds-modal-navigation-padding-x: 16px;
-        --wds-modal-navigation-padding-y: 20px;
-        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
-          var(--wds-modal-navigation-padding-x);
-        --wds-modal-navigation-min-height: 64px;
+        --wds-top-navigation-padding-x: 16px;
+        --wds-top-navigation-padding-y: 20px;
+        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
+          var(--wds-top-navigation-padding-x);
+        --wds-top-navigation-min-height: 64px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-modal-action-area-extra-content-margin: var(
@@ -262,14 +263,15 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         ${size.includes('fixed') &&
         css`
           height: 640px;
+          max-height: 100%;
         `}
 
         --wds-modal-content-margin: 32px;
-        --wds-modal-navigation-padding-x: 20px;
-        --wds-modal-navigation-padding-y: 24px;
-        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
-          var(--wds-modal-navigation-padding-x);
-        --wds-modal-navigation-min-height: 72px;
+        --wds-top-navigation-padding-x: 20px;
+        --wds-top-navigation-padding-y: 24px;
+        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
+          var(--wds-top-navigation-padding-x);
+        --wds-top-navigation-min-height: 72px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: 24px;
         --wds-action-area-extra-content-margin: var(
@@ -286,20 +288,21 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
       return css`
         width: 640px;
         min-width: 640px;
-        max-width: 1060px;
+        max-width: 100%;
         height: initial;
 
         ${size.includes('fixed') &&
         css`
           height: 760px;
+          max-height: 100%;
         `}
 
         --wds-modal-content-margin: 32px;
-        --wds-modal-navigation-padding-x: 20px;
-        --wds-modal-navigation-padding-y: 24px;
-        --wds-modal-navigation-padding: var(--wds-modal-navigation-padding-y)
-          var(--wds-modal-navigation-padding-x);
-        --wds-modal-navigation-min-height: 72px;
+        --wds-top-navigation-padding-x: 20px;
+        --wds-top-navigation-padding-y: 24px;
+        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
+          var(--wds-top-navigation-padding-x);
+        --wds-top-navigation-min-height: 72px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: 24px;
         --wds-action-area-extra-content-margin: var(
@@ -367,222 +370,6 @@ export const modalGrabberStyle = (theme: Theme) => css`
     height: 5px;
     display: block;
     background-color: ${theme.palette.fill.strong};
-  }
-`;
-
-export const modalNavigationStyle =
-  ({ variant, xs, sm, md, lg, xl }: ModalNavigationProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    align-items: center;
-    border-bottom: 1px solid var(--wds-navigation-border-color);
-    transition: border-color 0.2s ease;
-
-    [wds-component='tab-list'] {
-      &::after {
-        background-color: transparent;
-      }
-    }
-
-    --wds-navigation-title-width: 80%;
-
-    ${modalNavigationVariant(variant, theme)}
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${params?.sx}
-      `,
-    )}
-  `;
-
-export const modalNavigationWrapperStyle = (
-  variant: ModalNavigationProps['variant'],
-) => {
-  switch (variant) {
-    case 'normal':
-      return css`
-        width: 100%;
-        padding: var(--wds-modal-navigation-padding, 20px);
-        justify-content: center;
-        min-height: var(--wds-modal-navigation-min-height, 64px);
-      `;
-    case 'emphasized':
-      return css`
-        padding: var(--wds-modal-navigation-padding, 20px);
-        min-height: var(--wds-modal-navigation-min-height, 64px);
-        gap: 16px;
-        width: 100%;
-      `;
-    case 'extended':
-      return css`
-        padding: var(--wds-modal-navigation-padding, 20px);
-        gap: 16px;
-        width: 100%;
-        flex-direction: column-reverse;
-      `;
-    case 'floating':
-      return css`
-        padding: 0;
-      `;
-  }
-};
-
-const modalNavigationVariant = (
-  variant: ModalNavigationProps['variant'],
-  theme: Theme,
-) => {
-  switch (variant) {
-    case 'floating':
-      return undefined;
-    default:
-      return css`
-        ${theme.platform.ios.navigation}
-        z-index: 5;
-        position: sticky;
-        top: 0px;
-        left: 0px;
-      `;
-  }
-};
-
-export const modalNavigationTitleStyle = (
-  variant?: ModalNavigationProps['variant'],
-) => {
-  switch (variant) {
-    case 'normal':
-      return css`
-        width: 100%;
-        justify-content: center;
-        max-height: 24px;
-
-        h2 {
-          width: var(--wds-navigation-title-width);
-          text-align: center;
-          ${ellipsisTypographyStyle(2)}
-          -webkit-line-clamp: 1;
-        }
-      `;
-    case 'emphasized':
-      return css`
-        flex: 1 1 auto;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        max-height: 24px;
-
-        h2 {
-          ${typographyStyle('heading2', 'bold')}
-          ${ellipsisTypographyStyle(2)}
-          -webkit-line-clamp: 1;
-        }
-      `;
-    case 'extended':
-      return css`
-        flex: 1 1 auto;
-        max-height: 24px;
-
-        h2 {
-          ${ellipsisTypographyStyle(2)}
-          -webkit-line-clamp: 1;
-          ${typographyStyle('title3', 'bold')}
-        }
-      `;
-  }
-};
-
-export const modalRightIconStyle = (
-  variant?: ModalNavigationProps['variant'],
-) => {
-  switch (variant) {
-    case 'normal':
-      return css`
-        position: absolute;
-        right: var(--wds-modal-navigation-padding-x, 20px);
-        top: var(--wds-modal-navigation-padding-y, 20px);
-      `;
-    case 'emphasized':
-      return css`
-        flex: 0 0 auto;
-      `;
-    case 'extended':
-      return css`
-        margin-left: auto;
-      `;
-    case 'floating':
-      return css`
-        position: absolute;
-        right: var(--wds-modal-navigation-padding-x, 20px);
-        top: var(--wds-modal-navigation-padding-y, 20px);
-      `;
-  }
-};
-
-export const modalLeftIconStyle = (
-  variant?: ModalNavigationProps['variant'],
-) => {
-  switch (variant) {
-    case 'normal':
-      return css`
-        position: absolute;
-        left: var(--wds-modal-navigation-padding-x, 20px);
-        top: var(--wds-modal-navigation-padding-y, 20px);
-      `;
-    case 'emphasized':
-      return css`
-        flex: 0 0 auto;
-      `;
-    case 'extended':
-      return undefined;
-    case 'floating':
-      return css`
-        position: absolute;
-        left: var(--wds-modal-navigation-padding-x, 20px);
-        top: var(--wds-modal-navigation-padding-y, 20px);
-      `;
-  }
-};
-
-export const modalNavigationActionFloat =
-  ({ alternative }: ModalNavigationActionProps) =>
-  (theme: Theme) => css`
-    padding: 1px 6px;
-    width: fit-content;
-    flex-shrink: 0;
-
-    p {
-      position: relative;
-    }
-
-    ${!alternative &&
-    css`
-      color: ${theme.palette.label.alternative};
-      p {
-        will-change: mix-blend-mode;
-        mix-blend-mode: difference;
-      }
-    `}
-
-    &:disabled, &[aria-disabled='true'] {
-      p {
-        mix-blend-mode: initial;
-      }
-    }
-  `;
-
-export const modalNavigationActionTextStyle = (theme: Theme) => css`
-  color: ${theme.palette.label.normal};
-  padding: 0px;
-  flex-shrink: 0;
-
-  & > span {
-    ${typographyStyle('body2_normal', 'regular')}
-  }
-
-  [wds-component='with-interaction'] {
-    height: calc(100% + 8px);
   }
 `;
 

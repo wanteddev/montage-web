@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
-import { Box, useTheme } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { hideOthers } from '../../utils';
@@ -18,30 +18,25 @@ import RemoveScroll from '../remove-scroll';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
 import FlexBox from '../flex-box';
-import IconButton from '../icon-button';
 import ScrollArea from '../scroll-area';
-import TextButton from '../text-button';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { useTransitionStatus } from '../../hooks';
+import { useTopNavigationContext } from '../top-navigation/contexts';
+import { TopNavigationButton } from '../top-navigation';
 
 import {
   ModalActionAreaProvider,
-  ModalContainerProvider,
-  ModalNavigationProvider,
   ModalProvider,
-  useModalActionAreaContext,
-  useModalContainerContext,
+  ModalTopNavigationProvider,
   useModalContext,
-  useModalNavigationContext,
+  useModalTopNavigationContext,
 } from './contexts';
 import {
   MODAL_CLOSE_NAME,
   MODAL_CONTAINER_NAME,
   MODAL_NAME,
-  MODAL_NAVIGATION_ACTION_NAME,
-  MODAL_NAVIGATION_NAME,
 } from './constants';
 import {
   modalContainerStyle,
@@ -50,36 +45,23 @@ import {
   modalContentStyle,
   modalDimmerStyle,
   modalGrabberStyle,
-  modalLeftIconStyle,
-  modalNavigationActionFloat,
-  modalNavigationActionTextStyle,
-  modalNavigationStyle,
-  modalNavigationTitleStyle,
-  modalNavigationWrapperStyle,
-  modalRightIconStyle,
 } from './style';
 import { useDraggable } from './hooks';
 import { getDefaultCloseIcon } from './helpers';
 
+import type { TopNavigationButtonProps } from '../top-navigation/types';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type {
-  CSSProperties,
-  ElementRef,
-  ElementType,
-  ForwardedRef,
-} from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type {
   ModalContainerProps,
   ModalContentItemProps,
   ModalContentProps,
   ModalDescriptionProps,
   ModalHeadingProps,
-  ModalNavigationActionProps,
-  ModalNavigationProps,
   ModalProps,
   ModalSummaryProps,
 } from './types';
@@ -234,7 +216,11 @@ const ModalContainer = forwardRef<
     }, [isBottomSheet, setTransitionDuration]);
 
     return (
-      <ModalContainerProvider scrollHeight={scrollHeight}>
+      <ModalTopNavigationProvider
+        scrolled={sticky && scrollHeight > 0}
+        titleId={context.titleId}
+        onOpenChange={onOpenChange}
+      >
         <ModalActionAreaProvider sticky={sticky} hasScroll={hasScroll}>
           <Box
             sx={modalContainerWrapperStyle({
@@ -331,7 +317,7 @@ const ModalContainer = forwardRef<
             </FocusScope>
           </Box>
         </ModalActionAreaProvider>
-      </ModalContainerProvider>
+      </ModalTopNavigationProvider>
     );
   },
 );
@@ -340,216 +326,29 @@ ModalContainer.displayName = MODAL_CONTAINER_NAME;
 
 const ModalClose = forwardRef(
   <E extends ElementType = 'button'>(
-    { children, ...props }: PolymorphicProps<ModalNavigationActionProps, E>,
+    { children, ...props }: PolymorphicProps<TopNavigationButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { onOpenChange } = useModalContext(MODAL_CLOSE_NAME);
-    const { variant: navigationVariant } =
-      useModalNavigationContext(MODAL_CLOSE_NAME);
+    const { onOpenChange } = useModalTopNavigationContext() || {};
+    const { variant: navigationVariant } = useTopNavigationContext() || {};
+
+    if (!onOpenChange) {
+      return null;
+    }
 
     return (
-      <ModalNavigationAction
+      <TopNavigationButton
         {...props}
         onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
         ref={ref}
       >
         {children ?? getDefaultCloseIcon(navigationVariant)}
-      </ModalNavigationAction>
+      </TopNavigationButton>
     );
   },
-) as PolymorphicComponent<ModalNavigationActionProps, 'button'>;
+) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
 
 ModalClose.displayName = MODAL_CLOSE_NAME;
-
-const ModalNavigation = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<ModalNavigationProps, 'div'>
->(
-  (
-    {
-      variant = 'normal',
-      leftButton,
-      rightButton = <ModalClose />,
-      toolbar,
-      xs,
-      sm,
-      md,
-      lg,
-      xl,
-      children,
-      ...props
-    },
-    ref,
-  ) => {
-    const context = useModalContext(MODAL_NAVIGATION_NAME);
-    const { scrollHeight } = useModalContainerContext(MODAL_NAVIGATION_NAME);
-    const { sticky = true } = useModalActionAreaContext() || {};
-    const theme = useTheme();
-
-    const leftButtonRedner = Boolean(leftButton) ? (
-      <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
-        {leftButton}
-      </FlexBox>
-    ) : null;
-
-    const rightButtonRedner = Boolean(rightButton) && (
-      <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
-        {rightButton}
-      </FlexBox>
-    );
-
-    return (
-      <ModalNavigationProvider variant={variant}>
-        <FlexBox
-          wds-component="modal-navigation"
-          ref={ref}
-          flexDirection="column"
-          {...props}
-          sx={[
-            modalNavigationStyle({
-              variant,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            }),
-            props.sx,
-          ]}
-          style={
-            {
-              ['--wds-navigation-border-color']:
-                sticky && scrollHeight > 0
-                  ? theme.palette.line.normal.normal
-                  : 'transparent',
-              ...props.style,
-            } as CSSProperties
-          }
-        >
-          <FlexBox sx={modalNavigationWrapperStyle(variant)}>
-            {variant !== 'floating' ? (
-              <>
-                {variant !== 'extended' && leftButtonRedner}
-
-                {Boolean(children) && (
-                  <FlexBox
-                    alignItems="center"
-                    sx={modalNavigationTitleStyle(variant)}
-                    data-role="navigation-title"
-                  >
-                    <Typography
-                      as="h2"
-                      id={context.titleId}
-                      variant="headline2"
-                      weight="bold"
-                      color="palette.label.strong"
-                      display="block"
-                      sx={{ margin: 0, border: 'none' }}
-                    >
-                      {children}
-                    </Typography>
-                  </FlexBox>
-                )}
-
-                {variant !== 'extended' ? (
-                  rightButtonRedner
-                ) : (
-                  <FlexBox sx={{ width: '100%' }}>
-                    {leftButtonRedner}
-                    {rightButtonRedner}
-                  </FlexBox>
-                )}
-              </>
-            ) : (
-              <>
-                {Boolean(leftButton) && (
-                  <FlexBox gap="16px" sx={modalLeftIconStyle(variant)}>
-                    {leftButton}
-                  </FlexBox>
-                )}
-                {Boolean(rightButton) && (
-                  <FlexBox gap="16px" sx={modalRightIconStyle(variant)}>
-                    {rightButton}
-                  </FlexBox>
-                )}
-              </>
-            )}
-          </FlexBox>
-
-          {toolbar}
-        </FlexBox>
-      </ModalNavigationProvider>
-    );
-  },
-);
-
-ModalNavigation.displayName = 'ModalNavigation';
-
-const ModalNavigationAction = forwardRef(
-  <E extends ElementType = 'button'>(
-    {
-      children,
-      variant = 'icon',
-      alternative,
-      ...props
-    }: PolymorphicProps<ModalNavigationActionProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
-  ) => {
-    const id = useId();
-    const { variant: navigationVariant } = useModalNavigationContext(
-      MODAL_NAVIGATION_ACTION_NAME,
-    );
-
-    if (variant === 'icon') {
-      return (
-        <IconButton
-          variant={navigationVariant === 'floating' ? 'background' : 'normal'}
-          size={24}
-          alternative={alternative}
-          {...props}
-          wds-component="modal-navigation-action"
-          ref={ref}
-        >
-          {children}
-        </IconButton>
-      );
-    }
-
-    if (navigationVariant === 'floating') {
-      return (
-        <IconButton
-          variant="background"
-          size={24}
-          alternative={alternative}
-          aria-labelledby={id}
-          {...props}
-          sx={[modalNavigationActionFloat({ alternative }), props.sx]}
-          wds-component="modal-navigation-action"
-          ref={ref}
-        >
-          <Typography as="p" variant="body2_normal" weight="medium" id={id}>
-            {children}
-          </Typography>
-        </IconButton>
-      );
-    }
-
-    return (
-      <TextButton
-        variant="assistive"
-        size="medium"
-        {...props}
-        sx={[modalNavigationActionTextStyle, props.sx]}
-        wds-component="modal-navigation-action"
-        ref={ref}
-      >
-        {children}
-      </TextButton>
-    );
-  },
-) as PolymorphicComponent<ModalNavigationActionProps, 'button'>;
-
-ModalNavigationAction.displayName = MODAL_NAVIGATION_ACTION_NAME;
 
 const ModalContent = forwardRef<
   HTMLDivElement,
@@ -700,8 +499,6 @@ ModalDescription.displayName = 'ModalDescription';
 export {
   Modal,
   ModalContainer,
-  ModalNavigation,
-  ModalNavigationAction,
   ModalClose,
   ModalContent,
   ModalContentItem,

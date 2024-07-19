@@ -2,15 +2,10 @@ import { createContext } from '@radix-ui/react-context';
 
 import createLooseContext from '../../hooks/use-loose-context';
 
-import {
-  MODAL_CONTAINER_NAME,
-  MODAL_NAME,
-  MODAL_NAVIGATION_NAME,
-} from './constants';
+import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
 import type { TransitionStatus } from '../../hooks/use-transition-status';
 import type { RefObject } from 'react';
-import type { ModalNavigationProps } from './types';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement>;
@@ -31,13 +26,6 @@ type ModalContextValue = {
 export const [ModalProvider, useModalContext] =
   createContext<ModalContextValue>(MODAL_NAME);
 
-type ModalContainerContextValue = {
-  scrollHeight: number;
-};
-
-export const [ModalContainerProvider, useModalContainerContext] =
-  createContext<ModalContainerContextValue>(MODAL_CONTAINER_NAME);
-
 type ModalActionAreaContextValue = {
   sticky: boolean;
   hasScroll: boolean;
@@ -46,9 +34,11 @@ type ModalActionAreaContextValue = {
 export const [ModalActionAreaProvider, useModalActionAreaContext] =
   createLooseContext<ModalActionAreaContextValue>(MODAL_CONTAINER_NAME);
 
-type ModalNavigationContextValue = {
-  variant: ModalNavigationProps['variant'];
+type ModalTopNavigationContextValue = {
+  scrolled: boolean;
+  titleId: string;
+  onOpenChange: (open: boolean) => void;
 };
 
-export const [ModalNavigationProvider, useModalNavigationContext] =
-  createContext<ModalNavigationContextValue>(MODAL_NAVIGATION_NAME);
+export const [ModalTopNavigationProvider, useModalTopNavigationContext] =
+  createLooseContext<ModalTopNavigationContextValue>(MODAL_CONTAINER_NAME);

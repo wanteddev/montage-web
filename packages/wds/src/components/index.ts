@@ -44,5 +44,6 @@ export { default as TextField } from './text-field';
 export { default as Thumbnail } from './thumbnail';
 export { default as ToggleIcon } from './toggle-icon';
 export * from './tooltip';
+export * from './top-navigation';
 export { default as Typography } from './typography';
 export { default as WithInteraction } from './with-interaction';

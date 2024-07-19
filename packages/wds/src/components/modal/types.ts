@@ -1,11 +1,7 @@
 import type { FlexBoxProps } from '../flex-box/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type Portal from '../portal';
-import type {
-  ComponentPropsWithRef,
-  PropsWithChildren,
-  ReactNode,
-} from 'react';
+import type { ComponentPropsWithRef, PropsWithChildren } from 'react';
 import type { TypographyProps } from '../typography/types';
 
 export type ModalProps = PropsWithChildren<{
@@ -37,7 +33,7 @@ type ModalContainerDefaultProps = {
   handle?: boolean;
   /**
    * 모달 내부에서 스크롤을 했을 때
-   * ModalActionArea 의 그라디언트, ModalNavigation의 borderBottom 스타일이 추가됩니다.
+   * ModalActionArea 의 그라디언트, TopNavigation의 borderBottom 스타일이 추가됩니다.
    */
   sticky?: boolean;
   size?:
@@ -61,25 +57,6 @@ export type ModalContainerProps = Merge<
   ModalContainerDefaultProps,
   ModalContainerResponsiveProps
 >;
-
-export type ModalNavigationProps = Merge<
-  {
-    variant?: 'normal' | 'floating' | 'emphasized' | 'extended';
-    rightButton?: ReactNode;
-    leftButton?: ReactNode;
-    toolbar?: ReactNode;
-  },
-  ResponsiveProps<{}>
->;
-
-export type ModalNavigationActionProps = {
-  variant?: 'text' | 'icon';
-  /**
-   * `floating` navigation을 사용할 때
-   * alternative를 true로 넘기면 검정 테마가 활성화 됩니다.
-   */
-  alternative?: boolean;
-};
 
 type ModalContentDefaultProps = {
   padding?: boolean;
