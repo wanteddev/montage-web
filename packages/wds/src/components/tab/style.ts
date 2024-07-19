@@ -22,6 +22,10 @@ export const scrollWrapperStyle =
     ${isSticky && gradient('transparent', 'right', '48px')}
     transition: mask-image 0.2s ease;
 
+    [data-radix-scroll-area-viewport] {
+      scroll-behavior: smooth;
+    }
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
