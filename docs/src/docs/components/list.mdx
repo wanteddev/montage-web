@@ -9,14 +9,14 @@ description: List Component
 
 ## 활용
 
-<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+<Demo code={`import { List } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Box as="ul" sx={listStyle}>
+    <List>
       <li>List1</li>
       <li>List2</li>
-    </Box>
+    </List>
   )
 }
 
@@ -39,6 +39,11 @@ export default Demo;`}
 ## List
 
 리스트를 감싸고 있으며 기본 `ul` 태그로 렌더링됩니다.
+
+`FlexBox`와 동일한 props를 사용합니다.
+
+
+<PropsTable component="List" />
 
 ## ListItem
 

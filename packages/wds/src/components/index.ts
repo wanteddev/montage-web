@@ -20,6 +20,7 @@ export { default as GridItem } from './grid-item';
 export { default as IconButton } from './icon-button';
 export { default as ImageLoader } from './image-loader';
 export { default as Label } from './label';
+export * from './list';
 export * from './modal';
 export { default as NestedCheckbox } from './nested-checkbox';
 export { default as NoSsr } from './no-ssr';
