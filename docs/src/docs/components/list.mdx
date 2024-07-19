@@ -1,0 +1,78 @@
+---
+title: List
+description: List Component
+---
+
+# List
+
+인터랙션이 가능한 리스트입니다.
+
+## 활용
+
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box as="ul" sx={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<List>
+  <ListItem>단일 리스트1</ListItem>
+  <ListItem>단일 리스트2</ListItem>
+  <ListCell>셀 리스트1</ListCell>
+  <ListCell>셀 리스트2</ListCell>
+</List>
+```
+
+## List
+
+리스트를 감싸고 있으며 기본 `ul` 태그로 렌더링됩니다.
+
+## ListItem
+
+단일 형태를 가진 리스트입니다.
+
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box as="ul" sx={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+## ListCell
+
+셀 형태를 가진 리스트입니다.
+대부분 셀 형태의 리스트를 사용합니다.
+
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box as="ul" sx={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
