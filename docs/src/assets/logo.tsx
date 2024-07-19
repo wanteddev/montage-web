@@ -57,8 +57,6 @@ const Logo = () => {
 
   return (
     <svg
-      width="185"
-      height="28"
       viewBox="0 0 185 28"
       role="img"
       aria-labelledby={`${ariaTitleId} ${ariaDescId}`}

@@ -12,7 +12,7 @@ const RootPage = () => {
       alignItems="center"
       justifyContent="center"
       gap="8px"
-      sx={{ width: '100%' }}
+      sx={{ width: '100%', height: 'calc(100dvh - var(--header-height))' }}
       sm={{
         sx: { padding: '0px 0px 20px 20px', width: 'calc(100% - 250px)' },
       }}

@@ -150,6 +150,11 @@ export const routes: Array<Route> = [
       { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
       { title: 'Tooltip', slug: '/docs/components/tooltip', stable: true },
       {
+        title: 'TopNavigation',
+        slug: '/docs/components/top-navigation',
+        stable: true,
+      },
+      {
         title: 'WithInteraction',
         slug: '/docs/components/with-interaction',
       },
