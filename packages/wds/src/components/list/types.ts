@@ -1,4 +1,19 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import type { Merge } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { FlexBox } from '..';
 
-export type ListProps = ComponentPropsWithoutRef<typeof FlexBox>;
+type FlexBoxWithoutRefProps = ComponentPropsWithoutRef<typeof FlexBox>;
+
+export type ListProps = FlexBoxWithoutRefProps;
+
+export type ListItemDefaultProps = {
+  variant?: 'normal' | 'action';
+  caption?: ReactNode;
+  bold?: boolean;
+  active?: boolean;
+  disabled?: boolean;
+};
+
+export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
+
+export type ListCellProps = FlexBoxWithoutRefProps;

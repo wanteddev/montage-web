@@ -9,13 +9,16 @@ description: List Component
 
 ## 활용
 
-<Demo code={`import { List } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <li>List1</li>
-      <li>List2</li>
+      <ListItem>텍스트</ListItem>
+      <ListItem caption="캡션">텍스트</ListItem>
+      <ListItem bold>텍스트</ListItem>
+      <ListItem active>텍스트</ListItem>
+      <ListItem disabled>텍스트</ListItem>
     </List>
   )
 }
@@ -42,26 +45,31 @@ export default Demo;`}
 
 `FlexBox`와 동일한 props를 사용합니다.
 
-
 <PropsTable component="List" />
 
 ## ListItem
 
 단일 형태를 가진 리스트입니다.
 
-<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Box as="ul" sx={listStyle}>
-      <li>List1</li>
-      <li>List2</li>
-    </Box>
+    <List gap="16px">
+      <ListItem>텍스트</ListItem>
+      <ListItem variant="action">텍스트</ListItem>
+      <ListItem caption="캡션">텍스트</ListItem>
+      <ListItem bold>텍스트</ListItem>
+      <ListItem active>텍스트</ListItem>
+      <ListItem disabled>텍스트</ListItem>
+    </List>
   )
 }
 
 export default Demo;`}
 />
+
+<PropsTable component="ListItem" />
 
 ## ListCell
 
