@@ -52,6 +52,7 @@ export default Demo;`}
 단일 형태를 가진 리스트입니다.
 
 <Demo code={`import { List, ListItem } from '@wanteddev/wds';
+import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -62,6 +63,7 @@ const Demo = () => {
       <ListItem bold>텍스트</ListItem>
       <ListItem active>텍스트</ListItem>
       <ListItem disabled>텍스트</ListItem>
+      <ListItem leftIcon={<IconPerson />}>텍스트</ListItem>
     </List>
   )
 }

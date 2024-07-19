@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 
 import { FlexBox, Typography } from '..';
 
@@ -44,6 +45,7 @@ const ListItem = forwardRef(
       active = false,
       disabled = false,
       children,
+      leftIcon,
       ...props
     }: PolymorphicProps<ListItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -70,23 +72,34 @@ const ListItem = forwardRef(
         sx={[listStyle, props.sx]}
         {...props}
       >
-        <FlexBox flexDirection="column" gap="4px">
-          <Typography
-            variant="body1_normal"
-            color={getColor('palette.label.normal')}
-            weight={weight}
-          >
-            {children}
-          </Typography>
-          {Boolean(caption) && (
+        <FlexBox gap="8px" alignItems="center">
+          {Boolean(leftIcon) && (
+            <Slot
+              style={{
+                fontSize: '16px',
+              }}
+            >
+              {leftIcon}
+            </Slot>
+          )}
+          <FlexBox flexDirection="column" gap="4px">
             <Typography
-              variant="label1_normal"
-              color={getColor('palette.label.alternative')}
+              variant="body1_normal"
+              color={getColor('palette.label.normal')}
               weight={weight}
             >
-              {caption}
+              {children}
             </Typography>
-          )}
+            {Boolean(caption) && (
+              <Typography
+                variant="label1_normal"
+                color={getColor('palette.label.alternative')}
+                weight={weight}
+              >
+                {caption}
+              </Typography>
+            )}
+          </FlexBox>
         </FlexBox>
       </FlexBox>
     );

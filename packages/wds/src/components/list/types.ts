@@ -12,6 +12,7 @@ export type ListItemDefaultProps = {
   bold?: boolean;
   active?: boolean;
   disabled?: boolean;
+  leftIcon?: ReactNode;
 };
 
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
