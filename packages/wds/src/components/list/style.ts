@@ -10,8 +10,15 @@ export const listStyle = css`
   }
 `;
 
+export const listItemStyle = css`
+  & {
+    flex-direction: row;
+    gap: 10px;
+  }
+`;
+
 export const listItemTextStyle = css`
-  && {
+  & {
     display: flex;
     flex-direction: column;
     gap: 4px;

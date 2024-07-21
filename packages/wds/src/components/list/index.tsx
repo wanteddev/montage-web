@@ -8,15 +8,20 @@ import {
   LIST_ITEM_TEXT_NAME,
   LIST_NAME,
 } from './constants';
-import { listItemRadioStyle, listItemTextStyle, listStyle } from './style';
+import {
+  listItemRadioStyle,
+  listItemStyle,
+  listItemTextStyle,
+  listStyle,
+} from './style';
 
-import type Radio from '../radio';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type Radio from '../radio';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListItemProps,
@@ -35,7 +40,7 @@ const List = forwardRef(
         ref={ref}
         as={(as || 'ul') as E}
         flexDirection="column"
-        gap="24px"
+        gap="8px"
         sx={[listStyle, props.sx]}
         {...props}
       />
@@ -56,9 +61,9 @@ const ListItem = forwardRef(
       <FlexBox
         ref={ref}
         as={(as || 'li') as E}
-        gap="10px"
         justifyContent={variant === 'normal' ? 'flex-start' : 'center'}
         alignItems="center"
+        sx={listItemStyle}
         {...props}
       >
         {Boolean(leftIcon) && leftIcon}

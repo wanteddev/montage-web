@@ -116,7 +116,7 @@ export default Demo;`}
 ## ListItemRadio
 
 리스트에서 사용하는 라디오 아이템 컴포넌트입니다.
-children은 `ListItemText` 컴포넌트의 label로써 렌더링됩니다.
+children은 `ListItemText` 컴포넌트의 label로서 렌더링됩니다.
 
 <Demo code={`import { List, ListItem, ListItemText, ListItemRadio, RadioGroup } from '@wanteddev/wds';
 import { IconPerson } from '@wanteddev/wds-icon';
@@ -148,5 +148,62 @@ export default Demo;`}
 <PropsTable component="ListItemRadio" />
 
 ### Form 
+
+<Demo code={`import { Button, FlexBox, RadioGroup, List, ListItem, ListItemText, ListItemRadio, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>성별</FormLabel>
+
+            <FormControl>
+              <RadioGroup {...field} onValueChange={field.onChange}>
+                <List>
+                  <FormField as={ListItem}>
+                    <FormControl>
+                      <ListItemRadio value="man" label={{ as: FormLabel }}>Man</ListItemRadio>
+                    </FormControl>
+                  </FormField>
+
+                  <FormField as={ListItem}>
+                    <FormControl>
+                      <ListItemRadio value="woman" label={{ as: FormLabel }}>Woman</ListItemRadio>
+                    </FormControl>
+                  </FormField>
+                </List>
+              </RadioGroup>
+            </FormControl>
+
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
 
 ## Advanced
