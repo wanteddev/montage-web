@@ -1,14 +1,16 @@
 import { forwardRef } from 'react';
 
-import { FlexBox, RadioGroupItem, Typography } from '..';
+import { Checkbox, FlexBox, RadioGroupItem, Typography } from '..';
 
 import {
+  LIST_ITEM_CHECKBOX,
   LIST_ITEM_NAME,
   LIST_ITEM_RADIO_NAME,
   LIST_ITEM_TEXT_NAME,
   LIST_NAME,
 } from './constants';
 import {
+  listItemCheckboxStyle,
   listItemRadioStyle,
   listItemStyle,
   listItemTextStyle,
@@ -24,6 +26,7 @@ import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type Radio from '../radio';
 import type { TypographyWeight } from '../typography/types';
 import type {
+  ListItemCheckboxProps,
   ListItemProps,
   ListItemRadioProps,
   ListItemTextProps,
@@ -165,4 +168,38 @@ const ListItemRadio = forwardRef<ElementRef<typeof Radio>, ListItemRadioProps>(
 
 ListItemRadio.displayName = LIST_ITEM_RADIO_NAME;
 
-export { List, ListItem, ListItemRadio, ListItemText };
+const ListItemCheckbox = forwardRef<HTMLButtonElement, ListItemCheckboxProps>(
+  ({ id, children, label, bold, ...props }, ref) => {
+    return (
+      <>
+        <Checkbox
+          id={id}
+          ref={ref}
+          bold={bold}
+          {...props}
+          sx={[listItemCheckboxStyle, props.sx]}
+        />
+        <ListItemText
+          as="label"
+          htmlFor={id}
+          {...label}
+          bold={Boolean(bold || label?.bold)}
+          active={props.checked !== undefined ? props.checked : label?.active}
+          sx={[
+            {
+              cursor: 'pointer',
+              flex: 1,
+            },
+            label?.sx,
+          ]}
+        >
+          {children}
+        </ListItemText>
+      </>
+    );
+  },
+);
+
+ListItemCheckbox.displayName = LIST_ITEM_CHECKBOX;
+
+export { List, ListItem, ListItemCheckbox, ListItemRadio, ListItemText };

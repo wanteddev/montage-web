@@ -32,3 +32,11 @@ export const listItemRadioStyle = (theme: Theme) => css`
     }
   }
 `;
+
+export const listItemCheckboxStyle = (theme: Theme) => css`
+  &[aria-checked='true'] {
+    & ~ label {
+      color: ${theme.palette.primary.normal};
+    }
+  }
+`;

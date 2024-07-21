@@ -30,8 +30,6 @@ description: List Component
 
 `FlexBox`와 동일한 props를 사용합니다.
 
-<PropsTable component="List" />
-
 ## ListItem
 
 단일 형태를 가진 리스트입니다.
@@ -41,7 +39,7 @@ import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <List gap="16px">
+    <List>
       <ListItem>
         <ListItemText>텍스트</ListItemText>
       </ListItem>
@@ -88,7 +86,7 @@ import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <List gap="16px">
+    <List>
       <ListItem>
         <ListItemText>텍스트</ListItemText>
       </ListItem>
@@ -116,6 +114,7 @@ export default Demo;`}
 ## ListItemRadio
 
 리스트에서 사용하는 라디오 아이템 컴포넌트입니다.
+
 children은 `ListItemText` 컴포넌트의 label로서 렌더링됩니다.
 
 <Demo code={`import { List, ListItem, ListItemText, ListItemRadio, RadioGroup } from '@wanteddev/wds';
@@ -144,8 +143,6 @@ export default Demo;`}
 />
 
 `RadioGroupItem`과 동일한 props를 사용하고, label은 `ListItemText`의 props 입니다. 
-
-<PropsTable component="ListItemRadio" />
 
 ### Form 
 
@@ -192,6 +189,131 @@ const Demo = () => {
                 </List>
               </RadioGroup>
             </FormControl>
+
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## ListItemCheckbox
+
+리스트에서 사용하는 체크박스 컴포넌트입니다.
+
+children은 `ListItemText` 컴포넌트의 label로서 렌더링됩니다.
+
+<Demo code={`import { useId } from 'react';
+import { Label, List, ListItem, ListItemText, ListItemCheckbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  const devId = useId();
+  const designId = useId();
+
+  return (
+    <List>
+      <ListItem>
+        <ListItemCheckbox id={devId}>개발</ListItemCheckbox>
+      </ListItem>
+      <ListItem>
+        <ListItemCheckbox id={designId}>디자인</ListItemCheckbox>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+`RadioGroupItem`과 동일한 props를 사용하고, label은 `ListItemText`의 props 입니다. 
+
+### Form
+
+<Demo code={`import { useId } from 'react';
+import { Button, FlexBox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListItem, ListItemCheckbox } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const id = useId();
+  const form = useForm({
+    defaultValues: {
+      selected: [],
+    },
+  });
+
+  const items = [
+    {
+      id: "develop",
+      label: "개발",
+    },
+    {
+      id: "design",
+      label: "디자인",
+    },
+  ];
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel>관심 분야</FormLabel>
+
+            <List>
+              {items.map((item) => (
+                <Controller
+                  key={item.id}
+                  control={form.control}
+                  name="selected"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "필수 값입니다.",
+                    },
+                  }}
+                  render={({ field }) => {
+                    return (
+                      <FormField
+                        key={item.id}
+                        as={ListItem}                      
+                      >
+                        <FormControl>
+                          <ListItemCheckbox
+                            {...field}
+                            checked={field.value.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  );
+                            }}
+                            label={{ as: FormLabel }}
+                          >
+                            {item.label}
+                          </ListItemCheckbox>
+                        </FormControl>
+                      </FormField>
+                    );
+                  }}
+                />
+              ))}
+            </List>
 
             <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
           </FormField>
