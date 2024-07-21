@@ -1,11 +1,16 @@
 import { forwardRef } from 'react';
-import { Slot } from '@radix-ui/react-slot';
 
-import { FlexBox, Typography } from '..';
+import { FlexBox, RadioGroupItem, Typography } from '..';
 
-import { LIST_ITEM_NAME, LIST_NAME } from './constants';
-import { listStyle } from './style';
+import {
+  LIST_ITEM_NAME,
+  LIST_ITEM_RADIO_NAME,
+  LIST_ITEM_TEXT_NAME,
+  LIST_NAME,
+} from './constants';
+import { listItemRadioStyle, listItemTextStyle, listStyle } from './style';
 
+import type Radio from '../radio';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
@@ -13,7 +18,12 @@ import type {
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
-import type { ListItemProps, ListProps } from './types';
+import type {
+  ListItemProps,
+  ListItemRadioProps,
+  ListItemTextProps,
+  ListProps,
+} from './types';
 
 const List = forwardRef(
   <E extends ElementType = 'ul'>(
@@ -37,70 +47,22 @@ List.displayName = LIST_NAME;
 
 const ListItem = forwardRef(
   <E extends ElementType = 'li'>(
-    {
-      as,
-      variant = 'normal',
-      caption,
-      bold = false,
-      active = false,
-      disabled = false,
-      children,
-      leftIcon,
-      ...props
-    }: PolymorphicProps<ListItemProps, E>,
+    { as, leftIcon, children, ...props }: PolymorphicProps<ListItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const weight: TypographyWeight = bold ? 'medium' : 'regular';
-
-    const getColor = (defaultColor: ThemeColorsToken): ThemeColorsToken => {
-      if (disabled) {
-        return 'palette.label.disable';
-      }
-      if (variant === 'action' || active) {
-        return 'palette.primary.normal';
-      }
-
-      return defaultColor;
-    };
+    const variant = props.variant ?? 'normal';
 
     return (
       <FlexBox
         ref={ref}
         as={(as || 'li') as E}
-        flexDirection="column"
-        alignItems={variant === 'normal' ? 'flex-start' : 'center'}
-        sx={[listStyle, props.sx]}
+        gap="10px"
+        justifyContent={variant === 'normal' ? 'flex-start' : 'center'}
+        alignItems="center"
         {...props}
       >
-        <FlexBox gap="8px" alignItems="center">
-          {Boolean(leftIcon) && (
-            <Slot
-              style={{
-                fontSize: '16px',
-              }}
-            >
-              {leftIcon}
-            </Slot>
-          )}
-          <FlexBox flexDirection="column" gap="4px">
-            <Typography
-              variant="body1_normal"
-              color={getColor('palette.label.normal')}
-              weight={weight}
-            >
-              {children}
-            </Typography>
-            {Boolean(caption) && (
-              <Typography
-                variant="label1_normal"
-                color={getColor('palette.label.alternative')}
-                weight={weight}
-              >
-                {caption}
-              </Typography>
-            )}
-          </FlexBox>
-        </FlexBox>
+        {Boolean(leftIcon) && leftIcon}
+        {children}
       </FlexBox>
     );
   },
@@ -108,4 +70,94 @@ const ListItem = forwardRef(
 
 ListItem.displayName = LIST_ITEM_NAME;
 
-export { List, ListItem };
+const ListItemText = forwardRef(
+  <E extends ElementType = 'span'>(
+    {
+      as,
+      caption,
+      bold = false,
+      active = false,
+      disabled = false,
+      sx,
+      children,
+      ...props
+    }: PolymorphicProps<ListItemTextProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    if (!children) {
+      return null;
+    }
+
+    const weight: TypographyWeight = bold ? 'medium' : 'regular';
+
+    const getColor = (defaultColor: ThemeColorsToken): ThemeColorsToken => {
+      if (disabled) {
+        return 'palette.label.disable';
+      }
+      if (active) {
+        return 'palette.primary.normal';
+      }
+
+      return defaultColor;
+    };
+
+    return (
+      <Typography
+        as={(as || 'span') as E}
+        ref={ref}
+        variant="body1_normal"
+        color={getColor('palette.label.normal')}
+        weight={weight}
+        sx={[listItemTextStyle, sx]}
+        {...props}
+      >
+        {children}
+        {Boolean(caption) && (
+          <Typography
+            variant="label1_normal"
+            color={getColor('palette.label.alternative')}
+            weight={weight}
+          >
+            {caption}
+          </Typography>
+        )}
+      </Typography>
+    );
+  },
+) as PolymorphicComponent<ListItemTextProps, 'span'>;
+
+ListItemText.displayName = LIST_ITEM_TEXT_NAME;
+
+const ListItemRadio = forwardRef<ElementRef<typeof Radio>, ListItemRadioProps>(
+  ({ id, children, label, ...props }, ref) => {
+    return (
+      <>
+        <RadioGroupItem
+          id={id}
+          ref={ref}
+          {...props}
+          sx={[listItemRadioStyle, props.sx]}
+        />
+        <ListItemText
+          as="label"
+          htmlFor={id}
+          {...label}
+          active={props.checked !== undefined ? props.checked : label?.active}
+          sx={[
+            {
+              cursor: 'pointer',
+              flex: 1,
+            },
+            label?.sx,
+          ]}
+        >
+          {children}
+        </ListItemText>
+      </>
+    );
+  },
+);
+
+ListItemRadio.displayName = LIST_ITEM_RADIO_NAME;
+
+export { List, ListItem, ListItemRadio, ListItemText };

@@ -9,33 +9,18 @@ description: List Component
 
 ## 활용
 
-<Demo code={`import { List, ListItem } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <List>
-      <ListItem>텍스트</ListItem>
-      <ListItem caption="캡션">텍스트</ListItem>
-      <ListItem bold>텍스트</ListItem>
-      <ListItem active>텍스트</ListItem>
-      <ListItem disabled>텍스트</ListItem>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
 ## Components
 
 아래와 같이 조합하여 사용합니다.
 
 ```tsx
 <List>
-  <ListItem>단일 리스트1</ListItem>
-  <ListItem>단일 리스트2</ListItem>
-  <ListCell>셀 리스트1</ListCell>
-  <ListCell>셀 리스트2</ListCell>
+  <ListItem>
+    <ListItemText>단일 리스트</ListItemText>
+  </ListItem>
+  <ListCell>
+    <ListItemText>셀 리스트</ListItemText>
+  </ListCell>
 </List>
 ```
 
@@ -51,19 +36,21 @@ export default Demo;`}
 
 단일 형태를 가진 리스트입니다.
 
-<Demo code={`import { List, ListItem } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
 import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
-      <ListItem>텍스트</ListItem>
-      <ListItem variant="action">텍스트</ListItem>
-      <ListItem caption="캡션">텍스트</ListItem>
-      <ListItem bold>텍스트</ListItem>
-      <ListItem active>텍스트</ListItem>
-      <ListItem disabled>텍스트</ListItem>
-      <ListItem leftIcon={<IconPerson />}>텍스트</ListItem>
+      <ListItem>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem variant="action">
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem leftIcon={<IconPerson />}>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
     </List>
   )
 }
@@ -75,8 +62,8 @@ export default Demo;`}
 
 ## ListCell
 
-셀 형태를 가진 리스트입니다.
-대부분 셀 형태의 리스트를 사용합니다.
+셀 형태를 가진 리스트입니다
+`Menu`, `Select` 등 주로 셀 형태의 리스트를 사용합니다.
 
 <Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
 
@@ -91,3 +78,75 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+## ListItemText
+
+리스트에서 사용하는 타이포 컴포넌트입니다.
+
+<Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
+import { IconPerson } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <List gap="16px">
+      <ListItem>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText caption="캡션">텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText bold>텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText active>텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText disabled>텍스트</ListItemText>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+<PropsTable component="ListItemText" />
+
+## ListItemRadio
+
+리스트에서 사용하는 라디오 아이템 컴포넌트입니다.
+children은 `ListItemText` 컴포넌트의 label로써 렌더링됩니다.
+
+<Demo code={`import { List, ListItem, ListItemText, ListItemRadio, RadioGroup } from '@wanteddev/wds';
+import { IconPerson } from '@wanteddev/wds-icon';
+import { useId } from 'react';
+
+const Demo = () => {
+  const manId = useId();
+  const womanId = useId();
+
+  return (
+    <RadioGroup>
+      <List gap="16px">
+        <ListItem>
+          <ListItemRadio id={manId} value="man">Man</ListItemRadio>
+        </ListItem>
+        <ListItem>
+          <ListItemRadio id={womanId} value="woman">Woman</ListItemRadio>
+        </ListItem>
+      </List>
+    </RadioGroup>
+  )
+}
+
+export default Demo;`}
+/>
+
+`RadioGroupItem`과 동일한 props를 사용하고, label은 `ListItemText`의 props 입니다. 
+
+<PropsTable component="ListItemRadio" />
+
+### Form 
+
+## Advanced
