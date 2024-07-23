@@ -17,13 +17,11 @@ import {
   dialogWrapperStyle,
 } from './style';
 
-import type { TextButtonProps } from '../text-button/types';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { DialogButtonProps } from './types';
+import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type {
-  Merge,
   PolymorphicComponent,
   PolymorphicProps,
-  ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { DialogItem } from '../../stores/dialog-store';
 
@@ -62,15 +60,29 @@ const Item = ({
     hide(id);
   }, [hide, id]);
 
-  const handleCancel = useCallback(() => {
-    handleClose();
-    resolve('cancel');
-  }, [handleClose, resolve]);
+  const handleCancel = useCallback(
+    (e?: MouseEvent<HTMLElement>) => {
+      if (e?.defaultPrevented) {
+        return;
+      }
 
-  const handleConfirm = useCallback(() => {
-    handleClose();
-    resolve('confirm');
-  }, [handleClose, resolve]);
+      handleClose();
+      resolve('cancel');
+    },
+    [handleClose, resolve],
+  );
+
+  const handleConfirm = useCallback(
+    (e?: MouseEvent<HTMLElement>) => {
+      if (e?.defaultPrevented) {
+        return;
+      }
+
+      handleClose();
+      resolve('confirm');
+    },
+    [handleClose, resolve],
+  );
 
   useEffect(() => {
     const element = ref.current;
@@ -176,54 +188,38 @@ const Item = ({
   );
 };
 
-type DialogConfirmProps = Merge<
-  {
-    confirmColor?: ThemeColorsToken;
-  },
-  TextButtonProps
->;
-
-export const DialogConfirm = forwardRef(
+export const DialogButton = forwardRef(
   <E extends ElementType = 'button'>(
-    {
-      confirmColor = 'palette.primary.normal',
-      ...props
-    }: PolymorphicProps<DialogConfirmProps, E>,
+    { variant = 'normal', ...props }: PolymorphicProps<DialogButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
       <TextButton
         size="medium"
-        variant="assistive"
+        variant={variant === 'normal' ? 'primary' : 'assistive'}
         ref={ref}
         {...props}
-        sx={[
-          (theme) => ({
-            color: getColorByToken(theme, confirmColor),
-            ['[wds-component="with-interaction"]']: {
-              backgroundColor: getColorByToken(theme, confirmColor),
-            },
-          }),
-          props.sx,
-        ]}
+        sx={
+          variant === 'negative'
+            ? [
+                (theme) => ({
+                  color: getColorByToken(theme, 'palette.status.negative'),
+                  ['[wds-component="with-interaction"]']: {
+                    backgroundColor: getColorByToken(
+                      theme,
+                      'palette.status.negative',
+                    ),
+                  },
+                }),
+                props.sx,
+              ]
+            : props.sx
+        }
       />
     );
   },
-) as PolymorphicComponent<DialogConfirmProps, 'button'>;
+) as PolymorphicComponent<DialogButtonProps, 'button'>;
 
-DialogConfirm.displayName = 'DialogConfirm';
-
-export const DialogCancel = forwardRef(
-  <E extends ElementType = 'button'>(
-    props: PolymorphicProps<TextButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
-  ) => {
-    return (
-      <TextButton size="medium" variant="assistive" ref={ref} {...props} />
-    );
-  },
-) as PolymorphicComponent<TextButtonProps, 'button'>;
-
-DialogCancel.displayName = 'DialogCancel';
+DialogButton.displayName = 'DialogButton';
 
 export default Dialog;
