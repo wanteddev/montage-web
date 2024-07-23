@@ -1,6 +1,6 @@
 'use client';
-import { useCallback, useEffect, useId, useRef } from 'react';
-import { Slot } from '@radix-ui/react-slot';
+import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
+import { Slot, Slottable } from '@radix-ui/react-slot';
 import { Box, getColorByToken } from '@wanteddev/wds-engine';
 
 import { hideOthers } from '../../utils/aria-hidden';
@@ -17,8 +17,14 @@ import {
   dialogWrapperStyle,
 } from './style';
 
-import type { PropsWithChildren } from 'react';
-import type { ThemeColorsToken } from '@wanteddev/wds-engine';
+import type { TextButtonProps } from '../text-button/types';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type {
+  Merge,
+  PolymorphicComponent,
+  PolymorphicProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 import type { DialogItem } from '../../stores/dialog-store';
 
 const Dialog = () => {
@@ -37,12 +43,12 @@ const Item = ({
   id,
   content,
   title,
-  confirmText,
-  confirmColor = 'palette.primary.normal',
+  confirm,
+  cancel,
   direction = 'normal',
-  cancelText,
   disableOutsideClickClose,
   disableEscapeKeyDownClose,
+  sx,
   resolve,
 }: DialogItem) => {
   const hide = useDialogStore((state) => state.hide);
@@ -108,15 +114,17 @@ const Item = ({
               aria-describedby={descriptionId}
               aria-labelledby={titleId}
               flexDirection="column"
-              sx={dialogContentStyle}
+              sx={[dialogContentStyle, sx]}
             >
               <FlexBox
+                wds-component="dialog-wrapper"
                 flexDirection="column"
                 gap="6px"
                 sx={{ padding: '20px' }}
               >
                 {Boolean(title) && (
                   <Typography
+                    wds-component="dialog-title"
                     variant="headline1"
                     weight="bold"
                     color="palette.label.normal"
@@ -126,6 +134,7 @@ const Item = ({
                 )}
 
                 <Typography
+                  wds-component="dialog-content"
                   variant="body2_normal"
                   weight="regular"
                   color="palette.label.alternative"
@@ -142,17 +151,22 @@ const Item = ({
               <FlexBox
                 flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
                 alignItems="center"
+                wds-component="dialog-action-wrapper"
                 justifyContent={
                   direction === 'reverse' ? 'initial' : 'flex-end'
                 }
                 gap="24px"
                 sx={dialogActionStyle}
               >
-                <CancelButton onClick={handleCancel}>{cancelText}</CancelButton>
+                <Slot onClick={handleConfirm}>
+                  <Slottable>{confirm}</Slottable>
+                </Slot>
 
-                <ConfirmButton onClick={handleConfirm} color={confirmColor}>
-                  {confirmText}
-                </ConfirmButton>
+                {Boolean(cancel) && (
+                  <Slot onClick={handleCancel}>
+                    <Slottable>{cancel}</Slottable>
+                  </Slot>
+                )}
               </FlexBox>
             </FlexBox>
           </Box>
@@ -162,40 +176,54 @@ const Item = ({
   );
 };
 
-type DialogButtonProps = PropsWithChildren<{
-  color: ThemeColorsToken;
-  onClick: () => void;
-}>;
+type DialogConfirmProps = Merge<
+  {
+    confirmColor?: ThemeColorsToken;
+  },
+  TextButtonProps
+>;
 
-const ConfirmButton = ({ color, onClick, children }: DialogButtonProps) => (
-  <TextButton
-    size="medium"
-    variant="primary"
-    onClick={onClick}
-    sx={(theme) => ({
-      color: getColorByToken(theme, color),
-      ['[wds-component="with-interaction"]']: {
-        backgroundColor: getColorByToken(theme, color),
-      },
-    })}
-  >
-    {children}
-  </TextButton>
-);
+export const DialogConfirm = forwardRef(
+  <E extends ElementType = 'button'>(
+    {
+      confirmColor = 'palette.primary.normal',
+      ...props
+    }: PolymorphicProps<DialogConfirmProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <TextButton
+        size="medium"
+        variant="assistive"
+        ref={ref}
+        {...props}
+        sx={[
+          (theme) => ({
+            color: getColorByToken(theme, confirmColor),
+            ['[wds-component="with-interaction"]']: {
+              backgroundColor: getColorByToken(theme, confirmColor),
+            },
+          }),
+          props.sx,
+        ]}
+      />
+    );
+  },
+) as PolymorphicComponent<DialogConfirmProps, 'button'>;
 
-const CancelButton = ({
-  onClick,
-  children,
-}: Omit<DialogButtonProps, 'color'>) => {
-  if (!children) {
-    return null;
-  }
+DialogConfirm.displayName = 'DialogConfirm';
 
-  return (
-    <TextButton size="medium" variant="assistive" onClick={onClick}>
-      {children}
-    </TextButton>
-  );
-};
+export const DialogCancel = forwardRef(
+  <E extends ElementType = 'button'>(
+    props: PolymorphicProps<TextButtonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <TextButton size="medium" variant="assistive" ref={ref} {...props} />
+    );
+  },
+) as PolymorphicComponent<TextButtonProps, 'button'>;
+
+DialogCancel.displayName = 'DialogCancel';
 
 export default Dialog;
