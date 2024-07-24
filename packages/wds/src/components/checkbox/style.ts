@@ -28,7 +28,7 @@ export const checkboxStyle =
     border: none;
     box-shadow: none;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 5px;
 
     & ~ label {
       color: ${theme.palette.label.normal};
