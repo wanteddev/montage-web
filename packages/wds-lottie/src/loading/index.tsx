@@ -1,7 +1,7 @@
 'use client';
 
 import lottie from 'lottie-web/build/player/lottie_light.min';
-import { forwardRef, useCallback, useEffect, useRef } from 'react';
+import { forwardRef, memo, useCallback, useEffect, useRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import type { AnimationConfig } from 'lottie-web';
@@ -9,9 +9,9 @@ import type { ComponentPropsWithoutRef, MutableRefObject } from 'react';
 
 const Loading = forwardRef<
   HTMLDivElement,
-  Omit<AnimationConfig<'svg'>, 'renderer' | 'container' | 'path'> &
+  Pick<AnimationConfig<'svg'>, 'loop' | 'name'> &
     ComponentPropsWithoutRef<typeof Box<'div'>>
->((props, forwardedRef) => {
+>(({ sx, loop, name, ...props }, forwardedRef) => {
   const lottieRef = useRef<HTMLDivElement>(null);
 
   const composedRefs = useCallback(
@@ -30,28 +30,27 @@ const Loading = forwardRef<
   useEffect(() => {
     if (lottieRef.current) {
       lottie.loadAnimation({
-        // @ts-ignore
         container: lottieRef.current,
         renderer: 'svg',
-        loop: true,
+        loop: loop ?? true,
         autoplay: true,
         path: 'https://static.wanted.co.kr/lottie/loading_brand_new.json',
-        ...props,
+        name,
       });
     }
 
     return () => lottie.destroy();
-  }, [props]);
+  }, [loop, name]);
 
   return (
     <Box
       ref={composedRefs}
       {...props}
-      sx={[{ margin: '0 auto', width: '135px', padding: '16px' }, props.sx]}
+      sx={[{ margin: '0 auto', width: '135px', padding: '16px' }, sx]}
     />
   );
 });
 
 Loading.displayName = 'Loading';
 
-export default Loading;
+export default memo(Loading);
