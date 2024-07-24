@@ -7,6 +7,7 @@ export * from './bottom-navigation';
 export { default as Button } from './button';
 export { default as Checkbox } from './checkbox';
 export { default as ChipAction } from './chip-action';
+export { default as ChipFilter } from './chip-filter';
 export { default as ChipMultiSelect } from './chip-multi-select';
 export * from './compact-tooltip';
 export { default as ContentBadge } from './content-badge';

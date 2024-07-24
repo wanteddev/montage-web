@@ -1,6 +1,7 @@
 'use client';
 import { forwardRef, useId } from 'react';
 import { Box } from '@wanteddev/wds-engine';
+import { IconCaretDown, IconCaretUp } from '@wanteddev/wds-icon';
 
 import WithInteraction from '../with-interaction';
 
@@ -11,18 +12,18 @@ import type {
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { ChipActionProps } from './types';
+import type { ChipFilterProps } from './types';
 
-const ChipAction = forwardRef(
+const ChipFilter = forwardRef(
   <E extends ElementType = 'button'>(
     {
       as,
       variant = 'filled',
       disabled = false,
       disableInteraction = false,
-      leftIcon,
-      rightIcon,
+      expanded: originExpanded,
       size = 'normal',
+      textNumber,
       active: givenActive,
       children,
       xs,
@@ -31,12 +32,14 @@ const ChipAction = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ChipActionProps, E>,
+    }: PolymorphicProps<ChipFilterProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
 
     const active = givenActive ?? props['aria-pressed'];
+
+    const expanded = originExpanded || props['aria-expanded'];
 
     return (
       <WithInteraction
@@ -56,19 +59,22 @@ const ChipAction = forwardRef(
           disabled={disabled}
           aria-disabled={disabled}
           aria-pressed={active}
+          aria-expanded={expanded}
           tabIndex={0}
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
-          {Boolean(leftIcon) && leftIcon}
           <span id={id}>{children}</span>
-          {Boolean(rightIcon) && rightIcon}
+          {textNumber !== null && textNumber !== undefined && (
+            <span data-role="chip-filter-text-number">{textNumber}</span>
+          )}
+          {expanded ? <IconCaretUp /> : <IconCaretDown />}
         </Box>
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<ChipActionProps, 'button'>;
+) as PolymorphicComponent<ChipFilterProps, 'button'>;
 
-ChipAction.displayName = 'ChipAction';
+ChipFilter.displayName = 'ChipFilter';
 
-export default ChipAction;
+export default ChipFilter;
