@@ -1,21 +1,13 @@
-import { forwardRef } from 'react';
+import React, { forwardRef, useId, useState } from 'react';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
-import { Checkbox, FlexBox, RadioGroupItem, Typography } from '..';
+import { FlexBox, RadioGroup, Typography } from '..';
+import { RADIO_ITEM_NAME } from '../radio-group/constants';
 
-import {
-  LIST_ITEM_CHECKBOX,
-  LIST_ITEM_NAME,
-  LIST_ITEM_RADIO_NAME,
-  LIST_ITEM_TEXT_NAME,
-  LIST_NAME,
-} from './constants';
-import {
-  listItemCheckboxStyle,
-  listItemRadioStyle,
-  listItemStyle,
-  listItemTextStyle,
-  listStyle,
-} from './style';
+import { LIST_ITEM_NAME, LIST_ITEM_TEXT_NAME, LIST_NAME } from './constants';
+import { listItemStyle, listItemTextStyle, listStyle } from './style';
+import { ListItemProvider } from './contexts';
+import { useListItem } from './hooks';
 
 import type {
   PolymorphicComponent,
@@ -23,31 +15,38 @@ import type {
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type Radio from '../radio';
 import type { TypographyWeight } from '../typography/types';
-import type {
-  ListItemCheckboxProps,
-  ListItemProps,
-  ListItemRadioProps,
-  ListItemTextProps,
-  ListProps,
-} from './types';
+import type { ListItemProps, ListItemTextProps, ListProps } from './types';
 
-const List = forwardRef(
-  <E extends ElementType = 'ul'>(
-    { as, ...props }: PolymorphicProps<ListProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+const List = forwardRef<HTMLUListElement>(
+  (
+    { as, children, radioGroupProps, ...props }: PolymorphicProps<ListProps>,
+    forwardedRef,
   ) => {
-    return (
+    const [list, setList] = useState<HTMLUListElement | null>(null);
+    const composedRefs = useComposedRefs(forwardedRef, (node) => setList(node));
+
+    const shouldWrapRadioGroup = Boolean(
+      radioGroupProps || (list ? list.querySelector('[role="radio"]') : true),
+    );
+
+    const ListFlexBox = (
       <FlexBox
-        ref={ref}
-        as={(as || 'ul') as E}
+        ref={composedRefs}
+        as={as || 'ul'}
         flexDirection="column"
         gap="8px"
         sx={[listStyle, props.sx]}
         {...props}
-      />
+      >
+        {children}
+      </FlexBox>
     );
+
+    if (shouldWrapRadioGroup) {
+      return <RadioGroup {...radioGroupProps}>{ListFlexBox}</RadioGroup>;
+    }
+    return ListFlexBox;
   },
 ) as PolymorphicComponent<ListProps, 'ul'>;
 
@@ -55,23 +54,34 @@ List.displayName = LIST_NAME;
 
 const ListItem = forwardRef(
   <E extends ElementType = 'li'>(
-    { as, leftIcon, children, ...props }: PolymorphicProps<ListItemProps, E>,
+    { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const variant = props.variant ?? 'normal';
+    const contentId = useId();
+    // @ts-expect-error
+    const leftContentDisplayName = leftContent?.type.displayName;
+
+    const leftContentComponent =
+      leftContent &&
+      (leftContentDisplayName === RADIO_ITEM_NAME ||
+        leftContentDisplayName?.includes('Checkbox'))
+        ? React.cloneElement(leftContent, { id: contentId })
+        : leftContent;
 
     return (
-      <FlexBox
-        ref={ref}
-        as={(as || 'li') as E}
-        justifyContent={variant === 'normal' ? 'flex-start' : 'center'}
-        alignItems="center"
-        sx={listItemStyle}
-        {...props}
-      >
-        {Boolean(leftIcon) && leftIcon}
-        {children}
-      </FlexBox>
+      <ListItemProvider contentId={contentId}>
+        <FlexBox
+          ref={ref}
+          as={(as || 'li') as E}
+          justifyContent="flex-start"
+          alignItems="center"
+          sx={listItemStyle}
+          {...props}
+        >
+          {Boolean(leftContentComponent) && leftContentComponent}
+          {children}
+        </FlexBox>
+      </ListItemProvider>
     );
   },
 ) as PolymorphicComponent<ListItemProps, 'li'>;
@@ -81,7 +91,6 @@ ListItem.displayName = LIST_ITEM_NAME;
 const ListItemText = forwardRef(
   <E extends ElementType = 'span'>(
     {
-      as,
       caption,
       bold = false,
       active = false,
@@ -92,6 +101,8 @@ const ListItemText = forwardRef(
     }: PolymorphicProps<ListItemTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
+    const { contentId } = useListItem(LIST_ITEM_TEXT_NAME);
+
     if (!children) {
       return null;
     }
@@ -111,8 +122,8 @@ const ListItemText = forwardRef(
 
     return (
       <Typography
-        as={(as || 'span') as E}
         ref={ref}
+        {...(props.as === 'label' && { htmlFor: contentId })}
         variant="body1_normal"
         color={getColor('palette.label.normal')}
         weight={weight}
@@ -136,70 +147,4 @@ const ListItemText = forwardRef(
 
 ListItemText.displayName = LIST_ITEM_TEXT_NAME;
 
-const ListItemRadio = forwardRef<ElementRef<typeof Radio>, ListItemRadioProps>(
-  ({ id, children, label, ...props }, ref) => {
-    return (
-      <>
-        <RadioGroupItem
-          id={id}
-          ref={ref}
-          {...props}
-          sx={[listItemRadioStyle, props.sx]}
-        />
-        <ListItemText
-          as="label"
-          htmlFor={id}
-          {...label}
-          active={props.checked !== undefined ? props.checked : label?.active}
-          sx={[
-            {
-              cursor: 'pointer',
-              flex: 1,
-            },
-            label?.sx,
-          ]}
-        >
-          {children}
-        </ListItemText>
-      </>
-    );
-  },
-);
-
-ListItemRadio.displayName = LIST_ITEM_RADIO_NAME;
-
-const ListItemCheckbox = forwardRef<HTMLButtonElement, ListItemCheckboxProps>(
-  ({ id, children, label, bold, ...props }, ref) => {
-    return (
-      <>
-        <Checkbox
-          id={id}
-          ref={ref}
-          bold={bold}
-          {...props}
-          sx={[listItemCheckboxStyle, props.sx]}
-        />
-        <ListItemText
-          as="label"
-          htmlFor={id}
-          {...label}
-          bold={Boolean(bold || label?.bold)}
-          active={props.checked !== undefined ? props.checked : label?.active}
-          sx={[
-            {
-              cursor: 'pointer',
-              flex: 1,
-            },
-            label?.sx,
-          ]}
-        >
-          {children}
-        </ListItemText>
-      </>
-    );
-  },
-);
-
-ListItemCheckbox.displayName = LIST_ITEM_CHECKBOX;
-
-export { List, ListItem, ListItemCheckbox, ListItemRadio, ListItemText };
+export { List, ListItem, ListItemText };

@@ -33,6 +33,7 @@ description: List Component
 ## ListItem
 
 단일 형태를 가진 리스트입니다.
+`FlexBox`의 props를 확장하여 사용합니다.
 
 <Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
 import { IconPerson } from '@wanteddev/wds-icon';
@@ -43,10 +44,10 @@ const Demo = () => {
       <ListItem>
         <ListItemText>텍스트</ListItemText>
       </ListItem>
-      <ListItem variant="action">
-        <ListItemText>텍스트</ListItemText>
+      <ListItem>
+        <ListItemText active>텍스트</ListItemText>
       </ListItem>
-      <ListItem leftIcon={<IconPerson />}>
+      <ListItem leftContent={<IconPerson />}>
         <ListItemText>텍스트</ListItemText>
       </ListItem>
     </List>
@@ -57,6 +58,50 @@ export default Demo;`}
 />
 
 <PropsTable component="ListItem" />
+
+### leftContent
+
+`leftContent` props에 icon, radio, checkbox를 전달할 수 있습니다.
+
+컨트롤 가능한 요소가 들어오면 내부적으로 id를 생성하고 `ListItemText`에 전달합니다.
+
+#### RadioGroupItem
+
+<Demo code={`import { List, ListItem, ListItemText, RadioGroupItem, RadioGroup } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List>
+      <ListItem leftContent={<RadioGroupItem value="man" />}>
+        <ListItemText as="label">Man</ListItemText>
+      </ListItem>
+      <ListItem leftContent={<RadioGroupItem value="woman" />}>
+        <ListItemText as="label">Woman</ListItemText>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+#### Checkbox
+
+<Demo code={`import { useId } from 'react';
+import { Checkbox, ListItem, ListItemText } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ListItem leftContent={<Checkbox />}>
+      <ListItemText as="label">Label</ListItemText>
+    </ListItem>
+  )
+}
+
+export default Demo;`}
+/>
+
+### rightContent
 
 ## ListCell
 
@@ -111,42 +156,11 @@ export default Demo;`}
 
 <PropsTable component="ListItemText" />
 
-## ListItemRadio
+## Form
 
-리스트에서 사용하는 라디오 아이템 컴포넌트입니다.
+### ListItem + RadioGroup
 
-children은 `ListItemText` 컴포넌트의 label로서 렌더링됩니다.
-
-<Demo code={`import { List, ListItem, ListItemText, ListItemRadio, RadioGroup } from '@wanteddev/wds';
-import { IconPerson } from '@wanteddev/wds-icon';
-import { useId } from 'react';
-
-const Demo = () => {
-  const manId = useId();
-  const womanId = useId();
-
-  return (
-    <RadioGroup>
-      <List gap="16px">
-        <ListItem>
-          <ListItemRadio id={manId} value="man">Man</ListItemRadio>
-        </ListItem>
-        <ListItem>
-          <ListItemRadio id={womanId} value="woman">Woman</ListItemRadio>
-        </ListItem>
-      </List>
-    </RadioGroup>
-  )
-}
-
-export default Demo;`}
-/>
-
-`RadioGroupItem`과 동일한 props를 사용하고, label은 `ListItemText`의 props 입니다. 
-
-### Form 
-
-<Demo code={`import { Button, FlexBox, RadioGroup, List, ListItem, ListItemText, ListItemRadio, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroupItem, FormField, FormControl, List, ListItem, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -173,21 +187,29 @@ const Demo = () => {
             <FormLabel>성별</FormLabel>
 
             <FormControl>
-              <RadioGroup {...field} onValueChange={field.onChange}>
-                <List>
-                  <FormField as={ListItem}>
+              <List radioGroupProps={{ ...field, onValueChange: field.onChange }}>
+                <ListItem
+                  as={FormField}
+                  leftContent={
                     <FormControl>
-                      <ListItemRadio value="man" label={{ as: FormLabel }}>Man</ListItemRadio>
+                      <RadioGroupItem value="man" />
                     </FormControl>
-                  </FormField>
+                  }
+                >
+                  <ListItemText as={FormLabel}>Man</ListItemText>
+                </ListItem>
 
-                  <FormField as={ListItem}>
+                <ListItem
+                  as={FormField}
+                  leftContent={
                     <FormControl>
-                      <ListItemRadio value="woman" label={{ as: FormLabel }}>Woman</ListItemRadio>
+                      <RadioGroupItem value="woman" />
                     </FormControl>
-                  </FormField>
-                </List>
-              </RadioGroup>
+                  }
+                >
+                  <ListItemText as={FormLabel}>Woman</ListItemText>
+                </ListItem>
+              </List>
             </FormControl>
 
             <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
@@ -203,129 +225,4 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## ListItemCheckbox
-
-리스트에서 사용하는 체크박스 컴포넌트입니다.
-
-children은 `ListItemText` 컴포넌트의 label로서 렌더링됩니다.
-
-<Demo code={`import { useId } from 'react';
-import { Label, List, ListItem, ListItemText, ListItemCheckbox } from '@wanteddev/wds';
-
-const Demo = () => {
-  const devId = useId();
-  const designId = useId();
-
-  return (
-    <List>
-      <ListItem>
-        <ListItemCheckbox id={devId}>개발</ListItemCheckbox>
-      </ListItem>
-      <ListItem>
-        <ListItemCheckbox id={designId}>디자인</ListItemCheckbox>
-      </ListItem>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
-`RadioGroupItem`과 동일한 props를 사용하고, label은 `ListItemText`의 props 입니다. 
-
-### Form
-
-<Demo code={`import { useId } from 'react';
-import { Button, FlexBox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListItem, ListItemCheckbox } from '@wanteddev/wds';
-import { useForm, Controller } from 'react-hook-form';
-
-const Demo = () => {
-  const id = useId();
-  const form = useForm({
-    defaultValues: {
-      selected: [],
-    },
-  });
-
-  const items = [
-    {
-      id: "develop",
-      label: "개발",
-    },
-    {
-      id: "design",
-      label: "디자인",
-    },
-  ];
-
-  return (
-    <FlexBox
-      as="form"
-      flexDirection="column"
-      gap="20px"
-      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-    >
-      <Controller
-        control={form.control}
-        name="selected"
-        render={({ formState }) => (
-          <FormField>
-            <FormLabel>관심 분야</FormLabel>
-
-            <List>
-              {items.map((item) => (
-                <Controller
-                  key={item.id}
-                  control={form.control}
-                  name="selected"
-                  rules={{
-                    required: {
-                      value: true,
-                      message: "필수 값입니다.",
-                    },
-                  }}
-                  render={({ field }) => {
-                    return (
-                      <FormField
-                        key={item.id}
-                        as={ListItem}                      
-                      >
-                        <FormControl>
-                          <ListItemCheckbox
-                            {...field}
-                            checked={field.value.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                            label={{ as: FormLabel }}
-                          >
-                            {item.label}
-                          </ListItemCheckbox>
-                        </FormControl>
-                      </FormField>
-                    );
-                  }}
-                />
-              ))}
-            </List>
-
-            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
-          </FormField>
-        )}
-      />
-
-      <Button type="submit">제출</Button>
-    </FlexBox>
-  )
-}
-
-export default Demo;`}
-/>
-
-## Advanced
+### ListItem + Multiple Checkbox

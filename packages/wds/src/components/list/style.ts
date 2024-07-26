@@ -22,6 +22,7 @@ export const listItemTextStyle = css`
     display: flex;
     flex-direction: column;
     gap: 4px;
+    flex: 1;
   }
 `;
 
