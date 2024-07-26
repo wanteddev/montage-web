@@ -41,7 +41,7 @@ export { default as Switch } from './switch';
 export * from './tab';
 export { default as TextArea } from './text-area';
 export { default as TextButton } from './text-button';
-export { default as TextField } from './text-field';
+export * from './text-field';
 export { default as Thumbnail } from './thumbnail';
 export { default as ToggleIcon } from './toggle-icon';
 export * from './tooltip';
