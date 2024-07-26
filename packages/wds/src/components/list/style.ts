@@ -1,7 +1,5 @@
 import { css } from '@wanteddev/wds-engine';
 
-import type { Theme } from '@wanteddev/wds-engine';
-
 export const listStyle = css`
   && {
     list-style: none;
@@ -23,21 +21,5 @@ export const listItemTextStyle = css`
     flex-direction: column;
     gap: 4px;
     flex: 1;
-  }
-`;
-
-export const listItemRadioStyle = (theme: Theme) => css`
-  &[aria-checked='true'] {
-    & ~ label {
-      color: ${theme.palette.primary.normal};
-    }
-  }
-`;
-
-export const listItemCheckboxStyle = (theme: Theme) => css`
-  &[aria-checked='true'] {
-    & ~ label {
-      color: ${theme.palette.primary.normal};
-    }
   }
 `;

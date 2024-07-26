@@ -61,6 +61,7 @@ const ListItem = forwardRef<HTMLLIElement>(
     const composedRefs = useComposedRefs(forwardedRef, (node) => setItem(node));
 
     const isFormControl = item ? item.closest('form') : false;
+    const hasContentId = item?.role === 'radio' || item?.role === 'checkbox';
 
     const leftContentComponent = useMemo(() => {
       if (!leftContent) {
@@ -68,7 +69,7 @@ const ListItem = forwardRef<HTMLLIElement>(
       }
       return React.cloneElement(leftContent, {
         ...(!isFormControl &&
-          (item?.role === 'radio' || item?.role === 'checkbox') && {
+          hasContentId && {
             id: contentId,
           }),
         ref: composedRefs,
@@ -77,7 +78,7 @@ const ListItem = forwardRef<HTMLLIElement>(
     }, [item]);
 
     return (
-      <ListItemProvider contentId={contentId}>
+      <ListItemProvider contentId={hasContentId ? contentId : undefined}>
         <FlexBox
           as={as || 'li'}
           justifyContent="flex-start"
@@ -114,7 +115,9 @@ const ListItemText = forwardRef<HTMLSpanElement>(
     const composedRefs = useComposedRefs(forwardedRef, (node) => setText(node));
 
     const hasContentHtmlFor =
-      !text?.closest('form') && text?.tagName.toLowerCase() === 'label';
+      contentId &&
+      !text?.closest('form') &&
+      text?.tagName.toLowerCase() === 'label';
 
     if (!children) {
       return null;
