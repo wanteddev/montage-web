@@ -1,12 +1,6 @@
 import type { Merge } from '@wanteddev/wds-engine';
-import type {
-  ComponentPropsWithRef,
-  ComponentPropsWithoutRef,
-  ReactElement,
-  ReactNode,
-} from 'react';
-import type { Checkbox, FlexBox, RadioGroup, Typography } from '..';
-import type { RadioGroupItemProps } from '../radio-group/types';
+import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react';
+import type { FlexBox, RadioGroup, Typography } from '..';
 
 type FlexBoxWithoutRefProps = ComponentPropsWithoutRef<typeof FlexBox>;
 
@@ -33,20 +27,4 @@ export type ListItemTextDefaultProps = {
 export type ListItemTextProps = Merge<
   ListItemTextDefaultProps,
   ComponentPropsWithoutRef<typeof Typography>
->;
-
-export type ListItemRadioDefaultProps = {
-  label?: ListItemTextProps;
-};
-export type ListItemRadioProps = Merge<
-  ListItemRadioDefaultProps,
-  RadioGroupItemProps
->;
-
-export type ListItemCheckboxDefaultProps = {
-  label?: ListItemTextProps;
-};
-export type ListItemCheckboxProps = Merge<
-  ListItemCheckboxDefaultProps,
-  ComponentPropsWithRef<typeof Checkbox>
 >;
