@@ -76,10 +76,10 @@ const Demo = () => {
   return (
     <List>
       <ListItem leftContent={<RadioGroupItem value="man" />}>
-        <ListItemText as="label">Man</ListItemText>
+        <ListItemText>Man</ListItemText>
       </ListItem>
       <ListItem leftContent={<RadioGroupItem value="woman" />}>
-        <ListItemText as="label">Woman</ListItemText>
+        <ListItemText>Woman</ListItemText>
       </ListItem>
     </List>
   )
@@ -95,7 +95,7 @@ export default Demo;`}
 const Demo = () => {
   return (
     <ListItem leftContent={<Checkbox />}>
-      <ListItemText as="label">Label</ListItemText>
+      <ListItemText>Label</ListItemText>
     </ListItem>
   )
 }
@@ -189,9 +189,9 @@ const Demo = () => {
             <FormLabel>성별</FormLabel>
 
             <FormControl>
-              <List radioGroupProps={{ ...field, onValueChange: field.onChange }}>
+              <List radioGroup={{ ...field, onValueChange: field.onChange }}>
                 <ListItem
-                  as={FormField}
+                  listItemBox={{ as: FormField }}
                   leftContent={
                     <FormControl>
                       <RadioGroupItem value="man" />
@@ -202,7 +202,7 @@ const Demo = () => {
                 </ListItem>
 
                 <ListItem
-                  as={FormField}
+                  listItemBox={{ as: FormField }}
                   leftContent={
                     <FormControl>
                       <RadioGroupItem value="woman" />

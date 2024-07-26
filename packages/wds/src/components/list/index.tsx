@@ -1,12 +1,10 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import React, { forwardRef, useId, useMemo, useState } from 'react';
+import { cloneElement, forwardRef, useMemo, useState } from 'react';
 
 import { FlexBox, RadioGroup, Typography } from '..';
 
 import { LIST_ITEM_NAME, LIST_ITEM_TEXT_NAME, LIST_NAME } from './constants';
-import { ListItemProvider } from './contexts';
-import { useListItem } from './hooks';
-import { listItemStyle, listItemTextStyle, listStyle } from './style';
+import { listItemTextStyle, listStyle } from './style';
 
 import type {
   PolymorphicComponent,
@@ -18,14 +16,14 @@ import type { ListItemProps, ListItemTextProps, ListProps } from './types';
 
 const List = forwardRef<HTMLUListElement>(
   (
-    { as, children, radioGroupProps, ...props }: PolymorphicProps<ListProps>,
+    { as, children, radioGroup, ...props }: PolymorphicProps<ListProps>,
     forwardedRef,
   ) => {
     const [list, setList] = useState<HTMLUListElement | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, (node) => setList(node));
 
     const shouldWrapRadioGroup = Boolean(
-      radioGroupProps || (list ? list.querySelector('[role="radio"]') : true),
+      radioGroup || (list ? list.querySelector('[role="radio"]') : true),
     );
 
     const ListFlexBox = (
@@ -42,7 +40,7 @@ const List = forwardRef<HTMLUListElement>(
     );
 
     if (shouldWrapRadioGroup) {
-      return <RadioGroup {...radioGroupProps}>{ListFlexBox}</RadioGroup>;
+      return <RadioGroup {...radioGroup}>{ListFlexBox}</RadioGroup>;
     }
     return ListFlexBox;
   },
@@ -52,44 +50,57 @@ List.displayName = LIST_NAME;
 
 const ListItem = forwardRef<HTMLLIElement>(
   (
-    { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps>,
+    {
+      as,
+      leftContent,
+      children,
+      listItemBox: { sx: listItemBoxSx, ...listItemBox } = {},
+      ...props
+    }: PolymorphicProps<ListItemProps>,
     forwardedRef,
   ) => {
-    const contentId = useId();
-
     const [item, setItem] = useState<HTMLLIElement | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, (node) => setItem(node));
 
     const isFormControl = item ? item.closest('form') : false;
-    const hasContentId = item?.role === 'radio' || item?.role === 'checkbox';
+    const hasControlContent =
+      item?.role === 'radio' || item?.role === 'checkbox';
+    const itemBoxAs =
+      listItemBox.as || (!isFormControl && hasControlContent ? 'label' : 'div');
 
     const leftContentComponent = useMemo(() => {
       if (!leftContent) {
         return null;
       }
-      return React.cloneElement(leftContent, {
-        ...(!isFormControl &&
-          hasContentId && {
-            id: contentId,
-          }),
+      return cloneElement(leftContent, {
         ref: composedRefs,
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [item]);
 
     return (
-      <ListItemProvider contentId={hasContentId ? contentId : undefined}>
+      <FlexBox as={as || 'li'} {...props}>
         <FlexBox
-          as={as || 'li'}
+          gap="10px"
           justifyContent="flex-start"
           alignItems="center"
-          sx={listItemStyle}
-          {...props}
+          {...listItemBox}
+          as={itemBoxAs}
+          sx={[
+            {
+              width: '100%',
+              cursor:
+                hasControlContent && itemBoxAs === 'label'
+                  ? 'pointer'
+                  : 'initial',
+            },
+            listItemBoxSx,
+          ]}
         >
           {Boolean(leftContentComponent) && leftContentComponent}
           {children}
         </FlexBox>
-      </ListItemProvider>
+      </FlexBox>
     );
   },
 ) as PolymorphicComponent<ListItemProps, 'li'>;
@@ -109,16 +120,6 @@ const ListItemText = forwardRef<HTMLSpanElement>(
     }: PolymorphicProps<ListItemTextProps>,
     forwardedRef,
   ) => {
-    const { contentId } = useListItem(LIST_ITEM_TEXT_NAME);
-
-    const [text, setText] = useState<HTMLSpanElement | null>(null);
-    const composedRefs = useComposedRefs(forwardedRef, (node) => setText(node));
-
-    const hasContentHtmlFor =
-      contentId &&
-      !text?.closest('form') &&
-      text?.tagName.toLowerCase() === 'label';
-
     if (!children) {
       return null;
     }
@@ -138,15 +139,12 @@ const ListItemText = forwardRef<HTMLSpanElement>(
 
     return (
       <Typography
-        ref={composedRefs}
-        {...(hasContentHtmlFor && {
-          htmlFor: contentId,
-        })}
+        ref={forwardedRef}
         variant="body1_normal"
         color={getColor('palette.label.normal')}
         weight={weight}
-        sx={[listItemTextStyle, sx]}
         {...props}
+        sx={[listItemTextStyle, sx]}
       >
         {children}
         {Boolean(caption) && (
