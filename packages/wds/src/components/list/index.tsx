@@ -1,18 +1,29 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { cloneElement, forwardRef, useMemo, useState } from 'react';
-
-import { FlexBox, RadioGroup, Typography } from '..';
-
-import { LIST_ITEM_NAME, LIST_ITEM_TEXT_NAME, LIST_NAME } from './constants';
-import { listItemTextStyle, listStyle } from './style';
-
-import type {
-  PolymorphicComponent,
-  PolymorphicProps,
-  ThemeColorsToken,
+import {
+  Box,
+  type PolymorphicComponent,
+  type PolymorphicProps,
+  type ThemeColorsToken,
 } from '@wanteddev/wds-engine';
+
+import { FlexBox, RadioGroup, Typography, WithInteraction } from '..';
+
+import {
+  LIST_CELL_NAME,
+  LIST_ITEM_NAME,
+  LIST_ITEM_TEXT_NAME,
+  LIST_NAME,
+} from './constants';
+import { listCellStyle, listItemTextStyle, listStyle } from './style';
+
 import type { TypographyWeight } from '../typography/types';
-import type { ListItemProps, ListItemTextProps, ListProps } from './types';
+import type {
+  ListCellProps,
+  ListItemProps,
+  ListItemTextProps,
+  ListProps,
+} from './types';
 
 const List = forwardRef<HTMLUListElement>(
   (
@@ -28,6 +39,7 @@ const List = forwardRef<HTMLUListElement>(
 
     const ListFlexBox = (
       <FlexBox
+        role="list"
         ref={composedRefs}
         as={as || 'ul'}
         flexDirection="column"
@@ -79,8 +91,9 @@ const ListItem = forwardRef<HTMLLIElement>(
     }, [item]);
 
     return (
-      <FlexBox as={as || 'li'} {...props}>
+      <FlexBox as={as || 'li'} role="listitem" {...props}>
         <FlexBox
+          flexDirection="row"
           gap="10px"
           justifyContent="flex-start"
           alignItems="center"
@@ -89,10 +102,8 @@ const ListItem = forwardRef<HTMLLIElement>(
           sx={[
             {
               width: '100%',
-              cursor:
-                hasControlContent && itemBoxAs === 'label'
-                  ? 'pointer'
-                  : 'initial',
+              cursor: hasControlContent ? 'pointer' : 'initial',
+              zIndex: 1,
             },
             listItemBoxSx,
           ]}
@@ -106,6 +117,52 @@ const ListItem = forwardRef<HTMLLIElement>(
 ) as PolymorphicComponent<ListItemProps, 'li'>;
 
 ListItem.displayName = LIST_ITEM_NAME;
+
+const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
+  (
+    {
+      padding = 'normal',
+      paddingInset,
+      listItemBox,
+      ...props
+    }: PolymorphicProps<ListCellProps>,
+    forwardedRef,
+  ) => {
+    const getPadding = () => {
+      const sidePadding = paddingInset ? '20px' : '12px';
+
+      switch (padding) {
+        case 'normal':
+          return `12px ${sidePadding}`;
+        case 'small':
+          return `8px ${sidePadding}`;
+        case 'medium':
+          return `16px ${sidePadding}`;
+      }
+    };
+
+    return (
+      <WithInteraction>
+        <Box ref={forwardedRef} sx={listCellStyle} role="listitem">
+          <ListItem
+            as="div"
+            role={undefined}
+            {...props}
+            listItemBox={{
+              ...listItemBox,
+              sx: [
+                listItemBox?.sx,
+                { padding: getPadding(), cursor: 'pointer' },
+              ],
+            }}
+          />
+        </Box>
+      </WithInteraction>
+    );
+  },
+);
+
+ListCell.displayName = LIST_CELL_NAME;
 
 const ListItemText = forwardRef<HTMLSpanElement>(
   (
@@ -163,4 +220,4 @@ const ListItemText = forwardRef<HTMLSpanElement>(
 
 ListItemText.displayName = LIST_ITEM_TEXT_NAME;
 
-export { List, ListItem, ListItemText };
+export { List, ListCell, ListItem, ListItemText };

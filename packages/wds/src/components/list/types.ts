@@ -18,7 +18,14 @@ export type ListItemDefaultProps = {
 };
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
 
-export type ListCellProps = FlexBoxWithoutRefProps;
+export type ListCellDefaultProps = {
+  padding?: 'normal' | 'small' | 'medium';
+  paddingInset?: boolean;
+  divider?: boolean;
+};
+export type ListCellProps = ListItemProps &
+  ListCellDefaultProps &
+  FlexBoxWithoutRefProps;
 
 export type ListItemTextDefaultProps = {
   caption?: ReactNode;

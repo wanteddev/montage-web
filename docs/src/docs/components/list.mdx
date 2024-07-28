@@ -110,14 +110,28 @@ export default Demo;`}
 셀 형태를 가진 리스트입니다
 `Menu`, `Select` 등에서 셀 형태의 리스트를 사용합니다.
 
-<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+<Demo code={`import { List, ListCell, ListItemText } from '@wanteddev/wds';
+import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <Box as="ul" sx={listStyle}>
-      <li>List1</li>
-      <li>List2</li>
-    </Box>
+    <List>
+      <ListCell>
+        <ListItemText>텍스트</ListItemText>
+      </ListCell>
+      <ListCell>
+        <ListItemText caption="캡션">텍스트</ListItemText>
+      </ListCell>
+      <ListCell>
+        <ListItemText bold>텍스트</ListItemText>
+      </ListCell>
+      <ListCell>
+        <ListItemText active>텍스트</ListItemText>
+      </ListCell>
+      <ListCell>
+        <ListItemText disabled>텍스트</ListItemText>
+      </ListCell>
+    </List>
   )
 }
 
@@ -162,7 +176,7 @@ export default Demo;`}
 
 ### ListItem + RadioGroup
 
-<Demo code={`import { Button, FlexBox, RadioGroupItem, FormField, FormControl, List, ListItem, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroupItem, FormField, FormControl, List, ListItem, ListCell, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -190,26 +204,28 @@ const Demo = () => {
 
             <FormControl>
               <List radioGroup={{ ...field, onValueChange: field.onChange }}>
-                <ListItem
-                  listItemBox={{ as: FormField }}
+                <ListCell
+                  as={FormField}
+                  listItemBox={{ as: FormLabel }}
                   leftContent={
                     <FormControl>
                       <RadioGroupItem value="man" />
                     </FormControl>
                   }
                 >
-                  <ListItemText as={FormLabel}>Man</ListItemText>
+                  <ListItemText>Man</ListItemText>
                 </ListItem>
 
                 <ListItem
-                  listItemBox={{ as: FormField }}
+                  as={FormField}  
+                  listItemBox={{ as: FormLabel }}
                   leftContent={
                     <FormControl>
                       <RadioGroupItem value="woman" />
                     </FormControl>
                   }
                 >
-                  <ListItemText as={FormLabel}>Woman</ListItemText>
+                  <ListItemText>Woman</ListItemText>
                 </ListItem>
               </List>
             </FormControl>

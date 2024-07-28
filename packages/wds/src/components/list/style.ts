@@ -8,10 +8,12 @@ export const listStyle = css`
   }
 `;
 
-export const listItemStyle = css`
-  & {
-    flex-direction: row;
-    gap: 10px;
+export const listCellStyle = css`
+  border-radius: 12px;
+
+  [role='radio'] [wds-component='with-interaction'] {
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
   }
 `;
 
