@@ -41,7 +41,7 @@ import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <List>
+    <List gap="16px">
       <ListItem>
         <ListItemText>텍스트</ListItemText>
       </ListItem>
@@ -64,9 +64,7 @@ export default Demo;`}
 
 ### leftContent
 
-`leftContent` props에 icon, radio, checkbox를 전달할 수 있습니다.
-
-컨트롤 가능한 요소가 들어오면, 내부적으로 id를 생성하여 label로 렌더링되는 `~ ListItemText`에 전달합니다.
+`leftContent` props에 icon, radio, checkbox 등을 전달합니다.
 
 #### RadioGroupItem
 
@@ -74,7 +72,7 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <List>
+    <List gap="16px">
       <ListItem leftContent={<RadioGroupItem value="man" />}>
         <ListItemText>Man</ListItemText>
       </ListItem>
@@ -105,9 +103,45 @@ export default Demo;`}
 
 ### rightContent
 
+## ListItemText
+
+리스트에서 사용하는 타이포 컴포넌트입니다.
+
+<Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
+import { IconPerson } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <List gap="16px">
+      <ListItem>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText caption="캡션">텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText bold>텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText active>텍스트</ListItemText>
+      </ListItem>
+      <ListItem>
+        <ListItemText disabled>텍스트</ListItemText>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+`Typography`의 props를 확장하여 사용합니다.
+
+<PropsTable component="ListItemText" />
+
 ## ListCell
 
-셀 형태를 가진 리스트입니다
+셀 형태를 가진 리스트입니다. 
 `Menu`, `Select` 등에서 셀 형태의 리스트를 사용합니다.
 
 <Demo code={`import { List, ListCell, ListItemText } from '@wanteddev/wds';
@@ -119,17 +153,17 @@ const Demo = () => {
       <ListCell>
         <ListItemText>텍스트</ListItemText>
       </ListCell>
-      <ListCell>
+      <ListCell size="small">
         <ListItemText caption="캡션">텍스트</ListItemText>
       </ListCell>
-      <ListCell>
+      <ListCell size="medium">
+        <ListItemText caption="캡션">텍스트</ListItemText>
+      </ListCell>
+      <ListCell paddingInset>
         <ListItemText bold>텍스트</ListItemText>
       </ListCell>
-      <ListCell>
+      <ListCell divider>
         <ListItemText active>텍스트</ListItemText>
-      </ListCell>
-      <ListCell>
-        <ListItemText disabled>텍스트</ListItemText>
       </ListCell>
     </List>
   )
@@ -137,46 +171,12 @@ const Demo = () => {
 
 export default Demo;`}
 />
-
-## ListItemText
-
-리스트에서 사용하는 타이포 컴포넌트입니다.
-
-<Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
-import { IconPerson } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  return (
-    <List>
-      <ListItem>
-        <ListItemText>텍스트</ListItemText>
-      </ListItem>
-      <ListItem>
-        <ListItemText caption="캡션">텍스트</ListItemText>
-      </ListItem>
-      <ListItem>
-        <ListItemText bold>텍스트</ListItemText>
-      </ListItem>
-      <ListItem>
-        <ListItemText active>텍스트</ListItemText>
-      </ListItem>
-      <ListItem>
-        <ListItemText disabled>텍스트</ListItemText>
-      </ListItem>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
-<PropsTable component="ListItemText" />
 
 ## Form
 
-### ListItem + RadioGroup
+### ListCell + RadioGroup
 
-<Demo code={`import { Button, FlexBox, RadioGroupItem, FormField, FormControl, List, ListItem, ListCell, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroupItem, FormField, FormControl, List, ListCell, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -214,9 +214,8 @@ const Demo = () => {
                   }
                 >
                   <ListItemText>Man</ListItemText>
-                </ListItem>
-
-                <ListItem
+                </ListCell>
+                <ListCell
                   as={FormField}  
                   listItemBox={{ as: FormLabel }}
                   leftContent={
@@ -226,7 +225,7 @@ const Demo = () => {
                   }
                 >
                   <ListItemText>Woman</ListItemText>
-                </ListItem>
+                </ListCell>
               </List>
             </FormControl>
 
@@ -243,4 +242,4 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### ListItem + Multiple Checkbox
+### ListCell + Multiple Checkbox

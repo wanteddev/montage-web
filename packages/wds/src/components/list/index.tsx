@@ -43,7 +43,6 @@ const List = forwardRef<HTMLUListElement>(
         ref={composedRefs}
         as={as || 'ul'}
         flexDirection="column"
-        gap="8px"
         sx={[listStyle, props.sx]}
         {...props}
       >
@@ -74,11 +73,9 @@ const ListItem = forwardRef<HTMLLIElement>(
     const [item, setItem] = useState<HTMLLIElement | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, (node) => setItem(node));
 
-    const isFormControl = item ? item.closest('form') : false;
     const hasControlContent =
       item?.role === 'radio' || item?.role === 'checkbox';
-    const itemBoxAs =
-      listItemBox.as || (!isFormControl && hasControlContent ? 'label' : 'div');
+    const itemBoxAs = listItemBox.as || (hasControlContent ? 'label' : 'div');
 
     const leftContentComponent = useMemo(() => {
       if (!leftContent) {
@@ -121,7 +118,7 @@ ListItem.displayName = LIST_ITEM_NAME;
 const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
   (
     {
-      padding = 'normal',
+      size = 'normal',
       paddingInset,
       listItemBox,
       ...props
@@ -131,7 +128,7 @@ const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
     const getPadding = () => {
       const sidePadding = paddingInset ? '20px' : '12px';
 
-      switch (padding) {
+      switch (size) {
         case 'normal':
           return `12px ${sidePadding}`;
         case 'small':

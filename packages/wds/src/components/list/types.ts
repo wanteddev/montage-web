@@ -6,6 +6,9 @@ import type { FlexBoxProps } from '../flex-box/types';
 type FlexBoxWithoutRefProps = ComponentPropsWithoutRef<typeof FlexBox>;
 
 export type ListDefaultProps = {
+  /**
+   * 내부에 role="radio" 요소가 있는 경우, 내부에서 <RadioGroup />으로 래핑하고 props를 전달합니다.
+   */
   radioGroup?: ComponentPropsWithoutRef<typeof RadioGroup>;
 };
 export type ListProps = Merge<ListDefaultProps, FlexBoxWithoutRefProps>;
@@ -19,7 +22,7 @@ export type ListItemDefaultProps = {
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
 
 export type ListCellDefaultProps = {
-  padding?: 'normal' | 'small' | 'medium';
+  size?: 'normal' | 'small' | 'medium';
   paddingInset?: boolean;
   divider?: boolean;
 };
