@@ -8,12 +8,12 @@ figma.connect(Button, '<FIGMA_BUTTON_SOLID_PRIMARY>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     iconOnly: figma.boolean('Icon Only'),
@@ -37,12 +37,12 @@ figma.connect(Button, '<FIGMA_BUTTON_SOLID_ASSISTIVE>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     iconOnly: figma.boolean('Icon Only'),
@@ -66,12 +66,12 @@ figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_PRIMARY>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     iconOnly: figma.boolean('Icon Only'),
@@ -95,12 +95,12 @@ figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_SECONDARY>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     iconOnly: figma.boolean('Icon Only'),
@@ -124,12 +124,12 @@ figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_ASSISTIVE>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     iconOnly: figma.boolean('Icon Only'),

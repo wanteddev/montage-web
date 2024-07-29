@@ -5,12 +5,12 @@ import { TextButton } from '@wanteddev/wds';
 figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_PRIMARY>', {
   props: {
     children: figma.string('Label'),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     disabled: figma.boolean('Disable'),
@@ -29,12 +29,12 @@ figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_PRIMARY>', {
 figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_ASSISTIVE>', {
   props: {
     children: figma.string('Label'),
-    leftIcon: figma.boolean('Left Icon', {
-      true: figma.children('Left Icon'),
+    leftIcon: figma.boolean('Left Content', {
+      true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightIcon: figma.boolean('Right Icon', {
-      true: figma.children('Right Icon'),
+    rightIcon: figma.boolean('Right Content', {
+      true: figma.children('Right Content'),
       false: undefined,
     }),
     disabled: figma.boolean('Disable'),
