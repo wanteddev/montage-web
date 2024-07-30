@@ -68,7 +68,6 @@ const Menu = () => {
 
                     {page.stable && (
                       <ContentBadge
-                        size="xsmall"
                         color="accent"
                         accentColor="palette.status.positive"
                       >
