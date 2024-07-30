@@ -236,8 +236,7 @@ const PopperContent: ReturnType<
         flip(),
         size(),
         arrow &&
-          floatingUIarrow(({ placement, ...a }) => {
-            console.log(placement, a);
+          floatingUIarrow(({ placement }) => {
             return {
               element: arrow as Element,
               padding:
