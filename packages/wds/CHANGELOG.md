@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.2...@wanteddev/wds@1.3.3) (2024-07-30)
+
+### Bug Fixes
+
+- **wds:** 불필요한 console 제거 ([fc9ec57](https://github.com/wanteddev/wds/commit/fc9ec571aac4971128e2b33cd4b8256d02d72f48))
+
 ## [1.3.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.1...@wanteddev/wds@1.3.2) (2024-07-17)
 
 ### Bug Fixes
