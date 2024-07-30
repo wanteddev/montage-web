@@ -8,7 +8,7 @@ import type { ReactNode } from 'react';
 export type ContentBadgeDefaultProps = {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-  size?: 'xsmall' | 'small' | 'medium';
+  size?: 'normal' | 'medium' | 'large';
   variant?: 'filled' | 'outlined';
   color?: 'neutral' | 'accent';
   accentColor?: ThemeColorsToken;
