@@ -15,6 +15,9 @@ import { multiSelectStyle } from './style';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ChipMultiSelectProps } from './types';
 
+/**
+ * @deprecated ChipAction 을 사용해주세요.
+ */
 const ChipMultiSelect = forwardRef<
   HTMLButtonElement,
   Omit<
