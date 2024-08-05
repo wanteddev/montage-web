@@ -9,7 +9,7 @@ description: useDialog for WDS Utility
 
 ## 활용
 
-<Demo code={`import { useDialog, Button } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -18,8 +18,8 @@ const Demo = () => {
     const result = await dialog({
       title: '제목',
       content: '설명',
-      confirmText: '확인',
-      cancelText: '취소',
+      confirm: <DialogButton>확인</DialogButton>,
+      cancel: <DialogButton variant="assistive">취소</DialogButton>,
     });
 
     alert('결과: ' + result);
@@ -35,16 +35,22 @@ export default Demo;`}
 
 ## Props
 
+### useDialog
+
 <PropsTable component="useDialog" fallback={[
 { name: 'title', types: 'ReactNode | undefined' },
 { name: 'content', types: 'ReactNode', required: true },
-{ name: 'cancelText', types: 'string | undefined' },
-{ name: 'confirmText', types: 'string', required: true },
-{ name: 'confirmColor', types: '"palette.label.strong" | "palette.label.normal" | "palette.label.disable" | "palette.label.assistive" | "palette.label.neutral" | "palette.label.alternative" | "palette.line.normal.normal" | ... 197 more ... | undefined', defaultValue: 'palette.primary.normal' },
+{ name: 'cancel', types: 'ReactNode | undefined' },
+{ name: 'confirm', types: 'ReactNode', required: true },
+{ name: 'sx', types: 'SxProp | undefined' },
 { name: 'direction', types: '"normal" | "reverse" \ undefined', description: "버튼 순서를 변경합니다.", defaultValue: "normal" },
 { name: 'disableOutsideClickClose', types: 'boolean | undefined', defaultValue: 'false' },
 { name: 'disableEscapeKeyDownClose', types: 'boolean | undefined', defaultValue: 'false' },
 ]} />
+
+### DialogButton
+
+<PropsTable component="DialogButton" />
 
 ## Examples
 
@@ -52,7 +58,7 @@ export default Demo;`}
 
 확인과 취소 버튼 위치를 변경합니다.
 
-<Demo code={`import { useDialog, Button } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -61,9 +67,95 @@ const Demo = () => {
     const result = await dialog({
       title: '제목',
       content: '설명',
-      confirmText: '확인',
-      cancelText: '취소',
+      confirm: <DialogButton>확인</DialogButton>,
+      cancel: <DialogButton variant="assistive">취소</DialogButton>,
       direction: 'reverse'
+    });
+
+    alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Button Color
+
+`variant` 옵션에 따라 버튼의 색상이 달라집니다.
+
+<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const dialog = useDialog();
+
+  const handleClick = async () => {
+    const result = await dialog({
+      title: '정말로 삭제하시겠습니까?',
+      content: '삭제된 내용은 복구할 수 없습니다.',
+      confirm: <DialogButton variant="negative">확인</DialogButton>,
+      cancel: <DialogButton variant="assistive">취소</DialogButton>
+    });
+
+    alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Custom Style
+
+`sx` Prop을 통해 커스텀 스타일을 적용할 수 있습니다.
+
+<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const dialog = useDialog();
+
+  const handleClick = async () => {
+    const result = await dialog({
+      title: '정말로 삭제하시겠습니까?',
+      content: '삭제된 내용은 복구할 수 없습니다.',
+      confirm: <DialogButton>확인</DialogButton>,
+      cancel: <DialogButton variant="assistive">취소</DialogButton>,
+      sx: { padding: 40 }
+    });
+
+    alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Prevent Event
+
+`e.preventDefault` 를 이용하면 클릭 액션을 막을 수 있습니다.
+
+<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const dialog = useDialog();
+
+  const handleClick = async () => {
+    const result = await dialog({
+      title: '제목',
+      content: '내용',
+      confirm: <DialogButton onClick={e => e.preventDefault()}>확인</DialogButton>,
+      cancel: <DialogButton variant="assistive">취소</DialogButton>,
     });
 
     alert('결과: ' + result);

@@ -4,7 +4,7 @@ import { useStore } from 'zustand';
 
 import { generateId } from './helpers';
 
-import type { ThemeColorsToken } from '@wanteddev/wds-engine';
+import type { SxProp } from '@wanteddev/wds-engine';
 import type { StoreApi } from 'zustand';
 import type { ReactNode } from 'react';
 
@@ -14,13 +14,13 @@ export type DialogItem = {
   id: string;
   title?: ReactNode;
   content: ReactNode;
-  confirmText: ReactNode;
-  cancelText?: ReactNode;
-  confirmColor?: ThemeColorsToken;
   direction?: 'normal' | 'reverse';
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
   resolve: (value: DialogReturnType | PromiseLike<DialogReturnType>) => void;
+  confirm: ReactNode;
+  cancel?: ReactNode;
+  sx?: SxProp;
 };
 
 export type DialogState = {

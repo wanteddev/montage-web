@@ -1,6 +1,6 @@
 'use client';
-import { useCallback, useEffect, useId, useRef } from 'react';
-import { Slot } from '@radix-ui/react-slot';
+import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
+import { Slot, Slottable } from '@radix-ui/react-slot';
 import { Box, getColorByToken } from '@wanteddev/wds-engine';
 
 import { hideOthers } from '../../utils/aria-hidden';
@@ -17,8 +17,12 @@ import {
   dialogWrapperStyle,
 } from './style';
 
-import type { PropsWithChildren } from 'react';
-import type { ThemeColorsToken } from '@wanteddev/wds-engine';
+import type { DialogButtonProps } from './types';
+import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { DialogItem } from '../../stores/dialog-store';
 
 const Dialog = () => {
@@ -37,12 +41,12 @@ const Item = ({
   id,
   content,
   title,
-  confirmText,
-  confirmColor = 'palette.primary.normal',
+  confirm,
+  cancel,
   direction = 'normal',
-  cancelText,
   disableOutsideClickClose,
   disableEscapeKeyDownClose,
+  sx,
   resolve,
 }: DialogItem) => {
   const hide = useDialogStore((state) => state.hide);
@@ -56,15 +60,29 @@ const Item = ({
     hide(id);
   }, [hide, id]);
 
-  const handleCancel = useCallback(() => {
-    handleClose();
-    resolve('cancel');
-  }, [handleClose, resolve]);
+  const handleCancel = useCallback(
+    (e?: MouseEvent<HTMLElement>) => {
+      if (e?.defaultPrevented) {
+        return;
+      }
 
-  const handleConfirm = useCallback(() => {
-    handleClose();
-    resolve('confirm');
-  }, [handleClose, resolve]);
+      handleClose();
+      resolve('cancel');
+    },
+    [handleClose, resolve],
+  );
+
+  const handleConfirm = useCallback(
+    (e?: MouseEvent<HTMLElement>) => {
+      if (e?.defaultPrevented) {
+        return;
+      }
+
+      handleClose();
+      resolve('confirm');
+    },
+    [handleClose, resolve],
+  );
 
   useEffect(() => {
     const element = ref.current;
@@ -108,15 +126,17 @@ const Item = ({
               aria-describedby={descriptionId}
               aria-labelledby={titleId}
               flexDirection="column"
-              sx={dialogContentStyle}
+              sx={[dialogContentStyle, sx]}
             >
               <FlexBox
+                wds-component="dialog-wrapper"
                 flexDirection="column"
                 gap="6px"
                 sx={{ padding: '20px' }}
               >
                 {Boolean(title) && (
                   <Typography
+                    wds-component="dialog-title"
                     variant="headline1"
                     weight="bold"
                     color="palette.label.normal"
@@ -126,6 +146,7 @@ const Item = ({
                 )}
 
                 <Typography
+                  wds-component="dialog-content"
                   variant="body2_normal"
                   weight="regular"
                   color="palette.label.alternative"
@@ -142,17 +163,22 @@ const Item = ({
               <FlexBox
                 flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
                 alignItems="center"
+                wds-component="dialog-action-wrapper"
                 justifyContent={
                   direction === 'reverse' ? 'initial' : 'flex-end'
                 }
                 gap="24px"
                 sx={dialogActionStyle}
               >
-                <CancelButton onClick={handleCancel}>{cancelText}</CancelButton>
+                <Slot onClick={handleConfirm}>
+                  <Slottable>{confirm}</Slottable>
+                </Slot>
 
-                <ConfirmButton onClick={handleConfirm} color={confirmColor}>
-                  {confirmText}
-                </ConfirmButton>
+                {Boolean(cancel) && (
+                  <Slot onClick={handleCancel}>
+                    <Slottable>{cancel}</Slottable>
+                  </Slot>
+                )}
               </FlexBox>
             </FlexBox>
           </Box>
@@ -162,40 +188,38 @@ const Item = ({
   );
 };
 
-type DialogButtonProps = PropsWithChildren<{
-  color: ThemeColorsToken;
-  onClick: () => void;
-}>;
+export const DialogButton = forwardRef(
+  <E extends ElementType = 'button'>(
+    { variant = 'normal', ...props }: PolymorphicProps<DialogButtonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <TextButton
+        size="medium"
+        variant={variant === 'normal' ? 'primary' : 'assistive'}
+        ref={ref}
+        {...props}
+        sx={
+          variant === 'negative'
+            ? [
+                (theme) => ({
+                  color: getColorByToken(theme, 'palette.status.negative'),
+                  ['[wds-component="with-interaction"]']: {
+                    backgroundColor: getColorByToken(
+                      theme,
+                      'palette.status.negative',
+                    ),
+                  },
+                }),
+                props.sx,
+              ]
+            : props.sx
+        }
+      />
+    );
+  },
+) as PolymorphicComponent<DialogButtonProps, 'button'>;
 
-const ConfirmButton = ({ color, onClick, children }: DialogButtonProps) => (
-  <TextButton
-    size="medium"
-    variant="primary"
-    onClick={onClick}
-    sx={(theme) => ({
-      color: getColorByToken(theme, color),
-      ['[wds-component="with-interaction"]']: {
-        backgroundColor: getColorByToken(theme, color),
-      },
-    })}
-  >
-    {children}
-  </TextButton>
-);
-
-const CancelButton = ({
-  onClick,
-  children,
-}: Omit<DialogButtonProps, 'color'>) => {
-  if (!children) {
-    return null;
-  }
-
-  return (
-    <TextButton size="medium" variant="assistive" onClick={onClick}>
-      {children}
-    </TextButton>
-  );
-};
+DialogButton.displayName = 'DialogButton';
 
 export default Dialog;
