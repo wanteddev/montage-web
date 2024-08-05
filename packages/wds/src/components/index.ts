@@ -11,6 +11,7 @@ export { default as ChipFilter } from './chip-filter';
 export { default as ChipMultiSelect } from './chip-multi-select';
 export * from './compact-tooltip';
 export { default as ContentBadge } from './content-badge';
+export { DialogButton } from './dialog';
 export { default as DismissableLayer } from './dismissable-layer';
 export { default as Divider } from './divider';
 export { default as FlexBox } from './flex-box';
