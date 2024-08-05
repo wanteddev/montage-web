@@ -53,9 +53,11 @@ export const routes: Array<Route> = [
       { title: 'Button', slug: '/docs/components/button', stable: true },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
+      { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
       {
         title: 'ChipMultiSelect',
         slug: '/docs/components/chip-multi-select',
+        deprecated: true,
       },
       {
         title: 'CompactTooltip',
