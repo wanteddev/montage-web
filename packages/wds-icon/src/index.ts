@@ -1,3 +1,7 @@
+export { default as IconAlignCenter } from './icon-align-center';
+export { default as IconAlignJustify } from './icon-align-justify';
+export { default as IconAlignLeft } from './icon-align-left';
+export { default as IconAlignRight } from './icon-align-right';
 export { default as IconAndroid } from './icon-android';
 export { default as IconApps } from './icon-apps';
 export { default as IconArrowDownThick } from './icon-arrow-down-thick';
