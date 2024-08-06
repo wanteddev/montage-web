@@ -18,6 +18,7 @@ type Props = {
 
 const Demo = ({ code, hideCode }: Props) => {
   const [value, setValue] = React.useState(code);
+  const [hatched, setHatched] = React.useState(false);
 
   const [collapsed, setCollapsed] = React.useState(true);
 
@@ -54,7 +55,7 @@ const Demo = ({ code, hideCode }: Props) => {
         } as React.CSSProperties
       }
     >
-      <Wds.Box sx={demoStyle(hideCode)}>
+      <Wds.Box sx={demoStyle(hideCode ?? false, hatched)}>
         {element}
 
         {hideCode && Boolean(error) && (
@@ -74,6 +75,7 @@ const Demo = ({ code, hideCode }: Props) => {
           collapsed={collapsed}
           setCollapsed={setCollapsed}
           setValue={setValue}
+          setHatched={setHatched}
         >
           {Boolean(error) && (
             <Wds.FlexBox sx={errorStyle(hideCode)} gap="4px">

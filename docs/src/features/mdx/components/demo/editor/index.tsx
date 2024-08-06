@@ -10,7 +10,7 @@ import {
   IconButton,
   useToast,
 } from '@wanteddev/wds';
-import { IconCopy, IconRefresh } from '@wanteddev/wds-icon';
+import { IconCopy, IconImage, IconRefresh } from '@wanteddev/wds-icon';
 import copy from 'copy-to-clipboard';
 import { toHtml } from 'hast-util-to-html';
 import tsx from 'refractor/lang/tsx';
@@ -37,6 +37,7 @@ type Props = PropsWithChildren<{
   collapsed: boolean;
   setCollapsed: Dispatch<SetStateAction<boolean>>;
   reset: () => void;
+  setHatched: Dispatch<SetStateAction<boolean>>;
 }>;
 
 const Editor = ({
@@ -45,6 +46,7 @@ const Editor = ({
   value,
   setValue,
   reset,
+  setHatched,
   children,
 }: Props) => {
   const focusGuardRef = useRef<HTMLDivElement | null>(null);
@@ -111,6 +113,15 @@ const Editor = ({
             </IconButton>
           </CompactTooltipTrigger>
           <CompactTooltipContent shortcut="⌘R">Reset</CompactTooltipContent>
+        </CompactTooltip>
+
+        <CompactTooltip>
+          <CompactTooltipTrigger>
+            <IconButton size={18} onClick={() => setHatched((prev) => !prev)}>
+              <IconImage />
+            </IconButton>
+          </CompactTooltipTrigger>
+          <CompactTooltipContent>Change Background</CompactTooltipContent>
         </CompactTooltip>
       </FlexBox>
 
