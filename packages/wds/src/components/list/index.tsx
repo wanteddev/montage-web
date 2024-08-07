@@ -15,7 +15,12 @@ import {
   LIST_ITEM_TEXT_NAME,
   LIST_NAME,
 } from './constants';
-import { listCellStyle, listItemTextStyle, listStyle } from './style';
+import {
+  listCellStyle,
+  listItemBoxStyle,
+  listItemTextStyle,
+  listStyle,
+} from './style';
 
 import type { TypographyWeight } from '../typography/types';
 import type {
@@ -125,19 +130,6 @@ const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
     }: PolymorphicProps<ListCellProps>,
     forwardedRef,
   ) => {
-    const getPadding = () => {
-      const sidePadding = paddingInset ? '20px' : '12px';
-
-      switch (size) {
-        case 'normal':
-          return `12px ${sidePadding}`;
-        case 'small':
-          return `8px ${sidePadding}`;
-        case 'medium':
-          return `16px ${sidePadding}`;
-      }
-    };
-
     return (
       <WithInteraction>
         <Box ref={forwardedRef} sx={listCellStyle} role="listitem">
@@ -147,10 +139,7 @@ const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
             {...props}
             listItemBox={{
               ...listItemBox,
-              sx: [
-                listItemBox?.sx,
-                { padding: getPadding(), cursor: 'pointer' },
-              ],
+              sx: [listItemBox?.sx, listItemBoxStyle({ paddingInset, size })],
             }}
           />
         </Box>
