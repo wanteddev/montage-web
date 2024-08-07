@@ -22,6 +22,7 @@ import {
   listStyle,
 } from './style';
 
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
@@ -30,16 +31,22 @@ import type {
   ListProps,
 } from './types';
 
-const List = forwardRef<HTMLUListElement>(
-  (
-    { as, children, radioGroup, ...props }: PolymorphicProps<ListProps>,
-    forwardedRef,
+const List = forwardRef(
+  <E extends ElementType = 'ul'>(
+    { as, children, radioGroup, ...props }: PolymorphicProps<ListProps, E>,
+    forwardedRef: ForwardedRef<ElementRef<E>>,
   ) => {
-    const [list, setList] = useState<HTMLUListElement | null>(null);
-    const composedRefs = useComposedRefs(forwardedRef, (node) => setList(node));
+    const [list, setList] = useState<E | null>(null);
+
+    const composedRefs = useComposedRefs(forwardedRef, (node) =>
+      setList(node as E),
+    );
 
     const shouldWrapRadioGroup = Boolean(
-      radioGroup || (list ? list.querySelector('[role="radio"]') : true),
+      radioGroup ||
+        (list
+          ? (list as unknown as HTMLElement).querySelector('[role="radio"]')
+          : true),
     );
 
     const ListFlexBox = (
