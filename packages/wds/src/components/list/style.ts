@@ -1,5 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
+import type { ListCellProps } from './types';
+
 export const listStyle = css`
   && {
     list-style: none;
@@ -25,3 +27,21 @@ export const listItemTextStyle = css`
     flex: 1;
   }
 `;
+
+type ListItemBoxStyleProps = Pick<ListCellProps, 'paddingInset' | 'size'>;
+
+export const listItemBoxStyle = ({
+  paddingInset,
+  size = 'normal',
+}: ListItemBoxStyleProps) => {
+  const sidePadding = paddingInset ? 20 : 12;
+  const verticalPadding = {
+    normal: 12,
+    small: 8,
+    medium: 16,
+  }[size];
+
+  return css`
+    padding: ${verticalPadding}px ${sidePadding}px;
+  `;
+};
