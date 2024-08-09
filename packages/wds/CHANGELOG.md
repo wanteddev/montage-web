@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.4...@wanteddev/wds@1.3.5) (2024-08-09)
+
+### Bug Fixes
+
+- **wds:** compact-tooltip 폰트 굵기 수정 ([99a9b94](https://github.com/wanteddev/wds/commit/99a9b94ea8aa3df0db833737ed70aa3bdb815d9f))
+
 ## [1.3.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.3...@wanteddev/wds@1.3.4) (2024-08-05)
 
 **Note:** Version bump only for package @wanteddev/wds
