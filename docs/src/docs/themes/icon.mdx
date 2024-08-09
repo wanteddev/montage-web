@@ -28,7 +28,7 @@ const Demo = () => {
 
   const icons = useMemo(() => {
     if (value) {
-      return Object.entries(Icons).filter(([name]) => name.includes(value));
+      return Object.entries(Icons).filter(([name]) => name.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
     }
 
     return Object.entries(Icons);
