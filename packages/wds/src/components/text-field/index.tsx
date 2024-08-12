@@ -44,6 +44,7 @@ const TextField = forwardRef<
       positive,
       className,
       style,
+      type = 'text',
       sx,
       xs,
       sm,
@@ -64,6 +65,7 @@ const TextField = forwardRef<
         sx={[
           textFieldWrapperStyle({
             invalid,
+            type,
             positive,
             xs,
             sm,
@@ -87,7 +89,12 @@ const TextField = forwardRef<
         }}
       >
         {leftIcon}
-        <input ref={composedRefs} aria-invalid={invalid} {...props} />
+        <input
+          ref={composedRefs}
+          type={type}
+          aria-invalid={invalid}
+          {...props}
+        />
         {invalid ? (
           <TextFieldContent
             data-role="text-field-invalid"
