@@ -1,10 +1,8 @@
 import { forwardRef, useId } from 'react';
 import { type DefaultComponentProps, useTheme } from '@wanteddev/wds-engine';
 
-import { ModalClose } from '../modal';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
-import { useModalTopNavigationContext } from '../modal/contexts';
 import IconButton from '../icon-button';
 import TextButton from '../text-button';
 
@@ -40,9 +38,10 @@ const TopNavigation = forwardRef<
     {
       variant = 'normal',
       leftButton,
-      rightButton = <ModalClose />,
+      rightButton,
       toolbar,
-      scrolled: givenScrolled,
+      scrolled,
+      titleId,
       xs,
       sm,
       md,
@@ -53,22 +52,26 @@ const TopNavigation = forwardRef<
     },
     ref,
   ) => {
-    const modalContext = useModalTopNavigationContext();
-    const scrolled = modalContext?.scrolled ?? givenScrolled;
-    const titleId = modalContext?.titleId;
-
     const theme = useTheme();
 
     const leftButtonRender = () =>
       Boolean(leftButton) ? (
-        <FlexBox gap="16px" sx={topNavigationLeftIconStyle(variant)}>
+        <FlexBox
+          gap="16px"
+          alignItems="center"
+          sx={topNavigationLeftIconStyle(variant)}
+        >
           {leftButton}
         </FlexBox>
       ) : null;
 
     const rightButtonRender = () =>
       Boolean(rightButton) && (
-        <FlexBox gap="16px" sx={topNavigationRightIconStyle(variant)}>
+        <FlexBox
+          gap="16px"
+          alignItems="center"
+          sx={topNavigationRightIconStyle(variant)}
+        >
           {rightButton}
         </FlexBox>
       );
@@ -137,12 +140,20 @@ const TopNavigation = forwardRef<
             ) : (
               <>
                 {Boolean(leftButton) && (
-                  <FlexBox gap="16px" sx={topNavigationLeftIconStyle(variant)}>
+                  <FlexBox
+                    gap="16px"
+                    data-role="top-navigation-left-button"
+                    sx={topNavigationLeftIconStyle(variant)}
+                  >
                     {leftButton}
                   </FlexBox>
                 )}
                 {Boolean(rightButton) && (
-                  <FlexBox gap="16px" sx={topNavigationRightIconStyle(variant)}>
+                  <FlexBox
+                    gap="16px"
+                    data-role="top-navigation-right-button"
+                    sx={topNavigationRightIconStyle(variant)}
+                  >
                     {rightButton}
                   </FlexBox>
                 )}
@@ -150,7 +161,11 @@ const TopNavigation = forwardRef<
             )}
           </FlexBox>
 
-          {toolbar}
+          {toolbar && (
+            <FlexBox sx={{ width: '100%' }} data-role="top-navigation-toolbar">
+              {toolbar}
+            </FlexBox>
+          )}
         </FlexBox>
       </TopNavigationProvider>
     );
@@ -165,6 +180,7 @@ const TopNavigationButton = forwardRef(
       children,
       variant = 'icon',
       alternative,
+      background = true,
       ...props
     }: PolymorphicProps<TopNavigationButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -181,7 +197,11 @@ const TopNavigationButton = forwardRef(
     if (variant === 'icon') {
       return (
         <IconButton
-          variant={navigationVariant === 'floating' ? 'background' : 'normal'}
+          variant={
+            navigationVariant === 'floating' && background
+              ? 'background'
+              : 'normal'
+          }
           size={24}
           alternative={alternative}
           {...props}
@@ -193,7 +213,7 @@ const TopNavigationButton = forwardRef(
       );
     }
 
-    if (navigationVariant === 'floating') {
+    if (navigationVariant === 'floating' && background) {
       return (
         <IconButton
           variant="background"
@@ -201,7 +221,7 @@ const TopNavigationButton = forwardRef(
           alternative={alternative}
           aria-labelledby={id}
           {...props}
-          sx={[topNavigationButtonFloat({ alternative }), props.sx]}
+          sx={[topNavigationButtonFloat({ alternative, background }), props.sx]}
           wds-component="top-navigation-button"
           ref={ref}
         >

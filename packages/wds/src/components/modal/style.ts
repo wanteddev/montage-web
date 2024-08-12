@@ -4,16 +4,46 @@ import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { ModalContainerProps, ModalContentProps } from './types';
+import type {
+  ModalContainerProps,
+  ModalContentProps,
+  ModalNavigationProps,
+} from './types';
 
-export const modalDimmerStyle = (theme: Theme) => css`
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background-color: ${theme.palette.material.dimmer};
-`;
+export const modalDimmerStyle =
+  ({ isBottomSheet }: { isBottomSheet?: boolean }) =>
+  (theme: Theme) => css`
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: ${theme.palette.material.dimmer};
+
+    ${isBottomSheet &&
+    css`
+      &[data-visibility='visible'] {
+        opacity: 1;
+        pointer-events: auto;
+        transition: opacity ease 200ms;
+      }
+
+      &[data-visibility='hidden'] {
+        pointer-events: none;
+        transition: opacity ease 200ms;
+        opacity: 0;
+      }
+
+      &[data-status='initial'],
+      &[data-status='unmounted'],
+      &[data-status='close'] {
+        pointer-events: none;
+        transition: opacity ease 200ms;
+        opacity: 0 !important;
+      }
+    `}
+  `;
 
 export const modalContainerWrapperStyle =
   ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
@@ -25,6 +55,10 @@ export const modalContainerWrapperStyle =
     height: 100vh;
     left: 0px;
     top: 0px;
+
+    &[data-visibility='hidden'] {
+      pointer-events: none;
+    }
 
     @supports (height: 100dvh) {
       height: 100dvh;
@@ -91,7 +125,6 @@ export const modalBottomUnmountKeyframes = keyframes`
 export const modalContainerStyle =
   ({
     isBottomSheet,
-    isEnabled,
     variant,
     size,
     xs,
@@ -99,17 +132,20 @@ export const modalContainerStyle =
     md,
     lg,
     xl,
-  }: ModalContainerProps & { isBottomSheet?: boolean; isEnabled?: boolean }) =>
+  }: ModalContainerProps & {
+    isBottomSheet?: boolean;
+  }) =>
   (theme: Theme) => css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     outline: none;
     background-color: ${theme.palette.background.elevated.normal};
-    transition-property: transform;
+    transition-property: transform, box-shadow;
     transition-duration: 200ms;
+    pointer-events: auto;
 
-    ${(isBottomSheet || isEnabled) &&
+    ${isBottomSheet &&
     css`
       &[data-status='open'] {
         transform: translateY(var(--wds-modal-translate, 0px));
@@ -118,7 +154,19 @@ export const modalContainerStyle =
       &[data-status='initial'],
       &[data-status='unmounted'],
       &[data-status='close'] {
-        transform: translateY(var(--wds-modal-translate, 100%));
+        transform: translateY(100%) !important;
+      }
+
+      [data-role='navigation-title'] {
+        user-select: none;
+      }
+
+      &[data-visibility='visible'] {
+        box-shadow: none;
+      }
+
+      &[data-visibility='hidden'] {
+        box-shadow: ${theme.palette.elevation.shadow.strong};
       }
     `}
 
@@ -349,6 +397,48 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         width: 100%;
         min-width: none;
         overflow: hidden;
+      `;
+  }
+};
+
+export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
+  switch (variant) {
+    case 'emphasized':
+      return css`
+        & > div {
+          padding: var(--wds-top-navigation-padding-x, 16px)
+            var(--wds-top-navigation-padding-y, 16px);
+          min-height: var(--wds-top-navigation-min-height, 64px);
+          gap: 16px;
+          width: 100%;
+          justify-content: initial;
+        }
+
+        [data-role='top-navigation-left-button'],
+        [data-role='top-navigation-right-button'] {
+          flex: 0 0 auto;
+          position: relative;
+          right: initial;
+          top: initial;
+          left: initial;
+        }
+
+        [data-role='navigation-title'] {
+          flex: 1 1 auto;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          max-height: 24px;
+          width: initial;
+          justify-content: initial;
+
+          h2 {
+            width: initial;
+            ${typographyStyle('heading2', 'bold')}
+            ${ellipsisTypographyStyle(2)}
+          -webkit-line-clamp: 1;
+          }
+        }
       `;
   }
 };

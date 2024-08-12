@@ -24,4 +24,5 @@ export type ActionButtonProps = {
   rightIcon?: ReactNode;
   variant?: 'main' | 'alternative' | 'sub';
   iconOnly?: boolean;
+  disabled?: boolean;
 };

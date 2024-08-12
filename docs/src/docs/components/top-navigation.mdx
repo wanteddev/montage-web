@@ -8,9 +8,9 @@ description: TopNavigation Component
 ## 활용
 
 - 애플리케이션과 웹에서 주요한 제어 영역을 구성할 때 사용합니다.
-- 내부 간격을 조정할 때는 `--wds-action-area-margin-x`, `--wds-action-area-margin-y`, `--wds--action-area-extra-content-margin` 을 사용해주세요.
+- 내부 간격을 조정할 때는 `--wds-top-navigation-padding-x`, `--wds-top-navigation-padding-y` 을 사용해주세요.
 - 스크롤 여부에 따라 scrolled 옵션을 prop 으로 조정해요.
-- 모달 내부에서 사용할 경우에는 별도의 추가 처리가 필요하지 않아요. (scrolled, 간격, 닫기 버튼)
+- 모달 내부에서 사용할 경우에는 `ModalNavigation` 으로 사용해요.
 
 <Demo code={`import {
   TopNavigation,
@@ -51,7 +51,7 @@ export default Demo;`}
 
 ## Examples
 
-### Variant
+### Icon Type Button
 
 <Demo code={`import {
   TopNavigation,
@@ -79,18 +79,18 @@ const Demo = () => {
         Extended
       </TopNavigation>
 
-      <TopNavigation variant="emphasized" leftButton={(
-        <TopNavigationButton>
-          <IconChevronLeft />
-        </TopNavigationButton>
-      )}>
-        Emphasized
-      </TopNavigation>
-
       <FlexBox sx={{ height: 60 }}>
         <TopNavigation variant="floating" leftButton={(
           <TopNavigationButton>
             <IconChevronLeftThick />
+          </TopNavigationButton>
+        )} />
+      </FlexBox>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation variant="floating" leftButton={(
+          <TopNavigationButton background={false}>
+            <IconChevronLeft />
           </TopNavigationButton>
         )} />
       </FlexBox>
@@ -128,17 +128,17 @@ const Demo = () => {
         Extended
       </TopNavigation>
 
-      <TopNavigation variant="emphasized" leftButton={(
-        <TopNavigationButton variant="text">
-          뒤로
-        </TopNavigationButton>
-      )}>
-        Emphasized
-      </TopNavigation>
-
       <FlexBox sx={{ height: 60 }}>
         <TopNavigation variant="floating" leftButton={(
           <TopNavigationButton variant="text">
+            뒤로
+          </TopNavigationButton>
+        )} />
+      </FlexBox>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation variant="floating" leftButton={(
+          <TopNavigationButton variant="text" background={false}>
             뒤로
           </TopNavigationButton>
         )} />

@@ -24,8 +24,6 @@ export const topNavigationStyle =
       }
     }
 
-    --wds-top-navigation-title-width: 80%;
-
     ${topNavigationVariant(variant, theme)}
 
     ${createResponsiveStyle(
@@ -45,20 +43,15 @@ export const topNavigationWrapperStyle = (
     case 'normal':
       return css`
         width: 100%;
-        padding: var(--wds-top-navigation-padding, 20px);
+        padding: var(--wds-top-navigation-padding-x, 16px)
+          var(--wds-top-navigation-padding-y, 16px);
         justify-content: center;
-        min-height: var(--wds-top-navigation-min-height, 64px);
-      `;
-    case 'emphasized':
-      return css`
-        padding: var(--wds-top-navigation-padding, 20px);
-        min-height: var(--wds-top-navigation-min-height, 64px);
-        gap: 16px;
-        width: 100%;
+        min-height: var(--wds-top-navigation-min-height, 56px);
       `;
     case 'extended':
       return css`
-        padding: var(--wds-top-navigation-padding, 20px);
+        padding: var(--wds-top-navigation-padding-x, 16px)
+          var(--wds-top-navigation-padding-y, 16px);
         gap: 16px;
         width: 100%;
         flex-direction: column-reverse;
@@ -98,23 +91,8 @@ export const topNavigationTitleStyle = (
         padding: 0px 4px;
 
         h2 {
-          width: var(--wds-top-navigation-title-width);
+          width: var(--wds-top-navigation-title-width, 80%);
           text-align: center;
-          ${ellipsisTypographyStyle(2)}
-          -webkit-line-clamp: 1;
-        }
-      `;
-    case 'emphasized':
-      return css`
-        flex: 1 1 auto;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        max-height: 24px;
-        padding: 0px 4px;
-
-        h2 {
-          ${typographyStyle('heading2', 'bold')}
           ${ellipsisTypographyStyle(2)}
           -webkit-line-clamp: 1;
         }
@@ -131,6 +109,10 @@ export const topNavigationTitleStyle = (
           ${typographyStyle('title3', 'bold')}
         }
       `;
+    default:
+      return css`
+        padding: 0px 4px;
+      `;
   }
 };
 
@@ -141,12 +123,8 @@ export const topNavigationRightIconStyle = (
     case 'normal':
       return css`
         position: absolute;
-        right: var(--wds-top-navigation-padding-x, 20px);
-        top: var(--wds-top-navigation-padding-y, 20px);
-      `;
-    case 'emphasized':
-      return css`
-        flex: 0 0 auto;
+        right: var(--wds-top-navigation-padding-x, 16px);
+        top: var(--wds-top-navigation-padding-y, 16px);
       `;
     case 'extended':
       return css`
@@ -170,10 +148,6 @@ export const topNavigationLeftIconStyle = (
         position: absolute;
         left: var(--wds-top-navigation-padding-x, 16px);
         top: var(--wds-top-navigation-padding-y, 16px);
-      `;
-    case 'emphasized':
-      return css`
-        flex: 0 0 auto;
       `;
     case 'extended':
       return undefined;

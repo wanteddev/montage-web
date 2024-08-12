@@ -1,3 +1,4 @@
+import type { TopNavigationProps } from '../top-navigation/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type Portal from '../portal';
@@ -7,7 +8,9 @@ import type { TypographyProps } from '../typography/types';
 export type ModalProps = PropsWithChildren<{
   open?: boolean;
   defaultOpen?: boolean;
-  onOpenChange?(open: boolean): void;
+  onOpenChange?: (open: boolean) => void;
+
+  onVisibilityChange?: (visibility: 'visible' | 'hidden') => void;
   /**
    * Portal로 표시될 container를 지정합니다.
    */
@@ -56,6 +59,11 @@ type ModalContainerResponsiveProps = ResponsiveProps<
 export type ModalContainerProps = Merge<
   ModalContainerDefaultProps,
   ModalContainerResponsiveProps
+>;
+
+export type ModalNavigationProps = Merge<
+  { variant?: TopNavigationProps['variant'] | 'emphasized' },
+  TopNavigationProps
 >;
 
 type ModalContentDefaultProps = {

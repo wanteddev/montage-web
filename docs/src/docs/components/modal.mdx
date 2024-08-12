@@ -11,8 +11,8 @@ description: Modal Component
 - padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
 - `huge` 사이즈는 560px를 초과해서 사용하고 싶을 때 활용해요.
   - 640, 720, 800 같이 80px 단위로 끊어서 사용해요.
-- `TopNavigation` 에서 leftButton, rightButton 에는 `TopNavigationButton`, `ModalClose` 를 사용합니다.
-- `ModalContainer`, `TopNavigation`, `ModalContent`, `ActionArea` 의 위계를 변경해서는 안됩니다.
+- `ModalNavigation` 에서 leftButton, rightButton 에는 `ModalNavigationButton`, `ModalClose` 를 사용합니다.
+- `ModalContainer`, `ModalNavigation`, `ModalContent`, `ActionArea` 의 위계를 변경해서는 안됩니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -25,7 +25,7 @@ import {
   ModalContentItem,
   ModalDescription,
   ModalHeading,
-  TopNavigation,
+  ModalNavigation,
   ModalSummary,
 } from '@wanteddev/wds';
 
@@ -39,9 +39,9 @@ const Demo = () => {
         onOpenChange={setShow}
       >
         <ModalContainer variant="popup">
-          <TopNavigation>
+          <ModalNavigation>
             제목
-          </TopNavigation>
+          </ModalNavigation>
 
           <ModalContent>
             <ModalContentItem>
@@ -76,7 +76,7 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 ```tsx
 <Modal>
   <ModalContainer>
-    <TopNavigation />
+    <ModalNavigation />
 
     <ModalContent>
       <ModalContentItem>
@@ -101,9 +101,24 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 <PropsTable component="ModalContainer" />
 
+### ModalNavigation
+
+`TopNavigation` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalNavigation" />
+
+### ModalNavigationButton
+
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalNavigationButton" />
+
+
 ### ModalClose
 
 `TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalClose" />
 
 ### ModalContent
 
@@ -138,7 +153,7 @@ import {
   ModalContainer,
   ModalContent,
   ModalContentItem,
-  TopNavigation,
+  ModalNavigation,
   TextField,
   FlexBox,
   TextField,
@@ -167,11 +182,11 @@ const Demo = () => {
             flexDirection="column"
             onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
           >
-            <TopNavigation
+            <ModalNavigation
               variant="emphasized"
             >
               제목
-            </TopNavigation>
+            </ModalNavigation>
 
             <ModalContent padding paddingInfo>
               <ModalContentItem>
@@ -218,7 +233,7 @@ export default Demo;`}
 
 ### Hide Close Button
 
-`TopNavigation` 에 `rightButton={null}` 으로 사용합니다.
+`ModalNavigation` 에 `rightButton={null}` 으로 사용합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -231,9 +246,9 @@ import {
   ModalContentItem,
   ModalDescription,
   ModalHeading,
-  TopNavigation,
+  ModalNavigation,
   ModalSummary,
-  TopNavigationButton,
+  ModalNavigationButton,
   ModalClose
 } from '@wanteddev/wds';
 import { IconChevronLeft } from '@wanteddev/wds-icon';
@@ -248,9 +263,9 @@ const Demo = () => {
         onOpenChange={setShow}
       >
         <ModalContainer variant="popup">
-          <TopNavigation rightButton={null}>
+          <ModalNavigation rightButton={null}>
             제목
-          </TopNavigation>
+          </ModalNavigation>
 
           <ModalContent>
             <ModalContentItem>

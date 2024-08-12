@@ -3,11 +3,15 @@ import type { ReactNode } from 'react';
 
 export type TopNavigationProps = Merge<
   {
-    variant?: 'normal' | 'floating' | 'emphasized' | 'extended';
+    variant?: 'normal' | 'floating' | 'extended';
     rightButton?: ReactNode;
     leftButton?: ReactNode;
     toolbar?: ReactNode;
     scrolled?: boolean;
+    /**
+     * 네비게이션 title에 부여할 id입니다.
+     */
+    titleId?: string;
   },
   ResponsiveProps<{}>
 >;
@@ -19,4 +23,11 @@ export type TopNavigationButtonProps = {
    * alternative를 true로 넘기면 검정 테마가 활성화 됩니다.
    */
   alternative?: boolean;
+  /**
+   * `floating` navigation을 사용할 때
+   * 백그라운드 아이콘을 사용할지 결정합니다.
+   */
+  background?: boolean;
+  disabled?: boolean;
+  size?: number | 'normal' | 'small';
 };

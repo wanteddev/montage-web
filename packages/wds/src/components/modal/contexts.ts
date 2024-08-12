@@ -20,11 +20,24 @@ type ModalContextValue = {
   disableOutsideClickClose: boolean;
   disableEscapeKeyDownClose: boolean;
   status?: TransitionStatus;
-  setTransitionDuration: (duration: number) => void;
+  setTransitionDuration: (transitionDuration: number) => void;
+  isBottomSheet: boolean;
+  setIsBottomSheet: (isBottomSheet: boolean) => void;
+  visibility: 'hidden' | 'visible';
+  setVisibility: (visibility: 'hidden' | 'visible') => void;
 };
 
 export const [ModalProvider, useModalContext] =
   createContext<ModalContextValue>(MODAL_NAME);
+
+type ModalNavigationContextValue = {
+  scrolled: boolean;
+  titleId: string;
+  onOpenChange: (open: boolean) => void;
+};
+
+export const [ModalNavigationProvider, useModalNavigationContext] =
+  createContext<ModalNavigationContextValue>(MODAL_CONTAINER_NAME);
 
 type ModalActionAreaContextValue = {
   sticky: boolean;
@@ -33,12 +46,3 @@ type ModalActionAreaContextValue = {
 
 export const [ModalActionAreaProvider, useModalActionAreaContext] =
   createLooseContext<ModalActionAreaContextValue>(MODAL_CONTAINER_NAME);
-
-type ModalTopNavigationContextValue = {
-  scrolled: boolean;
-  titleId: string;
-  onOpenChange: (open: boolean) => void;
-};
-
-export const [ModalTopNavigationProvider, useModalTopNavigationContext] =
-  createLooseContext<ModalTopNavigationContextValue>(MODAL_CONTAINER_NAME);
