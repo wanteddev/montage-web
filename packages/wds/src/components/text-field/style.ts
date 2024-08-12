@@ -7,9 +7,12 @@ import { addOpacity } from '../../utils';
 import type { TextFieldButtonProps, TextFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
+const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
+
 export const textFieldWrapperStyle =
   ({
     invalid,
+    type,
     disabled,
     width = 'initial',
     height = 'auto',
@@ -18,7 +21,7 @@ export const textFieldWrapperStyle =
     md,
     lg,
     xl,
-  }: TextFieldProps) =>
+  }: TextFieldProps & { type?: string }) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;
@@ -43,6 +46,18 @@ export const textFieldWrapperStyle =
     [data-role='text-field-reset'] {
       display: none;
     }
+
+    ${EXCLUDE_TYPE.includes(type || '') &&
+    css`
+      [data-role='text-field-invalid'],
+      [data-role='text-field-positive'] {
+        display: none !important;
+      }
+
+      [data-role='text-field-reset'] {
+        display: none !important;
+      }
+    `}
 
     ${invalid &&
     css`
