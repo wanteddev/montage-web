@@ -37,12 +37,12 @@ const Demo = () => {
   const handleClick = (value) => () => {
     const success = copy(value);
 
-		if (success) {
-			toast({
-				variant: 'success',
-				content: value + ' 클립보드에 복사 했습니다.',
-			});
-		}
+    if (success) {
+      toast({
+        variant: 'success',
+        content: value + ' 클립보드에 복사 했습니다.',
+      });
+    }
   }
 
   return (

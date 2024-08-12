@@ -1,138 +1,261 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
-import { flushSync } from 'react-dom';
 
 import { getPreviousValue } from '../../utils/responsive-props';
 
 import { MODAL_NAME } from './constants';
 import { useModalContext } from './contexts';
+import { calcOpacityRatio, isTouchEvent } from './helpers';
 
+import type { RefObject } from 'react';
 import type { BreakPoint } from '@wanteddev/wds-engine';
 import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({
-  variant: defaultVariant,
-  handle: defaultHandle,
+  variant: givenVariant,
+  handle: givenHandle,
   xs,
   sm,
   md,
   lg,
   xl,
-}: ModalContainerProps) => {
+  ref,
+  dimmerRef,
+}: ModalContainerProps & {
+  ref: RefObject<HTMLDivElement>;
+  dimmerRef: RefObject<HTMLDivElement>;
+}) => {
   const theme = useTheme();
 
   const breakpoint = useMemo(
     () => Object.keys(theme.breakpoint) as Array<keyof BreakPoint>,
-    [theme],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    Object.values(theme),
   );
 
-  const variant = useMedia(
+  const variant = useMediaQuery(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', defaultVariant, v),
+      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', givenVariant, v),
     ),
-    defaultVariant,
+    'popup',
   );
 
-  const handle = useMedia(
+  const handle = useMediaQuery(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', defaultHandle, v),
+      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', givenHandle, v),
     ),
-    defaultHandle,
+    givenHandle,
   );
 
-  const isEnabled = variant !== 'popup' && handle;
+  const isEnabled = variant === 'bottom' && Boolean(handle);
 
-  const context = useModalContext(MODAL_NAME);
-  const dragStarted = useRef(false);
+  const { setIsBottomSheet, ...context } = useModalContext(MODAL_NAME);
+
+  const isDragging = useRef(false);
+
+  const topNavigationHeight = useRef(0);
 
   const startedY = useRef(0);
-  const clientY = useRef(0);
 
-  const onMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    const isTouchEvent = (
-      value: React.MouseEvent | React.TouchEvent,
-    ): value is React.TouchEvent => 'touches' in value;
+  useEffect(() => {
+    setIsBottomSheet(variant === 'bottom');
+  }, [variant, setIsBottomSheet]);
 
-    if (!isEnabled || dragStarted.current) {
+  const calcTopNavigationHeight = () => {
+    const topNavigation = ref.current?.querySelector(
+      '[wds-component="top-navigation"]',
+    );
+
+    const topNavigationToolbarHeight =
+      ref.current?.querySelector('[data-role="top-navigation-toolbar"]')
+        ?.clientHeight ?? 0;
+
+    topNavigationHeight.current = topNavigation
+      ? topNavigation.clientHeight - topNavigationToolbarHeight
+      : ref.current?.querySelector('[data-role="modal-container-grabber"]')
+          ?.clientHeight ?? 20;
+  };
+
+  const handleVisibilityHidden = () => {
+    const container = context.containerRef.current;
+
+    if (!container) {
       return;
     }
-    startedY.current = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
-    dragStarted.current = true;
+
+    calcTopNavigationHeight();
+    context.setVisibility('hidden');
+
+    container.style.removeProperty('transition');
+    container.style.setProperty(
+      '--wds-modal-translate',
+      `calc(100% - ${topNavigationHeight.current}px)`,
+    );
+    dimmerRef.current?.style.removeProperty('transition');
+    dimmerRef.current?.style.removeProperty('opacity');
+  };
+
+  const onMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    const container = context.containerRef.current;
+
+    if (!isEnabled || isDragging.current || !container) {
+      return;
+    }
+
+    // ios에서 꾹 눌렀을 때 target이 없을 수도 있기 때문에 try catch
+    try {
+      if (
+        (e.target as HTMLElement).closest('[wds-component="top-navigation"]') ||
+        (e.target as HTMLElement).closest(
+          '[data-role="modal-container-grabber"]',
+        )
+      ) {
+        calcTopNavigationHeight();
+
+        startedY.current = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
+        isDragging.current = true;
+        context.containerRef.current?.style.setProperty('transition', 'none');
+        dimmerRef.current?.style.setProperty('transition', 'none');
+      }
+    } catch (err) {
+      isDragging.current = false;
+    }
   };
 
   useEffect(() => {
     const onMouseMove = (e: MouseEvent | TouchEvent) => {
-      if (!dragStarted.current || !isEnabled) {
+      const container = context.containerRef.current;
+
+      if (!isDragging.current || !isEnabled || !container) {
         return;
       }
 
-      const isTouchEvent = (
-        value: MouseEvent | TouchEvent,
-      ): value is TouchEvent => 'touches' in value;
+      e.preventDefault();
 
-      clientY.current = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
-      const container = context.containerRef.current;
+      const clientY = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
 
-      if (container && clientY.current - startedY.current > 0) {
-        container.style.setProperty(
+      const minPosition = window.innerHeight - container.clientHeight;
+      const maxPosition = window.innerHeight - topNavigationHeight.current;
+
+      const handleOpacityRatioStyle = (input: number) => {
+        dimmerRef.current?.style.setProperty(
+          'opacity',
+          calcOpacityRatio(input, minPosition, maxPosition).toFixed(2),
+        );
+
+        if (calcOpacityRatio(input, minPosition, maxPosition) <= 0.25) {
+          container.style.setProperty(
+            'box-shadow',
+            theme.palette.elevation.shadow.strong,
+          );
+        } else {
+          container.style.setProperty('box-shadow', 'none');
+        }
+      };
+
+      const diffY = clientY - startedY.current;
+
+      // 아래로 드래그
+      if (diffY > 0) {
+        if (context.visibility === 'hidden') {
+          const nextPosition = topNavigationHeight.current - diffY;
+          handleOpacityRatioStyle(window.innerHeight - nextPosition);
+          return container.style.setProperty(
+            '--wds-modal-translate',
+            `calc(100% - ${nextPosition}px)`,
+          );
+        }
+
+        const nextPosition = diffY;
+        handleOpacityRatioStyle(minPosition + nextPosition);
+        return container.style.setProperty(
           '--wds-modal-translate',
-          clientY.current - startedY.current + 'px',
+          `calc(${nextPosition}px)`,
+        );
+      }
+
+      // 위로 드래그
+      if (diffY < 0 && context.visibility === 'hidden') {
+        const nextPosition = Math.abs(diffY) + topNavigationHeight.current;
+
+        if (minPosition >= window.innerHeight - nextPosition) {
+          handleOpacityRatioStyle(minPosition);
+          return container.style.setProperty('--wds-modal-translate', `0px`);
+        }
+
+        handleOpacityRatioStyle(window.innerHeight - nextPosition);
+        return container.style.setProperty(
+          '--wds-modal-translate',
+          `calc(100% - ${nextPosition}px)`,
         );
       }
     };
 
-    const onMouseUp = async () => {
-      if (!isEnabled || !dragStarted.current) {
-        return;
-      }
-
-      dragStarted.current = false;
-
+    const onMouseUp = async (e: MouseEvent | TouchEvent) => {
       const container = context.containerRef.current;
 
-      if (!container) {
+      if (!isEnabled || !isDragging.current || !container) {
         return;
       }
+
+      isDragging.current = false;
+      e.stopPropagation();
+
+      container.style.removeProperty('transition');
+      dimmerRef.current?.style.removeProperty('transition');
 
       const totalHeight = window.innerHeight - startedY.current;
 
-      container.style.transition = 'transform 0.2s ease';
+      const clientY = isTouchEvent(e)
+        ? e.changedTouches[0]!.clientY
+        : e.clientY;
 
-      if (window.innerHeight - clientY.current <= totalHeight / 2) {
-        await container.animate(
-          [
-            {
-              transform: 'translateY(var(--wds-modal-translate, 0px))',
-            },
-            {
-              transform: 'translateY(100%)',
-            },
-          ],
-          {
-            duration: 200,
-            easing: 'ease',
-          },
-        ).finished;
-        container.style.setProperty('--wds-modal-translate', '100%');
+      // 10px 움직인걸로는 동작되지 않게 막기
+      if (Math.abs(startedY.current - clientY) <= 10) {
+        if (context.visibility === 'hidden') {
+          container.style.setProperty(
+            '--wds-modal-translate',
+            `calc(100% - ${topNavigationHeight.current}px)`,
+          );
+          container.style.setProperty(
+            'box-shadow',
+            theme.palette.elevation.shadow.strong,
+          );
+          dimmerRef.current?.style.setProperty('opacity', '0');
+        } else {
+          container.style.setProperty('--wds-modal-translate', '0px');
+          container.style.removeProperty('box-shadow');
+          dimmerRef.current?.style.setProperty('opacity', '1');
+        }
 
-        flushSync(() => {
-          context.onOpenChange(false);
-        });
-
-        container.style.setProperty('--wds-modal-translate', '0px');
-      } else {
-        container.style.setProperty('--wds-modal-translate', '0px');
+        return;
       }
 
-      container.style.transition = '';
+      if (window.innerHeight - clientY <= totalHeight / 1.25) {
+        context.setVisibility('hidden');
+        container.style.setProperty(
+          '--wds-modal-translate',
+          `calc(100% - ${topNavigationHeight.current}px)`,
+        );
+        container.style.setProperty(
+          'box-shadow',
+          theme.palette.elevation.shadow.strong,
+        );
+        dimmerRef.current?.style.setProperty('opacity', '0');
+      } else {
+        context.setVisibility('visible');
+        container.style.setProperty('--wds-modal-translate', '0px');
+        container.style.removeProperty('box-shadow');
+        dimmerRef.current?.style.setProperty('opacity', '1');
+      }
     };
 
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
     window.addEventListener('touchend', onMouseUp);
-    window.addEventListener('touchmove', onMouseMove);
+    window.addEventListener('touchmove', onMouseMove, { passive: false });
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
@@ -140,16 +263,17 @@ export const useDraggable = ({
       window.removeEventListener('touchend', onMouseUp);
       window.removeEventListener('touchmove', onMouseMove);
     };
-  }, [context, isEnabled]);
+  }, [context, dimmerRef, theme, isEnabled]);
 
   return {
-    isEnabled,
+    isBottomSheetWithHandle: isEnabled,
+    handleVisibilityHidden,
     onMouseDown,
     onTouchStart: onMouseDown,
   };
 };
 
-const useMedia = <T>(
+const useMediaQuery = <T>(
   queries: Array<string>,
   values: Array<T>,
   defaultValue: T,
@@ -164,9 +288,10 @@ const useMedia = <T>(
     return queries.map(function (q) {
       return window.matchMedia(q);
     });
-  }, [queries]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, Object.values(queries));
 
-  const getValue = () => {
+  const getValue = useCallback(() => {
     if (typeof window === 'undefined') {
       return defaultValue;
     }
@@ -176,7 +301,7 @@ const useMedia = <T>(
     return typeof values[index] !== 'undefined'
       ? (values[index] as T)
       : defaultValue;
-  };
+  }, [defaultValue, values, mediaQueryLists]);
 
   useEffect(
     () => {
@@ -195,7 +320,7 @@ const useMedia = <T>(
         );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mediaQueryLists],
+    [mediaQueryLists, getValue],
   );
 
   return value;

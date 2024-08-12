@@ -25,7 +25,12 @@ import {
   tabListStyle,
 } from './style';
 import { TabProvider, useTabContext } from './contexts';
-import { TAB_LIST_ITEM_NAME, TAB_NAME, TAB_PANEL_NAME } from './constants';
+import {
+  TAB_LIST_ITEM_NAME,
+  TAB_LIST_NAME,
+  TAB_NAME,
+  TAB_PANEL_NAME,
+} from './constants';
 
 import type {
   DefaultComponentProps,
@@ -53,7 +58,6 @@ const Tab = ({
   onValueChange,
   children,
   disableScrollMoveOnChange = false,
-  enableScrollMoveOnMount = false,
 }: TabProps) => {
   const [value, setValue] = useControllableState({
     prop: valueProp,
@@ -62,6 +66,8 @@ const Tab = ({
   });
 
   const [panels, setPanels] = useState<Array<string>>([]);
+
+  const containerViewportRef = useRef<HTMLDivElement>(null);
 
   const id = useId();
 
@@ -73,7 +79,7 @@ const Tab = ({
       panels={panels}
       onPanelsChange={setPanels}
       disableScrollMoveOnChange={disableScrollMoveOnChange}
-      enableScrollMoveOnMount={enableScrollMoveOnMount}
+      containerViewportRef={containerViewportRef}
     >
       {children}
     </TabProvider>
@@ -104,8 +110,12 @@ const TabList = forwardRef<
   ) => {
     const [isSticky, setIsSticky] = useState(false);
 
+    const context = useTabContext(TAB_LIST_NAME);
     const viewportRef = useRef<HTMLDivElement>(null);
-
+    const composedViewportRef = useComposedRefs(
+      viewportRef,
+      context.containerViewportRef,
+    );
     const containerRef = useRef<HTMLDivElement>(null);
     const composedRef = useComposedRefs(ref, containerRef);
     const [scrollLeft, setScrollLeft] = useState(0);
@@ -173,7 +183,7 @@ const TabList = forwardRef<
             sx={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
-            viewportRef={viewportRef}
+            viewportRef={composedViewportRef}
           >
             <FlexBox>{children}</FlexBox>
           </ScrollArea>
@@ -189,7 +199,7 @@ const TabList = forwardRef<
   },
 );
 
-TabList.displayName = 'TabList';
+TabList.displayName = TAB_LIST_NAME;
 
 const TabListItem = forwardRef(
   <T extends ElementType = 'div'>(
@@ -211,8 +221,6 @@ const TabListItem = forwardRef(
     const isActive = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
 
-    const isMounted = useRef(false);
-
     const controls = context.panels.find((v) => v === value);
 
     useEffect(() => {
@@ -231,35 +239,39 @@ const TabListItem = forwardRef(
       };
     }, []);
 
-    useEffect(() => {
-      const scrollMove = () => {
-        if (context.value === value) {
-          (ref.current as HTMLElement | null)?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        }
-      };
+    const scrollIntoView = () => {
+      const parent = context.containerViewportRef.current;
+      const child = ref.current as HTMLDivElement | null;
 
-      if (!isMounted.current && context.enableScrollMoveOnMount) {
-        scrollMove();
-      } else if (isMounted.current && !context.disableScrollMoveOnChange) {
-        scrollMove();
-      }
-    }, [
-      context.value,
-      value,
-      context.disableScrollMoveOnChange,
-      context.enableScrollMoveOnMount,
-    ]);
-
-    useEffect(() => {
-      if (isMounted.current) {
+      if (!parent || !child) {
         return;
       }
 
-      isMounted.current = true;
-    }, []);
+      const parentViewportAreaWidth = parent.clientWidth;
+
+      const 기준점 = parentViewportAreaWidth / 2;
+
+      const childOffsetLeft = child.offsetLeft + child.clientWidth;
+
+      if (childOffsetLeft < 기준점) {
+        parent.scrollLeft = 0;
+      } else {
+        parent.scrollLeft = childOffsetLeft - 기준점;
+      }
+    };
+
+    useEffect(() => {
+      const scrollMove = () => {
+        if (context.value === value) {
+          scrollIntoView();
+        }
+      };
+
+      if (!context.disableScrollMoveOnChange) {
+        scrollMove();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [context.value, value, context.disableScrollMoveOnChange]);
 
     return (
       <RovingFocusGroup.Item asChild focusable={!isDisabled} active={isActive}>
