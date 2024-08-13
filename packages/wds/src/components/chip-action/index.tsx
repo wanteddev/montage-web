@@ -20,8 +20,8 @@ const ChipAction = forwardRef(
       variant = 'filled',
       disabled = false,
       disableInteraction = false,
-      leftIcon,
-      rightIcon,
+      leftContent,
+      rightContent,
       size = 'normal',
       active: givenActive,
       children,
@@ -60,9 +60,9 @@ const ChipAction = forwardRef(
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
-          {Boolean(leftIcon) && leftIcon}
+          {Boolean(leftContent) && leftContent}
           <span id={id}>{children}</span>
-          {Boolean(rightIcon) && rightIcon}
+          {Boolean(rightContent) && rightContent}
         </Box>
       </WithInteraction>
     );

@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 export type TopNavigationProps = Merge<
   {
     variant?: 'normal' | 'floating' | 'extended';
-    rightButton?: ReactNode;
-    leftButton?: ReactNode;
+    rightContent?: ReactNode;
+    leftContent?: ReactNode;
     toolbar?: ReactNode;
     scrolled?: boolean;
     /**

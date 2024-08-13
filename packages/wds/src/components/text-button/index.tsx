@@ -21,8 +21,8 @@ const TextButton = forwardRef(
       disabled = false,
       disableInteraction = false,
       variant = 'primary',
-      leftIcon,
-      rightIcon,
+      leftContent,
+      rightContent,
       size = 'medium',
       children,
       xs,
@@ -68,9 +68,9 @@ const TextButton = forwardRef(
             props.sx,
           ]}
         >
-          {Boolean(leftIcon) && leftIcon}
+          {Boolean(leftContent) && leftContent}
           <span id={id}>{children}</span>
-          {Boolean(rightIcon) && rightIcon}
+          {Boolean(rightContent) && rightContent}
         </Box>
       </WithInteraction>
     );

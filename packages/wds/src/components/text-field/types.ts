@@ -4,8 +4,8 @@ import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 export type TextFieldDefaultProps = {
   invalid?: boolean;
   positive?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
   disabled?: boolean;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
@@ -28,7 +28,7 @@ export type TextFieldContentProps = PropsWithChildren<{
 export type TextFieldButtonProps = {
   variant?: 'normal' | 'assistive';
   disabled?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
   position?: 'right' | 'left';
 };

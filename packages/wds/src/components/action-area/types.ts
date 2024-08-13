@@ -22,8 +22,8 @@ export type ActionAreaProps = {
 };
 
 export type ActionButtonProps = {
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
   variant?: 'main' | 'alternative' | 'sub';
   iconOnly?: boolean;
   disabled?: boolean;

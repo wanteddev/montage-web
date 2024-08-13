@@ -34,6 +34,9 @@ export const pushBadgeStyle =
           border-radius: 9999px;
 
           & > span {
+            display: block;
+            margin-bottom: 1px;
+            margin-left: 1px;
             height: fit-content;
           }
         `;

@@ -39,8 +39,8 @@ const TextField = forwardRef<
   (
     {
       invalid,
-      leftIcon,
-      rightIcon,
+      leftContent,
+      rightContent,
       positive,
       className,
       style,
@@ -88,7 +88,7 @@ const TextField = forwardRef<
           });
         }}
       >
-        {leftIcon}
+        {leftContent}
         <input
           ref={composedRefs}
           type={type}
@@ -120,7 +120,7 @@ const TextField = forwardRef<
             <IconCircleClose />
           </IconButton>
         </TextFieldContent>
-        {rightIcon}
+        {rightContent}
       </Box>
     );
   },
