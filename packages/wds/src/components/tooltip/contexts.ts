@@ -2,7 +2,7 @@ import { createContext } from '@radix-ui/react-context';
 
 import { TOOLTIP_NAME } from './constants';
 
-import type { PointerDownOutsideEvent } from '@radix-ui/react-dismissable-layer';
+import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type {
   FocusEventHandler,
   MouseEvent,

@@ -186,7 +186,7 @@ export const textAreaContentStyle = (theme: Theme) => css`
   }
 
   [wds-component='icon-button'][data-variant='normal'] {
-    color: ${theme.palette.label.assistive};
+    color: ${theme.palette.label.alternative};
   }
 `;
 

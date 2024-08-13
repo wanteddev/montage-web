@@ -1,7 +1,7 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallback, useEffect, useRef } from 'react';
 
-import type { PointerDownOutsideEvent } from '@radix-ui/react-dismissable-layer';
+import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type { FocusEventHandler, MouseEvent, MouseEventHandler } from 'react';
 import type { TooltipProps } from './types';
 

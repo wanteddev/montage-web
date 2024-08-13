@@ -253,11 +253,11 @@ export const textFieldContentStyle = (theme: Theme) => css`
   max-height: 24px;
 
   & > svg {
-    color: ${theme.palette.label.assistive};
+    color: ${theme.palette.label.alternative};
   }
 
   [wds-component='icon-button'][data-variant='normal'] {
-    color: ${theme.palette.label.assistive};
+    color: ${theme.palette.label.alternative};
   }
 `;
 
