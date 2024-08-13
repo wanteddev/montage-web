@@ -1,9 +1,4 @@
-import type {
-  Merge,
-  ResponsiveProps,
-  SxProp,
-  ThemeColorsToken,
-} from '@wanteddev/wds-engine';
+import type { Merge, ResponsiveProps, SxProp } from '@wanteddev/wds-engine';
 import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 
 export type TextFieldDefaultProps = {
@@ -28,7 +23,6 @@ export type TextFieldProps = Merge<
 export type TextFieldContentProps = PropsWithChildren<{
   variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
   sx?: SxProp;
-  color?: ThemeColorsToken;
 }>;
 
 export type TextFieldButtonProps = {

@@ -1,6 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, typographyStyle } from '../../utils';
+import {
+  addOpacity,
+  createResponsiveStyle,
+  typographyStyle,
+} from '../../utils';
 
 import type { TextAreaProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -18,39 +22,83 @@ export const textAreaWrapperStyle =
   }: TextAreaProps) =>
   (theme: Theme) => css`
     border: none;
-    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
-    border-radius: 10px;
+    transition: box-shadow ease 0.2s;
+    box-shadow:
+      inset 0 0 0 1px ${theme.palette.line.normal.neutral},
+      0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
+    border-radius: 12px;
     background-color: transparent;
-
-    --wds-text-area-max-length-padding-bottom: 16px;
-    --wds-text-area-additional-padding-right: 8px;
-
-    ${!invalid &&
-    !disabled &&
-    css`
-      @supports selector(:has(*)) {
-        &:where(:has(textarea:focus)) {
-          box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-        }
-      }
-
-      @supports not selector(:has(*)) {
-        &:where(:focus-within) {
-          box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-        }
-      }
-    `}
-
-    ${disabled &&
-    css`
-      background-color: ${theme.palette.interaction.disable};
-      cursor: default;
-    `}
+    padding: 12px;
 
     ${invalid &&
     css`
-      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
+      box-shadow:
+        inset 0 0 0 1px
+          ${addOpacity(theme.palette.status.negative, theme.opacity[28])},
+        0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
     `}
+
+    ${disabled
+      ? css`
+          background-color: ${theme.palette.interaction.disable};
+          box-shadow:
+            inset 0 0 0 1px ${theme.palette.line.normal.alternative},
+            0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
+          cursor: default;
+        `
+      : css`
+          @supports selector(:has(*)) {
+            &:where(:has(textarea:focus)) {
+              ${invalid
+                ? css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.status.negative,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `
+                : css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.primary.normal,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `}
+            }
+          }
+
+          @supports not selector(:has(*)) {
+            &:where(:focus-within) {
+              ${invalid
+                ? css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.status.negative,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `
+                : css`
+                    box-shadow:
+                      inset 0 0 0 2px
+                        ${addOpacity(
+                          theme.palette.primary.normal,
+                          theme.opacity[43],
+                        )},
+                      0px 1px 2px 0px
+                        ${addOpacity(theme.palette.static.black, 0.03)};
+                  `}
+            }
+          }
+        `}
 
     width: ${width};
 
@@ -61,14 +109,8 @@ export const textAreaWrapperStyle =
         color 0.3s ease;
     }
 
-    & > div {
+    [data-radix-scroll-area-viewport] {
       height: var(--wds-text-area-scroll-height);
-
-      & > div {
-        display: block !important;
-        height: var(--wds-text-area-height);
-        overflow: hidden;
-      }
     }
 
     ${createResponsiveStyle(
@@ -91,14 +133,14 @@ export const textAreaStyle =
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 12px 16px;
+    padding: 0px 4px;
     flex-shrink: 2;
     background-color: transparent;
     outline: none;
     border: none;
     resize: none;
     color: ${theme.palette.label.normal};
-    ${typographyStyle('body1_normal', 'regular')}
+    ${typographyStyle('body1_reading', 'regular')}
 
     &::-webkit-scrollbar {
       display: none;
@@ -107,7 +149,7 @@ export const textAreaStyle =
     scrollbar-width: none;
 
     &::placeholder {
-      ${typographyStyle('body1_normal', 'regular')}
+      ${typographyStyle('body1_reading', 'regular')}
       color: ${theme.palette.label.assistive};
     }
 
@@ -130,29 +172,37 @@ export const textAreaStyle =
     )}
   `;
 
-export const rightIconStyle = css`
-  width: fit-content;
-  height: 24px;
-  align-items: center;
-  position: absolute;
-  right: 12px;
-  bottom: 12px;
+export const textAreaBottomAreaStyle = css`
+  width: 100%;
+`;
 
-  & [wds-component='icon-button'][data-variant='solid'],
-  & [wds-component='icon-button'][data-variant='outlined'] {
-    margin-right: -4px;
+export const textAreaContentStyle = (theme: Theme) => css`
+  flex-shrink: 0;
+  width: fit-content;
+  height: fit-content;
+
+  & > svg {
+    color: ${theme.palette.label.assistive};
   }
 
-  & [wds-component='text-button'] {
-    margin-right: 4px;
-    margin-left: 4px;
+  [wds-component='icon-button'][data-variant='normal'] {
+    color: ${theme.palette.label.assistive};
   }
 `;
 
-export const maxLengthStyle = css`
-  position: absolute;
-  width: fit-content;
-  height: fit-content;
-  left: 16px;
-  bottom: 12px;
+export const invalidIconWrapperStyle = (theme: Theme) => css`
+  position: relative;
+
+  &::before {
+    position: absolute;
+    content: '';
+    width: 50%;
+    height: 50%;
+    background-color: ${theme.palette.static.white};
+  }
+
+  svg {
+    color: ${theme.palette.status.negative};
+    z-index: 1;
+  }
 `;

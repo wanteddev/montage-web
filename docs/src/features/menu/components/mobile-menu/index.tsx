@@ -85,7 +85,6 @@ const MobileMenu = () => {
 
                       {page.deprecated && (
                         <ContentBadge
-                          size="xsmall"
                           color="accent"
                           accentColor="palette.status.negative"
                         >

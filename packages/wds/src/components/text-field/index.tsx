@@ -137,12 +137,12 @@ const TextFieldContent = forwardRef<
       return (
         <Typography
           wds-component="text-field-content"
-          color="palette.label.assistive"
           variant="body1_normal"
           weight="medium"
           ref={ref}
           sx={[textFieldContentStyle, { padding: '0px 4px' }, sx]}
           {...props}
+          color="palette.label.assistive"
         >
           {children}
         </Typography>
@@ -161,13 +161,13 @@ const TextFieldContent = forwardRef<
     case 'timer':
       return (
         <Typography
-          color="palette.primary.normal"
           variant="label1_normal"
           weight="bold"
           wds-component="text-field-content"
           ref={ref}
           sx={[textFieldContentStyle, { padding: '2px 4px' }, sx]}
           {...props}
+          color="palette.primary.normal"
         >
           {children}
         </Typography>
