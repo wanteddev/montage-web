@@ -1,3 +1,5 @@
+import type { TextButtonProps } from '../text-button/types';
+import type { ButtonProps } from '../button/types';
 import type { ReactNode } from 'react';
 
 export type ActionAreaProps = {
@@ -25,4 +27,16 @@ export type ActionButtonProps = {
   variant?: 'main' | 'alternative' | 'sub';
   iconOnly?: boolean;
   disabled?: boolean;
+  /**
+   * text button의 variant를 override 할 때 사용합니다.
+   */
+  textButtonVariant?: TextButtonProps['variant'];
+  /**
+   * button의 variant를 override 할 때 사용합니다.
+   */
+  buttonVariant?: ButtonProps['variant'];
+  /**
+   * button의 color를 override 할 때 사용합니다.
+   */
+  buttonColor?: ButtonProps['color'];
 };
