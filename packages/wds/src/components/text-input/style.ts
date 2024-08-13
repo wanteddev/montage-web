@@ -4,12 +4,12 @@ import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 import { addOpacity } from '../../utils';
 
-import type { TextFieldButtonProps, TextFieldProps } from './types';
+import type { TextInputButtonProps, TextInputProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
 
-export const textFieldWrapperStyle =
+export const textInputWrapperStyle =
   ({
     invalid,
     type,
@@ -21,7 +21,7 @@ export const textFieldWrapperStyle =
     md,
     lg,
     xl,
-  }: TextFieldProps & { type?: string }) =>
+  }: TextInputProps & { type?: string }) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;
@@ -38,23 +38,23 @@ export const textFieldWrapperStyle =
     cursor: text;
     transition: box-shadow ease 0.2s;
 
-    [data-role='text-field-invalid'],
-    [data-role='text-field-positive'] {
+    [data-role='text-input-invalid'],
+    [data-role='text-input-positive'] {
       display: flex;
     }
 
-    [data-role='text-field-reset'] {
+    [data-role='text-input-reset'] {
       display: none;
     }
 
     ${EXCLUDE_TYPE.includes(type || '') &&
     css`
-      [data-role='text-field-invalid'],
-      [data-role='text-field-positive'] {
+      [data-role='text-input-invalid'],
+      [data-role='text-input-positive'] {
         display: none !important;
       }
 
-      [data-role='text-field-reset'] {
+      [data-role='text-input-reset'] {
         display: none !important;
       }
     `}
@@ -100,21 +100,21 @@ export const textFieldWrapperStyle =
                         ${addOpacity(theme.palette.static.black, 0.03)};
                   `}
 
-              [data-role='text-field-invalid'],
-              [data-role='text-field-positive'] {
+              [data-role='text-input-invalid'],
+              [data-role='text-input-positive'] {
                 display: none;
               }
 
-              [data-role='text-field-reset'] {
+              [data-role='text-input-reset'] {
                 display: flex;
               }
 
               &:where(:has(input:placeholder-shown)) {
-                [data-role='text-field-reset'] {
+                [data-role='text-input-reset'] {
                   display: none;
                 }
-                [data-role='text-field-invalid'],
-                [data-role='text-field-positive'] {
+                [data-role='text-input-invalid'],
+                [data-role='text-input-positive'] {
                   display: flex;
                 }
               }
@@ -145,11 +145,11 @@ export const textFieldWrapperStyle =
                         ${addOpacity(theme.palette.static.black, 0.03)};
                   `}
 
-              [data-role='text-field-invalid'],
-              [data-role='text-field-positive'] {
+              [data-role='text-input-invalid'],
+              [data-role='text-input-positive'] {
                 display: none;
               }
-              [data-role='text-field-reset'] {
+              [data-role='text-input-reset'] {
                 display: flex;
               }
             }
@@ -157,7 +157,7 @@ export const textFieldWrapperStyle =
         `}
 
     &:where(:has(input:placeholder-shown)) {
-      [data-role='text-field-reset'] {
+      [data-role='text-input-reset'] {
         display: none;
       }
     }
@@ -246,7 +246,7 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-export const textFieldContentStyle = (theme: Theme) => css`
+export const textInputContentStyle = (theme: Theme) => css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
@@ -261,8 +261,8 @@ export const textFieldContentStyle = (theme: Theme) => css`
   }
 `;
 
-export const textFieldButtonStyle =
-  ({ position, variant, disabled }: TextFieldButtonProps) =>
+export const textInputButtonStyle =
+  ({ position, variant, disabled }: TextInputButtonProps) =>
   (theme: Theme) => css`
     box-shadow: none;
     padding: 12px 16px;
@@ -273,7 +273,7 @@ export const textFieldButtonStyle =
       background-color: ${theme.palette.interaction.disable};
     }
 
-    ${textFieldButtonPositionStyle({ position, disabled }, theme)}
+    ${textInputButtonPositionStyle({ position, disabled }, theme)}
 
     &>span {
       ${typographyStyle(
@@ -283,8 +283,8 @@ export const textFieldButtonStyle =
     }
   `;
 
-export const textFieldButtonPositionStyle = (
-  { position, disabled }: TextFieldButtonProps,
+export const textInputButtonPositionStyle = (
+  { position, disabled }: TextInputButtonProps,
   theme: Theme,
 ) => {
   switch (position) {

@@ -147,7 +147,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/text-button',
         stable: true,
       },
-      { title: 'TextField', slug: '/docs/components/text-field', stable: true },
+      { title: 'TextInput', slug: '/docs/components/text-input', stable: true },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
       { title: 'Tooltip', slug: '/docs/components/tooltip', stable: true },

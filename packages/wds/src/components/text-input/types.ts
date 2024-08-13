@@ -1,7 +1,7 @@
 import type { Merge, ResponsiveProps, SxProp } from '@wanteddev/wds-engine';
 import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 
-export type TextFieldDefaultProps = {
+export type TextInputDefaultProps = {
   invalid?: boolean;
   positive?: boolean;
   leftContent?: ReactNode;
@@ -11,21 +11,21 @@ export type TextFieldDefaultProps = {
   height?: CSSProperties['height'];
 };
 
-export type TextFieldResponsiveProps = ResponsiveProps<
-  Pick<TextFieldDefaultProps, 'width' | 'height'>
+export type TextInputResponsiveProps = ResponsiveProps<
+  Pick<TextInputDefaultProps, 'width' | 'height'>
 >;
 
-export type TextFieldProps = Merge<
-  TextFieldDefaultProps,
-  TextFieldResponsiveProps
+export type TextInputProps = Merge<
+  TextInputDefaultProps,
+  TextInputResponsiveProps
 >;
 
-export type TextFieldContentProps = PropsWithChildren<{
+export type TextInputContentProps = PropsWithChildren<{
   variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
   sx?: SxProp;
 }>;
 
-export type TextFieldButtonProps = {
+export type TextInputButtonProps = {
   variant?: 'normal' | 'assistive';
   disabled?: boolean;
   leftContent?: ReactNode;
