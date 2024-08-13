@@ -13,7 +13,7 @@ const Label = forwardRef<
   return (
     <Typography
       variant="label1_normal"
-      weight="medium"
+      weight="bold"
       color="palette.label.neutral"
       as="label"
       ref={ref}

@@ -170,10 +170,10 @@ export const textFieldWrapperStyle =
       border: none;
       box-shadow: none;
       color: ${theme.palette.label.normal};
-      ${typographyStyle('body1_normal', 'medium')}
+      ${typographyStyle('body1_normal', 'regular')}
 
       &::placeholder {
-        ${typographyStyle('body1_normal', 'medium')}
+        ${typographyStyle('body1_normal', 'regular')}
         color: ${theme.palette.label.alternative};
       }
 
@@ -252,7 +252,11 @@ export const textFieldContentStyle = (theme: Theme) => css`
   height: fit-content;
   max-height: 24px;
 
-  svg {
+  & > svg {
+    color: ${theme.palette.label.assistive};
+  }
+
+  [wds-component='icon-button'][data-variant='normal'] {
     color: ${theme.palette.label.assistive};
   }
 `;

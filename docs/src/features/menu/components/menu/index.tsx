@@ -77,7 +77,6 @@ const Menu = () => {
 
                     {page.deprecated && (
                       <ContentBadge
-                        size="xsmall"
                         color="accent"
                         accentColor="palette.status.negative"
                       >
