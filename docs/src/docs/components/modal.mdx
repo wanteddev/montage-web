@@ -154,9 +154,9 @@ import {
   ModalContent,
   ModalContentItem,
   ModalNavigation,
-  TextField,
+  TextInput,
   FlexBox,
-  TextField,
+  TextInput,
   FormField,
   FormControl,
   FormLabel,
@@ -204,7 +204,7 @@ const Demo = () => {
                       <FormLabel>라벨</FormLabel>
 
                       <FormControl>
-                        <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
+                        <TextInput {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
                       </FormControl>
 
                       <FormMessage>설명</FormMessage>

@@ -17,7 +17,7 @@ yarn add @wanteddev/wds-icon
 
 <Demo 
   hideCode
-  code={`import { FlexBox, Tooltip, TooltipContent, TooltipTrigger, useToast, TextField, TextFieldContent } from '@wanteddev/wds';
+  code={`import { FlexBox, Tooltip, TooltipContent, TooltipTrigger, useToast, TextInput, TextInputContent } from '@wanteddev/wds';
 import * as Icons from '@wanteddev/wds-icon';
 import copy from 'copy-to-clipboard';
 import { useState, startTransition, useMemo } from 'react';
@@ -47,13 +47,13 @@ const Demo = () => {
 
   return (
     <FlexBox flexDirection="column" gap="24px">
-      <TextField
+      <TextInput
         sx={{ alignSelf: 'end' }}
         width="300px"
         rightContent={(
-          <TextFieldContent variant="icon">
+          <TextInputContent variant="icon">
             <Icons.IconSearch />
-          </TextFieldContent>
+          </TextInputContent>
         )}
         placeholder="아이콘명을 검색하세요."
         value={value}

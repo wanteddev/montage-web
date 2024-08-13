@@ -42,7 +42,7 @@ export { default as Switch } from './switch';
 export * from './tab';
 export * from './text-area';
 export { default as TextButton } from './text-button';
-export * from './text-field';
+export * from './text-input';
 export { default as Thumbnail } from './thumbnail';
 export { default as ToggleIcon } from './toggle-icon';
 export * from './tooltip';
