@@ -47,6 +47,8 @@ export const textAreaWrapperStyle =
           cursor: default;
         `
       : css`
+          cursor: text;
+
           @supports selector(:has(*)) {
             &:where(:has(textarea:focus)) {
               ${invalid
