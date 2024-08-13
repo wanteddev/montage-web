@@ -6,8 +6,8 @@ export type TextButtonDefaultProps = {
   disabled?: boolean;
   size?: 'small' | 'medium';
   disableInteraction?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
 };
 
 export type TextButtonResponsiveProps = ResponsiveProps<

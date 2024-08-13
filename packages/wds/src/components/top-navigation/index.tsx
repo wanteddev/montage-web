@@ -37,8 +37,8 @@ const TopNavigation = forwardRef<
   (
     {
       variant = 'normal',
-      leftButton,
-      rightButton,
+      leftContent,
+      rightContent,
       toolbar,
       scrolled,
       titleId,
@@ -54,25 +54,25 @@ const TopNavigation = forwardRef<
   ) => {
     const theme = useTheme();
 
-    const leftButtonRender = () =>
-      Boolean(leftButton) ? (
+    const leftContentRender = () =>
+      Boolean(leftContent) ? (
         <FlexBox
           gap="16px"
           alignItems="center"
           sx={topNavigationLeftIconStyle(variant)}
         >
-          {leftButton}
+          {leftContent}
         </FlexBox>
       ) : null;
 
-    const rightButtonRender = () =>
-      Boolean(rightButton) && (
+    const rightContentRender = () =>
+      Boolean(rightContent) && (
         <FlexBox
           gap="16px"
           alignItems="center"
           sx={topNavigationRightIconStyle(variant)}
         >
-          {rightButton}
+          {rightContent}
         </FlexBox>
       );
 
@@ -106,7 +106,7 @@ const TopNavigation = forwardRef<
           <FlexBox sx={topNavigationWrapperStyle(variant)}>
             {variant !== 'floating' ? (
               <>
-                {variant !== 'extended' && leftButtonRender()}
+                {variant !== 'extended' && leftContentRender()}
 
                 {Boolean(children) && (
                   <FlexBox
@@ -129,32 +129,32 @@ const TopNavigation = forwardRef<
                 )}
 
                 {variant !== 'extended' ? (
-                  rightButtonRender()
+                  rightContentRender()
                 ) : (
                   <FlexBox sx={{ width: '100%' }}>
-                    {leftButtonRender()}
-                    {rightButtonRender()}
+                    {leftContentRender()}
+                    {rightContentRender()}
                   </FlexBox>
                 )}
               </>
             ) : (
               <>
-                {Boolean(leftButton) && (
+                {Boolean(leftContent) && (
                   <FlexBox
                     gap="16px"
                     data-role="top-navigation-left-button"
                     sx={topNavigationLeftIconStyle(variant)}
                   >
-                    {leftButton}
+                    {leftContent}
                   </FlexBox>
                 )}
-                {Boolean(rightButton) && (
+                {Boolean(rightContent) && (
                   <FlexBox
                     gap="16px"
                     data-role="top-navigation-right-button"
                     sx={topNavigationRightIconStyle(variant)}
                   >
-                    {rightButton}
+                    {rightContent}
                   </FlexBox>
                 )}
               </>
