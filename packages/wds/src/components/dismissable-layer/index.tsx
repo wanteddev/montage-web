@@ -3,10 +3,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { DismissableLayer as OriginalDismissableLayer } from '@radix-ui/react-dismissable-layer';
 import { forwardRef, useCallback } from 'react';
 
-import type {
-  FocusOutsideEvent,
-  PointerDownOutsideEvent,
-} from '@radix-ui/react-dismissable-layer';
+import type { FocusOutsideEvent, PointerDownOutsideEvent } from './types';
 import type { ComponentPropsWithoutRef, ElementRef } from 'react';
 
 const DismissableLayer = forwardRef<

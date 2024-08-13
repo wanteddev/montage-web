@@ -308,7 +308,7 @@ const TextAreaContent = forwardRef<
         <FlexBox
           wds-component="text-area-content"
           ref={ref as ForwardedRef<HTMLDivElement>}
-          sx={[textAreaContentStyle, { fontSize: '24px' }, sx]}
+          sx={[textAreaContentStyle, { fontSize: '22px' }, sx]}
           {...props}
         >
           {children}

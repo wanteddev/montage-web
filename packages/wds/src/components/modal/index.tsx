@@ -238,7 +238,6 @@ const ModalContainer = forwardRef<
       if (content) {
         const undo = hideOthers(content);
 
-        console.log(isBottomSheetWithHandle, context.visibility);
         if (isBottomSheetWithHandle && context.visibility === 'hidden') {
           undo();
 
@@ -353,6 +352,7 @@ const ModalContainer = forwardRef<
                   ]}
                 >
                   <ScrollArea
+                    scrollbars="vertical"
                     viewportRef={composedInnerContainerRefs}
                     sx={{
                       display: 'flex',
@@ -478,8 +478,7 @@ const ModalContent = forwardRef<
       <Box
         sx={{
           height: 'max-content',
-          width: 'fit-content',
-          minWidth: '100%',
+          width: '100%',
           flex: '1',
         }}
       >
@@ -546,6 +545,7 @@ const ModalHeading = forwardRef(
         data-role="modal-heading"
         id={context.headingId}
         {...props}
+        sx={[{ wordBreak: 'keep-all', overflowWrap: 'break-word' }, props.sx]}
       />
     );
   },
@@ -570,6 +570,7 @@ const ModalSummary = forwardRef(
         data-role="modal-summary"
         id={context.summaryId}
         {...props}
+        sx={[{ wordBreak: 'keep-all', overflowWrap: 'break-word' }, props.sx]}
       />
     );
   },
@@ -594,6 +595,7 @@ const ModalDescription = forwardRef(
         data-role="modal-description"
         id={context.descriptionId}
         {...props}
+        sx={[{ wordBreak: 'keep-all', overflowWrap: 'break-word' }, props.sx]}
       />
     );
   },
