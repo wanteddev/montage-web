@@ -11,6 +11,8 @@ description: ActionArea Component
 - 내부 간격을 조정할 때는 `--wds-action-area-margin-x`, `--wds-action-area-margin-y`, `--wds--action-area-extra-content-margin` 을 사용해주세요.
 - 스크롤에 따라 sticky 옵션을 prop 으로 조정해요.
 - 모달 내부에서 사용할 경우에는 별도의 추가 처리가 필요하지 않아요. (sticky, 간격)
+- `ActionAreaButton` 의 버튼 variant를 교체할 수 있어요.
+  - buttonVariant, buttonColor, textButtonVariant
 
 <Demo code={`import {
   ActionArea,
@@ -41,6 +43,66 @@ export default Demo;`}
 <PropsTable component="ActionAreaButton" />
 
 ## Examples
+
+
+### Priority
+
+<Demo code={`import {
+  FlexBox,
+  ActionArea,
+  ActionAreaButton,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <ActionArea>
+        <ActionAreaButton>
+          액션 (strong)
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션 (strong)
+        </ActionAreaButton>
+        <ActionAreaButton variant="sub">
+          보조 액션 (strong)
+        </ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea priority="compact">
+        <ActionAreaButton variant="sub">
+          보조 액션 (compact)
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션 (compact)
+        </ActionAreaButton>
+        <ActionAreaButton>
+          메인 액션 (compact)
+        </ActionAreaButton>
+      </ActionArea>
+
+       <ActionArea priority="neutral">
+        <ActionAreaButton variant="sub">
+          보조 액션 (neutral)
+        </ActionAreaButton>
+        <ActionAreaButton variant="alternative">
+          대체 액션 (neutral)
+        </ActionAreaButton>
+        <ActionAreaButton>
+          메인 액션 (neutral)
+        </ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea priority="single">
+        <ActionAreaButton>
+          메인 액션 (single)
+        </ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
 
 ### Compact Content
 
@@ -101,75 +163,3 @@ const Demo = () => {
 
 export default Demo;`}
 />
-
-### Sticky
-
-<Demo code={`import {
-  FlexBox,
-  ActionArea,
-  ActionAreaButton,
-} from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <FlexBox flexDirection="column" gap="8px">
-      <ActionArea sticky>
-        <ActionAreaButton>
-          액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="alternative">
-          대체 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="sub">
-          보조 액션
-        </ActionAreaButton>
-      </ActionArea>
-
-      <ActionArea sticky priority="strong">
-        <ActionAreaButton>
-          메인 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="alternative">
-          대체 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="sub">
-          보조 액션
-        </ActionAreaButton>
-      </ActionArea>
-
-       <ActionArea sticky priority="neutral">
-        <ActionAreaButton>
-          메인 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="alternative">
-          대체 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="sub">
-          보조 액션
-        </ActionAreaButton>
-      </ActionArea>
-
-      <ActionArea sticky priority="single">
-        <ActionAreaButton>
-          메인 액션
-        </ActionAreaButton>
-      </ActionArea>
-
-      <ActionArea variant="extra">
-        <ActionAreaButton>
-          메인 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="alternative">
-          대체 액션
-        </ActionAreaButton>
-        <ActionAreaButton variant="sub">
-          보조 액션
-        </ActionAreaButton>
-      </ActionArea>
-    </FlexBox>
-  )
-}
-
-export default Demo;`}
-/>
-

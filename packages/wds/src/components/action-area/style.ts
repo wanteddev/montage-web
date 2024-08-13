@@ -2,8 +2,8 @@ import { css } from '@wanteddev/wds-engine';
 
 import { gradient } from '../../utils';
 
-import type { ActionAreaProps } from './types';
-import type { Theme } from '@wanteddev/wds-engine';
+import type { ActionAreaProps, ActionButtonProps } from './types';
+import type { Merge, Theme } from '@wanteddev/wds-engine';
 
 export const actionAreaStyle =
   ({ sticky, variant, priority }: ActionAreaProps) =>
@@ -89,8 +89,14 @@ const actionAreaVariant = (
   }
 };
 
-export const actionButtonSingle = (priority: ActionAreaProps['priority']) => {
-  if (priority === 'neutral') {
+export const actionButtonSingle = ({
+  priority,
+  variant,
+}: Merge<
+  Pick<ActionButtonProps, 'variant'>,
+  Pick<ActionAreaProps, 'priority'>
+>) => {
+  if (priority === 'neutral' && variant !== 'sub') {
     return css`
       flex: 1 1 0;
       padding: 12px 15px;

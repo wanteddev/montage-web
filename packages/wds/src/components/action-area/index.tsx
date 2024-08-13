@@ -27,7 +27,7 @@ const ActionArea = forwardRef<
       variant = 'normal',
       extraContent,
       compactContent,
-      priority = 'compact',
+      priority = 'strong',
       children,
       caption,
       sticky,
@@ -119,7 +119,13 @@ ActionArea.displayName = ACTION_AREA_NAME;
 
 const ActionAreaButton = forwardRef(
   <E extends ElementType = 'button'>(
-    { variant = 'main', ...props }: PolymorphicProps<ActionButtonProps, E>,
+    {
+      variant = 'main',
+      textButtonVariant,
+      buttonVariant,
+      buttonColor,
+      ...props
+    }: PolymorphicProps<ActionButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { priority } = useActionAreaContext(ACTION_AREA_BUTTON_NAME);
@@ -130,34 +136,34 @@ const ActionAreaButton = forwardRef(
       main: (
         <Button
           ref={ref}
-          variant={priority === 'single' ? 'outlined' : 'solid'}
-          color={priority === 'single' ? 'assistive' : 'primary'}
+          variant={
+            buttonVariant ?? (priority === 'single' ? 'outlined' : 'solid')
+          }
+          color={
+            buttonColor ?? (priority === 'single' ? 'assistive' : 'primary')
+          }
           size="large"
           fullWidth={priority === 'strong' || priority === 'single'}
           {...props}
-          sx={[actionButtonSingle(priority), props.sx]}
+          sx={[actionButtonSingle({ priority, variant }), props.sx]}
         />
       ),
       alternative: (
         <Button
           ref={ref}
-          variant="outlined"
+          variant={buttonVariant ?? 'outlined'}
           size="large"
-          color={
-            priority === 'strong' || priority === 'neutral'
-              ? 'primary'
-              : 'secondary'
-          }
+          color={buttonColor ?? 'secondary'}
           fullWidth={priority === 'strong'}
           {...props}
-          sx={[actionButtonSingle(priority), props.sx]}
+          sx={[actionButtonSingle({ priority, variant }), props.sx]}
         />
       ),
       sub:
         priority === 'strong' ? (
           <TextButton
             ref={ref}
-            variant="assistive"
+            variant={textButtonVariant ?? 'assistive'}
             size="small"
             {...props}
             sx={[
@@ -172,11 +178,11 @@ const ActionAreaButton = forwardRef(
         ) : (
           <Button
             ref={ref}
-            variant="outlined"
-            color="secondary"
+            variant={buttonVariant ?? 'outlined'}
+            color={buttonColor ?? 'assistive'}
             size="large"
             {...props}
-            sx={[actionButtonSingle(priority), props.sx]}
+            sx={[actionButtonSingle({ priority, variant }), props.sx]}
           />
         ),
     };
