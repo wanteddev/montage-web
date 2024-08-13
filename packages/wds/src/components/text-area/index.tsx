@@ -133,13 +133,24 @@ const TextArea = forwardRef<
         <FlexBox
           ref={parentRef}
           flexDirection="column"
-          data-role="text-area-wrapper"
+          wds-component="text-area"
           className={className}
           style={{
             ...getTextAreaDefaultHeight({ minRows }),
             ...style,
           }}
           gap="12px"
+          onPointerDown={(event) => {
+            const target = event.target as HTMLElement;
+            if (target.closest('input, textarea, button, a')) return;
+
+            const textArea = textAreaRef.current;
+            if (!textArea) return;
+
+            requestAnimationFrame(() => {
+              textArea.focus();
+            });
+          }}
           sx={[
             textAreaWrapperStyle({
               invalid: invalid,
@@ -203,17 +214,6 @@ const TextArea = forwardRef<
               sx={textAreaBottomAreaStyle}
               alignItems="center"
               justifyContent="space-between"
-              onPointerDown={(event) => {
-                const target = event.target as HTMLElement;
-                if (target.closest('input, textarea, button, a')) return;
-
-                const textArea = textAreaRef.current;
-                if (!textArea) return;
-
-                requestAnimationFrame(() => {
-                  textArea.focus();
-                });
-              }}
             >
               <FlexBox
                 alignItems="center"
