@@ -22,7 +22,6 @@ import {
   listStyle,
 } from './style';
 
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
@@ -31,16 +30,14 @@ import type {
   ListProps,
 } from './types';
 
-const List = forwardRef(
-  <E extends ElementType = 'ul'>(
-    { as, children, radioGroup, ...props }: PolymorphicProps<ListProps, E>,
-    forwardedRef: ForwardedRef<ElementRef<E>>,
+const List = forwardRef<HTMLUListElement>(
+  (
+    { children, radioGroup, ...props }: PolymorphicProps<ListProps>,
+    forwardedRef,
   ) => {
-    const [list, setList] = useState<E | null>(null);
+    const [list, setList] = useState<HTMLUListElement | null>(null);
 
-    const composedRefs = useComposedRefs(forwardedRef, (node) =>
-      setList(node as E),
-    );
+    const composedRefs = useComposedRefs(forwardedRef, (node) => setList(node));
 
     const shouldWrapRadioGroup = Boolean(
       radioGroup ||
@@ -52,8 +49,8 @@ const List = forwardRef(
     const ListFlexBox = (
       <FlexBox
         role="list"
+        as="ul"
         ref={composedRefs}
-        as={as || 'ul'}
         flexDirection="column"
         sx={[listStyle, props.sx]}
         {...props}
@@ -73,13 +70,7 @@ List.displayName = LIST_NAME;
 
 const ListItem = forwardRef<HTMLLIElement>(
   (
-    {
-      as,
-      leftContent,
-      children,
-      listItemBox: { sx: listItemBoxSx, ...listItemBox } = {},
-      ...props
-    }: PolymorphicProps<ListItemProps>,
+    { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps>,
     forwardedRef,
   ) => {
     const [item, setItem] = useState<HTMLLIElement | null>(null);
@@ -87,7 +78,6 @@ const ListItem = forwardRef<HTMLLIElement>(
 
     const hasControlContent =
       item?.role === 'radio' || item?.role === 'checkbox';
-    const itemBoxAs = listItemBox.as || (hasControlContent ? 'label' : 'div');
 
     const leftContentComponent = useMemo(() => {
       if (!leftContent) {
@@ -100,26 +90,25 @@ const ListItem = forwardRef<HTMLLIElement>(
     }, [item]);
 
     return (
-      <FlexBox as={as || 'li'} role="listitem" {...props}>
-        <FlexBox
-          flexDirection="row"
-          gap="10px"
-          justifyContent="flex-start"
-          alignItems="center"
-          {...listItemBox}
-          as={itemBoxAs}
-          sx={[
-            {
-              width: '100%',
-              cursor: hasControlContent ? 'pointer' : 'initial',
-              zIndex: 1,
-            },
-            listItemBoxSx,
-          ]}
-        >
-          {Boolean(leftContentComponent) && leftContentComponent}
-          {children}
-        </FlexBox>
+      <FlexBox
+        as={as || 'li'}
+        role="listitem"
+        flexDirection="row"
+        gap="10px"
+        justifyContent="flex-start"
+        alignItems="center"
+        {...props}
+        sx={[
+          {
+            width: '100%',
+            cursor: hasControlContent ? 'pointer' : 'initial',
+            zIndex: 1,
+          },
+          props.sx,
+        ]}
+      >
+        {Boolean(leftContentComponent) && leftContentComponent}
+        {children}
       </FlexBox>
     );
   },
