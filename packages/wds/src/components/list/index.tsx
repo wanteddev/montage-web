@@ -7,7 +7,7 @@ import {
   type ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 
-import { FlexBox, RadioGroup, Typography, WithInteraction } from '..';
+import { FlexBox, Typography, WithInteraction } from '..';
 
 import {
   LIST_CELL_NAME,
@@ -30,41 +30,21 @@ import type {
   ListProps,
 } from './types';
 
-const List = forwardRef<HTMLUListElement>(
-  (
-    { children, radioGroup, ...props }: PolymorphicProps<ListProps>,
-    forwardedRef,
-  ) => {
-    const [list, setList] = useState<HTMLUListElement | null>(null);
-
-    const composedRefs = useComposedRefs(forwardedRef, (node) => setList(node));
-
-    const shouldWrapRadioGroup = Boolean(
-      radioGroup ||
-        (list
-          ? (list as unknown as HTMLElement).querySelector('[role="radio"]')
-          : true),
-    );
-
-    const ListFlexBox = (
+const List = forwardRef<HTMLUListElement, Omit<ListProps, 'as'>>(
+  ({ children, ...props }, ref) => {
+    return (
       <FlexBox
-        role="list"
         as="ul"
-        ref={composedRefs}
-        flexDirection="column"
+        ref={ref}
+        role="list"
         sx={[listStyle, props.sx]}
         {...props}
       >
         {children}
       </FlexBox>
     );
-
-    if (shouldWrapRadioGroup) {
-      return <RadioGroup {...radioGroup}>{ListFlexBox}</RadioGroup>;
-    }
-    return ListFlexBox;
   },
-) as PolymorphicComponent<ListProps, 'ul'>;
+);
 
 List.displayName = LIST_NAME;
 
@@ -117,15 +97,7 @@ const ListItem = forwardRef<HTMLLIElement>(
 ListItem.displayName = LIST_ITEM_NAME;
 
 const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
-  (
-    {
-      size = 'normal',
-      paddingInset,
-      listItemBox,
-      ...props
-    }: PolymorphicProps<ListCellProps>,
-    forwardedRef,
-  ) => {
+  ({ size = 'normal', paddingInset, listItemBox, ...props }, forwardedRef) => {
     return (
       <WithInteraction>
         <Box ref={forwardedRef} sx={listCellStyle} role="listitem">

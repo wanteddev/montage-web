@@ -1,17 +1,11 @@
 import type { Merge, PolymorphicProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react';
-import type { FlexBox, RadioGroup, Typography } from '..';
+import type { FlexBox, Typography } from '..';
 import type { FlexBoxProps } from '../flex-box/types';
 
 type FlexBoxWithoutRefProps = ComponentPropsWithoutRef<typeof FlexBox>;
 
-export type ListDefaultProps = {
-  /**
-   * 내부에 role="radio" 요소가 있는 경우, 내부에서 <RadioGroup />으로 래핑하고 props를 전달합니다.
-   */
-  radioGroup?: ComponentPropsWithoutRef<typeof RadioGroup>;
-};
-export type ListProps = Merge<ListDefaultProps, FlexBoxWithoutRefProps>;
+export type ListProps = PolymorphicProps<FlexBoxProps, 'ul'>;
 
 export type ListItemDefaultProps = {
   variant?: 'normal' | 'action';
