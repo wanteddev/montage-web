@@ -11,8 +11,8 @@ description: TextArea Component
 
 - 입력한 텍스트에 따라 자동으로 늘어나요.
 - `maxRows` 와 `minRows` 로 최대 / 최소로 늘어나는 line 수를 정할 수 있어요.
-- padding 값을 변경할 때 유의가 필요해요. `paddingRight`, `paddingBottom`이 자동으로 동적 변환되기 때문이에요.
 - 너비 값은 `width` prop을 이용해주세요.
+- leftContent, rightContent에 요소를 추가할 때는 `TextAreaContent` 를 이용해주세요.
 
 <Demo code={`import { TextArea } from '@wanteddev/wds';
 
@@ -27,11 +27,19 @@ export default Demo;`}
 
 ## Props
 
+### TextArea
+
 <PropsTable component="TextArea" />
+
+### TextAreaContent
+
+<PropsTable component="TextAreaContent" />
 
 ## Example
 
 ### MaxRows
+
+`maxRows` 를 이용하여 최대 line 수를 결정할 수 있습니다.
 
 <Demo code={`import { TextArea, FlexBox, Label, TextButton } from '@wanteddev/wds';
 
@@ -48,73 +56,112 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Action
+### Content
 
-<Demo code={`import { TextArea, FlexBox, Label, TextButton } from '@wanteddev/wds';
+`TextAreaContent` 를 이용하여 left, right에 추가할 수 있어요.
+다만, invalid 상태에서는 rightContent가 경고 아이콘으로 Override 됩니다.
+
+<Demo code={`import { FlexBox, TextArea, TextAreaContent, IconButton, FlexBox, TextButton, ContentBadge, ChipFilter } from '@wanteddev/wds';
+import { IconTrash, IconSendFill, IconPlus } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <TextArea
-      placeholder="입력하세요."
-      width="300px"
-      rightIcon={
-        <TextButton size="small">
-          보내기
-        </TextButton>
-      }
-    />
+    <FlexBox flexDirection="column" gap="16px">
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        rightContent={
+          <TextAreaContent variant="icon-button">
+            <IconButton size={32} variant="solid">
+              <IconSendFill />
+            </IconButton>
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        leftContent={
+          <TextAreaContent variant="button">
+            <TextButton size="medium">
+              보내기
+            </TextButton>
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        leftContent={
+          <TextAreaContent variant="icon-button">
+            <IconButton size={24}>
+              <IconTrash />
+            </IconButton>
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        leftContent={
+          <TextAreaContent variant="icon">
+            <IconPlus />
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        maxLength={2000}
+        leftContent={
+          <TextAreaContent variant="characterCounter">
+            2000
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        leftContent={
+          <TextAreaContent variant="custom">
+            커스텀 요소
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        leftContent={
+          <TextAreaContent variant="chip">
+            <ChipFilter size="small">텍스트</ChipFilter>
+          </TextAreaContent>
+        }
+      />
+      <TextArea
+        placeholder="입력하세요."
+        width="300px"
+        leftContent={
+          <TextAreaContent variant="badge">
+            <ContentBadge color="neutral" size="medium">텍스트</ContentBadge>
+          </TextAreaContent>
+        }
+      />
+    </FlexBox>
   )
 }
 
 export default Demo;`}
 />
 
-### Action Icon
-
-<Demo code={`import { TextArea, FlexBox, Label, IconButton } from '@wanteddev/wds';
-import { IconSendFill } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  return (
-    <TextArea
-      placeholder="입력하세요."
-      width="300px"
-      rightIcon={
-        <IconButton variant="solid" size="small">
-          <IconSendFill />
-        </IconButton>
-      }
-    />
-  )
-}
-
-export default Demo;`}
-/>
-
-### Max Length
-
-<Demo code={`import { TextArea, FlexBox, Label, TextButton } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <TextArea
-      placeholder="입력하세요."
-      width="300px"
-      maxLength={30}
-    />
-  )
-}
-
-export default Demo;`}
-/>
+다만, invalid 상태에서는 rightContent가 경고 아이콘으로 Override 됩니다.
 
 ### Form
 
-<Demo code={`import { Button, FlexBox, TextArea, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { TextArea, FlexBox, Label, TextButton, TextAreaContent, Button, FormField, FormLabel, FormControl, FormMessage, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
-  const form = useForm();
+  const form = useForm({ defaultValues: { content: '' } })
 
   return (
     <FlexBox
@@ -134,18 +181,34 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormField>
-            <FormLabel>내용</FormLabel>
+            <FormLabel required>주제</FormLabel>
 
             <FormControl>
               <TextArea
                 {...field}
+                maxLength={20}
                 placeholder="입력하세요."
-                width="300px"
                 invalid={Boolean(formState.errors.content)}
+                width="300px"
+                leftContent={(
+                  <TextAreaContent variant="characterCounter">
+                    20
+                  </TextAreaContent>
+                )}
+                rightContent={(
+                  <TextAreaContent variant="button">
+                    <TextButton size="small">텍스트</TextButton>
+                  </TextAreaContent>
+                )}
               />
             </FormControl>
 
-            <FormErrorMessage>{formState.errors.content?.message}</FormErrorMessage>
+            {Boolean(formState.errors.content) ? (
+              <FormErrorMessage>{formState.errors.content?.message}</FormErrorMessage>  
+            ) : (
+              <FormMessage>메시지에 마침표를 찍어요.</FormMessage>  
+            )}
+
           </FormField>
         )}
       />
@@ -157,4 +220,3 @@ const Demo = () => {
 
 export default Demo;`}
 />
-

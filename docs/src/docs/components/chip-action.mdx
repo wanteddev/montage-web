@@ -10,8 +10,9 @@ description: ChipAction Component
 ## 활용
 
 - Chip은 반응적이므로 콘텐츠의 특성에 따라 다른 동작을 제공해야 합니다.
-- Chip의 텍스트에 말 줄임표(...) 사용을 지양합니다.
-- Chip의 텍스트에 ‘#’을 붙이지 않아요.
+- 텍스트에 말 줄임표(...) 사용을 지양합니다.
+- 텍스트에 ‘#’을 붙이지 않아요.
+- 클릭 또는 터치할 수 없는 요소에 사용하지 않아요.
 
 <Demo code={`import { ChipAction } from '@wanteddev/wds';
 
@@ -38,9 +39,10 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <FlexBox gap="8px">
+    <FlexBox gap="8px" alignItems="center">
+      <ChipAction size="normal">Normal</ChipAction>
+      <ChipAction size="xsmall">XSmall</ChipAction>
       <ChipAction size="small">Small</ChipAction>
-      <ChipAction size="medium">Medium</ChipAction>
       <ChipAction size="large">Large</ChipAction>
     </FlexBox>
   )
@@ -69,16 +71,150 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Active
 
-### Disabled
-
-<Demo code={`import { ChipAction } from '@wanteddev/wds';
+<Demo code={`import { ChipAction, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ChipAction disabled>
-      Disabled
-    </ChipAction>
+    <FlexBox gap="8px">
+      <ChipAction variant="outlined" active>
+        Outlined
+      </ChipAction>
+      <ChipAction variant="filled" active>
+        Filled
+      </ChipAction>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Disabled
+
+<Demo code={`import { ChipAction, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ChipAction variant="outlined" disabled>
+        Outlined
+      </ChipAction>
+      <ChipAction variant="filled" disabled>
+        Filled
+      </ChipAction>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Icon
+
+<Demo code={`import { ChipAction, FlexBox } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon'
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ChipAction variant="outlined" rightContent={<IconPlusThick />}>
+        Outlined
+      </ChipAction>
+      <ChipAction variant="filled" rightContent={<IconPlusThick />}>
+        Filled
+      </ChipAction>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Form
+
+<Demo code={`import { ChipAction, Button, FlexBox, FormField, FormLabel, FormControl, FormErrorMessage } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon'
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm({ defaultValues: { selected: [] } });
+
+  const items = [
+    {
+      id: "develop",
+      label: "개발",
+    },
+    {
+      id: "design",
+      label: "디자인",
+    },
+  ];
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel required>관심 분야</FormLabel>
+
+            <FlexBox gap="14px">
+              {items.map((item) => (
+                <Controller
+                  key={item.id}
+                  control={form.control}
+                  name="selected"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "필수 값입니다.",
+                    },
+                  }}
+                  render={({ field }) => {
+                    const checked = field.value.includes(item.id);
+
+                    return (
+                      <FormField key={item.id}>
+                        <FormControl>
+                          <ChipAction
+                            {...field}
+                            active={checked}
+                            onClick={() => {
+                              return !checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  );
+                            }}
+                          >
+                            {item.label}
+                          </ChipAction>
+                        </FormControl>
+                      </FormField>
+                    );
+                  }}
+                />
+              ))}
+            </FlexBox>
+
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">적용</Button>
+    </FlexBox>
   )
 }
 

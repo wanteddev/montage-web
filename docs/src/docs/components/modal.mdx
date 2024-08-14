@@ -11,7 +11,7 @@ description: Modal Component
 - padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
 - `huge` 사이즈는 560px를 초과해서 사용하고 싶을 때 활용해요.
   - 640, 720, 800 같이 80px 단위로 끊어서 사용해요.
-- `ModalNavigation` 에서 leftButton, rightButton 에는 `ModalNavigationAction`, `ModalClose` 를 사용합니다.
+- `ModalNavigation` 에서 leftContent, rightContent 에는 `ModalNavigationButton`, `ModalClose` 를 사용합니다.
 - `ModalContainer`, `ModalNavigation`, `ModalContent`, `ActionArea` 의 위계를 변경해서는 안됩니다.
 
 <Demo code={`import { useState } from 'react';
@@ -38,7 +38,7 @@ const Demo = () => {
         open={show}
         onOpenChange={setShow}
       >
-        <ModalContainer size="large" variant="popup">
+        <ModalContainer variant="popup">
           <ModalNavigation>
             제목
           </ModalNavigation>
@@ -103,15 +103,22 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 ### ModalNavigation
 
+`TopNavigation` 과 동일한 Props를 사용합니다.
+
 <PropsTable component="ModalNavigation" />
+
+### ModalNavigationButton
+
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalNavigationButton" />
+
 
 ### ModalClose
 
-`ModalNavigationAction` 과 동일한 Props를 사용합니다.
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
 
-### ModalNavigationAction
-
-<PropsTable component="ModalNavigationAction" />
+<PropsTable component="ModalClose" />
 
 ### ModalContent
 
@@ -147,9 +154,9 @@ import {
   ModalContent,
   ModalContentItem,
   ModalNavigation,
-  TextField,
+  TextInput,
   FlexBox,
-  TextField,
+  TextInput,
   FormField,
   FormControl,
   FormLabel,
@@ -168,7 +175,7 @@ const Demo = () => {
         open={show}
         onOpenChange={setShow}
       >
-        <ModalContainer size="normal-fixed" variant="popup">
+        <ModalContainer variant="popup">
           <FlexBox
             as="form"
             flex="1"
@@ -197,7 +204,7 @@ const Demo = () => {
                       <FormLabel>라벨</FormLabel>
 
                       <FormControl>
-                        <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
+                        <TextInput {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
                       </FormControl>
 
                       <FormMessage>설명</FormMessage>
@@ -224,11 +231,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Left/Right Button
+### Hide Close Button
 
-꼭 `ModalNavigationAction` 혹은 `ModalClose` 로 사용해주세요.
-
-rightButton 을 표시하지 않고 싶다면 `rightButton={null}` 을 사용합니다.
+`ModalNavigation` 에 `rightContent={null}` 으로 사용합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -243,7 +248,7 @@ import {
   ModalHeading,
   ModalNavigation,
   ModalSummary,
-  ModalNavigationAction,
+  ModalNavigationButton,
   ModalClose
 } from '@wanteddev/wds';
 import { IconChevronLeft } from '@wanteddev/wds-icon';
@@ -257,15 +262,8 @@ const Demo = () => {
         open={show}
         onOpenChange={setShow}
       >
-        <ModalContainer size="normal-fixed" variant="popup">
-          <ModalNavigation
-            variant="emphasized"
-            leftButton={(
-              <ModalNavigationAction>
-                <IconChevronLeft />
-              </ModalNavigationAction>
-            )}
-          >
+        <ModalContainer variant="popup">
+          <ModalNavigation rightContent={null}>
             제목
           </ModalNavigation>
 
@@ -283,231 +281,6 @@ const Demo = () => {
             </ActionAreaButton>
           </ActionArea>
         </ModalContainer>
-      </Modal>
-
-      <Button onClick={() => setShow(true)}>Click me</Button>
-    </>
-  )
-}
-
-export default Demo;`}
-/>
-
-`ModalNavigationAction` 에 텍스트 타입으로도 활용 가능합니다.
-
-<Demo code={`import { useState } from 'react';
-import {
-  Button,
-  Modal,
-  ActionArea,
-  ActionAreaButton,
-  ModalContainer,
-  ModalContent,
-  ModalContentItem,
-  ModalDescription,
-  ModalHeading,
-  ModalNavigation,
-  ModalSummary,
-  ModalNavigationAction,
-  ModalClose
-} from '@wanteddev/wds';
-import { IconChevronLeft } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <>
-      <Modal
-        open={show}
-        onOpenChange={setShow}
-      >
-        <ModalContainer size="normal-fixed" variant="popup">
-          <ModalNavigation
-            leftButton={(
-              <ModalNavigationAction variant="text">
-                이전
-              </ModalNavigationAction>
-            )}
-            rightButton={(
-              <ModalClose variant="text">
-                닫기
-              </ModalClose>
-            )}
-          >
-            제목
-          </ModalNavigation>
-
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
-
-          <ActionArea>
-            <ActionAreaButton>
-              액션
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
-
-      <Button onClick={() => setShow(true)}>Click me</Button>
-    </>
-  )
-}
-
-export default Demo;`}
-/>
-
-`ModalNavigation` 이 `float` 일 경우 다르게 표시됩니다.
-
-<Demo code={`import { useState } from 'react';
-import {
-  Button,
-  Modal,
-  ActionArea,
-  ActionAreaButton,
-  ModalContainer,
-  ModalContent,
-  ModalContentItem,
-  ModalDescription,
-  ModalHeading,
-  ModalNavigation,
-  ModalSummary,
-  ModalNavigationAction,
-  ModalClose
-} from '@wanteddev/wds';
-import { IconChevronLeftThick } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <>
-      <Modal
-        open={show}
-        onOpenChange={setShow}
-      >
-        <ModalContainer size="normal-fixed" variant="popup">
-          <ModalNavigation
-            variant="floating"
-            leftButton={(
-              <ModalNavigationAction>
-                <IconChevronLeftThick />
-              </ModalNavigationAction>
-            )}
-          >
-            제목
-          </ModalNavigation>
-
-          <ModalContent sx={{ paddingTop: '50px' }}>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
-
-          <ActionArea>
-            <ActionAreaButton>
-              액션
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
-
-      <Button onClick={() => setShow(true)}>Click me</Button>
-    </>
-  )
-}
-
-export default Demo;`}
-/>
-
-### Toolbar
-
-<Demo code={`import { useState } from 'react';
-import {
-  Button,
-  Modal,
-  ActionArea,
-  ActionAreaButton,
-  ModalContainer,
-  ModalContent,
-  ModalContentItem,
-  ModalDescription,
-  ModalHeading,
-  ModalNavigation,
-  ModalSummary,
-  Tab,
-  TabList,
-  TabListItem,
-  TabPanel
-} from '@wanteddev/wds';
-
-const Demo = () => {
-  const [show, setShow] = useState(false);
-
-  return (
-    <>
-      <Modal
-        open={show}
-        onOpenChange={setShow}
-      >
-        <Tab defaultValue="">
-          <ModalContainer size="normal-fixed" variant="popup">
-            <ModalNavigation
-              variant="emphasized"
-              toolbar={(
-                <TabList padding size="small">
-                  <TabListItem value="">기본</TabListItem>
-                  <TabListItem value="1">추가</TabListItem>
-                </TabList>
-              )}
-            >
-              제목
-            </ModalNavigation>
-
-            <TabPanel value="">
-              <ModalContent padding paddingInfo paddingExtra>
-                <ModalContentItem>
-                  <ModalHeading>기본 설정</ModalHeading>
-                  <ModalSummary>기본 설정을 위한 공간입니다.</ModalSummary>
-                  <ModalDescription>기본 설정을 잘 마쳐주세요.</ModalDescription>
-                </ModalContentItem>
-                <ModalContentItem>
-                  <ModalHeading>기본 설정</ModalHeading>
-                  <ModalSummary>기본 설정을 위한 공간입니다.</ModalSummary>
-                  <ModalDescription>기본 설정을 잘 마쳐주세요.</ModalDescription>
-                </ModalContentItem>
-              </ModalContent>
-            </TabPanel>
-
-            <TabPanel value="1">
-              <ModalContent  padding paddingInfo paddingExtra>
-                <ModalContentItem>
-                  <ModalHeading>추가 설정</ModalHeading>
-                  <ModalSummary>추가 설정을 위한 공간입니다.</ModalSummary>
-                  <ModalDescription>추가 설정은 잘 마쳐야 합니다.</ModalDescription>
-                </ModalContentItem>
-                <ModalContentItem>
-                  <ModalHeading>추가 설정</ModalHeading>
-                  <ModalSummary>추가 설정을 위한 공간입니다.</ModalSummary>
-                  <ModalDescription>추가 설정은 잘 마쳐야 합니다.</ModalDescription>
-                </ModalContentItem>
-              </ModalContent>
-            </TabPanel>
-
-            <ActionArea>
-              <ActionAreaButton>
-                액션
-              </ActionAreaButton>
-            </ActionArea>
-          </ModalContainer>
-        </Tab>
       </Modal>
 
       <Button onClick={() => setShow(true)}>Click me</Button>

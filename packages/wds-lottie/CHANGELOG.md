@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.1.1...@wanteddev/wds-lottie@1.1.2) (2024-07-24)
+
+### Bug Fixes
+
+- **wds-lottie:** loading 컴포넌트가 불필요하게 리렌더링 되는 이슈 ([e74f5c8](https://github.com/wanteddev/wds/commit/e74f5c80d462eb8bd6b41509653297d3c4d8c915))
+
 ## [1.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.1.0...@wanteddev/wds-lottie@1.1.1) (2024-07-10)
 
 **Note:** Version bump only for package @wanteddev/wds-lottie

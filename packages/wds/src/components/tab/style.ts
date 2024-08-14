@@ -22,6 +22,10 @@ export const scrollWrapperStyle =
     ${isSticky && gradient('transparent', 'right', '48px')}
     transition: mask-image 0.2s ease;
 
+    [data-radix-scroll-area-viewport] {
+      scroll-behavior: smooth;
+    }
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
@@ -128,7 +132,7 @@ export const stickyButtonStyle = css`
   right: 0px;
   height: 100%;
   flex-shrink: 0;
-  padding: 0px 12px;
+  padding: 0px var(--wds-tab-padding-x);
 `;
 
 const tabSizeStyle = (size: TabListProps['size']) => {
@@ -173,8 +177,8 @@ const tabPaddingStyle = (padding: TabListProps['padding']) => {
       return css`
         [data-radix-scroll-area-viewport] {
           position: relative;
-          left: -12px;
-          width: calc(100% + 12px);
+          left: calc(var(--wds-tab-padding-x) * -1);
+          width: calc(100% + var(--wds-tab-padding-x));
         }
       `;
   }

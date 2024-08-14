@@ -28,7 +28,7 @@ const Checkbox = forwardRef<
       required,
       checked: originChecked,
       onCheckedChange,
-      size = 'small',
+      size = 'normal',
       invalid = false,
       bold,
       xs,

@@ -9,7 +9,6 @@ import { actionStyle } from './style';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
-  ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
@@ -21,9 +20,10 @@ const ChipAction = forwardRef(
       variant = 'filled',
       disabled = false,
       disableInteraction = false,
-      leftIcon,
-      rightIcon,
-      size = 'medium',
+      leftContent,
+      rightContent,
+      size = 'normal',
+      active: givenActive,
       children,
       xs,
       sm,
@@ -36,26 +36,33 @@ const ChipAction = forwardRef(
   ) => {
     const id = useId();
 
-    const interactionColor: ThemeColorsToken = 'palette.label.normal';
+    const active = givenActive ?? props['aria-pressed'];
 
     return (
       <WithInteraction
-        color={interactionColor}
+        color={
+          active && variant === 'outlined'
+            ? 'palette.primary.normal'
+            : 'palette.label.normal'
+        }
         disabled={disableInteraction || disabled}
       >
         <Box
           as={(as || 'button') as E}
           aria-labelledby={id}
+          role="button"
           type="button"
           ref={ref}
           disabled={disabled}
           aria-disabled={disabled}
+          aria-pressed={active}
+          tabIndex={0}
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
-          {Boolean(leftIcon) && leftIcon}
+          {Boolean(leftContent) && leftContent}
           <span id={id}>{children}</span>
-          {Boolean(rightIcon) && rightIcon}
+          {Boolean(rightContent) && rightContent}
         </Box>
       </WithInteraction>
     );

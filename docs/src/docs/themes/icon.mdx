@@ -17,57 +17,84 @@ yarn add @wanteddev/wds-icon
 
 <Demo 
   hideCode
-  code={`import { FlexBox, Tooltip, TooltipContent, TooltipTrigger, useToast } from '@wanteddev/wds';
+  code={`import { FlexBox, Tooltip, TooltipContent, TooltipTrigger, useToast, TextInput, TextInputContent } from '@wanteddev/wds';
 import * as Icons from '@wanteddev/wds-icon';
 import copy from 'copy-to-clipboard';
+import { useState, startTransition, useMemo } from 'react';
 
 const Demo = () => {
   const toast = useToast();
+  const [value, setValue] = useState('');
+
+  const icons = useMemo(() => {
+    if (value) {
+      return Object.entries(Icons).filter(([name]) => name.toLocaleLowerCase().includes(value.toLocaleLowerCase()));
+    }
+
+    return Object.entries(Icons);
+  }, [value]);
 
   const handleClick = (value) => () => {
     const success = copy(value);
 
-		if (success) {
-			toast({
-				variant: 'success',
-				content: value + ' 클립보드에 복사 했습니다.',
-			});
-		}
+    if (success) {
+      toast({
+        variant: 'success',
+        content: value + ' 클립보드에 복사 했습니다.',
+      });
+    }
   }
 
   return (
-    <FlexBox flexWrap="wrap" gap="12px">
-      {Object.entries(Icons).map(([name, Component]) => (
-        <Tooltip mode="hover" key={name} enterDelay={10} leaveDelay={10}>
-          <TooltipTrigger>
-            <FlexBox
-              as="button"
-              sx={theme => ({ 
-                backgroundColor: theme.palette.background.elevated.alternative,
-                borderRadius: '4px',
-                fontSize: '32px',
-                height: '48px',
-                width: '48px',
-                color: theme.palette.label.normal,
-                cursor: 'pointer',
-              })}
-              alignItems="center"
-              justifyContent="center"
-              name={name}
-              onClick={handleClick(name)}
-            >
-              <Component />
+    <FlexBox flexDirection="column" gap="24px">
+      <TextInput
+        sx={{ alignSelf: 'end' }}
+        width="300px"
+        rightContent={(
+          <TextInputContent variant="icon">
+            <Icons.IconSearch />
+          </TextInputContent>
+        )}
+        placeholder="아이콘명을 검색하세요."
+        value={value}
+        onChange={e => {
+          startTransition(() => setValue(e.target.value))
+        }}
+      />
 
-              <span style={{ fontSize: '0px' }}>{name}</span>
-            </FlexBox>
-          </TooltipTrigger>
-          <TooltipContent
-            position="bottom-center"
-          >
-            {name}
-          </TooltipContent>
-        </Tooltip>
-      ))}
+      <FlexBox flexWrap="wrap" gap="12px" justifyContent="center">
+        {icons.map(([name, Component]) => (
+          <Tooltip mode="hover" key={name} enterDelay={10} leaveDelay={10}>
+            <TooltipTrigger>
+              <FlexBox
+                as="button"
+                sx={theme => ({ 
+                  backgroundColor: theme.palette.background.elevated.alternative,
+                  borderRadius: '4px',
+                  fontSize: '32px',
+                  height: '48px',
+                  width: '48px',
+                  color: theme.palette.label.normal,
+                  cursor: 'pointer',
+                })}
+                alignItems="center"
+                justifyContent="center"
+                name={name}
+                onClick={handleClick(name)}
+              >
+                <Component />
+
+                <span style={{ fontSize: '0px' }}>{name}</span>
+              </FlexBox>
+            </TooltipTrigger>
+            <TooltipContent
+              position="bottom-center"
+            >
+              {name}
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </FlexBox>
     </FlexBox>
   )
 }

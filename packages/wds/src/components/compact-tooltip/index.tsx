@@ -50,7 +50,7 @@ const CompactTooltipContent = forwardRef<
         __wdsCustomChildren={
           <FlexBox {...props} sx={[compactTooltipWrapperStyle, props.sx]}>
             <Box sx={compactTooltipContentStyle({ variant })}>
-              <Typography variant="label2" weight="regular">
+              <Typography variant="label2" weight="medium">
                 {children}
               </Typography>
 

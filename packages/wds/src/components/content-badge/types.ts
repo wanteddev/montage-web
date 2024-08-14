@@ -6,9 +6,9 @@ import type {
 import type { ReactNode } from 'react';
 
 export type ContentBadgeDefaultProps = {
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
-  size?: 'xsmall' | 'small' | 'medium';
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
+  size?: 'normal' | 'medium' | 'large';
   variant?: 'filled' | 'outlined';
   color?: 'neutral' | 'accent';
   accentColor?: ThemeColorsToken;

@@ -14,7 +14,12 @@ import Logo from '@/assets/logo';
 import { useMobileMenuContext } from '../../context';
 import Search from '../search';
 
-import { headerStyle, headerWrapperStyle, menuToggleStyle } from './style';
+import {
+  headerStyle,
+  headerWrapperStyle,
+  logoStyle,
+  menuToggleStyle,
+} from './style';
 
 const Header = () => {
   const { theme, setTheme } = useThemeControl();
@@ -35,7 +40,7 @@ const Header = () => {
           justifyContent="space-between"
           sx={headerStyle}
         >
-          <FlexBox as={Link} href="/">
+          <FlexBox sx={logoStyle} as={Link} href="/">
             <Logo />
           </FlexBox>
 
@@ -43,7 +48,8 @@ const Header = () => {
             <Search />
 
             <IconButton
-              size={20}
+              size={18}
+              sm={{ size: 20 }}
               as={Link}
               href="https://github.com/wanteddev/wds"
               target="_blank"
@@ -53,7 +59,8 @@ const Header = () => {
 
             <NoSsr>
               <IconButton
-                size={20}
+                size={18}
+                sm={{ size: 20 }}
                 type="button"
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               >
@@ -63,7 +70,8 @@ const Header = () => {
 
             <IconButton
               type="button"
-              size={20}
+              size={18}
+              sm={{ size: 20 }}
               data-state={mobileMenu.open ? 'open' : 'closed'}
               onClick={() => mobileMenu.setOpen((open) => !open)}
               sx={menuToggleStyle}

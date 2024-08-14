@@ -21,6 +21,16 @@ export const headerStyle = (theme: Theme) => css`
   }
 `;
 
+export const logoStyle = (theme: Theme) => css`
+  svg {
+    width: 185px;
+
+    ${respondTo(theme.breakpoint.sm)} {
+      width: 155px;
+    }
+  }
+`;
+
 export const menuToggleStyle = (theme: Theme) => css`
   display: none;
 

@@ -3,15 +3,14 @@ import type { ReactNode } from 'react';
 
 export type ChipActionVariant = 'solid' | 'outlined';
 
-export type ChipActionColor = 'primary' | 'secondary' | 'assistive';
-
 export type ChipActionDefaultProps = {
-  size?: 'small' | 'medium' | 'large';
+  size?: 'xsmall' | 'small' | 'normal' | 'large';
   variant?: 'filled' | 'outlined';
+  active?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
 };
 
 export type ChipActionResponsiveProps = ResponsiveProps<

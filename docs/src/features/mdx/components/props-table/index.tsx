@@ -46,7 +46,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                 <td>
                   <FlexBox alignItems="center" gap="4px">
                     <ContentBadge
-                      size="small"
+                      size="medium"
                       color="accent"
                       accentColor="palette.accent.lightBlue"
                     >
@@ -85,7 +85,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                   </Typography>
                 </td>
                 <td>
-                  <ContentBadge size="small" color="neutral">
+                  <ContentBadge size="medium" color="neutral">
                     {value.defaultValue?.toString() ?? '-'}
                   </ContentBadge>
                 </td>
@@ -119,7 +119,7 @@ const PropsTable = ({ component, fallback }: Props) => {
               <td>
                 <FlexBox alignItems="center" gap="4px">
                   <ContentBadge
-                    size="small"
+                    size="medium"
                     color="accent"
                     accentColor="palette.accent.lightBlue"
                   >
@@ -158,7 +158,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                 </Typography>
               </td>
               <td>
-                <ContentBadge size="small" color="neutral">
+                <ContentBadge size="medium" color="neutral">
                   {value.defaultValue?.value?.toString() ?? '-'}
                 </ContentBadge>
               </td>

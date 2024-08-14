@@ -1,0 +1,131 @@
+---
+title: ChipFilter
+description: ChipFilter Component
+---
+
+# ChipFilter
+
+필터 리스트에 사용합니다.
+
+## 활용
+
+- 일반적으로 칩을 누르면 화면이 이동해요.
+
+<Demo code={`import { ChipFilter } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ChipFilter>
+      Chip Action
+    </ChipFilter>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="ChipFilter" />
+
+## Example
+
+### Size
+
+<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px" alignItems="center">
+      <ChipFilter size="normal">Normal</ChipFilter>
+      <ChipFilter size="tiny">Tiny</ChipFilter>
+      <ChipFilter size="small">Small</ChipFilter>
+      <ChipFilter size="large">Large</ChipFilter>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Variant
+
+<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ChipFilter variant="outlined">
+        Outlined
+      </ChipFilter>
+      <ChipFilter variant="filled">
+        Filled
+      </ChipFilter>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Active
+
+<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ChipFilter variant="outlined" active>
+        Outlined
+      </ChipFilter>
+      <ChipFilter variant="filled" active>
+        Filled
+      </ChipFilter>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Disabled
+
+<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ChipFilter variant="outlined" disabled>
+        Outlined
+      </ChipFilter>
+      <ChipFilter variant="filled" disabled>
+        Filled
+      </ChipFilter>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### TextNumber
+
+여러가지 선택할 수 있는 필터의 적용된 개수를 보여줄 때 사용합니다.
+
+<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px" alignItems="center">
+      <ChipFilter textNumber={1} active>직군</ChipFilter>
+      <ChipFilter textNumber={3} active>직무</ChipFilter>
+      <ChipFilter textNumber={2} active>지역</ChipFilter>
+      <ChipFilter textNumber={2} active>태그</ChipFilter>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

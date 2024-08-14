@@ -2,7 +2,7 @@ import { createContext } from '@radix-ui/react-context';
 
 import { TAB_NAME } from './constants';
 
-import type { Dispatch, SetStateAction } from 'react';
+import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 export type TabContextType = {
   value?: string;
@@ -12,6 +12,7 @@ export type TabContextType = {
   onPanelsChange: Dispatch<SetStateAction<Array<string>>>;
   disableScrollMoveOnChange?: boolean;
   enableScrollMoveOnMount?: boolean;
+  containerViewportRef: RefObject<HTMLDivElement>;
 };
 
 export const [TabProvider, useTabContext] =

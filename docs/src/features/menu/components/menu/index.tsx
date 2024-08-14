@@ -68,11 +68,19 @@ const Menu = () => {
 
                     {page.stable && (
                       <ContentBadge
-                        size="xsmall"
                         color="accent"
                         accentColor="palette.status.positive"
                       >
                         Stable
+                      </ContentBadge>
+                    )}
+
+                    {page.deprecated && (
+                      <ContentBadge
+                        color="accent"
+                        accentColor="palette.status.negative"
+                      >
+                        Deprecated
                       </ContentBadge>
                     )}
                   </FlexBox>
