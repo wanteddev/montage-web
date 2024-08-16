@@ -1,5 +1,9 @@
-import type { Merge, PolymorphicProps } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { Merge, PolymorphicProps, SxProp } from '@wanteddev/wds-engine';
+import type {
+  ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
+  ReactNode,
+} from 'react';
 import type { FlexBox, Typography } from '..';
 import type { FlexBoxProps } from '../flex-box/types';
 
@@ -32,3 +36,7 @@ export type ListItemTextProps = Merge<
   ListItemTextDefaultProps,
   ComponentPropsWithoutRef<typeof Typography>
 >;
+
+export type ListChevronButtonProps = ComponentPropsWithRef<'button'> & {
+  sx?: SxProp;
+};

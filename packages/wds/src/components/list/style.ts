@@ -46,3 +46,7 @@ export const listCellDividerStyle = css`
   left: var(--wds-list-cell-border-radius);
   width: calc(100% - var(--wds-list-cell-border-radius) * 2);
 `;
+
+export const listChevronButtonStyle = css`
+  background-color: transparent;
+`;

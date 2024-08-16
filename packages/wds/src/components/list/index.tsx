@@ -6,17 +6,20 @@ import {
 } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
 
 import { Divider, FlexBox, Typography, WithInteraction } from '..';
 
 import {
   LIST_CELL_NAME,
+  LIST_CHEVRON_BUTTON_NAME,
   LIST_ITEM_NAME,
   LIST_ITEM_TEXT_NAME,
   LIST_NAME,
 } from './constants';
 import {
   listCellDividerStyle,
+  listChevronButtonStyle,
   listItemInCellStyle,
   listItemTextStyle,
   listStyle,
@@ -26,6 +29,7 @@ import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
+  ListChevronButtonProps,
   ListItemProps,
   ListItemTextProps,
   ListProps,
@@ -65,7 +69,7 @@ const ListItem = forwardRef(
     const composedRefs = useComposedRefs(ref, (node) => setItem(node as E));
 
     const controllable = (item as unknown as HTMLElement | null)?.querySelector(
-      '[role="checkbox"], [role="radio"], [type="button"]:not([role="switch"])',
+      '[role="checkbox"], [role="radio"], button:not([role="switch"])',
     );
 
     return (
@@ -111,6 +115,33 @@ const ListItem = forwardRef(
 ) as PolymorphicComponent<ListItemProps, 'li'>;
 
 ListItem.displayName = LIST_ITEM_NAME;
+
+const ListChevronButton = forwardRef<HTMLButtonElement, ListChevronButtonProps>(
+  ({ children, ...props }, ref) => {
+    return (
+      <FlexBox
+        as="button"
+        type="button"
+        alignItems="center"
+        gap="8px"
+        ref={ref}
+        {...props}
+        sx={[listChevronButtonStyle, props.sx]}
+      >
+        <Typography variant="body1_normal" color="palette.label.alternative">
+          {children}
+        </Typography>
+        <IconChevronRightTightSmall
+          sx={(theme) => ({
+            color: theme.palette.label.assistive,
+          })}
+        />
+      </FlexBox>
+    );
+  },
+) as PolymorphicComponent<ListChevronButtonProps, 'button'>;
+
+ListChevronButton.displayName = LIST_CHEVRON_BUTTON_NAME;
 
 const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
@@ -196,4 +227,4 @@ const ListItemText = forwardRef<HTMLSpanElement>(
 
 ListItemText.displayName = LIST_ITEM_TEXT_NAME;
 
-export { List, ListCell, ListItem, ListItemText };
+export { List, ListCell, ListItem, ListItemText, ListChevronButton };

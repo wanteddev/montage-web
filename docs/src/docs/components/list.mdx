@@ -28,9 +28,7 @@ description: List Component
 
 리스트를 감싸고 있으며 기본 `ul` 태그로 렌더링됩니다.
 
-`FlexBox`와 동일한 props를 확장하여 사용합니다.
-
-<PropsTable component="List" />
+`FlexBox`와 동일한 props를 사용합니다.
 
 ## ListItem
 
@@ -105,13 +103,13 @@ export default Demo;`}
 
 ### rightContent
 
-<Demo code={`import { List, ListItem, ListItemText, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListItemText, ListChevronButton, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconPlusThick, IconCheck } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
-      <ListItem>
+      <ListItem rightContent={<ListChevronButton>값</ListChevronButton>}>
         <ListItemText>텍스트</ListItemText>
       </ListItem>
       <ListItem
