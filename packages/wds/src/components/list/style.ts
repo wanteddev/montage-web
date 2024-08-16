@@ -10,15 +10,6 @@ export const listStyle = css`
   }
 `;
 
-export const listCellStyle = css`
-  border-radius: 12px;
-
-  [role='radio'] [wds-component='with-interaction'] {
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
-  }
-`;
-
 export const listItemTextStyle = css`
   & {
     display: flex;
@@ -30,7 +21,7 @@ export const listItemTextStyle = css`
 
 type ListItemBoxStyleProps = Pick<ListCellProps, 'paddingInset' | 'size'>;
 
-export const listItemBoxStyle = ({
+export const listItemInCellStyle = ({
   paddingInset,
   size = 'normal',
 }: ListItemBoxStyleProps) => {
@@ -42,6 +33,7 @@ export const listItemBoxStyle = ({
   }[size];
 
   return css`
+    border-radius: 12px;
     padding: ${verticalPadding}px ${sidePadding}px;
   `;
 };

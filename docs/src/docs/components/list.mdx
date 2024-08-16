@@ -68,18 +68,20 @@ export default Demo;`}
 
 #### RadioGroupItem
 
-<Demo code={`import { List, ListItem, ListItemText, RadioGroupItem } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListItemText, RadioGroupItem, RadioGroup } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <List gap="16px">
-      <ListItem leftContent={<RadioGroupItem value="man" />}>
-        <ListItemText>Man</ListItemText>
-      </ListItem>
-      <ListItem leftContent={<RadioGroupItem value="woman" />}>
+    <RadioGroup>
+      <List gap="16px">
+        <ListItem leftContent={<RadioGroupItem value="man" />}>
+          <ListItemText>Man</ListItemText>
+        </ListItem>
+        <ListItem leftContent={<RadioGroupItem value="woman" />}>
         <ListItemText>Woman</ListItemText>
-      </ListItem>
-    </List>
+        </ListItem>
+      </List>
+    </RadioGroup>
   )
 }
 
@@ -102,6 +104,41 @@ export default Demo;`}
 />
 
 ### rightContent
+
+## ListCell
+
+셀 형태를 가진 리스트로, ListItem에 인터렉션이 추가된 형태입니다.
+`Menu`, `Select` 등에서 사용합니다.
+
+<Demo code={`import { List, ListCell, ListItemText } from '@wanteddev/wds';
+import { IconPerson } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <List>
+      <ListCell>
+        <ListItemText>텍스트</ListItemText>
+      </ListCell>
+      <ListCell size="small">
+        <ListItemText caption="캡션">텍스트</ListItemText>
+      </ListCell>
+      <ListCell size="medium">
+        <ListItemText caption="캡션">텍스트</ListItemText>
+      </ListCell>
+      <ListCell paddingInset>
+        <ListItemText bold>텍스트</ListItemText>
+      </ListCell>
+      <ListCell divider>
+        <ListItemText active>텍스트</ListItemText>
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+<PropsTable component="ListCell" />
 
 ## ListItemText
 
@@ -139,5 +176,161 @@ export default Demo;`}
 
 <PropsTable component="ListItemText" />
 
-## ListCell
+## Form
 
+### ListCell + RadioGroup
+
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel sx={{ marginLeft: '12px' }}>성별</FormLabel>
+
+            <FormControl>
+              <RadioGroup {...field} onValueChange={field.onChange}>
+                <List>
+                  <ListCell
+                    as={FormField}
+                    leftContent={
+                      <FormControl>
+                        <RadioGroupItem value="man" />
+                      </FormControl>
+                    }
+                  >
+                    <ListItemText as={FormLabel}>Man</ListItemText>
+                  </ListCell>
+                  <ListCell
+                    as={FormField}  
+                    leftContent={
+                      <FormControl>
+                        <RadioGroupItem value="woman" />
+                      </FormControl>
+                    }
+                  >
+                    <ListItemText as={FormLabel}>Woman</ListItemText>
+                  </ListCell>
+                </List>
+              </RadioGroup>
+            </FormControl>
+
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### ListCell + Multiple Checkbox
+
+<Demo code={`import { useId } from 'react';
+import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListItemText } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const id = useId();
+  const form = useForm({
+    defaultValues: {
+      selected: [],
+    },
+  });
+
+  const items = [
+    {
+      id: "develop",
+      label: "개발",
+    },
+    {
+      id: "design",
+      label: "디자인",
+    },
+  ];
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel sx={{ marginLeft: '12px' }}>관심 분야</FormLabel>
+            <List>
+              {items.map((item) => (
+                <Controller
+                  key={item.id}
+                  control={form.control}
+                  name="selected"
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "필수 값입니다.",
+                    },
+                  }}
+                  render={({ field }) => (
+                    <ListCell
+                      as={FormField}
+                      flexDirection="row"
+                      alignItems="center"
+                    >
+                      <FormControl>
+                        <Checkbox
+                          {...field}
+                          checked={field.value.includes(item.id)}
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? field.onChange([...field.value, item.id])
+                              : field.onChange(
+                                  field.value.filter(
+                                    (value) => value !== item.id
+                                  )
+                                );
+                          }}
+                        />
+                      </FormControl>
+                      <ListItemText as={FormLabel}>{item.label}</ListItemText>
+                    </ListCell>
+                  )}
+                />
+              ))}
+            </List>
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  );
+};
+
+export default Demo;`}
+/>

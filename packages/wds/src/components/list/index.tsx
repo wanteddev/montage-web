@@ -1,6 +1,5 @@
 import { forwardRef, useState } from 'react';
 import {
-  Box,
   type PolymorphicComponent,
   type PolymorphicProps,
   type ThemeColorsToken,
@@ -16,12 +15,7 @@ import {
   LIST_ITEM_TEXT_NAME,
   LIST_NAME,
 } from './constants';
-import {
-  listCellStyle,
-  listItemBoxStyle,
-  listItemTextStyle,
-  listStyle,
-} from './style';
+import { listItemInCellStyle, listItemTextStyle, listStyle } from './style';
 
 import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type { TypographyWeight } from '../typography/types';
@@ -105,25 +99,22 @@ const ListItem = forwardRef(
 
 ListItem.displayName = LIST_ITEM_NAME;
 
-const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
-  ({ size = 'normal', paddingInset, listItemBox, ...props }, ref) => {
+const ListCell = forwardRef(
+  <E extends ElementType = 'li'>(
+    { size, paddingInset, ...props }: PolymorphicProps<ListCellProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
     return (
       <WithInteraction>
-        <Box ref={ref} role="listitem" sx={listCellStyle}>
-          <ListItem
-            as="div"
-            role={undefined}
-            {...props}
-            listItemBox={{
-              ...listItemBox,
-              sx: [listItemBox?.sx, listItemBoxStyle({ paddingInset, size })],
-            }}
-          />
-        </Box>
+        <ListItem
+          ref={ref}
+          {...props}
+          sx={[listItemInCellStyle({ size, paddingInset }), props.sx]}
+        />
       </WithInteraction>
     );
   },
-);
+) as PolymorphicComponent<ListCellProps>;
 
 ListCell.displayName = LIST_CELL_NAME;
 
