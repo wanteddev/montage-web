@@ -23,7 +23,7 @@ import {
   listStyle,
 } from './style';
 
-import type { ForwardedRef } from 'react';
+import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
@@ -47,19 +47,19 @@ const List = forwardRef(
       </FlexBox>
     );
   },
-) as PolymorphicComponent<ListProps, 'ul'>;
+);
 
 List.displayName = LIST_NAME;
 
-const ListItem = forwardRef<HTMLLIElement>(
-  (
-    { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps>,
-    ref,
+const ListItem = forwardRef(
+  <E extends ElementType = 'li'>(
+    { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const [item, setItem] = useState<HTMLLIElement | null>(null);
-    const composedRefs = useComposedRefs(ref, (node) => setItem(node));
+    const [item, setItem] = useState<E | null>(null);
+    const composedRefs = useComposedRefs(ref, (node) => setItem(node as E));
 
-    const controllable = item?.querySelector<HTMLElement>(
+    const controllable = (item as unknown as HTMLElement | null)?.querySelector(
       '[role="checkbox"], [role="radio"]',
     );
 
@@ -73,7 +73,7 @@ const ListItem = forwardRef<HTMLLIElement>(
         justifyContent="flex-start"
         alignItems="center"
         {...props}
-        onClick={composeEventHandlers(props.onClick, (e) => {
+        onClick={composeEventHandlers(props.onClick, (e: MouseEvent<E>) => {
           if (
             (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
             (e.target as HTMLElement).hidden.toString() === 'true'
@@ -82,8 +82,8 @@ const ListItem = forwardRef<HTMLLIElement>(
           }
 
           if (controllable) {
-            controllable.click();
-            controllable.focus();
+            (controllable as HTMLElement).click();
+            (controllable as HTMLElement).focus();
           }
         })}
         sx={[
@@ -106,10 +106,10 @@ const ListItem = forwardRef<HTMLLIElement>(
 ListItem.displayName = LIST_ITEM_NAME;
 
 const ListCell = forwardRef<HTMLDivElement, ListCellProps>(
-  ({ size = 'normal', paddingInset, listItemBox, ...props }, forwardedRef) => {
+  ({ size = 'normal', paddingInset, listItemBox, ...props }, ref) => {
     return (
       <WithInteraction>
-        <Box ref={forwardedRef} sx={listCellStyle} role="listitem">
+        <Box ref={ref} role="listitem" sx={listCellStyle}>
           <ListItem
             as="div"
             role={undefined}

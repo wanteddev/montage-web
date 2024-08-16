@@ -1,15 +1,14 @@
 import type { Merge, PolymorphicProps } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, ReactElement, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { FlexBox, Typography } from '..';
 import type { FlexBoxProps } from '../flex-box/types';
 
 type FlexBoxWithoutRefProps = ComponentPropsWithoutRef<typeof FlexBox>;
 
-export type ListProps = PolymorphicProps<FlexBoxProps, 'ul'>;
+export type ListProps = Omit<PolymorphicProps<FlexBoxProps, 'ul'>, 'as'>;
 
 export type ListItemDefaultProps = {
-  variant?: 'normal' | 'action';
-  leftContent?: ReactElement;
+  leftContent?: ReactNode;
   rightContent?: ReactNode;
   listItemBox?: PolymorphicProps<FlexBoxProps, 'div'>;
 };
