@@ -52,14 +52,20 @@ List.displayName = LIST_NAME;
 
 const ListItem = forwardRef(
   <E extends ElementType = 'li'>(
-    { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps, E>,
+    {
+      as,
+      leftContent,
+      rightContent,
+      children,
+      ...props
+    }: PolymorphicProps<ListItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const [item, setItem] = useState<E | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setItem(node as E));
 
     const controllable = (item as unknown as HTMLElement | null)?.querySelector(
-      '[role="checkbox"], [role="radio"]',
+      '[role="checkbox"], [role="radio"], [type="button"]:not([role="switch"])',
     );
 
     return (
@@ -69,13 +75,14 @@ const ListItem = forwardRef(
         ref={composedRefs}
         flexDirection="row"
         gap="10px"
-        justifyContent="flex-start"
+        justifyContent={Boolean(rightContent) ? 'space-between' : 'flex-start'}
         alignItems="center"
         {...props}
         onClick={composeEventHandlers(props.onClick, (e: MouseEvent<E>) => {
           if (
             (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
-            (e.target as HTMLElement).hidden.toString() === 'true'
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            (e.target as HTMLElement).hidden?.toString() === 'true'
           ) {
             return;
           }
@@ -97,6 +104,7 @@ const ListItem = forwardRef(
       >
         {Boolean(leftContent) && leftContent}
         {children}
+        {Boolean(rightContent) && rightContent}
       </FlexBox>
     );
   },

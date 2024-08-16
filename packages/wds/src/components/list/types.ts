@@ -10,7 +10,6 @@ export type ListProps = Omit<PolymorphicProps<FlexBoxProps, 'ul'>, 'as'>;
 export type ListItemDefaultProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
-  listItemBox?: PolymorphicProps<FlexBoxProps, 'div'>;
 };
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
 

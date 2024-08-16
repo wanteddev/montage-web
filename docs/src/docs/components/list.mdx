@@ -105,6 +105,52 @@ export default Demo;`}
 
 ### rightContent
 
+<Demo code={`import { List, ListItem, ListItemText, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+import { IconPlusThick, IconCheck } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <List gap="16px">
+      <ListItem>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem
+        rightContent={
+          <IconButton>
+            <IconPlusThick />
+          </IconButton>
+        }
+      >
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem
+        rightContent={
+          <IconCheck
+            sx={(theme) => ({
+              fontSize: '24px',
+              color: theme.palette.primary.normal
+            })}
+          />
+        }
+      >
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem rightContent={<TextButton size="small" variant="assistive">버튼</TextButton>}>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem rightContent={<Switch />}>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+      <ListItem rightContent={<ContentBadge color="neutral">뱃지</ContentBadge>}>
+        <ListItemText>텍스트</ListItemText>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## ListCell
 
 셀 형태를 가진 리스트로, ListItem에 인터렉션이 추가된 형태입니다.
@@ -334,3 +380,5 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+### ListCell + Switch
