@@ -7,7 +7,7 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
-import { FlexBox, Typography, WithInteraction } from '..';
+import { Divider, FlexBox, Typography, WithInteraction } from '..';
 
 import {
   LIST_CELL_NAME,
@@ -15,7 +15,12 @@ import {
   LIST_ITEM_TEXT_NAME,
   LIST_NAME,
 } from './constants';
-import { listItemInCellStyle, listItemTextStyle, listStyle } from './style';
+import {
+  listCellDividerStyle,
+  listItemInCellStyle,
+  listItemTextStyle,
+  listStyle,
+} from './style';
 
 import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type { TypographyWeight } from '../typography/types';
@@ -101,7 +106,13 @@ ListItem.displayName = LIST_ITEM_NAME;
 
 const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
-    { size, paddingInset, ...props }: PolymorphicProps<ListCellProps, E>,
+    {
+      size,
+      paddingInset,
+      divider,
+      children,
+      ...props
+    }: PolymorphicProps<ListCellProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
@@ -110,7 +121,10 @@ const ListCell = forwardRef(
           ref={ref}
           {...props}
           sx={[listItemInCellStyle({ size, paddingInset }), props.sx]}
-        />
+        >
+          {children}
+          {divider && <Divider sx={listCellDividerStyle} />}
+        </ListItem>
       </WithInteraction>
     );
   },
