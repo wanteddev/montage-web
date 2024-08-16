@@ -1,11 +1,12 @@
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { cloneElement, forwardRef, useMemo, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import {
   Box,
   type PolymorphicComponent,
   type PolymorphicProps,
   type ThemeColorsToken,
 } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
 import { FlexBox, Typography, WithInteraction } from '..';
 
@@ -22,6 +23,7 @@ import {
   listStyle,
 } from './style';
 
+import type { ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
@@ -30,13 +32,14 @@ import type {
   ListProps,
 } from './types';
 
-const List = forwardRef<HTMLUListElement, Omit<ListProps, 'as'>>(
-  ({ children, ...props }, ref) => {
+const List = forwardRef(
+  ({ children, ...props }: ListProps, ref: ForwardedRef<HTMLUListElement>) => {
     return (
       <FlexBox
         as="ul"
         ref={ref}
         role="list"
+        flexDirection="column"
         sx={[listStyle, props.sx]}
         {...props}
       >
@@ -44,50 +47,56 @@ const List = forwardRef<HTMLUListElement, Omit<ListProps, 'as'>>(
       </FlexBox>
     );
   },
-);
+) as PolymorphicComponent<ListProps, 'ul'>;
 
 List.displayName = LIST_NAME;
 
 const ListItem = forwardRef<HTMLLIElement>(
   (
     { as, leftContent, children, ...props }: PolymorphicProps<ListItemProps>,
-    forwardedRef,
+    ref,
   ) => {
     const [item, setItem] = useState<HTMLLIElement | null>(null);
-    const composedRefs = useComposedRefs(forwardedRef, (node) => setItem(node));
+    const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
-    const hasControlContent =
-      item?.role === 'radio' || item?.role === 'checkbox';
-
-    const leftContentComponent = useMemo(() => {
-      if (!leftContent) {
-        return null;
-      }
-      return cloneElement(leftContent, {
-        ref: composedRefs,
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [item]);
+    const controllable = item?.querySelector<HTMLElement>(
+      '[role="checkbox"], [role="radio"]',
+    );
 
     return (
       <FlexBox
         as={as || 'li'}
         role="listitem"
+        ref={composedRefs}
         flexDirection="row"
         gap="10px"
         justifyContent="flex-start"
         alignItems="center"
         {...props}
+        onClick={composeEventHandlers(props.onClick, (e) => {
+          if (
+            (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
+            (e.target as HTMLElement).hidden.toString() === 'true'
+          ) {
+            return;
+          }
+
+          if (controllable) {
+            controllable.click();
+            controllable.focus();
+          }
+        })}
         sx={[
           {
             width: '100%',
-            cursor: hasControlContent ? 'pointer' : 'initial',
-            zIndex: 1,
+            cursor: Boolean(props.onClick || controllable)
+              ? 'pointer'
+              : 'initial',
           },
           props.sx,
         ]}
       >
-        {Boolean(leftContentComponent) && leftContentComponent}
+        {Boolean(leftContent) && leftContent}
         {children}
       </FlexBox>
     );
