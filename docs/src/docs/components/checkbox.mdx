@@ -102,12 +102,10 @@ export default Demo;`}
 
 ### Multiple Checkbox
 
-<Demo code={`import { useId } from 'react';
-import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
-  const id = useId();
   const form = useForm({
     defaultValues: {
       selected: [],

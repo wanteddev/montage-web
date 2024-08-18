@@ -14,15 +14,15 @@ import {
   LIST_CELL_NAME,
   LIST_CHEVRON_BUTTON_NAME,
   LIST_ITEM_NAME,
-  LIST_ITEM_TEXT_NAME,
   LIST_NAME,
+  LIST_TEXT_NAME,
 } from './constants';
 import {
   listCellDividerStyle,
   listChevronButtonStyle,
   listItemInCellStyle,
-  listItemTextStyle,
   listStyle,
+  listTextStyle,
 } from './style';
 
 import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
@@ -31,8 +31,8 @@ import type {
   ListCellProps,
   ListChevronButtonProps,
   ListItemProps,
-  ListItemTextProps,
   ListProps,
+  ListTextProps,
 } from './types';
 
 const List = forwardRef(
@@ -171,8 +171,8 @@ const ListCell = forwardRef(
 
 ListCell.displayName = LIST_CELL_NAME;
 
-const ListItemText = forwardRef<HTMLSpanElement>(
-  (
+const ListText = forwardRef(
+  <E extends ElementType = 'span'>(
     {
       caption,
       bold = false,
@@ -181,8 +181,8 @@ const ListItemText = forwardRef<HTMLSpanElement>(
       sx,
       children,
       ...props
-    }: PolymorphicProps<ListItemTextProps>,
-    forwardedRef,
+    }: PolymorphicProps<ListTextProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     if (!children) {
       return null;
@@ -203,12 +203,12 @@ const ListItemText = forwardRef<HTMLSpanElement>(
 
     return (
       <Typography
-        ref={forwardedRef}
+        {...props}
+        ref={ref}
         variant="body1_normal"
         color={getColor('palette.label.normal')}
         weight={weight}
-        {...props}
-        sx={[listItemTextStyle, sx]}
+        sx={[listTextStyle, sx]}
       >
         {children}
         {Boolean(caption) && (
@@ -223,8 +223,8 @@ const ListItemText = forwardRef<HTMLSpanElement>(
       </Typography>
     );
   },
-) as PolymorphicComponent<ListItemTextProps, 'span'>;
+) as PolymorphicComponent<ListTextProps, 'span'>;
 
-ListItemText.displayName = LIST_ITEM_TEXT_NAME;
+ListText.displayName = LIST_TEXT_NAME;
 
-export { List, ListCell, ListItem, ListItemText, ListChevronButton };
+export { List, ListCell, ListItem, ListText, ListChevronButton };

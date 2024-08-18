@@ -7,8 +7,6 @@ description: List Component
 
 인터랙션이 가능한 리스트입니다.
 
-## 활용
-
 ## Components
 
 아래와 같이 조합하여 사용합니다.
@@ -16,38 +14,38 @@ description: List Component
 ```tsx
 <List>
   <ListItem>
-    <ListItemText>단일 리스트</ListItemText>
+    <ListText>단일 리스트</ListText>
   </ListItem>
   <ListCell>
-    <ListItemText>셀 리스트</ListItemText>
+    <ListText>셀 리스트</ListText>
   </ListCell>
 </List>
 ```
 
 ## List
 
-리스트를 감싸고 있으며 기본 `ul` 태그로 렌더링됩니다.
-
-`FlexBox`와 동일한 props를 사용합니다.
+- 리스트를 감싸고 있으며 `ul` 태그로 렌더링됩니다.
+- `FlexBox`와 동일한 props를 사용합니다.
 
 ## ListItem
 
-단일 형태를 가진 리스트입니다.
+- 단일 형태를 가진 리스트입니다.
+- leftContent, rightContent를 사용하여 요소를 추가합니다.
 
-<Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
       <ListItem>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem>
-        <ListItemText active>텍스트</ListItemText>
+        <ListText bold>텍스트</ListText>
       </ListItem>
       <ListItem leftContent={<IconPerson />}>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
     </List>
   )
@@ -62,21 +60,19 @@ export default Demo;`}
 
 ### leftContent
 
-`leftContent` props에 icon, radio, checkbox 등을 전달합니다.
-
 #### RadioGroupItem
 
-<Demo code={`import { List, ListItem, ListItemText, RadioGroupItem, RadioGroup } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText, RadioGroupItem, RadioGroup } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <RadioGroup>
       <List gap="16px">
         <ListItem leftContent={<RadioGroupItem value="man" />}>
-          <ListItemText>Man</ListItemText>
+          <ListText>Man</ListText>
         </ListItem>
         <ListItem leftContent={<RadioGroupItem value="woman" />}>
-        <ListItemText>Woman</ListItemText>
+          <ListText>Woman</ListText>
         </ListItem>
       </List>
     </RadioGroup>
@@ -88,13 +84,18 @@ export default Demo;`}
 
 #### Checkbox
 
-<Demo code={`import { Checkbox, ListItem, ListItemText } from '@wanteddev/wds';
+<Demo code={`import { List, Checkbox, ListItem, ListText } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ListItem leftContent={<Checkbox />}>
-      <ListItemText>Label</ListItemText>
-    </ListItem>
+    <List gap="16px">
+      <ListItem leftContent={<Checkbox />}>
+        <ListText>Man</ListText>
+      </ListItem>
+      <ListItem leftContent={<Checkbox />}>
+        <ListText>Woman</ListText>
+      </ListItem>
+    </List>
   )
 }
 
@@ -103,14 +104,14 @@ export default Demo;`}
 
 ### rightContent
 
-<Demo code={`import { List, ListItem, ListItemText, ListChevronButton, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText, ListChevronButton, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconPlusThick, IconCheck } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
       <ListItem rightContent={<ListChevronButton>값</ListChevronButton>}>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem
         rightContent={
@@ -119,7 +120,7 @@ const Demo = () => {
           </IconButton>
         }
       >
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem
         rightContent={
@@ -131,16 +132,16 @@ const Demo = () => {
           />
         }
       >
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem rightContent={<TextButton size="small" variant="assistive">버튼</TextButton>}>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem rightContent={<Switch />}>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem rightContent={<ContentBadge color="neutral">뱃지</ContentBadge>}>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
     </List>
   )
@@ -151,29 +152,29 @@ export default Demo;`}
 
 ## ListCell
 
-셀 형태를 가진 리스트로, ListItem에 인터렉션이 추가된 형태입니다.
-`Menu`, `Select` 등에서 사용합니다.
+- 셀 형태를 가진 리스트로, ListItem에 인터렉션이 추가된 형태입니다.
+- `Menu`, `Select` 등에서 사용합니다.
 
-<Demo code={`import { List, ListCell, ListItemText } from '@wanteddev/wds';
+<Demo code={`import { List, ListCell, ListText } from '@wanteddev/wds';
 import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List>
-      <ListCell>
-        <ListItemText>텍스트</ListItemText>
+      <ListCell onClick={() => alert('클릭')}>
+        <ListText>텍스트</ListText>
       </ListCell>
       <ListCell size="small">
-        <ListItemText caption="캡션">텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListCell>
       <ListCell size="medium">
-        <ListItemText caption="캡션">텍스트</ListItemText>
-      </ListCell>
-      <ListCell paddingInset>
-        <ListItemText bold>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListCell>
       <ListCell divider>
-        <ListItemText active>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell paddingInset>
+        <ListText>텍스트</ListText>
       </ListCell>
     </List>
   )
@@ -184,30 +185,30 @@ export default Demo;`}
 
 <PropsTable component="ListCell" />
 
-## ListItemText
+## ListText
 
 리스트에서 사용하는 타이포 컴포넌트입니다.
 
-<Demo code={`import { List, ListItem, ListItemText } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
       <ListItem>
-        <ListItemText>텍스트</ListItemText>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem>
-        <ListItemText caption="캡션">텍스트</ListItemText>
+        <ListText caption="캡션">텍스트</ListText>
       </ListItem>
       <ListItem>
-        <ListItemText bold>텍스트</ListItemText>
+        <ListText bold caption="캡션">텍스트</ListText>
       </ListItem>
       <ListItem>
-        <ListItemText active>텍스트</ListItemText>
+        <ListText active caption="캡션">텍스트</ListText>
       </ListItem>
       <ListItem>
-        <ListItemText disabled>텍스트</ListItemText>
+        <ListText disabled caption="캡션">텍스트</ListText>
       </ListItem>
     </List>
   )
@@ -218,13 +219,13 @@ export default Demo;`}
 
 `Typography`의 props를 확장하여 사용합니다.
 
-<PropsTable component="ListItemText" />
+<PropsTable component="ListText" />
 
 ## Form
 
 ### ListCell + RadioGroup
 
-<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListItemText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -261,7 +262,7 @@ const Demo = () => {
                       </FormControl>
                     }
                   >
-                    <ListItemText as={FormLabel}>Man</ListItemText>
+                    <ListText as={FormLabel}>Man</ListText>
                   </ListCell>
                   <ListCell
                     as={FormField}  
@@ -271,7 +272,7 @@ const Demo = () => {
                       </FormControl>
                     }
                   >
-                    <ListItemText as={FormLabel}>Woman</ListItemText>
+                    <ListText as={FormLabel}>Woman</ListText>
                   </ListCell>
                 </List>
               </RadioGroup>
@@ -292,12 +293,10 @@ export default Demo;`}
 
 ### ListCell + Multiple Checkbox
 
-<Demo code={`import { useId } from 'react';
-import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListItemText } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListText } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
-  const id = useId();
   const form = useForm({
     defaultValues: {
       selected: [],
@@ -328,6 +327,7 @@ const Demo = () => {
         render={({ formState }) => (
           <FormField>
             <FormLabel sx={{ marginLeft: '12px' }}>관심 분야</FormLabel>
+
             <List>
               {items.map((item) => (
                 <Controller
@@ -345,28 +345,31 @@ const Demo = () => {
                       as={FormField}
                       flexDirection="row"
                       alignItems="center"
+                      leftContent={
+                        <FormControl>
+                          <Checkbox
+                            {...field}
+                            checked={field.value.includes(item.id)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.id])
+                                : field.onChange(
+                                    field.value.filter(
+                                      (value) => value !== item.id
+                                    )
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                      }
                     >
-                      <FormControl>
-                        <Checkbox
-                          {...field}
-                          checked={field.value.includes(item.id)}
-                          onCheckedChange={(checked) => {
-                            return checked
-                              ? field.onChange([...field.value, item.id])
-                              : field.onChange(
-                                  field.value.filter(
-                                    (value) => value !== item.id
-                                  )
-                                );
-                          }}
-                        />
-                      </FormControl>
-                      <ListItemText as={FormLabel}>{item.label}</ListItemText>
+                      <ListText as={FormLabel}>{item.label}</ListText>
                     </ListCell>
                   )}
                 />
               ))}
             </List>
+
             <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
           </FormField>
         )}
@@ -380,3 +383,67 @@ export default Demo;`}
 />
 
 ### ListCell + Switch
+
+<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <List>
+        <Controller
+          control={form.control}
+          name="notification"
+          render={({ field, formState }) => (
+            <ListCell
+              as={FormField}
+              rightContent={
+                <FormControl>
+                  <Switch
+                    {...field}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              }
+            >
+              <ListText as={FormLabel}>알림 받기</ListText>
+            </ListCell>
+          )}
+        />
+        <Controller
+          control={form.control}
+          name="darkMode"
+          render={({ field, formState }) => (
+            <ListCell
+              as={FormField}
+              rightContent={
+                <FormControl>
+                  <Switch
+                    {...field}
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              }
+            >
+              <ListText as={FormLabel}>다크 모드</ListText>
+            </ListCell>
+          )}
+        />
+      </List>
+      
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

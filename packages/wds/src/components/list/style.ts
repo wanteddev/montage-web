@@ -12,7 +12,7 @@ export const listStyle = css`
   }
 `;
 
-export const listItemTextStyle = css`
+export const listTextStyle = css`
   & {
     display: flex;
     flex-direction: column;

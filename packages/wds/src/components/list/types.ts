@@ -26,14 +26,14 @@ export type ListCellProps = ListItemProps &
   ListCellDefaultProps &
   FlexBoxWithoutRefProps;
 
-export type ListItemTextDefaultProps = {
+export type ListTextDefaultProps = {
   caption?: ReactNode;
   bold?: boolean;
   active?: boolean;
   disabled?: boolean;
 };
-export type ListItemTextProps = Merge<
-  ListItemTextDefaultProps,
+export type ListTextProps = Merge<
+  ListTextDefaultProps,
   ComponentPropsWithoutRef<typeof Typography>
 >;
 
