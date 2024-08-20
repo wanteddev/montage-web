@@ -14,6 +14,8 @@ export type ListProps = Omit<PolymorphicProps<FlexBoxProps, 'ul'>, 'as'>;
 export type ListItemDefaultProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
+  active?: boolean;
+  disabled?: boolean;
 };
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
 
@@ -29,8 +31,6 @@ export type ListCellProps = ListItemProps &
 export type ListTextDefaultProps = {
   caption?: ReactNode;
   bold?: boolean;
-  active?: boolean;
-  disabled?: boolean;
 };
 export type ListTextProps = Merge<
   ListTextDefaultProps,

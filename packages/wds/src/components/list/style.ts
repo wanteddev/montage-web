@@ -1,8 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import type { ListCellProps } from './types';
+import type { Theme } from '@wanteddev/wds-engine';
+import type { ListCellProps, ListItemProps } from './types';
 
-type ListItemBoxStyleProps = Pick<ListCellProps, 'padding' | 'paddingInset'>;
+type ListItemStyleProps = Pick<ListItemProps, 'active' | 'disabled'>;
+type ListItemInCellProps = Pick<ListCellProps, 'padding' | 'paddingInset'>;
 
 export const listStyle = css`
   && {
@@ -11,6 +13,24 @@ export const listStyle = css`
     padding: 0;
   }
 `;
+
+export const listItemStyle =
+  ({
+    active,
+    disabled,
+    clickable,
+  }: ListItemStyleProps & {
+    clickable: boolean;
+  }) =>
+  (theme: Theme) => css`
+    width: 100%;
+    color: ${disabled
+      ? theme.palette.label.disable
+      : active
+        ? theme.palette.primary.normal
+        : theme.palette.label.normal};
+    cursor: ${clickable ? 'pointer' : 'initial'};
+  `;
 
 export const listTextStyle = css`
   & {
@@ -24,7 +44,7 @@ export const listTextStyle = css`
 export const listItemInCellStyle = ({
   paddingInset,
   padding = 'normal',
-}: ListItemBoxStyleProps) => {
+}: ListItemInCellProps) => {
   const sidePadding = paddingInset ? 20 : 12;
   const verticalPadding = {
     normal: 12,
@@ -34,7 +54,6 @@ export const listItemInCellStyle = ({
 
   return css`
     --wds-list-cell-border-radius: 12px;
-
     padding: ${verticalPadding}px ${sidePadding}px;
     border-radius: var(--wds-list-cell-border-radius);
   `;

@@ -41,8 +41,11 @@ const Demo = () => {
       <ListItem>
         <ListText>텍스트</ListText>
       </ListItem>
-      <ListItem>
-        <ListText bold>텍스트</ListText>
+      <ListItem active>
+        <ListText>텍스트</ListText>
+      </ListItem>
+      <ListItem disabled>
+        <ListText>텍스트</ListText>
       </ListItem>
       <ListItem leftContent={<IconPerson />}>
         <ListText>텍스트</ListText>
@@ -164,10 +167,16 @@ const Demo = () => {
       <ListCell onClick={() => alert('클릭')}>
         <ListText>텍스트</ListText>
       </ListCell>
-      <ListCell size="small">
+      <ListCell padding="small">
         <ListText>텍스트</ListText>
       </ListCell>
-      <ListCell size="medium">
+      <ListCell padding="medium">
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell active>
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell disabled>
         <ListText>텍스트</ListText>
       </ListCell>
       <ListCell divider>
@@ -203,12 +212,6 @@ const Demo = () => {
       </ListItem>
       <ListItem>
         <ListText bold caption="캡션">텍스트</ListText>
-      </ListItem>
-      <ListItem>
-        <ListText active caption="캡션">텍스트</ListText>
-      </ListItem>
-      <ListItem>
-        <ListText disabled caption="캡션">텍스트</ListText>
       </ListItem>
     </List>
   )

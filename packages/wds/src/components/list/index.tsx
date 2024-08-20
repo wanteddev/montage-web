@@ -21,9 +21,11 @@ import {
   listCellDividerStyle,
   listChevronButtonStyle,
   listItemInCellStyle,
+  listItemStyle,
   listStyle,
   listTextStyle,
 } from './style';
+import { ListItemProvider, useListItemContext } from './contexts';
 
 import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type { TypographyWeight } from '../typography/types';
@@ -60,6 +62,8 @@ const ListItem = forwardRef(
       as,
       leftContent,
       rightContent,
+      active = false,
+      disabled = false,
       children,
       ...props
     }: PolymorphicProps<ListItemProps, E>,
@@ -71,45 +75,48 @@ const ListItem = forwardRef(
     const controllable = (item as unknown as HTMLElement | null)?.querySelector(
       '[role="checkbox"], [role="radio"], button:not([role="switch"])',
     );
+    const clickable = Boolean(props.onClick || controllable) && !disabled;
 
     return (
-      <FlexBox
-        as={as || 'li'}
-        role="listitem"
-        ref={composedRefs}
-        flexDirection="row"
-        gap="10px"
-        justifyContent={Boolean(rightContent) ? 'space-between' : 'flex-start'}
-        alignItems="center"
-        {...props}
-        onClick={composeEventHandlers(props.onClick, (e: MouseEvent<E>) => {
-          if (
-            (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
-            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            (e.target as HTMLElement).hidden?.toString() === 'true'
-          ) {
-            return;
+      <ListItemProvider active={active} disabled={disabled}>
+        <FlexBox
+          as={as || 'li'}
+          role="listitem"
+          ref={composedRefs}
+          flexDirection="row"
+          gap="10px"
+          justifyContent={
+            Boolean(rightContent) ? 'space-between' : 'flex-start'
           }
+          alignItems="center"
+          {...props}
+          onClick={
+            clickable
+              ? composeEventHandlers(props.onClick, (e: MouseEvent<E>) => {
+                  if (
+                    (e.target as HTMLElement).ariaHidden?.toString() ===
+                      'true' ||
+                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                    (e.target as HTMLElement).hidden?.toString() === 'true'
+                  ) {
+                    return;
+                  }
 
-          if (controllable) {
-            (controllable as HTMLElement).click();
-            (controllable as HTMLElement).focus();
+                  if (controllable) {
+                    (controllable as HTMLElement).click();
+                    (controllable as HTMLElement).focus();
+                  }
+                })
+              : undefined
           }
-        })}
-        sx={[
-          {
-            width: '100%',
-            cursor: Boolean(props.onClick || controllable)
-              ? 'pointer'
-              : 'initial',
-          },
-          props.sx,
-        ]}
-      >
-        {Boolean(leftContent) && leftContent}
-        {children}
-        {Boolean(rightContent) && rightContent}
-      </FlexBox>
+          sx={[listItemStyle({ active, disabled, clickable }), props.sx]}
+          aria-disabled={disabled}
+        >
+          {Boolean(leftContent) && leftContent}
+          {children}
+          {Boolean(rightContent) && rightContent}
+        </FlexBox>
+      </ListItemProvider>
     );
   },
 ) as PolymorphicComponent<ListItemProps, 'li'>;
@@ -155,7 +162,7 @@ const ListCell = forwardRef(
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
-      <WithInteraction>
+      <WithInteraction disabled={props.disabled}>
         <ListItem
           ref={ref}
           role="button"
@@ -177,14 +184,14 @@ const ListText = forwardRef(
     {
       caption,
       bold = false,
-      active = false,
-      disabled = false,
       sx,
       children,
       ...props
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
+    const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
+
     if (!children) {
       return null;
     }
