@@ -2,7 +2,7 @@ import { css } from '@wanteddev/wds-engine';
 
 import type { ListCellProps } from './types';
 
-type ListItemBoxStyleProps = Pick<ListCellProps, 'paddingInset' | 'size'>;
+type ListItemBoxStyleProps = Pick<ListCellProps, 'padding' | 'paddingInset'>;
 
 export const listStyle = css`
   && {
@@ -23,14 +23,14 @@ export const listTextStyle = css`
 
 export const listItemInCellStyle = ({
   paddingInset,
-  size = 'normal',
+  padding = 'normal',
 }: ListItemBoxStyleProps) => {
   const sidePadding = paddingInset ? 20 : 12;
   const verticalPadding = {
     normal: 12,
     small: 8,
     medium: 16,
-  }[size];
+  }[padding];
 
   return css`
     --wds-list-cell-border-radius: 12px;

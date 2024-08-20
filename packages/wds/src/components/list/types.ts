@@ -18,7 +18,7 @@ export type ListItemDefaultProps = {
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
 
 export type ListCellDefaultProps = {
-  size?: 'normal' | 'small' | 'medium';
+  padding?: 'normal' | 'small' | 'medium';
   paddingInset?: boolean;
   divider?: boolean;
 };

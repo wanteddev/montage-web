@@ -146,7 +146,7 @@ ListChevronButton.displayName = LIST_CHEVRON_BUTTON_NAME;
 const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
-      size,
+      padding,
       paddingInset,
       divider,
       children,
@@ -158,8 +158,9 @@ const ListCell = forwardRef(
       <WithInteraction>
         <ListItem
           ref={ref}
+          role="button"
           {...props}
-          sx={[listItemInCellStyle({ size, paddingInset }), props.sx]}
+          sx={[listItemInCellStyle({ padding, paddingInset }), props.sx]}
         >
           {children}
           {divider && <Divider sx={listCellDividerStyle} />}
@@ -167,7 +168,7 @@ const ListCell = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<ListCellProps>;
+) as PolymorphicComponent<ListCellProps, 'li'>;
 
 ListCell.displayName = LIST_CELL_NAME;
 
