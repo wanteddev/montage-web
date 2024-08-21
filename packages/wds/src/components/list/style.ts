@@ -29,7 +29,8 @@ export const listItemStyle =
       : active
         ? theme.palette.primary.normal
         : theme.palette.label.normal};
-    cursor: ${clickable ? 'pointer' : 'initial'};
+    pointer-events: ${disabled ? 'none' : 'initial'};
+    cursor: ${disabled ? 'not-allowed' : clickable ? 'pointer' : 'initial'};
   `;
 
 export const listTextStyle = css`
@@ -68,4 +69,10 @@ export const listCellDividerStyle = css`
 
 export const listChevronButtonStyle = css`
   background-color: transparent;
+`;
+
+export const listItemContentStyle = css`
+  flex-shrink: 0;
+  width: fit-content;
+  height: fit-content;
 `;

@@ -1,4 +1,10 @@
-import type { Merge, PolymorphicProps, SxProp } from '@wanteddev/wds-engine';
+import type { Slot } from '@radix-ui/react-slot';
+import type {
+  DefaultComponentProps,
+  Merge,
+  PolymorphicProps,
+  SxProp,
+} from '@wanteddev/wds-engine';
 import type {
   ComponentPropsWithRef,
   ComponentPropsWithoutRef,
@@ -18,6 +24,27 @@ export type ListItemDefaultProps = {
   disabled?: boolean;
 };
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
+
+export type ListItemContentDefaultProps = {
+  variant?:
+    | 'icon'
+    | 'radio'
+    | 'checkbox'
+    | 'chevron'
+    | 'icon-button'
+    | 'button'
+    | 'switch'
+    | 'badge'
+    | 'custom';
+};
+export type ListItemContentProps = Merge<
+  ListItemContentDefaultProps,
+  FlexBoxWithoutRefProps
+>;
+export type ListItemContentSlotProps = DefaultComponentProps<
+  Omit<ListItemContentDefaultProps, 'variant'> & { disabled?: boolean },
+  typeof Slot
+>;
 
 export type ListCellDefaultProps = {
   padding?: 'normal' | 'small' | 'medium';

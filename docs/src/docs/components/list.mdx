@@ -30,10 +30,10 @@ description: List Component
 ## ListItem
 
 - 단일 형태를 가진 리스트입니다.
-- leftContent, rightContent를 사용하여 요소를 추가합니다.
+- leftContent, rightContent에 요소를 추가할 때는 `ListItemContent` 를 이용해주세요.
 
-<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
-import { IconPerson } from '@wanteddev/wds-icon';
+<Demo code={`import { List, ListItem, ListItemContent, ListText } from '@wanteddev/wds';
+import { IconApps } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -47,7 +47,13 @@ const Demo = () => {
       <ListItem disabled>
         <ListText>텍스트</ListText>
       </ListItem>
-      <ListItem leftContent={<IconPerson />}>
+      <ListItem
+        leftContent={
+          <ListItemContent variant="icon">
+            <IconApps />
+          </ListItemContent>
+        }
+      >
         <ListText>텍스트</ListText>
       </ListItem>
     </List>
@@ -61,20 +67,64 @@ export default Demo;`}
 
 <PropsTable component="ListItem" />
 
-### leftContent
+### Examples
 
-#### RadioGroupItem
+- leftContent, rightContent에 radio, checkbox, switch 요소를 추가할 때 `ListText` 컴포넌트는 `Label`로 렌더링 됩니다.
 
-<Demo code={`import { List, ListItem, ListText, RadioGroupItem, RadioGroup } from '@wanteddev/wds';
+<Demo code={`import { List, Checkbox, ListItem, ListItemContent, ListText } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List gap="16px">
+      <ListItem
+        leftContent={
+          <ListItemContent variant="checkbox">
+            <Checkbox />
+          </ListItemContent>
+        }
+      >
+        <ListText>Man</ListText>
+      </ListItem>
+      <ListItem
+        leftContent={
+          <ListItemContent variant="checkbox">
+            <Checkbox />
+          </ListItemContent>
+        }
+      >
+        <ListText>Woman</ListText>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+- leftContent에 radio 요소를 추가할 때는 `RadioGroup`으로 래핑해주세요.
+
+<Demo code={`import { List, ListItem, ListItemContent, ListText, RadioGroupItem, RadioGroup } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <RadioGroup>
       <List gap="16px">
-        <ListItem leftContent={<RadioGroupItem value="man" />}>
+        <ListItem
+          leftContent={
+            <ListItemContent variant="radio">
+              <RadioGroupItem value="man" />
+            </ListItemContent>
+          }
+        >
           <ListText>Man</ListText>
         </ListItem>
-        <ListItem leftContent={<RadioGroupItem value="woman" />}>
+        <ListItem
+          leftContent={
+            <ListItemContent variant="radio">
+              <RadioGroupItem value="woman" />
+            </ListItemContent>
+          }
+        >
           <ListText>Woman</ListText>
         </ListItem>
       </List>
@@ -85,65 +135,81 @@ const Demo = () => {
 export default Demo;`}
 />
 
-#### Checkbox
+- rightContent에 chevron 요소를 추가할 때는 `ListChevronButton`를 이용해주세요.
 
-<Demo code={`import { List, Checkbox, ListItem, ListText } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <List gap="16px">
-      <ListItem leftContent={<Checkbox />}>
-        <ListText>Man</ListText>
-      </ListItem>
-      <ListItem leftContent={<Checkbox />}>
-        <ListText>Woman</ListText>
-      </ListItem>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
-### rightContent
-
-<Demo code={`import { List, ListItem, ListText, ListChevronButton, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText, ListItemContent, ListChevronButton, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconPlusThick, IconCheck } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
-      <ListItem rightContent={<ListChevronButton>값</ListChevronButton>}>
-        <ListText>텍스트</ListText>
-      </ListItem>
       <ListItem
         rightContent={
-          <IconButton>
-            <IconPlusThick />
-          </IconButton>
+          <ListItemContent variant="chevron">
+            <ListChevronButton>값</ListChevronButton>
+          </ListItemContent>
         }
       >
         <ListText>텍스트</ListText>
       </ListItem>
       <ListItem
         rightContent={
-          <IconCheck
-            sx={(theme) => ({
-              fontSize: '24px',
-              color: theme.palette.primary.normal
-            })}
-          />
+          <ListItemContent variant="icon-button">
+            <IconButton>
+              <IconPlusThick />
+            </IconButton>
+          </ListItemContent>
         }
       >
         <ListText>텍스트</ListText>
       </ListItem>
-      <ListItem rightContent={<TextButton size="small" variant="assistive">버튼</TextButton>}>
+      <ListItem
+        rightContent={
+          <ListItemContent variant="icon">
+            <IconCheck
+              sx={(theme) => ({
+                color: theme.palette.primary.normal
+              })}
+            />
+          </ListItemContent>
+        }
+      >
         <ListText>텍스트</ListText>
       </ListItem>
-      <ListItem rightContent={<Switch />}>
+      <ListItem
+        rightContent={
+          <ListItemContent variant="button">
+            <TextButton size="small" variant="assistive">버튼</TextButton>
+          </ListItemContent>
+        }
+      >
         <ListText>텍스트</ListText>
       </ListItem>
-      <ListItem rightContent={<ContentBadge color="neutral">뱃지</ContentBadge>}>
+      <ListItem
+        rightContent={
+          <ListItemContent variant="switch">
+            <Switch />
+          </ListItemContent>
+        }
+      >
+        <ListText>텍스트</ListText>
+      </ListItem>
+      <ListItem
+        rightContent={
+          <ListItemContent>
+            <ContentBadge color="neutral">뱃지</ContentBadge>
+          </ListItemContent>
+        }
+      >
+        <ListText>텍스트</ListText>
+      </ListItem>
+      <ListItem
+        rightContent={
+          <ListItemContent variant="custom">
+            커스텀 요소
+          </ListItemContent>
+        }
+      >
         <ListText>텍스트</ListText>
       </ListItem>
     </List>
@@ -159,7 +225,6 @@ export default Demo;`}
 - `Menu`, `Select` 등에서 사용합니다.
 
 <Demo code={`import { List, ListCell, ListText } from '@wanteddev/wds';
-import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -176,7 +241,7 @@ const Demo = () => {
       <ListCell active>
         <ListText>텍스트</ListText>
       </ListCell>
-      <ListCell disabled>
+      <ListCell disabled onClick={() => alert('클릭')}>
         <ListText>텍스트</ListText>
       </ListCell>
       <ListCell divider>
@@ -199,7 +264,6 @@ export default Demo;`}
 리스트에서 사용하는 타이포 컴포넌트입니다.
 
 <Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
-import { IconPerson } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -228,7 +292,7 @@ export default Demo;`}
 
 ### ListCell + RadioGroup
 
-<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListItemContent, ListText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -261,7 +325,9 @@ const Demo = () => {
                     as={FormField}
                     leftContent={
                       <FormControl>
-                        <RadioGroupItem value="man" />
+                        <ListItemContent variant="radio">
+                          <RadioGroupItem value="man" />
+                        </ListItemContent>
                       </FormControl>
                     }
                   >
@@ -271,7 +337,9 @@ const Demo = () => {
                     as={FormField}  
                     leftContent={
                       <FormControl>
-                        <RadioGroupItem value="woman" />
+                        <ListItemContent variant="radio">
+                          <RadioGroupItem value="woman" />
+                        </ListItemContent>
                       </FormControl>
                     }
                   >
@@ -296,7 +364,7 @@ export default Demo;`}
 
 ### ListCell + Multiple Checkbox
 
-<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListText } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListItemContent, ListText } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -350,19 +418,21 @@ const Demo = () => {
                       alignItems="center"
                       leftContent={
                         <FormControl>
-                          <Checkbox
-                            {...field}
-                            checked={field.value.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(
-                                    field.value.filter(
-                                      (value) => value !== item.id
-                                    )
-                                  );
-                            }}
-                          />
+                          <ListItemContent variant="checkbox">
+                            <Checkbox
+                              {...field}
+                              checked={field.value.includes(item.id)}
+                              onCheckedChange={(checked) => {
+                                return checked
+                                  ? field.onChange([...field.value, item.id])
+                                  : field.onChange(
+                                      field.value.filter(
+                                        (value) => value !== item.id
+                                      )
+                                    );
+                              }}
+                            />
+                          </ListItemContent>
                         </FormControl>
                       }
                     >
@@ -387,7 +457,7 @@ export default Demo;`}
 
 ### ListCell + Switch
 
-<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListItemContent, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -409,11 +479,13 @@ const Demo = () => {
               as={FormField}
               rightContent={
                 <FormControl>
-                  <Switch
-                    {...field}
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <ListItemContent variant="switch">
+                    <Switch
+                      {...field}
+                      checked={field.value} 
+                      onCheckedChange={field.onChange}
+                    />
+                  </ListItemContent>
                 </FormControl>
               }
             >
@@ -429,11 +501,13 @@ const Demo = () => {
               as={FormField}
               rightContent={
                 <FormControl>
-                  <Switch
-                    {...field}
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <ListItemContent variant="switch">
+                    <Switch
+                      {...field}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </ListItemContent>
                 </FormControl>
               }
             >

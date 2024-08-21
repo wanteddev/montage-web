@@ -7,12 +7,14 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
+import { Slot } from '@radix-ui/react-slot';
 
-import { Divider, FlexBox, Typography, WithInteraction } from '..';
+import { Divider, FlexBox, Label, Typography, WithInteraction } from '..';
 
 import {
   LIST_CELL_NAME,
   LIST_CHEVRON_BUTTON_NAME,
+  LIST_ITEM_CONTENT_NAME,
   LIST_ITEM_NAME,
   LIST_NAME,
   LIST_TEXT_NAME,
@@ -20,6 +22,7 @@ import {
 import {
   listCellDividerStyle,
   listChevronButtonStyle,
+  listItemContentStyle,
   listItemInCellStyle,
   listItemStyle,
   listStyle,
@@ -27,11 +30,14 @@ import {
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
   ListChevronButtonProps,
+  ListItemContentDefaultProps,
+  ListItemContentSlotProps,
   ListItemProps,
   ListProps,
   ListTextProps,
@@ -77,8 +83,18 @@ const ListItem = forwardRef(
     );
     const clickable = Boolean(props.onClick || controllable) && !disabled;
 
+    const hasLabelTarget = Boolean(
+      (item as unknown as HTMLElement | null)?.querySelector(
+        '[role="checkbox"], [role="radio"], button[role="switch"]',
+      ),
+    );
+
     return (
-      <ListItemProvider active={active} disabled={disabled}>
+      <ListItemProvider
+        active={active}
+        disabled={disabled}
+        hasLabelTarget={hasLabelTarget}
+      >
         <FlexBox
           as={as || 'li'}
           role="listitem"
@@ -122,6 +138,64 @@ const ListItem = forwardRef(
 ) as PolymorphicComponent<ListItemProps, 'li'>;
 
 ListItem.displayName = LIST_ITEM_NAME;
+
+const ListItemContent = forwardRef<
+  HTMLElement,
+  DefaultComponentProps<ListItemContentDefaultProps, 'div'>
+>(({ variant = 'custom', children, ...props }, ref) => {
+  const { disabled } = useListItemContext(LIST_ITEM_CONTENT_NAME);
+
+  const listItemContentSlotProps: ListItemContentSlotProps = {
+    ...props,
+    disabled,
+  };
+
+  switch (variant) {
+    case 'icon':
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref as ForwardedRef<HTMLDivElement>}
+          {...props}
+          sx={[listItemContentStyle, { fontSize: '24px' }, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+    case 'icon-button':
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref as ForwardedRef<HTMLDivElement>}
+          {...props}
+          sx={[listItemContentStyle, { fontSize: '24px' }, props.sx]}
+        >
+          <Slot {...listItemContentSlotProps}>{children}</Slot>
+        </FlexBox>
+      );
+
+    case 'radio':
+    case 'checkbox':
+    case 'button':
+    case 'switch':
+      return <Slot {...listItemContentSlotProps}>{children}</Slot>;
+
+    case 'custom':
+    default:
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref as ForwardedRef<HTMLDivElement>}
+          {...props}
+          sx={[listItemContentStyle, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+  }
+});
+
+ListItemContent.displayName = LIST_ITEM_CONTENT_NAME;
 
 const ListChevronButton = forwardRef<HTMLButtonElement, ListChevronButtonProps>(
   ({ children, ...props }, ref) => {
@@ -190,7 +264,8 @@ const ListText = forwardRef(
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
+    const { active, disabled, hasLabelTarget } =
+      useListItemContext(LIST_TEXT_NAME);
 
     if (!children) {
       return null;
@@ -212,6 +287,7 @@ const ListText = forwardRef(
     return (
       <Typography
         {...props}
+        as={props.as ? props.as : hasLabelTarget ? Label : 'span'}
         ref={ref}
         variant="body1_normal"
         color={getColor('palette.label.normal')}
@@ -220,13 +296,13 @@ const ListText = forwardRef(
       >
         {children}
         {Boolean(caption) && (
-          <Typography
+          <ListText
             variant="label1_normal"
             color={getColor('palette.label.alternative')}
             weight={weight}
           >
             {caption}
-          </Typography>
+          </ListText>
         )}
       </Typography>
     );
@@ -235,4 +311,11 @@ const ListText = forwardRef(
 
 ListText.displayName = LIST_TEXT_NAME;
 
-export { List, ListCell, ListItem, ListText, ListChevronButton };
+export {
+  List,
+  ListCell,
+  ListItem,
+  ListItemContent,
+  ListText,
+  ListChevronButton,
+};
