@@ -76,8 +76,20 @@ export const listChevronButtonStyle = css`
   background-color: transparent;
 `;
 
-export const listItemContentStyle = css`
+export const listItemContentStyle = (theme: Theme) => css`
+  max-height: 24px;
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
+
+  & > svg {
+    color: ${theme.palette.label.assistive};
+  }
+
+  [wds-component='icon-button'][data-variant='normal'] {
+    color: ${theme.palette.label.alternative};
+  }
+  [wds-component='text-button'][data-variant='assistive'] {
+    color: ${theme.palette.label.alternative};
+  }
 `;
