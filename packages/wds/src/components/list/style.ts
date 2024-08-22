@@ -33,12 +33,17 @@ export const listItemStyle =
     cursor: ${disabled ? 'not-allowed' : clickable ? 'pointer' : 'initial'};
   `;
 
-export const listTextStyle = css`
+export const listTextStyle = ({ hasCheckbox }: { hasCheckbox: boolean }) => css`
   & {
     display: flex;
     flex-direction: column;
     gap: 4px;
     flex: 1;
+
+    ${hasCheckbox &&
+    css`
+      cursor: pointer;
+    `}
   }
 `;
 

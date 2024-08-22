@@ -78,21 +78,26 @@ const ListItem = forwardRef(
     const [item, setItem] = useState<E | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setItem(node as E));
 
-    const controllable = (item as unknown as HTMLElement | null)?.querySelector(
-      '[role="checkbox"], [role="radio"], button:not([role="switch"])',
-    );
-    const clickable = Boolean(props.onClick || controllable) && !disabled;
+    const itemElement = item as unknown as HTMLElement | null;
 
+    const hasCheckbox = Boolean(
+      itemElement?.querySelector('[role="checkbox"]'),
+    );
     const hasLabelTarget = Boolean(
-      (item as unknown as HTMLElement | null)?.querySelector(
+      itemElement?.querySelector(
         '[role="checkbox"], [role="radio"], button[role="switch"]',
       ),
     );
+    const controllable = itemElement?.querySelector(
+      '[role="checkbox"], [role="radio"], button:not([role="switch"])',
+    );
+    const clickable = Boolean(props.onClick || controllable) && !disabled;
 
     return (
       <ListItemProvider
         active={active}
         disabled={disabled}
+        hasCheckbox={hasCheckbox}
         hasLabelTarget={hasLabelTarget}
       >
         <FlexBox
@@ -265,7 +270,7 @@ const ListText = forwardRef(
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { active, disabled, hasLabelTarget } =
+    const { active, disabled, hasCheckbox, hasLabelTarget } =
       useListItemContext(LIST_TEXT_NAME);
 
     if (!children) {
@@ -293,7 +298,7 @@ const ListText = forwardRef(
         variant="body1_normal"
         color={getColor('palette.label.normal')}
         weight={weight}
-        sx={[listTextStyle, sx]}
+        sx={[listTextStyle({ hasCheckbox }), sx]}
       >
         {children}
         {Boolean(caption) && (

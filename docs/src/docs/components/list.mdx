@@ -137,8 +137,8 @@ export default Demo;`}
 
 - rightContent에 chevron 요소를 추가할 때는 `ListChevronButton`를 이용해주세요.
 
-<Demo code={`import { List, ListItem, ListText, ListItemContent, ListChevronButton, IconButton, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
-import { IconPlusThick, IconCheck } from '@wanteddev/wds-icon';
+<Demo code={`import { List, ListItem, ListText, ListItemContent, ListChevronButton, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+import { IconPlusThick, IconApps } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -147,6 +147,15 @@ const Demo = () => {
         rightContent={
           <ListItemContent variant="chevron">
             <ListChevronButton>값</ListChevronButton>
+          </ListItemContent>
+        }
+      >
+        <ListText>텍스트</ListText>
+      </ListItem>
+      <ListItem
+        rightContent={
+          <ListItemContent variant="icon">
+            <IconApps />
           </ListItemContent>
         }
       >
@@ -165,12 +174,8 @@ const Demo = () => {
       </ListItem>
       <ListItem
         rightContent={
-          <ListItemContent variant="icon">
-            <IconCheck
-              sx={(theme) => ({
-                color: theme.palette.primary.normal
-              })}
-            />
+          <ListItemContent variant="checkbox">
+            <NestedCheckbox />
           </ListItemContent>
         }
       >

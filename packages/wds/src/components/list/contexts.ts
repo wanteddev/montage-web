@@ -5,6 +5,7 @@ import { LIST_ITEM_NAME } from './constants';
 type ListItemContextType = {
   active: boolean;
   disabled: boolean;
+  hasCheckbox: boolean;
   hasLabelTarget: boolean;
 };
 
