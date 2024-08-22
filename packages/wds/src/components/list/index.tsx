@@ -177,6 +177,7 @@ const ListItemContent = forwardRef<
     case 'radio':
     case 'checkbox':
     case 'button':
+    case 'chevron':
     case 'switch':
       return <Slot {...listItemContentSlotProps}>{children}</Slot>;
 
