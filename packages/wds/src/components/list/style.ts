@@ -41,17 +41,15 @@ export const listItemStyle =
   `;
 
 export const listTextStyle = ({ hasCheckbox }: { hasCheckbox: boolean }) => css`
-  & {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
+  ${hasCheckbox &&
+  css`
+    cursor: pointer;
+  `}
+`;
 
-    ${hasCheckbox &&
-    css`
-      cursor: pointer;
-    `}
-  }
+export const listTextCaptionStyle = css`
+  margin-top: 4px;
+  display: block;
 `;
 
 const listItemInCellSizeStyle = (

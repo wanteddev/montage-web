@@ -26,6 +26,7 @@ import {
   listItemInCellStyle,
   listItemStyle,
   listStyle,
+  listTextCaptionStyle,
   listTextStyle,
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
@@ -317,13 +318,14 @@ const ListText = forwardRef(
       >
         {children}
         {Boolean(caption) && (
-          <ListText
+          <Typography
             variant="label1_normal"
             color={getColor('palette.label.alternative')}
             weight={weight}
+            sx={listTextCaptionStyle}
           >
             {caption}
-          </ListText>
+          </Typography>
         )}
       </Typography>
     );
