@@ -238,6 +238,11 @@ const ListCell = forwardRef(
       paddingInset,
       divider,
       children,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     }: PolymorphicProps<ListCellProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -251,7 +256,10 @@ const ListCell = forwardRef(
           ref={ref}
           role="button"
           {...props}
-          sx={[listItemInCellStyle({ padding, paddingInset }), props.sx]}
+          sx={[
+            listItemInCellStyle({ padding, paddingInset, xs, sm, md, lg, xl }),
+            props.sx,
+          ]}
         >
           {children}
           {divider && <Divider sx={listCellDividerStyle} />}

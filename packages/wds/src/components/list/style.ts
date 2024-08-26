@@ -1,10 +1,17 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { createResponsiveStyle } from '../../utils';
+
 import type { Theme } from '@wanteddev/wds-engine';
-import type { ListCellProps, ListItemProps } from './types';
+import type {
+  ListCellProps,
+  ListCellResponsiveProps,
+  ListItemProps,
+} from './types';
 
 type ListItemStyleProps = Pick<ListItemProps, 'active' | 'disabled'>;
-type ListItemInCellProps = Pick<ListCellProps, 'padding' | 'paddingInset'>;
+type ListItemInCellProps = Pick<ListCellProps, 'padding' | 'paddingInset'> &
+  ListCellResponsiveProps;
 
 export const listStyle = css`
   && {
@@ -47,23 +54,46 @@ export const listTextStyle = ({ hasCheckbox }: { hasCheckbox: boolean }) => css`
   }
 `;
 
-export const listItemInCellStyle = ({
-  paddingInset,
-  padding = 'normal',
-}: ListItemInCellProps) => {
+const listItemInCellSizeStyle = (
+  padding: ListItemInCellProps['padding'],
+  paddingInset: ListItemInCellProps['paddingInset'],
+) => {
   const sidePadding = paddingInset ? 12 : 0;
-  const verticalPadding = {
-    normal: 12,
-    small: 8,
-    medium: 16,
-  }[padding];
 
-  return css`
-    --wds-list-cell-border-radius: 12px;
-    padding: ${verticalPadding}px ${sidePadding}px;
-    border-radius: var(--wds-list-cell-border-radius);
-  `;
+  switch (padding) {
+    case 'small':
+      return css`
+        padding: 8px ${sidePadding}px;
+      `;
+    case 'medium':
+      return css`
+        padding: 16px ${sidePadding}px;
+      `;
+    case 'normal':
+    default:
+      return css`
+        padding: 12px ${sidePadding}px;
+      `;
+  }
 };
+
+export const listItemInCellStyle =
+  ({ padding, paddingInset, xs, sm, md, lg, xl }: ListItemInCellProps) =>
+  (theme: Theme) => css`
+    --wds-list-cell-border-radius: 12px;
+    border-radius: var(--wds-list-cell-border-radius);
+
+    ${listItemInCellSizeStyle(padding, paddingInset)}
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${listItemInCellSizeStyle(params?.padding, params?.paddingInset)}
+        ${params?.sx}
+      `,
+    )}
+  `;
 
 export const listCellDividerStyle = css`
   position: absolute;

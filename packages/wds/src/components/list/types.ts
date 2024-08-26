@@ -3,6 +3,7 @@ import type {
   DefaultComponentProps,
   Merge,
   PolymorphicProps,
+  ResponsiveProps,
   SxProp,
 } from '@wanteddev/wds-engine';
 import type {
@@ -51,9 +52,13 @@ export type ListCellDefaultProps = {
   paddingInset?: boolean;
   divider?: boolean;
 };
-export type ListCellProps = ListItemProps &
-  ListCellDefaultProps &
-  FlexBoxWithoutRefProps;
+export type ListCellResponsiveProps = ResponsiveProps<
+  Pick<ListCellDefaultProps, 'padding' | 'paddingInset'>
+>;
+export type ListCellProps = Merge<
+  Merge<ListCellDefaultProps, ListCellResponsiveProps>,
+  Merge<ListItemProps, FlexBoxWithoutRefProps>
+>;
 
 export type ListTextDefaultProps = {
   caption?: ReactNode;
