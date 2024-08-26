@@ -321,7 +321,7 @@ const Demo = () => {
         }}
         render={({ field, formState }) => (
           <FormField>
-            <FormLabel sx={{ marginLeft: '12px' }}>성별</FormLabel>
+            <FormLabel>성별</FormLabel>
 
             <FormControl>
               <RadioGroup {...field} onValueChange={field.onChange}>
@@ -402,7 +402,7 @@ const Demo = () => {
         name="selected"
         render={({ formState }) => (
           <FormField>
-            <FormLabel sx={{ marginLeft: '12px' }}>관심 분야</FormLabel>
+            <FormLabel>관심 분야</FormLabel>
 
             <List>
               {items.map((item) => (

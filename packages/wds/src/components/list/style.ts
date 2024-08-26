@@ -51,7 +51,7 @@ export const listItemInCellStyle = ({
   paddingInset,
   padding = 'normal',
 }: ListItemInCellProps) => {
-  const sidePadding = paddingInset ? 20 : 12;
+  const sidePadding = paddingInset ? 12 : 0;
   const verticalPadding = {
     normal: 12,
     small: 8,

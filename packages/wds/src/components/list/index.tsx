@@ -243,7 +243,10 @@ const ListCell = forwardRef(
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
-      <WithInteraction disabled={props.disabled}>
+      <WithInteraction
+        disabled={props.disabled}
+        width={paddingInset ? '100%' : 'calc(100% + 24px)'}
+      >
         <ListItem
           ref={ref}
           role="button"
