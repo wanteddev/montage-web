@@ -22,15 +22,15 @@ description: List Component
 </List>
 ```
 
-## List
+### List
 
 - 리스트를 감싸고 있으며 `ul` 태그로 렌더링됩니다.
 - `FlexBox`와 동일한 props를 사용합니다.
 
-## ListItem
+### ListItem
 
 - 단일 형태를 가진 리스트입니다.
-- leftContent, rightContent에 요소를 추가할 때는 `ListItemContent` 를 이용해주세요.
+- leftContent, rightContent에 요소를 추가할 때는 `ListItemContent`를 이용해주세요.
 
 <Demo code={`import { List, ListItem, ListItemContent, ListText } from '@wanteddev/wds';
 import { IconApps } from '@wanteddev/wds-icon';
@@ -67,7 +67,82 @@ export default Demo;`}
 
 <PropsTable component="ListItem" />
 
-### Examples
+### ListItemContent
+
+<PropsTable component="ListItemContent" />
+
+### ListCell
+
+- 셀 형태를 가진 리스트입니다.
+- ListItem에 인터렉션이 추가된 형태입니다.
+
+<Demo code={`import { List, ListCell, ListText } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List>
+      <ListCell onClick={() => alert('클릭')}>
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell padding="small">
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell padding="medium">
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell active>
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell disabled onClick={() => alert('클릭')}>
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell divider>
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell paddingInset>
+        <ListText>텍스트</ListText>
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+<PropsTable component="ListCell" />
+
+### ListText
+
+리스트에서 사용하는 타이포 컴포넌트입니다.
+
+<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List gap="16px">
+      <ListItem>
+        <ListText>텍스트</ListText>
+      </ListItem>
+      <ListItem>
+        <ListText caption="캡션">텍스트</ListText>
+      </ListItem>
+      <ListItem>
+        <ListText bold caption="캡션">텍스트</ListText>
+      </ListItem>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+`Typography`의 props를 확장하여 사용합니다.
+
+<PropsTable component="ListText" />
+
+## Examples
+
+### ListItem + ListItemContent
 
 - leftContent, rightContent에 radio, checkbox, switch 요소를 추가할 때 `ListText` 컴포넌트는 `Label`로 렌더링 됩니다.
 
@@ -135,7 +210,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-- rightContent에 chevron 요소를 추가할 때는 `ListChevronButton`를 이용해주세요.
+- rightContent에 chevron 요소를 추가할 때는 `ListChevronButton`을 이용해주세요.
 
 <Demo code={`import { List, ListItem, ListText, ListItemContent, ListChevronButton, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconPlusThick, IconApps } from '@wanteddev/wds-icon';
@@ -146,7 +221,7 @@ const Demo = () => {
       <ListItem
         rightContent={
           <ListItemContent variant="chevron">
-            <ListChevronButton>값</ListChevronButton>
+            <ListChevronButton onClick={() => alert("variant='chevron' 클릭")}>값</ListChevronButton>
           </ListItemContent>
         }
       >
@@ -164,7 +239,7 @@ const Demo = () => {
       <ListItem
         rightContent={
           <ListItemContent variant="icon-button">
-            <IconButton>
+            <IconButton onClick={() => alert("variant='icon-button' 클릭")}>
               <IconPlusThick />
             </IconButton>
           </ListItemContent>
@@ -184,7 +259,9 @@ const Demo = () => {
       <ListItem
         rightContent={
           <ListItemContent variant="button">
-            <TextButton size="small" variant="assistive">버튼</TextButton>
+            <TextButton size="small" variant="assistive" onClick={() => alert("variant='button' 클릭")}>
+              버튼
+            </TextButton>
           </ListItemContent>
         }
       >
@@ -193,7 +270,7 @@ const Demo = () => {
       <ListItem
         rightContent={
           <ListItemContent variant="switch">
-            <Switch />
+            <Switch onClick={() => alert("variant='switch' 클릭")} />
           </ListItemContent>
         }
       >
@@ -224,78 +301,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## ListCell
-
-- 셀 형태를 가진 리스트로, ListItem에 인터렉션이 추가된 형태입니다.
-- `Menu`, `Select` 등에서 사용합니다.
-
-<Demo code={`import { List, ListCell, ListText } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <List>
-      <ListCell onClick={() => alert('클릭')}>
-        <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell padding="small">
-        <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell padding="medium">
-        <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell active>
-        <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell disabled onClick={() => alert('클릭')}>
-        <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell divider>
-        <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell paddingInset>
-        <ListText>텍스트</ListText>
-      </ListCell>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
-<PropsTable component="ListCell" />
-
-## ListText
-
-리스트에서 사용하는 타이포 컴포넌트입니다.
-
-<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <List gap="16px">
-      <ListItem>
-        <ListText>텍스트</ListText>
-      </ListItem>
-      <ListItem>
-        <ListText caption="캡션">텍스트</ListText>
-      </ListItem>
-      <ListItem>
-        <ListText bold caption="캡션">텍스트</ListText>
-      </ListItem>
-    </List>
-  )
-}
-
-export default Demo;`}
-/>
-
-`Typography`의 props를 확장하여 사용합니다.
-
-<PropsTable component="ListText" />
-
-## Form
-
-### ListCell + RadioGroup
+### Form + ListCell + RadioGroup
 
 <Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListItemContent, ListText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
@@ -367,7 +373,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### ListCell + Multiple Checkbox
+### Form + ListCell + Multiple Checkbox
 
 <Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListItemContent, ListText } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
@@ -460,7 +466,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### ListCell + Switch
+### Form + ListCell + Switch
 
 <Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListItemContent, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
