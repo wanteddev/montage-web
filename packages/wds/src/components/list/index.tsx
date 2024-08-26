@@ -123,7 +123,8 @@ const ListItem = forwardRef(
                     return;
                   }
 
-                  if (controllable) {
+                  // controllable 직접 클릭 시 이벤트 중복 호출을 방어함.
+                  if (!controllable?.contains(e.target as HTMLElement)) {
                     (controllable as HTMLElement).click();
                     (controllable as HTMLElement).focus();
                   }
