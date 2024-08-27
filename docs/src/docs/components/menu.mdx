@@ -1,0 +1,68 @@
+---
+title: Menu
+description: List Component
+---
+
+# Menu
+
+사용자가 클릭하거나 호버할 시 여러 옵션들을 선택할 수 있습니다.
+
+<Demo code={`import { Menu, MenuContent, MenuItem, ListText } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuContent>
+        <MenuItem variant="checkbox" value="develop">
+          <ListText>개발</ListText>
+        </MenuItem>
+        <MenuItem variant="checkbox" value="design">
+          <ListText>디자인</ListText>
+        </MenuItem>
+        <MenuItem variant="checkbox" value="marketing" disabled>
+          <ListText>마케팅</ListText>
+        </MenuItem>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<Menu> // value, onValueChange를 받기
+  <MenuTrigger>
+    메뉴 오픈
+  </MenuTrigger>
+
+  <MenuContent> // List return, RadioGroup & 키보드 이벤트 처리
+    <MenuGroup title="그룹1">
+      <MenuItem variant="radio" value="man"> // variant랑 value만 받고, 내부적으로 string or string[] state를 변경함
+        Man
+      </MenuItem>
+    </MenuGroup>
+    <MenuGroup title="그룹2">
+      <MenuItem variant="radio" value="woman">
+        Woman
+      </MenuItem>
+    </MenuGroup>
+  </MenuContent>
+</Menu>
+```
+
+### Menu
+
+<PropsTable component="Menu" />
+
+### MenuContent
+
+<PropsTable component="MenuContent" />
+
+### MenuItem
+
+<PropsTable component="MenuItem" />

@@ -14,11 +14,9 @@ type ListItemInCellProps = Pick<ListCellProps, 'padding' | 'paddingInset'> &
   ListCellResponsiveProps;
 
 export const listStyle = css`
-  && {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 `;
 
 export const listItemStyle =

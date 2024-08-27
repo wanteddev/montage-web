@@ -104,6 +104,7 @@ const ListItem = forwardRef(
         <FlexBox
           as={as || 'li'}
           role="listitem"
+          wds-component="list-item"
           ref={composedRefs}
           flexDirection="row"
           gap="10px"
