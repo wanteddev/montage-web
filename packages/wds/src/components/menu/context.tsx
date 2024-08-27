@@ -1,35 +1,13 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext } from '@radix-ui/react-context';
 
-import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
-import type { Merge } from '@wanteddev/wds-engine';
+import { MENU_NAME } from './constants';
 
-type MenuContextValues = {
-  value: string | Array<string>;
+import type { MenuDefaultProps } from './types';
+
+type MenuContextType = {
+  value: MenuDefaultProps['value'];
+  onValueChange: (value: MenuDefaultProps['value']) => void;
 };
-type MenuContextDispatch = {
-  setValue: Dispatch<SetStateAction<MenuContextValues['value']>>;
-};
 
-type MenuContextType = Merge<MenuContextValues, MenuContextDispatch>;
-
-export const MenuContext = createContext<MenuContextType>({
-  value: [],
-  setValue: () => {},
-});
-
-export const useMenuContext = () => useContext(MenuContext);
-
-export const MenuProvider = ({ children }: PropsWithChildren) => {
-  const [value, setValue] = useState<MenuContextValues['value']>([]);
-
-  return (
-    <MenuContext.Provider
-      value={{
-        value,
-        setValue,
-      }}
-    >
-      {children}
-    </MenuContext.Provider>
-  );
-};
+export const [MenuProvider, useMenuContext] =
+  createContext<MenuContextType>(MENU_NAME);

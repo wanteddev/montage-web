@@ -4,7 +4,9 @@ import type { Merge } from '@wanteddev/wds-engine';
 export type MenuDefaultProps = {
   // container?:
   // open?: boolean;
-  onValueChange?: (value: string | Array<string>) => void;
+  defaultValue?: string | Array<string>;
+  value?: string | Array<string>;
+  onValueChange?: (value?: string | Array<string>) => void;
 };
 export type MenuProps = MenuDefaultProps;
 

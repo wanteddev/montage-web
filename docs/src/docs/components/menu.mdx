@@ -11,7 +11,7 @@ description: List Component
 
 const Demo = () => {
   return (
-    <Menu>
+    <Menu onValueChange={(value) => console.log(value)}>
       <MenuContent>
         <MenuItem variant="checkbox" value="develop">
           <ListText>개발</ListText>
@@ -21,6 +21,9 @@ const Demo = () => {
         </MenuItem>
         <MenuItem variant="checkbox" value="marketing" disabled>
           <ListText>마케팅</ListText>
+        </MenuItem>
+        <MenuItem variant="checkbox" value="director">
+          <ListText>기획</ListText>
         </MenuItem>
       </MenuContent>
     </Menu>

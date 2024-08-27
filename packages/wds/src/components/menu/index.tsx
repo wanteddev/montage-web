@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
 import { List, ListCell, ListItemContent } from '../list';
 import ScrollArea from '../scroll-area';
@@ -9,7 +10,12 @@ import { MENU_CONTENT_NAME, MENU_ITEM_NAME, MENU_NAME } from './constants';
 import { listInMenuStyle, menuScrollAreaStyle } from './style';
 import { MenuProvider, useMenuContext } from './context';
 
-import type { MenuContentProps, MenuItemProps, MenuProps } from './types';
+import type {
+  MenuContentProps,
+  MenuDefaultProps,
+  MenuItemProps,
+  MenuProps,
+} from './types';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
@@ -21,8 +27,20 @@ import type {
   PropsWithChildren,
 } from 'react';
 
-const Menu = ({ children, ...props }: PropsWithChildren<MenuProps>) => {
-  return <MenuProvider {...props}>{children}</MenuProvider>;
+const Menu = (props: PropsWithChildren<MenuProps>) => {
+  const { defaultValue, value: valueProp, onValueChange, children } = props;
+
+  const [value, setValue] = useControllableState<MenuDefaultProps['value']>({
+    prop: valueProp,
+    defaultProp: defaultValue,
+    onChange: onValueChange,
+  });
+
+  return (
+    <MenuProvider value={value} onValueChange={setValue}>
+      {children}
+    </MenuProvider>
+  );
 };
 
 Menu.displayName = MENU_NAME;
@@ -54,7 +72,7 @@ const MenuItem = forwardRef(
     }: PolymorphicProps<MenuItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const MenuContext = useMenuContext();
+    const MenuContext = useMenuContext(MENU_ITEM_NAME);
 
     switch (variant) {
       case 'radio':
@@ -75,15 +93,16 @@ const MenuItem = forwardRef(
         );
 
       case 'checkbox':
+        const valueList = Array.isArray(MenuContext.value)
+          ? [...MenuContext.value]
+          : [];
+
         const onCheckedChange = (checked: boolean) => {
-          return checked
-            ? MenuContext.setValue((prevValue) => [...prevValue, value])
-            : MenuContext.setValue((prevValue) => {
-                const valueList = prevValue as Array<string>;
-                return valueList.filter(
-                  (prevValueItem) => prevValueItem !== value,
-                );
-              });
+          MenuContext.onValueChange(
+            checked
+              ? [...valueList, value]
+              : valueList.filter((valueItem) => valueItem !== value),
+          );
         };
 
         return (
@@ -92,7 +111,7 @@ const MenuItem = forwardRef(
             leftContent={
               <ListItemContent variant="checkbox">
                 <Checkbox
-                  checked={value.includes(value)}
+                  checked={valueList.includes(value)}
                   onCheckedChange={onCheckedChange}
                 />
               </ListItemContent>
