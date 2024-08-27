@@ -81,10 +81,7 @@ const ListItem = forwardRef(
 
     const itemElement = item as unknown as HTMLElement | null;
 
-    const hasCheckbox = Boolean(
-      itemElement?.querySelector('[role="checkbox"]'),
-    );
-    const hasLabelTarget = Boolean(
+    const hasLabelTargetElement = Boolean(
       itemElement?.querySelector(
         '[role="checkbox"], [role="radio"], button[role="switch"]',
       ),
@@ -98,8 +95,7 @@ const ListItem = forwardRef(
       <ListItemProvider
         active={active}
         disabled={disabled}
-        hasCheckbox={hasCheckbox}
-        hasLabelTarget={hasLabelTarget}
+        hasLabelTargetElement={hasLabelTargetElement}
       >
         <FlexBox
           as={as || 'li'}
@@ -286,7 +282,7 @@ const ListText = forwardRef(
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { active, disabled, hasCheckbox, hasLabelTarget } =
+    const { active, disabled, hasLabelTargetElement } =
       useListItemContext(LIST_TEXT_NAME);
 
     if (!children) {
@@ -309,12 +305,12 @@ const ListText = forwardRef(
     return (
       <Typography
         {...props}
-        as={props.as ? props.as : hasLabelTarget ? Label : 'span'}
+        as={props.as ? props.as : hasLabelTargetElement ? Label : 'span'}
         ref={ref}
         variant="body1_normal"
         color={getColor('palette.label.normal')}
         weight={weight}
-        sx={[listTextStyle({ hasCheckbox }), sx]}
+        sx={[listTextStyle({ hasLabelTargetElement }), sx]}
       >
         {children}
         {Boolean(caption) && (

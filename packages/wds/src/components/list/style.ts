@@ -40,8 +40,12 @@ export const listItemStyle =
     cursor: ${disabled ? 'not-allowed' : clickable ? 'pointer' : 'initial'};
   `;
 
-export const listTextStyle = ({ hasCheckbox }: { hasCheckbox: boolean }) => css`
-  ${hasCheckbox &&
+export const listTextStyle = ({
+  hasLabelTargetElement,
+}: {
+  hasLabelTargetElement: boolean;
+}) => css`
+  ${hasLabelTargetElement &&
   css`
     cursor: pointer;
   `}
