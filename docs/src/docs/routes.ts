@@ -97,6 +97,8 @@ export const routes: Array<Route> = [
         stable: true,
       },
       { title: 'Label', slug: '/docs/components/label', stable: true },
+      { title: 'List', slug: '/docs/components/list' },
+      { title: 'Label', slug: '/docs/components/label', stable: true },
       { title: 'Modal', slug: '/docs/components/modal', stable: true },
       {
         title: 'NestedCheckbox',
