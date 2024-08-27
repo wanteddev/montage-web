@@ -10,6 +10,11 @@ export const menuScrollAreaStyle = (theme: Theme) => css`
   border-radius: 16px;
   border: 1px solid ${theme.palette.line.solid.neutral};
   background-color: ${theme.palette.background.elevated.normal};
+`;
+
+export const menuPopoverContentStyle = (theme: Theme) => css`
+  padding: 0;
+  filter: none;
   box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
 `;
 

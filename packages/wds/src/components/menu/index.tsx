@@ -5,9 +5,19 @@ import { List, ListCell, ListItemContent } from '../list';
 import ScrollArea from '../scroll-area';
 import { RadioGroupItem } from '../radio-group';
 import Checkbox from '../checkbox';
+import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 
-import { MENU_CONTENT_NAME, MENU_ITEM_NAME, MENU_NAME } from './constants';
-import { listInMenuStyle, menuScrollAreaStyle } from './style';
+import {
+  MENU_CONTENT_NAME,
+  MENU_ITEM_NAME,
+  MENU_NAME,
+  MENU_TRIGGER_NAME,
+} from './constants';
+import {
+  listInMenuStyle,
+  menuPopoverContentStyle,
+  menuScrollAreaStyle,
+} from './style';
 import { MenuProvider, useMenuContext } from './context';
 
 import type {
@@ -28,7 +38,13 @@ import type {
 } from 'react';
 
 const Menu = (props: PropsWithChildren<MenuProps>) => {
-  const { defaultValue, value: valueProp, onValueChange, children } = props;
+  const {
+    defaultValue,
+    value: valueProp,
+    onValueChange,
+    children,
+    ...popoverProps
+  } = props;
 
   const [value, setValue] = useControllableState<MenuDefaultProps['value']>({
     prop: valueProp,
@@ -38,12 +54,16 @@ const Menu = (props: PropsWithChildren<MenuProps>) => {
 
   return (
     <MenuProvider value={value} onValueChange={setValue}>
-      {children}
+      <Popover {...popoverProps}>{children}</Popover>
     </MenuProvider>
   );
 };
 
 Menu.displayName = MENU_NAME;
+
+const MenuTrigger = PopoverTrigger;
+
+MenuTrigger.displayName = MENU_TRIGGER_NAME;
 
 const MenuContent = forwardRef(
   (
@@ -51,11 +71,13 @@ const MenuContent = forwardRef(
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
-      <ScrollArea role="menu" ref={ref} sx={menuScrollAreaStyle}>
-        <List {...props} sx={[listInMenuStyle, props.sx]}>
-          {children}
-        </List>
-      </ScrollArea>
+      <PopoverContent position="top-start" sx={menuPopoverContentStyle}>
+        <ScrollArea role="menu" ref={ref} sx={menuScrollAreaStyle}>
+          <List {...props} sx={[listInMenuStyle, props.sx]}>
+            {children}
+          </List>
+        </ScrollArea>
+      </PopoverContent>
     );
   },
 );
@@ -135,4 +157,4 @@ const MenuItem = forwardRef(
 
 MenuItem.displayName = MENU_ITEM_NAME;
 
-export { Menu, MenuContent, MenuItem };
+export { Menu, MenuTrigger, MenuContent, MenuItem };

@@ -1,14 +1,13 @@
+import type { PopoverProps } from '../popover/types';
 import type { ListCellProps, ListProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 
 export type MenuDefaultProps = {
-  // container?:
-  // open?: boolean;
   defaultValue?: string | Array<string>;
   value?: string | Array<string>;
   onValueChange?: (value?: string | Array<string>) => void;
 };
-export type MenuProps = MenuDefaultProps;
+export type MenuProps = Merge<MenuDefaultProps, PopoverProps>;
 
 export type MenuContentDefaultProps = {
   scroll?: boolean;

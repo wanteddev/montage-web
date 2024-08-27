@@ -7,11 +7,14 @@ description: List Component
 
 사용자가 클릭하거나 호버할 시 여러 옵션들을 선택할 수 있습니다.
 
-<Demo code={`import { Menu, MenuContent, MenuItem, ListText } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuItem, ListText } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <Menu onValueChange={(value) => console.log(value)}>
+      <MenuTrigger>
+        <Button>클릭</Button>
+      </MenuTrigger>
       <MenuContent>
         <MenuItem variant="checkbox" value="develop">
           <ListText>개발</ListText>
@@ -38,9 +41,9 @@ export default Demo;`}
 아래와 같이 조합하여 사용합니다.
 
 ```tsx
-<Menu> // value, onValueChange를 받기
+<Menu>
   <MenuTrigger>
-    메뉴 오픈
+    클릭
   </MenuTrigger>
 
   <MenuContent> // List return, RadioGroup & 키보드 이벤트 처리
@@ -61,6 +64,12 @@ export default Demo;`}
 ### Menu
 
 <PropsTable component="Menu" />
+
+### MenuTrigger
+
+`children`으로 요소를 지정합니다.
+
+<PropsTable component="MenuTrigger" />
 
 ### MenuContent
 
