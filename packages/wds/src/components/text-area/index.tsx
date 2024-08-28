@@ -21,7 +21,6 @@ import {
 import { TEXT_AREA_CONTENT_NAME, TEXT_AREA_NAME } from './constants';
 import { TextAreaProvider, useTextAreaContext } from './contexts';
 
-import type { ForwardedRef } from 'react';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TextAreaContentProps, TextAreaProps } from './types';
 
@@ -165,7 +164,7 @@ const TextArea = forwardRef<
             sx,
           ]}
         >
-          <ScrollArea type="auto">
+          <ScrollArea>
             <Box
               as="textarea"
               ref={composedRefs}
@@ -249,7 +248,7 @@ const TextArea = forwardRef<
 TextArea.displayName = TEXT_AREA_NAME;
 
 const TextAreaContent = forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   DefaultComponentProps<TextAreaContentProps, 'div'>
 >(({ variant = 'characterCounter', children, sx, ...props }, ref) => {
   const { length } = useTextAreaContext(TEXT_AREA_CONTENT_NAME);
@@ -258,6 +257,7 @@ const TextAreaContent = forwardRef<
     case 'characterCounter':
       return (
         <Typography
+          as="div"
           wds-component="text-area-content"
           variant="label2"
           weight="medium"
@@ -279,7 +279,7 @@ const TextAreaContent = forwardRef<
       return (
         <FlexBox
           wds-component="text-area-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
@@ -290,7 +290,7 @@ const TextAreaContent = forwardRef<
       return (
         <FlexBox
           wds-component="text-area-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           alignItems="center"
           sx={[
             textAreaContentStyle,
@@ -303,12 +303,22 @@ const TextAreaContent = forwardRef<
         </FlexBox>
       );
     case 'icon':
+      return (
+        <FlexBox
+          wds-component="text-area-content"
+          ref={ref}
+          sx={[textAreaContentStyle, { fontSize: '22px', padding: '1px' }, sx]}
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      );
     case 'icon-button':
       return (
         <FlexBox
           wds-component="text-area-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
-          sx={[textAreaContentStyle, { fontSize: '22px' }, sx]}
+          ref={ref}
+          sx={[textAreaContentStyle, sx]}
           {...props}
         >
           {children}
@@ -319,7 +329,7 @@ const TextAreaContent = forwardRef<
       return (
         <FlexBox
           wds-component="text-area-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
