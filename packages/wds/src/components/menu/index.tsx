@@ -71,12 +71,12 @@ MenuTrigger.displayName = MENU_TRIGGER_NAME;
 
 const MenuContent = forwardRef(
   (
-    { children, ...props }: MenuContentProps,
+    { children, scroll = true, ...props }: MenuContentProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <PopoverContent position="top-start" sx={menuPopoverContentStyle}>
-        <ScrollArea role="menu" ref={ref} sx={menuScrollAreaStyle}>
+        <ScrollArea role="menu" ref={ref} sx={menuScrollAreaStyle(scroll)}>
           <List {...props} sx={[listInMenuStyle, props.sx]}>
             {children}
           </List>
