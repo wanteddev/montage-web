@@ -39,9 +39,7 @@ const ActionArea = forwardRef<
 
     const modalSticky =
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      modalOption !== undefined
-        ? modalOption.sticky && modalOption.hasScroll
-        : undefined;
+      modalOption !== undefined ? modalOption.sticky : undefined;
 
     return (
       <ActionAreaProvider priority={priority}>

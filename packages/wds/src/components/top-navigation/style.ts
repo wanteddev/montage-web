@@ -43,15 +43,15 @@ export const topNavigationWrapperStyle = (
     case 'normal':
       return css`
         width: 100%;
-        padding: var(--wds-top-navigation-padding-x, 16px)
-          var(--wds-top-navigation-padding-y, 16px);
+        padding: var(--wds-top-navigation-padding-y, 16px)
+          var(--wds-top-navigation-padding-x, 16px);
         justify-content: center;
         min-height: var(--wds-top-navigation-min-height, 56px);
       `;
     case 'extended':
       return css`
-        padding: var(--wds-top-navigation-padding-x, 16px)
-          var(--wds-top-navigation-padding-y, 16px);
+        padding: var(--wds-top-navigation-padding-y, 16px)
+          var(--wds-top-navigation-padding-x, 16px);
         gap: 16px;
         width: 100%;
         flex-direction: column-reverse;
@@ -192,7 +192,7 @@ export const topNavigationButtonTextStyle = (theme: Theme) => css`
   flex-shrink: 0;
 
   & > span {
-    ${typographyStyle('body2_normal', 'regular')}
+    ${typographyStyle('headline2', 'regular')}
   }
 
   [wds-component='with-interaction'] {

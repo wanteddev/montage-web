@@ -41,7 +41,6 @@ export const [ModalNavigationProvider, useModalNavigationContext] =
 
 type ModalActionAreaContextValue = {
   sticky: boolean;
-  hasScroll: boolean;
 };
 
 export const [ModalActionAreaProvider, useModalActionAreaContext] =
