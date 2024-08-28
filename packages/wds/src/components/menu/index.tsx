@@ -8,9 +8,11 @@ import Checkbox from '../checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 
 import {
+  MENU_CHECKBOX_ITEM_NAME,
   MENU_CONTENT_NAME,
   MENU_ITEM_NAME,
   MENU_NAME,
+  MENU_RADIO_ITEM_NAME,
   MENU_TRIGGER_NAME,
 } from './constants';
 import {
@@ -21,10 +23,12 @@ import {
 import { MenuProvider, useMenuContext } from './context';
 
 import type {
+  MenuCheckboxItemProps,
   MenuContentProps,
   MenuDefaultProps,
   MenuItemProps,
   MenuProps,
+  MenuRadioItemProps,
 } from './types';
 import type {
   PolymorphicComponent,
@@ -86,75 +90,79 @@ MenuContent.displayName = MENU_CONTENT_NAME;
 
 const MenuItem = forwardRef(
   <E extends ElementType = 'li'>(
-    {
-      variant = 'normal',
-      value,
-      children,
-      ...props
-    }: PolymorphicProps<MenuItemProps, E>,
+    { variant = 'normal', ...props }: PolymorphicProps<MenuItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const MenuContext = useMenuContext(MENU_ITEM_NAME);
-
     switch (variant) {
       case 'radio':
-        // const handleRadio = () => {}; // radio 변경 시 값 변경은 MenuContent의 RadioGroup단에서 해야할까
-
-        return (
-          <ListCell
-            ref={ref}
-            leftContent={
-              <ListItemContent variant="radio">
-                <RadioGroupItem value={value} />
-              </ListItemContent>
-            }
-            {...props}
-          >
-            {children}
-          </ListCell>
-        );
-
+        return <MenuRadioItem ref={ref} {...props} />;
       case 'checkbox':
-        const valueList = Array.isArray(MenuContext.value)
-          ? [...MenuContext.value]
-          : [];
-
-        const onCheckedChange = (checked: boolean) => {
-          MenuContext.onValueChange(
-            checked
-              ? [...valueList, value]
-              : valueList.filter((valueItem) => valueItem !== value),
-          );
-        };
-
-        return (
-          <ListCell
-            ref={ref}
-            leftContent={
-              <ListItemContent variant="checkbox">
-                <Checkbox
-                  checked={valueList.includes(value)}
-                  onCheckedChange={onCheckedChange}
-                />
-              </ListItemContent>
-            }
-            {...props}
-          >
-            {children}
-          </ListCell>
-        );
-
+        return <MenuCheckboxItem ref={ref} {...props} />;
       case 'normal':
       default:
-        return (
-          <ListCell ref={ref} {...props}>
-            {props.children}
-          </ListCell>
-        );
+        return <ListCell ref={ref} {...props} />;
     }
   },
 ) as PolymorphicComponent<MenuItemProps, 'li'>;
 
 MenuItem.displayName = MENU_ITEM_NAME;
+
+const MenuRadioItem = forwardRef(
+  <E extends ElementType = 'li'>(
+    { value, ...props }: PolymorphicProps<MenuRadioItemProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <ListCell
+        ref={ref}
+        leftContent={
+          <ListItemContent variant="radio">
+            <RadioGroupItem value={value} />
+          </ListItemContent>
+        }
+        {...props}
+      />
+    );
+  },
+) as PolymorphicComponent<MenuRadioItemProps, 'li'>;
+
+MenuRadioItem.displayName = MENU_RADIO_ITEM_NAME;
+
+const MenuCheckboxItem = forwardRef(
+  <E extends ElementType = 'li'>(
+    { value, ...props }: PolymorphicProps<MenuRadioItemProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    const MenuContext = useMenuContext(MENU_ITEM_NAME);
+    const valueList = Array.isArray(MenuContext.value)
+      ? [...MenuContext.value]
+      : [];
+
+    const onCheckedChange = (checked: boolean) => {
+      MenuContext.onValueChange(
+        checked
+          ? [...valueList, value]
+          : valueList.filter((valueItem) => valueItem !== value),
+      );
+    };
+
+    return (
+      <ListCell
+        ref={ref}
+        leftContent={
+          <ListItemContent variant="checkbox">
+            <Checkbox
+              checked={valueList.includes(value)}
+              onCheckedChange={onCheckedChange}
+            />
+          </ListItemContent>
+        }
+        {...props}
+      />
+    );
+  },
+) as PolymorphicComponent<MenuCheckboxItemProps, 'li'>;
+
+MenuCheckboxItem.displayName = MENU_CHECKBOX_ITEM_NAME;
 
 export { Menu, MenuTrigger, MenuContent, MenuItem };
