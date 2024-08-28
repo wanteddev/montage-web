@@ -20,5 +20,5 @@ export type MenuItemDefaultProps = {
 };
 export type MenuItemProps = Merge<MenuItemDefaultProps, ListCellProps>;
 
-export type MenuRadioItemProps = Omit<MenuItemProps, 'variant'>;
-export type MenuCheckboxItemProps = Omit<MenuItemProps, 'variant'>;
+export type MenuItemRadioProps = Omit<MenuItemProps, 'variant'>;
+export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;

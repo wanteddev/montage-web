@@ -8,11 +8,11 @@ import Checkbox from '../checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 
 import {
-  MENU_CHECKBOX_ITEM_NAME,
   MENU_CONTENT_NAME,
+  MENU_ITEM_CHECKBOX_NAME,
   MENU_ITEM_NAME,
+  MENU_ITEM_RADIO_NAME,
   MENU_NAME,
-  MENU_RADIO_ITEM_NAME,
   MENU_TRIGGER_NAME,
 } from './constants';
 import {
@@ -23,12 +23,12 @@ import {
 import { MenuProvider, useMenuContext } from './context';
 
 import type {
-  MenuCheckboxItemProps,
   MenuContentProps,
   MenuDefaultProps,
+  MenuItemCheckboxProps,
   MenuItemProps,
+  MenuItemRadioProps,
   MenuProps,
-  MenuRadioItemProps,
 } from './types';
 import type {
   PolymorphicComponent,
@@ -76,8 +76,8 @@ const MenuContent = forwardRef(
   ) => {
     return (
       <PopoverContent position="top-start" sx={menuPopoverContentStyle}>
-        <ScrollArea role="menu" ref={ref} sx={menuScrollAreaStyle(scroll)}>
-          <List {...props} sx={[listInMenuStyle, props.sx]}>
+        <ScrollArea ref={ref} sx={menuScrollAreaStyle(scroll)}>
+          <List role="menu" {...props} sx={[listInMenuStyle, props.sx]}>
             {children}
           </List>
         </ScrollArea>
@@ -95,26 +95,27 @@ const MenuItem = forwardRef(
   ) => {
     switch (variant) {
       case 'radio':
-        return <MenuRadioItem ref={ref} {...props} />;
+        return <MenuItemRadio ref={ref} {...props} />;
       case 'checkbox':
-        return <MenuCheckboxItem ref={ref} {...props} />;
+        return <MenuItemCheckbox ref={ref} {...props} />;
       case 'normal':
       default:
-        return <ListCell ref={ref} {...props} />;
+        return <ListCell role="menuitem" ref={ref} {...props} />;
     }
   },
 ) as PolymorphicComponent<MenuItemProps, 'li'>;
 
 MenuItem.displayName = MENU_ITEM_NAME;
 
-const MenuRadioItem = forwardRef(
+const MenuItemRadio = forwardRef(
   <E extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuRadioItemProps, E>,
+    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
       <ListCell
         ref={ref}
+        role="menuitemradio"
         leftContent={
           <ListItemContent variant="radio">
             <RadioGroupItem value={value} />
@@ -124,13 +125,13 @@ const MenuRadioItem = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<MenuRadioItemProps, 'li'>;
+) as PolymorphicComponent<MenuItemRadioProps, 'li'>;
 
-MenuRadioItem.displayName = MENU_RADIO_ITEM_NAME;
+MenuItemRadio.displayName = MENU_ITEM_CHECKBOX_NAME;
 
-const MenuCheckboxItem = forwardRef(
+const MenuItemCheckbox = forwardRef(
   <E extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuRadioItemProps, E>,
+    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const MenuContext = useMenuContext(MENU_ITEM_NAME);
@@ -149,6 +150,7 @@ const MenuCheckboxItem = forwardRef(
     return (
       <ListCell
         ref={ref}
+        role="menuitemcheckbox"
         leftContent={
           <ListItemContent variant="checkbox">
             <Checkbox
@@ -161,8 +163,8 @@ const MenuCheckboxItem = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<MenuCheckboxItemProps, 'li'>;
+) as PolymorphicComponent<MenuItemCheckboxProps, 'li'>;
 
-MenuCheckboxItem.displayName = MENU_CHECKBOX_ITEM_NAME;
+MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
 export { Menu, MenuTrigger, MenuContent, MenuItem };
