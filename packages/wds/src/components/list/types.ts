@@ -38,10 +38,6 @@ export type ListItemContentDefaultProps = {
     | 'badge'
     | 'custom';
 };
-export type ListItemContentProps = Merge<
-  ListItemContentDefaultProps,
-  FlexBoxWithoutRefProps
->;
 export type ListItemContentSlotProps = DefaultComponentProps<
   Omit<ListItemContentDefaultProps, 'variant'> & { disabled?: boolean },
   typeof Slot

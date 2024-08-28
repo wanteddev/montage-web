@@ -7,7 +7,7 @@ description: List Component
 
 사용자가 클릭하거나 호버할 시 여러 옵션들을 선택할 수 있습니다.
 
-<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuItem, ListText } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuGroup, MenuItem, ListText } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -15,18 +15,36 @@ const Demo = () => {
       <MenuTrigger>
         <Button>클릭</Button>
       </MenuTrigger>
-      <MenuContent>
-        <MenuItem variant="checkbox" value="develop">
-          <ListText>개발</ListText>
+
+      <MenuContent scroll={false}>
+        <MenuGroup title="그룹1">
+          <MenuItem variant="checkbox" value="test1">
+            <ListText>테스트1</ListText>
+          </MenuItem>
+          <MenuItem variant="checkbox" value="test2">
+            <ListText>테스트2</ListText>
+          </MenuItem>
+        </MenuGroup>
+        <MenuGroup title="그룹2">
+          <MenuItem variant="checkbox" value="test3">
+            <ListText>테스트3</ListText>
+          </MenuItem>
+          <MenuItem variant="checkbox" value="test4">
+            <ListText>테스트4</ListText>
+          </MenuItem>
+        </MenuGroup>
+
+        <MenuItem variant="checkbox" value="test5" disabled>
+          <ListText>테스트5</ListText>
         </MenuItem>
-        <MenuItem variant="checkbox" value="design">
-          <ListText>디자인</ListText>
+        <MenuItem variant="checkbox" value="test6">
+          <ListText>테스트6</ListText>
         </MenuItem>
-        <MenuItem variant="checkbox" value="marketing" disabled>
-          <ListText>마케팅</ListText>
+        <MenuItem variant="checkbox" value="test7">
+          <ListText>테스트7</ListText>
         </MenuItem>
-        <MenuItem variant="checkbox" value="director">
-          <ListText>기획</ListText>
+        <MenuItem variant="checkbox" value="test8">
+          <ListText>테스트8</ListText>
         </MenuItem>
       </MenuContent>
     </Menu>
@@ -74,6 +92,10 @@ export default Demo;`}
 ### MenuContent
 
 <PropsTable component="MenuContent" />
+
+### MenuGroup
+
+<PropsTable component="MenuGroup" />
 
 ### MenuItem
 
