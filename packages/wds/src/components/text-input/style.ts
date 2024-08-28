@@ -49,6 +49,10 @@ export const textInputWrapperStyle =
 
     ${EXCLUDE_TYPE.includes(type || '') &&
     css`
+      input {
+        max-height: 24px;
+      }
+
       [data-role='text-input-invalid'],
       [data-role='text-input-positive'] {
         display: none !important;
@@ -156,6 +160,15 @@ export const textInputWrapperStyle =
           }
         `}
 
+        
+    input:disabled {
+      color: ${theme.palette.label.alternative};
+    }
+
+    input:disabled::placeholder {
+      color: ${theme.palette.label.disable};
+    }
+
     &:where(:has(input:placeholder-shown)) {
       [data-role='text-input-reset'] {
         display: none;
@@ -174,7 +187,7 @@ export const textInputWrapperStyle =
 
       &::placeholder {
         ${typographyStyle('body1_normal', 'regular')}
-        color: ${theme.palette.label.alternative};
+        color: ${theme.palette.label.assistive};
       }
 
       [type='number'] {
