@@ -67,6 +67,7 @@ const Button = forwardRef(
           ref={ref}
           disabled={disabled}
           aria-disabled={disabled}
+          data-size={size}
           type="button"
           {...props}
           sx={[

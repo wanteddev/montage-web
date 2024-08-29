@@ -1,6 +1,12 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils';
+import { addOpacity, typographyStyle } from '../../utils';
+import {
+  activeInteractionStyle,
+  focusInteractionStyle,
+  focusVisibleInteractionStyle,
+  hoverInteractionStyle,
+} from '../with-interaction/style';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
@@ -78,6 +84,47 @@ export const menuBottomContentStyle = (theme: Theme) => css`
     [wds-component='with-interaction'] {
       width: 100%;
       height: 100%;
+    }
+  }
+
+  button[data-size='medium'] {
+    border-radius: 8px;
+    padding: 7px 14px;
+    gap: 4px;
+
+    & > svg {
+      font-size: 16px;
+    }
+    & > span {
+      ${typographyStyle('label2', 'bold')}
+    }
+  }
+
+  [wds-component='text-button'][data-variant='assistive'][data-size='medium'] {
+    border-radius: 6px;
+    padding: 4px 0px;
+    color: ${theme.palette.label.alternative};
+
+    & > span {
+      ${typographyStyle('label1_normal', 'bold')}
+    }
+
+    &:hover > [wds-component='with-interaction'] {
+      ${hoverInteractionStyle(theme, 'light')}
+    }
+    &:focus > [wds-component='with-interaction'] {
+      ${focusInteractionStyle(theme, 'light')}
+    }
+    &:focus-visible > [wds-component='with-interaction'] {
+      ${focusVisibleInteractionStyle(theme)}
+    }
+    &:active > [wds-component='with-interaction'] {
+      ${activeInteractionStyle(theme, 'light')}
+    }
+
+    [wds-component='with-interaction'] {
+      width: calc(100% + 12px);
+      background-color: ${theme.palette.label.normal};
     }
   }
 `;
