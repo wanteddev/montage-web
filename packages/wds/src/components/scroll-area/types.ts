@@ -8,9 +8,9 @@ export type ScrollAreaProps = DefaultComponentProps<
     viewportRef?: Ref<
       ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
     >;
-    viewPortProps?: DefaultComponentProps<
-      {},
-      typeof ScrollAreaPrimitive.ScrollAreaViewport
+    viewportProps?: Omit<
+      DefaultComponentProps<{}, typeof ScrollAreaPrimitive.ScrollAreaViewport>,
+      'ref'
     >;
     /**
      * scroll bar의 zindex를 설정합니다.

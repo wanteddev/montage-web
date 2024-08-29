@@ -47,7 +47,7 @@ export const checkboxStyle =
       width: 100%;
       height: 100%;
       background-color: ${theme.palette.background.normal.normal};
-      border-radius: 3px;
+      border-radius: inherit;
       box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
 
       transition:

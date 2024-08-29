@@ -292,7 +292,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
         --wds-modal-action-area-extra-content-margin: var(
-          --wds-action-area-margin,
+          --wds-action-area-margin-y,
           20px
         );
 
@@ -406,8 +406,8 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
     case 'emphasized':
       return css`
         & > div {
-          padding: var(--wds-top-navigation-padding-x, 16px)
-            var(--wds-top-navigation-padding-y, 16px);
+          padding: var(--wds-top-navigation-padding-y, 16px)
+            var(--wds-top-navigation-padding-x, 16px);
           min-height: var(--wds-top-navigation-min-height, 64px);
           gap: 16px;
           width: 100%;

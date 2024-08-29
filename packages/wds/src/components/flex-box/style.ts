@@ -82,6 +82,6 @@ const flexibleStyle = ({
   `}
   ${flexBasis !== undefined &&
   css`
-    align-self: ${flexBasis};
+    flex-basis: ${flexBasis};
   `}
 `;
