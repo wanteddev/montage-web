@@ -38,7 +38,7 @@ export type MenuBottomContentProps = {
     | 'icon'
     | 'button'
     | 'text-button'
-    | 'chip-action'
+    | 'chip-filter'
     | 'badge'
     | 'custom';
 };

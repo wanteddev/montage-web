@@ -7,8 +7,7 @@ description: Menu Component
 
 사용자가 클릭하거나 호버할 시 여러 옵션들을 선택할 수 있습니다.
 
-<Demo code={`import { Button, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, Button, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipAction, MenuList } from '@wanteddev/wds';
-import { IconCaretDown } from '@wanteddev/wds-icon';
+<Demo code={`import { Button, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, Button, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -58,8 +57,8 @@ const Demo = () => {
 
         <MenuBottom
           leftContent={
-            <MenuBottomContent variant="chip-action">
-              <ChipAction rightContent={<IconCaretDown />}>텍스트</ChipAction>
+            <MenuBottomContent variant="chip-filter">
+              <ChipFilter>텍스트</ChipFilter>
             </MenuBottomContent>
           }
           rightContent={

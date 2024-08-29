@@ -53,7 +53,7 @@ export const menuBottomStyle = (theme: Theme) => css`
   bottom: 0;
   width: 100%;
   height: 56px;
-  padding: 12px;
+  padding: 0 12px;
   max-height: 56px;
   background-color: ${theme.palette.background.elevated.normal};
   z-index: 10;
@@ -61,24 +61,11 @@ export const menuBottomStyle = (theme: Theme) => css`
 `;
 
 export const menuBottomContentStyle = (theme: Theme) => css`
-  max-height: 32px;
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
 
   & > svg {
     color: ${theme.palette.label.alternative};
-  }
-
-  [wds-component='chip-action'] {
-    > svg {
-      color: ${theme.palette.label.normal};
-    }
-
-    &[data-size='normal'] {
-      > svg {
-        font-size: 16px;
-      }
-    }
   }
 `;

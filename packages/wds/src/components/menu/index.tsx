@@ -217,7 +217,6 @@ const MenuItem = forwardRef(
             disabled={disabled}
             role="menuitem"
             ref={ref}
-            active={context.value === props.value}
             {...props}
             sx={[menuItemStyle, sx]}
             onClick={composeEventHandlers(
@@ -370,7 +369,7 @@ const MenuBottomContent = forwardRef<
 
     case 'button':
     case 'text-button':
-    case 'chip-action':
+    case 'chip-filter':
       return (
         <FlexBox
           wds-component="menu-bottom-content"
