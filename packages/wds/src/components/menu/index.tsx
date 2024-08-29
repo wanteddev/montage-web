@@ -354,6 +354,21 @@ const MenuBottomContent = forwardRef<
         </FlexBox>
       );
 
+    case 'button':
+    case 'text-button':
+    case 'chip-action':
+      return (
+        <FlexBox
+          wds-component="menu-bottom-content"
+          ref={ref as ForwardedRef<HTMLDivElement>}
+          {...props}
+          sx={[menuBottomContentStyle, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+
+    case 'badge':
     case 'custom':
     default:
       return (

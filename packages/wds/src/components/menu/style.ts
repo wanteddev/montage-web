@@ -1,12 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity, typographyStyle } from '../../utils';
-import {
-  activeInteractionStyle,
-  focusInteractionStyle,
-  focusVisibleInteractionStyle,
-  hoverInteractionStyle,
-} from '../with-interaction/style';
+import { addOpacity } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
@@ -69,62 +63,15 @@ export const menuBottomContentStyle = (theme: Theme) => css`
     color: ${theme.palette.label.alternative};
   }
 
-  [wds-component='icon-button'][data-variant='normal'] {
-    width: 32px;
-    height: 32px;
-    padding: 7px;
-    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
-
-    &:disabled,
-    &[aria-disabled='true'] {
-      background-color: ${theme.palette.background.normal.normal};
-      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+  [wds-component='chip-action'] {
+    > svg {
+      color: ${theme.palette.label.normal};
     }
 
-    [wds-component='with-interaction'] {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  button[data-size='medium'] {
-    border-radius: 8px;
-    padding: 7px 14px;
-    gap: 4px;
-
-    & > svg {
-      font-size: 16px;
-    }
-    & > span {
-      ${typographyStyle('label2', 'bold')}
-    }
-  }
-
-  [wds-component='text-button'][data-variant='assistive'][data-size='medium'] {
-    border-radius: 6px;
-    padding: 4px 0px;
-    color: ${theme.palette.label.alternative};
-
-    & > span {
-      ${typographyStyle('label1_normal', 'bold')}
-    }
-
-    &:hover > [wds-component='with-interaction'] {
-      ${hoverInteractionStyle(theme, 'light')}
-    }
-    &:focus > [wds-component='with-interaction'] {
-      ${focusInteractionStyle(theme, 'light')}
-    }
-    &:focus-visible > [wds-component='with-interaction'] {
-      ${focusVisibleInteractionStyle(theme)}
-    }
-    &:active > [wds-component='with-interaction'] {
-      ${activeInteractionStyle(theme, 'light')}
-    }
-
-    [wds-component='with-interaction'] {
-      width: calc(100% + 12px);
-      background-color: ${theme.palette.label.normal};
+    &[data-size='normal'] {
+      > svg {
+        font-size: 16px;
+      }
     }
   }
 `;

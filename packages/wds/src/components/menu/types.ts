@@ -33,9 +33,9 @@ export type MenuBottomProps = {
 export type MenuBottomContentProps = {
   variant?:
     | 'icon'
-    | 'chip-filter'
-    | 'badge'
     | 'button'
     | 'text-button'
+    | 'chip-action'
+    | 'badge'
     | 'custom';
 };
