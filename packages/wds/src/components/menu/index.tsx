@@ -31,6 +31,7 @@ import {
   menuGroupStyle,
   menuGroupTitleStyle,
   menuItemStyle,
+  menuListStyle,
   menuPopoverContentStyle,
   menuScrollAreaStyle,
 } from './style';
@@ -130,9 +131,16 @@ MenuContent.displayName = MENU_CONTENT_NAME;
 const MenuList = forwardRef<
   HTMLUListElement,
   DefaultComponentProps<ListProps, 'ul'>
->((props, ref) => {
+>(({ sx, ...props }, ref) => {
   return (
-    <List ref={ref} role="menu" alignItems="center" gap="4px" {...props} />
+    <List
+      ref={ref}
+      role="menu"
+      alignItems="center"
+      gap="4px"
+      {...props}
+      sx={[menuListStyle, sx]}
+    />
   );
 });
 

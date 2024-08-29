@@ -25,7 +25,7 @@ export const menuGroupTitleStyle = (theme: Theme) => css`
   position: sticky;
   top: 0;
   width: 100%;
-  padding: 12px 20px 8px;
+  padding: 4px 20px;
   z-index: 10;
   margin: auto auto auto 0;
   background-color: ${theme.palette.background.elevated.normal};
@@ -33,6 +33,10 @@ export const menuGroupTitleStyle = (theme: Theme) => css`
 
 export const menuGroupStyle = css`
   width: 100%;
+`;
+
+export const menuListStyle = css`
+  padding: 8px 0;
 `;
 
 export const menuItemStyle = (theme: Theme) => css`
