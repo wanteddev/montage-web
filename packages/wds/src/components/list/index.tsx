@@ -23,7 +23,7 @@ import {
   listItemContentStyle,
   listItemStyle,
   listStyle,
-  listTextCaptionStyle,
+  listTextStyle,
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
 
@@ -276,7 +276,7 @@ const ListCell = forwardRef(
 ListCell.displayName = LIST_CELL_NAME;
 
 const ListText = forwardRef(
-  <E extends ElementType = 'span'>(
+  <E extends ElementType = 'p'>(
     {
       caption,
       bold = false,
@@ -305,27 +305,35 @@ const ListText = forwardRef(
     };
 
     return (
-      <Typography
+      <FlexBox
         ref={ref}
-        variant="body1_normal"
-        color={getColor('palette.label.normal')}
-        weight={weight}
-        display="flex"
+        flexDirection="column"
+        gap="4px"
+        flex="1"
+        as="p"
         {...props}
-        sx={[{ flex: 1 }, props.sx]}
+        sx={[{ overflow: 'hidden' }, props.sx]}
       >
-        {children}
+        <Typography
+          variant="body1_normal"
+          color={getColor('palette.label.normal')}
+          weight={weight}
+          sx={listTextStyle}
+        >
+          {children}
+        </Typography>
+
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
             color={getColor('palette.label.alternative')}
             weight={weight}
-            sx={listTextCaptionStyle}
+            sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
           >
             {caption}
           </Typography>
         )}
-      </Typography>
+      </FlexBox>
     );
   },
 ) as PolymorphicComponent<ListTextProps, 'span'>;

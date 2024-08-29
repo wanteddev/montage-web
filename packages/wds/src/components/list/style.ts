@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils';
+import { createResponsiveStyle, ellipsisTypographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { ListCellProps, ListItemProps } from './types';
@@ -38,9 +38,11 @@ export const listItemStyle =
         `}
   `;
 
-export const listTextCaptionStyle = css`
-  margin-top: 4px;
-  display: block;
+export const listTextStyle = css`
+  ${ellipsisTypographyStyle(1)}
+  white-space: nowrap;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
 `;
 
 export const listCellStyle =
