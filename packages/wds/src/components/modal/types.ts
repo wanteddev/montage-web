@@ -9,7 +9,9 @@ export type ModalProps = PropsWithChildren<{
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-
+  /**
+   * variant=bottom, handle=true 일 때 드래그로 숨기기, 표시 변경이 될 때 실행할 함수입니다.
+   */
   onVisibilityChange?: (visibility: 'visible' | 'hidden') => void;
   /**
    * Portal로 표시될 container를 지정합니다.

@@ -115,8 +115,35 @@ const TextInput = forwardRef<
           )
         )}
 
-        <TextInputContent data-role="text-input-reset" variant="icon-button">
-          <IconButton type="button" size={22}>
+        <TextInputContent
+          data-role="text-input-reset"
+          variant="icon-button"
+          onPointerDown={() => {
+            const input = inputRef.current;
+
+            if (!input) return;
+
+            const event = new Event('change', { bubbles: true });
+            input.value = '';
+
+            props.onChange?.({
+              ...event,
+              target: input as EventTarget & HTMLInputElement,
+              currentTarget: input as EventTarget & HTMLInputElement,
+              nativeEvent: {
+                ...event,
+                target: input as EventTarget,
+                currentTarget: input as EventTarget,
+              },
+              isDefaultPrevented: () => false,
+              isPropagationStopped: () => false,
+              persist: (): void => {},
+            });
+
+            input.focus();
+          }}
+        >
+          <IconButton type="button" size={22} tabIndex={-1}>
             <IconCircleClose />
           </IconButton>
         </TextInputContent>
@@ -129,20 +156,21 @@ const TextInput = forwardRef<
 TextInput.displayName = 'TextInput';
 
 const TextInputContent = forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   DefaultComponentProps<TextInputContentProps, 'div'>
->(({ variant = 'text', children, sx, ...props }, ref) => {
+>(({ variant = 'text', children, sx, color, ...props }, ref) => {
   switch (variant) {
     case 'text':
       return (
         <Typography
+          as="div"
           wds-component="text-input-content"
           variant="body1_normal"
           weight="medium"
           ref={ref}
           sx={[textInputContentStyle, { padding: '0px 4px' }, sx]}
+          color={color ?? 'palette.label.assistive'}
           {...props}
-          color="palette.label.assistive"
         >
           {children}
         </Typography>
@@ -151,7 +179,7 @@ const TextInputContent = forwardRef<
       return (
         <FlexBox
           wds-component="text-input-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           sx={[textInputContentStyle, sx]}
           {...props}
         >
@@ -161,13 +189,14 @@ const TextInputContent = forwardRef<
     case 'timer':
       return (
         <Typography
+          as="div"
           variant="label1_normal"
           weight="bold"
           wds-component="text-input-content"
           ref={ref}
           sx={[textInputContentStyle, { padding: '2px 4px' }, sx]}
+          color={color ?? 'palette.primary.normal'}
           {...props}
-          color="palette.primary.normal"
         >
           {children}
         </Typography>
@@ -177,7 +206,7 @@ const TextInputContent = forwardRef<
       return (
         <FlexBox
           wds-component="text-input-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           sx={[textInputContentStyle, { padding: '1px', fontSize: '22px' }, sx]}
           {...props}
         >
@@ -189,7 +218,7 @@ const TextInputContent = forwardRef<
       return (
         <FlexBox
           wds-component="text-input-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           sx={[textInputContentStyle, sx]}
           {...props}
         >

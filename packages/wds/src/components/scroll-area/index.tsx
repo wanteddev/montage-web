@@ -26,7 +26,7 @@ const ScrollArea = forwardRef<
       viewportRef,
       scrollbars = 'both',
       type = 'hover',
-      viewPortProps = {},
+      viewportProps = {},
       zIndex,
       ...props
     },
@@ -59,8 +59,8 @@ const ScrollArea = forwardRef<
           as={ScrollAreaPrimitive.Viewport}
           asChild={asChild}
           ref={viewportRef}
-          {...viewPortProps}
-          sx={[viewportStyle, viewPortProps.sx]}
+          {...viewportProps}
+          sx={[viewportStyle, viewportProps.sx]}
         >
           {children}
         </Box>
