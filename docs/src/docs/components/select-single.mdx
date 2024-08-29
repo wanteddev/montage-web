@@ -1,0 +1,60 @@
+---
+title: Select
+description: Select Component
+---
+
+# Select
+
+필드를 눌러 드롭다운 메뉴, 모달, 바텀시트를 호출하여 항목을 선택할 수 있습니다.
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<SelectSingle>
+  <Group title="옵션그룹1">
+    <Option>
+      옵션1
+    </Option>
+  </Group>
+  <Group title="옵션그룹2">
+    <Option>
+      옵션2
+    </Option>
+  </Group>
+</SelectSingle>
+```
+
+### Select
+
+<PropsTable component="SelectSingle" />
+
+### Group
+
+<PropsTable component="Group" />
+
+### Option
+
+<PropsTable component="Option" />
+
+## Examples
+
+<Demo code={`import { SelectSingle, Option } from '@wanteddev/wds';
+import { IconCaretDown } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <SelectSingle placeholder="선택해주세요." onValueChange={(value) => console.log(value)}>
+      <Option value="option1">
+        옵션1
+      </Option>
+      <Option value="option2">
+        옵션2
+      </Option>
+    </SelectSingle>
+  )
+}
+
+export default Demo;`}
+/>
