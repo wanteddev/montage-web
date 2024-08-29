@@ -37,8 +37,16 @@ export const menuGroupStyle = css`
   width: 100%;
 `;
 
-export const menuItemStyle = css`
+export const menuItemStyle = (theme: Theme) => css`
   width: calc(100% - 40px);
+
+  &:focus-visible {
+    outline: none;
+
+    > [wds-component='with-interaction'] {
+      opacity: ${theme.opacity[5]};
+    }
+  }
 `;
 
 export const menuBottomStyle = (theme: Theme) => css`
@@ -72,26 +80,6 @@ export const menuBottomContentStyle = (theme: Theme) => css`
       > svg {
         font-size: 16px;
       }
-    }
-  }
-`;
-
-export const menuItemRadioStyle = (theme: Theme) => css`
-  &:focus-visible {
-    outline: none;
-
-    > [wds-component='with-interaction'] {
-      opacity: ${theme.opacity[5]};
-    }
-  }
-`;
-
-export const menuItemCheckboxStyle = (theme: Theme) => css`
-  &:focus-visible {
-    outline: none;
-
-    > [wds-component='with-interaction'] {
-      opacity: ${theme.opacity[5]};
     }
   }
 `;

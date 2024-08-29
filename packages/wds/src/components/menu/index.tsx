@@ -30,8 +30,6 @@ import {
   menuBottomStyle,
   menuGroupStyle,
   menuGroupTitleStyle,
-  menuItemCheckboxStyle,
-  menuItemRadioStyle,
   menuItemStyle,
   menuPopoverContentStyle,
   menuScrollAreaStyle,
@@ -206,26 +204,25 @@ const MenuItem = forwardRef(
 
       case 'normal':
       default:
-        return (
-          <RovingFocusGroupItem asChild focusable={!disabled}>
-            <ListCell
-              disabled={disabled}
-              role="menuitem"
-              ref={ref}
-              {...props}
-              sx={[menuItemStyle, sx]}
-              onClick={composeEventHandlers(
-                props.onClick,
-                (e) => {
-                  e.preventDefault();
-                  context.onValueChange(props.value);
-                },
-                {
-                  checkForDefaultPrevented: false,
-                },
-              )}
-            />
-          </RovingFocusGroupItem>
+        return menuItemRender(
+          <ListCell
+            disabled={disabled}
+            role="menuitem"
+            ref={ref}
+            active={context.value === props.value}
+            {...props}
+            sx={[menuItemStyle, sx]}
+            onClick={composeEventHandlers(
+              props.onClick,
+              (e) => {
+                e.preventDefault();
+                context.onValueChange(props.value);
+              },
+              {
+                checkForDefaultPrevented: false,
+              },
+            )}
+          />,
         );
     }
   },
@@ -235,7 +232,7 @@ MenuItem.displayName = MENU_ITEM_NAME;
 
 const MenuItemRadio = forwardRef(
   <E extends ElementType = 'li'>(
-    { value, sx, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
+    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
@@ -254,7 +251,6 @@ const MenuItemRadio = forwardRef(
           </ListItemContent>
         }
         {...props}
-        sx={[menuItemRadioStyle, sx]}
         onClick={composeEventHandlers(
           props.onClick,
           (e) => {
@@ -276,7 +272,7 @@ MenuItemRadio.displayName = MENU_ITEM_CHECKBOX_NAME;
 
 const MenuItemCheckbox = forwardRef(
   <E extends ElementType = 'li'>(
-    { value, sx, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
+    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
@@ -306,7 +302,6 @@ const MenuItemCheckbox = forwardRef(
           </ListItemContent>
         }
         {...props}
-        sx={[menuItemCheckboxStyle, sx]}
         onClick={composeEventHandlers(
           props.onClick,
           (e) => {
