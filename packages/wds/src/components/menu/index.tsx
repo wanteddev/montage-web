@@ -183,16 +183,15 @@ const MenuItem = forwardRef(
 
     switch (variant) {
       case 'radio':
-        return (
-          <RovingFocusGroupItem asChild focusable={!disabled}>
-            <MenuItemRadio
-              disabled={disabled}
-              ref={ref}
-              {...props}
-              sx={[menuItemStyle, props.sx]}
-            />
-          </RovingFocusGroupItem>
+        return menuItemRender(
+          <MenuItemRadio
+            disabled={disabled}
+            ref={ref}
+            {...props}
+            sx={[menuItemStyle, props.sx]}
+          />,
         );
+
       case 'checkbox':
         return menuItemRender(
           <MenuItemCheckbox
@@ -201,6 +200,7 @@ const MenuItem = forwardRef(
             sx={[menuItemStyle, props.sx]}
           />,
         );
+
       case 'normal':
       default:
         return (
@@ -248,17 +248,12 @@ const MenuItemRadio = forwardRef(
         }
         {...props}
         sx={[menuItemRadioStyle, props.sx]}
-        onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
-          // 동작 안할수도..?
-          (e.target as HTMLElement).click();
-        })}
         onClick={composeEventHandlers(
           props.onClick,
           (e) => {
             if (!e.defaultPrevented) {
               context.onValueChange(value);
             }
-
             e.preventDefault();
           },
           {
