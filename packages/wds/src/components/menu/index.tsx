@@ -15,6 +15,7 @@ import FlexBox from '../flex-box';
 import Typography from '../typography';
 
 import {
+  MENU_BOTTOM_CONTENT_NAME,
   MENU_CONTENT_NAME,
   MENU_GROUP_NAME,
   MENU_ITEM_CHECKBOX_NAME,
@@ -25,6 +26,8 @@ import {
 } from './constants';
 import {
   listInMenuStyle,
+  menuBottomContentStyle,
+  menuBottomStyle,
   menuGroupStyle,
   menuGroupTitleStyle,
   menuItemStyle,
@@ -34,6 +37,8 @@ import {
 import { MenuProvider, useMenuContext } from './context';
 
 import type {
+  MenuBottomContentProps,
+  MenuBottomProps,
   MenuContentProps,
   MenuDefaultProps,
   MenuGroupDefaultProps,
@@ -123,6 +128,7 @@ const MenuGroup = forwardRef<
       role="group"
       alignItems="center"
       flexDirection="column"
+      gap="4px"
       {...props}
       sx={[menuGroupStyle, props.sx]}
     >
@@ -309,4 +315,68 @@ const MenuItemCheckbox = forwardRef(
 
 MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
-export { Menu, MenuTrigger, MenuContent, MenuGroup, MenuItem };
+const MenuBottom = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<MenuBottomProps, 'div'>
+>(({ leftContent, rightContent, children, ...props }, ref) => {
+  return (
+    <FlexBox
+      ref={ref}
+      wds-component="menu-bottom"
+      alignItems="center"
+      justifyContent="space-between"
+      {...props}
+      sx={[menuBottomStyle, props.sx]}
+    >
+      {Boolean(leftContent) && leftContent}
+      {children}
+      {Boolean(rightContent) && rightContent}
+    </FlexBox>
+  );
+});
+
+MenuBottom.displayName = MENU_GROUP_NAME;
+
+const MenuBottomContent = forwardRef<
+  HTMLElement,
+  DefaultComponentProps<MenuBottomContentProps, 'div'>
+>(({ variant = 'custom', children, ...props }, ref) => {
+  switch (variant) {
+    case 'icon':
+      return (
+        <FlexBox
+          wds-component="menu-bottom-content"
+          ref={ref as ForwardedRef<HTMLDivElement>}
+          {...props}
+          sx={[menuBottomContentStyle, { fontSize: '24px' }, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+
+    case 'custom':
+    default:
+      return (
+        <FlexBox
+          wds-component="menu-bottom-content"
+          ref={ref as ForwardedRef<HTMLDivElement>}
+          {...props}
+          sx={[menuBottomContentStyle, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+  }
+});
+
+MenuBottomContent.displayName = MENU_BOTTOM_CONTENT_NAME;
+
+export {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuGroup,
+  MenuItem,
+  MenuBottom,
+  MenuBottomContent,
+};

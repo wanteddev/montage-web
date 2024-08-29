@@ -25,3 +25,17 @@ export type MenuItemProps = Merge<MenuItemDefaultProps, ListCellProps>;
 
 export type MenuItemRadioProps = Omit<MenuItemProps, 'variant'>;
 export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;
+
+export type MenuBottomProps = {
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
+};
+export type MenuBottomContentProps = {
+  variant?:
+    | 'icon'
+    | 'chip-filter'
+    | 'badge'
+    | 'reset-text-button'
+    | 'reset-icon-button'
+    | 'custom';
+};

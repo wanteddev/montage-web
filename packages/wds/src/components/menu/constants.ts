@@ -9,3 +9,4 @@ export const MENU_ITEM_RADIO_NAME = 'MenuItemRadio';
 export const MENU_ITEM_CHECKBOX_NAME = 'MenuItemCheckbox';
 
 export const MENU_BOTTOM_NAME = 'MenuBottom';
+export const MENU_BOTTOM_CONTENT_NAME = 'MenuBottomContent';

@@ -27,7 +27,6 @@ export const menuGroupTitleStyle = (theme: Theme) => css`
   position: sticky;
   top: 0;
   width: 100%;
-  /* width: calc(100% - 13px); */
   padding: 12px 20px 8px;
   z-index: 10;
   margin: auto auto auto 0;
@@ -40,4 +39,45 @@ export const menuGroupStyle = css`
 
 export const menuItemStyle = css`
   width: calc(100% - 40px);
+`;
+
+export const menuBottomStyle = (theme: Theme) => css`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 56px;
+  padding: 12px;
+  max-height: 56px;
+  background-color: ${theme.palette.background.elevated.normal};
+  z-index: 10;
+  border: 1px solid ${theme.palette.line.solid.alternative};
+`;
+
+export const menuBottomContentStyle = (theme: Theme) => css`
+  max-height: 32px;
+  flex-shrink: 0;
+  width: fit-content;
+  height: fit-content;
+
+  & > svg {
+    color: ${theme.palette.label.alternative};
+  }
+
+  [wds-component='icon-button'][data-variant='normal'] {
+    width: 32px;
+    height: 32px;
+    padding: 7px;
+    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+
+    &:disabled,
+    &[aria-disabled='true'] {
+      background-color: ${theme.palette.background.normal.normal};
+      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+    }
+
+    [wds-component='with-interaction'] {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
