@@ -3,15 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import { createResponsiveStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type {
-  ListCellProps,
-  ListCellResponsiveProps,
-  ListItemProps,
-} from './types';
-
-type ListItemStyleProps = Pick<ListItemProps, 'active' | 'disabled'>;
-type ListItemInCellProps = Pick<ListCellProps, 'padding' | 'paddingInset'> &
-  ListCellResponsiveProps;
+import type { ListCellProps, ListItemProps } from './types';
 
 export const listStyle = css`
   && {
@@ -26,86 +18,111 @@ export const listItemStyle =
     active,
     disabled,
     clickable,
-  }: ListItemStyleProps & {
+  }: ListItemProps & {
     clickable: boolean;
   }) =>
   (theme: Theme) => css`
     width: 100%;
-    color: ${disabled
-      ? theme.palette.label.disable
-      : active
-        ? theme.palette.primary.normal
-        : theme.palette.label.normal};
-    pointer-events: ${disabled ? 'none' : 'initial'};
-    cursor: ${disabled ? 'not-allowed' : clickable ? 'pointer' : 'initial'};
-  `;
 
-export const listTextStyle = ({
-  hasLabelTargetElement,
-}: {
-  hasLabelTargetElement: boolean;
-}) => css`
-  ${hasLabelTargetElement &&
-  css`
-    cursor: pointer;
-  `}
-`;
+    ${disabled
+      ? css`
+          cursor: not-allowed;
+          color: ${theme.palette.label.disable};
+          pointer-events: none;
+        `
+      : css`
+          cursor: ${clickable ? 'pointer' : 'initial'};
+          color: ${active
+            ? theme.palette.primary.normal
+            : theme.palette.label.normal};
+        `}
+  `;
 
 export const listTextCaptionStyle = css`
   margin-top: 4px;
   display: block;
 `;
 
-const listItemInCellSizeStyle = (
-  padding: ListItemInCellProps['padding'],
-  paddingInset: ListItemInCellProps['paddingInset'],
-) => {
-  const sidePadding = paddingInset ? 12 : 0;
-
-  switch (padding) {
-    case 'small':
-      return css`
-        padding: 8px ${sidePadding}px;
-      `;
-    case 'medium':
-      return css`
-        padding: 16px ${sidePadding}px;
-      `;
-    case 'normal':
-    default:
-      return css`
-        padding: 12px ${sidePadding}px;
-      `;
-  }
-};
-
-export const listItemInCellStyle =
-  ({ padding, paddingInset, xs, sm, md, lg, xl }: ListItemInCellProps) =>
+export const listCellStyle =
+  ({ padding, paddingInset, xs, sm, md, lg, xl }: ListCellProps) =>
   (theme: Theme) => css`
-    --wds-list-cell-border-radius: 12px;
-    border-radius: var(--wds-list-cell-border-radius);
+    border-radius: 12px;
 
-    ${listItemInCellSizeStyle(padding, paddingInset)}
+    ${listCellPaddingStyle({ padding })}
+    ${listCellPaddingInsetStyle({ paddingInset })}
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${listItemInCellSizeStyle(params?.padding, params?.paddingInset)}
+        ${listCellPaddingStyle({ padding: params?.padding })}
+        ${listCellPaddingInsetStyle({ paddingInset: params?.paddingInset })}
         ${params?.sx}
       `,
     )}
   `;
 
+const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
+  switch (padding) {
+    case 'small':
+      return css`
+        padding-top: 8px;
+        padding-bottom: 8px;
+      `;
+    case 'medium':
+      return css`
+        padding-top: 16px;
+        padding-bottom: 16px;
+      `;
+    case 'normal':
+    default:
+      return css`
+        padding-top: 12px;
+        padding-bottom: 12px;
+      `;
+  }
+};
+
+const listCellPaddingInsetStyle = ({
+  paddingInset,
+}: Pick<ListCellProps, 'paddingInset'>) => {
+  switch (paddingInset) {
+    case true:
+      return css`
+        padding-right: 20px;
+        padding-left: 20px;
+
+        & > [wds-component='with-interaction'] {
+          width: 100%;
+        }
+
+        & > [data-role='list-cell-divider'] {
+          width: calc(100% - 40px);
+        }
+      `;
+    case false:
+      return css`
+        padding-right: 0px;
+        padding-left: 0px;
+
+        & > [wds-component='with-interaction'] {
+          width: calc(100% + 24px);
+        }
+
+        & > [data-role='list-cell-divider'] {
+          width: 100%;
+        }
+      `;
+  }
+};
+
 export const listCellDividerStyle = css`
   position: absolute;
-  bottom: 0;
-  left: var(--wds-list-cell-border-radius);
-  width: calc(100% - var(--wds-list-cell-border-radius) * 2);
-`;
-
-export const listChevronButtonStyle = css`
-  background-color: transparent;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 0px);
+  width: 100%;
 `;
 
 export const listItemContentStyle = (theme: Theme) => css`
@@ -113,6 +130,7 @@ export const listItemContentStyle = (theme: Theme) => css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
+  position: relative;
 
   & > svg {
     color: ${theme.palette.label.assistive};
@@ -123,5 +141,8 @@ export const listItemContentStyle = (theme: Theme) => css`
   }
   [wds-component='text-button'][data-variant='assistive'] {
     color: ${theme.palette.label.alternative};
+  }
+  [wds-component='with-interaction'] {
+    z-index: 1;
   }
 `;
