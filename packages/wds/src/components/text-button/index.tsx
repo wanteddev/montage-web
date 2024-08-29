@@ -49,7 +49,6 @@ const TextButton = forwardRef(
         <Box
           as={(as || 'button') as E}
           wds-component="text-button"
-          data-size={size}
           data-variant={variant}
           aria-labelledby={id}
           ref={ref}
