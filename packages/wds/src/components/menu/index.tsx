@@ -30,6 +30,8 @@ import {
   menuBottomStyle,
   menuGroupStyle,
   menuGroupTitleStyle,
+  menuItemCheckboxStyle,
+  menuItemRadioStyle,
   menuItemStyle,
   menuPopoverContentStyle,
   menuScrollAreaStyle,
@@ -57,6 +59,7 @@ import type {
   ElementType,
   ForwardedRef,
   PropsWithChildren,
+  ReactNode,
 } from 'react';
 
 const Menu = (props: PropsWithChildren<MenuProps>) => {
@@ -153,12 +156,30 @@ const MenuItem = forwardRef(
   <E extends ElementType = 'li'>(
     {
       variant = 'normal',
-      disabled,
+      onKeyDown,
       ...props
     }: PolymorphicProps<MenuItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
+    const { disabled } = props;
     const context = useMenuContext(MENU_ITEM_NAME);
+
+    const menuItemRender = (children: ReactNode) => {
+      return (
+        <RovingFocusGroupItem
+          asChild
+          focusable={!disabled}
+          onKeyDown={composeEventHandlers(onKeyDown, (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              (e.target as HTMLElement).click();
+            }
+          })}
+        >
+          {children}
+        </RovingFocusGroupItem>
+      );
+    };
 
     switch (variant) {
       case 'radio':
@@ -173,15 +194,12 @@ const MenuItem = forwardRef(
           </RovingFocusGroupItem>
         );
       case 'checkbox':
-        return (
-          <RovingFocusGroupItem asChild focusable={!disabled}>
-            <MenuItemCheckbox
-              disabled={disabled}
-              ref={ref}
-              {...props}
-              sx={[menuItemStyle, props.sx]}
-            />
-          </RovingFocusGroupItem>
+        return menuItemRender(
+          <MenuItemCheckbox
+            ref={ref}
+            {...props}
+            sx={[menuItemStyle, props.sx]}
+          />,
         );
       case 'normal':
       default:
@@ -229,6 +247,7 @@ const MenuItemRadio = forwardRef(
           </ListItemContent>
         }
         {...props}
+        sx={[menuItemRadioStyle, props.sx]}
         onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
           // 동작 안할수도..?
           (e.target as HTMLElement).click();
@@ -287,21 +306,13 @@ const MenuItemCheckbox = forwardRef(
           </ListItemContent>
         }
         {...props}
-        // sx={(theme) => ({
-        //   ['&:focus-visible']: {
-        //     outline: 'none',
-        //     ['& > [data-role="with-interaction"]']: {
-        //       opacity: theme.opacity[5],
-        //     },
-        //   },
-        // })}
+        sx={[menuItemCheckboxStyle, props.sx]}
         onClick={composeEventHandlers(
           props.onClick,
           (e) => {
             if (!e.defaultPrevented) {
               onCheckedChange(!checked);
             }
-
             e.preventDefault();
           },
           {

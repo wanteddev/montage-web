@@ -75,3 +75,23 @@ export const menuBottomContentStyle = (theme: Theme) => css`
     }
   }
 `;
+
+export const menuItemRadioStyle = (theme: Theme) => css`
+  &:focus-visible {
+    outline: none;
+
+    > [wds-component='with-interaction'] {
+      opacity: ${theme.opacity[5]};
+    }
+  }
+`;
+
+export const menuItemCheckboxStyle = (theme: Theme) => css`
+  &:focus-visible {
+    outline: none;
+
+    > [wds-component='with-interaction'] {
+      opacity: ${theme.opacity[5]};
+    }
+  }
+`;
