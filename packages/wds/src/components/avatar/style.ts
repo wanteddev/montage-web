@@ -18,7 +18,7 @@ export const avatarWrapperStyle =
 
     &[data-state='loaded'] {
       &::after {
-        box-shadow: inset 0 0 1px
+        box-shadow: inset 0 0 0 1px
           ${addOpacity(theme.palette.label.normal, theme.opacity[5])};
         content: '';
         width: 100%;

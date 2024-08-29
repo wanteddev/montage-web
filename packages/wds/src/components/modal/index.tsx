@@ -97,9 +97,7 @@ const Modal = ({
 
   const { hasExited, status } = useTransitionStatus({ open, duration });
 
-  const onVisibilityChangeCallback = useCallbackRef(
-    onVisibilityChange,
-  ) as typeof onVisibilityChange;
+  const onVisibilityChangeCallback = useCallbackRef(onVisibilityChange);
 
   useEffect(() => {
     setDuration(isBottomSheet ? 250 : 0);
@@ -112,7 +110,7 @@ const Modal = ({
       visibility={visibility}
       setVisibility={useCallback(
         (value) => {
-          onVisibilityChangeCallback?.(value);
+          onVisibilityChangeCallback(value);
           setVisibility(value);
         },
         [onVisibilityChangeCallback],
@@ -184,15 +182,18 @@ const ModalContainer = forwardRef<
     const detectScrollRef = useRef<HTMLDivElement>(null);
 
     const [scrollHeight, setScrollHeight] = useState(0);
-    const [hasScroll, setHasScroll] = useState(false);
+    const [actionAreaSticky, setActionAreaSticky] = useState(false);
 
     const handleOnScroll = useCallback(
       (e: Event) => {
         const target = e.target as Element;
 
         setScrollHeight(target.scrollTop);
+        setActionAreaSticky(
+          target.scrollHeight - target.clientHeight !== target.scrollTop,
+        );
       },
-      [setScrollHeight],
+      [setScrollHeight, setActionAreaSticky],
     );
 
     const handleResize = useCallback(() => {
@@ -201,10 +202,10 @@ const ModalContainer = forwardRef<
         return;
       }
 
-      setHasScroll(
+      setActionAreaSticky(
         target.scrollHeight - target.clientHeight !== target.scrollTop,
       );
-    }, [setHasScroll]);
+    }, [setActionAreaSticky]);
 
     useResizeObserver(detectScrollRef.current, handleResize);
 
@@ -255,7 +256,7 @@ const ModalContainer = forwardRef<
         titleId={context.titleId}
         onOpenChange={onOpenChange}
       >
-        <ModalActionAreaProvider sticky={sticky} hasScroll={hasScroll}>
+        <ModalActionAreaProvider sticky={sticky && actionAreaSticky}>
           <Box
             data-visibility={
               isBottomSheetWithHandle ? context.visibility : undefined
@@ -358,7 +359,7 @@ const ModalContainer = forwardRef<
                       display: 'flex',
                       flexGrow: '1',
                     }}
-                    viewPortProps={{
+                    viewportProps={{
                       sx: {
                         height: 'initial',
                       },
