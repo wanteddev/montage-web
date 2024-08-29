@@ -447,6 +447,8 @@ export default Demo;`}
 Switch를 사용하는 경우 `ListCell` 영역을 클릭해서 토글되지 않습니다.
 스위치 영역을 직접 클릭해야만 스위치가 토글됩니다.
 
+`disableInteraction` 과 함께 사용하면 자연스럽운 동작으로 사용 가능합니다.
+
 <Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListItemContent, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
@@ -467,6 +469,7 @@ const Demo = () => {
           render={({ field, formState }) => (
             <ListCell
               as={FormField}
+              disableInteraction
               rightContent={
                 <FormControl>
                   <ListItemContent variant="switch">
@@ -489,6 +492,7 @@ const Demo = () => {
           render={({ field, formState }) => (
             <ListCell
               as={FormField}
+              disableInteraction
               rightContent={
                 <FormControl>
                   <ListItemContent variant="switch">

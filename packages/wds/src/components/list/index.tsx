@@ -96,7 +96,11 @@ const ListItem = forwardRef(
           tabIndex={clickable ? 0 : -1}
           {...props}
           onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
-            if (clickable && (e.key === 'Enter' || e.key === 'Space')) {
+            if (
+              (e.key === 'Enter' || e.key === ' ') &&
+              (e.target as HTMLElement) === itemElement
+            ) {
+              e.preventDefault();
               e.currentTarget.click();
             }
           })}
