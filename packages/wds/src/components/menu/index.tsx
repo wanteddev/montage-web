@@ -92,14 +92,25 @@ MenuTrigger.displayName = MENU_TRIGGER_NAME;
 
 const MenuContent = forwardRef(
   (
-    { children, ...props }: MenuContentProps,
+    {
+      position = 'top-start',
+      offset,
+      container,
+      disablePortal,
+      sx,
+      children,
+      ...props
+    }: MenuContentProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <PopoverContent
         ref={ref}
-        position="top-start"
-        sx={[menuPopoverContentStyle, props.sx]}
+        position={position}
+        offset={offset}
+        container={container}
+        disablePortal={disablePortal}
+        sx={[menuPopoverContentStyle, sx]}
       >
         <RovingFocusGroup orientation="vertical" dir="ltr" loop asChild>
           <ScrollArea ref={ref} zIndex={11} sx={menuScrollAreaStyle}>
@@ -124,7 +135,7 @@ MenuContent.displayName = MENU_CONTENT_NAME;
 const MenuGroup = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<MenuGroupDefaultProps, 'div'>
->(({ title, children, ...props }, ref) => {
+>(({ title, sx, children, ...props }, ref) => {
   return (
     <FlexBox
       ref={ref}
@@ -133,7 +144,7 @@ const MenuGroup = forwardRef<
       flexDirection="column"
       gap="4px"
       {...props}
-      sx={[menuGroupStyle, props.sx]}
+      sx={[menuGroupStyle, sx]}
     >
       {Boolean(title) && (
         <Typography
@@ -157,6 +168,7 @@ const MenuItem = forwardRef(
     {
       variant = 'normal',
       onKeyDown,
+      sx,
       ...props
     }: PolymorphicProps<MenuItemProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
@@ -184,21 +196,12 @@ const MenuItem = forwardRef(
     switch (variant) {
       case 'radio':
         return menuItemRender(
-          <MenuItemRadio
-            disabled={disabled}
-            ref={ref}
-            {...props}
-            sx={[menuItemStyle, props.sx]}
-          />,
+          <MenuItemRadio ref={ref} {...props} sx={[menuItemStyle, sx]} />,
         );
 
       case 'checkbox':
         return menuItemRender(
-          <MenuItemCheckbox
-            ref={ref}
-            {...props}
-            sx={[menuItemStyle, props.sx]}
-          />,
+          <MenuItemCheckbox ref={ref} {...props} sx={[menuItemStyle, sx]} />,
         );
 
       case 'normal':
@@ -210,7 +213,7 @@ const MenuItem = forwardRef(
               role="menuitem"
               ref={ref}
               {...props}
-              sx={[menuItemStyle, props.sx]}
+              sx={[menuItemStyle, sx]}
               onClick={composeEventHandlers(
                 props.onClick,
                 (e) => {
@@ -232,7 +235,7 @@ MenuItem.displayName = MENU_ITEM_NAME;
 
 const MenuItemRadio = forwardRef(
   <E extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
+    { value, sx, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
@@ -243,11 +246,15 @@ const MenuItemRadio = forwardRef(
         role="menuitemradio"
         leftContent={
           <ListItemContent variant="radio">
-            <Radio tabIndex={-1} value={value} />
+            <Radio
+              tabIndex={-1}
+              checked={context.value === value}
+              value={value}
+            />
           </ListItemContent>
         }
         {...props}
-        sx={[menuItemRadioStyle, props.sx]}
+        sx={[menuItemRadioStyle, sx]}
         onClick={composeEventHandlers(
           props.onClick,
           (e) => {
@@ -269,18 +276,16 @@ MenuItemRadio.displayName = MENU_ITEM_CHECKBOX_NAME;
 
 const MenuItemCheckbox = forwardRef(
   <E extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
+    { value, sx, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const MenuContext = useMenuContext(MENU_ITEM_NAME);
-    const valueList = Array.isArray(MenuContext.value)
-      ? [...MenuContext.value]
-      : [];
+    const context = useMenuContext(MENU_ITEM_NAME);
+    const valueList = Array.isArray(context.value) ? [...context.value] : [];
 
     const checked = valueList.includes(value);
 
     const onCheckedChange = (newChecked: boolean) => {
-      MenuContext.onValueChange(
+      context.onValueChange(
         newChecked
           ? [...valueList, value]
           : valueList.filter((valueItem) => valueItem !== value),
@@ -301,7 +306,7 @@ const MenuItemCheckbox = forwardRef(
           </ListItemContent>
         }
         {...props}
-        sx={[menuItemCheckboxStyle, props.sx]}
+        sx={[menuItemCheckboxStyle, sx]}
         onClick={composeEventHandlers(
           props.onClick,
           (e) => {
@@ -324,7 +329,7 @@ MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 const MenuBottom = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<MenuBottomProps, 'div'>
->(({ leftContent, rightContent, children, ...props }, ref) => {
+>(({ leftContent, rightContent, children, sx, ...props }, ref) => {
   return (
     <FlexBox
       ref={ref}
@@ -332,7 +337,7 @@ const MenuBottom = forwardRef<
       alignItems="center"
       justifyContent="space-between"
       {...props}
-      sx={[menuBottomStyle, props.sx]}
+      sx={[menuBottomStyle, sx]}
     >
       {Boolean(leftContent) && leftContent}
       {children}
@@ -346,7 +351,7 @@ MenuBottom.displayName = MENU_GROUP_NAME;
 const MenuBottomContent = forwardRef<
   HTMLElement,
   DefaultComponentProps<MenuBottomContentProps, 'div'>
->(({ variant = 'custom', children, ...props }, ref) => {
+>(({ variant = 'custom', sx, children, ...props }, ref) => {
   switch (variant) {
     case 'icon':
       return (
@@ -354,7 +359,7 @@ const MenuBottomContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref as ForwardedRef<HTMLDivElement>}
           {...props}
-          sx={[menuBottomContentStyle, { fontSize: '24px' }, props.sx]}
+          sx={[menuBottomContentStyle, { fontSize: '24px' }, sx]}
         >
           {children}
         </FlexBox>
@@ -368,7 +373,7 @@ const MenuBottomContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref as ForwardedRef<HTMLDivElement>}
           {...props}
-          sx={[menuBottomContentStyle, props.sx]}
+          sx={[menuBottomContentStyle, sx]}
         >
           {children}
         </FlexBox>
@@ -382,7 +387,7 @@ const MenuBottomContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref as ForwardedRef<HTMLDivElement>}
           {...props}
-          sx={[menuBottomContentStyle, props.sx]}
+          sx={[menuBottomContentStyle, sx]}
         >
           {children}
         </FlexBox>
