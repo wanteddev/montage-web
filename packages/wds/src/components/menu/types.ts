@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { PopoverContentProps, PopoverProps } from '../popover/types';
-import type { ListCellProps, ListProps } from '../list/types';
+import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 
 export type MenuDefaultProps = {
@@ -14,7 +14,7 @@ export type MenuContentPopoverContentProps = Pick<
   PopoverContentProps,
   'position' | 'offset' | 'container' | 'disablePortal'
 >;
-export type MenuContentProps = Merge<MenuContentPopoverContentProps, ListProps>;
+export type MenuContentProps = MenuContentPopoverContentProps;
 
 export type MenuGroupDefaultProps = {
   title?: ReactNode;

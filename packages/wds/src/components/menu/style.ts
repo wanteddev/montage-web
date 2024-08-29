@@ -14,13 +14,11 @@ export const menuPopoverContentStyle = (theme: Theme) => css`
 export const menuScrollAreaStyle = (theme: Theme) => css`
   width: 320px;
   min-width: 140px;
+  max-height: 400px;
+  height: auto;
   border-radius: inherit;
   border: 1px solid ${theme.palette.line.solid.neutral};
   background-color: ${theme.palette.background.elevated.normal};
-`;
-
-export const listInMenuStyle = css`
-  max-height: 400px;
 `;
 
 export const menuGroupTitleStyle = (theme: Theme) => css`
@@ -50,7 +48,8 @@ export const menuItemStyle = (theme: Theme) => css`
 `;
 
 export const menuBottomStyle = (theme: Theme) => css`
-  position: absolute;
+  position: sticky;
+  left: 0;
   bottom: 0;
   width: 100%;
   height: 56px;

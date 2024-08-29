@@ -21,11 +21,11 @@ import {
   MENU_ITEM_CHECKBOX_NAME,
   MENU_ITEM_NAME,
   MENU_ITEM_RADIO_NAME,
+  MENU_LIST_NAME,
   MENU_NAME,
   MENU_TRIGGER_NAME,
 } from './constants';
 import {
-  listInMenuStyle,
   menuBottomContentStyle,
   menuBottomStyle,
   menuGroupStyle,
@@ -36,6 +36,7 @@ import {
 } from './style';
 import { MenuProvider, useMenuContext } from './context';
 
+import type { ListProps } from '../list/types';
 import type {
   MenuBottomContentProps,
   MenuBottomProps,
@@ -88,7 +89,10 @@ const MenuTrigger = PopoverTrigger;
 
 MenuTrigger.displayName = MENU_TRIGGER_NAME;
 
-const MenuContent = forwardRef(
+const MenuContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<MenuContentProps, 'div'>
+>(
   (
     {
       position = 'top-start',
@@ -98,8 +102,8 @@ const MenuContent = forwardRef(
       sx,
       children,
       ...props
-    }: MenuContentProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    },
+    ref,
   ) => {
     return (
       <PopoverContent
@@ -108,19 +112,12 @@ const MenuContent = forwardRef(
         offset={offset}
         container={container}
         disablePortal={disablePortal}
+        {...props}
         sx={[menuPopoverContentStyle, sx]}
       >
         <RovingFocusGroup orientation="vertical" dir="ltr" loop asChild>
           <ScrollArea ref={ref} zIndex={11} sx={menuScrollAreaStyle}>
-            <List
-              role="menu"
-              alignItems="center"
-              gap="4px"
-              {...props}
-              sx={listInMenuStyle}
-            >
-              {children}
-            </List>
+            {children}
           </ScrollArea>
         </RovingFocusGroup>
       </PopoverContent>
@@ -129,6 +126,17 @@ const MenuContent = forwardRef(
 );
 
 MenuContent.displayName = MENU_CONTENT_NAME;
+
+const MenuList = forwardRef<
+  HTMLUListElement,
+  DefaultComponentProps<ListProps, 'ul'>
+>((props, ref) => {
+  return (
+    <List ref={ref} role="menu" alignItems="center" gap="4px" {...props} />
+  );
+});
+
+MenuList.displayName = MENU_LIST_NAME;
 
 const MenuGroup = forwardRef<
   HTMLDivElement,
@@ -396,6 +404,7 @@ export {
   Menu,
   MenuTrigger,
   MenuContent,
+  MenuList,
   MenuGroup,
   MenuItem,
   MenuBottom,
