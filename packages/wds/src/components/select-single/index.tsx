@@ -41,40 +41,47 @@ const SelectSingle = forwardRef<
 >(
   (
     {
+      defaultValue,
+      value: valueProp,
+      onChange: onValueChange,
+      defaultOpen,
+      open: openProps,
+      onOpenChange,
+      // TextInput props
       width = '335px',
       height = '48px',
       invalid,
       disabled,
-      defaultValue,
-      placeholder,
-      value: valueProp,
-      onChange: onValueChange,
-      open,
-      defaultOpen,
-      onOpenChange,
       leftContent,
+      placeholder,
       sx,
       children,
       ...props
     },
     ref,
   ) => {
-    const [selectValue, setSelectValue] = useControllableState<
-      SelectSingleProps['value']
-    >({
+    const [value, setValue] = useControllableState<SelectSingleProps['value']>({
       prop: valueProp,
       defaultProp: defaultValue,
       onChange: onValueChange,
+    });
+    const [open = false, setOpen] = useControllableState({
+      prop: openProps,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
     });
 
     return (
       <Menu
         defaultValue={defaultValue}
-        value={selectValue}
-        onValueChange={(value) => setSelectValue(value?.toString())}
+        value={value}
+        onValueChange={(newValue) => {
+          setValue(newValue?.toString());
+          setOpen(false);
+        }}
         open={open && !disabled}
         defaultOpen={defaultOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={(newOpen) => setOpen(newOpen)}
       >
         <MenuTrigger>
           <Box
@@ -84,7 +91,7 @@ const SelectSingle = forwardRef<
           >
             <TextInput
               readOnly
-              value={selectValue}
+              value={value}
               invalid={invalid}
               width={width}
               height={height}

@@ -12,7 +12,7 @@ export type SelectSingleDefaultProps = {
   name?: string;
   value?: string;
   defaultValue?: string;
-  onChange?: (value: any) => void;
+  onChange?: (value?: string) => void;
   placeholder?: string;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
