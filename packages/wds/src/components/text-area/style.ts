@@ -155,6 +155,14 @@ export const textAreaStyle =
       color: ${theme.palette.label.assistive};
     }
 
+    &:disabled {
+      color: ${theme.palette.label.alternative};
+    }
+
+    &:disabled::placeholder {
+      color: ${theme.palette.label.disable};
+    }
+
     &:focus {
       outline: none;
     }

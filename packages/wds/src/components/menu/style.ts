@@ -36,7 +36,9 @@ export const menuGroupStyle = css`
 `;
 
 export const menuListStyle = css`
-  padding: 8px 0;
+  && {
+    padding: 8px 0;
+  }
 `;
 
 export const menuItemStyle = (theme: Theme) => css`

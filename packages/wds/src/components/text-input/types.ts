@@ -1,4 +1,9 @@
-import type { Merge, ResponsiveProps, SxProp } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  SxProp,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 
 export type TextInputDefaultProps = {
@@ -22,6 +27,7 @@ export type TextInputProps = Merge<
 
 export type TextInputContentProps = PropsWithChildren<{
   variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
+  color?: ThemeColorsToken;
   sx?: SxProp;
 }>;
 
