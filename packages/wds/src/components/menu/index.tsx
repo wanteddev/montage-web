@@ -43,7 +43,7 @@ import type {
   MenuBottomProps,
   MenuContentProps,
   MenuDefaultProps,
-  MenuGroupDefaultProps,
+  MenuGroupProps,
   MenuItemCheckboxProps,
   MenuItemProps,
   MenuItemRadioProps,
@@ -148,7 +148,7 @@ MenuList.displayName = MENU_LIST_NAME;
 
 const MenuGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuGroupDefaultProps, 'div'>
+  DefaultComponentProps<MenuGroupProps>
 >(({ title, sx, children, ...props }, ref) => {
   return (
     <FlexBox

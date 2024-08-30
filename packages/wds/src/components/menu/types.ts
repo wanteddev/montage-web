@@ -1,3 +1,4 @@
+import type { FlexBoxProps } from '../flex-box/types';
 import type { ReactNode } from 'react';
 import type { PopoverContentProps, PopoverProps } from '../popover/types';
 import type { ListCellProps } from '../list/types';
@@ -19,6 +20,7 @@ export type MenuContentProps = MenuContentPopoverContentProps;
 export type MenuGroupDefaultProps = {
   title?: ReactNode;
 };
+export type MenuGroupProps = Merge<MenuGroupDefaultProps, FlexBoxProps>;
 
 export type MenuItemDefaultProps = {
   variant?: 'normal' | 'radio' | 'checkbox';

@@ -7,58 +7,66 @@ description: Menu Component
 
 사용자가 클릭하거나 호버할 시 여러 옵션들을 선택할 수 있습니다.
 
+## 활용
+
+- `Menu`의 값은 `MenuItem`의 variant에 따라 달라져요.
+  - normal, radio, variant를 선택하면 값이 문자열이 됩니다.
+  - checkbox variant를 선택하면 값은 문자열 배열이 됩니다.
+- `MenuBottom`의 leftContent, rightContent에 요소를 추가 할 때는 `MenuBottomContent`로 감싸서 사용합니다.
+
 <Demo code={`import { Button, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, Button, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
+import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <Menu onValueChange={(value) => console.log(value)}>
       <MenuTrigger>
-        <Button>클릭</Button>
+        <Button>Click me</Button>
       </MenuTrigger>
 
       <MenuContent>
         <MenuList>
           <MenuGroup title="그룹1">
-            <MenuItem variant="checkbox" value="test1">
-              <ListText>테스트1</ListText>
+            <MenuItem variant="radio" value="item1">
+              <ListText>아이템1</ListText>
             </MenuItem>
-            <MenuItem variant="radio" value="test1">
-              <ListText>테스트1</ListText>
+            <MenuItem variant="radio" value="item2">
+              <ListText>아이템2</ListText>
             </MenuItem>
-            <MenuItem variant="checkbox" value="test2">
-              <ListText>테스트2</ListText>
+            <MenuItem variant="radio" value="item3">
+              <ListText>아이템3</ListText>
             </MenuItem>
           </MenuGroup>
           <MenuGroup title="그룹2">
-            <MenuItem variant="checkbox" value="test3">
-              <ListText>테스트3</ListText>
+            <MenuItem variant="radio" value="item4">
+              <ListText>아이템4</ListText>
             </MenuItem>
-            <MenuItem variant="checkbox" value="test4">
-              <ListText>테스트4</ListText>
+            <MenuItem variant="radio" value="item5">
+              <ListText>아이템5</ListText>
+            </MenuItem>
+            <MenuItem variant="radio" value="item6">
+              <ListText>아이템6</ListText>
             </MenuItem>
           </MenuGroup>
-
-          <MenuItem variant="normal" value="test5">
-            <ListText>테스트5</ListText>
-          </MenuItem>
-          <MenuItem variant="checkbox" value="test5" disabled>
-            <ListText>테스트5</ListText>
-          </MenuItem>
-          <MenuItem variant="checkbox" value="test6">
-            <ListText>테스트6</ListText>
-          </MenuItem>
-          <MenuItem variant="checkbox" value="test7">
-            <ListText>테스트7</ListText>
-          </MenuItem>
-          <MenuItem variant="checkbox" value="test8">
-            <ListText>테스트8</ListText>
-          </MenuItem>
+          <MenuGroup title="그룹3">
+            <MenuItem variant="radio" value="item7">
+              <ListText>아이템7</ListText>
+            </MenuItem>
+            <MenuItem variant="radio" value="item8">
+              <ListText>아이템8</ListText>
+            </MenuItem>
+            <MenuItem variant="radio" value="item9">
+              <ListText>아이템9</ListText>
+            </MenuItem>
+          </MenuGroup>
         </MenuList>
 
         <MenuBottom
           leftContent={
-            <MenuBottomContent variant="chip-filter">
-              <ChipFilter>텍스트</ChipFilter>
+            <MenuBottomContent variant="icon-button">
+              <IconButton variant="outlined" size="small">
+                <IconRefresh />
+              </IconButton>
             </MenuBottomContent>
           }
           rightContent={
@@ -82,20 +90,30 @@ export default Demo;`}
 ```tsx
 <Menu>
   <MenuTrigger>
-    클릭
+    <Button>텍스트</Button>
   </MenuTrigger>
 
-  <MenuContent> // List return, RadioGroup & 키보드 이벤트 처리
-    <MenuGroup title="그룹1">
-      <MenuItem variant="radio" value="man"> // variant랑 value만 받고, 내부적으로 string or string[] state를 변경함
-        Man
-      </MenuItem>
-    </MenuGroup>
-    <MenuGroup title="그룹2">
-      <MenuItem variant="radio" value="woman">
-        Woman
-      </MenuItem>
-    </MenuGroup>
+  <MenuContent>
+    <MenuList>  
+      <MenuGroup>
+        <MenuItem>
+          Man
+        </MenuItem>
+        <MenuItem>
+          Woman
+        </MenuItem>
+      </MenuGroup>
+      <MenuGroup>
+        <MenuItem>
+          Man
+        </MenuItem>
+        <MenuItem>
+          Woman
+        </MenuItem>
+      </MenuGroup>
+    </MenuList>
+
+    <MenuBottom />
   </MenuContent>
 </Menu>
 ```
@@ -107,8 +125,6 @@ export default Demo;`}
 ### MenuTrigger
 
 `children`으로 요소를 지정합니다.
-
-<PropsTable component="MenuTrigger" />
 
 ### MenuContent
 
@@ -129,3 +145,149 @@ export default Demo;`}
 ### MenuBottomContent
 
 <PropsTable component="MenuBottomContent" />
+
+## Examples
+
+### Normal
+
+<Demo code={`import { Button, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, Button, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
+import { IconRefresh } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Menu onValueChange={(value) => console.log(value)}>
+      <MenuTrigger>
+        <Button>Click me</Button>
+      </MenuTrigger>
+
+      <MenuContent>
+        <MenuList>
+          <MenuGroup title="그룹1">
+            <MenuItem value="item1">
+              <ListText>아이템1</ListText>
+            </MenuItem>
+            <MenuItem value="item2">
+              <ListText>아이템2</ListText>
+            </MenuItem>
+            <MenuItem value="item3">
+              <ListText>아이템3</ListText>
+            </MenuItem>
+          </MenuGroup>
+          <MenuGroup title="그룹2">
+            <MenuItem value="item4">
+              <ListText>아이템4</ListText>
+            </MenuItem>
+            <MenuItem value="item5">
+              <ListText>아이템5</ListText>
+            </MenuItem>
+            <MenuItem value="item6">
+              <ListText>아이템6</ListText>
+            </MenuItem>
+          </MenuGroup>
+          <MenuGroup title="그룹3">
+            <MenuItem value="item7">
+              <ListText>아이템7</ListText>
+            </MenuItem>
+            <MenuItem value="item8">
+              <ListText>아이템8</ListText>
+            </MenuItem>
+            <MenuItem value="item9">
+              <ListText>아이템9</ListText>
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
+
+        <MenuBottom
+          leftContent={
+            <MenuBottomContent variant="icon-button">
+              <IconButton variant="outlined" size="small">
+                <IconRefresh />
+              </IconButton>
+            </MenuBottomContent>
+          }
+          rightContent={
+            <Button size="small">
+              텍스트
+            </Button>
+          }
+        />
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Checkbox
+
+<Demo code={`import { Button, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, Button, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
+import { IconRefresh } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Menu onValueChange={(value) => console.log(value)}>
+      <MenuTrigger>
+        <Button>Click me</Button>
+      </MenuTrigger>
+
+      <MenuContent>
+        <MenuList>
+          <MenuGroup title="그룹1">
+            <MenuItem variant="checkbox" value="item1">
+              <ListText>아이템1</ListText>
+            </MenuItem>
+            <MenuItem variant="checkbox" value="item2">
+              <ListText>아이템2</ListText>
+            </MenuItem>
+            <MenuItem variant="checkbox" value="item3">
+              <ListText>아이템3</ListText>
+            </MenuItem>
+          </MenuGroup>
+          <MenuGroup title="그룹2">
+            <MenuItem variant="checkbox" value="item4">
+              <ListText>아이템4</ListText>
+            </MenuItem>
+            <MenuItem variant="checkbox" value="item5">
+              <ListText>아이템5</ListText>
+            </MenuItem>
+            <MenuItem variant="checkbox" value="item6">
+              <ListText>아이템6</ListText>
+            </MenuItem>
+          </MenuGroup>
+          <MenuGroup title="그룹3">
+            <MenuItem variant="checkbox" value="item7">
+              <ListText>아이템7</ListText>
+            </MenuItem>
+            <MenuItem variant="checkbox" value="item8">
+              <ListText>아이템8</ListText>
+            </MenuItem>
+            <MenuItem variant="checkbox" value="item9">
+              <ListText>아이템9</ListText>
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
+
+        <MenuBottom
+          leftContent={
+            <MenuBottomContent variant="icon-button">
+              <IconButton variant="outlined" size="small">
+                <IconRefresh />
+              </IconButton>
+            </MenuBottomContent>
+          }
+          rightContent={
+            <Button size="small">
+              텍스트
+            </Button>
+          }
+        />
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+### MenuBottom
