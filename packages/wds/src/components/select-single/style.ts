@@ -6,7 +6,8 @@ import type { SelectSingleProps } from './types';
 export const textInputButtonStyle = css`
   min-width: max-content;
   max-width: max-content;
-  height: 48px;
+  min-height: max-content;
+  max-height: max-content;
 
   &[aria-expanded='true'] {
     [data-icon='select-button-arrow'] > svg {

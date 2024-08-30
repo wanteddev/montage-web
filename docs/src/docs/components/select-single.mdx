@@ -40,18 +40,73 @@ description: Select Component
 
 ## Examples
 
-<Demo code={`import { SelectSingle, Option } from '@wanteddev/wds';
-import { IconCaretDown } from '@wanteddev/wds-icon';
+<Demo code={`import { SelectSingle, Option, Group } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const options = [
+  {
+    label: '옵션1',
+    value: 'option1',
+    group: '그룹1'
+  },
+  {
+    label: '옵션2',
+    value: 'option2',
+    group: '그룹1'
+  },
+  {
+    label: '옵션3',
+    value: 'option3',
+    group: '그룹1'
+  },
+  {
+    label: '옵션4',
+    value: 'option4',
+    group: '그룹2'
+  },
+  {
+    label: '옵션5',
+    value: 'option5',
+    group: '그룹2'
+  },
+  {
+    label: '옵션6',
+    value: 'option6',
+    group: '그룹2'
+  },
+  {
+    label: '옵션7',
+    value: 'option7',
+    group: '그룹3'
+  },
+  {
+    label: '옵션8',
+    value: 'option8',
+    group: '그룹3'
+  },
+  {
+    label: '옵션9',
+    value: 'option9',
+    group: '그룹3'
+  }
+];
 
 const Demo = () => {
+  const [value, setValue] = useState('');
+  const groups = options.map(option => option.group);
+
   return (
-    <SelectSingle placeholder="선택해주세요." onValueChange={(value) => console.log(value)}>
-      <Option value="option1">
-        옵션1
-      </Option>
-      <Option value="option2">
-        옵션2
-      </Option>
+    <SelectSingle placeholder="선택해주세요." onValueChange={(value) => {}}>
+      {groups.map(group => (
+        <Group key={group} title={group}>
+          {options
+            .filter(option => option.group === group)
+            .map(({ value, label }) => (
+              <Option key={value} value={value}>{label}</Option>
+            ))
+          }
+        </Group>
+      ))}
     </SelectSingle>
   )
 }

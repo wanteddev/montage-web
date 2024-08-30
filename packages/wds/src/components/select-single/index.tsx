@@ -8,10 +8,21 @@ import {
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
 
-import { Menu, MenuContent, MenuItem, MenuTrigger } from '../menu';
+import {
+  Menu,
+  MenuContent,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+} from '../menu';
 import { TextInput, TextInputContent } from '../text-input';
 
-import { OPTION_NAME, SELECT_SINGLE_NAME } from './constants';
+import {
+  OPTION_GROUP_NAME,
+  OPTION_NAME,
+  SELECT_SINGLE_NAME,
+} from './constants';
 import {
   selectStyle,
   textInputButtonChevronStyle,
@@ -19,6 +30,8 @@ import {
   textInputStyle,
 } from './style';
 
+import type { ListProps } from '../list/types';
+import type { MenuGroupProps } from '../menu/types';
 import type { ElementRef, ForwardedRef } from 'react';
 import type { OptionProps, SelectSingleProps } from './types';
 
@@ -28,8 +41,11 @@ const SelectSingle = forwardRef<
 >(
   ({
     width = '335px',
+    height = '48px',
     invalid,
+    disabled,
     defaultValue,
+    placeholder,
     value: valueProp,
     onChange: onValueChange,
     open,
@@ -37,6 +53,7 @@ const SelectSingle = forwardRef<
     onOpenChange,
     sx,
     children,
+    ...props
   }) => {
     const [selectValue, setSelectValue] = useControllableState<
       SelectSingleProps['value']
@@ -51,7 +68,7 @@ const SelectSingle = forwardRef<
         defaultValue={defaultValue}
         value={selectValue}
         onValueChange={(value) => setSelectValue(value?.toString())}
-        open={open}
+        open={open && !disabled}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
       >
@@ -62,6 +79,9 @@ const SelectSingle = forwardRef<
               value={selectValue}
               invalid={invalid}
               width={width}
+              height={height}
+              placeholder={placeholder}
+              disabled={disabled}
               sx={textInputStyle}
               rightContent={
                 <TextInputContent
@@ -75,7 +95,11 @@ const SelectSingle = forwardRef<
           </Box>
         </MenuTrigger>
 
-        <MenuContent sx={[selectStyle(width), sx]}>{children}</MenuContent>
+        <MenuContent sx={[selectStyle(width), sx]}>
+          <MenuList role="select" {...(props as ListProps)}>
+            {children}
+          </MenuList>
+        </MenuContent>
       </Menu>
     );
   },
@@ -83,36 +107,14 @@ const SelectSingle = forwardRef<
 
 SelectSingle.displayName = SELECT_SINGLE_NAME;
 
-// const MenuGroup = forwardRef<
-//   HTMLDivElement,
-//   DefaultComponentProps<MenuGroupDefaultProps, 'div'>
-// >(({ title, sx, children, ...props }, ref) => {
-//   return (
-//     <FlexBox
-//       ref={ref}
-//       role="group"
-//       alignItems="center"
-//       flexDirection="column"
-//       gap="4px"
-//       {...props}
-//       sx={[menuGroupStyle, sx]}
-//     >
-//       {Boolean(title) && (
-//         <Typography
-//           variant="caption1"
-//           weight="bold"
-//           color="palette.label.alternative"
-//           sx={menuGroupTitleStyle}
-//         >
-//           {title}
-//         </Typography>
-//       )}
-//       {children}
-//     </FlexBox>
-//   );
-// });
+const Group = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<MenuGroupProps, 'div'>
+>((props, ref) => {
+  return <MenuGroup ref={ref} {...props} />;
+});
 
-// MenuGroup.displayName = MENU_GROUP_NAME;
+Group.displayName = OPTION_GROUP_NAME;
 
 const Option = forwardRef(
   <E extends ElementType = 'option'>(
@@ -125,4 +127,4 @@ const Option = forwardRef(
 
 Option.displayName = OPTION_NAME;
 
-export { SelectSingle, Option };
+export { SelectSingle, Option, Group };

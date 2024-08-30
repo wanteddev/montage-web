@@ -1,7 +1,7 @@
 import type { PopoverProps } from '../popover/types';
 import type { CSSProperties } from 'react';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { MenuItemProps } from '../menu/types';
+import type { MenuGroupProps, MenuItemProps } from '../menu/types';
 import type { SelectDefaultProps } from '../select/types';
 
 export type SelectSingleDefaultProps = {
@@ -24,6 +24,8 @@ export type SelectSingleProps = Merge<
   Merge<SelectSingleDefaultProps, SelectSingleResponsiveProps>,
   PopoverProps
 >;
+
+export type OptionGroupProps = MenuGroupProps;
 
 export type OptionProps = Merge<
   Omit<MenuItemProps, 'variant'>,
