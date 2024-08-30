@@ -3,7 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectSingleProps } from './types';
 
-export const textInputButtonStyle =
+export const selectBoxButtonStyle =
   ({ disabled }: Pick<SelectSingleProps, 'disabled'>) =>
   (theme: Theme) => css`
     min-width: max-content;
@@ -47,7 +47,7 @@ export const textInputButtonStyle =
     }
   `;
 
-export const textInputStyle = css`
+export const selectTextInputStyle = css`
   &,
   input {
     cursor: pointer;
@@ -58,11 +58,13 @@ export const textInputStyle = css`
   }
 `;
 
-export const textInputButtonChevronStyle = (theme: Theme) => css`
+export const selectTextInputArrowStyle = (theme: Theme) => css`
   font-size: 18px;
   color: ${theme.palette.label.alternative};
 `;
 
-export const selectStyle = (width: SelectSingleProps['width']) => css`
+export const selectMenuContentStyle = ({
+  width,
+}: Pick<SelectSingleProps, 'width'>) => css`
   width: ${width};
 `;

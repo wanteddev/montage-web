@@ -25,10 +25,10 @@ import {
   SELECT_SINGLE_NAME,
 } from './constants';
 import {
-  selectStyle,
-  textInputButtonChevronStyle,
-  textInputButtonStyle,
-  textInputStyle,
+  selectBoxButtonStyle,
+  selectMenuContentStyle,
+  selectTextInputArrowStyle,
+  selectTextInputStyle,
 } from './style';
 
 import type { ListProps } from '../list/types';
@@ -80,7 +80,7 @@ const SelectSingle = forwardRef<
           <Box
             role="button"
             aria-disabled={disabled}
-            sx={textInputButtonStyle({ disabled })}
+            sx={selectBoxButtonStyle({ disabled })}
           >
             <TextInput
               readOnly
@@ -90,21 +90,21 @@ const SelectSingle = forwardRef<
               height={height}
               placeholder={placeholder}
               disabled={disabled}
-              sx={textInputStyle}
+              sx={selectTextInputStyle}
               leftContent={leftContent}
               rightContent={
                 <TextInputContent
                   variant="icon"
                   data-role="select-button-arrow"
                 >
-                  <IconChevronDownThickSmall sx={textInputButtonChevronStyle} />
+                  <IconChevronDownThickSmall sx={selectTextInputArrowStyle} />
                 </TextInputContent>
               }
             />
           </Box>
         </MenuTrigger>
 
-        <MenuContent sx={[selectStyle(width), sx]}>
+        <MenuContent sx={[selectMenuContentStyle({ width }), sx]}>
           <MenuList
             ref={ref as Ref<HTMLUListElement>}
             role="select"
