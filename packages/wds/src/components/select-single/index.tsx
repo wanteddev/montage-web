@@ -21,6 +21,7 @@ import { TextInput, TextInputContent } from '../text-input';
 import {
   OPTION_GROUP_NAME,
   OPTION_NAME,
+  SELECT_CONTENT_NAME,
   SELECT_SINGLE_NAME,
 } from './constants';
 import {
@@ -51,6 +52,7 @@ const SelectSingle = forwardRef<
     open,
     defaultOpen,
     onOpenChange,
+    leftContent,
     sx,
     children,
     ...props
@@ -73,7 +75,11 @@ const SelectSingle = forwardRef<
         onOpenChange={onOpenChange}
       >
         <MenuTrigger>
-          <Box role="button" sx={textInputButtonStyle}>
+          <Box
+            role="button"
+            aria-disabled={disabled}
+            sx={textInputButtonStyle({ disabled })}
+          >
             <TextInput
               readOnly
               value={selectValue}
@@ -83,6 +89,7 @@ const SelectSingle = forwardRef<
               placeholder={placeholder}
               disabled={disabled}
               sx={textInputStyle}
+              leftContent={leftContent}
               rightContent={
                 <TextInputContent
                   variant="icon"
@@ -127,4 +134,8 @@ const Option = forwardRef(
 
 Option.displayName = OPTION_NAME;
 
-export { SelectSingle, Option, Group };
+const SelectContent = TextInputContent;
+
+SelectContent.displayName = SELECT_CONTENT_NAME;
+
+export { SelectSingle, Option, Group, SelectContent };

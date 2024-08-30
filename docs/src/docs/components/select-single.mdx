@@ -40,8 +40,9 @@ description: Select Component
 
 ## Examples
 
-<Demo code={`import { SelectSingle, Option, Group } from '@wanteddev/wds';
+<Demo code={`import { SelectSingle, Option, Group, SelectContent, ListText } from '@wanteddev/wds';
 import { useState } from 'react';
+import { IconRefresh } from '@wanteddev/wds-icon';
 
 const options = [
   {
@@ -96,13 +97,16 @@ const Demo = () => {
   const groups = options.map(option => option.group);
 
   return (
-    <SelectSingle placeholder="선택해주세요." onValueChange={(value) => {}}>
+    <SelectSingle placeholder="선택해주세요." leftContent={<SelectContent variant="icon"><IconRefresh /></SelectContent>} onValueChange={(value) => {}}>
+      M
       {groups.map(group => (
         <Group key={group} title={group}>
           {options
             .filter(option => option.group === group)
             .map(({ value, label }) => (
-              <Option key={value} value={value}>{label}</Option>
+              <Option key={value} value={value}>
+                <ListText>{label}</ListText>
+              </Option>
             ))
           }
         </Group>

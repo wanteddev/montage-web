@@ -3,26 +3,49 @@ import { css } from '@wanteddev/wds-engine';
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectSingleProps } from './types';
 
-export const textInputButtonStyle = css`
-  min-width: max-content;
-  max-width: max-content;
-  min-height: max-content;
-  max-height: max-content;
+export const textInputButtonStyle =
+  ({ disabled }: Pick<SelectSingleProps, 'disabled'>) =>
+  (theme: Theme) => css`
+    min-width: max-content;
+    max-width: max-content;
 
-  &[aria-expanded='true'] {
-    [data-icon='select-button-arrow'] > svg {
-      transform: rotate(180deg);
+    ${(() => {
+      if (disabled) {
+        return css`
+          pointer-events: none;
+          user-select: none;
+
+          &,
+          input {
+            cursor: not-allowed;
+          }
+          [data-icon='select-button-arrow'] > svg {
+            color: ${theme.palette.label.disable};
+          }
+        `;
+      }
+      return css`
+        &,
+        input {
+          cursor: pointer;
+        }
+      `;
+    })()}
+
+    &[aria-expanded='true'] {
+      [data-icon='select-button-arrow'] > svg {
+        transform: rotate(180deg);
+      }
+      [data-role='text-input-invalid'] {
+        display: none;
+      }
     }
-    [data-role='text-input-invalid'] {
-      display: none;
+    &[aria-expanded='false'] {
+      [data-role='text-input-invalid'] {
+        display: flex;
+      }
     }
-  }
-  &[aria-expanded='false'] {
-    [data-role='text-input-invalid'] {
-      display: flex;
-    }
-  }
-`;
+  `;
 
 export const textInputStyle = css`
   &,
