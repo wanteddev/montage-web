@@ -108,7 +108,8 @@ const ListItem = forwardRef(
             if (
               (e.target as HTMLElement).ariaDisabled?.toString() === 'true' ||
               (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
-              (e.target as HTMLElement).hidden.toString() === 'true'
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+              (e.target as HTMLElement).hidden?.toString() === 'true'
             ) {
               return;
             }
