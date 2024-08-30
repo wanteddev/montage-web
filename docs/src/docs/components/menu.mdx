@@ -70,9 +70,11 @@ const Demo = () => {
             </MenuBottomContent>
           }
           rightContent={
-            <Button size="small">
-              텍스트
-            </Button>
+            <MenuBottomContent variant="button">
+              <Button size="small">
+                텍스트
+              </Button>
+            </MenuBottomContent>
           }
         />
       </MenuContent>
@@ -97,18 +99,18 @@ export default Demo;`}
     <MenuList>  
       <MenuGroup>
         <MenuItem>
-          Man
+          아이템1
         </MenuItem>
         <MenuItem>
-          Woman
+          아이템2
         </MenuItem>
       </MenuGroup>
       <MenuGroup>
         <MenuItem>
-          Man
+          아이템3
         </MenuItem>
         <MenuItem>
-          Woman
+          아이템4
         </MenuItem>
       </MenuGroup>
     </MenuList>
@@ -206,9 +208,11 @@ const Demo = () => {
             </MenuBottomContent>
           }
           rightContent={
-            <Button size="small">
-              텍스트
-            </Button>
+            <MenuBottomContent variant="button">
+              <Button size="small">
+                텍스트
+              </Button>
+            </MenuBottomContent>
           }
         />
       </MenuContent>
@@ -291,3 +295,198 @@ export default Demo;`}
 />
 
 ### MenuBottom
+
+<Demo code={`import { Button, TextInputContent, FlexBox, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, Button, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
+import { IconRefresh, IconSend } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox justifyContent="space-between" alignItems="center">
+      <Menu onValueChange={(value) => console.log(value)}>
+        <MenuTrigger>
+          <Button>Click me</Button>
+        </MenuTrigger>
+
+        <MenuContent>
+          <MenuList>
+            <MenuGroup title="그룹1">
+              <MenuItem variant="checkbox" value="item1">
+                <ListText>아이템1</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item2">
+                <ListText>아이템2</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item3">
+                <ListText>아이템3</ListText>
+              </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="그룹2">
+              <MenuItem variant="checkbox" value="item4">
+                <ListText>아이템4</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item5">
+                <ListText>아이템5</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item6">
+                <ListText>아이템6</ListText>
+              </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="그룹3">
+              <MenuItem variant="checkbox" value="item7">
+                <ListText>아이템7</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item8">
+                <ListText>아이템8</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item9">
+                <ListText>아이템9</ListText>
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+
+          <MenuBottom
+            leftContent={
+              <MenuBottomContent variant="text-button">
+                <TextButton
+                  variant="assistive"
+                  size="small"
+                  leftContent={<IconRefresh />}
+                >
+                  초기화
+                </TextButton>
+              </MenuBottomContent>
+            }
+            rightContent={
+              <MenuBottomContent variant="button">
+                <Button size="small">
+                  텍스트
+                </Button>
+              </MenuBottomContent>
+            }
+          />
+        </MenuContent>
+      </Menu>
+
+      <Menu onValueChange={(value) => console.log(value)}>
+        <MenuTrigger>
+          <Button>Click me</Button>
+        </MenuTrigger>
+
+        <MenuContent>
+          <MenuList>
+            <MenuGroup title="그룹1">
+              <MenuItem variant="checkbox" value="item1">
+                <ListText>아이템1</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item2">
+                <ListText>아이템2</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item3">
+                <ListText>아이템3</ListText>
+              </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="그룹2">
+              <MenuItem variant="checkbox" value="item4">
+                <ListText>아이템4</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item5">
+                <ListText>아이템5</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item6">
+                <ListText>아이템6</ListText>
+              </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="그룹3">
+              <MenuItem variant="checkbox" value="item7">
+                <ListText>아이템7</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item8">
+                <ListText>아이템8</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item9">
+                <ListText>아이템9</ListText>
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+
+          <MenuBottom
+            leftContent={
+              <MenuBottomContent variant="icon-button">
+                <IconButton variant="outlined" size="small">
+                  <IconRefresh />
+                </IconButton>
+              </MenuBottomContent>
+            }
+            rightContent={
+              <MenuBottomContent variant="icon-button">
+                <IconButton size="small" variant="solid">
+                  <IconSend />
+                </IconButton>
+              </MenuBottomContent>
+            }
+          />
+        </MenuContent>
+      </Menu>
+
+      <Menu onValueChange={(value) => console.log(value)}>
+        <MenuTrigger>
+          <Button>Click me</Button>
+        </MenuTrigger>
+
+        <MenuContent>
+          <MenuList>
+            <MenuGroup title="그룹1">
+              <MenuItem variant="checkbox" value="item1">
+                <ListText>아이템1</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item2">
+                <ListText>아이템2</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item3">
+                <ListText>아이템3</ListText>
+              </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="그룹2">
+              <MenuItem variant="checkbox" value="item4">
+                <ListText>아이템4</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item5">
+                <ListText>아이템5</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item6">
+                <ListText>아이템6</ListText>
+              </MenuItem>
+            </MenuGroup>
+            <MenuGroup title="그룹3">
+              <MenuItem variant="checkbox" value="item7">
+                <ListText>아이템7</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item8">
+                <ListText>아이템8</ListText>
+              </MenuItem>
+              <MenuItem variant="checkbox" value="item9">
+                <ListText>아이템9</ListText>
+              </MenuItem>
+            </MenuGroup>
+          </MenuList>
+
+          <MenuBottom
+            leftContent={
+              <MenuBottomContent variant="chip-filter">
+                <ChipFilter>텍스트</ChipFilter>
+              </MenuBottomContent>
+            }
+            rightContent={
+              <MenuBottomContent variant="badge">
+                <ContentBadge color="neutral">텍스트</ContentBadge>
+              </MenuBottomContent>
+            }
+          />
+        </MenuContent>
+      </Menu>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
