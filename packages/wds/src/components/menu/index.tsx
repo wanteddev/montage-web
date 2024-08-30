@@ -21,27 +21,29 @@ import {
   MENU_ITEM_CHECKBOX_NAME,
   MENU_ITEM_NAME,
   MENU_ITEM_RADIO_NAME,
+  MENU_LIST_NAME,
   MENU_NAME,
   MENU_TRIGGER_NAME,
 } from './constants';
 import {
-  listInMenuStyle,
   menuBottomContentStyle,
   menuBottomStyle,
   menuGroupStyle,
   menuGroupTitleStyle,
   menuItemStyle,
+  menuListStyle,
   menuPopoverContentStyle,
   menuScrollAreaStyle,
 } from './style';
 import { MenuProvider, useMenuContext } from './context';
 
+import type { ListProps } from '../list/types';
 import type {
   MenuBottomContentProps,
   MenuBottomProps,
   MenuContentProps,
   MenuDefaultProps,
-  MenuGroupDefaultProps,
+  MenuGroupProps,
   MenuItemCheckboxProps,
   MenuItemProps,
   MenuItemRadioProps,
@@ -88,7 +90,10 @@ const MenuTrigger = PopoverTrigger;
 
 MenuTrigger.displayName = MENU_TRIGGER_NAME;
 
-const MenuContent = forwardRef(
+const MenuContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<MenuContentProps, 'div'>
+>(
   (
     {
       position = 'top-start',
@@ -98,8 +103,8 @@ const MenuContent = forwardRef(
       sx,
       children,
       ...props
-    }: MenuContentProps,
-    ref: ForwardedRef<HTMLDivElement>,
+    },
+    ref,
   ) => {
     return (
       <PopoverContent
@@ -108,19 +113,12 @@ const MenuContent = forwardRef(
         offset={offset}
         container={container}
         disablePortal={disablePortal}
+        {...props}
         sx={[menuPopoverContentStyle, sx]}
       >
         <RovingFocusGroup orientation="vertical" dir="ltr" loop asChild>
-          <ScrollArea ref={ref} zIndex={11} sx={menuScrollAreaStyle}>
-            <List
-              role="menu"
-              alignItems="center"
-              gap="4px"
-              {...props}
-              sx={listInMenuStyle}
-            >
-              {children}
-            </List>
+          <ScrollArea zIndex={11} sx={menuScrollAreaStyle}>
+            {children}
           </ScrollArea>
         </RovingFocusGroup>
       </PopoverContent>
@@ -130,9 +128,27 @@ const MenuContent = forwardRef(
 
 MenuContent.displayName = MENU_CONTENT_NAME;
 
+const MenuList = forwardRef<
+  HTMLUListElement,
+  DefaultComponentProps<ListProps, 'ul'>
+>(({ sx, ...props }, ref) => {
+  return (
+    <List
+      ref={ref}
+      role="menu"
+      alignItems="center"
+      gap="4px"
+      {...props}
+      sx={[menuListStyle, sx]}
+    />
+  );
+});
+
+MenuList.displayName = MENU_LIST_NAME;
+
 const MenuGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuGroupDefaultProps, 'div'>
+  DefaultComponentProps<MenuGroupProps>
 >(({ title, sx, children, ...props }, ref) => {
   return (
     <FlexBox
@@ -209,7 +225,6 @@ const MenuItem = forwardRef(
             disabled={disabled}
             role="menuitem"
             ref={ref}
-            active={context.value === props.value}
             {...props}
             sx={[menuItemStyle, sx]}
             onClick={composeEventHandlers(
@@ -328,7 +343,6 @@ const MenuBottom = forwardRef<
   return (
     <FlexBox
       ref={ref}
-      wds-component="menu-bottom"
       alignItems="center"
       justifyContent="space-between"
       {...props}
@@ -344,7 +358,7 @@ const MenuBottom = forwardRef<
 MenuBottom.displayName = MENU_GROUP_NAME;
 
 const MenuBottomContent = forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   DefaultComponentProps<MenuBottomContentProps, 'div'>
 >(({ variant = 'custom', sx, children, ...props }, ref) => {
   switch (variant) {
@@ -352,7 +366,7 @@ const MenuBottomContent = forwardRef<
       return (
         <FlexBox
           wds-component="menu-bottom-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           {...props}
           sx={[menuBottomContentStyle, { fontSize: '24px' }, sx]}
         >
@@ -362,11 +376,11 @@ const MenuBottomContent = forwardRef<
 
     case 'button':
     case 'text-button':
-    case 'chip-action':
+    case 'chip-filter':
       return (
         <FlexBox
           wds-component="menu-bottom-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           {...props}
           sx={[menuBottomContentStyle, sx]}
         >
@@ -380,7 +394,7 @@ const MenuBottomContent = forwardRef<
       return (
         <FlexBox
           wds-component="menu-bottom-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           {...props}
           sx={[menuBottomContentStyle, sx]}
         >
@@ -396,6 +410,7 @@ export {
   Menu,
   MenuTrigger,
   MenuContent,
+  MenuList,
   MenuGroup,
   MenuItem,
   MenuBottom,

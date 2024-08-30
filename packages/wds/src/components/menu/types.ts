@@ -1,6 +1,7 @@
+import type { FlexBoxProps } from '../flex-box/types';
 import type { ReactNode } from 'react';
 import type { PopoverContentProps, PopoverProps } from '../popover/types';
-import type { ListCellProps, ListProps } from '../list/types';
+import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 
 export type MenuDefaultProps = {
@@ -14,11 +15,12 @@ export type MenuContentPopoverContentProps = Pick<
   PopoverContentProps,
   'position' | 'offset' | 'container' | 'disablePortal'
 >;
-export type MenuContentProps = Merge<MenuContentPopoverContentProps, ListProps>;
+export type MenuContentProps = MenuContentPopoverContentProps;
 
 export type MenuGroupDefaultProps = {
   title?: ReactNode;
 };
+export type MenuGroupProps = Merge<MenuGroupDefaultProps, FlexBoxProps>;
 
 export type MenuItemDefaultProps = {
   variant?: 'normal' | 'radio' | 'checkbox';
@@ -38,7 +40,7 @@ export type MenuBottomContentProps = {
     | 'icon'
     | 'button'
     | 'text-button'
-    | 'chip-action'
+    | 'chip-filter'
     | 'badge'
     | 'custom';
 };
