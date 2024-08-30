@@ -80,11 +80,11 @@ export default Demo;`}
 
 <PropsTable component="ListText" />
 
+## Examples
 
+### ListItem
 
-
-
-리스트에서 사용하는 타이포 컴포넌트입니다.
+ListCell 대신 ListItem을 사용할 수 있어요. ListCell과는 다르게 인터렉션 영역, padding이 존재하지 않아요.
 
 <Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 
@@ -94,11 +94,11 @@ const Demo = () => {
       <ListItem>
         <ListText>텍스트</ListText>
       </ListItem>
-      <ListItem>
-        <ListText caption="캡션">텍스트</ListText>
+      <ListItem active>
+        <ListText>텍스트, active</ListText>
       </ListItem>
-      <ListItem>
-        <ListText bold caption="캡션">텍스트</ListText>
+      <ListItem disabled>
+        <ListText>텍스트, disabled</ListText>
       </ListItem>
     </List>
   )
@@ -107,12 +107,6 @@ const Demo = () => {
 export default Demo;`}
 />
 
-`Typography`의 props를 확장하여 사용합니다.
-
-
-## Examples
-
-### ListItem
 
 ### Padding, Active
 

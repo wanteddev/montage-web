@@ -43,8 +43,8 @@ const Menu = () => {
               {route.label}
             </Typography>
 
-            {route.pages.map((page) => (
-              <FlexBox as="li" flex="1" key={page.slug}>
+            {route.pages.map((page, i) => (
+              <FlexBox as="li" flex="1" key={page.slug + i}>
                 <WithInteraction>
                   <FlexBox
                     as={Link}

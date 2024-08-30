@@ -52,8 +52,8 @@ const MobileMenu = () => {
                   {route.label}
                 </Typography>
 
-                {route.pages.map((page) => (
-                  <WithInteraction key={page.slug}>
+                {route.pages.map((page, i) => (
+                  <WithInteraction key={page.slug + i}>
                     <FlexBox
                       as={Link}
                       href={page.slug}
