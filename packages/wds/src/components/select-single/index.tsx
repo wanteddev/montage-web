@@ -95,7 +95,7 @@ const SelectSingle = forwardRef<
               rightContent={
                 <TextInputContent
                   variant="icon"
-                  data-icon="select-button-arrow"
+                  data-role="select-button-arrow"
                 >
                   <IconChevronDownThickSmall sx={textInputButtonChevronStyle} />
                 </TextInputContent>

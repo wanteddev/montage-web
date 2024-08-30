@@ -19,7 +19,7 @@ export const textInputButtonStyle =
           input {
             cursor: not-allowed;
           }
-          [data-icon='select-button-arrow'] > svg {
+          [data-role='select-button-arrow'] > svg {
             color: ${theme.palette.label.disable};
           }
         `;
@@ -33,7 +33,7 @@ export const textInputButtonStyle =
     })()}
 
     &[aria-expanded='true'] {
-      [data-icon='select-button-arrow'] > svg {
+      [data-role='select-button-arrow'] > svg {
         transform: rotate(180deg);
       }
       [data-role='text-input-invalid'] {
