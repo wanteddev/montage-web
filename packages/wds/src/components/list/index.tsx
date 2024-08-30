@@ -7,13 +7,11 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
-import { Slot } from '@radix-ui/react-slot';
 
-import { Divider, FlexBox, Label, Typography, WithInteraction } from '..';
+import { Divider, FlexBox, Typography, WithInteraction } from '..';
 
 import {
   LIST_CELL_NAME,
-  LIST_CHEVRON_BUTTON_NAME,
   LIST_ITEM_CONTENT_NAME,
   LIST_ITEM_NAME,
   LIST_NAME,
@@ -21,39 +19,38 @@ import {
 } from './constants';
 import {
   listCellDividerStyle,
-  listChevronButtonStyle,
+  listCellStyle,
   listItemContentStyle,
-  listItemInCellStyle,
   listItemStyle,
   listStyle,
-  listTextCaptionStyle,
   listTextStyle,
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
-  ListChevronButtonProps,
-  ListItemContentDefaultProps,
-  ListItemContentSlotProps,
+  ListItemContentProps,
   ListItemProps,
   ListProps,
   ListTextProps,
 } from './types';
 
 const List = forwardRef(
-  ({ children, ...props }: ListProps, ref: ForwardedRef<HTMLUListElement>) => {
+  (
+    { children, ...props }: DefaultComponentProps<ListProps, 'ul'>,
+    ref: ForwardedRef<HTMLUListElement>,
+  ) => {
     return (
       <FlexBox
         as="ul"
         ref={ref}
         role="list"
         flexDirection="column"
-        sx={[listStyle, props.sx]}
         {...props}
+        sx={[listStyle, props.sx]}
       >
         {children}
       </FlexBox>
@@ -81,62 +78,66 @@ const ListItem = forwardRef(
 
     const itemElement = item as unknown as HTMLElement | null;
 
-    const hasLabelTargetElement = Boolean(
-      itemElement?.querySelector(
-        '[role="checkbox"], [role="radio"], button[role="switch"]',
-      ),
-    );
     const controllable = itemElement?.querySelector(
-      '[role="checkbox"], [role="radio"], button:not([role="switch"])',
+      '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a',
     );
     const clickable = Boolean(props.onClick || controllable) && !disabled;
 
     return (
-      <ListItemProvider
-        active={active}
-        disabled={disabled}
-        hasLabelTargetElement={hasLabelTargetElement}
-      >
+      <ListItemProvider active={active} disabled={disabled}>
         <FlexBox
-          as={as || 'li'}
+          as={(as || 'li') as E}
           role="listitem"
           ref={composedRefs}
           flexDirection="row"
-          gap="10px"
-          justifyContent={
-            Boolean(rightContent) ? 'space-between' : 'flex-start'
-          }
-          alignItems="center"
-          {...props}
-          onClick={
-            clickable
-              ? composeEventHandlers(props.onClick, (e: MouseEvent<E>) => {
-                  if (
-                    (e.target as HTMLElement).ariaHidden?.toString() ===
-                      'true' ||
-                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                    (e.target as HTMLElement).hidden?.toString() === 'true'
-                  ) {
-                    return;
-                  }
-
-                  if (
-                    controllable &&
-                    // controllable 직접 클릭 시 이벤트 중복 호출을 방어함.
-                    !controllable.contains(e.target as HTMLElement)
-                  ) {
-                    (controllable as HTMLElement).click();
-                    (controllable as HTMLElement).focus();
-                  }
-                })
-              : undefined
-          }
-          sx={[listItemStyle({ active, disabled, clickable }), props.sx]}
+          gap="8px"
           aria-disabled={disabled}
+          disabled={disabled}
+          tabIndex={clickable ? 0 : -1}
+          {...props}
+          onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
+            if (
+              (e.key === 'Enter' || e.key === ' ') &&
+              (e.target as HTMLElement) === itemElement
+            ) {
+              e.preventDefault();
+              e.currentTarget.click();
+            }
+          })}
+          onClick={composeEventHandlers(props.onClick, (e) => {
+            if (
+              (e.target as HTMLElement).ariaDisabled?.toString() === 'true' ||
+              (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
+              // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+              (e.target as HTMLElement).hidden?.toString() === 'true'
+            ) {
+              return;
+            }
+
+            if (
+              controllable &&
+              // controllable 직접 클릭 시 이벤트 중복 호출을 방어함.
+              !controllable.contains(e.target as HTMLElement)
+            ) {
+              (controllable as HTMLElement).click();
+
+              if (controllable.role === 'radio') {
+                (controllable as HTMLElement).focus({
+                  preventScroll: false,
+                  // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#focusvisible
+                  // @ts-expect-error
+                  focusVisible: false,
+                });
+              }
+            }
+          })}
+          sx={[listItemStyle({ active, disabled, clickable }), props.sx]}
         >
           {Boolean(leftContent) && leftContent}
           {children}
-          {Boolean(rightContent) && rightContent}
+          <FlexBox sx={{ margin: 'auto 0' }}>
+            {Boolean(rightContent) && rightContent}
+          </FlexBox>
         </FlexBox>
       </ListItemProvider>
     );
@@ -146,22 +147,16 @@ const ListItem = forwardRef(
 ListItem.displayName = LIST_ITEM_NAME;
 
 const ListItemContent = forwardRef<
-  HTMLElement,
-  DefaultComponentProps<ListItemContentDefaultProps, 'div'>
->(({ variant = 'custom', children, ...props }, ref) => {
-  const { disabled } = useListItemContext(LIST_ITEM_CONTENT_NAME);
-
-  const listItemContentSlotProps: ListItemContentSlotProps = {
-    ...props,
-    disabled,
-  };
-
+  HTMLDivElement,
+  DefaultComponentProps<ListItemContentProps, 'div'>
+>(({ variant = 'custom', children, chevron, ...props }, ref) => {
   switch (variant) {
     case 'icon':
       return (
         <FlexBox
           wds-component="list-item-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
+          alignItems="center"
           {...props}
           sx={[listItemContentStyle, { fontSize: '24px' }, props.sx]}
         >
@@ -172,27 +167,62 @@ const ListItemContent = forwardRef<
       return (
         <FlexBox
           wds-component="list-item-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
+          alignItems="center"
           {...props}
           sx={[listItemContentStyle, { fontSize: '24px' }, props.sx]}
         >
-          <Slot {...listItemContentSlotProps}>{children}</Slot>
+          {children}
         </FlexBox>
       );
 
     case 'radio':
     case 'checkbox':
     case 'button':
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref}
+          alignItems="center"
+          {...props}
+          sx={[listItemContentStyle, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
     case 'chevron':
-    case 'switch':
-      return <Slot {...listItemContentSlotProps}>{children}</Slot>;
+      return (
+        <FlexBox
+          role="button"
+          alignItems="center"
+          wds-component="list-item-content"
+          gap="8px"
+          ref={ref}
+          tabIndex={props.onClick ? 0 : -1}
+          {...props}
+          sx={[listItemContentStyle, props.sx]}
+        >
+          <Typography variant="body1_normal" color="palette.label.alternative">
+            {children}
+          </Typography>
 
+          {chevron && (
+            <IconChevronRightTightSmall
+              sx={(theme) => ({
+                color: theme.palette.label.assistive,
+              })}
+            />
+          )}
+        </FlexBox>
+      );
+    case 'switch':
     case 'custom':
     default:
       return (
         <FlexBox
           wds-component="list-item-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          alignItems="center"
+          ref={ref}
           {...props}
           sx={[listItemContentStyle, props.sx]}
         >
@@ -204,40 +234,15 @@ const ListItemContent = forwardRef<
 
 ListItemContent.displayName = LIST_ITEM_CONTENT_NAME;
 
-const ListChevronButton = forwardRef<HTMLButtonElement, ListChevronButtonProps>(
-  ({ children, ...props }, ref) => {
-    return (
-      <FlexBox
-        as="button"
-        type="button"
-        alignItems="center"
-        gap="8px"
-        ref={ref}
-        {...props}
-        sx={[listChevronButtonStyle, props.sx]}
-      >
-        <Typography variant="body1_normal" color="palette.label.alternative">
-          {children}
-        </Typography>
-        <IconChevronRightTightSmall
-          sx={(theme) => ({
-            color: theme.palette.label.assistive,
-          })}
-        />
-      </FlexBox>
-    );
-  },
-) as PolymorphicComponent<ListChevronButtonProps, 'button'>;
-
-ListChevronButton.displayName = LIST_CHEVRON_BUTTON_NAME;
-
 const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
-      padding,
-      paddingInset,
+      padding = 'normal',
+      paddingInset = false,
       divider,
       children,
+      disabled,
+      disableInteraction,
       xs,
       sm,
       md,
@@ -248,21 +253,21 @@ const ListCell = forwardRef(
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
-      <WithInteraction
-        disabled={props.disabled}
-        width={paddingInset ? '100%' : 'calc(100% + 24px)'}
-      >
+      <WithInteraction disabled={disabled || disableInteraction}>
         <ListItem
           ref={ref}
           role="button"
+          disabled={disabled}
           {...props}
           sx={[
-            listItemInCellStyle({ padding, paddingInset, xs, sm, md, lg, xl }),
+            listCellStyle({ padding, paddingInset, xs, sm, md, lg, xl }),
             props.sx,
           ]}
         >
           {children}
-          {divider && <Divider sx={listCellDividerStyle} />}
+          {divider && (
+            <Divider data-role="list-cell-divider" sx={listCellDividerStyle} />
+          )}
         </ListItem>
       </WithInteraction>
     );
@@ -272,18 +277,16 @@ const ListCell = forwardRef(
 ListCell.displayName = LIST_CELL_NAME;
 
 const ListText = forwardRef(
-  <E extends ElementType = 'span'>(
+  <E extends ElementType = 'p'>(
     {
       caption,
       bold = false,
-      sx,
       children,
       ...props
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { active, disabled, hasLabelTargetElement } =
-      useListItemContext(LIST_TEXT_NAME);
+    const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
 
     if (!children) {
       return null;
@@ -303,38 +306,39 @@ const ListText = forwardRef(
     };
 
     return (
-      <Typography
-        {...props}
-        as={props.as ? props.as : hasLabelTargetElement ? Label : 'span'}
+      <FlexBox
         ref={ref}
-        variant="body1_normal"
-        color={getColor('palette.label.normal')}
-        weight={weight}
-        sx={[listTextStyle({ hasLabelTargetElement }), sx]}
+        flexDirection="column"
+        gap="4px"
+        flex="1"
+        as="p"
+        {...props}
+        sx={[{ overflow: 'hidden' }, props.sx]}
       >
-        {children}
+        <Typography
+          variant="body1_normal"
+          color={getColor('palette.label.normal')}
+          weight={weight}
+          sx={listTextStyle}
+        >
+          {children}
+        </Typography>
+
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
             color={getColor('palette.label.alternative')}
             weight={weight}
-            sx={listTextCaptionStyle}
+            sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
           >
             {caption}
           </Typography>
         )}
-      </Typography>
+      </FlexBox>
     );
   },
 ) as PolymorphicComponent<ListTextProps, 'span'>;
 
 ListText.displayName = LIST_TEXT_NAME;
 
-export {
-  List,
-  ListCell,
-  ListItem,
-  ListItemContent,
-  ListText,
-  ListChevronButton,
-};
+export { List, ListCell, ListItem, ListItemContent, ListText };

@@ -51,7 +51,7 @@ const Demo = ({ code, hideCode }: Props) => {
       flexDirection="column"
       style={
         {
-          ['--demo-max-height']: collapsed ? '350px' : 'fit-content',
+          ['--demo-max-height']: collapsed ? '250px' : 'fit-content',
         } as React.CSSProperties
       }
     >

@@ -1,22 +1,8 @@
-import type { Slot } from '@radix-ui/react-slot';
-import type {
-  DefaultComponentProps,
-  Merge,
-  PolymorphicProps,
-  ResponsiveProps,
-  SxProp,
-} from '@wanteddev/wds-engine';
-import type {
-  ComponentPropsWithRef,
-  ComponentPropsWithoutRef,
-  ReactNode,
-} from 'react';
-import type { FlexBox, Typography } from '..';
+import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
-type FlexBoxWithoutRefProps = ComponentPropsWithoutRef<typeof FlexBox>;
-
-export type ListProps = Omit<PolymorphicProps<FlexBoxProps, 'ul'>, 'as'>;
+export type ListProps = FlexBoxProps;
 
 export type ListItemDefaultProps = {
   leftContent?: ReactNode;
@@ -24,9 +10,10 @@ export type ListItemDefaultProps = {
   active?: boolean;
   disabled?: boolean;
 };
-export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxWithoutRefProps>;
 
-export type ListItemContentDefaultProps = {
+export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxProps>;
+
+export type ListItemContentProps = {
   variant?:
     | 'icon'
     | 'radio'
@@ -37,34 +24,28 @@ export type ListItemContentDefaultProps = {
     | 'switch'
     | 'badge'
     | 'custom';
+  disabled?: boolean;
+  chevron?: boolean;
 };
-export type ListItemContentSlotProps = DefaultComponentProps<
-  Omit<ListItemContentDefaultProps, 'variant'> & { disabled?: boolean },
-  typeof Slot
->;
 
 export type ListCellDefaultProps = {
   padding?: 'normal' | 'small' | 'medium';
   paddingInset?: boolean;
   divider?: boolean;
+  disabled?: boolean;
+  disableInteraction?: boolean;
 };
+
 export type ListCellResponsiveProps = ResponsiveProps<
   Pick<ListCellDefaultProps, 'padding' | 'paddingInset'>
 >;
+
 export type ListCellProps = Merge<
   Merge<ListCellDefaultProps, ListCellResponsiveProps>,
-  Merge<ListItemProps, FlexBoxWithoutRefProps>
+  ListItemProps
 >;
 
-export type ListTextDefaultProps = {
+export type ListTextProps = {
   caption?: ReactNode;
   bold?: boolean;
-};
-export type ListTextProps = Merge<
-  ListTextDefaultProps,
-  ComponentPropsWithoutRef<typeof Typography>
->;
-
-export type ListChevronButtonProps = ComponentPropsWithRef<'button'> & {
-  sx?: SxProp;
 };
