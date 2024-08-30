@@ -57,7 +57,7 @@ export const mdxRootStyle = (theme: Theme) => css`
   }
 
   ol,
-  ul {
+  ul:not([class]) {
     list-style-type: disc;
     padding-left: 24px;
 
