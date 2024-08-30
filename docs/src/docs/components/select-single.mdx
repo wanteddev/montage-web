@@ -7,42 +7,12 @@ description: Select Component
 
 필드를 눌러 드롭다운 메뉴, 모달, 바텀시트를 호출하여 항목을 선택할 수 있습니다.
 
-## Components
+## 활용
 
-아래와 같이 조합하여 사용합니다.
+- leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
+- 여러 옵션 중 하나의 값을 선택할 수 있어요.
 
-```tsx
-<SelectSingle>
-  <Group title="옵션그룹1">
-    <Option>
-      옵션1
-    </Option>
-  </Group>
-  <Group title="옵션그룹2">
-    <Option>
-      옵션2
-    </Option>
-  </Group>
-</SelectSingle>
-```
-
-### Select
-
-<PropsTable component="SelectSingle" />
-
-### Group
-
-<PropsTable component="Group" />
-
-### Option
-
-<PropsTable component="Option" />
-
-## Examples
-
-<Demo code={`import { SelectSingle, Option, Group, SelectContent, ListText } from '@wanteddev/wds';
-import { useState } from 'react';
-import { IconRefresh } from '@wanteddev/wds-icon';
+<Demo code={`import { SelectSingle, Option, OptionGroup, SelectContent, ListText } from '@wanteddev/wds';
 
 const options = [
   {
@@ -93,14 +63,12 @@ const options = [
 ];
 
 const Demo = () => {
-  const [value, setValue] = useState('');
   const groups = options.map(option => option.group);
 
   return (
-    <SelectSingle placeholder="선택해주세요." leftContent={<SelectContent variant="icon"><IconRefresh /></SelectContent>} onValueChange={(value) => {}}>
-      M
+    <SelectSingle placeholder="선택해주세요.">
       {groups.map(group => (
-        <Group key={group} title={group}>
+        <OptionGroup key={group} title={group}>
           {options
             .filter(option => option.group === group)
             .map(({ value, label }) => (
@@ -109,7 +77,7 @@ const Demo = () => {
               </Option>
             ))
           }
-        </Group>
+        </OptionGroup>
       ))}
     </SelectSingle>
   )
@@ -117,3 +85,52 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<Select>
+  <OptionGroup>
+    <Option>
+      옵션1
+    </Option>
+  </OptionGroup>
+  <OptionGroup>
+    <Option>
+      옵션2
+    </Option>
+  </OptionGroup>
+</Select>
+```
+
+### Select
+
+<PropsTable component="SelectSingle" />
+
+### SelectContent
+
+`TextInputContent`와 동일한 props를 사용합니다.
+
+<PropsTable component="SelectContent" />
+
+### OptionGroup
+
+`MenuGroup`과 동일한 props를 사용합니다.
+
+<PropsTable component="OptionGroup" />
+
+### Option
+
+<PropsTable component="Option" />
+
+## Examples
+
+### Radio
+
+### Disabled
+
+### Label
+
+### LeftContent

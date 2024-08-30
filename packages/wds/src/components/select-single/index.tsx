@@ -32,31 +32,33 @@ import {
 } from './style';
 
 import type { ListProps } from '../list/types';
-import type { MenuGroupProps } from '../menu/types';
-import type { ElementRef, ForwardedRef } from 'react';
-import type { OptionProps, SelectSingleProps } from './types';
+import type { ElementRef, ForwardedRef, Ref } from 'react';
+import type { OptionGroupProps, OptionProps, SelectSingleProps } from './types';
 
 const SelectSingle = forwardRef<
   HTMLSelectElement,
   DefaultComponentProps<SelectSingleProps, 'select'>
 >(
-  ({
-    width = '335px',
-    height = '48px',
-    invalid,
-    disabled,
-    defaultValue,
-    placeholder,
-    value: valueProp,
-    onChange: onValueChange,
-    open,
-    defaultOpen,
-    onOpenChange,
-    leftContent,
-    sx,
-    children,
-    ...props
-  }) => {
+  (
+    {
+      width = '335px',
+      height = '48px',
+      invalid,
+      disabled,
+      defaultValue,
+      placeholder,
+      value: valueProp,
+      onChange: onValueChange,
+      open,
+      defaultOpen,
+      onOpenChange,
+      leftContent,
+      sx,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
     const [selectValue, setSelectValue] = useControllableState<
       SelectSingleProps['value']
     >({
@@ -103,7 +105,11 @@ const SelectSingle = forwardRef<
         </MenuTrigger>
 
         <MenuContent sx={[selectStyle(width), sx]}>
-          <MenuList role="select" {...(props as ListProps)}>
+          <MenuList
+            ref={ref as Ref<HTMLUListElement>}
+            role="select"
+            {...(props as ListProps)}
+          >
             {children}
           </MenuList>
         </MenuContent>
@@ -114,14 +120,14 @@ const SelectSingle = forwardRef<
 
 SelectSingle.displayName = SELECT_SINGLE_NAME;
 
-const Group = forwardRef<
+const OptionGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuGroupProps, 'div'>
+  DefaultComponentProps<OptionGroupProps, 'div'>
 >((props, ref) => {
   return <MenuGroup ref={ref} {...props} />;
 });
 
-Group.displayName = OPTION_GROUP_NAME;
+OptionGroup.displayName = OPTION_GROUP_NAME;
 
 const Option = forwardRef(
   <E extends ElementType = 'option'>(
@@ -138,4 +144,4 @@ const SelectContent = TextInputContent;
 
 SelectContent.displayName = SELECT_CONTENT_NAME;
 
-export { SelectSingle, Option, Group, SelectContent };
+export { SelectSingle, SelectContent, Option, OptionGroup };
