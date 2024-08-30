@@ -117,7 +117,7 @@ const MenuContent = forwardRef<
         sx={[menuPopoverContentStyle, sx]}
       >
         <RovingFocusGroup orientation="vertical" dir="ltr" loop asChild>
-          <ScrollArea ref={ref} zIndex={11} sx={menuScrollAreaStyle}>
+          <ScrollArea zIndex={11} sx={menuScrollAreaStyle}>
             {children}
           </ScrollArea>
         </RovingFocusGroup>
@@ -343,7 +343,6 @@ const MenuBottom = forwardRef<
   return (
     <FlexBox
       ref={ref}
-      wds-component="menu-bottom"
       alignItems="center"
       justifyContent="space-between"
       {...props}
@@ -359,7 +358,7 @@ const MenuBottom = forwardRef<
 MenuBottom.displayName = MENU_GROUP_NAME;
 
 const MenuBottomContent = forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   DefaultComponentProps<MenuBottomContentProps, 'div'>
 >(({ variant = 'custom', sx, children, ...props }, ref) => {
   switch (variant) {
@@ -367,7 +366,7 @@ const MenuBottomContent = forwardRef<
       return (
         <FlexBox
           wds-component="menu-bottom-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           {...props}
           sx={[menuBottomContentStyle, { fontSize: '24px' }, sx]}
         >
@@ -381,7 +380,7 @@ const MenuBottomContent = forwardRef<
       return (
         <FlexBox
           wds-component="menu-bottom-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           {...props}
           sx={[menuBottomContentStyle, sx]}
         >
@@ -395,7 +394,7 @@ const MenuBottomContent = forwardRef<
       return (
         <FlexBox
           wds-component="menu-bottom-content"
-          ref={ref as ForwardedRef<HTMLDivElement>}
+          ref={ref}
           {...props}
           sx={[menuBottomContentStyle, sx]}
         >
