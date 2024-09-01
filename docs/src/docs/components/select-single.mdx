@@ -12,7 +12,7 @@ description: Select Component
 - 여러 옵션 중 하나의 값을 선택할 수 있어요.
 - leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
 
-<Demo code={`import { SelectSingle, Option, OptionGroup, SelectContent, ListText, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectSingle, Option, OptionGroup, ListText, Label, FlexBox } from '@wanteddev/wds';
 
 const options = [
   {
@@ -63,24 +63,17 @@ const options = [
 ];
 
 const Demo = () => {
-  const groups = options.map(option => option.group);
+  const groups = options.map(option => option?.group);
 
   return (
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
-      <SelectSingle placeholder="선택해주세요.">
-        {groups.map(group => (
-          <OptionGroup key={group} title={group}>
-            {options
-              .filter(option => option.group === group)
-              .map(({ value, label }) => (
-                <Option key={value} value={value}>
-                  <ListText>{label}</ListText>
-                </Option>
-              ))
-            }
-          </OptionGroup>
-        ))}
+      <SelectSingle defaultValue="option1" placeholder="선택해주세요.">
+      {options.map(option => (
+        <Option key={option.value} value={option.value}>
+       {option.label}
+        </Option>
+      ))}
       </SelectSingle>
     </FlexBox>
   )

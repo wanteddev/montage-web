@@ -1,4 +1,12 @@
-import { type ElementType, forwardRef } from 'react';
+import {
+  Children,
+  type ElementType,
+  forwardRef,
+  isValidElement,
+  memo,
+  useEffect,
+  useState,
+} from 'react';
 import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
@@ -17,6 +25,7 @@ import {
   MenuTrigger,
 } from '../menu';
 import { TextInput, TextInputContent } from '../text-input';
+import { ListText } from '../list';
 
 import {
   OPTION_GROUP_NAME,
@@ -65,18 +74,36 @@ const SelectSingle = forwardRef<
       defaultProp: defaultValue,
       onChange: onValueChange,
     });
+    const [label, setLabel] = useState('');
+
     const [open = false, setOpen] = useControllableState({
       prop: openProps,
       defaultProp: defaultOpen,
       onChange: onOpenChange,
     });
 
+    useEffect(() => {
+      const updateLabel = () => {
+        const selectedValue = value ?? defaultValue;
+
+        Children.forEach(children, (child) => {
+          if (!isValidElement(child)) return;
+          if (child.type === OptionGroup) {
+          } else if (child.props.value === selectedValue) {
+            setLabel(child.props.children);
+          }
+        });
+      };
+
+      updateLabel();
+    }, [defaultValue, value, children]);
+
     return (
       <Menu
         defaultValue={defaultValue}
         value={value}
         onValueChange={(newValue) => {
-          setValue(newValue?.toString());
+          setValue(newValue as string);
           setOpen(false);
         }}
         open={open && !disabled}
@@ -91,7 +118,7 @@ const SelectSingle = forwardRef<
           >
             <TextInput
               readOnly
-              value={value}
+              value={label}
               invalid={invalid}
               width={width}
               height={height}
@@ -136,14 +163,24 @@ const OptionGroup = forwardRef<
 
 OptionGroup.displayName = OPTION_GROUP_NAME;
 
-const Option = forwardRef(
-  <E extends ElementType = 'option'>(
-    { variant = 'normal', ...props }: PolymorphicProps<OptionProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
-  ) => {
-    return <MenuItem ref={ref} role="option" variant={variant} {...props} />;
-  },
-) as PolymorphicComponent<OptionProps, 'option'>;
+const Option = memo(
+  forwardRef(
+    <E extends ElementType = 'option'>(
+      {
+        variant = 'normal',
+        children,
+        ...props
+      }: PolymorphicProps<OptionProps, E>,
+      ref: ForwardedRef<ElementRef<E>>,
+    ) => {
+      return (
+        <MenuItem ref={ref} role="option" variant={variant} {...props}>
+          <ListText>{children}</ListText>
+        </MenuItem>
+      );
+    },
+  ) as PolymorphicComponent<OptionProps, 'option'>,
+);
 
 Option.displayName = OPTION_NAME;
 
