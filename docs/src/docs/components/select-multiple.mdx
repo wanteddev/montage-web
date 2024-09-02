@@ -111,7 +111,7 @@ export default Demo;`}
 
 ### Invalid
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, ListText, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -123,7 +123,7 @@ const Demo = () => {
             {new Array(3).fill(0)
               .map((__, j) => (
                 <Option variant="checkbox" key={j} value={\`값 \${i} \${j}\`}>
-                  <ListText>{\`값 \${i} \${j}\`}</ListText>
+                  {\`값 \${i} \${j}\`}
                 </Option>
               ))
             }
