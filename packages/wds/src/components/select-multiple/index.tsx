@@ -15,7 +15,8 @@ import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import { ellipsisTypographyStyle } from '../../utils';
-import { SelectContent } from '../select-single';
+import { SelectContent } from '../select';
+import { convertChildrenToData } from '../select/helpers';
 
 import {
   invalidIconWrapperStyle,
@@ -77,6 +78,12 @@ const SelectMultiple = forwardRef<
       () => value.length === 0,
       [value.length],
     );
+
+    const textValue = useMemo(() => {
+      return convertChildrenToData(children)
+        .filter((v) => value.includes(v.value))
+        .map(({ label }) => label);
+    }, [value, children]);
 
     return (
       <Menu
@@ -155,7 +162,7 @@ const SelectMultiple = forwardRef<
                     weight="regular"
                     sx={ellipsisTypographyStyle(1)}
                   >
-                    {value.join(', ')}
+                    {textValue.join(', ')}
                   </Typography>
                 )}
               </FlexBox>
@@ -178,7 +185,7 @@ const SelectMultiple = forwardRef<
                   }
                 }}
               >
-                {render(value)}
+                {render(textValue, value)}
               </FlexBox>
             )}
 

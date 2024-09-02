@@ -12,7 +12,7 @@ export type SelectMultipleDefaultProps = {
   defaultValue?: Array<string>;
   onValueChange?: (value: Array<string>) => void;
   placeholder?: string;
-  render?: (value: Array<string>) => ReactNode;
+  render?: (textValue: Array<string>, value: Array<string>) => ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
