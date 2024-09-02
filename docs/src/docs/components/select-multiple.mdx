@@ -153,4 +153,54 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### LeftContent
+### Chip
+
+`render` prop을 이용하여 chip으로 렌더링 할 수 있습니다.
+
+<Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+import { IconCloseThick } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([])
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple
+        value={value}
+        onValueChange={setValue}
+        width="300px"
+        placeholder="선택해주세요."
+        render={() => (
+          value.map((v) => (
+            <ChipAction
+              key={v}
+              size="xsmall"
+              variant="filled"
+              rightContent={<IconCloseThick />}
+              onClick={() => setValue(value.filter(data => data !== v))}
+            >
+              {v}
+            </ChipAction>
+          ))
+        )}
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
