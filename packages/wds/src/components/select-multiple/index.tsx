@@ -131,7 +131,12 @@ const SelectMultiple = forwardRef<
             ]}
           >
             {(typeof render === 'undefined' || shouldShowPlaceholder) && (
-              <FlexBox flex="1" gap="4px" sx={{ padding: '0px 4px' }}>
+              <FlexBox
+                flex="1"
+                gap="4px"
+                data-role="select-multiple-render-wrapper"
+                sx={{ padding: '0px 4px', overflow: 'hidden' }}
+              >
                 {shouldShowPlaceholder ? (
                   <Typography
                     data-role="select-multiple-placeholder"
@@ -157,7 +162,22 @@ const SelectMultiple = forwardRef<
             )}
 
             {typeof render === 'function' && (
-              <FlexBox flex="1" gap="4px" flexWrap="wrap">
+              <FlexBox
+                flex="1"
+                gap="4px"
+                flexWrap="wrap"
+                data-role="select-multiple-render-wrapper"
+                onClick={(e) => {
+                  const closest = (e.target as HTMLElement).closest(
+                    '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
+                  );
+
+                  if (Boolean(closest) && closest !== e.currentTarget) {
+                    e.stopPropagation();
+                    node?.focus();
+                  }
+                }}
+              >
                 {render(value)}
               </FlexBox>
             )}

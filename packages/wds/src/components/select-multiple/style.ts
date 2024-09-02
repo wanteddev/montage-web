@@ -157,6 +157,7 @@ export const selectIconStyle =
     font-size: 16px;
     margin: 4px;
     display: block;
+    flex-shrink: 0;
 
     ${disabled
       ? css`
