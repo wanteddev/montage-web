@@ -141,7 +141,7 @@ const Select = forwardRef<
         <MenuContent sx={[selectMenuContentStyle({ width }), sx]}>
           <MenuList
             ref={ref as Ref<HTMLUListElement>}
-            role="select"
+            role="listbox"
             {...(props as ListProps)}
           >
             {children}

@@ -28,9 +28,4 @@ export type SelectProps = Merge<
 
 export type OptionGroupProps = MenuGroupProps;
 
-export type OptionProps = Merge<
-  Omit<MenuItemProps, 'variant'>,
-  {
-    variant?: 'normal' | 'radio';
-  }
->;
+export type OptionProps = MenuItemProps;
