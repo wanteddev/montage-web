@@ -52,6 +52,10 @@ export const menuItemStyle = (theme: Theme) => css`
       opacity: ${theme.opacity[5]};
     }
   }
+
+  [data-role='menu-item-active-icon-check'] {
+    color: ${theme.palette.primary.normal};
+  }
 `;
 
 export const menuBottomStyle = (theme: Theme) => css`

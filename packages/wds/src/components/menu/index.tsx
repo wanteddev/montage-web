@@ -211,9 +211,7 @@ const MenuItem = forwardRef(
           rightContent={
             normalActive ? (
               <ListItemContent variant="icon">
-                <IconCheck
-                  sx={(theme) => ({ color: theme.palette.primary.normal })}
-                />
+                <IconCheck data-role="menu-item-active-icon-check" />
               </ListItemContent>
             ) : null
           }
