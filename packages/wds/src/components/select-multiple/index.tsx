@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import {
   IconChevronDownThickSmall,
   IconChevronUpThickSmall,
@@ -9,6 +9,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useSize } from '@radix-ui/react-use-size';
 
 import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
 import FlexBox from '../flex-box';
@@ -54,9 +55,11 @@ const SelectMultiple = forwardRef<
     },
     forwardedRef,
   ) => {
-    const ref = useRef<HTMLDivElement>(null);
+    const [node, setNode] = useState<HTMLDivElement | null>(null);
 
-    const composedRefs = useComposedRefs(forwardedRef, ref);
+    const { width: contentWidth } = useSize(node) || {};
+
+    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
     const [value = [], setValue] = useControllableState({
       prop: valueProp,
@@ -105,7 +108,7 @@ const SelectMultiple = forwardRef<
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (
                 (e.key === 'Enter' || e.key === ' ') &&
-                (e.target as HTMLElement) === ref.current
+                (e.target as HTMLElement) === node
               ) {
                 e.preventDefault();
                 e.currentTarget.click();
@@ -177,7 +180,13 @@ const SelectMultiple = forwardRef<
           </FlexBox>
         </MenuTrigger>
 
-        <MenuContent {...contentProps}>
+        <MenuContent
+          {...contentProps}
+          sx={[
+            { width: contentWidth ?? '320px', minWidth: '140px' },
+            contentProps?.sx,
+          ]}
+        >
           <MenuList role="listbox">{children}</MenuList>
         </MenuContent>
       </Menu>
