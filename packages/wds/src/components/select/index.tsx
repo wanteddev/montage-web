@@ -1,16 +1,48 @@
-'use client';
-import { forwardRef } from 'react';
-import { IconChevronDown } from '@wanteddev/wds-icon';
+import {
+  Children,
+  type ElementType,
+  forwardRef,
+  isValidElement,
+  memo,
+  useEffect,
+  useState,
+} from 'react';
+import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box } from '@wanteddev/wds-engine';
+import {
+  Box,
+  type DefaultComponentProps,
+  type PolymorphicComponent,
+  type PolymorphicProps,
+} from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
+import {
+  Menu,
+  MenuContent,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+} from '../menu';
+import { TextInput, TextInputContent } from '../text-input';
+import { ListText } from '../list';
 
-import { selectIconStyle, selectStyle, selectWrapperStyle } from './style';
+import {
+  OPTION_GROUP_NAME,
+  OPTION_NAME,
+  SELECT_CONTENT_NAME,
+  SELECT_NAME,
+} from './constants';
+import {
+  selectBoxButtonStyle,
+  selectMenuContentStyle,
+  selectTextInputArrowStyle,
+  selectTextInputStyle,
+} from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ChangeEvent } from 'react';
-import type { SelectProps } from './types';
+import type { ListProps } from '../list/types';
+import type { ElementRef, ForwardedRef, Ref } from 'react';
+import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
 const Select = forwardRef<
   HTMLSelectElement,
@@ -18,74 +50,142 @@ const Select = forwardRef<
 >(
   (
     {
+      defaultValue,
+      value: valueProp,
+      onChange: onValueChange,
+      defaultOpen,
+      open: openProps,
+      onOpenChange,
+      // TextInput props
+      width = '335px',
+      height = '48px',
       invalid,
       disabled,
-      defaultValue = '',
-      value: originValue,
-      onChange,
+      leftContent,
       placeholder,
+      sx,
       children,
-      width,
-      height,
-      xs,
-      sm,
-      md,
-      lg,
-      xl,
       ...props
     },
     ref,
   ) => {
-    const [value, setValue] = useControllableState({
-      prop: originValue,
+    const [value, setValue] = useControllableState<SelectProps['value']>({
+      prop: valueProp,
       defaultProp: defaultValue,
-      onChange,
+      onChange: onValueChange,
+    });
+    const [label, setLabel] = useState('');
+
+    const [open = false, setOpen] = useControllableState({
+      prop: openProps,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
     });
 
-    return (
-      <FlexBox alignItems="center" sx={selectWrapperStyle}>
-        <Box
-          as="select"
-          ref={ref}
-          aria-invalid={invalid}
-          disabled={disabled}
-          {...props}
-          sx={[
-            selectStyle({
-              disabled,
-              invalid,
-              width,
-              height,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-              __shouldShowPlaceholder:
-                value === '' || (value === undefined && Boolean(placeholder)),
-              ...props,
-            }),
-            props.sx,
-          ]}
-          value={value}
-          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-            setValue(event.target.value)
-          }
-        >
-          {Boolean(placeholder) && (
-            <option value="" disabled>
-              {placeholder}
-            </option>
-          )}
-          {children}
-        </Box>
+    useEffect(() => {
+      const updateLabel = () => {
+        const selectedValue = value ?? defaultValue;
 
-        <IconChevronDown sx={selectIconStyle({ disabled })} />
-      </FlexBox>
+        Children.forEach(children, (child) => {
+          if (!isValidElement(child)) return;
+          if (child.type === OptionGroup) {
+          } else if (child.props.value === selectedValue) {
+            setLabel(child.props.children);
+          }
+        });
+      };
+
+      updateLabel();
+    }, [defaultValue, value, children]);
+
+    return (
+      <Menu
+        defaultValue={defaultValue}
+        value={value}
+        onValueChange={(newValue) => {
+          setValue(newValue as string);
+          setOpen(false);
+        }}
+        open={open && !disabled}
+        defaultOpen={defaultOpen}
+        onOpenChange={(newOpen) => setOpen(newOpen)}
+      >
+        <MenuTrigger>
+          <Box
+            role="button"
+            aria-disabled={disabled}
+            sx={selectBoxButtonStyle({ disabled })}
+          >
+            <TextInput
+              readOnly
+              value={label}
+              invalid={invalid}
+              width={width}
+              height={height}
+              placeholder={placeholder}
+              disabled={disabled}
+              sx={selectTextInputStyle}
+              leftContent={leftContent}
+              rightContent={
+                <TextInputContent
+                  variant="icon"
+                  data-role="select-button-arrow"
+                >
+                  <IconChevronDownThickSmall sx={selectTextInputArrowStyle} />
+                </TextInputContent>
+              }
+            />
+          </Box>
+        </MenuTrigger>
+
+        <MenuContent sx={[selectMenuContentStyle({ width }), sx]}>
+          <MenuList
+            ref={ref as Ref<HTMLUListElement>}
+            role="select"
+            {...(props as ListProps)}
+          >
+            {children}
+          </MenuList>
+        </MenuContent>
+      </Menu>
     );
   },
 );
 
-Select.displayName = 'Select';
+Select.displayName = SELECT_NAME;
 
-export default Select;
+const OptionGroup = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<OptionGroupProps, 'div'>
+>((props, ref) => {
+  return <MenuGroup ref={ref} {...props} />;
+});
+
+OptionGroup.displayName = OPTION_GROUP_NAME;
+
+const Option = memo(
+  forwardRef(
+    <E extends ElementType = 'option'>(
+      {
+        variant = 'normal',
+        children,
+        ...props
+      }: PolymorphicProps<OptionProps, E>,
+      ref: ForwardedRef<ElementRef<E>>,
+    ) => {
+      return (
+        <MenuItem ref={ref} role="option" variant={variant} {...props}>
+          <ListText>{children}</ListText>
+        </MenuItem>
+      );
+    },
+  ) as PolymorphicComponent<OptionProps, 'option'>,
+);
+
+Option.displayName = OPTION_NAME;
+
+const SelectContent = TextInputContent;
+
+SelectContent.displayName = SELECT_CONTENT_NAME;
+
+export { Select, SelectContent, Option, OptionGroup };

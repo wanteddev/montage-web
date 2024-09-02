@@ -141,7 +141,6 @@ export const routes: Array<Route> = [
         stable: true,
       },
       { title: 'Select', slug: '/docs/components/select' },
-      { title: 'SelectSingle', slug: '/docs/components/select-single' },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab', stable: true },

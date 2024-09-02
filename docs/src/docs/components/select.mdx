@@ -5,114 +5,128 @@ description: Select Component
 
 # Select
 
-여러 옵션중에 한가지 값을 선택할 때 사용해요.
+필드를 눌러 드롭다운 메뉴, 모달, 바텀시트를 호출하여 항목을 선택할 수 있습니다.
 
 ## 활용
 
-<Demo code={`import { Select } from '@wanteddev/wds';
+- 여러 옵션 중 하나의 값을 선택할 수 있어요.
+- leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
+
+<Demo code={`import { Select, Option, OptionGroup, ListText, Label, FlexBox } from '@wanteddev/wds';
+
+const options = [
+  {
+    label: '옵션1',
+    value: 'option1',
+    group: '그룹1'
+  },
+  {
+    label: '옵션2',
+    value: 'option2',
+    group: '그룹1'
+  },
+  {
+    label: '옵션3',
+    value: 'option3',
+    group: '그룹1'
+  },
+  {
+    label: '옵션4',
+    value: 'option4',
+    group: '그룹2'
+  },
+  {
+    label: '옵션5',
+    value: 'option5',
+    group: '그룹2'
+  },
+  {
+    label: '옵션6',
+    value: 'option6',
+    group: '그룹2'
+  },
+  {
+    label: '옵션7',
+    value: 'option7',
+    group: '그룹3'
+  },
+  {
+    label: '옵션8',
+    value: 'option8',
+    group: '그룹3'
+  },
+  {
+    label: '옵션9',
+    value: 'option9',
+    group: '그룹3'
+  }
+];
 
 const Demo = () => {
+  const groups = options.map(option => option?.group);
+
   return (
-    <Select width="300px" placeholder="값을 선택하세요.">
-      <option value="Hello">Hello</option>
-    </Select>
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <Select defaultValue="option1" placeholder="선택해주세요.">
+      {options.map(option => (
+        <Option key={option.value} value={option.value}>
+       {option.label}
+        </Option>
+      ))}
+      </Select>
+    </FlexBox>
   )
 }
 
 export default Demo;`}
 />
 
-## Props
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<Select>
+  <OptionGroup>
+    <Option>
+      옵션1
+    </Option>
+  </OptionGroup>
+  <OptionGroup>
+    <Option>
+      옵션2
+    </Option>
+  </OptionGroup>
+</Select>
+```
+
+### Select
 
 <PropsTable component="Select" />
 
-## Example
+### SelectContent
+
+`TextInputContent`와 동일한 props를 사용합니다.
+
+<PropsTable component="SelectContent" />
 
 ### OptionGroup
 
-<Demo code={`import { Select, FlexBox, Label } from '@wanteddev/wds';
+`MenuGroup`과 동일한 props를 사용합니다.
 
-const Demo = () => {
-  return (
-    <FlexBox flexDirection="column" gap="10px">
-      <Select width="300px" placeholder="값을 선택하세요.">
-        <optgroup label="group">
-          <option value="Hello">Hello</option>
-        </optgroup>
-      </Select>
-    </FlexBox>
-  )
-}
+<PropsTable component="OptionGroup" />
 
-export default Demo;`}
-/>
+### Option
 
-### Label
+<PropsTable component="Option" />
 
-<Demo code={`import { useId } from 'react';
-import { Select, FlexBox, Label } from '@wanteddev/wds';
+## Examples
 
-const Demo = () => {
-  const id = useId();
+### Radio
 
-  return (
-    <FlexBox flexDirection="column" gap="10px">
-      <Label htmlFor={id}>Label</Label>
-      <Select id={id} width="300px" placeholder="값을 선택하세요.">
-        <option value="Hello">Hello</option>
-      </Select>
-    </FlexBox>
-  )
-}
+### Invalid
 
-export default Demo;`}
-/>
+### Disabled
 
-### Form
-
-<Demo code={`import { Button, FlexBox, Select, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
-import { useForm, Controller } from 'react-hook-form';
-
-const Demo = () => {
-  const form = useForm();
-
-  return (
-    <FlexBox
-      as="form"
-      flexDirection="column"
-      gap="20px"
-      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
-    >
-      <Controller
-        control={form.control}
-        name="checked"
-        rules={{
-          required: {
-            value: true,
-            message: "필수 값입니다.",
-          },
-        }}
-        render={({ field, formState }) => (
-          <FormField>
-            <FormLabel>Select</FormLabel>
-
-            <FormControl>
-              <Select {...field} width="300px" placeholder="값을 선택하세요." invalid={Boolean(formState.errors?.checked)}>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </Select>
-            </FormControl>
-
-            <FormErrorMessage>{formState.errors.checked?.message}</FormErrorMessage>
-          </FormField>
-        )}
-      />
-      <Button type="submit">제출</Button>
-    </FlexBox>
-  )
-}
-
-export default Demo;`}
-/>
-
+### LeftContent
