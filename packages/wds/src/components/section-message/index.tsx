@@ -17,15 +17,15 @@ import IconButton from '../icon-button';
 import { useRegionStore } from '../../stores/region-store';
 import PortalOrFragment from '../portal-or-fragment';
 
-import { alertWrapperStyle, topRegionStatusStyle } from './style';
+import { sectionMessageWrapperStyle, topRegionStatusStyle } from './style';
 
 import type { CSSProperties, ReactNode } from 'react';
-import type { AlertProps } from './types';
+import type { SectionMessageProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
-const Alert = forwardRef<
+const SectionMessage = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AlertProps, 'div'>
+  DefaultComponentProps<SectionMessageProps, 'div'>
 >(
   (
     {
@@ -60,7 +60,7 @@ const Alert = forwardRef<
     const theme = useTheme();
 
     const iconComponent: {
-      [key in Exclude<AlertProps['variant'], undefined>]: ReactNode;
+      [key in Exclude<SectionMessageProps['variant'], undefined>]: ReactNode;
     } = {
       normal: null,
       success: (
@@ -94,7 +94,7 @@ const Alert = forwardRef<
     };
 
     const backgroundColor: {
-      [key in Exclude<AlertProps['variant'], undefined>]: string;
+      [key in Exclude<SectionMessageProps['variant'], undefined>]: string;
     } = {
       normal: addOpacity(theme.palette.label.neutral, theme.opacity[5]),
       success: addOpacity(theme.palette.status.positive, theme.opacity[5]),
@@ -110,7 +110,7 @@ const Alert = forwardRef<
             <Box
               wds-ignore-dismissable-layer="true"
               {...wrapperProps}
-              sx={[alertWrapperStyle, wrapperProps?.sx]}
+              sx={[sectionMessageWrapperStyle, wrapperProps?.sx]}
               style={
                 {
                   ...wrapperProps?.style,
@@ -168,6 +168,6 @@ const Alert = forwardRef<
   },
 );
 
-Alert.displayName = 'Alert';
+SectionMessage.displayName = 'SectionMessage';
 
-export default Alert;
+export default SectionMessage;
