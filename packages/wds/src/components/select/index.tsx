@@ -1,12 +1,4 @@
-import {
-  Children,
-  type ElementType,
-  forwardRef,
-  isValidElement,
-  memo,
-  useEffect,
-  useState,
-} from 'react';
+import { type ElementType, forwardRef, memo, useMemo } from 'react';
 import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
@@ -27,6 +19,7 @@ import {
 import { TextInput, TextInputContent } from '../text-input';
 import { ListText } from '../list';
 
+import { convertChildrenToData } from './helpers';
 import {
   OPTION_GROUP_NAME,
   OPTION_NAME,
@@ -74,7 +67,6 @@ const Select = forwardRef<
       defaultProp: defaultValue,
       onChange: onValueChange,
     });
-    const [label, setLabel] = useState('');
 
     const [open = false, setOpen] = useControllableState({
       prop: openProps,
@@ -82,21 +74,11 @@ const Select = forwardRef<
       onChange: onOpenChange,
     });
 
-    useEffect(() => {
-      const updateLabel = () => {
-        const selectedValue = value ?? defaultValue;
-
-        Children.forEach(children, (child) => {
-          if (!isValidElement(child)) return;
-          if (child.type === OptionGroup) {
-          } else if (child.props.value === selectedValue) {
-            setLabel(child.props.children);
-          }
-        });
-      };
-
-      updateLabel();
-    }, [defaultValue, value, children]);
+    const textValue = useMemo(() => {
+      return convertChildrenToData(children)
+        .filter((v) => v.value === value)
+        .map(({ label }) => label);
+    }, [value, children]);
 
     return (
       <Menu
@@ -118,7 +100,7 @@ const Select = forwardRef<
           >
             <TextInput
               readOnly
-              value={label}
+              value={textValue}
               invalid={invalid}
               width={width}
               height={height}
@@ -162,6 +144,8 @@ const OptionGroup = forwardRef<
 });
 
 OptionGroup.displayName = OPTION_GROUP_NAME;
+// @ts-expect-error
+OptionGroup.isOptionGroup = true;
 
 const Option = memo(
   forwardRef(
@@ -183,6 +167,8 @@ const Option = memo(
 );
 
 Option.displayName = OPTION_NAME;
+// @ts-expect-error
+Option.isOption = true;
 
 const SelectContent = TextInputContent;
 

@@ -39,6 +39,7 @@ export { default as RegionConfig } from './region-config';
 export { default as RoundCheckbox } from './round-checkbox';
 export { default as ScrollArea } from './scroll-area';
 export * from './select';
+export { default as SelectMultiple } from './select-multiple';
 export { default as Skeleton } from './skeleton';
 export { default as Switch } from './switch';
 export * from './tab';

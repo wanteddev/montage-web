@@ -1,0 +1,206 @@
+---
+title: SelectMultiple
+description: Select Multiple Component
+---
+
+# SelectMultiple
+
+드롭다운 메뉴를 활용하여 여러가지 항목을 선택할 수 있습니다.
+
+## 활용
+
+- 여러 옵션 중 하나의 값을 선택할 수 있어요.
+- leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple width="300px" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<SelectMultiple>
+  <OptionGroup>
+    <Option>
+      옵션1
+    </Option>
+  </OptionGroup>
+  <OptionGroup>
+    <Option>
+      옵션2
+    </Option>
+  </OptionGroup>
+</SelectMultiple>
+```
+
+### SelectMultiple
+
+<PropsTable component="SelectMultiple" />
+
+### SelectContent
+
+`TextInputContent`와 동일한 props를 사용합니다.
+
+<PropsTable component="SelectContent" />
+
+### OptionGroup
+
+`MenuGroup`과 동일한 props를 사용합니다.
+
+<PropsTable component="OptionGroup" />
+
+### Option
+
+<PropsTable component="Option" />
+
+## Examples
+
+### Checkbox
+
+`Option` 컴포넌트에 variant="checkbox" 옵션을 주어 checkbox를 렌더링 할 수 있습니다.
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple width="300px" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="checkbox" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Invalid
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple invalid width="300px" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="checkbox" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Disabled
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <SelectMultiple disabled width="300px" placeholder="선택해주세요." />
+      <SelectMultiple disabled value={['값']} width="300px" placeholder="선택해주세요." />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Chip
+
+`render` prop을 이용하여 chip으로 렌더링 할 수 있습니다.
+
+<Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+import { IconCloseThick } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([])
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple
+        value={value}
+        onValueChange={setValue}
+        width="300px"
+        placeholder="선택해주세요."
+        render={() => (
+          value.map((v) => (
+            <ChipAction
+              key={v}
+              size="xsmall"
+              variant="filled"
+              rightContent={<IconCloseThick />}
+              onClick={() => setValue(value.filter(data => data !== v))}
+            >
+              {v}
+            </ChipAction>
+          ))
+        )}
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

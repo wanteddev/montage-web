@@ -5,6 +5,7 @@ import {
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { IconCheck } from '@wanteddev/wds-icon';
 
 import { List, ListCell, ListItemContent } from '../list';
 import ScrollArea from '../scroll-area';
@@ -96,7 +97,7 @@ const MenuContent = forwardRef<
 >(
   (
     {
-      position = 'top-start',
+      position = 'top-center',
       offset,
       container,
       disablePortal,
@@ -190,56 +191,66 @@ const MenuItem = forwardRef(
     const { disabled } = props;
     const context = useMenuContext(MENU_ITEM_NAME);
 
-    const menuItemRender = (children: ReactNode) => {
-      return (
-        <RovingFocusGroupItem
-          asChild
-          focusable={!disabled}
-          onKeyDown={composeEventHandlers(onKeyDown, (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              (e.target as HTMLElement).click();
+    const normalActive = Array.isArray(context.value)
+      ? context.value.includes(props.value)
+      : props.value === context.value;
+
+    const renderComponent: {
+      [key in Exclude<MenuItemProps['variant'], undefined>]: ReactNode;
+    } = {
+      radio: <MenuItemRadio ref={ref} {...props} sx={[menuItemStyle, sx]} />,
+      checkbox: (
+        <MenuItemCheckbox ref={ref} {...props} sx={[menuItemStyle, sx]} />
+      ),
+      normal: (
+        <ListCell
+          disabled={disabled}
+          role="menuitem"
+          ref={ref}
+          active={normalActive}
+          rightContent={
+            normalActive ? (
+              <ListItemContent variant="icon">
+                <IconCheck data-role="menu-item-active-icon-check" />
+              </ListItemContent>
+            ) : null
+          }
+          {...props}
+          sx={[menuItemStyle, sx]}
+          onClick={composeEventHandlers(props.onClick, (e) => {
+            e.preventDefault();
+
+            const { value } = props;
+            const values = context.value;
+
+            if (Array.isArray(values)) {
+              return context.onValueChange(
+                values.includes(value)
+                  ? values.filter((valueItem) => valueItem !== value)
+                  : [...values, value],
+              );
             }
+
+            context.onValueChange(value);
           })}
-        >
-          {children}
-        </RovingFocusGroupItem>
-      );
+        />
+      ),
     };
 
-    switch (variant) {
-      case 'radio':
-        return menuItemRender(
-          <MenuItemRadio ref={ref} {...props} sx={[menuItemStyle, sx]} />,
-        );
-
-      case 'checkbox':
-        return menuItemRender(
-          <MenuItemCheckbox ref={ref} {...props} sx={[menuItemStyle, sx]} />,
-        );
-
-      case 'normal':
-      default:
-        return menuItemRender(
-          <ListCell
-            disabled={disabled}
-            role="menuitem"
-            ref={ref}
-            {...props}
-            sx={[menuItemStyle, sx]}
-            onClick={composeEventHandlers(
-              props.onClick,
-              (e) => {
-                e.preventDefault();
-                context.onValueChange(props.value);
-              },
-              {
-                checkForDefaultPrevented: false,
-              },
-            )}
-          />,
-        );
-    }
+    return (
+      <RovingFocusGroupItem
+        asChild
+        focusable={!disabled}
+        onKeyDown={composeEventHandlers(onKeyDown, (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            (e.target as HTMLElement).click();
+          }
+        })}
+      >
+        {renderComponent[variant]}
+      </RovingFocusGroupItem>
+    );
   },
 ) as PolymorphicComponent<MenuItemProps, 'li'>;
 
@@ -266,18 +277,12 @@ const MenuItemRadio = forwardRef(
           </ListItemContent>
         }
         {...props}
-        onClick={composeEventHandlers(
-          props.onClick,
-          (e) => {
-            if (!e.defaultPrevented) {
-              context.onValueChange(value);
-            }
-            e.preventDefault();
-          },
-          {
-            checkForDefaultPrevented: false,
-          },
-        )}
+        onClick={composeEventHandlers(props.onClick, (e) => {
+          if (!e.defaultPrevented) {
+            context.onValueChange(value);
+          }
+          e.preventDefault();
+        })}
       />
     );
   },
@@ -317,18 +322,12 @@ const MenuItemCheckbox = forwardRef(
           </ListItemContent>
         }
         {...props}
-        onClick={composeEventHandlers(
-          props.onClick,
-          (e) => {
-            if (!e.defaultPrevented) {
-              onCheckedChange(!checked);
-            }
-            e.preventDefault();
-          },
-          {
-            checkForDefaultPrevented: false,
-          },
-        )}
+        onClick={composeEventHandlers(props.onClick, (e) => {
+          if (!e.defaultPrevented) {
+            onCheckedChange(!checked);
+          }
+          e.preventDefault();
+        })}
       />
     );
   },
