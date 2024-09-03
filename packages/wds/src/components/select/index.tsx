@@ -63,6 +63,7 @@ const Select = forwardRef<
       disabled,
       render,
       placeholder,
+      leftContent,
       xs,
       sm,
       md,
@@ -157,6 +158,8 @@ const Select = forwardRef<
               props.sx,
             ]}
           >
+            {Boolean(leftContent) && leftContent}
+
             {(typeof render === 'undefined' || shouldShowPlaceholder) && (
               <FlexBox
                 flex="1"

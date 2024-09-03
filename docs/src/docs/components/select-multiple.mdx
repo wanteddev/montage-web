@@ -12,7 +12,7 @@ description: Select Multiple Component
 - 여러 옵션 중 하나의 값을 선택할 수 있어요.
 - leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -85,7 +85,7 @@ export default Demo;`}
 
 `Option` 컴포넌트에 variant="checkbox" 옵션을 주어 checkbox를 렌더링 할 수 있습니다.
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -113,7 +113,7 @@ export default Demo;`}
 
 ### Invalid
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -141,7 +141,7 @@ export default Demo;`}
 
 ### Disabled
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -159,7 +159,7 @@ export default Demo;`}
 
 `render` prop을 이용하여 chip으로 렌더링 할 수 있습니다.
 
-<Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 import { IconCloseThick } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -187,6 +187,86 @@ const Demo = () => {
             </ChipAction>
           ))
         )}
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### LeftContent
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
+import { IconRefresh, IconApps } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <SelectMultiple
+        width="300px"
+        placeholder="선택해주세요."
+        leftContent={
+          <SelectContent variant="icon">
+            <IconRefresh />
+          </SelectContent>
+        }
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+      <SelectMultiple
+        width="300px"
+        placeholder="선택해주세요."
+        leftContent={
+          <SelectContent variant="icon-button">
+            <IconButton type="button">
+              <IconApps />
+            </IconButton>
+          </SelectContent>
+        }
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+      <SelectMultiple
+        width="300px"
+        placeholder="선택해주세요."
+        leftContent={
+          <SelectContent variant="custom">
+            커스텀
+          </SelectContent>
+        }
       >
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
