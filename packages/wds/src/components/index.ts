@@ -1,5 +1,5 @@
 export * from './action-area';
-export { default as Alert } from './alert';
+export { default as Alert } from './section-message';
 export { default as Avatar } from './avatar';
 export { default as AvatarButton } from './avatar-button';
 export { default as AvatarGroup } from './avatar-group';
