@@ -41,6 +41,7 @@ import {
   SELECT_CONTENT_NAME,
   SELECT_NAME,
 } from './constants';
+import { SelectProvider, useSelectContext } from './context';
 
 import type { ElementRef, ForwardedRef } from 'react';
 import type { OptionGroupProps, OptionProps, SelectProps } from './types';
@@ -106,140 +107,141 @@ const Select = forwardRef<
     }, [value, children]);
 
     return (
-      <Menu
-        value={value}
-        onValueChange={useCallbackRef(
-          (v: string | Array<string> | undefined) => {
-            if (Array.isArray(v) && process.env.NODE_ENV !== 'production') {
-              throw new Error(
-                'Select 값에 오류가 발생했습니다. checkbox를 사용하였거나 value가 string 형식이 아닌지 확인해주세요.',
-              );
-            }
-
-            setValue(v as string);
-            setOpen(false);
-          },
-        )}
-        open={open && !disabled}
-        onOpenChange={setOpen}
-      >
-        <MenuTrigger>
-          <FlexBox
-            ref={composedRefs}
-            gap="8px"
-            aria-invalid={invalid}
-            aria-disabled={disabled}
-            tabIndex={disabled ? -1 : 0}
-            role="combobox"
-            data-placeholder={shouldShowPlaceholder}
-            {...props}
-            onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
-              if (
-                (e.key === 'Enter' || e.key === ' ') &&
-                (e.target as HTMLElement) === node
-              ) {
-                e.preventDefault();
-                e.currentTarget.click();
+      <SelectProvider onOpenChange={setOpen}>
+        <Menu
+          value={value}
+          onValueChange={useCallbackRef(
+            (v: string | Array<string> | undefined) => {
+              if (Array.isArray(v) && process.env.NODE_ENV !== 'production') {
+                throw new Error(
+                  'Select 값에 오류가 발생했습니다. checkbox를 사용하였거나 value가 string 형식이 아닌지 확인해주세요.',
+                );
               }
-            })}
+
+              setValue(v as string);
+            },
+          )}
+          open={open && !disabled}
+          onOpenChange={setOpen}
+        >
+          <MenuTrigger>
+            <FlexBox
+              ref={composedRefs}
+              gap="8px"
+              aria-invalid={invalid}
+              aria-disabled={disabled}
+              tabIndex={disabled ? -1 : 0}
+              role="combobox"
+              data-placeholder={shouldShowPlaceholder}
+              {...props}
+              onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
+                if (
+                  (e.key === 'Enter' || e.key === ' ') &&
+                  (e.target as HTMLElement) === node
+                ) {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              })}
+              sx={[
+                selectMultipleStyle({
+                  disabled,
+                  invalid,
+                  width,
+                  height,
+                  xs,
+                  sm,
+                  md,
+                  lg,
+                  xl,
+                  ...props,
+                }),
+                props.sx,
+              ]}
+            >
+              {Boolean(leftContent) && leftContent}
+
+              {(typeof render === 'undefined' || shouldShowPlaceholder) && (
+                <FlexBox
+                  flex="1"
+                  gap="4px"
+                  data-role="select-render-wrapper"
+                  sx={{ padding: '0px 4px', overflow: 'hidden' }}
+                >
+                  {shouldShowPlaceholder ? (
+                    <Typography
+                      data-role="select-placeholder"
+                      noWrap
+                      variant="body1_normal"
+                      weight="regular"
+                      sx={selectTextStyle}
+                    >
+                      {placeholder}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      data-role="select-values"
+                      noWrap
+                      variant="body1_normal"
+                      weight="regular"
+                      sx={selectTextStyle}
+                    >
+                      {textValue}
+                    </Typography>
+                  )}
+                </FlexBox>
+              )}
+
+              {typeof render === 'function' && (
+                <FlexBox
+                  flex="1"
+                  gap="4px"
+                  flexWrap="wrap"
+                  data-role="select-render-wrapper"
+                  onClick={(e) => {
+                    const closest = (e.target as HTMLElement).closest(
+                      '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
+                    );
+
+                    if (Boolean(closest) && closest !== e.currentTarget) {
+                      e.stopPropagation();
+                      node?.focus();
+                    }
+                  }}
+                >
+                  {render(textValue, value)}
+                </FlexBox>
+              )}
+
+              {invalid && (
+                <SelectContent
+                  data-role="select-invalid"
+                  variant="icon"
+                  sx={invalidIconWrapperStyle}
+                >
+                  <IconCircleExclamationFill />
+                </SelectContent>
+              )}
+
+              {open ? (
+                <IconChevronUpThickSmall sx={selectIconStyle({ disabled })} />
+              ) : (
+                <IconChevronDownThickSmall sx={selectIconStyle({ disabled })} />
+              )}
+            </FlexBox>
+          </MenuTrigger>
+
+          <MenuContent
+            {...contentProps}
             sx={[
-              selectMultipleStyle({
-                disabled,
-                invalid,
-                width,
-                height,
-                xs,
-                sm,
-                md,
-                lg,
-                xl,
-                ...props,
-              }),
-              props.sx,
+              { width: contentWidth ?? '320px', minWidth: '140px' },
+              contentProps?.sx,
             ]}
           >
-            {Boolean(leftContent) && leftContent}
-
-            {(typeof render === 'undefined' || shouldShowPlaceholder) && (
-              <FlexBox
-                flex="1"
-                gap="4px"
-                data-role="select-render-wrapper"
-                sx={{ padding: '0px 4px', overflow: 'hidden' }}
-              >
-                {shouldShowPlaceholder ? (
-                  <Typography
-                    data-role="select-placeholder"
-                    noWrap
-                    variant="body1_normal"
-                    weight="regular"
-                    sx={selectTextStyle}
-                  >
-                    {placeholder}
-                  </Typography>
-                ) : (
-                  <Typography
-                    data-role="select-values"
-                    noWrap
-                    variant="body1_normal"
-                    weight="regular"
-                    sx={selectTextStyle}
-                  >
-                    {textValue}
-                  </Typography>
-                )}
-              </FlexBox>
-            )}
-
-            {typeof render === 'function' && (
-              <FlexBox
-                flex="1"
-                gap="4px"
-                flexWrap="wrap"
-                data-role="select-render-wrapper"
-                onClick={(e) => {
-                  const closest = (e.target as HTMLElement).closest(
-                    '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
-                  );
-
-                  if (Boolean(closest) && closest !== e.currentTarget) {
-                    e.stopPropagation();
-                    node?.focus();
-                  }
-                }}
-              >
-                {render(textValue, value)}
-              </FlexBox>
-            )}
-
-            {invalid && (
-              <SelectContent
-                data-role="select-invalid"
-                variant="icon"
-                sx={invalidIconWrapperStyle}
-              >
-                <IconCircleExclamationFill />
-              </SelectContent>
-            )}
-
-            {open ? (
-              <IconChevronUpThickSmall sx={selectIconStyle({ disabled })} />
-            ) : (
-              <IconChevronDownThickSmall sx={selectIconStyle({ disabled })} />
-            )}
-          </FlexBox>
-        </MenuTrigger>
-
-        <MenuContent
-          {...contentProps}
-          sx={[
-            { width: contentWidth ?? '320px', minWidth: '140px' },
-            contentProps?.sx,
-          ]}
-        >
-          <MenuList role="listbox">{children}</MenuList>
-        </MenuContent>
-      </Menu>
+            <MenuList role="listbox">{children}</MenuList>
+          </MenuContent>
+        </Menu>
+      </SelectProvider>
     );
   },
 );
@@ -267,8 +269,20 @@ const Option = memo(
       }: PolymorphicProps<OptionProps, E>,
       ref: ForwardedRef<ElementRef<E>>,
     ) => {
+      const { onOpenChange } = useSelectContext(OPTION_NAME);
+
       return (
-        <MenuItem ref={ref} role="option" variant={variant} {...props}>
+        <MenuItem
+          ref={ref}
+          role="option"
+          variant={variant}
+          {...props}
+          onClick={composeEventHandlers(props.onClick, () => {
+            if (variant !== 'radio') {
+              onOpenChange(false);
+            }
+          })}
+        >
           <ListText>{children}</ListText>
         </MenuItem>
       );
