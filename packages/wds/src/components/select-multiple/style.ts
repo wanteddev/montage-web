@@ -1,6 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity, createResponsiveStyle } from '../../utils';
+import {
+  addOpacity,
+  createResponsiveStyle,
+  ellipsisTypographyStyle,
+} from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectMultipleProps } from './types';
@@ -37,6 +41,7 @@ export const selectMultipleStyle =
     padding: 12px;
     gap: 8px;
     transition: box-shadow ease 0.2s;
+    cursor: pointer;
 
     &:focus,
     &:focus-visible {
@@ -167,3 +172,8 @@ export const selectIconStyle =
           color: ${theme.palette.label.alternative};
         `}
   `;
+
+export const selectTextStyle = css`
+  ${ellipsisTypographyStyle(1)}
+  user-select: none;
+`;

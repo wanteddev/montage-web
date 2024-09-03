@@ -1,12 +1,19 @@
-import { type ElementType, forwardRef, memo, useMemo } from 'react';
-import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
+import { type ElementType, forwardRef, memo, useMemo, useState } from 'react';
+import {
+  IconChevronDownThickSmall,
+  IconChevronUpThickSmall,
+  IconCircleExclamationFill,
+} from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import {
-  Box,
   type DefaultComponentProps,
   type PolymorphicComponent,
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
+import { useSize } from '@radix-ui/react-use-size';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import {
   Menu,
@@ -16,8 +23,16 @@ import {
   MenuList,
   MenuTrigger,
 } from '../menu';
-import { TextInput, TextInputContent } from '../text-input';
+import { TextInputContent } from '../text-input';
 import { ListText } from '../list';
+import FlexBox from '../flex-box';
+import Typography from '../typography';
+import {
+  selectIconStyle,
+  selectMultipleStyle,
+  selectTextStyle,
+} from '../select-multiple/style';
+import { invalidIconWrapperStyle } from '../text-input/style';
 
 import { convertChildrenToData } from './helpers';
 import {
@@ -26,43 +41,44 @@ import {
   SELECT_CONTENT_NAME,
   SELECT_NAME,
 } from './constants';
-import {
-  selectBoxButtonStyle,
-  selectMenuContentStyle,
-  selectTextInputArrowStyle,
-  selectTextInputStyle,
-} from './style';
 
-import type { ListProps } from '../list/types';
-import type { ElementRef, ForwardedRef, Ref } from 'react';
+import type { ElementRef, ForwardedRef } from 'react';
 import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
 const Select = forwardRef<
-  HTMLSelectElement,
-  DefaultComponentProps<SelectProps, 'select'>
+  HTMLDivElement,
+  DefaultComponentProps<SelectProps, 'div'>
 >(
   (
     {
-      defaultValue,
       value: valueProp,
-      onChange: onValueChange,
+      defaultValue = '',
+      onValueChange,
       defaultOpen,
       open: openProps,
       onOpenChange,
-      // TextInput props
-      width = '335px',
-      height = '48px',
+      width,
+      height,
       invalid,
       disabled,
-      leftContent,
+      render,
       placeholder,
-      sx,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      contentProps,
       children,
       ...props
     },
-    ref,
+    forwardedRef,
   ) => {
-    const [value, setValue] = useControllableState<SelectProps['value']>({
+    const [node, setNode] = useState<HTMLDivElement | null>(null);
+    const { width: contentWidth } = useSize(node) || {};
+    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
+
+    const [value = '', setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue,
       onChange: onValueChange,
@@ -74,60 +90,126 @@ const Select = forwardRef<
       onChange: onOpenChange,
     });
 
+    const shouldShowPlaceholder = useMemo(
+      () => value.length === 0,
+      [value.length],
+    );
+
     const textValue = useMemo(() => {
-      return convertChildrenToData(children)
-        .filter((v) => v.value === value)
-        .map(({ label }) => label);
+      return convertChildrenToData(children).find((v) => v.value === value)
+        ?.label;
     }, [value, children]);
 
     return (
       <Menu
-        defaultValue={defaultValue}
         value={value}
-        onValueChange={(newValue) => {
-          setValue(newValue as string);
-          setOpen(false);
-        }}
+        onValueChange={useCallbackRef(
+          (v: string | Array<string> | undefined) => {
+            if (Array.isArray(v) && process.env.NODE_ENV !== 'production') {
+              throw new Error(
+                'Select 값에 오류가 발생했습니다. checkbox를 사용하였거나 value가 string 형식이 아닌지 확인해주세요.',
+              );
+            }
+
+            setValue(v as string);
+            setOpen(false);
+          },
+        )}
         open={open && !disabled}
-        defaultOpen={defaultOpen}
-        onOpenChange={(newOpen) => setOpen(newOpen)}
+        onOpenChange={setOpen}
       >
         <MenuTrigger>
-          <Box
-            role="button"
+          <FlexBox
+            ref={composedRefs}
+            gap="8px"
+            aria-invalid={invalid}
             aria-disabled={disabled}
-            sx={selectBoxButtonStyle({ disabled })}
-          >
-            <TextInput
-              readOnly
-              value={textValue}
-              invalid={invalid}
-              width={width}
-              height={height}
-              placeholder={placeholder}
-              disabled={disabled}
-              sx={selectTextInputStyle}
-              leftContent={leftContent}
-              rightContent={
-                <TextInputContent
-                  variant="icon"
-                  data-role="select-button-arrow"
-                >
-                  <IconChevronDownThickSmall sx={selectTextInputArrowStyle} />
-                </TextInputContent>
+            tabIndex={disabled ? -1 : 0}
+            role="combobox"
+            data-placeholder={shouldShowPlaceholder}
+            {...props}
+            onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
+              if (
+                (e.key === 'Enter' || e.key === ' ') &&
+                (e.target as HTMLElement) === node
+              ) {
+                e.preventDefault();
+                e.currentTarget.click();
               }
-            />
-          </Box>
+            })}
+            sx={[
+              selectMultipleStyle({
+                disabled,
+                invalid,
+                width,
+                height,
+                xs,
+                sm,
+                md,
+                lg,
+                xl,
+                ...props,
+              }),
+              props.sx,
+            ]}
+          >
+            {(typeof render === 'undefined' || shouldShowPlaceholder) && (
+              <FlexBox
+                flex="1"
+                gap="4px"
+                data-role="select-multiple-render-wrapper"
+                sx={{ padding: '0px 4px', overflow: 'hidden' }}
+              >
+                {shouldShowPlaceholder ? (
+                  <Typography
+                    data-role="select-multiple-placeholder"
+                    noWrap
+                    variant="body1_normal"
+                    weight="regular"
+                    sx={selectTextStyle}
+                  >
+                    {placeholder}
+                  </Typography>
+                ) : (
+                  <Typography
+                    data-role="select-multiple-values"
+                    noWrap
+                    variant="body1_normal"
+                    weight="regular"
+                    sx={selectTextStyle}
+                  >
+                    {textValue}
+                  </Typography>
+                )}
+              </FlexBox>
+            )}
+
+            {invalid && (
+              <SelectContent
+                data-role="select-multiple-invalid"
+                variant="icon"
+                sx={invalidIconWrapperStyle}
+              >
+                <IconCircleExclamationFill />
+              </SelectContent>
+            )}
+
+            {open ? (
+              <IconChevronUpThickSmall sx={selectIconStyle({ disabled })} />
+            ) : (
+              <IconChevronDownThickSmall sx={selectIconStyle({ disabled })} />
+            )}
+          </FlexBox>
         </MenuTrigger>
 
-        <MenuContent sx={[selectMenuContentStyle({ width }), sx]}>
-          <MenuList
-            ref={ref as Ref<HTMLUListElement>}
-            role="listbox"
-            {...(props as ListProps)}
-          >
-            {children}
-          </MenuList>
+        <MenuContent
+          {...contentProps}
+          sx={[
+            { width: contentWidth ?? '320px', minWidth: '140px' },
+            contentProps?.sx,
+          ]}
+        >
+          <MenuList role="listbox">{children}</MenuList>
         </MenuContent>
       </Menu>
     );

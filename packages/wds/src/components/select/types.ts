@@ -1,5 +1,5 @@
-import type { PopoverProps } from '../popover/types';
-import type { CSSProperties, ReactNode } from 'react';
+import type { MenuContent } from '../menu';
+import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { MenuGroupProps, MenuItemProps } from '../menu/types';
 
@@ -11,21 +11,21 @@ export type SelectDefaultProps = {
   name?: string;
   value?: string;
   defaultValue?: string;
-  onChange?: (value?: string) => void;
   placeholder?: string;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  render?: (textValue: string, value: string) => ReactNode;
+  onValueChange?: (value: string) => void;
+  contentProps?: ComponentProps<typeof MenuContent>;
+  // Popover props
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (state: boolean) => void;
 };
 
 export type SelectResponsiveProps = ResponsiveProps<
   Pick<SelectDefaultProps, 'width' | 'height'>
 >;
 
-export type SelectProps = Merge<
-  Merge<SelectDefaultProps, SelectResponsiveProps>,
-  PopoverProps
->;
+export type SelectProps = Merge<SelectDefaultProps, SelectResponsiveProps>;
 
 export type OptionGroupProps = MenuGroupProps;
-
 export type OptionProps = MenuItemProps;

@@ -92,14 +92,14 @@ const SelectMultiple = forwardRef<
           (v: string | Array<string> | undefined) => {
             if (!Array.isArray(v) && process.env.NODE_ENV !== 'production') {
               throw new Error(
-                'SelectMultiple 값에 오류가 발생했습니다. radio를 사용하였거나 value가 Array가 아닌지 확인이 필요합니다.',
+                'SelectMultiple 값에 오류가 발생했습니다. radio를 사용하였거나 value가 Array 형식이 아닌지 확인해주세요.',
               );
             }
 
             setValue(v as Array<string>);
           },
         )}
-        open={open}
+        open={open && !disabled}
         onOpenChange={setOpen}
       >
         <MenuTrigger>
