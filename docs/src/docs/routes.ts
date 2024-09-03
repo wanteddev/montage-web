@@ -34,7 +34,6 @@ export const routes: Array<Route> = [
         slug: '/docs/components/action-area',
         stable: true,
       },
-      { title: 'Alert', slug: '/docs/components/alert' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
       {
         title: 'AvatarButton',
@@ -142,6 +141,7 @@ export const routes: Array<Route> = [
       },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
+      { title: 'SectionMessage', slug: '/docs/components/section-message' },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab', stable: true },

@@ -1,7 +1,7 @@
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type AlertProps = {
+export type SectionMessageProps = {
   variant?: 'normal' | 'success' | 'warning' | 'error' | 'info';
   children: ReactNode;
   show?: boolean;
