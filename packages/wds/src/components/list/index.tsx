@@ -294,7 +294,7 @@ const ListText = forwardRef(
 
     const weight: TypographyWeight = bold ? 'medium' : 'regular';
 
-    const getColor = (defaultColor: ThemeColorsToken): ThemeColorsToken => {
+    const getParagraphColor = (): ThemeColorsToken => {
       if (disabled) {
         return 'palette.label.disable';
       }
@@ -302,7 +302,7 @@ const ListText = forwardRef(
         return 'palette.primary.normal';
       }
 
-      return defaultColor;
+      return 'palette.label.normal';
     };
 
     return (
@@ -317,7 +317,7 @@ const ListText = forwardRef(
       >
         <Typography
           variant="body1_normal"
-          color={getColor('palette.label.normal')}
+          color={getParagraphColor()}
           weight={weight}
           sx={listTextStyle}
         >
@@ -327,7 +327,9 @@ const ListText = forwardRef(
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
-            color={getColor('palette.label.alternative')}
+            color={
+              disabled ? 'palette.label.disable' : 'palette.label.alternative'
+            }
             weight={weight}
             sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
           >

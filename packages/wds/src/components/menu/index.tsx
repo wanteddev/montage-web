@@ -5,6 +5,7 @@ import {
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { IconCheck } from '@wanteddev/wds-icon';
 
 import { List, ListCell, ListItemContent } from '../list';
 import ScrollArea from '../scroll-area';
@@ -190,6 +191,10 @@ const MenuItem = forwardRef(
     const { disabled } = props;
     const context = useMenuContext(MENU_ITEM_NAME);
 
+    const normalActive = Array.isArray(context.value)
+      ? context.value.includes(props.value)
+      : props.value === context.value;
+
     const renderComponent: {
       [key in Exclude<MenuItemProps['variant'], undefined>]: ReactNode;
     } = {
@@ -202,10 +207,13 @@ const MenuItem = forwardRef(
           disabled={disabled}
           role="menuitem"
           ref={ref}
-          active={
-            Array.isArray(context.value)
-              ? context.value.includes(props.value)
-              : props.value === context.value
+          active={normalActive}
+          rightContent={
+            normalActive ? (
+              <ListItemContent variant="icon">
+                <IconCheck data-role="menu-item-active-icon-check" />
+              </ListItemContent>
+            ) : null
           }
           {...props}
           sx={[menuItemStyle, sx]}
