@@ -269,7 +269,7 @@ const Option = memo(
       }: PolymorphicProps<OptionProps, E>,
       ref: ForwardedRef<ElementRef<E>>,
     ) => {
-      const { onOpenChange } = useSelectContext(OPTION_NAME);
+      const { onOpenChange } = useSelectContext() || {};
 
       return (
         <MenuItem
@@ -279,7 +279,7 @@ const Option = memo(
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
             if (variant !== 'radio') {
-              onOpenChange(false);
+              onOpenChange?.(false);
             }
           })}
         >

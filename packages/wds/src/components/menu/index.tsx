@@ -146,8 +146,6 @@ const MenuList = forwardRef<
 });
 
 MenuList.displayName = MENU_LIST_NAME;
-// @ts-expect-error
-MenuList.isMenuList = true;
 
 const MenuGroup = forwardRef<
   HTMLDivElement,

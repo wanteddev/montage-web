@@ -1,4 +1,4 @@
-import { createContext } from '@radix-ui/react-context';
+import createLooseContext from '../../hooks/use-loose-context';
 
 import { SELECT_NAME } from './constants';
 
@@ -7,4 +7,4 @@ type SelectContextType = {
 };
 
 export const [SelectProvider, useSelectContext] =
-  createContext<SelectContextType>(SELECT_NAME);
+  createLooseContext<SelectContextType>(SELECT_NAME);
