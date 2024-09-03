@@ -48,13 +48,16 @@ export const selectMultipleStyle =
       outline: none;
     }
 
+    [data-role='select-invalid'],
     [data-role='select-multiple-invalid'] {
       display: flex;
     }
 
+    [data-role='select-placeholder'],
     [data-role='select-multiple-placeholder'] {
       color: ${theme.palette.label.assistive};
     }
+    [data-role='select-values'],
     [data-role='select-multiple-values'] {
       color: ${theme.palette.label.normal};
     }
@@ -75,10 +78,12 @@ export const selectMultipleStyle =
             0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
           cursor: default;
 
-          [data-role='select-multiple-placeholder'] {
+          [data-role='select-placeholder']
+            [data-role='select-multiple-placeholder'] {
             color: ${theme.palette.label.disable};
           }
 
+          [data-role='select-values'],
           [data-role='select-multiple-values'] {
             color: ${theme.palette.label.alternative};
           }
@@ -112,6 +117,7 @@ export const selectMultipleStyle =
           &[aria-expanded='true'] {
             ${invalid &&
             css`
+              [data-role='select-invalid'],
               [data-role='select-multiple-invalid'] {
                 display: none;
               }

@@ -75,7 +75,9 @@ const Select = forwardRef<
     forwardedRef,
   ) => {
     const [node, setNode] = useState<HTMLDivElement | null>(null);
+
     const { width: contentWidth } = useSize(node) || {};
+
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
     const [value = '', setValue] = useControllableState({
@@ -96,8 +98,10 @@ const Select = forwardRef<
     );
 
     const textValue = useMemo(() => {
-      return convertChildrenToData(children).find((v) => v.value === value)
-        ?.label;
+      return (
+        convertChildrenToData(children).find((v) => v.value === value)?.label ??
+        ''
+      );
     }, [value, children]);
 
     return (
@@ -157,12 +161,12 @@ const Select = forwardRef<
               <FlexBox
                 flex="1"
                 gap="4px"
-                data-role="select-multiple-render-wrapper"
+                data-role="select-render-wrapper"
                 sx={{ padding: '0px 4px', overflow: 'hidden' }}
               >
                 {shouldShowPlaceholder ? (
                   <Typography
-                    data-role="select-multiple-placeholder"
+                    data-role="select-placeholder"
                     noWrap
                     variant="body1_normal"
                     weight="regular"
@@ -172,7 +176,7 @@ const Select = forwardRef<
                   </Typography>
                 ) : (
                   <Typography
-                    data-role="select-multiple-values"
+                    data-role="select-values"
                     noWrap
                     variant="body1_normal"
                     weight="regular"
@@ -184,9 +188,30 @@ const Select = forwardRef<
               </FlexBox>
             )}
 
+            {typeof render === 'function' && (
+              <FlexBox
+                flex="1"
+                gap="4px"
+                flexWrap="wrap"
+                data-role="select-render-wrapper"
+                onClick={(e) => {
+                  const closest = (e.target as HTMLElement).closest(
+                    '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
+                  );
+
+                  if (Boolean(closest) && closest !== e.currentTarget) {
+                    e.stopPropagation();
+                    node?.focus();
+                  }
+                }}
+              >
+                {render(textValue, value)}
+              </FlexBox>
+            )}
+
             {invalid && (
               <SelectContent
-                data-role="select-multiple-invalid"
+                data-role="select-invalid"
                 variant="icon"
                 sx={invalidIconWrapperStyle}
               >

@@ -12,68 +12,24 @@ description: Select Component
 - 여러 옵션 중 하나의 값을 선택할 수 있어요.
 - leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
 
-<Demo code={`import { Select, Option, OptionGroup, ListText, Label, FlexBox } from '@wanteddev/wds';
-
-const options = [
-  {
-    label: '옵션1',
-    value: 'option1',
-    group: '그룹1'
-  },
-  {
-    label: '옵션2',
-    value: 'option2',
-    group: '그룹1'
-  },
-  {
-    label: '옵션3',
-    value: 'option3',
-    group: '그룹1'
-  },
-  {
-    label: '옵션4',
-    value: 'option4',
-    group: '그룹2'
-  },
-  {
-    label: '옵션5',
-    value: 'option5',
-    group: '그룹2'
-  },
-  {
-    label: '옵션6',
-    value: 'option6',
-    group: '그룹2'
-  },
-  {
-    label: '옵션7',
-    value: 'option7',
-    group: '그룹3'
-  },
-  {
-    label: '옵션8',
-    value: 'option8',
-    group: '그룹3'
-  },
-  {
-    label: '옵션9',
-    value: 'option9',
-    group: '그룹3'
-  }
-];
+<Demo code={`import { Select, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
-  const groups = options.map(option => option?.group);
-
   return (
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
-      <Select defaultValue="option1" placeholder="선택해주세요.">
-      {options.map(option => (
-        <Option key={option.value} value={option.value}>
-       {option.label}
-        </Option>
-      ))}
+      <Select width="300px" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
       </Select>
     </FlexBox>
   )
@@ -119,14 +75,82 @@ export default Demo;`}
 
 ### Option
 
+`MenuItem`과 동일한 props를 사용합니다.
+
 <PropsTable component="Option" />
 
 ## Examples
 
 ### Radio
 
+`Option` 컴포넌트에 variant="radio" 옵션을 주어 radio를 렌더링 할 수 있습니다.
+
+<Demo code={`import { Select, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <Select width="300px" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Invalid
 
-### Disabled
+<Demo code={`import { Select, Option, OptionGroup, SelectContent, Label, FlexBox } from '@wanteddev/wds';
 
-### LeftContent
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <Select invalid width="300px" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Disabled
+ㅍ
+<Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Select disabled width="300px" placeholder="선택해주세요." />
+      <Select disabled value="값" width="300px" placeholder="선택해주세요." />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
