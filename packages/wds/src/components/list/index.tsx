@@ -305,9 +305,6 @@ const ListText = forwardRef(
       return 'palette.label.normal';
     };
 
-    const getCaptionColor = (): ThemeColorsToken =>
-      disabled ? 'palette.label.disable' : 'palette.label.alternative';
-
     return (
       <FlexBox
         ref={ref}
@@ -330,7 +327,9 @@ const ListText = forwardRef(
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
-            color={getCaptionColor()}
+            color={
+              disabled ? 'palette.label.disable' : 'palette.label.alternative'
+            }
             weight={weight}
             sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
           >
