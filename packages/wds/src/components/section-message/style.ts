@@ -14,7 +14,7 @@ export const topMountKeyFrames = keyframes`
   }
 `;
 
-export const alertWrapperStyle = (theme: Theme) => css`
+export const sectionMessageWrapperStyle = (theme: Theme) => css`
   position: fixed;
   z-index: ${theme.zIndex.modal};
   width: 100%;

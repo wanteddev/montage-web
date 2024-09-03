@@ -1,9 +1,9 @@
 ---
-title: Alert
-description: Alert Component
+title: SectionMessage
+description: SectionMessage Component
 ---
 
-# Alert
+# SectionMessage
 
 사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
 
@@ -17,20 +17,20 @@ description: Alert Component
 - 가독성을 위해 메시지가 2줄 이상 넘지 않도록 작성합니다.
 
 <Demo code={`import { useState } from 'react';
-import { Alert, Button } from '@wanteddev/wds';
+import { SectionMessage, Button } from '@wanteddev/wds';
 
 const Demo = () => {
   const [show, setShow] = useState(false);
 
   return (
     <>
-      <Alert
+      <SectionMessage
         show={show}
         onShowChange={setShow}
         variant="info"
       >
         사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
-      </Alert>
+      </SectionMessage>
 
       <Button onClick={() => setShow(true)}>Click me</Button>
     </>
@@ -42,4 +42,4 @@ export default Demo;`}
 
 ## Props
 
-<PropsTable component="Alert" />
+<PropsTable component="SectionMessage" />
