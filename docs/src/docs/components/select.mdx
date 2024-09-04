@@ -243,7 +243,7 @@ export default Demo;`}
 
 bottom 영역을 사용하신다면 `enableMenuBottom` prop 을 활용해야합니다.
 
-<Demo code={`import { Typography, Select, Option, OptionGroup, SelectContent, Label, FlexBox, ellipsisTypographyStyle, MenuBottom, MenuBottomContent, IconButton, Button } from '@wanteddev/wds';
+<Demo code={`import { Typography, Select, Option, OptionGroup, SelectContent, Label, FlexBox, ellipsisTypographyStyle, MenuBottom, MenuBottomContent, Button } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -280,10 +280,16 @@ const Demo = () => {
 
         <MenuBottom
           leftContent={
-            <MenuBottomContent variant="icon-button">
-              <IconButton variant="outlined" size="small" onClick={() => setMenuValue([])}>
+            <MenuBottomContent variant="button">
+              <Button
+                variant="outlined"
+                color="assistive"
+                iconOnly
+                size="small"
+                onClick={() => setMenuValue([])}
+              >
                 <IconRefresh />
-              </IconButton>
+              </Button> 
             </MenuBottomContent>
           }
           rightContent={
