@@ -5,6 +5,7 @@ import { addOpacity } from '../../utils';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const menuPopoverContentStyle = (theme: Theme) => css`
+  width: 320px;
   padding: 0;
   filter: none;
   box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
@@ -12,7 +13,7 @@ export const menuPopoverContentStyle = (theme: Theme) => css`
 `;
 
 export const menuScrollAreaStyle = (theme: Theme) => css`
-  width: 320px;
+  width: 100%;
   min-width: 140px;
   max-height: 400px;
   height: auto;
@@ -50,6 +51,10 @@ export const menuItemStyle = (theme: Theme) => css`
     > [wds-component='with-interaction'] {
       opacity: ${theme.opacity[5]};
     }
+  }
+
+  [data-role='menu-item-active-icon-check'] {
+    color: ${theme.palette.primary.normal};
   }
 `;
 
