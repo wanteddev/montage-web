@@ -1,24 +1,24 @@
 ---
-title: Select
-description: Select Component
+title: SelectMultiple
+description: Select Multiple Component
 ---
 
-# Select
+# SelectMultiple
 
-필드를 눌러 드롭다운 메뉴, 모달, 바텀시트를 호출하여 항목을 선택할 수 있습니다.
+드롭다운 메뉴를 활용하여 여러가지 항목을 선택할 수 있습니다.
 
 ## 활용
 
 - 여러 옵션 중 하나의 값을 선택할 수 있어요.
 - leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
 
-<Demo code={`import { Select, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
-      <Select width="300px" placeholder="선택해주세요.">
+      <SelectMultiple width="300px" placeholder="선택해주세요.">
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
@@ -30,7 +30,7 @@ const Demo = () => {
             }
           </OptionGroup>
         ))}
-      </Select>
+      </SelectMultiple>
     </FlexBox>
   )
 }
@@ -43,7 +43,7 @@ export default Demo;`}
 아래와 같이 조합하여 사용합니다.
 
 ```tsx
-<Select>
+<SelectMultiple>
   <OptionGroup>
     <Option>
       옵션1
@@ -54,12 +54,12 @@ export default Demo;`}
       옵션2
     </Option>
   </OptionGroup>
-</Select>
+</SelectMultiple>
 ```
 
-### Select
+### SelectMultiple
 
-<PropsTable component="Select" />
+<PropsTable component="SelectMultiple" />
 
 ### SelectContent
 
@@ -81,29 +81,29 @@ export default Demo;`}
 
 ## Examples
 
-### Radio
+### Checkbox
 
-`Option` 컴포넌트에 variant="radio" 옵션을 주어 radio를 렌더링 할 수 있습니다.
+`Option` 컴포넌트에 variant="checkbox" 옵션을 주어 checkbox를 렌더링 할 수 있습니다.
 
-<Demo code={`import { Select, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
-      <Select width="300px" placeholder="선택해주세요.">
+      <SelectMultiple width="300px" placeholder="선택해주세요.">
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
               .map((__, j) => (
-                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                <Option variant="checkbox" key={j} value={\`값 \${i} \${j}\`}>
                   {\`값 \${i} \${j}\`}
                 </Option>
               ))
             }
           </OptionGroup>
         ))}
-      </Select>
+      </SelectMultiple>
     </FlexBox>
   )
 }
@@ -113,25 +113,25 @@ export default Demo;`}
 
 ### Invalid
 
-<Demo code={`import { Select, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
-      <Select invalid width="300px" placeholder="선택해주세요.">
+      <SelectMultiple invalid width="300px" placeholder="선택해주세요.">
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
               .map((__, j) => (
-                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                <Option variant="checkbox" key={j} value={\`값 \${i} \${j}\`}>
                   {\`값 \${i} \${j}\`}
                 </Option>
               ))
             }
           </OptionGroup>
         ))}
-      </Select>
+      </SelectMultiple>
     </FlexBox>
   )
 }
@@ -141,13 +141,65 @@ export default Demo;`}
 
 ### Disabled
 
-<Demo code={`import { Select, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Select disabled width="300px" placeholder="선택해주세요." />
-      <Select disabled value="값" width="300px" placeholder="선택해주세요." />
+      <SelectMultiple disabled width="300px" placeholder="선택해주세요." />
+      <SelectMultiple disabled value={['값']} width="300px" placeholder="선택해주세요." />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Chip
+
+`render` prop을 이용하여 chip으로 렌더링 할 수 있습니다.
+
+<Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
+import { IconCloseThick } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([])
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple
+        value={value}
+        onValueChange={setValue}
+        width="300px"
+        placeholder="선택해주세요."
+        render={() => (
+          value.map((v) => (
+            <ChipAction
+              key={v}
+              size="xsmall"
+              variant="filled"
+              rightContent={<IconCloseThick />}
+              onClick={() => setValue(value.filter(data => data !== v))}
+            >
+              {v}
+            </ChipAction>
+          ))
+        )}
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
     </FlexBox>
   )
 }
@@ -157,13 +209,13 @@ export default Demo;`}
 
 ### LeftContent
 
-<Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
 import { IconRefresh, IconApps } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Select
+      <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
         leftContent={
@@ -183,8 +235,8 @@ const Demo = () => {
             }
           </OptionGroup>
         ))}
-      </Select>
-      <Select
+      </SelectMultiple>
+      <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
         leftContent={
@@ -206,8 +258,8 @@ const Demo = () => {
             }
           </OptionGroup>
         ))}
-      </Select>
-      <Select
+      </SelectMultiple>
+      <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
         leftContent={
@@ -227,7 +279,7 @@ const Demo = () => {
             }
           </OptionGroup>
         ))}
-      </Select>
+      </SelectMultiple>
     </FlexBox>
   )
 }

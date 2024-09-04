@@ -1,91 +1,301 @@
-'use client';
-import { forwardRef } from 'react';
-import { IconChevronDown } from '@wanteddev/wds-icon';
+import { type ElementType, forwardRef, memo, useMemo, useState } from 'react';
+import {
+  IconChevronDownThickSmall,
+  IconChevronUpThickSmall,
+  IconCircleExclamationFill,
+} from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box } from '@wanteddev/wds-engine';
+import {
+  type DefaultComponentProps,
+  type PolymorphicComponent,
+  type PolymorphicProps,
+} from '@wanteddev/wds-engine';
+import { useSize } from '@radix-ui/react-use-size';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
+import {
+  Menu,
+  MenuContent,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
+} from '../menu';
+import { TextInputContent } from '../text-input';
+import { ListText } from '../list';
 import FlexBox from '../flex-box';
+import Typography from '../typography';
+import {
+  selectIconStyle,
+  selectMultipleStyle,
+  selectTextStyle,
+} from '../select-multiple/style';
+import { invalidIconWrapperStyle } from '../text-input/style';
 
-import { selectIconStyle, selectStyle, selectWrapperStyle } from './style';
+import { convertChildrenToData } from './helpers';
+import {
+  OPTION_GROUP_NAME,
+  OPTION_NAME,
+  SELECT_CONTENT_NAME,
+  SELECT_NAME,
+} from './constants';
+import { SelectProvider, useSelectContext } from './context';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ChangeEvent } from 'react';
-import type { SelectProps } from './types';
+import type { ElementRef, ForwardedRef } from 'react';
+import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
 const Select = forwardRef<
-  HTMLSelectElement,
-  DefaultComponentProps<SelectProps, 'select'>
+  HTMLDivElement,
+  DefaultComponentProps<SelectProps, 'div'>
 >(
   (
     {
-      invalid,
-      disabled,
+      value: valueProp,
       defaultValue = '',
-      value: originValue,
-      onChange,
-      placeholder,
-      children,
+      onValueChange,
+      defaultOpen,
+      open: openProps,
+      onOpenChange,
       width,
       height,
+      invalid,
+      disabled,
+      render,
+      placeholder,
+      leftContent,
       xs,
       sm,
       md,
       lg,
       xl,
+      contentProps,
+      children,
       ...props
     },
-    ref,
+    forwardedRef,
   ) => {
-    const [value, setValue] = useControllableState({
-      prop: originValue,
+    const [node, setNode] = useState<HTMLDivElement | null>(null);
+
+    const { width: contentWidth } = useSize(node) || {};
+
+    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
+
+    const [value = '', setValue] = useControllableState({
+      prop: valueProp,
       defaultProp: defaultValue,
-      onChange,
+      onChange: onValueChange,
     });
 
-    return (
-      <FlexBox alignItems="center" sx={selectWrapperStyle}>
-        <Box
-          as="select"
-          ref={ref}
-          aria-invalid={invalid}
-          disabled={disabled}
-          {...props}
-          sx={[
-            selectStyle({
-              disabled,
-              invalid,
-              width,
-              height,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-              __shouldShowPlaceholder:
-                value === '' || (value === undefined && Boolean(placeholder)),
-              ...props,
-            }),
-            props.sx,
-          ]}
-          value={value}
-          onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-            setValue(event.target.value)
-          }
-        >
-          {Boolean(placeholder) && (
-            <option value="" disabled>
-              {placeholder}
-            </option>
-          )}
-          {children}
-        </Box>
+    const [open = false, setOpen] = useControllableState({
+      prop: openProps,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
+    });
 
-        <IconChevronDown sx={selectIconStyle({ disabled })} />
-      </FlexBox>
+    const shouldShowPlaceholder = useMemo(
+      () => value.length === 0,
+      [value.length],
+    );
+
+    const textValue = useMemo(() => {
+      return (
+        convertChildrenToData(children).find((v) => v.value === value)?.label ??
+        ''
+      );
+    }, [value, children]);
+
+    return (
+      <SelectProvider onOpenChange={setOpen}>
+        <Menu
+          value={value}
+          onValueChange={useCallbackRef(
+            (v: string | Array<string> | undefined) => {
+              if (Array.isArray(v) && process.env.NODE_ENV !== 'production') {
+                throw new Error(
+                  'Select 값에 오류가 발생했습니다. checkbox를 사용하였거나 value가 string 형식이 아닌지 확인해주세요.',
+                );
+              }
+
+              setValue(v as string);
+            },
+          )}
+          open={open && !disabled}
+          onOpenChange={setOpen}
+        >
+          <MenuTrigger>
+            <FlexBox
+              ref={composedRefs}
+              gap="8px"
+              aria-invalid={invalid}
+              aria-disabled={disabled}
+              tabIndex={disabled ? -1 : 0}
+              role="combobox"
+              data-placeholder={shouldShowPlaceholder}
+              {...props}
+              onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
+                if (
+                  (e.key === 'Enter' || e.key === ' ') &&
+                  (e.target as HTMLElement) === node
+                ) {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              })}
+              sx={[
+                selectMultipleStyle({
+                  disabled,
+                  invalid,
+                  width,
+                  height,
+                  xs,
+                  sm,
+                  md,
+                  lg,
+                  xl,
+                  ...props,
+                }),
+                props.sx,
+              ]}
+            >
+              {Boolean(leftContent) && leftContent}
+
+              {(typeof render === 'undefined' || shouldShowPlaceholder) && (
+                <FlexBox
+                  flex="1"
+                  gap="4px"
+                  data-role="select-render-wrapper"
+                  sx={{ padding: '0px 4px', overflow: 'hidden' }}
+                >
+                  {shouldShowPlaceholder ? (
+                    <Typography
+                      data-role="select-placeholder"
+                      noWrap
+                      variant="body1_normal"
+                      weight="regular"
+                      sx={selectTextStyle}
+                    >
+                      {placeholder}
+                    </Typography>
+                  ) : (
+                    <Typography
+                      data-role="select-values"
+                      noWrap
+                      variant="body1_normal"
+                      weight="regular"
+                      sx={selectTextStyle}
+                    >
+                      {textValue}
+                    </Typography>
+                  )}
+                </FlexBox>
+              )}
+
+              {typeof render === 'function' && (
+                <FlexBox
+                  flex="1"
+                  gap="4px"
+                  flexWrap="wrap"
+                  data-role="select-render-wrapper"
+                  onClick={(e) => {
+                    const closest = (e.target as HTMLElement).closest(
+                      '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
+                    );
+
+                    if (Boolean(closest) && closest !== e.currentTarget) {
+                      e.stopPropagation();
+                      node?.focus();
+                    }
+                  }}
+                >
+                  {render(textValue, value)}
+                </FlexBox>
+              )}
+
+              {invalid && (
+                <SelectContent
+                  data-role="select-invalid"
+                  variant="icon"
+                  sx={invalidIconWrapperStyle}
+                >
+                  <IconCircleExclamationFill />
+                </SelectContent>
+              )}
+
+              {open ? (
+                <IconChevronUpThickSmall sx={selectIconStyle({ disabled })} />
+              ) : (
+                <IconChevronDownThickSmall sx={selectIconStyle({ disabled })} />
+              )}
+            </FlexBox>
+          </MenuTrigger>
+
+          <MenuContent
+            {...contentProps}
+            sx={[
+              { width: contentWidth ?? '320px', minWidth: '140px' },
+              contentProps?.sx,
+            ]}
+          >
+            <MenuList role="listbox">{children}</MenuList>
+          </MenuContent>
+        </Menu>
+      </SelectProvider>
     );
   },
 );
 
-Select.displayName = 'Select';
+Select.displayName = SELECT_NAME;
 
-export default Select;
+const OptionGroup = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<OptionGroupProps, 'div'>
+>((props, ref) => {
+  return <MenuGroup ref={ref} {...props} />;
+});
+
+OptionGroup.displayName = OPTION_GROUP_NAME;
+// @ts-expect-error
+OptionGroup.isOptionGroup = true;
+
+const Option = memo(
+  forwardRef(
+    <E extends ElementType = 'option'>(
+      {
+        variant = 'normal',
+        children,
+        ...props
+      }: PolymorphicProps<OptionProps, E>,
+      ref: ForwardedRef<ElementRef<E>>,
+    ) => {
+      const { onOpenChange } = useSelectContext() || {};
+
+      return (
+        <MenuItem
+          ref={ref}
+          role="option"
+          variant={variant}
+          {...props}
+          onClick={composeEventHandlers(props.onClick, () => {
+            if (variant !== 'radio') {
+              onOpenChange?.(false);
+            }
+          })}
+        >
+          <ListText>{children}</ListText>
+        </MenuItem>
+      );
+    },
+  ) as PolymorphicComponent<OptionProps, 'option'>,
+);
+
+Option.displayName = OPTION_NAME;
+// @ts-expect-error
+Option.isOption = true;
+
+const SelectContent = TextInputContent;
+
+SelectContent.displayName = SELECT_CONTENT_NAME;
+
+export { Select, SelectContent, Option, OptionGroup };

@@ -140,6 +140,7 @@ export const routes: Array<Route> = [
         stable: true,
       },
       { title: 'Select', slug: '/docs/components/select' },
+      { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
       { title: 'SectionMessage', slug: '/docs/components/section-message' },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
       { title: 'Switch', slug: '/docs/components/switch' },
