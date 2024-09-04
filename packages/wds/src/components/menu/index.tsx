@@ -374,6 +374,7 @@ const MenuBottomContent = forwardRef<
       );
 
     case 'button':
+    case 'icon-button':
     case 'text-button':
     case 'chip-filter':
       return (

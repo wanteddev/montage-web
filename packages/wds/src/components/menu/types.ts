@@ -39,6 +39,7 @@ export type MenuBottomContentProps = {
   variant?:
     | 'icon'
     | 'button'
+    | 'icon-button'
     | 'text-button'
     | 'chip-filter'
     | 'badge'
