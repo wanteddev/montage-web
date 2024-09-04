@@ -14,7 +14,7 @@ description: Menu Component
   - checkbox variant를 선택하면 값은 문자열 배열이 됩니다.
 - `MenuBottom`의 leftContent, rightContent에 요소를 추가 할 때는 `MenuBottomContent`로 감싸서 사용합니다.
 
-<Demo code={`import { Button, Menu, MenuTrigger, IconButton, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, MenuList } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -63,10 +63,15 @@ const Demo = () => {
 
         <MenuBottom
           leftContent={
-            <MenuBottomContent variant="icon-button">
-              <IconButton variant="outlined" size="small">
+            <MenuBottomContent variant="button">
+              <Button
+                variant="outlined"
+                color="assistive"
+                iconOnly
+                size="small"
+              >
                 <IconRefresh />
-              </IconButton>
+              </Button> 
             </MenuBottomContent>
           }
           rightContent={
@@ -152,7 +157,7 @@ export default Demo;`}
 
 ### Normal
 
-<Demo code={`import { Button, Menu, MenuTrigger, IconButton, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, MenuList } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -201,10 +206,15 @@ const Demo = () => {
 
         <MenuBottom
           leftContent={
-            <MenuBottomContent variant="icon-button">
-              <IconButton variant="outlined" size="small">
+            <MenuBottomContent variant="button">
+              <Button
+                variant="outlined"
+                color="assistive"
+                iconOnly
+                size="small"
+              >
                 <IconRefresh />
-              </IconButton>
+              </Button> 
             </MenuBottomContent>
           }
           rightContent={
@@ -225,7 +235,7 @@ export default Demo;`}
 
 ### Checkbox
 
-<Demo code={`import { Button, Menu, MenuTrigger, IconButton, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, MenuList } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -274,10 +284,15 @@ const Demo = () => {
 
         <MenuBottom
           leftContent={
-            <MenuBottomContent variant="icon-button">
-              <IconButton variant="outlined" size="small">
+            <MenuBottomContent variant="button">
+              <Button
+                variant="outlined"
+                color="assistive"
+                iconOnly
+                size="small"
+              >
                 <IconRefresh />
-              </IconButton>
+              </Button> 
             </MenuBottomContent>
           }
           rightContent={
@@ -296,7 +311,7 @@ export default Demo;`}
 
 ### MenuBottom
 
-<Demo code={`import { Button, TextInputContent, FlexBox, Menu, MenuTrigger, IconButton, TextButton, ContentBadge, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, TextInputContent, IconButton, FlexBox, Menu, MenuTrigger, TextButton, ContentBadge, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ListText, ChipFilter, MenuList } from '@wanteddev/wds';
 import { IconRefresh, IconSend } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -411,10 +426,15 @@ const Demo = () => {
 
           <MenuBottom
             leftContent={
-              <MenuBottomContent variant="icon-button">
-                <IconButton variant="outlined" size="small">
+              <MenuBottomContent variant="button">
+                <Button
+                  variant="outlined"
+                  color="assistive"
+                  iconOnly
+                  size="small"
+                >
                   <IconRefresh />
-                </IconButton>
+                </Button> 
               </MenuBottomContent>
             }
             rightContent={
