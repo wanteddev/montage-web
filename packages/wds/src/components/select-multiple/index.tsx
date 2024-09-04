@@ -47,6 +47,9 @@ const SelectMultiple = forwardRef<
       render,
       width,
       height,
+      enableMenuBottom,
+      menuValue: menuValueProp,
+      onMenuValueChange,
       contentProps,
       xs,
       sm,
@@ -63,16 +66,28 @@ const SelectMultiple = forwardRef<
 
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
+    const [menuValue = [], setMenuValue] = useControllableState({
+      prop: menuValueProp,
+      defaultProp: defaultValue,
+      onChange: onMenuValueChange,
+    });
+
     const [value = [], setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue,
-      onChange: onValueChange,
+      onChange: (v) => {
+        setMenuValue(v);
+        onValueChange?.(v);
+      },
     });
 
     const [open = false, setOpen] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen,
-      onChange: onOpenChange,
+      onChange: (v) => {
+        setMenuValue(value);
+        onOpenChange?.(v);
+      },
     });
 
     const shouldShowPlaceholder = useMemo(
@@ -80,15 +95,15 @@ const SelectMultiple = forwardRef<
       [value.length],
     );
 
-    const textValue = useMemo(() => {
+    const label = useMemo(() => {
       return convertChildrenToData(children)
         .filter((v) => value.includes(v.value))
-        .map(({ label }) => label);
+        .map(({ label: labelValue }) => labelValue);
     }, [value, children]);
 
     return (
       <Menu
-        value={value}
+        value={enableMenuBottom ? menuValue : value}
         onValueChange={useCallbackRef(
           (v: string | Array<string> | undefined) => {
             if (!Array.isArray(v) && process.env.NODE_ENV !== 'production') {
@@ -97,7 +112,11 @@ const SelectMultiple = forwardRef<
               );
             }
 
-            setValue(v as Array<string>);
+            if (enableMenuBottom) {
+              setMenuValue(v as Array<string>);
+            } else {
+              setValue(v as Array<string>);
+            }
           },
         )}
         open={open && !disabled}
@@ -165,30 +184,20 @@ const SelectMultiple = forwardRef<
                     weight="regular"
                     sx={ellipsisTypographyStyle(1)}
                   >
-                    {textValue.join(', ')}
+                    {label.join(', ')}
                   </Typography>
                 )}
               </FlexBox>
             )}
 
-            {typeof render === 'function' && (
+            {typeof render === 'function' && !shouldShowPlaceholder && (
               <FlexBox
                 flex="1"
                 gap="4px"
                 flexWrap="wrap"
                 data-role="select-multiple-render-wrapper"
-                onClick={(e) => {
-                  const closest = (e.target as HTMLElement).closest(
-                    '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
-                  );
-
-                  if (Boolean(closest) && closest !== e.currentTarget) {
-                    e.stopPropagation();
-                    node?.focus();
-                  }
-                }}
               >
-                {render(textValue, value)}
+                {render(label, value)}
               </FlexBox>
             )}
 
@@ -217,7 +226,12 @@ const SelectMultiple = forwardRef<
             contentProps?.sx,
           ]}
         >
-          <MenuList role="listbox">{children}</MenuList>
+          <MenuList
+            role="listbox"
+            sx={enableMenuBottom ? { paddingBottom: '0px' } : undefined}
+          >
+            {children}
+          </MenuList>
         </MenuContent>
       </Menu>
     );

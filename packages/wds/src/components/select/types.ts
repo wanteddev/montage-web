@@ -13,13 +13,17 @@ export type SelectDefaultProps = {
   defaultValue?: string;
   placeholder?: string;
   leftContent?: ReactNode;
-  render?: (textValue: string, value: string) => ReactNode;
+  render?: (label: string, value: string) => ReactNode;
   onValueChange?: (value: string) => void;
   contentProps?: ComponentProps<typeof MenuContent>;
   // Popover props
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
+
+  enableMenuBottom?: boolean;
+  menuValue?: string;
+  onMenuValueChange?: (value: string) => void;
 };
 
 export type SelectResponsiveProps = ResponsiveProps<

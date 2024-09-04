@@ -6,11 +6,9 @@ import type { Theme } from '@wanteddev/wds-engine';
 import type { ListCellProps, ListItemProps } from './types';
 
 export const listStyle = css`
-  && {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+  list-style: none;
+  margin: 0;
+  padding: 0;
 `;
 
 export const listItemStyle =

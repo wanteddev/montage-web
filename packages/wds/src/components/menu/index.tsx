@@ -114,10 +114,11 @@ const MenuContent = forwardRef<
         offset={offset}
         container={container}
         disablePortal={disablePortal}
+        trappedContent
         {...props}
         sx={[menuPopoverContentStyle, sx]}
       >
-        <RovingFocusGroup orientation="vertical" dir="ltr" loop asChild>
+        <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
           <ScrollArea zIndex={11} sx={menuScrollAreaStyle}>
             {children}
           </ScrollArea>
@@ -241,6 +242,8 @@ const MenuItem = forwardRef(
       <RovingFocusGroupItem
         asChild
         focusable={!disabled}
+        active={normalActive}
+        data-active={normalActive}
         onKeyDown={composeEventHandlers(onKeyDown, (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();

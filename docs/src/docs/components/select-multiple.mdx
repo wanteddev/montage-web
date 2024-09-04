@@ -141,13 +141,17 @@ export default Demo;`}
 
 ### Disabled
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <SelectMultiple disabled width="300px" placeholder="선택해주세요." />
-      <SelectMultiple disabled value={['값']} width="300px" placeholder="선택해주세요." />
+      <SelectMultiple disabled width="300px" placeholder="선택해주세요.">
+        <Option value="">값</Option>
+      </Select>
+      <SelectMultiple disabled value={["값"]} width="300px" placeholder="선택해주세요.">
+        <Option value="값">값</Option>
+      </SelectMultiple>
     </FlexBox>
   )
 }
@@ -157,19 +161,23 @@ export default Demo;`}
 
 ### Chip
 
-`render` prop을 이용하여 chip으로 렌더링 할 수 있습니다.
+`render` prop을 이용하여 Chip으로 렌더링 할 수 있습니다.
+
+Chip 에 onClick 이 들어가는 경우 `e.stopPropagation` 을 통해 메뉴 열리고 닫히는 동작을 막을 수 있습니다.
 
 <Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 import { IconCloseThick } from '@wanteddev/wds-icon';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const Demo = () => {
-  const [value, setValue] = useState([])
+  const [value, setValue] = useState([]);
+  const ref = useRef(null);
 
   return (
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
       <SelectMultiple
+        ref={ref}
         value={value}
         onValueChange={setValue}
         width="300px"
@@ -181,7 +189,11 @@ const Demo = () => {
               size="xsmall"
               variant="filled"
               rightContent={<IconCloseThick />}
-              onClick={() => setValue(value.filter(data => data !== v))}
+              onClick={(e) => {
+                e.stopPropagation();
+                setValue(value.filter(data => data !== v))
+                ref.current?.focus();
+              }}
             >
               {v}
             </ChipAction>
@@ -236,6 +248,7 @@ const Demo = () => {
           </OptionGroup>
         ))}
       </SelectMultiple>
+
       <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
@@ -268,6 +281,52 @@ const Demo = () => {
           </SelectContent>
         }
       >
+          {new Array(3).fill(0).map((_, i) => (
+            <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+              {new Array(3).fill(0)
+                .map((__, j) => (
+                  <Option key={j} value={\`값 \${i} \${j}\`}>
+                    {\`값 \${i} \${j}\`}
+                  </Option>
+                ))
+              }
+            </OptionGroup>
+          ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### With Bottom
+
+bottom 영역을 사용하신다면 `enableMenuBottom` prop 을 활용해야합니다.
+
+<Demo code={`import { Typography, SelectMultiple, Option, OptionGroup, SelectContent, Label, FlexBox, ellipsisTypographyStyle, MenuBottom, MenuBottomContent, IconButton, Button } from '@wanteddev/wds';
+import { IconRefresh } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([]);
+  const [menuValue, setMenuValue] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple
+        enableMenuBottom
+        open={open}
+        onOpenChange={setOpen}
+        value={value}
+        onValueChange={setValue}
+        menuValue={menuValue}
+        onMenuValueChange={setMenuValue}
+        width="300px"
+        placeholder="선택해주세요."
+      >
         {new Array(3).fill(0).map((_, i) => (
           <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
             {new Array(3).fill(0)
@@ -279,6 +338,26 @@ const Demo = () => {
             }
           </OptionGroup>
         ))}
+
+        <MenuBottom
+          leftContent={
+            <MenuBottomContent variant="icon-button">
+              <IconButton variant="outlined" size="small" onClick={() => setMenuValue([])}>
+                <IconRefresh />
+              </IconButton>
+            </MenuBottomContent>
+          }
+          rightContent={
+            <MenuBottomContent variant="button">
+              <Button size="small" onClick={() => {
+                setValue(menuValue);
+                setOpen(false);
+              }}>
+                적용
+              </Button>
+            </MenuBottomContent>
+          }
+        />
       </SelectMultiple>
     </FlexBox>
   )

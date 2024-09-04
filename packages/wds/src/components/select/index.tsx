@@ -56,7 +56,7 @@ const Select = forwardRef<
       defaultValue = '',
       onValueChange,
       defaultOpen,
-      open: openProps,
+      open: openProp,
       onOpenChange,
       width,
       height,
@@ -65,6 +65,9 @@ const Select = forwardRef<
       render,
       placeholder,
       leftContent,
+      enableMenuBottom,
+      menuValue: menuValueProp,
+      onMenuValueChange,
       xs,
       sm,
       md,
@@ -82,16 +85,28 @@ const Select = forwardRef<
 
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
+    const [menuValue = '', setMenuValue] = useControllableState({
+      prop: menuValueProp,
+      defaultProp: defaultValue,
+      onChange: onMenuValueChange,
+    });
+
     const [value = '', setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue,
-      onChange: onValueChange,
+      onChange: (v) => {
+        setMenuValue(v);
+        onValueChange?.(v);
+      },
     });
 
     const [open = false, setOpen] = useControllableState({
-      prop: openProps,
+      prop: openProp,
       defaultProp: defaultOpen,
-      onChange: onOpenChange,
+      onChange: (v) => {
+        setMenuValue(value);
+        onOpenChange?.(v);
+      },
     });
 
     const shouldShowPlaceholder = useMemo(
@@ -99,7 +114,7 @@ const Select = forwardRef<
       [value.length],
     );
 
-    const textValue = useMemo(() => {
+    const label = useMemo(() => {
       return (
         convertChildrenToData(children).find((v) => v.value === value)?.label ??
         ''
@@ -107,9 +122,12 @@ const Select = forwardRef<
     }, [value, children]);
 
     return (
-      <SelectProvider onOpenChange={setOpen}>
+      <SelectProvider
+        onOpenChange={setOpen}
+        enableMenuBottom={enableMenuBottom}
+      >
         <Menu
-          value={value}
+          value={enableMenuBottom ? menuValue : value}
           onValueChange={useCallbackRef(
             (v: string | Array<string> | undefined) => {
               if (Array.isArray(v) && process.env.NODE_ENV !== 'production') {
@@ -118,7 +136,11 @@ const Select = forwardRef<
                 );
               }
 
-              setValue(v as string);
+              if (enableMenuBottom) {
+                setMenuValue(v as string);
+              } else {
+                setValue(v as string);
+              }
             },
           )}
           open={open && !disabled}
@@ -186,30 +208,20 @@ const Select = forwardRef<
                       weight="regular"
                       sx={selectTextStyle}
                     >
-                      {textValue}
+                      {label}
                     </Typography>
                   )}
                 </FlexBox>
               )}
 
-              {typeof render === 'function' && (
+              {typeof render === 'function' && !shouldShowPlaceholder && (
                 <FlexBox
                   flex="1"
                   gap="4px"
                   flexWrap="wrap"
                   data-role="select-render-wrapper"
-                  onClick={(e) => {
-                    const closest = (e.target as HTMLElement).closest(
-                      '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a, [data-role="select-multiple-render-wrapper"]',
-                    );
-
-                    if (Boolean(closest) && closest !== e.currentTarget) {
-                      e.stopPropagation();
-                      node?.focus();
-                    }
-                  }}
                 >
-                  {render(textValue, value)}
+                  {render(label, value)}
                 </FlexBox>
               )}
 
@@ -238,7 +250,12 @@ const Select = forwardRef<
               contentProps?.sx,
             ]}
           >
-            <MenuList role="listbox">{children}</MenuList>
+            <MenuList
+              role="listbox"
+              sx={enableMenuBottom ? { paddingBottom: '0px' } : undefined}
+            >
+              {children}
+            </MenuList>
           </MenuContent>
         </Menu>
       </SelectProvider>
@@ -269,7 +286,7 @@ const Option = memo(
       }: PolymorphicProps<OptionProps, E>,
       ref: ForwardedRef<ElementRef<E>>,
     ) => {
-      const { onOpenChange } = useSelectContext() || {};
+      const { onOpenChange, enableMenuBottom } = useSelectContext() || {};
 
       return (
         <MenuItem
@@ -278,7 +295,7 @@ const Option = memo(
           variant={variant}
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
-            if (variant !== 'radio') {
+            if (variant !== 'radio' && !enableMenuBottom) {
               onOpenChange?.(false);
             }
           })}
