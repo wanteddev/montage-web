@@ -73,6 +73,7 @@ export const collapseWrapperStyle =
         border-bottom-right-radius: 8px;
         border-bottom-left-radius: 8px;
         left: 1px;
+        pointer-events: none;
         ${gradient(theme.palette.background.normal.alternative, 'top')}
       }
     `}

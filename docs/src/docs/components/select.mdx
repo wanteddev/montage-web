@@ -141,13 +141,17 @@ export default Demo;`}
 
 ### Disabled
 
-<Demo code={`import { Select, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Select, Option, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Select disabled width="300px" placeholder="선택해주세요." />
-      <Select disabled value="값" width="300px" placeholder="선택해주세요." />
+      <Select disabled width="300px" placeholder="선택해주세요.">
+        <Option value="">값</Option>
+      </Select>
+      <Select disabled value="값" width="300px" placeholder="선택해주세요.">
+        <Option value="값">값</Option>
+      </Select>
     </FlexBox>
   )
 }
@@ -227,6 +231,78 @@ const Demo = () => {
             }
           </OptionGroup>
         ))}
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### With Bottom
+
+bottom 영역을 사용하신다면 `enableMenuBottom` prop 을 활용해야합니다.
+
+<Demo code={`import { Typography, Select, Option, OptionGroup, SelectContent, Label, FlexBox, ellipsisTypographyStyle, MenuBottom, MenuBottomContent, Button } from '@wanteddev/wds';
+import { IconRefresh } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+  const [menuValue, setMenuValue] = useState('');
+  const [open, setOpen] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <Select
+        enableMenuBottom
+        open={open}
+        onOpenChange={setOpen}
+        value={value}
+        onValueChange={setValue}
+        menuValue={menuValue}
+        onMenuValueChange={setMenuValue}
+        width="300px"
+        placeholder="선택해주세요."
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+
+        <MenuBottom
+          leftContent={
+            <MenuBottomContent variant="button">
+              <Button
+                variant="outlined"
+                color="assistive"
+                iconOnly
+                size="small"
+                onClick={() => setMenuValue('')}
+              >
+                <IconRefresh />
+              </Button> 
+            </MenuBottomContent>
+          }
+          rightContent={
+            <MenuBottomContent variant="button">
+              <Button size="small" onClick={() => {
+                setValue(menuValue);
+                setOpen(false);
+              }}>
+                적용
+              </Button>
+            </MenuBottomContent>
+          }
+        />
       </Select>
     </FlexBox>
   )

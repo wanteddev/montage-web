@@ -37,13 +37,23 @@ export const menuGroupStyle = css`
 `;
 
 export const menuListStyle = css`
-  && {
-    padding: 8px 0;
-  }
+  padding: 8px 0;
 `;
 
 export const menuItemStyle = (theme: Theme) => css`
   width: calc(100% - 40px);
+
+  &:focus {
+    > [wds-component='with-interaction'] {
+      opacity: ${theme.opacity[0]};
+    }
+
+    &:hover {
+      > [wds-component='with-interaction'] {
+        opacity: ${theme.opacity[5]};
+      }
+    }
+  }
 
   &:focus-visible {
     outline: none;
@@ -68,7 +78,7 @@ export const menuBottomStyle = (theme: Theme) => css`
   max-height: 56px;
   background-color: ${theme.palette.background.elevated.normal};
   z-index: 10;
-  border: 1px solid ${theme.palette.line.solid.alternative};
+  border-top: 1px solid ${theme.palette.line.solid.alternative};
 `;
 
 export const menuBottomContentStyle = (theme: Theme) => css`

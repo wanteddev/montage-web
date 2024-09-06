@@ -13,11 +13,15 @@ export type SelectMultipleDefaultProps = {
   leftContent?: ReactNode;
   onValueChange?: (value: Array<string>) => void;
   placeholder?: string;
-  render?: (textValue: Array<string>, value: Array<string>) => ReactNode;
+  render?: (label: Array<string>, value: Array<string>) => ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
   contentProps?: ComponentProps<typeof MenuContent>;
+
+  enableMenuBottom?: boolean;
+  menuValue?: Array<string>;
+  onMenuValueChange?: (value: Array<string>) => void;
 };
 
 export type SelectMultipleResponsiveProps = ResponsiveProps<

@@ -7,15 +7,9 @@ import {
 } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { SelectMultipleProps } from './types';
+import type { SelectMultipleProps } from '../select-multiple/types';
 
-export const selectWrapperStyle = css`
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-`;
-
-export const selectMultipleStyle =
+export const selectStyle =
   ({
     invalid,
     width = 'initial',
@@ -182,4 +176,13 @@ export const selectIconStyle =
 export const selectTextStyle = css`
   ${ellipsisTypographyStyle(1)}
   user-select: none;
+`;
+
+export const selectBubbleInputStyle = css`
+  display: none;
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+  margin: 0;
+  transform: translateX(-100%);
 `;
