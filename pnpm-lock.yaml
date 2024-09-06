@@ -102,6 +102,9 @@ importers:
       '@wanteddev/wds-nextjs':
         specifier: workspace:*
         version: link:../packages/wds-nextjs
+      autosuggest-highlight:
+        specifier: ^3.3.4
+        version: 3.3.4
       copy-to-clipboard:
         specifier: ^3.3.3
         version: 3.3.3
@@ -169,6 +172,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.1.3
         version: 14.1.3
+      '@types/autosuggest-highlight':
+        specifier: ^3.2.3
+        version: 3.2.3
       '@types/node':
         specifier: ^20.11.25
         version: 20.11.27
@@ -190,6 +196,9 @@ importers:
       '@radix-ui/primitive':
         specifier: ^1.1.0
         version: 1.1.0
+      '@radix-ui/react-collection':
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react-dom@18.2.22)(@types/react@18.2.65)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@radix-ui/react-compose-refs':
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.2.65)(react@18.2.0)
@@ -2620,6 +2629,9 @@ packages:
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
 
+  '@types/autosuggest-highlight@3.2.3':
+    resolution: {integrity: sha512-8Mb21KWtpn6PvRQXjsKhrXIcxbSloGqNH50RntwGeJsGPW4xvNhfml+3kKulaKpO/7pgZfOmzsJz7VbepArlGQ==}
+
   '@types/conventional-commits-parser@5.0.0':
     resolution: {integrity: sha512-loB369iXNmAZglwWATL+WRe+CRMmmBPtpolYzIebFaX4YA3x+BEfLqhUAV9WanycKI3TG1IMr5bMJDajDKLlUQ==}
 
@@ -3020,6 +3032,9 @@ packages:
     resolution: {integrity: sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==}
     engines: {node: '>= 4.5.0'}
     hasBin: true
+
+  autosuggest-highlight@3.3.4:
+    resolution: {integrity: sha512-j6RETBD2xYnrVcoV1S5R4t3WxOlWZKyDQjkwnggDPSjF5L4jV98ZltBpvPvbkM1HtoSe5o+bNrTHyjPbieGeYA==}
 
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -6260,6 +6275,9 @@ packages:
 
   remark-slug@7.0.1:
     resolution: {integrity: sha512-NRvYePr69LdeCkEGwL4KYAmq7kdWG5rEavCXMzUR4qndLoXHJAOLSUmPY6Qm4NJfKix7/EmgObyVaYivONAFhg==}
+
+  remove-accents@0.4.4:
+    resolution: {integrity: sha512-EpFcOa/ISetVHEXqu+VwI96KZBmq+a8LJnGkaeFw45epGlxIZz5dhEEnNZMsQXgORu3qaMoLX4qJCzOik6ytAg==}
 
   repeat-element@1.1.4:
     resolution: {integrity: sha512-LFiNfRcSu7KK3evMyYOuCzv3L10TW7yC1G2/+StMjK8Y6Vqd2MG7r/Qjw4ghtuCOjFvlnms/iMmLqpvW/ES/WQ==}
@@ -9702,6 +9720,8 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.5
 
+  '@types/autosuggest-highlight@3.2.3': {}
+
   '@types/conventional-commits-parser@5.0.0':
     dependencies:
       '@types/node': 20.12.7
@@ -10158,6 +10178,10 @@ snapshots:
   asynckit@0.4.0: {}
 
   atob@2.1.2: {}
+
+  autosuggest-highlight@3.3.4:
+    dependencies:
+      remove-accents: 0.4.4
 
   available-typed-arrays@1.0.7:
     dependencies:
@@ -14608,6 +14632,8 @@ snapshots:
       mdast-util-to-string: 3.2.0
       unified: 10.1.2
       unist-util-visit: 4.1.2
+
+  remove-accents@0.4.4: {}
 
   repeat-element@1.1.4: {}
 

@@ -25,7 +25,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type {
   TextInputButtonProps,
   TextInputContentProps,
@@ -62,6 +62,7 @@ const TextInput = forwardRef<
       <Box
         className={className}
         style={style}
+        wds-component="text-input"
         sx={[
           textInputWrapperStyle({
             invalid,
@@ -76,14 +77,25 @@ const TextInput = forwardRef<
           }),
           sx,
         ]}
-        onPointerDown={(event: MouseEvent) => {
+        onPointerDown={(event) => {
           const target = event.target as HTMLElement;
           if (target.closest('input, button, a')) return;
 
           const input = inputRef.current;
-          if (!input) return;
+          if (!input || target.tagName === 'INPUT') return;
 
           requestAnimationFrame(() => {
+            input.dispatchEvent(
+              new PointerEvent('pointerdown', {
+                bubbles: false,
+              }),
+            );
+
+            props.onPointerDown?.({
+              ...event,
+              currentTarget: input as EventTarget & HTMLInputElement,
+              bubbles: false,
+            });
             input.focus();
           });
         }}
@@ -123,24 +135,26 @@ const TextInput = forwardRef<
 
             if (!input) return;
 
-            const event = new Event('change', { bubbles: true });
-            input.value = '';
+            requestAnimationFrame(() => {
+              const event = new Event('change', { bubbles: true });
+              input.value = '';
 
-            props.onChange?.({
-              ...event,
-              target: input as EventTarget & HTMLInputElement,
-              currentTarget: input as EventTarget & HTMLInputElement,
-              nativeEvent: {
+              props.onChange?.({
                 ...event,
-                target: input as EventTarget,
-                currentTarget: input as EventTarget,
-              },
-              isDefaultPrevented: () => false,
-              isPropagationStopped: () => false,
-              persist: (): void => {},
-            });
+                target: input as EventTarget & HTMLInputElement,
+                currentTarget: input as EventTarget & HTMLInputElement,
+                nativeEvent: {
+                  ...event,
+                  target: input as EventTarget,
+                  currentTarget: input as EventTarget,
+                },
+                isDefaultPrevented: () => false,
+                isPropagationStopped: () => false,
+                persist: (): void => {},
+              });
 
-            input.focus();
+              input.focus();
+            });
           }}
         >
           <IconButton type="button" size={22} tabIndex={-1}>
@@ -246,6 +260,7 @@ const TextInputButton = forwardRef(
       <Button
         as={(as || 'button') as ElementType}
         variant="outlined"
+        wds-component="text-input-button"
         type={type}
         color={variant === 'normal' ? 'secondary' : 'assistive'}
         ref={ref}
