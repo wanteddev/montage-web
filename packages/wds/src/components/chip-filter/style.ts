@@ -43,7 +43,7 @@ export const actionStyle =
 
 const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
   switch (size) {
-    case 'tiny':
+    case 'xsmall':
       return css`
         border-radius: 6px;
         padding: 4px 6px 4px 8px;
