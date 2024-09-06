@@ -105,17 +105,17 @@ const Autocomplete = forwardRef<
 
     const handleOpenChange = useCallback(
       (state: boolean, force?: boolean) => {
-        if (!force) {
-          setOpen(state);
-        } else {
+        if (force && state === open) {
           setOpen(state);
           onOpenChange?.(state);
           if (!state) {
             setSelectedOption(null);
           }
+        } else {
+          setOpen(state);
         }
       },
-      [setOpen, onOpenChange, setSelectedOption],
+      [open, setOpen, onOpenChange, setSelectedOption],
     );
 
     const [input, setInput] = useState<
