@@ -13,7 +13,15 @@ export type MenuProps = Merge<MenuDefaultProps, PopoverProps>;
 
 export type MenuContentPopoverContentProps = Pick<
   PopoverContentProps,
-  'position' | 'offset' | 'container' | 'disablePortal'
+  | 'position'
+  | 'offset'
+  | 'container'
+  | 'disablePortal'
+  | 'trappedContent'
+  | 'onMountAutoFocus'
+  | 'onUnmountAutoFocus'
+  | 'trapped'
+  | 'loop'
 >;
 export type MenuContentProps = MenuContentPopoverContentProps;
 
