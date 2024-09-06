@@ -1,6 +1,6 @@
 export * from './action-area';
 export * from './autocomplete';
-export { default as Alert } from './section-message';
+export { default as SectionMessage } from './section-message';
 export { default as Avatar } from './avatar';
 export { default as AvatarButton } from './avatar-button';
 export { default as AvatarGroup } from './avatar-group';
