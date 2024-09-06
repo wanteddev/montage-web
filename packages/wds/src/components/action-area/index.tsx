@@ -8,7 +8,7 @@ import { useModalActionAreaContext } from '../modal/contexts';
 
 import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
 import { ActionAreaProvider, useActionAreaContext } from './contexts';
-import { actionAreaStyle, actionButtonSingle } from './style';
+import { actionAreaStyle, actionButtonCancel } from './style';
 
 import type { ActionAreaProps, ActionButtonProps } from './types';
 import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
@@ -135,15 +135,15 @@ const ActionAreaButton = forwardRef(
         <Button
           ref={ref}
           variant={
-            buttonVariant ?? (priority === 'single' ? 'outlined' : 'solid')
+            buttonVariant ?? (priority === 'cancel' ? 'outlined' : 'solid')
           }
           color={
-            buttonColor ?? (priority === 'single' ? 'assistive' : 'primary')
+            buttonColor ?? (priority === 'cancel' ? 'assistive' : 'primary')
           }
           size="large"
-          fullWidth={priority === 'strong' || priority === 'single'}
+          fullWidth={priority === 'strong' || priority === 'cancel'}
           {...props}
-          sx={[actionButtonSingle({ priority, variant }), props.sx]}
+          sx={[actionButtonCancel({ priority, variant }), props.sx]}
         />
       ),
       alternative: (
@@ -154,7 +154,7 @@ const ActionAreaButton = forwardRef(
           color={buttonColor ?? 'secondary'}
           fullWidth={priority === 'strong'}
           {...props}
-          sx={[actionButtonSingle({ priority, variant }), props.sx]}
+          sx={[actionButtonCancel({ priority, variant }), props.sx]}
         />
       ),
       sub:
@@ -180,7 +180,7 @@ const ActionAreaButton = forwardRef(
             color={buttonColor ?? 'assistive'}
             size="large"
             {...props}
-            sx={[actionButtonSingle({ priority, variant }), props.sx]}
+            sx={[actionButtonCancel({ priority, variant }), props.sx]}
           />
         ),
     };
