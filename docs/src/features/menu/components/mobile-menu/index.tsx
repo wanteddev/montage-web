@@ -91,6 +91,15 @@ const MobileMenu = () => {
                           Deprecated
                         </ContentBadge>
                       )}
+
+                      {page.alpha && (
+                        <ContentBadge
+                          color="accent"
+                          accentColor="palette.accent.redOrange"
+                        >
+                          Alpha
+                        </ContentBadge>
+                      )}
                     </FlexBox>
                   </WithInteraction>
                 ))}
