@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 
 export type ActionAreaProps = {
   variant?: 'normal' | 'extra';
-  priority?: 'strong' | 'neutral' | 'compact' | 'single';
+  priority?: 'strong' | 'neutral' | 'compact' | 'cancel';
   caption?: ReactNode;
   /**
    * `variant=extra` 일 때 버튼 위 콘텐츠 영역을 표시할 때 사용합니다.
