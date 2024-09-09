@@ -11,7 +11,6 @@ type AutocompleteContextValue = {
   onInputChange: (input: HTMLInputElement | HTMLTextAreaElement | null) => void;
   open: boolean;
   onOpenChange: (open: boolean, force?: boolean) => void;
-  triggerId: string;
   contentId: string;
   width?: number;
   asSelect?: boolean;

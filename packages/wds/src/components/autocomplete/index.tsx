@@ -123,12 +123,10 @@ const Autocomplete = forwardRef<
     >(null);
 
     const contentId = useId();
-    const triggerId = useId();
 
     return (
       <AutocompleteProvider
         contentId={contentId}
-        triggerId={triggerId}
         open={open}
         onOpenChange={handleOpenChange}
         value={value}
@@ -514,7 +512,9 @@ const AutocompleteOption = forwardRef<
       <ListCell
         ref={composedRefs}
         disabled={disabled}
+        aria-disabled={disabled}
         active={active}
+        role="option"
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
         onMouseEnter={composeEventHandlers(props.onMouseEnter, () => {

@@ -22,6 +22,12 @@ export const autocompleteScrollAreaStyle = (theme: Theme) => css`
 `;
 
 export const autocompleteOptionStyle = (theme: Theme) => css`
+  cursor: pointer;
+
+  &[aria-disabled='true'] {
+    cursor: initial;
+  }
+
   [data-role='autocomplete-option-active-icon-check'] {
     color: ${theme.palette.primary.normal};
   }
