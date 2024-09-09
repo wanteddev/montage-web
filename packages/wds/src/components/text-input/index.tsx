@@ -260,7 +260,6 @@ const TextInputButton = forwardRef(
       <Button
         as={(as || 'button') as ElementType}
         variant="outlined"
-        wds-component="text-input-button"
         type={type}
         color={variant === 'normal' ? 'secondary' : 'assistive'}
         ref={ref}
