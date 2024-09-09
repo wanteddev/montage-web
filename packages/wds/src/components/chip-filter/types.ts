@@ -4,7 +4,7 @@ import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 export type ChipFilterVariant = 'solid' | 'outlined';
 
 export type ChipFilterDefaultProps = {
-  size?: 'tiny' | 'small' | 'normal' | 'large';
+  size?: 'xsmall' | 'small' | 'normal' | 'large';
   variant?: 'filled' | 'outlined';
   active?: boolean;
   expanded?: boolean;
