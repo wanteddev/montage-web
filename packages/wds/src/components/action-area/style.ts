@@ -89,7 +89,7 @@ const actionAreaVariant = (
   }
 };
 
-export const actionButtonSingle = ({
+export const actionButtonCancel = ({
   priority,
   variant,
 }: Merge<
