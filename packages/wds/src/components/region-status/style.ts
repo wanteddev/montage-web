@@ -44,7 +44,7 @@ export const bottomRegionStatusStyle =
 
     ${respondMore(theme.breakpoint.sm)} {
       min-width: 356px;
-      max-width: 360px;
+      max-width: 420px;
     }
     ${respondTo(theme.breakpoint.sm)} {
       width: 100%;
