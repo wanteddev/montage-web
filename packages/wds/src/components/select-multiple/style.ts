@@ -6,7 +6,7 @@ import type { Theme } from '@wanteddev/wds-engine';
 
 export const customSelectMultipleRenderWrapperStyle =
   (overflow: boolean) => (theme: Theme) => css`
-    ${!overflow &&
+    ${overflow === false &&
     css`
       ${gradient(theme.palette.background.normal.normal, 'right', '40px')}
       flex-wrap: nowrap;

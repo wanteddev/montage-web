@@ -218,10 +218,12 @@ const SelectMultiple = forwardRef<
                   ) : (
                     <Typography
                       data-role="select-multiple-values"
-                      noWrap
                       variant="body1_normal"
                       weight="regular"
-                      sx={ellipsisTypographyStyle(1)}
+                      {...(overflow === false && {
+                        noWrap: true,
+                        sx: ellipsisTypographyStyle(1),
+                      })}
                     >
                       {label.join(', ')}
                     </Typography>
