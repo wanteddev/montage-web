@@ -25,6 +25,8 @@ import {
   selectStyle,
 } from '../select/style';
 
+import { customSelectMultipleRenderWrapperStyle } from './style';
+
 import type { SelectMultipleProps } from './types';
 
 const SelectMultiple = forwardRef<
@@ -48,6 +50,7 @@ const SelectMultiple = forwardRef<
       width,
       height,
       enableMenuBottom,
+      overflow = false,
       menuValue: menuValueProp,
       onMenuValueChange,
       contentProps,
@@ -182,6 +185,7 @@ const SelectMultiple = forwardRef<
                   invalid,
                   width,
                   height,
+                  overflow,
                   xs,
                   sm,
                   md,
@@ -231,6 +235,7 @@ const SelectMultiple = forwardRef<
                   gap="4px"
                   flexWrap="wrap"
                   data-role="select-multiple-render-wrapper"
+                  sx={customSelectMultipleRenderWrapperStyle(overflow)}
                 >
                   {render(label, value)}
                 </FlexBox>

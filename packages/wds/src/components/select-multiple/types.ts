@@ -16,6 +16,7 @@ export type SelectMultipleDefaultProps = {
   render?: (label: Array<string>, value: Array<string>) => ReactNode;
   open?: boolean;
   defaultOpen?: boolean;
+  overflow?: boolean;
   onOpenChange?: (state: boolean) => void;
   contentProps?: ComponentProps<typeof MenuContent>;
 
