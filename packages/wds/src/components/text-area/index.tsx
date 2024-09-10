@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, css } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
@@ -53,8 +53,13 @@ const TextArea = forwardRef<
 
     const parentRef = useRef<HTMLDivElement>(null);
 
+    const [node, setNode] = useState<HTMLTextAreaElement | null>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const composedRefs = useComposedRefs(textAreaRef, ref);
+    const composedRefs = useComposedRefs<HTMLTextAreaElement>(
+      textAreaRef,
+      ref,
+      setNode,
+    );
 
     const shadowRef = useRef<HTMLTextAreaElement>(null);
 
@@ -127,6 +132,27 @@ const TextArea = forwardRef<
 
     useResizeObserver(textAreaRef.current, syncTextAreaHeight);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+      syncTextAreaHeight();
+      setLength(textAreaRef.current?.value.length ?? 0);
+    });
+
+    useEffect(() => {
+      const form = node?.closest('form');
+
+      if (form) {
+        const reset = () => {
+          requestAnimationFrame(() => {
+            syncTextAreaHeight();
+            setLength(textAreaRef.current?.value.length ?? 0);
+          });
+        };
+        form.addEventListener('reset', reset);
+        return () => form.removeEventListener('reset', reset);
+      }
+    }, [node, syncTextAreaHeight, setLength]);
+
     return (
       <TextAreaProvider length={length}>
         <FlexBox
@@ -144,9 +170,21 @@ const TextArea = forwardRef<
             if (target.closest('input, textarea, button, a')) return;
 
             const textArea = textAreaRef.current;
-            if (!textArea) return;
+            if (!textArea || target.tagName === 'TEXTAREA') return;
 
             requestAnimationFrame(() => {
+              textArea.dispatchEvent(
+                new PointerEvent('pointerdown', {
+                  bubbles: false,
+                }),
+              );
+
+              props.onPointerDown?.({
+                ...event,
+                currentTarget: textArea as EventTarget & HTMLTextAreaElement,
+                bubbles: false,
+              });
+
               textArea.focus();
             });
           }}
@@ -181,7 +219,10 @@ const TextArea = forwardRef<
               aria-invalid={invalid}
               value={value}
               onChange={composeEventHandlers(props.onChange, (e) => {
-                syncTextAreaHeight();
+                if (value !== undefined) {
+                  syncTextAreaHeight();
+                }
+
                 setLength(e.target.value.length || 0);
               })}
             />

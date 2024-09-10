@@ -5,8 +5,8 @@ import { addOpacity } from '../../utils';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const menuPopoverContentStyle = (theme: Theme) => css`
-  width: 320px;
   padding: 0;
+  width: 320px;
   filter: none;
   box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
   border-radius: 16px;
