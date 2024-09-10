@@ -5,6 +5,7 @@ type Route = {
     slug: string;
     deprecated?: boolean;
     stable?: boolean;
+    alpha?: boolean;
   }>;
 };
 
@@ -32,25 +33,26 @@ export const routes: Array<Route> = [
       {
         title: 'ActionArea',
         slug: '/docs/components/action-area',
-        stable: true,
       },
-      { title: 'Avatar', slug: '/docs/components/avatar' },
+      { title: 'Autocomplete', slug: '/docs/components/autocomplete' },
+      { title: 'Avatar', slug: '/docs/components/avatar', alpha: true },
       {
         title: 'AvatarButton',
         slug: '/docs/components/avatar-button',
+        alpha: true,
       },
       {
         title: 'AvatarGroup',
         slug: '/docs/components/avatar-group',
+        alpha: true,
       },
       {
         title: 'BottomNavigation',
         slug: '/docs/components/bottom-navigation',
-        stable: true,
       },
-      { title: 'Box', slug: '/docs/components/box', stable: true },
-      { title: 'Button', slug: '/docs/components/button', stable: true },
-      { title: 'Checkbox', slug: '/docs/components/checkbox' },
+      { title: 'Box', slug: '/docs/components/box' },
+      { title: 'Button', slug: '/docs/components/button' },
+      { title: 'Checkbox', slug: '/docs/components/checkbox', alpha: true },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
       {
@@ -61,7 +63,6 @@ export const routes: Array<Route> = [
       {
         title: 'CompactTooltip',
         slug: '/docs/components/compact-tooltip',
-        stable: true,
       },
       {
         title: 'ContentBadge',
@@ -70,57 +71,63 @@ export const routes: Array<Route> = [
       {
         title: 'DismissableLayer',
         slug: '/docs/components/dismissable-layer',
-        stable: true,
       },
       { title: 'Divider', slug: '/docs/components/divider' },
-      { title: 'FlexBox', slug: '/docs/components/flex-box', stable: true },
+      { title: 'FlexBox', slug: '/docs/components/flex-box' },
       {
         title: 'FloatingAction',
         slug: '/docs/components/floating-action',
+        alpha: true,
       },
       {
         title: 'FocusScope',
         slug: '/docs/components/focus-scope',
-        stable: true,
       },
       { title: 'Form', slug: '/docs/components/form' },
-      { title: 'Grid', slug: '/docs/components/grid', stable: true },
+      { title: 'Grid', slug: '/docs/components/grid' },
       {
         title: 'IconButton',
         slug: '/docs/components/icon-button',
-        stable: true,
       },
       {
         title: 'ImageLoader',
         slug: '/docs/components/image-loader',
-        stable: true,
+        alpha: true,
       },
-      { title: 'Label', slug: '/docs/components/label', stable: true },
+      { title: 'Label', slug: '/docs/components/label' },
       { title: 'List', slug: '/docs/components/list' },
-      { title: 'Label', slug: '/docs/components/label', stable: true },
+      { title: 'Label', slug: '/docs/components/label' },
       { title: 'Menu', slug: '/docs/components/menu' },
-      { title: 'Modal', slug: '/docs/components/modal', stable: true },
+      { title: 'Modal', slug: '/docs/components/modal' },
       {
         title: 'NestedCheckbox',
         slug: '/docs/components/nested-checkbox',
+        alpha: true,
       },
-      { title: 'NoSsr', slug: '/docs/components/no-ssr', stable: true },
-      { title: 'Popover', slug: '/docs/components/popover' },
-      { title: 'Portal', slug: '/docs/components/portal', stable: true },
+      { title: 'NoSsr', slug: '/docs/components/no-ssr' },
+      { title: 'Popover', slug: '/docs/components/popover', alpha: true },
+      { title: 'Portal', slug: '/docs/components/portal' },
       {
         title: 'ProgressIndicator',
         slug: '/docs/components/progress-indicator',
+        alpha: true,
       },
       {
         title: 'ProgressStepIndicator',
         slug: '/docs/components/progress-step-indicator',
+        alpha: true,
       },
       {
         title: 'ProgressTracker',
         slug: '/docs/components/progress-tracker',
+        alpha: true,
       },
-      { title: 'PushBadge', slug: '/docs/components/push-badge' },
-      { title: 'RadioGroup', slug: '/docs/components/radio-group' },
+      { title: 'PushBadge', slug: '/docs/components/push-badge', alpha: true },
+      {
+        title: 'RadioGroup',
+        slug: '/docs/components/radio-group',
+        alpha: true,
+      },
       {
         title: 'RegionConfig',
         slug: '/docs/components/region-config',
@@ -128,37 +135,42 @@ export const routes: Array<Route> = [
       {
         title: 'RemoveScroll',
         slug: '/docs/components/remove-scroll',
-        stable: true,
       },
       {
         title: 'RoundCheckbox',
         slug: '/docs/components/round-checkbox',
+        alpha: true,
       },
       {
         title: 'ScrollArea',
         slug: '/docs/components/scroll-area',
-        stable: true,
       },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
-      { title: 'SectionMessage', slug: '/docs/components/section-message' },
-      { title: 'Skeleton', slug: '/docs/components/skeleton' },
-      { title: 'Switch', slug: '/docs/components/switch' },
-      { title: 'Tab', slug: '/docs/components/tab', stable: true },
+      {
+        title: 'SectionMessage',
+        slug: '/docs/components/section-message',
+        alpha: true,
+      },
+      { title: 'Skeleton', slug: '/docs/components/skeleton', alpha: true },
+      { title: 'Switch', slug: '/docs/components/switch', alpha: true },
+      { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextArea', slug: '/docs/components/text-area' },
       {
         title: 'TextButton',
         slug: '/docs/components/text-button',
-        stable: true,
       },
-      { title: 'TextInput', slug: '/docs/components/text-input', stable: true },
-      { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
-      { title: 'ToggleIcon', slug: '/docs/components/toggle-icon' },
-      { title: 'Tooltip', slug: '/docs/components/tooltip', stable: true },
+      { title: 'TextInput', slug: '/docs/components/text-input' },
+      { title: 'Thumbnail', slug: '/docs/components/thumbnail', alpha: true },
+      {
+        title: 'ToggleIcon',
+        slug: '/docs/components/toggle-icon',
+        alpha: true,
+      },
+      { title: 'Tooltip', slug: '/docs/components/tooltip' },
       {
         title: 'TopNavigation',
         slug: '/docs/components/top-navigation',
-        stable: true,
       },
       {
         title: 'WithInteraction',
@@ -169,7 +181,7 @@ export const routes: Array<Route> = [
   {
     label: 'Hooks',
     pages: [
-      { title: 'useDialog', slug: '/docs/hooks/use-dialog', stable: true },
+      { title: 'useDialog', slug: '/docs/hooks/use-dialog' },
       { title: 'useMedia', slug: '/docs/hooks/use-media' },
       { title: 'useSize', slug: '/docs/hooks/use-size' },
       { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },

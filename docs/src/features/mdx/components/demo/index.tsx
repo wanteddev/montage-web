@@ -6,6 +6,10 @@ import * as WdsIcon from '@wanteddev/wds-icon';
 import * as WdsLottie from '@wanteddev/wds-lottie';
 import * as HookForm from 'react-hook-form';
 import * as copy from 'copy-to-clipboard';
+// @ts-expect-error
+import * as autosuggestParse from 'autosuggest-highlight/parse';
+// @ts-expect-error
+import * as autosuggestMatch from 'autosuggest-highlight/match';
 
 import { useRunner } from './react-runner';
 import { demoStyle, errorStyle } from './style';
@@ -31,6 +35,8 @@ const Demo = ({ code, hideCode }: Props) => {
         '@wanteddev/wds-lottie': WdsLottie,
         'react-hook-form': HookForm,
         'copy-to-clipboard': copy,
+        'autosuggest-highlight/match': autosuggestMatch,
+        'autosuggest-highlight/parse': autosuggestParse,
       },
     };
   }, []);

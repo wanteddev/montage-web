@@ -255,6 +255,7 @@ const SelectMultiple = forwardRef<
           </MenuTrigger>
 
           <MenuContent
+            offset={8}
             {...contentProps}
             sx={[
               { width: contentWidth ?? '320px', minWidth: '140px' },
