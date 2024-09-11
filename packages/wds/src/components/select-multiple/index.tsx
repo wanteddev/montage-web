@@ -165,6 +165,7 @@ const SelectMultiple = forwardRef<
     }, [value, children]);
 
     const isFormControl = node ? Boolean(node.closest('form')) : true;
+
     const initialValueStateRef = useRef(value);
 
     useEffect(() => {
