@@ -9,6 +9,7 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
 
 import { Divider, FlexBox, Typography, WithInteraction } from '..';
+import { useMenuItemContext } from '../menu/contexts';
 
 import {
   LIST_CELL_NAME,
@@ -278,21 +279,18 @@ ListCell.displayName = LIST_CELL_NAME;
 
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
-    {
-      caption,
-      bold = false,
-      children,
-      ...props
-    }: PolymorphicProps<ListTextProps, E>,
+    { caption, bold, children, ...props }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
+    const { bold: menuItemBold } = useMenuItemContext() || {};
 
     if (!children) {
       return null;
     }
 
-    const weight: TypographyWeight = bold ? 'medium' : 'regular';
+    const weight: TypographyWeight =
+      bold ?? menuItemBold ? 'medium' : 'regular';
 
     const getParagraphColor = (): ThemeColorsToken => {
       if (disabled) {
