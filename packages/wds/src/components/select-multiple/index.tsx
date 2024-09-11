@@ -1,5 +1,12 @@
 'use client';
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   IconChevronDownThickSmall,
   IconChevronUpThickSmall,
@@ -24,9 +31,11 @@ import {
   selectIconStyle,
   selectStyle,
 } from '../select/style';
+import useResizeObserver from '../../hooks/use-resize-observer';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
+import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
 
 const SelectMultiple = forwardRef<
@@ -64,10 +73,16 @@ const SelectMultiple = forwardRef<
     forwardedRef,
   ) => {
     const [node, setNode] = useState<HTMLDivElement | null>(null);
+    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
+
+    const [renderWrapperNode, setRenderWrapperNode] =
+      useState<HTMLDivElement | null>(null);
 
     const { width: contentWidth, height: contentHeight } = useSize(node) || {};
 
-    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
+    const [isScrollable, setIsScrollable] = useState(false);
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [scrollWidth, setScrollWidth] = useState(0);
 
     const [menuValue = [], setMenuValue] = useControllableState({
       prop: menuValueProp,
@@ -93,6 +108,51 @@ const SelectMultiple = forwardRef<
       },
     });
 
+    const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
+      (e) => {
+        const target = e.target as Element;
+
+        setScrollLeft(target.scrollLeft);
+        setScrollWidth(target.scrollWidth);
+      },
+      [setScrollLeft, setScrollWidth],
+    );
+
+    useEffect(() => {
+      if (
+        scrollWidth - scrollLeft <=
+        (renderWrapperNode?.clientWidth || 0) + 1
+      ) {
+        setIsScrollable(false);
+      } else if (scrollWidth !== renderWrapperNode?.clientWidth) {
+        setIsScrollable(true);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scrollLeft, scrollWidth]);
+
+    useEffect(() => {
+      if (overflow === false) {
+        setScrollWidth(renderWrapperNode?.scrollWidth || 0);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [enableMenuBottom ? menuValue.length : value.length]);
+
+    const handleResize = useCallback(() => {
+      const target = renderWrapperNode;
+      if (!target) {
+        return;
+      }
+
+      const targetScrollWidth = target.scrollWidth;
+      const targetScrollLeft = target.scrollLeft;
+
+      setScrollLeft(targetScrollLeft);
+      setScrollWidth(targetScrollWidth);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setScrollLeft]);
+
+    useResizeObserver(renderWrapperNode, handleResize);
+
     const shouldShowPlaceholder = useMemo(
       () => value.length === 0,
       [value.length],
@@ -105,7 +165,6 @@ const SelectMultiple = forwardRef<
     }, [value, children]);
 
     const isFormControl = node ? Boolean(node.closest('form')) : true;
-
     const initialValueStateRef = useRef(value);
 
     useEffect(() => {
@@ -233,11 +292,16 @@ const SelectMultiple = forwardRef<
 
               {typeof render === 'function' && !shouldShowPlaceholder && (
                 <FlexBox
+                  ref={setRenderWrapperNode}
                   flex="1"
                   gap="4px"
                   flexWrap="wrap"
                   data-role="select-multiple-render-wrapper"
-                  sx={customSelectMultipleRenderWrapperStyle(overflow)}
+                  onScrollCapture={handleOnScroll}
+                  sx={customSelectMultipleRenderWrapperStyle({
+                    overflow,
+                    isScrollable,
+                  })}
                 >
                   {render(label, value)}
                 </FlexBox>

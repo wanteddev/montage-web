@@ -5,10 +5,10 @@ import { gradient } from '../../utils';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const customSelectMultipleRenderWrapperStyle =
-  (overflow: boolean) => (theme: Theme) => css`
-    ${overflow === false &&
+  ({ overflow, isScrollable }: { overflow: boolean; isScrollable: boolean }) =>
+  (theme: Theme) =>
+    overflow === false &&
     css`
-      ${gradient(theme.palette.background.normal.normal, 'right', '40px')}
       flex-wrap: nowrap;
       overflow-y: hidden;
 
@@ -17,5 +17,9 @@ export const customSelectMultipleRenderWrapperStyle =
       }
       -ms-overflow-style: none;
       scrollbar-width: none;
-    `}
-  `;
+
+      ${isScrollable &&
+      css`
+        ${gradient(theme.palette.background.normal.normal, 'right', '40px')}
+      `}
+    `;
