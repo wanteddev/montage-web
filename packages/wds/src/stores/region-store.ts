@@ -15,6 +15,7 @@ export type RegionToastItem = {
   variant?: 'normal' | 'success' | 'warning' | 'custom';
   icon?: ReactNode;
   content: ReactNode;
+  onAnimationEnd?: (type: 'hide' | 'show') => void;
 };
 
 export type RegionSnackbarItem = {
@@ -26,6 +27,7 @@ export type RegionSnackbarItem = {
   description?: ReactNode;
   extraContent?: ReactNode;
   action: ComponentProps<typeof TextButton>;
+  onAnimationEnd?: (type: 'hide' | 'show') => void;
 };
 
 export type RegionItem = RegionToastItem | RegionSnackbarItem;

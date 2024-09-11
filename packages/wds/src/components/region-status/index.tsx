@@ -61,7 +61,8 @@ const Toast = ({
   duration = 5000,
   variant = 'normal',
   icon = <IconCircle />,
-  ...props
+  content,
+  onAnimationEnd,
 }: RegionToastItem) => {
   const hide = useRegionStore((state) => state.hide);
   const contentId = useId();
@@ -106,8 +107,10 @@ const Toast = ({
   const handleAnimationEnd: AnimationEventHandler<HTMLDivElement> = (e) => {
     if (e.animationName === bottomMountKeyFrames.name) {
       setIsMountAnimationDone(true);
+      onAnimationEnd?.('show');
     } else if (e.animationName === bottomUnmountKeyFrames.name) {
       hide(id);
+      onAnimationEnd?.('hide');
     }
   };
 
@@ -136,7 +139,7 @@ const Toast = ({
           id={contentId}
           sx={[messageStyle, textStyle]}
         >
-          {props.content}
+          {content}
         </Typography>
       </FlexBox>
     </Box>
@@ -150,6 +153,7 @@ const Snackbar = ({
   description,
   extraContent,
   action,
+  onAnimationEnd,
 }: RegionSnackbarItem) => {
   const hide = useRegionStore((state) => state.hide);
   const headingId = useId();
@@ -160,8 +164,10 @@ const Snackbar = ({
   const handleAnimationEnd: AnimationEventHandler<HTMLDivElement> = (e) => {
     if (e.animationName === bottomMountKeyFrames.name) {
       setIsMountAnimationDone(true);
+      onAnimationEnd?.('show');
     } else if (e.animationName === bottomUnmountKeyFrames.name) {
       hide(id);
+      onAnimationEnd?.('hide');
     }
   };
 
