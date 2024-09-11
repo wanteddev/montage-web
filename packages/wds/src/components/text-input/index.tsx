@@ -157,7 +157,12 @@ const TextInput = forwardRef<
             });
           }}
         >
-          <IconButton type="button" size={22} tabIndex={-1}>
+          <IconButton
+            type="button"
+            size={22}
+            tabIndex={-1}
+            sx={(theme) => ({ color: theme.palette.label.assistive })}
+          >
             <IconCircleClose />
           </IconButton>
         </TextInputContent>

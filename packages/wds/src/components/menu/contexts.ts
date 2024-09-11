@@ -1,6 +1,8 @@
 import { createContext } from '@radix-ui/react-context';
 
-import { MENU_NAME } from './constants';
+import createLooseContext from '../../hooks/use-loose-context';
+
+import { MENU_ITEM_NAME, MENU_NAME } from './constants';
 
 import type { MenuDefaultProps } from './types';
 
@@ -11,3 +13,10 @@ type MenuContextType = {
 
 export const [MenuProvider, useMenuContext] =
   createContext<MenuContextType>(MENU_NAME);
+
+type MenuItemContextType = {
+  bold?: boolean;
+};
+
+export const [MenuItemProvider, useMenuItemContext] =
+  createLooseContext<MenuItemContextType>(MENU_ITEM_NAME);

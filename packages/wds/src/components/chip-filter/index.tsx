@@ -65,7 +65,7 @@ const ChipFilter = forwardRef(
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
           <span id={id}>{children}</span>
-          {textNumber !== null && textNumber !== undefined && (
+          {textNumber !== null && textNumber !== undefined && active && (
             <span data-role="chip-filter-text-number">{textNumber}</span>
           )}
           {expanded ? <IconCaretUp /> : <IconCaretDown />}

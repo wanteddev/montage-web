@@ -36,7 +36,7 @@ import {
   menuPopoverContentStyle,
   menuScrollAreaStyle,
 } from './style';
-import { MenuProvider, useMenuContext } from './context';
+import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 
 import type { ListProps } from '../list/types';
 import type {
@@ -239,20 +239,22 @@ const MenuItem = forwardRef(
     };
 
     return (
-      <RovingFocusGroupItem
-        asChild
-        focusable={!disabled}
-        active={normalActive}
-        data-active={normalActive}
-        onKeyDown={composeEventHandlers(onKeyDown, (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            (e.target as HTMLElement).click();
-          }
-        })}
-      >
-        {renderComponent[variant]}
-      </RovingFocusGroupItem>
+      <MenuItemProvider bold={variant === 'normal' ? normalActive : undefined}>
+        <RovingFocusGroupItem
+          asChild
+          focusable={!disabled}
+          active={normalActive}
+          data-active={normalActive}
+          onKeyDown={composeEventHandlers(onKeyDown, (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              (e.target as HTMLElement).click();
+            }
+          })}
+        >
+          {renderComponent[variant]}
+        </RovingFocusGroupItem>
+      </MenuItemProvider>
     );
   },
 ) as PolymorphicComponent<MenuItemProps, 'li'>;
