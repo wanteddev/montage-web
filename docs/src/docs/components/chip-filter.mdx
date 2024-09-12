@@ -110,7 +110,7 @@ export default Demo;`}
 />
 
 
-### TextNumber
+### ActiveLabel
 
 여러가지 선택할 수 있는 필터의 적용된 개수를 보여줄 때 사용합니다.
 
@@ -119,10 +119,10 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox gap="8px" alignItems="center">
-      <ChipFilter textNumber={1} active>직군</ChipFilter>
-      <ChipFilter textNumber={3} active>직무</ChipFilter>
-      <ChipFilter textNumber={2} active>지역</ChipFilter>
-      <ChipFilter textNumber={2} active>태그</ChipFilter>
+      <ChipFilter activeLabel={1} active>직군</ChipFilter>
+      <ChipFilter activeLabel={3} active>직무</ChipFilter>
+      <ChipFilter activeLabel={2} active>지역</ChipFilter>
+      <ChipFilter activeLabel={2} active>태그</ChipFilter>
     </FlexBox>
   )
 }
