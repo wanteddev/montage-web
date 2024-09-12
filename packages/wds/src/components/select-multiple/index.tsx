@@ -130,13 +130,6 @@ const SelectMultiple = forwardRef<
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollLeft, scrollWidth]);
 
-    useEffect(() => {
-      if (overflow === false) {
-        setScrollWidth(renderWrapperNode?.scrollWidth || 0);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [enableMenuBottom ? menuValue.length : value.length]);
-
     const handleResize = useCallback(() => {
       const target = renderWrapperNode;
       if (!target) {
@@ -148,8 +141,7 @@ const SelectMultiple = forwardRef<
 
       setScrollLeft(targetScrollLeft);
       setScrollWidth(targetScrollWidth);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setScrollLeft]);
+    }, [renderWrapperNode]);
 
     useResizeObserver(renderWrapperNode, handleResize);
 
@@ -293,18 +285,20 @@ const SelectMultiple = forwardRef<
 
               {typeof render === 'function' && !shouldShowPlaceholder && (
                 <FlexBox
-                  ref={setRenderWrapperNode}
                   flex="1"
-                  gap="4px"
-                  flexWrap="wrap"
                   data-role="select-multiple-render-wrapper"
-                  onScrollCapture={handleOnScroll}
                   sx={customSelectMultipleRenderWrapperStyle({
                     overflow,
                     isScrollable,
                   })}
                 >
-                  {render(label, value)}
+                  <FlexBox
+                    ref={setRenderWrapperNode}
+                    gap="4px"
+                    onScrollCapture={handleOnScroll}
+                  >
+                    {render(label, value)}
+                  </FlexBox>
                 </FlexBox>
               )}
 

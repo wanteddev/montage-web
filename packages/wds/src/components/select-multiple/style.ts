@@ -11,17 +11,19 @@ export const customSelectMultipleRenderWrapperStyle = ({
 }) =>
   overflow === false &&
   css`
-    flex-wrap: nowrap;
-    overflow-y: hidden;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-
+    overflow: hidden;
     ${isScrollable &&
     css`
       ${gradient('transparent', 'right', '40px')}
     `}
+
+    > div {
+      overflow: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   `;
