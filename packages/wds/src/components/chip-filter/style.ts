@@ -55,8 +55,8 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         span {
           ${typographyStyle('caption1', 'medium')}
         }
-        [data-role='chip-filter-text-number'] {
-          ${typographyStyle('caption2', 'bold')}
+        [data-role='chip-filter-active-label'] {
+          ${typographyStyle('caption1', 'bold')}
         }
       `;
     case 'small':
@@ -71,7 +71,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         span {
           ${typographyStyle('label1_normal', 'medium')}
         }
-        [data-role='chip-filter-text-number'] {
+        [data-role='chip-filter-active-label'] {
           ${typographyStyle('label1_normal', 'bold')}
         }
       `;
@@ -88,7 +88,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         span {
           ${typographyStyle('body2_normal', 'medium')}
         }
-        [data-role='chip-filter-text-number'] {
+        [data-role='chip-filter-active-label'] {
           ${typographyStyle('body2_normal', 'bold')}
         }
       `;
@@ -104,7 +104,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         span {
           ${typographyStyle('body2_normal', 'medium')}
         }
-        [data-role='chip-filter-text-number'] {
+        [data-role='chip-filter-active-label'] {
           ${typographyStyle('body2_normal', 'bold')}
         }
       `;
