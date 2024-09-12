@@ -83,6 +83,7 @@ const SelectMultiple = forwardRef<
     const [isScrollable, setIsScrollable] = useState(false);
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollWidth, setScrollWidth] = useState(0);
+    const [clientWidth, setClientWidth] = useState(0);
 
     const [menuValue = [], setMenuValue] = useControllableState({
       prop: menuValueProp,
@@ -119,16 +120,13 @@ const SelectMultiple = forwardRef<
     );
 
     useEffect(() => {
-      if (
-        scrollWidth - scrollLeft <=
-        (renderWrapperNode?.clientWidth || 0) + 1
-      ) {
+      if (scrollWidth - scrollLeft <= (clientWidth || 0) + 1) {
         setIsScrollable(false);
-      } else if (scrollWidth !== renderWrapperNode?.clientWidth) {
+      } else if (scrollWidth !== clientWidth) {
         setIsScrollable(true);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollLeft, scrollWidth, renderWrapperNode?.clientWidth]);
+    }, [scrollLeft, scrollWidth, clientWidth]);
 
     const handleResize = useCallback(() => {
       const target = renderWrapperNode;
@@ -138,9 +136,11 @@ const SelectMultiple = forwardRef<
 
       const targetScrollWidth = target.scrollWidth;
       const targetScrollLeft = target.scrollLeft;
+      const targetClientWidth = target.clientWidth;
 
       setScrollLeft(targetScrollLeft);
       setScrollWidth(targetScrollWidth);
+      setClientWidth(targetClientWidth);
     }, [renderWrapperNode]);
 
     useResizeObserver(renderWrapperNode, handleResize);
