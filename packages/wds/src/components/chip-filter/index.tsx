@@ -23,7 +23,7 @@ const ChipFilter = forwardRef(
       disableInteraction = false,
       expanded: originExpanded,
       size = 'normal',
-      textNumber,
+      activeLabel,
       active: givenActive,
       children,
       xs,
@@ -65,8 +65,8 @@ const ChipFilter = forwardRef(
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
           <span id={id}>{children}</span>
-          {textNumber !== null && textNumber !== undefined && active && (
-            <span data-role="chip-filter-text-number">{textNumber}</span>
+          {activeLabel !== null && activeLabel !== undefined && active && (
+            <span data-role="chip-filter-active-label">{activeLabel}</span>
           )}
           {expanded ? <IconCaretUp /> : <IconCaretDown />}
         </Box>
