@@ -128,7 +128,7 @@ const SelectMultiple = forwardRef<
         setIsScrollable(true);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollLeft, scrollWidth]);
+    }, [scrollLeft, scrollWidth, renderWrapperNode?.clientWidth]);
 
     const handleResize = useCallback(() => {
       const target = renderWrapperNode;
