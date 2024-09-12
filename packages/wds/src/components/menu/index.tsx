@@ -119,7 +119,7 @@ const MenuContent = forwardRef<
         sx={[menuPopoverContentStyle, sx]}
       >
         <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
-          <ScrollArea zIndex={11} sx={menuScrollAreaStyle}>
+          <ScrollArea zIndex={11} sx={menuScrollAreaStyle} size="small">
             {children}
           </ScrollArea>
         </RovingFocusGroup>
