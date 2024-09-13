@@ -231,9 +231,13 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-top-navigation-min-height: 56px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
-        --wds-action-area-extra-content-margin: calc(
-          4px + var(--wds-action-area-margin, 20px)
-        );
+
+        [data-role='action-area-extra-content'] {
+          margin-top: calc(
+            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+          );
+          margin-bottom: calc(4px + var(--wds-action-area-margin-y, 20px));
+        }
 
         [data-role='navigation-title'] {
           padding: 0px 4px;
@@ -261,9 +265,13 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-top-navigation-min-height: 64px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
-        --wds-action-area-extra-content-margin: calc(
-          4px + var(--wds-content-margin, 20px)
-        );
+
+        [data-role='action-area-extra-content'] {
+          margin-top: calc(
+            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+          );
+          margin-bottom: calc(4px + var(--wds-action-area-margin-y, 20px));
+        }
 
         [data-role='navigation-title'] {
           padding: 0px 4px;
@@ -291,10 +299,13 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-top-navigation-min-height: 64px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
-        --wds-modal-action-area-extra-content-margin: var(
-          --wds-action-area-margin-y,
-          20px
-        );
+
+        [data-role='action-area-extra-content'] {
+          margin-top: calc(
+            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+          );
+          margin-bottom: var(--wds-action-area-margin-y);
+        }
 
         [data-role='navigation-title'] {
           padding: 0px 8px;
@@ -327,6 +338,13 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           20px
         );
 
+        [data-role='action-area-extra-content'] {
+          margin-top: calc(
+            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+          );
+          margin-bottom: var(--wds-action-area-margin-y);
+        }
+
         [data-role='navigation-title'] {
           padding: 0px 12px;
         }
@@ -357,6 +375,13 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           --wds-action-area-margin,
           20px
         );
+
+        [data-role='action-area-extra-content'] {
+          margin-top: calc(
+            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
+          );
+          margin-bottom: var(--wds-action-area-margin-y);
+        }
 
         [data-role='navigation-title'] {
           padding: 0px 12px;
@@ -447,9 +472,10 @@ export const modalGrabberStyle = (theme: Theme) => css`
   min-width: inherit;
   position: absolute;
   padding: 7px 2px 8px 2px;
+  width: 100%;
   top: 0;
-  left: 50%;
-  transform: translate3d(-50%, 0, 0);
+  left: 0;
+  transform: translate3d(0, 0, 0);
   z-index: 10;
   touch-action: pan-y;
 
@@ -458,6 +484,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
     border-radius: 1000px;
     width: 40px;
     height: 5px;
+    margin: 0 auto;
     display: block;
     background-color: ${theme.palette.fill.strong};
   }
