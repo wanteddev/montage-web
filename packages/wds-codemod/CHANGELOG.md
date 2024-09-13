@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.1.0...@wanteddev/wds-codemod@1.2.0) (2024-09-13)
+
+### Features
+
+- **wds-codemod:** textfield migration codemod 제작 ([#94](https://github.com/wanteddev/wds/issues/94)) ([cd7cf98](https://github.com/wanteddev/wds/commit/cd7cf98313a72db5d93b94a5cd612a94aedfdf34))
+
 # [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.0.3...@wanteddev/wds-codemod@1.1.0) (2024-06-17)
 
 ### Features

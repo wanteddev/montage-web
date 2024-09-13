@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.7...@wanteddev/wds@1.4.0) (2024-09-13)
+
+### Bug Fixes
+
+- **wds:** modal 스타일 일부 깨지는 현상 수정 ([#102](https://github.com/wanteddev/wds/issues/102)) ([f7a9fd9](https://github.com/wanteddev/wds/commit/f7a9fd9d5c60d5fb7582fc57c9eecfd93f64de18))
+- **wds:** section message import 경로 수정 ([b28ca66](https://github.com/wanteddev/wds/commit/b28ca66c9fde4da4e89dc35105e736c0fbb54042))
+- **wds:** tab 에서 padding 커스텀 하는 경우 대응 ([2d4f980](https://github.com/wanteddev/wds/commit/2d4f9804ea2285457b9ad965cb9e32244d8b3b57))
+- **wds:** 텍스트 필드 및 기타 디자인 QA ([#79](https://github.com/wanteddev/wds/issues/79)) ([487d911](https://github.com/wanteddev/wds/commit/487d91184c8bfe4e7a980ba747f430fe1ed31a0d))
+
+### Features
+
+- **wds:** action-area single -> cancel 네이밍 변경 ([#92](https://github.com/wanteddev/wds/issues/92)) ([9d72984](https://github.com/wanteddev/wds/commit/9d72984b276d1422eb775f731c4503d2739498d5))
+- **wds:** action-area 디자인 업데이트 ([f5545cb](https://github.com/wanteddev/wds/commit/f5545cb3092e9660cd9e4e006f18fa0a697366dc))
+- **wds:** autocomplete 컴포넌트 추가 ([#89](https://github.com/wanteddev/wds/issues/89)) ([3b713f6](https://github.com/wanteddev/wds/commit/3b713f65f0b0c0b0f26b1274064cd2ef149acb80))
+- **wds:** chip-filter size 네이밍 변경 ([#90](https://github.com/wanteddev/wds/issues/90)) ([768dd8d](https://github.com/wanteddev/wds/commit/768dd8dd84c9122b72ca3be5e67a9e93af26ac85))
+- **wds:** dialog 확장성 있는 인터페이스로 변경 ([#72](https://github.com/wanteddev/wds/issues/72)) ([a336c20](https://github.com/wanteddev/wds/commit/a336c205262bf3afa9d44a8828a1e8c11b726860))
+- **wds:** left icon, right icon 네이밍 변경 ([fe53c6b](https://github.com/wanteddev/wds/commit/fe53c6bca2af59f6b89cb8e38bc644f63a237c48))
+- **wds:** list 디자인 QA 및 인터페이스, 동작 고도화 ([#81](https://github.com/wanteddev/wds/issues/81)) ([02599c0](https://github.com/wanteddev/wds/commit/02599c09968ea60969d6a5bf7e54b15edde49a04))
+- **wds:** menu, select, text-input 디자인 qa ([#97](https://github.com/wanteddev/wds/issues/97)) ([04aa16e](https://github.com/wanteddev/wds/commit/04aa16e304835c4b8e1cb6f918cfa9ec8ce12377))
+- **wds:** PI-65990 [WDS] List / Cell 컴포넌트 제작 ([#75](https://github.com/wanteddev/wds/issues/75)) ([596f9a8](https://github.com/wanteddev/wds/commit/596f9a8735b4b30a751b83c9469595c45886deda))
+- **wds:** PI-66074 chip 디자인 업데이트 및 chip-multi-select deprecated 처리 ([#74](https://github.com/wanteddev/wds/issues/74)) ([d7b3bb9](https://github.com/wanteddev/wds/commit/d7b3bb9b1cc75da0593e7000310d43f5b546d85b))
+- **wds:** PI-66075 checkbox 디자인 업데이트 ([#73](https://github.com/wanteddev/wds/issues/73)) ([ca3e41c](https://github.com/wanteddev/wds/commit/ca3e41cd7b70a66041416a7ab2a2a8dc1eec1e59))
+- **wds:** PI-66076 content-badge 디자인 업데이트 ([#68](https://github.com/wanteddev/wds/issues/68)) ([6fc3fcb](https://github.com/wanteddev/wds/commit/6fc3fcb200c81dbd856fab65d24bb5c4b1977892))
+- **wds:** PI-67768 alert -> section-message 네이밍 변경 ([#86](https://github.com/wanteddev/wds/issues/86)) ([5f2b81f](https://github.com/wanteddev/wds/commit/5f2b81f0108fa456bf0e2298c1278bc94b10a150))
+- **wds:** PI-68051 [WDS] Select/Multiple에서 Overflow 속성 추가 ([#96](https://github.com/wanteddev/wds/issues/96)) ([ad5085d](https://github.com/wanteddev/wds/commit/ad5085d8c200df9785b542d1a855261946278332))
+- **wds:** PI-68144 [WDS] Chip/Filter에 activeLabel 속성 추가 ([#99](https://github.com/wanteddev/wds/issues/99)) ([22faabe](https://github.com/wanteddev/wds/commit/22faabe049dbab824788c4377efdb2bc05d6a475))
+- **wds:** radix ui 패키지 최신화 ([bfba55c](https://github.com/wanteddev/wds/commit/bfba55c25ef9abf7fdcbabd5a1060fe0e5b4397d))
+- **wds:** scroll-area에 size 옵션 추가 및 메뉴, 탭 스크롤바 사이즈 조정 ([#100](https://github.com/wanteddev/wds/issues/100)) ([2e8d290](https://github.com/wanteddev/wds/commit/2e8d290232ff6aa7d93db8309b72a93fc8169e87))
+- **wds:** select 디자인 수정 작업 ([#57](https://github.com/wanteddev/wds/issues/57)) ([1e9421e](https://github.com/wanteddev/wds/commit/1e9421e07996d77439ee7fbd4b614a0034c28ff0))
+- **wds:** select, select-multiple에 menu bottom 대응 및 일부 스타일 조정 ([#88](https://github.com/wanteddev/wds/issues/88)) ([cd5bd3c](https://github.com/wanteddev/wds/commit/cd5bd3c9ac3d579f6967deb4210889d4ed6905f9))
+- **wds:** text-area 디자인 변경 및 구조 개선 ([e34a1e6](https://github.com/wanteddev/wds/commit/e34a1e6a54f2e49f460d198c210703c3fc3095c4))
+- **wds:** text-area 클릭 영역 개선 ([c21ae07](https://github.com/wanteddev/wds/commit/c21ae075fb008822e679c6d11d00fdb98c225b6e))
+- **wds:** text-field -> text-input 네이밍 변경 ([3aed095](https://github.com/wanteddev/wds/commit/3aed095625dc66a14c15ac2f8229f21b8a2c309e))
+- **wds:** text-field date 예외 처리 추가 ([8afe300](https://github.com/wanteddev/wds/commit/8afe30041cefeeca05b3b7bbadcf99d7adef6d54))
+- **wds:** text-field, label 디자인 및 구조 변경 ([#56](https://github.com/wanteddev/wds/issues/56)) ([5e0f33d](https://github.com/wanteddev/wds/commit/5e0f33d89649c73933520201f4bc3a3cfd8d7eb1))
+- **wds:** toast, snackbar 최대 너비 업데이트 ([#91](https://github.com/wanteddev/wds/issues/91)) ([7eac830](https://github.com/wanteddev/wds/commit/7eac830edbf4955dd57050339b1cd04d130c98ee))
+- **wds:** toast, snackbar에 onAnimationEnd 인터페이스 추가 ([#98](https://github.com/wanteddev/wds/issues/98)) ([a4a5f4d](https://github.com/wanteddev/wds/commit/a4a5f4d2a04db9195ae5021050ef263429166286))
+- **wds:** top-navigation 모달 종속성 분리 및 모달 transition 개선 ([#71](https://github.com/wanteddev/wds/issues/71)) ([7ee1f2a](https://github.com/wanteddev/wds/commit/7ee1f2aaf27ae9377e87d78a23e191281d7cb6e8))
+
 ## [1.3.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.6...@wanteddev/wds@1.3.7) (2024-09-13)
 
 **Note:** Version bump only for package @wanteddev/wds
