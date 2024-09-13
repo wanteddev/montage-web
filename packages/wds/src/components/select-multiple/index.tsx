@@ -1,5 +1,12 @@
 'use client';
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   IconChevronDownThickSmall,
   IconChevronUpThickSmall,
@@ -24,7 +31,11 @@ import {
   selectIconStyle,
   selectStyle,
 } from '../select/style';
+import useResizeObserver from '../../hooks/use-resize-observer';
 
+import { customSelectMultipleRenderWrapperStyle } from './style';
+
+import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
 
 const SelectMultiple = forwardRef<
@@ -48,6 +59,7 @@ const SelectMultiple = forwardRef<
       width,
       height,
       enableMenuBottom,
+      overflow = false,
       menuValue: menuValueProp,
       onMenuValueChange,
       contentProps,
@@ -61,10 +73,19 @@ const SelectMultiple = forwardRef<
     forwardedRef,
   ) => {
     const [node, setNode] = useState<HTMLDivElement | null>(null);
+    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
+
+    const [renderWrapperNode, setRenderWrapperNode] =
+      useState<HTMLDivElement | null>(null);
 
     const { width: contentWidth, height: contentHeight } = useSize(node) || {};
 
-    const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
+    const [isScrollableLeft, setIsScrollableLeft] = useState(false);
+    const [isScrollableRight, setIsScrollableRight] = useState(false);
+
+    const [scrollLeft, setScrollLeft] = useState(0);
+    const [scrollWidth, setScrollWidth] = useState(0);
+    const [clientWidth, setClientWidth] = useState(0);
 
     const [menuValue = [], setMenuValue] = useControllableState({
       prop: menuValueProp,
@@ -89,6 +110,44 @@ const SelectMultiple = forwardRef<
         onOpenChange?.(v);
       },
     });
+
+    const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
+      (e) => {
+        const target = e.target as Element;
+
+        setScrollLeft(target.scrollLeft);
+        setScrollWidth(target.scrollWidth);
+      },
+      [setScrollLeft, setScrollWidth],
+    );
+
+    useEffect(() => {
+      setIsScrollableLeft(scrollLeft > 0);
+
+      if (scrollWidth - scrollLeft <= (clientWidth || 0) + 1) {
+        setIsScrollableRight(false);
+      } else if (scrollWidth !== clientWidth) {
+        setIsScrollableRight(true);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scrollLeft, scrollWidth, clientWidth]);
+
+    const handleResize = useCallback(() => {
+      const target = renderWrapperNode;
+      if (!target) {
+        return;
+      }
+
+      const targetScrollWidth = target.scrollWidth;
+      const targetScrollLeft = target.scrollLeft;
+      const targetClientWidth = target.clientWidth;
+
+      setScrollLeft(targetScrollLeft);
+      setScrollWidth(targetScrollWidth);
+      setClientWidth(targetClientWidth);
+    }, [renderWrapperNode]);
+
+    useResizeObserver(renderWrapperNode, handleResize);
 
     const shouldShowPlaceholder = useMemo(
       () => value.length === 0,
@@ -182,6 +241,7 @@ const SelectMultiple = forwardRef<
                   invalid,
                   width,
                   height,
+                  overflow,
                   xs,
                   sm,
                   md,
@@ -214,10 +274,12 @@ const SelectMultiple = forwardRef<
                   ) : (
                     <Typography
                       data-role="select-multiple-values"
-                      noWrap
                       variant="body1_normal"
                       weight="regular"
-                      sx={ellipsisTypographyStyle(1)}
+                      {...(overflow === false && {
+                        noWrap: true,
+                        sx: ellipsisTypographyStyle(1),
+                      })}
                     >
                       {label.join(', ')}
                     </Typography>
@@ -228,11 +290,20 @@ const SelectMultiple = forwardRef<
               {typeof render === 'function' && !shouldShowPlaceholder && (
                 <FlexBox
                   flex="1"
-                  gap="4px"
-                  flexWrap="wrap"
                   data-role="select-multiple-render-wrapper"
+                  sx={customSelectMultipleRenderWrapperStyle({
+                    overflow,
+                    isScrollableLeft,
+                    isScrollableRight,
+                  })}
                 >
-                  {render(label, value)}
+                  <FlexBox
+                    ref={setRenderWrapperNode}
+                    gap="4px"
+                    onScrollCapture={handleOnScroll}
+                  >
+                    {render(label, value)}
+                  </FlexBox>
                 </FlexBox>
               )}
 
