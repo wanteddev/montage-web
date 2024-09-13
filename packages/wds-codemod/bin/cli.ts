@@ -22,6 +22,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     value: 'migration-v1',
   },
   { name: 'Migration Toast', value: 'migration-toast' },
+  { name: 'Migration Forms Design', value: 'migration-forms' },
 ];
 
 export const run = () => {
