@@ -15,6 +15,7 @@ export const routes: Array<Route> = [
     pages: [
       { title: 'Getting Started', slug: '/docs/overview/getting-started' },
       { title: 'Sx Prop', slug: '/docs/overview/sx-prop' },
+      { title: 'Changelog', slug: '/docs/overview/changelog' },
     ],
   },
   {
