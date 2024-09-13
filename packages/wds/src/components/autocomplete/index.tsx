@@ -470,6 +470,7 @@ const AutocompleteList = forwardRef<HTMLDivElement, AutocompleteListProps>(
       >
         <ScrollArea
           scrollbars="vertical"
+          size="small"
           viewportProps={{ sx: autocompleteScrollAreaStyle }}
         >
           <List role="listbox" id={contentId} gap="4px">
@@ -538,7 +539,7 @@ const AutocompleteOption = forwardRef<
           });
         })}
       >
-        <ListText caption={caption} bold={bold}>
+        <ListText caption={caption} bold={bold ?? active}>
           {children}
         </ListText>
       </ListCell>

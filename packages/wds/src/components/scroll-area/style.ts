@@ -1,7 +1,7 @@
 import { css, keyframes } from '@wanteddev/wds-engine';
 
 import type { ScrollBarProps } from './types';
-import type { Theme } from '@wanteddev/wds-engine';
+import type { SerializedStyles, Theme } from '@wanteddev/wds-engine';
 
 export const scrollAreaStyle = css`
   position: relative;
@@ -32,7 +32,7 @@ const fadeOut = keyframes`
   `;
 
 export const scrollBarStyle =
-  ({ orientation }: ScrollBarProps) =>
+  ({ orientation, size }: ScrollBarProps) =>
   (theme: Theme) => css`
     display: flex;
     touch-action: none;
@@ -41,15 +41,6 @@ export const scrollBarStyle =
     transition:
       width 0.2s ease,
       height 0.2s ease;
-
-    &[data-state='hidden'] {
-      opacity: 0;
-      animation: ${fadeOut} 300ms ease;
-    }
-    &[data-state='visible'] {
-      opacity: 1;
-      animation: ${fadeIn} 300ms ease;
-    }
 
     ${orientation === 'vertical'
       ? css`
@@ -66,28 +57,25 @@ export const scrollBarStyle =
           padding: 3px;
         `}
 
-    ${orientation === 'vertical'
-      ? css`
-          width: 13px;
-          --radix-scroll-area-thumb-width: 7px;
+    &[data-state='hidden'] {
+      opacity: 0;
+      animation: ${fadeOut} 300ms ease;
+    }
+    &[data-state='visible'] {
+      opacity: 1;
+      animation: ${fadeIn} 300ms ease;
+    }
 
-          &:hover {
-            width: 17px;
-            --radix-scroll-area-thumb-width: 11px;
-          }
-        `
-      : css`
-          height: 13px;
-          --radix-scroll-area-thumb-height: 7px;
+    ${scrollbarSizeStyle({ size, orientation }, theme)}
+  `;
 
-          &:hover {
-            height: 17px;
-            --radix-scroll-area-thumb-height: 11px;
-          }
-        `}
-
-    @media (max-width: ${theme.breakpoint.sm}) {
-      ${orientation === 'vertical'
+const scrollbarSizeStyle = (
+  { size, orientation }: ScrollBarProps,
+  theme: Theme,
+): SerializedStyles | undefined => {
+  switch (size) {
+    case 'small':
+      return orientation === 'vertical'
         ? css`
             width: 9px;
             --radix-scroll-area-thumb-width: 3px;
@@ -105,9 +93,35 @@ export const scrollBarStyle =
               height: 13px;
               --radix-scroll-area-thumb-height: 7px;
             }
-          `}
-    }
-  `;
+          `;
+    case 'normal':
+      return orientation === 'vertical'
+        ? css`
+            width: 13px;
+            --radix-scroll-area-thumb-width: 7px;
+            &:hover {
+              width: 17px;
+              --radix-scroll-area-thumb-width: 11px;
+            }
+          `
+        : css`
+            height: 13px;
+            --radix-scroll-area-thumb-height: 7px;
+            &:hover {
+              height: 17px;
+              --radix-scroll-area-thumb-height: 11px;
+            }
+          `;
+    case 'responsive':
+      return css`
+        ${scrollbarSizeStyle({ size: 'normal', orientation }, theme)}
+
+        @media (max-width: ${theme.breakpoint.sm}) {
+          ${scrollbarSizeStyle({ size: 'small', orientation }, theme)}
+        }
+      `;
+  }
+};
 
 export const scrollBarThumbStyle = (theme: Theme) => css`
   cursor: initial;
