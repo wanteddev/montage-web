@@ -42,6 +42,21 @@ export const scrollBarStyle =
       width 0.2s ease,
       height 0.2s ease;
 
+    ${orientation === 'vertical'
+      ? css`
+          height: 100%;
+          border-left-width: 1px;
+          border-left-color: transparent;
+          padding: 3px;
+        `
+      : css`
+          width: 100%;
+          flex-direction: column;
+          border-top-width: 1px;
+          border-top-color: transparent;
+          padding: 3px;
+        `}
+
     &[data-state='hidden'] {
       opacity: 0;
       animation: ${fadeOut} 300ms ease;
@@ -82,17 +97,20 @@ const scrollbarSizeStyle = (
     case 'normal':
       return orientation === 'vertical'
         ? css`
-            height: 100%;
-            border-left-width: 1px;
-            border-left-color: transparent;
-            padding: 3px;
+            width: 13px;
+            --radix-scroll-area-thumb-width: 7px;
+            &:hover {
+              width: 17px;
+              --radix-scroll-area-thumb-width: 11px;
+            }
           `
         : css`
-            width: 100%;
-            flex-direction: column;
-            border-top-width: 1px;
-            border-top-color: transparent;
-            padding: 3px;
+            height: 13px;
+            --radix-scroll-area-thumb-height: 7px;
+            &:hover {
+              height: 17px;
+              --radix-scroll-area-thumb-height: 11px;
+            }
           `;
     case 'responsive':
       return css`

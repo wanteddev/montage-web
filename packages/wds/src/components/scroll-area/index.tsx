@@ -103,7 +103,7 @@ export default ScrollArea;
 const ScrollBar = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   ScrollBarProps
->(({ orientation = 'vertical', size, ...props }, ref) => (
+>(({ orientation = 'vertical', size = 'responsive', ...props }, ref) => (
   <Box
     as={ScrollAreaPrimitive.ScrollAreaScrollbar}
     forceMount
