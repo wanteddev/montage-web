@@ -74,8 +74,7 @@ export const useDraggable = ({
 
     topNavigationHeight.current = topNavigation
       ? topNavigation.clientHeight - topNavigationToolbarHeight
-      : ref.current?.querySelector('[data-role="modal-container-grabber"]')
-          ?.clientHeight ?? 20;
+      : 20;
   };
 
   const handleVisibilityHidden = () => {
@@ -151,7 +150,7 @@ export const useDraggable = ({
             theme.palette.elevation.shadow.strong,
           );
         } else {
-          container.style.setProperty('box-shadow', 'none');
+          container.style.removeProperty('box-shadow');
         }
       };
 

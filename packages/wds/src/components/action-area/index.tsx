@@ -66,7 +66,7 @@ const ActionArea = forwardRef<
               data-role="action-area-extra-content"
               sx={{
                 marginBottom:
-                  'var(--wds--action-area-extra-content-margin, calc(4px + var(--wds-action-area-margin-y, 20px)))',
+                  'calc(4px + var(--wds-action-area-margin-y, 20px))',
               }}
             >
               {extraContent}
