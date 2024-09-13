@@ -4,15 +4,18 @@ import { gradient } from '../../utils';
 
 export const customSelectMultipleRenderWrapperStyle = ({
   overflow,
-  isScrollable,
+  isScrollableLeft,
+  isScrollableRight,
 }: {
   overflow: boolean;
-  isScrollable: boolean;
+  isScrollableLeft: boolean;
+  isScrollableRight: boolean;
 }) =>
   overflow === false &&
   css`
     overflow: hidden;
-    ${isScrollable &&
+
+    ${isScrollableRight &&
     css`
       ${gradient('transparent', 'right', '40px')}
     `}
@@ -25,5 +28,10 @@ export const customSelectMultipleRenderWrapperStyle = ({
       }
       -ms-overflow-style: none;
       scrollbar-width: none;
+
+      ${isScrollableLeft &&
+      css`
+        ${gradient('transparent', 'left', '40px')}
+      `}
     }
   `;

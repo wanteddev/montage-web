@@ -80,7 +80,9 @@ const SelectMultiple = forwardRef<
 
     const { width: contentWidth, height: contentHeight } = useSize(node) || {};
 
-    const [isScrollable, setIsScrollable] = useState(false);
+    const [isScrollableLeft, setIsScrollableLeft] = useState(false);
+    const [isScrollableRight, setIsScrollableRight] = useState(false);
+
     const [scrollLeft, setScrollLeft] = useState(0);
     const [scrollWidth, setScrollWidth] = useState(0);
     const [clientWidth, setClientWidth] = useState(0);
@@ -120,10 +122,12 @@ const SelectMultiple = forwardRef<
     );
 
     useEffect(() => {
+      setIsScrollableLeft(scrollLeft > 0);
+
       if (scrollWidth - scrollLeft <= (clientWidth || 0) + 1) {
-        setIsScrollable(false);
+        setIsScrollableRight(false);
       } else if (scrollWidth !== clientWidth) {
-        setIsScrollable(true);
+        setIsScrollableRight(true);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scrollLeft, scrollWidth, clientWidth]);
@@ -289,7 +293,8 @@ const SelectMultiple = forwardRef<
                   data-role="select-multiple-render-wrapper"
                   sx={customSelectMultipleRenderWrapperStyle({
                     overflow,
-                    isScrollable,
+                    isScrollableLeft,
+                    isScrollableRight,
                   })}
                 >
                   <FlexBox
