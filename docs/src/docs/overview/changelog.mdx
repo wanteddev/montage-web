@@ -1,0 +1,122 @@
+---
+title: Changelog
+description: Changelog
+---
+
+# Changelog
+
+## 2024.09.x
+
+### ActionArea
+
+- `priority="single"` 의 이름이 `priority="cancel"` 로 변경되었습니다.
+- 기본값이 `priority="compact"` 에서 `priority="strong"`으로 변경되었습니다.
+- 서브(sub) 액션의 디자인이 변경되었습니다.
+
+### Alert
+
+- `SectionMessage` 로 컴포넌트 이름이 변경되었습니다.
+
+### Button
+
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+
+### Checkbox
+
+- 디자인이 일부 업데이트 되었습니다.
+- 기본값이 `size="small"`에서 `size="normal"`로 변경되었습니다.
+
+### ContentBadge
+
+- 디자인이 일부 업데이트 되었습니다.
+- 사이즈의 이름이 변경되었습니다.
+  - xsmall -> normal
+  - small -> medium
+  - medium -> large
+- 기본값이 `size="small"` 에서 `size="normal"`로 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+
+### ChipAction
+
+- 디자인이 새롭게 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+
+### ChipFilter
+
+- 신규로 추가되었습니다.
+- Filter 영역을 표시할 때 사용합니다.
+
+### ChipMultiSelect
+
+- deprecated 되었습니다.
+
+### Dialog
+
+- 확장성 있는 인터페이스로 변경되었습니다.
+  - 확장성 있는 인터페이스로 변경되었습니다.
+  - confirmText -> `confirm: <DialogButton></DialogButton>`
+  - cancelText -> `cancel: <DialogButton variant=“assistive”></DialogButton>`
+  - confirmColor -> `confirm: <DialogButton variant=“”negative”></DialogButton>`
+- `sx` prop을 지원합니다.
+
+### FlexBox
+
+- `flexBasis` 옵션이 동작하지 않는 이슈를 수정했습니다.
+
+### ListCell
+
+- 신규 컴포넌트가 추가되었습니다.
+- 인터렉션이 있는 목록을 표시할 때 사용합니다.
+
+### Menu
+
+- 신규 컴포넌트가 추가되었습니다.
+- 필터 등의 값을 선택할 때 사용합니다.
+
+### Modal
+
+- Bottom Sheet의 애니메이션 처리와 handle 옵션을 사용할 때 축소화 기능이 추가되었습니다.
+- ModalNavigation의 `rightButton`, `leftButton`의 이름이 `rightContent`, `leftContent`로 변경되었습니다.
+- 컴포넌트의 이름이 변경되었습니다.
+  - ModalNavigationAction -> ModalNavigationButton
+
+### Select
+
+- 새로운 디자인을 적용하였습니다.
+- Native select가 아닌 메뉴 컴포넌트를 활용한 Select로 UI/UX가 크게 변경되었습니다.
+- `optgroup` 대신 wds의 `OptionGroup`, `option` 대신 `Option` 을 사용해야 합니다.
+
+### SelectMultiple
+
+- Select의 다중 선택 버전 컴포넌트가 추가되었습니다.
+
+### ScrollArea
+
+- radix-ui의 scroll area 버전을 업데이트하여 내부 구조가 일부 변경되었습니다.
+
+### Tab
+
+- document의 scrollIntoView를 사용하던 부분이 직접 구현한 scrollIntoView를 이용하도록 변경되었습니다. (window scroll이 발생하지 않습니다.)
+- `rightIcon` 의 prop 이름이 `rightContent`로 변경되었습니다.
+
+### TextButton
+
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+
+### TextField
+
+- 디자인이 새롭게 변경되었습니다.
+- `TextInput` 으로 컴포넌트 이름이 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+- `leftContent`, `rightContent` 에 요소를 넣을 때는 `TextInputContent` 로 한번 감싸서 넘겨주어야 합니다. (문서 참고)
+
+### TextArea
+
+- 디자인이 새롭게 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+- `leftContent`, `rightContent` 에 요소를 넣을 때는 `TextAreaContent` 로 한번 감싸서 넘겨주어야 합니다. (문서 참고)
+
+### TopNavigation
+
+- `ModalNavigation`의 기본 베이스가 되는 컴포넌트가 새롭게 추가되었습니다.
+- 모달 내부에서 사용할때는 ModalNavigation을 사용합니다.
