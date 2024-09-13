@@ -13,6 +13,7 @@ import { Slot } from '@radix-ui/react-slot';
 import { Box } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import { flushSync } from 'react-dom';
 
 import { hideOthers } from '../../utils';
 import RemoveScroll from '../remove-scroll';
@@ -110,8 +111,12 @@ const Modal = ({
       visibility={visibility}
       setVisibility={useCallback(
         (value) => {
-          onVisibilityChangeCallback(value);
-          setVisibility(value);
+          flushSync(() => {
+            onVisibilityChangeCallback(value);
+            setVisibility(value);
+          });
+
+          containerRef.current?.focus();
         },
         [onVisibilityChangeCallback],
       )}
@@ -362,6 +367,10 @@ const ModalContainer = forwardRef<
                     viewportProps={{
                       sx: {
                         height: 'initial',
+                        ['& [data-radix-scroll-area-content]']: {
+                          display: 'flex',
+                          flexDirection: 'column',
+                        },
                       },
                     }}
                     zIndex={11}
@@ -369,6 +378,13 @@ const ModalContainer = forwardRef<
                     <FlexBox
                       flexDirection="column"
                       ref={detectScrollRef}
+                      flex="1"
+                      sx={{
+                        ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
+                          {
+                            paddingTop: 12,
+                          },
+                      }}
                       {...dragProps}
                     >
                       {isBottomSheetWithHandle && (

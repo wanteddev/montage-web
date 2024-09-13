@@ -47,6 +47,7 @@ export const topNavigationWrapperStyle = (
           var(--wds-top-navigation-padding-x, 16px);
         justify-content: center;
         min-height: var(--wds-top-navigation-min-height, 56px);
+        position: relative;
       `;
     case 'extended':
       return css`
@@ -55,6 +56,7 @@ export const topNavigationWrapperStyle = (
         gap: 16px;
         width: 100%;
         flex-direction: column-reverse;
+        position: relative;
       `;
     case 'floating':
       return css`
