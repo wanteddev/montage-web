@@ -184,6 +184,7 @@ const TabList = forwardRef<
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
             viewportRef={composedViewportRef}
+            size="small"
           >
             <FlexBox>{children}</FlexBox>
           </ScrollArea>

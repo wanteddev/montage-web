@@ -21,6 +21,7 @@ const ScrollArea = forwardRef<
 >(
   (
     {
+      size = 'responsive',
       children,
       asChild,
       viewportRef,
@@ -37,13 +38,35 @@ const ScrollArea = forwardRef<
     } = {
       both: (
         <>
-          <Box as={ScrollBar} orientation="horizontal" sx={{ zIndex }} />
-          <Box as={ScrollBar} orientation="vertical" sx={{ zIndex }} />
+          <Box
+            as={ScrollBar}
+            orientation="horizontal"
+            size={size}
+            sx={{ zIndex }}
+          />
+          <Box
+            as={ScrollBar}
+            orientation="vertical"
+            size={size}
+            sx={{ zIndex }}
+          />
         </>
       ),
-      vertical: <Box as={ScrollBar} orientation="vertical" sx={{ zIndex }} />,
+      vertical: (
+        <Box
+          as={ScrollBar}
+          orientation="vertical"
+          size={size}
+          sx={{ zIndex }}
+        />
+      ),
       horizontal: (
-        <Box as={ScrollBar} orientation="horizontal" sx={{ zIndex }} />
+        <Box
+          as={ScrollBar}
+          orientation="horizontal"
+          size={size}
+          sx={{ zIndex }}
+        />
       ),
     };
 
@@ -80,14 +103,14 @@ export default ScrollArea;
 const ScrollBar = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   ScrollBarProps
->(({ orientation = 'vertical', ...props }, ref) => (
+>(({ orientation = 'vertical', size = 'responsive', ...props }, ref) => (
   <Box
     as={ScrollAreaPrimitive.ScrollAreaScrollbar}
     forceMount
     ref={ref}
     orientation={orientation}
     {...props}
-    sx={[scrollBarStyle({ orientation }), props.sx]}
+    sx={[scrollBarStyle({ orientation, size }), props.sx]}
   >
     <WithInteraction color="palette.label.normal">
       <Box as={ScrollAreaPrimitive.ScrollAreaThumb} sx={scrollBarThumbStyle} />
