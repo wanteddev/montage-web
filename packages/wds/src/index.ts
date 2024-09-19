@@ -16,6 +16,7 @@ export {
   getColorByToken,
   addHexOpacity,
   Box,
+  ForceTheme,
 } from '@wanteddev/wds-engine';
 export type {
   Theme,

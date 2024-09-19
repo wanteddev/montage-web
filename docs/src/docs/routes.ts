@@ -22,6 +22,7 @@ export const routes: Array<Route> = [
     label: 'Themes',
     pages: [
       { title: 'Breakpoint', slug: '/docs/themes/breakpoint' },
+      { title: 'ForceTheme', slug: '/docs/themes/force-theme' },
       { title: 'Icon', slug: '/docs/themes/icon' },
       { title: 'Palette', slug: '/docs/themes/palette' },
       { title: 'ThemeProvider', slug: '/docs/themes/theme-provider' },
