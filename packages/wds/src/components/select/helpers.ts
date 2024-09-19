@@ -1,8 +1,10 @@
 import { Children, isValidElement } from 'react';
 
+import type { ReactNode } from 'react';
+
 type Options = {
   value: string;
-  label: string;
+  label: ReactNode;
 };
 
 const convertNodeToOption = (
@@ -14,16 +16,16 @@ const convertNodeToOption = (
     props: { children, value, ...restProps },
   } = node;
 
-  if (typeof children === 'string') {
-    return {
-      key,
-      value: givenValue ?? value,
-      label: children,
-      ...restProps,
-    };
+  if (isValidElement(children)) {
+    return convertNodeToOption(children, givenValue ?? value);
   }
 
-  return convertNodeToOption(children, givenValue ?? value);
+  return {
+    key,
+    value: givenValue ?? value,
+    label: children,
+    ...restProps,
+  };
 };
 
 export const convertChildrenToData = (nodes: React.ReactNode) => {

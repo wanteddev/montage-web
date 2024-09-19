@@ -13,8 +13,8 @@ export type SelectDefaultProps = {
   defaultValue?: string;
   placeholder?: string;
   leftContent?: ReactNode;
-  render?: (label: string, value: string) => ReactNode;
-  onValueChange?: (value: string) => void;
+  render?: (label: ReactNode, value: string) => ReactNode;
+  onChange?: (value: string) => void;
   contentProps?: ComponentProps<typeof MenuContent>;
   // Popover props
   open?: boolean;

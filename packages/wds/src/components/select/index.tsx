@@ -64,7 +64,7 @@ const Select = forwardRef<
     {
       value: valueProp,
       defaultValue = '',
-      onValueChange,
+      onChange,
       defaultOpen,
       open: openProp,
       onOpenChange,
@@ -106,7 +106,7 @@ const Select = forwardRef<
       defaultProp: defaultValue,
       onChange: (v) => {
         setMenuValue(v);
-        onValueChange?.(v);
+        onChange?.(v);
       },
     });
 
