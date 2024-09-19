@@ -38,18 +38,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Node.js install
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com
           scope: '@wanteddev'
 
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -72,7 +72,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Nx cache
         with:
           path: .nx/cache
@@ -101,7 +101,7 @@ jobs:
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
