@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.2.0...@wanteddev/wds-codemod@1.2.1) (2024-09-19)
+
+### Bug Fixes
+
+- **wds-codemod:** 누락된 마이그레이션 코드 추가 대응 ([#107](https://github.com/wanteddev/wds/issues/107)) ([e1ed2bb](https://github.com/wanteddev/wds/commit/e1ed2bb085181bc3a802bea717759b39c26ecb3f))
+
 # [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.1.0...@wanteddev/wds-codemod@1.2.0) (2024-09-13)
 
 ### Bug Fixes

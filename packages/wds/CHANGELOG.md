@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.0...@wanteddev/wds@1.4.1) (2024-09-19)
+
+### Bug Fixes
+
+- **wds:** select의 option에서 children 값이 number, array 일 때 오류 수정 ([#106](https://github.com/wanteddev/wds/issues/106)) ([9885c88](https://github.com/wanteddev/wds/commit/9885c88cb5e2754705a87a38120a56047d15b3b7))
+
+### Features
+
+- force-theme 컴포넌트 추가 ([#105](https://github.com/wanteddev/wds/issues/105)) ([e844ac3](https://github.com/wanteddev/wds/commit/e844ac3350990022ac4b7c66e9fc55695ad45396))
+
 # [1.4.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.3.7...@wanteddev/wds@1.4.0) (2024-09-13)
 
 ### Bug Fixes

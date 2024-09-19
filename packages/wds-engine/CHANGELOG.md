@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds-engine@1.0.6...@wanteddev/wds-engine@1.0.7) (2024-09-19)
+
+### Features
+
+- force-theme 컴포넌트 추가 ([#105](https://github.com/wanteddev/wds/issues/105)) ([e844ac3](https://github.com/wanteddev/wds/commit/e844ac3350990022ac4b7c66e9fc55695ad45396))
+
 ## [1.0.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds-engine@1.0.5...@wanteddev/wds-engine@1.0.6) (2024-09-13)
 
 **Note:** Version bump only for package @wanteddev/wds-engine
