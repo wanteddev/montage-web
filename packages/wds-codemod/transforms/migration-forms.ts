@@ -111,11 +111,45 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
         if (
           Boolean(priority) &&
-          priority!.value?.type === 'Literal' &&
+          (priority!.value?.type === 'Literal' ||
+            priority!.value?.type === 'StringLiteral') &&
           priority!.value.value === 'single'
         ) {
           hasChanges = true;
           priority!.value.value = 'cancel';
+        }
+      });
+  }
+
+  // text-area leftIcon,rightIcon -> leftContent,rightContent
+  const textAreaImport = findImportDeclaration(
+    'ContentBadge',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (textAreaImport) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: textAreaImport.imported.name },
+      })
+      .forEach((textArea) => {
+        const leftIcon = textArea.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'leftIcon',
+        ) as JSXAttribute | undefined;
+
+        const rightIcon = textArea.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'rightIcon',
+        ) as JSXAttribute | undefined;
+
+        if (Boolean(leftIcon)) {
+          hasChanges = true;
+          leftIcon!.name.name = 'leftContent';
+        }
+        if (Boolean(rightIcon)) {
+          hasChanges = true;
+          rightIcon!.name.name = 'rightContent';
         }
       });
   }
@@ -139,6 +173,39 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         ) as JSXAttribute | undefined;
 
         const rightIcon = contentBadge.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'rightIcon',
+        ) as JSXAttribute | undefined;
+
+        if (Boolean(leftIcon)) {
+          hasChanges = true;
+          leftIcon!.name.name = 'leftContent';
+        }
+        if (Boolean(rightIcon)) {
+          hasChanges = true;
+          rightIcon!.name.name = 'rightContent';
+        }
+      });
+  }
+
+  // action-area-button leftIcon,rightIcon -> leftContent,rightContent
+  const actionAreaButtonImport = findImportDeclaration(
+    'ActionAreaButton',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (actionAreaButtonImport) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: actionAreaButtonImport.imported.name },
+      })
+      .forEach((actionAreaButton) => {
+        const leftIcon = actionAreaButton.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'leftIcon',
+        ) as JSXAttribute | undefined;
+
+        const rightIcon = actionAreaButton.value.attributes?.find(
           (v) => v.type === 'JSXAttribute' && v.name.name === 'rightIcon',
         ) as JSXAttribute | undefined;
 
