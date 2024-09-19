@@ -1,3 +1,5 @@
+import { addHexOpacity } from '../utils';
+
 import breakpoint from './breakpoint';
 import opacity from './opacity';
 import spacing from './spacing';
@@ -20,7 +22,7 @@ export const lightOriginTheme = {
   platform: {
     ios: {
       navigation: `
-        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
+        background-color: ${addHexOpacity(semantic.light.background.elevated.normal, opacity[88])};
         backdrop-filter: blur(32px);
       `,
     },
@@ -42,7 +44,7 @@ export const darkOriginTheme = {
   platform: {
     ios: {
       navigation: `
-        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
+        background-color: ${addHexOpacity(semantic.light.background.elevated.normal, opacity[88])};
         backdrop-filter: blur(32px);
       `,
     },
@@ -72,6 +74,14 @@ export const lightTheme = {
     ...(addVarPrefix(atomic, 'palette') as typeof atomic),
     ...(addVarPrefix(semantic.light, 'palette') as typeof semantic.light),
   },
+  platform: {
+    ios: {
+      navigation: `
+        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
+        backdrop-filter: blur(32px);
+      `,
+    },
+  },
 };
 
 export const darkTheme = {
@@ -79,6 +89,14 @@ export const darkTheme = {
   palette: {
     ...(addVarPrefix(atomic, 'palette') as typeof atomic),
     ...(addVarPrefix(semantic.dark, 'palette') as typeof semantic.dark),
+  },
+  platform: {
+    ios: {
+      navigation: `
+        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
+        backdrop-filter: blur(32px);
+      `,
+    },
   },
 };
 

@@ -8,9 +8,7 @@ export {
   addHexOpacity,
 } from '@wanteddev/wds-theme';
 
-export { default as Box } from './box';
+export * from './components';
 export * from './context';
-export { default as Global } from './global';
 export * from './hooks';
-export { default as ThemeProvider } from './theme-provider';
 export * from './types';

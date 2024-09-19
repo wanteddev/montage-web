@@ -1,0 +1,37 @@
+---
+title: ForceTheme
+description: WDS ForceTheme
+---
+
+# ForceTheme
+
+하위 요소들의 테마를 강제로 변경합니다.
+
+강제로 변경할 때는 CSS Variable을 사용하지 않으므로 SSR Hydration 오류가 발생하지 않게 주의가 필요합니다.
+
+## 활용
+
+<Demo code={`import { ForceTheme, Button, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px">
+      <ForceTheme theme="light">
+        <Button>강제 light theme</Button>
+      </ForceTheme>
+      <ForceTheme theme="dark">
+        <Button>강제 dark theme</Button>
+      </ForceTheme>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="ForceTheme" fallback={[
+{ name: 'theme', types: '\'light\' | \'dark\'', required: true },
+]} />
+

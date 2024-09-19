@@ -1,7 +1,7 @@
 import { Fragment, useMemo } from 'react';
 import { theme } from '@wanteddev/wds-theme';
 
-import WdsThemeContext from '../context';
+import ThemeContext from '../../context';
 
 import type { Theme } from '@wanteddev/wds-theme';
 import type { ReactNode } from 'react';
@@ -32,13 +32,13 @@ const ThemeProvider = ({
   const Provider = provider ?? Fragment;
 
   return (
-    <WdsThemeContext.Provider value={engineTheme!}>
+    <ThemeContext.Provider value={engineTheme!}>
       {Boolean(provider) ? (
         <Provider theme={engineTheme!}>{children}</Provider>
       ) : (
         children
       )}
-    </WdsThemeContext.Provider>
+    </ThemeContext.Provider>
   );
 };
 
