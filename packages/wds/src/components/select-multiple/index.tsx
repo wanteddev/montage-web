@@ -48,7 +48,7 @@ const SelectMultiple = forwardRef<
       disabled,
       defaultValue = [],
       value: valueProp,
-      onValueChange,
+      onChange,
       placeholder,
       children,
       open: openProp,
@@ -98,7 +98,7 @@ const SelectMultiple = forwardRef<
       defaultProp: defaultValue,
       onChange: (v) => {
         setMenuValue(v);
-        onValueChange?.(v);
+        onChange?.(v);
       },
     });
 
