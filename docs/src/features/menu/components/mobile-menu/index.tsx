@@ -6,7 +6,7 @@ import {
   ModalContainer,
   ModalContent,
   ModalContentItem,
-  TopNavigation,
+  ModalNavigation,
   Typography,
   WithInteraction,
 } from '@wanteddev/wds';
@@ -30,7 +30,7 @@ const MobileMenu = () => {
   return (
     <Modal open={context.open} onOpenChange={context.setOpen}>
       <ModalContainer variant="full">
-        <TopNavigation variant="floating" />
+        <ModalNavigation variant="floating" />
         <ModalContent padding paddingExtra>
           <ModalContentItem>
             {routes.map((route, idx) => (
