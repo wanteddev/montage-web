@@ -89,6 +89,8 @@ export { default as IconClock } from './icon-clock';
 export { default as IconCloseThick } from './icon-close-thick';
 export { default as IconClose } from './icon-close';
 export { default as IconCode } from './icon-code';
+export { default as IconCoffeeFill } from './icon-coffee-fill';
+export { default as IconCoffee } from './icon-coffee';
 export { default as IconCoinsFill } from './icon-coins-fill';
 export { default as IconCoins } from './icon-coins';
 export { default as IconColumn } from './icon-column';
