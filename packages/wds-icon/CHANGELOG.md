@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.13](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.12...@wanteddev/wds-icon@1.0.13) (2024-09-23)
+
+### Features
+
+- **wds-icon:** 240923 신규 아이콘 추가 ([#109](https://github.com/wanteddev/wds/issues/109)) ([427f0c0](https://github.com/wanteddev/wds/commit/427f0c0ed31061c609c38a7824806fffbae9fa18))
+
 ## [1.0.12](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.11...@wanteddev/wds-icon@1.0.12) (2024-09-19)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
