@@ -14,6 +14,7 @@ export type TextInputDefaultProps = {
   disabled?: boolean;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
+  onReset?: (prevValue: string) => void;
 };
 
 export type TextInputResponsiveProps = ResponsiveProps<

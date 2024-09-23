@@ -44,6 +44,7 @@ const TextInput = forwardRef<
       positive,
       className,
       style,
+      onReset,
       type = 'text',
       sx,
       xs,
@@ -136,6 +137,8 @@ const TextInput = forwardRef<
             if (!input) return;
 
             requestAnimationFrame(() => {
+              const prevValue = input.value;
+
               const event = new Event('change', { bubbles: true });
               input.value = '';
 
@@ -152,6 +155,8 @@ const TextInput = forwardRef<
                 isPropagationStopped: () => false,
                 persist: (): void => {},
               });
+
+              onReset?.(prevValue);
 
               input.focus();
             });
