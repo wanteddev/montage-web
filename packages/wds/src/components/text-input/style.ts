@@ -268,7 +268,7 @@ export const textInputContentStyle = (theme: Theme) => css`
   height: fit-content;
   max-height: 24px;
 
-  & > svg {
+  svg {
     color: ${theme.palette.label.alternative};
   }
 

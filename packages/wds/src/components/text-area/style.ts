@@ -191,7 +191,7 @@ export const textAreaContentStyle = (theme: Theme) => css`
   width: fit-content;
   height: fit-content;
 
-  & > svg {
+  svg {
     color: ${theme.palette.label.assistive};
   }
 

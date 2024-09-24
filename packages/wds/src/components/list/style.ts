@@ -132,7 +132,7 @@ export const listItemContentStyle = (theme: Theme) => css`
   height: fit-content;
   position: relative;
 
-  & > svg {
+  svg {
     color: ${theme.palette.label.assistive};
   }
 
