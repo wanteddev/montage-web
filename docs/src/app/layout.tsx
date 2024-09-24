@@ -41,6 +41,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           content="#1B1C1E"
           media="(prefers-color-scheme: dark)"
         />
+        <link rel="preconnect" href="https://static.wanted.co.kr" />
         <meta
           name="msapplication-TileImage"
           content="//static.wanted.co.kr/favicon/new/144x144.png"
@@ -120,20 +121,17 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           href="https://static.wanted.co.kr/favicon/new/apple-touch-icon-180x180.png"
         />
 
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-std-dynamic-subset.css"
-        />
-        <link
-          rel="preload"
+          rel="preload stylesheet"
           as="style"
           crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp-dynamic-subset.css"
+          href="https://static.wanted.co.kr/fonts/pretendard/pretendard/pretendardvariable-dynamic-subset.min.css"
+        />
+        <link
+          rel="preload stylesheet"
+          as="style"
+          crossOrigin="anonymous"
+          href="https://static.wanted.co.kr/fonts/pretendard/pretendard-jp/pretendardvariable-jp-dynamic-subset.min.css"
         />
       </head>
       <body suppressHydrationWarning>
