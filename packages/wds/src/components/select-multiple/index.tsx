@@ -83,10 +83,6 @@ const SelectMultiple = forwardRef<
     const [isScrollableLeft, setIsScrollableLeft] = useState(false);
     const [isScrollableRight, setIsScrollableRight] = useState(false);
 
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [scrollWidth, setScrollWidth] = useState(0);
-    const [clientWidth, setClientWidth] = useState(0);
-
     const [menuValue = [], setMenuValue] = useControllableState({
       prop: menuValueProp,
       defaultProp: defaultValue,
@@ -115,22 +111,18 @@ const SelectMultiple = forwardRef<
       (e) => {
         const target = e.target as Element;
 
-        setScrollLeft(target.scrollLeft);
-        setScrollWidth(target.scrollWidth);
+        const { scrollLeft, scrollWidth, clientWidth } = target;
+
+        setIsScrollableLeft(scrollLeft > 0);
+
+        if (scrollWidth - scrollLeft <= clientWidth + 1) {
+          setIsScrollableRight(false);
+        } else if (scrollWidth !== clientWidth) {
+          setIsScrollableRight(true);
+        }
       },
-      [setScrollLeft, setScrollWidth],
+      [setIsScrollableLeft, setIsScrollableRight],
     );
-
-    useEffect(() => {
-      setIsScrollableLeft(scrollLeft > 0);
-
-      if (scrollWidth - scrollLeft <= (clientWidth || 0) + 1) {
-        setIsScrollableRight(false);
-      } else if (scrollWidth !== clientWidth) {
-        setIsScrollableRight(true);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollLeft, scrollWidth, clientWidth]);
 
     const handleResize = useCallback(() => {
       const target = renderWrapperNode;
@@ -138,14 +130,16 @@ const SelectMultiple = forwardRef<
         return;
       }
 
-      const targetScrollWidth = target.scrollWidth;
-      const targetScrollLeft = target.scrollLeft;
-      const targetClientWidth = target.clientWidth;
+      const { scrollLeft, scrollWidth, clientWidth } = target;
 
-      setScrollLeft(targetScrollLeft);
-      setScrollWidth(targetScrollWidth);
-      setClientWidth(targetClientWidth);
-    }, [renderWrapperNode]);
+      setIsScrollableLeft(scrollLeft > 0);
+
+      if (scrollWidth - scrollLeft <= clientWidth + 1) {
+        setIsScrollableRight(false);
+      } else if (scrollWidth !== clientWidth) {
+        setIsScrollableRight(true);
+      }
+    }, [renderWrapperNode, setIsScrollableLeft, setIsScrollableRight]);
 
     useResizeObserver(renderWrapperNode, handleResize);
 

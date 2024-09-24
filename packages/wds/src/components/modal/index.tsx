@@ -54,13 +54,22 @@ import {
 import { useDraggable } from './hooks';
 import { getDefaultCloseIcon } from './helpers';
 
+import type {
+  FocusOutsideEvent,
+  PointerDownOutsideEvent,
+} from '../dismissable-layer/types';
 import type { TopNavigationButtonProps } from '../top-navigation/types';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type {
+  ElementRef,
+  ElementType,
+  ForwardedRef,
+  PointerEvent,
+} from 'react';
 import type {
   ModalContainerProps,
   ModalContentItemProps,
@@ -69,6 +78,7 @@ import type {
   ModalHeadingProps,
   ModalNavigationProps,
   ModalProps,
+  ModalScrollProviderProps,
   ModalSummaryProps,
 } from './types';
 
@@ -178,53 +188,6 @@ const ModalContainer = forwardRef<
 
     const dimmerRef = useRef<HTMLDivElement>(null);
 
-    const innerContainerRef = useRef<HTMLDivElement>(null);
-    const composedInnerContainerRefs = useComposedRefs(
-      innerContainerRef,
-      context.innerContainerRef,
-    );
-
-    const detectScrollRef = useRef<HTMLDivElement>(null);
-
-    const [scrollHeight, setScrollHeight] = useState(0);
-    const [actionAreaSticky, setActionAreaSticky] = useState(false);
-
-    const handleOnScroll = useCallback(
-      (e: Event) => {
-        const target = e.target as Element;
-
-        setScrollHeight(target.scrollTop);
-        setActionAreaSticky(
-          target.scrollHeight - target.clientHeight !== target.scrollTop,
-        );
-      },
-      [setScrollHeight, setActionAreaSticky],
-    );
-
-    const handleResize = useCallback(() => {
-      const target = innerContainerRef.current;
-      if (!target) {
-        return;
-      }
-
-      setActionAreaSticky(
-        target.scrollHeight - target.clientHeight !== target.scrollTop,
-      );
-    }, [setActionAreaSticky]);
-
-    useResizeObserver(detectScrollRef.current, handleResize);
-
-    useEffect(() => {
-      const target = innerContainerRef.current;
-      if (!target) {
-        return;
-      }
-
-      target.addEventListener('scroll', handleOnScroll);
-
-      return () => target.removeEventListener('scroll', handleOnScroll);
-    }, [handleOnScroll]);
-
     const { isBottomSheetWithHandle, handleVisibilityHidden, ...dragProps } =
       useDraggable({
         variant,
@@ -234,7 +197,7 @@ const ModalContainer = forwardRef<
         md,
         lg,
         xl,
-        ref: innerContainerRef,
+        ref: context.innerContainerRef,
         dimmerRef,
       });
 
@@ -256,159 +219,225 @@ const ModalContainer = forwardRef<
     }, [isBottomSheetWithHandle, context.visibility]);
 
     return (
-      <ModalNavigationProvider
-        scrolled={sticky && scrollHeight > 0}
-        titleId={context.titleId}
-        onOpenChange={onOpenChange}
+      <Box
+        data-visibility={
+          isBottomSheetWithHandle ? context.visibility : undefined
+        }
+        sx={modalContainerWrapperStyle({
+          variant,
+          size,
+          xs,
+          sm,
+          md,
+          lg,
+          xl,
+        })}
       >
-        <ModalActionAreaProvider sticky={sticky && actionAreaSticky}>
+        <RemoveScroll
+          enabled={context.open && context.visibility === 'visible'}
+          as={Slot}
+          allowPinchZoom
+          shards={[containerRef]}
+        >
           <Box
+            ref={dimmerRef}
+            data-status={status}
             data-visibility={
               isBottomSheetWithHandle ? context.visibility : undefined
             }
-            sx={modalContainerWrapperStyle({
-              variant,
-              size,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            })}
-          >
-            <RemoveScroll
-              enabled={context.open && context.visibility === 'visible'}
-              as={Slot}
-              allowPinchZoom
-              shards={[containerRef]}
-            >
-              <Box
-                ref={dimmerRef}
-                data-status={status}
-                data-visibility={
-                  isBottomSheetWithHandle ? context.visibility : undefined
-                }
-                onPointerDown={(e) => {
-                  const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-                  const isRightClick = e.button === 2 || ctrlLeftClick;
+            onPointerDown={useCallback(
+              (e: PointerEvent) => {
+                const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+                const isRightClick = e.button === 2 || ctrlLeftClick;
 
-                  if (isRightClick || disableOutsideClickClose) {
-                    e.preventDefault();
-                    return;
-                  }
-
-                  if (!isBottomSheetWithHandle) {
-                    onOpenChange(false);
-                  } else {
-                    handleVisibilityHidden();
-                  }
-                }}
-                sx={modalDimmerStyle({
-                  isBottomSheet: isBottomSheetWithHandle,
-                })}
-              />
-            </RemoveScroll>
-            <FocusScope
-              loop={context.open && context.visibility === 'visible'}
-              trapped={context.open && context.visibility === 'visible'}
-            >
-              <DismissableLayer
-                asChild
-                onPointerDownOutside={(e) => {
+                if (isRightClick || disableOutsideClickClose) {
                   e.preventDefault();
-                }}
-                onFocusOutside={(e) => e.preventDefault()}
-                onEscapeKeyDown={(e) => {
-                  if (disableEscapeKeyDownClose) {
-                    e.preventDefault();
-                  }
-                }}
-                onDismiss={() => {
-                  if (!isBottomSheetWithHandle) {
-                    onOpenChange(false);
-                  } else {
-                    handleVisibilityHidden();
-                  }
-                }}
-                ref={composedContainerRefs}
-              >
-                <Box
-                  role="dialog"
-                  aria-modal
-                  id={context.containerId}
-                  aria-describedby={`${context.descriptionId} ${context.summaryId}`}
-                  aria-labelledby={`${context.titleId} ${context.headingId}`}
-                  {...props}
-                  data-visibility={
-                    isBottomSheetWithHandle ? context.visibility : undefined
-                  }
-                  data-status={status}
-                  sx={[
-                    modalContainerStyle({
-                      isBottomSheet: context.isBottomSheet,
-                      variant,
-                      size,
-                      xs,
-                      sm,
-                      md,
-                      lg,
-                      xl,
-                    }),
-                    props.sx,
-                  ]}
-                >
-                  <ScrollArea
-                    scrollbars="vertical"
-                    viewportRef={composedInnerContainerRefs}
-                    sx={{
-                      display: 'flex',
-                      flexGrow: '1',
-                    }}
-                    viewportProps={{
-                      sx: {
-                        height: 'initial',
-                        ['& [data-radix-scroll-area-content]']: {
-                          display: 'flex',
-                          flexDirection: 'column',
-                        },
-                      },
-                    }}
-                    zIndex={11}
-                  >
-                    <FlexBox
-                      flexDirection="column"
-                      ref={detectScrollRef}
-                      flex="1"
-                      sx={{
-                        ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
-                          {
-                            paddingTop: 12,
-                          },
-                      }}
-                      {...dragProps}
-                    >
-                      {isBottomSheetWithHandle && (
-                        <FlexBox
-                          justifyContent="center"
-                          sx={modalGrabberStyle}
-                          data-role="modal-container-grabber"
-                        />
-                      )}
+                  return;
+                }
 
-                      {children}
-                    </FlexBox>
-                  </ScrollArea>
-                </Box>
-              </DismissableLayer>
-            </FocusScope>
-          </Box>
-        </ModalActionAreaProvider>
-      </ModalNavigationProvider>
+                if (!isBottomSheetWithHandle) {
+                  onOpenChange(false);
+                } else {
+                  handleVisibilityHidden();
+                }
+              },
+              [
+                disableOutsideClickClose,
+                handleVisibilityHidden,
+                isBottomSheetWithHandle,
+                onOpenChange,
+              ],
+            )}
+            sx={modalDimmerStyle({
+              isBottomSheet: isBottomSheetWithHandle,
+            })}
+          />
+        </RemoveScroll>
+        <FocusScope
+          loop={context.open && context.visibility === 'visible'}
+          trapped={context.open && context.visibility === 'visible'}
+        >
+          <DismissableLayer
+            asChild
+            onPointerDownOutside={useCallback((e: PointerDownOutsideEvent) => {
+              e.preventDefault();
+            }, [])}
+            onFocusOutside={useCallback(
+              (e: FocusOutsideEvent) => e.preventDefault(),
+              [],
+            )}
+            onEscapeKeyDown={useCallback(
+              (e: KeyboardEvent) => {
+                if (disableEscapeKeyDownClose) {
+                  e.preventDefault();
+                }
+              },
+              [disableEscapeKeyDownClose],
+            )}
+            onDismiss={useCallback(() => {
+              if (!isBottomSheetWithHandle) {
+                onOpenChange(false);
+              } else {
+                handleVisibilityHidden();
+              }
+            }, [isBottomSheetWithHandle, onOpenChange, handleVisibilityHidden])}
+            ref={composedContainerRefs}
+          >
+            <Box
+              role="dialog"
+              aria-modal
+              id={context.containerId}
+              aria-describedby={`${context.descriptionId} ${context.summaryId}`}
+              aria-labelledby={`${context.titleId} ${context.headingId}`}
+              {...props}
+              data-visibility={
+                isBottomSheetWithHandle ? context.visibility : undefined
+              }
+              data-status={status}
+              sx={[
+                modalContainerStyle({
+                  isBottomSheet: context.isBottomSheet,
+                  variant,
+                  size,
+                  xs,
+                  sm,
+                  md,
+                  lg,
+                  xl,
+                }),
+                props.sx,
+              ]}
+            >
+              <ScrollArea
+                scrollbars="vertical"
+                viewportRef={context.innerContainerRef}
+                sx={{
+                  display: 'flex',
+                  flexGrow: '1',
+                }}
+                viewportProps={{
+                  sx: {
+                    height: 'initial',
+                    ['& [data-radix-scroll-area-content]']: {
+                      display: 'flex',
+                      flexDirection: 'column',
+                    },
+                  },
+                }}
+                zIndex={11}
+              >
+                <FlexBox
+                  flexDirection="column"
+                  flex="1"
+                  sx={{
+                    ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
+                      {
+                        paddingTop: 12,
+                      },
+                  }}
+                  {...dragProps}
+                >
+                  {isBottomSheetWithHandle && (
+                    <FlexBox
+                      justifyContent="center"
+                      sx={modalGrabberStyle}
+                      data-role="modal-container-grabber"
+                    />
+                  )}
+
+                  <ModalScrollProvider sticky={sticky}>
+                    {children}
+                  </ModalScrollProvider>
+                </FlexBox>
+              </ScrollArea>
+            </Box>
+          </DismissableLayer>
+        </FocusScope>
+      </Box>
     );
   },
 );
 
 ModalContainer.displayName = MODAL_CONTAINER_NAME;
+
+const ModalScrollProvider = ({
+  children,
+  sticky,
+}: ModalScrollProviderProps) => {
+  const { innerContainerRef, ...context } = useModalContext(
+    'ModalContextProviders',
+  );
+
+  const [navigationSticky, setNavigationSticky] = useState(false);
+  const [actionAreaSticky, setActionAreaSticky] = useState(false);
+
+  const handleResize = useCallback(() => {
+    const target = innerContainerRef.current;
+    if (!target) {
+      return;
+    }
+
+    setNavigationSticky(target.scrollTop > 0);
+    setActionAreaSticky(
+      target.scrollHeight - target.clientHeight > target.scrollTop,
+    );
+  }, [innerContainerRef]);
+
+  useResizeObserver(innerContainerRef.current?.firstElementChild, handleResize);
+
+  useEffect(() => {
+    const container = innerContainerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const handleOnScroll = (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      setNavigationSticky(target.scrollTop > 0);
+      setActionAreaSticky(
+        target.scrollHeight - target.clientHeight > target.scrollTop,
+      );
+    };
+
+    container.addEventListener('scroll', handleOnScroll);
+
+    return () => container.removeEventListener('scroll', handleOnScroll);
+  }, [innerContainerRef]);
+
+  return (
+    <ModalNavigationProvider
+      scrolled={sticky && navigationSticky}
+      titleId={context.titleId}
+      onOpenChange={context.onOpenChange}
+    >
+      <ModalActionAreaProvider sticky={sticky && actionAreaSticky}>
+        {children}
+      </ModalActionAreaProvider>
+    </ModalNavigationProvider>
+  );
+};
 
 const ModalNavigation = forwardRef<
   HTMLDivElement,
