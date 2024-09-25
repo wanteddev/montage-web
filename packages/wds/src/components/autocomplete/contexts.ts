@@ -18,6 +18,7 @@ type AutocompleteContextValue = {
   onInputValueChange: (inputValue: string) => void;
   selectedOption: AutocompleteCollectionItem | null;
   onSelectedOptionChange: (value: AutocompleteCollectionItem | null) => void;
+  onSearch?: (value: string) => void;
 };
 
 export const [AutocompleteProvider, useAutocompleteContext] =
