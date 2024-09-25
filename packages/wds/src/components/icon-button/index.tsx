@@ -5,7 +5,11 @@ import { Box } from '@wanteddev/wds-engine';
 import WithInteraction from '../with-interaction';
 import PushBadge from '../push-badge';
 
-import { backgroundBlendStyle, iconButtonStyle } from './style';
+import {
+  backgroundBlendLayerStyle,
+  backgroundBlendStyle,
+  iconButtonStyle,
+} from './style';
 
 import type {
   PolymorphicComponent,
@@ -111,12 +115,20 @@ const IconButton = forwardRef(
           ]}
         >
           {variant === 'background' && !alternative && (
-            <Box
-              as="span"
-              role="presentation"
-              data-role="icon-button-background-alternative"
-              sx={backgroundBlendStyle}
-            />
+            <>
+              <Box
+                as="span"
+                role="presentation"
+                data-role="icon-button-background-blend"
+                sx={backgroundBlendStyle}
+              />
+              <Box
+                as="span"
+                role="presentation"
+                data-role="icon-button-background-blend-layer"
+                sx={backgroundBlendLayerStyle}
+              />
+            </>
           )}
           {children}
 
