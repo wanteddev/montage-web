@@ -3,7 +3,7 @@ import { css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const sidebarStyle = (theme: Theme) => css`
-  width: 150px;
+  width: 200px;
   position: sticky;
   top: calc(var(--header-height) + 24px);
   height: calc(100vh - var(--header-height) - 40px);
