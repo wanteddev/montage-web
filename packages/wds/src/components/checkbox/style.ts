@@ -50,6 +50,25 @@ export const checkboxStyle =
       border-radius: inherit;
       box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
 
+      // safari
+      @supports (-webkit-backdrop-filter: none) {
+        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+
+        @media only screen and (-webkit-device-pixel-ratio: 2),
+          only screen and (-moz-device-pixel-ratio: 2),
+          only screen and (device-pixel-ratio: 2) {
+          box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
+        }
+
+        @media only screen and (-webkit-device-pixel-ratio: 3),
+          only screen and (-moz-device-pixel-ratio: 3),
+          only screen and (device-pixel-ratio: 3) {
+          box-shadow: inset 0 0 0 1.33333333px
+            ${theme.palette.line.normal.normal};
+          transform: translate(0);
+        }
+      }
+
       transition:
         background-color 0.2s ease,
         box-shadow 0.2s ease;
