@@ -26,6 +26,12 @@ export const iconButtonStyle =
     align-items: center;
     justify-content: center;
 
+    &:disabled,
+    &[aria-disabled='true'] {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
     ${iconButtonSizeStyle(
       props.size || getDefaultSize(props.variant),
       props.variant,
