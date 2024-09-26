@@ -25,7 +25,7 @@ const Switch = forwardRef<
       disabled,
       checked: originChecked,
       onCheckedChange,
-      size = 'medium',
+      size = 'normal',
       required,
       xs,
       sm,
