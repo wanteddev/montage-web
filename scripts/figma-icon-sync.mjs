@@ -8,6 +8,8 @@ const FILE_KEY = '7RHtWV3Pw6I98UEDjbx5V1';
 const URL_BASE = 'https://api.figma.com/v1/files';
 const URL_BASE_IMAGES = 'https://api.figma.com/v1/images';
 
+const IGNORE_ICONS = ['IconLogoInstagramColor'];
+
 const ICON_NULL_COMPONENT = '501-7411';
 
 // Icon/Assets/Normal
@@ -103,6 +105,9 @@ async function go() {
   fs.rmSync('./icons-index.txt');
   fs.rmSync('./icons.json');
 
+  shelljs.exec(
+    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/transforms/svg-use-id.ts',
+  );
   shelljs.exec('pnpm -F wds-icon lint:fix src');
 
   console.log('DONE!');
@@ -176,22 +181,26 @@ async function fileRESTResponseToIconComponentsJSON(response) {
           );
 
           if (components) {
-            components.map(
-              (child) =>
-                (idsToNameAndComponentSetId[child.id] = [
-                  'Icon' +
-                    child.name
-                      .replace('Name=', '')
-                      .replace('name=', '')
-                      .replace(/, [\s\S]+/g, '')
-                      .split(/[^a-zA-Z0-9]+/)
-                      .map((a) => a.charAt(0).toUpperCase() + a.substring(1))
-                      .join('') +
-                    type,
+            components.map((child) => {
+              const name =
+                'Icon' +
+                child.name
+                  .replace('Name=', '')
+                  .replace('name=', '')
+                  .replace(/, [\s\S]+/g, '')
+                  .split(/[^a-zA-Z0-9]+/)
+                  .map((a) => a.charAt(0).toUpperCase() + a.substring(1))
+                  .join('') +
+                type;
+
+              if (!IGNORE_ICONS.includes(name)) {
+                idsToNameAndComponentSetId[child.id] = [
+                  name,
                   component.id,
                   child.id,
-                ]),
-            );
+                ];
+              }
+            });
           }
         }
       });

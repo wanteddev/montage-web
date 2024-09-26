@@ -1,4 +1,4 @@
-name: Code Connect Publish
+name: Code Connect Publish And Icon/Figma Sync
 on:
   workflow_dispatch:
 
@@ -9,14 +9,17 @@ env:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Node.js install
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com
@@ -34,7 +37,7 @@ jobs:
         run: |
           echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -45,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         name: Nx cache
         with:
           path: .nx/cache
@@ -53,8 +56,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nx-store-
 
+      - name: Figma & Icon Sync
+        run: pnpm run figma-icon-sync
+        env:
+          FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
+
       - name: Build
         run: pnpm run build
 
       - name: Publish
-        run: pnpm run publish:codeconnect  --token ${{ env.FIGMA_TOKEN }}
+        run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }}
+
+      - name: Create Branch And Commit
+        run: |
+          git branch feature/code-connect/${{ github.run_id }}
+          git checkout feature/code-connect/${{ github.run_id }}
+          git commit -am "ci(wds,wds-icon): icon/figma sync and new code connect publish"
+          git push origin feature/code-connect/${{ github.run_id }}
+          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "ci(wds,wds-icon): icon figma sync and new code connect publish"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
