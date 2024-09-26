@@ -24,7 +24,7 @@ export const listItemStyle =
 
     ${disabled
       ? css`
-          cursor: not-allowed;
+          cursor: initial;
           color: ${theme.palette.label.disable};
           pointer-events: none;
         `
