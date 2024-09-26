@@ -16,6 +16,8 @@ export { default as IconAttachment } from './icon-attachment';
 export { default as IconBellFill } from './icon-bell-fill';
 export { default as IconBellPlus } from './icon-bell-plus';
 export { default as IconBell } from './icon-bell';
+export { default as IconBlankColor } from './icon-blank-color';
+export { default as IconBlank } from './icon-blank';
 export { default as IconBold } from './icon-bold';
 export { default as IconBookFill } from './icon-book-fill';
 export { default as IconBook } from './icon-book';

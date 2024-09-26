@@ -12,9 +12,18 @@ module.exports = {
     browser: true,
     es2020: true,
   },
+  parserOptions: {
+    project: './tsconfig.json',
+    tsconfigRootDir: __dirname,
+  },
   settings: {
     react: { version: 'detect' },
     'prettier/prettier': 'warn',
+    'import/resolver': {
+      typescript: {
+        project: [__dirname + '/tsconfig.json'],
+      },
+    },
   },
   rules: {
     'import/no-cycle': 'off',

@@ -1,0 +1,22 @@
+{
+  "codeConnect": {
+    "include": ["figma/**/*"],
+    "exclude": ["docs/**/*", "packages/**/*"],
+    "parser": "react",
+    "paths": {
+      "@wanteddev/wds": ["packages/wds/dist"],
+      "@wanteddev/wds-icon": ["packages/wds-icon/dist"]
+    },
+    "documentUrlSubstitutions": {
+      "<FIGMA_ICONS_BASE>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component",
+      "<FIGMA_ICONS_SYMBOL>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=999-9544",
+      "<FIGMA_BUTTON_SOLID_PRIMARY>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=423-8311",
+      "<FIGMA_BUTTON_SOLID_ASSISTIVE>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=14442-52384",
+      "<FIGMA_BUTTON_OUTLINED_PRIMARY>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=511-7903",
+      "<FIGMA_BUTTON_OUTLINED_SECONDARY>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=511-7705",
+      "<FIGMA_BUTTON_OUTLINED_ASSISTIVE>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=553-7986",
+      "<FIGMA_TEXT_BUTTON_PRIMARY>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=557-6884",
+      "<FIGMA_TEXT_BUTTON_ASSISTIVE>": "https://www.figma.com/design/7RHtWV3Pw6I98UEDjbx5V1/0-Component?node-id=559-7088"
+    }
+  }
+}
