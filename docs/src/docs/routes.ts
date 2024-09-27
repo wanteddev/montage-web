@@ -54,7 +54,7 @@ export const routes: Array<Route> = [
       },
       { title: 'Box', slug: '/docs/components/box' },
       { title: 'Button', slug: '/docs/components/button' },
-      { title: 'Checkbox', slug: '/docs/components/checkbox', alpha: true },
+      { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
       {
@@ -104,7 +104,6 @@ export const routes: Array<Route> = [
       {
         title: 'NestedCheckbox',
         slug: '/docs/components/nested-checkbox',
-        alpha: true,
       },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
       { title: 'Popover', slug: '/docs/components/popover', alpha: true },
@@ -128,7 +127,6 @@ export const routes: Array<Route> = [
       {
         title: 'RadioGroup',
         slug: '/docs/components/radio-group',
-        alpha: true,
       },
       {
         title: 'RegionConfig',
@@ -141,7 +139,6 @@ export const routes: Array<Route> = [
       {
         title: 'RoundCheckbox',
         slug: '/docs/components/round-checkbox',
-        alpha: true,
       },
       {
         title: 'ScrollArea',
@@ -155,7 +152,7 @@ export const routes: Array<Route> = [
         alpha: true,
       },
       { title: 'Skeleton', slug: '/docs/components/skeleton', alpha: true },
-      { title: 'Switch', slug: '/docs/components/switch', alpha: true },
+      { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextArea', slug: '/docs/components/text-area' },
       {

@@ -25,6 +25,7 @@ const ToggleIcon = forwardRef(
       activeColor = 'palette.primary.normal',
       size = '24px',
       disabled,
+      disableInteraction,
       xs,
       sm,
       md,
@@ -44,11 +45,13 @@ const ToggleIcon = forwardRef(
       <WithInteraction
         width="calc(100% + 8px)"
         height="calc(100% + 8px)"
-        disabled={disabled}
+        disabled={disableInteraction || disabled}
+        scale
       >
         <Box
           as={as || 'button'}
           type="button"
+          role="button"
           aria-pressed={pressed}
           aria-disabled={disabled}
           disabled={disabled}

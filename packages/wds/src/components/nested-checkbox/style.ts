@@ -20,7 +20,7 @@ export const nestedCheckboxStyle =
       transition: color 0.15s ease;
     }
 
-    span {
+    [data-role='checkbox-icon-wrapper'] {
       ${getSizeStyle(size)}
       background-color: transparent;
       color: ${theme.palette.label.assistive};
@@ -30,7 +30,7 @@ export const nestedCheckboxStyle =
     }
 
     &[aria-checked='true'] {
-      span {
+      [data-role='checkbox-icon-wrapper'] {
         background-color: transparent;
         color: ${theme.palette.primary.normal};
         transform: none;
@@ -52,10 +52,16 @@ const getSizeStyle = (size: NestedCheckboxProps['size']) => {
     case 'normal':
       return css`
         font-size: 24px;
+        width: 24px;
+        height: 24px;
+        padding: 0px;
       `;
     case 'small':
       return css`
-        font-size: 24px;
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        padding: 0px;
       `;
   }
 };
