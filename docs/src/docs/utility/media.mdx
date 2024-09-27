@@ -63,15 +63,15 @@ export const exampleStyle = (theme: Theme) => css`
 }
 ```
 
-## useMedia
+## useMediaQuery
 
 Theme 객체를 직접 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
 
 ```tsx
-import { Box, useMedia } from '@wanteddev/wds';
+import { Box, useMediaQuery } from '@wanteddev/wds';
 
 const Component = () => {
-  const { respondTo, respondMore, respondUp, respondDown, breakpoint } = useMedia();
+  const { respondTo, respondMore, respondUp, respondDown, breakpoint } = useMediaQuery();
 
   return (
     <Box
