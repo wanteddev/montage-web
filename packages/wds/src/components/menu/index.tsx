@@ -372,7 +372,14 @@ const MenuBottomContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuBottomContentStyle, { fontSize: '24px' }, sx]}
+          sx={[
+            menuBottomContentStyle,
+            (theme) => ({
+              fontSize: '24px',
+              color: theme.palette.label.alternative,
+            }),
+            sx,
+          ]}
         >
           {children}
         </FlexBox>

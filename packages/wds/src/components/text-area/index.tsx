@@ -9,6 +9,7 @@ import Typography from '../typography';
 import ScrollArea from '../scroll-area';
 import { typographyStyle } from '../../utils/typography';
 import useResizeObserver from '../../hooks/use-resize-observer';
+import { IconButtonProvider } from '../icon-button/contexts';
 
 import { getTextAreaDefaultHeight } from './helpers';
 import {
@@ -348,7 +349,15 @@ const TextAreaContent = forwardRef<
         <FlexBox
           wds-component="text-area-content"
           ref={ref}
-          sx={[textAreaContentStyle, { fontSize: '22px', padding: '1px' }, sx]}
+          sx={[
+            textAreaContentStyle,
+            (theme) => ({
+              fontSize: '22px',
+              padding: '1px',
+              color: theme.palette.label.assistive,
+            }),
+            sx,
+          ]}
           {...props}
         >
           {children}
@@ -362,7 +371,9 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          {children}
+          <IconButtonProvider normal="palette.label.alternative">
+            {children}
+          </IconButtonProvider>
         </FlexBox>
       );
     case 'custom':

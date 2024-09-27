@@ -262,19 +262,11 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-export const textInputContentStyle = (theme: Theme) => css`
+export const textInputContentStyle = css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
   max-height: 24px;
-
-  & > svg {
-    color: ${theme.palette.label.alternative};
-  }
-
-  [wds-component='icon-button'][data-variant='normal'] {
-    color: ${theme.palette.label.alternative};
-  }
 `;
 
 export const textInputButtonStyle =

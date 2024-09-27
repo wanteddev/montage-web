@@ -186,18 +186,10 @@ export const textAreaBottomAreaStyle = css`
   width: 100%;
 `;
 
-export const textAreaContentStyle = (theme: Theme) => css`
+export const textAreaContentStyle = css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
-
-  & > svg {
-    color: ${theme.palette.label.assistive};
-  }
-
-  [wds-component='icon-button'][data-variant='normal'] {
-    color: ${theme.palette.label.alternative};
-  }
 `;
 
 export const invalidIconWrapperStyle = (theme: Theme) => css`

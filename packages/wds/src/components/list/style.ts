@@ -125,23 +125,13 @@ export const listCellDividerStyle = css`
   width: 100%;
 `;
 
-export const listItemContentStyle = (theme: Theme) => css`
+export const listItemContentStyle = css`
   max-height: 24px;
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
   position: relative;
 
-  & > svg {
-    color: ${theme.palette.label.assistive};
-  }
-
-  [wds-component='icon-button'][data-variant='normal'] {
-    color: ${theme.palette.label.alternative};
-  }
-  [wds-component='text-button'][data-variant='assistive'] {
-    color: ${theme.palette.label.alternative};
-  }
   [wds-component='with-interaction'] {
     z-index: 1;
   }

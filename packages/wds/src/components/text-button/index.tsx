@@ -1,10 +1,11 @@
 'use client';
-import { forwardRef, useId } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
 import { textButtonStyle } from './style';
+import { useTextButtonContext } from './contexts';
 
 import type {
   PolymorphicComponent,
@@ -35,9 +36,14 @@ const TextButton = forwardRef(
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const id = useId();
+    const context = useTextButtonContext();
 
     const interactionColor: ThemeColorsToken =
       variant === 'primary' ? 'palette.primary.normal' : 'palette.label.normal';
+
+    const color = useMemo(() => {
+      return context?.[variant];
+    }, [context, variant]);
 
     return (
       <WithInteraction
@@ -58,6 +64,7 @@ const TextButton = forwardRef(
           {...props}
           sx={[
             textButtonStyle({
+              color,
               size,
               variant,
               xs,

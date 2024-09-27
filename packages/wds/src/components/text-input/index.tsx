@@ -12,6 +12,7 @@ import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
 import Typography from '../typography';
 import Button from '../button';
+import { IconButtonProvider } from '../icon-button/contexts';
 
 import {
   invalidIconWrapperStyle,
@@ -226,15 +227,41 @@ const TextInputContent = forwardRef<
         </Typography>
       );
     case 'icon':
+      return (
+        <FlexBox
+          wds-component="text-input-content"
+          ref={ref}
+          sx={[
+            textInputContentStyle,
+            (theme) => ({
+              padding: '1px',
+              fontSize: '22px',
+              color: theme.palette.label.alternative,
+            }),
+            sx,
+          ]}
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      );
     case 'icon-button':
       return (
         <FlexBox
           wds-component="text-input-content"
           ref={ref}
-          sx={[textInputContentStyle, { padding: '1px', fontSize: '22px' }, sx]}
+          sx={[
+            textInputContentStyle,
+            {
+              padding: '1px',
+            },
+            sx,
+          ]}
           {...props}
         >
-          {children}
+          <IconButtonProvider normal="palette.label.alternative">
+            {children}
+          </IconButtonProvider>
         </FlexBox>
       );
     case 'custom':

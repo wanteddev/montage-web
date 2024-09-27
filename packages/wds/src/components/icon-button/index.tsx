@@ -6,6 +6,7 @@ import WithInteraction from '../with-interaction';
 import PushBadge from '../push-badge';
 
 import { backgroundBlendStyle, iconButtonStyle } from './style';
+import { useIconButtonContext } from './contexts';
 
 import type {
   PolymorphicComponent,
@@ -36,9 +37,15 @@ const IconButton = forwardRef(
     }: PolymorphicProps<IconButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
+    const context = useIconButtonContext();
+
     const color = useMemo(() => {
       if (originColor) {
         return originColor;
+      }
+
+      if (context?.[variant]) {
+        return context[variant];
       }
 
       switch (variant) {
@@ -46,10 +53,12 @@ const IconButton = forwardRef(
           return 'palette.static.white';
         case 'background':
           return undefined;
+        case 'normal':
+          return 'palette.label.normal';
         default:
           return 'palette.label.normal';
       }
-    }, [originColor, variant]);
+    }, [context, originColor, variant]);
 
     const getInteractionSize = () => {
       switch (variant) {
