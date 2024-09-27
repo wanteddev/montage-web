@@ -49,6 +49,115 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Indeterminate
+
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const items = [
+  {
+    id: "develop",
+    label: "개발",
+  },
+  {
+    id: "design",
+    label: "디자인",
+  },
+];
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      selected: ['develop'],
+    },
+  });
+
+  const totalLength = items.length;
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel>관심 분야</FormLabel>
+
+            <Controller
+              control={form.control}
+              name="selected"
+              render={({ field }) => {
+                return (
+                  <FormField
+                    flexDirection="row"
+                    alignItems="center"
+                  >
+                    <FormControl>
+                      <Checkbox
+                        {...field}
+                        checked={field.value.length === totalLength}
+                        indeterminate={field.value.length > 0 && field.value.length < totalLength}
+                        onCheckedChange={(checked) => {
+                          return checked
+                            ? field.onChange(items.map(({ id }) => id))
+                            : field.onChange([]);
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel>전체 선택</FormLabel>
+                  </FormField>
+                );
+              }}
+            />
+
+            {items.map((item) => (
+              <Controller
+                key={item.id}
+                control={form.control}
+                name="selected"
+                render={({ field }) => {
+                  return (
+                    <FormField
+                      key={item.id}
+                      flexDirection="row"
+                      alignItems="center"
+                      sx={{ marginLeft: 20 }}
+                    >
+                      <FormControl>
+                        <Checkbox
+                          {...field}
+                          checked={field.value.includes(item.id)}
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? field.onChange([...field.value, item.id])
+                              : field.onChange(
+                                  field.value.filter(
+                                    (value) => value !== item.id
+                                  )
+                                );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel>{item.label}</FormLabel>
+                    </FormField>
+                  );
+                }}
+              />
+            ))}
+          </FormField>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Form
 
 <Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
@@ -105,23 +214,23 @@ export default Demo;`}
 <Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
+const items = [
+  {
+    id: "develop",
+    label: "개발",
+  },
+  {
+    id: "design",
+    label: "디자인",
+  },
+];
+
 const Demo = () => {
   const form = useForm({
     defaultValues: {
       selected: [],
     },
   });
-
-  const items = [
-    {
-      id: "develop",
-      label: "개발",
-    },
-    {
-      id: "design",
-      label: "디자인",
-    },
-  ];
 
   return (
     <FlexBox

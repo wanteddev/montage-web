@@ -11,6 +11,8 @@ export type CheckboxDefaultProps = {
   bold?: boolean;
   size?: 'normal' | 'small';
   invalid?: boolean;
+  indeterminate?: boolean;
+  indeterminateIcon?: ReactNode;
   onCheckedChange?: (state: boolean) => void;
 };
 
