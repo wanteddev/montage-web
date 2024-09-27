@@ -184,7 +184,7 @@ export const routes: Array<Route> = [
     label: 'Hooks',
     pages: [
       { title: 'useDialog', slug: '/docs/hooks/use-dialog' },
-      { title: 'useMedia', slug: '/docs/hooks/use-media' },
+      { title: 'useMediaQuery', slug: '/docs/hooks/use-media-query' },
       { title: 'useSize', slug: '/docs/hooks/use-size' },
       { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },
       { title: 'useThemeControl', slug: '/docs/hooks/use-theme-control' },

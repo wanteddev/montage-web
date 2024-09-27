@@ -1,5 +1,5 @@
 export { default as useDialog } from './use-dialog';
-export { default as useMedia } from './use-media';
+export { default as useMediaQuery } from './use-media-query';
 export { default as useSize } from './use-size';
 export { default as useSnackbar } from './use-snackbar';
 export { default as useThemeControl } from './use-theme-control';
