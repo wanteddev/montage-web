@@ -26,6 +26,12 @@ export const iconButtonStyle =
     align-items: center;
     justify-content: center;
 
+    &:disabled,
+    &[aria-disabled='true'] {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
     ${iconButtonSizeStyle(
       props.size || getDefaultSize(props.variant),
       props.variant,
@@ -157,15 +163,27 @@ const iconButtonColorStyle = (
         background-color: transparent;
         color: ${alternative
           ? addOpacity(theme.palette.static.white, theme.opacity[88])
-          : addOpacity(theme.palette.coolNeutral[50], theme.opacity[61])};
+          : addOpacity(theme.palette.static.black, theme.opacity[43])};
+
+        ${!alternative &&
+        css`
+          @supports (-webkit-backdrop-filter: none) {
+            color: ${addOpacity(
+              theme.palette.coolNeutral[50],
+              theme.opacity[61],
+            )};
+          }
+        `}
 
         svg {
           position: relative;
 
           ${!alternative &&
           css`
-            will-change: mix-blend-mode;
-            mix-blend-mode: difference;
+            @supports (-webkit-backdrop-filter: none) {
+              will-change: mix-blend-mode;
+              mix-blend-mode: difference;
+            }
           `}
         }
 
@@ -185,12 +203,6 @@ const iconButtonColorStyle = (
                 )};
               `
             : css`
-                background-color: ${addOpacity(
-                  theme.palette.static.white,
-                  theme.opacity[35],
-                )};
-                mix-blend-mode: plus-lighter;
-                will-change: mix-blend-mode, backdrop-filter;
                 backdrop-filter: blur(32px);
               `}
           width: calc(100% + 8px);
@@ -231,7 +243,10 @@ const iconButtonColorStyle = (
             mix-blend-mode: initial;
           }
 
-          & > [data-role='icon-button-background-alternative'] {
+          & > [data-role='icon-button-background-blend'] {
+            display: none;
+          }
+          & > [data-role='icon-button-background-blend-layer'] {
             display: none;
           }
         }
@@ -273,6 +288,25 @@ const iconButtonColorStyle = (
 };
 
 export const backgroundBlendStyle = (theme: Theme) => css`
+  position: absolute;
+  content: '';
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  top: -4px;
+  left: -4px;
+  border-radius: inherit;
+  background-color: ${addOpacity(
+    theme.palette.static.white,
+    theme.opacity[35],
+  )};
+
+  @supports (-webkit-backdrop-filter: none) {
+    mix-blend-mode: plus-lighter;
+    will-change: mix-blend-mode;
+  }
+`;
+
+export const backgroundBlendLayerStyle = (theme: Theme) => css`
   position: absolute;
   content: '';
   background-color: ${addOpacity(theme.palette.static.black, theme.opacity[5])};
