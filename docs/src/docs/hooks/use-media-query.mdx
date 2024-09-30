@@ -1,17 +1,17 @@
 ---
-title: useMedia
-description: useMedia for WDS Utility
+title: useMediaQuery
+description: useMediaQuery for WDS Utility
 ---
 
-# useMedia
+# useMediaQuery
 
 Theme 객체에서 직접 꺼내어 여러 미디어 쿼리를 다룹니다.
 
 ```tsx
-import { Box, useMedia } from '@wanteddev/wds';
+import { Box, useMediaQuery } from '@wanteddev/wds';
 
 const Component = () => {
-  const { respondTo, respondMore, breakpoint } = useMedia();
+  const { respondTo, respondMore, breakpoint } = useMediaQuery();
 
   return (
     <Box

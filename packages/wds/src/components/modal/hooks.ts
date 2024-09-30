@@ -33,7 +33,7 @@ export const useDraggable = ({
     Object.values(theme),
   );
 
-  const variant = useMediaQuery(
+  const variant = useMedia(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
       getPreviousValue({ xs, sm, md, lg, xl }, 'variant', givenVariant, v),
@@ -41,7 +41,7 @@ export const useDraggable = ({
     'popup',
   );
 
-  const handle = useMediaQuery(
+  const handle = useMedia(
     breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
     breakpoint.map((v) =>
       getPreviousValue({ xs, sm, md, lg, xl }, 'handle', givenHandle, v),
@@ -272,7 +272,7 @@ export const useDraggable = ({
   };
 };
 
-const useMediaQuery = <T>(
+const useMedia = <T>(
   queries: Array<string>,
   values: Array<T>,
   defaultValue: T,
