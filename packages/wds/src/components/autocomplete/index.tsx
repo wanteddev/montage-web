@@ -14,6 +14,7 @@ import { useSize } from '@radix-ui/react-use-size';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { flushSync } from 'react-dom';
 import { IconCheck } from '@wanteddev/wds-icon';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { List, ListCell, ListItemContent, ListText } from '../list';
@@ -67,6 +68,7 @@ const Autocomplete = forwardRef<
       inputValue: inputValueProp,
       defaultInputValue,
       onInputValueChange,
+      onSearch,
       ...props
     },
     forwardedRef,
@@ -139,6 +141,7 @@ const Autocomplete = forwardRef<
         onInputValueChange={setInputValue}
         selectedOption={selectedOption}
         onSelectedOptionChange={setSelectedOption}
+        onSearch={useCallbackRef(onSearch)}
       >
         <Popper>
           <Collection.Provider scope={AUTOCOMPLETE_SCOPE}>
@@ -201,6 +204,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
       inputValue,
       asSelect,
       input,
+      onSearch,
     } = useAutocompleteContext(AUTOCOMPLETE_TRIGGER_NAME);
 
     const composedRefs = useComposedRefs(forwardedRef, onInputChange);
@@ -374,7 +378,10 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
                     onInputValueChange(selectedOption.value);
                     onValueChange(selectedOption.value);
                     onOpenChange(false);
+                    onSearch?.(selectedOption.value);
                     return;
+                  } else if (!asSelect) {
+                    onSearch?.(value);
                   }
                 case 'Escape':
                   e.preventDefault();
@@ -498,6 +505,7 @@ const AutocompleteOption = forwardRef<
     onInputValueChange,
     asSelect,
     onSelectedOptionChange,
+    onSearch,
   } = useAutocompleteContext(AUTOCOMPLETE_OPTION_NAME);
 
   const getItems = useCollection(AUTOCOMPLETE_SCOPE);
@@ -533,11 +541,13 @@ const AutocompleteOption = forwardRef<
         onMouseDown={composeEventHandlers(props.onMouseDown, () => {
           onInputValueChange(value);
           onValueChange(value);
+          onSearch?.(value);
 
           requestAnimationFrame(() => {
             input?.focus();
           });
         })}
+        onClick={composeEventHandlers(props.onClick, (e) => e.preventDefault())}
       >
         <ListText caption={caption} bold={bold ?? active}>
           {children}
