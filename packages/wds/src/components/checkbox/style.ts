@@ -11,6 +11,7 @@ export const checkboxStyle =
     size,
     bold,
     checked,
+    indeterminate,
     disabled,
     // label에 invalid 처리는 안하기로 결정
     xs,
@@ -39,7 +40,7 @@ export const checkboxStyle =
       border-radius: 9999px;
     }
 
-    span {
+    [data-role='checkbox-icon-wrapper'] {
       position: relative;
       display: flex;
       align-items: center;
@@ -86,9 +87,9 @@ export const checkboxStyle =
 
     ${checkboxSizeStyle({ size, bold })}
 
-    ${checked &&
+    ${(checked || indeterminate) &&
     css`
-      span {
+      [data-role='checkbox-icon-wrapper'] {
         box-shadow: inset 0 0 0 1.5px ${theme.palette.primary.normal};
         background-color: ${theme.palette.primary.normal};
 

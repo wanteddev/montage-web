@@ -1,6 +1,6 @@
 'use client';
 import { forwardRef, useEffect, useRef, useState } from 'react';
-import { IconCheckThick } from '@wanteddev/wds-icon';
+import { IconCheckThick, IconLineHorizontalThick } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -30,6 +30,8 @@ const Checkbox = forwardRef<
       onCheckedChange,
       size = 'normal',
       invalid = false,
+      indeterminate,
+      indeterminateIcon: originIndeterminateIcon,
       bold,
       xs,
       sm,
@@ -41,6 +43,9 @@ const Checkbox = forwardRef<
     ref,
   ) => {
     const icon = originIcon || <IconCheckThick />;
+    const indeterminateIcon = originIndeterminateIcon || (
+      <IconLineHorizontalThick />
+    );
 
     const [button, setButton] = useState<HTMLButtonElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setButton(node));
@@ -88,7 +93,7 @@ const Checkbox = forwardRef<
             as="button"
             type="button"
             role="checkbox"
-            aria-checked={checked}
+            aria-checked={indeterminate ? 'mixed' : checked}
             aria-disabled={disabled}
             aria-invalid={invalid}
             disabled={disabled}
@@ -100,6 +105,7 @@ const Checkbox = forwardRef<
                 size,
                 checked,
                 disabled,
+                indeterminate,
                 bold,
                 // invalid,
                 xs,
@@ -126,7 +132,9 @@ const Checkbox = forwardRef<
               }
             })}
           >
-            <span>{icon}</span>
+            <span data-role="checkbox-icon-wrapper">
+              {indeterminate ? indeterminateIcon : icon}
+            </span>
           </Box>
         </WithInteraction>
       </>
