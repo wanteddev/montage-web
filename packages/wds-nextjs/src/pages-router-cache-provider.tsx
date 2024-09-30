@@ -115,5 +115,10 @@ export async function documentGetInitialProps(
       },
     },
     ...(options?.plugins ?? []),
-  ])(ctx) as Promise<DocumentInitialProps & DocumentHeadTagsProps>;
+  ])(ctx) as Promise<
+    DocumentInitialProps &
+      DocumentHeadTagsProps & { emotionCache: EmotionCache }
+  >;
 }
+
+export type { EmotionCache, Plugin };

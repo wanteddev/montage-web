@@ -13,14 +13,35 @@ export const scrollWrapperStyle =
     md,
     lg,
     xl,
-    isSticky,
-  }: TabListProps & { isSticky?: boolean }) =>
+    isScrollableLeft,
+    isScrollableRight,
+  }: TabListProps & {
+    isScrollableLeft: boolean;
+    isScrollableRight: boolean;
+  }) =>
   (theme: Theme) => css`
     width: 100%;
     height: fit-content;
     ${scrollWrapperPaddingStyle(padding)}
-    ${isSticky && gradient('transparent', 'right', '48px')}
     transition: mask-image 0.2s ease;
+
+    ${isScrollableRight &&
+    css`
+      ${gradient('transparent', 'right', '40px')}
+    `}
+
+    ${isScrollableLeft &&
+    css`
+      &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        ${gradient('transparent', 'left', '40px')}
+      }
+    `}
 
     [data-radix-scroll-area-viewport] {
       scroll-behavior: smooth;

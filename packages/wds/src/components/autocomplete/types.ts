@@ -18,6 +18,10 @@ export type AutocompleteProps = {
   inputValue?: string;
   defaultInputValue?: string;
   onInputValueChange?: (value: string) => void;
+  /**
+   * 값을 선택하거나 엔터를 입력했을 때를 컨트롤 할 수 있습니다.
+   */
+  onSearch?: (value: string) => void;
 };
 
 export type AutocompleteTriggerProps = PropsWithChildren;

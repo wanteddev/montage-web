@@ -6,7 +6,7 @@ export type SwitchDefaultProps = {
   defaultChecked?: boolean;
   disabled?: boolean;
   required?: boolean;
-  size?: 'small' | 'medium';
+  size?: 'small' | 'normal';
   onCheckedChange?: (state: boolean) => void;
 };
 

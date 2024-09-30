@@ -27,7 +27,7 @@ const ClientDocsPage = ({ source, propTypes }: Props) => {
         md={{
           sx: {
             padding: '0px 20px 20px 20px',
-            width: 'calc(100% - 250px - 150px)',
+            width: 'calc(100% - 250px - 200px)',
           },
         }}
       >

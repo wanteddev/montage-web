@@ -40,6 +40,7 @@ export const switchStyle =
   ${disabled &&
     css`
       opacity: ${theme.opacity[43]};
+      cursor: initial;
     `}
 
       ${createResponsiveStyle(
@@ -61,7 +62,7 @@ const switchSizeStyle = ({
   checked,
 }: Pick<SwitchProps, 'size' | 'checked'>) => {
   switch (size) {
-    case 'medium':
+    case 'normal':
       return css`
         border-radius: 100px;
         width: 52px;
