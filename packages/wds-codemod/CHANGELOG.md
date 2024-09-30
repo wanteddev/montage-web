@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.2.1...@wanteddev/wds-codemod@1.2.2) (2024-09-30)
+
+### Features
+
+- **wds,wds-icon:** 아이콘 <-> 피그마 자동 동기화 및 code connect 구성 ([#60](https://github.com/wanteddev/wds/issues/60)) ([0d7b86d](https://github.com/wanteddev/wds/commit/0d7b86d6bea641008bd3567eaac4a4f22fece91c))
+
 ## [1.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.2.0...@wanteddev/wds-codemod@1.2.1) (2024-09-19)
 
 ### Bug Fixes

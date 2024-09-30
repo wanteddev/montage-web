@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.2...@wanteddev/wds@1.4.3) (2024-09-30)
+
+### Bug Fixes
+
+- **wds:** modal, dialog가 열렸을 때 트랙패드의 줌이 동작하지 않음 ([#120](https://github.com/wanteddev/wds/issues/120)) ([ebc75ec](https://github.com/wanteddev/wds/commit/ebc75ecd58c2d65ba8c79105765209d11be28a19))
+- **wds:** modal, tab, select-multiple 스크롤 리렌더링 최적화 ([#111](https://github.com/wanteddev/wds/issues/111)) ([5095a07](https://github.com/wanteddev/wds/commit/5095a0769be91d20112312f3ecf4ea8937494725))
+- **wds:** safari에서 radio, checkbox의 테두리가 다르게 표시되는 이슈 ([#113](https://github.com/wanteddev/wds/issues/113)) ([669a105](https://github.com/wanteddev/wds/commit/669a105c6b59153c01996579e84ede740463fdf5))
+- **wds:** text-input, text-area, list content 아이콘 색상 override 개선 ([#118](https://github.com/wanteddev/wds/issues/118)) ([779102b](https://github.com/wanteddev/wds/commit/779102bb0854d96f6dd661aeae2ad7f202ab08a2))
+- **wds:** 환경에 따라 icon-button의 mix-blend-mode가 적용되지 않는 이슈 ([#115](https://github.com/wanteddev/wds/issues/115)) ([b10f18d](https://github.com/wanteddev/wds/commit/b10f18d206bf4cf4dcf147ec635f796616b92088))
+
+### Features
+
+- **wds:** autocomplete onSearch 인터페이스 추가 ([#112](https://github.com/wanteddev/wds/issues/112)) ([7737560](https://github.com/wanteddev/wds/commit/7737560a6034ce5c10816e5448e14d5dc997ed63))
+- **wds:** checkbox indeterminate 상태 추가 ([#121](https://github.com/wanteddev/wds/issues/121)) ([2e128aa](https://github.com/wanteddev/wds/commit/2e128aaf73f45f53f7037f896a38c4bcbe7fa7ae))
+- **wds:** disabled 상태일 때때 cursor 변경 ([#117](https://github.com/wanteddev/wds/issues/117)) ([f5c2700](https://github.com/wanteddev/wds/commit/f5c27002d76806544aa471f9fa0168b89a364812))
+- **wds:** PI-68416 switch size medium -> normal 변경 ([#116](https://github.com/wanteddev/wds/issues/116)) ([7e76c2a](https://github.com/wanteddev/wds/commit/7e76c2a0c0d906c8261d8621a6dad579f3cede18))
+- **wds:** use-media -> use-media-query 변경 및 동작 수정 ([#119](https://github.com/wanteddev/wds/issues/119)) ([0164f22](https://github.com/wanteddev/wds/commit/0164f22e6bf426ededab2ca64abed93c6221aac0))
+
 ## [1.4.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.1...@wanteddev/wds@1.4.2) (2024-09-23)
 
 ### Features
