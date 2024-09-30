@@ -63,6 +63,10 @@ export type ModalContainerProps = Merge<
   ModalContainerResponsiveProps
 >;
 
+export type ModalScrollProviderProps = PropsWithChildren<{
+  sticky: boolean;
+}>;
+
 export type ModalNavigationProps = Merge<
   { variant?: TopNavigationProps['variant'] | 'emphasized' },
   TopNavigationProps

@@ -108,54 +108,51 @@ const TabList = forwardRef<
     },
     ref,
   ) => {
-    const [isSticky, setIsSticky] = useState(false);
-
     const context = useTabContext(TAB_LIST_NAME);
-    const viewportRef = useRef<HTMLDivElement>(null);
-    const composedViewportRef = useComposedRefs(
-      viewportRef,
-      context.containerViewportRef,
-    );
     const containerRef = useRef<HTMLDivElement>(null);
     const composedRef = useComposedRefs(ref, containerRef);
-    const [scrollLeft, setScrollLeft] = useState(0);
-    const [scrollWidth, setScrollWidth] = useState(0);
+
+    const [isScrollableLeft, setIsScrollableLeft] = useState(false);
+    const [isScrollableRight, setIsScrollableRight] = useState(false);
 
     const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
       (e) => {
         const target = e.target as Element;
 
-        setScrollLeft(target.scrollLeft);
-        setScrollWidth(target.scrollWidth);
+        const { scrollLeft, scrollWidth, clientWidth } = target;
+
+        setIsScrollableLeft(scrollLeft > 0);
+
+        if (scrollWidth - scrollLeft <= clientWidth + 1) {
+          setIsScrollableRight(false);
+        } else if (scrollWidth !== clientWidth) {
+          setIsScrollableRight(true);
+        }
       },
-      [setScrollLeft, setScrollWidth],
+      [setIsScrollableLeft, setIsScrollableRight],
     );
 
-    useEffect(() => {
-      if (
-        scrollWidth - scrollLeft <=
-        (viewportRef.current?.clientWidth || 0) + 1
-      ) {
-        setIsSticky(false);
-      } else if (scrollWidth !== viewportRef.current?.clientWidth) {
-        setIsSticky(true);
-      }
-    }, [scrollLeft, scrollWidth]);
-
     const handleResize = useCallback(() => {
-      const target = viewportRef.current;
+      const target = context.containerViewportRef.current;
       if (!target) {
         return;
       }
 
-      const width = target.scrollWidth;
-      const left = target.scrollLeft;
+      const { scrollLeft, scrollWidth, clientWidth } = target;
 
-      setScrollLeft(left);
-      setScrollWidth(width);
-    }, [setScrollLeft]);
+      setIsScrollableLeft(scrollLeft > 0);
 
-    useResizeObserver(viewportRef.current, handleResize);
+      if (scrollWidth - scrollLeft <= clientWidth + 1) {
+        setIsScrollableRight(false);
+      } else if (scrollWidth !== clientWidth) {
+        setIsScrollableRight(true);
+      }
+    }, [context.containerViewportRef]);
+
+    useResizeObserver(
+      context.containerViewportRef.current?.firstElementChild,
+      handleResize,
+    );
 
     return (
       <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
@@ -180,10 +177,19 @@ const TabList = forwardRef<
           ]}
         >
           <ScrollArea
-            sx={scrollWrapperStyle({ padding, xs, sm, md, lg, xl, isSticky })}
+            sx={scrollWrapperStyle({
+              padding,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+              isScrollableLeft,
+              isScrollableRight,
+            })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
-            viewportRef={composedViewportRef}
+            viewportRef={context.containerViewportRef}
             size="small"
           >
             <FlexBox>{children}</FlexBox>

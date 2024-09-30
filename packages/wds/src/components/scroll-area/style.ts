@@ -41,6 +41,7 @@ export const scrollBarStyle =
     transition:
       width 0.2s ease,
       height 0.2s ease;
+    will-change: transform, width, height;
 
     ${orientation === 'vertical'
       ? css`
@@ -129,4 +130,5 @@ export const scrollBarThumbStyle = (theme: Theme) => css`
   border-radius: 10px;
   background-color: ${theme.palette.fill.strong};
   transition: background-color 160ms ease-out;
+  will-change: background-color;
 `;

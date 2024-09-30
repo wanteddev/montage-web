@@ -96,9 +96,10 @@ const TopNavigation = forwardRef<
           ]}
           style={
             {
-              ['--wds-top-navigation-border-color']: scrolled
-                ? theme.palette.line.normal.normal
-                : 'transparent',
+              ['--wds-top-navigation-border-color']:
+                scrolled && variant !== 'floating'
+                  ? theme.palette.line.normal.normal
+                  : 'transparent',
               ...props.style,
             } as CSSProperties
           }
