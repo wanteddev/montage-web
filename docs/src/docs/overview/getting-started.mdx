@@ -22,6 +22,8 @@ yarn add @wanteddev/wds @wanteddev/wds-icon
 
 ## React.js
 
+### Basic
+
 Root App에서 global css를 가져오도록 설정합니다.
 또한 ThemeProvider로 앱을 감싸줍니다.
 
@@ -42,6 +44,34 @@ root.render(
       <App />
     </BrowserRouter>
   </ThemeProvider>
+);
+```
+
+### Css In JS, Sass
+
+`prepend` 옵션을 주어 emotion css의 우선 순위를 설정해둡니다.
+
+```tsx
+// App.tsx
+import { createRoot } from 'react-dom/client';
+import { ThemeProvider, CacheProvider, createCache } from '@wanteddev/wds';
+
+import App from './App';
+
+import '@wantddev/wds/global.css';
+
+const root = createRoot(document.getElementById('app')!);
+
+const cache = createCache({ key: 'wds', prepend: true })
+
+root.render(
+  <CacheProvider value={cache}>
+    <ThemeProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
+  </CacheProvider>
 );
 ```
 
@@ -92,7 +122,7 @@ const RootLayout = (props: PropsWithChildren) => {
 export default RootLayout;
 ```
 
-### Pages Router (실험적)
+### Pages Router
 
 Next.js에서 사용하기 위한 추가 패키지를 설치합니다.
 
@@ -107,12 +137,14 @@ yarn add @wanteddev/wds-nextjs
 import { ThemeProvider } from '@wanteddev/wds';
 import { AppCacheProvider } from '@wanteddev/wds-nextjs';
 
-import '@wanteddev/wds/global.css';
 import type { AppProps } from 'next/app';
+import type { EmotionCacheProviderProps } from '@wanteddev/wds-nextjs';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+import '@wanteddev/wds/global.css';
+
+const MyApp = ({ Component, pageProps, emotionCache }: AppProps & EmotionCacheProviderProps) => {
   return (
-    <AppCacheProvider>
+    <AppCacheProvider emotionCache={emotionCache}>
       <ThemeProvider>
         <Component {...pageProps} />
       </ThemeProvider>
@@ -163,11 +195,48 @@ class MyDocument extends Document<DocumentHeadTagsProps> {
 export default MyDocument;
 ```
 
-#### With Styled-components, Page Dir
+### Styled Components
+
+#### App Router
+
+`prepend` 옵션을 주어 emotion css의 우선 순위를 설정해둡니다.
+
+```tsx
+// app/layout.tsx
+'use client';
+import { Head } from '@wanted-frontend/config';
+import { ThemeProvider } from '@wantddev/wds';
+import { AppRouterCacheProvider } from '@wantddev/wds-nextjs';
+import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
+
+import type { PropsWithChildren } from 'react';
+
+import '@wantddev/wds/global.css';
+
+const RootLayout = (props: PropsWithChildren) => {
+  return (
+    <html suppressHydrationWarning>
+      <head>
+        <Head />
+      </head>
+      <body>
+        <ThemeProvider provider={StyledComponentsProvider}>
+          <AppRouterCacheProvider options={{ prepend: true }}>{props.children}</AppRouterCacheProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+};
+
+export default RootLayout;
+```
+
+#### Pages Router
 
 ```tsx
 // _document.tsx
 import {
+  createCache,
   DocumentHeadTags,
   documentGetInitialProps,
 } from '@wanteddev/wds-nextjs';
@@ -177,6 +246,21 @@ import { ServerStyleSheet, ThemeProvider } from 'styled-components';
 import type { DocumentHeadTagsProps } from '@wanteddev/wds-nextjs';
 import type { DocumentContext, DocumentInitialProps } from 'next/document';
 
+const createEmotionCache = () => {
+  let insertionPoint;
+
+  if (typeof document !== 'undefined') {
+    const emotionInsertionPoint = document.querySelector<HTMLMetaElement>(
+      'meta[name="emotion-insertion-point"]',
+    );
+    insertionPoint = emotionInsertionPoint ?? undefined;
+  }
+
+  return createCache({ key: 'wds', insertionPoint, prepend: true });
+};
+
+const emotionCache = createEmotionCache();
+
 class MyDocument extends Document<DocumentHeadTagsProps> {
   static async getInitialProps(
     ctx: DocumentContext,
@@ -185,6 +269,7 @@ class MyDocument extends Document<DocumentHeadTagsProps> {
 
     try {
       const initialProps = await documentGetInitialProps(Document, ctx, {
+        emotionCache,
         plugins: [
           {
             enhanceApp: (App) => (props) =>
@@ -228,21 +313,22 @@ class MyDocument extends Document<DocumentHeadTagsProps> {
 export default MyDocument;
 ```
 
-`_app.tsx`
-
+<br/>
 ```tsx
 // _app.tsx
 import { ThemeProvider } from '@wanteddev/wds';
 import { AppCacheProvider } from '@wanteddev/wds-nextjs';
-import { ThemeProvider } from 'styled-components';
+import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
+
+import type { AppProps } from 'next/app';
+import type { EmotionCacheProviderProps } from '@wanteddev/wds-nextjs';
 
 import '@wanteddev/wds/global.css';
-import type { AppProps } from 'next/app';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({ Component, pageProps, emotionCache }: AppProps & ) => {
   return (
-    <AppCacheProvider>
-      <ThemeProvider provider={ThemeProvider}>
+    <AppCacheProvider emotionCache={emotionCache}>
+      <ThemeProvider provider={StyledComponentsProvider}>
         <Component {...pageProps} />
       </ThemeProvider>
     </AppCacheProvider>
@@ -252,12 +338,14 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 export default MyApp;
 ```
 
-## Sass, Css in JS
+### Sass
 
-`sass` 혹은 `css-in-js` 와 함께 wds를 이용할 때 스타일 순서를 조정하기 위해서는
+`sass`와 함께 wds를 이용할 때 스타일 순서를 조정하기 위해서는
 추가 설정이 필요합니다.
 
-### App Router
+#### App Router
+
+`prepend` 옵션을 주어 emotion css의 우선 순위를 설정해둡니다.
 
 ```tsx
 // app/layout.tsx
@@ -288,16 +376,19 @@ const RootLayout = (props: PropsWithChildren) => {
 export default RootLayout;
 ```
 
-### Pages Router
+#### Pages Router
 
 ```tsx
-// _app.tsx
-import { ThemeProvider } from '@wanteddev/wds';
-import { AppCacheProvider } from '@wanteddev/wds-nextjs';
-import { ThemeProvider } from 'styled-components';
+// _document.tsx
+import {
+  DocumentHeadTags,
+  documentGetInitialProps,
+  createCache,
+} from '@wanteddev/wds-nextjs';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 
-import '@wanteddev/wds/global.css';
-import type { AppProps } from 'next/app';
+import type { DocumentHeadTagsProps } from '@wanteddev/wds-nextjs';
+import type { DocumentContext, DocumentInitialProps } from 'next/document';
 
 const createEmotionCache = () => {
   let insertionPoint;
@@ -314,10 +405,48 @@ const createEmotionCache = () => {
 
 const emotionCache = createEmotionCache();
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+class MyDocument extends Document<DocumentHeadTagsProps> {
+  static async getInitialProps(
+    ctx: DocumentContext,
+  ): Promise<DocumentInitialProps> {
+    const initialProps = await documentGetInitialProps(Document, ctx, { emotionCache });
+
+    return initialProps;
+  }
+
+  render() {
+    return (
+      <Html lang="en">
+        <Head>
+          <DocumentHeadTags {...this.props} />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
+  }
+}
+
+export default MyDocument;
+```
+
+<br/>
+```tsx
+// _app.tsx
+import { ThemeProvider } from '@wanteddev/wds';
+import { AppCacheProvider } from '@wanteddev/wds-nextjs';
+
+import type { AppProps } from 'next/app';
+import type { EmotionCacheProviderProps } from '@wanteddev/wds-nextjs';
+
+import '@wanteddev/wds/global.css';
+
+const MyApp = ({ Component, pageProps, emotionCache }: AppProps & EmotionCacheProviderProps) => {
   return (
     <AppCacheProvider emotionCache={emotionCache}>
-      <ThemeProvider provider={ThemeProvider}>
+      <ThemeProvider>
         <Component {...pageProps} />
       </ThemeProvider>
     </AppCacheProvider>
@@ -325,51 +454,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 };
 
 export default MyApp;
-```
-
-### React.js
-
-```tsx
-// App.tsx
-import { createRoot } from 'react-dom/client';
-import { ThemeProvider, CacheProvider, createCache } from '@wanteddev/wds';
-
-import App from './App';
-
-import '@wantddev/wds/global.css';
-
-const root = createRoot(document.getElementById('app')!);
-
-const cache = createCache({ key: 'wds', prepend: true })
-
-root.render(
-  <CacheProvider value={cache}>
-    <ThemeProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
-  </CacheProvider>
-);
-```
-
-### Custom Provider
-
-wds는 css in js의 provider를 지원합니다.
-
-아래와 같이 설정하면 `styled-components` 의 theme에도 디자인 시스템 테마가 주입됩니다.
-
-```tsx
-import { ThemeProvider } from '@wanteddev/wds';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
-
-const App = () => {
-  return (
-    <ThemeProvider provider={StyledThemeProvider}>
-      ...
-    </ThemeProvider>
-  )
-}
-
-export default App;
 ```
