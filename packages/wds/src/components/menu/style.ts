@@ -81,12 +81,8 @@ export const menuBottomStyle = (theme: Theme) => css`
   border-top: 1px solid ${theme.palette.line.solid.alternative};
 `;
 
-export const menuBottomContentStyle = (theme: Theme) => css`
+export const menuBottomContentStyle = css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
-
-  & > svg {
-    color: ${theme.palette.label.alternative};
-  }
 `;

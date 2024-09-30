@@ -1,6 +1,8 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
+export type TextButtonVariant = 'primary' | 'assistive';
+
 export type TextButtonDefaultProps = {
   variant?: 'primary' | 'assistive';
   disabled?: boolean;

@@ -3,11 +3,15 @@ import { css } from '@wanteddev/wds-engine';
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils';
 
-import type { Theme } from '@wanteddev/wds-engine';
+import type { Theme, ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from './types';
 
+type TextButtonStyleProps = TextButtonProps & {
+  color?: ThemeColorsToken;
+};
+
 export const textButtonStyle =
-  ({ xs, sm, md, lg, xl, ...props }: TextButtonProps) =>
+  ({ xs, sm, md, lg, xl, ...props }: TextButtonStyleProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -40,11 +44,14 @@ export const textButtonStyle =
     )}
   `;
 
-const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
+const getColorTheme = (
+  { variant, color }: TextButtonStyleProps,
+  theme: Theme,
+) => {
   switch (variant) {
     case 'primary':
       return css`
-        color: ${theme.palette.primary.normal};
+        color: ${color ?? theme.palette.primary.normal};
         background-color: transparent;
         border: none;
         box-shadow: none;
@@ -59,7 +66,7 @@ const getColorTheme = ({ variant }: TextButtonProps, theme: Theme) => {
         background-color: transparent;
         border: none;
         box-shadow: none;
-        color: ${theme.palette.label.alternative};
+        color: ${color ?? theme.palette.label.alternative};
 
         &:disabled,
         &[aria-disabled='true'] {

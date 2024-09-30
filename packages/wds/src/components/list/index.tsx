@@ -10,6 +10,8 @@ import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
 
 import { Divider, FlexBox, Typography, WithInteraction } from '..';
 import { useMenuItemContext } from '../menu/contexts';
+import { IconButtonProvider } from '../icon-button/contexts';
+import { TextButtonProvider } from '../text-button/contexts';
 
 import {
   LIST_CELL_NAME,
@@ -159,7 +161,14 @@ const ListItemContent = forwardRef<
           ref={ref}
           alignItems="center"
           {...props}
-          sx={[listItemContentStyle, { fontSize: '24px' }, props.sx]}
+          sx={[
+            listItemContentStyle,
+            (theme) => ({
+              fontSize: '24px',
+              color: theme.palette.label.assistive,
+            }),
+            props.sx,
+          ]}
         >
           {children}
         </FlexBox>
@@ -171,15 +180,16 @@ const ListItemContent = forwardRef<
           ref={ref}
           alignItems="center"
           {...props}
-          sx={[listItemContentStyle, { fontSize: '24px' }, props.sx]}
+          sx={[listItemContentStyle, props.sx]}
         >
-          {children}
+          <IconButtonProvider normal="palette.label.alternative">
+            {children}
+          </IconButtonProvider>
         </FlexBox>
       );
 
     case 'radio':
     case 'checkbox':
-    case 'button':
       return (
         <FlexBox
           wds-component="list-item-content"
@@ -189,6 +199,20 @@ const ListItemContent = forwardRef<
           sx={[listItemContentStyle, props.sx]}
         >
           {children}
+        </FlexBox>
+      );
+    case 'button':
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref}
+          alignItems="center"
+          {...props}
+          sx={[listItemContentStyle, props.sx]}
+        >
+          <TextButtonProvider assistive="palette.label.alternative">
+            {children}
+          </TextButtonProvider>
         </FlexBox>
       );
     case 'chevron':

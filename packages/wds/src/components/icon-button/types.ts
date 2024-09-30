@@ -4,7 +4,7 @@ import type {
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 
-type IconButtonVariant = 'normal' | 'background' | 'outlined' | 'solid';
+export type IconButtonVariant = 'normal' | 'background' | 'outlined' | 'solid';
 
 export type IconButtonDefaultProps = {
   variant?: IconButtonVariant;
