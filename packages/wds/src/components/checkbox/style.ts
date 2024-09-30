@@ -105,7 +105,7 @@ export const checkboxStyle =
 
       & ~ label,
       & {
-        cursor: not-allowed;
+        cursor: initial;
       }
 
       & ~ label {

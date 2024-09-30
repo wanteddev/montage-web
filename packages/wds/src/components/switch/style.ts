@@ -40,6 +40,7 @@ export const switchStyle =
   ${disabled &&
     css`
       opacity: ${theme.opacity[43]};
+      cursor: initial;
     `}
 
       ${createResponsiveStyle(

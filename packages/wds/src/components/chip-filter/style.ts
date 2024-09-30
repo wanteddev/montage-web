@@ -24,7 +24,7 @@ export const actionStyle =
 
     &:disabled {
       pointer-events: none;
-      cursor: not-allowed;
+      cursor: initial;
     }
 
     ${actionVariantStyle(props, theme)}

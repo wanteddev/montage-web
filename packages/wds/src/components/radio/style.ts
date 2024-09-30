@@ -86,7 +86,7 @@ export const radioStyle =
 
       & ~ label,
       & {
-        cursor: not-allowed;
+        cursor: initial;
       }
 
       & ~ label {

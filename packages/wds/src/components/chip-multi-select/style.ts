@@ -43,7 +43,7 @@ export const multiSelectStyle =
       box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.alternative};
       color: ${theme.palette.label.disable};
       pointer-events: none;
-      cursor: not-allowed;
+      cursor: initial;
 
       svg {
         color: ${theme.palette.label.disable};

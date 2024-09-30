@@ -23,7 +23,7 @@ export const textButtonStyle =
     &:disabled,
     &[aria-disabled='true'] {
       pointer-events: none;
-      cursor: not-allowed;
+      cursor: initial;
     }
 
     ${getColorTheme(props, theme)}
