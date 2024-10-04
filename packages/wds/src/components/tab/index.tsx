@@ -178,6 +178,8 @@ const TabList = forwardRef<
               md,
               lg,
               xl,
+              isScrollableLeft,
+              isScrollableRight,
             }),
             props.sx,
           ]}
@@ -191,8 +193,6 @@ const TabList = forwardRef<
               md,
               lg,
               xl,
-              isScrollableLeft,
-              isScrollableRight,
             })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"

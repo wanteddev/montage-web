@@ -11,12 +11,40 @@ import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
 
 export const tabListStyle =
-  ({ resize, padding, size, xs, sm, md, lg, xl }: TabListProps) =>
+  ({
+    isScrollableLeft,
+    isScrollableRight,
+    resize,
+    padding,
+    size,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: TabListProps & {
+    isScrollableLeft: boolean;
+    isScrollableRight: boolean;
+  }) =>
   (theme: Theme) => css`
     width: 100%;
     list-style: none;
     position: relative;
     padding: 0;
+    transition: mask-image 0.2s ease;
+
+    ${isScrollableLeft &&
+    css`
+      ${gradient('transparent', 'left', '40px')}
+    `}
+
+    ${isScrollableRight &&
+    css`
+      & > div {
+        transition: mask-image 0.2s ease;
+        ${gradient('transparent', 'right', '40px')}
+      }
+    `}
 
     ${tabPaddingStyle({ padding, resize })}
     ${tabSizeStyle({ size, resize })}
@@ -97,46 +125,13 @@ const tabSizeStyle = ({ size, resize }: TabListProps) => {
 };
 
 export const scrollWrapperStyle =
-  ({
-    padding,
-    resize,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-    isScrollableLeft,
-    isScrollableRight,
-  }: TabListProps & {
-    isScrollableLeft: boolean;
-    isScrollableRight: boolean;
-  }) =>
+  ({ padding, resize, xs, sm, md, lg, xl }: TabListProps) =>
   (theme: Theme) => css`
     width: 100%;
     height: fit-content;
     ${scrollWrapperPaddingStyle({ padding, resize })}
-    transition: mask-image 0.2s ease;
 
-    ${isScrollableRight &&
-    css`
-      ${gradient('transparent', 'right', '40px')}
-    `}
-
-    ${isScrollableLeft &&
-    css`
-      &::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        left: 0;
-        top: 0;
-        ${gradient('transparent', 'left', '40px')}
-      }
-    `}
-
-  [data-radix-scroll-area-viewport] {
+    [data-radix-scroll-area-viewport] {
       scroll-behavior: smooth;
     }
 
@@ -177,10 +172,13 @@ export const tabListItemStyle =
     ${typographyStyle('headline2', 'bold')}
 
     [data-role="tab-list-item-text-wrapper"] {
-      transition: color 0.2s ease;
       position: relative;
       margin: 0;
       padding: 0;
+    }
+
+    [data-role='tab-list-item-text'] {
+      transition: color 0.2s ease;
     }
 
     [data-role='tab-list-item-divider'] {
