@@ -15,6 +15,7 @@ type TabListDefaultProps = {
   size?: 'small' | 'large';
   padding?: boolean;
   rightContent?: ReactNode;
+  resize?: 'normal' | 'fill';
 };
 
 type TabListResponsiveProps = ResponsiveProps<

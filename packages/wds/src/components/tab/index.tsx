@@ -24,7 +24,12 @@ import {
   tabListItemStyle,
   tabListStyle,
 } from './style';
-import { TabProvider, useTabContext } from './contexts';
+import {
+  TabListProvider,
+  TabProvider,
+  useTabContext,
+  useTabListContext,
+} from './contexts';
 import {
   TAB_LIST_ITEM_NAME,
   TAB_LIST_NAME,
@@ -67,7 +72,7 @@ const Tab = ({
 
   const [panels, setPanels] = useState<Array<string>>([]);
 
-  const containerViewportRef = useRef<HTMLDivElement>(null);
+  const [viewportNode, setViewportNode] = useState<HTMLDivElement | null>(null);
 
   const id = useId();
 
@@ -79,7 +84,8 @@ const Tab = ({
       panels={panels}
       onPanelsChange={setPanels}
       disableScrollMoveOnChange={disableScrollMoveOnChange}
-      containerViewportRef={containerViewportRef}
+      viewportNode={viewportNode}
+      onViewportNodeChange={setViewportNode}
     >
       {children}
     </TabProvider>
@@ -97,6 +103,7 @@ const TabList = forwardRef<
       size = 'large',
       padding = false,
       rightContent,
+      resize = 'normal',
       dir,
       xs,
       sm,
@@ -133,7 +140,8 @@ const TabList = forwardRef<
     );
 
     const handleResize = useCallback(() => {
-      const target = context.containerViewportRef.current;
+      const target = context.viewportNode?.parentElement?.parentElement;
+
       if (!target) {
         return;
       }
@@ -147,12 +155,9 @@ const TabList = forwardRef<
       } else if (scrollWidth !== clientWidth) {
         setIsScrollableRight(true);
       }
-    }, [context.containerViewportRef]);
+    }, [context.viewportNode]);
 
-    useResizeObserver(
-      context.containerViewportRef.current?.firstElementChild,
-      handleResize,
-    );
+    useResizeObserver(context.viewportNode, handleResize);
 
     return (
       <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
@@ -165,6 +170,7 @@ const TabList = forwardRef<
           {...props}
           sx={[
             tabListStyle({
+              resize,
               padding,
               size,
               xs,
@@ -179,6 +185,7 @@ const TabList = forwardRef<
           <ScrollArea
             sx={scrollWrapperStyle({
               padding,
+              resize,
               xs,
               sm,
               md,
@@ -189,10 +196,11 @@ const TabList = forwardRef<
             })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
-            viewportRef={context.containerViewportRef}
             size="small"
           >
-            <FlexBox>{children}</FlexBox>
+            <FlexBox ref={context.onViewportNodeChange}>
+              <TabListProvider resize={resize}>{children}</TabListProvider>
+            </FlexBox>
           </ScrollArea>
 
           {Boolean(rightContent) && (
@@ -223,6 +231,7 @@ const TabListItem = forwardRef(
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);
+    const { resize } = useTabListContext(TAB_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
     const isActive = context.value === value;
@@ -247,7 +256,7 @@ const TabListItem = forwardRef(
     }, []);
 
     const scrollIntoView = () => {
-      const parent = context.containerViewportRef.current;
+      const parent = context.viewportNode?.parentElement?.parentElement;
       const child = ref.current as HTMLDivElement | null;
 
       if (!parent || !child) {
@@ -295,7 +304,7 @@ const TabListItem = forwardRef(
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          sx={[tabListItemStyle, props.sx]}
+          sx={[tabListItemStyle({ resize }), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (event.key === 'Enter') event.preventDefault();
           })}
@@ -308,7 +317,13 @@ const TabListItem = forwardRef(
             }
           })}
         >
-          <span id={`${context.id}-${value}`}>{children}</span>
+          <p data-role="tab-list-item-text-wrapper">
+            <span data-role="tab-list-item-text" id={`${context.id}-${value}`}>
+              {children}
+            </span>
+
+            <span data-role="tab-list-item-divider" />
+          </p>
         </Box>
       </RovingFocusGroup.Item>
     );
