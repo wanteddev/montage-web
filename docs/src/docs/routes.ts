@@ -151,6 +151,11 @@ export const routes: Array<Route> = [
         slug: '/docs/components/section-message',
         alpha: true,
       },
+      {
+        title: 'SegmentedControl',
+        slug: '/docs/components/segmented-control',
+        alpha: true,
+      },
       { title: 'Skeleton', slug: '/docs/components/skeleton', alpha: true },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },

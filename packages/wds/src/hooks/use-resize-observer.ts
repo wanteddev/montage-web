@@ -7,16 +7,9 @@ const useResizeObserver = (
   callback: () => void,
 ) => {
   useEffect(() => {
-    callback();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (!target) {
       return;
     }
-
-    let resizeObserverEntries: Array<ResizeObserverEntry> = [];
 
     let rAF: any;
     const rAFHandleResize = () => {
@@ -30,9 +23,7 @@ const useResizeObserver = (
     containerWindow.addEventListener('resize', debounceHandleResize);
     let resizeObserver: ResizeObserver;
     if (typeof ResizeObserver !== 'undefined') {
-      resizeObserver = new ResizeObserver((entries) => {
-        resizeObserverEntries = entries;
-
+      resizeObserver = new ResizeObserver(() => {
         const func =
           process.env.NODE_ENV === 'test' ? rAFHandleResize : callback;
 
@@ -44,9 +35,9 @@ const useResizeObserver = (
       debounceHandleResize.clear();
       cancelAnimationFrame(rAF);
       containerWindow.removeEventListener('resize', debounceHandleResize);
-      resizeObserverEntries.forEach((entry) => entry.target.remove());
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (resizeObserver) {
+        resizeObserver.unobserve(target);
         resizeObserver.disconnect();
       }
     };
