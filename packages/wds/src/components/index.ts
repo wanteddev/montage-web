@@ -39,7 +39,7 @@ export { default as RegionConfig } from './region-config';
 export { default as RoundCheckbox } from './round-checkbox';
 export { default as ScrollArea } from './scroll-area';
 export { default as SectionMessage } from './section-message';
-export * from './segmented-control';
+export * from './segment-control';
 export * from './select';
 export { default as SelectMultiple } from './select-multiple';
 export { default as Skeleton } from './skeleton';

@@ -152,8 +152,8 @@ export const routes: Array<Route> = [
         alpha: true,
       },
       {
-        title: 'SegmentedControl',
-        slug: '/docs/components/segmented-control',
+        title: 'SegmentControl',
+        slug: '/docs/components/segment-control',
         alpha: true,
       },
       { title: 'Skeleton', slug: '/docs/components/skeleton', alpha: true },

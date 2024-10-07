@@ -7,31 +7,31 @@ import {
   typographyStyle,
 } from '../../utils';
 
-import type { SegmentedControlProps } from './types';
+import type { SegmentControlProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const segmentedControlStyle =
-  ({ variant, size, xs, sm, md, lg, xl }: SegmentedControlProps) =>
+export const segmentControlStyle =
+  ({ variant, size, xs, sm, md, lg, xl }: SegmentControlProps) =>
   (theme: Theme) => css`
     position: relative;
     width: 100%;
 
-    ${segmentedControlSizeStyle({ size, variant })}
-    ${segmentedControlVariantStyle({ variant }, theme)}
+    ${segmentControlSizeStyle({ size, variant })}
+    ${segmentControlVariantStyle({ variant }, theme)}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${segmentedControlSizeStyle({ variant, size: params?.size })}
+        ${segmentControlSizeStyle({ variant, size: params?.size })}
         ${params?.sx}
       `,
     )}
   `;
 
-const segmentedControlVariantStyle = (
-  { variant }: SegmentedControlProps,
+const segmentControlVariantStyle = (
+  { variant }: SegmentControlProps,
   theme: Theme,
 ) => {
   switch (variant) {
@@ -48,10 +48,7 @@ const segmentedControlVariantStyle = (
   }
 };
 
-const segmentedControlSizeStyle = ({
-  size,
-  variant,
-}: SegmentedControlProps) => {
+const segmentControlSizeStyle = ({ size, variant }: SegmentControlProps) => {
   switch (size) {
     case 'large':
       return css`
@@ -62,7 +59,7 @@ const segmentedControlSizeStyle = ({
         css`
           padding: 3px;
 
-          [data-role='segmented-control-motion'] {
+          [data-role='segment-control-motion'] {
             border-radius: 10px;
           }
         `}
@@ -76,7 +73,7 @@ const segmentedControlSizeStyle = ({
         css`
           padding: 2px;
 
-          [data-role='segmented-control-motion'] {
+          [data-role='segment-control-motion'] {
             border-radius: 8px;
           }
         `}
@@ -90,7 +87,7 @@ const segmentedControlSizeStyle = ({
         css`
           padding: 2px;
 
-          [data-role='segmented-control-motion'] {
+          [data-role='segment-control-motion'] {
             border-radius: 6px;
           }
         `}
@@ -105,14 +102,14 @@ export const motionThumbStyle = (theme: Theme) => css`
     ${addOpacity(theme.palette.static.black, theme.opacity[8])};
 `;
 
-type SegmentedControlItemStyleProps = {
+type SegmentControlItemStyleProps = {
   active?: boolean;
   disabled?: boolean;
-  variant?: SegmentedControlProps['variant'];
-  size?: SegmentedControlProps['size'];
-} & Pick<SegmentedControlProps, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>;
+  variant?: SegmentControlProps['variant'];
+  size?: SegmentControlProps['size'];
+} & Pick<SegmentControlProps, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>;
 
-export const segmentedControlItemStyle =
+export const segmentControlItemStyle =
   ({
     size,
     disabled,
@@ -122,7 +119,7 @@ export const segmentedControlItemStyle =
     md,
     lg,
     xl,
-  }: SegmentedControlItemStyleProps) =>
+  }: SegmentControlItemStyleProps) =>
   (theme: Theme) => css`
     position: relative;
     padding: 0px 16px;
@@ -131,15 +128,15 @@ export const segmentedControlItemStyle =
     transition: color 0.2s;
     box-shadow: none;
     border-radius: 0px;
-    overflow: hidden;
+    min-width: 0;
 
-    [data-role='segmented-control-item-text'] {
+    [data-role='segment-control-item-text'] {
       font: inherit;
       display: block;
       ${ellipsisTypographyStyle(1)}
     }
 
-    svg {
+    & > :not([data-role='segment-control-item-text']) {
       flex-shrink: 0;
     }
 
@@ -148,23 +145,23 @@ export const segmentedControlItemStyle =
       cursor: initial;
     `}
 
-    ${segmentedControlItemActiveStyle({ variant }, theme)}
-    ${segmentedControlItemSizeStyle({ size, variant })}
+    ${segmentControlItemActiveStyle({ variant }, theme)}
+    ${segmentControlItemSizeStyle({ size, variant })}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${segmentedControlItemSizeStyle({ size: params?.size, variant })}
+        ${segmentControlItemSizeStyle({ size: params?.size, variant })}
       `,
     )}
   `;
 
-const segmentedControlItemSizeStyle = ({
+const segmentControlItemSizeStyle = ({
   size,
   variant,
-}: SegmentedControlItemStyleProps) => {
+}: SegmentControlItemStyleProps) => {
   switch (size) {
     case 'large':
       return css`
@@ -240,8 +237,8 @@ const segmentedControlItemSizeStyle = ({
   }
 };
 
-const segmentedControlItemActiveStyle = (
-  { variant }: SegmentedControlItemStyleProps,
+const segmentControlItemActiveStyle = (
+  { variant }: SegmentControlItemStyleProps,
   theme: Theme,
 ) => {
   switch (variant) {
@@ -267,10 +264,10 @@ const segmentedControlItemActiveStyle = (
 
         &::after {
           content: '';
-          width: 100%;
-          height: calc(100% - 2px);
+          width: calc(100% + 1px);
+          height: 100%;
           left: 0px;
-          top: 1px;
+          top: 0px;
           position: absolute;
           border-radius: inherit;
           border-right: 1px solid ${theme.palette.line.normal.normal};

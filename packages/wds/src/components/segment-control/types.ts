@@ -1,7 +1,7 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type SegmentedControlDefaultProps = {
+export type SegmentControlDefaultProps = {
   defaultValue?: string;
   value?: string;
   onValueChange?: (tab: string) => void;
@@ -9,16 +9,16 @@ export type SegmentedControlDefaultProps = {
   size?: 'large' | 'medium' | 'small';
 };
 
-type SegmentedControlResponsiveProps = ResponsiveProps<
-  Pick<SegmentedControlDefaultProps, 'size'>
+type SegmentControlResponsiveProps = ResponsiveProps<
+  Pick<SegmentControlDefaultProps, 'size'>
 >;
 
-export type SegmentedControlProps = Merge<
-  SegmentedControlDefaultProps,
-  SegmentedControlResponsiveProps
+export type SegmentControlProps = Merge<
+  SegmentControlDefaultProps,
+  SegmentControlResponsiveProps
 >;
 
-export type SegmentedControlItemProps = {
+export type SegmentControlItemProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
 

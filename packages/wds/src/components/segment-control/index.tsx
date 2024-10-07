@@ -11,17 +11,11 @@ import useResizeObserver from '../../hooks/use-resize-observer';
 
 import {
   motionThumbStyle,
-  segmentedControlItemStyle,
-  segmentedControlStyle,
+  segmentControlItemStyle,
+  segmentControlStyle,
 } from './style';
-import {
-  SegmentedControlProvider,
-  useSegmentedControlContext,
-} from './contexts';
-import {
-  SEGMENTED_CONTROL_ITEM_NAME,
-  SEGMENTED_CONTROL_NAME,
-} from './constants';
+import { SegmentControlProvider, useSegmentControlContext } from './contexts';
+import { SEGMENT_CONTROL_ITEM_NAME, SEGMENT_CONTROL_NAME } from './constants';
 import { calculateAnimationStyle } from './helpers';
 
 import type {
@@ -35,13 +29,13 @@ import type {
   ElementType,
   ForwardedRef,
 } from 'react';
-import type { SegmentedControlItemProps, SegmentedControlProps } from './types';
+import type { SegmentControlItemProps, SegmentControlProps } from './types';
 
 const ARROW_KEYS = ['ArrowLeft', 'ArrowRight'];
 
-const SegmentedControl = forwardRef<
+const SegmentControl = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SegmentedControlProps, 'div'>
+  DefaultComponentProps<SegmentControlProps, 'div'>
 >(
   (
     {
@@ -82,10 +76,10 @@ const SegmentedControl = forwardRef<
       const targetElement = motionThumbRef.current;
 
       const currentElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segmented-control-item"][data-value="${prevValue.current}"]`,
+        `[wds-component="segment-control-item"][data-value="${prevValue.current}"]`,
       );
       const nextElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segmented-control-item"][data-value="${value}"]`,
+        `[wds-component="segment-control-item"][data-value="${value}"]`,
       );
 
       if (variant === 'outlined') {
@@ -122,36 +116,6 @@ const SegmentedControl = forwardRef<
       });
     }, [node, variant, value]);
 
-    // useEffect(() => {
-    // 	detectIsResizeOnly.current = false;
-
-    //   const parentElement = node;
-    //   const targetElement = motionThumbRef.current;
-
-    //   const currentElement = parentElement?.querySelector<HTMLDivElement>(
-    //     `[wds-component="segmented-control-item"][data-value="${value}"]`,
-    //   );
-
-    //   if (variant === 'outlined') {
-    //     currentElement?.style.removeProperty('boxShadow');
-    //     setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
-    //     return;
-    //   }
-
-    //   if (!parentElement || !targetElement || !currentElement) {
-    //     return;
-    //   }
-
-    //   setMotionStyleProperties(
-    //     calculateAnimationStyle(currentElement, parentElement),
-    //   );
-
-    //   requestAnimationFrame(() => {
-    //     currentElement.style.boxShadow = 'none';
-    //   });
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
     useEffect(() => {
       isValueChanged.current = true;
     }, [value]);
@@ -167,7 +131,7 @@ const SegmentedControl = forwardRef<
     );
 
     return (
-      <SegmentedControlProvider
+      <SegmentControlProvider
         value={value}
         onValueChange={handleValueChange}
         variant={variant}
@@ -186,9 +150,9 @@ const SegmentedControl = forwardRef<
             alignItems="stretch"
             role="listbox"
             {...props}
-            wds-component="segmented-control"
+            wds-component="segment-control"
             sx={[
-              segmentedControlStyle({ variant, size, xs, sm, md, lg, xl }),
+              segmentControlStyle({ variant, size, xs, sm, md, lg, xl }),
               props.sx,
             ]}
           >
@@ -196,20 +160,20 @@ const SegmentedControl = forwardRef<
               ref={motionThumbRef}
               sx={motionThumbStyle}
               style={motionStyleProperties}
-              data-role="segmented-control-motion"
+              data-role="segment-control-motion"
             />
 
             {children}
           </FlexBox>
         </RovingFocusGroup.Root>
-      </SegmentedControlProvider>
+      </SegmentControlProvider>
     );
   },
 );
 
-SegmentedControl.displayName = SEGMENTED_CONTROL_NAME;
+SegmentControl.displayName = SEGMENT_CONTROL_NAME;
 
-const SegmentedControlItem = forwardRef(
+const SegmentControlItem = forwardRef(
   <T extends ElementType = 'label'>(
     {
       children,
@@ -219,14 +183,15 @@ const SegmentedControlItem = forwardRef(
       rightContent,
       as,
       ...props
-    }: PolymorphicProps<SegmentedControlItemProps, T>,
+    }: PolymorphicProps<SegmentControlItemProps, T>,
     forwardedRef: ForwardedRef<ElementRef<T>>,
   ) => {
     const ref = useRef<ElementRef<T>>(null);
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
-    const { size, variant, responsive, ...context } =
-      useSegmentedControlContext(SEGMENTED_CONTROL_ITEM_NAME);
+    const { size, variant, responsive, ...context } = useSegmentControlContext(
+      SEGMENT_CONTROL_ITEM_NAME,
+    );
 
     const active = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
@@ -262,9 +227,9 @@ const SegmentedControlItem = forwardRef(
           role="option"
           {...props}
           disabled={disabled}
-          wds-component="segmented-control-item"
+          wds-component="segment-control-item"
           sx={[
-            segmentedControlItemStyle({
+            segmentControlItemStyle({
               size,
               active,
               variant,
@@ -288,7 +253,7 @@ const SegmentedControlItem = forwardRef(
         >
           {leftContent}
           <span
-            data-role="segmented-control-item-text"
+            data-role="segment-control-item-text"
             aria-selected={active}
             aria-disabled={disabled}
           >
@@ -299,8 +264,8 @@ const SegmentedControlItem = forwardRef(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<SegmentedControlItemProps, 'label'>;
+) as PolymorphicComponent<SegmentControlItemProps, 'label'>;
 
-SegmentedControlItem.displayName = SEGMENTED_CONTROL_ITEM_NAME;
+SegmentControlItem.displayName = SEGMENT_CONTROL_ITEM_NAME;
 
-export { SegmentedControl, SegmentedControlItem };
+export { SegmentControl, SegmentControlItem };
