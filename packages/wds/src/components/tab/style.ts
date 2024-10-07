@@ -1,11 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import {
-  createResponsiveStyle,
-  ellipsisTypographyStyle,
-  gradient,
-  typographyStyle,
-} from '../../utils';
+import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
@@ -46,7 +41,7 @@ export const tabListStyle =
       }
     `}
 
-    ${tabPaddingStyle({ padding, resize })}
+    ${tabPaddingStyle({ padding, resize }, theme)}
     ${tabSizeStyle({ size, resize })}
 
     &::after {
@@ -64,14 +59,14 @@ export const tabListStyle =
       theme,
     )(
       (params) => css`
-        ${tabPaddingStyle({ padding: params?.padding, resize })}
+        ${tabPaddingStyle({ padding: params?.padding, resize }, theme)}
         ${tabSizeStyle({ size: params?.size, resize })}
 				${params?.sx}
       `,
     )}
   `;
 
-const tabPaddingStyle = ({ padding, resize }: TabListProps) => {
+const tabPaddingStyle = ({ padding, resize }: TabListProps, theme: Theme) => {
   if (resize === 'fill' && padding !== undefined) {
     return css`
       [data-radix-scroll-area-viewport] {
@@ -79,12 +74,23 @@ const tabPaddingStyle = ({ padding, resize }: TabListProps) => {
         left: 0px;
         width: 100%;
       }
+
+      ${padding === true
+        ? css`
+            ${theme.platform.ios.navigation}
+          `
+        : css`
+            background-color: transparent;
+            backdrop-filter: initial;
+          `}
     `;
   }
 
   switch (padding) {
     case true:
       return css`
+        ${theme.platform.ios.navigation}
+
         [data-radix-scroll-area-viewport] {
           position: relative;
           left: 0px;
@@ -93,6 +99,9 @@ const tabPaddingStyle = ({ padding, resize }: TabListProps) => {
       `;
     case false:
       return css`
+        background-color: transparent;
+        backdrop-filter: initial;
+
         [data-radix-scroll-area-viewport] {
           position: relative;
           left: calc(var(--wds-tab-padding-x) * -1);
@@ -174,6 +183,7 @@ export const tabListItemStyle =
     [data-role="tab-list-item-text-wrapper"] {
       position: relative;
       margin: 0;
+      height: 100%;
       padding: 0;
     }
 
@@ -240,7 +250,6 @@ const tabItemResizeStyle = ({ resize }: Pick<TabListProps, 'resize'>) => {
           display: block;
           width: 100%;
           text-align: center;
-          ${ellipsisTypographyStyle(1)}
         }
       `;
   }
