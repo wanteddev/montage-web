@@ -50,6 +50,7 @@ export const scrollBarStyle =
           border-left-width: 1px;
           border-left-color: transparent;
           padding: 3px;
+          transform-origin: right;
         `
       : css`
           width: 100%;
@@ -57,6 +58,7 @@ export const scrollBarStyle =
           border-top-width: 1px;
           border-top-color: transparent;
           padding: 3px;
+          transform-origin: bottom;
         `}
 
     &[data-state='hidden'] {
