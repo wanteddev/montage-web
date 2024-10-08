@@ -125,7 +125,6 @@ export const segmentControlItemStyle =
     padding: 0px 16px;
     height: 100%;
     cursor: pointer;
-    transition: color 0.2s;
     box-shadow: none;
     border-radius: 0px;
     min-width: 0;
@@ -247,6 +246,7 @@ const segmentControlItemActiveStyle = (
         color: ${theme.palette.label.alternative};
         background-color: transparent;
         box-shadow: none;
+        transition: color 0.2s;
 
         &[data-active='true'] {
           color: ${theme.palette.label.normal};
@@ -261,6 +261,7 @@ const segmentControlItemActiveStyle = (
         background-color: transparent;
         box-shadow: none;
         border: 1px solid transparent;
+        transition: none;
 
         &::after {
           content: '';
