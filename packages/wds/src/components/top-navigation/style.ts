@@ -19,6 +19,8 @@ export const topNavigationStyle =
     position: relative;
 
     [wds-component='tab-list'] {
+      background-color: transparent;
+      backdrop-filter: initial;
       &::after {
         background-color: transparent;
       }
@@ -171,17 +173,18 @@ export const topNavigationButtonFloat = ({
 
   p {
     position: relative;
+
+    ${!alternative &&
+    css`
+      @supports (-webkit-backdrop-filter: none) {
+        will-change: mix-blend-mode;
+        mix-blend-mode: difference;
+      }
+    `}
   }
 
-  ${!alternative &&
-  css`
-    p {
-      will-change: mix-blend-mode;
-      mix-blend-mode: difference;
-    }
-  `}
-
-  &:disabled, &[aria-disabled='true'] {
+  &:disabled,
+  &[aria-disabled='true'] {
     p {
       mix-blend-mode: initial;
     }
