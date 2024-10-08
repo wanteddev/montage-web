@@ -18,7 +18,6 @@ export const avatarGroupStyle =
 
     [wds-component='avatar'] {
       flex-shrink: 0;
-      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
       position: relative;
 
       &::after {
