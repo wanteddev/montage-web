@@ -33,12 +33,13 @@ const Slider = forwardRef<
   (
     {
       heading,
-      labels,
+      label,
       min = 0,
       max = 100,
       step = 1,
-      minStepBetweenThumbs = 1,
+      minStepBetweenThumbs = 0,
       defaultValue = [min],
+      disableSwapThumbs = false,
       value,
       onValueChange,
       onValueChangeComplete,
@@ -48,6 +49,8 @@ const Slider = forwardRef<
       onPointerUp,
       onPointerMove,
       onKeyDown,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      onChange: _,
       ...props
     },
     forwardedRef,
@@ -86,23 +89,40 @@ const Slider = forwardRef<
             ...prevValues.slice(index + 1),
           ];
 
-          const stepsBetweenValues = nextValues
-            .slice(0, -1)
-            .map((v, i) => nextValues[i + 1]! - v);
+          const stepsBetweenValue = Math.min(
+            ...nextValues.slice(0, -1).map((v, i) => nextValues[i + 1]! - v),
+          );
 
-          if (Math.min(...stepsBetweenValues) < minStepBetweenThumbs) {
+          if (
+            (disableSwapThumbs && stepsBetweenValue < minStepBetweenThumbs) ||
+            (minStepBetweenThumbs > 0 &&
+              stepsBetweenValue < minStepBetweenThumbs)
+          ) {
             return prevValues;
           }
 
-          currentFocusedIndex.current = index;
-          const hasChanged = nextValues.toString() !== prevValues.toString();
+          const sortedNextValues = nextValues.sort((a, b) => a - b);
+
+          currentFocusedIndex.current =
+            sortedNextValues.indexOf(calculatedNextValue);
+
+          const hasChanged =
+            sortedNextValues.toString() !== prevValues.toString();
           if (hasChanged && isCompleted) {
-            onValueChangeComplete?.(nextValues);
+            onValueChangeComplete?.(sortedNextValues);
           }
-          return hasChanged ? nextValues : prevValues;
+          return hasChanged ? sortedNextValues : prevValues;
         });
       },
-      [max, min, onValueChangeComplete, setValues, step, minStepBetweenThumbs],
+      [
+        max,
+        min,
+        onValueChangeComplete,
+        setValues,
+        step,
+        minStepBetweenThumbs,
+        disableSwapThumbs,
+      ],
     );
 
     const getValueFromPointer = (pointerPosition: number) => {
@@ -118,19 +138,30 @@ const Slider = forwardRef<
     };
 
     return (
-      <FlexBox as="span" flexDirection="column" ref={forwardedRef} {...props}>
-        {Boolean(heading) && (
-          <Typography
+      <FlexBox
+        as="span"
+        flexDirection="column"
+        ref={forwardedRef}
+        {...props}
+        sx={[{ width: '100%' }, props.sx]}
+      >
+        {typeof heading !== 'undefined' && (
+          <FlexBox
+            as={Typography}
+            gap="4px"
             data-role="slider-heading"
             align="center"
             display="block"
             variant="headline2"
             weight="bold"
+            alignItems="center"
             color={disabled ? 'palette.label.disable' : 'palette.label.normal'}
             sx={{ margin: '0 auto 32px auto' }}
           >
-            {heading}
-          </Typography>
+            {typeof heading === 'function'
+              ? heading({ values, disabled, min, max })
+              : heading}
+          </FlexBox>
         )}
 
         <Box
@@ -166,6 +197,8 @@ const Slider = forwardRef<
             }
           })}
           onPointerDown={composeEventHandlers(onPointerDown, (event) => {
+            if (disabled) return;
+
             slideStartValues.current = values;
 
             const target = event.target as HTMLElement;
@@ -183,6 +216,8 @@ const Slider = forwardRef<
             }
           })}
           onPointerMove={composeEventHandlers(onPointerMove, (event) => {
+            if (disabled) return;
+
             const target = event.target as HTMLElement;
             if (target.hasPointerCapture(event.pointerId)) {
               const newValue = getValueFromPointer(event.clientX);
@@ -192,6 +227,8 @@ const Slider = forwardRef<
             }
           })}
           onPointerUp={composeEventHandlers(onPointerUp, (event) => {
+            if (disabled) return;
+
             const target = event.target as HTMLElement;
             if (target.hasPointerCapture(event.pointerId)) {
               target.releasePointerCapture(event.pointerId);
@@ -220,6 +257,7 @@ const Slider = forwardRef<
 
           {values.map((v, index) => (
             <SliderThumb
+              disabled={disabled}
               name={name}
               key={index}
               length={value?.length ?? 0}
@@ -232,36 +270,44 @@ const Slider = forwardRef<
           ))}
         </Box>
 
-        {labels?.length && (
+        {typeof label !== 'undefined' && (
           <Box
             data-role="slider-label-wrapper"
             sx={{ position: 'relative', height: '20px', marginTop: '8px' }}
           >
-            {labels.map(
-              (label, i) =>
-                Boolean(label) && (
-                  <Typography
-                    variant="label1_normal"
-                    weight="medium"
-                    key={i}
-                    display="inline-block"
-                    style={{
-                      left: `${convertValueToPercentage(values[i] ?? 0, min, max)}%`,
-                      transform: `translateX(-${convertValueToPercentage(values[i] ?? 0, min, max)}%)`,
-                    }}
-                    sx={{
-                      position: 'absolute',
-                    }}
-                    color={
-                      disabled
-                        ? 'palette.label.disable'
-                        : 'palette.label.normal'
-                    }
-                  >
-                    {label}
-                  </Typography>
-                ),
-            )}
+            {values.map((v, i) => {
+              const render =
+                typeof label === 'function'
+                  ? label({ value: v, index: i, min, max, disabled })
+                  : label;
+
+              if (!render) {
+                return null;
+              }
+
+              return (
+                <Typography
+                  data-role="slider-label"
+                  variant="label1_normal"
+                  weight="medium"
+                  key={i}
+                  display="inline-block"
+                  style={{
+                    left: `${convertValueToPercentage(values[i] ?? 0, min, max)}%`,
+                    transform: `translateX(-${convertValueToPercentage(values[i] ?? 0, min, max)}%)`,
+                  }}
+                  sx={{
+                    position: 'absolute',
+                    width: 'max-content',
+                  }}
+                  color={
+                    disabled ? 'palette.label.disable' : 'palette.label.normal'
+                  }
+                >
+                  {render}
+                </Typography>
+              );
+            })}
           </Box>
         )}
       </FlexBox>
@@ -329,7 +375,7 @@ const SliderThumb = ({
         {isFormControl && (
           <BubbleInput
             type="range"
-            name={length > 0 ? `${name}[]` : name}
+            name={length > 1 ? `${name}[]` : name}
             value={value}
             defaultValue={value}
           />

@@ -27,25 +27,23 @@ export default Demo;`}
 
 ## Examples
 
-### Labels
+### Label
+
+각 Thumb 부분에 label을 추가할 수 있습니다.
 
 <Demo code={`import { Slider } from '@wanteddev/wds';
-import { useState, useMemo } from 'react';
 
 const Demo = () => {
-  const [value, setValue] = useState([0, 3]);
-
-  const labels = useMemo(() => {
-    return value.map((v) => {
-      if (v === 0) {
-        return '신입';
-      }
-      return \`\${v}년\`
-    })
-  }, value)
-
   return (
-    <Slider value={value} onValueChange={setValue} labels={labels} max={35} />
+    <Slider
+      defaultValue={[1, 4]}
+      label={({ value }) => {
+        if (value === 0) return '신입';
+        if (value === 10) return '10년 이상';
+        return \`\${value}년\`
+      }}
+      max={35}
+    />
   )
 }
 
@@ -55,27 +53,40 @@ export default Demo;`}
 ### Heading
 
 <Demo code={`import { Slider } from '@wanteddev/wds';
-import { useState, useMemo } from 'react';
+
+const getSliderLabel = ({ value }) => {
+  if (value === 0) return '신입';
+  if (value === 10) return '10년 이상';
+  return \`\${value}년\`
+}
+
+const MIN = 0;
+const MAX = 10;
 
 const Demo = () => {
-  const [value, setValue] = useState([0, 3]);
-
-  const labels = useMemo(() => {
-    return value.map((v) => {
-      if (v === 0) {
-        return '신입';
-      }
-      return \`\${v}년\`
-    })
-  }, value)
-
   return (
     <Slider
-      value={value}
-      onValueChange={setValue}
-      labels={labels}
-      max={35}
-      heading={labels.join(' ~ ')}
+      min={MIN}
+      max={MAX}
+      defaultValue={[MIN, MAX]}
+      label={getSliderLabel}
+      heading={({ values }) => {
+        if (values.every((v) => v === values.at(0))) {
+          return \`경력 \$\{getSliderLabel({ value: values.at(0) })\}\`
+        }
+
+        if (values.every((v) => v === MIN || v === MAX)) {
+          return '경력 전체'
+        }
+
+        return (
+          <React.Fragment>
+            <span>{getSliderLabel({ value: values.at(0) })}</span>
+            <span>~</span>
+            <span>{getSliderLabel({ value: values.at(1) })}</span>
+          </React.Fragment>
+        )
+      }}
     />
   )
 }
@@ -106,7 +117,22 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <Slider defaultValue={[0, 8]} minStepBetweenThumbs={8} max={20} />
+    <Slider defaultValue={[0, 16]} minStepBetweenThumbs={8} max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### DisableSwapThumbs
+
+Slider를 조작할 때 다른 Thumb을 넘어갈 수 없도록 제한합니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[6, 8]} disableSwapThumbs max={20} />
   )
 }
 
@@ -122,6 +148,45 @@ export default Demo;`}
 const Demo = () => {
   return (
     <Slider defaultValue={[10]} max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Form
+
+<Demo code={`import { Slider, FlexBox, Button } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      single: 0,
+      multiple: [0, 5]
+    }
+  })
+
+  return (
+    <FlexBox as="form" gap="16px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))} flexDirection="column">
+      <Controller 
+        name="single"
+        control={form.control}
+        render={({ field }) => (
+          <Slider {...field} heading="Single" value={[field.value]} onValueChange={([value]) => field.onChange(value)} max={10} />
+        )}
+      />
+
+      <Controller 
+        name="multiple"
+        control={form.control}
+        render={({ field }) => (
+          <Slider {...field} heading="Multiple" onValueChange={field.onChange} max={10} />
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
   )
 }
 

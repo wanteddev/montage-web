@@ -3,32 +3,48 @@ import { css } from '@wanteddev/wds-engine';
 import type { SliderProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const sliderProgressWrapperStyle = ({ disabled }: SliderProps) => css`
-  padding: 8px;
-  border-radius: 1000px;
-  position: relative;
+export const sliderProgressWrapperStyle =
+  ({ disabled }: SliderProps) =>
+  (theme: Theme) => css`
+    padding: 8px;
+    border-radius: 1000px;
+    position: relative;
 
-  ${disabled
-    ? css`
-        cursor: initial;
-      `
-    : css`
-        cursor: pointer;
-      `}
-`;
+    ${disabled
+      ? css`
+          cursor: initial;
 
-export const sliderProgressStyle = (theme: Theme) => css`
+          [data-role='slider-progress-range'] {
+            background-color: ${theme.palette.interaction.disable};
+          }
+
+          [data-role='slider-progress'] {
+            background-color: ${theme.palette.interaction.disable};
+          }
+        `
+      : css`
+          cursor: pointer;
+
+          [data-role='slider-progress-range'] {
+            background-color: ${theme.palette.fill.strong};
+          }
+
+          [data-role='slider-progress'] {
+            background-color: ${theme.palette.primary.normal};
+          }
+        `}
+  `;
+
+export const sliderProgressStyle = css`
   overflow: hidden;
   position: relative;
   width: 100%;
   height: 4px;
-  background-color: ${theme.palette.fill.strong};
   border-radius: inherit;
 `;
 
-export const sliderProgressRangeStyle = (theme: Theme) => css`
+export const sliderProgressRangeStyle = css`
   position: absolute;
-  background-color: ${theme.palette.primary.normal};
   border-radius: inherit;
   height: 100%;
 `;
