@@ -1,0 +1,371 @@
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
+
+import FlexBox from '../flex-box';
+import Typography from '../typography';
+
+import {
+  clamp,
+  convertValueToPercentage,
+  getClosestThumbIndex,
+  linearScale,
+} from './helpers';
+import {
+  sliderProgressRangeStyle,
+  sliderProgressStyle,
+  sliderProgressWrapperStyle,
+  sliderThumbInteractionStyle,
+  sliderThumbKnobStyle,
+  sliderThumbStyle,
+} from './style';
+
+import type { SliderProps, SliderThumbProps } from './types';
+
+const PAGE_KEYS = ['PageUp', 'PageDown'];
+const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+
+const Slider = forwardRef<
+  HTMLSpanElement,
+  DefaultComponentProps<SliderProps, 'span'>
+>(
+  (
+    {
+      heading,
+      labels,
+      min = 0,
+      max = 100,
+      step = 1,
+      minStepBetweenThumbs = 1,
+      defaultValue = [min],
+      value,
+      onValueChange,
+      onValueChangeComplete,
+      disabled,
+      name,
+      onPointerDown,
+      onPointerUp,
+      onPointerMove,
+      onKeyDown,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    const thumbRefs = useRef<Set<HTMLSpanElement>>(new Set());
+    const currentFocusedIndex = useRef(0);
+    const rect = useRef<DOMRect>();
+    const ref = useRef<HTMLSpanElement | null>(null);
+
+    const [values = [], setValues] = useControllableState({
+      prop: value,
+      defaultProp: defaultValue,
+      onChange: (v) => {
+        [...thumbRefs.current][currentFocusedIndex.current]?.focus();
+        onValueChange?.(v);
+      },
+    });
+
+    const slideStartValues = useRef(values);
+
+    const handleValueChange = useCallback(
+      (nextValue: number, index: number, isCompleted = false) => {
+        const decimalCount = nextValue.toString().split('.')[1]?.length ?? 0;
+        const snapToStep =
+          Math.round(
+            Math.round(((nextValue - min) / step) * step + min) *
+              Math.pow(10, decimalCount),
+          ) / Math.pow(10, decimalCount);
+
+        const calculatedNextValue = clamp(snapToStep, [min, max]);
+
+        setValues((prevValues = []) => {
+          const nextValues = [
+            ...prevValues.slice(0, index),
+            calculatedNextValue,
+            ...prevValues.slice(index + 1),
+          ];
+
+          const stepsBetweenValues = nextValues
+            .slice(0, -1)
+            .map((v, i) => nextValues[i + 1]! - v);
+
+          if (Math.min(...stepsBetweenValues) < minStepBetweenThumbs) {
+            return prevValues;
+          }
+
+          currentFocusedIndex.current = index;
+          const hasChanged = nextValues.toString() !== prevValues.toString();
+          if (hasChanged && isCompleted) {
+            onValueChangeComplete?.(nextValues);
+          }
+          return hasChanged ? nextValues : prevValues;
+        });
+      },
+      [max, min, onValueChangeComplete, setValues, step, minStepBetweenThumbs],
+    );
+
+    const getValueFromPointer = (pointerPosition: number) => {
+      if (!ref.current) {
+        return;
+      }
+
+      const newRect = rect.current || ref.current.getBoundingClientRect();
+      const cb = linearScale([0, newRect.width], [min, max]);
+
+      rect.current = newRect;
+      return cb(pointerPosition - newRect.left);
+    };
+
+    return (
+      <FlexBox as="span" flexDirection="column" ref={forwardedRef} {...props}>
+        {Boolean(heading) && (
+          <Typography
+            data-role="slider-heading"
+            align="center"
+            display="block"
+            variant="headline2"
+            weight="bold"
+            color={disabled ? 'palette.label.disable' : 'palette.label.normal'}
+            sx={{ margin: '0 auto 32px auto' }}
+          >
+            {heading}
+          </Typography>
+        )}
+
+        <Box
+          sx={sliderProgressWrapperStyle({ disabled })}
+          data-role="slider-progress-wrapper"
+          as="span"
+          ref={ref}
+          onKeyDown={composeEventHandlers(onKeyDown, (e) => {
+            if (disabled) return;
+
+            if (e.key === 'Home') {
+              e.preventDefault();
+              handleValueChange(min, 0, true);
+            } else if (e.key === 'End') {
+              e.preventDefault();
+              handleValueChange(max, values.length - 1, true);
+            } else if (PAGE_KEYS.concat(ARROW_KEYS).includes(e.key)) {
+              e.preventDefault();
+              const isPageKey = PAGE_KEYS.includes(e.key);
+              const isSkipKey =
+                isPageKey || (e.shiftKey && ARROW_KEYS.includes(e.key));
+              const multiplier = isSkipKey ? 10 : 1;
+              const atIndex = currentFocusedIndex.current;
+              const newValue = values[atIndex]!;
+
+              const stepInDirection =
+                step *
+                multiplier *
+                (['Home', 'PageDown', 'ArrowDown', 'ArrowLeft'].includes(e.key)
+                  ? -1
+                  : 1);
+              handleValueChange(newValue + stepInDirection, atIndex, true);
+            }
+          })}
+          onPointerDown={composeEventHandlers(onPointerDown, (event) => {
+            slideStartValues.current = values;
+
+            const target = event.target as HTMLElement;
+            target.setPointerCapture(event.pointerId);
+            event.preventDefault();
+
+            if (thumbRefs.current.has(target)) {
+              target.focus();
+            } else {
+              const newValue = getValueFromPointer(event.clientX);
+              if (newValue === undefined) return;
+
+              const closestIndex = getClosestThumbIndex(values, newValue);
+              handleValueChange(newValue, closestIndex);
+            }
+          })}
+          onPointerMove={composeEventHandlers(onPointerMove, (event) => {
+            const target = event.target as HTMLElement;
+            if (target.hasPointerCapture(event.pointerId)) {
+              const newValue = getValueFromPointer(event.clientX);
+              if (newValue === undefined) return;
+
+              handleValueChange(newValue, currentFocusedIndex.current);
+            }
+          })}
+          onPointerUp={composeEventHandlers(onPointerUp, (event) => {
+            const target = event.target as HTMLElement;
+            if (target.hasPointerCapture(event.pointerId)) {
+              target.releasePointerCapture(event.pointerId);
+
+              const prevValue =
+                slideStartValues.current[currentFocusedIndex.current];
+              const nextValue = values[currentFocusedIndex.current];
+              const hasChanged = nextValue !== prevValue;
+
+              if (hasChanged) {
+                onValueChangeComplete?.(values);
+              }
+            }
+          })}
+        >
+          <Box sx={sliderProgressStyle} data-role="slider-progress-range">
+            <Box
+              sx={sliderProgressRangeStyle}
+              data-role="slider-progress"
+              style={{
+                left: `${values.length > 1 ? convertValueToPercentage(Math.min(...values), min, max) : 0}%`,
+                right: `${100 - convertValueToPercentage(Math.max(...values), min, max)}%`,
+              }}
+            />
+          </Box>
+
+          {values.map((v, index) => (
+            <SliderThumb
+              name={name}
+              key={index}
+              length={value?.length ?? 0}
+              value={v}
+              min={min}
+              max={max}
+              onFocus={() => (currentFocusedIndex.current = index)}
+              thumbs={thumbRefs.current}
+            />
+          ))}
+        </Box>
+
+        {labels?.length && (
+          <Box
+            data-role="slider-label-wrapper"
+            sx={{ position: 'relative', height: '20px', marginTop: '8px' }}
+          >
+            {labels.map(
+              (label, i) =>
+                Boolean(label) && (
+                  <Typography
+                    variant="label1_normal"
+                    weight="medium"
+                    key={i}
+                    display="inline-block"
+                    style={{
+                      left: `${convertValueToPercentage(values[i] ?? 0, min, max)}%`,
+                      transform: `translateX(-${convertValueToPercentage(values[i] ?? 0, min, max)}%)`,
+                    }}
+                    sx={{
+                      position: 'absolute',
+                    }}
+                    color={
+                      disabled
+                        ? 'palette.label.disable'
+                        : 'palette.label.normal'
+                    }
+                  >
+                    {label}
+                  </Typography>
+                ),
+            )}
+          </Box>
+        )}
+      </FlexBox>
+    );
+  },
+);
+
+Slider.displayName = 'Slider';
+
+const SliderThumb = ({
+  name,
+  disabled,
+  min,
+  max,
+  value,
+  length,
+  thumbs,
+  ...props
+}: DefaultComponentProps<SliderThumbProps, 'span'>) => {
+  const [thumb, setThumb] = useState<HTMLSpanElement | null>(null);
+  const isFormControl = thumb ? Boolean(thumb.closest('form')) : true;
+
+  useEffect(() => {
+    if (thumb) {
+      thumbs.add(thumb);
+
+      return () => {
+        thumbs.delete(thumb);
+      };
+    }
+  }, [thumb, thumbs]);
+
+  return (
+    <>
+      <Box
+        ref={setThumb}
+        as="span"
+        role="slider"
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={value}
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : 0}
+        style={{
+          left: convertValueToPercentage(value, min, max) + '%',
+          transform: `translateX(${convertValueToPercentage(value, min, max) * -1}%)`,
+        }}
+        sx={sliderThumbStyle}
+        {...props}
+        onPointerDown={composeEventHandlers(props.onPointerDown, () => {
+          thumb?.focus();
+        })}
+      >
+        <Box
+          data-role="slider-thumb-interaction"
+          as="span"
+          sx={sliderThumbInteractionStyle}
+        />
+        <Box
+          data-role="slider-thumb-knob"
+          as="span"
+          sx={sliderThumbKnobStyle}
+        />
+
+        {isFormControl && (
+          <BubbleInput
+            type="range"
+            name={length > 0 ? `${name}[]` : name}
+            value={value}
+            defaultValue={value}
+          />
+        )}
+      </Box>
+    </>
+  );
+};
+
+SliderThumb.displayName = 'SliderThumb';
+
+const BubbleInput = ({
+  value,
+  ...props
+}: DefaultComponentProps<{ value: number }, 'input'>) => {
+  const ref = useRef<HTMLInputElement>(null);
+  const prevValue = useRef(value);
+
+  useEffect(() => {
+    const input = ref.current!;
+    const inputProto = window.HTMLInputElement.prototype;
+    const descriptor = Object.getOwnPropertyDescriptor(
+      inputProto,
+      'value',
+    ) as PropertyDescriptor;
+    const setValue = descriptor.set;
+    if (prevValue.current !== value && setValue) {
+      const event = new Event('input', { bubbles: true });
+      setValue.call(input, value);
+      input.dispatchEvent(event);
+    }
+
+    prevValue.current = value;
+  }, [value]);
+
+  return <Box ref={ref} as="input" sx={{ display: 'none' }} {...props} />;
+};
+
+export { Slider };

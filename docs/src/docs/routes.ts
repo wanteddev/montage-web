@@ -152,6 +152,7 @@ export const routes: Array<Route> = [
         alpha: true,
       },
       { title: 'Skeleton', slug: '/docs/components/skeleton', alpha: true },
+      { title: 'Slider', slug: '/docs/components/slider', alpha: true },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextArea', slug: '/docs/components/text-area' },

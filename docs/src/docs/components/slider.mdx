@@ -1,0 +1,129 @@
+---
+title: Slider
+description: Slider Component
+---
+
+# Slider
+
+특정 범위에 대한 값을 선택할 때 사용합니다.
+
+## 활용
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[0, 50]} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="Slider" />
+
+
+## Examples
+
+### Labels
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([0, 3]);
+
+  const labels = useMemo(() => {
+    return value.map((v) => {
+      if (v === 0) {
+        return '신입';
+      }
+      return \`\${v}년\`
+    })
+  }, value)
+
+  return (
+    <Slider value={value} onValueChange={setValue} labels={labels} max={35} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Heading
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([0, 3]);
+
+  const labels = useMemo(() => {
+    return value.map((v) => {
+      if (v === 0) {
+        return '신입';
+      }
+      return \`\${v}년\`
+    })
+  }, value)
+
+  return (
+    <Slider
+      value={value}
+      onValueChange={setValue}
+      labels={labels}
+      max={35}
+      heading={labels.join(' ~ ')}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Step
+
+키보드로 조작했을 때 한번에 이동할 거리를 설정할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[0, 8]} step={4} max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### MinStepBetweenThumbs
+
+두 Step 사이 최소 거리를 제한할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[0, 8]} minStepBetweenThumbs={8} max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Single
+
+단일 슬라이더로도 구성할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[10]} max={20} />
+  )
+}
+
+export default Demo;`}
+/>

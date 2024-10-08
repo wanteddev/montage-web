@@ -42,6 +42,7 @@ export { default as ScrollArea } from './scroll-area';
 export * from './select';
 export { default as SelectMultiple } from './select-multiple';
 export { default as Skeleton } from './skeleton';
+export * from './slider';
 export { default as Switch } from './switch';
 export * from './tab';
 export * from './text-area';
