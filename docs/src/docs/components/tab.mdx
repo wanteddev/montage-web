@@ -5,12 +5,16 @@ description: Tab Component
 
 # Tab
 
-두 개 이상으로 구성된 하위 View를 이동할 때 사용합니다.
+Tab은 사용자 인터페이스에서 여러 콘텐츠를 하나의 화면 내에서 구분하여 표시할 수 있는 컴포넌트입니다.
 
 ## 활용
 
-<Demo code={`import { useState } from 'react';
-import {
+- Top Navigation과 함께 사용하여 스크롤 시 Sticky되어 될 수 있습니다.
+- 3개 이하의 Tab에서 Label이 길어질 시 `resize="fill"` 옵션을 사용하여 시각 보정을 할 수 있습니다.
+- 화면을 분할하여 정보를 제공하는 모든 컴포넌트 요소 중 가장 상위 레벨을 갖고 있습니다.
+- Label은 가급적 5자 이하의 명사 사용을 권장하며 5자를 넘을 시 Compact 타입을 사용하여 시각 보정을 할 수 있습니다.
+
+<Demo code={`import {
   Button,
   Tab,
   TabList,
@@ -19,8 +23,6 @@ import {
 } from '@wanteddev/wds';
 
 const Demo = () => {
-  const [show, setShow] = useState(false);
-
   return (
     <Tab defaultValue="0">
       <TabList size="large">
@@ -102,3 +104,132 @@ Tab 은 여러 컴포넌트를 조합해서 사용합니다.
 - `always` 는 항상 렌더링 되어 있으며 상태가 변경되는 경우 언마운트되지 않고 숨김 처리 됩니다.
 
 <PropsTable component="TabPanel" />
+
+## Resize
+
+### Normal
+
+<Demo code={`import {
+  Button,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList>
+        <TabListItem value="0">
+          첫 번째 탭
+        </TabListItem>
+        <TabListItem value="1">
+          두 번째 탭
+        </TabListItem>
+        <TabListItem value="2">
+          세 번째 탭
+        </TabListItem>
+        <TabListItem value="3">
+          네 번째 탭
+        </TabListItem>
+      </TabList>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Fill
+
+<Demo code={`import {
+  Button,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList resize="fill">
+        <TabListItem value="0">
+          첫 번째 탭
+        </TabListItem>
+        <TabListItem value="1">
+          두 번째 탭
+        </TabListItem>
+        <TabListItem value="2">
+          세 번째 탭
+        </TabListItem>
+        <TabListItem value="3">
+          네 번째 탭
+        </TabListItem>
+      </TabList>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>
+
+## RightContent
+
+<Demo code={`import {
+  Button,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+  IconButton,
+} from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList
+        rightContent={(
+          <IconButton size={24}>
+            <IconBlank />
+          </IconButton>
+        )}>
+        <TabListItem value="0">
+          첫 번째 탭
+        </TabListItem>
+        <TabListItem value="1">
+          두 번째 탭
+        </TabListItem>
+        <TabListItem value="2">
+          세 번째 탭
+        </TabListItem>
+        <TabListItem value="3">
+          네 번째 탭
+        </TabListItem>
+        <TabListItem value="4">
+          다섯 번째 탭
+        </TabListItem>
+        <TabListItem value="5">
+          여섯 번째 탭
+        </TabListItem>
+        <TabListItem value="6">
+          일곱 번째 탭
+        </TabListItem>
+        <TabListItem value="7">
+          여덟 번째 탭
+        </TabListItem>
+        <TabListItem value="8">
+          아홉 번째 탭
+        </TabListItem>
+        <TabListItem value="9">
+          열 번째 탭
+        </TabListItem>
+      </TabList>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>
