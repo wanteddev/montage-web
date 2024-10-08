@@ -1,6 +1,5 @@
 export * from './action-area';
 export * from './autocomplete';
-export { default as SectionMessage } from './section-message';
 export { default as Avatar } from './avatar';
 export { default as AvatarButton } from './avatar-button';
 export { default as AvatarGroup } from './avatar-group';
@@ -39,6 +38,8 @@ export * from './radio-group';
 export { default as RegionConfig } from './region-config';
 export { default as RoundCheckbox } from './round-checkbox';
 export { default as ScrollArea } from './scroll-area';
+export { default as SectionMessage } from './section-message';
+export * from './segment-control';
 export * from './select';
 export { default as SelectMultiple } from './select-multiple';
 export { default as Skeleton } from './skeleton';
