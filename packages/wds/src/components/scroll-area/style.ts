@@ -38,10 +38,14 @@ export const scrollBarStyle =
     touch-action: none;
     user-select: none;
     background: transparent;
-    transition:
-      width 0.2s ease,
-      height 0.2s ease;
-    will-change: transform, width, height;
+
+    [data-role='scroll-area-bar-wrapper'] {
+      transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        transform 0.2s ease;
+      will-change: transform, width, height;
+    }
 
     ${orientation === 'vertical'
       ? css`
@@ -49,6 +53,10 @@ export const scrollBarStyle =
           border-left-width: 1px;
           border-left-color: transparent;
           padding: 3px;
+
+          [data-role='scroll-area-bar-wrapper'] {
+            transform-origin: right;
+          }
         `
       : css`
           width: 100%;
@@ -56,6 +64,10 @@ export const scrollBarStyle =
           border-top-width: 1px;
           border-top-color: transparent;
           padding: 3px;
+
+          [data-role='scroll-area-bar-wrapper'] {
+            transform-origin: bottom;
+          }
         `}
 
     &[data-state='hidden'] {
@@ -82,8 +94,9 @@ const scrollbarSizeStyle = (
             --radix-scroll-area-thumb-width: 3px;
 
             &:hover {
-              width: 13px;
-              --radix-scroll-area-thumb-width: 7px;
+              [data-role='scroll-area-bar-wrapper'] {
+                transform: scale(1, 1.33333);
+              }
             }
           `
         : css`
@@ -91,8 +104,9 @@ const scrollbarSizeStyle = (
             --radix-scroll-area-thumb-height: 3px;
 
             &:hover {
-              height: 13px;
-              --radix-scroll-area-thumb-height: 7px;
+              [data-role='scroll-area-bar-wrapper'] {
+                transform: scale(1.33333, 1);
+              }
             }
           `;
     case 'normal':
@@ -100,17 +114,21 @@ const scrollbarSizeStyle = (
         ? css`
             width: 13px;
             --radix-scroll-area-thumb-width: 7px;
+
             &:hover {
-              width: 17px;
-              --radix-scroll-area-thumb-width: 11px;
+              [data-role='scroll-area-bar-wrapper'] {
+                transform: scale(1.5714, 1);
+              }
             }
           `
         : css`
             height: 13px;
             --radix-scroll-area-thumb-height: 7px;
+
             &:hover {
-              height: 17px;
-              --radix-scroll-area-thumb-height: 11px;
+              [data-role='scroll-area-bar-wrapper'] {
+                transform: scale(1, 1.5714);
+              }
             }
           `;
     case 'responsive':
@@ -129,6 +147,6 @@ export const scrollBarThumbStyle = (theme: Theme) => css`
   position: relative;
   border-radius: 10px;
   background-color: ${theme.palette.fill.strong};
-  transition: background-color 160ms ease-out;
+  transition: background-color 0.2s ease;
   will-change: background-color;
 `;

@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
+import FlexBox from '../flex-box';
 
 import {
   scrollAreaStyle,
@@ -112,9 +113,14 @@ const ScrollBar = forwardRef<
     {...props}
     sx={[scrollBarStyle({ orientation, size }), props.sx]}
   >
-    <WithInteraction color="palette.label.normal">
-      <Box as={ScrollAreaPrimitive.ScrollAreaThumb} sx={scrollBarThumbStyle} />
-    </WithInteraction>
+    <FlexBox data-role="scroll-area-bar-wrapper">
+      <WithInteraction color="palette.label.normal">
+        <Box
+          as={ScrollAreaPrimitive.ScrollAreaThumb}
+          sx={scrollBarThumbStyle}
+        />
+      </WithInteraction>
+    </FlexBox>
   </Box>
 ));
 
