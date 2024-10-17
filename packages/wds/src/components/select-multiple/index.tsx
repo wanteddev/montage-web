@@ -306,6 +306,7 @@ const SelectMultiple = forwardRef<
                   <FlexBox
                     ref={setRenderWrapperNode}
                     gap="4px"
+                    flexWrap={overflow ? 'wrap' : 'nowrap'}
                     onScrollCapture={handleOnScroll}
                   >
                     {shouldShowAllSelectedLabel
