@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.3...@wanteddev/wds@1.4.4) (2024-10-17)
+
+### Features
+
+- **wds:** PI-68739 select 개선 ([#127](https://github.com/wanteddev/wds/issues/127)) ([388bcd8](https://github.com/wanteddev/wds/commit/388bcd8193f0d26b0406df2a416985536cde0837))
+
 ## [1.4.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.2...@wanteddev/wds@1.4.3) (2024-09-30)
 
 ### Bug Fixes
