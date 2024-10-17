@@ -110,7 +110,7 @@ const Select = forwardRef<
       },
     });
 
-    const [open = false, setOpen] = useControllableState({
+    const [openState = false, setOpenState] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen,
       onChange: (v) => {
@@ -118,6 +118,7 @@ const Select = forwardRef<
         onOpenChange?.(v);
       },
     });
+    const open = openState && !disabled;
 
     const shouldShowPlaceholder = useMemo(
       () => value.length === 0,
@@ -147,7 +148,7 @@ const Select = forwardRef<
 
     return (
       <SelectProvider
-        onOpenChange={setOpen}
+        onOpenChange={setOpenState}
         enableMenuBottom={enableMenuBottom}
       >
         {isFormControl && (
@@ -186,8 +187,8 @@ const Select = forwardRef<
               }
             },
           )}
-          open={open && !disabled}
-          onOpenChange={setOpen}
+          open={open}
+          onOpenChange={setOpenState}
         >
           <MenuTrigger>
             <FlexBox
