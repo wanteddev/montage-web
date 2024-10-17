@@ -220,6 +220,36 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### AllSelectedLabel
+
+`allSelectedLabel` prop을 사용하여 모든 옵션이 선택되었을 때 표시할 label을 커스텀할 수 있습니다.
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Label</Label>
+      <SelectMultiple width="300px" placeholder="선택해주세요." allSelectedLabel="전체">
+        {new Array(2).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### LeftContent
 
 <Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';

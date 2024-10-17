@@ -11,27 +11,30 @@ export const customSelectMultipleRenderWrapperStyle = ({
   isScrollableLeft: boolean;
   isScrollableRight: boolean;
 }) =>
-  overflow === false &&
-  css`
-    overflow: hidden;
+  overflow
+    ? css`
+        overflow: hidden;
+      `
+    : css`
+        overflow: hidden;
 
-    ${isScrollableRight &&
-    css`
-      ${gradient('transparent', 'right', '40px')}
-    `}
+        ${isScrollableRight &&
+        css`
+          ${gradient('transparent', 'right', '40px')}
+        `}
 
-    > div {
-      overflow: scroll;
+        > div {
+          overflow: scroll;
 
-      &::-webkit-scrollbar {
-        display: none;
-      }
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+          &::-webkit-scrollbar {
+            display: none;
+          }
+          -ms-overflow-style: none;
+          scrollbar-width: none;
 
-      ${isScrollableLeft &&
-      css`
-        ${gradient('transparent', 'left', '40px')}
-      `}
-    }
-  `;
+          ${isScrollableLeft &&
+          css`
+            ${gradient('transparent', 'left', '40px')}
+          `}
+        }
+      `;

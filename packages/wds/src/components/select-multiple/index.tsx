@@ -54,6 +54,7 @@ const SelectMultiple = forwardRef<
       open: openProp,
       defaultOpen,
       onOpenChange,
+      allSelectedLabel,
       leftContent,
       render,
       width,
@@ -98,7 +99,7 @@ const SelectMultiple = forwardRef<
       },
     });
 
-    const [open = false, setOpen] = useControllableState({
+    const [openState = false, setOpenState] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen,
       onChange: (v) => {
@@ -106,6 +107,7 @@ const SelectMultiple = forwardRef<
         onOpenChange?.(v);
       },
     });
+    const open = openState && !disabled;
 
     const handleOnScroll: UIEventHandler<HTMLDivElement> = useCallback(
       (e) => {
@@ -147,6 +149,14 @@ const SelectMultiple = forwardRef<
       () => value.length === 0,
       [value.length],
     );
+
+    const optionList = useMemo(() => {
+      return convertChildrenToData(children);
+    }, [children]);
+
+    const isAllSelected = optionList.length === value.length;
+    const shouldShowAllSelectedLabel =
+      isAllSelected && Boolean(allSelectedLabel);
 
     const label = useMemo(() => {
       return convertChildrenToData(children)
@@ -207,13 +217,14 @@ const SelectMultiple = forwardRef<
               }
             },
           )}
-          open={open && !disabled}
-          onOpenChange={setOpen}
+          open={open}
+          onOpenChange={setOpenState}
         >
           <MenuTrigger>
             <FlexBox
               ref={composedRefs}
               gap="8px"
+              alignItems="flex-start"
               aria-invalid={invalid}
               aria-disabled={disabled}
               tabIndex={disabled ? -1 : 0}
@@ -275,7 +286,9 @@ const SelectMultiple = forwardRef<
                         sx: ellipsisTypographyStyle(1),
                       })}
                     >
-                      {label.join(', ')}
+                      {shouldShowAllSelectedLabel
+                        ? allSelectedLabel
+                        : label.join(', ')}
                     </Typography>
                   )}
                 </FlexBox>
@@ -294,9 +307,12 @@ const SelectMultiple = forwardRef<
                   <FlexBox
                     ref={setRenderWrapperNode}
                     gap="4px"
+                    flexWrap={overflow ? 'wrap' : 'nowrap'}
                     onScrollCapture={handleOnScroll}
                   >
-                    {render(label, value)}
+                    {shouldShowAllSelectedLabel
+                      ? allSelectedLabel
+                      : render(label, value)}
                   </FlexBox>
                 </FlexBox>
               )}
