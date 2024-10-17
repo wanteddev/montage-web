@@ -54,6 +54,7 @@ const SelectMultiple = forwardRef<
       open: openProp,
       defaultOpen,
       onOpenChange,
+      allSelectedLabel,
       leftContent,
       render,
       width,
@@ -148,6 +149,14 @@ const SelectMultiple = forwardRef<
       () => value.length === 0,
       [value.length],
     );
+
+    const optionList = useMemo(() => {
+      return convertChildrenToData(children);
+    }, [children]);
+
+    const isAllSelected = optionList.length === value.length;
+    const shouldShowAllSelectedLabel =
+      isAllSelected && Boolean(allSelectedLabel);
 
     const label = useMemo(() => {
       return convertChildrenToData(children)
@@ -276,7 +285,9 @@ const SelectMultiple = forwardRef<
                         sx: ellipsisTypographyStyle(1),
                       })}
                     >
-                      {label.join(', ')}
+                      {shouldShowAllSelectedLabel
+                        ? allSelectedLabel
+                        : label.join(', ')}
                     </Typography>
                   )}
                 </FlexBox>
@@ -297,7 +308,9 @@ const SelectMultiple = forwardRef<
                     gap="4px"
                     onScrollCapture={handleOnScroll}
                   >
-                    {render(label, value)}
+                    {shouldShowAllSelectedLabel
+                      ? allSelectedLabel
+                      : render(label, value)}
                   </FlexBox>
                 </FlexBox>
               )}
