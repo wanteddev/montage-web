@@ -23,7 +23,6 @@ export const selectStyle =
   }: SelectMultipleProps) =>
   (theme: Theme) => css`
     display: flex;
-    align-items: flex-start;
     border-radius: 12px;
     border: none;
     box-shadow:

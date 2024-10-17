@@ -194,6 +194,7 @@ const Select = forwardRef<
             <FlexBox
               ref={composedRefs}
               gap="8px"
+              alignItems="center"
               aria-invalid={invalid}
               aria-disabled={disabled}
               tabIndex={disabled ? -1 : 0}
