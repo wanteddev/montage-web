@@ -46,7 +46,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
     case 'xsmall':
       return css`
         border-radius: 6px;
-        padding: 4px 6px 4px 8px;
+        padding: 4px 7px 4px 5px;
         gap: 2px;
 
         svg {
@@ -62,7 +62,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
     case 'small':
       return css`
         border-radius: 8px;
-        padding: 6px 8px 6px 10px;
+        padding: 6px 6px 6px 8px;
         gap: 4px;
 
         svg {
@@ -78,7 +78,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
     case 'normal':
       return css`
         border-radius: 10px;
-        padding: 7px 8px 7px 12px;
+        padding: 7px 9px 7px 11px;
         gap: 5px;
 
         svg {
@@ -95,7 +95,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
     case 'large':
       return css`
         border-radius: 10px;
-        padding: 9px 8px 9px 12px;
+        padding: 9px 10px 9px 12px;
         gap: 5px;
 
         svg {
