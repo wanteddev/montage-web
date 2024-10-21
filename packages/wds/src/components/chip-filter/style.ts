@@ -47,42 +47,55 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
       return css`
         border-radius: 6px;
         padding: 4px 7px 4px 5px;
-        gap: 2px;
+        gap: 1px;
 
-        svg {
-          font-size: 12px;
+        [data-role='chip-filter-wrapper'] {
+          padding: 0 1px;
+          gap: 3px;
         }
+
         span {
           ${typographyStyle('caption1', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
           ${typographyStyle('caption1', 'bold')}
         }
+
+        svg {
+          font-size: 12px;
+        }
       `;
     case 'small':
       return css`
         border-radius: 8px;
         padding: 6px 6px 6px 8px;
-        gap: 4px;
+        gap: 1px;
 
-        svg {
-          font-size: 16px;
+        [data-role='chip-filter-wrapper'] {
+          padding: 0 2px;
+          gap: 4px;
         }
+
         span {
           ${typographyStyle('label1_normal', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
           ${typographyStyle('label1_normal', 'bold')}
         }
+
+        svg {
+          font-size: 16px;
+        }
       `;
     case 'normal':
       return css`
         border-radius: 10px;
         padding: 7px 9px 7px 11px;
-        gap: 5px;
+        gap: 2px;
 
-        svg {
-          font-size: 16px;
+        [data-role='chip-filter-wrapper'] {
+          padding: 0 2px;
+          gap: 4px;
         }
 
         span {
@@ -90,22 +103,32 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         }
         [data-role='chip-filter-active-label'] {
           ${typographyStyle('body2_normal', 'bold')}
+        }
+
+        svg {
+          font-size: 16px;
         }
       `;
     case 'large':
       return css`
         border-radius: 10px;
         padding: 9px 10px 9px 12px;
-        gap: 5px;
+        gap: 2px;
 
-        svg {
-          font-size: 16px;
+        [data-role='chip-filter-wrapper'] {
+          padding: 0 2px;
+          gap: 4px;
         }
+
         span {
           ${typographyStyle('body2_normal', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
           ${typographyStyle('body2_normal', 'bold')}
+        }
+
+        svg {
+          font-size: 16px;
         }
       `;
   }
