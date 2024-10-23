@@ -1,4 +1,9 @@
-import { forwardRef } from 'react';
+import { Children, forwardRef, isValidElement, useMemo } from 'react';
+import {
+  type DefaultComponentProps,
+  type PolymorphicComponent,
+  type PolymorphicProps,
+} from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 import Button from '../button';
@@ -6,6 +11,7 @@ import Button from '../button';
 import {
   EMPTY_STATE_BUTTON_NAME,
   EMPTY_STATE_CONTENT_NAME,
+  EMPTY_STATE_IMAGE_NAME,
   EMPTY_STATE_NAME,
   EMPTY_STATE_TEXT_NAME,
 } from './constants';
@@ -14,12 +20,16 @@ import { emptyStateStyle } from './style';
 import type { ButtonProps } from '../button/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
-} from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { EmptyStateProps, EmptyStateTextProps } from './types';
+  ElementRef,
+  ElementType,
+  ForwardedRef,
+  ReactElement,
+} from 'react';
+import type {
+  EmptyStateImageProps,
+  EmptyStateProps,
+  EmptyStateTextProps,
+} from './types';
 
 const EmptyState = forwardRef(
   <E extends ElementType = 'div'>(
@@ -39,6 +49,17 @@ const EmptyState = forwardRef(
     }: PolymorphicProps<EmptyStateProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
+    const hasImage = useMemo(() => {
+      return Children.toArray(children).some((node) => {
+        const {
+          type: { displayName },
+        } = node as ReactElement & {
+          type: { displayName: string };
+        };
+        return isValidElement(node) && displayName === EMPTY_STATE_IMAGE_NAME;
+      });
+    }, [children]);
+
     return (
       <FlexBox
         as={(as || 'div') as E}
@@ -46,7 +67,17 @@ const EmptyState = forwardRef(
         flexDirection="column"
         alignItems="center"
         sx={[
-          emptyStateStyle({ platform, padding, width, xs, sm, md, lg, xl }),
+          emptyStateStyle({
+            platform,
+            padding,
+            width,
+            hasImage,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
           sx,
         ]}
         {...props}
@@ -59,6 +90,35 @@ const EmptyState = forwardRef(
 
 EmptyState.displayName = EMPTY_STATE_NAME;
 
+const EmptyStateImage = forwardRef(
+  (
+    {
+      variant = 'custom',
+      ...props
+    }: DefaultComponentProps<EmptyStateImageProps, 'div'>,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    switch (variant) {
+      case 'image':
+      case 'icon':
+      case 'lottie':
+      case 'custom':
+      default:
+        return (
+          <FlexBox
+            ref={ref}
+            wds-component="empty-state-image"
+            justifyContent="center"
+            alignItems="center"
+            {...props}
+          />
+        );
+    }
+  },
+);
+
+EmptyStateImage.displayName = EMPTY_STATE_IMAGE_NAME;
+
 const EmptyStateContent = forwardRef(
   (
     props: DefaultComponentProps<FlexBoxProps, 'div'>,
@@ -67,6 +127,7 @@ const EmptyStateContent = forwardRef(
     return (
       <FlexBox
         ref={ref}
+        wds-component="empty-state-content"
         flexDirection="column"
         alignItems="center"
         gap="24px"
@@ -113,4 +174,10 @@ const EmptyStateButton = forwardRef(
 
 EmptyStateButton.displayName = EMPTY_STATE_BUTTON_NAME;
 
-export { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton };
+export {
+  EmptyState,
+  EmptyStateImage,
+  EmptyStateContent,
+  EmptyStateText,
+  EmptyStateButton,
+};

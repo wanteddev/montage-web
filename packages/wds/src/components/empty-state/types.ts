@@ -17,6 +17,15 @@ export type EmptyStateProps = Merge<
   FlexBoxProps
 >;
 
+export type EmptyStateImageDefaultProps = {
+  variant?: 'image' | 'icon' | 'lottie' | 'custom';
+  width?: CSSProperties['width'];
+};
+export type EmptyStateImageProps = Merge<
+  EmptyStateImageDefaultProps,
+  FlexBoxProps
+>;
+
 export type EmptyStateContent = FlexBoxProps;
 
 export type EmptyStateTextDefaultProps = {
