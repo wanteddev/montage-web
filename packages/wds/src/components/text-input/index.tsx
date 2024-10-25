@@ -43,6 +43,7 @@ const TextInput = forwardRef<
       leftContent,
       rightContent,
       positive,
+      readOnly,
       className,
       style,
       onReset,
@@ -68,6 +69,7 @@ const TextInput = forwardRef<
         sx={[
           textInputWrapperStyle({
             invalid,
+            readOnly,
             type,
             positive,
             xs,
@@ -106,6 +108,8 @@ const TextInput = forwardRef<
         <input
           ref={composedRefs}
           type={type}
+          readOnly={readOnly}
+          aria-readonly={readOnly}
           aria-invalid={invalid}
           {...props}
         />

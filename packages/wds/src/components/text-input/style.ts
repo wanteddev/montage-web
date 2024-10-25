@@ -12,6 +12,7 @@ const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
 export const textInputWrapperStyle =
   ({
     invalid,
+    readOnly,
     type,
     disabled,
     width = 'initial',
@@ -21,7 +22,7 @@ export const textInputWrapperStyle =
     md,
     lg,
     xl,
-  }: TextInputProps & { type?: string }) =>
+  }: TextInputProps & { type?: string; readOnly?: boolean }) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;
@@ -110,7 +111,7 @@ export const textInputWrapperStyle =
               }
 
               [data-role='text-input-reset'] {
-                display: flex;
+                display: ${readOnly ? 'none' : 'flex'};
               }
 
               &:where(:has(input:placeholder-shown)) {
@@ -154,7 +155,7 @@ export const textInputWrapperStyle =
                 display: none;
               }
               [data-role='text-input-reset'] {
-                display: flex;
+                display: ${readOnly ? 'none' : 'flex'};
               }
             }
           }
