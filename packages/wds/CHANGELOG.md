@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.4...@wanteddev/wds@1.4.5) (2024-10-25)
+
+### Bug Fixes
+
+- **wds:** text-input read-only 속성 추가 대응 ([#135](https://github.com/wanteddev/wds/issues/135)) ([e4934e1](https://github.com/wanteddev/wds/commit/e4934e123c6ac5dc011ca1daa8875c053dc94cdd))
+
 ## [1.4.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.3...@wanteddev/wds@1.4.4) (2024-10-17)
 
 ### Features
