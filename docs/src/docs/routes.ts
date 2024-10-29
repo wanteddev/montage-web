@@ -98,6 +98,7 @@ export const routes: Array<Route> = [
       },
       { title: 'Label', slug: '/docs/components/label' },
       { title: 'List', slug: '/docs/components/list' },
+      { title: 'LoadingCircular', slug: '/docs/components/loading-circular' },
       { title: 'LoadingWanted', slug: '/docs/components/loading-wanted' },
       { title: 'Label', slug: '/docs/components/label' },
       { title: 'Menu', slug: '/docs/components/menu' },

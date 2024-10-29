@@ -1,0 +1,43 @@
+---
+title: LoadingCircular
+description: LoadingCircular Component
+---
+
+# LoadingCircular
+
+로딩이 2초 미만이거나 중립적인 표현이 필요할 때 사용합니다.
+
+<Demo code={`import { LoadingCircular } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <LoadingCircular />
+  );
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="LoadingCircular" />
+
+## Size
+
+- width와 height를 size로 지정할 수 있어요.
+- css의 width, height 속성과 동일한 값을 사용합니다.
+
+<Demo code={`import { LoadingCircular, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center">
+      <LoadingCircular size="50px" />
+      <LoadingCircular size="1em" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
