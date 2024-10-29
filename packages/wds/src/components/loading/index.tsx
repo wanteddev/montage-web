@@ -1,18 +1,22 @@
-import { Box } from '@wanteddev/wds-engine';
 import { forwardRef } from 'react';
+import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 
-import { loadingWantedStyle, wantedAnimatedSvgStyle } from './style';
-import { LOADING_WANTED_NAME } from './constants';
+import { LOADING_NAME } from './constants';
+import {
+  loadingCircularAnimatedSvgStyle,
+  loadingStyle,
+  loadingWantedAnimatedSvgStyle,
+} from './style';
 
+import type { LoadingProps } from './types';
 import type { ForwardedRef } from 'react';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { LoadingWantedProps } from './types';
 
-const LoadingWanted = forwardRef(
+const Loading = forwardRef(
   (
     {
+      variant = 'wanted',
       size = '32px',
       xl,
       lg,
@@ -21,15 +25,24 @@ const LoadingWanted = forwardRef(
       xs,
       sx,
       ...props
-    }: DefaultComponentProps<LoadingWantedProps, 'div'>,
+    }: DefaultComponentProps<LoadingProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
+    const loadingSvgRender = () => {
+      switch (variant) {
+        case 'wanted':
+          return <LoadingWantedAnimatedSvg />;
+        case 'circular':
+          return <LoadingCircularAnimatedSvg />;
+      }
+    };
+
     return (
       <FlexBox
         ref={ref}
         {...props}
         sx={[
-          loadingWantedStyle({
+          loadingStyle({
             size,
             xl,
             lg,
@@ -40,13 +53,13 @@ const LoadingWanted = forwardRef(
           sx,
         ]}
       >
-        <LoadingWantedAnimatedSvg />
+        {loadingSvgRender()}
       </FlexBox>
     );
   },
 );
 
-LoadingWanted.displayName = LOADING_WANTED_NAME;
+Loading.displayName = LOADING_NAME;
 
 const LoadingWantedAnimatedSvg = () => {
   return (
@@ -54,7 +67,7 @@ const LoadingWantedAnimatedSvg = () => {
       as="svg"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
-      sx={wantedAnimatedSvgStyle}
+      sx={loadingWantedAnimatedSvgStyle}
     >
       <g>
         <path
@@ -74,4 +87,17 @@ const LoadingWantedAnimatedSvg = () => {
   );
 };
 
-export default LoadingWanted;
+const LoadingCircularAnimatedSvg = () => {
+  return (
+    <Box
+      as="svg"
+      viewBox="0 0 28 28"
+      xmlns="http://www.w3.org/2000/svg"
+      sx={loadingCircularAnimatedSvgStyle}
+    >
+      <circle cx="14" cy="14" r="12.5" />
+    </Box>
+  );
+};
+
+export default Loading;
