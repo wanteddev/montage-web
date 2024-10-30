@@ -14,7 +14,7 @@ export const skeletonStyle =
 
     & > span {
       border-radius: inherit;
-      display: inline-block;
+      display: block;
       width: 100%;
       height: 100%;
     }
@@ -34,21 +34,36 @@ export const skeletonStyle =
   `;
 
 const skeletonSizeStyle = ({
+  variant,
   width,
   height,
-}: Pick<SkeletonProps, 'width' | 'height'>) => css`
-  ${Boolean(width) &&
-  css`
-    > span {
-      width: ${width};
-    }
-  `}
+}: Pick<SkeletonProps, 'width' | 'height' | 'variant'>) => {
+  switch (variant) {
+    case 'text':
+      return css`
+        height: ${height ?? '22px'};
 
-  ${Boolean(height) &&
-  css`
-    height: ${height};
-  `}
-`;
+        > span {
+          ${Boolean(width) &&
+          css`
+            width: ${width};
+          `}
+        }
+      `;
+    case 'rectangle':
+    case 'circle':
+      return css`
+        ${Boolean(width) &&
+        css`
+          width: ${width};
+        `}
+        ${Boolean(height) &&
+        css`
+          height: ${height};
+        `}
+      `;
+  }
+};
 
 const skeletonVariantStyle = (
   {
@@ -67,16 +82,8 @@ const skeletonVariantStyle = (
         text-align: ${align};
 
         & > span {
+          display: inline-block;
           background-color: ${theme.palette.fill.normal};
-          opacity: ${opacity};
-        }
-      `;
-    case 'circle':
-      return css`
-        border-radius: 50%;
-
-        & > span {
-          background-color: ${theme.palette.fill.alternative};
           opacity: ${opacity};
         }
       `;
@@ -86,6 +93,15 @@ const skeletonVariantStyle = (
 
         & > span {
           background-color: ${theme.palette.fill.alternative};
+          opacity: ${opacity};
+        }
+      `;
+    case 'circle':
+      return css`
+        border-radius: 50%;
+
+        & > span {
+          background-color: ${theme.palette.fill.normal};
           opacity: ${opacity};
         }
       `;

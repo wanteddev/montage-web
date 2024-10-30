@@ -15,8 +15,8 @@ const Skeleton = forwardRef(
   <E extends ElementType = 'div'>(
     {
       variant = 'text',
-      width = '100%',
-      height = '22px',
+      width,
+      height,
       align = 'left',
       opacity = 'inherit',
       radius,
