@@ -14,9 +14,11 @@ import type { SkeletonProps } from './types';
 const Skeleton = forwardRef(
   <E extends ElementType = 'div'>(
     {
-      variant = 'rectangle',
+      variant = 'text',
       width = '100%',
       height = '22px',
+      align = 'left',
+      opacity = 'inherit',
       radius,
       xs,
       sm,
@@ -34,8 +36,10 @@ const Skeleton = forwardRef(
         sx={[
           skeletonStyle({
             radius,
+            opacity,
             variant,
             width,
+            align,
             height,
             xs,
             sm,

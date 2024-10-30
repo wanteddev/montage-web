@@ -6,6 +6,8 @@ type SkeletonDefaultProps = {
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   radius?: CSSProperties['borderRadius'];
+  opacity?: CSSProperties['opacity'];
+  align?: 'left' | 'center' | 'right';
 };
 
 type SkeletonResponsiveProps = ResponsiveProps<

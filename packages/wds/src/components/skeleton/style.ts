@@ -10,10 +10,11 @@ export const skeletonStyle =
   (theme: Theme) => css`
     position: relative;
     flex-shrink: 0;
+    width: 100%;
 
     & > span {
       border-radius: inherit;
-      display: block;
+      display: inline-block;
       width: 100%;
       height: 100%;
     }
@@ -38,7 +39,9 @@ const skeletonSizeStyle = ({
 }: Pick<SkeletonProps, 'width' | 'height'>) => css`
   ${Boolean(width) &&
   css`
-    width: ${width};
+    > span {
+      width: ${width};
+    }
   `}
 
   ${Boolean(height) &&
@@ -48,7 +51,12 @@ const skeletonSizeStyle = ({
 `;
 
 const skeletonVariantStyle = (
-  { variant, radius = 'initial' }: Pick<SkeletonProps, 'variant' | 'radius'>,
+  {
+    variant,
+    opacity,
+    align,
+    radius = 'initial',
+  }: Pick<SkeletonProps, 'variant' | 'radius' | 'opacity' | 'align'>,
   theme: Theme,
 ) => {
   switch (variant) {
@@ -56,9 +64,11 @@ const skeletonVariantStyle = (
       return css`
         padding: 2px 0px;
         border-radius: 3px;
+        text-align: ${align};
 
         & > span {
           background-color: ${theme.palette.fill.normal};
+          opacity: ${opacity};
         }
       `;
     case 'circle':
@@ -67,6 +77,7 @@ const skeletonVariantStyle = (
 
         & > span {
           background-color: ${theme.palette.fill.alternative};
+          opacity: ${opacity};
         }
       `;
     case 'rectangle':
@@ -75,6 +86,7 @@ const skeletonVariantStyle = (
 
         & > span {
           background-color: ${theme.palette.fill.alternative};
+          opacity: ${opacity};
         }
       `;
   }
