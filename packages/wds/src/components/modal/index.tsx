@@ -114,6 +114,12 @@ const Modal = ({
     setDuration(isBottomSheet ? 250 : 0);
   }, [isBottomSheet, setDuration]);
 
+  useEffect(() => {
+    if (hasExited || status === 'unmounted') {
+      setVisibility('visible');
+    }
+  }, [hasExited, status]);
+
   return (
     <ModalProvider
       isBottomSheet={isBottomSheet}
