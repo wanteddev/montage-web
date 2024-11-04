@@ -15,9 +15,8 @@ export type CardProps = Merge<
 >;
 
 type CardThumbnailBasicProps = Merge<
-  Pick<ThumbnailDefaultProps, 'ratio'> &
-    ComponentPropsWithoutRef<typeof ImageLoader>,
-  FlexBoxProps
+  Omit<ThumbnailDefaultProps, 'border' | 'radius'>,
+  ComponentPropsWithoutRef<typeof ImageLoader>
 >;
 export type CardThumbnailDefaultProps = {
   overlay?: boolean;

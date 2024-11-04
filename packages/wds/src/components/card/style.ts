@@ -3,7 +3,11 @@ import { css } from '@wanteddev/wds-engine';
 import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { CardExtraContentProps, CardProps } from './types';
+import type {
+  CardExtraContentProps,
+  CardProps,
+  CardThumbnailProps,
+} from './types';
 
 export const cardPlatformStyle = ({
   platform,
@@ -91,6 +95,13 @@ export const cardStyle =
 
 export const cardThumbnailStyle = css`
   position: relative;
+`;
+
+export const thumbnailStyle = ({
+  width,
+}: Pick<CardThumbnailProps, 'width'>) => css`
+  max-width: ${width};
+  width: 100%;
 `;
 
 export const cardThumbnailContentWrapperStyle = css`

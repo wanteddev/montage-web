@@ -27,6 +27,7 @@ import {
   cardThumbnailContentWrapperStyle,
   cardThumbnailOverlayStyle,
   cardThumbnailStyle,
+  thumbnailStyle,
 } from './style';
 
 import type { PolymorphicComponent } from '@wanteddev/wds-engine';
@@ -72,21 +73,7 @@ const Card = forwardRef(
 Card.displayName = CARD_NAME;
 
 const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
-  (
-    {
-      overlay,
-      leftContent,
-      rightContent,
-      ratio,
-      width,
-      src,
-      alt,
-      quality,
-      sx,
-      ...props
-    },
-    ref,
-  ) => {
+  ({ overlay, leftContent, rightContent, width, sx, ...props }, ref) => {
     const hasLeftContent = Boolean(leftContent);
     const hasRightContent = Boolean(rightContent);
     const hasContent = hasLeftContent || hasRightContent;
@@ -107,9 +94,9 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
         {hasContent && (
           <FlexBox
             gap="4px"
+            data-role="card-thumbnail-content-wrapper"
             alignItems="flex-start"
             justifyContent="space-between"
-            data-role="card-thumbnail-content-wrapper"
             sx={cardThumbnailContentWrapperStyle}
           >
             {hasLeftContent && leftContent}
@@ -117,13 +104,11 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
           </FlexBox>
         )}
         <Thumbnail
-          src={src}
-          alt={alt}
           width={width}
-          ratio={ratio}
-          quality={quality}
           radius
           border
+          {...props}
+          sx={thumbnailStyle({ width })}
         />
       </Box>
     );
