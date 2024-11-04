@@ -1,6 +1,6 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
-type ThumbnailDefaultProps = {
+export type ThumbnailDefaultProps = {
   ratio?:
     | '1:1'
     | '5:4'

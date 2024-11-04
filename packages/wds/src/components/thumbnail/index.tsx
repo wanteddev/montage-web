@@ -43,6 +43,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     return imageLoadingStatus !== 'error' ? (
       <FlexBox
         as="figure"
+        wds-component="thumbnail"
         className={className}
         style={style}
         sx={[
@@ -78,6 +79,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ) : (
       <FlexBox
         as="figure"
+        wds-component="thumbnail"
         className={className}
         style={style}
         alignItems="center"

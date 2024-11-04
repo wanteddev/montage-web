@@ -54,6 +54,10 @@ export const routes: Array<Route> = [
       },
       { title: 'Box', slug: '/docs/components/box' },
       { title: 'Button', slug: '/docs/components/button' },
+      {
+        title: 'Card',
+        slug: '/docs/components/card',
+      },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
