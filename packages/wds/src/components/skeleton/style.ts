@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
@@ -70,10 +70,13 @@ const skeletonVariantStyle = (
     variant,
     opacity,
     align,
+    color,
     radius = 'initial',
-  }: Pick<SkeletonProps, 'variant' | 'radius' | 'opacity' | 'align'>,
+  }: Pick<SkeletonProps, 'variant' | 'radius' | 'opacity' | 'align' | 'color'>,
   theme: Theme,
 ) => {
+  const customColor = color ? getColorByToken(theme, color) : color;
+
   switch (variant) {
     case 'text':
       return css`
@@ -83,7 +86,7 @@ const skeletonVariantStyle = (
 
         & > span {
           display: inline-block;
-          background-color: ${theme.palette.fill.normal};
+          background-color: ${customColor ?? theme.palette.fill.normal};
           opacity: ${opacity};
         }
       `;
@@ -92,7 +95,7 @@ const skeletonVariantStyle = (
         border-radius: ${radius};
 
         & > span {
-          background-color: ${theme.palette.fill.alternative};
+          background-color: ${customColor ?? theme.palette.fill.alternative};
           opacity: ${opacity};
         }
       `;
@@ -101,7 +104,7 @@ const skeletonVariantStyle = (
         border-radius: 50%;
 
         & > span {
-          background-color: ${theme.palette.fill.normal};
+          background-color: ${customColor ?? theme.palette.fill.normal};
           opacity: ${opacity};
         }
       `;

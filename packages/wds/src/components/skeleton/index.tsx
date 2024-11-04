@@ -18,6 +18,7 @@ const Skeleton = forwardRef(
       width,
       height,
       align = 'left',
+      color,
       opacity = 'inherit',
       radius,
       xs,
@@ -36,6 +37,7 @@ const Skeleton = forwardRef(
         sx={[
           skeletonStyle({
             radius,
+            color,
             opacity,
             variant,
             width,
