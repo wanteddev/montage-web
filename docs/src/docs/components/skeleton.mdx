@@ -5,7 +5,8 @@ description: Skeleton Component
 
 # Skeleton
 
-스켈레톤을 구성할 때 사용해요.
+- 자리를 일시적으로 표시할 때 사용합니다.
+- `text`, `rectangle`에서 `radius` prop으로 border radius를 조정할 수 있어요.
 
 ## 활용
 
@@ -26,31 +27,52 @@ export default Demo;`}
 
 ## Variant
 
-### Rectangle
+### Text
 
-`rectangle` 에서만 `radius` prop으로 border radius를 조정해서 사용할 수 있어요.
-썸네일 영역 로딩 표시 등에서 사용해요.
+텍스트 자리를 일시적으로 표시할 때 사용합니다.
 
-<Demo code={`import { Skeleton } from '@wanteddev/wds';
+- padding 값이 포함되어 텍스트 영역에 로딩 스켈레톤을 구성해요.
+- `text`에서만 `align` prop으로 가로 정렬을 조정할 수 있어요.
+
+<Demo code={`import { Skeleton, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Skeleton variant="rectangle" />
+    <FlexBox gap="24px" justifyContent="space-between">
+      <FlexBox flexDirection="column" gap="16px" flex="1">
+        <Skeleton align="left" />
+        <Skeleton width="75%" align="left" />
+        <Skeleton width="50%" align="left" />
+        <Skeleton width="25%" align="left" />
+      </FlexBox>
+      <FlexBox flexDirection="column" gap="16px" flex="1">
+        <Skeleton align="center" />
+        <Skeleton width="75%" align="center" />
+        <Skeleton width="50%" align="center" />
+        <Skeleton width="25%" align="center" />
+      </FlexBox>
+      <FlexBox flexDirection="column" gap="16px" flex="1">
+        <Skeleton align="right" />
+        <Skeleton width="75%" align="right" />
+        <Skeleton width="50%" align="right" />
+        <Skeleton width="25%" align="right" />
+      </FlexBox>
+    </FlexBox>
   )
 }
 
 export default Demo;`}
 />
 
-### Text
+### Rectangle
 
-padding 값이 포함되어 텍스트 영역에 로딩 스켈레톤을 구성할 때 사용해요.
+네모난 모양을 가진 자리에 사용합니다.
 
 <Demo code={`import { Skeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Skeleton variant="text" height="22px" />
+    <Skeleton variant="rectangle" width="64px" height="64px" />
   )
 }
 
@@ -59,13 +81,13 @@ export default Demo;`}
 
 ### Circle
 
-원형 스켈레톤에 사용해요.
+동그란 모양을 가진 자리에 사용합니다.
 
 <Demo code={`import { Skeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Skeleton variant="circle" width="50px" height="50px" />
+    <Skeleton variant="circle" width="64px" height="64px" />
   )
 }
 
