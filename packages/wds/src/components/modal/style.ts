@@ -144,14 +144,12 @@ export const modalContainerStyle =
     transition-property: transform, box-shadow;
     transition-duration: 200ms;
     pointer-events: auto;
+    animation-fill-mode: forwards;
 
     ${isBottomSheet &&
     css`
-      &[data-status='open'] {
-        transform: translateY(var(--wds-modal-translate, 0px));
-      }
+      transform: translateY(var(--wds-modal-translate, 0px));
 
-      &[data-status='initial'],
       &[data-status='unmounted'],
       &[data-status='close'] {
         transform: translateY(100%) !important;
