@@ -4,6 +4,7 @@ import { Box } from '@wanteddev/wds-engine';
 import { IconCaretDown, IconCaretUp } from '@wanteddev/wds-icon';
 
 import WithInteraction from '../with-interaction';
+import FlexBox from '../flex-box';
 
 import { actionStyle } from './style';
 
@@ -64,10 +65,12 @@ const ChipFilter = forwardRef(
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
-          <span id={id}>{children}</span>
-          {activeLabel !== null && activeLabel !== undefined && active && (
-            <span data-role="chip-filter-active-label">{activeLabel}</span>
-          )}
+          <FlexBox data-role="chip-filter-wrapper" alignItems="center">
+            <span id={id}>{children}</span>
+            {activeLabel !== null && activeLabel !== undefined && active && (
+              <span data-role="chip-filter-active-label">{activeLabel}</span>
+            )}
+          </FlexBox>
           {expanded ? <IconCaretUp /> : <IconCaretDown />}
         </Box>
       </WithInteraction>
