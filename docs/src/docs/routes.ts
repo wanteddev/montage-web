@@ -98,6 +98,7 @@ export const routes: Array<Route> = [
       },
       { title: 'Label', slug: '/docs/components/label' },
       { title: 'List', slug: '/docs/components/list' },
+      { title: 'Loading', slug: '/docs/components/loading' },
       { title: 'Label', slug: '/docs/components/label' },
       { title: 'Menu', slug: '/docs/components/menu' },
       { title: 'Modal', slug: '/docs/components/modal' },
@@ -208,7 +209,9 @@ export const routes: Array<Route> = [
   },
   {
     label: 'Lottie',
-    pages: [{ title: 'Loading', slug: '/docs/lottie/loading' }],
+    pages: [
+      { title: 'Loading', slug: '/docs/lottie/loading', deprecated: true },
+    ],
   },
 ];
 

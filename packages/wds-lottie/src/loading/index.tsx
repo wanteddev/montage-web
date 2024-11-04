@@ -7,6 +7,9 @@ import { Box } from '@wanteddev/wds-engine';
 import type { AnimationConfig } from 'lottie-web';
 import type { ComponentPropsWithoutRef, MutableRefObject } from 'react';
 
+/**
+ * @deprecated packages/wds Loading을 사용해주세요.
+ */
 const Loading = forwardRef<
   HTMLDivElement,
   Pick<AnimationConfig<'svg'>, 'loop' | 'name'> &
