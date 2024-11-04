@@ -1,11 +1,19 @@
 import type { CSSProperties } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  ThemeColorsToken,
+  ThemeOpacityToken,
+} from '@wanteddev/wds-engine';
 
 type SkeletonDefaultProps = {
   variant?: 'text' | 'circle' | 'rectangle';
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   radius?: CSSProperties['borderRadius'];
+  color?: ThemeColorsToken;
+  opacity?: ThemeOpacityToken;
+  align?: 'left' | 'center' | 'right';
 };
 
 type SkeletonResponsiveProps = ResponsiveProps<
