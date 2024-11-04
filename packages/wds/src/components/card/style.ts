@@ -16,7 +16,7 @@ export const cardPlatformStyle = ({
           aspect-ratio: 3 / 2;
         }
         [data-role='card-thumbnail-overlay'] {
-          height: 52px;
+          height: 32.5%;
         }
         // thumbnail content
         [data-role='card-thumbnail-content-wrapper'] {
@@ -49,7 +49,7 @@ export const cardPlatformStyle = ({
           aspect-ratio: 4 / 3;
         }
         [data-role='card-thumbnail-overlay'] {
-          height: 40px;
+          height: 35%;
         }
         // thumbnail content
         [data-role='card-thumbnail-content-wrapper'] {
