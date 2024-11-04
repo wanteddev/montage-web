@@ -19,7 +19,7 @@ const Skeleton = forwardRef(
       height,
       align = 'left',
       color,
-      opacity = 'inherit',
+      opacity = 'opacity.100',
       radius,
       xs,
       sm,

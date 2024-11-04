@@ -1,4 +1,5 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
+import objectPath from 'object-path';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
@@ -68,14 +69,17 @@ const skeletonSizeStyle = ({
 const skeletonVariantStyle = (
   {
     variant,
-    opacity,
     align,
-    color,
+    color: colorProp,
+    opacity: opacityProp,
     radius = 'initial',
   }: Pick<SkeletonProps, 'variant' | 'radius' | 'opacity' | 'align' | 'color'>,
   theme: Theme,
 ) => {
-  const customColor = color ? getColorByToken(theme, color) : color;
+  const color = colorProp ? getColorByToken(theme, colorProp) : colorProp;
+  const opacity = opacityProp
+    ? objectPath.get(theme, opacityProp)
+    : opacityProp;
 
   switch (variant) {
     case 'text':
@@ -86,7 +90,7 @@ const skeletonVariantStyle = (
 
         & > span {
           display: inline-block;
-          background-color: ${customColor ?? theme.palette.fill.normal};
+          background-color: ${color ?? theme.palette.fill.normal};
           opacity: ${opacity};
         }
       `;
@@ -95,7 +99,7 @@ const skeletonVariantStyle = (
         border-radius: ${radius};
 
         & > span {
-          background-color: ${customColor ?? theme.palette.fill.alternative};
+          background-color: ${color ?? theme.palette.fill.alternative};
           opacity: ${opacity};
         }
       `;
@@ -104,7 +108,7 @@ const skeletonVariantStyle = (
         border-radius: 50%;
 
         & > span {
-          background-color: ${customColor ?? theme.palette.fill.normal};
+          background-color: ${color ?? theme.palette.fill.normal};
           opacity: ${opacity};
         }
       `;

@@ -3,6 +3,7 @@ import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
+  ThemeOpacityToken,
 } from '@wanteddev/wds-engine';
 
 type SkeletonDefaultProps = {
@@ -11,7 +12,7 @@ type SkeletonDefaultProps = {
   height?: CSSProperties['height'];
   radius?: CSSProperties['borderRadius'];
   color?: ThemeColorsToken;
-  opacity?: CSSProperties['opacity'];
+  opacity?: ThemeOpacityToken;
   align?: 'left' | 'center' | 'right';
 };
 
