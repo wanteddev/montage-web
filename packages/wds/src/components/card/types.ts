@@ -1,5 +1,5 @@
 import type ImageLoader from '../image-loader';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { TypographyProps } from '../typography/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ThumbnailDefaultProps } from '../thumbnail/types';
@@ -14,11 +14,34 @@ export type CardProps = Merge<
   FlexBoxProps
 >;
 
-export type CardThumbnailDefaultProps = Pick<ThumbnailDefaultProps, 'ratio'> &
-  ComponentPropsWithoutRef<typeof ImageLoader>;
-export type CardThumbnailProps = Merge<CardThumbnailDefaultProps, FlexBoxProps>;
+type CardThumbnailBasicProps = Merge<
+  Pick<ThumbnailDefaultProps, 'ratio'> &
+    ComponentPropsWithoutRef<typeof ImageLoader>,
+  FlexBoxProps
+>;
+export type CardThumbnailDefaultProps = {
+  overlay?: boolean;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
+};
+export type CardThumbnailProps = Merge<
+  CardThumbnailDefaultProps,
+  CardThumbnailBasicProps
+>;
+
+export type CardThumbnailContentProps = {
+  variant?: 'text' | 'icon' | 'icon-button' | 'custom';
+};
 
 export type CardContentProps = FlexBoxProps;
+export type CardExtraContentDefaultProps = {
+  variant?: 'badge' | 'custom';
+  position?: 'top' | 'bottom';
+};
+export type CardExtraContentProps = Merge<
+  CardExtraContentDefaultProps,
+  FlexBoxProps
+>;
 
 export type CardTitleProps = TypographyProps;
 export type CardCaptionProps = TypographyProps;

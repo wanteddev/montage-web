@@ -6,18 +6,38 @@ description: Card Component
 # Card
 
 - 일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
+- leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸주세요.
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+import { IconBookmark } from '@wanteddev/wds-icon';
 
 const Demo = () => {
-  return (    
-    <FlexBox gap="24px" justifyContent="space-between">
+  return (
+    <FlexBox gap="24px" justifyContent="space-around">
       <Card>
         <CardThumbnail
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
-          width="200px"
+          width="240px"
           quality={95}
+          overlay
+          leftContent={<CardThumbnailContent variant="text">캡션</CardThumbnailContent>}
+          rightContent={<CardThumbnailContent variant="icon"><IconBookmark /></CardThumbnailContent>}
+        />
+        <CardContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+      <Card platform="mobile">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="152px"
+          quality={95}
+          overlay
+          leftContent={<CardThumbnailContent variant="text">캡션</CardThumbnailContent>}
+          rightContent={<CardThumbnailContent variant="icon"><IconBookmark /></CardThumbnailContent>}
         />
         <CardContent>
           <CardTitle>제목</CardTitle>
@@ -38,7 +58,6 @@ export default Demo;`}
 ```tsx
 <Card>
   <CardThumbnail />
-  // leftContent, rightContent, overlayVariant, cardThumbnailContent
   <CardContent>
     <CardExtraContent/>
     <CardTitle />
@@ -56,6 +75,10 @@ export default Demo;`}
 
 <PropsTable component="CardThumbnail" />
 
+### CardThumbnailContent
+
+<PropsTable component="CardThumbnailContent" />
+
 ### CardContent
 
 <PropsTable component="CardContent" />
@@ -66,8 +89,57 @@ export default Demo;`}
 
 ### CardTitle
 
+`Typography`와 동일한 props를 사용해요.
+
 <PropsTable component="CardTitle" />
 
 ### CardCaption
 
+`Typography`와 동일한 props를 사용해요.
+
 <PropsTable component="CardCaption" />
+
+## Examples
+
+### Top Content, Bottom Content
+
+- `CardExtraContent`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
+- 뱃지나 부가적인 내용을 추가할 때 사용해요.
+
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" justifyContent="space-around">
+      <Card>
+        <CardThumbnail src="https://" width="240px" />
+        <CardContent>
+          <CardExtraContent position="top" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
+            ))}
+          </CardExtraContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardThumbnail src="https://" width="240px" />
+        <CardContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+          <CardExtraContent position="bottom" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
+            ))}
+          </CardExtraContent>
+        </CardContent>
+      </Card>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Skeleton

@@ -14,17 +14,28 @@ import {
   CARD_CONTENT_NAME,
   CARD_EXTRA_CONTENT_NAME,
   CARD_NAME,
+  CARD_THUMBNAIL_CONTENT_NAME,
   CARD_THUMBNAIL_NAME,
   CARD_TITLE_NAME,
 } from './constants';
-import { CardProvider, useCardContext } from './contexts';
-import { cardStyle } from './style';
+import { CardProvider } from './contexts';
+import {
+  cardExtraContentStyle,
+  cardStyle,
+  cardThumbnailContentIconStyle,
+  cardThumbnailContentTextStyle,
+  cardThumbnailContentWrapperStyle,
+  cardThumbnailOverlayStyle,
+  cardThumbnailStyle,
+} from './style';
 
 import type { PolymorphicComponent } from '@wanteddev/wds-engine';
 import type {
   CardCaptionProps,
   CardContentProps,
+  CardExtraContentProps,
   CardProps,
+  CardThumbnailContentProps,
   CardThumbnailProps,
   CardTitleProps,
 } from './types';
@@ -61,14 +72,45 @@ const Card = forwardRef(
 Card.displayName = CARD_NAME;
 
 const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
-  ({ ratio: ratioProp, width, src, alt, quality, sx, ...props }, ref) => {
-    const { platform } = useCardContext(CARD_THUMBNAIL_NAME);
-
-    const ratio: CardThumbnailProps['ratio'] =
-      ratioProp ?? (platform === 'desktop' ? '3:2' : '4:3');
+  (
+    {
+      overlay,
+      leftContent,
+      rightContent,
+      ratio,
+      width,
+      src,
+      alt,
+      quality,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
+    const hasLeftContent = Boolean(leftContent);
+    const hasRightContent = Boolean(rightContent);
+    const hasContent = hasLeftContent || hasRightContent;
 
     return (
-      <Box ref={ref} sx={sx} {...props}>
+      <Box ref={ref} {...props} sx={[cardThumbnailStyle, sx]}>
+        {overlay && (
+          <Box
+            data-role="card-thumbnail-overlay"
+            sx={cardThumbnailOverlayStyle}
+          />
+        )}
+        {hasContent && (
+          <FlexBox
+            gap="4px"
+            alignItems="flex-start"
+            justifyContent="space-between"
+            data-role="card-thumbnail-content-wrapper"
+            sx={cardThumbnailContentWrapperStyle}
+          >
+            {hasLeftContent && leftContent}
+            {hasRightContent && rightContent}
+          </FlexBox>
+        )}
         <Thumbnail
           src={src}
           alt={alt}
@@ -84,6 +126,35 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
 );
 
 CardThumbnail.displayName = CARD_THUMBNAIL_NAME;
+
+const CardThumbnailContent = forwardRef<
+  HTMLSpanElement,
+  Omit<DefaultComponentProps<CardThumbnailContentProps, 'span'>, 'color'>
+>(({ variant, sx, ...props }, ref) => {
+  switch (variant) {
+    case 'text':
+      return (
+        <Typography
+          ref={ref}
+          data-role="card-thumbnail-content-text"
+          {...props}
+          sx={[cardThumbnailContentTextStyle, sx]}
+        />
+      );
+    case 'icon':
+      return (
+        <FlexBox
+          ref={ref}
+          as="span"
+          data-role="card-thumbnail-content-icon"
+          {...props}
+          sx={[cardThumbnailContentIconStyle, sx]}
+        />
+      );
+  }
+});
+
+CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 
 const CardContent = forwardRef(
   (
@@ -106,10 +177,21 @@ CardContent.displayName = CARD_CONTENT_NAME;
 
 const CardExtraContent = forwardRef(
   (
-    props: DefaultComponentProps<CardContentProps, 'div'>,
+    {
+      sx,
+      position,
+      variant,
+      ...props
+    }: DefaultComponentProps<CardExtraContentProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
-    return <FlexBox ref={ref} {...props} />;
+    return (
+      <FlexBox
+        ref={ref}
+        {...props}
+        sx={[cardExtraContentStyle({ position, variant }), sx]}
+      />
+    );
   },
 );
 
@@ -156,6 +238,7 @@ CardCaption.displayName = CARD_CAPTION_NAME;
 export {
   Card,
   CardThumbnail,
+  CardThumbnailContent,
   CardContent,
   CardTitle,
   CardCaption,
