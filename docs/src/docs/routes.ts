@@ -209,7 +209,9 @@ export const routes: Array<Route> = [
   },
   {
     label: 'Lottie',
-    pages: [{ title: 'Loading', slug: '/docs/lottie/loading' }],
+    pages: [
+      { title: 'Loading', slug: '/docs/lottie/loading', deprecated: true },
+    ],
   },
 ];
 
