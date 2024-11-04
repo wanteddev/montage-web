@@ -1,9 +1,8 @@
 import { esbuildPluginFilePathExtensions } from './esbuild-plugin-file-path-extensions';
 import { Options } from 'tsup';
 
-export const defineConfiguration = (opts: Pick<Options, 'entry'>): Options => {
+export const defineConfiguration = (opts: Partial<Options>): Options => {
   return {
-    entry: opts.entry,
     format: ['cjs', 'esm'],
     target: ['chrome91', 'firefox90', 'edge91', 'safari15', 'ios15', 'opera77'],
     outDir: 'dist',
@@ -12,7 +11,13 @@ export const defineConfiguration = (opts: Pick<Options, 'entry'>): Options => {
     treeshake: true,
     bundle: true,
     silent: true,
-    external: ['react', 'react-dom', 'next', 'react-hook-form', '@wanteddev/wds-engine'],
+    external: [
+      'react',
+      'react-dom',
+      'next',
+      'react-hook-form',
+    ],
     esbuildPlugins: [esbuildPluginFilePathExtensions({ cjsExtension: 'js' })],
+    ...opts,
   };
 };
