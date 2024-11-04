@@ -19,66 +19,69 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Node.js install
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-      #     registry-url: https://npm.pkg.github.com
-      #     scope: '@wanteddev'
+      - name: Node.js install
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@wanteddev'
 
-      # - uses: pnpm/action-setup@v2.0.1
-      #   name: Install pnpm
-      #   id: pnpm-install
-      #   with:
-      #     version: 9.1.2
-      #     run_install: false
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 9.1.2
+          run_install: false
 
-      # - name: Get pnpm store directory
-      #   id: pnpm-cache
-      #   run: |
-      #     echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      # - uses: actions/cache@v4
-      #   name: Setup pnpm cache
-      #   with:
-      #     path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-      #     key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-pnpm-store
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
 
-      # - name: Install dependencies
-      #   run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-      # - uses: actions/cache@v4
-      #   name: Nx cache
-      #   with:
-      #     path: .nx/cache
-      #     key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-nx-store-
+      - uses: actions/cache@v4
+        name: Nx cache
+        with:
+          path: .nx/cache
+          key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-nx-store-
 
-      # - name: Figma & Icon Sync
-      #   run: pnpm run figma-icon-sync
-      #   env:
-      #     FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
+      - name: Figma & Icon Sync
+        run: pnpm run figma-icon-sync
+        env:
+          FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
 
-      # - name: Build
-      #   run: pnpm run build
+      - name: Build
+        run: pnpm run build
 
-      # - name: Publish
-      #   run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }}
+      - name: Publish
+        run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }}
 
       - run: git config user.name "github-actions[bot]"
       - run: git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Create Branch And Commit
         run: |
-          # git branch feature/code-connect/${{ github.run_id }}
-          # git checkout feature/code-connect/${{ github.run_id }}
-          # git add .
-          # git commit -m "ci(wds,wds-icon): icon/figma sync and new code connect publish"
-          # git push origin feature/code-connect/${{ github.run_id }}
-          gh pr create -B main -H feature/code-connect/11658924240 --title "ci(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
+          git branch feature/code-connect/${{ github.run_id }}
+          git checkout feature/code-connect/${{ github.run_id }}
+          git add .
+          git commit -m "ci(wds,wds-icon): icon/figma sync and new code connect publish"
+          git push origin feature/code-connect/${{ github.run_id }}
+
+      - name: Create New PR
+        run: |
+          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "ci(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
