@@ -1,4 +1,5 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
+import objectPath from 'object-path';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
@@ -10,6 +11,7 @@ export const skeletonStyle =
   (theme: Theme) => css`
     position: relative;
     flex-shrink: 0;
+    width: 100%;
 
     & > span {
       border-radius: inherit;
@@ -33,40 +35,63 @@ export const skeletonStyle =
   `;
 
 const skeletonSizeStyle = ({
+  variant,
   width,
   height,
-}: Pick<SkeletonProps, 'width' | 'height'>) => css`
-  ${Boolean(width) &&
-  css`
-    width: ${width};
-  `}
+}: Pick<SkeletonProps, 'width' | 'height' | 'variant'>) => {
+  switch (variant) {
+    case 'text':
+      return css`
+        height: ${height ?? '22px'};
 
-  ${Boolean(height) &&
-  css`
-    height: ${height};
-  `}
-`;
+        > span {
+          ${Boolean(width) &&
+          css`
+            width: ${width};
+          `}
+        }
+      `;
+    case 'rectangle':
+    case 'circle':
+      return css`
+        ${Boolean(width) &&
+        css`
+          width: ${width};
+        `}
+        ${Boolean(height) &&
+        css`
+          height: ${height};
+        `}
+      `;
+  }
+};
 
 const skeletonVariantStyle = (
-  { variant, radius = 'initial' }: Pick<SkeletonProps, 'variant' | 'radius'>,
+  {
+    variant,
+    align,
+    color: colorProp,
+    opacity: opacityProp,
+    radius = 'initial',
+  }: Pick<SkeletonProps, 'variant' | 'radius' | 'opacity' | 'align' | 'color'>,
   theme: Theme,
 ) => {
+  const color = colorProp ? getColorByToken(theme, colorProp) : colorProp;
+  const opacity = opacityProp
+    ? objectPath.get(theme, opacityProp)
+    : opacityProp;
+
   switch (variant) {
     case 'text':
       return css`
         padding: 2px 0px;
         border-radius: 3px;
+        text-align: ${align};
 
         & > span {
-          background-color: ${theme.palette.fill.normal};
-        }
-      `;
-    case 'circle':
-      return css`
-        border-radius: 50%;
-
-        & > span {
-          background-color: ${theme.palette.fill.alternative};
+          display: inline-block;
+          background-color: ${color ?? theme.palette.fill.normal};
+          opacity: ${opacity};
         }
       `;
     case 'rectangle':
@@ -74,7 +99,17 @@ const skeletonVariantStyle = (
         border-radius: ${radius};
 
         & > span {
-          background-color: ${theme.palette.fill.alternative};
+          background-color: ${color ?? theme.palette.fill.alternative};
+          opacity: ${opacity};
+        }
+      `;
+    case 'circle':
+      return css`
+        border-radius: 50%;
+
+        & > span {
+          background-color: ${color ?? theme.palette.fill.normal};
+          opacity: ${opacity};
         }
       `;
   }
