@@ -290,7 +290,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 24px;
-        --wds-top-navigation-padding-x: 16px;
+        --wds-top-navigation-padding-x: 20px;
         --wds-top-navigation-padding-y: 20px;
         --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
           var(--wds-top-navigation-padding-x);
@@ -306,7 +306,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         }
 
         [data-role='navigation-title'] {
-          padding: 0px 8px;
+          padding: 0px 4px;
         }
       `;
     case 'large':
@@ -324,7 +324,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 32px;
-        --wds-top-navigation-padding-x: 20px;
+        --wds-top-navigation-padding-x: 28px;
         --wds-top-navigation-padding-y: 24px;
         --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
           var(--wds-top-navigation-padding-x);
@@ -344,7 +344,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         }
 
         [data-role='navigation-title'] {
-          padding: 0px 12px;
+          padding: 0px 4px;
         }
       `;
     case 'huge':
@@ -362,7 +362,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         `}
 
         --wds-modal-content-margin: 32px;
-        --wds-top-navigation-padding-x: 20px;
+        --wds-top-navigation-padding-x: 28px;
         --wds-top-navigation-padding-y: 24px;
         --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
           var(--wds-top-navigation-padding-x);
@@ -382,7 +382,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         }
 
         [data-role='navigation-title'] {
-          padding: 0px 12px;
+          padding: 0px 4px;
         }
       `;
   }
