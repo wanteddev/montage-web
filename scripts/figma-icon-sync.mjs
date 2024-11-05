@@ -72,49 +72,6 @@ const ROOT_TRAVERSE_NAVIGATION_IDS = [
   '10077:25083',
 ];
 
-const main = async () => {
-  const data = await getIconComponents();
-  fs.writeFileSync(
-    './Icons.figma.txt',
-    `import figma from "@figma/code-connect";\nimport {${data.imports.sort().join(', ')}} from "@wanteddev/wds-icon";`,
-  );
-  fs.writeFileSync('./icons-index.txt', data.exports.sort().join('\n'));
-  fs.writeFileSync('./icons.json', JSON.stringify(data.files, null, 2));
-
-  const json = JSON.parse(fs.readFileSync('./icons.json'));
-  fs.copyFileSync('./icons-index.txt', './packages/wds-icon/src/index.ts');
-  const figmaStarter = fs.readFileSync('./Icons.figma.txt');
-  fs.writeFileSync(
-    './figma/icons/index.figma.tsx',
-    `${figmaStarter}\n${json.map((a) => a[2]).join('\n')}`,
-  );
-  await Promise.all(
-    json.map(
-      ([fileName, fileContents]) =>
-        new Promise((resolve, reject) => {
-          fs.writeFile(
-            `./packages/wds-icon/src/${fileName}`,
-            fileContents,
-            (err) => (err ? reject(err) : resolve()),
-          );
-        }),
-    ),
-  );
-
-  fs.rmSync('./Icons.figma.txt');
-  fs.rmSync('./icons-index.txt');
-  fs.rmSync('./icons.json');
-
-  shelljs.exec(
-    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/transforms/svg-use-id.ts',
-  );
-  shelljs.exec('pnpm -F wds-icon lint:fix src');
-
-  console.log('DONE!');
-};
-
-main();
-
 const getIconComponents = async () => {
   try {
     const fileResponse = await fetch(
@@ -215,39 +172,6 @@ const fileRESTResponseToIconComponentsJSON = async (response) => {
   const nodeIds = Object.keys(idsToNameAndComponentSetId);
   const { images } = await getSVGImages(nodeIds);
 
-  console.log('Sleeping for ten seconds to wait for images to exist...');
-  await new Promise((resolve) => setTimeout(resolve, 10000));
-  console.log('Proceeding....');
-
-  const res = { files: [], exports: [], imports: [] };
-  const fails = [];
-  await Promise.all(
-    nodeIds.map(async (nodeId) => {
-      try {
-        await processNodeId(nodeId);
-      } catch (e) {
-        fails.push(nodeId);
-        console.log('Failed once:', nodeId);
-      }
-    }),
-  );
-  console.log(`Retrying ${fails.length} failure(s)...`);
-  await Promise.all(
-    fails.map(async (nodeId) => {
-      try {
-        await processNodeId(nodeId);
-      } catch (e) {
-        console.error(e);
-        console.log(
-          'Failed again:',
-          nodeId,
-          images[nodeId],
-          ...idsToNameAndComponentSetId[nodeId],
-        );
-      }
-    }),
-  );
-
   const processNodeId = async (nodeId) => {
     const fileResponse = await fetch(images[nodeId], { method: 'GET' });
     const svg = await fileResponse.text();
@@ -268,24 +192,24 @@ const fileRESTResponseToIconComponentsJSON = async (response) => {
             : a.charAt(0).toUpperCase() + a.substring(1),
         )
         .join('')}' }, example: () => <${name} /> });
-figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Icon: '${childId}' }, example: () => <${name} /> });
-figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=448-8266", { variant: { Icon: '${childId}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
+  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Icon: '${childId}' }, example: () => <${name} /> });
+  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=448-8266", { variant: { Icon: '${childId}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
     );
     res.files.push([
       `${changeCase.kebabCase(name)}.tsx`,
       `import { Box } from '@wanteddev/wds-engine';
   import { forwardRef } from 'react';
-
+  
   import type { SxProp } from '@wanteddev/wds-engine';
   import type { ComponentPropsWithoutRef } from 'react';
-
+  
   type Props = ComponentPropsWithoutRef<'svg'> & {
     sx?: SxProp;
   };
-
+  
   const ${name} = forwardRef<SVGSVGElement, Props>((props, ref) => {
-  	return (
-  		${svg
+    return (
+      ${svg
         .replace(/width="(.*?)"/, '')
         .replace(/height="(.*?)"/, '')
         .replace(
@@ -301,13 +225,89 @@ figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=448-8266", { variant: { Icon:
         )
         .replace('<svg', '<Box as="svg"')
         .replace('</svg', '</Box')}
-  	)
+    )
   });
-
+  
   export default ${name};`,
       figmaString.join('\n'),
     ]);
   };
 
+  console.log('Sleeping for ten seconds to wait for images to exist...');
+  await new Promise((resolve) => setTimeout(resolve, 10000));
+  console.log('Proceeding....');
+
+  const res = { files: [], exports: [], imports: [] };
+  const fails = [];
+  await Promise.all(
+    nodeIds.map(async (nodeId) => {
+      try {
+        await processNodeId(nodeId);
+      } catch (e) {
+        fails.push(nodeId);
+        console.log('Failed once:', nodeId, e);
+      }
+    }),
+  );
+  console.log(`Retrying ${fails.length} failure(s)...`);
+  await Promise.all(
+    fails.map(async (nodeId) => {
+      try {
+        await processNodeId(nodeId);
+      } catch (e) {
+        console.error(e);
+        console.log(
+          'Failed again:',
+          nodeId,
+          images[nodeId],
+          ...idsToNameAndComponentSetId[nodeId],
+        );
+      }
+    }),
+  );
+
   return res;
 };
+
+const main = async () => {
+  const data = await getIconComponents();
+  fs.writeFileSync(
+    './Icons.figma.txt',
+    `import figma from "@figma/code-connect";\nimport {${data.imports.sort().join(', ')}} from "@wanteddev/wds-icon";`,
+  );
+  fs.writeFileSync('./icons-index.txt', data.exports.sort().join('\n'));
+  fs.writeFileSync('./icons.json', JSON.stringify(data.files, null, 2));
+
+  const json = JSON.parse(fs.readFileSync('./icons.json'));
+  fs.copyFileSync('./icons-index.txt', './packages/wds-icon/src/index.ts');
+  const figmaStarter = fs.readFileSync('./Icons.figma.txt');
+  fs.writeFileSync(
+    './figma/icons/index.figma.tsx',
+    `${figmaStarter}\n${json.map((a) => a[2]).join('\n')}`,
+  );
+  await Promise.all(
+    json.map(
+      ([fileName, fileContents]) =>
+        new Promise((resolve, reject) => {
+          fs.writeFile(
+            `./packages/wds-icon/src/${fileName}`,
+            fileContents,
+            (err) => (err ? reject(err) : resolve()),
+          );
+        }),
+    ),
+  );
+
+  fs.rmSync('./Icons.figma.txt');
+  fs.rmSync('./icons-index.txt');
+  fs.rmSync('./icons.json');
+
+  shelljs.exec(
+    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/transforms/svg-use-id.ts',
+  );
+  shelljs.exec('pnpm -F wds-icon lint:fix src');
+
+  console.log('DONE!');
+};
+
+main();

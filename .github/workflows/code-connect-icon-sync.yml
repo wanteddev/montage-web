@@ -12,6 +12,7 @@ jobs:
     permissions:
       packages: write
       contents: write
+      pull-requests: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -77,7 +78,10 @@ jobs:
           git add .
           git commit -m "ci(wds,wds-icon): icon/figma sync and new code connect publish"
           git push origin feature/code-connect/${{ github.run_id }}
-          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "ci(wds,wds-icon): icon figma sync and new code connect publish"
+
+      - name: Create New PR
+        run: |
+          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
