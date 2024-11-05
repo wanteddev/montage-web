@@ -81,7 +81,7 @@ jobs:
 
       - name: Create New PR
         run: |
-          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "ci(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
+          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
