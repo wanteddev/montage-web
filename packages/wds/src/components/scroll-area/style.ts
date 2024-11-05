@@ -95,7 +95,7 @@ const scrollbarSizeStyle = (
 
             &:hover {
               [data-role='scroll-area-bar-wrapper'] {
-                transform: scale(1, 1.33333);
+                transform: scale(1.33333, 1);
               }
             }
           `
@@ -105,7 +105,7 @@ const scrollbarSizeStyle = (
 
             &:hover {
               [data-role='scroll-area-bar-wrapper'] {
-                transform: scale(1.33333, 1);
+                transform: scale(1, 1.33333);
               }
             }
           `;
