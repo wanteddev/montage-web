@@ -37,16 +37,14 @@ export const routes: Array<Route> = [
         slug: '/docs/components/action-area',
       },
       { title: 'Autocomplete', slug: '/docs/components/autocomplete' },
-      { title: 'Avatar', slug: '/docs/components/avatar', alpha: true },
+      { title: 'Avatar', slug: '/docs/components/avatar' },
       {
         title: 'AvatarButton',
         slug: '/docs/components/avatar-button',
-        alpha: true,
       },
       {
         title: 'AvatarGroup',
         slug: '/docs/components/avatar-group',
-        alpha: true,
       },
       {
         title: 'BottomNavigation',
@@ -107,7 +105,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/nested-checkbox',
       },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
-      { title: 'Popover', slug: '/docs/components/popover', alpha: true },
+      { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },
       {
         title: 'ProgressIndicator',
@@ -124,7 +122,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/progress-tracker',
         alpha: true,
       },
-      { title: 'PushBadge', slug: '/docs/components/push-badge', alpha: true },
+      { title: 'PushBadge', slug: '/docs/components/push-badge' },
       {
         title: 'RadioGroup',
         slug: '/docs/components/radio-group',
@@ -150,15 +148,13 @@ export const routes: Array<Route> = [
       {
         title: 'SectionMessage',
         slug: '/docs/components/section-message',
-        alpha: true,
       },
       {
         title: 'SegmentControl',
         slug: '/docs/components/segment-control',
-        alpha: true,
       },
-      { title: 'Skeleton', slug: '/docs/components/skeleton', alpha: true },
-      { title: 'Slider', slug: '/docs/components/slider', alpha: true },
+      { title: 'Skeleton', slug: '/docs/components/skeleton' },
+      { title: 'Slider', slug: '/docs/components/slider' },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'TextArea', slug: '/docs/components/text-area' },
