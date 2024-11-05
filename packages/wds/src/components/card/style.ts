@@ -64,6 +64,10 @@ export const cardPlatformStyle = ({
           font-size: 20px;
         }
 
+        // content
+        [wds-component='card-content'] {
+          padding: 0;
+        }
         // text
         [wds-component='card-title'] {
           ${typographyStyle('body2_normal', 'bold')}
@@ -73,20 +77,20 @@ export const cardPlatformStyle = ({
 };
 
 export const cardStyle =
-  ({ xs, sm, md, lg, xl, width, ...props }: CardProps) =>
+  ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
   (theme: Theme) => css`
     --wds-card-thumbnail-overlay-z-index: 1;
     --wds-card-thumbnail-content-wrapper-z-index: 2;
 
     width: ${width ?? '100%'};
-    ${cardPlatformStyle(props)}
+    ${cardPlatformStyle({ platform })}
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
         width: ${params?.width ?? '100%'};
-        ${cardPlatformStyle(props)}
+        ${cardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
     )}

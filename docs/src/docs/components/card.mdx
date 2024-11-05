@@ -105,12 +105,31 @@ export default Demo;`}
 
 ## Examples
 
+### Width
+
+- `width`를 지정할 수 있고, 지정하지 않으면 100%의 너비를 사용해요.
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 width를 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Card sm={{ width: '240px' }} sx={{ margin: 'auto' }}>
+      <CardThumbnail src="https://" width="240px" />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>(min-width: 768px), width: 240px</CardCaption>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Demo;`}
+/>
+
 ### Platform
 
-- `platform` prop에 따라 `CardThumbnail`의 비율, 글자 크기가 달라요.
-- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
-
-컴포넌트들 중 다수가 ResponsiveProps를 사용합니다. 모든 breakpoint를 사용할 수 있으며 해당 breakpoint 이상일 경우 지원하는 props를 Override 합니다.
+`platform`에 따라 글자 크기, `CardThumbnail`의 비율이 달라요.
 
 <Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
 import { IconBookmark } from '@wanteddev/wds-icon';
@@ -120,10 +139,8 @@ const Demo = () => {
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
         <CardThumbnail
-          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-          alt="Wanted Company Image"
+          src=""
           width="240px"
-          quality={95}
           overlay
           leftContent={
             <CardThumbnailContent variant="text">
@@ -143,10 +160,8 @@ const Demo = () => {
       </Card>
       <Card platform="mobile" width="152px">
         <CardThumbnail
-          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-          alt="Wanted Company Image"
+          src=""
           width="152px"
-          quality={95}
           overlay
           leftContent={
             <CardThumbnailContent variant="text">
@@ -165,6 +180,42 @@ const Demo = () => {
         </CardContent>
       </Card>
     </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
+- `width`와 조합해서 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+import { IconBookmark } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Card sm={{ width: '240px', platform: 'mobile' }} sx={{ margin: 'auto' }}>
+      <CardThumbnail
+        src="https://"
+        width="240px"
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="icon">
+            <IconBookmark />
+          </CardThumbnailContent>
+        }
+      />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>(min-width: 768px), width: 240px</CardCaption>
+        <CardCaption>(min-width: 768px), platform: mobile</CardCaption>
+      </CardContent>
+    </Card>
   );
 }
 

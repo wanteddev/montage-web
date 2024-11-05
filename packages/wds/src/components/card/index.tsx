@@ -126,6 +126,7 @@ const CardThumbnailContent = forwardRef<
           sx={[cardThumbnailContentTextStyle, sx]}
         />
       );
+
     case 'icon':
       return (
         <FlexBox
@@ -140,6 +141,7 @@ const CardThumbnailContent = forwardRef<
           sx={[cardThumbnailContentIconStyle, sx]}
         />
       );
+
     case 'custom':
       return <FlexBox ref={ref} as="span" {...props} sx={sx} />;
   }
