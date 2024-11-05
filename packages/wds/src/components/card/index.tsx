@@ -4,6 +4,7 @@ import {
   type DefaultComponentProps,
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
@@ -114,7 +115,7 @@ CardThumbnail.displayName = CARD_THUMBNAIL_NAME;
 const CardThumbnailContent = forwardRef<
   HTMLSpanElement,
   Omit<DefaultComponentProps<CardThumbnailContentProps, 'span'>, 'color'>
->(({ variant, sx, ...props }, ref) => {
+>(({ variant = 'custom', sx, onClick, ...props }, ref) => {
   switch (variant) {
     case 'text':
       return (
@@ -131,10 +132,16 @@ const CardThumbnailContent = forwardRef<
           ref={ref}
           as="span"
           data-role="card-thumbnail-content-icon"
+          role={typeof onClick !== 'undefined' ? 'button' : undefined}
+          onClick={composeEventHandlers(onClick, (event) => {
+            event.stopPropagation();
+          })}
           {...props}
           sx={[cardThumbnailContentIconStyle, sx]}
         />
       );
+    case 'custom':
+      return <FlexBox ref={ref} as="span" {...props} sx={sx} />;
   }
 });
 

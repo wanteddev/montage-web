@@ -9,58 +9,46 @@ description: Card Component
 - leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸주세요.
 
 <Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
-import { IconBookmark } from '@wanteddev/wds-icon';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
 
 const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const handleThumbnailIconClick = () => {
+    if (!isBookmarked) {
+      alert('북마크에 저장되었습니다.');
+    }
+    setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+  }
+
   return (
-    <FlexBox gap="24px" justifyContent="center">
-      <Card width="240px">
-        <CardThumbnail
-          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-          alt="Wanted Company Image"
-          width="240px"
-          quality={95}
-          overlay
-          leftContent={
-            <CardThumbnailContent variant="text">
-              캡션
-            </CardThumbnailContent>
-          }
-          rightContent={
-            <CardThumbnailContent variant="icon">
-              <IconBookmark />
-            </CardThumbnailContent>
-          }
-        />
-        <CardContent>
-          <CardTitle>제목</CardTitle>
-          <CardCaption>캡션</CardCaption>
-        </CardContent>
-      </Card>
-      <Card platform="mobile" width="152px">
-        <CardThumbnail
-          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-          alt="Wanted Company Image"
-          width="152px"
-          quality={95}
-          overlay
-          leftContent={
-            <CardThumbnailContent variant="text">
-              캡션
-            </CardThumbnailContent>
-          }
-          rightContent={
-            <CardThumbnailContent variant="icon">
-              <IconBookmark />
-            </CardThumbnailContent>
-          }
-        />
-        <CardContent>
-          <CardTitle>제목</CardTitle>
-          <CardCaption>캡션</CardCaption>
-        </CardContent>
-      </Card>
-    </FlexBox>
+    <Card width="240px" sx={{ margin: 'auto' }}>
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        quality={95}
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="icon" onClick={handleThumbnailIconClick}>
+            {isBookmarked 
+              ? <IconBookmarkFill sx={(theme) => ({ color: theme.palette.primary.normal })} /> 
+              : <IconBookmark />
+            }
+          </CardThumbnailContent>
+        }
+      />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>캡션</CardCaption>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -116,6 +104,72 @@ export default Demo;`}
 <PropsTable component="CardCaption" />
 
 ## Examples
+
+### Platform
+
+- `platform` prop에 따라 `CardThumbnail`의 비율, 글자 크기가 달라요.
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
+
+컴포넌트들 중 다수가 ResponsiveProps를 사용합니다. 모든 breakpoint를 사용할 수 있으며 해당 breakpoint 이상일 경우 지원하는 props를 Override 합니다.
+
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+import { IconBookmark } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" justifyContent="center">
+      <Card width="240px">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="240px"
+          quality={95}
+          overlay
+          leftContent={
+            <CardThumbnailContent variant="text">
+              캡션
+            </CardThumbnailContent>
+          }
+          rightContent={
+            <CardThumbnailContent variant="icon">
+              <IconBookmark />
+            </CardThumbnailContent>
+          }
+        />
+        <CardContent>
+          <CardTitle>platform: desktop</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+      <Card platform="mobile" width="152px">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="152px"
+          quality={95}
+          overlay
+          leftContent={
+            <CardThumbnailContent variant="text">
+              캡션
+            </CardThumbnailContent>
+          }
+          rightContent={
+            <CardThumbnailContent variant="icon">
+              <IconBookmark />
+            </CardThumbnailContent>
+          }
+        />
+        <CardContent>
+          <CardTitle>platform: mobile</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
 
 ### Top Content, Bottom Content
 
