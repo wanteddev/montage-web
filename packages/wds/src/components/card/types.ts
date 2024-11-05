@@ -1,5 +1,5 @@
 import type ImageLoader from '../image-loader';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { CSSProperties, ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { TypographyProps } from '../typography/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ThumbnailDefaultProps } from '../thumbnail/types';
@@ -7,6 +7,7 @@ import type { FlexBoxProps } from '../flex-box/types';
 
 export type CardDefaultProps = {
   platform?: 'desktop' | 'mobile';
+  width?: CSSProperties['width'];
 };
 export type CardResponsiveProps = ResponsiveProps<CardDefaultProps>;
 export type CardProps = Merge<

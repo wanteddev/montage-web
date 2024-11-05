@@ -3,11 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type {
-  CardExtraContentProps,
-  CardProps,
-  CardThumbnailProps,
-} from './types';
+import type { CardExtraContentProps, CardProps } from './types';
 
 export const cardPlatformStyle = ({
   platform,
@@ -17,6 +13,7 @@ export const cardPlatformStyle = ({
       return css`
         // thumbnail
         [wds-component='thumbnail'] {
+          width: 100%;
           aspect-ratio: 3 / 2;
         }
         [data-role='card-thumbnail-overlay'] {
@@ -50,6 +47,7 @@ export const cardPlatformStyle = ({
       return css`
         // thumbnail
         [wds-component='thumbnail'] {
+          width: 100%;
           aspect-ratio: 4 / 3;
         }
         [data-role='card-thumbnail-overlay'] {
@@ -75,18 +73,19 @@ export const cardPlatformStyle = ({
 };
 
 export const cardStyle =
-  ({ xs, sm, md, lg, xl, ...props }: CardProps) =>
+  ({ xs, sm, md, lg, xl, width, ...props }: CardProps) =>
   (theme: Theme) => css`
     --wds-card-thumbnail-overlay-z-index: 1;
     --wds-card-thumbnail-content-wrapper-z-index: 2;
 
+    width: ${width ?? '100%'};
     ${cardPlatformStyle(props)}
-
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
+        width: ${params?.width ?? '100%'};
         ${cardPlatformStyle(props)}
         ${params?.sx}
       `,
@@ -95,13 +94,6 @@ export const cardStyle =
 
 export const cardThumbnailStyle = css`
   position: relative;
-`;
-
-export const thumbnailStyle = ({
-  width,
-}: Pick<CardThumbnailProps, 'width'>) => css`
-  max-width: ${width};
-  width: 100%;
 `;
 
 export const cardThumbnailContentWrapperStyle = css`
