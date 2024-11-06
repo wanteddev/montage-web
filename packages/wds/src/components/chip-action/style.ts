@@ -50,34 +50,36 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
     case 'xsmall':
       return css`
         border-radius: 6px;
-        padding: 4px 6px;
-        gap: 4px;
+        padding: 4px 7px;
+        gap: 2px;
 
         svg {
           font-size: 12px;
         }
         & > span {
           ${typographyStyle('caption1', 'medium')}
+          padding: 0 1px;
         }
       `;
     case 'small':
       return css`
         border-radius: 8px;
-        padding: 6px 10px;
-        gap: 4px;
+        padding: 6px 8px;
+        gap: 2px;
 
         svg {
           font-size: 14px;
         }
         & > span {
           ${typographyStyle('label1_normal', 'medium')}
+          padding: 0 2px;
         }
       `;
     case 'normal':
       return css`
         border-radius: 8px;
-        padding: 7px 12px;
-        gap: 4px;
+        padding: 7px 11px;
+        gap: 3px;
 
         svg {
           font-size: 14px;
@@ -85,19 +87,21 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
 
         & > span {
           ${typographyStyle('body2_normal', 'medium')}
+          padding: 0 2px;
         }
       `;
     case 'large':
       return css`
         border-radius: 10px;
         padding: 9px 12px;
-        gap: 6px;
+        gap: 3px;
 
         svg {
           font-size: 16px;
         }
         & > span {
           ${typographyStyle('body2_normal', 'medium')}
+          padding: 0 2px;
         }
       `;
   }

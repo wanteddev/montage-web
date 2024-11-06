@@ -233,46 +233,40 @@ const ModalContainer = forwardRef<
           xl,
         })}
       >
-        <RemoveScroll
-          enabled={context.open && context.visibility === 'visible'}
-          as={Slot}
-          allowPinchZoom
-          shards={[containerRef]}
-        >
-          <Box
-            ref={dimmerRef}
-            data-status={status}
-            data-visibility={
-              isBottomSheetWithHandle ? context.visibility : undefined
-            }
-            onPointerDown={useCallback(
-              (e: PointerEvent) => {
-                const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-                const isRightClick = e.button === 2 || ctrlLeftClick;
+        <Box
+          ref={dimmerRef}
+          data-status={status}
+          data-visibility={
+            isBottomSheetWithHandle ? context.visibility : undefined
+          }
+          onPointerDown={useCallback(
+            (e: PointerEvent) => {
+              const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+              const isRightClick = e.button === 2 || ctrlLeftClick;
 
-                if (isRightClick || disableOutsideClickClose) {
-                  e.preventDefault();
-                  return;
-                }
+              if (isRightClick || disableOutsideClickClose) {
+                e.preventDefault();
+                return;
+              }
 
-                if (!isBottomSheetWithHandle) {
-                  onOpenChange(false);
-                } else {
-                  handleVisibilityHidden();
-                }
-              },
-              [
-                disableOutsideClickClose,
-                handleVisibilityHidden,
-                isBottomSheetWithHandle,
-                onOpenChange,
-              ],
-            )}
-            sx={modalDimmerStyle({
-              isBottomSheet: isBottomSheetWithHandle,
-            })}
-          />
-        </RemoveScroll>
+              if (!isBottomSheetWithHandle) {
+                onOpenChange(false);
+              } else {
+                handleVisibilityHidden();
+              }
+            },
+            [
+              disableOutsideClickClose,
+              handleVisibilityHidden,
+              isBottomSheetWithHandle,
+              onOpenChange,
+            ],
+          )}
+          sx={modalDimmerStyle({
+            isBottomSheet: isBottomSheetWithHandle,
+          })}
+        />
+
         <FocusScope
           loop={context.open && context.visibility === 'visible'}
           trapped={context.open && context.visibility === 'visible'}
@@ -303,74 +297,80 @@ const ModalContainer = forwardRef<
             }, [isBottomSheetWithHandle, onOpenChange, handleVisibilityHidden])}
             ref={composedContainerRefs}
           >
-            <Box
-              role="dialog"
-              aria-modal
-              id={context.containerId}
-              aria-describedby={`${context.descriptionId} ${context.summaryId}`}
-              aria-labelledby={`${context.titleId} ${context.headingId}`}
-              {...props}
-              data-visibility={
-                isBottomSheetWithHandle ? context.visibility : undefined
-              }
-              data-status={status}
-              sx={[
-                modalContainerStyle({
-                  isBottomSheet: context.isBottomSheet,
-                  variant,
-                  size,
-                  xs,
-                  sm,
-                  md,
-                  lg,
-                  xl,
-                }),
-                props.sx,
-              ]}
+            <RemoveScroll
+              enabled={context.open && context.visibility === 'visible'}
+              as={Slot}
+              allowPinchZoom
             >
-              <ScrollArea
-                scrollbars="vertical"
-                viewportRef={context.innerContainerRef}
-                sx={{
-                  display: 'flex',
-                  flexGrow: '1',
-                }}
-                viewportProps={{
-                  sx: {
-                    height: 'initial',
-                    ['& [data-radix-scroll-area-content]']: {
-                      display: 'flex',
-                      flexDirection: 'column',
-                    },
-                  },
-                }}
-                zIndex={11}
+              <Box
+                role="dialog"
+                aria-modal
+                id={context.containerId}
+                aria-describedby={`${context.descriptionId} ${context.summaryId}`}
+                aria-labelledby={`${context.titleId} ${context.headingId}`}
+                {...props}
+                data-visibility={
+                  isBottomSheetWithHandle ? context.visibility : undefined
+                }
+                data-status={status}
+                sx={[
+                  modalContainerStyle({
+                    isBottomSheet: context.isBottomSheet,
+                    variant,
+                    size,
+                    xs,
+                    sm,
+                    md,
+                    lg,
+                    xl,
+                  }),
+                  props.sx,
+                ]}
               >
-                <FlexBox
-                  flexDirection="column"
-                  flex="1"
+                <ScrollArea
+                  scrollbars="vertical"
+                  viewportRef={context.innerContainerRef}
                   sx={{
-                    ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
-                      {
-                        paddingTop: 12,
-                      },
+                    display: 'flex',
+                    flexGrow: '1',
                   }}
-                  {...dragProps}
+                  viewportProps={{
+                    sx: {
+                      height: 'initial',
+                      ['& [data-radix-scroll-area-content]']: {
+                        display: 'flex',
+                        flexDirection: 'column',
+                      },
+                    },
+                  }}
+                  zIndex={11}
                 >
-                  {isBottomSheetWithHandle && (
-                    <FlexBox
-                      justifyContent="center"
-                      sx={modalGrabberStyle}
-                      data-role="modal-container-grabber"
-                    />
-                  )}
+                  <FlexBox
+                    flexDirection="column"
+                    flex="1"
+                    sx={{
+                      ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
+                        {
+                          paddingTop: 12,
+                        },
+                    }}
+                    {...dragProps}
+                  >
+                    {isBottomSheetWithHandle && (
+                      <FlexBox
+                        justifyContent="center"
+                        sx={modalGrabberStyle}
+                        data-role="modal-container-grabber"
+                      />
+                    )}
 
-                  <ModalScrollProvider sticky={sticky}>
-                    {children}
-                  </ModalScrollProvider>
-                </FlexBox>
-              </ScrollArea>
-            </Box>
+                    <ModalScrollProvider sticky={sticky}>
+                      {children}
+                    </ModalScrollProvider>
+                  </FlexBox>
+                </ScrollArea>
+              </Box>
+            </RemoveScroll>
           </DismissableLayer>
         </FocusScope>
       </Box>

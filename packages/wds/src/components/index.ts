@@ -42,6 +42,7 @@ export { default as ScrollArea } from './scroll-area';
 export { default as SectionMessage } from './section-message';
 export * from './segment-control';
 export * from './select';
+export { default as Loading } from './loading';
 export { default as SelectMultiple } from './select-multiple';
 export { default as Skeleton } from './skeleton';
 export * from './slider';
