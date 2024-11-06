@@ -4,7 +4,6 @@ import {
   type DefaultComponentProps,
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
@@ -23,8 +22,8 @@ import { CardProvider } from './contexts';
 import {
   cardExtraContentStyle,
   cardStyle,
-  cardThumbnailContentIconStyle,
   cardThumbnailContentTextStyle,
+  cardThumbnailContentToggleIconStyle,
   cardThumbnailContentWrapperStyle,
   cardThumbnailOverlayStyle,
   cardThumbnailStyle,
@@ -115,7 +114,7 @@ CardThumbnail.displayName = CARD_THUMBNAIL_NAME;
 const CardThumbnailContent = forwardRef<
   HTMLSpanElement,
   Omit<DefaultComponentProps<CardThumbnailContentProps, 'span'>, 'color'>
->(({ variant = 'custom', sx, onClick, ...props }, ref) => {
+>(({ variant = 'custom', sx, ...props }, ref) => {
   switch (variant) {
     case 'text':
       return (
@@ -127,19 +126,14 @@ const CardThumbnailContent = forwardRef<
         />
       );
 
-    case 'icon':
+    case 'toggle-icon':
       return (
         <FlexBox
           ref={ref}
           as="span"
-          data-role="card-thumbnail-content-icon"
-          role={typeof onClick !== 'undefined' ? 'button' : undefined}
-          onClick={composeEventHandlers(onClick, (event) => {
-            event.stopPropagation();
-            event.preventDefault();
-          })}
+          data-role="card-thumbnail-content-toggle-icon"
           {...props}
-          sx={[cardThumbnailContentIconStyle, sx]}
+          sx={[cardThumbnailContentToggleIconStyle, sx]}
         />
       );
 

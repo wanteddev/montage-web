@@ -30,7 +30,7 @@ export type CardThumbnailProps = Merge<
 >;
 
 export type CardThumbnailContentProps = {
-  variant?: 'text' | 'icon' | 'custom';
+  variant?: 'text' | 'toggle-icon' | 'custom';
 };
 
 export type CardContentProps = FlexBoxProps;

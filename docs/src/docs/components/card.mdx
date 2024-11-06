@@ -7,20 +7,14 @@ description: Card Component
 
 - 일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
 - leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸주세요.
+  - Card와 leftContent, rightContent 모두 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 Card의 이벤트 전파를 막을 수 있습니다.
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+<Demo code={`import { ToggleIcon, FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
-
-  const handleThumbnailIconClick = () => {
-    if (!isBookmarked) {
-      alert('북마크에 저장되었습니다.');
-    }
-    setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
-  }
 
   return (
     <Card width="240px" as="a" href="https://wanted.co.kr" target="_blank" sx={{ margin: 'auto' }}>
@@ -36,11 +30,26 @@ const Demo = () => {
           </CardThumbnailContent>
         }
         rightContent={
-          <CardThumbnailContent variant="icon" onClick={handleThumbnailIconClick}>
-            {isBookmarked 
-              ? <IconBookmarkFill sx={(theme) => ({ color: theme.palette.primary.normal })} /> 
-              : <IconBookmark />
-            }
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon 
+              active={isBookmarked} 
+              onActiveChange={setIsBookmarked} 
+              activeColor="palette.primary.normal" 
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                if (!isBookmarked) {
+                  alert('북마크에 저장되었습니다.');
+                }
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
           </CardThumbnailContent>
         }
       />

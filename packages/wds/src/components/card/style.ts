@@ -26,7 +26,7 @@ export const cardPlatformStyle = ({
         [data-role='card-thumbnail-content-text'] {
           ${typographyStyle('label2', 'bold')}
         }
-        [data-role='card-thumbnail-content-icon'] {
+        [data-role='card-thumbnail-content-toggle-icon'] {
           font-size: 24px;
         }
 
@@ -60,7 +60,7 @@ export const cardPlatformStyle = ({
         [data-role='card-thumbnail-content-text'] {
           ${typographyStyle('caption1', 'bold')}
         }
-        [data-role='card-thumbnail-content-icon'] {
+        [data-role='card-thumbnail-content-toggle-icon'] {
           font-size: 20px;
         }
 
@@ -114,8 +114,10 @@ export const cardThumbnailContentTextStyle = (theme: Theme) => css`
   color: ${theme.palette.static.white};
 `;
 
-export const cardThumbnailContentIconStyle = (theme: Theme) => css`
-  color: ${theme.palette.static.white};
+export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
+  button[aria-pressed='false'] {
+    color: ${theme.palette.static.white};
+  }
 `;
 
 export const cardThumbnailOverlayStyle = (theme: Theme) => css`
