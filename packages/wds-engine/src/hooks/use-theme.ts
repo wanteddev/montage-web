@@ -2,6 +2,8 @@ import { useContext } from 'react';
 
 import ThemeContext from '../context';
 
-const useTheme = () => useContext(ThemeContext);
+import type { Theme } from '@wanteddev/wds-theme';
+
+const useTheme = (): Theme => useContext(ThemeContext);
 
 export default useTheme;

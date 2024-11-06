@@ -1,4 +1,7 @@
-import type Checkbox from '../checkbox';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { CheckboxProps } from '../checkbox/types';
 
-export type RoundCheckboxProps = ComponentPropsWithoutRef<typeof Checkbox>;
+export type RoundCheckboxProps = Omit<
+  DefaultComponentProps<CheckboxProps, 'button'>,
+  'onChange' | 'value'
+>;

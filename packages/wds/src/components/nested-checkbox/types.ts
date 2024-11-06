@@ -1,7 +1,7 @@
-import type Checkbox from '../checkbox';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { CheckboxProps } from '../checkbox/types';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
 export type NestedCheckboxProps = Omit<
-  ComponentPropsWithoutRef<typeof Checkbox>,
-  'indeterminate' | 'indeterminateIcon'
+  DefaultComponentProps<CheckboxProps, 'button'>,
+  'onChange' | 'value' | 'indeterminate' | 'indeterminateIcon'
 >;
