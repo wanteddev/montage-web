@@ -19,9 +19,13 @@ const emptyStatePlatformStyle = ({
           height: 128px;
         }
 
+        [wds-component='empty-state-image']
+          + [wds-component='empty-state-content'] {
+          --wds-empty-state-bottom-space: 20px;
+        }
         [wds-component='empty-state-content'] {
           padding-top: 8px;
-          padding-bottom: 8px;
+          padding-bottom: calc(8px + var(--wds-empty-state-bottom-space));
         }
 
         [data-role='empty-state-text-heading'] {
@@ -56,9 +60,13 @@ const emptyStatePlatformStyle = ({
           height: 160px;
         }
 
+        [wds-component='empty-state-image']
+          + [wds-component='empty-state-content'] {
+          --wds-empty-state-bottom-space: 20px;
+        }
         [wds-component='empty-state-content'] {
           padding-top: 12px;
-          padding-bottom: 12px;
+          padding-bottom: calc(12px + var(--wds-empty-state-bottom-space));
         }
 
         [data-role='empty-state-text-heading'] {
@@ -87,38 +95,29 @@ const emptyStatePlatformStyle = ({
 
 const emptyStatePaddingStyle = ({
   padding,
-  hasImage,
-}: Pick<EmptyStateProps, 'padding'> & { hasImage: boolean }) => {
+}: Pick<EmptyStateProps, 'padding'>) => {
   switch (padding) {
     case 'compact':
       return css`
         padding-top: 80px;
-        padding-bottom: ${hasImage ? '100px' : '80px'};
+        padding-bottom: 80px;
       `;
     case 'normal':
     default:
       return css`
         padding-top: 160px;
-        padding-bottom: ${hasImage ? '180px' : '160px'};
+        padding-bottom: 160px;
       `;
   }
 };
 
 export const emptyStateStyle =
-  ({
-    platform,
-    padding,
-    width,
-    hasImage,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: EmptyStateProps & { hasImage: boolean }) =>
+  ({ platform, padding, width, xs, sm, md, lg, xl }: EmptyStateProps) =>
   (theme: Theme) => css`
+    --wds-empty-state-bottom-space: 0px;
+
     ${emptyStatePlatformStyle({ platform })}
-    ${emptyStatePaddingStyle({ padding, hasImage })}
+    ${emptyStatePaddingStyle({ padding })}
     width: ${width};
 
     [wds-component='empty-state-image'] {
@@ -140,7 +139,7 @@ export const emptyStateStyle =
     )(
       (params) => css`
         ${emptyStatePlatformStyle({ platform: params?.platform })}
-        ${emptyStatePaddingStyle({ padding: params?.padding, hasImage })}
+        ${emptyStatePaddingStyle({ padding: params?.padding })}
         width: ${params?.width};
         ${params?.sx}
       `,

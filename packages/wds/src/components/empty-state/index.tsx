@@ -1,4 +1,4 @@
-import { Children, forwardRef, isValidElement, useMemo } from 'react';
+import { forwardRef } from 'react';
 import {
   type DefaultComponentProps,
   type PolymorphicComponent,
@@ -19,12 +19,7 @@ import { emptyStateImageStyle, emptyStateStyle } from './style';
 
 import type { ButtonProps } from '../button/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type {
-  ElementRef,
-  ElementType,
-  ForwardedRef,
-  ReactElement,
-} from 'react';
+import type { ElementRef, ElementType, ForwardedRef } from 'react';
 import type {
   EmptyStateImageProps,
   EmptyStateProps,
@@ -49,17 +44,6 @@ const EmptyState = forwardRef(
     }: PolymorphicProps<EmptyStateProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const hasImage = useMemo(() => {
-      return Children.toArray(children).some((node) => {
-        const {
-          type: { displayName },
-        } = node as ReactElement & {
-          type: { displayName: string };
-        };
-        return isValidElement(node) && displayName === EMPTY_STATE_IMAGE_NAME;
-      });
-    }, [children]);
-
     return (
       <FlexBox
         as={(as || 'div') as E}
@@ -71,7 +55,6 @@ const EmptyState = forwardRef(
             platform,
             padding,
             width,
-            hasImage,
             xs,
             sm,
             md,
