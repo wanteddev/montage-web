@@ -17,16 +17,7 @@ export type EmptyStateProps = Merge<
   FlexBoxProps
 >;
 
-export type EmptyStateImageDefaultProps = {
-  width?: CSSProperties['width'];
-};
-export type EmptyStateImageResponsiveProps = ResponsiveProps<
-  Pick<EmptyStateImageDefaultProps, 'width'>
->;
-export type EmptyStateImageProps = Merge<
-  Merge<EmptyStateImageDefaultProps, EmptyStateImageResponsiveProps>,
-  FlexBoxProps
->;
+export type EmptyStateImageProps = FlexBoxProps;
 
 export type EmptyStateTextDefaultProps = {
   heading?: ReactNode;
