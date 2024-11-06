@@ -194,7 +194,7 @@ import { IconBookmark } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <Card sm={{ width: '240px', platform: 'mobile' }} sx={{ margin: 'auto' }}>
+    <Card platform="mobile" sm={{ width: '240px', platform: 'desktop' }} sx={{ margin: 'auto' }}>
       <CardThumbnail
         showFallback
         width="240px"
@@ -213,7 +213,7 @@ const Demo = () => {
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>
-        <CardCaption>(min-width: 768px), platform: mobile</CardCaption>
+        <CardCaption>(min-width: 768px), platform: desktop</CardCaption>
       </CardContent>
     </Card>
   );

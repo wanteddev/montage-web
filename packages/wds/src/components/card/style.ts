@@ -84,12 +84,13 @@ export const cardStyle =
 
     width: ${width ?? '100%'};
     ${cardPlatformStyle({ platform })}
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        width: ${params?.width ?? '100%'};
+        width: ${params?.width};
         ${cardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
