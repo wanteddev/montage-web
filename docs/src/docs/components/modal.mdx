@@ -142,6 +142,123 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 ## Examples
 
+### Handle
+
+`variant="bottom"` 일 때 드래그로 숨기고 열 수 있는 옵션을 사용할 수 있습니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <ModalContainer variant="bottom" handle>
+          <ModalNavigation>
+            제목
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              액션
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `onVisibilityChange` prop 을 사용하면 아래로 숨김 처리 되지 않고 바로 닫히게 구성할 수 있습니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+        onVisibilityChange={(visibility) => {
+          if (visibility === 'hidden') {
+            setShow(false)
+          }
+        }}
+      >
+        <ModalContainer variant="bottom" handle>
+          <ModalNavigation>
+            제목
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              액션
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Form
 
 <Demo code={`import { useState } from 'react';
