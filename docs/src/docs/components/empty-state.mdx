@@ -1,0 +1,245 @@
+---
+title: Empty State
+description: Empty State Component
+---
+
+# Empty State
+
+- 콘텐츠가 빈 상태일 때 사용자의 이해를 돕기 위해 사용합니다.
+- 이미지를 추가할 땐 `EmptyStateImage`로 감싸주세요.
+
+<Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton, ImageLoader } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <EmptyState sx={{ margin: 'auto' }}>
+      <EmptyStateImage>
+        <ImageLoader
+          quality={90}
+          width="500px"
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+        />
+      </EmptyStateImage>
+      <EmptyStateContent>
+        <EmptyStateText
+          heading="타이틀이 들어가요." 
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <EmptyStateButton>텍스트</EmptyStateButton>
+      </EmptyStateContent>
+    </EmptyState>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<EmptyState>
+  <EmptyStateImage />
+  <EmptyStateContent>
+    <EmptyStateText />
+    <EmptyStateButton />
+  </EmptyStateContent>
+</EmptyState>
+```
+
+### EmptyState
+
+<PropsTable component="EmptyState" />
+
+### EmptyStateImage
+
+`FlexBox`와 동일한 props를 사용해요.
+
+<PropsTable component="EmptyStateImage" />
+
+### EmptyStateContent
+
+`FlexBox`와 동일한 props를 사용해요.
+
+<PropsTable component="EmptyStateContent" />
+
+### EmptyStateText
+
+<PropsTable component="EmptyStateText" />
+
+### EmptyStateButton
+
+`Button`과 동일한 props를 사용해요.
+
+<PropsTable component="EmptyStateButton" />
+
+## Examples
+
+### Platform
+
+`platform`에 따라 이미지, 글자, 버튼 크기가 달라져요.
+
+<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage, ImageLoader } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px">
+      <EmptyState width="100%">
+        <EmptyStateImage>
+          <ImageLoader
+            quality={90}
+            width="500px"
+            src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+            alt="Wanted Company Image"
+          />
+        </EmptyStateImage>      
+        <EmptyStateContent>
+          <EmptyStateText
+            heading="platform: desktop" 
+            description={
+              <>
+                상황에 대한 설명이 들어가요.
+                <br />
+                설명은 최대 두 줄로 작성해요.
+              </>
+            }
+          />
+          <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+      <EmptyState platform="mobile" width="100%">
+        <EmptyStateImage>
+          <ImageLoader
+            quality={90}
+            width="500px"
+            src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+            alt="Wanted Company Image"
+          />
+        </EmptyStateImage>
+        <EmptyStateContent>
+          <EmptyStateText
+            heading="platform: mobile" 
+            description={
+              <>
+                상황에 대한 설명이 들어가요.
+                <br />
+                설명은 최대 두 줄로 작성해요.
+              </>
+            }
+          />
+          <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 `platform`을 지정할 수 있어요.
+
+<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage, ImageLoader } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <EmptyState 
+      platform="mobile" 
+      sm={{ platform: "desktop" }} 
+      sx={{ margin: 'auto' }}
+    >
+      <EmptyStateImage>
+        <ImageLoader
+          quality={90}
+          width="500px"
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+        />
+      </EmptyStateImage>      
+      <EmptyStateContent>
+        <EmptyStateText
+          heading="타이틀이 들어가요." 
+          description={
+            <>
+              (min-width: 768px), platform: desktop
+              <br />
+              (max-width: 767px), platform: mobile
+            </>
+          }
+        />
+        <EmptyStateButton>텍스트</EmptyStateButton>
+      </EmptyStateContent>
+    </EmptyState>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Padding
+
+<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage, ImageLoader } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px">
+      <EmptyState>
+        <EmptyStateImage>
+          <ImageLoader
+            quality={90}
+            width="500px"
+            src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+            alt="Wanted Company Image"
+          />
+        </EmptyStateImage>
+        <EmptyStateContent>
+          <EmptyStateText
+            heading="padding: normal"
+              description={
+                <>
+                  상황에 대한 설명이 들어가요.
+                  <br />
+                  설명은 최대 두 줄로 작성해요.
+                </>
+              }
+            />
+            <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+      <EmptyState padding="compact">
+        <EmptyStateImage>
+          <ImageLoader
+            quality={90}
+            width="500px"
+            src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+            alt="Wanted Company Image"
+          />
+        </EmptyStateImage>
+        <EmptyStateContent>
+          <EmptyStateText
+            heading="padding: compact" 
+              description={
+                <>
+                  상황에 대한 설명이 들어가요.
+                  <br />
+                  설명은 최대 두 줄로 작성해요.
+                </>
+              }
+            />
+            <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
