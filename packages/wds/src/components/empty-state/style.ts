@@ -3,7 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import { createResponsiveStyle, typographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { EmptyStateProps } from './types';
+import type { EmptyStateImageProps, EmptyStateProps } from './types';
 
 const emptyStatePlatformStyle = ({
   platform,
@@ -124,10 +124,6 @@ export const emptyStateStyle =
     [wds-component='empty-state-image'] {
       max-width: 100%;
       max-height: 100%;
-
-      svg {
-        font-size: 10em;
-      }
     }
 
     [data-role='empty-state-text-heading'] {
@@ -151,4 +147,31 @@ export const emptyStateStyle =
     )}
   `;
 
-export const emptyStateImageStyle = css``;
+const emptyStateImageWidthStyle = ({
+  width,
+}: Pick<EmptyStateImageProps, 'width'>) => css`
+  && {
+    width: ${width};
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+export const emptyStateImageStyle =
+  ({ width, xl, lg, md, sm, xs }: EmptyStateImageProps) =>
+  (theme: Theme) => css`
+    ${emptyStateImageWidthStyle({ width })}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${emptyStateImageWidthStyle({ width: params?.width })}
+        ${params?.sx}
+      `,
+    )}
+  `;

@@ -5,7 +5,8 @@ description: Empty State Component
 
 # Empty State
 
-콘텐츠가 빈 상태일 때 사용자의 이해를 돕기 위해 사용합니다.
+- 콘텐츠가 빈 상태일 때 사용자의 이해를 돕기 위해 사용합니다.
+- 이미지를 추가할 땐 `EmptyStateImage`로 감싸주세요.
 
 <Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, ImageLoader } from '@wanteddev/wds';
 
@@ -100,7 +101,7 @@ const Demo = () => {
         </EmptyStateImage>      
         <EmptyStateContent>
           <EmptyStateText
-            heading="Platform: desktop" 
+            heading="platform: desktop" 
             description={
               <>
                 상황에 대한 설명이 들어가요.
@@ -123,7 +124,7 @@ const Demo = () => {
         </EmptyStateImage>
         <EmptyStateContent>
           <EmptyStateText
-            heading="Platform: mobile" 
+            heading="platform: mobile" 
             description={
               <>
                 상황에 대한 설명이 들어가요.
@@ -148,69 +149,7 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <>
-      <FlexBox gap="10px">
-        <EmptyState padding="normal">
-          <EmptyStateContent>
-          <EmptyStateImage>
-            <ImageLoader
-              quality={90}
-              width="500px"
-              src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-              alt="Wanted Company Image"
-            />
-          </EmptyStateImage>
-            <EmptyStateText
-              heading="Padding: normal" 
-              description={
-                <>
-                  상황에 대한 설명이 들어가요.
-                  <br />
-                  설명은 최대 두 줄로 작성해요.
-                </>
-              }
-            />
-            <EmptyStateButton>텍스트</EmptyStateButton>
-          </EmptyStateContent>
-        </EmptyState>
-        <EmptyState padding="compact">
-          <EmptyStateImage>
-            <ImageLoader
-              quality={90}
-              width="500px"
-              src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-              alt="Wanted Company Image"
-            />
-          </EmptyStateImage>
-          <EmptyStateContent>
-            <EmptyStateText
-              heading="Padding: compact" 
-              description={
-                <>
-                  상황에 대한 설명이 들어가요.
-                  <br />
-                  설명은 최대 두 줄로 작성해요.
-                </>
-              }
-            />
-            <EmptyStateButton>텍스트</EmptyStateButton>
-          </EmptyStateContent>
-        </EmptyState>
-      </FlexBox>
-    </>
-  )
-}
-
-export default Demo;`}
-/>
-
-### Image Variant
-
-<Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, ImageLoader } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <FlexBox justifyContent="center">
+    <FlexBox gap="24px">
       <EmptyState>
         <EmptyStateImage>
           <ImageLoader
@@ -222,7 +161,84 @@ const Demo = () => {
         </EmptyStateImage>
         <EmptyStateContent>
           <EmptyStateText
+            heading="padding: normal"
+              description={
+                <>
+                  상황에 대한 설명이 들어가요.
+                  <br />
+                  설명은 최대 두 줄로 작성해요.
+                </>
+              }
+            />
+            <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+      <EmptyState padding="compact">
+        <EmptyStateImage>
+          <ImageLoader
+            quality={90}
+            width="500px"
+            src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+            alt="Wanted Company Image"
+          />
+        </EmptyStateImage>
+        <EmptyStateContent>
+          <EmptyStateText
+            heading="padding: compact" 
+              description={
+                <>
+                  상황에 대한 설명이 들어가요.
+                  <br />
+                  설명은 최대 두 줄로 작성해요.
+                </>
+              }
+            />
+            <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Custom Image
+
+- `EmptyStateImage` 내부에 이미지 또는 커스텀 요소를 추가할 수 있어요.
+
+<Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, ImageLoader } from '@wanteddev/wds';
+import { IconFaceSmile } from '@wanteddev/wds-icon';
+import { Loading } from '@wanteddev/wds-lottie';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px">
+      <EmptyState padding="compact">
+        <EmptyStateImage>
+          <IconFaceSmile />
+        </EmptyStateImage>
+        <EmptyStateContent>
+          <EmptyStateText
             heading="타이틀이 들어가요." 
+            description={
+              <>
+                상황에 대한 설명이 들어가요.
+                <br />
+                설명은 최대 두 줄로 작성해요.
+              </>
+            }
+          />
+          <EmptyStateButton>텍스트</EmptyStateButton>
+        </EmptyStateContent>
+      </EmptyState>
+      <EmptyState padding="compact">
+        <EmptyStateImage>
+          <Loading />
+        </EmptyStateImage>
+        <EmptyStateContent>
+          <EmptyStateText
+            heading="타이틀이 들어가요."
             description={
               <>
                 상황에 대한 설명이 들어가요.

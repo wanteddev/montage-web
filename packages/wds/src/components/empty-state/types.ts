@@ -18,15 +18,15 @@ export type EmptyStateProps = Merge<
 >;
 
 export type EmptyStateImageDefaultProps = {
-  variant?: 'image' | 'icon' | 'lottie' | 'custom';
   width?: CSSProperties['width'];
 };
+export type EmptyStateImageResponsiveProps = ResponsiveProps<
+  Pick<EmptyStateImageDefaultProps, 'width'>
+>;
 export type EmptyStateImageProps = Merge<
-  EmptyStateImageDefaultProps,
+  Merge<EmptyStateImageDefaultProps, EmptyStateImageResponsiveProps>,
   FlexBoxProps
 >;
-
-export type EmptyStateContent = FlexBoxProps;
 
 export type EmptyStateTextDefaultProps = {
   heading?: ReactNode;

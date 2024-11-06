@@ -15,7 +15,7 @@ import {
   EMPTY_STATE_NAME,
   EMPTY_STATE_TEXT_NAME,
 } from './constants';
-import { emptyStateStyle } from './style';
+import { emptyStateImageStyle, emptyStateStyle } from './style';
 
 import type { ButtonProps } from '../button/types';
 import type { FlexBoxProps } from '../flex-box/types';
@@ -93,27 +93,27 @@ EmptyState.displayName = EMPTY_STATE_NAME;
 const EmptyStateImage = forwardRef(
   (
     {
-      variant = 'custom',
+      width,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      sx,
       ...props
     }: DefaultComponentProps<EmptyStateImageProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    switch (variant) {
-      case 'image':
-      case 'icon':
-      case 'lottie':
-      case 'custom':
-      default:
-        return (
-          <FlexBox
-            ref={ref}
-            wds-component="empty-state-image"
-            justifyContent="center"
-            alignItems="center"
-            {...props}
-          />
-        );
-    }
+    return (
+      <FlexBox
+        ref={ref}
+        wds-component="empty-state-image"
+        justifyContent="center"
+        alignItems="center"
+        {...props}
+        sx={[emptyStateImageStyle({ width, xs, sm, md, lg, xl }), sx]}
+      />
+    );
   },
 );
 
