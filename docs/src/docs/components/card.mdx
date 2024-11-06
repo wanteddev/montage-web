@@ -17,7 +17,13 @@ const Demo = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   return (
-    <Card width="240px" as="a" href="https://wanted.co.kr" target="_blank" sx={{ margin: 'auto' }}>
+    <Card 
+      width="240px" 
+      as="a" 
+      href="https://wanted.co.kr" 
+      target="_blank" 
+      sx={{ margin: 'auto' }}
+    >
       <CardThumbnail
         src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
         alt="Wanted Company Image"
@@ -203,7 +209,14 @@ import { IconBookmark } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <Card platform="mobile" sm={{ width: '240px', platform: 'desktop' }} sx={{ margin: 'auto' }}>
+    <Card 
+      platform="mobile" 
+      sm={{ 
+        width: '240px', 
+        platform: 'desktop' 
+      }} 
+      sx={{ margin: 'auto' }}
+    >
       <CardThumbnail
         showFallback
         width="240px"
