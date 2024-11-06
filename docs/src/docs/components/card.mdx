@@ -23,7 +23,7 @@ const Demo = () => {
   }
 
   return (
-    <Card width="240px" sx={{ margin: 'auto' }}>
+    <Card width="240px" as="a" href="https://wanted.co.kr" target="_blank" sx={{ margin: 'auto' }}>
       <CardThumbnail
         src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
         alt="Wanted Company Image"
@@ -115,7 +115,7 @@ export default Demo;`}
 const Demo = () => {
   return (
     <Card sm={{ width: '240px' }} sx={{ margin: 'auto' }}>
-      <CardThumbnail src="https://" width="240px" />
+      <CardThumbnail showFallback width="240px" />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>
@@ -139,7 +139,7 @@ const Demo = () => {
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
         <CardThumbnail
-          src=""
+          showFallback
           width="240px"
           overlay
           leftContent={
@@ -160,7 +160,7 @@ const Demo = () => {
       </Card>
       <Card platform="mobile" width="152px">
         <CardThumbnail
-          src=""
+          showFallback
           width="152px"
           overlay
           leftContent={
@@ -196,7 +196,7 @@ const Demo = () => {
   return (
     <Card sm={{ width: '240px', platform: 'mobile' }} sx={{ margin: 'auto' }}>
       <CardThumbnail
-        src="https://"
+        showFallback
         width="240px"
         overlay
         leftContent={
@@ -233,7 +233,7 @@ const Demo = () => {
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnail src="https://" width="240px" />
+        <CardThumbnail showFallback width="240px" />
         <CardContent>
           <CardExtraContent position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
@@ -245,7 +245,7 @@ const Demo = () => {
         </CardContent>
       </Card>
       <Card width="240px">
-        <CardThumbnail src="https://" width="240px" />
+        <CardThumbnail showFallback width="240px" />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>

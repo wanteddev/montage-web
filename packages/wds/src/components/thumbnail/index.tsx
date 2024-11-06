@@ -13,16 +13,18 @@ import type { ThumbnailProps } from './types';
 
 type Props = Merge<
   ThumbnailProps,
-  ComponentPropsWithoutRef<typeof ImageLoader>
+  Omit<ComponentPropsWithoutRef<typeof ImageLoader>, 'src'>
 >;
 
 const Thumbnail = forwardRef<HTMLImageElement, Props>(
   (
     {
+      src = '',
       ratio = '4:3',
       portrait = false,
       radius,
       border,
+      showFallback,
       className,
       style,
       children,
@@ -40,7 +42,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
       'idle' | 'loaded' | 'error'
     >('idle');
 
-    return imageLoadingStatus !== 'error' ? (
+    return !showFallback && imageLoadingStatus !== 'error' ? (
       <FlexBox
         as="figure"
         wds-component="thumbnail"
@@ -64,6 +66,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
       >
         <ImageLoader
           ref={ref}
+          src={src}
           {...props}
           onLoad={() => {
             props.onLoad?.();

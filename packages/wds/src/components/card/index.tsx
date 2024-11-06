@@ -136,6 +136,7 @@ const CardThumbnailContent = forwardRef<
           role={typeof onClick !== 'undefined' ? 'button' : undefined}
           onClick={composeEventHandlers(onClick, (event) => {
             event.stopPropagation();
+            event.preventDefault();
           })}
           {...props}
           sx={[cardThumbnailContentIconStyle, sx]}
