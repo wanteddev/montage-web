@@ -29,9 +29,12 @@ export type CardThumbnailProps = Merge<
   CardThumbnailBasicProps
 >;
 
-export type CardThumbnailContentProps = {
-  variant?: 'text' | 'toggle-icon' | 'custom';
-};
+export type CardThumbnailContentProps = Merge<
+  {
+    variant?: 'text' | 'toggle-icon' | 'custom';
+  },
+  FlexBoxProps
+>;
 
 export type CardContentProps = FlexBoxProps;
 export type CardExtraContentDefaultProps = {

@@ -18,10 +18,10 @@ const Demo = () => {
 
   return (
     <Card 
-      width="240px" 
       as="a" 
       href="https://wanted.co.kr" 
       target="_blank" 
+      width="240px" 
       sx={{ margin: 'auto' }}
     >
       <CardThumbnail
@@ -151,12 +151,44 @@ export default Demo;`}
 - `width`를 지정할 수 있고, 지정하지 않으면 100%의 너비를 사용해요.
 - ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 width를 사용할 수 있어요.
 
-<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, ContentBadge, CardThumbnail, CardThumbnailContent, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
 
 const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
   return (
     <Card sm={{ width: '240px' }} sx={{ margin: 'auto' }}>
-      <CardThumbnailSkeleton width="240px" />
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        quality={95}
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon
+              active={isBookmarked}
+              onActiveChange={setIsBookmarked}
+              activeColor="palette.primary.normal" 
+              onClick={() => {
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
+          </CardThumbnailContent>
+        }
+      />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>
@@ -170,23 +202,83 @@ export default Demo;`}
 
 ### Platform
 
-`platform`에 따라 글자 크기, `CardThumbnail`의 비율이 달라요.
+`platform`에 따라 글자 크기, 아이콘 크기, `CardThumbnail`의 비율이 달라요.
 
-<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnailSkeleton } from '@wanteddev/wds';
-import { IconBookmark } from '@wanteddev/wds-icon';
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnail, CardThumbnailContent, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
 
 const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isMobileBookmarked, setIsMobileBookmarked] = useState(false);
+
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnailSkeleton width="240px" />
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="240px"
+          quality={95}
+          overlay
+          leftContent={
+            <CardThumbnailContent variant="text">
+              캡션
+            </CardThumbnailContent>
+          }
+          rightContent={
+            <CardThumbnailContent variant="toggle-icon">
+              <ToggleIcon
+                active={isBookmarked}
+                onActiveChange={setIsBookmarked}
+                activeColor="palette.primary.normal" 
+                onClick={() => {
+                  setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+                }}
+              >
+                {isBookmarked 
+                  ? <IconBookmarkFill /> 
+                  : <IconBookmark />
+                }
+              </ToggleIcon>
+            </CardThumbnailContent>
+          }
+        />
         <CardContent>
           <CardTitle>platform: desktop</CardTitle>
           <CardCaption>캡션</CardCaption>
         </CardContent>
       </Card>
       <Card platform="mobile" width="152px">
-        <CardThumbnailSkeleton width="152px" />
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="152px"
+          quality={95}
+          overlay
+          leftContent={
+            <CardThumbnailContent variant="text">
+              캡션
+            </CardThumbnailContent>
+          }
+          rightContent={
+            <CardThumbnailContent variant="toggle-icon">
+              <ToggleIcon
+                active={isMobileBookmarked}
+                onActiveChange={setIsMobileBookmarked}
+                activeColor="palette.primary.normal" 
+                onClick={() => {
+                  setIsMobileBookmarked((prevIsMobileBookmarked) => !prevIsMobileBookmarked);
+                }}
+              >
+                {isMobileBookmarked 
+                  ? <IconBookmarkFill /> 
+                  : <IconBookmark />
+                }
+              </ToggleIcon>
+            </CardThumbnailContent>
+          }
+        />
         <CardContent>
           <CardTitle>platform: mobile</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -202,10 +294,13 @@ export default Demo;`}
 - ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
 - `width`와 조합해서 사용할 수 있어요.
 
-<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnailSkeleton } from '@wanteddev/wds';
-import { IconBookmark } from '@wanteddev/wds-icon';
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnail, CardThumbnailSkeleton, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
 
 const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
   return (
     <Card 
       platform="mobile" 
@@ -215,7 +310,35 @@ const Demo = () => {
       }} 
       sx={{ margin: 'auto' }}
     >
-      <CardThumbnailSkeleton width="240px" />
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        quality={95}
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon
+              active={isBookmarked}
+              onActiveChange={setIsBookmarked}
+              activeColor="palette.primary.normal" 
+              onClick={() => {
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
+          </CardThumbnailContent>
+        }
+      />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>

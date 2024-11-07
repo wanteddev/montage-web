@@ -116,36 +116,44 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
 
 CardThumbnail.displayName = CARD_THUMBNAIL_NAME;
 
-const CardThumbnailContent = forwardRef<
-  HTMLSpanElement,
-  Omit<DefaultComponentProps<CardThumbnailContentProps, 'span'>, 'color'>
->(({ variant = 'custom', sx, ...props }, ref) => {
-  switch (variant) {
-    case 'text':
-      return (
-        <Typography
-          ref={ref}
-          data-role="card-thumbnail-content-text"
-          {...props}
-          sx={[cardThumbnailContentTextStyle, sx]}
-        />
-      );
+const CardThumbnailContent = forwardRef(
+  (
+    {
+      variant = 'custom',
+      sx,
+      ...props
+    }: DefaultComponentProps<CardThumbnailContentProps, 'span'>,
+    ref: ForwardedRef<ElementRef<'span'>>,
+  ) => {
+    switch (variant) {
+      case 'text':
+        return (
+          <FlexBox
+            ref={ref}
+            as="span"
+            flex="1"
+            data-role="card-thumbnail-content-text"
+            {...props}
+            sx={[cardThumbnailContentTextStyle, sx]}
+          />
+        );
 
-    case 'toggle-icon':
-      return (
-        <FlexBox
-          ref={ref}
-          as="span"
-          data-role="card-thumbnail-content-toggle-icon"
-          {...props}
-          sx={[cardThumbnailContentToggleIconStyle, sx]}
-        />
-      );
+      case 'toggle-icon':
+        return (
+          <FlexBox
+            ref={ref}
+            as="span"
+            data-role="card-thumbnail-content-toggle-icon"
+            {...props}
+            sx={[cardThumbnailContentToggleIconStyle, sx]}
+          />
+        );
 
-    case 'custom':
-      return <FlexBox ref={ref} as="span" {...props} sx={sx} />;
-  }
-});
+      case 'custom':
+        return <FlexBox ref={ref} as="span" {...props} sx={sx} />;
+    }
+  },
+);
 
 CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 
