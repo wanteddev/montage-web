@@ -4,6 +4,7 @@ import {
   type DefaultComponentProps,
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
@@ -34,13 +35,13 @@ import {
   cardThumbnailStyle,
 } from './style';
 
+import type { FlexBoxProps } from '../flex-box/types';
 import type { TypographyProps } from '../typography/types';
 import type { SkeletonProps } from '../skeleton/types';
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { PolymorphicComponent } from '@wanteddev/wds-engine';
 import type {
   CardCaptionSkeletonProps,
-  CardContentProps,
   CardExtraContentProps,
   CardProps,
   CardThumbnailContentProps,
@@ -145,6 +146,10 @@ const CardThumbnailContent = forwardRef(
             as="span"
             data-role="card-thumbnail-content-toggle-icon"
             {...props}
+            onClick={composeEventHandlers(props.onClick, (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            })}
             sx={[cardThumbnailContentToggleIconStyle, sx]}
           />
         );
@@ -159,7 +164,7 @@ CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 
 const CardContent = forwardRef(
   (
-    props: DefaultComponentProps<CardContentProps, 'div'>,
+    { sx, ...props }: DefaultComponentProps<FlexBoxProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
@@ -167,8 +172,10 @@ const CardContent = forwardRef(
         wds-component="card-content"
         ref={ref}
         flexDirection="column"
+        flex="1"
         gap="4px"
         {...props}
+        sx={[{ overflow: 'hidden' }, sx]}
       />
     );
   },
@@ -225,6 +232,7 @@ const CardCaption = forwardRef(
     return (
       <Typography
         ref={ref}
+        wds-component="card-caption"
         variant="label2"
         weight="medium"
         color="palette.label.alternative"

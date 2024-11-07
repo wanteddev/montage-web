@@ -1,13 +1,16 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
+import {
+  createResponsiveStyle,
+  ellipsisTypographyStyle,
+  gradient,
+  typographyStyle,
+} from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { CardExtraContentProps, CardProps } from './types';
 
-export const cardPlatformStyle = ({
-  platform,
-}: Pick<CardProps, 'platform'>) => {
+const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
     case 'desktop':
       return css`
@@ -94,6 +97,18 @@ export const cardStyle =
 
     width: ${width ?? '100%'};
     ${cardPlatformStyle({ platform })}
+
+    // thumbnail
+    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+      width: 100%;
+    }
+    // text
+    [wds-component='card-title'] {
+      ${ellipsisTypographyStyle(2)}
+    }
+    [wds-component='card-caption'] {
+      ${ellipsisTypographyStyle()}
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },

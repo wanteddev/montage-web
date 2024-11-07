@@ -1,0 +1,5 @@
+export const CARD_LIST_NAME = 'CardList';
+
+export const CARD_LIST_THUMBNAIL_NAME = 'CardListThumbnail';
+
+export const CARD_LIST_CONTENT_NAME = 'CardListContent';

@@ -15,7 +15,7 @@ export type CardProps = Merge<
   FlexBoxProps
 >;
 
-type CardThumbnailBasicProps = Merge<
+export type CardThumbnailBasicProps = Merge<
   Omit<ThumbnailDefaultProps, 'border' | 'radius'>,
   ComponentPropsWithoutRef<typeof ImageLoader>
 >;
@@ -36,7 +36,6 @@ export type CardThumbnailContentProps = Merge<
   FlexBoxProps
 >;
 
-export type CardContentProps = FlexBoxProps;
 export type CardExtraContentDefaultProps = {
   variant?: 'badge' | 'custom';
   position?: 'top' | 'bottom';
