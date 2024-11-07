@@ -84,6 +84,7 @@ const skeletonVariantStyle = (
   switch (variant) {
     case 'text':
       return css`
+        display: inline-flex;
         padding: 2px 0px;
         border-radius: 3px;
         text-align: ${align};

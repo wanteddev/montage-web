@@ -1,0 +1,460 @@
+---
+title: Card
+description: Card Component
+---
+
+# Card
+
+- 일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
+- leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸주세요.
+  - Card와 leftContent, rightContent 모두 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 Card의 이벤트 전파를 막을 수 있습니다.
+
+<Demo code={`import { ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  return (
+    <Card 
+      as="a" 
+      href="https://wanted.co.kr" 
+      target="_blank" 
+      width="240px" 
+      sx={{ margin: 'auto' }}
+    >
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        quality={95}
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon 
+              active={isBookmarked} 
+              onActiveChange={setIsBookmarked} 
+              activeColor="palette.primary.normal" 
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+
+                if (!isBookmarked) {
+                  alert('북마크에 저장되었습니다.');
+                }
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
+          </CardThumbnailContent>
+        }
+      />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>캡션</CardCaption>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<Card>
+  <CardThumbnail />
+  <CardContent>
+    <CardExtraContent/>
+    <CardTitle />
+    <CardCaption />
+    <CardExtraContent />
+  </CardContent>
+</Card>
+```
+
+### Card
+
+<PropsTable component="Card" />
+
+### CardThumbnail
+
+<PropsTable component="CardThumbnail" />
+
+### CardThumbnailContent
+
+<PropsTable component="CardThumbnailContent" />
+
+### CardContent
+
+<PropsTable component="CardContent" />
+
+### CardExtraContent
+
+<PropsTable component="CardExtraContent" />
+
+### CardTitle
+
+`Typography`와 동일한 props를 사용해요.
+
+<PropsTable component="CardTitle" />
+
+### CardCaption
+
+`Typography`와 동일한 props를 사용해요.
+
+<PropsTable component="CardCaption" />
+
+### CardSkeleton
+
+`Card`와 동일한 props를 사용해요.
+
+<PropsTable component="CardSkeleton" />
+
+### CardThumbnailSkeleton
+
+<PropsTable component="CardThumbnailSkeleton" />
+
+### CardExtraContentSkeleton
+
+`Skeleton`과 동일한 props를 사용해요.
+
+<PropsTable component="CardExtraContentSkeleton" />
+
+### CardTitleSkeleton
+
+`Skeleton`과 동일한 props를 사용해요.
+
+<PropsTable component="CardTitleSkeleton" />
+
+### CardCaptionSkeleton
+
+<PropsTable component="CardCaptionSkeleton" />
+
+## Examples
+
+### Width
+
+- `width`를 지정할 수 있고, 지정하지 않으면 100%의 너비를 사용해요.
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 width를 사용할 수 있어요.
+
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, ContentBadge, CardThumbnail, CardThumbnailContent, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  return (
+    <Card sm={{ width: '240px' }} sx={{ margin: 'auto' }}>
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        quality={95}
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon
+              active={isBookmarked}
+              onActiveChange={setIsBookmarked}
+              activeColor="palette.primary.normal" 
+              onClick={() => {
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
+          </CardThumbnailContent>
+        }
+      />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>(min-width: 768px), width: 240px</CardCaption>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Platform
+
+`platform`에 따라 글자 크기, 아이콘 크기, `CardThumbnail`의 비율이 달라요.
+
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnail, CardThumbnailContent, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isMobileBookmarked, setIsMobileBookmarked] = useState(false);
+
+  return (
+    <FlexBox gap="24px" justifyContent="center">
+      <Card width="240px">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="240px"
+          quality={95}
+          overlay
+          leftContent={
+            <CardThumbnailContent variant="text">
+              캡션
+            </CardThumbnailContent>
+          }
+          rightContent={
+            <CardThumbnailContent variant="toggle-icon">
+              <ToggleIcon
+                active={isBookmarked}
+                onActiveChange={setIsBookmarked}
+                activeColor="palette.primary.normal" 
+                onClick={() => {
+                  setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+                }}
+              >
+                {isBookmarked 
+                  ? <IconBookmarkFill /> 
+                  : <IconBookmark />
+                }
+              </ToggleIcon>
+            </CardThumbnailContent>
+          }
+        />
+        <CardContent>
+          <CardTitle>platform: desktop</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+      <Card platform="mobile" width="152px">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+          width="152px"
+          quality={95}
+          overlay
+          leftContent={
+            <CardThumbnailContent variant="text">
+              캡션
+            </CardThumbnailContent>
+          }
+          rightContent={
+            <CardThumbnailContent variant="toggle-icon">
+              <ToggleIcon
+                active={isMobileBookmarked}
+                onActiveChange={setIsMobileBookmarked}
+                activeColor="palette.primary.normal" 
+                onClick={() => {
+                  setIsMobileBookmarked((prevIsMobileBookmarked) => !prevIsMobileBookmarked);
+                }}
+              >
+                {isMobileBookmarked 
+                  ? <IconBookmarkFill /> 
+                  : <IconBookmark />
+                }
+              </ToggleIcon>
+            </CardThumbnailContent>
+          }
+        />
+        <CardContent>
+          <CardTitle>platform: mobile</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
+- `width`와 조합해서 사용할 수 있어요.
+
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnail, CardThumbnailSkeleton, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  return (
+    <Card 
+      platform="mobile" 
+      sm={{ 
+        width: '240px', 
+        platform: 'desktop' 
+      }} 
+      sx={{ margin: 'auto' }}
+    >
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        quality={95}
+        overlay
+        leftContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        rightContent={
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon
+              active={isBookmarked}
+              onActiveChange={setIsBookmarked}
+              activeColor="palette.primary.normal" 
+              onClick={() => {
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
+          </CardThumbnailContent>
+        }
+      />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>(min-width: 768px), width: 240px</CardCaption>
+        <CardCaption>(min-width: 768px), platform: desktop</CardCaption>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Top Content, Bottom Content
+
+- `CardExtraContent`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
+- 뱃지나 부가적인 내용을 추가할 때 사용해요.
+
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" justifyContent="center">
+      <Card width="240px">
+        <CardThumbnailSkeleton width="240px" />
+        <CardContent>
+          <CardExtraContent position="top" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
+            ))}
+          </CardExtraContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </Card>
+      <Card width="240px">
+        <CardThumbnailSkeleton width="152px" />
+        <CardContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+          <CardExtraContent position="bottom" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
+            ))}
+          </CardExtraContent>
+        </CardContent>
+      </Card>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Skeleton
+
+Card의 형태에 따라 스켈레톤을 조합하여 사용해요.
+
+<Demo code={`import { Grid, GridItem, CardSkeleton, CardThumbnailSkeleton, CardContent, CardExtraContentSkeleton, CardExtraContent, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={20} sx={{ maxWidth: '426px', margin: 'auto' }}>
+      <GridItem columns={7}>
+        <CardSkeleton>
+          <CardThumbnailSkeleton width="240px" />
+          <CardContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton />
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+      <GridItem columns={5}>
+        <CardSkeleton platform="mobile">
+          <CardThumbnailSkeleton width="152px" />
+          <CardContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton />
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+      <GridItem columns={7}>
+        <CardSkeleton>
+          <CardThumbnailSkeleton width="152px" />
+          <CardContent>
+            <CardExtraContent position="top">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton type="extra"/>
+            <CardCaptionSkeleton />
+            <CardExtraContent position="bottom">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+      <GridItem columns={5}>
+        <CardSkeleton platform="mobile">
+          <CardThumbnailSkeleton width="152px" />
+          <CardContent>
+            <CardExtraContent position="top">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton type="extra"/>
+            <CardCaptionSkeleton />
+            <CardExtraContent position="bottom">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+    </Grid>
+  );
+}
+
+export default Demo;`}
+/>
+
