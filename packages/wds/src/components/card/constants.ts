@@ -7,3 +7,11 @@ export const CARD_CONTENT_NAME = 'CardContent';
 export const CARD_EXTRA_CONTENT_NAME = 'CardExtraContent';
 export const CARD_TITLE_NAME = 'CardTitle';
 export const CARD_CAPTION_NAME = 'CardCaption';
+
+export const CARD_SKELETON_NAME = 'CardSkeleton';
+
+export const CARD_THUMBNAIL_SKELETON_NAME = 'CardThumbnailSkeleton';
+
+export const CARD_EXTRA_CONTENT_SKELETON_NAME = 'CardExtraContentSkeleton';
+export const CARD_TITLE_SKELETON_NAME = 'CardTitleSkeleton';
+export const CARD_CAPTION_SKELETON_NAME = 'CardCaptionSkeleton';

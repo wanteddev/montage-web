@@ -9,7 +9,7 @@ description: Card Component
 - leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸주세요.
   - Card와 leftContent, rightContent 모두 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 Card의 이벤트 전파를 막을 수 있습니다.
 
-<Demo code={`import { ToggleIcon, FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+<Demo code={`import { ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -118,6 +118,32 @@ export default Demo;`}
 
 <PropsTable component="CardCaption" />
 
+### CardSkeleton
+
+`Card`와 동일한 props를 사용해요.
+
+<PropsTable component="CardSkeleton" />
+
+### CardThumbnailSkeleton
+
+<PropsTable component="CardThumbnailSkeleton" />
+
+### CardExtraContentSkeleton
+
+`Skeleton`과 동일한 props를 사용해요.
+
+<PropsTable component="CardExtraContentSkeleton" />
+
+### CardTitleSkeleton
+
+`Skeleton`과 동일한 props를 사용해요.
+
+<PropsTable component="CardTitleSkeleton" />
+
+### CardCaptionSkeleton
+
+<PropsTable component="CardCaptionSkeleton" />
+
 ## Examples
 
 ### Width
@@ -125,12 +151,12 @@ export default Demo;`}
 - `width`를 지정할 수 있고, 지정하지 않으면 100%의 너비를 사용해요.
 - ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 width를 사용할 수 있어요.
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge } from '@wanteddev/wds';
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <Card sm={{ width: '240px' }} sx={{ margin: 'auto' }}>
-      <CardThumbnail showFallback width="240px" />
+      <CardThumbnailSkeleton width="240px" />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>
@@ -146,49 +172,21 @@ export default Demo;`}
 
 `platform`에 따라 글자 크기, `CardThumbnail`의 비율이 달라요.
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnailSkeleton } from '@wanteddev/wds';
 import { IconBookmark } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnail
-          showFallback
-          width="240px"
-          overlay
-          leftContent={
-            <CardThumbnailContent variant="text">
-              캡션
-            </CardThumbnailContent>
-          }
-          rightContent={
-            <CardThumbnailContent variant="icon">
-              <IconBookmark />
-            </CardThumbnailContent>
-          }
-        />
+        <CardThumbnailSkeleton width="240px" />
         <CardContent>
           <CardTitle>platform: desktop</CardTitle>
           <CardCaption>캡션</CardCaption>
         </CardContent>
       </Card>
       <Card platform="mobile" width="152px">
-        <CardThumbnail
-          showFallback
-          width="152px"
-          overlay
-          leftContent={
-            <CardThumbnailContent variant="text">
-              캡션
-            </CardThumbnailContent>
-          }
-          rightContent={
-            <CardThumbnailContent variant="icon">
-              <IconBookmark />
-            </CardThumbnailContent>
-          }
-        />
+        <CardThumbnailSkeleton width="152px" />
         <CardContent>
           <CardTitle>platform: mobile</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -204,7 +202,7 @@ export default Demo;`}
 - ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
 - `width`와 조합해서 사용할 수 있어요.
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnailSkeleton } from '@wanteddev/wds';
 import { IconBookmark } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -217,21 +215,7 @@ const Demo = () => {
       }} 
       sx={{ margin: 'auto' }}
     >
-      <CardThumbnail
-        showFallback
-        width="240px"
-        overlay
-        leftContent={
-          <CardThumbnailContent variant="text">
-            캡션
-          </CardThumbnailContent>
-        }
-        rightContent={
-          <CardThumbnailContent variant="icon">
-            <IconBookmark />
-          </CardThumbnailContent>
-        }
-      />
+      <CardThumbnailSkeleton width="240px" />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>
@@ -249,13 +233,13 @@ export default Demo;`}
 - `CardExtraContent`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
 - 뱃지나 부가적인 내용을 추가할 때 사용해요.
 
-<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnail showFallback width="240px" />
+        <CardThumbnailSkeleton width="240px" />
         <CardContent>
           <CardExtraContent position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
@@ -267,7 +251,7 @@ const Demo = () => {
         </CardContent>
       </Card>
       <Card width="240px">
-        <CardThumbnail showFallback width="240px" />
+        <CardThumbnailSkeleton width="152px" />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -286,3 +270,68 @@ export default Demo;`}
 />
 
 ### Skeleton
+
+Card의 형태에 따라 스켈레톤을 조합하여 사용해요.
+
+<Demo code={`import { Grid, GridItem, CardSkeleton, CardThumbnailSkeleton, CardContent, CardExtraContentSkeleton, CardExtraContent, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={20} sx={{ maxWidth: '426px', margin: 'auto' }}>
+      <GridItem columns={7}>
+        <CardSkeleton>
+          <CardThumbnailSkeleton width="240px" />
+          <CardContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton />
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+      <GridItem columns={5}>
+        <CardSkeleton platform="mobile">
+          <CardThumbnailSkeleton width="152px" />
+          <CardContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton />
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+      <GridItem columns={7}>
+        <CardSkeleton>
+          <CardThumbnailSkeleton width="152px" />
+          <CardContent>
+            <CardExtraContent position="top">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton type="extra"/>
+            <CardCaptionSkeleton />
+            <CardExtraContent position="bottom">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+      <GridItem columns={5}>
+        <CardSkeleton platform="mobile">
+          <CardThumbnailSkeleton width="152px" />
+          <CardContent>
+            <CardExtraContent position="top">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+            <CardTitleSkeleton />
+            <CardCaptionSkeleton type="extra"/>
+            <CardCaptionSkeleton />
+            <CardExtraContent position="bottom">
+              <CardExtraContentSkeleton />
+            </CardExtraContent>
+          </CardContent>
+        </CardSkeleton>
+      </GridItem>
+    </Grid>
+  );
+}
+
+export default Demo;`}
+/>
+

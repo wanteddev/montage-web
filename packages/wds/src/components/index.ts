@@ -51,7 +51,7 @@ export * from './tab';
 export * from './text-area';
 export { default as TextButton } from './text-button';
 export * from './text-input';
-export { default as Thumbnail } from './thumbnail';
+export * from './thumbnail';
 export { default as ToggleIcon } from './toggle-icon';
 export * from './tooltip';
 export * from './top-navigation';

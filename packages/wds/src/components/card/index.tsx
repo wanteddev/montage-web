@@ -7,18 +7,23 @@ import {
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
-import Thumbnail from '../thumbnail';
+import { Thumbnail, ThumbnailSkeleton } from '../thumbnail';
+import Skeleton from '../skeleton';
 
 import {
   CARD_CAPTION_NAME,
+  CARD_CAPTION_SKELETON_NAME,
   CARD_CONTENT_NAME,
   CARD_EXTRA_CONTENT_NAME,
+  CARD_EXTRA_CONTENT_SKELETON_NAME,
   CARD_NAME,
+  CARD_SKELETON_NAME,
   CARD_THUMBNAIL_CONTENT_NAME,
   CARD_THUMBNAIL_NAME,
+  CARD_THUMBNAIL_SKELETON_NAME,
   CARD_TITLE_NAME,
+  CARD_TITLE_SKELETON_NAME,
 } from './constants';
-import { CardProvider } from './contexts';
 import {
   cardExtraContentStyle,
   cardStyle,
@@ -29,15 +34,17 @@ import {
   cardThumbnailStyle,
 } from './style';
 
+import type { TypographyProps } from '../typography/types';
+import type { SkeletonProps } from '../skeleton/types';
+import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { PolymorphicComponent } from '@wanteddev/wds-engine';
 import type {
-  CardCaptionProps,
+  CardCaptionSkeletonProps,
   CardContentProps,
   CardExtraContentProps,
   CardProps,
   CardThumbnailContentProps,
   CardThumbnailProps,
-  CardTitleProps,
 } from './types';
 import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
@@ -57,15 +64,13 @@ const Card = forwardRef(
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
-      <CardProvider platform={platform}>
-        <FlexBox
-          ref={ref}
-          flexDirection="column"
-          gap="12px"
-          {...props}
-          sx={[cardStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
-        />
-      </CardProvider>
+      <FlexBox
+        ref={ref}
+        flexDirection="column"
+        gap="12px"
+        {...props}
+        sx={[cardStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
+      />
     );
   },
 ) as PolymorphicComponent<CardProps, 'div'>;
@@ -187,7 +192,7 @@ CardExtraContent.displayName = CARD_EXTRA_CONTENT_NAME;
 
 const CardTitle = forwardRef(
   <E extends ElementType = 'span'>(
-    props: PolymorphicProps<CardTitleProps, E>,
+    props: PolymorphicProps<TypographyProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
@@ -200,13 +205,13 @@ const CardTitle = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<CardTitleProps, 'span'>;
+) as PolymorphicComponent<TypographyProps, 'span'>;
 
 CardTitle.displayName = CARD_TITLE_NAME;
 
 const CardCaption = forwardRef(
   <E extends ElementType = 'span'>(
-    props: PolymorphicProps<CardCaptionProps, E>,
+    props: PolymorphicProps<TypographyProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
@@ -219,9 +224,76 @@ const CardCaption = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<CardCaptionProps, 'span'>;
+) as PolymorphicComponent<TypographyProps, 'span'>;
 
 CardCaption.displayName = CARD_CAPTION_NAME;
+
+const CardSkeleton = Card;
+
+CardSkeleton.displayName = CARD_SKELETON_NAME;
+
+const CardThumbnailSkeleton = forwardRef(
+  (
+    props: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    ref: ForwardedRef<ElementRef<'div'>>,
+  ) => {
+    return <ThumbnailSkeleton ref={ref} radius {...props} />;
+  },
+);
+
+CardThumbnailSkeleton.displayName = CARD_THUMBNAIL_SKELETON_NAME;
+
+const CardExtraContentSkeleton = forwardRef(
+  (
+    props: DefaultComponentProps<SkeletonProps, 'div'>,
+    ref: ForwardedRef<ElementRef<'div'>>,
+  ) => {
+    return (
+      <Skeleton
+        ref={ref}
+        variant="rectangle"
+        radius="3px"
+        width="48px"
+        height="20px"
+        {...props}
+      />
+    );
+  },
+);
+
+CardExtraContentSkeleton.displayName = CARD_EXTRA_CONTENT_SKELETON_NAME;
+
+const CardTitleSkeleton = forwardRef(
+  (
+    props: DefaultComponentProps<SkeletonProps, 'div'>,
+    ref: ForwardedRef<ElementRef<'div'>>,
+  ) => {
+    return <Skeleton ref={ref} width="100%" height="24px" {...props} />;
+  },
+);
+
+CardTitleSkeleton.displayName = CARD_TITLE_SKELETON_NAME;
+
+const CardCaptionSkeleton = forwardRef(
+  (
+    {
+      type = 'normal',
+      ...props
+    }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
+    ref: ForwardedRef<ElementRef<'div'>>,
+  ) => {
+    return (
+      <Skeleton
+        ref={ref}
+        width={type === 'extra' ? '114px' : '57px'}
+        height={type === 'extra' ? '18px' : '16px'}
+        {...props}
+      />
+    );
+  },
+);
+
+CardCaptionSkeleton.displayName = CARD_CAPTION_SKELETON_NAME;
 
 export {
   Card,
@@ -231,4 +303,9 @@ export {
   CardTitle,
   CardCaption,
   CardExtraContent,
+  CardSkeleton,
+  CardThumbnailSkeleton,
+  CardExtraContentSkeleton,
+  CardTitleSkeleton,
+  CardCaptionSkeleton,
 };

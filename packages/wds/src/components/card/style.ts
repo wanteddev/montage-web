@@ -12,7 +12,8 @@ export const cardPlatformStyle = ({
     case 'desktop':
       return css`
         // thumbnail
-        [wds-component='thumbnail'] {
+        [wds-component='thumbnail'],
+        [wds-component='thumbnail-skeleton'] {
           width: 100%;
           aspect-ratio: 3 / 2;
         }
@@ -46,7 +47,8 @@ export const cardPlatformStyle = ({
     case 'mobile':
       return css`
         // thumbnail
-        [wds-component='thumbnail'] {
+        [wds-component='thumbnail'],
+        [wds-component='thumbnail-skeleton'] {
           width: 100%;
           aspect-ratio: 4 / 3;
         }

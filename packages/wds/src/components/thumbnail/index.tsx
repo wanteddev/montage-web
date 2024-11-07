@@ -4,27 +4,27 @@ import { IconImage } from '@wanteddev/wds-icon';
 
 import ImageLoader from '../image-loader';
 import FlexBox from '../flex-box';
+import Skeleton from '../skeleton';
 
 import { thumbnailStyle } from './style';
+import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
 
-import type { Merge } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef } from 'react';
-import type { ThumbnailProps } from './types';
+import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef, ForwardedRef } from 'react';
+import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
 
 type Props = Merge<
   ThumbnailProps,
-  Omit<ComponentPropsWithoutRef<typeof ImageLoader>, 'src'>
+  ComponentPropsWithoutRef<typeof ImageLoader>
 >;
 
 const Thumbnail = forwardRef<HTMLImageElement, Props>(
   (
     {
-      src = '',
       ratio = '4:3',
       portrait = false,
       radius,
       border,
-      showFallback,
       className,
       style,
       children,
@@ -39,10 +39,10 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ref,
   ) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
-      'idle' | 'loaded' | 'error'
+      'idle' | 'loading' | 'loaded' | 'error'
     >('idle');
 
-    return !showFallback && imageLoadingStatus !== 'error' ? (
+    return imageLoadingStatus !== 'error' ? (
       <FlexBox
         as="figure"
         wds-component="thumbnail"
@@ -66,7 +66,6 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
       >
         <ImageLoader
           ref={ref}
-          src={src}
           {...props}
           onLoad={() => {
             props.onLoad?.();
@@ -111,6 +110,53 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
   },
 );
 
-Thumbnail.displayName = 'Thumbnail';
+Thumbnail.displayName = THUMBNAIL_NAME;
 
-export default Thumbnail;
+const ThumbnailSkeleton = forwardRef(
+  (
+    {
+      ratio,
+      radius,
+      border,
+      portrait,
+      width,
+      xl,
+      lg,
+      md,
+      sm,
+      xs,
+      sx,
+      ...props
+    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    return (
+      <Skeleton
+        ref={ref}
+        wds-component="thumbnail-skeleton"
+        as="figure"
+        variant="rectangle"
+        {...props}
+        sx={[
+          thumbnailStyle({
+            ratio,
+            radius,
+            border,
+            portrait,
+            width,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          sx,
+        ]}
+      />
+    );
+  },
+);
+
+ThumbnailSkeleton.displayName = THUMBNAIL_SKELETON_NAME;
+
+export { Thumbnail, ThumbnailSkeleton };

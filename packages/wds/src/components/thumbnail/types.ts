@@ -1,7 +1,8 @@
+import type { ImageLoaderProps } from '../image-loader/types';
+import type { SkeletonProps } from '../skeleton/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 export type ThumbnailDefaultProps = {
-  src?: string;
   ratio?:
     | '1:1'
     | '5:4'
@@ -15,7 +16,6 @@ export type ThumbnailDefaultProps = {
   portrait?: boolean;
   border?: boolean;
   radius?: boolean;
-  showFallback?: boolean;
 };
 
 type ThumbnailResponsiveProps = ResponsiveProps<
@@ -25,4 +25,15 @@ type ThumbnailResponsiveProps = ResponsiveProps<
 export type ThumbnailProps = Merge<
   ThumbnailDefaultProps,
   ThumbnailResponsiveProps
+>;
+
+export type ThumbnailSkeletonDefaultProps = Omit<
+  SkeletonProps,
+  'width' | 'radius'
+> &
+  Pick<ImageLoaderProps, 'width'>;
+
+export type ThumbnailSkeletonProps = Merge<
+  ThumbnailProps,
+  ThumbnailSkeletonDefaultProps
 >;

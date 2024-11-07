@@ -1,6 +1,6 @@
+import type { SkeletonProps } from '../skeleton/types';
 import type ImageLoader from '../image-loader';
 import type { CSSProperties, ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { TypographyProps } from '../typography/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ThumbnailDefaultProps } from '../thumbnail/types';
 import type { FlexBoxProps } from '../flex-box/types';
@@ -43,5 +43,10 @@ export type CardExtraContentProps = Merge<
   FlexBoxProps
 >;
 
-export type CardTitleProps = TypographyProps;
-export type CardCaptionProps = TypographyProps;
+type CardCaptionSkeletonDefaultProps = {
+  type?: 'normal' | 'extra';
+};
+export type CardCaptionSkeletonProps = Merge<
+  CardCaptionSkeletonDefaultProps,
+  SkeletonProps
+>;
