@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
 
 export type SliderLabelProps = {
   value: number;
@@ -16,8 +16,8 @@ export type SliderHeadingProps = {
 };
 
 export type SliderProps = {
-  heading?: (props: SliderHeadingProps) => ReactNode | ReactNode;
-  label?: (props: SliderLabelProps) => ReactNode | ReactNode;
+  heading?: FunctionComponent<SliderHeadingProps> | ReactNode;
+  label?: FunctionComponent<SliderLabelProps> | ReactNode;
   disabled?: boolean;
   value?: Array<number>;
   defaultValue?: Array<number>;
