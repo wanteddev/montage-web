@@ -4,12 +4,14 @@ import { IconImage } from '@wanteddev/wds-icon';
 
 import ImageLoader from '../image-loader';
 import FlexBox from '../flex-box';
+import Skeleton from '../skeleton';
 
 import { thumbnailStyle } from './style';
+import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
 
-import type { Merge } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef } from 'react';
-import type { ThumbnailProps } from './types';
+import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
+import type { ComponentPropsWithoutRef, ForwardedRef } from 'react';
+import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
 
 type Props = Merge<
   ThumbnailProps,
@@ -37,12 +39,13 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ref,
   ) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
-      'idle' | 'loaded' | 'error'
+      'idle' | 'loading' | 'loaded' | 'error'
     >('idle');
 
     return imageLoadingStatus !== 'error' ? (
       <FlexBox
         as="figure"
+        wds-component="thumbnail"
         className={className}
         style={style}
         sx={[
@@ -78,6 +81,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ) : (
       <FlexBox
         as="figure"
+        wds-component="thumbnail"
         className={className}
         style={style}
         alignItems="center"
@@ -106,6 +110,53 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
   },
 );
 
-Thumbnail.displayName = 'Thumbnail';
+Thumbnail.displayName = THUMBNAIL_NAME;
 
-export default Thumbnail;
+const ThumbnailSkeleton = forwardRef(
+  (
+    {
+      ratio,
+      radius,
+      border,
+      portrait,
+      width,
+      xl,
+      lg,
+      md,
+      sm,
+      xs,
+      sx,
+      ...props
+    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
+    return (
+      <Skeleton
+        ref={ref}
+        wds-component="thumbnail-skeleton"
+        as="figure"
+        variant="rectangle"
+        {...props}
+        sx={[
+          thumbnailStyle({
+            ratio,
+            radius,
+            border,
+            portrait,
+            width,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          sx,
+        ]}
+      />
+    );
+  },
+);
+
+ThumbnailSkeleton.displayName = THUMBNAIL_SKELETON_NAME;
+
+export { Thumbnail, ThumbnailSkeleton };
