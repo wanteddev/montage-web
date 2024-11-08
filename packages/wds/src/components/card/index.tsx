@@ -323,14 +323,12 @@ const CardCaptionSkeleton = forwardRef(
   (
     {
       type = 'normal',
+      width = type === 'normal' ? '25%' : '50%',
       height = '18px',
       ...props
     }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
-    const width: CardCaptionSkeletonProps['width'] =
-      props.width ?? type === 'normal' ? '25%' : '50%';
-
     return (
       <Skeleton
         ref={ref}
