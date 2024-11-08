@@ -70,7 +70,10 @@ export const cardListStyle =
       theme,
     )(
       (params) => css`
-        width: ${params?.width};
+        ${params?.width !== undefined &&
+        css`
+          width: ${params.width};
+        `}
         ${cardListPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
@@ -144,6 +147,7 @@ export const cardListSkeletonStyle =
   (theme: Theme) => css`
     width: ${width ?? '100%'};
     max-width: 100%;
+
     ${cardListSkeletonPlatformStyle({
       platform,
       hasLeftContent,
@@ -160,8 +164,15 @@ export const cardListSkeletonStyle =
       theme,
     )(
       (params) => css`
-        width: ${params?.width};
-        ${cardListPlatformStyle({ platform: params?.platform })}
+        ${params?.width !== undefined &&
+        css`
+          width: ${params.width};
+        `}
+        ${cardListSkeletonPlatformStyle({
+          platform: params?.platform,
+          hasLeftContent,
+          hasRightContent,
+        })}
         ${params?.sx}
       `,
     )}

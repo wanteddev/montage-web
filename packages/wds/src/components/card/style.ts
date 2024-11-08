@@ -113,7 +113,10 @@ export const cardStyle =
       theme,
     )(
       (params) => css`
-        width: ${params?.width};
+        ${params?.width !== undefined &&
+        css`
+          width: ${params.width};
+        `}
         ${cardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
@@ -232,7 +235,10 @@ export const cardSkeletonStyle =
       theme,
     )(
       (params) => css`
-        width: ${params?.width};
+        ${params?.width !== undefined &&
+        css`
+          width: ${params.width};
+        `}
         ${cardSkeletonPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
