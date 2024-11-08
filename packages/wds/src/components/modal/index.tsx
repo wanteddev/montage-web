@@ -168,7 +168,7 @@ const ModalContainer = forwardRef<
   (
     {
       variant = 'popup',
-      size = 'normal-fixed',
+      size = 'medium-fixed',
       handle,
       xs,
       sm,
@@ -512,55 +512,36 @@ ModalClose.displayName = MODAL_CLOSE_NAME;
 const ModalContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ModalContentProps, 'div'>
->(
-  (
-    {
-      padding,
-      paddingExtra,
-      paddingHeading,
-      paddingInfo,
-      xs,
-      sm,
-      md,
-      lg,
-      xl,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <Box
-        sx={{
-          height: 'max-content',
-          width: '100%',
-          flex: '1',
-        }}
-      >
-        <FlexBox
-          ref={ref}
-          as="div"
-          wds-component="modal-content"
-          flexDirection="column"
-          {...props}
-          sx={[
-            modalContentStyle({
-              padding,
-              paddingExtra,
-              paddingInfo,
-              paddingHeading,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            }),
-            props.sx,
-          ]}
-        />
-      </Box>
-    );
-  },
-);
+>(({ gap, xs, sm, md, lg, xl, ...props }, ref) => {
+  return (
+    <Box
+      sx={{
+        height: 'max-content',
+        width: '100%',
+        flex: '1',
+      }}
+    >
+      <FlexBox
+        ref={ref}
+        as="div"
+        wds-component="modal-content"
+        flexDirection="column"
+        {...props}
+        sx={[
+          modalContentStyle({
+            gap,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
+      />
+    </Box>
+  );
+});
 
 ModalContent.displayName = 'ModalContent';
 
