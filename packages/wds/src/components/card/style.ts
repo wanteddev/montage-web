@@ -96,8 +96,15 @@ export const cardStyle =
     width: ${width ?? '100%'};
     ${cardPlatformStyle({ platform })}
 
+    &:hover {
+      [wds-component='thumbnail'] img {
+        transform: scale(1.025);
+      }
+    }
+
     // thumbnail
-    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+    [wds-component='thumbnail'],
+    [wds-component='thumbnail-skeleton'] {
       width: 100%;
     }
     // text
@@ -125,6 +132,12 @@ export const cardStyle =
 
 export const cardThumbnailStyle = css`
   position: relative;
+  overflow: hidden;
+
+  img {
+    will-change: transform;
+    transition: transform 0.2s ease;
+  }
 `;
 
 export const cardThumbnailContentWrapperStyle = css`
@@ -226,7 +239,8 @@ export const cardSkeletonStyle =
     ${cardSkeletonPlatformStyle({ platform })}
 
     // thumbnail
-    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+    [wds-component='thumbnail'],
+    [wds-component='thumbnail-skeleton'] {
       width: 100%;
     }
 
