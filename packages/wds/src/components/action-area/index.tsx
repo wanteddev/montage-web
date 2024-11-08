@@ -31,6 +31,7 @@ const ActionArea = forwardRef<
       children,
       caption,
       sticky,
+      divider = true,
       ...props
     },
     ref,
@@ -51,6 +52,7 @@ const ActionArea = forwardRef<
           {...props}
           sx={[
             actionAreaStyle({
+              divider,
               variant,
               priority,
               sticky: variant === 'extra' ? false : sticky ?? modalSticky,

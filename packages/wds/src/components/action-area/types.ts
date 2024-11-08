@@ -19,6 +19,10 @@ export type ActionAreaProps = {
    * Modal 내부에서 사용할 경우 Modal 내부 로직에 의해 처리됩니다.
    */
   sticky?: boolean;
+  /**
+   * `variant=extra` 일 때 상단에 라인을 표시합니다.
+   */
+  divider?: boolean;
 };
 
 export type ActionButtonProps = {
