@@ -97,6 +97,7 @@ const cardListSkeletonPlatformStyle = ({
         gap: 16px;
         padding-left: ${hasLeftContent ? '40px' : '0'};
         padding-right: ${hasRightContent ? '40px' : '0'};
+
         // thumbnail
         [wds-component='thumbnail'],
         [wds-component='thumbnail-skeleton'] {
@@ -107,22 +108,13 @@ const cardListSkeletonPlatformStyle = ({
           width: 75%;
           height: 24px;
         }
-        [wds-component='card-caption-skeleton'] {
-          &[data-type='extra'] {
-            width: 50%;
-            height: 18px;
-          }
-          &[data-type='normal'] {
-            width: 25%;
-            height: 18px;
-          }
-        }
       `;
     case 'mobile':
       return css`
         gap: 12px;
         padding-left: ${hasLeftContent ? '36px' : '0'};
         padding-right: ${hasRightContent ? '36px' : '0'};
+
         // thumbnail
         [wds-component='thumbnail'],
         [wds-component='thumbnail-skeleton'] {
@@ -163,21 +155,14 @@ export const cardListSkeletonStyle =
       aspect-ratio: 3 / 2;
     }
     // skeleton
-    [wds-component='card-content-item-skeleton'] {
-      max-width: 48px;
-      width: 100%;
-      height: 20px;
-    }
-    [wds-component='card-caption-skeleton'] {
+    /* [wds-component='card-caption-skeleton'] {
       &[data-type='extra'] {
         width: 50%;
-        height: 18px;
       }
       &[data-type='normal'] {
         width: 25%;
-        height: 18px;
       }
-    }
+    } */
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },

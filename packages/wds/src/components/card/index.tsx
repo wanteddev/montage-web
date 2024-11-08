@@ -288,7 +288,11 @@ CardThumbnailSkeleton.displayName = CARD_THUMBNAIL_SKELETON_NAME;
 
 const CardContentItemSkeleton = forwardRef(
   (
-    props: DefaultComponentProps<SkeletonProps, 'div'>,
+    {
+      width = '48px',
+      height = '20px',
+      ...props
+    }: DefaultComponentProps<SkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
@@ -296,7 +300,9 @@ const CardContentItemSkeleton = forwardRef(
         ref={ref}
         wds-component="card-content-item-skeleton"
         variant="rectangle"
-        radius="3px" // TODO: list도 같은지 확인
+        radius="3px"
+        width={width}
+        height={height}
         {...props}
       />
     );
@@ -322,15 +328,21 @@ const CardCaptionSkeleton = forwardRef(
   (
     {
       type = 'normal',
+      height = '18px',
       ...props
     }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
+    const width: CardCaptionSkeletonProps['width'] =
+      props.width ?? type === 'normal' ? '25%' : '50%';
+
     return (
       <Skeleton
         ref={ref}
         data-type={type}
         wds-component="card-caption-skeleton"
+        width={width}
+        height={height}
         {...props}
       />
     );

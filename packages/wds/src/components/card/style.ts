@@ -37,7 +37,6 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
             font-size: 24px;
           }
         }
-
         // content
         [wds-component='card-content'] {
           padding: 0 6px;
@@ -76,7 +75,6 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
             font-size: 20px;
           }
         }
-
         // content
         [wds-component='card-content'] {
           padding: 0;
@@ -186,7 +184,6 @@ const cardSkeletonPlatformStyle = ({
           width: 100%;
           aspect-ratio: 3 / 2;
         }
-
         // content
         [wds-component='card-content'] {
           padding: 0 6px;
@@ -195,18 +192,6 @@ const cardSkeletonPlatformStyle = ({
         [wds-component='card-title-skeleton'] {
           width: 100%;
           height: 24px;
-        }
-        [wds-component='card-caption-skeleton'] {
-          &[data-type='extra'] {
-            max-width: 114px;
-            width: 100%;
-            height: 18px;
-          }
-          &[data-type='normal'] {
-            max-width: 57px;
-            width: 100%;
-            height: 18px;
-          }
         }
       `;
 
@@ -218,7 +203,6 @@ const cardSkeletonPlatformStyle = ({
           width: 100%;
           aspect-ratio: 4 / 3;
         }
-
         // content
         [wds-component='card-content'] {
           padding: 0;
@@ -227,18 +211,6 @@ const cardSkeletonPlatformStyle = ({
         [wds-component='card-title-skeleton'] {
           width: 100%;
           height: 22px;
-        }
-        [wds-component='card-caption-skeleton'] {
-          &[data-type='extra'] {
-            max-width: 76px;
-            width: 100%;
-            height: 18px;
-          }
-          &[data-type='normal'] {
-            max-width: 38px;
-            width: 100%;
-            height: 18px;
-          }
         }
       `;
   }
@@ -255,11 +227,20 @@ export const cardSkeletonStyle =
       width: 100%;
     }
     // skeleton
-    [wds-component='card-content-item-skeleton'] {
-      max-width: 48px;
-      width: 100%;
+    /* [wds-component='card-content-item-skeleton'] {
+      width: 48px;
       height: 20px;
     }
+    [wds-component='card-caption-skeleton'] {
+      &[data-type='extra'] {
+        width: 50%;
+        height: 18px;
+      }
+      &[data-type='normal'] {
+        width: 25%;
+        height: 18px;
+      }
+    } */
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
