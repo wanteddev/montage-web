@@ -362,7 +362,7 @@ const Demo = () => {
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnailSkeleton width="240px" />
+        <CardThumbnailSkeleton />
         <CardContent>
           <CardContentItem position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
@@ -374,7 +374,7 @@ const Demo = () => {
         </CardContent>
       </Card>
       <Card width="240px">
-        <CardThumbnailSkeleton width="152px" />
+        <CardThumbnailSkeleton />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -403,7 +403,7 @@ const Demo = () => {
     <Grid spacing={20} sx={{ maxWidth: '426px', margin: 'auto' }}>
       <GridItem columns={7}>
         <CardSkeleton>
-          <CardThumbnailSkeleton width="240px" />
+          <CardThumbnailSkeleton />
           <CardContent>
             <CardTitleSkeleton />
             <CardCaptionSkeleton />
@@ -413,7 +413,7 @@ const Demo = () => {
 
       <GridItem columns={5}>
         <CardSkeleton platform="mobile">
-          <CardThumbnailSkeleton width="152px" />
+          <CardThumbnailSkeleton />
           <CardContent>
             <CardTitleSkeleton />
             <CardCaptionSkeleton />
@@ -423,7 +423,7 @@ const Demo = () => {
 
       <GridItem columns={7}>
         <CardSkeleton>
-          <CardThumbnailSkeleton width="152px" />
+          <CardThumbnailSkeleton />
           <CardContent>
             <CardContentItem position="top">
               <CardContentItemSkeleton />
@@ -440,7 +440,7 @@ const Demo = () => {
       
       <GridItem columns={5}>
         <CardSkeleton platform="mobile">
-          <CardThumbnailSkeleton width="152px" />
+          <CardThumbnailSkeleton />
           <CardContent>
             <CardContentItem position="top">
               <CardContentItemSkeleton />
