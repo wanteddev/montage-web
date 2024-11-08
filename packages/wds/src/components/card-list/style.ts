@@ -154,15 +154,6 @@ export const cardListSkeletonStyle =
     [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
       aspect-ratio: 3 / 2;
     }
-    // skeleton
-    /* [wds-component='card-caption-skeleton'] {
-      &[data-type='extra'] {
-        width: 50%;
-      }
-      &[data-type='normal'] {
-        width: 25%;
-      }
-    } */
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },

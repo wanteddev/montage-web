@@ -226,21 +226,6 @@ export const cardSkeletonStyle =
     [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
       width: 100%;
     }
-    // skeleton
-    /* [wds-component='card-content-item-skeleton'] {
-      width: 48px;
-      height: 20px;
-    }
-    [wds-component='card-caption-skeleton'] {
-      &[data-type='extra'] {
-        width: 50%;
-        height: 18px;
-      }
-      &[data-type='normal'] {
-        width: 25%;
-        height: 18px;
-      }
-    } */
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
