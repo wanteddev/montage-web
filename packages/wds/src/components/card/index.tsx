@@ -86,12 +86,7 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
     const hasContent = hasLeftContent || hasRightContent;
 
     return (
-      <Box
-        ref={ref}
-        wds-component="card-thumbnail"
-        {...props}
-        sx={[cardThumbnailStyle, sx]}
-      >
+      <Box ref={ref} {...props} sx={[cardThumbnailStyle, sx]}>
         {overlay && (
           <Box
             data-role="card-thumbnail-overlay"

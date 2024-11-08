@@ -1,19 +1,16 @@
 import { forwardRef } from 'react';
 import {
-  Box,
   type PolymorphicComponent,
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
-import { Thumbnail } from '../thumbnail';
 
 import {
   CARD_LIST_CONTENT_NAME,
   CARD_LIST_NAME,
   CARD_LIST_SKELETON_NAME,
-  CARD_LIST_THUMBNAIL_NAME,
 } from './constants';
 import {
   cardListContentStyle,
@@ -26,7 +23,6 @@ import type {
   CardListContentProps,
   CardListProps,
   CardListSkeletonProps,
-  CardListThumbnailProps,
 } from './types';
 import type { ElementRef, ForwardedRef } from 'react';
 import type { ElementType } from 'react';
@@ -65,18 +61,6 @@ const CardList = forwardRef(
 ) as PolymorphicComponent<CardListProps, 'div'>;
 
 CardList.displayName = CARD_LIST_NAME;
-
-const CardListThumbnail = forwardRef<HTMLDivElement, CardListThumbnailProps>(
-  ({ width, ...props }, ref) => {
-    return (
-      <Box ref={ref} wds-component="card-list-thumbnail" {...props}>
-        <Thumbnail width={width} radius border {...props} />
-      </Box>
-    );
-  },
-) as PolymorphicComponent<CardListThumbnailProps, 'div'>;
-
-CardListThumbnail.displayName = CARD_LIST_THUMBNAIL_NAME;
 
 const CardListContent = forwardRef(
   (
@@ -170,4 +154,4 @@ const CardListSkeleton = forwardRef(
 
 CardListSkeleton.displayName = CARD_LIST_SKELETON_NAME;
 
-export { CardList, CardListThumbnail, CardListContent, CardListSkeleton };
+export { CardList, CardListContent, CardListSkeleton };

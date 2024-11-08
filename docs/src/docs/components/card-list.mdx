@@ -8,7 +8,7 @@ description: CardList Component
 - 표시할 양이 많은 정보를 묶어 표시할 때 사용합니다.
 - leftContent, rightContent에 요소를 추가 할 때는 `CardListContent` 로 감싸주세요.
 
-<Demo code={`import { FlexBox, CardList, Checkbox, CardListThumbnail, CardTitle, CardCaption, CardContent, Checkbox, CardListContent, ToggleIcon } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, CardList, Checkbox, CardThumbnail, CardTitle, CardCaption, CardContent, Checkbox, CardListContent, ToggleIcon } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -61,7 +61,7 @@ const Demo = () => {
             </CardListContent>
           }
         >
-          <CardListThumbnail
+          <CardThumbnail
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
             width="120px"
@@ -86,7 +86,7 @@ export default Demo;`}
 
 ```tsx
 <CardList>
-  <CardListThumbnail />
+  <CardThumbnail />
   <CardContent>
     <CardContentItem />
     <CardTitle />
@@ -145,7 +145,7 @@ export default Demo;`}
 
 ### Platform
 
-`platform`에 따라 `CardListThumbnail`의 크기, 제목 크기, 콘텐츠 간격이 달라요.
+`platform`에 따라 `CardThumbnail`의 크기, 제목 크기, 콘텐츠 간격이 달라요.
 
 <Demo code={`import { FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardListContent } from '@wanteddev/wds';
 import { IconChevronRightTight } from '@wanteddev/wds-icon';
