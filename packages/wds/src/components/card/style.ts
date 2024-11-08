@@ -233,7 +233,7 @@ export const cardSkeletonStyle =
     )(
       (params) => css`
         width: ${params?.width};
-        ${cardPlatformStyle({ platform: params?.platform })}
+        ${cardSkeletonPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
     )}
