@@ -129,12 +129,13 @@ const EmptyStateText = forwardRef(
 EmptyStateText.displayName = EMPTY_STATE_TEXT_NAME;
 
 const EmptyStateButton = forwardRef(
-  (
-    props: DefaultComponentProps<ButtonProps, 'button'>,
-    ref: ForwardedRef<HTMLButtonElement>,
+  <E extends ElementType = 'button'>(
+    { as, ...props }: PolymorphicProps<ButtonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
   ) => {
     return (
       <Button
+        as={(as || 'button') as ElementType}
         ref={ref}
         wds-component="empty-state-button"
         variant="outlined"
@@ -143,7 +144,7 @@ const EmptyStateButton = forwardRef(
       />
     );
   },
-);
+) as PolymorphicComponent<ButtonProps, 'button'>;
 
 EmptyStateButton.displayName = EMPTY_STATE_BUTTON_NAME;
 
