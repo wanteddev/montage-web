@@ -1,13 +1,16 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
+import {
+  createResponsiveStyle,
+  ellipsisTypographyStyle,
+  gradient,
+  typographyStyle,
+} from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { CardExtraContentProps, CardProps } from './types';
+import type { CardContentItemProps, CardProps } from './types';
 
-export const cardPlatformStyle = ({
-  platform,
-}: Pick<CardProps, 'platform'>) => {
+const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
     case 'desktop':
       return css`
@@ -34,7 +37,6 @@ export const cardPlatformStyle = ({
             font-size: 24px;
           }
         }
-
         // content
         [wds-component='card-content'] {
           padding: 0 6px;
@@ -73,7 +75,6 @@ export const cardPlatformStyle = ({
             font-size: 20px;
           }
         }
-
         // content
         [wds-component='card-content'] {
           padding: 0;
@@ -95,12 +96,27 @@ export const cardStyle =
     width: ${width ?? '100%'};
     ${cardPlatformStyle({ platform })}
 
+    // thumbnail
+    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+      width: 100%;
+    }
+    // text
+    [wds-component='card-title'] {
+      ${ellipsisTypographyStyle(2)}
+    }
+    [wds-component='card-caption'] {
+      ${ellipsisTypographyStyle()}
+    }
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        width: ${params?.width};
+        ${params?.width !== undefined &&
+        css`
+          width: ${params.width};
+        `}
         ${cardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}
       `,
@@ -139,10 +155,10 @@ export const cardThumbnailOverlayStyle = (theme: Theme) => css`
   z-index: var(--wds-card-thumbnail-overlay-z-index);
 `;
 
-export const cardExtraContentStyle = ({
+export const cardContentItemStyle = ({
   variant,
   position,
-}: Pick<CardExtraContentProps, 'position' | 'variant'>) => css`
+}: Pick<CardContentItemProps, 'position' | 'variant'>) => css`
   gap: ${variant === 'badge' ? '6px' : 0};
 
   ${(() => {
@@ -158,3 +174,73 @@ export const cardExtraContentStyle = ({
     }
   })()};
 `;
+
+const cardSkeletonPlatformStyle = ({
+  platform,
+}: Pick<CardProps, 'platform'>) => {
+  switch (platform) {
+    case 'desktop':
+      return css`
+        // thumbnail
+        [wds-component='thumbnail'],
+        [wds-component='thumbnail-skeleton'] {
+          width: 100%;
+          aspect-ratio: 3 / 2;
+        }
+        // content
+        [wds-component='card-content'] {
+          padding: 0 6px;
+        }
+        // skeleton
+        [wds-component='card-title-skeleton'] {
+          width: 100%;
+          height: 24px;
+        }
+      `;
+
+    case 'mobile':
+      return css`
+        // thumbnail
+        [wds-component='thumbnail'],
+        [wds-component='thumbnail-skeleton'] {
+          width: 100%;
+          aspect-ratio: 4 / 3;
+        }
+        // content
+        [wds-component='card-content'] {
+          padding: 0;
+        }
+        // skeleton
+        [wds-component='card-title-skeleton'] {
+          width: 100%;
+          height: 22px;
+        }
+      `;
+  }
+};
+
+export const cardSkeletonStyle =
+  ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
+  (theme: Theme) => css`
+    width: ${width ?? '100%'};
+    ${cardSkeletonPlatformStyle({ platform })}
+
+    // thumbnail
+    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+      width: 100%;
+    }
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${params?.width !== undefined &&
+        css`
+          width: ${params.width};
+        `}
+        ${cardSkeletonPlatformStyle({ platform: params?.platform })}
+        ${params?.sx}
+      `,
+    )}
+  `;

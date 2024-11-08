@@ -6,6 +6,7 @@ export { default as AvatarGroup } from './avatar-group';
 export * from './bottom-navigation';
 export { default as Button } from './button';
 export * from './card';
+export * from './card-list';
 export { default as Checkbox } from './checkbox';
 export { default as ChipAction } from './chip-action';
 export { default as ChipFilter } from './chip-filter';

@@ -1,0 +1,354 @@
+---
+title: CardList
+description: CardList Component
+---
+
+# CardList
+
+- 표시할 양이 많은 정보를 묶어 표시할 때 사용합니다.
+- leftContent, rightContent에 요소를 추가 할 때는 `CardListContent` 로 감싸주세요.
+
+<Demo code={`import { FlexBox, CardList, Checkbox, CardThumbnail, CardTitle, CardCaption, CardContent, Checkbox, CardListContent, ToggleIcon } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const items = [
+  {
+    id: 1,
+    title: '제목',
+    caption: '캡션',
+  },
+  {
+    id: 2,
+    title: '제목',
+    caption: '캡션',
+  }
+];
+
+const Demo = () => {
+  const [idList, setIdList] = useState<Array<number>>([]);
+
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      {items.map((item) => (
+        <CardList
+          key={item.id}
+          as="a" 
+          href="https://wanted.co.kr"
+          target="_blank"
+          width="480px"
+          leftContent={
+            <CardListContent variant="checkbox">
+              <Checkbox 
+                checked={idList.includes(item.id)}
+                onCheckedChange={(checked) => {
+                  if (checked) {
+                    setIdList((prevIdList) => [...prevIdList, item.id]);
+                  } else {
+                    setIdList((prevIdList) => prevIdList.filter((prevId) => prevId !== item.id));
+                  }
+                }}
+              />
+            </CardListContent>
+          }
+          rightContent={
+            <CardListContent variant="toggle-icon">
+              <ToggleIcon 
+                activeColor="palette.primary.normal" 
+              >
+                <IconBookmarkFill />
+              </ToggleIcon>
+            </CardListContent>
+          }
+        >
+          <CardThumbnail
+            src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+            alt="Wanted Company Image"
+            width="120px"
+            quality={95}
+          />
+          <CardContent>
+            <CardTitle>{item.title}</CardTitle>
+            <CardCaption>{item.caption}</CardCaption>
+          </CardContent>
+        </CardList>
+      ))}
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<CardList>
+  <CardThumbnail />
+  <CardContent>
+    <CardContentItem />
+    <CardTitle />
+    <CardCaption />
+    <CardContentItem />
+  </CardContent>
+</CardList>
+```
+
+### CardList
+
+<PropsTable component="CardList" />
+
+### CardListContent
+
+<PropsTable component="CardListContent" />
+
+### CardListSkeleton
+
+<PropsTable component="CardListSkeleton" />
+
+## Examples
+
+### Width
+
+- `width`를 지정할 수 있고, 지정하지 않으면 100%의 너비를 사용해요.
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 width를 사용할 수 있어요.
+
+<Demo code={`import { CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardListContent } from '@wanteddev/wds';
+import { IconChevronRightTight } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  return (
+    <CardList
+      width="335px" 
+      sm={{ width: '480px' }} 
+      rightContent={
+        <CardListContent variant="icon">
+          <IconChevronRightTight />
+        </CardListContent>
+      }
+    >
+      <CardThumbnailSkeleton />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>(min-width: 768px), width: 480px</CardCaption>
+        <CardCaption>(max-width: 767px), width: 335px</CardCaption>
+      </CardContent>
+    </CardList>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Platform
+
+`platform`에 따라 `CardThumbnail`의 크기, 제목 크기, 콘텐츠 간격이 달라요.
+
+<Demo code={`import { FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardListContent } from '@wanteddev/wds';
+import { IconChevronRightTight } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <CardList
+        width="480px"
+        rightContent={
+          <CardListContent variant="icon">
+            <IconChevronRightTight />
+          </CardListContent>
+        }
+      >
+        <CardThumbnailSkeleton />
+        <CardContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </CardList>
+      <CardList
+        width="335px"
+        platform="mobile"
+        rightContent={
+          <CardListContent variant="icon">
+            <IconChevronRightTight />
+          </CardListContent>
+        }
+      >
+        <CardThumbnailSkeleton width="96px" />
+        <CardContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </CardList>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+- ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
+- `width`와 조합해서 사용할 수 있어요.
+
+<Demo code={`import { CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardListContent } from '@wanteddev/wds';
+import { IconChevronRightTight } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <CardList
+      width="335px"
+      platform="mobile"
+      rightContent={
+        <CardListContent variant="icon">
+          <IconChevronRightTight />
+        </CardListContent>
+      }
+      sm={{
+        width: '480px',
+        platform: 'desktop'
+      }}
+    >
+      <CardThumbnailSkeleton />
+      <CardContent>
+        <CardTitle>제목</CardTitle>
+        <CardCaption>(min-width: 768px), width: 480px</CardCaption>
+        <CardCaption>(min-width: 768px), platform: desktop</CardCaption>
+      </CardContent>
+    </CardList>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Top Content, Bottom Content
+
+- `CardContentItem`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
+- 뱃지나 부가적인 내용을 추가할 때 사용해요.
+
+<Demo code={`import { ContentBadge, FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardContentItem, CardListContent } from '@wanteddev/wds';
+import { IconChevronRightTight } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <CardList
+        width="480px"
+        rightContent={
+          <CardListContent variant="icon">
+            <IconChevronRightTight />
+          </CardListContent>
+        }
+      >
+        <CardThumbnailSkeleton />
+        <CardContent>
+          <CardContentItem position="top" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
+            ))}
+          </CardContentItem>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+        </CardContent>
+      </CardList>
+      <CardList
+        width="480px"
+        rightContent={
+          <CardListContent variant="icon">
+            <IconChevronRightTight />
+          </CardListContent>
+        }
+      >
+        <CardThumbnailSkeleton width="96px" />
+        <CardContent>
+          <CardTitle>제목</CardTitle>
+          <CardCaption>캡션</CardCaption>
+          <CardContentItem position="bottom" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
+            ))}
+          </CardContentItem>
+        </CardContent>
+      </CardList>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Skeleton
+
+- CardList의 형태에 따라 스켈레톤을 조합하여 사용해요.
+- CardList에 leftContent, rightContent가 있을 경우 `hasLeftContent`, `hasRightContent`로 영역을 조정할 수 있어요.
+
+<Demo code={`import { FlexBox, CardListSkeleton, CardThumbnailSkeleton, CardContent, CardContentItemSkeleton, CardContentItem, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <CardListSkeleton width="480px">
+        <CardThumbnailSkeleton />
+        <CardContent>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton />
+        </CardContent>
+      </CardListSkeleton>
+
+      <CardListSkeleton 
+        width="480px" 
+        hasLeftContent 
+        hasRightContent
+      >
+        <CardThumbnailSkeleton />
+        <CardContent>
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton type="extra" />
+          <CardCaptionSkeleton />
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
+        </CardContent>
+      </CardListSkeleton>
+
+      <CardListSkeleton 
+        width="335px" 
+        platform="mobile"
+      >
+        <CardThumbnailSkeleton width="96px" />
+        <CardContent>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton />
+        </CardContent>
+      </CardListSkeleton>
+
+      <CardListSkeleton 
+        width="335px" 
+        platform="mobile" 
+        hasLeftContent 
+        hasRightContent
+      >
+        <CardThumbnailSkeleton width="96px" />
+        <CardContent>
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton type="extra" />
+          <CardCaptionSkeleton />
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
+        </CardContent>
+      </CardListSkeleton>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>

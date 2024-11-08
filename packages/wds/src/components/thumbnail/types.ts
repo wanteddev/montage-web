@@ -30,8 +30,9 @@ export type ThumbnailProps = Merge<
 export type ThumbnailSkeletonDefaultProps = Omit<
   SkeletonProps,
   'width' | 'radius'
-> &
-  Pick<ImageLoaderProps, 'width'>;
+> & {
+  width?: ImageLoaderProps['width'];
+};
 
 export type ThumbnailSkeletonProps = Merge<
   ThumbnailProps,

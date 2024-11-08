@@ -28,7 +28,10 @@ export const skeletonStyle =
       theme,
     )(
       (params) => css`
-        ${skeletonSizeStyle(params || {})}
+        ${skeletonSizeStyle({
+          ...params,
+          variant: props.variant,
+        })}
         ${params?.sx}
       `,
     )}
