@@ -15,7 +15,11 @@ import {
   CARD_LIST_SKELETON_NAME,
   CARD_LIST_THUMBNAIL_NAME,
 } from './constants';
-import { cardListContentStyle, cardListStyle } from './style';
+import {
+  cardListContentStyle,
+  cardListSkeletonStyle,
+  cardListStyle,
+} from './style';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type {
@@ -128,6 +132,8 @@ const CardListSkeleton = forwardRef(
     {
       platform = 'desktop',
       width,
+      hasLeftContent,
+      hasRightContent,
       xs,
       sm,
       md,
@@ -143,7 +149,20 @@ const CardListSkeleton = forwardRef(
         ref={ref}
         alignItems="center"
         {...props}
-        sx={[cardListStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
+        sx={[
+          cardListSkeletonStyle({
+            platform,
+            hasLeftContent,
+            hasRightContent,
+            width,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          sx,
+        ]}
       />
     );
   },

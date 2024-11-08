@@ -27,6 +27,7 @@ import {
 } from './constants';
 import {
   cardContentItemStyle,
+  cardSkeletonStyle,
   cardStyle,
   cardThumbnailContentTextStyle,
   cardThumbnailContentToggleIconStyle,
@@ -245,7 +246,32 @@ const CardCaption = forwardRef(
 
 CardCaption.displayName = CARD_CAPTION_NAME;
 
-const CardSkeleton = Card;
+const CardSkeleton = forwardRef(
+  <E extends ElementType = 'div'>(
+    {
+      platform = 'desktop',
+      width,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      sx,
+      ...props
+    }: PolymorphicProps<CardProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <FlexBox
+        ref={ref}
+        flexDirection="column"
+        gap="12px"
+        {...props}
+        sx={[cardSkeletonStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
+      />
+    );
+  },
+) as PolymorphicComponent<CardProps, 'div'>;
 
 CardSkeleton.displayName = CARD_SKELETON_NAME;
 
@@ -270,9 +296,7 @@ const CardContentItemSkeleton = forwardRef(
         ref={ref}
         wds-component="card-content-item-skeleton"
         variant="rectangle"
-        radius="3px"
-        width="48px"
-        height="20px"
+        radius="3px" // TODO: list도 같은지 확인
         {...props}
       />
     );
@@ -287,13 +311,7 @@ const CardTitleSkeleton = forwardRef(
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
-      <Skeleton
-        ref={ref}
-        wds-component="card-title-skeleton"
-        width="100%"
-        height="24px"
-        {...props}
-      />
+      <Skeleton ref={ref} wds-component="card-title-skeleton" {...props} />
     );
   },
 );
@@ -311,9 +329,8 @@ const CardCaptionSkeleton = forwardRef(
     return (
       <Skeleton
         ref={ref}
+        data-type={type}
         wds-component="card-caption-skeleton"
-        width={type === 'extra' ? '114px' : '57px'}
-        height={type === 'extra' ? '18px' : '16px'}
         {...props}
       />
     );

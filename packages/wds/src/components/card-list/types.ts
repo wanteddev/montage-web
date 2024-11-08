@@ -1,7 +1,11 @@
 import type { FlexBoxProps } from '../flex-box/types';
 import type { Merge } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
-import type { CardDefaultProps, CardThumbnailBasicProps } from '../card/types';
+import type {
+  CardDefaultProps,
+  CardProps,
+  CardThumbnailBasicProps,
+} from '../card/types';
 
 type CardListDefaultProps = {
   leftContent?: ReactNode;
@@ -20,4 +24,11 @@ export type CardListContentProps = Merge<
   FlexBoxProps
 >;
 
-export type CardListSkeletonProps = Merge<CardDefaultProps, FlexBoxProps>;
+export type CardListSkeletonDefaultProps = {
+  hasLeftContent?: boolean;
+  hasRightContent?: boolean;
+};
+export type CardListSkeletonProps = Merge<
+  CardListSkeletonDefaultProps,
+  CardProps
+>;

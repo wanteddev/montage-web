@@ -6,6 +6,7 @@ import {
   typographyStyle,
 } from '../..';
 
+import type { CardListSkeletonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 import type { CardProps } from '../card/types';
 
@@ -81,3 +82,111 @@ export const cardListContentStyle = css`
   height: 24px;
   font-size: 24px;
 `;
+
+const cardListSkeletonPlatformStyle = ({
+  platform,
+  hasLeftContent,
+  hasRightContent,
+}: Pick<
+  CardListSkeletonProps,
+  'platform' | 'hasLeftContent' | 'hasRightContent'
+>) => {
+  switch (platform) {
+    case 'desktop':
+      return css`
+        gap: 16px;
+        padding-left: ${hasLeftContent ? '40px' : '0'};
+        padding-right: ${hasRightContent ? '40px' : '0'};
+        // thumbnail
+        [wds-component='thumbnail'],
+        [wds-component='thumbnail-skeleton'] {
+          width: 120px;
+        }
+        // skeleton
+        [wds-component='card-title-skeleton'] {
+          width: 75%;
+          height: 24px;
+        }
+        [wds-component='card-caption-skeleton'] {
+          &[data-type='extra'] {
+            width: 50%;
+            height: 18px;
+          }
+          &[data-type='normal'] {
+            width: 25%;
+            height: 18px;
+          }
+        }
+      `;
+    case 'mobile':
+      return css`
+        gap: 12px;
+        padding-left: ${hasLeftContent ? '36px' : '0'};
+        padding-right: ${hasRightContent ? '36px' : '0'};
+        // thumbnail
+        [wds-component='thumbnail'],
+        [wds-component='thumbnail-skeleton'] {
+          width: 96px;
+        }
+        // skeleton
+        [wds-component='card-title-skeleton'] {
+          width: 75%;
+          height: 22px;
+        }
+      `;
+  }
+};
+
+export const cardListSkeletonStyle =
+  ({
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    width,
+    platform,
+    hasLeftContent,
+    hasRightContent,
+  }: CardListSkeletonProps) =>
+  (theme: Theme) => css`
+    width: ${width ?? '100%'};
+    max-width: 100%;
+    ${cardListSkeletonPlatformStyle({
+      platform,
+      hasLeftContent,
+      hasRightContent,
+    })}
+
+    // thumbnail
+    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+      aspect-ratio: 3 / 2;
+    }
+    // skeleton
+    [wds-component='card-content-item-skeleton'] {
+      max-width: 48px;
+      width: 100%;
+      height: 20px;
+    }
+    [wds-component='card-caption-skeleton'] {
+      &[data-type='extra'] {
+        width: 50%;
+        height: 18px;
+      }
+      &[data-type='normal'] {
+        width: 25%;
+        height: 18px;
+      }
+    }
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        width: ${params?.width};
+        ${cardListPlatformStyle({ platform: params?.platform })}
+        ${params?.sx}
+      `,
+    )}
+  `;

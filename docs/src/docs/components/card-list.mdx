@@ -145,7 +145,7 @@ export default Demo;`}
 
 ### Platform
 
-`platform`에 따라 콘텐츠 간격, 제목 크기가 달라요.
+`platform`에 따라 `CardListThumbnail`의 크기, 제목 크기, 콘텐츠 간격이 달라요.
 
 <Demo code={`import { FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardListContent } from '@wanteddev/wds';
 import { IconChevronRightTight } from '@wanteddev/wds-icon';
@@ -281,7 +281,8 @@ export default Demo;`}
 
 ### Skeleton
 
-CardList의 형태에 따라 스켈레톤을 조합하여 사용해요.
+- CardList의 형태에 따라 스켈레톤을 조합하여 사용해요.
+- CardList에 leftContent, rightContent가 있을 경우 `hasLeftContent`, `hasRightContent`로 영역을 조정할 수 있어요.
 
 <Demo code={`import { FlexBox, CardListSkeleton, CardThumbnailSkeleton, CardContent, CardContentItemSkeleton, CardContentItem, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
 
@@ -296,14 +297,18 @@ const Demo = () => {
         </CardContent>
       </CardListSkeleton>
 
-      <CardListSkeleton width="480px">
+      <CardListSkeleton 
+        width="480px" 
+        hasLeftContent 
+        hasRightContent
+      >
         <CardThumbnailSkeleton width="120px" />
         <CardContent>
           <CardContentItem position="top">
             <CardContentItemSkeleton />
           </CardContentItem>
           <CardTitleSkeleton />
-          <CardCaptionSkeleton variant="extra" />
+          <CardCaptionSkeleton type="extra" />
           <CardCaptionSkeleton />
           <CardContentItem position="top">
             <CardContentItemSkeleton />
@@ -311,7 +316,10 @@ const Demo = () => {
         </CardContent>
       </CardListSkeleton>
 
-      <CardListSkeleton width="335px" platform="mobile">
+      <CardListSkeleton 
+        width="335px" 
+        platform="mobile"
+      >
         <CardThumbnailSkeleton width="96px" />
         <CardContent>
           <CardTitleSkeleton />
@@ -319,14 +327,19 @@ const Demo = () => {
         </CardContent>
       </CardListSkeleton>
 
-      <CardListSkeleton width="335px" platform="mobile">
+      <CardListSkeleton 
+        width="335px" 
+        platform="mobile" 
+        hasLeftContent 
+        hasRightContent
+      >
         <CardThumbnailSkeleton width="96px" />
         <CardContent>
           <CardContentItem position="top">
             <CardContentItemSkeleton />
           </CardContentItem>
           <CardTitleSkeleton />
-          <CardCaptionSkeleton variant="extra" />
+          <CardCaptionSkeleton type="extra" />
           <CardCaptionSkeleton />
           <CardContentItem position="top">
             <CardContentItemSkeleton />
