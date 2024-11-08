@@ -2,7 +2,11 @@ import type { TopNavigationProps } from '../top-navigation/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type Portal from '../portal';
-import type { ComponentPropsWithRef, PropsWithChildren } from 'react';
+import type {
+  CSSProperties,
+  ComponentPropsWithRef,
+  PropsWithChildren,
+} from 'react';
 import type { TypographyProps } from '../typography/types';
 
 export type ModalProps = PropsWithChildren<{
@@ -73,17 +77,11 @@ export type ModalNavigationProps = Merge<
 >;
 
 type ModalContentDefaultProps = {
-  padding?: boolean;
-  paddingExtra?: boolean;
-  paddingInfo?: boolean;
-  paddingHeading?: boolean;
+  gap?: CSSProperties['gap'];
 };
 
 type ModalContentResponsiveProps = ResponsiveProps<
-  Pick<
-    ModalContentDefaultProps,
-    'padding' | 'paddingExtra' | 'paddingInfo' | 'paddingHeading'
-  >
+  Pick<ModalContentDefaultProps, 'gap'>
 >;
 
 export type ModalContentProps = Merge<

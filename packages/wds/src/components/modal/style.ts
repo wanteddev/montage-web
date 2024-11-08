@@ -221,6 +221,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           max-height: 100%;
         `}
 
+        --wds-modal-popup-border-radius: 12px;
         --wds-modal-content-margin: 20px;
         --wds-top-navigation-padding-x: 16px;
         --wds-top-navigation-padding-y: 16px;
@@ -255,6 +256,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           max-height: 100%;
         `}
 
+        --wds-modal-popup-border-radius: 12px;
         --wds-modal-content-margin: 20px;
         --wds-top-navigation-padding-x: 16px;
         --wds-top-navigation-padding-y: 20px;
@@ -278,7 +280,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
     case 'medium':
     case 'medium-fixed':
       return css`
-        width: 480px;
+        width: 400px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
@@ -289,6 +291,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           max-height: 100%;
         `}
 
+        --wds-modal-popup-border-radius: 20px;
         --wds-modal-content-margin: 24px;
         --wds-top-navigation-padding-x: 20px;
         --wds-top-navigation-padding-y: 20px;
@@ -323,6 +326,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           max-height: 100%;
         `}
 
+        --wds-modal-popup-border-radius: 20px;
         --wds-modal-content-margin: 32px;
         --wds-top-navigation-padding-x: 28px;
         --wds-top-navigation-padding-y: 24px;
@@ -361,6 +365,7 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           max-height: 100%;
         `}
 
+        --wds-modal-popup-border-radius: 20px;
         --wds-modal-content-margin: 32px;
         --wds-top-navigation-padding-x: 28px;
         --wds-top-navigation-padding-y: 24px;
@@ -404,7 +409,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
       `;
     case 'popup':
       return css`
-        border-radius: 12px;
+        border-radius: var(--wds-modal-popup-border-radius, 12px);
         animation: none;
         max-height: 760px;
         padding: initial;
@@ -489,89 +494,33 @@ export const modalGrabberStyle = (theme: Theme) => css`
 `;
 
 export const modalContentStyle =
-  ({
-    padding,
-    paddingExtra,
-    paddingInfo,
-    paddingHeading,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: ModalContentProps) =>
+  ({ gap, xs, sm, md, lg, xl }: ModalContentProps) =>
   (theme: Theme) => css`
     width: 100%;
+    padding-top: var(--wds-modal-content-margin, 20px);
     padding-bottom: var(--wds-modal-content-margin, 20px);
 
-    ${modalContentPadding({
-      padding: padding || false,
-      paddingExtra: paddingExtra || false,
-      paddingInfo: paddingInfo || false,
-      paddingHeading: paddingHeading || false,
-    })}
+    ${gap !== undefined
+      ? css`
+          gap: calc(var(--wds-modal-content-margin, 20px));
+        `
+      : css`
+          gap: ${gap};
+        `}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${modalContentPadding(params)}
+        ${params?.gap !== undefined &&
+        css`
+          gap: ${params.gap};
+        `}
         ${params?.sx}
       `,
     )}
   `;
-
-const modalContentPadding = ({
-  padding,
-  paddingExtra,
-  paddingInfo,
-  paddingHeading,
-}: Pick<
-  ModalContentProps,
-  'padding' | 'paddingExtra' | 'paddingInfo' | 'paddingHeading'
-> = {}) => css`
-  ${padding === true &&
-  css`
-    padding-top: var(--wds-modal-content-margin, 20px);
-  `}
-  ${padding === false &&
-  css`
-    padding-top: 0px;
-  `}
-
-  ${paddingExtra === true &&
-  css`
-    margin: var(--wds-modal-content-margin, 20px) 0px;
-  `}
-  ${paddingExtra === false &&
-  css`
-    margin: 0px;
-  `}
-
-  ${paddingInfo === true &&
-  css`
-    gap: calc(var(--wds-modal-content-margin, 20px) * 2);
-  `}
-  ${paddingInfo === false &&
-  css`
-    gap: calc(var(--wds-modal-content-margin, 20px));
-  `}
-
-  ${paddingHeading === true &&
-  css`
-    [data-role='modal-heading'] {
-      padding-top: calc(var(--wds-modal-content-margin, 20px));
-    }
-  `}
-
-  ${paddingHeading === false &&
-  css`
-    [data-role='modal-heading'] {
-      padding-top: 0px;
-    }
-  `}
-`;
 
 export const modalContentItemStyle = () => css`
   padding: 0px calc(var(--wds-modal-content-margin, 20px));
