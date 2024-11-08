@@ -17,7 +17,7 @@ export const thumbnailStyle =
     md,
     lg,
     xl,
-  }: ThumbnailProps & { width: string | number }) =>
+  }: ThumbnailProps & { width?: string | number }) =>
   (theme: Theme) => css`
     width: ${width};
 

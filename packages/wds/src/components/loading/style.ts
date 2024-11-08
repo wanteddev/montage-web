@@ -8,16 +8,8 @@ import type { Theme } from '@wanteddev/wds-engine';
 export const loadingStyle =
   ({ size, xl, lg, md, sm, xs }: LoadingProps) =>
   (theme: Theme) => css`
-    --wds-loading-wanted-padding: 16px;
-    --wds-loading-wanted-size: ${size};
-
-    width: calc(
-      var(--wds-loading-wanted-size) + var(--wds-loading-wanted-padding) * 2
-    );
-    height: calc(
-      var(--wds-loading-wanted-size) + var(--wds-loading-wanted-padding) * 2
-    );
-    padding: var(--wds-loading-wanted-padding);
+    width: ${size};
+    height: ${size};
     margin: 0 auto;
 
     ${createResponsiveStyle(
@@ -25,7 +17,11 @@ export const loadingStyle =
       theme,
     )(
       (params) => css`
-        --wds-loading-wanted-size: ${params?.size};
+        ${params?.size !== undefined &&
+        css`
+          width: ${params.size};
+          height: ${params.size};
+        `}
         ${params?.sx}
       `,
     )}

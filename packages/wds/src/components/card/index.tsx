@@ -4,6 +4,7 @@ import {
   type DefaultComponentProps,
   type PolymorphicProps,
 } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
@@ -13,9 +14,9 @@ import Skeleton from '../skeleton';
 import {
   CARD_CAPTION_NAME,
   CARD_CAPTION_SKELETON_NAME,
+  CARD_CONTENT_ITEM_NAME,
+  CARD_CONTENT_ITEM_SKELETON_NAME,
   CARD_CONTENT_NAME,
-  CARD_EXTRA_CONTENT_NAME,
-  CARD_EXTRA_CONTENT_SKELETON_NAME,
   CARD_NAME,
   CARD_SKELETON_NAME,
   CARD_THUMBNAIL_CONTENT_NAME,
@@ -25,7 +26,8 @@ import {
   CARD_TITLE_SKELETON_NAME,
 } from './constants';
 import {
-  cardExtraContentStyle,
+  cardContentItemStyle,
+  cardSkeletonStyle,
   cardStyle,
   cardThumbnailContentTextStyle,
   cardThumbnailContentToggleIconStyle,
@@ -34,14 +36,14 @@ import {
   cardThumbnailStyle,
 } from './style';
 
+import type { FlexBoxProps } from '../flex-box/types';
 import type { TypographyProps } from '../typography/types';
 import type { SkeletonProps } from '../skeleton/types';
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { PolymorphicComponent } from '@wanteddev/wds-engine';
 import type {
   CardCaptionSkeletonProps,
-  CardContentProps,
-  CardExtraContentProps,
+  CardContentItemProps,
   CardProps,
   CardThumbnailContentProps,
   CardThumbnailProps,
@@ -84,12 +86,7 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
     const hasContent = hasLeftContent || hasRightContent;
 
     return (
-      <Box
-        ref={ref}
-        wds-component="card-thumbnail"
-        {...props}
-        sx={[cardThumbnailStyle, sx]}
-      >
+      <Box ref={ref} {...props} sx={[cardThumbnailStyle, sx]}>
         {overlay && (
           <Box
             data-role="card-thumbnail-overlay"
@@ -145,6 +142,10 @@ const CardThumbnailContent = forwardRef(
             as="span"
             data-role="card-thumbnail-content-toggle-icon"
             {...props}
+            onClick={composeEventHandlers(props.onClick, (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            })}
             sx={[cardThumbnailContentToggleIconStyle, sx]}
           />
         );
@@ -159,7 +160,7 @@ CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 
 const CardContent = forwardRef(
   (
-    props: DefaultComponentProps<CardContentProps, 'div'>,
+    { sx, ...props }: DefaultComponentProps<FlexBoxProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
@@ -167,8 +168,10 @@ const CardContent = forwardRef(
         wds-component="card-content"
         ref={ref}
         flexDirection="column"
+        flex="1"
         gap="4px"
         {...props}
+        sx={[{ overflow: 'hidden' }, sx]}
       />
     );
   },
@@ -176,27 +179,28 @@ const CardContent = forwardRef(
 
 CardContent.displayName = CARD_CONTENT_NAME;
 
-const CardExtraContent = forwardRef(
+const CardContentItem = forwardRef(
   (
     {
       sx,
       position,
       variant,
       ...props
-    }: DefaultComponentProps<CardExtraContentProps, 'div'>,
+    }: DefaultComponentProps<CardContentItemProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
       <FlexBox
         ref={ref}
+        wds-component="card-content-item"
         {...props}
-        sx={[cardExtraContentStyle({ position, variant }), sx]}
+        sx={[cardContentItemStyle({ position, variant }), sx]}
       />
     );
   },
 );
 
-CardExtraContent.displayName = CARD_EXTRA_CONTENT_NAME;
+CardContentItem.displayName = CARD_CONTENT_ITEM_NAME;
 
 const CardTitle = forwardRef(
   <E extends ElementType = 'span'>(
@@ -225,6 +229,7 @@ const CardCaption = forwardRef(
     return (
       <Typography
         ref={ref}
+        wds-component="card-caption"
         variant="label2"
         weight="medium"
         color="palette.label.alternative"
@@ -236,7 +241,32 @@ const CardCaption = forwardRef(
 
 CardCaption.displayName = CARD_CAPTION_NAME;
 
-const CardSkeleton = Card;
+const CardSkeleton = forwardRef(
+  <E extends ElementType = 'div'>(
+    {
+      platform = 'desktop',
+      width,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      sx,
+      ...props
+    }: PolymorphicProps<CardProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <FlexBox
+        ref={ref}
+        flexDirection="column"
+        gap="12px"
+        {...props}
+        sx={[cardSkeletonStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
+      />
+    );
+  },
+) as PolymorphicComponent<CardProps, 'div'>;
 
 CardSkeleton.displayName = CARD_SKELETON_NAME;
 
@@ -251,32 +281,39 @@ const CardThumbnailSkeleton = forwardRef(
 
 CardThumbnailSkeleton.displayName = CARD_THUMBNAIL_SKELETON_NAME;
 
-const CardExtraContentSkeleton = forwardRef(
+const CardContentItemSkeleton = forwardRef(
   (
-    props: DefaultComponentProps<SkeletonProps, 'div'>,
+    {
+      width = '48px',
+      height = '20px',
+      ...props
+    }: DefaultComponentProps<SkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
       <Skeleton
         ref={ref}
+        wds-component="card-content-item-skeleton"
         variant="rectangle"
         radius="3px"
-        width="48px"
-        height="20px"
+        width={width}
+        height={height}
         {...props}
       />
     );
   },
 );
 
-CardExtraContentSkeleton.displayName = CARD_EXTRA_CONTENT_SKELETON_NAME;
+CardContentItemSkeleton.displayName = CARD_CONTENT_ITEM_SKELETON_NAME;
 
 const CardTitleSkeleton = forwardRef(
   (
     props: DefaultComponentProps<SkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
-    return <Skeleton ref={ref} width="100%" height="24px" {...props} />;
+    return (
+      <Skeleton ref={ref} wds-component="card-title-skeleton" {...props} />
+    );
   },
 );
 
@@ -286,6 +323,8 @@ const CardCaptionSkeleton = forwardRef(
   (
     {
       type = 'normal',
+      width = type === 'normal' ? '25%' : '50%',
+      height = '18px',
       ...props
     }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
@@ -293,8 +332,10 @@ const CardCaptionSkeleton = forwardRef(
     return (
       <Skeleton
         ref={ref}
-        width={type === 'extra' ? '114px' : '57px'}
-        height={type === 'extra' ? '18px' : '16px'}
+        data-type={type}
+        wds-component="card-caption-skeleton"
+        width={width}
+        height={height}
         {...props}
       />
     );
@@ -310,10 +351,10 @@ export {
   CardContent,
   CardTitle,
   CardCaption,
-  CardExtraContent,
+  CardContentItem,
   CardSkeleton,
   CardThumbnailSkeleton,
-  CardExtraContentSkeleton,
+  CardContentItemSkeleton,
   CardTitleSkeleton,
   CardCaptionSkeleton,
 };

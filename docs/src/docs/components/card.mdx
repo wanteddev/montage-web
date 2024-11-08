@@ -6,14 +6,15 @@ description: Card Component
 # Card
 
 - 일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
-- leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸주세요.
-  - Card와 leftContent, rightContent 모두 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 Card의 이벤트 전파를 막을 수 있습니다.
+- `CardThumbnail`의 leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸 주세요.
+  - Card와 leftContent, rightContent에 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 이벤트 전파를 막을 수 있습니다.
 
-<Demo code={`import { ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+<Demo code={`import { useToast, ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
+  const toast = useToast();
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   return (
@@ -41,12 +42,11 @@ const Demo = () => {
               active={isBookmarked} 
               onActiveChange={setIsBookmarked} 
               activeColor="palette.primary.normal" 
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-
+              onClick={() => {
                 if (!isBookmarked) {
-                  alert('북마크에 저장되었습니다.');
+                  toast({ 
+                    content: '북마크에 저장되었습니다.',
+                  });
                 }
                 setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
               }}
@@ -78,10 +78,10 @@ export default Demo;`}
 <Card>
   <CardThumbnail />
   <CardContent>
-    <CardExtraContent/>
+    <CardContentItem />
     <CardTitle />
     <CardCaption />
-    <CardExtraContent />
+    <CardContentItem />
   </CardContent>
 </Card>
 ```
@@ -102,9 +102,9 @@ export default Demo;`}
 
 <PropsTable component="CardContent" />
 
-### CardExtraContent
+### CardContentItem
 
-<PropsTable component="CardExtraContent" />
+<PropsTable component="CardContentItem" />
 
 ### CardTitle
 
@@ -128,11 +128,11 @@ export default Demo;`}
 
 <PropsTable component="CardThumbnailSkeleton" />
 
-### CardExtraContentSkeleton
+### CardContentItemSkeleton
 
 `Skeleton`과 동일한 props를 사용해요.
 
-<PropsTable component="CardExtraContentSkeleton" />
+<PropsTable component="CardContentItemSkeleton" />
 
 ### CardTitleSkeleton
 
@@ -353,36 +353,36 @@ export default Demo;`}
 
 ### Top Content, Bottom Content
 
-- `CardExtraContent`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
+- `CardContentItem`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
 - 뱃지나 부가적인 내용을 추가할 때 사용해요.
 
-<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardExtraContent, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardContentItem, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnailSkeleton width="240px" />
+        <CardThumbnailSkeleton />
         <CardContent>
-          <CardExtraContent position="top" variant="badge">
+          <CardContentItem position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
               <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
             ))}
-          </CardExtraContent>
+          </CardContentItem>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
         </CardContent>
       </Card>
       <Card width="240px">
-        <CardThumbnailSkeleton width="152px" />
+        <CardThumbnailSkeleton />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
-          <CardExtraContent position="bottom" variant="badge">
+          <CardContentItem position="bottom" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
               <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
             ))}
-          </CardExtraContent>
+          </CardContentItem>
         </CardContent>
       </Card>
     </FlexBox>
@@ -396,58 +396,61 @@ export default Demo;`}
 
 Card의 형태에 따라 스켈레톤을 조합하여 사용해요.
 
-<Demo code={`import { Grid, GridItem, CardSkeleton, CardThumbnailSkeleton, CardContent, CardExtraContentSkeleton, CardExtraContent, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
+<Demo code={`import { Grid, GridItem, CardSkeleton, CardThumbnailSkeleton, CardContent, CardContentItemSkeleton, CardContentItem, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <Grid spacing={20} sx={{ maxWidth: '426px', margin: 'auto' }}>
       <GridItem columns={7}>
         <CardSkeleton>
-          <CardThumbnailSkeleton width="240px" />
+          <CardThumbnailSkeleton />
           <CardContent>
             <CardTitleSkeleton />
             <CardCaptionSkeleton />
           </CardContent>
         </CardSkeleton>
       </GridItem>
+
       <GridItem columns={5}>
         <CardSkeleton platform="mobile">
-          <CardThumbnailSkeleton width="152px" />
+          <CardThumbnailSkeleton />
           <CardContent>
             <CardTitleSkeleton />
             <CardCaptionSkeleton />
           </CardContent>
         </CardSkeleton>
       </GridItem>
+
       <GridItem columns={7}>
         <CardSkeleton>
-          <CardThumbnailSkeleton width="152px" />
+          <CardThumbnailSkeleton />
           <CardContent>
-            <CardExtraContent position="top">
-              <CardExtraContentSkeleton />
-            </CardExtraContent>
+            <CardContentItem position="top">
+              <CardContentItemSkeleton />
+            </CardContentItem>
             <CardTitleSkeleton />
             <CardCaptionSkeleton type="extra"/>
             <CardCaptionSkeleton />
-            <CardExtraContent position="bottom">
-              <CardExtraContentSkeleton />
-            </CardExtraContent>
+            <CardContentItem position="bottom">
+              <CardContentItemSkeleton />
+            </CardContentItem>
           </CardContent>
         </CardSkeleton>
       </GridItem>
+      
       <GridItem columns={5}>
         <CardSkeleton platform="mobile">
-          <CardThumbnailSkeleton width="152px" />
+          <CardThumbnailSkeleton />
           <CardContent>
-            <CardExtraContent position="top">
-              <CardExtraContentSkeleton />
-            </CardExtraContent>
+            <CardContentItem position="top">
+              <CardContentItemSkeleton />
+            </CardContentItem>
             <CardTitleSkeleton />
             <CardCaptionSkeleton type="extra"/>
             <CardCaptionSkeleton />
-            <CardExtraContent position="bottom">
-              <CardExtraContentSkeleton />
-            </CardExtraContent>
+            <CardContentItem position="bottom">
+              <CardContentItemSkeleton />
+            </CardContentItem>
           </CardContent>
         </CardSkeleton>
       </GridItem>
