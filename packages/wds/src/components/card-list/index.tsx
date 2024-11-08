@@ -12,6 +12,7 @@ import { Thumbnail } from '../thumbnail';
 import {
   CARD_LIST_CONTENT_NAME,
   CARD_LIST_NAME,
+  CARD_LIST_SKELETON_NAME,
   CARD_LIST_THUMBNAIL_NAME,
 } from './constants';
 import { cardListContentStyle, cardListStyle } from './style';
@@ -20,6 +21,7 @@ import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type {
   CardListContentProps,
   CardListProps,
+  CardListSkeletonProps,
   CardListThumbnailProps,
 } from './types';
 import type { ElementRef, ForwardedRef } from 'react';
@@ -121,4 +123,32 @@ const CardListContent = forwardRef(
 
 CardListContent.displayName = CARD_LIST_CONTENT_NAME;
 
-export { CardList, CardListThumbnail, CardListContent };
+const CardListSkeleton = forwardRef(
+  <E extends ElementType = 'div'>(
+    {
+      platform = 'desktop',
+      width,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      sx,
+      ...props
+    }: PolymorphicProps<CardListSkeletonProps, E>,
+    ref: ForwardedRef<ElementRef<E>>,
+  ) => {
+    return (
+      <FlexBox
+        ref={ref}
+        alignItems="center"
+        {...props}
+        sx={[cardListStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
+      />
+    );
+  },
+) as PolymorphicComponent<CardListSkeletonProps, 'div'>;
+
+CardListSkeleton.displayName = CARD_LIST_SKELETON_NAME;
+
+export { CardList, CardListThumbnail, CardListContent, CardListSkeleton };

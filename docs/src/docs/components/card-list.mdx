@@ -104,6 +104,10 @@ export default Demo;`}
 
 <PropsTable component="CardListContent" />
 
+### CardListSkeleton
+
+<PropsTable component="CardListSkeleton" />
+
 ## Examples
 
 ### Width
@@ -278,3 +282,60 @@ export default Demo;`}
 ### Skeleton
 
 CardList의 형태에 따라 스켈레톤을 조합하여 사용해요.
+
+<Demo code={`import { FlexBox, CardListSkeleton, CardThumbnailSkeleton, CardContent, CardExtraContentSkeleton, CardExtraContent, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <CardListSkeleton width="480px">
+        <CardThumbnailSkeleton width="120px" />
+        <CardContent>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton />
+        </CardContent>
+      </CardListSkeleton>
+
+      <CardListSkeleton width="480px">
+        <CardThumbnailSkeleton width="120px" />
+        <CardContent>
+          <CardExtraContent position="top">
+            <CardExtraContentSkeleton />
+          </CardExtraContent>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton variant="extra" />
+          <CardCaptionSkeleton />
+          <CardExtraContent position="top">
+            <CardExtraContentSkeleton />
+          </CardExtraContent>
+        </CardContent>
+      </CardListSkeleton>
+
+      <CardListSkeleton width="335px" platform="mobile">
+        <CardThumbnailSkeleton width="96px" />
+        <CardContent>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton />
+        </CardContent>
+      </CardListSkeleton>
+
+      <CardListSkeleton width="335px" platform="mobile">
+        <CardThumbnailSkeleton width="96px" />
+        <CardContent>
+          <CardExtraContent position="top">
+            <CardExtraContentSkeleton />
+          </CardExtraContent>
+          <CardTitleSkeleton />
+          <CardCaptionSkeleton variant="extra" />
+          <CardCaptionSkeleton />
+          <CardExtraContent position="top">
+            <CardExtraContentSkeleton />
+          </CardExtraContent>
+        </CardContent>
+      </CardListSkeleton>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>

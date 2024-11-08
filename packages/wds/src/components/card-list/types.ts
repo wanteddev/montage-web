@@ -19,3 +19,5 @@ export type CardListContentProps = Merge<
   CardListContentDefaultProps,
   FlexBoxProps
 >;
+
+export type CardListSkeletonProps = Merge<CardDefaultProps, FlexBoxProps>;
