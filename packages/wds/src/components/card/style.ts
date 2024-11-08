@@ -8,7 +8,7 @@ import {
 } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { CardExtraContentProps, CardProps } from './types';
+import type { CardContentItemProps, CardProps } from './types';
 
 const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
@@ -154,10 +154,10 @@ export const cardThumbnailOverlayStyle = (theme: Theme) => css`
   z-index: var(--wds-card-thumbnail-overlay-z-index);
 `;
 
-export const cardExtraContentStyle = ({
+export const cardContentItemStyle = ({
   variant,
   position,
-}: Pick<CardExtraContentProps, 'position' | 'variant'>) => css`
+}: Pick<CardContentItemProps, 'position' | 'variant'>) => css`
   gap: ${variant === 'badge' ? '6px' : 0};
 
   ${(() => {

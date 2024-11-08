@@ -88,10 +88,10 @@ export default Demo;`}
 <CardList>
   <CardListThumbnail />
   <CardContent>
-    <CardExtraContent/>
+    <CardContentItem />
     <CardTitle />
     <CardCaption />
-    <CardExtraContent />
+    <CardContentItem />
   </CardContent>
 </CardList>
 ```
@@ -225,10 +225,10 @@ export default Demo;`}
 
 ### Top Content, Bottom Content
 
-- `CardExtraContent`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
+- `CardContentItem`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
 - 뱃지나 부가적인 내용을 추가할 때 사용해요.
 
-<Demo code={`import { ContentBadge, FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardExtraContent, CardListContent } from '@wanteddev/wds';
+<Demo code={`import { ContentBadge, FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardContentItem, CardListContent } from '@wanteddev/wds';
 import { IconChevronRightTight } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -244,11 +244,11 @@ const Demo = () => {
       >
         <CardThumbnailSkeleton width="120px" />
         <CardContent>
-          <CardExtraContent position="top" variant="badge">
+          <CardContentItem position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
               <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
             ))}
-          </CardExtraContent>
+          </CardContentItem>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
         </CardContent>
@@ -265,11 +265,11 @@ const Demo = () => {
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
-          <CardExtraContent position="bottom" variant="badge">
+          <CardContentItem position="bottom" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
               <ContentBadge key={i} color="neutral">텍스트</ContentBadge>
             ))}
-          </CardExtraContent>
+          </CardContentItem>
         </CardContent>
       </CardList>
     </FlexBox>
@@ -283,7 +283,7 @@ export default Demo;`}
 
 CardList의 형태에 따라 스켈레톤을 조합하여 사용해요.
 
-<Demo code={`import { FlexBox, CardListSkeleton, CardThumbnailSkeleton, CardContent, CardExtraContentSkeleton, CardExtraContent, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, CardListSkeleton, CardThumbnailSkeleton, CardContent, CardContentItemSkeleton, CardContentItem, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -299,15 +299,15 @@ const Demo = () => {
       <CardListSkeleton width="480px">
         <CardThumbnailSkeleton width="120px" />
         <CardContent>
-          <CardExtraContent position="top">
-            <CardExtraContentSkeleton />
-          </CardExtraContent>
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
           <CardTitleSkeleton />
           <CardCaptionSkeleton variant="extra" />
           <CardCaptionSkeleton />
-          <CardExtraContent position="top">
-            <CardExtraContentSkeleton />
-          </CardExtraContent>
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
         </CardContent>
       </CardListSkeleton>
 
@@ -322,15 +322,15 @@ const Demo = () => {
       <CardListSkeleton width="335px" platform="mobile">
         <CardThumbnailSkeleton width="96px" />
         <CardContent>
-          <CardExtraContent position="top">
-            <CardExtraContentSkeleton />
-          </CardExtraContent>
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
           <CardTitleSkeleton />
           <CardCaptionSkeleton variant="extra" />
           <CardCaptionSkeleton />
-          <CardExtraContent position="top">
-            <CardExtraContentSkeleton />
-          </CardExtraContent>
+          <CardContentItem position="top">
+            <CardContentItemSkeleton />
+          </CardContentItem>
         </CardContent>
       </CardListSkeleton>
     </FlexBox>
