@@ -33,7 +33,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.1.0",
     "@commitlint/config-conventional": "^19.1.0",
-    "@figma/code-connect": "^1.0.1",
+    "@figma/code-connect": "^1.2.2",
     "@types/eslint": "^8.56.5",
     "@types/inquirer": "^9.0.7",
     "@types/react": "18.2.65",
