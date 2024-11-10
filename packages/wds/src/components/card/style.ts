@@ -132,11 +132,14 @@ export const cardStyle =
 
 export const cardThumbnailStyle = css`
   position: relative;
-  overflow: hidden;
 
-  img {
-    will-change: transform;
-    transition: transform 0.2s ease;
+  [wds-component='thumbnail'] {
+    overflow: hidden;
+
+    img {
+      will-change: transform;
+      transition: transform 0.2s ease;
+    }
   }
 `;
 

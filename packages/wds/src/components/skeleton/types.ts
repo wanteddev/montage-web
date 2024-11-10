@@ -14,6 +14,7 @@ type SkeletonDefaultProps = {
   color?: ThemeColorsToken;
   opacity?: ThemeOpacityToken;
   align?: 'left' | 'center' | 'right';
+  animation?: boolean;
 };
 
 type SkeletonResponsiveProps = ResponsiveProps<
