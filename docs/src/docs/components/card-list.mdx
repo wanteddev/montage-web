@@ -7,6 +7,7 @@ description: CardList Component
 
 - 표시할 양이 많은 정보를 묶어 표시할 때 사용합니다.
 - leftContent, rightContent에 요소를 추가 할 때는 `CardListContent` 로 감싸주세요.
+ - CardList와 leftContent, rightContent에 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 이벤트 전파를 막을 수 있습니다.
 
 <Demo code={`import { FlexBox, CardList, Checkbox, CardThumbnail, CardTitle, CardCaption, CardContent, Checkbox, CardListContent, ToggleIcon } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
@@ -54,7 +55,7 @@ const Demo = () => {
           rightContent={
             <CardListContent variant="toggle-icon">
               <ToggleIcon 
-                activeColor="palette.primary.normal" 
+                activeColor="palette.primary.normal"
               >
                 <IconBookmarkFill />
               </ToggleIcon>
@@ -228,20 +229,12 @@ export default Demo;`}
 - `CardContentItem`의 `position`을 조정하여 top, bottom에 콘텐츠를 추가할 수 있어요.
 - 뱃지나 부가적인 내용을 추가할 때 사용해요.
 
-<Demo code={`import { ContentBadge, FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardContentItem, CardListContent } from '@wanteddev/wds';
-import { IconChevronRightTight } from '@wanteddev/wds-icon';
+<Demo code={`import { ContentBadge, FlexBox, CardList, CardThumbnailSkeleton, CardTitle, CardCaption, CardContent, CardContentItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="16px">
-      <CardList
-        width="480px"
-        rightContent={
-          <CardListContent variant="icon">
-            <IconChevronRightTight />
-          </CardListContent>
-        }
-      >
+      <CardList width="480px">
         <CardThumbnailSkeleton />
         <CardContent>
           <CardContentItem position="top" variant="badge">
@@ -253,15 +246,8 @@ const Demo = () => {
           <CardCaption>캡션</CardCaption>
         </CardContent>
       </CardList>
-      <CardList
-        width="480px"
-        rightContent={
-          <CardListContent variant="icon">
-            <IconChevronRightTight />
-          </CardListContent>
-        }
-      >
-        <CardThumbnailSkeleton width="96px" />
+      <CardList width="480px">
+        <CardThumbnailSkeleton />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -310,7 +296,7 @@ const Demo = () => {
           <CardTitleSkeleton />
           <CardCaptionSkeleton type="extra" />
           <CardCaptionSkeleton />
-          <CardContentItem position="top">
+          <CardContentItem position="bottom">
             <CardContentItemSkeleton />
           </CardContentItem>
         </CardContent>
@@ -333,7 +319,7 @@ const Demo = () => {
         hasLeftContent 
         hasRightContent
       >
-        <CardThumbnailSkeleton width="96px" />
+        <CardThumbnailSkeleton />
         <CardContent>
           <CardContentItem position="top">
             <CardContentItemSkeleton />
@@ -341,7 +327,7 @@ const Demo = () => {
           <CardTitleSkeleton />
           <CardCaptionSkeleton type="extra" />
           <CardCaptionSkeleton />
-          <CardContentItem position="top">
+          <CardContentItem position="bottom">
             <CardContentItemSkeleton />
           </CardContentItem>
         </CardContent>

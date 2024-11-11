@@ -53,8 +53,15 @@ export const cardListStyle =
     max-width: 100%;
     ${cardListPlatformStyle({ platform })}
 
+    &:hover {
+      [wds-component='thumbnail'] img {
+        transform: scale(1.025);
+      }
+    }
+
     // thumbnail
-    [wds-component='thumbnail'], [wds-component='thumbnail-skeleton'] {
+    [wds-component='thumbnail'],
+    [wds-component='thumbnail-skeleton'] {
       aspect-ratio: 3 / 2;
     }
     // text
