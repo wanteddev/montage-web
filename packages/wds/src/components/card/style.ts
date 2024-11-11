@@ -20,9 +20,6 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
           width: 100%;
           aspect-ratio: 3 / 2;
         }
-        [data-role='card-thumbnail-overlay'] {
-          height: 32.5%;
-        }
         // thumbnail content
         [data-role='card-thumbnail-content-wrapper'] {
           padding: 14px;
@@ -58,9 +55,6 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
           width: 100%;
           aspect-ratio: 4 / 3;
         }
-        [data-role='card-thumbnail-overlay'] {
-          height: 35%;
-        }
         // thumbnail content
         [data-role='card-thumbnail-content-wrapper'] {
           padding: 10px;
@@ -91,7 +85,7 @@ export const cardStyle =
   ({ xs, sm, md, lg, xl, width, platform }: CardProps) =>
   (theme: Theme) => css`
     --wds-card-thumbnail-overlay-z-index: 1;
-    --wds-card-thumbnail-content-wrapper-z-index: 2;
+    --wds-card-thumbnail-content-z-index: 2;
 
     width: ${width ?? '100%'};
     ${cardPlatformStyle({ platform })}
@@ -143,12 +137,29 @@ export const cardThumbnailStyle = css`
   }
 `;
 
-export const cardThumbnailContentWrapperStyle = css`
+export const cardThumbnailContentWrapperStyle = (theme: Theme) => css`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  z-index: var(--wds-card-thumbnail-content-wrapper-z-index);
+
+  > * {
+    z-index: var(--wds-card-thumbnail-content-z-index);
+  }
+
+  // overlay
+  &::before {
+    ${gradient(theme.palette.static.black, 'bottom')}
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    opacity: ${theme.opacity[35]};
+    z-index: var(--wds-card-thumbnail-overlay-z-index);
+  }
 `;
 
 export const cardThumbnailContentTextStyle = (theme: Theme) => css`
@@ -159,16 +170,6 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
   button[aria-pressed='false'] {
     color: ${theme.palette.static.white};
   }
-`;
-
-export const cardThumbnailOverlayStyle = (theme: Theme) => css`
-  ${gradient(theme.palette.static.black, 'bottom')}
-  position: absolute;
-  top: 0;
-  width: 100%;
-  border-radius: 12px;
-  opacity: ${theme.opacity[35]};
-  z-index: var(--wds-card-thumbnail-overlay-z-index);
 `;
 
 export const cardContentItemStyle = ({

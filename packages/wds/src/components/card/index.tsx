@@ -32,7 +32,6 @@ import {
   cardThumbnailContentTextStyle,
   cardThumbnailContentToggleIconStyle,
   cardThumbnailContentWrapperStyle,
-  cardThumbnailOverlayStyle,
   cardThumbnailStyle,
 } from './style';
 
@@ -80,19 +79,13 @@ const Card = forwardRef(
 Card.displayName = CARD_NAME;
 
 const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
-  ({ overlay, leftContent, rightContent, width, sx, ...props }, ref) => {
+  ({ leftContent, rightContent, width, sx, ...props }, ref) => {
     const hasLeftContent = Boolean(leftContent);
     const hasRightContent = Boolean(rightContent);
     const hasContent = hasLeftContent || hasRightContent;
 
     return (
       <Box ref={ref} {...props} sx={[cardThumbnailStyle, sx]}>
-        {overlay && (
-          <Box
-            data-role="card-thumbnail-overlay"
-            sx={cardThumbnailOverlayStyle}
-          />
-        )}
         {hasContent && (
           <FlexBox
             gap="4px"
