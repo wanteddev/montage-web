@@ -56,7 +56,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     border-bottom: 1px solid ${theme.palette.line.normal.normal};
   }
 
-  ol,
+  ol:not([class]),
   ul:not([class]) {
     list-style-type: disc;
     padding-left: 24px;
@@ -67,8 +67,8 @@ export const mdxRootStyle = (theme: Theme) => css`
     margin-top: 24px;
     margin-bottom: 24px;
 
-    ul,
-    ol,
+    ul:not([class]),
+    ol:not([class]),
     p {
       margin-top: 0;
       margin-bottom: 0;

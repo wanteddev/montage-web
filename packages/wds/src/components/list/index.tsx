@@ -263,7 +263,7 @@ const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
       padding = 'normal',
-      paddingInset = false,
+      fillWidth = false,
       divider,
       children,
       disabled,
@@ -285,7 +285,7 @@ const ListCell = forwardRef(
           disabled={disabled}
           {...props}
           sx={[
-            listCellStyle({ padding, paddingInset, xs, sm, md, lg, xl }),
+            listCellStyle({ padding, fillWidth, xs, sm, md, lg, xl }),
             props.sx,
           ]}
         >
