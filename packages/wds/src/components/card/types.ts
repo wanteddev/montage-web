@@ -20,7 +20,6 @@ export type CardThumbnailBasicProps = Merge<
   ComponentPropsWithoutRef<typeof ImageLoader>
 >;
 export type CardThumbnailDefaultProps = {
-  overlay?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
 };

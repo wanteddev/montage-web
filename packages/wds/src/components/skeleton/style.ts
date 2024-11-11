@@ -1,4 +1,4 @@
-import { css, getColorByToken } from '@wanteddev/wds-engine';
+import { css, getColorByToken, keyframes } from '@wanteddev/wds-engine';
 import objectPath from 'object-path';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
@@ -6,36 +6,67 @@ import { createResponsiveStyle } from '../../utils/responsive-props';
 import type { SkeletonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
+const pulse = (opacity: Theme['opacity']) => keyframes`
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: ${opacity};
+  }
+  100% {
+    opacity: 0.5;
+  }
+`;
+
 export const skeletonStyle =
-  ({ xs, sm, md, lg, xl, ...props }: SkeletonProps) =>
-  (theme: Theme) => css`
-    position: relative;
-    flex-shrink: 0;
-    width: 100%;
+  ({
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+    animation,
+    opacity: opacityProp = 'opacity.100',
+    ...props
+  }: SkeletonProps) =>
+  (theme: Theme) => {
+    const opacity = objectPath.get(theme, opacityProp) as Theme['opacity'];
 
-    & > span {
-      border-radius: inherit;
-      display: block;
+    return css`
+      position: relative;
+      flex-shrink: 0;
       width: 100%;
-      height: 100%;
-    }
 
-    ${skeletonVariantStyle(props, theme)}
-    ${skeletonSizeStyle(props)}
+      ${animation &&
+      css`
+        animation: ${pulse(opacity)} 1s ease-in-out infinite;
+      `}
+
+      & > span {
+        border-radius: inherit;
+        display: block;
+        width: 100%;
+        height: 100%;
+        opacity: ${opacity};
+      }
+
+      ${skeletonVariantStyle(props, theme)}
+      ${skeletonSizeStyle(props)}
 
     ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${skeletonSizeStyle({
-          ...params,
-          variant: props.variant,
-        })}
-        ${params?.sx}
-      `,
-    )}
-  `;
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${skeletonSizeStyle({
+            ...params,
+            variant: props.variant,
+          })}
+          ${params?.sx}
+        `,
+      )}
+    `;
+  };
 
 const skeletonSizeStyle = ({
   variant,
@@ -74,15 +105,11 @@ const skeletonVariantStyle = (
     variant,
     align,
     color: colorProp,
-    opacity: opacityProp,
     radius = 'initial',
-  }: Pick<SkeletonProps, 'variant' | 'radius' | 'opacity' | 'align' | 'color'>,
+  }: Pick<SkeletonProps, 'variant' | 'radius' | 'align' | 'color'>,
   theme: Theme,
 ) => {
   const color = colorProp ? getColorByToken(theme, colorProp) : colorProp;
-  const opacity = opacityProp
-    ? objectPath.get(theme, opacityProp)
-    : opacityProp;
 
   switch (variant) {
     case 'text':
@@ -95,7 +122,6 @@ const skeletonVariantStyle = (
         & > span {
           display: inline-block;
           background-color: ${color ?? theme.palette.fill.normal};
-          opacity: ${opacity};
         }
       `;
     case 'rectangle':
@@ -104,7 +130,6 @@ const skeletonVariantStyle = (
 
         & > span {
           background-color: ${color ?? theme.palette.fill.alternative};
-          opacity: ${opacity};
         }
       `;
     case 'circle':
@@ -113,7 +138,6 @@ const skeletonVariantStyle = (
 
         & > span {
           background-color: ${color ?? theme.palette.fill.normal};
-          opacity: ${opacity};
         }
       `;
   }
