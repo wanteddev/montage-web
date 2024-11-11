@@ -241,9 +241,8 @@ const SegmentControlItem = forwardRef(
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (event.key === 'Enter') event.preventDefault();
           })}
-          onClick={composeEventHandlers(props.onClick, (e) => {
+          onClick={composeEventHandlers(props.onClick, () => {
             context.onValueChange(value);
-            console.log(e.target, e.currentTarget, e.relatedTarget);
           })}
           onFocus={composeEventHandlers(props.onFocus, (e) => {
             if (isArrowKeyPressedRef.current) {
