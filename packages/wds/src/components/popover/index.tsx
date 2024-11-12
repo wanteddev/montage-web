@@ -66,7 +66,7 @@ const PopoverTrigger = forwardRef<
         id={triggerId}
         ref={ref}
         onClick={composeEventHandlers(props.onClick, (e) => {
-          if (!open && e.currentTarget.ariaDisabled !== 'true') {
+          if (!open && e.currentTarget.ariaDisabled?.toString() !== 'true') {
             onOpenChange(true);
           }
         })}
