@@ -65,23 +65,22 @@ export const listCellStyle =
 
 const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
   switch (padding) {
-    case false:
+    case '0px':
       return css`
         padding-top: 0px;
         padding-bottom: 0px;
       `;
-    case 'small':
+    case '8px':
       return css`
         padding-top: 8px;
         padding-bottom: 8px;
       `;
-    case 'medium':
+    case '16px':
       return css`
         padding-top: 16px;
         padding-bottom: 16px;
       `;
-    case 'normal':
-    default:
+    case '12px':
       return css`
         padding-top: 12px;
         padding-bottom: 12px;

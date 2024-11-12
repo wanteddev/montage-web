@@ -262,7 +262,7 @@ ListItemContent.displayName = LIST_ITEM_CONTENT_NAME;
 const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
-      padding = 'normal',
+      padding = '12px',
       fillWidth = false,
       divider,
       children,
