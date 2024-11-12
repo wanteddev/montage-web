@@ -29,15 +29,15 @@ export type ListItemContentProps = {
 };
 
 export type ListCellDefaultProps = {
-  padding?: 'normal' | 'small' | 'medium';
-  paddingInset?: boolean;
+  padding?: 'normal' | 'small' | 'medium' | false;
+  fillWidth?: boolean;
   divider?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
 };
 
 export type ListCellResponsiveProps = ResponsiveProps<
-  Pick<ListCellDefaultProps, 'padding' | 'paddingInset'>
+  Pick<ListCellDefaultProps, 'padding' | 'fillWidth'>
 >;
 
 export type ListCellProps = Merge<
