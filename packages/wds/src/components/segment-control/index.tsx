@@ -100,7 +100,7 @@ const SegmentControl = forwardRef<
         ...(isValueChanged.current
           ? {
               transitionProperty: 'inset',
-              transitionDuration: '400ms',
+              transitionDuration: '500ms',
               transitionTimingFunction: 'cubic-bezier(0.25, 1.25, 0.4, 0.99)',
             }
           : {}),
