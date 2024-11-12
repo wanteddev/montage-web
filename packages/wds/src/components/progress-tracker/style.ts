@@ -8,6 +8,12 @@ export const progressTrackerWrapperStyle = css`
   width: 100%;
   height: fit-content;
   position: relative;
+
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 `;
 
 export const progressTrackerItemStyle = (
