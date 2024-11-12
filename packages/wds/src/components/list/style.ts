@@ -44,12 +44,12 @@ export const listTextStyle = css`
 `;
 
 export const listCellStyle =
-  ({ padding, paddingInset, xs, sm, md, lg, xl }: ListCellProps) =>
+  ({ padding, fillWidth, xs, sm, md, lg, xl }: ListCellProps) =>
   (theme: Theme) => css`
     border-radius: 12px;
 
     ${listCellPaddingStyle({ padding })}
-    ${listCellPaddingInsetStyle({ paddingInset })}
+    ${listCellFillWidthStyle({ fillWidth })}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -57,7 +57,7 @@ export const listCellStyle =
     )(
       (params) => css`
         ${listCellPaddingStyle({ padding: params?.padding })}
-        ${listCellPaddingInsetStyle({ paddingInset: params?.paddingInset })}
+        ${listCellFillWidthStyle({ fillWidth: params?.fillWidth })}
         ${params?.sx}
       `,
     )}
@@ -65,6 +65,11 @@ export const listCellStyle =
 
 const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
   switch (padding) {
+    case false:
+      return css`
+        padding-top: 0px;
+        padding-bottom: 0px;
+      `;
     case 'small':
       return css`
         padding-top: 8px;
@@ -84,10 +89,10 @@ const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
   }
 };
 
-const listCellPaddingInsetStyle = ({
-  paddingInset,
-}: Pick<ListCellProps, 'paddingInset'>) => {
-  switch (paddingInset) {
+const listCellFillWidthStyle = ({
+  fillWidth,
+}: Pick<ListCellProps, 'fillWidth'>) => {
+  switch (fillWidth) {
     case true:
       return css`
         padding-right: 20px;
