@@ -106,13 +106,11 @@ const SegmentControl = forwardRef<
           : {}),
       });
 
-      nextElement.style.boxShadow = 'none';
-      nextElement.style.backgroundColor = 'transparent';
+      nextElement.removeAttribute('data-ssr-motion');
       isValueChanged.current = false;
 
       requestAnimationFrame(() => {
-        currentElement?.style.removeProperty('transparent');
-        currentElement?.style.removeProperty('boxShadow');
+        currentElement?.removeAttribute('data-ssr-motion');
       });
     }, [node, variant, value]);
 
@@ -219,7 +217,6 @@ const SegmentControlItem = forwardRef(
           ref={composedRefs}
           flex="1 1 0"
           data-value={value}
-          data-active={active}
           aria-disabled={disabled}
           alignItems="center"
           justifyContent="center"
@@ -228,6 +225,8 @@ const SegmentControlItem = forwardRef(
           {...props}
           disabled={disabled}
           wds-component="segment-control-item"
+          data-active={active}
+          data-ssr-motion={active}
           sx={[
             segmentControlItemStyle({
               size,

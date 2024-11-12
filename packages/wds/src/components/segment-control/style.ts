@@ -97,9 +97,23 @@ const segmentControlSizeStyle = ({ size, variant }: SegmentControlProps) => {
 
 export const motionThumbStyle = (theme: Theme) => css`
   position: absolute;
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${addOpacity(
+    theme.palette.static.white,
+    theme.opacity[28],
+  )};
   box-shadow: 0px 0px 4px 0px
     ${addOpacity(theme.palette.static.black, theme.opacity[8])};
+
+  &::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    border-radius: inherit;
+    background-color: ${theme.palette.background.elevated.normal};
+  }
 `;
 
 type SegmentControlItemStyleProps = {
@@ -250,9 +264,28 @@ const segmentControlItemActiveStyle = (
 
         &[data-active='true'] {
           color: ${theme.palette.label.normal};
-          background-color: ${theme.palette.background.elevated.normal};
-          box-shadow: 0px 0px 4px 0px
-            ${addOpacity(theme.palette.static.black, theme.opacity[8])};
+
+          &[data-ssr-motion='true'] {
+            box-shadow: 0px 0px 4px 0px
+              ${addOpacity(theme.palette.static.black, theme.opacity[8])};
+            background-color: ${theme.palette.background.elevated.normal};
+            position: relative;
+
+            &::before {
+              content: '';
+              width: 100%;
+              height: 100%;
+              left: 0px;
+              top: 0px;
+              position: absolute;
+              border-radius: inherit;
+              background-color: ${addOpacity(
+                theme.palette.static.white,
+                theme.opacity[28],
+              )};
+              z-index: -1;
+            }
+          }
         }
       `;
     case 'outlined':
