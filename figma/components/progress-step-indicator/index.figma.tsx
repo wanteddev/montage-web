@@ -8,8 +8,8 @@ import {
 figma.connect(ProgressStepIndicator, '<FIGMA_PROGRESS_STEP_INDICATOR>', {
   props: {
     size: figma.enum('Size', {
-      Medium: 'small',
-      Large: 'medium',
+      Small: 'small',
+      Medium: 'medium',
     }),
     divider: figma.boolean('Divider'),
   },
