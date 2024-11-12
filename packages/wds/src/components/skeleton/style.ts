@@ -6,12 +6,12 @@ import { createResponsiveStyle } from '../../utils/responsive-props';
 import type { SkeletonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-const pulse = (opacity: Theme['opacity']) => keyframes`
+const pulse = keyframes`
   0% {
     opacity: 0.5;
   }
   50% {
-    opacity: ${opacity};
+    opacity: 1;
   }
   100% {
     opacity: 0.5;
@@ -39,7 +39,7 @@ export const skeletonStyle =
 
       ${animation &&
       css`
-        animation: ${pulse(opacity)} 1s ease-in-out infinite;
+        animation: ${pulse} 2s ease-in-out infinite;
       `}
 
       & > span {
