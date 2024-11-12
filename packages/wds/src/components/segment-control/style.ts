@@ -97,10 +97,7 @@ const segmentControlSizeStyle = ({ size, variant }: SegmentControlProps) => {
 
 export const motionThumbStyle = (theme: Theme) => css`
   position: absolute;
-  background-color: ${addOpacity(
-    theme.palette.static.white,
-    theme.opacity[28],
-  )};
+  background-color: ${theme.palette.background.elevated.normal};
   box-shadow: 0px 0px 4px 0px
     ${addOpacity(theme.palette.static.black, theme.opacity[8])};
 
@@ -112,7 +109,10 @@ export const motionThumbStyle = (theme: Theme) => css`
     top: 0px;
     position: absolute;
     border-radius: inherit;
-    background-color: ${theme.palette.background.elevated.normal};
+    background-color: ${addOpacity(
+      theme.palette.static.white,
+      theme.opacity[28],
+    )};
   }
 `;
 
@@ -268,8 +268,11 @@ const segmentControlItemActiveStyle = (
           &[data-ssr-motion='true'] {
             box-shadow: 0px 0px 4px 0px
               ${addOpacity(theme.palette.static.black, theme.opacity[8])};
-            background-color: ${theme.palette.background.elevated.normal};
             position: relative;
+            background-color: ${addOpacity(
+              theme.palette.static.white,
+              theme.opacity[28],
+            )};
 
             &::before {
               content: '';
@@ -279,10 +282,8 @@ const segmentControlItemActiveStyle = (
               top: 0px;
               position: absolute;
               border-radius: inherit;
-              background-color: ${addOpacity(
-                theme.palette.static.white,
-                theme.opacity[28],
-              )};
+              background-color: ${theme.palette.background.elevated.normal};
+
               z-index: -1;
             }
           }
