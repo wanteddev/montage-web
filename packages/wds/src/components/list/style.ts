@@ -51,6 +51,11 @@ export const listCellStyle =
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
 
+
+    & > [wds-component='with-interaction'] {
+      display: var(--wds-list-cell-interaction-display, block);
+    }
+
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
@@ -69,21 +74,29 @@ const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
       return css`
         padding-top: 0px;
         padding-bottom: 0px;
+
+        --wds-list-cell-interaction-display: none;
       `;
     case '8px':
       return css`
         padding-top: 8px;
         padding-bottom: 8px;
+
+        --wds-list-cell-interaction-display: block;
       `;
     case '16px':
       return css`
         padding-top: 16px;
         padding-bottom: 16px;
+
+        --wds-list-cell-interaction-display: block;
       `;
     case '12px':
       return css`
         padding-top: 12px;
         padding-bottom: 12px;
+
+        --wds-list-cell-interaction-display: block;
       `;
   }
 };
@@ -139,4 +152,23 @@ export const listItemContentStyle = css`
   [wds-component='with-interaction'] {
     z-index: 1;
   }
+`;
+
+export const listItemContentPaddingStyle = css`
+  flex-shrink: 0;
+  width: fit-content;
+  height: fit-content;
+  padding-right: 8px;
+`;
+
+export const listItemContentLargeIconStyle = (theme: Theme) => css`
+  flex-shrink: 0;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 12px;
+  padding: 8px;
+  margin-right: 8px;
+  color: ${theme.palette.primary.normal};
+  background-color: ${theme.palette.fill.normal};
+  font-size: 32px;
 `;

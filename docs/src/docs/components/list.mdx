@@ -152,15 +152,44 @@ export default Demo;`}
 
 기본적으로 leftContent, rightContent는 `ListItemContent` 로 래핑해서 사용해요.
 
-<Demo code={`import { List, ListCell, ListText, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
-import { IconPlusThick, IconApps } from '@wanteddev/wds-icon';
+<Demo code={`import { Avatar, List, ListCell, ListText, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+import { IconPlusThick, IconApps, IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
       <ListCell
+        leftContent={
+          <ListItemContent variant="avatar">
+            <Avatar variant="person" size="medium" />
+          </ListItemContent>
+        }
+        alignItems="center"
+      >
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell
+        leftContent={
+          <ListItemContent variant="large-icon">
+            <IconBlank  />
+          </ListItemContent>
+        }
+        alignItems="center"
+      >
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent variant="chevron" chevron>
+          <ListItemContent variant="chevron">
+            값
+          </ListItemContent>
+        }
+      >
+        <ListText>텍스트</ListText>
+      </ListCell>
+      <ListCell
+        rightContent={
+          <ListItemContent variant="chevron" chevron={false}>
             값
           </ListItemContent>
         }

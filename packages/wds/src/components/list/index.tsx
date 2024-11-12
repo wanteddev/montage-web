@@ -23,6 +23,8 @@ import {
 import {
   listCellDividerStyle,
   listCellStyle,
+  listItemContentLargeIconStyle,
+  listItemContentPaddingStyle,
   listItemContentStyle,
   listItemStyle,
   listStyle,
@@ -152,7 +154,7 @@ ListItem.displayName = LIST_ITEM_NAME;
 const ListItemContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ListItemContentProps, 'div'>
->(({ variant = 'custom', children, chevron, ...props }, ref) => {
+>(({ variant = 'custom', children, chevron = true, ...props }, ref) => {
   switch (variant) {
     case 'icon':
       return (
@@ -201,6 +203,30 @@ const ListItemContent = forwardRef<
           {children}
         </FlexBox>
       );
+    case 'large-icon':
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref}
+          alignItems="center"
+          {...props}
+          sx={[listItemContentLargeIconStyle, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+    case 'avatar':
+      return (
+        <FlexBox
+          wds-component="list-item-content"
+          ref={ref}
+          alignItems="center"
+          {...props}
+          sx={[listItemContentPaddingStyle, props.sx]}
+        >
+          {children}
+        </FlexBox>
+      );
     case 'button':
       return (
         <FlexBox
@@ -227,9 +253,14 @@ const ListItemContent = forwardRef<
           {...props}
           sx={[listItemContentStyle, props.sx]}
         >
-          <Typography variant="body1_normal" color="palette.label.alternative">
-            {children}
-          </Typography>
+          {Boolean(children) && (
+            <Typography
+              variant="body1_normal"
+              color="palette.label.alternative"
+            >
+              {children}
+            </Typography>
+          )}
 
           {chevron && (
             <IconChevronRightTightSmall

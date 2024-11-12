@@ -23,6 +23,8 @@ export type ListItemContentProps = {
     | 'button'
     | 'switch'
     | 'badge'
+    | 'avatar'
+    | 'large-icon'
     | 'custom';
   disabled?: boolean;
   chevron?: boolean;
