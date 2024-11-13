@@ -118,12 +118,11 @@ export const routes: Array<Route> = [
       {
         title: 'ProgressIndicator',
         slug: '/docs/components/progress-indicator',
-        alpha: true,
       },
       {
         title: 'ProgressStepIndicator',
         slug: '/docs/components/progress-step-indicator',
-        alpha: true,
+        deprecated: true,
       },
       {
         title: 'ProgressTracker',
