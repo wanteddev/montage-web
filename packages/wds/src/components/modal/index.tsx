@@ -168,7 +168,7 @@ const ModalContainer = forwardRef<
   (
     {
       variant = 'popup',
-      size = 'medium-fixed',
+      size = variant === 'popup' ? 'medium-fixed' : 'normal-fixed',
       handle,
       xs,
       sm,
