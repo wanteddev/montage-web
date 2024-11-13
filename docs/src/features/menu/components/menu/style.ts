@@ -3,7 +3,7 @@ import { css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const menuWrapperStyle = (theme: Theme) => css`
-  width: 250px;
+  width: 280px;
   flex-shrink: 0;
   padding-top: 20px;
   top: calc(var(--header-height) + 20px);

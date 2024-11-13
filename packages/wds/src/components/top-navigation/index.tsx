@@ -181,7 +181,7 @@ const TopNavigationButton = forwardRef(
       children,
       variant = 'icon',
       alternative,
-      background = true,
+      background = false,
       ...props
     }: PolymorphicProps<TopNavigationButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,

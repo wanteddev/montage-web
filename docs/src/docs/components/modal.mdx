@@ -8,7 +8,6 @@ description: Modal Component
 ## 활용
 
 - Modal Overlay를 표시합니다.
-- padding 등을 커스텀 할 땐 css 변수를 활용해주세요.
 - `huge` 사이즈는 560px를 초과해서 사용하고 싶을 때 활용해요.
   - 640, 720, 800 같이 80px 단위로 끊어서 사용해요.
 - `ModalNavigation` 에서 leftContent, rightContent 에는 `ModalNavigationButton`, `ModalClose` 를 사용합니다.
@@ -305,7 +304,7 @@ const Demo = () => {
               제목
             </ModalNavigation>
 
-            <ModalContent padding paddingInfo>
+            <ModalContent>
               <ModalContentItem>
                 <Controller
                   control={form.control}

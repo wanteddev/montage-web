@@ -489,7 +489,11 @@ ModalNavigationButton.displayName = MODAL_NAVIGATION_BUTTON_NAME;
 
 const ModalClose = forwardRef(
   <E extends ElementType = 'button'>(
-    { children, ...props }: PolymorphicProps<TopNavigationButtonProps, E>,
+    {
+      children,
+      background = false,
+      ...props
+    }: PolymorphicProps<TopNavigationButtonProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { onOpenChange } = useModalNavigationContext(MODAL_CLOSE_NAME);
@@ -498,10 +502,11 @@ const ModalClose = forwardRef(
     return (
       <TopNavigationButton
         {...props}
+        background={background}
         onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
         ref={ref}
       >
-        {children ?? getDefaultCloseIcon(navigationVariant)}
+        {children ?? getDefaultCloseIcon(navigationVariant, background)}
       </TopNavigationButton>
     );
   },
@@ -512,36 +517,49 @@ ModalClose.displayName = MODAL_CLOSE_NAME;
 const ModalContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ModalContentProps, 'div'>
->(({ gap, xs, sm, md, lg, xl, ...props }, ref) => {
-  return (
-    <Box
-      sx={{
-        height: 'max-content',
-        width: '100%',
-        flex: '1',
-      }}
-    >
-      <FlexBox
-        ref={ref}
-        as="div"
-        wds-component="modal-content"
-        flexDirection="column"
-        {...props}
-        sx={[
-          modalContentStyle({
-            gap,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          }),
-          props.sx,
-        ]}
-      />
-    </Box>
-  );
-});
+>(
+  (
+    {
+      gap = 'calc(var(--wds-modal-content-margin, 20px))',
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <Box
+        sx={{
+          height: 'max-content',
+          width: '100%',
+          flex: '1',
+        }}
+      >
+        <FlexBox
+          ref={ref}
+          as="div"
+          wds-component="modal-content"
+          flexDirection="column"
+          {...props}
+          sx={[
+            modalContentStyle({
+              gap,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            props.sx,
+          ]}
+        />
+      </Box>
+    );
+  },
+);
 
 ModalContent.displayName = 'ModalContent';
 
