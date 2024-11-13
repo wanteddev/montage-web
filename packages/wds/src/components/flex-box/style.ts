@@ -35,10 +35,20 @@ const flexibleStyle = ({
   alignSelf,
   flexBasis,
   gap,
+  rowGap,
+  columnGap,
 }: FlexBoxDefaultProps = {}) => css`
   ${gap !== undefined &&
   css`
     gap: ${gap};
+  `}
+  ${rowGap !== undefined &&
+  css`
+    row-gap: ${rowGap};
+  `}
+    ${columnGap !== undefined &&
+  css`
+    column-gap: ${columnGap};
   `}
   ${flexDirection !== undefined &&
   css`

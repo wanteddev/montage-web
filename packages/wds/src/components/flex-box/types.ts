@@ -14,6 +14,8 @@ export type FlexBoxDefaultProps = {
   flexBasis?: CSSProperties['flexBasis'];
   alignSelf?: CSSProperties['alignSelf'];
   gap?: CSSProperties['gap'];
+  rowGap?: CSSProperties['rowGap'];
+  columnGap?: CSSProperties['columnGap'];
 };
 
 type FlexBoxResponsiveProps = ResponsiveProps<FlexBoxDefaultProps>;
