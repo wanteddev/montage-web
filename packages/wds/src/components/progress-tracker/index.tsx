@@ -1,11 +1,12 @@
 'use client';
-import { forwardRef, useCallback, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useMemo } from 'react';
 import { IconCheckThick } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
 import Typography from '../typography';
 import FlexBox from '../flex-box';
+import { findComponentInChildren } from '../../utils/children';
 
 import {
   progressCircleStyle,
@@ -33,32 +34,26 @@ const ProgressTracker = forwardRef<
       defaultProp: defaultValue,
       onChange: onValueChange,
     });
-    const [steps, setSteps] = useState<Array<string>>([]);
+
+    const steps = useMemo(() => {
+      return findComponentInChildren<ProgressTrackerItemProps>(
+        children,
+        'isProgressTrackerItem',
+      );
+    }, [children]);
 
     return (
       <ProgressTrackerProvider
         value={value}
         onValueChange={setValue}
         steps={steps}
-        onStepAdd={useCallback(
-          (step: string) => {
-            setSteps((prev) => [...prev, step]);
-          },
-          [setSteps],
-        )}
         getTotalLength={useCallback(() => steps.length, [steps])}
-        onStepRemove={useCallback(
-          (step: string) => {
-            setSteps((prev) => prev.filter((cur) => cur !== step));
-          },
-          [setSteps],
-        )}
         getStepIndex={useCallback(
-          (step: string) => steps.findIndex((cur) => cur === step),
+          (step: string) => steps.findIndex((cur) => cur.value === step),
           [steps],
         )}
         getActiveStepIndex={useCallback(
-          () => steps.findIndex((cur) => cur === value),
+          () => steps.findIndex((cur) => cur.value === value),
           [steps, value],
         )}
       >
@@ -86,8 +81,6 @@ const ProgressTrackerItem = forwardRef<
 >(({ value, ...props }, ref) => {
   const {
     value: contextValue,
-    onStepAdd,
-    onStepRemove,
     getStepIndex,
     getActiveStepIndex,
     getTotalLength,
@@ -101,12 +94,6 @@ const ProgressTrackerItem = forwardRef<
 
   const isFirst = index === 0;
   const isLast = index === getTotalLength() - 1;
-
-  useEffect(() => {
-    onStepAdd(value);
-
-    return () => onStepRemove(value);
-  }, [onStepAdd, onStepRemove, value]);
 
   return (
     <>
@@ -149,5 +136,8 @@ const ProgressTrackerItem = forwardRef<
 });
 
 ProgressTrackerItem.displayName = PROGRESS_TRACKER_ITEM_NAME;
+
+// @ts-expect-error
+ProgressTrackerItem.isProgressTrackerItem = true;
 
 export { ProgressTracker, ProgressTrackerItem };

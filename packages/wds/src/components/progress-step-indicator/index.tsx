@@ -1,7 +1,9 @@
 'use client';
-import { forwardRef, useCallback, useEffect, useState } from 'react';
+import { forwardRef, useCallback, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
+
+import { findComponentInChildren } from '../../utils/children';
 
 import {
   progressListStyle,
@@ -18,12 +20,14 @@ import {
 } from './constants';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { CSSProperties } from 'react';
 import type {
   ProgressStepIndicatorItemProps,
   ProgressStepIndicatorProps,
 } from './types';
 
+/**
+ * @deprecated
+ */
 const ProgressStepIndicator = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ProgressStepIndicatorProps, 'div'>
@@ -50,31 +54,25 @@ const ProgressStepIndicator = forwardRef<
       defaultProp: defaultValue,
       onChange: onValueChange,
     });
-    const [steps, setSteps] = useState<Array<string>>([]);
+
+    const steps = useMemo(() => {
+      return findComponentInChildren<ProgressStepIndicatorItemProps>(
+        children,
+        'isProgressStepIndicatorItem',
+      );
+    }, [children]);
 
     return (
       <ProgressStepIndicatorProvider
         value={value}
         onValueChange={setValue}
         steps={steps}
-        onStepAdd={useCallback(
-          (step: string) => {
-            setSteps((prev) => [...prev, step]);
-          },
-          [setSteps],
-        )}
-        onStepRemove={useCallback(
-          (step: string) => {
-            setSteps((prev) => prev.filter((cur) => cur !== step));
-          },
-          [setSteps],
-        )}
         getStepIndex={useCallback(
-          (step: string) => steps.findIndex((cur) => cur === step),
+          (step: string) => steps.findIndex((cur) => cur.value === step),
           [steps],
         )}
         getActiveStepIndex={useCallback(
-          () => steps.findIndex((cur) => cur === value),
+          () => steps.findIndex((cur) => cur.value === value),
           [steps, value],
         )}
       >
@@ -87,12 +85,6 @@ const ProgressStepIndicator = forwardRef<
             progressStepWrapperStyle({ size, divider, xs, sm, md, lg, xl }),
             props.sx,
           ]}
-          style={
-            {
-              ...props.style,
-              '--wds-progress-step-indicator-width': `calc(100% / ${steps.length})`,
-            } as CSSProperties
-          }
         >
           <Box as="ol" sx={progressListWrapperStyle}>
             {children}
@@ -105,14 +97,15 @@ const ProgressStepIndicator = forwardRef<
 
 ProgressStepIndicator.displayName = PROGRESS_STEP_INDICATOR_NAME;
 
+/**
+ * @deprecated
+ */
 const ProgressStepIndicatorItem = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<ProgressStepIndicatorItemProps, 'li'>
 >(({ value, ...props }, ref) => {
   const {
     value: contextValue,
-    onStepAdd,
-    onStepRemove,
     getStepIndex,
     getActiveStepIndex,
   } = useProgressStepIndicatorContext(PROGRESS_STEP_INDICATOR_ITEM_NAME);
@@ -121,31 +114,25 @@ const ProgressStepIndicatorItem = forwardRef<
   const index = getStepIndex(value);
   const activeIndex = getActiveStepIndex();
 
-  useEffect(() => {
-    onStepAdd(value);
-
-    return () => onStepRemove(value);
-  }, [onStepAdd, onStepRemove, value]);
+  const isCompleted = activeIndex !== -1 && activeIndex >= index;
 
   return (
     <Box
       as="li"
       ref={ref}
       wds-component="progress-step-indicator-item"
-      aria-current={isActive ? 'step' : undefined}
+      aria-label={`Step ${index}`}
       {...props}
+      data-is-completed={isCompleted}
+      aria-current={isActive ? 'step' : undefined}
       sx={[progressListStyle, props.sx]}
-      style={
-        {
-          ...props.style,
-          ['--wds-progress-step-indicator-inset']:
-            activeIndex >= index ? '0' : '0 0 0 -100%',
-        } as CSSProperties
-      }
     />
   );
 });
 
 ProgressStepIndicatorItem.displayName = PROGRESS_STEP_INDICATOR_ITEM_NAME;
+
+// @ts-expect-error
+ProgressStepIndicatorItem.isProgressStepIndicatorItem = true;
 
 export { ProgressStepIndicator, ProgressStepIndicatorItem };
