@@ -151,8 +151,7 @@ export default Demo;`}
 - `width`를 지정할 수 있고, 지정하지 않으면 100%의 너비를 사용해요.
 - ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 width를 사용할 수 있어요.
 
-<Demo code={`import { Card, CardTitle, CardCaption, CardContent, ContentBadge, CardThumbnail, CardThumbnailContent, ToggleIcon } from '@wanteddev/wds';
-import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailSkeleton } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -160,35 +159,7 @@ const Demo = () => {
 
   return (
     <Card sm={{ width: '240px' }} sx={{ margin: 'auto' }}>
-      <CardThumbnail
-        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-        alt="Wanted Company Image"
-        width="240px"
-        quality={95}
-        overlay
-        leftContent={
-          <CardThumbnailContent variant="text">
-            캡션
-          </CardThumbnailContent>
-        }
-        rightContent={
-          <CardThumbnailContent variant="toggle-icon">
-            <ToggleIcon
-              active={isBookmarked}
-              onActiveChange={setIsBookmarked}
-              activeColor="palette.primary.normal" 
-              onClick={() => {
-                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
-              }}
-            >
-              {isBookmarked 
-                ? <IconBookmarkFill /> 
-                : <IconBookmark />
-              }
-            </ToggleIcon>
-          </CardThumbnailContent>
-        }
-      />
+      <CardThumbnailSkeleton animation={false} />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 240px</CardCaption>
@@ -294,7 +265,7 @@ export default Demo;`}
 - ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 platform을 지정할 수 있어요.
 - `width`와 조합해서 사용할 수 있어요.
 
-<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnail, CardThumbnailSkeleton, ToggleIcon } from '@wanteddev/wds';
+<Demo code={`import { Card, CardTitle, CardCaption, CardContent, CardThumbnailContent, CardThumbnail, ToggleIcon } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -362,7 +333,7 @@ const Demo = () => {
   return (
     <FlexBox gap="24px" justifyContent="center">
       <Card width="240px">
-        <CardThumbnailSkeleton />
+        <CardThumbnailSkeleton animation={false} />
         <CardContent>
           <CardContentItem position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
@@ -374,7 +345,7 @@ const Demo = () => {
         </CardContent>
       </Card>
       <Card width="240px">
-        <CardThumbnailSkeleton />
+        <CardThumbnailSkeleton animation={false} />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>

@@ -131,7 +131,7 @@ const Demo = () => {
         </CardListContent>
       }
     >
-      <CardThumbnailSkeleton />
+      <CardThumbnailSkeleton animation={false} />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 480px</CardCaption>
@@ -162,7 +162,7 @@ const Demo = () => {
           </CardListContent>
         }
       >
-        <CardThumbnailSkeleton />
+        <CardThumbnailSkeleton animation={false} />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -177,7 +177,7 @@ const Demo = () => {
           </CardListContent>
         }
       >
-        <CardThumbnailSkeleton width="96px" />
+        <CardThumbnailSkeleton animation={false} />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
@@ -211,7 +211,7 @@ const Demo = () => {
         platform: 'desktop'
       }}
     >
-      <CardThumbnailSkeleton />
+      <CardThumbnailSkeleton animation={false} />
       <CardContent>
         <CardTitle>제목</CardTitle>
         <CardCaption>(min-width: 768px), width: 480px</CardCaption>
@@ -235,7 +235,7 @@ const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="16px">
       <CardList width="480px">
-        <CardThumbnailSkeleton />
+        <CardThumbnailSkeleton animation={false} />
         <CardContent>
           <CardContentItem position="top" variant="badge">
             {new Array(3).fill(0).map((_, i) => (
@@ -247,7 +247,7 @@ const Demo = () => {
         </CardContent>
       </CardList>
       <CardList width="480px">
-        <CardThumbnailSkeleton />
+        <CardThumbnailSkeleton animation={false} />
         <CardContent>
           <CardTitle>제목</CardTitle>
           <CardCaption>캡션</CardCaption>
