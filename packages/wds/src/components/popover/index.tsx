@@ -65,8 +65,8 @@ const PopoverTrigger = forwardRef<
         aria-controls={contentId}
         id={triggerId}
         ref={ref}
-        onClick={composeEventHandlers(props.onClick, () => {
-          if (!open) {
+        onClick={composeEventHandlers(props.onClick, (e) => {
+          if (!open && e.currentTarget.ariaDisabled?.toString() !== 'true') {
             onOpenChange(true);
           }
         })}
