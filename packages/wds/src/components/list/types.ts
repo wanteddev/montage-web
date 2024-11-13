@@ -23,13 +23,15 @@ export type ListItemContentProps = {
     | 'button'
     | 'switch'
     | 'badge'
+    | 'avatar'
+    | 'large-icon'
     | 'custom';
   disabled?: boolean;
   chevron?: boolean;
 };
 
 export type ListCellDefaultProps = {
-  padding?: 'normal' | 'small' | 'medium' | false;
+  padding?: '12px' | '8px' | '16px' | '0px';
   fillWidth?: boolean;
   divider?: boolean;
   disabled?: boolean;
