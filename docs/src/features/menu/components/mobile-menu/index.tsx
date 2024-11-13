@@ -31,7 +31,7 @@ const MobileMenu = () => {
     <Modal open={context.open} onOpenChange={context.setOpen}>
       <ModalContainer variant="full">
         <ModalNavigation variant="floating" />
-        <ModalContent padding paddingExtra>
+        <ModalContent>
           <ModalContentItem>
             {routes.map((route, idx) => (
               <FlexBox

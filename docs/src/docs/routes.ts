@@ -157,8 +157,8 @@ export const routes: Array<Route> = [
         slug: '/docs/components/section-message',
       },
       {
-        title: 'SegmentControl',
-        slug: '/docs/components/segment-control',
+        title: 'SegmentedControl',
+        slug: '/docs/components/segmented-control',
       },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
       { title: 'Slider', slug: '/docs/components/slider' },

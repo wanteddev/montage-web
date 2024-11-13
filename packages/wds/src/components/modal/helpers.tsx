@@ -1,13 +1,17 @@
 import { IconClose, IconCloseThick } from '@wanteddev/wds-icon';
 
-import type { TopNavigationProps } from '../top-navigation/types';
+import type {
+  TopNavigationButtonProps,
+  TopNavigationProps,
+} from '../top-navigation/types';
 
 export const getDefaultCloseIcon = (
   variant?: TopNavigationProps['variant'],
+  background?: TopNavigationButtonProps['background'],
 ) => {
   switch (variant) {
     case 'floating':
-      return <IconCloseThick />;
+      return background ? <IconCloseThick /> : <IconClose />;
     default:
       return <IconClose />;
   }

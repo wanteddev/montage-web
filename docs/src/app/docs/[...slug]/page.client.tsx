@@ -22,12 +22,12 @@ const ClientDocsPage = ({ source, propTypes }: Props) => {
         flexDirection="column"
         sx={{ width: '100%' }}
         sm={{
-          sx: { padding: '0px 0px 20px 20px', width: 'calc(100% - 250px)' },
+          sx: { padding: '0px 0px 20px 20px', width: 'calc(100% - 280px)' },
         }}
         md={{
           sx: {
             padding: '0px 20px 20px 20px',
-            width: 'calc(100% - 250px - 200px)',
+            width: 'calc(100% - 280px - 200px)',
           },
         }}
       >

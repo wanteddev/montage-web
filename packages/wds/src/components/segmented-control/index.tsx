@@ -11,11 +11,17 @@ import useResizeObserver from '../../hooks/use-resize-observer';
 
 import {
   motionThumbStyle,
-  segmentControlItemStyle,
-  segmentControlStyle,
+  segmentedControlItemStyle,
+  segmentedControlStyle,
 } from './style';
-import { SegmentControlProvider, useSegmentControlContext } from './contexts';
-import { SEGMENT_CONTROL_ITEM_NAME, SEGMENT_CONTROL_NAME } from './constants';
+import {
+  SegmentedControlProvider,
+  useSegmentedControlContext,
+} from './contexts';
+import {
+  SEGMENTED_CONTROL_ITEM_NAME,
+  SEGMENTED_CONTROL_NAME,
+} from './constants';
 import { calculateAnimationStyle } from './helpers';
 
 import type {
@@ -29,13 +35,13 @@ import type {
   ElementType,
   ForwardedRef,
 } from 'react';
-import type { SegmentControlItemProps, SegmentControlProps } from './types';
+import type { SegmentedControlItemProps, SegmentedControlProps } from './types';
 
 const ARROW_KEYS = ['ArrowLeft', 'ArrowRight'];
 
-const SegmentControl = forwardRef<
+const SegmentedControl = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SegmentControlProps, 'div'>
+  DefaultComponentProps<SegmentedControlProps, 'div'>
 >(
   (
     {
@@ -76,10 +82,10 @@ const SegmentControl = forwardRef<
       const targetElement = motionThumbRef.current;
 
       const currentElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segment-control-item"][data-value="${prevValue.current}"]`,
+        `[wds-component="segmented-control-item"][data-value="${prevValue.current}"]`,
       );
       const nextElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segment-control-item"][data-value="${value}"]`,
+        `[wds-component="segmented-control-item"][data-value="${value}"]`,
       );
 
       if (variant === 'outlined') {
@@ -129,7 +135,7 @@ const SegmentControl = forwardRef<
     );
 
     return (
-      <SegmentControlProvider
+      <SegmentedControlProvider
         value={value}
         onValueChange={handleValueChange}
         variant={variant}
@@ -148,9 +154,9 @@ const SegmentControl = forwardRef<
             alignItems="stretch"
             role="listbox"
             {...props}
-            wds-component="segment-control"
+            wds-component="segmented-control"
             sx={[
-              segmentControlStyle({ variant, size, xs, sm, md, lg, xl }),
+              segmentedControlStyle({ variant, size, xs, sm, md, lg, xl }),
               props.sx,
             ]}
           >
@@ -158,20 +164,20 @@ const SegmentControl = forwardRef<
               ref={motionThumbRef}
               sx={motionThumbStyle}
               style={motionStyleProperties}
-              data-role="segment-control-motion"
+              data-role="segmented-control-motion"
             />
 
             {children}
           </FlexBox>
         </RovingFocusGroup.Root>
-      </SegmentControlProvider>
+      </SegmentedControlProvider>
     );
   },
 );
 
-SegmentControl.displayName = SEGMENT_CONTROL_NAME;
+SegmentedControl.displayName = SEGMENTED_CONTROL_NAME;
 
-const SegmentControlItem = forwardRef(
+const SegmentedControlItem = forwardRef(
   <T extends ElementType = 'label'>(
     {
       children,
@@ -181,15 +187,14 @@ const SegmentControlItem = forwardRef(
       rightContent,
       as,
       ...props
-    }: PolymorphicProps<SegmentControlItemProps, T>,
+    }: PolymorphicProps<SegmentedControlItemProps, T>,
     forwardedRef: ForwardedRef<ElementRef<T>>,
   ) => {
     const ref = useRef<ElementRef<T>>(null);
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
-    const { size, variant, responsive, ...context } = useSegmentControlContext(
-      SEGMENT_CONTROL_ITEM_NAME,
-    );
+    const { size, variant, responsive, ...context } =
+      useSegmentedControlContext(SEGMENTED_CONTROL_ITEM_NAME);
 
     const active = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
@@ -224,11 +229,11 @@ const SegmentControlItem = forwardRef(
           role="option"
           {...props}
           disabled={disabled}
-          wds-component="segment-control-item"
+          wds-component="segmented-control-item"
           data-active={active}
           data-ssr-motion={active}
           sx={[
-            segmentControlItemStyle({
+            segmentedControlItemStyle({
               size,
               active,
               variant,
@@ -251,7 +256,7 @@ const SegmentControlItem = forwardRef(
         >
           {leftContent}
           <span
-            data-role="segment-control-item-text"
+            data-role="segmented-control-item-text"
             aria-selected={active}
             aria-disabled={disabled}
           >
@@ -262,8 +267,8 @@ const SegmentControlItem = forwardRef(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<SegmentControlItemProps, 'label'>;
+) as PolymorphicComponent<SegmentedControlItemProps, 'label'>;
 
-SegmentControlItem.displayName = SEGMENT_CONTROL_ITEM_NAME;
+SegmentedControlItem.displayName = SEGMENTED_CONTROL_ITEM_NAME;
 
-export { SegmentControl, SegmentControlItem };
+export { SegmentedControl, SegmentedControlItem };
