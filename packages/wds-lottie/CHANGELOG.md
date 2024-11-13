@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.1.4...@wanteddev/wds-lottie@1.2.0) (2024-11-13)
+
+### Bug Fixes
+
+- d.ts를 올바르게 생성하지 못 하는 현상 수정 ([#140](https://github.com/wanteddev/wds/issues/140)) ([8caa94d](https://github.com/wanteddev/wds/commit/8caa94d8ffb535cea0069393c6c257eef41bcf20))
+- **wds-lottie:** deprecated 된 loading 컴포넌트가 import 했을 때 올바르게 jsdoc 주석이 표시되지 않음 ([#150](https://github.com/wanteddev/wds/issues/150)) ([4755b45](https://github.com/wanteddev/wds/commit/4755b453625c03d8b48bcbae23db8f9432f1a198))
+
+### Features
+
+- **wds:** loading 컴포넌트 작성 ([#137](https://github.com/wanteddev/wds/issues/137)) ([4e1b613](https://github.com/wanteddev/wds/commit/4e1b61359c3ff2448128300b1780b6419aac8692))
+
 ## [1.1.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.1.3...@wanteddev/wds-lottie@1.1.4) (2024-09-19)
 
 **Note:** Version bump only for package @wanteddev/wds-lottie

@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.6...@wanteddev/wds@1.5.0) (2024-11-13)
+
+### Bug Fixes
+
+- d.ts를 올바르게 생성하지 못 하는 현상 수정 ([#140](https://github.com/wanteddev/wds/issues/140)) ([8caa94d](https://github.com/wanteddev/wds/commit/8caa94d8ffb535cea0069393c6c257eef41bcf20))
+- **wds:** modal animation이 버벅이는 현상 수정 ([#139](https://github.com/wanteddev/wds/issues/139)) ([0c1f8e0](https://github.com/wanteddev/wds/commit/0c1f8e08aed3bf06e7077ef398a7634a5c0cd32f))
+- **wds:** modal 내부에서 select 사용시 스크롤 되지 않는 이슈 ([#144](https://github.com/wanteddev/wds/issues/144)) ([cd223c2](https://github.com/wanteddev/wds/commit/cd223c2c45a70bde0121b38d957101df0285a32a))
+- **wds:** modal이 닫힐 때 visibility 초기화 하도록 수정 ([#142](https://github.com/wanteddev/wds/issues/142)) ([d03c01f](https://github.com/wanteddev/wds/commit/d03c01f42b584437cfe45cf8a6da05825e239c35))
+- **wds:** popover에서 disabled 처리가 올바르게 되지 않음 ([#162](https://github.com/wanteddev/wds/issues/162)) ([5da8cc3](https://github.com/wanteddev/wds/commit/5da8cc3c6b4dadb91beb7984a0ed844b365c27dc))
+- **wds:** scroll area small 사이즈 일 때 scale이 올바르게 동작하지 않음 ([#145](https://github.com/wanteddev/wds/issues/145)) ([e440aaf](https://github.com/wanteddev/wds/commit/e440aaf20f47f028600be00ba22fd7fdc00e2de4))
+- **wds:** scroll-area 호버 시 인터렉션 버벅이는 현상 수정 ([#124](https://github.com/wanteddev/wds/issues/124)) ([6335803](https://github.com/wanteddev/wds/commit/63358030fbe8f61a33b334d8af32a34a5318d0c7))
+
+### Features
+
+- **style:** card, card-list, skeleton design QA ([#154](https://github.com/wanteddev/wds/issues/154)) ([a8cde5f](https://github.com/wanteddev/wds/commit/a8cde5f07b7884a83249ac040ff6a80b383db892))
+- **wds:** card 컴포넌트 작성 ([#147](https://github.com/wanteddev/wds/issues/147)) ([3d75314](https://github.com/wanteddev/wds/commit/3d753141796de26036fdcf6a6d7437e73803eb6f))
+- **wds:** card-list 작성 ([#152](https://github.com/wanteddev/wds/issues/152)) ([4c3a970](https://github.com/wanteddev/wds/commit/4c3a970cc66f237a826d8b9be0240ca5e7f00c73))
+- **wds:** chip 여백 업데이트 ([#128](https://github.com/wanteddev/wds/issues/128)) ([1b189b1](https://github.com/wanteddev/wds/commit/1b189b134bb8d26b5b03b321be6229c742f813df))
+- **wds:** code connect 추가 지원 ([#151](https://github.com/wanteddev/wds/issues/151)) ([49f9072](https://github.com/wanteddev/wds/commit/49f9072f009488bad48e47e6abc3f39619d8fc08))
+- **wds:** empty-state 컴포넌트 작성 ([#134](https://github.com/wanteddev/wds/issues/134)) ([2c546b9](https://github.com/wanteddev/wds/commit/2c546b93d864413a5fe79e3dbcb6c4ec0b525ffd))
+- **wds:** flex-box rowGap, columnGap 속성 지원 ([#161](https://github.com/wanteddev/wds/issues/161)) ([0372c6e](https://github.com/wanteddev/wds/commit/0372c6ef6e76906993ecf6194583bc1cbd08048a))
+- **wds:** loading 컴포넌트 작성 ([#137](https://github.com/wanteddev/wds/issues/137)) ([4e1b613](https://github.com/wanteddev/wds/commit/4e1b61359c3ff2448128300b1780b6419aac8692))
+- **wds:** modal 기본 사이즈 변경 ([#158](https://github.com/wanteddev/wds/issues/158)) ([02e136c](https://github.com/wanteddev/wds/commit/02e136ce00bc4082fe5b4884020b31890ce284e0))
+- **wds:** modal 사이즈별 스타일 수정 및 action-area divider 옵션 추가 ([#153](https://github.com/wanteddev/wds/issues/153)) ([c244aa2](https://github.com/wanteddev/wds/commit/c244aa2f8b4ee6b0e351fc3b2211a5248a48fe1a))
+- **wds:** PI-68532 slider 컴포넌트 추가 ([#126](https://github.com/wanteddev/wds/issues/126)) ([aeee93a](https://github.com/wanteddev/wds/commit/aeee93a517d2300f3fe1467c0ad4d175bf2f3253))
+- **wds:** PI-69215 modal 사이즈별 네비게이션 패딩값 조정 ([#146](https://github.com/wanteddev/wds/issues/146)) ([b0a6385](https://github.com/wanteddev/wds/commit/b0a63855f6a835232dfc8a395c5d39a9a1358a1e))
+- **wds:** PI-69458 Cell 속성 업데이트 ([#155](https://github.com/wanteddev/wds/issues/155)) ([1681e83](https://github.com/wanteddev/wds/commit/1681e8315f6ac358058eb83c75661821d82f5d3d))
+- **wds:** PI-69458 Cell 속성 업데이트 추가 대응 ([#163](https://github.com/wanteddev/wds/issues/163)) ([15cc067](https://github.com/wanteddev/wds/commit/15cc0673ab34da1f44a99d38cf3464eb762fb45b))
+- **wds:** progress indicator 피그마 연동 및 최적화, deprecated 처리 ([#157](https://github.com/wanteddev/wds/issues/157)) ([3b390fc](https://github.com/wanteddev/wds/commit/3b390fcde50b66b15b815ca8bfece00b24b486c4))
+- **wds:** radix ui package updates ([#125](https://github.com/wanteddev/wds/issues/125)) ([aad9a34](https://github.com/wanteddev/wds/commit/aad9a3418da8c1858fe5d24dc4fc43d0b5928977))
+- **wds:** segment control 디자인 QA ([#159](https://github.com/wanteddev/wds/issues/159)) ([5ccb9d5](https://github.com/wanteddev/wds/commit/5ccb9d5b3826ca4a13838be683b8b35bfad22f7f))
+- **wds:** segmented-control 컴포넌트 추가 ([#122](https://github.com/wanteddev/wds/issues/122)) ([17cd5a6](https://github.com/wanteddev/wds/commit/17cd5a6492bef5828cfa8e81ee09c65a36b7abcd))
+- **wds:** skeleton 개선 ([#138](https://github.com/wanteddev/wds/issues/138)) ([76363d3](https://github.com/wanteddev/wds/commit/76363d33b8a46c0f8e2745fddcf5f7194fa5308f))
+- **wds:** skeleton 디자인QA ([#156](https://github.com/wanteddev/wds/issues/156)) ([0a2c5d3](https://github.com/wanteddev/wds/commit/0a2c5d3f4f7ec8134888d2ebe61918f69ed06dbe))
+- **wds:** tab resize fill 추가 및 스타일 수정 ([#123](https://github.com/wanteddev/wds/issues/123)) ([970b02d](https://github.com/wanteddev/wds/commit/970b02d0e9a538696530a2a175686da90cbdd001))
+
 ## [1.4.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.5...@wanteddev/wds@1.4.6) (2024-11-05)
 
 **Note:** Version bump only for package @wanteddev/wds

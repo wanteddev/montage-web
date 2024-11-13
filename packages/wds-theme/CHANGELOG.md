@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.0.5...@wanteddev/wds-theme@1.1.0) (2024-11-13)
+
+### Bug Fixes
+
+- d.ts를 올바르게 생성하지 못 하는 현상 수정 ([#140](https://github.com/wanteddev/wds/issues/140)) ([8caa94d](https://github.com/wanteddev/wds/commit/8caa94d8ffb535cea0069393c6c257eef41bcf20))
+
 ## [1.0.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.0.4...@wanteddev/wds-theme@1.0.5) (2024-09-19)
 
 ### Features
