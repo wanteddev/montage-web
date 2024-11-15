@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.5.0...@wanteddev/wds@1.5.1) (2024-11-15)
+
+### Bug Fixes
+
+- **wds:** always tooltip을 모달 위에서 사용할 경우 escape keydown이 동작하지 않음 ([#168](https://github.com/wanteddev/wds/issues/168)) ([97a7064](https://github.com/wanteddev/wds/commit/97a706434f8e5304ac783436a140df671943eaa5))
+- **wds:** menu, select, select-multiple 리액트 환경에서 옵션으로 포커스 되지 않는 이슈 ([#165](https://github.com/wanteddev/wds/issues/165)) ([845ac1b](https://github.com/wanteddev/wds/commit/845ac1b64744c7fe76466f8de4dcdea47849c6bd))
+- **wds:** segmented control ssr 스타일 수정 ([#169](https://github.com/wanteddev/wds/issues/169)) ([e1736a7](https://github.com/wanteddev/wds/commit/e1736a776704712b27cebd6cd0294815794e314f))
+
 # [1.5.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.4.6...@wanteddev/wds@1.5.0) (2024-11-13)
 
 ### Bug Fixes

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.1.0...@wanteddev/wds-icon@1.1.1) (2024-11-15)
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#170](https://github.com/wanteddev/wds/issues/170)) ([acaf368](https://github.com/wanteddev/wds/commit/acaf36841665235c1762fd36de07957f31c65e4e))
+
 # [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.0.16...@wanteddev/wds-icon@1.1.0) (2024-11-13)
 
 ### Bug Fixes
