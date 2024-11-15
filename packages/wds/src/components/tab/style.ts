@@ -2,8 +2,8 @@ import { css } from '@wanteddev/wds-engine';
 
 import {
   createResponsiveStyle,
+  getGradientMaskImage,
   getPreviousValue,
-  gradient,
   typographyStyle,
 } from '../../utils';
 
@@ -11,39 +11,13 @@ import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
 
 export const tabListStyle =
-  ({
-    isScrollableLeft,
-    isScrollableRight,
-    resize,
-    padding,
-    size,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: TabListProps & {
-    isScrollableLeft: boolean;
-    isScrollableRight: boolean;
-  }) =>
+  ({ resize, padding, size, xs, sm, md, lg, xl }: TabListProps) =>
   (theme: Theme) => css`
     width: 100%;
     list-style: none;
     position: relative;
     padding: 0;
     margin: 0;
-
-    ${isScrollableLeft &&
-    css`
-      ${gradient('transparent', 'left', '48px')}
-    `}
-
-    ${isScrollableRight &&
-    css`
-      & > div {
-        ${gradient('transparent', 'right', '48px')}
-      }
-    `}
 
     ${tabPaddingStyle({ padding, resize }, theme)}
     ${tabSizeStyle({ size, resize })}
@@ -200,10 +174,36 @@ const tabSizeStyle = ({ size, resize }: TabListProps) => {
 };
 
 export const scrollWrapperStyle =
-  ({ padding, resize, xs, sm, md, lg, xl }: TabListProps) =>
+  ({
+    isScrollableLeft,
+    isScrollableRight,
+    padding,
+    resize,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: TabListProps & {
+    isScrollableLeft: boolean;
+    isScrollableRight: boolean;
+  }) =>
   (theme: Theme) => css`
     width: 100%;
     height: fit-content;
+    background-color: transparent;
+
+    ${(isScrollableLeft || isScrollableRight) &&
+    css`
+      mask-composite: intersect;
+      mask-image: ${[
+        isScrollableRight && getGradientMaskImage('right', '48px'),
+        isScrollableLeft && getGradientMaskImage('left', '48px'),
+      ]
+        .filter(Boolean)
+        .join(', ')};
+    `}
+
     ${scrollWrapperPaddingStyle({ padding, resize })}
 
     [data-radix-scroll-area-viewport] {

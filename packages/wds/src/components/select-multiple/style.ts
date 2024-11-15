@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { gradient } from '../../utils';
+import { getGradientMaskImage } from '../../utils';
 
 export const customSelectMultipleRenderWrapperStyle = ({
   overflow,
@@ -18,11 +18,6 @@ export const customSelectMultipleRenderWrapperStyle = ({
     : css`
         overflow: hidden;
 
-        ${isScrollableRight &&
-        css`
-          ${gradient('transparent', 'right', '40px')}
-        `}
-
         > div {
           overflow: scroll;
 
@@ -32,9 +27,15 @@ export const customSelectMultipleRenderWrapperStyle = ({
           -ms-overflow-style: none;
           scrollbar-width: none;
 
-          ${isScrollableLeft &&
+          ${(isScrollableLeft || isScrollableRight) &&
           css`
-            ${gradient('transparent', 'left', '40px')}
+            mask-composite: intersect;
+            mask-image: ${[
+              isScrollableRight && getGradientMaskImage('right', '40px'),
+              isScrollableLeft && getGradientMaskImage('left', '40px'),
+            ]
+              .filter(Boolean)
+              .join(', ')};
           `}
         }
       `;
