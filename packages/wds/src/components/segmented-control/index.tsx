@@ -90,7 +90,7 @@ const SegmentedControl = forwardRef<
 
       if (variant === 'outlined') {
         setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
-        currentElement?.style.removeProperty('boxShadow');
+        currentElement?.removeAttribute('data-ssr-motion');
         isValueChanged.current = false;
 
         return;
