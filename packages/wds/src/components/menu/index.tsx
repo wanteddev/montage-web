@@ -108,22 +108,21 @@ const MenuContent = forwardRef<
     ref,
   ) => {
     return (
-      <PopoverContent
-        ref={ref}
-        position={position}
-        offset={offset}
-        container={container}
-        disablePortal={disablePortal}
-        trappedContent
-        {...props}
-        sx={[menuPopoverContentStyle, sx]}
-      >
-        <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
+      <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
+        <PopoverContent
+          ref={ref}
+          position={position}
+          offset={offset}
+          container={container}
+          disablePortal={disablePortal}
+          {...props}
+          sx={[menuPopoverContentStyle, sx]}
+        >
           <ScrollArea zIndex={11} sx={menuScrollAreaStyle} size="small">
             {children}
           </ScrollArea>
-        </RovingFocusGroup>
-      </PopoverContent>
+        </PopoverContent>
+      </RovingFocusGroup>
     );
   },
 );
