@@ -269,13 +269,14 @@ const segmentedControlItemActiveStyle = (
           color: ${theme.palette.label.normal};
 
           &[data-ssr-motion='true'] {
+            & > * {
+              z-index: 1;
+            }
+
             box-shadow: 0px 0px 4px 0px
               ${addOpacity(theme.palette.static.black, theme.opacity[8])};
             position: relative;
-            background-color: ${addOpacity(
-              theme.palette.static.white,
-              theme.opacity[28],
-            )};
+            background-color: ${theme.palette.background.elevated.normal};
 
             &::before {
               content: '';
@@ -285,9 +286,10 @@ const segmentedControlItemActiveStyle = (
               top: 0px;
               position: absolute;
               border-radius: inherit;
-              background-color: ${theme.palette.background.elevated.normal};
-
-              z-index: -1;
+              background-color: ${addOpacity(
+                theme.palette.static.white,
+                theme.opacity[28],
+              )};
             }
           }
         }
