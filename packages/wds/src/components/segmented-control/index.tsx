@@ -90,7 +90,7 @@ const SegmentedControl = forwardRef<
 
       if (variant === 'outlined') {
         setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
-        currentElement?.setAttribute('data-ssr-motion', 'false');
+        currentElement?.removeAttribute('data-ssr-motion');
         isValueChanged.current = false;
 
         return;
@@ -112,11 +112,11 @@ const SegmentedControl = forwardRef<
           : {}),
       });
 
-      nextElement.setAttribute('data-ssr-motion', 'false');
+      nextElement.removeAttribute('data-ssr-motion');
       isValueChanged.current = false;
 
       requestAnimationFrame(() => {
-        currentElement?.setAttribute('data-ssr-motion', 'false');
+        currentElement?.removeAttribute('data-ssr-motion');
       });
     }, [node, variant, value]);
 
@@ -231,7 +231,7 @@ const SegmentedControlItem = forwardRef(
           disabled={disabled}
           wds-component="segmented-control-item"
           data-active={active}
-          data-ssr-motion={active && typeof window === 'undefined'}
+          data-ssr-motion={active}
           sx={[
             segmentedControlItemStyle({
               size,
