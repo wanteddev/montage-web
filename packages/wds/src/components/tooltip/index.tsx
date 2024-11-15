@@ -13,6 +13,7 @@ import NoSsr from '../no-ssr';
 import { addOpacity } from '../../utils';
 import IconButton from '../icon-button';
 import useTransitionStatus from '../../hooks/use-transition-status';
+import ComponentOrFragment from '../component-or-fragment';
 
 import { TooltipProvider, useTooltipContext } from './contexts';
 import {
@@ -154,7 +155,9 @@ const TooltipContent = forwardRef<
 
     const composedRef = useComposedRefs(ref, containerRef);
 
-    const Wrapper = mode === 'always' ? NoSsr : Fragment;
+    const isAlways = mode === 'always';
+
+    const Wrapper = isAlways ? NoSsr : Fragment;
 
     const theme = useTheme();
 
@@ -162,7 +165,9 @@ const TooltipContent = forwardRef<
 
     return !hasExited ? (
       <Wrapper>
-        <DismissableLayer
+        <ComponentOrFragment
+          component={DismissableLayer}
+          flag={!isAlways}
           asChild
           disableOutsidePointerEvents={false}
           onFocusOutside={(event) => event.preventDefault()}
@@ -233,7 +238,7 @@ const TooltipContent = forwardRef<
               </FlexBox>
             )}
           </PopperContent>
-        </DismissableLayer>
+        </ComponentOrFragment>
       </Wrapper>
     ) : null;
   },
