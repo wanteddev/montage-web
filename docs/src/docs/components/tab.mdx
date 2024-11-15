@@ -105,6 +105,75 @@ Tab 은 여러 컴포넌트를 조합해서 사용합니다.
 
 <PropsTable component="TabPanel" />
 
+## Size
+
+<Demo code={`import {
+  Button,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+  FlexBox
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column">
+      <Tab defaultValue="0">
+        <TabList size="small">
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+      <Tab defaultValue="0">
+        <TabList size="medium">
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+      <Tab defaultValue="0">
+        <TabList size="large">
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Resize
 
 ### Normal
