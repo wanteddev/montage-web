@@ -24,12 +24,7 @@ import {
   tabListItemStyle,
   tabListStyle,
 } from './style';
-import {
-  TabListProvider,
-  TabProvider,
-  useTabContext,
-  useTabListContext,
-} from './contexts';
+import { TabProvider, useTabContext } from './contexts';
 import {
   TAB_LIST_ITEM_NAME,
   TAB_LIST_NAME,
@@ -198,9 +193,7 @@ const TabList = forwardRef<
             scrollbars="horizontal"
             size="small"
           >
-            <FlexBox ref={context.onViewportNodeChange}>
-              <TabListProvider resize={resize}>{children}</TabListProvider>
-            </FlexBox>
+            <FlexBox ref={context.onViewportNodeChange}>{children}</FlexBox>
           </ScrollArea>
 
           {Boolean(rightContent) && (
@@ -231,7 +224,6 @@ const TabListItem = forwardRef(
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);
-    const { resize } = useTabListContext(TAB_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
     const isActive = context.value === value;
@@ -297,21 +289,35 @@ const TabListItem = forwardRef(
           ref={composedRefs}
           {...props}
           wds-component="tab-list-item"
+          disabled={disabled}
           aria-selected={isActive}
           aria-labelledby={`${context.id}-${value}`}
+          aria-disabled={disabled}
           aria-controls={
             controls !== undefined
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          sx={[tabListItemStyle({ resize }), props.sx]}
+          sx={[tabListItemStyle, props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
+            if (disabled) {
+              return;
+            }
+
             if (event.key === 'Enter') event.preventDefault();
           })}
           onClick={composeEventHandlers(props.onClick, () => {
+            if (disabled) {
+              return;
+            }
+
             context.onValueChange(value);
           })}
           onFocus={composeEventHandlers(props.onFocus, (e) => {
+            if (disabled) {
+              return;
+            }
+
             if (isArrowKeyPressedRef.current) {
               (e.currentTarget as HTMLElement).click();
             }

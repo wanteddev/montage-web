@@ -12,14 +12,14 @@ export type TabProps = PropsWithChildren<{
 }>;
 
 type TabListDefaultProps = {
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
   padding?: boolean;
   rightContent?: ReactNode;
   resize?: 'normal' | 'fill';
 };
 
 type TabListResponsiveProps = ResponsiveProps<
-  Pick<TabListDefaultProps, 'size' | 'padding'>
+  Pick<TabListDefaultProps, 'size' | 'padding' | 'resize'>
 >;
 
 export type TabListProps = Merge<TabListDefaultProps, TabListResponsiveProps>;

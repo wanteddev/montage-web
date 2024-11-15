@@ -1,6 +1,11 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, gradient, typographyStyle } from '../../utils';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+  gradient,
+  typographyStyle,
+} from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
@@ -26,18 +31,17 @@ export const tabListStyle =
     list-style: none;
     position: relative;
     padding: 0;
-    transition: mask-image 0.2s ease;
+    margin: 0;
 
     ${isScrollableLeft &&
     css`
-      ${gradient('transparent', 'left', '40px')}
+      ${gradient('transparent', 'left', '48px')}
     `}
 
     ${isScrollableRight &&
     css`
       & > div {
-        transition: mask-image 0.2s ease;
-        ${gradient('transparent', 'right', '40px')}
+        ${gradient('transparent', 'right', '48px')}
       }
     `}
 
@@ -58,22 +62,62 @@ export const tabListStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
-        ${tabPaddingStyle({ padding: params?.padding, resize }, theme)}
-        ${tabSizeStyle({ size: params?.size, resize })}
-				${params?.sx}
+      (params, breakpoint) => css`
+        ${(Boolean(params?.resize) ||
+          Boolean(params?.size) ||
+          params?.padding !== undefined) &&
+        css`
+          ${tabPaddingStyle(
+            {
+              padding: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'padding',
+                padding,
+                breakpoint!,
+              ),
+              resize: getPreviousValue(
+                { xs, sm, md, lg, xl },
+                'resize',
+                resize,
+                breakpoint!,
+              )!,
+            },
+            theme,
+          )}
+          ${tabSizeStyle({
+            size: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'size',
+              size,
+              breakpoint!,
+            ),
+            resize: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'resize',
+              resize,
+              breakpoint!,
+            ),
+          })}
+        `}
+        ${params?.sx}
       `,
     )}
   `;
 
 const tabPaddingStyle = ({ padding, resize }: TabListProps, theme: Theme) => {
-  if (resize === 'fill' && padding !== undefined) {
+  if (resize === 'fill') {
     return css`
       [data-radix-scroll-area-viewport] {
         position: relative;
         left: 0px;
         width: 100%;
       }
+
+      --wds-tab-list-item-flex: 1 1 0;
+      --wds-tab-list-item-overflow: hidden;
+      --wds-tab-list-item-text-display: block;
+      --wds-tab-list-item-text-align: center;
+      --wds-tab-right-content-padding: 0px;
 
       ${padding === true
         ? css`
@@ -96,6 +140,12 @@ const tabPaddingStyle = ({ padding, resize }: TabListProps, theme: Theme) => {
           left: 0px;
           width: 100%;
         }
+
+        --wds-tab-list-item-flex: 0 0 auto;
+        --wds-tab-list-item-overflow: initial;
+        --wds-tab-list-item-text-display: inline;
+        --wds-tab-list-item-text-align: initial;
+        --wds-tab-right-content-padding: 0px 16px 0px 4px;
       `;
     case false:
       return css`
@@ -107,28 +157,44 @@ const tabPaddingStyle = ({ padding, resize }: TabListProps, theme: Theme) => {
           left: calc(var(--wds-tab-padding-x) * -1);
           width: calc(100% + var(--wds-tab-padding-x));
         }
+
+        --wds-tab-list-item-flex: 0 0 auto;
+        --wds-tab-list-item-overflow: initial;
+        --wds-tab-list-item-text-display: inline;
+        --wds-tab-list-item-text-align: initial;
+        --wds-tab-right-content-padding: 0px;
       `;
   }
 };
 
 const tabSizeStyle = ({ size, resize }: TabListProps) => {
-  if (resize === 'fill' && size !== undefined) {
-    return css`
-      --wds-tab-padding-x: 0px;
-      --wds-tab-padding-y: 12px;
-    `;
-  }
-
   switch (size) {
     case 'small':
       return css`
-        --wds-tab-padding-x: 12px;
+        --wds-tab-padding-x: ${resize === 'fill' ? '0px' : '12px'};
+        --wds-tab-padding-y: 9px;
+
+        [wds-component='tab-list-item'] {
+          ${typographyStyle('body2_normal', 'bold')}
+        }
+      `;
+    case 'medium':
+      return css`
+        --wds-tab-padding-x: ${resize === 'fill' ? '0px' : '12px'};
         --wds-tab-padding-y: 12px;
+
+        [wds-component='tab-list-item'] {
+          ${typographyStyle('headline2', 'bold')}
+        }
       `;
     case 'large':
       return css`
-        --wds-tab-padding-x: 12px;
+        --wds-tab-padding-x: ${resize === 'fill' ? '0px' : '12px'};
         --wds-tab-padding-y: 14px;
+
+        [wds-component='tab-list-item'] {
+          ${typographyStyle('headline2', 'bold')}
+        }
       `;
   }
 };
@@ -148,15 +214,33 @@ export const scrollWrapperStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
-        ${scrollWrapperPaddingStyle({ padding: params?.padding, resize })}
+      (params, breakpoint) => css`
+        ${(params?.padding !== undefined || Boolean(params?.resize)) &&
+        css`
+          ${scrollWrapperPaddingStyle({
+            padding: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'padding',
+              padding,
+              breakpoint!,
+            ),
+            resize: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'resize',
+              resize,
+              breakpoint!,
+            ),
+          })}
+        `}
       `,
     )}
   `;
 
 const scrollWrapperPaddingStyle = ({ padding, resize }: TabListProps) => {
-  if (resize === 'fill' && padding !== undefined) {
-    return;
+  if (resize === 'fill') {
+    return css`
+      padding: 0px;
+    `;
   }
 
   switch (padding) {
@@ -171,94 +255,73 @@ const scrollWrapperPaddingStyle = ({ padding, resize }: TabListProps) => {
   }
 };
 
-export const tabListItemStyle =
-  ({ resize }: Pick<TabListProps, 'resize'>) =>
-  (theme: Theme) => css`
-    padding: var(--wds-tab-padding-y) var(--wds-tab-padding-x);
-    flex-shrink: 0;
-    cursor: pointer;
-    scroll-margin-inline: 25px;
-    ${typographyStyle('headline2', 'bold')}
+export const tabListItemStyle = (theme: Theme) => css`
+  padding: var(--wds-tab-padding-y) var(--wds-tab-padding-x);
+  cursor: pointer;
+  scroll-margin-inline: 25px;
+  flex: var(--wds-tab-list-item-flex, 0 0 auto);
+  overflow: var(--wds-tab-list-item-overflow, initial);
 
-    [data-role="tab-list-item-text-wrapper"] {
-      position: relative;
-      margin: 0;
-      height: 100%;
-      padding: 0;
+  [data-role='tab-list-item-text-wrapper'] {
+    position: relative;
+    margin: 0;
+    height: 100%;
+    padding: 0;
+  }
+
+  [data-role='tab-list-item-text'] {
+    transition: color 0.2s ease;
+    display: var(--wds-tab-list-item-text-display, inline);
+    text-align: var(--wds-tab-list-item-text-align, initial);
+  }
+
+  [data-role='tab-list-item-divider'] {
+    position: absolute;
+    left: 0;
+    transition: background-color 0.2s ease;
+    bottom: calc(var(--wds-tab-padding-y) * -1);
+    max-height: 0px;
+    height: 2px;
+    width: 100%;
+    background-color: transparent;
+    will-change: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+
+  &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
+    color: ${theme.palette.label.alternative};
+  }
+
+  &[aria-selected='false'] [data-role='tab-list-item-text'] {
+    color: ${theme.palette.label.assistive};
+    &:hover {
+      color: ${theme.palette.label.alternative};
     }
+  }
 
+  &[aria-selected='true'] {
     [data-role='tab-list-item-text'] {
-      transition: color 0.2s ease;
+      color: ${theme.palette.label.strong};
     }
 
     [data-role='tab-list-item-divider'] {
-      position: absolute;
-      left: 0;
-      transition: background-color 0.2s ease;
-      bottom: calc(var(--wds-tab-padding-y) * -1);
-      max-height: 0px;
-      height: 2px;
-      width: 100%;
-      background-color: transparent;
-      will-change: auto;
-      margin: 0;
-      padding: 0;
-      border: none;
+      max-height: 2px;
+      background-color: ${theme.palette.label.strong};
     }
-
-    &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
-      color: ${theme.palette.label.alternative};
-    }
-
-    &[aria-selected='false'] [data-role='tab-list-item-text'] {
-      color: ${theme.palette.label.assistive};
-      &:hover {
-        color: ${theme.palette.label.alternative};
-      }
-    }
-
-    &[aria-selected='true'] {
-      [data-role='tab-list-item-text'] {
-        color: ${theme.palette.label.strong};
-      }
-
-      [data-role='tab-list-item-divider'] {
-        max-height: 2px;
-        background-color: ${theme.palette.label.strong};
-      }
-    }
-
-    &:focus-visible {
-      outline-offset: -1px;
-    }
-
-    ${tabItemResizeStyle({ resize })}
-  `;
-
-const tabItemResizeStyle = ({ resize }: Pick<TabListProps, 'resize'>) => {
-  switch (resize) {
-    case 'fill':
-      return css`
-        flex: 1 1 0;
-        overflow: hidden;
-
-        [data-role='tab-list-item-text'] {
-          width: 100%;
-        }
-
-        [data-role='tab-list-item-text'] {
-          display: block;
-          width: 100%;
-          text-align: center;
-        }
-      `;
   }
-};
+
+  &:focus-visible {
+    outline-offset: -1px;
+  }
+`;
 
 export const stickyButtonStyle = css`
   position: sticky;
   right: 0px;
   height: 100%;
   flex-shrink: 0;
-  padding: 0px var(--wds-tab-padding-x);
+  padding: var(--wds-tab-right-content-padding, 0px);
 `;
