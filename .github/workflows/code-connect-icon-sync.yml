@@ -69,9 +69,12 @@ jobs:
         run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50
 
       - run: git config user.name "github-actions[bot]"
+        if: always()
       - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+        if: always()
 
       - name: Create Branch And Commit
+        if: always()
         run: |
           git branch feature/code-connect/${{ github.run_id }}
           git checkout feature/code-connect/${{ github.run_id }}
@@ -80,6 +83,7 @@ jobs:
           git push origin feature/code-connect/${{ github.run_id }}
 
       - name: Create New PR
+        if: always()
         run: |
           gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
         env:
