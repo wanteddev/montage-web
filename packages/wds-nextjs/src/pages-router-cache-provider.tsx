@@ -1,3 +1,9 @@
+/*
+ * Portions of this file are based on code from @mui/material-nextjs.
+ * MIT Licensed, Copyright (c) 2014 Call-Em-All.
+ *
+ * https://github.com/mui/material-ui/tree/master/packages/mui-material-nextjs/src/v13-pagesRouter
+ */
 import * as React from 'react';
 import { CacheProvider, createCache } from '@wanteddev/wds-engine';
 import createEmotionServer from '@emotion/server/create-instance';

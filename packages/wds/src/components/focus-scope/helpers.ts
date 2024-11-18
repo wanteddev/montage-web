@@ -1,3 +1,9 @@
+/**
+ * Most of this file is based on code from @radix-ui/react-focus-scope.
+ * MIT Licensed, Copyright (c) 2022 WorkOS
+
+ * https://github.com/radix-ui/primitives/blob/main/packages/react/focus-scope/src/FocusScope.tsx
+ */
 type FocusableTarget = HTMLElement | { focus(): void };
 
 export const focus = (
