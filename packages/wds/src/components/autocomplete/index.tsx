@@ -230,7 +230,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
           onKeyDown={composeEventHandlers(
             props.onKeyDown,
             (e: KeyboardEvent) => {
-              const items = getItems();
+              const items = getItems().filter(({ disabled }) => !disabled);
               let option: AutocompleteCollectionItem | undefined;
 
               const rAF = (fn: () => void) =>
@@ -467,7 +467,7 @@ const AutocompleteList = forwardRef<HTMLDivElement, AutocompleteListProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
-    return open && !input?.disabled ? (
+    return open && !input?.readOnly && !input?.disabled ? (
       <PopperContent
         role="presentation"
         ref={ref}
@@ -480,7 +480,12 @@ const AutocompleteList = forwardRef<HTMLDivElement, AutocompleteListProps>(
           size="small"
           viewportProps={{ sx: autocompleteScrollAreaStyle }}
         >
-          <List role="listbox" id={contentId} gap="4px">
+          <List
+            role="listbox"
+            id={contentId}
+            gap="4px"
+            onMouseDown={(e) => e.preventDefault()}
+          >
             {children}
           </List>
         </ScrollArea>
@@ -506,6 +511,7 @@ const AutocompleteOption = forwardRef<
     asSelect,
     onSelectedOptionChange,
     onSearch,
+    onOpenChange,
   } = useAutocompleteContext(AUTOCOMPLETE_OPTION_NAME);
 
   const getItems = useCollection(AUTOCOMPLETE_SCOPE);
@@ -527,6 +533,8 @@ const AutocompleteOption = forwardRef<
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
         onMouseEnter={composeEventHandlers(props.onMouseEnter, () => {
+          if (disabled) return;
+
           const items = getItems();
           onSelectedOptionChange(items.find((v) => v.value === value) ?? null);
           setAttributeSelection(ref.current, items, true);
@@ -538,10 +546,13 @@ const AutocompleteOption = forwardRef<
             </ListItemContent>
           ) : null
         }
-        onMouseDown={composeEventHandlers(props.onMouseDown, () => {
+        onMouseDown={composeEventHandlers(props.onMouseDown, (e) => {
+          if (disabled) return e.preventDefault();
+
           onInputValueChange(value);
           onValueChange(value);
           onSearch?.(value);
+          onOpenChange(false);
 
           requestAnimationFrame(() => {
             input?.focus();

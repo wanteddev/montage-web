@@ -103,6 +103,32 @@ const TextInput = forwardRef<
             input.focus();
           });
         }}
+        onClick={(event) => {
+          const target = event.target as HTMLElement;
+          if (target.closest('input, button, a')) return;
+
+          if (target !== event.currentTarget) {
+            return;
+          }
+
+          const input = inputRef.current;
+          if (!input || target.tagName === 'INPUT') return;
+
+          requestAnimationFrame(() => {
+            input.dispatchEvent(
+              new MouseEvent('click', {
+                bubbles: false,
+              }),
+            );
+
+            props.onClick?.({
+              ...event,
+              currentTarget: input as EventTarget & HTMLInputElement,
+              bubbles: false,
+            });
+            input.click();
+          });
+        }}
       >
         {leftContent}
         <input

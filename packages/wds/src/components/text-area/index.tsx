@@ -189,6 +189,33 @@ const TextArea = forwardRef<
               textArea.focus();
             });
           }}
+          onClick={(event) => {
+            const target = event.target as HTMLElement;
+            if (target.closest('input, textarea, button, a')) return;
+
+            if (target !== event.currentTarget) {
+              return;
+            }
+
+            const textArea = textAreaRef.current;
+            if (!textArea || target.tagName === 'TEXTAREA') return;
+
+            requestAnimationFrame(() => {
+              textArea.dispatchEvent(
+                new MouseEvent('click', {
+                  bubbles: false,
+                }),
+              );
+
+              props.onClick?.({
+                ...event,
+                currentTarget: textArea as EventTarget & HTMLTextAreaElement,
+                bubbles: false,
+              });
+
+              textArea.click();
+            });
+          }}
           sx={[
             textAreaWrapperStyle({
               invalid: invalid,
