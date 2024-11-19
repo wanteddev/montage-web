@@ -94,6 +94,8 @@ const PopoverContent = forwardRef<
       trappedContent = false,
       onMountAutoFocus,
       onUnmountAutoFocus,
+      referenceHidden = false,
+      setContext,
       ...props
     },
     ref,
@@ -107,6 +109,8 @@ const PopoverContent = forwardRef<
         offset={offset}
         disablePortal={disablePortal}
         container={container}
+        referenceHidden={referenceHidden}
+        setContext={setContext}
       >
         <FocusScope
           loop={loop}

@@ -35,6 +35,8 @@ const CompactTooltipContent = forwardRef<
       variant = 'normal',
       offset = 4,
       animationDuration = 250,
+      referenceHidden = false,
+      setContext,
       ...props
     },
     ref,
@@ -46,6 +48,8 @@ const CompactTooltipContent = forwardRef<
         container={container}
         disablePortal={disablePortal}
         animationDuration={animationDuration}
+        referenceHidden={referenceHidden}
+        setContext={setContext}
         ref={ref}
         __wdsCustomChildren={
           <FlexBox {...props} sx={[compactTooltipWrapperStyle, props.sx]}>

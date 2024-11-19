@@ -22,6 +22,8 @@ export type MenuContentPopoverContentProps = Pick<
   | 'onUnmountAutoFocus'
   | 'trapped'
   | 'loop'
+  | 'referenceHidden'
+  | 'setContext'
 >;
 export type MenuContentProps = MenuContentPopoverContentProps;
 
