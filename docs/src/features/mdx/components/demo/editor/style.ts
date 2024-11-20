@@ -74,7 +74,12 @@ export const collapseWrapperStyle =
         border-bottom-left-radius: 8px;
         left: 1px;
         pointer-events: none;
-        ${gradient(theme.palette.background.normal.alternative, 'top')}
+        ${gradient(
+          theme.palette.background.normal.alternative,
+          'top',
+          '100%',
+          'mask',
+        )}
       }
     `}
 

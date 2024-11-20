@@ -31,8 +31,9 @@ export const customSelectMultipleRenderWrapperStyle = ({
           css`
             mask-composite: intersect;
             mask-image: ${[
-              isScrollableRight && getGradientMaskImage('right', '40px'),
-              isScrollableLeft && getGradientMaskImage('left', '40px'),
+              isScrollableRight &&
+                getGradientMaskImage('right', '40px', 'mask'),
+              isScrollableLeft && getGradientMaskImage('left', '40px', 'mask'),
             ]
               .filter(Boolean)
               .join(', ')};

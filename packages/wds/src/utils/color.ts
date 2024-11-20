@@ -1,25 +1,52 @@
+const gradientOffset = [
+  1, 0.859704, 0.73763, 0.632, 0.541037, 0.462963, 0.396, 0.33837, 0.288296,
+  0.244, 0.203704, 0.16563, 0.128, 0.089037, 0.046963,
+];
+const gradientOpacity = [
+  0, 0.142163, 0.269304, 0.3824, 0.48243, 0.57037, 0.6472, 0.713896, 0.771437,
+  0.8208, 0.862963, 0.898904, 0.9296, 0.95603, 0.97917,
+];
+const maskGradientOffset = [
+  1, 0.859704, 0.73763, 0.632, 0.541037, 0.462963, 0.396, 0.33837, 0.288296,
+  0.244, 0.203704, 0.16563, 0.128, 0.089037, 0.046963, 0,
+];
+const maskGradientOpacity = [
+  1, 0.857837, 0.730696, 0.6176, 0.51757, 0.42963, 0.3528, 0.286104, 0.228563,
+  0.1792, 0.137037, 0.101096, 0.0704, 0.0439704, 0.0208296, 0,
+];
+
 export const getGradientMaskImage = (
   variant: 'top' | 'right' | 'bottom' | 'left',
   size = '100%',
+  type: 'mask' | 'solid' | 'multiple' = 'solid',
 ) => {
-  const gradientBase = [
-    0, 0.1403, 0.2624, 0.368, 0.459, 0.537, 0.604, 0.6616, 0.7117, 0.756,
-    0.7963, 0.8344, 0.872, 0.911, 0.953, 1,
-  ] as const;
+  const isMask = type === 'mask';
 
-  const getGradientSize = (base: string, idx: number) => {
-    return `calc(100% - (${base} * (1 - ${gradientBase[idx]})))`;
+  const gradientBaseOpacity = isMask ? maskGradientOpacity : gradientOpacity;
+  const gradientBaseOffset = isMask ? maskGradientOffset : gradientOffset;
+
+  const position = {
+    top: 'bottom',
+    bottom: 'top',
+    left: 'right',
+    right: 'left',
   };
 
-  return `linear-gradient(to ${variant}, rgb(0, 0, 0) ${getGradientSize(size, 0)}, rgba(0, 0, 0, 0.86) ${getGradientSize(size, 1)}, rgba(0, 0, 0, 0.73) ${getGradientSize(size, 2)}, rgba(0, 0, 0, 0.62) ${getGradientSize(size, 3)}, rgba(0, 0, 0, 0.52) ${getGradientSize(size, 4)}, rgba(0, 0, 0, 0.43) ${getGradientSize(size, 5)}, rgba(0, 0, 0, 0.35) ${getGradientSize(size, 6)}, rgba(0, 0, 0, 0.29) ${getGradientSize(size, 7)}, rgba(0, 0, 0, 0.23) ${getGradientSize(size, 8)}, rgba(0, 0, 0, 0.18) ${getGradientSize(size, 9)}, rgba(0, 0, 0, 0.14) ${getGradientSize(size, 10)}, rgba(0, 0, 0, 0.1) ${getGradientSize(size, 11)}, rgba(0, 0, 0, 0.07) ${getGradientSize(size, 12)}, rgba(0, 0, 0, 0.04) ${getGradientSize(size, 13)}, rgba(0, 0, 0, 0.02) ${getGradientSize(size, 14)}, rgba(0, 0, 0, 0) ${getGradientSize(size, 15)})`;
+  return `linear-gradient(to ${isMask ? variant : position[variant]}, ${gradientBaseOffset
+    .map(
+      (offset, i) =>
+        `rgba(0, 0, 0, ${Math.round(gradientBaseOpacity[i]! * 100) / 100}) calc(100% - calc(${size} * ${Math.round(offset * 100) / 100}))`,
+    )
+    .join(', ')})`;
 };
 
 export const gradient = (
   color: string,
   variant: 'top' | 'right' | 'bottom' | 'left',
   size = '100%',
+  type: 'mask' | 'solid' | 'multiple' = 'solid',
 ) => {
-  return `mask-image: ${getGradientMaskImage(variant, size)}; background-color: ${color};
+  return `mask-image: ${getGradientMaskImage(variant, size, type)}; background-color: ${color};
   `;
 };
 

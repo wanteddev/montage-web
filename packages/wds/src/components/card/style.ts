@@ -149,7 +149,7 @@ export const cardThumbnailContentWrapperStyle = (theme: Theme) => css`
 
   // overlay
   &::before {
-    ${gradient(theme.palette.static.black, 'bottom')}
+    ${gradient(theme.palette.static.black, 'bottom', '100%', 'mask')}
     content: '';
     position: absolute;
     top: 0;
