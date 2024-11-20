@@ -231,6 +231,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
 
+        [wds-component='top-navigation'] {
+          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        }
+
         [data-role='action-area-extra-content'] {
           margin-top: calc(
             var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
@@ -266,6 +270,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
 
+        [wds-component='top-navigation'] {
+          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        }
+
         [data-role='action-area-extra-content'] {
           margin-top: calc(
             var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
@@ -300,6 +308,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         --wds-top-navigation-min-height: 64px;
         --wds-action-area-margin-x: var(--wds-modal-content-margin);
         --wds-action-area-margin-y: var(--wds-modal-content-margin);
+
+        [wds-component='top-navigation'] {
+          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        }
 
         [data-role='action-area-extra-content'] {
           margin-top: calc(
@@ -340,6 +352,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           20px
         );
 
+        [wds-component='top-navigation'] {
+          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        }
+
         [data-role='action-area-extra-content'] {
           margin-top: calc(
             var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
@@ -378,6 +394,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
           --wds-action-area-margin,
           20px
         );
+
+        [wds-component='top-navigation'] {
+          --wds-tab-list-padding: var(--wds-modal-content-margin);
+        }
 
         [data-role='action-area-extra-content'] {
           margin-top: calc(

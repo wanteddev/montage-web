@@ -173,11 +173,14 @@ const TabList = forwardRef<
               md,
               lg,
               xl,
+              isScrollableLeft,
+              isScrollableRight,
             }),
             props.sx,
           ]}
         >
           <ScrollArea
+            data-radix-scroll-area-wrapper
             sx={scrollWrapperStyle({
               padding,
               resize,
@@ -186,8 +189,6 @@ const TabList = forwardRef<
               md,
               lg,
               xl,
-              isScrollableLeft,
-              isScrollableRight,
             })}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
@@ -197,7 +198,12 @@ const TabList = forwardRef<
           </ScrollArea>
 
           {Boolean(rightContent) && (
-            <FlexBox sx={stickyButtonStyle} as="span" alignItems="center">
+            <FlexBox
+              sx={stickyButtonStyle}
+              data-role="tab-list-right-content"
+              as="span"
+              alignItems="center"
+            >
               {rightContent}
             </FlexBox>
           )}

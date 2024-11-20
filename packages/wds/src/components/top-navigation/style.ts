@@ -19,8 +19,6 @@ export const topNavigationStyle =
     position: relative;
 
     [wds-component='tab-list'] {
-      background-color: transparent;
-      backdrop-filter: initial;
       &::after {
         background-color: transparent;
       }

@@ -11,7 +11,21 @@ import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
 
 export const tabListStyle =
-  ({ resize, padding, size, xs, sm, md, lg, xl }: TabListProps) =>
+  ({
+    isScrollableLeft,
+    isScrollableRight,
+    resize,
+    padding,
+    size,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: TabListProps & {
+    isScrollableLeft: boolean;
+    isScrollableRight: boolean;
+  }) =>
   (theme: Theme) => css`
     width: 100%;
     list-style: none;
@@ -19,7 +33,37 @@ export const tabListStyle =
     padding: 0;
     margin: 0;
 
-    ${tabPaddingStyle({ padding, resize }, theme)}
+    ${(isScrollableLeft || isScrollableRight) &&
+    css`
+      [data-radix-scroll-area-wrapper] {
+        mask-composite: intersect;
+        mask-image: ${[
+          isScrollableRight && getGradientMaskImage('right', '48px', 'mask'),
+          isScrollableLeft && getGradientMaskImage('left', '48px', 'mask'),
+        ]
+          .filter(Boolean)
+          .join(', ')};
+      }
+
+      &:has([data-role='tab-list-right-content']) {
+        [data-radix-scroll-area-wrapper] {
+          mask-image: ${[
+            isScrollableRight &&
+              getGradientMaskImage('right', '48px', 'mask').replaceAll(
+                '100% -',
+                '100% - 20px -',
+              ),
+            isScrollableRight &&
+              'linear-gradient(to right, rgb(0, 0, 0) calc(100% - 20px), rgb(0, 0, 0) 100%)',
+            isScrollableLeft && getGradientMaskImage('left', '48px', 'mask'),
+          ]
+            .filter(Boolean)
+            .join(', ')};
+        }
+      }
+    `}
+
+    ${tabPaddingStyle({ padding, resize })}
     ${tabSizeStyle({ size, resize })}
 
     &::after {
@@ -41,23 +85,20 @@ export const tabListStyle =
           Boolean(params?.size) ||
           params?.padding !== undefined) &&
         css`
-          ${tabPaddingStyle(
-            {
-              padding: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'padding',
-                padding,
-                breakpoint!,
-              ),
-              resize: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'resize',
-                resize,
-                breakpoint!,
-              )!,
-            },
-            theme,
-          )}
+          ${tabPaddingStyle({
+            padding: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'padding',
+              padding,
+              breakpoint!,
+            ),
+            resize: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'resize',
+              resize,
+              breakpoint!,
+            )!,
+          })}
           ${tabSizeStyle({
             size: getPreviousValue(
               { xs, sm, md, lg, xl },
@@ -78,7 +119,7 @@ export const tabListStyle =
     )}
   `;
 
-const tabPaddingStyle = ({ padding, resize }: TabListProps, theme: Theme) => {
+const tabPaddingStyle = ({ padding, resize }: TabListProps) => {
   if (resize === 'fill') {
     return css`
       [data-radix-scroll-area-viewport] {
@@ -92,40 +133,27 @@ const tabPaddingStyle = ({ padding, resize }: TabListProps, theme: Theme) => {
       --wds-tab-list-item-text-display: block;
       --wds-tab-list-item-text-align: center;
       --wds-tab-right-content-padding: 0px;
-
-      ${padding === true
-        ? css`
-            ${theme.platform.ios.navigation}
-          `
-        : css`
-            background-color: transparent;
-            backdrop-filter: initial;
-          `}
     `;
   }
 
   switch (padding) {
     case true:
       return css`
-        ${theme.platform.ios.navigation}
-
         [data-radix-scroll-area-viewport] {
           position: relative;
-          left: 0px;
-          width: 100%;
+          left: calc(var(--wds-tab-padding-x) * -1);
+          width: calc(100% + var(--wds-tab-padding-x));
         }
 
         --wds-tab-list-item-flex: 0 0 auto;
         --wds-tab-list-item-overflow: initial;
         --wds-tab-list-item-text-display: inline;
         --wds-tab-list-item-text-align: initial;
-        --wds-tab-right-content-padding: 0px 16px 0px 4px;
+        --wds-tab-right-content-padding: 0px
+          calc(var(--wds-tab-list-padding, 20px) - 4px) 0px 0px;
       `;
     case false:
       return css`
-        background-color: transparent;
-        backdrop-filter: initial;
-
         [data-radix-scroll-area-viewport] {
           position: relative;
           left: calc(var(--wds-tab-padding-x) * -1);
@@ -174,35 +202,11 @@ const tabSizeStyle = ({ size, resize }: TabListProps) => {
 };
 
 export const scrollWrapperStyle =
-  ({
-    isScrollableLeft,
-    isScrollableRight,
-    padding,
-    resize,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: TabListProps & {
-    isScrollableLeft: boolean;
-    isScrollableRight: boolean;
-  }) =>
+  ({ padding, resize, xs, sm, md, lg, xl }: TabListProps) =>
   (theme: Theme) => css`
     width: 100%;
     height: fit-content;
     background-color: transparent;
-
-    ${(isScrollableLeft || isScrollableRight) &&
-    css`
-      mask-composite: intersect;
-      mask-image: ${[
-        isScrollableRight && getGradientMaskImage('right', '48px'),
-        isScrollableLeft && getGradientMaskImage('left', '48px'),
-      ]
-        .filter(Boolean)
-        .join(', ')};
-    `}
 
     ${scrollWrapperPaddingStyle({ padding, resize })}
 
@@ -239,18 +243,24 @@ export const scrollWrapperStyle =
 const scrollWrapperPaddingStyle = ({ padding, resize }: TabListProps) => {
   if (resize === 'fill') {
     return css`
-      padding: 0px;
+      [data-radix-scroll-area-content] {
+        padding: 0px;
+      }
     `;
   }
 
   switch (padding) {
     case true:
       return css`
-        padding: 0px 8px;
+        [data-radix-scroll-area-content] {
+          padding: 0px var(--wds-tab-list-padding, 20px);
+        }
       `;
     case false:
       return css`
-        padding: 0px;
+        [data-radix-scroll-area-content] {
+          padding: 0px;
+        }
       `;
   }
 };
