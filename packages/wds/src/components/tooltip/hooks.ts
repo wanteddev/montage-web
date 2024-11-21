@@ -122,14 +122,12 @@ export const useTooltip = ({
   );
 
   const handleDismiss = useCallback(() => {
-    if (mode === 'hover') {
-      if (latestOpen.current) {
-        setOpen(false);
-        window.clearTimeout(openTimerRef.current);
-        window.clearTimeout(closeTimerRef.current);
-      }
+    if (latestOpen.current) {
+      setOpen(false);
+      window.clearTimeout(openTimerRef.current);
+      window.clearTimeout(closeTimerRef.current);
     }
-  }, [mode, setOpen]);
+  }, [setOpen]);
 
   return {
     containerRef,
