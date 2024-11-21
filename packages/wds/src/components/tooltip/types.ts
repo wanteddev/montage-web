@@ -33,6 +33,14 @@ export type TooltipContentProps = {
   position?: PopperContentProps['position'];
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];
+  /**
+   * 요소가 가려질 경우 숨김 처리 합니다.
+   */
+  referenceHidden?: PopperContentProps['referenceHidden'];
+  /**
+   * floating ui context를 콜백을 통해 가져올 수 있습니다.
+   */
+  setContext?: PopperContentProps['setContext'];
   animationDuration?: number;
   /**
    * compact tooltip을 위해 사용

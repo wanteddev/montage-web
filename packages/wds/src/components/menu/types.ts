@@ -25,6 +25,8 @@ export type MenuContentProps = Pick<
   | 'onUnmountAutoFocus'
   | 'trapped'
   | 'loop'
+  | 'referenceHidden'
+  | 'setContext'
 >;
 
 export type MenuGroupDefaultProps = {

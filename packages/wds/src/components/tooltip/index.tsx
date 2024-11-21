@@ -130,6 +130,8 @@ const TooltipContent = forwardRef<
       disablePortal,
       closeButton,
       animationDuration = 250,
+      referenceHidden = false,
+      setContext,
       __wdsCustomChildren,
       ...props
     },
@@ -183,6 +185,8 @@ const TooltipContent = forwardRef<
             disablePortal={disablePortal}
             ref={composedRef}
             offset={offset}
+            referenceHidden={referenceHidden}
+            setContext={setContext}
             wrapperProps={{
               onMouseOver: handleMouseOver,
               onMouseLeave: handleMouseLeave,
