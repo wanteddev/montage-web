@@ -1,5 +1,6 @@
+import type { PopoverTrigger } from '../popover';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { PopoverContentProps, PopoverProps } from '../popover/types';
 import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
@@ -11,7 +12,9 @@ export type MenuDefaultProps = {
 };
 export type MenuProps = Merge<MenuDefaultProps, PopoverProps>;
 
-export type MenuContentPopoverContentProps = Pick<
+export type MenuTriggerProps = ComponentPropsWithoutRef<typeof PopoverTrigger>;
+
+export type MenuContentProps = Pick<
   PopoverContentProps,
   | 'position'
   | 'offset'
@@ -23,7 +26,6 @@ export type MenuContentPopoverContentProps = Pick<
   | 'trapped'
   | 'loop'
 >;
-export type MenuContentProps = MenuContentPopoverContentProps;
 
 export type MenuGroupDefaultProps = {
   title?: ReactNode;
