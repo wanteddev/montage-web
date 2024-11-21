@@ -336,7 +336,13 @@ ListCell.displayName = LIST_CELL_NAME;
 
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
-    { caption, bold, children, ...props }: PolymorphicProps<ListTextProps, E>,
+    {
+      caption,
+      bold,
+      children,
+      color,
+      ...props
+    }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
@@ -349,7 +355,7 @@ const ListText = forwardRef(
     const weight: TypographyWeight =
       bold ?? menuItemBold ? 'medium' : 'regular';
 
-    const getParagraphColor = (): ThemeColorsToken => {
+    const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
         return 'palette.label.disable';
       }
@@ -357,7 +363,7 @@ const ListText = forwardRef(
         return 'palette.primary.normal';
       }
 
-      return 'palette.label.normal';
+      return color ?? 'palette.label.normal';
     };
 
     return (
@@ -372,7 +378,7 @@ const ListText = forwardRef(
       >
         <Typography
           variant="body1_normal"
-          color={getParagraphColor()}
+          color={getTextColor()}
           weight={weight}
           sx={listTextStyle}
         >

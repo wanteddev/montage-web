@@ -1,4 +1,8 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  ThemeColorsToken,
+} from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
@@ -50,4 +54,5 @@ export type ListCellProps = Merge<
 export type ListTextProps = {
   caption?: ReactNode;
   bold?: boolean;
+  color?: ThemeColorsToken;
 };
