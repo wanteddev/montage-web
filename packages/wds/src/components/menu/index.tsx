@@ -14,6 +14,7 @@ import Checkbox from '../checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
+import { usePopoverContext } from '../popover/contexts';
 
 import {
   MENU_BOTTOM_CONTENT_NAME,
@@ -49,6 +50,7 @@ import type {
   MenuItemProps,
   MenuItemRadioProps,
   MenuProps,
+  MenuTriggerProps,
 } from './types';
 import type {
   DefaultComponentProps,
@@ -62,6 +64,8 @@ import type {
   PropsWithChildren,
   ReactNode,
 } from 'react';
+
+const ARROW_KEYS = ['ArrowUp', 'ArrowDown'];
 
 const Menu = (props: PropsWithChildren<MenuProps>) => {
   const {
@@ -87,7 +91,32 @@ const Menu = (props: PropsWithChildren<MenuProps>) => {
 
 Menu.displayName = MENU_NAME;
 
-const MenuTrigger = PopoverTrigger;
+const MenuTrigger = forwardRef<
+  ElementRef<typeof PopoverTrigger>,
+  MenuTriggerProps
+>((props, ref) => {
+  const { open, onOpenChange } = usePopoverContext(MENU_TRIGGER_NAME);
+
+  return (
+    <PopoverTrigger
+      {...props}
+      ref={ref}
+      onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
+        if (
+          open ||
+          e.currentTarget.ariaDisabled?.toString() === 'true' ||
+          e.currentTarget.getAttribute('disabled')?.toString() === 'true' ||
+          !ARROW_KEYS.includes(e.key)
+        ) {
+          return;
+        }
+
+        e.preventDefault();
+        onOpenChange(true);
+      })}
+    />
+  );
+});
 
 MenuTrigger.displayName = MENU_TRIGGER_NAME;
 

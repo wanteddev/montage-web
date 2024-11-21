@@ -111,6 +111,8 @@ const ListItem = forwardRef(
           })}
           onClick={composeEventHandlers(props.onClick, (e) => {
             if (
+              (e.target as HTMLElement).getAttribute('disabled')?.toString() ===
+                'true' ||
               (e.target as HTMLElement).ariaDisabled?.toString() === 'true' ||
               (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
