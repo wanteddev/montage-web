@@ -242,9 +242,7 @@ const ModalContainer = forwardRef<
         <Box
           ref={dimmerRef}
           data-status={status}
-          data-visibility={
-            isBottomSheetWithHandle ? context.visibility : undefined
-          }
+          data-visibility={context.visibility}
           onPointerDown={useCallback(
             (e: PointerEvent) => {
               const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
@@ -269,7 +267,12 @@ const ModalContainer = forwardRef<
             ],
           )}
           sx={modalDimmerStyle({
-            isBottomSheet: isBottomSheetWithHandle,
+            variant,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
           })}
         />
 
@@ -315,13 +318,10 @@ const ModalContainer = forwardRef<
                 aria-describedby={`${context.descriptionId} ${context.summaryId}`}
                 aria-labelledby={`${context.titleId} ${context.headingId}`}
                 {...props}
-                data-visibility={
-                  isBottomSheetWithHandle ? context.visibility : undefined
-                }
+                data-visibility={context.visibility}
                 data-status={status}
                 sx={[
                   modalContainerStyle({
-                    isBottomSheet: context.isBottomSheet,
                     variant,
                     size,
                     xs,

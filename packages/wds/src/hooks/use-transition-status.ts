@@ -14,7 +14,7 @@ const useTransitionStatus = ({
   hasExited: boolean;
   status: TransitionStatus;
 } => {
-  const [status, setStatus] = useState<TransitionStatus>('unmounted');
+  const [status, setStatus] = useState<TransitionStatus>('initial');
   const hasExited = !useDelayUnmount(open, duration);
 
   if (!hasExited && status === 'close') {

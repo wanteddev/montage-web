@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
+import { flushSync } from 'react-dom';
 
 import { getPreviousValue } from '../../utils/responsive-props';
 
@@ -38,7 +39,7 @@ export const useDraggable = ({
     breakpoint.map((v) =>
       getPreviousValue({ xs, sm, md, lg, xl }, 'variant', givenVariant, v),
     ),
-    'popup',
+    givenVariant,
   );
 
   const handle = useMedia(
@@ -84,17 +85,28 @@ export const useDraggable = ({
       return;
     }
 
-    calcTopNavigationHeight();
     context.setVisibility('hidden');
-
-    container.style.removeProperty('transition');
-    container.style.setProperty(
-      '--wds-modal-translate',
-      `calc(100% - ${topNavigationHeight.current}px)`,
-    );
-    dimmerRef.current?.style.removeProperty('transition');
-    dimmerRef.current?.style.removeProperty('opacity');
   };
+
+  useEffect(() => {
+    const container = context.containerRef.current;
+    if (!isEnabled || !container) {
+      return;
+    }
+
+    calcTopNavigationHeight();
+
+    if (context.visibility === 'hidden' && context.open) {
+      container.style.removeProperty('transition');
+      container.style.setProperty(
+        '--wds-modal-translate',
+        `calc(100% - ${topNavigationHeight.current}px)`,
+      );
+      dimmerRef.current?.style.removeProperty('transition');
+      dimmerRef.current?.style.removeProperty('opacity');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEnabled, context.visibility, context.open]);
 
   const onMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     const container = context.containerRef.current;
@@ -233,7 +245,9 @@ export const useDraggable = ({
       }
 
       if (window.innerHeight - clientY <= totalHeight / 1.25) {
-        context.setVisibility('hidden');
+        flushSync(() => {
+          context.setVisibility('hidden');
+        });
         container.style.setProperty(
           '--wds-modal-translate',
           `calc(100% - ${topNavigationHeight.current}px)`,
