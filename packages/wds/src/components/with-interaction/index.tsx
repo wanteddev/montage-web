@@ -1,16 +1,77 @@
 'use client';
-import { Children, cloneElement, isValidElement } from 'react';
-import {
-  Box,
-  ClassNames,
-  css,
-  getColorByToken,
-  useTheme,
-} from '@wanteddev/wds-engine';
+import { Children, cloneElement, forwardRef, isValidElement } from 'react';
+import { Box } from '@wanteddev/wds-engine';
+import { Slot } from '@radix-ui/react-slot';
+import { composeRefs } from '@radix-ui/react-compose-refs';
 
-import { getWrapperStyle } from './style';
+import { getWrapperStyle, interactionStyle } from './style';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { WithInteractionProps } from './types';
+
+const WithInteraction = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<WithInteractionProps, 'div'>
+>(
+  (
+    {
+      variant = 'normal',
+      children,
+      scale,
+      disabled,
+      color,
+      width,
+      height,
+      sx,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    if (isValidElement(children)) {
+      const childrenProps = { ...children.props };
+
+      const ref = forwardedRef
+        ? composeRefs(
+            forwardedRef,
+            (children as any).ref ?? children.props?.ref,
+          )
+        : undefined;
+
+      childrenProps.children = (
+        <>
+          {childrenProps.children}
+          <Interaction color={color} height={height} width={width} />
+        </>
+      );
+
+      return (
+        <Box
+          as={Slot}
+          {...props}
+          sx={[
+            getWrapperStyle({ disabled, variant, scale }),
+            sx,
+            childrenProps.sx,
+          ]}
+        >
+          {cloneElement(children, {
+            // @ts-ignore
+            ...childrenProps,
+            sx: undefined,
+            ref,
+            children: childrenProps.children,
+          })}
+        </Box>
+      );
+    }
+
+    return Children.count(children) > 1 ? Children.only(null) : null;
+  },
+);
+
+WithInteraction.displayName = 'WithInteraction';
+
+export default WithInteraction;
 
 const Interaction = ({
   color = 'palette.label.normal',
@@ -21,89 +82,7 @@ const Interaction = ({
     <Box
       wds-component="with-interaction"
       role="presentation"
-      sx={(theme) => css`
-        overflow: hidden;
-        position: absolute;
-        z-index: 0;
-        box-sizing: content-box;
-        border-radius: inherit;
-        opacity: ${theme.opacity[0]};
-        background-color: ${getColorByToken(theme, color)};
-        will-change: opacity, transform;
-        transition:
-          opacity 0.15s ease,
-          transform 0.15s ease;
-        transform-origin: center;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-
-        ${width &&
-        css`
-          width: ${width};
-        `}
-        ${height &&
-        css`
-          height: ${height};
-        `}
-      `}
+      sx={interactionStyle({ color, width, height })}
     />
   );
 };
-const WithInteraction = ({
-  variant = 'normal',
-  children,
-  scale,
-  disabled,
-  ...props
-}: WithInteractionProps) => {
-  const theme = useTheme();
-
-  if (isValidElement(children)) {
-    const childrenProps = { ...children.props };
-
-    childrenProps.children = (
-      <>
-        {childrenProps.children}
-        <Interaction {...props} />
-      </>
-    );
-
-    if (childrenProps.sx) {
-      return cloneElement(children, {
-        ...childrenProps,
-        ref: (children as any).ref ?? children.props.ref,
-        sx: [
-          css(getWrapperStyle(theme, { variant, scale, disabled })),
-          ...(Array.isArray(childrenProps.sx)
-            ? childrenProps.sx
-            : [childrenProps.sx]),
-        ],
-      });
-    }
-
-    return (
-      <ClassNames>
-        {({ css: className }) => (
-          <>
-            {cloneElement(children, {
-              ...childrenProps,
-              className: childrenProps?.className
-                ? `${className(getWrapperStyle(theme, { variant, scale, disabled }))} ${childrenProps?.className}`
-                : className(
-                    getWrapperStyle(theme, { variant, scale, disabled }),
-                  ),
-              ref: (children as any).ref ?? children.props.ref,
-            })}
-          </>
-        )}
-      </ClassNames>
-    );
-  }
-
-  return Children.count(children) > 1 ? Children.only(null) : null;
-};
-
-WithInteraction.displayName = 'WithInteraction';
-
-export default WithInteraction;
