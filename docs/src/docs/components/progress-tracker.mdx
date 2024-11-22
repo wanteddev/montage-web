@@ -37,3 +37,116 @@ export default Demo;`}
 ### ProgressTrackerItem
 
 <PropsTable component="ProgressTrackerItem" />
+
+
+## Orientation
+
+### Horizontal
+
+<Demo code={`import { ProgressTracker, ProgressTrackerItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker value="1">
+      <ProgressTrackerItem value="0" />
+      <ProgressTrackerItem value="1" />
+      <ProgressTrackerItem value="2" />
+    </ProgressTracker>
+  );
+}
+
+export default Demo;`}
+/>
+
+
+`label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
+
+Horizontal에서 label은 영역을 차지하지 않기 때문에 간격 보정이 필요할 수 있습니다.
+
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker value="1" sx={{ paddingBottom: 40 }}>
+      <ProgressTrackerItem label="단계" completedLabel="완료" value="0" />
+      <ProgressTrackerItem label="단계" completedLabel="완료" value="1" />
+      <ProgressTrackerItem label="단계" completedLabel="완료" value="2" />
+    </ProgressTracker>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Vertical
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker orientation="vertical" value="1">
+      <ProgressTrackerItem value="0">
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem value="1">
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem value="2">
+        <Item />
+      </ProgressTrackerItem>
+    </ProgressTracker>
+  );
+}
+
+const Item = () => {
+  return (
+    <Box
+      sx={theme => css\`
+        width: 100%;
+        height: 64px;
+        background: \${theme.palette.accent.violet};
+        opacity: 0.08;
+      \`}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+`label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker orientation="vertical" value="1">
+      <ProgressTrackerItem label="단계" completedLabel="완료" value="0">
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem label="단계" completedLabel="완료" value="1">
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem label="단계" completedLabel="완료" value="2">
+        <Item />
+      </ProgressTrackerItem>
+    </ProgressTracker>
+  );
+}
+
+const Item = () => {
+  return (
+    <Box
+      sx={theme => css\`
+        width: 100%;
+        height: 64px;
+        background: \${theme.palette.accent.violet};
+        opacity: 0.08;
+      \`}
+    />
+  )
+}
+
+export default Demo;`}
+/>
