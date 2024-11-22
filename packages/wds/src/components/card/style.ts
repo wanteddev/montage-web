@@ -8,7 +8,12 @@ import {
 } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { CardContentItemProps, CardProps } from './types';
+import type {
+  CardContentItemProps,
+  CardProps,
+  CardThumbnailProps,
+  CardThumbnailResponsiveProps,
+} from './types';
 
 const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
@@ -124,18 +129,55 @@ export const cardStyle =
     )}
   `;
 
-export const cardThumbnailStyle = css`
-  position: relative;
-
-  [wds-component='thumbnail'] {
-    overflow: hidden;
-
-    img {
-      will-change: transform;
-      transition: transform 0.2s ease;
-    }
+const cardThumbnailRatioStyle = ({
+  ratio,
+}: Pick<CardThumbnailProps, 'ratio'>) => {
+  if (!ratio) {
+    return;
   }
-`;
+
+  const [width, height] = ratio.split(':');
+  const parsedRatio = `${width} / ${height}`;
+
+  return css`
+    & [wds-component='thumbnail'] {
+      aspect-ratio: ${parsedRatio};
+    }
+  `;
+};
+
+export const cardThumbnailStyle =
+  ({
+    ratio,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: Pick<CardThumbnailProps, 'ratio'> & CardThumbnailResponsiveProps) =>
+  (theme: Theme) => css`
+    position: relative;
+
+    ${cardThumbnailRatioStyle({ ratio })}
+    [wds-component='thumbnail'] {
+      overflow: hidden;
+
+      img {
+        will-change: transform;
+        transition: transform 0.2s ease;
+      }
+    }
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${cardThumbnailRatioStyle({ ratio: params?.ratio })}
+        ${params?.sx}
+      `,
+    )}
+  `;
 
 export const cardThumbnailContentWrapperStyle = (theme: Theme) => css`
   position: absolute;

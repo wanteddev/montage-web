@@ -80,13 +80,32 @@ const Card = forwardRef(
 Card.displayName = CARD_NAME;
 
 const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
-  ({ leadingContent, trailingContent, width, sx, ...props }, ref) => {
+  (
+    {
+      leadingContent,
+      trailingContent,
+      width,
+      ratio,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
     const hasLeadingContent = Boolean(leadingContent);
     const hasTrailingContent = Boolean(trailingContent);
     const hasContent = hasLeadingContent || hasTrailingContent;
 
     return (
-      <Box ref={ref} {...props} sx={[cardThumbnailStyle, sx]}>
+      <Box
+        ref={ref}
+        {...props}
+        sx={[cardThumbnailStyle({ ratio, xs, sm, md, lg, xl }), sx]}
+      >
         {hasContent && (
           <FlexBox
             gap="4px"
