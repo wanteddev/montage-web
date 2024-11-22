@@ -32,39 +32,21 @@ export const tabListStyle =
     position: relative;
     padding: 0;
     margin: 0;
+    gap: 20px;
 
-    ${(isScrollableLeft || isScrollableRight) &&
-    css`
-      [data-radix-scroll-area-wrapper] {
-        mask-composite: intersect;
-        mask-image: ${[
-          isScrollableRight && getGradientMaskImage('right', '48px', 'mask'),
-          isScrollableLeft && getGradientMaskImage('left', '48px', 'mask'),
-        ]
-          .filter(Boolean)
-          .join(', ')};
-      }
+    [data-radix-scroll-area-viewport] {
+      position: relative;
+    }
+    [data-radix-scroll-area-content] {
+      overflow: hidden;
+    }
 
-      &:has([data-role='tab-list-right-content']) {
-        [data-radix-scroll-area-wrapper] {
-          mask-image: ${[
-            isScrollableRight &&
-              getGradientMaskImage('right', '48px', 'mask').replaceAll(
-                '100% -',
-                '100% - 20px -',
-              ),
-            isScrollableRight &&
-              'linear-gradient(to right, rgb(0, 0, 0) calc(100% - 20px), rgb(0, 0, 0) 100%)',
-            isScrollableLeft && getGradientMaskImage('left', '48px', 'mask'),
-          ]
-            .filter(Boolean)
-            .join(', ')};
-        }
-      }
-    `}
-
-    ${tabPaddingStyle({ padding, resize })}
+    ${tabPaddingStyle({ padding, resize, isScrollableLeft, isScrollableRight })}
     ${tabSizeStyle({ size, resize })}
+
+    [data-role="tab-list-wrapper"] {
+      gap: calc(var(--wds-tab-padding-x) * 2);
+    }
 
     &::after {
       position: absolute;
@@ -98,6 +80,8 @@ export const tabListStyle =
               resize,
               breakpoint!,
             )!,
+            isScrollableLeft,
+            isScrollableRight,
           })}
           ${tabSizeStyle({
             size: getPreviousValue(
@@ -119,13 +103,29 @@ export const tabListStyle =
     )}
   `;
 
-const tabPaddingStyle = ({ padding, resize }: TabListProps) => {
+const tabPaddingStyle = ({
+  padding,
+  resize,
+  isScrollableLeft,
+  isScrollableRight,
+}: TabListProps & {
+  isScrollableLeft: boolean;
+  isScrollableRight: boolean;
+}) => {
   if (resize === 'fill') {
     return css`
-      [data-radix-scroll-area-viewport] {
-        position: relative;
-        left: 0px;
-        width: 100%;
+      &:not(:has([data-role='tab-list-right-content'])),
+      &:has([data-role='tab-list-right-content']) {
+        [data-radix-scroll-area-wrapper] {
+          mask-image: none;
+        }
+        [data-radix-scroll-area-content] {
+          padding: 0px;
+        }
+      }
+
+      [data-role='tab-list-right-content'] {
+        display: none;
       }
 
       --wds-tab-list-item-flex: 1 1 0;
@@ -139,30 +139,90 @@ const tabPaddingStyle = ({ padding, resize }: TabListProps) => {
   switch (padding) {
     case true:
       return css`
-        [data-radix-scroll-area-viewport] {
-          position: relative;
-          left: calc(var(--wds-tab-padding-x) * -1);
-          width: calc(100% + var(--wds-tab-padding-x));
+        [data-role='tab-list-right-content'] {
+          display: flex;
         }
 
-        --wds-tab-list-item-flex: 0 0 auto;
+        &:not(:has([data-role='tab-list-right-content']))
+          [data-radix-scroll-area-content] {
+          padding: 0px var(--wds-tab-list-padding, 20px);
+        }
+
+        &:has([data-role='tab-list-right-content'])
+          [data-radix-scroll-area-content] {
+          padding: 0px 0px 0px var(--wds-tab-list-padding, 20px);
+        }
+
+        ${isScrollableRight
+          ? css`
+              &:not(:has([data-role='tab-list-right-content']))
+                [data-radix-scroll-area-wrapper] {
+                mask-image: none;
+              }
+
+              &:has([data-role='tab-list-right-content'])
+                [data-radix-scroll-area-wrapper] {
+                mask-image: ${getGradientMaskImage('right', '48px', 'mask')};
+              }
+            `
+          : css`
+              &:not(:has([data-role='tab-list-right-content']))
+                [data-radix-scroll-area-wrapper],
+              &:has([data-role='tab-list-right-content'])
+                [data-radix-scroll-area-wrapper] {
+                mask-image: none;
+              }
+            `}
+
+        --wds-tab-list-item-flex: initial;
         --wds-tab-list-item-overflow: initial;
-        --wds-tab-list-item-text-display: inline;
+        --wds-tab-list-item-text-display: block;
         --wds-tab-list-item-text-align: initial;
         --wds-tab-right-content-padding: 0px
           calc(var(--wds-tab-list-padding, 20px) - 4px) 0px 0px;
       `;
     case false:
       return css`
-        [data-radix-scroll-area-viewport] {
-          position: relative;
-          left: calc(var(--wds-tab-padding-x) * -1);
-          width: calc(100% + var(--wds-tab-padding-x));
+        [data-role='tab-list-right-content'] {
+          display: flex;
         }
 
-        --wds-tab-list-item-flex: 0 0 auto;
+        &:not(:has([data-role='tab-list-right-content']))
+          [data-radix-scroll-area-content],
+        &:has([data-role='tab-list-right-content'])
+          [data-radix-scroll-area-content] {
+          padding: 0px;
+        }
+
+        ${isScrollableLeft || isScrollableRight
+          ? css`
+              &:has([data-role='tab-list-right-content'])
+                [data-radix-scroll-area-wrapper],
+              &:not(:has([data-role='tab-list-right-content']))
+                [data-radix-scroll-area-wrapper] {
+                mask-composite: intersect;
+                mask-image: ${[
+                  isScrollableLeft &&
+                    getGradientMaskImage('left', '48px', 'mask'),
+                  isScrollableRight &&
+                    getGradientMaskImage('right', '48px', 'mask'),
+                ]
+                  .filter(Boolean)
+                  .join(', ')};
+              }
+            `
+          : css`
+              &:not(:has([data-role='tab-list-right-content']))
+                [data-radix-scroll-area-wrapper],
+              &:has([data-role='tab-list-right-content'])
+                [data-radix-scroll-area-wrapper] {
+                mask-image: none;
+              }
+            `}
+
+        --wds-tab-list-item-flex: initial;
         --wds-tab-list-item-overflow: initial;
-        --wds-tab-list-item-text-display: inline;
+        --wds-tab-list-item-text-display: block;
         --wds-tab-list-item-text-align: initial;
         --wds-tab-right-content-padding: 0px;
       `;
@@ -201,87 +261,46 @@ const tabSizeStyle = ({ size, resize }: TabListProps) => {
   }
 };
 
-export const scrollWrapperStyle =
-  ({ padding, resize, xs, sm, md, lg, xl }: TabListProps) =>
-  (theme: Theme) => css`
-    width: 100%;
-    height: fit-content;
-    background-color: transparent;
+export const scrollWrapperStyle = css`
+  width: 100%;
+  height: fit-content;
+  background-color: transparent;
 
-    ${scrollWrapperPaddingStyle({ padding, resize })}
-
-    [data-radix-scroll-area-viewport] {
-      scroll-behavior: smooth;
-    }
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params, breakpoint) => css`
-        ${(params?.padding !== undefined || Boolean(params?.resize)) &&
-        css`
-          ${scrollWrapperPaddingStyle({
-            padding: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'padding',
-              padding,
-              breakpoint!,
-            ),
-            resize: getPreviousValue(
-              { xs, sm, md, lg, xl },
-              'resize',
-              resize,
-              breakpoint!,
-            ),
-          })}
-        `}
-      `,
-    )}
-  `;
-
-const scrollWrapperPaddingStyle = ({ padding, resize }: TabListProps) => {
-  if (resize === 'fill') {
-    return css`
-      [data-radix-scroll-area-content] {
-        padding: 0px;
-      }
-    `;
+  [data-radix-scroll-area-viewport] {
+    scroll-behavior: smooth;
   }
+`;
 
-  switch (padding) {
-    case true:
-      return css`
-        [data-radix-scroll-area-content] {
-          padding: 0px var(--wds-tab-list-padding, 20px);
-        }
-      `;
-    case false:
-      return css`
-        [data-radix-scroll-area-content] {
-          padding: 0px;
-        }
-      `;
-  }
-};
+export const motionDividerStyle = (theme: Theme) => css`
+  position: absolute;
+  height: 2px;
+  background-color: ${theme.palette.label.strong};
+  display: none;
+`;
 
 export const tabListItemStyle = (theme: Theme) => css`
-  padding: var(--wds-tab-padding-y) var(--wds-tab-padding-x);
-  cursor: pointer;
+  padding: var(--wds-tab-padding-y) 0px;
   scroll-margin-inline: 25px;
-  flex: var(--wds-tab-list-item-flex, 0 0 auto);
+  flex: var(--wds-tab-list-item-flex, initial);
   overflow: var(--wds-tab-list-item-overflow, initial);
+  position: relative;
+  cursor: pointer;
+
+  &[aria-disabled='true'] {
+    cursor: initial;
+  }
 
   [data-role='tab-list-item-text-wrapper'] {
     position: relative;
     margin: 0;
-    height: 100%;
+    height: fit-content;
     padding: 0;
   }
 
   [data-role='tab-list-item-text'] {
+    white-space: nowrap;
     transition: color 0.2s ease;
-    display: var(--wds-tab-list-item-text-display, inline);
+    display: var(--wds-tab-list-item-text-display, block);
     text-align: var(--wds-tab-list-item-text-align, initial);
   }
 
@@ -317,15 +336,26 @@ export const tabListItemStyle = (theme: Theme) => css`
       color: ${theme.palette.label.strong};
     }
 
-    [data-role='tab-list-item-divider'] {
-      max-height: 2px;
-      background-color: ${theme.palette.label.strong};
+    &[data-ssr-motion='true'] {
+      [data-role='tab-list-item-divider'] {
+        max-height: 2px;
+        background-color: ${theme.palette.label.strong};
+      }
     }
   }
 
   &:focus-visible {
     outline-offset: -1px;
   }
+`;
+
+export const tabListItemInteractionStyle = css`
+  position: absolute;
+  width: calc(100% + (var(--wds-tab-padding-x) * 2));
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
 `;
 
 export const stickyButtonStyle = css`

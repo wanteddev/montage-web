@@ -13,14 +13,18 @@ import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
+import { usePrevious } from '@radix-ui/react-use-previous';
 
 import FlexBox from '../flex-box';
 import ScrollArea from '../scroll-area';
 import useResizeObserver from '../../hooks/use-resize-observer';
+import { calculateAnimationStyle } from '../../utils/animation';
 
 import {
+  motionDividerStyle,
   scrollWrapperStyle,
   stickyButtonStyle,
+  tabListItemInteractionStyle,
   tabListItemStyle,
   tabListStyle,
 } from './style';
@@ -38,6 +42,7 @@ import type {
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import type {
+  CSSProperties,
   ElementRef,
   ElementType,
   ForwardedRef,
@@ -114,6 +119,14 @@ const TabList = forwardRef<
     const containerRef = useRef<HTMLDivElement>(null);
     const composedRef = useComposedRefs(ref, containerRef);
 
+    const prevValue = usePrevious(context.value);
+    const motionDividerRef = useRef<HTMLDivElement | null>(null);
+
+    const isValueChanged = prevValue !== context.value;
+
+    const [motionStyleProperties, setMotionStyleProperties] =
+      useState<CSSProperties>({});
+
     const [isScrollableLeft, setIsScrollableLeft] = useState(false);
     const [isScrollableRight, setIsScrollableRight] = useState(false);
 
@@ -137,7 +150,7 @@ const TabList = forwardRef<
     const handleResize = useCallback(() => {
       const target = context.viewportNode?.parentElement?.parentElement;
 
-      if (!target) {
+      if (!target || !context.viewportNode) {
         return;
       }
 
@@ -150,7 +163,44 @@ const TabList = forwardRef<
       } else if (scrollWidth !== clientWidth) {
         setIsScrollableRight(true);
       }
-    }, [context.viewportNode]);
+
+      const motionElement = motionDividerRef.current;
+
+      const currentElement = target.querySelector<HTMLDivElement>(
+        `[wds-component="tab-list-item"][data-value="${prevValue}"]`,
+      );
+      const nextElement = target.querySelector<HTMLDivElement>(
+        `[wds-component="tab-list-item"][data-value="${context.value}"]`,
+      );
+
+      const nextTextElement = nextElement?.querySelector<HTMLSpanElement>(
+        '[data-role="tab-list-item-text"]',
+      );
+
+      if (!motionElement || !nextElement || !nextTextElement) {
+        setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
+        return;
+      }
+
+      setMotionStyleProperties({
+        ...calculateAnimationStyle(nextTextElement, context.viewportNode),
+        display: 'block',
+        height: '2px',
+        bottom: '0px',
+        top: 'initial',
+        ...(isValueChanged
+          ? {
+              transition: 'inset 300ms ease, width 300ms ease',
+            }
+          : {}),
+      });
+
+      nextElement.removeAttribute('data-ssr-motion');
+
+      requestAnimationFrame(() => {
+        currentElement?.removeAttribute('data-ssr-motion');
+      });
+    }, [context.value, context.viewportNode, isValueChanged, prevValue]);
 
     useResizeObserver(context.viewportNode, handleResize);
 
@@ -180,21 +230,26 @@ const TabList = forwardRef<
           ]}
         >
           <ScrollArea
-            data-radix-scroll-area-wrapper
-            sx={scrollWrapperStyle({
-              padding,
-              resize,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            })}
+            data-radix-scroll-area-wrapper=""
+            sx={scrollWrapperStyle}
             onScrollCapture={handleOnScroll}
             scrollbars="horizontal"
             size="small"
           >
-            <FlexBox ref={context.onViewportNodeChange}>{children}</FlexBox>
+            <FlexBox
+              ref={context.onViewportNodeChange}
+              data-role="tab-list-wrapper"
+              sx={{ position: 'relative' }}
+            >
+              <Box
+                data-role="tab-motion"
+                style={motionStyleProperties}
+                ref={motionDividerRef}
+                sx={motionDividerStyle}
+              />
+
+              {children}
+            </FlexBox>
           </ScrollArea>
 
           {Boolean(rightContent) && (
@@ -299,6 +354,8 @@ const TabListItem = forwardRef(
           aria-selected={isActive}
           aria-labelledby={`${context.id}-${value}`}
           aria-disabled={disabled}
+          data-value={value}
+          data-ssr-motion={isActive}
           aria-controls={
             controls !== undefined
               ? `${context.id}-${controls}-panel`
@@ -336,6 +393,11 @@ const TabListItem = forwardRef(
 
             <span data-role="tab-list-item-divider" />
           </p>
+
+          <FlexBox
+            data-role="tab-list-item-interaction-area"
+            sx={tabListItemInteractionStyle}
+          />
         </Box>
       </RovingFocusGroup.Item>
     );
