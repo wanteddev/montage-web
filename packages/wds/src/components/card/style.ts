@@ -7,12 +7,12 @@ import {
   typographyStyle,
 } from '../../utils';
 
+import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
   CardContentItemProps,
   CardProps,
   CardThumbnailProps,
-  CardThumbnailResponsiveProps,
 } from './types';
 
 const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
@@ -140,7 +140,8 @@ const cardThumbnailRatioStyle = ({
   const parsedRatio = `${width} / ${height}`;
 
   return css`
-    & [wds-component='thumbnail'] {
+    & [wds-component='thumbnail'],
+    &[wds-component='thumbnail-skeleton'] {
       aspect-ratio: ${parsedRatio};
     }
   `;
@@ -154,11 +155,10 @@ export const cardThumbnailStyle =
     md,
     lg,
     xl,
-  }: Pick<CardThumbnailProps, 'ratio'> & CardThumbnailResponsiveProps) =>
+  }: Omit<CardThumbnailProps, 'src' | 'width' | 'alt'>) =>
   (theme: Theme) => css`
     position: relative;
 
-    ${cardThumbnailRatioStyle({ ratio })}
     [wds-component='thumbnail'] {
       overflow: hidden;
 
@@ -168,6 +168,22 @@ export const cardThumbnailStyle =
       }
     }
 
+    ${cardThumbnailRatioStyle({ ratio })}
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${cardThumbnailRatioStyle({ ratio: params?.ratio })}
+        ${params?.sx}
+      `,
+    )}
+  `;
+
+export const cardThumbnailSkeletonStyle =
+  ({ ratio, xs, sm, md, lg, xl }: ThumbnailSkeletonProps) =>
+  (theme: Theme) => css`
+    ${cardThumbnailRatioStyle({ ratio })}
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,

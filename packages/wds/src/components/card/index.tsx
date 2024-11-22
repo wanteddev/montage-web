@@ -33,6 +33,7 @@ import {
   cardThumbnailContentTextStyle,
   cardThumbnailContentToggleIconStyle,
   cardThumbnailContentWrapperStyle,
+  cardThumbnailSkeletonStyle,
   cardThumbnailStyle,
 } from './style';
 
@@ -294,10 +295,26 @@ CardSkeleton.displayName = CARD_SKELETON_NAME;
 
 const CardThumbnailSkeleton = forwardRef(
   (
-    props: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    {
+      ratio,
+      xl,
+      lg,
+      md,
+      sm,
+      xs,
+      sx,
+      ...props
+    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
-    return <ThumbnailSkeleton ref={ref} radius {...props} />;
+    return (
+      <ThumbnailSkeleton
+        ref={ref}
+        radius
+        sx={[cardThumbnailSkeletonStyle({ ratio, xs, sm, md, lg, xl }), sx]}
+        {...props}
+      />
+    );
   },
 );
 
