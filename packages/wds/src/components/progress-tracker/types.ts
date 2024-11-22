@@ -4,7 +4,7 @@ export type ProgressTrackerProps = {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
-  orientation?: 'horizontal' | 'vertical';
+  direction?: 'horizontal' | 'vertical';
 };
 
 export type ProgressTrackerItemProps = {

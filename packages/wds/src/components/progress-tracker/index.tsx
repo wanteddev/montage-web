@@ -28,7 +28,7 @@ const ProgressTracker = forwardRef<
 >(
   (
     {
-      orientation = 'horizontal',
+      direction = 'horizontal',
       value: originValue,
       defaultValue,
       onValueChange,
@@ -52,7 +52,7 @@ const ProgressTracker = forwardRef<
 
     return (
       <ProgressTrackerProvider
-        orientation={orientation}
+        direction={direction}
         value={value}
         onValueChange={setValue}
         steps={steps}
@@ -72,7 +72,7 @@ const ProgressTracker = forwardRef<
           as="ol"
           ref={ref}
           {...props}
-          sx={[progressTrackerWrapperStyle({ orientation }), props.sx]}
+          sx={[progressTrackerWrapperStyle({ direction }), props.sx]}
         >
           {children}
         </FlexBox>
@@ -87,9 +87,9 @@ const ProgressTrackerItem = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<ProgressTrackerItemProps, 'li'>
 >((props, ref) => {
-  const { orientation } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
+  const { direction } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
 
-  if (orientation === 'vertical') {
+  if (direction === 'vertical') {
     return <ProgressTrackerItemVertical {...props} ref={ref} />;
   }
 

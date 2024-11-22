@@ -4,7 +4,7 @@ import type { ProgressTrackerProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const progressTrackerWrapperStyle = ({
-  orientation,
+  direction,
 }: ProgressTrackerProps) => css`
   width: 100%;
   height: fit-content;
@@ -13,7 +13,7 @@ export const progressTrackerWrapperStyle = ({
   padding: 0;
   margin: 0;
 
-  ${orientation === 'horizontal'
+  ${direction === 'horizontal'
     ? css`
         align-items: center;
         flex-direction: row;
@@ -42,13 +42,13 @@ export const progressTrackerItemHorizontalStyle = css`
 `;
 
 export const progressTrackerItemDividerStyle =
-  (isActive: boolean, orientation: ProgressTrackerProps['orientation']) =>
+  (isActive: boolean, direction: ProgressTrackerProps['direction']) =>
   (theme: Theme) => css`
     background-color: ${isActive
       ? theme.palette.primary.normal
       : theme.palette.line.normal.normal};
 
-    ${orientation === 'vertical'
+    ${direction === 'vertical'
       ? css`
           height: 100%;
           width: 1px;

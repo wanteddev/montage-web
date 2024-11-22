@@ -11,7 +11,7 @@ type ProgressTrackerContextValue = {
   getStepIndex: (value: string) => number;
   getActiveStepIndex: () => number;
   getTotalLength: () => number;
-  orientation: Exclude<ProgressTrackerProps['orientation'], undefined>;
+  direction: Exclude<ProgressTrackerProps['direction'], undefined>;
 };
 
 export const [ProgressTrackerProvider, useProgressTrackerContext] =
