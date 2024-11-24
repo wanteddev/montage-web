@@ -3,7 +3,11 @@ import { css } from '@wanteddev/wds-engine';
 import { createResponsiveStyle, ellipsisTypographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { ListCellProps, ListItemProps } from './types';
+import type {
+  ListCellProps,
+  ListItemContentProps,
+  ListItemProps,
+} from './types';
 
 export const listStyle = css`
   list-style: none;
@@ -142,33 +146,75 @@ export const listCellDividerStyle = css`
   width: 100%;
 `;
 
-export const listItemContentStyle = css`
-  max-height: 24px;
-  flex-shrink: 0;
-  width: fit-content;
-  height: fit-content;
-  position: relative;
+const listItemContentSizeStyle = ({
+  size,
+}: Pick<ListItemContentProps, 'size'>) => {
+  switch (size) {
+    case 'medium':
+      return css`
+        min-width: 40px;
+        max-width: max-content;
+        height: 40px;
+        max-height: 40px;
+        overflow-y: clip;
+      `;
 
-  [wds-component='with-interaction'] {
-    z-index: 1;
+    case 'large':
+      return css`
+        min-width: 56px;
+        max-width: max-content;
+        height: 56px;
+        max-height: 56px;
+        overflow-y: clip;
+      `;
+
+    case 'normal':
+    default:
+      return css`
+        min-width: 24px;
+        max-width: max-content;
+        height: 24px;
+        max-height: 24px;
+        overflow-y: clip;
+      `;
   }
-`;
+};
 
-export const listItemContentPaddingStyle = css`
-  flex-shrink: 0;
-  width: fit-content;
-  height: fit-content;
-  padding-right: 8px;
-`;
+export const listItemContentStyle =
+  ({ size, xl, lg, md, sm, xs }: ListItemContentProps) =>
+  (theme: Theme) => css`
+    flex-shrink: 0;
+    position: relative;
 
-export const listItemContentLargeIconStyle = (theme: Theme) => css`
+    [wds-component='with-interaction'] {
+      z-index: 1;
+    }
+
+    ${listItemContentSizeStyle({ size })}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${listItemContentSizeStyle({ size: params?.size })}
+        ${params?.sx}
+      `,
+    )}
+  `;
+
+export const listItemContentLargeIconBoxStyle = (theme: Theme) => css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
   border-radius: 12px;
   padding: 8px;
-  margin-right: 8px;
   color: ${theme.palette.primary.normal};
   background-color: ${theme.palette.fill.normal};
   font-size: 32px;
+`;
+
+export const listItemContentIconStyle = (theme: Theme) => css`
+  color: ${theme.palette.label.alternative};
+  font-size: 24px;
 `;

@@ -23,8 +23,8 @@ import {
 import {
   listCellDividerStyle,
   listCellStyle,
-  listItemContentLargeIconStyle,
-  listItemContentPaddingStyle,
+  listItemContentIconStyle,
+  listItemContentLargeIconBoxStyle,
   listItemContentStyle,
   listItemStyle,
   listStyle,
@@ -156,139 +156,134 @@ ListItem.displayName = LIST_ITEM_NAME;
 const ListItemContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ListItemContentProps, 'div'>
->(({ variant = 'custom', children, chevron = true, ...props }, ref) => {
-  switch (variant) {
-    case 'icon':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[
-            listItemContentStyle,
-            (theme) => ({
-              fontSize: '24px',
-              color: theme.palette.label.assistive,
-            }),
-            props.sx,
-          ]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'icon-button':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          <IconButtonProvider normal="palette.label.alternative">
+>(
+  (
+    {
+      variant = 'custom',
+      size = 'normal',
+      children,
+      chevron = true,
+      xl,
+      lg,
+      md,
+      sm,
+      xs,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
+    switch (variant) {
+      case 'icon':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ size, xl, lg, md, sm, xs }),
+              listItemContentIconStyle,
+              sx,
+            ]}
+          >
             {children}
-          </IconButtonProvider>
-        </FlexBox>
-      );
+          </FlexBox>
+        );
 
-    case 'radio':
-    case 'checkbox':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'large-icon':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentLargeIconStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'avatar':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentPaddingStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'button':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          <TextButtonProvider assistive="palette.label.alternative">
-            {children}
-          </TextButtonProvider>
-        </FlexBox>
-      );
-    case 'chevron':
-      return (
-        <FlexBox
-          role="button"
-          alignItems="center"
-          wds-component="list-item-content"
-          gap="8px"
-          ref={ref}
-          tabIndex={props.onClick ? 0 : -1}
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          {Boolean(children) && (
-            <Typography
-              variant="body1_normal"
-              color="palette.label.alternative"
-            >
+      case 'large-icon':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listItemContentStyle({ size, xl, lg, md, sm, xs }), sx]}
+          >
+            <FlexBox sx={listItemContentLargeIconBoxStyle}>{children}</FlexBox>
+          </FlexBox>
+        );
+
+      case 'button':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listItemContentStyle({ size, xl, lg, md, sm, xs }), sx]}
+          >
+            <TextButtonProvider assistive="palette.label.alternative">
               {children}
-            </Typography>
-          )}
+            </TextButtonProvider>
+          </FlexBox>
+        );
 
-          {chevron && (
-            <IconChevronRightTightSmall
-              sx={(theme) => ({
-                color: theme.palette.label.assistive,
-              })}
-            />
-          )}
-        </FlexBox>
-      );
-    case 'switch':
-    case 'custom':
-    default:
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          alignItems="center"
-          ref={ref}
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-  }
-});
+      case 'icon-button':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[listItemContentStyle({ size, xl, lg, md, sm, xs }), sx]}
+          >
+            <IconButtonProvider normal="palette.label.alternative">
+              {children}
+            </IconButtonProvider>
+          </FlexBox>
+        );
+
+      case 'chevron':
+        return (
+          <FlexBox
+            role="button"
+            alignItems="center"
+            wds-component="list-item-content"
+            gap="8px"
+            ref={ref}
+            tabIndex={props.onClick ? 0 : -1}
+            {...props}
+            sx={[listItemContentStyle({ size, xl, lg, md, sm, xs }), sx]}
+          >
+            {Boolean(children) && (
+              <Typography
+                variant="body1_normal"
+                color="palette.label.alternative"
+              >
+                {children}
+              </Typography>
+            )}
+
+            {chevron && (
+              <IconChevronRightTightSmall
+                sx={(theme) => ({
+                  color: theme.palette.label.assistive,
+                })}
+              />
+            )}
+          </FlexBox>
+        );
+
+      case 'custom':
+      default:
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ variant, size, xl, lg, md, sm, xs }),
+              sx,
+            ]}
+          >
+            {children}
+          </FlexBox>
+        );
+    }
+  },
+);
 
 ListItemContent.displayName = LIST_ITEM_CONTENT_NAME;
 

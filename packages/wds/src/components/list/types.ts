@@ -17,7 +17,7 @@ export type ListItemDefaultProps = {
 
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxProps>;
 
-export type ListItemContentProps = {
+export type ListItemContentDefaultProps = {
   variant?:
     | 'icon'
     | 'radio'
@@ -30,9 +30,17 @@ export type ListItemContentProps = {
     | 'avatar'
     | 'large-icon'
     | 'custom';
+  size?: 'normal' | 'medium' | 'large';
   disabled?: boolean;
   chevron?: boolean;
 };
+export type ListItemContentResponsiveProps = ResponsiveProps<
+  Pick<ListItemContentDefaultProps, 'size'>
+>;
+export type ListItemContentProps = Merge<
+  ListItemContentDefaultProps,
+  ListItemContentResponsiveProps
+>;
 
 export type ListCellDefaultProps = {
   padding?: '12px' | '8px' | '16px' | '0px';
