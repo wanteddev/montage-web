@@ -14,36 +14,59 @@ import type {
 } from './types';
 
 export const modalDimmerStyle =
-  ({ isBottomSheet }: { isBottomSheet?: boolean }) =>
+  ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
   (theme: Theme) => css`
     position: fixed;
     inset: 0;
     z-index: -1;
     background-color: ${theme.palette.material.dimmer};
+    opacity: 1;
 
-    ${isBottomSheet &&
-    css`
-      &[data-visibility='visible'] {
-        opacity: 1;
-        pointer-events: auto;
-        transition: opacity ease 200ms;
-      }
+    &[data-visibility='visible'] {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-      &[data-visibility='hidden'] {
-        pointer-events: none;
-        transition: opacity ease 200ms;
-        opacity: 0;
-      }
+    &[data-visibility='hidden'] {
+      pointer-events: none;
+      opacity: 0;
+    }
 
-      &[data-status='initial'],
-      &[data-status='unmounted'],
-      &[data-status='close'] {
-        pointer-events: none;
-        transition: opacity ease 200ms;
-        opacity: 0 !important;
-      }
-    `}
+    &[data-status='initial'],
+    &[data-status='unmounted'],
+    &[data-status='close'] {
+      pointer-events: none;
+      opacity: 0 !important;
+    }
+
+    ${modalDimmerVariantStyle({ variant })}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${modalDimmerVariantStyle({ variant: params?.variant })}
+      `,
+    )}
   `;
+
+const modalDimmerVariantStyle = ({ variant }: ModalContainerProps) => {
+  switch (variant) {
+    case 'bottom':
+      return css`
+        transition: opacity ease 200ms;
+      `;
+    case 'full':
+      return css`
+        transition: none;
+      `;
+    case 'popup':
+      return css`
+        transition: none;
+      `;
+  }
+};
 
 export const modalContainerWrapperStyle =
   ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
@@ -123,50 +146,38 @@ export const modalBottomUnmountKeyframes = keyframes`
 `;
 
 export const modalContainerStyle =
-  ({
-    isBottomSheet,
-    variant,
-    size,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: ModalContainerProps & {
-    isBottomSheet?: boolean;
-  }) =>
+  ({ variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
   (theme: Theme) => css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     outline: none;
     background-color: ${theme.palette.background.elevated.normal};
-    transition-property: transform, box-shadow;
-    transition-duration: 200ms;
     pointer-events: auto;
     animation-fill-mode: forwards;
+    transform: translateY(var(--wds-modal-translate, 0px));
 
-    ${isBottomSheet &&
-    css`
-      transform: translateY(var(--wds-modal-translate, 0px));
+    &[data-status='initial'] {
+      transform: translateY(100%) !important;
+      transition: none;
+    }
 
-      &[data-status='unmounted'],
-      &[data-status='close'] {
-        transform: translateY(100%) !important;
-      }
+    &[data-status='unmounted'],
+    &[data-status='close'] {
+      transform: translateY(100%) !important;
+    }
 
-      [data-role='navigation-title'] {
-        user-select: none;
-      }
+    [data-role='navigation-title'] {
+      user-select: none;
+    }
 
-      &[data-visibility='visible'] {
-        box-shadow: none;
-      }
+    &[data-visibility='visible'] {
+      box-shadow: none;
+    }
 
-      &[data-visibility='hidden'] {
-        box-shadow: ${theme.palette.elevation.shadow.strong};
-      }
-    `}
+    &[data-visibility='hidden'] {
+      box-shadow: ${theme.palette.elevation.shadow.strong};
+    }
 
     [wds-component='top-navigation'] {
       z-index: 5;
@@ -406,6 +417,10 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         max-height: 100%;
         border-radius: 0px;
         padding: initial;
+        transition: none;
+        && {
+          transform: none !important;
+        }
       `;
     case 'popup':
       return css`
@@ -414,6 +429,10 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         max-height: 760px;
         padding: initial;
         overflow: hidden;
+        transition: none;
+        && {
+          transform: none !important;
+        }
       `;
     case 'bottom':
       return css`
@@ -425,6 +444,9 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         width: 100%;
         min-width: none;
         overflow: hidden;
+        transition:
+          transform 200ms ease,
+          box-shadow 200ms ease;
       `;
   }
 };
