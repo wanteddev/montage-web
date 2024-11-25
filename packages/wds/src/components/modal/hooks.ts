@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
-import { flushSync } from 'react-dom';
 
 import { getPreviousValue } from '../../utils/responsive-props';
 
@@ -86,6 +85,14 @@ export const useDraggable = ({
     }
 
     context.setVisibility('hidden');
+
+    // container.style.removeProperty('transition');
+    // container.style.setProperty(
+    //   '--wds-modal-translate',
+    //   `calc(100% - ${topNavigationHeight.current}px)`,
+    // );
+    // dimmerRef.current?.style.removeProperty('transition');
+    // dimmerRef.current?.style.removeProperty('opacity');
   };
 
   useEffect(() => {
@@ -245,9 +252,7 @@ export const useDraggable = ({
       }
 
       if (window.innerHeight - clientY <= totalHeight / 1.25) {
-        flushSync(() => {
-          context.setVisibility('hidden');
-        });
+        context.setVisibility('hidden');
         container.style.setProperty(
           '--wds-modal-translate',
           `calc(100% - ${topNavigationHeight.current}px)`,

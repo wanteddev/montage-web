@@ -153,31 +153,6 @@ export const modalContainerStyle =
     justify-content: space-between;
     outline: none;
     background-color: ${theme.palette.background.elevated.normal};
-    pointer-events: auto;
-    animation-fill-mode: forwards;
-    transform: translateY(var(--wds-modal-translate, 0px));
-
-    &[data-status='initial'] {
-      transform: translateY(100%) !important;
-      transition: none;
-    }
-
-    &[data-status='unmounted'],
-    &[data-status='close'] {
-      transform: translateY(100%) !important;
-    }
-
-    [data-role='navigation-title'] {
-      user-select: none;
-    }
-
-    &[data-visibility='visible'] {
-      box-shadow: none;
-    }
-
-    &[data-visibility='hidden'] {
-      box-shadow: ${theme.palette.elevation.shadow.strong};
-    }
 
     [wds-component='top-navigation'] {
       z-index: 5;
@@ -193,7 +168,7 @@ export const modalContainerStyle =
     }
 
     ${modalContainerSize(size)}
-    ${modalContainerVariant(variant)}
+    ${modalContainerVariant(variant, theme)}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -210,6 +185,7 @@ export const modalContainerStyle =
             variant,
             breakpoint!,
           ),
+          theme,
         )}
 
         ${params?.sx}
@@ -404,7 +380,10 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
   }
 };
 
-const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
+const modalContainerVariant = (
+  variant: ModalContainerProps['variant'],
+  theme: Theme,
+) => {
   switch (variant) {
     case 'full':
       return css`
@@ -420,6 +399,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         transition: none;
         && {
           transform: none !important;
+          box-shadow: none !important;
         }
       `;
     case 'popup':
@@ -432,6 +412,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         transition: none;
         && {
           transform: none !important;
+          box-shadow: none !important;
         }
       `;
     case 'bottom':
@@ -439,7 +420,6 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
         max-height: calc(100% - env(safe-area-inset-top, 0px) - 40px);
         border-radius: 12px 12px 0px 0px;
-        animation: 0.2s ease ${modalBottomMountKeyframes};
         max-width: 480px;
         width: 100%;
         min-width: none;
@@ -447,6 +427,36 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         transition:
           transform 200ms ease,
           box-shadow 200ms ease;
+        pointer-events: auto;
+        transform: translateY(var(--wds-modal-translate, 0px));
+        animation: 0.2s ease ${modalBottomMountKeyframes};
+
+        &[data-status='initial'],
+        &[data-status='open'] {
+          transform: translateY(var(--wds-modal-translate, 0px));
+          transition: none;
+        }
+
+        &[data-status='unmounted'],
+        &[data-status='close'] {
+          transform: translateY(100%) !important;
+        }
+
+        [data-role='navigation-title'] {
+          user-select: none;
+        }
+
+        &[data-status='open'][data-visibility='visible'] {
+          box-shadow: none;
+          transition: none;
+        }
+
+        &[data-status='open'][data-visibility='hidden'] {
+          box-shadow: ${theme.palette.elevation.shadow.strong};
+          transition:
+            transform 200ms ease,
+            box-shadow 200ms ease;
+        }
       `;
   }
 };
