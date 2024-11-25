@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.5.1...@wanteddev/wds@1.5.2) (2024-11-25)
+
+### Bug Fixes
+
+- **wds:** firefox 환경에서 modal이 깜빡거리는 이슈 ([5c12304](https://github.com/wanteddev/wds/commit/5c12304f8b81d5ba24b9d364ff4f5264145c8b04))
+- **wds:** ios 18 safari에서 bottom modal이 버벅거리는 이슈 ([#179](https://github.com/wanteddev/wds/issues/179)) ([80bdd4c](https://github.com/wanteddev/wds/commit/80bdd4ca930d90aeedda3766468488d24839a172))
+
+### Features
+
+- **wds:** radix-ui 유틸리티 함수 추가 내보내기 ([#173](https://github.com/wanteddev/wds/issues/173)) ([2ad480b](https://github.com/wanteddev/wds/commit/2ad480b5ebe4e507de3c8cf0702b59368c945134))
+
 ## [1.5.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.5.0...@wanteddev/wds@1.5.1) (2024-11-15)
 
 ### Bug Fixes
