@@ -129,6 +129,10 @@ export const routes: Array<Route> = [
         slug: '/docs/components/progress-tracker',
         alpha: true,
       },
+      {
+        title: 'ProgressTrackerDesktop',
+        slug: '/docs/components/progress-tracker-desktop',
+      },
       { title: 'PushBadge', slug: '/docs/components/push-badge' },
       {
         title: 'RadioGroup',
