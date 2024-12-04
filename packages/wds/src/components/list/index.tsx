@@ -7,6 +7,7 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
+import { Slot } from '@radix-ui/react-slot';
 
 import { Divider, FlexBox, Typography, WithInteraction } from '..';
 import { useMenuItemContext } from '../menu/contexts';
@@ -142,7 +143,9 @@ const ListItem = forwardRef(
         >
           {Boolean(leftContent) && leftContent}
           {children}
-          {Boolean(rightContent) && rightContent}
+          {Boolean(rightContent) && (
+            <Slot data-role="list-item-right-content">{rightContent}</Slot>
+          )}
         </FlexBox>
       </ListItemProvider>
     );
@@ -229,6 +232,23 @@ const ListItemContent = forwardRef<
             <IconButtonProvider normal="palette.label.alternative">
               {children}
             </IconButtonProvider>
+          </FlexBox>
+        );
+
+      case 'avatar':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems="center"
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              { padding: '8px' },
+              sx,
+            ]}
+          >
+            {children}
           </FlexBox>
         );
 

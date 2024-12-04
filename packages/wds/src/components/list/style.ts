@@ -186,6 +186,10 @@ export const listItemContentStyle =
     flex-shrink: 0;
     position: relative;
 
+    &[data-role='list-item-right-content'] {
+      justify-content: flex-end;
+    }
+
     [wds-component='with-interaction'] {
       z-index: 1;
     }
