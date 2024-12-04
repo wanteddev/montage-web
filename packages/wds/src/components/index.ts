@@ -30,6 +30,7 @@ export * from './menu';
 export * from './modal';
 export { default as NestedCheckbox } from './nested-checkbox';
 export { default as NoSsr } from './no-ssr';
+export { default as PageIndicator } from './page-indicator';
 export * from './popover';
 export * from './popper';
 export { default as Portal } from './portal';

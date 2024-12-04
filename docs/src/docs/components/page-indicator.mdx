@@ -1,0 +1,82 @@
+---
+title: PageIndicator
+description: PageIndicator Component
+---
+
+# PageIndicator
+
+## 활용
+
+<Demo code={`import { PageIndicator, Button, FlexBox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [page, setPage] = useState(1);
+
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <FlexBox gap="10px">
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s > 1 ? s - 1 : 1)}>Prev</Button>
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s < 10 ? s + 1 : 10)}>Next</Button>
+      </FlexBox>
+
+      <PageIndicator onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+## Props
+
+<PropsTable component="PageIndicator" />
+
+## Variant
+
+### Dot
+
+<Demo code={`import { PageIndicator, Button, FlexBox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [page, setPage] = useState(1);
+
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <FlexBox gap="10px">
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s > 1 ? s - 1 : 1)}>Prev</Button>
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s < 10 ? s + 1 : 10)}>Next</Button>
+      </FlexBox>
+
+      <PageIndicator onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+      <PageIndicator color="white" onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+### Counter
+
+<Demo code={`import { PageIndicator, Button, FlexBox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [page, setPage] = useState(1);
+
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <FlexBox gap="10px">
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s > 1 ? s - 1 : 1)}>Prev</Button>
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s < 10 ? s + 1 : 10)}>Next</Button>
+      </FlexBox>
+
+      <PageIndicator variant="counter" totalPage={10} currentPage={page} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
