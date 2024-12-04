@@ -64,12 +64,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type {
-  ElementRef,
-  ElementType,
-  ForwardedRef,
-  PointerEvent,
-} from 'react';
+import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
 import type {
   ModalContainerProps,
   ModalContentItemProps,
@@ -243,15 +238,23 @@ const ModalContainer = forwardRef<
           ref={dimmerRef}
           data-status={status}
           data-visibility={context.visibility}
-          onPointerDown={useCallback(
-            (e: PointerEvent) => {
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement;
+
+            if (target.hasPointerCapture(e.pointerId)) {
+              target.releasePointerCapture(e.pointerId);
+            }
+          }}
+          onClick={useCallback(
+            (e: MouseEvent) => {
               const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
               const isRightClick = e.button === 2 || ctrlLeftClick;
 
               if (isRightClick || disableOutsideClickClose) {
-                e.preventDefault();
                 return;
               }
+
+              e.preventDefault();
 
               if (!isBottomSheetWithHandle) {
                 onOpenChange(false);
