@@ -30,12 +30,12 @@ export type ListItemContentDefaultProps = {
     | 'avatar'
     | 'large-icon'
     | 'custom';
-  size?: 'normal' | 'medium' | 'large';
+  height?: 'normal' | 'medium' | 'large';
   disabled?: boolean;
   chevron?: boolean;
 };
 export type ListItemContentResponsiveProps = ResponsiveProps<
-  Pick<ListItemContentDefaultProps, 'size'>
+  Pick<ListItemContentDefaultProps, 'height'>
 >;
 export type ListItemContentProps = Merge<
   ListItemContentDefaultProps,

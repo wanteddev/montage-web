@@ -147,9 +147,9 @@ export const listCellDividerStyle = css`
 `;
 
 const listItemContentSizeStyle = ({
-  size,
-}: Pick<ListItemContentProps, 'size'>) => {
-  switch (size) {
+  height,
+}: Pick<ListItemContentProps, 'height'>) => {
+  switch (height) {
     case 'medium':
       return css`
         min-width: 40px;
@@ -181,7 +181,7 @@ const listItemContentSizeStyle = ({
 };
 
 export const listItemContentStyle =
-  ({ size, xl, lg, md, sm, xs }: ListItemContentProps) =>
+  ({ height, xl, lg, md, sm, xs }: ListItemContentProps) =>
   (theme: Theme) => css`
     flex-shrink: 0;
     position: relative;
@@ -190,14 +190,14 @@ export const listItemContentStyle =
       z-index: 1;
     }
 
-    ${listItemContentSizeStyle({ size })}
+    ${listItemContentSizeStyle({ height })}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${listItemContentSizeStyle({ size: params?.size })}
+        ${listItemContentSizeStyle({ height: params?.height })}
         ${params?.sx}
       `,
     )}

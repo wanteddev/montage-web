@@ -151,10 +151,10 @@ export default Demo;`}
 ### LeftContent, RightContent
 
 - 기본적으로 leftContent, rightContent는 `ListItemContent` 로 래핑해서 사용해요.
-- size로 콘텐츠 크기를 조정할 수 있어요.
+- height로 콘텐츠 높이를 조정할 수 있어요.
 
-<Demo code={`import { Avatar, List, ListCell, ListText, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
-import { IconPlusThick, IconApps, IconBlank } from '@wanteddev/wds-icon';
+<Demo code={`import { RadioGroupItem, Checkbox, Thumbnail, Avatar, List, ListCell, ListText, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -162,7 +162,7 @@ const Demo = () => {
       <ListCell
         rightContent={
           <ListItemContent variant="icon">
-            <IconApps />
+            <IconBlank />
           </ListItemContent>
         }
       >
@@ -216,9 +216,28 @@ const Demo = () => {
         <ListText>텍스트, Normal</ListText>
       </ListCell>
       <ListCell
+        leftContent={
+          <ListItemContent variant="icon">
+            <IconBlank />
+          </ListItemContent>
+        }
         rightContent={
-          <ListItemContent variant="custom">
-            커스텀 요소
+          <ListItemContent variant="chevron" chevron={false}>
+            값
+          </ListItemContent>
+        }
+      >
+        <ListText>텍스트, Normal</ListText>
+      </ListCell>
+      <ListCell
+        leftContent={
+          <ListItemContent variant="checkbox">
+            <Checkbox />
+          </ListItemContent>
+        }
+        rightContent={
+          <ListItemContent variant="chevron" chevron={false}>
+            값
           </ListItemContent>
         }
       >
@@ -227,17 +246,36 @@ const Demo = () => {
 
       <ListCell
         leftContent={
-          <ListItemContent size="medium" variant="avatar">
+          <ListItemContent height="medium" variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListItemContent>
         }
+        rightContent={
+          <ListItemContent variant="chevron" chevron={false}>
+            값
+          </ListItemContent>
+        }
+      >
+        <ListText>텍스트, Medium</ListText>
+      </ListCell>
+      <ListCell
         alignItems="center"
+        leftContent={
+          <ListItemContent height="medium" variant="avatar">
+            <Avatar variant="person" size="medium" />
+          </ListItemContent>
+        }
+        rightContent={
+          <ListItemContent variant="checkbox">
+            <NestedCheckbox />
+          </ListItemContent>
+        }
       >
         <ListText>텍스트, Medium</ListText>
       </ListCell>
       <ListCell
         rightContent={
-          <ListItemContent size="medium" variant="switch">
+          <ListItemContent height="medium" variant="switch">
             <Switch />
           </ListItemContent>
         }
@@ -247,24 +285,54 @@ const Demo = () => {
 
       <ListCell
         leftContent={
-          <ListItemContent size="large" variant="large-icon">
-            <IconBlank  />
+          <ListItemContent height="large" variant="large-icon">
+            <IconBlank />
           </ListItemContent>
         }
-        alignItems="center"
+        rightContent={
+          <ListItemContent variant="chevron" chevron={false}>
+            값
+          </ListItemContent>
+        }
       >
-        <ListText>텍스트, Large</ListText>
+        <ListText caption="캡션">텍스트, Large</ListText>
       </ListCell>
       <ListCell
+        alignItems="center"
+        leftContent={
+          <ListItemContent height="large" variant="large-icon">
+            <IconBlank />
+          </ListItemContent>
+        }
         rightContent={
-          <ListItemContent size="large" variant="icon-button">
-            <IconButton>
-              <IconPlusThick />
-            </IconButton>
+          <ListItemContent variant="checkbox">
+            <NestedCheckbox />
           </ListItemContent>
         }
       >
-        <ListText>텍스트, Large</ListText>
+        <ListText caption="캡션">텍스트, Large</ListText>
+      </ListCell>
+      <ListCell
+        alignItems="center"
+        leftContent={
+          <ListItemContent height="large" variant="custom">
+            <Thumbnail
+              src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+              alt="Wanted Company Image"
+              width="400px"
+              ratio="1:1"
+              quality={95}
+              sx={{ width: '56px' }}
+            />
+          </ListItemContent>
+        }
+        rightContent={
+          <ListItemContent variant="checkbox">
+            <NestedCheckbox />
+          </ListItemContent>
+        }
+      >
+        <ListText caption="캡션">텍스트, Large</ListText>
       </ListCell>
     </List>
   )
