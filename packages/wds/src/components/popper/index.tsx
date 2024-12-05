@@ -215,6 +215,7 @@ const PopperContent: ReturnType<
       middlewareData,
       context: floatingContext,
     } = useFloating({
+      strategy: disablePortal ? 'fixed' : 'absolute',
       placement: floatingPlacement,
       whileElementsMounted: autoUpdate,
       elements: {
