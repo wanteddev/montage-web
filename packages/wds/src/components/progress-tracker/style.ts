@@ -1,70 +1,77 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils/color';
-
+import type { ProgressTrackerProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const progressTrackerWrapperStyle = css`
+export const progressTrackerWrapperStyle = ({
+  direction,
+}: ProgressTrackerProps) => css`
   width: 100%;
   height: fit-content;
   position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 
-  ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  ${direction === 'horizontal'
+    ? css`
+        align-items: center;
+        flex-direction: row;
+      `
+    : css`
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        grid-template-rows: 1fr;
+        column-gap: 20px;
+      `}
+`;
+
+export const progressTrackerItemVerticalStyle = css`
+  position: relative;
+`;
+
+export const progressTrackerItemHorizontalStyle = css`
+  position: relative;
+
+  [data-role='progress-tracker-item-label'] {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
   }
 `;
 
-export const progressTrackerItemStyle = (
-  isFirst: boolean,
-  isLast?: boolean,
-) => css`
-  padding-left: 4px;
-  padding-right: 4px;
-  position: relative;
-
-  ${isFirst &&
-  css`
-    padding-left: 0px;
-  `}
-
-  ${isLast &&
-  css`
-    padding-right: 0px;
-  `}
-`;
-
-export const progressConnectorStyle =
-  (isActive: boolean) => (theme: Theme) => css`
-    flex: 1 1 auto;
-    height: 1px;
+export const progressTrackerItemDividerStyle =
+  (isActive: boolean, direction: ProgressTrackerProps['direction']) =>
+  (theme: Theme) => css`
     background-color: ${isActive
-      ? addOpacity(theme.palette.primary.normal, theme.opacity[61])
+      ? theme.palette.primary.normal
       : theme.palette.line.normal.normal};
+
+    ${direction === 'vertical'
+      ? css`
+          height: 100%;
+          width: 1px;
+          flex: 1 1 0;
+        `
+      : css`
+          flex: 1 1 auto;
+          height: 1px;
+        `}
   `;
 
-export const progressCircleWrapperStyle =
-  (isActive: boolean) => (theme: Theme) => css`
-    background-color: transparent;
-    padding: 4px;
-    border-radius: 9999px;
-
-    ${isActive &&
-    css`
-      background-color: ${addOpacity(
-        theme.palette.primary.normal,
-        theme.opacity[12],
-      )};
-    `}
-  `;
+export const progressTrackerItemContentStyle = css`
+  padding-bottom: 20px;
+  width: 100%;
+`;
 
 export const progressCircleStyle =
   (isActive: boolean, completed: boolean) => (theme: Theme) => css`
     background-color: ${theme.palette.fill.strong};
     color: ${theme.palette.static.white};
-    width: 24px;
-    height: 24px;
+    position: relative;
+    width: 20px;
+    height: 20px;
     position: relative;
     border-radius: 9999px;
     font-size: 14px;

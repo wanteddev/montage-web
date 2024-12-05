@@ -127,7 +127,6 @@ export const routes: Array<Route> = [
       {
         title: 'ProgressTracker',
         slug: '/docs/components/progress-tracker',
-        alpha: true,
       },
       {
         title: 'ProgressTrackerDesktop',
