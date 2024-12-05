@@ -215,14 +215,8 @@ const PopperContent: ReturnType<
       middlewareData,
       context: floatingContext,
     } = useFloating({
-      strategy: 'fixed',
       placement: floatingPlacement,
-      whileElementsMounted: (...args) => {
-        const cleanup = autoUpdate(...args, {
-          animationFrame: false,
-        });
-        return cleanup;
-      },
+      whileElementsMounted: autoUpdate,
       elements: {
         reference: context.anchor,
       },
