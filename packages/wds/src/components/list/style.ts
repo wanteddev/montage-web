@@ -29,8 +29,9 @@ export const listItemStyle =
     ${disabled
       ? css`
           cursor: initial;
-          color: ${theme.palette.label.disable};
           pointer-events: none;
+          color: ${theme.palette.label.alternative};
+          opacity: ${theme.opacity[43]};
         `
       : css`
           cursor: ${clickable ? 'pointer' : 'initial'};

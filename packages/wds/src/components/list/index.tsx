@@ -244,7 +244,7 @@ const ListItemContent = forwardRef<
             {...props}
             sx={[
               listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
-              { padding: '8px' },
+              { paddingRight: '8px' },
               sx,
             ]}
           >
@@ -370,7 +370,7 @@ const ListText = forwardRef(
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
-        return 'palette.label.disable';
+        return 'palette.label.alternative';
       }
       if (active) {
         return 'palette.primary.normal';
@@ -401,9 +401,7 @@ const ListText = forwardRef(
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
-            color={
-              disabled ? 'palette.label.disable' : 'palette.label.alternative'
-            }
+            color="palette.label.alternative"
             weight={weight}
             sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
           >
