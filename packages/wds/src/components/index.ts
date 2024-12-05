@@ -36,6 +36,7 @@ export { default as Portal } from './portal';
 export { default as ProgressIndicator } from './progress-indicator';
 export * from './progress-step-indicator';
 export * from './progress-tracker';
+export * from './progress-tracker-desktop';
 export { default as PushBadge } from './push-badge';
 export * from './radio-group';
 export { default as RegionConfig } from './region-config';
