@@ -41,7 +41,7 @@ export const listItemStyle =
         `}
   `;
 
-export const listTextStyle = css`
+export const listTextEllipsisStyle = css`
   ${ellipsisTypographyStyle(1)}
   white-space: nowrap;
   overflow-wrap: anywhere;

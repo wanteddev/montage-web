@@ -1,9 +1,7 @@
-import type {
-  Merge,
-  ResponsiveProps,
-  ThemeColorsToken,
-} from '@wanteddev/wds-engine';
-import type { ReactNode } from 'react';
+import type Typography from '../typography';
+import type { TypographyProps } from '../typography/types';
+import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { ComponentProps, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
@@ -59,7 +57,10 @@ export type ListCellProps = Merge<
   ListItemProps
 >;
 
-export type ListTextProps = {
-  caption?: ReactNode;
-  color?: ThemeColorsToken;
-};
+export type ListTextProps = Merge<
+  TypographyProps,
+  {
+    ellipsis?: boolean;
+    caption?: ComponentProps<typeof Typography>;
+  }
+>;

@@ -29,7 +29,7 @@ import {
   listItemContentStyle,
   listItemStyle,
   listStyle,
-  listTextStyle,
+  listTextEllipsisStyle,
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
 
@@ -349,7 +349,14 @@ ListCell.displayName = LIST_CELL_NAME;
 
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
-    { caption, children, color, ...props }: PolymorphicProps<ListTextProps, E>,
+    {
+      color,
+      ellipsis = false,
+      children,
+      caption,
+      sx,
+      ...props
+    }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
@@ -381,27 +388,25 @@ const ListText = forwardRef(
         flex="1"
         as="p"
         {...props}
-        sx={[{ overflow: 'hidden' }, props.sx]}
+        sx={{ overflow: 'hidden' }}
       >
         <Typography
-          data-role="list-text-title"
           variant="body1_normal"
           color={getTextColor()}
           weight={weight}
-          sx={listTextStyle}
+          sx={[ellipsis && listTextEllipsisStyle, sx]}
+          {...props}
         >
           {children}
         </Typography>
 
         {Boolean(caption) && (
           <Typography
-            data-role="list-text-caption"
             variant="label1_normal"
             color="palette.label.alternative"
-            sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
-          >
-            {caption}
-          </Typography>
+            {...caption}
+            sx={[ellipsis && listTextEllipsisStyle, caption?.sx]}
+          />
         )}
       </FlexBox>
     );
