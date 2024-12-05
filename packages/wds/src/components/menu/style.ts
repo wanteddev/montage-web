@@ -43,15 +43,9 @@ export const menuListStyle = css`
 export const menuItemStyle = (theme: Theme) => css`
   width: calc(100% - 40px);
 
-  &:focus {
+  &:hover {
     > [wds-component='with-interaction'] {
-      opacity: ${theme.opacity[0]};
-    }
-
-    &:hover {
-      > [wds-component='with-interaction'] {
-        opacity: ${theme.opacity[5]};
-      }
+      opacity: ${theme.opacity[5]};
     }
   }
 

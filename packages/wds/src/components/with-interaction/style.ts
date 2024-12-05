@@ -48,9 +48,6 @@ export const getWrapperStyle =
       &:hover > [wds-component='with-interaction'] {
         ${hoverInteractionStyle(theme, variant)}
       }
-      &:focus > [wds-component='with-interaction'] {
-        ${focusInteractionStyle(theme, variant)}
-      }
       &:focus-visible > [wds-component='with-interaction'] {
         opacity: ${theme.opacity[0]};
       }
@@ -87,26 +84,6 @@ export const hoverInteractionStyle = (
     case 'strong':
       return css`
         opacity: ${0.075};
-      `;
-  }
-};
-
-export const focusInteractionStyle = (
-  theme: Theme,
-  variant: VariantType = 'normal',
-) => {
-  switch (variant) {
-    case 'normal':
-      return css`
-        opacity: ${theme.opacity[8]};
-      `;
-    case 'light':
-      return css`
-        opacity: ${0.06};
-      `;
-    case 'strong':
-      return css`
-        opacity: ${theme.opacity[12]};
       `;
   }
 };
