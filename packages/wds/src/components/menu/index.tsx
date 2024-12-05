@@ -267,7 +267,9 @@ const MenuItem = forwardRef(
     };
 
     return (
-      <MenuItemProvider bold={variant === 'normal' ? normalActive : undefined}>
+      <MenuItemProvider
+        active={variant === 'normal' ? normalActive : undefined}
+      >
         <RovingFocusGroupItem
           asChild
           focusable={!disabled}

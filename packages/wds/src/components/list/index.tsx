@@ -349,24 +349,18 @@ ListCell.displayName = LIST_CELL_NAME;
 
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
-    {
-      caption,
-      bold,
-      children,
-      color,
-      ...props
-    }: PolymorphicProps<ListTextProps, E>,
+    { caption, children, color, ...props }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
     const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
-    const { bold: menuItemBold } = useMenuItemContext() || {};
+    const { active: menuItemActive } = useMenuItemContext() || {};
 
     if (!children) {
       return null;
     }
 
     const weight: TypographyWeight =
-      bold ?? menuItemBold ? 'medium' : 'regular';
+      active || menuItemActive ? 'medium' : 'regular';
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
@@ -390,6 +384,7 @@ const ListText = forwardRef(
         sx={[{ overflow: 'hidden' }, props.sx]}
       >
         <Typography
+          data-role="list-text-title"
           variant="body1_normal"
           color={getTextColor()}
           weight={weight}
@@ -400,9 +395,9 @@ const ListText = forwardRef(
 
         {Boolean(caption) && (
           <Typography
+            data-role="list-text-caption"
             variant="label1_normal"
             color="palette.label.alternative"
-            weight={weight}
             sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
           >
             {caption}

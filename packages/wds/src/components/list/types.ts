@@ -61,6 +61,5 @@ export type ListCellProps = Merge<
 
 export type ListTextProps = {
   caption?: ReactNode;
-  bold?: boolean;
   color?: ThemeColorsToken;
 };
