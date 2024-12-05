@@ -10,9 +10,10 @@ import { findComponentInChildren } from '../../utils/children';
 
 import {
   progressCircleStyle,
-  progressCircleWrapperStyle,
-  progressConnectorStyle,
-  progressTrackerItemStyle,
+  progressTrackerItemContentStyle,
+  progressTrackerItemDividerStyle,
+  progressTrackerItemHorizontalStyle,
+  progressTrackerItemVerticalStyle,
   progressTrackerWrapperStyle,
 } from './style';
 import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
@@ -22,11 +23,18 @@ import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
 
 const ProgressTracker = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<ProgressTrackerProps, 'div'>
+  HTMLOListElement,
+  DefaultComponentProps<ProgressTrackerProps, 'ol'>
 >(
   (
-    { value: originValue, defaultValue, onValueChange, children, ...props },
+    {
+      direction = 'horizontal',
+      value: originValue,
+      defaultValue,
+      onValueChange,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const [value = '', setValue] = useControllableState({
@@ -44,6 +52,7 @@ const ProgressTracker = forwardRef<
 
     return (
       <ProgressTrackerProvider
+        direction={direction}
         value={value}
         onValueChange={setValue}
         steps={steps}
@@ -57,17 +66,16 @@ const ProgressTracker = forwardRef<
           [steps, value],
         )}
       >
-        <Box
+        <FlexBox
           wds-component="progress-tracker"
           aria-label="progress"
+          as="ol"
           ref={ref}
           {...props}
-          sx={[progressTrackerWrapperStyle, props.sx]}
+          sx={[progressTrackerWrapperStyle({ direction }), props.sx]}
         >
-          <FlexBox as="ol" alignItems="center">
-            {children}
-          </FlexBox>
-        </Box>
+          {children}
+        </FlexBox>
       </ProgressTrackerProvider>
     );
   },
@@ -78,7 +86,25 @@ ProgressTracker.displayName = PROGRESS_TRACKER_NAME;
 const ProgressTrackerItem = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<ProgressTrackerItemProps, 'li'>
->(({ value, ...props }, ref) => {
+>((props, ref) => {
+  const { direction } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
+
+  if (direction === 'vertical') {
+    return <ProgressTrackerItemVertical {...props} ref={ref} />;
+  }
+
+  return <ProgressTrackerItemHorizontal {...props} ref={ref} />;
+});
+
+ProgressTrackerItem.displayName = PROGRESS_TRACKER_ITEM_NAME;
+
+// @ts-expect-error
+ProgressTrackerItem.isProgressTrackerItem = true;
+
+const ProgressTrackerItemVertical = forwardRef<
+  HTMLLIElement,
+  DefaultComponentProps<ProgressTrackerItemProps, 'li'>
+>(({ value, label, completedLabel, children, ...props }, ref) => {
   const {
     value: contextValue,
     getStepIndex,
@@ -92,12 +118,105 @@ const ProgressTrackerItem = forwardRef<
 
   const isCompleted = activeIndex > index;
 
-  const isFirst = index === 0;
   const isLast = index === getTotalLength() - 1;
+
+  const number = (index === -1 ? 0 : index) + 1;
 
   return (
     <>
-      {!isFirst && <Box sx={progressConnectorStyle(isActive || isCompleted)} />}
+      <FlexBox
+        as="li"
+        ref={ref}
+        wds-component="progress-tracker-item"
+        aria-current={isActive ? 'step' : undefined}
+        aria-label={`Step ${index}`}
+        gap="20px"
+        data-completed={isCompleted}
+        data-active={isActive}
+        {...props}
+        sx={[progressTrackerItemVerticalStyle, props.sx]}
+      >
+        <FlexBox data-role="progress-tracker-item-wrapper" gap="8px">
+          <FlexBox
+            data-role="progress-tracker-item-icon-wrapper"
+            flexDirection="column"
+            alignItems="center"
+          >
+            <FlexBox
+              data-role="progress-tracker-item-stepper"
+              sx={progressCircleStyle(isActive, isCompleted)}
+              alignItems="center"
+              justifyContent="center"
+            >
+              {isCompleted ? (
+                <IconCheckThick />
+              ) : (
+                <Typography variant="caption1" weight="bold" align="center">
+                  {number}
+                </Typography>
+              )}
+            </FlexBox>
+
+            {!isLast && (
+              <Box
+                data-role="progress-tracker-item-divider"
+                sx={progressTrackerItemDividerStyle(isCompleted, 'vertical')}
+              />
+            )}
+          </FlexBox>
+
+          <ProgressTrackerItemLabel
+            isCompleted={isCompleted}
+            isActive={isActive}
+            label={label}
+            completedLabel={completedLabel}
+          />
+        </FlexBox>
+      </FlexBox>
+
+      {Boolean(children) && (
+        <FlexBox
+          data-role="progress-tracker-item-content"
+          sx={progressTrackerItemContentStyle}
+        >
+          {children}
+        </FlexBox>
+      )}
+    </>
+  );
+});
+
+const ProgressTrackerItemHorizontal = forwardRef<
+  HTMLLIElement,
+  DefaultComponentProps<ProgressTrackerItemProps, 'li'>
+>(({ value, label, completedLabel, ...props }, ref) => {
+  const {
+    value: contextValue,
+    getStepIndex,
+    getActiveStepIndex,
+  } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
+
+  const isActive = contextValue === value;
+  const index = getStepIndex(value);
+  const activeIndex = getActiveStepIndex();
+
+  const isCompleted = activeIndex > index;
+
+  const isFirst = index === 0;
+
+  const number = (index === -1 ? 0 : index) + 1;
+
+  return (
+    <>
+      {!isFirst && (
+        <Box
+          data-role="progress-tracker-item-divider"
+          sx={progressTrackerItemDividerStyle(
+            isActive || isCompleted,
+            'horizontal',
+          )}
+        />
+      )}
 
       <FlexBox
         as="li"
@@ -107,37 +226,70 @@ const ProgressTrackerItem = forwardRef<
         aria-label={`Step ${index}`}
         flexDirection="column"
         alignItems="center"
+        data-completed={isCompleted}
+        data-active={isActive}
         {...props}
-        sx={[progressTrackerItemStyle(isFirst, isLast), props.sx]}
+        sx={[progressTrackerItemHorizontalStyle, props.sx]}
       >
         <FlexBox
+          sx={progressCircleStyle(isActive, isCompleted)}
           alignItems="center"
           justifyContent="center"
-          role="presentation"
-          sx={progressCircleWrapperStyle(isActive)}
         >
-          <FlexBox
-            sx={progressCircleStyle(isActive, isCompleted)}
-            alignItems="center"
-            justifyContent="center"
-          >
-            {isCompleted ? (
-              <IconCheckThick />
-            ) : (
-              <Typography variant="caption1" weight="bold" align="center">
-                {(index === -1 ? 0 : index) + 1}
-              </Typography>
-            )}
-          </FlexBox>
+          {isCompleted ? (
+            <IconCheckThick />
+          ) : (
+            <Typography variant="caption1" weight="bold" align="center">
+              {number}
+            </Typography>
+          )}
+
+          <ProgressTrackerItemLabel
+            isCompleted={isCompleted}
+            isActive={isActive}
+            label={label}
+            completedLabel={completedLabel}
+          />
         </FlexBox>
       </FlexBox>
     </>
   );
 });
 
-ProgressTrackerItem.displayName = PROGRESS_TRACKER_ITEM_NAME;
+const ProgressTrackerItemLabel = ({
+  isCompleted,
+  isActive,
+  label,
+  completedLabel,
+}: Pick<ProgressTrackerItemProps, 'label' | 'completedLabel'> & {
+  isCompleted: boolean;
+  isActive: boolean;
+}) => {
+  if (isCompleted) {
+    return Boolean(completedLabel) ? (
+      <Typography
+        sx={{ padding: '1px 0px', height: 'fit-content' }}
+        data-role="progress-tracker-item-label"
+        color={isActive ? 'palette.label.normal' : 'palette.label.alternative'}
+        variant="label2"
+        weight="bold"
+      >
+        {completedLabel}
+      </Typography>
+    ) : null;
+  }
 
-// @ts-expect-error
-ProgressTrackerItem.isProgressTrackerItem = true;
+  return Boolean(label) ? (
+    <Typography
+      sx={{ padding: '1px 0px', height: 'fit-content' }}
+      data-role="progress-tracker-item-label"
+      color={isActive ? 'palette.label.normal' : 'palette.label.alternative'}
+      variant="label2"
+      weight="bold"
+    >
+      {label}
+    </Typography>
+  ) : null;
+};
 
 export { ProgressTracker, ProgressTrackerItem };

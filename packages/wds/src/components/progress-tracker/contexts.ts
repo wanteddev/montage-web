@@ -2,7 +2,7 @@ import { createContext } from '@radix-ui/react-context';
 
 import { PROGRESS_TRACKER_NAME } from './constants';
 
-import type { ProgressTrackerItemProps } from './types';
+import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
 
 type ProgressTrackerContextValue = {
   value: string;
@@ -11,6 +11,7 @@ type ProgressTrackerContextValue = {
   getStepIndex: (value: string) => number;
   getActiveStepIndex: () => number;
   getTotalLength: () => number;
+  direction: Exclude<ProgressTrackerProps['direction'], undefined>;
 };
 
 export const [ProgressTrackerProvider, useProgressTrackerContext] =
