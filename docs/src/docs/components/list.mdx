@@ -208,6 +208,13 @@ const Demo = () => {
       </ListCell>
       <ListCell
         rightContent={
+          <ListItemContent variant="chevron" />
+        }
+      >
+        <ListText>텍스트, Normal</ListText>
+      </ListCell>
+      <ListCell
+        rightContent={
           <ListItemContent variant="chevron" chevron={false}>
             값
           </ListItemContent>
@@ -313,7 +320,6 @@ const Demo = () => {
         <ListText caption={{ children: '캡션' }}>텍스트, Large</ListText>
       </ListCell>
       <ListCell
-        alignItems="center"
         leftContent={
           <ListItemContent height="large" variant="custom">
             <Thumbnail

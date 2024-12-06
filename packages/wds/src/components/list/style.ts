@@ -1,6 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, ellipsisTypographyStyle } from '../../utils';
+import {
+  createResponsiveStyle,
+  ellipsisTypographyStyle,
+  typographyStyle,
+} from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -51,13 +55,11 @@ export const listTextEllipsisStyle = css`
 export const listCellStyle =
   ({ padding, fillWidth, xs, sm, md, lg, xl }: ListCellProps) =>
   (theme: Theme) => css`
-    border-radius: 12px;
-
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
 
-
     & > [wds-component='with-interaction'] {
+      border-radius: inherit;
       display: var(--wds-list-cell-interaction-display, block);
     }
 
@@ -127,6 +129,7 @@ const listCellFillWidthStyle = ({
       return css`
         padding-right: 0px;
         padding-left: 0px;
+        border-radius: 12px;
 
         & > [wds-component='with-interaction'] {
           width: calc(100% + 24px);
@@ -214,6 +217,13 @@ const listItemContentVariantStyle =
             font-size: 32px;
             overflow-y: clip;
           }
+        `;
+
+      case 'chevron':
+        return css`
+          ${typographyStyle('body1_normal', 'regular')}
+          color: ${theme.palette.label.alternative};
+          overflow-y: clip;
         `;
 
       default:

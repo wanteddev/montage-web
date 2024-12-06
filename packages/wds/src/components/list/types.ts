@@ -11,6 +11,7 @@ export type ListItemDefaultProps = {
   rightContent?: ReactNode;
   active?: boolean;
   disabled?: boolean;
+  ellipsis?: boolean;
 };
 
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxProps>;
@@ -60,7 +61,6 @@ export type ListCellProps = Merge<
 export type ListTextProps = Merge<
   TypographyProps,
   {
-    ellipsis?: boolean;
     caption?: ComponentProps<typeof Typography>;
   }
 >;

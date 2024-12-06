@@ -72,6 +72,8 @@ const ListItem = forwardRef(
       rightContent,
       active = false,
       disabled = false,
+      ellipsis = false,
+      alignItems: alignItemsProp,
       children,
       ...props
     }: PolymorphicProps<ListItemProps, E>,
@@ -87,13 +89,21 @@ const ListItem = forwardRef(
     );
     const clickable = Boolean(props.onClick || controllable) && !disabled;
 
+    const alignItems = alignItemsProp ?? ellipsis ? 'center' : 'flex-start';
+
     return (
-      <ListItemProvider active={active} disabled={disabled}>
+      <ListItemProvider
+        active={active}
+        disabled={disabled}
+        ellipsis={ellipsis}
+        alignItems={alignItems}
+      >
         <FlexBox
           as={(as || 'li') as E}
           role="listitem"
           ref={composedRefs}
           flexDirection="row"
+          alignItems={alignItems}
           gap="8px"
           aria-disabled={disabled}
           disabled={disabled}
@@ -172,28 +182,14 @@ const ListItemContent = forwardRef<
     },
     ref,
   ) => {
-    switch (variant) {
-      case 'icon':
-        return (
-          <FlexBox
-            wds-component="list-item-content"
-            alignItems="flex-start"
-            ref={ref}
-            {...props}
-            sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
-              sx,
-            ]}
-          >
-            {children}
-          </FlexBox>
-        );
+    const { alignItems } = useListItemContext(LIST_ITEM_CONTENT_NAME);
 
+    switch (variant) {
       case 'large-icon':
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="flex-start"
+            alignItems={alignItems}
             ref={ref}
             {...props}
             sx={[
@@ -209,7 +205,7 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="flex-start"
+            alignItems={alignItems}
             ref={ref}
             {...props}
             sx={[
@@ -227,7 +223,7 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="flex-start"
+            alignItems={alignItems}
             ref={ref}
             {...props}
             sx={[
@@ -241,62 +237,59 @@ const ListItemContent = forwardRef<
           </FlexBox>
         );
 
-      case 'avatar':
-        return (
-          <FlexBox
-            wds-component="list-item-content"
-            alignItems="flex-start"
-            ref={ref}
-            {...props}
-            sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
-              sx,
-            ]}
-          >
-            {children}
-          </FlexBox>
-        );
-
       case 'chevron':
         return (
           <FlexBox
             role="button"
-            alignItems="center"
+            alignItems={alignItems}
             wds-component="list-item-content"
             gap="8px"
             ref={ref}
             tabIndex={props.onClick ? 0 : -1}
             {...props}
-            sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
-              sx,
-            ]}
+            sx={sx}
           >
             {Boolean(children) && (
-              <Typography
-                variant="body1_normal"
-                color="palette.label.alternative"
+              <FlexBox
+                justifyContent="flex-end"
+                alignItems={alignItems}
+                sx={listItemContentStyle({
+                  variant,
+                  height,
+                  xl,
+                  lg,
+                  md,
+                  sm,
+                  xs,
+                })}
               >
                 {children}
-              </Typography>
+              </FlexBox>
             )}
-
             {chevron && (
-              <IconChevronRightTightSmall
-                sx={(theme) => ({
-                  color: theme.palette.label.assistive,
-                })}
-              />
+              <FlexBox alignItems="center" sx={{ height: '24px' }}>
+                <IconChevronRightTightSmall
+                  sx={(theme) => ({
+                    color: theme.palette.label.assistive,
+                  })}
+                />
+              </FlexBox>
             )}
           </FlexBox>
         );
 
+      case 'icon':
+      case 'avatar':
+      case 'badge':
+      case 'checkbox':
+      case 'radio':
+      case 'switch':
       case 'custom':
       default:
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="flex-start"
+            alignItems={alignItems}
             ref={ref}
             {...props}
             sx={[
@@ -359,7 +352,6 @@ const ListText = forwardRef(
   <E extends ElementType = 'p'>(
     {
       color,
-      ellipsis = false,
       children,
       caption,
       sx,
@@ -367,7 +359,7 @@ const ListText = forwardRef(
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
+    const { active, disabled, ellipsis } = useListItemContext(LIST_TEXT_NAME);
     const { active: menuItemActive } = useMenuItemContext() || {};
 
     if (!children) {
