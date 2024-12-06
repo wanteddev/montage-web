@@ -157,7 +157,6 @@ const listItemContentSizeStyle = ({
         max-width: max-content;
         height: 40px;
         max-height: 40px;
-        overflow-y: clip;
       `;
 
     case 'large':
@@ -166,7 +165,6 @@ const listItemContentSizeStyle = ({
         max-width: max-content;
         height: 56px;
         max-height: 56px;
-        overflow-y: clip;
       `;
 
     case 'normal':
@@ -176,13 +174,57 @@ const listItemContentSizeStyle = ({
         max-width: max-content;
         height: 24px;
         max-height: 24px;
-        overflow-y: clip;
       `;
   }
 };
 
+const listItemContentVariantStyle =
+  ({ variant }: Pick<ListItemContentProps, 'variant'>) =>
+  (theme: Theme) => {
+    switch (variant) {
+      case 'button':
+      case 'radio':
+      case 'checkbox':
+      case 'icon-button':
+        return;
+
+      case 'icon':
+        return css`
+          color: ${theme.palette.label.alternative};
+          font-size: 24px;
+          overflow-y: clip;
+        `;
+
+      case 'avatar':
+        return css`
+          padding-right: 8px;
+          overflow-y: clip;
+        `;
+
+      case 'large-icon':
+        return css`
+          & > div {
+            flex-shrink: 0;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 12px;
+            padding: 8px;
+            color: ${theme.palette.primary.normal};
+            background-color: ${theme.palette.fill.normal};
+            font-size: 32px;
+            overflow-y: clip;
+          }
+        `;
+
+      default:
+        return css`
+          overflow-y: clip;
+        `;
+    }
+  };
+
 export const listItemContentStyle =
-  ({ height, xl, lg, md, sm, xs }: ListItemContentProps) =>
+  ({ variant, height, xl, lg, md, sm, xs }: ListItemContentProps) =>
   (theme: Theme) => css`
     flex-shrink: 0;
     position: relative;
@@ -195,6 +237,7 @@ export const listItemContentStyle =
       z-index: 1;
     }
 
+    ${listItemContentVariantStyle({ variant })(theme)}
     ${listItemContentSizeStyle({ height })}
 
     ${createResponsiveStyle(
@@ -207,19 +250,3 @@ export const listItemContentStyle =
       `,
     )}
   `;
-
-export const listItemContentLargeIconBoxStyle = (theme: Theme) => css`
-  flex-shrink: 0;
-  width: fit-content;
-  height: fit-content;
-  border-radius: 12px;
-  padding: 8px;
-  color: ${theme.palette.primary.normal};
-  background-color: ${theme.palette.fill.normal};
-  font-size: 32px;
-`;
-
-export const listItemContentIconStyle = (theme: Theme) => css`
-  color: ${theme.palette.label.alternative};
-  font-size: 24px;
-`;

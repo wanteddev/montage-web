@@ -24,8 +24,6 @@ import {
 import {
   listCellDividerStyle,
   listCellStyle,
-  listItemContentIconStyle,
-  listItemContentLargeIconBoxStyle,
   listItemContentStyle,
   listItemStyle,
   listStyle,
@@ -179,12 +177,11 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="center"
+            alignItems="flex-start"
             ref={ref}
             {...props}
             sx={[
-              listItemContentStyle({ height, xl, lg, md, sm, xs }),
-              listItemContentIconStyle,
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -196,12 +193,15 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="center"
+            alignItems="flex-start"
             ref={ref}
             {...props}
-            sx={[listItemContentStyle({ height, xl, lg, md, sm, xs }), sx]}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
           >
-            <FlexBox sx={listItemContentLargeIconBoxStyle}>{children}</FlexBox>
+            <FlexBox>{children}</FlexBox>
           </FlexBox>
         );
 
@@ -209,10 +209,13 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="center"
+            alignItems="flex-start"
             ref={ref}
             {...props}
-            sx={[listItemContentStyle({ height, xl, lg, md, sm, xs }), sx]}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
           >
             <TextButtonProvider assistive="palette.label.alternative">
               {children}
@@ -224,10 +227,13 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="center"
+            alignItems="flex-start"
             ref={ref}
             {...props}
-            sx={[listItemContentStyle({ height, xl, lg, md, sm, xs }), sx]}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
           >
             <IconButtonProvider normal="palette.label.alternative">
               {children}
@@ -239,12 +245,11 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="center"
+            alignItems="flex-start"
             ref={ref}
             {...props}
             sx={[
               listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
-              { paddingRight: '8px' },
               sx,
             ]}
           >
@@ -262,7 +267,10 @@ const ListItemContent = forwardRef<
             ref={ref}
             tabIndex={props.onClick ? 0 : -1}
             {...props}
-            sx={[listItemContentStyle({ height, xl, lg, md, sm, xs }), sx]}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
           >
             {Boolean(children) && (
               <Typography
@@ -288,7 +296,7 @@ const ListItemContent = forwardRef<
         return (
           <FlexBox
             wds-component="list-item-content"
-            alignItems="center"
+            alignItems="flex-start"
             ref={ref}
             {...props}
             sx={[
