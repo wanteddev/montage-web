@@ -1,7 +1,7 @@
 import type Typography from '../typography';
 import type { TypographyProps } from '../typography/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { ComponentProps, ReactNode } from 'react';
+import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
@@ -47,10 +47,11 @@ export type ListCellDefaultProps = {
   divider?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
+  interactionPadding?: CSSProperties['paddingLeft'];
 };
 
 export type ListCellResponsiveProps = ResponsiveProps<
-  Pick<ListCellDefaultProps, 'padding' | 'fillWidth'>
+  Pick<ListCellDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
 >;
 
 export type ListCellProps = Merge<

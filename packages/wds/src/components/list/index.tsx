@@ -315,6 +315,7 @@ const ListCell = forwardRef(
       children,
       disabled,
       disableInteraction,
+      interactionPadding = fillWidth ? undefined : '12px',
       xs,
       sm,
       md,
@@ -332,7 +333,16 @@ const ListCell = forwardRef(
           disabled={disabled}
           {...props}
           sx={[
-            listCellStyle({ padding, fillWidth, xs, sm, md, lg, xl }),
+            listCellStyle({
+              padding,
+              fillWidth,
+              interactionPadding,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
             props.sx,
           ]}
         >

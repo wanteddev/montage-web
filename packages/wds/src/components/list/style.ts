@@ -3,6 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import {
   createResponsiveStyle,
   ellipsisTypographyStyle,
+  getPreviousValue,
   typographyStyle,
 } from '../../utils';
 
@@ -53,11 +54,21 @@ export const listTextEllipsisStyle = css`
 `;
 
 export const listCellStyle =
-  ({ padding, fillWidth, xs, sm, md, lg, xl }: ListCellProps) =>
+  ({
+    padding,
+    fillWidth,
+    interactionPadding,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ListCellProps) =>
   (theme: Theme) => css`
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
-
+    ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
+    
     & > [wds-component='with-interaction'] {
       border-radius: inherit;
       display: var(--wds-list-cell-interaction-display, block);
@@ -67,13 +78,44 @@ export const listCellStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
+      (params, breakpoint) => css`
         ${listCellPaddingStyle({ padding: params?.padding })}
-        ${listCellFillWidthStyle({ fillWidth: params?.fillWidth })}
+        ${listCellFillWidthStyle({
+          fillWidth: params?.fillWidth,
+        })}
+        ${listCellInteractionPaddingStyle({
+          fillWidth: getPreviousValue(
+            { xs, sm, md, lg, xl },
+            'fillWidth',
+            fillWidth,
+            breakpoint!,
+          ),
+          interactionPadding: params?.interactionPadding,
+        })}
         ${params?.sx}
       `,
     )}
   `;
+
+const listCellInteractionPaddingStyle = ({
+  fillWidth,
+  interactionPadding,
+}: Pick<ListCellProps, 'fillWidth' | 'interactionPadding'>) => {
+  if (fillWidth) {
+    return css`
+      & > [wds-component='with-interaction'] {
+        width: 100%;
+      }
+    `;
+  }
+  return css`
+    --wds-list-cell-interaction-padding: ${interactionPadding ?? '12px'};
+
+    & > [wds-component='with-interaction'] {
+      width: calc(100% + (var(--wds-list-cell-interaction-padding) * 2));
+    }
+  `;
+};
 
 const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
   switch (padding) {
@@ -117,10 +159,6 @@ const listCellFillWidthStyle = ({
         padding-right: 20px;
         padding-left: 20px;
 
-        & > [wds-component='with-interaction'] {
-          width: 100%;
-        }
-
         & > [data-role='list-cell-divider'] {
           width: calc(100% - 40px);
         }
@@ -130,10 +168,6 @@ const listCellFillWidthStyle = ({
         padding-right: 0px;
         padding-left: 0px;
         border-radius: 12px;
-
-        & > [wds-component='with-interaction'] {
-          width: calc(100% + 24px);
-        }
 
         & > [data-role='list-cell-divider'] {
           width: 100%;
