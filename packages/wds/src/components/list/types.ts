@@ -47,6 +47,9 @@ export type ListCellDefaultProps = {
   divider?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
+  /**
+   * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
+   */
   interactionPadding?: CSSProperties['paddingLeft'];
 };
 

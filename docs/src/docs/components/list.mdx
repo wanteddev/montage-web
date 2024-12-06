@@ -347,6 +347,67 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Ellipsis
+
+- ellipsis가 false일 때 수직 정렬은 상단으로 조정 됩니다.
+- ellipsis가 true일 때 수직 정렬은 중앙으로 조정 됩니다.
+
+<Demo code={`import { List, ListCell, ListText, ListItemContent } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <List gap="16px" sx={{ width: '50%' }}>
+      <ListCell
+        leftContent={
+          <ListItemContent height="large" variant="large-icon">
+            <IconBlank />
+          </ListItemContent>
+        }
+        rightContent={
+          <ListItemContent variant="chevron">
+            값
+          </ListItemContent>
+        }
+      >
+        <ListText 
+          caption="캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션
+            캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션"
+        >
+          텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+          텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+          텍스트텍스트텍스트텍스트
+        </ListText>
+      </ListCell>
+      <ListCell
+        ellipsis
+        leftContent={
+          <ListItemContent height="large" variant="large-icon">
+            <IconBlank />
+          </ListItemContent>
+        }
+        rightContent={
+          <ListItemContent variant="chevron">
+            값
+          </ListItemContent>
+        }
+      >
+        <ListText 
+          caption="캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션
+            캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션"
+        >
+          텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+          텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
+          텍스트텍스트텍스트텍스트
+        </ListText>
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Checkbox
 
 <Demo code={`import { List, Checkbox, ListCell, ListItemContent, ListText } from '@wanteddev/wds';
