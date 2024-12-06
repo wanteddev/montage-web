@@ -21,13 +21,7 @@ export const listStyle = css`
 `;
 
 export const listItemStyle =
-  ({
-    active,
-    disabled,
-    clickable,
-  }: ListItemProps & {
-    clickable: boolean;
-  }) =>
+  ({ active, disabled }: ListItemProps) =>
   (theme: Theme) => css`
     width: 100%;
 
@@ -39,7 +33,6 @@ export const listItemStyle =
           opacity: ${theme.opacity[43]};
         `
       : css`
-          cursor: ${clickable ? 'pointer' : 'initial'};
           color: ${active
             ? theme.palette.primary.normal
             : theme.palette.label.normal};
@@ -57,6 +50,8 @@ export const listCellStyle =
   ({
     padding,
     fillWidth,
+    disabled,
+    disableInteraction,
     interactionPadding,
     xs,
     sm,
@@ -65,6 +60,12 @@ export const listCellStyle =
     xl,
   }: ListCellProps) =>
   (theme: Theme) => css`
+    ${!disabled &&
+    !disableInteraction &&
+    css`
+      cursor: pointer;
+    `}
+
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
     ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}

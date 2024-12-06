@@ -107,7 +107,7 @@ const ListItem = forwardRef(
           gap="8px"
           aria-disabled={disabled}
           disabled={disabled}
-          tabIndex={clickable ? 0 : -1}
+          tabIndex={clickable ? 0 : undefined}
           {...props}
           onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
             if (
@@ -147,7 +147,7 @@ const ListItem = forwardRef(
               }
             }
           })}
-          sx={[listItemStyle({ active, disabled, clickable }), props.sx]}
+          sx={[listItemStyle({ active, disabled }), props.sx]}
         >
           {Boolean(leftContent) && leftContent}
           {children}
@@ -336,6 +336,8 @@ const ListCell = forwardRef(
             listCellStyle({
               padding,
               fillWidth,
+              disabled,
+              disableInteraction,
               interactionPadding,
               xs,
               sm,
