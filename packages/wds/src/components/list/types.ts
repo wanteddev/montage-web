@@ -62,6 +62,7 @@ export type ListCellProps = Merge<
 export type ListTextProps = Merge<
   TypographyProps,
   {
-    caption?: ComponentProps<typeof Typography>;
+    caption?: ReactNode;
+    captionProps?: ComponentProps<typeof Typography>;
   }
 >;

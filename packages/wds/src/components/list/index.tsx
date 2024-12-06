@@ -364,6 +364,7 @@ const ListText = forwardRef(
       color,
       children,
       caption,
+      captionProps,
       sx,
       ...props
     }: PolymorphicProps<ListTextProps, E>,
@@ -414,9 +415,11 @@ const ListText = forwardRef(
           <Typography
             variant="label1_normal"
             color="palette.label.alternative"
-            {...caption}
-            sx={[ellipsis && listTextEllipsisStyle, caption?.sx]}
-          />
+            {...captionProps}
+            sx={[ellipsis && listTextEllipsisStyle, captionProps?.sx]}
+          >
+            {caption}
+          </Typography>
         )}
       </FlexBox>
     );
