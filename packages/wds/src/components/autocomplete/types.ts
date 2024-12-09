@@ -33,7 +33,7 @@ export type AutocompleteListProps = ComponentPropsWithoutRef<
 export type AutocompleteOptionProps = Merge<
   { value: string },
   Omit<
-    ListCellProps & Pick<ListTextProps, 'bold' | 'caption'>,
+    ListCellProps & Pick<ListTextProps, 'caption'>,
     'rightContent' | 'leftContent'
   >
 >;

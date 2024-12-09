@@ -499,7 +499,7 @@ AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
 const AutocompleteOption = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<AutocompleteOptionProps, 'li'>
->(({ bold, caption, disabled, value, children, ...props }, forwardedRef) => {
+>(({ caption, disabled, value, children, ...props }, forwardedRef) => {
   const ref = useRef<HTMLLIElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
 
@@ -560,9 +560,7 @@ const AutocompleteOption = forwardRef<
         })}
         onClick={composeEventHandlers(props.onClick, (e) => e.preventDefault())}
       >
-        <ListText caption={caption} bold={bold ?? active}>
-          {children}
-        </ListText>
+        <ListText caption={caption}>{children}</ListText>
       </ListCell>
     </Collection.ItemSlot>
   );

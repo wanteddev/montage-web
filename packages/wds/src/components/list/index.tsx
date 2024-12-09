@@ -7,6 +7,7 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
+import { Slot } from '@radix-ui/react-slot';
 
 import { Divider, FlexBox, Typography, WithInteraction } from '..';
 import { useMenuItemContext } from '../menu/contexts';
@@ -23,12 +24,10 @@ import {
 import {
   listCellDividerStyle,
   listCellStyle,
-  listItemContentLargeIconStyle,
-  listItemContentPaddingStyle,
   listItemContentStyle,
   listItemStyle,
   listStyle,
-  listTextStyle,
+  listTextEllipsisStyle,
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
 
@@ -73,6 +72,8 @@ const ListItem = forwardRef(
       rightContent,
       active = false,
       disabled = false,
+      ellipsis = false,
+      alignItems: alignItemsProp,
       children,
       ...props
     }: PolymorphicProps<ListItemProps, E>,
@@ -88,17 +89,25 @@ const ListItem = forwardRef(
     );
     const clickable = Boolean(props.onClick || controllable) && !disabled;
 
+    const alignItems = alignItemsProp ?? ellipsis ? 'center' : 'flex-start';
+
     return (
-      <ListItemProvider active={active} disabled={disabled}>
+      <ListItemProvider
+        active={active}
+        disabled={disabled}
+        ellipsis={ellipsis}
+        alignItems={alignItems}
+      >
         <FlexBox
           as={(as || 'li') as E}
           role="listitem"
           ref={composedRefs}
           flexDirection="row"
+          alignItems={alignItems}
           gap="8px"
           aria-disabled={disabled}
           disabled={disabled}
-          tabIndex={clickable ? 0 : -1}
+          tabIndex={clickable ? 0 : undefined}
           {...props}
           onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
             if (
@@ -138,13 +147,13 @@ const ListItem = forwardRef(
               }
             }
           })}
-          sx={[listItemStyle({ active, disabled, clickable }), props.sx]}
+          sx={[listItemStyle({ active, disabled }), props.sx]}
         >
           {Boolean(leftContent) && leftContent}
           {children}
-          <FlexBox sx={{ margin: 'auto 0' }}>
-            {Boolean(rightContent) && rightContent}
-          </FlexBox>
+          {Boolean(rightContent) && (
+            <Slot data-role="list-item-right-content">{rightContent}</Slot>
+          )}
         </FlexBox>
       </ListItemProvider>
     );
@@ -156,139 +165,144 @@ ListItem.displayName = LIST_ITEM_NAME;
 const ListItemContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ListItemContentProps, 'div'>
->(({ variant = 'custom', children, chevron = true, ...props }, ref) => {
-  switch (variant) {
-    case 'icon':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[
-            listItemContentStyle,
-            (theme) => ({
-              fontSize: '24px',
-              color: theme.palette.label.assistive,
-            }),
-            props.sx,
-          ]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'icon-button':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          <IconButtonProvider normal="palette.label.alternative">
-            {children}
-          </IconButtonProvider>
-        </FlexBox>
-      );
+>(
+  (
+    {
+      variant = 'custom',
+      height = 'normal',
+      children,
+      chevron = true,
+      xl,
+      lg,
+      md,
+      sm,
+      xs,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
+    const { alignItems } = useListItemContext(LIST_ITEM_CONTENT_NAME);
 
-    case 'radio':
-    case 'checkbox':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'large-icon':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentLargeIconStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'avatar':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentPaddingStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-    case 'button':
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          ref={ref}
-          alignItems="center"
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          <TextButtonProvider assistive="palette.label.alternative">
-            {children}
-          </TextButtonProvider>
-        </FlexBox>
-      );
-    case 'chevron':
-      return (
-        <FlexBox
-          role="button"
-          alignItems="center"
-          wds-component="list-item-content"
-          gap="8px"
-          ref={ref}
-          tabIndex={props.onClick ? 0 : -1}
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          {Boolean(children) && (
-            <Typography
-              variant="body1_normal"
-              color="palette.label.alternative"
-            >
+    switch (variant) {
+      case 'large-icon':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
+          >
+            <FlexBox>{children}</FlexBox>
+          </FlexBox>
+        );
+
+      case 'button':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
+          >
+            <TextButtonProvider assistive="palette.label.alternative">
               {children}
-            </Typography>
-          )}
+            </TextButtonProvider>
+          </FlexBox>
+        );
 
-          {chevron && (
-            <IconChevronRightTightSmall
-              sx={(theme) => ({
-                color: theme.palette.label.assistive,
-              })}
-            />
-          )}
-        </FlexBox>
-      );
-    case 'switch':
-    case 'custom':
-    default:
-      return (
-        <FlexBox
-          wds-component="list-item-content"
-          alignItems="center"
-          ref={ref}
-          {...props}
-          sx={[listItemContentStyle, props.sx]}
-        >
-          {children}
-        </FlexBox>
-      );
-  }
-});
+      case 'icon-button':
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
+          >
+            <IconButtonProvider normal="palette.label.alternative">
+              {children}
+            </IconButtonProvider>
+          </FlexBox>
+        );
+
+      case 'chevron':
+        return (
+          <FlexBox
+            role="button"
+            alignItems={alignItems}
+            wds-component="list-item-content"
+            gap="8px"
+            ref={ref}
+            tabIndex={props.onClick ? 0 : -1}
+            {...props}
+            sx={sx}
+          >
+            {Boolean(children) && (
+              <FlexBox
+                justifyContent="flex-end"
+                alignItems={alignItems}
+                sx={listItemContentStyle({
+                  variant,
+                  height,
+                  xl,
+                  lg,
+                  md,
+                  sm,
+                  xs,
+                })}
+              >
+                {children}
+              </FlexBox>
+            )}
+            {chevron && (
+              <FlexBox alignItems="center" sx={{ height: '24px' }}>
+                <IconChevronRightTightSmall
+                  sx={(theme) => ({
+                    color: theme.palette.label.assistive,
+                  })}
+                />
+              </FlexBox>
+            )}
+          </FlexBox>
+        );
+
+      case 'icon':
+      case 'avatar':
+      case 'badge':
+      case 'checkbox':
+      case 'radio':
+      case 'switch':
+      case 'custom':
+      default:
+        return (
+          <FlexBox
+            wds-component="list-item-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[
+              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              sx,
+            ]}
+          >
+            {children}
+          </FlexBox>
+        );
+    }
+  },
+);
 
 ListItemContent.displayName = LIST_ITEM_CONTENT_NAME;
 
@@ -301,6 +315,7 @@ const ListCell = forwardRef(
       children,
       disabled,
       disableInteraction,
+      interactionPadding = fillWidth ? undefined : '12px',
       xs,
       sm,
       md,
@@ -318,7 +333,18 @@ const ListCell = forwardRef(
           disabled={disabled}
           {...props}
           sx={[
-            listCellStyle({ padding, fillWidth, xs, sm, md, lg, xl }),
+            listCellStyle({
+              padding,
+              fillWidth,
+              disabled,
+              disableInteraction,
+              interactionPadding,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
             props.sx,
           ]}
         >
@@ -337,27 +363,28 @@ ListCell.displayName = LIST_CELL_NAME;
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
     {
-      caption,
-      bold,
-      children,
       color,
+      children,
+      caption,
+      captionProps,
+      sx,
       ...props
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<ElementRef<E>>,
   ) => {
-    const { active, disabled } = useListItemContext(LIST_TEXT_NAME);
-    const { bold: menuItemBold } = useMenuItemContext() || {};
+    const { active, disabled, ellipsis } = useListItemContext(LIST_TEXT_NAME);
+    const { active: menuItemActive } = useMenuItemContext() || {};
 
     if (!children) {
       return null;
     }
 
     const weight: TypographyWeight =
-      bold ?? menuItemBold ? 'medium' : 'regular';
+      active || menuItemActive ? 'medium' : 'regular';
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
-        return 'palette.label.disable';
+        return 'palette.label.alternative';
       }
       if (active) {
         return 'palette.primary.normal';
@@ -374,13 +401,14 @@ const ListText = forwardRef(
         flex="1"
         as="p"
         {...props}
-        sx={[{ overflow: 'hidden' }, props.sx]}
+        sx={{ overflow: 'hidden' }}
       >
         <Typography
           variant="body1_normal"
           color={getTextColor()}
           weight={weight}
-          sx={listTextStyle}
+          sx={[ellipsis && listTextEllipsisStyle, sx]}
+          {...props}
         >
           {children}
         </Typography>
@@ -388,11 +416,9 @@ const ListText = forwardRef(
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
-            color={
-              disabled ? 'palette.label.disable' : 'palette.label.alternative'
-            }
-            weight={weight}
-            sx={{ overflowWrap: 'anywhere', wordBreak: 'keep-all' }}
+            color="palette.label.alternative"
+            {...captionProps}
+            sx={[ellipsis && listTextEllipsisStyle, captionProps?.sx]}
           >
             {caption}
           </Typography>
