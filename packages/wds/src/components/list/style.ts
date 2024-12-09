@@ -1,9 +1,18 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, ellipsisTypographyStyle } from '../../utils';
+import {
+  createResponsiveStyle,
+  ellipsisTypographyStyle,
+  getPreviousValue,
+  typographyStyle,
+} from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { ListCellProps, ListItemProps } from './types';
+import type {
+  ListCellProps,
+  ListItemContentProps,
+  ListItemProps,
+} from './types';
 
 export const listStyle = css`
   list-style: none;
@@ -12,31 +21,25 @@ export const listStyle = css`
 `;
 
 export const listItemStyle =
-  ({
-    active,
-    disabled,
-    clickable,
-  }: ListItemProps & {
-    clickable: boolean;
-  }) =>
+  ({ active, disabled }: ListItemProps) =>
   (theme: Theme) => css`
     width: 100%;
 
     ${disabled
       ? css`
           cursor: initial;
-          color: ${theme.palette.label.disable};
           pointer-events: none;
+          color: ${theme.palette.label.alternative};
+          opacity: ${theme.opacity[43]};
         `
       : css`
-          cursor: ${clickable ? 'pointer' : 'initial'};
           color: ${active
             ? theme.palette.primary.normal
             : theme.palette.label.normal};
         `}
   `;
 
-export const listTextStyle = css`
+export const listTextEllipsisStyle = css`
   ${ellipsisTypographyStyle(1)}
   white-space: nowrap;
   overflow-wrap: anywhere;
@@ -44,15 +47,31 @@ export const listTextStyle = css`
 `;
 
 export const listCellStyle =
-  ({ padding, fillWidth, xs, sm, md, lg, xl }: ListCellProps) =>
+  ({
+    padding,
+    fillWidth,
+    disabled,
+    disableInteraction,
+    interactionPadding,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ListCellProps) =>
   (theme: Theme) => css`
-    border-radius: 12px;
+    ${!disabled &&
+    !disableInteraction &&
+    css`
+      cursor: pointer;
+    `}
 
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
-
-
+    ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
+    
     & > [wds-component='with-interaction'] {
+      border-radius: inherit;
       display: var(--wds-list-cell-interaction-display, block);
     }
 
@@ -60,13 +79,44 @@ export const listCellStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
+      (params, breakpoint) => css`
         ${listCellPaddingStyle({ padding: params?.padding })}
-        ${listCellFillWidthStyle({ fillWidth: params?.fillWidth })}
+        ${listCellFillWidthStyle({
+          fillWidth: params?.fillWidth,
+        })}
+        ${listCellInteractionPaddingStyle({
+          fillWidth: getPreviousValue(
+            { xs, sm, md, lg, xl },
+            'fillWidth',
+            fillWidth,
+            breakpoint!,
+          ),
+          interactionPadding: params?.interactionPadding,
+        })}
         ${params?.sx}
       `,
     )}
   `;
+
+const listCellInteractionPaddingStyle = ({
+  fillWidth,
+  interactionPadding,
+}: Pick<ListCellProps, 'fillWidth' | 'interactionPadding'>) => {
+  if (fillWidth) {
+    return css`
+      & > [wds-component='with-interaction'] {
+        width: 100%;
+      }
+    `;
+  }
+  return css`
+    --wds-list-cell-interaction-padding: ${interactionPadding ?? '12px'};
+
+    & > [wds-component='with-interaction'] {
+      width: calc(100% + (var(--wds-list-cell-interaction-padding) * 2));
+    }
+  `;
+};
 
 const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
   switch (padding) {
@@ -110,10 +160,6 @@ const listCellFillWidthStyle = ({
         padding-right: 20px;
         padding-left: 20px;
 
-        & > [wds-component='with-interaction'] {
-          width: 100%;
-        }
-
         & > [data-role='list-cell-divider'] {
           width: calc(100% - 40px);
         }
@@ -122,10 +168,7 @@ const listCellFillWidthStyle = ({
       return css`
         padding-right: 0px;
         padding-left: 0px;
-
-        & > [wds-component='with-interaction'] {
-          width: calc(100% + 24px);
-        }
+        border-radius: 12px;
 
         & > [data-role='list-cell-divider'] {
           width: 100%;
@@ -142,33 +185,113 @@ export const listCellDividerStyle = css`
   width: 100%;
 `;
 
-export const listItemContentStyle = css`
-  max-height: 24px;
-  flex-shrink: 0;
-  width: fit-content;
-  height: fit-content;
-  position: relative;
+const listItemContentSizeStyle = ({
+  height,
+}: Pick<ListItemContentProps, 'height'>) => {
+  switch (height) {
+    case 'medium':
+      return css`
+        min-width: 40px;
+        max-width: max-content;
+        height: 40px;
+        max-height: 40px;
+      `;
 
-  [wds-component='with-interaction'] {
-    z-index: 1;
+    case 'large':
+      return css`
+        min-width: 56px;
+        max-width: max-content;
+        height: 56px;
+        max-height: 56px;
+      `;
+
+    case 'normal':
+    default:
+      return css`
+        min-width: 24px;
+        max-width: max-content;
+        height: 24px;
+        max-height: 24px;
+      `;
   }
-`;
+};
 
-export const listItemContentPaddingStyle = css`
-  flex-shrink: 0;
-  width: fit-content;
-  height: fit-content;
-  padding-right: 8px;
-`;
+const listItemContentVariantStyle =
+  ({ variant }: Pick<ListItemContentProps, 'variant'>) =>
+  (theme: Theme) => {
+    switch (variant) {
+      case 'button':
+      case 'radio':
+      case 'checkbox':
+      case 'icon-button':
+        return;
 
-export const listItemContentLargeIconStyle = (theme: Theme) => css`
-  flex-shrink: 0;
-  width: fit-content;
-  height: fit-content;
-  border-radius: 12px;
-  padding: 8px;
-  margin-right: 8px;
-  color: ${theme.palette.primary.normal};
-  background-color: ${theme.palette.fill.normal};
-  font-size: 32px;
-`;
+      case 'icon':
+        return css`
+          color: ${theme.palette.label.alternative};
+          font-size: 24px;
+          overflow-y: clip;
+        `;
+
+      case 'avatar':
+        return css`
+          padding-right: 8px;
+          overflow-y: clip;
+        `;
+
+      case 'large-icon':
+        return css`
+          & > div {
+            flex-shrink: 0;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 12px;
+            padding: 8px;
+            color: ${theme.palette.primary.normal};
+            background-color: ${theme.palette.fill.normal};
+            font-size: 32px;
+            overflow-y: clip;
+          }
+        `;
+
+      case 'chevron':
+        return css`
+          ${typographyStyle('body1_normal', 'regular')}
+          color: ${theme.palette.label.alternative};
+          overflow-y: clip;
+        `;
+
+      default:
+        return css`
+          overflow-y: clip;
+        `;
+    }
+  };
+
+export const listItemContentStyle =
+  ({ variant, height, xl, lg, md, sm, xs }: ListItemContentProps) =>
+  (theme: Theme) => css`
+    flex-shrink: 0;
+    position: relative;
+
+    &[data-role='list-item-right-content'] {
+      justify-content: flex-end;
+    }
+
+    [wds-component='with-interaction'] {
+      z-index: 1;
+    }
+
+    ${listItemContentVariantStyle({ variant })(theme)}
+    ${listItemContentSizeStyle({ height })}
+
+    ${createResponsiveStyle(
+      { xs, sm, md, lg, xl },
+      theme,
+    )(
+      (params) => css`
+        ${listItemContentSizeStyle({ height: params?.height })}
+        ${params?.sx}
+      `,
+    )}
+  `;
