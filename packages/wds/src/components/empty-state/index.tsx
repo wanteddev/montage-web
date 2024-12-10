@@ -19,7 +19,7 @@ import { emptyStateStyle } from './style';
 
 import type { ButtonProps } from '../button/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
   EmptyStateImageProps,
   EmptyStateProps,
@@ -42,7 +42,7 @@ const EmptyState = forwardRef(
       sx,
       ...props
     }: PolymorphicProps<EmptyStateProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <FlexBox
@@ -131,7 +131,7 @@ EmptyStateText.displayName = EMPTY_STATE_TEXT_NAME;
 const EmptyStateButton = forwardRef(
   <E extends ElementType = 'button'>(
     { as, ...props }: PolymorphicProps<ButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Button

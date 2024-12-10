@@ -23,12 +23,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type {
-  CSSProperties,
-  ElementRef,
-  ElementType,
-  ForwardedRef,
-} from 'react';
+import type { CSSProperties, ElementType, ForwardedRef } from 'react';
 import type { BottomNavigationItemProps, BottomNavigationProps } from './types';
 
 const BottomNavigation = forwardRef(
@@ -97,16 +92,16 @@ const BottomNavigation = forwardRef(
 
 BottomNavigation.displayName = BOTTOM_NAVIGATION_NAME;
 
-const BottomNavigationItem = forwardRef(
-  <T extends ElementType = 'button'>(
+const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
+  <E extends ElementType = 'button'>(
     {
       label,
       value,
       icon,
       as,
       ...props
-    }: PolymorphicProps<BottomNavigationItemProps, T>,
-    ref: ForwardedRef<ElementRef<T>>,
+    }: PolymorphicProps<BottomNavigationItemProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
     const id = useId();
     const context = useBottomNavigationContext(BOTTOM_NAVIGATION_ITEM_NAME);
@@ -116,7 +111,7 @@ const BottomNavigationItem = forwardRef(
     return (
       <WithInteraction variant="light">
         <FlexBox
-          as={(as || 'button') as T}
+          as={(as || 'button') as E}
           ref={ref}
           {...props}
           flex="1 1 0"

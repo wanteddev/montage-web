@@ -37,7 +37,7 @@ export const AppCacheProvider = ({
 // _document
 
 export type DocumentHeadTagsProps = {
-  emotionStyleTags: Array<React.ReactElement>;
+  emotionStyleTags: Array<React.ReactElement<any>>;
 };
 export const DocumentHeadTags = (props: DocumentHeadTagsProps) => {
   return (

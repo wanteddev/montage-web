@@ -62,7 +62,7 @@ const Card = forwardRef(
       sx,
       ...props
     }: PolymorphicProps<CardProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <FlexBox
@@ -197,15 +197,19 @@ CardContentItem.displayName = CARD_CONTENT_ITEM_NAME;
 
 const CardTitle = forwardRef(
   <E extends ElementType = 'span'>(
-    props: PolymorphicProps<TypographyProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    {
+      variant = 'body1_normal',
+      weight = 'bold',
+      ...props
+    }: PolymorphicProps<TypographyProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Typography
         ref={ref}
         wds-component="card-title"
-        variant="body1_normal"
-        weight="bold"
+        variant={variant}
+        weight={weight}
         {...props}
       />
     );
@@ -216,16 +220,21 @@ CardTitle.displayName = CARD_TITLE_NAME;
 
 const CardCaption = forwardRef(
   <E extends ElementType = 'span'>(
-    props: PolymorphicProps<TypographyProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    {
+      variant = 'label2',
+      weight = 'medium',
+      color = 'palette.label.alternative',
+      ...props
+    }: PolymorphicProps<TypographyProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Typography
         ref={ref}
         wds-component="card-caption"
-        variant="label2"
-        weight="medium"
-        color="palette.label.alternative"
+        variant={variant}
+        weight={weight}
+        color={color}
         {...props}
       />
     );
@@ -247,7 +256,7 @@ const CardSkeleton = forwardRef(
       sx,
       ...props
     }: PolymorphicProps<CardProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <FlexBox

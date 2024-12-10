@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { ImageLoaderProps } from '../image-loader/types';
 import type { SkeletonProps } from '../skeleton/types';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
@@ -16,6 +17,7 @@ export type ThumbnailDefaultProps = {
   portrait?: boolean;
   border?: boolean;
   radius?: boolean;
+  children?: ReactNode;
 };
 
 type ThumbnailResponsiveProps = ResponsiveProps<

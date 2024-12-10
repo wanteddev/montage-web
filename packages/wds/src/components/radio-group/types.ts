@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { RovingFocusGroup } from '@radix-ui/react-roving-focus';
 import type { Merge } from '@wanteddev/wds-engine';
 import type { RadioGroupContextType } from './contexts';
@@ -16,6 +16,7 @@ export type RadioGroupProps = {
   defaultValue?: string;
   value?: RadioGroupContextType['value'];
   onValueChange?: RadioGroupContextType['onValueChange'];
+  children?: ReactNode;
 };
 
 export type RadioGroupItemProps = Merge<

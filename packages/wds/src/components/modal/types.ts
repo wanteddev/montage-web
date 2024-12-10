@@ -6,6 +6,7 @@ import type {
   CSSProperties,
   ComponentPropsWithRef,
   PropsWithChildren,
+  ReactNode,
 } from 'react';
 import type { TypographyProps } from '../typography/types';
 
@@ -56,6 +57,7 @@ type ModalContainerDefaultProps = {
     | 'large-fixed'
     | 'huge'
     | 'huge-fixed';
+  children?: ReactNode;
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<
@@ -78,6 +80,7 @@ export type ModalNavigationProps = Merge<
 
 type ModalContentDefaultProps = {
   gap?: CSSProperties['gap'];
+  children?: ReactNode;
 };
 
 type ModalContentResponsiveProps = ResponsiveProps<

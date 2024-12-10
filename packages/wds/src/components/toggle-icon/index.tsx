@@ -12,7 +12,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { ToggleIconProps } from './types';
 
 const ToggleIcon = forwardRef(
@@ -33,7 +33,7 @@ const ToggleIcon = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<ToggleIconProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const [pressed = false, setPressed] = useControllableState({
       prop: active,

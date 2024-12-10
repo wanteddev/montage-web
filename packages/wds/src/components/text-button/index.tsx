@@ -12,7 +12,7 @@ import type {
   PolymorphicProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { TextButtonProps } from './types';
 
 const TextButton = forwardRef(
@@ -33,7 +33,7 @@ const TextButton = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<TextButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const id = useId();
     const context = useTextButtonContext();

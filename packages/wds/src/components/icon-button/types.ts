@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
@@ -19,6 +20,7 @@ export type IconButtonDefaultProps = {
    * alternative를 true로 넘기면 검정 테마가 활성화 됩니다.
    */
   alternative?: boolean;
+  children?: ReactNode;
 };
 
 export type IconButtonResponsiveProps = ResponsiveProps<

@@ -4,7 +4,12 @@ import type {
   SxProp,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
+import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  PropsWithChildren,
+  ReactNode,
+} from 'react';
 
 export type TextInputDefaultProps = {
   invalid?: boolean;
@@ -15,6 +20,7 @@ export type TextInputDefaultProps = {
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   onReset?: (prevValue: string) => void;
+  children?: ReactNode;
 };
 
 export type TextInputResponsiveProps = ResponsiveProps<
@@ -38,4 +44,6 @@ export type TextInputButtonProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
   position?: 'right' | 'left';
+  children?: ReactNode;
+  type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 };

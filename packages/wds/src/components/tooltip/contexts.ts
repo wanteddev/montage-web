@@ -13,7 +13,7 @@ import type { TooltipProps } from './types';
 
 type TooltipContextValue = {
   mode: Exclude<TooltipProps['mode'], undefined>;
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
   open: boolean;
   containerId: string;
   handleMouseOver: MouseEventHandler<any>;

@@ -14,7 +14,7 @@ export const findComponentInChildren = <T extends object>(
         const {
           type,
           props: { children },
-        } = node as React.ReactElement & {
+        } = node as React.ReactElement<any> & {
           type: { [k in string]: boolean };
         };
 

@@ -11,6 +11,7 @@ export type ChipActionDefaultProps = {
   disableInteraction?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
+  children?: ReactNode;
 };
 
 export type ChipActionResponsiveProps = ResponsiveProps<

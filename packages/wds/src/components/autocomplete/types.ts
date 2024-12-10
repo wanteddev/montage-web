@@ -4,6 +4,7 @@ import type { PopperContent } from '../popper';
 import type {
   ComponentPropsWithoutRef,
   PropsWithChildren,
+  ReactNode,
   RefObject,
 } from 'react';
 
@@ -22,6 +23,7 @@ export type AutocompleteProps = {
    * 값을 선택하거나 엔터를 입력했을 때를 컨트롤 할 수 있습니다.
    */
   onSearch?: (value: string) => void;
+  children?: ReactNode;
 };
 
 export type AutocompleteTriggerProps = PropsWithChildren;
@@ -39,7 +41,7 @@ export type AutocompleteOptionProps = Merge<
 >;
 
 export type AutocompleteCollectionItem = {
-  ref: RefObject<HTMLButtonElement>;
+  ref: RefObject<HTMLButtonElement | null>;
 } & {
   value: string;
   disabled?: boolean | undefined;

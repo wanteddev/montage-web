@@ -10,7 +10,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
 
 const ChipAction = forwardRef(
@@ -32,7 +32,7 @@ const ChipAction = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<ChipActionProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const id = useId();
 

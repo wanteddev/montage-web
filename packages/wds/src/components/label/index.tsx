@@ -3,12 +3,12 @@ import { forwardRef } from 'react';
 
 import Typography from '../typography';
 
-import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
-import type { TypographyProps } from '../typography/types';
+import type { LabelProps } from './types';
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
 const Label = forwardRef<
   HTMLLabelElement,
-  Merge<{ required?: boolean }, DefaultComponentProps<TypographyProps, 'label'>>
+  DefaultComponentProps<LabelProps, 'label'>
 >(({ display = 'inline-block', required, children, ...props }, ref) => {
   return (
     <Typography

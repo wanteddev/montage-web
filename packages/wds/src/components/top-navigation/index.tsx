@@ -22,12 +22,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type {
-  CSSProperties,
-  ElementRef,
-  ElementType,
-  ForwardedRef,
-} from 'react';
+import type { CSSProperties, ElementType, ForwardedRef } from 'react';
 import type { TopNavigationButtonProps, TopNavigationProps } from './types';
 
 const TopNavigation = forwardRef<
@@ -184,7 +179,7 @@ const TopNavigationButton = forwardRef(
       background = false,
       ...props
     }: PolymorphicProps<TopNavigationButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const id = useId();
     const { variant: navigationVariant } = useTopNavigationContext() || {};

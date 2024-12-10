@@ -26,7 +26,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
   TextInputButtonProps,
   TextInputContentProps,
@@ -321,7 +321,7 @@ const TextInputButton = forwardRef(
       disabled,
       ...props
     }: PolymorphicProps<TextInputButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Button

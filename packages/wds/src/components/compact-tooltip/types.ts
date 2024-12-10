@@ -17,4 +17,5 @@ export type CompactTooltipContentProps = {
    * floating ui context를 콜백을 통해 가져올 수 있습니다.
    */
   setContext?: TooltipContentProps['setContext'];
+  children?: ReactNode;
 };

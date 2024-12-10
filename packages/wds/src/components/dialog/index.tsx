@@ -18,7 +18,7 @@ import {
 } from './style';
 
 import type { DialogButtonProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
+import type { ElementType, ForwardedRef, MouseEvent } from 'react';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
@@ -191,7 +191,7 @@ const Item = ({
 export const DialogButton = forwardRef(
   <E extends ElementType = 'button'>(
     { variant = 'normal', ...props }: PolymorphicProps<DialogButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <TextButton

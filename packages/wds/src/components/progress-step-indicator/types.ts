@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 type ProgressStepIndicatorDefaultProps = {
@@ -6,6 +7,7 @@ type ProgressStepIndicatorDefaultProps = {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
+  children?: ReactNode;
 };
 
 type ProgressStepIndicatorResponsiveProps = ResponsiveProps<
@@ -19,4 +21,5 @@ export type ProgressStepIndicatorProps = Merge<
 
 export type ProgressStepIndicatorItemProps = {
   value: string;
+  children?: ReactNode;
 };

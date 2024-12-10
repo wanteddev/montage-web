@@ -1,4 +1,4 @@
-import { createStore } from 'zustand/vanilla';
+import { createStore as create } from 'zustand/vanilla';
 import { createContext, useContext } from 'react';
 import { useStore } from 'zustand';
 
@@ -62,7 +62,7 @@ export const defaultInitState: RegionState = {
 export const createRegionStore = (
   initState: RegionState = defaultInitState,
 ) => {
-  return createStore<RegionStore>()((set) => ({
+  return create<RegionStore>()((set) => ({
     ...initState,
     show: (item) =>
       set((state) => ({

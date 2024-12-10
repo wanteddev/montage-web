@@ -1,5 +1,6 @@
 import { forwardRef, useState } from 'react';
 import {
+  Box,
   type PolymorphicComponent,
   type PolymorphicProps,
   type ThemeColorsToken,
@@ -28,11 +29,12 @@ import {
   listItemStyle,
   listStyle,
   listTextEllipsisStyle,
+  listTextStyle,
 } from './style';
 import { ListItemProvider, useListItemContext } from './contexts';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
   ListCellProps,
@@ -77,7 +79,7 @@ const ListItem = forwardRef(
       children,
       ...props
     }: PolymorphicProps<ListItemProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const [item, setItem] = useState<E | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setItem(node as E));
@@ -323,7 +325,7 @@ const ListCell = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<ListCellProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <WithInteraction disabled={disabled || disableInteraction}>
@@ -363,14 +365,16 @@ ListCell.displayName = LIST_CELL_NAME;
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
     {
+      variant = 'body1_normal',
+      weight: givenWeight,
       color,
       children,
       caption,
       captionProps,
-      sx,
+      as,
       ...props
     }: PolymorphicProps<ListTextProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const { active, disabled, ellipsis } = useListItemContext(LIST_TEXT_NAME);
     const { active: menuItemActive } = useMenuItemContext() || {};
@@ -380,7 +384,7 @@ const ListText = forwardRef(
     }
 
     const weight: TypographyWeight =
-      active || menuItemActive ? 'medium' : 'regular';
+      givenWeight ?? (active || menuItemActive ? 'medium' : 'regular');
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
@@ -394,39 +398,34 @@ const ListText = forwardRef(
     };
 
     return (
-      <FlexBox
+      <Typography
         ref={ref}
-        flexDirection="column"
-        gap="4px"
-        flex="1"
-        as="p"
+        color={getTextColor()}
+        variant={variant}
+        weight={weight}
         {...props}
-        sx={{ overflow: 'hidden' }}
+        as={as || 'p'}
+        sx={[listTextStyle, props.sx]}
       >
-        <Typography
-          variant="body1_normal"
-          color={getTextColor()}
-          weight={weight}
-          sx={[ellipsis && listTextEllipsisStyle, sx]}
-          {...props}
-        >
+        <Box as="span" sx={[ellipsis && listTextEllipsisStyle]}>
           {children}
-        </Typography>
+        </Box>
 
         {Boolean(caption) && (
           <Typography
             variant="label1_normal"
             color="palette.label.alternative"
+            data-role="list-text-caption"
             {...captionProps}
             sx={[ellipsis && listTextEllipsisStyle, captionProps?.sx]}
           >
             {caption}
           </Typography>
         )}
-      </FlexBox>
+      </Typography>
     );
   },
-) as PolymorphicComponent<ListTextProps, 'span'>;
+) as PolymorphicComponent<ListTextProps, 'p'>;
 
 ListText.displayName = LIST_TEXT_NAME;
 

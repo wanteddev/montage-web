@@ -24,6 +24,7 @@ export type SelectDefaultProps = {
   enableMenuBottom?: boolean;
   menuValue?: string;
   onMenuValueChange?: (value: string) => void;
+  children?: ReactNode;
 };
 
 export type SelectResponsiveProps = ResponsiveProps<

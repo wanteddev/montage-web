@@ -7,6 +7,7 @@ export type SegmentedControlDefaultProps = {
   onValueChange?: (tab: string) => void;
   variant?: 'solid' | 'outlined';
   size?: 'large' | 'medium' | 'small';
+  children?: ReactNode;
 };
 
 type SegmentedControlResponsiveProps = ResponsiveProps<
@@ -21,6 +22,7 @@ export type SegmentedControlProps = Merge<
 export type SegmentedControlItemProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
-
+  disabled?: boolean;
   value: string;
+  children?: ReactNode;
 };

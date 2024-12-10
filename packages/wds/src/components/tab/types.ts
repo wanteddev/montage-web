@@ -16,6 +16,7 @@ type TabListDefaultProps = {
   padding?: boolean;
   rightContent?: ReactNode;
   resize?: 'normal' | 'fill';
+  children?: ReactNode;
 };
 
 type TabListResponsiveProps = ResponsiveProps<
@@ -27,9 +28,11 @@ export type TabListProps = Merge<TabListDefaultProps, TabListResponsiveProps>;
 export type TabListItemProps = {
   value: string;
   disabled?: boolean;
+  children?: ReactNode;
 };
 
 export type TabPanelProps = {
   value: string;
   mountMode?: 'only-active' | 'force-mount' | 'always';
+  children?: ReactNode;
 };

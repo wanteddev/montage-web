@@ -57,17 +57,11 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type {
-  ElementRef,
-  ElementType,
-  ForwardedRef,
-  PropsWithChildren,
-  ReactNode,
-} from 'react';
+import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown'];
 
-const Menu = (props: PropsWithChildren<MenuProps>) => {
+const Menu = (props: MenuProps) => {
   const {
     defaultValue,
     value: valueProp,
@@ -207,7 +201,7 @@ const MenuGroup = forwardRef<
 
 MenuGroup.displayName = MENU_GROUP_NAME;
 
-const MenuItem = forwardRef(
+const MenuItem = forwardRef<any, MenuItemProps>(
   <E extends ElementType = 'li'>(
     {
       variant = 'normal',
@@ -215,7 +209,7 @@ const MenuItem = forwardRef(
       sx,
       ...props
     }: PolymorphicProps<MenuItemProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const { disabled } = props;
     const context = useMenuContext(MENU_ITEM_NAME);
@@ -291,10 +285,10 @@ const MenuItem = forwardRef(
 
 MenuItem.displayName = MENU_ITEM_NAME;
 
-const MenuItemRadio = forwardRef(
+const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
   <E extends ElementType = 'li'>(
     { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
 
@@ -325,7 +319,7 @@ const MenuItemRadio = forwardRef(
 
 MenuItemRadio.displayName = MENU_ITEM_CHECKBOX_NAME;
 
-const MenuItemCheckbox = forwardRef(
+const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
   <E extends ElementType = 'li'>(
     { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
     ref: ForwardedRef<ElementRef<E>>,

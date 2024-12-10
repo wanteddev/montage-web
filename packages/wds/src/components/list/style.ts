@@ -295,3 +295,11 @@ export const listItemContentStyle =
       `,
     )}
   `;
+
+export const listTextStyle = css`
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+`;
