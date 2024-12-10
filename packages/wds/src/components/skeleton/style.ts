@@ -103,7 +103,7 @@ const skeletonSizeStyle = ({
 const skeletonVariantStyle = (
   {
     variant,
-    align,
+    align: alignProp,
     color: colorProp,
     radius = 'initial',
   }: Pick<SkeletonProps, 'variant' | 'radius' | 'align' | 'color'>,
@@ -117,7 +117,11 @@ const skeletonVariantStyle = (
         display: inline-flex;
         padding: 2px 0px;
         border-radius: 3px;
-        text-align: ${align};
+        justify-content: ${{
+          left: 'flex-start',
+          center: 'center',
+          right: 'flex-end',
+        }[alignProp ?? 'left']};
 
         & > span {
           display: inline-block;
