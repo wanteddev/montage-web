@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@wanteddev/wds';
+import { EmptyState, EmptyStateButton } from '@wanteddev/wds';
 import Link from 'next/link';
 
 import ClientFullPageLayout from './full-page-layout.client';
@@ -8,14 +8,11 @@ import ClientFullPageLayout from './full-page-layout.client';
 const RootPage = () => {
   return (
     <ClientFullPageLayout>
-      <Button
-        variant="solid"
-        size="medium"
-        as={Link}
-        href="/docs/overview/getting-started"
-      >
-        문서 확인하기
-      </Button>
+      <EmptyState platform="mobile" sm={{ platform: 'desktop' }}>
+        <EmptyStateButton as={Link} href="/docs/overview/getting-started">
+          문서 확인하기
+        </EmptyStateButton>
+      </EmptyState>
     </ClientFullPageLayout>
   );
 };
