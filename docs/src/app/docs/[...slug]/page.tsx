@@ -1,3 +1,5 @@
+import { notFound } from 'next/navigation';
+
 import { getAllFrontmatter, getSourceBySlug } from '@/lib/mdx';
 import { generatePropTypes } from '@/lib/props';
 
@@ -12,6 +14,9 @@ type Props = {
 const parseSlug = (params: Props['params']) =>
   Array.isArray(params.slug) ? params.slug : [params.slug];
 
+const isFileNotFoundError = (error: unknown) =>
+  error instanceof Error && 'code' in error && error.code === 'ENOENT';
+
 export const generateStaticParams = async () => {
   const frontmatter = await getAllFrontmatter('/');
 
@@ -21,12 +26,20 @@ export const generateStaticParams = async () => {
 export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
-  const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
+  try {
+    const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
 
-  return {
-    title: frontmatter.title + ' - WDS',
-    description: frontmatter.description,
-  };
+    return {
+      title: frontmatter.title + ' - WDS',
+      description: frontmatter.description,
+    };
+  } catch (error) {
+    if (isFileNotFoundError(error)) {
+      notFound();
+    }
+
+    throw error;
+  }
 };
 
 export const dynamic = 'force-static';
