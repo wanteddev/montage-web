@@ -194,7 +194,6 @@ const listItemContentSizeStyle = ({
         min-width: 40px;
         max-width: max-content;
         height: 40px;
-        max-height: 40px;
       `;
 
     case 'large':
@@ -202,7 +201,6 @@ const listItemContentSizeStyle = ({
         min-width: 56px;
         max-width: max-content;
         height: 56px;
-        max-height: 56px;
       `;
 
     case 'normal':
@@ -211,7 +209,6 @@ const listItemContentSizeStyle = ({
         min-width: 24px;
         max-width: max-content;
         height: 24px;
-        max-height: 24px;
       `;
   }
 };
@@ -220,23 +217,15 @@ const listItemContentVariantStyle =
   ({ variant }: Pick<ListItemContentProps, 'variant'>) =>
   (theme: Theme) => {
     switch (variant) {
-      case 'button':
-      case 'radio':
-      case 'checkbox':
-      case 'icon-button':
-        return;
-
       case 'icon':
         return css`
           color: ${theme.palette.label.alternative};
           font-size: 24px;
-          overflow-y: clip;
         `;
 
       case 'avatar':
         return css`
           padding-right: 8px;
-          overflow-y: clip;
         `;
 
       case 'large-icon':
@@ -250,7 +239,6 @@ const listItemContentVariantStyle =
             color: ${theme.palette.primary.normal};
             background-color: ${theme.palette.fill.normal};
             font-size: 32px;
-            overflow-y: clip;
           }
         `;
 
@@ -258,12 +246,6 @@ const listItemContentVariantStyle =
         return css`
           ${typographyStyle('body1_normal', 'regular')}
           color: ${theme.palette.label.alternative};
-          overflow-y: clip;
-        `;
-
-      default:
-        return css`
-          overflow-y: clip;
         `;
     }
   };
