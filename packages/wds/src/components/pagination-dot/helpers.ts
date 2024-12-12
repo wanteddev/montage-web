@@ -17,17 +17,15 @@ export const getPaginationDotVisibleArea = ({
   const reference = Math.floor(maxDotCount / 2);
   const isEven = maxDotCount % 2 === 0;
 
-  if (isEven) {
-    // first
-    if (currentIndex < reference) {
-      return [0, maxDotCount - 1];
-    }
-    // last
-    if (totalPage - reference < currentIndex) {
-      return [totalPage - maxDotCount, totalPage - 1];
-    }
-
-    return [currentIndex - maxDotCount / 2, currentIndex + maxDotCount / 2 - 1];
+  if (
+    isEven &&
+    currentIndex >= reference &&
+    totalPage - reference > currentIndex
+  ) {
+    return [
+      currentIndex - reference + 1,
+      currentIndex + Math.floor(maxDotCount / 2),
+    ];
   }
 
   // first
@@ -42,7 +40,6 @@ export const getPaginationDotVisibleArea = ({
 
   return [
     currentIndex - Math.floor(maxDotCount / 2),
-
     currentIndex + Math.floor(maxDotCount / 2),
   ];
 };
@@ -87,15 +84,18 @@ export const getPaginationDotScale = ({
   );
 
   if (
-    distance === 1 ||
     (visibleArea[0] === 1 && index === 1) ||
     (visibleArea[1] === totalPage - 2 && index === totalPage - 2)
   ) {
     return MEDIUM_SCALE_RATIO;
   }
 
+  if (distance === 1) {
+    return maxDotCount <= 4 ? 1 : MEDIUM_SCALE_RATIO;
+  }
+
   if (distance === 0) {
-    return SMALL_SCALE_RATIO;
+    return maxDotCount <= 4 ? MEDIUM_SCALE_RATIO : SMALL_SCALE_RATIO;
   }
 
   return 1;
