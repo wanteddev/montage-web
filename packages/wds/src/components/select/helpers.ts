@@ -8,7 +8,7 @@ type Options = {
 };
 
 const convertNodeToOption = (
-  node: React.ReactElement,
+  node: React.ReactElement<any>,
   givenValue?: string,
 ): Options => {
   const {
@@ -39,7 +39,7 @@ export const convertChildrenToData = (nodes: React.ReactNode) => {
         const {
           type: { isOptionGroup, isOption },
           props: { children },
-        } = node as React.ReactElement & {
+        } = node as React.ReactElement<any> & {
           type: { isOptionGroup?: boolean; isOption?: boolean };
         };
 

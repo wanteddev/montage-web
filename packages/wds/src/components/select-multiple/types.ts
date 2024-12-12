@@ -20,7 +20,7 @@ export type SelectMultipleDefaultProps = {
   overflow?: boolean;
   onOpenChange?: (state: boolean) => void;
   contentProps?: ComponentProps<typeof MenuContent>;
-
+  children?: ReactNode;
   enableMenuBottom?: boolean;
   menuValue?: Array<string>;
   onMenuValueChange?: (value: Array<string>) => void;

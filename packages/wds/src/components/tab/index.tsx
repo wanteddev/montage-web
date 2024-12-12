@@ -216,7 +216,7 @@ const TabList = forwardRef<
 
 TabList.displayName = TAB_LIST_NAME;
 
-const TabListItem = forwardRef(
+const TabListItem = forwardRef<any, TabListItemProps>(
   <T extends ElementType = 'div'>(
     {
       children,
@@ -227,7 +227,7 @@ const TabListItem = forwardRef(
     }: PolymorphicProps<TabListItemProps, T>,
     forwardedRef: ForwardedRef<ElementRef<T>>,
   ) => {
-    const ref = useRef<ElementRef<T>>(null);
+    const ref = useRef<ElementRef<T> | null>(null);
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);

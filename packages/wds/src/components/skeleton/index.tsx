@@ -8,7 +8,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { SkeletonProps } from './types';
 
 const Skeleton = forwardRef(
@@ -29,7 +29,7 @@ const Skeleton = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<SkeletonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Box

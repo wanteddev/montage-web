@@ -38,6 +38,7 @@ export type SliderProps = {
   onValueChange?: (value: Array<number>) => void;
   onValueChangeComplete?: (value: Array<number>) => void;
   name?: string;
+  children?: ReactNode;
 };
 
 export type SliderThumbProps = {

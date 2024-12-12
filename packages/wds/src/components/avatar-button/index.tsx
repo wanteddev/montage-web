@@ -12,7 +12,7 @@ import type {
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import type { AvatarButtonProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 
 const AvatarButton = forwardRef(
   <E extends ElementType = 'button'>(
@@ -21,22 +21,25 @@ const AvatarButton = forwardRef(
       children,
       pushBadge = false,
       disableInteraction = false,
+      disabled,
       ...props
     }: PolymorphicProps<AvatarButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Box
         as={(as || 'button') as ElementType}
         ref={ref}
         type="button"
+        disabled={disabled}
+        aria-disabled={disabled}
         {...props}
         sx={[avatarButtonStyle, props.sx]}
       >
         <WithInteraction
           width="calc(100% + 16px)"
           height="calc(100% + 16px)"
-          disabled={props.disabled || disableInteraction}
+          disabled={disabled || disableInteraction}
         >
           {children}
         </WithInteraction>

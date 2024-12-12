@@ -17,8 +17,8 @@ import type { DialogStore } from '../stores/dialog-store';
 import type { RegionStore } from '../stores/region-store';
 
 const StoreProvider = ({ children }: PropsWithChildren) => {
-  const regionStoreRef = useRef<StoreApi<RegionStore>>();
-  const dialogStoreRef = useRef<StoreApi<DialogStore>>();
+  const regionStoreRef = useRef<StoreApi<RegionStore> | undefined>(undefined);
+  const dialogStoreRef = useRef<StoreApi<DialogStore> | undefined>(undefined);
 
   if (!regionStoreRef.current) {
     regionStoreRef.current = createRegionStore();

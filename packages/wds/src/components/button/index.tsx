@@ -11,7 +11,7 @@ import type {
   PolymorphicProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { ButtonProps } from './types';
 
 const Button = forwardRef(
@@ -35,7 +35,7 @@ const Button = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<ButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const id = useId();
 
@@ -62,7 +62,7 @@ const Button = forwardRef(
         disabled={disableInteraction || disabled}
       >
         <Box
-          as={(as || 'button') as ElementType}
+          as={(as || 'button') as E}
           aria-labelledby={iconOnly ? undefined : id}
           ref={ref}
           disabled={disabled}

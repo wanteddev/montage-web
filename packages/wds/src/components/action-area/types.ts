@@ -3,6 +3,7 @@ import type { ButtonProps } from '../button/types';
 import type { ReactNode } from 'react';
 
 export type ActionAreaProps = {
+  children?: ReactNode;
   variant?: 'normal' | 'extra';
   priority?: 'strong' | 'neutral' | 'compact' | 'cancel';
   caption?: ReactNode;
@@ -26,6 +27,7 @@ export type ActionAreaProps = {
 };
 
 export type ActionButtonProps = {
+  children?: ReactNode;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
   variant?: 'main' | 'alternative' | 'sub';

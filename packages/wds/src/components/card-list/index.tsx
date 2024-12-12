@@ -43,7 +43,7 @@ const CardList = forwardRef(
       children,
       ...props
     }: PolymorphicProps<CardListProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <FlexBox
@@ -126,7 +126,7 @@ const CardListSkeleton = forwardRef(
       sx,
       ...props
     }: PolymorphicProps<CardListSkeletonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <FlexBox

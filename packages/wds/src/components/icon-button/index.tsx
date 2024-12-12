@@ -16,7 +16,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
 
 const IconButton = forwardRef(
@@ -39,7 +39,7 @@ const IconButton = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<IconButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const context = useIconButtonContext();
 

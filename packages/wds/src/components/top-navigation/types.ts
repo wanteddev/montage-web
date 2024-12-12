@@ -12,6 +12,7 @@ export type TopNavigationProps = Merge<
      * 네비게이션 title에 부여할 id입니다.
      */
     titleId?: string;
+    children?: ReactNode;
   },
   ResponsiveProps<{}>
 >;
@@ -30,4 +31,5 @@ export type TopNavigationButtonProps = {
   background?: boolean;
   disabled?: boolean;
   size?: number | 'normal' | 'small';
+  children?: ReactNode;
 };

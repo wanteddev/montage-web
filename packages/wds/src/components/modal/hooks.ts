@@ -22,8 +22,8 @@ export const useDraggable = ({
   ref,
   dimmerRef,
 }: ModalContainerProps & {
-  ref: RefObject<HTMLDivElement>;
-  dimmerRef: RefObject<HTMLDivElement>;
+  ref: RefObject<HTMLDivElement | null>;
+  dimmerRef: RefObject<HTMLDivElement | null>;
 }) => {
   const theme = useTheme();
 
@@ -85,14 +85,6 @@ export const useDraggable = ({
     }
 
     context.setVisibility('hidden');
-
-    // container.style.removeProperty('transition');
-    // container.style.setProperty(
-    //   '--wds-modal-translate',
-    //   `calc(100% - ${topNavigationHeight.current}px)`,
-    // );
-    // dimmerRef.current?.style.removeProperty('transition');
-    // dimmerRef.current?.style.removeProperty('opacity');
   };
 
   useEffect(() => {

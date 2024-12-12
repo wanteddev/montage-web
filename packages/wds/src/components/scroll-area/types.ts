@@ -1,5 +1,5 @@
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ElementRef, Ref } from 'react';
+import type { ElementRef, ReactNode, Ref } from 'react';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 export type ScrollAreaProps = DefaultComponentProps<
@@ -17,11 +17,12 @@ export type ScrollAreaProps = DefaultComponentProps<
      * scroll bar의 zindex를 설정합니다.
      */
     zIndex?: number;
+    children?: ReactNode;
   },
   typeof ScrollAreaPrimitive.Root
 >;
 
 export type ScrollBarProps = DefaultComponentProps<
-  Pick<ScrollAreaProps, 'size'>,
+  Pick<ScrollAreaProps, 'size' | 'children'>,
   typeof ScrollAreaPrimitive.ScrollAreaScrollbar
 >;

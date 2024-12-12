@@ -23,12 +23,12 @@
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.0",
     "mdx-bundler": "^10.0.1",
-    "next": "^14.1.3",
+    "next": "^14.2.20",
     "next-mdx-remote": "^4.4.1",
     "next-sitemap": "^4.2.3",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-docgen-typescript": "^2.2.2",
-    "react-dom": "^18.2.0",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.51.0",
     "react-simple-code-editor": "^0.13.1",
     "refractor": "^4.8.1",
@@ -44,8 +44,8 @@
     "@next/eslint-plugin-next": "^14.1.3",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/node": "^20.11.25",
-    "@types/react": "18.2.65",
-    "@types/react-dom": "18.2.22",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.1",
     "typescript": "^5.4.2"
   }
 }

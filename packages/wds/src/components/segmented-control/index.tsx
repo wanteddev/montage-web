@@ -177,7 +177,7 @@ const SegmentedControl = forwardRef<
 
 SegmentedControl.displayName = SEGMENTED_CONTROL_NAME;
 
-const SegmentedControlItem = forwardRef(
+const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
   <T extends ElementType = 'label'>(
     {
       children,

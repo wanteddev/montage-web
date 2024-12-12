@@ -1,16 +1,7 @@
 import { Fragment } from 'react';
 
-import type { Merge } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, ElementType, ReactNode } from 'react';
-
-export type ComponentOrFragmentProps<E extends ElementType> = Merge<
-  {
-    flag: boolean;
-    children: ReactNode;
-    component: E;
-  },
-  ComponentPropsWithoutRef<E>
->;
+import type { ComponentOrFragmentProps } from './types';
+import type { ElementType } from 'react';
 
 const ComponentOrFragment = <E extends ElementType>({
   children,

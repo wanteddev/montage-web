@@ -12,6 +12,7 @@ export type ContentBadgeDefaultProps = {
   variant?: 'filled' | 'outlined';
   color?: 'neutral' | 'accent';
   accentColor?: ThemeColorsToken;
+  children?: ReactNode;
 };
 
 export type ContentBadgeResponsiveProps = ResponsiveProps<

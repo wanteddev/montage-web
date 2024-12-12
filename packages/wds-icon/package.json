@@ -34,8 +34,8 @@
     "watch": "tsup --watch"
   },
   "devDependencies": {
-    "@types/react": "18.2.65",
-    "@types/react-dom": "18.2.22",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.1",
     "change-case": "^5.4.3",
     "glob": "^10.3.10",
     "inquirer": "^9.2.16",
@@ -44,12 +44,14 @@
   },
   "dependencies": {
     "@wanteddev/wds-engine": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "peerDependencies": {
-    "react": ">= 18",
-    "react-dom": ">= 18"
+    "@types/react": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "@types/react-dom": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "react": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "react-dom": "^18.0 || ^19.0 || ^19.0.0-rc"
   },
   "peerDependenciesMeta": {
     "@types/react": {

@@ -28,13 +28,10 @@ const WithInteraction = forwardRef<
     forwardedRef,
   ) => {
     if (isValidElement(children)) {
-      const childrenProps = { ...children.props };
+      const childrenProps = { ...(children.props as { [key: string]: any }) };
 
       const ref = forwardedRef
-        ? composeRefs(
-            forwardedRef,
-            (children as any).ref ?? children.props?.ref,
-          )
+        ? composeRefs(forwardedRef, (children as any).ref ?? childrenProps.ref)
         : undefined;
 
       childrenProps.children = (
@@ -55,8 +52,8 @@ const WithInteraction = forwardRef<
           ]}
         >
           {cloneElement(children, {
-            // @ts-ignore
             ...childrenProps,
+            // @ts-ignore
             sx: undefined,
             ref,
             children: childrenProps.children,
