@@ -605,8 +605,10 @@ export default function transformer(
         v.name.type === 'JSXIdentifier' &&
         !wdsElements.includes(v.name.name) &&
         !wdsIcomElements.includes(v.name.name) &&
-        v.attributes?.find(
-          (a) => a.type === 'JSXAttribute' && a.name.name === 'sx',
+        Boolean(
+          v.attributes?.find(
+            (a) => a.type === 'JSXAttribute' && a.name.name === 'sx',
+          ),
         ),
     );
 

@@ -12,6 +12,7 @@ export type ListItemDefaultProps = {
   active?: boolean;
   disabled?: boolean;
   ellipsis?: boolean;
+  children?: ReactNode;
 };
 
 export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxProps>;
@@ -32,6 +33,7 @@ export type ListItemContentDefaultProps = {
   height?: 'normal' | 'medium' | 'large';
   disabled?: boolean;
   chevron?: boolean;
+  children?: ReactNode;
 };
 export type ListItemContentResponsiveProps = ResponsiveProps<
   Pick<ListItemContentDefaultProps, 'height'>
@@ -51,6 +53,7 @@ export type ListCellDefaultProps = {
    * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
    */
   interactionPadding?: CSSProperties['paddingLeft'];
+  children?: ReactNode;
 };
 
 export type ListCellResponsiveProps = ResponsiveProps<
@@ -67,5 +70,6 @@ export type ListTextProps = Merge<
   {
     caption?: ReactNode;
     captionProps?: ComponentProps<typeof Typography>;
+    children?: ReactNode;
   }
 >;

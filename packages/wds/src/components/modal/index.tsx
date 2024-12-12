@@ -64,7 +64,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef, MouseEvent } from 'react';
+import type { ElementType, ForwardedRef, MouseEvent } from 'react';
 import type {
   ModalContainerProps,
   ModalContentItemProps,
@@ -481,10 +481,10 @@ ModalNavigation.displayName = MODAL_NAVIGATION_NAME;
 
 const ModalNavigationButton = forwardRef(
   <E extends ElementType = 'button'>(
-    props: PolymorphicProps<TopNavigationButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    { as, ...props }: PolymorphicProps<TopNavigationButtonProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
-    return <TopNavigationButton {...props} ref={ref} />;
+    return <TopNavigationButton {...props} as={as || 'button'} ref={ref} />;
   },
 ) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
 
@@ -497,7 +497,7 @@ const ModalClose = forwardRef(
       background = false,
       ...props
     }: PolymorphicProps<TopNavigationButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const { onOpenChange } = useModalNavigationContext(MODAL_CLOSE_NAME);
     const { variant: navigationVariant } = useTopNavigationContext() || {};
@@ -586,8 +586,14 @@ ModalContentItem.displayName = 'ModalContentItem';
 
 const ModalHeading = forwardRef(
   <E extends ElementType = 'h1'>(
-    { as, ...props }: PolymorphicProps<ModalHeadingProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    {
+      as,
+      variant = 'heading2',
+      weight = 'bold',
+      color = 'palette.label.normal',
+      ...props
+    }: PolymorphicProps<ModalHeadingProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -595,9 +601,9 @@ const ModalHeading = forwardRef(
       <Typography
         ref={ref}
         as={(as || 'h1') as E}
-        variant="heading2"
-        weight="bold"
-        color="palette.label.normal"
+        variant={variant}
+        weight={weight}
+        color={color}
         data-role="modal-heading"
         id={context.headingId}
         {...props}
@@ -611,8 +617,14 @@ ModalHeading.displayName = 'ModalHeading';
 
 const ModalSummary = forwardRef(
   <E extends ElementType = 'p'>(
-    { as, ...props }: PolymorphicProps<ModalSummaryProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    {
+      as,
+      variant = 'body2_normal',
+      weight = 'regular',
+      color = 'palette.label.alternative',
+      ...props
+    }: PolymorphicProps<ModalSummaryProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -620,9 +632,9 @@ const ModalSummary = forwardRef(
       <Typography
         ref={ref}
         as={(as || 'p') as E}
-        variant="body2_normal"
-        weight="regular"
-        color="palette.label.alternative"
+        variant={variant}
+        weight={weight}
+        color={color}
         data-role="modal-summary"
         id={context.summaryId}
         {...props}
@@ -636,8 +648,14 @@ ModalSummary.displayName = 'ModalSummary';
 
 const ModalDescription = forwardRef(
   <E extends ElementType = 'p'>(
-    { as, ...props }: PolymorphicProps<ModalDescriptionProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    {
+      as,
+      variant = 'body1_reading',
+      weight = 'regular',
+      color = 'palette.label.normal',
+      ...props
+    }: PolymorphicProps<ModalDescriptionProps, E>,
+    ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
 
@@ -645,9 +663,9 @@ const ModalDescription = forwardRef(
       <Typography
         ref={ref}
         as={(as || 'p') as E}
-        variant="body1_reading"
-        weight="regular"
-        color="palette.label.normal"
+        variant={variant}
+        weight={weight}
+        color={color}
         data-role="modal-description"
         id={context.descriptionId}
         {...props}

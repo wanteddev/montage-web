@@ -4,7 +4,7 @@ import { theme } from '@wanteddev/wds-theme';
 import ThemeContext from '../../context';
 
 import type { Theme } from '@wanteddev/wds-theme';
-import type { ReactNode } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 type Props = {
   theme?: 'light' | 'dark';

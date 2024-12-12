@@ -57,7 +57,7 @@ const Slider = forwardRef<
   ) => {
     const thumbRefs = useRef<Set<HTMLSpanElement>>(new Set());
     const currentFocusedIndex = useRef(0);
-    const rect = useRef<DOMRect>();
+    const rect = useRef<DOMRect | undefined>(undefined);
     const ref = useRef<HTMLSpanElement | null>(null);
 
     const [values = [], setValues] = useControllableState({

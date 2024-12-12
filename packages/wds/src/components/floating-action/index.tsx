@@ -10,7 +10,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { FloatingActionProps } from './types';
 
 const FloatingAction = forwardRef(
@@ -29,7 +29,7 @@ const FloatingAction = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<FloatingActionProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <WithInteraction

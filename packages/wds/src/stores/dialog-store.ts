@@ -1,4 +1,4 @@
-import { createStore } from 'zustand/vanilla';
+import { createStore as create } from 'zustand/vanilla';
 import { createContext, useContext } from 'react';
 import { useStore } from 'zustand';
 
@@ -41,7 +41,7 @@ export const defaultInitState: DialogState = {
 export const createDialogStore = (
   initState: DialogState = defaultInitState,
 ) => {
-  return createStore<DialogStore>()((set) => ({
+  return create<DialogStore>()((set) => ({
     ...initState,
     show: (item) =>
       set((state) => ({

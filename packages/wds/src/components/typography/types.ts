@@ -3,7 +3,7 @@ import type {
   ResponsiveProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 export type TypographyVariant =
   | 'display1'
@@ -34,6 +34,7 @@ export type TypographyDefaultProps = {
   align?: CSSProperties['textAlign'];
   display?: CSSProperties['display'];
   color?: ThemeColorsToken;
+  children?: ReactNode;
 };
 
 export type TypographyResponsiveProps = ResponsiveProps<

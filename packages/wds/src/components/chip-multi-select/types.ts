@@ -12,6 +12,7 @@ export type ChipMultiSelectDefaultProps = {
   size?: 'medium' | 'large';
   invalid?: boolean;
   onCheckedChange?: (state: boolean) => void;
+  children?: ReactNode;
 };
 
 export type ChipMultiSelectResponsiveProps = ResponsiveProps<

@@ -11,7 +11,7 @@ import { ActionAreaProvider, useActionAreaContext } from './contexts';
 import { actionAreaStyle, actionButtonCancel } from './style';
 
 import type { ActionAreaProps, ActionButtonProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementType, ForwardedRef, ReactNode } from 'react';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
@@ -126,7 +126,7 @@ const ActionAreaButton = forwardRef(
       buttonColor,
       ...props
     }: PolymorphicProps<ActionButtonProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const { priority } = useActionAreaContext(ACTION_AREA_BUTTON_NAME);
 

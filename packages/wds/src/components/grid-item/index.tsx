@@ -8,7 +8,7 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { GridItemProps } from './types';
 
 const GridItem = forwardRef(
@@ -25,7 +25,7 @@ const GridItem = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<GridItemProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Box

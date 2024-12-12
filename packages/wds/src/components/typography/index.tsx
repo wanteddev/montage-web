@@ -11,12 +11,12 @@ import {
   typographyStyle,
 } from '../../utils/typography';
 
+import type { ElementType, ForwardedRef } from 'react';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 import type { TypographyProps } from './types';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
 
 const Typography = forwardRef(
   <E extends ElementType = 'span'>(
@@ -36,11 +36,11 @@ const Typography = forwardRef(
       xl,
       ...props
     }: PolymorphicProps<TypographyProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     return (
       <Box
-        as={(as || 'span') as ElementType}
+        as={(as || 'span') as E}
         ref={ref}
         sx={[
           (theme) => css`

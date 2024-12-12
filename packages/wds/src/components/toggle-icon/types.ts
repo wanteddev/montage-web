@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
@@ -13,6 +13,7 @@ type ToggleIconDefaultProps = {
   size?: CSSProperties['fontSize'];
   disabled?: boolean;
   disableInteraction?: boolean;
+  children?: ReactNode;
 };
 
 type ToggleIconResponsiveProps = ResponsiveProps<

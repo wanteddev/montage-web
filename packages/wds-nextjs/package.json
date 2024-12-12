@@ -33,22 +33,29 @@
     "directory": "packages/wds-nextjs"
   },
   "devDependencies": {
-    "@types/react": "18.2.65",
-    "@types/react-dom": "18.2.22",
+    "@types/react": "^18.3.14",
+    "@types/react-dom": "^18.3.1",
     "typescript": "^5.4.2"
   },
   "dependencies": {
     "@emotion/server": "^11.11.0",
     "@wanteddev/wds-engine": "workspace:*",
-    "next": "^13.5.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "next": "^14.2.20",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "peerDependencies": {
-    "next": "^13.0.0 || ^14.0.0",
-    "react": ">= 18.0.0"
+    "@emotion/server": "^11.11.0",
+    "@types/react": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "@types/react-dom": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "next": "^13.0.0 || ^14.0.0 || ^15.0.0",
+    "react": "^18.0 || ^19.0 || ^19.0.0-rc",
+    "react-dom": "^18.0 || ^19.0 || ^19.0.0-rc"
   },
   "peerDependenciesMeta": {
+    "@emotion/server": {
+      "optional": true
+    },
     "@types/react": {
       "optional": true
     },

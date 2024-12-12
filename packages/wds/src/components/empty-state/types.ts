@@ -7,6 +7,7 @@ export type EmptyStateDefaultProps = {
   platform?: 'desktop' | 'mobile';
   padding?: 'normal' | 'compact';
   width?: CSSProperties['width'];
+  children?: ReactNode;
 };
 export type EmptyStateResponsiveProps = ResponsiveProps<
   Pick<EmptyStateDefaultProps, 'platform' | 'padding' | 'width'>
@@ -22,6 +23,7 @@ export type EmptyStateImageProps = FlexBoxProps;
 export type EmptyStateTextDefaultProps = {
   heading?: ReactNode;
   description: ReactNode;
+  children?: ReactNode;
 };
 export type EmptyStateTextProps = Merge<
   EmptyStateTextDefaultProps,

@@ -22,6 +22,7 @@ export type TooltipProps = {
    * focus 이벤트 시 툴팁 열림 여부
    */
   disableOpenOnFocus?: boolean;
+  children?: ReactNode;
 };
 
 export type TooltipContentProps = {

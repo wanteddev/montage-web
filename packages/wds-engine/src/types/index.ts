@@ -2,6 +2,7 @@ import type {
   ComponentPropsWithoutRef,
   ElementRef,
   ElementType,
+  JSX,
   LegacyRef,
   Ref,
 } from 'react';

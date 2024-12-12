@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 export type FlexBoxDefaultProps = {
@@ -16,6 +16,7 @@ export type FlexBoxDefaultProps = {
   gap?: CSSProperties['gap'];
   rowGap?: CSSProperties['rowGap'];
   columnGap?: CSSProperties['columnGap'];
+  children?: ReactNode;
 };
 
 type FlexBoxResponsiveProps = ResponsiveProps<FlexBoxDefaultProps>;

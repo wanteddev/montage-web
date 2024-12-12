@@ -8,6 +8,7 @@ import type { FlexBoxProps } from '../flex-box/types';
 export type CardDefaultProps = {
   platform?: 'desktop' | 'mobile';
   width?: CSSProperties['width'];
+  children?: ReactNode;
 };
 export type CardResponsiveProps = ResponsiveProps<CardDefaultProps>;
 export type CardProps = Merge<
@@ -22,6 +23,7 @@ export type CardThumbnailBasicProps = Merge<
 export type CardThumbnailDefaultProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
+  children?: ReactNode;
 };
 export type CardThumbnailProps = Merge<
   CardThumbnailDefaultProps,
@@ -46,6 +48,7 @@ export type CardContentItemProps = Merge<
 
 type CardCaptionSkeletonDefaultProps = {
   type?: 'normal' | 'extra';
+  children?: ReactNode;
 };
 export type CardCaptionSkeletonProps = Merge<
   CardCaptionSkeletonDefaultProps,

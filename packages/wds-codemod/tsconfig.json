@@ -5,11 +5,11 @@
     "sourceMap": false,
     "esModuleInterop": true,
     "declaration": false,
-    "target": "es2015",
+    "target": "es2018",
     "downlevelIteration": true,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true
   },
   "include": ["**/*.ts", "**/*.js"],
   "exclude": ["node_modules"]

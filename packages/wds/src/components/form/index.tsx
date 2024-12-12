@@ -32,7 +32,7 @@ import type {
 const FormField = forwardRef(
   <E extends ElementType = 'div'>(
     { as, ...props }: PolymorphicProps<FlexBoxProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const id = useId();
 
@@ -82,7 +82,7 @@ FormControl.displayName = FORM_CONTROL_NAME;
 const FormMessage = forwardRef(
   <E extends ElementType = 'p'>(
     { as, children, ...props }: PolymorphicProps<FormMessageProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const { formMessageId } = useFormField(FORM_MESSAGE_NAME);
 
@@ -111,7 +111,7 @@ FormMessage.displayName = FORM_MESSAGE_NAME;
 const FormErrorMessage = forwardRef(
   <E extends ElementType = 'p'>(
     { as, children, ...props }: PolymorphicProps<FormErrorMessageProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+    ref: ForwardedRef<E>,
   ) => {
     const { formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
 

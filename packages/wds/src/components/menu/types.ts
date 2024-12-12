@@ -9,6 +9,7 @@ export type MenuDefaultProps = {
   defaultValue?: string | Array<string>;
   value?: string | Array<string>;
   onValueChange?: (value?: string | Array<string>) => void;
+  children?: ReactNode;
 };
 export type MenuProps = Merge<MenuDefaultProps, PopoverProps>;
 
@@ -31,11 +32,13 @@ export type MenuContentProps = Pick<
 
 export type MenuGroupDefaultProps = {
   title?: ReactNode;
+  children?: ReactNode;
 };
 export type MenuGroupProps = Merge<MenuGroupDefaultProps, FlexBoxProps>;
 
 export type MenuItemDefaultProps = {
   variant?: 'normal' | 'radio' | 'checkbox';
+  children?: ReactNode;
   value: string;
 };
 export type MenuItemProps = Merge<MenuItemDefaultProps, ListCellProps>;
@@ -46,6 +49,7 @@ export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;
 export type MenuBottomProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
+  children?: ReactNode;
 };
 export type MenuBottomContentProps = {
   variant?:
@@ -56,4 +60,5 @@ export type MenuBottomContentProps = {
     | 'chip-filter'
     | 'badge'
     | 'custom';
+  children?: ReactNode;
 };

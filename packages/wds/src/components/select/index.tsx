@@ -53,7 +53,7 @@ import {
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
-import type { ElementRef, ForwardedRef } from 'react';
+import type { ForwardedRef } from 'react';
 import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
 const Select = forwardRef<
@@ -323,14 +323,15 @@ OptionGroup.displayName = OPTION_GROUP_NAME;
 OptionGroup.isOptionGroup = true;
 
 const Option = memo(
-  forwardRef(
-    <E extends ElementType = 'option'>(
+  forwardRef<any, OptionProps>(
+    <E extends ElementType = 'li'>(
       {
         variant = 'normal',
         children,
+        as,
         ...props
       }: PolymorphicProps<OptionProps, E>,
-      ref: ForwardedRef<ElementRef<E>>,
+      ref: ForwardedRef<E>,
     ) => {
       const { onOpenChange, enableMenuBottom } = useSelectContext() || {};
 
@@ -339,6 +340,7 @@ const Option = memo(
           ref={ref}
           role="option"
           variant={variant}
+          as={as || 'li'}
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
             if (variant !== 'radio' && !enableMenuBottom) {
@@ -350,7 +352,7 @@ const Option = memo(
         </MenuItem>
       );
     },
-  ) as PolymorphicComponent<OptionProps, 'option'>,
+  ) as PolymorphicComponent<OptionProps, 'li'>,
 );
 
 Option.displayName = OPTION_NAME;

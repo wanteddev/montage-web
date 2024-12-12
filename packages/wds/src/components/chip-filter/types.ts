@@ -11,6 +11,7 @@ export type ChipFilterDefaultProps = {
   disabled?: boolean;
   disableInteraction?: boolean;
   activeLabel?: ReactNode;
+  children?: ReactNode;
 };
 
 export type ChipFilterResponsiveProps = ResponsiveProps<

@@ -10,6 +10,7 @@ export type TextButtonDefaultProps = {
   disableInteraction?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
+  children?: ReactNode;
 };
 
 export type TextButtonResponsiveProps = ResponsiveProps<
