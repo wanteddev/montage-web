@@ -6,7 +6,7 @@ on:
 
 jobs:
   send_slack:
-    if: github.event.pull_request.draft == false
+    if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
     name: Send Slack Notification
     runs-on: ubuntu-20.04
     timeout-minutes: 10
@@ -30,7 +30,8 @@ jobs:
               replace(/\f/g, '\\f').
               replace(/\r/g, '\\r').
               replace(/'/g, '\\\'').
-              replace(/"/g, '\\"');
+              replace(/"/g, '\\"').
+              replace(/`/g, '\\`');
 
             core.setOutput('title', title);
       - name: Send Slack Notification
@@ -44,7 +45,7 @@ jobs:
                 fields: [
                   {
                     title: 'PR 제목',
-                    value: `[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }}`,
+                    value: '[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }}',
                     short: false
                   },
                   {
@@ -63,4 +64,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
-        if: ${{ github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
