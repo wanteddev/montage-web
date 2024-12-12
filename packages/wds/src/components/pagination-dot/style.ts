@@ -89,8 +89,12 @@ const paginationDotWrapperColorStyle = (
     case 'white':
       return css`
         [data-role='pagination-dot-button'] {
-          background-color: ${addOpacity(theme.palette.static.white, 0.56)};
+          background-color: ${addOpacity(
+            theme.palette.static.white,
+            theme.opacity[52],
+          )};
           position: relative;
+          border: none;
 
           &::after {
             position: absolute;
@@ -101,12 +105,8 @@ const paginationDotWrapperColorStyle = (
             transform: translate(-50%, -50%);
             width: calc(100% + 2px);
             height: calc(100% + 2px);
-            opacity: 0.56;
-            border: 1px solid
-              ${addOpacity(
-                theme.palette.line.normal.neutral,
-                theme.opacity[88],
-              )};
+            opacity: ${theme.opacity[52]};
+            border: 1px solid ${theme.palette.line.normal.neutral};
           }
 
           &[aria-current='page'] {
