@@ -1,0 +1,66 @@
+name: PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  send_slack:
+    if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
+    name: Send Slack Notification
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    steps:
+      - name: Parse Title
+        id: parse-title
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const { data } = await github.rest.pulls.get({
+              pull_number: context.issue.number,
+              owner: 'wanteddev',
+              repo: 'wds',
+            });
+
+            const title = data.title.replace(/\\/g, '\\\\').
+              replace(/\u0008/g, '\\b').
+              replace(/\t/g, '\\t').
+              replace(/\n/g, '\\n').
+              replace(/\f/g, '\\f').
+              replace(/\r/g, '\\r').
+              replace(/'/g, '\\\'').
+              replace(/"/g, '\\"').
+              replace(/`/g, '\\`');
+
+            core.setOutput('title', title);
+      - name: Send Slack Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          custom_payload: |
+            {
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning',
+                fields: [
+                  {
+                    title: 'PR 제목',
+                    value: '[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }}',
+                    short: false
+                  },
+                  {
+                    title: '작성자',
+                    value: '${{ github.event.pull_request.user.login }} (c.c <!subteam^S084RSQ5JJW>)',
+                    short: false
+                  }
+                ],
+                title: '>>> 리뷰하러 가기 >>>',
+                title_link: '${{ github.event.pull_request.html_url }}',
+                thumb_url: '${{ github.event.pull_request.user.avatar_url }}',
+                footer: '리뷰 및 승인 부탁드립니다',
+                footer_icon: 'https://wanted-dev.static.wanted.co.kr/images/icons/star_fill.svg'
+              }]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
