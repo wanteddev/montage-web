@@ -7,11 +7,6 @@ export const mdxRootStyle = (theme: Theme) => css`
   color: ${theme.palette.label.normal};
   ${typographyStyle('body1_reading', 'regular')}
 
-  * {
-    word-break: keep-all;
-    overflow-wrap: break-word;
-  }
-
   code,
   .npm__react-simple-code-editor__textarea,
   pre {

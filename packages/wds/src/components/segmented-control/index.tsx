@@ -5,9 +5,11 @@ import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
+import { usePrevious } from '@radix-ui/react-use-previous';
 
 import FlexBox from '../flex-box';
 import useResizeObserver from '../../hooks/use-resize-observer';
+import { calculateAnimationStyle } from '../../utils/animation';
 
 import {
   motionThumbStyle,
@@ -22,7 +24,6 @@ import {
   SEGMENTED_CONTROL_ITEM_NAME,
   SEGMENTED_CONTROL_NAME,
 } from './constants';
-import { calculateAnimationStyle } from './helpers';
 
 import type {
   DefaultComponentProps,
@@ -71,8 +72,8 @@ const SegmentedControl = forwardRef<
       onChange: onValueChange,
     });
 
-    const prevValue = useRef(value);
-    const isValueChanged = useRef(false);
+    const prevValue = usePrevious(value);
+    const isValueChanged = prevValue !== value;
 
     const [motionStyleProperties, setMotionStyleProperties] =
       useState<CSSProperties>({});
@@ -82,7 +83,7 @@ const SegmentedControl = forwardRef<
       const targetElement = motionThumbRef.current;
 
       const currentElement = parentElement?.querySelector<HTMLDivElement>(
-        `[wds-component="segmented-control-item"][data-value="${prevValue.current}"]`,
+        `[wds-component="segmented-control-item"][data-value="${prevValue}"]`,
       );
       const nextElement = parentElement?.querySelector<HTMLDivElement>(
         `[wds-component="segmented-control-item"][data-value="${value}"]`,
@@ -91,7 +92,6 @@ const SegmentedControl = forwardRef<
       if (variant === 'outlined') {
         setMotionStyleProperties((prev) => ({ ...prev, display: 'none' }));
         currentElement?.removeAttribute('data-ssr-motion');
-        isValueChanged.current = false;
 
         return;
       }
@@ -103,7 +103,7 @@ const SegmentedControl = forwardRef<
 
       setMotionStyleProperties({
         ...calculateAnimationStyle(nextElement, parentElement),
-        ...(isValueChanged.current
+        ...(isValueChanged
           ? {
               transitionProperty: 'inset',
               transitionDuration: '500ms',
@@ -113,31 +113,18 @@ const SegmentedControl = forwardRef<
       });
 
       nextElement.removeAttribute('data-ssr-motion');
-      isValueChanged.current = false;
 
       requestAnimationFrame(() => {
         currentElement?.removeAttribute('data-ssr-motion');
       });
-    }, [node, variant, value]);
-
-    useEffect(() => {
-      isValueChanged.current = true;
-    }, [value]);
+    }, [node, variant, value, isValueChanged, prevValue]);
 
     useResizeObserver(node, handleResize);
-
-    const handleValueChange = useCallback(
-      (nextValue: string) => {
-        prevValue.current = nextValue;
-        setValue(nextValue);
-      },
-      [setValue],
-    );
 
     return (
       <SegmentedControlProvider
         value={value}
-        onValueChange={handleValueChange}
+        onValueChange={setValue}
         variant={variant}
         size={size}
         responsive={{

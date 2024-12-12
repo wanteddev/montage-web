@@ -20,6 +20,11 @@ export const menuScrollAreaStyle = (theme: Theme) => css`
   border-radius: inherit;
   border: 1px solid ${theme.palette.line.solid.neutral};
   background-color: ${theme.palette.background.elevated.normal};
+
+  [data-radix-scroll-area-content] {
+    width: 100%;
+    min-width: initial !important;
+  }
 `;
 
 export const menuGroupTitleStyle = (theme: Theme) => css`

@@ -21,7 +21,7 @@ const Demo = () => {
   return (
     <Box
       sx={[
-        theme => gradient(theme.palette.inverse.background, 'right'),
+        theme => gradient(theme.palette.inverse.background, 'right', '100%', 'solid'),
         {
           width: '100%',
           height: '200px',
@@ -54,7 +54,7 @@ const demoStyle = (theme: Theme) => css\`
     position: absolute;
     left: 0px;
     top: 0px;
-    \$\{gradient(theme.palette.inverse.background, 'right')\}
+    \$\{gradient(theme.palette.inverse.background, 'right', '100%', 'multiple')\}
   }
 \`;
 
@@ -79,7 +79,7 @@ const Demo = () => {
   return (
     <Box
       sx={[
-        theme => gradient(theme.palette.inverse.background, 'right', '80px'),
+        theme => gradient(theme.palette.inverse.background, 'right', '80px', 'mask'),
         {
           width: '100%',
           height: '200px',
