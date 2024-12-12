@@ -1,8 +1,8 @@
 const toPX = (value: number): string => `${value}px`;
 
 export const calculateAnimationStyle = (
-  targetElement: HTMLDivElement,
-  parentElement: HTMLDivElement,
+  targetElement: HTMLDivElement | HTMLElement,
+  parentElement: HTMLDivElement | HTMLElement,
 ) => {
   const clientRect = targetElement.getBoundingClientRect();
   const parentClientRect = parentElement.getBoundingClientRect();

@@ -41,6 +41,7 @@ const actionAreaVariant = (
                         theme.palette.background.elevated.normal,
                         'top',
                         'calc(var(--wds-action-area-margin-y, 20px) * 2)',
+                        'mask',
                       )}
                       height: calc(100% + var(--wds-action-area-margin-y, 20px));
                       content: '';

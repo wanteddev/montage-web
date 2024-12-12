@@ -105,6 +105,75 @@ Tab 은 여러 컴포넌트를 조합해서 사용합니다.
 
 <PropsTable component="TabPanel" />
 
+## Size
+
+<Demo code={`import {
+  Button,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+  FlexBox
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column">
+      <Tab defaultValue="0">
+        <TabList size="small">
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+      <Tab defaultValue="0">
+        <TabList size="medium">
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+      <Tab defaultValue="0">
+        <TabList size="large">
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Resize
 
 ### Normal
@@ -115,26 +184,46 @@ Tab 은 여러 컴포넌트를 조합해서 사용합니다.
   TabList,
   TabListItem,
   TabPanel,
+  FlexBox,
 } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Tab defaultValue="0">
-      <TabList>
-        <TabListItem value="0">
-          첫 번째 탭
-        </TabListItem>
-        <TabListItem value="1">
-          두 번째 탭
-        </TabListItem>
-        <TabListItem value="2">
-          세 번째 탭
-        </TabListItem>
-        <TabListItem value="3">
-          네 번째 탭
-        </TabListItem>
-      </TabList>
-    </Tab>
+    <FlexBox flexDirection="column" gap="14px">
+      <Tab defaultValue="0">
+        <TabList>
+          <TabListItem value="0">
+            첫 번째 탭
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭
+          </TabListItem>
+        </TabList>
+      </Tab>
+
+      <Tab defaultValue="0">
+        <TabList padding>
+          <TabListItem value="0">
+            첫 번째 탭, padding
+          </TabListItem>
+          <TabListItem value="1">
+            두 번째 탭, padding
+          </TabListItem>
+          <TabListItem value="2">
+            세 번째 탭, padding
+          </TabListItem>
+          <TabListItem value="3">
+            네 번째 탭, padding
+          </TabListItem>
+        </TabList>
+      </Tab>
+    </FlexBox>
   )
 }
 
@@ -225,6 +314,53 @@ const Demo = () => {
         </TabListItem>
         <TabListItem value="9">
           열 번째 탭
+        </TabListItem>
+      </TabList>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Change Divider
+
+<Demo code={`import {
+  Button,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+  css,
+} from '@wanteddev/wds';
+
+const tabListStyle = css\`
+  [data-role="tab-motion"] {
+    background: blue;
+  }
+\`
+
+const tabListItemStyle = css\`
+  [aria-selected="true"] {
+    background: blue;
+  }
+\`
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList sx={tabListStyle}>
+        <TabListItem value="0" sx={tabListItemStyle}>
+          첫 번째 탭
+        </TabListItem>
+        <TabListItem value="1" sx={tabListItemStyle}>
+          두 번째 탭
+        </TabListItem>
+        <TabListItem value="2" sx={tabListItemStyle}>
+          세 번째 탭
+        </TabListItem>
+        <TabListItem value="3" sx={tabListItemStyle}>
+          네 번째 탭
         </TabListItem>
       </TabList>
     </Tab>
