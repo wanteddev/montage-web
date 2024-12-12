@@ -8,7 +8,6 @@ import type { GridItemProps } from './types';
 export const gridItemStyle =
   ({ xs, sm, md, lg, xl, ...props }: GridItemProps) =>
   (theme: Theme) => css`
-    min-width: 0px;
     padding-top: calc(var(--wds-column-spacing));
     padding-left: calc(var(--wds-row-spacing));
 
@@ -65,7 +64,8 @@ const gridItemLayoutStyle = (value?: GridItemProps['columns']) => {
   if (value === true) {
     return css`
       flex-grow: 1;
-      flex-basis: 0px;
+      flex-basis: 0;
+      flex-shrink: initial;
       max-width: 100%;
       width: initial;
     `;
@@ -74,7 +74,7 @@ const gridItemLayoutStyle = (value?: GridItemProps['columns']) => {
   if (value === 'auto') {
     return css`
       flex: 0 0 auto;
-      max-width: none;
+      max-width: initial;
       width: auto;
     `;
   }
