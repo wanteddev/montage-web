@@ -113,7 +113,11 @@ export const routes: Array<Route> = [
         slug: '/docs/components/nested-checkbox',
       },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
-      { title: 'PageIndicator', slug: '/docs/components/page-indicator' },
+      {
+        title: 'PaginationCounter',
+        slug: '/docs/components/pagination-counter',
+      },
+      { title: 'PaginationDot', slug: '/docs/components/pagination-dot' },
       { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },
       {

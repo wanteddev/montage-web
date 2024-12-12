@@ -1,0 +1,61 @@
+---
+title: Pagination Counter
+description: PaginationCounter Component
+---
+
+# Pagination Counter
+
+## 활용
+
+- 캐러셀에서 순서를 표시할 때 사용합니다.
+
+<Demo code={`import { PaginationCounter } from '@wanteddev/wds';
+
+const Demo = () => {
+
+  return (
+    <PaginationCounter totalPage={10} currentPage={2} />
+  )
+}
+
+export default Demo;
+`} />
+
+## Props
+
+<PropsTable component="PaginationCounter" />
+
+## Examples
+
+### Size
+
+<Demo code={`import { PaginationCounter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <PaginationCounter size="small" totalPage={10} currentPage={2} />
+      <PaginationCounter size="normal" totalPage={10} currentPage={2} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+
+### Alternative
+
+<Demo code={`import { PaginationCounter, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <PaginationCounter totalPage={10} currentPage={2} />
+      <PaginationCounter alternative totalPage={10} currentPage={2} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
