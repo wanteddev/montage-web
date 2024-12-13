@@ -6,6 +6,11 @@ import type {
 } from '@floating-ui/react';
 import type { PopperContentProps } from './types';
 
+export const roundByDPR = (value: number) => {
+  const dpr = window.devicePixelRatio || 1;
+  return Math.round(value * dpr) / dpr;
+};
+
 export const getPlacementMapper = (
   placement: Required<PopperContentProps>['position'],
 ): Placement => {
