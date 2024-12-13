@@ -33,7 +33,6 @@ import {
   MenuTrigger,
 } from '../menu';
 import { TextInputContent } from '../text-input';
-import { ListText } from '../list';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import { invalidIconWrapperStyle } from '../text-input/style';
@@ -348,7 +347,7 @@ const Option = memo(
             }
           })}
         >
-          <ListText>{children}</ListText>
+          {children}
         </MenuItem>
       );
     },

@@ -7,7 +7,7 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { IconCheck } from '@wanteddev/wds-icon';
 
-import { List, ListCell, ListItemContent } from '../list';
+import { List, ListCell, ListCellContent } from '../list';
 import ScrollArea from '../scroll-area';
 import Radio from '../radio';
 import Checkbox from '../checkbox';
@@ -233,9 +233,9 @@ const MenuItem = forwardRef<any, MenuItemProps>(
           active={normalActive}
           rightContent={
             normalActive ? (
-              <ListItemContent variant="icon">
+              <ListCellContent variant="icon">
                 <IconCheck data-role="menu-item-active-icon-check" />
-              </ListItemContent>
+              </ListCellContent>
             ) : null
           }
           {...props}
@@ -297,13 +297,13 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
         ref={ref}
         role="menuitemradio"
         leftContent={
-          <ListItemContent variant="radio">
+          <ListCellContent variant="radio">
             <Radio
               tabIndex={-1}
               checked={context.value === value}
               value={value}
             />
-          </ListItemContent>
+          </ListCellContent>
         }
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
@@ -342,13 +342,13 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
         ref={ref}
         role="menuitemcheckbox"
         leftContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <Checkbox
               tabIndex={-1}
               checked={checked}
               onCheckedChange={onCheckedChange}
             />
-          </ListItemContent>
+          </ListCellContent>
         }
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {

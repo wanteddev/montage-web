@@ -17,7 +17,7 @@ import { IconCheck } from '@wanteddev/wds-icon';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import { List, ListCell, ListItemContent, ListText } from '../list';
+import { List, ListCell, ListCellContent } from '../list';
 import ScrollArea from '../scroll-area';
 import FlexBox from '../flex-box';
 
@@ -499,7 +499,7 @@ AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
 const AutocompleteOption = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<AutocompleteOptionProps, 'li'>
->(({ caption, disabled, value, children, ...props }, forwardedRef) => {
+>(({ disabled, value, children, ...props }, forwardedRef) => {
   const ref = useRef<HTMLLIElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
 
@@ -541,9 +541,9 @@ const AutocompleteOption = forwardRef<
         })}
         rightContent={
           active ? (
-            <ListItemContent variant="icon">
+            <ListCellContent variant="icon">
               <IconCheck data-role="autocomplete-option-active-icon-check" />
-            </ListItemContent>
+            </ListCellContent>
           ) : null
         }
         onMouseDown={composeEventHandlers(props.onMouseDown, (e) => {
@@ -560,7 +560,7 @@ const AutocompleteOption = forwardRef<
         })}
         onClick={composeEventHandlers(props.onClick, (e) => e.preventDefault())}
       >
-        <ListText caption={caption}>{children}</ListText>
+        {children}
       </ListCell>
     </Collection.ItemSlot>
   );
