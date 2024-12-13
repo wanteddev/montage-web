@@ -9,7 +9,7 @@ description: List Component
 
 ## 활용
 
-- ListItem, ListItem 을 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
+- ListItem 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
   - 단 switch 컴포넌트는 클릭 처리 하지 않습니다.
 - leftContent, rightContent 에 요소를 추가 할 때는 `ListItemContent` 로 감싸서 사용합니다.
 
@@ -75,17 +75,20 @@ export default Demo;`}
 
 ## Examples
 
-### ListItem
+### Active, Disabled
 
-ListItem 대신 ListItem을 사용할 수 있어요. ListItem과는 다르게 인터렉션 영역, padding이 존재하지 않아요.
+active, disabled, disableInteraction 으로 상태를 표시해요.
 
 <Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <List gap="16px">
+    <List>
       <ListItem>
         <ListText>텍스트</ListText>
+      </ListItem>
+      <ListItem disableInteraction>
+        <ListText>텍스트, disableInteraction</ListText>
       </ListItem>
       <ListItem active>
         <ListText>텍스트, active</ListText>
@@ -100,10 +103,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Padding, FillWidth
 
-### Padding, Active
-
-padding, fillWidth으로 간격을 조정하고, active, disabled 로 상태를 표시해요.
+padding, fillWidth으로 간격을 조정해요.
 
 <Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 
@@ -124,12 +126,6 @@ const Demo = () => {
       </ListItem>
       <ListItem padding="16px">
         <ListText>텍스트, 16px</ListText>
-      </ListItem>
-      <ListItem active>
-        <ListText>텍스트, active</ListText>
-      </ListItem>
-      <ListItem disabled>
-        <ListText>텍스트, disabled</ListText>
       </ListItem>
       <ListItem divider>
         <ListText>텍스트, divider</ListText>
@@ -407,7 +403,7 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-    <List gap="16px">
+    <List>
       <ListItem
         leftContent={
           <ListItemContent variant="checkbox">
