@@ -129,7 +129,12 @@ const ProgressTrackerDesktopItem = forwardRef<
           {isCompleted ? (
             <IconCheckThick />
           ) : (
-            <Typography variant="caption1" weight="bold" align="center">
+            <Typography
+              variant="caption1"
+              weight="bold"
+              align="center"
+              data-role="progress-tracker-desktop-item-step"
+            >
               {(index === -1 ? 0 : index) + 1}
             </Typography>
           )}
