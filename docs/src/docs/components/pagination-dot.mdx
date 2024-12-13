@@ -1,0 +1,86 @@
+---
+title: Pagination Dot
+description: PaginationDot Component
+---
+
+# Pagination Dot
+
+## 활용
+
+- 캐러셀에서 순서를 표시할 때 사용합니다.
+
+<Demo code={`import { PaginationDot, Button, FlexBox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [page, setPage] = useState(1);
+
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <FlexBox gap="10px">
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s > 1 ? s - 1 : 1)}>Prev</Button>
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s < 10 ? s + 1 : 10)}>Next</Button>
+      </FlexBox>
+
+      <PaginationDot onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+## Props
+
+<PropsTable component="PaginationDot" />
+
+## Examples
+
+### Size
+
+<Demo code={`import { PaginationDot, Button, FlexBox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [page, setPage] = useState(1);
+
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <FlexBox gap="10px">
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s > 1 ? s - 1 : 1)}>Prev</Button>
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s < 10 ? s + 1 : 10)}>Next</Button>
+      </FlexBox>
+
+      <PaginationDot size="small" onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+      <PaginationDot size="normal" onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+
+### Color
+
+<Demo code={`import { PaginationDot, Button, FlexBox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [page, setPage] = useState(1);
+
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <FlexBox gap="10px">
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s > 1 ? s - 1 : 1)}>Prev</Button>
+        <Button variant="outlined" size="small" onClick={() => setPage((s) => s < 10 ? s + 1 : 10)}>Next</Button>
+      </FlexBox>
+
+      <PaginationDot onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+      <PaginationDot color="white" onClickDot={(cur) => setPage(cur)} totalPage={10} currentPage={page} />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
