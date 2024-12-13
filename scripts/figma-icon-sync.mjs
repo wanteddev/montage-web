@@ -11,6 +11,7 @@ const URL_BASE_IMAGES = 'https://api.figma.com/v1/images';
 const IGNORE_ICONS = ['IconLogoInstagramColor'];
 
 const ICON_NULL_COMPONENT = '501-7411';
+const ICON_RESPONSIVE_COMPONENT = '448-8266';
 
 // Icon/Assets/Normal
 const ROOT_TRAVERSE_IDS = [
@@ -169,19 +170,20 @@ const fileRESTResponseToIconComponentsJSON = async (response) => {
     res.exports.push(
       `export { default as ${name} } from "./${changeCase.kebabCase(name)}";`,
     );
+    const parsedName = name
+      .replace('Icon', '')
+      .replace('Color', '')
+      .split(/[^a-zA-Z0-9]+/)
+      .map((a, i) =>
+        i === 0
+          ? a.charAt(0).toLowerCase() + a.substring(1)
+          : a.charAt(0).toUpperCase() + a.substring(1),
+      )
+      .join('');
     figmaString.push(
-      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${componentSetId.replace(':', '-')}", { variant: { Name: '${name
-        .replace('Icon', '')
-        .replace('Color', '')
-        .split(/[^a-zA-Z0-9]+/)
-        .map((a, i) =>
-          i === 0
-            ? a.charAt(0).toLowerCase() + a.substring(1)
-            : a.charAt(0).toUpperCase() + a.substring(1),
-        )
-        .join('')}' }, example: () => <${name} /> });
-  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Icon: '${childId}' }, example: () => <${name} /> });
-  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=448-8266", { variant: { Icon: '${childId}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
+      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${componentSetId.replace(':', '-')}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
+  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
+  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
     );
     res.files.push([
       `${changeCase.kebabCase(name)}.tsx`,
