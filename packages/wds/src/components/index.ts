@@ -30,6 +30,8 @@ export * from './menu';
 export * from './modal';
 export { default as NestedCheckbox } from './nested-checkbox';
 export { default as NoSsr } from './no-ssr';
+export { default as PaginationCounter } from './pagination-counter';
+export { default as PaginationDot } from './pagination-dot';
 export * from './popover';
 export * from './popper';
 export { default as Portal } from './portal';
