@@ -23,6 +23,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   },
   { name: 'Migration Toast', value: 'migration-toast' },
   { name: 'Migration Forms Design', value: 'migration-forms' },
+  { name: 'List Cell Migration', value: 'list-cell-migration' },
 ];
 
 export const run = () => {
