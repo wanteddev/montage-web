@@ -1,6 +1,15 @@
 name: Code Connect Publish And Icon/Figma Sync
 on:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: 'code connect push 여부'
+        type: choice
+        required: false
+        default: 'true'
+        options:
+          - true
+          - false
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -63,9 +72,11 @@ jobs:
           FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
 
       - name: Build
+        if: ${{ inputs.publish == 'true' }}
         run: pnpm run build
 
       - name: Publish
+        if: ${{ inputs.publish == 'true' }}
         run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50
 
       - run: git config user.name "github-actions[bot]"
@@ -85,7 +96,7 @@ jobs:
       - name: Create New PR
         if: always()
         run: |
-          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
+          gh pr create -B ${{ github.ref }} -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}

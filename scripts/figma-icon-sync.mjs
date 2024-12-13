@@ -15,51 +15,39 @@ const ICON_NULL_COMPONENT = '501-7411';
 // Icon/Assets/Normal
 const ROOT_TRAVERSE_IDS = [
   // Components
-  '1173:12995',
+  '26882:89366',
   // 0 Theme
   '10077:24937',
   // Icon
   '14852:37729',
   // '' Section
   '14854:45087',
-  // Assets
-  '14854:45094',
-  // '' Section
-  '14854:45101',
-  // Normal
+  // Solid
   '14854:45155',
   // Content
-  '14854:45214',
-  // Content
-  '10077:25068',
+  '26894:99058',
 ];
 
 // Icon/Assets/Color
 const ROOT_TRAVERSE_COLOR_IDS = [
   // Components
-  '1173:12995',
+  '26882:89366',
   // 0 Theme
   '10077:24937',
   // Icon
   '14852:37729',
   // '' Section
   '14854:45087',
-  // Assets
-  '14854:45094',
-  // '' Section
-  '14854:45101',
   // Color
   '14854:45156',
   // Content
-  '14854:45213',
-  // Content
-  '10077:25073',
+  '26900:94433',
 ];
 
 // Icon/Navigation
 const ROOT_TRAVERSE_NAVIGATION_IDS = [
   // Components
-  '1173:12995',
+  '26882:89366',
   // 0 Theme
   '10077:24937',
   // Icon
@@ -75,7 +63,7 @@ const ROOT_TRAVERSE_NAVIGATION_IDS = [
 const getIconComponents = async () => {
   try {
     const fileResponse = await fetch(
-      `${URL_BASE}/${FILE_KEY}?ids=10077-24937`,
+      `${URL_BASE}/${FILE_KEY}?ids=26882-89366`,
       {
         method: 'GET',
         headers: { 'X-FIGMA-TOKEN': TOKEN },
