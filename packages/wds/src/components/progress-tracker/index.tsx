@@ -151,7 +151,12 @@ const ProgressTrackerItemVertical = forwardRef<
               {isCompleted ? (
                 <IconCheckThick />
               ) : (
-                <Typography variant="caption1" weight="bold" align="center">
+                <Typography
+                  variant="caption1"
+                  weight="bold"
+                  align="center"
+                  data-role="progress-tracker-item-step"
+                >
                   {number}
                 </Typography>
               )}
@@ -174,10 +179,17 @@ const ProgressTrackerItemVertical = forwardRef<
         </FlexBox>
       </FlexBox>
 
-      {Boolean(children) && (
+      {Boolean(children) ? (
         <FlexBox
           data-role="progress-tracker-item-content"
           sx={progressTrackerItemContentStyle}
+        >
+          {children}
+        </FlexBox>
+      ) : (
+        <FlexBox
+          data-role="progress-tracker-item-content"
+          sx={{ width: 0, height: 0 }}
         >
           {children}
         </FlexBox>
@@ -239,7 +251,12 @@ const ProgressTrackerItemHorizontal = forwardRef<
           {isCompleted ? (
             <IconCheckThick />
           ) : (
-            <Typography variant="caption1" weight="bold" align="center">
+            <Typography
+              variant="caption1"
+              weight="bold"
+              align="center"
+              data-role="progress-tracker-item-step"
+            >
               {number}
             </Typography>
           )}

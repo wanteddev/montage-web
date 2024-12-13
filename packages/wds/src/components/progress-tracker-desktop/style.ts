@@ -1,5 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { addOpacity } from '../../utils';
+
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const progressTrackerDesktopWrapperStyle = css`
@@ -26,9 +28,18 @@ export const progressCircleStyle =
     border-radius: 9999px;
     font-size: 14px;
 
+    [data-role='progress-tracker-desktop-item-step'] {
+      text-shadow: 0px 0px 12px
+        ${addOpacity(theme.palette.static.black, theme.opacity[12])};
+    }
+
     ${(isActive || completed) &&
     css`
       background-color: ${theme.palette.primary.normal};
+
+      [data-role='progress-tracker-desktop-item-step'] {
+        text-shadow: none;
+      }
     `}
   `;
 
