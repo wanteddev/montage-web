@@ -33,6 +33,7 @@ import {
 import {
   getPlacementMapper,
   getSideAlignFromPlacement,
+  roundByDPR,
   transformOrigin,
 } from './helpers';
 import {
@@ -211,18 +212,12 @@ const PopperContent: ReturnType<
       refs,
       floatingStyles,
       placement: placementResult,
-      isPositioned,
       middlewareData,
       context: floatingContext,
     } = useFloating({
       strategy: 'fixed',
       placement: floatingPlacement,
-      whileElementsMounted: (...args) => {
-        const cleanup = autoUpdate(...args, {
-          animationFrame: false,
-        });
-        return cleanup;
-      },
+      whileElementsMounted: autoUpdate,
       elements: {
         reference: context.anchor,
       },
@@ -274,9 +269,9 @@ const PopperContent: ReturnType<
           style={{
             ...wrapperProps.style,
             ...floatingStyles,
-            transform: isPositioned
-              ? floatingStyles.transform
-              : 'translate(0, -200%)',
+            top: '0',
+            left: '0',
+            transform: `translate(${roundByDPR(floatingContext.x)}px,${roundByDPR(floatingContext.y)}px)`,
             minWidth: 'max-content',
             zIndex:
               contentZIndex === 'auto' ? theme.zIndex.modal : contentZIndex,
