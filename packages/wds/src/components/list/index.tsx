@@ -22,8 +22,8 @@ import {
   LIST_TEXT_NAME,
 } from './constants';
 import {
-  listCellDividerStyle,
   listItemContentStyle,
+  listItemDividerStyle,
   listItemStyle,
   listStyle,
   listTextEllipsisStyle,
@@ -183,7 +183,7 @@ const ListItem = forwardRef(
             {divider && (
               <Divider
                 data-role="list-cell-divider"
-                sx={listCellDividerStyle}
+                sx={listItemDividerStyle}
               />
             )}
             {Boolean(rightContent) && (

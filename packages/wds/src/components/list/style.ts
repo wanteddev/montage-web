@@ -51,9 +51,9 @@ export const listItemStyle =
           `}
         `}
 
-    ${listCellPaddingStyle({ padding })}
-    ${listCellFillWidthStyle({ fillWidth })}
-    ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
+    ${listItemPaddingStyle({ padding })}
+    ${listItemFillWidthStyle({ fillWidth })}
+    ${listItemInteractionPaddingStyle({ fillWidth, interactionPadding })}
 
     & > [wds-component='with-interaction'] {
       border-radius: inherit;
@@ -65,11 +65,11 @@ export const listItemStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${listCellPaddingStyle({ padding: params?.padding })}
-        ${listCellFillWidthStyle({
+        ${listItemPaddingStyle({ padding: params?.padding })}
+        ${listItemFillWidthStyle({
           fillWidth: params?.fillWidth,
         })}
-        ${listCellInteractionPaddingStyle({
+        ${listItemInteractionPaddingStyle({
           fillWidth: getPreviousValue(
             { xs, sm, md, lg, xl },
             'fillWidth',
@@ -90,7 +90,7 @@ export const listTextEllipsisStyle = css`
   word-break: keep-all;
 `;
 
-const listCellInteractionPaddingStyle = ({
+const listItemInteractionPaddingStyle = ({
   fillWidth,
   interactionPadding,
 }: Pick<ListItemProps, 'fillWidth' | 'interactionPadding'>) => {
@@ -110,7 +110,7 @@ const listCellInteractionPaddingStyle = ({
   `;
 };
 
-const listCellPaddingStyle = ({ padding }: Pick<ListItemProps, 'padding'>) => {
+const listItemPaddingStyle = ({ padding }: Pick<ListItemProps, 'padding'>) => {
   switch (padding) {
     case '0px':
       return css`
@@ -143,7 +143,7 @@ const listCellPaddingStyle = ({ padding }: Pick<ListItemProps, 'padding'>) => {
   }
 };
 
-const listCellFillWidthStyle = ({
+const listItemFillWidthStyle = ({
   fillWidth,
 }: Pick<ListItemProps, 'fillWidth'>) => {
   switch (fillWidth) {
@@ -169,7 +169,7 @@ const listCellFillWidthStyle = ({
   }
 };
 
-export const listCellDividerStyle = css`
+export const listItemDividerStyle = css`
   position: absolute;
   bottom: 0px;
   left: 50%;
