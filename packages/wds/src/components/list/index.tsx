@@ -78,6 +78,7 @@ const ListItem = forwardRef(
       disabled = false,
       disableInteraction,
 
+      textProps,
       leftContent,
       rightContent,
       children,
@@ -179,7 +180,7 @@ const ListItem = forwardRef(
             ]}
           >
             {Boolean(leftContent) && leftContent}
-            {children}
+            <ListText {...textProps}>{children}</ListText>
             {divider && (
               <Divider
                 data-role="list-cell-divider"
@@ -395,7 +396,6 @@ const ListText = forwardRef(
           <Typography
             variant="label1_normal"
             color="palette.label.alternative"
-            data-role="list-text-caption"
             {...captionProps}
             sx={[ellipsis && listTextEllipsisStyle, captionProps?.sx]}
           >

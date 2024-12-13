@@ -20,6 +20,14 @@ export type ListItemDefaultProps = {
   disabled?: boolean;
   disableInteraction?: boolean;
 
+  textProps?: Merge<
+    TypographyProps,
+    {
+      caption?: ReactNode;
+      captionProps?: ComponentProps<typeof Typography>;
+      children?: ReactNode;
+    }
+  >;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
 };
@@ -59,11 +67,4 @@ export type ListItemContentProps = Merge<
   ListItemContentResponsiveProps
 >;
 
-export type ListTextProps = Merge<
-  TypographyProps,
-  {
-    caption?: ReactNode;
-    captionProps?: ComponentProps<typeof Typography>;
-    children?: ReactNode;
-  }
->;
+export type ListTextProps = ListItemProps['textProps'];
