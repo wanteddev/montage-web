@@ -9,29 +9,29 @@ description: List Component
 
 ## 활용
 
-- ListItem 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
+- ListCell 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
   - 단 switch 컴포넌트는 클릭 처리 하지 않습니다.
-- leftContent, rightContent 에 요소를 추가 할 때는 `ListItemContent` 로 감싸서 사용합니다.
+- leftContent, rightContent 에 요소를 추가 할 때는 `ListCellContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { List, ListItem, ListItemContent, Checkbox } from '@wanteddev/wds';
+<Demo code={`import { List, ListCell, ListCellContent, Checkbox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListItem leftContent={(
-        <ListItemContent variant="checkbox">
+      <ListCell leftContent={(
+        <ListCellContent variant="checkbox">
           <Checkbox />
-        </ListItemContent>
+        </ListCellContent>
       )}>
         텍스트
-      </ListItem>
-      <ListItem textProps={{ caption: '캡션' }} leftContent={(
-        <ListItemContent variant="checkbox">
+      </ListCell>
+      <ListCell textProps={{ caption: '캡션' }} leftContent={(
+        <ListCellContent variant="checkbox">
           <Checkbox />
-        </ListItemContent>
+        </ListCellContent>
       )}>
         텍스트
-      </ListItem>
+      </ListCell>
     </List>
   )
 }
@@ -46,12 +46,12 @@ export default Demo;`}
 
 ```tsx
 <List>
-  <ListItem>
+  <ListCell>
     리스트1
-  </ListItem>
-  <ListItem>
+  </ListCell>
+  <ListCell>
     리스트2
-  </ListItem>
+  </ListCell>
 </List>
 ```
 
@@ -61,17 +61,13 @@ export default Demo;`}
 
 <PropsTable component="List" />
 
-### ListItem
+### ListCell
 
-<PropsTable component="ListItem" />
+<PropsTable component="ListCell" />
 
-### ListItemContent
+### ListCellContent
 
-<PropsTable component="ListItemContent" />
-
-### ListText
-
-<PropsTable component="ListText" />
+<PropsTable component="ListCellContent" />
 
 ## Examples
 
@@ -79,23 +75,23 @@ export default Demo;`}
 
 active, disabled, disableInteraction 으로 상태를 표시해요.
 
-<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListItem>
+      <ListCell>
         텍스트
-      </ListItem>
-      <ListItem disableInteraction>
+      </ListCell>
+      <ListCell disableInteraction>
         텍스트, disableInteraction
-      </ListItem>
-      <ListItem active>
+      </ListCell>
+      <ListCell active>
         텍스트, active
-      </ListItem>
-      <ListItem disabled>
+      </ListCell>
+      <ListCell disabled>
         텍스트, disabled
-      </ListItem>
+      </ListCell>
     </List>
   )
 }
@@ -107,29 +103,29 @@ export default Demo;`}
 
 padding, fillWidth으로 간격을 조정해요.
 
-<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListItem fillWidth>
+      <ListCell fillWidth>
         텍스트, fillWidth
-      </ListItem>
-      <ListItem padding="0px">
+      </ListCell>
+      <ListCell padding="0px">
         텍스트, 0px
-      </ListItem>
-      <ListItem>
+      </ListCell>
+      <ListCell>
         텍스트, 12px
-      </ListItem>
-      <ListItem padding="8px">
+      </ListCell>
+      <ListCell padding="8px">
         텍스트, 8px
-      </ListItem>
-      <ListItem padding="16px">
+      </ListCell>
+      <ListCell padding="16px">
         텍스트, 16px
-      </ListItem>
-      <ListItem divider>
+      </ListCell>
+      <ListCell divider>
         텍스트, divider
-      </ListItem>
+      </ListCell>
     </List>
   )
 }
@@ -139,181 +135,181 @@ export default Demo;`}
 
 ### LeftContent, RightContent
 
-- 기본적으로 leftContent, rightContent는 `ListItemContent` 로 래핑해서 사용해요.
+- 기본적으로 leftContent, rightContent는 `ListCellContent` 로 래핑해서 사용해요.
 - height로 콘텐츠 높이를 조정할 수 있어요.
 
-<Demo code={`import { RadioGroupItem, Checkbox, Thumbnail, Avatar, List, ListItem, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+<Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
-      <ListItem
+      <ListCell
         rightContent={
-          <ListItemContent variant="icon">
+          <ListCellContent variant="icon">
             <IconBlank />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <NestedCheckbox />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent variant="button">
+          <ListCellContent variant="button">
             <TextButton size="small" variant="assistive">
               버튼
             </TextButton>
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent>
+          <ListCellContent>
             <ContentBadge color="neutral">뱃지</ContentBadge>
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent variant="chevron">
+          <ListCellContent variant="chevron">
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent variant="chevron" />
+          <ListCellContent variant="chevron" />
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent variant="chevron" chevron={false}>
+          <ListCellContent variant="chevron" chevron={false}>
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         leftContent={
-          <ListItemContent variant="icon">
+          <ListCellContent variant="icon">
             <IconBlank />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="chevron" chevron={false}>
+          <ListCellContent variant="chevron" chevron={false}>
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         leftContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <Checkbox />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="chevron" chevron={false}>
+          <ListCellContent variant="chevron" chevron={false}>
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Normal
-      </ListItem>
+      </ListCell>
 
-      <ListItem
+      <ListCell
         leftContent={
-          <ListItemContent height="medium" variant="avatar">
+          <ListCellContent height="medium" variant="avatar">
             <Avatar variant="person" size="medium" />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="chevron" chevron={false}>
+          <ListCellContent variant="chevron" chevron={false}>
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Medium
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         alignItems="center"
         leftContent={
-          <ListItemContent height="medium" variant="avatar">
+          <ListCellContent height="medium" variant="avatar">
             <Avatar variant="person" size="medium" />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <NestedCheckbox />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Medium
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         rightContent={
-          <ListItemContent height="medium" variant="switch">
+          <ListCellContent height="medium" variant="switch">
             <Switch />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Medium
-      </ListItem>
+      </ListCell>
 
-      <ListItem
+      <ListCell
         textProps={{ caption: '캡션' }}
         leftContent={
-          <ListItemContent height="large" variant="large-icon">
+          <ListCellContent height="large" variant="large-icon">
             <IconBlank />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="chevron" chevron={false}>
+          <ListCellContent variant="chevron" chevron={false}>
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Large
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         alignItems="center"
         textProps={{ caption: '캡션' }}
         leftContent={
-          <ListItemContent height="large" variant="large-icon">
+          <ListCellContent height="large" variant="large-icon">
             <IconBlank />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <NestedCheckbox />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Large
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         textProps={{ caption: '캡션' }}
         leftContent={
-          <ListItemContent height="large" variant="custom">
+          <ListCellContent height="large" variant="custom">
             <Thumbnail
               src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
               alt="Wanted Company Image"
@@ -322,16 +318,16 @@ const Demo = () => {
               quality={95}
               sx={{ width: '56px' }}
             />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <NestedCheckbox />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트, Large
-      </ListItem>
+      </ListCell>
     </List>
   )
 }
@@ -344,47 +340,47 @@ export default Demo;`}
 - ellipsis가 false일 때 수직 정렬은 상단으로 조정 됩니다.
 - ellipsis가 true일 때 수직 정렬은 중앙으로 조정 됩니다.
 
-<Demo code={`import { List, ListItem, ListItemContent } from '@wanteddev/wds';
+<Demo code={`import { List, ListCell, ListCellContent } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px" sx={{ width: '60%' }}>
-      <ListItem
+      <ListCell
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
         leftContent={
-          <ListItemContent height="large" variant="large-icon">
+          <ListCellContent height="large" variant="large-icon">
             <IconBlank />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="chevron">
+          <ListCellContent variant="chevron">
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
         텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
         텍스트텍스트텍스트텍스트
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         ellipsis
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
         leftContent={
-          <ListItemContent height="large" variant="large-icon">
+          <ListCellContent height="large" variant="large-icon">
             <IconBlank />
-          </ListItemContent>
+          </ListCellContent>
         }
         rightContent={
-          <ListItemContent variant="chevron">
+          <ListCellContent variant="chevron">
             값
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
         텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
         텍스트텍스트텍스트텍스트
-      </ListItem>
+      </ListCell>
     </List>
   )
 }
@@ -394,29 +390,29 @@ export default Demo;`}
 
 ### Checkbox
 
-<Demo code={`import { List, Checkbox, ListItem, ListItemContent } from '@wanteddev/wds';
+<Demo code={`import { List, Checkbox, ListCell, ListCellContent } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListItem
+      <ListCell
         leftContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <Checkbox />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         Man
-      </ListItem>
-      <ListItem
+      </ListCell>
+      <ListCell
         leftContent={
-          <ListItemContent variant="checkbox">
+          <ListCellContent variant="checkbox">
             <Checkbox />
-          </ListItemContent>
+          </ListCellContent>
         }
       >
         Woman
-      </ListItem>
+      </ListCell>
     </List>
   )
 }
@@ -428,7 +424,7 @@ export default Demo;`}
 
 checkbox를 활용한 form은 아래와 같이 사용합니다.
 
-<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListItem, ListItemContent, ListText } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListCellContent } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const items = [
@@ -476,13 +472,13 @@ const Demo = () => {
                     },
                   }}
                   render={({ field }) => (
-                    <ListItem
+                    <ListCell
                       as={FormField}
                       flexDirection="row"
                       alignItems="center"
                       leftContent={
                         <FormControl>
-                          <ListItemContent variant="checkbox">
+                          <ListCellContent variant="checkbox">
                             <Checkbox
                               {...field}
                               checked={field.value.includes(item.id)}
@@ -496,12 +492,12 @@ const Demo = () => {
                                     );
                               }}
                             />
-                          </ListItemContent>
+                          </ListCellContent>
                         </FormControl>
                       }
                     >
                       {item.label}
-                    </ListItem>
+                    </ListCell>
                   )}
                 />
               ))}
@@ -521,7 +517,7 @@ export default Demo;`}
 
 Radio를 사용할 때는 `RadioGroup` 으로 감싸서 사용합니다.
 
-<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListItem, ListItemContent, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListCellContent, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -550,30 +546,30 @@ const Demo = () => {
             <FormControl>
               <RadioGroup {...field} onValueChange={field.onChange}>
                 <List>
-                  <ListItem
+                  <ListCell
                     as={FormField}
                     leftContent={
                       <FormControl>
-                        <ListItemContent variant="radio">
+                        <ListCellContent variant="radio">
                           <RadioGroupItem value="man" />
-                        </ListItemContent>
+                        </ListCellContent>
                       </FormControl>
                     }
                   >
                     Man
-                  </ListItem>
-                  <ListItem
+                  </ListCell>
+                  <ListCell
                     as={FormField}  
                     leftContent={
                       <FormControl>
-                        <ListItemContent variant="radio">
+                        <ListCellContent variant="radio">
                           <RadioGroupItem value="woman" />
-                        </ListItemContent>
+                        </ListCellContent>
                       </FormControl>
                     }
                   >
                     Woman
-                  </ListItem>
+                  </ListCell>
                 </List>
               </RadioGroup>
             </FormControl>
@@ -592,12 +588,12 @@ export default Demo;`}
 />
 
 
-Switch를 사용하는 경우 `ListItem` 영역을 클릭해서 토글되지 않습니다.
+Switch를 사용하는 경우 `ListCell` 영역을 클릭해서 토글되지 않습니다.
 스위치 영역을 직접 클릭해야만 스위치가 토글됩니다.
 
 `disableInteraction` 과 함께 사용하면 자연스러운 동작으로 사용 가능합니다.
 
-<Demo code={`import { Button, FlexBox, Switch, List, ListItem, ListItemContent, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListCellContent, FormField, FormControl, FormLabel } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -615,46 +611,46 @@ const Demo = () => {
           control={form.control}
           name="notification"
           render={({ field, formState }) => (
-            <ListItem
+            <ListCell
               as={FormField}
               disableInteraction
               rightContent={
                 <FormControl>
-                  <ListItemContent variant="switch" height="medium">
+                  <ListCellContent variant="switch" height="medium">
                     <Switch
                       {...field}
                       checked={field.value} 
                       onCheckedChange={field.onChange}
                     />
-                  </ListItemContent>
+                  </ListCellContent>
                 </FormControl>
               }
             >
               알림 받기
-            </ListItem>
+            </ListCell>
           )}
         />
         <Controller
           control={form.control}
           name="darkMode"
           render={({ field, formState }) => (
-            <ListItem
+            <ListCell
               as={FormField}
               disableInteraction
               rightContent={
                 <FormControl>
-                  <ListItemContent variant="switch" height="medium">
+                  <ListCellContent variant="switch" height="medium">
                     <Switch
                       {...field}
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                  </ListItemContent>
+                  </ListCellContent>
                 </FormControl>
               }
             >
               다크 모드
-            </ListItem>
+            </ListCell>
           )}
         />
       </List>

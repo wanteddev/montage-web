@@ -17,7 +17,7 @@ import { IconCheck } from '@wanteddev/wds-icon';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import { List, ListItem, ListItemContent } from '../list';
+import { List, ListCell, ListCellContent } from '../list';
 import ScrollArea from '../scroll-area';
 import FlexBox from '../flex-box';
 
@@ -524,7 +524,7 @@ const AutocompleteOption = forwardRef<
       disabled={disabled}
       scope={AUTOCOMPLETE_SCOPE}
     >
-      <ListItem
+      <ListCell
         ref={composedRefs}
         disabled={disabled}
         aria-disabled={disabled}
@@ -541,9 +541,9 @@ const AutocompleteOption = forwardRef<
         })}
         rightContent={
           active ? (
-            <ListItemContent variant="icon">
+            <ListCellContent variant="icon">
               <IconCheck data-role="autocomplete-option-active-icon-check" />
-            </ListItemContent>
+            </ListCellContent>
           ) : null
         }
         onMouseDown={composeEventHandlers(props.onMouseDown, (e) => {
@@ -561,7 +561,7 @@ const AutocompleteOption = forwardRef<
         onClick={composeEventHandlers(props.onClick, (e) => e.preventDefault())}
       >
         {children}
-      </ListItem>
+      </ListCell>
     </Collection.ItemSlot>
   );
 });

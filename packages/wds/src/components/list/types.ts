@@ -6,7 +6,7 @@ import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
 
-export type ListItemDefaultProps = {
+export type ListCellDefaultProps = {
   padding?: '12px' | '8px' | '16px' | '0px';
   fillWidth?: boolean;
   /**
@@ -32,16 +32,16 @@ export type ListItemDefaultProps = {
   rightContent?: ReactNode;
 };
 
-export type ListItemResponsiveProps = ResponsiveProps<
-  Pick<ListItemDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
+export type ListCellResponsiveProps = ResponsiveProps<
+  Pick<ListCellDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
 >;
 
-export type ListItemProps = Merge<
-  Merge<ListItemDefaultProps, ListItemResponsiveProps>,
+export type ListCellProps = Merge<
+  Merge<ListCellDefaultProps, ListCellResponsiveProps>,
   FlexBoxProps
 >;
 
-export type ListItemContentDefaultProps = {
+export type ListCellContentDefaultProps = {
   variant?:
     | 'icon'
     | 'radio'
@@ -59,12 +59,12 @@ export type ListItemContentDefaultProps = {
   chevron?: boolean;
   children?: ReactNode;
 };
-export type ListItemContentResponsiveProps = ResponsiveProps<
-  Pick<ListItemContentDefaultProps, 'height'>
+export type ListCellContentResponsiveProps = ResponsiveProps<
+  Pick<ListCellContentDefaultProps, 'height'>
 >;
-export type ListItemContentProps = Merge<
-  ListItemContentDefaultProps,
-  ListItemContentResponsiveProps
+export type ListCellContentProps = Merge<
+  ListCellContentDefaultProps,
+  ListCellContentResponsiveProps
 >;
 
-export type ListTextProps = ListItemProps['textProps'];
+export type ListTextProps = ListCellProps['textProps'];

@@ -8,7 +8,7 @@ import {
 } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { ListItemContentProps, ListItemProps } from './types';
+import type { ListCellContentProps, ListCellProps } from './types';
 
 export const listStyle = css`
   list-style: none;
@@ -16,7 +16,7 @@ export const listStyle = css`
   padding: 0;
 `;
 
-export const listItemStyle =
+export const listCellStyle =
   ({
     padding,
     fillWidth,
@@ -29,7 +29,7 @@ export const listItemStyle =
     md,
     lg,
     xl,
-  }: ListItemProps) =>
+  }: ListCellProps) =>
   (theme: Theme) => css`
     width: 100%;
 
@@ -51,9 +51,9 @@ export const listItemStyle =
           `}
         `}
 
-    ${listItemPaddingStyle({ padding })}
-    ${listItemFillWidthStyle({ fillWidth })}
-    ${listItemInteractionPaddingStyle({ fillWidth, interactionPadding })}
+    ${listCellPaddingStyle({ padding })}
+    ${listCellFillWidthStyle({ fillWidth })}
+    ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
 
     & > [wds-component='with-interaction'] {
       border-radius: inherit;
@@ -65,11 +65,11 @@ export const listItemStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${listItemPaddingStyle({ padding: params?.padding })}
-        ${listItemFillWidthStyle({
+        ${listCellPaddingStyle({ padding: params?.padding })}
+        ${listCellFillWidthStyle({
           fillWidth: params?.fillWidth,
         })}
-        ${listItemInteractionPaddingStyle({
+        ${listCellInteractionPaddingStyle({
           fillWidth: getPreviousValue(
             { xs, sm, md, lg, xl },
             'fillWidth',
@@ -90,10 +90,10 @@ export const listTextEllipsisStyle = css`
   word-break: keep-all;
 `;
 
-const listItemInteractionPaddingStyle = ({
+const listCellInteractionPaddingStyle = ({
   fillWidth,
   interactionPadding,
-}: Pick<ListItemProps, 'fillWidth' | 'interactionPadding'>) => {
+}: Pick<ListCellProps, 'fillWidth' | 'interactionPadding'>) => {
   if (fillWidth) {
     return css`
       & > [wds-component='with-interaction'] {
@@ -110,7 +110,7 @@ const listItemInteractionPaddingStyle = ({
   `;
 };
 
-const listItemPaddingStyle = ({ padding }: Pick<ListItemProps, 'padding'>) => {
+const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
   switch (padding) {
     case '0px':
       return css`
@@ -143,9 +143,9 @@ const listItemPaddingStyle = ({ padding }: Pick<ListItemProps, 'padding'>) => {
   }
 };
 
-const listItemFillWidthStyle = ({
+const listCellFillWidthStyle = ({
   fillWidth,
-}: Pick<ListItemProps, 'fillWidth'>) => {
+}: Pick<ListCellProps, 'fillWidth'>) => {
   switch (fillWidth) {
     case true:
       return css`
@@ -169,7 +169,7 @@ const listItemFillWidthStyle = ({
   }
 };
 
-export const listItemDividerStyle = css`
+export const listCellDividerStyle = css`
   position: absolute;
   bottom: 0px;
   left: 50%;
@@ -177,9 +177,9 @@ export const listItemDividerStyle = css`
   width: 100%;
 `;
 
-const listItemContentSizeStyle = ({
+const listCellContentSizeStyle = ({
   height,
-}: Pick<ListItemContentProps, 'height'>) => {
+}: Pick<ListCellContentProps, 'height'>) => {
   switch (height) {
     case 'medium':
       return css`
@@ -205,8 +205,8 @@ const listItemContentSizeStyle = ({
   }
 };
 
-const listItemContentVariantStyle =
-  ({ variant }: Pick<ListItemContentProps, 'variant'>) =>
+const listCellContentVariantStyle =
+  ({ variant }: Pick<ListCellContentProps, 'variant'>) =>
   (theme: Theme) => {
     switch (variant) {
       case 'icon':
@@ -242,8 +242,8 @@ const listItemContentVariantStyle =
     }
   };
 
-export const listItemContentStyle =
-  ({ variant, height, xl, lg, md, sm, xs }: ListItemContentProps) =>
+export const listCellContentStyle =
+  ({ variant, height, xl, lg, md, sm, xs }: ListCellContentProps) =>
   (theme: Theme) => css`
     flex-shrink: 0;
     position: relative;
@@ -256,15 +256,15 @@ export const listItemContentStyle =
       z-index: 1;
     }
 
-    ${listItemContentVariantStyle({ variant })(theme)}
-    ${listItemContentSizeStyle({ height })}
+    ${listCellContentVariantStyle({ variant })(theme)}
+    ${listCellContentSizeStyle({ height })}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${listItemContentSizeStyle({ height: params?.height })}
+        ${listCellContentSizeStyle({ height: params?.height })}
         ${params?.sx}
       `,
     )}

@@ -16,27 +16,27 @@ import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
 
 import {
-  LIST_ITEM_CONTENT_NAME,
-  LIST_ITEM_NAME,
+  LIST_CELL_CONTENT_NAME,
+  LIST_CELL_NAME,
   LIST_NAME,
   LIST_TEXT_NAME,
 } from './constants';
 import {
-  listItemContentStyle,
-  listItemDividerStyle,
-  listItemStyle,
+  listCellContentStyle,
+  listCellDividerStyle,
+  listCellStyle,
   listStyle,
   listTextEllipsisStyle,
   listTextStyle,
 } from './style';
-import { ListItemProvider, useListItemContext } from './contexts';
+import { ListCellProvider, useListCellContext } from './contexts';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
-  ListItemContentProps,
-  ListItemProps,
+  ListCellContentProps,
+  ListCellProps,
   ListProps,
   ListTextProps,
 } from './types';
@@ -63,7 +63,7 @@ const List = forwardRef(
 
 List.displayName = LIST_NAME;
 
-const ListItem = forwardRef(
+const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
       as,
@@ -89,7 +89,7 @@ const ListItem = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<ListItemProps, E>,
+    }: PolymorphicProps<ListCellProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const [item, setItem] = useState<E | null>(null);
@@ -105,7 +105,7 @@ const ListItem = forwardRef(
     const alignItems = alignItemsProp ?? ellipsis ? 'center' : 'flex-start';
 
     return (
-      <ListItemProvider
+      <ListCellProvider
         active={active}
         disabled={disabled}
         ellipsis={ellipsis}
@@ -163,7 +163,7 @@ const ListItem = forwardRef(
               }
             })}
             sx={[
-              listItemStyle({
+              listCellStyle({
                 padding,
                 fillWidth,
                 interactionPadding,
@@ -184,7 +184,7 @@ const ListItem = forwardRef(
             {divider && (
               <Divider
                 data-role="list-cell-divider"
-                sx={listItemDividerStyle}
+                sx={listCellDividerStyle}
               />
             )}
             {Boolean(rightContent) && (
@@ -192,16 +192,16 @@ const ListItem = forwardRef(
             )}
           </FlexBox>
         </WithInteraction>
-      </ListItemProvider>
+      </ListCellProvider>
     );
   },
-) as PolymorphicComponent<ListItemProps, 'li'>;
+) as PolymorphicComponent<ListCellProps, 'li'>;
 
-ListItem.displayName = LIST_ITEM_NAME;
+ListCell.displayName = LIST_CELL_NAME;
 
-const ListItemContent = forwardRef<
+const ListCellContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ListItemContentProps, 'div'>
+  DefaultComponentProps<ListCellContentProps, 'div'>
 >(
   (
     {
@@ -219,7 +219,7 @@ const ListItemContent = forwardRef<
     },
     ref,
   ) => {
-    const { alignItems } = useListItemContext(LIST_ITEM_CONTENT_NAME);
+    const { alignItems } = useListCellContext(LIST_CELL_CONTENT_NAME);
 
     switch (variant) {
       case 'large-icon':
@@ -230,7 +230,7 @@ const ListItemContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -246,7 +246,7 @@ const ListItemContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -264,7 +264,7 @@ const ListItemContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -290,7 +290,7 @@ const ListItemContent = forwardRef<
               <FlexBox
                 justifyContent="flex-end"
                 alignItems={alignItems}
-                sx={listItemContentStyle({
+                sx={listCellContentStyle({
                   variant,
                   height,
                   xl,
@@ -330,7 +330,7 @@ const ListItemContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listItemContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -341,7 +341,7 @@ const ListItemContent = forwardRef<
   },
 );
 
-ListItemContent.displayName = LIST_ITEM_CONTENT_NAME;
+ListCellContent.displayName = LIST_CELL_CONTENT_NAME;
 
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
@@ -357,7 +357,7 @@ const ListText = forwardRef(
     }: PolymorphicProps<ListTextProps, E>,
     ref: ForwardedRef<E>,
   ) => {
-    const { active, disabled, ellipsis } = useListItemContext(LIST_TEXT_NAME);
+    const { active, disabled, ellipsis } = useListCellContext(LIST_TEXT_NAME);
     const { active: menuItemActive } = useMenuItemContext() || {};
 
     if (!children) {
@@ -396,6 +396,7 @@ const ListText = forwardRef(
           <Typography
             variant="label1_normal"
             color="palette.label.alternative"
+            data-role="list-text-caption"
             {...captionProps}
             sx={[ellipsis && listTextEllipsisStyle, captionProps?.sx]}
           >
@@ -409,4 +410,4 @@ const ListText = forwardRef(
 
 ListText.displayName = LIST_TEXT_NAME;
 
-export { List, ListItem, ListItemContent, ListText };
+export { List, ListCell, ListCellContent };
