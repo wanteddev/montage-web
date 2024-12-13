@@ -34,14 +34,16 @@ export const paginationCounterStyle =
     &::before {
       position: absolute;
       content: '';
-      ${alternative &&
-      css`
-        background-color: ${addOpacity(
-          theme.palette.coolNeutral[30],
-          theme.opacity[61],
-        )};
-      `}
-      backdrop-filter: blur(32px);
+      ${alternative
+        ? css`
+            background-color: ${addOpacity(
+              theme.palette.coolNeutral[30],
+              theme.opacity[61],
+            )};
+          `
+        : css`
+            backdrop-filter: blur(32px);
+          `}
       width: 100%;
       height: 100%;
       top: 0px;
