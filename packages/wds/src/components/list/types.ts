@@ -7,15 +7,31 @@ import type { FlexBoxProps } from '../flex-box/types';
 export type ListProps = FlexBoxProps;
 
 export type ListItemDefaultProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  padding?: '12px' | '8px' | '16px' | '0px';
+  fillWidth?: boolean;
+  /**
+   * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
+   */
+  interactionPadding?: CSSProperties['paddingLeft'];
+  ellipsis?: boolean;
+  divider?: boolean;
+
   active?: boolean;
   disabled?: boolean;
-  ellipsis?: boolean;
-  children?: ReactNode;
+  disableInteraction?: boolean;
+
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
 };
 
-export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxProps>;
+export type ListItemResponsiveProps = ResponsiveProps<
+  Pick<ListItemDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
+>;
+
+export type ListItemProps = Merge<
+  Merge<ListItemDefaultProps, ListItemResponsiveProps>,
+  FlexBoxProps
+>;
 
 export type ListItemContentDefaultProps = {
   variant?:
@@ -41,28 +57,6 @@ export type ListItemContentResponsiveProps = ResponsiveProps<
 export type ListItemContentProps = Merge<
   ListItemContentDefaultProps,
   ListItemContentResponsiveProps
->;
-
-export type ListCellDefaultProps = {
-  padding?: '12px' | '8px' | '16px' | '0px';
-  fillWidth?: boolean;
-  divider?: boolean;
-  disabled?: boolean;
-  disableInteraction?: boolean;
-  /**
-   * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
-   */
-  interactionPadding?: CSSProperties['paddingLeft'];
-  children?: ReactNode;
-};
-
-export type ListCellResponsiveProps = ResponsiveProps<
-  Pick<ListCellDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
->;
-
-export type ListCellProps = Merge<
-  Merge<ListCellDefaultProps, ListCellResponsiveProps>,
-  ListItemProps
 >;
 
 export type ListTextProps = Merge<

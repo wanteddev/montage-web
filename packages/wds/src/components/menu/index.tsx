@@ -7,7 +7,7 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { IconCheck } from '@wanteddev/wds-icon';
 
-import { List, ListCell, ListItemContent } from '../list';
+import { List, ListItem, ListItemContent } from '../list';
 import ScrollArea from '../scroll-area';
 import Radio from '../radio';
 import Checkbox from '../checkbox';
@@ -226,7 +226,7 @@ const MenuItem = forwardRef<any, MenuItemProps>(
         <MenuItemCheckbox ref={ref} {...props} sx={[menuItemStyle, sx]} />
       ),
       normal: (
-        <ListCell
+        <ListItem
           disabled={disabled}
           role="menuitem"
           ref={ref}
@@ -293,7 +293,7 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
     const context = useMenuContext(MENU_ITEM_NAME);
 
     return (
-      <ListCell
+      <ListItem
         ref={ref}
         role="menuitemradio"
         leftContent={
@@ -338,7 +338,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
     };
 
     return (
-      <ListCell
+      <ListItem
         ref={ref}
         role="menuitemcheckbox"
         leftContent={

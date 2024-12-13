@@ -1,8 +1,8 @@
+import type { ListItemProps } from '../list/types';
 import type { PopoverTrigger } from '../popover';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { PopoverContentProps, PopoverProps } from '../popover/types';
-import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 
 export type MenuDefaultProps = {
@@ -41,7 +41,7 @@ export type MenuItemDefaultProps = {
   children?: ReactNode;
   value: string;
 };
-export type MenuItemProps = Merge<MenuItemDefaultProps, ListCellProps>;
+export type MenuItemProps = Merge<MenuItemDefaultProps, ListItemProps>;
 
 export type MenuItemRadioProps = Omit<MenuItemProps, 'variant'>;
 export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;

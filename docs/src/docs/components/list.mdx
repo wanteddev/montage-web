@@ -9,31 +9,29 @@ description: List Component
 
 ## 활용
 
-- ListItem, ListCell 을 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
+- ListItem, ListItem 을 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
   - 단 switch 컴포넌트는 클릭 처리 하지 않습니다.
 - leftContent, rightContent 에 요소를 추가 할 때는 `ListItemContent` 로 감싸서 사용합니다.
-- 예외적으로 사용하는 케이스 외에 ListCell을 주로 사용해요.
 
-
-<Demo code={`import { List, ListCell, ListText, ListItemContent, Checkbox } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText, ListItemContent, Checkbox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListCell leftContent={(
+      <ListItem leftContent={(
         <ListItemContent variant="checkbox">
           <Checkbox />
         </ListItemContent>
       )}>
         <ListText>텍스트</ListText>
-      </ListCell>
-      <ListCell leftContent={(
+      </ListItem>
+      <ListItem leftContent={(
         <ListItemContent variant="checkbox">
           <Checkbox />
         </ListItemContent>
       )}>
         <ListText caption="캡션">텍스트</ListText>
-      </ListCell>
+      </ListItem>
     </List>
   )
 }
@@ -48,12 +46,11 @@ export default Demo;`}
 
 ```tsx
 <List>
-  <ListCell>
-    <ListText>셀 리스트</ListText>
-  </ListCell>
-
   <ListItem>
-    <ListText>단일 리스트</ListText>
+    <ListText>리스트1</ListText>
+  </ListItem>
+  <ListItem>
+    <ListText>리스트2</ListText>
   </ListItem>
 </List>
 ```
@@ -68,10 +65,6 @@ export default Demo;`}
 
 <PropsTable component="ListItem" />
 
-### ListCell
-
-<PropsTable component="ListCell" />
-
 ### ListItemContent
 
 <PropsTable component="ListItemContent" />
@@ -84,7 +77,7 @@ export default Demo;`}
 
 ### ListItem
 
-ListCell 대신 ListItem을 사용할 수 있어요. ListCell과는 다르게 인터렉션 영역, padding이 존재하지 않아요.
+ListItem 대신 ListItem을 사용할 수 있어요. ListItem과는 다르게 인터렉션 영역, padding이 존재하지 않아요.
 
 <Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 
@@ -112,35 +105,35 @@ export default Demo;`}
 
 padding, fillWidth으로 간격을 조정하고, active, disabled 로 상태를 표시해요.
 
-<Demo code={`import { List, ListCell, ListText } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListCell fillWidth>
+      <ListItem fillWidth>
         <ListText>텍스트, fillWidth</ListText>
-      </ListCell>
-      <ListCell padding="0px">
+      </ListItem>
+      <ListItem padding="0px">
         <ListText>텍스트, 0px</ListText>
-      </ListCell>
-      <ListCell>
+      </ListItem>
+      <ListItem>
         <ListText>텍스트, 12px</ListText>
-      </ListCell>
-      <ListCell padding="8px">
+      </ListItem>
+      <ListItem padding="8px">
         <ListText>텍스트, 8px</ListText>
-      </ListCell>
-      <ListCell padding="16px">
+      </ListItem>
+      <ListItem padding="16px">
         <ListText>텍스트, 16px</ListText>
-      </ListCell>
-      <ListCell active>
+      </ListItem>
+      <ListItem active>
         <ListText>텍스트, active</ListText>
-      </ListCell>
-      <ListCell disabled>
+      </ListItem>
+      <ListItem disabled>
         <ListText>텍스트, disabled</ListText>
-      </ListCell>
-      <ListCell divider>
+      </ListItem>
+      <ListItem divider>
         <ListText>텍스트, divider</ListText>
-      </ListCell>
+      </ListItem>
     </List>
   )
 }
@@ -153,13 +146,13 @@ export default Demo;`}
 - 기본적으로 leftContent, rightContent는 `ListItemContent` 로 래핑해서 사용해요.
 - height로 콘텐츠 높이를 조정할 수 있어요.
 
-<Demo code={`import { RadioGroupItem, Checkbox, Thumbnail, Avatar, List, ListCell, ListText, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+<Demo code={`import { RadioGroupItem, Checkbox, Thumbnail, Avatar, List, ListItem, ListText, ListItemContent, IconButton, NestedCheckbox, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px">
-      <ListCell
+      <ListItem
         rightContent={
           <ListItemContent variant="icon">
             <IconBlank />
@@ -167,8 +160,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent variant="checkbox">
             <NestedCheckbox />
@@ -176,8 +169,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent variant="button">
             <TextButton size="small" variant="assistive">
@@ -187,8 +180,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent>
             <ContentBadge color="neutral">뱃지</ContentBadge>
@@ -196,8 +189,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent variant="chevron">
             값
@@ -205,15 +198,15 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent variant="chevron" />
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent variant="chevron" chevron={false}>
             값
@@ -221,8 +214,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         leftContent={
           <ListItemContent variant="icon">
             <IconBlank />
@@ -235,8 +228,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         leftContent={
           <ListItemContent variant="checkbox">
             <Checkbox />
@@ -249,9 +242,9 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Normal</ListText>
-      </ListCell>
+      </ListItem>
 
-      <ListCell
+      <ListItem
         leftContent={
           <ListItemContent height="medium" variant="avatar">
             <Avatar variant="person" size="medium" />
@@ -264,8 +257,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Medium</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         alignItems="center"
         leftContent={
           <ListItemContent height="medium" variant="avatar">
@@ -279,8 +272,8 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Medium</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         rightContent={
           <ListItemContent height="medium" variant="switch">
             <Switch />
@@ -288,9 +281,9 @@ const Demo = () => {
         }
       >
         <ListText>텍스트, Medium</ListText>
-      </ListCell>
+      </ListItem>
 
-      <ListCell
+      <ListItem
         leftContent={
           <ListItemContent height="large" variant="large-icon">
             <IconBlank />
@@ -303,8 +296,8 @@ const Demo = () => {
         }
       >
         <ListText caption="캡션">텍스트, Large</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         alignItems="center"
         leftContent={
           <ListItemContent height="large" variant="large-icon">
@@ -318,8 +311,8 @@ const Demo = () => {
         }
       >
         <ListText caption="캡션">텍스트, Large</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         leftContent={
           <ListItemContent height="large" variant="custom">
             <Thumbnail
@@ -339,7 +332,7 @@ const Demo = () => {
         }
       >
         <ListText caption="캡션">텍스트, Large</ListText>
-      </ListCell>
+      </ListItem>
     </List>
   )
 }
@@ -352,13 +345,13 @@ export default Demo;`}
 - ellipsis가 false일 때 수직 정렬은 상단으로 조정 됩니다.
 - ellipsis가 true일 때 수직 정렬은 중앙으로 조정 됩니다.
 
-<Demo code={`import { List, ListCell, ListText, ListItemContent } from '@wanteddev/wds';
+<Demo code={`import { List, ListItem, ListText, ListItemContent } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <List gap="16px" sx={{ width: '50%' }}>
-      <ListCell
+      <ListItem
         leftContent={
           <ListItemContent height="large" variant="large-icon">
             <IconBlank />
@@ -378,8 +371,8 @@ const Demo = () => {
           텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
           텍스트텍스트텍스트텍스트
         </ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         ellipsis
         leftContent={
           <ListItemContent height="large" variant="large-icon">
@@ -400,7 +393,7 @@ const Demo = () => {
           텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트텍스트
           텍스트텍스트텍스트텍스트
         </ListText>
-      </ListCell>
+      </ListItem>
     </List>
   )
 }
@@ -410,12 +403,12 @@ export default Demo;`}
 
 ### Checkbox
 
-<Demo code={`import { List, Checkbox, ListCell, ListItemContent, ListText } from '@wanteddev/wds';
+<Demo code={`import { List, Checkbox, ListItem, ListItemContent, ListText } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List gap="16px">
-      <ListCell
+      <ListItem
         leftContent={
           <ListItemContent variant="checkbox">
             <Checkbox />
@@ -423,8 +416,8 @@ const Demo = () => {
         }
       >
         <ListText>Man</ListText>
-      </ListCell>
-      <ListCell
+      </ListItem>
+      <ListItem
         leftContent={
           <ListItemContent variant="checkbox">
             <Checkbox />
@@ -432,7 +425,7 @@ const Demo = () => {
         }
       >
         <ListText>Woman</ListText>
-      </ListCell>
+      </ListItem>
     </List>
   )
 }
@@ -444,7 +437,7 @@ export default Demo;`}
 
 checkbox를 활용한 form은 아래와 같이 사용합니다.
 
-<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListCell, ListItemContent, ListText } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage, List, ListItem, ListItemContent, ListText } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const items = [
@@ -492,7 +485,7 @@ const Demo = () => {
                     },
                   }}
                   render={({ field }) => (
-                    <ListCell
+                    <ListItem
                       as={FormField}
                       flexDirection="row"
                       alignItems="center"
@@ -517,7 +510,7 @@ const Demo = () => {
                       }
                     >
                       <ListText>{item.label}</ListText>
-                    </ListCell>
+                    </ListItem>
                   )}
                 />
               ))}
@@ -537,7 +530,7 @@ export default Demo;`}
 
 Radio를 사용할 때는 `RadioGroup` 으로 감싸서 사용합니다.
 
-<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListCell, ListItemContent, ListText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, List, ListItem, ListItemContent, ListText, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -566,7 +559,7 @@ const Demo = () => {
             <FormControl>
               <RadioGroup {...field} onValueChange={field.onChange}>
                 <List>
-                  <ListCell
+                  <ListItem
                     as={FormField}
                     leftContent={
                       <FormControl>
@@ -577,8 +570,8 @@ const Demo = () => {
                     }
                   >
                     <ListText>Man</ListText>
-                  </ListCell>
-                  <ListCell
+                  </ListItem>
+                  <ListItem
                     as={FormField}  
                     leftContent={
                       <FormControl>
@@ -589,7 +582,7 @@ const Demo = () => {
                     }
                   >
                     <ListText>Woman</ListText>
-                  </ListCell>
+                  </ListItem>
                 </List>
               </RadioGroup>
             </FormControl>
@@ -608,12 +601,12 @@ export default Demo;`}
 />
 
 
-Switch를 사용하는 경우 `ListCell` 영역을 클릭해서 토글되지 않습니다.
+Switch를 사용하는 경우 `ListItem` 영역을 클릭해서 토글되지 않습니다.
 스위치 영역을 직접 클릭해야만 스위치가 토글됩니다.
 
 `disableInteraction` 과 함께 사용하면 자연스러운 동작으로 사용 가능합니다.
 
-<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListItemContent, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Switch, List, ListItem, ListItemContent, ListText, FormField, FormControl, FormLabel } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -631,7 +624,7 @@ const Demo = () => {
           control={form.control}
           name="notification"
           render={({ field, formState }) => (
-            <ListCell
+            <ListItem
               as={FormField}
               disableInteraction
               rightContent={
@@ -647,14 +640,14 @@ const Demo = () => {
               }
             >
               <ListText>알림 받기</ListText>
-            </ListCell>
+            </ListItem>
           )}
         />
         <Controller
           control={form.control}
           name="darkMode"
           render={({ field, formState }) => (
-            <ListCell
+            <ListItem
               as={FormField}
               disableInteraction
               rightContent={
@@ -670,7 +663,7 @@ const Demo = () => {
               }
             >
               <ListText>다크 모드</ListText>
-            </ListCell>
+            </ListItem>
           )}
         />
       </List>

@@ -1,4 +1,4 @@
-import type { ListCellProps, ListTextProps } from '../list/types';
+import type { ListItemProps, ListTextProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 import type { PopperContent } from '../popper';
 import type {
@@ -35,7 +35,7 @@ export type AutocompleteListProps = ComponentPropsWithoutRef<
 export type AutocompleteOptionProps = Merge<
   { value: string },
   Omit<
-    ListCellProps & Pick<ListTextProps, 'caption'>,
+    ListItemProps & Pick<ListTextProps, 'caption'>,
     'rightContent' | 'leftContent'
   >
 >;

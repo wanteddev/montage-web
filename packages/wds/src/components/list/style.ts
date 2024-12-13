@@ -8,11 +8,7 @@ import {
 } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type {
-  ListCellProps,
-  ListItemContentProps,
-  ListItemProps,
-} from './types';
+import type { ListItemContentProps, ListItemProps } from './types';
 
 export const listStyle = css`
   list-style: none;
@@ -21,7 +17,19 @@ export const listStyle = css`
 `;
 
 export const listItemStyle =
-  ({ active, disabled }: ListItemProps) =>
+  ({
+    padding,
+    fillWidth,
+    interactionPadding,
+    active,
+    disabled,
+    disableInteraction,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ListItemProps) =>
   (theme: Theme) => css`
     width: 100%;
 
@@ -36,40 +44,17 @@ export const listItemStyle =
           color: ${active
             ? theme.palette.primary.normal
             : theme.palette.label.normal};
+
+          ${!disableInteraction &&
+          css`
+            cursor: pointer;
+          `}
         `}
-  `;
-
-export const listTextEllipsisStyle = css`
-  ${ellipsisTypographyStyle(1)}
-  white-space: nowrap;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-`;
-
-export const listCellStyle =
-  ({
-    padding,
-    fillWidth,
-    disabled,
-    disableInteraction,
-    interactionPadding,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: ListCellProps) =>
-  (theme: Theme) => css`
-    ${!disabled &&
-    !disableInteraction &&
-    css`
-      cursor: pointer;
-    `}
 
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
     ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
-    
+
     & > [wds-component='with-interaction'] {
       border-radius: inherit;
       display: var(--wds-list-cell-interaction-display, block);
@@ -98,10 +83,17 @@ export const listCellStyle =
     )}
   `;
 
+export const listTextEllipsisStyle = css`
+  ${ellipsisTypographyStyle(1)}
+  white-space: nowrap;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+`;
+
 const listCellInteractionPaddingStyle = ({
   fillWidth,
   interactionPadding,
-}: Pick<ListCellProps, 'fillWidth' | 'interactionPadding'>) => {
+}: Pick<ListItemProps, 'fillWidth' | 'interactionPadding'>) => {
   if (fillWidth) {
     return css`
       & > [wds-component='with-interaction'] {
@@ -118,7 +110,7 @@ const listCellInteractionPaddingStyle = ({
   `;
 };
 
-const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
+const listCellPaddingStyle = ({ padding }: Pick<ListItemProps, 'padding'>) => {
   switch (padding) {
     case '0px':
       return css`
@@ -153,7 +145,7 @@ const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
 
 const listCellFillWidthStyle = ({
   fillWidth,
-}: Pick<ListCellProps, 'fillWidth'>) => {
+}: Pick<ListItemProps, 'fillWidth'>) => {
   switch (fillWidth) {
     case true:
       return css`
