@@ -1,12 +1,12 @@
 import { createContext } from '@radix-ui/react-context';
 
-import { LIST_ITEM_NAME } from './constants';
+import { LIST_CELL_NAME } from './constants';
 
-import type { ListItemProps } from './types';
+import type { ListCellProps } from './types';
 
-type ListItemContextType = Required<
-  Pick<ListItemProps, 'active' | 'disabled' | 'ellipsis' | 'alignItems'>
+type ListCellContextType = Required<
+  Pick<ListCellProps, 'active' | 'disabled' | 'ellipsis' | 'alignItems'>
 >;
 
-export const [ListItemProvider, useListItemContext] =
-  createContext<ListItemContextType>(LIST_ITEM_NAME);
+export const [ListCellProvider, useListCellContext] =
+  createContext<ListCellContextType>(LIST_CELL_NAME);

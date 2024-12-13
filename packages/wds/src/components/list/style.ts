@@ -8,11 +8,7 @@ import {
 } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type {
-  ListCellProps,
-  ListItemContentProps,
-  ListItemProps,
-} from './types';
+import type { ListCellContentProps, ListCellProps } from './types';
 
 export const listStyle = css`
   list-style: none;
@@ -20,8 +16,20 @@ export const listStyle = css`
   padding: 0;
 `;
 
-export const listItemStyle =
-  ({ active, disabled }: ListItemProps) =>
+export const listCellStyle =
+  ({
+    padding,
+    fillWidth,
+    interactionPadding,
+    active,
+    disabled,
+    disableInteraction,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  }: ListCellProps) =>
   (theme: Theme) => css`
     width: 100%;
 
@@ -36,40 +44,17 @@ export const listItemStyle =
           color: ${active
             ? theme.palette.primary.normal
             : theme.palette.label.normal};
+
+          ${!disableInteraction &&
+          css`
+            cursor: pointer;
+          `}
         `}
-  `;
-
-export const listTextEllipsisStyle = css`
-  ${ellipsisTypographyStyle(1)}
-  white-space: nowrap;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-`;
-
-export const listCellStyle =
-  ({
-    padding,
-    fillWidth,
-    disabled,
-    disableInteraction,
-    interactionPadding,
-    xs,
-    sm,
-    md,
-    lg,
-    xl,
-  }: ListCellProps) =>
-  (theme: Theme) => css`
-    ${!disabled &&
-    !disableInteraction &&
-    css`
-      cursor: pointer;
-    `}
 
     ${listCellPaddingStyle({ padding })}
     ${listCellFillWidthStyle({ fillWidth })}
     ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
-    
+
     & > [wds-component='with-interaction'] {
       border-radius: inherit;
       display: var(--wds-list-cell-interaction-display, block);
@@ -97,6 +82,13 @@ export const listCellStyle =
       `,
     )}
   `;
+
+export const listTextEllipsisStyle = css`
+  ${ellipsisTypographyStyle(1)}
+  white-space: nowrap;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+`;
 
 const listCellInteractionPaddingStyle = ({
   fillWidth,
@@ -185,9 +177,9 @@ export const listCellDividerStyle = css`
   width: 100%;
 `;
 
-const listItemContentSizeStyle = ({
+const listCellContentSizeStyle = ({
   height,
-}: Pick<ListItemContentProps, 'height'>) => {
+}: Pick<ListCellContentProps, 'height'>) => {
   switch (height) {
     case 'medium':
       return css`
@@ -213,8 +205,8 @@ const listItemContentSizeStyle = ({
   }
 };
 
-const listItemContentVariantStyle =
-  ({ variant }: Pick<ListItemContentProps, 'variant'>) =>
+const listCellContentVariantStyle =
+  ({ variant }: Pick<ListCellContentProps, 'variant'>) =>
   (theme: Theme) => {
     switch (variant) {
       case 'icon':
@@ -250,8 +242,8 @@ const listItemContentVariantStyle =
     }
   };
 
-export const listItemContentStyle =
-  ({ variant, height, xl, lg, md, sm, xs }: ListItemContentProps) =>
+export const listCellContentStyle =
+  ({ variant, height, xl, lg, md, sm, xs }: ListCellContentProps) =>
   (theme: Theme) => css`
     flex-shrink: 0;
     position: relative;
@@ -264,15 +256,15 @@ export const listItemContentStyle =
       z-index: 1;
     }
 
-    ${listItemContentVariantStyle({ variant })(theme)}
-    ${listItemContentSizeStyle({ height })}
+    ${listCellContentVariantStyle({ variant })(theme)}
+    ${listCellContentSizeStyle({ height })}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${listItemContentSizeStyle({ height: params?.height })}
+        ${listCellContentSizeStyle({ height: params?.height })}
         ${params?.sx}
       `,
     )}

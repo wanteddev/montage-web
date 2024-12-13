@@ -1,8 +1,8 @@
+import type { ListCellProps } from '../list/types';
 import type { PopoverTrigger } from '../popover';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { PopoverContentProps, PopoverProps } from '../popover/types';
-import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 
 export type MenuDefaultProps = {

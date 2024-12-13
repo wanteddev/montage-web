@@ -6,18 +6,42 @@ import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
 
-export type ListItemDefaultProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+export type ListCellDefaultProps = {
+  padding?: '12px' | '8px' | '16px' | '0px';
+  fillWidth?: boolean;
+  /**
+   * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
+   */
+  interactionPadding?: CSSProperties['paddingLeft'];
+  ellipsis?: boolean;
+  divider?: boolean;
+
   active?: boolean;
   disabled?: boolean;
-  ellipsis?: boolean;
-  children?: ReactNode;
+  disableInteraction?: boolean;
+
+  textProps?: Merge<
+    TypographyProps,
+    {
+      caption?: ReactNode;
+      captionProps?: ComponentProps<typeof Typography>;
+      children?: ReactNode;
+    }
+  >;
+  leftContent?: ReactNode;
+  rightContent?: ReactNode;
 };
 
-export type ListItemProps = Merge<ListItemDefaultProps, FlexBoxProps>;
+export type ListCellResponsiveProps = ResponsiveProps<
+  Pick<ListCellDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
+>;
 
-export type ListItemContentDefaultProps = {
+export type ListCellProps = Merge<
+  Merge<ListCellDefaultProps, ListCellResponsiveProps>,
+  FlexBoxProps
+>;
+
+export type ListCellContentDefaultProps = {
   variant?:
     | 'icon'
     | 'radio'
@@ -35,41 +59,12 @@ export type ListItemContentDefaultProps = {
   chevron?: boolean;
   children?: ReactNode;
 };
-export type ListItemContentResponsiveProps = ResponsiveProps<
-  Pick<ListItemContentDefaultProps, 'height'>
+export type ListCellContentResponsiveProps = ResponsiveProps<
+  Pick<ListCellContentDefaultProps, 'height'>
 >;
-export type ListItemContentProps = Merge<
-  ListItemContentDefaultProps,
-  ListItemContentResponsiveProps
->;
-
-export type ListCellDefaultProps = {
-  padding?: '12px' | '8px' | '16px' | '0px';
-  fillWidth?: boolean;
-  divider?: boolean;
-  disabled?: boolean;
-  disableInteraction?: boolean;
-  /**
-   * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
-   */
-  interactionPadding?: CSSProperties['paddingLeft'];
-  children?: ReactNode;
-};
-
-export type ListCellResponsiveProps = ResponsiveProps<
-  Pick<ListCellDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
+export type ListCellContentProps = Merge<
+  ListCellContentDefaultProps,
+  ListCellContentResponsiveProps
 >;
 
-export type ListCellProps = Merge<
-  Merge<ListCellDefaultProps, ListCellResponsiveProps>,
-  ListItemProps
->;
-
-export type ListTextProps = Merge<
-  TypographyProps,
-  {
-    caption?: ReactNode;
-    captionProps?: ComponentProps<typeof Typography>;
-    children?: ReactNode;
-  }
->;
+export type ListTextProps = ListCellProps['textProps'];
