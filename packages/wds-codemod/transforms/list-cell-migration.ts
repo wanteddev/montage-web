@@ -149,7 +149,6 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           );
         }
 
-        console.log(listItem.parentPath.parentPath.value.children);
         listItem.value.children?.map((child) =>
           listItem.parentPath.parentPath.value.children.push(child),
         );
