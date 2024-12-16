@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0-alpha.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.3.0-alpha.0...@wanteddev/wds-codemod@1.3.0-alpha.1) (2024-12-16)
+
+### Bug Fixes
+
+- **wds-codemod:** export files 수정 ([0051a18](https://github.com/wanteddev/wds/commit/0051a1803a7ddf7229492656b08ab6163c55486f))
+
 # [1.3.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.2.2...@wanteddev/wds-codemod@1.3.0-alpha.0) (2024-12-16)
 
 ### Features
