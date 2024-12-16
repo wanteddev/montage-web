@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.1.1...@wanteddev/wds-icon@1.2.0-alpha.0) (2024-12-16)
+
+### Features
+
+- react 19, next 15 버전 대응 ([#190](https://github.com/wanteddev/wds/issues/190)) ([917671a](https://github.com/wanteddev/wds/commit/917671a4b9652ead45b840d29a32683d73c7fafd))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#199](https://github.com/wanteddev/wds/issues/199)) ([54f6331](https://github.com/wanteddev/wds/commit/54f63314cb70ad826f5a6bd75dc5e66d224a52e6))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#201](https://github.com/wanteddev/wds/issues/201)) ([7520d54](https://github.com/wanteddev/wds/commit/7520d548f083255b78c1a7b1466388cf13a32cb5))
+
 ## [1.1.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.1.0...@wanteddev/wds-icon@1.1.1) (2024-11-15)
 
 ### Features

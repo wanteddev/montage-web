@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.2.0...@wanteddev/wds-lottie@1.3.0-alpha.0) (2024-12-16)
+
+### Features
+
+- react 19, next 15 버전 대응 ([#190](https://github.com/wanteddev/wds/issues/190)) ([917671a](https://github.com/wanteddev/wds/commit/917671a4b9652ead45b840d29a32683d73c7fafd))
+
 # [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-lottie@1.1.4...@wanteddev/wds-lottie@1.2.0) (2024-11-13)
 
 ### Bug Fixes

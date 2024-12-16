@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.5.2...@wanteddev/wds@1.6.0-alpha.0) (2024-12-16)
+
+### Bug Fixes
+
+- **wds:** autocomplete option disabled 대응 및 text input, text area onClick 대응 ([#177](https://github.com/wanteddev/wds/issues/177)) ([2482b27](https://github.com/wanteddev/wds/commit/2482b27a74e4e249e1ad294c03129378c5041e5a))
+- **wds:** ios 환경에서 modal dimmer 영역을 클릭했을 때 터치가 두번 되는 이슈 ([#185](https://github.com/wanteddev/wds/issues/185)) ([41d1920](https://github.com/wanteddev/wds/commit/41d192094ea4e0cee0b6fd2f4308a78ed181a010))
+- **wds:** popper 위치 accelerate 최적화 ([#187](https://github.com/wanteddev/wds/issues/187)) ([0863724](https://github.com/wanteddev/wds/commit/0863724caba17746f272e80d7f6af5f8c29d94dd))
+- **wds:** skeleton align 버그 수정 ([#189](https://github.com/wanteddev/wds/issues/189)) ([e9ced35](https://github.com/wanteddev/wds/commit/e9ced359bf32ed2ea53b3c52cdda2297ecf413c1))
+
+### Features
+
+- react 19, next 15 버전 대응 ([#190](https://github.com/wanteddev/wds/issues/190)) ([917671a](https://github.com/wanteddev/wds/commit/917671a4b9652ead45b840d29a32683d73c7fafd))
+- **wds,wds-theme:** grid spacing 0px 지원 ([#191](https://github.com/wanteddev/wds/issues/191)) ([f76d5a3](https://github.com/wanteddev/wds/commit/f76d5a30d88d2ffeb9464fad78434c8f59f6c556))
+- **wds:** cell 업데이트 ([#182](https://github.com/wanteddev/wds/issues/182)) ([509b77c](https://github.com/wanteddev/wds/commit/509b77c22b81bdc412c572c523095c590b532e04))
+- **wds:** interaction focus 스타일 수정 ([#186](https://github.com/wanteddev/wds/issues/186)) ([ac1d212](https://github.com/wanteddev/wds/commit/ac1d212724673fc9a265933046ae9df5de98b657))
+- **wds:** list-item, list-cell, list-text 통합 ([#197](https://github.com/wanteddev/wds/issues/197)) ([cd4dab0](https://github.com/wanteddev/wds/commit/cd4dab03d8207894836e30bcd020b1ac1c0383a8))
+- **wds:** list-text 기본 텍스트 color prop 추가 ([#178](https://github.com/wanteddev/wds/issues/178)) ([e51e109](https://github.com/wanteddev/wds/commit/e51e1094a06bc8855a5e9fd89970340e7848d3c3))
+- **wds:** menu, select 키보드 접근성 추가 처리 ([#171](https://github.com/wanteddev/wds/issues/171)) ([8771ee5](https://github.com/wanteddev/wds/commit/8771ee5744fa22cae1768507679327beb974062c))
+- **wds:** pagination counter, dot 컴포넌트 추가 ([#194](https://github.com/wanteddev/wds/issues/194)) ([75b68cc](https://github.com/wanteddev/wds/commit/75b68cc4558c6cc931038231c70eb7beeac28316))
+- **wds:** PI-68592 progress tracker 디자인 리뉴얼 ([#181](https://github.com/wanteddev/wds/issues/181)) ([24e3984](https://github.com/wanteddev/wds/commit/24e3984b4139f8881b493a993d4c055d34a79643))
+- **wds:** PI-69648 tab 사이즈 추가 및 디자인 업데이트 ([#172](https://github.com/wanteddev/wds/issues/172)) ([95ecca6](https://github.com/wanteddev/wds/commit/95ecca6501c11d572690482d6057ae565d4884a0))
+- **wds:** popover, popper, menu trigger에 with interaction 컴포넌트 지원 ([#174](https://github.com/wanteddev/wds/issues/174)) ([a9b2adf](https://github.com/wanteddev/wds/commit/a9b2adf7d33f1f934091a722a282347c948e06c0))
+- **wds:** popover, tooltip, menu floating ui referenceHidden 옵션 추가 ([#176](https://github.com/wanteddev/wds/issues/176)) ([478eca3](https://github.com/wanteddev/wds/commit/478eca343606d32b2dbc9dc6ea8f3045027ad181))
+- **wds:** progress tracker desktop 제작 ([#184](https://github.com/wanteddev/wds/issues/184)) ([2044a0a](https://github.com/wanteddev/wds/commit/2044a0a45ca9c1d78d525e21ffd322e5f198c5e2))
+- **wds:** progress tracker 디자인 QA ([#196](https://github.com/wanteddev/wds/issues/196)) ([b477f88](https://github.com/wanteddev/wds/commit/b477f888a0831b3892a6a9b2d9d888e352aa160f))
+- **wds:** remove scroll 내보내기 추가 ([#183](https://github.com/wanteddev/wds/issues/183)) ([bec3db5](https://github.com/wanteddev/wds/commit/bec3db5d58bd998f3afce0ea3d470539e75cf164))
+
 ## [1.5.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.5.1...@wanteddev/wds@1.5.2) (2024-11-25)
 
 ### Bug Fixes

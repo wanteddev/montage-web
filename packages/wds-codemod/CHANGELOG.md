@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.2.2...@wanteddev/wds-codemod@1.3.0-alpha.0) (2024-12-16)
+
+### Features
+
+- react 19, next 15 버전 대응 ([#190](https://github.com/wanteddev/wds/issues/190)) ([917671a](https://github.com/wanteddev/wds/commit/917671a4b9652ead45b840d29a32683d73c7fafd))
+- **wds-codemod:** list cell migration 코드 지원 ([#200](https://github.com/wanteddev/wds/issues/200)) ([ba01d08](https://github.com/wanteddev/wds/commit/ba01d083c549d41a58d0c6eddac05ca954ed8e84))
+
 ## [1.2.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.2.1...@wanteddev/wds-codemod@1.2.2) (2024-09-30)
 
 ### Features

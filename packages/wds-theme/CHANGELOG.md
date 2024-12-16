@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.1.0...@wanteddev/wds-theme@1.2.0-alpha.0) (2024-12-16)
+
+### Features
+
+- **wds,wds-theme:** grid spacing 0px 지원 ([#191](https://github.com/wanteddev/wds/issues/191)) ([f76d5a3](https://github.com/wanteddev/wds/commit/f76d5a30d88d2ffeb9464fad78434c8f59f6c556))
+
 # [1.1.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.0.5...@wanteddev/wds-theme@1.1.0) (2024-11-13)
 
 ### Bug Fixes
