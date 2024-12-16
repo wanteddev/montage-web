@@ -6,7 +6,7 @@ figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
   props: {
     disabled: figma.boolean('Disable'),
     pushBadge: figma.boolean('Badge'),
-    children: figma.children('Icon/Icons'),
+    children: figma.children('Icon'),
   },
   example: ({ children, ...props }) => (
     <IconButton variant="normal" {...props}>
@@ -19,7 +19,7 @@ figma.connect(IconButton, '<FIGMA_ICON_BUTTON_BACKGROUND>', {
   props: {
     disabled: figma.boolean('Disable'),
     alternative: figma.boolean('Alternative'),
-    children: figma.children('Icon/Icons'),
+    children: figma.children('Icon'),
   },
   example: ({ children, ...props }) => (
     <IconButton variant="background" {...props}>

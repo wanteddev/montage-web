@@ -1,6 +1,15 @@
 name: Code Connect Publish And Icon/Figma Sync
 on:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: 'code connect push 여부'
+        type: choice
+        required: false
+        default: 'true'
+        options:
+          - true
+          - false
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -63,9 +72,11 @@ jobs:
           FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
 
       - name: Build
+        if: ${{ inputs.publish == 'true' }}
         run: pnpm run build
 
       - name: Publish
+        if: ${{ inputs.publish == 'true' }}
         run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50
 
       - run: git config user.name "github-actions[bot]"
@@ -79,13 +90,19 @@ jobs:
           git branch feature/code-connect/${{ github.run_id }}
           git checkout feature/code-connect/${{ github.run_id }}
           git add .
-          git commit -m "ci(wds,wds-icon): icon/figma sync and new code connect publish"
+          git commit -m "ci(wds,wds-icon): icon/figma sync and new code connect publish" --no-verify
           git push origin feature/code-connect/${{ github.run_id }}
+
+      - name: Extract branch name
+        if: always()
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
 
       - name: Create New PR
         if: always()
         run: |
-          gh pr create -B main -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
