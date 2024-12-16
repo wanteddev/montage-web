@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0-alpha.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.0-alpha.0...@wanteddev/wds@1.6.0-alpha.1) (2024-12-16)
+
+### Bug Fixes
+
+- **wds:** list-cell 타입 sx prop 추가 ([dad0e1a](https://github.com/wanteddev/wds/commit/dad0e1af3d46406865a05f12563e8605f654b503))
+
 # [1.6.0-alpha.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.5.2...@wanteddev/wds@1.6.0-alpha.0) (2024-12-16)
 
 ### Bug Fixes
