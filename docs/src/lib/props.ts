@@ -1,11 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 
-import { cache } from 'react';
-
 import type { ComponentDoc } from 'react-docgen-typescript';
 
-export const generatePropTypes = cache(() => {
+export const generatePropTypes = () => {
   const { result } = JSON.parse(
     fs.readFileSync(path.join(process.cwd(), './src/data.json'), 'utf8'),
   ) as {
@@ -13,4 +11,4 @@ export const generatePropTypes = cache(() => {
   };
 
   return result;
-});
+};
