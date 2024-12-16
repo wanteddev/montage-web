@@ -388,7 +388,7 @@ const ListText = forwardRef(
         as={as || 'p'}
         sx={[listTextStyle, props.sx]}
       >
-        <Box as="span" sx={[ellipsis && listTextEllipsisStyle]}>
+        <Box as="span" sx={listTextEllipsisStyle(ellipsis)}>
           {children}
         </Box>
 
@@ -398,7 +398,7 @@ const ListText = forwardRef(
             color="palette.label.alternative"
             data-role="list-text-caption"
             {...captionProps}
-            sx={[ellipsis && listTextEllipsisStyle, captionProps?.sx]}
+            sx={[listTextEllipsisStyle(ellipsis), captionProps?.sx]}
           >
             {caption}
           </Typography>

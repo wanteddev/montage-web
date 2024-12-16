@@ -83,12 +83,18 @@ export const listCellStyle =
     )}
   `;
 
-export const listTextEllipsisStyle = css`
-  ${ellipsisTypographyStyle(1)}
-  white-space: nowrap;
-  overflow-wrap: anywhere;
-  word-break: keep-all;
-`;
+export const listTextEllipsisStyle = (ellipsis?: boolean) =>
+  ellipsis
+    ? css`
+        ${ellipsisTypographyStyle(1)}
+        white-space: nowrap;
+        overflow-wrap: anywhere;
+        word-break: keep-all;
+      `
+    : css`
+        word-break: keep-all;
+        overflow-wrap: break-word;
+      `;
 
 const listCellInteractionPaddingStyle = ({
   fillWidth,
