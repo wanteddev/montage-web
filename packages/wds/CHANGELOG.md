@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.0-alpha.1...@wanteddev/wds@1.6.0) (2024-12-16)
+
+### Bug Fixes
+
+- **wds:** is position end 분기 조건 추가 ([d3126fd](https://github.com/wanteddev/wds/commit/d3126fda7eb4dc5c403e5c63b4473bc28075d3a7))
+- **wds:** progress tracker label 너비 수정 ([0772687](https://github.com/wanteddev/wds/commit/077268787ce1a55286ff73e6ae2a7ed75fde870a))
+- **wds:** 영문으로 글씨가 길어지는 경우 글씨가 잘리는 이슈 ([b6eeebc](https://github.com/wanteddev/wds/commit/b6eeebc212d7b0f65c60e3db661a6291becbc78f))
+
 # [1.6.0-alpha.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.0-alpha.0...@wanteddev/wds@1.6.0-alpha.1) (2024-12-16)
 
 ### Bug Fixes
