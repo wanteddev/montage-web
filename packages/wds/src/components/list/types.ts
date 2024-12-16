@@ -1,6 +1,6 @@
 import type Typography from '../typography';
 import type { TypographyProps } from '../typography/types';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { Merge, ResponsiveProps, SxProp } from '@wanteddev/wds-engine';
 import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
@@ -26,6 +26,7 @@ export type ListCellDefaultProps = {
       caption?: ReactNode;
       captionProps?: ComponentProps<typeof Typography>;
       children?: ReactNode;
+      sx?: SxProp;
     }
   >;
   leftContent?: ReactNode;
