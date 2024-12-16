@@ -213,6 +213,7 @@ const PopperContent: ReturnType<
       floatingStyles,
       placement: placementResult,
       middlewareData,
+      isPositioned,
       context: floatingContext,
     } = useFloating({
       strategy: 'fixed',
@@ -269,9 +270,13 @@ const PopperContent: ReturnType<
           style={{
             ...wrapperProps.style,
             ...floatingStyles,
-            top: '0',
-            left: '0',
-            transform: `translate(${roundByDPR(floatingContext.x)}px,${roundByDPR(floatingContext.y)}px)`,
+            ...(isPositioned
+              ? {
+                  top: '0',
+                  left: '0',
+                  transform: `translate(${roundByDPR(floatingContext.x)}px,${roundByDPR(floatingContext.y)}px)`,
+                }
+              : { transform: 'translate(0, -200%)' }),
             minWidth: 'max-content',
             zIndex:
               contentZIndex === 'auto' ? theme.zIndex.modal : contentZIndex,
