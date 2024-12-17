@@ -14,6 +14,8 @@ type PaginationDefaultProps = {
   count?: number;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
+  hidePrevButton?: boolean;
+  hideNextButton?: boolean;
   onChange?: (page?: number) => void;
 };
 

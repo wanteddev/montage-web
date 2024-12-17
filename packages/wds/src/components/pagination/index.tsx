@@ -1,17 +1,23 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 import {
   IconChevronLeftTightSmall,
   IconChevronRightTightSmall,
 } from '@wanteddev/wds-icon';
 
-import { FlexBox, IconButton, Typography, useControllableState } from '../..';
+import {
+  FlexBox,
+  IconButton,
+  TextButton,
+  Typography,
+  useControllableState,
+} from '../..';
 
 import {
   PAGINATION_INPUT_NAME,
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
-import { minimizePaginationStyle } from './style';
+import { pageButtonStyle, paginationStyle } from './style';
 
 import type { FlexBoxProps } from '../flex-box/types';
 import type { PaginationProps } from './types';
@@ -27,8 +33,10 @@ const Pagination = forwardRef<
       page: givenPage,
       count = 1,
       variant = 'extended',
-      leftContent,
-      rightContent,
+      hidePrevButton,
+      hideNextButton,
+      // leftContent,
+      // rightContent,
       onChange,
       // xs,
       // sm,
@@ -40,6 +48,8 @@ const Pagination = forwardRef<
     },
     ref,
   ) => {
+    const id = useId();
+
     const [page = defaultPage, setPage] = useControllableState<number>({
       prop: givenPage,
       defaultProp: defaultPage,
@@ -61,6 +71,7 @@ const Pagination = forwardRef<
             setPage(page + 1);
           }
         },
+        set: setPage,
       }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [page, count, setPage],
@@ -80,55 +91,72 @@ const Pagination = forwardRef<
       return null;
     }
 
-    switch (variant) {
-      case 'extended':
-        return (
-          <FlexBox ref={ref} gap="16px" alignItems="center" {...props}>
-            {Boolean(leftContent) && leftContent}
-            1/10
-            {Boolean(rightContent) && rightContent}
-          </FlexBox>
-        );
-
-      case 'minimize':
-        return (
-          <FlexBox
-            ref={ref}
-            gap="4px"
-            alignItems="center"
-            {...props}
-            sx={[minimizePaginationStyle, sx]}
+    return (
+      <FlexBox
+        ref={ref}
+        alignItems="center"
+        justifyContent="center"
+        {...props}
+        sx={[paginationStyle({ variant }), sx]}
+      >
+        {!hidePrevButton && (
+          <IconButton
+            type="button"
+            size={16}
+            color="palette.label.alternative"
+            disabled={disabledPrevButton}
+            aria-label="Previous page"
+            onClick={pageButtonActions.prev}
           >
-            <IconButton
-              size={16}
-              color="palette.label.alternative"
-              disabled={disabledPrevButton}
-              aria-label="Previous page"
-              onClick={pageButtonActions.prev}
-            >
-              <IconChevronLeftTightSmall />
-            </IconButton>
+            <IconChevronLeftTightSmall />
+          </IconButton>
+        )}
 
-            <Typography
-              variant="label2"
-              color="palette.label.neutral"
-              weight="medium"
-            >
-              {page}/{count}
-            </Typography>
+        {variant === 'extended' ? (
+          <FlexBox ref={ref} gap="16px" alignItems="center">
+            {[...Array(count)].map((_, i) => {
+              const pageIndex = i + 1;
+              const isActive = pageIndex === page;
 
-            <IconButton
-              size={16}
-              color="palette.label.alternative"
-              disabled={disabledNextButton}
-              aria-label="Next page"
-              onClick={pageButtonActions.next}
-            >
-              <IconChevronRightTightSmall />
-            </IconButton>
+              return (
+                <TextButton
+                  key={`${id} ${pageIndex}`}
+                  size="medium"
+                  variant="assistive"
+                  aria-label={`Page ${pageIndex}`}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => pageButtonActions.set(pageIndex)}
+                  sx={pageButtonStyle}
+                >
+                  {pageIndex}
+                </TextButton>
+              );
+            })}
           </FlexBox>
-        );
-    }
+        ) : (
+          <Typography
+            variant="label2"
+            color="palette.label.neutral"
+            weight="medium"
+          >
+            {page}/{count}
+          </Typography>
+        )}
+
+        {!hideNextButton && (
+          <IconButton
+            type="button"
+            size={16}
+            color="palette.label.alternative"
+            disabled={disabledNextButton}
+            aria-label="Next page"
+            onClick={pageButtonActions.next}
+          >
+            <IconChevronRightTightSmall />
+          </IconButton>
+        )}
+      </FlexBox>
+    );
   },
 );
 
