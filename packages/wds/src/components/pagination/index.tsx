@@ -17,7 +17,7 @@ import {
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
-import { pageButtonStyle, paginationStyle } from './style';
+import { pageButtonStyle, paginationItemStyle } from './style';
 import { usePagination } from './hooks';
 
 import type { FlexBoxProps } from '../flex-box/types';
@@ -107,8 +107,9 @@ const Pagination = forwardRef<
         ref={ref}
         alignItems="center"
         justifyContent="center"
+        gap={variant === 'extended' ? '16px' : '8px'}
         {...props}
-        sx={[paginationStyle({ variant }), sx]}
+        sx={sx}
       >
         {!hidePrevButton && (
           <IconButton
@@ -124,32 +125,37 @@ const Pagination = forwardRef<
         )}
 
         {variant === 'extended' ? (
-          <FlexBox ref={ref} gap="16px" alignItems="center">
-            {items.map(({ type, page: itemPage }) =>
-              type === 'page' ? (
-                <TextButton
-                  key={`${id} ${itemPage}`}
-                  size="medium"
-                  variant="assistive"
-                  disabled={disabled}
-                  aria-label={`Page ${itemPage}`}
-                  aria-current={page === itemPage ? 'page' : undefined}
-                  onClick={() => pageButtonActions.set(itemPage)}
-                  sx={pageButtonStyle}
-                >
-                  {itemPage}
-                </TextButton>
-              ) : (
-                <Typography
-                  key={`${id} ${itemPage}`}
-                  variant="label2"
-                  weight="medium"
-                  color="palette.label.alternative"
-                >
-                  ...
-                </Typography>
-              ),
-            )}
+          <FlexBox as="ul" gap="16px" alignItems="center">
+            {items.map(({ type, page: itemPage }) => (
+              <FlexBox
+                key={`${id} ${itemPage}`}
+                as="li"
+                justifyContent="center"
+                sx={paginationItemStyle}
+              >
+                {type === 'page' ? (
+                  <TextButton
+                    size="medium"
+                    variant="assistive"
+                    disabled={disabled}
+                    aria-label={`Page ${itemPage}`}
+                    aria-current={page === itemPage ? 'page' : undefined}
+                    onClick={() => pageButtonActions.set(itemPage)}
+                    sx={pageButtonStyle}
+                  >
+                    {itemPage}
+                  </TextButton>
+                ) : (
+                  <Typography
+                    variant="body2_normal"
+                    weight="regular"
+                    color="palette.label.alternative"
+                  >
+                    ...
+                  </Typography>
+                )}
+              </FlexBox>
+            ))}
           </FlexBox>
         ) : (
           <Typography

@@ -3,45 +3,22 @@ import { css } from '@wanteddev/wds-engine';
 import { typographyStyle } from '../../utils';
 import { activeInteractionStyle } from '../with-interaction/style';
 
-import type { PaginationProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-const paginationVariantStyle = ({
-  variant,
-}: Pick<PaginationProps, 'variant'>) => {
-  switch (variant) {
-    case 'extended':
-      return css`
-        gap: 16px;
-      `;
-
-    case 'minimize':
-      return css`
-        gap: 8px;
-
-        [wds-component='with-interaction'] {
-          width: 24px;
-          height: 24px;
-        }
-      `;
-  }
-};
-
-export const paginationStyle = ({
-  variant,
-}: Pick<PaginationProps, 'variant'>) => css`
-  ${paginationVariantStyle({ variant })}
+export const paginationItemStyle = css`
+  min-width: 20px;
+  max-width: 20px;
 `;
 
 export const pageButtonStyle = (theme: Theme) => css`
-  min-width: 20px;
-  max-width: 20px;
+  width: 100%;
 
+  // TextButton Typography
   > span {
     ${typographyStyle('body2_normal', 'regular')}
     color: ${theme.palette.label.neutral};
   }
-
+  // TextButton Interaction
   [wds-component='with-interaction'] {
     width: calc(100% + 10px);
   }
