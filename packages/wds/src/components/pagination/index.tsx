@@ -18,6 +18,7 @@ import {
   PAGINATION_SELECT_NAME,
 } from './constants';
 import { pageButtonStyle, paginationStyle } from './style';
+import { usePagination } from './hooks';
 
 import type { FlexBoxProps } from '../flex-box/types';
 import type { PaginationProps } from './types';
@@ -32,9 +33,12 @@ const Pagination = forwardRef<
       defaultPage = 1,
       page: givenPage,
       count = 1,
+      boundaryCount = 1,
+      siblingCount = 1,
       variant = 'extended',
       hidePrevButton,
       hideNextButton,
+      disabled,
       // leftContent,
       // rightContent,
       onChange,
@@ -54,6 +58,13 @@ const Pagination = forwardRef<
       prop: givenPage,
       defaultProp: defaultPage,
       onChange,
+    });
+    const items = usePagination({
+      defaultPage,
+      page,
+      count,
+      boundaryCount,
+      siblingCount,
     });
 
     const disabledPrevButton = useMemo(() => page <= 1, [page]);
@@ -104,7 +115,7 @@ const Pagination = forwardRef<
             type="button"
             size={16}
             color="palette.label.alternative"
-            disabled={disabledPrevButton}
+            disabled={disabled || disabledPrevButton}
             aria-label="Previous page"
             onClick={pageButtonActions.prev}
           >
@@ -114,30 +125,37 @@ const Pagination = forwardRef<
 
         {variant === 'extended' ? (
           <FlexBox ref={ref} gap="16px" alignItems="center">
-            {[...Array(count)].map((_, i) => {
-              const pageIndex = i + 1;
-              const isActive = pageIndex === page;
-
-              return (
+            {items.map(({ type, page: itemPage }) =>
+              type === 'page' ? (
                 <TextButton
-                  key={`${id} ${pageIndex}`}
+                  key={`${id} ${itemPage}`}
                   size="medium"
                   variant="assistive"
-                  aria-label={`Page ${pageIndex}`}
-                  aria-current={isActive ? 'page' : undefined}
-                  onClick={() => pageButtonActions.set(pageIndex)}
+                  disabled={disabled}
+                  aria-label={`Page ${itemPage}`}
+                  aria-current={page === itemPage ? 'page' : undefined}
+                  onClick={() => pageButtonActions.set(itemPage)}
                   sx={pageButtonStyle}
                 >
-                  {pageIndex}
+                  {itemPage}
                 </TextButton>
-              );
-            })}
+              ) : (
+                <Typography
+                  key={`${id} ${itemPage}`}
+                  variant="label2"
+                  weight="medium"
+                  color="palette.label.alternative"
+                >
+                  ...
+                </Typography>
+              ),
+            )}
           </FlexBox>
         ) : (
           <Typography
             variant="label2"
-            color="palette.label.neutral"
             weight="medium"
+            color="palette.label.neutral"
           >
             {page}/{count}
           </Typography>
@@ -148,7 +166,7 @@ const Pagination = forwardRef<
             type="button"
             size={16}
             color="palette.label.alternative"
-            disabled={disabledNextButton}
+            disabled={disabled || disabledNextButton}
             aria-label="Next page"
             onClick={pageButtonActions.next}
           >

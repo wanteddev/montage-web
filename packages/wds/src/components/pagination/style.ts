@@ -12,12 +12,12 @@ const paginationVariantStyle = ({
   switch (variant) {
     case 'extended':
       return css`
-        gap: 2px;
+        gap: 16px;
       `;
 
     case 'minimize':
       return css`
-        gap: 12px;
+        gap: 8px;
 
         [wds-component='with-interaction'] {
           width: 24px;
@@ -34,7 +34,8 @@ export const paginationStyle = ({
 `;
 
 export const pageButtonStyle = (theme: Theme) => css`
-  min-width: 24px;
+  min-width: 20px;
+  max-width: 20px;
 
   > span {
     ${typographyStyle('body2_normal', 'regular')}
