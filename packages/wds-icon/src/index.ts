@@ -191,6 +191,7 @@ export { default as IconLogoYoutube } from './icon-logo-youtube';
 export { default as IconMagicWand } from './icon-magic-wand';
 export { default as IconMailOpen } from './icon-mail-open';
 export { default as IconMail } from './icon-mail';
+export { default as IconMegaphoneFill } from './icon-megaphone-fill';
 export { default as IconMegaphone } from './icon-megaphone';
 export { default as IconMenuThick } from './icon-menu-thick';
 export { default as IconMenu } from './icon-menu';
