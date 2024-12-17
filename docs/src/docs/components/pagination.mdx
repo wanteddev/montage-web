@@ -9,6 +9,17 @@ description: Pagination Component
 
 ## 활용
 
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination variant="minimize" count={10} />
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Components
 
 ### Pagination
@@ -22,3 +33,31 @@ description: Pagination Component
 ### PaginationInput
 
 <PropsTable component="PaginationInput" />
+
+## Minimize
+
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination variant="minimize" count={10} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## LeftContent, RightContent
+
+variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
+
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination variant="minimize" count={10} />
+  )
+}
+
+export default Demo;`}
+/>
