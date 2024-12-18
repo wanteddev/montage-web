@@ -3,11 +3,14 @@ import {
   IconChevronLeftTightSmall,
   IconChevronRightTightSmall,
 } from '@wanteddev/wds-icon';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import {
   FlexBox,
   IconButton,
+  Label,
   TextButton,
+  TextInput,
   Typography,
   useControllableState,
 } from '../..';
@@ -18,11 +21,21 @@ import {
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
-import { pageButtonStyle, paginationItemStyle } from './style';
-import { usePagination } from './hooks';
+import {
+  pageButtonStyle,
+  paginationInputStyle,
+  paginationItemStyle,
+  paginationStyle,
+} from './style';
+import { usePaginationItems } from './hooks';
+import { PaginationProvider, usePaginationContext } from './contexts';
 
 import type { FlexBoxProps } from '../flex-box/types';
-import type { PaginationItemProps, PaginationProps } from './types';
+import type {
+  PaginationInputProps,
+  PaginationItemProps,
+  PaginationProps,
+} from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
 const Pagination = forwardRef<
@@ -40,8 +53,8 @@ const Pagination = forwardRef<
       hidePrevButton,
       hideNextButton,
       disabled = false,
-      // leftContent,
-      // rightContent,
+      leftContent,
+      rightContent,
       onChange,
       // xs,
       // sm,
@@ -60,7 +73,7 @@ const Pagination = forwardRef<
       defaultProp: defaultPage,
       onChange,
     });
-    const items = usePagination({
+    const items = usePaginationItems({
       defaultPage,
       page,
       count,
@@ -104,63 +117,77 @@ const Pagination = forwardRef<
     }
 
     return (
-      <FlexBox
-        ref={ref}
-        alignItems="center"
-        justifyContent="center"
-        gap={variant === 'extended' ? '16px' : '8px'}
-        {...props}
-        sx={sx}
-      >
-        {!hidePrevButton && (
-          <IconButton
-            type="button"
-            size={16}
-            color="palette.label.alternative"
-            disabled={disabled || disabledPrevButton}
-            aria-label="Previous page"
-            onClick={pageButtonActions.prev}
-          >
-            <IconChevronLeftTightSmall />
-          </IconButton>
-        )}
+      <PaginationProvider count={count} setPage={setPage}>
+        <FlexBox
+          ref={ref}
+          alignItems="center"
+          gap="20px"
+          {...props}
+          sx={[paginationStyle({ variant }), sx]}
+        >
+          <FlexBox flex={1}>{Boolean(leftContent) && leftContent}</FlexBox>
 
-        {variant === 'extended' ? (
-          <FlexBox as="ul" gap="16px" alignItems="center">
-            {items.map(({ type, page: itemPage }, index) => (
-              <PaginationItem
-                key={`pagination-item-${id}-${index}`}
-                type={type}
-                page={page}
-                itemPage={itemPage}
-                disabled={disabled}
-                onClick={() => pageButtonActions.set(itemPage)}
-              />
-            ))}
+          <FlexBox
+            ref={ref}
+            alignItems="center"
+            justifyContent="center"
+            gap={variant === 'extended' ? '16px' : '8px'}
+          >
+            {!hidePrevButton && (
+              <IconButton
+                type="button"
+                size={16}
+                color="palette.label.alternative"
+                disabled={disabled || disabledPrevButton}
+                aria-label="Previous page"
+                onClick={pageButtonActions.prev}
+              >
+                <IconChevronLeftTightSmall />
+              </IconButton>
+            )}
+
+            {variant === 'extended' ? (
+              <FlexBox as="ul" gap="16px" alignItems="center">
+                {items.map(({ type, page: itemPage }, index) => (
+                  <PaginationItem
+                    key={`pagination-item-${id}-${index}`}
+                    type={type}
+                    page={page}
+                    itemPage={itemPage}
+                    disabled={disabled}
+                    onClick={() => pageButtonActions.set(itemPage)}
+                  />
+                ))}
+              </FlexBox>
+            ) : (
+              <Typography
+                variant="label2"
+                weight="medium"
+                color="palette.label.neutral"
+              >
+                {page}/{count}
+              </Typography>
+            )}
+
+            {!hideNextButton && (
+              <IconButton
+                type="button"
+                size={16}
+                color="palette.label.alternative"
+                disabled={disabled || disabledNextButton}
+                aria-label="Next page"
+                onClick={pageButtonActions.next}
+              >
+                <IconChevronRightTightSmall />
+              </IconButton>
+            )}
           </FlexBox>
-        ) : (
-          <Typography
-            variant="label2"
-            weight="medium"
-            color="palette.label.neutral"
-          >
-            {page}/{count}
-          </Typography>
-        )}
 
-        {!hideNextButton && (
-          <IconButton
-            type="button"
-            size={16}
-            color="palette.label.alternative"
-            disabled={disabled || disabledNextButton}
-            aria-label="Next page"
-            onClick={pageButtonActions.next}
-          >
-            <IconChevronRightTightSmall />
-          </IconButton>
-        )}
-      </FlexBox>
+          <FlexBox flex={1} justifyContent="flex-end">
+            {Boolean(rightContent) && rightContent}
+          </FlexBox>
+        </FlexBox>
+      </PaginationProvider>
     );
   },
 );
@@ -213,10 +240,44 @@ const PaginationSelect = forwardRef<
 PaginationSelect.displayName = PAGINATION_SELECT_NAME;
 
 const PaginationInput = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<FlexBoxProps, 'div'>
->((props, ref) => {
-  return <FlexBox ref={ref} {...props} />;
+  HTMLInputElement,
+  DefaultComponentProps<PaginationInputProps, 'input'>
+>(({ label = '페이지 이동', hideLabel, sx, onKeyDown, ...props }, ref) => {
+  const { count, setPage } = usePaginationContext(PAGINATION_INPUT_NAME);
+
+  return (
+    <FlexBox alignItems="center" gap="8px">
+      {!hideLabel && (
+        <Label
+          variant="label2"
+          weight="medium"
+          color="palette.label.alternative"
+          sx={{ minWidth: 'max-content' }}
+        >
+          {label}
+        </Label>
+      )}
+
+      <TextInput
+        ref={ref}
+        width="53px"
+        height="32px"
+        {...props}
+        sx={[paginationInputStyle, sx]}
+        onKeyDown={composeEventHandlers(onKeyDown, (event) => {
+          if (event.key !== 'Enter') {
+            return;
+          }
+
+          const pageValue = Number(event.currentTarget.value);
+
+          if (!Number.isNaN(pageValue) && pageValue > 0 && pageValue <= count) {
+            setPage(pageValue);
+          }
+        })}
+      />
+    </FlexBox>
+  );
 });
 
 PaginationInput.displayName = PAGINATION_INPUT_NAME;

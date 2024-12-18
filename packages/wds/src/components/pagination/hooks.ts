@@ -12,7 +12,7 @@ export type UsePaginationItem = {
   page?: number;
 };
 
-export const usePagination = ({
+export const usePaginationItems = ({
   defaultPage = 1,
   page = defaultPage,
   count = 1,

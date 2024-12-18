@@ -34,22 +34,32 @@ export default Demo;`}
 
 <PropsTable component="PaginationInput" />
 
-## Minimize
+## LeftContent, RightContent
 
-<Demo code={`import { Pagination } from '@wanteddev/wds';
+variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
+
+<Demo code={`import { Pagination, PaginationInput, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <Pagination variant="minimize" count={10} />
+    <FlexBox flexDirection="column" gap="24px">
+      <Pagination 
+        count={10} 
+        rightContent={<PaginationInput />} 
+      />
+      <Pagination 
+        count={10} 
+        leftContent={<span>커스텀</span>} 
+        rightContent={<span>커스텀</span>} 
+      />
+    </FlexBox>
   )
 }
 
 export default Demo;`}
 />
 
-## LeftContent, RightContent
-
-variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
+## Minimize
 
 <Demo code={`import { Pagination } from '@wanteddev/wds';
 
