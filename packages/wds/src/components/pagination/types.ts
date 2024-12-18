@@ -1,5 +1,5 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
 export type PaginationProps = Merge<
@@ -26,6 +26,14 @@ export type PaginationDefaultProps = {
   hidePrevButton?: boolean;
   hideNextButton?: boolean;
   onChange?: (page?: number) => void;
+};
+
+export type PaginationItemProps = {
+  type: 'page' | 'ellipsis';
+  page: number;
+  itemPage?: number;
+  disabled: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 type PaginationResponsiveProps = ResponsiveProps<

@@ -14,6 +14,7 @@ import {
 
 import {
   PAGINATION_INPUT_NAME,
+  PAGINATION_ITEM_NAME,
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
@@ -21,7 +22,7 @@ import { pageButtonStyle, paginationItemStyle } from './style';
 import { usePagination } from './hooks';
 
 import type { FlexBoxProps } from '../flex-box/types';
-import type { PaginationProps } from './types';
+import type { PaginationItemProps, PaginationProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
 const Pagination = forwardRef<
@@ -38,7 +39,7 @@ const Pagination = forwardRef<
       variant = 'extended',
       hidePrevButton,
       hideNextButton,
-      disabled,
+      disabled = false,
       // leftContent,
       // rightContent,
       onChange,
@@ -126,35 +127,15 @@ const Pagination = forwardRef<
 
         {variant === 'extended' ? (
           <FlexBox as="ul" gap="16px" alignItems="center">
-            {items.map(({ type, page: itemPage }) => (
-              <FlexBox
-                key={`${id} ${itemPage}`}
-                as="li"
-                justifyContent="center"
-                sx={paginationItemStyle}
-              >
-                {type === 'page' ? (
-                  <TextButton
-                    size="medium"
-                    variant="assistive"
-                    disabled={disabled}
-                    aria-label={`Page ${itemPage}`}
-                    aria-current={page === itemPage ? 'page' : undefined}
-                    onClick={() => pageButtonActions.set(itemPage)}
-                    sx={pageButtonStyle}
-                  >
-                    {itemPage}
-                  </TextButton>
-                ) : (
-                  <Typography
-                    variant="body2_normal"
-                    weight="regular"
-                    color="palette.label.alternative"
-                  >
-                    ...
-                  </Typography>
-                )}
-              </FlexBox>
+            {items.map(({ type, page: itemPage }, index) => (
+              <PaginationItem
+                key={`pagination-item-${id}-${index}`}
+                type={type}
+                page={page}
+                itemPage={itemPage}
+                disabled={disabled}
+                onClick={() => pageButtonActions.set(itemPage)}
+              />
             ))}
           </FlexBox>
         ) : (
@@ -185,6 +166,42 @@ const Pagination = forwardRef<
 );
 
 Pagination.displayName = PAGINATION_NAME;
+
+const PaginationItem = forwardRef<HTMLLIElement, PaginationItemProps>(
+  ({ type, page, itemPage, ...props }, ref) => {
+    return (
+      <FlexBox
+        ref={ref}
+        as="li"
+        justifyContent="center"
+        sx={paginationItemStyle}
+      >
+        {type === 'page' ? (
+          <TextButton
+            size="medium"
+            variant="assistive"
+            aria-label={`Page ${itemPage}`}
+            aria-current={page === itemPage ? 'page' : undefined}
+            {...props}
+            sx={pageButtonStyle}
+          >
+            {itemPage}
+          </TextButton>
+        ) : (
+          <Typography
+            variant="body2_normal"
+            weight="regular"
+            color="palette.label.alternative"
+          >
+            ...
+          </Typography>
+        )}
+      </FlexBox>
+    );
+  },
+);
+
+PaginationItem.displayName = PAGINATION_ITEM_NAME;
 
 const PaginationSelect = forwardRef<
   HTMLDivElement,

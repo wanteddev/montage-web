@@ -7,7 +7,7 @@ type UsePaginationProps = Pick<
   'defaultPage' | 'page' | 'count' | 'boundaryCount' | 'siblingCount'
 >;
 
-type UsePaginationItem = {
+export type UsePaginationItem = {
   type: 'page' | 'ellipsis';
   page?: number;
 };
