@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.3.0...@wanteddev/wds-codemod@1.3.1) (2024-12-18)
+
+### Bug Fixes
+
+- **wds-codemod:** list-item -> list-cell padding 변환 추가 ([d8a8e7a](https://github.com/wanteddev/wds/commit/d8a8e7acc9f0d0149d6346d3a81f8ddbdba59b63))
+
 # [1.3.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.3.0-alpha.1...@wanteddev/wds-codemod@1.3.0) (2024-12-16)
 
 **Note:** Version bump only for package @wanteddev/wds-codemod
