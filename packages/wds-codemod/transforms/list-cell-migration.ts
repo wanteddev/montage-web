@@ -74,6 +74,9 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         listItem.value.attributes?.push(
           j.jsxAttribute(j.jsxIdentifier('disableInteraction')),
         );
+        listItem.value.attributes?.push(
+          j.jsxAttribute(j.jsxIdentifier('padding'), j.literal('0px')),
+        );
       });
   }
 
