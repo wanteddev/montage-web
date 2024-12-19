@@ -146,8 +146,11 @@ const SelectMultiple = forwardRef<
     useResizeObserver(renderWrapperNode, handleResize);
 
     const shouldShowPlaceholder = useMemo(
-      () => value.length === 0,
-      [value.length],
+      () =>
+        Array.isArray(value) || typeof value === 'string'
+          ? value.length === 0
+          : !Boolean(value) && value !== 0,
+      [value],
     );
 
     const optionList = useMemo(() => {

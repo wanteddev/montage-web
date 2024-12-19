@@ -120,8 +120,8 @@ const Select = forwardRef<
     const open = openState && !disabled;
 
     const shouldShowPlaceholder = useMemo(
-      () => value.length === 0,
-      [value.length],
+      () => !Boolean(value) && value !== 0,
+      [value],
     );
 
     const label = useMemo(() => {
