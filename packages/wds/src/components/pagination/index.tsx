@@ -6,9 +6,15 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import {
+  ChipFilter,
   FlexBox,
   IconButton,
   Label,
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
   TextButton,
   TextInput,
   Typography,
@@ -30,11 +36,11 @@ import {
 import { usePaginationItems } from './hooks';
 import { PaginationProvider, usePaginationContext } from './contexts';
 
-import type { FlexBoxProps } from '../flex-box/types';
 import type {
   PaginationInputProps,
   PaginationItemProps,
   PaginationProps,
+  PaginationSelectProps,
 } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
@@ -73,6 +79,7 @@ const Pagination = forwardRef<
       defaultProp: defaultPage,
       onChange,
     });
+
     const items = usePaginationItems({
       defaultPage,
       page,
@@ -117,7 +124,7 @@ const Pagination = forwardRef<
     }
 
     return (
-      <PaginationProvider count={count} setPage={setPage}>
+      <PaginationProvider id={id} count={count} setPage={setPage}>
         <FlexBox
           ref={ref}
           alignItems="center"
@@ -150,7 +157,7 @@ const Pagination = forwardRef<
               <FlexBox as="ul" gap="16px" alignItems="center">
                 {items.map(({ type, page: itemPage }, index) => (
                   <PaginationItem
-                    key={`pagination-item-${id}-${index}`}
+                    key={`pagination-${id}-pagination-item-${index}`}
                     type={type}
                     page={page}
                     itemPage={itemPage}
@@ -232,10 +239,72 @@ PaginationItem.displayName = PAGINATION_ITEM_NAME;
 
 const PaginationSelect = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<FlexBoxProps, 'div'>
->((props, ref) => {
-  return <FlexBox ref={ref} {...props} />;
-});
+  DefaultComponentProps<PaginationSelectProps, 'div'>
+>(
+  (
+    {
+      defaultPageSize = 10,
+      pageSize: givenPageSize,
+      pageSizeOptions = [10, 20, 30, 40, 50],
+      label = '씩 보기',
+      optionRender,
+      onChange,
+      ...props
+    },
+    ref,
+  ) => {
+    const { id } = usePaginationContext(PAGINATION_SELECT_NAME);
+
+    const [pageSize = defaultPageSize, setPageSize] =
+      useControllableState<number>({
+        prop: givenPageSize,
+        defaultProp: defaultPageSize,
+        onChange,
+      });
+
+    return (
+      <Menu
+        defaultValue={pageSize.toString()}
+        onValueChange={(value) => setPageSize(Number(value))}
+      >
+        <MenuTrigger>
+          <FlexBox ref={ref} alignItems="center" gap="8px" {...props}>
+            <ChipFilter variant="outlined" size="small">
+              {pageSize}
+            </ChipFilter>
+            <Label
+              variant="label2"
+              weight="medium"
+              color="palette.label.alternative"
+              sx={{ minWidth: 'max-content' }}
+            >
+              {label}
+            </Label>
+          </FlexBox>
+        </MenuTrigger>
+
+        <MenuContent
+          offset={8}
+          position="top-start"
+          sx={{
+            width: '140px',
+          }}
+        >
+          <MenuList role="listbox">
+            {pageSizeOptions.map((option) => (
+              <MenuItem
+                key={`pagination-${id}-pagination-select-menu-item-${option}`}
+                value={option.toString()}
+              >
+                {optionRender ? optionRender(option) : `${option}개`}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </MenuContent>
+      </Menu>
+    );
+  },
+);
 
 PaginationSelect.displayName = PAGINATION_SELECT_NAME;
 
@@ -268,11 +337,12 @@ const PaginationInput = forwardRef<
           if (event.key !== 'Enter') {
             return;
           }
-
           const pageValue = Number(event.currentTarget.value);
 
           if (!Number.isNaN(pageValue) && pageValue > 0 && pageValue <= count) {
             setPage(pageValue);
+          } else {
+            event.currentTarget.value = '';
           }
         })}
       />

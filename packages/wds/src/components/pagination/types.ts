@@ -21,11 +21,6 @@ export type PaginationDefaultProps = {
    * 현재 페이지 주위에 표시될 페이지 수
    */
   siblingCount?: number;
-  defaultPageSize?: number;
-  /**
-   * 페이지당 아이템 표시 개수
-   */
-  pageSize?: number;
   disabled?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
@@ -54,4 +49,21 @@ export type PaginationInputDefaultProps = {
 export type PaginationInputProps = Merge<
   PaginationInputDefaultProps,
   TextInputProps
+>;
+
+export type PaginationSelectDefaultProps = {
+  defaultPageSize?: number;
+  /**
+   * 페이지당 아이템 표시 개수
+   */
+  pageSize?: number;
+  pageSizeOptions?: Array<number>;
+  label?: string;
+  optionRender?: (pageSize: number) => ReactNode;
+  onChange?: (pageSize?: number) => void;
+};
+
+export type PaginationSelectProps = Merge<
+  PaginationSelectDefaultProps,
+  FlexBoxProps
 >;

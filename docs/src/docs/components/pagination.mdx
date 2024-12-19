@@ -34,17 +34,24 @@ export default Demo;`}
 
 <PropsTable component="PaginationInput" />
 
+## BoundaryCount, SiblingCount
+
+## PaginationSelect
+
+## PaginationInput
+
 ## LeftContent, RightContent
 
 variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
 
-<Demo code={`import { Pagination, PaginationInput, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Pagination, PaginationInput, PaginationSelect, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="24px">
       <Pagination 
-        count={10} 
+        count={10}
+        leftContent={<PaginationSelect />}
         rightContent={<PaginationInput />} 
       />
       <Pagination 
