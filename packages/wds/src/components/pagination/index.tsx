@@ -110,7 +110,6 @@ const Pagination = forwardRef<
       }
       return null;
     }
-
     if (typeof page !== 'number' || page < 0) {
       if (process.env.NODE_ENV !== 'production') {
         throw new Error('Invalid page in Pagination');
@@ -247,9 +246,9 @@ const PaginationSelect = forwardRef<
 >(
   (
     {
-      defaultPageSize = 10,
-      pageSize: givenPageSize,
       pageSizeOptions = [10, 20, 30, 40, 50],
+      defaultPageSize = pageSizeOptions[0] ?? 10,
+      pageSize: givenPageSize,
       label = '씩 보기',
       optionRender,
       onChange,
@@ -307,7 +306,9 @@ const PaginationSelect = forwardRef<
                 key={`pagination-${id}-pagination-select-menu-item-${option}`}
                 value={option.toString()}
               >
-                {optionRender ? optionRender(option) : `${option}개`}
+                {typeof optionRender === 'function'
+                  ? optionRender(option)
+                  : `${option}개`}
               </MenuItem>
             ))}
           </MenuList>
