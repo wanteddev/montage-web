@@ -28,7 +28,12 @@ import {
   tabListItemStyle,
   tabListStyle,
 } from './style';
-import { TabProvider, useTabContext } from './contexts';
+import {
+  TabListProvider,
+  TabProvider,
+  useTabContext,
+  useTabListContext,
+} from './contexts';
 import {
   TAB_LIST_ITEM_NAME,
   TAB_LIST_NAME,
@@ -247,8 +252,9 @@ const TabList = forwardRef<
                 ref={motionDividerRef}
                 sx={motionDividerStyle}
               />
-
-              {children}
+              <TabListProvider handleResize={handleResize}>
+                {children}
+              </TabListProvider>
             </FlexBox>
           </ScrollArea>
 
@@ -285,12 +291,20 @@ const TabListItem = forwardRef<any, TabListItemProps>(
     const composedRefs = useComposedRefs(ref, forwardedRef);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);
+    const { handleResize } = useTabListContext(TAB_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
-    const isActive = context.value === value;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const isActive = context.value?.toString() === value?.toString();
+
     const isArrowKeyPressedRef = useRef(false);
 
-    const controls = context.panels.find((v) => v === value);
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const controls = context.panels.find(
+      (v) => v.toString() === value.toString(),
+    );
+
+    useResizeObserver(ref.current as HTMLElement, handleResize);
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -414,7 +428,8 @@ const TabPanel = forwardRef<
   const [firstRendered, setFirstRendered] = useState(false);
 
   const deferredValue = useDeferredValue(value);
-  const isActive = value === context.value;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const isActive = context.value?.toString() === value?.toString();
 
   useEffect(() => {
     if (!firstRendered && isActive) {
