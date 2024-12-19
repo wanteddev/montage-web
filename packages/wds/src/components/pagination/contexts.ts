@@ -5,6 +5,7 @@ import { PAGINATION_NAME } from './constants';
 type PaginationContextType = {
   id: string;
   count: number;
+  disabled: boolean;
   setPage: (page?: number) => void;
 };
 

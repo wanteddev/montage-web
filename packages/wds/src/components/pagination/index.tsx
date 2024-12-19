@@ -62,11 +62,6 @@ const Pagination = forwardRef<
       leftContent,
       rightContent,
       onChange,
-      // xs,
-      // sm,
-      // md,
-      // lg,
-      // xl,
       sx,
       ...props
     },
@@ -106,7 +101,7 @@ const Pagination = forwardRef<
         set: setPage,
       }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [page, count, setPage],
+      [page, count],
     );
 
     if (typeof count !== 'number' || count < 0) {
@@ -124,7 +119,12 @@ const Pagination = forwardRef<
     }
 
     return (
-      <PaginationProvider id={id} count={count} setPage={setPage}>
+      <PaginationProvider
+        id={id}
+        count={count}
+        disabled={disabled}
+        setPage={setPage}
+      >
         <FlexBox
           ref={ref}
           alignItems="center"
@@ -202,7 +202,7 @@ const Pagination = forwardRef<
 Pagination.displayName = PAGINATION_NAME;
 
 const PaginationItem = forwardRef<HTMLLIElement, PaginationItemProps>(
-  ({ type, page, itemPage, ...props }, ref) => {
+  ({ type, page, itemPage, disabled, ...props }, ref) => {
     return (
       <FlexBox
         ref={ref}
@@ -216,6 +216,8 @@ const PaginationItem = forwardRef<HTMLLIElement, PaginationItemProps>(
             variant="assistive"
             aria-label={`Page ${itemPage}`}
             aria-current={page === itemPage ? 'page' : undefined}
+            disabled={disabled}
+            disableInteraction={disabled}
             {...props}
             sx={pageButtonStyle}
           >
@@ -225,7 +227,9 @@ const PaginationItem = forwardRef<HTMLLIElement, PaginationItemProps>(
           <Typography
             variant="body2_normal"
             weight="regular"
-            color="palette.label.alternative"
+            color={
+              disabled ? 'palette.label.disable' : 'palette.label.alternative'
+            }
           >
             ...
           </Typography>
@@ -249,11 +253,14 @@ const PaginationSelect = forwardRef<
       label = '씩 보기',
       optionRender,
       onChange,
+      disabled,
       ...props
     },
     ref,
   ) => {
-    const { id } = usePaginationContext(PAGINATION_SELECT_NAME);
+    const { id, disabled: paginationDisabled } = usePaginationContext(
+      PAGINATION_SELECT_NAME,
+    );
 
     const [pageSize = defaultPageSize, setPageSize] =
       useControllableState<number>({
@@ -267,21 +274,25 @@ const PaginationSelect = forwardRef<
         defaultValue={pageSize.toString()}
         onValueChange={(value) => setPageSize(Number(value))}
       >
-        <MenuTrigger>
-          <FlexBox ref={ref} alignItems="center" gap="8px" {...props}>
-            <ChipFilter variant="outlined" size="small">
+        <FlexBox ref={ref} alignItems="center" gap="8px" {...props}>
+          <MenuTrigger>
+            <ChipFilter
+              variant="outlined"
+              size="small"
+              disabled={paginationDisabled || disabled}
+            >
               {pageSize}
             </ChipFilter>
-            <Label
-              variant="label2"
-              weight="medium"
-              color="palette.label.alternative"
-              sx={{ minWidth: 'max-content' }}
-            >
-              {label}
-            </Label>
-          </FlexBox>
-        </MenuTrigger>
+          </MenuTrigger>
+          <Label
+            variant="label2"
+            weight="medium"
+            color="palette.label.alternative"
+            sx={{ minWidth: 'max-content' }}
+          >
+            {label}
+          </Label>
+        </FlexBox>
 
         <MenuContent
           offset={8}
@@ -311,27 +322,30 @@ PaginationSelect.displayName = PAGINATION_SELECT_NAME;
 const PaginationInput = forwardRef<
   HTMLInputElement,
   DefaultComponentProps<PaginationInputProps, 'input'>
->(({ label = '페이지 이동', hideLabel, sx, onKeyDown, ...props }, ref) => {
-  const { count, setPage } = usePaginationContext(PAGINATION_INPUT_NAME);
+>(({ label = '페이지 이동', sx, onKeyDown, disabled, ...props }, ref) => {
+  const {
+    count,
+    disabled: paginationDisabled,
+    setPage,
+  } = usePaginationContext(PAGINATION_INPUT_NAME);
 
   return (
     <FlexBox alignItems="center" gap="8px">
-      {!hideLabel && (
-        <Label
-          variant="label2"
-          weight="medium"
-          color="palette.label.alternative"
-          sx={{ minWidth: 'max-content' }}
-        >
-          {label}
-        </Label>
-      )}
+      <Label
+        variant="label2"
+        weight="medium"
+        color="palette.label.alternative"
+        sx={{ minWidth: 'max-content' }}
+      >
+        {label}
+      </Label>
 
       <TextInput
         ref={ref}
         width="53px"
         height="32px"
         {...props}
+        disabled={paginationDisabled || disabled}
         sx={[paginationInputStyle, sx]}
         onKeyDown={composeEventHandlers(onKeyDown, (event) => {
           if (event.key !== 'Enter') {

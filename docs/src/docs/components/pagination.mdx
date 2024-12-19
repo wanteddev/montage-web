@@ -34,13 +34,15 @@ export default Demo;`}
 
 <PropsTable component="PaginationInput" />
 
-## BoundaryCount, SiblingCount
+## Examples
 
-## PaginationSelect
+### BoundaryCount, SiblingCount
 
-## PaginationInput
+### PaginationSelect
 
-## LeftContent, RightContent
+### PaginationInput
+
+### LeftContent, RightContent
 
 variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
 
@@ -48,17 +50,49 @@ variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
 
 const Demo = () => {
   return (
-    <FlexBox flexDirection="column" gap="24px">
-      <Pagination 
-        count={10}
-        leftContent={<PaginationSelect />}
-        rightContent={<PaginationInput />} 
-      />
-      <Pagination 
-        count={10} 
-        leftContent={<span>커스텀</span>} 
-        rightContent={<span>커스텀</span>} 
-      />
+    <FlexBox flexDirection="column" gap="40px">
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          count={10}
+          leftContent={<PaginationSelect />}
+        />
+        <Pagination 
+          count={10}
+          leftContent={<PaginationInput />}
+        />
+        <Pagination 
+          count={10}
+          leftContent={<span>커스텀</span>}
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          count={10}
+          rightContent={<PaginationSelect />} 
+        />
+        <Pagination 
+          count={10}
+          rightContent={<PaginationInput />} 
+        />
+        <Pagination 
+          count={10}
+          rightContent={<span>커스텀</span>} 
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          count={10}
+          leftContent={<PaginationSelect />}
+          rightContent={<PaginationInput />} 
+        />
+        <Pagination 
+          count={10} 
+          leftContent={<span>커스텀</span>} 
+          rightContent={<span>커스텀</span>} 
+        />
+      </FlexBox>
     </FlexBox>
   )
 }
@@ -66,7 +100,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Minimize
+### Minimize
 
 <Demo code={`import { Pagination } from '@wanteddev/wds';
 

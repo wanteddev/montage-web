@@ -25,11 +25,16 @@ export const pageButtonStyle = (theme: Theme) => css`
   // TextButton Typography
   > span {
     ${typographyStyle('body2_normal', 'regular')}
-    color: ${theme.palette.label.neutral};
     will-change: font-weight, color;
     transition:
       font-weight 0.15s ease,
       color 0.15s ease;
+  }
+
+  &:not([aria-disabled='true']) {
+    > span {
+      color: ${theme.palette.label.neutral};
+    }
   }
 
   // TextButton Interaction

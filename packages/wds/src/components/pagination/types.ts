@@ -1,12 +1,9 @@
 import type { TextInputProps } from '../text-input/types';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { Merge } from '@wanteddev/wds-engine';
 import type { MouseEventHandler, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
-export type PaginationProps = Merge<
-  Merge<PaginationDefaultProps, PaginationResponsiveProps>,
-  FlexBoxProps
->;
+export type PaginationProps = Merge<PaginationDefaultProps, FlexBoxProps>;
 
 export type PaginationDefaultProps = {
   variant?: 'extended' | 'minimize';
@@ -37,13 +34,9 @@ export type PaginationItemProps = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-type PaginationResponsiveProps = ResponsiveProps<
-  Pick<PaginationDefaultProps, 'variant'>
->;
-
 export type PaginationInputDefaultProps = {
   label?: string;
-  hideLabel?: boolean;
+  disabled?: boolean;
 };
 
 export type PaginationInputProps = Merge<
@@ -59,6 +52,7 @@ export type PaginationSelectDefaultProps = {
   pageSize?: number;
   pageSizeOptions?: Array<number>;
   label?: string;
+  disabled?: boolean;
   optionRender?: (pageSize: number) => ReactNode;
   onChange?: (pageSize?: number) => void;
 };
