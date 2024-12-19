@@ -299,9 +299,9 @@ const TabListItem = forwardRef<any, TabListItemProps>(
 
     const isArrowKeyPressedRef = useRef(false);
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const controls = context.panels.find(
-      (v) => v.toString() === value.toString(),
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      (v) => v?.toString() === value?.toString(),
     );
 
     useResizeObserver(ref.current as HTMLElement, handleResize);
