@@ -23,7 +23,6 @@ import {
 
 import {
   PAGINATION_INPUT_NAME,
-  PAGINATION_ITEM_NAME,
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
@@ -33,7 +32,7 @@ import {
   paginationItemStyle,
   paginationStyle,
 } from './style';
-import { usePaginationItems } from './hooks';
+import { usePagination } from './hooks';
 import { PaginationProvider, usePaginationContext } from './contexts';
 
 import type {
@@ -75,7 +74,7 @@ const Pagination = forwardRef<
       onChange,
     });
 
-    const items = usePaginationItems({
+    const items = usePagination({
       defaultPage,
       page,
       count,
@@ -200,45 +199,42 @@ const Pagination = forwardRef<
 
 Pagination.displayName = PAGINATION_NAME;
 
-const PaginationItem = forwardRef<HTMLLIElement, PaginationItemProps>(
-  ({ type, page, itemPage, disabled, ...props }, ref) => {
-    return (
-      <FlexBox
-        ref={ref}
-        as="li"
-        justifyContent="center"
-        sx={paginationItemStyle}
-      >
-        {type === 'page' ? (
-          <TextButton
-            size="medium"
-            variant="assistive"
-            aria-label={`Page ${itemPage}`}
-            aria-current={page === itemPage ? 'page' : undefined}
-            disabled={disabled}
-            disableInteraction={disabled}
-            {...props}
-            sx={pageButtonStyle}
-          >
-            {itemPage}
-          </TextButton>
-        ) : (
-          <Typography
-            variant="body2_normal"
-            weight="regular"
-            color={
-              disabled ? 'palette.label.disable' : 'palette.label.alternative'
-            }
-          >
-            ...
-          </Typography>
-        )}
-      </FlexBox>
-    );
-  },
-);
-
-PaginationItem.displayName = PAGINATION_ITEM_NAME;
+const PaginationItem = ({
+  type,
+  page,
+  itemPage,
+  disabled,
+  ...props
+}: PaginationItemProps) => {
+  return (
+    <FlexBox as="li" justifyContent="center" sx={paginationItemStyle}>
+      {type === 'page' ? (
+        <TextButton
+          size="medium"
+          variant="assistive"
+          aria-label={`Page ${itemPage}`}
+          aria-current={page === itemPage ? 'page' : undefined}
+          disabled={disabled}
+          disableInteraction={disabled}
+          {...props}
+          sx={pageButtonStyle}
+        >
+          {itemPage}
+        </TextButton>
+      ) : (
+        <Typography
+          variant="body2_normal"
+          weight="regular"
+          color={
+            disabled ? 'palette.label.disable' : 'palette.label.alternative'
+          }
+        >
+          ...
+        </Typography>
+      )}
+    </FlexBox>
+  );
+};
 
 const PaginationSelect = forwardRef<
   HTMLDivElement,
