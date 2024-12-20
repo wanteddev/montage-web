@@ -4,7 +4,7 @@ import { PAGINATION_NAME } from './constants';
 
 type PaginationContextType = {
   id: string;
-  count: number;
+  totalPages: number;
   disabled: boolean;
   setPage: (page?: number) => void;
 };

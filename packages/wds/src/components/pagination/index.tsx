@@ -32,8 +32,8 @@ import {
   paginationItemStyle,
   paginationStyle,
 } from './style';
-import { usePagination } from './hooks';
 import { PaginationProvider, usePaginationContext } from './contexts';
+import { getPaginationItems } from './helper';
 
 import type {
   PaginationInputProps,
@@ -51,9 +51,9 @@ const Pagination = forwardRef<
     {
       defaultPage = 1,
       page: givenPage,
-      count = 1,
-      boundaryCount = 1,
-      siblingCount = 1,
+      totalPages = 1,
+      boundaryPages = 1,
+      siblingPages = 1,
       variant = 'extended',
       hidePrevButton,
       hideNextButton,
@@ -74,16 +74,21 @@ const Pagination = forwardRef<
       onChange,
     });
 
-    const items = usePagination({
-      defaultPage,
-      page,
-      count,
-      boundaryCount,
-      siblingCount,
-    });
+    const items = useMemo(() => {
+      return getPaginationItems({
+        defaultPage,
+        page,
+        totalPages,
+        boundaryPages,
+        siblingPages,
+      });
+    }, [defaultPage, page, totalPages, boundaryPages, siblingPages]);
 
     const disabledPrevButton = useMemo(() => page <= 1, [page]);
-    const disabledNextButton = useMemo(() => page >= count, [page, count]);
+    const disabledNextButton = useMemo(
+      () => page >= totalPages,
+      [page, totalPages],
+    );
 
     const pageButtonActions = useMemo(
       () => ({
@@ -93,19 +98,19 @@ const Pagination = forwardRef<
           }
         },
         next: () => {
-          if (page < count) {
+          if (page < totalPages) {
             setPage(page + 1);
           }
         },
         set: setPage,
       }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [page, count],
+      [page, totalPages],
     );
 
-    if (typeof count !== 'number' || count < 0) {
+    if (typeof totalPages !== 'number' || totalPages < 0) {
       if (process.env.NODE_ENV !== 'production') {
-        throw new Error('Invalid count in Pagination');
+        throw new Error('Invalid totalPages in Pagination');
       }
       return null;
     }
@@ -119,7 +124,7 @@ const Pagination = forwardRef<
     return (
       <PaginationProvider
         id={id}
-        count={count}
+        totalPages={totalPages}
         disabled={disabled}
         setPage={setPage}
       >
@@ -170,7 +175,7 @@ const Pagination = forwardRef<
                 weight="medium"
                 color="palette.label.neutral"
               >
-                {page}/{count}
+                {page}/{totalPages}
               </Typography>
             )}
 
@@ -321,7 +326,7 @@ const PaginationInput = forwardRef<
   DefaultComponentProps<PaginationInputProps, 'input'>
 >(({ label = '페이지 이동', sx, onKeyDown, disabled, ...props }, ref) => {
   const {
-    count,
+    totalPages,
     disabled: paginationDisabled,
     setPage,
   } = usePaginationContext(PAGINATION_INPUT_NAME);
@@ -350,7 +355,11 @@ const PaginationInput = forwardRef<
           }
           const pageValue = Number(event.currentTarget.value);
 
-          if (!Number.isNaN(pageValue) && pageValue > 0 && pageValue <= count) {
+          if (
+            !Number.isNaN(pageValue) &&
+            pageValue > 0 &&
+            pageValue <= totalPages
+          ) {
             setPage(pageValue);
           } else {
             event.currentTarget.value = '';

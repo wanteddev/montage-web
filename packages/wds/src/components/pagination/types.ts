@@ -9,15 +9,15 @@ export type PaginationDefaultProps = {
   variant?: 'extended' | 'minimize';
   defaultPage?: number;
   page?: number;
-  count?: number;
+  totalPages?: number;
   /**
    * 시작과 끝에 항상 표시될 페이지 수
    */
-  boundaryCount?: number;
+  boundaryPages?: number;
   /**
    * 현재 페이지 주위에 표시될 페이지 수
    */
-  siblingCount?: number;
+  siblingPages?: number;
   disabled?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
