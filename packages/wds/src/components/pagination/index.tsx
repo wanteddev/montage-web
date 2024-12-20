@@ -1,4 +1,4 @@
-import { forwardRef, useId, useMemo } from 'react';
+import { forwardRef, useId, useMemo, useState } from 'react';
 import {
   IconChevronLeftTightSmall,
   IconChevronRightTightSmall,
@@ -262,6 +262,8 @@ const PaginationSelect = forwardRef<
       PAGINATION_SELECT_NAME,
     );
 
+    const [open, setOpen] = useState(false);
+
     const [pageSize = defaultPageSize, setPageSize] =
       useControllableState<number>({
         prop: givenPageSize,
@@ -271,6 +273,8 @@ const PaginationSelect = forwardRef<
 
     return (
       <Menu
+        open={open}
+        onOpenChange={setOpen}
         defaultValue={pageSize.toString()}
         onValueChange={(value) => setPageSize(Number(value))}
       >
@@ -306,6 +310,9 @@ const PaginationSelect = forwardRef<
               <MenuItem
                 key={`pagination-${id}-pagination-select-menu-item-${option}`}
                 value={option.toString()}
+                onClick={() => {
+                  setOpen(false);
+                }}
               >
                 {typeof optionRender === 'function'
                   ? optionRender(option)
@@ -361,9 +368,9 @@ const PaginationInput = forwardRef<
             pageValue <= totalPages
           ) {
             setPage(pageValue);
-          } else {
-            event.currentTarget.value = '';
           }
+
+          event.currentTarget.value = '';
         })}
       />
     </FlexBox>
