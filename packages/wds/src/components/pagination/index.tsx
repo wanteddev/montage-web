@@ -180,7 +180,9 @@ const Pagination = forwardRef<
               <Typography
                 variant="label2"
                 weight="medium"
-                color="palette.label.neutral"
+                color={
+                  disabled ? 'palette.label.disable' : 'palette.label.neutral'
+                }
                 data-role="pagination-page-num"
               >
                 {page}

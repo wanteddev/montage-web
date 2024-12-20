@@ -31,25 +31,25 @@ export const pageButtonStyle = (theme: Theme) => css`
       color 0.15s ease;
   }
 
-  &:not([aria-disabled='true']) {
-    > span {
-      color: ${theme.palette.label.neutral};
-    }
-  }
-
   // TextButton Interaction
   [wds-component='with-interaction'] {
     width: calc(100% + 10px);
   }
 
-  &[aria-current='page'] {
+  &:not([aria-disabled='true']) {
     > span {
-      ${typographyStyle('body2_normal', 'medium')}
-      color: ${theme.palette.label.normal};
+      color: ${theme.palette.label.neutral};
     }
 
-    [wds-component='with-interaction'] {
-      ${activeInteractionStyle(theme, 'light')}
+    &[aria-current='page'] {
+      > span {
+        ${typographyStyle('body2_normal', 'medium')}
+        color: ${theme.palette.label.normal};
+      }
+
+      [wds-component='with-interaction'] {
+        ${activeInteractionStyle(theme, 'light')}
+      }
     }
   }
 `;
