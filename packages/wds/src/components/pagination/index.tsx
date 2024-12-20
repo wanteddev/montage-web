@@ -206,7 +206,6 @@ const Pagination = forwardRef<
 
           <FlexBox
             data-role="pagination-right-content-wrapper"
-            justifyContent="flex-end"
             sx={paginationContentStyle}
           >
             {Boolean(rightContent) && rightContent}
