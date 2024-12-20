@@ -67,3 +67,14 @@ export const paginationInputStyle = css`
     display: none;
   }
 `;
+
+export const paginationContentStyle = css`
+  flex: 1;
+  min-width: max-content;
+  min-height: 32px;
+  align-items: center;
+
+  &[data-role='pagination-right-content-wrapper'] {
+    justify-content: flex-end;
+  }
+`;

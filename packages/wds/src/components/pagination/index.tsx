@@ -28,6 +28,7 @@ import {
 } from './constants';
 import {
   pageButtonStyle,
+  paginationContentStyle,
   paginationInputStyle,
   paginationItemStyle,
   paginationStyle,
@@ -131,16 +132,21 @@ const Pagination = forwardRef<
         <FlexBox
           ref={ref}
           alignItems="center"
-          gap="20px"
           {...props}
           sx={[paginationStyle({ variant }), sx]}
         >
-          <FlexBox flex={1}>{Boolean(leftContent) && leftContent}</FlexBox>
+          <FlexBox
+            data-role="pagination-left-content-wrapper"
+            sx={paginationContentStyle}
+          >
+            {Boolean(leftContent) && leftContent}
+          </FlexBox>
 
           <FlexBox
             ref={ref}
             alignItems="center"
             justifyContent="center"
+            data-role="pagination-wrapper"
             gap={variant === 'extended' ? '16px' : '8px'}
           >
             {!hidePrevButton && (
@@ -149,6 +155,7 @@ const Pagination = forwardRef<
                 size={16}
                 color="palette.label.alternative"
                 disabled={disabled || disabledPrevButton}
+                data-role="pagination-prev-button"
                 aria-label="Previous page"
                 onClick={pageButtonActions.prev}
               >
@@ -174,8 +181,11 @@ const Pagination = forwardRef<
                 variant="label2"
                 weight="medium"
                 color="palette.label.neutral"
+                data-role="pagination-page-num"
               >
-                {page}/{totalPages}
+                {page}
+                <span data-role="pagination-page-num-slash">/</span>
+                {totalPages}
               </Typography>
             )}
 
@@ -185,6 +195,7 @@ const Pagination = forwardRef<
                 size={16}
                 color="palette.label.alternative"
                 disabled={disabled || disabledNextButton}
+                data-role="pagination-next-button"
                 aria-label="Next page"
                 onClick={pageButtonActions.next}
               >
@@ -193,7 +204,11 @@ const Pagination = forwardRef<
             )}
           </FlexBox>
 
-          <FlexBox flex={1} justifyContent="flex-end">
+          <FlexBox
+            data-role="pagination-right-content-wrapper"
+            justifyContent="flex-end"
+            sx={paginationContentStyle}
+          >
             {Boolean(rightContent) && rightContent}
           </FlexBox>
         </FlexBox>
@@ -217,10 +232,11 @@ const PaginationItem = ({
         <TextButton
           size="medium"
           variant="assistive"
-          aria-label={`Page ${itemPage}`}
-          aria-current={page === itemPage ? 'page' : undefined}
           disabled={disabled}
           disableInteraction={disabled}
+          aria-label={`Page ${itemPage}`}
+          aria-current={page === itemPage ? 'page' : undefined}
+          data-role="pagination-item-page"
           {...props}
           sx={pageButtonStyle}
         >
@@ -233,6 +249,7 @@ const PaginationItem = ({
           color={
             disabled ? 'palette.label.disable' : 'palette.label.alternative'
           }
+          data-role="pagination-item-ellipsis"
         >
           ...
         </Typography>
@@ -278,7 +295,13 @@ const PaginationSelect = forwardRef<
         defaultValue={pageSize.toString()}
         onValueChange={(value) => setPageSize(Number(value))}
       >
-        <FlexBox ref={ref} alignItems="center" gap="8px" {...props}>
+        <FlexBox
+          ref={ref}
+          alignItems="center"
+          gap="8px"
+          data-role="pagination-select-trigger-wrapper"
+          {...props}
+        >
           <MenuTrigger>
             <ChipFilter
               variant="outlined"
@@ -301,6 +324,7 @@ const PaginationSelect = forwardRef<
         <MenuContent
           offset={8}
           position="top-start"
+          data-role="pagination-select-content"
           sx={{
             width: '140px',
           }}
@@ -310,9 +334,7 @@ const PaginationSelect = forwardRef<
               <MenuItem
                 key={`pagination-${id}-pagination-select-menu-item-${option}`}
                 value={option.toString()}
-                onClick={() => {
-                  setOpen(false);
-                }}
+                onClick={() => setOpen(false)}
               >
                 {typeof optionRender === 'function'
                   ? optionRender(option)
@@ -339,7 +361,7 @@ const PaginationInput = forwardRef<
   } = usePaginationContext(PAGINATION_INPUT_NAME);
 
   return (
-    <FlexBox alignItems="center" gap="8px">
+    <FlexBox wds-component="pagination-input" alignItems="center" gap="8px">
       <Label
         variant="label2"
         weight="medium"
