@@ -114,6 +114,10 @@ export const routes: Array<Route> = [
       },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
       {
+        title: 'Pagination',
+        slug: '/docs/components/pagination',
+      },
+      {
         title: 'PaginationCounter',
         slug: '/docs/components/pagination-counter',
       },

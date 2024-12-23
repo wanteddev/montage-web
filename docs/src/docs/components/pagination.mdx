@@ -1,0 +1,179 @@
+---
+title: Pagination
+description: Pagination Component
+---
+
+# Pagination
+
+페이지 위치 표시와 이동을 위한 내비게이션으로 사용합니다.
+
+## 활용
+
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination totalPages={10} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+### Pagination
+
+<PropsTable component="Pagination" />
+
+### PaginationSelect
+
+<PropsTable component="PaginationSelect" />
+
+### PaginationInput
+
+<PropsTable component="PaginationInput" />
+
+## Examples
+
+### BoundaryPages, SiblingPages
+
+boundaryPages, siblingPages로 표시할 페이지 수를 조정해요.
+
+<Demo code={`import { Pagination, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <Pagination totalPages={99} defaultPage={9} />
+      <Pagination totalPages={99} defaultPage={9} boundaryPages={3} />
+      <Pagination totalPages={99} defaultPage={9} siblingPages={3} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### PaginationSelect
+
+페이지당 표시할 아이템 개수를 조정할 수 있어요.
+
+<Demo code={`import { Pagination, PaginationSelect, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <Pagination
+        totalPages={10}
+        leftContent={<PaginationSelect />}
+      />
+      <Pagination
+        totalPages={10}
+        leftContent={<PaginationSelect pageSizeOptions={[20, 50, 100]} />}
+      />
+      <Pagination
+        totalPages={10}
+        leftContent={
+          <PaginationSelect
+            label="items per page"
+            optionRender={(pageSize) => \`\${pageSize} items\`}
+          />
+        }
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### PaginationInput
+
+페이지 번호를 입력해서 이동할 수 있어요.<br />
+유효하지 않은 페이지 번호를 입력하면 이동하지 않아요.
+
+<Demo code={`import { Pagination, PaginationInput, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <Pagination totalPages={10} leftContent={<PaginationInput />} />
+      <Pagination totalPages={10} leftContent={<PaginationInput label="go to page" />} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### LeftContent, RightContent
+
+variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
+
+<Demo code={`import { Pagination, PaginationInput, PaginationSelect, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="40px">
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          totalPages={10}
+          leftContent={<PaginationSelect />}
+        />
+        <Pagination 
+          totalPages={10}
+          leftContent={<PaginationInput />}
+        />
+        <Pagination 
+          totalPages={10}
+          leftContent={<span>커스텀 요소</span>}
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          totalPages={10}
+          rightContent={<PaginationSelect />} 
+        />
+        <Pagination 
+          totalPages={10}
+          rightContent={<PaginationInput />} 
+        />
+        <Pagination 
+          totalPages={10}
+          rightContent={<span>커스텀 요소</span>} 
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          totalPages={10}
+          leftContent={<PaginationSelect />}
+          rightContent={<PaginationInput />} 
+        />
+        <Pagination 
+          totalPages={10} 
+          leftContent={<span>커스텀 요소</span>} 
+          rightContent={<span>커스텀 요소</span>} 
+        />
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Minimize
+
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination variant="minimize" totalPages={10} />
+  )
+}
+
+export default Demo;`}
+/>
