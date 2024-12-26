@@ -17,30 +17,35 @@ export const progressTrackerWrapperStyle = ({
 
   ${direction === 'horizontal'
     ? css`
-        align-items: center;
         flex-direction: row;
       `
     : css`
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        grid-template-rows: 1fr;
-        column-gap: 20px;
+        flex-direction: column;
       `}
 `;
 
 export const progressTrackerItemVerticalStyle = css`
   position: relative;
+
+  [data-role='progress-tracker-item-label'] {
+    display: block;
+    text-align: left;
+    margin-right: 6px;
+  }
+`;
+
+export const progressTrackerItemVerticalLabelWrapperStyle = css`
+  margin-bottom: 12px;
+  height: 20px;
 `;
 
 export const progressTrackerItemHorizontalStyle = css`
-  position: relative;
+  flex: 1 0 0;
+`;
 
-  [data-role='progress-tracker-item-label'] {
-    position: absolute;
-    left: 50%;
-    top: calc(100% + 8px);
-    transform: translateX(-50%);
-  }
+export const progressTrackerItemHorizontalWrapperStyle = css`
+  width: 100%;
+  position: relative;
 `;
 
 export const progressTrackerItemDividerStyle =

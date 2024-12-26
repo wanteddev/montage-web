@@ -38,6 +38,9 @@ export default Demo;`}
 
 <PropsTable component="ProgressTrackerItem" />
 
+### ProgressTrackerLabelContent
+
+<PropsTable component="ProgressTrackerLabelContent" />
 
 ## Direction
 
@@ -61,14 +64,12 @@ export default Demo;`}
 
 `label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
 
-Horizontal에서 label은 영역을 차지하지 않기 때문에 간격 보정이 필요할 수 있습니다.
-
 
 <Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ProgressTracker value="1" sx={{ paddingBottom: 40 }}>
+    <ProgressTracker value="1">
       <ProgressTrackerItem label="단계" completedLabel="완료" value="0" />
       <ProgressTrackerItem label="단계" completedLabel="완료" value="1" />
       <ProgressTrackerItem label="단계" completedLabel="완료" value="2" />
@@ -81,8 +82,7 @@ export default Demo;`}
 
 ### Vertical
 
-`direction=vertical` 로 사용하는 경우 꼭 children을 포함하여 주세요.<br />
-Grid ui가 올바르지 않게 동작할 수 있습니다.
+`direction=vertical` 로 사용하는 경우 꼭 children을 포함하여 렌더링 할 수 있습니다.
 
 <Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
 
@@ -118,7 +118,7 @@ const Item = () => {
 export default Demo;`}
 />
 
-`label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
+또한 `label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
 
 <Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
 
@@ -132,6 +132,82 @@ const Demo = () => {
         <Item />
       </ProgressTrackerItem>
       <ProgressTrackerItem label="단계" completedLabel="완료" value="2">
+        <Item />
+      </ProgressTrackerItem>
+    </ProgressTracker>
+  );
+}
+
+const Item = () => {
+  return (
+    <Box
+      sx={theme => css\`
+        width: 100%;
+        height: 64px;
+        background: \${theme.palette.accent.violet};
+        opacity: 0.08;
+      \`}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+`direction='vertical'` 인 경우에만 `labelContent`를 사용할 수 있습니다.
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, ProgressTrackerLabelContent, ContentBadge, css } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker direction="vertical" value="1">
+      <ProgressTrackerItem
+        label="단계"
+        completedLabel="완료"
+        value="0"
+        labelContent={(
+          <ProgressTrackerLabelContent variant="caption">
+            캡션
+          </ProgressTrackerLabelContent>
+        )}
+      >
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem
+        label="단계"
+        completedLabel="완료"
+        value="1"
+        labelContent={(
+          <ProgressTrackerLabelContent variant="badge">
+            <ContentBadge
+              color="neutral"
+              size="normal"
+              variant="filled"
+            >
+              텍스트
+            </ContentBadge>
+            <ContentBadge
+              color="neutral"
+              size="normal"
+              variant="filled"
+              >
+              텍스트
+            </ContentBadge>
+          </ProgressTrackerLabelContent>
+        )}
+      >
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem
+        label="단계"
+        completedLabel="완료"
+        value="2"
+        labelContent={(
+          <ProgressTrackerLabelContent variant="custom">
+            커스텀
+          </ProgressTrackerLabelContent>
+        )}
+      >
         <Item />
       </ProgressTrackerItem>
     </ProgressTracker>
