@@ -52,6 +52,7 @@ export * from './select';
 export { default as Loading } from './loading';
 export { default as SelectMultiple } from './select-multiple';
 export { default as Skeleton } from './skeleton';
+export { default as TimePicker } from './time-picker';
 export * from './slider';
 export { default as Switch } from './switch';
 export * from './tab';
