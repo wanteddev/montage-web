@@ -14,7 +14,11 @@ export const isDayjsTimeValue = (
 ): timeValue is Dayjs => timeValue !== null && dayjs.isDayjs(timeValue);
 
 /**
- * 'aa hh:mm' -> ['aa', 'hh', 'mm']
+ * TimePickerFormat과 inputValue를 기반으로 시간 섹션을 분할합니다.
+ *
+ * @example 'aa hh:mm' -> ['aa', 'hh', 'mm']
+ * @example 'a 12:mm' -> ['a', '12', 'mm']
+ * @example '오전 12:00' -> ['오전', '12', '00']
  */
 export const getFormatTimeSections = ({
   format,
@@ -29,7 +33,6 @@ export const getFormatTimeSections = ({
 
 /**
  * 현재 시간을 format에 따라 Array<TimeSection>로 분할합니다.
- *
  */
 export const parseTimeSections = ({
   format,
@@ -39,8 +42,6 @@ export const parseTimeSections = ({
   const timeSections: Array<TimeSection> = [];
   let currentTimeSectionIndex = 0;
 
-  // ['aa', 'hh', 'mm']
-  // ['오전', '12', '00']
   const { formatSections, inputSections } = getFormatTimeSections({
     format,
     timeValue,

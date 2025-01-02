@@ -68,6 +68,7 @@ const TimePickerInput = forwardRef<
   DefaultComponentProps<TimePickerInputProps, 'input'>
 >(({ format, disabled, timeValue, sx, setValue, ...props }, ref) => {
   const is24HourFormat = format.includes('H');
+
   const [item, setItem] = useState<HTMLInputElement | null>(null);
   const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
@@ -124,7 +125,7 @@ const TimePickerInput = forwardRef<
           inputValue: newInputValue,
         });
         const currentSectionIndex = sections.findIndex(
-          (section) => section.type === 'ampm',
+          (section) => section.type === selectedTimeSection.type,
         );
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         const nextSection = sections?.[currentSectionIndex + 1];
@@ -175,6 +176,57 @@ const TimePickerInput = forwardRef<
       });
       const currentSectionIndex = sections.findIndex(
         (section) => section.type === 'hours',
+      );
+      const nextSectionIndex = currentSectionIndex + 1;
+
+      const nextSection =
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        shouldMoveToNextSection && sections?.[nextSectionIndex]
+          ? sections[nextSectionIndex]
+          : sections[currentSectionIndex];
+
+      if (nextSection) {
+        setSelectedTimeSection(nextSection);
+        e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
+      }
+      setInputValue(newInputValue);
+    }
+
+    if (
+      selectedTimeSection.type === 'minutes' ||
+      selectedTimeSection.type === 'seconds'
+    ) {
+      const numberSectionValue = Number(selectedTimeSection.value);
+
+      // 새로운
+      let newValue = Number.isNaN(numberSectionValue)
+        ? e.key
+        : numberSectionValue.toString() + e.key;
+
+      // 최대 시간 확인
+      if (Number(newValue) > 59) {
+        newValue = e.key;
+      }
+
+      newValue = newValue.padStart(2, '0');
+
+      const shouldMoveToNextSection = Number(newValue) > 5;
+
+      const targetInputValue = e.currentTarget.value;
+      const newInputValue =
+        targetInputValue.slice(0, selectedTimeSection.start) +
+        newValue +
+        targetInputValue.slice(selectedTimeSection.end);
+
+      e.currentTarget.value = newInputValue;
+
+      const sections = parseTimeSections({
+        format,
+        timeValue,
+        inputValue: newInputValue,
+      });
+      const currentSectionIndex = sections.findIndex(
+        (section) => section.type === selectedTimeSection.type,
       );
       const nextSectionIndex = currentSectionIndex + 1;
 
