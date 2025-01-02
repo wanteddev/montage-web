@@ -253,6 +253,9 @@ importers:
       aria-hidden:
         specifier: ^1.2.3
         version: 1.2.3
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       lodash.flattendeep:
         specifier: ^4.4.0
         version: 4.4.0
@@ -3427,6 +3430,9 @@ packages:
 
   dateformat@3.0.3:
     resolution: {integrity: sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -10706,6 +10712,8 @@ snapshots:
       whatwg-url: 14.0.0
 
   dateformat@3.0.3: {}
+
+  dayjs@1.11.13: {}
 
   debounce@1.2.1: {}
 
