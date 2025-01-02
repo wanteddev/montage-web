@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import dayjs from 'dayjs';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
@@ -15,7 +15,7 @@ import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { getNextSection, getTimeUnit, parseTimeSections } from './helpers';
 import { timePickerInputStyle } from './style';
 
-import type { FocusEvent, KeyboardEvent, MouseEvent } from 'react';
+import type { KeyboardEvent, MouseEvent } from 'react';
 import type {
   TimePickerInputProps,
   TimePickerProps,
@@ -68,8 +68,8 @@ TimePicker.displayName = TIME_PICKER_NAME;
 const TimePickerInput = forwardRef<
   HTMLInputElement,
   DefaultComponentProps<TimePickerInputProps, 'input'>
->(({ format, hoursFormat, disabled, value, sx, setValue, ...props }, ref) => {
-  const [item, setItem] = useState<HTMLInputElement | null>(null);
+>(({ format, hoursFormat, disabled, value, sx, setValue }, ref) => {
+  const [, setItem] = useState<HTMLInputElement | null>(null);
   const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
   const [selectedTimeSection, setSelectedTimeSection] =
@@ -78,12 +78,18 @@ const TimePickerInput = forwardRef<
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {
-    if (value === null && e.currentTarget.value === '') {
-      e.currentTarget.value = format;
+    let cursorPosition: number | null;
+
+    if (value === null && inputValue.length === 0) {
+      cursorPosition = 0;
       setInputValue(format);
+      e.currentTarget.value = format;
+    } else {
+      cursorPosition = e.currentTarget.selectionStart;
     }
 
-    const cursorPosition = e.currentTarget.selectionStart || 0;
+    cursorPosition ??= 0;
+
     const sections = parseTimeSections({
       format,
       value,
@@ -117,6 +123,7 @@ const TimePickerInput = forwardRef<
         const newInputValue =
           ampmText + e.currentTarget.value.slice(selectedTimeSection.end);
 
+        setInputValue(newInputValue);
         e.currentTarget.value = newInputValue;
 
         const nextSection = getNextSection({
@@ -131,7 +138,6 @@ const TimePickerInput = forwardRef<
           setSelectedTimeSection(nextSection);
           e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
         }
-        setInputValue(newInputValue);
       }
 
       return;
@@ -159,6 +165,7 @@ const TimePickerInput = forwardRef<
       unitValue +
       e.currentTarget.value.slice(selectedTimeSection.end);
 
+    setInputValue(newInputValue);
     e.currentTarget.value = newInputValue;
 
     const nextSection = getNextSection({
@@ -173,26 +180,62 @@ const TimePickerInput = forwardRef<
       setSelectedTimeSection(nextSection);
       e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
     }
-    setInputValue(newInputValue);
   };
 
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    if (
-      (value === null && e.currentTarget.value === '') ||
-      e.currentTarget.value === format
-    ) {
-      e.currentTarget.value = '';
-      setInputValue('');
+  useEffect(() => {
+    if (inputValue.length > 0 && !inputValue.match(/a|p|h|m|s/g)) {
+      let time = dayjs().startOf('day').clone();
+
+      const sections = parseTimeSections({
+        format,
+        value: null,
+        inputValue,
+      });
+
+      sections.forEach((section) => {
+        switch (section.type) {
+          case 'hours':
+            time = time.hour(Number(section.value));
+            break;
+          case 'minutes':
+            time = time.minute(Number(section.value));
+            break;
+          case 'seconds':
+            time = time.second(Number(section.value));
+            break;
+        }
+      });
+
+      const ampmSection = sections.find((section) => section.type === 'ampm');
+
+      if (ampmSection) {
+        const currentAmpm = time.format('A');
+
+        if (ampmSection.value === DAYJS_AM_TEXT) {
+          time =
+            currentAmpm === DAYJS_AM_TEXT ? time : time.subtract(12, 'hour');
+        } else {
+          time = currentAmpm === DAYJS_PM_TEXT ? time : time.add(12, 'hour');
+        }
+      }
+
+      setValue(time);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue]);
 
   return (
     <TextInput
       ref={composedRefs}
       width="100%"
       value={inputValue}
-      placeholder={dayjs().startOf('day').format(format)}
       disabled={disabled}
+      invalid={
+        value
+          ? !value.isValid()
+          : inputValue.length > 0 && inputValue !== format
+      }
+      placeholder={dayjs().startOf('day').format(format)}
       rightContent={
         <PopoverTrigger>
           <TextInputContent variant="icon-button">
@@ -202,13 +245,19 @@ const TimePickerInput = forwardRef<
           </TextInputContent>
         </PopoverTrigger>
       }
-      invalid={
-        value ? value.isValid() : inputValue.length > 0 && inputValue !== format
-      }
       sx={[timePickerInputStyle, sx]}
       onClick={handleClick}
-      onBlur={handleBlur}
       onKeyDown={handleKeyDown}
+      onBlur={() => {
+        if ((value === null && inputValue === '') || inputValue === format) {
+          setInputValue('');
+        }
+      }}
+      onReset={() => {
+        setValue(null);
+        setInputValue('');
+        setSelectedTimeSection(null);
+      }}
       onChange={() => {}}
     />
   );

@@ -25,3 +25,21 @@ export default Demo;`}
 ### TimePicker
 
 <PropsTable component="TimePicker" />
+
+## Examples
+
+### Hours Format
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox direction="column" gap="24px">
+      <TimePicker hoursFormat="12" />
+      <TimePicker format="hh:mm" hoursFormat="24" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
