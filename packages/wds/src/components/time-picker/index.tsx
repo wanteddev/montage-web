@@ -12,7 +12,7 @@ import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
-import { parseTimeSections } from './helpers';
+import { getNextSection, getTimeUnit, parseTimeSections } from './helpers';
 import { timePickerInputStyle } from './style';
 
 import type { FocusEvent, KeyboardEvent, MouseEvent } from 'react';
@@ -37,6 +37,7 @@ const TimePicker = ({
   defaultValue = null,
   value: givenValue,
   format = 'a hh:mm',
+  hoursFormat = '12',
   disabled = false,
   onChange,
   // ...props
@@ -51,8 +52,9 @@ const TimePicker = ({
   return (
     <Popover>
       <TimePickerInput
-        timeValue={value}
+        value={value}
         format={format}
+        hoursFormat={hoursFormat}
         disabled={disabled}
         setValue={setValue}
       />
@@ -66,9 +68,7 @@ TimePicker.displayName = TIME_PICKER_NAME;
 const TimePickerInput = forwardRef<
   HTMLInputElement,
   DefaultComponentProps<TimePickerInputProps, 'input'>
->(({ format, disabled, timeValue, sx, setValue, ...props }, ref) => {
-  const is24HourFormat = format.includes('H');
-
+>(({ format, hoursFormat, disabled, value, sx, setValue, ...props }, ref) => {
   const [item, setItem] = useState<HTMLInputElement | null>(null);
   const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
@@ -78,7 +78,7 @@ const TimePickerInput = forwardRef<
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {
-    if (timeValue === null && e.currentTarget.value === '') {
+    if (value === null && e.currentTarget.value === '') {
       e.currentTarget.value = format;
       setInputValue(format);
     }
@@ -86,7 +86,7 @@ const TimePickerInput = forwardRef<
     const cursorPosition = e.currentTarget.selectionStart || 0;
     const sections = parseTimeSections({
       format,
-      timeValue,
+      value,
       inputValue: e.currentTarget.value,
     });
 
@@ -106,147 +106,79 @@ const TimePickerInput = forwardRef<
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (!selectedTimeSection || disabled) return;
+
     e.preventDefault();
 
     if (selectedTimeSection.type === 'ampm') {
-      const key = e.key.toLowerCase();
-      const targetInputValue = e.currentTarget.value;
+      const lowerKey = e.key.toLowerCase();
 
-      if (key === 'a' || key === 'p') {
-        const ampmText = key === 'a' ? DAYJS_AM_TEXT : DAYJS_PM_TEXT;
+      if (lowerKey === 'a' || lowerKey === 'p') {
+        const ampmText = lowerKey === 'a' ? DAYJS_AM_TEXT : DAYJS_PM_TEXT;
         const newInputValue =
-          ampmText + targetInputValue.slice(selectedTimeSection.end);
+          ampmText + e.currentTarget.value.slice(selectedTimeSection.end);
 
         e.currentTarget.value = newInputValue;
 
-        const sections = parseTimeSections({
+        const nextSection = getNextSection({
           format,
-          timeValue,
+          value,
           inputValue: newInputValue,
+          shouldMoveToNextSection: true,
+          selectedTimeSectionType: selectedTimeSection.type,
         });
-        const currentSectionIndex = sections.findIndex(
-          (section) => section.type === selectedTimeSection.type,
-        );
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        const nextSection = sections?.[currentSectionIndex + 1];
 
         if (nextSection) {
           setSelectedTimeSection(nextSection);
           e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
         }
-
         setInputValue(newInputValue);
       }
-    }
 
-    if (!/^[0-9]$/.test(e.key)) return;
-
-    if (selectedTimeSection.type === 'hours') {
-      const numberSectionHoursValue = Number(selectedTimeSection.value);
-
-      // 새로운 시간값 계산
-      let newHoursValue = Number.isNaN(numberSectionHoursValue)
-        ? e.key
-        : numberSectionHoursValue.toString() + e.key;
-
-      // 최대 시간 확인
-      const maxHours = is24HourFormat ? 23 : 12;
-      if (Number(newHoursValue) > maxHours) {
-        newHoursValue = e.key;
-      }
-
-      newHoursValue = newHoursValue.padStart(2, '0');
-
-      const shouldMoveToNextSection = is24HourFormat
-        ? Number(newHoursValue) > 2
-        : Number(newHoursValue) > 1;
-
-      const targetInputValue = e.currentTarget.value;
-      const newInputValue =
-        targetInputValue.slice(0, selectedTimeSection.start) +
-        newHoursValue +
-        targetInputValue.slice(selectedTimeSection.end);
-
-      e.currentTarget.value = newInputValue;
-
-      const sections = parseTimeSections({
-        format,
-        timeValue,
-        inputValue: newInputValue,
-      });
-      const currentSectionIndex = sections.findIndex(
-        (section) => section.type === 'hours',
-      );
-      const nextSectionIndex = currentSectionIndex + 1;
-
-      const nextSection =
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        shouldMoveToNextSection && sections?.[nextSectionIndex]
-          ? sections[nextSectionIndex]
-          : sections[currentSectionIndex];
-
-      if (nextSection) {
-        setSelectedTimeSection(nextSection);
-        e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
-      }
-      setInputValue(newInputValue);
+      return;
     }
 
     if (
-      selectedTimeSection.type === 'minutes' ||
-      selectedTimeSection.type === 'seconds'
-    ) {
-      const numberSectionValue = Number(selectedTimeSection.value);
-
-      // 새로운
-      let newValue = Number.isNaN(numberSectionValue)
-        ? e.key
-        : numberSectionValue.toString() + e.key;
-
-      // 최대 시간 확인
-      if (Number(newValue) > 59) {
-        newValue = e.key;
-      }
-
-      newValue = newValue.padStart(2, '0');
-
-      const shouldMoveToNextSection = Number(newValue) > 5;
-
-      const targetInputValue = e.currentTarget.value;
-      const newInputValue =
-        targetInputValue.slice(0, selectedTimeSection.start) +
-        newValue +
-        targetInputValue.slice(selectedTimeSection.end);
-
-      e.currentTarget.value = newInputValue;
-
-      const sections = parseTimeSections({
-        format,
-        timeValue,
-        inputValue: newInputValue,
-      });
-      const currentSectionIndex = sections.findIndex(
-        (section) => section.type === selectedTimeSection.type,
-      );
-      const nextSectionIndex = currentSectionIndex + 1;
-
-      const nextSection =
+      !/^[0-9]$/.test(e.key) ||
+      (selectedTimeSection.type !== 'hours' &&
+        selectedTimeSection.type !== 'minutes' &&
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        shouldMoveToNextSection && sections?.[nextSectionIndex]
-          ? sections[nextSectionIndex]
-          : sections[currentSectionIndex];
-
-      if (nextSection) {
-        setSelectedTimeSection(nextSection);
-        e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
-      }
-      setInputValue(newInputValue);
+        selectedTimeSection.type !== 'seconds')
+    ) {
+      return;
     }
+
+    const [unitValue, isUnitSectionFilled] = getTimeUnit({
+      section: selectedTimeSection,
+      unitKey: e.key,
+      hoursFormat:
+        selectedTimeSection.type === 'hours' ? hoursFormat : undefined,
+    });
+
+    const newInputValue =
+      e.currentTarget.value.slice(0, selectedTimeSection.start) +
+      unitValue +
+      e.currentTarget.value.slice(selectedTimeSection.end);
+
+    e.currentTarget.value = newInputValue;
+
+    const nextSection = getNextSection({
+      format,
+      value,
+      inputValue: newInputValue,
+      shouldMoveToNextSection: isUnitSectionFilled,
+      selectedTimeSectionType: selectedTimeSection.type,
+    });
+
+    if (nextSection) {
+      setSelectedTimeSection(nextSection);
+      e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
+    }
+    setInputValue(newInputValue);
   };
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     if (
-      (timeValue === null && e.currentTarget.value === '') ||
+      (value === null && e.currentTarget.value === '') ||
       e.currentTarget.value === format
     ) {
       e.currentTarget.value = '';
@@ -258,7 +190,7 @@ const TimePickerInput = forwardRef<
     <TextInput
       ref={composedRefs}
       width="100%"
-      value={timeValue ? timeValue.format(format) : undefined}
+      value={inputValue}
       placeholder={dayjs().startOf('day').format(format)}
       disabled={disabled}
       rightContent={
@@ -270,10 +202,14 @@ const TimePickerInput = forwardRef<
           </TextInputContent>
         </PopoverTrigger>
       }
+      invalid={
+        value ? value.isValid() : inputValue.length > 0 && inputValue !== format
+      }
       sx={[timePickerInputStyle, sx]}
       onClick={handleClick}
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
+      onChange={() => {}}
     />
   );
 });
