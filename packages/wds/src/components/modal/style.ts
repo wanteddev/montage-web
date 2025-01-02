@@ -24,7 +24,6 @@ export const modalDimmerStyle =
 
     &[data-visibility='visible'] {
       opacity: 1;
-      pointer-events: auto;
     }
 
     &[data-visibility='hidden'] {

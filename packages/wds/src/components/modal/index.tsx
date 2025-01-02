@@ -234,51 +234,6 @@ const ModalContainer = forwardRef<
           xl,
         })}
       >
-        <Box
-          ref={dimmerRef}
-          data-status={status}
-          data-visibility={context.visibility}
-          onPointerDown={(e) => {
-            const target = e.target as HTMLElement;
-
-            if (target.hasPointerCapture(e.pointerId)) {
-              target.releasePointerCapture(e.pointerId);
-            }
-          }}
-          onClick={useCallback(
-            (e: MouseEvent) => {
-              const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-              const isRightClick = e.button === 2 || ctrlLeftClick;
-
-              if (isRightClick || disableOutsideClickClose) {
-                return;
-              }
-
-              e.preventDefault();
-
-              if (!isBottomSheetWithHandle) {
-                onOpenChange(false);
-              } else {
-                handleVisibilityHidden();
-              }
-            },
-            [
-              disableOutsideClickClose,
-              handleVisibilityHidden,
-              isBottomSheetWithHandle,
-              onOpenChange,
-            ],
-          )}
-          sx={modalDimmerStyle({
-            variant,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
-        />
-
         <FocusScope
           loop={context.open && context.visibility === 'visible'}
           trapped={context.open && context.visibility === 'visible'}
@@ -336,6 +291,52 @@ const ModalContainer = forwardRef<
                   props.sx,
                 ]}
               >
+                <Box
+                  ref={dimmerRef}
+                  data-status={status}
+                  data-visibility={context.visibility}
+                  onPointerDown={(e) => {
+                    const target = e.target as HTMLElement;
+
+                    if (target.hasPointerCapture(e.pointerId)) {
+                      target.releasePointerCapture(e.pointerId);
+                    }
+                  }}
+                  onClick={useCallback(
+                    (e: MouseEvent) => {
+                      const ctrlLeftClick =
+                        e.button === 0 && e.ctrlKey === true;
+                      const isRightClick = e.button === 2 || ctrlLeftClick;
+
+                      if (isRightClick || disableOutsideClickClose) {
+                        return;
+                      }
+
+                      e.preventDefault();
+
+                      if (!isBottomSheetWithHandle) {
+                        onOpenChange(false);
+                      } else {
+                        handleVisibilityHidden();
+                      }
+                    },
+                    [
+                      disableOutsideClickClose,
+                      handleVisibilityHidden,
+                      isBottomSheetWithHandle,
+                      onOpenChange,
+                    ],
+                  )}
+                  sx={modalDimmerStyle({
+                    variant,
+                    xs,
+                    sm,
+                    md,
+                    lg,
+                    xl,
+                  })}
+                />
+
                 <ScrollArea
                   scrollbars="vertical"
                   viewportRef={context.innerContainerRef}
