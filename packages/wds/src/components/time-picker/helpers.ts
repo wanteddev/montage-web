@@ -71,42 +71,51 @@ export const parseTimeSections = ({
   return sections;
 };
 
-type GetNextSectionParams = {
+type GetSectionParams = {
+  type: 'prev' | 'current' | 'next';
   format: TimePickerFormat;
   value?: string;
   inputValue: string;
-  shouldMoveToNextSection: boolean;
-  selectedTimeSectionType: TimeSection['type'];
+  sectionType: TimeSection['type'];
 };
 
-export const getNextSection = ({
+export const getSection = ({
+  type,
   format,
   value,
   inputValue,
-  shouldMoveToNextSection,
-  selectedTimeSectionType,
-}: GetNextSectionParams) => {
+  sectionType,
+}: GetSectionParams) => {
   const sections = parseTimeSections({
     format,
     inputValue,
   });
-  const currentSectionIndex = sections.findIndex(
-    (section) => section.type === selectedTimeSectionType,
-  );
-  const nextSectionIndex = currentSectionIndex + 1;
 
-  const nextSection =
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    shouldMoveToNextSection && sections?.[nextSectionIndex]
-      ? sections[nextSectionIndex]
-      : sections[currentSectionIndex];
+  const currentSectionIndex = sections.findIndex(
+    (section) => section.type === sectionType,
+  );
+  const sectionIndex =
+    type === 'prev'
+      ? currentSectionIndex - 1
+      : type === 'next'
+        ? currentSectionIndex + 1
+        : currentSectionIndex;
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const section = sections?.[sectionIndex]
+    ? sections[sectionIndex]
+    : sections[currentSectionIndex];
 
   // 현재 섹션에 머무를 경우 값 업데이트
-  if (nextSection && value) {
-    nextSection.value = value;
+  if (
+    (type === 'current' || sectionType === section?.type) &&
+    section &&
+    value
+  ) {
+    section.value = value;
   }
 
-  return nextSection;
+  return section;
 };
 
 const max24Hours = 23;
@@ -165,7 +174,7 @@ export const getTimeValue = ({
   });
   sections.forEach((section) => {
     if (section.type !== 'ampm') {
-      time.set(section.type, Number(section.value));
+      time = time.set(section.type, Number(section.value));
     }
   });
 

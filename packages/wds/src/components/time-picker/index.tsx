@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useState } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import dayjs from 'dayjs';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
@@ -13,7 +13,7 @@ import IconButton from '../icon-button';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import {
-  getNextSection,
+  getSection,
   getTimeUnit,
   getTimeValue,
   parseTimeSections,
@@ -45,7 +45,6 @@ const TimePicker = ({
   hoursFormat = '12',
   disabled = false,
   onChange,
-  // ...props
 }: TimePickerProps) => {
   const [value = defaultValue, setValue] =
     useControllableState<TimePickerValue>({
@@ -77,36 +76,37 @@ const TimePickerInput = forwardRef<
   const [, setItem] = useState<HTMLInputElement | null>(null);
   const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
-  const [selectedTimeSection, setSelectedTimeSection] =
-    useState<TimeSection | null>(null);
+  const [targetSection, setTargetSection] = useState<TimeSection | null>(null);
 
   const [inputValue, setInputValue] = useState<string>('');
+
+  const isEmpty = useMemo(
+    () => value === null && inputValue.length === 0,
+    [value, inputValue],
+  );
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {
     let cursorPosition: number | null;
 
-    if (value === null && inputValue.length === 0) {
+    if (isEmpty) {
       cursorPosition = 0;
       setInputValue(format);
       e.currentTarget.value = format;
     } else {
-      cursorPosition = e.currentTarget.selectionStart;
+      cursorPosition = e.currentTarget.selectionStart ?? 0;
     }
-
-    cursorPosition ??= 0;
 
     const sections = parseTimeSections({
       format,
       inputValue: e.currentTarget.value,
     });
-
     const clickedSection = sections.find(
       (section) =>
         cursorPosition >= section.start && cursorPosition <= section.end,
     );
 
     if (clickedSection) {
-      setSelectedTimeSection(clickedSection);
+      setTargetSection(clickedSection);
       e.currentTarget.setSelectionRange(
         clickedSection.start,
         clickedSection.end,
@@ -115,78 +115,90 @@ const TimePickerInput = forwardRef<
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!selectedTimeSection || disabled) return;
+    if (!targetSection || disabled) return;
 
     e.preventDefault();
 
-    if (selectedTimeSection.type === 'ampm') {
-      const lowerKey = e.key.toLowerCase();
+    if (['ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      const section = getSection({
+        type: e.key === 'ArrowLeft' ? 'prev' : 'next',
+        format,
+        inputValue,
+        sectionType: targetSection.type,
+      });
 
-      if (lowerKey === 'a' || lowerKey === 'p') {
-        const ampmText = lowerKey === 'a' ? DAYJS_AM_TEXT : DAYJS_PM_TEXT;
-        const newInputValue =
-          ampmText + e.currentTarget.value.slice(selectedTimeSection.end);
-
-        setInputValue(newInputValue);
-        e.currentTarget.value = newInputValue;
-
-        const nextSection = getNextSection({
-          format,
-          inputValue: newInputValue,
-          shouldMoveToNextSection: true,
-          selectedTimeSectionType: selectedTimeSection.type,
-        });
-
-        if (nextSection) {
-          setSelectedTimeSection(nextSection);
-          e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
-        }
+      if (section) {
+        setTargetSection(section);
+        e.currentTarget.setSelectionRange(section.start, section.end);
       }
 
       return;
     }
 
+    if (targetSection.type === 'ampm') {
+      const lowerKey = e.key.toLowerCase();
+
+      if (['a', 'p'].includes(lowerKey)) {
+        const ampmText = lowerKey === 'a' ? DAYJS_AM_TEXT : DAYJS_PM_TEXT;
+        const newInputValue =
+          ampmText + e.currentTarget.value.slice(targetSection.end);
+
+        setInputValue(newInputValue);
+        e.currentTarget.value = newInputValue;
+
+        const section = getSection({
+          type: 'next',
+          format,
+          inputValue: newInputValue,
+          sectionType: targetSection.type,
+        });
+
+        if (section) {
+          setTargetSection(section);
+          e.currentTarget.setSelectionRange(section.start, section.end);
+        }
+      }
+      return;
+    }
+
     if (
       !/^[0-9]$/.test(e.key) ||
-      (selectedTimeSection.type !== 'hour' &&
-        selectedTimeSection.type !== 'minute' &&
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        selectedTimeSection.type !== 'second')
+      !['hour', 'minute', 'second'].includes(targetSection.type)
     ) {
       return;
     }
 
     const [unitValue, isUnitSectionFilled] = getTimeUnit({
-      section: selectedTimeSection,
+      section: targetSection,
       unitKey: e.key,
-      hoursFormat:
-        selectedTimeSection.type === 'hour' ? hoursFormat : undefined,
+      hoursFormat: targetSection.type === 'hour' ? hoursFormat : undefined,
     });
 
     const newInputValue =
-      e.currentTarget.value.slice(0, selectedTimeSection.start) +
+      e.currentTarget.value.slice(0, targetSection.start) +
       unitValue +
-      e.currentTarget.value.slice(selectedTimeSection.end);
+      e.currentTarget.value.slice(targetSection.end);
 
     setInputValue(newInputValue);
     e.currentTarget.value = newInputValue;
 
-    const nextSection = getNextSection({
+    const section = getSection({
+      type: isUnitSectionFilled ? 'next' : 'current',
       format,
       value: unitValue,
       inputValue: newInputValue,
-      shouldMoveToNextSection: isUnitSectionFilled,
-      selectedTimeSectionType: selectedTimeSection.type,
+      sectionType: targetSection.type,
     });
 
-    if (nextSection) {
-      setSelectedTimeSection(nextSection);
-      e.currentTarget.setSelectionRange(nextSection.start, nextSection.end);
+    if (section) {
+      setTargetSection(section);
+      e.currentTarget.setSelectionRange(section.start, section.end);
     }
   };
 
   useEffect(() => {
     if (inputValue.length === 0 || inputValue.match(/a|p|h|m|s/g)) return;
+
     setValue(getTimeValue({ format, inputValue }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
@@ -216,14 +228,14 @@ const TimePickerInput = forwardRef<
       onClick={handleClick}
       onKeyDown={handleKeyDown}
       onBlur={() => {
-        if ((value === null && inputValue === '') || inputValue === format) {
+        if (isEmpty || inputValue === format) {
           setInputValue('');
         }
       }}
       onReset={() => {
         setValue(null);
         setInputValue('');
-        setSelectedTimeSection(null);
+        setTargetSection(null);
       }}
       onChange={(e) => e.preventDefault()}
     />
