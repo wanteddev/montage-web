@@ -4,6 +4,7 @@ import type { Dayjs } from 'dayjs';
 export type TimePickerValue = Dayjs | null;
 export type TimePickerFormat = 'hh:mm' | 'a hh' | 'a hh:mm' | 'a hh:mm:ss';
 export type TimePickerHoursFormat = '12' | '24';
+
 export type TimePickerProps = {
   defaultValue?: TimePickerValue;
   value?: TimePickerValue;
@@ -22,7 +23,7 @@ export type TimePickerInputProps = Merge<
 >;
 
 export type TimeSection = {
-  type: 'hours' | 'minutes' | 'seconds' | 'ampm';
+  type: 'ampm' | 'hour' | 'minute' | 'second';
   start: number;
   end: number;
   value: string;

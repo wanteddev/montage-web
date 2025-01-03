@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { DAYJS_AM_TEXT, DAYJS_PM_TEXT } from '.';
+
 import type { Dayjs } from 'dayjs';
 import type {
   TimePickerFormat,
@@ -21,66 +23,60 @@ export const isDayjsTimeValue = (value: TimePickerValue): value is Dayjs =>
 export const getFormatSections = (value: string) =>
   value.replace(/:/g, ' ').split(' ').filter(Boolean);
 
+type ParseTimeSectionsParams = {
+  format: TimePickerFormat;
+  inputValue: string;
+};
+
+const timeSectionType: Record<string, TimeSection['type']> = {
+  a: 'ampm',
+  hh: 'hour',
+  mm: 'minute',
+  ss: 'second',
+} as const;
+
 /**
  * 현재 시간을 format에 따라 Array<TimeSection>로 분할합니다.
  */
 export const parseTimeSections = ({
   format,
-  value,
   inputValue,
-}: {
-  format: TimePickerFormat;
-  value: TimePickerValue;
-  inputValue: string;
-}): Array<TimeSection> => {
-  const timeSections: Array<TimeSection> = [];
-  let currentTimeSectionIndex = 0;
+}: ParseTimeSectionsParams): Array<TimeSection> => {
+  const sections: Array<TimeSection> = [];
+  let currentSectionIndex = 0;
 
   const formatSections = getFormatSections(format);
   const inputSections = getFormatSections(inputValue);
 
   formatSections.forEach((section, index) => {
-    let type: TimeSection['type'];
-    let newValue = '';
+    const formatSectionValue = section.toLowerCase();
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const type = timeSectionType?.[formatSectionValue];
+
     const inputSectionValue = inputSections[index];
+    const value = inputSectionValue ?? formatSectionValue;
 
-    switch (section.toLowerCase()) {
-      case 'a':
-        type = 'ampm';
-        newValue = value ? value.format('A') : inputSectionValue ?? 'a';
-        break;
-
-      case 'hh':
-        type = 'hours';
-        newValue = value ? value.format('hh') : inputSectionValue ?? 'hh';
-        break;
-
-      case 'mm':
-        type = 'minutes';
-        newValue = value ? value.format('mm') : inputSectionValue ?? 'mm';
-        break;
-
-      case 'ss':
-        type = 'seconds';
-        newValue = value ? value.format('ss') : inputSectionValue ?? 'ss';
-        break;
-
-      default:
-        return;
+    if (type) {
+      sections.push({
+        start: currentSectionIndex,
+        end: currentSectionIndex + value.length,
+        type,
+        value,
+      });
+      // 다음 섹션 위치: 구분자 공백 추가
+      currentSectionIndex += value.length + 1;
     }
-
-    timeSections.push({
-      start: currentTimeSectionIndex,
-      end: currentTimeSectionIndex + newValue.length,
-      type,
-      value: newValue,
-    });
-
-    // 다음 섹션 위치: 구분자 공백 추가
-    currentTimeSectionIndex += newValue.length + 1;
   });
 
-  return timeSections;
+  return sections;
+};
+
+type GetNextSectionParams = {
+  format: TimePickerFormat;
+  value?: string;
+  inputValue: string;
+  shouldMoveToNextSection: boolean;
+  selectedTimeSectionType: TimeSection['type'];
 };
 
 export const getNextSection = ({
@@ -89,16 +85,9 @@ export const getNextSection = ({
   inputValue,
   shouldMoveToNextSection,
   selectedTimeSectionType,
-}: {
-  format: TimePickerFormat;
-  value: TimePickerValue;
-  inputValue: string;
-  shouldMoveToNextSection: boolean;
-  selectedTimeSectionType: TimeSection['type'];
-}) => {
+}: GetNextSectionParams) => {
   const sections = parseTimeSections({
     format,
-    value,
     inputValue,
   });
   const currentSectionIndex = sections.findIndex(
@@ -111,6 +100,11 @@ export const getNextSection = ({
     shouldMoveToNextSection && sections?.[nextSectionIndex]
       ? sections[nextSectionIndex]
       : sections[currentSectionIndex];
+
+  // 현재 섹션에 머무를 경우 값 업데이트
+  if (nextSection && value) {
+    nextSection.value = value;
+  }
 
   return nextSection;
 };
@@ -129,7 +123,7 @@ export const getTimeUnit = ({
   hoursFormat?: TimePickerHoursFormat;
 }) => {
   const maxValue =
-    section.type === 'hours'
+    section.type === 'hour'
       ? hoursFormat === '12'
         ? max12Hours
         : max24Hours
@@ -151,4 +145,41 @@ export const getTimeUnit = ({
   const isUnitSectionFilled = Number(value) > valueFirstDigit;
 
   return [value, isUnitSectionFilled] as const;
+};
+
+/**
+ * input value를 DayJS 객체로 변환합니다.
+ */
+export const getTimeValue = ({
+  format,
+  inputValue,
+}: {
+  format: TimePickerFormat;
+  inputValue: string;
+}) => {
+  let time = dayjs().startOf('day').clone();
+
+  const sections = parseTimeSections({
+    format,
+    inputValue,
+  });
+  sections.forEach((section) => {
+    if (section.type !== 'ampm') {
+      time.set(section.type, Number(section.value));
+    }
+  });
+
+  const ampmSection = sections.find((section) => section.type === 'ampm');
+
+  if (ampmSection) {
+    const currentAmpm = time.format('A');
+
+    if (ampmSection.value === DAYJS_AM_TEXT) {
+      time = currentAmpm === DAYJS_AM_TEXT ? time : time.subtract(12, 'hour');
+    } else {
+      time = currentAmpm === DAYJS_PM_TEXT ? time : time.add(12, 'hour');
+    }
+  }
+
+  return time;
 };

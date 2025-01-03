@@ -12,7 +12,12 @@ import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
-import { getNextSection, getTimeUnit, parseTimeSections } from './helpers';
+import {
+  getNextSection,
+  getTimeUnit,
+  getTimeValue,
+  parseTimeSections,
+} from './helpers';
 import { timePickerInputStyle } from './style';
 
 import type { KeyboardEvent, MouseEvent } from 'react';
@@ -30,8 +35,8 @@ dayjs.extend(timezone);
 dayjs.extend(localeData);
 dayjs.locale('ko');
 
-const DAYJS_AM_TEXT = dayjs.localeData().meridiem(0, 0, false);
-const DAYJS_PM_TEXT = dayjs.localeData().meridiem(13, 0, false);
+export const DAYJS_AM_TEXT = dayjs.localeData().meridiem(0, 0, false); // 오전
+export const DAYJS_PM_TEXT = dayjs.localeData().meridiem(13, 0, false); // 오후
 
 const TimePicker = ({
   defaultValue = null,
@@ -92,7 +97,6 @@ const TimePickerInput = forwardRef<
 
     const sections = parseTimeSections({
       format,
-      value,
       inputValue: e.currentTarget.value,
     });
 
@@ -128,7 +132,6 @@ const TimePickerInput = forwardRef<
 
         const nextSection = getNextSection({
           format,
-          value,
           inputValue: newInputValue,
           shouldMoveToNextSection: true,
           selectedTimeSectionType: selectedTimeSection.type,
@@ -145,10 +148,10 @@ const TimePickerInput = forwardRef<
 
     if (
       !/^[0-9]$/.test(e.key) ||
-      (selectedTimeSection.type !== 'hours' &&
-        selectedTimeSection.type !== 'minutes' &&
+      (selectedTimeSection.type !== 'hour' &&
+        selectedTimeSection.type !== 'minute' &&
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        selectedTimeSection.type !== 'seconds')
+        selectedTimeSection.type !== 'second')
     ) {
       return;
     }
@@ -157,7 +160,7 @@ const TimePickerInput = forwardRef<
       section: selectedTimeSection,
       unitKey: e.key,
       hoursFormat:
-        selectedTimeSection.type === 'hours' ? hoursFormat : undefined,
+        selectedTimeSection.type === 'hour' ? hoursFormat : undefined,
     });
 
     const newInputValue =
@@ -170,7 +173,7 @@ const TimePickerInput = forwardRef<
 
     const nextSection = getNextSection({
       format,
-      value,
+      value: unitValue,
       inputValue: newInputValue,
       shouldMoveToNextSection: isUnitSectionFilled,
       selectedTimeSectionType: selectedTimeSection.type,
@@ -183,44 +186,8 @@ const TimePickerInput = forwardRef<
   };
 
   useEffect(() => {
-    if (inputValue.length > 0 && !inputValue.match(/a|p|h|m|s/g)) {
-      let time = dayjs().startOf('day').clone();
-
-      const sections = parseTimeSections({
-        format,
-        value: null,
-        inputValue,
-      });
-
-      sections.forEach((section) => {
-        switch (section.type) {
-          case 'hours':
-            time = time.hour(Number(section.value));
-            break;
-          case 'minutes':
-            time = time.minute(Number(section.value));
-            break;
-          case 'seconds':
-            time = time.second(Number(section.value));
-            break;
-        }
-      });
-
-      const ampmSection = sections.find((section) => section.type === 'ampm');
-
-      if (ampmSection) {
-        const currentAmpm = time.format('A');
-
-        if (ampmSection.value === DAYJS_AM_TEXT) {
-          time =
-            currentAmpm === DAYJS_AM_TEXT ? time : time.subtract(12, 'hour');
-        } else {
-          time = currentAmpm === DAYJS_PM_TEXT ? time : time.add(12, 'hour');
-        }
-      }
-
-      setValue(time);
-    }
+    if (inputValue.length === 0 || inputValue.match(/a|p|h|m|s/g)) return;
+    setValue(getTimeValue({ format, inputValue }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
@@ -230,16 +197,16 @@ const TimePickerInput = forwardRef<
       width="100%"
       value={inputValue}
       disabled={disabled}
+      placeholder={dayjs().startOf('day').format(format)}
       invalid={
         value
           ? !value.isValid()
           : inputValue.length > 0 && inputValue !== format
       }
-      placeholder={dayjs().startOf('day').format(format)}
       rightContent={
         <PopoverTrigger>
           <TextInputContent variant="icon-button">
-            <IconButton type="button" size={22}>
+            <IconButton type="button" size={22} disabled={disabled}>
               <IconClock />
             </IconButton>
           </TextInputContent>
@@ -258,7 +225,7 @@ const TimePickerInput = forwardRef<
         setInputValue('');
         setSelectedTimeSection(null);
       }}
-      onChange={() => {}}
+      onChange={(e) => e.preventDefault()}
     />
   );
 });
