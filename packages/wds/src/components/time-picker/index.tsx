@@ -11,8 +11,17 @@ import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
 
-import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import {
+  ARROW_DOWN_KEY,
+  ARROW_LEFT_KEY,
+  ARROW_RIGHT_KEY,
+  ARROW_UP_KEY,
+  TIME_PICKER_INPUT_NAME,
+  TIME_PICKER_NAME,
+  TYPE_TO_SECTION_MAP,
+} from './constants';
+import {
+  getNewInputValue,
   getSection,
   getTimeUnit,
   getTimeValue,
@@ -20,7 +29,7 @@ import {
 } from './helpers';
 import { timePickerInputStyle } from './style';
 
-import type { KeyboardEvent, MouseEvent } from 'react';
+import type { KeyboardEvent } from 'react';
 import type {
   TimePickerInputProps,
   TimePickerProps,
@@ -42,7 +51,7 @@ const TimePicker = ({
   defaultValue = null,
   value: givenValue,
   format = 'a hh:mm',
-  hoursFormat = '12',
+  hourFormat = '12',
   disabled = false,
   onChange,
 }: TimePickerProps) => {
@@ -58,7 +67,7 @@ const TimePicker = ({
       <TimePickerInput
         value={value}
         format={format}
-        hoursFormat={hoursFormat}
+        hourFormat={hourFormat}
         disabled={disabled}
         setValue={setValue}
       />
@@ -72,8 +81,8 @@ TimePicker.displayName = TIME_PICKER_NAME;
 const TimePickerInput = forwardRef<
   HTMLInputElement,
   DefaultComponentProps<TimePickerInputProps, 'input'>
->(({ format, hoursFormat, disabled, value, sx, setValue }, ref) => {
-  const [, setItem] = useState<HTMLInputElement | null>(null);
+>(({ format, hourFormat, disabled, value, sx, setValue }, ref) => {
+  const [item, setItem] = useState<HTMLInputElement | null>(null);
   const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
   const [targetSection, setTargetSection] = useState<TimeSection | null>(null);
@@ -85,33 +94,37 @@ const TimePickerInput = forwardRef<
     [value, inputValue],
   );
 
-  const handleClick = (e: MouseEvent<HTMLInputElement>) => {
-    let cursorPosition: number | null;
+  const handlePointerDown = () => {
+    if (!item) return;
 
-    if (isEmpty) {
-      cursorPosition = 0;
-      setInputValue(format);
-      e.currentTarget.value = format;
-    } else {
-      cursorPosition = e.currentTarget.selectionStart ?? 0;
-    }
+    let cursorPosition: number;
 
-    const sections = parseTimeSections({
-      format,
-      inputValue: e.currentTarget.value,
-    });
-    const clickedSection = sections.find(
-      (section) =>
-        cursorPosition >= section.start && cursorPosition <= section.end,
-    );
+    requestAnimationFrame(() => {
+      if (isEmpty) {
+        cursorPosition = 0;
+        item.value = format;
+      } else {
+        cursorPosition = item.selectionStart ?? 0;
+      }
 
-    if (clickedSection) {
-      setTargetSection(clickedSection);
-      e.currentTarget.setSelectionRange(
-        clickedSection.start,
-        clickedSection.end,
+      const sections = parseTimeSections({
+        format,
+        inputValue: item.value,
+      });
+      const clickedSection = sections.find(
+        (section) =>
+          cursorPosition >= section.start && cursorPosition <= section.end,
       );
-    }
+
+      if (clickedSection) {
+        setTargetSection(clickedSection);
+        item.setSelectionRange(clickedSection.start, clickedSection.end);
+
+        if (isEmpty) {
+          setInputValue(format);
+        }
+      }
+    });
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -119,9 +132,38 @@ const TimePickerInput = forwardRef<
 
     e.preventDefault();
 
-    if (['ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    if (e.key === 'Backspace') {
+      const formatValue = TYPE_TO_SECTION_MAP[targetSection.type];
+
+      if (formatValue === targetSection.value) return;
+
+      const newInputValue = getNewInputValue({
+        section: targetSection,
+        value: formatValue,
+        inputValue,
+      });
+
+      setInputValue(newInputValue);
+      e.currentTarget.value = newInputValue;
+
       const section = getSection({
-        type: e.key === 'ArrowLeft' ? 'prev' : 'next',
+        type: 'current',
+        format,
+        inputValue: newInputValue,
+        sectionType: targetSection.type,
+      });
+
+      if (section) {
+        setTargetSection(section);
+        e.currentTarget.setSelectionRange(section.start, section.end);
+      }
+
+      return;
+    }
+
+    if (e.key === ARROW_LEFT_KEY || e.key === ARROW_RIGHT_KEY) {
+      const section = getSection({
+        type: e.key === ARROW_LEFT_KEY ? 'prev' : 'next',
         format,
         inputValue,
         sectionType: targetSection.type,
@@ -161,23 +203,27 @@ const TimePickerInput = forwardRef<
       return;
     }
 
-    if (
-      !/^[0-9]$/.test(e.key) ||
-      !['hour', 'minute', 'second'].includes(targetSection.type)
-    ) {
-      return;
-    }
+    const isValidSection = ['hour', 'minute', 'second'].includes(
+      targetSection.type,
+    );
+    const isValidKey =
+      /^[0-9]$/.test(e.key) ||
+      e.key === ARROW_UP_KEY ||
+      e.key === ARROW_DOWN_KEY;
+
+    if (!isValidKey || !isValidSection) return;
 
     const [unitValue, isUnitSectionFilled] = getTimeUnit({
       section: targetSection,
       unitKey: e.key,
-      hoursFormat: targetSection.type === 'hour' ? hoursFormat : undefined,
+      hourFormat: targetSection.type === 'hour' ? hourFormat : undefined,
     });
 
-    const newInputValue =
-      e.currentTarget.value.slice(0, targetSection.start) +
-      unitValue +
-      e.currentTarget.value.slice(targetSection.end);
+    const newInputValue = getNewInputValue({
+      section: targetSection,
+      value: unitValue,
+      inputValue,
+    });
 
     setInputValue(newInputValue);
     e.currentTarget.value = newInputValue;
@@ -197,8 +243,6 @@ const TimePickerInput = forwardRef<
   };
 
   useEffect(() => {
-    if (inputValue.length === 0 || inputValue.match(/a|p|h|m|s/g)) return;
-
     setValue(getTimeValue({ format, inputValue }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
@@ -225,7 +269,7 @@ const TimePickerInput = forwardRef<
         </PopoverTrigger>
       }
       sx={[timePickerInputStyle, sx]}
-      onClick={handleClick}
+      onPointerDown={handlePointerDown}
       onKeyDown={handleKeyDown}
       onBlur={() => {
         if (isEmpty || inputValue === format) {
@@ -237,7 +281,7 @@ const TimePickerInput = forwardRef<
         setInputValue('');
         setTargetSection(null);
       }}
-      onChange={(e) => e.preventDefault()}
+      onChange={() => {}}
     />
   );
 });
