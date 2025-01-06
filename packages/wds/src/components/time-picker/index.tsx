@@ -128,7 +128,8 @@ const TimePickerInput = forwardRef<
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (!targetSection || disabled) return;
+    if (disabled || !targetSection || !item) return;
+    if (e.key === 'Tab' || e.key === 'Enter') return;
 
     e.preventDefault();
 
@@ -143,9 +144,6 @@ const TimePickerInput = forwardRef<
         inputValue,
       });
 
-      setInputValue(newInputValue);
-      e.currentTarget.value = newInputValue;
-
       const section = getSection({
         type: 'current',
         format,
@@ -154,8 +152,10 @@ const TimePickerInput = forwardRef<
       });
 
       if (section) {
+        item.value = newInputValue;
+        item.setSelectionRange(section.start, section.end);
+        setInputValue(newInputValue);
         setTargetSection(section);
-        e.currentTarget.setSelectionRange(section.start, section.end);
       }
 
       return;
@@ -170,8 +170,8 @@ const TimePickerInput = forwardRef<
       });
 
       if (section) {
+        item.setSelectionRange(section.start, section.end);
         setTargetSection(section);
-        e.currentTarget.setSelectionRange(section.start, section.end);
       }
 
       return;
@@ -182,11 +182,7 @@ const TimePickerInput = forwardRef<
 
       if (['a', 'p'].includes(lowerKey)) {
         const ampmText = lowerKey === 'a' ? DAYJS_AM_TEXT : DAYJS_PM_TEXT;
-        const newInputValue =
-          ampmText + e.currentTarget.value.slice(targetSection.end);
-
-        setInputValue(newInputValue);
-        e.currentTarget.value = newInputValue;
+        const newInputValue = ampmText + item.value.slice(targetSection.end);
 
         const section = getSection({
           type: 'next',
@@ -196,8 +192,10 @@ const TimePickerInput = forwardRef<
         });
 
         if (section) {
+          item.value = newInputValue;
+          item.setSelectionRange(section.start, section.end);
+          setInputValue(newInputValue);
           setTargetSection(section);
-          e.currentTarget.setSelectionRange(section.start, section.end);
         }
       }
       return;
@@ -225,9 +223,6 @@ const TimePickerInput = forwardRef<
       inputValue,
     });
 
-    setInputValue(newInputValue);
-    e.currentTarget.value = newInputValue;
-
     const section = getSection({
       type: isUnitSectionFilled ? 'next' : 'current',
       format,
@@ -237,8 +232,10 @@ const TimePickerInput = forwardRef<
     });
 
     if (section) {
+      item.value = newInputValue;
+      item.setSelectionRange(section.start, section.end);
+      setInputValue(newInputValue);
       setTargetSection(section);
-      e.currentTarget.setSelectionRange(section.start, section.end);
     }
   };
 
@@ -277,9 +274,21 @@ const TimePickerInput = forwardRef<
         }
       }}
       onReset={() => {
-        setValue(null);
-        setInputValue('');
-        setTargetSection(null);
+        if (!item) return;
+
+        const sections = parseTimeSections({
+          format,
+          inputValue: format,
+        });
+        const defaultSection = sections.find((section) => section.start === 0);
+
+        if (defaultSection) {
+          item.value = format;
+          item.setSelectionRange(defaultSection.start, defaultSection.end);
+          setValue(null);
+          setInputValue(format);
+          setTargetSection(defaultSection);
+        }
       }}
       onChange={() => {}}
     />
