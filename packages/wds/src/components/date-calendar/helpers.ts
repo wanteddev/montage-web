@@ -27,14 +27,18 @@ export const isDisabledDate = ({
 }: DefaultDateHelperParams) => {
   if (
     isValidDate(min) &&
-    dayjs(min).tz(timezone).isAfter(dayjs(value).tz(timezone))
+    dayjsTimezone(dayjs(min), timezone).isAfter(
+      dayjsTimezone(dayjs(value), timezone),
+    )
   ) {
     return true;
   }
 
   if (
     isValidDate(max) &&
-    dayjs(max).tz(timezone).isBefore(dayjs(value).tz(timezone))
+    dayjsTimezone(dayjs(max), timezone).isBefore(
+      dayjsTimezone(dayjs(value), timezone),
+    )
   ) {
     return true;
   }
@@ -66,14 +70,18 @@ export const findClosestEnableDate = ({
 }: DefaultDateHelperParams) => {
   if (
     isValidDate(min) &&
-    dayjs(min).tz(timezone).isAfter(dayjs(value).tz(timezone))
+    dayjsTimezone(dayjs(min), timezone).isAfter(
+      dayjsTimezone(dayjs(value), timezone),
+    )
   ) {
     return dateTypeToDateObject(min, timezone);
   }
 
   if (
     isValidDate(max) &&
-    dayjs(max).tz(timezone).isBefore(dayjs(value).tz(timezone))
+    dayjsTimezone(dayjs(max), timezone).isBefore(
+      dayjsTimezone(dayjs(value), timezone),
+    )
   ) {
     return dateTypeToDateObject(max, timezone);
   }
