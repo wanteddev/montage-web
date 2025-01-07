@@ -13,6 +13,8 @@ export { default as ChipFilter } from './chip-filter';
 export { default as ChipMultiSelect } from './chip-multi-select';
 export * from './compact-tooltip';
 export { default as ContentBadge } from './content-badge';
+export { default as DateCalendar } from './date-calendar';
+export { default as DatePicker } from './date-picker';
 export { DialogButton } from './dialog';
 export { default as DismissableLayer } from './dismissable-layer';
 export { default as Divider } from './divider';
