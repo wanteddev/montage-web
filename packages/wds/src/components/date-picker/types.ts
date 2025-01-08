@@ -6,6 +6,7 @@ import type {
   ComponentProps,
   ComponentPropsWithoutRef,
   ElementType,
+  ReactNode,
   Ref,
 } from 'react';
 import type { PopperContent } from '../popper';
@@ -23,17 +24,18 @@ export type DatePickerProps = Merge<
     format?: string;
     inputRef?: Ref<HTMLInputElement>;
     input?: ElementType;
+    actionArea?: ReactNode;
   },
   ComponentPropsWithoutRef<typeof DateCalendar> &
     Omit<TextInputProps, 'wrapperRef'>
 >;
 
-export type DateInputProps = Merge<
+export type DatePickerInputProps = Merge<
   {
+    ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;
-    // onclicktrigger 그거 받기
   },
-  ComponentPropsWithoutRef<typeof TextInput>
+  Omit<ComponentPropsWithoutRef<typeof TextInput>, 'wrapperRef'>
 >;
 
 export type DatePickerFormat =

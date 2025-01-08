@@ -93,7 +93,7 @@ const DateCalendar = forwardRef<
       view: originView,
       defaultView: givenDefaultView = views.at(views.length - 1) ?? 'day',
       onViewChange,
-      locale = 'ko',
+      locale = 'ko-KR',
       yearsOrder = 'asc',
       timezone,
       disabled,

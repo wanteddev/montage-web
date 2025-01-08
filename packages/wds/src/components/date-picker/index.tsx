@@ -11,13 +11,14 @@ import DateCalendar from '../date-calendar';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
+import FlexBox from '../flex-box';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { DateInputProps, DatePickerProps } from './types';
+import type { DatePickerInputProps, DatePickerProps } from './types';
 import type { DateType } from '../date-calendar/types';
 
 const DatePicker = forwardRef<
@@ -43,11 +44,13 @@ const DatePicker = forwardRef<
       placeholder = format,
       min,
       max,
-      locale,
+      locale = 'ko-KR',
       timezone,
       onChangeComplete,
       inputRef: givenInputRef,
+      yearsOrder,
       input,
+      actionArea,
       ...props
     },
     forwardedRef,
@@ -78,7 +81,7 @@ const DatePicker = forwardRef<
       ...otherContentProps
     } = contentProps || {};
 
-    const Component = input ?? DateInput;
+    const Component = input ?? DatePickerInput;
 
     const {
       inputRef,
@@ -183,20 +186,26 @@ const DatePicker = forwardRef<
                   setOpen(false);
                 }}
               >
-                <DateCalendar
-                  min={min}
-                  max={max}
-                  timezone={timezone}
-                  locale={locale}
-                  onChangeComplete={handleChangeComplete}
-                  view={view}
-                  defaultView={defaultView}
-                  onViewChange={onViewChange}
-                  views={views}
-                  value={value}
-                  onChange={setValue}
-                  readOnly={readOnly}
-                />
+                <FlexBox flexDirection="column">
+                  <DateCalendar
+                    min={min}
+                    max={max}
+                    timezone={timezone}
+                    locale={locale}
+                    onChangeComplete={handleChangeComplete}
+                    view={view}
+                    defaultView={defaultView}
+                    onViewChange={onViewChange}
+                    views={views}
+                    value={value}
+                    onChange={setValue}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                    yearsOrder={yearsOrder}
+                  />
+
+                  {actionArea}
+                </FlexBox>
               </DismissableLayer>
             </FocusScope>
           </PopperContent>
@@ -208,13 +217,14 @@ const DatePicker = forwardRef<
 
 DatePicker.displayName = 'DatePicker';
 
-const DateInput = forwardRef<
+const DatePickerInput = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DateInputProps, 'input'>
+  DefaultComponentProps<DatePickerInputProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextInput {...props} ref={inputRef} wrapperRef={ref} />
 ));
 
-DateInput.displayName = 'DateInput';
+DatePickerInput.displayName = 'DatePickerInput';
 
-export default DatePicker;
+export { DatePicker };
+export type { DatePickerInputProps, DateType };
