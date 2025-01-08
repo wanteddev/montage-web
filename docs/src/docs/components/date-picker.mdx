@@ -1,0 +1,147 @@
+---
+title: DatePicker
+description: DatePicker Component
+---
+
+# DatePicker
+
+사용자가 YYYY. MM. DD순으로 날짜를 입력할 수 있는 폼을 제공합니다.
+
+## 활용
+
+- 키보드로 값을 제어할 수 있어요.
+- locale, timezone을 지정할 수 있어요.
+- 기본적으로 TextInput 컴포넌트를 사용해요.
+- 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
+
+<Demo code={`import { DatePicker } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <DatePicker placeholder="날짜를 선택해주세요." width="300px" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### DatePicker
+
+<PropsTable component="DatePicker" />
+
+## Example
+
+### Format
+
+날짜가 표시되는 format 을 지정할 수 있어요.
+
+<Demo code={`import { DatePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <DatePicker format="YYYY.MMM.DD" width="300px" />
+      
+      <DatePicker format="YYYY-MM-DD" width="300px" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Locale, Timezone
+
+- Locale
+  - 기본적으로 locale은 `ko-KR` 으로 지정되어 있어요.
+  - [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) API 에서 지원하는 언어를 모두 import 없이 사용할 수 있어요.
+- Timezone
+  - 기본적으로 timezone은 사용자의 환경에 따라 결정돼요.
+  - [dayjs](https://day.js.org/docs/en/timezone/timezone) 에서 지원하는 timezone과 `UTC` 를 모두 import 없이 사용할 수 있어요.
+
+<Demo code={`import { DatePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <DatePicker format="YYYY.MMM.DD" width="300px" defaultValue={new Date()} locale="ko-KR" timezone="Asia/Seoul" />
+      <DatePicker format="YYYY.MMM.DD" width="300px" defaultValue={new Date()} locale="en-US" timezone="UTC" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Validation
+
+- 최소값과 최대값을 설정할 수 있어요.
+- 하지만 키보드 조작을 통해 범위를 벗어나는 값을 입력할 수 있어요.
+- Invalid date 상태를 가질 수 있어요.
+
+<Demo code={`import { DatePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+import { Controller, useForm } from 'react-hook-form';
+
+const minDate = new Date('2000-01-01T00:00:00Z');
+const maxDate = new Date('2025-12-31T23:59:59Z');
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      date: new Date(),
+    },
+    mode: 'onChange'
+  });
+
+  return (
+    <FlexBox as="form">
+      <Controller
+        control={form.control}
+        name="date"
+        rules={{
+          validate: (value) => {
+            if (isNaN(new Date(value).getTime())) {
+              return '유효한 날짜를 입력해주세요.';
+            }
+
+            if (new Date(value).getTime() < minDate.getTime()) {
+              return '최소 날짜는 2000년 1월 1일 이상이어야 합니다.';
+            }
+
+            if (new Date(value).getTime() > maxDate.getTime()) {
+              return '최대 날짜는 2025년 12월 31일 이하이어야 합니다.';
+            }
+            
+          return true;
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>날짜</FormLabel>
+
+            <FormControl>
+              <DatePicker
+                min={minDate}
+                max={maxDate}
+                format="YYYY.MMM.DD"
+                width="300px"
+                inputRef={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                invalid={!!formState.errors.date}
+              />
+            </FormControl>
+
+            <FormErrorMessage>{formState.errors.date?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

@@ -402,8 +402,8 @@ const YearCalendar = forwardRef<
 
   const yearRange = useMemo(() => {
     const startDate = dayjsTimezone(dayjs(min ?? ACCESSIBLE_MIN_DATE), timezone)
-      .set('month', 0)
-      .set('day', 1);
+      .set('month', 11)
+      .set('day', 31);
     const endDate = dayjsTimezone(dayjs(max ?? ACCESSIBLE_MAX_DATE), timezone)
       .set('month', 11)
       .set('day', 31);

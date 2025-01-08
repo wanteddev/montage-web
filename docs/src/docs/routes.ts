@@ -77,6 +77,10 @@ export const routes: Array<Route> = [
         slug: '/docs/components/content-badge',
       },
       {
+        title: 'DatePicker',
+        slug: '/docs/components/date-picker',
+      },
+      {
         title: 'DismissableLayer',
         slug: '/docs/components/dismissable-layer',
       },
