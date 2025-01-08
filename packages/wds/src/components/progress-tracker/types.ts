@@ -13,4 +13,12 @@ export type ProgressTrackerItemProps = {
   label?: ReactNode;
   completedLabel?: ReactNode;
   children?: ReactNode;
+  /**
+   * direction='vertical' only
+   */
+  labelContent?: ReactNode;
+};
+
+export type ProgressTrackerLabelContentProps = {
+  variant?: 'badge' | 'caption' | 'custom';
 };
