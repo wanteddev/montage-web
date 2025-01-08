@@ -4,8 +4,9 @@ import { addOpacity, typographyStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const dateCalendarStyle = css`
+export const dateCalendarStyle = (theme: Theme) => css`
   width: 276px;
+  background-color: ${theme.palette.background.elevated.normal};
 `;
 
 export const stickyDateCalendarStyle = (theme: Theme) => css`
@@ -49,14 +50,20 @@ export const dateCalendarHeaderNavigationStyle = css`
 export const dateCalendarWrapperStyle = css`
   height: 334px;
   width: 276px;
+
+  [data-radix-scroll-area-viewport] {
+    scroll-padding-top: 54px;
+  }
 `;
 
 export const dateYearMonthWrapperStyle = css`
   padding: 2px 12px;
   outline: none;
+  row-gap: 2px;
+  column-gap: 0px;
 `;
 
-export const dateItemButtonStyle = (theme: Theme) => css`
+export const dayItemButtonStyle = (theme: Theme) => css`
   color: ${theme.palette.label.normal};
   border: none;
   border-radius: 10000px;
@@ -93,22 +100,35 @@ export const dateItemButtonStyle = (theme: Theme) => css`
   }
 
   &[aria-selected='true'] {
-    color: ${theme.palette.inverse.label};
+    color: ${theme.palette.static.white};
     background-color: ${theme.palette.primary.normal};
     &:disabled,
     &[data-other-month='true'] {
-      color: ${addOpacity(theme.palette.inverse.label, theme.opacity[43])};
+      color: ${addOpacity(theme.palette.static.white, theme.opacity[43])};
       background-color: ${theme.palette.primary.normal};
     }
   }
 
   &[aria-checked='true'] {
-    color: ${theme.palette.inverse.label};
+    color: ${theme.palette.static.white};
     background-color: ${theme.palette.primary.normal};
     &:disabled,
     &[data-other-month='true'] {
-      color: ${addOpacity(theme.palette.inverse.label, theme.opacity[43])};
+      color: ${addOpacity(theme.palette.static.white, theme.opacity[43])};
       background-color: ${theme.palette.primary.normal};
+    }
+  }
+
+  &:not(:hover):not(:active) > [wds-component='with-interaction'] {
+    transition: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    & > [wds-component='with-interaction'] {
+      transition: none;
+      opacity: ${theme.opacity[12]};
     }
   }
 `;

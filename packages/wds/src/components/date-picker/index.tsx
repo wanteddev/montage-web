@@ -96,6 +96,8 @@ const DatePicker = forwardRef<
       locale,
       timezone,
       setValue,
+      readOnly,
+      disabled,
     });
 
     const handleChangeComplete = useCallbackRef((v: DateType) => {
@@ -137,7 +139,7 @@ const DatePicker = forwardRef<
                   variant="icon-button"
                 >
                   <IconButton
-                    disabled={disabled}
+                    disabled={disabled || readOnly}
                     onClick={() => setOpen((prev) => !prev)}
                   >
                     <IconCalendar />
@@ -169,6 +171,7 @@ const DatePicker = forwardRef<
                 asChild
                 onPointerDownOutside={(e) => {
                   if (
+                    ref.current?.contains(e.target as HTMLElement) &&
                     (e.target as HTMLElement).closest(
                       '[data-role="date-picker-calendar-icon"]',
                     )
@@ -192,6 +195,7 @@ const DatePicker = forwardRef<
                   views={views}
                   value={value}
                   onChange={setValue}
+                  readOnly={readOnly}
                 />
               </DismissableLayer>
             </FocusScope>

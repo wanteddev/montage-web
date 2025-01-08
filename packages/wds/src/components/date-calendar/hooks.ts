@@ -5,6 +5,7 @@ import {
   dateTypeToDateObject,
   dayjsTimezone,
   findClosestEnableDate,
+  isValidDate,
 } from './helpers';
 
 import type { DateType } from './types';
@@ -23,7 +24,7 @@ export const useDefaultSelectedDate = (
   ).current;
 
   const getDefaultSelectedDate = useCallback(() => {
-    if (Boolean(value)) {
+    if (Boolean(value) && isValidDate(value)) {
       return dateTypeToDateObject(value, timezone);
     }
 

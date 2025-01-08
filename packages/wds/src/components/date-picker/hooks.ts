@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 
-import { dayjsTimezone, isValidDate } from '../date-calendar/helpers';
+import {
+  dateTypeToDateObject,
+  dayjsTimezone,
+  isValidDate,
+} from '../date-calendar/helpers';
 
 import {
   getClosetSection,
@@ -29,6 +33,8 @@ type UseDateFieldParams = Pick<
   'value' | 'format' | 'locale' | 'timezone'
 > & {
   setValue: Dispatch<SetStateAction<DateType>>;
+  readOnly: boolean | undefined;
+  disabled: boolean | undefined;
 };
 
 export const useDateField = ({
@@ -37,6 +43,8 @@ export const useDateField = ({
   locale,
   timezone,
   setValue,
+  readOnly,
+  disabled,
 }: UseDateFieldParams) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [focusedSection, setFocusedSection] = useState<DateFormatSection>();
@@ -50,15 +58,6 @@ export const useDateField = ({
   const sectionValueRef = useRef('');
 
   useEffect(() => {
-    setSections(getDateformatSections(inputValue, format, locale));
-
-    if (focusedSection) {
-      setFocusedSection(sections[focusedSection.index]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [format, locale]);
-
-  useEffect(() => {
     sectionValueRef.current = '';
   }, [focusedSection?.index]);
 
@@ -67,6 +66,7 @@ export const useDateField = ({
       const newInputValue = isValidDate(v)
         ? toFormat(v, format, locale, timezone)
         : '';
+      isTriggeredChange.current = true;
       setInputValue(newInputValue);
       setSections(getDateformatSections(newInputValue, format, locale));
 
@@ -77,12 +77,61 @@ export const useDateField = ({
     [focusedSection, format, locale, sections, timezone],
   );
 
+  useEffect(() => {
+    const newInputValue = !inputValue
+      ? ''
+      : isValidDate(value)
+        ? toFormat(value, format, locale, timezone)
+        : format;
+
+    const newSections = getDateformatSections(newInputValue, format, locale);
+    setSections(newSections);
+
+    if (focusedSection) {
+      setFocusedSection(newSections[focusedSection.index]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [format, locale, timezone]);
+
+  const isFirstRender = useRef(true);
+  const isTriggeredChange = useRef(false);
+
+  const prevTimezone = useRef(timezone);
+
+  useEffect(() => {
+    if (isFirstRender.current || isTriggeredChange.current) {
+      isFirstRender.current = false;
+      isTriggeredChange.current = false;
+      return;
+    }
+
+    if (!inputValue) {
+      setSections(getDateformatSections(format, format, locale));
+    } else {
+      const newInputValue = isValidDate(value)
+        ? toFormat(value, format, locale, timezone)
+        : format;
+
+      setInputValue(newInputValue);
+      setSections(getDateformatSections(newInputValue, format, locale));
+
+      if (focusedSection) {
+        setFocusedSection(sections[focusedSection.index]);
+      }
+    }
+
+    if (isValidDate(value) && prevTimezone.current !== timezone) {
+      setValue(dateTypeToDateObject(value, timezone));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timezone, value, locale, format]);
+
   const handleNextSection = useCallback(
-    (newInputValue: string) => {
+    (newInputValue: string, newSectionValue: Array<DateFormatSection>) => {
       if (!focusedSection) {
         return;
       }
-      const nextSection = sections[focusedSection.index + 1];
+      const nextSection = newSectionValue[focusedSection.index + 1];
 
       const parsedDate = parseFromFormat(
         newInputValue,
@@ -91,8 +140,9 @@ export const useDateField = ({
         timezone,
       );
 
-      if (parsedDate) {
+      if (parsedDate && !readOnly && !disabled) {
         setValue(parsedDate);
+        isTriggeredChange.current = true;
       }
 
       if (nextSection) {
@@ -114,7 +164,7 @@ export const useDateField = ({
 
       sectionValueRef.current = '';
     },
-    [focusedSection, format, locale, sections, setValue, timezone],
+    [focusedSection, format, locale, setValue, timezone, readOnly, disabled],
   );
 
   const handlePaste = useCallback(
@@ -123,7 +173,7 @@ export const useDateField = ({
 
       e.preventDefault();
 
-      if (!focusedSection) {
+      if (!focusedSection || readOnly || disabled) {
         return;
       }
 
@@ -143,7 +193,7 @@ export const useDateField = ({
           setInputValue(newValue);
           setSections(newSectionValue);
           setFocusedSection(newSectionValue[newSectionValue.length - 1]);
-
+          isTriggeredChange.current = true;
           requestAnimationFrame(() => {
             inputRef.current?.setSelectionRange(
               newSectionValue[newSectionValue.length - 1]!.startIndex,
@@ -172,18 +222,13 @@ export const useDateField = ({
 
           setInputValue(newInputValue);
 
-          const parsedDate = parseFromFormat(
+          const newSectionValue = getDateformatSections(
             newInputValue,
             format,
             locale,
-            timezone,
           );
 
-          if (parsedDate) {
-            setValue(parsedDate);
-          }
-
-          handleNextSection(newInputValue);
+          handleNextSection(newInputValue, newSectionValue);
         }
       } else {
         const numericValue = parseInt(newValue);
@@ -194,20 +239,28 @@ export const useDateField = ({
             `${numericValue}` +
             inputValue.slice(focusedSection.endIndex);
 
+          const newSectionValue = getDateformatSections(
+            newInputValue,
+            format,
+            locale,
+          );
+
           setInputValue(newInputValue);
-          handleNextSection(newInputValue);
+          handleNextSection(newInputValue, newSectionValue);
         }
       }
     },
     [
       focusedSection,
-      format,
-      handleNextSection,
+      readOnly,
+      disabled,
       inputValue,
+      format,
       locale,
-      sections,
-      setValue,
       timezone,
+      setValue,
+      sections,
+      handleNextSection,
     ],
   );
 
@@ -241,7 +294,13 @@ export const useDateField = ({
 
       const cursorPosition = e.currentTarget.selectionStart ?? 0;
 
-      const closetSection = getClosetSection(cursorPosition, sections);
+      const newInputValue = !inputValue ? format : inputValue;
+      const newSections = getDateformatSections(newInputValue, format, locale);
+
+      setSections(newSections);
+      setInputValue(newInputValue);
+
+      const closetSection = getClosetSection(cursorPosition, newSections);
       if (closetSection) {
         e.preventDefault();
         setFocusedSection(closetSection);
@@ -251,12 +310,16 @@ export const useDateField = ({
         );
       }
     },
-    [sections],
+    [format, inputValue, locale],
   );
 
   const handleBlur = useCallback(() => {
     setFocusedSection(undefined);
-  }, []);
+
+    if (inputValue === format) {
+      setInputValue('');
+    }
+  }, [format, inputValue]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
@@ -270,6 +333,10 @@ export const useDateField = ({
       switch (e.key) {
         case 'Backspace':
           e.preventDefault();
+
+          if (readOnly || disabled) {
+            return;
+          }
 
           sectionValueRef.current = '';
 
@@ -297,6 +364,7 @@ export const useDateField = ({
             setFocusedSection(removedSections[0]);
             if (parsedNewDateFromFormat) {
               setValue(parsedNewDateFromFormat);
+              isTriggeredChange.current = true;
             }
 
             if (removedSections[0]) {
@@ -334,6 +402,7 @@ export const useDateField = ({
           setFocusedSection(removedSections[focusedSection.index]);
           if (parsedNewDateFromFormat) {
             setValue(parsedNewDateFromFormat);
+            isTriggeredChange.current = true;
           }
 
           requestAnimationFrame(() => {
@@ -346,6 +415,10 @@ export const useDateField = ({
           return;
         case 'ArrowUp':
           e.preventDefault();
+
+          if (readOnly || disabled) {
+            return;
+          }
 
           if (focusedSection.type === 'text') {
             const optionIndex = focusedSection.options.indexOf(
@@ -379,6 +452,7 @@ export const useDateField = ({
             setFocusedSection(newSectionValue[focusedSection.index]);
             if (parsedDate) {
               setValue(parsedDate);
+              isTriggeredChange.current = true;
             }
 
             requestAnimationFrame(() => {
@@ -442,6 +516,7 @@ export const useDateField = ({
             setFocusedSection(newSectionValue[focusedSection.index]);
             if (parsedDate) {
               setValue(parsedDate);
+              isTriggeredChange.current = true;
             }
 
             requestAnimationFrame(() => {
@@ -454,6 +529,10 @@ export const useDateField = ({
           return;
         case 'ArrowDown':
           e.preventDefault();
+
+          if (readOnly || disabled) {
+            return;
+          }
 
           if (focusedSection.type === 'text') {
             const optionIndex = focusedSection.options.indexOf(
@@ -489,6 +568,7 @@ export const useDateField = ({
             setFocusedSection(newSectionValue[focusedSection.index]);
             if (parsedDate) {
               setValue(parsedDate);
+              isTriggeredChange.current = true;
             }
 
             requestAnimationFrame(() => {
@@ -552,6 +632,7 @@ export const useDateField = ({
             setFocusedSection(newSectionValue[focusedSection.index]);
             if (parsedDate) {
               setValue(parsedDate);
+              isTriggeredChange.current = true;
             }
 
             requestAnimationFrame(() => {
@@ -604,7 +685,7 @@ export const useDateField = ({
 
       const lowerKey = e.key.toLowerCase();
 
-      if (e.ctrlKey || e.metaKey || e.altKey) {
+      if (e.ctrlKey || e.metaKey || e.altKey || readOnly || disabled) {
         return;
       }
 
@@ -658,7 +739,7 @@ export const useDateField = ({
         if (isFinished) {
           setInputValue(newInputValue);
           setSections(newSectionValue);
-          handleNextSection(newInputValue);
+          handleNextSection(newInputValue, newSectionValue);
         } else {
           const parsedDate = parseFromFormat(
             newInputValue,
@@ -672,6 +753,7 @@ export const useDateField = ({
           setFocusedSection(newSectionValue[focusedSection.index]);
           if (parsedDate) {
             setValue(parsedDate);
+            isTriggeredChange.current = true;
           }
 
           requestAnimationFrame(() => {
@@ -713,7 +795,7 @@ export const useDateField = ({
         if (isComplete(sectionValueRef.current)) {
           setInputValue(newInputValue);
           setSections(newSectionValue);
-          handleNextSection(newInputValue);
+          handleNextSection(newInputValue, newSectionValue);
         } else {
           const parsedDate = parseFromFormat(
             newInputValue,
@@ -727,6 +809,7 @@ export const useDateField = ({
           setFocusedSection(newSectionValue[focusedSection.index]);
           if (parsedDate) {
             setValue(parsedDate);
+            isTriggeredChange.current = true;
           }
 
           requestAnimationFrame(() => {
@@ -740,14 +823,16 @@ export const useDateField = ({
     },
     [
       focusedSection,
-      format,
-      handleNextSection,
+      readOnly,
+      disabled,
       inputValue,
+      format,
       locale,
+      timezone,
       sections,
       setValue,
-      timezone,
       value,
+      handleNextSection,
     ],
   );
 

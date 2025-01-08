@@ -15,6 +15,13 @@ export type DateCalendarProps = {
   locale?: string;
   timezone?: string;
   onChangeComplete?: (value: DateType) => void;
+  readOnly?: boolean;
+  disabled?: boolean;
+  yearsOrder?: 'desc' | 'asc';
+};
+
+export type YearCalendarProps = {
+  order?: 'desc' | 'asc';
 };
 
 export type DateItemProps = {

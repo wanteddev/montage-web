@@ -1,4 +1,11 @@
-import { forwardRef, memo, useCallback, useEffect, useMemo } from 'react';
+import {
+  forwardRef,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
@@ -14,14 +21,8 @@ import {
   IconChevronRightSmall,
 } from '@wanteddev/wds-icon';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
-import {
-  RovingFocusGroup,
-  RovingFocusGroupItem,
-} from '@radix-ui/react-roving-focus';
 import { useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { composeEventHandlers } from '@radix-ui/primitive';
-import { flushSync } from 'react-dom';
 
 import FlexBox from '../flex-box';
 import TextButton from '../text-button';
@@ -39,8 +40,8 @@ import {
   dateCalendarHeaderStyle,
   dateCalendarStyle,
   dateCalendarWrapperStyle,
-  dateItemButtonStyle,
   dateYearMonthWrapperStyle,
+  dayItemButtonStyle,
   stickyDateCalendarStyle,
   weekdayCellStyle,
 } from './style';
@@ -65,8 +66,8 @@ import type { KeyboardEvent, ReactNode } from 'react';
 import type {
   DateCalendarProps,
   DateItemProps,
-  DateType,
   ViewType,
+  YearCalendarProps,
 } from './types';
 
 dayjs.extend(isSameOrAfter);
@@ -93,7 +94,10 @@ const DateCalendar = forwardRef<
       defaultView: givenDefaultView = views.at(views.length - 1) ?? 'day',
       onViewChange,
       locale = 'ko',
+      yearsOrder = 'asc',
       timezone,
+      disabled,
+      readOnly,
       ...props
     },
     ref,
@@ -140,36 +144,54 @@ const DateCalendar = forwardRef<
         newView: DateCalendarProps['view'],
         newValue: DateCalendarProps['value'],
       ) => {
+        if (disabled || readOnly) return;
+
         switch (newView) {
           case 'year': {
             if (isOnlySelectYear) {
+              setValue(newValue);
               onChangeComplete?.(newValue);
             } else {
+              setDefaultSelectedDate(dateTypeToDateObject(newValue, timezone));
               setView(views.includes('month') ? 'month' : 'day');
             }
             break;
           }
           case 'month': {
             if (isOnlySelectMonth || !views.includes('day')) {
+              setValue(newValue);
               onChangeComplete?.(newValue);
             } else {
+              setDefaultSelectedDate(dateTypeToDateObject(newValue, timezone));
               setView('day');
             }
             break;
           }
           case 'day': {
+            setValue(newValue);
             onChangeComplete?.(newValue);
             break;
           }
         }
       },
-      [isOnlySelectMonth, isOnlySelectYear, onChangeComplete, setView, views],
+      [
+        disabled,
+        isOnlySelectMonth,
+        isOnlySelectYear,
+        onChangeComplete,
+        readOnly,
+        setDefaultSelectedDate,
+        setValue,
+        setView,
+        timezone,
+        views,
+      ],
     );
 
     const weekdays = useMemo(() => getWeekdays(locale), [locale]);
 
     const calenderComponent: { [key in ViewType]: ReactNode } = {
-      year: <YearCalendar />,
+      year: <YearCalendar order={yearsOrder} />,
       month: <MonthCalendar />,
       day: <DayCalendar />,
     };
@@ -189,13 +211,6 @@ const DateCalendar = forwardRef<
       });
     }, [view]);
 
-    const handleSetValue = useCallback(
-      (v: DateType) => {
-        flushSync(() => setValue(v));
-      },
-      [setValue],
-    );
-
     return (
       <DateCalendarContextProvider
         defaultSelectedDate={defaultSelectedDate}
@@ -206,7 +221,6 @@ const DateCalendar = forwardRef<
         locale={locale}
         timezone={timezone}
         value={value}
-        setValue={handleSetValue}
         handleNextView={handleNextView}
         containerRef={containerRef}
       >
@@ -270,63 +284,67 @@ const DateCalendar = forwardRef<
                   </FlexBox>
 
                   <FlexBox gap="18px" sx={dateCalendarHeaderNavigationStyle}>
-                    <IconButton
-                      wds-ignore-first-focus="true"
-                      size={18}
-                      aria-label="Previous month"
-                      disabled={
-                        isValidDate(min) &&
-                        dayjsTimezone(
-                          dayjs(defaultSelectedDate),
-                          timezone,
-                        ).isSameOrBefore(
-                          dateTypeToDateObject(min, timezone),
-                          'month',
-                        )
-                      }
-                      onClick={() =>
-                        setDefaultSelectedDate(
-                          dateTypeToDateObject(
+                    {views.includes('day') && (
+                      <>
+                        <IconButton
+                          wds-ignore-first-focus="true"
+                          size={18}
+                          aria-label="Previous month"
+                          disabled={
+                            isValidDate(min) &&
                             dayjsTimezone(
                               dayjs(defaultSelectedDate),
                               timezone,
-                            ).subtract(1, 'month'),
-                            timezone,
-                          ),
-                        )
-                      }
-                    >
-                      <IconChevronLeftSmall />
-                    </IconButton>
+                            ).isSameOrBefore(
+                              dateTypeToDateObject(min, timezone),
+                              'month',
+                            )
+                          }
+                          onClick={() =>
+                            setDefaultSelectedDate(
+                              dateTypeToDateObject(
+                                dayjsTimezone(
+                                  dayjs(defaultSelectedDate),
+                                  timezone,
+                                ).subtract(1, 'month'),
+                                timezone,
+                              ),
+                            )
+                          }
+                        >
+                          <IconChevronLeftSmall />
+                        </IconButton>
 
-                    <IconButton
-                      wds-ignore-first-focus="true"
-                      size={18}
-                      aria-label="Next month"
-                      disabled={
-                        isValidDate(max) &&
-                        dayjsTimezone(
-                          dayjs(defaultSelectedDate),
-                          timezone,
-                        ).isSameOrAfter(
-                          dayjs(dateTypeToDateObject(max, timezone)),
-                          'month',
-                        )
-                      }
-                      onClick={() =>
-                        setDefaultSelectedDate(
-                          dateTypeToDateObject(
+                        <IconButton
+                          wds-ignore-first-focus="true"
+                          size={18}
+                          aria-label="Next month"
+                          disabled={
+                            isValidDate(max) &&
                             dayjsTimezone(
                               dayjs(defaultSelectedDate),
                               timezone,
-                            ).add(1, 'month'),
-                            timezone,
-                          ),
-                        )
-                      }
-                    >
-                      <IconChevronRightSmall />
-                    </IconButton>
+                            ).isSameOrAfter(
+                              dayjs(dateTypeToDateObject(max, timezone)),
+                              'month',
+                            )
+                          }
+                          onClick={() =>
+                            setDefaultSelectedDate(
+                              dateTypeToDateObject(
+                                dayjsTimezone(
+                                  dayjs(defaultSelectedDate),
+                                  timezone,
+                                ).add(1, 'month'),
+                                timezone,
+                              ),
+                            )
+                          }
+                        >
+                          <IconChevronRightSmall />
+                        </IconButton>
+                      </>
+                    )}
                   </FlexBox>
                 </FlexBox>
               )}
@@ -369,13 +387,12 @@ DateCalendar.displayName = 'DateCalendar';
 
 const YearCalendar = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<{}, 'div'>
->((props, ref) => {
+  DefaultComponentProps<YearCalendarProps, 'div'>
+>(({ order = 'asc', ...props }, ref) => {
   const {
     min,
     max,
     defaultSelectedDate,
-    setValue,
     handleNextView,
     now,
     value,
@@ -399,152 +416,190 @@ const YearCalendar = forwardRef<
       current = current.add(1, 'year');
     }
 
-    return years;
-  }, [min, max, timezone]);
+    return order === 'asc' ? years : years.reverse();
+  }, [min, timezone, max, order]);
+
+  const [focusedIdx, setFocusedIdx] = useState(yearRange.length > 0 ? 0 : -1);
+
+  useEffect(
+    () => {
+      const selectedDateIdx = isValidDate(value)
+        ? yearRange.findIndex(
+            (v) => v === dayjsTimezone(dayjs(value), timezone).year(),
+          )
+        : -1;
+
+      if (selectedDateIdx !== -1) {
+        setFocusedIdx(selectedDateIdx);
+        return;
+      }
+
+      const todayDateIdx = isValidDate(now.toDate())
+        ? yearRange.findIndex((v) => v === dayjsTimezone(now, timezone).year())
+        : -1;
+
+      if (todayDateIdx !== -1) {
+        setFocusedIdx(todayDateIdx);
+        return;
+      }
+
+      setFocusedIdx(yearRange.length > 0 ? 0 : -1);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    yearRange.map((v) => v),
+  );
+
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowUp': {
+          const newYear = findClosestEnableDate({
+            value: dateTypeToDateObject(
+              dayjs(defaultSelectedDate).year(
+                Number(e.currentTarget.getAttribute('data-year') ?? 1) - 3,
+              ),
+              timezone,
+            ),
+            min,
+            max,
+            timezone,
+          }).getFullYear();
+
+          focusDate('year', newYear, containerRef);
+          setFocusedIdx(yearRange.findIndex((v) => v === newYear));
+          e.preventDefault();
+          break;
+        }
+        case 'ArrowDown': {
+          const newYear = findClosestEnableDate({
+            value: dateTypeToDateObject(
+              dayjs(defaultSelectedDate).year(
+                Number(e.currentTarget.getAttribute('data-year') ?? 2999) + 3,
+              ),
+              timezone,
+            ),
+            min,
+            max,
+            timezone,
+          }).getFullYear();
+
+          focusDate('year', newYear, containerRef);
+          setFocusedIdx(yearRange.findIndex((v) => v === newYear));
+          e.preventDefault();
+          break;
+        }
+        case 'ArrowLeft': {
+          const newYear = findClosestEnableDate({
+            value: dateTypeToDateObject(
+              dayjs(defaultSelectedDate).year(
+                Number(e.currentTarget.getAttribute('data-year') ?? 1) - 1,
+              ),
+              timezone,
+            ),
+            min,
+            max,
+            timezone,
+          }).getFullYear();
+
+          focusDate('year', newYear, containerRef);
+          setFocusedIdx(yearRange.findIndex((v) => v === newYear));
+          e.preventDefault();
+          break;
+        }
+        case 'ArrowRight': {
+          const newYear = findClosestEnableDate({
+            value: dateTypeToDateObject(
+              dayjs(defaultSelectedDate).year(
+                Number(e.currentTarget.getAttribute('data-year') ?? 2999) + 1,
+              ),
+              timezone,
+            ),
+            min,
+            max,
+            timezone,
+          }).getFullYear();
+
+          focusDate('year', newYear, containerRef);
+          setFocusedIdx(yearRange.findIndex((v) => v === newYear));
+          e.preventDefault();
+          break;
+        }
+        case 'Home': {
+          const newYear =
+            yearRange[0] ??
+            dayjsTimezone(dayjs(ACCESSIBLE_MIN_DATE), timezone).year();
+          focusDate('year', newYear, containerRef);
+          setFocusedIdx(yearRange.findIndex((v) => v === newYear));
+          e.preventDefault();
+          break;
+        }
+        case 'End': {
+          const newYear =
+            yearRange[yearRange.length - 1] ??
+            dayjsTimezone(dayjs(ACCESSIBLE_MAX_DATE), timezone).year();
+
+          focusDate('year', newYear, containerRef);
+          setFocusedIdx(yearRange.findIndex((v) => v === newYear));
+          e.preventDefault();
+          break;
+        }
+        default:
+          break;
+      }
+    },
+    [containerRef, defaultSelectedDate, max, min, timezone, yearRange],
+  );
+
+  const handleClick = useCallback(
+    (year: number) => () => {
+      const newValue = findClosestEnableDate({
+        min,
+        max,
+        value: dateTypeToDateObject(
+          dayjs(defaultSelectedDate).set('year', year),
+          timezone,
+        ),
+        timezone,
+      });
+
+      handleNextView('year', newValue);
+      setFocusedIdx(yearRange.findIndex((v) => v === year));
+    },
+    [min, max, defaultSelectedDate, timezone, handleNextView, yearRange],
+  );
 
   return (
-    <RovingFocusGroup asChild>
-      <Grid
-        columnSpacing={2}
-        rowSpacing={0}
-        ref={ref}
-        {...props}
-        sx={[dateYearMonthWrapperStyle, props.sx]}
-      >
-        {yearRange.map((year) => (
+    <Grid
+      columnSpacing={2}
+      rowSpacing={0}
+      ref={ref}
+      {...props}
+      sx={[dateYearMonthWrapperStyle, props.sx]}
+    >
+      {yearRange.map((year, i) => {
+        const isActive =
+          Boolean(value) &&
+          isValidDate(value) &&
+          dayjsTimezone(dayjs(value), timezone).year() === year;
+
+        return (
           <GridItem columns={4} key={`${year + 1} year`}>
-            <RovingFocusGroupItem
-              active={dayjs(defaultSelectedDate).year() === year}
-              asChild
-              onKeyDown={(e) => {
-                switch (e.key) {
-                  case 'ArrowUp':
-                    focusDate(
-                      'year',
-                      findClosestEnableDate({
-                        value: dateTypeToDateObject(
-                          dayjs(defaultSelectedDate).subtract(3, 'year'),
-                          timezone,
-                        ),
-                        min,
-                        max,
-                        timezone,
-                      }).getFullYear(),
-                      containerRef,
-                    );
-                    e.preventDefault();
-                    break;
-                  case 'ArrowDown':
-                    focusDate(
-                      'year',
-                      findClosestEnableDate({
-                        value: dateTypeToDateObject(
-                          dayjs(defaultSelectedDate).add(3, 'year'),
-                          timezone,
-                        ),
-                        min,
-                        max,
-                        timezone,
-                      }).getFullYear(),
-                      containerRef,
-                    );
-                    e.preventDefault();
-                    break;
-                  case 'ArrowLeft': {
-                    focusDate(
-                      'year',
-                      findClosestEnableDate({
-                        value: dateTypeToDateObject(
-                          dayjs(defaultSelectedDate).subtract(1, 'year'),
-                          timezone,
-                        ),
-                        min,
-                        max,
-                        timezone,
-                      }).getFullYear(),
-                      containerRef,
-                    );
-                    e.preventDefault();
-                    break;
-                  }
-                  case 'ArrowRight': {
-                    focusDate(
-                      'year',
-                      findClosestEnableDate({
-                        value: dateTypeToDateObject(
-                          dayjs(defaultSelectedDate).add(1, 'year'),
-                          timezone,
-                        ),
-                        min,
-                        max,
-                        timezone,
-                      }).getFullYear(),
-                      containerRef,
-                    );
-                    e.preventDefault();
-                    break;
-                  }
-                  case 'Home':
-                    focusDate(
-                      'year',
-                      yearRange[0] ??
-                        dayjsTimezone(
-                          dayjs(ACCESSIBLE_MIN_DATE),
-                          timezone,
-                        ).year(),
-                      containerRef,
-                    );
-                    e.preventDefault();
-                    break;
-                  case 'End':
-                    focusDate(
-                      'year',
-                      yearRange[yearRange.length - 1] ??
-                        dayjsTimezone(
-                          dayjs(ACCESSIBLE_MAX_DATE),
-                          timezone,
-                        ).year(),
-                      containerRef,
-                    );
-                    e.preventDefault();
-                    break;
-                  default:
-                    break;
-                }
-              }}
+            <DateItem
+              sx={{ width: 'calc(100% - 4px)' }}
+              onClick={handleClick(year)}
+              data-year={year}
+              isCurrent={now.year() === year}
+              aria-label={`${year} Year`}
+              isActive={isActive}
+              onKeyDown={handleKeyDown}
+              tabIndex={focusedIdx === i ? 0 : -1}
             >
-              <DateItem
-                sx={{ width: 'calc(100% - 4px)' }}
-                onClick={() => {
-                  const newValue = findClosestEnableDate({
-                    min,
-                    max,
-                    value: dateTypeToDateObject(
-                      dayjs(defaultSelectedDate).set('year', year),
-                      timezone,
-                    ),
-
-                    timezone,
-                  });
-
-                  setValue(newValue);
-                  handleNextView('year', newValue);
-                }}
-                data-year={year}
-                isCurrent={now.year() === year}
-                aria-label={`${year} Year`}
-                isActive={
-                  Boolean(value) &&
-                  dayjsTimezone(dayjs(value), timezone).year() === year
-                }
-              >
-                {year}
-              </DateItem>
-            </RovingFocusGroupItem>
+              {year}
+            </DateItem>
           </GridItem>
-        ))}
-      </Grid>
-    </RovingFocusGroup>
+        );
+      })}
+    </Grid>
   );
 });
 
@@ -557,7 +612,6 @@ const MonthCalendar = memo(
       max,
       defaultSelectedDate,
       locale,
-      setValue,
       handleNextView,
       now,
       value,
@@ -601,90 +655,102 @@ const MonthCalendar = memo(
       });
     }, [min, timezone, max, locale, defaultSelectedDate]);
 
+    const [focusedIdx, setFocusedIdx] = useState(
+      monthRange.findIndex((v) => !v.disabled),
+    );
+
+    useEffect(
+      () => {
+        const selectedDateIdx = isValidDate(value)
+          ? monthRange.findIndex(
+              (v) =>
+                !v.disabled &&
+                v.value === dayjsTimezone(dayjs(value), timezone).month(),
+            )
+          : -1;
+
+        if (selectedDateIdx !== -1) {
+          setFocusedIdx(selectedDateIdx);
+          return;
+        }
+
+        const todayDateIdx = isValidDate(now.toDate())
+          ? monthRange.findIndex(
+              (v) =>
+                !v.disabled && v.value === dayjsTimezone(now, timezone).month(),
+            )
+          : -1;
+
+        if (todayDateIdx !== -1) {
+          setFocusedIdx(todayDateIdx);
+          return;
+        }
+
+        setFocusedIdx(monthRange.findIndex((v) => !v.disabled));
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      monthRange.map((v) => v.value),
+    );
+
     const handleKeyDown = useCallback(
       (e: KeyboardEvent) => {
-        const changeMonthByKeyDown = (newDate: Dayjs) => {
+        const changeMonthByKeyDown = (month: number) => {
+          const newMonth =
+            Number(e.currentTarget.getAttribute('data-month') ?? '0') + month;
+
           const newValue = findClosestEnableDate({
             min,
             max,
-            value: dateTypeToDateObject(newDate, timezone),
+            value: dateTypeToDateObject(
+              dayjs(defaultSelectedDate).set(
+                'month',
+                newMonth < 0 ? 0 : newMonth > 11 ? 11 : newMonth,
+              ),
+              timezone,
+            ),
             timezone,
           });
 
-          setTimeout(() => setValue(newValue));
+          setFocusedIdx(
+            monthRange.findIndex((v) => v.value === newValue.getMonth()),
+          );
 
-          focusDate('month', newValue.getMonth(), containerRef);
+          requestAnimationFrame(() => {
+            focusDate('month', newValue.getMonth(), containerRef);
+          });
         };
 
         switch (e.key) {
           case 'ArrowUp':
-            changeMonthByKeyDown(
-              dayjsTimezone(dayjs(defaultSelectedDate), timezone).subtract(
-                3,
-                'month',
-              ),
-            );
+            changeMonthByKeyDown(-3);
             e.preventDefault();
             break;
           case 'ArrowDown':
-            changeMonthByKeyDown(
-              dayjsTimezone(dayjs(defaultSelectedDate), timezone).add(
-                3,
-                'month',
-              ),
-            );
+            changeMonthByKeyDown(3);
             e.preventDefault();
             break;
           case 'ArrowLeft':
-            changeMonthByKeyDown(
-              dayjsTimezone(dayjs(defaultSelectedDate), timezone).subtract(
-                1,
-                'month',
-              ),
-            );
+            changeMonthByKeyDown(-1);
             e.preventDefault();
             break;
           case 'ArrowRight':
-            changeMonthByKeyDown(
-              dayjsTimezone(dayjs(defaultSelectedDate), timezone).add(
-                1,
-                'month',
-              ),
-            );
+            changeMonthByKeyDown(1);
             e.preventDefault();
             break;
 
           case 'Home':
-            changeMonthByKeyDown(
-              dayjsTimezone(dayjs(defaultSelectedDate), timezone).set(
-                'month',
-                monthRange[0]?.value ?? 0,
-              ),
-            );
+            changeMonthByKeyDown(0);
             e.preventDefault();
             break;
           case 'End':
-            changeMonthByKeyDown(
-              dayjsTimezone(dayjs(defaultSelectedDate), timezone).set(
-                'month',
-                monthRange[monthRange.length - 1]?.value ?? 11,
-              ),
-            );
+            changeMonthByKeyDown(11);
             e.preventDefault();
             break;
           default:
             break;
         }
       },
-      [
-        containerRef,
-        defaultSelectedDate,
-        max,
-        min,
-        monthRange,
-        setValue,
-        timezone,
-      ],
+      [containerRef, defaultSelectedDate, max, min, monthRange, timezone],
     );
 
     const handleClick = useCallback(
@@ -699,10 +765,10 @@ const MonthCalendar = memo(
           ),
         });
 
-        setValue(newValue);
         handleNextView('month', newValue);
+        setFocusedIdx(monthRange.findIndex((v) => v.value === newMonth));
       },
-      [defaultSelectedDate, handleNextView, max, min, setValue, timezone],
+      [defaultSelectedDate, handleNextView, max, min, monthRange, timezone],
     );
 
     return (
@@ -712,24 +778,8 @@ const MonthCalendar = memo(
         ref={ref}
         {...props}
         sx={[dateYearMonthWrapperStyle, props.sx]}
-        tabIndex={0}
-        onFocus={composeEventHandlers(props.onFocus, (e) => {
-          if (e.target === e.currentTarget) {
-            e.preventDefault();
-
-            (
-              e.currentTarget.querySelector<HTMLButtonElement>(
-                '[aria-checked="true"]',
-              ) ??
-              e.currentTarget.querySelector<HTMLButtonElement>(
-                '[data-current="date"]',
-              ) ??
-              e.currentTarget.querySelector<HTMLButtonElement>('[role="radio"]')
-            )?.focus();
-          }
-        })}
       >
-        {monthRange.map((month) => (
+        {monthRange.map((month, i) => (
           <GridItem
             columns={4}
             key={`${dayjsTimezone(dayjs(defaultSelectedDate), timezone).year()} / ${month.label}`}
@@ -745,6 +795,7 @@ const MonthCalendar = memo(
               }
               data-month={month.value}
               aria-label={month.label}
+              tabIndex={focusedIdx === i ? 0 : -1}
               isActive={
                 Boolean(value) &&
                 dayjsTimezone(dayjs(value), timezone).month() === month.value
@@ -769,8 +820,8 @@ const DayCalendar = memo(
       max,
       defaultSelectedDate,
       value,
-      setValue,
       handleNextView,
+      setDefaultSelectedDate,
       now,
       containerRef,
       timezone,
@@ -796,6 +847,7 @@ const DayCalendar = memo(
               timezone,
             }),
             label: nextDay.date(),
+            isOtherMonth: true,
           };
         });
 
@@ -813,6 +865,7 @@ const DayCalendar = memo(
               timezone,
             }),
             label: nextDay.date(),
+            isOtherMonth: false,
           };
         });
 
@@ -838,10 +891,15 @@ const DayCalendar = memo(
               timezone,
             }),
             label: nextDay.date(),
+            isOtherMonth: true,
           };
         });
 
-      return [...monDaysWithPrevMonthDays, ...nextMonthDays].reduce(
+      return [...monDaysWithPrevMonthDays, ...nextMonthDays];
+    }, [defaultSelectedDate, max, min, timezone]);
+
+    const dayRangeRow = useMemo(() => {
+      return dayRange.reduce(
         (acc, cur, idx) => {
           const chunkIndex = Math.floor(idx / 7);
 
@@ -853,9 +911,54 @@ const DayCalendar = memo(
 
           return acc;
         },
-        [] as Array<typeof monthDays>,
+        [] as Array<typeof dayRange>,
       );
-    }, [defaultSelectedDate, max, min, timezone]);
+    }, [dayRange]);
+
+    const [focusedIdx, setFocusedIdx] = useState(
+      dayRange.findIndex((v) => !v.isOtherMonth),
+    );
+
+    // 첫 포커스
+    useEffect(
+      () => {
+        const selectedDateIdx = isValidDate(value)
+          ? dayRange.findIndex(
+              (v) =>
+                !v.isOtherMonth &&
+                !v.disabled &&
+                v.value.format('YYYY MM DD') ===
+                  dayjsTimezone(dayjs(value), timezone).format('YYYY MM DD'),
+            )
+          : -1;
+
+        if (selectedDateIdx !== -1) {
+          setFocusedIdx(selectedDateIdx);
+          return;
+        }
+
+        const todayDateIdx = isValidDate(now.toDate())
+          ? dayRange.findIndex(
+              (v) =>
+                !v.isOtherMonth &&
+                !v.disabled &&
+                v.value.format('YYYY MM DD') ===
+                  dayjsTimezone(now, timezone).format('YYYY MM DD'),
+            )
+          : -1;
+
+        if (todayDateIdx !== -1) {
+          setFocusedIdx(todayDateIdx);
+          return;
+        }
+
+        setFocusedIdx(
+          dayRange.findIndex((v) => !v.isOtherMonth && !v.disabled),
+        );
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      dayRange.map((v) => v.value.format('YYYY MM DD')),
+    );
 
     const handleClick = useCallback(
       (v: Date) => () => {
@@ -866,10 +969,18 @@ const DayCalendar = memo(
           timezone,
         });
 
-        setValue(newValue);
         handleNextView('day', newValue);
+        setFocusedIdx(
+          dayRange.findIndex(
+            (day) =>
+              !day.isOtherMonth &&
+              !day.disabled &&
+              day.value.format('YYYY MM DD') ===
+                dayjsTimezone(dayjs(newValue), timezone).format('YYYY MM DD'),
+          ),
+        );
       },
-      [handleNextView, max, min, setValue, timezone],
+      [dayRange, handleNextView, max, min, timezone],
     );
 
     const handleKeyDown = useCallback(
@@ -882,9 +993,18 @@ const DayCalendar = memo(
             timezone,
           });
 
-          setTimeout(() => setValue(newValue));
+          setDefaultSelectedDate(newValue);
+          setFocusedIdx(
+            dayRange.findIndex(
+              (v) =>
+                v.value.format('YYYY MM DD') ===
+                dayjsTimezone(dayjs(newValue), timezone).format('YYYY MM DD'),
+            ),
+          );
 
-          focusDate('day', newValue.getDate(), containerRef);
+          requestAnimationFrame(() => {
+            focusDate('day', newValue.getDate(), containerRef);
+          });
         };
 
         switch (e.key) {
@@ -938,77 +1058,66 @@ const DayCalendar = memo(
             break;
         }
       },
-      [containerRef, defaultSelectedDate, max, min, setValue, timezone],
+      [
+        containerRef,
+        dayRange,
+        defaultSelectedDate,
+        max,
+        min,
+        setDefaultSelectedDate,
+        timezone,
+      ],
     );
 
     return (
       <FlexBox
         flexWrap="wrap"
-        rowGap="2px"
-        columnGap="0px"
         ref={ref}
         role="rowgroup"
         {...props}
         sx={[dateYearMonthWrapperStyle, props.sx]}
-        tabIndex={0}
-        onFocus={composeEventHandlers(props.onFocus, (e) => {
-          if (e.target === e.currentTarget) {
-            e.preventDefault();
-
-            (
-              e.currentTarget.querySelector<HTMLButtonElement>(
-                '[aria-selected="true"]',
-              ) ??
-              e.currentTarget.querySelector<HTMLButtonElement>(
-                '[data-current="date"]',
-              ) ??
-              e.currentTarget.querySelector<HTMLButtonElement>(
-                '[role="gridcell"]',
-              )
-            )?.focus();
-          }
-        })}
       >
-        {dayRange.map((days, idx) => (
+        {dayRangeRow.map((days, idx) => (
           <FlexBox
             key={`${dayjsTimezone(dayjs(defaultSelectedDate), timezone).year()} / ${defaultSelectedDate.getMonth() + 1} / ${idx}`}
             role="row"
             aria-rowindex={idx + 1}
           >
-            {days.map((day, dayIdx) => (
-              <DateItem
-                sx={{ width: '32px' }}
-                role="gridcell"
-                aria-colindex={dayIdx + 1}
-                aria-checked={undefined}
-                aria-selected={
-                  isValidDate(value) &&
-                  day.value.format('YYYY MM DD') ===
-                    dayjsTimezone(dayjs(value), timezone).format('YYYY MM DD')
-                }
-                aria-label={day.label.toString()}
-                onClick={handleClick(dateTypeToDateObject(day.value, timezone))}
-                isOtherMonth={
-                  day.value.month() !==
-                  dayjsTimezone(dayjs(defaultSelectedDate), timezone).month()
-                }
-                disabled={day.disabled}
-                data-day={day.label}
-                isCurrent={
-                  now.format('YYYY MM DD') ===
-                  dayjs(day.value).format('YYYY MM DD')
-                }
-                isActive={
-                  isValidDate(value) &&
-                  day.value.format('YYYY MM DD') ===
-                    dayjsTimezone(dayjs(value), timezone).format('YYYY MM DD')
-                }
-                key={`${day.value.year()} / ${day.value.month()} / ${day.label} / ${dayIdx}`}
-                onKeyDown={handleKeyDown}
-              >
-                {day.label}
-              </DateItem>
-            ))}
+            {days.map((day, dayIdx) => {
+              const isSelected =
+                isValidDate(value) &&
+                day.value.format('YYYY MM DD') ===
+                  dayjsTimezone(dayjs(value), timezone).format('YYYY MM DD');
+
+              const isOtherMonth =
+                day.value.month() !==
+                dayjsTimezone(dayjs(defaultSelectedDate), timezone).month();
+
+              return (
+                <DayItem
+                  key={`${day.value.year()} / ${day.value.month()} / ${day.label} / ${dayIdx}`}
+                  sx={{ width: '32px' }}
+                  role="gridcell"
+                  disabled={day.disabled}
+                  isActive={isSelected}
+                  isOtherMonth={isOtherMonth}
+                  isCurrent={
+                    now.format('YYYY MM DD') ===
+                    dayjs(day.value).format('YYYY MM DD')
+                  }
+                  data-day={day.label}
+                  tabIndex={focusedIdx === idx * 7 + dayIdx ? 0 : -1}
+                  aria-colindex={dayIdx + 1}
+                  aria-label={day.label.toString()}
+                  onClick={handleClick(
+                    dateTypeToDateObject(day.value, timezone),
+                  )}
+                  onKeyDown={handleKeyDown}
+                >
+                  {day.label}
+                </DayItem>
+              );
+            })}
           </FlexBox>
         ))}
       </FlexBox>
@@ -1018,7 +1127,33 @@ const DayCalendar = memo(
 
 DayCalendar.displayName = 'DayCalendar';
 
-const DateItem = forwardRef<
+const DateItem = memo(
+  forwardRef<HTMLButtonElement, DefaultComponentProps<DateItemProps, 'button'>>(
+    ({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
+      return (
+        <WithInteraction disabled={disabled}>
+          <Box
+            as="button"
+            disabled={disabled}
+            ref={ref}
+            role="radio"
+            type="button"
+            {...props}
+            aria-checked={isActive}
+            aria-disabled={disabled}
+            aria-current={isCurrent ? 'date' : undefined}
+            data-other-month={isOtherMonth}
+            sx={[dayItemButtonStyle, { borderRadius: 8 }, props.sx]}
+          />
+        </WithInteraction>
+      );
+    },
+  ),
+);
+
+DateItem.displayName = 'DateItem';
+
+const DayItem = forwardRef<
   HTMLButtonElement,
   DefaultComponentProps<DateItemProps, 'button'>
 >(({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
@@ -1028,19 +1163,19 @@ const DateItem = forwardRef<
         as="button"
         disabled={disabled}
         ref={ref}
-        role="radio"
+        role="gridcell"
         type="button"
-        aria-checked={isActive}
         {...props}
+        aria-selected={isActive}
         aria-disabled={disabled}
-        data-other-month={isOtherMonth}
-        sx={[dateItemButtonStyle, props.sx]}
         aria-current={isCurrent ? 'date' : undefined}
+        data-other-month={isOtherMonth}
+        sx={[dayItemButtonStyle, props.sx]}
       />
     </WithInteraction>
   );
 });
 
-DateItem.displayName = 'DateItem';
+DayItem.displayName = 'DayItem';
 
 export default DateCalendar;

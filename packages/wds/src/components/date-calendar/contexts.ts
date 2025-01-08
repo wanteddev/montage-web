@@ -13,7 +13,6 @@ export type DateCalendarContextType = {
   locale?: string;
   value: DateType;
   timezone?: string;
-  setValue: (value: DateType) => void;
   handleNextView: (
     newView: DateCalendarProps['view'],
     newValue: DateCalendarProps['value'],
