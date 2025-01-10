@@ -10,6 +10,9 @@ import type { ElementRef } from 'react';
 
 type Props = RoundCheckboxProps;
 
+/**
+ * @deprecated
+ */
 const RoundCheckbox = forwardRef<ElementRef<typeof Checkbox>, Props>(
   (props, ref) => {
     return (
