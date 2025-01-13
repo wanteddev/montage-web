@@ -6,6 +6,7 @@ import {
   dayjsTimezone,
   isValidDate,
 } from '../date-calendar/helpers';
+import { getTabbableCandidates } from '../focus-scope/helpers';
 
 import {
   getClosetSection,
@@ -264,10 +265,21 @@ export const useDateField = ({
     ],
   );
 
+  const focusTimestamp = useRef(0);
+
   const handleClick = useCallback(
     (e: MouseEvent<HTMLInputElement>) => {
       if ('setSelectionRange' in e.currentTarget) {
-        const cursorPosition = e.currentTarget.selectionStart ?? 0;
+        let cursorPosition = e.currentTarget.selectionStart ?? 0;
+
+        console.log(
+          inputValue,
+          e.timeStamp - focusTimestamp.current,
+          e.currentTarget.selectionStart,
+        );
+        if (!inputValue || e.timeStamp - focusTimestamp.current < 300) {
+          cursorPosition = 0;
+        }
 
         const closetSection = getClosetSection(cursorPosition, sections);
         if (closetSection) {
@@ -280,7 +292,7 @@ export const useDateField = ({
         }
       }
     },
-    [sections],
+    [inputValue, sections],
   );
 
   const handleFocus = useCallback(
@@ -292,7 +304,12 @@ export const useDateField = ({
         return;
       }
 
-      const cursorPosition = e.currentTarget.selectionStart ?? 0;
+      let cursorPosition = e.currentTarget.selectionStart ?? 0;
+
+      if (!inputValue) {
+        cursorPosition = 0;
+        focusTimestamp.current = e.timeStamp;
+      }
 
       const newInputValue = !inputValue ? format : inputValue;
       const newSections = getDateformatSections(newInputValue, format, locale);
@@ -331,6 +348,27 @@ export const useDateField = ({
         return;
       }
       switch (e.key) {
+        case 'Tab':
+          const tabbableCandidates = getTabbableCandidates(document.body);
+
+          const index = tabbableCandidates.findIndex(
+            (v) => v === e.currentTarget,
+          );
+
+          if (index === -1) {
+            return;
+          }
+
+          const nextTabbableCandidate =
+            tabbableCandidates[e.shiftKey ? index - 1 : index + 1];
+
+          if (nextTabbableCandidate) {
+            e.preventDefault();
+            nextTabbableCandidate.focus();
+          } else {
+            e.currentTarget.blur();
+          }
+          return;
         case 'Backspace':
           e.preventDefault();
 
@@ -689,8 +727,6 @@ export const useDateField = ({
         return;
       }
 
-      e.preventDefault();
-
       if (focusedSection.type === 'text') {
         const foundOption = focusedSection.options.filter((v) =>
           new RegExp(
@@ -730,6 +766,7 @@ export const useDateField = ({
           isFinished = fallbackOption.length === 1;
         }
 
+        e.preventDefault();
         const newSectionValue = getDateformatSections(
           newInputValue,
           format,
@@ -791,6 +828,8 @@ export const useDateField = ({
           format,
           locale,
         );
+
+        e.preventDefault();
 
         if (isComplete(sectionValueRef.current)) {
           setInputValue(newInputValue);
