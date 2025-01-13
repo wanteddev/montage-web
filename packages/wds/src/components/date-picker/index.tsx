@@ -47,10 +47,11 @@ const DatePicker = forwardRef<
       locale = 'ko-KR',
       timezone,
       onChangeComplete,
-      inputRef: givenInputRef,
+      inputRef: originInputRef,
       yearsOrder,
       input,
       actionArea,
+      invalid: originInvalid,
       ...props
     },
     forwardedRef,
@@ -103,13 +104,17 @@ const DatePicker = forwardRef<
       disabled,
     });
 
+    const invalid =
+      originInvalid ||
+      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+
     const handleChangeComplete = useCallbackRef((v: DateType) => {
       handleValueChange(v);
       onChangeComplete?.(v);
       setOpen(false);
     });
 
-    const composedInputRef = useComposedRefs(givenInputRef, inputRef);
+    const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
     return (
       <Popper>
@@ -127,6 +132,7 @@ const DatePicker = forwardRef<
             readOnly,
             disabled,
             placeholder,
+            invalid,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),
             onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
