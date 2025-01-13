@@ -272,11 +272,6 @@ export const useDateField = ({
       if ('setSelectionRange' in e.currentTarget) {
         let cursorPosition = e.currentTarget.selectionStart ?? 0;
 
-        console.log(
-          inputValue,
-          e.timeStamp - focusTimestamp.current,
-          e.currentTarget.selectionStart,
-        );
         if (!inputValue || e.timeStamp - focusTimestamp.current < 300) {
           cursorPosition = 0;
         }
