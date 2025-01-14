@@ -259,7 +259,7 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
 
   svg {
     color: ${theme.palette.primary.normal};
-    z-index: 1;
+    z-index: 0;
   }
 `;
 
