@@ -24,7 +24,7 @@ import ScrollArea from '../scroll-area';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/use-resize-observer';
-import { useTransitionStatus } from '../../hooks';
+import { useSize, useTransitionStatus } from '../../hooks';
 import { useTopNavigationContext } from '../top-navigation/contexts';
 import { TopNavigation, TopNavigationButton } from '../top-navigation';
 
@@ -202,6 +202,19 @@ const ModalContainer = forwardRef<
         dimmerRef,
       });
 
+    const topNavigationHeight =
+      useSize(
+        containerRef.current?.querySelector(
+          '[wds-component="top-navigation"]',
+        ) ?? null,
+      )?.height ?? 0;
+
+    const actionAreaHeight =
+      useSize(
+        containerRef.current?.querySelector('[wds-component="action-area"]') ??
+          null,
+      )?.height ?? 0;
+
     useEffect(() => {
       const content = containerRef.current;
 
@@ -234,6 +247,52 @@ const ModalContainer = forwardRef<
           xl,
         })}
       >
+        <Box
+          data-role="modal-dimmer"
+          ref={dimmerRef}
+          data-status={status}
+          data-visibility={context.visibility}
+          onPointerDown={(e) => {
+            const target = e.target as HTMLElement;
+
+            if (target.hasPointerCapture(e.pointerId)) {
+              target.releasePointerCapture(e.pointerId);
+            }
+          }}
+          onClick={useCallback(
+            (e: MouseEvent) => {
+              const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+              const isRightClick = e.button === 2 || ctrlLeftClick;
+
+              if (isRightClick || disableOutsideClickClose) {
+                return;
+              }
+
+              e.preventDefault();
+
+              if (!isBottomSheetWithHandle) {
+                onOpenChange(false);
+              } else {
+                handleVisibilityHidden();
+              }
+            },
+            [
+              disableOutsideClickClose,
+              handleVisibilityHidden,
+              isBottomSheetWithHandle,
+              onOpenChange,
+            ],
+          )}
+          sx={modalDimmerStyle({
+            variant,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          })}
+        />
+
         <FocusScope
           loop={context.open && context.visibility === 'visible'}
           trapped={context.open && context.visibility === 'visible'}
@@ -291,52 +350,6 @@ const ModalContainer = forwardRef<
                   props.sx,
                 ]}
               >
-                <Box
-                  ref={dimmerRef}
-                  data-status={status}
-                  data-visibility={context.visibility}
-                  onPointerDown={(e) => {
-                    const target = e.target as HTMLElement;
-
-                    if (target.hasPointerCapture(e.pointerId)) {
-                      target.releasePointerCapture(e.pointerId);
-                    }
-                  }}
-                  onClick={useCallback(
-                    (e: MouseEvent) => {
-                      const ctrlLeftClick =
-                        e.button === 0 && e.ctrlKey === true;
-                      const isRightClick = e.button === 2 || ctrlLeftClick;
-
-                      if (isRightClick || disableOutsideClickClose) {
-                        return;
-                      }
-
-                      e.preventDefault();
-
-                      if (!isBottomSheetWithHandle) {
-                        onOpenChange(false);
-                      } else {
-                        handleVisibilityHidden();
-                      }
-                    },
-                    [
-                      disableOutsideClickClose,
-                      handleVisibilityHidden,
-                      isBottomSheetWithHandle,
-                      onOpenChange,
-                    ],
-                  )}
-                  sx={modalDimmerStyle({
-                    variant,
-                    xs,
-                    sm,
-                    md,
-                    lg,
-                    xl,
-                  })}
-                />
-
                 <ScrollArea
                   scrollbars="vertical"
                   viewportRef={context.innerContainerRef}
@@ -347,6 +360,8 @@ const ModalContainer = forwardRef<
                   viewportProps={{
                     sx: {
                       height: 'initial',
+                      scrollPaddingTop: topNavigationHeight,
+                      scrollPaddingBottom: actionAreaHeight,
                       ['& [data-radix-scroll-area-content]']: {
                         display: 'flex',
                         flexDirection: 'column',
