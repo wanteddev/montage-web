@@ -203,18 +203,6 @@ const TextArea = forwardRef<
             if (!textArea || target.tagName === 'TEXTAREA') return;
 
             requestAnimationFrame(() => {
-              textArea.dispatchEvent(
-                new MouseEvent('click', {
-                  bubbles: false,
-                }),
-              );
-
-              props.onClick?.({
-                ...event,
-                currentTarget: textArea as EventTarget & HTMLTextAreaElement,
-                bubbles: false,
-              });
-
               textArea.click();
             });
           }}

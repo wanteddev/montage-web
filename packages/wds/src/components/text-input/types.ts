@@ -9,6 +9,7 @@ import type {
   CSSProperties,
   PropsWithChildren,
   ReactNode,
+  Ref,
 } from 'react';
 
 export type TextInputDefaultProps = {
@@ -21,6 +22,7 @@ export type TextInputDefaultProps = {
   height?: CSSProperties['height'];
   onReset?: (prevValue: string) => void;
   children?: ReactNode;
+  wrapperRef?: Ref<HTMLDivElement>;
 };
 
 export type TextInputResponsiveProps = ResponsiveProps<
