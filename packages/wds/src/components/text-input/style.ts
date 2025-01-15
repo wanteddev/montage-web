@@ -189,6 +189,7 @@ export const textInputWrapperStyle =
     input {
       padding: 0 4px;
       width: 100%;
+      min-height: 24px;
       background-color: transparent;
       outline: none;
       border: none;
