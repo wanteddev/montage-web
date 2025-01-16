@@ -58,7 +58,7 @@ const RegionStatus = () => {
 
 const Toast = ({
   id,
-  duration = 5000,
+  duration = 3000,
   variant = 'normal',
   icon = <IconCircle />,
   content,
