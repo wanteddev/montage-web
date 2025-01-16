@@ -22,7 +22,7 @@ figma.connect(ChipAction, '<FIGMA_CHIP_ACTION>', {
       Large: 'large',
     }),
     variant: figma.enum('Variant', {
-      Filled: 'filled',
+      Solid: 'solid',
       Outlined: 'outlined',
     }),
   },

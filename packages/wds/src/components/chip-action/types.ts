@@ -1,11 +1,9 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type ChipActionVariant = 'solid' | 'outlined';
-
 export type ChipActionDefaultProps = {
   size?: 'xsmall' | 'small' | 'normal' | 'large';
-  variant?: 'filled' | 'outlined';
+  variant?: 'solid' | 'outlined';
   active?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;

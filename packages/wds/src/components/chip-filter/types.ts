@@ -5,7 +5,7 @@ export type ChipFilterVariant = 'solid' | 'outlined';
 
 export type ChipFilterDefaultProps = {
   size?: 'xsmall' | 'small' | 'normal' | 'large';
-  variant?: 'filled' | 'outlined';
+  variant?: 'solid' | 'outlined';
   active?: boolean;
   expanded?: boolean;
   disabled?: boolean;
