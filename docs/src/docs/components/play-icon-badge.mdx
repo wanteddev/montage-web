@@ -1,0 +1,62 @@
+---
+title: Play Icon Badge
+description: Play Icon Badge Component
+---
+
+# Play Icon Badge
+
+## 활용
+
+- 비디오 콘텐츠를 표시할 때 사용합니다.
+
+<Demo code={`import { PlayIconBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+
+  return (
+    <PlayIconBadge />
+  )
+}
+
+export default Demo;
+`} />
+
+## Props
+
+<PropsTable component="PlayIconBadge" />
+
+## Examples
+
+### Size
+
+<Demo code={`import { PlayIconBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <PlayIconBadge size="small" />
+      <PlayIconBadge size="medium" />
+      <PlayIconBadge size="large" />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+
+### Alternative
+
+<Demo code={`import { PlayIconBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <PlayIconBadge />
+      <PlayIconBadge alternative />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
