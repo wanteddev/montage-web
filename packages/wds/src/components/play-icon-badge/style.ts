@@ -15,50 +15,25 @@ export const playIconBadgeStyle =
     height: fit-content;
     ${playIconBadgeSizeStyle(size)}
 
-    svg {
-      position: relative;
-    }
-
-    &::before {
-      position: absolute;
-      content: '';
-      ${alternative
-        ? css`
-            background-color: ${addOpacity(
-              theme.palette.coolNeutral[30],
-              theme.opacity[61],
-            )};
-          `
-        : css`
-            backdrop-filter: blur(32px);
-          `}
-      width: 100%;
-      height: 100%;
-      top: 0px;
-      left: 0px;
-      border-radius: inherit;
-    }
-
     ${alternative
       ? css`
-          svg {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[88])};
-          }
+          background-color: ${addOpacity(
+            theme.palette.coolNeutral[30],
+            theme.opacity[61],
+          )};
         `
       : css`
-          svg {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[88])};
-
-            @supports (-webkit-backdrop-filter: none) {
-              color: ${addOpacity(
-                theme.palette.coolNeutral[70],
-                theme.opacity[74],
-              )};
-              will-change: mix-blend-mode;
-              mix-blend-mode: plus-lighter;
-            }
-          }
+          backdrop-filter: blur(32px);
+          background-color: ${addOpacity(
+            theme.palette.coolNeutral[40],
+            theme.opacity[28],
+          )};
         `}
+
+    svg {
+      position: relative;
+      color: ${addOpacity(theme.palette.static.white, theme.opacity[88])};
+    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -96,36 +71,3 @@ const playIconBadgeSizeStyle = (size: PlayIconBadgeProps['size']) => {
       `;
   }
 };
-
-export const backgroundBlendStyle = (theme: Theme) => css`
-  position: absolute;
-  content: '';
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-  border-radius: inherit;
-  background-color: ${addOpacity(
-    theme.palette.static.white,
-    theme.opacity[35],
-  )};
-
-  @supports (-webkit-backdrop-filter: none) {
-    mix-blend-mode: plus-lighter;
-    will-change: mix-blend-mode;
-  }
-`;
-
-export const backgroundBlendLayerStyle = (theme: Theme) => css`
-  background-color: ${addOpacity(
-    theme.palette.static.black,
-    theme.opacity[28],
-  )};
-  position: absolute;
-  content: '';
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-  border-radius: inherit;
-`;
