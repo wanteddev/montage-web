@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef, useId } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
@@ -9,6 +9,7 @@ import { actionStyle } from './style';
 import type {
   PolymorphicComponent,
   PolymorphicProps,
+  ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
@@ -17,7 +18,7 @@ const ChipAction = forwardRef(
   <E extends ElementType = 'button'>(
     {
       as,
-      variant = 'filled',
+      variant = 'solid',
       disabled = false,
       disableInteraction = false,
       leftContent,
@@ -38,13 +39,22 @@ const ChipAction = forwardRef(
 
     const active = givenActive ?? props['aria-pressed'];
 
+    const interactionColor: ThemeColorsToken = useMemo(() => {
+      if (!active) {
+        return 'palette.label.normal';
+      }
+
+      if (variant === 'outlined') {
+        return 'palette.primary.normal';
+      }
+
+      return 'palette.inverse.label';
+    }, [active, variant]);
+
     return (
       <WithInteraction
-        color={
-          active && variant === 'outlined'
-            ? 'palette.primary.normal'
-            : 'palette.label.normal'
-        }
+        color={interactionColor}
+        variant={active ? 'normal' : 'light'}
         disabled={disableInteraction || disabled}
       >
         <Box

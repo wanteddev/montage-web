@@ -14,7 +14,7 @@ figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
       Large: 'large',
     }),
     variant: figma.enum('Variant', {
-      Filled: 'filled',
+      Solid: 'solid',
       Outline: 'outlined',
     }),
     activeLabel: figma.boolean('Active', {
@@ -45,7 +45,7 @@ figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
       Large: 'large',
     }),
     variant: figma.enum('Variant', {
-      Filled: 'filled',
+      Solid: 'solid',
       Outlined: 'outlined',
     }),
     activeLabel: figma.boolean('Active', {

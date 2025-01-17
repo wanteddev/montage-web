@@ -70,7 +70,7 @@ const contentBadgeColorVariant = (
   }
 
   switch (variant) {
-    case 'filled':
+    case 'solid':
       return css`
         background-color: ${background};
         color: ${font};
