@@ -7,6 +7,7 @@ export * from './bottom-navigation';
 export { default as Button } from './button';
 export * from './card';
 export * from './card-list';
+export * from './category';
 export { default as Checkbox } from './checkbox';
 export { default as ChipAction } from './chip-action';
 export { default as ChipFilter } from './chip-filter';

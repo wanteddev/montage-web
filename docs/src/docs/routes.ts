@@ -60,6 +60,7 @@ export const routes: Array<Route> = [
         title: 'CardList',
         slug: '/docs/components/card-list',
       },
+      { title: 'Category', slug: '/docs/components/category' },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
