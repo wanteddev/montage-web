@@ -19,7 +19,7 @@ const ChipFilter = forwardRef(
   <E extends ElementType = 'button'>(
     {
       as,
-      variant = 'filled',
+      variant = 'solid',
       disabled = false,
       disableInteraction = false,
       expanded: originExpanded,
