@@ -205,8 +205,6 @@ export const useDateField = ({
           targetInputValue.slice(endIndex);
       }
 
-      console.log(newInputValue);
-
       const newSections = getDateformatSections(newInputValue, format, locale);
       const parsedDate = parseFromFormat(
         newInputValue,

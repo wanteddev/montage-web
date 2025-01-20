@@ -8,12 +8,21 @@ export const timePickerContentBoxStyle = (theme: Theme) => css`
   max-height: 324px;
   border-radius: 12px;
   background-color: ${theme.palette.background.elevated.normal};
-  box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+  flex-direction: column;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+    pointer-events: none;
+  }
 
   [data-role='time-picker-list-wrapper'] {
-    height: 100%;
-    max-height: 100%;
     padding: 0 8px;
+    flex: 1;
+    overflow: hidden;
   }
 `;
 
@@ -50,9 +59,14 @@ export const timePickerListCellStyle =
   ({ active, disabled }: { active: boolean; disabled: boolean }) =>
   (theme: Theme) => css`
     text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    width: 60px;
 
+    &,
     p {
       text-align: center;
+      font-weight: 400;
     }
 
     [wds-component='with-interaction'] {
@@ -72,3 +86,17 @@ export const timePickerListCellStyle =
       }
     `}
   `;
+
+export const timePickerBottomStyle = (theme: Theme) => css`
+  --wds-action-area-margin-x: 18px;
+  --wds-action-area-margin-y: 2px;
+
+  background-color: ${theme.palette.background.elevated.normal};
+  border-top: 1px solid ${theme.palette.line.solid.alternative};
+
+  [data-role='action-area-wrapper'] {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;

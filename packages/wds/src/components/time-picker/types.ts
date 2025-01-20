@@ -57,3 +57,8 @@ export type TimePickerItemProps = {
   value: string;
   active: boolean;
 };
+
+export type TimePickerBottomProps = {
+  nowText?: string;
+  submitText?: string;
+};

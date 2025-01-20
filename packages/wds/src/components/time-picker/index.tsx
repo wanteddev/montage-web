@@ -2,8 +2,9 @@ import { forwardRef, useEffect, useId, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import dayjs from 'dayjs';
 
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
@@ -14,8 +15,14 @@ import { List, ListCell } from '../list';
 import FocusScope from '../focus-scope';
 import DismissableLayer from '../dismissable-layer';
 import { useDateField } from '../date-picker/hooks';
+import { ActionArea, ActionAreaButton } from '../action-area';
+import {
+  type GetMeridiemResult,
+  dayjsTimezone,
+} from '../date-calendar/helpers';
 
 import {
+  timePickerBottomStyle,
   timePickerContentBoxStyle,
   timePickerListCellStyle,
   timePickerListStyle,
@@ -23,14 +30,18 @@ import {
 } from './style';
 import { useTimePickerList } from './hooks';
 import { TimePickerProvider, useTimePickerContext } from './context';
-import { TIME_PICKER_LIST_NAME, TIME_PICKER_NAME } from './constants';
+import {
+  TIME_PICKER_BOTTOM_NAME,
+  TIME_PICKER_LIST_NAME,
+  TIME_PICKER_NAME,
+} from './constants';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { GetTimeUnitsResult } from './helpers';
-import type { GetMeridiemResult } from '../date-calendar/helpers';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { ElementRef } from 'react';
 import type {
+  TimePickerBottomProps,
   TimePickerInputProps,
   TimePickerListProps,
   TimePickerProps,
@@ -103,7 +114,7 @@ const TimePicker = forwardRef<
       handleKeyDown,
       handlePaste,
       handleTimeClick,
-      // handleValueChange,
+      handleValueChange,
       handleInputValueChange,
     } = useDateField({
       value,
@@ -123,7 +134,12 @@ const TimePicker = forwardRef<
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
     return (
-      <TimePickerProvider handleTimeClick={handleTimeClick}>
+      <TimePickerProvider
+        timezone={timezone}
+        onOpenChange={setOpen}
+        handleValueChange={handleValueChange}
+        handleTimeClick={handleTimeClick}
+      >
         <Popper>
           {/* @ts-expect-error */}
           <PopperAnchor
@@ -205,7 +221,7 @@ const TimePicker = forwardRef<
                     setOpen(false);
                   }}
                 >
-                  <Box sx={timePickerContentBoxStyle}>
+                  <FlexBox sx={timePickerContentBoxStyle}>
                     <FlexBox data-role="time-picker-list-wrapper">
                       {sections.map((section) => (
                         <TimePickerList
@@ -216,7 +232,8 @@ const TimePicker = forwardRef<
                         />
                       ))}
                     </FlexBox>
-                  </Box>
+                    <TimePickerBottom />
+                  </FlexBox>
                 </DismissableLayer>
               </FocusScope>
             </PopperContent>
@@ -281,6 +298,7 @@ const TimePickerList = forwardRef<
                 <ListCell
                   key={`${id}-${format}-${meridiem}`}
                   fillWidth
+                  padding="8px"
                   active={false}
                   data-value={meridiem}
                   value={meridiem}
@@ -307,6 +325,7 @@ const TimePickerList = forwardRef<
                 <ListCell
                   key={`${id}-${format}-${value}`}
                   fillWidth
+                  padding="8px"
                   active={section.value === stringValue}
                   data-value={value}
                   value={value}
@@ -331,5 +350,42 @@ const TimePickerList = forwardRef<
 });
 
 TimePickerList.displayName = TIME_PICKER_LIST_NAME;
+
+const TimePickerBottom = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<TimePickerBottomProps, 'div'>
+>(({ nowText = '현재', submitText = '적용', sx, ...props }, ref) => {
+  const { timezone, onOpenChange, handleValueChange } = useTimePickerContext(
+    TIME_PICKER_BOTTOM_NAME,
+  );
+
+  return (
+    <ActionArea
+      ref={ref}
+      property="compact"
+      {...props}
+      sx={[timePickerBottomStyle, sx]}
+    >
+      <ActionAreaButton
+        variant="sub"
+        textButtonVariant="assistive"
+        onClick={() =>
+          handleValueChange(dayjsTimezone(dayjs(), timezone).toDate())
+        }
+      >
+        {nowText}
+      </ActionAreaButton>
+      <ActionAreaButton
+        variant="sub"
+        textButtonVariant="primary"
+        onClick={() => onOpenChange(false)}
+      >
+        {submitText}
+      </ActionAreaButton>
+    </ActionArea>
+  );
+});
+
+TimePickerBottom.displayName = TIME_PICKER_BOTTOM_NAME;
 
 export default TimePicker;
