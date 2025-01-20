@@ -10,8 +10,8 @@ description: Menu Component
 ## 활용
 
 - `Menu`의 값은 `MenuItem`의 variant에 따라 달라져요.
-  - normal, radio, variant를 선택하면 값이 문자열이 됩니다.
-  - checkbox variant를 선택하면 값은 문자열 배열이 됩니다.
+  - normal, radio, variant를 선택하면 value는 문자열이고, checkbox variant를 선택하면 value는 Array\<value\> 입니다.
+- `MenuItem` 의 leftContent, rightContent에 요소를 추가 할 때는 `ListCellContent`로 감싸서 사용합니다.
 - `MenuBottom`의 leftContent, rightContent에 요소를 추가 할 때는 `MenuBottomContent`로 감싸서 사용합니다.
 
 <Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';

@@ -29,14 +29,6 @@ export const dialogDimmerStyle = (theme: Theme) => css`
   z-index: -1;
 `;
 
-export const dialogStyle = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: 0;
-  flex: 1;
-`;
-
 export const dialogContentStyle = (theme: Theme) => css`
   background-color: ${theme.palette.background.elevated.normal};
   border-radius: 12px;

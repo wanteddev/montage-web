@@ -9,7 +9,7 @@ export type ContentBadgeDefaultProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
   size?: 'normal' | 'medium' | 'large';
-  variant?: 'filled' | 'outlined';
+  variant?: 'solid' | 'outlined';
   color?: 'neutral' | 'accent';
   accentColor?: ThemeColorsToken;
   children?: ReactNode;

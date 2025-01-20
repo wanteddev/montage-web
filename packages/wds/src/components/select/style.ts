@@ -36,6 +36,11 @@ export const selectStyle =
     transition: box-shadow ease 0.2s;
     cursor: pointer;
 
+    [data-role='select-render-wrapper'],
+    [data-role='select-multiple-render-wrapper'] {
+      min-height: 24px;
+    }
+
     &:focus,
     &:focus-visible {
       outline: none;
@@ -154,7 +159,7 @@ export const invalidIconWrapperStyle = (theme: Theme) => css`
 
   svg {
     color: ${theme.palette.status.negative};
-    z-index: 1;
+    z-index: 0;
   }
 `;
 

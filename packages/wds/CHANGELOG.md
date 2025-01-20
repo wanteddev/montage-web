@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.1...@wanteddev/wds@1.6.2) (2025-01-03)
+
+### Bug Fixes
+
+- **wds:** control 요소에 value값이 null로 들어왔을 때 대응 ([#205](https://github.com/wanteddev/wds/issues/205)) ([da54dd0](https://github.com/wanteddev/wds/commit/da54dd0a41fe56c890648e88c09f620857291c23))
+- **wds:** dialog, modal, select 모바일 환경 dismiss 이슈, flex-box 스타일 적용 이슈 ([#208](https://github.com/wanteddev/wds/issues/208)) ([d2f90f7](https://github.com/wanteddev/wds/commit/d2f90f77cb0d7869bf7f063a75bdc06280ffe7b9))
+- **wds:** tab list item 내부에 resize observer 추가 ([#206](https://github.com/wanteddev/wds/issues/206)) ([4a5c59e](https://github.com/wanteddev/wds/commit/4a5c59eca2f752c44261d9bc1462579756af8fb7))
+
 ## [1.6.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.0...@wanteddev/wds@1.6.1) (2024-12-17)
 
 **Note:** Version bump only for package @wanteddev/wds

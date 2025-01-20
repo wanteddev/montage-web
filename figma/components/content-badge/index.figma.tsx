@@ -23,7 +23,7 @@ figma.connect(ContentBadge, '<FIGMA_CONTENT_BADGE>', {
       Large: 'large',
     }),
     variant: figma.enum('Variant', {
-      Filled: 'filled',
+      Solid: 'solid',
       Outlined: 'outlined',
     }),
   },

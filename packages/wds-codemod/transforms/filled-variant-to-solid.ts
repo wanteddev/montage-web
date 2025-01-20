@@ -1,0 +1,175 @@
+import { findImportDeclaration } from './helpers';
+
+import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
+
+const transformer = (file: FileInfo, api: API, options: Options) => {
+  const j = api.jscodeshift.withParser('tsx');
+  const root = j(file.source);
+  let hasChanges = false;
+
+  const wdsImport = root.find(j.ImportDeclaration, {
+    source: { value: '@wanteddev/wds' },
+  });
+
+  if (wdsImport.length < 0) {
+    return file.source;
+  }
+
+  const chipActionImport = findImportDeclaration(
+    'ChipAction',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (chipActionImport) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: chipActionImport.imported.name },
+      })
+      .forEach((chipAction) => {
+        const variant = chipAction.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
+        ) as JSXAttribute | undefined;
+
+        if (
+          Boolean(variant) &&
+          variant!.value?.type === 'JSXExpressionContainer' &&
+          variant!.value.expression.type === 'ConditionalExpression'
+        ) {
+          if (
+            variant!.value.expression.consequent.type === 'Literal' &&
+            variant!.value.expression.consequent.value === 'filled'
+          ) {
+            hasChanges = true;
+            variant!.value.expression.consequent.value = 'solid';
+          }
+
+          if (
+            variant!.value.expression.alternate.type === 'Literal' &&
+            variant!.value.expression.alternate.value === 'filled'
+          ) {
+            hasChanges = true;
+            variant!.value.expression.alternate.value = 'solid';
+          }
+        }
+
+        if (
+          Boolean(variant) &&
+          (variant!.value?.type === 'Literal' ||
+            variant!.value?.type === 'StringLiteral') &&
+          variant!.value.value === 'filled'
+        ) {
+          hasChanges = true;
+          variant!.value.value = 'solid';
+        }
+      });
+  }
+
+  const chipFilterImport = findImportDeclaration(
+    'ChipFilter',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (chipFilterImport) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: chipFilterImport.imported.name },
+      })
+      .forEach((chipFilter) => {
+        const variant = chipFilter.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
+        ) as JSXAttribute | undefined;
+
+        if (
+          Boolean(variant) &&
+          variant!.value?.type === 'JSXExpressionContainer' &&
+          variant!.value.expression.type === 'ConditionalExpression'
+        ) {
+          if (
+            variant!.value.expression.consequent.type === 'Literal' &&
+            variant!.value.expression.consequent.value === 'filled'
+          ) {
+            hasChanges = true;
+            variant!.value.expression.consequent.value = 'solid';
+          }
+
+          if (
+            variant!.value.expression.alternate.type === 'Literal' &&
+            variant!.value.expression.alternate.value === 'filled'
+          ) {
+            hasChanges = true;
+            variant!.value.expression.alternate.value = 'solid';
+          }
+        }
+
+        if (
+          Boolean(variant) &&
+          (variant!.value?.type === 'Literal' ||
+            variant!.value?.type === 'StringLiteral') &&
+          variant!.value.value === 'filled'
+        ) {
+          hasChanges = true;
+          variant!.value.value = 'solid';
+        }
+      });
+  }
+
+  const contentBadgeImport = findImportDeclaration(
+    'ContentBadge',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (contentBadgeImport) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: contentBadgeImport.imported.name },
+      })
+      .forEach((contentBadge) => {
+        const variant = contentBadge.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
+        ) as JSXAttribute | undefined;
+
+        if (
+          Boolean(variant) &&
+          variant!.value?.type === 'JSXExpressionContainer' &&
+          variant!.value.expression.type === 'ConditionalExpression'
+        ) {
+          if (
+            variant!.value.expression.consequent.type === 'Literal' &&
+            variant!.value.expression.consequent.value === 'filled'
+          ) {
+            hasChanges = true;
+            variant!.value.expression.consequent.value = 'solid';
+          }
+
+          if (
+            variant!.value.expression.alternate.type === 'Literal' &&
+            variant!.value.expression.alternate.value === 'filled'
+          ) {
+            hasChanges = true;
+            variant!.value.expression.alternate.value = 'solid';
+          }
+        }
+
+        if (
+          Boolean(variant) &&
+          (variant!.value?.type === 'Literal' ||
+            variant!.value?.type === 'StringLiteral') &&
+          variant!.value.value === 'filled'
+        ) {
+          hasChanges = true;
+          variant!.value.value = 'solid';
+        }
+      });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  return hasChanges ? root.toSource(options) : file.source;
+};
+
+export default transformer;

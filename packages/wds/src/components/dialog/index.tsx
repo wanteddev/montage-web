@@ -13,7 +13,6 @@ import {
   dialogActionStyle,
   dialogContentStyle,
   dialogDimmerStyle,
-  dialogStyle,
   dialogWrapperStyle,
 } from './style';
 
@@ -94,16 +93,6 @@ const Item = ({
 
   return (
     <FlexBox sx={dialogWrapperStyle} wds-ignore-dismissable-layer="true">
-      <RemoveScroll as={Slot} allowPinchZoom shards={[ref]}>
-        <Box
-          sx={dialogDimmerStyle}
-          onClick={() => {
-            if (!disableOutsideClickClose) {
-              handleCancel();
-            }
-          }}
-        />
-      </RemoveScroll>
       <FocusScope loop trapped>
         <DismissableLayer
           onPointerDownOutside={(e) => {
@@ -119,7 +108,7 @@ const Item = ({
           role="presentation"
           asChild
         >
-          <Box sx={dialogStyle}>
+          <RemoveScroll as={Slot} allowPinchZoom>
             <FlexBox
               ref={ref}
               role="alertdialog"
@@ -128,6 +117,23 @@ const Item = ({
               flexDirection="column"
               sx={[dialogContentStyle, sx]}
             >
+              <Box
+                sx={dialogDimmerStyle}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!disableOutsideClickClose) {
+                    handleCancel();
+                  }
+                }}
+                onPointerDown={(e) => {
+                  const target = e.target as HTMLElement;
+
+                  if (target.hasPointerCapture(e.pointerId)) {
+                    target.releasePointerCapture(e.pointerId);
+                  }
+                }}
+              />
+
               <FlexBox
                 wds-component="dialog-wrapper"
                 flexDirection="column"
@@ -181,7 +187,7 @@ const Item = ({
                 )}
               </FlexBox>
             </FlexBox>
-          </Box>
+          </RemoveScroll>
         </DismissableLayer>
       </FocusScope>
     </FlexBox>

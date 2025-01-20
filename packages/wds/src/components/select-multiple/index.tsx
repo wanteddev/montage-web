@@ -146,22 +146,30 @@ const SelectMultiple = forwardRef<
     useResizeObserver(renderWrapperNode, handleResize);
 
     const shouldShowPlaceholder = useMemo(
-      () => value.length === 0,
-      [value.length],
+      () =>
+        Array.isArray(value) || typeof value === 'string'
+          ? value.length === 0
+          : !Boolean(value) && value !== 0,
+      [value],
     );
 
     const optionList = useMemo(() => {
       return convertChildrenToData(children);
     }, [children]);
 
-    const isAllSelected = optionList.length === value.length;
+    const isAllSelected =
+      (Array.isArray(value) || typeof value === 'string') &&
+      optionList.length === value.length;
     const shouldShowAllSelectedLabel =
       isAllSelected && Boolean(allSelectedLabel);
 
     const label = useMemo(() => {
-      return convertChildrenToData(children)
-        .filter((v) => value.includes(v.value))
-        .map(({ label: labelValue }) => labelValue);
+      return (
+        convertChildrenToData(children)
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          .filter((v) => value?.includes(v.value))
+          .map(({ label: labelValue }) => labelValue)
+      );
     }, [value, children]);
 
     const isFormControl = node ? Boolean(node.closest('form')) : true;
@@ -184,7 +192,8 @@ const SelectMultiple = forwardRef<
           <Box
             as="input"
             name={props.name}
-            value={value.join(',')}
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            value={Array.isArray(value) ? value.join(',') : value ?? ''}
             aria-invalid={invalid}
             disabled={disabled}
             tabIndex={-1}

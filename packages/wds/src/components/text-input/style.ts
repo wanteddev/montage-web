@@ -82,7 +82,10 @@ export const textInputWrapperStyle =
         `
       : css`
           @supports selector(:has(*)) {
-            &:where(:has(input:focus)) {
+            &:where(:has(input:focus)),
+            &:where(
+                :has(input[data-role='date-picker-input'][aria-expanded='true'])
+              ) {
               ${invalid
                 ? css`
                     box-shadow:
@@ -127,7 +130,10 @@ export const textInputWrapperStyle =
           }
 
           @supports not selector(:has(*)) {
-            &:where(:focus-within) {
+            &:where(:focus-within),
+            &:where(
+                :has(input[data-role='date-picker-input'][aria-expanded='true'])
+              ) {
               ${invalid
                 ? css`
                     box-shadow:
@@ -170,15 +176,20 @@ export const textInputWrapperStyle =
       color: ${theme.palette.label.disable};
     }
 
-    &:where(:has(input:placeholder-shown)) {
-      [data-role='text-input-reset'] {
-        display: none;
+    @supports selector(:has(*)) {
+      &:where(:has(input[data-role='date-picker-input'])) {
+        [data-role='text-input-reset'],
+        [data-role='text-input-invalid'],
+        [data-role='text-input-positive'] {
+          display: none;
+        }
       }
     }
 
     input {
       padding: 0 4px;
       width: 100%;
+      min-height: 24px;
       background-color: transparent;
       outline: none;
       border: none;
@@ -259,7 +270,7 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
 
   svg {
     color: ${theme.palette.primary.normal};
-    z-index: 1;
+    z-index: 0;
   }
 `;
 

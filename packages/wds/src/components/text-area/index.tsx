@@ -136,7 +136,8 @@ const TextArea = forwardRef<
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       syncTextAreaHeight();
-      setLength(textAreaRef.current?.value.length ?? 0);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      setLength(textAreaRef.current?.value?.length ?? 0);
     });
 
     useEffect(() => {
@@ -146,7 +147,8 @@ const TextArea = forwardRef<
         const reset = () => {
           requestAnimationFrame(() => {
             syncTextAreaHeight();
-            setLength(textAreaRef.current?.value.length ?? 0);
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            setLength(textAreaRef.current?.value?.length ?? 0);
           });
         };
         form.addEventListener('reset', reset);
@@ -201,18 +203,6 @@ const TextArea = forwardRef<
             if (!textArea || target.tagName === 'TEXTAREA') return;
 
             requestAnimationFrame(() => {
-              textArea.dispatchEvent(
-                new MouseEvent('click', {
-                  bubbles: false,
-                }),
-              );
-
-              props.onClick?.({
-                ...event,
-                currentTarget: textArea as EventTarget & HTMLTextAreaElement,
-                bubbles: false,
-              });
-
               textArea.click();
             });
           }}

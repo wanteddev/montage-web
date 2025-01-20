@@ -112,23 +112,15 @@ const actionVariantStyle = (
   theme: Theme,
 ) => {
   switch (variant) {
-    case 'filled':
+    case 'solid':
       return css`
         color: ${theme.palette.label.normal};
         background-color: ${theme.palette.fill.alternative};
         box-shadow: none;
 
-        svg {
-          color: ${theme.palette.label.alternative};
-        }
-
         &[aria-pressed='true'] {
           color: ${theme.palette.inverse.label};
           background-color: ${theme.palette.inverse.background};
-
-          svg {
-            color: ${theme.palette.inverse.label};
-          }
         }
 
         &:disabled,
@@ -143,10 +135,6 @@ const actionVariantStyle = (
         color: ${theme.palette.label.normal};
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
-
-        svg {
-          color: ${theme.palette.label.alternative};
-        }
 
         &[aria-pressed='true'] {
           background-color: ${addOpacity(

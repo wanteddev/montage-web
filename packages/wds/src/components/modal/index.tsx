@@ -24,7 +24,7 @@ import ScrollArea from '../scroll-area';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/use-resize-observer';
-import { useTransitionStatus } from '../../hooks';
+import { useSize, useTransitionStatus } from '../../hooks';
 import { useTopNavigationContext } from '../top-navigation/contexts';
 import { TopNavigation, TopNavigationButton } from '../top-navigation';
 
@@ -202,6 +202,19 @@ const ModalContainer = forwardRef<
         dimmerRef,
       });
 
+    const topNavigationHeight =
+      useSize(
+        containerRef.current?.querySelector(
+          '[wds-component="top-navigation"]',
+        ) ?? null,
+      )?.height ?? 0;
+
+    const actionAreaHeight =
+      useSize(
+        containerRef.current?.querySelector('[wds-component="action-area"]') ??
+          null,
+      )?.height ?? 0;
+
     useEffect(() => {
       const content = containerRef.current;
 
@@ -235,6 +248,7 @@ const ModalContainer = forwardRef<
         })}
       >
         <Box
+          data-role="modal-dimmer"
           ref={dimmerRef}
           data-status={status}
           data-visibility={context.visibility}
@@ -346,6 +360,8 @@ const ModalContainer = forwardRef<
                   viewportProps={{
                     sx: {
                       height: 'initial',
+                      scrollPaddingTop: topNavigationHeight,
+                      scrollPaddingBottom: actionAreaHeight,
                       ['& [data-radix-scroll-area-content]']: {
                         display: 'flex',
                         flexDirection: 'column',

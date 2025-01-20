@@ -77,6 +77,10 @@ export const routes: Array<Route> = [
         slug: '/docs/components/content-badge',
       },
       {
+        title: 'DatePicker',
+        slug: '/docs/components/date-picker',
+      },
+      {
         title: 'DismissableLayer',
         slug: '/docs/components/dismissable-layer',
       },
@@ -157,6 +161,7 @@ export const routes: Array<Route> = [
       {
         title: 'RoundCheckbox',
         slug: '/docs/components/round-checkbox',
+        deprecated: true,
       },
       {
         title: 'ScrollArea',

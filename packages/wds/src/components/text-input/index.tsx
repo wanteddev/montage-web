@@ -48,6 +48,7 @@ const TextInput = forwardRef<
       style,
       onReset,
       type = 'text',
+      wrapperRef,
       sx,
       xs,
       sm,
@@ -66,6 +67,7 @@ const TextInput = forwardRef<
         className={className}
         style={style}
         wds-component="text-input"
+        ref={wrapperRef}
         sx={[
           textInputWrapperStyle({
             invalid,
@@ -115,17 +117,6 @@ const TextInput = forwardRef<
           if (!input || target.tagName === 'INPUT') return;
 
           requestAnimationFrame(() => {
-            input.dispatchEvent(
-              new MouseEvent('click', {
-                bubbles: false,
-              }),
-            );
-
-            props.onClick?.({
-              ...event,
-              currentTarget: input as EventTarget & HTMLInputElement,
-              bubbles: false,
-            });
             input.click();
           });
         }}

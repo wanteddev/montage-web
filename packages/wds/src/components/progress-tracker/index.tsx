@@ -13,6 +13,8 @@ import {
   progressTrackerItemContentStyle,
   progressTrackerItemDividerStyle,
   progressTrackerItemHorizontalStyle,
+  progressTrackerItemHorizontalWrapperStyle,
+  progressTrackerItemVerticalLabelWrapperStyle,
   progressTrackerItemVerticalStyle,
   progressTrackerWrapperStyle,
 } from './style';
@@ -20,7 +22,11 @@ import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
 import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ProgressTrackerItemProps, ProgressTrackerProps } from './types';
+import type {
+  ProgressTrackerItemProps,
+  ProgressTrackerLabelContentProps,
+  ProgressTrackerProps,
+} from './types';
 
 const ProgressTracker = forwardRef<
   HTMLOListElement,
@@ -104,7 +110,7 @@ ProgressTrackerItem.isProgressTrackerItem = true;
 const ProgressTrackerItemVertical = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<ProgressTrackerItemProps, 'li'>
->(({ value, label, completedLabel, children, ...props }, ref) => {
+>(({ value, label, completedLabel, children, labelContent, ...props }, ref) => {
   const {
     value: contextValue,
     getStepIndex,
@@ -123,78 +129,98 @@ const ProgressTrackerItemVertical = forwardRef<
   const number = (index === -1 ? 0 : index) + 1;
 
   return (
-    <>
+    <FlexBox
+      as="li"
+      ref={ref}
+      wds-component="progress-tracker-item"
+      aria-current={isActive ? 'step' : undefined}
+      aria-label={`Step ${index}`}
+      gap="20px"
+      data-completed={isCompleted}
+      data-active={isActive}
+      {...props}
+      sx={[progressTrackerItemVerticalStyle, props.sx]}
+    >
       <FlexBox
-        as="li"
-        ref={ref}
-        wds-component="progress-tracker-item"
-        aria-current={isActive ? 'step' : undefined}
-        aria-label={`Step ${index}`}
-        gap="20px"
-        data-completed={isCompleted}
-        data-active={isActive}
-        {...props}
-        sx={[progressTrackerItemVerticalStyle, props.sx]}
+        data-role="progress-tracker-item-step-wrapper"
+        flex="1"
+        gap="8px"
       >
-        <FlexBox data-role="progress-tracker-item-wrapper" gap="8px">
+        <FlexBox
+          data-role="progress-tracker-item-icon-wrapper"
+          flexDirection="column"
+          alignItems="center"
+        >
           <FlexBox
-            data-role="progress-tracker-item-icon-wrapper"
-            flexDirection="column"
+            data-role="progress-tracker-item-stepper"
+            sx={progressCircleStyle(isActive, isCompleted)}
             alignItems="center"
+            justifyContent="center"
           >
-            <FlexBox
-              data-role="progress-tracker-item-stepper"
-              sx={progressCircleStyle(isActive, isCompleted)}
-              alignItems="center"
-              justifyContent="center"
-            >
-              {isCompleted ? (
-                <IconCheckThick />
-              ) : (
-                <Typography
-                  variant="caption1"
-                  weight="bold"
-                  align="center"
-                  data-role="progress-tracker-item-step"
-                >
-                  {number}
-                </Typography>
-              )}
-            </FlexBox>
-
-            {!isLast && (
-              <Box
-                data-role="progress-tracker-item-divider"
-                sx={progressTrackerItemDividerStyle(isCompleted, 'vertical')}
-              />
+            {isCompleted ? (
+              <IconCheckThick />
+            ) : (
+              <Typography
+                variant="caption1"
+                weight="bold"
+                align="center"
+                data-role="progress-tracker-item-step"
+              >
+                {number}
+              </Typography>
             )}
           </FlexBox>
 
-          <ProgressTrackerItemLabel
-            isCompleted={isCompleted}
-            isActive={isActive}
-            label={label}
-            completedLabel={completedLabel}
-          />
+          {!isLast && (
+            <Box
+              data-role="progress-tracker-item-divider"
+              sx={progressTrackerItemDividerStyle(isCompleted, 'vertical')}
+            />
+          )}
+        </FlexBox>
+
+        <FlexBox flexDirection="column" flex="1">
+          {(Boolean(label) ||
+            Boolean(completedLabel) ||
+            Boolean(labelContent)) && (
+            <FlexBox
+              data-role="progress-tracker-item-label-wrapper"
+              sx={progressTrackerItemVerticalLabelWrapperStyle}
+            >
+              <ProgressTrackerItemLabel
+                isCompleted={isCompleted}
+                isActive={isActive}
+                label={label}
+                completedLabel={completedLabel}
+              />
+
+              <FlexBox
+                data-role="progress-tracker-item-label-content-wrapper"
+                flex="1"
+              >
+                {labelContent}
+              </FlexBox>
+            </FlexBox>
+          )}
+
+          {Boolean(children) ? (
+            <FlexBox
+              data-role="progress-tracker-item-content"
+              sx={progressTrackerItemContentStyle}
+            >
+              {children}
+            </FlexBox>
+          ) : (
+            <FlexBox
+              data-role="progress-tracker-item-content"
+              sx={{ width: 0, height: 0 }}
+            >
+              {children}
+            </FlexBox>
+          )}
         </FlexBox>
       </FlexBox>
-
-      {Boolean(children) ? (
-        <FlexBox
-          data-role="progress-tracker-item-content"
-          sx={progressTrackerItemContentStyle}
-        >
-          {children}
-        </FlexBox>
-      ) : (
-        <FlexBox
-          data-role="progress-tracker-item-content"
-          sx={{ width: 0, height: 0 }}
-        >
-          {children}
-        </FlexBox>
-      )}
-    </>
+    </FlexBox>
   );
 });
 
@@ -206,6 +232,7 @@ const ProgressTrackerItemHorizontal = forwardRef<
     value: contextValue,
     getStepIndex,
     getActiveStepIndex,
+    getTotalLength,
   } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
 
   const isActive = contextValue === value;
@@ -215,61 +242,79 @@ const ProgressTrackerItemHorizontal = forwardRef<
   const isCompleted = activeIndex > index;
 
   const isFirst = index === 0;
+  const isLast = index === getTotalLength() - 1;
 
   const number = (index === -1 ? 0 : index) + 1;
 
   return (
-    <>
-      {!isFirst && (
+    <FlexBox
+      as="li"
+      ref={ref}
+      wds-component="progress-tracker-item"
+      aria-current={isActive ? 'step' : undefined}
+      aria-label={`Step ${index}`}
+      flexDirection="column"
+      alignItems="center"
+      gap="8px"
+      data-completed={isCompleted}
+      data-active={isActive}
+      {...props}
+      sx={[progressTrackerItemHorizontalStyle, props.sx]}
+    >
+      <FlexBox
+        data-role="progress-tracker-item-wrapper"
+        flexDirection="row"
+        alignItems="center"
+        sx={progressTrackerItemHorizontalWrapperStyle}
+      >
         <Box
           data-role="progress-tracker-item-divider"
-          sx={progressTrackerItemDividerStyle(
-            isActive || isCompleted,
-            'horizontal',
-          )}
+          sx={[
+            progressTrackerItemDividerStyle(
+              isActive || isCompleted,
+              'horizontal',
+            ),
+            isFirst && { backgroundColor: 'transparent' },
+          ]}
         />
-      )}
 
-      <FlexBox
-        as="li"
-        ref={ref}
-        wds-component="progress-tracker-item"
-        aria-current={isActive ? 'step' : undefined}
-        aria-label={`Step ${index}`}
-        flexDirection="column"
-        alignItems="center"
-        data-completed={isCompleted}
-        data-active={isActive}
-        {...props}
-        sx={[progressTrackerItemHorizontalStyle, props.sx]}
-      >
-        <FlexBox
-          sx={progressCircleStyle(isActive, isCompleted)}
-          alignItems="center"
-          justifyContent="center"
-        >
-          {isCompleted ? (
-            <IconCheckThick />
-          ) : (
-            <Typography
-              variant="caption1"
-              weight="bold"
-              align="center"
-              data-role="progress-tracker-item-step"
-            >
-              {number}
-            </Typography>
-          )}
-
-          <ProgressTrackerItemLabel
-            isCompleted={isCompleted}
-            isActive={isActive}
-            label={label}
-            completedLabel={completedLabel}
-          />
+        <FlexBox flexDirection="column" alignItems="center">
+          <FlexBox
+            sx={progressCircleStyle(isActive, isCompleted)}
+            alignItems="center"
+            justifyContent="center"
+          >
+            {isCompleted ? (
+              <IconCheckThick />
+            ) : (
+              <Typography
+                variant="caption1"
+                weight="bold"
+                align="center"
+                data-role="progress-tracker-item-step"
+              >
+                {number}
+              </Typography>
+            )}
+          </FlexBox>
         </FlexBox>
+
+        <Box
+          data-role="progress-tracker-item-divider"
+          sx={[
+            progressTrackerItemDividerStyle(isCompleted, 'horizontal'),
+            isLast && { backgroundColor: 'transparent' },
+          ]}
+        />
       </FlexBox>
-    </>
+
+      <ProgressTrackerItemLabel
+        isCompleted={isCompleted}
+        isActive={isActive}
+        label={label}
+        completedLabel={completedLabel}
+      />
+    </FlexBox>
   );
 });
 
@@ -285,11 +330,12 @@ const ProgressTrackerItemLabel = ({
   if (isCompleted) {
     return Boolean(completedLabel) ? (
       <Typography
-        sx={{ padding: '1px 0px', height: 'fit-content', width: 'max-content' }}
+        sx={{ padding: '1px 0px', height: 'fit-content' }}
         data-role="progress-tracker-item-label"
         color={isActive ? 'palette.label.normal' : 'palette.label.alternative'}
         variant="label2"
         weight="bold"
+        align="center"
       >
         {completedLabel}
       </Typography>
@@ -298,15 +344,68 @@ const ProgressTrackerItemLabel = ({
 
   return Boolean(label) ? (
     <Typography
-      sx={{ padding: '1px 0px', height: 'fit-content', width: 'max-content' }}
+      sx={{ padding: '1px 0px', height: 'fit-content' }}
       data-role="progress-tracker-item-label"
       color={isActive ? 'palette.label.normal' : 'palette.label.alternative'}
       variant="label2"
       weight="bold"
+      align="center"
     >
       {label}
     </Typography>
   ) : null;
 };
 
-export { ProgressTracker, ProgressTrackerItem };
+const ProgressTrackerLabelContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ProgressTrackerLabelContentProps, 'div'>
+>(({ variant = 'custom', ...props }, ref) => {
+  switch (variant) {
+    case 'badge':
+      return (
+        <FlexBox
+          wds-component="progress-tracker-label-content"
+          ref={ref}
+          alignItems="center"
+          gap="4px"
+          {...props}
+          sx={[{ height: 20 }, props.sx]}
+        />
+      );
+    case 'caption':
+      return (
+        <FlexBox
+          wds-component="progress-tracker-label-content"
+          ref={ref}
+          alignItems="center"
+          justifyContent="flex-end"
+          gap="4px"
+          flex="1"
+          {...props}
+          sx={[{ padding: '2px 0px', height: 20 }, props.sx]}
+        >
+          <Typography
+            variant="caption1"
+            weight="regular"
+            color="palette.label.alternative"
+          >
+            {props.children}
+          </Typography>
+        </FlexBox>
+      );
+    case 'custom':
+      return (
+        <FlexBox
+          wds-component="progress-tracker-label-content"
+          ref={ref}
+          flex="1"
+          {...props}
+          sx={[{ height: 20 }, props.sx]}
+        />
+      );
+  }
+});
+
+ProgressTrackerLabelContent.displayName = 'ProgressTrackerLabelContent';
+
+export { ProgressTracker, ProgressTrackerItem, ProgressTrackerLabelContent };
