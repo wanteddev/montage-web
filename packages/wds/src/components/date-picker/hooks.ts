@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import {
   dateTypeToDateObject,
   dayjsTimezone,
+  getMeridiem,
   isValidDate,
 } from '../date-calendar/helpers';
 import { getTabbableCandidates } from '../focus-scope/helpers';
@@ -723,11 +724,22 @@ export const useDateField = ({
       }
 
       if (focusedSection.type === 'text') {
-        const foundOption = focusedSection.options.filter((v) =>
-          new RegExp(
+        const foundOption = focusedSection.options.filter((v) => {
+          if (/^a$/i.test(focusedSection.format)) {
+            const meridiem = getMeridiem(locale);
+            const [am, pm] = meridiem.map((m) =>
+              focusedSection.format === 'a' ? m.lower : m.upper,
+            );
+
+            return new RegExp(
+              `^${lowerKey === 'a' ? am : lowerKey === 'p' ? pm : '$^'}`,
+            ).test(v);
+          }
+
+          return new RegExp(
             '^' + String.raw`${sectionValueRef.current}${lowerKey}`,
-          ).test(v.toLowerCase()),
-        );
+          ).test(v.toLowerCase());
+        });
 
         let newInputValue: string;
         let isFinished = false;
