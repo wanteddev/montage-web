@@ -1,6 +1,15 @@
 import dayjs from 'dayjs';
 
-import { ARROW_DOWN_KEY, ARROW_UP_KEY, SECTION_TO_TYPE_MAP } from './constants';
+import {
+  ARROW_DOWN_KEY,
+  ARROW_UP_KEY,
+  SECTION_TO_TYPE_MAP,
+  max12Hours,
+  max24Hours,
+  maxMinutes,
+  minHours,
+  minMinutes,
+} from './constants';
 
 import { DAYJS_AM_TEXT, DAYJS_PM_TEXT } from '.';
 
@@ -67,12 +76,13 @@ export const parseTimeSections = ({
   return sections;
 };
 
-type GetSectionParams = {
+export type GetSectionParams = {
   type: 'prev' | 'current' | 'next';
   format: TimePickerFormat;
   value?: string;
   inputValue: string;
   sectionType: TimeSection['type'];
+  status: 'read' | 'update';
 };
 
 export const getSection = ({
@@ -81,6 +91,7 @@ export const getSection = ({
   value,
   inputValue,
   sectionType,
+  status,
 }: GetSectionParams) => {
   const sections = parseTimeSections({
     format,
@@ -104,21 +115,16 @@ export const getSection = ({
 
   // 현재 섹션에 머무를 경우 값 업데이트
   if (
-    (type === 'current' || sectionType === section?.type) &&
+    status === 'update' &&
     section &&
-    value
+    value &&
+    (type === 'current' || sectionType === section.type)
   ) {
     section.value = value;
   }
 
   return section;
 };
-
-const max24Hours = 23;
-const max12Hours = 12;
-const maxMinutes = 59;
-const minHours = 1;
-const minMinutes = 0;
 
 export const getTimeUnit = ({
   section,
@@ -224,4 +230,21 @@ export const getNewInputValue = ({
   return (
     inputValue.slice(0, section.start) + value + inputValue.slice(section.end)
   );
+};
+
+export const getTimeUnitList = (
+  minValue: number,
+  maxValue: number,
+  interval: number,
+) => {
+  return Array.from(
+    { length: Math.floor((maxValue - minValue) / interval) + 1 },
+    (_, index) => minValue + index * interval,
+  );
+};
+
+export const getHoursList = (hourFormat: TimePickerHourFormat) => {
+  return hourFormat === '12'
+    ? [12, ...getTimeUnitList(1, max12Hours - 1, 1)]
+    : getTimeUnitList(0, max24Hours, 1);
 };
