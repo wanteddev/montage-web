@@ -17,9 +17,12 @@ export const useTimePickerList = ({ locale, format }: Props) => {
 
     case 'H':
     case 'HH':
+      return getHours({ format, locale });
+
     case 'h':
     case 'hh':
-      return getHours({ format, locale });
+      const hours12 = getHours({ format, locale });
+      return [hours12.pop(), ...hours12];
 
     case 'm':
     case 'mm':

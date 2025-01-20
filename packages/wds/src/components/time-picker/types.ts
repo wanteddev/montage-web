@@ -49,6 +49,7 @@ export type TimePickerListProps = Merge<
   {
     locale?: string;
     disabled: boolean;
+    order: 'first' | 'last' | 'middle';
   },
   DateFormatSection
 >;

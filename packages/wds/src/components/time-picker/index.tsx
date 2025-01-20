@@ -223,11 +223,18 @@ const TimePicker = forwardRef<
                 >
                   <FlexBox sx={timePickerContentBoxStyle}>
                     <FlexBox data-role="time-picker-list-wrapper">
-                      {sections.map((section) => (
+                      {sections.map((section, index) => (
                         <TimePickerList
                           key={`${id}-${section.index}`}
                           locale={locale}
                           disabled={disabled}
+                          order={
+                            index === 0
+                              ? 'first'
+                              : index === sections.length - 1
+                                ? 'last'
+                                : 'middle'
+                          }
                           {...section}
                         />
                       ))}
@@ -258,7 +265,7 @@ TimePickerInput.displayName = 'TimePickerInput';
 const TimePickerList = forwardRef<
   HTMLUListElement,
   DefaultComponentProps<TimePickerListProps, 'ul'>
->(({ locale, disabled, ...section }, ref) => {
+>(({ locale, disabled, order, ...section }, ref) => {
   const { format } = section;
 
   const id = useId();
@@ -305,6 +312,7 @@ const TimePickerList = forwardRef<
                   sx={timePickerListCellStyle({
                     active,
                     disabled,
+                    order,
                   })}
                   onClick={() =>
                     handleTimeClick({
@@ -332,6 +340,7 @@ const TimePickerList = forwardRef<
                   sx={timePickerListCellStyle({
                     active,
                     disabled,
+                    order,
                   })}
                   onClick={() =>
                     handleTimeClick({

@@ -1,5 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
+import type { TimePickerListProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const timePickerContentBoxStyle = (theme: Theme) => css`
@@ -56,12 +57,30 @@ export const timePickerListStyle = () => css`
 `;
 
 export const timePickerListCellStyle =
-  ({ active, disabled }: { active: boolean; disabled: boolean }) =>
+  ({
+    active,
+    disabled,
+    order,
+  }: { active: boolean; disabled: boolean } & Pick<
+    TimePickerListProps,
+    'order'
+  >) =>
   (theme: Theme) => css`
     text-align: center;
     padding-left: 0;
     padding-right: 0;
     width: 60px;
+
+    ${order === 'first'
+      ? css`
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+        `
+      : order === 'last' &&
+        css`
+          border-top-right-radius: 8px;
+          border-bottom-right-radius: 8px;
+        `};
 
     &,
     p {
