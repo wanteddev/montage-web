@@ -2,10 +2,6 @@ import { css } from '@wanteddev/wds-engine';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const timePickerInputStyle = () => css`
-  cursor: text;
-`;
-
 export const timePickerContentBoxStyle = (theme: Theme) => css`
   width: max-content;
   height: 324px;
@@ -24,8 +20,10 @@ export const timePickerContentBoxStyle = (theme: Theme) => css`
 export const timePickerScrollAreaStyle = () => css`
   height: 100%;
   max-height: 100%;
-  padding: 8px 0;
 
+  [data-radix-scroll-area-viewport] {
+    padding: 8px 0;
+  }
   [data-radix-scroll-area-content] {
     height: 100%;
   }
@@ -44,7 +42,7 @@ export const timePickerListStyle = () => css`
   &::after {
     content: '';
     display: block;
-    min-height: calc(100% - 48px);
+    min-height: 100%;
   }
 `;
 

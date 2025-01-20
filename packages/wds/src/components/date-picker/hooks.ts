@@ -79,6 +79,11 @@ export const useDateField = ({
     [focusedSection, format, locale, sections, timezone],
   );
 
+  const handleInputValueChange = useCallback(() => {
+    const newInputValue = !inputValue ? format : inputValue;
+    setInputValue(newInputValue);
+  }, [inputValue, format]);
+
   useEffect(() => {
     const newInputValue = !inputValue
       ? ''
@@ -167,6 +172,58 @@ export const useDateField = ({
       sectionValueRef.current = '';
     },
     [focusedSection, format, locale, setValue, timezone, readOnly, disabled],
+  );
+
+  const handleTimeClick = useCallback(
+    ({
+      startIndex,
+      endIndex,
+      value: newValue,
+      format: sectionFormat,
+    }: DateFormatSection) => {
+      let newInputValue;
+      // eslint-disable-next-line prefer-const
+      let targetInputValue = inputValue;
+
+      if (!inputValue || inputValue === format) {
+      }
+
+      if (sectionFormat === 'a' || sectionFormat === 'A') {
+        const meridiem = getMeridiem(locale);
+        const [am, pm] = meridiem.map((m) =>
+          sectionFormat === 'a' ? m.lower : m.upper,
+        );
+
+        newInputValue =
+          targetInputValue.slice(0, startIndex) +
+          (newValue === am ? am : pm) +
+          targetInputValue.slice(endIndex);
+      } else {
+        newInputValue =
+          targetInputValue.slice(0, startIndex) +
+          `${newValue}`.padStart(sectionFormat.length, '0') +
+          targetInputValue.slice(endIndex);
+      }
+
+      console.log(newInputValue);
+
+      const newSections = getDateformatSections(newInputValue, format, locale);
+      const parsedDate = parseFromFormat(
+        newInputValue,
+        format,
+        locale,
+        timezone,
+      );
+
+      setInputValue(newInputValue);
+      setSections(newSections);
+
+      if (parsedDate) {
+        setValue(parsedDate);
+        isTriggeredChange.current = true;
+      }
+    },
+    [inputValue, format, locale, timezone, setValue],
   );
 
   const handlePaste = useCallback(
@@ -314,6 +371,7 @@ export const useDateField = ({
       setInputValue(newInputValue);
 
       const closetSection = getClosetSection(cursorPosition, newSections);
+
       if (closetSection) {
         e.preventDefault();
         setFocusedSection(closetSection);
@@ -886,11 +944,14 @@ export const useDateField = ({
     inputRef,
     inputValue,
     focusedSection,
+    sections,
     handlePaste,
     handleFocus,
     handleClick,
     handleBlur,
+    handleTimeClick,
     handleKeyDown,
     handleValueChange,
+    handleInputValueChange,
   };
 };

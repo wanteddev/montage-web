@@ -123,6 +123,8 @@ export const getMonths = (locale?: string) => {
   }));
 };
 
+export type GetMeridiemResult = ReturnType<typeof getMeridiem>;
+
 export const getMeridiem = (locale?: string) => {
   return new Array(2).fill(0).map((_, i) => ({
     lower:

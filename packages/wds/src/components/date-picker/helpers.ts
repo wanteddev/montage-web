@@ -326,6 +326,7 @@ export const parseFromFormat = (
         const meridiem = getMeridiem(locale).findIndex((v) =>
           sectionFormat === 'A' ? v.upper === value : v.lower === value,
         );
+
         if (meridiem === -1) {
           return invalidDate;
         }

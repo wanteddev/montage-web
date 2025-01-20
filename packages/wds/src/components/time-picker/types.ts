@@ -1,47 +1,59 @@
-import type { ListCellDefaultProps } from '../list/types';
+import type { DateFormatSection } from '../date-picker/helpers';
+import type { TextInputProps } from '../text-input/types';
+import type { TextInput } from '../text-input';
+import type { PopperContent } from '../popper';
+import type {
+  ComponentProps,
+  ComponentPropsWithoutRef,
+  ElementType,
+  Ref,
+} from 'react';
+import type { DateType } from '../date-picker';
 import type { Merge } from '@wanteddev/wds-engine';
-import type { Dayjs } from 'dayjs';
+import type FocusScope from '../focus-scope';
 
-export type TimePickerValue = Dayjs | null;
-export type TimePickerFormat = 'hh:mm' | 'a hh' | 'a hh:mm' | 'a hh:mm:ss';
-export type TimePickerHourFormat = '12' | '24';
-
-export type TimePickerProps = {
-  defaultValue?: TimePickerValue;
-  value?: TimePickerValue;
-  disabled?: boolean;
-  format?: TimePickerFormat;
-  defaultOpen?: boolean;
-  open?: boolean;
-  hourFormat?: TimePickerHourFormat;
-  onChange?: (value: TimePickerValue) => void;
-  onOpenChange?: (open: boolean) => void;
-};
-
-export type TimePickerInputProps = Merge<
-  Required<Pick<TimePickerProps, 'format' | 'hourFormat' | 'disabled'>>,
+export type TimePickerProps = Merge<
   {
-    value: TimePickerValue;
-    isEmptyInputValue: boolean;
-    setItem: (item: HTMLInputElement | null) => void;
-    setValue: (value: TimePickerValue) => void;
-  }
+    value?: DateType;
+    defaultValue?: DateType;
+    format?: string;
+    readOnly?: boolean;
+    disabled?: boolean;
+    invalid?: boolean;
+    locale?: string;
+    timezone?: string;
+    input?: ElementType;
+    inputRef?: Ref<HTMLInputElement>;
+    placeholder?: string;
+    open?: boolean;
+    defaultOpen?: boolean;
+    contentProps?: Merge<
+      ComponentProps<typeof PopperContent>,
+      ComponentPropsWithoutRef<typeof FocusScope>
+    >;
+    onOpenChange?: (open: boolean) => void;
+    onChange?: (date: DateType) => void;
+  },
+  Omit<TextInputProps, 'wrapperRef'>
 >;
 
-export type TimeSection = {
-  type: 'ampm' | 'hour' | 'minute' | 'second';
-  start: number;
-  end: number;
+export type TimePickerInputProps = Merge<
+  {
+    ref?: Ref<HTMLDivElement>;
+    inputRef?: Ref<HTMLInputElement>;
+  },
+  Omit<ComponentPropsWithoutRef<typeof TextInput>, 'wrapperRef'>
+>;
+
+export type TimePickerListProps = Merge<
+  {
+    locale?: string;
+    disabled: boolean;
+  },
+  DateFormatSection
+>;
+
+export type TimePickerItemProps = {
   value: string;
-};
-
-export type TimePickerListProps = {
-  type: TimeSection['type'];
-};
-
-export type TimePickerItemProps = Pick<ListCellDefaultProps, 'disabled'> & {
-  type: TimeSection['type'];
   active: boolean;
-  value: string;
-  updateTime: (value: string, defaultTime: Dayjs) => void;
 };

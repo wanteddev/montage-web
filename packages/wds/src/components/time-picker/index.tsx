@@ -1,21 +1,9 @@
-import {
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef, useEffect, useId, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
-import dayjs from 'dayjs';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import localeData from 'dayjs/plugin/localeData';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
@@ -25,537 +13,323 @@ import ScrollArea from '../scroll-area';
 import { List, ListCell } from '../list';
 import FocusScope from '../focus-scope';
 import DismissableLayer from '../dismissable-layer';
+import { useDateField } from '../date-picker/hooks';
 
 import {
-  ARROW_DOWN_KEY,
-  ARROW_LEFT_KEY,
-  ARROW_RIGHT_KEY,
-  ARROW_UP_KEY,
-  SECTION_TO_TYPE_MAP,
-  TIME_PICKER_CONTENT_NAME,
-  TIME_PICKER_INPUT_NAME,
-  TIME_PICKER_ITEM_NAME,
-  TIME_PICKER_LIST_NAME,
-  TIME_PICKER_NAME,
-  TYPE_TO_SECTION_MAP,
-  maxMinutes,
-} from './constants';
-import * as helpers from './helpers';
-import {
   timePickerContentBoxStyle,
-  timePickerInputStyle,
   timePickerListCellStyle,
   timePickerListStyle,
   timePickerScrollAreaStyle,
 } from './style';
+import { useTimePickerList } from './hooks';
 import { TimePickerProvider, useTimePickerContext } from './context';
-import useTimePicker from './hooks';
+import { TIME_PICKER_LIST_NAME, TIME_PICKER_NAME } from './constants';
 
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { GetTimeUnitsResult } from './helpers';
+import type { GetMeridiemResult } from '../date-calendar/helpers';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import type { Dayjs } from 'dayjs';
-import type { ElementRef, KeyboardEvent } from 'react';
+import type { ElementRef } from 'react';
 import type {
   TimePickerInputProps,
-  TimePickerItemProps,
   TimePickerListProps,
   TimePickerProps,
-  TimePickerValue,
-  TimeSection,
 } from './types';
 
-import 'dayjs/locale/ko';
+const TimePicker = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<TimePickerProps, 'input'>
+>(
+  (
+    {
+      value: originValue,
+      defaultValue,
+      onChange,
+      format = 'a hh:mm',
+      placeholder = format,
+      locale = 'ko-KR',
+      timezone,
+      disabled = false,
+      invalid: originInvalid,
+      readOnly,
+      input,
+      inputRef: originInputRef,
+      open: originOpen,
+      contentProps,
+      defaultOpen,
+      onOpenChange,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    const id = useId();
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.extend(localeData);
-dayjs.locale('ko');
+    const ref = useRef<HTMLDivElement>(null);
+    const composedRefs = useComposedRefs(forwardedRef, ref);
 
-export const DAYJS_AM_TEXT = dayjs.localeData().meridiem(0, 0, false); // 오전
-export const DAYJS_PM_TEXT = dayjs.localeData().meridiem(13, 0, false); // 오후
+    const [open = false, setOpen] = useControllableState({
+      prop: originOpen,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
+    });
 
-const TimePicker = ({
-  defaultValue = null,
-  value: givenValue,
-  open: originOpen,
-  defaultOpen,
-  format = 'a hh:mm',
-  hourFormat = '12',
-  disabled = false,
-  onChange,
-  onOpenChange,
-}: TimePickerProps) => {
-  const [open = false, setOpen] = useControllableState({
-    prop: originOpen,
-    defaultProp: defaultOpen,
-    onChange: onOpenChange,
-  });
-
-  const [value = defaultValue, setValue] =
-    useControllableState<TimePickerValue>({
-      prop: givenValue,
+    const [value, setValue] = useControllableState({
+      prop: originValue,
       defaultProp: defaultValue,
       onChange,
     });
 
-  const [item, setItem] = useState<HTMLInputElement | null>(null);
+    const {
+      loop,
+      trapped,
+      trappedContent,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
+      position = 'top-start',
+      offset,
+      ...otherContentProps
+    } = contentProps || {};
 
-  const [inputValue, setInputValue] = useState<string>('');
-
-  const [targetSection, setTargetSection] = useState<TimeSection | null>(null);
-
-  const isEmptyInputValue = useMemo(
-    () => value === null && inputValue.length === 0,
-    [value, inputValue],
-  );
-  const isNotSelectedTime = useMemo(
-    () => isEmptyInputValue || inputValue === format,
-    [isEmptyInputValue, inputValue, format],
-  );
-
-  const { setSection, setInputValueAndSection } = useTimePicker({
-    format,
-    hourFormat,
-    item,
-    targetSection,
-    inputValue,
-    setValue,
-    setInputValue,
-    setTargetSection,
-  });
-
-  return (
-    <TimePickerProvider
-      format={format}
-      hourFormat={hourFormat}
-      item={item}
-      value={value}
-      targetSection={targetSection}
-      inputValue={inputValue}
-      isNotSelectedTime={isNotSelectedTime}
-      open={open}
-      onOpenChange={setOpen}
-      setInputValue={setInputValue}
-      setTargetSection={setTargetSection}
-      setInputValueAndSection={setInputValueAndSection}
-      setSection={setSection}
-    >
-      <Popper>
-        <PopperAnchor>
-          <Box>
-            <TimePickerInput
-              value={value}
-              format={format}
-              hourFormat={hourFormat}
-              disabled={disabled}
-              isEmptyInputValue={isEmptyInputValue}
-              setValue={setValue}
-              setItem={setItem}
-            />
-          </Box>
-        </PopperAnchor>
-        {open ? <TimePickerContent /> : null}
-      </Popper>
-    </TimePickerProvider>
-  );
-};
-
-TimePicker.displayName = TIME_PICKER_NAME;
-
-const TimePickerInput = forwardRef<
-  HTMLInputElement,
-  DefaultComponentProps<TimePickerInputProps, 'input'>
->(
-  (
-    {
-      format,
-      hourFormat,
-      disabled,
-      value,
-      isEmptyInputValue,
-      setItem,
-      setValue,
-      sx,
-    },
-    ref,
-  ) => {
-    const composedRefs = useComposedRefs(ref, (node) => setItem(node));
+    const Component = input ?? TimePickerInput;
 
     const {
-      item,
-      open,
+      sections,
+      inputRef,
       inputValue,
-      setInputValue,
-      isNotSelectedTime,
-      setSection,
-      setInputValueAndSection,
-      targetSection,
-      setTargetSection,
-      onOpenChange,
-    } = useTimePickerContext(TIME_PICKER_INPUT_NAME);
+      focusedSection,
+      handleBlur,
+      handleClick,
+      handleFocus,
+      handleKeyDown,
+      handlePaste,
+      handleTimeClick,
+      // handleValueChange,
+      handleInputValueChange,
+    } = useDateField({
+      value,
+      format,
+      locale,
+      timezone,
+      setValue,
+      readOnly,
+      disabled,
+    });
 
-    const handlePointerDown = () => {
-      if (!item) return;
+    const invalid =
+      originInvalid ||
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
-      let cursorPosition: number;
-
-      requestAnimationFrame(() => {
-        if (isEmptyInputValue) {
-          cursorPosition = 0;
-          item.value = format;
-        } else {
-          cursorPosition = item.selectionStart ?? 0;
-        }
-
-        const sections = helpers.parseTimeSections({
-          format,
-          inputValue: item.value,
-        });
-        const clickedSection = sections.find(
-          (section) =>
-            cursorPosition >= section.start && cursorPosition <= section.end,
-        );
-
-        if (clickedSection) {
-          setTargetSection(clickedSection);
-          item.setSelectionRange(clickedSection.start, clickedSection.end);
-
-          if (isEmptyInputValue) {
-            setInputValue(format);
-          }
-        }
-      });
-    };
-
-    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-      if (disabled || !targetSection || !item) return;
-      if (e.key === 'Tab' || e.key === 'Enter') return;
-
-      e.preventDefault();
-
-      if (e.key === 'Backspace') {
-        const formatValue = TYPE_TO_SECTION_MAP[targetSection.type];
-
-        if (formatValue === targetSection.value) return;
-
-        setInputValueAndSection(formatValue, 'current');
-
-        return;
-      }
-
-      if (e.key === ARROW_LEFT_KEY || e.key === ARROW_RIGHT_KEY) {
-        setSection(e.key === ARROW_LEFT_KEY ? 'prev' : 'next');
-        return;
-      }
-
-      if (targetSection.type === 'ampm') {
-        const lowerKey = e.key.toLowerCase();
-
-        if (['a', 'p'].includes(lowerKey)) {
-          const ampmText = lowerKey === 'a' ? DAYJS_AM_TEXT : DAYJS_PM_TEXT;
-          setInputValueAndSection(ampmText, 'next');
-        }
-        return;
-      }
-
-      const isValidSection = ['hour', 'minute', 'second'].includes(
-        targetSection.type,
-      );
-      const isValidKey =
-        /^[0-9]$/.test(e.key) ||
-        e.key === ARROW_UP_KEY ||
-        e.key === ARROW_DOWN_KEY;
-
-      if (!isValidKey || !isValidSection) return;
-
-      const [unitValue, isUnitSectionFilled] = helpers.getTimeUnit({
-        section: targetSection,
-        unitKey: e.key,
-        hourFormat: targetSection.type === 'hour' ? hourFormat : undefined,
-      });
-
-      setInputValueAndSection(
-        unitValue,
-        isUnitSectionFilled ? 'next' : 'current',
-      );
-    };
+    const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
     return (
-      <PopperAnchor>
-        <TextInput
-          ref={composedRefs}
-          width="100%"
-          value={inputValue}
-          disabled={disabled}
-          placeholder={dayjs().startOf('day').format(format)}
-          invalid={
-            value
-              ? !value.isValid()
-              : inputValue.length > 0 && inputValue !== format
-          }
-          rightContent={
-            <TextInputContent variant="icon-button">
-              <IconButton
-                type="button"
-                size={22}
-                disabled={disabled}
-                onClick={() => {
-                  if (item && isNotSelectedTime) {
-                    item.value = format;
-                    setInputValue(format);
-                  }
-                  onOpenChange(!open);
-                }}
+      <TimePickerProvider handleTimeClick={handleTimeClick}>
+        <Popper>
+          {/* @ts-expect-error */}
+          <PopperAnchor
+            ref={composedRefs}
+            onChange={() => {}}
+            autoComplete="off"
+            type="text"
+            inputMode={focusedSection?.type}
+            aria-haspopup="dialog"
+            aria-expanded={open}
+            data-role="time-picker-input"
+            {...props}
+            {...({
+              readOnly,
+              disabled,
+              placeholder,
+              invalid,
+              onFocus: composeEventHandlers(props.onFocus, handleFocus),
+              onClick: composeEventHandlers(props.onClick, handleClick),
+              onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
+              onBlur: composeEventHandlers(props.onBlur, handleBlur),
+              onPaste: composeEventHandlers(props.onPaste, handlePaste),
+              value: inputValue,
+              inputRef: composedInputRef,
+              rightContent: (
+                <>
+                  {props.rightContent}
+                  <TextInputContent
+                    data-role="time-picker-clock-icon"
+                    variant="icon-button"
+                  >
+                    <IconButton
+                      size={22}
+                      disabled={disabled || readOnly}
+                      onClick={() => {
+                        handleInputValueChange();
+                        setOpen((prev) => !prev);
+                      }}
+                    >
+                      <IconClock />
+                    </IconButton>
+                  </TextInputContent>
+                </>
+              ),
+            } as unknown as SlotProps)}
+          >
+            <Component />
+          </PopperAnchor>
+
+          {open && (
+            <PopperContent
+              role="dialog"
+              {...otherContentProps}
+              position={position}
+              offset={offset}
+            >
+              <FocusScope
+                loop={loop}
+                trapped={trapped}
+                trappedContent={trappedContent}
+                onMountAutoFocus={onMountAutoFocus}
+                onUnmountAutoFocus={onUnmountAutoFocus}
               >
-                <IconClock />
-              </IconButton>
-            </TextInputContent>
-          }
-          sx={[timePickerInputStyle, sx]}
-          onPointerDown={handlePointerDown}
-          onKeyDown={handleKeyDown}
-          onBlur={() => {
-            if (isNotSelectedTime) {
-              setInputValue('');
-            }
-          }}
-          onReset={() => {
-            if (!item) return;
-
-            const sections = helpers.parseTimeSections({
-              format,
-              inputValue: format,
-            });
-            const defaultSection = sections.find(
-              (section) => section.start === 0,
-            );
-
-            if (defaultSection) {
-              item.value = format;
-              item.setSelectionRange(defaultSection.start, defaultSection.end);
-
-              setValue(null);
-              setInputValue(format);
-              setTargetSection(defaultSection);
-            }
-          }}
-          onChange={() => {}}
-        />
-      </PopperAnchor>
+                <DismissableLayer
+                  asChild
+                  onPointerDownOutside={(e) => {
+                    if (
+                      ref.current?.contains(e.target as HTMLElement) &&
+                      (e.target as HTMLElement).closest(
+                        '[data-role="time-picker-clock-icon"]',
+                      )
+                    ) {
+                      e.preventDefault();
+                    }
+                  }}
+                  disableOutsidePointerEvents
+                  onDismiss={() => {
+                    handleBlur();
+                    setOpen(false);
+                  }}
+                >
+                  <Box sx={timePickerContentBoxStyle}>
+                    <FlexBox data-role="time-picker-list-wrapper">
+                      {sections.map((section) => (
+                        <TimePickerList
+                          key={`${id}-${section.index}`}
+                          locale={locale}
+                          disabled={disabled}
+                          {...section}
+                        />
+                      ))}
+                    </FlexBox>
+                  </Box>
+                </DismissableLayer>
+              </FocusScope>
+            </PopperContent>
+          )}
+        </Popper>
+      </TimePickerProvider>
     );
   },
 );
 
-TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
+TimePicker.displayName = TIME_PICKER_NAME;
 
-const TimePickerContent = forwardRef<
+const TimePickerInput = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<{}, 'div'>
->((props, ref) => {
-  const { format, onOpenChange } = useTimePickerContext(
-    TIME_PICKER_CONTENT_NAME,
-  );
-  const formatSections = helpers.getFormatSections(format);
+  DefaultComponentProps<TimePickerInputProps, 'input'>
+>(({ inputRef, ...props }, ref) => (
+  <TextInput {...props} ref={inputRef} wrapperRef={ref} />
+));
 
-  return (
-    <PopperContent ref={ref} position="top-start" {...props}>
-      <FocusScope loop trapped>
-        <DismissableLayer
-          asChild
-          disableOutsidePointerEvents
-          onDismiss={() => {
-            onOpenChange(false);
-          }}
-        >
-          <Box sx={timePickerContentBoxStyle}>
-            <FlexBox data-role="time-picker-list-wrapper">
-              {formatSections.map((formatSection) => (
-                <TimePickerList
-                  key={formatSection}
-                  type={
-                    SECTION_TO_TYPE_MAP[formatSection] as TimeSection['type']
-                  }
-                />
-              ))}
-            </FlexBox>
-            {/* <ActionArea sticky divider priority="neutral">
-          <ActionAreaButton variant="sub" textButtonVariant="assistive">
-            현재
-          </ActionAreaButton>
-          <ActionAreaButton variant="sub" textButtonVariant="primary">
-            적용
-          </ActionAreaButton>
-        </ActionArea> */}
-          </Box>
-        </DismissableLayer>
-      </FocusScope>
-    </PopperContent>
-  );
-});
-
-TimePickerContent.displayName = TIME_PICKER_CONTENT_NAME;
-
-const TIME_UNIT_INTERVAL = 5;
-const ampmList = [
-  {
-    text: DAYJS_AM_TEXT,
-    value: 'a',
-  },
-  {
-    text: DAYJS_PM_TEXT,
-    value: 'p',
-  },
-] as const;
-const minutes = helpers.getTimeUnitList(0, maxMinutes, TIME_UNIT_INTERVAL);
-const seconds = helpers.getTimeUnitList(0, maxMinutes, TIME_UNIT_INTERVAL);
+TimePickerInput.displayName = 'TimePickerInput';
 
 const TimePickerList = forwardRef<
   HTMLUListElement,
   DefaultComponentProps<TimePickerListProps, 'ul'>
->(({ type, sx, ...props }, ref) => {
-  const id = useId();
+>(({ locale, disabled, ...section }, ref) => {
+  const { format } = section;
 
-  const { open } = useTimePickerContext(TIME_PICKER_LIST_NAME);
+  const id = useId();
 
   const scrollViewportRef =
     useRef<ElementRef<typeof ScrollAreaPrimitive.Viewport>>(null);
 
-  const { format, hourFormat, inputValue, setInputValue } =
-    useTimePickerContext(TIME_PICKER_LIST_NAME);
+  const values = useTimePickerList({ locale, format });
 
-  const hours = useMemo(() => helpers.getHoursList(hourFormat), [hourFormat]);
-
-  const timeUnitValues = useMemo(
-    () => (type === 'minute' ? minutes : type === 'hour' ? hours : seconds),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [hours],
-  );
-
-  const section = useMemo(() => {
-    return helpers.getSection({
-      type: 'current',
-      format,
-      inputValue,
-      sectionType: type,
-      status: 'update',
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputValue]);
+  const { handleTimeClick } = useTimePickerContext(TIME_PICKER_LIST_NAME);
 
   useEffect(() => {
-    if (!scrollViewportRef.current || !open) return;
+    if (!scrollViewportRef.current) return;
 
     const item = scrollViewportRef.current.querySelector(
-      `[data-value="${Number(section?.value)}"]`,
+      `[data-value="${section.value}"], [data-value="${Number(section.value)}"]`,
     );
-
     if (item) {
       scrollViewportRef.current.scrollTop = (item as HTMLElement).offsetTop - 8;
     }
-  }, [open, section?.value]);
-
-  const updateTime = useCallback(
-    (value: string, defaultTime: Dayjs) => {
-      if (type === 'ampm') {
-        const currentAmpm = defaultTime.format('A');
-
-        if (value === 'a') {
-          defaultTime =
-            currentAmpm === DAYJS_AM_TEXT
-              ? defaultTime
-              : defaultTime.subtract(12, 'hour');
-        } else {
-          defaultTime =
-            currentAmpm === DAYJS_PM_TEXT
-              ? defaultTime
-              : defaultTime.add(12, 'hour');
-        }
-      } else {
-        defaultTime = defaultTime.set(type, Number(value));
-      }
-
-      setInputValue(defaultTime.format(format));
-    },
-    [format, setInputValue, type],
-  );
+  }, [section.value]);
 
   return (
     <ScrollArea
-      size="small"
       viewportRef={scrollViewportRef}
-      // viewportProps={{
-      //   sx: {
-      //     scrollBehavior: '',
-      //   },
-      // }}
+      size="small"
       zIndex={11}
       sx={timePickerScrollAreaStyle}
     >
-      <List ref={ref} {...props} sx={[timePickerListStyle, sx]}>
-        {type === 'ampm'
-          ? ampmList.map((ampm) => (
-              <TimePickerItem
-                key={`${id}-${type}-${ampm.value}`}
-                type={type}
-                value={ampm.value}
-                active={section?.value === ampm.value}
-                updateTime={updateTime}
-              >
-                {ampm.text}
-              </TimePickerItem>
-            ))
-          : timeUnitValues.map((value) => (
-              <TimePickerItem
-                key={`${id}-${type}-${value}`}
-                type={type}
-                value={value.toString()}
-                active={Number(section?.value) === value}
-                updateTime={updateTime}
-              >
-                {value.toString()}
-              </TimePickerItem>
-            ))}
+      <List ref={ref} sx={timePickerListStyle}>
+        {section.format === 'a' || section.format === 'A'
+          ? (values as GetMeridiemResult).map(({ lower, upper }) => {
+              const meridiem = section.format === 'A' ? upper : lower;
+              const active = section.value === meridiem;
+
+              return (
+                <ListCell
+                  key={`${id}-${format}-${meridiem}`}
+                  fillWidth
+                  active={false}
+                  data-value={meridiem}
+                  value={meridiem}
+                  sx={timePickerListCellStyle({
+                    active,
+                    disabled,
+                  })}
+                  onClick={() =>
+                    handleTimeClick({
+                      ...section,
+                      value: meridiem,
+                    })
+                  }
+                >
+                  {meridiem}
+                </ListCell>
+              );
+            })
+          : (values as GetTimeUnitsResult).map(({ value }) => {
+              const stringValue = value.toString();
+              const active = Number(section.value) === value;
+
+              return (
+                <ListCell
+                  key={`${id}-${format}-${value}`}
+                  fillWidth
+                  active={section.value === stringValue}
+                  data-value={value}
+                  value={value}
+                  sx={timePickerListCellStyle({
+                    active,
+                    disabled,
+                  })}
+                  onClick={() =>
+                    handleTimeClick({
+                      ...section,
+                      value: stringValue,
+                    })
+                  }
+                >
+                  {stringValue}
+                </ListCell>
+              );
+            })}
       </List>
     </ScrollArea>
   );
 });
 
 TimePickerList.displayName = TIME_PICKER_LIST_NAME;
-
-const TimePickerItem = memo(
-  forwardRef<HTMLLIElement, DefaultComponentProps<TimePickerItemProps, 'li'>>(
-    ({ value, active, disabled = false, updateTime, children }, ref) => {
-      const { isNotSelectedTime, value: timeValue } = useTimePickerContext(
-        TIME_PICKER_ITEM_NAME,
-      );
-
-      return (
-        <ListCell
-          ref={ref}
-          fillWidth
-          active={active}
-          data-value={value}
-          sx={timePickerListCellStyle({ active, disabled })}
-          onClick={(e) => {
-            if (isNotSelectedTime) {
-              e.preventDefault();
-              e.stopPropagation();
-
-              updateTime(value, dayjs().startOf('day'));
-
-              return;
-            }
-            if (timeValue) {
-              updateTime(value, timeValue.clone());
-            }
-          }}
-        >
-          {children}
-        </ListCell>
-      );
-    },
-  ),
-);
-
-TimePickerItem.displayName = TIME_PICKER_ITEM_NAME;
 
 export default TimePicker;
