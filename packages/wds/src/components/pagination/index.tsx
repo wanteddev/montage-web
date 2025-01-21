@@ -147,12 +147,12 @@ const Pagination = forwardRef<
             alignItems="center"
             justifyContent="center"
             data-role="pagination-wrapper"
-            gap={variant === 'extended' ? '16px' : '8px'}
+            gap={variant === 'minimize' ? '8px' : '16px'}
           >
             {!hidePrevButton && (
               <IconButton
                 type="button"
-                size={16}
+                size={variant === 'compact' ? 24 : 16}
                 color="palette.label.alternative"
                 disabled={disabled || disabledPrevButton}
                 data-role="pagination-prev-button"
@@ -163,7 +163,20 @@ const Pagination = forwardRef<
               </IconButton>
             )}
 
-            {variant === 'extended' ? (
+            {variant === 'minimize' ? (
+              <Typography
+                variant="label2"
+                weight="medium"
+                data-role="pagination-page-num"
+                color={
+                  disabled ? 'palette.label.disable' : 'palette.label.neutral'
+                }
+              >
+                {page}
+                <span data-role="pagination-page-num-slash">/</span>
+                {totalPages}
+              </Typography>
+            ) : (
               <FlexBox as="ul" gap="16px" alignItems="center">
                 {items.map(({ type, page: itemPage }, index) => (
                   <PaginationItem
@@ -176,25 +189,12 @@ const Pagination = forwardRef<
                   />
                 ))}
               </FlexBox>
-            ) : (
-              <Typography
-                variant="label2"
-                weight="medium"
-                color={
-                  disabled ? 'palette.label.disable' : 'palette.label.neutral'
-                }
-                data-role="pagination-page-num"
-              >
-                {page}
-                <span data-role="pagination-page-num-slash">/</span>
-                {totalPages}
-              </Typography>
             )}
 
             {!hideNextButton && (
               <IconButton
                 type="button"
-                size={16}
+                size={variant === 'compact' ? 24 : 16}
                 color="palette.label.alternative"
                 disabled={disabled || disabledNextButton}
                 data-role="pagination-next-button"
