@@ -97,6 +97,14 @@ export const timePickerListCellStyle =
         opacity: ${theme.opacity[5]};
       }
     `}
+
+    &:focus-visible {
+      outline: none;
+
+      [wds-component='with-interaction'] {
+        opacity: ${theme.opacity[5]};
+      }
+    }
   `;
 
 export const timePickerActionAreaStyle = (theme: Theme) => css`

@@ -5,6 +5,10 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import dayjs from 'dayjs';
+import {
+  RovingFocusGroup,
+  RovingFocusGroupItem,
+} from '@radix-ui/react-roving-focus';
 
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
@@ -232,13 +236,20 @@ const TimePicker = forwardRef<
                       e.preventDefault();
                     }
                   }}
-                  disableOutsidePointerEvents
+                  onFocus={(e) => {
+                    const item = e.target.querySelector(
+                      `[data-role="time-picker-list-scroll-area"]`,
+                    );
+                    if (item) {
+                      (item as HTMLElement).focus();
+                    }
+                  }}
                   onDismiss={() => {
                     handleBlur();
                     setOpen(false);
                   }}
                 >
-                  <FlexBox sx={timePickerContentBoxStyle}>
+                  <FlexBox sx={timePickerContentBoxStyle} tabIndex={-1}>
                     <FlexBox data-role="time-picker-list-wrapper">
                       {sections.map((section, index) => (
                         <TimePickerList
@@ -315,55 +326,53 @@ const TimePickerList = forwardRef<
   };
 
   return (
-    <ScrollArea
-      viewportRef={scrollViewportRef}
-      viewportProps={{
-        sx: {
-          scrollBehavior: 'smooth',
-        },
-      }}
-      size="small"
-      zIndex={11}
-      sx={timePickerScrollAreaStyle}
-    >
-      <List ref={ref} sx={timePickerListStyle}>
-        {section.format === 'a' || section.format === 'A'
-          ? (values as GetMeridiemResult).map(({ lower, upper }) => {
-              const meridiem = section.format === 'A' ? upper : lower;
-              const active = section.value === meridiem;
+    <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
+      <ScrollArea
+        viewportRef={scrollViewportRef}
+        size="small"
+        zIndex={11}
+        sx={timePickerScrollAreaStyle}
+        data-role="time-picker-list-scroll-area"
+      >
+        <List ref={ref} sx={timePickerListStyle} tabIndex={0}>
+          {section.format === 'a' || section.format === 'A'
+            ? (values as GetMeridiemResult).map(({ lower, upper }) => {
+                const meridiem = section.format === 'A' ? upper : lower;
+                const active = section.value === meridiem;
 
-              return (
-                <TimePickerItem
-                  key={`${id}-${format}-${meridiem}`}
-                  value={meridiem}
-                  active={active}
-                  disabled={disabled}
-                  order={order}
-                  onClick={() => onTimeClick(meridiem)}
-                >
-                  {meridiem}
-                </TimePickerItem>
-              );
-            })
-          : (values as GetTimeUnitsResult).map(({ value }) => {
-              const stringValue = value.toString();
-              const active = Number(section.value) === value;
+                return (
+                  <TimePickerItem
+                    key={`${id}-${format}-${meridiem}`}
+                    value={meridiem}
+                    active={active}
+                    disabled={disabled}
+                    order={order}
+                    onClick={() => onTimeClick(meridiem)}
+                  >
+                    {meridiem}
+                  </TimePickerItem>
+                );
+              })
+            : (values as GetTimeUnitsResult).map(({ value }) => {
+                const stringValue = value.toString();
+                const active = Number(section.value) === value;
 
-              return (
-                <TimePickerItem
-                  key={`${id}-${format}-${value}`}
-                  value={value}
-                  active={active}
-                  disabled={disabled}
-                  order={order}
-                  onClick={() => onTimeClick(stringValue)}
-                >
-                  {stringValue}
-                </TimePickerItem>
-              );
-            })}
-      </List>
-    </ScrollArea>
+                return (
+                  <TimePickerItem
+                    key={`${id}-${format}-${value}`}
+                    value={value}
+                    active={active}
+                    disabled={disabled}
+                    order={order}
+                    onClick={() => onTimeClick(stringValue)}
+                  >
+                    {stringValue}
+                  </TimePickerItem>
+                );
+              })}
+        </List>
+      </ScrollArea>
+    </RovingFocusGroup>
   );
 });
 
@@ -374,22 +383,54 @@ const TimePickerItem = forwardRef<
   DefaultComponentProps<TimePickerItemProps, 'li'>
 >(({ children, value, active, disabled, order, onClick }, ref) => {
   return (
-    <ListCell
-      ref={ref}
-      fillWidth
-      padding="8px"
+    <RovingFocusGroupItem
+      asChild
+      focusable={!disabled}
       active={active}
-      data-value={value}
-      value={value}
-      sx={timePickerListCellStyle({
-        active,
-        disabled,
-        order,
-      })}
-      onClick={onClick}
+      data-active={active}
     >
-      {children}
-    </ListCell>
+      <ListCell
+        ref={ref}
+        fillWidth
+        padding="8px"
+        active={active}
+        data-value={value}
+        value={value}
+        sx={timePickerListCellStyle({
+          active,
+          disabled,
+          order,
+        })}
+        onClick={onClick}
+        onKeyDown={(e) => {
+          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+
+          const listWrapper = e.currentTarget.closest(
+            '[data-role="time-picker-list-wrapper"]',
+          );
+          const currentScrollArea = e.currentTarget.closest(
+            '[data-role="time-picker-list-scroll-area"]',
+          );
+
+          if (!listWrapper || !currentScrollArea) return;
+
+          const scrollAreaList = Array.from(
+            listWrapper.querySelectorAll(
+              '[data-role="time-picker-list-scroll-area"]',
+            ),
+          );
+          const currentIndex = scrollAreaList.indexOf(currentScrollArea);
+          const moveIndex =
+            e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
+
+          if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
+            (scrollAreaList[moveIndex] as HTMLElement).focus();
+          }
+        }}
+      >
+        {children}
+      </ListCell>
+    </RovingFocusGroupItem>
   );
 });
 
