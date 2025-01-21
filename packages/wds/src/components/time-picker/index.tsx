@@ -32,6 +32,7 @@ import { useTimePickerList } from './hooks';
 import { TimePickerProvider, useTimePickerContext } from './context';
 import {
   TIME_PICKER_BOTTOM_NAME,
+  TIME_PICKER_ITEM_NAME,
   TIME_PICKER_LIST_NAME,
   TIME_PICKER_NAME,
 } from './constants';
@@ -41,8 +42,9 @@ import type { GetTimeUnitsResult } from './helpers';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { ElementRef } from 'react';
 import type {
-  TimePickerBottomProps,
+  TimePickerActionAreaProps,
   TimePickerInputProps,
+  TimePickerItemProps,
   TimePickerListProps,
   TimePickerProps,
 } from './types';
@@ -68,6 +70,8 @@ const TimePicker = forwardRef<
       open: originOpen,
       contentProps,
       defaultOpen,
+      hasActionArea,
+      actionAreaProps,
       onOpenChange,
       ...props
     },
@@ -239,7 +243,9 @@ const TimePicker = forwardRef<
                         />
                       ))}
                     </FlexBox>
-                    <TimePickerBottom />
+                    {hasActionArea && (
+                      <TimePickerActionArea {...actionAreaProps} />
+                    )}
                   </FlexBox>
                 </DismissableLayer>
               </FocusScope>
@@ -288,9 +294,21 @@ const TimePickerList = forwardRef<
     }
   }, [section.value]);
 
+  const onTimeClick = (value: string) => {
+    handleTimeClick({
+      ...section,
+      value,
+    });
+  };
+
   return (
     <ScrollArea
       viewportRef={scrollViewportRef}
+      viewportProps={{
+        sx: {
+          scrollBehavior: 'smooth',
+        },
+      }}
       size="small"
       zIndex={11}
       sx={timePickerScrollAreaStyle}
@@ -302,27 +320,16 @@ const TimePickerList = forwardRef<
               const active = section.value === meridiem;
 
               return (
-                <ListCell
+                <TimePickerItem
                   key={`${id}-${format}-${meridiem}`}
-                  fillWidth
-                  padding="8px"
-                  active={false}
-                  data-value={meridiem}
                   value={meridiem}
-                  sx={timePickerListCellStyle({
-                    active,
-                    disabled,
-                    order,
-                  })}
-                  onClick={() =>
-                    handleTimeClick({
-                      ...section,
-                      value: meridiem,
-                    })
-                  }
+                  active={active}
+                  disabled={disabled}
+                  order={order}
+                  onClick={() => onTimeClick(meridiem)}
                 >
                   {meridiem}
-                </ListCell>
+                </TimePickerItem>
               );
             })
           : (values as GetTimeUnitsResult).map(({ value }) => {
@@ -330,27 +337,16 @@ const TimePickerList = forwardRef<
               const active = Number(section.value) === value;
 
               return (
-                <ListCell
+                <TimePickerItem
                   key={`${id}-${format}-${value}`}
-                  fillWidth
-                  padding="8px"
-                  active={section.value === stringValue}
-                  data-value={value}
                   value={value}
-                  sx={timePickerListCellStyle({
-                    active,
-                    disabled,
-                    order,
-                  })}
-                  onClick={() =>
-                    handleTimeClick({
-                      ...section,
-                      value: stringValue,
-                    })
-                  }
+                  active={active}
+                  disabled={disabled}
+                  order={order}
+                  onClick={() => onTimeClick(stringValue)}
                 >
                   {stringValue}
-                </ListCell>
+                </TimePickerItem>
               );
             })}
       </List>
@@ -360,9 +356,9 @@ const TimePickerList = forwardRef<
 
 TimePickerList.displayName = TIME_PICKER_LIST_NAME;
 
-const TimePickerBottom = forwardRef<
+export const TimePickerActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TimePickerBottomProps, 'div'>
+  DefaultComponentProps<TimePickerActionAreaProps, 'div'>
 >(({ nowText = '현재', submitText = '적용', sx, ...props }, ref) => {
   const { timezone, onOpenChange, handleValueChange } = useTimePickerContext(
     TIME_PICKER_BOTTOM_NAME,
@@ -395,6 +391,32 @@ const TimePickerBottom = forwardRef<
   );
 });
 
-TimePickerBottom.displayName = TIME_PICKER_BOTTOM_NAME;
+TimePickerActionArea.displayName = TIME_PICKER_BOTTOM_NAME;
+
+const TimePickerItem = forwardRef<
+  HTMLLIElement,
+  DefaultComponentProps<TimePickerItemProps, 'li'>
+>(({ children, value, active, disabled, order, onClick }, ref) => {
+  return (
+    <ListCell
+      ref={ref}
+      fillWidth
+      padding="8px"
+      active={active}
+      data-value={value}
+      value={value}
+      sx={timePickerListCellStyle({
+        active,
+        disabled,
+        order,
+      })}
+      onClick={onClick}
+    >
+      {children}
+    </ListCell>
+  );
+});
+
+TimePickerItem.displayName = TIME_PICKER_ITEM_NAME;
 
 export default TimePicker;

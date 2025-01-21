@@ -1,3 +1,4 @@
+import type { TimePickerActionArea } from '.';
 import type { DateFormatSection } from '../date-picker/helpers';
 import type { TextInputProps } from '../text-input/types';
 import type { TextInput } from '../text-input';
@@ -27,6 +28,8 @@ export type TimePickerProps = Merge<
     placeholder?: string;
     open?: boolean;
     defaultOpen?: boolean;
+    hasActionArea?: boolean;
+    actionAreaProps?: ComponentProps<typeof TimePickerActionArea>;
     contentProps?: Merge<
       ComponentProps<typeof PopperContent>,
       ComponentPropsWithoutRef<typeof FocusScope>
@@ -54,12 +57,14 @@ export type TimePickerListProps = Merge<
   DateFormatSection
 >;
 
-export type TimePickerItemProps = {
-  value: string;
-  active: boolean;
-};
-
-export type TimePickerBottomProps = {
+export type TimePickerActionAreaProps = {
   nowText?: string;
   submitText?: string;
+};
+
+export type TimePickerItemProps = {
+  value: string | number;
+  active: boolean;
+  disabled: boolean;
+  order: TimePickerListProps['order'];
 };
