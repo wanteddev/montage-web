@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useId, useRef } from 'react';
+import { forwardRef, useEffect, useId, useMemo, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -20,6 +20,7 @@ import {
   type GetMeridiemResult,
   dayjsTimezone,
 } from '../date-calendar/helpers';
+import { toFormat } from '../date-picker/helpers';
 
 import {
   timePickerActionAreaStyle,
@@ -59,7 +60,7 @@ const TimePicker = forwardRef<
       defaultValue,
       onChange,
       format = 'a hh:mm',
-      placeholder = format,
+      placeholder: originPlaceholder,
       locale = 'ko-KR',
       timezone,
       disabled = false,
@@ -129,6 +130,18 @@ const TimePicker = forwardRef<
       readOnly,
       disabled,
     });
+
+    const placeholder = useMemo(
+      () =>
+        originPlaceholder ??
+        toFormat(
+          dayjsTimezone(dayjs().startOf('day'), timezone).toDate(),
+          format,
+          locale,
+          timezone,
+        ),
+      [originPlaceholder, format, locale, timezone],
+    );
 
     const invalid =
       originInvalid ||
