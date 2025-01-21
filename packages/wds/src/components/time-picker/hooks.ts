@@ -1,6 +1,6 @@
 import { getMeridiem } from '../date-calendar/helpers';
 
-import { getHours, getMinutes, getSeconds } from './helpers';
+import { getHours, getTimeUnits } from './helpers';
 
 import type { DatePickerFormat } from '../date-picker/types';
 
@@ -17,19 +17,19 @@ export const useTimePickerList = ({ locale, format }: Props) => {
 
     case 'H':
     case 'HH':
-      return getHours({ format, locale });
+      return getHours({ format });
 
     case 'h':
     case 'hh':
-      const hours12 = getHours({ format, locale });
+      const hours12 = getHours({ format });
       return [hours12.pop(), ...hours12];
 
     case 'm':
     case 'mm':
-      return getMinutes({ locale });
+      return getTimeUnits();
 
     case 's':
     case 'ss':
-      return getSeconds({ locale });
+      return getTimeUnits();
   }
 };
