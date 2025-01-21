@@ -39,13 +39,6 @@ export const timePickerScrollAreaStyle = () => css`
   }
 `;
 
-export const timePickerActionAreaStyle = (theme: Theme) => css`
-  /* height: 56px;
-  padding: 0 12px;
-  max-height: 56px;
-  background-color: ${theme.palette.background.elevated.normal}; */
-`;
-
 export const timePickerListStyle = () => css`
   height: 100%;
 
@@ -106,7 +99,7 @@ export const timePickerListCellStyle =
     `}
   `;
 
-export const timePickerBottomStyle = (theme: Theme) => css`
+export const timePickerActionAreaStyle = (theme: Theme) => css`
   --wds-action-area-margin-x: 18px;
   --wds-action-area-margin-y: 2px;
 

@@ -22,7 +22,7 @@ import {
 } from '../date-calendar/helpers';
 
 import {
-  timePickerBottomStyle,
+  timePickerActionAreaStyle,
   timePickerContentBoxStyle,
   timePickerListCellStyle,
   timePickerListStyle,
@@ -31,7 +31,7 @@ import {
 import { useTimePickerList } from './hooks';
 import { TimePickerProvider, useTimePickerContext } from './context';
 import {
-  TIME_PICKER_BOTTOM_NAME,
+  TIME_PICKER_ACTION_AREA_NAME,
   TIME_PICKER_ITEM_NAME,
   TIME_PICKER_LIST_NAME,
   TIME_PICKER_NAME,
@@ -356,43 +356,6 @@ const TimePickerList = forwardRef<
 
 TimePickerList.displayName = TIME_PICKER_LIST_NAME;
 
-export const TimePickerActionArea = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<TimePickerActionAreaProps, 'div'>
->(({ nowText = '현재', submitText = '적용', sx, ...props }, ref) => {
-  const { timezone, onOpenChange, handleValueChange } = useTimePickerContext(
-    TIME_PICKER_BOTTOM_NAME,
-  );
-
-  return (
-    <ActionArea
-      ref={ref}
-      property="compact"
-      {...props}
-      sx={[timePickerBottomStyle, sx]}
-    >
-      <ActionAreaButton
-        variant="sub"
-        textButtonVariant="assistive"
-        onClick={() =>
-          handleValueChange(dayjsTimezone(dayjs(), timezone).toDate())
-        }
-      >
-        {nowText}
-      </ActionAreaButton>
-      <ActionAreaButton
-        variant="sub"
-        textButtonVariant="primary"
-        onClick={() => onOpenChange(false)}
-      >
-        {submitText}
-      </ActionAreaButton>
-    </ActionArea>
-  );
-});
-
-TimePickerActionArea.displayName = TIME_PICKER_BOTTOM_NAME;
-
 const TimePickerItem = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<TimePickerItemProps, 'li'>
@@ -418,5 +381,42 @@ const TimePickerItem = forwardRef<
 });
 
 TimePickerItem.displayName = TIME_PICKER_ITEM_NAME;
+
+export const TimePickerActionArea = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<TimePickerActionAreaProps, 'div'>
+>(({ nowText = '현재', submitText = '적용', sx, ...props }, ref) => {
+  const { timezone, onOpenChange, handleValueChange } = useTimePickerContext(
+    TIME_PICKER_ACTION_AREA_NAME,
+  );
+
+  return (
+    <ActionArea
+      ref={ref}
+      property="compact"
+      {...props}
+      sx={[timePickerActionAreaStyle, sx]}
+    >
+      <ActionAreaButton
+        variant="sub"
+        textButtonVariant="assistive"
+        onClick={() =>
+          handleValueChange(dayjsTimezone(dayjs(), timezone).toDate())
+        }
+      >
+        {nowText}
+      </ActionAreaButton>
+      <ActionAreaButton
+        variant="sub"
+        textButtonVariant="primary"
+        onClick={() => onOpenChange(false)}
+      >
+        {submitText}
+      </ActionAreaButton>
+    </ActionArea>
+  );
+});
+
+TimePickerActionArea.displayName = TIME_PICKER_ACTION_AREA_NAME;
 
 export default TimePicker;
