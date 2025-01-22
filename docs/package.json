@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@docsearch/react": "^3.6.0",
+    "@tanstack/react-virtual": "^3.11.2",
     "@wanteddev/wds": "workspace:*",
     "@wanteddev/wds-icon": "workspace:*",
     "@wanteddev/wds-lottie": "workspace:*",
