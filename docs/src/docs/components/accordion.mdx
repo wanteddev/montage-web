@@ -1,0 +1,258 @@
+---
+title: Accordion
+description: Accordion Component
+---
+
+# Accordion
+
+내용을 최소화하거나 펼칠 때 사용합니다.
+
+## 활용
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Accordion>
+      <AccordionSummary>
+        제목
+      </AccordionSummary>
+      <AccordionDetails>
+        <AccordionDescription>
+          제목에 대한 상세 내용을 입력해주세요.<br />
+          긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+        </AccordionDescription>
+      </AccordionDetails>
+    </Accordion>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<Accordion>
+  <AccordionSummary>
+    제목
+  </AccordionSummary>
+  <AccordionDetails>
+    <AccordionDescription>
+      내용
+    </AccordionDescription>
+  </AccordionDetails>
+</Accordion>
+```
+
+### Accordion
+
+<PropsTable component="Accordion" />
+
+### AccordionSummary
+
+ListCell과 유사한 props를 사용합니다.
+
+<PropsTable component="AccordionSummary" />
+
+### AccordionDetails
+
+<PropsTable component="AccordionDetails" />
+
+### AccordionDescription
+
+Typography와 동일한 props를 사용합니다.
+
+<PropsTable component="AccordionDescription" />
+
+## Examples
+
+### Padding
+
+AccordionSummary의 패딩에 따라 AccordionDetails 간격을 조정해요.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <div>
+      <Accordion>
+        <AccordionSummary>
+          Padding, 16px
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary padding="12px">
+          Padding, 12px
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary padding="8px">
+          Padding, 8px
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Divider, Disabled
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, IconButton } from '@wanteddev/wds';
+import { IconCheckThick } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <div>
+      <Accordion divider={false}>
+        <AccordionSummary>
+          Divider, false
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion disabled>
+        <AccordionSummary>
+          Disabled, true
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  )
+}
+
+export default Demo;`}
+/>
+
+### RightContent
+
+- 아이콘 또는 아이콘 버튼으로 교체할 때는 ListItemContent로 감싸주세요.
+- 아이콘 버튼이 들어가면 타이틀 영역의 인터렉션은 비활성화 됩니다.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, ListCellContent, IconButton } from '@wanteddev/wds';
+import { IconCircleCheckFill, IconChevronDown } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [expandedCheckAccordion, setExpandedCheckAccordion] = useState(false);
+
+  return (
+    <div>
+      <Accordion
+        expanded={expandedCheckAccordion}
+        onChange={setExpandedCheckAccordion}
+      >
+        <AccordionSummary
+          disableExpandIconAnimation
+          rightContent={
+            <ListCellContent variant="icon">
+              <IconCircleCheckFill 
+                sx={(theme) => ({
+                  color: expandedCheckAccordion 
+                    ? theme.palette.primary.normal 
+                    : theme.palette.label.alternative,
+                })}
+              />
+            </ListCellContent>
+          }
+        >
+          RightContent, Icon
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+      
+      <Accordion>
+        <AccordionSummary
+          rightContent={
+            <ListCellContent variant="icon-button">
+              <IconButton>
+                <IconChevronDown
+                  sx={(theme) => ({
+                    color: theme.palette.label.normal,
+                  })}
+                />
+              </IconButton>
+            </ListCellContent>
+          }
+        >
+          RightContent, IconButton
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Content
+
+추가 콘텐츠를 넣을 수 있어요.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, ListCellContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Accordion>
+      <AccordionSummary>
+        제목
+      </AccordionSummary>
+      <AccordionDetails>
+        <AccordionDescription>
+          제목에 대한 상세 내용을 입력해주세요.<br />
+          긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+        </AccordionDescription>
+       추가 콘텐츠 입니다.
+      </AccordionDetails>
+    </Accordion>
+  )
+}
+
+export default Demo;`}
+/>
+

@@ -33,6 +33,10 @@ export const routes: Array<Route> = [
     label: 'Components',
     pages: [
       {
+        title: 'Accordion',
+        slug: '/docs/components/accordion',
+      },
+      {
         title: 'ActionArea',
         slug: '/docs/components/action-area',
       },
