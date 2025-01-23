@@ -32,7 +32,7 @@ const PropsTable = ({ component, fallback }: Props) => {
   if (fallback?.length) {
     return (
       <ScrollArea>
-        <table>
+        <table data-role="props-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -105,7 +105,7 @@ const PropsTable = ({ component, fallback }: Props) => {
 
   return (
     <ScrollArea>
-      <table>
+      <table data-role="props-table">
         <thead>
           <tr>
             <th>Name</th>

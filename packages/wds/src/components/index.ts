@@ -58,6 +58,7 @@ export { default as Skeleton } from './skeleton';
 export * from './slider';
 export { default as Switch } from './switch';
 export * from './tab';
+export * from './table';
 export * from './text-area';
 export { default as TextButton } from './text-button';
 export * from './text-input';
