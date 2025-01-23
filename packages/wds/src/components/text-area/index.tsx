@@ -15,6 +15,7 @@ import { getTextAreaDefaultHeight } from './helpers';
 import {
   invalidIconWrapperStyle,
   textAreaBottomAreaStyle,
+  textAreaCharacterCounterStyle,
   textAreaContentStyle,
   textAreaStyle,
   textAreaWrapperStyle,
@@ -321,17 +322,11 @@ const TextAreaContent = forwardRef<
           variant="label2"
           weight="medium"
           ref={ref}
-          sx={[textAreaContentStyle, { padding: '0px 4px' }, sx]}
           {...props}
-          color="palette.label.assistive"
+          sx={[textAreaContentStyle, textAreaCharacterCounterStyle, sx]}
+          color="palette.label.alternative"
         >
-          <Box
-            as="span"
-            sx={(theme) => ({ color: theme.palette.label.alternative })}
-          >
-            {length}
-          </Box>
-          /{children}
+          {length}/{children}
         </Typography>
       );
     case 'badge':
