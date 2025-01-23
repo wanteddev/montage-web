@@ -5,7 +5,8 @@ description: Accordion Component
 
 # Accordion
 
-내용을 최소화하거나 펼칠 때 사용합니다.
+- 내용을 최소화하거나 펼칠 때 사용합니다.
+- AccordionSummary의 rightContent를 교체할 때는 AccordionSummaryContent로 감싸주세요.
 
 ## 활용
 
@@ -57,6 +58,12 @@ ListCell과 유사한 props를 사용합니다.
 
 <PropsTable component="AccordionSummary" />
 
+### AccordionSummaryContent
+
+ListCellContent와 동일한 props를 사용합니다.
+
+<PropsTable component="AccordionSummaryContent" />
+
 ### AccordionDetails
 
 <PropsTable component="AccordionDetails" />
@@ -71,7 +78,7 @@ Typography와 동일한 props를 사용합니다.
 
 ### Padding
 
-AccordionSummary의 패딩에 따라 AccordionDetails 간격을 조정해요.
+AccordionSummary의 패딩에 따라 AccordionDetails 간격이 조정 됩니다.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
 
@@ -160,10 +167,7 @@ export default Demo;`}
 
 ### RightContent
 
-- 아이콘 또는 아이콘 버튼으로 교체할 때는 ListItemContent로 감싸주세요.
-- 아이콘 버튼이 들어가면 타이틀 영역의 인터렉션은 비활성화 됩니다.
-
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, ListCellContent, IconButton } from '@wanteddev/wds';
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton } from '@wanteddev/wds';
 import { IconCircleCheckFill, IconChevronDown } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -179,7 +183,7 @@ const Demo = () => {
         <AccordionSummary
           disableExpandIconAnimation
           rightContent={
-            <ListCellContent variant="icon">
+            <AccordionSummaryContent variant="icon">
               <IconCircleCheckFill 
                 sx={(theme) => ({
                   color: expandedCheckAccordion 
@@ -187,7 +191,7 @@ const Demo = () => {
                     : theme.palette.label.alternative,
                 })}
               />
-            </ListCellContent>
+            </AccordionSummaryContent>
           }
         >
           RightContent, Icon
@@ -203,7 +207,7 @@ const Demo = () => {
       <Accordion>
         <AccordionSummary
           rightContent={
-            <ListCellContent variant="icon-button">
+            <AccordionSummaryContent variant="icon-button">
               <IconButton>
                 <IconChevronDown
                   sx={(theme) => ({
@@ -211,7 +215,7 @@ const Demo = () => {
                   })}
                 />
               </IconButton>
-            </ListCellContent>
+            </AccordionSummaryContent>
           }
         >
           RightContent, IconButton

@@ -32,6 +32,8 @@ export const listCellStyle =
   }: ListCellProps) =>
   (theme: Theme) => css`
     width: 100%;
+    padding-top: var(--wds-list-cell-padding);
+    padding-bottom: var(--wds-list-cell-padding);
 
     ${disabled
       ? css`
@@ -116,38 +118,38 @@ const listCellInteractionPaddingStyle = ({
   `;
 };
 
-const listCellPaddingStyle = ({ padding }: Pick<ListCellProps, 'padding'>) => {
-  switch (padding) {
-    case '0px':
-      return css`
-        padding-top: 0px;
-        padding-bottom: 0px;
+const listCellPaddingStyle = ({
+  padding,
+}: Pick<ListCellProps, 'padding'>) => css`
+  &,
+  & ~ [wds-component='accordion-details'] {
+    ${(() => {
+      switch (padding) {
+        case '0px':
+          return css`
+            --wds-list-cell-padding: 0px;
+            --wds-list-cell-interaction-display: none;
+          `;
 
-        --wds-list-cell-interaction-display: none;
-      `;
-    case '8px':
-      return css`
-        padding-top: 8px;
-        padding-bottom: 8px;
-
-        --wds-list-cell-interaction-display: block;
-      `;
-    case '16px':
-      return css`
-        padding-top: 16px;
-        padding-bottom: 16px;
-
-        --wds-list-cell-interaction-display: block;
-      `;
-    case '12px':
-      return css`
-        padding-top: 12px;
-        padding-bottom: 12px;
-
-        --wds-list-cell-interaction-display: block;
-      `;
+        case '8px':
+          return css`
+            --wds-list-cell-padding: 8px;
+            --wds-list-cell-interaction-display: block;
+          `;
+        case '16px':
+          return css`
+            --wds-list-cell-padding: 16px;
+            --wds-list-cell-interaction-display: block;
+          `;
+        case '12px':
+          return css`
+            --wds-list-cell-padding: 12px;
+            --wds-list-cell-interaction-display: block;
+          `;
+      }
+    })()}
   }
-};
+`;
 
 const listCellFillWidthStyle = ({
   fillWidth,

@@ -122,7 +122,6 @@ const ListCell = forwardRef(
             aria-disabled={disabled}
             disabled={disabled}
             tabIndex={clickable ? 0 : undefined}
-            data-padding={padding}
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (

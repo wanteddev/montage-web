@@ -11,24 +11,6 @@ export const accordionStyle =
     css`
       border-bottom: 1px solid ${theme.palette.line.normal.alternative};
     `}
-
-    [data-padding='16px'] ~ [wds-component='accordion-details'] {
-      --wds-accordion-details-padding-top: 0;
-      --wds-accordion-details-padding-bottom: 16px;
-      --wds-accordion-details-gap: 16px;
-    }
-
-    [data-padding='12px'] ~ [wds-component='accordion-details'] {
-      --wds-accordion-details-padding-top: 4px;
-      --wds-accordion-details-padding-bottom: 12px;
-      --wds-accordion-details-gap: 12px;
-    }
-
-    [data-padding='8px'] ~ [wds-component='accordion-details'] {
-      --wds-accordion-details-padding-top: 8px;
-      --wds-accordion-details-padding-bottom: 8px;
-      --wds-accordion-details-gap: 8px;
-    }
   `;
 
 export const accordionSummaryStyle = ({
@@ -43,22 +25,11 @@ export const accordionSummaryStyle = ({
   ${disableListCellInteraction &&
   css`
     cursor: initial;
+
     > [wds-component='with-interaction'] {
       display: none;
     }
   `}
-
-  [wds-component='list-item-content'] {
-    min-width: 20px;
-    max-width: 20px;
-    font-size: 20px;
-    height: 20px;
-
-    [wds-component='icon-button'] {
-      width: 100%;
-      height: 100%;
-    }
-  }
 
   ${!disableExpandIconAnimation &&
   css`
@@ -73,6 +44,26 @@ export const accordionSummaryStyle = ({
       `}
     }
   `}
+
+  & ~ [wds-component='accordion-details'] {
+    --wds-accordion-details-padding-top: calc(
+      16px - var(--wds-list-cell-padding, 16px)
+    );
+    --wds-accordion-details-padding-bottom: var(--wds-list-cell-padding, 16px);
+    --wds-accordion-details-gap: var(--wds-list-cell-padding, 16px);
+  }
+`;
+
+export const accordionSummaryContentStyle = css`
+  min-width: 20px;
+  max-width: 20px;
+  font-size: 20px;
+  height: 20px;
+
+  [wds-component='icon-button'] {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 export const accordionDetailsStyle = ({

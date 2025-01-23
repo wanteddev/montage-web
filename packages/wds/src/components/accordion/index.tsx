@@ -12,6 +12,7 @@ import {
   ACCORDION_DESCRIPTION_NAME,
   ACCORDION_DETAILS_NAME,
   ACCORDION_NAME,
+  ACCORDION_SUMMARY_CONTENT_NAME,
   ACCORDION_SUMMARY_NAME,
 } from './constants';
 import { AccordionProvider, useAccordionContext } from './contexts';
@@ -19,9 +20,11 @@ import {
   accordionDetailsBoxStyle,
   accordionDetailsStyle,
   accordionStyle,
+  accordionSummaryContentStyle,
   accordionSummaryStyle,
 } from './style';
 
+import type { ListCellContentProps } from '../list/types';
 import type { TypographyProps } from '../typography/types';
 import type { AccordionProps, AccordionSummaryProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
@@ -148,17 +151,34 @@ const AccordionSummary = forwardRef<
 
 AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 
+const AccordionSummaryContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<ListCellContentProps, 'div'>
+>(({ sx, ...props }, ref) => {
+  return (
+    <ListCellContent
+      ref={ref}
+      {...props}
+      sx={[accordionSummaryContentStyle, sx]}
+    />
+  );
+});
+
+AccordionSummaryContent.displayName = ACCORDION_SUMMARY_CONTENT_NAME;
+
 const AccordionDetails = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<TypographyProps, 'div'>
->(({ sx, children }, ref) => {
+>(({ sx, children, ...props }, ref) => {
   const { expanded } = useAccordionContext(ACCORDION_DETAILS_NAME);
 
   return (
     <Box
       ref={ref}
       wds-component="accordion-details"
+      {...props}
       sx={[accordionDetailsStyle({ expanded }), sx]}
+      aria-hidden={!expanded}
     >
       <div>
         <FlexBox sx={accordionDetailsBoxStyle}>{children}</FlexBox>
@@ -187,4 +207,10 @@ const AccordionDescription = forwardRef<
 
 AccordionDescription.displayName = ACCORDION_DESCRIPTION_NAME;
 
-export { Accordion, AccordionSummary, AccordionDetails, AccordionDescription };
+export {
+  Accordion,
+  AccordionSummary,
+  AccordionSummaryContent,
+  AccordionDetails,
+  AccordionDescription,
+};
