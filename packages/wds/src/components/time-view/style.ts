@@ -2,10 +2,10 @@ import { css } from '@wanteddev/wds-engine';
 
 import { addOpacity } from '../../utils';
 
-import type { TimePickerListProps } from './types';
+import type { TimeListProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const timePickerContentBoxStyle = (theme: Theme) => css`
+export const timeViewStyle = (theme: Theme) => css`
   width: max-content;
   height: 324px;
   max-height: 324px;
@@ -23,14 +23,43 @@ export const timePickerContentBoxStyle = (theme: Theme) => css`
     pointer-events: none;
   }
 
-  [data-role='time-picker-list-wrapper'] {
+  [data-role='time-list-wrapper'] {
     padding: 0 8px;
     flex: 1;
     overflow: hidden;
   }
 `;
 
-export const timePickerScrollAreaStyle = () => css`
+export const timeListStyle = () => css`
+  height: 100%;
+
+  &::after {
+    content: '';
+    display: block;
+    min-height: 100%;
+  }
+`;
+
+export const timeViewActionAreaStyle = (theme: Theme) => css`
+  --wds-action-area-margin-x: 18px;
+  --wds-action-area-margin-y: 2px;
+
+  background-color: ${theme.palette.background.elevated.normal};
+  border-top: 1px solid ${theme.palette.line.solid.alternative};
+
+  [data-role='action-area-wrapper'] {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
+export const timeListScrollArea = css`
+  width: 100%;
+  height: 100%;
+`;
+
+export const timeListScrollAreaStyle = () => css`
   height: 100%;
   max-height: 100%;
 
@@ -42,25 +71,12 @@ export const timePickerScrollAreaStyle = () => css`
   }
 `;
 
-export const timePickerListStyle = () => css`
-  height: 100%;
-
-  &::after {
-    content: '';
-    display: block;
-    min-height: 100%;
-  }
-`;
-
-export const timePickerListCellStyle =
+export const timeItemStyle =
   ({
     active,
     disabled,
     order,
-  }: { active: boolean; disabled: boolean } & Pick<
-    TimePickerListProps,
-    'order'
-  >) =>
+  }: { active: boolean; disabled: boolean } & Pick<TimeListProps, 'order'>) =>
   (theme: Theme) => css`
     text-align: center;
     padding-left: 0;
@@ -106,17 +122,3 @@ export const timePickerListCellStyle =
       }
     }
   `;
-
-export const timePickerActionAreaStyle = (theme: Theme) => css`
-  --wds-action-area-margin-x: 18px;
-  --wds-action-area-margin-y: 2px;
-
-  background-color: ${theme.palette.background.elevated.normal};
-  border-top: 1px solid ${theme.palette.line.solid.alternative};
-
-  [data-role='action-area-wrapper'] {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-`;

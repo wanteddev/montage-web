@@ -1,59 +1,27 @@
-import { forwardRef, useEffect, useId, useMemo, useRef } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import dayjs from 'dayjs';
-import {
-  RovingFocusGroup,
-  RovingFocusGroupItem,
-} from '@radix-ui/react-roving-focus';
 
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
-import { List, ListCell } from '../list';
 import FocusScope from '../focus-scope';
 import DismissableLayer from '../dismissable-layer';
 import { useDateField } from '../date-picker/hooks';
-import { ActionArea, ActionAreaButton } from '../action-area';
-import {
-  type GetMeridiemResult,
-  dayjsTimezone,
-} from '../date-calendar/helpers';
+import { dayjsTimezone } from '../date-calendar/helpers';
 import { toFormat } from '../date-picker/helpers';
+import TimeView from '../time-view';
 
-import {
-  timePickerActionAreaStyle,
-  timePickerContentBoxStyle,
-  timePickerListCellStyle,
-  timePickerListStyle,
-  timePickerScrollAreaStyle,
-} from './style';
-import { useTimePickerList } from './hooks';
-import { TimePickerProvider, useTimePickerContext } from './context';
-import {
-  TIME_PICKER_ACTION_AREA_NAME,
-  TIME_PICKER_INPUT_NAME,
-  TIME_PICKER_ITEM_NAME,
-  TIME_PICKER_LIST_NAME,
-  TIME_PICKER_NAME,
-} from './constants';
+import { TimePickerProvider } from './context';
+import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
+import { sectionsToViews } from './helpers';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { GetTimeUnitsResult } from './helpers';
-import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import type { ElementRef } from 'react';
-import type {
-  TimePickerActionAreaProps,
-  TimePickerInputProps,
-  TimePickerItemProps,
-  TimePickerListProps,
-  TimePickerProps,
-} from './types';
+import type { TimePickerInputProps, TimePickerProps } from './types';
 
 const TimePicker = forwardRef<
   HTMLDivElement,
@@ -61,30 +29,29 @@ const TimePicker = forwardRef<
 >(
   (
     {
+      disabled,
+      readOnly,
       value: originValue,
       defaultValue,
       onChange,
+      defaultOpen,
+      open: originOpen,
+      onOpenChange,
+      contentProps,
       format = 'a hh:mm',
-      placeholder: originPlaceholder,
+      viewFormat = 'a h:m',
+      placeholder: givenPlaceholder,
       locale = 'ko-KR',
       timezone,
-      disabled = false,
       invalid: originInvalid,
-      readOnly,
       input,
       inputRef: originInputRef,
-      open: originOpen,
-      contentProps,
-      defaultOpen,
       hasActionArea,
       actionAreaProps,
-      onOpenChange,
       ...props
     },
     forwardedRef,
   ) => {
-    const id = useId();
-
     const ref = useRef<HTMLDivElement>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
 
@@ -138,20 +105,21 @@ const TimePicker = forwardRef<
 
     const placeholder = useMemo(
       () =>
-        originPlaceholder ??
+        givenPlaceholder ??
         toFormat(
           dayjsTimezone(dayjs().startOf('day'), timezone).toDate(),
           format,
           locale,
           timezone,
         ),
-      [originPlaceholder, format, locale, timezone],
+      [givenPlaceholder, format, locale, timezone],
     );
 
     const invalid =
       originInvalid ||
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+
+    const views = useMemo(() => sectionsToViews(sections), [sections]);
 
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
@@ -163,7 +131,6 @@ const TimePicker = forwardRef<
         handleTimeClick={handleTimeClick}
       >
         <Popper>
-          {/* @ts-expect-error */}
           <PopperAnchor
             ref={composedRefs}
             onChange={() => {}}
@@ -198,7 +165,7 @@ const TimePicker = forwardRef<
                       disabled={disabled || readOnly}
                       onClick={() => {
                         handleInputValueChange();
-                        setOpen((prev) => !prev);
+                        setOpen(!open);
                       }}
                     >
                       <IconClock />
@@ -239,7 +206,7 @@ const TimePicker = forwardRef<
                   }}
                   onFocus={(e) => {
                     const item = e.target.querySelector(
-                      `[data-role="time-picker-list-scroll-area"]`,
+                      `[data-role="time-list-scroll-area"]`,
                     );
                     if (item) {
                       (item as HTMLElement).focus();
@@ -250,28 +217,19 @@ const TimePicker = forwardRef<
                     setOpen(false);
                   }}
                 >
-                  <FlexBox sx={timePickerContentBoxStyle} tabIndex={-1}>
-                    <FlexBox data-role="time-picker-list-wrapper">
-                      {sections.map((section, index) => (
-                        <TimePickerList
-                          key={`${id}-${section.index}`}
-                          locale={locale}
-                          disabled={disabled}
-                          order={
-                            index === 0
-                              ? 'first'
-                              : index === sections.length - 1
-                                ? 'last'
-                                : 'middle'
-                          }
-                          {...section}
-                        />
-                      ))}
-                    </FlexBox>
-                    {hasActionArea && (
-                      <TimePickerActionArea {...actionAreaProps} />
-                    )}
-                  </FlexBox>
+                  <TimeView
+                    value={value}
+                    defaultValue={defaultValue}
+                    views={views}
+                    onChange={handleValueChange}
+                    format={viewFormat}
+                    locale={locale}
+                    timezone={timezone}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                    hasActionArea={hasActionArea}
+                    actionAreaProps={actionAreaProps}
+                  />
                 </DismissableLayer>
               </FocusScope>
             </PopperContent>
@@ -292,186 +250,5 @@ const TimePickerInput = forwardRef<
 ));
 
 TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
-
-const TimePickerList = forwardRef<
-  HTMLUListElement,
-  DefaultComponentProps<TimePickerListProps, 'ul'>
->(({ locale, disabled, order, ...section }, ref) => {
-  const { format } = section;
-
-  const id = useId();
-
-  const scrollViewportRef =
-    useRef<ElementRef<typeof ScrollAreaPrimitive.Viewport>>(null);
-
-  const values = useTimePickerList({ locale, format });
-
-  const { handleTimeClick } = useTimePickerContext(TIME_PICKER_LIST_NAME);
-
-  useEffect(() => {
-    if (!scrollViewportRef.current) return;
-
-    const item = scrollViewportRef.current.querySelector(
-      `[data-value="${section.value}"], [data-value="${Number(section.value)}"]`,
-    );
-    if (item) {
-      scrollViewportRef.current.scrollTop = (item as HTMLElement).offsetTop - 8;
-    }
-  }, [section.value]);
-
-  const onTimeClick = (value: string) => {
-    handleTimeClick({
-      ...section,
-      value,
-    });
-  };
-
-  return (
-    <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
-      <ScrollArea
-        viewportRef={scrollViewportRef}
-        size="small"
-        zIndex={11}
-        sx={timePickerScrollAreaStyle}
-        data-role="time-picker-list-scroll-area"
-      >
-        <List ref={ref} sx={timePickerListStyle} tabIndex={0}>
-          {section.format === 'a' || section.format === 'A'
-            ? (values as GetMeridiemResult).map(({ lower, upper }) => {
-                const meridiem = section.format === 'A' ? upper : lower;
-                const active = section.value === meridiem;
-
-                return (
-                  <TimePickerItem
-                    key={`${id}-${format}-${meridiem}`}
-                    value={meridiem}
-                    active={active}
-                    disabled={disabled}
-                    order={order}
-                    onClick={() => onTimeClick(meridiem)}
-                  >
-                    {meridiem}
-                  </TimePickerItem>
-                );
-              })
-            : (values as GetTimeUnitsResult).map(({ value }) => {
-                const stringValue = value.toString();
-                const active = Number(section.value) === value;
-
-                return (
-                  <TimePickerItem
-                    key={`${id}-${format}-${value}`}
-                    value={value}
-                    active={active}
-                    disabled={disabled}
-                    order={order}
-                    onClick={() => onTimeClick(stringValue)}
-                  >
-                    {stringValue}
-                  </TimePickerItem>
-                );
-              })}
-        </List>
-      </ScrollArea>
-    </RovingFocusGroup>
-  );
-});
-
-TimePickerList.displayName = TIME_PICKER_LIST_NAME;
-
-const TimePickerItem = forwardRef<
-  HTMLLIElement,
-  DefaultComponentProps<TimePickerItemProps, 'li'>
->(({ children, value, active, disabled, order, onClick }, ref) => {
-  return (
-    <RovingFocusGroupItem
-      asChild
-      focusable={!disabled}
-      active={active}
-      data-active={active}
-    >
-      <ListCell
-        ref={ref}
-        fillWidth
-        padding="8px"
-        active={active}
-        data-value={value}
-        value={value}
-        sx={timePickerListCellStyle({
-          active,
-          disabled,
-          order,
-        })}
-        onClick={onClick}
-        onKeyDown={(e) => {
-          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-
-          const listWrapper = e.currentTarget.closest(
-            '[data-role="time-picker-list-wrapper"]',
-          );
-          const currentScrollArea = e.currentTarget.closest(
-            '[data-role="time-picker-list-scroll-area"]',
-          );
-
-          if (!listWrapper || !currentScrollArea) return;
-
-          const scrollAreaList = Array.from(
-            listWrapper.querySelectorAll(
-              '[data-role="time-picker-list-scroll-area"]',
-            ),
-          );
-          const currentIndex = scrollAreaList.indexOf(currentScrollArea);
-          const moveIndex =
-            e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
-
-          if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
-            (scrollAreaList[moveIndex] as HTMLElement).focus();
-          }
-        }}
-      >
-        {children}
-      </ListCell>
-    </RovingFocusGroupItem>
-  );
-});
-
-TimePickerItem.displayName = TIME_PICKER_ITEM_NAME;
-
-export const TimePickerActionArea = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<TimePickerActionAreaProps, 'div'>
->(({ nowText = '현재', submitText = '적용', sx, ...props }, ref) => {
-  const { timezone, onOpenChange, handleValueChange } = useTimePickerContext(
-    TIME_PICKER_ACTION_AREA_NAME,
-  );
-
-  return (
-    <ActionArea
-      ref={ref}
-      property="compact"
-      {...props}
-      sx={[timePickerActionAreaStyle, sx]}
-    >
-      <ActionAreaButton
-        variant="sub"
-        textButtonVariant="assistive"
-        onClick={() =>
-          handleValueChange(dayjsTimezone(dayjs(), timezone).toDate())
-        }
-      >
-        {nowText}
-      </ActionAreaButton>
-      <ActionAreaButton
-        variant="sub"
-        textButtonVariant="primary"
-        onClick={() => onOpenChange(false)}
-      >
-        {submitText}
-      </ActionAreaButton>
-    </ActionArea>
-  );
-});
-
-TimePickerActionArea.displayName = TIME_PICKER_ACTION_AREA_NAME;
 
 export default TimePicker;

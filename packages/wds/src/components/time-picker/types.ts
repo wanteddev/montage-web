@@ -1,5 +1,4 @@
-import type { TimePickerActionArea } from '.';
-import type { DateFormatSection } from '../date-picker/helpers';
+import type { TimeView } from '..';
 import type { TextInputProps } from '../text-input/types';
 import type { TextInput } from '../text-input';
 import type { PopperContent } from '../popper';
@@ -15,29 +14,19 @@ import type FocusScope from '../focus-scope';
 
 export type TimePickerProps = Merge<
   {
-    value?: DateType;
-    defaultValue?: DateType;
-    format?: string;
-    readOnly?: boolean;
-    disabled?: boolean;
-    invalid?: boolean;
-    locale?: string;
-    timezone?: string;
-    input?: ElementType;
-    inputRef?: Ref<HTMLInputElement>;
-    placeholder?: string;
     open?: boolean;
     defaultOpen?: boolean;
-    hasActionArea?: boolean;
-    actionAreaProps?: ComponentProps<typeof TimePickerActionArea>;
+    onOpenChange?: (state: boolean) => void;
+    input?: ElementType;
+    inputRef?: Ref<HTMLInputElement>;
     contentProps?: Merge<
       ComponentProps<typeof PopperContent>,
       ComponentPropsWithoutRef<typeof FocusScope>
     >;
-    onOpenChange?: (open: boolean) => void;
+    viewFormat?: string;
     onChange?: (date: DateType) => void;
   },
-  Omit<TextInputProps, 'wrapperRef'>
+  ComponentPropsWithoutRef<typeof TimeView> & Omit<TextInputProps, 'wrapperRef'>
 >;
 
 export type TimePickerInputProps = Merge<
@@ -47,24 +36,3 @@ export type TimePickerInputProps = Merge<
   },
   Omit<ComponentPropsWithoutRef<typeof TextInput>, 'wrapperRef'>
 >;
-
-export type TimePickerListProps = Merge<
-  {
-    locale?: string;
-    disabled: boolean;
-    order: 'first' | 'last' | 'middle';
-  },
-  DateFormatSection
->;
-
-export type TimePickerActionAreaProps = {
-  nowText?: string;
-  submitText?: string;
-};
-
-export type TimePickerItemProps = {
-  value: string | number;
-  active: boolean;
-  disabled: boolean;
-  order: TimePickerListProps['order'];
-};
