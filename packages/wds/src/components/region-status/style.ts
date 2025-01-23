@@ -60,20 +60,22 @@ export const bottomRegionStatusStyle =
 
     ${isMountAnimationDone &&
     css`
-      &:hover {
-        animation-play-state: paused;
-      }
+      @media (pointer: fine) {
+        &:hover {
+          animation-play-state: paused;
+        }
 
-      &:where(:focus-within) {
-        animation-play-state: paused;
-      }
+        &:where(:focus-within) {
+          animation-play-state: paused;
+        }
 
-      &:where(:focus) {
-        animation-play-state: paused;
-      }
+        &:where(:focus) {
+          animation-play-state: paused;
+        }
 
-      &:where(:hover) {
-        animation-play-state: paused;
+        &:where(:hover) {
+          animation-play-state: paused;
+        }
       }
     `}
   `;
