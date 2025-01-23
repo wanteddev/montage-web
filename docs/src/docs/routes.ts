@@ -182,6 +182,7 @@ export const routes: Array<Route> = [
       { title: 'Slider', slug: '/docs/components/slider' },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
+      { title: 'Table', slug: '/docs/components/table' },
       { title: 'TextArea', slug: '/docs/components/text-area' },
       {
         title: 'TextButton',
