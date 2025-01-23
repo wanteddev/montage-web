@@ -126,6 +126,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/pagination-counter',
       },
       { title: 'PaginationDot', slug: '/docs/components/pagination-dot' },
+      { title: 'PlayIconBadge', slug: '/docs/components/play-icon-badge' },
       { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },
       {
