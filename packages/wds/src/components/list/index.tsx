@@ -76,7 +76,8 @@ const ListCell = forwardRef(
 
       active = false,
       disabled = false,
-      disableInteraction,
+      disableInteraction = false,
+      disableControllableAutoClick = false,
 
       textProps,
       leftContent,
@@ -146,6 +147,7 @@ const ListCell = forwardRef(
               }
 
               if (
+                !disableControllableAutoClick &&
                 controllable &&
                 // controllable 직접 클릭 시 이벤트 중복 호출을 방어함.
                 !controllable.contains(e.target as HTMLElement)

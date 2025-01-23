@@ -6,7 +6,7 @@ description: Accordion Component
 # Accordion
 
 - 내용을 최소화하거나 펼칠 때 사용합니다.
-- AccordionSummary의 rightContent를 교체할 때는 AccordionSummaryContent로 감싸주세요.
+- AccordionSummary의 rightContent를 교체할 때는 `AccordionSummaryContent`로 감싸서 사용합니다.
 
 ## 활용
 
@@ -54,13 +54,13 @@ export default Demo;`}
 
 ### AccordionSummary
 
-ListCell과 유사한 props를 사용합니다.
+`ListCell`과 동일한 props를 사용해요.
 
 <PropsTable component="AccordionSummary" />
 
 ### AccordionSummaryContent
 
-ListCellContent와 동일한 props를 사용합니다.
+`ListCellContent`과 유사한 props를 사용해요.
 
 <PropsTable component="AccordionSummaryContent" />
 
@@ -70,7 +70,7 @@ ListCellContent와 동일한 props를 사용합니다.
 
 ### AccordionDescription
 
-Typography와 동일한 props를 사용합니다.
+`Typography`와 동일한 props를 사용해요.
 
 <PropsTable component="AccordionDescription" />
 
@@ -78,7 +78,7 @@ Typography와 동일한 props를 사용합니다.
 
 ### Padding
 
-AccordionSummary의 패딩에 따라 AccordionDetails 간격이 조정 됩니다.
+AccordionSummary의 `padding` prop에 따라 AccordionDetails의 간격이 조정 됩니다.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
 
@@ -167,8 +167,11 @@ export default Demo;`}
 
 ### RightContent
 
+- AccordionSummary의 기본 rightContent를 교체할 수 있어요.
+- rightContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPropagation` 을 통해 아코디언이 열리고 닫히는 동작을 막을 수 있어요.
+
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton } from '@wanteddev/wds';
-import { IconCircleCheckFill, IconChevronDown } from '@wanteddev/wds-icon';
+import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -176,14 +179,34 @@ const Demo = () => {
 
   return (
     <div>
+      <Accordion>
+        <AccordionSummary
+          rightContent={
+            <AccordionSummaryContent variant="icon">
+              <IconCaretDown />
+            </AccordionSummaryContent>
+          }
+        >
+          RightContent, Icon<br />
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
       <Accordion
         expanded={expandedCheckAccordion}
         onChange={setExpandedCheckAccordion}
       >
         <AccordionSummary
-          disableExpandIconAnimation
           rightContent={
-            <AccordionSummaryContent variant="icon">
+            <AccordionSummaryContent
+              variant="icon"
+              disableExpandIconAnimation
+            >
               <IconCircleCheckFill 
                 sx={(theme) => ({
                   color: expandedCheckAccordion 
@@ -194,7 +217,8 @@ const Demo = () => {
             </AccordionSummaryContent>
           }
         >
-          RightContent, Icon
+          RightContent, Icon<br />
+          DisableExpandIconAnimation, true
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -219,6 +243,38 @@ const Demo = () => {
           }
         >
           RightContent, IconButton
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          rightContent={
+            <AccordionSummaryContent
+              variant="icon-button"
+              disableExpandIconAnimation
+            >
+              <IconButton
+                as="a"
+                href="https://www.wanted.co.kr"
+                target="_blank"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <IconArrowRight />
+              </IconButton>
+            </AccordionSummaryContent>
+          }
+        >
+          RightContent, IconButton<br />
+          DisableExpandIconAnimation, true<br />
+          rightContent onClick
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>

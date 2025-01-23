@@ -1,12 +1,12 @@
 import { Box } from '@wanteddev/wds-engine';
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { IconChevronDown } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ListCell, ListCellContent } from '../list';
 import Typography from '../typography';
-import { FlexBox, useComposedRefs } from '../..';
+import { Divider, FlexBox } from '../..';
 
 import {
   ACCORDION_DESCRIPTION_NAME,
@@ -22,11 +22,12 @@ import {
   accordionStyle,
   accordionSummaryContentStyle,
   accordionSummaryStyle,
+  accordionSummaryTextStyle,
 } from './style';
 
-import type { ListCellContentProps } from '../list/types';
+import type { ListCellProps } from '../list/types';
 import type { TypographyProps } from '../typography/types';
-import type { AccordionProps, AccordionSummaryProps } from './types';
+import type { AccordionProps, AccordionSummaryContentProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
 const Accordion = forwardRef<
@@ -60,9 +61,15 @@ const Accordion = forwardRef<
         <Box
           ref={ref}
           aria-expanded={expanded}
-          sx={[accordionStyle({ disabled, divider }), sx]}
+          sx={[accordionStyle({ disabled, expanded }), sx]}
         >
           {children}
+          {divider && (
+            <Divider
+              data-role="accordion-divider"
+              color="palette.line.normal.alternative"
+            />
+          )}
         </Box>
       </AccordionProvider>
     );
@@ -73,19 +80,10 @@ Accordion.displayName = ACCORDION_NAME;
 
 const AccordionSummary = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AccordionSummaryProps, 'div'>
+  DefaultComponentProps<ListCellProps, 'div'>
 >(
   (
-    {
-      disabled,
-      disableExpandIconAnimation = false,
-      children,
-      rightContent,
-      sx,
-      onClick,
-      textProps,
-      ...props
-    },
+    { disabled, children, rightContent, sx, onClick, textProps, ...props },
     ref,
   ) => {
     const {
@@ -94,26 +92,18 @@ const AccordionSummary = forwardRef<
       onExpandedChange,
     } = useAccordionContext(ACCORDION_SUMMARY_NAME);
 
-    const [item, setItem] = useState<HTMLDivElement | null>(null);
-    const composedRefs = useComposedRefs(ref, (node) => setItem(node));
-
-    const rightContentItem = item?.querySelector(
-      '[wds-component="list-item-content"]',
-    );
-    const disableListCellInteraction = Boolean(
-      rightContentItem?.querySelector('button, [role="button"], a'),
-    );
-
     return (
       <ListCell
-        ref={composedRefs}
+        ref={ref}
+        wds-component="accordion-summary"
         as="div"
         padding="16px"
         disabled={accordionDisabled || disabled}
         disableInteraction={accordionDisabled || disabled}
+        disableControllableAutoClick
         rightContent={
           rightContent ?? (
-            <ListCellContent
+            <AccordionSummaryContent
               variant="icon"
               data-role="accordion-summary-expand-icon"
             >
@@ -122,23 +112,17 @@ const AccordionSummary = forwardRef<
                   color: theme.palette.label.normal,
                 })}
               />
-            </ListCellContent>
+            </AccordionSummaryContent>
           )
         }
         textProps={{
           variant: 'body2_normal',
           weight: 'bold',
           ...textProps,
+          sx: [accordionSummaryTextStyle, textProps?.sx],
         }}
         {...props}
-        sx={[
-          accordionSummaryStyle({
-            expanded,
-            disableListCellInteraction,
-            disableExpandIconAnimation,
-          }),
-          sx,
-        ]}
+        sx={[accordionSummaryStyle, sx]}
         onClick={composeEventHandlers(onClick, () => {
           onExpandedChange(!expanded);
         })}
@@ -153,13 +137,18 @@ AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 
 const AccordionSummaryContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ListCellContentProps, 'div'>
->(({ sx, ...props }, ref) => {
+  DefaultComponentProps<AccordionSummaryContentProps, 'div'>
+>(({ sx, disableExpandIconAnimation = false, ...props }, ref) => {
+  const { expanded } = useAccordionContext(ACCORDION_SUMMARY_CONTENT_NAME);
+
   return (
     <ListCellContent
       ref={ref}
       {...props}
-      sx={[accordionSummaryContentStyle, sx]}
+      sx={[
+        accordionSummaryContentStyle({ expanded, disableExpandIconAnimation }),
+        sx,
+      ]}
     />
   );
 });

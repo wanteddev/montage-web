@@ -1,5 +1,5 @@
 import type { Merge } from '@wanteddev/wds-engine';
-import type { ListCellProps } from '../list/types';
+import type { ListCellContentProps } from '../list/types';
 
 export type AccordionProps = {
   expanded?: boolean;
@@ -9,12 +9,12 @@ export type AccordionProps = {
   onChange?: (expanded: boolean) => void;
 };
 
-export type AccordionSummaryProps = Merge<
+export type AccordionSummaryContentProps = Merge<
   {
     /**
-     * 아코디언이 펼쳐질 때 rightContent의 회전 애니메이션을 비활성화합니다.
+     * expanded가 변경될 때 rightContent의 회전 애니메이션을 비활성 합니다.
      */
     disableExpandIconAnimation?: boolean;
   },
-  ListCellProps
+  ListCellContentProps
 >;

@@ -1,50 +1,33 @@
 import { css } from '@wanteddev/wds-engine';
 
-import type { Theme } from '@wanteddev/wds-engine';
-
-export const accordionStyle =
-  ({ disabled, divider }: { disabled: boolean; divider: boolean }) =>
-  (theme: Theme) => css`
-    opacity: ${disabled ? 0.2 : 1};
-
-    ${divider &&
-    css`
-      border-bottom: 1px solid ${theme.palette.line.normal.alternative};
-    `}
-  `;
-
-export const accordionSummaryStyle = ({
+export const accordionStyle = ({
+  disabled,
   expanded,
-  disableListCellInteraction,
-  disableExpandIconAnimation,
 }: {
+  disabled: boolean;
   expanded: boolean;
-  disableListCellInteraction: boolean;
-  disableExpandIconAnimation: boolean;
 }) => css`
-  ${disableListCellInteraction &&
-  css`
-    cursor: initial;
+  & > *:not([data-role='accordion-divider']) {
+    opacity: ${disabled ? 0.2 : 1};
+  }
 
-    > [wds-component='with-interaction'] {
-      display: none;
+  [data-role='accordion-divider'] {
+    will-change: opacity;
+    transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  ${!expanded &&
+  css`
+    &:hover,
+    &:active {
+      [data-role='accordion-divider'] {
+        opacity: 0;
+      }
     }
   `}
+`;
 
-  ${!disableExpandIconAnimation &&
-  css`
-    [wds-component='list-item-content'] {
-      will-change: transform;
-      transform: rotate(0deg);
-      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-
-      ${expanded &&
-      css`
-        transform: rotate(180deg);
-      `}
-    }
-  `}
-
+export const accordionSummaryStyle = css`
   & ~ [wds-component='accordion-details'] {
     --wds-accordion-details-padding-top: calc(
       16px - var(--wds-list-cell-padding, 16px)
@@ -54,11 +37,35 @@ export const accordionSummaryStyle = ({
   }
 `;
 
-export const accordionSummaryContentStyle = css`
+export const accordionSummaryTextStyle = css`
+  min-height: 24px;
+  justify-content: center;
+`;
+
+export const accordionSummaryContentStyle = ({
+  expanded,
+  disableExpandIconAnimation,
+}: {
+  expanded: boolean;
+  disableExpandIconAnimation: boolean;
+}) => css`
   min-width: 20px;
   max-width: 20px;
   font-size: 20px;
   height: 20px;
+  z-index: 1;
+
+  ${!disableExpandIconAnimation &&
+  css`
+    will-change: transform;
+    transform: rotate(0deg);
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+    ${expanded &&
+    css`
+      transform: rotate(180deg);
+    `}
+  `}
 
   [wds-component='icon-button'] {
     width: 100%;

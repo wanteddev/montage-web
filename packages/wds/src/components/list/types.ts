@@ -19,6 +19,10 @@ export type ListCellDefaultProps = {
   active?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
+  /**
+   * 내부에 클릭할 수 있는 요소가 있을 때, 자동으로 클릭하는 기능을 비활성 합니다.
+   */
+  disableControllableAutoClick?: boolean;
 
   textProps?: Merge<
     TypographyProps,
