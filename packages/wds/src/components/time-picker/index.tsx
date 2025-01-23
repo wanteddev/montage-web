@@ -37,6 +37,7 @@ import { useTimePickerList } from './hooks';
 import { TimePickerProvider, useTimePickerContext } from './context';
 import {
   TIME_PICKER_ACTION_AREA_NAME,
+  TIME_PICKER_INPUT_NAME,
   TIME_PICKER_ITEM_NAME,
   TIME_PICKER_LIST_NAME,
   TIME_PICKER_NAME,
@@ -290,7 +291,7 @@ const TimePickerInput = forwardRef<
   <TextInput {...props} ref={inputRef} wrapperRef={ref} />
 ));
 
-TimePickerInput.displayName = 'TimePickerInput';
+TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
 
 const TimePickerList = forwardRef<
   HTMLUListElement,

@@ -182,11 +182,6 @@ export const useDateField = ({
       format: sectionFormat,
     }: DateFormatSection) => {
       let newInputValue;
-      // eslint-disable-next-line prefer-const
-      let targetInputValue = inputValue;
-
-      if (!inputValue || inputValue === format) {
-      }
 
       if (sectionFormat === 'a' || sectionFormat === 'A') {
         const meridiem = getMeridiem(locale);
@@ -195,14 +190,14 @@ export const useDateField = ({
         );
 
         newInputValue =
-          targetInputValue.slice(0, startIndex) +
+          inputValue.slice(0, startIndex) +
           (newValue === am ? am : pm) +
-          targetInputValue.slice(endIndex);
+          inputValue.slice(endIndex);
       } else {
         newInputValue =
-          targetInputValue.slice(0, startIndex) +
+          inputValue.slice(0, startIndex) +
           `${newValue}`.padStart(sectionFormat.length, '0') +
-          targetInputValue.slice(endIndex);
+          inputValue.slice(endIndex);
       }
 
       const newSections = getDateformatSections(newInputValue, format, locale);

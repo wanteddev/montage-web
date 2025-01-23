@@ -1,5 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { addOpacity } from '../../utils';
+
 import type { TimePickerListProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
@@ -10,6 +12,7 @@ export const timePickerContentBoxStyle = (theme: Theme) => css`
   border-radius: 12px;
   background-color: ${theme.palette.background.elevated.normal};
   flex-direction: column;
+  box-shadow: 0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.04)};
 
   &::after {
     content: '';
@@ -81,10 +84,6 @@ export const timePickerListCellStyle =
       font-weight: 400;
     }
 
-    [wds-component='with-interaction'] {
-      background-color: ${theme.palette.primary.normal};
-    }
-
     ${!disabled &&
     active &&
     css`
@@ -93,9 +92,10 @@ export const timePickerListCellStyle =
         color: ${theme.palette.label.normal};
       }
 
-      [wds-component='with-interaction'] {
-        opacity: ${theme.opacity[5]};
-      }
+      background-color: ${addOpacity(
+        theme.palette.primary.normal,
+        theme.opacity[8],
+      )};
     `}
 
     &:focus-visible {
