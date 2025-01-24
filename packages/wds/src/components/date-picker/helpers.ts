@@ -11,7 +11,7 @@ import {
 import type { DatePickerFormat } from './types';
 import type { DateType } from '../date-calendar/types';
 
-const TEXT_FORMATS = ['MMM', 'MMMM', 'a', 'A']; // 여길 살피장.
+const TEXT_FORMATS = ['MMM', 'MMMM', 'a', 'A'];
 const MAX_TIMESTAMP = 8640000000000000;
 export const invalidDate = new Date(MAX_TIMESTAMP + 1);
 
