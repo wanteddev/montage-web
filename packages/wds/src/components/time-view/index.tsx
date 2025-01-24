@@ -56,7 +56,6 @@ const TimeView = forwardRef<
     {
       value: originValue,
       defaultValue,
-      format = 'a hh:mm',
       minTime = ACCESSIBLE_MIN_TIME,
       maxTime = ACCESSIBLE_MAX_TIME,
       views = ['hour', 'minute'],
@@ -101,7 +100,6 @@ const TimeView = forwardRef<
     return (
       <TimeViewContextProvider
         value={value}
-        format={format}
         now={now}
         timezone={timezone}
         disabled={disabled}
@@ -117,7 +115,7 @@ const TimeView = forwardRef<
                 value={value}
                 locale={locale}
                 timezone={timezone}
-                format={format}
+                views={views}
                 order={
                   index === 0
                     ? 'first'
@@ -153,12 +151,12 @@ TimeView.displayName = TIME_VIEW_NAME;
 
 const TimeList = memo(
   forwardRef<HTMLUListElement, TimeListProps>(
-    ({ view, value, locale, format, order, timezone }) => {
+    ({ view, views, value, locale, order, timezone }) => {
       const id = useId();
 
       const { timeValue, timeList } = useTimeView({
         view,
-        format,
+        views,
         locale,
         value,
         timezone,
@@ -190,6 +188,8 @@ const TimeList = memo(
           >
             <List sx={timeListStyle}>
               {timeList.map((time) => {
+                if (!time) return null;
+
                 const isAmpm = 'meridiem' in time;
                 const label = isAmpm ? time.meridiem : time.digit;
 
@@ -263,7 +263,7 @@ const TimeItem = forwardRef<
             : now;
 
           switch (view) {
-            case 'ampm':
+            case 'meridiem':
               newValue = newValue.set(
                 'hour',
                 value === 0

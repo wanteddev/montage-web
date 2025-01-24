@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
+import dayjs from 'dayjs';
 
-import { getMeridiem, isValidDate } from '../date-calendar/helpers';
-import { toFormat } from '../date-picker/helpers';
+import {
+  dayjsTimezone,
+  getMeridiem,
+  isValidDate,
+} from '../date-calendar/helpers';
 
 import { getHours, getMinutes, getSeconds } from './helpers';
 
@@ -10,46 +14,54 @@ import type { DateType } from '../date-picker';
 
 type Props = {
   view: TimeViewType;
-  format: string;
+  views: Array<TimeViewType>;
   locale?: string;
   value: DateType;
   timezone?: string;
 };
 
-export const useTimeView = ({ value, timezone, ...props }: Props) => {
+export const useTimeView = ({
+  views,
+  value,
+  timezone,
+  view,
+  locale,
+}: Props) => {
+  const is12Hour = useMemo(() => views.includes('meridiem'), [views]);
+
   const timeValue = useMemo(() => {
     if (!isValidDate(value)) return;
 
-    switch (props.view) {
-      case 'ampm':
-        return toFormat(value, 'a', props.locale, timezone);
+    const time = dayjsTimezone(dayjs(value), timezone);
+
+    switch (view) {
+      case 'meridiem':
+        return time.format('A');
       case 'hour':
-        return toFormat(value, 'h', props.locale, timezone);
+        return is12Hour ? time.format('h') : time.format('H');
       case 'minute':
-        return toFormat(value, 'm', props.locale, timezone);
+        return time.format('m');
       case 'second':
-        return toFormat(value, 's', props.locale, timezone);
+        return time.format('s');
     }
-  }, [value, timezone, props.view, props.locale]);
+  }, [value, timezone, view, is12Hour]);
 
   const timeList = useMemo(() => {
-    switch (props.view) {
-      case 'ampm':
-        return getMeridiem(props.locale).map((meridiem, index) => ({
+    switch (view) {
+      case 'meridiem':
+        return getMeridiem(locale).map((meridiem, index) => ({
           value: index,
-          meridiem: props.format.includes('A')
-            ? meridiem.upper
-            : meridiem.lower,
+          meridiem: meridiem.upper,
         }));
-
       case 'hour':
-        return getHours(props);
+        const hours = getHours({ is12Hour });
+        return is12Hour ? [hours.pop(), ...hours] : hours;
       case 'minute':
-        return getMinutes(props);
+        return getMinutes();
       case 'second':
-        return getSeconds(props);
+        return getSeconds();
     }
-  }, [props]);
+  }, [is12Hour, locale, view]);
 
   return { timeValue, timeList };
 };

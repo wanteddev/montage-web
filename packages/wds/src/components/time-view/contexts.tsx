@@ -8,7 +8,6 @@ import type { DateType } from '../date-picker';
 export type TimeViewContextType = {
   value: DateType;
   now: Dayjs;
-  format: string;
   timezone?: string;
   disabled: boolean;
   readOnly: boolean;

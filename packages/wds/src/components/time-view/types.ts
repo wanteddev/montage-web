@@ -2,13 +2,12 @@ import type { TimeViewActionArea } from '.';
 import type { ComponentPropsWithRef, MouseEventHandler } from 'react';
 import type { DateType } from '../date-picker';
 
-export type TimeViewType = 'ampm' | 'hour' | 'minute' | 'second';
+export type TimeViewType = 'meridiem' | 'hour' | 'minute' | 'second';
 
 export type TimeViewProps = {
   value?: DateType;
   defaultValue?: DateType;
   views?: Array<TimeViewType>;
-  format?: string;
   minTime?: DateType;
   maxTime?: DateType;
   locale?: string;
@@ -23,7 +22,7 @@ export type TimeViewProps = {
 
 export type TimeListProps = {
   view: TimeViewType;
-  format: string;
+  views: Array<TimeViewType>;
   timezone?: string;
   locale?: string;
   value: DateType;

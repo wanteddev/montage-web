@@ -8,7 +8,7 @@ export const sectionsToViews = (sections: Array<DateFormatSection>) => {
     switch (section.format) {
       case 'A':
       case 'a':
-        views.push('ampm');
+        views.push('meridiem');
         break;
       case 'H':
       case 'HH':

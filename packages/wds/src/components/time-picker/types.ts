@@ -17,13 +17,13 @@ export type TimePickerProps = Merge<
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (state: boolean) => void;
+    format?: string;
     input?: ElementType;
     inputRef?: Ref<HTMLInputElement>;
     contentProps?: Merge<
       ComponentProps<typeof PopperContent>,
       ComponentPropsWithoutRef<typeof FocusScope>
     >;
-    viewFormat?: string;
     onChange?: (date: DateType) => void;
   },
   ComponentPropsWithoutRef<typeof TimeView> & Omit<TextInputProps, 'wrapperRef'>

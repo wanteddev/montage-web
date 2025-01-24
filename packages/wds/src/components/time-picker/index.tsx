@@ -41,7 +41,6 @@ const TimePicker = forwardRef<
       onChangeComplete,
       contentProps,
       format = 'a hh:mm',
-      viewFormat = format,
       placeholder: givenPlaceholder,
       locale = 'ko-KR',
       timezone,
@@ -217,7 +216,6 @@ const TimePicker = forwardRef<
                   views={views}
                   minTime={minTime}
                   maxTime={maxTime}
-                  format={viewFormat}
                   locale={locale}
                   timezone={timezone}
                   readOnly={readOnly}
