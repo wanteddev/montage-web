@@ -94,6 +94,7 @@ const DatePicker = forwardRef<
       handleKeyDown,
       handlePaste,
       handleValueChange,
+      handleInputValueChange,
     } = useDateField({
       value,
       format,
@@ -204,7 +205,10 @@ const DatePicker = forwardRef<
                     onViewChange={onViewChange}
                     views={views}
                     value={value}
-                    onChange={setValue}
+                    onChange={(v) => {
+                      setValue(v);
+                      handleInputValueChange();
+                    }}
                     readOnly={readOnly}
                     disabled={disabled}
                     yearsOrder={yearsOrder}

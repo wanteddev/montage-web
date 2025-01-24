@@ -192,7 +192,9 @@ export const toFormat = (
   format: string,
   locale: string | undefined,
   timezone?: string,
+  numeric?: boolean,
 ) => {
+  const formatNumeric = /^(a hh|a h|h|hh)$/gi.test(format);
   const formatChunks = chunksFormat(format);
 
   let result = '';
@@ -203,7 +205,13 @@ export const toFormat = (
       continue;
     }
 
-    result += localeFormat(date, chunk, locale, timezone);
+    result += localeFormat(
+      date,
+      chunk,
+      locale,
+      timezone,
+      numeric ?? formatNumeric,
+    );
   }
 
   return result;
@@ -474,6 +482,7 @@ export const localeFormat = (
   format: string,
   locale: string | undefined,
   timezone: string | undefined,
+  numeric?: boolean,
 ) => {
   if (!isValidDate(value)) {
     return value;
@@ -506,13 +515,37 @@ export const localeFormat = (
     case 'DD':
       return parsedDayjs.date().toString().padStart(2, '0');
     case 'H':
-      return parsedDayjs.hour().toString();
+      return numeric
+        ? Intl.DateTimeFormat(locale, {
+            hour: 'numeric',
+            hour12: false,
+            timeZone: timezone,
+          }).format(parsedValue)
+        : parsedDayjs.hour().toString();
     case 'HH':
-      return parsedDayjs.hour().toString().padStart(2, '0');
+      return numeric
+        ? Intl.DateTimeFormat(locale, {
+            hour: '2-digit',
+            hour12: false,
+            timeZone: timezone,
+          }).format(parsedValue)
+        : parsedDayjs.hour().toString().padStart(2, '0');
     case 'h':
-      return (parsedDayjs.hour() % 12 || 12).toString();
+      return numeric
+        ? Intl.DateTimeFormat(locale, {
+            hour: 'numeric',
+            hour12: false,
+            timeZone: timezone,
+          }).format(parsedValue)
+        : (parsedDayjs.hour() % 12 || 12).toString();
     case 'hh':
-      return (parsedDayjs.hour() % 12 || 12).toString().padStart(2, '0');
+      return numeric
+        ? Intl.DateTimeFormat(locale, {
+            hour: '2-digit',
+            hour12: false,
+            timeZone: timezone,
+          }).format(parsedValue)
+        : (parsedDayjs.hour() % 12 || 12).toString().padStart(2, '0');
     case 'm':
       return parsedDayjs.minute().toString();
     case 'mm':

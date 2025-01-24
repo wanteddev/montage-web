@@ -174,51 +174,6 @@ export const useDateField = ({
     [focusedSection, format, locale, setValue, timezone, readOnly, disabled],
   );
 
-  const handleTimeClick = useCallback(
-    ({
-      startIndex,
-      endIndex,
-      value: newValue,
-      format: sectionFormat,
-    }: DateFormatSection) => {
-      let newInputValue;
-
-      if (sectionFormat === 'a' || sectionFormat === 'A') {
-        const meridiem = getMeridiem(locale);
-        const [am, pm] = meridiem.map((m) =>
-          sectionFormat === 'a' ? m.lower : m.upper,
-        );
-
-        newInputValue =
-          inputValue.slice(0, startIndex) +
-          (newValue === am ? am : pm) +
-          inputValue.slice(endIndex);
-      } else {
-        newInputValue =
-          inputValue.slice(0, startIndex) +
-          `${newValue}`.padStart(sectionFormat.length, '0') +
-          inputValue.slice(endIndex);
-      }
-
-      const newSections = getDateformatSections(newInputValue, format, locale);
-      const parsedDate = parseFromFormat(
-        newInputValue,
-        format,
-        locale,
-        timezone,
-      );
-
-      setInputValue(newInputValue);
-      setSections(newSections);
-
-      if (parsedDate) {
-        setValue(parsedDate);
-        isTriggeredChange.current = true;
-      }
-    },
-    [inputValue, format, locale, timezone, setValue],
-  );
-
   const handlePaste = useCallback(
     (e: ClipboardEvent<HTMLInputElement>) => {
       const newValue = e.clipboardData.getData('text');
@@ -942,7 +897,6 @@ export const useDateField = ({
     handleFocus,
     handleClick,
     handleBlur,
-    handleTimeClick,
     handleKeyDown,
     handleValueChange,
     handleInputValueChange,

@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useId, useRef } from 'react';
+import { forwardRef, memo, useEffect, useId, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import {
   RovingFocusGroup,
@@ -7,6 +7,8 @@ import {
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import utc from 'dayjs/plugin/utc';
 import timezonePlugin from 'dayjs/plugin/timezone';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import { ActionArea, ActionAreaButton } from '../action-area';
@@ -14,12 +16,10 @@ import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
 import ScrollArea from '../scroll-area';
 import { List, ListCell } from '../list';
 import { useDefaultSelectedDate } from '../date-calendar/hooks';
-import {
-  ACCESSIBLE_MAX_DATE,
-  ACCESSIBLE_MIN_DATE,
-} from '../date-calendar/constants';
 
 import {
+  ACCESSIBLE_MAX_TIME,
+  ACCESSIBLE_MIN_TIME,
   TIME_ITEM_NAME,
   TIME_LIST_NAME,
   TIME_VIEW_ACTION_AREA_NAME,
@@ -57,6 +57,8 @@ const TimeView = forwardRef<
       value: originValue,
       defaultValue,
       format = 'a hh:mm',
+      minTime = ACCESSIBLE_MIN_TIME,
+      maxTime = ACCESSIBLE_MAX_TIME,
       views = ['hour', 'minute'],
       locale = 'ko-KR',
       timezone,
@@ -65,10 +67,16 @@ const TimeView = forwardRef<
       hasActionArea,
       actionAreaProps,
       onChange,
+      onChangeComplete,
+      sx,
+      ...props
     },
     ref,
   ) => {
     const id = useId();
+
+    const [item, setItem] = useState<HTMLDivElement | null>(null);
+    const composedRefs = useComposedRefs(ref, (node) => setItem(node));
 
     const [value, setValue] = useControllableState({
       prop: originValue,
@@ -76,12 +84,19 @@ const TimeView = forwardRef<
       onChange,
     });
 
-    const { now } = useDefaultSelectedDate(
-      value,
-      ACCESSIBLE_MIN_DATE,
-      ACCESSIBLE_MAX_DATE,
-      timezone,
-    );
+    const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
+
+    useEffect(() => {
+      if (!item) return;
+
+      const scrollArea = item.querySelector(
+        `[data-role="time-list-scroll-area"]`,
+      );
+      if (scrollArea) {
+        (scrollArea as HTMLElement).focus();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [Boolean(item)]);
 
     return (
       <TimeViewContextProvider
@@ -93,7 +108,7 @@ const TimeView = forwardRef<
         readOnly={readOnly}
         onChange={setValue}
       >
-        <FlexBox ref={ref} sx={timeViewStyle} tabIndex={-1}>
+        <FlexBox ref={composedRefs} sx={[timeViewStyle, sx]} {...props}>
           <FlexBox data-role="time-list-wrapper">
             {views.map((view, index) => (
               <TimeList
@@ -113,7 +128,21 @@ const TimeView = forwardRef<
               />
             ))}
           </FlexBox>
-          {hasActionArea && <TimeViewActionArea {...actionAreaProps} />}
+          {hasActionArea && (
+            <TimeViewActionArea
+              {...{
+                ...actionAreaProps,
+                onNowClick: composeEventHandlers(
+                  actionAreaProps?.onNowClick,
+                  () => setValue(dayjsTimezone(dayjs(), timezone).toDate()),
+                ),
+                onSubmitClick: composeEventHandlers(
+                  actionAreaProps?.onSubmitClick,
+                  () => onChangeComplete?.(value),
+                ),
+              }}
+            />
+          )}
         </FlexBox>
       </TimeViewContextProvider>
     );
@@ -122,71 +151,73 @@ const TimeView = forwardRef<
 
 TimeView.displayName = TIME_VIEW_NAME;
 
-const TimeList = forwardRef<HTMLUListElement, TimeListProps>(
-  ({ view, value, locale, format, order, timezone }) => {
-    const id = useId();
+const TimeList = memo(
+  forwardRef<HTMLUListElement, TimeListProps>(
+    ({ view, value, locale, format, order, timezone }) => {
+      const id = useId();
 
-    const { timeValue, timeList } = useTimeView({
-      view,
-      format,
-      locale,
-      value,
-      timezone,
-    });
+      const { timeValue, timeList } = useTimeView({
+        view,
+        format,
+        locale,
+        value,
+        timezone,
+      });
 
-    const scrollViewportRef =
-      useRef<ElementRef<typeof ScrollAreaPrimitive.Viewport>>(null);
+      const scrollViewportRef =
+        useRef<ElementRef<typeof ScrollAreaPrimitive.Viewport>>(null);
 
-    useEffect(() => {
-      if (!timeValue || !scrollViewportRef.current) return;
+      useEffect(() => {
+        if (!timeValue || !scrollViewportRef.current) return;
 
-      const item = scrollViewportRef.current.querySelector(
-        `[data-value="${timeValue}"]`,
+        const item = scrollViewportRef.current.querySelector(
+          `[data-value="${timeValue}"]`,
+        );
+        if (item) {
+          scrollViewportRef.current.scrollTop =
+            (item as HTMLElement).offsetTop - 8;
+        }
+      }, [timeValue]);
+
+      return (
+        <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
+          <ScrollArea
+            viewportRef={scrollViewportRef}
+            size="small"
+            zIndex={11}
+            sx={timeListScrollAreaStyle}
+            data-role="time-list-scroll-area"
+          >
+            <List sx={timeListStyle}>
+              {timeList.map((time) => {
+                const isAmpm = 'meridiem' in time;
+                const label = isAmpm ? time.meridiem : time.digit;
+
+                return (
+                  <TimeItem
+                    key={`${id}-${time.value}`}
+                    view={view}
+                    value={time.value}
+                    aria-label={label}
+                    data-value={isAmpm ? time.meridiem : time.value.toString()}
+                    order={order}
+                    active={
+                      timeValue
+                        ? timeValue ===
+                          (isAmpm ? time.meridiem : time.value.toString())
+                        : false
+                    }
+                  >
+                    {label}
+                  </TimeItem>
+                );
+              })}
+            </List>
+          </ScrollArea>
+        </RovingFocusGroup>
       );
-      if (item) {
-        scrollViewportRef.current.scrollTop =
-          (item as HTMLElement).offsetTop - 8;
-      }
-    }, [timeValue]);
-
-    return (
-      <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
-        <ScrollArea
-          viewportRef={scrollViewportRef}
-          size="small"
-          zIndex={11}
-          sx={timeListScrollAreaStyle}
-          data-role="time-list-scroll-area"
-        >
-          <List sx={timeListStyle}>
-            {timeList.map((time) => {
-              const isAmpm = 'meridiem' in time;
-              const label = isAmpm ? time.meridiem : time.digit;
-
-              return (
-                <TimeItem
-                  key={`${id}-${time.value}`}
-                  view={view}
-                  value={time.value}
-                  aria-label={label}
-                  data-value={isAmpm ? time.meridiem : time.value.toString()}
-                  order={order}
-                  active={
-                    timeValue
-                      ? timeValue ===
-                        (isAmpm ? time.meridiem : time.value.toString())
-                      : false
-                  }
-                >
-                  {label}
-                </TimeItem>
-              );
-            })}
-          </List>
-        </ScrollArea>
-      </RovingFocusGroup>
-    );
-  },
+    },
+  ),
 );
 
 TimeList.displayName = TIME_LIST_NAME;

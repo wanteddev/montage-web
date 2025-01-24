@@ -5,6 +5,7 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import dayjs from 'dayjs';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
@@ -16,12 +17,12 @@ import { dayjsTimezone } from '../date-calendar/helpers';
 import { toFormat } from '../date-picker/helpers';
 import TimeView from '../time-view';
 
-import { TimePickerProvider } from './context';
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { TimePickerInputProps, TimePickerProps } from './types';
+import type { DateType } from '../date-picker';
 
 const TimePicker = forwardRef<
   HTMLDivElement,
@@ -37,12 +38,15 @@ const TimePicker = forwardRef<
       defaultOpen,
       open: originOpen,
       onOpenChange,
+      onChangeComplete,
       contentProps,
       format = 'a hh:mm',
-      viewFormat = 'a h:m',
+      viewFormat = format,
       placeholder: givenPlaceholder,
       locale = 'ko-KR',
       timezone,
+      minTime,
+      maxTime,
       invalid: originInvalid,
       input,
       inputRef: originInputRef,
@@ -90,8 +94,6 @@ const TimePicker = forwardRef<
       handleFocus,
       handleKeyDown,
       handlePaste,
-      handleTimeClick,
-      handleValueChange,
       handleInputValueChange,
     } = useDateField({
       value,
@@ -119,123 +121,120 @@ const TimePicker = forwardRef<
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
+    const handleChangeComplete = useCallbackRef((v: DateType) => {
+      setValue(v);
+      onChangeComplete?.(v);
+      setOpen(false);
+    });
+
     const views = useMemo(() => sectionsToViews(sections), [sections]);
 
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
     return (
-      <TimePickerProvider
-        timezone={timezone}
-        onOpenChange={setOpen}
-        handleValueChange={handleValueChange}
-        handleTimeClick={handleTimeClick}
-      >
-        <Popper>
-          <PopperAnchor
-            ref={composedRefs}
-            onChange={() => {}}
-            autoComplete="off"
-            type="text"
-            inputMode={focusedSection?.type}
-            aria-haspopup="dialog"
-            aria-expanded={open}
-            data-role="time-picker-input"
-            {...props}
-            {...({
-              readOnly,
-              disabled,
-              placeholder,
-              invalid,
-              onFocus: composeEventHandlers(props.onFocus, handleFocus),
-              onClick: composeEventHandlers(props.onClick, handleClick),
-              onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
-              onBlur: composeEventHandlers(props.onBlur, handleBlur),
-              onPaste: composeEventHandlers(props.onPaste, handlePaste),
-              value: inputValue,
-              inputRef: composedInputRef,
-              rightContent: (
-                <>
-                  {props.rightContent}
-                  <TextInputContent
-                    data-role="time-picker-clock-icon"
-                    variant="icon-button"
-                  >
-                    <IconButton
-                      size={22}
-                      disabled={disabled || readOnly}
-                      onClick={() => {
-                        handleInputValueChange();
-                        setOpen(!open);
-                      }}
-                    >
-                      <IconClock />
-                    </IconButton>
-                  </TextInputContent>
-                </>
-              ),
-            } as unknown as SlotProps)}
-          >
-            <Component />
-          </PopperAnchor>
-
-          {open && (
-            <PopperContent
-              role="dialog"
-              {...otherContentProps}
-              position={position}
-              offset={offset}
-            >
-              <FocusScope
-                loop={loop}
-                trapped={trapped}
-                trappedContent={trappedContent}
-                onMountAutoFocus={onMountAutoFocus}
-                onUnmountAutoFocus={onUnmountAutoFocus}
-              >
-                <DismissableLayer
-                  asChild
-                  onPointerDownOutside={(e) => {
-                    if (
-                      ref.current?.contains(e.target as HTMLElement) &&
-                      (e.target as HTMLElement).closest(
-                        '[data-role="time-picker-clock-icon"]',
-                      )
-                    ) {
-                      e.preventDefault();
-                    }
-                  }}
-                  onFocus={(e) => {
-                    const item = e.target.querySelector(
-                      `[data-role="time-list-scroll-area"]`,
-                    );
-                    if (item) {
-                      (item as HTMLElement).focus();
-                    }
-                  }}
-                  onDismiss={() => {
-                    handleBlur();
-                    setOpen(false);
-                  }}
+      <Popper>
+        <PopperAnchor
+          ref={composedRefs}
+          onChange={() => {}}
+          autoComplete="off"
+          type="text"
+          inputMode={focusedSection?.type}
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          data-role="time-picker-input"
+          {...props}
+          {...({
+            readOnly,
+            disabled,
+            placeholder,
+            invalid,
+            onFocus: composeEventHandlers(props.onFocus, handleFocus),
+            onClick: composeEventHandlers(props.onClick, handleClick),
+            onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
+            onBlur: composeEventHandlers(props.onBlur, handleBlur),
+            onPaste: composeEventHandlers(props.onPaste, handlePaste),
+            value: inputValue,
+            inputRef: composedInputRef,
+            rightContent: (
+              <>
+                {props.rightContent}
+                <TextInputContent
+                  data-role="time-picker-clock-icon"
+                  variant="icon-button"
                 >
-                  <TimeView
-                    value={value}
-                    defaultValue={defaultValue}
-                    views={views}
-                    onChange={handleValueChange}
-                    format={viewFormat}
-                    locale={locale}
-                    timezone={timezone}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                    hasActionArea={hasActionArea}
-                    actionAreaProps={actionAreaProps}
-                  />
-                </DismissableLayer>
-              </FocusScope>
-            </PopperContent>
-          )}
-        </Popper>
-      </TimePickerProvider>
+                  <IconButton
+                    size={22}
+                    disabled={disabled || readOnly}
+                    onClick={() => {
+                      handleInputValueChange();
+                      setOpen(!open);
+                    }}
+                  >
+                    <IconClock />
+                  </IconButton>
+                </TextInputContent>
+              </>
+            ),
+          } as unknown as SlotProps)}
+        >
+          <Component />
+        </PopperAnchor>
+
+        {open && (
+          <PopperContent
+            role="dialog"
+            {...otherContentProps}
+            position={position}
+            offset={offset}
+          >
+            <FocusScope
+              loop={loop}
+              trapped={trapped}
+              trappedContent={trappedContent}
+              onMountAutoFocus={onMountAutoFocus}
+              onUnmountAutoFocus={onUnmountAutoFocus}
+            >
+              <DismissableLayer
+                asChild
+                onPointerDownOutside={(e) => {
+                  if (
+                    ref.current?.contains(e.target as HTMLElement) &&
+                    (e.target as HTMLElement).closest(
+                      '[data-role="time-picker-clock-icon"]',
+                    )
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+                onDismiss={() => {
+                  handleBlur();
+                  setOpen(false);
+                }}
+              >
+                <TimeView
+                  value={value}
+                  defaultValue={defaultValue}
+                  views={views}
+                  minTime={minTime}
+                  maxTime={maxTime}
+                  format={viewFormat}
+                  locale={locale}
+                  timezone={timezone}
+                  readOnly={readOnly}
+                  disabled={disabled}
+                  hasActionArea={hasActionArea}
+                  actionAreaProps={actionAreaProps}
+                  onChange={(v) => {
+                    setValue(v);
+                    handleInputValueChange();
+                  }}
+                  onChangeComplete={handleChangeComplete}
+                />
+              </DismissableLayer>
+            </FocusScope>
+          </PopperContent>
+        )}
+      </Popper>
     );
   },
 );
@@ -251,4 +250,5 @@ const TimePickerInput = forwardRef<
 
 TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
 
-export default TimePicker;
+export { TimePicker };
+export type { TimePickerInputProps };
