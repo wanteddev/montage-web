@@ -100,7 +100,6 @@ const AccordionSummary = forwardRef<
         padding="16px"
         disabled={accordionDisabled || disabled}
         disableInteraction={accordionDisabled || disabled}
-        disableControllableAutoClick
         rightContent={
           rightContent ?? (
             <AccordionSummaryContent
@@ -123,8 +122,9 @@ const AccordionSummary = forwardRef<
         }}
         {...props}
         sx={[accordionSummaryStyle, sx]}
-        onClick={composeEventHandlers(onClick, () => {
+        onClick={composeEventHandlers(onClick, (e) => {
           onExpandedChange(!expanded);
+          e.preventDefault();
         })}
       >
         {children}
