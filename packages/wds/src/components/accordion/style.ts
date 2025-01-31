@@ -1,39 +1,8 @@
 import { css } from '@wanteddev/wds-engine';
 
-export const accordionStyle = ({
-  disabled,
-  expanded,
-}: {
-  disabled: boolean;
-  expanded: boolean;
-}) => css`
+export const accordionStyle = ({ disabled }: { disabled: boolean }) => css`
   & > *:not([data-role='accordion-divider']) {
     opacity: ${disabled ? 0.2 : 1};
-  }
-
-  [data-role='accordion-divider'] {
-    will-change: opacity;
-    transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-  }
-
-  ${!expanded &&
-  css`
-    &:hover,
-    &:active {
-      [data-role='accordion-divider'] {
-        opacity: 0;
-      }
-    }
-  `}
-`;
-
-export const accordionSummaryStyle = css`
-  & ~ [wds-component='accordion-details'] {
-    --wds-accordion-details-padding-top: calc(
-      16px - var(--wds-list-cell-padding, 16px)
-    );
-    --wds-accordion-details-padding-bottom: var(--wds-list-cell-padding, 16px);
-    --wds-accordion-details-gap: var(--wds-list-cell-padding, 16px);
   }
 `;
 
@@ -93,9 +62,30 @@ export const accordionDetailsStyle = ({
   }
 `;
 
-export const accordionDetailsBoxStyle = () => css`
+export const accordionDetailsWrapperStyle = css`
   flex-direction: column;
-  gap: var(--wds-accordion-details-gap);
-  padding-top: var(--wds-accordion-details-padding-top);
-  padding-bottom: var(--wds-accordion-details-padding-bottom);
+  gap: var(--wds-list-cell-padding, 16px);
+  padding-top: calc(16px - var(--wds-list-cell-padding, 16px));
+  padding-bottom: var(--wds-list-cell-padding, 16px);
+  padding-left: var(--wds-list-cell-fill-width-padding, 0px);
+  padding-right: var(--wds-list-cell-fill-width-padding, 0px);
+`;
+
+export const accordionDividerStyle = ({
+  expanded,
+}: {
+  expanded: boolean;
+}) => css`
+  margin: 0 auto;
+  width: calc(100% - (var(--wds-list-cell-fill-width-padding, 0px) * 2));
+  will-change: opacity;
+  transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  ${!expanded &&
+  css`
+    &:hover,
+    &:active {
+      opacity: 0;
+    }
+  `}
 `;

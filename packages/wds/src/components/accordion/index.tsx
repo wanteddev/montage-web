@@ -17,11 +17,11 @@ import {
 } from './constants';
 import { AccordionProvider, useAccordionContext } from './contexts';
 import {
-  accordionDetailsBoxStyle,
   accordionDetailsStyle,
+  accordionDetailsWrapperStyle,
+  accordionDividerStyle,
   accordionStyle,
   accordionSummaryContentStyle,
-  accordionSummaryStyle,
   accordionSummaryTextStyle,
 } from './style';
 
@@ -61,13 +61,14 @@ const Accordion = forwardRef<
         <Box
           ref={ref}
           aria-expanded={expanded}
-          sx={[accordionStyle({ disabled, expanded }), sx]}
+          sx={[accordionStyle({ disabled }), sx]}
         >
           {children}
           {divider && (
             <Divider
               data-role="accordion-divider"
               color="palette.line.normal.alternative"
+              sx={accordionDividerStyle({ expanded })}
             />
           )}
         </Box>
@@ -81,57 +82,51 @@ Accordion.displayName = ACCORDION_NAME;
 const AccordionSummary = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ListCellProps, 'div'>
->(
-  (
-    { disabled, children, rightContent, sx, onClick, textProps, ...props },
-    ref,
-  ) => {
-    const {
-      expanded,
-      disabled: accordionDisabled,
-      onExpandedChange,
-    } = useAccordionContext(ACCORDION_SUMMARY_NAME);
+>(({ disabled, children, rightContent, textProps, ...props }, ref) => {
+  const {
+    expanded,
+    disabled: accordionDisabled,
+    onExpandedChange,
+  } = useAccordionContext(ACCORDION_SUMMARY_NAME);
 
-    return (
-      <ListCell
-        ref={ref}
-        wds-component="accordion-summary"
-        as="div"
-        padding="16px"
-        disabled={accordionDisabled || disabled}
-        disableInteraction={accordionDisabled || disabled}
-        rightContent={
-          rightContent ?? (
-            <AccordionSummaryContent
-              variant="icon"
-              data-role="accordion-summary-expand-icon"
-            >
-              <IconChevronDown
-                sx={(theme) => ({
-                  color: theme.palette.label.normal,
-                })}
-              />
-            </AccordionSummaryContent>
-          )
-        }
-        textProps={{
-          variant: 'body2_normal',
-          weight: 'bold',
-          ...textProps,
-          sx: [accordionSummaryTextStyle, textProps?.sx],
-        }}
-        {...props}
-        sx={[accordionSummaryStyle, sx]}
-        onClick={composeEventHandlers(onClick, (e) => {
-          onExpandedChange(!expanded);
-          e.preventDefault();
-        })}
-      >
-        {children}
-      </ListCell>
-    );
-  },
-);
+  return (
+    <ListCell
+      ref={ref}
+      wds-component="accordion-summary"
+      as="div"
+      padding="16px"
+      disabled={accordionDisabled || disabled}
+      disableInteraction={accordionDisabled || disabled}
+      rightContent={
+        rightContent ?? (
+          <AccordionSummaryContent
+            variant="icon"
+            data-role="accordion-summary-expand-icon"
+          >
+            <IconChevronDown
+              sx={(theme) => ({
+                color: theme.palette.label.normal,
+              })}
+            />
+          </AccordionSummaryContent>
+        )
+      }
+      textProps={{
+        variant: 'body2_normal',
+        weight: 'bold',
+        ...textProps,
+        sx: [accordionSummaryTextStyle, textProps?.sx],
+      }}
+      {...props}
+      onClick={composeEventHandlers(props.onClick, (e) => {
+        onExpandedChange(!expanded);
+        e.preventDefault();
+      })}
+    >
+      {children}
+    </ListCell>
+  );
+});
 
 AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 
@@ -170,7 +165,12 @@ const AccordionDetails = forwardRef<
       aria-hidden={!expanded}
     >
       <div>
-        <FlexBox sx={accordionDetailsBoxStyle}>{children}</FlexBox>
+        <FlexBox
+          data-role="accordion-details-wrapper"
+          sx={accordionDetailsWrapperStyle}
+        >
+          {children}
+        </FlexBox>
       </div>
     </Box>
   );

@@ -34,6 +34,8 @@ export const listCellStyle =
     width: 100%;
     padding-top: var(--wds-list-cell-padding);
     padding-bottom: var(--wds-list-cell-padding);
+    padding-left: var(--wds-list-cell-fill-width-padding);
+    padding-right: var(--wds-list-cell-fill-width-padding);
 
     ${disabled
       ? css`
@@ -113,7 +115,7 @@ const listCellInteractionPaddingStyle = ({
     --wds-list-cell-interaction-padding: ${interactionPadding ?? '12px'};
 
     & > [wds-component='with-interaction'] {
-      width: calc(100% + (var(--wds-list-cell-interaction-padding) * 2));
+      width: calc(100% + (var(--wds-list-cell-interaction-padding, 0px) * 2));
     }
   `;
 };
@@ -157,22 +159,20 @@ const listCellFillWidthStyle = ({
   switch (fillWidth) {
     case true:
       return css`
-        padding-right: 20px;
-        padding-left: 20px;
-
-        & > [data-role='list-cell-divider'] {
-          width: calc(100% - 40px);
+        &,
+        & ~ [wds-component='accordion-details'],
+        & ~ [data-role='accordion-divider'] {
+          --wds-list-cell-fill-width-padding: 20px;
         }
       `;
     case false:
       return css`
-        padding-right: 0px;
-        padding-left: 0px;
-        border-radius: 12px;
-
-        & > [data-role='list-cell-divider'] {
-          width: 100%;
+        &,
+        & ~ [wds-component='accordion-details'],
+        & ~ [data-role='accordion-divider'] {
+          --wds-list-cell-fill-width-padding: 0px;
         }
+        border-radius: 12px;
       `;
   }
 };
@@ -182,7 +182,7 @@ export const listCellDividerStyle = css`
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0px);
-  width: 100%;
+  width: calc(100% - (var(--wds-list-cell-fill-width-padding) * 2));
 `;
 
 const listCellContentSizeStyle = ({

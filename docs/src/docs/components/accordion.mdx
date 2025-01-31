@@ -76,15 +76,39 @@ export default Demo;`}
 
 ## Examples
 
-### Padding
+### Padding, FillWidth
 
-AccordionSummary의 `padding` prop에 따라 AccordionDetails의 간격이 조정 됩니다.
+AccordionSummary의 `padding`, `fillWidth`으로 간격을 조정해요.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <div>
+      <Accordion>
+        <AccordionSummary fillWidth>
+          FillWidth, true
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion divider={false}>
+        <AccordionSummary>
+          Divider, false
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
       <Accordion>
         <AccordionSummary>
           Padding, 16px
@@ -127,44 +151,6 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Divider, Disabled
-
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, IconButton } from '@wanteddev/wds';
-import { IconCheckThick } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  return (
-    <div>
-      <Accordion divider={false}>
-        <AccordionSummary>
-          Divider, false
-        </AccordionSummary>
-        <AccordionDetails>
-          <AccordionDescription>
-            제목에 대한 상세 내용을 입력해주세요.<br />
-            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
-          </AccordionDescription>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion disabled>
-        <AccordionSummary>
-          Disabled, true
-        </AccordionSummary>
-        <AccordionDetails>
-          <AccordionDescription>
-            제목에 대한 상세 내용을 입력해주세요.<br />
-            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
-          </AccordionDescription>
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  )
-}
-
-export default Demo;`}
-/>
-
 ### RightContent
 
 - AccordionSummary의 기본 rightContent를 교체할 수 있어요.
@@ -179,6 +165,18 @@ const Demo = () => {
 
   return (
     <div>
+      <Accordion disabled>
+        <AccordionSummary>
+          Disabled, true
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
       <Accordion>
         <AccordionSummary
           rightContent={
