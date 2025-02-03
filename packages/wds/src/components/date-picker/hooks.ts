@@ -166,6 +166,8 @@ export const useDateField = ({
             (section) => section.format === focusedSection.format,
           ) ?? focusedSection;
 
+        setFocusedSection(nextFocusedSection);
+
         requestAnimationFrame(() => {
           inputRef.current?.setSelectionRange(
             nextFocusedSection.startIndex,
@@ -850,13 +852,21 @@ export const useDateField = ({
         );
 
         sectionValueRef.current = (sectionValueRef.current + lowerKey).slice(
-          focusedSection.format.length * -1,
+          (focusedSection.format.length === 1
+            ? 2
+            : focusedSection.format.length) * -1,
         );
 
         const newInputValue =
           inputValue.slice(0, focusedSection.startIndex) +
-          `${sectionValueRef.current.padStart(focusedSection.format.length, '0')}` +
-          inputValue.slice(focusedSection.endIndex);
+          inputValue
+            .slice(focusedSection.startIndex)
+            .replace(
+              focusedSection.value,
+              sectionValueRef.current
+                .replace(/^0+/, '')
+                .padStart(focusedSection.format.length, '0'),
+            );
 
         const newSectionValue = getDateformatSections(
           newInputValue,
