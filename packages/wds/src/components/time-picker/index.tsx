@@ -12,9 +12,7 @@ import { Popper, PopperAnchor, PopperContent } from '../popper';
 import FocusScope from '../focus-scope';
 import DismissableLayer from '../dismissable-layer';
 import { useDateField } from '../date-picker/hooks';
-import { toFormat } from '../date-picker/helpers';
 import { TimeView } from '../time-view';
-import { useDefaultSelectedDate } from '../date-calendar/hooks';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
@@ -40,7 +38,7 @@ const TimePicker = forwardRef<
       onChangeComplete,
       contentProps,
       format = 'a hh:mm',
-      placeholder: givenPlaceholder,
+      placeholder = format,
       locale = 'ko-KR',
       timezone,
       minTime,
@@ -109,12 +107,6 @@ const TimePicker = forwardRef<
     const invalid =
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
-
-    const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
-
-    const placeholder = useRef(
-      givenPlaceholder ?? toFormat(now.toDate(), format, locale, timezone),
-    ).current;
 
     const handleChangeComplete = useCallbackRef((v: DateType) => {
       setValue(v);

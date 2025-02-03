@@ -12,10 +12,8 @@ export const sectionsToViews = (sections: Array<DateFormatSection>) => {
         break;
       case 'H':
       case 'HH':
-      case 'HHH':
       case 'h':
       case 'hh':
-      case 'hhh':
         views.push('hour');
         break;
       case 'm':
