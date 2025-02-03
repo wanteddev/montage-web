@@ -22,7 +22,6 @@ export type TimeViewProps = {
 
 export type TimeListProps = {
   view: TimeViewType;
-  views: Array<TimeViewType>;
   timezone?: string;
   locale?: string;
   value: DateType;
@@ -42,3 +41,5 @@ export type TimeViewActionAreaProps = {
   onNowClick?: MouseEventHandler<HTMLButtonElement>;
   onSubmitClick?: MouseEventHandler<HTMLButtonElement>;
 };
+
+export type HourType = '12' | '24';

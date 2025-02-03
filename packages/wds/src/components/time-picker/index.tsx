@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -104,31 +104,32 @@ const TimePicker = forwardRef<
       disabled,
     });
 
-    const placeholder = useMemo(
-      () =>
-        givenPlaceholder ??
+    const composedInputRef = useComposedRefs(originInputRef, inputRef);
+
+    const views = useMemo(() => sectionsToViews(sections), [sections]);
+
+    const invalid =
+      originInvalid ||
+      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+
+    const [placeholder, setPlaceholder] = useState('');
+
+    useEffect(() => {
+      setPlaceholder(
         toFormat(
           dayjsTimezone(dayjs().startOf('day'), timezone).toDate(),
           format,
           locale,
           timezone,
         ),
-      [givenPlaceholder, format, locale, timezone],
-    );
-
-    const invalid =
-      originInvalid ||
-      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+      );
+    }, [timezone, format, locale]);
 
     const handleChangeComplete = useCallbackRef((v: DateType) => {
       setValue(v);
       onChangeComplete?.(v);
       setOpen(false);
     });
-
-    const views = useMemo(() => sectionsToViews(sections), [sections]);
-
-    const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
     return (
       <Popper>
@@ -145,7 +146,7 @@ const TimePicker = forwardRef<
           {...({
             readOnly,
             disabled,
-            placeholder,
+            placeholder: givenPlaceholder ?? placeholder,
             invalid,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),

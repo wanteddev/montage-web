@@ -1,4 +1,12 @@
-import { forwardRef, memo, useEffect, useId, useRef, useState } from 'react';
+import {
+  forwardRef,
+  memo,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import dayjs from 'dayjs';
 import {
   RovingFocusGroup,
@@ -39,6 +47,7 @@ import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ElementRef } from 'react';
 import type {
+  HourType,
   TimeItemProps,
   TimeListProps,
   TimeViewActionAreaProps,
@@ -84,6 +93,10 @@ const TimeView = forwardRef<
     });
 
     const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
+    const hourType: HourType = useMemo(
+      () => (views.includes('meridiem') ? '12' : '24'),
+      [views],
+    );
 
     useEffect(() => {
       if (!item) return;
@@ -101,6 +114,7 @@ const TimeView = forwardRef<
       <TimeViewContextProvider
         value={value}
         now={now}
+        hourType={hourType}
         timezone={timezone}
         disabled={disabled}
         readOnly={readOnly}
@@ -115,7 +129,6 @@ const TimeView = forwardRef<
                 value={value}
                 locale={locale}
                 timezone={timezone}
-                views={views}
                 order={
                   index === 0
                     ? 'first'
@@ -151,15 +164,16 @@ TimeView.displayName = TIME_VIEW_NAME;
 
 const TimeList = memo(
   forwardRef<HTMLUListElement, TimeListProps>(
-    ({ view, views, value, locale, order, timezone }) => {
+    ({ view, value, locale, order, timezone }) => {
       const id = useId();
+      const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
 
       const { timeValue, timeList } = useTimeView({
         view,
-        views,
-        locale,
         value,
         timezone,
+        locale,
+        hourType,
       });
 
       const scrollViewportRef =
@@ -190,8 +204,8 @@ const TimeList = memo(
               {timeList.map((time) => {
                 if (!time) return null;
 
-                const isAmpm = 'meridiem' in time;
-                const label = isAmpm ? time.meridiem : time.digit;
+                const isMeridiem = 'meridiem' in time;
+                const label = isMeridiem ? time.meridiem : time.text;
 
                 return (
                   <TimeItem
@@ -199,14 +213,9 @@ const TimeList = memo(
                     view={view}
                     value={time.value}
                     aria-label={label}
-                    data-value={isAmpm ? time.meridiem : time.value.toString()}
+                    data-value={label}
                     order={order}
-                    active={
-                      timeValue
-                        ? timeValue ===
-                          (isAmpm ? time.meridiem : time.value.toString())
-                        : false
-                    }
+                    active={timeValue ? timeValue === label : false}
                   >
                     {label}
                   </TimeItem>
@@ -231,6 +240,7 @@ const TimeItem = forwardRef<
     disabled,
     readOnly,
     now,
+    hourType,
     timezone,
     onChange,
   } = useTimeViewContext(TIME_ITEM_NAME);
@@ -276,7 +286,19 @@ const TimeItem = forwardRef<
               );
               break;
             case 'hour':
-              newValue = newValue.hour(value);
+              if (hourType === '12') {
+                newValue = newValue.hour(
+                  value === 12
+                    ? newValue.hour() >= 12
+                      ? 12
+                      : 0
+                    : newValue.hour() >= 12
+                      ? value + 12
+                      : value,
+                );
+              } else {
+                newValue = newValue.hour(value);
+              }
               break;
             case 'minute':
               newValue = newValue.minute(value);

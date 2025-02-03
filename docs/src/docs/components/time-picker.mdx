@@ -35,7 +35,23 @@ export default Demo;`}
 
 ### Format
 
-input에 시간이 표시되는 format 을 지정할 수 있어요.
+- input에 시간이 표시되는 format 을 지정할 수 있어요.
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker width="300px" format="a hhh" />
+      <TimePicker width="300px" format="HHH" />
+      <TimePicker width="300px" format="a hh" />
+      <TimePicker width="300px" format="HH" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
 
 ### Locale, Timezone
 

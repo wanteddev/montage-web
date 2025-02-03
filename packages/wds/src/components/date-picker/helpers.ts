@@ -7,11 +7,19 @@ import {
   getMonths,
   isValidDate,
 } from '../date-calendar/helpers';
+import { getHours } from '../time-view/helpers';
 
 import type { DatePickerFormat } from './types';
 import type { DateType } from '../date-calendar/types';
 
-const TEXT_FORMATS = ['MMM', 'MMMM', 'a', 'A'];
+const TEXT_FORMATS: Array<DatePickerFormat> = [
+  'MMM',
+  'MMMM',
+  'a',
+  'A',
+  'HHH',
+  'hhh',
+];
 const MAX_TIMESTAMP = 8640000000000000;
 export const invalidDate = new Date(MAX_TIMESTAMP + 1);
 
@@ -107,10 +115,24 @@ export const getRegexFormat = (
       return /^\d{1,2}/;
     case 'HH':
       return /^\d{2}/;
+    case 'HHH':
+      return new RegExp(
+        '^' +
+          String.raw`${getHours({ locale, hourType: '24' })
+            .map((v) => v.numeric)
+            .join('|')}`,
+      );
     case 'h':
       return /^\d{1,2}/;
     case 'hh':
       return /^\d{2}/;
+    case 'hhh':
+      return new RegExp(
+        '^' +
+          String.raw`${getHours({ locale, hourType: '12' })
+            .map((v) => v.numeric)
+            .join('|')}`,
+      );
     case 'm':
       return /^\d{1,2}/;
     case 'mm':
@@ -192,9 +214,7 @@ export const toFormat = (
   format: string,
   locale: string | undefined,
   timezone?: string,
-  numeric?: boolean,
 ) => {
-  const formatNumeric = /^(a hh|a h|h|hh)$/gi.test(format);
   const formatChunks = chunksFormat(format);
 
   let result = '';
@@ -205,13 +225,7 @@ export const toFormat = (
       continue;
     }
 
-    result += localeFormat(
-      date,
-      chunk,
-      locale,
-      timezone,
-      numeric ?? formatNumeric,
-    );
+    result += localeFormat(date, chunk, locale, timezone);
   }
 
   return result;
@@ -233,6 +247,24 @@ export const parseFromFormat = (
   }
 
   let parsedDate = dayjsTimezone(dayjs(), timezone);
+
+  const timeFormats = ['h', 'hh', 'hhh', 'H', 'HH', 'HHH'];
+  const meridiemFormats = ['a', 'A'];
+
+  const hourIndex = sections.findIndex((section) =>
+    timeFormats.includes(section.format),
+  );
+  const meridiemIndex = sections.findIndex((section) =>
+    meridiemFormats.includes(section.format),
+  );
+
+  if (hourIndex > meridiemIndex) {
+    const hourSection = sections.splice(hourIndex, 1)[0];
+
+    if (hourSection) {
+      sections.splice(meridiemIndex, 0, hourSection);
+    }
+  }
 
   for (const section of sections) {
     const { format: sectionFormat, value } = section;
@@ -296,6 +328,13 @@ export const parseFromFormat = (
         }
         parsedDate = parsedDate.hour(hour);
         break;
+      case 'HHH':
+        const numericHour = parseInt(value);
+        if (numericHour < 0 || numericHour > 23) {
+          return invalidDate;
+        }
+        parsedDate = parsedDate.hour(numericHour);
+        break;
       case 'h':
       case 'hh':
         if (!/^\d{1,2}$/.test(value)) {
@@ -306,6 +345,13 @@ export const parseFromFormat = (
           return invalidDate;
         }
         parsedDate = parsedDate.hour(hour12);
+        break;
+      case 'hhh':
+        const numeric12Hour = parseInt(value);
+        if (numeric12Hour < 1 || numeric12Hour > 12) {
+          return invalidDate;
+        }
+        parsedDate = parsedDate.hour(numeric12Hour);
         break;
       case 'm':
       case 'mm':
@@ -398,6 +444,10 @@ export const getDateformatSections = (
           return getMeridiem(locale).map((v) => v.lower);
         case 'A':
           return getMeridiem(locale).map((v) => v.upper);
+        case 'hhh':
+          return getHours({ locale, hourType: '12' }).map((v) => v.numeric);
+        case 'HHH':
+          return getHours({ locale, hourType: '24' }).map((v) => v.numeric);
         default:
           return [];
       }
@@ -466,8 +516,10 @@ const isDatePickerFormat = (format: string): format is DatePickerFormat => {
     'DD',
     'H',
     'HH',
+    'HHH',
     'h',
     'hh',
+    'hhh',
     'm',
     'mm',
     's',
@@ -482,7 +534,6 @@ export const localeFormat = (
   format: string,
   locale: string | undefined,
   timezone: string | undefined,
-  numeric?: boolean,
 ) => {
   if (!isValidDate(value)) {
     return value;
@@ -515,37 +566,23 @@ export const localeFormat = (
     case 'DD':
       return parsedDayjs.date().toString().padStart(2, '0');
     case 'H':
-      return numeric
-        ? Intl.DateTimeFormat(locale, {
-            hour: 'numeric',
-            hour12: false,
-            timeZone: timezone,
-          }).format(parsedValue)
-        : parsedDayjs.hour().toString();
+      return parsedDayjs.hour().toString();
     case 'HH':
-      return numeric
-        ? Intl.DateTimeFormat(locale, {
-            hour: '2-digit',
-            hour12: false,
-            timeZone: timezone,
-          }).format(parsedValue)
-        : parsedDayjs.hour().toString().padStart(2, '0');
+      return parsedDayjs.hour().toString().padStart(2, '0');
+    case 'HHH':
+      return new Intl.DateTimeFormat(locale, {
+        hour: 'numeric',
+        hour12: false,
+      }).format(parsedDayjs.hour(parsedDayjs.hour()).toDate());
     case 'h':
-      return numeric
-        ? Intl.DateTimeFormat(locale, {
-            hour: 'numeric',
-            hour12: false,
-            timeZone: timezone,
-          }).format(parsedValue)
-        : (parsedDayjs.hour() % 12 || 12).toString();
+      return (parsedDayjs.hour() % 12 || 12).toString();
     case 'hh':
-      return numeric
-        ? Intl.DateTimeFormat(locale, {
-            hour: '2-digit',
-            hour12: false,
-            timeZone: timezone,
-          }).format(parsedValue)
-        : (parsedDayjs.hour() % 12 || 12).toString().padStart(2, '0');
+      return (parsedDayjs.hour() % 12 || 12).toString().padStart(2, '0');
+    case 'hhh':
+      return new Intl.DateTimeFormat(locale, {
+        hour: 'numeric',
+        hour12: false,
+      }).format(parsedDayjs.hour(parsedDayjs.hour() % 12 || 12).toDate());
     case 'm':
       return parsedDayjs.minute().toString();
     case 'mm':

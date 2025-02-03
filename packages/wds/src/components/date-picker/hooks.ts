@@ -161,10 +161,15 @@ export const useDateField = ({
           );
         });
       } else {
+        const nextFocusedSection =
+          newSectionValue.find(
+            (section) => section.format === focusedSection.format,
+          ) ?? focusedSection;
+
         requestAnimationFrame(() => {
           inputRef.current?.setSelectionRange(
-            focusedSection.startIndex,
-            focusedSection.endIndex,
+            nextFocusedSection.startIndex,
+            nextFocusedSection.endIndex,
           );
         });
       }
@@ -752,9 +757,26 @@ export const useDateField = ({
 
         if (foundOption.length > 0) {
           newInputValue =
-            inputValue.slice(0, focusedSection.startIndex) +
-            foundOption[0] +
-            inputValue.slice(focusedSection.endIndex);
+            inputValue.slice(0, focusedSection.startIndex) + foundOption[0];
+
+          const foundOptionValue = foundOption[0] ?? '';
+          const prevFocusedSection =
+            sections.find(
+              (section) => section.format === focusedSection.format,
+            ) ?? focusedSection;
+          const isLastSection = sections.length - 1 === focusedSection.index;
+          const lengthDiff =
+            prevFocusedSection.value.length - foundOptionValue.length;
+
+          if (isLastSection) {
+            newInputValue += inputValue.slice(
+              lengthDiff > 0
+                ? prevFocusedSection.endIndex + lengthDiff
+                : focusedSection.endIndex,
+            );
+          } else {
+            newInputValue += inputValue.slice(focusedSection.endIndex);
+          }
 
           sectionValueRef.current += lowerKey;
           isFinished = foundOption.length === 1;
