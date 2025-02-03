@@ -176,6 +176,10 @@ export const routes: Array<Route> = [
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
       {
+        title: 'SectionHeader',
+        slug: '/docs/components/section-header',
+      },
+      {
         title: 'SectionMessage',
         slug: '/docs/components/section-message',
       },
