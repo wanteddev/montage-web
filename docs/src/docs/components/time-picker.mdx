@@ -14,11 +14,20 @@ description: TimePicker Component
 - 기본적으로 TextInput 컴포넌트를 사용해요.
 - 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
 
-<Demo code={`import { TimePicker } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, TimeViewActionArea, TimeViewNowActionAreaButton, TimeViewSubmitActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <TimePicker width="300px" format="a h:mm" hasActionArea />
+    <TimePicker
+      width="300px"
+      format="a h:mm"
+      actionArea={
+        <TimeViewActionArea>
+          <TimeViewNowActionAreaButton />
+          <TimeViewSubmitActionAreaButton />
+        </TimeViewActionArea>
+      }
+    />
   )
 }
 
@@ -31,11 +40,51 @@ export default Demo;`}
 
 <PropsTable component="TimePicker" />
 
+### TimeViewActionArea
+
+`ActionArea`와 동일한 props를 사용해요.
+
+<PropsTable component="TimeViewActionArea" />
+
+### TimeViewNowActionAreaButton
+
+`ActionAreaButton`과 동일한 props를 사용해요. 
+
+<PropsTable component="TimeViewNowActionAreaButton" />
+
+### TimeViewSubmitActionAreaButton
+
+`ActionAreaButton`과 동일한 props를 사용해요.
+
+<PropsTable component="TimeViewSubmitActionAreaButton" />
+
 ## Examples
 
 ### Format
 
 - input에 시간이 표시되는 format 을 지정할 수 있어요.
+- 12시간 형식일 경우 `a` 또는 `A`와 `h` 또는 `hh`를 함께 사용해주세요.
+- 24시간 형식일 경우 `H` 또는 `HH`만 사용해주세요.
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker width="300px" format="a hh:mm:ss" />
+      <TimePicker width="300px" format="a h:m:s" />
+      <TimePicker width="300px" format="HH:mm:ss" />
+      <TimePicker width="300px" format="H:m:s" />
+      <TimePicker width="300px" format="mm:ss" />
+      <TimePicker width="300px" format="m:s" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+시간만 입력할 경우 `hhh` 또는 `HHH`를 사용하여 명확하게 나타낼 수 있어요.
 
 <Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
@@ -44,8 +93,6 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="20px">
       <TimePicker width="300px" format="a hhh" />
       <TimePicker width="300px" format="HHH" />
-      <TimePicker width="300px" format="a hh" />
-      <TimePicker width="300px" format="HH" />
     </FlexBox>
   )
 }
@@ -203,11 +250,24 @@ export default Demo;`}
 
 ### ActionArea
 
-<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+- ActionArea에 현재 시간을 선택하는 버튼과 적용하는 버튼을 커스텀 할 수 있어요.
+- 현재 시간은 5분, 5초 단위로 선택 됩니다.
+
+<Demo code={`import { TimePicker, FlexBox, TimeViewActionArea, TimeViewNowActionAreaButton, TimeViewSubmitActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <TimePicker width="300px" hasActionArea />
+    <TimePicker
+      width="300px"
+      locale="en-US"
+      timezone="UTC"
+      actionArea={
+        <TimeViewActionArea>
+          <TimeViewNowActionAreaButton>Now</TimeViewNowActionAreaButton>
+          <TimeViewSubmitActionAreaButton>Submit</TimeViewSubmitActionAreaButton>
+        </TimeViewActionArea>
+      }
+    />
   )
 }
 

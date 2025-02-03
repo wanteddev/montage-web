@@ -1,10 +1,9 @@
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useMemo, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import dayjs from 'dayjs';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { TextInput, TextInputContent } from '../text-input';
@@ -13,9 +12,9 @@ import { Popper, PopperAnchor, PopperContent } from '../popper';
 import FocusScope from '../focus-scope';
 import DismissableLayer from '../dismissable-layer';
 import { useDateField } from '../date-picker/hooks';
-import { dayjsTimezone } from '../date-calendar/helpers';
 import { toFormat } from '../date-picker/helpers';
-import TimeView from '../time-view';
+import { TimeView } from '../time-view';
+import { useDefaultSelectedDate } from '../date-calendar/hooks';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
@@ -49,8 +48,7 @@ const TimePicker = forwardRef<
       invalid: originInvalid,
       input,
       inputRef: originInputRef,
-      hasActionArea,
-      actionAreaProps,
+      actionArea,
       ...props
     },
     forwardedRef,
@@ -112,18 +110,11 @@ const TimePicker = forwardRef<
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
-    const [placeholder, setPlaceholder] = useState('');
+    const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
 
-    useEffect(() => {
-      setPlaceholder(
-        toFormat(
-          dayjsTimezone(dayjs().startOf('day'), timezone).toDate(),
-          format,
-          locale,
-          timezone,
-        ),
-      );
-    }, [timezone, format, locale]);
+    const placeholder = useRef(
+      givenPlaceholder ?? toFormat(now.toDate(), format, locale, timezone),
+    ).current;
 
     const handleChangeComplete = useCallbackRef((v: DateType) => {
       setValue(v);
@@ -146,7 +137,7 @@ const TimePicker = forwardRef<
           {...({
             readOnly,
             disabled,
-            placeholder: givenPlaceholder ?? placeholder,
+            placeholder,
             invalid,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),
@@ -221,8 +212,7 @@ const TimePicker = forwardRef<
                   timezone={timezone}
                   readOnly={readOnly}
                   disabled={disabled}
-                  hasActionArea={hasActionArea}
-                  actionAreaProps={actionAreaProps}
+                  actionArea={actionArea}
                   onChange={(v) => {
                     setValue(v);
                     handleInputValueChange();

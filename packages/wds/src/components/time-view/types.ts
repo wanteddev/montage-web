@@ -1,5 +1,4 @@
-import type { TimeViewActionArea } from '.';
-import type { ComponentPropsWithRef, MouseEventHandler } from 'react';
+import type { ReactNode } from 'react';
 import type { DateType } from '../date-picker';
 
 export type TimeViewType = 'meridiem' | 'hour' | 'minute' | 'second';
@@ -14,8 +13,7 @@ export type TimeViewProps = {
   timezone?: string;
   readOnly?: boolean;
   disabled?: boolean;
-  hasActionArea?: boolean;
-  actionAreaProps?: ComponentPropsWithRef<typeof TimeViewActionArea>;
+  actionArea?: ReactNode;
   onChange?: (value: DateType) => void;
   onChangeComplete?: (value: DateType) => void;
 };
@@ -25,7 +23,7 @@ export type TimeListProps = {
   timezone?: string;
   locale?: string;
   value: DateType;
-  order: 'first' | 'last' | 'middle';
+  order: 'first' | 'last' | 'middle' | 'single';
 };
 
 export type TimeItemProps = {
@@ -33,13 +31,6 @@ export type TimeItemProps = {
   value: number;
   active: boolean;
   order: TimeListProps['order'];
-};
-
-export type TimeViewActionAreaProps = {
-  nowText?: string;
-  submitText?: string;
-  onNowClick?: MouseEventHandler<HTMLButtonElement>;
-  onSubmitClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 export type HourType = '12' | '24';

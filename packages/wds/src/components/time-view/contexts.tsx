@@ -14,6 +14,7 @@ export type TimeViewContextType = {
   disabled: boolean;
   readOnly: boolean;
   onChange: (value: DateType) => void;
+  onChangeComplete?: (value: DateType) => void;
 };
 
 export const [TimeViewContextProvider, useTimeViewContext] =

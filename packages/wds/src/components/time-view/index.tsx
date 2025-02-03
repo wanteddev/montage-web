@@ -30,8 +30,11 @@ import {
   ACCESSIBLE_MIN_TIME,
   TIME_ITEM_NAME,
   TIME_LIST_NAME,
+  TIME_UNIT_STEP,
   TIME_VIEW_ACTION_AREA_NAME,
   TIME_VIEW_NAME,
+  TIME_VIEW_NOW_ACTION_AREA_BUTTON_NAME,
+  TIME_VIEW_SUBMIT_ACTION_AREA_BUTTON_NAME,
 } from './constants';
 import {
   timeItemStyle,
@@ -43,6 +46,7 @@ import {
 import { useTimeView } from './hooks';
 import { TimeViewContextProvider, useTimeViewContext } from './contexts';
 
+import type { ActionAreaProps, ActionButtonProps } from '../action-area/types';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ElementRef } from 'react';
@@ -50,7 +54,6 @@ import type {
   HourType,
   TimeItemProps,
   TimeListProps,
-  TimeViewActionAreaProps,
   TimeViewProps,
 } from './types';
 
@@ -72,8 +75,7 @@ const TimeView = forwardRef<
       timezone,
       disabled = false,
       readOnly = false,
-      hasActionArea,
-      actionAreaProps,
+      actionArea,
       onChange,
       onChangeComplete,
       sx,
@@ -119,6 +121,7 @@ const TimeView = forwardRef<
         disabled={disabled}
         readOnly={readOnly}
         onChange={setValue}
+        onChangeComplete={onChangeComplete}
       >
         <FlexBox ref={composedRefs} sx={[timeViewStyle, sx]} {...props}>
           <FlexBox data-role="time-list-wrapper">
@@ -130,30 +133,18 @@ const TimeView = forwardRef<
                 locale={locale}
                 timezone={timezone}
                 order={
-                  index === 0
-                    ? 'first'
-                    : index === views.length - 1
-                      ? 'last'
-                      : 'middle'
+                  views.length === 1
+                    ? 'single'
+                    : index === 0
+                      ? 'first'
+                      : index === views.length - 1
+                        ? 'last'
+                        : 'middle'
                 }
               />
             ))}
           </FlexBox>
-          {hasActionArea && (
-            <TimeViewActionArea
-              {...{
-                ...actionAreaProps,
-                onNowClick: composeEventHandlers(
-                  actionAreaProps?.onNowClick,
-                  () => setValue(dayjsTimezone(dayjs(), timezone).toDate()),
-                ),
-                onSubmitClick: composeEventHandlers(
-                  actionAreaProps?.onSubmitClick,
-                  () => onChangeComplete?.(value),
-                ),
-              }}
-            />
-          )}
+          {actionArea}
         </FlexBox>
       </TimeViewContextProvider>
     );
@@ -206,6 +197,9 @@ const TimeList = memo(
 
                 const isMeridiem = 'meridiem' in time;
                 const label = isMeridiem ? time.meridiem : time.text;
+                const textValue = isMeridiem
+                  ? time.value.toString()
+                  : time.text;
 
                 return (
                   <TimeItem
@@ -213,9 +207,9 @@ const TimeList = memo(
                     view={view}
                     value={time.value}
                     aria-label={label}
-                    data-value={label}
+                    data-value={textValue}
                     order={order}
-                    active={timeValue ? timeValue === label : false}
+                    active={timeValue ? timeValue === textValue : false}
                   >
                     {label}
                   </TimeItem>
@@ -344,47 +338,83 @@ const TimeItem = forwardRef<
 
 TimeItem.displayName = TIME_ITEM_NAME;
 
-export const TimeViewActionArea = forwardRef<
+const TimeViewActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TimeViewActionAreaProps, 'div'>
->(
-  (
-    {
-      nowText = '현재',
-      submitText = '적용',
-      onNowClick,
-      onSubmitClick,
-      sx,
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <ActionArea
-        ref={ref}
-        property="compact"
-        {...props}
-        sx={[timeViewActionAreaStyle, sx]}
-      >
-        <ActionAreaButton
-          variant="sub"
-          textButtonVariant="assistive"
-          onClick={onNowClick}
-        >
-          {nowText}
-        </ActionAreaButton>
-        <ActionAreaButton
-          variant="sub"
-          textButtonVariant="primary"
-          onClick={onSubmitClick}
-        >
-          {submitText}
-        </ActionAreaButton>
-      </ActionArea>
-    );
-  },
-);
+  DefaultComponentProps<ActionAreaProps, 'div'>
+>(({ sx, ...props }, ref) => {
+  return (
+    <ActionArea
+      ref={ref}
+      property="compact"
+      {...props}
+      sx={[timeViewActionAreaStyle, sx]}
+    />
+  );
+});
 
 TimeViewActionArea.displayName = TIME_VIEW_ACTION_AREA_NAME;
 
-export default TimeView;
+const TimeViewNowActionAreaButton = forwardRef<
+  HTMLButtonElement,
+  DefaultComponentProps<ActionButtonProps, 'button'>
+>(({ children, ...props }, ref) => {
+  const { timezone, onChange } = useTimeViewContext(TIME_VIEW_ACTION_AREA_NAME);
+
+  return (
+    <ActionAreaButton
+      ref={ref}
+      variant="sub"
+      textButtonVariant="assistive"
+      {...props}
+      onClick={composeEventHandlers(props.onClick, () => {
+        let current = dayjsTimezone(dayjs(), timezone);
+
+        const roundedMinutes =
+          Math.round(current.minute() / TIME_UNIT_STEP) * TIME_UNIT_STEP;
+        const roundedSeconds =
+          Math.round(current.second() / TIME_UNIT_STEP) * TIME_UNIT_STEP;
+
+        current = current.minute(roundedMinutes).second(roundedSeconds);
+
+        onChange(current.toDate());
+      })}
+    >
+      {children ?? '현재'}
+    </ActionAreaButton>
+  );
+});
+
+TimeViewNowActionAreaButton.displayName = TIME_VIEW_NOW_ACTION_AREA_BUTTON_NAME;
+
+const TimeViewSubmitActionAreaButton = forwardRef<
+  HTMLButtonElement,
+  DefaultComponentProps<ActionButtonProps, 'button'>
+>(({ children, ...props }, ref) => {
+  const { value, onChangeComplete } = useTimeViewContext(
+    TIME_VIEW_ACTION_AREA_NAME,
+  );
+
+  return (
+    <ActionAreaButton
+      ref={ref}
+      variant="sub"
+      textButtonVariant="primary"
+      {...props}
+      onClick={composeEventHandlers(props.onClick, () =>
+        onChangeComplete?.(value),
+      )}
+    >
+      {children ?? '적용'}
+    </ActionAreaButton>
+  );
+});
+
+TimeViewSubmitActionAreaButton.displayName =
+  TIME_VIEW_SUBMIT_ACTION_AREA_BUTTON_NAME;
+
+export {
+  TimeView,
+  TimeViewActionArea,
+  TimeViewNowActionAreaButton,
+  TimeViewSubmitActionAreaButton,
+};

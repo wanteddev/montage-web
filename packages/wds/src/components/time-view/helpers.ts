@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+import { TIME_UNIT_STEP } from './constants';
+
 import type { HourType } from './types';
 
 export type GetTimeUnitsResult = ReturnType<typeof getHours>;
@@ -32,9 +34,9 @@ export const getHours = ({
   });
 };
 
-export const getMinutes = (step = 5) => {
-  return new Array(Math.floor(60 / step)).fill(0).map((_, i) => {
-    const value = i * step;
+export const getMinutes = () => {
+  return new Array(Math.floor(60 / TIME_UNIT_STEP)).fill(0).map((_, i) => {
+    const value = i * TIME_UNIT_STEP;
 
     return {
       value,
@@ -43,9 +45,9 @@ export const getMinutes = (step = 5) => {
   });
 };
 
-export const getSeconds = (step = 5) => {
-  return new Array(Math.floor(60 / step)).fill(0).map((_, i) => {
-    const value = i * step;
+export const getSeconds = () => {
+  return new Array(Math.floor(60 / TIME_UNIT_STEP)).fill(0).map((_, i) => {
+    const value = i * TIME_UNIT_STEP;
 
     return {
       value,

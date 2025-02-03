@@ -28,7 +28,12 @@ export const useTimeView = ({
 
     switch (view) {
       case 'meridiem':
-        return toFormat(value, 'A', locale, timezone);
+        return getMeridiem(locale)
+          .findIndex(
+            (meridiem) =>
+              meridiem.upper === toFormat(value, 'A', locale, timezone),
+          )
+          .toString();
       case 'hour':
         return toFormat(value, hourType === '12' ? 'h' : 'H', locale, timezone);
       case 'minute':

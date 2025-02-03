@@ -51,6 +51,7 @@ export const timeViewActionAreaStyle = (theme: Theme) => css`
     width: 100%;
     flex-direction: row;
     justify-content: space-between;
+    gap: 24px;
   }
 `;
 
@@ -88,11 +89,15 @@ export const timeItemStyle =
           border-top-left-radius: 8px;
           border-bottom-left-radius: 8px;
         `
-      : order === 'last' &&
-        css`
-          border-top-right-radius: 8px;
-          border-bottom-right-radius: 8px;
-        `};
+      : order === 'last'
+        ? css`
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+          `
+        : order === 'single' &&
+          css`
+            border-radius: 8px;
+          `};
 
     &,
     p {
