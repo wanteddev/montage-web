@@ -36,7 +36,7 @@ export const timeListStyle = () => css`
   &::after {
     content: '';
     display: block;
-    min-height: 100%;
+    min-height: calc(100% - 32px);
   }
 `;
 
