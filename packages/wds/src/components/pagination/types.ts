@@ -6,7 +6,7 @@ import type { FlexBoxProps } from '../flex-box/types';
 export type PaginationProps = Merge<PaginationDefaultProps, FlexBoxProps>;
 
 export type PaginationDefaultProps = {
-  variant?: 'extended' | 'minimize';
+  variant?: 'extended' | 'minimize' | 'compact';
   defaultPage?: number;
   page?: number;
   totalPages?: number;

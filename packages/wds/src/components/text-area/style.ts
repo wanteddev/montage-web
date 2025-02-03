@@ -192,6 +192,11 @@ export const textAreaContentStyle = css`
   height: fit-content;
 `;
 
+export const textAreaCharacterCounterStyle = (theme: Theme) => css`
+  opacity: ${theme.opacity[74]};
+  padding: 0px 4px;
+`;
+
 export const invalidIconWrapperStyle = (theme: Theme) => css`
   position: relative;
 

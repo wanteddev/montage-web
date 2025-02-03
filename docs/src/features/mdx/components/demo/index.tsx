@@ -10,6 +10,7 @@ import * as copy from 'copy-to-clipboard';
 import * as autosuggestParse from 'autosuggest-highlight/parse';
 // @ts-expect-error
 import * as autosuggestMatch from 'autosuggest-highlight/match';
+import * as reactVirtual from '@tanstack/react-virtual';
 
 import { useRunner } from './react-runner';
 import { demoStyle, errorStyle } from './style';
@@ -33,6 +34,7 @@ const Demo = ({ code, hideCode }: Props) => {
         '@wanteddev/wds': Wds,
         '@wanteddev/wds-icon': WdsIcon,
         '@wanteddev/wds-lottie': WdsLottie,
+        '@tanstack/react-virtual': reactVirtual,
         'react-hook-form': HookForm,
         'copy-to-clipboard': copy,
         'autosuggest-highlight/match': autosuggestMatch,
