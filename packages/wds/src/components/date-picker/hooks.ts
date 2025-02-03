@@ -7,7 +7,6 @@ import {
   getMeridiem,
   isValidDate,
 } from '../date-calendar/helpers';
-import { getTabbableCandidates } from '../focus-scope/helpers';
 
 import {
   getClosetSection,
@@ -165,6 +164,8 @@ export const useDateField = ({
           newSectionValue.find(
             (section) => section.format === focusedSection.format,
           ) ?? focusedSection;
+
+        setFocusedSection(nextFocusedSection);
 
         requestAnimationFrame(() => {
           inputRef.current?.setSelectionRange(
@@ -356,25 +357,6 @@ export const useDateField = ({
       }
       switch (e.key) {
         case 'Tab':
-          const tabbableCandidates = getTabbableCandidates(document.body);
-
-          const index = tabbableCandidates.findIndex(
-            (v) => v === e.currentTarget,
-          );
-
-          if (index === -1) {
-            return;
-          }
-
-          const nextTabbableCandidate =
-            tabbableCandidates[e.shiftKey ? index - 1 : index + 1];
-
-          if (nextTabbableCandidate) {
-            e.preventDefault();
-            nextTabbableCandidate.focus();
-          } else {
-            e.currentTarget.blur();
-          }
           return;
         case 'Backspace':
           e.preventDefault();
@@ -757,26 +739,9 @@ export const useDateField = ({
 
         if (foundOption.length > 0) {
           newInputValue =
-            inputValue.slice(0, focusedSection.startIndex) + foundOption[0];
-
-          const foundOptionValue = foundOption[0] ?? '';
-          const prevFocusedSection =
-            sections.find(
-              (section) => section.format === focusedSection.format,
-            ) ?? focusedSection;
-          const isLastSection = sections.length - 1 === focusedSection.index;
-          const lengthDiff =
-            prevFocusedSection.value.length - foundOptionValue.length;
-
-          if (isLastSection) {
-            newInputValue += inputValue.slice(
-              lengthDiff > 0
-                ? prevFocusedSection.endIndex + lengthDiff
-                : focusedSection.endIndex,
-            );
-          } else {
-            newInputValue += inputValue.slice(focusedSection.endIndex);
-          }
+            inputValue.slice(0, focusedSection.startIndex) +
+            foundOption[0] +
+            inputValue.slice(focusedSection.endIndex);
 
           sectionValueRef.current += lowerKey;
           isFinished = foundOption.length === 1;
@@ -850,13 +815,21 @@ export const useDateField = ({
         );
 
         sectionValueRef.current = (sectionValueRef.current + lowerKey).slice(
-          focusedSection.format.length * -1,
+          (focusedSection.format.length === 1
+            ? 2
+            : focusedSection.format.length) * -1,
         );
 
         const newInputValue =
           inputValue.slice(0, focusedSection.startIndex) +
-          `${sectionValueRef.current.padStart(focusedSection.format.length, '0')}` +
-          inputValue.slice(focusedSection.endIndex);
+          inputValue
+            .slice(focusedSection.startIndex)
+            .replace(
+              focusedSection.value,
+              sectionValueRef.current
+                .replace(/^0+/, '')
+                .padStart(focusedSection.format.length, '0'),
+            );
 
         const newSectionValue = getDateformatSections(
           newInputValue,
