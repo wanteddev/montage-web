@@ -49,6 +49,8 @@ const TextInput = forwardRef<
       onReset,
       type = 'text',
       wrapperRef,
+      width,
+      height,
       sx,
       xs,
       sm,
@@ -71,6 +73,8 @@ const TextInput = forwardRef<
         sx={[
           textInputWrapperStyle({
             invalid,
+            width,
+            height,
             readOnly,
             type,
             positive,

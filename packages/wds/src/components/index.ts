@@ -49,6 +49,7 @@ export { default as RegionConfig } from './region-config';
 export { default as RemoveScroll } from './remove-scroll';
 export { default as RoundCheckbox } from './round-checkbox';
 export { default as ScrollArea } from './scroll-area';
+export { default as SearchInput } from './search-input';
 export { default as SectionMessage } from './section-message';
 export * from './segmented-control';
 export * from './select';

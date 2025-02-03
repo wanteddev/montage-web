@@ -168,6 +168,10 @@ export const routes: Array<Route> = [
         title: 'ScrollArea',
         slug: '/docs/components/scroll-area',
       },
+      {
+        title: 'SearchInput',
+        slug: '/docs/components/search-input',
+      },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
       {
