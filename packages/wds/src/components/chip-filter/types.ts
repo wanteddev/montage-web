@@ -1,11 +1,14 @@
+/* FIXME 마이그레이션 시 filled 제거 필요 */
 import type { ReactNode } from 'react';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
-export type ChipFilterVariant = 'solid' | 'outlined';
-
 export type ChipFilterDefaultProps = {
   size?: 'xsmall' | 'small' | 'normal' | 'large';
-  variant?: 'solid' | 'outlined';
+  variant?:
+    | 'solid'
+    | 'outlined'
+    /** @deprecated */
+    | 'filled';
   active?: boolean;
   expanded?: boolean;
   disabled?: boolean;
