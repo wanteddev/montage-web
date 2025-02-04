@@ -1,12 +1,12 @@
 import { Box } from '@wanteddev/wds-engine';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useId, useRef } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { IconChevronDown } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ListCell, ListCellContent } from '../list';
 import Typography from '../typography';
-import { Divider, FlexBox } from '../..';
+import { Divider, FlexBox, useComposedRefs } from '../..';
 
 import {
   ACCORDION_DESCRIPTION_NAME,
@@ -52,17 +52,18 @@ const Accordion = forwardRef<
       onChange,
     });
 
+    const summaryId = useId();
+    const detailsId = useId();
+
     return (
       <AccordionProvider
         expanded={expanded}
         disabled={disabled}
         onExpandedChange={setExpand}
+        summaryId={summaryId}
+        detailsId={detailsId}
       >
-        <Box
-          ref={ref}
-          aria-expanded={expanded}
-          sx={[accordionStyle({ disabled }), sx]}
-        >
+        <Box ref={ref} sx={[accordionStyle({ disabled }), sx]}>
           {children}
           {divider && (
             <Divider
@@ -87,6 +88,8 @@ const AccordionSummary = forwardRef<
     expanded,
     disabled: accordionDisabled,
     onExpandedChange,
+    detailsId,
+    summaryId,
   } = useAccordionContext(ACCORDION_SUMMARY_NAME);
 
   return (
@@ -97,6 +100,9 @@ const AccordionSummary = forwardRef<
       padding="16px"
       disabled={accordionDisabled || disabled}
       disableInteraction={accordionDisabled || disabled}
+      aria-expanded={expanded}
+      aria-controls={detailsId}
+      id={summaryId}
       rightContent={
         rightContent ?? (
           <AccordionSummaryContent
@@ -153,16 +159,57 @@ AccordionSummaryContent.displayName = ACCORDION_SUMMARY_CONTENT_NAME;
 const AccordionDetails = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<TypographyProps, 'div'>
->(({ sx, children, ...props }, ref) => {
-  const { expanded } = useAccordionContext(ACCORDION_DETAILS_NAME);
+>(({ sx, children, ...props }, forwardedRef) => {
+  const { expanded, detailsId, summaryId } = useAccordionContext(
+    ACCORDION_DETAILS_NAME,
+  );
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  const composedRefs = useComposedRefs(forwardedRef, ref);
+
+  useEffect(() => {
+    if (ref.current) {
+      const elements = ref.current.querySelectorAll(
+        'a, button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), details, [tabindex]',
+      );
+
+      elements.forEach((elm) => {
+        const currentTabIndex = elm.getAttribute('tabindex');
+        const prevTabIndex = elm.getAttribute('data-prev-tabindex');
+
+        const details = elm.closest('[wds-component="accordion-details"]');
+
+        if (details !== ref.current) {
+          return;
+        }
+
+        if (expanded) {
+          if (prevTabIndex === 'unset') {
+            elm.removeAttribute('tabindex');
+          } else if (prevTabIndex !== null) {
+            elm.setAttribute('tabindex', prevTabIndex);
+          }
+          elm.removeAttribute('data-prev-tabindex');
+        } else {
+          if (prevTabIndex === null) {
+            elm.setAttribute('data-prev-tabindex', currentTabIndex || 'unset');
+          }
+          elm.setAttribute('tabindex', '-1');
+        }
+      });
+    }
+  }, [expanded]);
 
   return (
     <Box
-      ref={ref}
+      ref={composedRefs}
       wds-component="accordion-details"
+      aria-labelledby={summaryId}
+      aria-hidden={!expanded}
+      id={detailsId}
       {...props}
       sx={[accordionDetailsStyle({ expanded }), sx]}
-      aria-hidden={!expanded}
     >
       <div>
         <FlexBox
