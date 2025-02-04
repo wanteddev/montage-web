@@ -6,6 +6,7 @@ import type {
   ComponentProps,
   ComponentPropsWithoutRef,
   ElementType,
+  ReactNode,
   Ref,
 } from 'react';
 import type { DateType } from '../date-picker';
@@ -25,6 +26,7 @@ export type TimePickerProps = Merge<
       ComponentPropsWithoutRef<typeof FocusScope>
     >;
     onChange?: (date: DateType) => void;
+    actionArea?: ReactNode;
   },
   ComponentPropsWithoutRef<typeof TimeView> & Omit<TextInputProps, 'wrapperRef'>
 >;

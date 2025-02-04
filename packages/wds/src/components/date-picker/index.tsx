@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { IconCalendar } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
@@ -12,6 +12,7 @@ import { Popper, PopperAnchor, PopperContent } from '../popper';
 import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
 import FlexBox from '../flex-box';
+import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
@@ -71,6 +72,8 @@ const DatePicker = forwardRef<
       onChange: onChange,
     });
 
+    const initialValue = useRef(value);
+
     const {
       loop,
       trapped,
@@ -116,6 +119,13 @@ const DatePicker = forwardRef<
     });
 
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
+
+    useEffect(() => {
+      if (open) {
+        initialValue.current = value;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
 
     return (
       <Popper>
@@ -193,7 +203,7 @@ const DatePicker = forwardRef<
                   setOpen(false);
                 }}
               >
-                <FlexBox flexDirection="column">
+                <FlexBox flexDirection="column" data-role="date-picker-wrapper">
                   <DateCalendar
                     min={min}
                     max={max}
@@ -214,7 +224,14 @@ const DatePicker = forwardRef<
                     yearsOrder={yearsOrder}
                   />
 
-                  {actionArea}
+                  <PickerActionAreaProvider
+                    timezone={timezone}
+                    value={value}
+                    initialValue={initialValue}
+                    onChangeComplete={handleChangeComplete}
+                  >
+                    {actionArea}
+                  </PickerActionAreaProvider>
                 </FlexBox>
               </DismissableLayer>
             </FocusScope>
