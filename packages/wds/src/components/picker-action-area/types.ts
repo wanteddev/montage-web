@@ -1,9 +1,10 @@
+import type { TextButtonProps } from '../text-button/types';
 import type { Merge } from '@wanteddev/wds-engine';
-import type { ActionButtonProps } from '../action-area/types';
 
 export type PickerActionAreaButtonProps = Merge<
   {
     variant?: 'now' | 'cancel' | 'accept' | 'reset';
+    buttonVariant?: TextButtonProps['variant'];
   },
-  ActionButtonProps
+  TextButtonProps
 >;

@@ -242,7 +242,7 @@ export default Demo;`}
 - PickerActionArea를 통해 현재 시간을 선택하는 버튼과 적용하는 버튼을 커스텀 할 수 있어요.
 - `now`, `accept`, `cancel`, `reset` variant를 사용할 수 있어요.
 
-<Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -265,6 +265,29 @@ const Demo = () => {
           <PickerActionArea>
             <PickerActionAreaButton variant="cancel">취소</PickerActionAreaButton>
             <PickerActionAreaButton variant="reset">초기화</PickerActionAreaButton>
+          </PickerActionArea>
+        }
+      />
+
+      <TimePicker
+        width="300px"
+        placeholder="checkbox, 확인"
+        actionArea={
+          <PickerActionArea>
+            <FormField
+              gap="8px"
+              flexDirection="row"
+            >
+              <FormControl>
+                <Checkbox size="normal" />
+              </FormControl>
+              <FormLabel
+                sx={{ padding: "1px 0px" }}
+              >
+                텍스트
+              </FormLabel>
+            </FormField>
+            <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
           </PickerActionArea>
         }
       />
