@@ -6,6 +6,8 @@ type AccordionContextType = {
   expanded: boolean;
   disabled: boolean;
   onExpandedChange: (expanded: boolean) => void;
+  summaryId: string;
+  detailsId: string;
 };
 
 export const [AccordionProvider, useAccordionContext] =
