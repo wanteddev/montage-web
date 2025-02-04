@@ -1,0 +1,95 @@
+---
+title: SearchInput
+description: SearchInput Component
+---
+
+# SearchInput
+
+사용자가 컨텐츠를 검색을 할 수 있는 요소를 제공합니다.
+
+## 활용
+
+<Demo code={`import { SearchInput } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SearchInput placeholder="검색어를 입력해주세요." width="300px" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### SearchInput
+
+<PropsTable component="SearchInput" />
+
+## Example
+
+### Status
+
+disabled, readOnly 상태는 아래와 같이 렌더링됩니다.
+
+<Demo code={`import { SearchInput, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <SearchInput
+        placeholder="readOnly"
+        width="300px"
+        readOnly
+      />
+
+      <SearchInput
+        placeholder="readOnly"
+        value="readOnly, active"
+        width="300px"
+        readOnly
+      />
+
+      <SearchInput
+        placeholder="disabled"
+        disabled
+        width="300px"
+      />
+
+      <SearchInput
+        placeholder="disabled"
+        value="disabled, active"
+        disabled
+        width="300px"
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Size
+
+<Demo code={`import { SearchInput, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <SearchInput
+        placeholder="검색어를 입력해주세요. Medium"
+        width="300px"
+        size="medium"
+      />
+
+      <SearchInput
+        placeholder="검색어를 입력해주세요. Small"
+        width="300px"
+        size="small"
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

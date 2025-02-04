@@ -81,28 +81,28 @@ export const mdxRootStyle = (theme: Theme) => css`
     }
   }
 
-  table {
+  & > table,
+  table[data-role='props-table'] {
     margin: 20px 0px 30px 0px;
     min-width: 100%;
     border-radius: 8px;
     overflow: auto;
     border-collapse: collapse;
     border-spacing: 0;
-  }
-
-  th {
-    box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
-    color: ${theme.palette.label.strong};
-    background-color: ${theme.palette.background.elevated.alternative};
-    padding: 12px 16px;
-    text-align: left;
-    ${typographyStyle('body1_reading', 'bold')}
-  }
-  td {
-    padding: 12px 16px;
-    color: ${theme.palette.label.normal};
-    box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
-    text-align: left;
-    ${typographyStyle('body1_reading', 'regular')}
+    th {
+      box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
+      color: ${theme.palette.label.strong};
+      background-color: ${theme.palette.background.elevated.alternative};
+      padding: 12px 16px;
+      text-align: left;
+      ${typographyStyle('body1_reading', 'bold')}
+    }
+    td {
+      padding: 12px 16px;
+      color: ${theme.palette.label.normal};
+      box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
+      text-align: left;
+      ${typographyStyle('body1_reading', 'regular')}
+    }
   }
 `;

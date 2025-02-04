@@ -33,6 +33,10 @@ export const routes: Array<Route> = [
     label: 'Components',
     pages: [
       {
+        title: 'Accordion',
+        slug: '/docs/components/accordion',
+      },
+      {
         title: 'ActionArea',
         slug: '/docs/components/action-area',
       },
@@ -60,6 +64,7 @@ export const routes: Array<Route> = [
         title: 'CardList',
         slug: '/docs/components/card-list',
       },
+      { title: 'Category', slug: '/docs/components/category' },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
@@ -126,6 +131,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/pagination-counter',
       },
       { title: 'PaginationDot', slug: '/docs/components/pagination-dot' },
+      { title: 'PlayIconBadge', slug: '/docs/components/play-icon-badge' },
       { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },
       {
@@ -167,8 +173,16 @@ export const routes: Array<Route> = [
         title: 'ScrollArea',
         slug: '/docs/components/scroll-area',
       },
+      {
+        title: 'SearchInput',
+        slug: '/docs/components/search-input',
+      },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
+      {
+        title: 'SectionHeader',
+        slug: '/docs/components/section-header',
+      },
       {
         title: 'SectionMessage',
         slug: '/docs/components/section-message',
@@ -181,6 +195,7 @@ export const routes: Array<Route> = [
       { title: 'Slider', slug: '/docs/components/slider' },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
+      { title: 'Table', slug: '/docs/components/table' },
       { title: 'TextArea', slug: '/docs/components/text-area' },
       {
         title: 'TextButton',

@@ -76,7 +76,7 @@ const ListCell = forwardRef(
 
       active = false,
       disabled = false,
-      disableInteraction,
+      disableInteraction = false,
 
       textProps,
       leftContent,
