@@ -1,0 +1,280 @@
+---
+title: TimePicker
+description: TimePicker Component
+---
+
+# TimePicker
+
+시간을 입력할 때 사용합니다.
+
+## 활용
+
+- 키보드로 값을 제어할 수 있어요.
+- locale, timezone을 지정할 수 있어요.
+- 기본적으로 TextInput 컴포넌트를 사용해요.
+- 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
+
+<Demo code={`import { TimePicker, TimeViewActionArea, TimeViewNowActionAreaButton, TimeViewSubmitActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TimePicker
+      width="300px"
+      format="a h:mm"
+      actionArea={
+        <TimeViewActionArea>
+          <TimeViewNowActionAreaButton />
+          <TimeViewSubmitActionAreaButton />
+        </TimeViewActionArea>
+      }
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+### TimePicker
+
+<PropsTable component="TimePicker" />
+
+### TimeViewActionArea
+
+`ActionArea`와 동일한 props를 사용해요.
+
+<PropsTable component="TimeViewActionArea" />
+
+### TimeViewNowActionAreaButton
+
+`ActionAreaButton`과 동일한 props를 사용해요. 
+
+<PropsTable component="TimeViewNowActionAreaButton" />
+
+### TimeViewSubmitActionAreaButton
+
+`ActionAreaButton`과 동일한 props를 사용해요.
+
+<PropsTable component="TimeViewSubmitActionAreaButton" />
+
+## Examples
+
+### Format
+
+- input에 시간이 표시되는 format 을 지정할 수 있어요.
+- 12시간 형식일 경우 `a` 또는 `A`와 `h` 또는 `hh`를 함께 사용해주세요.
+- 24시간 형식일 경우 `H` 또는 `HH`만 사용해주세요.
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker width="300px" format="a hh:mm:ss" />
+      <TimePicker width="300px" format="a h:m:s" />
+      <TimePicker width="300px" format="HH:mm:ss" />
+      <TimePicker width="300px" format="H:m:s" />
+      <TimePicker width="300px" format="mm:ss" />
+      <TimePicker width="300px" format="m:s" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+- format과 placeholder를 커스텀할 수 있어요.
+- input 입력 시 format에서 시간 형식이 아닌 문자는 선택되지 않아요.
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker width="300px" format="a h:mm" placeholder="시간을 입력해 주세요." />
+      <TimePicker width="300px" format="a h시" placeholder="오전 12시" />
+      <TimePicker width="300px" format="a h시 m분 s초" />
+      <TimePicker width="300px" format="HH시" placeholder="00시" />
+      <TimePicker width="300px" format="HH시 mm분 ss초" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Locale, Timezone
+
+- Locale
+  - 기본적으로 locale은 `ko-KR` 으로 지정되어 있어요.
+  - [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) API 에서 지원하는 언어를 모두 import 없이 사용할 수 있어요.
+- Timezone
+  - 기본적으로 timezone은 사용자의 환경에 따라 결정돼요.
+  - [dayjs](https://day.js.org/docs/en/timezone/timezone) 에서 지원하는 timezone과 `UTC` 를 모두 import 없이 사용할 수 있어요.
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker width="300px" defaultValue={new Date()} locale="ko-KR" timezone="Asia/Seoul" />
+      <TimePicker width="300px" defaultValue={new Date()} locale="en-US" timezone="UTC" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Validation
+
+- 최소값과 최대값을 설정할 수 있어요.
+- 하지만 키보드 조작을 통해 범위를 벗어나는 값을 입력할 수 있어요.
+- Invalid date 상태를 가질 수 있어요.
+
+<Demo code={`import { TimePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+import { Controller, useForm } from 'react-hook-form';
+
+const minTime = new Date(new Date().setHours(10, 0, 0));
+const maxTime = new Date(new Date().setHours(17, 30, 0));
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      time: new Date(),
+    },
+    mode: 'onChange'
+  });
+
+  return (
+    <FlexBox as="form">
+      <Controller
+        control={form.control}
+        name="time"
+        rules={{
+          validate: (value) => {
+            if (isNaN(new Date(value).getTime())) {
+              return '유효한 날짜를 입력해주세요.';
+            }
+
+            if (new Date(value).getTime() < minTime.getTime()) {
+              return '최소 시간은 10시 이상이어야 합니다.';
+            }
+
+            if (new Date(value).getTime() > maxTime.getTime()) {
+              return '최대 시간은 17시 30분 이하이어야 합니다.';
+            }
+            
+          return true;
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>시간</FormLabel>
+
+            <FormControl>
+              <TimePicker
+                width="300px"
+                format="HH시 mm분"
+                minTime={minTime}
+                maxTime={maxTime}
+                inputRef={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                invalid={!!formState.errors.time}
+              />
+            </FormControl>
+
+            <FormErrorMessage>{formState.errors.time?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Customize
+
+- `TextInput` 컴포넌트 대신 커스텀 컴포넌트를 사용할 수 있어요.
+- react 18.3 미만의 버전을 사용 중이라면, `forwardRef` 를 필수로 작성해주세요.
+
+<Demo code={`import { TimePicker, TimePickerInputProps, ChipAction, FlexBox } from '@wanteddev/wds';
+import { forwardRef, useState } from 'react';
+
+const CustomChipField = forwardRef<HTMLDivElement, TimePickerInputProps>(
+  ({ value, onClick, ...props }, ref) => {
+    return (
+      <ChipAction ref={ref} onClick={onClick}>
+        {value || 'a hh:mm'}
+      </ChipAction>
+    )
+  }
+)
+
+const CustomInputField = forwardRef<HTMLDivElement, TimePickerInputProps>(
+  ({ rightContent, inputRef, ...props }, ref) => {
+    return (
+      <FlexBox ref={ref} gap="10px" alignItems="center">
+        <input ref={inputRef} {...props} />
+        {rightContent}
+      </FlexBox>
+    )
+  }
+)
+
+const Demo = () => {
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker
+        width="300px"
+        input={CustomChipField}
+        open={open1}
+        onOpenChange={setOpen1}
+        onClick={() => setOpen1(true)}
+      />
+      <TimePicker
+        width="300px"
+        input={CustomInputField}
+        open={open2}
+        onOpenChange={setOpen2}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### ActionArea
+
+- ActionArea에 현재 시간을 선택하는 버튼과 적용하는 버튼을 커스텀 할 수 있어요.
+- 현재 시간은 5분, 5초 단위로 선택 됩니다.
+
+<Demo code={`import { TimePicker, FlexBox, TimeViewActionArea, TimeViewNowActionAreaButton, TimeViewSubmitActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TimePicker
+      width="300px"
+      locale="en-US"
+      timezone="UTC"
+      actionArea={
+        <TimeViewActionArea>
+          <TimeViewNowActionAreaButton>Now</TimeViewNowActionAreaButton>
+          <TimeViewSubmitActionAreaButton>Submit</TimeViewSubmitActionAreaButton>
+        </TimeViewActionArea>
+      }
+    />
+  )
+}
+
+export default Demo;`}
+/>

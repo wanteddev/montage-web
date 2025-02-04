@@ -202,6 +202,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/text-button',
       },
       { title: 'TextInput', slug: '/docs/components/text-input' },
+      { title: 'TimePicker', slug: '/docs/components/time-picker' },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail', alpha: true },
       {
         title: 'ToggleIcon',
