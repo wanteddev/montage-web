@@ -25,6 +25,10 @@ export type DatePickerProps = Merge<
     inputRef?: Ref<HTMLInputElement>;
     input?: ElementType;
     actionArea?: ReactNode;
+    /**
+     * 마지막 요소를 선택 완료 했을 때 popover를 닫지 않습니다.
+     */
+    disableLastUnitClickClose?: boolean;
   },
   ComponentPropsWithoutRef<typeof DateCalendar> &
     Omit<TextInputProps, 'wrapperRef'>

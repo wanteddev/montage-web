@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -49,6 +49,7 @@ const TimePicker = forwardRef<
       invalid: originInvalid,
       input,
       inputRef: originInputRef,
+      disableLastUnitClickClose,
       actionArea,
       ...props
     },
@@ -94,6 +95,7 @@ const TimePicker = forwardRef<
       handleFocus,
       handleKeyDown,
       handlePaste,
+      handleValueChange,
       handleInputValueChange,
     } = useDateField({
       value,
@@ -113,11 +115,32 @@ const TimePicker = forwardRef<
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
-    const handleChangeComplete = useCallbackRef((v: DateType) => {
-      setValue(v);
-      onChangeComplete?.(v);
-      setOpen(false);
-    });
+    const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
+
+    const handleChangeComplete = useCallback(
+      (v: DateType) => {
+        handleValueChange(v);
+        handleChangeCompleteCallback(v);
+
+        if (!disableLastUnitClickClose) {
+          setOpen(false);
+        }
+      },
+      [
+        handleValueChange,
+        handleChangeCompleteCallback,
+        disableLastUnitClickClose,
+        setOpen,
+      ],
+    );
+
+    const handleChangeCompleteActionArea = useCallback(
+      (v: DateType) => {
+        handleChangeComplete(v);
+        setOpen(false);
+      },
+      [handleChangeComplete, setOpen],
+    );
 
     useEffect(() => {
       if (open) {
@@ -218,10 +241,7 @@ const TimePicker = forwardRef<
                     timezone={timezone}
                     readOnly={readOnly}
                     disabled={disabled}
-                    onChange={(v) => {
-                      setValue(v);
-                      handleInputValueChange();
-                    }}
+                    onChange={handleValueChange}
                     onChangeComplete={handleChangeComplete}
                   />
 
@@ -229,7 +249,7 @@ const TimePicker = forwardRef<
                     timezone={timezone}
                     value={value}
                     initialValue={initialValue}
-                    onChangeComplete={handleChangeComplete}
+                    onChangeComplete={handleChangeCompleteActionArea}
                   >
                     {actionArea}
                   </PickerActionAreaProvider>

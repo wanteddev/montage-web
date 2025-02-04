@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { IconCalendar } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
@@ -53,6 +53,7 @@ const DatePicker = forwardRef<
       input,
       actionArea,
       invalid: originInvalid,
+      disableLastUnitClickClose,
       ...props
     },
     forwardedRef,
@@ -112,11 +113,32 @@ const DatePicker = forwardRef<
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
-    const handleChangeComplete = useCallbackRef((v: DateType) => {
-      handleValueChange(v);
-      onChangeComplete?.(v);
-      setOpen(false);
-    });
+    const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
+
+    const handleChangeComplete = useCallback(
+      (v: DateType) => {
+        handleValueChange(v);
+        handleChangeCompleteCallback(v);
+
+        if (!disableLastUnitClickClose) {
+          setOpen(false);
+        }
+      },
+      [
+        handleValueChange,
+        handleChangeCompleteCallback,
+        disableLastUnitClickClose,
+        setOpen,
+      ],
+    );
+
+    const handleChangeCompleteActionArea = useCallback(
+      (v: DateType) => {
+        handleChangeComplete(v);
+        setOpen(false);
+      },
+      [handleChangeComplete, setOpen],
+    );
 
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
@@ -160,7 +182,10 @@ const DatePicker = forwardRef<
                 >
                   <IconButton
                     disabled={disabled || readOnly}
-                    onClick={() => setOpen((prev) => !prev)}
+                    onClick={() => {
+                      handleInputValueChange();
+                      setOpen((prev) => !prev);
+                    }}
                   >
                     <IconCalendar />
                   </IconButton>
@@ -215,10 +240,7 @@ const DatePicker = forwardRef<
                     onViewChange={onViewChange}
                     views={views}
                     value={value}
-                    onChange={(v) => {
-                      setValue(v);
-                      handleInputValueChange();
-                    }}
+                    onChange={handleValueChange}
                     readOnly={readOnly}
                     disabled={disabled}
                     yearsOrder={yearsOrder}
@@ -228,7 +250,7 @@ const DatePicker = forwardRef<
                     timezone={timezone}
                     value={value}
                     initialValue={initialValue}
-                    onChangeComplete={handleChangeComplete}
+                    onChangeComplete={handleChangeCompleteActionArea}
                   >
                     {actionArea}
                   </PickerActionAreaProvider>

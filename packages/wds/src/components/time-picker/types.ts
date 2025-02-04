@@ -27,6 +27,10 @@ export type TimePickerProps = Merge<
     >;
     onChange?: (date: DateType) => void;
     actionArea?: ReactNode;
+    /**
+     * 마지막 요소를 선택 완료 했을 때 popover를 닫지 않습니다.
+     */
+    disableLastUnitClickClose?: boolean;
   },
   ComponentPropsWithoutRef<typeof TimeView> & Omit<TextInputProps, 'wrapperRef'>
 >;
