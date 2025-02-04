@@ -1,6 +1,7 @@
 import {
   forwardRef,
   memo,
+  useCallback,
   useEffect,
   useId,
   useMemo,
@@ -49,7 +50,7 @@ import { TimeViewContextProvider, useTimeViewContext } from './contexts';
 import type { ActionAreaProps, ActionButtonProps } from '../action-area/types';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ElementRef } from 'react';
+import type { ElementRef, KeyboardEvent } from 'react';
 import type {
   HourType,
   TimeItemProps,
@@ -191,7 +192,7 @@ const TimeList = memo(
             sx={timeListScrollAreaStyle}
             data-role="time-list-scroll-area"
           >
-            <List sx={timeListStyle}>
+            <List data-role={`time-list-${view}`} sx={timeListStyle}>
               {timeList.map((time) => {
                 if (!time) return null;
 
@@ -230,7 +231,7 @@ const TimeItem = forwardRef<
   DefaultComponentProps<TimeItemProps, 'li'>
 >(({ value, active, order, view, children, ...props }, ref) => {
   const {
-    value: viewValue,
+    value: timeValue,
     disabled,
     readOnly,
     now,
@@ -238,6 +239,77 @@ const TimeItem = forwardRef<
     timezone,
     onChange,
   } = useTimeViewContext(TIME_ITEM_NAME);
+
+  const handleClick = useCallback(() => {
+    if (readOnly) return;
+
+    let newValue = timeValue ? dayjsTimezone(dayjs(timeValue), timezone) : now;
+
+    switch (view) {
+      case 'meridiem':
+        newValue = newValue.set(
+          'hour',
+          value === 0
+            ? newValue.hour() >= 12
+              ? newValue.hour() - 12
+              : newValue.hour()
+            : newValue.hour() < 12
+              ? newValue.hour() + 12
+              : newValue.hour(),
+        );
+        break;
+      case 'hour':
+        if (hourType === '12') {
+          newValue = newValue.hour(
+            value === 12
+              ? newValue.hour() >= 12
+                ? 12
+                : 0
+              : newValue.hour() >= 12
+                ? value + 12
+                : value,
+          );
+        } else {
+          newValue = newValue.hour(value);
+        }
+        break;
+      case 'minute':
+        newValue = newValue.minute(value);
+        break;
+      case 'second':
+        newValue = newValue.second(value);
+        break;
+    }
+
+    if (newValue.isValid()) {
+      onChange(dateTypeToDateObject(newValue, timezone));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hourType, timeValue, timezone, value]);
+
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+
+    const listWrapper = e.currentTarget.closest(
+      '[data-role="time-list-wrapper"]',
+    );
+    const currentScrollArea = e.currentTarget.closest(
+      '[data-role="time-list-scroll-area"]',
+    );
+
+    if (!listWrapper || !currentScrollArea) return;
+
+    const scrollAreaList = Array.from(
+      listWrapper.querySelectorAll('[data-role="time-list-scroll-area"]'),
+    );
+    const currentIndex = scrollAreaList.indexOf(currentScrollArea);
+    const moveIndex =
+      e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
+
+    if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
+      (scrollAreaList[moveIndex] as HTMLElement).focus();
+    }
+  }, []);
 
   return (
     <RovingFocusGroupItem
@@ -253,82 +325,15 @@ const TimeItem = forwardRef<
         active={active}
         value={value}
         aria-selected={active}
+        data-role={`time-item-${view}`}
         sx={timeItemStyle({
           active,
           disabled,
           order,
         })}
         {...props}
-        onClick={() => {
-          if (readOnly) return;
-
-          let newValue = viewValue
-            ? dayjsTimezone(dayjs(viewValue), timezone)
-            : now;
-
-          switch (view) {
-            case 'meridiem':
-              newValue = newValue.set(
-                'hour',
-                value === 0
-                  ? newValue.hour() >= 12
-                    ? newValue.hour() - 12
-                    : newValue.hour()
-                  : newValue.hour() < 12
-                    ? newValue.hour() + 12
-                    : newValue.hour(),
-              );
-              break;
-            case 'hour':
-              if (hourType === '12') {
-                newValue = newValue.hour(
-                  value === 12
-                    ? newValue.hour() >= 12
-                      ? 12
-                      : 0
-                    : newValue.hour() >= 12
-                      ? value + 12
-                      : value,
-                );
-              } else {
-                newValue = newValue.hour(value);
-              }
-              break;
-            case 'minute':
-              newValue = newValue.minute(value);
-              break;
-            case 'second':
-              newValue = newValue.second(value);
-              break;
-          }
-
-          if (newValue.isValid()) {
-            onChange(dateTypeToDateObject(newValue, timezone));
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-
-          const listWrapper = e.currentTarget.closest(
-            '[data-role="time-list-wrapper"]',
-          );
-          const currentScrollArea = e.currentTarget.closest(
-            '[data-role="time-list-scroll-area"]',
-          );
-
-          if (!listWrapper || !currentScrollArea) return;
-
-          const scrollAreaList = Array.from(
-            listWrapper.querySelectorAll('[data-role="time-list-scroll-area"]'),
-          );
-          const currentIndex = scrollAreaList.indexOf(currentScrollArea);
-          const moveIndex =
-            e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
-
-          if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
-            (scrollAreaList[moveIndex] as HTMLElement).focus();
-          }
-        }}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
       >
         {children}
       </ListCell>
