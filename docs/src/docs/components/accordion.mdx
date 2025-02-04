@@ -44,6 +44,7 @@ export default Demo;`}
     <AccordionDescription>
       내용
     </AccordionDescription>
+    <AccordionContent />
   </AccordionDetails>
 </Accordion>
 ```
@@ -73,6 +74,12 @@ export default Demo;`}
 `Typography`와 동일한 props를 사용해요.
 
 <PropsTable component="AccordionDescription" />
+
+### AccordionContent
+
+`Box`와 동일한 props를 사용해요.
+
+<PropsTable component="AccordionContent" />
 
 ## Examples
 
@@ -288,11 +295,88 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Content
+### Nested Accordion  
 
-추가 콘텐츠를 넣을 수 있어요.
+- Accordion을 중첩해서 사용할 수 있어요.
+- 하위 Accordion은 `disableInteraction`과 함께 사용하면 자연스러운 동작으로 열고 닫을 수 있어요.
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, ListCellContent } from '@wanteddev/wds';
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <div>
+      <Accordion>
+        <AccordionSummary>
+          제목
+        </AccordionSummary>
+        <AccordionDetails>
+          <Accordion divider={false}>
+            <AccordionSummary padding="12px" disableInteraction>
+              하위 메뉴
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion divider={false}>
+            <AccordionSummary padding="12px" disableInteraction>
+              하위 메뉴
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary>
+          제목
+        </AccordionSummary>
+        <AccordionDetails>
+          <Accordion divider={false}>
+            <AccordionSummary padding="12px" disableInteraction>
+              하위 메뉴
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion divider={false}>
+            <AccordionSummary padding="12px" disableInteraction>
+              하위 메뉴
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  )
+}
+
+export default Demo;`}
+/>
+
+### AccordionContent
+
+콘텐츠를 추가할 수 있어요.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionContent, TextButton } from '@wanteddev/wds';
+import { IconExternalLink } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
@@ -305,7 +389,15 @@ const Demo = () => {
           제목에 대한 상세 내용을 입력해주세요.<br />
           긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
         </AccordionDescription>
-       추가 콘텐츠 입니다.
+        <AccordionContent>
+          <TextButton
+            size="small"
+            variant="assistive"
+            rightContent={<IconExternalLink />}
+          >
+            자세히 알아보기
+          </TextButton>
+        </AccordionContent>
       </AccordionDetails>
     </Accordion>
   )

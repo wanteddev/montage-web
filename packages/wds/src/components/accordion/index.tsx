@@ -1,14 +1,15 @@
 import { Box } from '@wanteddev/wds-engine';
-import { forwardRef, useEffect, useId, useRef } from 'react';
+import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { IconChevronDown } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ListCell, ListCellContent } from '../list';
 import Typography from '../typography';
-import { Divider, FlexBox, useComposedRefs } from '../..';
+import { Divider, FlexBox, useComposedRefs, useSize } from '../..';
 
 import {
+  ACCORDION_CONTENT_NAME,
   ACCORDION_DESCRIPTION_NAME,
   ACCORDION_DETAILS_NAME,
   ACCORDION_NAME,
@@ -17,18 +18,30 @@ import {
 } from './constants';
 import { AccordionProvider, useAccordionContext } from './contexts';
 import {
+  accordionContentStyle,
   accordionDetailsStyle,
   accordionDetailsWrapperStyle,
   accordionDividerStyle,
   accordionStyle,
   accordionSummaryContentStyle,
+  accordionSummaryStyle,
   accordionSummaryTextStyle,
 } from './style';
 
+import type {
+  ComponentPropsWithoutRef,
+  ElementType,
+  ForwardedRef,
+  PropsWithChildren,
+} from 'react';
 import type { ListCellProps } from '../list/types';
 import type { TypographyProps } from '../typography/types';
 import type { AccordionProps, AccordionSummaryContentProps } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 
 const Accordion = forwardRef<
   HTMLDivElement,
@@ -83,56 +96,72 @@ Accordion.displayName = ACCORDION_NAME;
 const AccordionSummary = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ListCellProps, 'div'>
->(({ disabled, children, rightContent, textProps, ...props }, ref) => {
-  const {
-    expanded,
-    disabled: accordionDisabled,
-    onExpandedChange,
-    detailsId,
-    summaryId,
-  } = useAccordionContext(ACCORDION_SUMMARY_NAME);
+>(
+  (
+    {
+      disabled: givenDisabled,
+      children,
+      rightContent,
+      textProps,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
+    const {
+      expanded,
+      disabled: accordionDisabled,
+      onExpandedChange,
+      detailsId,
+      summaryId,
+    } = useAccordionContext(ACCORDION_SUMMARY_NAME);
 
-  return (
-    <ListCell
-      ref={ref}
-      wds-component="accordion-summary"
-      as="div"
-      padding="16px"
-      disabled={accordionDisabled || disabled}
-      disableInteraction={accordionDisabled || disabled}
-      aria-expanded={expanded}
-      aria-controls={detailsId}
-      id={summaryId}
-      rightContent={
-        rightContent ?? (
-          <AccordionSummaryContent
-            variant="icon"
-            data-role="accordion-summary-expand-icon"
-          >
-            <IconChevronDown
-              sx={(theme) => ({
-                color: theme.palette.label.normal,
-              })}
-            />
-          </AccordionSummaryContent>
-        )
-      }
-      textProps={{
-        variant: 'body2_normal',
-        weight: 'bold',
-        ...textProps,
-        sx: [accordionSummaryTextStyle, textProps?.sx],
-      }}
-      {...props}
-      onClick={composeEventHandlers(props.onClick, (e) => {
-        onExpandedChange(!expanded);
-        e.preventDefault();
-      })}
-    >
-      {children}
-    </ListCell>
-  );
-});
+    const disabled = givenDisabled || accordionDisabled;
+
+    return (
+      <ListCell
+        ref={ref}
+        wds-component="accordion-summary"
+        as="div"
+        role="button"
+        padding="16px"
+        disabled={disabled}
+        disableInteraction={disabled}
+        aria-expanded={expanded}
+        aria-controls={detailsId}
+        id={summaryId}
+        rightContent={
+          rightContent ?? (
+            <AccordionSummaryContent
+              variant="icon"
+              data-role="accordion-summary-expand-icon"
+            >
+              <IconChevronDown
+                sx={(theme) => ({
+                  color: theme.palette.label.normal,
+                })}
+              />
+            </AccordionSummaryContent>
+          )
+        }
+        textProps={{
+          variant: 'body2_normal',
+          weight: 'bold',
+          ...textProps,
+          sx: [accordionSummaryTextStyle, textProps?.sx],
+        }}
+        {...props}
+        sx={[accordionSummaryStyle({ disabled }), sx]}
+        onClick={composeEventHandlers(props.onClick, (e) => {
+          onExpandedChange(!expanded);
+          e.preventDefault();
+        })}
+      >
+        {children}
+      </ListCell>
+    );
+  },
+);
 
 AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 
@@ -165,8 +194,10 @@ const AccordionDetails = forwardRef<
   );
 
   const ref = useRef<HTMLDivElement>(null);
-
   const composedRefs = useComposedRefs(forwardedRef, ref);
+
+  const [wrapperNode, setWrapperNode] = useState<HTMLDivElement | null>(null);
+  const { height = 0 } = useSize(wrapperNode) ?? {};
 
   useEffect(() => {
     if (ref.current) {
@@ -201,6 +232,38 @@ const AccordionDetails = forwardRef<
     }
   }, [expanded]);
 
+  useEffect(() => {
+    if (!ref.current || !wrapperNode) return;
+
+    const element = ref.current;
+
+    if (expanded) {
+      element.style.overflow = 'hidden';
+      element.style.height = `${height}px`;
+    } else {
+      element.style.height = `${height}px`;
+      element.style.overflow = 'hidden';
+
+      requestAnimationFrame(() => {
+        element.style.height = '0px';
+      });
+    }
+
+    const handleTransitionEnd = () => {
+      if (expanded) {
+        element.style.height = 'auto';
+        element.style.overflow = 'visible';
+      }
+    };
+
+    element.addEventListener('transitionend', handleTransitionEnd);
+
+    return () => {
+      element.removeEventListener('transitionend', handleTransitionEnd);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expanded]);
+
   return (
     <Box
       ref={composedRefs}
@@ -209,16 +272,15 @@ const AccordionDetails = forwardRef<
       aria-hidden={!expanded}
       id={detailsId}
       {...props}
-      sx={[accordionDetailsStyle({ expanded }), sx]}
+      sx={[accordionDetailsStyle, sx]}
     >
-      <div>
-        <FlexBox
-          data-role="accordion-details-wrapper"
-          sx={accordionDetailsWrapperStyle}
-        >
-          {children}
-        </FlexBox>
-      </div>
+      <FlexBox
+        ref={setWrapperNode}
+        data-role="accordion-details-wrapper"
+        sx={accordionDetailsWrapperStyle}
+      >
+        {children}
+      </FlexBox>
     </Box>
   );
 });
@@ -243,10 +305,29 @@ const AccordionDescription = forwardRef<
 
 AccordionDescription.displayName = ACCORDION_DESCRIPTION_NAME;
 
+const AccordionContent = forwardRef(
+  <E extends ElementType = 'div'>(
+    { sx, ...props }: PolymorphicProps<PropsWithChildren, E>,
+    ref: ForwardedRef<E>,
+  ) => {
+    return (
+      <Box
+        wds-component="accordion-content"
+        ref={ref}
+        {...props}
+        sx={[accordionContentStyle, sx]}
+      />
+    );
+  },
+) as PolymorphicComponent<ComponentPropsWithoutRef<typeof Box>, 'div'>;
+
+AccordionContent.displayName = ACCORDION_CONTENT_NAME;
+
 export {
   Accordion,
   AccordionSummary,
   AccordionSummaryContent,
   AccordionDetails,
   AccordionDescription,
+  AccordionContent,
 };
