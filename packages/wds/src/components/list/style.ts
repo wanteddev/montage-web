@@ -189,21 +189,21 @@ const listCellContentSizeStyle = ({
   height,
 }: Pick<ListCellContentProps, 'height'>) => {
   switch (height) {
-    case 'medium':
+    case '40px':
       return css`
         min-width: 40px;
         max-width: max-content;
         height: 40px;
       `;
 
-    case 'large':
+    case '56px':
       return css`
         min-width: 56px;
         max-width: max-content;
         height: 56px;
       `;
 
-    case 'normal':
+    case '24px':
     default:
       return css`
         min-width: 24px;
