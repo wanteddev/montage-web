@@ -6,6 +6,7 @@ import type {
   ComponentProps,
   ComponentPropsWithoutRef,
   ElementType,
+  ReactNode,
   Ref,
 } from 'react';
 import type { DateType } from '../date-picker';
@@ -25,6 +26,11 @@ export type TimePickerProps = Merge<
       ComponentPropsWithoutRef<typeof FocusScope>
     >;
     onChange?: (date: DateType) => void;
+    actionArea?: ReactNode;
+    /**
+     * 마지막 요소를 선택 완료 했을 때 popover를 닫지 않습니다.
+     */
+    disableLastUnitClickClose?: boolean;
   },
   ComponentPropsWithoutRef<typeof TimeView> & Omit<TextInputProps, 'wrapperRef'>
 >;

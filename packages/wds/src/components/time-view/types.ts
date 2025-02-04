@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react';
 import type { DateType } from '../date-picker';
 
 export type TimeViewType = 'meridiem' | 'hour' | 'minute' | 'second';
@@ -13,7 +12,6 @@ export type TimeViewProps = {
   timezone?: string;
   readOnly?: boolean;
   disabled?: boolean;
-  actionArea?: ReactNode;
   onChange?: (value: DateType) => void;
   onChangeComplete?: (value: DateType) => void;
 };
@@ -23,14 +21,14 @@ export type TimeListProps = {
   timezone?: string;
   locale?: string;
   value: DateType;
-  order: 'first' | 'last' | 'middle' | 'single';
+  variant: 'first' | 'last' | 'middle' | 'single';
 };
 
 export type TimeItemProps = {
   view: TimeViewType;
   value: number;
   active: boolean;
-  order: TimeListProps['order'];
+  variant: TimeListProps['variant'];
 };
 
 export type HourType = '12' | '24';

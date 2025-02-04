@@ -70,12 +70,13 @@ export const useDateField = ({
       isTriggeredChange.current = true;
       setInputValue(newInputValue);
       setSections(getDateformatSections(newInputValue, format, locale));
+      setValue(v);
 
       if (focusedSection) {
         setFocusedSection(sections[focusedSection.index]);
       }
     },
-    [focusedSection, format, locale, sections, timezone],
+    [focusedSection, format, locale, sections, setValue, timezone],
   );
 
   const handleInputValueChange = useCallback(() => {

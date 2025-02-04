@@ -31,6 +31,14 @@ export default Demo;`}
 
 <PropsTable component="DatePicker" />
 
+### PickerActionArea
+
+<PropsTable component="PickerActionArea" />
+
+### PickerActionAreaButton
+
+<PropsTable component="PickerActionAreaButton" />
+
 ## Example
 
 ### Format
@@ -126,7 +134,7 @@ const Demo = () => {
               <DatePicker
                 min={minDate}
                 max={maxDate}
-                format="YYYY.MMM.DD"
+                format="YYYY.MM.DD"
                 width="300px"
                 inputRef={field.ref}
                 value={field.value}
@@ -156,7 +164,7 @@ export default Demo;`}
 import { forwardRef, useState } from 'react';
 
 const CustomChipField = forwardRef<HTMLDivElement, DatePickerInputProps>(
-  ({ value, onClick, ...props }, ref) => {
+  ({ value, onClick, inputRef, invalid, ...props }, ref) => {
     return (
       <ChipAction ref={ref} onClick={onClick}>
         {value || 'YYYY.MM.DD'}
@@ -166,7 +174,7 @@ const CustomChipField = forwardRef<HTMLDivElement, DatePickerInputProps>(
 )
 
 const CustomInputField = forwardRef<HTMLDivElement, DatePickerInputProps>(
-  ({ rightContent, inputRef, ...props }, ref) => {
+  ({ rightContent, inputRef, invalid, ...props }, ref) => {
     return (
       <FlexBox ref={ref} gap="10px" alignItems="center">
         <input ref={inputRef} {...props} />
@@ -194,6 +202,70 @@ const Demo = () => {
         input={CustomInputField}
         open={open2}
         onOpenChange={setOpen2}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### ActionArea
+
+- PickerActionArea를 통해 현재 시간을 선택하는 버튼과 적용하는 버튼을 커스텀 할 수 있어요.
+- `now`, `accept`, `cancel`, `reset` variant를 사용할 수 있어요.
+
+<Demo code={`import { DatePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <DatePicker
+        width="300px"
+        placeholder="현재, 확인"
+        actionArea={
+          <PickerActionArea>
+            <PickerActionAreaButton variant="now">현재</PickerActionAreaButton>
+            <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
+          </PickerActionArea>
+        }
+      />
+
+      <DatePicker
+        width="300px"
+        placeholder="취소, 초기화"
+        actionArea={
+          <PickerActionArea>
+            <PickerActionAreaButton variant="cancel">취소</PickerActionAreaButton>
+            <PickerActionAreaButton variant="reset">초기화</PickerActionAreaButton>
+          </PickerActionArea>
+        }
+      />
+
+
+      <DatePicker
+        width="300px"
+        placeholder="checkbox, 확인"
+        disableLastUnitClickClose
+        actionArea={
+          <PickerActionArea>
+            <FormField
+              gap="8px"
+              flexDirection="row"
+            >
+              <FormControl>
+                <Checkbox size="normal" />
+              </FormControl>
+              <FormLabel
+                sx={{ padding: "1px 0px" }}
+              >
+                텍스트
+              </FormLabel>
+            </FormField>
+            <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
+          </PickerActionArea>
+        }
       />
     </FlexBox>
   )

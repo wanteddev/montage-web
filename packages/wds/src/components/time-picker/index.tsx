@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -12,10 +12,13 @@ import { Popper, PopperAnchor, PopperContent } from '../popper';
 import FocusScope from '../focus-scope';
 import DismissableLayer from '../dismissable-layer';
 import { useDateField } from '../date-picker/hooks';
-import { TimeView } from '../time-view';
+import TimeView from '../time-view';
+import FlexBox from '../flex-box';
+import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
+import { timePickerStyle } from './style';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { TimePickerInputProps, TimePickerProps } from './types';
@@ -46,6 +49,7 @@ const TimePicker = forwardRef<
       invalid: originInvalid,
       input,
       inputRef: originInputRef,
+      disableLastUnitClickClose,
       actionArea,
       ...props
     },
@@ -65,6 +69,8 @@ const TimePicker = forwardRef<
       defaultProp: defaultValue,
       onChange,
     });
+
+    const initialValue = useRef(value);
 
     const {
       loop,
@@ -89,6 +95,7 @@ const TimePicker = forwardRef<
       handleFocus,
       handleKeyDown,
       handlePaste,
+      handleValueChange,
       handleInputValueChange,
     } = useDateField({
       value,
@@ -108,11 +115,39 @@ const TimePicker = forwardRef<
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
-    const handleChangeComplete = useCallbackRef((v: DateType) => {
-      setValue(v);
-      onChangeComplete?.(v);
-      setOpen(false);
-    });
+    const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
+
+    const handleChangeComplete = useCallback(
+      (v: DateType) => {
+        handleValueChange(v);
+        handleChangeCompleteCallback(v);
+
+        if (!disableLastUnitClickClose) {
+          setOpen(false);
+        }
+      },
+      [
+        handleValueChange,
+        handleChangeCompleteCallback,
+        disableLastUnitClickClose,
+        setOpen,
+      ],
+    );
+
+    const handleChangeCompleteActionArea = useCallback(
+      (v: DateType) => {
+        handleChangeComplete(v);
+        setOpen(false);
+      },
+      [handleChangeComplete, setOpen],
+    );
+
+    useEffect(() => {
+      if (open) {
+        initialValue.current = value;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open]);
 
     return (
       <Popper>
@@ -169,6 +204,7 @@ const TimePicker = forwardRef<
             {...otherContentProps}
             position={position}
             offset={offset}
+            sx={[timePickerStyle, otherContentProps.sx]}
           >
             <FocusScope
               loop={loop}
@@ -194,23 +230,30 @@ const TimePicker = forwardRef<
                   setOpen(false);
                 }}
               >
-                <TimeView
-                  value={value}
-                  defaultValue={defaultValue}
-                  views={views}
-                  minTime={minTime}
-                  maxTime={maxTime}
-                  locale={locale}
-                  timezone={timezone}
-                  readOnly={readOnly}
-                  disabled={disabled}
-                  actionArea={actionArea}
-                  onChange={(v) => {
-                    setValue(v);
-                    handleInputValueChange();
-                  }}
-                  onChangeComplete={handleChangeComplete}
-                />
+                <FlexBox flexDirection="column" data-role="time-picker-wrapper">
+                  <TimeView
+                    value={value}
+                    defaultValue={defaultValue}
+                    views={views}
+                    minTime={minTime}
+                    maxTime={maxTime}
+                    locale={locale}
+                    timezone={timezone}
+                    readOnly={readOnly}
+                    disabled={disabled}
+                    onChange={handleValueChange}
+                    onChangeComplete={handleChangeComplete}
+                  />
+
+                  <PickerActionAreaProvider
+                    timezone={timezone}
+                    value={value}
+                    initialValue={initialValue}
+                    onChangeComplete={handleChangeCompleteActionArea}
+                  >
+                    {actionArea}
+                  </PickerActionAreaProvider>
+                </FlexBox>
               </DismissableLayer>
             </FocusScope>
           </PopperContent>
