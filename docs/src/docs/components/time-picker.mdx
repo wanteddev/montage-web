@@ -14,19 +14,13 @@ description: TimePicker Component
 - 기본적으로 TextInput 컴포넌트를 사용해요.
 - 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
 
-<Demo code={`import { TimePicker, TimeViewActionArea, TimeViewNowActionAreaButton, TimeViewSubmitActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { TimePicker } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <TimePicker
       width="300px"
       format="a h:mm"
-      actionArea={
-        <TimeViewActionArea>
-          <TimeViewNowActionAreaButton />
-          <TimeViewSubmitActionAreaButton />
-        </TimeViewActionArea>
-      }
     />
   )
 }
@@ -40,23 +34,13 @@ export default Demo;`}
 
 <PropsTable component="TimePicker" />
 
-### TimeViewActionArea
+### PickerActionArea
 
-`ActionArea`와 동일한 props를 사용해요.
+<PropsTable component="PickerActionArea" />
 
-<PropsTable component="TimeViewActionArea" />
+### PickerActionAreaButton
 
-### TimeViewNowActionAreaButton
-
-`ActionAreaButton`과 동일한 props를 사용해요. 
-
-<PropsTable component="TimeViewNowActionAreaButton" />
-
-### TimeViewSubmitActionAreaButton
-
-`ActionAreaButton`과 동일한 props를 사용해요.
-
-<PropsTable component="TimeViewSubmitActionAreaButton" />
+<PropsTable component="PickerActionAreaButton" />
 
 ## Examples
 
@@ -206,7 +190,7 @@ export default Demo;`}
 import { forwardRef, useState } from 'react';
 
 const CustomChipField = forwardRef<HTMLDivElement, TimePickerInputProps>(
-  ({ value, onClick, ...props }, ref) => {
+  ({ value, onClick, inputRef, invalid, ...props }, ref) => {
     return (
       <ChipAction ref={ref} onClick={onClick}>
         {value || 'a hh:mm'}
@@ -216,7 +200,7 @@ const CustomChipField = forwardRef<HTMLDivElement, TimePickerInputProps>(
 )
 
 const CustomInputField = forwardRef<HTMLDivElement, TimePickerInputProps>(
-  ({ rightContent, inputRef, ...props }, ref) => {
+  ({ rightContent, inputRef, invalid, ...props }, ref) => {
     return (
       <FlexBox ref={ref} gap="10px" alignItems="center">
         <input ref={inputRef} {...props} />
@@ -255,24 +239,60 @@ export default Demo;`}
 
 ### ActionArea
 
-- ActionArea에 현재 시간을 선택하는 버튼과 적용하는 버튼을 커스텀 할 수 있어요.
-- 현재 시간은 5분, 5초 단위로 선택 됩니다.
+- PickerActionArea를 통해 현재 시간을 선택하는 버튼과 적용하는 버튼을 커스텀 할 수 있어요.
+- `now`, `accept`, `cancel`, `reset` variant를 사용할 수 있어요.
 
-<Demo code={`import { TimePicker, FlexBox, TimeViewActionArea, TimeViewNowActionAreaButton, TimeViewSubmitActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <TimePicker
-      width="300px"
-      locale="en-US"
-      timezone="UTC"
-      actionArea={
-        <TimeViewActionArea>
-          <TimeViewNowActionAreaButton>Now</TimeViewNowActionAreaButton>
-          <TimeViewSubmitActionAreaButton>Submit</TimeViewSubmitActionAreaButton>
-        </TimeViewActionArea>
-      }
-    />
+    <FlexBox flexDirection="column" gap="20px">
+      <TimePicker
+        width="300px"
+        placeholder="현재, 확인"
+        actionArea={
+          <PickerActionArea>
+            <PickerActionAreaButton variant="now">현재</PickerActionAreaButton>
+            <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
+          </PickerActionArea>
+        }
+      />
+
+      <TimePicker
+        width="300px"
+        placeholder="취소, 초기화"
+        actionArea={
+          <PickerActionArea>
+            <PickerActionAreaButton variant="cancel">취소</PickerActionAreaButton>
+            <PickerActionAreaButton variant="reset">초기화</PickerActionAreaButton>
+          </PickerActionArea>
+        }
+      />
+
+      <TimePicker
+        width="300px"
+        placeholder="checkbox, 확인"
+        disableLastUnitClickClose
+        actionArea={
+          <PickerActionArea>
+            <FormField
+              gap="8px"
+              flexDirection="row"
+            >
+              <FormControl>
+                <Checkbox size="normal" />
+              </FormControl>
+              <FormLabel
+                sx={{ padding: "1px 0px" }}
+              >
+                텍스트
+              </FormLabel>
+            </FormField>
+            <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
+          </PickerActionArea>
+        }
+      />
+    </FlexBox>
   )
 }
 

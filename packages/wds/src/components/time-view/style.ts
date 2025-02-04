@@ -5,29 +5,10 @@ import { addOpacity } from '../../utils';
 import type { TimeListProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const timeViewStyle = (theme: Theme) => css`
-  width: max-content;
-  height: 324px;
+export const timeViewStyle = css`
   max-height: 324px;
-  border-radius: 12px;
-  background-color: ${theme.palette.background.elevated.normal};
-  flex-direction: column;
-  box-shadow: 0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.04)};
-
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
-    pointer-events: none;
-  }
-
-  [data-role='time-list-wrapper'] {
-    padding: 0 8px;
-    flex: 1;
-    overflow: hidden;
-  }
+  padding: 0 8px;
+  overflow: hidden;
 `;
 
 export const timeListStyle = () => css`
@@ -37,21 +18,6 @@ export const timeListStyle = () => css`
     content: '';
     display: block;
     min-height: calc(100% - 32px);
-  }
-`;
-
-export const timeViewActionAreaStyle = (theme: Theme) => css`
-  --wds-action-area-margin-x: 18px;
-  --wds-action-area-margin-y: 2px;
-
-  background-color: ${theme.palette.background.elevated.normal};
-  border-top: 1px solid ${theme.palette.line.solid.alternative};
-
-  [data-role='action-area-wrapper'] {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 24px;
   }
 `;
 
@@ -76,25 +42,25 @@ export const timeItemStyle =
   ({
     active,
     disabled,
-    order,
-  }: { active: boolean; disabled: boolean } & Pick<TimeListProps, 'order'>) =>
+    variant,
+  }: { active: boolean; disabled: boolean } & Pick<TimeListProps, 'variant'>) =>
   (theme: Theme) => css`
     text-align: center;
     padding-left: 0;
     padding-right: 0;
     width: 60px;
 
-    ${order === 'first'
+    ${variant === 'first'
       ? css`
           border-top-left-radius: 8px;
           border-bottom-left-radius: 8px;
         `
-      : order === 'last'
+      : variant === 'last'
         ? css`
             border-top-right-radius: 8px;
             border-bottom-right-radius: 8px;
           `
-        : order === 'single' &&
+        : variant === 'single' &&
           css`
             border-radius: 8px;
           `};
