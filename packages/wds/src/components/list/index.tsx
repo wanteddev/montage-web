@@ -225,7 +225,7 @@ const ListCellContent = forwardRef<
       case 'large-icon':
         return (
           <FlexBox
-            wds-component="list-item-content"
+            wds-component="list-cell-content"
             alignItems={alignItems}
             ref={ref}
             {...props}
@@ -241,7 +241,7 @@ const ListCellContent = forwardRef<
       case 'button':
         return (
           <FlexBox
-            wds-component="list-item-content"
+            wds-component="list-cell-content"
             alignItems={alignItems}
             ref={ref}
             {...props}
@@ -259,7 +259,7 @@ const ListCellContent = forwardRef<
       case 'icon-button':
         return (
           <FlexBox
-            wds-component="list-item-content"
+            wds-component="list-cell-content"
             alignItems={alignItems}
             ref={ref}
             {...props}
@@ -279,7 +279,7 @@ const ListCellContent = forwardRef<
           <FlexBox
             role="button"
             alignItems={alignItems}
-            wds-component="list-item-content"
+            wds-component="list-cell-content"
             gap="8px"
             ref={ref}
             tabIndex={props.onClick ? 0 : -1}
@@ -325,7 +325,7 @@ const ListCellContent = forwardRef<
       default:
         return (
           <FlexBox
-            wds-component="list-item-content"
+            wds-component="list-cell-content"
             alignItems={alignItems}
             ref={ref}
             {...props}
