@@ -1,29 +1,29 @@
-import { forwardRef, useRef } from 'react';
-import { IconCalendar } from '@wanteddev/wds-icon';
+import { forwardRef, useMemo, useRef } from 'react';
+import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { TextInput, TextInputContent } from '../text-input';
 import IconButton from '../icon-button';
-import DateCalendar from '../date-calendar';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import DismissableLayer from '../dismissable-layer';
 import FocusScope from '../focus-scope';
-import FlexBox from '../flex-box';
+import DismissableLayer from '../dismissable-layer';
+import { useDateField } from '../date-picker/hooks';
+import { TimeView } from '../time-view';
 
-import { datePopperStyle } from './style';
-import { useDateField } from './hooks';
+import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
+import { sectionsToViews } from './helpers';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { DatePickerInputProps, DatePickerProps } from './types';
-import type { DateType } from '../date-calendar/types';
+import type { TimePickerInputProps, TimePickerProps } from './types';
+import type { DateType } from '../date-picker';
 
-const DatePicker = forwardRef<
+const TimePicker = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DatePickerProps, 'input'>
+  DefaultComponentProps<TimePickerProps, 'input'>
 >(
   (
     {
@@ -35,23 +35,18 @@ const DatePicker = forwardRef<
       defaultOpen,
       open: originOpen,
       onOpenChange,
-      defaultView,
-      view,
-      views,
-      onViewChange,
+      onChangeComplete,
       contentProps,
-      format = 'YYYY.MM.DD',
+      format = 'a hh:mm',
       placeholder = format,
-      min,
-      max,
       locale = 'ko-KR',
       timezone,
-      onChangeComplete,
-      inputRef: originInputRef,
-      yearsOrder,
-      input,
-      actionArea,
+      minTime,
+      maxTime,
       invalid: originInvalid,
+      input,
+      inputRef: originInputRef,
+      actionArea,
       ...props
     },
     forwardedRef,
@@ -68,7 +63,7 @@ const DatePicker = forwardRef<
     const [value, setValue] = useControllableState({
       prop: originValue,
       defaultProp: defaultValue,
-      onChange: onChange,
+      onChange,
     });
 
     const {
@@ -78,13 +73,14 @@ const DatePicker = forwardRef<
       onMountAutoFocus,
       onUnmountAutoFocus,
       position = 'top-start',
-      offset = 8,
+      offset,
       ...otherContentProps
     } = contentProps || {};
 
-    const Component = input ?? DatePickerInput;
+    const Component = input ?? TimePickerInput;
 
     const {
+      sections,
       inputRef,
       inputValue,
       focusedSection,
@@ -93,7 +89,6 @@ const DatePicker = forwardRef<
       handleFocus,
       handleKeyDown,
       handlePaste,
-      handleValueChange,
       handleInputValueChange,
     } = useDateField({
       value,
@@ -105,17 +100,19 @@ const DatePicker = forwardRef<
       disabled,
     });
 
+    const composedInputRef = useComposedRefs(originInputRef, inputRef);
+
+    const views = useMemo(() => sectionsToViews(sections), [sections]);
+
     const invalid =
       originInvalid ||
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
     const handleChangeComplete = useCallbackRef((v: DateType) => {
-      handleValueChange(v);
+      setValue(v);
       onChangeComplete?.(v);
       setOpen(false);
     });
-
-    const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
     return (
       <Popper>
@@ -127,7 +124,7 @@ const DatePicker = forwardRef<
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
           aria-expanded={open}
-          data-role="date-picker-input"
+          data-role="time-picker-input"
           {...props}
           {...({
             readOnly,
@@ -145,14 +142,18 @@ const DatePicker = forwardRef<
               <>
                 {props.rightContent}
                 <TextInputContent
-                  data-role="date-picker-calendar-icon"
+                  data-role="time-picker-clock-icon"
                   variant="icon-button"
                 >
                   <IconButton
+                    size={22}
                     disabled={disabled || readOnly}
-                    onClick={() => setOpen((prev) => !prev)}
+                    onClick={() => {
+                      handleInputValueChange();
+                      setOpen(!open);
+                    }}
                   >
-                    <IconCalendar />
+                    <IconClock />
                   </IconButton>
                 </TextInputContent>
               </>
@@ -168,7 +169,6 @@ const DatePicker = forwardRef<
             {...otherContentProps}
             position={position}
             offset={offset}
-            sx={[datePopperStyle, otherContentProps.sx]}
           >
             <FocusScope
               loop={loop}
@@ -183,39 +183,34 @@ const DatePicker = forwardRef<
                   if (
                     ref.current?.contains(e.target as HTMLElement) &&
                     (e.target as HTMLElement).closest(
-                      '[data-role="date-picker-calendar-icon"]',
+                      '[data-role="time-picker-clock-icon"]',
                     )
                   ) {
                     e.preventDefault();
                   }
                 }}
                 onDismiss={() => {
+                  handleBlur();
                   setOpen(false);
                 }}
               >
-                <FlexBox flexDirection="column">
-                  <DateCalendar
-                    min={min}
-                    max={max}
-                    timezone={timezone}
-                    locale={locale}
-                    onChangeComplete={handleChangeComplete}
-                    view={view}
-                    defaultView={defaultView}
-                    onViewChange={onViewChange}
-                    views={views}
-                    value={value}
-                    onChange={(v) => {
-                      setValue(v);
-                      handleInputValueChange();
-                    }}
-                    readOnly={readOnly}
-                    disabled={disabled}
-                    yearsOrder={yearsOrder}
-                  />
-
-                  {actionArea}
-                </FlexBox>
+                <TimeView
+                  value={value}
+                  defaultValue={defaultValue}
+                  views={views}
+                  minTime={minTime}
+                  maxTime={maxTime}
+                  locale={locale}
+                  timezone={timezone}
+                  readOnly={readOnly}
+                  disabled={disabled}
+                  actionArea={actionArea}
+                  onChange={(v) => {
+                    setValue(v);
+                    handleInputValueChange();
+                  }}
+                  onChangeComplete={handleChangeComplete}
+                />
               </DismissableLayer>
             </FocusScope>
           </PopperContent>
@@ -225,16 +220,16 @@ const DatePicker = forwardRef<
   },
 );
 
-DatePicker.displayName = 'DatePicker';
+TimePicker.displayName = TIME_PICKER_NAME;
 
-const DatePickerInput = forwardRef<
+const TimePickerInput = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DatePickerInputProps, 'input'>
+  DefaultComponentProps<TimePickerInputProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextInput {...props} ref={inputRef} wrapperRef={ref} />
 ));
 
-DatePickerInput.displayName = 'DatePickerInput';
+TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
 
-export { DatePicker };
-export type { DatePickerInputProps, DateType };
+export { TimePicker };
+export type { TimePickerInputProps };

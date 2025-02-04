@@ -84,7 +84,10 @@ export const textInputWrapperStyle =
           @supports selector(:has(*)) {
             &:where(:has(input:focus)),
             &:where(
-                :has(input[data-role='date-picker-input'][aria-expanded='true'])
+                :has(
+                    input[data-role='date-picker-input'][aria-expanded='true']
+                  ),
+                :has(input[data-role='time-picker-input'][aria-expanded='true'])
               ) {
               ${invalid
                 ? css`
@@ -132,7 +135,10 @@ export const textInputWrapperStyle =
           @supports not selector(:has(*)) {
             &:where(:focus-within),
             &:where(
-                :has(input[data-role='date-picker-input'][aria-expanded='true'])
+                :has(
+                    input[data-role='date-picker-input'][aria-expanded='true']
+                  ),
+                :has(input[data-role='time-picker-input'][aria-expanded='true'])
               ) {
               ${invalid
                 ? css`
@@ -177,7 +183,10 @@ export const textInputWrapperStyle =
     }
 
     @supports selector(:has(*)) {
-      &:where(:has(input[data-role='date-picker-input'])) {
+      &:where(
+          :has(input[data-role='date-picker-input']),
+          :has(input[data-role='time-picker-input'])
+        ) {
         [data-role='text-input-reset'],
         [data-role='text-input-invalid'],
         [data-role='text-input-positive'] {

@@ -190,7 +190,7 @@ const DateCalendar = forwardRef<
 
     const weekdays = useMemo(() => getWeekdays(locale), [locale]);
 
-    const calenderComponent: { [key in ViewType]: ReactNode } = {
+    const calendarComponent: { [key in ViewType]: ReactNode } = {
       year: <YearCalendar order={yearsOrder} />,
       month: <MonthCalendar />,
       day: <DayCalendar />,
@@ -374,7 +374,7 @@ const DateCalendar = forwardRef<
               flexDirection="column"
               ref={focusableElementRef}
             >
-              {calenderComponent[view ?? 'day']}
+              {calendarComponent[view ?? 'day']}
             </FlexBox>
           </ScrollArea>
         </FlexBox>

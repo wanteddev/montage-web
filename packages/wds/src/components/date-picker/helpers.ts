@@ -11,9 +11,9 @@ import {
 import type { DatePickerFormat } from './types';
 import type { DateType } from '../date-calendar/types';
 
-const TEXT_FORMATS = ['MMM', 'MMMM', 'a', 'A'];
+const TEXT_FORMATS: Array<DatePickerFormat> = ['MMM', 'MMMM', 'a', 'A'];
 const MAX_TIMESTAMP = 8640000000000000;
-const invalidDate = new Date(MAX_TIMESTAMP + 1);
+export const invalidDate = new Date(MAX_TIMESTAMP + 1);
 
 export type DateFormatTextSection = {
   format: DatePickerFormat;
@@ -226,6 +226,24 @@ export const parseFromFormat = (
 
   let parsedDate = dayjsTimezone(dayjs(), timezone);
 
+  const timeFormats = ['h', 'hh', , 'H', 'HH'];
+  const meridiemFormats = ['a', 'A'];
+
+  const hourIndex = sections.findIndex((section) =>
+    timeFormats.includes(section.format),
+  );
+  const meridiemIndex = sections.findIndex((section) =>
+    meridiemFormats.includes(section.format),
+  );
+
+  if (hourIndex > meridiemIndex) {
+    const hourSection = sections.splice(hourIndex, 1)[0];
+
+    if (hourSection) {
+      sections.splice(meridiemIndex, 0, hourSection);
+    }
+  }
+
   for (const section of sections) {
     const { format: sectionFormat, value } = section;
 
@@ -326,6 +344,7 @@ export const parseFromFormat = (
         const meridiem = getMeridiem(locale).findIndex((v) =>
           sectionFormat === 'A' ? v.upper === value : v.lower === value,
         );
+
         if (meridiem === -1) {
           return invalidDate;
         }

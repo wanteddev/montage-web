@@ -4,9 +4,9 @@ import dayjs from 'dayjs';
 import {
   dateTypeToDateObject,
   dayjsTimezone,
+  getMeridiem,
   isValidDate,
 } from '../date-calendar/helpers';
-import { getTabbableCandidates } from '../focus-scope/helpers';
 
 import {
   getClosetSection,
@@ -77,6 +77,11 @@ export const useDateField = ({
     },
     [focusedSection, format, locale, sections, timezone],
   );
+
+  const handleInputValueChange = useCallback(() => {
+    const newInputValue = !inputValue ? format : inputValue;
+    setInputValue(newInputValue);
+  }, [inputValue, format]);
 
   useEffect(() => {
     const newInputValue = !inputValue
@@ -155,10 +160,17 @@ export const useDateField = ({
           );
         });
       } else {
+        const nextFocusedSection =
+          newSectionValue.find(
+            (section) => section.format === focusedSection.format,
+          ) ?? focusedSection;
+
+        setFocusedSection(nextFocusedSection);
+
         requestAnimationFrame(() => {
           inputRef.current?.setSelectionRange(
-            focusedSection.startIndex,
-            focusedSection.endIndex,
+            nextFocusedSection.startIndex,
+            nextFocusedSection.endIndex,
           );
         });
       }
@@ -313,6 +325,7 @@ export const useDateField = ({
       setInputValue(newInputValue);
 
       const closetSection = getClosetSection(cursorPosition, newSections);
+
       if (closetSection) {
         e.preventDefault();
         setFocusedSection(closetSection);
@@ -344,25 +357,6 @@ export const useDateField = ({
       }
       switch (e.key) {
         case 'Tab':
-          const tabbableCandidates = getTabbableCandidates(document.body);
-
-          const index = tabbableCandidates.findIndex(
-            (v) => v === e.currentTarget,
-          );
-
-          if (index === -1) {
-            return;
-          }
-
-          const nextTabbableCandidate =
-            tabbableCandidates[e.shiftKey ? index - 1 : index + 1];
-
-          if (nextTabbableCandidate) {
-            e.preventDefault();
-            nextTabbableCandidate.focus();
-          } else {
-            e.currentTarget.blur();
-          }
           return;
         case 'Backspace':
           e.preventDefault();
@@ -723,11 +717,22 @@ export const useDateField = ({
       }
 
       if (focusedSection.type === 'text') {
-        const foundOption = focusedSection.options.filter((v) =>
-          new RegExp(
+        const foundOption = focusedSection.options.filter((v) => {
+          if (/^a$/i.test(focusedSection.format)) {
+            const meridiem = getMeridiem(locale);
+            const [am, pm] = meridiem.map((m) =>
+              focusedSection.format === 'a' ? m.lower : m.upper,
+            );
+
+            return new RegExp(
+              `^${lowerKey === 'a' ? am : lowerKey === 'p' ? pm : '$^'}`,
+            ).test(v);
+          }
+
+          return new RegExp(
             '^' + String.raw`${sectionValueRef.current}${lowerKey}`,
-          ).test(v.toLowerCase()),
-        );
+          ).test(v.toLowerCase());
+        });
 
         let newInputValue: string;
         let isFinished = false;
@@ -810,13 +815,21 @@ export const useDateField = ({
         );
 
         sectionValueRef.current = (sectionValueRef.current + lowerKey).slice(
-          focusedSection.format.length * -1,
+          (focusedSection.format.length === 1
+            ? 2
+            : focusedSection.format.length) * -1,
         );
 
         const newInputValue =
           inputValue.slice(0, focusedSection.startIndex) +
-          `${sectionValueRef.current.padStart(focusedSection.format.length, '0')}` +
-          inputValue.slice(focusedSection.endIndex);
+          inputValue
+            .slice(focusedSection.startIndex)
+            .replace(
+              focusedSection.value,
+              sectionValueRef.current
+                .replace(/^0+/, '')
+                .padStart(focusedSection.format.length, '0'),
+            );
 
         const newSectionValue = getDateformatSections(
           newInputValue,
@@ -874,11 +887,13 @@ export const useDateField = ({
     inputRef,
     inputValue,
     focusedSection,
+    sections,
     handlePaste,
     handleFocus,
     handleClick,
     handleBlur,
     handleKeyDown,
     handleValueChange,
+    handleInputValueChange,
   };
 };
