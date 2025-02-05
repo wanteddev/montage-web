@@ -6,7 +6,6 @@ import {
   useId,
   useMemo,
   useRef,
-  useState,
 } from 'react';
 import dayjs from 'dayjs';
 import {
@@ -16,7 +15,6 @@ import {
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import utc from 'dayjs/plugin/utc';
 import timezonePlugin from 'dayjs/plugin/timezone';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
 import FlexBox from '../flex-box';
 import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
@@ -77,9 +75,6 @@ const TimeView = forwardRef<
   ) => {
     const id = useId();
 
-    const [item, setItem] = useState<HTMLDivElement | null>(null);
-    const composedRefs = useComposedRefs(ref, (node) => setItem(node));
-
     const [value, setValue] = useControllableState({
       prop: originValue,
       defaultProp: defaultValue,
@@ -92,18 +87,6 @@ const TimeView = forwardRef<
       [views],
     );
 
-    useEffect(() => {
-      if (!item) return;
-
-      const scrollArea = item.querySelector(
-        `[data-role="time-list-scroll-area"]`,
-      );
-      if (scrollArea) {
-        (scrollArea as HTMLElement).focus();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [Boolean(item)]);
-
     return (
       <TimeViewContextProvider
         value={value}
@@ -115,7 +98,7 @@ const TimeView = forwardRef<
         onChange={setValue}
         onChangeComplete={onChangeComplete}
       >
-        <FlexBox ref={composedRefs} sx={[timeViewStyle, sx]} {...props}>
+        <FlexBox ref={ref} sx={[timeViewStyle, sx]} {...props}>
           {views.map((view, index) => (
             <TimeList
               key={`${id}-${view}`}
@@ -144,7 +127,7 @@ TimeView.displayName = TIME_VIEW_NAME;
 
 const TimeList = memo(
   forwardRef<HTMLUListElement, TimeListProps>(
-    ({ view, value, locale, variant, timezone }) => {
+    ({ view, value, locale, variant, timezone }, ref) => {
       const id = useId();
       const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
 
@@ -172,7 +155,7 @@ const TimeList = memo(
       }, [timeValue]);
 
       return (
-        <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
+        <RovingFocusGroup tabIndex={0} orientation="vertical" dir="ltr" asChild>
           <ScrollArea
             viewportRef={scrollViewportRef}
             size="small"
@@ -180,7 +163,7 @@ const TimeList = memo(
             sx={timeListScrollAreaStyle}
             data-role="time-list-scroll-area"
           >
-            <List data-role={`time-list-${view}`} sx={timeListStyle}>
+            <List data-role={`time-list-${view}`} ref={ref} sx={timeListStyle}>
               {timeList.map((time) => {
                 if (!time) return null;
 
