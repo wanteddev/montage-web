@@ -114,8 +114,6 @@ const DateCalendar = forwardRef<
       onChange: onViewChange,
     });
 
-    const focusableElementRef = useRef<HTMLDivElement>(null);
-
     const { defaultSelectedDate, setDefaultSelectedDate, now } =
       useDefaultSelectedDate(value, min, max, timezone);
 
@@ -195,21 +193,6 @@ const DateCalendar = forwardRef<
       month: <MonthCalendar />,
       day: <DayCalendar />,
     };
-
-    const isFirstRender = useRef(true);
-
-    useEffect(() => {
-      if (isFirstRender.current) {
-        isFirstRender.current = false;
-        return;
-      }
-
-      requestAnimationFrame(() => {
-        focusableElementRef.current
-          ?.querySelector<HTMLElement>('[tabIndex="0"]')
-          ?.focus();
-      });
-    }, [view]);
 
     return (
       <DateCalendarContextProvider
@@ -369,11 +352,7 @@ const DateCalendar = forwardRef<
               )}
             </FlexBox>
 
-            <FlexBox
-              sx={{ paddingBottom: 14 }}
-              flexDirection="column"
-              ref={focusableElementRef}
-            >
+            <FlexBox sx={{ paddingBottom: 14 }} flexDirection="column">
               {calendarComponent[view ?? 'day']}
             </FlexBox>
           </ScrollArea>
