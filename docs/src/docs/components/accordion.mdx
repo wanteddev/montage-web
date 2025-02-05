@@ -6,7 +6,8 @@ description: Accordion Component
 # Accordion
 
 - 내용을 최소화하거나 펼칠 때 사용합니다.
-- AccordionSummary의 rightContent를 교체할 때는 `AccordionSummaryContent`로 감싸서 사용합니다.
+- AccordionSummary의 rightContent를 교체할 때는 `AccordionSummaryContent`로 감싸주세요.
+- AccordionDetails의 내부 간격을 조정할 때는 `--wds-accordion-details-padding-left`, `--wds-accordion-details-padding-right`, `--wds-accordion-details-gap`을 사용해주세요.
 
 ## 활용
 
@@ -76,8 +77,6 @@ export default Demo;`}
 <PropsTable component="AccordionDescription" />
 
 ### AccordionContent
-
-`Box`와 동일한 props를 사용해요.
 
 <PropsTable component="AccordionContent" />
 
@@ -301,15 +300,20 @@ export default Demo;`}
 - 하위 Accordion은 `disableInteraction`과 함께 사용하면 자연스러운 동작으로 열고 닫을 수 있어요.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+import type { CSSProperties } from 'react';
 
 const Demo = () => {
   return (
     <div>
       <Accordion>
-        <AccordionSummary>
+        <AccordionSummary fillWidth>
           제목
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          style={
+            { '--wds-accordion-details-padding-left': '32px' } as CSSProperties
+          }
+        >
           <Accordion divider={false}>
             <AccordionSummary padding="12px" disableInteraction>
               하위 메뉴
@@ -336,10 +340,14 @@ const Demo = () => {
       </Accordion>
 
       <Accordion>
-        <AccordionSummary>
+        <AccordionSummary fillWidth>
           제목
         </AccordionSummary>
-        <AccordionDetails>
+        <AccordionDetails
+          style={
+            { '--wds-accordion-details-padding-left': '32px' } as CSSProperties
+          }
+        >
           <Accordion divider={false}>
             <AccordionSummary padding="12px" disableInteraction>
               하위 메뉴

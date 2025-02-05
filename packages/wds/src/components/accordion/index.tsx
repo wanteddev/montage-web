@@ -36,7 +36,11 @@ import type {
 } from 'react';
 import type { ListCellProps } from '../list/types';
 import type { TypographyProps } from '../typography/types';
-import type { AccordionProps, AccordionSummaryContentProps } from './types';
+import type {
+  AccordionDetailsProps,
+  AccordionProps,
+  AccordionSummaryContentProps,
+} from './types';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
@@ -187,7 +191,7 @@ AccordionSummaryContent.displayName = ACCORDION_SUMMARY_CONTENT_NAME;
 
 const AccordionDetails = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TypographyProps, 'div'>
+  DefaultComponentProps<AccordionDetailsProps, 'div'>
 >(({ sx, children, ...props }, forwardedRef) => {
   const { expanded, detailsId, summaryId } = useAccordionContext(
     ACCORDION_DETAILS_NAME,
