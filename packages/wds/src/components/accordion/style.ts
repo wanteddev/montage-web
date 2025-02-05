@@ -6,6 +6,17 @@ export const accordionStyle = ({ disabled }: { disabled: boolean }) => css`
   }
 `;
 
+export const accordionSummaryStyle = ({
+  disabled,
+}: {
+  disabled: boolean;
+}) => css`
+  ${!disabled &&
+  css`
+    cursor: pointer;
+  `}
+`;
+
 export const accordionSummaryTextStyle = css`
   min-height: 24px;
   justify-content: center;
@@ -43,32 +54,32 @@ export const accordionSummaryContentStyle = ({
 `;
 
 export const accordionDetailsStyle = ({
-  expanded,
+  initialExpanded,
 }: {
-  expanded: boolean;
+  initialExpanded: boolean;
 }) => css`
-  display: grid;
-  grid-template-rows: 0fr;
-  will-change: grid-template-rows;
-  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: height, overflow;
+  transition:
+    height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+    overflow;
 
-  ${expanded &&
-  css`
-    grid-template-rows: 1fr;
-  `}
-
-  > div {
-    overflow: hidden;
-  }
+  ${initialExpanded
+    ? css`
+        height: auto;
+        overflow: visible;
+      `
+    : css`
+        overflow: hidden;
+        height: 0px;
+      `}
 `;
 
 export const accordionDetailsWrapperStyle = css`
   flex-direction: column;
-  gap: var(--wds-list-cell-padding, 16px);
   padding-top: calc(16px - var(--wds-list-cell-padding, 16px));
   padding-bottom: var(--wds-list-cell-padding, 16px);
-  padding-left: var(--wds-list-cell-fill-width-padding, 0px);
-  padding-right: var(--wds-list-cell-fill-width-padding, 0px);
+  padding-left: calc(var(--wds-list-cell-fill-width-padding, 0px));
+  padding-right: calc(var(--wds-list-cell-fill-width-padding, 0px));
 `;
 
 export const accordionDividerStyle = ({
@@ -88,4 +99,8 @@ export const accordionDividerStyle = ({
       opacity: 0;
     }
   `}
+`;
+
+export const accordionContentStyle = css`
+  margin-top: var(--wds-list-cell-padding, 16px);
 `;
