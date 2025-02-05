@@ -206,7 +206,7 @@ const ListCellContent = forwardRef<
   (
     {
       variant = 'custom',
-      height = 'normal',
+      height = '24px',
       children,
       chevron = true,
       xl,

@@ -55,7 +55,7 @@ export type ListCellContentDefaultProps = {
     | 'avatar'
     | 'large-icon'
     | 'custom';
-  height?: 'normal' | 'medium' | 'large';
+  height?: '24px' | '40px' | '56px';
   disabled?: boolean;
   chevron?: boolean;
   children?: ReactNode;
