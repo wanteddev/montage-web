@@ -18,3 +18,5 @@ export type AccordionSummaryContentProps = Merge<
   },
   ListCellContentProps
 >;
+
+export type AccordionDetailsProps = {};
