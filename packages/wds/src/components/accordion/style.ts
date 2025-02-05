@@ -53,13 +53,25 @@ export const accordionSummaryContentStyle = ({
   }
 `;
 
-export const accordionDetailsStyle = css`
-  overflow: hidden;
-  height: 0px;
+export const accordionDetailsStyle = ({
+  initialExpanded,
+}: {
+  initialExpanded: boolean;
+}) => css`
   will-change: height, overflow;
   transition:
     height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
     overflow;
+
+  ${initialExpanded
+    ? css`
+        height: auto;
+        overflow: visible;
+      `
+    : css`
+        overflow: hidden;
+        height: 0px;
+      `}
 `;
 
 export const accordionDetailsWrapperStyle = css`

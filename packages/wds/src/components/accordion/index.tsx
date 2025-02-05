@@ -261,12 +261,13 @@ const AccordionDetails = forwardRef<
     };
 
     element.addEventListener('transitionend', handleTransitionEnd);
-
     return () => {
       element.removeEventListener('transitionend', handleTransitionEnd);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded]);
+
+  const initialExpandedRef = useRef(expanded);
 
   return (
     <Box
@@ -276,7 +277,9 @@ const AccordionDetails = forwardRef<
       aria-hidden={!expanded}
       id={detailsId}
       {...props}
-      sx={accordionDetailsStyle}
+      sx={accordionDetailsStyle({
+        initialExpanded: initialExpandedRef.current,
+      })}
     >
       <FlexBox
         ref={setWrapperNode}
