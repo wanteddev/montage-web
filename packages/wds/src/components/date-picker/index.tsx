@@ -78,7 +78,7 @@ const DatePicker = forwardRef<
     const {
       loop,
       trapped,
-      trappedContent,
+      trappedContent = true,
       onMountAutoFocus,
       onUnmountAutoFocus,
       position = 'top-start',
