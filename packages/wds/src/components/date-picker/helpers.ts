@@ -8,6 +8,8 @@ import {
   isValidDate,
 } from '../date-calendar/helpers';
 
+import { DATE_PICKER_FORMATS } from './constants';
+
 import type { DatePickerFormat } from './types';
 import type { DateType } from '../date-calendar/types';
 
@@ -226,23 +228,11 @@ export const parseFromFormat = (
 
   let parsedDate = dayjsTimezone(dayjs(), timezone);
 
-  const timeFormats = ['h', 'hh', , 'H', 'HH'];
-  const meridiemFormats = ['a', 'A'];
-
-  const hourIndex = sections.findIndex((section) =>
-    timeFormats.includes(section.format),
+  sections.sort(
+    (a, b) =>
+      DATE_PICKER_FORMATS.findIndex((v) => v === a.format) -
+      DATE_PICKER_FORMATS.findIndex((v) => v === b.format),
   );
-  const meridiemIndex = sections.findIndex((section) =>
-    meridiemFormats.includes(section.format),
-  );
-
-  if (hourIndex > meridiemIndex) {
-    const hourSection = sections.splice(hourIndex, 1)[0];
-
-    if (hourSection) {
-      sections.splice(meridiemIndex, 0, hourSection);
-    }
-  }
 
   for (const section of sections) {
     const { format: sectionFormat, value } = section;
@@ -290,7 +280,7 @@ export const parseFromFormat = (
           return invalidDate;
         }
         const day = parseInt(value);
-        if (day < 1 || day > 31) {
+        if (day < 1 || day > 31 || day > parsedDate.daysInMonth()) {
           return invalidDate;
         }
         parsedDate = parsedDate.date(day);
@@ -465,26 +455,7 @@ export const getClosetSection = (
 };
 
 const isDatePickerFormat = (format: string): format is DatePickerFormat => {
-  return [
-    'YYYY',
-    'YY',
-    'M',
-    'MM',
-    'MMM',
-    'MMMM',
-    'D',
-    'DD',
-    'H',
-    'HH',
-    'h',
-    'hh',
-    'm',
-    'mm',
-    's',
-    'ss',
-    'a',
-    'A',
-  ].includes(format);
+  return DATE_PICKER_FORMATS.includes(format);
 };
 
 export const localeFormat = (
