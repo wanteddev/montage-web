@@ -175,3 +175,20 @@ export const focusDate = (
         ?.focus();
   }
 };
+
+export const scrollIntoViewDate = (
+  type: Omit<ViewType, 'day'>,
+  value: number,
+  containerRef: RefObject<HTMLDivElement>,
+) => {
+  switch (type) {
+    case 'year':
+      return containerRef.current
+        ?.querySelector<HTMLDivElement>(`[data-year='${value}']`)
+        ?.scrollIntoView();
+    case 'month':
+      return containerRef.current
+        ?.querySelector<HTMLDivElement>(`[data-month='${value}']`)
+        ?.scrollIntoView();
+  }
+};
