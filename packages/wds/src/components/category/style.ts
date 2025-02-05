@@ -14,7 +14,7 @@ export const categoryListStyle =
   ({
     isScrollableLeft,
     isScrollableRight,
-    padding,
+    horizontalPadding,
     verticalPadding,
     size,
     xs,
@@ -42,7 +42,7 @@ export const categoryListStyle =
     }
 
     ${categoryPaddingStyle({
-      padding,
+      horizontalPadding,
       isScrollableLeft,
       isScrollableRight,
     })}
@@ -55,11 +55,11 @@ export const categoryListStyle =
     )(
       (params, breakpoint) => css`
         ${categoryPaddingStyle({
-          padding: params?.padding,
+          horizontalPadding: params?.horizontalPadding,
           isScrollableLeft,
           isScrollableRight,
         })}
-        ${params?.padding !== undefined ||
+        ${params?.horizontalPadding !== undefined ||
         (params?.size !== undefined &&
           css`
             ${categorySizeStyle({
@@ -83,14 +83,14 @@ export const categoryListStyle =
   `;
 
 const categoryPaddingStyle = ({
-  padding,
+  horizontalPadding,
   isScrollableLeft,
   isScrollableRight,
 }: CategoryListProps & {
   isScrollableLeft: boolean;
   isScrollableRight: boolean;
 }) => {
-  switch (padding) {
+  switch (horizontalPadding) {
     case true:
       return css`
         [data-role='category-list-right-content'] {

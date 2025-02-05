@@ -15,14 +15,17 @@ export type CategoryProps = PropsWithChildren<{
 type CategoryListDefaultProps = {
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   verticalPadding?: boolean;
-  padding?: boolean;
+  horizontalPadding?: boolean;
   variant?: 'normal' | 'alternative';
   rightContent?: ReactNode;
   children?: ReactNode;
 };
 
 type CategoryListResponsiveProps = ResponsiveProps<
-  Pick<CategoryListDefaultProps, 'size' | 'padding' | 'verticalPadding'>
+  Pick<
+    CategoryListDefaultProps,
+    'size' | 'horizontalPadding' | 'verticalPadding'
+  >
 >;
 
 export type CategoryListProps = Merge<
