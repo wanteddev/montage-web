@@ -64,18 +64,10 @@ export const accordionDetailsStyle = css`
 
 export const accordionDetailsWrapperStyle = css`
   flex-direction: column;
-  gap: var(--wds-accordion-details-gap, 0px);
-
   padding-top: calc(16px - var(--wds-list-cell-padding, 16px));
   padding-bottom: var(--wds-list-cell-padding, 16px);
-  padding-left: var(
-    --wds-accordion-details-padding-left,
-    calc(var(--wds-list-cell-fill-width-padding, 0px))
-  );
-  padding-right: var(
-    --wds-accordion-details-padding-right,
-    calc(var(--wds-list-cell-fill-width-padding, 0px))
-  );
+  padding-left: calc(var(--wds-list-cell-fill-width-padding, 0px));
+  padding-right: calc(var(--wds-list-cell-fill-width-padding, 0px));
 `;
 
 export const accordionDividerStyle = ({

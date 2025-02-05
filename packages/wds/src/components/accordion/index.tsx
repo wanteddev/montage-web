@@ -276,12 +276,12 @@ const AccordionDetails = forwardRef<
       aria-hidden={!expanded}
       id={detailsId}
       {...props}
-      sx={[accordionDetailsStyle, sx]}
+      sx={accordionDetailsStyle}
     >
       <FlexBox
         ref={setWrapperNode}
         data-role="accordion-details-wrapper"
-        sx={accordionDetailsWrapperStyle}
+        sx={[accordionDetailsWrapperStyle, sx]}
       >
         {children}
       </FlexBox>
