@@ -1,3 +1,4 @@
+/* FIXME 마이그레이션 시 filled 제거 필요 */
 import type {
   Merge,
   ResponsiveProps,
@@ -9,7 +10,11 @@ export type ContentBadgeDefaultProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
   size?: 'normal' | 'medium' | 'large';
-  variant?: 'solid' | 'outlined';
+  variant?:
+    | 'solid'
+    | 'outlined'
+    /** @deprecated */
+    | 'filled';
   color?: 'neutral' | 'accent';
   accentColor?: ThemeColorsToken;
   children?: ReactNode;

@@ -113,6 +113,7 @@ const actionVariantStyle = (
 ) => {
   switch (variant) {
     case 'solid':
+    case 'filled':
       return css`
         color: ${theme.palette.label.normal};
         background-color: ${theme.palette.fill.alternative};
