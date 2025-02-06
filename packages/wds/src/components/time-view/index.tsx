@@ -98,7 +98,12 @@ const TimeView = forwardRef<
         onChange={setValue}
         onChangeComplete={onChangeComplete}
       >
-        <FlexBox ref={ref} sx={[timeViewStyle, sx]} {...props}>
+        <FlexBox
+          data-role="time-list-wrapper"
+          ref={ref}
+          sx={[timeViewStyle, sx]}
+          {...props}
+        >
           {views.map((view, index) => (
             <TimeList
               key={`${id}-${view}`}
