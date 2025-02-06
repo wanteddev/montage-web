@@ -23,7 +23,7 @@ export const useTimeView = ({
   locale,
   hourType,
 }: Props) => {
-  const timeValue = useMemo(() => {
+  const currentTimeValue = useMemo(() => {
     if (!isValidDate(value)) return;
 
     switch (view) {
@@ -48,7 +48,7 @@ export const useTimeView = ({
       case 'meridiem':
         return getMeridiem(locale).map((meridiem, index) => ({
           value: index,
-          meridiem: meridiem.upper,
+          text: meridiem.upper,
         }));
       case 'hour':
         const hours = getHours({ locale, hourType });
@@ -60,5 +60,5 @@ export const useTimeView = ({
     }
   }, [locale, view, hourType]);
 
-  return { hourType, timeValue, timeList };
+  return { hourType, currentTimeValue, timeList };
 };
