@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.3.1...@wanteddev/wds-codemod@1.3.2) (2025-02-06)
+
+### Features
+
+- **wds,wds-codemod:** [WDS] 250114 ChipAction 업데이트 ([#217](https://github.com/wanteddev/wds/issues/217)) ([07c5f52](https://github.com/wanteddev/wds/commit/07c5f52284d48f51f1521c08221f5ab7ca16ff48))
+
 ## [1.3.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-codemod@1.3.0...@wanteddev/wds-codemod@1.3.1) (2024-12-18)
 
 ### Bug Fixes

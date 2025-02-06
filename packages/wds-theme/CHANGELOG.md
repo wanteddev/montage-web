@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.2.0...@wanteddev/wds-theme@1.2.1) (2025-02-06)
+
+### Bug Fixes
+
+- **wds-theme:** 다크모드의 elevation shadow 세미콜론 이슈 ([#229](https://github.com/wanteddev/wds/issues/229)) ([12d02fb](https://github.com/wanteddev/wds/commit/12d02fb94aec0381e026bb8be0ba5752efbaecb1))
+
 # [1.2.0](https://github.com/wanteddev/wds/compare/@wanteddev/wds-theme@1.2.0-alpha.0...@wanteddev/wds-theme@1.2.0) (2024-12-16)
 
 **Note:** Version bump only for package @wanteddev/wds-theme

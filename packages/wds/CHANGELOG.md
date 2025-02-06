@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.2...@wanteddev/wds@1.6.3) (2025-02-06)
+
+### Bug Fixes
+
+- **wds:** accordion 내부 인터랙션 잘림 수정, 가이드 보완 ([#234](https://github.com/wanteddev/wds/issues/234)) ([30f1c9e](https://github.com/wanteddev/wds/commit/30f1c9e27e0b4824f3be7b88e546183c77461080))
+- **wds:** autocomplete 에서 value가 같은 옵션이 있는 경우 포커스가 올바르지 않음 ([#244](https://github.com/wanteddev/wds/issues/244)) ([105f64d](https://github.com/wanteddev/wds/commit/105f64d578e68c619144c69a6e8eeeef0b7046e0))
+- **wds:** bottom modal에서 dimmer가 이상한 위치에 나오는 이슈, tab으로 탐색 시 action area에 의해 요소가 가려지는 이슈 ([#214](https://github.com/wanteddev/wds/issues/214)) ([dd7735d](https://github.com/wanteddev/wds/commit/dd7735d257a12483949c571b4fd541ffd8695cfc))
+- **wds:** date picker, time picker 잔여 이슈 수정 ([#240](https://github.com/wanteddev/wds/issues/240)) ([1af7f74](https://github.com/wanteddev/wds/commit/1af7f74ea80e0be8474b5f2cb51c9c42f3ef3c08))
+- **wds:** date-picker, time-picker 포커스 로직 수정 및 ref 경고 수정 ([#238](https://github.com/wanteddev/wds/issues/238)) ([27ba651](https://github.com/wanteddev/wds/commit/27ba651ce2e29c5d9b3d0e80465b9db63e2d600d))
+- **wds:** rebase 과정에서 누락된 export 추가 ([ce86ff9](https://github.com/wanteddev/wds/commit/ce86ff95d7353c518d45dcbad31950531a81484e))
+- **wds:** time-picker 좌우 키보드 이벤트 누락 수정 ([#242](https://github.com/wanteddev/wds/issues/242)) ([c7a960f](https://github.com/wanteddev/wds/commit/c7a960fbaa005788bbcdf9c2e2d1013d70e596e3))
+- **wds:** toast가 touch device에서 닫히지 않고 남아있는 현상 ([#227](https://github.com/wanteddev/wds/issues/227)) ([0472f27](https://github.com/wanteddev/wds/commit/0472f2790cc7708bf45bf574e2814c9135201186))
+
+### Features
+
+- **wds,wds-codemod:** [WDS] 250114 ChipAction 업데이트 ([#217](https://github.com/wanteddev/wds/issues/217)) ([07c5f52](https://github.com/wanteddev/wds/commit/07c5f52284d48f51f1521c08221f5ab7ca16ff48))
+- **wds:** [WDS] Play Icon Badge 제작 ([#219](https://github.com/wanteddev/wds/issues/219)) ([368ee40](https://github.com/wanteddev/wds/commit/368ee40a8b855fe6d1f5ef6b05b329f30f70ff46))
+- **wds:** [WDS] Toast 표시 시간 옵션 업데이트 ([#218](https://github.com/wanteddev/wds/issues/218)) ([b33edd5](https://github.com/wanteddev/wds/commit/b33edd5aee6a68d9d4a0c4b92cd02064c1e2aac8))
+- **wds:** accordion expaned 상태에 따른 tab index 접근성 개선 ([#230](https://github.com/wanteddev/wds/issues/230)) ([69bad0f](https://github.com/wanteddev/wds/commit/69bad0f2521ad5b091db19b22161e43d79073df9))
+- **wds:** accordion 제작 ([#225](https://github.com/wanteddev/wds/issues/225)) ([774fa20](https://github.com/wanteddev/wds/commit/774fa20c6c392a43666c881e941288d4fe823a15))
+- **wds:** category 컴포넌트 padding -> horizontalPadding 네이밍 변경 ([#239](https://github.com/wanteddev/wds/issues/239)) ([94f5c68](https://github.com/wanteddev/wds/commit/94f5c6860e8e1d52eaf55ad35caf435916ab6b5b))
+- **wds:** category 컴포넌트 제작 ([#220](https://github.com/wanteddev/wds/issues/220)) ([9d044e9](https://github.com/wanteddev/wds/commit/9d044e9567ca0e3939829fefdbced82758c3ea31))
+- **wds:** chip action, filter, badge 이전 버전 호환성 지원 ([#236](https://github.com/wanteddev/wds/issues/236)) ([67f82f8](https://github.com/wanteddev/wds/commit/67f82f8f6a184b256f4dee7a2148116f2fd60635))
+- **wds:** date picker 제작 ([#211](https://github.com/wanteddev/wds/issues/211)) ([15d30a1](https://github.com/wanteddev/wds/commit/15d30a1bdae52be0e029a6f62c9f60c0155f3fe1))
+- **wds:** list cell content height 옵션 수정 반영 ([#235](https://github.com/wanteddev/wds/issues/235)) ([c02114a](https://github.com/wanteddev/wds/commit/c02114a52052f7f9760fb6155dd411976dd28b79))
+- **wds:** pagination variant compact 추가 대응 ([#223](https://github.com/wanteddev/wds/issues/223)) ([77ea82a](https://github.com/wanteddev/wds/commit/77ea82a29df36eea22ff2bda516b677b8c6421cf))
+- **wds:** pagination 제작 ([#204](https://github.com/wanteddev/wds/issues/204)) ([ddcf60c](https://github.com/wanteddev/wds/commit/ddcf60c1c7d060a3eaceb47c8b0b4934db910886))
+- **wds:** PI-71788 [WDS] Table 제작 ([#226](https://github.com/wanteddev/wds/issues/226)) ([7716b2f](https://github.com/wanteddev/wds/commit/7716b2fd827c93603e411cd059960419a5aa7e20))
+- **wds:** picker action area 컴포넌트 분리 ([#233](https://github.com/wanteddev/wds/issues/233)) ([ac5b766](https://github.com/wanteddev/wds/commit/ac5b76668d41e9a41ae76f415316a2b1aff6820e))
+- **wds:** progress tracker 디자인 및 구조 변경 대응 ([#207](https://github.com/wanteddev/wds/issues/207)) ([663bf36](https://github.com/wanteddev/wds/commit/663bf363262214461c86797db2ef57b09e04aba7))
+- **wds:** round checkbox deprecated 처리 ([#213](https://github.com/wanteddev/wds/issues/213)) ([78cbaf2](https://github.com/wanteddev/wds/commit/78cbaf2c593dc53adbf72d5c59657e2e59b60a68))
+- **wds:** search input 컴포넌트 제작 ([#228](https://github.com/wanteddev/wds/issues/228)) ([8a24c0f](https://github.com/wanteddev/wds/commit/8a24c0f89a53ea23f3b70868b56332cd80eb08d8))
+- **wds:** section-header 컴포넌트 제작 ([#221](https://github.com/wanteddev/wds/issues/221)) ([6b4ee5c](https://github.com/wanteddev/wds/commit/6b4ee5cd8871d3aa5c69f590d6657834f01141a9))
+- **wds:** select 영역에 min height 추가 ([#216](https://github.com/wanteddev/wds/issues/216)) ([73b200f](https://github.com/wanteddev/wds/commit/73b200f70096b8ee776c27c945b3bc7e9acfbfa7))
+- **wds:** text area characterCounter 색상 변경 ([#224](https://github.com/wanteddev/wds/issues/224)) ([5f49263](https://github.com/wanteddev/wds/commit/5f49263584689e0560ce2b5f6286313a4e616c9c))
+- **wds:** text input 영역에 min height 추가 ([#215](https://github.com/wanteddev/wds/issues/215)) ([22e6620](https://github.com/wanteddev/wds/commit/22e6620a1b4ca7b4b01d5c3d02199518c01c7108))
+- **wds:** timepicker 제작 ([#209](https://github.com/wanteddev/wds/issues/209)) ([bec9483](https://github.com/wanteddev/wds/commit/bec94833c194fa03123fda8999b4ad5738a787c5))
+
 ## [1.6.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.1...@wanteddev/wds@1.6.2) (2025-01-03)
 
 ### Bug Fixes
