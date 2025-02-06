@@ -153,6 +153,7 @@ export const useDateField = ({
       }
 
       if (nextSection) {
+        sectionValueRef.current = '';
         setFocusedSection(nextSection);
         requestAnimationFrame(() => {
           inputRef.current?.setSelectionRange(
@@ -175,8 +176,6 @@ export const useDateField = ({
           );
         });
       }
-
-      sectionValueRef.current = '';
     },
     [focusedSection, format, locale, setValue, timezone, readOnly, disabled],
   );
@@ -349,6 +348,7 @@ export const useDateField = ({
 
   const handleBlur = useCallback(() => {
     setFocusedSection(undefined);
+    sectionValueRef.current = '';
 
     if (inputValue === format) {
       setInputValue('');
