@@ -34,7 +34,7 @@ export type AutocompleteListProps = ComponentPropsWithoutRef<
 
 export type AutocompleteOptionProps = Merge<
   { value: string },
-  Omit<ListCellProps, 'rightContent' | 'leftContent'>
+  Omit<ListCellProps, 'rightContent'>
 >;
 
 export type AutocompleteCollectionItem = {

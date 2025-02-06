@@ -258,7 +258,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
 
                   if (selectedOption) {
                     const diff = items.findIndex(
-                      (v) => v.value === selectedOption.value,
+                      (v) => v.ref === selectedOption.ref,
                     );
 
                     if (diff !== -1) {
@@ -284,7 +284,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
 
                   if (selectedOption) {
                     const diff = items.findIndex(
-                      (v) => v.value === selectedOption.value,
+                      (v) => v.ref === selectedOption.ref,
                     );
 
                     if (diff !== -1) {
@@ -316,7 +316,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
 
                   if (selectedOption) {
                     const index = items.findIndex(
-                      (v) => v.value === selectedOption.value,
+                      (v) => v.ref === selectedOption.ref,
                     );
 
                     if (index !== -1) {
@@ -342,7 +342,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
 
                   if (selectedOption) {
                     const index = items.findIndex(
-                      (v) => v.value === selectedOption.value,
+                      (v) => v.ref === selectedOption.ref,
                     );
 
                     if (index !== -1) {
@@ -532,11 +532,17 @@ const AutocompleteOption = forwardRef<
         role="option"
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
-        onMouseEnter={composeEventHandlers(props.onMouseEnter, () => {
+        onMouseEnter={composeEventHandlers(props.onMouseEnter, (e) => {
           if (disabled) return;
 
           const items = getItems();
-          onSelectedOptionChange(items.find((v) => v.value === value) ?? null);
+          onSelectedOptionChange(
+            items.find(
+              (v) =>
+                v.ref.current ===
+                (e.currentTarget as unknown as HTMLButtonElement),
+            ) ?? null,
+          );
           setAttributeSelection(ref.current, items, true);
         })}
         rightContent={
