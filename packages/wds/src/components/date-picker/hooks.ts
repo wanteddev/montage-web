@@ -153,6 +153,7 @@ export const useDateField = ({
       }
 
       if (nextSection) {
+        sectionValueRef.current = '';
         setFocusedSection(nextSection);
         requestAnimationFrame(() => {
           inputRef.current?.setSelectionRange(
@@ -175,8 +176,6 @@ export const useDateField = ({
           );
         });
       }
-
-      sectionValueRef.current = '';
     },
     [focusedSection, format, locale, setValue, timezone, readOnly, disabled],
   );
@@ -204,7 +203,7 @@ export const useDateField = ({
             locale,
           );
           setValue(parsedDate);
-          setInputValue(newValue);
+          setInputValue(toFormat(parsedDate, format, locale, timezone));
           setSections(newSectionValue);
           setFocusedSection(newSectionValue[newSectionValue.length - 1]);
           isTriggeredChange.current = true;
@@ -250,7 +249,15 @@ export const useDateField = ({
         if (!isNaN(numericValue)) {
           const newInputValue =
             inputValue.slice(0, focusedSection.startIndex) +
-            `${numericValue}` +
+            `${numericValue
+              .toString()
+              .slice(
+                (focusedSection.format.length === 1
+                  ? 2
+                  : focusedSection.format.length) * -1,
+              )
+              .replace(/^0+/, '')
+              .padStart(focusedSection.format.length, '0')}` +
             inputValue.slice(focusedSection.endIndex);
 
           const newSectionValue = getDateformatSections(
@@ -341,6 +348,7 @@ export const useDateField = ({
 
   const handleBlur = useCallback(() => {
     setFocusedSection(undefined);
+    sectionValueRef.current = '';
 
     if (inputValue === format) {
       setInputValue('');

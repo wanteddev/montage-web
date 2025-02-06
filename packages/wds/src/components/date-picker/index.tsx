@@ -145,6 +145,8 @@ const DatePicker = forwardRef<
     useEffect(() => {
       if (open) {
         initialValue.current = value;
+      } else {
+        handleBlur();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);

@@ -145,6 +145,8 @@ const TimePicker = forwardRef<
     useEffect(() => {
       if (open) {
         initialValue.current = value;
+      } else {
+        handleBlur();
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
@@ -226,7 +228,6 @@ const TimePicker = forwardRef<
                   }
                 }}
                 onDismiss={() => {
-                  handleBlur();
                   setOpen(false);
                 }}
               >
