@@ -35,7 +35,7 @@ import {
   timeListStyle,
   timeViewStyle,
 } from './style';
-import { useTimeView } from './hooks';
+import { useTimeList } from './hooks';
 import { TimeViewContextProvider, useTimeViewContext } from './contexts';
 import { scrollToTime } from './helpers';
 
@@ -101,8 +101,8 @@ const TimeView = forwardRef<
         onChangeComplete={onChangeComplete}
       >
         <FlexBox
-          data-role="time-list-wrapper"
           ref={ref}
+          wds-component="time-view"
           sx={[timeViewStyle, sx]}
           {...props}
         >
@@ -138,7 +138,7 @@ const TimeList = memo(
       const id = useId();
 
       const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
-      const { currentTimeValue, timeList } = useTimeView({
+      const { currentTimeValue, timeList } = useTimeList({
         view,
         value,
         timezone,
@@ -261,19 +261,19 @@ const TimeItem = forwardRef<
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
 
-    const listWrapper = e.currentTarget.closest(
-      '[data-role="time-list-wrapper"]',
+    const timeViewElement = e.currentTarget.closest(
+      '[wds-component="time-view"]',
     );
-    const currentScrollArea = e.currentTarget.closest(
+    const currentTimeListScrollArea = e.currentTarget.closest(
       '[data-role="time-list-scroll-area"]',
     );
 
-    if (!listWrapper || !currentScrollArea) return;
+    if (!timeViewElement || !currentTimeListScrollArea) return;
 
     const scrollAreaList = Array.from(
-      listWrapper.querySelectorAll('[data-role="time-list-scroll-area"]'),
+      timeViewElement.querySelectorAll('[data-role="time-list-scroll-area"]'),
     );
-    const currentIndex = scrollAreaList.indexOf(currentScrollArea);
+    const currentIndex = scrollAreaList.indexOf(currentTimeListScrollArea);
     const moveIndex =
       e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
 
