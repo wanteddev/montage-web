@@ -2,7 +2,8 @@ import dayjs from 'dayjs';
 
 import { TIME_UNIT_STEP } from './constants';
 
-import type { HourType } from './types';
+import type { RefObject } from 'react';
+import type { HourType, TimeViewType } from './types';
 
 export type GetTimeUnitsResult = ReturnType<typeof getHours>;
 
@@ -54,4 +55,20 @@ export const getSeconds = () => {
       text: value.toString(),
     };
   });
+};
+
+export const scrollToTime = (
+  view: TimeViewType,
+  value: string,
+  containerRef: RefObject<HTMLDivElement>,
+) => {
+  const scrollItem = containerRef.current?.querySelector(
+    `[data-${view}='${value}']`,
+  );
+
+  if (scrollItem) {
+    containerRef.current?.scrollTo({
+      top: (scrollItem as HTMLElement).offsetTop - 8,
+    });
+  }
 };

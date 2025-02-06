@@ -26,9 +26,10 @@ export type TimeListProps = {
 
 export type TimeItemProps = {
   view: TimeViewType;
-  value: number;
-  active: boolean;
   variant: TimeListProps['variant'];
+  value: number;
+  text: string;
+  currentTimeValue?: string;
 };
 
 export type HourType = '12' | '24';

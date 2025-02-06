@@ -37,6 +37,7 @@ import {
 } from './style';
 import { useTimeView } from './hooks';
 import { TimeViewContextProvider, useTimeViewContext } from './contexts';
+import { scrollToTime } from './helpers';
 
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
@@ -82,6 +83,7 @@ const TimeView = forwardRef<
     });
 
     const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
+
     const hourType: HourType = useMemo(
       () => (views.includes('meridiem') ? '12' : '24'),
       [views],
@@ -129,9 +131,9 @@ const TimeList = memo(
   forwardRef<HTMLUListElement, TimeListProps>(
     ({ view, value, locale, variant, timezone }, ref) => {
       const id = useId();
-      const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
 
-      const { timeValue, timeList } = useTimeView({
+      const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
+      const { currentTimeValue, timeList } = useTimeView({
         view,
         value,
         timezone,
@@ -143,16 +145,11 @@ const TimeList = memo(
         useRef<ElementRef<typeof ScrollAreaPrimitive.Viewport>>(null);
 
       useEffect(() => {
-        if (!timeValue || !scrollViewportRef.current) return;
-
-        const item = scrollViewportRef.current.querySelector(
-          `[data-value="${timeValue}"]`,
-        );
-        if (item) {
-          scrollViewportRef.current.scrollTop =
-            (item as HTMLElement).offsetTop - 8;
+        if (currentTimeValue) {
+          scrollToTime(view, currentTimeValue, scrollViewportRef);
         }
-      }, [timeValue]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [currentTimeValue]);
 
       return (
         <RovingFocusGroup tabIndex={0} orientation="vertical" dir="ltr" asChild>
@@ -164,29 +161,17 @@ const TimeList = memo(
             data-role="time-list-scroll-area"
           >
             <List data-role={`time-list-${view}`} ref={ref} sx={timeListStyle}>
-              {timeList.map((time) => {
-                if (!time) return null;
-
-                const isMeridiem = 'meridiem' in time;
-                const label = isMeridiem ? time.meridiem : time.text;
-                const textValue = isMeridiem
-                  ? time.value.toString()
-                  : time.text;
-
-                return (
+              {timeList.map((time) =>
+                time ? (
                   <TimeItem
                     key={`${id}-${time.value}`}
                     view={view}
-                    value={time.value}
-                    aria-label={label}
-                    data-value={textValue}
                     variant={variant}
-                    active={timeValue ? timeValue === textValue : false}
-                  >
-                    {label}
-                  </TimeItem>
-                );
-              })}
+                    currentTimeValue={currentTimeValue}
+                    {...time}
+                  />
+                ) : null,
+              )}
             </List>
           </ScrollArea>
         </RovingFocusGroup>
@@ -200,9 +185,9 @@ TimeList.displayName = TIME_LIST_NAME;
 const TimeItem = forwardRef<
   HTMLLIElement,
   DefaultComponentProps<TimeItemProps, 'li'>
->(({ value, active, variant, view, children, ...props }, ref) => {
+>(({ value, text, variant, view, currentTimeValue, ...props }, ref) => {
   const {
-    value: timeValue,
+    value: time,
     disabled,
     readOnly,
     now,
@@ -212,10 +197,13 @@ const TimeItem = forwardRef<
     onChangeComplete,
   } = useTimeViewContext(TIME_ITEM_NAME);
 
+  const textValue = view === 'meridiem' ? value.toString() : text;
+  const active = currentTimeValue ? currentTimeValue === textValue : false;
+
   const handleClick = useCallback(() => {
     if (readOnly) return;
 
-    let newValue = timeValue ? dayjsTimezone(dayjs(timeValue), timezone) : now;
+    let newValue = time ? dayjsTimezone(dayjs(time), timezone) : now;
 
     switch (view) {
       case 'meridiem':
@@ -263,7 +251,7 @@ const TimeItem = forwardRef<
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hourType, timeValue, timezone, value, variant, onChangeComplete]);
+  }, [hourType, time, timezone, value, variant, onChangeComplete]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
@@ -303,7 +291,11 @@ const TimeItem = forwardRef<
         active={active}
         value={value}
         aria-selected={active}
+        aria-label={text}
         data-role={`time-item-${view}`}
+        {...{
+          [`data-${view}`]: textValue,
+        }}
         sx={timeItemStyle({
           active,
           disabled,
@@ -313,7 +305,7 @@ const TimeItem = forwardRef<
         onClick={handleClick}
         onKeyDown={handleKeyDown}
       >
-        {children}
+        {text}
       </ListCell>
     </RovingFocusGroupItem>
   );
