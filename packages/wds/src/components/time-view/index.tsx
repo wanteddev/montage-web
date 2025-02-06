@@ -35,7 +35,7 @@ import {
   timeListStyle,
   timeViewStyle,
 } from './style';
-import { useTimeView } from './hooks';
+import { useTimeList } from './hooks';
 import { TimeViewContextProvider, useTimeViewContext } from './contexts';
 import { scrollToTime } from './helpers';
 
@@ -138,7 +138,7 @@ const TimeList = memo(
       const id = useId();
 
       const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
-      const { currentTimeValue, timeList } = useTimeView({
+      const { currentTimeValue, timeList } = useTimeList({
         view,
         value,
         timezone,

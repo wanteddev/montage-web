@@ -16,7 +16,7 @@ type Props = {
   hourType: HourType;
 };
 
-export const useTimeView = ({
+export const useTimeList = ({
   view,
   value,
   timezone,
