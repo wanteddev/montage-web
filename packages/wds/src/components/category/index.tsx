@@ -102,7 +102,7 @@ const CategoryList = forwardRef<
   (
     {
       size = 'medium',
-      padding = false,
+      horizontalPadding = false,
       rightContent,
       dir,
       xs,
@@ -182,7 +182,7 @@ const CategoryList = forwardRef<
             {...props}
             sx={[
               categoryListStyle({
-                padding,
+                horizontalPadding,
                 verticalPadding,
                 size,
                 xs,
