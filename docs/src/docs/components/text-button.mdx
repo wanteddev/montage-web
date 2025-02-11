@@ -65,9 +65,15 @@ const Demo = () => {
   }, [])
 
   return (
-    <FlexBox gap="16px">
-      <TextButton variant="primary" loading={loading}>텍스트</TextButton>
-      <TextButton variant="assistive" loading={loading}>텍스트</TextButton>
+    <FlexBox gap="16px" flexDirection="column">
+      <FlexBox gap="16px">
+        <TextButton variant="primary" loading={loading} size="medium">텍스트</TextButton>
+        <TextButton variant="assistive" loading={loading} size="medium">텍스트</TextButton>
+      </FlexBox>
+      <FlexBox gap="16px">
+        <TextButton variant="primary" loading={loading} size="small">텍스트</TextButton>
+        <TextButton variant="assistive" loading={loading} size="small">텍스트</TextButton>
+      </FlexBox>
     </FlexBox>
   )
 }
