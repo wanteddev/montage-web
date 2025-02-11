@@ -42,6 +42,7 @@ export type TextInputContentProps = PropsWithChildren<{
 
 export type TextInputButtonProps = {
   variant?: 'normal' | 'assistive';
+  loading?: boolean;
   disabled?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;

@@ -11,7 +11,7 @@ type TextButtonStyleProps = TextButtonProps & {
 };
 
 export const textButtonStyle =
-  ({ xs, sm, md, lg, xl, ...props }: TextButtonStyleProps) =>
+  ({ loading, xs, sm, md, lg, xl, ...props }: TextButtonStyleProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -23,6 +23,26 @@ export const textButtonStyle =
     height: fit-content;
     width: fit-content;
     cursor: pointer;
+
+    [data-role='text-button-loading'] {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      circle {
+        stroke: currentColor;
+      }
+    }
+
+    ${loading &&
+    css`
+      &
+        > *:not([data-role='text-button-loading']):not(
+          [wds-component='with-interaction']
+        ) {
+        visibility: hidden;
+      }
+    `}
 
     &:disabled,
     &[aria-disabled='true'] {
@@ -56,6 +76,10 @@ const getColorTheme = (
         border: none;
         box-shadow: none;
 
+        [data-role='text-button-loading'] {
+          color: inherit;
+        }
+
         &:disabled,
         &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
@@ -67,6 +91,10 @@ const getColorTheme = (
         border: none;
         box-shadow: none;
         color: ${color ?? theme.palette.label.alternative};
+
+        [data-role='text-button-loading'] {
+          color: ${theme.palette.label.assistive};
+        }
 
         &:disabled,
         &[aria-disabled='true'] {
@@ -83,6 +111,11 @@ const textButtonSizeStyle = ({ size }: TextButtonProps) => {
         gap: 4px;
         border-radius: 6px;
         padding: 4px 0px;
+
+        [data-role='text-button-loading'] {
+          width: 16px;
+          height: 16px;
+        }
 
         & > [wds-component='with-interaction'] {
           width: calc(100% + 14px);
@@ -101,6 +134,11 @@ const textButtonSizeStyle = ({ size }: TextButtonProps) => {
         gap: 4px;
         border-radius: 6px;
         padding: 4px 0px;
+
+        [data-role='text-button-loading'] {
+          width: 14px;
+          height: 14px;
+        }
 
         & > [wds-component='with-interaction'] {
           width: calc(100% + 12px);

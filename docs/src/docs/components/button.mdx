@@ -97,3 +97,85 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+
+## Loading
+
+`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있습니다.
+onClick 이벤트를 막지 않으므로 onClick 이벤트를 막기 위해서 별도 처리가 필요합니다.
+
+<Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
+import { useState, useEffect } from 'react';
+
+const Demo = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoading(prev => !prev)
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  return (
+    <FlexBox gap="12px" flexDirection="column">
+      <FlexBox gap="8px">
+        <Button variant="solid" color="primary" loading={loading} size="large">
+          버튼 입니다.
+        </Button>
+        <Button variant="solid" color="assistive" loading={loading} size="large">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="primary" loading={loading} size="large">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="secondary" loading={loading} size="large">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="assistive" loading={loading} size="large">
+          버튼 입니다.
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="8px">
+        <Button variant="solid" color="primary" loading={loading} size="medium">
+          버튼 입니다.
+        </Button>
+        <Button variant="solid" color="assistive" loading={loading} size="medium">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="primary" loading={loading} size="medium">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="secondary" loading={loading} size="medium">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="assistive" loading={loading} size="medium">
+          버튼 입니다.
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="8px">
+        <Button variant="solid" color="primary" loading={loading} size="small">
+          버튼 입니다.
+        </Button>
+        <Button variant="solid" color="assistive" loading={loading} size="small">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="primary" loading={loading} size="small">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="secondary" loading={loading} size="small">
+          버튼 입니다.
+        </Button>
+        <Button variant="outlined" color="assistive" loading={loading} size="small">
+          버튼 입니다.
+        </Button>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

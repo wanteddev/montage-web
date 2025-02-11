@@ -3,6 +3,7 @@ import { forwardRef, useId } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
+import Loading from '../loading';
 
 import { buttonStyle } from './style';
 
@@ -23,6 +24,7 @@ const Button = forwardRef(
       disableInteraction = false,
       fullWidth = false,
       color = 'primary',
+      loading = false,
       iconOnly,
       leftContent,
       rightContent,
@@ -73,6 +75,7 @@ const Button = forwardRef(
             buttonStyle({
               variant,
               iconOnly,
+              loading,
               size,
               fullWidth,
               color,
@@ -85,6 +88,7 @@ const Button = forwardRef(
             props.sx,
           ]}
         >
+          {loading && <Loading data-role="button-loading" variant="circular" />}
           {iconOnly ? (
             children
           ) : (

@@ -16,6 +16,7 @@ export type ButtonDefaultProps = {
   rightContent?: ReactNode;
   iconOnly?: boolean;
   children?: ReactNode;
+  loading?: boolean;
 };
 
 export type ButtonResponsiveProps = ResponsiveProps<

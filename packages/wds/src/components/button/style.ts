@@ -7,7 +7,7 @@ import type { ButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const buttonStyle =
-  ({ xs, sm, md, lg, xl, ...props }: ButtonProps) =>
+  ({ loading, xs, sm, md, lg, xl, ...props }: ButtonProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -17,7 +17,28 @@ export const buttonStyle =
     line-height: initial;
     white-space: nowrap;
     height: fit-content;
+    position: relative;
     cursor: pointer;
+
+    [data-role='button-loading'] {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      circle {
+        stroke: currentColor;
+      }
+    }
+
+    ${loading &&
+    css`
+      &
+        > *:not([data-role='button-loading']):not(
+          [wds-component='with-interaction']
+        ) {
+        visibility: hidden;
+      }
+    `}
 
     &:disabled,
     &[aria-disabled='true'] {
@@ -52,6 +73,11 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
         padding: 12px 28px;
         gap: 6px;
 
+        [data-role='button-loading'] {
+          width: 18px;
+          height: 18px;
+        }
+
         ${iconOnly
           ? css`
               padding: 12px;
@@ -76,6 +102,11 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
         padding: 9px 20px;
         gap: 5px;
 
+        [data-role='button-loading'] {
+          width: 16px;
+          height: 16px;
+        }
+
         ${iconOnly
           ? css`
               padding: 10px;
@@ -99,6 +130,11 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
         border-radius: 8px;
         padding: 7px 14px;
         gap: 4px;
+
+        [data-role='button-loading'] {
+          width: 14px;
+          height: 14px;
+        }
 
         ${iconOnly
           ? css`
@@ -132,6 +168,10 @@ const buttonColorStyle = (
         background-color: ${theme.palette.primary.normal};
         box-shadow: none;
 
+        [data-role='button-loading'] {
+          color: inherit;
+        }
+
         &:disabled,
         &[aria-disabled='true'] {
           color: ${theme.palette.label.assistive};
@@ -147,6 +187,10 @@ const buttonColorStyle = (
         backdrop-filter: blur(32px);
         will-change: backdrop-filter;
 
+        [data-role='button-loading'] {
+          color: ${theme.palette.label.assistive};
+        }
+
         &:disabled,
         &[aria-disabled='true'] {
           color: ${theme.palette.label.assistive};
@@ -161,6 +205,10 @@ const buttonColorStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
 
+        [data-role='button-loading'] {
+          color: inherit;
+        }
+
         &:disabled,
         &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
@@ -174,6 +222,10 @@ const buttonColorStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
 
+        [data-role='button-loading'] {
+          color: inherit;
+        }
+
         &:disabled,
         &[aria-disabled='true'] {
           color: ${theme.palette.label.disable};
@@ -186,6 +238,10 @@ const buttonColorStyle = (
         color: ${theme.palette.label.normal};
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+
+        [data-role='button-loading'] {
+          color: ${theme.palette.label.assistive};
+        }
 
         &:disabled,
         &[aria-disabled='true'] {
