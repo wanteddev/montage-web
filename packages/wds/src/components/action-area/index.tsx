@@ -95,14 +95,18 @@ const ActionArea = forwardRef<
               >
                 {compactContent}
               </FlexBox>
-              <FlexBox flexShrink={0} gap="8px" data-role="action-area-wrapper">
+              <FlexBox
+                flexShrink={0}
+                gap="12px"
+                data-role="action-area-wrapper"
+              >
                 {children}
               </FlexBox>
             </FlexBox>
           ) : (
             <FlexBox
               flexDirection={priority === 'strong' ? 'column' : 'row'}
-              gap="8px"
+              gap={priority === 'strong' ? '8px' : '12px'}
               data-role="action-area-wrapper"
               alignSelf={priority === 'compact' ? 'flex-end' : 'initial'}
             >
