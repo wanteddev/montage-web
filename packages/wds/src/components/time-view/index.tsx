@@ -13,8 +13,6 @@ import {
   RovingFocusGroupItem,
 } from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import utc from 'dayjs/plugin/utc';
-import timezonePlugin from 'dayjs/plugin/timezone';
 
 import FlexBox from '../flex-box';
 import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
@@ -48,9 +46,6 @@ import type {
   TimeListProps,
   TimeViewProps,
 } from './types';
-
-dayjs.extend(utc);
-dayjs.extend(timezonePlugin);
 
 const TimeView = forwardRef<
   HTMLDivElement,
