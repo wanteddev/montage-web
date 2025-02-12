@@ -307,7 +307,7 @@ const categoryListItemSizeStyle = ({
           font-size: 14px;
         }
         & > span {
-          ${typographyStyle('label1_normal', 'medium')}
+          ${typographyStyle('label1', 'medium')}
           padding: 0 2px;
         }
       `;
@@ -322,7 +322,7 @@ const categoryListItemSizeStyle = ({
         }
 
         & > span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
           padding: 0 2px;
         }
       `;
@@ -336,7 +336,7 @@ const categoryListItemSizeStyle = ({
           font-size: 16px;
         }
         & > span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
           padding: 0 2px;
         }
       `;

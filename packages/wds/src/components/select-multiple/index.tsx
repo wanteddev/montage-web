@@ -279,7 +279,7 @@ const SelectMultiple = forwardRef<
                     <Typography
                       data-role="select-multiple-placeholder"
                       noWrap
-                      variant="body1_normal"
+                      variant="body1"
                       weight="regular"
                       sx={ellipsisTypographyStyle(1)}
                     >
@@ -288,7 +288,7 @@ const SelectMultiple = forwardRef<
                   ) : (
                     <Typography
                       data-role="select-multiple-values"
-                      variant="body1_normal"
+                      variant="body1"
                       weight="regular"
                       {...(overflow === false && {
                         noWrap: true,

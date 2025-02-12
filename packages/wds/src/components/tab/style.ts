@@ -237,7 +237,7 @@ const tabSizeStyle = ({ size, resize }: TabListProps) => {
         --wds-tab-padding-y: 9px;
 
         [wds-component='tab-list-item'] {
-          ${typographyStyle('body2_normal', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
       `;
     case 'medium':

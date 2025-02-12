@@ -77,10 +77,10 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         }
 
         span {
-          ${typographyStyle('label1_normal', 'medium')}
+          ${typographyStyle('label1', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
-          ${typographyStyle('label1_normal', 'bold')}
+          ${typographyStyle('label1', 'bold')}
         }
 
         svg {
@@ -99,10 +99,10 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         }
 
         span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
-          ${typographyStyle('body2_normal', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
 
         svg {
@@ -121,10 +121,10 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
         }
 
         span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
         }
         [data-role='chip-filter-active-label'] {
-          ${typographyStyle('body2_normal', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
 
         svg {

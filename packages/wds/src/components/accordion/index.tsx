@@ -149,7 +149,7 @@ const AccordionSummary = forwardRef<
           )
         }
         textProps={{
-          variant: 'body2_normal',
+          variant: 'body2',
           weight: 'bold',
           ...textProps,
           sx: [accordionSummaryTextStyle, textProps?.sx],
@@ -302,7 +302,7 @@ const AccordionDescription = forwardRef<
     <Typography
       ref={ref}
       as="p"
-      variant="label1_normal"
+      variant="label1"
       weight="regular"
       color="palette.label.neutral"
       {...props}
