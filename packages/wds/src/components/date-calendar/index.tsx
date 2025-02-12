@@ -8,12 +8,6 @@ import {
 } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import dayjs from 'dayjs';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isBetween from 'dayjs/plugin/isBetween';
-import weekday from 'dayjs/plugin/weekday';
-import utc from 'dayjs/plugin/utc';
-import timezonePlugin from 'dayjs/plugin/timezone';
 import {
   IconCaretDown,
   IconCaretUp,
@@ -70,13 +64,6 @@ import type {
   ViewType,
   YearCalendarProps,
 } from './types';
-
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isBetween);
-dayjs.extend(weekday);
-dayjs.extend(utc);
-dayjs.extend(timezonePlugin);
 
 const DateCalendar = forwardRef<
   HTMLDivElement,
