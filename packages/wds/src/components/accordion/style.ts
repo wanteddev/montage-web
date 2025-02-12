@@ -35,21 +35,24 @@ export const accordionSummaryContentStyle = ({
   height: 20px;
   z-index: 1;
 
-  ${!disableExpandIconAnimation &&
-  css`
-    will-change: transform;
-    transform: rotate(0deg);
-    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-
-    ${expanded &&
-    css`
-      transform: rotate(180deg);
-    `}
-  `}
-
   [wds-component='icon-button'] {
     width: 100%;
     height: 100%;
+  }
+
+  &[data-role='accordion-summary-expand-icon'],
+  &[data-role='accordion-summary-right-content'] {
+    ${!disableExpandIconAnimation &&
+    css`
+      will-change: transform;
+      transform: rotate(0deg);
+      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+      ${expanded &&
+      css`
+        transform: rotate(180deg);
+      `}
+    `}
   }
 `;
 
