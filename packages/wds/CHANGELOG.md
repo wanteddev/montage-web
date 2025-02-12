@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.3...@wanteddev/wds@1.6.4) (2025-02-12)
+
+### Bug Fixes
+
+- **wds:** action area 간격이 디자인과 맞지 않음 ([#246](https://github.com/wanteddev/wds/issues/246)) ([52e9b78](https://github.com/wanteddev/wds/commit/52e9b788e5fff14da74165357a94c3b3f23b30fb))
+- **wds:** dayjs 관련 빌드 오류 수정 ([#247](https://github.com/wanteddev/wds/issues/247)) ([9a82629](https://github.com/wanteddev/wds/commit/9a826298e7af79a132489d0ba251fb4cd2d4fa76))
+
+### Features
+
+- **wds:** 버튼 컴포넌트에 loading 옵션 추가 ([#245](https://github.com/wanteddev/wds/issues/245)) ([cdf15ee](https://github.com/wanteddev/wds/commit/cdf15ee81f48b9499d118b0939691117ec775e5c))
+
 ## [1.6.3](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.2...@wanteddev/wds@1.6.3) (2025-02-06)
 
 ### Bug Fixes
