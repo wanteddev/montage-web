@@ -44,3 +44,39 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
+## Loading
+
+`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있습니다.
+onClick 이벤트를 막지 않으므로 onClick 이벤트를 막기 위해서 별도 처리가 필요합니다.
+
+<Demo code={`import { TextButton, FlexBox } from '@wanteddev/wds';
+import { useState, useEffect } from 'react';
+
+const Demo = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoading(prev => !prev)
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  return (
+    <FlexBox gap="16px" flexDirection="column">
+      <FlexBox gap="16px">
+        <TextButton variant="primary" loading={loading} size="medium">텍스트</TextButton>
+        <TextButton variant="assistive" loading={loading} size="medium">텍스트</TextButton>
+      </FlexBox>
+      <FlexBox gap="16px">
+        <TextButton variant="primary" loading={loading} size="small">텍스트</TextButton>
+        <TextButton variant="assistive" loading={loading} size="small">텍스트</TextButton>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

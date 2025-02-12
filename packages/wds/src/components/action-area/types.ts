@@ -45,4 +45,5 @@ export type ActionButtonProps = {
    * button의 color를 override 할 때 사용합니다.
    */
   buttonColor?: ButtonProps['color'];
+  loading?: ButtonProps['loading'];
 };

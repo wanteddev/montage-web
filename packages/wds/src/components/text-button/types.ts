@@ -11,6 +11,7 @@ export type TextButtonDefaultProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
   children?: ReactNode;
+  loading?: boolean;
 };
 
 export type TextButtonResponsiveProps = ResponsiveProps<

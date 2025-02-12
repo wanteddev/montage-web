@@ -3,6 +3,7 @@ import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
+import Loading from '../loading';
 
 import { textButtonStyle } from './style';
 import { useTextButtonContext } from './contexts';
@@ -26,6 +27,7 @@ const TextButton = forwardRef(
       rightContent,
       size = 'medium',
       children,
+      loading = false,
       xs,
       sm,
       md,
@@ -66,6 +68,7 @@ const TextButton = forwardRef(
             textButtonStyle({
               color,
               size,
+              loading,
               variant,
               xs,
               sm,
@@ -76,6 +79,13 @@ const TextButton = forwardRef(
             props.sx,
           ]}
         >
+          {loading && (
+            <Loading
+              size="1em"
+              variant="circular"
+              data-role="text-button-loading"
+            />
+          )}
           {Boolean(leftContent) && leftContent}
           <span id={id}>{children}</span>
           {Boolean(rightContent) && rightContent}
