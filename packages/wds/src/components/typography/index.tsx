@@ -22,7 +22,7 @@ const Typography = forwardRef(
   <E extends ElementType = 'span'>(
     {
       as,
-      variant = 'body1_normal',
+      variant = 'body1',
       weight = 'regular',
       noWrap = false,
       display = 'inline',
