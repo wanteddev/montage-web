@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.4...@wanteddev/wds@1.6.5) (2025-02-13)
+
+### Features
+
+- **wds:** accordion left-content 대응 ([#248](https://github.com/wanteddev/wds/issues/248)) ([03cb9d7](https://github.com/wanteddev/wds/commit/03cb9d7c016c5b48af0e9798aa799a28f54777d1))
+
 ## [1.6.4](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.3...@wanteddev/wds@1.6.4) (2025-02-12)
 
 ### Bug Fixes
