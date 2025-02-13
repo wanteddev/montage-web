@@ -7,14 +7,15 @@ export type AccordionProps = {
   disabled?: boolean;
   divider?: boolean;
   onChange?: (expanded: boolean) => void;
+  disableAnimation?: boolean;
 };
 
 export type AccordionSummaryContentProps = Merge<
   {
     /**
-     * expanded가 변경될 때 rightContent의 회전 애니메이션을 비활성 합니다.
+     * expanded가 true 일 때 content를 회전합니다.
      */
-    disableExpandIconAnimation?: boolean;
+    rotate?: boolean;
   },
   ListCellContentProps
 >;

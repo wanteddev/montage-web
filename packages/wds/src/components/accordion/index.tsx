@@ -53,6 +53,7 @@ const Accordion = forwardRef<
 >(
   (
     {
+      disableAnimation = false,
       defaultExpanded,
       expanded: originExpanded,
       onChange,
@@ -79,6 +80,7 @@ const Accordion = forwardRef<
         onExpandedChange={setExpand}
         summaryId={summaryId}
         detailsId={detailsId}
+        disableAnimation={disableAnimation}
       >
         <Box ref={ref} sx={[accordionStyle({ disabled }), sx]}>
           {children}
@@ -86,7 +88,7 @@ const Accordion = forwardRef<
             <Divider
               data-role="accordion-divider"
               color="palette.line.normal.alternative"
-              sx={accordionDividerStyle({ expanded })}
+              sx={accordionDividerStyle({ expanded, disableAnimation })}
             />
           )}
         </Box>
@@ -150,6 +152,7 @@ const AccordionSummary = forwardRef<
           ) : (
             <AccordionSummaryContent
               variant="icon"
+              rotate
               data-role="accordion-summary-expand-icon"
             >
               <IconChevronDown
@@ -184,8 +187,10 @@ AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 const AccordionSummaryContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<AccordionSummaryContentProps, 'div'>
->(({ sx, disableExpandIconAnimation = false, ...props }, ref) => {
-  const { expanded } = useAccordionContext(ACCORDION_SUMMARY_CONTENT_NAME);
+>(({ sx, rotate = false, ...props }, ref) => {
+  const { expanded, disableAnimation } = useAccordionContext(
+    ACCORDION_SUMMARY_CONTENT_NAME,
+  );
 
   return (
     <ListCellContent
@@ -194,7 +199,8 @@ const AccordionSummaryContent = forwardRef<
       sx={[
         accordionSummaryContentStyle({
           expanded,
-          disableExpandIconAnimation,
+          disableAnimation,
+          rotate,
         }),
         sx,
       ]}
@@ -208,15 +214,16 @@ const AccordionDetails = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<AccordionDetailsProps, 'div'>
 >(({ sx, children, ...props }, forwardedRef) => {
-  const { expanded, detailsId, summaryId } = useAccordionContext(
-    ACCORDION_DETAILS_NAME,
-  );
+  const { expanded, detailsId, summaryId, disableAnimation } =
+    useAccordionContext(ACCORDION_DETAILS_NAME);
 
   const ref = useRef<HTMLDivElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
 
   const [wrapperNode, setWrapperNode] = useState<HTMLDivElement | null>(null);
-  const { height = 0 } = useSize(wrapperNode) ?? {};
+  const height = useSize(wrapperNode)?.height;
+
+  const initialExpanded = useRef(expanded).current;
 
   useEffect(() => {
     if (ref.current) {
@@ -257,15 +264,25 @@ const AccordionDetails = forwardRef<
     const element = ref.current;
 
     if (expanded) {
-      element.style.overflow = 'hidden';
-      element.style.height = `${height}px`;
+      if (disableAnimation) {
+        element.style.overflow = 'visible';
+        element.style.height = 'initial';
+      } else {
+        element.style.overflow = 'hidden';
+        element.style.height = `${height}px`;
+      }
     } else {
-      element.style.height = `${height}px`;
-      element.style.overflow = 'hidden';
-
-      requestAnimationFrame(() => {
+      if (disableAnimation) {
+        element.style.overflow = 'hidden';
         element.style.height = '0px';
-      });
+      } else {
+        element.style.height = `${height}px`;
+        element.style.overflow = 'hidden';
+
+        requestAnimationFrame(() => {
+          element.style.height = '0px';
+        });
+      }
     }
 
     const handleTransitionEnd = () => {
@@ -280,9 +297,7 @@ const AccordionDetails = forwardRef<
       element.removeEventListener('transitionend', handleTransitionEnd);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expanded]);
-
-  const initialExpandedRef = useRef(expanded);
+  }, [expanded, disableAnimation]);
 
   return (
     <Box
@@ -293,7 +308,8 @@ const AccordionDetails = forwardRef<
       id={detailsId}
       {...props}
       sx={accordionDetailsStyle({
-        initialExpanded: initialExpandedRef.current,
+        initialExpanded,
+        disableAnimation,
       })}
     >
       <FlexBox

@@ -160,6 +160,7 @@ export default Demo;`}
 
 - leftContent를 추가하거나 기본 rightContent를 교체할 수 있어요.
 - rightContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPropagation` 을 통해 아코디언이 열리고 닫히는 동작을 막을 수 있어요.
+- rotate 옵션을 통해 열리고 닫힐 때 회전 여부를 결정할 수 있어요.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton } from '@wanteddev/wds';
 import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown, IconPlus } from '@wanteddev/wds-icon';
@@ -203,12 +204,12 @@ const Demo = () => {
       <Accordion>
         <AccordionSummary
           rightContent={
-            <AccordionSummaryContent variant="icon">
+            <AccordionSummaryContent variant="icon" rotate>
               <IconCaretDown />
             </AccordionSummaryContent>
           }
         >
-          RightContent, Icon<br />
+          RightContent, Icon, Rotate<br />
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -226,9 +227,8 @@ const Demo = () => {
           rightContent={
             <AccordionSummaryContent
               variant="icon"
-              disableExpandIconAnimation
             >
-              <IconCircleCheckFill 
+              <IconCircleCheckFill
                 sx={(theme) => ({
                   color: expandedCheckAccordion 
                     ? theme.palette.primary.normal 
@@ -239,7 +239,6 @@ const Demo = () => {
           }
         >
           RightContent, Icon<br />
-          DisableExpandIconAnimation, true
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -252,7 +251,7 @@ const Demo = () => {
       <Accordion>
         <AccordionSummary
           rightContent={
-            <AccordionSummaryContent variant="icon-button">
+            <AccordionSummaryContent variant="icon-button" rotate>
               <IconButton>
                 <IconChevronDown
                   sx={(theme) => ({
@@ -263,7 +262,7 @@ const Demo = () => {
             </AccordionSummaryContent>
           }
         >
-          RightContent, IconButton
+          RightContent, IconButton, Rotate
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -278,7 +277,6 @@ const Demo = () => {
           rightContent={
             <AccordionSummaryContent
               variant="icon-button"
-              disableExpandIconAnimation
             >
               <IconButton
                 as="a"
@@ -294,7 +292,6 @@ const Demo = () => {
           }
         >
           RightContent, IconButton<br />
-          DisableExpandIconAnimation, true<br />
           rightContent onClick
         </AccordionSummary>
         <AccordionDetails>
@@ -314,22 +311,23 @@ export default Demo;`}
 ### Nested Accordion  
 
 - Accordion을 중첩해서 사용할 수 있어요.
-- 하위 Accordion은 `disableInteraction`과 함께 사용하면 자연스러운 동작으로 열고 닫을 수 있어요.
+- 중첩 인터렉션 영역이 짤리는 경우가 생길 수 있어요.
+  - `disableAnimation` 를 사용하거나 하위 Accordion은 `fillWidth` 로 사용하여 인터렉션 영역을 보호할 수 있어요.
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
 import type { CSSProperties } from 'react';
 
 const Demo = () => {
   return (
-    <div>
-      <Accordion defaultExpanded>
-        <AccordionSummary fillWidth>
-          제목
+    <FlexBox gap="12px" flexDirection="column">
+      <Accordion disableAnimation>
+        <AccordionSummary>
+          최상위 Accordion, disableAnimation
         </AccordionSummary>
         <AccordionDetails sx={{ gap: '4px' }}>
-          <Accordion divider={false} sx={{ paddingLeft: '12px' }}>
-            <AccordionSummary padding="12px" disableInteraction>
-              하위 메뉴
+          <Accordion divider={false} disableAnimation>
+            <AccordionSummary>
+              하위 Accordion, disableAnimation
             </AccordionSummary>
             <AccordionDetails>
               <AccordionDescription>
@@ -338,9 +336,9 @@ const Demo = () => {
               </AccordionDescription>
             </AccordionDetails>
           </Accordion>
-          <Accordion divider={false} sx={{ paddingLeft: '12px' }}>
-            <AccordionSummary padding="12px" disableInteraction>
-              하위 메뉴
+          <Accordion divider={false} disableAnimation>
+            <AccordionSummary>
+              하위 Accordion, disableAnimation
             </AccordionSummary>
             <AccordionDetails>
               <AccordionDescription>
@@ -354,12 +352,12 @@ const Demo = () => {
 
       <Accordion>
         <AccordionSummary fillWidth>
-          제목
+          최상위 Accordion, fillWidth
         </AccordionSummary>
-        <AccordionDetails sx={{ gap: '4px'}}>
-          <Accordion divider={false} sx={{ paddingLeft: '12px' }}>
-            <AccordionSummary padding="12px" disableInteraction>
-              하위 메뉴
+        <AccordionDetails sx={{ gap: '4px', padding: 0 }}>
+          <Accordion divider={false}>
+            <AccordionSummary fillWidth>
+              하위 Accordion, fillWidth
             </AccordionSummary>
             <AccordionDetails>
               <AccordionDescription>
@@ -368,9 +366,9 @@ const Demo = () => {
               </AccordionDescription>
             </AccordionDetails>
           </Accordion>
-          <Accordion divider={false} sx={{ paddingLeft: '12px' }}>
-            <AccordionSummary padding="12px" disableInteraction>
-              하위 메뉴
+          <Accordion divider={false}>
+            <AccordionSummary fillWidth>
+              하위 Accordion, fillWidth
             </AccordionSummary>
             <AccordionDetails>
               <AccordionDescription>
@@ -381,7 +379,7 @@ const Demo = () => {
           </Accordion>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </FlexBox>
   )
 }
 
