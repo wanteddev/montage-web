@@ -6,7 +6,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ListCell, ListCellContent } from '../list';
 import Typography from '../typography';
-import { Divider, FlexBox, useComposedRefs, useSize } from '../..';
+import { Divider, FlexBox, Slot, useComposedRefs, useSize } from '../..';
 
 import {
   ACCORDION_CONTENT_NAME,
@@ -105,6 +105,7 @@ const AccordionSummary = forwardRef<
     {
       disabled: givenDisabled,
       children,
+      leftContent,
       rightContent,
       textProps,
       sx,
@@ -134,8 +135,19 @@ const AccordionSummary = forwardRef<
         aria-expanded={expanded}
         aria-controls={detailsId}
         id={summaryId}
+        {...(Boolean(leftContent) && {
+          leftContent: (
+            <Slot data-role="accordion-summary-left-content">
+              {leftContent}
+            </Slot>
+          ),
+        })}
         rightContent={
-          rightContent ?? (
+          Boolean(rightContent) ? (
+            <Slot data-role="accordion-summary-right-content">
+              {rightContent}
+            </Slot>
+          ) : (
             <AccordionSummaryContent
               variant="icon"
               data-role="accordion-summary-expand-icon"
@@ -180,7 +192,10 @@ const AccordionSummaryContent = forwardRef<
       ref={ref}
       {...props}
       sx={[
-        accordionSummaryContentStyle({ expanded, disableExpandIconAnimation }),
+        accordionSummaryContentStyle({
+          expanded,
+          disableExpandIconAnimation,
+        }),
         sx,
       ]}
     />

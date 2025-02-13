@@ -6,7 +6,7 @@ description: Accordion Component
 # Accordion
 
 - 내용을 최소화하거나 펼칠 때 사용합니다.
-- AccordionSummary의 rightContent를 교체할 때는 `AccordionSummaryContent`로 감싸주세요.
+- AccordionSummary에 leftContent를 추가하거나 rightContent를 교체할 때는 `AccordionSummaryContent`로 감싸주세요.
 
 ## 활용
 
@@ -156,13 +156,13 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### RightContent
+### LeftContent, RightContent
 
-- AccordionSummary의 기본 rightContent를 교체할 수 있어요.
+- leftContent를 추가하거나 기본 rightContent를 교체할 수 있어요.
 - rightContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPropagation` 을 통해 아코디언이 열리고 닫히는 동작을 막을 수 있어요.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton } from '@wanteddev/wds';
-import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown } from '@wanteddev/wds-icon';
+import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown, IconPlus } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -173,6 +173,24 @@ const Demo = () => {
       <Accordion disabled>
         <AccordionSummary>
           Disabled, true
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          leftContent={
+            <AccordionSummaryContent variant="icon">
+              <IconPlus />
+            </AccordionSummaryContent>
+          }
+        >
+          LeftContent, Icon<br />
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
