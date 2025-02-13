@@ -35,3 +35,32 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="AvatarButton" />
+
+
+
+<Demo code={`import { FlexBox, Avatar, AvatarButton, Popover, PopoverTrigger, PopoverContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <AvatarButton>
+        <Avatar size="xsmall" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar size="small" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar size="medium" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar size="large" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar size="xlarge" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      </AvatarButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
