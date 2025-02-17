@@ -2,11 +2,11 @@ import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
-import type { NestedCheckboxProps } from './types';
+import type { CheckMarkProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const nestedCheckboxStyle =
-  ({ size, xs, sm, md, lg, xl }: NestedCheckboxProps) =>
+export const checkMarkStyle =
+  ({ size, xs, sm, md, lg, xl }: CheckMarkProps) =>
   (theme: Theme) => css`
     padding: 0px;
     background-color: transparent;
@@ -47,7 +47,7 @@ export const nestedCheckboxStyle =
     )}
   `;
 
-const getSizeStyle = (size: NestedCheckboxProps['size']) => {
+const getSizeStyle = (size: CheckMarkProps['size']) => {
   switch (size) {
     case 'normal':
       return css`

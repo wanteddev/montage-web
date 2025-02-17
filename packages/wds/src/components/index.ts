@@ -33,7 +33,7 @@ export { default as Loading } from './loading';
 export * from './list';
 export * from './menu';
 export * from './modal';
-export { default as NestedCheckbox } from './nested-checkbox';
+export { default as CheckMark } from './check-mark';
 export { default as NoSsr } from './no-ssr';
 export * from './pagination';
 export { default as PaginationCounter } from './pagination-counter';
