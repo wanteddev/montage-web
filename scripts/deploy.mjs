@@ -44,51 +44,15 @@ const main = async () => {
     loop: false,
   });
 
-  console.log('변경된 패키지를 감지 중입니다.');
+  const { isConfirm } = await inquirer.prompt({
+    type: 'confirm',
+    name: 'isConfirm',
+    message: `정말로 ${version} 버전으로 패키지들을 배포하시겠습니까?`,
+    loop: false,
+  });
 
-  const changedPackage = shelljs
-    .exec('pnpm lerna changed', { silent: true })
-    .stdout.split('\n')
-    .filter(Boolean);
-
-  let force = false;
-
-  if (changedPackage.length === 0) {
-    const { isConfirm } = await inquirer.prompt({
-      type: 'confirm',
-      name: 'isConfirm',
-      message:
-        '변경된 패키지가 없습니다. 모든 패키지를 강제 배포 하시겠습니까?',
-      loop: false,
-    });
-
-    if (!isConfirm) {
-      return;
-    }
-
-    force = true;
-  } else {
-    const { isConfirm } = await inquirer.prompt({
-      type: 'confirm',
-      name: 'isConfirm',
-      message: `다음 패키지들을 배포하시겠습니까? ${changedPackage.join(', ')}`,
-      loop: false,
-    });
-
-    if (!isConfirm) {
-      const { forcePublish } = await inquirer.prompt({
-        type: 'confirm',
-        name: 'forcePublish',
-        message: '모든 패키지를 강제 배포 하시겠습니까?',
-        loop: false,
-      });
-
-      if (!forcePublish) {
-        return;
-      }
-
-      force = true;
-    }
+  if (!isConfirm) {
+    return;
   }
 
   const rawToken = shelljs.exec('cat ~/.npmrc', { silent: true }).stdout;
@@ -111,7 +75,7 @@ const main = async () => {
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token ${token}" \
     https://api.github.com/repos/wanteddev/wds/actions/workflows/version.yml/dispatches \
-    -d '{"ref":"main", "inputs": { "increment": "${version}", "force": "${force.toString()}" }}'`;
+    -d '{"ref":"main", "inputs": { "increment": "${version}" }}'`;
 
   shelljs.exec(command, { fatal: true }, (code, _stdout, stderr) => {
     if (code !== 0) {
