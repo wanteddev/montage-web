@@ -23,62 +23,14 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     j,
     root,
   );
-  const checkMarkImport = findImportDeclaration(
-    'CheckMark',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
 
   if (nestedCheckboxImport) {
     hasChanges = true;
 
-    let checkMarkName: string;
-
-    if (!checkMarkImport) {
-      root
-        .find(j.Identifier, { name: nestedCheckboxImport.imported.name })
-        .forEach((textfield) => {
-          textfield.value.name = 'CheckMark';
-        });
-      nestedCheckboxImport.imported = j.identifier('CheckMark');
-
-      checkMarkName = 'CheckMark';
-    } else {
-      j(nestedCheckboxImport)
-        .find(j.ImportSpecifier, {
-          imported: {
-            name: 'NestedCheckbox',
-          },
-        })
-        .remove();
-
-      checkMarkName = checkMarkImport.imported.name;
-    }
-
     root
-      .find(j.JSXOpeningElement, {
-        name: { name: nestedCheckboxImport.imported.name },
-      })
-      .forEach((nestedCheckbox) => {
-        if (nestedCheckbox.value.name.type === 'JSXIdentifier') {
-          nestedCheckbox.value.name.name = checkMarkName;
-        }
-      });
-
-    // figma.connect NESTED_CHECKBOX -> CHECK_MARK
-    const figmaStringMappings = {
-      ['<FIGMA_CONTROL_NESTED_CHECKBOX>']: '<FIGMA_CONTROL_CHECK_MARK>',
-      ['<FIGMA_NESTED_CHECKBOX>']: '<FIGMA_CHECK_MARK>',
-    };
-
-    root
-      .find(j.StringLiteral)
-      .filter((path) => figmaStringMappings[path.value.value])
-      .forEach((path) => {
-        const oldValue = path.value.value;
-        path.value.value = figmaStringMappings[oldValue];
-        hasChanges = true;
+      .find(j.Identifier, { name: nestedCheckboxImport.imported.name })
+      .forEach((textfield) => {
+        textfield.value.name = 'CheckMark';
       });
   }
 
