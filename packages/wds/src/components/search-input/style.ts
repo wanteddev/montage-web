@@ -105,10 +105,10 @@ export const searchInputWrapperStyle =
       border: none;
       box-shadow: none;
       color: ${theme.palette.label.normal};
-      ${typographyStyle('body1_normal', 'regular')}
+      ${typographyStyle('body1', 'regular')}
 
       &::placeholder {
-        ${typographyStyle('body1_normal', 'regular')}
+        ${typographyStyle('body1', 'regular')}
         color: ${theme.palette.label.assistive};
       }
 

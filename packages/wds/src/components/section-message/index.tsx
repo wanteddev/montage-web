@@ -138,7 +138,7 @@ const SectionMessage = forwardRef<
 
                   <Typography
                     color="palette.label.normal"
-                    variant="label1_normal"
+                    variant="label1"
                     weight="medium"
                     id={descriptionId}
                   >

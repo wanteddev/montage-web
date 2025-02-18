@@ -230,7 +230,7 @@ const TextArea = forwardRef<
               ref={shadowRef}
               tabIndex={-1}
               sx={css`
-                ${typographyStyle('body1_reading', 'regular')}
+                ${typographyStyle('body1-reading', 'regular')}
               `}
               style={{
                 visibility: 'hidden',

@@ -23,7 +23,7 @@ const cardListPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         }
         // text
         [wds-component='card-title'] {
-          ${typographyStyle('body1_normal', 'bold')}
+          ${typographyStyle('body1', 'bold')}
         }
         [wds-component='card-caption'] {
           ${typographyStyle('label2', 'medium')}
@@ -40,7 +40,7 @@ const cardListPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         }
         // text
         [wds-component='card-title'] {
-          ${typographyStyle('body2_normal', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
       `;
   }

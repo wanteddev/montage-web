@@ -134,10 +134,10 @@ const paginationCounterSizeStyle = ({
         gap: 4px;
 
         [data-role='pagination-counter-divider'] {
-          ${typographyStyle('body2_normal', 'regular')}
+          ${typographyStyle('body2', 'regular')}
         }
         [data-role='pagination-counter-text'] {
-          ${typographyStyle('body2_normal', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
       `;
   }

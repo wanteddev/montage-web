@@ -71,7 +71,7 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
           font-size: 14px;
         }
         & > span {
-          ${typographyStyle('label1_normal', 'medium')}
+          ${typographyStyle('label1', 'medium')}
           padding: 0 2px;
         }
       `;
@@ -86,7 +86,7 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
         }
 
         & > span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
           padding: 0 2px;
         }
       `;
@@ -100,7 +100,7 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
           font-size: 16px;
         }
         & > span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
           padding: 0 2px;
         }
       `;

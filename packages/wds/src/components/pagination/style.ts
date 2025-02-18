@@ -24,7 +24,7 @@ export const pageButtonStyle = (theme: Theme) => css`
 
   // TextButton Typography
   > span {
-    ${typographyStyle('body2_normal', 'regular')}
+    ${typographyStyle('body2', 'regular')}
     will-change: font-weight, color;
     transition:
       font-weight 0.15s ease,
@@ -43,7 +43,7 @@ export const pageButtonStyle = (theme: Theme) => css`
 
     &[aria-current='page'] {
       > span {
-        ${typographyStyle('body2_normal', 'medium')}
+        ${typographyStyle('body2', 'medium')}
         color: ${theme.palette.label.normal};
       }
 
@@ -59,7 +59,7 @@ export const paginationInputStyle = css`
   border-radius: 8px;
 
   input {
-    ${typographyStyle('label1_normal', 'medium')}
+    ${typographyStyle('label1', 'medium')}
     text-align: center;
   }
 

@@ -244,7 +244,7 @@ const listCellContentVariantStyle =
 
       case 'chevron':
         return css`
-          ${typographyStyle('body1_normal', 'regular')}
+          ${typographyStyle('body1', 'regular')}
           color: ${theme.palette.label.alternative};
         `;
     }

@@ -77,7 +77,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                 </td>
                 <td>
                   <Typography
-                    variant="body1_reading"
+                    variant="body1-reading"
                     weight="regular"
                     color="palette.accent.redOrange"
                   >
@@ -150,7 +150,7 @@ const PropsTable = ({ component, fallback }: Props) => {
               </td>
               <td>
                 <Typography
-                  variant="body1_reading"
+                  variant="body1-reading"
                   weight="regular"
                   color="palette.accent.redOrange"
                 >

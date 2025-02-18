@@ -92,7 +92,7 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
                 font-size: 20px;
               }
               & > span {
-                ${typographyStyle('body1_normal', fontWeight)}
+                ${typographyStyle('body1', fontWeight)}
               }
             `}
       `;
@@ -121,7 +121,7 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
                 font-size: 18px;
               }
               & > span {
-                ${typographyStyle('body2_normal', fontWeight)}
+                ${typographyStyle('body2', fontWeight)}
               }
             `}
       `;

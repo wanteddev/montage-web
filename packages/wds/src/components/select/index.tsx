@@ -241,7 +241,7 @@ const Select = forwardRef<
                     <Typography
                       data-role="select-placeholder"
                       noWrap
-                      variant="body1_normal"
+                      variant="body1"
                       weight="regular"
                       sx={selectTextStyle}
                     >
@@ -251,7 +251,7 @@ const Select = forwardRef<
                     <Typography
                       data-role="select-values"
                       noWrap
-                      variant="body1_normal"
+                      variant="body1"
                       weight="regular"
                       sx={selectTextStyle}
                     >

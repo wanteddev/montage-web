@@ -178,7 +178,7 @@ const TableCell = forwardRef<
     <Typography
       as="td"
       color="palette.label.normal"
-      variant="body1_normal"
+      variant="body1"
       weight="regular"
       align="left"
       ref={ref}

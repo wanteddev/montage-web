@@ -5,7 +5,7 @@ import type { Theme } from '@wanteddev/wds';
 export const mdxRootStyle = (theme: Theme) => css`
   width: 100%;
   color: ${theme.palette.label.normal};
-  ${typographyStyle('body1_reading', 'regular')}
+  ${typographyStyle('body1-reading', 'regular')}
 
   code,
   .npm__react-simple-code-editor__textarea,
@@ -15,7 +15,7 @@ export const mdxRootStyle = (theme: Theme) => css`
   }
 
   strong {
-    ${typographyStyle('body1_reading', 'bold')}
+    ${typographyStyle('body1-reading', 'bold')}
   }
 
   p > a {
@@ -95,14 +95,14 @@ export const mdxRootStyle = (theme: Theme) => css`
       background-color: ${theme.palette.background.elevated.alternative};
       padding: 12px 16px;
       text-align: left;
-      ${typographyStyle('body1_reading', 'bold')}
+      ${typographyStyle('body1-reading', 'bold')}
     }
     td {
       padding: 12px 16px;
       color: ${theme.palette.label.normal};
       box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
       text-align: left;
-      ${typographyStyle('body1_reading', 'regular')}
+      ${typographyStyle('body1-reading', 'regular')}
     }
   }
 `;
