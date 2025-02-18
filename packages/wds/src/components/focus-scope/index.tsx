@@ -1,8 +1,9 @@
 'use client';
 /**
- * Source by
+ * Most of this file is based on code from @radix-ui/react-focus-scope.
+ * MIT Licensed, Copyright (c) 2022 WorkOS
+
  * https://github.com/radix-ui/primitives/blob/main/packages/react/focus-scope/src/FocusScope.tsx
- *
  */
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
