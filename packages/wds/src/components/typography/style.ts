@@ -52,32 +52,32 @@ export const variantMap: {
     line-height: 24px;
     letter-spacing: 0em;
   `,
-  body1_normal: css`
+  body1: css`
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 0.0057em;
   `,
-  body1_reading: css`
+  'body1-reading': css`
     font-size: 16px;
     line-height: 26px;
     letter-spacing: 0.0057em;
   `,
-  body2_normal: css`
+  body2: css`
     font-size: 15px;
     line-height: 22px;
     letter-spacing: 0.0096em;
   `,
-  body2_reading: css`
+  'body2-reading': css`
     font-size: 15px;
     line-height: 24px;
     letter-spacing: 0.0096em;
   `,
-  label1_normal: css`
+  label1: css`
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.0145em;
   `,
-  label1_reading: css`
+  'label1-reading': css`
     font-size: 14px;
     line-height: 22px;
     letter-spacing: 0.0145em;

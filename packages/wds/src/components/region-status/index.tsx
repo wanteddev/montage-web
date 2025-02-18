@@ -134,7 +134,7 @@ const Toast = ({
 
         <Typography
           color="palette.static.white"
-          variant="body2_normal"
+          variant="body2"
           weight="bold"
           id={contentId}
           sx={[messageStyle, textStyle]}
@@ -203,7 +203,7 @@ const Snackbar = ({
             {heading && (
               <Typography
                 color="palette.static.white"
-                variant="body2_normal"
+                variant="body2"
                 weight="bold"
                 id={headingId}
                 sx={textStyle}

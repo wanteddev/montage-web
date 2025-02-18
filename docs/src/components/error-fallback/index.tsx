@@ -12,7 +12,7 @@ const ErrorFallback = () => {
     >
       <Typography
         align="center"
-        variant="body1_normal"
+        variant="body1"
         weight="bold"
         color="palette.label.strong"
       >

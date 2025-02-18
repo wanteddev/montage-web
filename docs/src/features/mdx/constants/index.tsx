@@ -46,7 +46,7 @@ const MDXComponents: { [key: string]: (props: any) => ReactNode } = {
   p: (props) => (
     <Typography
       {...props}
-      variant="body1_normal"
+      variant="body1"
       weight="regular"
       as="p"
       sx={{

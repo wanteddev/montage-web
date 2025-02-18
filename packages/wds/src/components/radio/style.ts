@@ -31,7 +31,7 @@ export const radioStyle =
     border-radius: 9999px;
 
     & ~ label {
-      ${typographyStyle('body2_normal', 'regular')}
+      ${typographyStyle('body2', 'regular')}
       color: ${theme.palette.label.normal};
       cursor: pointer;
     }

@@ -245,7 +245,7 @@ const PaginationItem = ({
         </TextButton>
       ) : (
         <Typography
-          variant="body2_normal"
+          variant="body2"
           weight="regular"
           color={
             disabled ? 'palette.label.disable' : 'palette.label.alternative'

@@ -126,7 +126,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps) => {
           font-size: 20px;
         }
         & > span {
-          ${typographyStyle('body1_normal', 'bold')}
+          ${typographyStyle('body1', 'bold')}
         }
       `;
     case 'small':
@@ -149,7 +149,7 @@ const textButtonSizeStyle = ({ size }: TextButtonProps) => {
           font-size: 16px;
         }
         & > span {
-          ${typographyStyle('label1_normal', 'bold')}
+          ${typographyStyle('label1', 'bold')}
         }
       `;
   }

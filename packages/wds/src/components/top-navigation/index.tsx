@@ -221,7 +221,7 @@ const TopNavigationButton = forwardRef(
           wds-component="top-navigation-button"
           ref={ref}
         >
-          <Typography as="p" variant="body2_normal" weight="medium" id={id}>
+          <Typography as="p" variant="body2" weight="medium" id={id}>
             {children}
           </Typography>
         </IconButton>

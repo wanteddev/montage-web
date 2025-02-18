@@ -198,7 +198,7 @@ CardContentItem.displayName = CARD_CONTENT_ITEM_NAME;
 const CardTitle = forwardRef(
   <E extends ElementType = 'span'>(
     {
-      variant = 'body1_normal',
+      variant = 'body1',
       weight = 'bold',
       ...props
     }: PolymorphicProps<TypographyProps, E>,

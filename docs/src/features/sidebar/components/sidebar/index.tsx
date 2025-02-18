@@ -30,7 +30,7 @@ const Sidebar = () => {
       <aside>
         <ScrollArea>
           <FlexBox as="nav" flexDirection="column" gap="4px">
-            <Typography as="h4" variant="body2_reading" weight="bold">
+            <Typography as="h4" variant="body2-reading" weight="bold">
               On this page
             </Typography>
             <FlexBox flexDirection="column" as="ul" gap="4px">

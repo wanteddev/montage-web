@@ -211,7 +211,7 @@ const TooltipContent = forwardRef<
                       }}
                     >
                       <Typography
-                        variant="label1_normal"
+                        variant="label1"
                         weight="medium"
                         sx={{
                           wordBreak: 'keep-all',
