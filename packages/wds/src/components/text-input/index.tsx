@@ -194,7 +194,7 @@ const TextInputContent = forwardRef<
         <Typography
           as="div"
           wds-component="text-input-content"
-          variant="body1_normal"
+          variant="body1"
           weight="medium"
           ref={ref}
           sx={[textInputContentStyle, { padding: '0px 4px' }, sx]}
@@ -219,7 +219,7 @@ const TextInputContent = forwardRef<
       return (
         <Typography
           as="div"
-          variant="label1_normal"
+          variant="label1"
           weight="bold"
           wds-component="text-input-content"
           ref={ref}

@@ -288,7 +288,7 @@ const Slider = forwardRef<
               return (
                 <Typography
                   data-role="slider-label"
-                  variant="label1_normal"
+                  variant="label1"
                   weight="medium"
                   key={i}
                   display="inline-block"

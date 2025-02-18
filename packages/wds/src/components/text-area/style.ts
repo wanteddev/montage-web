@@ -142,7 +142,7 @@ export const textAreaStyle =
     border: none;
     resize: none;
     color: ${theme.palette.label.normal};
-    ${typographyStyle('body1_reading', 'regular')}
+    ${typographyStyle('body1-reading', 'regular')}
 
     &::-webkit-scrollbar {
       display: none;
@@ -151,7 +151,7 @@ export const textAreaStyle =
     scrollbar-width: none;
 
     &::placeholder {
-      ${typographyStyle('body1_reading', 'regular')}
+      ${typographyStyle('body1-reading', 'regular')}
       color: ${theme.palette.label.assistive};
     }
 

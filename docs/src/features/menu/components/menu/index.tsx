@@ -36,7 +36,7 @@ const Menu = () => {
           >
             <Typography
               as="h4"
-              variant="body1_normal"
+              variant="body1"
               weight="bold"
               color="palette.label.normal"
             >
@@ -55,7 +55,7 @@ const Menu = () => {
                     sx={menuLinkStyle}
                   >
                     <Typography
-                      variant="body2_normal"
+                      variant="body2"
                       weight={activeSlug === page.slug ? 'medium' : 'regular'}
                       color={
                         activeSlug === page.slug

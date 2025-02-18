@@ -25,6 +25,10 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'Migration Forms Design', value: 'migration-forms' },
   { name: 'List Cell Migration', value: 'list-cell-migration' },
   { name: 'Filled Variant to Solid', value: 'filled-variant-to-solid' },
+  {
+    name: 'Typography Variant to kebab-case',
+    value: 'typography-variant-cases',
+  },
 ];
 
 export const run = () => {

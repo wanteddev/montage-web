@@ -153,7 +153,7 @@ const Item = ({
 
                 <Typography
                   wds-component="dialog-content"
-                  variant="body2_normal"
+                  variant="body2"
                   weight="regular"
                   color="palette.label.alternative"
                   sx={{

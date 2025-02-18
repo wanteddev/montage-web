@@ -32,7 +32,7 @@ const emptyStatePlatformStyle = ({
           ${typographyStyle('headline1', 'bold')}
         }
         [data-role='empty-state-text-description'] {
-          ${typographyStyle('body2_reading')}
+          ${typographyStyle('body2-reading')}
         }
 
         [wds-component='empty-state-button'] {
@@ -45,7 +45,7 @@ const emptyStatePlatformStyle = ({
             font-size: 18px;
           }
           & > span {
-            ${typographyStyle('body2_normal', 'medium')}
+            ${typographyStyle('body2', 'medium')}
           }
         }
       `;
@@ -73,7 +73,7 @@ const emptyStatePlatformStyle = ({
           ${typographyStyle('heading2', 'bold')}
         }
         [data-role='empty-state-text-description'] {
-          ${typographyStyle('body1_reading')}
+          ${typographyStyle('body1-reading')}
         }
 
         [wds-component='empty-state-button'] {
@@ -86,7 +86,7 @@ const emptyStatePlatformStyle = ({
             font-size: 20px;
           }
           & > span {
-            ${typographyStyle('body1_normal', 'medium')}
+            ${typographyStyle('body1', 'medium')}
           }
         }
       `;
