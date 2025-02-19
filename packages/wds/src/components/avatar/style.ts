@@ -78,7 +78,7 @@ const avatarSizeStyle = (
   size: AvatarProps['size'],
   variant: AvatarProps['variant'],
 ) => {
-  const getBorderRadius = (rounded: string) => {
+  const getBorderRadius = (rounded: number) => {
     switch (variant) {
       case 'person':
         return css`
@@ -87,7 +87,11 @@ const avatarSizeStyle = (
       case 'academic':
       case 'company':
         return css`
-          border-radius: ${rounded};
+          border-radius: ${rounded}px;
+
+          & > [wds-component='with-interaction'] {
+            border-radius: ${rounded + 8}px;
+          }
         `;
     }
   };
@@ -99,7 +103,7 @@ const avatarSizeStyle = (
         height: 56px;
         font-size: 37.4px;
 
-        ${getBorderRadius('12px')}
+        ${getBorderRadius(12)}
       `;
     case 'large':
       return css`
@@ -107,7 +111,7 @@ const avatarSizeStyle = (
         height: 48px;
         font-size: 32px;
 
-        ${getBorderRadius('10px')}
+        ${getBorderRadius(10)}
       `;
     case 'medium':
       return css`
@@ -115,7 +119,7 @@ const avatarSizeStyle = (
         height: 40px;
         font-size: 26.7px;
 
-        ${getBorderRadius('8px')}
+        ${getBorderRadius(8)}
       `;
     case 'small':
       return css`
@@ -123,7 +127,7 @@ const avatarSizeStyle = (
         height: 32px;
         font-size: 21.4px;
 
-        ${getBorderRadius('6px')}
+        ${getBorderRadius(6)}
       `;
     case 'xsmall':
       return css`
@@ -131,7 +135,7 @@ const avatarSizeStyle = (
         height: 24px;
         font-size: 16px;
 
-        ${getBorderRadius('6px')}
+        ${getBorderRadius(6)}
       `;
   }
 };
