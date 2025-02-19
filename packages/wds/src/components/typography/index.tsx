@@ -25,7 +25,7 @@ const Typography = forwardRef(
       variant = 'body1',
       weight = 'regular',
       noWrap = false,
-      display = 'inline',
+      display,
       align = 'left',
       color,
       sx,
