@@ -1,13 +1,8 @@
 import { figma } from '@figma/code-connect';
 
-import {
-  FormControl,
-  FormField,
-  FormLabel,
-  NestedCheckbox,
-} from '@wanteddev/wds';
+import { CheckMark, FormControl, FormField, FormLabel } from '@wanteddev/wds';
 
-figma.connect(NestedCheckbox, '<FIGMA_CONTROL_NESTED_CHECKBOX>', {
+figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
@@ -18,10 +13,10 @@ figma.connect(NestedCheckbox, '<FIGMA_CONTROL_NESTED_CHECKBOX>', {
   variant: {
     State: 'Checked',
   },
-  example: (props) => <NestedCheckbox checked {...props} />,
+  example: (props) => <CheckMark checked {...props} />,
 });
 
-figma.connect(NestedCheckbox, '<FIGMA_CONTROL_NESTED_CHECKBOX>', {
+figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
@@ -32,10 +27,10 @@ figma.connect(NestedCheckbox, '<FIGMA_CONTROL_NESTED_CHECKBOX>', {
   variant: {
     State: 'Unchecked',
   },
-  example: (props) => <NestedCheckbox {...props} />,
+  example: (props) => <CheckMark {...props} />,
 });
 
-figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
+figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
@@ -47,14 +42,14 @@ figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
   example: ({ label, ...props }) => (
     <FormField gap="4px" flexDirection="row">
       <FormControl>
-        <NestedCheckbox checked size="normal" {...props} />
+        <CheckMark checked size="normal" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>
   ),
 });
 
-figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
+figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
@@ -66,14 +61,14 @@ figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
   example: ({ label, ...props }) => (
     <FormField gap="4px" flexDirection="row">
       <FormControl>
-        <NestedCheckbox size="normal" {...props} />
+        <CheckMark size="normal" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>
   ),
 });
 
-figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
+figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
@@ -85,14 +80,14 @@ figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
   example: ({ label, ...props }) => (
     <FormField gap="4px" flexDirection="row">
       <FormControl>
-        <NestedCheckbox checked size="small" {...props} />
+        <CheckMark checked size="small" {...props} />
       </FormControl>
       <FormLabel>{label}</FormLabel>
     </FormField>
   ),
 });
 
-figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
+figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
@@ -104,7 +99,7 @@ figma.connect(NestedCheckbox, '<FIGMA_NESTED_CHECKBOX>', {
   example: ({ label, ...props }) => (
     <FormField gap="4px" flexDirection="row">
       <FormControl>
-        <NestedCheckbox size="small" {...props} />
+        <CheckMark size="small" {...props} />
       </FormControl>
       <FormLabel>{label}</FormLabel>
     </FormField>
