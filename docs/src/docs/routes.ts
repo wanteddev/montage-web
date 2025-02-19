@@ -118,8 +118,8 @@ export const routes: Array<Route> = [
       { title: 'Menu', slug: '/docs/components/menu' },
       { title: 'Modal', slug: '/docs/components/modal' },
       {
-        title: 'NestedCheckbox',
-        slug: '/docs/components/nested-checkbox',
+        title: 'CheckMark',
+        slug: '/docs/components/check-mark',
       },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
       {
