@@ -26,7 +26,7 @@ const Typography = forwardRef(
       weight = 'regular',
       noWrap = false,
       display,
-      align = 'left',
+      align,
       color,
       sx,
       xs,
