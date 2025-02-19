@@ -1,7 +1,7 @@
 import type { CheckboxProps } from '../checkbox/types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
-export type NestedCheckboxProps = Omit<
+export type CheckMarkProps = Omit<
   DefaultComponentProps<CheckboxProps, 'button'>,
   'onChange' | 'value' | 'indeterminate' | 'indeterminateIcon'
 >;
