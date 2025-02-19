@@ -8,8 +8,7 @@
     "meow": "7.0.1"
   },
   "files": [
-    "bin",
-    "transforms"
+    "dist"
   ],
   "exports": {
     "./package.json": "./package.json"
@@ -17,15 +16,15 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "pnpm tsc -d -p tsconfig.json",
-    "watch": "pnpm tsc -d -w -p tsconfig.json"
+    "watch": "tsc && tsup --watch",
+    "build": "tsc && tsup"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",
     "type": "git",
     "directory": "packages/wds-codemod"
   },
-  "bin": "bin/wds-codemod.js",
+  "bin": "dist/cli.js",
   "devDependencies": {
     "@types/jscodeshift": "0.12.0"
   }
