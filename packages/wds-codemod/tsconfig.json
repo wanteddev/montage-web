@@ -1,16 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "sourceMap": false,
-    "esModuleInterop": true,
-    "declaration": false,
-    "target": "es2018",
-    "downlevelIteration": true,
-    "preserveWatchOutput": true,
+    "noEmit": true,
     "skipLibCheck": true,
-    "strictNullChecks": true
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strictNullChecks": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["**/*.ts", "**/*.js"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
