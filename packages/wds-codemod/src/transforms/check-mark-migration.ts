@@ -1,4 +1,4 @@
-import { findImportDeclaration } from './helpers';
+import { findImportDeclaration } from '../helpers';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -29,8 +29,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.Identifier, { name: nestedCheckboxImport.imported.name })
-      .forEach((textfield) => {
-        textfield.value.name = 'CheckMark';
+      .forEach((nestedCheckbox) => {
+        nestedCheckbox.value.name = 'CheckMark';
       });
   }
 
