@@ -33,17 +33,19 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     usedIds.forEach((idNode) => {
       const [first, second] = idNode.node.value.split(id);
 
-      idNode.replace(
-        j.jsxExpressionContainer(
-          j.templateLiteral(
-            [
-              j.templateElement({ raw: first, cooked: first }, false),
-              j.templateElement({ raw: second, cooked: second }, true),
-            ],
-            [j.identifier(`id${idx + 1}`)],
+      if (Boolean(first) && Boolean(second)) {
+        idNode.replace(
+          j.jsxExpressionContainer(
+            j.templateLiteral(
+              [
+                j.templateElement({ raw: first!, cooked: first! }, false),
+                j.templateElement({ raw: second!, cooked: second! }, true),
+              ],
+              [j.identifier(`id${idx + 1}`)],
+            ),
           ),
-        ),
-      );
+        );
+      }
     });
 
     const returnStatement = root.find(j.ReturnStatement);
