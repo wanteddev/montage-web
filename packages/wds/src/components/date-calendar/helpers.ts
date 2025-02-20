@@ -49,10 +49,7 @@ export const isDisabledDate = ({
 export const dateTypeToDateObject = (
   v: DateType | Dayjs,
   timezone: string | undefined,
-) =>
-  typeof v === 'object'
-    ? new Date(dayjsTimezone(dayjs(v), timezone).toISOString())
-    : new Date(dayjsTimezone(dayjs(new Date(v!)), timezone).toISOString());
+) => new Date(dayjsTimezone(dayjs(v), timezone).toISOString());
 
 export const dayjsTimezone = (v: Dayjs, timezone: string | undefined) => {
   if (timezone?.toLowerCase() === 'utc') {
