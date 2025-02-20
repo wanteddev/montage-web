@@ -1,3 +1,1 @@
-**/*.js
-**/*.d.ts
-!bin/wds-codemod.js
+dist
