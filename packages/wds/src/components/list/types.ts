@@ -7,12 +7,12 @@ import type { FlexBoxProps } from '../flex-box/types';
 export type ListProps = FlexBoxProps;
 
 export type ListCellDefaultProps = {
-  padding?: '12px' | '8px' | '16px' | '0px';
+  verticalPadding?: '12px' | '8px' | '16px' | '0px';
   fillWidth?: boolean;
   /**
    * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
    */
-  interactionPadding?: CSSProperties['paddingLeft'];
+  interactionPadding?: CSSProperties['paddingLeft']; // TODO: 여기도 InteractionVerticalPadding이면 좋을 거 같은데..?
   ellipsis?: boolean;
   divider?: boolean;
 
@@ -34,7 +34,10 @@ export type ListCellDefaultProps = {
 };
 
 export type ListCellResponsiveProps = ResponsiveProps<
-  Pick<ListCellDefaultProps, 'padding' | 'fillWidth' | 'interactionPadding'>
+  Pick<
+    ListCellDefaultProps,
+    'verticalPadding' | 'fillWidth' | 'interactionPadding'
+  >
 >;
 
 export type ListCellProps = Merge<
