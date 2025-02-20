@@ -1,12 +1,7 @@
+import type { PopperContentProps } from '../popper/types';
 import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
-import type { PopperContent } from '../popper';
-import type {
-  ComponentPropsWithoutRef,
-  PropsWithChildren,
-  ReactNode,
-  RefObject,
-} from 'react';
+import type { PropsWithChildren, ReactNode, RefObject } from 'react';
 
 export type AutocompleteProps = {
   value?: string;
@@ -28,8 +23,14 @@ export type AutocompleteProps = {
 
 export type AutocompleteTriggerProps = PropsWithChildren;
 
-export type AutocompleteListProps = ComponentPropsWithoutRef<
-  typeof PopperContent
+export type AutocompleteListProps = Merge<
+  {
+    /**
+     * asSelect=`true` 일 때 첫 포커스를 지정하지 않습니다.
+     */
+    disableTrappedContent?: boolean;
+  },
+  PopperContentProps
 >;
 
 export type AutocompleteOptionProps = Merge<
