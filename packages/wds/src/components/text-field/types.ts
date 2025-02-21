@@ -43,6 +43,10 @@ export type TextFieldContentProps = PropsWithChildren<{
 export type TextFieldButtonProps = {
   variant?: 'normal' | 'assistive';
   loading?: boolean;
+  /**
+   * loading=true 일 때 event 막는 동작을 비활성화합니다.
+   */
+  disableLoadingPreventEvents?: boolean;
   disabled?: boolean;
   leftContent?: ReactNode;
   rightContent?: ReactNode;
