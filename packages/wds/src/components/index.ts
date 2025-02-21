@@ -39,7 +39,7 @@ export * from './pagination';
 export { default as PaginationCounter } from './pagination-counter';
 export { default as PaginationDot } from './pagination-dot';
 export * from './picker-action-area';
-export { default as PlayIconBadge } from './play-icon-badge';
+export { default as PlayBadge } from './play-badge';
 export * from './popover';
 export * from './popper';
 export { default as Portal } from './portal';

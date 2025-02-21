@@ -3,17 +3,17 @@ import { css } from '@wanteddev/wds-engine';
 import { addOpacity, createResponsiveStyle } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { PlayIconBadgeProps } from './types';
+import type { PlayBadgeProps } from './types';
 
-export const playIconBadgeStyle =
-  ({ size, alternative, xs, sm, md, lg, xl }: PlayIconBadgeProps) =>
+export const playBadgeStyle =
+  ({ size, alternative, xs, sm, md, lg, xl }: PlayBadgeProps) =>
   (theme: Theme) => css`
     margin: 0px;
     border-radius: 1000px;
     position: relative;
     width: fit-content;
     height: fit-content;
-    ${playIconBadgeSizeStyle(size)}
+    ${playBadgeSizeStyle(size)}
 
     ${alternative
       ? css`
@@ -40,13 +40,13 @@ export const playIconBadgeStyle =
       theme,
     )((params) => {
       return css`
-        ${playIconBadgeSizeStyle(params?.size)}
+        ${playBadgeSizeStyle(params?.size)}
         ${params?.sx}
       `;
     })}
   `;
 
-const playIconBadgeSizeStyle = (size: PlayIconBadgeProps['size']) => {
+const playBadgeSizeStyle = (size: PlayBadgeProps['size']) => {
   switch (size) {
     case 'small':
       return css`
