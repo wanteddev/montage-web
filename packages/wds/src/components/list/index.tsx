@@ -67,7 +67,7 @@ const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
       as,
-      padding = '12px',
+      verticalPadding = '12px',
       fillWidth = false,
       divider,
       ellipsis = false,
@@ -164,7 +164,7 @@ const ListCell = forwardRef(
             })}
             sx={[
               listCellStyle({
-                padding,
+                verticalPadding,
                 fillWidth,
                 interactionPadding,
                 active,

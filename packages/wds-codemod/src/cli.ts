@@ -21,6 +21,11 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     value: 'typography-variant-cases',
   },
   { name: 'CheckMark Migration', value: 'check-mark-migration' },
+  { name: 'Padding to Vertical Padding', value: 'padding-to-vertical-padding' },
+  {
+    name: 'Padding to Horizontal Padding',
+    value: 'padding-to-horizontal-padding',
+  },
   { name: 'PlayBadge Migration', value: 'play-badge-migration' },
 ];
 
