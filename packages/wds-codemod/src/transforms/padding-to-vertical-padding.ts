@@ -29,7 +29,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         name: { name: targetImport.imported.name },
       })
       .forEach((target) => {
-        // <ListCell padding />, <ListCell padding={true} />
+        // <ListCell padding="12px" />
         const paddingAttribute = target.value.attributes?.find(
           (v): v is JSXAttribute =>
             v.type === 'JSXAttribute' && v.name.name === 'padding',
@@ -45,7 +45,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           });
         }
 
-        // <ListCell sm={{ padding: false }} />
+        // <ListCell sm={{ padding: "12px" }} />
         const responsiveSizes = ['sm', 'md', 'lg', 'xl', 'xs'] as const;
 
         responsiveSizes.forEach((size) => {
