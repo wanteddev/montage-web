@@ -76,7 +76,7 @@ const DatePicker = forwardRef<
     const initialValue = useRef(value);
 
     const {
-      loop,
+      loop = true,
       trapped,
       trappedContent = true,
       onMountAutoFocus,
