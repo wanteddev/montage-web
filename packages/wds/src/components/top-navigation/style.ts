@@ -176,7 +176,7 @@ export const topNavigationButtonFloat = ({
     css`
       @supports (-webkit-backdrop-filter: none) {
         will-change: mix-blend-mode;
-        mix-blend-mode: difference;
+        mix-blend-mode: plus-darker;
       }
     `}
   }
