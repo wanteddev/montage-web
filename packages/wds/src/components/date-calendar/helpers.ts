@@ -11,8 +11,13 @@ type DefaultDateHelperParams = {
   timezone: string | undefined;
 };
 
+export const isDateTypeEmpty = (
+  date: DateType,
+): date is undefined | null | '' =>
+  date === undefined || date === null || date === '';
+
 export const isValidDate = (date: DateType): date is Date | string => {
-  if (date === undefined || date === null) {
+  if (isDateTypeEmpty(date)) {
     return false;
   }
 

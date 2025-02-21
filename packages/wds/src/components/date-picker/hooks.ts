@@ -11,6 +11,7 @@ import {
   dateTypeToDateObject,
   dayjsTimezone,
   getMeridiem,
+  isDateTypeEmpty,
   isValidDate,
 } from '../date-calendar/helpers';
 
@@ -119,14 +120,31 @@ export const useDateField = ({
   const prevTimezone = useRef(timezone);
 
   useEffect(() => {
-    if (isFirstRender.current || isTriggeredChange.current) {
+    if (isFirstRender.current) {
       isFirstRender.current = false;
+      return;
+    }
+
+    if (isTriggeredChange.current) {
       isTriggeredChange.current = false;
       return;
     }
 
     if (!inputValue) {
-      setSections(getDateformatSections(format, format, locale));
+      if (isValidDate(value)) {
+        const newInputValue = isValidDate(value)
+          ? toFormat(value, format, locale, timezone)
+          : format;
+
+        setInputValue(newInputValue);
+        setSections(getDateformatSections(newInputValue, format, locale));
+
+        if (focusedSection) {
+          setFocusedSection(sections[focusedSection.index]);
+        }
+      } else {
+        setSections(getDateformatSections(format, format, locale));
+      }
     } else {
       const newInputValue = isValidDate(value)
         ? toFormat(value, format, locale, timezone)
@@ -142,6 +160,7 @@ export const useDateField = ({
 
     if (isValidDate(value) && prevTimezone.current !== timezone) {
       setValue(dateTypeToDateObject(value, timezone));
+      prevTimezone.current = timezone;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timezone, value, locale, format]);
@@ -362,11 +381,12 @@ export const useDateField = ({
   const handleBlur = useCallback(() => {
     setFocusedSection(undefined);
     sectionValueRef.current = '';
+    isTriggeredChange.current = false;
 
-    if (inputValue === format) {
+    if (inputValue === format || isDateTypeEmpty(value)) {
       setInputValue('');
     }
-  }, [format, inputValue]);
+  }, [format, inputValue, value]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLInputElement>) => {
