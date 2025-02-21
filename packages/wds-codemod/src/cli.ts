@@ -21,6 +21,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     value: 'typography-variant-cases',
   },
   { name: 'CheckMark Migration', value: 'check-mark-migration' },
+  { name: 'PlayBadge Migration', value: 'play-badge-migration' },
 ];
 
 const run = () => {
