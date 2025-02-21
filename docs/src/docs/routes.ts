@@ -118,8 +118,8 @@ export const routes: Array<Route> = [
       { title: 'Menu', slug: '/docs/components/menu' },
       { title: 'Modal', slug: '/docs/components/modal' },
       {
-        title: 'NestedCheckbox',
-        slug: '/docs/components/nested-checkbox',
+        title: 'CheckMark',
+        slug: '/docs/components/check-mark',
       },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
       {
@@ -131,7 +131,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/pagination-counter',
       },
       { title: 'PaginationDot', slug: '/docs/components/pagination-dot' },
-      { title: 'PlayIconBadge', slug: '/docs/components/play-icon-badge' },
+      { title: 'PlayBadge', slug: '/docs/components/play-badge' },
       { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },
       {

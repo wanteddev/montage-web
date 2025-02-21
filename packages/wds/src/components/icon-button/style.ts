@@ -182,7 +182,7 @@ const iconButtonColorStyle = (
           css`
             @supports (-webkit-backdrop-filter: none) {
               will-change: mix-blend-mode;
-              mix-blend-mode: difference;
+              mix-blend-mode: plus-darker;
             }
           `}
         }
@@ -195,6 +195,12 @@ const iconButtonColorStyle = (
         &::before {
           position: absolute;
           content: '';
+          width: calc(100% + 8px);
+          height: calc(100% + 8px);
+          top: -4px;
+          left: -4px;
+          border-radius: inherit;
+
           ${alternative
             ? css`
                 background-color: ${addOpacity(
@@ -203,13 +209,25 @@ const iconButtonColorStyle = (
                 )};
               `
             : css`
-                backdrop-filter: blur(32px);
+                background-color: ${addOpacity(
+                  theme.palette.static.white,
+                  theme.opacity[52],
+                )};
+                will-change: backdrop-filter;
+                backdrop-filter: blur(32px) saturate(150%) brightness(150%);
+
+                @supports (-webkit-backdrop-filter: none) {
+                  clip-path: inset(0 round 1000px);
+                  overflow: auto;
+                  border-radius: 0;
+                }
+
+                @supports (-moz-appearance: none) {
+                  clip-path: inset(0 round 1000px);
+                  overflow: auto;
+                  border-radius: 0;
+                }
               `}
-          width: calc(100% + 8px);
-          height: calc(100% + 8px);
-          top: -4px;
-          left: -4px;
-          border-radius: inherit;
         }
 
         &:focus-visible {
@@ -236,7 +254,6 @@ const iconButtonColorStyle = (
           &::before {
             background-color: ${theme.palette.fill.alternative};
             backdrop-filter: none;
-            mix-blend-mode: initial;
           }
 
           svg {
@@ -290,29 +307,14 @@ const iconButtonColorStyle = (
 export const backgroundBlendStyle = (theme: Theme) => css`
   position: absolute;
   content: '';
-  width: calc(100% + 8px);
-  height: calc(100% + 8px);
-  top: -4px;
-  left: -4px;
-  border-radius: inherit;
-  background-color: ${addOpacity(
-    theme.palette.static.white,
-    theme.opacity[35],
-  )};
-
-  @supports (-webkit-backdrop-filter: none) {
-    mix-blend-mode: plus-lighter;
-    will-change: mix-blend-mode;
-  }
-`;
-
-export const backgroundBlendLayerStyle = (theme: Theme) => css`
-  position: absolute;
-  content: '';
   background-color: ${addOpacity(theme.palette.static.black, theme.opacity[5])};
   width: calc(100% + 8px);
   height: calc(100% + 8px);
   top: -4px;
   left: -4px;
   border-radius: inherit;
+
+  @supports (-webkit-backdrop-filter: none) {
+    background-color: ${addOpacity(theme.palette.static.black, 0.14)};
+  }
 `;

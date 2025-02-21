@@ -205,7 +205,7 @@ const segmentedControlItemSizeStyle = ({
       `;
     case 'medium':
       return css`
-        ${typographyStyle('body2_normal', 'medium')}
+        ${typographyStyle('body2', 'medium')}
         padding: 9px 8px;
 
         svg {

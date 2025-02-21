@@ -131,7 +131,7 @@ const AccordionSummary = forwardRef<
         wds-component="accordion-summary"
         as="div"
         role="button"
-        padding="16px"
+        verticalPadding="16px"
         disabled={disabled}
         disableInteraction={disabled}
         aria-expanded={expanded}
@@ -164,7 +164,7 @@ const AccordionSummary = forwardRef<
           )
         }
         textProps={{
-          variant: 'body2_normal',
+          variant: 'body2',
           weight: 'bold',
           ...textProps,
           sx: [accordionSummaryTextStyle, textProps?.sx],
@@ -333,7 +333,7 @@ const AccordionDescription = forwardRef<
     <Typography
       ref={ref}
       as="p"
-      variant="label1_normal"
+      variant="label1"
       weight="regular"
       color="palette.label.neutral"
       {...props}

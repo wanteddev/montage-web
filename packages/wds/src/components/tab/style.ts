@@ -15,7 +15,7 @@ export const tabListStyle =
     isScrollableLeft,
     isScrollableRight,
     resize,
-    padding,
+    horizontalPadding,
     size,
     xs,
     sm,
@@ -41,7 +41,12 @@ export const tabListStyle =
       overflow: hidden;
     }
 
-    ${tabPaddingStyle({ padding, resize, isScrollableLeft, isScrollableRight })}
+    ${tabPaddingStyle({
+      horizontalPadding,
+      resize,
+      isScrollableLeft,
+      isScrollableRight,
+    })}
     ${tabSizeStyle({ size, resize })}
 
     [data-role="tab-list-wrapper"] {
@@ -65,13 +70,13 @@ export const tabListStyle =
       (params, breakpoint) => css`
         ${(Boolean(params?.resize) ||
           Boolean(params?.size) ||
-          params?.padding !== undefined) &&
+          params?.horizontalPadding !== undefined) &&
         css`
           ${tabPaddingStyle({
-            padding: getPreviousValue(
+            horizontalPadding: getPreviousValue(
               { xs, sm, md, lg, xl },
-              'padding',
-              padding,
+              'horizontalPadding',
+              horizontalPadding,
               breakpoint!,
             ),
             resize: getPreviousValue(
@@ -104,7 +109,7 @@ export const tabListStyle =
   `;
 
 const tabPaddingStyle = ({
-  padding,
+  horizontalPadding,
   resize,
   isScrollableLeft,
   isScrollableRight,
@@ -136,7 +141,7 @@ const tabPaddingStyle = ({
     `;
   }
 
-  switch (padding) {
+  switch (horizontalPadding) {
     case true:
       return css`
         [data-role='tab-list-right-content'] {
@@ -237,7 +242,7 @@ const tabSizeStyle = ({ size, resize }: TabListProps) => {
         --wds-tab-padding-y: 9px;
 
         [wds-component='tab-list-item'] {
-          ${typographyStyle('body2_normal', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
       `;
     case 'medium':

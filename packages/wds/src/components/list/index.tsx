@@ -67,7 +67,7 @@ const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
       as,
-      padding = '12px',
+      verticalPadding = '12px',
       fillWidth = false,
       divider,
       ellipsis = false,
@@ -164,7 +164,7 @@ const ListCell = forwardRef(
             })}
             sx={[
               listCellStyle({
-                padding,
+                verticalPadding,
                 fillWidth,
                 interactionPadding,
                 active,
@@ -346,7 +346,7 @@ ListCellContent.displayName = LIST_CELL_CONTENT_NAME;
 const ListText = forwardRef(
   <E extends ElementType = 'p'>(
     {
-      variant = 'body1_normal',
+      variant = 'body1',
       weight: givenWeight,
       color,
       children,
@@ -394,7 +394,7 @@ const ListText = forwardRef(
 
         {Boolean(caption) && (
           <Typography
-            variant="label1_normal"
+            variant="label1"
             color="palette.label.alternative"
             data-role="list-text-caption"
             {...captionProps}

@@ -12,7 +12,7 @@ const Label = forwardRef<
 >(({ display = 'inline-block', required, children, ...props }, ref) => {
   return (
     <Typography
-      variant="label1_normal"
+      variant="label1"
       weight="bold"
       color="palette.label.neutral"
       as="label"
@@ -23,7 +23,7 @@ const Label = forwardRef<
       {children}
       {required && (
         <Typography
-          variant="label1_normal"
+          variant="label1"
           weight="medium"
           display="inline-block"
           sx={{ marginLeft: '4px' }}

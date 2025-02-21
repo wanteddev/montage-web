@@ -1,12 +1,3 @@
-/**
- * Copyright 2015-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-// Based on https://github.com/reactjs/react-codemod/blob/dd8671c9a470a2c342b221ec903c574cf31e9f57/bin/cli.js
-
 import path from 'path';
 
 import inquirer from 'inquirer';
@@ -14,7 +5,7 @@ import meow from 'meow';
 import execa from 'execa';
 
 export const jscodeshiftExecutable = require.resolve('.bin/jscodeshift');
-export const transformerDirectory = path.join(__dirname, '../', 'transforms');
+export const transformerDirectory = path.join(__dirname, 'transforms');
 
 const TRANSFORMER_INQUIRER_CHOICES = [
   {
@@ -25,9 +16,20 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'Migration Forms Design', value: 'migration-forms' },
   { name: 'List Cell Migration', value: 'list-cell-migration' },
   { name: 'Filled Variant to Solid', value: 'filled-variant-to-solid' },
+  {
+    name: 'Typography Variant to kebab-case',
+    value: 'typography-variant-cases',
+  },
+  { name: 'CheckMark Migration', value: 'check-mark-migration' },
+  { name: 'Padding to Vertical Padding', value: 'padding-to-vertical-padding' },
+  {
+    name: 'Padding to Horizontal Padding',
+    value: 'padding-to-horizontal-padding',
+  },
+  { name: 'PlayBadge Migration', value: 'play-badge-migration' },
 ];
 
-export const run = () => {
+const run = () => {
   const cli = meow({
     help: `
     Usage
@@ -83,7 +85,13 @@ export const run = () => {
     });
 };
 
-const runTransform = ({ files, transformer }) => {
+const runTransform = ({
+  files,
+  transformer,
+}: {
+  files: string;
+  transformer: string;
+}) => {
   const transformerPath = path.join(transformerDirectory, `${transformer}.js`);
 
   let args: Array<string> = [];
@@ -92,6 +100,7 @@ const runTransform = ({ files, transformer }) => {
 
   args.push('--ignore-pattern=**/node_modules/**');
   args.push('--ignore-pattern=**/.next/**');
+  args.push('--ignore-pattern=**/dist/**');
 
   args.push('--extensions=tsx,ts,jsx,js');
 
@@ -108,3 +117,5 @@ const runTransform = ({ files, transformer }) => {
     throw new Error(`jscodeshift exited with code ${result.exitCode}`);
   }
 };
+
+run();

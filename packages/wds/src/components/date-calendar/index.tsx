@@ -368,17 +368,16 @@ const YearCalendar = forwardRef<
   } = useDateCalendarContext('YearCalendar');
 
   const yearRange = useMemo(() => {
-    const startDate = dayjsTimezone(dayjs(min ?? ACCESSIBLE_MIN_DATE), timezone)
-      .set('month', 11)
-      .set('day', 31);
-    const endDate = dayjsTimezone(dayjs(max ?? ACCESSIBLE_MAX_DATE), timezone)
-      .set('month', 11)
-      .set('day', 31);
+    const startDate = dayjsTimezone(
+      dayjs(min ?? ACCESSIBLE_MIN_DATE),
+      timezone,
+    );
+    const endDate = dayjsTimezone(dayjs(max ?? ACCESSIBLE_MAX_DATE), timezone);
     const years: Array<number> = [];
 
     let current = startDate;
 
-    while (current.isBefore(endDate, 'year')) {
+    while (current.year() <= endDate.year()) {
       years.push(current.get('year'));
       current = current.add(1, 'year');
     }

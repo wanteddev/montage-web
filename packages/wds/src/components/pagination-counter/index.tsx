@@ -3,11 +3,7 @@ import { Box } from '@wanteddev/wds-engine';
 
 import FlexBox from '../flex-box';
 
-import {
-  backgroundBlendLayerStyle,
-  backgroundBlendStyle,
-  paginationCounterStyle,
-} from './style';
+import { backgroundBlendStyle, paginationCounterStyle } from './style';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { PaginationCounterProps } from './types';
@@ -42,20 +38,12 @@ const PaginationCounter = forwardRef<
         ]}
       >
         {!alternative && (
-          <>
-            <Box
-              as="span"
-              role="presentation"
-              data-role="pagination-counter-background-blend"
-              sx={backgroundBlendStyle}
-            />
-            <Box
-              as="span"
-              role="presentation"
-              data-role="pagination-counter-background-blend-layer"
-              sx={backgroundBlendLayerStyle}
-            />
-          </>
+          <Box
+            as="span"
+            role="presentation"
+            data-role="pagination-counter-background-blend"
+            sx={backgroundBlendStyle}
+          />
         )}
 
         <span data-role="pagination-counter-text">{currentPage}</span>

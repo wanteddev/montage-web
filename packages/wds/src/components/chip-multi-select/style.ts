@@ -82,7 +82,7 @@ const multiSelectSizeStyle = ({
         }
 
         & > span {
-          ${typographyStyle('body2_normal', 'medium')}
+          ${typographyStyle('body2', 'medium')}
         }
       `;
     case 'medium':
@@ -95,7 +95,7 @@ const multiSelectSizeStyle = ({
           font-size: 14px;
         }
         & > span {
-          ${typographyStyle('label1_normal', 'bold')}
+          ${typographyStyle('label1', 'bold')}
         }
       `;
   }

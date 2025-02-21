@@ -71,7 +71,7 @@ const sectionHeaderSizeStyle = (
     case 'xsmall':
       return css`
         color: ${getColorByToken(theme, color ?? 'palette.label.alternative')};
-        ${typographyStyle('label1_normal', 'bold')};
+        ${typographyStyle('label1', 'bold')};
 
         [data-role='section-header-left-content'],
         [data-role='section-header-right-content'] {

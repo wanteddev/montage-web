@@ -18,7 +18,7 @@ export const listStyle = css`
 
 export const listCellStyle =
   ({
-    padding,
+    verticalPadding,
     fillWidth,
     interactionPadding,
     active,
@@ -32,10 +32,10 @@ export const listCellStyle =
   }: ListCellProps) =>
   (theme: Theme) => css`
     width: 100%;
-    padding-top: var(--wds-list-cell-padding);
-    padding-bottom: var(--wds-list-cell-padding);
-    padding-left: var(--wds-list-cell-fill-width-padding);
-    padding-right: var(--wds-list-cell-fill-width-padding);
+    padding-top: var(--wds-list-cell-vertical-padding);
+    padding-bottom: var(--wds-list-cell-vertical-padding);
+    padding-left: var(--wds-list-cell-horizontal-padding);
+    padding-right: var(--wds-list-cell-horizontal-padding);
 
     ${disabled
       ? css`
@@ -55,7 +55,7 @@ export const listCellStyle =
           `}
         `}
 
-    ${listCellPaddingStyle({ padding })}
+    ${listCellPaddingStyle({ verticalPadding })}
     ${listCellFillWidthStyle({ fillWidth })}
     ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
 
@@ -69,7 +69,7 @@ export const listCellStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${listCellPaddingStyle({ padding: params?.padding })}
+        ${listCellPaddingStyle({ verticalPadding: params?.verticalPadding })}
         ${listCellFillWidthStyle({
           fillWidth: params?.fillWidth,
         })}
@@ -121,31 +121,31 @@ const listCellInteractionPaddingStyle = ({
 };
 
 const listCellPaddingStyle = ({
-  padding,
-}: Pick<ListCellProps, 'padding'>) => css`
+  verticalPadding,
+}: Pick<ListCellProps, 'verticalPadding'>) => css`
   &,
   & ~ [wds-component='accordion-details'] {
     ${(() => {
-      switch (padding) {
+      switch (verticalPadding) {
         case '0px':
           return css`
-            --wds-list-cell-padding: 0px;
+            --wds-list-cell-vertical-padding: 0px;
             --wds-list-cell-interaction-display: none;
           `;
 
         case '8px':
           return css`
-            --wds-list-cell-padding: 8px;
+            --wds-list-cell-vertical-padding: 8px;
             --wds-list-cell-interaction-display: block;
           `;
         case '16px':
           return css`
-            --wds-list-cell-padding: 16px;
+            --wds-list-cell-vertical-padding: 16px;
             --wds-list-cell-interaction-display: block;
           `;
         case '12px':
           return css`
-            --wds-list-cell-padding: 12px;
+            --wds-list-cell-vertical-padding: 12px;
             --wds-list-cell-interaction-display: block;
           `;
       }
@@ -162,7 +162,7 @@ const listCellFillWidthStyle = ({
         &,
         & ~ [wds-component='accordion-details'],
         & ~ [data-role='accordion-divider'] {
-          --wds-list-cell-fill-width-padding: 20px;
+          --wds-list-cell-horizontal-padding: 20px;
         }
       `;
     case false:
@@ -170,7 +170,7 @@ const listCellFillWidthStyle = ({
         &,
         & ~ [wds-component='accordion-details'],
         & ~ [data-role='accordion-divider'] {
-          --wds-list-cell-fill-width-padding: 0px;
+          --wds-list-cell-horizontal-padding: 0px;
         }
         border-radius: 12px;
       `;
@@ -182,7 +182,7 @@ export const listCellDividerStyle = css`
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0px);
-  width: calc(100% - (var(--wds-list-cell-fill-width-padding) * 2));
+  width: calc(100% - (var(--wds-list-cell-horizontal-padding) * 2));
 `;
 
 const listCellContentSizeStyle = ({
@@ -244,7 +244,7 @@ const listCellContentVariantStyle =
 
       case 'chevron':
         return css`
-          ${typographyStyle('body1_normal', 'regular')}
+          ${typographyStyle('body1', 'regular')}
           color: ${theme.palette.label.alternative};
         `;
     }

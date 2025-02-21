@@ -1,4 +1,10 @@
 'use client';
+/*
+ * Portions of this file are based on code from @mui/material-nextjs.
+ * MIT Licensed, Copyright (c) 2014 Call-Em-All.
+ *
+ * https://github.com/mui/material-ui/blob/master/packages/mui-material-nextjs/src/v13-appRouter/appRouterV13.tsx
+ */
 import { CacheProvider, createCache } from '@wanteddev/wds-engine';
 import { useServerInsertedHTML } from 'next/navigation.js';
 import { type PropsWithChildren, useState } from 'react';

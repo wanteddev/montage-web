@@ -88,10 +88,10 @@ export const accordionDetailsStyle = ({
 
 export const accordionDetailsWrapperStyle = css`
   flex-direction: column;
-  padding-top: calc(16px - var(--wds-list-cell-padding, 16px));
-  padding-bottom: var(--wds-list-cell-padding, 16px);
-  padding-left: calc(var(--wds-list-cell-fill-width-padding, 0px));
-  padding-right: calc(var(--wds-list-cell-fill-width-padding, 0px));
+  padding-top: calc(16px - var(--wds-list-cell-vertical-padding, 16px));
+  padding-bottom: var(--wds-list-cell-vertical-padding, 16px);
+  padding-left: calc(var(--wds-list-cell-horizontal-padding, 0px));
+  padding-right: calc(var(--wds-list-cell-horizontal-padding, 0px));
 `;
 
 export const accordionDividerStyle = ({
@@ -102,7 +102,7 @@ export const accordionDividerStyle = ({
   disableAnimation: boolean;
 }) => css`
   margin: 0 auto;
-  width: calc(100% - (var(--wds-list-cell-fill-width-padding, 0px) * 2));
+  width: calc(100% - (var(--wds-list-cell-horizontal-padding, 0px) * 2));
   will-change: opacity;
 
   ${!disableAnimation &&
@@ -120,5 +120,5 @@ export const accordionDividerStyle = ({
 `;
 
 export const accordionContentStyle = css`
-  margin-top: var(--wds-list-cell-padding, 16px);
+  margin-top: var(--wds-list-cell-vertical-padding, 16px);
 `;

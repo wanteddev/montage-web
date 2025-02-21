@@ -287,7 +287,7 @@ const TimeItem = forwardRef<
       <ListCell
         ref={ref}
         fillWidth
-        padding="8px"
+        verticalPadding="8px"
         active={active}
         value={value}
         aria-selected={active}

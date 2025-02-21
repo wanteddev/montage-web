@@ -2,21 +2,21 @@ import { forwardRef } from 'react';
 
 import Checkbox from '../checkbox';
 
-import { nestedCheckboxStyle } from './style';
+import { checkMarkStyle } from './style';
 
-import type { NestedCheckboxProps } from './types';
+import type { CheckMarkProps } from './types';
 import type { ElementRef } from 'react';
 
-type Props = NestedCheckboxProps;
+type Props = CheckMarkProps;
 
-const NestedCheckbox = forwardRef<ElementRef<typeof Checkbox>, Props>(
+const CheckMark = forwardRef<ElementRef<typeof Checkbox>, Props>(
   ({ size = 'normal', ...props }, ref) => {
     return (
       <Checkbox
         ref={ref}
         {...props}
         sx={[
-          nestedCheckboxStyle({
+          checkMarkStyle({
             ...props,
             size,
           }),
@@ -27,6 +27,6 @@ const NestedCheckbox = forwardRef<ElementRef<typeof Checkbox>, Props>(
   },
 );
 
-NestedCheckbox.displayName = 'NestedCheckbox';
+CheckMark.displayName = 'CheckMark';
 
-export default NestedCheckbox;
+export default CheckMark;

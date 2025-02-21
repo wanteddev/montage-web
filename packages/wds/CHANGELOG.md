@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.5...@wanteddev/wds@1.6.6) (2025-02-17)
+
+### Bug Fixes
+
+- **wds:** date-calendar year range 비교 수정 ([#252](https://github.com/wanteddev/wds/issues/252)) ([16bc2aa](https://github.com/wanteddev/wds/commit/16bc2aa08e77db0e74e7e9bc4d0a8156311b0464))
+
 ## [1.6.5](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.4...@wanteddev/wds@1.6.5) (2025-02-13)
 
 ### Features

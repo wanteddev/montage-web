@@ -635,7 +635,7 @@ const ModalSummary = forwardRef(
   <E extends ElementType = 'p'>(
     {
       as,
-      variant = 'body2_normal',
+      variant = 'body2',
       weight = 'regular',
       color = 'palette.label.alternative',
       ...props
@@ -666,7 +666,7 @@ const ModalDescription = forwardRef(
   <E extends ElementType = 'p'>(
     {
       as,
-      variant = 'body1_reading',
+      variant = 'body1-reading',
       weight = 'regular',
       color = 'palette.label.normal',
       ...props
