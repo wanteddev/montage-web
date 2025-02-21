@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.6...@wanteddev/wds@1.6.7) (2025-02-20)
+
+### Bug Fixes
+
+- **wds:** date picker safari 파싱 이슈 ([#257](https://github.com/wanteddev/wds/issues/257)) ([2a7ea06](https://github.com/wanteddev/wds/commit/2a7ea064a75258a1d8d49ad0c4d0e77802ce23c2))
+
+### Features
+
+- **wds:** autocomplete 첫 포커스 비활성화 옵션 추가 ([#256](https://github.com/wanteddev/wds/issues/256)) ([15bbcdf](https://github.com/wanteddev/wds/commit/15bbcdf9a58a5324bf41ff3a95fd0928b36621a8))
+
 ## [1.6.6](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.5...@wanteddev/wds@1.6.6) (2025-02-17)
 
 ### Bug Fixes

@@ -440,59 +440,60 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
 
 AutocompleteInput.displayName = AUTOCOMPLETE_TRIGGER_NAME;
 
-const AutocompleteList = forwardRef<HTMLDivElement, AutocompleteListProps>(
-  ({ children, ...props }, ref) => {
-    const {
-      input,
-      open,
-      contentId,
-      asSelect,
-      value,
-      width,
-      onSelectedOptionChange,
-    } = useAutocompleteContext(AUTOCOMPLETE_LIST_NAME);
-    const getItems = useCollection(AUTOCOMPLETE_SCOPE);
+const AutocompleteList = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<AutocompleteListProps, 'div'>
+>(({ children, disableTrappedContent = false, ...props }, ref) => {
+  const {
+    input,
+    open,
+    contentId,
+    asSelect,
+    value,
+    width,
+    onSelectedOptionChange,
+  } = useAutocompleteContext(AUTOCOMPLETE_LIST_NAME);
+  const getItems = useCollection(AUTOCOMPLETE_SCOPE);
 
-    useLayoutEffect(() => {
-      if (!open || !asSelect) return;
+  useLayoutEffect(() => {
+    if (!open || !asSelect || disableTrappedContent) return;
 
-      requestAnimationFrame(() => {
-        const items = getItems();
+    requestAnimationFrame(() => {
+      const items = getItems();
 
-        const option = items.find((v) => v.value === value);
+      const option = items.find((v) => v.value === value);
 
-        focusSelectedOption(option, items);
-        onSelectedOptionChange(option ?? null);
-      });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open]);
+      focusSelectedOption(option, items);
+      onSelectedOptionChange(option ?? null);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, disableTrappedContent]);
 
-    return open && !input?.readOnly && !input?.disabled ? (
-      <PopperContent
-        role="presentation"
-        ref={ref}
-        offset={8}
-        {...props}
-        sx={[{ width }, autocompleteListStyle, props.sx]}
+  return open && !input?.readOnly && !input?.disabled ? (
+    <PopperContent
+      role="presentation"
+      ref={ref}
+      offset={8}
+      {...props}
+      sx={[{ width }, autocompleteListStyle, props.sx]}
+    >
+      <ScrollArea
+        scrollbars="vertical"
+        size="small"
+        viewportProps={{ sx: autocompleteScrollAreaStyle }}
       >
-        <ScrollArea
-          scrollbars="vertical"
-          size="small"
-          viewportProps={{ sx: autocompleteScrollAreaStyle }}
+        <List
+          role="listbox"
+          id={contentId}
+          gap="4px"
+          onMouseDown={(e) => e.preventDefault()}
         >
-          <List
-            role="listbox"
-            id={contentId}
-            gap="4px"
-            onMouseDown={(e) => e.preventDefault()}
-          >
-            {children}
-          </List>
-        </ScrollArea>
-      </PopperContent>
-    ) : null;
-  },
-);
+          {children}
+        </List>
+      </ScrollArea>
+    </PopperContent>
+  ) : null;
+});
 
 AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
 
