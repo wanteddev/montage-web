@@ -106,7 +106,7 @@ const TabList = forwardRef<
   (
     {
       size = 'large',
-      padding = false,
+      horizontalPadding = false,
       rightContent,
       resize = 'normal',
       dir,
@@ -221,7 +221,7 @@ const TabList = forwardRef<
           sx={[
             tabListStyle({
               resize,
-              padding,
+              horizontalPadding,
               size,
               xs,
               sm,

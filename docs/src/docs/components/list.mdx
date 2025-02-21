@@ -98,9 +98,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Padding, FillWidth
+### VerticalPadding, FillWidth
 
-padding, fillWidth으로 간격을 조정해요.
+verticalPadding, fillWidth으로 간격을 조정해요.
 
 <Demo code={`import { List, ListCell } from '@wanteddev/wds';
 
@@ -110,20 +110,20 @@ const Demo = () => {
       <ListCell fillWidth>
         텍스트, fillWidth
       </ListCell>
-      <ListCell padding="0px">
-        텍스트, 0px
-      </ListCell>
-      <ListCell>
-        텍스트, 12px
-      </ListCell>
-      <ListCell padding="8px">
-        텍스트, 8px
-      </ListCell>
-      <ListCell padding="16px">
-        텍스트, 16px
-      </ListCell>
       <ListCell divider>
         텍스트, divider
+      </ListCell>
+      <ListCell verticalPadding="0px">
+        VerticalPadding, 0px
+      </ListCell>
+      <ListCell>
+        VerticalPadding, 12px
+      </ListCell>
+      <ListCell verticalPadding="8px">
+        VerticalPadding, 8px
+      </ListCell>
+      <ListCell verticalPadding="16px">
+        VerticalPadding, 16px
       </ListCell>
     </List>
   )
