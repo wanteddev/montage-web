@@ -34,6 +34,7 @@ export const paginationCounterStyle =
     &::before {
       position: absolute;
       content: '';
+      border-radius: inherit;
       ${alternative
         ? css`
             background-color: ${addOpacity(
@@ -42,13 +43,23 @@ export const paginationCounterStyle =
             )};
           `
         : css`
-            backdrop-filter: blur(32px);
+            will-change: backdrop-filter;
+            backdrop-filter: blur(32px) saturate(150%) brightness(150%);
+            background-color: ${addOpacity(
+              theme.palette.static.white,
+              theme.opacity[35],
+            )};
+
+            @supports (-webkit-backdrop-filter: none) {
+              clip-path: inset(0 round 1000px);
+              overflow: auto;
+              border-radius: 0;
+            }
           `}
       width: 100%;
       height: 100%;
       top: 0px;
       left: 0px;
-      border-radius: inherit;
     }
 
     ${alternative
@@ -74,28 +85,10 @@ export const paginationCounterStyle =
               text-shadow: 0px 0px 6px
                 ${addOpacity(theme.palette.static.black, theme.opacity[8])};
             }
-
-            @supports (-webkit-backdrop-filter: none) {
-              color: ${addOpacity(
-                theme.palette.coolNeutral[70],
-                theme.opacity[74],
-              )};
-              will-change: mix-blend-mode;
-              mix-blend-mode: plus-lighter;
-            }
           }
 
           [data-role='pagination-counter-divider'] {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[28])};
-
-            @supports (-webkit-backdrop-filter: none) {
-              color: ${addOpacity(
-                theme.palette.coolNeutral[70],
-                theme.opacity[28],
-              )};
-              will-change: mix-blend-mode;
-              mix-blend-mode: plus-lighter;
-            }
+            color: ${addOpacity(theme.palette.static.white, theme.opacity[61])};
           }
         `}
 
@@ -146,29 +139,10 @@ const paginationCounterSizeStyle = ({
 export const backgroundBlendStyle = (theme: Theme) => css`
   position: absolute;
   content: '';
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-  border-radius: inherit;
-  background-color: ${addOpacity(
-    theme.palette.static.white,
-    theme.opacity[35],
-  )};
-
-  @supports (-webkit-backdrop-filter: none) {
-    mix-blend-mode: plus-lighter;
-    will-change: mix-blend-mode;
-  }
-`;
-
-export const backgroundBlendLayerStyle = (theme: Theme) => css`
   background-color: ${addOpacity(
     theme.palette.static.black,
     theme.opacity[28],
   )};
-  position: absolute;
-  content: '';
   width: 100%;
   height: 100%;
   top: 0px;
