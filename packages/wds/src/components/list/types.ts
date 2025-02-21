@@ -12,8 +12,7 @@ export type ListCellDefaultProps = {
   /**
    * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
    */
-  interactionPadding?: CSSProperties['paddingLeft']; // TODO: 여기도 InteractionVerticalPadding이면 좋을 거 같은데..?
-  ellipsis?: boolean;
+  interactionPadding?: CSSProperties['paddingLeft'];
   divider?: boolean;
 
   active?: boolean;
