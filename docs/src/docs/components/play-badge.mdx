@@ -1,0 +1,62 @@
+---
+title: PlayBadge
+description: Play Badge Component
+---
+
+# PlayBadge
+
+## 활용
+
+- 비디오 콘텐츠를 표시할 때 사용합니다.
+
+<Demo code={`import { PlayBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+
+  return (
+    <PlayBadge />
+  )
+}
+
+export default Demo;
+`} />
+
+## Props
+
+<PropsTable component="PlayBadge" />
+
+## Examples
+
+### Size
+
+<Demo code={`import { PlayBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <PlayBadge size="small" />
+      <PlayBadge size="medium" />
+      <PlayBadge size="large" />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
+
+
+### Alternative
+
+<Demo code={`import { PlayBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <PlayBadge />
+      <PlayBadge alternative />
+    </FlexBox>
+  )
+}
+
+export default Demo;
+`} />
