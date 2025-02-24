@@ -24,10 +24,12 @@ export const accordionSummaryTextStyle = css`
 
 export const accordionSummaryContentStyle = ({
   expanded,
-  disableExpandIconAnimation,
+  disableAnimation,
+  rotate,
 }: {
+  rotate: boolean;
   expanded: boolean;
-  disableExpandIconAnimation: boolean;
+  disableAnimation: boolean;
 }) => css`
   min-width: 20px;
   max-width: 20px;
@@ -40,40 +42,47 @@ export const accordionSummaryContentStyle = ({
     height: 100%;
   }
 
-  &[data-role='accordion-summary-expand-icon'],
-  &[data-role='accordion-summary-right-content'] {
-    ${!disableExpandIconAnimation &&
-    css`
-      will-change: transform;
-      transform: rotate(0deg);
-      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  ${rotate &&
+  css`
+    will-change: transform;
+    transform: rotate(0deg);
 
-      ${expanded &&
-      css`
-        transform: rotate(180deg);
-      `}
+    ${!disableAnimation &&
+    css`
+      transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
     `}
-  }
+
+    ${expanded &&
+    css`
+      transform: rotate(180deg);
+    `}
+  `}
 `;
 
 export const accordionDetailsStyle = ({
   initialExpanded,
+  disableAnimation,
 }: {
   initialExpanded: boolean;
+  disableAnimation: boolean;
 }) => css`
   will-change: height, overflow;
-  transition:
-    height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-    overflow;
+
+  ${!disableAnimation &&
+  css`
+    transition:
+      height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+      overflow;
+  `}
 
   ${initialExpanded
     ? css`
-        height: auto;
         overflow: visible;
+        height: initial;
       `
     : css`
         overflow: hidden;
-        height: 0px;
+        height: 0;
       `}
 `;
 
@@ -87,13 +96,19 @@ export const accordionDetailsWrapperStyle = css`
 
 export const accordionDividerStyle = ({
   expanded,
+  disableAnimation,
 }: {
   expanded: boolean;
+  disableAnimation: boolean;
 }) => css`
   margin: 0 auto;
   width: calc(100% - (var(--wds-list-cell-horizontal-padding, 0px) * 2));
   will-change: opacity;
-  transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  ${!disableAnimation &&
+  css`
+    transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  `}
 
   ${!expanded &&
   css`
