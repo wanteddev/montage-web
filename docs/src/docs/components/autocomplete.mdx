@@ -124,7 +124,7 @@ const fruits = [
 ];
 
 const Demo = () => {
-  const [inputValue, setFieldValue] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [open, setOpen] = useState(false);
 
   const filteredOptions = useMemo(() => {
@@ -134,7 +134,7 @@ const Demo = () => {
   return (
     <Autocomplete
       inputValue={inputValue}
-      onFieldValueChange={setFieldValue}
+      onInputValueChange={setInputValue}
       open={open && filteredOptions.length > 0}
       onOpenChange={setOpen}
       asSelect
