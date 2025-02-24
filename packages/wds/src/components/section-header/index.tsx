@@ -47,7 +47,7 @@ const SectionHeader = forwardRef<
       <FlexBox
         ref={ref}
         {...props}
-        gap="16px"
+        gap="12px"
         sx={[
           sectionHeaderStyle({ size, platform, color, xs, sm, md, lg, xl }),
           props.sx,
@@ -55,11 +55,13 @@ const SectionHeader = forwardRef<
       >
         <FlexBox
           data-role="section-header-content"
-          gap="10px"
+          gap="12px"
           flex="1 0 0"
-          alignItems="center"
+          alignItems="flex-end"
         >
-          <Box as={headingTag}>{children}</Box>
+          <Box as={headingTag} data-role="section-header-content-heading">
+            {children}
+          </Box>
 
           {Boolean(leftContent) && (
             <FlexBox
