@@ -12,7 +12,7 @@ description: Autocomplete Component
 - option 종류가 많을 경우 `debounce` 를 활용해서 속도를 최적화해서 사용하면 좋습니다.
 - `AutocompleteOption` 내에서 leftContent, rightContent를 사용할 때에는 `ListCellContent` 로 감싸서 사용해요.
 
-<Demo code={`import { Typography, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, AutocompleteOption } from '@wanteddev/wds';
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
 import { useState, useEffect, useMemo } from 'react';
 
 const fruits = [
@@ -36,9 +36,9 @@ const Demo = () => {
       value={value}
       onValueChange={setValue}
     >
-      <AutocompleteInput>
-        <TextInput width="300px" placeholder="입력하세요." />
-      </AutocompleteInput>
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
       <AutocompleteList>
         {filteredOptions.length === 0 &&
           <Typography
@@ -73,9 +73,9 @@ Autocomplete는 여러 컴포넌트를 조합해서 사용합니다.
 
 ```tsx
 <Autocomplete>
-  <AutocompleteInput>
+  <AutocompleteField>
     <TextField />
-  <AutocompleteInput>
+  <AutocompleteField>
 
   <AutocompleteList>
     <AutocompleteOption />
@@ -90,9 +90,9 @@ Autocomplete는 여러 컴포넌트를 조합해서 사용합니다.
 
 <PropsTable component="Autocomplete" />
 
-### AutocompleteInput
+### AutocompleteField
 
-`AutocompleteInput` 는 `HTMLAttributes<HTMLElement>` prop을 사용합니다.
+`AutocompleteField` 는 `HTMLAttributes<HTMLElement>` prop을 사용합니다.
 
 ### AutocompleteList
 
@@ -111,7 +111,7 @@ Select 처럼 사용할 수 있습니다. `asSelect` 옵션을 사용하면, Opt
 
 `inputValue`, `value` 총 2가지 값으로 관리하며 올바른 값을 선택한 경우 value의 값이 변경됩니다. 
 
-<Demo code={`import { Box, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
 import { useState, useMemo } from 'react';
 
 const fruits = [
@@ -124,7 +124,7 @@ const fruits = [
 ];
 
 const Demo = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setFieldValue] = useState('');
   const [open, setOpen] = useState(false);
 
   const filteredOptions = useMemo(() => {
@@ -134,14 +134,14 @@ const Demo = () => {
   return (
     <Autocomplete
       inputValue={inputValue}
-      onInputValueChange={setInputValue}
+      onFieldValueChange={setFieldValue}
       open={open && filteredOptions.length > 0}
       onOpenChange={setOpen}
       asSelect
     >
-      <AutocompleteInput>
-        <TextInput width="300px" placeholder="입력하세요." />
-      </AutocompleteInput>
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
       <AutocompleteList>
         {filteredOptions.map((option) => {
           return (
@@ -162,7 +162,7 @@ export default Demo;`}
 
 간단한 하이라이트는 함수로 직접 처리할 수 있습니다.
 
-<Demo code={`import { Box, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
 import { useState, useMemo } from 'react';
 
 const fruits = [
@@ -189,9 +189,9 @@ const Demo = () => {
       open={open && filteredOptions.length > 0}
       onOpenChange={setOpen}
     >
-      <AutocompleteInput>
-        <TextInput width="300px" placeholder="입력하세요." />
-      </AutocompleteInput>
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
       <AutocompleteList>
         {filteredOptions.map((option) => {
           const quote = (str) => str.replace(/([.?*+^$[\\]\\\\(){}|-])/g, '\\\\$1');
@@ -226,7 +226,7 @@ export default Demo;`}
 
 또한 `autosuggest-highlight` 라는 라이브러리를 사용해서 다양한 필터 케이스를 대응할 수 있습니다.
 
-<Demo code={`import { Box, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
 import { useState, useMemo } from 'react';
 
 import parse from 'autosuggest-highlight/parse';
@@ -256,9 +256,9 @@ const Demo = () => {
       open={open && filteredOptions.length > 0}
       onOpenChange={setOpen}
     >
-      <AutocompleteInput>
-        <TextInput width="300px" placeholder="입력하세요." />
-      </AutocompleteInput>
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
       <AutocompleteList>
         {filteredOptions.map((option) => {
           const matches = match(option, value, { insideWords: true });
@@ -288,7 +288,7 @@ export default Demo;`}
 
 ### Email
 
-<Demo code={`import { Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
 import { useState, useEffect, useMemo } from 'react';
 
 const options = ['@naver.com', '@wantedlab.com', '@hanmail.net', '@gmail.com'];
@@ -310,9 +310,9 @@ const Demo = () => {
       open={open && value.includes('@') && filteredOptions.length > 0}
       onOpenChange={setOpen}
     >
-      <AutocompleteInput>
-        <TextInput width="300px" placeholder="입력하세요." />
-      </AutocompleteInput>
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
       <AutocompleteList>
         {filteredOptions.map((option) => {
           const optionValue = value.replace(/(\@)([^s]+)?$/, '') + option;
@@ -331,11 +331,11 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### TextInputButton
+### TextFieldButton
 
-`TextInputButton` 과 함께 사용할 수 있습니다.
+`TextFieldButton` 과 함께 사용할 수 있습니다.
 
-<Demo code={`import { Typography, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption } from '@wanteddev/wds';
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption } from '@wanteddev/wds';
 import { useState, useEffect, useMemo } from 'react';
 
 const fruits = [
@@ -359,15 +359,15 @@ const Demo = () => {
       value={value}
       onValueChange={setValue}
     >
-      <AutocompleteInput>
-        <TextInput
+      <AutocompleteField>
+        <TextField
           width="220px"
           placeholder="입력하세요."
           sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
         />
-      </AutocompleteInput>
+      </AutocompleteField>
 
-      <TextInputButton>텍스트</TextInputButton>
+      <TextFieldButton>텍스트</TextFieldButton>
 
       <AutocompleteList>
         {filteredOptions.length === 0 &&

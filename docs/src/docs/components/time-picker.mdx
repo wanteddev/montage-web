@@ -11,7 +11,7 @@ description: TimePicker Component
 
 - 키보드로 값을 제어할 수 있어요.
 - locale, timezone을 지정할 수 있어요.
-- 기본적으로 TextInput 컴포넌트를 사용해요.
+- 기본적으로 TextField 컴포넌트를 사용해요.
 - 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
 
 <Demo code={`import { TimePicker } from '@wanteddev/wds';
@@ -191,13 +191,13 @@ export default Demo;`}
 
 ### Customize
 
-- `TextInput` 컴포넌트 대신 커스텀 컴포넌트를 사용할 수 있어요.
+- `TextField` 컴포넌트 대신 커스텀 컴포넌트를 사용할 수 있어요.
 - react 18.3 미만의 버전을 사용 중이라면, `forwardRef` 를 필수로 작성해주세요.
 
-<Demo code={`import { TimePicker, TimePickerInputProps, ChipAction, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, TimePickerFieldProps, ChipAction, FlexBox } from '@wanteddev/wds';
 import { forwardRef, useState } from 'react';
 
-const CustomChipField = forwardRef<HTMLDivElement, TimePickerInputProps>(
+const CustomChipField = forwardRef<HTMLDivElement, TimePickerFieldProps>(
   ({ value, onClick, inputRef, invalid, ...props }, ref) => {
     return (
       <ChipAction ref={ref} onClick={onClick}>
@@ -207,7 +207,7 @@ const CustomChipField = forwardRef<HTMLDivElement, TimePickerInputProps>(
   }
 )
 
-const CustomInputField = forwardRef<HTMLDivElement, TimePickerInputProps>(
+const CustomFieldField = forwardRef<HTMLDivElement, TimePickerFieldProps>(
   ({ rightContent, inputRef, invalid, ...props }, ref) => {
     return (
       <FlexBox ref={ref} gap="10px" alignItems="center">
@@ -233,7 +233,7 @@ const Demo = () => {
       />
       <TimePicker
         width="300px"
-        input={CustomInputField}
+        input={CustomFieldField}
         open={open2}
         onOpenChange={setOpen2}
       />

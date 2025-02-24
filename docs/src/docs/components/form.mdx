@@ -6,13 +6,13 @@ description: Form Component
 # Form
 
 form 구조 및 접근성 처리를 다룹니다.
-각 컴포넌트별 활용법은 `TextInput`, `TextArea`, `Checkbox`, `Radio` 등을 참고해주세요
+각 컴포넌트별 활용법은 `TextField`, `TextArea`, `Checkbox`, `Radio` 등을 참고해주세요
 
 이 문서는 `react-hook-form`과 함께 활용하는 예시를 소개합니다.
 
 ## 활용
 
-<Demo code={`import { Button, FlexBox, TextInput, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -34,7 +34,7 @@ const Demo = () => {
             <FormLabel>라벨</FormLabel>
 
             <FormControl>
-              <TextInput {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
             </FormControl>
 
             {Boolean(formState.errors.content) ? (
@@ -118,7 +118,7 @@ children이 없으면 미노출합니다.
 
 field에 대한 설명과 오류 메시지를 모두 노출합니다.
 
-<Demo code={`import { Button, FlexBox, TextInput, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -140,7 +140,7 @@ const Demo = () => {
             <FormLabel>라벨</FormLabel>
 
             <FormControl>
-              <TextInput {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
             </FormControl>
 
             <FormMessage>설명</FormMessage>

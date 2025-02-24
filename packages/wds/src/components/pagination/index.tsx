@@ -16,28 +16,28 @@ import {
   MenuList,
   MenuTrigger,
   TextButton,
-  TextInput,
+  TextField,
   Typography,
   useControllableState,
 } from '../..';
 
 import {
-  PAGINATION_INPUT_NAME,
+  PAGINATION_FIELD_NAME,
   PAGINATION_NAME,
   PAGINATION_SELECT_NAME,
 } from './constants';
 import {
   pageButtonStyle,
   paginationContentStyle,
-  paginationInputStyle,
+  paginationFieldStyle,
   paginationItemStyle,
   paginationStyle,
 } from './style';
 import { PaginationProvider, usePaginationContext } from './contexts';
-import { getPaginationItems } from './helper';
+import { getPaginationItems } from './helpers';
 
 import type {
-  PaginationInputProps,
+  PaginationFieldProps,
   PaginationItemProps,
   PaginationProps,
   PaginationSelectProps,
@@ -351,18 +351,18 @@ const PaginationSelect = forwardRef<
 
 PaginationSelect.displayName = PAGINATION_SELECT_NAME;
 
-const PaginationInput = forwardRef<
+const PaginationField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<PaginationInputProps, 'input'>
+  DefaultComponentProps<PaginationFieldProps, 'input'>
 >(({ label = '페이지 이동', sx, onKeyDown, disabled, ...props }, ref) => {
   const {
     totalPages,
     disabled: paginationDisabled,
     setPage,
-  } = usePaginationContext(PAGINATION_INPUT_NAME);
+  } = usePaginationContext(PAGINATION_FIELD_NAME);
 
   return (
-    <FlexBox wds-component="pagination-input" alignItems="center" gap="8px">
+    <FlexBox wds-component="pagination-field" alignItems="center" gap="8px">
       <Label
         variant="label2"
         weight="medium"
@@ -372,13 +372,13 @@ const PaginationInput = forwardRef<
         {label}
       </Label>
 
-      <TextInput
+      <TextField
         ref={ref}
         width="53px"
         height="32px"
         {...props}
         disabled={paginationDisabled || disabled}
-        sx={[paginationInputStyle, sx]}
+        sx={[paginationFieldStyle, sx]}
         onKeyDown={composeEventHandlers(onKeyDown, (event) => {
           if (event.key !== 'Enter') {
             return;
@@ -400,6 +400,6 @@ const PaginationInput = forwardRef<
   );
 });
 
-PaginationInput.displayName = PAGINATION_INPUT_NAME;
+PaginationField.displayName = PAGINATION_FIELD_NAME;
 
-export { Pagination, PaginationSelect, PaginationInput };
+export { Pagination, PaginationSelect, PaginationField };

@@ -22,12 +22,12 @@ import ScrollArea from '../scroll-area';
 import FlexBox from '../flex-box';
 
 import {
+  AUTOCOMPLETE_FIELD_NAME,
   AUTOCOMPLETE_LIST_NAME,
   AUTOCOMPLETE_NAME,
   AUTOCOMPLETE_OPTION_NAME,
   AUTOCOMPLETE_ROOT_NAME,
   AUTOCOMPLETE_SCOPE,
-  AUTOCOMPLETE_TRIGGER_NAME,
 } from './constants';
 import { AutocompleteProvider, useAutocompleteContext } from './contexts';
 import {
@@ -189,7 +189,7 @@ const AutocompleteRoot = forwardRef<
 
 AutocompleteRoot.displayName = AUTOCOMPLETE_ROOT_NAME;
 
-const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
+const AutocompleteField = forwardRef<HTMLElement, SlotProps>(
   ({ children, ...props }, forwardedRef) => {
     const {
       open,
@@ -205,7 +205,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
       asSelect,
       input,
       onSearch,
-    } = useAutocompleteContext(AUTOCOMPLETE_TRIGGER_NAME);
+    } = useAutocompleteContext(AUTOCOMPLETE_FIELD_NAME);
 
     const composedRefs = useComposedRefs(forwardedRef, onInputChange);
 
@@ -438,7 +438,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
   },
 );
 
-AutocompleteInput.displayName = AUTOCOMPLETE_TRIGGER_NAME;
+AutocompleteField.displayName = AUTOCOMPLETE_FIELD_NAME;
 
 const AutocompleteList = forwardRef<
   HTMLDivElement,
@@ -577,7 +577,7 @@ AutocompleteOption.displayName = AUTOCOMPLETE_OPTION_NAME;
 
 export {
   Autocomplete,
-  AutocompleteInput,
+  AutocompleteField,
   AutocompleteList,
   AutocompleteOption,
 };

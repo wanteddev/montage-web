@@ -1,6 +1,6 @@
 import type { TimeView } from '..';
-import type { TextInputProps } from '../text-input/types';
-import type { TextInput } from '../text-input';
+import type { TextFieldProps } from '../text-field/types';
+import type { TextField } from '../text-field';
 import type { PopperContent } from '../popper';
 import type {
   ComponentProps,
@@ -32,13 +32,13 @@ export type TimePickerProps = Merge<
      */
     disableLastUnitClickClose?: boolean;
   },
-  ComponentPropsWithoutRef<typeof TimeView> & Omit<TextInputProps, 'wrapperRef'>
+  ComponentPropsWithoutRef<typeof TimeView> & Omit<TextFieldProps, 'wrapperRef'>
 >;
 
-export type TimePickerInputProps = Merge<
+export type TimePickerFieldProps = Merge<
   {
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;
   },
-  Omit<ComponentPropsWithoutRef<typeof TextInput>, 'wrapperRef'>
+  Omit<ComponentPropsWithoutRef<typeof TextField>, 'wrapperRef'>
 >;
