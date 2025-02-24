@@ -15,12 +15,7 @@ export const sectionHeaderStyle =
     width: 100%;
 
     [data-role='section-header-content'],
-    [data-role='section-header-content'] > h1,
-    [data-role='section-header-content'] > h2,
-    [data-role='section-header-content'] > h3,
-    [data-role='section-header-content'] > h4,
-    [data-role='section-header-content'] > h5,
-    [data-role='section-header-content'] > h6 {
+    [data-role='section-header-content-heading'] {
       font: inherit;
       color: inherit;
     }
@@ -29,7 +24,7 @@ export const sectionHeaderStyle =
       [wds-component='icon-button'][data-variant='normal'],
     [data-role='section-header-left-content']
       [wds-component='icon-button'][data-variant='normal'] {
-      color: ${theme.palette.label.alternative};
+      color: ${theme.palette.label.assistive};
     }
 
     ${sectionHeaderSizeStyle({ size, color, platform }, theme)}
