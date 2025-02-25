@@ -21,7 +21,7 @@ export type ActionAreaProps = {
    */
   sticky?: boolean;
   /**
-   * `variant=extra` 일 때 상단에 라인을 표시합니다.
+   * `extra=true` 일 때 상단에 라인을 표시합니다.
    */
   divider?: boolean;
 };
