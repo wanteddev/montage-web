@@ -8,7 +8,7 @@ export type SliderLabelProps = {
   disabled?: boolean;
 };
 
-export type SliderHeadingProps = {
+export type SliderTitleProps = {
   values: Array<number>;
   min?: number;
   max?: number;
@@ -16,7 +16,7 @@ export type SliderHeadingProps = {
 };
 
 export type SliderProps = {
-  heading?: FunctionComponent<SliderHeadingProps> | ReactNode;
+  title?: FunctionComponent<SliderTitleProps> | ReactNode;
   label?: FunctionComponent<SliderLabelProps> | ReactNode;
   disabled?: boolean;
   value?: Array<number>;

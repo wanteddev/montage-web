@@ -21,7 +21,12 @@ import {
   sliderThumbStyle,
 } from './style';
 
-import type { SliderProps, SliderThumbProps } from './types';
+import type {
+  SliderLabelProps,
+  SliderProps,
+  SliderThumbProps,
+  SliderTitleProps,
+} from './types';
 
 const PAGE_KEYS = ['PageUp', 'PageDown'];
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
@@ -32,7 +37,7 @@ const Slider = forwardRef<
 >(
   (
     {
-      heading,
+      title,
       label,
       min = 0,
       max = 100,
@@ -145,11 +150,11 @@ const Slider = forwardRef<
         {...props}
         sx={[{ width: '100%' }, props.sx]}
       >
-        {typeof heading !== 'undefined' && (
+        {typeof title !== 'undefined' && (
           <FlexBox
             as={Typography}
             gap="4px"
-            data-role="slider-heading"
+            data-role="slider-title"
             align="center"
             display="block"
             variant="headline2"
@@ -158,9 +163,9 @@ const Slider = forwardRef<
             color={disabled ? 'palette.label.disable' : 'palette.label.normal'}
             sx={{ margin: '0 auto 32px auto' }}
           >
-            {typeof heading === 'function'
-              ? heading({ values, disabled, min, max })
-              : heading}
+            {typeof title === 'function'
+              ? title({ values, disabled, min, max })
+              : title}
           </FlexBox>
         )}
 
@@ -414,4 +419,4 @@ const BubbleInput = ({
   return <Box ref={ref} as="input" sx={{ display: 'none' }} {...props} />;
 };
 
-export { Slider };
+export { Slider, SliderTitleProps, SliderLabelProps };

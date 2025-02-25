@@ -149,14 +149,14 @@ const Toast = ({
 const Snackbar = ({
   id,
   duration = 5000,
-  heading,
+  title,
   description,
   extraContent,
   action,
   onAnimationEnd,
 }: RegionSnackbarItem) => {
   const hide = useRegionStore((state) => state.hide);
-  const headingId = useId();
+  const titleId = useId();
   const descriptionId = useId();
 
   const [isMountAnimationDone, setIsMountAnimationDone] = useState(false);
@@ -178,7 +178,7 @@ const Snackbar = ({
       aria-live="polite"
       sx={bottomRegionStatusStyle(duration, isMountAnimationDone)}
       onAnimationEnd={handleAnimationEnd}
-      aria-labelledby={headingId}
+      aria-labelledby={titleId}
       aria-describedby={descriptionId}
     >
       <Box role="presentation" sx={firstOverlayStyle} />
@@ -200,15 +200,15 @@ const Snackbar = ({
           )}
 
           <FlexBox flexDirection="column" sx={messageStyle}>
-            {heading && (
+            {title && (
               <Typography
                 color="palette.static.white"
                 variant="body2"
                 weight="bold"
-                id={headingId}
+                id={titleId}
                 sx={textStyle}
               >
-                {heading}
+                {title}
               </Typography>
             )}
 

@@ -114,12 +114,12 @@ EmptyStateContent.displayName = EMPTY_STATE_CONTENT_NAME;
 
 const EmptyStateText = forwardRef(
   (
-    { heading, description, ...props }: EmptyStateTextProps,
+    { title, description, ...props }: EmptyStateTextProps,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox ref={ref} flexDirection="column" gap="12px" {...props}>
-        {heading && <span data-role="empty-state-text-heading">{heading}</span>}
+        {title && <span data-role="empty-state-text-title">{title}</span>}
         <span data-role="empty-state-text-description">{description}</span>
       </FlexBox>
     );
