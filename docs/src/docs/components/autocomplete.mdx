@@ -98,6 +98,10 @@ Autocomplete는 여러 컴포넌트를 조합해서 사용합니다.
 
 <PropsTable component="AutocompleteList" />
 
+### AutocompleteGroup
+
+<PropsTable component="AutocompleteGroup" />
+
 ### AutocompleteOption
 
 <PropsTable component="AutocompleteOption" />
@@ -111,7 +115,7 @@ Select 처럼 사용할 수 있습니다. `asSelect` 옵션을 사용하면, Opt
 
 `inputValue`, `value` 총 2가지 값으로 관리하며 올바른 값을 선택한 경우 value의 값이 변경됩니다. 
 
-<Demo code={`import { Box, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox, Typography } from '@wanteddev/wds';
 import { useState, useMemo } from 'react';
 
 const fruits = [
@@ -143,6 +147,11 @@ const Demo = () => {
         <TextInput width="300px" placeholder="입력하세요." />
       </AutocompleteInput>
       <AutocompleteList>
+        {filteredOptions.length === 0 && (
+          <AutocompleteOption value={inputValue}>
+            '{inputValue}' <Typography variant="body1" weight="bold">사용하기</Typography>
+          </AutocompleteOption>
+        )}
         {filteredOptions.map((option) => {
           return (
             <AutocompleteOption value={option} key={option}>
@@ -387,6 +396,70 @@ const Demo = () => {
             </AutocompleteOption>
           )
         })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### AutocompleteGroup
+
+`AutocompleteGroup` 을 통해 각 섹션을 구분할 수 있습니다.
+
+<Demo code={`import { Typography, Autocomplete, AutocompleteInput, AutocompleteList, AutocompleteGroup, AutocompleteOption, TextInput } from '@wanteddev/wds';
+import { useState, useEffect, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+    >
+      <AutocompleteInput>
+        <TextInput
+          width="300px"
+          placeholder="입력하세요."
+        />
+      </AutocompleteInput>
+
+      <AutocompleteList>
+        {filteredOptions.length === 0 &&
+          <Typography
+            variant="body1"
+            weight="regular"
+            color="palette.label.alternative"
+            sx={{ padding: '12px 0px' }}
+          >
+            검색 결과가 없습니다.
+          </Typography>
+        }
+        <AutocompleteGroup title="제목">
+          {filteredOptions.map((option) => {
+            return (
+              <AutocompleteOption value={option} key={option}>
+                {option}
+              </AutocompleteOption>
+            )
+          })}
+        </AutocompleteGroup>
       </AutocompleteList>
     </Autocomplete>
   )
