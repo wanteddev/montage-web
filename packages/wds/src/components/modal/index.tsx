@@ -163,7 +163,8 @@ const ModalContainer = forwardRef<
   (
     {
       variant = 'popup',
-      size = variant === 'popup' ? 'medium-fixed' : 'normal-fixed',
+      size = variant === 'popup' ? 'medium' : 'normal',
+      resize = 'hug',
       handle,
       xs,
       sm,
@@ -339,6 +340,7 @@ const ModalContainer = forwardRef<
                 data-status={status}
                 sx={[
                   modalContainerStyle({
+                    resize,
                     variant,
                     size,
                     xs,

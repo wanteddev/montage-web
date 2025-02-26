@@ -46,22 +46,13 @@ type ModalContainerDefaultProps = {
    * ModalActionArea 의 그라디언트, TopNavigation의 borderBottom 스타일이 추가됩니다.
    */
   sticky?: boolean;
-  size?:
-    | 'small'
-    | 'small-fixed'
-    | 'normal'
-    | 'normal-fixed'
-    | 'medium'
-    | 'medium-fixed'
-    | 'large'
-    | 'large-fixed'
-    | 'huge'
-    | 'huge-fixed';
+  size?: 'small' | 'normal' | 'medium' | 'large';
+  resize?: 'hug' | 'fixed';
   children?: ReactNode;
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<
-  Pick<ModalContainerDefaultProps, 'size' | 'variant' | 'handle'>
+  Pick<ModalContainerDefaultProps, 'size' | 'variant' | 'handle' | 'resize'>
 >;
 
 export type ModalContainerProps = Merge<
