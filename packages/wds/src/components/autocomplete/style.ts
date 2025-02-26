@@ -12,8 +12,7 @@ export const autocompleteListStyle = (theme: Theme) => css`
 `;
 
 export const autocompleteScrollAreaStyle = (theme: Theme) => css`
-  padding: 8px 20px;
-  box-shadow: inset 0 0 0 1px ${theme.palette.line.solid.neutral};
+  border: 1px solid ${theme.palette.line.solid.neutral};
   border-radius: 16px;
   min-width: 140px;
   height: auto;
@@ -21,7 +20,24 @@ export const autocompleteScrollAreaStyle = (theme: Theme) => css`
   border-radius: inherit;
 `;
 
+export const autocompleteListContentStyle = css`
+  display: flex;
+  align-items: center;
+  padding: 8px 0px;
+`;
+
+export const autocompleteGroupTitleStyle = (theme: Theme) => css`
+  position: sticky;
+  top: 0;
+  width: 100%;
+  padding: 4px 20px;
+  z-index: 10;
+  margin: auto auto auto 0;
+  background-color: ${theme.palette.background.elevated.normal};
+`;
+
 export const autocompleteOptionStyle = (theme: Theme) => css`
+  width: calc(100% - 40px);
   cursor: pointer;
 
   &[aria-disabled='true'] {

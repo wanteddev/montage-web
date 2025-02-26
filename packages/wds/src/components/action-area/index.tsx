@@ -24,10 +24,10 @@ const ActionArea = forwardRef<
 >(
   (
     {
-      variant = 'normal',
+      extra = false,
       extraContent,
       compactContent,
-      priority = 'strong',
+      variant = 'strong',
       children,
       caption,
       sticky,
@@ -43,7 +43,7 @@ const ActionArea = forwardRef<
       modalOption !== undefined ? modalOption.sticky : undefined;
 
     return (
-      <ActionAreaProvider priority={priority}>
+      <ActionAreaProvider variant={variant}>
         <FlexBox
           wds-component="action-area"
           ref={ref}
@@ -53,14 +53,14 @@ const ActionArea = forwardRef<
           sx={[
             actionAreaStyle({
               divider,
+              extra,
               variant,
-              priority,
-              sticky: variant === 'extra' ? false : sticky ?? modalSticky,
+              sticky: extra ? false : sticky ?? modalSticky,
             }),
             props.sx,
           ]}
         >
-          {variant === 'extra' && Boolean(extraContent) && (
+          {extra && Boolean(extraContent) && (
             <FlexBox
               gap="8px"
               flexDirection="column"
@@ -87,7 +87,7 @@ const ActionArea = forwardRef<
               {caption}
             </Typography>
           )}
-          {priority === 'compact' && Boolean(compactContent) ? (
+          {variant === 'compact' && Boolean(compactContent) ? (
             <FlexBox justifyContent="space-between" alignItems="center">
               <FlexBox
                 flexDirection="row"
@@ -105,10 +105,10 @@ const ActionArea = forwardRef<
             </FlexBox>
           ) : (
             <FlexBox
-              flexDirection={priority === 'strong' ? 'column' : 'row'}
-              gap={priority === 'strong' ? '8px' : '12px'}
+              flexDirection={variant === 'strong' ? 'column' : 'row'}
+              gap={variant === 'strong' ? '8px' : '12px'}
               data-role="action-area-wrapper"
-              alignSelf={priority === 'compact' ? 'flex-end' : 'initial'}
+              alignSelf={variant === 'compact' ? 'flex-end' : 'initial'}
             >
               {children}
             </FlexBox>
@@ -132,7 +132,9 @@ const ActionAreaButton = forwardRef(
     }: PolymorphicProps<ActionButtonProps, E>,
     ref: ForwardedRef<E>,
   ) => {
-    const { priority } = useActionAreaContext(ACTION_AREA_BUTTON_NAME);
+    const { variant: parentVariant } = useActionAreaContext(
+      ACTION_AREA_BUTTON_NAME,
+    );
 
     const renderComponent: {
       [key in typeof variant]: ReactNode;
@@ -141,15 +143,16 @@ const ActionAreaButton = forwardRef(
         <Button
           ref={ref}
           variant={
-            buttonVariant ?? (priority === 'cancel' ? 'outlined' : 'solid')
+            buttonVariant ?? (parentVariant === 'cancel' ? 'outlined' : 'solid')
           }
           color={
-            buttonColor ?? (priority === 'cancel' ? 'assistive' : 'primary')
+            buttonColor ??
+            (parentVariant === 'cancel' ? 'assistive' : 'primary')
           }
           size="large"
-          fullWidth={priority === 'strong' || priority === 'cancel'}
+          fullWidth={parentVariant === 'strong' || parentVariant === 'cancel'}
           {...props}
-          sx={[actionButtonCancel({ priority, variant }), props.sx]}
+          sx={[actionButtonCancel({ variant, parentVariant }), props.sx]}
         />
       ),
       alternative: (
@@ -158,13 +161,13 @@ const ActionAreaButton = forwardRef(
           variant={buttonVariant ?? 'outlined'}
           size="large"
           color={buttonColor ?? 'secondary'}
-          fullWidth={priority === 'strong'}
+          fullWidth={parentVariant === 'strong'}
           {...props}
-          sx={[actionButtonCancel({ priority, variant }), props.sx]}
+          sx={[actionButtonCancel({ variant, parentVariant }), props.sx]}
         />
       ),
       sub:
-        priority === 'strong' ? (
+        parentVariant === 'strong' ? (
           <TextButton
             ref={ref}
             variant={textButtonVariant ?? 'assistive'}
@@ -186,7 +189,7 @@ const ActionAreaButton = forwardRef(
             color={buttonColor ?? 'assistive'}
             size="large"
             {...props}
-            sx={[actionButtonCancel({ priority, variant }), props.sx]}
+            sx={[actionButtonCancel({ variant, parentVariant }), props.sx]}
           />
         ),
     };
