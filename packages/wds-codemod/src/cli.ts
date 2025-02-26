@@ -27,6 +27,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     value: 'padding-to-horizontal-padding',
   },
   { name: 'PlayBadge Migration', value: 'play-badge-migration' },
+  { name: 'ModalContainer Migration', value: 'modal-migration' },
   { name: 'ActionArea Migration', value: 'action-area-migration' },
 ];
 
