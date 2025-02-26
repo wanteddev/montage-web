@@ -28,6 +28,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   },
   { name: 'PlayBadge Migration', value: 'play-badge-migration' },
   { name: 'ModalContainer Migration', value: 'modal-migration' },
+  { name: 'ActionArea Migration', value: 'action-area-migration' },
 ];
 
 const run = () => {

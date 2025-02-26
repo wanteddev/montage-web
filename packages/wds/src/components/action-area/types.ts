@@ -4,15 +4,15 @@ import type { ReactNode } from 'react';
 
 export type ActionAreaProps = {
   children?: ReactNode;
-  variant?: 'normal' | 'extra';
-  priority?: 'strong' | 'neutral' | 'compact' | 'cancel';
+  variant?: 'strong' | 'neutral' | 'compact' | 'cancel';
+  extra?: boolean;
   caption?: ReactNode;
   /**
-   * `variant=extra` 일 때 버튼 위 콘텐츠 영역을 표시할 때 사용합니다.
+   * `extra=true` 일 때 버튼 위 콘텐츠 영역을 표시할 때 사용합니다.
    */
   extraContent?: ReactNode;
   /**
-   * `priority=compact` 일 때 버튼 좌측 콘텐츠 영역을 표시할 때 사용합니다.
+   * `variant=compact` 일 때 버튼 좌측 콘텐츠 영역을 표시할 때 사용합니다.
    */
   compactContent?: ReactNode;
   /**
@@ -21,7 +21,7 @@ export type ActionAreaProps = {
    */
   sticky?: boolean;
   /**
-   * `variant=extra` 일 때 상단에 라인을 표시합니다.
+   * `extra=true` 일 때 상단에 라인을 표시합니다.
    */
   divider?: boolean;
 };
