@@ -25,7 +25,7 @@ const PickerActionArea = forwardRef<
   return (
     <ActionArea
       ref={ref}
-      priority="strong"
+      variant="strong"
       {...props}
       sx={[pickerActionAreaStyle, sx]}
     />
