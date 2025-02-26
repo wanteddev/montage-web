@@ -145,7 +145,7 @@ export const modalBottomUnmountKeyframes = keyframes`
 `;
 
 export const modalContainerStyle =
-  ({ variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
+  ({ resize, variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
   (theme: Theme) => css`
     display: flex;
     flex-direction: column;
@@ -166,7 +166,7 @@ export const modalContainerStyle =
       left: 0;
     }
 
-    ${modalContainerSize(size)}
+    ${modalContainerSize(size, resize)}
     ${modalContainerVariant(variant, theme)}
 
     ${createResponsiveStyle(
@@ -174,37 +174,49 @@ export const modalContainerStyle =
       theme,
     )(
       (params, breakpoint) => css`
-        ${modalContainerSize(
-          getPreviousValue({ xs, sm, md, lg, xl }, 'size', size, breakpoint!),
-        )}
-        ${modalContainerVariant(
-          getPreviousValue(
-            { xs, sm, md, lg, xl },
-            'variant',
-            variant,
-            breakpoint!,
-          ),
-          theme,
-        )}
+        ${(params?.resize || params?.size || params?.variant) &&
+        css`
+          ${modalContainerSize(
+            getPreviousValue({ xs, sm, md, lg, xl }, 'size', size, breakpoint!),
+            getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'resize',
+              resize,
+              breakpoint!,
+            ),
+          )}
+          ${modalContainerVariant(
+            getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'variant',
+              variant,
+              breakpoint!,
+            ),
+            theme,
+          )}
+        `}
 
         ${params?.sx}
       `,
     )};
   `;
 
-const modalContainerSize = (size: ModalContainerProps['size']) => {
+const modalContainerSize = (
+  size: ModalContainerProps['size'],
+  resize: ModalContainerProps['resize'],
+) => {
   switch (size) {
     case 'small':
-    case 'small-fixed':
       return css`
         width: 360px;
         min-width: 320px;
         max-width: 100%;
+        height: initial;
+        max-height: 100%;
 
-        ${size.includes('fixed') &&
+        ${resize === 'fixed' &&
         css`
           height: 400px;
-          max-height: 100%;
         `}
 
         --wds-modal-popup-border-radius: 12px;
@@ -233,17 +245,16 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         }
       `;
     case 'normal':
-    case 'normal-fixed':
       return css`
         width: 400px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
+        max-height: 100%;
 
-        ${size.includes('fixed') &&
+        ${resize === 'fixed' &&
         css`
           height: 480px;
-          max-height: 100%;
         `}
 
         --wds-modal-popup-border-radius: 12px;
@@ -272,17 +283,16 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         }
       `;
     case 'medium':
-    case 'medium-fixed':
       return css`
         width: 400px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
+        max-height: 100%;
 
-        ${size.includes('fixed') &&
+        ${resize === 'fixed' &&
         css`
           height: 560px;
-          max-height: 100%;
         `}
 
         --wds-modal-popup-border-radius: 20px;
@@ -311,60 +321,16 @@ const modalContainerSize = (size: ModalContainerProps['size']) => {
         }
       `;
     case 'large':
-    case 'large-fixed':
       return css`
         width: 560px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
+        max-height: 100%;
 
-        ${size.includes('fixed') &&
+        ${resize === 'fixed' &&
         css`
           height: 640px;
-          max-height: 100%;
-        `}
-
-        --wds-modal-popup-border-radius: 20px;
-        --wds-modal-content-margin: 32px;
-        --wds-top-navigation-padding-x: 28px;
-        --wds-top-navigation-padding-y: 24px;
-        --wds-top-navigation-padding: var(--wds-top-navigation-padding-y)
-          var(--wds-top-navigation-padding-x);
-        --wds-top-navigation-min-height: 72px;
-        --wds-action-area-margin-x: var(--wds-modal-content-margin);
-        --wds-action-area-margin-y: 24px;
-        --wds-action-area-extra-content-margin: var(
-          --wds-action-area-margin,
-          20px
-        );
-
-        [wds-component='top-navigation'] {
-          --wds-tab-list-padding: var(--wds-modal-content-margin);
-        }
-
-        [data-role='action-area-extra-content'] {
-          margin-top: calc(
-            var(--wds-action-area-margin-x) - var(--wds-action-area-margin-y)
-          );
-          margin-bottom: var(--wds-action-area-margin-y);
-        }
-
-        [data-role='navigation-title'] {
-          padding: 0px 4px;
-        }
-      `;
-    case 'huge':
-    case 'huge-fixed':
-      return css`
-        width: 640px;
-        min-width: 640px;
-        max-width: 100%;
-        height: initial;
-
-        ${size.includes('fixed') &&
-        css`
-          height: 760px;
-          max-height: 100%;
         `}
 
         --wds-modal-popup-border-radius: 20px;
