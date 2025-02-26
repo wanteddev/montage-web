@@ -1,4 +1,5 @@
 import type { PopperContentProps } from '../popper/types';
+import type { FlexBoxProps } from '../flex-box/types';
 import type { ListCellProps } from '../list/types';
 import type { Merge } from '@wanteddev/wds-engine';
 import type { PropsWithChildren, ReactNode, RefObject } from 'react';
@@ -33,10 +34,15 @@ export type AutocompleteListProps = Merge<
   PopperContentProps
 >;
 
-export type AutocompleteOptionProps = Merge<
-  { value: string },
-  Omit<ListCellProps, 'rightContent'>
+export type AutocompleteGroupProps = Merge<
+  {
+    title?: ReactNode;
+    children?: ReactNode;
+  },
+  FlexBoxProps
 >;
+
+export type AutocompleteOptionProps = Merge<{ value: string }, ListCellProps>;
 
 export type AutocompleteCollectionItem = {
   ref: RefObject<HTMLButtonElement | null>;
