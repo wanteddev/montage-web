@@ -174,8 +174,8 @@ export const routes: Array<Route> = [
         slug: '/docs/components/scroll-area',
       },
       {
-        title: 'SearchInput',
-        slug: '/docs/components/search-input',
+        title: 'SearchField',
+        slug: '/docs/components/search-field',
       },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
@@ -201,7 +201,7 @@ export const routes: Array<Route> = [
         title: 'TextButton',
         slug: '/docs/components/text-button',
       },
-      { title: 'TextInput', slug: '/docs/components/text-input' },
+      { title: 'TextField', slug: '/docs/components/text-field' },
       { title: 'TimePicker', slug: '/docs/components/time-picker' },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail', alpha: true },
       {

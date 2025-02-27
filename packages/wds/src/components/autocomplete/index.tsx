@@ -20,17 +20,20 @@ import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { List, ListCell, ListCellContent } from '../list';
 import ScrollArea from '../scroll-area';
 import FlexBox from '../flex-box';
+import Typography from '../typography';
 
 import {
+  AUTOCOMPLETE_FIELD_NAME,
   AUTOCOMPLETE_LIST_NAME,
   AUTOCOMPLETE_NAME,
   AUTOCOMPLETE_OPTION_NAME,
   AUTOCOMPLETE_ROOT_NAME,
   AUTOCOMPLETE_SCOPE,
-  AUTOCOMPLETE_TRIGGER_NAME,
 } from './constants';
 import { AutocompleteProvider, useAutocompleteContext } from './contexts';
 import {
+  autocompleteGroupTitleStyle,
+  autocompleteListContentStyle,
   autocompleteListStyle,
   autocompleteOptionStyle,
   autocompleteScrollAreaStyle,
@@ -42,6 +45,7 @@ import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
 import type {
   AutocompleteCollectionItem,
+  AutocompleteGroupProps,
   AutocompleteListProps,
   AutocompleteOptionProps,
   AutocompleteProps,
@@ -189,7 +193,7 @@ const AutocompleteRoot = forwardRef<
 
 AutocompleteRoot.displayName = AUTOCOMPLETE_ROOT_NAME;
 
-const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
+const AutocompleteField = forwardRef<HTMLElement, SlotProps>(
   ({ children, ...props }, forwardedRef) => {
     const {
       open,
@@ -205,7 +209,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
       asSelect,
       input,
       onSearch,
-    } = useAutocompleteContext(AUTOCOMPLETE_TRIGGER_NAME);
+    } = useAutocompleteContext(AUTOCOMPLETE_FIELD_NAME);
 
     const composedRefs = useComposedRefs(forwardedRef, onInputChange);
 
@@ -438,7 +442,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
   },
 );
 
-AutocompleteInput.displayName = AUTOCOMPLETE_TRIGGER_NAME;
+AutocompleteField.displayName = AUTOCOMPLETE_FIELD_NAME;
 
 const AutocompleteList = forwardRef<
   HTMLDivElement,
@@ -480,12 +484,14 @@ const AutocompleteList = forwardRef<
       <ScrollArea
         scrollbars="vertical"
         size="small"
+        zIndex={11}
         viewportProps={{ sx: autocompleteScrollAreaStyle }}
       >
         <List
           role="listbox"
           id={contentId}
           gap="4px"
+          sx={autocompleteListContentStyle}
           onMouseDown={(e) => e.preventDefault()}
         >
           {children}
@@ -496,6 +502,38 @@ const AutocompleteList = forwardRef<
 });
 
 AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
+
+const AutocompleteGroup = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<AutocompleteGroupProps>
+>(({ title, children, ...props }, ref) => {
+  return (
+    <FlexBox
+      ref={ref}
+      role="group"
+      alignItems="center"
+      flexDirection="column"
+      gap="4px"
+      {...props}
+      sx={[{ width: '100%' }, props.sx]}
+    >
+      {Boolean(title) && (
+        <Typography
+          data-role="autocomplete-group-title"
+          variant="caption1"
+          weight="bold"
+          color="palette.label.alternative"
+          sx={autocompleteGroupTitleStyle}
+        >
+          {title}
+        </Typography>
+      )}
+      {children}
+    </FlexBox>
+  );
+});
+
+AutocompleteGroup.displayName = 'AutocompleteGroup';
 
 const AutocompleteOption = forwardRef<
   HTMLLIElement,
@@ -577,7 +615,8 @@ AutocompleteOption.displayName = AUTOCOMPLETE_OPTION_NAME;
 
 export {
   Autocomplete,
-  AutocompleteInput,
+  AutocompleteField,
   AutocompleteList,
+  AutocompleteGroup,
   AutocompleteOption,
 };

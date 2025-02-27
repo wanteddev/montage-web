@@ -6,26 +6,35 @@ import type { ActionAreaProps, ActionButtonProps } from './types';
 import type { Merge, Theme } from '@wanteddev/wds-engine';
 
 export const actionAreaStyle =
-  ({ divider, sticky, variant, priority }: ActionAreaProps) =>
+  ({ divider, sticky, variant, extra }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--wds-action-area-margin-y, 20px)
       var(--wds-action-area-margin-x, 20px);
     position: relative;
 
-    ${actionAreaVariant({ divider, variant, sticky, priority }, theme)}
+    ${actionAreaVariant({ divider, variant, sticky, extra }, theme)}
   `;
 
 const actionAreaVariant = (
-  { divider, variant, sticky, priority }: ActionAreaProps,
+  { divider, variant, sticky, extra }: ActionAreaProps,
   theme: Theme,
 ) => {
-  switch (variant) {
-    case 'normal':
+  switch (extra) {
+    case true:
+      return css`
+        ${divider &&
+        css`
+          border-top: 1px solid ${theme.palette.line.normal.neutral};
+        `}
+        background-color: ${theme.palette.background.elevated.normal};
+      `;
+    case false:
+    default:
       return css`
         ${sticky
           ? css`
-              ${priority === 'compact'
+              ${variant === 'compact'
                 ? css`
                     border-style: solid;
                     border-top-width: 1px;
@@ -69,7 +78,7 @@ const actionAreaVariant = (
                 width: 100%;
               }
 
-              ${priority === 'compact' &&
+              ${variant === 'compact' &&
               css`
                 border-style: solid;
                 border-top-width: 1px;
@@ -82,25 +91,17 @@ const actionAreaVariant = (
               }
             `}
       `;
-    case 'extra':
-      return css`
-        ${divider &&
-        css`
-          border-top: 1px solid ${theme.palette.line.normal.neutral};
-        `}
-        background-color: ${theme.palette.background.elevated.normal};
-      `;
   }
 };
 
 export const actionButtonCancel = ({
-  priority,
   variant,
+  parentVariant,
 }: Merge<
   Pick<ActionButtonProps, 'variant'>,
-  Pick<ActionAreaProps, 'priority'>
+  { parentVariant?: ActionAreaProps['variant'] }
 >) => {
-  if (priority === 'neutral' && variant !== 'sub') {
+  if (parentVariant === 'neutral' && variant !== 'sub') {
     return css`
       flex: 1 1 0;
       padding: 12px 15px;

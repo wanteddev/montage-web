@@ -32,10 +32,10 @@ import {
   MenuList,
   MenuTrigger,
 } from '../menu';
-import { TextInputContent } from '../text-input';
+import { TextFieldContent } from '../text-field';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
-import { invalidIconWrapperStyle } from '../text-input/style';
+import { invalidIconWrapperStyle } from '../text-field/style';
 
 import {
   selectBubbleInputStyle,
@@ -361,7 +361,7 @@ Option.displayName = OPTION_NAME;
 // @ts-expect-error
 Option.isOption = true;
 
-const SelectContent = TextInputContent;
+const SelectContent = TextFieldContent;
 
 SelectContent.displayName = SELECT_CONTENT_NAME;
 

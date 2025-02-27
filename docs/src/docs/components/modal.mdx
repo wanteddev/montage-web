@@ -8,8 +8,10 @@ description: Modal Component
 ## 활용
 
 - Modal Overlay를 표시합니다.
-- `huge` 사이즈는 560px를 초과해서 사용하고 싶을 때 활용해요.
-  - 640, 720, 800 같이 80px 단위로 끊어서 사용해요.
+- `resize` 옵션을 통해 높이를 조정할 수 있어요.
+  - hug (default), fixed 옵션을 주어 사용해요.
+- `large` 사이즈는 560px 이상 사용하고 싶을 때 활용해요.
+  - 560 (default), 640, 720, 800 같이 80px 단위로 끊어서 사용해요.
 - `ModalNavigation` 에서 leftContent, rightContent 에는 `ModalNavigationButton`, `ModalClose` 를 사용합니다.
 - `ModalContainer`, `ModalNavigation`, `ModalContent`, `ActionArea` 의 위계를 변경해서는 안됩니다.
 
@@ -270,9 +272,8 @@ import {
   ModalContent,
   ModalContentItem,
   ModalNavigation,
-  TextInput,
+  TextField,
   FlexBox,
-  TextInput,
   FormField,
   FormControl,
   FormLabel,
@@ -320,7 +321,7 @@ const Demo = () => {
                       <FormLabel>라벨</FormLabel>
 
                       <FormControl>
-                        <TextInput {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
+                        <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
                       </FormControl>
 
                       <FormMessage>설명</FormMessage>
