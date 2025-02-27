@@ -3,10 +3,10 @@ import { css } from '@wanteddev/wds-engine';
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 
-import type { SearchInputProps } from './types';
+import type { SearchFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const searchInputWrapperStyle =
+export const searchFieldWrapperStyle =
   ({
     readOnly,
     disabled,
@@ -17,7 +17,7 @@ export const searchInputWrapperStyle =
     md,
     lg,
     xl,
-  }: SearchInputProps & { readOnly?: boolean }) =>
+  }: SearchFieldProps & { readOnly?: boolean }) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;
@@ -29,14 +29,14 @@ export const searchInputWrapperStyle =
     width: ${width};
     cursor: text;
 
-    ${searchInputWrapperSizeStyle({ size })}
+    ${searchFieldWrapperSizeStyle({ size })}
 
-    [data-role='search-input-icon'] {
+    [data-role='search-field-icon'] {
       transition: color ease 0.2s;
       color: ${theme.palette.label.alternative};
     }
 
-    [data-role='search-input-reset'] {
+    [data-role='search-field-reset'] {
       display: none;
     }
 
@@ -44,33 +44,33 @@ export const searchInputWrapperStyle =
       ? css`
           cursor: default;
 
-          [data-role='search-input-icon'] {
+          [data-role='search-field-icon'] {
             color: ${theme.palette.label.disable};
           }
 
-          [data-role='search-input-reset'] {
+          [data-role='search-field-reset'] {
             display: none;
           }
         `
       : css`
           @supports selector(:has(*)) {
             &:where(:has(input:placeholder-shown)) {
-              [data-role='search-input-icon'] {
+              [data-role='search-field-icon'] {
                 color: ${theme.palette.label.assistive};
               }
             }
 
             &:where(:has(input:focus)) {
-              [data-role='search-input-reset'] {
+              [data-role='search-field-reset'] {
                 display: ${readOnly ? 'none' : 'flex'};
               }
 
               &:where(:has(input:placeholder-shown)) {
-                [data-role='search-input-reset'] {
+                [data-role='search-field-reset'] {
                   display: none;
                 }
 
-                [data-role='search-input-icon'] {
+                [data-role='search-field-icon'] {
                   color: ${theme.palette.label.alternative};
                 }
               }
@@ -79,7 +79,7 @@ export const searchInputWrapperStyle =
 
           @supports not selector(:has(*)) {
             &:where(:focus-within) {
-              [data-role='search-input-reset'] {
+              [data-role='search-field-reset'] {
                 display: ${readOnly ? 'none' : 'flex'};
               }
             }
@@ -135,16 +135,16 @@ export const searchInputWrapperStyle =
           width: ${params!.width};
         `}
 
-        ${searchInputWrapperSizeStyle({ size: params?.size })}
+        ${searchFieldWrapperSizeStyle({ size: params?.size })}
 
         ${params?.sx}
       `,
     )}
   `;
 
-const searchInputWrapperSizeStyle = ({
+const searchFieldWrapperSizeStyle = ({
   size,
-}: Pick<SearchInputProps, 'size'>) => {
+}: Pick<SearchFieldProps, 'size'>) => {
   switch (size) {
     case 'small':
       return css`
@@ -157,7 +157,7 @@ const searchInputWrapperSizeStyle = ({
   }
 };
 
-export const searchInputContentStyle = css`
+export const searchFieldContentStyle = css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;

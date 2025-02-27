@@ -1,4 +1,4 @@
-import type { TextInputProps } from '../text-input/types';
+import type { TextFieldProps } from '../text-field/types';
 import type { Merge } from '@wanteddev/wds-engine';
 import type { MouseEventHandler, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
@@ -34,14 +34,14 @@ export type PaginationItemProps = {
   onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-export type PaginationInputDefaultProps = {
+export type PaginationFieldDefaultProps = {
   label?: string;
   disabled?: boolean;
 };
 
-export type PaginationInputProps = Merge<
-  PaginationInputDefaultProps,
-  TextInputProps
+export type PaginationFieldProps = Merge<
+  PaginationFieldDefaultProps,
+  TextFieldProps
 >;
 
 export type PaginationSelectDefaultProps = {

@@ -27,7 +27,7 @@ export const convertPropertyValue = (
     | undefined,
   name: string,
   convert: (v: string) => string,
-) => {
+): any => {
   if (!property) {
     return;
   }
