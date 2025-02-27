@@ -28,7 +28,7 @@ const emptyStatePlatformStyle = ({
           padding-bottom: calc(8px + var(--wds-empty-state-bottom-space));
         }
 
-        [data-role='empty-state-text-heading'] {
+        [data-role='empty-state-text-title'] {
           ${typographyStyle('headline1', 'bold')}
         }
         [data-role='empty-state-text-description'] {
@@ -69,7 +69,7 @@ const emptyStatePlatformStyle = ({
           padding-bottom: calc(12px + var(--wds-empty-state-bottom-space));
         }
 
-        [data-role='empty-state-text-heading'] {
+        [data-role='empty-state-text-title'] {
           ${typographyStyle('heading2', 'bold')}
         }
         [data-role='empty-state-text-description'] {
@@ -134,7 +134,7 @@ export const emptyStateStyle =
       }
     }
 
-    [data-role='empty-state-text-heading'] {
+    [data-role='empty-state-text-title'] {
       text-align: center;
     }
     [data-role='empty-state-text-description'] {

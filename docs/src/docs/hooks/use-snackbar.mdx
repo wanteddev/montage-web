@@ -25,7 +25,7 @@ const Demo = () => {
   const handleClick = () => {
     snackbar({
       variant: 'normal',
-      heading: '메시지에 마침표를 찍어요.',
+      title: '메시지에 마침표를 찍어요.',
       action: {
         children: '텍스트'
       }
@@ -45,7 +45,7 @@ export default Demo;`}
 <PropsTable component="useSnackbar" fallback={[
 { name: 'duration', types: 'number | undefined', defaultValue: 5000 },
 { name: 'variant', types: '\"normal\" | undefined', defaultValue: 'normal' },
-{ name: 'heading', types: 'ReactNode' },
+{ name: 'title', types: 'ReactNode' },
 { name: 'description', types: 'ReactNode' },
 { name: 'extraContent', types: 'ReactNode' },
 { name: 'action', types: 'ComponentProps<typeof TextButton>', required: true },
@@ -58,7 +58,7 @@ export default Demo;`}
 import { IconCircleFill } from '@wanteddev/wds-icon';
 
 const description = '설명이 두 줄 이상 들어갈 때 예외적으로 쓸 수 있게끔 고려해두었습니다.';
-const heading = '메시지에 마침표를 찍어요.';
+const title = '메시지에 마침표를 찍어요.';
 const extraContent = <Avatar variant="company" size="medium" />
 
 const Demo = () => {
@@ -70,11 +70,11 @@ const Demo = () => {
 
   return (
     <FlexBox gap="8px">
-      <Button onClick={handleClick({ heading })}>heading</Button>
+      <Button onClick={handleClick({ title })}>title</Button>
       <Button onClick={handleClick({ description })}>description</Button>
-      <Button onClick={handleClick({ heading, description })}>heading + description</Button>
-      <Button onClick={handleClick({ heading, extraContent })}>extraContent1</Button>
-      <Button onClick={handleClick({ heading, description, extraContent })}>extraContent2</Button>
+      <Button onClick={handleClick({ title, description })}>title + description</Button>
+      <Button onClick={handleClick({ title, extraContent })}>extraContent1</Button>
+      <Button onClick={handleClick({ title, description, extraContent })}>extraContent2</Button>
     </FlexBox>
   )
 }

@@ -23,7 +23,7 @@ export type RegionSnackbarItem = {
   type: 'snackbar';
   duration?: number;
   variant?: 'normal';
-  heading?: ReactNode;
+  title?: ReactNode;
   description?: ReactNode;
   extraContent?: ReactNode;
   action: ComponentProps<typeof TextButton>;

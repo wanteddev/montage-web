@@ -26,7 +26,7 @@ const NotFoundPage = () => {
         </EmptyStateImage>
         <EmptyStateContent>
           <EmptyStateText
-            heading="페이지를 찾을 수 없어요."
+            title="페이지를 찾을 수 없어요."
             description={
               <>
                 잘못된 경로로 접근했거나 페이지가 삭제되었어요.
