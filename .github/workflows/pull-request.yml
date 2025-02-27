@@ -8,7 +8,7 @@ jobs:
   send_slack:
     if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
     name: Send Slack Notification
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - name: Parse Title
