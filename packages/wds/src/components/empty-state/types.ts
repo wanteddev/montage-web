@@ -21,7 +21,7 @@ export type EmptyStateProps = Merge<
 export type EmptyStateImageProps = FlexBoxProps;
 
 export type EmptyStateTextDefaultProps = {
-  heading?: ReactNode;
+  title?: ReactNode;
   description: ReactNode;
   children?: ReactNode;
 };
