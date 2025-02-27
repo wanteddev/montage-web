@@ -54,7 +54,7 @@ export const pageButtonStyle = (theme: Theme) => css`
   }
 `;
 
-export const paginationInputStyle = css`
+export const paginationFieldStyle = css`
   padding: 6px;
   border-radius: 8px;
 
@@ -63,7 +63,7 @@ export const paginationInputStyle = css`
     text-align: center;
   }
 
-  [data-role='text-input-reset'] {
+  [data-role='text-field-reset'] {
     display: none;
   }
 `;

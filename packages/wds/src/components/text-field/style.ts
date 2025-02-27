@@ -4,12 +4,12 @@ import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 import { addOpacity } from '../../utils';
 
-import type { TextInputButtonProps, TextInputProps } from './types';
+import type { TextFieldButtonProps, TextFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
 
-export const textInputWrapperStyle =
+export const textFieldWrapperStyle =
   ({
     invalid,
     readOnly,
@@ -22,7 +22,7 @@ export const textInputWrapperStyle =
     md,
     lg,
     xl,
-  }: TextInputProps & { type?: string; readOnly?: boolean }) =>
+  }: TextFieldProps & { type?: string; readOnly?: boolean }) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;
@@ -39,12 +39,12 @@ export const textInputWrapperStyle =
     cursor: text;
     transition: box-shadow ease 0.2s;
 
-    [data-role='text-input-invalid'],
-    [data-role='text-input-positive'] {
+    [data-role='text-field-invalid'],
+    [data-role='text-field-positive'] {
       display: flex;
     }
 
-    [data-role='text-input-reset'] {
+    [data-role='text-field-reset'] {
       display: none;
     }
 
@@ -54,12 +54,12 @@ export const textInputWrapperStyle =
         max-height: 24px;
       }
 
-      [data-role='text-input-invalid'],
-      [data-role='text-input-positive'] {
+      [data-role='text-field-invalid'],
+      [data-role='text-field-positive'] {
         display: none !important;
       }
 
-      [data-role='text-input-reset'] {
+      [data-role='text-field-reset'] {
         display: none !important;
       }
     `}
@@ -111,21 +111,21 @@ export const textInputWrapperStyle =
                         ${addOpacity(theme.palette.static.black, 0.03)};
                   `}
 
-              [data-role='text-input-invalid'],
-              [data-role='text-input-positive'] {
+              [data-role='text-field-invalid'],
+              [data-role='text-field-positive'] {
                 display: none;
               }
 
-              [data-role='text-input-reset'] {
+              [data-role='text-field-reset'] {
                 display: ${readOnly ? 'none' : 'flex'};
               }
 
               &:where(:has(input:placeholder-shown)) {
-                [data-role='text-input-reset'] {
+                [data-role='text-field-reset'] {
                   display: none;
                 }
-                [data-role='text-input-invalid'],
-                [data-role='text-input-positive'] {
+                [data-role='text-field-invalid'],
+                [data-role='text-field-positive'] {
                   display: flex;
                 }
               }
@@ -162,11 +162,11 @@ export const textInputWrapperStyle =
                         ${addOpacity(theme.palette.static.black, 0.03)};
                   `}
 
-              [data-role='text-input-invalid'],
-              [data-role='text-input-positive'] {
+              [data-role='text-field-invalid'],
+              [data-role='text-field-positive'] {
                 display: none;
               }
-              [data-role='text-input-reset'] {
+              [data-role='text-field-reset'] {
                 display: ${readOnly ? 'none' : 'flex'};
               }
             }
@@ -187,9 +187,9 @@ export const textInputWrapperStyle =
           :has(input[data-role='date-picker-input']),
           :has(input[data-role='time-picker-input'])
         ) {
-        [data-role='text-input-reset'],
-        [data-role='text-input-invalid'],
-        [data-role='text-input-positive'] {
+        [data-role='text-field-reset'],
+        [data-role='text-field-invalid'],
+        [data-role='text-field-positive'] {
           display: none;
         }
       }
@@ -283,15 +283,15 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-export const textInputContentStyle = css`
+export const textFieldContentStyle = css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
   max-height: 24px;
 `;
 
-export const textInputButtonStyle =
-  ({ position, variant, disabled }: TextInputButtonProps) =>
+export const textFieldButtonStyle =
+  ({ position, variant, disabled }: TextFieldButtonProps) =>
   (theme: Theme) => css`
     box-shadow: none;
     padding: 12px 16px;
@@ -302,15 +302,15 @@ export const textInputButtonStyle =
       background-color: ${theme.palette.interaction.disable};
     }
 
-    ${textInputButtonPositionStyle({ position, disabled }, theme)}
+    ${textFieldButtonPositionStyle({ position, disabled }, theme)}
 
     &>span {
       ${typographyStyle('body1', variant === 'assistive' ? 'medium' : 'bold')};
     }
   `;
 
-export const textInputButtonPositionStyle = (
-  { position, disabled }: TextInputButtonProps,
+export const textFieldButtonPositionStyle = (
+  { position, disabled }: TextFieldButtonProps,
   theme: Theme,
 ) => {
   switch (position) {

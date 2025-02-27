@@ -1,5 +1,5 @@
-import type { TextInputProps } from '../text-input/types';
-import type { TextInput } from '../text-input';
+import type { TextFieldProps } from '../text-field/types';
+import type { TextField } from '../text-field';
 import type { Merge } from '@wanteddev/wds-engine';
 import type DateCalendar from '../date-calendar';
 import type {
@@ -31,15 +31,15 @@ export type DatePickerProps = Merge<
     disableLastUnitClickClose?: boolean;
   },
   ComponentPropsWithoutRef<typeof DateCalendar> &
-    Omit<TextInputProps, 'wrapperRef'>
+    Omit<TextFieldProps, 'wrapperRef'>
 >;
 
-export type DatePickerInputProps = Merge<
+export type DatePickerFieldProps = Merge<
   {
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;
   },
-  Omit<ComponentPropsWithoutRef<typeof TextInput>, 'wrapperRef'>
+  Omit<ComponentPropsWithoutRef<typeof TextField>, 'wrapperRef'>
 >;
 
 export type DatePickerFormat =

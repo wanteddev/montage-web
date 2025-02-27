@@ -1,22 +1,22 @@
 ---
-title: TextInput
-description: TextInput Component
+title: TextField
+description: TextField Component
 ---
 
-# TextInput
+# TextField
 
 사용자가 특정한 텍스트를 입력하거나 편집할 수 있습니다.
 
 ## 활용
 
 - `type="date"`, `type="file"` 등 텍스트/숫자가 아닌 요소를 입력받을 때는 사용하지 않아요.
-- rightContent, leftContent 요소는 `TextInputContent` 로 래핑해서 사용해요.
+- rightContent, leftContent 요소는 `TextFieldContent` 로 래핑해서 사용해요.
 
-<Demo code={`import { TextInput } from '@wanteddev/wds';
+<Demo code={`import { TextField } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <TextInput placeholder="입력하세요." width="300px" />
+    <TextField placeholder="입력하세요." width="300px" />
   )
 }
 
@@ -25,104 +25,104 @@ export default Demo;`}
 
 ## Props
 
-### TextInput
+### TextField
 
-<PropsTable component="TextInput" />
+<PropsTable component="TextField" />
 
-### TextInputContent
+### TextFieldContent
 
-<PropsTable component="TextInputContent" />
+<PropsTable component="TextFieldContent" />
 
-### TextInputButton
+### TextFieldButton
 
-<PropsTable component="TextInputButton" />
+<PropsTable component="TextFieldButton" />
 
 ## Example
 
 ### Icon
 
 - 좌/우측에 요소를 추가할 수 있어요.
-- 간격 보정을 위해 `TextInputContent` 로 래핑해서 사용해요.
+- 간격 보정을 위해 `TextFieldContent` 로 래핑해서 사용해요.
 
 아래 예시 코드를 확인 해주세요.
 
-<Demo code={`import { TextInput, FlexBox, TextInputContent, IconButton, ContentBadge } from '@wanteddev/wds';
+<Demo code={`import { TextField, FlexBox, TextFieldContent, IconButton, ContentBadge } from '@wanteddev/wds';
 import { IconSearch, IconEye } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px">
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="text">
+          <TextFieldContent variant="text">
             텍스트
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
       
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="badge">
+          <TextFieldContent variant="badge">
             <ContentBadge size="medium">
               적절
             </ContentBadge>
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
 
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="timer">
+          <TextFieldContent variant="timer">
             03:00
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
       
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="timer" color="palette.status.negative">
+          <TextFieldContent variant="timer" color="palette.status.negative">
             00:00
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
 
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="icon">
+          <TextFieldContent variant="icon">
             <IconSearch />
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
 
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="icon-button">
+          <TextFieldContent variant="icon-button">
             <IconButton type="button" size={22}>
               <IconEye />
             </IconButton>
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
 
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         rightContent={
-          <TextInputContent variant="custom">
+          <TextFieldContent variant="custom">
             커스텀
-          </TextInputContent>
+          </TextFieldContent>
         }
       />
     </FlexBox>
@@ -132,7 +132,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### TextInputButton
+### TextFieldButton
 
 ```css
 .textfield {
@@ -147,31 +147,31 @@ export default Demo;`}
 }
 ```
 
-TextInput의 border radius 코너 두 부분을 커스텀 하여서 함께 사용합니다.
+TextField의 border radius 코너 두 부분을 커스텀 하여서 함께 사용합니다.
 `border-top-right-radius` 이런식의 명확한 코너의 radius를 0으로 설정해야합니다.
 
 
-<Demo code={`import { TextInput, FlexBox, TextInputButton } from '@wanteddev/wds';
+<Demo code={`import { TextField, FlexBox, TextFieldButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px">
       <FlexBox>
-        <TextInput
+        <TextField
           placeholder="입력하세요."
           width="300px"
           sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0, }}
         />
-        <TextInputButton>
+        <TextFieldButton>
           텍스트
-        </TextInputButton>
+        </TextFieldButton>
       </FlexBox>
 
       <FlexBox>
-        <TextInputButton position="left">
+        <TextFieldButton position="left">
           텍스트
-        </TextInputButton>
-        <TextInput
+        </TextFieldButton>
+        <TextField
           placeholder="입력하세요."
           width="300px"
           sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, }}
@@ -190,18 +190,18 @@ export default Demo;`}
 오류가 있는 invalid 상태와 유효성 검사를 통과한 positive 상태가 존재합니다.
 사용하는 쪽에서 직접 prop으로 주입해서 사용합니다.
 
-<Demo code={`import { TextInput, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TextField, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px">
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         invalid
       />
 
-      <TextInput
+      <TextField
         placeholder="입력하세요."
         width="300px"
         positive
@@ -215,7 +215,7 @@ export default Demo;`}
 
 ### Form
 
-<Demo code={`import { Button, FlexBox, TextInput, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
@@ -242,7 +242,7 @@ const Demo = () => {
             <FormLabel required>내용</FormLabel>
 
             <FormControl>
-              <TextInput
+              <TextField
                 {...field}
                 placeholder="입력하세요."
                 width="300px"
