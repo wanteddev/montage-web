@@ -7,13 +7,13 @@ import { forwardRef, useRef } from 'react';
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
 
-import { searchInputContentStyle, searchInputWrapperStyle } from './style';
+import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 
-import type { SearchInputProps } from './types';
+import type { SearchFieldProps } from './types';
 
-const SearchInput = forwardRef<
+const SearchField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<SearchInputProps, 'input'>
+  DefaultComponentProps<SearchFieldProps, 'input'>
 >(
   (
     {
@@ -41,10 +41,10 @@ const SearchInput = forwardRef<
       <Box
         className={className}
         style={style}
-        wds-component="search-input"
+        wds-component="search-field"
         ref={wrapperRef}
         sx={[
-          searchInputWrapperStyle({
+          searchFieldWrapperStyle({
             readOnly,
             size,
             width,
@@ -96,9 +96,9 @@ const SearchInput = forwardRef<
         }}
       >
         <FlexBox
-          data-role="search-input-icon"
+          data-role="search-field-icon"
           sx={[
-            searchInputContentStyle,
+            searchFieldContentStyle,
             { height: '20px', padding: '0px 2px', marginRight: '4px' },
           ]}
           alignItems="center"
@@ -117,8 +117,8 @@ const SearchInput = forwardRef<
         />
 
         <FlexBox
-          data-role="search-input-reset"
-          sx={[searchInputContentStyle, { height: '22px', marginLeft: '8px' }]}
+          data-role="search-field-reset"
+          sx={[searchFieldContentStyle, { height: '22px', marginLeft: '8px' }]}
           alignItems="center"
           justifyContent="center"
         >
@@ -168,6 +168,6 @@ const SearchInput = forwardRef<
   },
 );
 
-SearchInput.displayName = 'SearchInput';
+SearchField.displayName = 'SearchField';
 
-export default SearchInput;
+export default SearchField;

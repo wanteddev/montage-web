@@ -12,7 +12,7 @@ import type {
   Ref,
 } from 'react';
 
-export type TextInputDefaultProps = {
+export type TextFieldDefaultProps = {
   invalid?: boolean;
   positive?: boolean;
   leftContent?: ReactNode;
@@ -25,22 +25,22 @@ export type TextInputDefaultProps = {
   wrapperRef?: Ref<HTMLDivElement>;
 };
 
-export type TextInputResponsiveProps = ResponsiveProps<
-  Pick<TextInputDefaultProps, 'width' | 'height'>
+export type TextFieldResponsiveProps = ResponsiveProps<
+  Pick<TextFieldDefaultProps, 'width' | 'height'>
 >;
 
-export type TextInputProps = Merge<
-  TextInputDefaultProps,
-  TextInputResponsiveProps
+export type TextFieldProps = Merge<
+  TextFieldDefaultProps,
+  TextFieldResponsiveProps
 >;
 
-export type TextInputContentProps = PropsWithChildren<{
+export type TextFieldContentProps = PropsWithChildren<{
   variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
   color?: ThemeColorsToken;
   sx?: SxProp;
 }>;
 
-export type TextInputButtonProps = {
+export type TextFieldButtonProps = {
   variant?: 'normal' | 'assistive';
   loading?: boolean;
   disabled?: boolean;

@@ -17,9 +17,9 @@ import { IconButtonProvider } from '../icon-button/contexts';
 import {
   invalidIconWrapperStyle,
   positiveIconWrapperStyle,
-  textInputButtonStyle,
-  textInputContentStyle,
-  textInputWrapperStyle,
+  textFieldButtonStyle,
+  textFieldContentStyle,
+  textFieldWrapperStyle,
 } from './style';
 
 import type {
@@ -28,14 +28,14 @@ import type {
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  TextInputButtonProps,
-  TextInputContentProps,
-  TextInputProps,
+  TextFieldButtonProps,
+  TextFieldContentProps,
+  TextFieldProps,
 } from './types';
 
-const TextInput = forwardRef<
+const TextField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<TextInputProps, 'input'>
+  DefaultComponentProps<TextFieldProps, 'input'>
 >(
   (
     {
@@ -68,10 +68,10 @@ const TextInput = forwardRef<
       <Box
         className={className}
         style={style}
-        wds-component="text-input"
+        wds-component="text-field"
         ref={wrapperRef}
         sx={[
-          textInputWrapperStyle({
+          textFieldWrapperStyle({
             invalid,
             width,
             height,
@@ -135,27 +135,27 @@ const TextInput = forwardRef<
           {...props}
         />
         {invalid ? (
-          <TextInputContent
-            data-role="text-input-invalid"
+          <TextFieldContent
+            data-role="text-field-invalid"
             sx={invalidIconWrapperStyle}
             variant="icon"
           >
             <IconCircleExclamationFill />
-          </TextInputContent>
+          </TextFieldContent>
         ) : (
           positive && (
-            <TextInputContent
-              data-role="text-input-positive"
+            <TextFieldContent
+              data-role="text-field-positive"
               sx={positiveIconWrapperStyle}
               variant="icon"
             >
               <IconCircleCheckFill />
-            </TextInputContent>
+            </TextFieldContent>
           )
         )}
 
-        <TextInputContent
-          data-role="text-input-reset"
+        <TextFieldContent
+          data-role="text-field-reset"
           variant="icon-button"
           onPointerDown={() => {
             const input = inputRef.current;
@@ -196,29 +196,29 @@ const TextInput = forwardRef<
           >
             <IconCircleClose />
           </IconButton>
-        </TextInputContent>
+        </TextFieldContent>
         {rightContent}
       </Box>
     );
   },
 );
 
-TextInput.displayName = 'TextInput';
+TextField.displayName = 'TextField';
 
-const TextInputContent = forwardRef<
+const TextFieldContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TextInputContentProps, 'div'>
+  DefaultComponentProps<TextFieldContentProps, 'div'>
 >(({ variant = 'text', children, sx, color, ...props }, ref) => {
   switch (variant) {
     case 'text':
       return (
         <Typography
           as="div"
-          wds-component="text-input-content"
+          wds-component="text-field-content"
           variant="body1"
           weight="medium"
           ref={ref}
-          sx={[textInputContentStyle, { padding: '0px 4px' }, sx]}
+          sx={[textFieldContentStyle, { padding: '0px 4px' }, sx]}
           color={color ?? 'palette.label.assistive'}
           {...props}
         >
@@ -228,9 +228,9 @@ const TextInputContent = forwardRef<
     case 'badge':
       return (
         <FlexBox
-          wds-component="text-input-content"
+          wds-component="text-field-content"
           ref={ref}
-          sx={[textInputContentStyle, sx]}
+          sx={[textFieldContentStyle, sx]}
           {...props}
         >
           {children}
@@ -242,9 +242,9 @@ const TextInputContent = forwardRef<
           as="div"
           variant="label1"
           weight="bold"
-          wds-component="text-input-content"
+          wds-component="text-field-content"
           ref={ref}
-          sx={[textInputContentStyle, { padding: '2px 4px' }, sx]}
+          sx={[textFieldContentStyle, { padding: '2px 4px' }, sx]}
           color={color ?? 'palette.primary.normal'}
           {...props}
         >
@@ -254,10 +254,10 @@ const TextInputContent = forwardRef<
     case 'icon':
       return (
         <FlexBox
-          wds-component="text-input-content"
+          wds-component="text-field-content"
           ref={ref}
           sx={[
-            textInputContentStyle,
+            textFieldContentStyle,
             (theme) => ({
               padding: '1px',
               fontSize: '22px',
@@ -273,10 +273,10 @@ const TextInputContent = forwardRef<
     case 'icon-button':
       return (
         <FlexBox
-          wds-component="text-input-content"
+          wds-component="text-field-content"
           ref={ref}
           sx={[
-            textInputContentStyle,
+            textFieldContentStyle,
             {
               padding: '1px',
             },
@@ -293,9 +293,9 @@ const TextInputContent = forwardRef<
     default:
       return (
         <FlexBox
-          wds-component="text-input-content"
+          wds-component="text-field-content"
           ref={ref}
-          sx={[textInputContentStyle, sx]}
+          sx={[textFieldContentStyle, sx]}
           {...props}
         >
           {children}
@@ -304,9 +304,9 @@ const TextInputContent = forwardRef<
   }
 });
 
-TextInputContent.displayName = 'TextInputContent';
+TextFieldContent.displayName = 'TextFieldContent';
 
-const TextInputButton = forwardRef(
+const TextFieldButton = forwardRef(
   <E extends ElementType = 'button'>(
     {
       type = 'button',
@@ -315,7 +315,7 @@ const TextInputButton = forwardRef(
       variant = 'normal',
       disabled,
       ...props
-    }: PolymorphicProps<TextInputButtonProps, E>,
+    }: PolymorphicProps<TextFieldButtonProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     return (
@@ -328,12 +328,12 @@ const TextInputButton = forwardRef(
         disabled={disabled}
         size="large"
         {...props}
-        sx={[textInputButtonStyle({ variant, position, disabled }), props.sx]}
+        sx={[textFieldButtonStyle({ variant, position, disabled }), props.sx]}
       />
     );
   },
-) as PolymorphicComponent<TextInputButtonProps, 'button'>;
+) as PolymorphicComponent<TextFieldButtonProps, 'button'>;
 
-TextInputButton.displayName = 'TextInputButton';
+TextFieldButton.displayName = 'TextFieldButton';
 
-export { TextInput, TextInputContent, TextInputButton };
+export { TextField, TextFieldContent, TextFieldButton };

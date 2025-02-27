@@ -6,7 +6,7 @@ import { type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
-import { TextInput, TextInputContent } from '../text-input';
+import { TextField, TextFieldContent } from '../text-field';
 import IconButton from '../icon-button';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import FocusScope from '../focus-scope';
@@ -21,7 +21,7 @@ import { sectionsToViews } from './helpers';
 import { timePickerStyle } from './style';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { TimePickerInputProps, TimePickerProps } from './types';
+import type { TimePickerFieldProps, TimePickerProps } from './types';
 import type { DateType } from '../date-picker';
 
 const TimePicker = forwardRef<
@@ -178,7 +178,7 @@ const TimePicker = forwardRef<
             rightContent: (
               <>
                 {props.rightContent}
-                <TextInputContent
+                <TextFieldContent
                   data-role="time-picker-clock-icon"
                   variant="icon-button"
                 >
@@ -192,7 +192,7 @@ const TimePicker = forwardRef<
                   >
                     <IconClock />
                   </IconButton>
-                </TextInputContent>
+                </TextFieldContent>
               </>
             ),
           } as unknown as SlotProps)}
@@ -268,12 +268,12 @@ TimePicker.displayName = TIME_PICKER_NAME;
 
 const TimePickerInput = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TimePickerInputProps, 'input'>
+  DefaultComponentProps<TimePickerFieldProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
-  <TextInput {...props} ref={inputRef} wrapperRef={ref} />
+  <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
 
 TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
 
 export { TimePicker };
-export type { TimePickerInputProps };
+export type { TimePickerFieldProps };

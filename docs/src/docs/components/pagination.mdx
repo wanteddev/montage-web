@@ -30,9 +30,9 @@ export default Demo;`}
 
 <PropsTable component="PaginationSelect" />
 
-### PaginationInput
+### PaginationField
 
-<PropsTable component="PaginationInput" />
+<PropsTable component="PaginationField" />
 
 ## Examples
 
@@ -88,18 +88,18 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### PaginationInput
+### PaginationField
 
 페이지 번호를 입력해서 이동할 수 있어요.<br />
 유효하지 않은 페이지 번호를 입력하면 이동하지 않아요.
 
-<Demo code={`import { Pagination, PaginationInput, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Pagination, PaginationField, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="24px">
-      <Pagination totalPages={10} leftContent={<PaginationInput />} />
-      <Pagination totalPages={10} leftContent={<PaginationInput label="go to page" />} />
+      <Pagination totalPages={10} leftContent={<PaginationField />} />
+      <Pagination totalPages={10} leftContent={<PaginationField label="go to page" />} />
     </FlexBox>
   )
 }
@@ -111,7 +111,7 @@ export default Demo;`}
 
 variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
 
-<Demo code={`import { Pagination, PaginationInput, PaginationSelect, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Pagination, PaginationField, PaginationSelect, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -123,7 +123,7 @@ const Demo = () => {
         />
         <Pagination 
           totalPages={10}
-          leftContent={<PaginationInput />}
+          leftContent={<PaginationField />}
         />
         <Pagination 
           totalPages={10}
@@ -138,7 +138,7 @@ const Demo = () => {
         />
         <Pagination 
           totalPages={10}
-          rightContent={<PaginationInput />} 
+          rightContent={<PaginationField />} 
         />
         <Pagination 
           totalPages={10}
@@ -150,7 +150,7 @@ const Demo = () => {
         <Pagination 
           totalPages={10}
           leftContent={<PaginationSelect />}
-          rightContent={<PaginationInput />} 
+          rightContent={<PaginationField />} 
         />
         <Pagination 
           totalPages={10} 
