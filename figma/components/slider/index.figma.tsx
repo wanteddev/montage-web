@@ -25,7 +25,7 @@ figma.connect(Slider, '<FIGMA_SLIDER>', {
   example: (props) => (
     <Slider
       defaultValue={[0, 50]}
-      heading={
+      title={
         <>
           <span>{props.firstLabel}</span>
           <span>~</span>
@@ -70,7 +70,7 @@ figma.connect(Slider, '<FIGMA_SLIDER>', {
   example: (props) => (
     <Slider
       defaultValue={[0, 50]}
-      heading={
+      title={
         <>
           <span>{props.firstLabel}</span>
           <span>~</span>
