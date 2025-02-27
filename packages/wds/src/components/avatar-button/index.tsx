@@ -3,7 +3,6 @@ import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
-import PushBadge from '../push-badge';
 
 import { avatarButtonStyle, pushBadgeStyle } from './style';
 
@@ -19,7 +18,7 @@ const AvatarButton = forwardRef(
     {
       as,
       children,
-      pushBadge = false,
+      pushBadge,
       disableInteraction = false,
       disabled,
       ...props
@@ -44,7 +43,11 @@ const AvatarButton = forwardRef(
           {children}
         </WithInteraction>
 
-        {pushBadge && <PushBadge sx={pushBadgeStyle} variant="dot" />}
+        {pushBadge && (
+          <Box sx={pushBadgeStyle} data-role="avatar-button-push-badge">
+            {pushBadge}
+          </Box>
+        )}
       </Box>
     );
   },

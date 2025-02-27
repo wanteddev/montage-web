@@ -35,9 +35,12 @@ export const pushBadgeStyle =
 
           & > span {
             display: block;
-            margin-bottom: 1px;
-            margin-left: 1px;
             height: fit-content;
+
+            ${variant === 'new' &&
+            css`
+              line-height: 1;
+            `}
           }
         `;
     }
