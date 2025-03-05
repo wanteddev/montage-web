@@ -33,6 +33,9 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         const variant = actionArea.value.attributes?.find(
           (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
         ) as JSXAttribute | undefined;
+        const sticky = actionArea.value.attributes?.find(
+          (v) => v.type === 'JSXAttribute' && v.name.name === 'sticky',
+        ) as JSXAttribute | undefined;
 
         if (variant) {
           variant.name = j.jsxIdentifier('extra');
@@ -95,6 +98,11 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         if (priority) {
           hasChanges = true;
           priority.name = j.jsxIdentifier('variant');
+        }
+
+        if (sticky) {
+          hasChanges = true;
+          sticky.name = j.jsxIdentifier('background');
         }
       });
   }
