@@ -169,29 +169,6 @@ const TextArea = forwardRef<
             ...style,
           }}
           gap="12px"
-          onPointerDown={(event) => {
-            const target = event.target as HTMLElement;
-            if (target.closest('input, textarea, button, a')) return;
-
-            const textArea = textAreaRef.current;
-            if (!textArea || target.tagName === 'TEXTAREA') return;
-
-            requestAnimationFrame(() => {
-              textArea.dispatchEvent(
-                new PointerEvent('pointerdown', {
-                  bubbles: false,
-                }),
-              );
-
-              props.onPointerDown?.({
-                ...event,
-                currentTarget: textArea as EventTarget & HTMLTextAreaElement,
-                bubbles: false,
-              });
-
-              textArea.focus();
-            });
-          }}
           onClick={(event) => {
             const target = event.target as HTMLElement;
             if (target.closest('input, textarea, button, a')) return;
@@ -204,6 +181,7 @@ const TextArea = forwardRef<
             if (!textArea || target.tagName === 'TEXTAREA') return;
 
             requestAnimationFrame(() => {
+              textArea.focus();
               textArea.click();
             });
           }}
