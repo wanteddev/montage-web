@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 export type AvatarButtonProps = {
-  pushBadge?: boolean;
+  pushBadge?: ReactNode;
   disabled?: boolean;
   disableInteraction?: boolean;
   children?: ReactNode;

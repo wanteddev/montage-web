@@ -41,6 +41,8 @@ const PushBadge = forwardRef<
       as="span"
       ref={ref}
       {...props}
+      wds-component="push-badge"
+      data-variant={variant}
       sx={[pushBadgeStyle({ variant }), props.sx]}
     >
       {variant === 'dot' ? (

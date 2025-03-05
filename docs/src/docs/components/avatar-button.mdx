@@ -5,11 +5,34 @@ description: AvatarButton Component
 
 # AvatarButton
 
-클릭할 수 있는 아바타에 사용하며 상태를 표시할 수 있습니다.
+클릭할 수 있는 아바타에 사용하며 상태를 표시할 수 있어요.
 
 ## 활용
 
-- `Popover` 와 결합해서 사용하기 좋습니다.
+- interaction이 있는 아바타에 사용해요.
+- pushBadge 옵션을 통해 뱃지를 추가할 수 있어요.
+
+<Demo code={`import { Avatar, AvatarButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <AvatarButton>
+      <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+    </AvatarButton>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="AvatarButton" />
+
+
+## Examples
+
+### With Popover
 
 <Demo code={`import { Avatar, AvatarButton, Popover, PopoverTrigger, PopoverContent } from '@wanteddev/wds';
 
@@ -32,30 +55,26 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Props
+### Size
 
-<PropsTable component="AvatarButton" />
-
-
-
-<Demo code={`import { FlexBox, Avatar, AvatarButton } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Avatar, AvatarButton, PushBadge } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="16px">
-      <AvatarButton>
+      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
         <Avatar size="xsmall" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
       </AvatarButton>
-      <AvatarButton>
+      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
         <Avatar size="small" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
       </AvatarButton>
-      <AvatarButton>
+      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
         <Avatar size="medium" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
       </AvatarButton>
-      <AvatarButton>
+      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
         <Avatar size="large" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
       </AvatarButton>
-      <AvatarButton>
+      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
         <Avatar size="xlarge" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
       </AvatarButton>
     </FlexBox>
