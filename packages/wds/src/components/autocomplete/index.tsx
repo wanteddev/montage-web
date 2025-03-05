@@ -168,8 +168,8 @@ const AutocompleteRoot = forwardRef<
       ref={ref}
       {...props}
       sx={[{ width: 'fit-content' }, props.sx]}
-      onPointerDown={composeEventHandlers(
-        props.onPointerDown,
+      onClick={composeEventHandlers(
+        props.onClick,
         useCallback(
           (event: MouseEvent) => {
             if (!event.currentTarget.contains(event.target as HTMLElement)) {
@@ -407,7 +407,7 @@ const AutocompleteInput = forwardRef<HTMLElement, SlotProps>(
               }
             });
           })}
-          onPointerDown={composeEventHandlers(props.onPointerDown, () => {
+          onClick={composeEventHandlers(props.onClick, () => {
             if (value === '' || (!open && !input?.disabled)) {
               onOpenChange(!open);
             }
@@ -510,6 +510,7 @@ const AutocompleteOption = forwardRef<
     value: contextValue,
     onInputValueChange,
     asSelect,
+    selectedOption,
     onSelectedOptionChange,
     onSearch,
     onOpenChange,
@@ -533,7 +534,7 @@ const AutocompleteOption = forwardRef<
         role="option"
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
-        onMouseEnter={composeEventHandlers(props.onMouseEnter, (e) => {
+        onTouchStart={composeEventHandlers(props.onTouchStart, (e) => {
           if (disabled) return;
 
           const items = getItems();
@@ -546,6 +547,22 @@ const AutocompleteOption = forwardRef<
           );
           setAttributeSelection(ref.current, items, true);
         })}
+        onMouseMove={composeEventHandlers(props.onMouseEnter, (e) => {
+          if (disabled) return;
+
+          const items = getItems();
+
+          const target = items.find(
+            (v) =>
+              v.ref.current ===
+              (e.currentTarget as unknown as HTMLButtonElement),
+          );
+
+          if (target?.ref !== selectedOption?.ref) {
+            onSelectedOptionChange(target ?? null);
+            setAttributeSelection(ref.current, items, true);
+          }
+        })}
         rightContent={
           active ? (
             <ListCellContent variant="icon">
@@ -553,7 +570,7 @@ const AutocompleteOption = forwardRef<
             </ListCellContent>
           ) : null
         }
-        onMouseDown={composeEventHandlers(props.onMouseDown, (e) => {
+        onClick={composeEventHandlers(props.onClick, (e) => {
           if (disabled) return e.preventDefault();
 
           onInputValueChange(value);
@@ -565,7 +582,6 @@ const AutocompleteOption = forwardRef<
             input?.focus();
           });
         })}
-        onClick={composeEventHandlers(props.onClick, (e) => e.preventDefault())}
       >
         {children}
       </ListCell>

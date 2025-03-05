@@ -87,28 +87,6 @@ const TextInput = forwardRef<
           }),
           sx,
         ]}
-        onPointerDown={(event) => {
-          const target = event.target as HTMLElement;
-          if (target.closest('input, button, a')) return;
-
-          const input = inputRef.current;
-          if (!input || target.tagName === 'INPUT') return;
-
-          requestAnimationFrame(() => {
-            input.dispatchEvent(
-              new PointerEvent('pointerdown', {
-                bubbles: false,
-              }),
-            );
-
-            props.onPointerDown?.({
-              ...event,
-              currentTarget: input as EventTarget & HTMLInputElement,
-              bubbles: false,
-            });
-            input.focus();
-          });
-        }}
         onClick={(event) => {
           const target = event.target as HTMLElement;
           if (target.closest('input, button, a')) return;
@@ -121,6 +99,7 @@ const TextInput = forwardRef<
           if (!input || target.tagName === 'INPUT') return;
 
           requestAnimationFrame(() => {
+            input.focus();
             input.click();
           });
         }}
