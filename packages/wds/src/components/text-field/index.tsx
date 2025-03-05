@@ -96,7 +96,12 @@ const TextField = forwardRef<
           }
 
           const input = inputRef.current;
-          if (!input || target.tagName === 'INPUT') return;
+          if (
+            !input ||
+            target.tagName === 'INPUT' ||
+            target.getAttribute('data-role') === 'text-field-reset'
+          )
+            return;
 
           requestAnimationFrame(() => {
             input.focus();
@@ -136,7 +141,8 @@ const TextField = forwardRef<
         <TextFieldContent
           data-role="text-field-reset"
           variant="icon-button"
-          onPointerDown={() => {
+          onPointerDown={(e) => e.preventDefault()}
+          onClick={() => {
             const input = inputRef.current;
 
             if (!input) return;
