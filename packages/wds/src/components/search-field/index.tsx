@@ -66,7 +66,12 @@ const SearchField = forwardRef<
           }
 
           const input = inputRef.current;
-          if (!input || target.tagName === 'INPUT') return;
+          if (
+            !input ||
+            target.tagName === 'INPUT' ||
+            target.getAttribute('data-role') === 'search-field-reset'
+          )
+            return;
 
           requestAnimationFrame(() => {
             input.focus();
@@ -105,7 +110,8 @@ const SearchField = forwardRef<
             type="button"
             size={22}
             tabIndex={-1}
-            onPointerDown={() => {
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => {
               const input = inputRef.current;
 
               if (!input) return;
