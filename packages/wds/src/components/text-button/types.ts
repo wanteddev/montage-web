@@ -12,6 +12,10 @@ export type TextButtonDefaultProps = {
   rightContent?: ReactNode;
   children?: ReactNode;
   loading?: boolean;
+  /**
+   * loading=true 일 때 event 막는 동작을 비활성화합니다.
+   */
+  disableLoadingPreventEvents?: boolean;
 };
 
 export type TextButtonResponsiveProps = ResponsiveProps<
