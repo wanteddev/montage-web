@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import {
   IconCompany,
   IconGraduation,
@@ -53,6 +53,15 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       value: AvatarProps,
     ): value is ComponentProps<typeof ImageLoader> =>
       'src' in value && Boolean(value.src);
+
+    const prevSrc = useRef(props.src);
+
+    useEffect(() => {
+      if (prevSrc.current !== props.src) {
+        prevSrc.current = props.src;
+        setImageLoadingStatus('idle');
+      }
+    }, [props.src]);
 
     return (
       <Box
