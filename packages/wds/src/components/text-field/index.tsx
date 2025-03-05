@@ -3,7 +3,7 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 import {
   IconCircleCheckFill,
-  IconCircleClose,
+  IconCircleCloseFill,
   IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
 import { forwardRef, useRef } from 'react';
@@ -179,7 +179,7 @@ const TextField = forwardRef<
             tabIndex={-1}
             sx={(theme) => ({ color: theme.palette.label.assistive })}
           >
-            <IconCircleClose />
+            <IconCircleCloseFill />
           </IconButton>
         </TextFieldContent>
         {rightContent}

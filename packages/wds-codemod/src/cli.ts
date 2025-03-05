@@ -31,6 +31,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'Input to Field', value: 'input-to-field' },
   { name: 'ModalContainer Migration', value: 'modal-migration' },
   { name: 'ActionArea Migration', value: 'action-area-migration' },
+  { name: 'IconCircleClose Migration', value: 'icon-circle-close-migration' },
 ];
 
 const run = () => {

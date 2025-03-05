@@ -1,7 +1,7 @@
 'use client';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
-import { IconCircleClose, IconSearch } from '@wanteddev/wds-icon';
+import { IconCircleCloseFill, IconSearch } from '@wanteddev/wds-icon';
 import { forwardRef, useRef } from 'react';
 
 import FlexBox from '../flex-box';
@@ -145,7 +145,7 @@ const SearchField = forwardRef<
               color: theme.palette.label.assistive,
             })}
           >
-            <IconCircleClose />
+            <IconCircleCloseFill />
           </IconButton>
         </FlexBox>
       </Box>
