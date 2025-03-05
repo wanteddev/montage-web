@@ -30,7 +30,7 @@ const ActionArea = forwardRef<
       variant = 'strong',
       children,
       caption,
-      sticky,
+      background,
       divider = true,
       ...props
     },
@@ -55,7 +55,7 @@ const ActionArea = forwardRef<
               divider,
               extra,
               variant,
-              sticky: extra ? false : sticky ?? modalSticky,
+              background: extra ? false : background ?? modalSticky,
             }),
             props.sx,
           ]}

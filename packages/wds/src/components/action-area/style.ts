@@ -6,18 +6,18 @@ import type { ActionAreaProps, ActionButtonProps } from './types';
 import type { Merge, Theme } from '@wanteddev/wds-engine';
 
 export const actionAreaStyle =
-  ({ divider, sticky, variant, extra }: ActionAreaProps) =>
+  ({ divider, background, variant, extra }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--wds-action-area-margin-y, 20px)
       var(--wds-action-area-margin-x, 20px);
     position: relative;
 
-    ${actionAreaVariant({ divider, variant, sticky, extra }, theme)}
+    ${actionAreaVariant({ divider, variant, background, extra }, theme)}
   `;
 
 const actionAreaVariant = (
-  { divider, variant, sticky, extra }: ActionAreaProps,
+  { divider, variant, background, extra }: ActionAreaProps,
   theme: Theme,
 ) => {
   switch (extra) {
@@ -32,7 +32,7 @@ const actionAreaVariant = (
     case false:
     default:
       return css`
-        ${sticky
+        ${background
           ? css`
               ${variant === 'compact'
                 ? css`

@@ -16,10 +16,10 @@ export type ActionAreaProps = {
    */
   compactContent?: ReactNode;
   /**
-   * 스크롤이 있을 때 `sticky=true` 로 주면 추가 스타일이 활성화됩니다.
+   * 스크롤이 있을 때 `background=true` 로 주면 추가 스타일이 활성화됩니다.
    * Modal 내부에서 사용할 경우 Modal 내부 로직에 의해 처리됩니다.
    */
-  sticky?: boolean;
+  background?: boolean;
   /**
    * `extra=true` 일 때 상단에 라인을 표시합니다.
    */
