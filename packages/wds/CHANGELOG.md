@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.8](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.7...@wanteddev/wds@1.6.8) (2025-03-05)
+
+### Bug Fixes
+
+- **wds:** avatar의 src가 변경되었을 때 로드 상태가 초기화 되지 않음 ([#274](https://github.com/wanteddev/wds/issues/274)) ([f72ebf5](https://github.com/wanteddev/wds/commit/f72ebf588d0fb466a2b64a3ed844810442b87145))
+- **wds:** date picker 외부에서 값을 주입, 업데이트 했을 때 반영되지 않음 ([#261](https://github.com/wanteddev/wds/issues/261)) ([af5fb35](https://github.com/wanteddev/wds/commit/af5fb3561477c3e99de896abfbb4fb64a0d644c1))
+- **wds:** touch device에서 modal과 함께 autocomplete를 사용할 경우 클릭 이벤트가 올바르지 않음 ([#275](https://github.com/wanteddev/wds/issues/275)) ([6cf686d](https://github.com/wanteddev/wds/commit/6cf686d73efa1c5c6d597d2b8b6ea3a9ef74bf42))
+
 ## [1.6.7](https://github.com/wanteddev/wds/compare/@wanteddev/wds@1.6.6...@wanteddev/wds@1.6.7) (2025-02-20)
 
 ### Bug Fixes
