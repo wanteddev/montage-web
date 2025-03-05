@@ -1,6 +1,7 @@
 'use client';
 import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import WithInteraction from '../with-interaction';
 import Loading from '../loading';
@@ -13,7 +14,7 @@ import type {
   PolymorphicProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type { ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { TextButtonProps } from './types';
 
 const TextButton = forwardRef(
@@ -28,6 +29,7 @@ const TextButton = forwardRef(
       size = 'medium',
       children,
       loading = false,
+      disableLoadingPreventEvents,
       xs,
       sm,
       md,
@@ -47,6 +49,13 @@ const TextButton = forwardRef(
       return context?.[variant];
     }, [context, variant]);
 
+    const handlePreventEventsLoading = (e: SyntheticEvent) => {
+      if (loading && !disableLoadingPreventEvents) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
     return (
       <WithInteraction
         color={interactionColor}
@@ -64,6 +73,23 @@ const TextButton = forwardRef(
           disabled={disabled}
           aria-disabled={disabled}
           {...props}
+          onClick={composeEventHandlers(
+            handlePreventEventsLoading,
+            props.onClick,
+          )}
+          onMouseDown={composeEventHandlers(
+            handlePreventEventsLoading,
+            props.onMouseDown,
+          )}
+          onPointerDown={composeEventHandlers(
+            handlePreventEventsLoading,
+            props.onPointerDown,
+          )}
+          onKeyDown={composeEventHandlers((e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              handlePreventEventsLoading(e);
+            }
+          }, props.onKeyDown)}
           sx={[
             textButtonStyle({
               color,

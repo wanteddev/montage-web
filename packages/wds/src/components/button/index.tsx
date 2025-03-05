@@ -1,6 +1,7 @@
 'use client';
 import { forwardRef, useId } from 'react';
 import { Box } from '@wanteddev/wds-engine';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import WithInteraction from '../with-interaction';
 import Loading from '../loading';
@@ -12,7 +13,7 @@ import type {
   PolymorphicProps,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type { ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { ButtonProps } from './types';
 
 const Button = forwardRef(
@@ -29,6 +30,7 @@ const Button = forwardRef(
       leftContent,
       rightContent,
       size = 'medium',
+      disableLoadingPreventEvents,
       children,
       xs,
       sm,
@@ -57,6 +59,13 @@ const Button = forwardRef(
       }
     };
 
+    const handlePreventEventsLoading = (e: SyntheticEvent) => {
+      if (loading && !disableLoadingPreventEvents) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
     return (
       <WithInteraction
         color={interactionColor}
@@ -71,6 +80,23 @@ const Button = forwardRef(
           aria-disabled={disabled}
           type="button"
           {...props}
+          onClick={composeEventHandlers(
+            handlePreventEventsLoading,
+            props.onClick,
+          )}
+          onMouseDown={composeEventHandlers(
+            handlePreventEventsLoading,
+            props.onMouseDown,
+          )}
+          onPointerDown={composeEventHandlers(
+            handlePreventEventsLoading,
+            props.onPointerDown,
+          )}
+          onKeyDown={composeEventHandlers((e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              handlePreventEventsLoading(e);
+            }
+          }, props.onKeyDown)}
           sx={[
             buttonStyle({
               variant,

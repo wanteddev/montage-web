@@ -101,8 +101,13 @@ export default Demo;`}
 
 ## Loading
 
-`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있습니다.
-onClick 이벤트를 막지 않으므로 onClick 이벤트를 막기 위해서 별도 처리가 필요합니다.
+- `loading` 옵션을 통해 로딩 상태를 트리거 할 수 있습니다.
+- 로딩 상태일 때 아래 이벤트 실행을 막습니다.
+  - onClick
+  - onMouseDown
+  - onPointerDown
+  - onKeyDown `(e.key === 'Enter' || e.key === ' ')`
+- 이벤트 실행을 막지 않으려면 `disableLoadingPreventEvents` 옵션을 통해 실행할 수 있습니다.
 
 <Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
 import { useState, useEffect } from 'react';
