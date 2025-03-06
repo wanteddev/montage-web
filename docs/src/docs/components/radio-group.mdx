@@ -9,24 +9,13 @@ description: RadioGroup Component
 
 ## 활용
 
-<Demo code={`import { useId } from 'react';
-import { FlexBox, RadioGroup, Label, RadioGroupItem } from '@wanteddev/wds';
+<Demo code={`import { RadioGroup, RadioGroupItem } from '@wanteddev/wds';
 
 const Demo = () => {
-  const manId = useId();
-  const womanId = useId();
 
   return (
     <RadioGroup>
-      <FlexBox gap="8px" alignItems="center">
-        <RadioGroupItem id={manId} value="man" />
-        <Label htmlFor={manId}>Man</Label>
-      </FlexBox>
-
-      <FlexBox gap="8px" alignItems="center">
-        <RadioGroupItem id={womanId} value="woman" />
-        <Label htmlFor={womanId}>Woman</Label>
-      </FlexBox>
+      <RadioGroupItem value="woman" />
     </RadioGroup>
   )
 }
@@ -45,6 +34,54 @@ export default Demo;`}
 <PropsTable component="RadioGroupItem" />
 
 ## Example
+
+
+### Label
+
+`size` 옵션과 `tight` 옵션, `FormField` 등을 활용하여 조합해요.
+
+`size=normal` 일 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰요.
+
+<Demo code={`import { FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <RadioGroup>
+      <FlexBox flexDirection="column" gap="8px">
+        <FormField flexDirection="row" gap="8px">
+          <FormControl>
+            <RadioGroupItem value="small" size="small" />
+          </FormControl>
+          <FormLabel>Size=Small, Tight=False</FormLabel>
+        </FormField>
+
+        <FormField flexDirection="row" gap="8px">
+          <FormControl>
+            <RadioGroupItem value="small,tight" size="small" tight />
+          </FormControl>
+          <FormLabel>Size=Small, Tight=True</FormLabel>
+        </FormField>
+
+        <FormField flexDirection="row" gap="8px">
+          <FormControl>
+            <RadioGroupItem value="normal" size="normal" />
+          </FormControl>
+          <FormLabel sx={{ padding: '1px 0px' }}>Size=Normal, Tight=False</FormLabel>
+        </FormField>
+
+        <FormField flexDirection="row" gap="8px">
+          <FormControl>
+            <RadioGroupItem value="normal,tight" size="normal" tight />
+          </FormControl>
+          <FormLabel sx={{ padding: '1px 0px' }}>Size=Normal, Tight=True</FormLabel>
+        </FormField>
+      </FlexBox>
+    </RadioGroup>
+  )
+}
+
+export default Demo;`}
+/>
 
 ### Form
 
@@ -76,20 +113,20 @@ const Demo = () => {
 
             <FormControl>
               <RadioGroup {...field} onValueChange={field.onChange}>
-                <FormField flexDirection="row" alignItems="center">
+                <FormField flexDirection="row" gap="8px">
                   <FormControl>
                     <RadioGroupItem value="man" />
                   </FormControl>
 
-                  <FormLabel>Man</FormLabel>
+                  <FormLabel sx={{ padding: '1px 0px' }}>Man</FormLabel>
                 </FormField>
 
-                <FormField flexDirection="row" alignItems="center">
+                <FormField flexDirection="row" gap="8px">
                   <FormControl>
                     <RadioGroupItem value="woman" />
                   </FormControl>
                   
-                  <FormLabel>Woman</FormLabel>
+                  <FormLabel sx={{ padding: '1px 0px' }}>Woman</FormLabel>
                 </FormField>
               </RadioGroup>
             </FormControl>

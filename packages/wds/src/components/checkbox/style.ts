@@ -1,7 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+} from '../../utils/responsive-props';
 
 import type { CheckboxProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -13,7 +16,7 @@ export const checkboxStyle =
     checked,
     indeterminate,
     disabled,
-    // label에 invalid 처리는 안하기로 결정
+    tight,
     xs,
     sm,
     md,
@@ -85,7 +88,7 @@ export const checkboxStyle =
       will-change: transform;
     }
 
-    ${checkboxSizeStyle({ size, bold })}
+    ${checkboxSizeStyle({ size, bold, tight })}
 
     ${(checked || indeterminate) &&
     css`
@@ -118,11 +121,25 @@ export const checkboxStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
-        ${checkboxSizeStyle({
-          size: params?.size || size,
-          bold: params?.bold || bold,
-        })}
+      (params, breakpoint) => css`
+        ${(params?.size !== undefined || params?.bold !== undefined) &&
+        css`
+          ${checkboxSizeStyle({
+            size: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'size',
+              params.size,
+              breakpoint!,
+            ),
+            bold: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'bold',
+              params.bold,
+              breakpoint!,
+            ),
+            tight,
+          })}
+        `}
         ${params?.sx}
       `,
     )}
@@ -131,7 +148,8 @@ export const checkboxStyle =
 const checkboxSizeStyle = ({
   size,
   bold,
-}: Pick<CheckboxProps, 'size' | 'bold'>) => {
+  tight,
+}: Pick<CheckboxProps, 'size' | 'bold' | 'tight'>) => {
   switch (size) {
     case 'normal':
       return css`
@@ -139,6 +157,17 @@ const checkboxSizeStyle = ({
         height: 24px;
         font-size: 16px;
         padding: 3px;
+
+        ${tight === true &&
+        css`
+          padding-left: 1px;
+          padding-right: 1px;
+          width: 20px;
+
+          [wds-component='with-interaction'] {
+            width: calc(100% + 12px);
+          }
+        `}
 
         & ~ label {
           ${typographyStyle('body2', bold ? 'bold' : 'regular')}
@@ -151,6 +180,17 @@ const checkboxSizeStyle = ({
         height: 20px;
         font-size: 14px;
         padding: 2px;
+
+        ${tight === true &&
+        css`
+          padding-left: 0px;
+          padding-right: 0px;
+          width: 16px;
+
+          [wds-component='with-interaction'] {
+            width: calc(100% + 12px);
+          }
+        `}
 
         & ~ label {
           ${typographyStyle('label1', bold ? 'bold' : 'regular')}
