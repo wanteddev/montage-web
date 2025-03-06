@@ -65,6 +65,10 @@ export const routes: Array<Route> = [
         slug: '/docs/components/card-list',
       },
       { title: 'Category', slug: '/docs/components/category' },
+      {
+        title: 'CheckMark',
+        slug: '/docs/components/check-mark',
+      },
       { title: 'Checkbox', slug: '/docs/components/checkbox' },
       { title: 'ChipAction', slug: '/docs/components/chip-action' },
       { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
@@ -117,10 +121,6 @@ export const routes: Array<Route> = [
       { title: 'Loading', slug: '/docs/components/loading' },
       { title: 'Menu', slug: '/docs/components/menu' },
       { title: 'Modal', slug: '/docs/components/modal' },
-      {
-        title: 'CheckMark',
-        slug: '/docs/components/check-mark',
-      },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
       {
         title: 'Pagination',
