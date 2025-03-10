@@ -38,7 +38,7 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       switch (variant) {
         case 'person':
           return <IconPersonFill />;
-        case 'academic':
+        case 'academy':
           return <IconGraduation />;
         case 'company':
           return <IconCompany />;

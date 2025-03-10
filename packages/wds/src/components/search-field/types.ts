@@ -1,11 +1,10 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { CSSProperties, ReactNode, Ref } from 'react';
+import type { CSSProperties, Ref } from 'react';
 
 export type SearchFieldDefaultProps = {
   disabled?: boolean;
   width?: CSSProperties['width'];
   onReset?: (prevValue: string) => void;
-  children?: ReactNode;
   wrapperRef?: Ref<HTMLDivElement>;
   size?: 'medium' | 'small';
 };

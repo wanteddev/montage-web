@@ -3,7 +3,6 @@ import { forwardRef, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
-import PushBadge from '../push-badge';
 
 import { backgroundBlendStyle, iconButtonStyle } from './style';
 import { useIconButtonContext } from './contexts';
@@ -24,7 +23,6 @@ const IconButton = forwardRef(
       size,
       variant = 'normal',
       interactionColor = 'palette.label.normal',
-      pushBadge = false,
       alternative,
       color: originColor,
       children,
@@ -127,18 +125,8 @@ const IconButton = forwardRef(
               sx={backgroundBlendStyle}
             />
           )}
-          {children}
 
-          {pushBadge && (
-            <PushBadge
-              variant="dot"
-              sx={{
-                position: 'absolute',
-                right: '-10px',
-                top: '-10px',
-              }}
-            />
-          )}
+          {children}
         </Box>
       </WithInteraction>
     );

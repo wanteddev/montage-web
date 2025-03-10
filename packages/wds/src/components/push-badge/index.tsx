@@ -3,17 +3,18 @@ import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
 import Typography from '../typography';
+import FlexBox from '../flex-box';
 
-import { pushBadgeStyle } from './style';
+import { pushBadgeStyle, pushBadgeWrapperStyle } from './style';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 import type { PushBadgeProps } from './types';
 
 const PushBadge = forwardRef<
-  HTMLSpanElement,
-  DefaultComponentProps<PushBadgeProps, 'span'>
->(({ variant = 'dot', children, ...props }, ref) => {
+  HTMLDivElement,
+  DefaultComponentProps<PushBadgeProps, 'div'>
+>(({ variant = 'dot', children, count, invisible = true, ...props }, ref) => {
   const renderChild: {
     [key in Exclude<PushBadgeProps['variant'], undefined>]: ReactNode;
   } = {
@@ -23,36 +24,41 @@ const PushBadge = forwardRef<
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 4 4"
         fill="none"
-        sx={(theme) => ({
-          width: '4px',
-          height: '4px',
-          color: theme.palette.primary.normal,
-        })}
+        width="1em"
+        height="1em"
       >
         <circle cx="2" cy="2" r="2" fill="currentColor" />
       </Box>
     ),
-    ['number']: children,
+    ['number']: count,
     ['new']: 'N',
   };
 
   return (
-    <Box
-      as="span"
+    <FlexBox
+      data-role="push-badge-wrapper"
       ref={ref}
       {...props}
-      wds-component="push-badge"
-      data-variant={variant}
-      sx={[pushBadgeStyle({ variant }), props.sx]}
+      sx={[pushBadgeWrapperStyle, props.sx]}
     >
-      {variant === 'dot' ? (
-        renderChild[variant]
-      ) : (
-        <Typography variant="caption2" weight="bold" align="center">
-          {renderChild[variant]}
-        </Typography>
-      )}
-    </Box>
+      {children}
+
+      <Box
+        as="span"
+        wds-component="push-badge"
+        data-variant={variant}
+        sx={pushBadgeStyle({ variant, invisible })}
+      >
+        {invisible &&
+          (variant === 'dot' ? (
+            renderChild[variant]
+          ) : (
+            <Typography variant="caption2" weight="bold" align="center">
+              {renderChild[variant]}
+            </Typography>
+          ))}
+      </Box>
+    </FlexBox>
   );
 });
 

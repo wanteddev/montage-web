@@ -16,19 +16,17 @@ export const avatarWrapperStyle =
     justify-content: center;
     position: relative;
 
-    &[data-state='loaded'] {
-      &::after {
-        box-shadow: inset 0 0 0 1px
-          ${addOpacity(theme.palette.label.normal, theme.opacity[5])};
-        content: '';
-        width: 100%;
-        height: 100%;
-        border-radius: inherit;
-        color: inherit;
-        font-size: inherit;
-        position: absolute;
-        inset: 0;
-      }
+    &::after {
+      box-shadow: inset 0 0 0 1px
+        ${addOpacity(theme.palette.label.normal, theme.opacity[5])};
+      content: '';
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      color: inherit;
+      font-size: inherit;
+      position: absolute;
+      inset: 0;
     }
 
     ${avatarSizeStyle(size, variant)}
@@ -83,13 +81,19 @@ const avatarSizeStyle = (
       case 'person':
         return css`
           border-radius: 9999px;
+
+          & > [wds-component='with-interaction'],
+          & + [wds-component='with-interaction'] {
+            border-radius: 9999px;
+          }
         `;
-      case 'academic':
+      case 'academy':
       case 'company':
         return css`
           border-radius: ${rounded}px;
 
-          & > [wds-component='with-interaction'] {
+          & > [wds-component='with-interaction'],
+          & + [wds-component='with-interaction'] {
             border-radius: ${rounded + 8}px;
           }
         `;
@@ -106,18 +110,7 @@ const avatarSizeStyle = (
         ${getBorderRadius(12)}
 
         & + [data-role="avatar-button-push-badge"]:has([wds-component='push-badge'][data-variant='dot']) {
-          right: -12px;
-          top: -12px;
-
-          [wds-component='push-badge'] {
-            width: fit-content;
-            height: fit-content;
-          }
-
-          svg {
-            width: 8px;
-            height: 8px;
-          }
+          font-size: 8px;
         }
       `;
     case 'large':
@@ -130,18 +123,7 @@ const avatarSizeStyle = (
           + [data-role='avatar-button-push-badge']:has(
             [wds-component='push-badge'][data-variant='dot']
           ) {
-          right: -12px;
-          top: -12px;
-
-          [wds-component='push-badge'] {
-            width: fit-content;
-            height: fit-content;
-          }
-
-          svg {
-            width: 8px;
-            height: 8px;
-          }
+          font-size: 8px;
         }
 
         ${getBorderRadius(10)}
@@ -156,18 +138,7 @@ const avatarSizeStyle = (
           + [data-role='avatar-button-push-badge']:has(
             [wds-component='push-badge'][data-variant='dot']
           ) {
-          right: -11px;
-          top: -11px;
-
-          [wds-component='push-badge'] {
-            width: fit-content;
-            height: fit-content;
-          }
-
-          svg {
-            width: 6px;
-            height: 6px;
-          }
+          font-size: 6px;
         }
 
         ${getBorderRadius(8)}
@@ -182,18 +153,7 @@ const avatarSizeStyle = (
           + [data-role='avatar-button-push-badge']:has(
             [wds-component='push-badge'][data-variant='dot']
           ) {
-          right: -10px;
-          top: -10px;
-
-          [wds-component='push-badge'] {
-            width: fit-content;
-            height: fit-content;
-          }
-
-          svg {
-            width: 4px;
-            height: 4px;
-          }
+          font-size: 4px;
         }
 
         ${getBorderRadius(6)}
@@ -208,18 +168,7 @@ const avatarSizeStyle = (
           + [data-role='avatar-button-push-badge']:has(
             [wds-component='push-badge'][data-variant='dot']
           ) {
-          right: -10px;
-          top: -10px;
-
-          [wds-component='push-badge'] {
-            width: fit-content;
-            height: fit-content;
-          }
-
-          svg {
-            width: 4px;
-            height: 4px;
-          }
+          font-size: 4px;
         }
 
         ${getBorderRadius(6)}
