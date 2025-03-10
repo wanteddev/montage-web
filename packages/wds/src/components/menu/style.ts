@@ -8,7 +8,7 @@ export const menuPopoverContentStyle = (theme: Theme) => css`
   padding: 0;
   width: 320px;
   filter: none;
-  box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
+  box-shadow: 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
   border-radius: 16px;
 `;
 

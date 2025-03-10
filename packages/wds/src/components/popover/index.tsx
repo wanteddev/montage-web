@@ -100,6 +100,7 @@ const PopoverContent = forwardRef<
       onUnmountAutoFocus,
       referenceHidden = false,
       setContext,
+      wrapperProps,
       ...props
     },
     ref,
@@ -115,6 +116,7 @@ const PopoverContent = forwardRef<
         container={container}
         referenceHidden={referenceHidden}
         setContext={setContext}
+        wrapperProps={wrapperProps}
       >
         <FocusScope
           loop={loop}

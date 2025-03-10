@@ -28,6 +28,7 @@ export type MenuContentProps = Pick<
   | 'loop'
   | 'referenceHidden'
   | 'setContext'
+  | 'wrapperProps'
 >;
 
 export type MenuGroupDefaultProps = {
