@@ -9,6 +9,7 @@ export type RadioDefaultProps = {
   invalid?: boolean;
   size?: 'normal' | 'small';
   onCheck?: () => void;
+  tight?: boolean;
 };
 
 export type RadioResponsiveProps = ResponsiveProps<

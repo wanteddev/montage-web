@@ -11,6 +11,7 @@ export const radioStyle =
     size,
     checked,
     // invalid,
+    tight,
     disabled,
     xs,
     sm,
@@ -31,8 +32,6 @@ export const radioStyle =
     border-radius: 9999px;
 
     & ~ label {
-      ${typographyStyle('body2', 'regular')}
-      color: ${theme.palette.label.normal};
       cursor: pointer;
     }
 
@@ -69,7 +68,7 @@ export const radioStyle =
       pointer-events: none;
     }
 
-    ${radioSizeStyle({ size })}
+    ${radioSizeStyle({ size, tight }, theme)}
 
     ${checked &&
     css`
@@ -99,13 +98,16 @@ export const radioStyle =
       theme,
     )(
       (params) => css`
-        ${radioSizeStyle({ size: params?.size })}
+        ${radioSizeStyle({ size: params?.size, tight }, theme)}
         ${params?.sx}
       `,
     )}
   `;
 
-const radioSizeStyle = ({ size }: Pick<RadioProps, 'size'>) => {
+const radioSizeStyle = (
+  { size, tight }: Pick<RadioProps, 'size' | 'tight'>,
+  theme: Theme,
+) => {
   switch (size) {
     case 'normal':
       return css`
@@ -116,6 +118,20 @@ const radioSizeStyle = ({ size }: Pick<RadioProps, 'size'>) => {
         span {
           padding: 2px;
         }
+
+        & ~ label {
+          ${typographyStyle('body2', 'regular')}
+          color: ${theme.palette.label.normal};
+        }
+
+        ${tight &&
+        css`
+          width: 20px;
+
+          [wds-component='with-interaction'] {
+            width: calc(100% + 12px);
+          }
+        `}
       `;
 
     case 'small':
@@ -127,6 +143,20 @@ const radioSizeStyle = ({ size }: Pick<RadioProps, 'size'>) => {
         span {
           padding: 1px;
         }
+
+        & ~ label {
+          ${typographyStyle('label1', 'regular')}
+          color: ${theme.palette.label.normal};
+        }
+
+        ${tight &&
+        css`
+          width: 16px;
+
+          [wds-component='with-interaction'] {
+            width: calc(100% + 12px);
+          }
+        `}
       `;
   }
 };
