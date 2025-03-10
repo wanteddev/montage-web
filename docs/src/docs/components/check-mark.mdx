@@ -5,12 +5,12 @@ description: CheckMark Component
 
 # CheckMark
 
-컨트롤 요소로 Checkbox를 조합해 쓰고자 할 때 사용합니다.
+컨트롤 요소로 Checkbox를 조합해 쓰고자 할 때 사용해요.
 
 ## 활용
 
-- 낮은 위계로 활성화 여부를 제어할 때 사용합니다.
-- `Checkbox` 와 활용법이 동일합니다.
+- 낮은 위계로 활성화 여부를 제어할 때 사용해요.
+- `Checkbox` 와 활용법이 동일해요.
 
 <Demo code={`import { CheckMark } from '@wanteddev/wds';
 
@@ -25,6 +25,69 @@ export default Demo;`}
 
 ## Props
 
-`bold` 옵션은 `input ~ label` 요소에 적용됩니다.
+`bold` 옵션은 `input ~ label` 요소에 적용돼요.
 
 <PropsTable component="CheckMark" />
+
+
+## Examples
+
+### Size
+
+`size` 옵션으로 크기를 조절해요.
+
+`size=normal` 일 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰요.
+
+<Demo code={`import { CheckMark, FlexBox, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FormField flexDirection="row" gap="4px">
+        <FormControl>
+          <CheckMark size="small" />
+        </FormControl>
+        <FormLabel>Small 사이즈</FormLabel>
+      </FormField>
+
+      <FormField flexDirection="row" gap="4px">
+        <FormControl>
+          <CheckMark size="normal" />
+        </FormControl>
+        <FormLabel sx={{ padding: '1px 0px' }}>Normal 사이즈</FormLabel>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Tight
+
+`tight` 옵션을 통해 너비를 추가로 조정할 수 있어요.
+
+<Demo code={`import { CheckMark, FlexBox, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FormField flexDirection="row" gap="4px">
+        <FormControl>
+          <CheckMark size="small" tight />
+        </FormControl>
+        <FormLabel>Small 사이즈, Tight=True</FormLabel>
+      </FormField>
+
+      <FormField flexDirection="row" gap="4px">
+        <FormControl>
+          <CheckMark size="normal" tight />
+        </FormControl>
+        <FormLabel sx={{ padding: '1px 0px' }}>Normal 사이즈, Tight=True</FormLabel>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

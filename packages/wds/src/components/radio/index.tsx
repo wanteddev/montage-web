@@ -28,6 +28,7 @@ const Radio = forwardRef<
       invalid = false,
       onCheck,
       size = 'normal',
+      tight = false,
       xs,
       sm,
       md,
@@ -82,6 +83,7 @@ const Radio = forwardRef<
               radioStyle({
                 size,
                 // invalid,
+                tight,
                 checked,
                 disabled,
                 xs,

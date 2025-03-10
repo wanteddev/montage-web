@@ -1,18 +1,23 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+} from '../../utils/responsive-props';
+import { typographyStyle } from '../../utils';
 
 import type { CheckMarkProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const checkMarkStyle =
-  ({ size, xs, sm, md, lg, xl }: CheckMarkProps) =>
+  ({ size, bold, tight, xs, sm, md, lg, xl }: CheckMarkProps) =>
   (theme: Theme) => css`
     padding: 0px;
     background-color: transparent;
     border-radius: 9999px;
     border: none;
     box-shadow: none;
+    ${checkMarkSizeStyle({ size, bold, tight })}
 
     svg {
       opacity: 1;
@@ -21,7 +26,6 @@ export const checkMarkStyle =
     }
 
     [data-role='checkbox-icon-wrapper'] {
-      ${getSizeStyle(size)}
       background-color: transparent;
       color: ${theme.palette.label.assistive};
       border-radius: 9999px;
@@ -41,13 +45,35 @@ export const checkMarkStyle =
       { xs, sm, md, lg, xl },
       theme,
     )(
-      (params) => css`
-        ${getSizeStyle(params?.size)}
+      (params, breakpoint) => css`
+        ${(params?.size !== undefined || params?.bold !== undefined) &&
+        css`
+          ${checkMarkSizeStyle({
+            size: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'size',
+              params.size,
+              breakpoint!,
+            ),
+            bold: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'bold',
+              params.bold,
+              breakpoint!,
+            ),
+            tight,
+          })}
+        `}
+        ${params?.sx}
       `,
     )}
   `;
 
-const getSizeStyle = (size: CheckMarkProps['size']) => {
+const checkMarkSizeStyle = ({
+  size,
+  bold,
+  tight,
+}: Pick<CheckMarkProps, 'size' | 'tight' | 'bold'>) => {
   switch (size) {
     case 'normal':
       return css`
@@ -55,6 +81,24 @@ const getSizeStyle = (size: CheckMarkProps['size']) => {
         width: 24px;
         height: 24px;
         padding: 0px;
+
+        ${tight &&
+        css`
+          width: 20px;
+
+          svg {
+            display: block;
+            margin: 0 auto;
+          }
+
+          [wds-component='with-interaction'] {
+            width: calc(100% + 12px);
+          }
+        `}
+
+        & ~ label {
+          ${typographyStyle('body2', bold ? 'bold' : 'regular')}
+        }
       `;
     case 'small':
       return css`
@@ -62,6 +106,24 @@ const getSizeStyle = (size: CheckMarkProps['size']) => {
         width: 20px;
         height: 20px;
         padding: 0px;
+
+        ${tight &&
+        css`
+          width: 16px;
+
+          svg {
+            display: block;
+            margin: 0 auto;
+          }
+
+          [wds-component='with-interaction'] {
+            width: calc(100% + 12px);
+          }
+        `}
+
+        & ~ label {
+          ${typographyStyle('label1', bold ? 'bold' : 'regular')}
+        }
       `;
   }
 };

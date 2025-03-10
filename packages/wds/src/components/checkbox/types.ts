@@ -14,6 +14,7 @@ export type CheckboxDefaultProps = {
   indeterminate?: boolean;
   indeterminateIcon?: ReactNode;
   onCheckedChange?: (state: boolean) => void;
+  tight?: boolean;
 };
 
 export type CheckboxResponsiveProps = ResponsiveProps<
