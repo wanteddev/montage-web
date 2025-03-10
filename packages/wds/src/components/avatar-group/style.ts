@@ -49,6 +49,7 @@ const avatarGroupSizeStyle = (size: AvatarGroupProps['size']) => {
   switch (size) {
     case 'small':
       return css`
+        gap: 10px;
         [wds-component='avatar'] {
           margin-left: -8px;
 
@@ -59,6 +60,7 @@ const avatarGroupSizeStyle = (size: AvatarGroupProps['size']) => {
       `;
     case 'xsmall':
       return css`
+        gap: 8px;
         [wds-component='avatar'] {
           margin-left: -6px;
 
