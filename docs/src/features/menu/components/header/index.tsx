@@ -1,11 +1,5 @@
 'use client';
-import {
-  FlexBox,
-  IconButton,
-  NoSsr,
-  RegionConfig,
-  useThemeControl,
-} from '@wanteddev/wds';
+import { FlexBox, IconButton, NoSsr, useThemeControl } from '@wanteddev/wds';
 import { IconMenu } from '@wanteddev/wds-icon';
 import Link from 'next/link';
 
@@ -26,62 +20,58 @@ const Header = () => {
   const mobileMenu = useMobileMenuContext();
 
   return (
-    <>
-      <RegionConfig viewportTop="var(--header-height)" />
-
+    <FlexBox
+      suppressHydrationWarning
+      justifyContent="center"
+      as="header"
+      sx={headerWrapperStyle}
+    >
       <FlexBox
-        suppressHydrationWarning
-        justifyContent="center"
-        as="header"
-        sx={headerWrapperStyle}
+        alignItems="center"
+        justifyContent="space-between"
+        sx={headerStyle}
       >
-        <FlexBox
-          alignItems="center"
-          justifyContent="space-between"
-          sx={headerStyle}
-        >
-          <FlexBox sx={logoStyle} as={Link} href="/">
-            <Logo />
-          </FlexBox>
+        <FlexBox sx={logoStyle} as={Link} href="/">
+          <Logo />
+        </FlexBox>
 
-          <FlexBox gap="12px" sm={{ gap: '24px' }} alignItems="center">
-            <Search />
+        <FlexBox gap="12px" sm={{ gap: '24px' }} alignItems="center">
+          <Search />
 
+          <IconButton
+            size={18}
+            sm={{ size: 20 }}
+            as={Link}
+            href="https://github.com/wanteddev/wds"
+            target="_blank"
+          >
+            <IconGithub />
+          </IconButton>
+
+          <NoSsr>
             <IconButton
               size={18}
               sm={{ size: 20 }}
-              as={Link}
-              href="https://github.com/wanteddev/wds"
-              target="_blank"
-            >
-              <IconGithub />
-            </IconButton>
-
-            <NoSsr>
-              <IconButton
-                size={18}
-                sm={{ size: 20 }}
-                type="button"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              >
-                {theme === 'dark' ? <IconDark /> : <IconLight />}
-              </IconButton>
-            </NoSsr>
-
-            <IconButton
               type="button"
-              size={18}
-              sm={{ size: 20 }}
-              data-state={mobileMenu.open ? 'open' : 'closed'}
-              onClick={() => mobileMenu.setOpen((open) => !open)}
-              sx={menuToggleStyle}
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              <IconMenu width="16" height="16" />
+              {theme === 'dark' ? <IconDark /> : <IconLight />}
             </IconButton>
-          </FlexBox>
+          </NoSsr>
+
+          <IconButton
+            type="button"
+            size={18}
+            sm={{ size: 20 }}
+            data-state={mobileMenu.open ? 'open' : 'closed'}
+            onClick={() => mobileMenu.setOpen((open) => !open)}
+            sx={menuToggleStyle}
+          >
+            <IconMenu width="16" height="16" />
+          </IconButton>
         </FlexBox>
       </FlexBox>
-    </>
+    </FlexBox>
   );
 };
 

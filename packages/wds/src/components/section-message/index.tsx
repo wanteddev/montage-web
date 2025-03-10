@@ -2,24 +2,28 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { forwardRef, useCallback, useId } from 'react';
 import {
-  IconCircleCheck,
-  IconCircleExclamation,
-  IconCircleInfo,
+  IconCircleCheckFill,
+  IconCircleExclamationFill,
+  IconCircleInfoFill,
   IconClose,
-  IconTriangleExclamation,
+  IconTriangleExclamationFill,
 } from '@wanteddev/wds-icon';
-import { Box, useTheme } from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils/color';
 import Typography from '../typography';
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
-import { useRegionStore } from '../../stores/region-store';
-import PortalOrFragment from '../portal-or-fragment';
 
-import { sectionMessageWrapperStyle, topRegionStatusStyle } from './style';
+import {
+  firstOverlayStyle,
+  secondOverlayStyle,
+  sectionMessageCloseIconStyle,
+  sectionMessageIconStyle,
+  sectionMessageTrailingContentStyle,
+  sectionMessageWrapperStyle,
+} from './style';
 
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import type { SectionMessageProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 
@@ -30,20 +34,19 @@ const SectionMessage = forwardRef<
   (
     {
       show: originShow,
-      defaultShow,
+      defaultShow = true,
       onShowChange,
-      variant = 'normal',
+      variant = 'info',
       children,
-      wrapperProps,
-      disablePortal,
-      container,
-      closeIcon = true,
+      leadingContent,
+      trailingContent,
+      caption,
+      actionArea,
+      closeIcon = false,
       ...props
     },
     ref,
   ) => {
-    const config = useRegionStore((state) => state.config);
-
     const [show = false, setShow] = useControllableState({
       prop: originShow,
       defaultProp: defaultShow,
@@ -57,111 +60,104 @@ const SectionMessage = forwardRef<
 
     const descriptionId = useId();
 
-    const theme = useTheme();
-
     const iconComponent: {
       [key in Exclude<SectionMessageProps['variant'], undefined>]: ReactNode;
     } = {
-      normal: null,
-      success: (
-        <IconCircleCheck
-          sx={{
-            color: theme.palette.status.positive,
-          }}
-        />
+      custom: null,
+      positive: <IconCircleCheckFill aria-label="positive" role="img" />,
+      negative: <IconCircleExclamationFill aria-label="negative" role="img" />,
+      cautionary: (
+        <IconTriangleExclamationFill aria-label="cautionary" role="img" />
       ),
-      error: (
-        <IconCircleExclamation
-          sx={{
-            color: theme.palette.status.negative,
-          }}
-        />
-      ),
-      warning: (
-        <IconTriangleExclamation
-          sx={{
-            color: theme.palette.status.cautionary,
-          }}
-        />
-      ),
-      info: (
-        <IconCircleInfo
-          sx={{
-            color: theme.palette.interaction.inactive,
-          }}
-        />
-      ),
+      info: <IconCircleInfoFill aria-label="info" role="img" />,
     };
 
-    const backgroundColor: {
-      [key in Exclude<SectionMessageProps['variant'], undefined>]: string;
-    } = {
-      normal: addOpacity(theme.palette.label.neutral, theme.opacity[5]),
-      success: addOpacity(theme.palette.status.positive, theme.opacity[5]),
-      error: addOpacity(theme.palette.status.negative, theme.opacity[5]),
-      warning: addOpacity(theme.palette.status.cautionary, theme.opacity[5]),
-      info: addOpacity(theme.palette.label.neutral, theme.opacity[5]),
-    };
+    const renderLeadingContent = leadingContent ?? iconComponent[variant];
 
     return (
       <>
         {show && (
-          <PortalOrFragment disablePortal={disablePortal} container={container}>
-            <Box
-              wds-ignore-dismissable-layer="true"
-              {...wrapperProps}
-              sx={[sectionMessageWrapperStyle, wrapperProps?.sx]}
-              style={
-                {
-                  ...wrapperProps?.style,
-                  '--wds-region-viewport-top': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportTop})`,
-                  '--wds-region-viewport-max-width': `calc(${config.viewportMaxWidth})`,
-                  '--wds-region-top-item-background': backgroundColor[variant],
-                } as CSSProperties
-              }
+          <FlexBox
+            ref={ref}
+            gap="12px"
+            role="alert"
+            aria-describedby={descriptionId}
+            {...props}
+            sx={[sectionMessageWrapperStyle, props.sx]}
+          >
+            <Box role="presentation" sx={firstOverlayStyle} />
+            <Box role="presentation" sx={secondOverlayStyle(variant)} />
+
+            {renderLeadingContent && (
+              <FlexBox flexShrink={0} sx={sectionMessageIconStyle(variant)}>
+                {renderLeadingContent}
+              </FlexBox>
+            )}
+
+            <FlexBox
+              data-role="section-message-content"
+              flexDirection="column"
+              gap="4px"
+              flex="1"
             >
-              <Box
-                ref={ref}
-                aria-atomic
-                role={variant === 'error' ? 'alert' : 'status'}
-                aria-live={variant === 'error' ? 'assertive' : 'polite'}
-                aria-describedby={descriptionId}
-                {...props}
-                sx={[topRegionStatusStyle, props.sx]}
+              <Typography
+                color="palette.label.normal"
+                variant="body1"
+                weight="medium"
+                data-role="section-message-content-title"
+                id={descriptionId}
+                as="h2"
               >
-                <FlexBox
-                  gap="10px"
-                  alignItems="center"
-                  sx={{ ['& svg']: { flexShrink: 0 } }}
+                {children}
+              </Typography>
+
+              {caption && (
+                <Typography
+                  variant="body2"
+                  weight="regular"
+                  data-role="section-message-content-caption"
+                  color="palette.label.neutral"
+                  as="p"
                 >
-                  {iconComponent[variant]}
+                  {caption}
+                </Typography>
+              )}
 
-                  <Typography
-                    color="palette.label.normal"
-                    variant="label1"
-                    weight="medium"
-                    id={descriptionId}
-                  >
-                    {children}
-                  </Typography>
+              {actionArea && (
+                <FlexBox
+                  data-role="section-message-action-area"
+                  sx={{ marginTop: 8 }}
+                  gap="16px"
+                >
+                  {actionArea}
                 </FlexBox>
+              )}
+            </FlexBox>
 
-                {closeIcon && (
-                  <FlexBox alignItems="center" flexShrink={0}>
-                    <IconButton
-                      color="palette.label.alternative"
-                      interactionColor="palette.label.alternative"
-                      onClick={handleShowToggle}
-                      size={20}
-                      sx={{ fontSize: '20px' }}
-                    >
-                      <IconClose />
-                    </IconButton>
-                  </FlexBox>
-                )}
-              </Box>
-            </Box>
-          </PortalOrFragment>
+            {trailingContent && (
+              <FlexBox
+                gap="16px"
+                alignItems="center"
+                sx={sectionMessageTrailingContentStyle}
+                data-role="section-message-trailing-content"
+              >
+                {trailingContent}
+              </FlexBox>
+            )}
+
+            {closeIcon && (
+              <IconButton
+                data-role="section-message-close-icon"
+                color="palette.label.alternative"
+                interactionColor="palette.label.alternative"
+                onClick={handleShowToggle}
+                size={20}
+                sx={sectionMessageCloseIconStyle}
+              >
+                <IconClose />
+              </IconButton>
+            )}
+          </FlexBox>
         )}
       </>
     );
