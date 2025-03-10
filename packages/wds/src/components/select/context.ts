@@ -4,7 +4,7 @@ import { SELECT_NAME } from './constants';
 
 type SelectContextType = {
   onOpenChange: (open: boolean) => void;
-  enableMenuBottom?: boolean;
+  enableMenuActionArea?: boolean;
 };
 
 export const [SelectProvider, useSelectContext] =

@@ -74,7 +74,7 @@ const Select = forwardRef<
       render,
       placeholder,
       leftContent,
-      enableMenuBottom,
+      enableMenuActionArea,
       menuValue: menuValueProp,
       onMenuValueChange,
       xs,
@@ -151,7 +151,7 @@ const Select = forwardRef<
     return (
       <SelectProvider
         onOpenChange={setOpenState}
-        enableMenuBottom={enableMenuBottom}
+        enableMenuActionArea={enableMenuActionArea}
       >
         {isFormControl && (
           <Box
@@ -173,7 +173,7 @@ const Select = forwardRef<
           />
         )}
         <Menu
-          value={enableMenuBottom ? menuValue : value}
+          value={enableMenuActionArea ? menuValue : value}
           onValueChange={useCallbackRef(
             (v: string | Array<string> | undefined) => {
               if (Array.isArray(v) && process.env.NODE_ENV !== 'production') {
@@ -182,7 +182,7 @@ const Select = forwardRef<
                 );
               }
 
-              if (enableMenuBottom) {
+              if (enableMenuActionArea) {
                 setMenuValue(v as string);
               } else {
                 setValue(v as string);
@@ -300,7 +300,7 @@ const Select = forwardRef<
           >
             <MenuList
               role="listbox"
-              sx={enableMenuBottom ? { paddingBottom: '0px' } : undefined}
+              sx={enableMenuActionArea ? { paddingBottom: '0px' } : undefined}
             >
               {children}
             </MenuList>
@@ -335,7 +335,7 @@ const Option = memo(
       }: PolymorphicProps<OptionProps, E>,
       ref: ForwardedRef<E>,
     ) => {
-      const { onOpenChange, enableMenuBottom } = useSelectContext() || {};
+      const { onOpenChange, enableMenuActionArea } = useSelectContext() || {};
 
       return (
         <MenuItem
@@ -345,7 +345,7 @@ const Option = memo(
           as={as || 'li'}
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
-            if (variant !== 'radio' && !enableMenuBottom) {
+            if (variant !== 'radio' && !enableMenuActionArea) {
               onOpenChange?.(false);
             }
           })}

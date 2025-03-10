@@ -12,9 +12,9 @@ description: Menu Component
 - `Menu`의 값은 `MenuItem`의 variant에 따라 달라져요.
   - normal, radio, variant를 선택하면 value는 문자열이고, checkbox variant를 선택하면 value는 Array\<value\> 입니다.
 - `MenuItem` 의 leftContent, rightContent에 요소를 추가 할 때는 `ListCellContent`로 감싸서 사용합니다.
-- `MenuBottom`의 leftContent, rightContent에 요소를 추가 할 때는 `MenuBottomContent`로 감싸서 사용합니다.
+- `MenuActionArea`의 leftContent, rightContent에 요소를 추가 할 때는 `MenuActionAreaContent`로 감싸서 사용합니다.
 
-<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -61,9 +61,9 @@ const Demo = () => {
           </MenuGroup>
         </MenuList>
 
-        <MenuBottom
+        <MenuActionArea
           leftContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button
                 variant="outlined"
                 color="assistive"
@@ -72,14 +72,14 @@ const Demo = () => {
               >
                 <IconRefresh />
               </Button> 
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
           rightContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button size="small">
                 텍스트
               </Button>
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
         />
       </MenuContent>
@@ -120,7 +120,7 @@ export default Demo;`}
       </MenuGroup>
     </MenuList>
 
-    <MenuBottom />
+    <MenuActionArea />
   </MenuContent>
 </Menu>
 ```
@@ -145,19 +145,19 @@ export default Demo;`}
 
 <PropsTable component="MenuItem" />
 
-### MenuBottom
+### MenuActionArea
 
-<PropsTable component="MenuBottom" />
+<PropsTable component="MenuActionArea" />
 
-### MenuBottomContent
+### MenuActionAreaContent
 
-<PropsTable component="MenuBottomContent" />
+<PropsTable component="MenuActionAreaContent" />
 
 ## Examples
 
 ### Normal
 
-<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -204,9 +204,9 @@ const Demo = () => {
           </MenuGroup>
         </MenuList>
 
-        <MenuBottom
+        <MenuActionArea
           leftContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button
                 variant="outlined"
                 color="assistive"
@@ -215,14 +215,14 @@ const Demo = () => {
               >
                 <IconRefresh />
               </Button> 
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
           rightContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button size="small">
                 텍스트
               </Button>
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
         />
       </MenuContent>
@@ -235,7 +235,7 @@ export default Demo;`}
 
 ### Checkbox
 
-<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -282,9 +282,9 @@ const Demo = () => {
           </MenuGroup>
         </MenuList>
 
-        <MenuBottom
+        <MenuActionArea
           leftContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button
                 variant="outlined"
                 color="assistive"
@@ -293,7 +293,7 @@ const Demo = () => {
               >
                 <IconRefresh />
               </Button> 
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
           rightContent={
             <Button size="small">
@@ -309,9 +309,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### MenuBottom
+### MenuActionArea
 
-<Demo code={`import { Button, TextFieldContent, IconButton, FlexBox, Menu, MenuTrigger, TextButton, ContentBadge, MenuContent, MenuBottom, MenuBottomContent, MenuGroup, MenuItem, ChipFilter, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, TextFieldContent, IconButton, FlexBox, Menu, MenuTrigger, TextButton, ContentBadge, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, ChipFilter, MenuList } from '@wanteddev/wds';
 import { IconRefresh, IconSend } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -359,9 +359,9 @@ const Demo = () => {
             </MenuGroup>
           </MenuList>
 
-          <MenuBottom
+          <MenuActionArea
             leftContent={
-              <MenuBottomContent variant="text-button">
+              <MenuActionAreaContent variant="text-button">
                 <TextButton
                   variant="assistive"
                   size="small"
@@ -369,14 +369,14 @@ const Demo = () => {
                 >
                   초기화
                 </TextButton>
-              </MenuBottomContent>
+              </MenuActionAreaContent>
             }
             rightContent={
-              <MenuBottomContent variant="button">
+              <MenuActionAreaContent variant="button">
                 <Button size="small">
                   텍스트
                 </Button>
-              </MenuBottomContent>
+              </MenuActionAreaContent>
             }
           />
         </MenuContent>
@@ -424,9 +424,9 @@ const Demo = () => {
             </MenuGroup>
           </MenuList>
 
-          <MenuBottom
+          <MenuActionArea
             leftContent={
-              <MenuBottomContent variant="button">
+              <MenuActionAreaContent variant="button">
                 <Button
                   variant="outlined"
                   color="assistive"
@@ -435,14 +435,14 @@ const Demo = () => {
                 >
                   <IconRefresh />
                 </Button> 
-              </MenuBottomContent>
+              </MenuActionAreaContent>
             }
             rightContent={
-              <MenuBottomContent variant="icon-button">
+              <MenuActionAreaContent variant="icon-button">
                 <IconButton size="small" variant="solid">
                   <IconSend />
                 </IconButton>
-              </MenuBottomContent>
+              </MenuActionAreaContent>
             }
           />
         </MenuContent>
@@ -490,16 +490,16 @@ const Demo = () => {
             </MenuGroup>
           </MenuList>
 
-          <MenuBottom
+          <MenuActionArea
             leftContent={
-              <MenuBottomContent variant="chip-filter">
+              <MenuActionAreaContent variant="chip-filter">
                 <ChipFilter>텍스트</ChipFilter>
-              </MenuBottomContent>
+              </MenuActionAreaContent>
             }
             rightContent={
-              <MenuBottomContent variant="badge">
+              <MenuActionAreaContent variant="badge">
                 <ContentBadge color="neutral">텍스트</ContentBadge>
-              </MenuBottomContent>
+              </MenuActionAreaContent>
             }
           />
         </MenuContent>
