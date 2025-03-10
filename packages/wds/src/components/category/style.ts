@@ -59,24 +59,24 @@ export const categoryListStyle =
           isScrollableLeft,
           isScrollableRight,
         })}
-        ${params?.horizontalPadding !== undefined ||
-        (params?.size !== undefined &&
-          css`
-            ${categorySizeStyle({
-              size: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'size',
-                params.size,
-                breakpoint!,
-              ),
-              verticalPadding: getPreviousValue(
-                { xs, sm, md, lg, xl },
-                'verticalPadding',
-                params.verticalPadding,
-                breakpoint!,
-              ),
-            })}
-          `)}
+        ${(params?.horizontalPadding !== undefined ||
+          params?.size !== undefined) &&
+        css`
+          ${categorySizeStyle({
+            size: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'size',
+              params.size,
+              breakpoint!,
+            ),
+            verticalPadding: getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'verticalPadding',
+              params.verticalPadding,
+              breakpoint!,
+            ),
+          })}
+        `}
         ${params?.sx}
       `,
     )}
