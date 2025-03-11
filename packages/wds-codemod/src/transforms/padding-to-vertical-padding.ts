@@ -19,6 +19,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     findImportDeclaration('ListCell', '@wanteddev/wds', j, root),
     findImportDeclaration('AccordionSummary', '@wanteddev/wds', j, root),
     findImportDeclaration('MenuItem', '@wanteddev/wds', j, root),
+    findImportDeclaration('AutocompleteOption', '@wanteddev/wds', j, root),
+    findImportDeclaration('Option', '@wanteddev/wds', j, root),
   ];
 
   for (const targetImport of targetImports) {

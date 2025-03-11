@@ -5,35 +5,22 @@ description: SectionMessage Component
 
 # SectionMessage
 
-사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
-
-`RegionConfig` 컴포넌트를 활용하여 노출되는 위치를 조정할 수 있습니다.
+사용자의 작업 또는 시스템 상황에 대한 상태를 제공해요.
 
 ## 활용
 
-- 사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
-- 새 기능이나 사용하지 않는 기능, 또는 현재 컨텍스트와 관련된 정보를 알려줍니다.
-- 사용자가 얼럿을 해제할 때까지 지속됩니다.
-- 가독성을 위해 메시지가 2줄 이상 넘지 않도록 작성합니다.
+- 사용자의 작업 또는 시스템 상황에 대한 상태를 제공해요.
+- 새 기능이나 사용하지 않는 기능, 또는 현재 컨텍스트와 관련된 정보를 알려줘요.
+- 사용자가 얼럿을 해제할 때까지 지속돼요.
+- 가독성을 위해 메시지가 2줄 이상 넘지 않도록 작성해요.
 
-<Demo code={`import { useState } from 'react';
-import { SectionMessage, Button } from '@wanteddev/wds';
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
 
 const Demo = () => {
-  const [show, setShow] = useState(false);
-
   return (
-    <>
-      <SectionMessage
-        show={show}
-        onShowChange={setShow}
-        variant="info"
-      >
-        사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
-      </SectionMessage>
-
-      <Button onClick={() => setShow(true)}>Click me</Button>
-    </>
+    <SectionMessage variant="info">
+      사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
+    </SectionMessage>
   )
 }
 
@@ -43,3 +30,102 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="SectionMessage" />
+
+## Examples
+
+### Variant
+
+`variant=custom` 일 때는 leadingContent를 이용하여 아이콘을 삽입할 수 있어요.
+
+`closeIcon` 옵션을 통해 닫기 버튼을 표시할 수 있어요.
+
+<Demo code={`import { SectionMessage, FlexBox, Button } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <SectionMessage variant="info" caption="설명을 작성해요." closeIcon>
+        제목을 작성해요.
+      </SectionMessage>
+      <SectionMessage variant="positive" caption="설명을 작성해요." closeIcon>
+        제목을 작성해요.
+      </SectionMessage>
+      <SectionMessage variant="cautionary" caption="설명을 작성해요." closeIcon>
+        제목을 작성해요.
+      </SectionMessage>
+      <SectionMessage variant="negative" caption="설명을 작성해요." closeIcon>
+        제목을 작성해요.
+      </SectionMessage>
+      <SectionMessage variant="custom" caption="설명을 작성해요." closeIcon leadingContent={<IconBlank />}>
+        제목을 작성해요.
+      </SectionMessage>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Trailing Content
+
+우측에 오는 콘텐츠를 추가할 수 있어요.
+
+<Demo code={`import { SectionMessage, FlexBox, TextButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <SectionMessage
+        variant="info"
+        caption="설명을 작성해요."
+        closeIcon
+        trailingContent={(
+          <TextButton size="small">텍스트</TextButton>
+        )}>
+        제목을 작성해요.
+      </SectionMessage>
+     <SectionMessage
+        variant="info"
+        caption="설명을 작성해요."
+        trailingContent={(
+          <TextButton size="small">텍스트</TextButton>
+        )}>
+        제목을 작성해요.
+      </SectionMessage>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Action Area
+
+`actionArea` 옵션을 통해 액션 영역을 추가할 수 있어요.
+
+<Demo code={`import { SectionMessage, FlexBox, Button } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <SectionMessage
+        variant="info"
+        caption="설명을 작성해요."
+        closeIcon
+        actionArea={(
+          <Button size="small">
+            적용하기
+          </Button>
+        )}>
+        제목을 작성해요.
+      </SectionMessage>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>

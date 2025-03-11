@@ -17,7 +17,8 @@ import Typography from '../typography';
 import { usePopoverContext } from '../popover/contexts';
 
 import {
-  MENU_BOTTOM_CONTENT_NAME,
+  MENU_ACTION_AREA_CONTENT_NAME,
+  MENU_ACTION_AREA_NAME,
   MENU_CONTENT_NAME,
   MENU_GROUP_NAME,
   MENU_ITEM_CHECKBOX_NAME,
@@ -28,8 +29,8 @@ import {
   MENU_TRIGGER_NAME,
 } from './constants';
 import {
-  menuBottomContentStyle,
-  menuBottomStyle,
+  menuActionAreaContentStyle,
+  menuActionAreaStyle,
   menuGroupStyle,
   menuGroupTitleStyle,
   menuItemStyle,
@@ -41,8 +42,8 @@ import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 
 import type { ListProps } from '../list/types';
 import type {
-  MenuBottomContentProps,
-  MenuBottomProps,
+  MenuActionAreaContentProps,
+  MenuActionAreaProps,
   MenuContentProps,
   MenuDefaultProps,
   MenuGroupProps,
@@ -364,9 +365,9 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
 
 MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
-const MenuBottom = forwardRef<
+const MenuActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuBottomProps, 'div'>
+  DefaultComponentProps<MenuActionAreaProps, 'div'>
 >(({ leftContent, rightContent, children, sx, ...props }, ref) => {
   return (
     <FlexBox
@@ -374,7 +375,7 @@ const MenuBottom = forwardRef<
       alignItems="center"
       justifyContent="space-between"
       {...props}
-      sx={[menuBottomStyle, sx]}
+      sx={[menuActionAreaStyle, sx]}
     >
       {Boolean(leftContent) && leftContent}
       {children}
@@ -383,21 +384,21 @@ const MenuBottom = forwardRef<
   );
 });
 
-MenuBottom.displayName = MENU_GROUP_NAME;
+MenuActionArea.displayName = MENU_ACTION_AREA_NAME;
 
-const MenuBottomContent = forwardRef<
+const MenuActionAreaContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuBottomContentProps, 'div'>
+  DefaultComponentProps<MenuActionAreaContentProps, 'div'>
 >(({ variant = 'custom', sx, children, ...props }, ref) => {
   switch (variant) {
     case 'icon':
       return (
         <FlexBox
-          wds-component="menu-bottom-content"
+          wds-component="menu-action-area-content"
           ref={ref}
           {...props}
           sx={[
-            menuBottomContentStyle,
+            menuActionAreaContentStyle,
             (theme) => ({
               fontSize: '24px',
               color: theme.palette.label.alternative,
@@ -418,7 +419,7 @@ const MenuBottomContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuBottomContentStyle, sx]}
+          sx={[menuActionAreaContentStyle, sx]}
         >
           {children}
         </FlexBox>
@@ -432,7 +433,7 @@ const MenuBottomContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuBottomContentStyle, sx]}
+          sx={[menuActionAreaContentStyle, sx]}
         >
           {children}
         </FlexBox>
@@ -440,7 +441,7 @@ const MenuBottomContent = forwardRef<
   }
 });
 
-MenuBottomContent.displayName = MENU_BOTTOM_CONTENT_NAME;
+MenuActionAreaContent.displayName = MENU_ACTION_AREA_CONTENT_NAME;
 
 export {
   Menu,
@@ -449,6 +450,6 @@ export {
   MenuList,
   MenuGroup,
   MenuItem,
-  MenuBottom,
-  MenuBottomContent,
+  MenuActionArea,
+  MenuActionAreaContent,
 };

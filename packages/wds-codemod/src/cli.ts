@@ -33,6 +33,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'ActionArea Migration', value: 'action-area-migration' },
   { name: 'IconCircleClose Migration', value: 'icon-circle-close-migration' },
   { name: 'Avatar Migration', value: 'avatar-migration' },
+  { name: 'MenuBottom Migration', value: 'menu-bottom-migration' },
 ];
 
 const run = () => {
