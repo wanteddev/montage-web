@@ -10,7 +10,6 @@ description: AvatarButton Component
 ## 활용
 
 - interaction이 있는 아바타에 사용해요.
-- pushBadge 옵션을 통해 뱃지를 추가할 수 있어요.
 
 <Demo code={`import { Avatar, AvatarButton } from '@wanteddev/wds';
 
@@ -62,20 +61,30 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="16px">
-      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
-        <Avatar size="xsmall" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar size="xsmall" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+        </PushBadge>
       </AvatarButton>
-      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
-        <Avatar size="small" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar size="small" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+        </PushBadge>
       </AvatarButton>
-      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
-        <Avatar size="medium" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar size="medium" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+        </PushBadge>
       </AvatarButton>
-      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
-        <Avatar size="large" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar size="large" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+        </PushBadge>
       </AvatarButton>
-      <AvatarButton pushBadge={<PushBadge variant="dot" />}>
-        <Avatar size="xlarge" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar size="xlarge" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User"/>
+        </PushBadge>
       </AvatarButton>
     </FlexBox>
   )

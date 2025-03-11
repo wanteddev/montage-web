@@ -4,6 +4,7 @@ import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 type AvatarGroupDefaultProps = {
   size?: 'xsmall' | 'small';
   children?: ReactNode;
+  trailingContent?: ReactNode;
 };
 
 type AvatarGroupResponsiveProps = ResponsiveProps<
