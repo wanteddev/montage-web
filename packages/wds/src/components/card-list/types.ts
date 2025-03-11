@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import type { CardProps, CardThumbnailBasicProps } from '../card/types';
 
 type CardListDefaultProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   children?: ReactNode;
 };
 export type CardListProps = Merge<CardProps, CardListDefaultProps>;
@@ -22,8 +22,8 @@ export type CardListContentProps = Merge<
 >;
 
 export type CardListSkeletonDefaultProps = {
-  hasLeftContent?: boolean;
-  hasRightContent?: boolean;
+  hasLeadingContent?: boolean;
+  hasTrailingContent?: boolean;
 };
 export type CardListSkeletonProps = Merge<
   CardListSkeletonDefaultProps,

@@ -112,14 +112,23 @@ Category 는 여러 컴포넌트를 조합해서 사용합니다.
   CategoryList,
   CategoryListItem,
   CategoryPanel,
-  FlexBox
+  FlexBox,
+  IconButton,
 } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" flexDirection="column">
       <Category defaultValue="0">
-        <CategoryList size="small">
+        <CategoryList
+          size="small"
+          iconButton={(
+            <IconButton size={20}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <CategoryListItem value="0">
             첫 번째
           </CategoryListItem>
@@ -135,7 +144,14 @@ const Demo = () => {
         </CategoryList>
       </Category>
       <Category defaultValue="0">
-        <CategoryList size="medium">
+        <CategoryList
+          size="medium"
+          iconButton={(
+            <IconButton size={22}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <CategoryListItem value="0">
             첫 번째
           </CategoryListItem>
@@ -151,7 +167,14 @@ const Demo = () => {
         </CategoryList>
       </Category>
       <Category defaultValue="0">
-        <CategoryList size="large">
+        <CategoryList
+          size="large"
+          iconButton={(
+            <IconButton size={24}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <CategoryListItem value="0">
             첫 번째
           </CategoryListItem>
@@ -307,47 +330,6 @@ const Demo = () => {
         </CategoryList>
       </Category>
     </FlexBox>
-  )
-}
-
-export default Demo;`}
-/>
-
-## RightContent
-
-<Demo code={`import {
-  Button,
-  Category,
-  CategoryList,
-  CategoryListItem,
-  CategoryPanel,
-  IconButton,
-} from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  return (
-    <Category defaultValue="0">
-      <CategoryList
-        rightContent={(
-          <IconButton size={22}>
-            <IconBlank />
-          </IconButton>
-        )}>
-        <CategoryListItem value="0">
-          첫 번째
-        </CategoryListItem>
-        <CategoryListItem value="1">
-          두 번째
-        </CategoryListItem>
-        <CategoryListItem value="2">
-          세 번째
-        </CategoryListItem>
-        <CategoryListItem value="3">
-          네 번째
-        </CategoryListItem>
-      </CategoryList>
-    </Category>
   )
 }
 

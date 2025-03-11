@@ -103,7 +103,7 @@ const CategoryList = forwardRef<
     {
       size = 'medium',
       horizontalPadding = false,
-      rightContent,
+      iconButton,
       dir,
       xs,
       sm,
@@ -212,14 +212,14 @@ const CategoryList = forwardRef<
               </FlexBox>
             </ScrollArea>
 
-            {Boolean(rightContent) && (
+            {Boolean(iconButton) && (
               <FlexBox
                 sx={stickyButtonStyle}
-                data-role="category-list-right-content"
+                data-role="category-list-icon-button"
                 as="span"
                 alignItems="center"
               >
-                {rightContent}
+                {iconButton}
               </FlexBox>
             )}
           </FlexBox>

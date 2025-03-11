@@ -6,7 +6,7 @@ description: Accordion Component
 # Accordion
 
 - 내용을 최소화하거나 펼칠 때 사용합니다.
-- AccordionSummary에 leftContent를 추가하거나 rightContent를 교체할 때는 `AccordionSummaryContent`로 감싸주세요.
+- AccordionSummary에 leadingContent를 추가하거나 trailingContent를 교체할 때는 `AccordionSummaryContent`로 감싸주세요.
 
 ## 활용
 
@@ -156,10 +156,10 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### LeftContent, RightContent
+### LeadingContent, TrailingContent
 
-- leftContent를 추가하거나 기본 rightContent를 교체할 수 있어요.
-- rightContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPropagation` 을 통해 아코디언이 열리고 닫히는 동작을 막을 수 있어요.
+- leadingContent를 추가하거나 기본 trailingContent를 교체할 수 있어요.
+- trailingContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPropagation` 을 통해 아코디언이 열리고 닫히는 동작을 막을 수 있어요.
 - rotate 옵션을 통해 열리고 닫힐 때 회전 여부를 결정할 수 있어요.
 
 <Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton } from '@wanteddev/wds';
@@ -185,13 +185,13 @@ const Demo = () => {
 
       <Accordion>
         <AccordionSummary
-          leftContent={
+          leadingContent={
             <AccordionSummaryContent variant="icon">
               <IconPlus />
             </AccordionSummaryContent>
           }
         >
-          LeftContent, Icon<br />
+          LeadingContent, Icon<br />
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -203,13 +203,13 @@ const Demo = () => {
 
       <Accordion>
         <AccordionSummary
-          rightContent={
+          trailingContent={
             <AccordionSummaryContent variant="icon" rotate>
               <IconCaretDown />
             </AccordionSummaryContent>
           }
         >
-          RightContent, Icon, Rotate<br />
+          TrailingContent, Icon, Rotate<br />
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -224,7 +224,7 @@ const Demo = () => {
         onChange={setExpandedCheckAccordion}
       >
         <AccordionSummary
-          rightContent={
+          trailingContent={
             <AccordionSummaryContent
               variant="icon"
             >
@@ -238,7 +238,7 @@ const Demo = () => {
             </AccordionSummaryContent>
           }
         >
-          RightContent, Icon<br />
+          TrailingContent, Icon<br />
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -250,7 +250,7 @@ const Demo = () => {
       
       <Accordion>
         <AccordionSummary
-          rightContent={
+          trailingContent={
             <AccordionSummaryContent variant="icon-button" rotate>
               <IconButton>
                 <IconChevronDown
@@ -262,7 +262,7 @@ const Demo = () => {
             </AccordionSummaryContent>
           }
         >
-          RightContent, IconButton, Rotate
+          TrailingContent, IconButton, Rotate
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -274,7 +274,7 @@ const Demo = () => {
 
       <Accordion>
         <AccordionSummary
-          rightContent={
+          trailingContent={
             <AccordionSummaryContent
               variant="icon-button"
             >
@@ -291,8 +291,8 @@ const Demo = () => {
             </AccordionSummaryContent>
           }
         >
-          RightContent, IconButton<br />
-          rightContent onClick
+          TrailingContent, IconButton<br />
+          trailingContent onClick
         </AccordionSummary>
         <AccordionDetails>
           <AccordionDescription>
@@ -408,7 +408,7 @@ const Demo = () => {
           <TextButton
             size="small"
             variant="assistive"
-            rightContent={<IconExternalLink />}
+            trailingContent={<IconExternalLink />}
           >
             자세히 알아보기
           </TextButton>

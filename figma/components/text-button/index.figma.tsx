@@ -5,11 +5,11 @@ import { TextButton } from '@wanteddev/wds';
 figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_PRIMARY>', {
   props: {
     children: figma.string('Label'),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),
@@ -29,11 +29,11 @@ figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_PRIMARY>', {
 figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_ASSISTIVE>', {
   props: {
     children: figma.string('Label'),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),

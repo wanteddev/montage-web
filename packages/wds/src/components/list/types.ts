@@ -29,8 +29,8 @@ export type ListCellDefaultProps = {
       sx?: SxProp;
     }
   >;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
 };
 
 export type ListCellResponsiveProps = ResponsiveProps<

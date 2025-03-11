@@ -21,8 +21,8 @@ export type CardThumbnailBasicProps = Merge<
   ComponentPropsWithoutRef<typeof ImageLoader>
 >;
 export type CardThumbnailDefaultProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   children?: ReactNode;
 };
 export type CardThumbnailProps = Merge<

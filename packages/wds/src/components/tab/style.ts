@@ -119,8 +119,8 @@ const tabPaddingStyle = ({
 }) => {
   if (resize === 'fill') {
     return css`
-      &:not(:has([data-role='tab-list-right-content'])),
-      &:has([data-role='tab-list-right-content']) {
+      &:not(:has([data-role='tab-list-icon-button'])),
+      &:has([data-role='tab-list-icon-button']) {
         [data-radix-scroll-area-wrapper] {
           mask-image: none;
         }
@@ -129,7 +129,7 @@ const tabPaddingStyle = ({
         }
       }
 
-      [data-role='tab-list-right-content'] {
+      [data-role='tab-list-icon-button'] {
         display: none;
       }
 
@@ -137,43 +137,43 @@ const tabPaddingStyle = ({
       --wds-tab-list-item-overflow: hidden;
       --wds-tab-list-item-text-display: block;
       --wds-tab-list-item-text-align: center;
-      --wds-tab-right-content-padding: 0px;
+      --wds-tab-icon-button-padding: 0px;
     `;
   }
 
   switch (horizontalPadding) {
     case true:
       return css`
-        [data-role='tab-list-right-content'] {
+        [data-role='tab-list-icon-button'] {
           display: flex;
         }
 
-        &:not(:has([data-role='tab-list-right-content']))
+        &:not(:has([data-role='tab-list-icon-button']))
           [data-radix-scroll-area-content] {
           padding: 0px var(--wds-tab-list-padding, 20px);
         }
 
-        &:has([data-role='tab-list-right-content'])
+        &:has([data-role='tab-list-icon-button'])
           [data-radix-scroll-area-content] {
           padding: 0px 0px 0px var(--wds-tab-list-padding, 20px);
         }
 
         ${isScrollableRight
           ? css`
-              &:not(:has([data-role='tab-list-right-content']))
+              &:not(:has([data-role='tab-list-icon-button']))
                 [data-radix-scroll-area-wrapper] {
                 mask-image: none;
               }
 
-              &:has([data-role='tab-list-right-content'])
+              &:has([data-role='tab-list-icon-button'])
                 [data-radix-scroll-area-wrapper] {
                 mask-image: ${getGradientMaskImage('right', '48px', 'mask')};
               }
             `
           : css`
-              &:not(:has([data-role='tab-list-right-content']))
+              &:not(:has([data-role='tab-list-icon-button']))
                 [data-radix-scroll-area-wrapper],
-              &:has([data-role='tab-list-right-content'])
+              &:has([data-role='tab-list-icon-button'])
                 [data-radix-scroll-area-wrapper] {
                 mask-image: none;
               }
@@ -183,27 +183,27 @@ const tabPaddingStyle = ({
         --wds-tab-list-item-overflow: initial;
         --wds-tab-list-item-text-display: block;
         --wds-tab-list-item-text-align: initial;
-        --wds-tab-right-content-padding: 0px
+        --wds-tab-icon-button-padding: 0px
           calc(var(--wds-tab-list-padding, 20px) - 4px) 0px 0px;
       `;
     case false:
       return css`
-        [data-role='tab-list-right-content'] {
+        [data-role='tab-list-icon-button'] {
           display: flex;
         }
 
-        &:not(:has([data-role='tab-list-right-content']))
+        &:not(:has([data-role='tab-list-icon-button']))
           [data-radix-scroll-area-content],
-        &:has([data-role='tab-list-right-content'])
+        &:has([data-role='tab-list-icon-button'])
           [data-radix-scroll-area-content] {
           padding: 0px;
         }
 
         ${isScrollableLeft || isScrollableRight
           ? css`
-              &:has([data-role='tab-list-right-content'])
+              &:has([data-role='tab-list-icon-button'])
                 [data-radix-scroll-area-wrapper],
-              &:not(:has([data-role='tab-list-right-content']))
+              &:not(:has([data-role='tab-list-icon-button']))
                 [data-radix-scroll-area-wrapper] {
                 mask-composite: intersect;
                 mask-image: ${[
@@ -217,9 +217,9 @@ const tabPaddingStyle = ({
               }
             `
           : css`
-              &:not(:has([data-role='tab-list-right-content']))
+              &:not(:has([data-role='tab-list-icon-button']))
                 [data-radix-scroll-area-wrapper],
-              &:has([data-role='tab-list-right-content'])
+              &:has([data-role='tab-list-icon-button'])
                 [data-radix-scroll-area-wrapper] {
                 mask-image: none;
               }
@@ -229,7 +229,7 @@ const tabPaddingStyle = ({
         --wds-tab-list-item-overflow: initial;
         --wds-tab-list-item-text-display: block;
         --wds-tab-list-item-text-align: initial;
-        --wds-tab-right-content-padding: 0px;
+        --wds-tab-icon-button-padding: 0px;
       `;
   }
 };
@@ -368,5 +368,5 @@ export const stickyButtonStyle = css`
   right: 0px;
   height: 100%;
   flex-shrink: 0;
-  padding: var(--wds-tab-right-content-padding, 0px);
+  padding: var(--wds-tab-icon-button-padding, 0px);
 `;

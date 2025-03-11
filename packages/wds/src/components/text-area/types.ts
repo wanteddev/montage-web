@@ -4,8 +4,8 @@ import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 export type TextAreaDefaultProps = {
   invalid?: boolean;
   maxLength?: number;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   disabled?: boolean;
   width?: CSSProperties['width'];
   maxRows?: number;

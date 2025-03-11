@@ -32,8 +32,8 @@ const TopNavigation = forwardRef<
   (
     {
       variant = 'normal',
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       toolbar,
       scrolled,
       titleId,
@@ -49,25 +49,25 @@ const TopNavigation = forwardRef<
   ) => {
     const theme = useTheme();
 
-    const leftContentRender = () =>
-      Boolean(leftContent) ? (
+    const leadingContentRender = () =>
+      Boolean(leadingContent) ? (
         <FlexBox
           gap="16px"
           alignItems="center"
           sx={topNavigationLeftIconStyle(variant)}
         >
-          {leftContent}
+          {leadingContent}
         </FlexBox>
       ) : null;
 
-    const rightContentRender = () =>
-      Boolean(rightContent) && (
+    const trailingContentRender = () =>
+      Boolean(trailingContent) && (
         <FlexBox
           gap="16px"
           alignItems="center"
           sx={topNavigationRightIconStyle(variant)}
         >
-          {rightContent}
+          {trailingContent}
         </FlexBox>
       );
 
@@ -102,7 +102,7 @@ const TopNavigation = forwardRef<
           <FlexBox sx={topNavigationWrapperStyle(variant)}>
             {variant !== 'floating' ? (
               <>
-                {variant !== 'extended' && leftContentRender()}
+                {variant !== 'extended' && leadingContentRender()}
 
                 {Boolean(children) && (
                   <FlexBox
@@ -125,32 +125,32 @@ const TopNavigation = forwardRef<
                 )}
 
                 {variant !== 'extended' ? (
-                  rightContentRender()
+                  trailingContentRender()
                 ) : (
                   <FlexBox sx={{ width: '100%' }}>
-                    {leftContentRender()}
-                    {rightContentRender()}
+                    {leadingContentRender()}
+                    {trailingContentRender()}
                   </FlexBox>
                 )}
               </>
             ) : (
               <>
-                {Boolean(leftContent) && (
+                {Boolean(leadingContent) && (
                   <FlexBox
                     gap="16px"
                     data-role="top-navigation-left-button"
                     sx={topNavigationLeftIconStyle(variant)}
                   >
-                    {leftContent}
+                    {leadingContent}
                   </FlexBox>
                 )}
-                {Boolean(rightContent) && (
+                {Boolean(trailingContent) && (
                   <FlexBox
                     gap="16px"
                     data-role="top-navigation-right-button"
                     sx={topNavigationRightIconStyle(variant)}
                   >
-                    {rightContent}
+                    {trailingContent}
                   </FlexBox>
                 )}
               </>

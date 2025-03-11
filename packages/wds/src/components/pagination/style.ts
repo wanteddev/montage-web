@@ -74,7 +74,7 @@ export const paginationContentStyle = css`
   min-height: 32px;
   align-items: center;
 
-  &[data-role='pagination-right-content-wrapper'] {
+  &[data-role='pagination-trailing-content-wrapper'] {
     justify-content: flex-end;
   }
 `;

@@ -469,31 +469,36 @@ const ModalScrollProvider = ({
 const ModalNavigation = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ModalNavigationProps, 'div'>
->(({ leftContent, rightContent = <ModalClose />, variant, ...props }, ref) => {
-  const { scrolled, titleId } = useModalNavigationContext(
-    MODAL_NAVIGATION_NAME,
-  );
+>(
+  (
+    { leadingContent, trailingContent = <ModalClose />, variant, ...props },
+    ref,
+  ) => {
+    const { scrolled, titleId } = useModalNavigationContext(
+      MODAL_NAVIGATION_NAME,
+    );
 
-  // 모달에서 extended 사용할 때 아이콘이 없더라도 간격을 유지해야하기 때문에
-  // mockup 요소를 렌더링 하도록 한다.
-  const shouldRenderMockup =
-    variant === 'extended' && !leftContent && !rightContent;
+    // 모달에서 extended 사용할 때 아이콘이 없더라도 간격을 유지해야하기 때문에
+    // mockup 요소를 렌더링 하도록 한다.
+    const shouldRenderMockup =
+      variant === 'extended' && !leadingContent && !trailingContent;
 
-  return (
-    <TopNavigation
-      scrolled={scrolled}
-      titleId={titleId}
-      leftContent={
-        shouldRenderMockup ? <Box sx={{ height: 24 }} /> : leftContent
-      }
-      rightContent={rightContent}
-      {...props}
-      variant={variant === 'emphasized' ? undefined : variant}
-      sx={[modalNavigationStyle({ variant }), props.sx]}
-      ref={ref}
-    />
-  );
-});
+    return (
+      <TopNavigation
+        scrolled={scrolled}
+        titleId={titleId}
+        leadingContent={
+          shouldRenderMockup ? <Box sx={{ height: 24 }} /> : leadingContent
+        }
+        trailingContent={trailingContent}
+        {...props}
+        variant={variant === 'emphasized' ? undefined : variant}
+        sx={[modalNavigationStyle({ variant }), props.sx]}
+        ref={ref}
+      />
+    );
+  },
+);
 
 ModalNavigation.displayName = MODAL_NAVIGATION_NAME;
 

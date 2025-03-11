@@ -6,8 +6,8 @@ description: Card Component
 # Card
 
 - 일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
-- `CardThumbnail`의 leftContent, rightContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸 주세요.
-  - Card와 leftContent, rightContent에 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 이벤트 전파를 막을 수 있습니다.
+- `CardThumbnail`의 leadingContent, trailingContent에 요소를 추가 할 때는 `CardThumbnailContent` 로 감싸 주세요.
+  - Card와 leadingContent, trailingContent에 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 이벤트 전파를 막을 수 있습니다.
 
 <Demo code={`import { useToast, ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
@@ -31,12 +31,12 @@ const Demo = () => {
         width="240px"
         quality={95}
         overlay
-        leftContent={
+        leadingContent={
           <CardThumbnailContent variant="text">
             캡션
           </CardThumbnailContent>
         }
-        rightContent={
+        trailingContent={
           <CardThumbnailContent variant="toggle-icon">
             <ToggleIcon 
               active={isBookmarked} 
@@ -192,12 +192,12 @@ const Demo = () => {
           width="240px"
           quality={95}
           overlay
-          leftContent={
+          leadingContent={
             <CardThumbnailContent variant="text">
               캡션
             </CardThumbnailContent>
           }
-          rightContent={
+          trailingContent={
             <CardThumbnailContent variant="toggle-icon">
               <ToggleIcon
                 active={isBookmarked}
@@ -227,12 +227,12 @@ const Demo = () => {
           width="152px"
           quality={95}
           overlay
-          leftContent={
+          leadingContent={
             <CardThumbnailContent variant="text">
               캡션
             </CardThumbnailContent>
           }
-          rightContent={
+          trailingContent={
             <CardThumbnailContent variant="toggle-icon">
               <ToggleIcon
                 active={isMobileBookmarked}
@@ -287,12 +287,12 @@ const Demo = () => {
         width="240px"
         quality={95}
         overlay
-        leftContent={
+        leadingContent={
           <CardThumbnailContent variant="text">
             캡션
           </CardThumbnailContent>
         }
-        rightContent={
+        trailingContent={
           <CardThumbnailContent variant="toggle-icon">
             <ToggleIcon
               active={isBookmarked}

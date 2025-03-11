@@ -15,8 +15,8 @@ import type {
 export type TextFieldDefaultProps = {
   invalid?: boolean;
   positive?: boolean;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   disabled?: boolean;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
@@ -48,8 +48,8 @@ export type TextFieldButtonProps = {
    */
   disableLoadingPreventEvents?: boolean;
   disabled?: boolean;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   position?: 'right' | 'left';
   children?: ReactNode;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];

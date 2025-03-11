@@ -21,8 +21,8 @@ const ChipAction = forwardRef(
       variant = 'solid',
       disabled = false,
       disableInteraction = false,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       size = 'normal',
       active: givenActive,
       children,
@@ -70,9 +70,9 @@ const ChipAction = forwardRef(
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
-          {Boolean(leftContent) && leftContent}
+          {Boolean(leadingContent) && leadingContent}
           <span id={id}>{children}</span>
-          {Boolean(rightContent) && rightContent}
+          {Boolean(trailingContent) && trailingContent}
         </Box>
       </WithInteraction>
     );

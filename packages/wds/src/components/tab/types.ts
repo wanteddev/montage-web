@@ -14,7 +14,7 @@ export type TabProps = PropsWithChildren<{
 type TabListDefaultProps = {
   size?: 'small' | 'medium' | 'large';
   horizontalPadding?: boolean;
-  rightContent?: ReactNode;
+  iconButton?: ReactNode;
   resize?: 'normal' | 'fill';
   children?: ReactNode;
 };

@@ -241,7 +241,7 @@ const DateCalendar = forwardRef<
                           pointerEvents: 'none',
                         },
                       ]}
-                      rightContent={
+                      trailingContent={
                         isOnlySelectDay ||
                         isOnlySelectMonth ? null : headerExpanded ? (
                           <IconCaretUp />

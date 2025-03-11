@@ -28,8 +28,8 @@ export type ActionAreaProps = {
 
 export type ActionButtonProps = {
   children?: ReactNode;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   variant?: 'main' | 'alternative' | 'sub';
   iconOnly?: boolean;
   disabled?: boolean;

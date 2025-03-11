@@ -55,7 +55,7 @@ const SelectMultiple = forwardRef<
       defaultOpen,
       onOpenChange,
       allSelectedLabel,
-      leftContent,
+      leadingContent,
       render,
       width,
       height,
@@ -266,7 +266,7 @@ const SelectMultiple = forwardRef<
                 props.sx,
               ]}
             >
-              {Boolean(leftContent) && leftContent}
+              {Boolean(leadingContent) && leadingContent}
 
               {(typeof render === 'undefined' || shouldShowPlaceholder) && (
                 <FlexBox

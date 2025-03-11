@@ -10,7 +10,7 @@ description: Autocomplete Component
 - 입력 가능한 요소에 자동완성을 지원할 때 사용해요.
 - text 입력을 도와주는 역할로 사용할 수 있고, `asSelect` 옵션을 활용해 select 요소처럼 사용할 수 있어요.
 - option 종류가 많을 경우 `debounce` 를 활용해서 속도를 최적화해서 사용하면 좋습니다.
-- `AutocompleteOption` 내에서 leftContent, rightContent를 사용할 때에는 `ListCellContent` 로 감싸서 사용해요.
+- `AutocompleteOption` 내에서 leadingContent, trailingContent를 사용할 때에는 `ListCellContent` 로 감싸서 사용해요.
 
 <Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
 import { useState, useEffect, useMemo } from 'react';

@@ -10,7 +10,7 @@ description: Select Component
 ## 활용
 
 - 여러 옵션 중 하나의 값을 선택할 수 있어요.
-- leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
+- leadingContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
 
 <Demo code={`import { Select, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
 
@@ -159,7 +159,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### LeftContent
+### LeadingContent
 
 <Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
 import { IconRefresh, IconApps } from '@wanteddev/wds-icon';
@@ -170,7 +170,7 @@ const Demo = () => {
       <Select
         width="300px"
         placeholder="선택해주세요."
-        leftContent={
+        leadingContent={
           <SelectContent variant="icon">
             <IconRefresh />
           </SelectContent>
@@ -191,7 +191,7 @@ const Demo = () => {
       <Select
         width="300px"
         placeholder="선택해주세요."
-        leftContent={
+        leadingContent={
           <SelectContent variant="icon-button">
             <IconButton type="button">
               <IconApps />
@@ -214,7 +214,7 @@ const Demo = () => {
       <Select
         width="300px"
         placeholder="선택해주세요."
-        leftContent={
+        leadingContent={
           <SelectContent variant="custom">
             커스텀
           </SelectContent>
@@ -278,8 +278,8 @@ const Demo = () => {
           </OptionGroup>
         ))}
 
-        <MenuActionArea
-          leftContent={
+        <MenuBottom
+          leadingContent={
             <MenuActionAreaContent variant="button">
               <Button
                 variant="outlined"
@@ -292,7 +292,7 @@ const Demo = () => {
               </Button> 
             </MenuActionAreaContent>
           }
-          rightContent={
+          trailingContent={
             <MenuActionAreaContent variant="button">
               <Button size="small" onClick={() => {
                 setValue(menuValue);

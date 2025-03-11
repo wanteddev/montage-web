@@ -175,9 +175,9 @@ const TimePicker = forwardRef<
             onPaste: composeEventHandlers(props.onPaste, handlePaste),
             value: inputValue,
             inputRef: composedInputRef,
-            rightContent: (
+            trailingContent: (
               <>
-                {props.rightContent}
+                {props.trailingContent}
                 <TextFieldContent
                   data-role="time-picker-clock-icon"
                   variant="icon-button"

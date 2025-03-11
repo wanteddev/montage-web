@@ -8,11 +8,11 @@ figma.connect(Button, '<FIGMA_BUTTON_SOLID_PRIMARY>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),
@@ -37,11 +37,11 @@ figma.connect(Button, '<FIGMA_BUTTON_SOLID_ASSISTIVE>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),
@@ -66,11 +66,11 @@ figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_PRIMARY>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),
@@ -95,11 +95,11 @@ figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_SECONDARY>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),
@@ -124,11 +124,11 @@ figma.connect(Button, '<FIGMA_BUTTON_OUTLINED_ASSISTIVE>', {
       true: figma.children('Icon'),
       false: figma.string('Label'),
     }),
-    leftContent: figma.boolean('Left Content', {
+    leadingContent: figma.boolean('Left Content', {
       true: figma.children('Left Content'),
       false: undefined,
     }),
-    rightContent: figma.boolean('Right Content', {
+    trailingContent: figma.boolean('Right Content', {
       true: figma.children('Right Content'),
       false: undefined,
     }),

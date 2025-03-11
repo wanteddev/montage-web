@@ -6,8 +6,8 @@ description: CardList Component
 # CardList
 
 - 표시할 양이 많은 정보를 묶어 표시할 때 사용합니다.
-- leftContent, rightContent에 요소를 추가 할 때는 `CardListContent` 로 감싸주세요.
- - CardList와 leftContent, rightContent에 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 이벤트 전파를 막을 수 있습니다.
+- leadingContent, trailingContent에 요소를 추가 할 때는 `CardListContent` 로 감싸주세요.
+ - CardList와 leadingContent, trailingContent에 onClick 이벤트가 있는 경우, `e.stopPropagation()`과 `e.preventDefault()`를 추가하여 이벤트 전파를 막을 수 있습니다.
 
 <Demo code={`import { FlexBox, CardList, Checkbox, CardThumbnail, CardTitle, CardCaption, CardContent, Checkbox, CardListContent, ToggleIcon } from '@wanteddev/wds';
 import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
@@ -38,7 +38,7 @@ const Demo = () => {
           href="https://wanted.co.kr"
           target="_blank"
           width="480px"
-          leftContent={
+          leadingContent={
             <CardListContent variant="checkbox">
               <Checkbox 
                 checked={idList.includes(item.id)}
@@ -52,7 +52,7 @@ const Demo = () => {
               />
             </CardListContent>
           }
-          rightContent={
+          trailingContent={
             <CardListContent variant="toggle-icon">
               <ToggleIcon 
                 activeColor="palette.primary.normal"
@@ -125,7 +125,7 @@ const Demo = () => {
     <CardList
       width="335px" 
       sm={{ width: '480px' }} 
-      rightContent={
+      trailingContent={
         <CardListContent variant="icon">
           <IconChevronRightTight />
         </CardListContent>
@@ -156,7 +156,7 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="16px">
       <CardList
         width="480px"
-        rightContent={
+        trailingContent={
           <CardListContent variant="icon">
             <IconChevronRightTight />
           </CardListContent>
@@ -171,7 +171,7 @@ const Demo = () => {
       <CardList
         width="335px"
         platform="mobile"
-        rightContent={
+        trailingContent={
           <CardListContent variant="icon">
             <IconChevronRightTight />
           </CardListContent>
@@ -201,7 +201,7 @@ const Demo = () => {
     <CardList
       width="335px"
       platform="mobile"
-      rightContent={
+      trailingContent={
         <CardListContent variant="icon">
           <IconChevronRightTight />
         </CardListContent>
@@ -268,7 +268,7 @@ export default Demo;`}
 ### Skeleton
 
 - CardList의 형태에 따라 스켈레톤을 조합하여 사용해요.
-- CardList에 leftContent, rightContent가 있을 경우 `hasLeftContent`, `hasRightContent`로 영역을 조정할 수 있어요.
+- CardList에 leadingContent, trailingContent가 있을 경우 `hasLeadingContent`, `hasTrailingContent`로 영역을 조정할 수 있어요.
 
 <Demo code={`import { FlexBox, CardListSkeleton, CardThumbnailSkeleton, CardContent, CardContentItemSkeleton, CardContentItem, CardTitleSkeleton, CardCaptionSkeleton } from '@wanteddev/wds';
 
@@ -285,8 +285,8 @@ const Demo = () => {
 
       <CardListSkeleton 
         width="480px" 
-        hasLeftContent 
-        hasRightContent
+        hasLeadingContent 
+        hasTrailingContent
       >
         <CardThumbnailSkeleton />
         <CardContent>
@@ -316,8 +316,8 @@ const Demo = () => {
       <CardListSkeleton 
         width="335px" 
         platform="mobile" 
-        hasLeftContent 
-        hasRightContent
+        hasLeadingContent 
+        hasTrailingContent
       >
         <CardThumbnailSkeleton />
         <CardContent>

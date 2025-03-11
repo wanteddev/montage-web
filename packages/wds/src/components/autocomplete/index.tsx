@@ -601,7 +601,7 @@ const AutocompleteOption = forwardRef<
             setAttributeSelection(ref.current, items, true);
           }
         })}
-        rightContent={
+        trailingContent={
           active ? (
             <ListCellContent variant="icon">
               <IconCheck data-role="autocomplete-option-active-icon-check" />

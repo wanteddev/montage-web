@@ -79,8 +79,8 @@ const ListCell = forwardRef(
       disableInteraction = false,
 
       textProps,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       children,
       xs,
       sm,
@@ -179,7 +179,7 @@ const ListCell = forwardRef(
               sx,
             ]}
           >
-            {Boolean(leftContent) && leftContent}
+            {Boolean(leadingContent) && leadingContent}
             <ListText {...textProps}>{children}</ListText>
             {divider && (
               <Divider
@@ -187,8 +187,10 @@ const ListCell = forwardRef(
                 sx={listCellDividerStyle}
               />
             )}
-            {Boolean(rightContent) && (
-              <Slot data-role="list-item-right-content">{rightContent}</Slot>
+            {Boolean(trailingContent) && (
+              <Slot data-role="list-item-trailing-content">
+                {trailingContent}
+              </Slot>
             )}
           </FlexBox>
         </WithInteraction>

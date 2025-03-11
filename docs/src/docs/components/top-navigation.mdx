@@ -21,12 +21,12 @@ import { IconChevronLeft, IconClose } from '@wanteddev/wds-icon';
 const Demo = () => {
   return (
     <TopNavigation
-      leftContent={(
+      leadingContent={(
         <TopNavigationButton>
           <IconChevronLeft />
         </TopNavigationButton>
       )}
-      rightContent={(
+      trailingContent={(
         <TopNavigationButton>
           <IconClose />
         </TopNavigationButton>
@@ -63,7 +63,7 @@ import { IconChevronLeftThick, IconChevronLeft } from '@wanteddev/wds-icon';
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px">
-      <TopNavigation leftContent={(
+      <TopNavigation leadingContent={(
         <TopNavigationButton>
           <IconChevronLeft />
         </TopNavigationButton>
@@ -71,7 +71,7 @@ const Demo = () => {
         Normal
       </TopNavigation>
 
-      <TopNavigation variant="extended" leftContent={(
+      <TopNavigation variant="extended" leadingContent={(
         <TopNavigationButton>
           <IconChevronLeft />
         </TopNavigationButton>
@@ -80,7 +80,7 @@ const Demo = () => {
       </TopNavigation>
 
       <FlexBox sx={{ height: 60 }}>
-        <TopNavigation variant="floating" leftContent={(
+        <TopNavigation variant="floating" leadingContent={(
           <TopNavigationButton>
             <IconChevronLeftThick />
           </TopNavigationButton>
@@ -88,7 +88,7 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox sx={{ height: 60 }}>
-        <TopNavigation variant="floating" leftContent={(
+        <TopNavigation variant="floating" leadingContent={(
           <TopNavigationButton background={false}>
             <IconChevronLeft />
           </TopNavigationButton>
@@ -112,7 +112,7 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="20px">
-      <TopNavigation leftContent={(
+      <TopNavigation leadingContent={(
         <TopNavigationButton variant="text">
           뒤로
         </TopNavigationButton>
@@ -120,7 +120,7 @@ const Demo = () => {
         Normal
       </TopNavigation>
 
-      <TopNavigation variant="extended" leftContent={(
+      <TopNavigation variant="extended" leadingContent={(
         <TopNavigationButton variant="text">
           뒤로
         </TopNavigationButton>
@@ -129,7 +129,7 @@ const Demo = () => {
       </TopNavigation>
 
       <FlexBox sx={{ height: 60 }}>
-        <TopNavigation variant="floating" leftContent={(
+        <TopNavigation variant="floating" leadingContent={(
           <TopNavigationButton variant="text">
             뒤로
           </TopNavigationButton>
@@ -137,7 +137,7 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox sx={{ height: 60 }}>
-        <TopNavigation variant="floating" leftContent={(
+        <TopNavigation variant="floating" leadingContent={(
           <TopNavigationButton variant="text" background={false}>
             뒤로
           </TopNavigationButton>
