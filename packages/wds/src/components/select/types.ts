@@ -21,7 +21,7 @@ export type SelectDefaultProps = {
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
 
-  enableMenuBottom?: boolean;
+  enableMenuActionArea?: boolean;
   menuValue?: string;
   onMenuValueChange?: (value: string) => void;
   children?: ReactNode;

@@ -9,5 +9,5 @@ export const MENU_ITEM_NAME = 'MenuItem';
 export const MENU_ITEM_RADIO_NAME = 'MenuItemRadio';
 export const MENU_ITEM_CHECKBOX_NAME = 'MenuItemCheckbox';
 
-export const MENU_BOTTOM_NAME = 'MenuBottom';
-export const MENU_BOTTOM_CONTENT_NAME = 'MenuBottomContent';
+export const MENU_ACTION_AREA_NAME = 'MenuActionArea';
+export const MENU_ACTION_AREA_CONTENT_NAME = 'MenuActionAreaContent';

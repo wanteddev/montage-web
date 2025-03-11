@@ -47,12 +47,12 @@ export type MenuItemProps = Merge<MenuItemDefaultProps, ListCellProps>;
 export type MenuItemRadioProps = Omit<MenuItemProps, 'variant'>;
 export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;
 
-export type MenuBottomProps = {
+export type MenuActionAreaProps = {
   leftContent?: ReactNode;
   rightContent?: ReactNode;
   children?: ReactNode;
 };
-export type MenuBottomContentProps = {
+export type MenuActionAreaContentProps = {
   variant?:
     | 'icon'
     | 'button'

@@ -59,7 +59,7 @@ const SelectMultiple = forwardRef<
       render,
       width,
       height,
-      enableMenuBottom,
+      enableMenuActionArea,
       overflow = false,
       menuValue: menuValueProp,
       onMenuValueChange,
@@ -210,7 +210,7 @@ const SelectMultiple = forwardRef<
         )}
 
         <Menu
-          value={enableMenuBottom ? menuValue : value}
+          value={enableMenuActionArea ? menuValue : value}
           onValueChange={useCallbackRef(
             (v: string | Array<string> | undefined) => {
               if (!Array.isArray(v) && process.env.NODE_ENV !== 'production') {
@@ -219,7 +219,7 @@ const SelectMultiple = forwardRef<
                 );
               }
 
-              if (enableMenuBottom) {
+              if (enableMenuActionArea) {
                 setMenuValue(v as Array<string>);
               } else {
                 setValue(v as Array<string>);
@@ -354,7 +354,7 @@ const SelectMultiple = forwardRef<
           >
             <MenuList
               role="listbox"
-              sx={enableMenuBottom ? { paddingBottom: '0px' } : undefined}
+              sx={enableMenuActionArea ? { paddingBottom: '0px' } : undefined}
             >
               {children}
             </MenuList>
