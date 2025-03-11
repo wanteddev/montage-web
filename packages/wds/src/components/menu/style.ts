@@ -67,7 +67,7 @@ export const menuItemStyle = (theme: Theme) => css`
   }
 `;
 
-export const menuBottomStyle = (theme: Theme) => css`
+export const menuActionAreaStyle = (theme: Theme) => css`
   position: sticky;
   left: 0;
   bottom: 0;
@@ -80,7 +80,7 @@ export const menuBottomStyle = (theme: Theme) => css`
   border-top: 1px solid ${theme.palette.line.solid.alternative};
 `;
 
-export const menuBottomContentStyle = css`
+export const menuActionAreaContentStyle = css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;

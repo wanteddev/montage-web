@@ -239,11 +239,11 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### With Bottom
+### Action Area
 
-bottom 영역을 사용하신다면 `enableMenuBottom` prop 을 활용해야합니다.
+actionArea 영역을 사용하신다면 `enableMenuActionArea` prop 을 활용해야합니다.
 
-<Demo code={`import { Typography, Select, Option, OptionGroup, SelectContent, Label, FlexBox, ellipsisTypographyStyle, MenuBottom, MenuBottomContent, Button } from '@wanteddev/wds';
+<Demo code={`import { Typography, Select, Option, OptionGroup, SelectContent, Label, FlexBox, ellipsisTypographyStyle, MenuActionArea, MenuActionAreaContent, Button } from '@wanteddev/wds';
 import { IconRefresh } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
@@ -256,7 +256,7 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="8px">
       <Label>Label</Label>
       <Select
-        enableMenuBottom
+        enableMenuActionArea
         open={open}
         onOpenChange={setOpen}
         value={value}
@@ -278,9 +278,9 @@ const Demo = () => {
           </OptionGroup>
         ))}
 
-        <MenuBottom
+        <MenuActionArea
           leftContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button
                 variant="outlined"
                 color="assistive"
@@ -290,17 +290,17 @@ const Demo = () => {
               >
                 <IconRefresh />
               </Button> 
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
           rightContent={
-            <MenuBottomContent variant="button">
+            <MenuActionAreaContent variant="button">
               <Button size="small" onClick={() => {
                 setValue(menuValue);
                 setOpen(false);
               }}>
                 적용
               </Button>
-            </MenuBottomContent>
+            </MenuActionAreaContent>
           }
         />
       </Select>
