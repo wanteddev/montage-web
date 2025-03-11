@@ -1,8 +1,8 @@
 import { figma } from '@figma/code-connect';
 
-import { Avatar, AvatarButton } from '@wanteddev/wds';
+import { Avatar, AvatarButton, PushBadge } from '@wanteddev/wds';
 
-figma.connect('<FIGMA_AVATAR_PERSON>', {
+figma.connect('<FIGMA_AVATAR>', {
   props: {
     size: figma.enum('Size', {
       Custom: 24,
@@ -12,52 +12,18 @@ figma.connect('<FIGMA_AVATAR_PERSON>', {
       Large: 'large',
       XLarge: 'xlarge',
     }),
-    pushBadge: figma.boolean('Push Badge'),
-  },
-  variant: { Interaction: true },
-  example: ({ pushBadge, ...props }) => (
-    <AvatarButton pushBadge={pushBadge}>
-      <Avatar variant="person" {...props} />
-    </AvatarButton>
-  ),
-});
-
-figma.connect('<FIGMA_AVATAR_COMPANY>', {
-  props: {
-    size: figma.enum('Size', {
-      Custom: 24,
-      XSmall: 'xsmall',
-      Small: 'small',
-      Medium: 'medium',
-      Large: 'large',
-      XLarge: 'xlarge',
+    variant: figma.enum('Variant', {
+      Person: 'person',
+      Company: 'company',
+      academy: 'Academy',
     }),
-    pushBadge: figma.boolean('Push Badge'),
   },
-  variant: { Interaction: true },
-  example: ({ pushBadge, ...props }) => (
-    <AvatarButton pushBadge={pushBadge}>
-      <Avatar variant="company" {...props} />
-    </AvatarButton>
-  ),
-});
-
-figma.connect('<FIGMA_AVATAR_ACADEMIC>', {
-  props: {
-    size: figma.enum('Size', {
-      Custom: 24,
-      XSmall: 'xsmall',
-      Small: 'small',
-      Medium: 'medium',
-      Large: 'large',
-      XLarge: 'xlarge',
-    }),
-    pushBadge: figma.boolean('Push Badge'),
-  },
-  variant: { Interaction: true },
-  example: ({ pushBadge, ...props }) => (
-    <AvatarButton pushBadge={pushBadge}>
-      <Avatar variant="academic" {...props} />
+  variant: { Interaction: true, 'Push Badge': true },
+  example: (props) => (
+    <AvatarButton>
+      <PushBadge variant="dot">
+        <Avatar {...props} />
+      </PushBadge>
     </AvatarButton>
   ),
 });

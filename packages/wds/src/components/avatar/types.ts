@@ -4,7 +4,7 @@ import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 type AvatarDefaultProps = {
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | number;
-  variant?: 'person' | 'company' | 'academic';
+  variant?: 'person' | 'company' | 'academy';
   children?: ReactNode;
 };
 

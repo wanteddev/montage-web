@@ -68,7 +68,7 @@ const iconButtonSizeStyle = (
         padding: 6px;
       `}
 
-      svg {
+      svg, [data-role="push-badge-wrapper"] {
         width: 100% !important;
         height: 100% !important;
       }
@@ -91,7 +91,7 @@ const iconButtonSizeStyle = (
           padding: 10px;
         `}
 
-        svg {
+        svg, [data-role="push-badge-wrapper"] {
           width: 100%;
           height: 100%;
         }
@@ -111,7 +111,7 @@ const iconButtonSizeStyle = (
           padding: 7px;
         `}
 
-        svg {
+        svg, [data-role="push-badge-wrapper"] {
           width: 100%;
           height: 100%;
         }

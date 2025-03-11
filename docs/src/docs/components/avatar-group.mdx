@@ -5,7 +5,7 @@ description: AvatarGroup Component
 
 # AvatarGroup
 
-그룹화된 다수의 아바타를 표시합니다.
+그룹화된 다수의 아바타를 표시해요.
 
 ## 활용
 
@@ -29,3 +29,26 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="AvatarGroup" />
+
+## Examples
+
+### Trailing Content
+
+`trailingContent` 를 이용하여 우측에 콘텐츠를 추가할 수 있어요.
+
+<Demo code={`import { Avatar, AvatarGroup, TextButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <AvatarGroup trailingContent={<TextButton variant="assistive" size="small">외 0명</TextButton>}>
+      <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User" />
+      <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User" />
+      <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User" />
+      <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User" />
+      <Avatar src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User" />
+    </AvatarGroup>
+  )
+}
+
+export default Demo;`}
+/>
