@@ -1,57 +1,125 @@
-import { css, keyframes } from '@wanteddev/wds-engine';
+import { css } from '@wanteddev/wds-engine';
 
+import { addOpacity } from '../../utils';
+
+import type { SectionMessageProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const topMountKeyFrames = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-`;
-
-export const sectionMessageWrapperStyle = (theme: Theme) => css`
-  position: fixed;
-  z-index: ${theme.zIndex.modal};
+export const sectionMessageWrapperStyle = css`
   width: 100%;
-  max-width: var(--wds-region-viewport-max-width, 100%);
-  padding: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  top: var(--wds-region-viewport-top, 0px);
-`;
-
-export const topRegionStatusStyle = (theme: Theme) => css`
-  background-color: ${theme.palette.background.normal.normal};
-  padding: 14px 16px;
-  max-width: 100%;
-  border-radius: 8px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  font-size: 20px;
-  pointer-events: auto;
-  align-items: center;
+  border-radius: 12px;
+  padding: 16px;
+  backdrop-filter: blur(32px);
   position: relative;
 
-  animation: ${topMountKeyFrames} 200ms cubic-bezier(0.4, 0, 0.2, 1);
-
-  &::after {
-    pointer-events: none;
-    content: '';
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    position: absolute;
-    inset: 0;
-    background-color: var(--wds-region-top-item-background);
+  & > :not([role='presentation']) {
+    z-index: 1;
   }
+`;
 
-  svg {
-    flex-shrink: 0;
-  }
+export const firstOverlayStyle = (theme: Theme) => css`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: ${addOpacity(
+    theme.palette.background.normal.normal,
+    theme.opacity[88],
+  )};
+  inset: 0;
+  border-radius: inherit;
+`;
+
+export const secondOverlayStyle =
+  (variant: SectionMessageProps['variant']) => (theme: Theme) => {
+    const getBackgroundColor = () => {
+      switch (variant) {
+        case 'info':
+          return theme.palette.primary.normal;
+        case 'positive':
+          return theme.palette.status.positive;
+        case 'negative':
+          return theme.palette.status.negative;
+        case 'cautionary':
+          return theme.palette.status.cautionary;
+        case 'custom':
+        default:
+          return theme.palette.label.assistive;
+      }
+    };
+
+    return css`
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: inherit;
+      background-color: ${addOpacity(getBackgroundColor(), theme.opacity[5])};
+      inset: 0;
+    `;
+  };
+
+export const sectionMessageIconStyle =
+  (variant: SectionMessageProps['variant']) => (theme: Theme) => {
+    const defaultVariantStyle = css`
+      position: relative;
+      font-size: 20px;
+      padding: 2px 0px;
+      height: fit-content;
+
+      &::before {
+        inset: 0;
+        width: 10px;
+        height: 10px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        content: '';
+        z-index: -1;
+        background-color: ${theme.palette.static.white};
+      }
+    `;
+
+    switch (variant) {
+      case 'info':
+        return css`
+          color: ${theme.palette.primary.normal};
+          ${defaultVariantStyle}
+        `;
+      case 'positive':
+        return css`
+          color: ${theme.palette.status.positive};
+          ${defaultVariantStyle}
+        `;
+      case 'negative':
+        return css`
+          color: ${theme.palette.status.negative};
+          ${defaultVariantStyle}
+        `;
+      case 'cautionary':
+        return css`
+          color: ${theme.palette.status.cautionary};
+          ${defaultVariantStyle}
+        `;
+      case 'custom':
+      default:
+        return css`
+          color: ${theme.palette.label.alternative};
+          position: relative;
+          font-size: 20px;
+          padding: 2px 0px;
+          height: fit-content;
+        `;
+    }
+  };
+
+export const sectionMessageTrailingContentStyle = css`
+  padding: 0px 8px;
+  height: 24px;
+  flex-shrink: 0;
+`;
+
+export const sectionMessageCloseIconStyle = css`
+  flex-shrink: 0;
+  padding: 2px 0px;
+  height: fit-content;
 `;

@@ -5,7 +5,7 @@ description: RegionConfig Component
 
 # RegionConfig
 
-`SectionMessage`, `useDialog`, `useToast` 의 노출 위치를 조정합니다.
+`useDialog`, `useToast` 의 노출 위치를 조정합니다.
 언마운트 시 기존 값으로 초기화 됩니다.
 
 ## Props
@@ -14,26 +14,22 @@ description: RegionConfig Component
 
 ## Examples
 
-보통 `SectionMessage` 컴포넌트는 navigation 아래에 위치하기 때문에 아래와 같은 설정을 사용합니다.
+ActionArea의 상단에 토스트를 표시하려면 아래와 같이 작성해요.
 
 ```tsx
-import { RegionConfig, Global, respondTo } from '@wanteddev/wds';
+import { RegionConfig, ActionArea, ActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
+  const [node, setNode] = useState<HTMLElement | null>(null);
+  const { height } = useSize(node) || {};
+
   return (
     <>
-      <Global
-        styles={(theme) => ({
-          [':root']: {
-            '--header-height': '61px',
-            [respondTo(theme.breakpoint.sm)]: {
-              '--header-height': '57px',
-            },
-          },
-        })}
-      />
+      <ActionArea ref={setNode}>
+        <ActionAreaButton>Button</ActionAreaButton>
+      </ActionArea>
 
-      <RegionConfig viewportTop="var(--header-height)" />
+      <RegionConfig viewportBottom={`${height}px`} />
     </>
   )
 }

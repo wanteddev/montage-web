@@ -51,7 +51,6 @@ const RegionArea = () => {
       wds-ignore-dismissable-layer="true"
       style={
         {
-          '--wds-region-viewport-top': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportTop})`,
           '--wds-region-viewport-max-width': `calc(${config.viewportMaxWidth})`,
           '--wds-region-viewport-bottom': `calc(env(safe-area-inset-bottom, 0px) + ${config.viewportBottom})`,
         } as CSSProperties
