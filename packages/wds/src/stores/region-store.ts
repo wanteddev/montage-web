@@ -36,7 +36,6 @@ export type RegionState = {
   items: Array<RegionItem>;
   config: {
     viewportMaxWidth: string | number;
-    viewportTop: string | number;
     viewportBottom: string | number;
   };
 };
@@ -54,7 +53,6 @@ export const defaultInitState: RegionState = {
   items: [],
   config: {
     viewportMaxWidth: '1060px',
-    viewportTop: '60px',
     viewportBottom: '0px',
   },
 };
