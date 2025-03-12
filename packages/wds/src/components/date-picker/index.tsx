@@ -175,9 +175,9 @@ const DatePicker = forwardRef<
             onPaste: composeEventHandlers(props.onPaste, handlePaste),
             value: inputValue,
             inputRef: composedInputRef,
-            rightContent: (
+            trailingContent: (
               <>
-                {props.rightContent}
+                {props.trailingContent}
                 <TextFieldContent
                   data-role="date-picker-calendar-icon"
                   variant="icon-button"

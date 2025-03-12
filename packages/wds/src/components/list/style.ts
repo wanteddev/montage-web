@@ -256,7 +256,7 @@ export const listCellContentStyle =
     flex-shrink: 0;
     position: relative;
 
-    &[data-role='list-item-right-content'] {
+    &[data-role='list-item-trailing-content'] {
       justify-content: flex-end;
     }
 

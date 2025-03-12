@@ -12,7 +12,7 @@ description: TextArea Component
 - 입력한 텍스트에 따라 자동으로 늘어나요.
 - `maxRows` 와 `minRows` 로 최대 / 최소로 늘어나는 line 수를 정할 수 있어요.
 - 너비 값은 `width` prop을 이용해주세요.
-- leftContent, rightContent에 요소를 추가할 때는 `TextAreaContent` 를 이용해주세요.
+- leadingContent, trailingContent에 요소를 추가할 때는 `TextAreaContent` 를 이용해주세요.
 
 <Demo code={`import { TextArea } from '@wanteddev/wds';
 
@@ -59,7 +59,7 @@ export default Demo;`}
 ### Content
 
 `TextAreaContent` 를 이용하여 left, right에 추가할 수 있어요.
-다만, invalid 상태에서는 rightContent가 경고 아이콘으로 Override 됩니다.
+다만, invalid 상태에서는 trailingContent가 경고 아이콘으로 Override 됩니다.
 
 <Demo code={`import { FlexBox, TextArea, TextAreaContent, IconButton, FlexBox, TextButton, ContentBadge, ChipFilter } from '@wanteddev/wds';
 import { IconTrash, IconSendFill, IconPlus } from '@wanteddev/wds-icon';
@@ -70,7 +70,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        rightContent={
+        trailingContent={
           <TextAreaContent variant="icon-button">
             <IconButton size={32} variant="solid">
               <IconSendFill />
@@ -81,7 +81,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="button">
             <TextButton size="medium">
               보내기
@@ -92,7 +92,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="icon-button">
             <IconButton size={24}>
               <IconTrash />
@@ -103,7 +103,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="icon">
             <IconPlus />
           </TextAreaContent>
@@ -113,7 +113,7 @@ const Demo = () => {
         placeholder="입력하세요."
         width="300px"
         maxLength={2000}
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="characterCounter">
             2000
           </TextAreaContent>
@@ -122,7 +122,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="custom">
             커스텀 요소
           </TextAreaContent>
@@ -131,7 +131,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="chip">
             <ChipFilter size="small">텍스트</ChipFilter>
           </TextAreaContent>
@@ -140,7 +140,7 @@ const Demo = () => {
       <TextArea
         placeholder="입력하세요."
         width="300px"
-        leftContent={
+        leadingContent={
           <TextAreaContent variant="badge">
             <ContentBadge color="neutral" size="medium">텍스트</ContentBadge>
           </TextAreaContent>
@@ -153,7 +153,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-다만, invalid 상태에서는 rightContent가 경고 아이콘으로 Override 됩니다.
+다만, invalid 상태에서는 trailingContent가 경고 아이콘으로 Override 됩니다.
 
 ### Form
 
@@ -190,12 +190,12 @@ const Demo = () => {
                 placeholder="입력하세요."
                 invalid={Boolean(formState.errors.content)}
                 width="300px"
-                leftContent={(
+                leadingContent={(
                   <TextAreaContent variant="characterCounter">
                     20
                   </TextAreaContent>
                 )}
-                rightContent={(
+                trailingContent={(
                   <TextAreaContent variant="button">
                     <TextButton size="small">텍스트</TextButton>
                   </TextAreaContent>

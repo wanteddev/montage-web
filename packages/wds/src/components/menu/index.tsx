@@ -232,7 +232,7 @@ const MenuItem = forwardRef<any, MenuItemProps>(
           role="menuitem"
           ref={ref}
           active={normalActive}
-          rightContent={
+          trailingContent={
             normalActive ? (
               <ListCellContent variant="icon">
                 <IconCheck data-role="menu-item-active-icon-check" />
@@ -297,7 +297,7 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
       <ListCell
         ref={ref}
         role="menuitemradio"
-        leftContent={
+        leadingContent={
           <ListCellContent variant="radio">
             <Radio
               tabIndex={-1}
@@ -342,7 +342,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
       <ListCell
         ref={ref}
         role="menuitemcheckbox"
-        leftContent={
+        leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox
               tabIndex={-1}
@@ -368,7 +368,7 @@ MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 const MenuActionArea = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<MenuActionAreaProps, 'div'>
->(({ leftContent, rightContent, children, sx, ...props }, ref) => {
+>(({ leadingContent, trailingContent, children, sx, ...props }, ref) => {
   return (
     <FlexBox
       ref={ref}
@@ -377,9 +377,9 @@ const MenuActionArea = forwardRef<
       {...props}
       sx={[menuActionAreaStyle, sx]}
     >
-      {Boolean(leftContent) && leftContent}
+      {Boolean(leadingContent) && leadingContent}
       {children}
-      {Boolean(rightContent) && rightContent}
+      {Boolean(trailingContent) && trailingContent}
     </FlexBox>
   );
 });

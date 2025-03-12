@@ -32,8 +32,8 @@ const CardList = forwardRef(
     {
       platform = 'desktop',
       width,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       xs,
       sm,
       md,
@@ -52,9 +52,9 @@ const CardList = forwardRef(
         {...props}
         sx={[cardListStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
       >
-        {Boolean(leftContent) && leftContent}
+        {Boolean(leadingContent) && leadingContent}
         {children}
-        {Boolean(rightContent) && rightContent}
+        {Boolean(trailingContent) && trailingContent}
       </FlexBox>
     );
   },
@@ -116,8 +116,8 @@ const CardListSkeleton = forwardRef(
     {
       platform = 'desktop',
       width,
-      hasLeftContent,
-      hasRightContent,
+      hasLeadingContent,
+      hasTrailingContent,
       xs,
       sm,
       md,
@@ -136,8 +136,8 @@ const CardListSkeleton = forwardRef(
         sx={[
           cardListSkeletonStyle({
             platform,
-            hasLeftContent,
-            hasRightContent,
+            hasLeadingContent,
+            hasTrailingContent,
             width,
             xs,
             sm,

@@ -17,7 +17,7 @@ type CategoryListDefaultProps = {
   verticalPadding?: boolean;
   horizontalPadding?: boolean;
   variant?: 'normal' | 'alternative';
-  rightContent?: ReactNode;
+  iconButton?: ReactNode;
   children?: ReactNode;
 };
 

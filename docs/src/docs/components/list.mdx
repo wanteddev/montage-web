@@ -9,23 +9,23 @@ description: List Component
 
 ## 활용
 
-- ListCell 클릭 시 자동으로 leftContent, rightContent 내부의 컨트롤 요소를 클릭 처리 합니다.
+- ListCell 클릭 시 자동으로 leadingContent, trailingContent 내부의 컨트롤 요소를 클릭 처리 합니다.
   - 단 switch 컴포넌트는 클릭 처리 하지 않습니다.
-- leftContent, rightContent 에 요소를 추가 할 때는 `ListCellContent` 로 감싸서 사용합니다.
+- leadingContent, trailingContent 에 요소를 추가 할 때는 `ListCellContent` 로 감싸서 사용합니다.
 
 <Demo code={`import { List, ListCell, ListCellContent, Checkbox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List>
-      <ListCell leftContent={(
+      <ListCell leadingContent={(
         <ListCellContent variant="checkbox">
           <Checkbox />
         </ListCellContent>
       )}>
         텍스트
       </ListCell>
-      <ListCell textProps={{ caption: '캡션' }} leftContent={(
+      <ListCell textProps={{ caption: '캡션' }} leadingContent={(
         <ListCellContent variant="checkbox">
           <Checkbox />
         </ListCellContent>
@@ -132,9 +132,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### LeftContent, RightContent
+### LeadingContent, TrailingContent
 
-- 기본적으로 leftContent, rightContent는 `ListCellContent` 로 래핑해서 사용해요.
+- 기본적으로 leadingContent, trailingContent는 `ListCellContent` 로 래핑해서 사용해요.
 - height로 콘텐츠 높이를 조정할 수 있어요.
 
 <Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, IconButton, CheckMark, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
@@ -144,7 +144,7 @@ const Demo = () => {
   return (
     <List gap="16px">
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent variant="icon">
             <IconBlank />
           </ListCellContent>
@@ -153,7 +153,7 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent variant="checkbox">
             <CheckMark />
           </ListCellContent>
@@ -162,7 +162,7 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent variant="button">
             <TextButton size="small" variant="assistive">
               버튼
@@ -173,7 +173,7 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent>
             <ContentBadge color="neutral">뱃지</ContentBadge>
           </ListCellContent>
@@ -182,7 +182,7 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron">
             값
           </ListCellContent>
@@ -191,14 +191,14 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron" />
         }
       >
         텍스트, Normal
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron" chevron={false}>
             값
           </ListCellContent>
@@ -207,12 +207,12 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        leftContent={
+        leadingContent={
           <ListCellContent variant="icon">
             <IconBlank />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron" chevron={false}>
             값
           </ListCellContent>
@@ -221,12 +221,12 @@ const Demo = () => {
         텍스트, Normal
       </ListCell>
       <ListCell
-        leftContent={
+        leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron" chevron={false}>
             값
           </ListCellContent>
@@ -236,12 +236,12 @@ const Demo = () => {
       </ListCell>
 
       <ListCell
-        leftContent={
+        leadingContent={
           <ListCellContent height="40px" variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron" chevron={false}>
             값
           </ListCellContent>
@@ -251,12 +251,12 @@ const Demo = () => {
       </ListCell>
       <ListCell
         alignItems="center"
-        leftContent={
+        leadingContent={
           <ListCellContent height="40px" variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="checkbox">
             <CheckMark />
           </ListCellContent>
@@ -265,7 +265,7 @@ const Demo = () => {
         텍스트, Medium
       </ListCell>
       <ListCell
-        rightContent={
+        trailingContent={
           <ListCellContent height="40px" variant="switch">
             <Switch />
           </ListCellContent>
@@ -276,12 +276,12 @@ const Demo = () => {
 
       <ListCell
         textProps={{ caption: '캡션' }}
-        leftContent={
+        leadingContent={
           <ListCellContent height="56px" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron" chevron={false}>
             값
           </ListCellContent>
@@ -292,12 +292,12 @@ const Demo = () => {
       <ListCell
         alignItems="center"
         textProps={{ caption: '캡션' }}
-        leftContent={
+        leadingContent={
           <ListCellContent height="56px" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="checkbox">
             <CheckMark />
           </ListCellContent>
@@ -307,7 +307,7 @@ const Demo = () => {
       </ListCell>
       <ListCell
         textProps={{ caption: '캡션' }}
-        leftContent={
+        leadingContent={
           <ListCellContent height="56px" variant="custom">
             <Thumbnail
               src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
@@ -319,7 +319,7 @@ const Demo = () => {
             />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="checkbox">
             <CheckMark />
           </ListCellContent>
@@ -347,12 +347,12 @@ const Demo = () => {
     <List gap="16px" sx={{ width: '60%' }}>
       <ListCell
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
-        leftContent={
+        leadingContent={
           <ListCellContent height="56px" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron">
             값
           </ListCellContent>
@@ -365,12 +365,12 @@ const Demo = () => {
       <ListCell
         ellipsis
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
-        leftContent={
+        leadingContent={
           <ListCellContent height="56px" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
-        rightContent={
+        trailingContent={
           <ListCellContent variant="chevron">
             값
           </ListCellContent>
@@ -395,7 +395,7 @@ const Demo = () => {
   return (
     <List>
       <ListCell
-        leftContent={
+        leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox />
           </ListCellContent>
@@ -404,7 +404,7 @@ const Demo = () => {
         Man
       </ListCell>
       <ListCell
-        leftContent={
+        leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox />
           </ListCellContent>
@@ -475,7 +475,7 @@ const Demo = () => {
                       as={FormField}
                       flexDirection="row"
                       alignItems="center"
-                      leftContent={
+                      leadingContent={
                         <FormControl>
                           <ListCellContent variant="checkbox">
                             <Checkbox
@@ -547,7 +547,7 @@ const Demo = () => {
                 <List>
                   <ListCell
                     as={FormField}
-                    leftContent={
+                    leadingContent={
                       <FormControl>
                         <ListCellContent variant="radio">
                           <RadioGroupItem value="man" />
@@ -559,7 +559,7 @@ const Demo = () => {
                   </ListCell>
                   <ListCell
                     as={FormField}  
-                    leftContent={
+                    leadingContent={
                       <FormControl>
                         <ListCellContent variant="radio">
                           <RadioGroupItem value="woman" />
@@ -613,7 +613,7 @@ const Demo = () => {
             <ListCell
               as={FormField}
               disableInteraction
-              rightContent={
+              trailingContent={
                 <FormControl>
                   <ListCellContent variant="switch" height="40px">
                     <Switch
@@ -636,7 +636,7 @@ const Demo = () => {
             <ListCell
               as={FormField}
               disableInteraction
-              rightContent={
+              trailingContent={
                 <FormControl>
                   <ListCellContent variant="switch" height="40px">
                     <Switch

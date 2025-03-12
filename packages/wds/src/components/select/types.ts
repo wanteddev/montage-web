@@ -12,7 +12,7 @@ export type SelectDefaultProps = {
   value?: string;
   defaultValue?: string;
   placeholder?: string;
-  leftContent?: ReactNode;
+  leadingContent?: ReactNode;
   render?: (label: ReactNode, value: string) => ReactNode;
   onChange?: (value: string) => void;
   contentProps?: ComponentProps<typeof MenuContent>;

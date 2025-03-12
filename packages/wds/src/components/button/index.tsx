@@ -27,8 +27,8 @@ const Button = forwardRef(
       color = 'primary',
       loading = false,
       iconOnly,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       size = 'medium',
       disableLoadingPreventEvents,
       children,
@@ -119,9 +119,9 @@ const Button = forwardRef(
             children
           ) : (
             <>
-              {Boolean(leftContent) && leftContent}
+              {Boolean(leadingContent) && leadingContent}
               <span id={id}>{children}</span>
-              {Boolean(rightContent) && rightContent}
+              {Boolean(trailingContent) && trailingContent}
             </>
           )}
         </Box>

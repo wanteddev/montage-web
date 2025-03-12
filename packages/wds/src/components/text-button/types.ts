@@ -8,8 +8,8 @@ export type TextButtonDefaultProps = {
   disabled?: boolean;
   size?: 'small' | 'medium';
   disableInteraction?: boolean;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   children?: ReactNode;
   loading?: boolean;
   /**

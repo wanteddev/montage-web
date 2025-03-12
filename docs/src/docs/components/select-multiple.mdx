@@ -10,7 +10,7 @@ description: Select Multiple Component
 ## 활용
 
 - 여러 옵션 중 하나의 값을 선택할 수 있어요.
-- leftContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
+- leadingContent에 요소를 추가 할 때는 `SelectContent`로 감싸서 사용합니다.
 - 모든 옵션을 스크롤 없이 노출할 때는 overflow=true로 설정해주세요.
 
 <Demo code={`import { SelectMultiple, Option, OptionGroup, Label, FlexBox } from '@wanteddev/wds';
@@ -189,7 +189,7 @@ const Demo = () => {
               key={v}
               size="xsmall"
               variant="solid"
-              rightContent={<IconCloseThick />}
+              trailingContent={<IconCloseThick />}
               onClick={(e) => {
                 e.stopPropagation();
                 setValue(value.filter(data => data !== v))
@@ -250,7 +250,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### LeftContent
+### LeadingContent
 
 <Demo code={`import { SelectMultiple, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
 import { IconRefresh, IconApps } from '@wanteddev/wds-icon';
@@ -261,7 +261,7 @@ const Demo = () => {
       <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
-        leftContent={
+        leadingContent={
           <SelectContent variant="icon">
             <IconRefresh />
           </SelectContent>
@@ -283,7 +283,7 @@ const Demo = () => {
       <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
-        leftContent={
+        leadingContent={
           <SelectContent variant="icon-button">
             <IconButton type="button">
               <IconApps />
@@ -306,7 +306,7 @@ const Demo = () => {
       <SelectMultiple
         width="300px"
         placeholder="선택해주세요."
-        leftContent={
+        leadingContent={
           <SelectContent variant="custom">
             커스텀
           </SelectContent>
@@ -370,8 +370,8 @@ const Demo = () => {
           </OptionGroup>
         ))}
 
-        <MenuActionArea
-          leftContent={
+        <MenuBottom
+          leadingContent={
             <MenuActionAreaContent variant="button">
               <Button
                 variant="outlined"
@@ -384,7 +384,7 @@ const Demo = () => {
               </Button> 
             </MenuActionAreaContent>
           }
-          rightContent={
+          trailingContent={
             <MenuActionAreaContent variant="button">
               <Button size="small" onClick={() => {
                 setValue(menuValue);

@@ -107,7 +107,7 @@ const TabList = forwardRef<
     {
       size = 'large',
       horizontalPadding = false,
-      rightContent,
+      iconButton,
       resize = 'normal',
       dir,
       xs,
@@ -258,14 +258,14 @@ const TabList = forwardRef<
             </FlexBox>
           </ScrollArea>
 
-          {Boolean(rightContent) && (
+          {Boolean(iconButton) && (
             <FlexBox
               sx={stickyButtonStyle}
-              data-role="tab-list-right-content"
+              data-role="tab-list-icon-button"
               as="span"
               alignItems="center"
             >
-              {rightContent}
+              {iconButton}
             </FlexBox>
           )}
         </FlexBox>

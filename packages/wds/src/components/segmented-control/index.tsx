@@ -170,8 +170,8 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       children,
       value,
       disabled,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       as,
       ...props
     }: PolymorphicProps<SegmentedControlItemProps, T>,
@@ -241,7 +241,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
             }
           })}
         >
-          {leftContent}
+          {leadingContent}
           <span
             data-role="segmented-control-item-text"
             aria-selected={active}
@@ -249,7 +249,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
           >
             {children}
           </span>
-          {rightContent}
+          {trailingContent}
         </FlexBox>
       </RovingFocusGroup.Item>
     );

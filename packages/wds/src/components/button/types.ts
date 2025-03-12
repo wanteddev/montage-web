@@ -12,8 +12,8 @@ export type ButtonDefaultProps = {
   variant?: ButtonVariant;
   color?: ButtonColor;
   fullWidth?: boolean;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   iconOnly?: boolean;
   children?: ReactNode;
   loading?: boolean;

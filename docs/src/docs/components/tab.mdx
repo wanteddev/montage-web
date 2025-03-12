@@ -113,14 +113,23 @@ Tab 은 여러 컴포넌트를 조합해서 사용합니다.
   TabList,
   TabListItem,
   TabPanel,
-  FlexBox
+  FlexBox,
+  IconButton
 } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px" flexDirection="column">
       <Tab defaultValue="0">
-        <TabList size="small">
+        <TabList
+          size="small"
+          iconButton={(
+            <IconButton size={20}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <TabListItem value="0">
             첫 번째 탭
           </TabListItem>
@@ -136,7 +145,14 @@ const Demo = () => {
         </TabList>
       </Tab>
       <Tab defaultValue="0">
-        <TabList size="medium">
+        <TabList
+          size="medium"
+          iconButton={(
+            <IconButton size={22}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <TabListItem value="0">
             첫 번째 탭
           </TabListItem>
@@ -152,7 +168,14 @@ const Demo = () => {
         </TabList>
       </Tab>
       <Tab defaultValue="0">
-        <TabList size="large">
+        <TabList
+          size="large"
+          iconButton={(
+            <IconButton size={24}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <TabListItem value="0">
             첫 번째 탭
           </TabListItem>
@@ -255,65 +278,6 @@ const Demo = () => {
         </TabListItem>
         <TabListItem value="3">
           네 번째 탭
-        </TabListItem>
-      </TabList>
-    </Tab>
-  )
-}
-
-export default Demo;`}
-/>
-
-## RightContent
-
-<Demo code={`import {
-  Button,
-  Tab,
-  TabList,
-  TabListItem,
-  TabPanel,
-  IconButton,
-} from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
-
-const Demo = () => {
-  return (
-    <Tab defaultValue="0">
-      <TabList
-        rightContent={(
-          <IconButton size={22}>
-            <IconBlank />
-          </IconButton>
-        )}>
-        <TabListItem value="0">
-          첫 번째 탭
-        </TabListItem>
-        <TabListItem value="1">
-          두 번째 탭
-        </TabListItem>
-        <TabListItem value="2">
-          세 번째 탭
-        </TabListItem>
-        <TabListItem value="3">
-          네 번째 탭
-        </TabListItem>
-        <TabListItem value="4">
-          다섯 번째 탭
-        </TabListItem>
-        <TabListItem value="5">
-          여섯 번째 탭
-        </TabListItem>
-        <TabListItem value="6">
-          일곱 번째 탭
-        </TabListItem>
-        <TabListItem value="7">
-          여덟 번째 탭
-        </TabListItem>
-        <TabListItem value="8">
-          아홉 번째 탭
-        </TabListItem>
-        <TabListItem value="9">
-          열 번째 탭
         </TabListItem>
       </TabList>
     </Tab>

@@ -182,11 +182,11 @@ const CustomChipField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
 )
 
 const CustomFieldField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
-  ({ rightContent, inputRef, invalid, ...props }, ref) => {
+  ({ trailingContent, inputRef, invalid, ...props }, ref) => {
     return (
       <FlexBox ref={ref} gap="10px" alignItems="center">
         <input ref={inputRef} {...props} />
-        {rightContent}
+        {trailingContent}
       </FlexBox>
     )
   }

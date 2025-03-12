@@ -66,15 +66,15 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="24px">
       <Pagination
         totalPages={10}
-        leftContent={<PaginationSelect />}
+        leadingContent={<PaginationSelect />}
       />
       <Pagination
         totalPages={10}
-        leftContent={<PaginationSelect pageSizeOptions={[20, 50, 100]} />}
+        leadingContent={<PaginationSelect pageSizeOptions={[20, 50, 100]} />}
       />
       <Pagination
         totalPages={10}
-        leftContent={
+        leadingContent={
           <PaginationSelect
             label="items per page"
             optionRender={(pageSize) => \`\${pageSize} items\`}
@@ -98,8 +98,8 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="24px">
-      <Pagination totalPages={10} leftContent={<PaginationField />} />
-      <Pagination totalPages={10} leftContent={<PaginationField label="go to page" />} />
+      <Pagination totalPages={10} leadingContent={<PaginationField />} />
+      <Pagination totalPages={10} leadingContent={<PaginationField label="go to page" />} />
     </FlexBox>
   )
 }
@@ -107,7 +107,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### LeftContent, RightContent
+### LeadingContent, TrailingContent
 
 variant가 `extended`일 때 콘텐츠를 추가할 수 있어요.
 
@@ -119,43 +119,43 @@ const Demo = () => {
       <FlexBox flexDirection="column" gap="24px">
         <Pagination 
           totalPages={10}
-          leftContent={<PaginationSelect />}
+          leadingContent={<PaginationSelect />}
         />
         <Pagination 
           totalPages={10}
-          leftContent={<PaginationField />}
+          leadingContent={<PaginationField />}
         />
         <Pagination 
           totalPages={10}
-          leftContent={<span>커스텀 요소</span>}
-        />
-      </FlexBox>
-
-      <FlexBox flexDirection="column" gap="24px">
-        <Pagination 
-          totalPages={10}
-          rightContent={<PaginationSelect />} 
-        />
-        <Pagination 
-          totalPages={10}
-          rightContent={<PaginationField />} 
-        />
-        <Pagination 
-          totalPages={10}
-          rightContent={<span>커스텀 요소</span>} 
+          leadingContent={<span>커스텀 요소</span>}
         />
       </FlexBox>
 
       <FlexBox flexDirection="column" gap="24px">
         <Pagination 
           totalPages={10}
-          leftContent={<PaginationSelect />}
-          rightContent={<PaginationField />} 
+          trailingContent={<PaginationSelect />} 
+        />
+        <Pagination 
+          totalPages={10}
+          trailingContent={<PaginationField />} 
+        />
+        <Pagination 
+          totalPages={10}
+          trailingContent={<span>커스텀 요소</span>} 
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          totalPages={10}
+          leadingContent={<PaginationSelect />}
+          trailingContent={<PaginationField />} 
         />
         <Pagination 
           totalPages={10} 
-          leftContent={<span>커스텀 요소</span>} 
-          rightContent={<span>커스텀 요소</span>} 
+          leadingContent={<span>커스텀 요소</span>} 
+          trailingContent={<span>커스텀 요소</span>} 
         />
       </FlexBox>
     </FlexBox>

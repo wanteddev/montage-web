@@ -73,7 +73,7 @@ const Select = forwardRef<
       disabled,
       render,
       placeholder,
-      leftContent,
+      leadingContent,
       enableMenuActionArea,
       menuValue: menuValueProp,
       onMenuValueChange,
@@ -228,7 +228,7 @@ const Select = forwardRef<
                 props.sx,
               ]}
             >
-              {Boolean(leftContent) && leftContent}
+              {Boolean(leadingContent) && leadingContent}
 
               {(typeof render === 'undefined' || shouldShowPlaceholder) && (
                 <FlexBox

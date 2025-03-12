@@ -17,8 +17,8 @@ const ContentBadge = forwardRef<
       size = 'normal',
       color = 'accent',
       accentColor = 'palette.accent.cyan',
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       children,
       xs,
       sm,
@@ -49,9 +49,9 @@ const ContentBadge = forwardRef<
           props.sx,
         ]}
       >
-        {Boolean(leftContent) && leftContent}
+        {Boolean(leadingContent) && leadingContent}
         <span>{children}</span>
-        {Boolean(rightContent) && rightContent}
+        {Boolean(trailingContent) && trailingContent}
       </Box>
     );
   },
