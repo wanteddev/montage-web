@@ -12,8 +12,8 @@ export type ChipActionDefaultProps = {
   active?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   children?: ReactNode;
 };
 

@@ -19,8 +19,8 @@ export type PaginationDefaultProps = {
    */
   siblingPages?: number;
   disabled?: boolean;
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   hidePrevButton?: boolean;
   hideNextButton?: boolean;
   onChange?: (page?: number) => void;

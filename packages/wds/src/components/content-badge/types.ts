@@ -7,8 +7,8 @@ import type {
 import type { ReactNode } from 'react';
 
 export type ContentBadgeDefaultProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   size?: 'normal' | 'medium' | 'large';
   variant?:
     | 'solid'

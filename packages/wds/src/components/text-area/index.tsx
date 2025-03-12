@@ -32,8 +32,8 @@ const TextArea = forwardRef<
 >(
   (
     {
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       value,
       invalid,
       disabled = false,
@@ -245,7 +245,7 @@ const TextArea = forwardRef<
             />
           </ScrollArea>
 
-          {(invalid || Boolean(leftContent) || Boolean(rightContent)) && (
+          {(invalid || Boolean(leadingContent) || Boolean(trailingContent)) && (
             <FlexBox
               data-role="text-area-bottom-area"
               sx={textAreaBottomAreaStyle}
@@ -254,14 +254,14 @@ const TextArea = forwardRef<
             >
               <FlexBox
                 alignItems="center"
-                data-role="text-area-bottom-area-left-content"
+                data-role="text-area-bottom-area-leading-content"
               >
-                {leftContent}
+                {leadingContent}
               </FlexBox>
 
               <FlexBox
                 alignItems="center"
-                data-role="text-area-bottom-area-right-content"
+                data-role="text-area-bottom-area-trailing-content"
               >
                 {invalid ? (
                   <TextAreaContent
@@ -272,7 +272,7 @@ const TextArea = forwardRef<
                     <IconCircleExclamationFill />
                   </TextAreaContent>
                 ) : (
-                  rightContent
+                  trailingContent
                 )}
               </FlexBox>
             </FlexBox>

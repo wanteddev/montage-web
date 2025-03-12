@@ -95,18 +95,18 @@ export const cardListContentStyle = css`
 
 const cardListSkeletonPlatformStyle = ({
   platform,
-  hasLeftContent,
-  hasRightContent,
+  hasLeadingContent,
+  hasTrailingContent,
 }: Pick<
   CardListSkeletonProps,
-  'platform' | 'hasLeftContent' | 'hasRightContent'
+  'platform' | 'hasLeadingContent' | 'hasTrailingContent'
 >) => {
   switch (platform) {
     case 'desktop':
       return css`
         gap: 16px;
-        padding-left: ${hasLeftContent ? '40px' : '0'};
-        padding-right: ${hasRightContent ? '40px' : '0'};
+        padding-left: ${hasLeadingContent ? '40px' : '0'};
+        padding-right: ${hasTrailingContent ? '40px' : '0'};
 
         // thumbnail
         [wds-component='thumbnail'],
@@ -122,8 +122,8 @@ const cardListSkeletonPlatformStyle = ({
     case 'mobile':
       return css`
         gap: 12px;
-        padding-left: ${hasLeftContent ? '36px' : '0'};
-        padding-right: ${hasRightContent ? '36px' : '0'};
+        padding-left: ${hasLeadingContent ? '36px' : '0'};
+        padding-right: ${hasTrailingContent ? '36px' : '0'};
 
         // thumbnail
         [wds-component='thumbnail'],
@@ -148,8 +148,8 @@ export const cardListSkeletonStyle =
     xl,
     width,
     platform,
-    hasLeftContent,
-    hasRightContent,
+    hasLeadingContent,
+    hasTrailingContent,
   }: CardListSkeletonProps) =>
   (theme: Theme) => css`
     width: ${width ?? '100%'};
@@ -157,8 +157,8 @@ export const cardListSkeletonStyle =
 
     ${cardListSkeletonPlatformStyle({
       platform,
-      hasLeftContent,
-      hasRightContent,
+      hasLeadingContent,
+      hasTrailingContent,
     })}
 
     // thumbnail
@@ -177,8 +177,8 @@ export const cardListSkeletonStyle =
         `}
         ${cardListSkeletonPlatformStyle({
           platform: params?.platform,
-          hasLeftContent,
-          hasRightContent,
+          hasLeadingContent,
+          hasTrailingContent,
         })}
         ${params?.sx}
       `,

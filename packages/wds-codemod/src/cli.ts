@@ -34,6 +34,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'IconCircleClose Migration', value: 'icon-circle-close-migration' },
   { name: 'Avatar Migration', value: 'avatar-migration' },
   { name: 'MenuBottom Migration', value: 'menu-bottom-migration' },
+  { name: 'Leading, Trailing Migration', value: 'leading-trailing-migration' },
 ];
 
 const run = () => {

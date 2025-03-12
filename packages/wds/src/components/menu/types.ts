@@ -48,8 +48,8 @@ export type MenuItemRadioProps = Omit<MenuItemProps, 'variant'>;
 export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;
 
 export type MenuActionAreaProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   children?: ReactNode;
 };
 export type MenuActionAreaContentProps = {

@@ -29,8 +29,8 @@ const SectionHeader = forwardRef<
     {
       size = 'medium',
       platform = 'desktop',
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       color,
       headingTag = 'h2',
       children,
@@ -63,25 +63,25 @@ const SectionHeader = forwardRef<
             {children}
           </Box>
 
-          {Boolean(leftContent) && (
+          {Boolean(leadingContent) && (
             <FlexBox
-              data-role="section-header-left-content"
+              data-role="section-header-leading-content"
               gap="10px"
               alignItems="center"
             >
-              {leftContent}
+              {leadingContent}
             </FlexBox>
           )}
         </FlexBox>
 
-        {Boolean(rightContent) && (
+        {Boolean(trailingContent) && (
           <FlexBox
-            data-role="section-header-right-content"
+            data-role="section-header-trailing-content"
             gap="20px"
             alignItems="center"
             alignSelf="end"
           >
-            {rightContent}
+            {trailingContent}
           </FlexBox>
         )}
       </FlexBox>

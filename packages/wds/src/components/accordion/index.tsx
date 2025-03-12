@@ -107,8 +107,8 @@ const AccordionSummary = forwardRef<
     {
       disabled: givenDisabled,
       children,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       textProps,
       sx,
       ...props
@@ -137,17 +137,17 @@ const AccordionSummary = forwardRef<
         aria-expanded={expanded}
         aria-controls={detailsId}
         id={summaryId}
-        {...(Boolean(leftContent) && {
-          leftContent: (
-            <Slot data-role="accordion-summary-left-content">
-              {leftContent}
+        {...(Boolean(leadingContent) && {
+          leadingContent: (
+            <Slot data-role="accordion-summary-leading-content">
+              {leadingContent}
             </Slot>
           ),
         })}
-        rightContent={
-          Boolean(rightContent) ? (
-            <Slot data-role="accordion-summary-right-content">
-              {rightContent}
+        trailingContent={
+          Boolean(trailingContent) ? (
+            <Slot data-role="accordion-summary-trailing-content">
+              {trailingContent}
             </Slot>
           ) : (
             <AccordionSummaryContent

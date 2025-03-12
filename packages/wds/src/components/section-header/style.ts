@@ -20,9 +20,9 @@ export const sectionHeaderStyle =
       color: inherit;
     }
 
-    [data-role='section-header-right-content']
+    [data-role='section-header-trailing-content']
       [wds-component='icon-button'][data-variant='normal'],
-    [data-role='section-header-left-content']
+    [data-role='section-header-leading-content']
       [wds-component='icon-button'][data-variant='normal'] {
       color: ${theme.palette.label.assistive};
     }
@@ -68,8 +68,8 @@ const sectionHeaderSizeStyle = (
         color: ${getColorByToken(theme, color ?? 'palette.label.alternative')};
         ${typographyStyle('label1', 'bold')};
 
-        [data-role='section-header-left-content'],
-        [data-role='section-header-right-content'] {
+        [data-role='section-header-leading-content'],
+        [data-role='section-header-trailing-content'] {
           max-height: 20px;
         }
       `;
@@ -81,8 +81,8 @@ const sectionHeaderSizeStyle = (
           'bold',
         )};
 
-        [data-role='section-header-left-content'],
-        [data-role='section-header-right-content'] {
+        [data-role='section-header-leading-content'],
+        [data-role='section-header-trailing-content'] {
           max-height: ${platform === 'desktop' ? '26px' : '24px'};
         }
       `;
@@ -94,8 +94,8 @@ const sectionHeaderSizeStyle = (
           'bold',
         )};
 
-        [data-role='section-header-left-content'],
-        [data-role='section-header-right-content'] {
+        [data-role='section-header-leading-content'],
+        [data-role='section-header-trailing-content'] {
           max-height: ${platform === 'desktop' ? '30px' : '28px'};
         }
       `;
@@ -107,8 +107,8 @@ const sectionHeaderSizeStyle = (
           'bold',
         )};
 
-        [data-role='section-header-left-content'],
-        [data-role='section-header-right-content'] {
+        [data-role='section-header-leading-content'],
+        [data-role='section-header-trailing-content'] {
           max-height: ${platform === 'desktop' ? '38px' : '32px'};
         }
       `;

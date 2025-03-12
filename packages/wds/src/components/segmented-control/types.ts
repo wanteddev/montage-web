@@ -20,8 +20,8 @@ export type SegmentedControlProps = Merge<
 >;
 
 export type SegmentedControlItemProps = {
-  leftContent?: ReactNode;
-  rightContent?: ReactNode;
+  leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   disabled?: boolean;
   value: string;
   children?: ReactNode;

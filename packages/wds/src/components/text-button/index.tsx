@@ -24,8 +24,8 @@ const TextButton = forwardRef(
       disabled = false,
       disableInteraction = false,
       variant = 'primary',
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       size = 'medium',
       children,
       loading = false,
@@ -112,9 +112,9 @@ const TextButton = forwardRef(
               data-role="text-button-loading"
             />
           )}
-          {Boolean(leftContent) && leftContent}
+          {Boolean(leadingContent) && leadingContent}
           <span id={id}>{children}</span>
-          {Boolean(rightContent) && rightContent}
+          {Boolean(trailingContent) && trailingContent}
         </Box>
       </WithInteraction>
     );

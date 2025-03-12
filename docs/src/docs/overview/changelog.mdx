@@ -19,7 +19,7 @@ description: Changelog
 
 ### Button
 
-- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leadingContent`, `trailingContent`로 변경되었습니다.
 
 ### Checkbox
 
@@ -34,12 +34,12 @@ description: Changelog
   - small -> medium
   - medium -> large
 - 기본값이 `size="small"` 에서 `size="normal"`로 변경되었습니다.
-- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leadingContent`, `trailingContent`로 변경되었습니다.
 
 ### ChipAction
 
 - 디자인이 새롭게 변경되었습니다.
-- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leadingContent`, `trailingContent`로 변경되었습니다.
 - 사이즈의 이름이 변경되었습니다.
   - xsmall (신규)
   - medium -> normal
@@ -79,7 +79,7 @@ description: Changelog
 ### Modal
 
 - Bottom Sheet의 애니메이션 처리와 handle 옵션을 사용할 때 축소화 기능이 추가되었습니다.
-- ModalNavigation의 `rightButton`, `leftButton`의 이름이 `rightContent`, `leftContent`로 변경되었습니다.
+- ModalNavigation의 `rightButton`, `leftButton`의 이름이 `trailingContent`, `leadingContent`로 변경되었습니다.
 - 컴포넌트의 이름이 변경되었습니다.
   - ModalNavigationAction -> ModalNavigationButton
 
@@ -100,24 +100,24 @@ description: Changelog
 ### Tab
 
 - document의 scrollIntoView를 사용하던 부분이 직접 구현한 scrollIntoView를 이용하도록 변경되었습니다. (window scroll이 발생하지 않습니다.)
-- `rightIcon` 의 prop 이름이 `rightContent`로 변경되었습니다.
+- `rightIcon` 의 prop 이름이 `trailingContent`로 변경되었습니다.
 
 ### TextButton
 
-- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leadingContent`, `trailingContent`로 변경되었습니다.
 
 ### TextField
 
 - 디자인이 새롭게 변경되었습니다.
 - `TextInput` 으로 컴포넌트 이름이 변경되었습니다.
-- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
-- `leftContent`, `rightContent` 에 요소를 넣을 때는 `TextInputContent` 로 한번 감싸서 넘겨주어야 합니다. (문서 참고)
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leadingContent`, `trailingContent`로 변경되었습니다.
+- `leadingContent`, `trailingContent` 에 요소를 넣을 때는 `TextInputContent` 로 한번 감싸서 넘겨주어야 합니다. (문서 참고)
 
 ### TextArea
 
 - 디자인이 새롭게 변경되었습니다.
-- `leftIcon`, `rightIcon` 의 prop 이름이 `leftContent`, `rightContent`로 변경되었습니다.
-- `leftContent`, `rightContent` 에 요소를 넣을 때는 `TextAreaContent` 로 한번 감싸서 넘겨주어야 합니다. (문서 참고)
+- `leftIcon`, `rightIcon` 의 prop 이름이 `leadingContent`, `trailingContent`로 변경되었습니다.
+- `leadingContent`, `trailingContent` 에 요소를 넣을 때는 `TextAreaContent` 로 한번 감싸서 넘겨주어야 합니다. (문서 참고)
 - maxLength 속성으로 추가되던 최대 길이가 `<TextAreaContent variant="characterCounter">{maxLength}</TextAreaContent>` 로 사용하도록 변경되었습니다.
 
 ### TopNavigation

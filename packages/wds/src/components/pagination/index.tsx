@@ -59,8 +59,8 @@ const Pagination = forwardRef<
       hidePrevButton,
       hideNextButton,
       disabled = false,
-      leftContent,
-      rightContent,
+      leadingContent,
+      trailingContent,
       onChange,
       sx,
       ...props
@@ -136,10 +136,10 @@ const Pagination = forwardRef<
           sx={[paginationStyle({ variant }), sx]}
         >
           <FlexBox
-            data-role="pagination-left-content-wrapper"
+            data-role="pagination-leading-content-wrapper"
             sx={paginationContentStyle}
           >
-            {Boolean(leftContent) && leftContent}
+            {Boolean(leadingContent) && leadingContent}
           </FlexBox>
 
           <FlexBox
@@ -207,10 +207,10 @@ const Pagination = forwardRef<
           </FlexBox>
 
           <FlexBox
-            data-role="pagination-right-content-wrapper"
+            data-role="pagination-trailing-content-wrapper"
             sx={paginationContentStyle}
           >
-            {Boolean(rightContent) && rightContent}
+            {Boolean(trailingContent) && trailingContent}
           </FlexBox>
         </FlexBox>
       </PaginationProvider>
