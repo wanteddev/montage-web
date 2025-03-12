@@ -54,6 +54,8 @@ export default Demo;`}
 
 ## Example
 
+### Combine
+
 <Demo code={`import { FlexBox, useSnackbar, Button, Avatar } from '@wanteddev/wds';
 import { IconCircleFill } from '@wanteddev/wds-icon';
 
@@ -75,6 +77,42 @@ const Demo = () => {
       <Button onClick={handleClick({ title, description })}>title + description</Button>
       <Button onClick={handleClick({ title, extraContent })}>extraContent1</Button>
       <Button onClick={handleClick({ title, description, extraContent })}>extraContent2</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Control
+
+id를 직접 주입하고 `useRegionStore`와 함께 사용하여 열리고 닫히는 상태를 추가적으로 컨트롤 할 수 있어요.
+
+<Demo code={`import { FlexBox, useSnackbar, Button, useRegionStore } from '@wanteddev/wds';
+import { useId, useEffect } from 'react';
+ 
+const Demo = () => {
+  const snackbar = useSnackbar();
+  const hide = useRegionStore((state) => state.hide);
+
+  const id = useId();
+
+  const handleClickShow = () => {
+    snackbar({ id, action: { children: '텍스트' }, title: '메시지에 마침표를 찍어요.' });
+  };
+
+  const handleClickHide = () => {
+    hide(id);
+  }
+
+  useEffect(() => {
+    return () => hide(id);
+  }, [])
+
+  return (
+    <FlexBox gap="8px">
+      <Button onClick={handleClickShow}>show</Button>
+      <Button onClick={handleClickHide}>hide</Button>
     </FlexBox>
   )
 }

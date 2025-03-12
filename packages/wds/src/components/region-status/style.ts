@@ -1,96 +1,51 @@
-import { css, keyframes } from '@wanteddev/wds-engine';
+import { css } from '@wanteddev/wds-engine';
 
 import { addOpacity, respondMore, respondTo } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const bottomMountKeyFrames = keyframes`
-  0% {
-    opacity: 0;
-    transform: translateY(100%);
+export const bottomRegionStatusStyle = (theme: Theme) => css`
+  padding: 11px 16px;
+  max-width: 100%;
+  border-radius: 12px;
+  display: flex;
+  gap: 16px;
+  font-size: 20px;
+  pointer-events: auto;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(32px);
+
+  ${respondMore(theme.breakpoint.sm)} {
+    min-width: 356px;
+    max-width: 420px;
+  }
+  ${respondTo(theme.breakpoint.sm)} {
+    width: 100%;
   }
 
-  100% {
-    opacity: 1;
-    transform: translateY(0%);
+  & > :not([role='presentation']) {
+    z-index: 1;
   }
 `;
-
-export const bottomUnmountKeyFrames = keyframes`
-  0% {
-    opacity: 1;
-    transform: translateY(0%);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-`;
-
-export const bottomRegionStatusStyle =
-  (duration: number, isMountAnimationDone: boolean) => (theme: Theme) => css`
-    padding: 11px 16px;
-    max-width: 100%;
-    border-radius: 12px;
-    display: flex;
-    gap: 16px;
-    font-size: 20px;
-    pointer-events: auto;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(32px);
-
-    ${respondMore(theme.breakpoint.sm)} {
-      min-width: 356px;
-      max-width: 420px;
-    }
-    ${respondTo(theme.breakpoint.sm)} {
-      width: 100%;
-    }
-
-    animation:
-      ${bottomMountKeyFrames} 200ms cubic-bezier(0.4, 0, 0.2, 1),
-      ${bottomUnmountKeyFrames} 200ms ${duration}ms cubic-bezier(0.4, 0, 0.2, 1);
-
-    & > :not([role='presentation']) {
-      z-index: 1;
-    }
-
-    ${isMountAnimationDone &&
-    css`
-      @media (pointer: fine) {
-        &:hover {
-          animation-play-state: paused;
-        }
-
-        &:where(:focus-within) {
-          animation-play-state: paused;
-        }
-
-        &:where(:focus) {
-          animation-play-state: paused;
-        }
-
-        &:where(:hover) {
-          animation-play-state: paused;
-        }
-      }
-    `}
-  `;
 
 export const toastCircleIconWrapperStyle = (theme: Theme) => css`
   width: fit-content;
   height: fit-content;
   position: relative;
+  flex-shrink: 0;
 
   &::before {
     z-index: -1;
     position: absolute;
     content: '';
-    width: 50%;
-    height: 50%;
+    width: 8px;
+    height: 10px;
+    left: 50%;
+    top: 50%;
+    border-radius: 999px;
+    transform: translate(-50%, -50%);
     background-color: ${theme.palette.static.white};
   }
 `;
