@@ -8,7 +8,7 @@ import type { Theme } from '@wanteddev/wds-engine';
 export const sectionMessageWrapperStyle = css`
   width: 100%;
   border-radius: 12px;
-  padding: 16px;
+  padding: 12px;
   backdrop-filter: blur(32px);
   position: relative;
 
@@ -62,16 +62,17 @@ export const sectionMessageIconStyle =
     const defaultVariantStyle = css`
       position: relative;
       font-size: 20px;
-      padding: 2px 0px;
+      padding: 1px 0px;
       height: fit-content;
 
       &::before {
         inset: 0;
-        width: 10px;
+        width: 8px;
         height: 10px;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
+        border-radius: 999px;
         position: absolute;
         content: '';
         z-index: -1;
@@ -112,14 +113,14 @@ export const sectionMessageIconStyle =
     }
   };
 
-export const sectionMessageTrailingContentStyle = css`
+export const sectionMessageTrailingButtonStyle = css`
   padding: 0px 8px;
-  height: 24px;
+  height: 22px;
   flex-shrink: 0;
 `;
 
-export const sectionMessageCloseIconStyle = css`
+export const sectionMessageCloseButtonStyle = css`
   flex-shrink: 0;
-  padding: 2px 0px;
+  margin: 1px 0px;
   height: fit-content;
 `;

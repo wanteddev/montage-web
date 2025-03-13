@@ -17,9 +17,9 @@ import IconButton from '../icon-button';
 import {
   firstOverlayStyle,
   secondOverlayStyle,
-  sectionMessageCloseIconStyle,
+  sectionMessageCloseButtonStyle,
   sectionMessageIconStyle,
-  sectionMessageTrailingContentStyle,
+  sectionMessageTrailingButtonStyle,
   sectionMessageWrapperStyle,
 } from './style';
 
@@ -39,10 +39,10 @@ const SectionMessage = forwardRef<
       variant = 'info',
       children,
       leadingContent,
-      trailingContent,
+      trailingButton,
       caption,
-      actionArea,
-      closeIcon = false,
+      bottomButton,
+      closeButton = false,
       ...props
     },
     ref,
@@ -79,7 +79,7 @@ const SectionMessage = forwardRef<
         {show && (
           <FlexBox
             ref={ref}
-            gap="12px"
+            gap="8px"
             role="alert"
             aria-describedby={descriptionId}
             {...props}
@@ -102,7 +102,7 @@ const SectionMessage = forwardRef<
             >
               <Typography
                 color="palette.label.normal"
-                variant="body1"
+                variant="body2"
                 weight="medium"
                 data-role="section-message-content-title"
                 id={descriptionId}
@@ -113,7 +113,7 @@ const SectionMessage = forwardRef<
 
               {caption && (
                 <Typography
-                  variant="body2"
+                  variant="label1-reading"
                   weight="regular"
                   data-role="section-message-content-caption"
                   color="palette.label.neutral"
@@ -123,36 +123,36 @@ const SectionMessage = forwardRef<
                 </Typography>
               )}
 
-              {actionArea && (
+              {bottomButton && (
                 <FlexBox
-                  data-role="section-message-action-area"
+                  data-role="section-message-bottom-button"
                   sx={{ marginTop: 8 }}
                   gap="16px"
                 >
-                  {actionArea}
+                  {bottomButton}
                 </FlexBox>
               )}
             </FlexBox>
 
-            {trailingContent && (
+            {trailingButton && (
               <FlexBox
                 gap="16px"
                 alignItems="center"
-                sx={sectionMessageTrailingContentStyle}
-                data-role="section-message-trailing-content"
+                sx={sectionMessageTrailingButtonStyle}
+                data-role="section-message-trailing-button"
               >
-                {trailingContent}
+                {trailingButton}
               </FlexBox>
             )}
 
-            {closeIcon && (
+            {closeButton && (
               <IconButton
                 data-role="section-message-close-icon"
                 color="palette.label.alternative"
                 interactionColor="palette.label.alternative"
                 onClick={handleShowToggle}
                 size={20}
-                sx={sectionMessageCloseIconStyle}
+                sx={sectionMessageCloseButtonStyle}
               >
                 <IconClose />
               </IconButton>

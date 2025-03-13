@@ -37,7 +37,7 @@ export default Demo;`}
 
 `variant=custom` 일 때는 leadingContent를 이용하여 아이콘을 삽입할 수 있어요.
 
-`closeIcon` 옵션을 통해 닫기 버튼을 표시할 수 있어요.
+`closeButton` 옵션을 통해 닫기 버튼을 표시할 수 있어요.
 
 <Demo code={`import { SectionMessage, FlexBox, Button } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -45,19 +45,19 @@ import { IconBlank } from '@wanteddev/wds-icon';
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="16px">
-      <SectionMessage variant="info" caption="설명을 작성해요." closeIcon>
+      <SectionMessage variant="info" caption="설명을 작성해요." closeButton>
         제목을 작성해요.
       </SectionMessage>
-      <SectionMessage variant="positive" caption="설명을 작성해요." closeIcon>
+      <SectionMessage variant="positive" caption="설명을 작성해요." closeButton>
         제목을 작성해요.
       </SectionMessage>
-      <SectionMessage variant="cautionary" caption="설명을 작성해요." closeIcon>
+      <SectionMessage variant="cautionary" caption="설명을 작성해요." closeButton>
         제목을 작성해요.
       </SectionMessage>
-      <SectionMessage variant="negative" caption="설명을 작성해요." closeIcon>
+      <SectionMessage variant="negative" caption="설명을 작성해요." closeButton>
         제목을 작성해요.
       </SectionMessage>
-      <SectionMessage variant="custom" caption="설명을 작성해요." closeIcon leadingContent={<IconBlank />}>
+      <SectionMessage variant="custom" caption="설명을 작성해요." closeButton leadingContent={<IconBlank />}>
         제목을 작성해요.
       </SectionMessage>
     </FlexBox>
@@ -67,9 +67,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Trailing Content
+### Trailing Button
 
-우측에 오는 콘텐츠를 추가할 수 있어요.
+우측에 오는 버튼을 추가할 수 있어요.
 
 <Demo code={`import { SectionMessage, FlexBox, TextButton } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -80,8 +80,8 @@ const Demo = () => {
       <SectionMessage
         variant="info"
         caption="설명을 작성해요."
-        closeIcon
-        trailingContent={(
+        closeButton
+        trailingButton={(
           <TextButton size="small">텍스트</TextButton>
         )}>
         제목을 작성해요.
@@ -89,7 +89,7 @@ const Demo = () => {
      <SectionMessage
         variant="info"
         caption="설명을 작성해요."
-        trailingContent={(
+        trailingButton={(
           <TextButton size="small">텍스트</TextButton>
         )}>
         제목을 작성해요.
@@ -102,9 +102,9 @@ export default Demo;`}
 />
 
 
-### Action Area
+### Bottom Button
 
-`actionArea` 옵션을 통해 액션 영역을 추가할 수 있어요.
+`bottomButton` 옵션을 통해 하단 영역에 버튼을 추가할 수 있어요.
 
 <Demo code={`import { SectionMessage, FlexBox, Button } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -115,8 +115,8 @@ const Demo = () => {
       <SectionMessage
         variant="info"
         caption="설명을 작성해요."
-        closeIcon
-        actionArea={(
+        closeButton
+        bottomButton={(
           <Button size="small">
             적용하기
           </Button>
