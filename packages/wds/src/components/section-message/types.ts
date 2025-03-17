@@ -9,12 +9,12 @@ export type SectionMessageProps = {
   /**
    * 닫기 버튼을 표시합니다.
    */
-  closeIcon?: boolean;
+  closeButton?: boolean;
   /**
    * 기본적으로 variant에 따른 아이콘을 표시합니다.
    */
   leadingContent?: ReactNode;
-  trailingContent?: ReactNode;
+  trailingButton?: ReactNode;
   caption?: ReactNode;
-  actionArea?: ReactNode;
+  bottomButton?: ReactNode;
 };
