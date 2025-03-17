@@ -153,7 +153,7 @@ jobs:
       build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
       build_path: docs/out
       server_type: ${{ needs.set-env.outputs.server_type }}
-      build_command: pnpm -F docs build
+      build_command: pnpm run build && pnpm -F docs build
     secrets: inherit
 
   push-s3:
