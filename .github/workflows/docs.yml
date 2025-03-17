@@ -166,7 +166,7 @@ jobs:
       build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
       run_command: |
         echo "build files to s3"
-        aws s3 cp docs/out s3://${{ needs.set-env.outputs.bucket }}/
+        aws s3 cp docs/out s3://${{ needs.set-env.outputs.bucket }}/ --recursive
         aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
     secrets: inherit
 
