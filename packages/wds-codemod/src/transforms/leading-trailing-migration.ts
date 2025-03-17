@@ -69,7 +69,14 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         if (leftContentAttr) {
           hasChanges = true;
 
-          leftContentAttr.name.name = 'leadingContent';
+          if (
+            target.value.name.type === 'JSXIdentifier' &&
+            target.value.name.name === 'SectionHeader'
+          ) {
+            leftContentAttr.name.name = 'headingContent';
+          } else {
+            leftContentAttr.name.name = 'leadingContent';
+          }
         }
 
         const rightContentAttr = target.value.attributes?.find(
