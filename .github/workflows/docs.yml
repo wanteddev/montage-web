@@ -5,78 +5,224 @@ on:
       - main
 
 env:
+  PRETEXT: ''
+  SERVICE: montage
+  PLATFORM: front
+
+  NODE_VERSION: 20
+
   AWS_REGION: ap-northeast-2
   AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BUCKET: montage.wanted.co.kr
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  deploy-docs:
-    permissions:
-      id-token: write
-      contents: write
+  set-env:
+    name: Set Env
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Node.js install
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 10.13.1
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
+      - name: Set Common Env
+        id: env
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          if [[ $PLATFORM == "front" ]]; then
+            echo "::set-output name=SLACK_COLOR::00E5BA"
+          else
+            echo "::set-output name=SLACK_COLOR::003CFF"
+          fi
+          echo "::set-output name=PRETEXT::${PRETEXT}"
+          echo "::set-output name=SERVICE::${SERVICE^^}"
+          echo "::set-output name=SLACK_CHANNEL::#wds-deploy"
+          echo "PLATFORM=${PLATFORM^^}" >> $GITHUB_OUTPUT
+          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
+          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
+          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
+      - uses: actions/checkout@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store
+          ref: ${{ github.ref }}
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Set Environment Variable
+        id: env-vars
+        run: |
+          server_type="www"
+          build="prod"
+          ref=${GITHUB_REF}
 
-      - uses: actions/cache@v4
-        name: Nx cache
+          IFS='/' read -ra vBranch <<< "$ref"
+          branch=${vBranch[2]}
+
+          IFS='/' read -ra vName <<< "$REPOSITORY"
+          name=${vName[1]}
+
+          echo "DATE=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+          echo "SERVER_TYPE=$server_type" >> $GITHUB_OUTPUT
+          echo "BUILD=$build" >> $GITHUB_OUTPUT
+          echo "BRANCH=$branch" >> $GITHUB_OUTPUT
+          echo "STAGE=www" >> $GITHUB_OUTPUT
+
+          echo "HASH=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+          commit_message=$(git log -1 --pretty=format:%s | tr \" \')
+          echo "COMMIT_MESSAGE=$commit_message" >> $GITHUB_OUTPUT
+
+    outputs:
+      slack_color: ${{ steps.env.outputs.SLACK_COLOR }}
+      pretext: ${{ steps.env.outputs.PRETEXT }}
+      service: ${{ steps.env.outputs.SERVICE }}
+      slack_channel: ${{ steps.env.outputs.SLACK_CHANNEL }}
+      stage: ${{ steps.env.outputs.STAGE }}
+      platform: ${{ steps.env.outputs.PLATFORM }}
+
+      node_version: ${{ steps.env.outputs.NODE_VERSION }}
+      aws_region: ${{ steps.env.outputs.AWS_REGION }}
+      bucket: ${{ steps.env.outputs.BUCKET }}
+
+      date: ${{ steps.env-vars.outputs.DATE }}
+      server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
+      build: ${{ steps.env-vars.outputs.BUILD }}
+      barnch: ${{ steps.env-vars.outputs.BRANCH }}
+      hash: ${{ steps.env-vars.outputs.HASH }}
+      commit_msg: ${{ steps.env-vars.outputs.COMMIT_MESSAGE }}
+
+  slack-alarm:
+    runs-on: ubuntu-latest
+    needs: set-env
+
+    steps:
+      - name: Compose Slack Message - Deploy Start
+        id: start-message
+        run: >
+          echo 'START_MESSAGE=Commit: <${{ github.event.head_commit.url }}|${{ needs.set-env.outputs.HASH }}>\n
+          ``` Author: ${{ github.event.head_commit.author.name }} <${{ github.event.head_commit.author.email }}>\n
+          Date: ${{ github.event.head_commit.timestamp }}\n\n
+          ${{ needs.set-env.outputs.commit_msg }}\n```' >> $GITHUB_OUTPUT
+
+      - name: Compose Slack Message - Deploy Success/Failure
+        id: deploy-message
+        run: >
+          echo 'DEPLOY_MESSAGE=Repo: ${{ github.repository }}\n
+          Action: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} #${{ github.run_number }}>' >> $GITHUB_OUTPUT
+
+      - name: Post Slack Message - Deploy Start
+        uses: slackapi/slack-github-action@v1.22.0
         with:
-          path: .nx/cache
-          key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-nx-store-
+          channel-id: ${{ needs.set-env.outputs.slack_channel }}
+          payload: |
+            { 
+              "text": "${{ needs.set-env.outputs.pretext }}",
+              "attachments": [
+                {
+                  "color": "${{ needs.set-env.outputs.slack_color }}",
+                  "fields": [
+                    {
+                      "title": "${{ needs.set-env.outputs.service }} ${{ needs.set-env.outputs.platform }} ${{ needs.set-env.outputs.server_type }} Reusable 배포 시작",
+                      "value": "${{ steps.start-message.outputs.START_MESSAGE }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
 
-      - name: Build local packages
-        run: pnpm run build
+    outputs:
+      deploy_msg: ${{ steps.deploy-message.outputs.DEPLOY_MESSAGE }}
 
-      - name: Reinstall dependencies
-        run: pnpm install
+  set-pnpm:
+    needs: [set-env]
+    uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+    secrets: inherit
 
-      - name: Build docs
-        run: pnpm -F docs run build
+  build-react:
+    needs: [set-env, set-pnpm]
+    uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+      package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
+      package_manager: pnpm
+      build_cache_path: |
+        .nx/cache
+        docs/.next/cache
+      build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
+      build_path: docs/out
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_command: pnpm -F docs build
+    secrets: inherit
 
-      - name: Build my App
-        run: touch ./docs/out/.nojekyll
+  push-s3:
+    needs: [set-env, set-pnpm, build-react]
+    uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
+    with:
+      aws_region: ${{ needs.set-env.outputs.aws_region }}
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_path: docs/out
+      build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
+      run_command: |
+        echo "build files to s3"
+        aws s3 cp docs/out s3://${{ needs.set-env.outputs.bucket }}/
+        aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
+    secrets: inherit
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.6.8
+  deploy-end:
+    runs-on: ubuntu-latest
+    needs: [set-env, slack-alarm, set-pnpm, build-react, push-s3]
+    if: always()
+    steps:
+      - name: Post Slack Message - Deploy Success
+        if: ${{ (needs.set-pnpm.result == 'success') &&  (needs.build-react.result == 'success') &&  (needs.push-s3.result == 'success') }}
+        uses: slackapi/slack-github-action@v1.21.0
         with:
-          folder: docs/out
+          channel-id: ${{ needs.set-env.outputs.slack_channel }}
+          payload: |
+            {
+              "text": "${{ needs.set-env.outputs.pretext }}",
+              "attachments": [
+                {
+                  "color": "${{ needs.set-env.outputs.slack_color }}",
+                  "fields": [
+                    {
+                      "title": "${{ needs.set-env.outputs.service }} ${{ needs.set-env.outputs.platform }} ${{ needs.set-env.outputs.server_type }} Reusable 배포 완료",
+                      "value": "${{ needs.slack-alarm.outputs.deploy_msg }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
+
+      - name: Post Slack Message - Deploy Failure
+        if: ${{ (needs.set-pnpm.result == 'failure') || (needs.build-react.result == 'failure') || (needs.push-s3.result == 'failure') }}
+        uses: slackapi/slack-github-action@v1.21.0
+        with:
+          channel-id: ${{ needs.set-env.outputs.slack_channel }}
+          payload: |
+            {
+              "text": "${{ needs.set-env.outputs.pretext }}",
+              "attachments": [
+                {
+                  "color": "danger",
+                  "fields": [
+                    {
+                      "title": "${{ needs.set-env.outputs.service }} ${{ needs.set-env.outputs.platform }} ${{ needs.set-env.outputs.server_type }} Reusable 배포 실패",
+                      "value": "${{ needs.slack-alarm.outputs.deploy_msg }}"
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
 
   algolia:
-    needs: [deploy-docs]
+    needs: [deploy-end]
     runs-on: ubuntu-latest
 
     steps:
