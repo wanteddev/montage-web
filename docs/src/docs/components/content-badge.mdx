@@ -82,40 +82,15 @@ export default Demo;`}
 
 ### Accent
 
+`accentColor` 로 뱃지 색상을 수정합니다.
+
 <Demo code={`import { ContentBadge, FlexBox, Typography } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="24px">
       <FlexBox flexDirection="column" gap="12px">
-        <Typography>기존, solid</Typography>
-        <FlexBox gap="8px">
-          <ContentBadge color="accent" accentColor="semantic.accent.background.redOrange">
-            원티드
-          </ContentBadge>
-          <ContentBadge color="accent" accentColor="semantic.accent.background.lime">
-            원티드
-          </ContentBadge>
-          <ContentBadge color="accent" accentColor="semantic.accent.background.cyan">
-            원티드
-          </ContentBadge>
-          <ContentBadge color="accent" accentColor="semantic.accent.background.lightBlue">
-            원티드
-          </ContentBadge>
-          <ContentBadge color="accent" accentColor="semantic.accent.background.violet">
-            원티드
-          </ContentBadge>
-          <ContentBadge color="accent" accentColor="semantic.accent.background.purple">
-            원티드
-          </ContentBadge>
-          <ContentBadge color="accent" accentColor="semantic.accent.background.pink">
-            원티드
-          </ContentBadge>
-        </FlexBox>
-      </FlexBox>
-
-      <FlexBox flexDirection="column" gap="12px">
-        <Typography>수정, solid</Typography>
+        <Typography>solid</Typography>
         <FlexBox gap="8px">
           <ContentBadge color="accent" accentColor="semantic.accent.foreground.red">
             원티드
@@ -154,34 +129,7 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox flexDirection="column" gap="12px">
-        <Typography>기존, outlined</Typography>
-        <FlexBox gap="8px">
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.redOrange">
-            원티드
-          </ContentBadge>
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.lime">
-            원티드
-          </ContentBadge>
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.cyan">
-            원티드
-          </ContentBadge>
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.lightBlue">
-            원티드
-          </ContentBadge>
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.violet">
-            원티드
-          </ContentBadge>
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.purple">
-            원티드
-          </ContentBadge>
-          <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.background.pink">
-            원티드
-          </ContentBadge>
-        </FlexBox>
-      </FlexBox>
-
-      <FlexBox flexDirection="column" gap="12px">
-        <Typography>수정, outlined</Typography>
+        <Typography>outlined</Typography>
         <FlexBox gap="8px">
           <ContentBadge variant="outlined" color="accent" accentColor="semantic.accent.foreground.red">
             원티드
