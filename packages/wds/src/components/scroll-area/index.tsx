@@ -29,6 +29,7 @@ const ScrollArea = forwardRef<
       scrollbars = 'both',
       type = 'hover',
       viewportProps = {},
+      scrollHideDelay = 400,
       zIndex,
       ...props
     },
@@ -76,6 +77,7 @@ const ScrollArea = forwardRef<
         as={ScrollAreaPrimitive.Root}
         ref={ref}
         type={type}
+        scrollHideDelay={scrollHideDelay}
         {...props}
         sx={[scrollAreaStyle, props.sx]}
       >
