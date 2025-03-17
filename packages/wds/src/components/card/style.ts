@@ -149,7 +149,7 @@ export const cardThumbnailContentWrapperStyle = (theme: Theme) => css`
 
   // overlay
   &::before {
-    ${gradient(theme.palette.static.black, 'bottom', '100%', 'mask')}
+    ${gradient(theme.semantic.static.black, 'bottom', '100%', 'mask')}
     content: '';
     position: absolute;
     top: 0;
@@ -163,12 +163,12 @@ export const cardThumbnailContentWrapperStyle = (theme: Theme) => css`
 `;
 
 export const cardThumbnailContentTextStyle = (theme: Theme) => css`
-  color: ${theme.palette.static.white};
+  color: ${theme.semantic.static.white};
 `;
 
 export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
   button[aria-pressed='false'] {
-    color: ${theme.palette.static.white};
+    color: ${theme.semantic.static.white};
   }
 `;
 

@@ -76,13 +76,13 @@ const paginationDotWrapperColorStyle = (
       return css`
         [data-role='pagination-dot-button'] {
           background-color: ${addOpacity(
-            theme.palette.label.normal,
+            theme.semantic.label.normal,
             theme.opacity[16],
           )};
           border: none;
 
           &[aria-current='page'] {
-            background-color: ${theme.palette.label.normal};
+            background-color: ${theme.semantic.label.normal};
           }
         }
       `;
@@ -90,7 +90,7 @@ const paginationDotWrapperColorStyle = (
       return css`
         [data-role='pagination-dot-button'] {
           background-color: ${addOpacity(
-            theme.palette.static.white,
+            theme.semantic.static.white,
             theme.opacity[52],
           )};
           position: relative;
@@ -106,11 +106,11 @@ const paginationDotWrapperColorStyle = (
             width: calc(100% + 2px);
             height: calc(100% + 2px);
             opacity: ${theme.opacity[52]};
-            border: 1px solid ${theme.palette.line.normal.neutral};
+            border: 1px solid ${theme.semantic.line.normal.neutral};
           }
 
           &[aria-current='page'] {
-            background-color: ${theme.palette.static.white};
+            background-color: ${theme.semantic.static.white};
             &::after {
               opacity: ${theme.opacity[100]};
             }

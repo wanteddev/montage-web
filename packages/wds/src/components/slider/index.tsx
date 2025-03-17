@@ -160,7 +160,9 @@ const Slider = forwardRef<
             variant="headline2"
             weight="bold"
             alignItems="center"
-            color={disabled ? 'palette.label.disable' : 'palette.label.normal'}
+            color={
+              disabled ? 'semantic.label.disable' : 'semantic.label.normal'
+            }
             sx={{ margin: '0 auto 32px auto' }}
           >
             {typeof title === 'function'
@@ -306,7 +308,9 @@ const Slider = forwardRef<
                     width: 'max-content',
                   }}
                   color={
-                    disabled ? 'palette.label.disable' : 'palette.label.normal'
+                    disabled
+                      ? 'semantic.label.disable'
+                      : 'semantic.label.normal'
                   }
                 >
                   {render}

@@ -23,7 +23,7 @@ export const toastIconComponent: {
     >
       <IconCircleCheckFill
         sx={(theme) => ({
-          color: theme.palette.green[60],
+          color: theme.atomic.green[60],
         })}
       />
     </FlexBox>
@@ -36,7 +36,7 @@ export const toastIconComponent: {
     >
       <IconTriangleExclamationFill
         sx={(theme) => ({
-          color: theme.palette.orange[60],
+          color: theme.atomic.orange[60],
         })}
       />
     </FlexBox>
@@ -49,7 +49,7 @@ export const toastIconComponent: {
     >
       <IconCircleExclamationFill
         sx={(theme) => ({
-          color: theme.palette.red[60],
+          color: theme.atomic.red[60],
         })}
       />
     </FlexBox>

@@ -39,7 +39,7 @@ const Sidebar = () => {
                   <Typography
                     variant="label2"
                     weight="medium"
-                    color="palette.label.neutral"
+                    color="semantic.label.neutral"
                     as="li"
                     key={id}
                     data-level={getLevel(nodeName)}

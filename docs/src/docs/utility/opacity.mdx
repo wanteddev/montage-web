@@ -18,7 +18,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const exampleStyle = (theme: Theme) => css`
   background-color: ${addOpacity(
-    theme.palette.label.normal,
+    theme.semantic.label.normal,
     theme.opacity[12],
   )};
 `;
@@ -28,7 +28,7 @@ export const exampleStyle = (theme: Theme) => css`
 
 ```css
 .wds-exampleStyle1 {
-  background-color: rgba(var(--theme-palette-label-normal-rgb), 0.12);
+  background-color: rgba(var(--theme-semantic-label-normal-rgb), 0.12);
 }
 ```
 

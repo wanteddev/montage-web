@@ -125,7 +125,7 @@ const skeletonVariantStyle = (
 
         & > span {
           display: inline-block;
-          background-color: ${color ?? theme.palette.fill.normal};
+          background-color: ${color ?? theme.semantic.fill.normal};
         }
       `;
     case 'rectangle':
@@ -133,7 +133,7 @@ const skeletonVariantStyle = (
         border-radius: ${radius};
 
         & > span {
-          background-color: ${color ?? theme.palette.fill.alternative};
+          background-color: ${color ?? theme.semantic.fill.alternative};
         }
       `;
     case 'circle':
@@ -141,7 +141,7 @@ const skeletonVariantStyle = (
         border-radius: 50%;
 
         & > span {
-          background-color: ${color ?? theme.palette.fill.normal};
+          background-color: ${color ?? theme.semantic.fill.normal};
         }
       `;
   }

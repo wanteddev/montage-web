@@ -57,14 +57,14 @@ export const progressListStyle = (theme: Theme) => css`
   flex: 1 1 0;
   height: 100%;
   position: relative;
-  background-color: ${theme.palette.fill.normal};
+  background-color: ${theme.semantic.fill.normal};
   overflow: hidden;
 
   &::after {
     content: '';
     width: 100%;
     height: 100%;
-    background-color: ${theme.palette.primary.normal};
+    background-color: ${theme.semantic.primary.normal};
     position: absolute;
     inset: 0 0 0 -100%;
   }

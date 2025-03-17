@@ -7,21 +7,21 @@ export const inlineCodeStyle = (theme: Theme) => css`
   border-radius: 4px;
   font-size: 90%;
   white-space: break-spaces;
-  color: ${theme.palette.primary.normal};
+  color: ${theme.semantic.primary.normal};
   background-color: ${addOpacity(
-    theme.palette.primary.normal,
+    theme.semantic.primary.normal,
     theme.opacity[16],
   )};
 `;
 
 export const codeBlockStyle = (theme: Theme) => css`
   width: 100%;
-  color: ${theme.palette.label.normal};
+  color: ${theme.semantic.label.normal};
   white-space: pre;
 
   .token.punctuation,
   .token.plain-text {
-    color: ${theme.palette.label.normal};
+    color: ${theme.semantic.label.normal};
   }
 
   .token.class-name,
@@ -33,18 +33,18 @@ export const codeBlockStyle = (theme: Theme) => css`
   .token.pseudo-class,
   .token.selector,
   .token.tag {
-    color: ${theme.palette.accent.lightBlue};
+    color: ${theme.semantic.accent.background.lightBlue};
   }
 
   .token.attr-value,
   .token.color,
   .token.imports .token.unit {
-    color: ${theme.palette.accent.cyan};
+    color: ${theme.semantic.accent.background.cyan};
   }
 
   .token.number,
   .token.string {
-    color: ${theme.palette.status.positive};
+    color: ${theme.semantic.status.positive};
   }
 
   .token.attr-name,
@@ -55,11 +55,11 @@ export const codeBlockStyle = (theme: Theme) => css`
   .token.operator,
   .token.rule,
   .token.variable {
-    color: ${theme.palette.status.negative};
+    color: ${theme.semantic.status.negative};
   }
 
   .token.comment {
-    color: ${theme.palette.label.alternative};
+    color: ${theme.semantic.label.alternative};
   }
 
   .token.atapply .token:not(.rule):not(.important) {
@@ -78,11 +78,11 @@ export const codeBlockStyle = (theme: Theme) => css`
   }
 
   .token.deleted:not(.prefix) {
-    color: ${theme.palette.status.negative};
+    color: ${theme.semantic.status.negative};
   }
 
   .token.inserted:not(.prefix) {
-    color: ${theme.palette.status.positive};
+    color: ${theme.semantic.status.positive};
   }
 
   .token.deleted.prefix,

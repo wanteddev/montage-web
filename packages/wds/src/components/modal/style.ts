@@ -19,7 +19,7 @@ export const modalDimmerStyle =
     position: fixed;
     inset: 0;
     z-index: -1;
-    background-color: ${theme.palette.material.dimmer};
+    background-color: ${theme.semantic.material.dimmer};
     opacity: 1;
 
     &[data-visibility='visible'] {
@@ -151,7 +151,7 @@ export const modalContainerStyle =
     flex-direction: column;
     justify-content: space-between;
     outline: none;
-    background-color: ${theme.palette.background.elevated.normal};
+    background-color: ${theme.semantic.background.elevated.normal};
 
     [wds-component='top-navigation'] {
       z-index: 5;
@@ -437,7 +437,7 @@ const modalContainerVariant = (
         }
 
         &[data-status='open'][data-visibility='hidden'] {
-          box-shadow: ${theme.palette.elevation.shadow.strong};
+          box-shadow: ${theme.semantic.elevation.shadow.strong};
           transition:
             transform 200ms ease,
             box-shadow 200ms ease;
@@ -506,7 +506,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
     height: 5px;
     margin: 0 auto;
     display: block;
-    background-color: ${theme.palette.fill.strong};
+    background-color: ${theme.semantic.fill.strong};
   }
 `;
 

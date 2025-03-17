@@ -163,7 +163,7 @@ const TooltipContent = forwardRef<
 
     const theme = useTheme();
 
-    const overlay = addOpacity(theme.palette.primary.normal, theme.opacity[5]);
+    const overlay = addOpacity(theme.semantic.primary.normal, theme.opacity[5]);
 
     return !hasExited ? (
       <Wrapper>

@@ -6,7 +6,7 @@ import type { Theme } from '@wanteddev/wds-engine';
 
 export const dateCalendarStyle = (theme: Theme) => css`
   width: 276px;
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
 `;
 
 export const stickyDateCalendarStyle = (theme: Theme) => css`
@@ -14,7 +14,7 @@ export const stickyDateCalendarStyle = (theme: Theme) => css`
   z-index: 10;
   position: sticky;
   background: ${addOpacity(
-    theme.palette.background.elevated.normal,
+    theme.semantic.background.elevated.normal,
     theme.opacity[88],
   )};
   backdrop-filter: blur(32px);
@@ -34,7 +34,7 @@ export const weekdayCellStyle = css`
 `;
 
 export const dateCalendarHeaderLabelButtonStyle = (theme: Theme) => css`
-  color: ${theme.palette.label.normal};
+  color: ${theme.semantic.label.normal};
   padding-top: 0px;
   padding-bottom: 0px;
 
@@ -64,7 +64,7 @@ export const dateYearMonthWrapperStyle = css`
 `;
 
 export const dayItemButtonStyle = (theme: Theme) => css`
-  color: ${theme.palette.label.normal};
+  color: ${theme.semantic.label.normal};
   border: none;
   border-radius: 10000px;
   padding: 7px 0px;
@@ -75,47 +75,47 @@ export const dayItemButtonStyle = (theme: Theme) => css`
 
   &:disabled {
     cursor: initial;
-    color: ${theme.palette.label.assistive};
+    color: ${theme.semantic.label.assistive};
   }
 
   &[data-other-month='true'] {
-    color: ${theme.palette.label.assistive};
+    color: ${theme.semantic.label.assistive};
   }
 
   &[aria-current='date'] {
-    color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.primary.normal};
     background-color: ${addOpacity(
-      theme.palette.primary.normal,
+      theme.semantic.primary.normal,
       theme.opacity[8],
     )};
 
     &:disabled,
     &[data-other-month='true'] {
-      color: ${theme.palette.label.disable};
+      color: ${theme.semantic.label.disable};
       background-color: ${addOpacity(
-        theme.palette.primary.normal,
+        theme.semantic.primary.normal,
         theme.opacity[8],
       )};
     }
   }
 
   &[aria-selected='true'] {
-    color: ${theme.palette.static.white};
-    background-color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.static.white};
+    background-color: ${theme.semantic.primary.normal};
     &:disabled,
     &[data-other-month='true'] {
-      color: ${addOpacity(theme.palette.static.white, theme.opacity[43])};
-      background-color: ${theme.palette.primary.normal};
+      color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
+      background-color: ${theme.semantic.primary.normal};
     }
   }
 
   &[aria-checked='true'] {
-    color: ${theme.palette.static.white};
-    background-color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.static.white};
+    background-color: ${theme.semantic.primary.normal};
     &:disabled,
     &[data-other-month='true'] {
-      color: ${addOpacity(theme.palette.static.white, theme.opacity[43])};
-      background-color: ${theme.palette.primary.normal};
+      color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
+      background-color: ${theme.semantic.primary.normal};
     }
   }
 

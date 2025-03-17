@@ -41,7 +41,7 @@ const Demo = () => {
   const [active, setActive] = useState(false);
 
   return (
-    <ToggleIcon active={active} onActiveChange={setActive} activeColor="palette.status.negative">
+    <ToggleIcon active={active} onActiveChange={setActive} activeColor="semantic.status.negative">
       {active ? <IconHeartFill /> : <IconHeart />}
     </ToggleIcon>
   )

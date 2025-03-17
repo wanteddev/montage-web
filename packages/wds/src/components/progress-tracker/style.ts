@@ -52,8 +52,8 @@ export const progressTrackerItemDividerStyle =
   (isActive: boolean, direction: ProgressTrackerProps['direction']) =>
   (theme: Theme) => css`
     background-color: ${isActive
-      ? theme.palette.primary.normal
-      : theme.palette.line.normal.normal};
+      ? theme.semantic.primary.normal
+      : theme.semantic.line.normal.normal};
 
     ${direction === 'vertical'
       ? css`
@@ -74,8 +74,8 @@ export const progressTrackerItemContentStyle = css`
 
 export const progressCircleStyle =
   (isActive: boolean, completed: boolean) => (theme: Theme) => css`
-    background-color: ${theme.palette.fill.strong};
-    color: ${theme.palette.static.white};
+    background-color: ${theme.semantic.fill.strong};
+    color: ${theme.semantic.static.white};
     position: relative;
     width: 20px;
     height: 20px;
@@ -85,12 +85,12 @@ export const progressCircleStyle =
 
     [data-role='progress-tracker-item-step'] {
       text-shadow: 0px 0px 12px
-        ${addOpacity(theme.palette.static.black, theme.opacity[12])};
+        ${addOpacity(theme.semantic.static.black, theme.opacity[12])};
     }
 
     ${(isActive || completed) &&
     css`
-      background-color: ${theme.palette.primary.normal};
+      background-color: ${theme.semantic.primary.normal};
 
       [data-role='progress-tracker-item-step'] {
         text-shadow: none;

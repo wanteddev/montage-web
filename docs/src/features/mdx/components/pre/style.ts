@@ -5,10 +5,10 @@ import type { Theme } from '@wanteddev/wds';
 export const preWrapperStyle = (theme: Theme) => css`
   max-width: 100%;
   padding: 16px;
-  background-color: ${theme.palette.background.normal.normal};
+  background-color: ${theme.semantic.background.normal.normal};
   border-radius: 8px;
   position: relative;
-  border: 1px solid ${theme.palette.line.normal.normal};
+  border: 1px solid ${theme.semantic.line.normal.normal};
 
   & button {
     opacity: 0;

@@ -28,14 +28,14 @@ export const checkboxStyle =
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    color: ${theme.palette.static.white};
+    color: ${theme.semantic.static.white};
     border: none;
     box-shadow: none;
     cursor: pointer;
     border-radius: 5px;
 
     & ~ label {
-      color: ${theme.palette.label.normal};
+      color: ${theme.semantic.label.normal};
       cursor: pointer;
     }
 
@@ -50,25 +50,25 @@ export const checkboxStyle =
       justify-content: center;
       width: 100%;
       height: 100%;
-      background-color: ${theme.palette.background.normal.normal};
+      background-color: ${theme.semantic.background.normal.normal};
       border-radius: inherit;
-      box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
+      box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.normal.normal};
 
       // safari
       @supports (-webkit-backdrop-filter: none) {
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
 
         @media only screen and (-webkit-device-pixel-ratio: 2),
           only screen and (-moz-device-pixel-ratio: 2),
           only screen and (device-pixel-ratio: 2) {
-          box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.normal.normal};
         }
 
         @media only screen and (-webkit-device-pixel-ratio: 3),
           only screen and (-moz-device-pixel-ratio: 3),
           only screen and (device-pixel-ratio: 3) {
           box-shadow: inset 0 0 0 1.33333333px
-            ${theme.palette.line.normal.normal};
+            ${theme.semantic.line.normal.normal};
           transform: translate(0);
         }
       }
@@ -93,8 +93,8 @@ export const checkboxStyle =
     ${(checked || indeterminate) &&
     css`
       [data-role='checkbox-icon-wrapper'] {
-        box-shadow: inset 0 0 0 1.5px ${theme.palette.primary.normal};
-        background-color: ${theme.palette.primary.normal};
+        box-shadow: inset 0 0 0 1.5px ${theme.semantic.primary.normal};
+        background-color: ${theme.semantic.primary.normal};
 
         svg {
           opacity: 1;
@@ -113,7 +113,7 @@ export const checkboxStyle =
       }
 
       & ~ label {
-        color: ${theme.palette.label.disable};
+        color: ${theme.semantic.label.disable};
       }
     `}
 

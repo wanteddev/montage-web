@@ -330,7 +330,7 @@ const DateCalendar = forwardRef<
                       sx={weekdayCellStyle}
                       variant="caption2"
                       weight="medium"
-                      color="palette.label.alternative"
+                      color="semantic.label.alternative"
                       align="center"
                     >
                       {day.narrow}

@@ -97,7 +97,7 @@ const CardListContent = forwardRef(
             sx={(theme) => [
               cardListContentStyle,
               {
-                color: theme.palette.label.assistive,
+                color: theme.semantic.label.assistive,
               },
               sx,
             ]}

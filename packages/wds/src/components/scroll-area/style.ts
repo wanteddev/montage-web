@@ -146,7 +146,7 @@ export const scrollBarThumbStyle = (theme: Theme) => css`
   cursor: initial;
   position: relative;
   border-radius: 10px;
-  background-color: ${theme.palette.fill.strong};
+  background-color: ${theme.semantic.fill.strong};
   transition: background-color 0.2s ease;
   will-change: background-color;
 `;

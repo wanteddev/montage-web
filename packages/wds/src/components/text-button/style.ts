@@ -71,7 +71,7 @@ const getColorTheme = (
   switch (variant) {
     case 'primary':
       return css`
-        color: ${color ?? theme.palette.primary.normal};
+        color: ${color ?? theme.semantic.primary.normal};
         background-color: transparent;
         border: none;
         box-shadow: none;
@@ -82,7 +82,7 @@ const getColorTheme = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
         }
       `;
     case 'assistive':
@@ -90,15 +90,15 @@ const getColorTheme = (
         background-color: transparent;
         border: none;
         box-shadow: none;
-        color: ${color ?? theme.palette.label.alternative};
+        color: ${color ?? theme.semantic.label.alternative};
 
         [data-role='text-button-loading'] {
-          color: ${theme.palette.label.assistive};
+          color: ${theme.semantic.label.assistive};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
         }
       `;
   }

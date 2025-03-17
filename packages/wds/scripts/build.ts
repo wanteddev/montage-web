@@ -1,14 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import flattenDeep from 'lodash.flattendeep';
-import {
-  darkOriginTheme,
-  lightOriginTheme,
-  theme,
-} from '@wanteddev/wds-engine';
-
-console.log(theme.light);
+import { darkOriginTheme, lightOriginTheme } from '@wanteddev/wds-engine';
 
 import reset from './reset';
 
@@ -37,6 +30,10 @@ const hexToRgb = (hexColor: string) => {
 };
 
 const generateVariable = (token: string, value: string) => {
+  if (token.includes('platform')) {
+    return '';
+  }
+
   if (!isHexColor(value)) {
     return `--${token}: ${value};`;
   }
@@ -65,8 +62,14 @@ const objectToCssKey = <T extends object>(
     return objectToCssKey(v[1], `${prefix}-${v[0]}`);
   });
 
-const light = flattenDeep(objectToCssKey(lightOriginTheme.palette, 'palette'));
-const dark = flattenDeep(objectToCssKey(darkOriginTheme.palette, 'palette'));
+const light = [
+  ...objectToCssKey(lightOriginTheme.atomic, 'atomic'),
+  ...objectToCssKey(lightOriginTheme.semantic, 'semantic'),
+].flat(Infinity);
+const dark = [
+  ...objectToCssKey(darkOriginTheme.atomic, 'atomic'),
+  ...objectToCssKey(darkOriginTheme.semantic, 'semantic'),
+].flat(Infinity);
 
 const content = `:root {
   ${light.join('\n  ')}

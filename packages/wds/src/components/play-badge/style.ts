@@ -18,21 +18,21 @@ export const playBadgeStyle =
     ${alternative
       ? css`
           background-color: ${addOpacity(
-            theme.palette.coolNeutral[30],
+            theme.atomic.coolNeutral[30],
             theme.opacity[61],
           )};
         `
       : css`
           backdrop-filter: blur(32px);
           background-color: ${addOpacity(
-            theme.palette.coolNeutral[40],
+            theme.atomic.coolNeutral[40],
             theme.opacity[28],
           )};
         `}
 
     svg {
       position: relative;
-      color: ${addOpacity(theme.palette.static.white, theme.opacity[88])};
+      color: ${addOpacity(theme.semantic.static.white, theme.opacity[88])};
     }
 
     ${createResponsiveStyle(

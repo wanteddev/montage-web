@@ -46,7 +46,7 @@ export const toastCircleIconWrapperStyle = (theme: Theme) => css`
     top: 50%;
     border-radius: 999px;
     transform: translate(-50%, -50%);
-    background-color: ${theme.palette.static.white};
+    background-color: ${theme.semantic.static.white};
   }
 `;
 
@@ -55,7 +55,7 @@ export const firstOverlayStyle = (theme: Theme) => css`
   height: 100%;
   position: absolute;
   background-color: ${addOpacity(
-    theme.palette.inverse.background,
+    theme.semantic.inverse.background,
     theme.opacity[52],
   )};
   inset: 0;
@@ -66,7 +66,7 @@ export const secondOverlayStyle = (theme: Theme) => css`
   height: 100%;
   position: absolute;
   background-color: ${addOpacity(
-    theme.palette.primary.normal,
+    theme.semantic.primary.normal,
     theme.opacity[5],
   )};
   inset: 0;
@@ -77,10 +77,10 @@ export const messageStyle = css`
 `;
 
 export const snackbarActionStyle = (theme: Theme) => css`
-  color: ${theme.palette.static.white};
+  color: ${theme.semantic.static.white};
 
   & [wds-component='with-interaction'] {
-    background-color: ${theme.palette.background.normal.normal};
+    background-color: ${theme.semantic.background.normal.normal};
   }
 `;
 

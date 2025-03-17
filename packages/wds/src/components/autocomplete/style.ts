@@ -6,13 +6,13 @@ import type { Theme } from '@wanteddev/wds-engine';
 
 export const autocompleteListStyle = (theme: Theme) => css`
   padding: 0px;
-  box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
+  box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.semantic.static.black, 0.04)};
   border-radius: 16px;
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
 `;
 
 export const autocompleteScrollAreaStyle = (theme: Theme) => css`
-  border: 1px solid ${theme.palette.line.solid.neutral};
+  border: 1px solid ${theme.semantic.line.solid.neutral};
   border-radius: 16px;
   min-width: 140px;
   height: auto;
@@ -33,7 +33,7 @@ export const autocompleteGroupTitleStyle = (theme: Theme) => css`
   padding: 4px 20px;
   z-index: 10;
   margin: auto auto auto 0;
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
 `;
 
 export const autocompleteOptionStyle = (theme: Theme) => css`
@@ -45,7 +45,7 @@ export const autocompleteOptionStyle = (theme: Theme) => css`
   }
 
   [data-role='autocomplete-option-active-icon-check'] {
-    color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.primary.normal};
   }
 
   &[data-focus='true'] > [wds-component='with-interaction'] {

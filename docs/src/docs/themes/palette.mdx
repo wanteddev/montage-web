@@ -34,7 +34,7 @@ const renderItem = (item, key) => {
           <FlexBox flexDirection="column" gap="4px" key={k} sx={{ width: '75px' }}>
             <FlexBox
               sx={theme => ({
-                border: \`1px solid \${theme.palette.line.normal.neutral}\`,
+                border: \`1px solid \${theme.semantic.line.normal.neutral}\`,
                 backgroundColor: v.toString().startsWith('#') ? v.toString() : undefined,
                 boxShadow: v.toString().startsWith('#') ? undefined : v.toString(),
                 height: '60px',
@@ -85,7 +85,7 @@ const Demo = () => {
     violet,
     purple,
     pink,
-  }))(lightOriginTheme.palette);
+  }))(lightOriginTheme.atomic);
 
   return (
     <FlexBox flexDirection="column" flex="1">
@@ -114,7 +114,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Sementic
+## Semantic
 
 <Demo 
   hideCode
@@ -140,7 +140,7 @@ const renderItem = (item, key) => {
           <FlexBox flexDirection="column" gap="4px" key={k} sx={{ width: '75px' }}>
             <FlexBox
               sx={theme => ({
-                border: \`1px solid \${theme.palette.line.normal.neutral}\`,
+                border: \`1px solid \${theme.semantic.line.normal.neutral}\`,
                 backgroundColor: v.toString().startsWith('#') ? v.toString() : undefined,
                 boxShadow: v.toString().startsWith('#') ? undefined : v.toString(),
                 height: '60px',
@@ -163,28 +163,12 @@ const renderItem = (item, key) => {
 const Demo = () => {
   const { theme } = useThemeControl();
 
-  const atomic = (({
-    common,
-    neutral,
-    coolNeutral,
-    blue,
-    red,
-    green,
-    orange,
-    redOrange,
-    lime,
-    cyan,
-    lightBlue,
-    violet,
-    purple,
-    pink,
-    ...props
-  }) => props)(theme === 'light' ? lightOriginTheme.palette : darkOriginTheme.palette);
+  const semantic = (theme === 'light' ? lightOriginTheme.semantic : darkOriginTheme.semantic);
 
   return (
     <FlexBox flexDirection="column" flex="1">
       <FlexBox flexDirection="column" gap="28px">
-        {Object.entries(atomic).map(([title, value]) => {
+        {Object.entries(semantic).map(([title, value]) => {
           return (
             <FlexBox key={title} flexDirection="column" gap="12px">
               <Typography variant="headline1" weight="bold">

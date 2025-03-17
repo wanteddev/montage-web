@@ -38,7 +38,7 @@ const Menu = () => {
               as="h4"
               variant="body1"
               weight="bold"
-              color="palette.label.normal"
+              color="semantic.label.normal"
             >
               {route.label}
             </Typography>
@@ -59,8 +59,8 @@ const Menu = () => {
                       weight={activeSlug === page.slug ? 'medium' : 'regular'}
                       color={
                         activeSlug === page.slug
-                          ? 'palette.primary.normal'
-                          : 'palette.label.normal'
+                          ? 'semantic.primary.normal'
+                          : 'semantic.label.normal'
                       }
                     >
                       {page.title}
@@ -69,7 +69,7 @@ const Menu = () => {
                     {page.stable && (
                       <ContentBadge
                         color="accent"
-                        accentColor="palette.status.positive"
+                        accentColor="semantic.status.positive"
                       >
                         Stable
                       </ContentBadge>
@@ -78,7 +78,7 @@ const Menu = () => {
                     {page.deprecated && (
                       <ContentBadge
                         color="accent"
-                        accentColor="palette.status.negative"
+                        accentColor="semantic.status.negative"
                       >
                         Deprecated
                       </ContentBadge>
@@ -87,7 +87,7 @@ const Menu = () => {
                     {page.alpha && (
                       <ContentBadge
                         color="accent"
-                        accentColor="palette.accent.redOrange"
+                        accentColor="semantic.accent.foreground.redOrange"
                       >
                         Alpha
                       </ContentBadge>

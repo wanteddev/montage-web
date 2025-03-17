@@ -78,7 +78,7 @@ const contentBadgeColorVariant = (
       `;
     case 'outlined':
       return css`
-        background-color: ${theme.palette.background.normal.normal};
+        background-color: ${theme.semantic.background.normal.normal};
         color: ${font};
         box-shadow: inset 0 0 0 1px ${border};
       `;
@@ -91,9 +91,9 @@ const contentBadgeColorStyle = (
 ) => {
   if (color === 'neutral') {
     return {
-      font: theme.palette.label.alternative,
-      background: theme.palette.fill.normal,
-      border: theme.palette.line.normal.normal,
+      font: theme.semantic.label.alternative,
+      background: theme.semantic.fill.normal,
+      border: theme.semantic.line.normal.normal,
     };
   }
 

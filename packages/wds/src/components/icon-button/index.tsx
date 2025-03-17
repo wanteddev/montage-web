@@ -22,7 +22,7 @@ const IconButton = forwardRef(
       disableInteraction = false,
       size,
       variant = 'normal',
-      interactionColor = 'palette.label.normal',
+      interactionColor = 'semantic.label.normal',
       alternative,
       color: originColor,
       children,
@@ -48,13 +48,13 @@ const IconButton = forwardRef(
 
       switch (variant) {
         case 'solid':
-          return 'palette.static.white';
+          return 'semantic.static.white';
         case 'background':
           return undefined;
         case 'normal':
-          return 'palette.label.normal';
+          return 'semantic.label.normal';
         default:
-          return 'palette.label.normal';
+          return 'semantic.label.normal';
       }
     }, [context, originColor, variant]);
 

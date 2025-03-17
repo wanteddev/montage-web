@@ -24,13 +24,13 @@ export const dialogWrapperStyle = (theme: Theme) => css`
 export const dialogDimmerStyle = (theme: Theme) => css`
   position: fixed;
   inset: 0;
-  background-color: ${theme.palette.material.dimmer};
+  background-color: ${theme.semantic.material.dimmer};
   opacity: ${theme.opacity[43]};
   z-index: -1;
 `;
 
 export const dialogContentStyle = (theme: Theme) => css`
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
   border-radius: 12px;
   min-width: 320px;
   max-width: 400px;

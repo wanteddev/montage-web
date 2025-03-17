@@ -25,7 +25,7 @@ export const radioStyle =
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    color: ${theme.palette.static.white};
+    color: ${theme.semantic.static.white};
     border: none;
     box-shadow: none;
     cursor: pointer;
@@ -36,8 +36,8 @@ export const radioStyle =
     }
 
     span {
-      background-color: ${theme.palette.background.normal.normal};
-      box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
+      background-color: ${theme.semantic.background.normal.normal};
+      box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.normal.normal};
       border-radius: inherit;
       display: flex;
       align-items: center;
@@ -46,19 +46,19 @@ export const radioStyle =
 
       // safari
       @supports (-webkit-backdrop-filter: none) {
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
 
         @media only screen and (-webkit-device-pixel-ratio: 2),
           only screen and (-moz-device-pixel-ratio: 2),
           only screen and (device-pixel-ratio: 2) {
-          box-shadow: inset 0 0 0 1.5px ${theme.palette.line.normal.normal};
+          box-shadow: inset 0 0 0 1.5px ${theme.semantic.line.normal.normal};
         }
 
         @media only screen and (-webkit-device-pixel-ratio: 3),
           only screen and (-moz-device-pixel-ratio: 3),
           only screen and (device-pixel-ratio: 3) {
           box-shadow: inset 0 0 0 1.33333333px
-            ${theme.palette.line.normal.normal};
+            ${theme.semantic.line.normal.normal};
           transform: translate(0);
         }
       }
@@ -74,8 +74,8 @@ export const radioStyle =
     css`
       span {
         box-shadow: none;
-        background-color: ${theme.palette.primary.normal};
-        color: ${theme.palette.static.white};
+        background-color: ${theme.semantic.primary.normal};
+        color: ${theme.semantic.static.white};
       }
     `}
 
@@ -89,7 +89,7 @@ export const radioStyle =
       }
 
       & ~ label {
-        color: ${theme.palette.label.disable};
+        color: ${theme.semantic.label.disable};
       }
     `}
 
@@ -121,7 +121,7 @@ const radioSizeStyle = (
 
         & ~ label {
           ${typographyStyle('body2', 'regular')}
-          color: ${theme.palette.label.normal};
+          color: ${theme.semantic.label.normal};
         }
 
         ${tight &&
@@ -146,7 +146,7 @@ const radioSizeStyle = (
 
         & ~ label {
           ${typographyStyle('label1', 'regular')}
-          color: ${theme.palette.label.normal};
+          color: ${theme.semantic.label.normal};
         }
 
         ${tight &&

@@ -38,7 +38,7 @@ export const paginationCounterStyle =
       ${alternative
         ? css`
             background-color: ${addOpacity(
-              theme.palette.coolNeutral[30],
+              theme.atomic.coolNeutral[30],
               theme.opacity[61],
             )};
           `
@@ -46,7 +46,7 @@ export const paginationCounterStyle =
             will-change: backdrop-filter;
             backdrop-filter: blur(32px) saturate(150%) brightness(150%);
             background-color: ${addOpacity(
-              theme.palette.static.white,
+              theme.semantic.static.white,
               theme.opacity[35],
             )};
 
@@ -65,30 +65,42 @@ export const paginationCounterStyle =
     ${alternative
       ? css`
           [data-role='pagination-counter-text'] {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[88])};
+            color: ${addOpacity(
+              theme.semantic.static.white,
+              theme.opacity[88],
+            )};
 
             &:first-of-type {
               text-shadow: 0px 0px 6px
-                ${addOpacity(theme.palette.static.black, theme.opacity[8])};
+                ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
             }
           }
 
           [data-role='pagination-counter-divider'] {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[52])};
+            color: ${addOpacity(
+              theme.semantic.static.white,
+              theme.opacity[52],
+            )};
           }
         `
       : css`
           [data-role='pagination-counter-text'] {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[88])};
+            color: ${addOpacity(
+              theme.semantic.static.white,
+              theme.opacity[88],
+            )};
 
             &:first-of-type {
               text-shadow: 0px 0px 6px
-                ${addOpacity(theme.palette.static.black, theme.opacity[8])};
+                ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
             }
           }
 
           [data-role='pagination-counter-divider'] {
-            color: ${addOpacity(theme.palette.static.white, theme.opacity[61])};
+            color: ${addOpacity(
+              theme.semantic.static.white,
+              theme.opacity[61],
+            )};
           }
         `}
 
@@ -140,7 +152,7 @@ export const backgroundBlendStyle = (theme: Theme) => css`
   position: absolute;
   content: '';
   background-color: ${addOpacity(
-    theme.palette.static.black,
+    theme.semantic.static.black,
     theme.opacity[28],
   )};
   width: 100%;

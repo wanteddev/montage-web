@@ -97,7 +97,7 @@ const FormMessage = forwardRef(
         id={formMessageId}
         variant="label2"
         weight="regular"
-        color="palette.label.alternative"
+        color="semantic.label.alternative"
         {...props}
       >
         {children}
@@ -126,7 +126,7 @@ const FormErrorMessage = forwardRef(
         id={formErrorMessageId}
         variant="label2"
         weight="regular"
-        color="palette.status.negative"
+        color="semantic.status.negative"
         {...props}
       >
         {children}

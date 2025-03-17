@@ -27,7 +27,7 @@ export const checkMarkStyle =
 
     [data-role='checkbox-icon-wrapper'] {
       background-color: transparent;
-      color: ${theme.palette.label.assistive};
+      color: ${theme.semantic.label.assistive};
       border-radius: 9999px;
       border: none;
       box-shadow: none;
@@ -36,7 +36,7 @@ export const checkMarkStyle =
     &[aria-checked='true'] {
       [data-role='checkbox-icon-wrapper'] {
         background-color: transparent;
-        color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.primary.normal};
         transform: none;
       }
     }

@@ -47,8 +47,8 @@ const Button = forwardRef(
 
     const interactionColor: ThemeColorsToken =
       color === 'primary' && variant === 'outlined'
-        ? 'palette.primary.normal'
-        : 'palette.label.normal';
+        ? 'semantic.primary.normal'
+        : 'semantic.label.normal';
 
     const getInteractionVariant = () => {
       switch (variant) {

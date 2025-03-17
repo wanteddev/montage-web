@@ -27,16 +27,16 @@ export const tooltipContentStyle = (theme: Theme) => css`
   padding: 10px;
   border-radius: inherit;
   background-color: ${addOpacity(
-    theme.palette.inverse.background,
+    theme.semantic.inverse.background,
     theme.opacity[88],
   )};
-  color: ${theme.palette.inverse.label};
+  color: ${theme.semantic.inverse.label};
   position: relative;
 
   &::before {
     border-radius: inherit;
     background-color: ${addOpacity(
-      theme.palette.primary.normal,
+      theme.semantic.primary.normal,
       theme.opacity[5],
     )};
     content: '';
@@ -46,16 +46,16 @@ export const tooltipContentStyle = (theme: Theme) => css`
 
   button {
     color: ${addOpacity(
-      theme.palette.inverse.label,
+      theme.semantic.inverse.label,
       theme.opacity[61],
     )} !important;
   }
 
   [wds-component='with-interaction'] {
-    background: ${theme.palette.inverse.label};
+    background: ${theme.semantic.inverse.label};
   }
 
   & [wds-component='popper-arrow'] {
-    color: ${addOpacity(theme.palette.inverse.background, theme.opacity[88])};
+    color: ${addOpacity(theme.semantic.inverse.background, theme.opacity[88])};
   }
 `;
