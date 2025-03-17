@@ -108,23 +108,12 @@ const avatarSizeStyle = (
         font-size: 37.4px;
 
         ${getBorderRadius(12)}
-
-        & + [data-role="avatar-button-push-badge"]:has([wds-component='push-badge'][data-variant='dot']) {
-          font-size: 8px;
-        }
       `;
     case 'large':
       return css`
         width: 48px;
         height: 48px;
         font-size: 32px;
-
-        &
-          + [data-role='avatar-button-push-badge']:has(
-            [wds-component='push-badge'][data-variant='dot']
-          ) {
-          font-size: 8px;
-        }
 
         ${getBorderRadius(10)}
       `;
@@ -134,13 +123,6 @@ const avatarSizeStyle = (
         height: 40px;
         font-size: 26.7px;
 
-        &
-          + [data-role='avatar-button-push-badge']:has(
-            [wds-component='push-badge'][data-variant='dot']
-          ) {
-          font-size: 6px;
-        }
-
         ${getBorderRadius(8)}
       `;
     case 'small':
@@ -149,13 +131,6 @@ const avatarSizeStyle = (
         height: 32px;
         font-size: 21.4px;
 
-        &
-          + [data-role='avatar-button-push-badge']:has(
-            [wds-component='push-badge'][data-variant='dot']
-          ) {
-          font-size: 4px;
-        }
-
         ${getBorderRadius(6)}
       `;
     case 'xsmall':
@@ -163,13 +138,6 @@ const avatarSizeStyle = (
         width: 24px;
         height: 24px;
         font-size: 16px;
-
-        &
-          + [data-role='avatar-button-push-badge']:has(
-            [wds-component='push-badge'][data-variant='dot']
-          ) {
-          font-size: 4px;
-        }
 
         ${getBorderRadius(6)}
       `;
