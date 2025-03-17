@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: 'https://wanteddev.github.io/wds',
+  siteUrl: 'https://montage.wanted.co.kr',
   generateRobotsTxt: false,
   output: 'export',
 };

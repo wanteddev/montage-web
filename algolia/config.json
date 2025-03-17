@@ -1,8 +1,8 @@
 {
   "index_name": "wds-docs",
-  "start_urls": ["https://wanteddev.github.io/wds"],
+  "start_urls": ["https://montage.wanted.co.kr/"],
   "stop_urls": [],
-  "sitemaps": ["https://wanteddev.github.io/wds/sitemap-0.xml"],
+  "sitemaps": ["https://montage.wanted.co.kr/sitemap.xml"],
   "selectors": {
     "lvl0": {
       "selector": "nav//ul[li//a/@data-active = 'true']//h4/text() | (//nav//ul//a[contains(@data-active, 'true')]/text())[last()]",
