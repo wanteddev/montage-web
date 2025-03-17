@@ -26,365 +26,235 @@ const WantedLogoGradient14Angular = {
 };
 
 const Logo = () => {
-  const ariaTitleId = useId();
-  const ariaDescId = useId();
-
-  const symbolMaskId = useId();
-  const gradientLinear1 = useId();
-  const gradientLinear2 = useId();
-  const gradientLinear3 = useId();
-  const gradientLinear4 = useId();
-  const gradientLinear5 = useId();
-  const gradientLinear6 = useId();
-  const gradientLinear7 = useId();
-  const gradientLinear8 = useId();
-  const gradientLinear9 = useId();
-  const gradientLinear10 = useId();
-
-  const gradientFallback1 = useId();
-  const gradientFallback2 = useId();
-  const gradientFallback3 = useId();
-  const gradientFallback4 = useId();
-  const gradientFallback5 = useId();
-
-  const mask1 = useId();
-  const mask2 = useId();
-  const mask3 = useId();
-  const mask4 = useId();
-  const mask5 = useId();
-  const mask6 = useId();
-  const mask7 = useId();
+  const idSuffix = useId();
 
   return (
-    <svg
-      viewBox="0 0 185 28"
-      role="img"
-      aria-labelledby={`${ariaTitleId} ${ariaDescId}`}
-    >
-      <title id={ariaTitleId}>원티드 디자인 시스템 로고</title>
-      <desc id={ariaDescId}>
-        심볼과 텍스트가 모두 있는 원티드 디자인 시스템 로고
-      </desc>
-      <g>
+    <svg width="112" height="32" viewBox="0 0 4744 1356">
+      <mask
+        id={`WantedLogoSymbolMask_${idSuffix}`}
+        style={{ maskType: 'alpha' }}
+        maskUnits="userSpaceOnUse"
+        x="38"
+        y="278"
+        width="1272"
+        height="869"
+      >
         <path
-          d="M62.7075 7.83152V9.64572H56.8287V12.2624H62.0446V14.0068H56.8287V17.0072C59.2622 16.9898 61.2073 16.9026 63.4227 16.5537L63.632 18.3504C61.1375 18.7168 58.8523 18.7865 55.9914 18.7865H54.6308V7.83152H62.7075Z"
-          fill="currentColor"
+          d="M480 1147C515 1147 546 1119 546 1075V735H451V994C451 1002 444 1004 439 999L185 748C179 741 182 735 191 735H819V640H111C66 640 38 671 38 707C38 724 45 742 62 759L427 1124C443 1141 462 1147 480 1147ZM1064 1131C1199 1131 1310 1020 1310 885C1310 750 1199 640 1064 640H914V735H1064C1145 735 1215 801 1215 885C1215 969 1146 1036 1064 1036C982 1036 914 967 914 885V360C914 313 878 278 832 278H534C486 278 451 314 451 361V640H546V384C546 378 550 373 556 373H808C814 373 819 378 819 384V885C819 1020 929 1131 1064 1131Z"
+          fill="#D9D9D9"
+        />
+      </mask>
+      <g mask={`url(#WantedLogoSymbolMask_${idSuffix})`}>
+        <rect x="117" y="630" width="330" height="116" fill="#216BFF" />
+        <path
+          d="M556 1075C556 1098.26 547.94 1119.37 533.3 1134.46C519.2 1148.99 500.27 1157 480 1157C456.71 1157 435.91 1148 419.82 1130.96L54.9301 766.07C37.3101 748.45 28.0001 728.03 28.0001 707C28.0001 685.97 36.0501 667 50.6601 652.82C65.8301 638.1 87.2601 630 111 630H196.19V745L441 986.92H556V1075Z"
+          fill={`url(#WantedLogoGradient0Linear_${idSuffix})`}
         />
         <path
-          d="M67.1034 6.52319V22.3975H64.8531V6.52319H67.1034Z"
-          fill="currentColor"
+          d="M441 996.5V361C441 307.98 480.98 268 534 268H556.18L556 1006.92L441 996.5Z"
+          fill={`url(#WantedLogoGradient1Linear_${idSuffix})`}
         />
-        <path
-          d="M101.803 6.52319V22.4324H99.5529V6.52319H101.803Z"
-          fill="currentColor"
-        />
-        <path
-          d="M97.1979 7.91874V9.73294H91.703V16.763C94.5464 16.7543 96.2908 16.6932 98.2969 16.3269L98.5063 18.1585C96.3083 18.5772 94.2847 18.647 90.8482 18.647H89.4701V7.91874H97.1979Z"
-          fill="currentColor"
-        />
-        <path
-          d="M113.62 17.2689C111.003 16.0652 109.712 13.2741 109.73 10.8494V9.8725H112.922V8.05829H104.13V9.8725H107.497V10.8494C107.479 13.466 106.154 16.4141 103.502 17.6527L104.793 19.4145C106.633 18.551 107.933 16.7717 108.648 14.6697C109.346 16.5798 110.611 18.2022 112.381 19.0133L113.62 17.2689Z"
-          fill="currentColor"
-        />
-        <path
-          d="M116.394 12.5764V6.52319H114.161V22.3975H116.394V14.4429H118.731V12.5764H116.394Z"
-          fill="currentColor"
-        />
-        <path
-          d="M148.808 17.0944C146.122 15.9606 144.796 13.0299 144.796 10.1167V7.74429H142.546V10.1167C142.528 13.2044 141.185 16.2397 138.411 17.4084L139.754 19.2575C141.691 18.3766 142.99 16.6496 143.714 14.5127C144.43 16.4752 145.686 18.0539 147.5 18.8738L148.808 17.0944Z"
-          fill="currentColor"
-        />
-        <path
-          d="M151.913 22.4324V6.52319H149.663V22.4324H151.913Z"
-          fill="currentColor"
-        />
-        <path
-          d="M176.017 7.46519V9.26195H172.092V10.5179H175.424V12.2275H172.092V13.6056C173.828 13.5794 175.093 13.5096 176.558 13.2741L176.785 15.0011C174.953 15.3151 173.436 15.3675 171.046 15.3675H169.964V7.46519H176.017Z"
-          fill="currentColor"
-        />
-        <path
-          d="M182.978 6.52319V15.9954H180.867V6.52319H182.978Z"
-          fill="currentColor"
-        />
-        <path
-          d="M179.82 6.76741V15.8908H177.71V12.1228H176.105V10.3435H177.71V6.76741H179.82Z"
-          fill="currentColor"
-        />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M182.978 16.6234V22.2231H172.145V16.6234H182.978ZM174.36 18.3679V20.4437H180.78V18.3679H174.36Z"
-          fill="currentColor"
-        />
-        <path
-          d="M162.334 8.61651C162.334 10.9366 164.393 13.4311 167.986 14.0417L167.009 15.8908C164.244 15.3413 162.186 13.7887 161.165 11.739C160.11 13.7713 158.052 15.3326 155.304 15.8908L154.345 14.0417C157.869 13.4137 159.944 10.9192 159.962 8.61651V7.46519H162.334V8.61651Z"
-          fill="currentColor"
-        />
-        <path
-          d="M168.51 18.6121V20.4437H153.978V18.6121H168.51Z"
-          fill="currentColor"
-        />
-        <path
-          d="M132.519 6.54066V17.9492H130.286V6.54066H132.519Z"
-          fill="currentColor"
-        />
-        <path
-          d="M132.938 20.3391V22.1184H121.878V16.7979H124.128V20.3391H132.938Z"
-          fill="currentColor"
-        />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M123.814 7.55243C126.256 7.55243 128.158 9.22709 128.158 11.5472C128.158 13.9196 126.256 15.5768 123.814 15.5768C121.372 15.5768 119.471 13.9196 119.471 11.5472C119.471 9.22709 121.372 7.55243 123.814 7.55243ZM123.814 9.48875C122.576 9.47131 121.634 10.2563 121.651 11.5472C121.634 12.8729 122.576 13.6405 123.814 13.6405C125.018 13.6405 125.96 12.8729 125.96 11.5472C125.96 10.2563 125.018 9.47131 123.814 9.48875Z"
-          fill="currentColor"
-        />
-        <path
-          d="M82.06 15.6466V13.8672H73.0239V9.64572H81.9379V7.84896H70.8259V15.6466H82.06Z"
-          fill="currentColor"
-        />
-        <path
-          d="M83.6475 20.4612V18.6295H69.1164V20.4612H83.6475Z"
-          fill="currentColor"
-        />
-        <path
-          d="M51.8503 18.5249V6.54066H49.6174V15.7513H46.5821V17.2689H49.6174V18.5249H51.8503Z"
-          fill="currentColor"
-        />
-        <path
-          d="M52.1992 22.1184V20.3391H42.5874V18.1586H44.8202V15.1407C46.1024 15.0448 47.402 14.8965 48.658 14.6872L48.5359 13.0997C45.1866 13.5184 41.2616 13.5533 38.3484 13.5707L38.6101 15.3326C39.8137 15.3326 41.1656 15.3239 42.5874 15.2628V17.3736H40.3719V22.1184H52.1992Z"
-          fill="currentColor"
-        />
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M47.4718 9.92486C47.4718 8.23276 45.8145 7.06399 43.5119 7.08144C41.1395 7.06399 39.5172 8.23276 39.5172 9.92486C39.5172 11.617 41.1569 12.7159 43.5119 12.7159C45.8145 12.7159 47.4718 11.617 47.4718 9.92486ZM41.6279 9.92486C41.6105 9.13986 42.378 8.70376 43.5119 8.70376C44.576 8.70376 45.3436 9.13986 45.361 9.92486C45.3436 10.6924 44.576 11.1111 43.5119 11.1111C42.378 11.1111 41.6105 10.6924 41.6279 9.92486Z"
-          fill="currentColor"
-        />
-      </g>
-
-      <g transform="translate(0,-3),scale(0.02552888449, 0.02503583692)">
         <mask
-          id={symbolMaskId}
+          id={`mask1_${idSuffix}`}
           style={{ maskType: 'alpha' }}
           maskUnits="userSpaceOnUse"
-          x="38"
-          y="278"
-          width="1272"
-          height="869"
+          x="441"
+          y="268"
+          width="110"
+          height="110"
         >
-          <path
-            d="M480 1147C515 1147 546 1119 546 1075V735H451V994C451 1002 444 1004 439 999L185 748C179 741 182 735 191 735H819V640H111C66 640 38 671 38 707C38 724 45 742 62 759L427 1124C443 1141 462 1147 480 1147ZM1064 1131C1199 1131 1310 1020 1310 885C1310 750 1199 640 1064 640H914V735H1064C1145 735 1215 801 1215 885C1215 969 1146 1036 1064 1036C982 1036 914 967 914 885V360C914 313 878 278 832 278H534C486 278 451 314 451 361V640H546V384C546 378 550 373 556 373H808C814 373 819 378 819 384V885C819 1020 929 1131 1064 1131Z"
-            fill="#D9D9D9"
-          />
+          <path d="M441 378H551V268H534C480.98 268 441 307.98 441 361V378Z" />
         </mask>
-        <g mask={`url(#${symbolMaskId})`}>
-          <rect x="117" y="630" width="330" height="116" fill="#216BFF" />
-          <path
-            d="M556 1075C556 1098.26 547.94 1119.37 533.3 1134.46C519.2 1148.99 500.27 1157 480 1157C456.71 1157 435.91 1148 419.82 1130.96L54.9301 766.07C37.3101 748.45 28.0001 728.03 28.0001 707C28.0001 685.97 36.0501 667 50.6601 652.82C65.8301 638.1 87.2601 630 111 630H196.19V745L441 986.92H556V1075Z"
-            fill={`url(#${gradientLinear1})`}
-          />
-          <path
-            d="M441 996.5V361C441 307.98 480.98 268 534 268H556.18L556 1006.92L441 996.5Z"
-            fill={`url(#${gradientLinear2})`}
-          />
-          <mask
-            id={mask1}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
+        <g mask={`url(#mask1_${idSuffix})`}>
+          <rect
             x="441"
             y="268"
-            width="110"
-            height="110"
-          >
-            <path d="M441 378H551V268H534C480.98 268 441 307.98 441 361V378Z" />
-          </mask>
-          <g mask={`url(#${mask1})`}>
-            <rect
-              x="441"
-              y="268"
-              width="220"
-              height="220"
-              fill={`url(#${gradientFallback1})`}
-            />
-            <foreignObject
-              x="441"
-              y="268"
-              width="220"
-              height="220"
-              style={WantedLogoGradient2Angular}
-            />
-          </g>
-          <mask
-            id={mask2}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
+            width="220"
+            height="220"
+            fill={`url(#WantedLogoGradientFallback1_${idSuffix})`}
+          />
+          <foreignObject
+            x="441"
+            y="268"
+            width="220"
+            height="220"
+            style={WantedLogoGradient2Angular}
+          />
+        </g>
+        <mask
+          id={`mask2_${idSuffix}`}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="28"
+          y="630"
+          width="158"
+          height="189"
+        >
+          <path d="M185.52 739.98L107.18 818.32L54.93 766.07C37.31 748.45 28 728.03 28 707C28 685.97 36.05 667 50.66 652.82C65.83 638.1 87.26 630 111 630H185.52V739.98Z" />
+        </mask>
+        <g mask={`url(#mask2_${idSuffix})`}>
+          <rect
             x="28"
-            y="630"
-            width="158"
-            height="189"
-          >
-            <path d="M185.52 739.98L107.18 818.32L54.93 766.07C37.31 748.45 28 728.03 28 707C28 685.97 36.05 667 50.66 652.82C65.83 638.1 87.26 630 111 630H185.52V739.98Z" />
-          </mask>
-          <g mask={`url(#${mask2})`}>
-            <rect
-              x="28"
-              y="582.5"
-              width="315"
-              height="315"
-              fill={`url(#${gradientFallback2})`}
-            />
-            <foreignObject
-              x="28"
-              y="582.5"
-              width="315"
-              height="315"
-              style={WantedLogoGradient3Angular}
-            />
-          </g>
-          <mask
-            id={mask3}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
-            x="367"
-            y="999"
-            width="190"
-            height="158"
-          >
-            <path d="M445.5 1000V999.86L556 1033.48V1074.99C556 1098.25 547.94 1119.36 533.3 1134.45C519.2 1148.98 500.27 1156.99 480 1156.99C456.71 1156.99 435.91 1147.99 419.82 1130.95L367.18 1078.32L445.5 1000Z" />
-          </mask>
-          <g mask={`url(#${mask3})`}>
-            <rect
-              x="288.5"
-              y="843"
-              width="314"
-              height="314"
-              fill={`url(#${gradientFallback3})`}
-            />
-            <foreignObject
-              x="288.5"
-              y="843"
-              width="314"
-              height="314"
-              style={WantedLogoGradient4Angular}
-            />
-          </g>
-          <path
-            d="M441 998.5L556 1033.5V950.34H441V998.5Z"
-            fill={`url(#${gradientLinear3})`}
+            y="582.5"
+            width="315"
+            height="315"
+            fill={`url(#WantedLogoGradientFallback2_${idSuffix})`}
           />
-          <path
-            d="M556 1058.5L441 998.5L441 961L556 1001L556 1058.5Z"
-            fill={`url(#${gradientLinear4})`}
+          <foreignObject
+            x="28"
+            y="582.5"
+            width="315"
+            height="315"
+            style={WantedLogoGradient3Angular}
           />
-          <path
-            d="M556 725H441V830.5H556V725Z"
-            fill={`url(#${gradientLinear5})`}
+        </g>
+        <mask
+          id={`mask3_${idSuffix}`}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="367"
+          y="999"
+          width="190"
+          height="158"
+        >
+          <path d="M445.5 1000V999.86L556 1033.48V1074.99C556 1098.25 547.94 1119.36 533.3 1134.45C519.2 1148.98 500.27 1156.99 480 1156.99C456.71 1156.99 435.91 1147.99 419.82 1130.95L367.18 1078.32L445.5 1000Z" />
+        </mask>
+        <g mask={`url(#mask3_${idSuffix})`}>
+          <rect
+            x="288.5"
+            y="843"
+            width="314"
+            height="314"
+            fill={`url(#WantedLogoGradientFallback3_${idSuffix})`}
           />
-          <mask
-            id={mask4}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
+          <foreignObject
+            x="288.5"
+            y="843"
+            width="314"
+            height="314"
+            style={WantedLogoGradient4Angular}
+          />
+        </g>
+        <path
+          d="M441 998.5L556 1033.5V950.34H441V998.5Z"
+          fill={`url(#WantedLogoGradient5Linear_${idSuffix})`}
+        />
+        <path
+          d="M556 1058.5L441 998.5L441 961L556 1001L556 1058.5Z"
+          fill={`url(#WantedLogoGradient6Linear_${idSuffix})`}
+        />
+        <path
+          d="M556 725H441V830.5H556V725Z"
+          fill={`url(#WantedLogoGradient7Linear_${idSuffix})`}
+        />
+        <mask
+          id={`mask4_${idSuffix}`}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="809"
+          y="630"
+          width="511"
+          height="511"
+        >
+          <path d="M965.35 984.2C938.692 957.292 924.003 922.066 924 885V871H809V885C809 953.02 835.55 1017.18 883.78 1065.68C932.09 1114.25 996.03 1141 1064 1141C1131.97 1141 1196.14 1114.26 1244.7 1065.7C1293.26 1017.14 1320 952.92 1320 885C1320 817.08 1293.25 753.08 1244.68 704.78C1196.18 656.56 1132.01 630 1064 630H900V744.99H1064C1100.95 744.99 1136.07 759.43 1162.89 785.64C1190.04 812.19 1205 847.47 1205 884.99C1205 961.42 1140.43 1025.99 1064 1025.99C1027.09 1025.99 992.05 1011.15 965.35 984.2Z" />
+        </mask>
+        <g mask={`url(#mask4_${idSuffix})`}>
+          <rect
             x="809"
             y="630"
             width="511"
             height="511"
-          >
-            <path d="M965.35 984.2C938.692 957.292 924.003 922.066 924 885V871H809V885C809 953.02 835.55 1017.18 883.78 1065.68C932.09 1114.25 996.03 1141 1064 1141C1131.97 1141 1196.14 1114.26 1244.7 1065.7C1293.26 1017.14 1320 952.92 1320 885C1320 817.08 1293.25 753.08 1244.68 704.78C1196.18 656.56 1132.01 630 1064 630H900V744.99H1064C1100.95 744.99 1136.07 759.43 1162.89 785.64C1190.04 812.19 1205 847.47 1205 884.99C1205 961.42 1140.43 1025.99 1064 1025.99C1027.09 1025.99 992.05 1011.15 965.35 984.2Z" />
-          </mask>
-          <g mask={`url(#${mask4})`}>
-            <rect
-              x="809"
-              y="630"
-              width="511"
-              height="511"
-              fill={`url(#${gradientFallback4})`}
-            />
-            <foreignObject
-              x="809"
-              y="630"
-              width="511"
-              height="511"
-              style={WantedLogoGradient8Angular}
-            />
-          </g>
-          <rect x="809" y="739" width="115" height="132" fill="#FF8EBD" />
-          <mask
-            id={mask5}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
-            x="28"
+            fill={`url(#WantedLogoGradientFallback4_${idSuffix})`}
+          />
+          <foreignObject
+            x="809"
             y="630"
-            width="1292"
-            height="512"
-          >
-            <path d="M924 884.99C924 922.06 938.69 957.29 965.35 984.2C992.05 1011.15 1027.09 1025.99 1064 1025.99C1140.43 1025.99 1205 961.42 1205 884.99C1205 847.47 1190.04 812.19 1162.89 785.64C1136.07 759.43 1100.95 744.99 1064 744.99H556V734.99H441V744.99H196.19L204.82 753.52L28.05 704.22C28.73 684.53 36.7 666.36 50.66 652.82C65.83 638.1 87.26 630 111 630H441V640H556V630H1064C1132.01 630 1196.18 656.56 1244.68 704.78C1293.25 753.08 1320 817.08 1320 885C1320 952.92 1293.26 1017.14 1244.7 1065.7C1196.14 1114.26 1131.97 1141 1064 1141C996.03 1141 932.09 1114.25 883.78 1065.68C835.55 1017.18 809 953.02 809 885H924V884.99Z" />
-          </mask>
-          <g mask={`url(#${mask5})`}>
-            <path
-              d="M1064 630H176.19L186 745H1064V630Z"
-              fill={`url(#${gradientLinear6})`}
-            />
-          </g>
-          <path
-            d="M1011.5 745V630H904V745H1011.5Z"
-            fill={`url(#${gradientLinear7})`}
+            width="511"
+            height="511"
+            style={WantedLogoGradient8Angular}
           />
-          <mask
-            id={mask6}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
-            x="550"
-            y="268"
-            width="374"
-            height="617"
-          >
-            <path d="M809 885V745H819V630H809V384C809 383.52 808.48 383 808 383H550V268H832C857.02 268 880.2 277.33 897.29 294.27C914.51 311.35 924 334.69 924 360V630H914V745H924V885H809Z" />
-          </mask>
-          <g mask={`url(#${mask6})`}>
-            <path
-              d="M809 268V885H924V360C924 334.69 914.51 311.35 897.29 294.27C880.2 277.33 857.01 268 832 268H809Z"
-              fill={`url(#${gradientLinear8})`}
-            />
-          </g>
+        </g>
+        <rect x="809" y="739" width="115" height="132" fill="#FF8EBD" />
+        <mask
+          id={`mask5_${idSuffix}`}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="28"
+          y="630"
+          width="1292"
+          height="512"
+        >
+          <path d="M924 884.99C924 922.06 938.69 957.29 965.35 984.2C992.05 1011.15 1027.09 1025.99 1064 1025.99C1140.43 1025.99 1205 961.42 1205 884.99C1205 847.47 1190.04 812.19 1162.89 785.64C1136.07 759.43 1100.95 744.99 1064 744.99H556V734.99H441V744.99H196.19L204.82 753.52L28.05 704.22C28.73 684.53 36.7 666.36 50.66 652.82C65.83 638.1 87.26 630 111 630H441V640H556V630H1064C1132.01 630 1196.18 656.56 1244.68 704.78C1293.25 753.08 1320 817.08 1320 885C1320 952.92 1293.26 1017.14 1244.7 1065.7C1196.14 1114.26 1131.97 1141 1064 1141C996.03 1141 932.09 1114.25 883.78 1065.68C835.55 1017.18 809 953.02 809 885H924V884.99Z" />
+        </mask>
+        <g mask={`url(#mask5_${idSuffix})`}>
           <path
-            d="M815 268H550V384H815V268Z"
-            fill={`url(#${gradientLinear9})`}
+            d="M1064 630H176.19L186 745H1064V630Z"
+            fill={`url(#WantedLogoGradient9Linear_${idSuffix})`}
           />
-          <mask
-            id={mask7}
-            style={{ maskType: 'alpha' }}
-            maskUnits="userSpaceOnUse"
-            x="812"
-            y="268"
-            width="112"
-            height="111"
-          >
-            <path
-              d="M832 268H812.5V378.5H924V360C924 334.69 914.51 311.35 897.29 294.27C880.2 277.33 857.01 268 832 268Z"
-              fill={`url(#${gradientLinear10})`}
-            />
-          </mask>
-          <g mask={`url(#${mask7})`}>
-            <rect
-              x="691"
-              y="257"
-              width="243"
-              height="243"
-              fill={`url(#${gradientFallback5})`}
-            />
-            <foreignObject
-              x="691"
-              y="257"
-              width="243"
-              height="243"
-              style={WantedLogoGradient14Angular}
-            />
-          </g>
+        </g>
+        <path
+          d="M1011.5 745V630H904V745H1011.5Z"
+          fill={`url(#WantedLogoGradient10Linear_${idSuffix})`}
+        />
+        <mask
+          id={`mask6_${idSuffix}`}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="550"
+          y="268"
+          width="374"
+          height="617"
+        >
+          <path d="M809 885V745H819V630H809V384C809 383.52 808.48 383 808 383H550V268H832C857.02 268 880.2 277.33 897.29 294.27C914.51 311.35 924 334.69 924 360V630H914V745H924V885H809Z" />
+        </mask>
+        <g mask={`url(#mask6_${idSuffix})`}>
+          <path
+            d="M809 268V885H924V360C924 334.69 914.51 311.35 897.29 294.27C880.2 277.33 857.01 268 832 268H809Z"
+            fill={`url(#WantedLogoGradient11Linear_${idSuffix})`}
+          />
+        </g>
+        <path
+          d="M815 268H550V384H815V268Z"
+          fill={`url(#WantedLogoGradient12Linear_${idSuffix})`}
+        />
+        <mask
+          id={`mask7_${idSuffix}`}
+          style={{ maskType: 'alpha' }}
+          maskUnits="userSpaceOnUse"
+          x="812"
+          y="268"
+          width="112"
+          height="111"
+        >
+          <path
+            d="M832 268H812.5V378.5H924V360C924 334.69 914.51 311.35 897.29 294.27C880.2 277.33 857.01 268 832 268Z"
+            fill={`url(#WantedLogoGradient13Linear_${idSuffix})`}
+          />
+        </mask>
+        <g mask={`url(#mask7_${idSuffix})`}>
+          <rect
+            x="691"
+            y="257"
+            width="243"
+            height="243"
+            fill={`url(#WantedLogoGradientFallback5_${idSuffix})`}
+          />
+          <foreignObject
+            x="691"
+            y="257"
+            width="243"
+            height="243"
+            style={WantedLogoGradient14Angular}
+          />
         </g>
       </g>
+      <path
+        fill="currentColor"
+        d="M4424 1008C4487 1008 4540 981 4569 939V998H4673V278H4569V552C4540 513 4486 488 4423 488C4278 488 4167 605 4167 748C4167 891 4279 1008 4424 1008ZM4424 908C4339 908 4269 835 4269 748C4269 661 4339 588 4424 588C4509 588 4579 661 4579 748C4579 835 4509 908 4424 908ZM3729 706C3733 642 3796 581 3874 581C3952 581 4011 642 4015 706H3729ZM3883 1008C3984 1008 4072 950 4108 870L4025 842C4001 885 3945 915 3884 915C3796 915 3733 861 3729 788H4114C4134 620 4033 488 3883 488C3733 488 3627 595 3627 748C3627 901 3732 1008 3883 1008ZM3510 1007C3541 1007 3572 1000 3592 989V898C3568 910 3547 915 3533 915C3493 915 3473 891 3473 842V580H3592V498H3473V398H3369V498H3289V580H3369V846C3369 947 3421 1007 3510 1007ZM2797 998H2901V714C2901 627 2950 578 3021 578C3092 578 3140 627 3140 714V998H3244V708C3244 567 3179 488 3053 488C2986 488 2926 515 2901 562V498H2797V998ZM2458 908C2373 908 2303 835 2303 748C2303 661 2373 588 2458 588C2543 588 2613 661 2613 748C2613 835 2543 908 2458 908ZM2458 1008C2521 1008 2574 981 2603 939V998H2707V498H2603V552C2574 513 2520 488 2457 488C2312 488 2201 605 2201 748C2201 891 2313 1008 2458 1008ZM1636 998H1735L1828 718L1921 998H2020L2196 498H2087L1972 850L1867 498H1789L1684 850L1569 498H1460L1636 998Z"
+      />
       <defs>
         <linearGradient
-          id={gradientLinear1}
+          id={`WantedLogoGradient0Linear_${idSuffix}`}
           x1="27.7716"
           y1="630.227"
           x2="555.522"
@@ -399,7 +269,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#0084FF" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear2}
+          id={`WantedLogoGradient1Linear_${idSuffix}`}
           x1="498.59"
           y1="268"
           x2="498.59"
@@ -412,7 +282,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#0092FF" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear3}
+          id={`WantedLogoGradient5Linear_${idSuffix}`}
           x1="498.5"
           y1="950.34"
           x2="498.5"
@@ -424,7 +294,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#0092FF" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear4}
+          id={`WantedLogoGradient6Linear_${idSuffix}`}
           x1="510.338"
           y1="982.668"
           x2="496.815"
@@ -438,7 +308,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#0090FF" stopOpacity="0" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear5}
+          id={`WantedLogoGradient7Linear_${idSuffix}`}
           x1="498.5"
           y1="735.78"
           x2="498.5"
@@ -449,7 +319,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#67B8FF" stopOpacity="0" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear6}
+          id={`WantedLogoGradient9Linear_${idSuffix}`}
           x1="176"
           y1="688"
           x2="1064"
@@ -469,7 +339,7 @@ const Logo = () => {
           <stop offset="0.999838" stopColor="#FF5A00" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear7}
+          id={`WantedLogoGradient10Linear_${idSuffix}`}
           x1="914.8"
           y1="687.5"
           x2="1006.4"
@@ -480,7 +350,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#FF5534" stopOpacity="0" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear8}
+          id={`WantedLogoGradient11Linear_${idSuffix}`}
           x1="866.5"
           y1="268"
           x2="866.5"
@@ -495,7 +365,7 @@ const Logo = () => {
           <stop offset="0.999848" stopColor="#FF8EBD" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear9}
+          id={`WantedLogoGradient12Linear_${idSuffix}`}
           x1="550"
           y1="326"
           x2="812.5"
@@ -506,7 +376,7 @@ const Logo = () => {
           <stop offset="1" stopColor="#6DB1FF" />
         </linearGradient>
         <linearGradient
-          id={gradientLinear10}
+          id={`WantedLogoGradient13Linear_${idSuffix}`}
           x1="869.5"
           y1="257"
           x2="869.5"
@@ -521,7 +391,7 @@ const Logo = () => {
           <stop offset="0.999848" stopColor="#FF8EBD" />
         </linearGradient>
         <radialGradient
-          id={gradientFallback1}
+          id={`WantedLogoGradientFallback1_${idSuffix}`}
           fx="0%"
           fy="50%"
           cx="0%"
@@ -532,7 +402,7 @@ const Logo = () => {
           <stop offset="100%" stopColor="#2AB8FF" />
         </radialGradient>
         <radialGradient
-          id={gradientFallback2}
+          id={`WantedLogoGradientFallback2_${idSuffix}`}
           fx="40%"
           fy="60%"
           cx="30%"
@@ -543,7 +413,7 @@ const Logo = () => {
           <stop offset="100%" stopColor="#717EFF" />
         </radialGradient>
         <radialGradient
-          id={gradientFallback3}
+          id={`WantedLogoGradientFallback3_${idSuffix}`}
           fx="40%"
           fy="65%"
           cx="30%"
@@ -554,7 +424,7 @@ const Logo = () => {
           <stop offset="100%" stopColor="#0096FF" />
         </radialGradient>
         <radialGradient
-          id={gradientFallback4}
+          id={`WantedLogoGradientFallback4_${idSuffix}`}
           fx="50%"
           fy="0%"
           cx="100%"
@@ -565,7 +435,7 @@ const Logo = () => {
           <stop offset="100%" stopColor="#FF8EBD" />
         </radialGradient>
         <radialGradient
-          id={gradientFallback5}
+          id={`WantedLogoGradientFallback5_${idSuffix}`}
           fx="25%"
           fy="55%"
           cx="25%"

@@ -20,6 +20,10 @@ const nextConfig = {
   transpilePackages: ['next-mdx-remote'],
   env: {
     APP_BUILD_ID: commitHash,
+    NEXT_PUBLIC_BASE_PATH: 'https://montage.wanted.co.kr',
+  },
+  images: {
+    unoptimized: true,
   },
 };
 

@@ -1,0 +1,21 @@
+{
+  "index_name": "montage-code",
+  "start_urls": ["https://montage.wanted.co.kr/docs"],
+  "stop_urls": [],
+  "sitemaps": ["https://montage.wanted.co.kr/docs/sitemap.code.xml"],
+  "selectors": {
+    "lvl0": {
+      "selector": "nav//ul[li//a/@data-active = 'true']//h4/text() | (//nav//ul//a[contains(@data-active, 'true')]/text())[last()]",
+      "type": "xpath",
+      "global": true,
+      "default_value": "Documentation"
+    },
+    "lvl1": "[data-algolia-page-scope] h1",
+    "lvl2": "[data-algolia-page-scope] h2",
+    "lvl3": "[data-algolia-page-scope] h3",
+    "lvl4": "[data-algolia-page-scope] h4",
+    "text": "[data-algolia-page-scope] p, [data-algolia-page-scope] li"
+  },
+  "selectors_exclude": ["[data-algolia-exclude]", "style"],
+  "strip_chars": " .,;:#"
+}

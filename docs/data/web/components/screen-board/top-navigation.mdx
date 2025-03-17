@@ -1,0 +1,204 @@
+---
+title: Top Navigation
+description: Top Navigation Code Guide
+image: /design/components/screen-board/top-navigation/thumbnail.png
+---
+
+# Top Navigation
+
+<Description content={`화면 상단에 배치되며 스크롤 시 고정이 됩니다.
+주요 페이지로 이동하거나 이전 페이지로 돌아갈 수 있는 컨트롤러 입니다.`}
+/>
+
+## 활용
+
+- 애플리케이션과 웹에서 주요한 제어 영역을 구성할 때 사용합니다.
+- 내부 간격을 조정할 때는 `--wds-top-navigation-padding-x`, `--wds-top-navigation-padding-y` 을 사용해주세요.
+- 스크롤 여부에 따라 scrolled 옵션을 prop 으로 조정해요.
+- 모달 내부에서 사용할 경우에는 `ModalNavigation` 으로 사용해요.
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+} from '@wanteddev/wds';
+import { IconChevronLeft, IconClose } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <TopNavigation
+      leadingContent={(
+        <TopNavigationButton>
+          <IconChevronLeft />
+        </TopNavigationButton>
+      )}
+      trailingContent={(
+        <TopNavigationButton>
+          <IconClose />
+        </TopNavigationButton>
+      )}>
+      프로필
+    </TopNavigation>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### TopNavigation
+
+<PropsTable component="TopNavigation" />
+
+### TopNavigationButton
+
+<PropsTable component="TopNavigationButton" />
+
+## Examples
+
+### Icon Type Button
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  FlexBox,
+} from '@wanteddev/wds';
+import { IconChevronLeftThick, IconChevronLeft } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TopNavigation leadingContent={(
+        <TopNavigationButton>
+          <IconChevronLeft />
+        </TopNavigationButton>
+      )}>
+        Normal
+      </TopNavigation>
+
+      <TopNavigation variant="extended" leadingContent={(
+        <TopNavigationButton>
+          <IconChevronLeft />
+        </TopNavigationButton>
+      )}>
+        Extended
+      </TopNavigation>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation variant="floating" leadingContent={(
+          <TopNavigationButton>
+            <IconChevronLeftThick />
+          </TopNavigationButton>
+        )} />
+      </FlexBox>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation variant="floating" leadingContent={(
+          <TopNavigationButton background={false}>
+            <IconChevronLeft />
+          </TopNavigationButton>
+        )} />
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Text Type Button
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  FlexBox,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px">
+      <TopNavigation leadingContent={(
+        <TopNavigationButton variant="text">
+          뒤로
+        </TopNavigationButton>
+      )}>
+        Normal
+      </TopNavigation>
+
+      <TopNavigation variant="extended" leadingContent={(
+        <TopNavigationButton variant="text">
+          뒤로
+        </TopNavigationButton>
+      )}>
+        Extended
+      </TopNavigation>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation variant="floating" leadingContent={(
+          <TopNavigationButton variant="text">
+            뒤로
+          </TopNavigationButton>
+        )} />
+      </FlexBox>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation variant="floating" leadingContent={(
+          <TopNavigationButton variant="text" background={false}>
+            뒤로
+          </TopNavigationButton>
+        )} />
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Scrolled
+
+<Demo code={`import {
+  TopNavigation,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TopNavigation scrolled>
+      Scrolled
+    </TopNavigation>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Toolbar
+
+`Tab` 컴포넌트 등과 함께 조합할 수 있습니다.<br/>
+Background blur 효과를 함께 적용하기 위해 사용합니다.
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  Tab,
+  TabList,
+  TabListItem,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="">
+      <TopNavigation toolbar={(
+        <TabList horizontalPadding size="small">
+          <TabListItem value="">기본</TabListItem>
+          <TabListItem value="1">추가</TabListItem>
+        </TabList>
+      )}>
+        Normal
+      </TopNavigation>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>

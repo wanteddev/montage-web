@@ -1,17 +1,20 @@
-import { FallbackView, FallbackViewButton } from '@wanteddev/wds';
-import Link from 'next/link';
+'use client';
 
-import FullPageLayout from './full-page-layout';
+import { FlexBox } from '@wanteddev/wds';
+
+// import HomeIntro from '@/features/home/components/intro';
 
 const RootPage = () => {
   return (
-    <FullPageLayout>
-      <FallbackView platform="mobile" sm={{ platform: 'desktop' }}>
-        <FallbackViewButton as={Link} href="/docs/overview/getting-started">
-          문서 확인하기
-        </FallbackViewButton>
-      </FallbackView>
-    </FullPageLayout>
+    <FlexBox
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      gap="8px"
+      sx={{ marginTop: 'calc(var(--header-height) * -1)' }}
+    >
+      {/* <HomeIntro /> */}
+    </FlexBox>
   );
 };
 

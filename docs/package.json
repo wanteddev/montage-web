@@ -12,12 +12,14 @@
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@algolia/autocomplete-core": "^1.17.7",
     "@docsearch/react": "^3.6.0",
     "@tanstack/react-virtual": "^3.11.2",
     "@wanteddev/wds": "workspace:*",
     "@wanteddev/wds-icon": "workspace:*",
     "@wanteddev/wds-lottie": "workspace:*",
     "@wanteddev/wds-nextjs": "workspace:*",
+    "algoliasearch": "^5.15.0",
     "autosuggest-highlight": "^3.3.4",
     "copy-to-clipboard": "^3.3.3",
     "glob": "^10.3.10",

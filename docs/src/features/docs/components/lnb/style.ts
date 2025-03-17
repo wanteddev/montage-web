@@ -1,0 +1,21 @@
+import { css, respondTo } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const lnbWrapperStyle = (theme: Theme) => css`
+  width: 280px;
+  flex-shrink: 0;
+  margin-top: 40px;
+  top: calc(var(--header-height) + 40px);
+  border-radius: 20px;
+  position: sticky !important;
+  height: calc(100dvh - var(--header-height) - 40px);
+
+  [data-radix-scroll-area-content] {
+    padding: 0px 16px 16px 16px;
+  }
+
+  ${respondTo(theme.breakpoint.lg)} {
+    display: none;
+  }
+`;

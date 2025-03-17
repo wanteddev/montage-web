@@ -1,11 +1,12 @@
 import { notFound } from 'next/navigation';
 import { FlexBox } from '@wanteddev/wds';
 
-import { getAllFrontmatter, getSourceBySlug } from '@/lib/mdx';
-import { generatePropTypes } from '@/lib/props';
-import { MDXProvider } from '@/features/mdx/context';
-import MDX from '@/features/mdx/components/mdx';
-import SideBar from '@/features/sidebar/components/sidebar';
+import {
+  getAllFrontmatter,
+  getSourceBySlug,
+} from '@/features/docs/helpers/mdx';
+import SideBar from '@/features/docs/components/sidebar';
+import MDXRender from '@/features/docs/components/mdx/mdx-render';
 
 import type { Metadata } from 'next';
 
@@ -20,7 +21,7 @@ const isFileNotFoundError = (error: unknown) =>
   error instanceof Error && 'code' in error && error.code === 'ENOENT';
 
 export const generateStaticParams = async () => {
-  const frontmatter = await getAllFrontmatter('/');
+  const frontmatter = await getAllFrontmatter();
 
   return frontmatter;
 };
@@ -34,13 +35,25 @@ export const generateMetadata = async ({
     return {
       title: frontmatter.title + ' - WDS',
       description: frontmatter.description,
+      openGraph: {
+        type: 'website',
+        title: frontmatter.title + ' - WDS',
+        description: frontmatter.description,
+        ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: frontmatter.title + ' - WDS',
+        description: frontmatter.description,
+        ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
+      },
     };
   } catch (error) {
     if (isFileNotFoundError(error)) {
       notFound();
     }
 
-    throw error;
+    return {};
   }
 };
 
@@ -48,7 +61,6 @@ export const dynamic = 'force-static';
 
 const DocsPage = async ({ params }: Props) => {
   const source = await getSourceBySlug('/', parseSlug(params));
-  const propTypes = generatePropTypes();
 
   return (
     <>
@@ -66,9 +78,7 @@ const DocsPage = async ({ params }: Props) => {
           },
         }}
       >
-        <MDXProvider frontmatter={source.frontmatter} propTypes={propTypes}>
-          <MDX {...source} />
-        </MDXProvider>
+        <MDXRender {...source} />
       </FlexBox>
 
       <SideBar />
