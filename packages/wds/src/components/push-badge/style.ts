@@ -164,7 +164,7 @@ const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
         justify-content: center;
         flex-shrink: 0;
         align-items: center;
-        color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.primary.normal};
       `;
     case 'new':
     case 'number':
@@ -175,8 +175,8 @@ const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-        color: ${theme.palette.static.white};
-        background-color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.static.white};
+        background-color: ${theme.semantic.primary.normal};
         border-radius: 9999px;
 
         & > [data-role='push-badge-text'] {

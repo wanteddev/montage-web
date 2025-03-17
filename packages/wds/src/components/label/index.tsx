@@ -14,7 +14,7 @@ const Label = forwardRef<
     <Typography
       variant="label1"
       weight="bold"
-      color="palette.label.neutral"
+      color="semantic.label.neutral"
       as="label"
       ref={ref}
       display={display}
@@ -27,7 +27,7 @@ const Label = forwardRef<
           weight="medium"
           display="inline-block"
           sx={{ marginLeft: '4px' }}
-          color="palette.status.negative"
+          color="semantic.status.negative"
         >
           *
         </Typography>

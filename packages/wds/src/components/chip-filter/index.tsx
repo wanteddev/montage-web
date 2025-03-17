@@ -46,8 +46,8 @@ const ChipFilter = forwardRef(
       <WithInteraction
         color={
           active && variant === 'outlined'
-            ? 'palette.primary.normal'
-            : 'palette.label.normal'
+            ? 'semantic.primary.normal'
+            : 'semantic.label.normal'
         }
         disabled={disableInteraction || disabled}
       >

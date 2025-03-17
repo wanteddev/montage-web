@@ -116,7 +116,7 @@ const ScrollBar = forwardRef<
     sx={[scrollBarStyle({ orientation, size }), props.sx]}
   >
     <FlexBox data-role="scroll-area-bar-wrapper">
-      <WithInteraction color="palette.label.normal">
+      <WithInteraction color="semantic.label.normal">
         <Box
           as={ScrollAreaPrimitive.ScrollAreaThumb}
           sx={scrollBarThumbStyle}

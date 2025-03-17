@@ -9,7 +9,7 @@ export const switchStyle =
   ({ size, checked, disabled, xs, sm, md, lg, xl }: SwitchProps) =>
   (theme: Theme) => css`
     display: flex;
-    background-color: ${theme.palette.fill.strong};
+    background-color: ${theme.semantic.fill.strong};
     border: none;
     box-shadow: none;
     justify-content: center;
@@ -22,7 +22,7 @@ export const switchStyle =
       border-radius: 1000px;
       flex-shrink: 0;
       position: relative;
-      background-color: ${theme.palette.static.white};
+      background-color: ${theme.semantic.static.white};
       transition: transform 100ms;
     }
 
@@ -30,7 +30,7 @@ export const switchStyle =
 
     ${checked &&
     css`
-      background-color: ${theme.palette.primary.normal};
+      background-color: ${theme.semantic.primary.normal};
 
       span {
         transform: translateX(calc(100% - 4px));

@@ -18,7 +18,7 @@ export const tableStyle = (theme: Theme) => css`
 
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid ${theme.palette.line.normal.neutral};
+  border: 1px solid ${theme.semantic.line.normal.neutral};
 
   table {
     display: table;
@@ -60,7 +60,7 @@ export const tableHeadCellStyle = (theme: Theme) => css`
   vertical-align: middle;
   display: table-cell;
   border: none;
-  border-bottom: 1px solid ${theme.palette.line.normal.neutral};
+  border-bottom: 1px solid ${theme.semantic.line.normal.neutral};
 `;
 
 export const tableCellStyle = (theme: Theme) => css`
@@ -70,7 +70,7 @@ export const tableCellStyle = (theme: Theme) => css`
   display: table-cell;
   border: none;
   height: var(--wds-table-cell-min-height, 44px);
-  border-bottom: 1px solid ${theme.palette.line.normal.neutral};
+  border-bottom: 1px solid ${theme.semantic.line.normal.neutral};
 `;
 
 export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
@@ -91,7 +91,7 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
       pointer-events: none;
       width: 100%;
       height: 100%;
-      background-color: ${theme.palette.label.normal};
+      background-color: ${theme.semantic.label.normal};
       opacity: 0;
       transition:
         background ease 0.2s,
@@ -120,7 +120,7 @@ export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) => css`
 
   ${isSticky
     ? css`
-        ${theme.platform.ios.navigation}
+        ${theme.semantic.platform.ios.navigation}
 
         &::before {
           content: '';
@@ -129,11 +129,11 @@ export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) => css`
           inset: 0;
           z-index: -1;
           position: absolute;
-          background-color: ${theme.palette.fill.alternative};
+          background-color: ${theme.semantic.fill.alternative};
         }
       `
     : css`
-        background-color: ${theme.palette.fill.alternative};
+        background-color: ${theme.semantic.fill.alternative};
       `}
 `;
 
@@ -154,5 +154,5 @@ export const tableFootStyle = css`
 export const paginationWrapperStyle = (theme: Theme) => css`
   padding: var(--wds-table-cell-padding-y, 16px)
     var(--wds-table-cell-padding-x, 20px);
-  border-top: 1px solid ${theme.palette.line.normal.neutral};
+  border-top: 1px solid ${theme.semantic.line.normal.neutral};
 `;

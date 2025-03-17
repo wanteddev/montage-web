@@ -7,6 +7,6 @@ export const menuLinkStyle = (theme: Theme) => css`
   border-radius: 8px;
 
   &[data-active='true'] {
-    background-color: ${theme.palette.fill.strong};
+    background-color: ${theme.semantic.fill.strong};
   }
 `;

@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
   width: 100%;
-  color: ${theme.palette.label.normal};
+  color: ${theme.semantic.label.normal};
   ${typographyStyle('body1-reading', 'regular')}
 
   code,
@@ -20,7 +20,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
   p > a {
     text-decoration: underline;
-    color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.primary.normal};
   }
 
   img {
@@ -29,7 +29,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
   li > a {
     text-decoration: underline;
-    color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.primary.normal};
   }
 
   & > h1 {
@@ -48,7 +48,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     margin-top: 24px;
     margin-bottom: 16px;
     padding-bottom: 2px;
-    border-bottom: 1px solid ${theme.palette.line.normal.normal};
+    border-bottom: 1px solid ${theme.semantic.line.normal.normal};
   }
 
   ol:not([class]),
@@ -72,7 +72,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
   & > blockquote {
     margin-top: 24px;
-    border-left: 4px solid ${theme.palette.line.normal.normal};
+    border-left: 4px solid ${theme.semantic.line.normal.normal};
     padding-left: 12px;
     font-style: italic;
 
@@ -90,17 +90,17 @@ export const mdxRootStyle = (theme: Theme) => css`
     border-collapse: collapse;
     border-spacing: 0;
     th {
-      box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
-      color: ${theme.palette.label.strong};
-      background-color: ${theme.palette.background.elevated.alternative};
+      box-shadow: inset 0 -1px ${theme.semantic.line.normal.normal};
+      color: ${theme.semantic.label.strong};
+      background-color: ${theme.semantic.background.elevated.alternative};
       padding: 12px 16px;
       text-align: left;
       ${typographyStyle('body1-reading', 'bold')}
     }
     td {
       padding: 12px 16px;
-      color: ${theme.palette.label.normal};
-      box-shadow: inset 0 -1px ${theme.palette.line.normal.normal};
+      color: ${theme.semantic.label.normal};
+      box-shadow: inset 0 -1px ${theme.semantic.line.normal.normal};
       text-align: left;
       ${typographyStyle('body1-reading', 'regular')}
     }

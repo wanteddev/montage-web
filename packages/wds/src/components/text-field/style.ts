@@ -29,8 +29,8 @@ export const textFieldWrapperStyle =
     border-radius: 12px;
     border: none;
     box-shadow:
-      inset 0 0 0 1px ${theme.palette.line.normal.neutral},
-      0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
+      inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
+      0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
     background-color: transparent;
     width: ${width};
     height: ${height};
@@ -68,16 +68,16 @@ export const textFieldWrapperStyle =
     css`
       box-shadow:
         inset 0 0 0 1px
-          ${addOpacity(theme.palette.status.negative, theme.opacity[28])},
-        0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
+          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
+        0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
     `}
 
     ${disabled
       ? css`
-          background-color: ${theme.palette.interaction.disable};
+          background-color: ${theme.semantic.interaction.disable};
           box-shadow:
-            inset 0 0 0 1px ${theme.palette.line.normal.alternative},
-            0px 1px 2px 0px ${addOpacity(theme.palette.static.black, 0.03)};
+            inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
+            0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
           cursor: default;
         `
       : css`
@@ -94,21 +94,21 @@ export const textFieldWrapperStyle =
                     box-shadow:
                       inset 0 0 0 2px
                         ${addOpacity(
-                          theme.palette.status.negative,
+                          theme.semantic.status.negative,
                           theme.opacity[43],
                         )},
                       0px 1px 2px 0px
-                        ${addOpacity(theme.palette.static.black, 0.03)};
+                        ${addOpacity(theme.semantic.static.black, 0.03)};
                   `
                 : css`
                     box-shadow:
                       inset 0 0 0 2px
                         ${addOpacity(
-                          theme.palette.primary.normal,
+                          theme.semantic.primary.normal,
                           theme.opacity[43],
                         )},
                       0px 1px 2px 0px
-                        ${addOpacity(theme.palette.static.black, 0.03)};
+                        ${addOpacity(theme.semantic.static.black, 0.03)};
                   `}
 
               [data-role='text-field-invalid'],
@@ -145,21 +145,21 @@ export const textFieldWrapperStyle =
                     box-shadow:
                       inset 0 0 0 2px
                         ${addOpacity(
-                          theme.palette.status.negative,
+                          theme.semantic.status.negative,
                           theme.opacity[43],
                         )},
                       0px 1px 2px 0px
-                        ${addOpacity(theme.palette.static.black, 0.03)};
+                        ${addOpacity(theme.semantic.static.black, 0.03)};
                   `
                 : css`
                     box-shadow:
                       inset 0 0 0 2px
                         ${addOpacity(
-                          theme.palette.primary.normal,
+                          theme.semantic.primary.normal,
                           theme.opacity[43],
                         )},
                       0px 1px 2px 0px
-                        ${addOpacity(theme.palette.static.black, 0.03)};
+                        ${addOpacity(theme.semantic.static.black, 0.03)};
                   `}
 
               [data-role='text-field-invalid'],
@@ -175,11 +175,11 @@ export const textFieldWrapperStyle =
 
         
     input:disabled {
-      color: ${theme.palette.label.alternative};
+      color: ${theme.semantic.label.alternative};
     }
 
     input:disabled::placeholder {
-      color: ${theme.palette.label.disable};
+      color: ${theme.semantic.label.disable};
     }
 
     @supports selector(:has(*)) {
@@ -203,12 +203,12 @@ export const textFieldWrapperStyle =
       outline: none;
       border: none;
       box-shadow: none;
-      color: ${theme.palette.label.normal};
+      color: ${theme.semantic.label.normal};
       ${typographyStyle('body1', 'regular')}
 
       &::placeholder {
         ${typographyStyle('body1', 'regular')}
-        color: ${theme.palette.label.assistive};
+        color: ${theme.semantic.label.assistive};
       }
 
       [type='number'] {
@@ -257,11 +257,11 @@ export const invalidIconWrapperStyle = (theme: Theme) => css`
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: ${theme.palette.static.white};
+    background-color: ${theme.semantic.static.white};
   }
 
   svg {
-    color: ${theme.palette.status.negative};
+    color: ${theme.semantic.status.negative};
     z-index: 1;
   }
 `;
@@ -274,11 +274,11 @@ export const positiveIconWrapperStyle = (theme: Theme) => css`
     content: '';
     width: 50%;
     height: 50%;
-    background-color: ${theme.palette.static.white};
+    background-color: ${theme.semantic.static.white};
   }
 
   svg {
-    color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.primary.normal};
     z-index: 0;
   }
 `;
@@ -299,7 +299,7 @@ export const textFieldButtonStyle =
 
     &:disabled {
       box-shadow: none;
-      background-color: ${theme.palette.interaction.disable};
+      background-color: ${theme.semantic.interaction.disable};
     }
 
     ${textFieldButtonPositionStyle({ position, disabled }, theme)}
@@ -328,11 +328,12 @@ export const textFieldButtonPositionStyle = (
           position: absolute;
           width: calc(100% + 3px);
           height: calc(100% + 0px);
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
           ${disabled &&
           css`
-            box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.alternative};
+            box-shadow: inset 0 0 0 1px
+              ${theme.semantic.line.normal.alternative};
           `}
         }
       `;
@@ -350,11 +351,12 @@ export const textFieldButtonPositionStyle = (
           position: absolute;
           width: calc(100% + 3px);
           height: calc(100% + 0px);
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
           ${disabled &&
           css`
-            box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.alternative};
+            box-shadow: inset 0 0 0 1px
+              ${theme.semantic.line.normal.alternative};
           `}
         }
       `;

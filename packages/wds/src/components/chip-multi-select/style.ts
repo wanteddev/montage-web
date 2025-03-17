@@ -19,39 +19,39 @@ export const multiSelectStyle =
     height: fit-content;
     cursor: pointer;
     width: fit-content;
-    color: ${theme.palette.label.alternative};
+    color: ${theme.semantic.label.alternative};
     background-color: transparent;
-    box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.normal};
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
     transition:
       box-shadow 0.15s ease,
       color 0.15s ease;
 
     svg {
-      color: ${theme.palette.label.assistive};
+      color: ${theme.semantic.label.assistive};
       pointer-events: none;
     }
 
     &[aria-checked='true'] {
-      box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
-      color: ${theme.palette.primary.normal};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.primary.normal};
+      color: ${theme.semantic.primary.normal};
       svg {
-        color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.primary.normal};
       }
     }
 
     &[aria-disabled='true'] {
-      box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.alternative};
-      color: ${theme.palette.label.disable};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+      color: ${theme.semantic.label.disable};
       pointer-events: none;
       cursor: initial;
 
       svg {
-        color: ${theme.palette.label.disable};
+        color: ${theme.semantic.label.disable};
       }
     }
 
     &[aria-invalid='true'] {
-      box-shadow: inset 0 0 0 1px ${theme.palette.status.negative};
+      box-shadow: inset 0 0 0 1px ${theme.semantic.status.negative};
     }
 
     ${multiSelectSizeStyle(props)}

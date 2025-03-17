@@ -22,7 +22,7 @@ export const firstOverlayStyle = (theme: Theme) => css`
   height: 100%;
   position: absolute;
   background-color: ${addOpacity(
-    theme.palette.background.normal.normal,
+    theme.semantic.background.normal.normal,
     theme.opacity[88],
   )};
   inset: 0;
@@ -34,16 +34,16 @@ export const secondOverlayStyle =
     const getBackgroundColor = () => {
       switch (variant) {
         case 'info':
-          return theme.palette.primary.normal;
+          return theme.semantic.primary.normal;
         case 'positive':
-          return theme.palette.status.positive;
+          return theme.semantic.status.positive;
         case 'negative':
-          return theme.palette.status.negative;
+          return theme.semantic.status.negative;
         case 'cautionary':
-          return theme.palette.status.cautionary;
+          return theme.semantic.status.cautionary;
         case 'custom':
         default:
-          return theme.palette.label.assistive;
+          return theme.semantic.label.assistive;
       }
     };
 
@@ -76,35 +76,35 @@ export const sectionMessageIconStyle =
         position: absolute;
         content: '';
         z-index: -1;
-        background-color: ${theme.palette.static.white};
+        background-color: ${theme.semantic.static.white};
       }
     `;
 
     switch (variant) {
       case 'info':
         return css`
-          color: ${theme.palette.primary.normal};
+          color: ${theme.semantic.primary.normal};
           ${defaultVariantStyle}
         `;
       case 'positive':
         return css`
-          color: ${theme.palette.status.positive};
+          color: ${theme.semantic.status.positive};
           ${defaultVariantStyle}
         `;
       case 'negative':
         return css`
-          color: ${theme.palette.status.negative};
+          color: ${theme.semantic.status.negative};
           ${defaultVariantStyle}
         `;
       case 'cautionary':
         return css`
-          color: ${theme.palette.status.cautionary};
+          color: ${theme.semantic.status.cautionary};
           ${defaultVariantStyle}
         `;
       case 'custom':
       default:
         return css`
-          color: ${theme.palette.label.alternative};
+          color: ${theme.semantic.label.alternative};
           position: relative;
           font-size: 20px;
           padding: 2px 0px;

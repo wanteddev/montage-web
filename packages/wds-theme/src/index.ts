@@ -24,5 +24,14 @@ type ObjectToNestedKeys<T> = (
   : never;
 
 export type ThemeToken = ObjectToNestedKeys<Theme>;
-export type ThemeColorsToken = ObjectToNestedKeys<Pick<Theme, 'palette'>>;
+export type ThemeColorsToken =
+  | ObjectToNestedKeys<Pick<Theme, 'atomic'>>
+  | Exclude<
+      ObjectToNestedKeys<Pick<Theme, 'semantic'>>,
+      | 'semantic.platform.ios.navigation'
+      | 'semantic.elevation.shadow.emphasize'
+      | 'semantic.elevation.shadow.normal'
+      | 'semantic.elevation.shadow.heavy'
+      | 'semantic.elevation.shadow.strong'
+    >;
 export type ThemeOpacityToken = ObjectToNestedKeys<Pick<Theme, 'opacity'>>;

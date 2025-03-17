@@ -115,43 +115,43 @@ const actionVariantStyle = (
     case 'solid':
     case 'filled':
       return css`
-        color: ${theme.palette.label.normal};
-        background-color: ${theme.palette.fill.alternative};
+        color: ${theme.semantic.label.normal};
+        background-color: ${theme.semantic.fill.alternative};
         box-shadow: none;
 
         &[aria-pressed='true'] {
-          color: ${theme.palette.inverse.label};
-          background-color: ${theme.palette.inverse.background};
+          color: ${theme.semantic.inverse.label};
+          background-color: ${theme.semantic.inverse.background};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
-          background-color: ${theme.palette.interaction.disable};
+          color: ${theme.semantic.label.disable};
+          background-color: ${theme.semantic.interaction.disable};
           box-shadow: none;
         }
       `;
     case 'outlined':
       return css`
-        color: ${theme.palette.label.normal};
+        color: ${theme.semantic.label.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
         &[aria-pressed='true'] {
           background-color: ${addOpacity(
-            theme.palette.primary.normal,
+            theme.semantic.primary.normal,
             theme.opacity[5],
           )};
           box-shadow: inset 0 0 0 1px
-            ${addOpacity(theme.palette.primary.normal, theme.opacity[43])};
-          color: ${theme.palette.primary.normal};
+            ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
+          color: ${theme.semantic.primary.normal};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
   }

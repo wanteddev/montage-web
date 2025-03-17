@@ -43,7 +43,9 @@ const TextButton = forwardRef(
     const context = useTextButtonContext();
 
     const interactionColor: ThemeColorsToken =
-      variant === 'primary' ? 'palette.primary.normal' : 'palette.label.normal';
+      variant === 'primary'
+        ? 'semantic.primary.normal'
+        : 'semantic.label.normal';
 
     const color = useMemo(() => {
       return context?.[variant];

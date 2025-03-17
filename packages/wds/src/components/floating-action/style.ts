@@ -8,8 +8,8 @@ import type { Theme } from '@wanteddev/wds-engine';
 export const floatingActionStyle =
   ({ size, iconSize, xs, sm, md, lg, xl }: FloatingActionProps) =>
   (theme: Theme) => css`
-    background-color: ${theme.palette.primary.normal};
-    box-shadow: ${theme.palette.elevation.shadow.strong};
+    background-color: ${theme.semantic.primary.normal};
+    box-shadow: ${theme.semantic.elevation.shadow.strong};
     border-radius: 9999px;
     cursor: pointer;
     display: flex;
@@ -17,13 +17,13 @@ export const floatingActionStyle =
     justify-content: center;
     border: none;
     padding: 16px;
-    color: ${theme.palette.static.white};
+    color: ${theme.semantic.static.white};
 
     ${floatingActionSizeStyle({ size, iconSize })}
 
     &:disabled, &[aria-disabled='true'] {
-      color: ${theme.palette.label.assistive};
-      background-color: ${theme.palette.interaction.disable};
+      color: ${theme.semantic.label.assistive};
+      background-color: ${theme.semantic.interaction.disable};
     }
 
     ${createResponsiveStyle(

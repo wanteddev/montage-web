@@ -90,7 +90,7 @@ const Toast = ({
           {toastIconComponent[variant] ?? icon}
 
           <Typography
-            color="palette.static.white"
+            color="semantic.static.white"
             variant="body2"
             weight="bold"
             id={contentId}
@@ -162,7 +162,7 @@ const Snackbar = ({
             <FlexBox flexDirection="column" sx={messageStyle}>
               {title && (
                 <Typography
-                  color="palette.static.white"
+                  color="semantic.static.white"
                   variant="body2"
                   weight="bold"
                   id={titleId}
@@ -174,7 +174,7 @@ const Snackbar = ({
 
               {description && (
                 <Typography
-                  color="palette.static.white"
+                  color="semantic.static.white"
                   variant="label2"
                   weight="regular"
                   id={descriptionId}

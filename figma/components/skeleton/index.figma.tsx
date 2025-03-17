@@ -42,7 +42,7 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
   example: (props) => (
     <Skeleton
       variant="text"
-      color="palette.static.white"
+      color="semantic.static.white"
       opacity="opacity.28"
       {...props}
     />
@@ -63,7 +63,7 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
   example: (props) => (
     <Skeleton
       variant="rectangle"
-      color="palette.static.white"
+      color="semantic.static.white"
       opacity="opacity.28"
       {...props}
     />
@@ -84,7 +84,7 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
   example: (props) => (
     <Skeleton
       variant="rectangle"
-      color="palette.static.white"
+      color="semantic.static.white"
       opacity="opacity.28"
       {...props}
     />
@@ -105,7 +105,7 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_CIRCLE>', {
   example: (props) => (
     <Skeleton
       variant="circle"
-      color="palette.static.white"
+      color="semantic.static.white"
       opacity="opacity.28"
       {...props}
     />

@@ -41,13 +41,13 @@ export const listCellStyle =
       ? css`
           cursor: initial;
           pointer-events: none;
-          color: ${theme.palette.label.alternative};
+          color: ${theme.semantic.label.alternative};
           opacity: ${theme.opacity[43]};
         `
       : css`
           color: ${active
-            ? theme.palette.primary.normal
-            : theme.palette.label.normal};
+            ? theme.semantic.primary.normal
+            : theme.semantic.label.normal};
 
           ${!disableInteraction &&
           css`
@@ -219,7 +219,7 @@ const listCellContentVariantStyle =
     switch (variant) {
       case 'icon':
         return css`
-          color: ${theme.palette.label.alternative};
+          color: ${theme.semantic.label.alternative};
           font-size: 24px;
         `;
 
@@ -236,8 +236,8 @@ const listCellContentVariantStyle =
             height: fit-content;
             border-radius: 12px;
             padding: 8px;
-            color: ${theme.palette.primary.normal};
-            background-color: ${theme.palette.fill.normal};
+            color: ${theme.semantic.primary.normal};
+            background-color: ${theme.semantic.fill.normal};
             font-size: 32px;
           }
         `;
@@ -245,7 +245,7 @@ const listCellContentVariantStyle =
       case 'chevron':
         return css`
           ${typographyStyle('body1', 'regular')}
-          color: ${theme.palette.label.alternative};
+          color: ${theme.semantic.label.alternative};
         `;
     }
   };

@@ -37,7 +37,6 @@
     "directory": "packages/wds"
   },
   "devDependencies": {
-    "@types/lodash.flattendeep": "^4.4.9",
     "@types/node": "^20.11.27",
     "@types/object-path": "^0.11.4",
     "@types/react": "^18.3.14",
@@ -64,7 +63,6 @@
     "@wanteddev/wds-icon": "workspace:*",
     "aria-hidden": "^1.2.3",
     "dayjs": "^1.11.13",
-    "lodash.flattendeep": "^4.4.0",
     "next-themes": "^0.4.4",
     "object-path": "^0.11.8",
     "react": "^18.3.1",

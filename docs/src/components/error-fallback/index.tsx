@@ -14,7 +14,7 @@ const ErrorFallback = () => {
         align="center"
         variant="body1"
         weight="bold"
-        color="palette.label.strong"
+        color="semantic.label.strong"
       >
         오류가 발생했습니다.
         <br />

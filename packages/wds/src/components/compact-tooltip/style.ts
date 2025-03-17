@@ -40,16 +40,16 @@ const compactTooltipVariantStyle = (
     case 'normal':
       return css`
         background-color: ${addOpacity(
-          theme.palette.inverse.background,
+          theme.semantic.inverse.background,
           theme.opacity[88],
         )};
         position: relative;
-        color: ${theme.palette.inverse.label};
+        color: ${theme.semantic.inverse.label};
 
         &::before {
           border-radius: inherit;
           background-color: ${addOpacity(
-            theme.palette.primary.normal,
+            theme.semantic.primary.normal,
             theme.opacity[5],
           )};
           content: '';
@@ -64,10 +64,10 @@ const compactTooltipVariantStyle = (
       `;
     case 'inverse':
       return css`
-        color: ${theme.palette.label.neutral};
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+        color: ${theme.semantic.label.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         background-color: ${addOpacity(
-          theme.palette.background.elevated.normal,
+          theme.semantic.background.elevated.normal,
           theme.opacity[88],
         )};
       `;

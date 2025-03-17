@@ -177,7 +177,7 @@ const TextField = forwardRef<
             type="button"
             size={22}
             tabIndex={-1}
-            sx={(theme) => ({ color: theme.palette.label.assistive })}
+            sx={(theme) => ({ color: theme.semantic.label.assistive })}
           >
             <IconCircleCloseFill />
           </IconButton>
@@ -204,7 +204,7 @@ const TextFieldContent = forwardRef<
           weight="medium"
           ref={ref}
           sx={[textFieldContentStyle, { padding: '0px 4px' }, sx]}
-          color={color ?? 'palette.label.assistive'}
+          color={color ?? 'semantic.label.assistive'}
           {...props}
         >
           {children}
@@ -230,7 +230,7 @@ const TextFieldContent = forwardRef<
           wds-component="text-field-content"
           ref={ref}
           sx={[textFieldContentStyle, { padding: '2px 4px' }, sx]}
-          color={color ?? 'palette.primary.normal'}
+          color={color ?? 'semantic.primary.normal'}
           {...props}
         >
           {children}
@@ -246,7 +246,7 @@ const TextFieldContent = forwardRef<
             (theme) => ({
               padding: '1px',
               fontSize: '22px',
-              color: theme.palette.label.alternative,
+              color: theme.semantic.label.alternative,
             }),
             sx,
           ]}
@@ -269,7 +269,7 @@ const TextFieldContent = forwardRef<
           ]}
           {...props}
         >
-          <IconButtonProvider normal="palette.label.alternative">
+          <IconButtonProvider normal="semantic.label.alternative">
             {children}
           </IconButtonProvider>
         </FlexBox>

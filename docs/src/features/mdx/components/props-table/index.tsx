@@ -48,7 +48,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                     <ContentBadge
                       size="medium"
                       color="accent"
-                      accentColor="palette.accent.lightBlue"
+                      accentColor="semantic.accent.foreground.lightBlue"
                     >
                       {`${value.name}${value.required && value.name.toString() !== 'as' ? ' *' : ''}`}
                     </ContentBadge>
@@ -58,7 +58,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                           <Box
                             sx={(theme) => ({
                               display: 'inline-block',
-                              color: theme.palette.label.alternative,
+                              color: theme.semantic.label.alternative,
                             })}
                             as="span"
                           >
@@ -79,7 +79,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                   <Typography
                     variant="body1-reading"
                     weight="regular"
-                    color="palette.accent.redOrange"
+                    color="semantic.accent.background.redOrange"
                   >
                     {value.types}
                   </Typography>
@@ -121,7 +121,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                   <ContentBadge
                     size="medium"
                     color="accent"
-                    accentColor="palette.accent.lightBlue"
+                    accentColor="semantic.accent.foreground.lightBlue"
                   >
                     {`${value.name}${value.required && value.name !== 'as' ? ' *' : ''}`}
                   </ContentBadge>
@@ -131,7 +131,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                         <Box
                           sx={(theme) => ({
                             display: 'inline-block',
-                            color: theme.palette.label.alternative,
+                            color: theme.semantic.label.alternative,
                           })}
                           as="span"
                         >
@@ -152,7 +152,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                 <Typography
                   variant="body1-reading"
                   weight="regular"
-                  color="palette.accent.redOrange"
+                  color="semantic.accent.background.redOrange"
                 >
                   {value.type.name}
                 </Typography>

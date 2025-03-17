@@ -76,7 +76,7 @@ const topNavigationVariant = (
       `;
     default:
       return css`
-        ${theme.platform.ios.navigation}
+        ${theme.semantic.platform.ios.navigation}
       `;
   }
 };
@@ -190,7 +190,7 @@ export const topNavigationButtonFloat = ({
 `;
 
 export const topNavigationButtonTextStyle = (theme: Theme) => css`
-  color: ${theme.palette.label.normal};
+  color: ${theme.semantic.label.normal};
   padding: 0px;
   flex-shrink: 0;
 

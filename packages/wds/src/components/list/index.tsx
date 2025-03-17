@@ -252,7 +252,7 @@ const ListCellContent = forwardRef<
               sx,
             ]}
           >
-            <TextButtonProvider assistive="palette.label.alternative">
+            <TextButtonProvider assistive="semantic.label.alternative">
               {children}
             </TextButtonProvider>
           </FlexBox>
@@ -270,7 +270,7 @@ const ListCellContent = forwardRef<
               sx,
             ]}
           >
-            <IconButtonProvider normal="palette.label.alternative">
+            <IconButtonProvider normal="semantic.label.alternative">
               {children}
             </IconButtonProvider>
           </FlexBox>
@@ -309,7 +309,7 @@ const ListCellContent = forwardRef<
               <FlexBox alignItems="center" sx={{ height: '24px' }}>
                 <IconChevronRightTightSmall
                   sx={(theme) => ({
-                    color: theme.palette.label.assistive,
+                    color: theme.semantic.label.assistive,
                   })}
                 />
               </FlexBox>
@@ -371,13 +371,13 @@ const ListText = forwardRef(
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
-        return 'palette.label.alternative';
+        return 'semantic.label.alternative';
       }
       if (active) {
-        return 'palette.primary.normal';
+        return 'semantic.primary.normal';
       }
 
-      return color ?? 'palette.label.normal';
+      return color ?? 'semantic.label.normal';
     };
 
     return (
@@ -397,7 +397,7 @@ const ListText = forwardRef(
         {Boolean(caption) && (
           <Typography
             variant="label1"
-            color="palette.label.alternative"
+            color="semantic.label.alternative"
             data-role="list-text-caption"
             {...captionProps}
             sx={[listTextEllipsisStyle(ellipsis), captionProps?.sx]}

@@ -8,7 +8,7 @@ export const menuPopoverContentStyle = (theme: Theme) => css`
   padding: 0;
   width: 320px;
   filter: none;
-  box-shadow: 0 1px 2px 0 ${addOpacity(theme.palette.static.black, 0.04)};
+  box-shadow: 0 1px 2px 0 ${addOpacity(theme.semantic.static.black, 0.04)};
   border-radius: 16px;
 `;
 
@@ -18,8 +18,8 @@ export const menuScrollAreaStyle = (theme: Theme) => css`
   max-height: 400px;
   height: auto;
   border-radius: inherit;
-  border: 1px solid ${theme.palette.line.solid.neutral};
-  background-color: ${theme.palette.background.elevated.normal};
+  border: 1px solid ${theme.semantic.line.solid.neutral};
+  background-color: ${theme.semantic.background.elevated.normal};
 
   [data-radix-scroll-area-content] {
     width: 100%;
@@ -34,7 +34,7 @@ export const menuGroupTitleStyle = (theme: Theme) => css`
   padding: 4px 20px;
   z-index: 10;
   margin: auto auto auto 0;
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
 `;
 
 export const menuGroupStyle = css`
@@ -63,7 +63,7 @@ export const menuItemStyle = (theme: Theme) => css`
   }
 
   [data-role='menu-item-active-icon-check'] {
-    color: ${theme.palette.primary.normal};
+    color: ${theme.semantic.primary.normal};
   }
 `;
 
@@ -75,9 +75,9 @@ export const menuActionAreaStyle = (theme: Theme) => css`
   height: 56px;
   padding: 0 12px;
   max-height: 56px;
-  background-color: ${theme.palette.background.elevated.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
   z-index: 10;
-  border-top: 1px solid ${theme.palette.line.solid.alternative};
+  border-top: 1px solid ${theme.semantic.line.solid.alternative};
 `;
 
 export const menuActionAreaContentStyle = css`

@@ -41,14 +41,14 @@ const ChipAction = forwardRef(
 
     const interactionColor: ThemeColorsToken = useMemo(() => {
       if (!active) {
-        return 'palette.label.normal';
+        return 'semantic.label.normal';
       }
 
       if (variant === 'outlined') {
-        return 'palette.primary.normal';
+        return 'semantic.primary.normal';
       }
 
-      return 'palette.inverse.label';
+      return 'semantic.inverse.label';
     }, [active, variant]);
 
     return (

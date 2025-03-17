@@ -71,7 +71,7 @@ WithInteraction.displayName = 'WithInteraction';
 export default WithInteraction;
 
 const Interaction = ({
-  color = 'palette.label.normal',
+  color = 'semantic.label.normal',
   width = '100%',
   height = '100%',
 }: WithInteractionProps) => {
