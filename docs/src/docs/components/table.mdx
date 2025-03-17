@@ -148,10 +148,64 @@ export default Demo;`}
 
 ## Examples
 
+### Interaction
+
+- `TableRow` 에 interaction을 줄 수 있어요.
+- 인터렉션 색상, opacity를 변경하고 싶을 땐 `&::after` 스타일을 변경해요.
+- interaction이 true일 때는 tabIndex를 자동으로 지정해요.
+
+<Demo code={`import {
+  Table,
+  TableRow,
+  TableHead,
+  TableHeadCell,
+  TableCell,
+  TableBody,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableHeadCell>제목</TableHeadCell>
+          <TableHeadCell>제목</TableHeadCell>
+          <TableHeadCell>제목</TableHeadCell>
+          <TableHeadCell>제목</TableHeadCell>
+        </TableRow>
+      </TableHead>
+
+      <TableBody>
+        <TableRow interaction>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+        </TableRow>
+        <TableRow interaction>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+        </TableRow>
+        <TableRow interaction>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+          <TableCell>텍스트</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  )
+}
+
+export default Demo;`}
+/>
+
+
 ### Pagination
 
-Pagination 컴포넌트와 함께 사용할 수 있습니다.
-
+- Pagination 컴포넌트와 함께 사용할 수 있습니다.
 
 <Demo code={`import {
   Table,
@@ -200,9 +254,8 @@ export default Demo;`}
 
 ### Virtual Scroll
 
-`@tanstack/react-virtual` 등을 이용하여 가상 스크롤을 적용할 수 있습니다.
-
-sticky 영역을 보존하기 위해 임의의 영역을 차지하는 TableRow를 지정해줍니다.
+- `@tanstack/react-virtual` 등을 이용하여 가상 스크롤을 적용할 수 있습니다.
+- sticky 영역을 보존하기 위해 임의의 영역을 차지하는 TableRow를 지정해줍니다.
 
 <Demo code={`import {
   Table,
