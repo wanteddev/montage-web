@@ -9,7 +9,7 @@ import type { ReactNode } from 'react';
 export type SectionHeaderDefaultProps = {
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   platform?: 'desktop' | 'mobile';
-  leadingContent?: ReactNode;
+  headingContent?: ReactNode;
   trailingContent?: ReactNode;
   color?: ThemeColorsToken;
   headingTag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
