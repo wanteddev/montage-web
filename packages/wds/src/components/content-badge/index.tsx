@@ -16,7 +16,7 @@ const ContentBadge = forwardRef<
       variant = 'solid',
       size = 'normal',
       color = 'accent',
-      accentColor = 'palette.accent.cyan',
+      accentColor = 'semantic.accent.foreground.cyan',
       leadingContent,
       trailingContent,
       children,

@@ -55,7 +55,7 @@ export const tabListStyle =
 
     &::after {
       position: absolute;
-      background-color: ${theme.palette.line.normal.alternative};
+      background-color: ${theme.semantic.line.normal.alternative};
       content: '';
       left: 0px;
       bottom: 0px;
@@ -279,7 +279,7 @@ export const scrollWrapperStyle = css`
 export const motionDividerStyle = (theme: Theme) => css`
   position: absolute;
   height: 2px;
-  background-color: ${theme.palette.label.strong};
+  background-color: ${theme.semantic.label.strong};
   display: none;
 `;
 
@@ -326,25 +326,25 @@ export const tabListItemStyle = (theme: Theme) => css`
   }
 
   &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
-    color: ${theme.palette.label.alternative};
+    color: ${theme.semantic.label.alternative};
   }
 
   &[aria-selected='false'] [data-role='tab-list-item-text'] {
-    color: ${theme.palette.label.assistive};
+    color: ${theme.semantic.label.assistive};
     &:hover {
-      color: ${theme.palette.label.alternative};
+      color: ${theme.semantic.label.alternative};
     }
   }
 
   &[aria-selected='true'] {
     [data-role='tab-list-item-text'] {
-      color: ${theme.palette.label.strong};
+      color: ${theme.semantic.label.strong};
     }
 
     &[data-ssr-motion='true'] {
       [data-role='tab-list-item-divider'] {
         max-height: 2px;
-        background-color: ${theme.palette.label.strong};
+        background-color: ${theme.semantic.label.strong};
       }
     }
   }

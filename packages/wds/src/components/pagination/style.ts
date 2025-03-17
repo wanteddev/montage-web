@@ -38,13 +38,13 @@ export const pageButtonStyle = (theme: Theme) => css`
 
   &:not([aria-disabled='true']) {
     > span {
-      color: ${theme.palette.label.neutral};
+      color: ${theme.semantic.label.neutral};
     }
 
     &[aria-current='page'] {
       > span {
         ${typographyStyle('body2', 'medium')}
-        color: ${theme.palette.label.normal};
+        color: ${theme.semantic.label.normal};
       }
 
       [wds-component='with-interaction'] {

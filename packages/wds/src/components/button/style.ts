@@ -164,8 +164,8 @@ const buttonColorStyle = (
   switch (true) {
     case variant === 'solid' && color === 'primary':
       return css`
-        color: ${theme.palette.static.white};
-        background-color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.static.white};
+        background-color: ${theme.semantic.primary.normal};
         box-shadow: none;
 
         [data-role='button-loading'] {
@@ -174,36 +174,36 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.assistive};
-          background-color: ${theme.palette.interaction.disable};
+          color: ${theme.semantic.label.assistive};
+          background-color: ${theme.semantic.interaction.disable};
           box-shadow: none;
         }
       `;
     case variant === 'solid' && color === 'assistive':
       return css`
-        color: ${theme.palette.label.neutral};
-        background-color: ${theme.palette.fill.normal};
+        color: ${theme.semantic.label.neutral};
+        background-color: ${theme.semantic.fill.normal};
         box-shadow: none;
         backdrop-filter: blur(32px);
         will-change: backdrop-filter;
 
         [data-role='button-loading'] {
-          color: ${theme.palette.label.assistive};
+          color: ${theme.semantic.label.assistive};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.assistive};
-          background-color: ${theme.palette.interaction.disable};
+          color: ${theme.semantic.label.assistive};
+          background-color: ${theme.semantic.interaction.disable};
           box-shadow: none;
           backdrop-filter: none;
         }
       `;
     case variant === 'outlined' && color === 'primary':
       return css`
-        color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.primary.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.primary.normal};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.primary.normal};
 
         [data-role='button-loading'] {
           color: inherit;
@@ -211,16 +211,16 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
     case variant === 'outlined' && color === 'secondary':
       return css`
-        color: ${theme.palette.primary.normal};
+        color: ${theme.semantic.primary.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
         [data-role='button-loading'] {
           color: inherit;
@@ -228,26 +228,26 @@ const buttonColorStyle = (
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
     case variant === 'outlined' && color === 'assistive':
       return css`
-        color: ${theme.palette.label.normal};
+        color: ${theme.semantic.label.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
         [data-role='button-loading'] {
-          color: ${theme.palette.label.assistive};
+          color: ${theme.semantic.label.assistive};
         }
 
         &:disabled,
         &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
           background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
   }

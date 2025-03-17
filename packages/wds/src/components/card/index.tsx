@@ -223,7 +223,7 @@ const CardCaption = forwardRef(
     {
       variant = 'label2',
       weight = 'medium',
-      color = 'palette.label.alternative',
+      color = 'semantic.label.alternative',
       ...props
     }: PolymorphicProps<TypographyProps, E>,
     ref: ForwardedRef<E>,

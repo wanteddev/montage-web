@@ -82,7 +82,7 @@ export const loadingCircularAnimatedSvgStyle = (theme: Theme) => css`
 
   circle {
     fill: none;
-    stroke: ${theme.palette.line.solid.normal};
+    stroke: ${theme.semantic.line.solid.normal};
     stroke-width: 3;
     stroke-linecap: round;
     transform-origin: center center;
@@ -95,17 +95,17 @@ export const loadingCircularAnimatedSvgStyle = (theme: Theme) => css`
 
 export const loadingWantedAnimatedSvgStyle = (theme: Theme) => css`
   --time: 0.9;
-  --color-alias-accent-pink: ${theme.palette.pink[60]};
-  --color-alias-accent-redOrange: ${theme.palette.redOrange[50]};
+  --color-alias-accent-pink: ${theme.atomic.pink[60]};
+  --color-alias-accent-redOrange: ${theme.atomic.redOrange[50]};
 
   @media (prefers-color-scheme: dark) {
-    --color-alias-accent-pink: ${theme.palette.pink[70]};
-    --color-alias-accent-redOrange: ${theme.palette.redOrange[60]};
+    --color-alias-accent-pink: ${theme.atomic.pink[70]};
+    --color-alias-accent-redOrange: ${theme.atomic.redOrange[60]};
   }
 
   width: 100%;
   height: 100%;
-  fill: ${theme.palette.primary.normal};
+  fill: ${theme.semantic.primary.normal};
   animation: animation-circular-color calc(var(--time) * 4s)
     calc(var(--time) * 0.5s) linear infinite;
 
@@ -156,7 +156,7 @@ export const loadingWantedAnimatedSvgStyle = (theme: Theme) => css`
   @keyframes animation-circular-color {
     0%,
     100% {
-      fill: ${theme.palette.primary.normal};
+      fill: ${theme.semantic.primary.normal};
     }
     25%,
     75% {

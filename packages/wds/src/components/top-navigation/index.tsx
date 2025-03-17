@@ -93,7 +93,7 @@ const TopNavigation = forwardRef<
             {
               ['--wds-top-navigation-border-color']:
                 scrolled && variant !== 'floating'
-                  ? theme.palette.line.normal.normal
+                  ? theme.semantic.line.normal.normal
                   : 'transparent',
               ...props.style,
             } as CSSProperties
@@ -115,7 +115,7 @@ const TopNavigation = forwardRef<
                       id={titleId}
                       variant="headline2"
                       weight="bold"
-                      color="palette.label.strong"
+                      color="semantic.label.strong"
                       display="block"
                       sx={{ margin: 0, border: 'none' }}
                     >

@@ -35,6 +35,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'Avatar Migration', value: 'avatar-migration' },
   { name: 'MenuBottom Migration', value: 'menu-bottom-migration' },
   { name: 'Leading, Trailing Migration', value: 'leading-trailing-migration' },
+  { name: 'Palette to Atomic & Semantic', value: 'palette-to-atomic-semantic' },
 ];
 
 const run = () => {

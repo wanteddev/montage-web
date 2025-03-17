@@ -90,7 +90,6 @@ const SearchField = forwardRef<
         >
           <IconSearch />
         </FlexBox>
-
         <input
           ref={composedRefs}
           type="search"
@@ -99,7 +98,6 @@ const SearchField = forwardRef<
           autoComplete="off"
           {...props}
         />
-
         <FlexBox
           data-role="search-field-reset"
           sx={[searchFieldContentStyle, { height: '22px', marginLeft: '8px' }]}
@@ -142,7 +140,7 @@ const SearchField = forwardRef<
               });
             }}
             sx={(theme) => ({
-              color: theme.palette.label.assistive,
+              color: theme.semantic.label.assistive,
             })}
           >
             <IconCircleCloseFill />

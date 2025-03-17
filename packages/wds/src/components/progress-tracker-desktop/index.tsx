@@ -168,8 +168,8 @@ const ProgressTrackerDesktopItemLabel = ({
   isActive: boolean;
 }) => {
   const color: ThemeColorsToken = isActive
-    ? 'palette.label.normal'
-    : 'palette.label.alternative';
+    ? 'semantic.label.normal'
+    : 'semantic.label.alternative';
 
   if (isCompleted) {
     return Boolean(completedLabel) ? (

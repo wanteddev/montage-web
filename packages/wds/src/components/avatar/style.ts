@@ -9,8 +9,8 @@ import type { Theme } from '@wanteddev/wds-engine';
 export const avatarWrapperStyle =
   ({ size, variant, xs, sm, md, lg, xl }: AvatarProps) =>
   (theme: Theme) => css`
-    background-color: ${theme.palette.background.normal.normal};
-    color: ${theme.palette.static.white};
+    background-color: ${theme.semantic.background.normal.normal};
+    color: ${theme.semantic.static.white};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,7 +18,7 @@ export const avatarWrapperStyle =
 
     &::after {
       box-shadow: inset 0 0 0 1px
-        ${addOpacity(theme.palette.label.normal, theme.opacity[5])};
+        ${addOpacity(theme.semantic.label.normal, theme.opacity[5])};
       content: '';
       width: 100%;
       height: 100%;
@@ -66,7 +66,7 @@ export const fallbackWrapperStyle = (theme: Theme) => css`
   border-radius: inherit;
   color: inherit;
   font-size: inherit;
-  background-color: ${theme.palette.fill.strong};
+  background-color: ${theme.semantic.fill.strong};
   display: flex;
   align-items: center;
   justify-content: center;

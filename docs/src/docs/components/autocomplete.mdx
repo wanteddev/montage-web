@@ -44,7 +44,7 @@ const Demo = () => {
           <Typography
             variant="body1"
             weight="regular"
-            color="palette.label.alternative"
+            color="semantic.label.alternative"
             sx={{ padding: '12px 0px' }}
           >
             검색 결과가 없습니다.
@@ -217,7 +217,7 @@ const Demo = () => {
                 <Box
                   key={index}
                   as="span"
-                  sx={matcher.test(match) && highlight.length > 0 && (theme => ({ color: theme.palette.primary.normal }))}
+                  sx={matcher.test(match) && highlight.length > 0 && (theme => ({ color: theme.semantic.primary.normal }))}
                 >
                   {match}
                 </Box>
@@ -279,7 +279,7 @@ const Demo = () => {
                 <Box
                   key={index}
                   as="span"
-                  sx={part.highlight && (theme => ({ color: theme.palette.primary.normal }))}
+                  sx={part.highlight && (theme => ({ color: theme.semantic.primary.normal }))}
                 >
                   {part.text}
                 </Box>
@@ -383,7 +383,7 @@ const Demo = () => {
           <Typography
             variant="body1"
             weight="regular"
-            color="palette.label.alternative"
+            color="semantic.label.alternative"
             sx={{ padding: '12px 0px' }}
           >
             검색 결과가 없습니다.
@@ -445,7 +445,7 @@ const Demo = () => {
           <Typography
             variant="body1"
             weight="regular"
-            color="palette.label.alternative"
+            color="semantic.label.alternative"
             sx={{ padding: '12px 0px' }}
           >
             검색 결과가 없습니다.

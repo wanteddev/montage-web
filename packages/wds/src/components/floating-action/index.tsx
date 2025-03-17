@@ -33,7 +33,7 @@ const FloatingAction = forwardRef(
   ) => {
     return (
       <WithInteraction
-        color="palette.label.normal"
+        color="semantic.label.normal"
         disabled={disableInteraction || disabled}
         variant="strong"
       >

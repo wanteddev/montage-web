@@ -145,7 +145,7 @@ const Item = ({
                     wds-component="dialog-title"
                     variant="headline1"
                     weight="bold"
-                    color="palette.label.normal"
+                    color="semantic.label.normal"
                   >
                     {title}
                   </Typography>
@@ -155,7 +155,7 @@ const Item = ({
                   wds-component="dialog-content"
                   variant="body2"
                   weight="regular"
-                  color="palette.label.alternative"
+                  color="semantic.label.alternative"
                   sx={{
                     wordBreak: 'keep-all',
                     overflowWrap: 'anywhere',
@@ -209,11 +209,11 @@ export const DialogButton = forwardRef(
           variant === 'negative'
             ? [
                 (theme) => ({
-                  color: getColorByToken(theme, 'palette.status.negative'),
+                  color: getColorByToken(theme, 'semantic.status.negative'),
                   ['[wds-component="with-interaction"]']: {
                     backgroundColor: getColorByToken(
                       theme,
-                      'palette.status.negative',
+                      'semantic.status.negative',
                     ),
                   },
                 }),

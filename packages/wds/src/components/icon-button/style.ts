@@ -151,7 +151,7 @@ const iconButtonColorStyle = (
 
         &:disabled, &[aria-disabled='true'] {
           background-color: transparent;
-          color: ${theme.palette.label.disable};
+          color: ${theme.semantic.label.disable};
           box-shadow: none;
           border: none;
         }
@@ -162,14 +162,14 @@ const iconButtonColorStyle = (
         box-shadow: none;
         background-color: transparent;
         color: ${alternative
-          ? addOpacity(theme.palette.static.white, theme.opacity[88])
-          : addOpacity(theme.palette.static.black, theme.opacity[43])};
+          ? addOpacity(theme.semantic.static.white, theme.opacity[88])
+          : addOpacity(theme.semantic.static.black, theme.opacity[43])};
 
         ${!alternative &&
         css`
           @supports (-webkit-backdrop-filter: none) {
             color: ${addOpacity(
-              theme.palette.coolNeutral[50],
+              theme.atomic.coolNeutral[50],
               theme.opacity[61],
             )};
           }
@@ -204,13 +204,13 @@ const iconButtonColorStyle = (
           ${alternative
             ? css`
                 background-color: ${addOpacity(
-                  theme.palette.coolNeutral[30],
+                  theme.atomic.coolNeutral[30],
                   theme.opacity[61],
                 )};
               `
             : css`
                 background-color: ${addOpacity(
-                  theme.palette.static.white,
+                  theme.semantic.static.white,
                   theme.opacity[52],
                 )};
                 will-change: backdrop-filter;
@@ -244,15 +244,12 @@ const iconButtonColorStyle = (
         &:disabled,
         &[aria-disabled='true'] {
           background-color: transparent;
-          color: ${addOpacity(
-            theme.palette.coolNeutral[50],
-            theme.opacity[22],
-          )};
+          color: ${addOpacity(theme.atomic.coolNeutral[50], theme.opacity[22])};
           border: none;
           box-shadow: none;
 
           &::before {
-            background-color: ${theme.palette.fill.alternative};
+            background-color: ${theme.semantic.fill.alternative};
             backdrop-filter: none;
           }
 
@@ -272,7 +269,7 @@ const iconButtonColorStyle = (
       return css`
         border: none;
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         background-color: transparent;
         ${Boolean(color) &&
         css`
@@ -280,15 +277,15 @@ const iconButtonColorStyle = (
         `}
 
         &:disabled, &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
-          background-color: ${theme.palette.background.normal.normal};
-          box-shadow: inset 0 0 0 1px ${theme.palette.line.normal.neutral};
+          color: ${theme.semantic.label.disable};
+          background-color: ${theme.semantic.background.normal.normal};
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
     case 'solid':
       return css`
         border: none;
-        background-color: ${theme.palette.primary.normal};
+        background-color: ${theme.semantic.primary.normal};
 
         ${Boolean(color) &&
         css`
@@ -296,8 +293,8 @@ const iconButtonColorStyle = (
         `}
 
         &:disabled, &[aria-disabled='true'] {
-          color: ${theme.palette.label.disable};
-          background-color: ${theme.palette.fill.normal};
+          color: ${theme.semantic.label.disable};
+          background-color: ${theme.semantic.fill.normal};
           backdrop-filter: blur(32px);
         }
       `;
@@ -307,7 +304,10 @@ const iconButtonColorStyle = (
 export const backgroundBlendStyle = (theme: Theme) => css`
   position: absolute;
   content: '';
-  background-color: ${addOpacity(theme.palette.static.black, theme.opacity[5])};
+  background-color: ${addOpacity(
+    theme.semantic.static.black,
+    theme.opacity[5],
+  )};
   width: calc(100% + 8px);
   height: calc(100% + 8px);
   top: -4px;
@@ -315,6 +315,6 @@ export const backgroundBlendStyle = (theme: Theme) => css`
   border-radius: inherit;
 
   @supports (-webkit-backdrop-filter: none) {
-    background-color: ${addOpacity(theme.palette.static.black, 0.14)};
+    background-color: ${addOpacity(theme.semantic.static.black, 0.14)};
   }
 `;

@@ -101,7 +101,7 @@ const SectionMessage = forwardRef<
               flex="1"
             >
               <Typography
-                color="palette.label.normal"
+                color="semantic.label.normal"
                 variant="body2"
                 weight="medium"
                 data-role="section-message-content-title"
@@ -116,7 +116,7 @@ const SectionMessage = forwardRef<
                   variant="label1-reading"
                   weight="regular"
                   data-role="section-message-content-caption"
-                  color="palette.label.neutral"
+                  color="semantic.label.neutral"
                   as="p"
                 >
                   {caption}
@@ -148,8 +148,8 @@ const SectionMessage = forwardRef<
             {closeButton && (
               <IconButton
                 data-role="section-message-close-icon"
-                color="palette.label.alternative"
-                interactionColor="palette.label.alternative"
+                color="semantic.label.alternative"
+                interactionColor="semantic.label.alternative"
                 onClick={handleShowToggle}
                 size={20}
                 sx={sectionMessageCloseButtonStyle}

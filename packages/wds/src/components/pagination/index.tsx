@@ -153,7 +153,7 @@ const Pagination = forwardRef<
               <IconButton
                 type="button"
                 size={variant === 'compact' ? 24 : 16}
-                color="palette.label.alternative"
+                color="semantic.label.alternative"
                 disabled={disabled || disabledPrevButton}
                 data-role="pagination-prev-button"
                 aria-label="Previous page"
@@ -169,7 +169,7 @@ const Pagination = forwardRef<
                 weight="medium"
                 data-role="pagination-page-num"
                 color={
-                  disabled ? 'palette.label.disable' : 'palette.label.neutral'
+                  disabled ? 'semantic.label.disable' : 'semantic.label.neutral'
                 }
               >
                 {page}
@@ -195,7 +195,7 @@ const Pagination = forwardRef<
               <IconButton
                 type="button"
                 size={variant === 'compact' ? 24 : 16}
-                color="palette.label.alternative"
+                color="semantic.label.alternative"
                 disabled={disabled || disabledNextButton}
                 data-role="pagination-next-button"
                 aria-label="Next page"
@@ -248,7 +248,7 @@ const PaginationItem = ({
           variant="body2"
           weight="regular"
           color={
-            disabled ? 'palette.label.disable' : 'palette.label.alternative'
+            disabled ? 'semantic.label.disable' : 'semantic.label.alternative'
           }
           data-role="pagination-item-ellipsis"
         >
@@ -315,7 +315,7 @@ const PaginationSelect = forwardRef<
           <Label
             variant="label2"
             weight="medium"
-            color="palette.label.alternative"
+            color="semantic.label.alternative"
             sx={{ minWidth: 'max-content' }}
           >
             {label}
@@ -366,7 +366,7 @@ const PaginationField = forwardRef<
       <Label
         variant="label2"
         weight="medium"
-        color="palette.label.alternative"
+        color="semantic.label.alternative"
         sx={{ minWidth: 'max-content' }}
       >
         {label}

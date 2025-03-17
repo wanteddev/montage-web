@@ -3,11 +3,11 @@ import { containerStyle, css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const headerWrapperStyle = (theme: Theme) => css`
-  ${theme.platform.ios.navigation}
+  ${theme.semantic.platform.ios.navigation}
   position: sticky;
   z-index: ${theme.zIndex.modal};
   top: 0;
-  border-bottom: 1px solid ${theme.palette.line.normal.normal};
+  border-bottom: 1px solid ${theme.semantic.line.normal.normal};
 `;
 
 export const headerStyle = (theme: Theme) => css`

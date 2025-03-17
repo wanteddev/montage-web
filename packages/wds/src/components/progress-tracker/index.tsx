@@ -332,7 +332,9 @@ const ProgressTrackerItemLabel = ({
       <Typography
         sx={{ padding: '1px 0px', height: 'fit-content' }}
         data-role="progress-tracker-item-label"
-        color={isActive ? 'palette.label.normal' : 'palette.label.alternative'}
+        color={
+          isActive ? 'semantic.label.normal' : 'semantic.label.alternative'
+        }
         variant="label2"
         weight="bold"
         align="center"
@@ -346,7 +348,7 @@ const ProgressTrackerItemLabel = ({
     <Typography
       sx={{ padding: '1px 0px', height: 'fit-content' }}
       data-role="progress-tracker-item-label"
-      color={isActive ? 'palette.label.normal' : 'palette.label.alternative'}
+      color={isActive ? 'semantic.label.normal' : 'semantic.label.alternative'}
       variant="label2"
       weight="bold"
       align="center"
@@ -387,7 +389,7 @@ const ProgressTrackerLabelContent = forwardRef<
           <Typography
             variant="caption1"
             weight="regular"
-            color="palette.label.alternative"
+            color="semantic.label.alternative"
           >
             {props.children}
           </Typography>

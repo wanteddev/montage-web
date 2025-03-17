@@ -259,9 +259,6 @@ importers:
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
-      lodash.flattendeep:
-        specifier: ^4.4.0
-        version: 4.4.0
       next-themes:
         specifier: ^0.4.4
         version: 0.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -281,9 +278,6 @@ importers:
         specifier: ^4.5.5
         version: 4.5.5(@types/react@18.3.14)(react@18.3.1)
     devDependencies:
-      '@types/lodash.flattendeep':
-        specifier: ^4.4.9
-        version: 4.4.9
       '@types/node':
         specifier: ^20.11.27
         version: 20.11.27
@@ -2670,12 +2664,6 @@ packages:
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
-  '@types/lodash.flattendeep@4.4.9':
-    resolution: {integrity: sha512-Oacs/ZMuMvVWkhMqvj+Spad457Beln5pnkauif+6s65fE2cSL7J7NoMfwkxjuQsOsr4DUCDH/iDbmuZo81Nypw==}
-
-  '@types/lodash@4.17.0':
-    resolution: {integrity: sha512-t7dhREVv6dbNj0q17X12j7yDG4bD/DHYX7o5/DbDxobP0HnGPgpRz2Ej77aL7TZT3DSw13fqUTj8J4mMnqa7WA==}
-
   '@types/mdast@3.0.15':
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
 
@@ -4867,9 +4855,6 @@ packages:
 
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
-
-  lodash.flattendeep@4.4.0:
-    resolution: {integrity: sha512-uHaJFihxmJcEX3kT4I23ABqKKalJ/zDrDg0lsFtc1h+3uw49SIJ5beyhx5ExVRti3AvKoOJngIj7xz3oylPdWQ==}
 
   lodash.ismatch@4.4.0:
     resolution: {integrity: sha512-fPMfXjGQEV9Xsq/8MTSgUf255gawYRbjwMyDbcvDhXgV7enSZA0hynz6vMPnpAb5iONEzBHBPsT+0zes5Z301g==}
@@ -9853,12 +9838,6 @@ snapshots:
 
   '@types/json5@0.0.29': {}
 
-  '@types/lodash.flattendeep@4.4.9':
-    dependencies:
-      '@types/lodash': 4.17.0
-
-  '@types/lodash@4.17.0': {}
-
   '@types/mdast@3.0.15':
     dependencies:
       '@types/unist': 2.0.10
@@ -12597,8 +12576,6 @@ snapshots:
 
   lodash.debounce@4.0.8:
     optional: true
-
-  lodash.flattendeep@4.4.0: {}
 
   lodash.ismatch@4.4.0: {}
 

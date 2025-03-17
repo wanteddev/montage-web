@@ -522,7 +522,7 @@ const AutocompleteGroup = forwardRef<
           data-role="autocomplete-group-title"
           variant="caption1"
           weight="bold"
-          color="palette.label.alternative"
+          color="semantic.label.alternative"
           sx={autocompleteGroupTitleStyle}
         >
           {title}

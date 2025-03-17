@@ -15,22 +15,22 @@ export const sliderProgressWrapperStyle =
           cursor: initial;
 
           [data-role='slider-progress-range'] {
-            background-color: ${theme.palette.interaction.disable};
+            background-color: ${theme.semantic.interaction.disable};
           }
 
           [data-role='slider-progress'] {
-            background-color: ${theme.palette.interaction.disable};
+            background-color: ${theme.semantic.interaction.disable};
           }
         `
       : css`
           cursor: pointer;
 
           [data-role='slider-progress-range'] {
-            background-color: ${theme.palette.fill.strong};
+            background-color: ${theme.semantic.fill.strong};
           }
 
           [data-role='slider-progress'] {
-            background-color: ${theme.palette.primary.normal};
+            background-color: ${theme.semantic.primary.normal};
           }
         `}
   `;
@@ -63,7 +63,7 @@ export const sliderThumbStyle = (theme: Theme) => css`
     cursor: initial;
 
     [data-role='slider-thumb-knob'] {
-      background-color: ${theme.palette.interaction.disable};
+      background-color: ${theme.semantic.interaction.disable};
     }
   }
 
@@ -84,7 +84,7 @@ export const sliderThumbStyle = (theme: Theme) => css`
 `;
 
 export const sliderThumbInteractionStyle = (theme: Theme) => css`
-  background-color: ${theme.palette.primary.normal};
+  background-color: ${theme.semantic.primary.normal};
   opacity: 0;
   width: calc(100% + 12px);
   height: calc(100% + 12px);
@@ -98,8 +98,8 @@ export const sliderThumbInteractionStyle = (theme: Theme) => css`
 `;
 
 export const sliderThumbKnobStyle = (theme: Theme) => css`
-  background-color: ${theme.palette.primary.normal};
-  border: 2px solid ${theme.palette.background.normal.normal};
+  background-color: ${theme.semantic.primary.normal};
+  border: 2px solid ${theme.semantic.background.normal.normal};
   border-radius: inherit;
   width: 100%;
   height: 100%;

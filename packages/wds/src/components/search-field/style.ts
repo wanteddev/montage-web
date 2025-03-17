@@ -23,7 +23,7 @@ export const searchFieldWrapperStyle =
     align-items: center;
     border-radius: 12px;
     border: none;
-    background-color: ${theme.palette.fill.normal};
+    background-color: ${theme.semantic.fill.normal};
     backdrop-filter: blur(32px);
     will-change: backdrop-filter;
     width: ${width};
@@ -33,7 +33,7 @@ export const searchFieldWrapperStyle =
 
     [data-role='search-field-icon'] {
       transition: color ease 0.2s;
-      color: ${theme.palette.label.alternative};
+      color: ${theme.semantic.label.alternative};
     }
 
     [data-role='search-field-reset'] {
@@ -45,7 +45,7 @@ export const searchFieldWrapperStyle =
           cursor: default;
 
           [data-role='search-field-icon'] {
-            color: ${theme.palette.label.disable};
+            color: ${theme.semantic.label.disable};
           }
 
           [data-role='search-field-reset'] {
@@ -56,7 +56,7 @@ export const searchFieldWrapperStyle =
           @supports selector(:has(*)) {
             &:where(:has(input:placeholder-shown)) {
               [data-role='search-field-icon'] {
-                color: ${theme.palette.label.assistive};
+                color: ${theme.semantic.label.assistive};
               }
             }
 
@@ -71,7 +71,7 @@ export const searchFieldWrapperStyle =
                 }
 
                 [data-role='search-field-icon'] {
-                  color: ${theme.palette.label.alternative};
+                  color: ${theme.semantic.label.alternative};
                 }
               }
             }
@@ -87,11 +87,11 @@ export const searchFieldWrapperStyle =
         `}
 
     input:disabled {
-      color: ${theme.palette.label.alternative};
+      color: ${theme.semantic.label.alternative};
     }
 
     input:disabled::placeholder {
-      color: ${theme.palette.label.disable};
+      color: ${theme.semantic.label.disable};
     }
 
     input {
@@ -104,12 +104,12 @@ export const searchFieldWrapperStyle =
       outline: none;
       border: none;
       box-shadow: none;
-      color: ${theme.palette.label.normal};
+      color: ${theme.semantic.label.normal};
       ${typographyStyle('body1', 'regular')}
 
       &::placeholder {
         ${typographyStyle('body1', 'regular')}
-        color: ${theme.palette.label.assistive};
+        color: ${theme.semantic.label.assistive};
       }
 
       [type='number'] {

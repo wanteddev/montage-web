@@ -15,13 +15,13 @@ export const progressTrackerDesktopWrapperStyle = css`
 
 export const progressChevronStyle = (theme: Theme) => css`
   font-size: 16px;
-  color: ${theme.palette.label.assistive};
+  color: ${theme.semantic.label.assistive};
 `;
 
 export const progressCircleStyle =
   (isActive: boolean, completed: boolean) => (theme: Theme) => css`
-    background-color: ${theme.palette.fill.strong};
-    color: ${theme.palette.static.white};
+    background-color: ${theme.semantic.fill.strong};
+    color: ${theme.semantic.static.white};
     width: 20px;
     height: 20px;
     position: relative;
@@ -30,12 +30,12 @@ export const progressCircleStyle =
 
     [data-role='progress-tracker-desktop-item-step'] {
       text-shadow: 0px 0px 12px
-        ${addOpacity(theme.palette.static.black, theme.opacity[12])};
+        ${addOpacity(theme.semantic.static.black, theme.opacity[12])};
     }
 
     ${(isActive || completed) &&
     css`
-      background-color: ${theme.palette.primary.normal};
+      background-color: ${theme.semantic.primary.normal};
 
       [data-role='progress-tracker-desktop-item-step'] {
         text-shadow: none;

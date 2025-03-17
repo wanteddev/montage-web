@@ -11,44 +11,44 @@ import * as semantic from './semantic';
  * @description css variable을 사용하지 않는 theme
  */
 export const lightOriginTheme = {
-  palette: {
-    ...atomic,
+  atomic,
+  semantic: {
     ...semantic.light,
+    platform: {
+      ios: {
+        navigation: `
+          background-color: ${addHexOpacity(semantic.light.background.elevated.normal, opacity[88])};
+          backdrop-filter: blur(32px);
+      `,
+      },
+    },
   },
   opacity,
   breakpoint,
   spacing,
   zIndex,
-  platform: {
-    ios: {
-      navigation: `
-        background-color: ${addHexOpacity(semantic.light.background.elevated.normal, opacity[88])};
-        backdrop-filter: blur(32px);
-      `,
-    },
-  },
 };
 
 /**
  * @description css variable을 사용하지 않는 theme
  */
 export const darkOriginTheme = {
-  palette: {
-    ...atomic,
+  atomic,
+  semantic: {
     ...semantic.dark,
+    platform: {
+      ios: {
+        navigation: `
+          background-color: ${addHexOpacity(semantic.dark.background.elevated.normal, opacity[88])};
+          backdrop-filter: blur(32px);
+      `,
+      },
+    },
   },
   opacity,
   breakpoint,
   spacing,
   zIndex,
-  platform: {
-    ios: {
-      navigation: `
-        background-color: ${addHexOpacity(semantic.light.background.elevated.normal, opacity[88])};
-        backdrop-filter: blur(32px);
-      `,
-    },
-  },
 };
 
 const addVarPrefix = (obj: any, prefix: string) => {
@@ -70,32 +70,32 @@ const addVarPrefix = (obj: any, prefix: string) => {
 
 export const lightTheme = {
   ...lightOriginTheme,
-  palette: {
-    ...(addVarPrefix(atomic, 'palette') as typeof atomic),
-    ...(addVarPrefix(semantic.light, 'palette') as typeof semantic.light),
-  },
-  platform: {
-    ios: {
-      navigation: `
-        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
-        backdrop-filter: blur(32px);
-      `,
+  atomic: addVarPrefix(atomic, 'atomic') as typeof atomic,
+  semantic: {
+    ...(addVarPrefix(semantic.light, 'semantic') as typeof semantic.light),
+    platform: {
+      ios: {
+        navigation: `
+          background-color: rgba(var(--semantic-background-elevated-normal-rgb), 0.88);
+          backdrop-filter: blur(32px);
+        `,
+      },
     },
   },
 };
 
 export const darkTheme = {
   ...darkOriginTheme,
-  palette: {
-    ...(addVarPrefix(atomic, 'palette') as typeof atomic),
-    ...(addVarPrefix(semantic.dark, 'palette') as typeof semantic.dark),
-  },
-  platform: {
-    ios: {
-      navigation: `
-        background-color: rgba(var(--palette-background-elevated-normal-rgb), 0.88);
-        backdrop-filter: blur(32px);
-      `,
+  atomic: addVarPrefix(atomic, 'atomic') as typeof atomic,
+  semantic: {
+    ...(addVarPrefix(semantic.dark, 'semantic') as typeof semantic.dark),
+    platform: {
+      ios: {
+        navigation: `
+          background-color: rgba(var(--semantic-background-elevated-normal-rgb), 0.88);
+          backdrop-filter: blur(32px);
+        `,
+      },
     },
   },
 };

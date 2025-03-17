@@ -124,13 +124,11 @@ const Editor = ({
           <CompactTooltipContent>Change Background</CompactTooltipContent>
         </CompactTooltip>
       </FlexBox>
-
       {children}
-
       <Typography
         variant="label2"
         weight="regular"
-        color="palette.label.neutral"
+        color="semantic.label.neutral"
         as="div"
         tabIndex={0}
         sx={focusGuardStyle}
@@ -181,7 +179,6 @@ const Editor = ({
           toHtml(refractor.highlight(v, 'tsx') as Parameters<typeof toHtml>[0])
         }
       />
-
       <FlexBox sx={collapseWrapperStyle(collapsed)} />
     </FlexBox>
   );

@@ -25,9 +25,9 @@ const actionAreaVariant = (
       return css`
         ${divider &&
         css`
-          border-top: 1px solid ${theme.palette.line.normal.neutral};
+          border-top: 1px solid ${theme.semantic.line.normal.neutral};
         `}
-        background-color: ${theme.palette.background.elevated.normal};
+        background-color: ${theme.semantic.background.elevated.normal};
       `;
     case false:
     default:
@@ -39,15 +39,15 @@ const actionAreaVariant = (
                     border-style: solid;
                     border-top-width: 1px;
                     transition: border-color 0.2s ease;
-                    border-color: ${theme.palette.line.normal.neutral};
-                    background-color: ${theme.palette.background.elevated
+                    border-color: ${theme.semantic.line.normal.neutral};
+                    background-color: ${theme.semantic.background.elevated
                       .normal};
                   `
                 : css`
                     &::before {
                       pointer-events: none;
                       ${gradient(
-                        theme.palette.background.elevated.normal,
+                        theme.semantic.background.elevated.normal,
                         'top',
                         'calc(var(--wds-action-area-margin-y, 20px) * 2)',
                         'mask',

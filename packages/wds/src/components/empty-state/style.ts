@@ -139,7 +139,7 @@ export const emptyStateStyle =
     }
     [data-role='empty-state-text-description'] {
       text-align: center;
-      color: ${theme.palette.label.alternative};
+      color: ${theme.semantic.label.alternative};
     }
 
     ${createResponsiveStyle(

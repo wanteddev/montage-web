@@ -9,7 +9,7 @@ export const linkStyle = (theme: Theme) => css`
   svg {
     font-size: 0.75em;
     visibility: hidden;
-    color: ${theme.palette.label.alternative};
+    color: ${theme.semantic.label.alternative};
     margin-left: 4px;
   }
 

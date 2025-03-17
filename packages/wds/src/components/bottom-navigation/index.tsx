@@ -78,7 +78,7 @@ const BottomNavigation = forwardRef(
             {
               '--wds-bottom-navigation-border-color': scrollEnd
                 ? 'transparent'
-                : theme.palette.line.normal.neutral,
+                : theme.semantic.line.normal.neutral,
               ...props.style,
             } as CSSProperties
           }

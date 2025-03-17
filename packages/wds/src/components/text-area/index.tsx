@@ -302,7 +302,7 @@ const TextAreaContent = forwardRef<
           ref={ref}
           {...props}
           sx={[textAreaContentStyle, textAreaCharacterCounterStyle, sx]}
-          color="palette.label.alternative"
+          color="semantic.label.alternative"
         >
           {length}/{children}
         </Typography>
@@ -344,7 +344,7 @@ const TextAreaContent = forwardRef<
             (theme) => ({
               fontSize: '22px',
               padding: '1px',
-              color: theme.palette.label.assistive,
+              color: theme.semantic.label.assistive,
             }),
             sx,
           ]}
@@ -361,7 +361,7 @@ const TextAreaContent = forwardRef<
           sx={[textAreaContentStyle, sx]}
           {...props}
         >
-          <IconButtonProvider normal="palette.label.alternative">
+          <IconButtonProvider normal="semantic.label.alternative">
             {children}
           </IconButtonProvider>
         </FlexBox>
