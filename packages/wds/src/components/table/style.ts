@@ -1,5 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
+import {
+  activeInteractionStyle,
+  hoverInteractionStyle,
+} from '../with-interaction/style';
+
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const tableStyle = (theme: Theme) => css`
@@ -19,17 +24,25 @@ export const tableStyle = (theme: Theme) => css`
     display: table;
     margin: 0;
     padding: 0;
-    border-collapse: collapse;
+    border-collapse: separate;
     border-spacing: 0;
     border: none;
     width: 100%;
     position: relative;
 
-    & > *:last-child:is(tr),
-    & > *:last-child > tr:last-of-type {
-      &::after {
-        display: none;
-      }
+    tfoot:has(tr) tr:last-child th,
+    tfoot:has(tr) tr:last-child td {
+      border-bottom: none;
+    }
+
+    :not(:has(tfoot tr)):has(tbody tr) tbody tr:last-child th,
+    :not(:has(tfoot tr)):has(tbody tr) tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    :not(:has(tfoot tr)):not(:has(tbody tr)) thead tr:last-child th,
+    :not(:has(tfoot tr)):not(:has(tbody tr)) thead tr:last-child td {
+      border-bottom: none;
     }
   }
 `;
@@ -39,7 +52,7 @@ export const scrollAreaStyle = css`
   flex-direction: column;
 `;
 
-export const tableHeadCellStyle = css`
+export const tableHeadCellStyle = (theme: Theme) => css`
   padding: var(--wds-table-head-cell-padding-y, 8px) 0px
     var(--wds-table-head-cell-padding-y, 8px)
     var(--wds-table-head-cell-padding-x, 20px);
@@ -47,34 +60,52 @@ export const tableHeadCellStyle = css`
   vertical-align: middle;
   display: table-cell;
   border: none;
+  border-bottom: 1px solid ${theme.palette.line.normal.neutral};
 `;
 
-export const tableCellStyle = css`
+export const tableCellStyle = (theme: Theme) => css`
   padding: var(--wds-table-cell-padding-y, 16px) 0px
     var(--wds-table-cell-padding-y, 16px) var(--wds-table-cell-padding-x, 20px);
   vertical-align: middle;
   display: table-cell;
   border: none;
   height: var(--wds-table-cell-min-height, 44px);
+  border-bottom: 1px solid ${theme.palette.line.normal.neutral};
 `;
 
-export const tableRowStyle = (theme: Theme) => css`
+export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
   position: relative;
   display: table-row;
   margin: 0;
   padding: 0;
   border: none;
 
-  &::after {
-    position: absolute;
-    content: '';
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    height: 1px;
-    width: 100%;
-    background-color: ${theme.palette.line.normal.neutral};
-  }
+  ${interaction &&
+  css`
+    cursor: pointer;
+
+    ::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      background-color: ${theme.palette.label.normal};
+      opacity: 0;
+      transition:
+        background ease 0.2s,
+        opacity ease 0.2s;
+    }
+
+    &:hover::after {
+      ${hoverInteractionStyle(theme, 'normal')}
+    }
+
+    &:active::after {
+      ${activeInteractionStyle(theme, 'normal')}
+    }
+  `}
 `;
 
 export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) => css`
@@ -91,7 +122,7 @@ export const tableHeadStyle = (isSticky?: boolean) => (theme: Theme) => css`
     ? css`
         ${theme.platform.ios.navigation}
 
-        &::after {
+        &::before {
           content: '';
           width: 100%;
           height: 100%;

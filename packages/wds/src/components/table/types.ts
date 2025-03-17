@@ -10,7 +10,9 @@ export type TableHeadProps = {};
 export type TableBodyProps = {};
 export type TableFootProps = {};
 
-export type TableRowProps = {};
+export type TableRowProps = {
+  interaction?: boolean;
+};
 
 export type TableCellProps = TypographyProps;
 export type TableHeadCellProps = TypographyProps;

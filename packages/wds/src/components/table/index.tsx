@@ -144,8 +144,16 @@ TableFoot.displayName = 'TableFoot';
 const TableRow = forwardRef<
   HTMLTableRowElement,
   DefaultComponentProps<TableRowProps, 'tr'>
->((props, ref) => {
-  return <Box as="tr" ref={ref} {...props} sx={[tableRowStyle, props.sx]} />;
+>(({ interaction = false, ...props }, ref) => {
+  return (
+    <Box
+      as="tr"
+      ref={ref}
+      tabIndex={interaction ? 0 : undefined}
+      {...props}
+      sx={[tableRowStyle(interaction), props.sx]}
+    />
+  );
 });
 
 TableRow.displayName = 'TableRow';
