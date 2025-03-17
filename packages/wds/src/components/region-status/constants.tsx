@@ -1,0 +1,57 @@
+import {
+  IconCircleCheckFill,
+  IconCircleExclamationFill,
+  IconTriangleExclamationFill,
+} from '@wanteddev/wds-icon';
+
+import FlexBox from '../flex-box';
+
+import { toastCircleIconWrapperStyle } from './style';
+
+import type { RegionToastItem } from '../../stores/region-store';
+import type { ReactNode } from 'react';
+
+export const toastIconComponent: {
+  [key in Exclude<RegionToastItem['variant'], undefined>]: ReactNode;
+} = {
+  normal: null,
+  positive: (
+    <FlexBox
+      alignItems="center"
+      justifyContent="center"
+      sx={toastCircleIconWrapperStyle}
+    >
+      <IconCircleCheckFill
+        sx={(theme) => ({
+          color: theme.palette.green[60],
+        })}
+      />
+    </FlexBox>
+  ),
+  cautionary: (
+    <FlexBox
+      alignItems="center"
+      justifyContent="center"
+      sx={toastCircleIconWrapperStyle}
+    >
+      <IconTriangleExclamationFill
+        sx={(theme) => ({
+          color: theme.palette.orange[60],
+        })}
+      />
+    </FlexBox>
+  ),
+  negative: (
+    <FlexBox
+      alignItems="center"
+      justifyContent="center"
+      sx={toastCircleIconWrapperStyle}
+    >
+      <IconCircleExclamationFill
+        sx={(theme) => ({
+          color: theme.palette.red[60],
+        })}
+      />
+    </FlexBox>
+  ),
+};

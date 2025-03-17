@@ -1,144 +1,12 @@
-import { findImportDeclaration } from '../helpers';
+import { deepConvertPropertyValue, findImportDeclaration } from '../helpers';
 
 import type {
   API,
-  ConditionalExpression,
   FileInfo,
   JSXAttribute,
   JSXExpressionContainer,
-  Literal,
-  ObjectExpression,
-  ObjectProperty,
   Options,
-  Property,
-  StringLiteral,
 } from 'jscodeshift';
-
-export const convertPropertyValue = (
-  property:
-    | Property
-    | Literal
-    | JSXExpressionContainer
-    | ObjectExpression
-    | ConditionalExpression
-    | JSXAttribute
-    | ObjectProperty
-    | StringLiteral
-    | undefined,
-  name: string,
-  convert: (v: string) => string,
-): any => {
-  if (!property) {
-    return;
-  }
-
-  if (
-    property.type === 'JSXAttribute' &&
-    (property.name.name === name ||
-      ['xs', 'sm', 'md', 'lg', 'xl'].includes(property.name.name.toString()))
-  ) {
-    // @ts-expect-error
-    return convertPropertyValue(property.value, name, convert);
-  }
-
-  if (property.type === 'Literal' || property.type === 'StringLiteral') {
-    property.value = convert(property.value?.toString() ?? '');
-    return property;
-  }
-
-  if (property.type === 'ConditionalExpression') {
-    if (
-      (property.consequent.type === 'Literal' ||
-        property.consequent.type === 'StringLiteral') &&
-      property.consequent.value?.toString()
-    ) {
-      property.consequent.value = convert(property.consequent.value.toString());
-    }
-
-    if (
-      (property.alternate.type === 'Literal' ||
-        property.alternate.type === 'StringLiteral') &&
-      property.alternate.value?.toString()
-    ) {
-      property.alternate.value = convert(property.alternate.value.toString());
-    }
-
-    return property;
-  }
-
-  if (
-    property.type === 'JSXExpressionContainer' &&
-    property.expression.type === 'ObjectExpression'
-  ) {
-    return property.expression.properties.forEach((v) =>
-      convertPropertyValue(v as Property, name, convert),
-    );
-  }
-
-  if (
-    (property.type === 'Property' || property.type === 'ObjectProperty') &&
-    ((property.key.type === 'Identifier' &&
-      (property.key.name === name ||
-        ['xs', 'sm', 'md', 'lg', 'xl'].includes(
-          property.key.name.toString(),
-        ))) ||
-      (property.key.type === 'Literal' &&
-        (property.key.value === name ||
-          ['xs', 'sm', 'md', 'lg', 'xl'].includes(
-            property.key.value?.toString() ?? '',
-          ))))
-  ) {
-    // @ts-expect-error
-    return convertPropertyValue(property.value, name, convert);
-  }
-
-  if (property.type === 'ObjectExpression') {
-    return property.properties.forEach((v) =>
-      convertPropertyValue(v as Property, name, convert),
-    );
-  }
-
-  if (
-    property.type === 'JSXExpressionContainer' &&
-    property.expression.type === 'ConditionalExpression'
-  ) {
-    if (property.expression.consequent.type === 'ObjectExpression') {
-      property.expression.consequent.properties.forEach((v) =>
-        // @ts-expect-error
-        convertPropertyValue(v, name, convert),
-      );
-    }
-
-    if (property.expression.alternate.type === 'ObjectExpression') {
-      property.expression.alternate.properties.forEach((v) =>
-        // @ts-expect-error
-        convertPropertyValue(v, name, convert),
-      );
-    }
-
-    if (
-      (property.expression.consequent.type === 'Literal' ||
-        property.expression.consequent.type === 'StringLiteral') &&
-      property.expression.consequent.value?.toString()
-    ) {
-      property.expression.consequent.value = convert(
-        property.expression.consequent.value.toString(),
-      );
-    }
-
-    if (
-      (property.expression.alternate.type === 'Literal' ||
-        property.expression.alternate.type === 'StringLiteral') &&
-      property.expression.alternate.value?.toString()
-    ) {
-      property.expression.alternate.value = convert(
-        property.expression.alternate.value.toString(),
-      );
-    }
-
-    return property;
-  }
-};
 
 const convertTypographyVariant = (value: string) => {
   if (value.includes('_normal')) {
@@ -174,7 +42,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -197,7 +65,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -220,7 +88,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -243,7 +111,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -266,7 +134,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -289,7 +157,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -312,7 +180,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -330,7 +198,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -353,7 +221,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -376,7 +244,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -399,7 +267,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -422,7 +290,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -445,7 +313,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -468,7 +336,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -491,7 +359,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -514,7 +382,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
-          convertPropertyValue(
+          deepConvertPropertyValue(
             attr as JSXAttribute,
             'variant',
             convertTypographyVariant,
@@ -542,7 +410,11 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           ) as JSXAttribute | undefined
         )?.value as JSXExpressionContainer;
 
-        convertPropertyValue(textProps, 'variant', convertTypographyVariant);
+        deepConvertPropertyValue(
+          textProps,
+          'variant',
+          convertTypographyVariant,
+        );
       });
   }
 

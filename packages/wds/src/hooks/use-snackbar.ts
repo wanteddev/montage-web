@@ -3,15 +3,16 @@ import { useRegionStore } from '../stores/region-store';
 import type { RegionSnackbarItem } from '../stores/region-store';
 
 const useSnackbar = () => {
-  const storeShow = useRegionStore((state) => state.show);
+  const storeAdd = useRegionStore((state) => state.add);
 
-  const show = (item: Omit<RegionSnackbarItem, 'id' | 'type'>) =>
-    storeShow({
+  const add = (item: Omit<RegionSnackbarItem, 'type'>) =>
+    storeAdd({
       type: 'snackbar',
       ...item,
+      duration: item.duration ?? 5000,
     });
 
-  return show;
+  return add;
 };
 
 export default useSnackbar;
