@@ -3,12 +3,16 @@ import { useRegionStore } from '../stores/region-store';
 import type { RegionToastItem } from '../stores/region-store';
 
 const useToast = () => {
-  const storeShow = useRegionStore((state) => state.show);
+  const storeAdd = useRegionStore((state) => state.add);
 
-  const show = (item: Omit<RegionToastItem, 'id' | 'type'>) =>
-    storeShow({ type: 'toast', ...item });
+  const add = (item: Omit<RegionToastItem, 'type'>) =>
+    storeAdd({
+      type: 'toast',
+      ...item,
+      duration: item.duration ?? 3000,
+    });
 
-  return show;
+  return add;
 };
 
 export default useToast;

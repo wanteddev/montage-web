@@ -38,14 +38,18 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="useToast" fallback={[
+{ name: 'id', types: 'string', required: false },
 { name: 'content', types: 'ReactNode', required: true },
-{ name: 'duration', types: 'number | undefined', defaultValue: 5000 },
-{ name: 'variant', types: '\"normal\" | \"warning\" | \"success\" | \"custom\" | undefined', defaultValue: 'normal' },
+{ name: 'duration', types: 'number | undefined', defaultValue: 3000 },
+{ name: 'icon', types: 'ReactNode', required: false },
+{ name: 'variant', types: '\"normal\" | \"positive\" | \"cautionary\" | \"negative\" | undefined', defaultValue: 'normal' },
 { name: 'onAnimationEnd', types: '(type: \"hide\" | \"show\") => void' }
 ]} />
 
 
 ## Example
+
+### Variant
 
 <Demo code={`import { FlexBox, useToast, Button } from '@wanteddev/wds';
 import { IconCircleFill } from '@wanteddev/wds-icon';
@@ -57,6 +61,13 @@ const Demo = () => {
     toast({
       variant,
       content: '메시지에 마침표를 찍어요.',
+    });
+  };
+
+  const handleClickCustom = () => {
+    toast({
+      variant: 'normal',
+      content: '메시지에 마침표를 찍어요.',
       icon: <IconCircleFill sx={theme => ({ color: theme.palette.accent.cyan })} />
     });
   };
@@ -64,9 +75,51 @@ const Demo = () => {
   return (
     <FlexBox gap="8px">
       <Button onClick={handleClick()}>normal</Button>
-      <Button onClick={handleClick('success')}>success</Button>
-      <Button onClick={handleClick('warning')}>warning</Button>
-      <Button onClick={handleClick('custom')}>custom</Button>
+      <Button onClick={handleClick('positive')}>positive</Button>
+      <Button onClick={handleClick('cautionary')}>cautionary</Button>
+      <Button onClick={handleClick('negative')}>negative</Button>
+      <Button onClick={handleClickCustom}>normal + icon</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Control
+
+id를 직접 주입하고 `useRegionStore`와 함께 사용하여 열리고 닫히는 상태를 추가적으로 컨트롤 할 수 있어요.
+
+<Demo code={`import { FlexBox, useToast, Button, useRegionStore } from '@wanteddev/wds';
+import { useId, useEffect } from 'react';
+ 
+const Demo = () => {
+  const toast = useToast();
+  const hide = useRegionStore((state) => state.hide);
+
+  const id = useId();
+
+  const handleClickShow = () => {
+    toast({
+      id,
+      variant,
+      duration: Infinity,
+      content: '메시지에 마침표를 찍어요.'
+    });
+  };
+
+  const handleClickHide = () => {
+    hide(id);
+  }
+
+  useEffect(() => {
+    return () => hide(id);
+  }, [])
+
+  return (
+    <FlexBox gap="8px">
+      <Button onClick={handleClickShow}>show</Button>
+      <Button onClick={handleClickHide}>hide</Button>
     </FlexBox>
   )
 }

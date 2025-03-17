@@ -66,7 +66,7 @@ const Editor = ({
 
     if (success) {
       toast({
-        variant: 'success',
+        variant: 'positive',
         content: '코드를 클립보드에 복사 했습니다.',
       });
     }

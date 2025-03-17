@@ -4,6 +4,7 @@ import { useStore } from 'zustand';
 
 import { generateId } from './helpers';
 
+import type { Merge } from '@wanteddev/wds-engine';
 import type { TextButton } from '../components';
 import type { ComponentProps, ReactNode } from 'react';
 import type { StoreApi } from 'zustand';
@@ -12,7 +13,7 @@ export type RegionToastItem = {
   id?: string;
   type: 'toast';
   duration?: number;
-  variant?: 'normal' | 'success' | 'warning' | 'custom';
+  variant?: 'normal' | 'positive' | 'cautionary' | 'negative';
   icon?: ReactNode;
   content: ReactNode;
   onAnimationEnd?: (type: 'hide' | 'show') => void;
@@ -32,8 +33,20 @@ export type RegionSnackbarItem = {
 
 export type RegionItem = RegionToastItem | RegionSnackbarItem;
 
+export type WithRegionSystem<T extends object> = Merge<
+  T,
+  {
+    createdAt: number;
+    pausedAt?: number;
+    height?: number;
+    status: 'visible' | 'hidden';
+  }
+>;
+
+export type RegionItemWithSystem = WithRegionSystem<RegionItem>;
+
 export type RegionState = {
-  items: Array<RegionItem>;
+  items: Array<RegionItemWithSystem>;
   config: {
     viewportMaxWidth: string | number;
     viewportBottom: string | number;
@@ -41,10 +54,18 @@ export type RegionState = {
 };
 
 export type RegionActions = {
-  show: (item: RegionItem) => void;
-  hide: (id: RegionItem['id']) => void;
-  hideAll: () => void;
   setConfig: (config: Partial<RegionState['config']>) => void;
+
+  add: (item: RegionItem) => void;
+  remove: (id: RegionItemWithSystem['id']) => void;
+  removeAll: () => void;
+  hide: (id: RegionItemWithSystem['id']) => void;
+  pause: (id: RegionItemWithSystem['id']) => void;
+  resume: (id: RegionItemWithSystem['id']) => void;
+  updateHeight: (
+    id: RegionItemWithSystem['id'],
+    height: RegionItemWithSystem['height'],
+  ) => void;
 };
 
 export type RegionStore = RegionState & RegionActions;
@@ -62,20 +83,80 @@ export const createRegionStore = (
 ) => {
   return create<RegionStore>()((set) => ({
     ...initState,
-    show: (item) =>
-      set((state) => ({
-        items: [
-          ...state.items,
-          {
-            id: generateId(),
-            ...item,
-          },
-        ],
-      })),
-    hideAll: () => set(() => ({ items: [] })),
-    hide: (id) =>
+    add: (item) =>
+      set((state) => {
+        const id = item.id ?? generateId();
+
+        if (state.items.find((v) => v.id === id)) {
+          return state;
+        }
+
+        return {
+          items: [
+            ...state.items,
+            {
+              createdAt: Date.now(),
+              ...item,
+              id,
+              status: 'visible',
+            },
+          ],
+        };
+      }),
+    removeAll: () => set(() => ({ items: [] })),
+    remove: (id) =>
       set((state) => ({
         items: state.items.filter(({ id: diffId }) => diffId !== id),
+      })),
+    hide: (id) =>
+      set((state) => ({
+        items: state.items.map((item) => {
+          if (item.id === id) {
+            return { ...item, status: 'hidden' };
+          }
+
+          return item;
+        }),
+      })),
+    pause: (id) =>
+      set((state) => ({
+        items: state.items.map((item) => {
+          if (item.id === id) {
+            return { ...item, pausedAt: Date.now() };
+          }
+
+          return item;
+        }),
+      })),
+    resume: (id) =>
+      set((state) => ({
+        items: state.items.map((item) => {
+          if (item.id === id) {
+            return {
+              ...item,
+              pausedAt: undefined,
+              duration:
+                item.duration! -
+                (item.pausedAt ?? Date.now()) -
+                item.createdAt +
+                // 애니메이션 정지 후 바로 사라지면 어색하기 때문에 1초의 보정 추가
+                1000,
+            };
+          }
+
+          return item;
+        }),
+      })),
+
+    updateHeight: (id, height) =>
+      set((state) => ({
+        items: state.items.map((item) => {
+          if (item.id === id) {
+            return { ...item, height };
+          }
+
+          return item;
+        }),
       })),
     setConfig: (config) =>
       set((state) => ({ config: { ...state.config, ...config } })),

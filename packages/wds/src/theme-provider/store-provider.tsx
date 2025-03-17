@@ -64,7 +64,6 @@ const RegionArea = () => {
         id="wds-region-manager-bottom"
         sx={(theme) => ({
           position: 'fixed',
-          gap: '14px',
           zIndex: 5500,
           justifyContent: 'center',
           pointerEvents: 'none',
@@ -81,7 +80,7 @@ const RegionArea = () => {
           paddingBottom: '40px',
           [`@media (max-width: ${theme.breakpoint.sm})`]: {
             minWidth: '100%',
-            paddingBottom: '34px',
+            paddingBottom: '20px',
           },
         })}
       />
