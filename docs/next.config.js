@@ -16,6 +16,7 @@ const nextConfig = {
   generateBuildId: () => {
     return commitHash;
   },
+  trailingSlash: true,
   assetPrefix: isProduction ? assetPrefix : undefined,
   transpilePackages: ['next-mdx-remote'],
   env: {
