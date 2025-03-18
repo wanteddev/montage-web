@@ -57,11 +57,11 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
 };
 
 const contentBadgeColorVariant = (
-  { variant, color, accentColor }: ContentBadgeProps,
+  { variant, color, accentColor, neutralColor }: ContentBadgeProps,
   theme: Theme,
 ) => {
   const { font, background, border } = contentBadgeColorStyle(
-    { color, accentColor },
+    { color, accentColor, neutralColor },
     theme,
   );
 
@@ -71,7 +71,6 @@ const contentBadgeColorVariant = (
 
   switch (variant) {
     case 'solid':
-    case 'filled':
       return css`
         background-color: ${background};
         color: ${font};
@@ -86,12 +85,12 @@ const contentBadgeColorVariant = (
 };
 
 const contentBadgeColorStyle = (
-  { color, accentColor }: ContentBadgeProps,
+  { color, accentColor, neutralColor }: ContentBadgeProps,
   theme: Theme,
 ) => {
   if (color === 'neutral') {
     return {
-      font: theme.semantic.label.alternative,
+      font: getColorByToken(theme, neutralColor!),
       background: theme.semantic.fill.normal,
       border: theme.semantic.line.normal.normal,
     };

@@ -1,14 +1,9 @@
-/* FIXME 마이그레이션 시 filled 제거 필요 */
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
 export type ChipActionDefaultProps = {
   size?: 'xsmall' | 'small' | 'normal' | 'large';
-  variant?:
-    | 'solid'
-    | 'outlined'
-    /** @deprecated */
-    | 'filled';
+  variant?: 'solid' | 'outlined';
   active?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
