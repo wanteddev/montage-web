@@ -5,8 +5,6 @@ import type { Theme } from '@wanteddev/wds';
 export const editorWrapperStyle = css`
   max-height: var(--demo-max-height);
   position: relative;
-  font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
-    'DejaVu Sans Mono', 'Roboto Mono' !important;
 `;
 
 export const toolbarStyle = (theme: Theme) => css`
@@ -50,6 +48,10 @@ export const editorStyle = (theme: Theme) => css`
   border-bottom-left-radius: 8px;
   border-top-width: 0px;
   font-size: 0.9em;
+  leading-trim: both;
+  text-edge: cap;
+  font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
+    'DejaVu Sans Mono', 'Roboto Mono' !important;
 
   textarea {
     border-radius: inherit;

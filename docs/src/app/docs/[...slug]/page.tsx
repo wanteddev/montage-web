@@ -33,17 +33,17 @@ export const generateMetadata = async ({
     const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
 
     return {
-      title: frontmatter.title + ' - WDS',
+      title: frontmatter.title + ' - Montage',
       description: frontmatter.description,
       openGraph: {
         type: 'website',
-        title: frontmatter.title + ' - WDS',
+        title: frontmatter.title + ' - Montage',
         description: frontmatter.description,
         ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
       },
       twitter: {
         card: 'summary_large_image',
-        title: frontmatter.title + ' - WDS',
+        title: frontmatter.title + ' - Montage',
         description: frontmatter.description,
         ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
       },

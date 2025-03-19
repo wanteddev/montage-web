@@ -30,8 +30,8 @@ const NotFoundPage = () => {
               </>
             }
           />
-          <FallbackViewButton as={Link} href="/docs/overview/getting-started">
-            문서 확인하기
+          <FallbackViewButton as={Link} href="/">
+            메인으로 이동하기
           </FallbackViewButton>
         </FallbackViewContent>
       </FallbackView>

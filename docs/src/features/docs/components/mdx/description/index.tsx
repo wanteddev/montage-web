@@ -134,7 +134,6 @@ const Description = ({ alt, href, content }: Props) => {
             ratio="2:1"
             radius
             border
-            sx={{ background: 'red' }}
             alt={alt ?? 'Thumbnail'}
           />
         )}

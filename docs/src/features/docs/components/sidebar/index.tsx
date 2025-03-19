@@ -94,7 +94,7 @@ const Sidebar = () => {
             >
               <Typography
                 as="h4"
-                variant="label2"
+                variant="caption1"
                 weight={visibleSectionId === null ? 'bold' : 'regular'}
                 color="semantic.label.neutral"
                 sx={[{ padding: '8px 12px' }, sidebarActiveStyle]}
@@ -106,7 +106,7 @@ const Sidebar = () => {
                 {headings.map(({ id, nodeName, text }) => {
                   return (
                     <Typography
-                      variant="body1"
+                      variant="label2"
                       weight={visibleSectionId === id ? 'bold' : 'regular'}
                       color="semantic.label.neutral"
                       as="li"

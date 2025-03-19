@@ -7,7 +7,8 @@ import type { PropsWithChildren } from 'react';
 import '@wanteddev/wds/global.css';
 
 export const metadata = {
-  title: 'WDS Docs',
+  title: 'Montage - Wanted Design System',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_PATH!),
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
