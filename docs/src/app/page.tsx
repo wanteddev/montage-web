@@ -11,7 +11,7 @@ const RootPage = () => {
       alignItems="center"
       justifyContent="center"
       gap="8px"
-      sx={{ marginTop: 'calc(var(--header-height) * -1)' }}
+      sx={{ marginTop: 'calc(var(--gnb-height) * -1)' }}
     >
       {/* <HomeIntro /> */}
     </FlexBox>

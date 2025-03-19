@@ -6,8 +6,8 @@ export const sidebarStyle = (theme: Theme) => css`
   width: 200px;
   min-width: 120px;
   position: sticky;
-  top: calc(var(--header-height) + 40px);
-  height: calc(100vh - var(--header-height) - 40px);
+  top: calc(var(--gnb-height) + 40px);
+  height: calc(100vh - var(--gnb-height) - 40px);
   display: flex;
   margin-top: 40px;
   flex-shrink: 0;
@@ -25,8 +25,8 @@ export const sidebarActiveStyle = (theme: Theme) => css`
   border-left: 1px solid transparent;
 
   &[aria-current='true'] {
-    border-left: 1px solid ${theme.semantic.primary.normal};
-    color: ${theme.semantic.primary.normal};
+    border-left: 1px solid ${theme.semantic.label.normal};
+    color: ${theme.semantic.label.normal};
   }
 `;
 

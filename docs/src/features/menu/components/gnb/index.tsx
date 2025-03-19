@@ -8,8 +8,9 @@ import {
 } from '@wanteddev/wds';
 import { IconMoon, IconSearch, IconSun } from '@wanteddev/wds-icon';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
 import { Typography } from '@wanteddev/wds';
+import { useContext } from 'react';
 
 import Logo from '@/assets/logo';
 import { layoutStyle } from '@/styles';
@@ -18,10 +19,16 @@ import { gnbActionsStyle, gnbItemWrapperStyle, gnbWrapperStyle } from './style';
 import { GNB_MENUS } from './constants';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
+import { GnbContext } from './contexts';
 
-const GNB = () => {
+const Gnb = () => {
   const { theme: themeMode, setTheme } = useThemeControl();
   const pathname = usePathname();
+
+  const { isSticky } = useContext(GnbContext);
+
+  const segments = useSelectedLayoutSegments();
+  const isDocsPage = segments.includes('docs');
 
   const { isOpen, handleOpen, handleOpenChange } = useSearch();
 
@@ -40,6 +47,8 @@ const GNB = () => {
         justifyContent="center"
         as="header"
         sx={gnbWrapperStyle}
+        data-is-docs-page={isDocsPage}
+        data-is-sticky={isSticky}
       >
         <FlexBox
           alignItems="center"
@@ -74,7 +83,11 @@ const GNB = () => {
                   <Typography
                     variant="label1"
                     weight="medium"
-                    color="semantic.label.normal"
+                    color={
+                      pathname.includes(active)
+                        ? 'semantic.primary.normal'
+                        : 'semantic.label.normal'
+                    }
                   >
                     {label}
                   </Typography>
@@ -116,4 +129,4 @@ const GNB = () => {
   );
 };
 
-export default GNB;
+export default Gnb;

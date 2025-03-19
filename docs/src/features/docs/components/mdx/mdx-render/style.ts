@@ -56,7 +56,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     h5,
     :is(h6),
     h6 {
-      scroll-margin-top: var(--header-height);
+      scroll-margin-top: calc(var(--gnb-height) + 56px);
     }
 
     :is(p),

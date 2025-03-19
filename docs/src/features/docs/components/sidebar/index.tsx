@@ -2,12 +2,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
 
 import { sidebarActiveStyle, sidebarContentStyle, sidebarStyle } from './style';
 
 const Sidebar = () => {
+  const params = useParams<{ slug: Array<string> }>();
   const [headings, setHeadings] = useState<
     Array<{ nodeName: string; id: string; text: string }>
   >([]);
@@ -22,7 +24,7 @@ const Sidebar = () => {
     }));
 
     setHeadings(headingElements);
-  }, []);
+  }, [params.slug]);
 
   const getLevel = (nodeName: string) => {
     return Number(nodeName.replace('H', ''));
@@ -66,9 +68,11 @@ const Sidebar = () => {
     throttledCheckVisibility();
 
     window.addEventListener('scroll', throttledCheckVisibility);
+    window.addEventListener('resize', throttledCheckVisibility);
 
     return () => {
       window.removeEventListener('scroll', throttledCheckVisibility);
+      window.removeEventListener('resize', throttledCheckVisibility);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSectionVisible, headings]);
@@ -90,8 +94,8 @@ const Sidebar = () => {
             >
               <Typography
                 as="h4"
-                variant="caption2"
-                weight="bold"
+                variant="label2"
+                weight={visibleSectionId === null ? 'bold' : 'regular'}
                 color="semantic.label.neutral"
                 sx={[{ padding: '8px 12px' }, sidebarActiveStyle]}
                 aria-current={visibleSectionId === null}
@@ -102,8 +106,8 @@ const Sidebar = () => {
                 {headings.map(({ id, nodeName, text }) => {
                   return (
                     <Typography
-                      variant="label2"
-                      weight="regular"
+                      variant="body1"
+                      weight={visibleSectionId === id ? 'bold' : 'regular'}
                       color="semantic.label.neutral"
                       as="li"
                       key={id}

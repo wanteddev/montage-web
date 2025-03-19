@@ -15,3 +15,8 @@ export const GNB_MENUS = [
     href: '/docs/components/screen-board/top-navigation/guide',
   },
 ];
+
+export const GNB_HEIGHTS = {
+  960: 81,
+  0: 73,
+};

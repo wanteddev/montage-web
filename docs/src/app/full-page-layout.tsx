@@ -11,7 +11,7 @@ const FullPageLayout = ({ children }: PropsWithChildren) => {
       gap="8px"
       sx={{
         width: '100%',
-        height: 'calc(100dvh - var(--header-height))',
+        height: 'calc(100dvh - var(--gnb-height))',
         margin: '0 auto',
       }}
       sm={{

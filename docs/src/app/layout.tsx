@@ -1,4 +1,4 @@
-import GNB from '@/features/menu/components/gnb';
+import Gnb from '@/features/menu/components/gnb';
 
 import Providers from './providers';
 
@@ -133,7 +133,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       </head>
       <body suppressHydrationWarning>
         <Providers>
-          <GNB />
+          <Gnb />
           {children}
         </Providers>
       </body>

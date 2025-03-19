@@ -1,6 +1,5 @@
 import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 
-import { SectionDivider } from '../section';
 import HeadingLink from '../heading-link';
 
 import {
@@ -23,7 +22,6 @@ type Props = {
 const Anatomy = ({ ratio = '16:9', portrait, data, src }: Props) => {
   return (
     <FlexBox flexDirection="column" sx={anatomyWrapperStyle}>
-      <SectionDivider />
       <Typography
         as="h2"
         data-heading=""
