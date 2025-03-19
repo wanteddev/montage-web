@@ -7,12 +7,11 @@ export const lnbWrapperStyle = (theme: Theme) => css`
   flex-shrink: 0;
   margin-top: 40px;
   top: calc(var(--header-height) + 40px);
-  border-radius: 20px;
   position: sticky !important;
   height: calc(100dvh - var(--header-height) - 40px);
 
   [data-radix-scroll-area-content] {
-    padding: 0px 16px 16px 16px;
+    padding: 0px 0px 16px 0px;
   }
 
   ${respondTo(theme.breakpoint.lg)} {

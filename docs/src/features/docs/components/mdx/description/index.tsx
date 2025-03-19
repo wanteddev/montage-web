@@ -7,7 +7,9 @@ import { useMDXContext } from '../../../context';
 
 const TAB_TITLE: { [key: string]: string } = {
   guide: 'Design Guide',
-  code: 'Code',
+  web: 'Web',
+  ios: 'iOS',
+  android: 'Android',
   changelog: 'Changelog',
 };
 
@@ -20,7 +22,9 @@ const Description = ({ content }: Props) => {
   const params = useParams();
 
   const tabs = useMemo(() => {
-    if (!/(code|guide|changelog)$/.test(params.slug?.toString() ?? '')) {
+    if (
+      !/(web|ios|android|guide|changelog)$/.test(params.slug?.toString() ?? '')
+    ) {
       return [];
     }
 
@@ -28,8 +32,9 @@ const Description = ({ content }: Props) => {
       frontmatter.slug
         .toString()
         .includes(
-          params.slug?.toString().replace(/(code|guide|changelog)$/, '') ??
-            '-1',
+          params.slug
+            ?.toString()
+            .replace(/(web|ios|android|guide|changelog)$/, '') ?? '-1',
         ),
     );
 

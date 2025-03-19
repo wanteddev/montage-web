@@ -1,17 +1,12 @@
 'use client';
-import {
-  FlexBox,
-  ScrollArea,
-  SegmentedControl,
-  SegmentedControlItem,
-} from '@wanteddev/wds';
+import { FlexBox, ScrollArea } from '@wanteddev/wds';
 
 import { lnbWrapperStyle } from './style';
-import LNBGroup from './lnb-group';
+import LNBGroup from './group';
 import { useLNBContent } from './hooks';
 
 const LNB = () => {
-  const { frontmatters, category, handleCategoryChange } = useLNBContent();
+  const { frontmatters } = useLNBContent();
 
   return (
     <ScrollArea sx={lnbWrapperStyle}>
@@ -19,14 +14,14 @@ const LNB = () => {
         as="aside"
         sx={{ width: '100%' }}
         flexDirection="column"
-        gap="8px"
+        gap="20px"
       >
-        <SegmentedControl value={category} onValueChange={handleCategoryChange}>
-          <SegmentedControlItem value="design">Design</SegmentedControlItem>
-          <SegmentedControlItem value="develop">Develop</SegmentedControlItem>
-        </SegmentedControl>
-
-        <FlexBox as="nav" flexDirection="column" gap="4px">
+        <FlexBox
+          as="nav"
+          flexDirection="column"
+          gap="4px"
+          sx={{ padding: '0px 12px' }}
+        >
           {frontmatters.map((frontmatter, i) => {
             return (
               <LNBGroup key={frontmatter.key + i} frontmatter={frontmatter} />

@@ -1,12 +1,20 @@
 import type { Frontmatter } from '../../types';
 
-export type LNBFrontmatterChild =
-  | { key: string; children: Array<Frontmatter>; defaultOpen?: boolean }
-  | Frontmatter;
+export type LNBFrontmatterItem = Frontmatter & { isActive: boolean };
+
+export type LNBFrontmatterChildObj = {
+  key: string;
+  children: Array<LNBFrontmatterItem>;
+  defaultOpen?: boolean;
+  isActive: boolean;
+};
+
+export type LNBFrontmatterChild = LNBFrontmatterChildObj | LNBFrontmatterItem;
 
 export type LNBFrontmatterType = {
   key: string;
   defaultOpen?: boolean;
+  isActive: boolean;
   children: Array<LNBFrontmatterChild>;
 };
 
