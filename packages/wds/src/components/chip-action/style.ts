@@ -113,7 +113,6 @@ const actionVariantStyle = (
 ) => {
   switch (variant) {
     case 'solid':
-    case 'filled':
       return css`
         color: ${theme.semantic.label.normal};
         background-color: ${theme.semantic.fill.alternative};
