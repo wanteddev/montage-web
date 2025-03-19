@@ -26,6 +26,7 @@ import {
   listCellDividerStyle,
   listCellStyle,
   listStyle,
+  listTextContentWrapperStyle,
   listTextEllipsisStyle,
   listTextStyle,
 } from './style';
@@ -386,12 +387,23 @@ const ListText = forwardRef(
         color={getTextColor()}
         variant={variant}
         weight={weight}
+        data-role="list-text-wrapper"
         {...props}
         as={as || 'p'}
         sx={[listTextStyle, props.sx]}
       >
-        <Box as="span" sx={listTextEllipsisStyle(ellipsis)}>
-          {children}
+        <Box
+          as="span"
+          data-role="list-text-content-wrapper"
+          sx={listTextContentWrapperStyle}
+        >
+          <Box
+            as="span"
+            sx={listTextEllipsisStyle(ellipsis)}
+            data-role="list-text-content"
+          >
+            {children}
+          </Box>
         </Box>
 
         {Boolean(caption) && (

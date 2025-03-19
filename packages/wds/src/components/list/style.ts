@@ -87,6 +87,13 @@ export const listCellStyle =
     )}
   `;
 
+export const listTextContentWrapperStyle = css`
+  min-height: 24px;
+  align-items: center;
+  display: flex;
+  flex: 1;
+`;
+
 export const listTextEllipsisStyle = (ellipsis?: boolean) =>
   ellipsis
     ? css`
