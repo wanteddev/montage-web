@@ -3,9 +3,7 @@ import { css, typographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
-  width: 100%;
   color: ${theme.semantic.label.normal};
-  margin-top: 40px;
   ${typographyStyle('body1', 'regular')}
 
   & > :not(:is([data-role="demo"])) {

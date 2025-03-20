@@ -1,16 +1,22 @@
 'use client';
-import { FlexBox } from '@wanteddev/wds';
-
-import { layoutStyle } from '@/styles';
+import { FlexBox, respondTo } from '@wanteddev/wds';
 
 import type { PropsWithChildren } from 'react';
 
 const DocsClientLayout = ({ children }: PropsWithChildren) => {
   return (
-    <FlexBox sx={layoutStyle} flexDirection="column">
-      <FlexBox gap="24px" md={{ gap: '40px' }} xl={{ gap: '80px' }}>
-        {children}
-      </FlexBox>
+    <FlexBox
+      sx={{
+        width: '100%',
+        paddingTop: 60,
+        maxWidth: 1680,
+        margin: '0 auto',
+        [respondTo('1360px')]: {
+          justifyContent: 'center',
+        },
+      }}
+    >
+      {children}
     </FlexBox>
   );
 };

@@ -2,21 +2,21 @@ import { css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const sidebarStyle = (theme: Theme) => css`
-  width: 200px;
-  min-width: 120px;
+export const sidebarStyle = css`
+  width: 160px;
+  box-sizing: content-box;
   position: sticky;
-  top: calc(var(--gnb-height) + 40px);
+  top: calc(var(--gnb-height) + 60px);
   height: calc(100vh - var(--gnb-height) - 40px);
+  padding: 0px var(--layout-padding);
   display: flex;
-  margin-top: 40px;
   flex-shrink: 0;
 
   & > * {
     flex: 1;
   }
 
-  ${respondTo(theme.breakpoint.md)} {
+  ${respondTo('1720px')} {
     display: none;
   }
 `;
