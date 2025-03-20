@@ -104,11 +104,11 @@ export const DocSearchModal = ({
 
               <FlexBox gap="12px">
                 <ChipAction
-                  variant={searchType === 'guide' ? 'solid' : 'outlined'}
-                  active={searchType === 'guide'}
-                  onClick={() => setSearchType('guide')}
+                  variant={searchType === 'design' ? 'solid' : 'outlined'}
+                  active={searchType === 'design'}
+                  onClick={() => setSearchType('design')}
                 >
-                  Guide
+                  Design
                 </ChipAction>
                 <ChipAction
                   variant={searchType === 'code' ? 'solid' : 'outlined'}

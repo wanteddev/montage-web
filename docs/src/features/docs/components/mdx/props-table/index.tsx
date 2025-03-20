@@ -2,9 +2,13 @@
 import { IconCircleInfo } from '@wanteddev/wds-icon';
 import {
   Box,
-  ContentBadge,
   FlexBox,
-  ScrollArea,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeadCell,
+  TableRow,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -13,6 +17,10 @@ import {
 
 import { useMDXContext } from '../../../context';
 import CodeBlock from '../code-block';
+
+import { defaultValueStyle } from './style';
+
+import type { ComponentDoc } from 'react-docgen-typescript';
 
 type Props = {
   component?: string;
@@ -30,140 +38,88 @@ const PropsTable = ({ component, fallback }: Props) => {
 
   const types = propTypes.find((c) => c.displayName === component);
 
-  if (fallback?.length) {
-    return (
-      <ScrollArea>
-        <Box as="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Types</th>
-              <th>defaultValue</th>
-            </tr>
-          </thead>
-          <tbody>
-            {fallback.map((value) => (
-              <tr key={value.name}>
-                <td>
-                  <FlexBox alignItems="center" gap="4px">
-                    <CodeBlock>
-                      {`${value.name}${value.required && value.name.toString() !== 'as' ? ' *' : ''}`}
-                    </CodeBlock>
-                    {value.description && (
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <Box
-                            sx={(theme) => ({
-                              display: 'inline-block',
-                              color: theme.semantic.label.alternative,
-                            })}
-                            as="span"
-                          >
-                            <IconCircleInfo />
-                          </Box>
-                        </TooltipTrigger>
-                        <TooltipContent
-                          position="top-center"
-                          sx={{ maxWidth: '350px' }}
-                        >
-                          {value.description}
-                        </TooltipContent>
-                      </Tooltip>
-                    )}
-                  </FlexBox>
-                </td>
-                <td>
-                  <Typography
-                    variant="body1-reading"
-                    weight="regular"
-                    color="semantic.accent.background.redOrange"
-                  >
-                    {value.types}
-                  </Typography>
-                </td>
-                <td>
-                  <ContentBadge size="medium" color="neutral">
-                    {value.defaultValue?.toString() ?? '-'}
-                  </ContentBadge>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Box>
-      </ScrollArea>
-    );
-  }
-
-  if (!types) {
+  if (!types && !fallback) {
     return null;
   }
 
-  const propValues = Object.entries(types.props);
+  const propValues = Object.entries(
+    types?.props ??
+      fallback!.reduce(
+        (acc, cur) => ({
+          ...acc,
+          [Math.random()]: {
+            ...cur,
+            type: {
+              name: cur.types,
+            },
+          },
+        }),
+        {} as ComponentDoc['props'],
+      ),
+  );
 
   return (
-    <ScrollArea>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Types</th>
-            <th>defaultValue</th>
-          </tr>
-        </thead>
-        <tbody>
-          {propValues.map(([key, value]) => (
-            <tr key={key}>
-              <td>
-                <FlexBox alignItems="center" gap="4px">
-                  <ContentBadge
-                    size="medium"
-                    color="accent"
-                    accentColor="semantic.accent.foreground.lightBlue"
-                  >
-                    {`${value.name}${value.required && value.name !== 'as' ? ' *' : ''}`}
-                  </ContentBadge>
-                  {value.description && (
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <Box
-                          sx={(theme) => ({
-                            display: 'inline-block',
-                            color: theme.semantic.label.alternative,
-                          })}
-                          as="span"
-                        >
-                          <IconCircleInfo />
-                        </Box>
-                      </TooltipTrigger>
-                      <TooltipContent
-                        position="top-center"
-                        sx={{ maxWidth: '350px' }}
-                      >
-                        {value.description}
-                      </TooltipContent>
-                    </Tooltip>
-                  )}
-                </FlexBox>
-              </td>
-              <td>
-                <Typography
-                  variant="body1-reading"
-                  weight="regular"
-                  color="semantic.accent.background.redOrange"
-                >
-                  {value.type.name}
-                </Typography>
-              </td>
-              <td>
-                <ContentBadge size="medium" color="neutral">
+    <Table>
+      <colgroup>
+        <col width="auto" />
+        <col width="auto" />
+        <col width="180px" />
+      </colgroup>
+
+      <TableHead>
+        <TableRow>
+          <TableHeadCell>Name</TableHeadCell>
+          <TableHeadCell>Types</TableHeadCell>
+          <TableHeadCell>defaultValue</TableHeadCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {propValues.map(([key, value]) => (
+          <TableRow key={key}>
+            <TableCell>
+              <FlexBox alignItems="center" gap="4px">
+                <CodeBlock>
+                  {`${value.name}${value.required && value.name !== 'as' ? ' *' : ''}`}
+                </CodeBlock>
+                {value.description && (
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <IconCircleInfo
+                        sx={(theme) => ({
+                          color: theme.semantic.label.alternative,
+                        })}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent
+                      position="top-center"
+                      sx={{ maxWidth: '350px' }}
+                    >
+                      {value.description}
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </FlexBox>
+            </TableCell>
+            <TableCell>
+              <Typography
+                variant="label2"
+                weight="regular"
+                color="semantic.accent.background.redOrange"
+              >
+                {value.type.name}
+              </Typography>
+            </TableCell>
+            <TableCell>
+              <Box sx={defaultValueStyle}>
+                <CodeBlock>
                   {value.defaultValue?.value?.toString() ?? '-'}
-                </ContentBadge>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </ScrollArea>
+                </CodeBlock>
+              </Box>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

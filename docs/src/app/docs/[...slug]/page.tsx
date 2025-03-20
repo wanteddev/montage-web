@@ -31,20 +31,22 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   try {
     const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
+    const title = frontmatter.title + ' - Montage';
+    const description = frontmatter.description?.replace(/\\n/g, '');
 
     return {
-      title: frontmatter.title + ' - Montage',
-      description: frontmatter.description,
+      title,
+      description,
       openGraph: {
         type: 'website',
-        title: frontmatter.title + ' - Montage',
-        description: frontmatter.description,
+        title,
+        description,
         ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
       },
       twitter: {
         card: 'summary_large_image',
-        title: frontmatter.title + ' - Montage',
-        description: frontmatter.description,
+        title,
+        description,
         ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
       },
     };

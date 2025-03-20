@@ -18,10 +18,10 @@ type UseDocSearchParams = {
 };
 
 export const useDocSearch = ({ apiKey, appId }: UseDocSearchParams) => {
-  const [searchType, setSearchType] = useState<'code' | 'guide'>('guide');
+  const [searchType, setSearchType] = useState<'code' | 'design'>('design');
 
   const indexName = useMemo(
-    () => (searchType === 'guide' ? 'wds-docs' : 'wds-code'),
+    () => (searchType === 'design' ? 'wds-docs' : 'wds-code'),
     [searchType],
   );
 

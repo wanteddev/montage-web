@@ -23,6 +23,9 @@ export const sidebarStyle = css`
 
 export const sidebarActiveStyle = (theme: Theme) => css`
   border-left: 1px solid transparent;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   &[aria-current='true'] {
     border-left: 1px solid ${theme.semantic.label.normal};
@@ -30,8 +33,13 @@ export const sidebarActiveStyle = (theme: Theme) => css`
   }
 `;
 
-export const sidebarContentStyle = css`
+export const sidebarContentStyle = (theme: Theme) => css`
   position: relative;
+
+  &[aria-current='false']&:hover {
+    border-left: 1px solid ${theme.semantic.label.assistive};
+    color: ${theme.semantic.label.strong};
+  }
 
   a {
     display: block;

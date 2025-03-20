@@ -144,34 +144,6 @@ export const mdxRootStyle = (theme: Theme) => css`
       }
     }
 
-    :is(table),
-    table {
-      margin-bottom: 16px;
-      min-width: 100%;
-      border-radius: 8px;
-      overflow: auto;
-      border-collapse: collapse;
-      border-spacing: 0;
-    }
-
-    :is(th),
-    th {
-      box-shadow: inset 0 -1px ${theme.semantic.line.normal.normal};
-      color: ${theme.semantic.label.strong};
-      background-color: ${theme.semantic.background.elevated.alternative};
-      padding: 12px 16px;
-      text-align: left;
-      ${typographyStyle('body1-reading', 'bold')}
-    }
-    :is(td),
-    td {
-      padding: 12px 16px;
-      color: ${theme.semantic.label.normal};
-      box-shadow: inset 0 -1px ${theme.semantic.line.normal.normal};
-      text-align: left;
-      ${typographyStyle('body1-reading', 'regular')}
-    }
-
     :is(details),
     details {
       margin-bottom: 16px;

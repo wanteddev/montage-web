@@ -10,7 +10,12 @@ import {
   IconButton,
   useToast,
 } from '@wanteddev/wds';
-import { IconCopy, IconImage, IconRefresh } from '@wanteddev/wds-icon';
+import {
+  IconCircleExclamationFill,
+  IconCopy,
+  IconImage,
+  IconRefresh,
+} from '@wanteddev/wds-icon';
 import copy from 'copy-to-clipboard';
 import { toHtml } from 'hast-util-to-html';
 import tsx from 'refractor/lang/tsx';
@@ -25,6 +30,7 @@ import {
   collapseWrapperStyle,
   editorStyle,
   editorWrapperStyle,
+  errorStyle,
   focusGuardStyle,
   toolbarStyle,
 } from './style';
@@ -32,6 +38,7 @@ import {
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
 
 refractor.register(tsx);
+
 type Props = PropsWithChildren<{
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
@@ -39,6 +46,7 @@ type Props = PropsWithChildren<{
   setCollapsed: Dispatch<SetStateAction<boolean>>;
   reset: () => void;
   setHatched: Dispatch<SetStateAction<boolean>>;
+  errorMessage?: string;
 }>;
 
 const Editor = ({
@@ -48,7 +56,7 @@ const Editor = ({
   setValue,
   reset,
   setHatched,
-  children,
+  errorMessage,
 }: Props) => {
   const focusGuardRef = useRef<HTMLDivElement | null>(null);
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -84,19 +92,30 @@ const Editor = ({
     <FlexBox ref={editorRef} sx={editorWrapperStyle} flexDirection="column">
       <FlexBox
         alignItems="center"
-        justifyContent="flex-end"
+        justifyContent="space-between"
         gap="16px"
         sx={toolbarStyle}
       >
-        <ChipAction
-          size="small"
-          variant="outlined"
-          color="assistive"
-          onClick={() => setCollapsed((prev) => !prev)}
-          sx={{ borderRadius: '9999px' }}
-        >
-          {collapsed ? 'Expand code' : 'Collapse code'}
-        </ChipAction>
+        <FlexBox sx={errorStyle} gap="4px" alignItems="center">
+          {errorMessage && (
+            <>
+              <IconCircleExclamationFill />
+              <Typography color="semantic.status.negative" variant="caption1">
+                {errorMessage}
+              </Typography>
+            </>
+          )}
+        </FlexBox>
+        <FlexBox alignItems="center" justifyContent="flex-end" gap="16px">
+          <ChipAction
+            size="small"
+            variant="outlined"
+            color="assistive"
+            onClick={() => setCollapsed((prev) => !prev)}
+            sx={{ borderRadius: '9999px' }}
+          >
+            {collapsed ? 'Expand' : 'Collapse'}
+          </ChipAction>
 
         <TooltipGroup>
           <Tooltip>
@@ -127,7 +146,7 @@ const Editor = ({
           </Tooltip>
         </TooltipGroup>
       </FlexBox>
-      {children}
+
       <Typography
         variant="label2"
         weight="regular"
@@ -144,7 +163,7 @@ const Editor = ({
           }
         }}
       >
-        Press <kbd>Enter</kbd> to start editing
+        <kbd>Enter</kbd> 키로 통해 코드 수정하기
       </Typography>
       <Box
         as={CodeEditor}

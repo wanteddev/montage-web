@@ -27,6 +27,7 @@ const DocsLayout = async ({ children }: PropsWithChildren) => {
           sx={{
             padding: '0px var(--layout-padding)',
             maxWidth: '1040px',
+            width: '100%',
             boxSizing: 'content-box',
           }}
         >

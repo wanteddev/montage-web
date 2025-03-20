@@ -14,7 +14,7 @@ import * as reactSpring from 'react-spring';
 import dynamic from 'next/dynamic';
 
 import { useRunner } from './react-runner';
-import { demoStyle, errorStyle } from './style';
+import { demoStyle, demoWrapperStyle } from './style';
 import Editor from './editor';
 
 const WdsLottieLoading = dynamic(
@@ -70,22 +70,9 @@ const Demo = ({ code, hideCode }: Props) => {
           ['--demo-max-height']: collapsed ? '250px' : 'fit-content',
         } as React.CSSProperties
       }
-      sx={{
-        marginBlock: 16,
-      }}
+      sx={demoWrapperStyle}
     >
-      <Wds.Box sx={demoStyle(hideCode ?? false, hatched)}>
-        {element}
-
-        {hideCode && Boolean(error) && (
-          <Wds.FlexBox sx={errorStyle(hideCode)} gap="4px">
-            <WdsIcon.IconCircleExclamation />
-            <Wds.Typography variant="caption1">
-              {error?.toString()}
-            </Wds.Typography>
-          </Wds.FlexBox>
-        )}
-      </Wds.Box>
+      <Wds.Box sx={demoStyle(hideCode ?? false, hatched)}>{element}</Wds.Box>
 
       {!hideCode && (
         <Editor
@@ -95,10 +82,11 @@ const Demo = ({ code, hideCode }: Props) => {
           setCollapsed={setCollapsed}
           setValue={setValue}
           setHatched={setHatched}
+          errorMessage={error?.toString()}
         >
           {Boolean(error) && (
             <Wds.FlexBox sx={errorStyle(hideCode)} gap="4px">
-              <WdsIcon.IconCircleExclamation />
+              <WdsIcon.IconCircleExclamationFill />
               <Wds.Typography variant="caption1">
                 {error?.toString()}
               </Wds.Typography>

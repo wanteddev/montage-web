@@ -1,11 +1,11 @@
 {
-  "index_name": "montage-guide",
+  "index_name": "montage-design",
   "start_urls": ["https://montage.wanted.co.kr/docs"],
   "stop_urls": [],
-  "sitemaps": ["https://montage.wanted.co.kr/docs/sitemap.guide.xml"],
+  "sitemaps": ["https://montage.wanted.co.kr/docs/sitemap.design.xml"],
   "selectors": {
     "lvl0": {
-      "selector": "nav//ul[li//a/@data-active = 'true']//h4/text() | (//nav//ul//a[contains(@data-active, 'true')]/text())[last()]",
+      "selector": "h1[data-algolia-page-title='true']/text()",
       "type": "xpath",
       "global": true,
       "default_value": "Documentation"

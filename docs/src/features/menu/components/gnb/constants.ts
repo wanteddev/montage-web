@@ -12,11 +12,8 @@ export const GNB_MENUS = [
   {
     label: 'Design System',
     active: '/docs',
-    href: '/docs/components/screen-board/top-navigation/guide',
+    href: '/docs/components/screen-board/top-navigation/design',
   },
 ];
 
-export const GNB_HEIGHTS = {
-  960: 81,
-  0: 73,
-};
+export const GNB_HEIGHT = 63;

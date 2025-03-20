@@ -11,8 +11,21 @@ export const lnbAccordionStyle = css`
 `;
 
 export const accordionSummaryStyle = css`
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 12px;
+
+  & > [wds-component='with-interaction'] {
+    width: 100%;
+    height: 100%;
+  }
+
   &[data-depth='1'] {
-    padding-left: 18px;
+    padding-left: 30px;
+  }
+
+  &[data-depth='2'] {
+    padding-left: 44px;
   }
 `;
 

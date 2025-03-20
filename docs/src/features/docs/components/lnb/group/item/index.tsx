@@ -1,9 +1,10 @@
 import { ListCell } from '@wanteddev/wds';
 import Link from 'next/link';
+import { type PropsWithChildren, useCallback } from 'react';
+
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { lnbItemStyle } from './style';
-
-import type { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
   href: string;
@@ -12,16 +13,18 @@ type Props = PropsWithChildren<{
 }>;
 
 const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
+
   return (
     <ListCell
       as={Link}
       href={href}
       sx={lnbItemStyle}
-      onClick={() => {
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 0);
-      }}
+      onClick={handleRouteChange}
       active={isActive}
       verticalPadding="12px"
       data-depth={depth}

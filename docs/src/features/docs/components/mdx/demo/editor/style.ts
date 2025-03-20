@@ -8,10 +8,9 @@ export const editorWrapperStyle = css`
 `;
 
 export const toolbarStyle = (theme: Theme) => css`
-  border: 1px solid ${theme.semantic.line.normal.normal};
+  border-bottom: 1px solid ${theme.semantic.line.normal.normal};
   border-top-width: 0px;
   padding: 10px 16px;
-  background-color: ${theme.semantic.background.normal.normal};
 `;
 
 export const focusGuardStyle = (theme: Theme) => css`
@@ -42,10 +41,9 @@ export const focusGuardStyle = (theme: Theme) => css`
 
 export const editorStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.elevated.normal};
-  border: 1px solid ${theme.semantic.line.normal.normal};
   min-width: 100%;
-  border-bottom-right-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
   border-top-width: 0px;
   font-size: 0.9em;
   leading-trim: both;
@@ -72,11 +70,9 @@ export const collapseWrapperStyle =
         height: 130px;
         content: '';
         position: absolute;
-        bottom: 1px;
-        width: calc(100% - 2px);
-        border-bottom-right-radius: 8px;
-        border-bottom-left-radius: 8px;
-        left: 1px;
+        bottom: 0px;
+        width: 100%;
+        left: 0px;
         pointer-events: none;
         ${gradient(
           theme.semantic.background.normal.alternative,
@@ -91,3 +87,9 @@ export const collapseWrapperStyle =
       background-color: ${theme.semantic.background.normal.normal};
     }
   `;
+
+export const errorStyle = (theme: Theme) => css`
+  svg {
+    color: ${theme.semantic.status.negative};
+  }
+`;

@@ -44,7 +44,7 @@ export const useLNBContent = () => {
             frontmatter.slug.toString() ===
               cur.slug
                 .toString()
-                .replace(/(web|ios|android|changelog)$/, 'guide') ||
+                .replace(/(web|ios|android|changelog)$/, 'design') ||
             frontmatter.slug.toString() ===
               cur.slug
                 .toString()
@@ -68,7 +68,7 @@ export const useLNBContent = () => {
 
       if (
         secondKey &&
-        (!thirdKey || thirdKey.match(/(web|ios|android|changelog|guide)$/))
+        (!thirdKey || thirdKey.match(/(web|ios|android|changelog|design)$/))
       ) {
         (firstLevelGroup.children as Array<Frontmatter>).push(cur);
         return acc;

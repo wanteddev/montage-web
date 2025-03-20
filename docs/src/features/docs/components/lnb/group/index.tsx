@@ -41,12 +41,9 @@ const LnbGroup = ({ frontmatter }: Props) => {
 
   return (
     <List>
-      <Accordion
-        divider={false}
-        disableAnimation
-        defaultExpanded={frontmatter.defaultOpen}
-      >
+      <Accordion divider={false} defaultExpanded={frontmatter.defaultOpen}>
         <AccordionSummary
+          sx={accordionSummaryStyle}
           verticalPadding="12px"
           trailingContent={
             <AccordionSummaryContent
@@ -87,7 +84,6 @@ const LnbGroup = ({ frontmatter }: Props) => {
               return (
                 <Accordion
                   key={item.key + idx}
-                  disableAnimation
                   divider={false}
                   defaultExpanded={item.defaultOpen}
                 >
@@ -111,8 +107,6 @@ const LnbGroup = ({ frontmatter }: Props) => {
                   >
                     {capitalCase(item.key)}
                   </AccordionSummary>
-
-                  {/* <Divider color="semantic.line.normal.alternative" /> */}
 
                   <AccordionDetails sx={lnbAccordionStyle}>
                     {item.children.map((child, childIdx) => {

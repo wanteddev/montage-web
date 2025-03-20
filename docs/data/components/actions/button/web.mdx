@@ -1,0 +1,232 @@
+---
+title: Button
+description: 화면 내에서 주요 행동을 유도합니다.
+image: /components/actions/button/design/thumbnail.png
+createdAt: 2025-04-03
+---
+
+## Solid Button
+
+Solid Button은 2가지 색상을 사용할 수 있어요.
+- primary (default)
+- assistive
+
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Button color="primary">PRIMARY</Button>
+      <Button color="assistive">ASSISTIVE</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Outlined Button
+
+Outlined Button은 Solid Button 색상에 추가로 secondary 색상을 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Button variant="outlined" color="primary">PRIMARY</Button>
+      <Button variant="outlined" color="secondary">SECONDARY</Button>
+      <Button variant="outlined" color="assistive">ASSISTIVE</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## With Icon
+
+`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+import { IconPlus, IconSendFill } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Button
+        variant="outlined"
+        color="assistive"
+        leadingContent={<IconPlus />}
+      >
+        추가
+      </Button>
+      <Button
+        variant="solid"
+        color="primary"
+        trailingContent={<IconSendFill />}
+      >
+        전송
+      </Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## IconOnly
+
+iconOnly 옵션을 사용하면 아이콘만 단독으로 배치할 수 있어요.
+
+다른 버튼과 나란히 사용할 때 `IconButton` 대신 iconOnly 버튼을 사용해요.
+
+<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Button iconOnly variant="solid" color="primary">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="solid" color="assistive">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="outlined" color="primary">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="outlined" color="secondary">
+        <IconPlusThick />
+      </Button>
+      <Button iconOnly variant="outlined" color="assistive">
+        <IconPlusThick />
+      </Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+3가지 사이즈를 제공해요.
+
+<Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Button variant="solid" color="primary" size="small">
+          SMALL
+        </Button>
+        <Button variant="solid" color="primary" size="medium">
+          MEDIUM
+        </Button>
+        <Button variant="solid" color="primary" size="large">
+          LARGE
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Button variant="solid" color="assistive" size="small">
+          SMALL
+        </Button>
+        <Button variant="solid" color="assistive" size="medium">
+          MEDIUM
+        </Button>
+        <Button variant="solid" color="assistive" size="large">
+          LARGE
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Button variant="outlined" color="primary" size="small">
+          SMALL
+        </Button>
+        <Button variant="outlined" color="primary" size="medium">
+          MEDIUM
+        </Button>
+        <Button variant="outlined" color="primary" size="large">
+          LARGE
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Button variant="outlined" color="secondary" size="small">
+          SMALL
+        </Button>
+        <Button variant="outlined" color="secondary" size="medium">
+          MEDIUM
+        </Button>
+        <Button variant="outlined" color="secondary" size="large">
+          LARGE
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Button variant="outlined" color="assistive" size="small">
+          SMALL
+        </Button>
+        <Button variant="outlined" color="assistive" size="medium">
+          MEDIUM
+        </Button>
+        <Button variant="outlined" color="assistive" size="large">
+          LARGE
+        </Button>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Loading
+
+`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있어요.
+disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막아요.
+  - onClick
+  - onMouseDown
+  - onPointerDown
+  - onKeyDown (e.key === 'Enter' || e.key === ' ')
+
+이벤트 실행을 막지 않으려면 `disableLoadingPreventEvents` 을 사용할 수 있어요.
+
+<Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
+import { useState, useEffect } from 'react';
+
+const Demo = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoading(prev => !prev)
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Button variant="solid" color="primary" loading={loading} size="large">
+        제출
+      </Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+- size
+
+<PropsTable component="Button" />

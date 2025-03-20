@@ -2,15 +2,26 @@
 import {
   Box,
   FlexBox,
-  IconButton,
+  ListCellContent,
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuList,
+  MenuTrigger,
   NoSsr,
+  WithInteraction,
   useThemeControl,
 } from '@wanteddev/wds';
-import { IconMoon, IconSearch, IconSun } from '@wanteddev/wds-icon';
+import {
+  IconDesktop,
+  IconMoon,
+  IconSearch,
+  IconSun,
+} from '@wanteddev/wds-icon';
 import Link from 'next/link';
 import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
 import { Typography } from '@wanteddev/wds';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 import Logo from '@/assets/logo';
 import { layoutStyle } from '@/styles';
@@ -22,7 +33,9 @@ import { DocSearchModal } from './search-modal';
 import { GnbContext } from './contexts';
 
 const Gnb = () => {
-  const { theme: themeMode, setTheme } = useThemeControl();
+  const { setTheme, themeOriginValue } = useThemeControl();
+
+  const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const { isSticky } = useContext(GnbContext);
@@ -75,53 +88,96 @@ const Gnb = () => {
 
             <FlexBox gap="40px" alignItems="center">
               {GNB_MENUS.map(({ label, href, active }, i) => (
-                <Link
+                <Typography
+                  as={Link}
+                  variant="label1"
+                  weight={pathname.includes(active) ? 'bold' : 'regular'}
+                  color="semantic.label.normal"
                   href={href}
                   key={i}
+                  data-role="gnb-link"
                   aria-current={pathname.includes(active) ? 'page' : undefined}
                 >
-                  <Typography
-                    variant="label1"
-                    weight="medium"
-                    color={
-                      pathname.includes(active)
-                        ? 'semantic.primary.normal'
-                        : 'semantic.label.normal'
-                    }
-                  >
-                    {label}
-                  </Typography>
-                </Link>
+                  {label}
+                </Typography>
               ))}
             </FlexBox>
           </FlexBox>
 
           <FlexBox gap="8px">
-            <FlexBox sx={gnbActionsStyle}>
-              <IconButton
-                size={24}
-                type="button"
-                onClick={handleOpen}
+            <WithInteraction>
+              <FlexBox
                 aria-label="search"
+                as="button"
+                onClick={handleOpen}
+                sx={gnbActionsStyle}
               >
                 <IconSearch />
-              </IconButton>
-            </FlexBox>
+              </FlexBox>
+            </WithInteraction>
 
-            <FlexBox sx={gnbActionsStyle}>
-              <IconButton
-                size={24}
-                type="button"
-                aria-label="Theme toggle"
-                onClick={() =>
-                  setTheme(themeMode === 'dark' ? 'light' : 'dark')
-                }
-              >
-                <NoSsr fallback={<IconSun />}>
-                  {themeMode === 'dark' ? <IconMoon /> : <IconSun />}
-                </NoSsr>
-              </IconButton>
-            </FlexBox>
+            <Menu
+              open={menuOpen}
+              onOpenChange={setMenuOpen}
+              value={themeOriginValue}
+              onValueChange={(value) => {
+                setTheme(value?.toString() ?? 'system');
+                setMenuOpen(false);
+              }}
+            >
+              <MenuTrigger>
+                <WithInteraction>
+                  <FlexBox
+                    as="button"
+                    aria-label="Theme toggle"
+                    sx={gnbActionsStyle}
+                  >
+                    <NoSsr fallback={<IconSun />}>
+                      {themeOriginValue === 'system' && <IconDesktop />}
+
+                      {themeOriginValue === 'dark' && <IconMoon />}
+
+                      {themeOriginValue === 'light' && <IconSun />}
+                    </NoSsr>
+                  </FlexBox>
+                </WithInteraction>
+              </MenuTrigger>
+
+              <MenuContent sx={{ width: 200 }} position="top-end">
+                <MenuList>
+                  <MenuItem
+                    leadingContent={
+                      <ListCellContent variant="icon">
+                        <IconSun />
+                      </ListCellContent>
+                    }
+                    value="light"
+                  >
+                    Light
+                  </MenuItem>
+                  <MenuItem
+                    leadingContent={
+                      <ListCellContent variant="icon">
+                        <IconMoon />
+                      </ListCellContent>
+                    }
+                    value="dark"
+                  >
+                    Dark
+                  </MenuItem>
+                  <MenuItem
+                    leadingContent={
+                      <ListCellContent variant="icon">
+                        <IconDesktop />
+                      </ListCellContent>
+                    }
+                    value="system"
+                  >
+                    System
+                  </MenuItem>
+                </MenuList>
+              </MenuContent>
+            </Menu>
           </FlexBox>
         </FlexBox>
       </FlexBox>

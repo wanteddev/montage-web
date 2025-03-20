@@ -95,10 +95,9 @@ const Sidebar = () => {
               <Typography
                 as="h4"
                 variant="caption1"
-                weight={visibleSectionId === null ? 'bold' : 'regular'}
+                weight="regular"
                 color="semantic.label.neutral"
-                sx={[{ padding: '8px 12px' }, sidebarActiveStyle]}
-                aria-current={visibleSectionId === null}
+                sx={[{ padding: '8px 12px' }]}
               >
                 On this page
               </Typography>

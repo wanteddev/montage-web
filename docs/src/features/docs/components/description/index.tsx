@@ -21,15 +21,21 @@ import {
 import Link from 'next/link';
 
 import { GnbContext } from '@/features/menu/components/gnb/contexts';
-import { GNB_HEIGHTS } from '@/features/menu/components/gnb/constants';
+import { GNB_HEIGHT } from '@/features/menu/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
 
 import { useMDXContext } from '../../context';
+import useRouteScroll from '../../hooks/use-route-scroll';
 
-import { tabStyle, titleSectionWrapperStyle } from './style';
+import {
+  tabStyle,
+  thumbnailStyle,
+  titleSectionWrapperStyle,
+  wrapperStyle,
+} from './style';
 
 const TAB_TITLE: { [key: string]: string } = {
-  guide: 'Design Guide',
+  design: 'Design',
   web: 'Web',
   ios: 'iOS',
   android: 'Android',
@@ -52,52 +58,51 @@ const DocsDescription = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug.toString(), allFrontmatter]);
 
-  const isTriggered = useRef(false);
-
   useEffect(() => {
     setValue(`/docs/${params.slug.join('/')}`);
-
-    if (isSticky && isTriggered.current) {
-      isTriggered.current = false;
-
-      tabRef.current?.scrollIntoView({
-        block: 'start',
-        behavior: 'smooth',
-      });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.slug.toString()]);
 
-  const onScroll = useThrottle(() => {
-    const top =
-      tabRef.current?.getBoundingClientRect().top ?? GNB_HEIGHTS[960] + 1;
-    const gnbHeight = window.matchMedia('(min-width: 960px)').matches
-      ? GNB_HEIGHTS[960]
-      : GNB_HEIGHTS[0];
+  const handleScroll = useThrottle(() => {
+    const top = tabRef.current?.getBoundingClientRect().top ?? GNB_HEIGHT + 1;
 
-    setIsSticky?.(top <= gnbHeight);
+    setIsSticky?.(top <= GNB_HEIGHT);
   }, 250);
 
   useEffect(() => {
-    onScroll();
+    handleScroll();
 
-    document.addEventListener('scroll', onScroll);
-    document.addEventListener('resize', onScroll);
+    document.addEventListener('scroll', handleScroll);
+    document.addEventListener('resize', handleScroll);
 
     return () => {
-      document.removeEventListener('scroll', onScroll);
-      document.removeEventListener('resize', onScroll);
+      document.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('resize', handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setIsSticky, onScroll, params.slug.toString()]);
+  }, [setIsSticky, handleScroll, params.slug.toString()]);
 
-  const handleValueChange = useCallback((v: string) => {
-    setValue(v);
-    isTriggered.current = true;
-  }, []);
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      if (isSticky) {
+        tabRef.current?.scrollIntoView({
+          block: 'start',
+          behavior: 'smooth',
+        });
+      }
+    }, [isSticky]),
+  );
+
+  const handleValueChange = useCallback(
+    (v: string) => {
+      setValue(v);
+      handleRouteChange();
+    },
+    [handleRouteChange],
+  );
 
   const tabs = useMemo(() => {
-    if (!/(web|ios|android|guide|changelog)$/.test(params.slug.toString())) {
+    if (!/(web|ios|android|design|changelog)$/.test(params.slug.toString())) {
       return [];
     }
 
@@ -107,7 +112,7 @@ const DocsDescription = () => {
         .includes(
           params.slug
             .toString()
-            .replace(/(web|ios|android|guide|changelog)$/, ''),
+            .replace(/(web|ios|android|design|changelog)$/, ''),
         ),
     );
 
@@ -120,7 +125,7 @@ const DocsDescription = () => {
       })
       .sort((a, b) => {
         const sortedObj: { [key: string]: number } = {
-          guide: 1,
+          design: 1,
           web: 0,
           changelog: -1,
         };
@@ -135,42 +140,57 @@ const DocsDescription = () => {
 
   return (
     <>
-      <Typography
-        variant="display2"
-        display="block"
-        weight="bold"
-        as="h6"
-        sx={{ marginBottom: 32 }}
-      >
-        {frontmatter.title}
-      </Typography>
-
-      <FlexBox flexDirection="column" sx={titleSectionWrapperStyle} gap="16px">
-        {Boolean(frontmatter.description) && (
+      <FlexBox gap="40px" justifyContent="space-between" sx={wrapperStyle}>
+        <FlexBox
+          flexDirection="column"
+          gap="32px"
+          sx={titleSectionWrapperStyle}
+        >
           <Typography
-            variant="body1"
-            weight="regular"
-            color="semantic.label.normal"
-            sx={{ margin: 0, whiteSpace: 'pre-line' }}
-            as="p"
+            variant="display2"
+            display="block"
+            weight="bold"
+            as="h1"
+            data-algolia-page-title
+            sx={{
+              wordBreak: 'keep-all',
+              overflowWrap: 'break-word',
+            }}
           >
-            {frontmatter.description?.split('\\n').map((v) => (
-              <Fragment key={v}>
-                {v}
-                <br />
-              </Fragment>
-            ))}
+            {frontmatter.title}
           </Typography>
-        )}
+
+          {Boolean(frontmatter.description) && (
+            <Typography
+              variant="body1"
+              weight="regular"
+              color="semantic.label.normal"
+              sx={{
+                margin: 0,
+                maxWidth: '400px',
+                wordBreak: 'keep-all',
+                overflowWrap: 'break-word',
+              }}
+              as="p"
+            >
+              {frontmatter.description?.split('\\n').map((v) => (
+                <Fragment key={v}>
+                  {v}
+                  <br />
+                </Fragment>
+              ))}
+            </Typography>
+          )}
+        </FlexBox>
 
         {Boolean(frontmatter.image) && (
           <Thumbnail
-            width="100%"
+            width="480px"
             src={frontmatter.image!}
             ratio="2:1"
             radius
-            border
             alt={`${frontmatter.title} Thumbnail`}
+            sx={thumbnailStyle}
           />
         )}
       </FlexBox>

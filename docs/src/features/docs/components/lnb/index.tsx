@@ -16,12 +16,7 @@ const Lnb = () => {
         flexDirection="column"
         gap="20px"
       >
-        <FlexBox
-          as="nav"
-          flexDirection="column"
-          gap="4px"
-          sx={{ padding: '0px 12px' }}
-        >
+        <FlexBox as="nav" flexDirection="column" gap="4px">
           {frontmatters.map((frontmatter, i) => {
             return (
               <LnbGroup key={frontmatter.key + i} frontmatter={frontmatter} />

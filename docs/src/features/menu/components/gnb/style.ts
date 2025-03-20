@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -22,14 +22,37 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-export const gnbItemWrapperStyle = css`
-  padding: 8px 0px;
+export const gnbItemWrapperStyle = (theme: Theme) => css`
+  &:has([data-role='gnb-link']:hover) {
+    [data-role='gnb-link']:not(:hover) {
+      color: ${theme.semantic.label.assistive};
+      ${typographyStyle('label1', 'regular')}
+    }
+
+    [data-role='gnb-link']:hover {
+      color: ${theme.semantic.label.normal};
+      ${typographyStyle('label1', 'bold')}
+    }
+  }
+
+  [data-role='gnb-link'] {
+    transition:
+      color 0.2s ease,
+      font 0.2s ease;
+  }
 `;
 
 export const gnbActionsStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.fill.normal};
-  border-radius: 20px;
-  padding: 16px;
+  border-radius: 14px;
+  padding: 8px;
   position: relative;
-  font-size: 24px;
+  font-size: 22px;
+  color: ${theme.semantic.label.normal};
+
+  &[aria-expanded='true'] {
+    & > [wds-component='with-interaction'] {
+      opacity: ${theme.opacity[8]};
+    }
+  }
 `;
