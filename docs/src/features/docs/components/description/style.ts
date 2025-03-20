@@ -3,13 +3,13 @@ import { css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const titleSectionWrapperStyle = css`
-  position: relative;
+  position: sticky;
   border-bottom: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 `;
 
 export const tabStyle = (theme: Theme) => css`
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   position: sticky;
   top: calc(var(--gnb-height));
   z-index: 3;

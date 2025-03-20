@@ -2,10 +2,10 @@
 import { FlexBox, ScrollArea } from '@wanteddev/wds';
 
 import { lnbWrapperStyle } from './style';
-import LNBGroup from './group';
+import LnbGroup from './group';
 import { useLNBContent } from './hooks';
 
-const LNB = () => {
+const Lnb = () => {
   const { frontmatters } = useLNBContent();
 
   return (
@@ -24,7 +24,7 @@ const LNB = () => {
         >
           {frontmatters.map((frontmatter, i) => {
             return (
-              <LNBGroup key={frontmatter.key + i} frontmatter={frontmatter} />
+              <LnbGroup key={frontmatter.key + i} frontmatter={frontmatter} />
             );
           })}
         </FlexBox>
@@ -33,4 +33,4 @@ const LNB = () => {
   );
 };
 
-export default LNB;
+export default Lnb;

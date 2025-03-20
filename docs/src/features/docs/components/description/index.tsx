@@ -1,4 +1,6 @@
+'use client';
 import {
+  Box,
   FlexBox,
   Tab,
   TabList,
@@ -8,6 +10,7 @@ import {
 } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
 import {
+  Fragment,
   useCallback,
   useContext,
   useEffect,
@@ -15,13 +18,13 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 import { GnbContext } from '@/features/menu/components/gnb/contexts';
 import { GNB_HEIGHTS } from '@/features/menu/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
 
-import { useMDXContext } from '../../../context';
+import { useMDXContext } from '../../context';
 
 import { tabStyle, titleSectionWrapperStyle } from './style';
 
@@ -33,21 +36,37 @@ const TAB_TITLE: { [key: string]: string } = {
   changelog: 'Changelog',
 };
 
-type Props = {
-  content?: string;
-  alt?: string;
-  href?: string;
-};
-
-const Description = ({ alt, href, content }: Props) => {
+const DocsDescription = () => {
   const { allFrontmatter } = useMDXContext();
   const params = useParams<{ slug: Array<string> }>();
-  const router = useRouter();
   const tabRef = useRef<HTMLDivElement>(null);
 
-  const { setIsSticky } = useContext(GnbContext);
+  const { setIsSticky, isSticky } = useContext(GnbContext);
 
   const [value, setValue] = useState(`/docs/${params.slug.join('/')}`);
+
+  const frontmatter = useMemo(() => {
+    return allFrontmatter.find(
+      (v) => v.slug.toString() === params.slug.toString(),
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.slug.toString(), allFrontmatter]);
+
+  const isTriggered = useRef(false);
+
+  useEffect(() => {
+    setValue(`/docs/${params.slug.join('/')}`);
+
+    if (isSticky && isTriggered.current) {
+      isTriggered.current = false;
+
+      tabRef.current?.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.slug.toString()]);
 
   const onScroll = useThrottle(() => {
     const top =
@@ -69,23 +88,21 @@ const Description = ({ alt, href, content }: Props) => {
       document.removeEventListener('scroll', onScroll);
       document.removeEventListener('resize', onScroll);
     };
-  }, [setIsSticky, onScroll]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setIsSticky, onScroll, params.slug.toString()]);
 
-  const handleValueChange = useCallback(
-    (v: string) => {
-      router.push(v);
-      setValue(v);
-    },
-    [router],
-  );
+  const handleValueChange = useCallback((v: string) => {
+    setValue(v);
+    isTriggered.current = true;
+  }, []);
 
   const tabs = useMemo(() => {
     if (!/(web|ios|android|guide|changelog)$/.test(params.slug.toString())) {
       return [];
     }
 
-    const pages = allFrontmatter.filter((frontmatter) =>
-      frontmatter.slug
+    const pages = allFrontmatter.filter((v) =>
+      v.slug
         .toString()
         .includes(
           params.slug
@@ -112,10 +129,24 @@ const Description = ({ alt, href, content }: Props) => {
       });
   }, [allFrontmatter, params.slug]);
 
+  if (!frontmatter) {
+    return null;
+  }
+
   return (
     <>
+      <Typography
+        variant="display2"
+        display="block"
+        weight="bold"
+        as="h6"
+        sx={{ marginBottom: 32 }}
+      >
+        {frontmatter.title}
+      </Typography>
+
       <FlexBox flexDirection="column" sx={titleSectionWrapperStyle} gap="16px">
-        {Boolean(content) && (
+        {Boolean(frontmatter.description) && (
           <Typography
             variant="body1"
             weight="regular"
@@ -123,25 +154,43 @@ const Description = ({ alt, href, content }: Props) => {
             sx={{ margin: 0, whiteSpace: 'pre-line' }}
             as="p"
           >
-            {content}
+            {frontmatter.description?.split('\\n').map((v) => (
+              <Fragment key={v}>
+                {v}
+                <br />
+              </Fragment>
+            ))}
           </Typography>
         )}
 
-        {href && (
+        {Boolean(frontmatter.image) && (
           <Thumbnail
             width="100%"
-            src={href}
+            src={frontmatter.image!}
             ratio="2:1"
             radius
             border
-            alt={alt ?? 'Thumbnail'}
+            alt={`${frontmatter.title} Thumbnail`}
           />
         )}
       </FlexBox>
+
+      <Box
+        role="presentation"
+        ref={tabRef}
+        sx={{ scrollMarginTop: 'var(--gnb-height)' }}
+      />
+
       <Tab value={value} onValueChange={handleValueChange}>
-        <TabList sx={tabStyle} ref={tabRef}>
+        <TabList sx={tabStyle} size="large">
           {tabs.map((tab) => (
-            <TabListItem key={tab.title} value={tab.value}>
+            <TabListItem
+              as={Link}
+              scroll={false}
+              href={tab.value}
+              key={tab.title}
+              value={tab.value}
+            >
               {TAB_TITLE[tab.title]}
             </TabListItem>
           ))}
@@ -151,4 +200,4 @@ const Description = ({ alt, href, content }: Props) => {
   );
 };
 
-export default Description;
+export default DocsDescription;

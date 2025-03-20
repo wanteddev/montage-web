@@ -1,5 +1,6 @@
-import type { LNBFrontmatterChild, LNBFrontmatterItem } from '../types';
+import type { Frontmatter } from '@/features/docs/types';
+import type { LNBFrontmatterChild } from '../types';
 
 export const isFrontmatter = (
   frontmatter: LNBFrontmatterChild,
-): frontmatter is LNBFrontmatterItem => 'slug' in frontmatter;
+): frontmatter is Frontmatter => 'slug' in frontmatter;

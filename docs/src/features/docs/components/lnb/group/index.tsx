@@ -8,6 +8,10 @@ import {
 import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
+import { useParams } from 'next/navigation';
+import { useMemo } from 'react';
+
+import { getIsActive } from '../helpers';
 
 import {
   accordionIconContentStyle,
@@ -18,13 +22,23 @@ import {
 import { isFrontmatter } from './helpers';
 import LnbGroupItem from './item';
 
-import type { LNBFrontmatterType } from '../types';
+import type { LNBFrontmatterType, SlugParams } from '../types';
 
 type Props = {
   frontmatter: LNBFrontmatterType;
 };
 
-const LNBGroup = ({ frontmatter }: Props) => {
+const LnbGroup = ({ frontmatter }: Props) => {
+  const params = useParams<SlugParams>();
+
+  const isActive = useMemo(() => {
+    return frontmatter.children.some((root) =>
+      isFrontmatter(root)
+        ? getIsActive(params, root)
+        : root.children.some((child) => getIsActive(params, child)),
+    );
+  }, [frontmatter, params]);
+
   return (
     <List>
       <Accordion
@@ -45,7 +59,7 @@ const LNBGroup = ({ frontmatter }: Props) => {
           }
           textProps={{
             variant: 'body1',
-            weight: frontmatter.isActive ? 'bold' : 'regular',
+            weight: isActive ? 'bold' : 'regular',
           }}
         >
           {capitalCase(frontmatter.key)}
@@ -62,7 +76,7 @@ const LNBGroup = ({ frontmatter }: Props) => {
                   <LnbGroupItem
                     href={href}
                     key={item.title + idx}
-                    isActive={item.isActive}
+                    isActive={getIsActive(params, item)}
                     depth="1"
                   >
                     {title}
@@ -111,7 +125,7 @@ const LNBGroup = ({ frontmatter }: Props) => {
                         <LnbGroupItem
                           href={href}
                           key={child.slug.toString() + childIdx}
-                          isActive={item.isActive}
+                          isActive={getIsActive(params, child)}
                           depth="2"
                         >
                           {title}
@@ -129,4 +143,4 @@ const LNBGroup = ({ frontmatter }: Props) => {
   );
 };
 
-export default LNBGroup;
+export default LnbGroup;

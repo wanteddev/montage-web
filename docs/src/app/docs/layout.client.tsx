@@ -8,8 +8,8 @@ const DocsClientLayout = ({ children }: PropsWithChildren) => {
     <FlexBox
       sx={{
         width: '100%',
-        paddingTop: 60,
-        maxWidth: 1680,
+        paddingTop: 'var(--layout-padding)',
+        maxWidth: 'var(--layout-max-width)',
         margin: '0 auto',
         [respondTo('1360px')]: {
           justifyContent: 'center',

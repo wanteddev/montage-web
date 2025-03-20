@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -27,6 +27,10 @@ export const linkStyle = (theme: Theme) => css`
     height: 0.75em;
     visibility: hidden;
     display: inline-flex;
+
+    ${respondTo('1140px')} {
+      visibility: hidden !important;
+    }
 
     svg {
       color: ${theme.semantic.label.normal};

@@ -1,7 +1,9 @@
 export type Frontmatter = {
   title: string;
   description?: string;
-  publishedAt?: string;
+  summary?: string;
   image?: string;
   slug: Array<string>;
+  publishedAt?: string;
+  updatedAt?: string;
 };

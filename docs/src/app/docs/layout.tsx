@@ -1,8 +1,11 @@
+import { FlexBox } from '@wanteddev/wds';
+
 import { MDXProvider } from '@/features/docs/context';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { generatePropTypes } from '@/features/docs/helpers/props';
-import LNB from '@/features/docs/components/lnb';
+import Lnb from '@/features/docs/components/lnb';
 import Sidebar from '@/features/docs/components/sidebar';
+import DocsDescription from '@/features/docs/components/description';
 
 import DocsClientLayout from './layout.client';
 
@@ -16,9 +19,21 @@ const DocsLayout = async ({ children }: PropsWithChildren) => {
   return (
     <DocsClientLayout>
       <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
-        <LNB />
+        <Lnb />
 
-        {children}
+        <FlexBox
+          data-algolia-page-scope
+          flexDirection="column"
+          sx={{
+            padding: '0px var(--layout-padding)',
+            maxWidth: '1040px',
+            boxSizing: 'content-box',
+          }}
+        >
+          <DocsDescription />
+
+          {children}
+        </FlexBox>
 
         <Sidebar />
       </MDXProvider>

@@ -1,21 +1,19 @@
 import type { Frontmatter } from '../../types';
 
-export type LNBFrontmatterItem = Frontmatter & { isActive: boolean };
-
 export type LNBFrontmatterChildObj = {
   key: string;
-  children: Array<LNBFrontmatterItem>;
+  children: Array<Frontmatter>;
   defaultOpen?: boolean;
-  isActive: boolean;
 };
 
-export type LNBFrontmatterChild = LNBFrontmatterChildObj | LNBFrontmatterItem;
+export type LNBFrontmatterChild = LNBFrontmatterChildObj | Frontmatter;
 
 export type LNBFrontmatterType = {
   key: string;
   defaultOpen?: boolean;
-  isActive: boolean;
   children: Array<LNBFrontmatterChild>;
 };
 
 export type LNBFrontmatterGroup = Array<LNBFrontmatterType>;
+
+export type SlugParams = { slug: Array<string> };

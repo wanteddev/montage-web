@@ -1,27 +1,20 @@
-import { useCallback, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 
 import { useMDXContext } from '@/features/docs/context';
 
+import { getIsActive } from './helpers';
+
 import type {
   LNBFrontmatterChildObj,
   LNBFrontmatterGroup,
-  LNBFrontmatterItem,
+  SlugParams,
 } from './types';
 import type { Frontmatter } from '@/features/docs/types';
 
 export const useLNBContent = () => {
   const { allFrontmatter } = useMDXContext();
-  const params = useParams();
-
-  const getIsActive = useCallback(
-    (item: Frontmatter) =>
-      params.slug
-        ?.toString()
-        .replace(/(web|ios|android|changelog|guide)$/, '') ===
-      item.slug.toString().replace(/(web|ios|android|changelog|guide)$/, ''),
-    [params],
-  );
+  const params = useParams<SlugParams>();
 
   const filteredFrontmatter = useMemo(() => {
     return allFrontmatter.reduce((acc: LNBFrontmatterGroup, cur) => {
@@ -29,7 +22,7 @@ export const useLNBContent = () => {
 
       if (!firstKey) return acc;
 
-      const isActive = getIsActive(cur);
+      const isActive = getIsActive(params, cur);
 
       let firstLevelGroup = acc.find((item) => item.key === firstKey);
 
@@ -37,7 +30,6 @@ export const useLNBContent = () => {
         firstLevelGroup = {
           key: firstKey,
           defaultOpen: false,
-          isActive: false,
           children: [],
         };
         acc.push(firstLevelGroup);
@@ -72,22 +64,18 @@ export const useLNBContent = () => {
 
       if (isActive) {
         firstLevelGroup.defaultOpen = true;
-        firstLevelGroup.isActive = true;
       }
 
-      if (secondKey && !thirdKey) {
-        (firstLevelGroup.children as Array<LNBFrontmatterItem>).push({
-          ...cur,
-          isActive,
-        });
+      if (
+        secondKey &&
+        (!thirdKey || thirdKey.match(/(web|ios|android|changelog|guide)$/))
+      ) {
+        (firstLevelGroup.children as Array<Frontmatter>).push(cur);
         return acc;
       }
 
       if (!secondKey) {
-        (firstLevelGroup.children as Array<LNBFrontmatterItem>).push({
-          ...cur,
-          isActive,
-        });
+        (firstLevelGroup.children as Array<Frontmatter>).push(cur);
       } else {
         let secondLevelGroup = firstLevelGroup.children.find(
           (item): item is LNBFrontmatterChildObj =>
@@ -98,7 +86,6 @@ export const useLNBContent = () => {
           secondLevelGroup = {
             key: secondKey,
             defaultOpen: false,
-            isActive: false,
             children: [],
           };
           firstLevelGroup.children.push(secondLevelGroup);
@@ -106,15 +93,15 @@ export const useLNBContent = () => {
 
         if (isActive) {
           secondLevelGroup.defaultOpen = true;
-          secondLevelGroup.isActive = true;
         }
 
-        secondLevelGroup.children.push({ ...cur, isActive });
+        secondLevelGroup.children.push(cur);
       }
 
       return acc;
     }, []);
-  }, [allFrontmatter, getIsActive]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(allFrontmatter)]);
 
   return {
     frontmatters: filteredFrontmatter,

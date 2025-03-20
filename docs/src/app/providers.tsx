@@ -21,12 +21,17 @@ const Providers = ({ children }: PropsWithChildren) => {
             [':root']: {
               '--gnb-height': `${GNB_HEIGHTS[960]}px`,
               '--layout-padding': 'clamp(20px, calc(25vw - 320px), 40px)',
+              '--layout-max-width': '1680px',
               [respondTo('960px')]: {
                 '--gnb-height': `${GNB_HEIGHTS[0]}px`,
               },
-              [respondMore('1760px')]: {
+              [respondMore('1680px')]: {
+                '--layout-max-width': '100%',
                 '--layout-padding':
-                  'clamp(20px, calc(16.6666666667vw - 253.3333333333px), 60px)',
+                  'clamp(40px, calc(16.6666666667vw - 240px), 60px)',
+              },
+              [respondMore('1800px')]: {
+                '--layout-max-width': '1800px',
               },
             },
           })}

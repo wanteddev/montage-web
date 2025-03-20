@@ -6,8 +6,8 @@ export const sidebarStyle = css`
   width: 160px;
   box-sizing: content-box;
   position: sticky;
-  top: calc(var(--gnb-height) + 60px);
-  height: calc(100vh - var(--gnb-height) - 40px);
+  top: calc(var(--gnb-height) + var(--layout-padding));
+  height: calc(100vh - var(--gnb-height) - var(--layout-padding) - 20px);
   padding: 0px var(--layout-padding);
   display: flex;
   flex-shrink: 0;

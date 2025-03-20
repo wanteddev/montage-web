@@ -5,7 +5,6 @@ import CodeBlock from '../code-block';
 import Pre from '../pre';
 import Demo from '../demo';
 import PropsTable from '../props-table';
-import Description from '../description';
 import Thumbnail from '../thumbnail';
 import Anatomy from '../anatomy';
 import Note from '../note';
@@ -99,7 +98,6 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   code: CodeBlock,
   Demo,
   PropsTable,
-  Description,
   Thumbnail,
   Anatomy,
   Note,

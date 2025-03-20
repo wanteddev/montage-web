@@ -17,6 +17,11 @@ const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
       as={Link}
       href={href}
       sx={lnbItemStyle}
+      onClick={() => {
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 0);
+      }}
       active={isActive}
       verticalPadding="12px"
       data-depth={depth}
