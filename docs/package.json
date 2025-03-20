@@ -22,7 +22,6 @@
     "algoliasearch": "^5.15.0",
     "autosuggest-highlight": "^3.3.4",
     "copy-to-clipboard": "^3.3.3",
-    "glob": "^10.3.10",
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.0",
     "mdx-bundler": "^10.0.1",
