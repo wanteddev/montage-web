@@ -33,6 +33,10 @@ const Sidebar = () => {
   const [visibleSectionId, setVisibleSectionId] = useState<string | null>(null);
 
   const isSectionVisible = useCallback((elementId: string) => {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
     const section = document.getElementById(elementId);
 
     if (section) {

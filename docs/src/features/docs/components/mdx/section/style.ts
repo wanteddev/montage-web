@@ -32,7 +32,7 @@ export const sectionFigureThumbnailStyle =
   (color: ThemeColorsToken | undefined) => (theme: Theme) => css`
     width: 100%;
     margin-bottom: 24px;
-    border-radius: 16px;
+    border-radius: 20px;
 
     ${Boolean(color) &&
     css`

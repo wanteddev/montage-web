@@ -83,16 +83,7 @@ const Demo = ({ code, hideCode }: Props) => {
           setValue={setValue}
           setHatched={setHatched}
           errorMessage={error?.toString()}
-        >
-          {Boolean(error) && (
-            <Wds.FlexBox sx={errorStyle(hideCode)} gap="4px">
-              <WdsIcon.IconCircleExclamationFill />
-              <Wds.Typography variant="caption1">
-                {error?.toString()}
-              </Wds.Typography>
-            </Wds.FlexBox>
-          )}
-        </Editor>
+        />
       )}
     </Wds.FlexBox>
   );
