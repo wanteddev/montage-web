@@ -4,17 +4,25 @@ import {
   EmptyStateImage,
   EmptyStateText,
   FlexBox,
+  IconButton,
   ImageLoader,
   List,
-  Typography,
+  ListCellContent,
+  SectionHeader,
 } from '@wanteddev/wds';
+import { IconClose, IconHistory } from '@wanteddev/wds-icon';
 
 import { removeHighlightTags } from '../helpers';
 
 import SearchOption from './search-option';
+import { searchOptionWrapperStyle, searchResultGroupStyle } from './style';
 
 import type { AutocompletePropGetters } from '@algolia/autocomplete-core';
-import type { DocSearchState, InternalDocSearchHit } from '../types';
+import type {
+  DocSearchHit,
+  DocSearchState,
+  InternalDocSearchHit,
+} from '../types';
 import type { HTMLAttributes } from 'react';
 
 type Props = {
@@ -23,6 +31,7 @@ type Props = {
   isQueryEmpty: boolean;
   getItemProps: AutocompletePropGetters<InternalDocSearchHit>['getItemProps'];
   getListProps: AutocompletePropGetters<InternalDocSearchHit>['getListProps'];
+  recentSearchRemove: (item: DocSearchHit) => void;
 };
 
 const SearchResults = ({
@@ -31,6 +40,7 @@ const SearchResults = ({
   getListProps,
   isEmpty,
   isQueryEmpty,
+  recentSearchRemove,
 }: Props) => {
   if (isEmpty) {
     return (
@@ -62,32 +72,67 @@ const SearchResults = ({
     );
   }
 
-  if (isQueryEmpty) {
+  const firstCollections = state.collections[0];
+
+  if (isQueryEmpty || firstCollections?.source.sourceId === 'recentSearches') {
+    if (!firstCollections?.items.length) {
+      return null;
+    }
+
     return (
-      <FlexBox justifyContent="center">
-        <EmptyState
-          platform="mobile"
-          sx={{ padding: '20px 0px 0px 0px' }}
-          sm={{
-            platform: 'desktop',
-            sx: { padding: '20px 0px 0px 0px' },
-          }}
+      <FlexBox
+        as="section"
+        {...getListProps()}
+        key={firstCollections.source.sourceId}
+        flexDirection="column"
+        gap="4px"
+      >
+        <SectionHeader
+          headingTag="h4"
+          size="xsmall"
+          sx={searchResultGroupStyle}
         >
-          <EmptyStateImage>
-            <ImageLoader
-              src="https://static.wanted.co.kr/images/brand_assets/icon/explorer.webp"
-              width={200}
-              quality={100}
-              alt="explore"
-            />
-          </EmptyStateImage>
-          <EmptyStateContent>
-            <EmptyStateText
-              title="페이지를 검색해보세요."
-              description="검색을 통해 빠르게 페이지를 탐색하세요."
-            />
-          </EmptyStateContent>
-        </EmptyState>
+          최근 검색
+        </SectionHeader>
+        <List sx={searchOptionWrapperStyle}>
+          {firstCollections.items.map((item, idx) => {
+            return (
+              <SearchOption
+                {...(getItemProps({
+                  item,
+                  source: firstCollections.source,
+                }) as unknown as HTMLAttributes<HTMLLIElement>)}
+                item={item}
+                leadingContent={
+                  <ListCellContent variant="icon">
+                    <IconHistory />
+                  </ListCellContent>
+                }
+                trailingContent={
+                  <ListCellContent variant="icon-button">
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        recentSearchRemove(item);
+                      }}
+                      size={20}
+                      sx={(theme) => ({
+                        color: theme.semantic.label.assistive,
+                      })}
+                    >
+                      <IconClose />
+                    </IconButton>
+                  </ListCellContent>
+                }
+                key={[
+                  firstCollections.source.sourceId,
+                  idx,
+                  item.objectID,
+                ].join(':')}
+              />
+            );
+          })}
+        </List>
       </FlexBox>
     );
   }
@@ -107,17 +152,16 @@ const SearchResults = ({
             {...getListProps()}
             key={collection.source.sourceId}
             flexDirection="column"
-            gap="8px"
+            gap="4px"
           >
-            <Typography
-              as="h4"
-              variant="label1-reading"
-              weight="medium"
-              color="semantic.primary.normal"
+            <SectionHeader
+              headingTag="h4"
+              size="xsmall"
+              sx={searchResultGroupStyle}
             >
               {title}
-            </Typography>
-            <List>
+            </SectionHeader>
+            <List sx={searchOptionWrapperStyle}>
               {collection.items.map((item, idx) => {
                 return (
                   <SearchOption

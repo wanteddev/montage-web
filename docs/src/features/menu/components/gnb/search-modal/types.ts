@@ -11,24 +11,24 @@ type ContentType =
 type DocSearchHitAttributeHighlightResult = {
   value: string;
   matchLevel: 'full' | 'none' | 'partial';
-  matchedWords: Array<string>;
+  matchedWords?: Array<string>;
   fullyHighlighted?: boolean;
 };
 
 type DocSearchHitHighlightResultHierarchy = {
-  lvl0: DocSearchHitAttributeHighlightResult;
-  lvl1: DocSearchHitAttributeHighlightResult;
-  lvl2: DocSearchHitAttributeHighlightResult;
-  lvl3: DocSearchHitAttributeHighlightResult;
-  lvl4: DocSearchHitAttributeHighlightResult;
-  lvl5: DocSearchHitAttributeHighlightResult;
-  lvl6: DocSearchHitAttributeHighlightResult;
+  lvl0?: DocSearchHitAttributeHighlightResult;
+  lvl1?: DocSearchHitAttributeHighlightResult;
+  lvl2?: DocSearchHitAttributeHighlightResult;
+  lvl3?: DocSearchHitAttributeHighlightResult;
+  lvl4?: DocSearchHitAttributeHighlightResult;
+  lvl5?: DocSearchHitAttributeHighlightResult;
+  lvl6?: DocSearchHitAttributeHighlightResult;
 };
 
 type DocSearchHitHighlightResult = {
-  content: DocSearchHitAttributeHighlightResult;
-  hierarchy: DocSearchHitHighlightResultHierarchy;
-  hierarchy_camel: Array<DocSearchHitHighlightResultHierarchy>;
+  content?: DocSearchHitAttributeHighlightResult;
+  hierarchy?: DocSearchHitHighlightResultHierarchy;
+  hierarchy_camel?: Array<DocSearchHitHighlightResultHierarchy>;
 };
 
 type DocSearchHitAttributeSnippetResult = {
@@ -37,9 +37,9 @@ type DocSearchHitAttributeSnippetResult = {
 };
 
 type DocSearchHitSnippetResult = {
-  content: DocSearchHitAttributeSnippetResult;
-  hierarchy: DocSearchHitHighlightResultHierarchy;
-  hierarchy_camel: Array<DocSearchHitHighlightResultHierarchy>;
+  content?: DocSearchHitAttributeSnippetResult;
+  hierarchy?: DocSearchHitHighlightResultHierarchy;
+  hierarchy_camel?: Array<DocSearchHitHighlightResultHierarchy>;
 };
 
 export declare type DocSearchHit = {
@@ -49,6 +49,7 @@ export declare type DocSearchHit = {
   url_without_anchor: string;
   type: ContentType;
   anchor: string | null;
+  category: string;
   hierarchy: {
     lvl0: string;
     lvl1: string;
