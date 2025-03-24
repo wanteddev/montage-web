@@ -104,6 +104,47 @@ const SearchOption = ({ item, ...props }: Props) => {
     );
   }
 
+  const captionTextRender = () => {
+    switch (item.type) {
+      case 'content':
+        return parseStringFromHit(item, 'content');
+      case 'lvl2':
+        return null;
+      default:
+        return parseStringFromHit(item, `hierarchy.${item.type}`);
+    }
+  };
+
+  const textRender = () => {
+    switch (item.type) {
+      case 'content':
+        return (
+          parseStringFromHit(item, 'hierarchy.lvl2') ??
+          parseStringFromHit(item, 'hierarchy.lvl1')
+        );
+      case 'lvl2':
+      case 'lvl3':
+        return parseStringFromHit(item, 'hierarchy.lvl2');
+      case 'lvl4':
+        return (
+          parseStringFromHit(item, 'hierarchy.lvl3') ??
+          parseStringFromHit(item, 'hierarchy.lvl2')
+        );
+      case 'lvl5':
+        return (
+          parseStringFromHit(item, 'hierarchy.lvl4') ??
+          parseStringFromHit(item, 'hierarchy.lvl3')
+        );
+      case 'lvl6':
+        return (
+          parseStringFromHit(item, 'hierarchy.lvl5') ??
+          parseStringFromHit(item, 'hierarchy.lvl4')
+        );
+      default:
+        return parseStringFromHit(item, `hierarchy.${item.type}`);
+    }
+  };
+
   return (
     <ListCell
       as="li"
@@ -119,6 +160,12 @@ const SearchOption = ({ item, ...props }: Props) => {
                 item.type === 'content'
                   ? parseStringFromHit(item, 'content')
                   : parseStringFromHit(item, 'hierarchy.lvl1'),
+            }}
+          />
+        ) : captionTextRender() ? (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: captionTextRender(),
             }}
           />
         ) : null,
@@ -152,11 +199,7 @@ const SearchOption = ({ item, ...props }: Props) => {
         variant="body1"
         weight="medium"
         dangerouslySetInnerHTML={{
-          __html:
-            item.type === 'content'
-              ? parseStringFromHit(item, 'hierarchy.lvl2') ??
-                parseStringFromHit(item, 'hierarchy.lvl1')
-              : parseStringFromHit(item, `hierarchy.${item.type}`),
+          __html: textRender(),
         }}
       />
     </ListCell>

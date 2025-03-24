@@ -233,7 +233,12 @@ export const useDocSearch = ({
                           .replace(/\#([^\s]+)$/, '')
                           .replace(/(web|ios|android)$/, 'design'),
                         objectID: `9999-${item.url.replace(/\#([^\s]+)$/, '').replace(/(web|ios|android)$/, 'design')}`,
-                        _snippetResult: item._snippetResult,
+                        _snippetResult: {
+                          hierarchy: {
+                            lvl0: item._snippetResult.hierarchy?.lvl0,
+                            lvl1: item._snippetResult.hierarchy?.lvl1,
+                          },
+                        },
                         _highlightResult: item._highlightResult,
                       } as unknown as InternalDocSearchHit;
 
