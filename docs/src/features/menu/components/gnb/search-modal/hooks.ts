@@ -268,7 +268,7 @@ export const useDocSearch = ({
                             items,
                             (item) =>
                               `${item.hierarchy.lvl0}-${item.hierarchy.lvl1}`,
-                            10,
+                            5,
                           ),
                         )
                           .map((result) => {
@@ -294,7 +294,7 @@ export const useDocSearch = ({
                                   );
                                 if (parentCompare !== 0) return parentCompare;
 
-                                return result.indexOf(a) - result.indexOf(b);
+                                return a.category.localeCompare(b.category);
                               }
 
                               return 0;

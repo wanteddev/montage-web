@@ -124,6 +124,7 @@ const SearchResults = ({
                     </IconButton>
                   </ListCellContent>
                 }
+                data-depth={0}
                 key={[
                   firstCollections.source.sourceId,
                   idx,
