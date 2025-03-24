@@ -395,13 +395,9 @@ const ListText = forwardRef(
         <Box
           as="span"
           data-role="list-text-content-wrapper"
-          sx={listTextContentWrapperStyle}
+          sx={listTextContentWrapperStyle(ellipsis)}
         >
-          <Box
-            as="span"
-            sx={listTextEllipsisStyle(ellipsis)}
-            data-role="list-text-content"
-          >
+          <Box as="span" data-role="list-text-content">
             {children}
           </Box>
         </Box>
