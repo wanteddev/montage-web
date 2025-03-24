@@ -67,6 +67,7 @@ const SearchOption = ({ item, ...props }: Props) => {
         verticalPadding="16px"
         sx={searchOptionStyle}
         ellipsis
+        data-depth={hasParent ? 1 : 0}
         leadingContent={
           <>
             {Boolean(item.__docsearch_parent) ? (
@@ -108,6 +109,7 @@ const SearchOption = ({ item, ...props }: Props) => {
       as="li"
       verticalPadding="16px"
       sx={searchOptionStyle}
+      data-depth={hasParent ? 1 : 0}
       ellipsis
       textProps={{
         caption: !hasParent ? (

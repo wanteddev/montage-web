@@ -8,7 +8,13 @@ import PropsTable from '../props-table';
 import Thumbnail from '../thumbnail';
 import Anatomy from '../anatomy';
 import Note from '../note';
-import { SectionDivider, SectionFigure, SectionLayout } from '../section';
+import {
+  SectionCustomize,
+  SectionDivider,
+  SectionFigure,
+  SectionLayout,
+} from '../section';
+import DocsCollection from '../docs-collection';
 
 import type { ReactNode } from 'react';
 
@@ -104,4 +110,6 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionLayout,
   SectionFigure,
   SectionDivider,
+  SectionCustomize,
+  DocsCollection,
 };

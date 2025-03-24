@@ -3,7 +3,7 @@ import { css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const wrapperStyle = css`
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 
   ${respondTo('980px')} {
     flex-direction: column;
@@ -12,18 +12,7 @@ export const wrapperStyle = css`
   }
 `;
 
-export const thumbnailStyle = css`
-  border-radius: 20px;
-  width: 480px;
-
-  ${respondTo('980px')} {
-    width: 100%;
-  }
-`;
-
 export const titleSectionWrapperStyle = css`
-  padding: 8px 0px;
-
   ${respondTo('980px')} {
     gap: 20px;
   }

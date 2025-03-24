@@ -3,6 +3,10 @@ import { css, typographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const searchOptionStyle = (theme: Theme) => css`
+  &[data-depth='1'] {
+    padding-left: 18px;
+  }
+
   mark {
     background-color: transparent;
     color: ${theme.semantic.primary.normal};

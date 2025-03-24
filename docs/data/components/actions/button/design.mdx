@@ -1,19 +1,17 @@
 ---
 title: Button
-description: 사용자가 특정 작업을 수행할 수 있도록 안내하는 요소로 행동을 직관적이고 명확하게 유도해요.
+description: 사용자에게 어떠한 행동을 제공하는 요소로 간결하고 직관적인 단어를 사용하여 행동을 유도 및 제안할 수 있어요.
 image: /components/actions/button/design/thumbnail.png
 createdAt: 2025-04-03
 ---
 
 <Anatomy
-  src="/design/components/screen-board/top-navigation/thumbnail.png"
+  src="/components/actions/button/design/anatomy.png"
   data={[
-    'Status bar',
-    'Page name',
-    'Icon area',
-    'Profile area',
-    'Back button',
-    'Close button',
+    'Leading Icon',
+    'Label',
+    'Trailing Icon',
+    'Background',
   ]}
 />
 
@@ -23,50 +21,84 @@ createdAt: 2025-04-03
     description="화면 내에서 가장 중요 행동을 유도합니다."
     src="/components/actions/button/design/section-1-1.png"
     ratio="1:1"
+    border
   />
   <SectionFigure
     title="Outlined"
     description="차선 행동이나 보조 행동을 유도합니다."
     src="/components/actions/button/design/section-1-2.png"
     ratio="1:1"
+    border
   />
 </SectionLayout>
 
-<SectionLayout title="변형">
+<SectionLayout title="활용">
   <SectionFigure
-    title="Tab"
-    description="탭이 네비게이션에 고정 될 수 있습니다."
-    src="/design/components/screen-board/top-navigation/section-2-1.png"
-    ratio="1.618:1"
-  />
-  <SectionFigure
-    title="Title"
-    description="탭이 타이틀을 대신할 수 있습니다."
-    src="/design/components/screen-board/top-navigation/section-2-2.png"
-    ratio="1.618:1"
-  />
-  <SectionFigure
-    title="Floating Button"
-    description="배경과 버튼을 명확하게 구분할 수 있습니다."
-    src="/design/components/screen-board/top-navigation/section-2-3.png"
-    ratio="1.618:1"
+    title="라벨과 아이콘의 활용"
+    description="라벨과 아이콘 요소를 함께 쓰거나 단독으로 사용할 수 있어요."
+    src="/components/actions/button/design/section-2-1.png"
+    ratio="2:1"
   />
 </SectionLayout>
 
 
-<SectionLayout title="용법">
+<SectionLayout title="동작" direction="column">
   <SectionFigure
-    title="Tab"
-    description="탭이 네비게이션에 고정 될 수 있습니다."
-    src="/design/components/screen-board/top-navigation/section-2-1.png"
-    ratio="1.618:1"
-    variant="do"
+    title="Conditional Button"
+    description="입력 값이 충족 되면 Inactive -> Active로 상태값이 변해요."
+    src="/components/actions/button/design/section-3-1.png"
+    ratio="2:1"
+  />
+   <SectionFigure
+    title="Toggle Button"
+    description="버튼을 클릭하면 스타일 및 타입이 변해요."
+    src="/components/actions/button/design/section-3-2.png"
+    ratio="2:1"
+  />
+</SectionLayout>
+
+<SectionLayout title="크기">
+  <SectionFigure
+    src="/components/actions/button/design/section-4-1.png"
+    ratio="2:1"
+  />
+</SectionLayout>
+
+<SectionLayout title="로딩">
+  <SectionFigure
+    src="/components/actions/button/design/section-5-1.png"
+    ratio="2:1"
+    title="로딩 중 페이지 이동"
+    description="버튼 로딩 시 페이지의 이동을 제한하지 않아요."
+  />
+</SectionLayout>
+
+<SectionLayout title="변경 가능 요소">
+  <SectionCustomize
+    data={[
+      {
+        key: 'Solid Button',
+        options: ['contentColor', 'backgroundColor']
+      },
+      {
+        key: 'Outlined Button',
+        options: ['contentColor', 'backgroundColor', 'borderColor']
+      }
+    ]}
+  />
+</SectionLayout>
+
+<SectionLayout title="사용법">
+  <SectionFigure
+    src="/components/actions/button/design/section-7-1.png"
+    ratio="1:1"
+    title="권장해요."
+    description="버튼과 아이콘버튼을 함께 쓴다면 ‘Icon Only’를 쓸 수 있어요."
   />
   <SectionFigure
-    title="Title"
-    description="탭이 타이틀을 대신할 수 있습니다."
-    src="/design/components/screen-board/top-navigation/section-2-2.png"
-    ratio="1.618:1"
-    variant="dont"
+    src="/components/actions/button/design/section-7-2.png"
+    ratio="1:1"
+    title="하지 마세요."
+    description="버튼의 높이, 둥글기를 임의로 변경하지 마세요."
   />
 </SectionLayout>

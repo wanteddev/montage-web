@@ -5,7 +5,6 @@ import {
   Tab,
   TabList,
   TabListItem,
-  Thumbnail,
   Typography,
 } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
@@ -26,13 +25,11 @@ import useThrottle from '@/hooks/use-throttle';
 
 import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
+import { SectionDivider } from '../mdx/section';
 
-import {
-  tabStyle,
-  thumbnailStyle,
-  titleSectionWrapperStyle,
-  wrapperStyle,
-} from './style';
+import { tabStyle, titleSectionWrapperStyle, wrapperStyle } from './style';
+
+import type { SlugParams } from '../lnb/types';
 
 const TAB_TITLE: { [key: string]: string } = {
   design: 'Design',
@@ -44,10 +41,16 @@ const TAB_TITLE: { [key: string]: string } = {
 
 const DocsDescription = () => {
   const { allFrontmatter } = useMDXContext();
-  const params = useParams<{ slug: Array<string> }>();
+  const params = useParams<SlugParams>();
   const tabRef = useRef<HTMLDivElement>(null);
 
   const { setIsSticky, isSticky } = useContext(GnbContext);
+
+  const isOverviewPage = useMemo(
+    () => params.slug.toString() === ['overview', 'design'].toString(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [params.slug.toString()],
+  );
 
   const [value, setValue] = useState(`/docs/${params.slug.join('/')}`);
 
@@ -167,7 +170,7 @@ const DocsDescription = () => {
               color="semantic.label.normal"
               sx={{
                 margin: 0,
-                maxWidth: '400px',
+                maxWidth: '640px',
                 wordBreak: 'keep-all',
                 overflowWrap: 'break-word',
               }}
@@ -182,40 +185,35 @@ const DocsDescription = () => {
             </Typography>
           )}
         </FlexBox>
-
-        {Boolean(frontmatter.image) && (
-          <Thumbnail
-            width="480px"
-            src={frontmatter.image!}
-            ratio="2:1"
-            radius
-            alt={`${frontmatter.title} Thumbnail`}
-            sx={thumbnailStyle}
-          />
-        )}
       </FlexBox>
 
-      <Box
-        role="presentation"
-        ref={tabRef}
-        sx={{ scrollMarginTop: 'var(--gnb-height)' }}
-      />
+      {isOverviewPage ? (
+        <SectionDivider />
+      ) : (
+        <>
+          <Box
+            role="presentation"
+            ref={tabRef}
+            sx={{ scrollMarginTop: 'var(--gnb-height)' }}
+          />
 
-      <Tab value={value} onValueChange={handleValueChange}>
-        <TabList sx={tabStyle} size="large">
-          {tabs.map((tab) => (
-            <TabListItem
-              as={Link}
-              scroll={false}
-              href={tab.value}
-              key={tab.title}
-              value={tab.value}
-            >
-              {TAB_TITLE[tab.title]}
-            </TabListItem>
-          ))}
-        </TabList>
-      </Tab>
+          <Tab value={value} onValueChange={handleValueChange}>
+            <TabList sx={tabStyle} size="large">
+              {tabs.map((tab) => (
+                <TabListItem
+                  as={Link}
+                  scroll={false}
+                  href={tab.value}
+                  key={tab.title}
+                  value={tab.value}
+                >
+                  {TAB_TITLE[tab.title]}
+                </TabListItem>
+              ))}
+            </TabList>
+          </Tab>
+        </>
+      )}
     </>
   );
 };

@@ -22,22 +22,42 @@ import {
 import { isFrontmatter } from './helpers';
 import LnbGroupItem from './item';
 
-import type { LNBFrontmatterType, SlugParams } from '../types';
+import type {
+  LNBFrontmatterChild,
+  LNBFrontmatterType,
+  SlugParams,
+} from '../types';
 
 type Props = {
-  frontmatter: LNBFrontmatterType;
+  frontmatter: LNBFrontmatterChild | LNBFrontmatterType;
 };
 
 const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
 
   const isActive = useMemo(() => {
+    if (isFrontmatter(frontmatter)) {
+      return getIsActive(params, frontmatter);
+    }
+
     return frontmatter.children.some((root) =>
       isFrontmatter(root)
         ? getIsActive(params, root)
         : root.children.some((child) => getIsActive(params, child)),
     );
   }, [frontmatter, params]);
+
+  if (isFrontmatter(frontmatter)) {
+    return (
+      <LnbGroupItem
+        href={`/docs/${frontmatter.slug.join('/')}`}
+        isActive={getIsActive(params, frontmatter)}
+        depth="0"
+      >
+        {capitalCase(frontmatter.title)}
+      </LnbGroupItem>
+    );
+  }
 
   return (
     <List>

@@ -4,10 +4,12 @@ import { useParams } from 'next/navigation';
 import { useMDXContext } from '@/features/docs/context';
 
 import { getIsActive } from './helpers';
+import { isFrontmatter } from './group/helpers';
 
 import type {
   LNBFrontmatterChildObj,
   LNBFrontmatterGroup,
+  LNBFrontmatterType,
   SlugParams,
 } from './types';
 import type { Frontmatter } from '@/features/docs/types';
@@ -24,7 +26,17 @@ export const useLNBContent = () => {
 
       const isActive = getIsActive(params, cur);
 
-      let firstLevelGroup = acc.find((item) => item.key === firstKey);
+      let firstLevelGroup = acc.find(
+        (item) => !isFrontmatter(item) && item.key === firstKey,
+      ) as LNBFrontmatterType | undefined;
+
+      if (
+        !firstLevelGroup &&
+        (!secondKey || secondKey.match(/(web|ios|android|changelog|design)$/))
+      ) {
+        acc.push(cur);
+        return acc;
+      }
 
       if (!firstLevelGroup) {
         firstLevelGroup = {

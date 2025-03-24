@@ -4,6 +4,7 @@ import { FlexBox, ScrollArea } from '@wanteddev/wds';
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
 import { useLNBContent } from './hooks';
+import { isFrontmatter } from './group/helpers';
 
 const Lnb = () => {
   const { frontmatters } = useLNBContent();
@@ -19,7 +20,14 @@ const Lnb = () => {
         <FlexBox as="nav" flexDirection="column" gap="4px">
           {frontmatters.map((frontmatter, i) => {
             return (
-              <LnbGroup key={frontmatter.key + i} frontmatter={frontmatter} />
+              <LnbGroup
+                key={
+                  isFrontmatter(frontmatter)
+                    ? frontmatter.slug.toString() + i
+                    : frontmatter.key + i
+                }
+                frontmatter={frontmatter}
+              />
             );
           })}
         </FlexBox>

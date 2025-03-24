@@ -19,7 +19,7 @@ type Props = {
   ratio?: ComponentProps<typeof Thumbnail>['ratio'];
 };
 
-const Anatomy = ({ ratio = '16:9', portrait, data, src }: Props) => {
+const Anatomy = ({ ratio = '2:1', portrait, data, src }: Props) => {
   return (
     <FlexBox flexDirection="column" sx={anatomyWrapperStyle}>
       <Typography
@@ -32,7 +32,7 @@ const Anatomy = ({ ratio = '16:9', portrait, data, src }: Props) => {
       >
         <HeadingLink id="구성-요소">구성 요소</HeadingLink>
       </Typography>
-      <FlexBox flexDirection="column" gap="16px">
+      <FlexBox flexDirection="column" gap="24px">
         {src && (
           <Thumbnail
             src={src}
@@ -58,7 +58,7 @@ const Anatomy = ({ ratio = '16:9', portrait, data, src }: Props) => {
                 weight="regular"
                 sx={anatomyItemPinStyle}
               >
-                {i + 1}
+                <span>{i + 1}</span>
               </Typography>
               <Typography
                 variant="body1"

@@ -1,6 +1,6 @@
-import { css, getColorByToken } from '@wanteddev/wds';
+import { css } from '@wanteddev/wds';
 
-import type { Theme, ThemeColorsToken } from '@wanteddev/wds';
+import type { Theme } from '@wanteddev/wds';
 
 export const sectionLayoutStyle = css`
   && {
@@ -29,28 +29,22 @@ export const sectionFigureStyle = css`
 `;
 
 export const sectionFigureThumbnailStyle =
-  (color: ThemeColorsToken | undefined) => (theme: Theme) => css`
+  (border?: boolean) => (theme: Theme) => css`
     width: 100%;
     margin-bottom: 24px;
     border-radius: 20px;
-
-    ${Boolean(color) &&
+    ${border &&
     css`
-      position: relative;
-      overflow: hidden;
-
-      &::after {
-        position: absolute;
-        content: '';
-        width: 100%;
-        height: 8px;
-        bottom: 0.5px;
-        left: 0px;
-        background: ${getColorByToken(theme, color!)};
-      }
+      border: 1px solid ${theme.semantic.line.normal.normal};
     `}
 
     img {
       object-fit: contain;
     }
   `;
+
+export const customizeStyle = (theme: Theme) => css`
+  border-radius: 20px;
+  border: 1px solid ${theme.semantic.line.normal.normal};
+  padding: 20px;
+`;

@@ -12,7 +12,7 @@ export const GNB_MENUS = [
   {
     label: 'Design System',
     active: '/docs',
-    href: '/docs/components/screen-board/top-navigation/design',
+    href: '/docs/components/actions/button/design',
   },
 ];
 

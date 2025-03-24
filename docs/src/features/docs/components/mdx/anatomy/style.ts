@@ -23,19 +23,19 @@ export const anatomyStyle = css`
 `;
 
 export const anatomyItemStyle = css`
-  padding: 8px 0px;
+  padding: 4px 0px;
   width: 46%;
   min-width: 100px;
   max-width: 500px;
 `;
 
 export const anatomyItemPinStyle = (theme: Theme) => css`
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   display: flex;
   text-align: center;
-  padding: 4px 0px;
   border-radius: 8px;
+  align-items: center;
   justify-content: center;
   flex-shrink: 0;
   background: ${theme.semantic.inverse.background};
@@ -44,9 +44,12 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
 
 export const anatomyThumbnailStyle = css`
   width: 100%;
-  border-radius: 16px;
+  border-radius: 20px;
+  overflow: hidden;
 
   img {
     object-fit: contain;
+    border-radius: 20px;
+    overflow: hidden;
   }
 `;

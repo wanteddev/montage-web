@@ -25,7 +25,7 @@ const DocsLayout = async ({ children }: PropsWithChildren) => {
           data-algolia-page-scope
           flexDirection="column"
           sx={{
-            padding: '0px var(--layout-padding)',
+            padding: '0px var(--layout-padding) 60px var(--layout-padding)',
             maxWidth: '1040px',
             width: '100%',
             boxSizing: 'content-box',
