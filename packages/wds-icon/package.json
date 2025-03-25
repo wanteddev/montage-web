@@ -27,8 +27,7 @@
     "directory": "packages/wds-icon"
   },
   "scripts": {
-    "refiner": "node scripts/refiner.mjs",
-    "build": "tsc && node scripts/build.mjs && tsup",
+    "build": "tsc && tsup",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "watch": "tsup --watch"
