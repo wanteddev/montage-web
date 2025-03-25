@@ -1,4 +1,5 @@
 import Gnb from '@/features/menu/components/gnb';
+import Footer from '@/features/menu/components/footer';
 
 import Providers from './providers';
 
@@ -137,6 +138,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
         <Providers>
           <Gnb />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>

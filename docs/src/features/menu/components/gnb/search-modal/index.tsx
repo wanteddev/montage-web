@@ -62,6 +62,10 @@ export const DocSearchModal = ({
       <ModalContainer
         variant="full"
         size="normal"
+        md={{
+          variant: 'popup',
+          size: 'large',
+        }}
         ref={containerRef}
         aria-haspopup="listbox"
       >

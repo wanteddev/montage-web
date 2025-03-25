@@ -16,4 +16,4 @@ export const GNB_MENUS = [
   },
 ];
 
-export const GNB_HEIGHT = 63;
+export const GNB_HEIGHT = 62;

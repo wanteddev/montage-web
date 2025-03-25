@@ -125,7 +125,7 @@ type CustomizeProps = {
 
 const SectionCustomize = ({ data }: CustomizeProps) => {
   return (
-    <FlexBox flexDirection="column" gap="16px" flex="1">
+    <FlexBox flexDirection="column" gap="16px" sx={{ width: '100%' }}>
       {data.map((v) => (
         <FlexBox key={v.key} gap="20px" alignItems="center" sx={customizeStyle}>
           <Typography
@@ -136,7 +136,7 @@ const SectionCustomize = ({ data }: CustomizeProps) => {
           >
             {v.key}
           </Typography>
-          <FlexBox gap="6px">
+          <FlexBox gap="6px" flexWrap="wrap">
             {v.options.map((option) => (
               <Box key={option} sx={inlineCodeStyle} as="code">
                 <span>{option}</span>

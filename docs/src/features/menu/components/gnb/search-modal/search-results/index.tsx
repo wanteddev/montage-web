@@ -9,6 +9,7 @@ import {
   List,
   ListCellContent,
   SectionHeader,
+  Typography,
 } from '@wanteddev/wds';
 import { IconClose, IconHistory } from '@wanteddev/wds-icon';
 
@@ -45,14 +46,7 @@ const SearchResults = ({
   if (isEmpty) {
     return (
       <FlexBox justifyContent="center">
-        <EmptyState
-          platform="mobile"
-          sx={{ padding: '20px 0px 0px 0px' }}
-          sm={{
-            platform: 'desktop',
-            sx: { padding: '20px 0px 0px 0px' },
-          }}
-        >
+        <EmptyState platform="desktop">
           <EmptyStateImage>
             <ImageLoader
               src="https://static.wanted.co.kr/images/ghost.png"
@@ -63,8 +57,16 @@ const SearchResults = ({
           </EmptyStateImage>
           <EmptyStateContent>
             <EmptyStateText
-              title="검색 결과가 없어요."
-              description="다른 키워드로 검색해보세요."
+              sx={{ paddingTop: 32 }}
+              description={
+                <Typography
+                  variant="headline1"
+                  weight="medium"
+                  color="semantic.label.neutral"
+                >
+                  {`"${state.query}"에 대한 검색 결과가 없어요.`}
+                </Typography>
+              }
             />
           </EmptyStateContent>
         </EmptyState>
@@ -83,7 +85,6 @@ const SearchResults = ({
       <FlexBox
         as="section"
         {...getListProps()}
-        key={firstCollections.source.sourceId}
         flexDirection="column"
         gap="4px"
       >
@@ -129,6 +130,7 @@ const SearchResults = ({
                   firstCollections.source.sourceId,
                   idx,
                   item.objectID,
+                  item.type,
                 ].join(':')}
               />
             );

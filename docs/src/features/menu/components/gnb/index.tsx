@@ -14,6 +14,7 @@ import {
 } from '@wanteddev/wds';
 import {
   IconDesktop,
+  IconMenu,
   IconMoon,
   IconSearch,
   IconSun,
@@ -26,7 +27,13 @@ import { useContext, useState } from 'react';
 import Logo from '@/assets/logo';
 import { layoutStyle } from '@/styles';
 
-import { gnbActionsStyle, gnbItemWrapperStyle, gnbWrapperStyle } from './style';
+import {
+  gnbActionsStyle,
+  gnbItemWrapperStyle,
+  gnbLinkStyle,
+  gnbMenuStyle,
+  gnbWrapperStyle,
+} from './style';
 import { GNB_MENUS } from './constants';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
@@ -86,7 +93,7 @@ const Gnb = () => {
               </Box>
             </FlexBox>
 
-            <FlexBox gap="40px" alignItems="center">
+            <FlexBox gap="40px" alignItems="center" sx={gnbLinkStyle}>
               {GNB_MENUS.map(({ label, href, active }, i) => (
                 <Typography
                   as={Link}
@@ -178,6 +185,16 @@ const Gnb = () => {
                 </MenuList>
               </MenuContent>
             </Menu>
+
+            <WithInteraction>
+              <FlexBox
+                aria-label="menu"
+                as="button"
+                sx={[gnbActionsStyle, gnbMenuStyle]}
+              >
+                <IconMenu />
+              </FlexBox>
+            </WithInteraction>
           </FlexBox>
         </FlexBox>
       </FlexBox>

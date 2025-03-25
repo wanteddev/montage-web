@@ -1,4 +1,4 @@
-import { css, typographyStyle } from '@wanteddev/wds';
+import { addOpacity, css, respondTo, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -7,15 +7,12 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   z-index: ${theme.zIndex.modal};
   top: 0;
   padding: 12px 0px;
-  ${theme.semantic.platform.ios.navigation}
-  border-bottom: 1px solid ${theme.semantic.line.normal.neutral};
-  transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease;
-
-  &[data-is-docs-page='true'] {
-    border-color: transparent;
-  }
+  backdrop-filter: blur(32px);
+  background-color: ${addOpacity(
+    theme.semantic.background.normal.normal,
+    theme.opacity[88],
+  )};
+  transition: background-color 0.2s ease;
 
   &[data-is-sticky='true'][data-is-docs-page='true'] {
     background-color: ${theme.semantic.background.normal.normal};
@@ -42,6 +39,14 @@ export const gnbItemWrapperStyle = (theme: Theme) => css`
   }
 `;
 
+export const gnbLinkStyle = (theme: Theme) => css`
+  display: flex;
+
+  ${respondTo(theme.breakpoint.sm)} {
+    display: none;
+  }
+`;
+
 export const gnbActionsStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.fill.normal};
   border-radius: 14px;
@@ -54,5 +59,13 @@ export const gnbActionsStyle = (theme: Theme) => css`
     & > [wds-component='with-interaction'] {
       opacity: ${theme.opacity[8]};
     }
+  }
+`;
+
+export const gnbMenuStyle = css`
+  display: none;
+
+  ${respondTo('1360px')} {
+    display: flex;
   }
 `;
