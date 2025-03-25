@@ -114,7 +114,11 @@ EmptyStateContent.displayName = EMPTY_STATE_CONTENT_NAME;
 
 const EmptyStateText = forwardRef(
   (
-    { title, description, ...props }: EmptyStateTextProps,
+    {
+      title,
+      description,
+      ...props
+    }: DefaultComponentProps<EmptyStateTextProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (

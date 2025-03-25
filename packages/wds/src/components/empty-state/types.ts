@@ -25,6 +25,7 @@ export type EmptyStateTextDefaultProps = {
   description: ReactNode;
   children?: ReactNode;
 };
+
 export type EmptyStateTextProps = Merge<
   EmptyStateTextDefaultProps,
   TypographyProps
