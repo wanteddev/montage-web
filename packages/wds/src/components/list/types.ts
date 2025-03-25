@@ -7,7 +7,7 @@ import type { FlexBoxProps } from '../flex-box/types';
 export type ListProps = FlexBoxProps;
 
 export type ListCellDefaultProps = {
-  verticalPadding?: '12px' | '8px' | '16px' | '0px';
+  verticalPadding?: 'small' | 'medium' | 'large' | 'none';
   fillWidth?: boolean;
   /**
    * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
@@ -58,13 +58,13 @@ export type ListCellContentDefaultProps = {
     | 'avatar'
     | 'large-icon'
     | 'custom';
-  height?: '24px' | '40px' | '56px';
+  size?: 'medium' | 'large' | 'xlarge';
   disabled?: boolean;
   chevron?: boolean;
   children?: ReactNode;
 };
 export type ListCellContentResponsiveProps = ResponsiveProps<
-  Pick<ListCellContentDefaultProps, 'height'>
+  Pick<ListCellContentDefaultProps, 'size'>
 >;
 export type ListCellContentProps = Merge<
   ListCellContentDefaultProps,

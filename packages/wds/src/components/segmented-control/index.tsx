@@ -51,7 +51,7 @@ const SegmentedControl = forwardRef<
       onValueChange,
       children,
       variant = 'solid',
-      size = 'large',
+      size = 'medium',
       xs,
       sm,
       md,

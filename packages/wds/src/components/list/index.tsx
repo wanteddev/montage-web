@@ -68,7 +68,7 @@ const ListCell = forwardRef(
   <E extends ElementType = 'li'>(
     {
       as,
-      verticalPadding = '12px',
+      verticalPadding = 'medium',
       fillWidth = false,
       divider,
       ellipsis = false,
@@ -209,7 +209,7 @@ const ListCellContent = forwardRef<
   (
     {
       variant = 'custom',
-      height = '24px',
+      size = 'medium',
       children,
       chevron = true,
       xl,
@@ -233,7 +233,7 @@ const ListCellContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -249,7 +249,7 @@ const ListCellContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -267,7 +267,7 @@ const ListCellContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
               sx,
             ]}
           >
@@ -295,7 +295,7 @@ const ListCellContent = forwardRef<
                 alignItems={alignItems}
                 sx={listCellContentStyle({
                   variant,
-                  height,
+                  size,
                   xl,
                   lg,
                   md,
@@ -333,7 +333,7 @@ const ListCellContent = forwardRef<
             ref={ref}
             {...props}
             sx={[
-              listCellContentStyle({ variant, height, xl, lg, md, sm, xs }),
+              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
               sx,
             ]}
           >

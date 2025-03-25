@@ -75,7 +75,7 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
           padding: 0 2px;
         }
       `;
-    case 'normal':
+    case 'medium':
       return css`
         border-radius: 8px;
         padding: 7px 11px;

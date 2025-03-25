@@ -244,7 +244,7 @@ const modalContainerSize = (
           padding: 0px 4px;
         }
       `;
-    case 'normal':
+    case 'medium':
       return css`
         width: 400px;
         min-width: 320px;
@@ -282,7 +282,7 @@ const modalContainerSize = (
           padding: 0px 4px;
         }
       `;
-    case 'medium':
+    case 'large':
       return css`
         width: 400px;
         min-width: 320px;
@@ -320,7 +320,7 @@ const modalContainerSize = (
           padding: 0px 4px;
         }
       `;
-    case 'large':
+    case 'xlarge':
       return css`
         width: 560px;
         min-width: 320px;

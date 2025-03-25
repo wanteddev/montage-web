@@ -75,7 +75,7 @@ const checkMarkSizeStyle = ({
   tight,
 }: Pick<CheckMarkProps, 'size' | 'tight' | 'bold'>) => {
   switch (size) {
-    case 'normal':
+    case 'medium':
       return css`
         font-size: 24px;
         width: 24px;

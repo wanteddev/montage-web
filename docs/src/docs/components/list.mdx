@@ -113,17 +113,17 @@ const Demo = () => {
       <ListCell divider>
         텍스트, divider
       </ListCell>
-      <ListCell verticalPadding="0px">
-        VerticalPadding, 0px
+      <ListCell verticalPadding="none">
+        VerticalPadding, None
       </ListCell>
       <ListCell>
-        VerticalPadding, 12px
+        VerticalPadding, Medium
       </ListCell>
-      <ListCell verticalPadding="8px">
-        VerticalPadding, 8px
+      <ListCell verticalPadding="small">
+        VerticalPadding, Small
       </ListCell>
-      <ListCell verticalPadding="16px">
-        VerticalPadding, 16px
+      <ListCell verticalPadding="large">
+        VerticalPadding, Large
       </ListCell>
     </List>
   )
@@ -237,7 +237,7 @@ const Demo = () => {
 
       <ListCell
         leadingContent={
-          <ListCellContent height="40px" variant="avatar">
+          <ListCellContent size="large" variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
@@ -252,7 +252,7 @@ const Demo = () => {
       <ListCell
         alignItems="center"
         leadingContent={
-          <ListCellContent height="40px" variant="avatar">
+          <ListCellContent size="large" variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
@@ -266,7 +266,7 @@ const Demo = () => {
       </ListCell>
       <ListCell
         trailingContent={
-          <ListCellContent height="40px" variant="switch">
+          <ListCellContent size="large" variant="switch">
             <Switch />
           </ListCellContent>
         }
@@ -277,7 +277,7 @@ const Demo = () => {
       <ListCell
         textProps={{ caption: '캡션' }}
         leadingContent={
-          <ListCellContent height="56px" variant="large-icon">
+          <ListCellContent size="large" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -293,7 +293,7 @@ const Demo = () => {
         alignItems="center"
         textProps={{ caption: '캡션' }}
         leadingContent={
-          <ListCellContent height="56px" variant="large-icon">
+          <ListCellContent size="large" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -308,7 +308,7 @@ const Demo = () => {
       <ListCell
         textProps={{ caption: '캡션' }}
         leadingContent={
-          <ListCellContent height="56px" variant="custom">
+          <ListCellContent size="large" variant="custom">
             <Thumbnail
               src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
               alt="Wanted Company Image"
@@ -348,7 +348,7 @@ const Demo = () => {
       <ListCell
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
         leadingContent={
-          <ListCellContent height="56px" variant="large-icon">
+          <ListCellContent size="large" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -366,7 +366,7 @@ const Demo = () => {
         ellipsis
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
         leadingContent={
-          <ListCellContent height="56px" variant="large-icon">
+          <ListCellContent size="large" variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -615,7 +615,7 @@ const Demo = () => {
               disableInteraction
               trailingContent={
                 <FormControl>
-                  <ListCellContent variant="switch" height="40px">
+                  <ListCellContent variant="switch" size="large">
                     <Switch
                       {...field}
                       checked={field.value} 
@@ -638,7 +638,7 @@ const Demo = () => {
               disableInteraction
               trailingContent={
                 <FormControl>
-                  <ListCellContent variant="switch" height="40px">
+                  <ListCellContent variant="switch" size="large">
                     <Switch
                       {...field}
                       checked={field.value}

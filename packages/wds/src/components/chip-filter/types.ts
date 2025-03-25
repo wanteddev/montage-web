@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 export type ChipFilterDefaultProps = {
-  size?: 'xsmall' | 'small' | 'normal' | 'large';
+  size?: 'xsmall' | 'small' | 'medium' | 'large';
   variant?: 'solid' | 'outlined';
   active?: boolean;
   expanded?: boolean;

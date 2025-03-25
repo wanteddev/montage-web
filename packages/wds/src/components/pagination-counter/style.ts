@@ -133,7 +133,7 @@ const paginationCounterSizeStyle = ({
           ${typographyStyle('label2', 'bold')}
         }
       `;
-    case 'normal':
+    case 'medium':
       return css`
         padding: 6px 12px;
         gap: 4px;

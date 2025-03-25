@@ -7,7 +7,7 @@ export type RadioDefaultProps = {
   disabled?: boolean;
   required?: boolean;
   invalid?: boolean;
-  size?: 'normal' | 'small';
+  size?: 'medium' | 'small';
   onCheck?: () => void;
   tight?: boolean;
 };

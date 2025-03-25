@@ -15,6 +15,6 @@ export type SectionMessageProps = {
    */
   leadingContent?: ReactNode;
   trailingButton?: ReactNode;
-  caption?: ReactNode;
+  description?: ReactNode;
   bottomButton?: ReactNode;
 };

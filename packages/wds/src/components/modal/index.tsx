@@ -163,7 +163,7 @@ const ModalContainer = forwardRef<
   (
     {
       variant = 'popup',
-      size = variant === 'popup' ? 'medium' : 'normal',
+      size = variant === 'popup' ? 'large' : 'medium',
       resize = 'hug',
       handle,
       xs,

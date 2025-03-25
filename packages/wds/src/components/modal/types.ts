@@ -46,7 +46,7 @@ type ModalContainerDefaultProps = {
    * ModalActionArea 의 그라디언트, TopNavigation의 borderBottom 스타일이 추가됩니다.
    */
   sticky?: boolean;
-  size?: 'small' | 'normal' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'xlarge';
   resize?: 'hug' | 'fixed';
   children?: ReactNode;
 };

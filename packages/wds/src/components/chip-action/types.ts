@@ -2,7 +2,7 @@ import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
 export type ChipActionDefaultProps = {
-  size?: 'xsmall' | 'small' | 'normal' | 'large';
+  size?: 'xsmall' | 'small' | 'medium' | 'large';
   variant?: 'solid' | 'outlined';
   active?: boolean;
   disabled?: boolean;

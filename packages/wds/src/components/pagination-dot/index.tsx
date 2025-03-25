@@ -23,7 +23,7 @@ const PaginationDot = forwardRef<
       currentPage = 1,
       maxDotCount = 5,
       color = 'normal',
-      size = 'normal',
+      size = 'medium',
       onClickDot,
       xs,
       sm,

@@ -16,7 +16,7 @@ const PaginationCounter = forwardRef<
     {
       totalPage = 3,
       currentPage = 1,
-      size = 'normal',
+      size = 'medium',
       alternative = false,
       xs,
       sm,
