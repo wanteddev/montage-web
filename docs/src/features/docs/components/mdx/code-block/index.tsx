@@ -8,7 +8,7 @@ import bash from 'refractor/lang/bash';
 import css from 'refractor/lang/css';
 import diff from 'refractor/lang/diff';
 import { toHtml } from 'hast-util-to-html';
-import { Box, IconButton, useToast } from '@wanteddev/wds';
+import { Box, ContentBadge, IconButton, useToast } from '@wanteddev/wds';
 import { IconCopy } from '@wanteddev/wds-icon';
 
 import { codeBlockStyle, inlineCodeStyle } from './style';
@@ -30,9 +30,15 @@ const CodeBlock = ({ children, ...props }: Props) => {
 
   if (!props.className) {
     return (
-      <Box sx={inlineCodeStyle} {...props} as="code">
-        <span>{children}</span>
-      </Box>
+      <code {...props}>
+        <ContentBadge
+          color="accent"
+          accentColor="semantic.accent.foreground.blue"
+          sx={inlineCodeStyle}
+        >
+          {children}
+        </ContentBadge>
+      </code>
     );
   }
 

@@ -22,7 +22,7 @@ import {
 import Link from 'next/link';
 import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
 import { Typography } from '@wanteddev/wds';
-import { useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Logo from '@/assets/logo';
 import { layoutStyle } from '@/styles';
@@ -37,7 +37,6 @@ import {
 import { GNB_MENUS } from './constants';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
-import { GnbContext } from './contexts';
 
 const Gnb = () => {
   const { setTheme, themeOriginValue } = useThemeControl();
@@ -45,12 +44,24 @@ const Gnb = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
 
-  const { isSticky } = useContext(GnbContext);
+  const [isSticky, setIsSticky] = useState(false);
 
   const segments = useSelectedLayoutSegments();
   const isDocsPage = segments.includes('docs');
 
   const { isOpen, handleOpen, handleOpenChange } = useSearch();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <>

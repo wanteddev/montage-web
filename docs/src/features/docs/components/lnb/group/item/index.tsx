@@ -30,8 +30,8 @@ const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
       data-depth={depth}
       aria-current={isActive ? 'page' : undefined}
       textProps={{
-        variant: 'body1',
-        weight: 'regular',
+        variant: depth === '0' ? 'body1' : 'label1',
+        weight: 'medium',
       }}
     >
       {children}

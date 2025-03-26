@@ -1,4 +1,4 @@
-import { css, gradient } from '@wanteddev/wds';
+import { addOpacity, css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -39,13 +39,15 @@ export const focusGuardStyle = (theme: Theme) => css`
   }
 `;
 
-export const editorStyle = (theme: Theme) => css`
+export const editorStyle = (hasError: boolean) => (theme: Theme) => css`
   background-color: ${theme.semantic.background.elevated.normal};
   min-width: 100%;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
   border-top-width: 0px;
   font-size: 0.9em;
+  white-space: break-spaces;
+  letter-spacing: -0.005em;
   leading-trim: both;
   text-edge: cap;
   font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
@@ -53,6 +55,18 @@ export const editorStyle = (theme: Theme) => css`
 
   textarea {
     border-radius: inherit;
+    outline-color: ${addOpacity(
+      theme.semantic.primary.normal,
+      theme.opacity[43],
+    )};
+
+    ${hasError &&
+    css`
+      outline-color: ${addOpacity(
+        theme.semantic.status.negative,
+        theme.opacity[43],
+      )};
+    `}
   }
 `;
 

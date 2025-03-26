@@ -10,10 +10,20 @@ export const lnbAccordionStyle = css`
   }
 `;
 
-export const accordionSummaryStyle = css`
+export const accordionSummaryStyle = (theme: Theme) => css`
   padding-left: 12px;
   padding-right: 12px;
   border-radius: 12px;
+
+  [data-role='list-text-content'] {
+    color: ${theme.semantic.label.alternative};
+  }
+
+  &[data-active='true'] {
+    [data-role='list-text-content'] {
+      color: ${theme.semantic.label.normal};
+    }
+  }
 
   & > [wds-component='with-interaction'] {
     width: 100%;

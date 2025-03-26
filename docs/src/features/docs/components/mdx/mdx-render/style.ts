@@ -68,7 +68,7 @@ export const mdxRootStyle = (theme: Theme) => css`
       margin-top: 32px;
       margin-bottom: 32px;
       padding-top: 32px;
-      border-top: 1px solid ${theme.semantic.line.normal.normal};
+      border-top: 1px solid ${theme.semantic.line.normal.alternative};
     }
 
     :is(h2),
@@ -76,7 +76,7 @@ export const mdxRootStyle = (theme: Theme) => css`
       margin-top: 32px;
       margin-bottom: 32px;
       padding-top: 32px;
-      border-top: 1px solid ${theme.semantic.line.normal.normal};
+      border-top: 1px solid ${theme.semantic.line.normal.alternative};
 
       &:not(:not(:last-child) ~ *) {
         border: none;

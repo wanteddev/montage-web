@@ -4,7 +4,7 @@ import { FlexBox, ScrollArea } from '@wanteddev/wds';
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
 import { useLNBContent } from './hooks';
-import { isFrontmatter } from './group/helpers';
+import { isFrontmatter } from './helpers';
 
 const Lnb = () => {
   const { frontmatters } = useLNBContent();

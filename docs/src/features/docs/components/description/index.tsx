@@ -11,7 +11,6 @@ import { useParams } from 'next/navigation';
 import {
   Fragment,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -19,7 +18,6 @@ import {
 } from 'react';
 import Link from 'next/link';
 
-import { GnbContext } from '@/features/menu/components/gnb/contexts';
 import { GNB_HEIGHT } from '@/features/menu/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
 
@@ -27,7 +25,12 @@ import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
 import { SectionDivider } from '../mdx/section';
 
-import { tabStyle, titleSectionWrapperStyle, wrapperStyle } from './style';
+import {
+  tabScrollStyle,
+  tabStyle,
+  titleSectionWrapperStyle,
+  wrapperStyle,
+} from './style';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -44,7 +47,7 @@ const DocsDescription = () => {
   const params = useParams<SlugParams>();
   const tabRef = useRef<HTMLDivElement>(null);
 
-  const { setIsSticky, isSticky } = useContext(GnbContext);
+  const [isSticky, setIsSticky] = useState(false);
 
   const isOverviewPage = useMemo(
     () => params.slug.toString() === ['overview', 'design'].toString(),
@@ -69,7 +72,7 @@ const DocsDescription = () => {
   const handleScroll = useThrottle(() => {
     const top = tabRef.current?.getBoundingClientRect().top ?? GNB_HEIGHT + 1;
 
-    setIsSticky?.(top <= GNB_HEIGHT);
+    setIsSticky(top <= GNB_HEIGHT);
   }, 250);
 
   useEffect(() => {
@@ -191,11 +194,7 @@ const DocsDescription = () => {
         <SectionDivider />
       ) : (
         <>
-          <Box
-            role="presentation"
-            ref={tabRef}
-            sx={{ scrollMarginTop: 'var(--gnb-height)' }}
-          />
+          <Box role="presentation" ref={tabRef} sx={tabScrollStyle} />
 
           <Tab value={value} onValueChange={handleValueChange}>
             <TabList sx={tabStyle} size="large">

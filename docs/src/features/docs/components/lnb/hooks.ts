@@ -3,8 +3,7 @@ import { useParams } from 'next/navigation';
 
 import { useMDXContext } from '@/features/docs/context';
 
-import { getIsActive } from './helpers';
-import { isFrontmatter } from './group/helpers';
+import { getIsActive, isFrontmatter } from './helpers';
 
 import type {
   LNBFrontmatterChildObj,

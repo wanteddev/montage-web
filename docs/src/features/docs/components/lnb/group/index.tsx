@@ -9,9 +9,8 @@ import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
-import { useMemo } from 'react';
 
-import { getIsActive } from '../helpers';
+import { getIsActive, isFrontmatter } from '../helpers';
 
 import {
   accordionIconContentStyle,
@@ -19,7 +18,6 @@ import {
   accordionSummaryStyle,
   lnbAccordionStyle,
 } from './style';
-import { isFrontmatter } from './helpers';
 import LnbGroupItem from './item';
 
 import type {
@@ -34,18 +32,6 @@ type Props = {
 
 const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
-
-  const isActive = useMemo(() => {
-    if (isFrontmatter(frontmatter)) {
-      return getIsActive(params, frontmatter);
-    }
-
-    return frontmatter.children.some((root) =>
-      isFrontmatter(root)
-        ? getIsActive(params, root)
-        : root.children.some((child) => getIsActive(params, child)),
-    );
-  }, [frontmatter, params]);
 
   if (isFrontmatter(frontmatter)) {
     return (
@@ -74,9 +60,10 @@ const LnbGroup = ({ frontmatter }: Props) => {
               <IconChevronDownThickSmall sx={accordionIconStyle} />
             </AccordionSummaryContent>
           }
+          data-active={getIsActive(params, frontmatter)}
           textProps={{
             variant: 'body1',
-            weight: isActive ? 'bold' : 'regular',
+            weight: getIsActive(params, frontmatter) ? 'bold' : 'medium',
           }}
         >
           {capitalCase(frontmatter.key)}
@@ -111,6 +98,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                     verticalPadding="12px"
                     data-depth="1"
                     sx={accordionSummaryStyle}
+                    data-active={getIsActive(params, item)}
                     trailingContent={
                       <AccordionSummaryContent
                         variant="icon"
@@ -121,8 +109,8 @@ const LnbGroup = ({ frontmatter }: Props) => {
                       </AccordionSummaryContent>
                     }
                     textProps={{
-                      variant: 'body1',
-                      weight: 'regular',
+                      variant: 'label1',
+                      weight: 'medium',
                     }}
                   >
                     {capitalCase(item.key)}

@@ -59,7 +59,7 @@ const PropsTable = ({ component, fallback }: Props) => {
   );
 
   return (
-    <Table>
+    <Table sx={{ maxWidth: '100%' }}>
       <colgroup>
         <col width="auto" />
         <col width="auto" />

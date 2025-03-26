@@ -24,13 +24,17 @@ export const lnbItemStyle = (theme: Theme) => css`
     padding-left: 44px;
   }
 
+  [data-role='list-text-content'] {
+    color: ${theme.semantic.label.alternative};
+  }
+
   &[aria-current='page'] {
     background-color: ${addOpacity(
       theme.semantic.primary.normal,
       theme.opacity[5],
     )};
 
-    & > p > span {
+    [data-role='list-text-content'] {
       color: ${theme.semantic.primary.normal};
     }
   }

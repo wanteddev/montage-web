@@ -1,20 +1,16 @@
 'use client';
 import { AppRouterCacheProvider } from '@wanteddev/wds-nextjs';
 import { Global, ThemeProvider, respondMore } from '@wanteddev/wds';
-import { type PropsWithChildren, useState } from 'react';
 
-import { GnbContext } from '@/features/menu/components/gnb/contexts';
 import { GNB_HEIGHT } from '@/features/menu/components/gnb/constants';
 
-const Providers = ({ children }: PropsWithChildren) => {
-  const [isSticky, setIsSticky] = useState(false);
+import type { PropsWithChildren } from 'react';
 
+const Providers = ({ children }: PropsWithChildren) => {
   return (
     <AppRouterCacheProvider>
       <ThemeProvider enableDarkMode disableTransitionOnChange>
-        <GnbContext.Provider value={{ isSticky, setIsSticky }}>
-          {children}
-        </GnbContext.Provider>
+        {children}
 
         <Global
           styles={() => ({

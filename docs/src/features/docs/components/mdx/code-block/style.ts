@@ -1,17 +1,12 @@
-import { addOpacity, css } from '@wanteddev/wds';
+import { css } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const inlineCodeStyle = (theme: Theme) => css`
-  padding: 0px 6px;
-  border-radius: 8px;
+export const inlineCodeStyle = css`
+  padding: 2px 4px;
+  border-radius: 4px;
   font-size: 90%;
   white-space: break-spaces;
-  color: ${theme.semantic.primary.normal};
-  height: 24px;
-  align-items: center;
-  display: inline-flex;
-  width: fit-content;
   leading-trim: both;
   text-edge: cap;
   font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
@@ -19,12 +14,8 @@ export const inlineCodeStyle = (theme: Theme) => css`
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
-  line-height: 138.5%; /* 18.005px */
-  letter-spacing: 0.252px;
-  background-color: ${addOpacity(
-    theme.semantic.primary.normal,
-    theme.opacity[8],
-  )};
+  line-height: 138.5%;
+  letter-spacing: -0.005em;
 `;
 
 export const codeBlockStyle = (theme: Theme) => css`

@@ -38,8 +38,8 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: ${theme.semantic.inverse.background};
-  color: ${theme.semantic.inverse.label};
+  background: ${theme.semantic.fill.strong};
+  color: ${theme.semantic.label.normal};
 `;
 
 export const anatomyThumbnailStyle = css`

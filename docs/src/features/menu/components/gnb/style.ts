@@ -12,10 +12,13 @@ export const gnbWrapperStyle = (theme: Theme) => css`
     theme.semantic.background.normal.normal,
     theme.opacity[88],
   )};
-  transition: background-color 0.2s ease;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 
-  &[data-is-sticky='true'][data-is-docs-page='true'] {
-    background-color: ${theme.semantic.background.normal.normal};
+  &[data-is-sticky='true'] {
+    border-color: ${theme.semantic.line.normal.neutral};
   }
 `;
 

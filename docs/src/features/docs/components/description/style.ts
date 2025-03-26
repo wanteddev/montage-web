@@ -18,6 +18,10 @@ export const titleSectionWrapperStyle = css`
   }
 `;
 
+export const tabScrollStyle = css`
+  scroll-margin-top: var(--gnb-height);
+`;
+
 export const tabStyle = (theme: Theme) => css`
   margin-bottom: 40px;
   position: sticky;

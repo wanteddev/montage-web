@@ -68,10 +68,7 @@ const DocsCollection = () => {
           <Grid sx={{ marginBottom: 20 }}>
             {list.map((data) => (
               <GridItem key={data.slug.toString()} columns={3}>
-                <Card
-                  as={Link}
-                  href={data.slug.join('/').replace(/design$/, '')}
-                >
+                <Card as={Link} href={`/docs/${data.slug.join('/')}`}>
                   <CardThumbnail
                     src={data.image!}
                     alt={data.title}

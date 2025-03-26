@@ -132,7 +132,6 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           crossOrigin="anonymous"
           href="https://static.wanted.co.kr/fonts/pretendard/pretendard-jp/pretendardvariable-jp-dynamic-subset.min.css"
         />
-        <meta name="algolia-site-verification" content="34D9089163F781B8" />
       </head>
       <body suppressHydrationWarning>
         <Providers>

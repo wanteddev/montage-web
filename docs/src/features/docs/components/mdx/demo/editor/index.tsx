@@ -3,11 +3,11 @@ import { refractor } from 'refractor';
 import {
   Box,
   ChipAction,
+  FlexBox,
+  IconButton,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  FlexBox,
-  IconButton,
   useToast,
 } from '@wanteddev/wds';
 import {
@@ -117,91 +117,104 @@ const Editor = ({
             {collapsed ? 'Expand' : 'Collapse'}
           </ChipAction>
 
-        <TooltipGroup>
-          <Tooltip>
-            <TooltipTrigger>
-              <IconButton size={18} onClick={handleCopy}>
-                <IconCopy />
-              </IconButton>
-            </TooltipTrigger>
-            <TooltipContent shortcut="⌘C" arrow={false} position="bottom-center">Copy</TooltipContent>
-          </Tooltip>
+          <TooltipGroup>
+            <Tooltip>
+              <TooltipTrigger>
+                <IconButton size={18} onClick={handleCopy} name="Copy code">
+                  <IconCopy />
+                </IconButton>
+              </TooltipTrigger>
+              <TooltipContent arrow={false} position="bottom-center">
+                Copy
+              </TooltipContent>
+            </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger>
-              <IconButton size={18} onClick={reset}>
-                <IconRefresh />
-              </IconButton>
-            </TooltipTrigger>
-            <TooltipContent shortcut="⌘R" arrow={false} position="bottom-center">Reset</TooltipContent>
-          </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <IconButton size={18} onClick={reset} name="Reset code">
+                  <IconRefresh />
+                </IconButton>
+              </TooltipTrigger>
+              <TooltipContent arrow={false} position="bottom-center">
+                Reset
+              </TooltipContent>
+            </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger>
-              <IconButton size={18} onClick={() => setHatched((prev) => !prev)}>
-                <IconImage />
-              </IconButton>
-            </TooltipTrigger>
-            <TooltipContent arrow={false} position="bottom-center">Change Background</TooltipContent>
-          </Tooltip>
-        </TooltipGroup>
-      </FlexBox>
+            <Tooltip>
+              <TooltipTrigger>
+                <IconButton
+                  size={18}
+                  onClick={() => setHatched((prev) => !prev)}
+                  name="Change Background"
+                >
+                  <IconImage />
+                </IconButton>
+              </TooltipTrigger>
+              <TooltipContent arrow={false} position="bottom-center">
+                Change Background
+              </TooltipContent>
+            </Tooltip>
+          </TooltipGroup>
+        </FlexBox>
 
-      <Typography
-        variant="label2"
-        weight="regular"
-        color="semantic.label.neutral"
-        as="div"
-        tabIndex={0}
-        sx={focusGuardStyle}
-        ref={focusGuardRef}
-        aria-live="polite"
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            getTextAreaElement().focus();
-          }
-        }}
-      >
-        <kbd>Enter</kbd> 키로 통해 코드 수정하기
-      </Typography>
-      <Box
-        as={CodeEditor}
-        ignoreTabKey={false}
-        insertSpaces
-        tabSize={2}
-        tabIndex={-1}
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') {
-            e.preventDefault();
-            focusGuardRef.current?.focus();
-            return;
-          }
-
-          if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
-            if (e.key === 'c') {
+        <Typography
+          variant="label2"
+          weight="regular"
+          color="semantic.label.neutral"
+          as="div"
+          tabIndex={0}
+          sx={focusGuardStyle}
+          ref={focusGuardRef}
+          aria-live="polite"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
               e.preventDefault();
-              handleCopy();
-            } else if (e.key === 'r') {
-              e.preventDefault();
-              reset();
+              getTextAreaElement().focus();
             }
+          }}
+        >
+          <kbd>Enter</kbd> 키로 통해 코드 수정하기
+        </Typography>
+        <Box
+          as={CodeEditor}
+          ignoreTabKey={false}
+          insertSpaces
+          tabSize={2}
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.preventDefault();
+              focusGuardRef.current?.focus();
+              return;
+            }
+
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
+              if (e.key === 'c') {
+                e.preventDefault();
+                handleCopy();
+              } else if (e.key === 'r') {
+                e.preventDefault();
+                reset();
+              }
+            }
+          }}
+          onFocus={() => {
+            if (collapsed) {
+              setCollapsed(false);
+            }
+          }}
+          value={value}
+          onValueChange={setValue}
+          sx={[codeBlockStyle, editorStyle(Boolean(errorMessage))]}
+          padding={16}
+          highlight={(v) =>
+            toHtml(
+              refractor.highlight(v, 'tsx') as Parameters<typeof toHtml>[0],
+            )
           }
-        }}
-        onFocus={() => {
-          if (collapsed) {
-            setCollapsed(false);
-          }
-        }}
-        value={value}
-        onValueChange={setValue}
-        sx={[codeBlockStyle, editorStyle]}
-        padding={16}
-        highlight={(v) =>
-          toHtml(refractor.highlight(v, 'tsx') as Parameters<typeof toHtml>[0])
-        }
-      />
-      <FlexBox sx={collapseWrapperStyle(collapsed)} />
+        />
+        <FlexBox sx={collapseWrapperStyle(collapsed)} />
+      </FlexBox>
     </FlexBox>
   );
 };
