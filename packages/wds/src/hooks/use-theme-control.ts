@@ -7,9 +7,15 @@ const themes = ['light', 'dark'] as const;
 
 const useThemeControl: () => {
   theme: 'light' | 'dark';
+  themeOriginValue: 'light' | 'dark' | 'system' | undefined;
   setTheme: Dispatch<SetStateAction<string>>;
 } = () => {
-  const { resolvedTheme, forcedTheme, setTheme } = useTheme();
+  const {
+    resolvedTheme,
+    forcedTheme,
+    theme: themeOriginValue,
+    setTheme,
+  } = useTheme();
 
   const theme = useMemo(() => {
     if (!resolvedTheme) {
@@ -27,6 +33,11 @@ const useThemeControl: () => {
 
   return {
     theme,
+    themeOriginValue: themeOriginValue as
+      | 'light'
+      | 'dark'
+      | 'system'
+      | undefined,
     setTheme,
   };
 };
