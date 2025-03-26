@@ -80,6 +80,13 @@ export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
   padding: 0;
   border: none;
 
+  td:last-child {
+    padding-right: var(--wds-table-head-cell-padding-x, 20px);
+  }
+  th:last-child {
+    padding-right: var(--wds-table-head-cell-padding-x, 20px);
+  }
+
   ${interaction &&
   css`
     cursor: pointer;
