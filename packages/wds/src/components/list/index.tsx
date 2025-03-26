@@ -205,144 +205,109 @@ ListCell.displayName = LIST_CELL_NAME;
 const ListCellContent = forwardRef<
   HTMLDivElement,
   DefaultComponentProps<ListCellContentProps, 'div'>
->(
-  (
-    {
-      variant = 'custom',
-      size = 'medium',
-      children,
-      chevron = true,
-      xl,
-      lg,
-      md,
-      sm,
-      xs,
-      sx,
-      ...props
-    },
-    ref,
-  ) => {
-    const { alignItems } = useListCellContext(LIST_CELL_CONTENT_NAME);
+>(({ variant = 'custom', children, chevron = true, sx, ...props }, ref) => {
+  const { alignItems } = useListCellContext(LIST_CELL_CONTENT_NAME);
 
-    switch (variant) {
-      case 'large-icon':
-        return (
-          <FlexBox
-            wds-component="list-cell-content"
-            alignItems={alignItems}
-            ref={ref}
-            {...props}
-            sx={[
-              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
-              sx,
-            ]}
-          >
-            <FlexBox>{children}</FlexBox>
-          </FlexBox>
-        );
+  switch (variant) {
+    case 'large-icon':
+      return (
+        <FlexBox
+          wds-component="list-cell-content"
+          alignItems={alignItems}
+          ref={ref}
+          {...props}
+          sx={[listCellContentStyle({ variant }), sx]}
+        >
+          <FlexBox>{children}</FlexBox>
+        </FlexBox>
+      );
 
-      case 'button':
-        return (
-          <FlexBox
-            wds-component="list-cell-content"
-            alignItems={alignItems}
-            ref={ref}
-            {...props}
-            sx={[
-              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
-              sx,
-            ]}
-          >
-            <TextButtonProvider assistive="semantic.label.alternative">
-              {children}
-            </TextButtonProvider>
-          </FlexBox>
-        );
-
-      case 'icon-button':
-        return (
-          <FlexBox
-            wds-component="list-cell-content"
-            alignItems={alignItems}
-            ref={ref}
-            {...props}
-            sx={[
-              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
-              sx,
-            ]}
-          >
-            <IconButtonProvider normal="semantic.label.alternative">
-              {children}
-            </IconButtonProvider>
-          </FlexBox>
-        );
-
-      case 'chevron':
-        return (
-          <FlexBox
-            role="button"
-            alignItems={alignItems}
-            wds-component="list-cell-content"
-            gap="8px"
-            ref={ref}
-            tabIndex={props.onClick ? 0 : -1}
-            {...props}
-            sx={sx}
-          >
-            {Boolean(children) && (
-              <FlexBox
-                justifyContent="flex-end"
-                alignItems={alignItems}
-                sx={listCellContentStyle({
-                  variant,
-                  size,
-                  xl,
-                  lg,
-                  md,
-                  sm,
-                  xs,
-                })}
-              >
-                {children}
-              </FlexBox>
-            )}
-            {chevron && (
-              <FlexBox alignItems="center" sx={{ height: '24px' }}>
-                <IconChevronRightTightSmall
-                  sx={(theme) => ({
-                    color: theme.semantic.label.assistive,
-                  })}
-                />
-              </FlexBox>
-            )}
-          </FlexBox>
-        );
-
-      case 'icon':
-      case 'avatar':
-      case 'badge':
-      case 'checkbox':
-      case 'radio':
-      case 'switch':
-      case 'custom':
-      default:
-        return (
-          <FlexBox
-            wds-component="list-cell-content"
-            alignItems={alignItems}
-            ref={ref}
-            {...props}
-            sx={[
-              listCellContentStyle({ variant, size, xl, lg, md, sm, xs }),
-              sx,
-            ]}
-          >
+    case 'button':
+      return (
+        <FlexBox
+          wds-component="list-cell-content"
+          alignItems={alignItems}
+          ref={ref}
+          {...props}
+          sx={[listCellContentStyle({ variant }), sx]}
+        >
+          <TextButtonProvider assistive="semantic.label.alternative">
             {children}
-          </FlexBox>
-        );
-    }
-  },
-);
+          </TextButtonProvider>
+        </FlexBox>
+      );
+
+    case 'icon-button':
+      return (
+        <FlexBox
+          wds-component="list-cell-content"
+          alignItems={alignItems}
+          ref={ref}
+          {...props}
+          sx={[listCellContentStyle({ variant }), sx]}
+        >
+          <IconButtonProvider normal="semantic.label.alternative">
+            {children}
+          </IconButtonProvider>
+        </FlexBox>
+      );
+
+    case 'chevron':
+      return (
+        <FlexBox
+          role="button"
+          alignItems={alignItems}
+          wds-component="list-cell-content"
+          gap="8px"
+          ref={ref}
+          tabIndex={props.onClick ? 0 : -1}
+          {...props}
+          sx={sx}
+        >
+          {Boolean(children) && (
+            <FlexBox
+              justifyContent="flex-end"
+              alignItems={alignItems}
+              sx={listCellContentStyle({
+                variant,
+              })}
+            >
+              {children}
+            </FlexBox>
+          )}
+          {chevron && (
+            <FlexBox alignItems="center" sx={{ height: '24px' }}>
+              <IconChevronRightTightSmall
+                sx={(theme) => ({
+                  color: theme.semantic.label.assistive,
+                })}
+              />
+            </FlexBox>
+          )}
+        </FlexBox>
+      );
+
+    case 'icon':
+    case 'avatar':
+    case 'badge':
+    case 'checkbox':
+    case 'radio':
+    case 'switch':
+    case 'custom':
+    default:
+      return (
+        <FlexBox
+          wds-component="list-cell-content"
+          alignItems={alignItems}
+          ref={ref}
+          {...props}
+          sx={[listCellContentStyle({ variant }), sx]}
+        >
+          {children}
+        </FlexBox>
+      );
+  }
+});
 
 ListCellContent.displayName = LIST_CELL_CONTENT_NAME;
 

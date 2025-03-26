@@ -194,34 +194,6 @@ export const listCellDividerStyle = css`
   width: calc(100% - (var(--wds-list-cell-horizontal-padding) * 2));
 `;
 
-const listCellContentSizeStyle = ({
-  height,
-}: Pick<ListCellContentProps, 'height'>) => {
-  switch (height) {
-    case 'large':
-      return css`
-        min-width: 40px;
-        max-width: max-content;
-        height: 40px;
-      `;
-
-    case 'xlarge':
-      return css`
-        min-width: 56px;
-        max-width: max-content;
-        height: 56px;
-      `;
-
-    case 'medium':
-    default:
-      return css`
-        min-width: 24px;
-        max-width: max-content;
-        height: 24px;
-      `;
-  }
-};
-
 const listCellContentVariantStyle =
   ({ variant }: Pick<ListCellContentProps, 'variant'>) =>
   (theme: Theme) => {
@@ -260,7 +232,7 @@ const listCellContentVariantStyle =
   };
 
 export const listCellContentStyle =
-  ({ variant, height, xl, lg, md, sm, xs }: ListCellContentProps) =>
+  ({ variant }: ListCellContentProps) =>
   (theme: Theme) => css`
     flex-shrink: 0;
     position: relative;
@@ -274,17 +246,6 @@ export const listCellContentStyle =
     }
 
     ${listCellContentVariantStyle({ variant })(theme)}
-    ${listCellContentSizeStyle({ height })}
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${listCellContentSizeStyle({ height: params?.height })}
-        ${params?.sx}
-      `,
-    )}
   `;
 
 export const listTextStyle = css`

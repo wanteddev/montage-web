@@ -45,7 +45,7 @@ export type ListCellProps = Merge<
   FlexBoxProps
 >;
 
-export type ListCellContentDefaultProps = {
+export type ListCellContentProps = {
   variant?:
     | 'icon'
     | 'radio'
@@ -58,17 +58,9 @@ export type ListCellContentDefaultProps = {
     | 'avatar'
     | 'large-icon'
     | 'custom';
-  size?: 'medium' | 'large' | 'xlarge';
   disabled?: boolean;
   chevron?: boolean;
   children?: ReactNode;
 };
-export type ListCellContentResponsiveProps = ResponsiveProps<
-  Pick<ListCellContentDefaultProps, 'size'>
->;
-export type ListCellContentProps = Merge<
-  ListCellContentDefaultProps,
-  ListCellContentResponsiveProps
->;
 
 export type ListTextProps = ListCellProps['textProps'];

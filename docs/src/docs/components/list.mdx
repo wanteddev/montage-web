@@ -117,7 +117,7 @@ const Demo = () => {
         VerticalPadding, None
       </ListCell>
       <ListCell>
-        VerticalPadding, Medium
+        VerticalPadding, Medium (default)
       </ListCell>
       <ListCell verticalPadding="small">
         VerticalPadding, Small
@@ -237,7 +237,7 @@ const Demo = () => {
 
       <ListCell
         leadingContent={
-          <ListCellContent size="large" variant="avatar">
+          <ListCellContent variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
@@ -252,7 +252,7 @@ const Demo = () => {
       <ListCell
         alignItems="center"
         leadingContent={
-          <ListCellContent size="large" variant="avatar">
+          <ListCellContent variant="avatar">
             <Avatar variant="person" size="medium" />
           </ListCellContent>
         }
@@ -266,7 +266,7 @@ const Demo = () => {
       </ListCell>
       <ListCell
         trailingContent={
-          <ListCellContent size="large" variant="switch">
+          <ListCellContent variant="switch">
             <Switch />
           </ListCellContent>
         }
@@ -277,7 +277,7 @@ const Demo = () => {
       <ListCell
         textProps={{ caption: '캡션' }}
         leadingContent={
-          <ListCellContent size="large" variant="large-icon">
+          <ListCellContent variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -293,7 +293,7 @@ const Demo = () => {
         alignItems="center"
         textProps={{ caption: '캡션' }}
         leadingContent={
-          <ListCellContent size="large" variant="large-icon">
+          <ListCellContent variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -308,7 +308,7 @@ const Demo = () => {
       <ListCell
         textProps={{ caption: '캡션' }}
         leadingContent={
-          <ListCellContent size="large" variant="custom">
+          <ListCellContent variant="custom">
             <Thumbnail
               src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
               alt="Wanted Company Image"
@@ -348,7 +348,7 @@ const Demo = () => {
       <ListCell
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
         leadingContent={
-          <ListCellContent size="large" variant="large-icon">
+          <ListCellContent variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -366,7 +366,7 @@ const Demo = () => {
         ellipsis
         textProps={{ caption: '캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션캡션' }}
         leadingContent={
-          <ListCellContent size="large" variant="large-icon">
+          <ListCellContent variant="large-icon">
             <IconBlank />
           </ListCellContent>
         }
@@ -615,7 +615,7 @@ const Demo = () => {
               disableInteraction
               trailingContent={
                 <FormControl>
-                  <ListCellContent variant="switch" size="large">
+                  <ListCellContent variant="switch">
                     <Switch
                       {...field}
                       checked={field.value} 
@@ -638,7 +638,7 @@ const Demo = () => {
               disableInteraction
               trailingContent={
                 <FormControl>
-                  <ListCellContent variant="switch" size="large">
+                  <ListCellContent variant="switch">
                     <Switch
                       {...field}
                       checked={field.value}
