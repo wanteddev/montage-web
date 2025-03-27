@@ -173,10 +173,6 @@ const TextArea = forwardRef<
             const target = event.target as HTMLElement;
             if (target.closest('input, textarea, button, a')) return;
 
-            if (target !== event.currentTarget) {
-              return;
-            }
-
             const textArea = textAreaRef.current;
             if (!textArea || target.tagName === 'TEXTAREA') return;
 
