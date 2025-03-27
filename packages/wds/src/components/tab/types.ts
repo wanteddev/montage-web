@@ -15,7 +15,7 @@ type TabListDefaultProps = {
   size?: 'small' | 'medium' | 'large';
   horizontalPadding?: boolean;
   iconButton?: ReactNode;
-  resize?: 'normal' | 'fill';
+  resize?: 'hug' | 'fill';
   children?: ReactNode;
 };
 

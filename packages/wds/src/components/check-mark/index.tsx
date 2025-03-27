@@ -10,7 +10,7 @@ import type { ElementRef } from 'react';
 type Props = CheckMarkProps;
 
 const CheckMark = forwardRef<ElementRef<typeof Checkbox>, Props>(
-  ({ size = 'normal', bold = false, tight = false, ...props }, ref) => {
+  ({ size = 'medium', bold = false, tight = false, ...props }, ref) => {
     return (
       <Checkbox
         ref={ref}

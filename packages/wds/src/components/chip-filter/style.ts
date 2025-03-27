@@ -87,7 +87,7 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
           font-size: 16px;
         }
       `;
-    case 'normal':
+    case 'medium':
       return css`
         border-radius: 10px;
         padding: 7px 9px 7px 11px;

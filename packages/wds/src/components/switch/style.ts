@@ -62,7 +62,7 @@ const switchSizeStyle = ({
   checked,
 }: Pick<SwitchProps, 'size' | 'checked'>) => {
   switch (size) {
-    case 'normal':
+    case 'medium':
       return css`
         border-radius: 100px;
         width: 52px;

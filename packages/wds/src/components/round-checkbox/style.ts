@@ -40,7 +40,7 @@ export const roundCheckboxStyle =
 
 export const roundCheckboxSizeStyle = ({ size }: RoundCheckboxProps) => {
   switch (size) {
-    case 'normal':
+    case 'medium':
       return css`
         padding: 2px;
       `;

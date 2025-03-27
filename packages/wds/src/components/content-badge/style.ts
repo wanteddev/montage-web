@@ -32,21 +32,21 @@ export const contentBadgeStyle =
 
 const getSizeStyle = ({ size }: ContentBadgeProps) => {
   switch (size) {
-    case 'large':
+    case 'medium':
       return css`
         border-radius: 8px;
         padding: 7px 8px;
         gap: 4px;
         ${typographyStyle('label2', 'medium')}
       `;
-    case 'medium':
+    case 'small':
       return css`
         border-radius: 6px;
         padding: 4px 6px;
         gap: 3px;
         ${typographyStyle('caption1', 'medium')}
       `;
-    case 'normal':
+    case 'xsmall':
       return css`
         border-radius: 6px;
         padding: 3px 6px;

@@ -19,7 +19,7 @@ type Props = PropsWithChildren<AvatarProps>;
 const Avatar = forwardRef<HTMLDivElement, Props>(
   (
     {
-      size = 'large',
+      size = 'small',
       variant = 'person',
       className,
       style,

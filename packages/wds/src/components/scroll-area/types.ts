@@ -4,7 +4,7 @@ import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 export type ScrollAreaProps = DefaultComponentProps<
   {
-    size?: 'small' | 'normal' | 'responsive';
+    size?: 'small' | 'medium' | 'responsive';
     scrollbars?: 'vertical' | 'horizontal' | 'both';
     viewportRef?: Ref<
       ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>

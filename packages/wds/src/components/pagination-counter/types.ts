@@ -1,7 +1,7 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 type PaginationCounterDefaultProps = {
-  size?: 'small' | 'normal';
+  size?: 'small' | 'medium';
   totalPage: number;
   currentPage?: number;
   alternative?: boolean;

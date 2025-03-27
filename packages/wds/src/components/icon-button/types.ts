@@ -11,7 +11,7 @@ export type IconButtonDefaultProps = {
   variant?: IconButtonVariant;
   disabled?: boolean;
   disableInteraction?: boolean;
-  size?: number | 'normal' | 'small';
+  size?: number | 'medium' | 'small';
   color?: ThemeColorsToken;
   interactionColor?: ThemeColorsToken;
   /**

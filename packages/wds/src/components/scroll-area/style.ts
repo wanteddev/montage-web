@@ -109,7 +109,7 @@ const scrollbarSizeStyle = (
               }
             }
           `;
-    case 'normal':
+    case 'medium':
       return orientation === 'vertical'
         ? css`
             width: 13px;
@@ -133,7 +133,7 @@ const scrollbarSizeStyle = (
           `;
     case 'responsive':
       return css`
-        ${scrollbarSizeStyle({ size: 'normal', orientation }, theme)}
+        ${scrollbarSizeStyle({ size: 'medium', orientation }, theme)}
 
         @media (max-width: ${theme.breakpoint.sm}) {
           ${scrollbarSizeStyle({ size: 'small', orientation }, theme)}

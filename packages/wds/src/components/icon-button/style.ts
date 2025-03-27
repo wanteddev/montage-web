@@ -11,7 +11,7 @@ const getDefaultSize = (
   switch (variant) {
     case 'outlined':
     case 'solid':
-      return 'normal';
+      return 'medium';
     default:
       return 24;
   }
@@ -76,7 +76,7 @@ const iconButtonSizeStyle = (
   }
 
   switch (size) {
-    case 'normal':
+    case 'medium':
       return css`
         width: 40px;
         height: 40px;

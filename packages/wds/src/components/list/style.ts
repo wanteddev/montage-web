@@ -87,11 +87,13 @@ export const listCellStyle =
     )}
   `;
 
-export const listTextContentWrapperStyle = css`
+export const listTextContentWrapperStyle = (ellipsis?: boolean) => css`
   min-height: 24px;
   align-items: center;
   display: flex;
   flex: 1;
+
+  ${listTextEllipsisStyle(ellipsis)}
 `;
 
 export const listTextEllipsisStyle = (ellipsis?: boolean) =>
@@ -134,23 +136,23 @@ const listCellPaddingStyle = ({
   & ~ [wds-component='accordion-details'] {
     ${(() => {
       switch (verticalPadding) {
-        case '0px':
+        case 'none':
           return css`
             --wds-list-cell-vertical-padding: 0px;
             --wds-list-cell-interaction-display: none;
           `;
 
-        case '8px':
+        case 'small':
           return css`
             --wds-list-cell-vertical-padding: 8px;
             --wds-list-cell-interaction-display: block;
           `;
-        case '16px':
+        case 'large':
           return css`
             --wds-list-cell-vertical-padding: 16px;
             --wds-list-cell-interaction-display: block;
           `;
-        case '12px':
+        case 'medium':
           return css`
             --wds-list-cell-vertical-padding: 12px;
             --wds-list-cell-interaction-display: block;
@@ -192,34 +194,6 @@ export const listCellDividerStyle = css`
   width: calc(100% - (var(--wds-list-cell-horizontal-padding) * 2));
 `;
 
-const listCellContentSizeStyle = ({
-  height,
-}: Pick<ListCellContentProps, 'height'>) => {
-  switch (height) {
-    case '40px':
-      return css`
-        min-width: 40px;
-        max-width: max-content;
-        height: 40px;
-      `;
-
-    case '56px':
-      return css`
-        min-width: 56px;
-        max-width: max-content;
-        height: 56px;
-      `;
-
-    case '24px':
-    default:
-      return css`
-        min-width: 24px;
-        max-width: max-content;
-        height: 24px;
-      `;
-  }
-};
-
 const listCellContentVariantStyle =
   ({ variant }: Pick<ListCellContentProps, 'variant'>) =>
   (theme: Theme) => {
@@ -258,7 +232,7 @@ const listCellContentVariantStyle =
   };
 
 export const listCellContentStyle =
-  ({ variant, height, xl, lg, md, sm, xs }: ListCellContentProps) =>
+  ({ variant }: ListCellContentProps) =>
   (theme: Theme) => css`
     flex-shrink: 0;
     position: relative;
@@ -272,17 +246,6 @@ export const listCellContentStyle =
     }
 
     ${listCellContentVariantStyle({ variant })(theme)}
-    ${listCellContentSizeStyle({ height })}
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${listCellContentSizeStyle({ height: params?.height })}
-        ${params?.sx}
-      `,
-    )}
   `;
 
 export const listTextStyle = css`

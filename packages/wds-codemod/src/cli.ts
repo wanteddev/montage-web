@@ -36,6 +36,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'MenuBottom Migration', value: 'menu-bottom-migration' },
   { name: 'Leading, Trailing Migration', value: 'leading-trailing-migration' },
   { name: 'Palette to Atomic & Semantic', value: 'palette-to-atomic-semantic' },
+  { name: 'Size Migration', value: 'size-migration' },
 ];
 
 const run = () => {

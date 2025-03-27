@@ -6,7 +6,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ListCell, ListCellContent } from '../list';
 import Typography from '../typography';
-import { Divider, FlexBox, Slot, useComposedRefs, useSize } from '../..';
+import { Divider, FlexBox, useComposedRefs, useSize } from '../..';
 
 import {
   ACCORDION_CONTENT_NAME,
@@ -110,6 +110,7 @@ const AccordionSummary = forwardRef<
       leadingContent,
       trailingContent,
       textProps,
+      verticalPadding = 'large',
       sx,
       ...props
     },
@@ -131,24 +132,16 @@ const AccordionSummary = forwardRef<
         wds-component="accordion-summary"
         as="div"
         role="button"
-        verticalPadding="16px"
+        verticalPadding={verticalPadding}
         disabled={disabled}
         disableInteraction={disabled}
         aria-expanded={expanded}
         aria-controls={detailsId}
         id={summaryId}
-        {...(Boolean(leadingContent) && {
-          leadingContent: (
-            <Slot data-role="accordion-summary-leading-content">
-              {leadingContent}
-            </Slot>
-          ),
-        })}
+        leadingContent={leadingContent}
         trailingContent={
           Boolean(trailingContent) ? (
-            <Slot data-role="accordion-summary-trailing-content">
-              {trailingContent}
-            </Slot>
+            trailingContent
           ) : (
             <AccordionSummaryContent
               variant="icon"

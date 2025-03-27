@@ -151,7 +151,7 @@ const checkboxSizeStyle = ({
   tight,
 }: Pick<CheckboxProps, 'size' | 'bold' | 'tight'>) => {
   switch (size) {
-    case 'normal':
+    case 'medium':
       return css`
         width: 24px;
         height: 24px;
