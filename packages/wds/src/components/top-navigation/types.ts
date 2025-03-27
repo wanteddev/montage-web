@@ -30,6 +30,6 @@ export type TopNavigationButtonProps = {
    */
   background?: boolean;
   disabled?: boolean;
-  size?: number | 'normal' | 'small';
+  size?: number | 'medium' | 'small';
   children?: ReactNode;
 };

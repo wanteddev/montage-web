@@ -1,7 +1,7 @@
 import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
 
 type PaginationDotDefaultProps = {
-  size?: 'small' | 'normal';
+  size?: 'small' | 'medium';
   totalPage: number;
   currentPage?: number;
   maxDotCount?: number;

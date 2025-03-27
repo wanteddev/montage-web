@@ -23,7 +23,7 @@ const ChipAction = forwardRef(
       disableInteraction = false,
       leadingContent,
       trailingContent,
-      size = 'normal',
+      size = 'medium',
       active: givenActive,
       children,
       xs,

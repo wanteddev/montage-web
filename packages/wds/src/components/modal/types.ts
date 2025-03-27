@@ -1,6 +1,10 @@
 import type { TopNavigationProps } from '../top-navigation/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentProps,
+  Merge,
+  ResponsiveProps,
+} from '@wanteddev/wds-engine';
 import type Portal from '../portal';
 import type {
   CSSProperties,
@@ -46,9 +50,10 @@ type ModalContainerDefaultProps = {
    * ModalActionArea 의 그라디언트, TopNavigation의 borderBottom 스타일이 추가됩니다.
    */
   sticky?: boolean;
-  size?: 'small' | 'normal' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | 'xlarge';
   resize?: 'hug' | 'fixed';
   children?: ReactNode;
+  wrapperProps?: DefaultComponentProps<{}, 'div'>;
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<

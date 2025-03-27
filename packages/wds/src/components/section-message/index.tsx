@@ -40,7 +40,7 @@ const SectionMessage = forwardRef<
       children,
       leadingContent,
       trailingButton,
-      caption,
+      description,
       bottomButton,
       closeButton = false,
       ...props
@@ -111,15 +111,15 @@ const SectionMessage = forwardRef<
                 {children}
               </Typography>
 
-              {caption && (
+              {description && (
                 <Typography
                   variant="label1-reading"
                   weight="regular"
-                  data-role="section-message-content-caption"
+                  data-role="section-message-content-description"
                   color="semantic.label.neutral"
                   as="p"
                 >
-                  {caption}
+                  {description}
                 </Typography>
               )}
 

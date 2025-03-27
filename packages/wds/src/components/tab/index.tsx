@@ -108,7 +108,7 @@ const TabList = forwardRef<
       size = 'large',
       horizontalPadding = false,
       iconButton,
-      resize = 'normal',
+      resize = 'hug',
       dir,
       xs,
       sm,

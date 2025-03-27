@@ -27,7 +27,7 @@ const Radio = forwardRef<
       value,
       invalid = false,
       onCheck,
-      size = 'normal',
+      size = 'medium',
       tight = false,
       xs,
       sm,

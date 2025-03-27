@@ -124,7 +124,7 @@ const paginationDotWrapperSizeStyle = ({
   size,
 }: Omit<PaginationDotProps, 'totalPage'>) => {
   switch (size) {
-    case 'normal':
+    case 'medium':
       return css`
         height: 10px;
 

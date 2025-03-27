@@ -9,7 +9,7 @@ export type CheckboxDefaultProps = {
   disabled?: boolean;
   required?: boolean;
   bold?: boolean;
-  size?: 'normal' | 'small';
+  size?: 'medium' | 'small';
   invalid?: boolean;
   indeterminate?: boolean;
   indeterminateIcon?: ReactNode;

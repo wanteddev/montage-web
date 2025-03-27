@@ -23,7 +23,7 @@ const ChipFilter = forwardRef(
       disabled = false,
       disableInteraction = false,
       expanded: originExpanded,
-      size = 'normal',
+      size = 'medium',
       activeLabel,
       active: givenActive,
       children,
