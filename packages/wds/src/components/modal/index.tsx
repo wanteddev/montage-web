@@ -173,6 +173,7 @@ const ModalContainer = forwardRef<
       xl,
       children,
       sticky = true,
+      wrapperProps,
       ...props
     },
     ref,
@@ -238,15 +239,19 @@ const ModalContainer = forwardRef<
         data-visibility={
           isBottomSheetWithHandle ? context.visibility : undefined
         }
-        sx={modalContainerWrapperStyle({
-          variant,
-          size,
-          xs,
-          sm,
-          md,
-          lg,
-          xl,
-        })}
+        {...wrapperProps}
+        sx={[
+          modalContainerWrapperStyle({
+            variant,
+            size,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          wrapperProps?.sx,
+        ]}
       >
         <Box
           data-role="modal-dimmer"

@@ -1,6 +1,10 @@
 import type { TopNavigationProps } from '../top-navigation/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentProps,
+  Merge,
+  ResponsiveProps,
+} from '@wanteddev/wds-engine';
 import type Portal from '../portal';
 import type {
   CSSProperties,
@@ -49,6 +53,7 @@ type ModalContainerDefaultProps = {
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   resize?: 'hug' | 'fixed';
   children?: ReactNode;
+  wrapperProps?: DefaultComponentProps<{}, 'div'>;
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<
