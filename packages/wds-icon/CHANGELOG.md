@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-alpha.0 (2025-03-31)
+
+### Bug Fixes
+
+- **core:** build command 수정 ([f9f605c](https://github.com/wanteddev/wds/commit/f9f605c4eeff79ca22fdb349882abfe7d161138d))
+- **core:** build command수정 ([c33104d](https://github.com/wanteddev/wds/commit/c33104d0aa551ad932f83eaf17319a1458fe4190))
+- **core:** icon size global css -> wds-icon 으로 변경 ([8452c79](https://github.com/wanteddev/wds/commit/8452c798fcdb174cd698bda8d10125729ed1e93a))
+- **core:** package files field 추가 ([f0e8196](https://github.com/wanteddev/wds/commit/f0e819608690ca90e55e770448d31cb7600f3a36))
+- d.ts를 올바르게 생성하지 못 하는 현상 수정 ([#140](https://github.com/wanteddev/wds/issues/140)) ([8caa94d](https://github.com/wanteddev/wds/commit/8caa94d8ffb535cea0069393c6c257eef41bcf20))
+- **wds-icon:** cannot find module wds-engine ([9bfe375](https://github.com/wanteddev/wds/commit/9bfe375cd77c599be129ac9e0a915d209cc27659))
+- **wds-icon:** icon color가 올바르지 않음 ([69292ed](https://github.com/wanteddev/wds/commit/69292ed94cacdab2502b6071b059d6dffb2ac632))
+- **wds-icon:** module path ([1ad2cc4](https://github.com/wanteddev/wds/commit/1ad2cc4f942b904301318a410552e5e0f30c5de8))
+- **wds-icon:** package.json 프로퍼티 추가 ([#1](https://github.com/wanteddev/wds/issues/1)) ([d850b3d](https://github.com/wanteddev/wds/commit/d850b3de68bf02c75b7068342162955d338c49de))
+- **wds-icon:** 캘린더 색상 수정 ([#2](https://github.com/wanteddev/wds/issues/2)) ([9df987a](https://github.com/wanteddev/wds/commit/9df987a116b05d395ca39d1b553717694ad9570b))
+
+### Features
+
+- **core:** initialize packages ([638d54e](https://github.com/wanteddev/wds/commit/638d54efc559e9bebc62918cb296aff611323ca1))
+- **core:** package json exports 옵션 변경으로 트리쉐이킹 활성화 ([cef269d](https://github.com/wanteddev/wds/commit/cef269d4e12be41c6250a12be905db7dd07da923))
+- **core:** 커스텀 esbuild plugin으로 변경 및 번들 파일 분리 ([720d790](https://github.com/wanteddev/wds/commit/720d79061cb023f86088ebf9e89204596adae1ea))
+- **core:** 트리쉐이킹 추가 및 빌드 config 변경 ([364f436](https://github.com/wanteddev/wds/commit/364f436fb7938044c80f18ce4cc4b23a03e0793a))
+- package.json exports 옵션 변경 ([72358b4](https://github.com/wanteddev/wds/commit/72358b4a5895e31bd48f8ed44d1709659b147b0a))
+- react 19, next 15 버전 대응 ([#190](https://github.com/wanteddev/wds/issues/190)) ([917671a](https://github.com/wanteddev/wds/commit/917671a4b9652ead45b840d29a32683d73c7fafd))
+- **wds-icon:** 0912 신규 아이콘 추가 ([#101](https://github.com/wanteddev/wds/issues/101)) ([3ded39a](https://github.com/wanteddev/wds/commit/3ded39acd4311f38ae5fcd6c54bc00e715d07033))
+- **wds-icon:** 240923 신규 아이콘 추가 ([#109](https://github.com/wanteddev/wds/issues/109)) ([427f0c0](https://github.com/wanteddev/wds/commit/427f0c0ed31061c609c38a7824806fffbae9fa18))
+- **wds-icon:** 241024 신규 아이콘 추가 ([#133](https://github.com/wanteddev/wds/issues/133)) ([16f4f2b](https://github.com/wanteddev/wds/commit/16f4f2bcc4b9d897eaa6e35849903a8437302056))
+- **wds-icon:** code connect 옵션 수정 ([ebc1869](https://github.com/wanteddev/wds/commit/ebc18690961df619386093484b46bbef2b25801d))
+- **wds-icon:** inbox, attachment 아이콘 추가 ([fe7e197](https://github.com/wanteddev/wds/commit/fe7e197f7f8f5aae8cda9c0338a0334d47ecf4a4))
+- **wds-icon:** PI-66713 [WDS] 240731 신규 아이콘 추가 ([#77](https://github.com/wanteddev/wds/issues/77)) ([54fcde1](https://github.com/wanteddev/wds/commit/54fcde1a320fb2874d6777796b3c3c8adf3af5ae))
+- **wds-icon:** 신규 아이콘 2종 추가 ([6835dd6](https://github.com/wanteddev/wds/commit/6835dd6cf9e58031d22a0b4f0e0e2a8480a56597))
+- **wds-icon:** 신규 아이콘 4종 추가 ([8c437fe](https://github.com/wanteddev/wds/commit/8c437fe4f3456fa660116a6543222f9d05d35df3))
+- **wds-icon:** 신규 아이콘 추가 및 기존 아이콘 패스 업데이트 ([549084e](https://github.com/wanteddev/wds/commit/549084e381216a06b5186f5b5eba41be501f471e))
+- **wds-icon:** 아이콘 번들링 개선 ([173e475](https://github.com/wanteddev/wds/commit/173e475bdc8db391d1b7a53ebbd4db3a8fc9a497))
+- **wds-icon:** 아이콘 패스 업데이트 및 신규 아이콘 추가 ([895fc70](https://github.com/wanteddev/wds/commit/895fc7094ffef176bc2a5ea6ce6a9c634f8c5b70))
+- **wds,wds-icon,wds-codemod:** 20250305 기준 신규 아이콘 추가 ([#276](https://github.com/wanteddev/wds/issues/276)) ([b4077e5](https://github.com/wanteddev/wds/commit/b4077e5dfa50f36f53a89469a8dce2464677abee))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#149](https://github.com/wanteddev/wds/issues/149)) ([f57680b](https://github.com/wanteddev/wds/commit/f57680bf721156fe3695ada4d9a7d955de8c58fa))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#170](https://github.com/wanteddev/wds/issues/170)) ([acaf368](https://github.com/wanteddev/wds/commit/acaf36841665235c1762fd36de07957f31c65e4e))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#199](https://github.com/wanteddev/wds/issues/199)) ([54f6331](https://github.com/wanteddev/wds/commit/54f63314cb70ad826f5a6bd75dc5e66d224a52e6))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#201](https://github.com/wanteddev/wds/issues/201)) ([7520d54](https://github.com/wanteddev/wds/commit/7520d548f083255b78c1a7b1466388cf13a32cb5))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#203](https://github.com/wanteddev/wds/issues/203)) ([234bece](https://github.com/wanteddev/wds/commit/234bece988e4cbe5db5c3b441369c10280fdc7f6))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#290](https://github.com/wanteddev/wds/issues/290)) ([aa23dab](https://github.com/wanteddev/wds/commit/aa23dabe47367742a7f751dc288516b7ef59f064))
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#295](https://github.com/wanteddev/wds/issues/295)) ([1266163](https://github.com/wanteddev/wds/commit/1266163df3b282ae9c72514cc3d4ec2bf46ad20d))
+- **wds,wds-icon:** 아이콘 <-> 피그마 자동 동기화 및 code connect 구성 ([#60](https://github.com/wanteddev/wds/issues/60)) ([0d7b86d](https://github.com/wanteddev/wds/commit/0d7b86d6bea641008bd3567eaac4a4f22fece91c))
+- **wds:** type declare 오류 수정 ([7accc78](https://github.com/wanteddev/wds/commit/7accc78eaedbd6b1ba56395afbbf188c6bc64ed8))
+- 디자인시스템 자체 엔진 개발 ([#7](https://github.com/wanteddev/wds/issues/7)) ([560e5c2](https://github.com/wanteddev/wds/commit/560e5c220e7e3def3b85b1ef8f80dfc992545373))
+
 ## [1.2.2](https://github.com/wanteddev/wds/compare/@wanteddev/wds-icon@1.2.1...@wanteddev/wds-icon@1.2.2) (2025-02-06)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
