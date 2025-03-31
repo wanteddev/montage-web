@@ -115,7 +115,7 @@ Select 처럼 사용할 수 있습니다. `asSelect` 옵션을 사용하면, Opt
 
 `inputValue`, `value` 총 2가지 값으로 관리하며 올바른 값을 선택한 경우 value의 값이 변경됩니다. 
 
-<Demo code={`import { Box, Autocomplete, AutocompleteInput, AutocompleteList, TextInput, TextInputButton, AutocompleteOption, Label, FlexBox, Typography } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox, Typography } from '@wanteddev/wds';
 import { useState, useMemo } from 'react';
 
 const fruits = [
@@ -409,7 +409,7 @@ export default Demo;`}
 
 `AutocompleteGroup` 을 통해 각 섹션을 구분할 수 있습니다.
 
-<Demo code={`import { Typography, Autocomplete, AutocompleteInput, AutocompleteList, AutocompleteGroup, AutocompleteOption, TextInput } from '@wanteddev/wds';
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, AutocompleteGroup, AutocompleteOption, TextField } from '@wanteddev/wds';
 import { useState, useEffect, useMemo } from 'react';
 
 const fruits = [
@@ -433,12 +433,12 @@ const Demo = () => {
       value={value}
       onValueChange={setValue}
     >
-      <AutocompleteInput>
-        <TextInput
+      <AutocompleteField>
+        <TextField
           width="300px"
           placeholder="입력하세요."
         />
-      </AutocompleteInput>
+      </AutocompleteField>
 
       <AutocompleteList>
         {filteredOptions.length === 0 &&
