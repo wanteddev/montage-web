@@ -81,7 +81,7 @@ export default Demo;`} />
 
 ### Content
 
-`leadingContent`, `trailingContent` 속성을 통해 컨텐츠를 추가할 수 있어요.
+`headingContent`, `trailingContent` 속성을 통해 컨텐츠를 추가할 수 있어요.
 
 <Demo code={`import { FlexBox, SectionHeader, SectionHeaderNavigation, SectionHeaderNavigationButton, TextButton, IconButton, ChipFilter } from '@wanteddev/wds';
 import { IconBlank, IconChevronLeftSmall, IconChevronRightSmall } from '@wanteddev/wds-icon';
@@ -90,7 +90,7 @@ const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="32px">
       <SectionHeader
-        leadingContent={
+        headingContent={
           <ChipFilter
             size="small"
             variant="outlined"
@@ -108,7 +108,7 @@ const Demo = () => {
       </SectionHeader>
 
       <SectionHeader
-        leadingContent={
+        headingContent={
           <IconButton size={24}>
             <IconBlank />
           </IconButton>
