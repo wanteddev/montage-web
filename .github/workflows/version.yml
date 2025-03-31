@@ -96,7 +96,7 @@ jobs:
         run: |
           git pull
           echo "RELEASE_URL=${{ github.event.repository.html_url }}/releases" >> $GITHUB_ENV
-          RELEASE=$(printf "%s" "$(git log -1 --pretty=%b)")
+          RELEASE=$(printf "%s" "$(git describe --tags)")
           RELEASE="$(echo "$RELEASE" | sed -z 's/\n/\\n/g')"
           echo "RELEASE=${RELEASE}" >> $GITHUB_ENV
 
@@ -122,7 +122,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "배포된 패키지"
+                        "text": "배포된 버전"
                       }
                     },
                     {
