@@ -73,7 +73,7 @@ const ListCell = forwardRef(
       divider,
       ellipsis = false,
       interactionPadding = fillWidth ? undefined : '12px',
-      alignItems: alignItemsProp,
+      alignItems = 'flex-start',
 
       active = false,
       disabled = false,
@@ -102,8 +102,6 @@ const ListCell = forwardRef(
       '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a',
     );
     const clickable = Boolean(props.onClick || controllable) && !disabled;
-
-    const alignItems = alignItemsProp ?? ellipsis ? 'center' : 'flex-start';
 
     return (
       <ListCellProvider
