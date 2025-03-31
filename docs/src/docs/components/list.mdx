@@ -70,6 +70,42 @@ export default Demo;`}
 
 ## Examples
 
+### AlignItems
+
+기본 수직 정렬은 `flex-start` 입니다.
+`alignItems` 으로 수직 정렬을 조정할 수 있어요.
+
+<Demo code={`import { List, ListCell, ListCellContent, Switch } from '@wanteddev/wds'; 
+
+const Demo = () => {
+  return (
+    <List>
+      <ListCell
+        trailingContent={(
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        )}
+      >
+        텍스트, Top 정렬
+      </ListCell>
+      <ListCell
+        alignItems="center"
+        trailingContent={(
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        )}
+      >
+        텍스트, Center 정렬
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Active, Disabled
 
 active, disabled, disableInteraction 으로 상태를 표시해요.
@@ -135,7 +171,6 @@ export default Demo;`}
 ### LeadingContent, TrailingContent
 
 - 기본적으로 leadingContent, trailingContent는 `ListCellContent` 로 래핑해서 사용해요.
-- height로 콘텐츠 높이를 조정할 수 있어요.
 
 <Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, IconButton, CheckMark, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -236,6 +271,7 @@ const Demo = () => {
       </ListCell>
 
       <ListCell
+        alignItems="center"
         leadingContent={
           <ListCellContent variant="avatar">
             <Avatar variant="person" size="medium" />
@@ -265,6 +301,7 @@ const Demo = () => {
         텍스트, Medium
       </ListCell>
       <ListCell
+        alignItems="center"
         trailingContent={
           <ListCellContent variant="switch">
             <Switch />
@@ -336,8 +373,7 @@ export default Demo;`}
 
 ### Ellipsis
 
-- ellipsis가 false일 때 수직 정렬은 상단으로 조정 됩니다.
-- ellipsis가 true일 때 수직 정렬은 중앙으로 조정 됩니다.
+- ellipsis가 true일 때 한줄로 표시되고 넘치는 경우 말줄임표로 표시됩니다.
 
 <Demo code={`import { List, ListCell, ListCellContent } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
