@@ -193,8 +193,14 @@ export const textAreaContentStyle = css`
 `;
 
 export const textAreaCharacterCounterStyle = (theme: Theme) => css`
-  opacity: ${theme.opacity[74]};
   padding: 0px 4px;
+  opacity: ${theme.opacity[74]};
+
+  &[data-is-overflow='true'] {
+    [data-role='text-area-content-character-counter-length'] {
+      color: ${theme.semantic.status.negative};
+    }
+  }
 `;
 
 export const invalidIconWrapperStyle = (theme: Theme) => css`

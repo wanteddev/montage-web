@@ -299,8 +299,17 @@ const TextAreaContent = forwardRef<
           {...props}
           sx={[textAreaContentStyle, textAreaCharacterCounterStyle, sx]}
           color="semantic.label.alternative"
+          data-is-overflow={
+            !isNaN(Number(children)) && length > Number(children)
+          }
         >
-          {length}/{children}
+          <span data-role="text-area-content-character-counter-length">
+            {length}
+          </span>
+          <span data-role="text-area-content-character-counter-divider">/</span>
+          <span data-role="text-area-content-character-counter-max-length">
+            {children}
+          </span>
         </Typography>
       );
     case 'badge':
