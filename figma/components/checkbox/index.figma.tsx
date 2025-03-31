@@ -6,7 +6,7 @@ figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
   },
@@ -20,7 +20,7 @@ figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
   },
@@ -34,7 +34,7 @@ figma.connect(Checkbox, '<FIGMA_CONTROL_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
   },
@@ -52,12 +52,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   },
   variant: {
     State: 'Checked',
-    Size: 'Normal',
+    Size: 'Medium',
   },
   example: ({ label, ...props }) => (
     <FormField gap="8px" flexDirection="row">
       <FormControl>
-        <Checkbox checked size="normal" {...props} />
+        <Checkbox checked size="medium" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>
@@ -72,12 +72,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   },
   variant: {
     State: 'Unchecked',
-    Size: 'Normal',
+    Size: 'Medium',
   },
   example: ({ label, ...props }) => (
     <FormField gap="8px" flexDirection="row">
       <FormControl>
-        <Checkbox size="normal" {...props} />
+        <Checkbox size="medium" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>
@@ -92,12 +92,12 @@ figma.connect(Checkbox, '<FIGMA_CHECKBOX>', {
   },
   variant: {
     State: 'Indeterminate',
-    Size: 'Normal',
+    Size: 'Medium',
   },
   example: ({ label, ...props }) => (
     <FormField gap="8px" flexDirection="row">
       <FormControl>
-        <Checkbox indeterminate size="normal" {...props} />
+        <Checkbox indeterminate size="medium" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>

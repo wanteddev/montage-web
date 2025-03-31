@@ -11,16 +11,20 @@ figma.connect('<FIGMA_AVATAR_GROUP>', {
     variant: figma.enum('Variant', {
       Person: 'person',
       Company: 'company',
-      Academic: 'academic',
+      Academy: 'academy',
+    }),
+    trailingContent: figma.boolean('Trailing Content', {
+      true: figma.children('Trailing Content'),
+      false: undefined,
     }),
   },
-  example: ({ size, variant }) => (
-    <AvatarGroup size={size}>
-      <Avatar variant={variant} />
-      <Avatar variant={variant} />
-      <Avatar variant={variant} />
-      <Avatar variant={variant} />
-      <Avatar variant={variant} />
+  example: ({ size, variant, ...props }) => (
+    <AvatarGroup size={size} {...props}>
+      <Avatar size={size} variant={variant} />
+      <Avatar size={size} variant={variant} />
+      <Avatar size={size} variant={variant} />
+      <Avatar size={size} variant={variant} />
+      <Avatar size={size} variant={variant} />
     </AvatarGroup>
   ),
 });

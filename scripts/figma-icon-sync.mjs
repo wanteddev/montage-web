@@ -180,10 +180,10 @@ const fileRESTResponseToIconComponentsJSON = async (response) => {
           : a.charAt(0).toUpperCase() + a.substring(1),
       )
       .join('');
+    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
+    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
     figmaString.push(
-      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${componentSetId.replace(':', '-')}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
-  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
-  figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
+      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${componentSetId.replace(':', '-')}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });`,
     );
     res.files.push([
       `${changeCase.kebabCase(name)}.tsx`,
@@ -273,7 +273,7 @@ const main = async () => {
   const figmaStarter = fs.readFileSync('./Icons.figma.txt');
   fs.writeFileSync(
     './figma/icons/index.figma.tsx',
-    `${figmaStarter}\n${json.map((a) => a[2]).join('\n')}`,
+    `${figmaStarter}\nfigma.connect("<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { props: { children: figma.instance('Icon') }, example: (props) => <>{props.children}</> });figma.connect("<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { props: { children: figma.instance('Icon') }, example: (props) => <>{props.children}</> });\n${json.map((a) => a[2]).join('\n')}`,
   );
   await Promise.all(
     json.map(
@@ -293,7 +293,7 @@ const main = async () => {
   fs.rmSync('./icons.json');
 
   shelljs.exec(
-    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/transforms/svg-use-id.ts',
+    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/src/transforms/svg-use-id.ts',
   );
   shelljs.exec('pnpm -F wds-icon lint:fix src');
 
