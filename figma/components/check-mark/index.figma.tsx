@@ -6,7 +6,7 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
   },
@@ -20,7 +20,7 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
   },
@@ -37,12 +37,12 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   },
   variant: {
     State: 'Checked',
-    Size: 'Normal',
+    Size: 'Medium',
   },
   example: ({ label, ...props }) => (
     <FormField gap="4px" flexDirection="row">
       <FormControl>
-        <CheckMark checked size="normal" {...props} />
+        <CheckMark checked size="medium" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>
@@ -56,12 +56,12 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   },
   variant: {
     State: 'Unchecked',
-    Size: 'Normal',
+    Size: 'Medium',
   },
   example: ({ label, ...props }) => (
     <FormField gap="4px" flexDirection="row">
       <FormControl>
-        <CheckMark size="normal" {...props} />
+        <CheckMark size="medium" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0px' }}>{label}</FormLabel>
     </FormField>

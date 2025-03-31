@@ -11,7 +11,7 @@ figma.connect(RadioGroupItem, '<FIGMA_CONTROL_RADIO>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
   },
@@ -24,12 +24,12 @@ figma.connect(RadioGroupItem, '<FIGMA_RADIO>', {
     label: figma.string('Label'),
   },
   variant: {
-    Size: 'Normal',
+    Size: 'Medium',
   },
   example: ({ label, ...props }) => (
     <FormField flexDirection="row" gap="8px">
       <FormControl>
-        <RadioGroupItem value="" size="normal" {...props} />
+        <RadioGroupItem value="" size="medium" {...props} />
       </FormControl>
       <FormLabel sx={{ padding: '1px 0' }}>{label}</FormLabel>
     </FormField>

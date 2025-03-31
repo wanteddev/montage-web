@@ -1,11 +1,10 @@
 import { figma } from '@figma/code-connect';
 
-import { Avatar, AvatarButton, PushBadge } from '@wanteddev/wds';
+import { Avatar } from '@wanteddev/wds';
 
 figma.connect('<FIGMA_AVATAR>', {
   props: {
     size: figma.enum('Size', {
-      Custom: 24,
       XSmall: 'xsmall',
       Small: 'small',
       Medium: 'medium',
@@ -15,83 +14,9 @@ figma.connect('<FIGMA_AVATAR>', {
     variant: figma.enum('Variant', {
       Person: 'person',
       Company: 'company',
-      academy: 'Academy',
+      Academy: 'academy',
     }),
   },
   variant: { Interaction: false, 'Push Badge': false },
   example: (props) => <Avatar {...props} />,
-});
-
-figma.connect('<FIGMA_AVATAR>', {
-  props: {
-    size: figma.enum('Size', {
-      Custom: 24,
-      XSmall: 'xsmall',
-      Small: 'small',
-      Medium: 'medium',
-      Large: 'large',
-      XLarge: 'xlarge',
-    }),
-    variant: figma.enum('Variant', {
-      Person: 'person',
-      Company: 'company',
-      academy: 'Academy',
-    }),
-  },
-  variant: { Interaction: true, 'Push Badge': false },
-  example: (props) => (
-    <AvatarButton>
-      <Avatar {...props} />
-    </AvatarButton>
-  ),
-});
-
-figma.connect('<FIGMA_AVATAR>', {
-  props: {
-    size: figma.enum('Size', {
-      Custom: 24,
-      XSmall: 'xsmall',
-      Small: 'small',
-      Medium: 'medium',
-      Large: 'large',
-      XLarge: 'xlarge',
-    }),
-    variant: figma.enum('Variant', {
-      Person: 'person',
-      Company: 'company',
-      academy: 'Academy',
-    }),
-  },
-  variant: { Interaction: false, 'Push Badge': true },
-  example: (props) => (
-    <PushBadge variant="dot">
-      <Avatar {...props} />
-    </PushBadge>
-  ),
-});
-
-figma.connect('<FIGMA_AVATAR>', {
-  props: {
-    size: figma.enum('Size', {
-      Custom: 24,
-      XSmall: 'xsmall',
-      Small: 'small',
-      Medium: 'medium',
-      Large: 'large',
-      XLarge: 'xlarge',
-    }),
-    variant: figma.enum('Variant', {
-      Person: 'person',
-      Company: 'company',
-      academy: 'Academy',
-    }),
-  },
-  variant: { Interaction: true, 'Push Badge': true },
-  example: (props) => (
-    <AvatarButton>
-      <PushBadge variant="dot">
-        <Avatar {...props} />
-      </PushBadge>
-    </AvatarButton>
-  ),
 });

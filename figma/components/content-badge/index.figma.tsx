@@ -5,12 +5,12 @@ import { ContentBadge } from '@wanteddev/wds';
 figma.connect(ContentBadge, '<FIGMA_CONTENT_BADGE>', {
   props: {
     children: figma.string('Text'),
-    leadingContent: figma.boolean('Left Content', {
-      true: figma.children('Left Content'),
+    leadingContent: figma.boolean('Leading Icon', {
+      true: figma.children('Leading Icon'),
       false: undefined,
     }),
-    trailingContent: figma.boolean('Right Content', {
-      true: figma.children('Right Content'),
+    trailingContent: figma.boolean('Trailing Icon', {
+      true: figma.children('Trailing Icon'),
       false: undefined,
     }),
     color: figma.enum('Color', {
@@ -18,9 +18,9 @@ figma.connect(ContentBadge, '<FIGMA_CONTENT_BADGE>', {
       Accent: 'accent',
     }),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      XSmall: 'xsmall',
+      Small: 'small',
       Medium: 'medium',
-      Large: 'large',
     }),
     variant: figma.enum('Variant', {
       Solid: 'solid',

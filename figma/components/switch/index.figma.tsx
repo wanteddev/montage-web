@@ -6,10 +6,13 @@ figma.connect(Switch, '<FIGMA_CONTROL_SWITCH>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
     }),
     checked: figma.boolean('Active'),
+  },
+  variant: {
+    Platform: 'Normal',
   },
   example: (props) => <Switch {...props} />,
 });

@@ -17,7 +17,7 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
     }),
   },
   variant: {
-    Color: 'Normal',
+    '💎 Color': 'Normal',
   },
   example: (props) => <Skeleton variant="text" {...props} />,
 });
@@ -37,7 +37,7 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
     }),
   },
   variant: {
-    Color: 'White',
+    '💎 Color': 'White',
   },
   example: (props) => (
     <Skeleton
@@ -51,14 +51,14 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
   variant: {
-    Color: 'Normal',
+    '💎 Color': 'Normal',
   },
   example: (props) => <Skeleton variant="rectangle" {...props} />,
 });
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
   variant: {
-    Color: 'White',
+    '💎 Color': 'White',
   },
   example: (props) => (
     <Skeleton
@@ -72,14 +72,14 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
   variant: {
-    Color: 'Normal',
+    '💎 Color': 'Normal',
   },
   example: (props) => <Skeleton variant="rectangle" {...props} />,
 });
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
   variant: {
-    Color: 'White',
+    '💎 Color': 'White',
   },
   example: (props) => (
     <Skeleton
@@ -93,14 +93,14 @@ figma.connect(Skeleton, '<FIGMA_SKELETON_RECTANGLE>', {
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_CIRCLE>', {
   variant: {
-    Color: 'Normal',
+    '💎 Color': 'Normal',
   },
   example: (props) => <Skeleton variant="circle" {...props} />,
 });
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_CIRCLE>', {
   variant: {
-    Color: 'White',
+    '💎 Color': 'White',
   },
   example: (props) => (
     <Skeleton

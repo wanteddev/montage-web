@@ -5,20 +5,20 @@ import { ChipAction } from '@wanteddev/wds';
 figma.connect(ChipAction, '<FIGMA_CHIP_ACTION>', {
   props: {
     children: figma.string('Text'),
-    leadingContent: figma.boolean('Left Content', {
-      true: figma.children('Left Content'),
+    leadingContent: figma.boolean('Leading Content', {
+      true: figma.children('Leading Content'),
       false: undefined,
     }),
-    trailingContent: figma.boolean('Right Content', {
-      true: figma.children('Right Content'),
+    trailingContent: figma.boolean('Trailing Content', {
+      true: figma.children('Trailing Content'),
       false: undefined,
     }),
     disabled: figma.boolean('Disable'),
     active: figma.boolean('Active'),
     size: figma.enum('Size', {
-      Normal: 'normal',
       XSmall: 'xsmall',
       Small: 'small',
+      Medium: 'medium',
       Large: 'large',
     }),
     variant: figma.enum('Variant', {

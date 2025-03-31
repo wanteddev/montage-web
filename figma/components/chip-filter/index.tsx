@@ -8,9 +8,9 @@ figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
     disabled: figma.boolean('Disable'),
     active: figma.boolean('Active'),
     size: figma.enum('Size', {
-      Normal: 'normal',
       XSmall: 'xsmall',
       Small: 'small',
+      Medium: 'medium',
       Large: 'large',
     }),
     variant: figma.enum('Variant', {
@@ -39,9 +39,9 @@ figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
     disabled: figma.boolean('Disable'),
     active: figma.boolean('Active'),
     size: figma.enum('Size', {
-      Normal: 'normal',
       XSmall: 'xsmall',
       Small: 'small',
+      Medium: 'medium',
       Large: 'large',
     }),
     variant: figma.enum('Variant', {

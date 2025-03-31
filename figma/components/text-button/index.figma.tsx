@@ -2,17 +2,22 @@ import { figma } from '@figma/code-connect';
 
 import { TextButton } from '@wanteddev/wds';
 
-figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_PRIMARY>', {
+figma.connect(TextButton, '<FIGMA_TEXT_BUTTON>', {
   props: {
     children: figma.string('Label'),
-    leadingContent: figma.boolean('Left Content', {
-      true: figma.children('Left Content'),
+    leadingContent: figma.boolean('Leading Icon', {
+      true: figma.children('Leading Icon'),
       false: undefined,
     }),
-    trailingContent: figma.boolean('Right Content', {
-      true: figma.children('Right Content'),
+    trailingContent: figma.boolean('Trailing Icon', {
+      true: figma.children('Trailing Icon'),
       false: undefined,
     }),
+    variant: figma.enum('Variant', {
+      Primary: 'primary',
+      Assistive: 'assistive',
+    }),
+    loading: figma.boolean('Loading'),
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
       Small: 'small',
@@ -20,32 +25,6 @@ figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_PRIMARY>', {
     }),
   },
   example: ({ children, ...props }) => (
-    <TextButton variant="primary" {...props}>
-      {children}
-    </TextButton>
-  ),
-});
-
-figma.connect(TextButton, '<FIGMA_TEXT_BUTTON_ASSISTIVE>', {
-  props: {
-    children: figma.string('Label'),
-    leadingContent: figma.boolean('Left Content', {
-      true: figma.children('Left Content'),
-      false: undefined,
-    }),
-    trailingContent: figma.boolean('Right Content', {
-      true: figma.children('Right Content'),
-      false: undefined,
-    }),
-    disabled: figma.boolean('Disable'),
-    size: figma.enum('Size', {
-      Small: 'small',
-      Medium: 'medium',
-    }),
-  },
-  example: ({ children, ...props }) => (
-    <TextButton variant="assistive" {...props}>
-      {children}
-    </TextButton>
+    <TextButton {...props}>{children}</TextButton>
   ),
 });

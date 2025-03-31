@@ -1,16 +1,33 @@
 import { figma } from '@figma/code-connect';
 
-import { IconButton } from '@wanteddev/wds';
+import { IconButton, PushBadge } from '@wanteddev/wds';
 
 figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
   props: {
     disabled: figma.boolean('Disable'),
-    pushBadge: figma.boolean('Badge'),
     children: figma.children('Icon'),
+  },
+  variant: {
+    Badge: false,
   },
   example: ({ children, ...props }) => (
     <IconButton variant="normal" {...props}>
       {children}
+    </IconButton>
+  ),
+});
+
+figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
+  props: {
+    disabled: figma.boolean('Disable'),
+    children: figma.children('Icon'),
+  },
+  variant: {
+    Badge: true,
+  },
+  example: ({ children, ...props }) => (
+    <IconButton variant="normal" {...props}>
+      <PushBadge>{children}</PushBadge>
     </IconButton>
   ),
 });
@@ -32,7 +49,7 @@ figma.connect(IconButton, '<FIGMA_ICON_BUTTON_OUTLINED>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
       Custom: 28,
     }),
@@ -51,7 +68,7 @@ figma.connect('<FIGMA_ICON_BUTTON_SOLID>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Medium: 'medium',
       Small: 'small',
       Custom: 28,
     }),
