@@ -260,6 +260,63 @@ const Demo = () => {
 export default Demo;`}
 />
 
+### Wrapper Props
+
+ModalContainer 에 `wrapperProps` 를 사용하면 모달을 우측 하단으로 보낼 수 있어요.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Modal
+        open={show}
+        onOpenChange={setShow}
+      >
+        <ModalContainer variant="popup" wrapperProps={{ sx: { justifyContent: 'flex-end', alignItems: 'flex-end' } }}>
+          <ModalNavigation>
+            제목
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              액션
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Button onClick={() => setShow(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
 ### Form
 
 <Demo code={`import { useState } from 'react';
