@@ -8,8 +8,11 @@
     "meow": "7.0.1"
   },
   "files": [
-    "dist"
+    "dist/**/*"
   ],
+  "engines": {
+    "node": ">=18"
+  },
   "exports": {
     "./package.json": "./package.json"
   },
@@ -24,7 +27,9 @@
     "type": "git",
     "directory": "packages/wds-codemod"
   },
-  "bin": "dist/cli.js",
+  "bin": {
+    "wds-codemod": "bin/wds-codemod"
+  },
   "devDependencies": {
     "@types/jscodeshift": "0.12.0"
   }
