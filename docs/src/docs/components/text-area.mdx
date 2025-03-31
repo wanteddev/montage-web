@@ -178,6 +178,7 @@ const Demo = () => {
             value: true,
             message: "필수 값입니다.",
           },
+          maxLength: 20
         }}
         render={({ field, formState }) => (
           <FormField>
@@ -186,7 +187,6 @@ const Demo = () => {
             <FormControl>
               <TextArea
                 {...field}
-                maxLength={20}
                 placeholder="입력하세요."
                 invalid={Boolean(formState.errors.content)}
                 width="300px"
