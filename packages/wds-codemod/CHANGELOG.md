@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2025-03-31)
+
+### Bug Fixes
+
+- **wds-codemod:** cli 내보내기 파일 수정 ([#300](https://github.com/wanteddev/wds/issues/300)) ([a6745b9](https://github.com/wanteddev/wds/commit/a6745b9e6ccd7802f2ad9eb565ecc8d310c11006))
+
 # 2.0.0-alpha.0 (2025-03-31)
 
 ### Bug Fixes
