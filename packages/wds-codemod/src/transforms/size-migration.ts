@@ -21,7 +21,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     findImportDeclaration('Switch', '@wanteddev/wds', j, root),
     findImportDeclaration('ScrollArea', '@wanteddev/wds', j, root),
     findImportDeclaration('RoundCheckbox', '@wanteddev/wds', j, root),
-    findImportDeclaration('RoundRadioGroupItem', '@wanteddev/wds', j, root),
+    findImportDeclaration('RadioGroupItem', '@wanteddev/wds', j, root),
     findImportDeclaration('Radio', '@wanteddev/wds', j, root),
     findImportDeclaration('PaginationDot', '@wanteddev/wds', j, root),
     findImportDeclaration('PaginationCounter', '@wanteddev/wds', j, root),

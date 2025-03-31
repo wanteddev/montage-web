@@ -12,7 +12,6 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     name: 'Migration to v1',
     value: 'migration-v1',
   },
-  { name: 'Migration Toast', value: 'migration-toast' },
   { name: 'Migration Forms Design', value: 'migration-forms' },
   { name: 'List Cell Migration', value: 'list-cell-migration' },
   { name: 'Filled Variant to Solid', value: 'filled-variant-to-solid' },
@@ -37,6 +36,7 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'Leading, Trailing Migration', value: 'leading-trailing-migration' },
   { name: 'Palette to Atomic & Semantic', value: 'palette-to-atomic-semantic' },
   { name: 'Size Migration', value: 'size-migration' },
+  { name: 'Toast Migration', value: 'toast-migration' },
 ];
 
 const run = () => {

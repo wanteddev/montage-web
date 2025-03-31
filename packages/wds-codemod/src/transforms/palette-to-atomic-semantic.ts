@@ -410,20 +410,16 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         callee: { name: getColorByTokenImport.imported.name },
       })
       .forEach((comp) => {
-        comp.value.arguments.forEach((attr) => {
-          j(attr)
-            .find(j.Literal)
-            .forEach((str) => {
-              str.value.value = convertColorPalette()(
-                str.value.value as string,
-              );
-            });
-          j(attr)
-            .find(j.StringLiteral)
-            .forEach((str) => {
-              str.value.value = convertColorPalette()(str.value.value);
-            });
-        });
+        j(comp)
+          .find(j.Literal)
+          .forEach((str) => {
+            str.value.value = convertColorPalette()(str.value.value as string);
+          });
+        j(comp)
+          .find(j.StringLiteral)
+          .forEach((str) => {
+            str.value.value = convertColorPalette()(str.value.value);
+          });
       });
   }
 
@@ -727,7 +723,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   }
 
   const iconButtonImport = findImportDeclaration(
-    'WithInteraction',
+    'IconButton',
     '@wanteddev/wds',
     j,
     root,
