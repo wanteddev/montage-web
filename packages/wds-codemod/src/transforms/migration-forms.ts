@@ -93,7 +93,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           priority!.value.expression.type === 'ConditionalExpression'
         ) {
           if (
-            priority!.value.expression.consequent.type === 'Literal' &&
+            (priority!.value.expression.consequent.type === 'Literal' ||
+              priority!.value.expression.consequent.type === 'StringLiteral') &&
             priority!.value.expression.consequent.value === 'single'
           ) {
             hasChanges = true;
@@ -101,7 +102,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           }
 
           if (
-            priority!.value.expression.alternate.type === 'Literal' &&
+            (priority!.value.expression.alternate.type === 'Literal' ||
+              priority!.value.expression.alternate.type === 'StringLiteral') &&
             priority!.value.expression.alternate.value === 'single'
           ) {
             hasChanges = true;

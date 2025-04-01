@@ -38,7 +38,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           variant!.value.expression.type === 'ConditionalExpression'
         ) {
           if (
-            variant!.value.expression.consequent.type === 'Literal' &&
+            (variant!.value.expression.consequent.type === 'Literal' ||
+              variant!.value.expression.consequent.type === 'StringLiteral') &&
             variant!.value.expression.consequent.value === 'filled'
           ) {
             hasChanges = true;
@@ -46,7 +47,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           }
 
           if (
-            variant!.value.expression.alternate.type === 'Literal' &&
+            (variant!.value.expression.alternate.type === 'Literal' ||
+              variant!.value.expression.alternate.type === 'StringLiteral') &&
             variant!.value.expression.alternate.value === 'filled'
           ) {
             hasChanges = true;
@@ -89,7 +91,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           variant!.value.expression.type === 'ConditionalExpression'
         ) {
           if (
-            variant!.value.expression.consequent.type === 'Literal' &&
+            (variant!.value.expression.consequent.type === 'Literal' ||
+              variant!.value.expression.consequent.type === 'StringLiteral') &&
             variant!.value.expression.consequent.value === 'filled'
           ) {
             hasChanges = true;
@@ -97,7 +100,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           }
 
           if (
-            variant!.value.expression.alternate.type === 'Literal' &&
+            (variant!.value.expression.alternate.type === 'Literal' ||
+              variant!.value.expression.alternate.type === 'StringLiteral') &&
             variant!.value.expression.alternate.value === 'filled'
           ) {
             hasChanges = true;
@@ -140,7 +144,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           variant!.value.expression.type === 'ConditionalExpression'
         ) {
           if (
-            variant!.value.expression.consequent.type === 'Literal' &&
+            (variant!.value.expression.consequent.type === 'Literal' ||
+              variant!.value.expression.consequent.type === 'StringLiteral') &&
             variant!.value.expression.consequent.value === 'filled'
           ) {
             hasChanges = true;
@@ -148,7 +153,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           }
 
           if (
-            variant!.value.expression.alternate.type === 'Literal' &&
+            (variant!.value.expression.alternate.type === 'Literal' ||
+              variant!.value.expression.alternate.type === 'StringLiteral') &&
             variant!.value.expression.alternate.value === 'filled'
           ) {
             hasChanges = true;

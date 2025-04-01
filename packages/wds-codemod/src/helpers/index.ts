@@ -187,7 +187,8 @@ export const deepConvertPropertyValue = (
         ['xs', 'sm', 'md', 'lg', 'xl'].includes(
           property.key.name.toString(),
         ))) ||
-      (property.key.type === 'Literal' &&
+      ((property.key.type === 'Literal' ||
+        property.key.type === 'StringLiteral') &&
         (property.key.value === name ||
           ['xs', 'sm', 'md', 'lg', 'xl'].includes(
             property.key.value?.toString() ?? '',
