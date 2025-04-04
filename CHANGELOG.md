@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-04-04)
+
+### Bug Fixes
+
+- **wds-codemod:** 불필요한 코드 제거 및 누락된 마이그레이션 코드 추가 ([#302](https://github.com/wanteddev/wds/issues/302)) ([15725b6](https://github.com/wanteddev/wds/commit/15725b64e340ec8be13304c8426b6e03b52af63c))
+- **wds-icon:** 누락된 icon symbol export 추가 ([#301](https://github.com/wanteddev/wds/issues/301)) ([e4faacb](https://github.com/wanteddev/wds/commit/e4faacb1cd6e2a25504944bdc2ec368ee404b593))
+
+### Features
+
+- **wds:** select radio 에서 클릭시 콘텐츠 닫히게 작업 필요 ([#303](https://github.com/wanteddev/wds/issues/303)) ([1bbc41b](https://github.com/wanteddev/wds/commit/1bbc41b93ebd00622b132cb913b48c3b7a9cbe8c))
+
 # [2.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2025-03-31)
 
 ### Bug Fixes

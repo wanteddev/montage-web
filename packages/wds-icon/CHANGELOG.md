@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-04-04)
+
+### Bug Fixes
+
+- **wds-icon:** 누락된 icon symbol export 추가 ([#301](https://github.com/wanteddev/wds/issues/301)) ([e4faacb](https://github.com/wanteddev/wds/commit/e4faacb1cd6e2a25504944bdc2ec368ee404b593))
+
 # [2.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.0...v2.0.0-alpha.1) (2025-03-31)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
