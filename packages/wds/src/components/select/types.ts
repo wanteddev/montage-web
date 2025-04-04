@@ -21,6 +21,9 @@ export type SelectDefaultProps = {
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
 
+  /**
+   * @description Menu Action Area를 사용하는 경우 활성화 하여 메뉴 아이템을 클릭할 때 오픈 상태를 유지합니다.
+   */
   enableMenuActionArea?: boolean;
   menuValue?: string;
   onMenuValueChange?: (value: string) => void;

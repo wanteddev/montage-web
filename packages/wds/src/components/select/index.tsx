@@ -74,7 +74,7 @@ const Select = forwardRef<
       render,
       placeholder,
       leadingContent,
-      enableMenuActionArea,
+      enableMenuActionArea = false,
       menuValue: menuValueProp,
       onMenuValueChange,
       xs,
@@ -345,7 +345,7 @@ const Option = memo(
           as={as || 'li'}
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
-            if (variant !== 'radio' && !enableMenuActionArea) {
+            if (enableMenuActionArea === false) {
               onOpenChange?.(false);
             }
           })}
