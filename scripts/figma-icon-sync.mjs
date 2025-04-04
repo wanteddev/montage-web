@@ -265,7 +265,12 @@ const main = async () => {
     './Icons.figma.txt',
     `import figma from "@figma/code-connect";\nimport {${data.imports.sort().join(', ')}} from "@wanteddev/wds-icon";`,
   );
-  fs.writeFileSync('./icons-index.txt', data.exports.sort().join('\n'));
+  fs.writeFileSync(
+    './icons-index.txt',
+    [...data.exports, 'export { default as IconSymbol } from "./icon-symbol";']
+      .sort()
+      .join('\n'),
+  );
   fs.writeFileSync('./icons.json', JSON.stringify(data.files, null, 2));
 
   const json = JSON.parse(fs.readFileSync('./icons.json'));

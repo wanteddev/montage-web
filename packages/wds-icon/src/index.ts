@@ -263,6 +263,7 @@ export { default as IconStar } from './icon-star';
 export { default as IconStarFill } from './icon-star-fill';
 export { default as IconStrikethrough } from './icon-strikethrough';
 export { default as IconSun } from './icon-sun';
+export { default as IconSymbol } from './icon-symbol';
 export { default as IconTag } from './icon-tag';
 export { default as IconTemplate } from './icon-template';
 export { default as IconTemplateFill } from './icon-template-fill';
