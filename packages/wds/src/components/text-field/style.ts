@@ -200,6 +200,7 @@ export const textFieldWrapperStyle =
       width: 100%;
       min-height: 24px;
       background-color: transparent;
+      caret-color: ${theme.semantic.primary.normal};
       outline: none;
       border: none;
       box-shadow: none;
