@@ -9,16 +9,11 @@ import {
   MenuList,
   MenuTrigger,
   NoSsr,
+  SearchField,
   WithInteraction,
   useThemeControl,
 } from '@wanteddev/wds';
-import {
-  IconDesktop,
-  IconMenu,
-  IconMoon,
-  IconSearch,
-  IconSun,
-} from '@wanteddev/wds-icon';
+import { IconDesktop, IconMenu, IconMoon, IconSun } from '@wanteddev/wds-icon';
 import Link from 'next/link';
 import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
 import { Typography } from '@wanteddev/wds';
@@ -122,17 +117,15 @@ const Gnb = () => {
             </FlexBox>
           </FlexBox>
 
-          <FlexBox gap="8px">
-            <WithInteraction>
-              <FlexBox
-                aria-label="search"
-                as="button"
-                onClick={handleOpen}
-                sx={gnbActionsStyle}
-              >
-                <IconSearch />
-              </FlexBox>
-            </WithInteraction>
+          <FlexBox gap="12px">
+            <SearchField
+              width="335px"
+              placeholder="Cmd+k를 눌러서 검색하세요."
+              aria-label="search"
+              role="button"
+              onClick={handleOpen}
+              sx={{ padding: '7px 8px' }}
+            />
 
             <Menu
               open={menuOpen}

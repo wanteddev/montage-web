@@ -26,7 +26,7 @@ const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
       sx={lnbItemStyle}
       onClick={handleRouteChange}
       active={isActive}
-      verticalPadding="12px"
+      verticalPadding="medium"
       data-depth={depth}
       aria-current={isActive ? 'page' : undefined}
       textProps={{

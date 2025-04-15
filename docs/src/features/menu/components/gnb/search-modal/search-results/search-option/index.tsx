@@ -64,7 +64,7 @@ const SearchOption = ({ item, ...props }: Props) => {
     return (
       <ListCell
         as="li"
-        verticalPadding="16px"
+        verticalPadding="large"
         sx={searchOptionStyle}
         ellipsis
         data-depth={hasParent ? 1 : 0}
@@ -148,7 +148,7 @@ const SearchOption = ({ item, ...props }: Props) => {
   return (
     <ListCell
       as="li"
-      verticalPadding="16px"
+      verticalPadding="large"
       sx={searchOptionStyle}
       data-depth={hasParent ? 1 : 0}
       ellipsis

@@ -50,7 +50,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
       <Accordion divider={false} defaultExpanded={frontmatter.defaultOpen}>
         <AccordionSummary
           sx={accordionSummaryStyle}
-          verticalPadding="12px"
+          verticalPadding="medium"
           trailingContent={
             <AccordionSummaryContent
               variant="icon"
@@ -95,7 +95,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                   defaultExpanded={item.defaultOpen}
                 >
                   <AccordionSummary
-                    verticalPadding="12px"
+                    verticalPadding="medium"
                     data-depth="1"
                     sx={accordionSummaryStyle}
                     data-active={getIsActive(params, item)}
