@@ -1,10 +1,8 @@
-'use client';
-
 import { FlexBox } from '@wanteddev/wds';
 
 import type { PropsWithChildren } from 'react';
 
-const ClientFullPageLayout = ({ children }: PropsWithChildren) => {
+const FullPageLayout = ({ children }: PropsWithChildren) => {
   return (
     <FlexBox
       flexDirection="column"
@@ -27,4 +25,4 @@ const ClientFullPageLayout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default ClientFullPageLayout;
+export default FullPageLayout;

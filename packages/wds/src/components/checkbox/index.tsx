@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { IconCheckThick, IconLineHorizontalThick } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';

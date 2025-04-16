@@ -1,4 +1,3 @@
-'use client';
 import { Children, forwardRef } from 'react';
 
 import FlexBox from '../flex-box';

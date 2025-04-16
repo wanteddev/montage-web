@@ -1,5 +1,3 @@
-'use client';
-
 import lottie from 'lottie-web/build/player/lottie_light.min';
 import { forwardRef, memo, useCallback, useEffect, useRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';

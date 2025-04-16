@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';

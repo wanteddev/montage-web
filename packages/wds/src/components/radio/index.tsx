@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';

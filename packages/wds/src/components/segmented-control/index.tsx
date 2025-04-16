@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';

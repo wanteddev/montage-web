@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useId } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';

@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useCallback, useMemo } from 'react';
 import {
   IconCheckThick,

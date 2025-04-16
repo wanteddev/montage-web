@@ -1,4 +1,3 @@
-'use client';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { DismissableLayer as OriginalDismissableLayer } from '@radix-ui/react-dismissable-layer';
 import { forwardRef, useCallback } from 'react';

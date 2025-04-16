@@ -10,11 +10,11 @@ import {
 } from '@wanteddev/wds';
 import Link from 'next/link';
 
-import ClientFullPageLayout from './full-page-layout.client';
+import FullPageLayout from './full-page-layout';
 
 const NotFoundPage = () => {
   return (
-    <ClientFullPageLayout>
+    <FullPageLayout>
       <EmptyState platform="mobile" sm={{ platform: 'desktop' }}>
         <EmptyStateImage>
           <ImageLoader
@@ -40,7 +40,7 @@ const NotFoundPage = () => {
           </EmptyStateButton>
         </EmptyStateContent>
       </EmptyState>
-    </ClientFullPageLayout>
+    </FullPageLayout>
   );
 };
 

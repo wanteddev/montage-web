@@ -1,4 +1,3 @@
-'use client';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 import {

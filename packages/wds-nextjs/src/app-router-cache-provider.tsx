@@ -1,4 +1,3 @@
-'use client';
 /*
  * Portions of this file are based on code from @mui/material-nextjs.
  * MIT Licensed, Copyright (c) 2014 Call-Em-All.

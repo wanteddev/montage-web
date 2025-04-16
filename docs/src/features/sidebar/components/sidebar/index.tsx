@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
 import Link from 'next/link';

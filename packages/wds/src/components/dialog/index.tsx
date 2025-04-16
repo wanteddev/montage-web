@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { Box, getColorByToken } from '@wanteddev/wds-engine';

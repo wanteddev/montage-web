@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useCallback, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';

@@ -1,5 +1,3 @@
-'use client';
-
 import { useEffect, useLayoutEffect, useState } from 'react';
 
 import type { NoSsrProps } from './types';

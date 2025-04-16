@@ -1,4 +1,3 @@
-'use client';
 import { ThemeProvider as NextThemeProvider } from 'next-themes';
 import {
   Global,
