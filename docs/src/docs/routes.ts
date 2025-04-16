@@ -97,11 +97,6 @@ export const routes: Array<Route> = [
       { title: 'EmptyState', slug: '/docs/components/empty-state' },
       { title: 'FlexBox', slug: '/docs/components/flex-box' },
       {
-        title: 'FloatingAction',
-        slug: '/docs/components/floating-action',
-        alpha: true,
-      },
-      {
         title: 'FocusScope',
         slug: '/docs/components/focus-scope',
       },

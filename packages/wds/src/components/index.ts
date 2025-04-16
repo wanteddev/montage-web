@@ -22,7 +22,6 @@ export { default as DismissableLayer } from './dismissable-layer';
 export { default as Divider } from './divider';
 export * from './empty-state';
 export { default as FlexBox } from './flex-box';
-export { default as FloatingAction } from './floating-action';
 export * from './form';
 export { default as Grid } from './grid';
 export { default as GridItem } from './grid-item';
