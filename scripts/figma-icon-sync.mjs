@@ -8,7 +8,7 @@ const FILE_KEY = '7RHtWV3Pw6I98UEDjbx5V1';
 const URL_BASE = 'https://api.figma.com/v1/files';
 const URL_BASE_IMAGES = 'https://api.figma.com/v1/images';
 
-const IGNORE_ICONS = ['IconLogoInstagramColor'];
+const IGNORE_ICONS = ['IconLogoInstagramColor', 'IconSymbol'];
 
 const ICON_NULL_COMPONENT = '501-7411';
 const ICON_RESPONSIVE_COMPONENT = '448-8266';
@@ -263,11 +263,24 @@ const main = async () => {
   const data = await getIconComponents();
   fs.writeFileSync(
     './Icons.figma.txt',
-    `import figma from "@figma/code-connect";\nimport {${data.imports.sort().join(', ')}} from "@wanteddev/wds-icon";`,
+    `import figma from "@figma/code-connect";\nimport {${[
+      ...data.imports,
+      ...IGNORE_ICONS.filter((icon) => icon !== 'IconSymbol').map(
+        (icon) => icon,
+      ),
+    ]
+      .sort()
+      .join(', ')}} from "@wanteddev/wds-icon";`,
   );
   fs.writeFileSync(
     './icons-index.txt',
-    [...data.exports, 'export { default as IconSymbol } from "./icon-symbol";']
+    [
+      ...data.exports,
+      ...IGNORE_ICONS.map(
+        (icon) =>
+          `export { default as ${icon} } from "./${changeCase.kebabCase(icon)}";`,
+      ),
+    ]
       .sort()
       .join('\n'),
   );
@@ -278,7 +291,7 @@ const main = async () => {
   const figmaStarter = fs.readFileSync('./Icons.figma.txt');
   fs.writeFileSync(
     './figma/icons/index.figma.tsx',
-    `${figmaStarter}\nfigma.connect("<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { props: { children: figma.instance('Icon') }, example: (props) => <>{props.children}</> });figma.connect("<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { props: { children: figma.instance('Icon') }, example: (props) => <>{props.children}</> });\n${json.map((a) => a[2]).join('\n')}`,
+    `${figmaStarter}\nfigma.connect("<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { props: { children: figma.instance('Icon') }, example: (props) => <>{props.children}</> });figma.connect("<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { props: { children: figma.instance('Icon') }, example: (props) => <>{props.children}</> });\n${json.map((a) => a[2]).join('\n')}\nfigma.connect(IconLogoInstagramColor, "<FIGMA_ICONS_BASE>?node-id=11670-22176", { variant: { Name: 'logoInstagram' }, example: () => <IconLogoInstagramColor /> });`,
   );
   await Promise.all(
     json.map(
