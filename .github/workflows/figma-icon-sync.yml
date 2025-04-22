@@ -90,6 +90,8 @@ jobs:
                 .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
                 .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
                 .toLowerCase();
+            const pascalCase = (text) =>
+              text.replace(/(^\w|-\w)/g, (v) => v.replace(/-/, '').toUpperCase());
 
             const TOKEN = process.env.FIGMA_TOKEN;
             const URL_BASE = 'https://api.figma.com/v1/files';
@@ -378,7 +380,7 @@ jobs:
 
                   fs.writeFileSync(
                     './figma/icons/index.figma.tsx',
-                    `import figma from "@figma/code-connect";\nimport {${files.map(([name]) => name).join(', ')}} from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
+                    `import figma from "@figma/code-connect";\nimport {${files.map(([name]) => pascalCase(name)).join(', ')}} from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
                   );
 
                   await Promise.all(
