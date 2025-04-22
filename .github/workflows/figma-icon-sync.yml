@@ -34,10 +34,9 @@ jobs:
           IGNORE_ICONS: ${{ inputs.ignore_icons }}
         with:
           script: |
-            import fs from 'fs';
+            const fs = require('fs');
 
             const platform = process.env.PLATFORM;
-
 
             const ignoreIcons = (process.env.IGNORE_ICONS || '').split(',');
 
