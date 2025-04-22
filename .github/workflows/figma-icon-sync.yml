@@ -288,28 +288,30 @@ jobs:
 
                   const promises = [];
 
-                  data.forEach(({ content, parsedName }) => {
+                  data.forEach(({ name, content, parsedName }) => {
+                    const fileName = name.includes('Color') ? `${parsedName}Color` : parsedName;
+
                     promises.push(
                       new Promise((resolve, reject) => {
                         try {
                           fs.mkdirSync(
                             path.join(
                               './Sources/Montage/Asset/Icon.xcassets',
-                              `${parsedName}.imageset`,
+                              `${fileName}.imageset`,
                             ),
                           );
 
                           fs.writeFileSync(
                             path.join(
                               './Sources/Montage/Asset/Icon.xcassets',
-                              `${parsedName}.imageset`,
+                              `${fileName}.imageset`,
                               'Contents.json',
                             ),
                             JSON.stringify(
                               {
                                 images: [
                                   {
-                                    filename: `${parsedName}.svg`,
+                                    filename: `${fileName}.svg`,
                                     idiom: 'universal',
                                   },
                                 ],
@@ -330,8 +332,8 @@ jobs:
                           fs.writeFileSync(
                             path.join(
                               './Sources/Montage/Asset/Icon.xcassets',
-                              `${parsedName}.imageset`,
-                              `${parsedName}.svg`,
+                              `${fileName}.imageset`,
+                              `${fileName}.svg`,
                             ),
                             content
                               .replace('width="24"', '')
