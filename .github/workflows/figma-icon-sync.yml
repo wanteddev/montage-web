@@ -1,0 +1,551 @@
+name: Figma icon sync
+on:
+  workflow_call:
+    inputs:
+      ignore_icons:
+        type: string
+        description: 'ignore icons separated by comma'
+        required: false
+        default: ''
+      platform:
+        type: string
+        description: 'platform'
+        required: true
+      pr_name:
+        type: string
+        required: false
+        default: 'feat: add icons synced from figma'
+    outputs:
+      branch:
+        value: ${{ jobs.sync.outputs.branch }}
+
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+      pull-requests: write
+    outputs:
+      branch: ${{ steps.extract_branch.outputs.branch }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Node.js install
+        uses: actions/setup-node@v4
+        if: ${{ inputs.platform == 'web' }}
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@wanteddev'
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        if: ${{ inputs.platform == 'web' }}
+        id: pnpm-install
+        with:
+          version: 9.1.2
+          run_install: false
+
+      - name: Get pnpm store directory
+        if: ${{ inputs.platform == 'web' }}
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        if: ${{ inputs.platform == 'web' }}
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install dependencies
+        if: ${{ inputs.platform == 'web' }}
+        run: pnpm install
+
+      - uses: actions/github-script@v7
+        env:
+          FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
+          PLATFORM: ${{ inputs.platform }}
+          IGNORE_ICONS: ${{ inputs.ignore_icons }}
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+
+            const platform = process.env.PLATFORM;
+
+            const ignoreIcons = (process.env.IGNORE_ICONS || '').split(',');
+
+            const kebabCase = (name) =>
+              name
+                .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+                .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+                .toLowerCase();
+
+            const TOKEN = process.env.FIGMA_TOKEN;
+            const URL_BASE = 'https://api.figma.com/v1/files';
+            const URL_BASE_IMAGES = 'https://api.figma.com/v1/images';
+
+            const FILE_KEY = '7RHtWV3Pw6I98UEDjbx5V1';
+
+            // Icon/Assets/Normal
+            const ROOT_TRAVERSE_IDS = [
+              // Components
+              '26882:89366',
+              // 0 Theme
+              '10077:24937',
+              // Icon
+              '14852:37729',
+              // '' Section
+              '14854:45087',
+              // Solid
+              '14854:45155',
+              // Content
+              '26894:99058',
+            ];
+
+            // Icon/Assets/Color
+            const ROOT_TRAVERSE_COLOR_IDS = [
+              // Components
+              '26882:89366',
+              // 0 Theme
+              '10077:24937',
+              // Icon
+              '14852:37729',
+              // '' Section
+              '14854:45087',
+              // Color
+              '14854:45156',
+              // Content
+              '26900:94433',
+            ];
+
+            // Icon/Navigation
+            const ROOT_TRAVERSE_NAVIGATION_IDS = [
+              // Components
+              '26882:89366',
+              // 0 Theme
+              '10077:24937',
+              // Icon
+              '14852:37729',
+              // '' Section
+              '14854:45087',
+              // Navigation
+              '14854:45095',
+              // Content
+              '10077:25083',
+            ];
+
+            const getIconComponents = async () => {
+              try {
+                const fileResponse = await fetch(
+                  `${URL_BASE}/${FILE_KEY}?ids=26882-89366`,
+                  {
+                    method: 'GET',
+                    headers: { 'X-FIGMA-TOKEN': TOKEN },
+                  },
+                );
+                const data = await fileResponse.json();
+
+                return await fileRESTResponseToIconComponentsJSON(data);
+              } catch (e) {
+                throw e;
+              }
+            };
+
+            const getSVGImages = async (nodeIds) => {
+              try {
+                const fileResponse = await fetch(
+                  `${URL_BASE_IMAGES}/${FILE_KEY}?format=svg&ids=${nodeIds.join(',')}`,
+                  {
+                    method: 'GET',
+                    headers: { 'X-FIGMA-TOKEN': TOKEN },
+                  },
+                );
+                return await fileResponse.json();
+              } catch (e) {
+                throw e;
+              }
+            };
+
+            const fileRESTResponseToIconComponentsJSON = async (response) => {
+              // ICON
+              let parentNode = response.document;
+              // ICON COLOR
+              let colorParentNode = response.document;
+              // ICON NAVIGATION
+              let navigationParentNode = response.document;
+
+              ROOT_TRAVERSE_IDS.forEach(
+                (id) => (parentNode = parentNode.children.find((a) => a.id === id)),
+              );
+
+              ROOT_TRAVERSE_COLOR_IDS.forEach(
+                (id) =>
+                  (colorParentNode = colorParentNode.children.find((a) => a.id === id)),
+              );
+
+              ROOT_TRAVERSE_NAVIGATION_IDS.forEach(
+                (id) =>
+                  (navigationParentNode = navigationParentNode.children.find(
+                    (a) => a.id === id,
+                  )),
+              );
+
+              const idsToNameAndComponentSetId = {};
+
+              const getIconNames = (nodes, type = '') => {
+                if (nodes) {
+                  nodes.children.forEach((component) => {
+                    if (component.type === 'COMPONENT_SET') {
+                      const components = component.children.filter(
+                        (child) => child.type === 'COMPONENT',
+                      );
+
+                      if (components) {
+                        components.map((child) => {
+                          const name =
+                            'Icon' +
+                            child.name
+                              .replace('Name=', '')
+                              .replace('name=', '')
+                              .replace(/, [\s\S]+/g, '')
+                              .split(/[^a-zA-Z0-9]+/)
+                              .map((a) => a.charAt(0).toUpperCase() + a.substring(1))
+                              .join('') +
+                            type;
+
+                          idsToNameAndComponentSetId[child.id] = [name, component.id];
+                        });
+                      }
+                    }
+                  });
+                }
+              };
+
+              getIconNames(parentNode);
+              getIconNames(colorParentNode, 'Color');
+              getIconNames(navigationParentNode);
+
+              const nodeIds = Object.keys(idsToNameAndComponentSetId);
+              const { images } = await getSVGImages(nodeIds);
+
+              const processNodeId = async (nodeId) => {
+                const fileResponse = await fetch(images[nodeId], { method: 'GET' });
+                const svg = await fileResponse.text();
+                const [name, componentSetId] = idsToNameAndComponentSetId[nodeId];
+
+                const parsedName = name
+                  .replace('Icon', '')
+                  .replace('Color', '')
+                  .split(/[^a-zA-Z0-9]+/)
+                  .map((a, i) =>
+                    i === 0
+                      ? a.charAt(0).toLowerCase() + a.substring(1)
+                      : a.charAt(0).toUpperCase() + a.substring(1),
+                  )
+                  .join('');
+
+                res.push({
+                  name,
+                  content: svg,
+                  id: componentSetId.replace(':', '-'),
+                  parsedName,
+                });
+              };
+
+              console.log('Sleeping for ten seconds to wait for images to exist...');
+              await new Promise((resolve) => setTimeout(resolve, 10000));
+              console.log('Proceeding....');
+
+              /**
+              * @type {Array<{name: string, content: string, id: string, parsedName: string}>}
+              */
+              const res = [];
+              const fails = [];
+              await Promise.all(
+                nodeIds.map(async (nodeId) => {
+                  try {
+                    await processNodeId(nodeId);
+                  } catch (e) {
+                    fails.push(nodeId);
+                    console.log('Failed once:', nodeId, e);
+                  }
+                }),
+              );
+              console.log(`Retrying ${fails.length} failure(s)...`);
+              await Promise.all(
+                fails.map(async (nodeId) => {
+                  try {
+                    await processNodeId(nodeId);
+                  } catch (e) {
+                    console.error(e);
+                    console.log(
+                      'Failed again:',
+                      nodeId,
+                      images[nodeId],
+                      ...idsToNameAndComponentSetId[nodeId],
+                    );
+                  }
+                }),
+              );
+
+              return res;
+            };
+
+            const main = async () => {
+              const data = (await getIconComponents()).filter(
+                ({ name }) => !ignoreIcons.includes(name),
+              );
+
+              switch (platform) {
+                case 'web': {
+                  /**
+                  * @type {Array<[string, string]>}
+                  */
+                  const files = [];
+
+                  /**
+                  * @type {Array<string>}
+                  */
+                  const indexContents = [];
+
+                  /**
+                  * @type {Array<string>}
+                  */
+                  const figmaConnectContents = [];
+
+                  data.forEach((icon) => {
+                    const { name, content, id, parsedName } = icon;
+                    const fileName = kebabCase(name);
+                    const fileContent = `import { Box } from '@wanteddev/wds-engine';
+              import { forwardRef } from 'react';
+              
+              import type { SxProp } from '@wanteddev/wds-engine';
+              import type { ComponentPropsWithoutRef } from 'react';
+              
+              type Props = ComponentPropsWithoutRef<'svg'> & {
+                sx?: SxProp;
+              };
+              
+              const ${name} = forwardRef<SVGSVGElement, Props>((props, ref) => {
+                return (
+                  ${content
+                    .replace(/width="(.*?)"/, '')
+                    .replace(/height="(.*?)"/, '')
+                    .replace(
+                      'xmlns="http://www.w3.org/2000/svg"',
+                      'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}',
+                    )
+                    .replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '')
+                    .replace(
+                      content.includes('viewBox="0 0 12 24"') ? 'width="1em"' : '',
+                      '',
+                    )
+                    .replaceAll('fill="#171719"', 'fill="currentColor"')
+                    .replace(
+                      /(stroke|fill|line|clip)-(.)/g,
+                      (_, p1, p2) => p1 + p2.toUpperCase(),
+                    )
+                    .replace('<svg', '<Box as="svg"')
+                    .replace('</svg', '</Box')}
+                )
+              });
+              
+              export default ${name};`;
+
+                    files.push([fileName, fileContent]);
+
+                    indexContents.push(
+                      `export { default as ${name} } from "./${kebabCase(name)}";`,
+                    );
+
+                    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
+                    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
+                    figmaConnectContents.push(
+                      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });`,
+                    );
+                  });
+
+                  fs.writeFileSync(
+                    './figma/icons/index.figma.tsx',
+                    `import figma from "@figma/code-connect";\nimport {${files.map(([name]) => name).join(', ')}} from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
+                  );
+
+                  await Promise.all(
+                    files.map(
+                      ([fileName, fileContents]) =>
+                        new Promise((resolve, reject) => {
+                          fs.writeFile(
+                            `./packages/wds-icon/src/${fileName}.tsx`,
+                            fileContents,
+                            (err) => (err ? reject(err) : resolve()),
+                          );
+                        }),
+                    ),
+                  );
+
+                  fs.writeFileSync(
+                    './packages/wds-icon/src/index.ts',
+                    [
+                      ...data.map(
+                        ({ name }) =>
+                          `export { default as ${name} } from "./${kebabCase(name)}";`,
+                      ),
+                      ...ignoreIcons.map(
+                        (icon) =>
+                          `export { default as ${icon} } from "./${kebabCase(icon)}";`,
+                      ),
+                    ]
+                      .sort()
+                      .join('\n'),
+                    'utf-8',
+                  );
+
+                  await exec.exec(
+                    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/src/transforms/svg-use-id.ts',
+                  ).catch(() => {});
+                  await exec.exec('pnpm -F wds-icon lint:fix src').catch(() => {});
+
+                  break;
+                }
+                case 'android':
+                  break;
+                case 'ios': {
+                  const iconAssets = fs
+                    .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
+                    .filter(
+                      (iconAsset) =>
+                        iconAsset.endsWith('.imageset') &&
+                        !ignoreIcons.includes(iconAsset.replace('.imageset', '')),
+                    );
+
+                  iconAssets.forEach((iconAsset) => {
+                    const iconAssetPath = path.join(
+                      './Sources/Montage/Asset/Icon.xcassets',
+                      iconAsset,
+                    );
+
+                    if (fs.existsSync(iconAssetPath)) {
+                      fs.rmdirSync(iconAssetPath, { recursive: true, force: true });
+                    }
+                  });
+
+                  const promises = [];
+
+                  data.forEach(({ name, content, parsedName }) => {
+                    const fileName = name.includes('Color') ? `${parsedName}Color` : parsedName;
+
+                    promises.push(
+                      new Promise((resolve, reject) => {
+                        try {
+                          fs.mkdirSync(
+                            path.join(
+                              './Sources/Montage/Asset/Icon.xcassets',
+                              `${fileName}.imageset`,
+                            ),
+                          );
+
+                          fs.writeFileSync(
+                            path.join(
+                              './Sources/Montage/Asset/Icon.xcassets',
+                              `${fileName}.imageset`,
+                              'Contents.json',
+                            ),
+                            JSON.stringify(
+                              {
+                                images: [
+                                  {
+                                    filename: `${fileName}.svg`,
+                                    idiom: 'universal',
+                                  },
+                                ],
+                                info: {
+                                  author: 'xcode',
+                                  version: 1,
+                                },
+                                properties: {
+                                  'preserves-vector-representation': true,
+                                  'template-rendering-intent': 'template',
+                                },
+                              },
+                              null,
+                              2,
+                            ).replaceAll('\":', '\" :'),
+                          );
+
+                          fs.writeFileSync(
+                            path.join(
+                              './Sources/Montage/Asset/Icon.xcassets',
+                              `${fileName}.imageset`,
+                              `${fileName}.svg`,
+                            ),
+                            content
+                              .replaceAll('width="24"', '')
+                              .replaceAll('height="24"', '')
+                              .replaceAll('width="12"', '')
+                              .replaceAll('height="12"', '')
+                              .replaceAll('fill="none"', '')
+                              .replaceAll('fill="#171719"', ''),
+                          );
+
+                          resolve();
+                        } catch (err) {
+                          reject(err);
+                        }
+                      }),
+                    );
+                  });
+
+                  await Promise.all(promises);
+
+                  const shouldShowFoundations = fs
+                    .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
+                    .filter((iconAsset) => iconAsset.endsWith('.imageset'));
+
+                  const swiftFileContent = `//\n//  Icon.swift\n//  Montage\n//\n//  Created by Eunyeong Kim on 2021/04/20.\n//\nimport Foundation\n\n/// Montage 번들 내에 포함된 아이콘들의 이름들입니다.\npublic enum Icon: String, CaseIterable {\n    ${shouldShowFoundations.sort().map((iconAsset) => `case ${iconAsset.replace('.imageset', '')}`).join('\n    ')}\n\n    public var name: String { rawValue }\n}\n`;
+
+                  fs.writeFileSync(
+                    './Sources/Montage/Foundation/Icon.swift',
+                    swiftFileContent,
+                  );
+                  break;
+                }
+              }
+
+              console.log('DONE!');
+            };
+
+            await main();
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Branch And Commit
+        run: |
+          git branch feature/code-connect/${{ github.run_id }}
+          git checkout feature/code-connect/${{ github.run_id }}
+          git add .
+          git commit -m "feat(${{ inputs.platform }}): add icons synced from figma" --no-verify
+          git push origin feature/code-connect/${{ github.run_id }}
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Create New PR
+        run: |
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "${{ inputs.pr_name }}" --body "add icons synced from figma"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
