@@ -282,7 +282,7 @@ jobs:
                     );
 
                     if (fs.existsSync(iconAssetPath)) {
-                      fs.rmdirSync(iconAssetPath);
+                      fs.rmdirSync(iconAssetPath, { recursive: true, force: true });
                     }
                   });
 
