@@ -326,7 +326,7 @@ jobs:
                               },
                               null,
                               2,
-                            ),
+                            ).replaceAll('\":', '\" :'),
                           );
 
                           fs.writeFileSync(
@@ -336,12 +336,12 @@ jobs:
                               `${fileName}.svg`,
                             ),
                             content
-                              .replace('width="24"', '')
-                              .replace('height="24"', '')
-                              .replace('width="12"', '')
-                              .replace('height="12"', '')
-                              .replace('fill="none"', '')
-                              .replace('fill="#171719"', ''),
+                              .replaceAll('width="24"', '')
+                              .replaceAll('height="24"', '')
+                              .replaceAll('width="12"', '')
+                              .replaceAll('height="12"', '')
+                              .replaceAll('fill="none"', '')
+                              .replaceAll('fill="#171719"', ''),
                           );
 
                           resolve();
@@ -361,7 +361,7 @@ jobs:
                   const swiftFileContent = `//\n//  Icon.swift\n//  Montage\n//\n//  Created by Eunyeong Kim on 2021/04/20.\n//\nimport Foundation\n\n/// Montage 번들 내에 포함된 아이콘들의 이름들입니다.\npublic enum Icon: String, CaseIterable {\n    ${shouldShowFoundations.sort().map((iconAsset) => `case ${iconAsset.replace('.imageset', '')}`).join('\n    ')}\n\n    public var name: String { rawValue }\n}\n`;
 
                   fs.writeFileSync(
-                    './Sources/Montage/Icon.swift',
+                    './Sources/Montage/Foundation/Icon.swift',
                     swiftFileContent,
                   );
                   break;
