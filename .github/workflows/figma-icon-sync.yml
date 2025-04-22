@@ -262,13 +262,107 @@ jobs:
                 ({ name }) => !ignoreIcons.includes(name),
               );
 
-              console.log(data);
-
               switch (platform) {
                 case 'android':
                   break;
-                case 'ios':
+                case 'ios': {
+                  const iconAssets = fs
+                    .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
+                    .filter(
+                      (iconAsset) =>
+                        iconAsset.endsWith('.imageset') &&
+                        !ignoreIcons.includes(iconAsset.replace('.imageset', '')),
+                    );
+
+                  iconAssets.forEach((iconAsset) => {
+                    const iconAssetPath = path.join(
+                      './Sources/Montage/Asset/Icon.xcassets',
+                      iconAsset,
+                    );
+
+                    if (fs.existsSync(iconAssetPath)) {
+                      fs.rmdirSync(iconAssetPath);
+                    }
+                  });
+
+                  const promises = [];
+
+                  data.forEach(({ content, parsedName }) => {
+                    promises.push(
+                      new Promise((resolve, reject) => {
+                        try {
+                          fs.mkdirSync(
+                            path.join(
+                              './Sources/Montage/Asset/Icon.xcassets',
+                              `${parsedName}.imageset`,
+                            ),
+                          );
+
+                          fs.writeFileSync(
+                            path.join(
+                              './Sources/Montage/Asset/Icon.xcassets',
+                              `${parsedName}.imageset`,
+                              'Contents.json',
+                            ),
+                            JSON.stringify(
+                              {
+                                images: [
+                                  {
+                                    filename: `${parsedName}.svg`,
+                                    idiom: 'universal',
+                                  },
+                                ],
+                                info: {
+                                  author: 'xcode',
+                                  version: 1,
+                                },
+                                properties: {
+                                  'preserves-vector-representation': true,
+                                  'template-rendering-intent': 'template',
+                                },
+                              },
+                              null,
+                              2,
+                            ),
+                          );
+
+                          fs.writeFileSync(
+                            path.join(
+                              './Sources/Montage/Asset/Icon.xcassets',
+                              `${parsedName}.imageset`,
+                              `${parsedName}.svg`,
+                            ),
+                            content
+                              .replace('width="24"', '')
+                              .replace('height="24"', '')
+                              .replace('width="12"', '')
+                              .replace('height="12"', '')
+                              .replace('fill="none"', '')
+                              .replace('fill="#171719"', ''),
+                          );
+
+                          resolve();
+                        } catch (err) {
+                          reject(err);
+                        }
+                      }),
+                    );
+                  });
+
+                  await Promise.all(promises);
+
+                  const shouldShowFoundations = fs
+                    .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
+                    .filter((iconAsset) => iconAsset.endsWith('.imageset'));
+
+                  const swiftFileContent = `//\n//  Icon.swift\n//  Montage\n//\n//  Created by Eunyeong Kim on 2021/04/20.\n//\nimport Foundation\n\n/// Montage 번들 내에 포함된 아이콘들의 이름들입니다.\npublic enum Icon: String, CaseIterable {\n    ${shouldShowFoundations.map((iconAsset) => `case ${iconAsset.replace('.imageset', '').sort()}`).join('\n    ')}\n\n    public var name: String { rawValue }\n}\n`;
+
+                  fs.writeFileSync(
+                    './Sources/Montage/Icon.swift',
+                    swiftFileContent,
+                  );
                   break;
+                }
               }
 
               console.log('DONE!');
