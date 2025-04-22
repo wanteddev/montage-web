@@ -15,18 +15,30 @@ env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
+permissions:
+  packages: write
+  contents: write
+  pull-requests: write
+
 jobs:
+  sync:
+    uses: wanteddev/wds/.github/workflows/figma-icon-sync.yml@main
+    with:
+      platform: web
+      ignore_icons: 'IconLogoInstagramColor,IconSymbol'
+      pr_name: 'feat(wds,wds-icon): icon figma sync and new code connect publish'
+    secrets: inherit
+
   publish:
+    needs: sync
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
-      contents: write
-      pull-requests: write
+    if: ${{ inputs.publish == 'true' }}
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ needs.sync.outputs.branch }}
 
       - name: Node.js install
         uses: actions/setup-node@v4
@@ -66,43 +78,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nx-store-
 
-      - name: Figma & Icon Sync
-        run: pnpm run figma-icon-sync
-        env:
-          FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
-
       - name: Build
-        if: ${{ inputs.publish == 'true' }}
         run: pnpm run build
 
       - name: Publish
-        if: ${{ inputs.publish == 'true' }}
         run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50
-
-      - run: git config user.name "github-actions[bot]"
-        if: always()
-      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
-        if: always()
-
-      - name: Create Branch And Commit
-        if: always()
-        run: |
-          git branch feature/code-connect/${{ github.run_id }}
-          git checkout feature/code-connect/${{ github.run_id }}
-          git add .
-          git commit -m "ci(wds,wds-icon): icon/figma sync and new code connect publish" --no-verify
-          git push origin feature/code-connect/${{ github.run_id }}
-
-      - name: Extract branch name
-        if: always()
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
-
-      - name: Create New PR
-        if: always()
-        run: |
-          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}

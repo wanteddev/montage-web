@@ -11,6 +11,13 @@ on:
         type: string
         description: 'platform'
         required: true
+      pr_name:
+        type: string
+        required: false
+        default: 'feat: add icons synced from figma'
+    outputs:
+      branch:
+        value: ${{ jobs.sync.outputs.branch }}
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -23,6 +30,8 @@ jobs:
       packages: write
       contents: write
       pull-requests: write
+    outputs:
+      branch: ${{ steps.extract_branch.outputs.branch }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -264,6 +273,116 @@ jobs:
               );
 
               switch (platform) {
+                case 'web': {
+                  /**
+                  * @type {Array<[string, string]>}
+                  */
+                  const files = [];
+
+                  /**
+                  * @type {Array<string>}
+                  */
+                  const indexContents = [];
+
+                  /**
+                  * @type {Array<string>}
+                  */
+                  const figmaConnectContents = [];
+
+                  data.forEach((icon) => {
+                    const { name, content, id, parsedName } = icon;
+                    const fileName = kebabCase(name);
+                    const fileContent = `import { Box } from '@wanteddev/wds-engine';
+              import { forwardRef } from 'react';
+              
+              import type { SxProp } from '@wanteddev/wds-engine';
+              import type { ComponentPropsWithoutRef } from 'react';
+              
+              type Props = ComponentPropsWithoutRef<'svg'> & {
+                sx?: SxProp;
+              };
+              
+              const ${name} = forwardRef<SVGSVGElement, Props>((props, ref) => {
+                return (
+                  ${content
+                    .replace(/width="(.*?)"/, '')
+                    .replace(/height="(.*?)"/, '')
+                    .replace(
+                      'xmlns="http://www.w3.org/2000/svg"',
+                      'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}',
+                    )
+                    .replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '')
+                    .replace(
+                      content.includes('viewBox="0 0 12 24"') ? 'width="1em"' : '',
+                      '',
+                    )
+                    .replaceAll('fill="#171719"', 'fill="currentColor"')
+                    .replace(
+                      /(stroke|fill|line|clip)-(.)/g,
+                      (_, p1, p2) => p1 + p2.toUpperCase(),
+                    )
+                    .replace('<svg', '<Box as="svg"')
+                    .replace('</svg', '</Box')}
+                )
+              });
+              
+              export default ${name};`;
+
+                    files.push([fileName, fileContent]);
+
+                    indexContents.push(
+                      `export { default as ${name} } from "./${kebabCase(name)}";`,
+                    );
+
+                    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
+                    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
+                    figmaConnectContents.push(
+                      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });`,
+                    );
+                  });
+
+                  fs.writeFileSync(
+                    './figma/icons/index.figma.tsx',
+                    `import figma from "@figma/code-connect";\nimport {${files.map(([name]) => name).join(', ')}} from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
+                  );
+
+                  await Promise.all(
+                    files.map(
+                      ([fileName, fileContents]) =>
+                        new Promise((resolve, reject) => {
+                          fs.writeFile(
+                            `./packages/wds-icon/src/${fileName}.tsx`,
+                            fileContents,
+                            (err) => (err ? reject(err) : resolve()),
+                          );
+                        }),
+                    ),
+                  );
+
+                  fs.writeFileSync(
+                    './packages/wds-icon/src/index.ts',
+                    [
+                      ...data.map(
+                        ({ name }) =>
+                          `export { default as ${name} } from "./${kebabCase(name)}";`,
+                      ),
+                      ...ignoreIcons.map(
+                        (icon) =>
+                          `export { default as ${icon} } from "./${kebabCase(icon)}";`,
+                      ),
+                    ]
+                      .sort()
+                      .join('\n'),
+                    'utf-8',
+                  );
+
+                  await exec.exec(
+                    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/src/transforms/svg-use-id.ts',
+                  );
+                  await exec.exec('pnpm -F wds-icon lint:fix src');
+
+                  break;
+                }
                 case 'android':
                   break;
                 case 'ios': {
@@ -391,7 +510,7 @@ jobs:
 
       - name: Create New PR
         run: |
-          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "icon figma sync and new code connect publish"
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "${{ inputs.pr_name }}" --body "add icons synced from figma"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
