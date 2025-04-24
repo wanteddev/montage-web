@@ -32,38 +32,46 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
         ) as JSXAttribute | undefined;
 
-        if (
-          Boolean(variant) &&
-          variant!.value?.type === 'JSXExpressionContainer' &&
-          variant!.value.expression.type === 'ConditionalExpression'
-        ) {
-          if (
-            (variant!.value.expression.consequent.type === 'Literal' ||
-              variant!.value.expression.consequent.type === 'StringLiteral') &&
-            variant!.value.expression.consequent.value === 'filled'
-          ) {
-            hasChanges = true;
-            variant!.value.expression.consequent.value = 'solid';
-          }
+        if (!variant) {
+          return;
+        }
 
-          if (
-            (variant!.value.expression.alternate.type === 'Literal' ||
-              variant!.value.expression.alternate.type === 'StringLiteral') &&
-            variant!.value.expression.alternate.value === 'filled'
+        if (variant.value?.type === 'JSXExpressionContainer') {
+          if (variant.value.expression.type === 'ConditionalExpression') {
+            if (
+              (variant.value.expression.consequent.type === 'Literal' ||
+                variant.value.expression.consequent.type === 'StringLiteral') &&
+              variant.value.expression.consequent.value === 'filled'
+            ) {
+              hasChanges = true;
+              variant.value.expression.consequent.value = 'solid';
+            }
+
+            if (
+              (variant.value.expression.alternate.type === 'Literal' ||
+                variant.value.expression.alternate.type === 'StringLiteral') &&
+              variant.value.expression.alternate.value === 'filled'
+            ) {
+              hasChanges = true;
+              variant.value.expression.alternate.value = 'solid';
+            }
+          } else if (
+            (variant.value.expression.type === 'Literal' ||
+              variant.value.expression.type === 'StringLiteral') &&
+            variant.value.expression.value === 'filled'
           ) {
             hasChanges = true;
-            variant!.value.expression.alternate.value = 'solid';
+            variant.value.expression.value = 'solid';
           }
         }
 
         if (
-          Boolean(variant) &&
-          (variant!.value?.type === 'Literal' ||
-            variant!.value?.type === 'StringLiteral') &&
-          variant!.value.value === 'filled'
+          (variant.value?.type === 'Literal' ||
+            variant.value?.type === 'StringLiteral') &&
+          variant.value.value === 'filled'
         ) {
           hasChanges = true;
-          variant!.value.value = 'solid';
+          variant.value.value = 'solid';
         }
       });
   }
@@ -85,38 +93,46 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
         ) as JSXAttribute | undefined;
 
-        if (
-          Boolean(variant) &&
-          variant!.value?.type === 'JSXExpressionContainer' &&
-          variant!.value.expression.type === 'ConditionalExpression'
-        ) {
-          if (
-            (variant!.value.expression.consequent.type === 'Literal' ||
-              variant!.value.expression.consequent.type === 'StringLiteral') &&
-            variant!.value.expression.consequent.value === 'filled'
-          ) {
-            hasChanges = true;
-            variant!.value.expression.consequent.value = 'solid';
-          }
+        if (!variant) {
+          return;
+        }
 
-          if (
-            (variant!.value.expression.alternate.type === 'Literal' ||
-              variant!.value.expression.alternate.type === 'StringLiteral') &&
-            variant!.value.expression.alternate.value === 'filled'
+        if (variant.value?.type === 'JSXExpressionContainer') {
+          if (variant.value.expression.type === 'ConditionalExpression') {
+            if (
+              (variant.value.expression.consequent.type === 'Literal' ||
+                variant.value.expression.consequent.type === 'StringLiteral') &&
+              variant.value.expression.consequent.value === 'filled'
+            ) {
+              hasChanges = true;
+              variant.value.expression.consequent.value = 'solid';
+            }
+
+            if (
+              (variant.value.expression.alternate.type === 'Literal' ||
+                variant.value.expression.alternate.type === 'StringLiteral') &&
+              variant.value.expression.alternate.value === 'filled'
+            ) {
+              hasChanges = true;
+              variant.value.expression.alternate.value = 'solid';
+            }
+          } else if (
+            (variant.value.expression.type === 'Literal' ||
+              variant.value.expression.type === 'StringLiteral') &&
+            variant.value.expression.value === 'filled'
           ) {
             hasChanges = true;
-            variant!.value.expression.alternate.value = 'solid';
+            variant.value.expression.value = 'solid';
           }
         }
 
         if (
-          Boolean(variant) &&
-          (variant!.value?.type === 'Literal' ||
-            variant!.value?.type === 'StringLiteral') &&
-          variant!.value.value === 'filled'
+          (variant.value?.type === 'Literal' ||
+            variant.value?.type === 'StringLiteral') &&
+          variant.value.value === 'filled'
         ) {
           hasChanges = true;
-          variant!.value.value = 'solid';
+          variant.value.value = 'solid';
         }
       });
   }
@@ -138,38 +154,46 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           (v) => v.type === 'JSXAttribute' && v.name.name === 'variant',
         ) as JSXAttribute | undefined;
 
-        if (
-          Boolean(variant) &&
-          variant!.value?.type === 'JSXExpressionContainer' &&
-          variant!.value.expression.type === 'ConditionalExpression'
-        ) {
-          if (
-            (variant!.value.expression.consequent.type === 'Literal' ||
-              variant!.value.expression.consequent.type === 'StringLiteral') &&
-            variant!.value.expression.consequent.value === 'filled'
-          ) {
-            hasChanges = true;
-            variant!.value.expression.consequent.value = 'solid';
-          }
+        if (!variant) {
+          return;
+        }
 
-          if (
-            (variant!.value.expression.alternate.type === 'Literal' ||
-              variant!.value.expression.alternate.type === 'StringLiteral') &&
-            variant!.value.expression.alternate.value === 'filled'
+        if (variant.value?.type === 'JSXExpressionContainer') {
+          if (variant.value.expression.type === 'ConditionalExpression') {
+            if (
+              (variant.value.expression.consequent.type === 'Literal' ||
+                variant.value.expression.consequent.type === 'StringLiteral') &&
+              variant.value.expression.consequent.value === 'filled'
+            ) {
+              hasChanges = true;
+              variant.value.expression.consequent.value = 'solid';
+            }
+
+            if (
+              (variant.value.expression.alternate.type === 'Literal' ||
+                variant.value.expression.alternate.type === 'StringLiteral') &&
+              variant.value.expression.alternate.value === 'filled'
+            ) {
+              hasChanges = true;
+              variant.value.expression.alternate.value = 'solid';
+            }
+          } else if (
+            (variant.value.expression.type === 'Literal' ||
+              variant.value.expression.type === 'StringLiteral') &&
+            variant.value.expression.value === 'filled'
           ) {
             hasChanges = true;
-            variant!.value.expression.alternate.value = 'solid';
+            variant.value.expression.value = 'solid';
           }
         }
 
         if (
-          Boolean(variant) &&
-          (variant!.value?.type === 'Literal' ||
-            variant!.value?.type === 'StringLiteral') &&
-          variant!.value.value === 'filled'
+          (variant.value?.type === 'Literal' ||
+            variant.value?.type === 'StringLiteral') &&
+          variant.value.value === 'filled'
         ) {
           hasChanges = true;
-          variant!.value.value = 'solid';
+          variant.value.value = 'solid';
         }
       });
   }
