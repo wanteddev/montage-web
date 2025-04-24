@@ -1,0 +1,11 @@
+name: JSX Tracking
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+inputs:
+  gh_token:
+    description: github token
+    required: true
+  webhook_url:
+    description: slack webhook url
+    required: true
