@@ -1,6 +1,7 @@
 name: Component Tracking Report
 on:
-  push:
+  schedule:
+    - cron: 0 0 1 * *
 
 jobs:
   tracking:
