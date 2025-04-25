@@ -58,7 +58,12 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   root
     .find(j.MemberExpression, {
-      object: { object: { name: 'theme' }, property: { name: 'palette' } },
+      object: {
+        object: {
+          name: (name: string) => name === 'theme' || name === 'wdsTheme',
+        },
+        property: { name: 'palette' },
+      },
     })
     .forEach((palette) => {
       const parent = palette.parent as ASTPath<MemberExpression> | undefined;
@@ -71,6 +76,11 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         palette.value.object.property.type === 'Identifier' &&
         palette.value.object.property.name === 'palette'
       ) {
+        const originalName =
+          palette.value.object.object.type === 'Identifier'
+            ? palette.value.object.object.name
+            : 'theme';
+
         if (atomicKey.includes(parent.value.object.property.name)) {
           palette.value.object.property.name = 'atomic';
           hasChanges = true;
@@ -79,7 +89,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           if (parent.value.object.property.name === 'accent') {
             palette.value.object = j.memberExpression(
               j.memberExpression(
-                j.identifier('theme'),
+                j.identifier(originalName),
                 j.identifier('semantic'),
               ),
               j.identifier('accent'),
@@ -94,7 +104,12 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   root
     .find(j.MemberExpression, {
-      object: { object: { name: 'theme' }, property: { name: 'platform' } },
+      object: {
+        object: {
+          name: (name: string) => name === 'theme' || name === 'wdsTheme',
+        },
+        property: { name: 'platform' },
+      },
     })
     .forEach((palette) => {
       const parent = palette.parent as ASTPath<MemberExpression> | undefined;

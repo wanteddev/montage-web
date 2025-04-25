@@ -161,6 +161,14 @@ export const deepConvertPropertyValue = (
 
   if (
     property.type === 'JSXExpressionContainer' &&
+    (property.expression.type === 'Literal' ||
+      property.expression.type === 'StringLiteral')
+  ) {
+    return deepConvertPropertyValue(property.expression, name, convert);
+  }
+
+  if (
+    property.type === 'JSXExpressionContainer' &&
     property.expression.type === 'LogicalExpression'
   ) {
     if (
