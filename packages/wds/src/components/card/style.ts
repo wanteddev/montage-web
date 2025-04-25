@@ -60,7 +60,7 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
           padding: 10px;
         }
         [data-role='card-thumbnail-content-text'] {
-          ${typographyStyle('caption1', 'bold')}
+          ${typographyStyle('caption2', 'bold')}
         }
         [data-role='card-thumbnail-content-toggle-icon'] {
           > button {
@@ -71,7 +71,7 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         }
         // content
         [wds-component='card-content'] {
-          padding: 0;
+          padding: 0 2px;
         }
         // text
         [wds-component='card-title'] {
@@ -242,7 +242,7 @@ const cardSkeletonPlatformStyle = ({
         }
         // content
         [wds-component='card-content'] {
-          padding: 0;
+          padding: 0 2px;
         }
         // skeleton
         [wds-component='card-title-skeleton'] {
