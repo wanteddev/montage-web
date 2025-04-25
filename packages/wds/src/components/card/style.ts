@@ -172,6 +172,23 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
   }
 `;
 
+export const cardContentStyle = css`
+  overflow: hidden;
+
+  [wds-component='card-title'],
+  [wds-component='card-title-skeleton'] {
+    margin-bottom: 2px;
+  }
+
+  --wds-card-content-item-margin-top: 6px;
+  --wds-card-content-item-margin-bottom: 6px;
+
+  [wds-component='card-title'] + [wds-component='card-content-item'],
+  [wds-component='card-title-skeleton'] + [wds-component='card-content-item'] {
+    --wds-card-content-item-margin-top: 4px;
+  }
+`;
+
 export const cardContentItemStyle = ({
   variant,
   position,
@@ -182,11 +199,11 @@ export const cardContentItemStyle = ({
     switch (position) {
       case 'top':
         return css`
-          margin-bottom: 4px;
+          margin-bottom: var(--wds-card-content-item-margin-bottom);
         `;
       case 'bottom':
         return css`
-          margin-top: 4px;
+          margin-top: var(--wds-card-content-item-margin-top);
         `;
     }
   })()};

@@ -27,6 +27,7 @@ import {
 } from './constants';
 import {
   cardContentItemStyle,
+  cardContentStyle,
   cardSkeletonStyle,
   cardStyle,
   cardThumbnailContentTextStyle,
@@ -68,7 +69,7 @@ const Card = forwardRef(
       <FlexBox
         ref={ref}
         flexDirection="column"
-        gap="12px"
+        gap="10px"
         {...props}
         sx={[cardStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
       />
@@ -162,9 +163,9 @@ const CardContent = forwardRef(
         ref={ref}
         flexDirection="column"
         flex="1"
-        gap="4px"
+        gap="2px"
         {...props}
-        sx={[{ overflow: 'hidden' }, sx]}
+        sx={[cardContentStyle, sx]}
       />
     );
   },
@@ -262,7 +263,7 @@ const CardSkeleton = forwardRef(
       <FlexBox
         ref={ref}
         flexDirection="column"
-        gap="12px"
+        gap="10px"
         {...props}
         sx={[cardSkeletonStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
       />
