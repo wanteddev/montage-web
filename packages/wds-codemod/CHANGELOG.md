@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2025-04-25)
+
+### Bug Fixes
+
+- **wds-codemod:** JSXExpressionContainer -> Literal 구조로 되어있는 코드 마이그레이션 대응 ([#312](https://github.com/wanteddev/wds/issues/312)) ([15320af](https://github.com/wanteddev/wds/commit/15320af5a5cb719e092de00e3f6a6d8d2f62f177))
+
 # [2.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-04-04)
 
 ### Bug Fixes

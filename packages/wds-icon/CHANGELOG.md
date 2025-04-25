@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2025-04-25)
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#311](https://github.com/wanteddev/wds/issues/311)) ([c7c7b4f](https://github.com/wanteddev/wds/commit/c7c7b4fa0e225e97d4b2fc8ac14d2fa0ca7e1985))
+- 일부 RSC 환경에서 use client 붙이지 않아도 사용 가능하도록 개선 ([#307](https://github.com/wanteddev/wds/issues/307)) ([9f89c86](https://github.com/wanteddev/wds/commit/9f89c86d45b3182345b710592cf36d0b2ef37c90))
+
 # [2.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-04-04)
 
 ### Bug Fixes

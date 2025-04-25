@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2025-04-25)
+
+### Bug Fixes
+
+- **wds-codemod:** JSXExpressionContainer -> Literal 구조로 되어있는 코드 마이그레이션 대응 ([#312](https://github.com/wanteddev/wds/issues/312)) ([15320af](https://github.com/wanteddev/wds/commit/15320af5a5cb719e092de00e3f6a6d8d2f62f177))
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#311](https://github.com/wanteddev/wds/issues/311)) ([c7c7b4f](https://github.com/wanteddev/wds/commit/c7c7b4fa0e225e97d4b2fc8ac14d2fa0ca7e1985))
+- **wds:** floading action 컴포넌트 제거 ([#306](https://github.com/wanteddev/wds/issues/306)) ([eb9eb8c](https://github.com/wanteddev/wds/commit/eb9eb8cf56a5f66ffa8bc17a92bc9817f4e74aab))
+- **wds:** input cursor 색상 변경 ([#304](https://github.com/wanteddev/wds/issues/304)) ([26c50e3](https://github.com/wanteddev/wds/commit/26c50e3ae9c229bd0b454cc7ef775da36bae8012))
+- **wds:** typography rem 단위로 변경 ([#305](https://github.com/wanteddev/wds/issues/305)) ([1ecc869](https://github.com/wanteddev/wds/commit/1ecc869a66d86ce3de2f106c459a6ea6e870c5b8))
+- 일부 RSC 환경에서 use client 붙이지 않아도 사용 가능하도록 개선 ([#307](https://github.com/wanteddev/wds/issues/307)) ([9f89c86](https://github.com/wanteddev/wds/commit/9f89c86d45b3182345b710592cf36d0b2ef37c90))
+
 # [2.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.1...v2.0.0-alpha.2) (2025-04-04)
 
 ### Bug Fixes
