@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
 

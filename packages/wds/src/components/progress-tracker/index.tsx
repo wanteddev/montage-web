@@ -1,4 +1,3 @@
-'use client';
 import { forwardRef, useCallback, useMemo } from 'react';
 import { IconCheckThick } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';

@@ -1,4 +1,3 @@
-'use client';
 import { Children, cloneElement, forwardRef, isValidElement } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { Slot } from '@radix-ui/react-slot';

@@ -1,5 +1,4 @@
 'use client';
-
 import { FlexBox, containerStyle } from '@wanteddev/wds';
 
 import type { PropsWithChildren } from 'react';

@@ -1,4 +1,3 @@
-'use client';
 import { Box } from '@wanteddev/wds-engine';
 import { memo, useId } from 'react';
 

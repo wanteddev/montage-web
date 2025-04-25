@@ -1,4 +1,3 @@
-'use client';
 import { Box } from '@wanteddev/wds-engine';
 import { useRef } from 'react';
 import { type StoreApi } from 'zustand';

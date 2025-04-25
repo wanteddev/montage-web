@@ -1,4 +1,3 @@
-'use client';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { forwardRef, useCallback, useId } from 'react';
 import {

@@ -1,4 +1,3 @@
-'use client';
 /**
  * Most of this file is based on code from @radix-ui/react-focus-scope.
  * MIT Licensed, Copyright (c) 2022 WorkOS

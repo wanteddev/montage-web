@@ -1,3 +1,4 @@
+'use client';
 import { MDXRemote } from 'next-mdx-remote';
 import { FlexBox } from '@wanteddev/wds';
 import { type ComponentProps } from 'react';

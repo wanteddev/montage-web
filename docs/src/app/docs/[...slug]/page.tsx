@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation';
+import { FlexBox } from '@wanteddev/wds';
 
 import { getAllFrontmatter, getSourceBySlug } from '@/lib/mdx';
 import { generatePropTypes } from '@/lib/props';
-
-import ClientDocsPage from './page.client';
+import { MDXProvider } from '@/features/mdx/context';
+import MDX from '@/features/mdx/components/mdx';
+import SideBar from '@/features/sidebar/components/sidebar';
 
 import type { Metadata } from 'next';
 
@@ -48,7 +50,30 @@ const DocsPage = async ({ params }: Props) => {
   const source = await getSourceBySlug('/', parseSlug(params));
   const propTypes = generatePropTypes();
 
-  return <ClientDocsPage source={source} propTypes={propTypes} />;
+  return (
+    <>
+      <FlexBox
+        data-algolia-page-scope
+        flexDirection="column"
+        sx={{ width: '100%' }}
+        sm={{
+          sx: { padding: '0px 0px 20px 20px', width: 'calc(100% - 280px)' },
+        }}
+        md={{
+          sx: {
+            padding: '0px 20px 20px 20px',
+            width: 'calc(100% - 280px - 200px)',
+          },
+        }}
+      >
+        <MDXProvider frontmatter={source.frontmatter} propTypes={propTypes}>
+          <MDX {...source} />
+        </MDXProvider>
+      </FlexBox>
+
+      <SideBar />
+    </>
+  );
 };
 
 export default DocsPage;
