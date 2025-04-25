@@ -95,6 +95,7 @@ export const searchFieldWrapperStyle =
     }
 
     input {
+      caret-color: ${theme.semantic.primary.normal};
       transition: color ease 0.2s;
       width: 100%;
       padding: 0;

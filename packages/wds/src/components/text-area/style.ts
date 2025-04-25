@@ -138,6 +138,7 @@ export const textAreaStyle =
     padding: 0px 4px;
     flex-shrink: 2;
     background-color: transparent;
+    caret-color: ${theme.semantic.primary.normal};
     outline: none;
     border: none;
     resize: none;
