@@ -1,7 +1,8 @@
 name: Docs deploy
 on:
-  push:
-    branches: main
+  workflow_dispatch:
+  # push:
+  #   branches: main
 
 env:
   AWS_REGION: ap-northeast-2
