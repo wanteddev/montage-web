@@ -1,5 +1,9 @@
-import type { ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
+
+export type TooltipGroupProps = PropsWithChildren<{
+  skipDelayDuration?: number;
+}>;
 
 export type TooltipProps = {
   mode?: 'hover' | 'always';

@@ -37,13 +37,17 @@ import { tooltipContentStyle, tooltipWrapperStyle } from './style';
 import { useTooltip } from './hooks';
 
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { TooltipContentProps, TooltipProps } from './types';
-import type { CSSProperties, PropsWithChildren } from 'react';
+import type {
+  TooltipContentProps,
+  TooltipGroupProps,
+  TooltipProps,
+} from './types';
+import type { CSSProperties } from 'react';
 
 const TooltipGroup = ({
   children,
   skipDelayDuration = 300,
-}: PropsWithChildren<{ skipDelayDuration?: number }>) => {
+}: TooltipGroupProps) => {
   const isOpenWithoutDelayRef = useRef(false);
   const skipDelayTimerRef = useRef(0);
 
@@ -83,7 +87,7 @@ const Tooltip = ({
   leaveDelay = 300,
   disableCloseOnPointDown = false,
   disableOpenOnFocus = false,
-}: PropsWithChildren<TooltipProps>) => {
+}: TooltipProps) => {
   const containerId = useId();
   const {
     containerRef,
