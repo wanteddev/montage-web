@@ -33,6 +33,7 @@ import {
   cardThumbnailContentTextStyle,
   cardThumbnailContentToggleIconStyle,
   cardThumbnailContentWrapperStyle,
+  cardThumbnailSkeletonStyle,
   cardThumbnailStyle,
 } from './style';
 
@@ -80,13 +81,32 @@ const Card = forwardRef(
 Card.displayName = CARD_NAME;
 
 const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
-  ({ leadingContent, trailingContent, width, sx, ...props }, ref) => {
+  (
+    {
+      leadingContent,
+      trailingContent,
+      width,
+      ratio,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      sx,
+      ...props
+    },
+    ref,
+  ) => {
     const hasLeadingContent = Boolean(leadingContent);
     const hasTrailingContent = Boolean(trailingContent);
     const hasContent = hasLeadingContent || hasTrailingContent;
 
     return (
-      <Box ref={ref} {...props} sx={[cardThumbnailStyle, sx]}>
+      <Box
+        ref={ref}
+        {...props}
+        sx={[cardThumbnailStyle({ ratio, xs, sm, md, lg, xl }), sx]}
+      >
         {hasContent && (
           <FlexBox
             gap="4px"
@@ -275,10 +295,26 @@ CardSkeleton.displayName = CARD_SKELETON_NAME;
 
 const CardThumbnailSkeleton = forwardRef(
   (
-    props: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    {
+      ratio,
+      xl,
+      lg,
+      md,
+      sm,
+      xs,
+      sx,
+      ...props
+    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
-    return <ThumbnailSkeleton ref={ref} radius {...props} />;
+    return (
+      <ThumbnailSkeleton
+        ref={ref}
+        radius
+        sx={[cardThumbnailSkeletonStyle({ ratio, xs, sm, md, lg, xl }), sx]}
+        {...props}
+      />
+    );
   },
 );
 

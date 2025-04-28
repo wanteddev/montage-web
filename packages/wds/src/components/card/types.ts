@@ -25,9 +25,12 @@ export type CardThumbnailDefaultProps = {
   trailingContent?: ReactNode;
   children?: ReactNode;
 };
+export type CardThumbnailResponsiveProps = ResponsiveProps<
+  Pick<CardThumbnailBasicProps, 'ratio'>
+>;
 export type CardThumbnailProps = Merge<
-  CardThumbnailDefaultProps,
-  CardThumbnailBasicProps
+  Merge<CardThumbnailDefaultProps, CardThumbnailBasicProps>,
+  CardThumbnailResponsiveProps
 >;
 
 export type CardThumbnailContentProps = Merge<
