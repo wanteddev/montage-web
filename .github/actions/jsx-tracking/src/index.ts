@@ -134,76 +134,116 @@ const run = async () => {
 
     const allFiles = getAllFiles(fullPath);
 
-    const wdsComponents = new Map<string, string>();
-    const wdsUsages = new Map<string, Set<string>>();
+    const wdsUsages = new Map<string, number>();
 
     allFiles.forEach((filePath) => {
       if (
-        filePath.endsWith('.ts') ||
-        filePath.endsWith('.tsx') ||
-        filePath.endsWith('.js') ||
-        filePath.endsWith('.jsx')
+        !filePath.endsWith('.ts') &&
+        !filePath.endsWith('.tsx') &&
+        !filePath.endsWith('.js') &&
+        !filePath.endsWith('.jsx')
       ) {
-        try {
-          const content = fs.readFileSync(filePath, 'utf-8');
-          const ast = parse(content, {
-            sourceType: 'module',
-            plugins: ['jsx', 'typescript'],
-          });
-
-          traverse(ast, {
-            ImportDeclaration(importPath) {
-              const source = importPath.node.source.value;
-              if (
-                source.startsWith('@wanteddev/wds') ||
-                source.startsWith('@wanteddev/wds-icon') ||
-                source.startsWith('@wanteddev/wds-lottie')
-              ) {
-                importPath.node.specifiers.forEach((specifier) => {
-                  if (
-                    t.isImportSpecifier(specifier) &&
-                    t.isIdentifier(specifier.local) &&
-                    'imported' in specifier &&
-                    t.isIdentifier(specifier.imported)
-                  ) {
-                    wdsComponents.set(
-                      specifier.local.name,
-                      specifier.imported.name,
-                    );
-                  }
-                });
-              }
-            },
-          });
-
-          traverse(ast, {
-            JSXElement(jsxPath) {
-              const openingElement = jsxPath.node.openingElement;
-              if (t.isJSXIdentifier(openingElement.name)) {
-                const componentName = openingElement.name.name;
-                if (wdsComponents.has(componentName)) {
-                  const importedComponentName =
-                    wdsComponents.get(componentName)!;
-
-                  const trackedComponentName =
-                    importedComponentName.startsWith('Icon') &&
-                    importedComponentName !== 'IconButton'
-                      ? 'Icon'
-                      : importedComponentName;
-
-                  if (!wdsUsages.has(trackedComponentName)) {
-                    wdsUsages.set(trackedComponentName, new Set());
-                  }
-
-                  wdsUsages
-                    .get(trackedComponentName)!
-                    .add(filePath + wdsUsages.get(trackedComponentName)!.size);
-                }
-              }
-            },
-          });
-        } catch (error) {}
+        return;
       }
+
+      const wdsComponents = new Map<string, string>();
+
+      try {
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const ast = parse(content, {
+          sourceType: 'module',
+          plugins: ['jsx', 'typescript'],
+        });
+
+        traverse(ast, {
+          ImportDeclaration(importPath) {
+            const source = importPath.node.source.value;
+            if (
+              source.startsWith('@wanteddev/wds') ||
+              source.startsWith('@wanteddev/wds-icon') ||
+              source.startsWith('@wanteddev/wds-lottie')
+            ) {
+              importPath.node.specifiers.forEach((specifier) => {
+                if (
+                  t.isImportSpecifier(specifier) &&
+                  t.isIdentifier(specifier.local) &&
+                  'imported' in specifier &&
+                  t.isIdentifier(specifier.imported)
+                ) {
+                  wdsComponents.set(
+                    specifier.local.name,
+                    specifier.imported.name,
+                  );
+                } else if (
+                  t.isImportNamespaceSpecifier(specifier) &&
+                  t.isIdentifier(specifier.local)
+                ) {
+                  wdsComponents.set(specifier.local.name, specifier.local.name);
+                }
+              });
+            }
+          },
+        });
+
+        const getWdsComponentName = (componentName: string) => {
+          return componentName.startsWith('Icon') &&
+            componentName !== 'IconButton'
+            ? 'Icon'
+            : componentName;
+        };
+
+        traverse(ast, {
+          JSXElement(jsxPath) {
+            const openingElement = jsxPath.node.openingElement;
+            if (t.isJSXIdentifier(openingElement.name)) {
+              const componentName = openingElement.name.name;
+              if (!wdsComponents.has(componentName)) {
+                return;
+              }
+              const importedComponentName = wdsComponents.get(componentName)!;
+
+              const trackedComponentName = getWdsComponentName(
+                importedComponentName,
+              );
+
+              if (!wdsUsages.has(trackedComponentName)) {
+                wdsUsages.set(trackedComponentName, 1);
+              } else {
+                wdsUsages.set(
+                  trackedComponentName,
+                  wdsUsages.get(trackedComponentName)! + 1,
+                );
+              }
+            } else if (t.isJSXMemberExpression(openingElement.name)) {
+              const member = openingElement.name.object;
+              const property = openingElement.name.property;
+
+              if (!t.isJSXIdentifier(member) || !t.isJSXIdentifier(property)) {
+                return;
+              }
+
+              const componentNamespace = member.name;
+
+              if (!wdsComponents.has(componentNamespace)) {
+                return;
+              }
+
+              const componentName = property.name;
+
+              const trackedComponentName = getWdsComponentName(componentName);
+
+              if (!wdsUsages.has(trackedComponentName)) {
+                wdsUsages.set(trackedComponentName, 1);
+              } else {
+                wdsUsages.set(
+                  trackedComponentName,
+                  wdsUsages.get(trackedComponentName)! + 1,
+                );
+              }
+            }
+          },
+        });
+      } catch (error) {}
     });
 
     return wdsUsages;
@@ -213,27 +253,16 @@ const run = async () => {
     return {
       name: project.alias,
       usages:
-        parseFiles(project.name, project.path) ??
-        new Map<string, Set<string>>(),
+        parseFiles(project.name, project.path) ?? new Map<string, number>(),
     };
   });
 
-  const total = results
-    .map((result) =>
-      [...result.usages]
-        .map((v) => v[1].size)
-        .reduce((acc, cur) => acc + cur, 0),
-    )
-    .reduce((acc, cur) => acc + cur, 0);
-
   // 모든 프로젝트의 컴포넌트 사용량을 합산
   const allComponents = new Map<string, number>();
+
   results.forEach((result) => {
-    result.usages.forEach((files, component) => {
-      allComponents.set(
-        component,
-        (allComponents.get(component) || 0) + files.size,
-      );
+    result.usages.forEach((count, component) => {
+      allComponents.set(component, (allComponents.get(component) || 0) + count);
     });
   });
 
@@ -245,6 +274,13 @@ const run = async () => {
       component,
       count,
     }));
+
+  // 전체 컴포넌트 사용량
+  const total = [...allComponents.entries()].reduce(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (acc, [_, count]) => acc + count,
+    0,
+  );
 
   const webhook = new IncomingWebhook(webhookUrl);
 
