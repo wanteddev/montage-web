@@ -1,6 +1,8 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallback, useEffect, useRef } from 'react';
 
+import { useTooltipGroupContext } from './contexts';
+
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type { FocusEventHandler, MouseEvent, MouseEventHandler } from 'react';
 import type { TooltipProps } from './types';
@@ -16,6 +18,7 @@ export const useTooltip = ({
   disableOpenOnFocus,
 }: TooltipProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const groupContext = useTooltipGroupContext();
 
   const openTimerRef = useRef(0);
   const closeTimerRef = useRef(0);
@@ -23,7 +26,14 @@ export const useTooltip = ({
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
     defaultProp: defaultOpen,
-    onChange: onOpenChange,
+    onChange: (value) => {
+      if (value) {
+        groupContext?.onOpen();
+      } else {
+        groupContext?.onClose();
+      }
+      onOpenChange?.(value);
+    },
   });
 
   // setTimeout 에서 최신 state를 가지기 위해 ref로도 저장해야함.
@@ -75,9 +85,13 @@ export const useTooltip = ({
         return;
       }
 
-      handleOpen();
+      if (groupContext?.isOpenWithoutDelayRef.current) {
+        handleOpen(0);
+      } else {
+        handleOpen();
+      }
     },
-    [handleOpen],
+    [handleOpen, groupContext],
   );
 
   const handleMouseLeave: MouseEventHandler<any> = useCallback(
@@ -86,9 +100,13 @@ export const useTooltip = ({
         return;
       }
 
-      handleClose();
+      if (groupContext?.isOpenWithoutDelayRef.current) {
+        handleClose(0);
+      } else {
+        handleClose();
+      }
     },
-    [handleClose],
+    [handleClose, groupContext],
   );
 
   const handleFocus: FocusEventHandler<any> = useCallback(() => {

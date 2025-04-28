@@ -1,4 +1,11 @@
-import { Fragment, forwardRef, useId } from 'react';
+import {
+  Fragment,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+} from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -15,9 +22,14 @@ import IconButton from '../icon-button';
 import useTransitionStatus from '../../hooks/use-transition-status';
 import ComponentOrFragment from '../component-or-fragment';
 
-import { TooltipProvider, useTooltipContext } from './contexts';
+import {
+  TooltipGroupProvider,
+  TooltipProvider,
+  useTooltipContext,
+} from './contexts';
 import {
   TOOLTIP_CONTENT_NAME,
+  TOOLTIP_GROUP_NAME,
   TOOLTIP_NAME,
   TOOLTIP_TRIGGER_NAME,
 } from './constants';
@@ -27,6 +39,39 @@ import { useTooltip } from './hooks';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { TooltipContentProps, TooltipProps } from './types';
 import type { CSSProperties, PropsWithChildren } from 'react';
+
+const TooltipGroup = ({
+  children,
+  skipDelayDuration = 300,
+}: PropsWithChildren<{ skipDelayDuration?: number }>) => {
+  const isOpenWithoutDelayRef = useRef(false);
+  const skipDelayTimerRef = useRef(0);
+
+  useEffect(() => {
+    const skipDelayTimer = skipDelayTimerRef.current;
+    return () => window.clearTimeout(skipDelayTimer);
+  }, []);
+
+  return (
+    <TooltipGroupProvider
+      onOpen={useCallback(() => {
+        window.clearTimeout(skipDelayTimerRef.current);
+        isOpenWithoutDelayRef.current = true;
+      }, [])}
+      onClose={useCallback(() => {
+        window.clearTimeout(skipDelayTimerRef.current);
+        skipDelayTimerRef.current = window.setTimeout(() => {
+          isOpenWithoutDelayRef.current = false;
+        }, skipDelayDuration);
+      }, [skipDelayDuration])}
+      isOpenWithoutDelayRef={isOpenWithoutDelayRef}
+    >
+      {children}
+    </TooltipGroupProvider>
+  );
+};
+
+TooltipGroup.displayName = TOOLTIP_GROUP_NAME;
 
 const Tooltip = ({
   mode = 'hover',
@@ -250,4 +295,4 @@ const TooltipContent = forwardRef<
 
 TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
 
-export { Tooltip, TooltipTrigger, TooltipContent };
+export { TooltipGroup, Tooltip, TooltipTrigger, TooltipContent };
