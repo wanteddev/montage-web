@@ -80638,12 +80638,12 @@ var run = async () => {
               {
                 type: "plain_text",
                 emoji: true,
-                text: `${SUPPORTS_PROJECTS.length}`
+                text: `${SUPPORTS_PROJECTS.length.toLocaleString()}`
               },
               {
                 type: "plain_text",
                 emoji: true,
-                text: `${total}`
+                text: `${total.toLocaleString()}`
               }
             ]
           },
@@ -80655,7 +80655,7 @@ var run = async () => {
             text: {
               type: "mrkdwn",
               text: `*\uCEF4\uD3EC\uB10C\uD2B8 \uC0AC\uC6A9 Top5*
-${top5Components.map(({ component, count }) => `- ${component}: ${count}`).join("\n")}`
+${top5Components.map(({ component, count }) => `- ${component}: ${count.toLocaleString()}`).join("\n")}`
             }
           }
         ]

@@ -313,12 +313,12 @@ const run = async () => {
               {
                 type: 'plain_text',
                 emoji: true,
-                text: `${SUPPORTS_PROJECTS.length}`,
+                text: `${SUPPORTS_PROJECTS.length.toLocaleString()}`,
               },
               {
                 type: 'plain_text',
                 emoji: true,
-                text: `${total}`,
+                text: `${total.toLocaleString()}`,
               },
             ],
           },
@@ -329,7 +329,7 @@ const run = async () => {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `*컴포넌트 사용 Top5*\n${top5Components.map(({ component, count }) => `- ${component}: ${count}`).join('\n')}`,
+              text: `*컴포넌트 사용 Top5*\n${top5Components.map(({ component, count }) => `- ${component}: ${count.toLocaleString()}`).join('\n')}`,
             },
           },
         ],
