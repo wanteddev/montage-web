@@ -60,7 +60,7 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
           padding: 10px;
         }
         [data-role='card-thumbnail-content-text'] {
-          ${typographyStyle('caption1', 'bold')}
+          ${typographyStyle('caption2', 'bold')}
         }
         [data-role='card-thumbnail-content-toggle-icon'] {
           > button {
@@ -71,7 +71,7 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         }
         // content
         [wds-component='card-content'] {
-          padding: 0;
+          padding: 0 2px;
         }
         // text
         [wds-component='card-title'] {
@@ -172,6 +172,23 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
   }
 `;
 
+export const cardContentStyle = css`
+  overflow: hidden;
+
+  [wds-component='card-title'],
+  [wds-component='card-title-skeleton'] {
+    margin-bottom: 2px;
+  }
+
+  --wds-card-content-item-margin-top: 6px;
+  --wds-card-content-item-margin-bottom: 6px;
+
+  [wds-component='card-title'] + [wds-component='card-content-item'],
+  [wds-component='card-title-skeleton'] + [wds-component='card-content-item'] {
+    --wds-card-content-item-margin-top: 4px;
+  }
+`;
+
 export const cardContentItemStyle = ({
   variant,
   position,
@@ -182,11 +199,11 @@ export const cardContentItemStyle = ({
     switch (position) {
       case 'top':
         return css`
-          margin-bottom: 4px;
+          margin-bottom: var(--wds-card-content-item-margin-bottom);
         `;
       case 'bottom':
         return css`
-          margin-top: 4px;
+          margin-top: var(--wds-card-content-item-margin-top);
         `;
     }
   })()};
@@ -225,7 +242,7 @@ const cardSkeletonPlatformStyle = ({
         }
         // content
         [wds-component='card-content'] {
-          padding: 0;
+          padding: 0 2px;
         }
         // skeleton
         [wds-component='card-title-skeleton'] {
