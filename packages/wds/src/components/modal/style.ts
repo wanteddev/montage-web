@@ -391,7 +391,7 @@ const modalContainerVariant = (
       return css`
         border-radius: var(--wds-modal-popup-border-radius, 12px);
         animation: none;
-        max-height: 760px;
+        max-height: min(760px, 100%);
         padding: initial;
         overflow: hidden;
         transition: none;
