@@ -1,4 +1,4 @@
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 import rehypeSlug from 'rehype-slug';
@@ -43,8 +43,15 @@ export const getSourceBySlug = async (
   basePath: string,
   slug: Array<string>,
 ) => {
+  if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}.mdx`))) {
+    return serialize<unknown, Frontmatter>(
+      readFileSync(join(DATA_PATH, basePath, `${slug.join('/')}.mdx`), 'utf8'),
+      SERIALIZE_OPTIONS,
+    );
+  }
+
   const source = readFileSync(
-    join(DATA_PATH, basePath, `${slug.join('/')}.mdx`),
+    join(DATA_PATH, basePath, `${slug.join('/')}/index.mdx`),
     'utf8',
   );
 

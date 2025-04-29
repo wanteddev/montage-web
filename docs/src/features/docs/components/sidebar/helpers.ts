@@ -11,3 +11,7 @@ export const throttle = <T extends (...args: any) => any>(
     }
   };
 };
+
+export const getHeadingLevel = (nodeName: string) => {
+  return Number(nodeName.replace('H', ''));
+};

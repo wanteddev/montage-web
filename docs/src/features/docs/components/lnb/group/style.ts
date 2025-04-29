@@ -3,39 +3,20 @@ import { css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbAccordionStyle = css`
-  padding: 0px;
-  margin-top: 4px;
-  [data-role='accordion-details-wrapper'] {
-    gap: 4px;
-  }
+  padding: 4px 0px 24px;
 `;
 
 export const accordionSummaryStyle = (theme: Theme) => css`
-  padding-left: 12px;
-  padding-right: 12px;
-  border-radius: 12px;
+  padding-left: var(--lnb-padding-left);
 
   [data-role='list-text-content'] {
-    color: ${theme.semantic.label.alternative};
+    color: ${theme.semantic.label.normal};
   }
 
   &[data-active='true'] {
     [data-role='list-text-content'] {
-      color: ${theme.semantic.label.normal};
+      color: ${theme.semantic.primary.normal};
     }
-  }
-
-  & > [wds-component='with-interaction'] {
-    width: 100%;
-    height: 100%;
-  }
-
-  &[data-depth='1'] {
-    padding-left: 30px;
-  }
-
-  &[data-depth='2'] {
-    padding-left: 44px;
   }
 `;
 
@@ -49,5 +30,5 @@ export const accordionIconContentStyle = css`
 
 export const accordionIconStyle = (theme: Theme) => css`
   font-size: 16px;
-  color: ${theme.semantic.label.alternative};
+  color: ${theme.semantic.label.assistive};
 `;

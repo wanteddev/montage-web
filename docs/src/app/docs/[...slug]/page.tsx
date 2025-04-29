@@ -5,7 +5,6 @@ import {
   getAllFrontmatter,
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
-import SideBar from '@/features/docs/components/sidebar';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
 
 import type { Metadata } from 'next';
@@ -65,26 +64,13 @@ const DocsPage = async ({ params }: Props) => {
   const source = await getSourceBySlug('/', parseSlug(params));
 
   return (
-    <>
-      <FlexBox
-        data-algolia-page-scope
-        flexDirection="column"
-        sx={{ width: '100%' }}
-        sm={{
-          sx: { padding: '0px 0px 20px 20px', width: 'calc(100% - 280px)' },
-        }}
-        md={{
-          sx: {
-            padding: '0px 20px 20px 20px',
-            width: 'calc(100% - 280px - 200px)',
-          },
-        }}
-      >
-        <MDXRender {...source} />
-      </FlexBox>
-
-      <SideBar />
-    </>
+    <FlexBox
+      data-algolia-page-scope
+      flexDirection="column"
+      sx={{ width: '100%' }}
+    >
+      <MDXRender {...source} />
+    </FlexBox>
   );
 };
 

@@ -3,7 +3,12 @@ import { useParams } from 'next/navigation';
 
 import { useMDXContext } from '@/features/docs/context';
 
-import { getIsActive, isFrontmatter } from './helpers';
+import {
+  getIsActive,
+  hasMatchingDevelopPlatformPage,
+  isFrontmatter,
+} from './helpers';
+import { PLATFORM_PATTERN } from './constants';
 
 import type {
   LNBFrontmatterChildObj,
@@ -11,7 +16,6 @@ import type {
   LNBFrontmatterType,
   SlugParams,
 } from './types';
-import type { Frontmatter } from '@/features/docs/types';
 
 export const useLNBContent = () => {
   const { allFrontmatter } = useMDXContext();
@@ -27,11 +31,11 @@ export const useLNBContent = () => {
 
       let firstLevelGroup = acc.find(
         (item) => !isFrontmatter(item) && item.key === firstKey,
-      ) as LNBFrontmatterType | undefined;
+      );
 
       if (
         !firstLevelGroup &&
-        (!secondKey || secondKey.match(/(web|ios|android|changelog|design)$/))
+        (!secondKey || secondKey.match(PLATFORM_PATTERN))
       ) {
         acc.push(cur);
         return acc;
@@ -46,49 +50,25 @@ export const useLNBContent = () => {
         acc.push(firstLevelGroup);
       }
 
-      const newSlug = cur.slug.slice(0);
-
-      if (
-        newSlug.at(newSlug.length - 1)?.match(/(web|ios|android|changelog)$/) &&
-        allFrontmatter.find(
-          (frontmatter) =>
-            frontmatter.slug.toString() ===
-              cur.slug
-                .toString()
-                .replace(/(web|ios|android|changelog)$/, 'design') ||
-            frontmatter.slug.toString() ===
-              cur.slug
-                .toString()
-                .replace(/(web|ios|android|changelog)$/, 'web') ||
-            frontmatter.slug.toString() ===
-              cur.slug
-                .toString()
-                .replace(/(web|ios|android|changelog)$/, 'ios') ||
-            frontmatter.slug.toString() ===
-              cur.slug
-                .toString()
-                .replace(/(web|ios|android|changelog)$/, 'android'),
-        )
-      ) {
+      if (hasMatchingDevelopPlatformPage(cur.slug, allFrontmatter)) {
         return acc;
       }
 
       if (isActive) {
-        firstLevelGroup.defaultOpen = true;
+        (firstLevelGroup as LNBFrontmatterType).defaultOpen = true;
       }
 
-      if (
-        secondKey &&
-        (!thirdKey || thirdKey.match(/(web|ios|android|changelog|design)$/))
-      ) {
-        (firstLevelGroup.children as Array<Frontmatter>).push(cur);
+      if (secondKey && (!thirdKey || thirdKey.match(PLATFORM_PATTERN))) {
+        (firstLevelGroup as LNBFrontmatterType).children.push(cur);
         return acc;
       }
 
       if (!secondKey) {
-        (firstLevelGroup.children as Array<Frontmatter>).push(cur);
+        (firstLevelGroup as LNBFrontmatterType).children.push(cur);
       } else {
-        let secondLevelGroup = firstLevelGroup.children.find(
+        let secondLevelGroup = (
+          firstLevelGroup as LNBFrontmatterType
+        ).children.find(
           (item): item is LNBFrontmatterChildObj =>
             'key' in item && item.key === secondKey,
         );
@@ -99,7 +79,9 @@ export const useLNBContent = () => {
             defaultOpen: false,
             children: [],
           };
-          firstLevelGroup.children.push(secondLevelGroup);
+          (firstLevelGroup as LNBFrontmatterType).children.push(
+            secondLevelGroup,
+          );
         }
 
         if (isActive) {

@@ -9,8 +9,11 @@ import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
+import { SectionHeader } from '@wanteddev/wds';
+import { useCallback } from 'react';
 
 import { getIsActive, isFrontmatter } from '../helpers';
+import { PLATFORM_PATTERN } from '../constants';
 
 import {
   accordionIconContentStyle,
@@ -20,6 +23,7 @@ import {
 } from './style';
 import LnbGroupItem from './item';
 
+import type { Frontmatter } from '@/features/docs/types';
 import type {
   LNBFrontmatterChild,
   LNBFrontmatterType,
@@ -32,6 +36,19 @@ type Props = {
 
 const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
+
+  const getFrontmatterOption = useCallback((item: Frontmatter) => {
+    const title = item.slug.at(item.slug.length - 1)?.match(PLATFORM_PATTERN)
+      ? capitalCase(item.slug[item.slug.length - 2]!)
+      : capitalCase(item.slug[item.slug.length - 1]!);
+
+    const href = `/docs/${item.slug.join('/')}`;
+
+    return {
+      title,
+      href,
+    };
+  }, []);
 
   if (isFrontmatter(frontmatter)) {
     return (
@@ -50,7 +67,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
       <Accordion divider={false} defaultExpanded={frontmatter.defaultOpen}>
         <AccordionSummary
           sx={accordionSummaryStyle}
-          verticalPadding="medium"
+          fillWidth
           trailingContent={
             <AccordionSummaryContent
               variant="icon"
@@ -62,19 +79,18 @@ const LnbGroup = ({ frontmatter }: Props) => {
           }
           data-active={getIsActive(params, frontmatter)}
           textProps={{
-            variant: 'body1',
-            weight: getIsActive(params, frontmatter) ? 'bold' : 'medium',
+            variant: 'headline2',
+            weight: 'bold',
           }}
         >
           {capitalCase(frontmatter.key)}
         </AccordionSummary>
 
         <AccordionDetails sx={lnbAccordionStyle}>
-          <FlexBox flexDirection="column" gap="4px">
+          <FlexBox flexDirection="column">
             {frontmatter.children.map((item, idx) => {
               if (isFrontmatter(item)) {
-                const title = capitalCase(item.slug[item.slug.length - 2]!);
-                const href = `/docs/${item.slug.join('/')}`;
+                const { title, href } = getFrontmatterOption(item);
 
                 return (
                   <LnbGroupItem
@@ -89,53 +105,38 @@ const LnbGroup = ({ frontmatter }: Props) => {
               }
 
               return (
-                <Accordion
+                <FlexBox
+                  flexDirection="column"
                   key={item.key + idx}
-                  divider={false}
-                  defaultExpanded={item.defaultOpen}
+                  sx={{
+                    [':not(:last-child)']: {
+                      marginBottom: 20,
+                    },
+                  }}
                 >
-                  <AccordionSummary
-                    verticalPadding="medium"
-                    data-depth="1"
-                    sx={accordionSummaryStyle}
-                    data-active={getIsActive(params, item)}
-                    trailingContent={
-                      <AccordionSummaryContent
-                        variant="icon"
-                        rotate
-                        sx={accordionIconContentStyle}
-                      >
-                        <IconChevronDownThickSmall sx={accordionIconStyle} />
-                      </AccordionSummaryContent>
-                    }
-                    textProps={{
-                      variant: 'label1',
-                      weight: 'medium',
-                    }}
+                  <SectionHeader
+                    size="xsmall"
+                    sx={{ padding: '12px 20px 12px var(--lnb-padding-left)' }}
+                    color="semantic.label.assistive"
                   >
                     {capitalCase(item.key)}
-                  </AccordionSummary>
+                  </SectionHeader>
 
-                  <AccordionDetails sx={lnbAccordionStyle}>
-                    {item.children.map((child, childIdx) => {
-                      const title = capitalCase(
-                        child.slug[child.slug.length - 2]!,
-                      );
-                      const href = `/docs/${child.slug.join('/')}`;
+                  {item.children.map((child, childIdx) => {
+                    const { title, href } = getFrontmatterOption(child);
 
-                      return (
-                        <LnbGroupItem
-                          href={href}
-                          key={child.slug.toString() + childIdx}
-                          isActive={getIsActive(params, child)}
-                          depth="2"
-                        >
-                          {title}
-                        </LnbGroupItem>
-                      );
-                    })}
-                  </AccordionDetails>
-                </Accordion>
+                    return (
+                      <LnbGroupItem
+                        href={href}
+                        key={child.slug.toString() + childIdx}
+                        isActive={getIsActive(params, child)}
+                        depth="2"
+                      >
+                        {title}
+                      </LnbGroupItem>
+                    );
+                  })}
+                </FlexBox>
               );
             })}
           </FlexBox>

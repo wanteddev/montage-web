@@ -1,3 +1,5 @@
+import { PLATFORM_TYPES } from './constants';
+
 import type {
   LNBFrontmatterChild,
   LNBFrontmatterType,
@@ -27,4 +29,24 @@ export const getIsActive = (
       ? getIsActive(params, root)
       : root.children.some((child) => getIsActive(params, child)),
   );
+};
+
+export const hasMatchingDevelopPlatformPage = (
+  slug: Array<string>,
+  allFrontmatter: Array<Frontmatter>,
+) => {
+  const lastSegment = slug.at(-1);
+  if (!lastSegment?.match(/(web|ios|android|changelog)$/)) {
+    return false;
+  }
+
+  return allFrontmatter.some((frontmatter) => {
+    const frontmatterSlug = frontmatter.slug.toString();
+    return PLATFORM_TYPES.some((platform) => {
+      const replacedSlug = slug
+        .toString()
+        .replace(/(web|ios|android|changelog)$/, platform);
+      return frontmatterSlug === replacedSlug;
+    });
+  });
 };

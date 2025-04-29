@@ -7,8 +7,6 @@ import Lnb from '@/features/docs/components/lnb';
 import Sidebar from '@/features/docs/components/sidebar';
 import DocsDescription from '@/features/docs/components/description';
 
-import DocsClientLayout from './layout.client';
-
 import type { PropsWithChildren } from 'react';
 
 const DocsLayout = async ({ children }: PropsWithChildren) => {
@@ -17,7 +15,7 @@ const DocsLayout = async ({ children }: PropsWithChildren) => {
   const propTypes = generatePropTypes();
 
   return (
-    <DocsClientLayout>
+    <FlexBox>
       <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
         <Lnb />
 
@@ -38,7 +36,7 @@ const DocsLayout = async ({ children }: PropsWithChildren) => {
 
         <Sidebar />
       </MDXProvider>
-    </DocsClientLayout>
+    </FlexBox>
   );
 };
 

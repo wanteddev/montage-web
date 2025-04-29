@@ -1,5 +1,6 @@
 'use client';
-import { FlexBox, ScrollArea } from '@wanteddev/wds';
+import { Divider, FlexBox, ScrollArea } from '@wanteddev/wds';
+import { Fragment } from 'react';
 
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
@@ -17,17 +18,22 @@ const Lnb = () => {
         flexDirection="column"
         gap="20px"
       >
-        <FlexBox as="nav" flexDirection="column" gap="4px">
+        <FlexBox as="nav" flexDirection="column">
           {frontmatters.map((frontmatter, i) => {
             return (
-              <LnbGroup
+              <Fragment
                 key={
                   isFrontmatter(frontmatter)
                     ? frontmatter.slug.toString() + i
                     : frontmatter.key + i
                 }
-                frontmatter={frontmatter}
-              />
+              >
+                <LnbGroup frontmatter={frontmatter} />
+
+                {i < frontmatters.length - 1 && (
+                  <Divider color="semantic.line.solid.alternative" />
+                )}
+              </Fragment>
             );
           })}
         </FlexBox>

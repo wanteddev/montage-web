@@ -1,4 +1,13 @@
-import { Typography } from '@wanteddev/wds';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFoot,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+  Typography,
+} from '@wanteddev/wds';
 
 import HeadingLink from '../heading-link';
 import CodeBlock from '../code-block';
@@ -57,6 +66,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   h4: ({ children, id, ...props }) => (
     <Typography
       {...props}
+      data-heading=""
       display="block"
       variant="headline1"
       weight="bold"
@@ -69,6 +79,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   h5: ({ children, id, ...props }) => (
     <Typography
       {...props}
+      data-heading=""
       display="block"
       variant="body2"
       weight="bold"
@@ -81,6 +92,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   h6: ({ children, id, ...props }) => (
     <Typography
       {...props}
+      data-heading=""
       display="block"
       variant="label1"
       weight="bold"
@@ -112,4 +124,11 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionDivider,
   SectionCustomize,
   DocsCollection,
+  table: Table,
+  tr: TableRow,
+  td: TableCell,
+  th: TableHeadCell,
+  tbody: TableBody,
+  tfoot: TableFoot,
+  thead: TableHead,
 };

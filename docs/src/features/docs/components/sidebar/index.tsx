@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import useThrottle from '@/hooks/use-throttle';
 
 import { sidebarActiveStyle, sidebarContentStyle, sidebarStyle } from './style';
+import { getHeadingLevel } from './helpers';
 
 const Sidebar = () => {
   const params = useParams<{ slug: Array<string> }>();
@@ -26,9 +27,9 @@ const Sidebar = () => {
     setHeadings(headingElements);
   }, [params.slug]);
 
-  const getLevel = (nodeName: string) => {
-    return Number(nodeName.replace('H', ''));
-  };
+  const heading2Elements = useMemo(() => {
+    return headings.filter(({ nodeName }) => getHeadingLevel(nodeName) === 2);
+  }, [headings]);
 
   const [visibleSectionId, setVisibleSectionId] = useState<string | null>(null);
 
@@ -65,7 +66,41 @@ const Sidebar = () => {
       return setVisibleSectionId(null);
     }
 
-    setVisibleSectionId(filteredHeadings[0]!.id);
+    if (
+      Boolean(
+        filteredHeadings.find(({ nodeName }) => getHeadingLevel(nodeName) < 3),
+      )
+    ) {
+      setVisibleSectionId(
+        filteredHeadings
+          .filter(({ nodeName }) => getHeadingLevel(nodeName) < 3)
+          .sort(
+            (a, b) => getHeadingLevel(b.nodeName) - getHeadingLevel(a.nodeName),
+          )[0]!.id,
+      );
+    } else {
+      const h3Elements = filteredHeadings.filter(
+        ({ nodeName }) => getHeadingLevel(nodeName) === 3,
+      );
+
+      if (h3Elements.length > 0 && h3Elements[0]) {
+        const firstH3Id = h3Elements[0].id;
+        const firstH3Index = headings.findIndex(({ id }) => id === firstH3Id);
+
+        const closestH2 = headings
+          .slice(0, firstH3Index)
+          .reverse()
+          .find(({ nodeName }) => getHeadingLevel(nodeName) === 2);
+
+        if (closestH2) {
+          setVisibleSectionId(closestH2.id);
+        } else {
+          setVisibleSectionId(null);
+        }
+      } else {
+        setVisibleSectionId(null);
+      }
+    }
   }, 400);
 
   useEffect(() => {
@@ -106,7 +141,7 @@ const Sidebar = () => {
                 On this page
               </Typography>
               <FlexBox flexDirection="column" as="ul">
-                {headings.map(({ id, nodeName, text }) => {
+                {heading2Elements.map(({ id, nodeName, text }) => {
                   return (
                     <Typography
                       variant="label2"
@@ -114,7 +149,7 @@ const Sidebar = () => {
                       color="semantic.label.neutral"
                       as="li"
                       key={id}
-                      data-level={getLevel(nodeName)}
+                      data-level={getHeadingLevel(nodeName)}
                       aria-current={visibleSectionId === id}
                       sx={[sidebarContentStyle, sidebarActiveStyle]}
                     >

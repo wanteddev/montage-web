@@ -3,39 +3,33 @@ import { addOpacity, css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbItemStyle = (theme: Theme) => css`
-  padding-left: 12px;
-  padding-right: 12px;
-  border-radius: 12px;
-
-  & > [wds-component='with-interaction'] {
-    width: 100%;
-    height: 100%;
-  }
-
-  & > p > span {
-    line-height: 24px;
-  }
-
-  &[data-depth='1'] {
-    padding-left: 30px;
-  }
-
-  &[data-depth='2'] {
-    padding-left: 44px;
-  }
+  padding-left: var(--lnb-padding-left);
 
   [data-role='list-text-content'] {
     color: ${theme.semantic.label.alternative};
   }
 
-  &[aria-current='page'] {
-    background-color: ${addOpacity(
-      theme.semantic.primary.normal,
-      theme.opacity[5],
-    )};
+  &[data-depth='0'] {
+    [data-role='list-text-content'] {
+      color: ${theme.semantic.label.normal};
+    }
+
+    &[aria-current='page'] {
+      [data-role='list-text-content'] {
+        color: ${theme.semantic.primary.normal};
+      }
+    }
+  }
+
+  &:not([data-depth='0'])[aria-current='page'] {
+    background-color: ${addOpacity(theme.semantic.primary.normal, 0.09)};
 
     [data-role='list-text-content'] {
       color: ${theme.semantic.primary.normal};
+    }
+
+    & > [wds-component='with-interaction'] {
+      background-color: ${theme.semantic.primary.normal};
     }
   }
 `;

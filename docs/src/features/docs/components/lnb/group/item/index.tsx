@@ -26,12 +26,13 @@ const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
       sx={lnbItemStyle}
       onClick={handleRouteChange}
       active={isActive}
-      verticalPadding="medium"
+      fillWidth
+      verticalPadding={depth === '0' ? 'large' : 'small'}
       data-depth={depth}
       aria-current={isActive ? 'page' : undefined}
       textProps={{
-        variant: depth === '0' ? 'body1' : 'label1',
-        weight: 'medium',
+        variant: depth === '0' ? 'headline2' : 'label1',
+        weight: depth === '0' ? 'bold' : 'medium',
       }}
     >
       {children}
