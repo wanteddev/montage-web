@@ -284,7 +284,7 @@ const modalContainerSize = (
       `;
     case 'large':
       return css`
-        width: 400px;
+        width: 480px;
         min-width: 320px;
         max-width: 100%;
         height: initial;
