@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.3...v2.0.0) (2025-04-30)
+
+### Features
+
+- **wds:** card 컴포넌트 간격 조정 ([#314](https://github.com/wanteddev/wds/issues/314)) ([4c039b6](https://github.com/wanteddev/wds/commit/4c039b6e5e2f619653175fda89be53e226795325))
+- **wds:** card-thumbnail, card-thumbnail-skeleton ratio 커스텀 기능 추가 ([#315](https://github.com/wanteddev/wds/issues/315)) ([369cb20](https://github.com/wanteddev/wds/commit/369cb204ade7227783d2ee99732559b0b203f5fc))
+- **wds:** modal 높이가 작은 디바이스에서 사이즈 대응 및 기본 사이즈 변경 ([#317](https://github.com/wanteddev/wds/issues/317)) ([400cbb7](https://github.com/wanteddev/wds/commit/400cbb7b45936ee9a2cf473e145c8463620a76ba))
+- **wds:** tooltip group 컴포넌트 추가 ([#316](https://github.com/wanteddev/wds/issues/316)) ([0343268](https://github.com/wanteddev/wds/commit/0343268135974011854fb997d4cdd9352f0a2036))
+
 # [2.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2025-04-25)
 
 ### Bug Fixes
