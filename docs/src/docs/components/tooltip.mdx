@@ -32,6 +32,10 @@ export default Demo;`}
 
 ## Props
 
+### TooltipGroup
+
+<PropsTable component="TooltipGroup" />
+
 ### Tooltip
 
 <PropsTable component="Tooltip" />
@@ -46,6 +50,55 @@ export default Demo;`}
 
 
 ## Examples
+
+### TooltipGroup
+
+TooltipGroup을 사용하면 여러 개의 Tooltip을 그룹으로 묶어 자연스럽게 전환할 수 있습니다.
+
+<Demo code={`import { FlexBox, TooltipGroup, Tooltip, TooltipTrigger, TooltipContent, IconButton } from '@wanteddev/wds';
+import { IconCopy, IconTrash, IconRefresh } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="10px">
+      <TooltipGroup>
+        <Tooltip>
+          <TooltipTrigger>
+            <IconButton>
+              <IconCopy />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>
+            복사
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <IconButton>
+              <IconTrash />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>
+            삭제
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <IconButton>
+              <IconRefresh />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>
+            새로고침
+          </TooltipContent>
+        </Tooltip>
+      </TooltipGroup>
+    </FlexBox>
+  );
+};
+
+export default Demo;`}
+/>
 
 ### Action
 

@@ -1,6 +1,8 @@
 import { createContext } from '@radix-ui/react-context';
 
-import { TOOLTIP_NAME } from './constants';
+import createLooseContext from '../../hooks/use-loose-context';
+
+import { TOOLTIP_GROUP_NAME, TOOLTIP_NAME } from './constants';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type {
@@ -26,3 +28,12 @@ type TooltipContextValue = {
 
 export const [TooltipProvider, useTooltipContext] =
   createContext<TooltipContextValue>(TOOLTIP_NAME);
+
+type TooltipGroupContextValue = {
+  onOpen: () => void;
+  onClose: () => void;
+  isOpenWithoutDelayRef: RefObject<boolean>;
+};
+
+export const [TooltipGroupProvider, useTooltipGroupContext] =
+  createLooseContext<TooltipGroupContextValue>(TOOLTIP_GROUP_NAME);

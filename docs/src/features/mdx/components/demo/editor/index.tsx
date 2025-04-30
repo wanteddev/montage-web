@@ -17,6 +17,7 @@ import tsx from 'refractor/lang/tsx';
 import CodeEditor from 'react-simple-code-editor';
 import { useEffect, useRef } from 'react';
 import { Typography } from '@wanteddev/wds';
+import { TooltipGroup } from '@wanteddev/wds';
 
 import { codeBlockStyle } from '../../code-block/style';
 
@@ -97,32 +98,34 @@ const Editor = ({
           {collapsed ? 'Expand code' : 'Collapse code'}
         </ChipAction>
 
-        <CompactTooltip>
-          <CompactTooltipTrigger>
-            <IconButton size={18} onClick={handleCopy}>
-              <IconCopy />
-            </IconButton>
-          </CompactTooltipTrigger>
-          <CompactTooltipContent shortcut="⌘C">Copy</CompactTooltipContent>
-        </CompactTooltip>
+        <TooltipGroup>
+          <CompactTooltip>
+            <CompactTooltipTrigger>
+              <IconButton size={18} onClick={handleCopy}>
+                <IconCopy />
+              </IconButton>
+            </CompactTooltipTrigger>
+            <CompactTooltipContent shortcut="⌘C">Copy</CompactTooltipContent>
+          </CompactTooltip>
 
-        <CompactTooltip>
-          <CompactTooltipTrigger>
-            <IconButton size={18} onClick={reset}>
-              <IconRefresh />
-            </IconButton>
-          </CompactTooltipTrigger>
-          <CompactTooltipContent shortcut="⌘R">Reset</CompactTooltipContent>
-        </CompactTooltip>
+          <CompactTooltip>
+            <CompactTooltipTrigger>
+              <IconButton size={18} onClick={reset}>
+                <IconRefresh />
+              </IconButton>
+            </CompactTooltipTrigger>
+            <CompactTooltipContent shortcut="⌘R">Reset</CompactTooltipContent>
+          </CompactTooltip>
 
-        <CompactTooltip>
-          <CompactTooltipTrigger>
-            <IconButton size={18} onClick={() => setHatched((prev) => !prev)}>
-              <IconImage />
-            </IconButton>
-          </CompactTooltipTrigger>
-          <CompactTooltipContent>Change Background</CompactTooltipContent>
-        </CompactTooltip>
+          <CompactTooltip>
+            <CompactTooltipTrigger>
+              <IconButton size={18} onClick={() => setHatched((prev) => !prev)}>
+                <IconImage />
+              </IconButton>
+            </CompactTooltipTrigger>
+            <CompactTooltipContent>Change Background</CompactTooltipContent>
+          </CompactTooltip>
+        </TooltipGroup>
       </FlexBox>
       {children}
       <Typography
