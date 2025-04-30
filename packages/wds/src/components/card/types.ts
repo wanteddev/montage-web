@@ -50,7 +50,7 @@ export type CardContentItemProps = Merge<
 >;
 
 type CardCaptionSkeletonDefaultProps = {
-  type?: 'normal' | 'extra';
+  type?: 'normal' | 'extra' | 'sub';
   children?: ReactNode;
 };
 export type CardCaptionSkeletonProps = Merge<
