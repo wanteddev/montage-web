@@ -6,18 +6,8 @@ export const lnbAccordionStyle = css`
   padding: 4px 0px 24px;
 `;
 
-export const accordionSummaryStyle = (theme: Theme) => css`
+export const accordionSummaryStyle = css`
   padding-left: var(--lnb-padding-left);
-
-  [data-role='list-text-content'] {
-    color: ${theme.semantic.label.normal};
-  }
-
-  &[data-active='true'] {
-    [data-role='list-text-content'] {
-      color: ${theme.semantic.primary.normal};
-    }
-  }
 `;
 
 export const accordionIconContentStyle = css`

@@ -37,7 +37,6 @@
     "refractor": "^4.8.1",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^3.0.1",
-    "remark-slug": "^7.0.1",
     "shelljs": "^0.8.5",
     "sucrase": "^3.35.0",
     "unist-util-visit": "^5.0.0"

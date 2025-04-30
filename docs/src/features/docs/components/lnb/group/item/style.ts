@@ -13,12 +13,6 @@ export const lnbItemStyle = (theme: Theme) => css`
     [data-role='list-text-content'] {
       color: ${theme.semantic.label.normal};
     }
-
-    &[aria-current='page'] {
-      [data-role='list-text-content'] {
-        color: ${theme.semantic.primary.normal};
-      }
-    }
   }
 
   &:not([data-depth='0'])[aria-current='page'] {
