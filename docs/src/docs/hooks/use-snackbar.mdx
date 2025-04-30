@@ -43,7 +43,7 @@ export default Demo;`}
 ## Props
 
 <PropsTable component="useSnackbar" fallback={[
-{ name: 'duration', types: 'number | undefined', defaultValue: 5000 },
+{ name: 'duration', types: 'number | "short" | "long" | undefined', defaultValue: 'short' },
 { name: 'variant', types: '\"normal\" | undefined', defaultValue: 'normal' },
 { name: 'title', types: 'ReactNode' },
 { name: 'description', types: 'ReactNode' },
