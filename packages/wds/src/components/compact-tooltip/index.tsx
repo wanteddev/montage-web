@@ -36,6 +36,7 @@ const CompactTooltipContent = forwardRef<
       offset = 4,
       animationDuration = 250,
       referenceHidden = false,
+      referenceHiddenOffsets,
       setContext,
       ...props
     },
@@ -49,6 +50,7 @@ const CompactTooltipContent = forwardRef<
         disablePortal={disablePortal}
         animationDuration={animationDuration}
         referenceHidden={referenceHidden}
+        referenceHiddenOffsets={referenceHiddenOffsets}
         setContext={setContext}
         ref={ref}
         __wdsCustomChildren={
