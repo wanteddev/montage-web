@@ -23,6 +23,8 @@ export const useTooltip = ({
   const openTimerRef = useRef(0);
   const closeTimerRef = useRef(0);
 
+  const isMouseDownTriggered = useRef(false);
+
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
     defaultProp: defaultOpen,
@@ -111,10 +113,12 @@ export const useTooltip = ({
 
   const handleFocus: FocusEventHandler<any> = useCallback(() => {
     if (!disableOpenOnFocus && mode === 'hover') {
-      if (!latestOpen.current) {
+      if (!latestOpen.current && !isMouseDownTriggered.current) {
         handleOpen(0);
       }
     }
+
+    isMouseDownTriggered.current = false;
   }, [handleOpen, mode, disableOpenOnFocus]);
 
   const handleBlur: FocusEventHandler<any> = useCallback(() => {
@@ -127,17 +131,14 @@ export const useTooltip = ({
 
   const handleMouseDown: (
     event: PointerDownOutsideEvent | MouseEvent<any>,
-  ) => void = useCallback(
-    (e) => {
-      e.preventDefault();
-      if (mode === 'hover' && !disableCloseOnPointDown) {
-        setOpen(false);
-        window.clearTimeout(openTimerRef.current);
-        window.clearTimeout(closeTimerRef.current);
-      }
-    },
-    [mode, setOpen, disableCloseOnPointDown],
-  );
+  ) => void = useCallback(() => {
+    if (mode === 'hover' && !disableCloseOnPointDown) {
+      isMouseDownTriggered.current = true;
+      setOpen(false);
+      window.clearTimeout(openTimerRef.current);
+      window.clearTimeout(closeTimerRef.current);
+    }
+  }, [mode, setOpen, disableCloseOnPointDown]);
 
   const handleDismiss = useCallback(() => {
     if (latestOpen.current) {
