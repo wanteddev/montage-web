@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useTooltipGroupContext } from './contexts';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
-import type { FocusEventHandler, MouseEvent, MouseEventHandler } from 'react';
+import type { MouseEvent, MouseEventHandler } from 'react';
 import type { TooltipProps } from './types';
 
 export const useTooltip = ({
@@ -24,6 +24,8 @@ export const useTooltip = ({
   const closeTimerRef = useRef(0);
 
   const isMouseDownTriggered = useRef(false);
+
+  const triggerRef = useRef<HTMLElement>(null);
 
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
@@ -53,6 +55,8 @@ export const useTooltip = ({
         openTimerRef.current = window.setTimeout(() => {
           setOpen(true);
         }, overrideDelay ?? enterDelay);
+      } else {
+        setOpen(false);
       }
     },
     [enterDelay, setOpen, mode],
@@ -66,6 +70,8 @@ export const useTooltip = ({
         closeTimerRef.current = window.setTimeout(async () => {
           setOpen(false);
         }, overrideDelay ?? leaveDelay);
+      } else {
+        setOpen(false);
       }
     },
     [leaveDelay, setOpen, mode],
@@ -81,9 +87,9 @@ export const useTooltip = ({
     };
   }, []);
 
-  const handleMouseOver: MouseEventHandler<any> = useCallback(
+  const handleMouseOver: MouseEventHandler<HTMLElement> = useCallback(
     (e) => {
-      if (e.type === 'touchstart') {
+      if (e.type === 'touchstart' || mode !== 'hover') {
         return;
       }
 
@@ -93,12 +99,12 @@ export const useTooltip = ({
         handleOpen();
       }
     },
-    [handleOpen, groupContext],
+    [handleOpen, groupContext, mode],
   );
 
-  const handleMouseLeave: MouseEventHandler<any> = useCallback(
+  const handleMouseLeave: MouseEventHandler<HTMLElement> = useCallback(
     (e) => {
-      if (e.type === 'touchstart') {
+      if (e.type === 'touchstart' || mode !== 'hover') {
         return;
       }
 
@@ -108,20 +114,22 @@ export const useTooltip = ({
         handleClose();
       }
     },
-    [handleClose, groupContext],
+    [handleClose, groupContext, mode],
   );
 
-  const handleFocus: FocusEventHandler<any> = useCallback(() => {
-    if (!disableOpenOnFocus && mode === 'hover') {
-      if (!latestOpen.current && !isMouseDownTriggered.current) {
-        handleOpen(0);
-      }
+  const handleFocus = useCallback(() => {
+    if (disableOpenOnFocus || mode !== 'hover') {
+      return;
+    }
+
+    if (!latestOpen.current && !isMouseDownTriggered.current) {
+      handleOpen(0);
     }
 
     isMouseDownTriggered.current = false;
   }, [handleOpen, mode, disableOpenOnFocus]);
 
-  const handleBlur: FocusEventHandler<any> = useCallback(() => {
+  const handleBlur = useCallback(() => {
     if (mode === 'hover') {
       if (latestOpen.current) {
         handleClose(0);
@@ -129,15 +137,15 @@ export const useTooltip = ({
     }
   }, [mode, handleClose]);
 
-  const handleMouseDown: (
-    event: PointerDownOutsideEvent | MouseEvent<any>,
-  ) => void = useCallback(() => {
-    if (mode === 'hover' && !disableCloseOnPointDown) {
-      isMouseDownTriggered.current = true;
-      setOpen(false);
-      window.clearTimeout(openTimerRef.current);
-      window.clearTimeout(closeTimerRef.current);
+  const handleMouseDown = useCallback(() => {
+    if (mode !== 'hover' || disableCloseOnPointDown) {
+      return;
     }
+
+    isMouseDownTriggered.current = true;
+    setOpen(false);
+    window.clearTimeout(openTimerRef.current);
+    window.clearTimeout(closeTimerRef.current);
   }, [mode, setOpen, disableCloseOnPointDown]);
 
   const handleDismiss = useCallback(() => {
@@ -148,7 +156,33 @@ export const useTooltip = ({
     }
   }, [setOpen]);
 
+  const handleClick = useCallback(
+    (e: MouseEvent<HTMLElement>) => {
+      if (
+        latestOpen.current ||
+        mode !== 'click' ||
+        e.currentTarget.ariaDisabled?.toString() === 'true' ||
+        e.currentTarget.getAttribute('disabled')?.toString() === 'true'
+      ) {
+        return;
+      }
+
+      setOpen(!open);
+    },
+    [setOpen, mode, open],
+  );
+
+  const handlePointerDownOutside = useCallback((e: PointerDownOutsideEvent) => {
+    if (
+      e.currentTarget &&
+      triggerRef.current?.contains(e.currentTarget as HTMLElement)
+    ) {
+      e.preventDefault();
+    }
+  }, []);
+
   return {
+    triggerRef,
     containerRef,
     open,
     handleMouseOver,
@@ -156,6 +190,8 @@ export const useTooltip = ({
     handleFocus,
     handleBlur,
     handleMouseDown,
+    handleClick,
     handleDismiss,
+    handlePointerDownOutside,
   };
 };
