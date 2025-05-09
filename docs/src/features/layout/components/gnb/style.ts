@@ -37,8 +37,8 @@ export const searchFieldStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.xl)} {
-    width: calc((100dvw - 240px - 840px) / 2 - 20px);
-    max-width: 600px;
+    width: calc((100dvw - 240px - 840px - 32px) / 2);
+    max-width: 480px;
   }
 `;
 
