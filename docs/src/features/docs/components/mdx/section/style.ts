@@ -47,7 +47,7 @@ export const sectionFigureThumbnailStyle = (theme: Theme) => css`
 export const sectionFigureVariantStyle =
   (variant: 'positive' | 'negative') => (theme: Theme) => css`
     padding: 20px;
-
+    border-radius: 6px;
     background-color: ${addOpacity(
       variant === 'positive'
         ? theme.semantic.status.positive
