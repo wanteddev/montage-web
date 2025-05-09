@@ -75,7 +75,7 @@ const SearchOption = ({ item, ...props }: Props) => {
                 <IconArrowTurnDownRight />
               </ListCellContent>
             ) : (
-              <ListCellContent variant="large-icon" height="56px">
+              <ListCellContent variant="large-icon">
                 {renderIcon(item)}
               </ListCellContent>
             )}
@@ -173,11 +173,11 @@ const SearchOption = ({ item, ...props }: Props) => {
       leadingContent={
         <>
           {Boolean(item.__docsearch_parent) ? (
-            <ListCellContent variant="icon" height="24px">
+            <ListCellContent variant="icon">
               <IconArrowTurnDownRight />
             </ListCellContent>
           ) : (
-            <ListCellContent variant="large-icon" height="56px">
+            <ListCellContent variant="large-icon">
               {renderIcon(item)}
             </ListCellContent>
           )}
