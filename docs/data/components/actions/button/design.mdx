@@ -6,7 +6,7 @@ createdAt: 2025-04-03
 ---
 
 <Anatomy
-  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+  src="/components/actions/button/design/image-1.png"
   data={[
     'Leading Icon',
     'Label',
@@ -16,7 +16,8 @@ createdAt: 2025-04-03
 />
 
 <SectionStates
-  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+  src="/components/actions/button/design/image-2.png"
+  ratio="3:2"
   options={['Normal','Hovered','Focused', 'Pressed', 'Disabled']}
 />
 
@@ -24,16 +25,17 @@ createdAt: 2025-04-03
   <SectionFigure
     title="Size Customize"
     description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    src="/components/actions/button/design/image-3.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Loading">
   <SectionFigure
+    ratio="16:10"
     title="Button Loading"
     description="파일 업로드와 같이 간단한 로딩 상태를 표현할 때 사용합니다.
 로딩 중 페이지 이탈을 통해 동작을 중단할 수 있습니다."
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    src="/components/actions/button/design/image-4.png"
   />
 </SectionLayout>
 
@@ -42,7 +44,7 @@ createdAt: 2025-04-03
     <SectionFigure
       title="Icon Only"
       description="라벨 버튼과 별도의 가벼운 행동을 제시할 때 Icon Only를 사용합니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-5.png"
     />
 
     <SectionFigure
@@ -50,7 +52,7 @@ createdAt: 2025-04-03
       description="Leading Icon - 버튼 라벨의 추가 설명을 도울 때 사용합니다.
 Trailing Icon - 버튼의 행동 자체를 강하게 유도할 때 사용합니다.
 Leading, Trailing Icon을 함께 사용하지 않습니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-6.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -61,7 +63,8 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
       title="Meet the conditions"
       description="기준 값이 충족될 때 버튼의 상태가 Inactive → Active로 변경됩니다.
 값은 프로젝트 내의 스펙에 따라 자유롭게 지정할 수 있습니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-7.png"
+      ratio="16:10"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Toggle Button">
@@ -69,7 +72,8 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
       title="Changing Button Type"
       description="버튼을 눌렀을 때 버튼이 변경됩니다. CTA를 유도한 이후에 주목도를 떨어뜨리기 위해 사용하는 용도로 사용합니다.
 변경되는 버튼의 타입은 자유롭지만 사용자에게 의도의 혼란을 줄 수 있는 여지가 있는 Primary → Primary의 변경은 지양합니다. (e.g., Outlined/Primary → Solid/Primary)"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-8.png"
+      ratio="16:10"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -77,31 +81,23 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
 <SectionHierarchy>
   <SectionHierarchyItem
     level={4}
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
     description="가장 중요한 메인 행동을 유도 및 제안합니다."
-    width="140px"
-    height="48px"
+    render={`import { Button } from '@wanteddev/wds';export default () => <Button sx={{width:140}}>Primary</Button>;`}
   />
   <SectionHierarchyItem
     level={3}
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
     description="미리보기, 임시 저장 등 대체 행동을 제안합니다."
-    width="140px"
-    height="48px"
+    render={`import { Button } from '@wanteddev/wds';export default () => <Button variant="outlined" color="secondary" sx={{width:140}}>Alternative</Button>`}
   />
   <SectionHierarchyItem
     level={2}
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
     description="Toggle Button을 보조합니다."
-    width="140px"
-    height="48px"
+    render={`import { Button } from '@wanteddev/wds';export default () => <Button variant="solid" color="assistive" sx={{width:140}}>Assistive</Button>`}
   />
   <SectionHierarchyItem
     level={1}
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
     description="닫기, 취소, 돌아가기 등 보조 행동을 제시합니다."
-    width="140px"
-    height="48px"
+    render={`import { Button } from '@wanteddev/wds';export default () => <Button variant="outlined" color="assistive" sx={{width:140}}>Assistive</Button>`}
   />
 </SectionHierarchy>
 
@@ -110,7 +106,8 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
     <SectionFigure
       title="Vertical"
       description="세로 배열로 버튼 라벨이 길거나 메인과 서브 버튼의 비중이 명확하게 차이가 나거나 유도의 목적이 분명할 때 사용합니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-9.png"
+      ratio="4:3"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Priority: Neutral">
@@ -118,7 +115,8 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
       title="Horizontal"
       description="버튼의 라벨이 짧고 명료하거나 버튼의 역할나 행동이 비등한 케이스에서 사용합니다.
 주요 버튼은 오른손 엄지의 접근이 용이한 오른쪽에 하단에 배치하는 것을 권장합니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-10.png"
+      ratio="4:3"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -129,14 +127,14 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
       title="Usage"
       description="키보드 위에서 Sticky 할 시 Action Area를 활용하며 Sticky 옵션을 활성화하여 사용합니다.
   키보드의 자체의 액션버튼과 이중으로 함께 디자인하지 않도록 주의합니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-11.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Action Area">
     <SectionFigure
       title="Usage"
       description="Action Area는 화면 내에서 가장 높은 위계를 갖고 있으며 페이지 혹은 모달의 하단에 고정 되어 유저의 접근을 용이하게 할 때 사용합니다. Caption과 Extra 옵션을 활용하여 버튼과 밀접한 메시지나 콘텐츠를 함께 Sticky 시킬 수 있습니다."
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+      src="/components/actions/button/design/image-12.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -145,12 +143,12 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
   <SectionFigure
     variant="positive"
     description="Solid 타입의 커스텀을 통해 Distructive Button을 표현할 수 있습니다."
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    src="/components/actions/button/design/image-13.png"
   />
   <SectionFigure
     variant="negative"
     description="버튼의 높이, 둥글기를 임의로 변경하지 않습니다."
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    src="/components/actions/button/design/image-14.png"
   />
   
 </SectionLayout>

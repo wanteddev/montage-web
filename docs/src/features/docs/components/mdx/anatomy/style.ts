@@ -38,14 +38,14 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
   color: ${theme.semantic.label.normal};
 `;
 
-export const anatomyThumbnailStyle = css`
+export const anatomyThumbnailStyle = (theme: Theme) => css`
   width: 100%;
-  border-radius: 20px;
+  border-radius: 6px;
   overflow: hidden;
+  border: 1px solid ${theme.semantic.line.normal.alternative};
 
   img {
-    object-fit: contain;
-    border-radius: 20px;
+    border-radius: initial;
     overflow: hidden;
     aspect-ratio: inherit;
   }

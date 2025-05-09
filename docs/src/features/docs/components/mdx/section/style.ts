@@ -32,18 +32,17 @@ export const sectionFigureStyle = css`
   }
 `;
 
-export const sectionFigureThumbnailStyle =
-  (border?: boolean) => (theme: Theme) => css`
-    width: 100%;
-    margin-bottom: 24px;
-    border-radius: 20px;
-    overflow: hidden;
+export const sectionFigureThumbnailStyle = (theme: Theme) => css`
+  width: 100%;
+  margin-bottom: 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid ${theme.semantic.line.normal.alternative};
 
-    ${border &&
-    css`
-      border: 1px solid ${theme.semantic.line.normal.normal};
-    `}
-  `;
+  img {
+    border-radius: initial;
+  }
+`;
 
 export const sectionFigureVariantStyle =
   (variant: 'positive' | 'negative') => (theme: Theme) => css`

@@ -1,5 +1,4 @@
 import {
-  Box,
   ContentBadge,
   Divider,
   FlexBox,
@@ -12,11 +11,14 @@ import {
   type PropsWithChildren,
   useId,
 } from 'react';
+import * as React from 'react';
+import * as Wds from '@wanteddev/wds';
 import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
 
 import HeadingLink from '../heading-link';
 import { inlineCodeStyle } from '../code-block/style';
 import { anatomyItemPinStyle, anatomyItemStyle } from '../anatomy/style';
+import { useRunner } from '../demo/react-runner';
 
 import {
   customizeStyle,
@@ -61,6 +63,7 @@ const Description = ({ content }: DescriptionProps) => {
       weight="regular"
       as="p"
       color="semantic.label.neutral"
+      sx={{ marginBottom: '0 !important' }}
     >
       {content.split('\n').map((v, i) => (
         <Fragment key={i}>
@@ -129,7 +132,6 @@ type SectionFigureProps = {
   src?: string;
   ratio?: ComponentProps<typeof Thumbnail>['ratio'];
   portrait?: ComponentProps<typeof Thumbnail>['portrait'];
-  border?: boolean;
   variant?: 'positive' | 'negative';
 };
 
@@ -138,7 +140,6 @@ const SectionFigure = ({
   portrait,
   title,
   src,
-  border,
   description,
   variant,
 }: SectionFigureProps) => {
@@ -153,10 +154,7 @@ const SectionFigure = ({
           alt="thumbnail"
           disableOptimize
           width="100%"
-          sx={[
-            sectionFigureThumbnailStyle(border),
-            variant && { marginBottom: 12 },
-          ]}
+          sx={[sectionFigureThumbnailStyle, variant && { marginBottom: 12 }]}
           ratio={ratio}
           radius
           portrait={portrait}
@@ -216,7 +214,6 @@ type SectionStatesProps = {
   src?: string;
   ratio?: ComponentProps<typeof Thumbnail>['ratio'];
   portrait?: ComponentProps<typeof Thumbnail>['portrait'];
-  border?: boolean;
 };
 
 const SectionStates = ({
@@ -225,7 +222,6 @@ const SectionStates = ({
   ratio = '21:9',
   portrait,
   src,
-  border,
 }: SectionStatesProps) => {
   return (
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
@@ -241,7 +237,7 @@ const SectionStates = ({
             alt="component states"
             disableOptimize
             width="100%"
-            sx={sectionFigureThumbnailStyle(border)}
+            sx={sectionFigureThumbnailStyle}
             ratio={ratio}
             portrait={portrait}
           />
@@ -336,18 +332,28 @@ const SectionHierarchy = ({ children }: PropsWithChildren) => {
 type SectionHierarchyItemProps = {
   level: number;
   description: string;
-  src?: string;
-  width?: number | string;
-  height?: number | string;
+  render?: string;
 };
 
 const SectionHierarchyItem = ({
   level,
   description,
-  src,
-  width,
-  height,
+  render,
 }: SectionHierarchyItemProps) => {
+  const scope = React.useMemo(() => {
+    return {
+      import: {
+        react: React,
+        '@wanteddev/wds': Wds,
+      },
+    };
+  }, []);
+
+  const { element } = useRunner({
+    code: render ?? '',
+    scope,
+  });
+
   return (
     <FlexBox sx={sectionHierarchyItemStyle}>
       <ContentBadge
@@ -359,15 +365,7 @@ const SectionHierarchyItem = ({
         L{level}
       </ContentBadge>
 
-      {src && (
-        <Box
-          as="img"
-          alt={`hierarchy lvl${level}`}
-          src={src}
-          width={width}
-          height={height}
-        />
-      )}
+      {element}
 
       <Description content={description} />
     </FlexBox>
