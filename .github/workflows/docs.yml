@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - feature/sh031224/deploy-actions
 
 env:
   PRETEXT: ''
