@@ -27,12 +27,18 @@ export const searchFieldStyle = (theme: Theme) => css`
   border-radius: 12px;
   padding: 8px 10px;
   width: 280px;
+  align-items: center;
   position: relative;
   color: ${theme.semantic.label.assistive};
   font-size: 20px;
 
   ${respondTo(theme.breakpoint.sm)} {
     display: none;
+  }
+
+  ${respondMore(theme.breakpoint.xl)} {
+    width: calc((100dvw - 240px - 840px) / 2 - 20px);
+    max-width: 600px;
   }
 `;
 
