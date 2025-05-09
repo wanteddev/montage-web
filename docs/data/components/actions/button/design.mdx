@@ -1,12 +1,12 @@
 ---
 title: Button
-description: 사용자의 행동을 제공하는 요소로 간결하고 직관으로 행동을 유도 및 제안해요.
+description: 버튼(Buttons)은 작업을 수행하는데 사용되는 클릭 가능한 컴포넌트입니다.\n주로 콘텐츠 혹은 화면의 하단 영역에 배치되며 다양한 방식으로 콘텐츠와 함께\n상호 작용할 수 있도록 돕습니다.
 image: /components/actions/button/design/thumbnail.png
 createdAt: 2025-04-03
 ---
 
 <Anatomy
-  src="/components/actions/button/design/anatomy.png"
+  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
   data={[
     'Leading Icon',
     'Label',
@@ -15,97 +15,155 @@ createdAt: 2025-04-03
   ]}
 />
 
-<SectionLayout title="종류">
+<SectionStates
+  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+  options={['Normal','Hovered','Focused', 'Pressed', 'Disabled']}
+/>
+
+<SectionLayout title="Size">
   <SectionFigure
-    title="Solid"
-    description="화면 내에서 가장 중요 행동을 유도합니다."
-    src="/components/actions/button/design/section-1-1.png"
-    ratio="1:1"
-    border
-  />
-  <SectionFigure
-    title="Outlined"
-    description="차선 행동이나 보조 행동을 유도합니다."
-    src="/components/actions/button/design/section-1-2.png"
-    ratio="1:1"
-    border
+    title="Size Customize"
+    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
   />
 </SectionLayout>
 
-<SectionLayout title="활용">
+<SectionLayout title="Loading">
   <SectionFigure
-    title="라벨과 아이콘의 활용"
-    description="라벨과 아이콘 요소를 함께 쓰거나 단독으로 사용할 수 있어요."
-    src="/components/actions/button/design/section-2-1.png"
-    ratio="2:1"
+    title="Button Loading"
+    description="파일 업로드와 같이 간단한 로딩 상태를 표현할 때 사용합니다.
+로딩 중 페이지 이탈을 통해 동작을 중단할 수 있습니다."
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
   />
 </SectionLayout>
 
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Icon Only">
+    <SectionFigure
+      title="Icon Only"
+      description="라벨 버튼과 별도의 가벼운 행동을 제시할 때 Icon Only를 사용합니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
 
-<SectionLayout title="동작" direction="column">
-  <SectionFigure
-    title="Conditional Button"
-    description="입력 값이 충족 되면 Inactive -> Active로 상태값이 변해요."
-    src="/components/actions/button/design/section-3-1.png"
-    ratio="2:1"
-  />
-   <SectionFigure
-    title="Toggle Button"
-    description="버튼을 클릭하면 스타일 및 타입이 변해요."
-    src="/components/actions/button/design/section-3-2.png"
-    ratio="2:1"
-  />
+    <SectionFigure
+      title="Label with Icon"
+      description="Leading Icon - 버튼 라벨의 추가 설명을 도울 때 사용합니다.
+Trailing Icon - 버튼의 행동 자체를 강하게 유도할 때 사용합니다.
+Leading, Trailing Icon을 함께 사용하지 않습니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="크기">
-  <SectionFigure
-    src="/components/actions/button/design/section-4-1.png"
-    ratio="2:1"
-  />
+<SectionLayout title="Application">
+  <SectionFigureGroup title="Conditional Button">
+    <SectionFigure
+      title="Meet the conditions"
+      description="기준 값이 충족될 때 버튼의 상태가 Inactive → Active로 변경됩니다.
+값은 프로젝트 내의 스펙에 따라 자유롭게 지정할 수 있습니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Toggle Button">
+    <SectionFigure
+      title="Changing Button Type"
+      description="버튼을 눌렀을 때 버튼이 변경됩니다. CTA를 유도한 이후에 주목도를 떨어뜨리기 위해 사용하는 용도로 사용합니다.
+변경되는 버튼의 타입은 자유롭지만 사용자에게 의도의 혼란을 줄 수 있는 여지가 있는 Primary → Primary의 변경은 지양합니다. (e.g., Outlined/Primary → Solid/Primary)"
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="상태">
-  <SectionFigure
-    src="/components/actions/button/design/section-5-1.png"
-    ratio="2:1"
+<SectionHierarchy>
+  <SectionHierarchyItem
+    level={4}
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    description="가장 중요한 메인 행동을 유도 및 제안합니다."
+    width="140px"
+    height="48px"
   />
+  <SectionHierarchyItem
+    level={3}
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    description="미리보기, 임시 저장 등 대체 행동을 제안합니다."
+    width="140px"
+    height="48px"
+  />
+  <SectionHierarchyItem
+    level={2}
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    description="Toggle Button을 보조합니다."
+    width="140px"
+    height="48px"
+  />
+  <SectionHierarchyItem
+    level={1}
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    description="닫기, 취소, 돌아가기 등 보조 행동을 제시합니다."
+    width="140px"
+    height="48px"
+  />
+</SectionHierarchy>
+
+<SectionLayout title="Button Layout">
+  <SectionFigureGroup title="Priority: Strong">
+    <SectionFigure
+      title="Vertical"
+      description="세로 배열로 버튼 라벨이 길거나 메인과 서브 버튼의 비중이 명확하게 차이가 나거나 유도의 목적이 분명할 때 사용합니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Priority: Neutral">
+    <SectionFigure
+      title="Horizontal"
+      description="버튼의 라벨이 짧고 명료하거나 버튼의 역할나 행동이 비등한 케이스에서 사용합니다.
+주요 버튼은 오른손 엄지의 접근이 용이한 오른쪽에 하단에 배치하는 것을 권장합니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="로딩">
-  <SectionFigure
-    src="/components/actions/button/design/section-6-1.png"
-    ratio="2:1"
-    title="로딩 중 페이지 이동"
-    description="버튼 로딩 시 페이지의 이동을 제한하지 않아요."
-  />
+<SectionLayout title="Sticky">
+  <SectionFigureGroup title="Keyboard">
+    <SectionFigure
+      title="Usage"
+      description="키보드 위에서 Sticky 할 시 Action Area를 활용하며 Sticky 옵션을 활성화하여 사용합니다.
+  키보드의 자체의 액션버튼과 이중으로 함께 디자인하지 않도록 주의합니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Action Area">
+    <SectionFigure
+      title="Usage"
+      description="Action Area는 화면 내에서 가장 높은 위계를 갖고 있으며 페이지 혹은 모달의 하단에 고정 되어 유저의 접근을 용이하게 할 때 사용합니다. Caption과 Extra 옵션을 활용하여 버튼과 밀접한 메시지나 콘텐츠를 함께 Sticky 시킬 수 있습니다."
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="변경 가능 요소">
-  <SectionCustomize
-    data={[
-      {
-        key: 'Solid Button',
-        options: ['contentColor', 'backgroundColor']
-      },
-      {
-        key: 'Outlined Button',
-        options: ['contentColor', 'backgroundColor', 'borderColor']
-      }
-    ]}
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="Solid 타입의 커스텀을 통해 Distructive Button을 표현할 수 있습니다."
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
   />
+  <SectionFigure
+    variant="negative"
+    description="버튼의 높이, 둥글기를 임의로 변경하지 않습니다."
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs36FPauWr5ThiHVfVAa6zQHTsIN33mYKShg&s"
+  />
+  
 </SectionLayout>
 
-<SectionLayout title="사용법">
-  <SectionFigure
-    src="/components/actions/button/design/section-7-1.png"
-    ratio="1:1"
-    title="권장해요."
-    description="버튼과 아이콘버튼을 함께 쓴다면 ‘Icon Only’를 쓸 수 있어요."
-  />
-  <SectionFigure
-    src="/components/actions/button/design/section-7-2.png"
-    ratio="1:1"
-    title="하지 마세요."
-    description="버튼의 높이, 둥글기를 임의로 변경하지 마세요."
-  />
-</SectionLayout>
+<SectionCustomize
+  data={[
+    {
+      key: 'Solid Button',
+      options: ['contentColor', 'backgroundColor']
+    },
+    {
+      key: 'Outlined Button',
+      options: ['contentColor', 'backgroundColor', 'borderColor']
+    },
+  ]}
+/>

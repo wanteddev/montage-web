@@ -3,6 +3,8 @@ import { css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const anatomyWrapperStyle = css`
+  margin-bottom: 120px;
+
   && {
     h1,
     h2,
@@ -17,16 +19,10 @@ export const anatomyWrapperStyle = css`
   }
 `;
 
-export const anatomyStyle = css`
-  margin-bottom: 16px;
-  flex: 1 0 auto;
-`;
-
 export const anatomyItemStyle = css`
   padding: 4px 0px;
-  width: 46%;
-  min-width: 100px;
-  max-width: 500px;
+  width: 320px;
+  max-width: 100%;
 `;
 
 export const anatomyItemPinStyle = (theme: Theme) => css`
@@ -38,7 +34,7 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: ${theme.semantic.fill.strong};
+  background: ${theme.semantic.fill.normal};
   color: ${theme.semantic.label.normal};
 `;
 
@@ -51,5 +47,6 @@ export const anatomyThumbnailStyle = css`
     object-fit: contain;
     border-radius: 20px;
     overflow: hidden;
+    aspect-ratio: inherit;
   }
 `;

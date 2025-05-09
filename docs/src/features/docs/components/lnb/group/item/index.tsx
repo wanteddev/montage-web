@@ -30,6 +30,7 @@ const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
       verticalPadding={depth === '0' ? 'large' : 'small'}
       data-depth={depth}
       aria-current={isActive ? 'page' : undefined}
+      disableInteraction={depth === '0'}
       textProps={{
         variant: depth === '0' ? 'headline2' : 'label1',
         weight: depth === '0' ? 'bold' : 'medium',

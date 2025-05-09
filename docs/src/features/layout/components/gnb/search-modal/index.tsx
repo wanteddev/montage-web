@@ -61,7 +61,6 @@ export const DocSearchModal = ({
     <Modal {...props} open={open} onOpenChange={onOpenChange}>
       <ModalContainer
         variant="full"
-        size="normal"
         md={{
           variant: 'popup',
           size: 'large',

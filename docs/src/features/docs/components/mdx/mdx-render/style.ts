@@ -4,8 +4,8 @@ import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
   padding-right: 1px;
-  color: ${theme.semantic.label.normal};
-  ${typographyStyle('body1', 'regular')}
+  color: ${theme.semantic.label.neutral};
+  ${typographyStyle('body2-reading', 'regular')}
 
   & > :not(:is([data-role="demo"])) {
     word-break: keep-all;
@@ -55,6 +55,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     h5,
     :is(h6),
     h6 {
+      color: ${theme.semantic.label.normal};
       scroll-margin-top: calc(var(--gnb-height) + 56px);
     }
 
@@ -66,7 +67,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h1),
     h1 {
       margin-top: 32px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       padding-top: 32px;
       border-top: 1px solid ${theme.semantic.line.normal.alternative};
     }
@@ -74,7 +75,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h2),
     h2 {
       margin-top: 32px;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
       padding-top: 32px;
       border-top: 1px solid ${theme.semantic.line.normal.alternative};
 
@@ -88,7 +89,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h3),
     h3 {
       margin-top: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     :is(h4),
@@ -100,13 +101,13 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h5),
     h5 {
       margin-top: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     :is(h6),
     h6 {
       margin-top: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     :is(ol),

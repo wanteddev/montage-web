@@ -19,9 +19,12 @@ import Anatomy from '../anatomy';
 import Note from '../note';
 import {
   SectionCustomize,
-  SectionDivider,
   SectionFigure,
+  SectionFigureGroup,
+  SectionHierarchy,
+  SectionHierarchyItem,
   SectionLayout,
+  SectionStates,
 } from '../section';
 import DocsCollection from '../docs-collection';
 
@@ -29,21 +32,14 @@ import type { ReactNode } from 'react';
 
 export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   h1: (props) => (
-    <Typography
-      {...props}
-      variant="display2"
-      display="block"
-      weight="bold"
-      as="h1"
-    />
+    <Typography {...props} variant="title1" weight="bold" as="h1" />
   ),
   h2: ({ children, id, ...props }) => (
     <Typography
       {...props}
       data-heading=""
-      variant="display3"
+      variant="title3"
       weight="bold"
-      display="block"
       as="h2"
       id={id}
     >
@@ -54,8 +50,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
     <Typography
       {...props}
       data-heading=""
-      variant="title3"
-      display="block"
+      variant="heading2"
       weight="bold"
       as="h3"
       id={id}
@@ -94,8 +89,8 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       {...props}
       data-heading=""
       display="block"
-      variant="label1"
-      weight="bold"
+      variant="label2"
+      weight="medium"
       as="h6"
       color="semantic.label.alternative"
       id={id}
@@ -120,9 +115,12 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   Anatomy,
   Note,
   SectionLayout,
+  SectionFigureGroup,
   SectionFigure,
-  SectionDivider,
+  SectionStates,
   SectionCustomize,
+  SectionHierarchy,
+  SectionHierarchyItem,
   DocsCollection,
   table: Table,
   tr: TableRow,

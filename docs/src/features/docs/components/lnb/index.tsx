@@ -18,7 +18,7 @@ const Lnb = () => {
         flexDirection="column"
         gap="20px"
       >
-        <FlexBox as="nav" flexDirection="column">
+        <FlexBox as="nav" flexDirection="column" justifyContent="center">
           {frontmatters.map((frontmatter, i) => {
             return (
               <Fragment
@@ -31,7 +31,10 @@ const Lnb = () => {
                 <LnbGroup frontmatter={frontmatter} />
 
                 {i < frontmatters.length - 1 && (
-                  <Divider color="semantic.line.solid.alternative" />
+                  <Divider
+                    color="semantic.line.solid.alternative"
+                    size="calc(100% + 16px)"
+                  />
                 )}
               </Fragment>
             );

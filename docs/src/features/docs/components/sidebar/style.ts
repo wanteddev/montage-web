@@ -1,61 +1,42 @@
-import { css, respondTo } from '@wanteddev/wds';
+import { css, respondMore } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const sidebarStyle = css`
-  width: 160px;
+export const sidebarStyle = (theme: Theme) => css`
+  width: 144px;
   box-sizing: content-box;
   position: sticky;
-  top: calc(var(--gnb-height) + var(--layout-padding));
-  height: calc(100vh - var(--gnb-height) - var(--layout-padding) - 20px);
-  padding: 0px var(--layout-padding);
-  display: flex;
-  flex-shrink: 0;
+  padding: 0px 32px;
+  top: calc(var(--gnb-height) + 56px);
+  height: calc(100dvh - var(--gnb-height) - 56px);
+  display: none;
 
   & > * {
     flex: 1;
   }
 
-  ${respondTo('1720px')} {
-    display: none;
-  }
-`;
-
-export const sidebarActiveStyle = (theme: Theme) => css`
-  border-left: 1px solid transparent;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
-
-  &[aria-current='true'] {
-    border-left: 1px solid ${theme.semantic.label.normal};
-    color: ${theme.semantic.label.normal};
+  ${respondMore(theme.breakpoint.xl)} {
+    display: flex;
   }
 `;
 
 export const sidebarContentStyle = (theme: Theme) => css`
   position: relative;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 
-  &[aria-current='false']&:hover {
-    border-left: 1px solid ${theme.semantic.label.assistive};
-    color: ${theme.semantic.label.strong};
+  &[aria-current='true'] {
+    color: ${theme.semantic.label.normal};
+  }
+
+  &[aria-current='false']:has(a:hover) {
+    color: ${theme.semantic.label.neutral};
   }
 
   a {
     display: block;
     width: fit-content;
-    padding: 6px 12px;
-  }
-
-  &[data-level='2'] {
-    a {
-      padding-left: 12px;
-    }
-  }
-
-  &[data-level='3'] {
-    a {
-      padding-left: 24px;
-    }
+    padding: 6px 0px;
   }
 `;

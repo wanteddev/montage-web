@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import { FlexBox } from '@wanteddev/wds';
 
 import {
   getAllFrontmatter,
@@ -63,15 +62,7 @@ export const dynamic = 'force-static';
 const DocsPage = async ({ params }: Props) => {
   const source = await getSourceBySlug('/', parseSlug(params));
 
-  return (
-    <FlexBox
-      data-algolia-page-scope
-      flexDirection="column"
-      sx={{ width: '100%' }}
-    >
-      <MDXRender {...source} />
-    </FlexBox>
-  );
+  return <MDXRender {...source} />;
 };
 
 export default DocsPage;

@@ -77,6 +77,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
               <IconChevronDownThickSmall sx={accordionIconStyle} />
             </AccordionSummaryContent>
           }
+          disableInteraction
           data-active={getIsActive(params, frontmatter)}
           textProps={{
             variant: 'headline2',
@@ -87,7 +88,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
         </AccordionSummary>
 
         <AccordionDetails sx={lnbAccordionStyle}>
-          <FlexBox flexDirection="column">
+          <FlexBox flexDirection="column" gap="4px">
             {frontmatter.children.map((item, idx) => {
               if (isFrontmatter(item)) {
                 const { title, href } = getFrontmatterOption(item);
@@ -108,9 +109,10 @@ const LnbGroup = ({ frontmatter }: Props) => {
                 <FlexBox
                   flexDirection="column"
                   key={item.key + idx}
+                  gap="4px"
                   sx={{
                     [':not(:last-child)']: {
-                      marginBottom: 20,
+                      marginBottom: 16,
                     },
                   }}
                 >

@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { addOpacity, css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -10,13 +10,17 @@ export const sectionLayoutStyle = css`
     h4,
     h5,
     h6 {
-      margin-top: 16px;
+      margin-top: 0px;
       padding-top: 0px;
       border: none;
     }
   }
 
-  margin-bottom: 16px;
+  margin-bottom: 120px;
+
+  ${respondTo('620px')} {
+    margin-bottom: 108px;
+  }
 `;
 
 export const sectionFigureStyle = css`
@@ -33,18 +37,56 @@ export const sectionFigureThumbnailStyle =
     width: 100%;
     margin-bottom: 24px;
     border-radius: 20px;
+    overflow: hidden;
+
     ${border &&
     css`
       border: 1px solid ${theme.semantic.line.normal.normal};
     `}
-
-    img {
-      object-fit: contain;
-    }
   `;
 
-export const customizeStyle = (theme: Theme) => css`
-  border-radius: 20px;
-  border: 1px solid ${theme.semantic.line.normal.normal};
-  padding: 20px;
+export const sectionFigureVariantStyle =
+  (variant: 'positive' | 'negative') => (theme: Theme) => css`
+    padding: 20px;
+
+    background-color: ${addOpacity(
+      variant === 'positive'
+        ? theme.semantic.status.positive
+        : theme.semantic.status.negative,
+      theme.opacity[5],
+    )};
+    color: ${variant === 'positive'
+      ? theme.semantic.status.positive
+      : theme.semantic.status.negative};
+  `;
+
+export const customizeStyle = css`
+  padding: 24px 20px;
+  gap: 20px;
+  align-items: center;
+  flex-direction: row;
+
+  ${respondTo('620px')} {
+    padding: 24px 0px;
+    flex-direction: column;
+    align-items: initial;
+  }
+`;
+
+export const sectionHierarchyItemStyle = (theme: Theme) => css`
+  padding: 20px 0px;
+  gap: 32px;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
+
+  ${respondTo('620px')} {
+    flex-direction: column;
+    gap: 20px;
+    align-items: initial;
+  }
+
+  &:last-of-type {
+    border: none;
+  }
 `;

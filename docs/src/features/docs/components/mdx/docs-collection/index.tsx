@@ -15,7 +15,6 @@ import Link from 'next/link';
 import { useMDXContext } from '@/features/docs/context';
 
 import HeadingLink from '../heading-link';
-import { SectionDivider } from '../section';
 
 import type { Frontmatter } from '@/features/docs/types';
 
@@ -82,8 +81,6 @@ const DocsCollection = () => {
               </GridItem>
             ))}
           </Grid>
-
-          <SectionDivider />
         </FlexBox>
       ))}
     </FlexBox>

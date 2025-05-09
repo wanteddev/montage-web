@@ -1,15 +1,76 @@
-import { Box, Divider, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
-import { type ComponentProps, type PropsWithChildren, useId } from 'react';
+import {
+  Box,
+  ContentBadge,
+  Divider,
+  FlexBox,
+  Thumbnail,
+  Typography,
+} from '@wanteddev/wds';
+import {
+  type ComponentProps,
+  Fragment,
+  type PropsWithChildren,
+  useId,
+} from 'react';
+import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
 
 import HeadingLink from '../heading-link';
 import { inlineCodeStyle } from '../code-block/style';
+import { anatomyItemPinStyle, anatomyItemStyle } from '../anatomy/style';
 
 import {
   customizeStyle,
   sectionFigureStyle,
   sectionFigureThumbnailStyle,
+  sectionFigureVariantStyle,
+  sectionHierarchyItemStyle,
   sectionLayoutStyle,
 } from './style';
+
+type Heading2Props = {
+  content?: string;
+};
+
+const Heading2 = ({ content }: Heading2Props) => {
+  if (!content) return null;
+
+  return (
+    <Typography
+      as="h2"
+      data-heading=""
+      variant="title3"
+      weight="bold"
+      color="semantic.label.normal"
+      id={content.replaceAll(' ', '-')}
+    >
+      <HeadingLink id={content.replaceAll(' ', '-')}>{content}</HeadingLink>
+    </Typography>
+  );
+};
+
+type DescriptionProps = {
+  content?: string;
+};
+
+const Description = ({ content }: DescriptionProps) => {
+  if (!content) return null;
+
+  return (
+    <Typography
+      variant="body2-reading"
+      weight="regular"
+      as="p"
+      color="semantic.label.neutral"
+    >
+      {content.split('\n').map((v, i) => (
+        <Fragment key={i}>
+          {v}
+          <br />
+        </Fragment>
+      ))}
+    </Typography>
+  );
+};
 
 type SectionLayoutProps = PropsWithChildren<{
   title?: string;
@@ -21,35 +82,41 @@ const SectionLayout = ({
   title,
   children,
   description,
-  direction = 'row',
+  direction = 'column',
 }: SectionLayoutProps) => {
   return (
-    <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
-      {Boolean(title) && (
-        <>
-          <SectionDivider />
-          <Typography
-            as="h2"
-            data-heading=""
-            variant="title2"
-            weight="bold"
-            display="block"
-            id={title!.replaceAll(' ', '-')}
-          >
-            <HeadingLink id={title!.replaceAll(' ', '-')}>{title}</HeadingLink>
-          </Typography>
-        </>
-      )}
+    <FlexBox flexDirection="column" sx={sectionLayoutStyle} gap="24px">
+      <FlexBox flexDirection="column">
+        <Heading2 content={title} />
 
-      {Boolean(description) && (
-        <Typography variant="body1" weight="regular" as="p" display="block">
-          {description}
-        </Typography>
-      )}
+        <Description content={description} />
+      </FlexBox>
       <FlexBox
         flexDirection={direction}
-        gap={direction === 'row' ? '20px' : '56px'}
+        gap={direction === 'row' ? '20px' : '88px'}
       >
+        {children}
+      </FlexBox>
+    </FlexBox>
+  );
+};
+
+type SectionFigureGroupProps = PropsWithChildren<{
+  title?: string;
+}>;
+
+const SectionFigureGroup = ({ children, title }: SectionFigureGroupProps) => {
+  return (
+    <FlexBox
+      flexDirection="column"
+      sx={[sectionLayoutStyle, { marginBottom: '0 !important' }]}
+    >
+      {title && (
+        <Typography as="h3" variant="heading2" weight="bold">
+          {title}
+        </Typography>
+      )}
+      <FlexBox flexDirection="column" gap="88px">
         {children}
       </FlexBox>
     </FlexBox>
@@ -63,15 +130,17 @@ type SectionFigureProps = {
   ratio?: ComponentProps<typeof Thumbnail>['ratio'];
   portrait?: ComponentProps<typeof Thumbnail>['portrait'];
   border?: boolean;
+  variant?: 'positive' | 'negative';
 };
 
 const SectionFigure = ({
-  ratio = '16:9',
+  ratio = '21:9',
   portrait,
   title,
   src,
   border,
   description,
+  variant,
 }: SectionFigureProps) => {
   const id = useId();
 
@@ -84,36 +153,127 @@ const SectionFigure = ({
           alt="thumbnail"
           disableOptimize
           width="100%"
-          sx={sectionFigureThumbnailStyle(border)}
+          sx={[
+            sectionFigureThumbnailStyle(border),
+            variant && { marginBottom: 12 },
+          ]}
           ratio={ratio}
+          radius
           portrait={portrait}
         />
       )}
-      <FlexBox flexDirection="column" gap="8px">
-        {title && (
-          <Typography
-            as="p"
-            variant="headline2"
-            weight="bold"
-            display="block"
-            id={id}
+      {variant ? (
+        <FlexBox gap="16px" sx={sectionFigureVariantStyle(variant)}>
+          {variant === 'positive' ? (
+            <IconCircleCheckFill sx={{ fontSize: 40 }} />
+          ) : (
+            <IconCircleCloseFill sx={{ fontSize: 40 }} />
+          )}
+          <FlexBox
+            flexDirection="column"
+            gap="2px"
+            sx={{ ['&& p']: { marginBottom: '0 !important' } }}
           >
-            {title}
-          </Typography>
-        )}
+            <Typography
+              color={
+                variant === 'positive'
+                  ? 'semantic.status.positive'
+                  : 'semantic.status.negative'
+              }
+              variant="headline2"
+              weight="bold"
+            >
+              {variant === 'positive' ? 'Do' : "Don't"}
+            </Typography>
 
-        {Boolean(description) && (
-          <Typography variant="body1" weight="regular" as="p" display="block">
-            {description}
-          </Typography>
-        )}
-      </FlexBox>
+            <Description content={description} />
+          </FlexBox>
+        </FlexBox>
+      ) : (
+        <FlexBox flexDirection="column" gap="4px">
+          {title && (
+            <Typography
+              as="p"
+              variant="headline2"
+              weight="bold"
+              color="semantic.label.normal"
+              id={id}
+            >
+              {title}
+            </Typography>
+          )}
+
+          <Description content={description} />
+        </FlexBox>
+      )}
     </FlexBox>
   );
 };
 
-const SectionDivider = () => {
-  return <Divider sx={{ margin: '48px 0px' }} />;
+type SectionStatesProps = {
+  description?: string;
+  options?: Array<string>;
+  src?: string;
+  ratio?: ComponentProps<typeof Thumbnail>['ratio'];
+  portrait?: ComponentProps<typeof Thumbnail>['portrait'];
+  border?: boolean;
+};
+
+const SectionStates = ({
+  description,
+  options,
+  ratio = '21:9',
+  portrait,
+  src,
+  border,
+}: SectionStatesProps) => {
+  return (
+    <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
+      <FlexBox flexDirection="column">
+        <Heading2 content="States" />
+
+        <Description content={description} />
+
+        {src && (
+          <Thumbnail
+            aria-labelledby="states"
+            src={src}
+            alt="component states"
+            disableOptimize
+            width="100%"
+            sx={sectionFigureThumbnailStyle(border)}
+            ratio={ratio}
+            portrait={portrait}
+          />
+        )}
+      </FlexBox>
+      <FlexBox flexWrap="wrap" rowGap="8px" columnGap="64px" flex="1 0 auto">
+        {options?.map((value, i) => (
+          <FlexBox
+            key={value + i}
+            sx={[anatomyItemStyle, { width: 200 }]}
+            alignItems="center"
+            gap="12px"
+          >
+            <Typography
+              variant="caption1"
+              weight="bold"
+              sx={anatomyItemPinStyle}
+            >
+              <span>{i + 1}</span>
+            </Typography>
+            <Typography
+              variant="label1"
+              weight="bold"
+              color="semantic.label.normal"
+            >
+              {value}
+            </Typography>
+          </FlexBox>
+        ))}
+      </FlexBox>
+    </FlexBox>
+  );
 };
 
 type CustomizeProps = {
@@ -125,28 +285,101 @@ type CustomizeProps = {
 
 const SectionCustomize = ({ data }: CustomizeProps) => {
   return (
-    <FlexBox flexDirection="column" gap="16px" sx={{ width: '100%' }}>
-      {data.map((v) => (
-        <FlexBox key={v.key} gap="20px" alignItems="center" sx={customizeStyle}>
-          <Typography
-            variant="label1"
-            weight="bold"
-            color="semantic.label.strong"
-            sx={{ minWidth: 120 }}
-          >
-            {v.key}
-          </Typography>
-          <FlexBox gap="6px" flexWrap="wrap">
-            {v.options.map((option) => (
-              <Box key={option} sx={inlineCodeStyle} as="code">
-                <span>{option}</span>
-              </Box>
-            ))}
+    <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
+      <Heading2 content="Customize" />
+
+      {data.map((v, i) => (
+        <Fragment key={v.key}>
+          <FlexBox sx={customizeStyle}>
+            <Typography
+              variant="label1"
+              weight="bold"
+              color="semantic.label.strong"
+              sx={{ minWidth: 120 }}
+            >
+              {v.key}
+            </Typography>
+
+            <FlexBox gap="6px" flexWrap="wrap">
+              {v.options.map((option) => (
+                <code key={option}>
+                  <ContentBadge
+                    color="accent"
+                    accentColor="semantic.accent.foreground.blue"
+                    sx={inlineCodeStyle}
+                  >
+                    {option}
+                  </ContentBadge>
+                </code>
+              ))}
+            </FlexBox>
           </FlexBox>
-        </FlexBox>
+
+          {i !== data.length - 1 && (
+            <Divider color="semantic.line.normal.alternative" />
+          )}
+        </Fragment>
       ))}
     </FlexBox>
   );
 };
 
-export { SectionLayout, SectionFigure, SectionDivider, SectionCustomize };
+const SectionHierarchy = ({ children }: PropsWithChildren) => {
+  return (
+    <FlexBox flexDirection="column" gap="56px" sx={sectionLayoutStyle}>
+      <Heading2 content="Hierarchy" />
+      <FlexBox flexDirection="column">{children}</FlexBox>
+    </FlexBox>
+  );
+};
+
+type SectionHierarchyItemProps = {
+  level: number;
+  description: string;
+  src?: string;
+  width?: number | string;
+  height?: number | string;
+};
+
+const SectionHierarchyItem = ({
+  level,
+  description,
+  src,
+  width,
+  height,
+}: SectionHierarchyItemProps) => {
+  return (
+    <FlexBox sx={sectionHierarchyItemStyle}>
+      <ContentBadge
+        color="neutral"
+        size="small"
+        variant="solid"
+        sx={{ flexShrink: 0 }}
+      >
+        L{level}
+      </ContentBadge>
+
+      {src && (
+        <Box
+          as="img"
+          alt={`hierarchy lvl${level}`}
+          src={src}
+          width={width}
+          height={height}
+        />
+      )}
+
+      <Description content={description} />
+    </FlexBox>
+  );
+};
+
+export {
+  SectionLayout,
+  SectionFigure,
+  SectionFigureGroup,
+  SectionStates,
+  SectionCustomize,
+  SectionHierarchy,
+  SectionHierarchyItem,
+};

@@ -5,7 +5,6 @@ import HeadingLink from '../heading-link';
 import {
   anatomyItemPinStyle,
   anatomyItemStyle,
-  anatomyStyle,
   anatomyThumbnailStyle,
   anatomyWrapperStyle,
 } from './style';
@@ -19,18 +18,19 @@ type Props = {
   ratio?: ComponentProps<typeof Thumbnail>['ratio'];
 };
 
-const Anatomy = ({ ratio = '2:1', portrait, data, src }: Props) => {
+const Anatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
   return (
     <FlexBox flexDirection="column" sx={anatomyWrapperStyle}>
       <Typography
         as="h2"
         data-heading=""
-        variant="title2"
+        variant="title3"
         weight="bold"
         display="block"
-        id="구성-요소"
+        id="anatomy"
+        sx={{ marginBottom: 24 }}
       >
-        <HeadingLink id="구성-요소">구성 요소</HeadingLink>
+        <HeadingLink id="anatomy">Anatomy</HeadingLink>
       </Typography>
       <FlexBox flexDirection="column" gap="24px">
         {src && (
@@ -45,7 +45,7 @@ const Anatomy = ({ ratio = '2:1', portrait, data, src }: Props) => {
           />
         )}
 
-        <FlexBox flexWrap="wrap" sx={anatomyStyle} gap="8px">
+        <FlexBox flexWrap="wrap" flex="1 0 auto" rowGap="8px" columnGap="80px">
           {data.map((value, i) => (
             <FlexBox
               key={value + i}
@@ -54,15 +54,15 @@ const Anatomy = ({ ratio = '2:1', portrait, data, src }: Props) => {
               gap="12px"
             >
               <Typography
-                variant="body1"
-                weight="regular"
+                variant="caption1"
+                weight="bold"
                 sx={anatomyItemPinStyle}
               >
                 <span>{i + 1}</span>
               </Typography>
               <Typography
-                variant="body1"
-                weight="medium"
+                variant="label1"
+                weight="bold"
                 color="semantic.label.normal"
               >
                 {value}

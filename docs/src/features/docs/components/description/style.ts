@@ -1,21 +1,9 @@
-import { css, respondTo } from '@wanteddev/wds';
+import { css } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const wrapperStyle = css`
-  margin-bottom: 40px;
-
-  ${respondTo('980px')} {
-    flex-direction: column;
-    justify-content: initial;
-    gap: 20px;
-  }
-`;
-
 export const titleSectionWrapperStyle = css`
-  ${respondTo('980px')} {
-    gap: 20px;
-  }
+  margin-bottom: 24px;
 `;
 
 export const tabScrollStyle = css`
@@ -23,15 +11,13 @@ export const tabScrollStyle = css`
 `;
 
 export const tabStyle = (theme: Theme) => css`
-  margin-bottom: 40px;
+  --wds-tab-padding-y: 16px;
+
+  margin-bottom: 88px;
   position: sticky;
   top: calc(var(--gnb-height));
   z-index: 3;
   background-color: ${theme.semantic.background.normal.normal};
-
-  &::after {
-    background-color: ${theme.semantic.line.normal.normal};
-  }
 
   & + h1,
   & + h2,

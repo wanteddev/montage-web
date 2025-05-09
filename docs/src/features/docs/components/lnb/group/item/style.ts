@@ -15,15 +15,18 @@ export const lnbItemStyle = (theme: Theme) => css`
     }
   }
 
-  &:not([data-depth='0'])[aria-current='page'] {
-    background-color: ${addOpacity(theme.semantic.primary.normal, 0.09)};
+  &:not([data-depth='0']) {
+    border-radius: 8px;
+    &[aria-current='page'] {
+      background-color: ${addOpacity(theme.semantic.primary.normal, 0.09)};
 
-    [data-role='list-text-content'] {
-      color: ${theme.semantic.primary.normal};
-    }
+      [data-role='list-text-content'] {
+        color: ${theme.semantic.primary.normal};
+      }
 
-    & > [wds-component='with-interaction'] {
-      background-color: ${theme.semantic.primary.normal};
+      & > [wds-component='with-interaction'] {
+        background-color: ${theme.semantic.primary.normal};
+      }
     }
   }
 `;

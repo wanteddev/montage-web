@@ -28,7 +28,7 @@ export const linkStyle = (theme: Theme) => css`
     visibility: hidden;
     display: inline-flex;
 
-    ${respondTo('1140px')} {
+    ${respondTo('960px')} {
       visibility: hidden !important;
     }
 

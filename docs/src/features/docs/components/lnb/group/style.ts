@@ -3,7 +3,7 @@ import { css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbAccordionStyle = css`
-  padding: 4px 0px 24px;
+  padding: 8px 0px 24px;
 `;
 
 export const accordionSummaryStyle = css`

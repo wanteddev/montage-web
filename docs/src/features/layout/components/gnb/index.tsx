@@ -9,35 +9,40 @@ import {
   MenuList,
   MenuTrigger,
   NoSsr,
-  SearchField,
+  Typography,
   WithInteraction,
   useThemeControl,
 } from '@wanteddev/wds';
-import { IconDesktop, IconMenu, IconMoon, IconSun } from '@wanteddev/wds-icon';
+import {
+  IconDesktop,
+  IconMenu,
+  IconMoon,
+  IconSearch,
+  IconSun,
+} from '@wanteddev/wds-icon';
 import Link from 'next/link';
-import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
-import { Typography } from '@wanteddev/wds';
+import { useSelectedLayoutSegments } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Logo from '@/assets/logo';
-import { layoutStyle } from '@/styles';
 
 import {
   gnbActionsStyle,
-  gnbItemWrapperStyle,
-  gnbLinkStyle,
   gnbMenuStyle,
+  gnbSearchMobileStyle,
   gnbWrapperStyle,
+  kbdStyle,
+  searchFieldStyle,
 } from './style';
-import { GNB_MENUS } from './constants';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
+import NavigationModal from './navigation-modal';
 
 const Gnb = () => {
   const { setTheme, themeOriginValue } = useThemeControl();
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
+  const [navigationMenuOpen, setNavigationMenuOpen] = useState(false);
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -68,9 +73,16 @@ const Gnb = () => {
           apiKey={process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_KEY!}
         />
       )}
+
+      {navigationMenuOpen && (
+        <NavigationModal
+          open={navigationMenuOpen}
+          onOpenChange={setNavigationMenuOpen}
+        />
+      )}
       <FlexBox
         suppressHydrationWarning
-        justifyContent="center"
+        alignContent="center"
         as="header"
         sx={gnbWrapperStyle}
         data-is-docs-page={isDocsPage}
@@ -78,54 +90,57 @@ const Gnb = () => {
       >
         <FlexBox
           alignItems="center"
-          justifyContent="center"
+          justifyContent="space-between"
+          flex="1"
           gap="32px"
-          sx={layoutStyle}
         >
-          <FlexBox
-            alignItems="center"
-            justifyContent="space-between"
-            sx={gnbItemWrapperStyle}
-            flex="1"
-            gap="40px"
+          <Box
+            as={Link}
+            href="/"
+            sx={(theme) => ({ color: theme.semantic.label.normal })}
           >
-            <FlexBox>
-              <Box
-                as={Link}
-                href="/"
-                sx={(theme) => ({ color: theme.semantic.label.normal })}
-              >
-                <Logo />
-              </Box>
-            </FlexBox>
+            <Logo />
+          </Box>
 
-            <FlexBox gap="40px" alignItems="center" sx={gnbLinkStyle}>
-              {GNB_MENUS.map(({ label, href, active }, i) => (
-                <Typography
-                  as={Link}
-                  variant="label1"
-                  weight={pathname.includes(active) ? 'bold' : 'regular'}
-                  color="semantic.label.normal"
-                  href={href}
-                  key={i}
-                  data-role="gnb-link"
-                  aria-current={pathname.includes(active) ? 'page' : undefined}
-                >
-                  {label}
-                </Typography>
-              ))}
-            </FlexBox>
-          </FlexBox>
-
-          <FlexBox gap="12px">
-            <SearchField
-              width="335px"
-              placeholder="Cmd+k를 눌러서 검색하세요."
-              aria-label="search"
-              role="button"
+          <FlexBox gap="8px" alignItems="center">
+            <FlexBox
+              as="button"
+              role="search"
+              aria-label="Search"
               onClick={handleOpen}
-              sx={{ padding: '7px 8px' }}
-            />
+              sx={searchFieldStyle}
+              gap="6px"
+            >
+              <IconSearch />
+
+              <FlexBox alignItems="center" gap="4px">
+                <Typography variant="label1" weight="medium">
+                  Press
+                </Typography>
+                <Typography
+                  variant="label2"
+                  weight="medium"
+                  as="kbd"
+                  sx={kbdStyle}
+                >
+                  <kbd>⌘</kbd>
+                  <kbd>K</kbd>
+                </Typography>
+                <Typography variant="label1" weight="medium">
+                  to search
+                </Typography>
+              </FlexBox>
+            </FlexBox>
+            <WithInteraction>
+              <FlexBox
+                aria-label="Search"
+                as="button"
+                role="search"
+                sx={[gnbActionsStyle, gnbSearchMobileStyle]}
+              >
+                <IconSearch />
+              </FlexBox>
+            </WithInteraction>
 
             <Menu
               open={menuOpen}
@@ -194,6 +209,7 @@ const Gnb = () => {
               <FlexBox
                 aria-label="menu"
                 as="button"
+                onClick={() => setNavigationMenuOpen(true)}
                 sx={[gnbActionsStyle, gnbMenuStyle]}
               >
                 <IconMenu />

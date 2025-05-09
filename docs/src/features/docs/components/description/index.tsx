@@ -1,6 +1,7 @@
 'use client';
 import {
   Box,
+  Divider,
   FlexBox,
   Tab,
   TabList,
@@ -18,19 +19,13 @@ import {
 } from 'react';
 import Link from 'next/link';
 
-import { GNB_HEIGHT } from '@/features/menu/components/gnb/constants';
+import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
 
 import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
-import { SectionDivider } from '../mdx/section';
 
-import {
-  tabScrollStyle,
-  tabStyle,
-  titleSectionWrapperStyle,
-  wrapperStyle,
-} from './style';
+import { tabScrollStyle, tabStyle, titleSectionWrapperStyle } from './style';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -49,8 +44,11 @@ const DocsDescription = () => {
 
   const [isSticky, setIsSticky] = useState(false);
 
-  const isOverviewPage = useMemo(
-    () => params.slug.toString() === ['overview', 'design'].toString(),
+  const hasPlatformPage = useMemo(
+    () =>
+      /(web|ios|android|design)$/.test(
+        params.slug.at(params.slug.length - 1) ?? '',
+      ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [params.slug.toString()],
   );
@@ -146,53 +144,44 @@ const DocsDescription = () => {
 
   return (
     <>
-      <FlexBox gap="40px" justifyContent="space-between" sx={wrapperStyle}>
-        <FlexBox
-          flexDirection="column"
-          gap="32px"
-          sx={titleSectionWrapperStyle}
+      <FlexBox flexDirection="column" gap="24px" sx={titleSectionWrapperStyle}>
+        <Typography
+          variant="title1"
+          weight="bold"
+          as="h1"
+          data-algolia-page-title
+          sx={{
+            wordBreak: 'keep-all',
+            overflowWrap: 'break-word',
+          }}
         >
+          {frontmatter.title}
+        </Typography>
+
+        {Boolean(frontmatter.description) && (
           <Typography
-            variant="display2"
-            display="block"
-            weight="bold"
-            as="h1"
-            data-algolia-page-title
+            variant="body2-reading"
+            weight="regular"
+            color="semantic.label.neutral"
             sx={{
+              maxWidth: '640px',
               wordBreak: 'keep-all',
               overflowWrap: 'break-word',
+              minHeight: '110px',
             }}
+            as="p"
           >
-            {frontmatter.title}
+            {frontmatter.description?.split('\\n').map((v) => (
+              <Fragment key={v}>
+                {v}
+                <br />
+              </Fragment>
+            ))}
           </Typography>
-
-          {Boolean(frontmatter.description) && (
-            <Typography
-              variant="body1"
-              weight="regular"
-              color="semantic.label.normal"
-              sx={{
-                margin: 0,
-                maxWidth: '640px',
-                wordBreak: 'keep-all',
-                overflowWrap: 'break-word',
-              }}
-              as="p"
-            >
-              {frontmatter.description?.split('\\n').map((v) => (
-                <Fragment key={v}>
-                  {v}
-                  <br />
-                </Fragment>
-              ))}
-            </Typography>
-          )}
-        </FlexBox>
+        )}
       </FlexBox>
 
-      {isOverviewPage ? (
-        <SectionDivider />
-      ) : (
+      {hasPlatformPage ? (
         <>
           <Box role="presentation" ref={tabRef} sx={tabScrollStyle} />
 
@@ -212,6 +201,11 @@ const DocsDescription = () => {
             </TabList>
           </Tab>
         </>
+      ) : (
+        <Divider
+          sx={{ margin: '55px 0px 88px' }}
+          color="semantic.line.normal.alternative"
+        />
       )}
     </>
   );

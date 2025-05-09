@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
 
-import { sidebarActiveStyle, sidebarContentStyle, sidebarStyle } from './style';
+import { sidebarContentStyle, sidebarStyle } from './style';
 import { getHeadingLevel } from './helpers';
 
 const Sidebar = () => {
@@ -63,7 +63,7 @@ const Sidebar = () => {
     const filteredHeadings = headings.filter(({ id }) => isSectionVisible(id));
 
     if (filteredHeadings.length === 0) {
-      return setVisibleSectionId(null);
+      return;
     }
 
     if (
@@ -94,11 +94,7 @@ const Sidebar = () => {
 
         if (closestH2) {
           setVisibleSectionId(closestH2.id);
-        } else {
-          setVisibleSectionId(null);
         }
-      } else {
-        setVisibleSectionId(null);
       }
     }
   }, 400);
@@ -117,26 +113,17 @@ const Sidebar = () => {
   }, [isSectionVisible, headings]);
 
   return (
-    <FlexBox data-algolia-exclude sx={sidebarStyle}>
+    <FlexBox data-algolia-exclude sx={sidebarStyle} flexShrink={0}>
       <aside>
         <ScrollArea>
-          <FlexBox
-            as="nav"
-            sx={(theme) => ({
-              borderLeft: `1px solid ${theme.semantic.line.normal.neutral}`,
-            })}
-          >
-            <FlexBox
-              flexDirection="column"
-              gap="4px"
-              sx={{ marginLeft: '-1px' }}
-            >
+          <FlexBox as="nav">
+            <FlexBox flexDirection="column" gap="4px">
               <Typography
                 as="h4"
-                variant="caption1"
-                weight="regular"
-                color="semantic.label.neutral"
-                sx={[{ padding: '8px 12px' }]}
+                variant="body2"
+                weight="bold"
+                color="semantic.label.normal"
+                sx={[{ padding: '6px 0px' }]}
               >
                 On this page
               </Typography>
@@ -145,13 +132,13 @@ const Sidebar = () => {
                   return (
                     <Typography
                       variant="label2"
-                      weight={visibleSectionId === id ? 'bold' : 'regular'}
-                      color="semantic.label.neutral"
+                      weight="bold"
+                      color="semantic.label.assistive"
                       as="li"
                       key={id}
                       data-level={getHeadingLevel(nodeName)}
                       aria-current={visibleSectionId === id}
-                      sx={[sidebarContentStyle, sidebarActiveStyle]}
+                      sx={sidebarContentStyle}
                     >
                       <Link href={`#${id}`}>{text}</Link>
                     </Typography>
