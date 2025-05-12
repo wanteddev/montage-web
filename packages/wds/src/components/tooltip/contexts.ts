@@ -7,8 +7,8 @@ import { TOOLTIP_GROUP_NAME, TOOLTIP_NAME } from './constants';
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type {
   FocusEventHandler,
-  MouseEvent,
   MouseEventHandler,
+  MutableRefObject,
   RefObject,
 } from 'react';
 import type { TooltipProps } from './types';
@@ -16,14 +16,17 @@ import type { TooltipProps } from './types';
 type TooltipContextValue = {
   mode: Exclude<TooltipProps['mode'], undefined>;
   containerRef: RefObject<HTMLDivElement | null>;
+  triggerRef: MutableRefObject<HTMLElement | null>;
   open: boolean;
   containerId: string;
-  handleMouseOver: MouseEventHandler<any>;
-  handleMouseLeave: MouseEventHandler<any>;
-  handleFocus: FocusEventHandler<any>;
-  handleBlur: FocusEventHandler<any>;
-  handleMouseDown: (event: PointerDownOutsideEvent | MouseEvent<any>) => void;
+  handleMouseOver: MouseEventHandler<HTMLElement>;
+  handleMouseLeave: MouseEventHandler<HTMLElement>;
+  handleFocus: FocusEventHandler<HTMLElement>;
+  handleBlur: FocusEventHandler<HTMLElement>;
+  handleMouseDown: MouseEventHandler<HTMLElement>;
   handleDismiss: () => void;
+  handleClick: MouseEventHandler<HTMLElement>;
+  handlePointerDownOutside: (e: PointerDownOutsideEvent) => void;
 };
 
 export const [TooltipProvider, useTooltipContext] =

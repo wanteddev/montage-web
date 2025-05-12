@@ -186,6 +186,7 @@ const PopperContent: ReturnType<
       position = 'top-center',
       offset: givenOffset = 10,
       referenceHidden = false,
+      referenceHiddenOffsets,
       setContext,
       container,
       disablePortal,
@@ -241,7 +242,10 @@ const PopperContent: ReturnType<
             };
           }),
         transformOrigin({ arrowWidth, arrowHeight }),
-        referenceHidden && hide(),
+        referenceHidden &&
+          hide({
+            padding: referenceHiddenOffsets,
+          }),
       ],
     });
 

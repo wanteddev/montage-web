@@ -1,5 +1,5 @@
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { useFloating } from '@floating-ui/react';
+import type { SideObject, useFloating } from '@floating-ui/react';
 import type { Slot } from '@radix-ui/react-slot';
 
 export type PopperContentProps = DefaultComponentProps<
@@ -19,6 +19,7 @@ export type PopperContentProps = DefaultComponentProps<
       | 'left-center'
       | 'left-end';
     referenceHidden?: boolean;
+    referenceHiddenOffsets?: SideObject;
     wrapperProps?: DefaultComponentProps<{}, 'div'>;
     setContext?: (context: ReturnType<typeof useFloating>['context']) => void;
     /**

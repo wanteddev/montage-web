@@ -99,6 +99,7 @@ const PopoverContent = forwardRef<
       onMountAutoFocus,
       onUnmountAutoFocus,
       referenceHidden = false,
+      referenceHiddenOffsets,
       setContext,
       wrapperProps,
       ...props
@@ -115,6 +116,7 @@ const PopoverContent = forwardRef<
         disablePortal={disablePortal}
         container={container}
         referenceHidden={referenceHidden}
+        referenceHiddenOffsets={referenceHiddenOffsets}
         setContext={setContext}
         wrapperProps={wrapperProps}
       >

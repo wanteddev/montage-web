@@ -46,7 +46,7 @@ import type { CSSProperties } from 'react';
 
 const TooltipGroup = ({
   children,
-  skipDelayDuration = 300,
+  skipDelayDuration = 350,
 }: TooltipGroupProps) => {
   const isOpenWithoutDelayRef = useRef(false);
   const skipDelayTimerRef = useRef(0);
@@ -83,13 +83,14 @@ const Tooltip = ({
   defaultOpen = mode === 'always',
   onOpenChange,
   children,
-  enterDelay = 250,
-  leaveDelay = 300,
+  enterDelay = 200,
+  leaveDelay = 250,
   disableCloseOnPointDown = false,
   disableOpenOnFocus = false,
 }: TooltipProps) => {
   const containerId = useId();
   const {
+    triggerRef,
     containerRef,
     open,
     handleMouseOver,
@@ -98,6 +99,8 @@ const Tooltip = ({
     handleBlur,
     handleMouseDown,
     handleDismiss,
+    handleClick,
+    handlePointerDownOutside,
   } = useTooltip({
     mode,
     open: originOpen,
@@ -111,6 +114,7 @@ const Tooltip = ({
 
   return (
     <TooltipProvider
+      triggerRef={triggerRef}
       containerRef={containerRef}
       mode={mode}
       containerId={containerId}
@@ -121,6 +125,8 @@ const Tooltip = ({
       handleBlur={handleBlur}
       handleMouseDown={handleMouseDown}
       handleDismiss={handleDismiss}
+      handleClick={handleClick}
+      handlePointerDownOutside={handlePointerDownOutside}
     >
       <Popper>{children}</Popper>
     </TooltipProvider>
@@ -134,6 +140,7 @@ const TooltipTrigger = forwardRef<
   DefaultComponentProps<{}, typeof Slot>
 >((props, ref) => {
   const {
+    triggerRef,
     containerId,
     open,
     handleMouseOver,
@@ -141,10 +148,11 @@ const TooltipTrigger = forwardRef<
     handleFocus,
     handleBlur,
     handleMouseDown,
+    handleClick,
   } = useTooltipContext(TOOLTIP_TRIGGER_NAME);
 
   return (
-    <PopperAnchor>
+    <PopperAnchor ref={triggerRef}>
       <Slot
         aria-describedby={open ? containerId : undefined}
         {...props}
@@ -157,6 +165,7 @@ const TooltipTrigger = forwardRef<
         onFocus={composeEventHandlers(props.onFocus, handleFocus)}
         onBlur={composeEventHandlers(props.onBlur, handleBlur)}
         onMouseDown={composeEventHandlers(props.onMouseDown, handleMouseDown)}
+        onClick={composeEventHandlers(props.onClick, handleClick)}
       />
     </PopperAnchor>
   );
@@ -180,6 +189,7 @@ const TooltipContent = forwardRef<
       closeButton,
       animationDuration = 250,
       referenceHidden = false,
+      referenceHiddenOffsets,
       setContext,
       __wdsCustomChildren,
       ...props
@@ -196,7 +206,7 @@ const TooltipContent = forwardRef<
       handleFocus,
       handleBlur,
       handleDismiss,
-      handleMouseDown,
+      handlePointerDownOutside,
     } = useTooltipContext(TOOLTIP_CONTENT_NAME);
 
     const { hasExited, status } = useTransitionStatus({
@@ -222,7 +232,7 @@ const TooltipContent = forwardRef<
           asChild
           disableOutsidePointerEvents={false}
           onFocusOutside={(event) => event.preventDefault()}
-          onPointerDownOutside={handleMouseDown}
+          onPointerDownOutside={handlePointerDownOutside}
           onDismiss={handleDismiss}
         >
           <PopperContent
@@ -235,9 +245,11 @@ const TooltipContent = forwardRef<
             ref={composedRef}
             offset={offset}
             referenceHidden={referenceHidden}
+            referenceHiddenOffsets={referenceHiddenOffsets}
             setContext={setContext}
             wrapperProps={{
-              onMouseOver: handleMouseOver,
+              // 사라지는 animation 도중 mouseover 이벤트 발생 방지
+              onMouseOver: open ? handleMouseOver : undefined,
               onMouseLeave: handleMouseLeave,
               onFocus: handleFocus,
               onBlur: handleBlur,
@@ -270,7 +282,15 @@ const TooltipContent = forwardRef<
                         {children}
                       </Typography>
 
-                      {Boolean(action) && action}
+                      {Boolean(action) && (
+                        <FlexBox
+                          data-role="tooltip-content-action"
+                          alignItems="center"
+                          sx={{ height: 20 }}
+                        >
+                          {action}
+                        </FlexBox>
+                      )}
                     </FlexBox>
 
                     {closeButton && (

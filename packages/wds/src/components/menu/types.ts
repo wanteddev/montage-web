@@ -27,6 +27,7 @@ export type MenuContentProps = Pick<
   | 'trapped'
   | 'loop'
   | 'referenceHidden'
+  | 'referenceHiddenOffsets'
   | 'setContext'
   | 'wrapperProps'
 >;
