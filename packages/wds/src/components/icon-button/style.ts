@@ -5,15 +5,16 @@ import { addOpacity, createResponsiveStyle } from '../../utils';
 import type { IconButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-const getDefaultSize = (
-  variant: IconButtonProps['variant'],
-): IconButtonProps['size'] => {
+const getIconButtonSize = ({
+  variant,
+  size,
+}: Pick<IconButtonProps, 'variant' | 'size'>): IconButtonProps['size'] => {
   switch (variant) {
     case 'outlined':
     case 'solid':
-      return 'medium';
+      return size ?? 'medium';
     default:
-      return 24;
+      return typeof size === 'number' ? size : 24;
   }
 };
 
@@ -32,10 +33,7 @@ export const iconButtonStyle =
       cursor: not-allowed;
     }
 
-    ${iconButtonSizeStyle(
-      props.size || getDefaultSize(props.variant),
-      props.variant,
-    )}
+    ${iconButtonSizeStyle({ size: props.size, variant: props.variant })}
     ${iconButtonColorStyle(props, theme)}
 
   ${createResponsiveStyle(
@@ -43,16 +41,18 @@ export const iconButtonStyle =
       theme,
     )(
       (params = {}) => css`
-        ${iconButtonSizeStyle(params.size, props.variant)}
+        ${iconButtonSizeStyle({ size: params.size, variant: props.variant })}
         ${params.sx}
       `,
     )}
   `;
 
 const iconButtonSizeStyle = (
-  size: IconButtonProps['size'],
-  variant: IconButtonProps['variant'],
+  params: Pick<IconButtonProps, 'size' | 'variant'>,
 ) => {
+  const size = getIconButtonSize(params);
+  const { variant } = params;
+
   if (typeof size === 'number') {
     return css`
       width: ${size}px;
