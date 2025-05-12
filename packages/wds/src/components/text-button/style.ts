@@ -36,6 +36,7 @@ export const textButtonStyle =
 
     ${loading &&
     css`
+      cursor: wait;
       &
         > *:not([data-role='text-button-loading']):not(
           [wds-component='with-interaction']
