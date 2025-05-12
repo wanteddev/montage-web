@@ -92,8 +92,15 @@ export const listTextContentWrapperStyle = (ellipsis?: boolean) => css`
   align-items: center;
   display: flex;
   flex: 1;
+  position: relative;
+  text-align: inherit;
 
-  ${listTextEllipsisStyle(ellipsis)}
+  [data-role='list-text-content'] {
+    display: block;
+    text-align: inherit;
+    width: 100%;
+    ${listTextEllipsisStyle(ellipsis)}
+  }
 `;
 
 export const listTextEllipsisStyle = (ellipsis?: boolean) =>
