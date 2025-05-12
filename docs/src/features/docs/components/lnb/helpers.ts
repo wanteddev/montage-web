@@ -41,12 +41,12 @@ export const hasMatchingDevelopPlatformPage = (
   }
 
   return allFrontmatter.some((frontmatter) => {
-    const frontmatterSlug = frontmatter.slug.toString();
+    const frontmatterSlug = frontmatter.originSlug.toString();
     return PLATFORM_TYPES.some((platform) => {
       const replacedSlug = slug
         .toString()
         .replace(/(web|ios|android|changelog)$/, platform);
-      return frontmatterSlug === replacedSlug;
+      return frontmatterSlug === replacedSlug && platform !== lastSegment;
     });
   });
 };

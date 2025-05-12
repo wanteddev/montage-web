@@ -1,0 +1,247 @@
+---
+title: Action Area
+description: 모달 혹은 화면의 하단 영역에서 버튼의 묶음을 배치합니다.
+image: /components/actions/action-area/design/thumbnail.png
+createdAt: 2025-04-03
+---
+
+## Basic action area
+
+`ActionArea` 은 4가지 variant 를 사용할 수 있어요.
+- strong (default)
+- neutral
+- compact
+- cancel
+
+### Strong
+
+Strong variant는 세로로 버튼을 크게 배치해요.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea variant="strong">
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+      <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+      <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Neutral
+
+Neutral variant는 가로로 버튼을 최대 영역만큼 배치해요.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea variant="neutral">
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+      <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+      <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Cancel
+
+Cancel variant는 하나의 Main 버튼을 배치해요.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea variant="cancel">
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Compact
+
+Compact variant는 가로로 우측에 배치해요.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea variant="compact">
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+      <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+      <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Compact content
+
+`compact` variant에서 `compactContent` prop 을 통해 버튼 좌측에 컨텐츠를 배치할 수 있어요.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea
+      variant="compact"
+      compactContent={(
+        <FormField flexDirection="row" alignItems="center">
+          <FormControl>
+            <Checkbox />
+          </FormControl>
+          <FormLabel>약관에 동의합니다.</FormLabel>
+        </FormField>
+      )}
+    >
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Extra action area
+
+`extra` 옵션을 활성화하여 버튼 영역과 상단 콘텐츠 영역을 명확하게 구분할 수 있어요.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea extra>
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `extraContent` prop 을 통해 상단에 콘텐츠를 배치할 수 있어요.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea
+      extra
+      extraContent={(
+        <FormField flexDirection="row" alignItems="center">
+          <FormControl>
+            <Checkbox />
+          </FormControl>
+          <FormLabel>약관에 동의합니다.</FormLabel>
+        </FormField>
+      )}
+    >
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+`divider` prop 을 사용하면 상단 divider를 제어할 수 있지만 권장하지 않아요.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea extra divider={false}>
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Caption
+
+`caption` prop 을 통해 캡션을 표시할 수 있어요.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea caption="Caption">
+      <ActionAreaButton>
+        Main
+      </ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Background
+
+`background` prop 을 이용하여 gradient 혹은 divider를 표시할 수 있어요.
+
+Modal 내부에서 사용할 경우 자동으로 스크롤 여부에 따라 background 옵션을 조정해요.
+
+<Demo code={`import { FlexBox, ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox sx={theme => ({ background: theme.semantic.status.negative, padding: 20 })}>
+      <ActionArea background>
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Customize
+
+`ActionAreaButton` 의 버튼 variant를 교체할 수 있어요.
+- buttonVariant
+- buttonColor
+- textButtonVariant
+
+내부 간격을 조정할 때는 `--wds-action-area-margin-x`, `--wds-action-area-margin-y` CSS Variable 을 사용해요.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea>
+      <ActionAreaButton variant="main" buttonVariant="assistive">Main</ActionAreaButton>
+      <ActionAreaButton variant="alternative" buttonColor="primary">Alternative</ActionAreaButton>
+      <ActionAreaButton variant="sub" textButtonVariant="primary">Sub</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### ActionArea
+
+<PropsTable component="ActionArea" />
+
+### ActionAreaButton
+
+<PropsTable component="ActionAreaButton" />

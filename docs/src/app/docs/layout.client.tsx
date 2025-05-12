@@ -13,6 +13,7 @@ const DocsClientLayout = ({ children }: PropsWithChildren) => {
       flex="1 1 0"
       sx={(theme) => ({
         paddingTop: 56,
+        maxWidth: '100%',
         [respondMore(theme.breakpoint.lg)]: {
           maxWidth: 'calc(100% - 240px)',
         },
@@ -23,9 +24,10 @@ const DocsClientLayout = ({ children }: PropsWithChildren) => {
         flexDirection="column"
         sx={(theme) => ({
           padding: '0px 20px',
-          maxWidth: '840px',
+          maxWidth: '100%',
           [respondMore(theme.breakpoint.sm)]: {
             padding: '0px 40px',
+            maxWidth: '840px',
           },
           [respondMore(theme.breakpoint.xl)]: {
             maxWidth: 'min(840px, calc(100% - 208px))',

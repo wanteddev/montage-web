@@ -1,0 +1,136 @@
+---
+title: Text Button
+description: Background 요소 없이 텍스트만으로 행동을 유도합니다.
+image: /components/actions/text-button/design/thumbnail.png
+createdAt: 2025-05-12
+---
+
+## Basic text button
+
+`TextButton` 은 2가지 색상을 사용할 수 있어요.
+- primary (default)
+- assistive
+
+<Demo code={`import { FlexBox, TextButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <TextButton variant="primary">Primary</TextButton>
+      <TextButton variant="assistive">Assistive</TextButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With icon
+
+`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, TextButton } from '@wanteddev/wds';
+import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <TextButton
+        variant="primary"
+        leadingContent={<IconPlus />}
+      >
+        추가
+      </TextButton>
+      <TextButton
+        variant="assistive"
+        trailingContent={<IconTrash />}
+      >
+        삭제
+      </TextButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+2가지 사이즈를 제공해요.
+- small
+- medium (default)
+
+<Demo code={`import { TextButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <TextButton variant="primary" size="small">
+          Small
+        </TextButton>
+        <TextButton variant="primary" size="medium">
+          Medium
+        </TextButton>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <TextButton variant="assistive" size="small">
+          Small
+        </TextButton>
+        <TextButton variant="assistive" size="medium">
+          Medium
+        </TextButton>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Loading
+
+`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있어요.
+disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막아요.
+  - `onClick`
+  - `onMouseDown`
+  - `onPointerDown`
+  - `onKeyDown (e.key === 'Enter' || e.key === ' ')`
+
+이벤트 실행을 막지 않으려면 `disableLoadingPreventEvents` 을 사용할 수 있어요.
+
+<Demo code={`import { TextButton, FlexBox } from '@wanteddev/wds';
+import { useState, useEffect } from 'react';
+
+const Demo = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoading(prev => !prev)
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [])
+
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <TextButton variant="primary" loading={loading}>
+        제출
+      </TextButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+- size
+
+<PropsTable component="TextButton" />

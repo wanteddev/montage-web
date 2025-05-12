@@ -29,6 +29,10 @@ export const getAllFrontmatter = async () => {
         .replace('.mdx', '')
         .replace(/\/index$/, '')
         .split('/'),
+      originSlug: filePath
+        .replace(`${DATA_PATH}/`, '')
+        .replace('.mdx', '')
+        .split('/'),
     } as Frontmatter;
   });
 };

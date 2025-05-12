@@ -17,13 +17,42 @@ import type {
   SlugParams,
 } from './types';
 
+const FIRST_LEVEL_ORDER: { [key: string]: number } = {
+  'get-started': 1,
+  foundations: 2,
+  components: 3,
+};
+
 export const useLNBContent = () => {
   const { allFrontmatter } = useMDXContext();
   const params = useParams<SlugParams>();
 
   const filteredFrontmatter = useMemo(() => {
-    return allFrontmatter.reduce((acc: LNBFrontmatterGroup, cur) => {
-      const [firstKey, secondKey, thirdKey] = cur.slug;
+    const sortedFrontmatter = [...allFrontmatter].sort((a, b) => {
+      const [aFirst] = a.slug;
+      const [bFirst] = b.slug;
+
+      // first level은 정해진 순서대로 정렬
+      const aOrder = aFirst ? FIRST_LEVEL_ORDER[aFirst] || 999 : 999;
+      const bOrder = bFirst ? FIRST_LEVEL_ORDER[bFirst] || 999 : 999;
+
+      if (aOrder !== bOrder) {
+        return aOrder - bOrder;
+      }
+
+      // third level은 알파벳 순서대로 정렬
+      const aThirdLevel = a.slug[a.slug.length - 2];
+      const bThirdLevel = b.slug[b.slug.length - 2];
+
+      if (aThirdLevel && bThirdLevel) {
+        return aThirdLevel.localeCompare(bThirdLevel);
+      }
+
+      return 0;
+    });
+
+    return sortedFrontmatter.reduce((acc: LNBFrontmatterGroup, cur) => {
+      const [firstKey, secondKey, thirdKey] = cur.originSlug;
 
       if (!firstKey) return acc;
 
@@ -35,7 +64,7 @@ export const useLNBContent = () => {
 
       if (
         !firstLevelGroup &&
-        (!secondKey || secondKey.match(PLATFORM_PATTERN))
+        (!secondKey || (secondKey.match(PLATFORM_PATTERN) && !thirdKey))
       ) {
         acc.push(cur);
         return acc;
@@ -50,7 +79,7 @@ export const useLNBContent = () => {
         acc.push(firstLevelGroup);
       }
 
-      if (hasMatchingDevelopPlatformPage(cur.slug, allFrontmatter)) {
+      if (hasMatchingDevelopPlatformPage(cur.originSlug, allFrontmatter)) {
         return acc;
       }
 
@@ -58,7 +87,10 @@ export const useLNBContent = () => {
         (firstLevelGroup as LNBFrontmatterType).defaultOpen = true;
       }
 
-      if (secondKey && (!thirdKey || thirdKey.match(PLATFORM_PATTERN))) {
+      if (
+        secondKey &&
+        (!thirdKey || thirdKey.match(PLATFORM_PATTERN) || thirdKey === 'index')
+      ) {
         (firstLevelGroup as LNBFrontmatterType).children.push(cur);
         return acc;
       }

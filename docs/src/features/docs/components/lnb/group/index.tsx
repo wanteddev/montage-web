@@ -38,7 +38,9 @@ const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
 
   const getFrontmatterOption = useCallback((item: Frontmatter) => {
-    const title = item.slug.at(item.slug.length - 1)?.match(PLATFORM_PATTERN)
+    const title = item.originSlug
+      .at(item.originSlug.length - 1)
+      ?.match(PLATFORM_PATTERN)
       ? capitalCase(item.slug[item.slug.length - 2]!)
       : capitalCase(item.slug[item.slug.length - 1]!);
 

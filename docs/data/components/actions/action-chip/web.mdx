@@ -1,0 +1,139 @@
+---
+title: Action Chip
+description: 정보를 선택하거나 작은 버튼을 대신합니다.
+image: /components/actions/action-chip/design/thumbnail.png
+createdAt: 2025-04-03
+---
+
+## Basic action chip
+
+`ChipAction` 은 2가지 variant를 사용할 수 있어요.
+- solid (default)
+- outlined
+
+<Demo code={`import { FlexBox, ChipAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <ChipAction variant="solid">Solid</ChipAction>
+      <ChipAction variant="outlined">Outlined</ChipAction>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## States
+
+`active` prop 을 사용하여 활성화 상태를 설정할 수 있어요.
+
+<Demo code={`import { FlexBox, ChipAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column">
+      <FlexBox gap="12px" justifyContent="center">
+        <ChipAction variant="solid">Solid, Default</ChipAction>
+        <ChipAction variant="solid" active>Solid, Active</ChipAction>
+      </FlexBox>
+      <FlexBox gap="12px" justifyContent="center">
+        <ChipAction variant="outlined">Outlined, Default</ChipAction>
+        <ChipAction variant="outlined" active>Outlined, Active</ChipAction>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+
+## With Icon
+
+`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, ChipAction } from '@wanteddev/wds';
+import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <ChipAction
+        variant="solid"
+        leadingContent={<IconPlus />}
+      >
+        추가
+      </ChipAction>
+      <ChipAction
+        variant="outlined"
+        trailingContent={<IconTrash />}
+      >
+        삭제
+      </ChipAction>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+4가지 사이즈를 제공해요.
+- xsmall
+- small
+- medium (default)
+- large
+
+<Demo code={`import { ChipAction, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <ChipAction variant="solid" size="xsmall">
+          XSmall
+        </ChipAction>
+        <ChipAction variant="solid" size="small">
+          Small
+        </ChipAction>
+        <ChipAction variant="solid" size="medium">
+          Medium
+        </ChipAction>
+        <ChipAction variant="solid" size="large">
+          Large
+        </ChipAction>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <ChipAction variant="outlined" size="xsmall">
+          XSmall
+        </ChipAction>
+        <ChipAction variant="outlined" size="small">
+          Small
+        </ChipAction>
+        <ChipAction variant="outlined" size="medium">
+          Medium
+        </ChipAction>
+        <ChipAction variant="outlined" size="large">
+          Large
+        </ChipAction>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+- size
+
+<PropsTable component="ChipAction" />

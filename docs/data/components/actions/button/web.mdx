@@ -5,7 +5,7 @@ image: /components/actions/button/design/thumbnail.png
 createdAt: 2025-04-03
 ---
 
-## Solid Button
+## Solid button
 
 Solid Button은 2가지 색상을 사용할 수 있어요.
 - primary (default)
@@ -16,8 +16,8 @@ Solid Button은 2가지 색상을 사용할 수 있어요.
 const Demo = () => {
   return (
     <FlexBox gap="12px" justifyContent="center">
-      <Button color="primary">PRIMARY</Button>
-      <Button color="assistive">ASSISTIVE</Button>
+      <Button color="primary">Primary</Button>
+      <Button color="assistive">Assistive</Button>
     </FlexBox>
   )
 }
@@ -25,7 +25,7 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Outlined Button
+## Outlined button
 
 Outlined Button은 Solid Button 색상에 추가로 secondary 색상을 사용할 수 있어요.
 
@@ -34,9 +34,9 @@ Outlined Button은 Solid Button 색상에 추가로 secondary 색상을 사용�
 const Demo = () => {
   return (
     <FlexBox gap="12px" justifyContent="center">
-      <Button variant="outlined" color="primary">PRIMARY</Button>
-      <Button variant="outlined" color="secondary">SECONDARY</Button>
-      <Button variant="outlined" color="assistive">ASSISTIVE</Button>
+      <Button variant="outlined" color="primary">Primary</Button>
+      <Button variant="outlined" color="secondary">Secondary</Button>
+      <Button variant="outlined" color="assistive">Assistive</Button>
     </FlexBox>
   )
 }
@@ -45,29 +45,29 @@ export default Demo;`}
 />
 
 
-## With Icon
+## With icon
 
 `leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있어요.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
-import { IconPlus, IconSendFill } from '@wanteddev/wds-icon';
+import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" justifyContent="center">
       <Button
-        variant="outlined"
-        color="assistive"
+        variant="solid"
+        color="primary"
         leadingContent={<IconPlus />}
       >
         추가
       </Button>
       <Button
-        variant="solid"
-        color="primary"
-        trailingContent={<IconSendFill />}
+        variant="outlined"
+        color="assistive"
+        trailingContent={<IconTrash />}
       >
-        전송
+        삭제
       </Button>
     </FlexBox>
   )
@@ -76,9 +76,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## IconOnly
+## Icon only
 
-iconOnly 옵션을 사용하면 아이콘만 단독으로 배치할 수 있어요.
+`iconOnly` prop 을 사용하면 아이콘만 단독으로 배치할 수 있어요.
 
 다른 버튼과 나란히 사용할 때 `IconButton` 대신 iconOnly 버튼을 사용해요.
 
@@ -113,6 +113,9 @@ export default Demo;`}
 ## Sizes
 
 3가지 사이즈를 제공해요.
+- small
+- medium (default)
+- large
 
 <Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
 
@@ -121,61 +124,61 @@ const Demo = () => {
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center">
         <Button variant="solid" color="primary" size="small">
-          SMALL
+          Small
         </Button>
         <Button variant="solid" color="primary" size="medium">
-          MEDIUM
+          Medium
         </Button>
         <Button variant="solid" color="primary" size="large">
-          LARGE
+          Large
         </Button>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
         <Button variant="solid" color="assistive" size="small">
-          SMALL
+          Small
         </Button>
         <Button variant="solid" color="assistive" size="medium">
-          MEDIUM
+          Medium
         </Button>
         <Button variant="solid" color="assistive" size="large">
-          LARGE
+          Large
         </Button>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
         <Button variant="outlined" color="primary" size="small">
-          SMALL
+          Small
         </Button>
         <Button variant="outlined" color="primary" size="medium">
-          MEDIUM
+          Medium
         </Button>
         <Button variant="outlined" color="primary" size="large">
-          LARGE
+          Large
         </Button>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
         <Button variant="outlined" color="secondary" size="small">
-          SMALL
+          Small
         </Button>
         <Button variant="outlined" color="secondary" size="medium">
-          MEDIUM
+          Medium
         </Button>
         <Button variant="outlined" color="secondary" size="large">
-          LARGE
+          Large
         </Button>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
         <Button variant="outlined" color="assistive" size="small">
-          SMALL
+          Small
         </Button>
         <Button variant="outlined" color="assistive" size="medium">
-          MEDIUM
+          Medium
         </Button>
         <Button variant="outlined" color="assistive" size="large">
-          LARGE
+          Large
         </Button>
       </FlexBox>
     </FlexBox>

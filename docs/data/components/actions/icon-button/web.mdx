@@ -1,0 +1,130 @@
+---
+title: Icon Button
+description: 아이콘으로 행동을 직관적으로 유추합니다.
+image: /components/actions/icon-button/design/thumbnail.png
+createdAt: 2025-05-12
+---
+
+## Basic icon button
+
+`IconButton` 은 4가지 variant 를 사용할 수 있어요.
+- normal (default)
+- background
+- outlined
+- solid
+
+<Demo code={`import { FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center" alignItems="center">
+      <IconButton variant="normal">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="outlined">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="solid">
+        <IconBlank />
+      </IconButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Alternative
+
+`background` variant 를 사용할 때에는 `alternative` prop 으로 배경 색상을 다르게 표시할 수 있어요.
+
+<Demo code={`import { FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center" alignItems="center">
+      <IconButton variant="background">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" alternative>
+        <IconBlank />
+      </IconButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With push badge
+
+[PushBadge](/components/feedback/push-badge/web) 와 함께 사용할 수 있어요.
+
+<Demo code={`import { FlexBox, IconButton, PushBadge } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center" alignItems="center">
+      <PushBadge variant="dot">
+        <IconButton>
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+      <PushBadge variant="new">
+        <IconButton>
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+      <PushBadge variant="number" count={6}>
+        <IconButton>
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Sizes
+
+2가지 사이즈를 제공해요.
+- small
+- medium (default)
+
+<Demo code={`import { TextButton, FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <IconButton size="medium">
+          <IconBlank />
+        </IconButton>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+
+## API
+
+`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+- size
+
+<PropsTable component="IconButton" />
