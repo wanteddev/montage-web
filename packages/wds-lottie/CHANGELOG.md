@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/wanteddev/wds/compare/v2.0.0...v2.0.1) (2025-05-12)
+
+**Note:** Version bump only for package @wanteddev/wds-lottie
+
 # [2.0.0](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.3...v2.0.0) (2025-04-30)
 
 **Note:** Version bump only for package @wanteddev/wds-lottie

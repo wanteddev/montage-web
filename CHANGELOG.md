@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/wanteddev/wds/compare/v2.0.0...v2.0.1) (2025-05-12)
+
+### Bug Fixes
+
+- **wds:** icon button backgroud, normal의 경우 medium, small 을 지원하지 않도록 변경 ([#325](https://github.com/wanteddev/wds/issues/325)) ([85297ad](https://github.com/wanteddev/wds/commit/85297ad78a28e8f173aeca15609aa13d07fa8b72))
+- **wds:** list text에 ellipsis, text-align이 올바르게 동작하지 않음 ([882dadc](https://github.com/wanteddev/wds/commit/882dadcb687a9aab2aab9218a6f2aa37472638e4))
+- **wds:** 툴팁 trigger mousedown으로 포커스 되지 않는 현상 수정 ([#320](https://github.com/wanteddev/wds/issues/320)) ([b8e4d0a](https://github.com/wanteddev/wds/commit/b8e4d0a4ac89efd02d1502a81540da9683287da4))
+
+### Features
+
+- **wds:** button loading시 cursor wait으로 변경 ([#323](https://github.com/wanteddev/wds/issues/323)) ([a36de1f](https://github.com/wanteddev/wds/commit/a36de1f5c33f9cf310a2c608d983888da8f1b159))
+- **wds:** card sub caption 대응 및 미세 간격 조정 ([#319](https://github.com/wanteddev/wds/issues/319)) ([28f6197](https://github.com/wanteddev/wds/commit/28f619782be34290cbf52c821238022953c5e783))
+- **wds:** date picker 키보드 접근성 개선 ([#324](https://github.com/wanteddev/wds/issues/324)) ([f6622ee](https://github.com/wanteddev/wds/commit/f6622eeffc7a9287a1826c9f0faf56b5dee0f0fb))
+- **wds:** modal animation important 처리 제거 및 visibility hidden 반응형 버그 수정 ([#322](https://github.com/wanteddev/wds/issues/322)) ([16e0b42](https://github.com/wanteddev/wds/commit/16e0b420afc60dbfdaf9798c8471f436f9afebc0))
+- **wds:** toast, snackbar에 semantic duration 추가 ([#318](https://github.com/wanteddev/wds/issues/318)) ([82cebd7](https://github.com/wanteddev/wds/commit/82cebd723217b9b7141fb7db5693405e64f0f07d))
+- **wds:** tooltip click mode 추가 및 popper referenceHiddenOffset 옵션 추가 ([#321](https://github.com/wanteddev/wds/issues/321)) ([923edc5](https://github.com/wanteddev/wds/commit/923edc5a612455660f58b8c2083a9ca182f0cf9a))
+
 # [2.0.0](https://github.com/wanteddev/wds/compare/v2.0.0-alpha.3...v2.0.0) (2025-04-30)
 
 ### Features
