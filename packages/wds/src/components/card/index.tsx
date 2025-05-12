@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import {
   Box,
   type DefaultComponentProps,
@@ -70,7 +70,6 @@ const Card = forwardRef(
       <FlexBox
         ref={ref}
         flexDirection="column"
-        gap="10px"
         {...props}
         sx={[cardStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
       />
@@ -197,7 +196,7 @@ const CardContentItem = forwardRef(
   (
     {
       sx,
-      position,
+      position = 'top',
       variant,
       ...props
     }: DefaultComponentProps<CardContentItemProps, 'div'>,
@@ -283,7 +282,6 @@ const CardSkeleton = forwardRef(
       <FlexBox
         ref={ref}
         flexDirection="column"
-        gap="10px"
         {...props}
         sx={[cardSkeletonStyle({ platform, width, xs, sm, md, lg, xl }), sx]}
       />
@@ -362,12 +360,27 @@ const CardCaptionSkeleton = forwardRef(
   (
     {
       type = 'normal',
-      width = type === 'normal' ? '25%' : '50%',
+      width: originWidth,
       height = '18px',
       ...props
     }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
+    const width = useMemo(() => {
+      if (originWidth !== undefined) {
+        return originWidth;
+      }
+
+      switch (type) {
+        case 'normal':
+          return '75%';
+        case 'sub':
+          return '50%';
+        case 'extra':
+          return '25%';
+      }
+    }, [type, originWidth]);
+
     return (
       <Skeleton
         ref={ref}

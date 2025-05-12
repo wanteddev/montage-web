@@ -19,6 +19,11 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
   switch (platform) {
     case 'desktop':
       return css`
+        gap: 8px;
+        --wds-card-content-item-top-position-margin-top: 2px;
+        --wds-card-content-item-top-position-margin-bottom: 4px;
+
+        --wds-card-content-item-bottom-position-margin-top: 8px;
         // thumbnail
         [wds-component='thumbnail'],
         [wds-component='thumbnail-skeleton'] {
@@ -54,6 +59,12 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
 
     case 'mobile':
       return css`
+        gap: 6px;
+
+        --wds-card-content-item-top-position-margin-top: 2px;
+        --wds-card-content-item-top-position-margin-bottom: 4px;
+
+        --wds-card-content-item-bottom-position-margin-top: 6px;
         // thumbnail
         [wds-component='thumbnail'],
         [wds-component='thumbnail-skeleton'] {
@@ -237,14 +248,6 @@ export const cardContentStyle = css`
   [wds-component='card-title-skeleton'] {
     margin-bottom: 2px;
   }
-
-  --wds-card-content-item-margin-top: 6px;
-  --wds-card-content-item-margin-bottom: 6px;
-
-  [wds-component='card-title'] + [wds-component='card-content-item'],
-  [wds-component='card-title-skeleton'] + [wds-component='card-content-item'] {
-    --wds-card-content-item-margin-top: 4px;
-  }
 `;
 
 export const cardContentItemStyle = ({
@@ -257,11 +260,14 @@ export const cardContentItemStyle = ({
     switch (position) {
       case 'top':
         return css`
-          margin-bottom: var(--wds-card-content-item-margin-bottom);
+          margin-top: var(--wds-card-content-item-top-position-margin-top);
+          margin-bottom: var(
+            --wds-card-content-item-top-position-margin-bottom
+          );
         `;
       case 'bottom':
         return css`
-          margin-top: var(--wds-card-content-item-margin-top);
+          margin-top: var(--wds-card-content-item-bottom-position-margin-top);
         `;
     }
   })()};
@@ -273,6 +279,12 @@ const cardSkeletonPlatformStyle = ({
   switch (platform) {
     case 'desktop':
       return css`
+        gap: 8px;
+        --wds-card-content-item-top-position-margin-top: 4px;
+        --wds-card-content-item-top-position-margin-bottom: 4px;
+
+        --wds-card-content-item-bottom-position-margin-top: 8px;
+
         // thumbnail
         [wds-component='thumbnail'],
         [wds-component='thumbnail-skeleton'] {
@@ -292,6 +304,12 @@ const cardSkeletonPlatformStyle = ({
 
     case 'mobile':
       return css`
+        gap: 6px;
+        --wds-card-content-item-top-position-margin-top: 2px;
+        --wds-card-content-item-top-position-margin-bottom: 4px;
+
+        --wds-card-content-item-bottom-position-margin-top: 6px;
+
         // thumbnail
         [wds-component='thumbnail'],
         [wds-component='thumbnail-skeleton'] {
