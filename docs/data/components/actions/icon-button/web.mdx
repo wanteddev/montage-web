@@ -1,7 +1,6 @@
 ---
 title: Icon Button
 description: 아이콘으로 행동을 직관적으로 유추합니다.
-image: /components/actions/icon-button/design/thumbnail.png
 createdAt: 2025-05-12
 ---
 
@@ -100,16 +99,44 @@ export default Demo;`}
 - small
 - medium (default)
 
-<Demo code={`import { TextButton, FlexBox, IconButton } from '@wanteddev/wds';
+`normal` variant와 `background` variant는 `small` 사이즈를 지원하지 않아요.
+
+number 타입 옵션을 넣어 크기를 커스텀 할 수 있어요.
+
+<Demo code={`import { TextButton, FlexBox, IconButton, Typography } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center">
-        <IconButton size="medium">
-          <IconBlank />
-        </IconButton>
+        <Typography variant="body2-reading">Medium</Typography>
+        <FlexBox gap="12px" alignItems="center">
+          <IconButton size="medium" variant="normal">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="medium" variant="background">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="medium" variant="outlined">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="medium" variant="solid">
+            <IconBlank />
+          </IconButton>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Small</Typography>
+        <FlexBox gap="12px" alignItems="center">
+          <IconButton size="small" variant="outlined">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="small" variant="solid">
+            <IconBlank />
+          </IconButton>
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   )
