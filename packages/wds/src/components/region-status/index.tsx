@@ -47,7 +47,7 @@ const RegionStatus = () => {
 
 const Toast = ({
   id,
-  duration = 3000,
+  duration,
   variant = 'normal',
   icon,
   content,
@@ -105,7 +105,7 @@ const Toast = ({
 
 const Snackbar = ({
   id,
-  duration = 5000,
+  duration,
   title,
   description,
   extraContent,

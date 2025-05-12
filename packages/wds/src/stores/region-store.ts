@@ -31,6 +31,15 @@ export type RegionSnackbarItem = {
   onAnimationEnd?: (type: 'hide' | 'show') => void;
 };
 
+export type UseRegionStoreAddDuration = number | 'short' | 'long';
+
+export type WithUseRegionStoreAddDuration<T extends object> = Merge<
+  {
+    duration?: UseRegionStoreAddDuration;
+  },
+  T
+>;
+
 export type RegionItem = RegionToastItem | RegionSnackbarItem;
 
 export type WithRegionSystem<T extends object> = Merge<
