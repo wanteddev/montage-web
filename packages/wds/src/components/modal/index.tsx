@@ -109,6 +109,14 @@ const Modal = ({
   }, [isBottomSheet, setDuration]);
 
   useEffect(() => {
+    // variant="bottom" sm={{ variant: 'popup' }} 일 때 예외 처리
+    if (!isBottomSheet && open && visibility === 'hidden') {
+      setVisibility('visible');
+      setOpen(false);
+    }
+  }, [isBottomSheet, open, visibility, setOpen, setVisibility]);
+
+  useEffect(() => {
     if (hasExited || status === 'unmounted') {
       setVisibility('visible');
     }
