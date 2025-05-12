@@ -135,15 +135,6 @@ const modalBottomMountKeyframes = keyframes`
   }
 `;
 
-export const modalBottomUnmountKeyframes = keyframes`
-  0% {
-    transform: translateY(var(--wds-modal-translate, 0px));
-  }
-  100% {
-    transform: translateY(100%);
-  }
-`;
-
 export const modalContainerStyle =
   ({ resize, variant, size, xs, sm, md, lg, xl }: ModalContainerProps) =>
   (theme: Theme) => css`
@@ -382,9 +373,30 @@ const modalContainerVariant = (
         border-radius: 0px;
         padding: initial;
         transition: none;
-        && {
-          transform: none !important;
-          box-shadow: none !important;
+
+        &[data-status='initial'],
+        &[data-status='open'] {
+          transform: initial;
+          transition: none;
+        }
+
+        &[data-status='unmounted'],
+        &[data-status='close'] {
+          transform: initial;
+        }
+
+        [data-role='navigation-title'] {
+          user-select: initial;
+        }
+
+        &[data-status='open'][data-visibility='visible'] {
+          box-shadow: none;
+          transition: none;
+        }
+
+        &[data-status='open'][data-visibility='hidden'] {
+          box-shadow: none;
+          transition: initial;
         }
       `;
     case 'popup':
@@ -395,9 +407,30 @@ const modalContainerVariant = (
         padding: initial;
         overflow: hidden;
         transition: none;
-        && {
-          transform: none !important;
-          box-shadow: none !important;
+
+        &[data-status='initial'],
+        &[data-status='open'] {
+          transform: initial;
+          transition: none;
+        }
+
+        &[data-status='unmounted'],
+        &[data-status='close'] {
+          transform: initial;
+        }
+
+        [data-role='navigation-title'] {
+          user-select: initial;
+        }
+
+        &[data-status='open'][data-visibility='visible'] {
+          box-shadow: none;
+          transition: none;
+        }
+
+        &[data-status='open'][data-visibility='hidden'] {
+          box-shadow: none;
+          transition: initial;
         }
       `;
     case 'bottom':
@@ -419,12 +452,11 @@ const modalContainerVariant = (
         &[data-status='initial'],
         &[data-status='open'] {
           transform: translateY(var(--wds-modal-translate, 0px));
-          transition: none;
         }
 
         &[data-status='unmounted'],
         &[data-status='close'] {
-          transform: translateY(100%) !important;
+          transform: translateY(100%);
         }
 
         [data-role='navigation-title'] {
@@ -433,7 +465,6 @@ const modalContainerVariant = (
 
         &[data-status='open'][data-visibility='visible'] {
           box-shadow: none;
-          transition: none;
         }
 
         &[data-status='open'][data-visibility='hidden'] {
