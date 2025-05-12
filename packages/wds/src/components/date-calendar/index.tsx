@@ -397,6 +397,7 @@ const YearCalendar = forwardRef<
 
       if (selectedDateIdx !== -1) {
         scrollIntoViewDate('year', yearRange[selectedDateIdx]!, containerRef);
+        focusDate('year', yearRange[selectedDateIdx]!, containerRef);
         setFocusedIdx(selectedDateIdx);
         return;
       }
@@ -407,11 +408,18 @@ const YearCalendar = forwardRef<
 
       if (todayDateIdx !== -1) {
         scrollIntoViewDate('year', yearRange[todayDateIdx]!, containerRef);
+        focusDate('year', yearRange[todayDateIdx]!, containerRef);
         setFocusedIdx(todayDateIdx);
         return;
       }
 
-      setFocusedIdx(yearRange.length > 0 ? 0 : -1);
+      const fallbackDateIdx = yearRange.length > 0 ? 0 : -1;
+
+      if (fallbackDateIdx !== -1) {
+        focusDate('year', yearRange[fallbackDateIdx]!, containerRef);
+      }
+
+      setFocusedIdx(fallbackDateIdx);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     yearRange.map((v) => v),
@@ -643,6 +651,7 @@ const MonthCalendar = memo(
             monthRange[selectedDateIdx]!.value,
             containerRef,
           );
+          focusDate('month', monthRange[selectedDateIdx]!.value, containerRef);
           setFocusedIdx(selectedDateIdx);
           return;
         }
@@ -650,7 +659,10 @@ const MonthCalendar = memo(
         const todayDateIdx = isValidDate(now.toDate())
           ? monthRange.findIndex(
               (v) =>
-                !v.disabled && v.value === dayjsTimezone(now, timezone).month(),
+                !v.disabled &&
+                v.value === dayjsTimezone(now, timezone).month() &&
+                dayjsTimezone(now, timezone).year() ===
+                  dayjsTimezone(dayjs(defaultSelectedDate), timezone).year(),
             )
           : -1;
 
@@ -660,11 +672,18 @@ const MonthCalendar = memo(
             monthRange[todayDateIdx]!.value,
             containerRef,
           );
+          focusDate('month', monthRange[todayDateIdx]!.value, containerRef);
           setFocusedIdx(todayDateIdx);
           return;
         }
 
-        setFocusedIdx(monthRange.findIndex((v) => !v.disabled));
+        const fallbackDateIdx = monthRange.findIndex((v) => !v.disabled);
+
+        if (fallbackDateIdx !== -1) {
+          focusDate('month', monthRange[fallbackDateIdx]!.value, containerRef);
+        }
+
+        setFocusedIdx(fallbackDateIdx);
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       monthRange.map((v) => v.value),
@@ -912,6 +931,11 @@ const DayCalendar = memo(
 
         if (selectedDateIdx !== -1) {
           setFocusedIdx(selectedDateIdx);
+          focusDate(
+            'day',
+            dayRange[selectedDateIdx]!.value.date(),
+            containerRef,
+          );
           return;
         }
 
@@ -927,12 +951,23 @@ const DayCalendar = memo(
 
         if (todayDateIdx !== -1) {
           setFocusedIdx(todayDateIdx);
+          focusDate('day', dayRange[todayDateIdx]!.value.date(), containerRef);
           return;
         }
 
-        setFocusedIdx(
-          dayRange.findIndex((v) => !v.isOtherMonth && !v.disabled),
+        const fallbackDateIdx = dayRange.findIndex(
+          (v) => !v.isOtherMonth && !v.disabled,
         );
+
+        if (fallbackDateIdx !== -1) {
+          focusDate(
+            'day',
+            dayRange[fallbackDateIdx]!.value.date(),
+            containerRef,
+          );
+        }
+
+        setFocusedIdx(fallbackDateIdx);
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       dayRange.map((v) => v.value.format('YYYY MM DD')),
@@ -963,13 +998,30 @@ const DayCalendar = memo(
 
     const handleKeyDown = useCallback(
       (e: KeyboardEvent) => {
-        const changeDateByKeyDown = (newDate: Dayjs) => {
-          const newValue = findClosestEnableDate({
-            min,
-            max,
-            value: dateTypeToDateObject(newDate, timezone),
-            timezone,
-          });
+        const changeDateByKeyDown = (date: number | Dayjs) => {
+          let newValue: Date;
+
+          if (typeof date === 'number') {
+            const newDay =
+              Number(e.currentTarget.getAttribute('data-date') ?? '0') + date;
+
+            newValue = findClosestEnableDate({
+              min,
+              max,
+              value: dateTypeToDateObject(
+                dayjs(defaultSelectedDate).set('date', newDay),
+                timezone,
+              ),
+              timezone,
+            });
+          } else {
+            newValue = findClosestEnableDate({
+              min,
+              max,
+              value: dateTypeToDateObject(date, timezone),
+              timezone,
+            });
+          }
 
           setDefaultSelectedDate(newValue);
           setFocusedIdx(
@@ -987,20 +1039,20 @@ const DayCalendar = memo(
 
         switch (e.key) {
           case 'ArrowUp':
-            changeDateByKeyDown(dayjs(defaultSelectedDate).subtract(7, 'day'));
+            changeDateByKeyDown(-7);
             e.preventDefault();
             break;
           case 'ArrowDown':
-            changeDateByKeyDown(dayjs(defaultSelectedDate).add(7, 'day'));
+            changeDateByKeyDown(7);
             e.preventDefault();
             break;
           case 'ArrowLeft': {
-            changeDateByKeyDown(dayjs(defaultSelectedDate).subtract(1, 'day'));
+            changeDateByKeyDown(-1);
             e.preventDefault();
             break;
           }
           case 'ArrowRight': {
-            changeDateByKeyDown(dayjs(defaultSelectedDate).add(1, 'day'));
+            changeDateByKeyDown(1);
             e.preventDefault();
             break;
           }
@@ -1083,7 +1135,7 @@ const DayCalendar = memo(
                     now.format('YYYY MM DD') ===
                     dayjs(day.value).format('YYYY MM DD')
                   }
-                  data-day={day.label}
+                  data-date={day.label}
                   tabIndex={focusedIdx === idx * 7 + dayIdx ? 0 : -1}
                   aria-colindex={dayIdx + 1}
                   aria-label={day.label.toString()}

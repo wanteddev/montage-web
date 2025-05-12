@@ -172,7 +172,7 @@ export const focusDate = (
     case 'day':
       return containerRef.current
         ?.querySelector<HTMLDivElement>(
-          `[data-day='${value}']:not([aria-disabled='true'])[data-other-month='false']`,
+          `[data-date='${value}']:not([aria-disabled='true'])[data-other-month='false']`,
         )
         ?.focus();
   }
