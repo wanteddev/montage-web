@@ -152,6 +152,7 @@ export { default as IconFolderStar } from './icon-folder-star';
 export { default as IconFolderStarFill } from './icon-folder-star-fill';
 export { default as IconFull } from './icon-full';
 export { default as IconGlobe } from './icon-globe';
+export { default as IconGlobe } from './icon-globe';
 export { default as IconGraduation } from './icon-graduation';
 export { default as IconGraduationFill } from './icon-graduation-fill';
 export { default as IconHandle } from './icon-handle';
