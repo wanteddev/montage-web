@@ -1,6 +1,6 @@
 ---
 title: Date Picker
-description: 사용자가 YYYY. MM. DD순으로 날짜를 입력할 수 있는 폼을 제공해요.
+description: 사용자가 00:00:00 (시간, 분, 초)순으로 시간을 입력할 수 있는 폼을 제공해요.
 createdAt: 2025-05-12
 ---
 
@@ -12,11 +12,11 @@ createdAt: 2025-05-12
 - 기본적으로 TextField 컴포넌트를 사용해요.
 - 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
 
-<Demo code={`import { DatePicker } from '@wanteddev/wds';
+<Demo code={`import { TimePicker } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <DatePicker width="40%" />
+    <TimePicker width="40%" />
   )
 }
 
@@ -25,26 +25,30 @@ export default Demo;`}
 
 ## Format
 
-날짜가 표시되는 format 을 지정할 수 있어요.
+input에 시간이 표시되는 format 을 지정할 수 있어요.
 아래 format을 모두 사용할 수 있어요.
-- YYYY, YY
-- M, MM, MMM, MMMM
-- D, DD
 - H, HH, h, hh
 - m, mm
 - s, ss
 - A, a
+- YYYY, YY
+- M, MM, MMM, MMMM
+- D, DD
 
-<Demo code={`import { DatePicker, FlexBox } from '@wanteddev/wds';
+12시간 형식일 경우 `a` 또는 `A`와 `h` 또는 `hh`를 함께 사용해야하며
+24시간 형식일 경우 `H` 또는 `HH`만 사용해요.
+
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" alignItems="center" gap="20px" sx={{ width: '100%' }}>
-      <DatePicker format="MMMM.DD" width="40%" />
-
-      <DatePicker format="MM/YYYY" width="40%" />
-      
-      <DatePicker format="YYYY-MM-DD" width="40%" />
+      <TimePicker width="40%" format="a hh:mm:ss" />
+      <TimePicker width="40%" format="a h:m:s" />
+      <TimePicker width="40%" format="HH:mm:ss" />
+      <TimePicker width="40%" format="H:m:s" />
+      <TimePicker width="40%" format="mm:ss" />
+      <TimePicker width="40%" format="m:s" />
     </FlexBox>
   )
 }
@@ -61,13 +65,13 @@ export default Demo;`}
   - 기본적으로 timezone은 사용자의 환경에 따라 결정돼요.
   - [dayjs](https://day.js.org/docs/en/timezone/timezone) 에서 지원하는 timezone과 `UTC` 를 모두 import 없이 사용할 수 있어요.
 
-<Demo code={`import { DatePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox flexDirection="column" alignItems="center" gap="20px" sx={{ width: '100%' }}>
-      <DatePicker format="MMM/DD hh:mm:ss" width="40%" defaultValue={new Date()} locale="ko-KR" timezone="Asia/Seoul" />
-      <DatePicker format="MMM/DD hh:mm:ss" width="40%" defaultValue={new Date()} locale="en-US" timezone="UTC" />
+      <TimePicker width="40%" defaultValue={new Date()} locale="ko-KR" timezone="Asia/Seoul" />
+      <TimePicker width="40%" defaultValue={new Date()} locale="en-US" timezone="UTC" />
     </FlexBox>
   )
 }
@@ -79,29 +83,23 @@ export default Demo;`}
 
 `views`, `defaultView`, `view`, `onViewChange` 로 선택 UI를 조정할 수 있어요.
 
-`'year' | 'month' | 'day'` 를 지원해요.
+`'meridiem' | 'hour' | 'minute' | 'second'` 를 지원해요.
 
-<Demo code={`import { DatePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
 
   return (
-    <FlexBox flexDirection="column" gap="20px">
-      <DatePicker
-        width="300px"
-        format="YYYY.MM"
-        views={['year', 'month']}
+    <FlexBox flexDirection="column" alignItems="center" gap="20px" sx={{ width: '100%' }}>
+      <TimePicker
+        width="40%"
+        format="mm:ss"
+        views={['minute', 'second']}
       />
-      <DatePicker
-        width="300px"
-        format="YYYY"
-        views={['year']}
-      />
-      <DatePicker
-        width="300px"
-        format="YYYY MM DD"
-        defaultView="year"
-        views={['year', 'day']}
+      <TimePicker
+        width="40%"
+        format="hh a"
+        views={['hour', 'meridiem']}
       />
     </FlexBox>
   )
@@ -122,13 +120,13 @@ export default Demo;`}
 
 `Checkbox` 컴포넌트와 함께 사용할 때에는 `disableLastUnitClickClose` prop 을 사용하여 더욱 자연스러운 동작을 구현할 수 있어요.
 
-<Demo code={`import { DatePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <FlexBox flexDirection="column" gap="20px">
-      <DatePicker
-        width="300px"
+    <FlexBox flexDirection="column" alignItems="center" gap="20px" sx={{ width: '100%' }}>
+      <TimePicker
+        width="40%"
         placeholder="현재, 확인"
         actionArea={
           <PickerActionArea>
@@ -138,8 +136,8 @@ const Demo = () => {
         }
       />
 
-      <DatePicker
-        width="300px"
+      <TimePicker
+        width="40%"
         placeholder="취소, 초기화"
         actionArea={
           <PickerActionArea>
@@ -150,8 +148,8 @@ const Demo = () => {
       />
 
 
-      <DatePicker
-        width="300px"
+      <TimePicker
+        width="40%"
         placeholder="checkbox, 확인"
         disableLastUnitClickClose
         actionArea={
@@ -186,60 +184,61 @@ export default Demo;`}
 - 키보드 조작을 통해서는 범위를 벗어나는 값을 입력할 수 있어요.
 - Invalid date 상태를 가질 수 있어요.
 
-<Demo code={`import { DatePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+
+<Demo code={`import { TimePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
 import { Controller, useForm } from 'react-hook-form';
 
-const minDate = new Date('2000-01-01');
-const maxDate = new Date('2025-12-31');
+const minTime = new Date(new Date().setHours(10, 0, 0));
+const maxTime = new Date(new Date().setHours(17, 30, 0));
 
 const Demo = () => {
   const form = useForm({
     defaultValues: {
-      date: new Date(),
+      time: new Date(),
     },
     mode: 'onChange'
   });
 
   return (
-    <FlexBox as="form">
+    <FlexBox as="form" justifyContent="center" gap="20px" sx={{ width: '100%' }}>
       <Controller
         control={form.control}
-        name="date"
+        name="time"
         rules={{
           validate: (value) => {
             if (isNaN(new Date(value).getTime())) {
               return '유효한 날짜를 입력해주세요.';
             }
 
-            if (new Date(value).getTime() < minDate.getTime()) {
-              return '최소 날짜는 2000년 1월 1일 이상이어야 합니다.';
+            if (new Date(value).getTime() < minTime.getTime()) {
+              return '최소 시간은 10시 이상이어야 합니다.';
             }
 
-            if (new Date(value).getTime() > maxDate.getTime()) {
-              return '최대 날짜는 2025년 12월 31일 이하이어야 합니다.';
+            if (new Date(value).getTime() > maxTime.getTime()) {
+              return '최대 시간은 17시 30분 이하이어야 합니다.';
             }
             
           return true;
           },
         }}
         render={({ field, formState }) => (
-          <FormField>
-            <FormLabel>날짜</FormLabel>
+          <FormField sx={{ width: '40%' }}>
+            <FormLabel>시간</FormLabel>
 
             <FormControl>
-              <DatePicker
-                min={minDate}
-                max={maxDate}
-                format="YYYY.MM.DD"
-                width="300px"
+              <TimePicker
+                width="100%"
+                format="HH시 mm분"
+                minTime={minTime}
+                maxTime={maxTime}
                 inputRef={field.ref}
                 value={field.value}
                 onChange={field.onChange}
-                invalid={!!formState.errors.date}
+                invalid={!!formState.errors.time}
               />
             </FormControl>
 
-            <FormErrorMessage>{formState.errors.date?.message}</FormErrorMessage>
+            <FormErrorMessage>{formState.errors.time?.message}</FormErrorMessage>
           </FormField>
         )}
       />
@@ -260,7 +259,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있어요.
 - `FormErrorMessage`
 
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, DatePicker } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TimePicker } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -268,7 +267,7 @@ const Demo = () => {
       <FormField sx={{ width: '40%' }}>
         <FormLabel required sx={{ padding: '1px 0px' }}>Label</FormLabel>
         <FormControl>
-          <DatePicker width="100%" />
+          <TimePicker width="100%" />
         </FormControl>
         <FormMessage>Helper Message</FormMessage>
       </FormField>
@@ -285,10 +284,10 @@ export default Demo;`}
 
 > react 18.3 미만의 버전을 사용 중이라면, `forwardRef` 를 필수로 작성해주세요.
 
-<Demo code={`import { DatePicker, DatePickerFieldProps, ChipAction, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, TimePickerFieldProps, ChipAction, FlexBox } from '@wanteddev/wds';
 import { forwardRef, useState } from 'react';
 
-const CustomChipField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
+const CustomChipField = forwardRef<HTMLDivElement, TimePickerFieldProps>(
   ({ value, onClick, inputRef, invalid, ...props }, ref) => {
     return (
       <ChipAction ref={ref} onClick={onClick}>
@@ -298,7 +297,7 @@ const CustomChipField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
   }
 )
 
-const CustomFieldField = forwardRef<HTMLDivElement, DatePickerFieldProps>(
+const CustomFieldField = forwardRef<HTMLDivElement, TimePickerFieldProps>(
   ({ trailingContent, inputRef, invalid, ...props }, ref) => {
     return (
       <FlexBox ref={ref} gap="10px" alignItems="center">
@@ -315,14 +314,14 @@ const Demo = () => {
 
   return (
     <FlexBox flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
-      <DatePicker
+      <TimePicker
         width="40%"
         input={CustomChipField}
         open={open1}
         onOpenChange={setOpen1}
         onClick={() => setOpen1(true)}
       />
-      <DatePicker
+      <TimePicker
         width="40%"
         input={CustomFieldField}
         open={open2}
@@ -343,7 +342,7 @@ export default Demo;`}
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
-<Demo code={`import { DatePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -351,8 +350,8 @@ const Demo = () => {
 
   return (
     <FlexBox alignItems="center" flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
-      <DatePicker defaultValue={new Date()} width="40%" />
-      <DatePicker value={value} onChange={setValue} width="40%" />
+      <TimePicker defaultValue={new Date()} width="40%" />
+      <TimePicker value={value} onChange={setValue} width="40%" />
     </FlexBox>
   )
 }
@@ -368,10 +367,9 @@ export default Demo;`}
 
 ## API
 
+### TimePicker
 
-### DatePicker
-
-<PropsTable component="DatePicker" />
+<PropsTable component="TimePicker" />
 
 ### PickerActionArea
 

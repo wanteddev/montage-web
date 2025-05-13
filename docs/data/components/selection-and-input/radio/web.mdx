@@ -1,0 +1,348 @@
+---
+title: Radio
+description: 하나의 항목을 선택하는 요소로 사용해요.
+createdAt: 2025-05-12
+---
+
+## Radio group
+
+`RadioGroup`과 `RadioGroupItem` 을 사용하여 적절한 키보드 접근성을 제공해요.
+
+<Demo code={`import { RadioGroup, RadioGroupItem, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <RadioGroup>
+      <FlexBox flexDirection="column" gap="8px">
+        <Label>Radio group</Label>
+        <FlexBox gap="8px" flexDirection="column">
+          <FlexBox gap="8px">
+            <RadioGroupItem id="default" value="default" />
+            <Label htmlFor="default">Default</Label>
+          </FlexBox>
+          <FlexBox gap="8px">
+            <RadioGroupItem id="other-value" value="other-value" />
+            <Label htmlFor="other-value">Other Value</Label>
+          </FlexBox>
+        </FlexBox>
+      </FlexBox>
+    </RadioGroup>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Sizes
+
+2가지 size를 제공해요.
+- small
+- medium (default)
+
+medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰요.
+
+<Demo code={`import { RadioGroup, RadioGroupItem, Label, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <RadioGroup>
+      <FlexBox flexDirection="column" gap="8px">
+        <Label>Radio group</Label>
+        <FlexBox gap="8px" flexDirection="column">
+          <FlexBox gap="8px">
+            <RadioGroupItem id="small" value="small" />
+            <Label htmlFor="small">Small</Label>
+          </FlexBox>
+          <FlexBox gap="8px">
+					<RadioGroupItem id="medium" value="medium" />
+            <Label htmlFor="medium">Medium</Label>
+          </FlexBox>
+        </FlexBox>
+      </FlexBox>
+    </RadioGroup>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Tight
+
+`tight` prop 을 사용하면 체크 박스의 좌우 여백을 조정할 수 있어요.
+
+<Demo code={`import { RadioGroup, RadioGroupItem, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <RadioGroup>
+        <FlexBox flexDirection="column" gap="8px">
+          <Label>Small</Label>
+          <FlexBox gap="8px" flexDirection="column">
+            <FlexBox gap="8px">
+              <RadioGroupItem id="small-default" size="small" value="small-default" />
+              <Label htmlFor="small-default">Default</Label>
+            </FlexBox>
+            <FlexBox gap="10px">
+              <RadioGroupItem id="small-tight" size="small" value="small-tight" tight />
+              <Label htmlFor="small-tight">Tight</Label>
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+      </RadioGroup>
+
+      <RadioGroup>
+        <FlexBox flexDirection="column" gap="8px">
+          <Label sx={{ marginTop: 8 }}>Medium</Label>
+          <FlexBox flexDirection="column" gap="8px">
+            <FlexBox gap="8px">
+              <RadioGroupItem id="medium-default" size="medium" value="medium-default" />
+              <Label htmlFor="medium-default" sx={{ padding: '1px 0px' }}>Default</Label>
+            </FlexBox>
+
+            <FlexBox gap="10px">
+              <RadioGroupItem id="medium-tight" size="medium" value="medium-tight" tight />
+              <Label htmlFor="medium-tight" sx={{ padding: '1px 0px' }}>Tight</Label>
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+      </RadioGroup>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Form field
+
+Form과 관련된 컴포넌트와 함께 사용할 수 있어요.
+- `FormField`
+- `FormControl`
+- `FormLabel`
+- `FormMessage`
+- `FormErrorMessage`
+
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, RadioGroup, RadioGroupItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FormField>
+        <FormLabel required>성별</FormLabel>
+
+        <FormControl>
+          <RadioGroup>
+            <FlexBox flexDirection="column" gap="8px">
+              <FormField flexDirection="row" gap="8px">
+                <FormControl>
+                  <RadioGroupItem value="man" />
+                </FormControl>
+
+                <FormLabel sx={{ padding: '1px 0px' }}>Man</FormLabel>
+              </FormField>
+
+              <FormField flexDirection="row" gap="8px">
+                <FormControl>
+                  <RadioGroupItem value="woman" />
+                </FormControl>
+                
+                <FormLabel sx={{ padding: '1px 0px' }}>Woman</FormLabel>
+              </FormField>
+            </FlexBox>
+          </RadioGroup>
+        </FormControl>
+
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작해요.
+
+`value`, `onValueChange` prop 을 사용하면 제어 컴포넌트로 동작해요.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <FormField>
+        <FormLabel required>Uncontrolled</FormLabel>
+
+        <FormControl>
+          <RadioGroup>
+            <FlexBox flexDirection="column" gap="8px">
+              <FormField flexDirection="row" gap="8px">
+                <FormControl>
+                  <RadioGroupItem value="1" />
+                </FormControl>
+
+                <FormLabel sx={{ padding: '1px 0px' }}>First</FormLabel>
+              </FormField>
+
+              <FormField flexDirection="row" gap="8px">
+                <FormControl>
+                  <RadioGroupItem value="2" />
+                </FormControl>
+              
+                <FormLabel sx={{ padding: '1px 0px' }}>Second</FormLabel>
+              </FormField>
+            </FlexBox>
+          </RadioGroup>
+        </FormControl>
+      </FormField>
+
+      <FormField>
+        <FormLabel required>Controlled</FormLabel>
+
+        <FormControl>
+          <RadioGroup value={value} onValueChange={setValue}>
+            <FlexBox flexDirection="column" gap="8px">
+              <FormField flexDirection="row" gap="8px">
+                <FormControl>
+                  <RadioGroupItem value="1" />
+                </FormControl>
+
+                <FormLabel sx={{ padding: '1px 0px' }}>First</FormLabel>
+              </FormField>
+
+              <FormField flexDirection="row" gap="8px">
+                <FormControl>
+                  <RadioGroupItem value="2" />
+                </FormControl>
+                
+                <FormLabel sx={{ padding: '1px 0px' }}>Second</FormLabel>
+              </FormField>
+            </FlexBox>
+          </RadioGroup>
+        </FormControl>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## React hook form
+
+`react-hook-form` 과 유연하게 조합해서 사용할 수 있어요.
+
+<Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const items = [
+  {
+    id: "develop",
+    label: "개발",
+  },
+  {
+    id: "design",
+    label: "디자인",
+  },
+];
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      value: '',
+    },
+  });
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel required>관심 분야</FormLabel>
+
+            <RadioGroup required>
+              <FlexBox flexDirection="column" gap="8px">
+                {items.map((item) => (
+                  <Controller
+                    key={item.id}
+                    control={form.control}
+                    name="selected"
+                    rules={{
+                      required: {
+                        value: true,
+                        message: "필수 값입니다.",
+                      },
+                    }}
+                    render={({ field }) => {
+                      return (
+                        <FormField
+                          key={item.id}
+                          flexDirection="row"
+                          gap="8px"
+                        >
+                          <FormControl>
+                            <RadioGroupItem
+                              {...field}
+                              value={item.id}
+                              onValueChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormLabel sx={{ padding: '1px 0px' }}>{item.label}</FormLabel>
+                        </FormField>
+                      );
+                    }}
+                  />
+                ))}
+              </FlexBox>
+            </RadioGroup>
+
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Accessibility
+
+[WAI-ARIA Radio Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/) 을 준수해요.
+
+- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있어요.
+- 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 해요.
+
+## API
+
+### RadioGroup
+
+<PropsTable component="RadioGroup" />
+
+### RadioGroupItem
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+- size
+
+<PropsTable component="RadioGroupItem" />

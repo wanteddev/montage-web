@@ -64,7 +64,9 @@ export const useLNBContent = () => {
 
       if (
         !firstLevelGroup &&
-        (!secondKey || (secondKey.match(PLATFORM_PATTERN) && !thirdKey))
+        (!secondKey ||
+          !thirdKey ||
+          (secondKey.match(PLATFORM_PATTERN) && thirdKey !== 'index'))
       ) {
         acc.push(cur);
         return acc;
