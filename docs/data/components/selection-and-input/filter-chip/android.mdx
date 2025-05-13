@@ -1,0 +1,87 @@
+---
+title: Filter Chip
+description: 요소를 선택하여 내려지는 컨텐츠를 분류해요.
+createdAt: 2025-05-13
+---
+
+## WantedFilterChip
+
+### 개요
+
+기본 필터 Chip 컴포저블로, 텍스트, 활성 라벨, 사이즈, 스타일(Variant), 활성/비활성 상태 등을 간단히 설정할 수 있습니다. 내부적으로 CompositionLocal을 사용하여 상태를 전파합니다.
+
+### 사용 예시
+
+```kotlin
+WantedFilterChip(
+    text = "필터",
+    activeLabel = "3",
+    onClick = { /* 클릭 동작 */ }
+)
+```
+
+### 파라미터
+
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| text | String | Chip에 표시될 텍스트입니다. |
+| modifier | Modifier | 외부에서 Chip의 레이아웃을 조정할 수 있습니다. |
+| activeLabel | String | Chip이 활성화되었을 때 표시할 라벨 텍스트입니다. |
+| size | ChipActionSize | Chip의 크기를 설정합니다. 기본값은 `Small`입니다. |
+| variant | ChipActionVariant | Chip의 스타일을 설정합니다. 기본값은 `Solid`입니다. |
+| isActive | Boolean | Chip이 활성화된 상태인지 여부입니다. |
+| isEnable | Boolean | Chip이 사용 가능한 상태인지 여부입니다. |
+| isExpend | Boolean | Chip이 확장 가능한 상태인지 여부이며, 아이콘 변경에 사용됩니다. |
+| interactionSource | MutableInteractionSource | 사용자 인터랙션을 처리하기 위한 객체입니다. |
+| onClick | (() -> Unit)? | Chip 클릭 시 실행될 콜백 함수입니다. |
+
+---
+
+## WantedFilterChip 커스터마이징
+
+### 개요
+외부에서 `chipDefault` 설정을 주입받아 스타일 및 텍스트 등의 속성을 상세히 조정할 수 있는 커스터마이징 필터 Chip입니다.
+
+### 사용 예시
+```kotlin
+WantedFilterChip(
+    text = "필터",
+    activeLabel = "3",
+    chipDefault = customDefault,
+    onClick = { /* 클릭 처리 */ }
+)
+```
+
+### 파라미터
+
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| text | String | Chip에 표시될 텍스트입니다. |
+| modifier | Modifier | 외부에서 Chip의 레이아웃을 조정할 수 있습니다. |
+| activeLabel | String | Chip이 활성화되었을 때 표시할 라벨 텍스트입니다. |
+| isExpanded | Boolean | 확장 여부이며 아이콘 표시 형태에 영향을 줍니다. |
+| chipDefault | WantedChipDefault | Chip의 스타일 및 색상 등을 포함한 기본 설정 값입니다. |
+| interactionSource | MutableInteractionSource | 사용자 인터랙션을 처리하기 위한 객체입니다. |
+| onClick | (() -> Unit)? | Chip 클릭 시 실행될 콜백 함수입니다. |
+
+---
+
+## Enum 설명
+
+### ChipActionVariant
+
+| 값 | 설명 |
+|:---|:---|
+| Solid | 배경이 채워진 기본형 Chip 스타일입니다. |
+| Outlined | 외곽선만 있는 테두리형 Chip 스타일입니다. |
+
+---
+
+### ChipActionSize
+
+| 값 | 설명 |
+|:---|:---|
+| Large | 가장 큰 사이즈로, 넉넉한 여백과 아이콘 크기를 가집니다. |
+| Medium | 기본 사이즈로 적당한 크기와 가독성을 가집니다. |
+| Small | 작고 간결한 Chip으로, 기본 설정으로 자주 사용됩니다. |
+| XSmall | 가장 작은 사이즈로 제한된 공간에 적합합니다. |

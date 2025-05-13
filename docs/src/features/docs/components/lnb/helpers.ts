@@ -1,5 +1,3 @@
-import { PLATFORM_TYPES } from './constants';
-
 import type {
   LNBFrontmatterChild,
   LNBFrontmatterType,
@@ -40,13 +38,23 @@ export const hasMatchingDevelopPlatformPage = (
     return false;
   }
 
-  return allFrontmatter.some((frontmatter) => {
-    const frontmatterSlug = frontmatter.originSlug.toString();
-    return PLATFORM_TYPES.some((platform) => {
-      const replacedSlug = slug
-        .toString()
-        .replace(/(web|ios|android|changelog)$/, platform);
-      return frontmatterSlug === replacedSlug && platform !== lastSegment;
-    });
-  });
+  const designSlug = [...slug.slice(0, -1), 'design'].toString();
+  const hasDesign = allFrontmatter.some(
+    (frontmatter) => frontmatter.originSlug.toString() === designSlug,
+  );
+
+  if (lastSegment !== 'design' && hasDesign) {
+    return true;
+  }
+
+  const webSlug = [...slug.slice(0, -1), 'web'].toString();
+  const hasWeb = allFrontmatter.some(
+    (frontmatter) => frontmatter.originSlug.toString() === webSlug,
+  );
+
+  if (lastSegment !== 'web' && hasWeb) {
+    return true;
+  }
+
+  return false;
 };
