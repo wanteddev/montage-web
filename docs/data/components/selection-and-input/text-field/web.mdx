@@ -55,11 +55,11 @@ TextField의 border radius 코너 두 부분을 커스텀 하여서 함께 사�
 
 const Demo = () => {
   return (
-    <FlexBox flexDirection="column" gap="20px">
-      <FlexBox>
+    <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
+      <FlexBox justifyContent="center">
         <TextField
           placeholder="입력하세요."
-          width="300px"
+          width="45%"
           sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0, }}
         />
         <TextFieldButton>
@@ -67,13 +67,13 @@ const Demo = () => {
         </TextFieldButton>
       </FlexBox>
 
-      <FlexBox>
+      <FlexBox justifyContent="center">
         <TextFieldButton position="left">
           텍스트
         </TextFieldButton>
         <TextField
           placeholder="입력하세요."
-          width="300px"
+          width="45%"
           sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, }}
         />
       </FlexBox>
@@ -131,10 +131,10 @@ import { IconBlank, IconEye } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <TextField
         width="45%"
-        placeholder="With icon"
+        placeholder="Icon"
         leadingContent={(
           <TextFieldContent variant="icon">
             <IconBlank />
@@ -148,16 +148,16 @@ const Demo = () => {
       />
       <TextField
         width="45%"
-        placeholder="Price"
+        placeholder="Text"
         trailingContent={(
           <TextFieldContent variant="text">
-            KRW
+            텍스트
           </TextFieldContent>
         )}
       />
       <TextField
         width="45%"
-        placeholder="Email"
+        placeholder="Badge"
         trailingContent={(
           <TextFieldContent variant="badge">
             <ContentBadge>
@@ -202,6 +202,40 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작해요.
+
+`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작해요.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, TextField } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <TextField
+        defaultValue="Uncontrolled"
+        placeholder="Uncontrolled"
+        width="25ch"
+      />
+      <TextField
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Controlled"
+        width="25ch"
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## React hook form
 
 `react-hook-form` 과 유연하게 조합해서 사용할 수 있어요.
@@ -216,6 +250,8 @@ const Demo = () => {
     <FlexBox
       as="form"
       flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
       gap="20px"
       onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
     >
@@ -250,7 +286,7 @@ const Demo = () => {
         )}
       />
 
-      <Button type="submit">제출</Button>
+      <Button type="submit" fullWidth>제출</Button>
     </FlexBox>
   )
 }

@@ -8,6 +8,7 @@ import {
   TableRow,
   Typography,
 } from '@wanteddev/wds';
+import Link from 'next/link';
 
 import HeadingLink from '../heading-link';
 import CodeBlock from '../code-block';
@@ -105,6 +106,22 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       weight="regular"
       as="p"
       display="block"
+    />
+  ),
+  a: ({ href, ...props }) => (
+    <Typography
+      {...props}
+      variant="body1"
+      weight="regular"
+      as={href.includes('http') ? 'a' : Link}
+      target={href.includes('http') ? '_blank' : undefined}
+      color="semantic.primary.normal"
+      sx={{
+        textDecoration: 'solid underline auto',
+        textUnderlineOffset: 'auto',
+        textUnderlinePosition: 'from-font',
+      }}
+      href={href}
     />
   ),
   pre: Pre,

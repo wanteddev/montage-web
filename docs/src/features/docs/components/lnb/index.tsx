@@ -34,6 +34,7 @@ const Lnb = () => {
                   <Divider
                     color="semantic.line.solid.alternative"
                     size="calc(100% + 16px)"
+                    sx={{ marginLeft: '-8px' }}
                   />
                 )}
               </Fragment>

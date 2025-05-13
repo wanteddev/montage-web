@@ -16,6 +16,9 @@ export const demoStyle =
     border-bottom: 1px solid ${theme.semantic.line.normal.normal};
     background-color: ${theme.semantic.background.normal.normal};
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     ${hideCode &&
     css`

@@ -27,18 +27,6 @@ export const mdxRootStyle = (theme: Theme) => css`
       ${typographyStyle('body1', 'bold')}
     }
 
-    &:not(button) > a,
-    :is(:not(button)) > a {
-      text-decoration: underline;
-      color: ${theme.semantic.primary.normal};
-      text-decoration-line: underline;
-      text-decoration-style: solid;
-      text-decoration-skip-ink: none;
-      text-decoration-thickness: auto;
-      text-underline-offset: auto;
-      text-underline-position: from-font;
-    }
-
     :is(img),
     img {
       max-width: 100%;

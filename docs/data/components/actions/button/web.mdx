@@ -15,7 +15,7 @@ Solid Button은 2가지 색상을 사용할 수 있어요.
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" justifyContent="center">
+    <FlexBox gap="12px" justifyContent="center" flexWrap="wrap">
       <Button color="primary">Primary</Button>
       <Button color="assistive">Assistive</Button>
     </FlexBox>
@@ -33,7 +33,7 @@ Outlined Button은 Solid Button 색상에 추가로 secondary 색상을 사용�
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" justifyContent="center">
+    <FlexBox gap="12px" justifyContent="center" flexWrap="wrap">
       <Button variant="outlined" color="primary">Primary</Button>
       <Button variant="outlined" color="secondary">Secondary</Button>
       <Button variant="outlined" color="assistive">Assistive</Button>
@@ -54,7 +54,7 @@ import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" justifyContent="center">
+    <FlexBox gap="12px" justifyContent="center" flexWrap="wrap">
       <Button
         variant="solid"
         color="primary"
@@ -87,7 +87,7 @@ import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
-    <FlexBox gap="12px" justifyContent="center">
+    <FlexBox gap="12px" justifyContent="center" flexWrap="wrap">
       <Button iconOnly variant="solid" color="primary">
         <IconPlusThick />
       </Button>
@@ -122,7 +122,7 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <FlexBox gap="12px" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
         <Button variant="solid" color="primary" size="small">
           Small
         </Button>
@@ -134,7 +134,7 @@ const Demo = () => {
         </Button>
       </FlexBox>
 
-      <FlexBox gap="12px" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
         <Button variant="solid" color="assistive" size="small">
           Small
         </Button>
@@ -146,7 +146,7 @@ const Demo = () => {
         </Button>
       </FlexBox>
 
-      <FlexBox gap="12px" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
         <Button variant="outlined" color="primary" size="small">
           Small
         </Button>
@@ -158,7 +158,7 @@ const Demo = () => {
         </Button>
       </FlexBox>
 
-      <FlexBox gap="12px" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
         <Button variant="outlined" color="secondary" size="small">
           Small
         </Button>
@@ -170,7 +170,7 @@ const Demo = () => {
         </Button>
       </FlexBox>
 
-      <FlexBox gap="12px" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
         <Button variant="outlined" color="assistive" size="small">
           Small
         </Button>
