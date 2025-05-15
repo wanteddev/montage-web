@@ -3,9 +3,13 @@ import { liteClient } from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
 import { useRouter } from 'next/navigation';
 
-import { createRecentSearchStorage, groupBy, isSamePage } from './helpers';
+import {
+  createRecentSearchStorage,
+  isPageLevel,
+  isTextLevel,
+  sortByText,
+} from './helpers';
 
-import type { AutocompleteSource } from '@algolia/autocomplete-core';
 import type { SearchResponse } from 'algoliasearch/lite';
 import type {
   DocSearchHit,
@@ -36,12 +40,13 @@ export const useDocSearch = ({
     activeItemId: null,
     status: 'idle',
   });
+  const [category, setCategory] = useState<DocSearchHit['category']>(null);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const snippetLength = useRef<number>(10);
-  const initialQueryFromSelection = useRef<string>(
+  const initialQueryFromSelection: string = useRef<string>(
     typeof window !== 'undefined'
       ? window.getSelection()!.toString().slice(0, 3)
       : '',
@@ -69,6 +74,14 @@ export const useDocSearch = ({
   const initialQueryRef = useRef(initialQueryFromSelection);
   const initialQuery: string = initialQueryRef.current;
 
+  const handleCategoryChange = useCallback(
+    (value: DocSearchHit['category']) => {
+      setCategory(value);
+      initialQueryRef.current = state.query;
+    },
+    [state.query],
+  );
+
   const searchClient = useMemo(() => {
     const client = liteClient(appId, apiKey);
     client.addAlgoliaAgent('docsearch', '3.8.0');
@@ -84,10 +97,8 @@ export const useDocSearch = ({
 
   const saveRecentSearch = useCallback(
     (item: InternalDocSearchHit) => {
-      const search = item.type === 'content' ? item.__docsearch_parent : item;
-
-      if (search) {
-        recentSearches.add(search);
+      if (item.type !== 'content') {
+        recentSearches.add({ ...item, type: 'recent' });
       }
     },
     [recentSearches],
@@ -103,14 +114,14 @@ export const useDocSearch = ({
       >({
         id: 'docsearch',
         defaultActiveItemId: 0,
-        placeholder: '컴포넌트를 검색해보세요.',
+        placeholder: 'Please enter a search term',
         openOnFocus: true,
         autoFocus: true,
         initialState: {
           query: initialQuery,
         },
         onStateChange: (props) => {
-          setState(props.state);
+          setState((prev) => ({ ...prev, ...props.state }));
         },
         getSources: async ({ query, setContext, setStatus }) => {
           if (!query) {
@@ -125,7 +136,7 @@ export const useDocSearch = ({
                   return item.url;
                 },
                 getItems(): Array<InternalDocSearchHit> {
-                  return recentSearches.getAll() as Array<InternalDocSearchHit>;
+                  return recentSearches.getAll();
                 },
               },
             ];
@@ -135,6 +146,7 @@ export const useDocSearch = ({
             .search<DocSearchHit>({
               requests: [
                 {
+                  filters: category ? `category:${category}` : undefined,
                   query,
                   indexName,
                   distinct: true,
@@ -154,19 +166,11 @@ export const useDocSearch = ({
                     'hierarchy.lvl6',
                     'content',
                   ],
-                  attributesToSnippet: [
-                    `hierarchy.lvl1:${snippetLength.current}`,
-                    `hierarchy.lvl2:${snippetLength.current}`,
-                    `hierarchy.lvl3:${snippetLength.current}`,
-                    `hierarchy.lvl4:${snippetLength.current}`,
-                    `hierarchy.lvl5:${snippetLength.current}`,
-                    `hierarchy.lvl6:${snippetLength.current}`,
-                    `content:${snippetLength.current}`,
-                  ],
-                  snippetEllipsisText: '…',
+                  attributesToSnippet: [`content:${snippetLength.current}`],
+                  snippetEllipsisText: '...',
                   highlightPreTag: '<mark>',
                   highlightPostTag: '</mark>',
-                  hitsPerPage: 20,
+                  hitsPerPage: 25,
                   clickAnalytics: false,
                 },
               ],
@@ -185,132 +189,40 @@ export const useDocSearch = ({
 
               setContext({ nbHits });
 
-              const parsedHits = hits.map((item) => {
-                let parent: InternalDocSearchHit | null = null;
+              const pageLevelResults = hits.filter(isPageLevel);
 
-                const potentialParent = hits.find(
-                  (siblingItem) =>
-                    siblingItem.type === 'lvl1' &&
-                    siblingItem.hierarchy.lvl1 === item.hierarchy.lvl1 &&
-                    siblingItem.hierarchy.lvl0 === item.hierarchy.lvl0,
-                );
+              const textLevelResults = sortByText(hits.filter(isTextLevel));
 
-                if (item.type !== 'lvl1' && potentialParent) {
-                  parent = potentialParent as InternalDocSearchHit;
-                }
-
-                return {
-                  ...item,
-                  __docsearch_parent: parent,
-                };
-              });
-
-              const removedDuplicate: Array<InternalDocSearchHit> = [];
-
-              parsedHits.forEach((item) => {
-                const existsPage = removedDuplicate.findIndex((v) =>
-                  isSamePage(v, item),
-                );
-
-                if (existsPage === -1) {
-                  if (item.type !== 'lvl1' && !item.__docsearch_parent) {
-                    const isExistParent = removedDuplicate.find(
-                      (v) =>
-                        v.type === 'lvl1' &&
-                        v.hierarchy.lvl1 === item.hierarchy.lvl1 &&
-                        v.hierarchy.lvl0 === item.hierarchy.lvl0,
-                    );
-
-                    if (isExistParent) {
-                      item.__docsearch_parent = isExistParent;
-                    } else {
-                      const mockParent = {
-                        content: null,
-                        type: 'lvl1',
-                        category: 'Design',
-                        hierarchy: item.hierarchy,
-                        url: item.url
-                          .replace(/\#([^\s]+)$/, '')
-                          .replace(/(web|ios|android)$/, 'design'),
-                        objectID: `9999-${item.url.replace(/\#([^\s]+)$/, '').replace(/(web|ios|android)$/, 'design')}`,
-                        _snippetResult: {
-                          hierarchy: {
-                            lvl0: item._snippetResult.hierarchy?.lvl0,
-                            lvl1: item._snippetResult.hierarchy?.lvl1,
-                          },
-                        },
-                        _highlightResult: item._highlightResult,
-                      } as unknown as InternalDocSearchHit;
-
-                      item.__docsearch_parent = mockParent;
-
-                      removedDuplicate.push(mockParent);
-                    }
-                  }
-
-                  removedDuplicate.push(item);
-                }
-              }, parsedHits);
-
-              return Object.values<Array<InternalDocSearchHit>>(
-                groupBy(removedDuplicate, (item) => item.hierarchy.lvl0, 20),
-              )
-                .map<AutocompleteSource<InternalDocSearchHit>>(
-                  (items, index) => {
-                    return {
-                      sourceId: `hits${index}`,
-                      onSelect: ({ event, item }) => {
-                        saveRecentSearch(item);
-                        router.push(item.url);
-                        handleClose(event);
-                      },
-                      getItemUrl: ({ item }) => {
-                        return item.url;
-                      },
-                      getItems: (): Array<InternalDocSearchHit> => {
-                        return Object.values(
-                          groupBy(
-                            items,
-                            (item) =>
-                              `${item.hierarchy.lvl0}-${item.hierarchy.lvl1}`,
-                            5,
-                          ),
-                        )
-                          .map((result) => {
-                            return [...result].sort((a, b) => {
-                              if (a.type === 'lvl1' && b.type !== 'lvl1')
-                                return -1;
-                              if (a.type !== 'lvl1' && b.type === 'lvl1')
-                                return 1;
-
-                              if (a.type === 'lvl1' && b.type === 'lvl1') {
-                                return a.hierarchy.lvl1.localeCompare(
-                                  b.hierarchy.lvl1,
-                                );
-                              }
-
-                              const parentA = a.__docsearch_parent;
-                              const parentB = b.__docsearch_parent;
-
-                              if (parentA && parentB) {
-                                const parentCompare =
-                                  parentA.hierarchy.lvl1.localeCompare(
-                                    parentB.hierarchy.lvl1,
-                                  );
-                                if (parentCompare !== 0) return parentCompare;
-
-                                return a.category.localeCompare(b.category);
-                              }
-
-                              return 0;
-                            });
-                          })
-                          .flat();
-                      },
-                    };
+              return [
+                {
+                  sourceId: 'Pages',
+                  onSelect: ({ event, item }) => {
+                    saveRecentSearch(item);
+                    router.push(item.url);
+                    handleClose(event);
                   },
-                )
-                .flat();
+                  getItemUrl: ({ item }) => {
+                    return item.url;
+                  },
+                  getItems: () => {
+                    return pageLevelResults;
+                  },
+                },
+                {
+                  sourceId: 'Text',
+                  onSelect: ({ event, item }) => {
+                    saveRecentSearch(item);
+                    router.push(item.url);
+                    handleClose(event);
+                  },
+                  getItemUrl: ({ item }) => {
+                    return item.url;
+                  },
+                  getItems: () => {
+                    return textLevelResults;
+                  },
+                },
+              ];
             });
         },
       }),
@@ -321,6 +233,7 @@ export const useDocSearch = ({
       handleClose,
       recentSearches,
       router,
+      category,
     ],
   );
 
@@ -359,8 +272,10 @@ export const useDocSearch = ({
 
   const isEmpty =
     !isQueryEmpty &&
+    state.status !== 'loading' &&
+    state.status !== 'stalled' &&
     (state.collections.length === 0 ||
-      state.collections.some((collection) => collection.items.length === 0));
+      state.collections.every((item) => item.items.length === 0));
 
   const recentSearchRemove = (item: DocSearchHit) => {
     recentSearches.remove(item);
@@ -375,5 +290,7 @@ export const useDocSearch = ({
     isQueryEmpty,
     containerRef,
     inputRef,
+    category,
+    handleCategoryChange,
   };
 };

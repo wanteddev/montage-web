@@ -6,7 +6,8 @@ type ContentType =
   | 'lvl3'
   | 'lvl4'
   | 'lvl5'
-  | 'lvl6';
+  | 'lvl6'
+  | 'recent';
 
 type DocSearchHitAttributeHighlightResult = {
   value: string;
@@ -49,7 +50,7 @@ export declare type DocSearchHit = {
   url_without_anchor: string;
   type: ContentType;
   anchor: string | null;
-  category: string;
+  category: 'Design' | 'Web' | 'iOS' | 'Android' | null;
   hierarchy: {
     lvl0: string;
     lvl1: string;
@@ -95,11 +96,9 @@ import type {
   BaseItem,
 } from '@algolia/autocomplete-core';
 
-export declare type InternalDocSearchHit = DocSearchHit & {
-  __docsearch_parent: InternalDocSearchHit | null;
-};
+export declare type InternalDocSearchHit = DocSearchHit;
 
-interface DocSearchContext extends AutocompleteContext {
+export interface DocSearchContext extends AutocompleteContext {
   algoliaInsightsPlugin?: {
     insights: AutocompleteInsightsApi;
   };

@@ -8,6 +8,7 @@ import bash from 'refractor/lang/bash';
 import css from 'refractor/lang/css';
 import diff from 'refractor/lang/diff';
 import kotlin from 'refractor/lang/kotlin';
+import swift from 'refractor/lang/swift';
 import { toHtml } from 'hast-util-to-html';
 import { Box, ContentBadge, IconButton, useToast } from '@wanteddev/wds';
 import { IconCopy } from '@wanteddev/wds-icon';
@@ -24,6 +25,7 @@ refractor.register(bash);
 refractor.register(css);
 refractor.register(diff);
 refractor.register(kotlin);
+refractor.register(swift);
 
 type Props = ComponentPropsWithoutRef<'code'>;
 

@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { sentenceCase } from 'change-case';
 
 import {
   getAllFrontmatter,
@@ -29,7 +30,7 @@ export const generateMetadata = async ({
 }: Props): Promise<Metadata> => {
   try {
     const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
-    const title = frontmatter.title + ' - Montage';
+    const title = sentenceCase(frontmatter.title) + ' - Montage';
     const description = frontmatter.description?.replace(/\\n/g, '');
 
     return {

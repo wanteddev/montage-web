@@ -25,6 +25,7 @@ import { useSelectedLayoutSegments } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Logo from '@/assets/logo';
+import { useLnbMobileContext } from '@/features/docs/components/lnb/contexts';
 
 import {
   gnbActionsStyle,
@@ -36,13 +37,13 @@ import {
 } from './style';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
-import NavigationModal from './navigation-modal';
 
 const Gnb = () => {
   const { setTheme, themeOriginValue } = useThemeControl();
 
+  const lnbMobile = useLnbMobileContext();
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [navigationMenuOpen, setNavigationMenuOpen] = useState(false);
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -74,12 +75,6 @@ const Gnb = () => {
         />
       )}
 
-      {navigationMenuOpen && (
-        <NavigationModal
-          open={navigationMenuOpen}
-          onOpenChange={setNavigationMenuOpen}
-        />
-      )}
       <FlexBox
         suppressHydrationWarning
         alignContent="center"
@@ -209,7 +204,7 @@ const Gnb = () => {
               <FlexBox
                 aria-label="menu"
                 as="button"
-                onClick={() => setNavigationMenuOpen(true)}
+                onClick={() => lnbMobile.setOpen(!lnbMobile.open)}
                 sx={[gnbActionsStyle, gnbMenuStyle]}
               >
                 <IconMenu />

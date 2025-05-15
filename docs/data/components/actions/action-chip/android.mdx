@@ -23,20 +23,21 @@ WantedActionChip(
 ```
 
 ### 파라미터
-| 이름 | 타입 | 설명 |
-|:---|:---|:---|
-| text | String | Chip에 표시할 텍스트입니다. |
-| size | ChipActionSize | Chip의 크기를 설정합니다. 기본값은 Medium입니다. |
-| variant | ChipActionVariant | Chip의 스타일을 설정합니다. 기본값은 Solid입니다. |
-| isActive | Boolean | Chip이 활성화 상태인지 여부입니다. 기본값은 false입니다. |
-| isEnable | Boolean | Chip의 사용 가능 여부입니다. 기본값은 true입니다. |
-| leftIcon | Int? | 왼쪽에 표시할 아이콘 리소스 ID입니다. 생략 가능. |
-| rightIcon | Int? | 오른쪽에 표시할 아이콘 리소스 ID입니다. 생략 가능. |
-| modifier | Modifier | 외형을 구성하는 Modifier입니다. |
-| interactionSource | MutableInteractionSource | 클릭 등 사용자 인터랙션 제어 객체입니다. 기본값은 remember로 생성됩니다. |
-| onClick | (() -> Unit)? | 클릭 시 실행할 콜백입니다. 생략 가능. |
 
----
+<AndroidAttributes
+  data={[
+    { name: 'text', type: 'String', description: 'Chip에 표시할 텍스트입니다.' },
+    { name: 'size', type: 'ChipActionSize', description: 'Chip의 크기를 설정합니다. 기본값은 Medium입니다.' },
+    { name: 'variant', type: 'ChipActionVariant', description: 'Chip의 스타일을 설정합니다. 기본값은 Solid입니다.' },
+    { name: 'isActive', type: 'Boolean', description: 'Chip이 활성화 상태인지 여부입니다. 기본값은 false입니다.' },
+    { name: 'isEnable', type: 'Boolean', description: 'Chip의 사용 가능 여부입니다. 기본값은 true입니다.' },
+    { name: 'leftIcon', type: 'Int?', description: '왼쪽에 표시할 아이콘 리소스 ID입니다. 생략 가능.' },
+    { name: 'rightIcon', type: 'Int?', description: '오른쪽에 표시할 아이콘 리소스 ID입니다. 생략 가능.' },
+    { name: 'modifier', type: 'Modifier', description: '외형을 구성하는 Modifier입니다.' },
+    { name: 'interactionSource', type: 'MutableInteractionSource', description: '클릭 등 사용자 인터랙션 제어 객체입니다. 기본값은 remember로 생성됩니다.' },
+    { name: 'onClick', type: '() -> Unit?', description: '클릭 시 실행할 콜백입니다. 생략 가능.' },
+  ]}
+/>
 
 ## WantedActionChip 스타일 지정형
 

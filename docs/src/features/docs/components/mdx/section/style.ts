@@ -21,6 +21,10 @@ export const sectionLayoutStyle = css`
   ${respondTo('620px')} {
     margin-bottom: 108px;
   }
+
+  [data-role='section-figure-group']:first-of-type {
+    margin-top: 24px;
+  }
 `;
 
 export const sectionFigureStyle = css`

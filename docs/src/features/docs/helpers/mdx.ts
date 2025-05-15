@@ -7,7 +7,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { sync } from 'glob';
 import matter from 'gray-matter';
 
-import { remarkStyle } from './remark-style';
+import { remarkStyle } from './remark';
 
 import type { SerializeOptions } from 'node_modules/next-mdx-remote/dist/types';
 import type { Frontmatter } from '@/features/docs/types';
@@ -16,7 +16,7 @@ const ROOT_PATH = process.cwd();
 export const DATA_PATH = join(ROOT_PATH, 'data');
 
 export const getAllFrontmatter = async () => {
-  const paths = sync(`${DATA_PATH}/**/*.mdx`);
+  const paths = sync(`${DATA_PATH}/**/*.{mdx,md}`);
 
   return paths.map((filePath) => {
     const source = readFileSync(join(filePath), 'utf8');
@@ -26,12 +26,12 @@ export const getAllFrontmatter = async () => {
       ...(data as Frontmatter),
       slug: filePath
         .replace(`${DATA_PATH}/`, '')
-        .replace('.mdx', '')
+        .replace(/\.mdx|\.md$/, '')
         .replace(/\/index$/, '')
         .split('/'),
       originSlug: filePath
         .replace(`${DATA_PATH}/`, '')
-        .replace('.mdx', '')
+        .replace(/\.mdx|\.md$/, '')
         .split('/'),
     } as Frontmatter;
   });
@@ -56,12 +56,30 @@ export const getSourceBySlug = async (
     );
   }
 
-  const source = readFileSync(
-    join(DATA_PATH, basePath, `${slug.join('/')}/index.mdx`),
-    'utf8',
-  );
+  if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}.md`))) {
+    return serialize<unknown, Frontmatter>(
+      readFileSync(join(DATA_PATH, basePath, `${slug.join('/')}.md`), 'utf8'),
+      SERIALIZE_OPTIONS,
+    );
+  }
 
-  return serialize<unknown, Frontmatter>(source, SERIALIZE_OPTIONS);
+  if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}/index.md`))) {
+    return serialize<unknown, Frontmatter>(
+      readFileSync(
+        join(DATA_PATH, basePath, `${slug.join('/')}/index.md`),
+        'utf8',
+      ),
+      SERIALIZE_OPTIONS,
+    );
+  }
+
+  return serialize<unknown, Frontmatter>(
+    readFileSync(
+      join(DATA_PATH, basePath, `${slug.join('/')}/index.mdx`),
+      'utf8',
+    ),
+    SERIALIZE_OPTIONS,
+  );
 };
 
 export const findFrontmatterByParams = async (params: Array<string>) => {

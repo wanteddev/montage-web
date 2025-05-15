@@ -88,7 +88,7 @@ const SectionLayout = ({
   direction = 'column',
 }: SectionLayoutProps) => {
   return (
-    <FlexBox flexDirection="column" sx={sectionLayoutStyle} gap="24px">
+    <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
       <FlexBox flexDirection="column">
         <Heading2 content={title} />
 
@@ -112,6 +112,7 @@ const SectionFigureGroup = ({ children, title }: SectionFigureGroupProps) => {
   return (
     <FlexBox
       flexDirection="column"
+      data-role="section-figure-group"
       sx={[sectionLayoutStyle, { marginBottom: '0 !important' }]}
     >
       {title && (

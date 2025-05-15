@@ -1,22 +1,20 @@
 import {
-  EmptyState,
-  EmptyStateContent,
-  EmptyStateImage,
-  EmptyStateText,
+  Divider,
   FlexBox,
   IconButton,
-  ImageLoader,
   List,
   ListCellContent,
   SectionHeader,
   Typography,
 } from '@wanteddev/wds';
+import { type HTMLAttributes, memo } from 'react';
 import { IconClose, IconHistory } from '@wanteddev/wds-icon';
 
-import { removeHighlightTags } from '../helpers';
-
-import SearchOption from './search-option';
-import { searchOptionWrapperStyle, searchResultGroupStyle } from './style';
+import SearchOption from './option';
+import { searchResultGroupStyle } from './style';
+import SearchResultEmpty from './empty';
+import SearchResultInitial from './initial';
+import PlatformFilter from './platform-filter';
 
 import type { AutocompletePropGetters } from '@algolia/autocomplete-core';
 import type {
@@ -24,7 +22,6 @@ import type {
   DocSearchState,
   InternalDocSearchHit,
 } from '../types';
-import type { HTMLAttributes } from 'react';
 
 type Props = {
   state: DocSearchState<InternalDocSearchHit>;
@@ -44,58 +41,33 @@ const SearchResults = ({
   recentSearchRemove,
 }: Props) => {
   if (isEmpty) {
-    return (
-      <FlexBox justifyContent="center">
-        <EmptyState platform="desktop">
-          <EmptyStateImage>
-            <ImageLoader
-              src="https://static.wanted.co.kr/images/ghost.png"
-              width={200}
-              quality={100}
-              alt="ghost"
-            />
-          </EmptyStateImage>
-          <EmptyStateContent>
-            <EmptyStateText
-              sx={{ paddingTop: 32 }}
-              description={
-                <Typography
-                  variant="headline1"
-                  weight="medium"
-                  color="semantic.label.neutral"
-                >
-                  {`"${state.query}"에 대한 검색 결과가 없어요.`}
-                </Typography>
-              }
-            />
-          </EmptyStateContent>
-        </EmptyState>
-      </FlexBox>
-    );
+    return <SearchResultEmpty query={state.query} />;
   }
 
   const firstCollections = state.collections[0];
 
   if (isQueryEmpty || firstCollections?.source.sourceId === 'recentSearches') {
     if (!firstCollections?.items.length) {
-      return null;
+      return <SearchResultInitial />;
     }
 
     return (
       <FlexBox
         as="section"
         {...getListProps()}
+        key={firstCollections.source.sourceId}
         flexDirection="column"
         gap="4px"
+        sx={searchResultGroupStyle}
       >
         <SectionHeader
           headingTag="h4"
           size="xsmall"
           sx={searchResultGroupStyle}
         >
-          최근 검색
+          Recent Searches
         </SectionHeader>
-        <List sx={searchOptionWrapperStyle}>
+        <List gap="4px">
           {firstCollections.items.map((item, idx) => {
             return (
               <SearchOption
@@ -106,7 +78,12 @@ const SearchResults = ({
                 item={item}
                 leadingContent={
                   <ListCellContent variant="icon">
-                    <IconHistory />
+                    <IconHistory
+                      sx={(theme) => ({
+                        fontSize: 16,
+                        color: theme.semantic.label.alternative,
+                      })}
+                    />
                   </ListCellContent>
                 }
                 trailingContent={
@@ -116,7 +93,7 @@ const SearchResults = ({
                         e.stopPropagation();
                         recentSearchRemove(item);
                       }}
-                      size={20}
+                      size={16}
                       sx={(theme) => ({
                         color: theme.semantic.label.assistive,
                       })}
@@ -125,14 +102,17 @@ const SearchResults = ({
                     </IconButton>
                   </ListCellContent>
                 }
-                data-depth={0}
                 key={[
                   firstCollections.source.sourceId,
                   idx,
                   item.objectID,
                   item.type,
                 ].join(':')}
-              />
+              >
+                <Typography variant="body1" weight="regular">
+                  {item.hierarchy.lvl1}
+                </Typography>
+              </SearchOption>
             );
           })}
         </List>
@@ -140,14 +120,30 @@ const SearchResults = ({
     );
   }
 
+  if (
+    (state.status === 'loading' || state.status === 'stalled') &&
+    (state.collections.length === 0 ||
+      state.collections.every((item) => item.items.length === 0))
+  ) {
+    return (
+      <FlexBox justifyContent="flex-end" sx={{ padding: '0px 8px' }}>
+        <PlatformFilter />
+      </FlexBox>
+    );
+  }
+
+  const filteredCollections = state.collections.filter(
+    (item) => item.items.length > 0,
+  );
+
   return (
     <>
-      {state.collections.map((collection) => {
-        if (collection.items.length === 0) {
-          return null;
-        }
+      {filteredCollections.map((collection, idx) => {
+        const title = collection.source.sourceId;
 
-        const title = removeHighlightTags(collection.items[0]);
+        const shouldShowDivider =
+          idx !== filteredCollections.length - 1 &&
+          (filteredCollections.at(idx + 1)?.items.length ?? -1) > 0;
 
         return (
           <FlexBox
@@ -156,28 +152,51 @@ const SearchResults = ({
             key={collection.source.sourceId}
             flexDirection="column"
             gap="4px"
+            sx={searchResultGroupStyle}
           >
             <SectionHeader
               headingTag="h4"
               size="xsmall"
-              sx={searchResultGroupStyle}
+              trailingContent={idx === 0 ? <PlatformFilter /> : null}
             >
               {title}
             </SectionHeader>
-            <List sx={searchOptionWrapperStyle}>
-              {collection.items.map((item, idx) => {
+            <List gap="4px">
+              {collection.items.map((item, itemIdx) => {
+                const shouldShowHeading =
+                  title === 'Text' &&
+                  collection.items.findIndex(
+                    (v) => v.hierarchy.lvl1 === item.hierarchy.lvl1,
+                  ) === itemIdx;
+
                 return (
-                  <SearchOption
-                    {...(getItemProps({
-                      item,
-                      source: collection.source,
-                    }) as unknown as HTMLAttributes<HTMLLIElement>)}
-                    item={item}
-                    key={[title, idx, item.objectID].join(':')}
-                  />
+                  <>
+                    {shouldShowHeading && (
+                      <SearchOption
+                        disableInteraction
+                        item={{ ...item, type: 'lvl1' }}
+                        trailingContent={null}
+                      />
+                    )}
+                    <SearchOption
+                      {...(getItemProps({
+                        item,
+                        source: collection.source,
+                      }) as unknown as HTMLAttributes<HTMLLIElement>)}
+                      item={item}
+                      key={[title, itemIdx, item.objectID].join(':')}
+                    />
+                  </>
                 );
               })}
             </List>
+
+            {shouldShowDivider && (
+              <Divider
+                color="semantic.line.normal.alternative"
+                sx={{ margin: '12px 0px' }}
+              />
+            )}
           </FlexBox>
         );
       })}
@@ -185,4 +204,4 @@ const SearchResults = ({
   );
 };
 
-export default SearchResults;
+export default memo(SearchResults);

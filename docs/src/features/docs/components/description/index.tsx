@@ -18,6 +18,7 @@ import {
   useState,
 } from 'react';
 import Link from 'next/link';
+import { sentenceCase } from 'change-case';
 
 import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
@@ -34,7 +35,6 @@ const TAB_TITLE: { [key: string]: string } = {
   web: 'Web',
   ios: 'iOS',
   android: 'Android',
-  changelog: 'Changelog',
 };
 
 const DocsDescription = () => {
@@ -106,7 +106,7 @@ const DocsDescription = () => {
   );
 
   const tabs = useMemo(() => {
-    if (!/(web|ios|android|design|changelog)$/.test(params.slug.toString())) {
+    if (!/(web|ios|android|design)$/.test(params.slug.toString())) {
       return [];
     }
 
@@ -114,9 +114,7 @@ const DocsDescription = () => {
       v.slug
         .toString()
         .includes(
-          params.slug
-            .toString()
-            .replace(/(web|ios|android|design|changelog)$/, ''),
+          params.slug.toString().replace(/(web|ios|android|design)$/, ''),
         ),
     );
 
@@ -131,7 +129,6 @@ const DocsDescription = () => {
         const sortedObj: { [key: string]: number } = {
           design: 1,
           web: 0,
-          changelog: -1,
         };
 
         return (sortedObj[b.title] ?? 0) - (sortedObj[a.title] ?? 0);
@@ -155,7 +152,7 @@ const DocsDescription = () => {
             overflowWrap: 'break-word',
           }}
         >
-          {frontmatter.title}
+          {sentenceCase(frontmatter.title)}
         </Typography>
 
         {Boolean(frontmatter.description) && (

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import {
-  FlexBox,
-  IconButton,
+  ActionArea,
+  ActionAreaButton,
   Modal,
   ModalContainer,
   ModalContent,
@@ -9,17 +9,17 @@ import {
   SearchField,
   TopNavigation,
 } from '@wanteddev/wds';
-import { IconClose } from '@wanteddev/wds-icon';
 
 import { useDocSearch } from './hooks';
-import {
-  modalCloseButtonStyle,
-  searchModalHeaderStyle,
-  searchModalToolbarStyle,
-} from './styles';
-import SearchResults from './search-results';
+import { searchModalHeaderStyle } from './styles';
+import SearchResults from './results';
+import { DocSearchFilterContext } from './contexts';
 
-import type { ComponentPropsWithoutRef, HTMLAttributes } from 'react';
+import type {
+  CSSProperties,
+  ComponentPropsWithoutRef,
+  HTMLAttributes,
+} from 'react';
 
 export type DocSearchModalProps = {
   apiKey: string;
@@ -41,6 +41,8 @@ export const DocSearchModal = ({
     recentSearchRemove,
     containerRef,
     inputRef,
+    category,
+    handleCategoryChange: setCategory,
   } = useDocSearch({
     appId,
     apiKey,
@@ -63,20 +65,27 @@ export const DocSearchModal = ({
         variant="full"
         md={{
           variant: 'popup',
-          size: 'large',
+          size: 'xlarge',
+          resize: 'fixed',
         }}
         ref={containerRef}
         aria-haspopup="listbox"
+        style={
+          {
+            '--wds-modal-content-margin': '16px',
+            '--wds-action-area-margin-y': '16px',
+          } as CSSProperties
+        }
       >
-        <TopNavigation
-          variant="floating"
-          sx={searchModalHeaderStyle}
-          toolbar={
-            <FlexBox sx={searchModalToolbarStyle} gap="20px" flex="1">
+        <DocSearchFilterContext.Provider value={{ category, setCategory }}>
+          <TopNavigation
+            variant="floating"
+            sx={searchModalHeaderStyle}
+            toolbar={
               <SearchField
                 type="search"
                 width="100%"
-                size="medium"
+                size="small"
                 {...(getInputProps({
                   inputElement: inputRef.current!,
                 }) as unknown as Omit<
@@ -86,31 +95,31 @@ export const DocSearchModal = ({
                 autoFocus
                 ref={inputRef}
               />
+            }
+          />
 
-              <IconButton
-                variant="solid"
-                size={48}
-                sx={modalCloseButtonStyle}
-                onClick={() => onOpenChange?.(false)}
-              >
-                <IconClose />
-              </IconButton>
-            </FlexBox>
-          }
-        />
+          <ModalContent sx={{ paddingTop: 0, height: '100%' }}>
+            <ModalContentItem flex="1">
+              <SearchResults
+                state={state}
+                isEmpty={isEmpty}
+                isQueryEmpty={isQueryEmpty}
+                getItemProps={getItemProps}
+                getListProps={getListProps}
+                recentSearchRemove={recentSearchRemove}
+              />
+            </ModalContentItem>
+          </ModalContent>
 
-        <ModalContent sx={{ paddingTop: 0 }}>
-          <ModalContentItem>
-            <SearchResults
-              state={state}
-              isEmpty={isEmpty}
-              isQueryEmpty={isQueryEmpty}
-              getItemProps={getItemProps}
-              getListProps={getListProps}
-              recentSearchRemove={recentSearchRemove}
-            />
-          </ModalContentItem>
-        </ModalContent>
+          <ActionArea variant="compact" extra>
+            <ActionAreaButton
+              variant="sub"
+              onClick={() => onOpenChange?.(false)}
+            >
+              Cancel
+            </ActionAreaButton>
+          </ActionArea>
+        </DocSearchFilterContext.Provider>
       </ModalContainer>
     </Modal>
   );

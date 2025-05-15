@@ -1,8 +1,2 @@
-export const PLATFORM_PATTERN = /(web|ios|android|changelog|design)$/;
-export const PLATFORM_TYPES = [
-  'web',
-  'ios',
-  'android',
-  'changelog',
-  'design',
-] as const;
+export const PLATFORM_PATTERN = /(web|ios|android|design)$/i;
+export const PLATFORM_TYPES = ['web', 'ios', 'android', 'design'] as const;

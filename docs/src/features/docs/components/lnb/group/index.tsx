@@ -1,4 +1,4 @@
-import { capitalCase } from 'change-case';
+import { sentenceCase } from 'change-case';
 import {
   Accordion,
   AccordionSummaryContent,
@@ -41,8 +41,8 @@ const LnbGroup = ({ frontmatter }: Props) => {
     const title = item.originSlug
       .at(item.originSlug.length - 1)
       ?.match(PLATFORM_PATTERN)
-      ? capitalCase(item.slug[item.slug.length - 2]!)
-      : capitalCase(item.slug[item.slug.length - 1]!);
+      ? sentenceCase(item.slug[item.slug.length - 2]!)
+      : sentenceCase(item.slug[item.slug.length - 1]!);
 
     const href = `/docs/${item.slug.join('/')}`;
 
@@ -59,14 +59,14 @@ const LnbGroup = ({ frontmatter }: Props) => {
         isActive={getIsActive(params, frontmatter)}
         depth="0"
       >
-        {capitalCase(frontmatter.title)}
+        {sentenceCase(frontmatter.title)}
       </LnbGroupItem>
     );
   }
 
   return (
     <List>
-      <Accordion divider={false} defaultExpanded={frontmatter.defaultOpen}>
+      <Accordion divider={false} defaultExpanded>
         <AccordionSummary
           sx={accordionSummaryStyle}
           fillWidth
@@ -86,7 +86,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
             weight: 'bold',
           }}
         >
-          {capitalCase(frontmatter.key)}
+          {sentenceCase(frontmatter.key)}
         </AccordionSummary>
 
         <AccordionDetails sx={lnbAccordionStyle}>
@@ -123,7 +123,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                     sx={{ padding: '12px 20px 12px var(--lnb-padding-left)' }}
                     color="semantic.label.assistive"
                   >
-                    {capitalCase(item.key)}
+                    {sentenceCase(item.key)}
                   </SectionHeader>
 
                   {item.children.map((child, childIdx) => {
