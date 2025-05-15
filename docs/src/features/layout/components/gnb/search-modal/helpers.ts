@@ -38,18 +38,17 @@ export const createRecentSearchStorage = <Item extends DocSearchHit>({
       const { _highlightResult, _snippetResult, ...hit } =
         item as unknown as DocSearchHit;
 
+      const removedHashUrl = hit.url.replace(/\#([^\s]+)$/, '');
+
       const isQueryAlreadySaved = items.findIndex(
-        (x) =>
-          x.objectID === hit.objectID ||
-          (x.hierarchy.lvl0 === hit.hierarchy.lvl0 &&
-            x.hierarchy.lvl1 === hit.hierarchy.lvl1),
+        (x) => x.objectID === hit.objectID || removedHashUrl === x.url,
       );
 
       if (isQueryAlreadySaved > -1) {
         items.splice(isQueryAlreadySaved, 1);
       }
 
-      items.unshift(hit as Item);
+      items.unshift({ ...hit, url: removedHashUrl } as Item);
       items = items.slice(0, limit);
 
       storage.setItem(items);

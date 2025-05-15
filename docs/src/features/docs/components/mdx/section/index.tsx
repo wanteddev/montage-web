@@ -29,11 +29,11 @@ import {
   sectionLayoutStyle,
 } from './style';
 
-type Heading2Props = {
+type HeadingProps = {
   content?: string;
 };
 
-const Heading2 = ({ content }: Heading2Props) => {
+const Heading2 = ({ content }: HeadingProps) => {
   if (!content) return null;
 
   return (
@@ -41,6 +41,23 @@ const Heading2 = ({ content }: Heading2Props) => {
       as="h2"
       data-heading=""
       variant="title3"
+      weight="bold"
+      color="semantic.label.normal"
+      id={content.replaceAll(' ', '-')}
+    >
+      <HeadingLink id={content.replaceAll(' ', '-')}>{content}</HeadingLink>
+    </Typography>
+  );
+};
+
+const Heading3 = ({ content }: HeadingProps) => {
+  if (!content) return null;
+
+  return (
+    <Typography
+      as="h3"
+      data-heading=""
+      variant="heading2"
       weight="bold"
       color="semantic.label.normal"
       id={content.replaceAll(' ', '-')}
@@ -115,11 +132,7 @@ const SectionFigureGroup = ({ children, title }: SectionFigureGroupProps) => {
       data-role="section-figure-group"
       sx={[sectionLayoutStyle, { marginBottom: '0 !important' }]}
     >
-      {title && (
-        <Typography as="h3" variant="heading2" weight="bold">
-          {title}
-        </Typography>
-      )}
+      <Heading3 content={title} />
       <FlexBox flexDirection="column" gap="88px">
         {children}
       </FlexBox>
