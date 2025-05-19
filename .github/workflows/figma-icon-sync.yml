@@ -517,7 +517,7 @@ jobs:
                   const swiftFileContent = `//\n//  Icon.swift\n//  Montage\n//\n//  Created by Eunyeong Kim on 2021/04/20.\n//\nimport Foundation\n\n/// Montage 번들 내에 포함된 아이콘들의 이름들입니다.\npublic enum Icon: String, CaseIterable {\n    ${shouldShowFoundations.sort().map((iconAsset) => `case ${iconAsset.replace('.imageset', '')}`).join('\n    ')}\n\n    public var name: String { rawValue }\n}\n`;
 
                   fs.writeFileSync(
-                    './Sources/Montage/Foundation/Icon.swift',
+                    './Sources/Montage/1 Theme/Icon.swift',
                     swiftFileContent,
                   );
                   break;
