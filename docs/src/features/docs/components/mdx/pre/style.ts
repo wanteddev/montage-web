@@ -7,7 +7,7 @@ export const preWrapperStyle = (theme: Theme) => css`
   padding: 16px;
   background-color: ${theme.semantic.fill.alternative};
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 40px;
   position: relative;
 
   & button {
