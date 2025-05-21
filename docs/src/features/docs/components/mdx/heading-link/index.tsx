@@ -16,7 +16,9 @@ const HeadingLink = ({ id, children, ...props }: Props) => (
       </IconButton>
     </Box>
 
-    <span>{children}</span>
+    <Box as="span" sx={{ display: 'inline-block' }}>
+      {children}
+    </Box>
   </Box>
 );
 

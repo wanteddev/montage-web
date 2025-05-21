@@ -1,15 +1,15 @@
 ---
 title: Button
-description: 사용자가 특정 작업을 수행할 수 있도록 안내하는 요소로 행동을 직관적이고 명확하게 유도해요.
+description: 버튼(Buttons)은 작업을 수행하는데 사용되는 클릭 가능한 컴포넌트입니다.\n콘텐츠 혹은 화면의 하단 영역에 배치되며 다양한 방식으로 콘텐츠와 함께 상호 작용할 수 있도록 돕습니다.
 image: /components/actions/button/design/thumbnail.png
 createdAt: 2025-04-03
 ---
 
-## Solid button
+## Variants
 
-Solid Button은 2가지 색상을 사용할 수 있어요.
-- primary (default)
-- assistive
+### Solid button
+
+Primary(Default), Assistive로 구성되어있습니다.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 
@@ -25,12 +25,10 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Outlined button
+### Outlined button
 
-Outlined Button은 3가지 색상을 사용할 수 있어요.
-- primary (default)
-- secondary
-- assistive
+Primary(Default), Secondary, Assistive로 구성되어있습니다.<br/>
+단, Primary는 Solid로 대체되어 사용합하기 때문에 사용을 지양하고 있습니다.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 
@@ -48,9 +46,12 @@ export default Demo;`}
 />
 
 
-## With icon
+## Icon
 
-`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있어요.
+### With icon
+
+leadingContent, trailingContent을 사용하여 아이콘과 함께 배치할 수 있습니다.<br/>
+단, leading, trailingContent를 동시에 적용하는 것은 지양합니다.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
@@ -79,11 +80,10 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Icon only
+### Icon only
 
-`iconOnly` prop 을 사용하면 아이콘만 단독으로 배치할 수 있어요.
-
-다른 버튼과 나란히 사용할 때 `IconButton` 대신 iconOnly 버튼을 사용해요.
+iconOnly prop 을 사용하면 아이콘만 단독으로 배치할 수 있습니다.<br/>
+다른 Solid, Outlined Button과 나란히 함께 사용할 때 iconOnly를 사용합니다.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 import { IconPlusThick } from '@wanteddev/wds-icon';
@@ -115,10 +115,7 @@ export default Demo;`}
 
 ## Sizes
 
-3가지 사이즈를 제공해요.
-- small
-- medium (default)
-- large
+모든 타입의 버튼은 ‘small’, ‘medium(Default)’, ‘large’ 3개의 사이즈를 제공합니다.
 
 <Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
 
@@ -193,14 +190,13 @@ export default Demo;`}
 
 ## Loading
 
-`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있어요.
-disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막아요.
-  - onClick
-  - onMouseDown
-  - onPointerDown
-  - onKeyDown (e.key === 'Enter' || e.key === ' ')
+‘loading’ 옵션을 통해 로딩 상태를 트리커 할 수 있어요. disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막습니다.
+- **onClick**
+- **onMouseDown**
+- **onPointerDown**
+- **onKeyDown (e.key === 'Enter' || e.key === ' ')**
 
-이벤트 실행을 막지 않으려면 `disableLoadingPreventEvents` 을 사용할 수 있어요.
+이벤트 실행을 막지 않기 위해서 ’disableLoadingPreventEvents’ 을 사용할 수 있습니다.
 
 <Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
 import { useState, useEffect } from 'react';
@@ -230,9 +226,8 @@ export default Demo;`}
 
 ## API
 
-`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
-
-정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+‘as’ 옵션을 통해 ’Link’ 등으로 활용할 수 있습니다.<br/>
+정해진 viewport에 따라 아래 옵션을 override 할 수 있습니다.
 - size
 
 <PropsTable component="Button" />

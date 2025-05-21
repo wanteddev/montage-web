@@ -1,4 +1,4 @@
-import { css, typographyStyle } from '@wanteddev/wds';
+import { addOpacity, css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -51,6 +51,10 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(p),
     p {
       margin-bottom: 16px;
+
+      &:not(& ~ *:is(h1, h2, h3, h4, h5, h6)) {
+        margin-bottom: 24px;
+      }
     }
 
     :is(h1),
@@ -78,7 +82,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h3),
     h3 {
       margin-top: 8px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     :is(h4),
@@ -97,6 +101,11 @@ export const mdxRootStyle = (theme: Theme) => css`
     h6 {
       margin-top: 8px;
       margin-bottom: 16px;
+    }
+
+    :is(h2) + :is(h3),
+    h2 + h3 {
+      margin-top: 32px;
     }
 
     :is(ol),
@@ -125,13 +134,21 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(blockquote),
     blockquote {
       margin-bottom: 16px;
-      border-left: 2px solid ${theme.semantic.label.alternative};
-      padding-left: 16px;
+      border-left: 4px solid
+        ${addOpacity(theme.semantic.primary.normal, theme.opacity[61])};
+      padding: 8px 0px 8px 12px;
       font-style: initial;
+      color: ${theme.semantic.label.neutral};
+      background-color: ${addOpacity(
+        theme.semantic.primary.normal,
+        theme.opacity[5],
+      )};
+      border-radius: 4px;
+      position: relative;
 
       :is(p),
       p {
-        margin: 0;
+        margin: 0 !important;
       }
     }
 

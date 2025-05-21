@@ -7,12 +7,12 @@ export const demoWrapperStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.normal.normal};
   border-radius: 16px;
   overflow: hidden;
-  margin-block: 16px;
+  margin-bottom: 24px;
 `;
 
 export const demoStyle =
   (hideCode: boolean, hatched: boolean) => (theme: Theme) => css`
-    padding: 16px;
+    padding: 80px 16px;
     border-bottom: 1px solid ${theme.semantic.line.normal.normal};
     background-color: ${theme.semantic.background.normal.normal};
     position: relative;

@@ -1,15 +1,10 @@
 ---
 title: Button
-description: 사용자가 특정 작업을 수행할 수 있도록 안내하는 요소로 행동을 직관적이고 명확하게 유도해요.
-createdAt: 2025-05-14
-updatedAt: 2025-05-14
+description: 사용자가 상호작용할 수 있는 버튼 컴포넌트입니다.
 ---
 
-사용자가 상호작용할 수 있는 버튼 컴포넌트입니다.
-
 ```swift
-@MainActor
-struct Button
+@MainActor struct Button
 ```
 
 ## Overview
@@ -17,12 +12,10 @@ struct Button
 세 가지 스타일로 제공됩니다:
 
 - `solid`: 색상이 채워진 버튼
-
 - `outlined`: 테두리만 있는 버튼
-
 - `text`: 텍스트만 있는 버튼
 
-  **Example**
+## 사용 예시
 
 ```swift
 // 기본 솔리드 버튼
@@ -42,332 +35,82 @@ Button.solid(text: "저장")
     .loading(true)
 ```
 
-> **Note**
+>  **Note**
 >
 > 버튼은 다양한 수정자(modifier)를 사용하여 모양과 동작을 커스터마이즈할 수 있습니다.
 
-> **See Also**
+>  **See Also**
 >
-> `Typography`, `Color`
+> [Typography](/documentation/montage/typography), [Color](/documentation/montage/color)
+
+
+> Test
 
 ## Topics
 
+### Classes
+
+- [class OutlinedUIButton](/documentation/montage/button/outlineduibutton)
+  - 외곽선으로 둘러 싸인 곡선 모서리 버튼입니다.
+- [class SolidUIButton](/documentation/montage/button/soliduibutton)
+  - 배경으로 둘러 싸인 곡선 모서리 버튼입니다.
+
 ### Instance Properties
 
-- `var body: some View`
+- [var body: some View](/documentation/montage/button/body)
 
 ### Instance Methods
 
-- `func disable(_ disable: Bool = true)`
-
-  버튼을 비활성화 상태로 설정합니다.
-
-  비활성화된 버튼은 시각적으로 흐리게 표시되며 사용자 상호작용에 반응하지 않습니다.
-
-  **Example**
-
-  ```swift
-  Button.solid(text: "저장")
-      .disable(isFormInvalid)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `disable` | 비활성화 여부, 기본값은 `true` |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func contentColor(_ contentColor: SwiftUI.Color?)`
-
-  버튼 콘텐츠(텍스트와 아이콘)의 색상을 설정합니다.
-
-  **Example**
-
-  ```swift
-  Button.outlined(text: "복사")
-      .contentColor(.red)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `contentColor` | 설정할 색상 |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func backgroundColor(_ backgroundColor: SwiftUI.Color?)`
-
-  버튼 배경색을 설정합니다.
-
-  Solid 스타일 버튼에 가장 효과적으로 적용됩니다.
-
-  **Example**
-
-  ```swift
-  Button.solid(text: "특별 액션")
-      .backgroundColor(.blue)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `backgroundColor` | 설정할 배경색 |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func borderColor(_ borderColor: SwiftUI.Color?)`
-
-  버튼 테두리 색상을 설정합니다.
-
-  Outlined 스타일 버튼에 가장 효과적으로 적용됩니다.
-
-  **Example**
-
-  ```swift
-  Button.outlined(text: "경고")
-      .borderColor(.red)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `borderColor` | 설정할 테두리 색상 |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func fontVariant(_ fontVariant: Typography.Variant?)`
-
-  버튼 텍스트의 폰트 변형을 설정합니다.
-
-  텍스트의 크기와 스타일을 변경할 때 사용합니다.
-
-  **Example**
-
-  ```swift
-  Button.text(text: "중요 안내")
-      .fontVariant(.heading)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `fontVariant` | 설정할 폰트 변형 |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func fontWeight(_ fontWeight: Typography.Weight?)`
-
-  버튼 텍스트의 폰트 두께를 설정합니다.
-
-  텍스트의 강조를 조절할 때 사용합니다.
-
-  **Example**
-
-  ```swift
-  Button.text(text: "중요 공지")
-      .fontWeight(.bold)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `fontWeight` | 설정할 폰트 두께 |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func loading(_ loading: Bool = true)`
-
-  버튼을 로딩 상태로 설정합니다.
-
-  로딩 상태인 버튼은 내부 콘텐츠 대신 로딩 인디케이터를 표시하며 사용자 상호작용에 반응하지 않습니다.
-  비동기 작업이 진행 중일 때 사용자에게 피드백을 제공하는 데 유용합니다.
-
-  **Example**
-
-  ```swift
-  Button.solid(text: "저장")
-      .loading(isLoading)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `loading` | 로딩 상태 여부, 기본값은 `true` |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
-
-- `func fill(horizontal fillHorizontal: Bool = false, vertical fillVertical: Bool = false)`
-
-  버튼이 수평 또는 수직 방향으로 공간을 채우도록 설정합니다.
-
-  버튼의 크기를 조절하여 컨테이너 뷰의 공간을 효율적으로 활용할 때 사용합니다.
-
-  **Example**
-
-  ```swift
-  // 부모 뷰의 가로 너비를 모두 채우는 버튼
-  Button.solid(text: "전체 확인")
-      .fill(horizontal: true)
-
-  // 가로, 세로 모두 채우는 버튼
-  Button.outlined(text: "영역 전체 채우기")
-      .fill(horizontal: true, vertical: true)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `fillHorizontal` | 수평 방향 채우기 여부, 기본값은 `false` |
-  | `fillVertical` | 수직 방향 채우기 여부, 기본값은 `false` |
-
-  **Returns**
-
-  수정된 버튼 인스턴스
+- [func backgroundColor(SwiftUI.Color?) -> Button](/documentation/montage/button/backgroundcolor(_:))
+  - 버튼 배경색을 설정합니다.
+- [func borderColor(SwiftUI.Color?) -> Button](/documentation/montage/button/bordercolor(_:))
+  - 버튼 테두리 색상을 설정합니다.
+- [func contentColor(SwiftUI.Color?) -> Button](/documentation/montage/button/contentcolor(_:))
+  - 버튼 콘텐츠(텍스트와 아이콘)의 색상을 설정합니다.
+- [func disable(Bool) -> Button](/documentation/montage/button/disable(_:))
+  - 버튼을 비활성화 상태로 설정합니다.
+- [func fill(horizontal: Bool, vertical: Bool) -> Button](/documentation/montage/button/fill(horizontal:vertical:))
+  - 버튼이 수평 또는 수직 방향으로 공간을 채우도록 설정합니다.
+- [func fontVariant(Typography.Variant?) -> Button](/documentation/montage/button/fontvariant(_:))
+  - 버튼 텍스트의 폰트 변형을 설정합니다.
+- [func fontWeight(Typography.Weight?) -> Button](/documentation/montage/button/fontweight(_:))
+  - 버튼 텍스트의 폰트 두께를 설정합니다.
+- [func loading(Bool) -> Button](/documentation/montage/button/loading(_:))
+  - 버튼을 로딩 상태로 설정합니다.
 
 ### Type Methods
 
-- `static func solid()`
+- [static func outlined(variant: Outlined.Variant, size: Outlined.Size, icon: Icon, handler: (() -> Void)?) -> Button](/documentation/montage/button/outlined(variant:size:icon:handler:))
+  - Outlined 스타일의 아이콘 버튼을 생성합니다.
+- [static func outlined(variant: Outlined.Variant, size: Outlined.Size, text: String, leadingIcon: Icon?, trailingIcon: Icon?, handler: (() -> Void)?) -> Button](/documentation/montage/button/outlined(variant:size:text:leadingicon:trailingicon:handler:))
+  - Outlined 스타일의 텍스트 버튼을 생성합니다.
+- [static func solid(variant: Solid.Variant, size: Solid.Size, icon: Icon, handler: (() -> Void)?) -> Button](/documentation/montage/button/solid(variant:size:icon:handler:))
+  - Solid 스타일의 아이콘 버튼을 생성합니다.
+- [static func solid(variant: Solid.Variant, size: Solid.Size, text: String, leadingIcon: Icon?, trailingIcon: Icon?, handler: (() -> Void)?) -> Button](/documentation/montage/button/solid(variant:size:text:leadingicon:trailingicon:handler:))
+  - Solid 스타일의 텍스트 버튼을 생성합니다.
+- [static func text(variant: Text.Variant, size: Text.Size, text: String, leadingIcon: Icon?, trailingIcon: Icon?, handler: (() -> Void)?) -> Button](/documentation/montage/button/text(variant:size:text:leadingicon:trailingicon:handler:))
+  - Text 스타일의 버튼을 생성합니다.
 
-  Solid 스타일의 텍스트 버튼을 생성합니다.
+### Enumerations
 
-  배경색이 채워진 스타일의 버튼으로, 주요 액션이나 강조가 필요한 액션에 적합합니다.
+- [enum Outlined](/documentation/montage/button/outlined)
+  - Outlined 스타일 버튼과 관련된 타입을 정의합니다.
+- [enum Size](/documentation/montage/button/size)
+  - 버튼의 크기를 정의합니다.
+- [enum Solid](/documentation/montage/button/solid)
+  - Solid 스타일 버튼과 관련된 타입을 정의합니다.
+- [enum Text](/documentation/montage/button/text)
+  - Text 스타일 버튼과 관련된 타입을 정의합니다.
+- [enum Variant](/documentation/montage/button/variant)
+  - 버튼의 변형을 정의합니다.
 
-  **Example**
+### Default Implementations
 
-  ```swift
-  Button.solid(text: "로그인", handler: { loginUser() })
-  Button.solid(variant: .assistive, size: .small, text: "확인")
-  ```
+- [View Implementations](/documentation/montage/button/view-implementations)
+- [View Implementations](/documentation/montage/button/view-implementations)
 
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `variant` | 버튼의 변형, 기본값은 `.primary` |
-  | `size` | 버튼의 크기, 기본값은 `.large` |
-  | `text` | 버튼에 표시할 텍스트 |
-  | `leadingIcon` | 텍스트 앞에 표시할 아이콘 |
-  | `trailingIcon` | 텍스트 뒤에 표시할 아이콘 |
-  | `handler` | 버튼 탭 시 실행할 핸들러 |
+## Relationships
 
-  **Returns**
+Conforms To
 
-  구성된 버튼 인스턴스
-
-- `static func solid()`
-
-  Solid 스타일의 아이콘 버튼을 생성합니다.
-
-  배경색이 채워진 스타일의 아이콘 버튼으로, 공간이 제한적이거나 아이콘으로 충분히 의미가 전달될 때 사용합니다.
-
-  **Example**
-
-  ```swift
-  Button.solid(icon: .plus, handler: { addItem() })
-  Button.solid(variant: .assistive, size: .small, icon: .search)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `variant` | 버튼의 변형, 기본값은 `.primary` |
-  | `size` | 버튼의 크기, 기본값은 `.large` |
-  | `icon` | 버튼에 표시할 아이콘 |
-  | `handler` | 버튼 탭 시 실행할 핸들러 |
-
-  **Returns**
-
-  구성된 버튼 인스턴스
-
-- `static func outlined()`
-
-  Outlined 스타일의 텍스트 버튼을 생성합니다.
-
-  테두리만 있는 스타일의 버튼으로, 보조 액션이나 덜 강조된 액션에 적합합니다.
-
-  **Example**
-
-  ```swift
-  Button.outlined(text: "취소", handler: { dismiss() })
-  Button.outlined(variant: .secondary, size: .medium, text: "뒤로")
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `variant` | 버튼의 변형, 기본값은 `.primary` |
-  | `size` | 버튼의 크기, 기본값은 `.large` |
-  | `text` | 버튼에 표시할 텍스트 |
-  | `leadingIcon` | 텍스트 앞에 표시할 아이콘 |
-  | `trailingIcon` | 텍스트 뒤에 표시할 아이콘 |
-  | `handler` | 버튼 탭 시 실행할 핸들러 |
-
-  **Returns**
-
-  구성된 버튼 인스턴스
-
-- `static func outlined()`
-
-  Outlined 스타일의 아이콘 버튼을 생성합니다.
-
-  테두리만 있는 스타일의 아이콘 버튼으로, 공간이 제한적이거나 보조적인 아이콘 액션에 적합합니다.
-
-  **Example**
-
-  ```swift
-  Button.outlined(icon: .share, handler: { shareContent() })
-  Button.outlined(variant: .assistive, size: .small, icon: .bookmark)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `variant` | 버튼의 변형, 기본값은 `.primary` |
-  | `size` | 버튼의 크기, 기본값은 `.large` |
-  | `icon` | 버튼에 표시할 아이콘 |
-  | `handler` | 버튼 탭 시 실행할 핸들러 |
-
-  **Returns**
-
-  구성된 버튼 인스턴스
-
-- `static func text()`
-
-  Text 스타일의 버튼을 생성합니다.
-
-  텍스트만 있는 스타일의 버튼으로, 가벼운 액션이나 링크 형태의 액션에 적합합니다.
-
-  **Example**
-
-  ```swift
-  Button.text(text: "더 보기", handler: { showMore() })
-  Button.text(variant: .assistive, text: "상세보기", trailingIcon: .chevronRight)
-  ```
-
-  **Parameters**
-  | 매개변수 | 설명 |
-  |---------|------|
-  | `variant` | 버튼의 변형, 기본값은 `.primary` |
-  | `size` | 버튼의 크기, 기본값은 `.medium` |
-  | `text` | 버튼에 표시할 텍스트 |
-  | `leadingIcon` | 텍스트 앞에 표시할 아이콘 |
-  | `trailingIcon` | 텍스트 뒤에 표시할 아이콘 |
-  | `handler` | 버튼 탭 시 실행할 핸들러 |
-
-  **Returns**
-
-  구성된 버튼 인스턴스
+`Swift.Sendable``SwiftUICore.View`
