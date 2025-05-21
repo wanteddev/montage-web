@@ -514,12 +514,32 @@ jobs:
                     .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
                     .filter((iconAsset) => iconAsset.endsWith('.imageset'));
 
-                  const swiftFileContent = `//\n//  Icon.swift\n//  Montage\n//\n//  Created by Eunyeong Kim on 2021/04/20.\n//\nimport Foundation\n\n/// Montage 번들 내에 포함된 아이콘들의 이름들입니다.\npublic enum Icon: String, CaseIterable {\n    ${shouldShowFoundations.sort().map((iconAsset) => `case ${iconAsset.replace('.imageset', '')}`).join('\n    ')}\n\n    public var name: String { rawValue }\n}\n`;
+                  const swiftFilePath = './Sources/Montage/1 Theme/Icon.swift';
 
-                  fs.writeFileSync(
-                    './Sources/Montage/1 Theme/Icon.swift',
-                    swiftFileContent,
+                  let swiftFileContent = fs.readFileSync(swiftFilePath, 'utf8');
+
+                  const enumCases = shouldShowFoundations
+                    .sort()
+                    .map(iconAsset => `    case ${iconAsset.replace('.imageset', '')}`)
+                    .join('\n');
+
+                  // Icon enum의 case 선언들만 정확히 찾아 대체하고, 다른 멤버(주석, 프로퍼티 등)는 유지합니다.
+                  swiftFileContent = swiftFileContent.replace(
+                    /(\n\s*public enum Icon: String, CaseIterable\s*\{\s*\n)([\s\S]*?)(\n\s*(?:\/\/[^\n]*|\w+[^\n]*)\n\s*\})/,
+                    (match, enumStart, existingCases, enumEnd) => {
+                      // 기존 케이스들 중에서 실제 case 선언만 필터링 (주석 등 제외)
+                      const oldCases = existingCases.split('\n').filter(line => line.trim().startsWith('case ')).join('\n');
+                      // 새로운 케이스 목록과 기존 케이스 목록이 다를 경우에만 업데이트
+                      if (oldCases !== enumCases.split('\n').map(c => c.trim()).join('\n')) {
+                        return `${enumStart}${enumCases}\n${enumEnd}`;
+                      }
+                      // 케이스가 동일하면 원본 유지
+                      return match;
+                    }
                   );
+
+                  fs.writeFileSync(swiftFilePath, swiftFileContent, 'utf-8');
+
                   break;
                 }
               }
