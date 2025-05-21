@@ -51,10 +51,6 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(p),
     p {
       margin-bottom: 16px;
-
-      &:not(& ~ *:is(h1, h2, h3, h4, h5, h6)) {
-        margin-bottom: 24px;
-      }
     }
 
     :is(h1),
@@ -129,6 +125,13 @@ export const mdxRootStyle = (theme: Theme) => css`
         margin-top: 0;
         margin-bottom: 0;
       }
+    }
+
+    :is(hr),
+    hr {
+      margin: 16px 0px;
+      border: none;
+      border-top: 1px solid ${theme.semantic.line.normal.alternative};
     }
 
     :is(blockquote),
