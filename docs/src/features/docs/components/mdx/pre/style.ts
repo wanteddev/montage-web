@@ -6,6 +6,7 @@ export const preWrapperStyle = (theme: Theme) => css`
   max-width: 100%;
   padding: 16px;
   background-color: ${theme.semantic.fill.alternative};
+  box-shadow: inset 0px 0px 0px 1px ${theme.semantic.line.solid.alternative};
   border-radius: 8px;
   margin-bottom: 40px;
   position: relative;

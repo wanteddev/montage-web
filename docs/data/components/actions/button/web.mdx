@@ -28,7 +28,7 @@ export default Demo;`}
 ### Outlined button
 
 Primary(Default), Secondary, Assistive로 구성되어있습니다.<br/>
-단, Primary는 Solid로 대체되어 사용합하기 때문에 사용을 지양하고 있습니다.
+단, Primary는 Solid로 대체하기 때문에 사용을 지양합니다.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 
@@ -115,7 +115,7 @@ export default Demo;`}
 
 ## Sizes
 
-모든 타입의 버튼은 ‘small’, ‘medium(Default)’, ‘large’ 3개의 사이즈를 제공합니다.
+모든 타입의 버튼은 `small`, `medium(Default)`, `large` 3개의 사이즈를 제공합니다.
 
 <Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
 
@@ -190,13 +190,13 @@ export default Demo;`}
 
 ## Loading
 
-‘loading’ 옵션을 통해 로딩 상태를 트리커 할 수 있어요. disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막습니다.
+`loading` 옵션을 통해 로딩 상태를 트리커 할 수 있어요. disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막습니다.
 - **onClick**
 - **onMouseDown**
 - **onPointerDown**
 - **onKeyDown (e.key === 'Enter' || e.key === ' ')**
 
-이벤트 실행을 막지 않기 위해서 ’disableLoadingPreventEvents’ 을 사용할 수 있습니다.
+이벤트 실행을 막지 않기 위해서 `disableLoadingPreventEvents` 을 사용할 수 있습니다.
 
 <Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
 import { useState, useEffect } from 'react';
@@ -226,7 +226,7 @@ export default Demo;`}
 
 ## API
 
-‘as’ 옵션을 통해 ’Link’ 등으로 활용할 수 있습니다.<br/>
+`as` 옵션을 통해 `Link` 등으로 활용할 수 있습니다.<br/>
 정해진 viewport에 따라 아래 옵션을 override 할 수 있습니다.
 - size
 

@@ -4,6 +4,7 @@ import {
   AccordionSummaryContent,
   FlexBox,
   List,
+  typographyStyle,
 } from '@wanteddev/wds';
 import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
@@ -120,7 +121,10 @@ const LnbGroup = ({ frontmatter }: Props) => {
                 >
                   <SectionHeader
                     size="xsmall"
-                    sx={{ padding: '12px 20px 12px var(--lnb-padding-left)' }}
+                    sx={[
+                      { padding: '12px 20px 12px var(--lnb-padding-left)' },
+                      typographyStyle('caption1', 'bold'),
+                    ]}
                     color="semantic.label.assistive"
                   >
                     {sentenceCase(item.key)}

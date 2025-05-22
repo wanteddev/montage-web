@@ -139,7 +139,15 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionHierarchy,
   SectionHierarchyItem,
   DocsCollection,
-  table: (props) => <Table {...props} sx={{ marginBottom: 40 }} />,
+  table: (props) => (
+    <Table
+      {...props}
+      sx={(theme) => ({
+        marginBottom: 40,
+        '--wds-table-border-color': theme.semantic.line.solid.alternative,
+      })}
+    />
+  ),
   tr: TableRow,
   td: (props) => (
     <TableCell

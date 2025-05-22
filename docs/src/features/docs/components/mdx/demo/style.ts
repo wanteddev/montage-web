@@ -12,7 +12,7 @@ export const demoWrapperStyle = (theme: Theme) => css`
 
 export const demoStyle =
   (hideCode: boolean, hatched: boolean) => (theme: Theme) => css`
-    padding: 80px 16px;
+    padding: 40px 16px;
     border-bottom: 1px solid ${theme.semantic.line.normal.normal};
     background-color: ${theme.semantic.background.normal.normal};
     position: relative;

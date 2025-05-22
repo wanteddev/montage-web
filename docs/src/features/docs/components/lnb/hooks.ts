@@ -62,12 +62,7 @@ export const useLNBContent = () => {
         (item) => !isFrontmatter(item) && item.key === firstKey,
       );
 
-      if (
-        !firstLevelGroup &&
-        (!secondKey ||
-          !thirdKey ||
-          (secondKey.match(PLATFORM_PATTERN) && thirdKey !== 'index'))
-      ) {
+      if (!firstLevelGroup && (!secondKey || !thirdKey)) {
         acc.push(cur);
         return acc;
       }

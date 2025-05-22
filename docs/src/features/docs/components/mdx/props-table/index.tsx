@@ -59,7 +59,12 @@ const PropsTable = ({ component, fallback }: Props) => {
   );
 
   return (
-    <Table sx={{ marginBottom: 16 }}>
+    <Table
+      sx={(theme) => ({
+        marginBottom: 40,
+        '--wds-table-border-color': theme.semantic.line.solid.alternative,
+      })}
+    >
       <colgroup>
         <col width="auto" />
         <col width="auto" />
