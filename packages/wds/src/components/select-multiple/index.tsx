@@ -16,7 +16,6 @@ import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useSize } from '@radix-ui/react-use-size';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 
 import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
 import FlexBox from '../flex-box';
@@ -26,14 +25,15 @@ import { SelectContent } from '../select';
 import { convertChildrenToData } from '../select/helpers';
 import {
   invalidIconWrapperStyle,
-  selectBubbleInputStyle,
   selectIconStyle,
   selectStyle,
 } from '../select/style';
 import useResizeObserver from '../../hooks/use-resize-observer';
+import { VirtualValueInput } from '../virtual-input';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
 
@@ -78,7 +78,7 @@ const SelectMultiple = forwardRef<
     const [renderWrapperNode, setRenderWrapperNode] =
       useState<HTMLDivElement | null>(null);
 
-    const { width: contentWidth, height: contentHeight } = useSize(node) || {};
+    const { width: contentWidth } = useSize(node) || {};
 
     const [isScrollableLeft, setIsScrollableLeft] = useState(false);
     const [isScrollableRight, setIsScrollableRight] = useState(false);
@@ -188,23 +188,13 @@ const SelectMultiple = forwardRef<
     return (
       <>
         {isFormControl && (
-          <Box
-            as="input"
+          <VirtualValueInput
             name={props.name}
             // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
             value={Array.isArray(value) ? value.join(',') : value ?? ''}
             aria-invalid={invalid}
             disabled={disabled}
             tabIndex={-1}
-            aria-hidden
-            readOnly
-            sx={[
-              {
-                width: contentWidth,
-                height: contentHeight,
-              },
-              selectBubbleInputStyle,
-            ]}
           />
         )}
 
