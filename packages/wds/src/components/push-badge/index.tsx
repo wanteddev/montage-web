@@ -80,19 +80,18 @@ const PushBadge = forwardRef<
           data-variant={variant}
           sx={pushBadgeStyle({ variant, invisible, position })}
         >
-          {!invisible &&
-            (variant === 'dot' ? (
-              renderChild[variant]
-            ) : (
-              <Typography
-                data-role="push-badge-text"
-                variant="caption2"
-                weight="bold"
-                align="center"
-              >
-                {renderChild[variant]}
-              </Typography>
-            ))}
+          {variant === 'dot'
+            ? renderChild[variant]
+            : !invisible && (
+                <Typography
+                  data-role="push-badge-text"
+                  variant="caption2"
+                  weight="bold"
+                  align="center"
+                >
+                  {renderChild[variant]}
+                </Typography>
+              )}
         </Box>
       </FlexBox>
     );

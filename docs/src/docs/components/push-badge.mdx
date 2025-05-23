@@ -124,7 +124,7 @@ const Demo = () => {
 
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={!invisible} onCheckedChange={(value)setInvisible} size="small" />
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
         <IconButton size={24}>

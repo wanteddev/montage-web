@@ -50,10 +50,10 @@ export const pushBadgeWrapperStyle =
 export const pushBadgeStyle =
   ({ variant, invisible, position }: PushBadgeProps) =>
   (theme: Theme) => css`
-    transform-origin: 100% 0%;
     z-index: 1;
     position: absolute;
     transition: transform 0.2s ease;
+    transform-origin: 0% 0%;
 
     ${pushBadgePositionStyle({ invisible, position })}
     ${pushBadgeVariantStyle({ variant }, theme)}
