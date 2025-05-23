@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/wanteddev/wds/compare/v2.0.1...v2.0.2) (2025-05-23)
+
+### Bug Fixes
+
+- **wds:** push badge invisible 값의 의미가 뒤바뀐 현상 ([#329](https://github.com/wanteddev/wds/issues/329)) ([f1ade6c](https://github.com/wanteddev/wds/commit/f1ade6c4f371b1c9b3f94073bd14471e8deeaf60))
+
+### Features
+
+- **wds:** control component WAI-ARIA 조정 ([#330](https://github.com/wanteddev/wds/issues/330)) ([f83f6cc](https://github.com/wanteddev/wds/commit/f83f6ccea852373dd8d222d74780c3d648fca649))
+- **wds:** push badge animation 자연스럽게 수정 ([9174900](https://github.com/wanteddev/wds/commit/917490026a4b4e4c5b4c4ab05f31411502002a79))
+- **wds:** table 색상 변경 및 커스터마이즈 용이성 개선 ([#331](https://github.com/wanteddev/wds/issues/331)) ([ee7c829](https://github.com/wanteddev/wds/commit/ee7c8297923c670fc450ace2c94d816a9352f2e3))
+
 ## [2.0.1](https://github.com/wanteddev/wds/compare/v2.0.0...v2.0.1) (2025-05-12)
 
 ### Bug Fixes

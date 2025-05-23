@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/wanteddev/wds/compare/v2.0.1...v2.0.2) (2025-05-23)
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#327](https://github.com/wanteddev/wds/issues/327)) ([358154b](https://github.com/wanteddev/wds/commit/358154b01b72ba89cd6d7ba2c649c091c29a26f6))
+
 ## [2.0.1](https://github.com/wanteddev/wds/compare/v2.0.0...v2.0.1) (2025-05-12)
 
 **Note:** Version bump only for package @wanteddev/wds-icon
