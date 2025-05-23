@@ -14,11 +14,11 @@ import { IconBell } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(true);
+  const [invisible, setInvisible] = useState(false);
 
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={invisible} onCheckedChange={setInvisible} size="small" />
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
         <IconButton size={24}>
@@ -120,11 +120,11 @@ import { IconBell } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(true);
+  const [invisible, setInvisible] = useState(false);
 
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={invisible} onCheckedChange={setInvisible} size="small" />
+      <Switch checked={!invisible} onCheckedChange={(value)setInvisible} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
         <IconButton size={24}>
@@ -155,11 +155,11 @@ import { IconBell } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(true);
+  const [invisible, setInvisible] = useState(false);
 
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={invisible} onCheckedChange={setInvisible} size="small" />
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
         <IconButton size={24}>
@@ -191,11 +191,11 @@ import { IconBell } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 const Demo = () => {
-  const [invisible, setInvisible] = useState(true);
+  const [invisible, setInvisible] = useState(false);
 
   return (
     <FlexBox flexDirection="column" gap="8px">
-      <Switch checked={invisible} onCheckedChange={setInvisible} size="small" />
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
 
       <FlexBox gap="16px" alignItems="center">
         <IconButton size={24}>

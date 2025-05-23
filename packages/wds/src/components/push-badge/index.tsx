@@ -21,7 +21,7 @@ const PushBadge = forwardRef<
       children,
       size = 'xsmall',
       count,
-      invisible = true,
+      invisible = false,
       offsetX,
       offsetY,
       xs,
@@ -80,7 +80,7 @@ const PushBadge = forwardRef<
           data-variant={variant}
           sx={pushBadgeStyle({ variant, invisible, position })}
         >
-          {invisible &&
+          {!invisible &&
             (variant === 'dot' ? (
               renderChild[variant]
             ) : (

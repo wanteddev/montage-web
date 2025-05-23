@@ -66,7 +66,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(0px + var(--wds-push-badge-offset-y));
         left: calc(0px + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -76,7 +76,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(0px + var(--wds-push-badge-offset-y));
         left: calc(50% + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -86,7 +86,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(0px + var(--wds-push-badge-offset-y));
         left: calc(100% + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -97,7 +97,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(50% + var(--wds-push-badge-offset-y));
         left: calc(0px + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -107,7 +107,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(50% + var(--wds-push-badge-offset-y));
         left: calc(50% + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -128,7 +128,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(100% + var(--wds-push-badge-offset-y));
         left: calc(0px + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -138,7 +138,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(100% + var(--wds-push-badge-offset-y));
         left: calc(50% + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -148,7 +148,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(100% + var(--wds-push-badge-offset-y));
         left: calc(100% + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
