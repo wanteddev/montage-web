@@ -16,9 +16,11 @@ export const tableStyle = (theme: Theme) => css`
   --wds-table-cell-padding-y: 16px;
   --wds-table-cell-min-height: 44px;
 
+  --wds-table-border-color: ${theme.semantic.line.solid.neutral};
+
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid ${theme.semantic.line.normal.neutral};
+  border: 1px solid var(--wds-table-border-color);
 
   table {
     display: table;
@@ -52,7 +54,7 @@ export const scrollAreaStyle = css`
   flex-direction: column;
 `;
 
-export const tableHeadCellStyle = (theme: Theme) => css`
+export const tableHeadCellStyle = css`
   padding: var(--wds-table-head-cell-padding-y, 8px) 0px
     var(--wds-table-head-cell-padding-y, 8px)
     var(--wds-table-head-cell-padding-x, 20px);
@@ -60,17 +62,17 @@ export const tableHeadCellStyle = (theme: Theme) => css`
   vertical-align: middle;
   display: table-cell;
   border: none;
-  border-bottom: 1px solid ${theme.semantic.line.normal.neutral};
+  border-bottom: 1px solid var(--wds-table-border-color);
 `;
 
-export const tableCellStyle = (theme: Theme) => css`
+export const tableCellStyle = css`
   padding: var(--wds-table-cell-padding-y, 16px) 0px
     var(--wds-table-cell-padding-y, 16px) var(--wds-table-cell-padding-x, 20px);
   vertical-align: middle;
   display: table-cell;
   border: none;
   height: var(--wds-table-cell-min-height, 44px);
-  border-bottom: 1px solid ${theme.semantic.line.normal.neutral};
+  border-bottom: 1px solid var(--wds-table-border-color);
 `;
 
 export const tableRowStyle = (interaction?: boolean) => (theme: Theme) => css`
@@ -158,8 +160,8 @@ export const tableFootStyle = css`
   border: none;
 `;
 
-export const paginationWrapperStyle = (theme: Theme) => css`
+export const paginationWrapperStyle = css`
   padding: var(--wds-table-cell-padding-y, 16px)
     var(--wds-table-cell-padding-x, 20px);
-  border-top: 1px solid ${theme.semantic.line.normal.neutral};
+  border-top: 1px solid var(--wds-table-border-color);
 `;
