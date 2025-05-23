@@ -1,12 +1,11 @@
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { useSize } from '@radix-ui/react-use-size';
-import { usePrevious } from '@radix-ui/react-use-previous';
 import { IconDot } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
+import { VirtualCheckboxInput } from '../virtual-input';
 
 import { radioStyle } from './style';
 
@@ -45,15 +44,10 @@ const Radio = forwardRef<
     return (
       <>
         {isFormControl && (
-          <BubbleInput
-            aria-hidden="true"
-            tabIndex={-1}
+          <VirtualCheckboxInput
             value={value}
-            type="radio"
             checked={checked}
-            defaultChecked={checked}
-            sx={{ display: 'none', pointerEvents: 'none' }}
-            control={button}
+            type="radio"
             bubbles={!hasConsumerStoppedPropagationRef.current}
             name={name}
             required={required}
@@ -116,61 +110,3 @@ const Radio = forwardRef<
 Radio.displayName = 'Radio';
 
 export default Radio;
-
-type BubbleInputProps = DefaultComponentProps<
-  {
-    checked: boolean;
-    control: HTMLElement | null;
-    bubbles: boolean;
-  },
-  'input'
->;
-
-const BubbleInput = ({
-  control,
-  checked,
-  bubbles = true,
-  ...inputProps
-}: BubbleInputProps) => {
-  const ref = useRef<HTMLInputElement>(null);
-  const prevChecked = usePrevious(checked);
-  const controlSize = useSize(control);
-
-  useEffect(() => {
-    const input = ref.current!;
-    const inputProto = window.HTMLInputElement.prototype;
-    const descriptor = Object.getOwnPropertyDescriptor(
-      inputProto,
-      'checked',
-    ) as PropertyDescriptor;
-    const setChecked = descriptor.set;
-    if (prevChecked !== checked && setChecked) {
-      const event = new Event('click', { bubbles });
-      setChecked.call(input, checked);
-      input.dispatchEvent(event);
-    }
-  }, [prevChecked, checked, bubbles]);
-
-  return (
-    <Box
-      as="input"
-      type="checkbox"
-      aria-hidden
-      defaultChecked={checked}
-      {...inputProps}
-      tabIndex={-1}
-      ref={ref}
-      sx={[
-        {
-          ...controlSize,
-          transform: 'translateX(-100%)',
-          position: 'absolute',
-          pointerEvents: 'none',
-          opacity: 0,
-          margin: 0,
-        },
-        inputProps.sx,
-      ]}
-    />
-  );
-};

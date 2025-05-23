@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
@@ -39,6 +39,20 @@ const RadioGroup = forwardRef<
     onChange: onValueChange,
   });
 
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
+  const composedRefs = useComposedRefs<HTMLDivElement>(ref, setNode);
+
+  const initialValueStateRef = useRef(value);
+
+  useEffect(() => {
+    const form = node?.closest('form');
+    if (form) {
+      const reset = () => setValue(initialValueStateRef.current);
+      form.addEventListener('reset', reset);
+      return () => form.removeEventListener('reset', reset);
+    }
+  }, [node, setValue]);
+
   return (
     <RadioGroupProvider
       name={name}
@@ -60,7 +74,7 @@ const RadioGroup = forwardRef<
           data-disabled={disabled ? '' : undefined}
           dir={dir || 'ltr'}
           {...groupProps}
-          ref={ref}
+          ref={composedRefs}
         />
       </RovingFocusGroup.Root>
     </RadioGroupProvider>

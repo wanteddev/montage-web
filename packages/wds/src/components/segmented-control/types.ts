@@ -8,6 +8,7 @@ export type SegmentedControlDefaultProps = {
   variant?: 'solid' | 'outlined';
   size?: 'large' | 'medium' | 'small';
   children?: ReactNode;
+  name?: string;
 };
 
 type SegmentedControlResponsiveProps = ResponsiveProps<

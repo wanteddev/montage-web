@@ -184,12 +184,3 @@ export const selectTextStyle = css`
   ${ellipsisTypographyStyle(1)}
   user-select: none;
 `;
-
-export const selectBubbleInputStyle = css`
-  display: none;
-  pointer-events: none;
-  position: absolute;
-  opacity: 0;
-  margin: 0;
-  transform: translateX(-100%);
-`;

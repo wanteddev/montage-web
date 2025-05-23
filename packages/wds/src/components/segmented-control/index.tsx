@@ -1,4 +1,11 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
@@ -9,6 +16,7 @@ import { usePrevious } from '@radix-ui/react-use-previous';
 import FlexBox from '../flex-box';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { calculateAnimationStyle } from '../../utils/animation';
+import { VirtualCheckboxInput } from '../virtual-input';
 
 import {
   motionThumbStyle,
@@ -51,6 +59,7 @@ const SegmentedControl = forwardRef<
       children,
       variant = 'solid',
       size = 'medium',
+      name,
       xs,
       sm,
       md,
@@ -120,12 +129,25 @@ const SegmentedControl = forwardRef<
 
     useResizeObserver(node, handleResize);
 
+    const initialValueStateRef = useRef(value);
+
+    useEffect(() => {
+      const form = node?.closest('form');
+
+      if (form) {
+        const reset = () => setValue(initialValueStateRef.current);
+        form.addEventListener('reset', reset);
+        return () => form.removeEventListener('reset', reset);
+      }
+    }, [node, setValue]);
+
     return (
       <SegmentedControlProvider
         value={value}
         onValueChange={setValue}
         variant={variant}
         size={size}
+        name={name}
         responsive={{
           xs,
           sm,
@@ -138,7 +160,7 @@ const SegmentedControl = forwardRef<
           <FlexBox
             ref={composedRefs}
             alignItems="stretch"
-            role="listbox"
+            role="radiogroup"
             {...props}
             wds-component="segmented-control"
             sx={[
@@ -176,14 +198,20 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
     }: PolymorphicProps<SegmentedControlItemProps, T>,
     forwardedRef: ForwardedRef<ElementRef<T>>,
   ) => {
-    const ref = useRef<ElementRef<T>>(null);
-    const composedRefs = useComposedRefs(ref, forwardedRef);
+    const id = useId();
 
-    const { size, variant, responsive, ...context } =
+    const [node, setNode] = useState<ElementRef<T> | null>(null);
+    const composedRefs = useComposedRefs(forwardedRef, setNode);
+
+    const { size, variant, responsive, name, ...context } =
       useSegmentedControlContext(SEGMENTED_CONTROL_ITEM_NAME);
 
     const active = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
+
+    const isFormControl = node
+      ? Boolean((node as unknown as HTMLElement).closest('form'))
+      : true;
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -207,12 +235,14 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
           as={(as || 'label') as T}
           ref={composedRefs}
           flex="1 1 0"
-          data-value={value}
-          aria-disabled={disabled}
           alignItems="center"
           justifyContent="center"
           gap="4px"
-          role="option"
+          data-value={value}
+          role="radio"
+          aria-disabled={disabled}
+          aria-checked={active}
+          aria-labelledby={id}
           {...props}
           disabled={disabled}
           wds-component="segmented-control-item"
@@ -245,7 +275,17 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
             data-role="segmented-control-item-text"
             aria-selected={active}
             aria-disabled={disabled}
+            id={id}
           >
+            {isFormControl && (
+              <VirtualCheckboxInput
+                type="radio"
+                name={name}
+                value={value}
+                checked={active}
+                disabled={disabled}
+              />
+            )}
             {children}
           </span>
           {trailingContent}

@@ -1,10 +1,18 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
+import { VirtualValueInput } from '../virtual-input';
 
 import {
   clamp,
@@ -60,10 +68,11 @@ const Slider = forwardRef<
     },
     forwardedRef,
   ) => {
+    const labelId = useId();
     const thumbRefs = useRef<Set<HTMLSpanElement>>(new Set());
     const currentFocusedIndex = useRef(0);
     const rect = useRef<DOMRect | undefined>(undefined);
-    const ref = useRef<HTMLSpanElement | null>(null);
+    const [node, setNode] = useState<HTMLSpanElement | null>(null);
 
     const [values = [], setValues] = useControllableState({
       prop: value,
@@ -131,16 +140,27 @@ const Slider = forwardRef<
     );
 
     const getValueFromPointer = (pointerPosition: number) => {
-      if (!ref.current) {
+      if (!node) {
         return;
       }
 
-      const newRect = rect.current || ref.current.getBoundingClientRect();
+      const newRect = rect.current || node.getBoundingClientRect();
       const cb = linearScale([0, newRect.width], [min, max]);
 
       rect.current = newRect;
       return cb(pointerPosition - newRect.left);
     };
+
+    const initialValuesRef = useRef(values);
+
+    useEffect(() => {
+      const form = node?.closest('form');
+      if (form) {
+        const reset = () => setValues(initialValuesRef.current);
+        form.addEventListener('reset', reset);
+        return () => form.removeEventListener('reset', reset);
+      }
+    }, [node, setValues]);
 
     return (
       <FlexBox
@@ -175,7 +195,7 @@ const Slider = forwardRef<
           sx={sliderProgressWrapperStyle({ disabled })}
           data-role="slider-progress-wrapper"
           as="span"
-          ref={ref}
+          ref={setNode}
           onKeyDown={composeEventHandlers(onKeyDown, (e) => {
             if (disabled) return;
 
@@ -271,6 +291,7 @@ const Slider = forwardRef<
               value={v}
               min={min}
               max={max}
+              aria-labelledby={labelId}
               onFocus={() => (currentFocusedIndex.current = index)}
               thumbs={thumbRefs.current}
             />
@@ -382,7 +403,7 @@ const SliderThumb = ({
         />
 
         {isFormControl && (
-          <BubbleInput
+          <VirtualValueInput
             type="range"
             name={length > 1 ? `${name}[]` : name}
             value={value}
@@ -395,32 +416,5 @@ const SliderThumb = ({
 };
 
 SliderThumb.displayName = 'SliderThumb';
-
-const BubbleInput = ({
-  value,
-  ...props
-}: DefaultComponentProps<{ value: number }, 'input'>) => {
-  const ref = useRef<HTMLInputElement>(null);
-  const prevValue = useRef(value);
-
-  useEffect(() => {
-    const input = ref.current!;
-    const inputProto = window.HTMLInputElement.prototype;
-    const descriptor = Object.getOwnPropertyDescriptor(
-      inputProto,
-      'value',
-    ) as PropertyDescriptor;
-    const setValue = descriptor.set;
-    if (prevValue.current !== value && setValue) {
-      const event = new Event('input', { bubbles: true });
-      setValue.call(input, value);
-      input.dispatchEvent(event);
-    }
-
-    prevValue.current = value;
-  }, [value]);
-
-  return <Box ref={ref} as="input" sx={{ display: 'none' }} {...props} />;
-};
 
 export { Slider, SliderTitleProps, SliderLabelProps };

@@ -10,6 +10,7 @@ export type SegmentedControlContextType = {
   variant: Exclude<SegmentedControlProps['variant'], undefined>;
   size: Exclude<SegmentedControlProps['size'], undefined>;
   responsive?: Pick<SegmentedControlProps, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>;
+  name?: string;
 };
 
 export const [SegmentedControlProvider, useSegmentedControlContext] =

@@ -13,12 +13,6 @@ import {
   IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import {
-  Box,
-  type DefaultComponentProps,
-  type PolymorphicComponent,
-  type PolymorphicProps,
-} from '@wanteddev/wds-engine';
 import { useSize } from '@radix-ui/react-use-size';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
@@ -36,13 +30,9 @@ import { TextFieldContent } from '../text-field';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import { invalidIconWrapperStyle } from '../text-field/style';
+import { VirtualValueInput } from '../virtual-input';
 
-import {
-  selectBubbleInputStyle,
-  selectIconStyle,
-  selectStyle,
-  selectTextStyle,
-} from './style';
+import { selectIconStyle, selectStyle, selectTextStyle } from './style';
 import { convertChildrenToData } from './helpers';
 import {
   OPTION_GROUP_NAME,
@@ -52,6 +42,11 @@ import {
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { ForwardedRef } from 'react';
 import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
@@ -90,7 +85,7 @@ const Select = forwardRef<
   ) => {
     const [node, setNode] = useState<HTMLDivElement | null>(null);
 
-    const { width: contentWidth, height: contentHeight } = useSize(node) || {};
+    const { width: contentWidth } = useSize(node) || {};
 
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
@@ -154,22 +149,12 @@ const Select = forwardRef<
         enableMenuActionArea={enableMenuActionArea}
       >
         {isFormControl && (
-          <Box
-            as="input"
+          <VirtualValueInput
             name={props.name}
             value={value}
             aria-invalid={invalid}
             disabled={disabled}
             tabIndex={-1}
-            readOnly
-            aria-hidden
-            sx={[
-              {
-                width: contentWidth,
-                height: contentHeight,
-              },
-              selectBubbleInputStyle,
-            ]}
           />
         )}
         <Menu
