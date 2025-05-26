@@ -163,10 +163,11 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(details),
     details {
       margin-bottom: 16px;
+      padding-left: 24px;
 
       summary {
         list-style: none;
-        padding-left: 24px;
+        margin-left: -24px;
         background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAwCAYAAABwrHhvAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGMSURBVHgB7ZY9T4NAGMefAxrSzowcmqajg4bEkGoIQ+fOrn4HZ+d+C1ddmRkalb4MjXO3ahkc6lpbcuUEq0lrylt7yHK/iXB34Xf/54AHgMPhcDickkFpE0zTxMslvYiuq1XR6Xa7M2BIooCuW0qlQjpbCxD0ZFmyWYmISYOahtvhA+t/bmNCglNVPfr0vLcpHIiQPIxqMQMKAL02jMuOZVkKHEBiAuEuzxCiOGFKLUyjhbGmNBr16WQymUNOBGAApdBcLMiNYVgtyMmhCWwSlis4UVWtifHxh+e9vmdZxFJgQ4SeZy0LkxLsYl2W1W1aWQoT+NEI0yBXhmG2oRyBX4K2ruu1EgXi+RcBSgNnNBrtPIwSFAoKH0rt4bDnxM0oTAAh4UWWhYe0n1YRAjNRpHeu+zjOMpmhwDruweDZybOKiUDUI/j+/D7uoBUmgBAaC0Jgu66bKe49BGjMjtZx9/tPueLOLSDLyPV9uvUtj95pQpb2PnHvIrUpjfpCSVp9SxTRlHI4HA6HUzpfJfKPmv7kZGAAAAAASUVORK5CYII=')
           no-repeat;
         background-size: 16px 24px;
