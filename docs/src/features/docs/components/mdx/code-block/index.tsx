@@ -13,7 +13,7 @@ import { toHtml } from 'hast-util-to-html';
 import { Box, ContentBadge, IconButton, useToast } from '@wanteddev/wds';
 import { IconCopy } from '@wanteddev/wds-icon';
 
-import { codeBlockStyle, inlineCodeStyle } from './style';
+import { codeBlockStyle, copyButtonStyle, inlineCodeStyle } from './style';
 
 import type { ComponentPropsWithoutRef } from 'react';
 
@@ -62,8 +62,9 @@ const CodeBlock = ({ children, ...props }: Props) => {
         as="code"
       />
       <IconButton
-        variant="background"
-        size={24}
+        variant="outlined"
+        size={32}
+        sx={copyButtonStyle}
         onClick={() => {
           const success = copy(children as string);
 

@@ -1,12 +1,30 @@
 import { visit } from 'unist-util-visit';
 
-import type { Root } from 'mdast';
+import type {
+  MdxJsxAttribute,
+  MdxJsxAttributeValueExpression,
+} from 'mdast-util-mdx-jsx';
+import type {
+  InlineCode,
+  Paragraph,
+  PhrasingContent,
+  Root,
+  Table,
+  TableCell,
+  Text,
+} from 'mdast';
 
+const PROPERTY_NAME = ['name', '이름', '값', 'value', 'parameter', '파라미터'];
+const TYPE_NAME = ['type', 'types', '타입'];
+
+/**
+ * @description jsx 구문으로 작성되지 않은 style을 객체 형태로 변환한다.
+ */
 export const remarkStyle = () => {
   return (tree: Root) => {
-    visit(tree, 'mdxJsxFlowElement', (node: any) => {
-      const styleAttr = node?.attributes.find(
-        (attr: any) => attr.name === 'style',
+    visit(tree, 'mdxJsxFlowElement', (node) => {
+      const styleAttr = node.attributes.find(
+        (attr) => attr.type === 'mdxJsxAttribute' && attr.name === 'style',
       );
 
       if (!styleAttr) {
@@ -31,7 +49,7 @@ export const remarkStyle = () => {
 
         styleAttr.value = {
           type: 'mdxJsxAttributeValueExpression',
-          value: styleObject,
+          value: JSON.stringify(styleObject),
           data: {
             estree: {
               type: 'Program',
@@ -63,53 +81,142 @@ export const remarkStyle = () => {
   };
 };
 
-// export const remarkTable = () => {
-//   return (tree: Root) => {
-//     visit(tree, 'table', (node: any) => {
-//       const tableHead = node.children.at(0);
+const getLabel = (
+  children: Array<PhrasingContent> | PhrasingContent,
+): string => {
+  if (!Array.isArray(children)) {
+    if (!children.type.includes('mdxJsx')) {
+      return (children as Text).value;
+    }
+  }
 
-//       if (!tableHead) {
-//         return;
-//       }
+  if (Array.isArray(children) && children.length === 1) {
+    if (!children.at(0)?.type.includes('mdxJsx')) {
+      return (children.at(0) as Text).value;
+    }
 
-//       const tableHeadLabels = tableHead.children
-//         .filter((child: any) => child.type === 'tableCell')
-//         .map((child: any) => {
-//           const label = child.children.at(0).value;
+    return getLabel((children.at(0) as unknown as Paragraph).children);
+  }
 
-//           return label as string;
-//         });
+  return (children as Array<PhrasingContent>)
+    .map((child) => `${getLabel(child)}`)
+    .join('');
+};
 
-//       const PROPERTY_NAME = ['Name', '이름', '값'];
+const makeSpanWithProperty = (
+  cell: TableCell,
+  properties: Record<string, Record<string, string> | string> = {},
+): PhrasingContent => {
+  return {
+    data: { _mdxExplicitJsx: true },
+    type: 'mdxJsxTextElement',
+    name: 'span',
+    children: [
+      {
+        type: 'text',
+        value: getLabel(cell.children),
+      },
+    ],
+    attributes: Object.entries(properties).map(([key, value]) => {
+      return typeof value === 'string'
+        ? ({
+            type: 'mdxJsxAttribute',
+            name: key,
+            value,
+          } as MdxJsxAttribute)
+        : {
+            type: 'mdxJsxAttribute',
+            name: key,
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              value: JSON.stringify(value),
+              data: {
+                estree: {
+                  type: 'Program',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'ObjectExpression',
+                        properties: Object.entries(value).map(
+                          ([propertyKey, propertyValue]) => ({
+                            type: 'Property',
+                            key: { type: 'Identifier', name: propertyKey },
+                            value: { type: 'Literal', value: propertyValue },
+                            kind: 'init',
+                            method: false,
+                            shorthand: false,
+                            computed: false,
+                          }),
+                        ),
+                      },
+                    },
+                  ],
+                  sourceType: 'module',
+                },
+              },
+            } as MdxJsxAttributeValueExpression,
+          };
+    }),
+  };
+};
 
-//       const TYPE_NAME = ['Type', '타입'];
+const makeInlineCode = (cell: TableCell) => {
+  return {
+    type: 'inlineCode',
+    value: getLabel(cell.children),
+  } as InlineCode;
+};
 
-//       if (
-//         tableHeadLabels.some((label: string) => PROPERTY_NAME.includes(label))
-//       ) {
-//         const propertyIndex = tableHeadLabels.findIndex((label: string) =>
-//           PROPERTY_NAME.includes(label),
-//         );
+/**
+ * @description 테이블 헤더에서 속성과 타입을 추출하여 속성 타입 컬럼을 생성한다.
+ */
+export const remarkTable = () => {
+  return (tree: Root) => {
+    visit(tree, 'table', (node: Table) => {
+      const tableHead = node.children.at(0);
 
-//         if (propertyIndex !== -1) {
-//           const [_, ...rows] = node.children;
+      if (!tableHead) {
+        return;
+      }
 
-//           rows.forEach((row: any) => {
-//             // const [property, type, description] = row.children;
-//             row.children.forEach((cell: any) => {
-//               console.log(cell.children.at(0));
-//               cell.children[0] = {
-//                 type: 'mdxJsxFlowElement',
-//                 value: 'span',
-//               };
-//             });
-//             // console.log(property, type, description);
-//           });
-//         }
-//       }
+      const tableHeadLabels = tableHead.children
+        .filter((child: any) => child.type === 'tableCell')
+        .map((child: any) => getLabel(child.children));
 
-//       console.log(tableHeadLabels);
-//       // const name = tableHead.children.at(0);
-//     });
-//   };
-// };
+      const isProperty = (label: string) =>
+        PROPERTY_NAME.includes(label.toLowerCase());
+      const isType = (label: string) => TYPE_NAME.includes(label.toLowerCase());
+
+      const apiTableHeadLabels = tableHeadLabels.find(
+        (label: string) => isProperty(label) || isType(label),
+      );
+
+      if (Boolean(apiTableHeadLabels)) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_, ...rows] = node.children;
+
+        const propertyIndex = tableHeadLabels.findIndex((label) =>
+          isProperty(label),
+        );
+        const typeIndex = tableHeadLabels.findIndex((label) => isType(label));
+
+        rows.forEach((row) => {
+          row.children.map((cell, index) => {
+            if (index === propertyIndex) {
+              cell.children = [makeInlineCode(cell)];
+            }
+
+            if (index === typeIndex) {
+              cell.children = [
+                makeSpanWithProperty(cell, {
+                  'data-role': 'property-type',
+                }),
+              ];
+            }
+          });
+        });
+      }
+    });
+  };
+};

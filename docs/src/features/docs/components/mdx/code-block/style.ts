@@ -8,10 +8,7 @@ export const inlineCodeStyle = css`
   font-size: 90%;
   white-space: break-spaces;
   leading-trim: both;
-  text-edge: cap;
-  font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
-    'DejaVu Sans Mono', 'Roboto Mono' !important;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-style: normal;
   font-weight: 500;
   line-height: 138.5%;
@@ -22,6 +19,7 @@ export const codeBlockStyle = (theme: Theme) => css`
   width: 100%;
   color: ${theme.semantic.label.normal};
   white-space: pre;
+  font-size: 95%;
 
   .token.punctuation,
   .token.plain-text {
@@ -94,5 +92,19 @@ export const codeBlockStyle = (theme: Theme) => css`
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+  }
+`;
+
+export const copyButtonStyle = (theme: Theme) => css`
+  background-color: ${theme.semantic.background.normal.normal};
+  opacity: 0;
+  transition: opacity ease 0.12s;
+  position: absolute;
+  right: 12px;
+  top: 10px;
+
+  &:focus,
+  &:focus-visible {
+    opacity: 1;
   }
 `;

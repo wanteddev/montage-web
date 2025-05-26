@@ -1,5 +1,5 @@
 ---
-title: ActionChip
+title: Action chip
 description: 액션 칩 컴포넌트입니다.
 ---
 
@@ -22,7 +22,7 @@ ActionChip(
 .leadingImage(Image(systemName: "heart"))
 ```
 
->  Note
+>  **Note**
 >
 > 기본적으로 8pt의 패딩과 12pt의 모서리 반경을 가집니다.
 
@@ -30,8 +30,9 @@ ActionChip(
 
 ### Initializers
 
+<details>
 
-``init(variant: Variant, size: Size, text: String, handler: (() -> Void)?)``
+<summary>``init(variant: Variant, size: Size, text: String, handler: (() -> Void)?)``</summary>
 
 액션 칩을 초기화합니다.
 
@@ -45,24 +46,38 @@ ActionChip(
 - **Return Value**
 
   구성된 액션 칩 인스턴스
+</details>
 
+___
 ### Instance Properties
 
+<details>
 
-``var body: some View``
+<summary>``var body: some View``</summary>
+</details>
+<details>
 
-``let handler: (() -> Void)?``
+<summary>``let handler: (() -> Void)?``</summary>
+</details>
+<details>
 
-``let size: Size``
+<summary>``let size: Size``</summary>
+</details>
+<details>
 
-``let text: String``
+<summary>``let text: String``</summary>
+</details>
+<details>
 
-``let variant: Variant``
+<summary>``let variant: Variant``</summary>
+</details>
 
+___
 ### Instance Methods
 
+<details>
 
-``func active(Bool) -> ActionChip``
+<summary>``func active(Bool) -> ActionChip``</summary>
 
 칩의 선택 상태를 설정합니다.
 
@@ -73,8 +88,10 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
+<details>
 
-``func activeColor(SwiftUI.Color) -> ActionChip``
+<summary>``func activeColor(SwiftUI.Color) -> ActionChip``</summary>
 
 칩의 활성화 상태 색상을 설정합니다.
 
@@ -85,8 +102,10 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
+<details>
 
-``func backgroundColor(SwiftUI.Color) -> ActionChip``
+<summary>``func backgroundColor(SwiftUI.Color) -> ActionChip``</summary>
 
 칩의 배경색을 설정합니다.
 
@@ -97,8 +116,10 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
+<details>
 
-``func disabled(Bool) -> ActionChip``
+<summary>``func disabled(Bool) -> ActionChip``</summary>
 
 칩의 비활성화 여부를 설정합니다.
 
@@ -109,8 +130,10 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
+<details>
 
-``func fontColor(SwiftUI.Color) -> ActionChip``
+<summary>``func fontColor(SwiftUI.Color) -> ActionChip``</summary>
 
 칩의 텍스트 색상을 설정합니다.
 
@@ -121,8 +144,10 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
+<details>
 
-``func imageColor(SwiftUI.Color) -> ActionChip``
+<summary>``func imageColor(SwiftUI.Color) -> ActionChip``</summary>
 
 이미지의 색상을 설정합니다.
 
@@ -134,12 +159,14 @@ ActionChip(
 
   수정된 칩 인스턴스
 - **Discussion**
-  >  Note
+  >  **Note**
   >
   > 기본값은 `.semantic(.labelAlternative)`입니다.
 
+</details>
+<details>
 
-``func leadingImage(Image) -> ActionChip``
+<summary>``func leadingImage(Image) -> ActionChip``</summary>
 
 칩의 좌측에 이미지를 추가합니다.
 
@@ -150,8 +177,10 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
+<details>
 
-``func trailingImage(Image) -> ActionChip``
+<summary>``func trailingImage(Image) -> ActionChip``</summary>
 
 칩의 우측에 이미지를 추가합니다.
 
@@ -162,24 +191,92 @@ ActionChip(
 - **Return Value**
 
   수정된 칩 인스턴스
+</details>
 
+___
 ### Enumerations
 
+<details>
 
-[``enum Size``](/documentation/montage/actionchip/size-swift.enum.md)
+<summary>``enum Size``</summary>
 
 칩의 크기를 정의합니다.
+#### Enumeration Cases
 
-[``enum Variant``](/documentation/montage/actionchip/variant-swift.enum.md)
+<details>
+
+<summary>``case large``</summary>
+
+큰 크기
+</details>
+<details>
+
+<summary>``case medium``</summary>
+
+중간 크기
+</details>
+<details>
+
+<summary>``case small``</summary>
+
+작은 크기
+</details>
+<details>
+
+<summary>``case xsmall``</summary>
+
+가장 작은 크기
+</details>
+
+#### Initializers
+
+<details>
+
+<summary>``init?(rawValue: String)``</summary>
+</details>
+
+#### Default Implementations
+
+
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+
+</details>
+<details>
+
+<summary>``enum Variant``</summary>
 
 칩의 외관을 결정하는 열거형입니다.
+#### Enumeration Cases
 
+<details>
+
+<summary>``case outlined``</summary>
+
+테두리만 있는 아웃라인 스타일
+</details>
+<details>
+
+<summary>``case solid``</summary>
+
+배경색이 있는 실선 스타일
+</details>
+
+#### Default Implementations
+
+
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+
+</details>
+
+___
 ### Default Implementations
 
 
-[View Implementations](/documentation/montage/actionchip/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations.md)
 
-[View Implementations](/documentation/montage/actionchip/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations.md)
 
 ## Relationships
 
@@ -188,5 +285,6 @@ Conforms To
 `Swift.Sendable`
 
 `SwiftUICore.View`
+
 
 

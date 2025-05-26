@@ -39,11 +39,18 @@ const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
 
   const getFrontmatterOption = useCallback((item: Frontmatter) => {
-    const title = item.originSlug
-      .at(item.originSlug.length - 1)
-      ?.match(PLATFORM_PATTERN)
-      ? sentenceCase(item.slug[item.slug.length - 2]!)
-      : sentenceCase(item.slug[item.slug.length - 1]!);
+    let title: string;
+    const lastSlug = item.originSlug.at(item.originSlug.length - 1)!;
+
+    if (lastSlug.match(/utilities/i)) {
+      title = item.title;
+    } else if (lastSlug.match(PLATFORM_PATTERN)) {
+      title = sentenceCase(item.originSlug[item.originSlug.length - 2]!);
+    } else if (lastSlug.match(/index$/i)) {
+      title = sentenceCase(item.originSlug[item.originSlug.length - 2]!);
+    } else {
+      title = sentenceCase(item.originSlug[item.originSlug.length - 1]!);
+    }
 
     const href = `/docs/${item.slug.join('/')}`;
 

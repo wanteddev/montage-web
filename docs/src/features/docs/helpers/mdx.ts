@@ -7,7 +7,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { sync } from 'glob';
 import matter from 'gray-matter';
 
-import { remarkStyle } from './remark';
+import { remarkStyle, remarkTable } from './remark';
 
 import type { SerializeOptions } from 'node_modules/next-mdx-remote/dist/types';
 import type { Frontmatter } from '@/features/docs/types';
@@ -41,7 +41,7 @@ const SERIALIZE_OPTIONS: SerializeOptions = {
   parseFrontmatter: true,
   mdxOptions: {
     rehypePlugins: [rehypeSlug],
-    remarkPlugins: [remarkGfm, remarkStyle],
+    remarkPlugins: [remarkGfm, remarkStyle, remarkTable],
   },
 };
 

@@ -12,7 +12,6 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-  Typography,
 } from '@wanteddev/wds';
 
 import { useMDXContext } from '../../../context';
@@ -106,13 +105,7 @@ const PropsTable = ({ component, fallback }: Props) => {
               </FlexBox>
             </TableCell>
             <TableCell>
-              <Typography
-                variant="label2"
-                weight="regular"
-                color="semantic.accent.background.redOrange"
-              >
-                {value.type.name}
-              </Typography>
+              <span data-role="property-type">{value.type.name}</span>
             </TableCell>
             <TableCell>
               <Box sx={defaultValueStyle}>

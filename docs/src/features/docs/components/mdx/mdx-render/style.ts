@@ -12,6 +12,11 @@ export const mdxRootStyle = (theme: Theme) => css`
     word-break: keep-all;
     overflow-wrap: break-word;
 
+    [data-role='property-type'] {
+      ${typographyStyle('label2', 'regular')}
+      color: ${theme.semantic.accent.background.redOrange};
+    }
+
     :is(code),
     code,
     :is(.npm__react-simple-code-editor__textarea),
