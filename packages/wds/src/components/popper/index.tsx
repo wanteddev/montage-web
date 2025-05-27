@@ -56,9 +56,7 @@ const OPPOSITE_SIDE = {
 const Popper = ({
   children,
   __scopePopper = 'Popper',
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  __scopePopperContent: _,
-}: ScopedProps<PropsWithChildren, 'Popper' | 'PopperContent'>) => {
+}: ScopedProps<PropsWithChildren, 'Popper'>) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   return (
@@ -74,64 +72,79 @@ const Popper = ({
 
 const PopperAnchor = forwardRef<
   HTMLElement,
-  ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popper' | 'PopperContent'>
->(
-  (
-    {
-      __scopePopper = 'Popper',
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      __scopePopperContent: _,
-      ...props
-    },
-    forwardedRef,
-  ) => {
-    const context = usePopperContext(POPPER_ANCHOR_NAME, __scopePopper);
-    const ref = useRef<HTMLElement>(null);
-    const composedRefs = useComposedRefs(forwardedRef, ref);
+  ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popper'>
+>(({ __scopePopper = 'Popper', ...props }, forwardedRef) => {
+  const context = usePopperContext(POPPER_ANCHOR_NAME, __scopePopper);
+  const ref = useRef<HTMLElement>(null);
+  const composedRefs = useComposedRefs(forwardedRef, ref);
 
-    useEffect(() => {
-      context.onAnchorChange(ref.current);
-    });
+  useEffect(() => {
+    context.onAnchorChange(ref.current);
+  });
 
-    return <Slot ref={composedRefs} {...props} />;
-  },
-);
+  return <Slot ref={composedRefs} {...props} />;
+});
 
 PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
 const PopperArrow = forwardRef<
   SVGSVGElement,
-  DefaultComponentProps<
-    ScopedProps<PopperArrowProps, 'Popper' | 'PopperContent'>,
-    'svg'
-  >
->(
-  (
-    {
-      overlay,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      __scopePopper: _,
-      __scopePopperContent = 'PopperContent',
-      ...props
-    },
+  DefaultComponentProps<ScopedProps<PopperArrowProps, 'Popper'>, 'svg'>
+>(({ overlay, __scopePopper = 'Popper', ...props }, ref) => {
+  const { onArrowChange, side, arrowX, arrowY } = usePopperContentContext(
+    POPPER_ARROW_NAME,
+    __scopePopper,
+  );
+
+  const composedRef = useComposedRefs(
     ref,
-  ) => {
-    const { onArrowChange, side, arrowX, arrowY } = usePopperContentContext(
-      POPPER_ARROW_NAME,
-      __scopePopperContent,
-    );
+    onArrowChange as (node: SVGSVGElement | null) => void,
+  );
 
-    const composedRef = useComposedRefs(
-      ref,
-      onArrowChange as (node: SVGSVGElement | null) => void,
-    );
+  return (
+    <>
+      <Box
+        as="svg"
+        wds-component="popper-arrow"
+        ref={composedRef}
+        style={{
+          ...props.style,
+          position: 'absolute',
+          width: '24px',
+          height: '8px',
+          display: 'block',
+          left: arrowX,
+          top: arrowY,
+          right: '',
+          bottom: '',
+          [OPPOSITE_SIDE[side]]: '0px',
+          transformOrigin: {
+            top: '',
+            right: '0 0',
+            bottom: 'center 0',
+            left: '100% 0',
+          }[side],
+          transform: {
+            top: 'translateY(100%)',
+            right: 'translateY(50%) rotate(90deg) translateX(-50%)',
+            bottom: `rotate(180deg)`,
+            left: 'translateY(50%) rotate(-90deg) translateX(50%)',
+          }[side],
+        }}
+        viewBox="0 0 24 8"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
+      >
+        <path
+          d="M11.2407 6.11563L6 0.00143462H18L12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563Z"
+          fill="currentColor"
+        />
+      </Box>
 
-    return (
-      <>
+      {Boolean(overlay) && (
         <Box
           as="svg"
-          wds-component="popper-arrow"
-          ref={composedRef}
           style={{
             ...props.style,
             position: 'absolute',
@@ -140,6 +153,7 @@ const PopperArrow = forwardRef<
             display: 'block',
             left: arrowX,
             top: arrowY,
+            color: overlay,
             right: '',
             bottom: '',
             [OPPOSITE_SIDE[side]]: '0px',
@@ -162,63 +176,20 @@ const PopperArrow = forwardRef<
           {...props}
         >
           <path
-            d="M11.2407 6.11563L6 0.00143462H18L12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563Z"
+            d="M12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563L6 0.00143462H18L12.7593 6.11564Z"
             fill="currentColor"
           />
         </Box>
-
-        {Boolean(overlay) && (
-          <Box
-            as="svg"
-            style={{
-              ...props.style,
-              position: 'absolute',
-              width: '24px',
-              height: '8px',
-              display: 'block',
-              left: arrowX,
-              top: arrowY,
-              color: overlay,
-              right: '',
-              bottom: '',
-              [OPPOSITE_SIDE[side]]: '0px',
-              transformOrigin: {
-                top: '',
-                right: '0 0',
-                bottom: 'center 0',
-                left: '100% 0',
-              }[side],
-              transform: {
-                top: 'translateY(100%)',
-                right: 'translateY(50%) rotate(90deg) translateX(-50%)',
-                bottom: `rotate(180deg)`,
-                left: 'translateY(50%) rotate(-90deg) translateX(50%)',
-              }[side],
-            }}
-            viewBox="0 0 24 8"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            {...props}
-          >
-            <path
-              d="M12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563L6 0.00143462H18L12.7593 6.11564Z"
-              fill="currentColor"
-            />
-          </Box>
-        )}
-      </>
-    );
-  },
-);
+      )}
+    </>
+  );
+});
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
 const PopperContent: ReturnType<
   typeof forwardRef<HTMLElement, PopperContentProps>
-> = forwardRef<
-  HTMLElement,
-  ScopedProps<PopperContentProps, 'Popper' | 'PopperContent'>
->(
+> = forwardRef<HTMLElement, ScopedProps<PopperContentProps, 'Popper'>>(
   (
     {
       wrapperProps = {},
@@ -230,7 +201,6 @@ const PopperContent: ReturnType<
       container,
       disablePortal,
       __scopePopper = 'Popper',
-      __scopePopperContent = 'PopperContent',
       ...props
     },
     ref,
@@ -332,7 +302,7 @@ const PopperContent: ReturnType<
           dir={props.dir}
         >
           <PopperContentProvider
-            scope={__scopePopperContent}
+            scope={__scopePopper}
             side={side}
             onArrowChange={setArrow}
             arrowX={arrowX}

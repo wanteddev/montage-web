@@ -45,7 +45,7 @@ import type {
 } from './types';
 import type { CSSProperties } from 'react';
 
-const useTooltipScope = createScope('Popper', 'PopperContent');
+const useTooltipScope = createScope('Popper');
 
 const TooltipGroup = ({
   children,

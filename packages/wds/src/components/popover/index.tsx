@@ -22,7 +22,7 @@ import type { PopoverContentProps, PopoverProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 
-const usePopoverScope = createScope('Popper', 'PopperContent');
+const usePopoverScope = createScope('Popper');
 
 const Popover = ({
   open: originOpen,
