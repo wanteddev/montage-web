@@ -21,6 +21,7 @@ import { addOpacity } from '../../utils';
 import IconButton from '../icon-button';
 import useTransitionStatus from '../../hooks/use-transition-status';
 import ComponentOrFragment from '../component-or-fragment';
+import { createScope } from '../../hooks/use-scope-context';
 
 import {
   TooltipGroupProvider,
@@ -43,6 +44,8 @@ import type {
   TooltipProps,
 } from './types';
 import type { CSSProperties } from 'react';
+
+const useTooltipScope = createScope('Popper', 'PopperContent');
 
 const TooltipGroup = ({
   children,
@@ -112,6 +115,8 @@ const Tooltip = ({
     disableOpenOnFocus,
   });
 
+  const scopes = useTooltipScope('Tooltip');
+
   return (
     <TooltipProvider
       triggerRef={triggerRef}
@@ -128,7 +133,7 @@ const Tooltip = ({
       handleClick={handleClick}
       handlePointerDownOutside={handlePointerDownOutside}
     >
-      <Popper>{children}</Popper>
+      <Popper {...scopes}>{children}</Popper>
     </TooltipProvider>
   );
 };
@@ -151,8 +156,10 @@ const TooltipTrigger = forwardRef<
     handleClick,
   } = useTooltipContext(TOOLTIP_TRIGGER_NAME);
 
+  const scopes = useTooltipScope('Tooltip');
+
   return (
-    <PopperAnchor ref={triggerRef}>
+    <PopperAnchor ref={triggerRef} {...scopes}>
       <Slot
         aria-describedby={open ? containerId : undefined}
         {...props}
@@ -196,6 +203,8 @@ const TooltipContent = forwardRef<
     },
     ref,
   ) => {
+    const scopes = useTooltipScope('Tooltip');
+
     const {
       containerRef,
       containerId,
@@ -236,6 +245,7 @@ const TooltipContent = forwardRef<
           onDismiss={handleDismiss}
         >
           <PopperContent
+            {...scopes}
             position={position}
             role="tooltip"
             data-status={status}
@@ -306,7 +316,7 @@ const TooltipContent = forwardRef<
                     )}
                   </FlexBox>
 
-                  {arrow && <PopperArrow overlay={overlay} />}
+                  {arrow && <PopperArrow overlay={overlay} {...scopes} />}
                 </FlexBox>
               </FlexBox>
             )}

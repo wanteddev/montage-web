@@ -1,4 +1,4 @@
-import { createContext } from '@radix-ui/react-context';
+import { createScopeContext } from '../../hooks/use-scope-context';
 
 import { POPOVER_NAME } from './constants';
 
@@ -12,4 +12,4 @@ type PopoverContextValue = {
 };
 
 export const [PopoverProvider, usePopoverContext] =
-  createContext<PopoverContextValue>(POPOVER_NAME);
+  createScopeContext<PopoverContextValue>(POPOVER_NAME);

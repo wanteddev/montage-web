@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import { usePopoverContext } from '../popover/contexts';
+import { createScope } from '../../hooks/use-scope-context';
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,
@@ -60,6 +61,8 @@ import type {
 } from '@wanteddev/wds-engine';
 import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
 
+const useMenuScope = createScope('Popover');
+
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown'];
 
 const Menu = (props: MenuProps) => {
@@ -77,9 +80,13 @@ const Menu = (props: MenuProps) => {
     onChange: onValueChange,
   });
 
+  const scopes = useMenuScope('Menu');
+
   return (
     <MenuProvider value={value} onValueChange={setValue}>
-      <Popover {...popoverProps}>{children}</Popover>
+      <Popover {...scopes} {...popoverProps}>
+        {children}
+      </Popover>
     </MenuProvider>
   );
 };
@@ -90,11 +97,16 @@ const MenuTrigger = forwardRef<
   ElementRef<typeof PopoverTrigger>,
   MenuTriggerProps
 >((props, ref) => {
-  const { open, onOpenChange } = usePopoverContext(MENU_TRIGGER_NAME);
+  const scopes = useMenuScope('Menu');
+  const { open, onOpenChange } = usePopoverContext(
+    MENU_TRIGGER_NAME,
+    scopes.__scopePopover,
+  );
 
   return (
     <PopoverTrigger
       {...props}
+      {...scopes}
       ref={ref}
       onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
         if (
@@ -131,6 +143,8 @@ const MenuContent = forwardRef<
     },
     ref,
   ) => {
+    const scopes = useMenuScope('Menu');
+
     return (
       <RovingFocusGroup orientation="vertical" dir="ltr" asChild>
         <PopoverContent
@@ -140,6 +154,7 @@ const MenuContent = forwardRef<
           container={container}
           disablePortal={disablePortal}
           {...props}
+          {...scopes}
           sx={[menuPopoverContentStyle, sx]}
         >
           <ScrollArea zIndex={11} sx={menuScrollAreaStyle} size="small">

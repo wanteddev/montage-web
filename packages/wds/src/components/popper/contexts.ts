@@ -1,4 +1,4 @@
-import { createContext } from '@radix-ui/react-context';
+import { createScopeContext } from '../../hooks/use-scope-context';
 
 import { POPPER_CONTENT_NAME, POPPER_NAME } from './constants';
 
@@ -10,7 +10,7 @@ type PopperContextValue = {
 };
 
 export const [PopperProvider, usePopperContext] =
-  createContext<PopperContextValue>(POPPER_NAME);
+  createScopeContext<PopperContextValue>(POPPER_NAME);
 
 type PopperContentContextValue = {
   side: Side;
@@ -20,4 +20,4 @@ type PopperContentContextValue = {
 };
 
 export const [PopperContentProvider, usePopperContentContext] =
-  createContext<PopperContentContextValue>(POPPER_CONTENT_NAME);
+  createScopeContext<PopperContentContextValue>(POPPER_CONTENT_NAME);

@@ -7,6 +7,7 @@ import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
 import FocusScope from '../focus-scope';
+import { createScope } from '../../hooks/use-scope-context';
 
 import { PopoverProvider, usePopoverContext } from './contexts';
 import {
@@ -16,16 +17,20 @@ import {
 } from './constants';
 import { popoverStyle } from './style';
 
+import type { ScopedProps } from '../../hooks/use-scope-context';
 import type { PopoverContentProps, PopoverProps } from './types';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
+
+const usePopoverScope = createScope('Popper', 'PopperContent');
 
 const Popover = ({
   open: originOpen,
   defaultOpen,
   onOpenChange,
   children,
-}: PropsWithChildren<PopoverProps>) => {
+  __scopePopover = 'Popover',
+}: PropsWithChildren<ScopedProps<PopoverProps, 'Popover'>>) => {
   const triggerId = useId();
   const contentId = useId();
 
@@ -35,14 +40,17 @@ const Popover = ({
     onChange: onOpenChange,
   });
 
+  const scopes = usePopoverScope(__scopePopover);
+
   return (
     <PopoverProvider
+      scope={__scopePopover}
       triggerId={triggerId}
       contentId={contentId}
       open={open}
       onOpenChange={setOpen}
     >
-      <Popper>{children}</Popper>
+      <Popper {...scopes}>{children}</Popper>
     </PopoverProvider>
   );
 };
@@ -52,38 +60,50 @@ Popover.displayName = POPOVER_NAME;
 const PopoverTrigger = forwardRef<
   HTMLElement,
   ComponentPropsWithoutRef<typeof Slot>
->((props, ref) => {
-  const { contentId, triggerId, open, onOpenChange } =
-    usePopoverContext(POPOVER_TRIGGER_NAME);
+>(
+  (
+    {
+      __scopePopover = 'Popover',
+      ...props
+    }: ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popover'>,
+    ref,
+  ) => {
+    const { contentId, triggerId, open, onOpenChange } = usePopoverContext(
+      POPOVER_TRIGGER_NAME,
+      __scopePopover,
+    );
 
-  return (
-    <PopperAnchor>
-      <Slot
-        {...props}
-        aria-haspopup="dialog"
-        aria-expanded={open}
-        aria-controls={contentId}
-        id={triggerId}
-        ref={ref}
-        onClick={composeEventHandlers(props.onClick, (e) => {
-          if (
-            !open &&
-            e.currentTarget.ariaDisabled?.toString() !== 'true' &&
-            e.currentTarget.getAttribute('disabled')?.toString() !== 'true'
-          ) {
-            onOpenChange(true);
-          }
-        })}
-      />
-    </PopperAnchor>
-  );
-});
+    const scopes = usePopoverScope(__scopePopover);
+
+    return (
+      <PopperAnchor {...scopes}>
+        <Slot
+          {...props}
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-controls={contentId}
+          id={triggerId}
+          ref={ref}
+          onClick={composeEventHandlers(props.onClick, (e) => {
+            if (
+              !open &&
+              e.currentTarget.ariaDisabled?.toString() !== 'true' &&
+              e.currentTarget.getAttribute('disabled')?.toString() !== 'true'
+            ) {
+              onOpenChange(true);
+            }
+          })}
+        />
+      </PopperAnchor>
+    );
+  },
+);
 
 PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 
 const PopoverContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PopoverContentProps, 'div'>
+  DefaultComponentProps<ScopedProps<PopoverContentProps, 'Popover'>, 'div'>
 >(
   (
     {
@@ -102,15 +122,21 @@ const PopoverContent = forwardRef<
       referenceHiddenOffsets,
       setContext,
       wrapperProps,
+      __scopePopover = 'Popover',
       ...props
     },
     ref,
   ) => {
-    const { contentId, open, onOpenChange } =
-      usePopoverContext(POPOVER_CONTENT_NAME);
+    const { contentId, open, onOpenChange } = usePopoverContext(
+      POPOVER_CONTENT_NAME,
+      __scopePopover,
+    );
+
+    const scopes = usePopoverScope(__scopePopover);
 
     return open ? (
       <PopperContent
+        {...scopes}
         position={position}
         offset={offset}
         disablePortal={disablePortal}
@@ -143,7 +169,7 @@ const PopoverContent = forwardRef<
             >
               {children}
 
-              {arrow && <PopperArrow />}
+              {arrow && <PopperArrow {...scopes} />}
             </FlexBox>
           </DismissableLayer>
         </FocusScope>

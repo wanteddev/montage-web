@@ -41,6 +41,7 @@ import {
   POPPER_CONTENT_NAME,
 } from './constants';
 
+import type { ScopedProps } from '../../hooks/use-scope-context';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import type { PopperArrowProps, PopperContentProps } from './types';
@@ -52,11 +53,20 @@ const OPPOSITE_SIDE = {
   left: 'right',
 } as const;
 
-const Popper = ({ children }: PropsWithChildren) => {
+const Popper = ({
+  children,
+  __scopePopper = 'Popper',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  __scopePopperContent: _,
+}: ScopedProps<PropsWithChildren, 'Popper' | 'PopperContent'>) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   return (
-    <PopperProvider anchor={anchor} onAnchorChange={setAnchor}>
+    <PopperProvider
+      scope={__scopePopper}
+      anchor={anchor}
+      onAnchorChange={setAnchor}
+    >
       {children}
     </PopperProvider>
   );
@@ -64,77 +74,64 @@ const Popper = ({ children }: PropsWithChildren) => {
 
 const PopperAnchor = forwardRef<
   HTMLElement,
-  ComponentPropsWithoutRef<typeof Slot>
->((props, forwardedRef) => {
-  const context = usePopperContext(POPPER_ANCHOR_NAME);
-  const ref = useRef<HTMLElement>(null);
-  const composedRefs = useComposedRefs(forwardedRef, ref);
+  ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popper' | 'PopperContent'>
+>(
+  (
+    {
+      __scopePopper = 'Popper',
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      __scopePopperContent: _,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    const context = usePopperContext(POPPER_ANCHOR_NAME, __scopePopper);
+    const ref = useRef<HTMLElement>(null);
+    const composedRefs = useComposedRefs(forwardedRef, ref);
 
-  useEffect(() => {
-    context.onAnchorChange(ref.current);
-  });
+    useEffect(() => {
+      context.onAnchorChange(ref.current);
+    });
 
-  return <Slot ref={composedRefs} {...props} />;
-});
+    return <Slot ref={composedRefs} {...props} />;
+  },
+);
 
 PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
 const PopperArrow = forwardRef<
   SVGSVGElement,
-  DefaultComponentProps<PopperArrowProps, 'svg'>
->(({ overlay, ...props }, ref) => {
-  const { onArrowChange, side, arrowX, arrowY } =
-    usePopperContentContext(POPPER_ARROW_NAME);
-
-  const composedRef = useComposedRefs(
+  DefaultComponentProps<
+    ScopedProps<PopperArrowProps, 'Popper' | 'PopperContent'>,
+    'svg'
+  >
+>(
+  (
+    {
+      overlay,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      __scopePopper: _,
+      __scopePopperContent = 'PopperContent',
+      ...props
+    },
     ref,
-    onArrowChange as (node: SVGSVGElement | null) => void,
-  );
+  ) => {
+    const { onArrowChange, side, arrowX, arrowY } = usePopperContentContext(
+      POPPER_ARROW_NAME,
+      __scopePopperContent,
+    );
 
-  return (
-    <>
-      <Box
-        as="svg"
-        wds-component="popper-arrow"
-        ref={composedRef}
-        style={{
-          ...props.style,
-          position: 'absolute',
-          width: '24px',
-          height: '8px',
-          display: 'block',
-          left: arrowX,
-          top: arrowY,
-          right: '',
-          bottom: '',
-          [OPPOSITE_SIDE[side]]: '0px',
-          transformOrigin: {
-            top: '',
-            right: '0 0',
-            bottom: 'center 0',
-            left: '100% 0',
-          }[side],
-          transform: {
-            top: 'translateY(100%)',
-            right: 'translateY(50%) rotate(90deg) translateX(-50%)',
-            bottom: `rotate(180deg)`,
-            left: 'translateY(50%) rotate(-90deg) translateX(50%)',
-          }[side],
-        }}
-        viewBox="0 0 24 8"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}
-      >
-        <path
-          d="M11.2407 6.11563L6 0.00143462H18L12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563Z"
-          fill="currentColor"
-        />
-      </Box>
+    const composedRef = useComposedRefs(
+      ref,
+      onArrowChange as (node: SVGSVGElement | null) => void,
+    );
 
-      {Boolean(overlay) && (
+    return (
+      <>
         <Box
           as="svg"
+          wds-component="popper-arrow"
+          ref={composedRef}
           style={{
             ...props.style,
             position: 'absolute',
@@ -143,7 +140,6 @@ const PopperArrow = forwardRef<
             display: 'block',
             left: arrowX,
             top: arrowY,
-            color: overlay,
             right: '',
             bottom: '',
             [OPPOSITE_SIDE[side]]: '0px',
@@ -166,20 +162,63 @@ const PopperArrow = forwardRef<
           {...props}
         >
           <path
-            d="M12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563L6 0.00143462H18L12.7593 6.11564Z"
+            d="M11.2407 6.11563L6 0.00143462H18L12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563Z"
             fill="currentColor"
           />
         </Box>
-      )}
-    </>
-  );
-});
+
+        {Boolean(overlay) && (
+          <Box
+            as="svg"
+            style={{
+              ...props.style,
+              position: 'absolute',
+              width: '24px',
+              height: '8px',
+              display: 'block',
+              left: arrowX,
+              top: arrowY,
+              color: overlay,
+              right: '',
+              bottom: '',
+              [OPPOSITE_SIDE[side]]: '0px',
+              transformOrigin: {
+                top: '',
+                right: '0 0',
+                bottom: 'center 0',
+                left: '100% 0',
+              }[side],
+              transform: {
+                top: 'translateY(100%)',
+                right: 'translateY(50%) rotate(90deg) translateX(-50%)',
+                bottom: `rotate(180deg)`,
+                left: 'translateY(50%) rotate(-90deg) translateX(50%)',
+              }[side],
+            }}
+            viewBox="0 0 24 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+          >
+            <path
+              d="M12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563L6 0.00143462H18L12.7593 6.11564Z"
+              fill="currentColor"
+            />
+          </Box>
+        )}
+      </>
+    );
+  },
+);
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
 const PopperContent: ReturnType<
   typeof forwardRef<HTMLElement, PopperContentProps>
-> = forwardRef<HTMLElement, PopperContentProps>(
+> = forwardRef<
+  HTMLElement,
+  ScopedProps<PopperContentProps, 'Popper' | 'PopperContent'>
+>(
   (
     {
       wrapperProps = {},
@@ -190,12 +229,14 @@ const PopperContent: ReturnType<
       setContext,
       container,
       disablePortal,
+      __scopePopper = 'Popper',
+      __scopePopperContent = 'PopperContent',
       ...props
     },
     ref,
   ) => {
     const theme = useTheme();
-    const context = usePopperContext(POPPER_CONTENT_NAME);
+    const context = usePopperContext(POPPER_CONTENT_NAME, __scopePopper);
 
     const [arrow, setArrow] = useState<HTMLElement | null>(null);
     const arrowSize = useSize(arrow);
@@ -291,6 +332,7 @@ const PopperContent: ReturnType<
           dir={props.dir}
         >
           <PopperContentProvider
+            scope={__scopePopperContent}
             side={side}
             onArrowChange={setArrow}
             arrowX={arrowX}
