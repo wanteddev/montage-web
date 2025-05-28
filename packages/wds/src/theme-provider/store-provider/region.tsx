@@ -127,7 +127,9 @@ const SnackbarRegion = ({
         )}
       </SnackbarContent>
 
-      {Boolean(item.action) && <SnackbarAction {...item.action} />}
+      {Boolean(item.action) && Object.keys(item.action).length > 0 && (
+        <SnackbarAction {...item.action} />
+      )}
     </Snackbar>
   );
 };
