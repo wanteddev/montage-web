@@ -4,7 +4,7 @@ import { addOpacity, respondMore, respondTo } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const bottomRegionStatusStyle = (theme: Theme) => css`
+export const snackbarStyle = (theme: Theme) => css`
   padding: 11px 16px;
   max-width: 100%;
   border-radius: 12px;
@@ -27,26 +27,6 @@ export const bottomRegionStatusStyle = (theme: Theme) => css`
 
   & > :not([role='presentation']) {
     z-index: 1;
-  }
-`;
-
-export const toastCircleIconWrapperStyle = (theme: Theme) => css`
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-  flex-shrink: 0;
-
-  &::before {
-    z-index: -1;
-    position: absolute;
-    content: '';
-    width: 8px;
-    height: 10px;
-    left: 50%;
-    top: 50%;
-    border-radius: 999px;
-    transform: translate(-50%, -50%);
-    background-color: ${theme.semantic.static.white};
   }
 `;
 

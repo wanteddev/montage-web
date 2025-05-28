@@ -55,3 +55,8 @@ export const toastIconComponent: {
     </FlexBox>
   ),
 };
+
+export const TOAST_NAME = 'Toast';
+export const TOAST_CONTAINER_NAME = 'ToastContainer';
+export const TOAST_CONTENT_NAME = 'ToastContent';
+export const TOAST_ICON_NAME = 'ToastIcon';
