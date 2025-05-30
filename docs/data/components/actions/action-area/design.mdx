@@ -1,0 +1,42 @@
+---
+title: Action Area
+description: 모달 혹은 화면의 하단 영역에서 버튼의 묶음을 배치해요.
+createdAt: 2025-05-12
+---
+
+<SectionLayout>
+  <SectionVariants
+    title="Solid - Primary"
+    description="화면 내에서 가장 주요한 액션을 제시 혹은 유도합니다."
+    components={["ActionArea", "ActionAreaButton"]}
+		icons={['IconRefresh']}
+    variants={[
+      {
+        key: 'Variants',
+        options: [
+          { label: 'Strong', value: { variant: 'strong', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal }) } },
+          { label: 'Neutral', value: { variant: 'neutral', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal, '[data-role="action-area-wrapper"]': { flexDirection: 'row-reverse' } }) } },
+          { label: 'Compact', value: { variant: 'compact', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal, '[data-role="action-area-wrapper"]': { flexDirection: 'row-reverse' } }) } },
+					{ label: 'Cancel', value: { variant: 'cancel', children: '<ActionAreaButton>메인 액션</ActionAreaButton>', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal }) } },
+        ]
+      },
+			{
+				key: 'Combination',
+				disabled: (value) => value['Variants'] === 'Cancel',
+				options: [
+					{ label: 'With alternative button', value: { children: '<ActionAreaButton>메인 액션</ActionAreaButton><ActionAreaButton variant="alternative">대체 액션</ActionAreaButton>' } },
+					{ label: 'With sub button', value: { children: '<ActionAreaButton>메인 액션</ActionAreaButton><ActionAreaButton variant="sub">보조 액션</ActionAreaButton>' } },
+					{ label: 'Main only', value: { children: '<ActionAreaButton>메인 액션</ActionAreaButton>' } },
+				]
+			},
+			{
+				key: 'Sub button option',
+				disabled: (value) => value['Combination'] !== 'With sub button' || value['Variants'] !== 'Neutral',
+				options: [
+					{ label: 'Label', value: { children: '<ActionAreaButton>메인 액션</ActionAreaButton><ActionAreaButton variant="sub">대체 액션</ActionAreaButton>' } },
+					{ label: 'With icon', value: { children: '<ActionAreaButton>메인 액션</ActionAreaButton><ActionAreaButton variant="sub" iconOnly><IconRefresh/></ActionAreaButton>' } },
+				]
+			}
+    ]}
+  />
+</SectionLayout>

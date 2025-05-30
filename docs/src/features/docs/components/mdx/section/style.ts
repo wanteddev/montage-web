@@ -82,6 +82,15 @@ export const customizeStyle = css`
   }
 `;
 
+export const sectionVariantsDemoStyle = (theme: Theme) => css`
+  aspect-ratio: 1/1;
+  width: 100%;
+
+  ${respondMore(theme.breakpoint.sm)} {
+    width: calc(100% - 280px - 12px);
+  }
+`;
+
 export const sectionHierarchyItemStyle = (theme: Theme) => css`
   padding: 20px 0px;
   gap: 32px;
@@ -111,13 +120,20 @@ export const sectionVariantsStyle = (theme: Theme) => css`
 export const sectionVariantsControlStyle = (theme: Theme) => css`
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
   background-color: ${theme.semantic.background.elevated.normal};
-  padding: 32px 32px 12px;
-  width: 280px;
   border-radius: 4px;
   display: flex;
+  position: absolute !important;
+  height: calc(100% - 24px);
+  right: 12px;
+  top: 12px;
 
   ${respondTo(theme.breakpoint.sm)} {
     display: none;
+  }
+
+  [data-radix-scroll-area-content] {
+    padding: 32px 32px 12px;
+    width: 280px;
   }
 `;
 
@@ -126,6 +142,12 @@ export const sectionVariantsControlMobileTriggerStyle = (theme: Theme) => css`
   position: absolute;
   right: 24px;
   top: 24px;
+
+  &[aria-expanded='true'] {
+    & > [wds-component='with-interaction'] {
+      opacity: 0.0375;
+    }
+  }
 
   ${respondMore(theme.breakpoint.sm)} {
     display: none;
@@ -145,7 +167,7 @@ export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
     padding: 32px 32px 12px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 28px;
     width: 100%;
   }
 `;
@@ -156,6 +178,10 @@ export const sectionVariantsItemRadioStyle = (theme: Theme) => css`
     ${typographyStyle('label1', 'bold')}
     &[data-selected='true'] {
       color: ${theme.semantic.label.normal};
+    }
+
+    &[data-disabled='true'] {
+      color: ${theme.semantic.label.disable};
     }
   }
 `;

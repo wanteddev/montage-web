@@ -21,15 +21,7 @@ import {
   IconCircleCloseFill,
   IconTune,
 } from '@wanteddev/wds-icon';
-import {
-  Fragment,
-  memo,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Fragment, memo, useEffect, useId, useMemo, useState } from 'react';
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
 import * as WdsIcon from '@wanteddev/wds-icon';
@@ -49,11 +41,19 @@ import {
   sectionVariantsControlMobileStyle,
   sectionVariantsControlMobileTriggerStyle,
   sectionVariantsControlStyle,
+  sectionVariantsDemoStyle,
   sectionVariantsItemRadioStyle,
   sectionVariantsStyle,
 } from './style';
-import { makeSectionVariantDemoCode } from './helpers';
+import {
+  getVariantValueWithDisabled,
+  makeSectionVariantDemoCode,
+} from './helpers';
 
+import type {
+  SectionSelectedVariants,
+  SectionVariants as SectionVariantsType,
+} from './types';
 import type { ComponentProps, PropsWithChildren } from 'react';
 
 type HeadingProps = {
@@ -418,13 +418,7 @@ type SectionVariantsProps = {
   description?: string;
   components: Array<string>;
   icons?: Array<string>;
-  variants: Array<{
-    key: string;
-    options: Array<{
-      label: string;
-      value: Record<string, any>;
-    }>;
-  }>;
+  variants: SectionVariantsType;
 };
 
 const SectionVariants = ({
@@ -434,19 +428,6 @@ const SectionVariants = ({
   icons = [],
   variants,
 }: SectionVariantsProps) => {
-  const defaultProps = useMemo(() => {
-    return variants.reduce((acc, variant) => {
-      const firstOption = variant.options[0];
-      if (firstOption) {
-        return { ...acc, ...firstOption.value };
-      }
-      return acc;
-    }, {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const [props, setProps] = useState<Record<string, any>>(defaultProps);
-
   const theme = useTheme();
   const [mobileControlOpen, setMobileControlOpen] = useState(false);
 
@@ -463,6 +444,56 @@ const SectionVariants = ({
     mediaQueryList.addEventListener('change', handleChange);
     return () => mediaQueryList.removeEventListener('change', handleChange);
   }, [theme.breakpoint.sm]);
+
+  const defaultSelectedVariant = useMemo(() => {
+    const defaultVariant = variants.reduce((acc, variant) => {
+      const firstLabel = variant.options[0]?.label;
+
+      if (firstLabel) {
+        return { ...acc, [variant.key]: { value: variant.options[0]?.label } };
+      }
+
+      return acc;
+    }, {}) as SectionSelectedVariants;
+
+    return getVariantValueWithDisabled(variants, defaultVariant);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [selectedVariant, setSelectedVariant] = useState(
+    defaultSelectedVariant,
+  );
+
+  const props = useMemo<Record<string, any>>(() => {
+    return Object.entries(selectedVariant).reduce((acc, [key, value]) => {
+      if (value.disabled) {
+        return acc;
+      }
+      const val = variants
+        .find((variant) => variant.key === key)
+        ?.options.find((option) => option.label === value.value)?.value;
+
+      return { ...acc, ...val };
+    }, {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(selectedVariant)]);
+
+  const handleSelectedVariantChange = (
+    value: Record<string, { value: string }>,
+  ) => {
+    const newValue = {
+      ...Object.entries(selectedVariant).reduce(
+        (acc, [key, v]) => {
+          acc[key] = { value: v.value };
+          return acc;
+        },
+        {} as typeof defaultSelectedVariant,
+      ),
+      ...value,
+    };
+
+    setSelectedVariant(getVariantValueWithDisabled(variants, newValue));
+  };
 
   return (
     <FlexBox
@@ -498,8 +529,10 @@ const SectionVariants = ({
                   </Typography>
                   <SectionVariantsItem
                     options={variant.options}
-                    props={props}
-                    onPropsChange={setProps}
+                    variantKey={variant.key}
+                    disabled={selectedVariant[variant.key]?.disabled}
+                    value={selectedVariant[variant.key]?.value ?? ''}
+                    onSelectedVariantChange={handleSelectedVariantChange}
                   />
                 </FlexBox>
               ))}
@@ -527,28 +560,28 @@ const SectionVariants = ({
         </FlexBox>
       </FlexBox>
 
-      <FlexBox
-        flexDirection="column"
-        gap="32px"
-        sx={sectionVariantsControlStyle}
-      >
-        {variants.map((variant) => (
-          <FlexBox key={variant.key} flexDirection="column" gap="12px">
-            <Typography
-              variant="label1"
-              weight="bold"
-              color="semantic.label.assistive"
-            >
-              {variant.key}
-            </Typography>
-            <SectionVariantsItem
-              options={variant.options}
-              props={props}
-              onPropsChange={setProps}
-            />
-          </FlexBox>
-        ))}
-      </FlexBox>
+      <ScrollArea sx={sectionVariantsControlStyle}>
+        <FlexBox flexDirection="column" gap="32px">
+          {variants.map((variant) => (
+            <FlexBox key={variant.key} flexDirection="column" gap="12px">
+              <Typography
+                variant="label1"
+                weight="bold"
+                color="semantic.label.assistive"
+              >
+                {variant.key}
+              </Typography>
+              <SectionVariantsItem
+                options={variant.options}
+                variantKey={variant.key}
+                disabled={selectedVariant[variant.key]?.disabled}
+                value={selectedVariant[variant.key]?.value ?? ''}
+                onSelectedVariantChange={handleSelectedVariantChange}
+              />
+            </FlexBox>
+          ))}
+        </FlexBox>
+      </ScrollArea>
     </FlexBox>
   );
 };
@@ -584,7 +617,7 @@ const SectionVariantsItemDemo = memo(
     return (
       <FlexBox
         flex="1"
-        sx={{ aspectRatio: '1 / 1' }}
+        sx={sectionVariantsDemoStyle}
         justifyContent="center"
         alignItems="center"
       >
@@ -595,66 +628,28 @@ const SectionVariantsItemDemo = memo(
 );
 
 type SectionVariantsItemProps = PropsWithChildren<{
-  options?: Array<{
+  value: string;
+  variantKey: string;
+  options: Array<{
     label: string;
     value: Record<string, any>;
   }>;
-  props: Record<string, any>;
-  onPropsChange?: (props: Record<string, any>) => void;
+  disabled?: boolean;
+  onSelectedVariantChange: (value: Record<string, { value: string }>) => void;
 }>;
 
 const SectionVariantsItem = ({
+  variantKey,
+  value,
   options = [],
-  props,
-  onPropsChange,
+  disabled,
+  onSelectedVariantChange,
 }: SectionVariantsItemProps) => {
-  const selectedValue = useMemo(() => {
-    // 모든 options에서 사용되는 키들을 수집
-    const allKeys = new Set<string>();
-
-    options.forEach((option) => {
-      Object.keys(option.value).forEach((key) => allKeys.add(key));
-    });
-
-    return JSON.stringify(
-      options.find((option) => {
-        // props에서 이 variant group과 관련된 키들만 추출
-        const relevantProps: Record<string, any> = {};
-        allKeys.forEach((key) => {
-          if (key in props) {
-            relevantProps[key] = props[key];
-          }
-        });
-
-        // option.value와 relevantProps가 완전히 일치하는지 확인
-        return JSON.stringify(option.value) === JSON.stringify(relevantProps);
-      })?.value ?? '',
-    );
-  }, [options, props]);
-
-  const prevSelectedValue = useRef<string>(selectedValue);
-
   return (
     <RadioGroup
-      value={selectedValue}
-      onValueChange={(value) => {
-        const option = options.find(
-          (opt) => JSON.stringify(opt.value) === value,
-        );
-
-        if (option && onPropsChange) {
-          const updatedProps = { ...props };
-
-          const prevValue = JSON.parse(prevSelectedValue.current);
-          if (prevValue && typeof prevValue === 'object') {
-            Object.keys(prevValue).forEach((key) => {
-              delete updatedProps[key];
-            });
-          }
-
-          onPropsChange({ ...updatedProps, ...option.value });
-          prevSelectedValue.current = value;
-        }
+      value={value}
+      onValueChange={(newValue) => {
+        onSelectedVariantChange({ [variantKey]: { value: newValue } });
       }}
     >
       <FlexBox flexDirection="column" gap="16px">
@@ -666,11 +661,12 @@ const SectionVariantsItem = ({
             gap="8px"
           >
             <FormControl>
-              <RadioGroupItem value={JSON.stringify(option.value)} />
+              <RadioGroupItem value={option.label} disabled={disabled} />
             </FormControl>
             <FormLabel
               sx={sectionVariantsItemRadioStyle}
-              data-selected={selectedValue === JSON.stringify(option.value)}
+              data-disabled={disabled}
+              data-selected={value === option.label}
             >
               {option.label}
             </FormLabel>
