@@ -6,7 +6,7 @@ export type LNBFrontmatterChildObj = {
   defaultOpen?: boolean;
 };
 
-export type LNBFrontmatterChild = LNBFrontmatterChildObj | Frontmatter;
+export type LNBFrontmatterChild = LNBFrontmatterType | Frontmatter;
 
 export type LNBFrontmatterType = {
   key: string;

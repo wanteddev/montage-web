@@ -4,23 +4,25 @@ import { useParams } from 'next/navigation';
 import { useMDXContext } from '@/features/docs/context';
 
 import {
+  findOrCreateGroup,
+  getFrontmatterTitle,
   getIsActive,
   hasMatchingDevelopPlatformPage,
   isFrontmatter,
 } from './helpers';
-import { PLATFORM_PATTERN } from './constants';
 
 import type {
-  LNBFrontmatterChildObj,
+  LNBFrontmatterChild,
   LNBFrontmatterGroup,
-  LNBFrontmatterType,
   SlugParams,
 } from './types';
+import type { Frontmatter } from '@/features/docs/types';
 
 const FIRST_LEVEL_ORDER: { [key: string]: number } = {
-  'get-started': 1,
-  foundations: 2,
-  components: 3,
+  'Get started': 0,
+  Foundations: 1,
+  Components: 2,
+  Utilities: 3,
 };
 
 export const useLNBContent = () => {
@@ -28,100 +30,72 @@ export const useLNBContent = () => {
   const params = useParams<SlugParams>();
 
   const filteredFrontmatter = useMemo(() => {
-    const sortedFrontmatter = [...allFrontmatter].sort((a, b) => {
-      const [aFirst] = a.slug;
-      const [bFirst] = b.slug;
-
-      // first level은 정해진 순서대로 정렬
-      const aOrder = aFirst ? FIRST_LEVEL_ORDER[aFirst] || 999 : 999;
-      const bOrder = bFirst ? FIRST_LEVEL_ORDER[bFirst] || 999 : 999;
-
-      if (aOrder !== bOrder) {
-        return aOrder - bOrder;
+    const addToGroup = (
+      frontmatter: Frontmatter,
+      groups: LNBFrontmatterGroup,
+      depth = 0,
+    ): void => {
+      if (
+        hasMatchingDevelopPlatformPage(frontmatter.originSlug, allFrontmatter)
+      ) {
+        return;
       }
 
-      // third level은 알파벳 순서대로 정렬
-      const aThirdLevel = a.slug[a.slug.length - 2];
-      const bThirdLevel = b.slug[b.slug.length - 2];
+      const currentKey = getFrontmatterTitle(frontmatter, depth);
+      if (!currentKey) return;
 
-      if (aThirdLevel && bThirdLevel) {
-        return aThirdLevel.localeCompare(bThirdLevel);
+      const isActive = getIsActive(params, frontmatter);
+
+      // 마지막 depth이거나 더 이상 하위 키가 없는 경우
+      if (depth >= frontmatter.slug.length - 1) {
+        if (depth === 0) {
+          groups.push({
+            ...frontmatter,
+            title: currentKey,
+          });
+        } else {
+          groups.push({
+            ...frontmatter,
+            title: currentKey,
+          });
+        }
+        return;
       }
 
-      return 0;
-    });
-
-    return sortedFrontmatter.reduce((acc: LNBFrontmatterGroup, cur) => {
-      const [firstKey, secondKey, thirdKey] = cur.originSlug;
-
-      if (!firstKey) return acc;
-
-      const isActive = getIsActive(params, cur);
-
-      let firstLevelGroup = acc.find(
-        (item) => !isFrontmatter(item) && item.key === firstKey,
-      );
-
-      if (!firstLevelGroup && (!secondKey || !thirdKey)) {
-        acc.push(cur);
-        return acc;
+      if (currentKey === frontmatter.title) {
+        groups.push({
+          ...frontmatter,
+          title: frontmatter.title,
+        });
+        return;
       }
 
-      if (!firstLevelGroup) {
-        firstLevelGroup = {
-          key: firstKey,
-          defaultOpen: false,
-          children: [],
-        };
-        acc.push(firstLevelGroup);
-      }
-
-      if (hasMatchingDevelopPlatformPage(cur.originSlug, allFrontmatter)) {
-        return acc;
-      }
+      const currentGroup = findOrCreateGroup(groups, currentKey);
 
       if (isActive) {
-        (firstLevelGroup as LNBFrontmatterType).defaultOpen = true;
+        currentGroup.defaultOpen = true;
       }
 
-      if (
-        secondKey &&
-        (!thirdKey || thirdKey.match(PLATFORM_PATTERN) || thirdKey === 'index')
-      ) {
-        (firstLevelGroup as LNBFrontmatterType).children.push(cur);
-        return acc;
-      }
+      addToGroup(frontmatter, currentGroup.children, depth + 1);
+    };
 
-      if (!secondKey) {
-        (firstLevelGroup as LNBFrontmatterType).children.push(cur);
-      } else {
-        let secondLevelGroup = (
-          firstLevelGroup as LNBFrontmatterType
-        ).children.find(
-          (item): item is LNBFrontmatterChildObj =>
-            'key' in item && item.key === secondKey,
-        );
+    const result: LNBFrontmatterGroup = [];
 
-        if (!secondLevelGroup) {
-          secondLevelGroup = {
-            key: secondKey,
-            defaultOpen: false,
-            children: [],
-          };
-          (firstLevelGroup as LNBFrontmatterType).children.push(
-            secondLevelGroup,
-          );
+    [...allFrontmatter].reverse().forEach((frontmatter) => {
+      addToGroup(frontmatter, result);
+    });
+
+    return result.sort((a, b) => {
+      const getOrder = (item: LNBFrontmatterChild) => {
+        if (isFrontmatter(item)) {
+          return FIRST_LEVEL_ORDER[item.title] ?? 0;
         }
 
-        if (isActive) {
-          secondLevelGroup.defaultOpen = true;
-        }
+        return FIRST_LEVEL_ORDER[item.key] ?? 0;
+      };
 
-        secondLevelGroup.children.push(cur);
-      }
-
-      return acc;
-    }, []);
+      return getOrder(a) - getOrder(b);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(allFrontmatter)]);
 

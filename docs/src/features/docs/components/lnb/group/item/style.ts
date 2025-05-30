@@ -1,9 +1,23 @@
-import { addOpacity, css } from '@wanteddev/wds';
+import {
+  addOpacity,
+  css,
+  ellipsisTypographyStyle,
+  respondMore,
+} from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbItemStyle = (theme: Theme) => css`
   padding-left: var(--lnb-padding-left);
+
+  ${respondMore(theme.breakpoint.lg)} {
+    [data-role='list-text-content'] {
+      ${ellipsisTypographyStyle(1)}
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      word-break: keep-all;
+    }
+  }
 
   [data-role='list-text-content'] {
     color: ${theme.semantic.label.alternative};
@@ -17,6 +31,8 @@ export const lnbItemStyle = (theme: Theme) => css`
 
   &:not([data-depth='0']) {
     border-radius: 8px;
+    --wds-list-cell-vertical-padding: 6px;
+
     &[aria-current='page'] {
       background-color: ${addOpacity(theme.semantic.primary.normal, 0.09)};
 

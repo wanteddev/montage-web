@@ -1,4 +1,10 @@
-import { addOpacity, css, respondTo } from '@wanteddev/wds';
+import {
+  addOpacity,
+  css,
+  respondMore,
+  respondTo,
+  typographyStyle,
+} from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -91,5 +97,65 @@ export const sectionHierarchyItemStyle = (theme: Theme) => css`
 
   &:last-of-type {
     border: none;
+  }
+`;
+
+export const sectionVariantsStyle = (theme: Theme) => css`
+  padding: 12px;
+  border-radius: 6px;
+  background-color: ${theme.semantic.fill.alternative};
+  border: 1px solid ${theme.semantic.line.normal.alternative};
+  position: relative;
+`;
+
+export const sectionVariantsControlStyle = (theme: Theme) => css`
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+  background-color: ${theme.semantic.background.elevated.normal};
+  padding: 32px 32px 12px;
+  width: 280px;
+  border-radius: 4px;
+  display: flex;
+
+  ${respondTo(theme.breakpoint.sm)} {
+    display: none;
+  }
+`;
+
+export const sectionVariantsControlMobileTriggerStyle = (theme: Theme) => css`
+  display: flex;
+  position: absolute;
+  right: 24px;
+  top: 24px;
+
+  ${respondMore(theme.breakpoint.sm)} {
+    display: none;
+  }
+`;
+
+export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
+  background-color: ${theme.semantic.background.elevated.normal};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+  width: 280px;
+  border-radius: 4px;
+  height: 400px;
+  padding: 0px;
+  filter: none;
+
+  [data-radix-scroll-area-content] {
+    padding: 32px 32px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+  }
+`;
+
+export const sectionVariantsItemRadioStyle = (theme: Theme) => css`
+  && {
+    color: ${theme.semantic.label.alternative};
+    ${typographyStyle('label1', 'bold')}
+    &[data-selected='true'] {
+      color: ${theme.semantic.label.normal};
+    }
   }
 `;

@@ -13,6 +13,7 @@ export const inlineCodeStyle = css`
   font-weight: 500;
   line-height: 138.5%;
   letter-spacing: -0.005em;
+  display: inline;
 `;
 
 export const codeBlockStyle = (theme: Theme) => css`

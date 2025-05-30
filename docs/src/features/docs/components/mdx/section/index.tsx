@@ -2,18 +2,37 @@ import {
   ContentBadge,
   Divider,
   FlexBox,
+  FormControl,
+  FormField,
+  FormLabel,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  RadioGroup,
+  RadioGroupItem,
+  ScrollArea,
   Thumbnail,
   Typography,
+  useTheme,
 } from '@wanteddev/wds';
 import {
-  type ComponentProps,
+  IconCircleCheckFill,
+  IconCircleCloseFill,
+  IconTune,
+} from '@wanteddev/wds-icon';
+import {
   Fragment,
-  type PropsWithChildren,
+  memo,
+  useEffect,
   useId,
+  useMemo,
+  useRef,
+  useState,
 } from 'react';
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
-import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
+import * as WdsIcon from '@wanteddev/wds-icon';
 
 import HeadingLink from '../heading-link';
 import { inlineCodeStyle } from '../code-block/style';
@@ -27,7 +46,15 @@ import {
   sectionFigureVariantStyle,
   sectionHierarchyItemStyle,
   sectionLayoutStyle,
+  sectionVariantsControlMobileStyle,
+  sectionVariantsControlMobileTriggerStyle,
+  sectionVariantsControlStyle,
+  sectionVariantsItemRadioStyle,
+  sectionVariantsStyle,
 } from './style';
+import { makeSectionVariantDemoCode } from './helpers';
+
+import type { ComponentProps, PropsWithChildren } from 'react';
 
 type HeadingProps = {
   content?: string;
@@ -386,6 +413,274 @@ const SectionHierarchyItem = ({
   );
 };
 
+type SectionVariantsProps = {
+  title?: string;
+  description?: string;
+  components: Array<string>;
+  icons?: Array<string>;
+  variants: Array<{
+    key: string;
+    options: Array<{
+      label: string;
+      value: Record<string, any>;
+    }>;
+  }>;
+};
+
+const SectionVariants = ({
+  title,
+  description,
+  components,
+  icons = [],
+  variants,
+}: SectionVariantsProps) => {
+  const defaultProps = useMemo(() => {
+    return variants.reduce((acc, variant) => {
+      const firstOption = variant.options[0];
+      if (firstOption) {
+        return { ...acc, ...firstOption.value };
+      }
+      return acc;
+    }, {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [props, setProps] = useState<Record<string, any>>(defaultProps);
+
+  const theme = useTheme();
+  const [mobileControlOpen, setMobileControlOpen] = useState(false);
+
+  useEffect(() => {
+    const mediaQueryList = window.matchMedia(
+      `(min-width: ${theme.breakpoint.sm})`,
+    );
+
+    const handleChange = () => {
+      setMobileControlOpen((prev) => (prev ? !mediaQueryList.matches : false));
+    };
+
+    handleChange();
+    mediaQueryList.addEventListener('change', handleChange);
+    return () => mediaQueryList.removeEventListener('change', handleChange);
+  }, [theme.breakpoint.sm]);
+
+  return (
+    <FlexBox
+      flexDirection="row"
+      gap="24px"
+      sx={[sectionLayoutStyle, sectionVariantsStyle]}
+    >
+      <FlexBox flexDirection="column" justifyContent="space-between" flex="1">
+        <Popover open={mobileControlOpen} onOpenChange={setMobileControlOpen}>
+          <PopoverTrigger>
+            <IconButton
+              size={24}
+              sx={sectionVariantsControlMobileTriggerStyle}
+              aria-label="Toggle control panel"
+            >
+              <IconTune />
+            </IconButton>
+          </PopoverTrigger>
+          <PopoverContent
+            sx={sectionVariantsControlMobileStyle}
+            position="top-end"
+            offset={16}
+          >
+            <ScrollArea sx={{ width: '100%' }}>
+              {variants.map((variant) => (
+                <FlexBox key={variant.key} flexDirection="column" gap="12px">
+                  <Typography
+                    variant="label1"
+                    weight="bold"
+                    color="semantic.label.assistive"
+                  >
+                    {variant.key}
+                  </Typography>
+                  <SectionVariantsItem
+                    options={variant.options}
+                    props={props}
+                    onPropsChange={setProps}
+                  />
+                </FlexBox>
+              ))}
+            </ScrollArea>
+          </PopoverContent>
+        </Popover>
+        <SectionVariantsItemDemo
+          props={props}
+          components={components}
+          icons={icons}
+        />
+        <FlexBox
+          flexDirection="column"
+          gap="4px"
+          sx={{ padding: '20px 12px 12px' }}
+        >
+          <Typography
+            variant="headline2"
+            weight="bold"
+            color="semantic.label.normal"
+          >
+            {title}
+          </Typography>
+          <Description content={description} />
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox
+        flexDirection="column"
+        gap="32px"
+        sx={sectionVariantsControlStyle}
+      >
+        {variants.map((variant) => (
+          <FlexBox key={variant.key} flexDirection="column" gap="12px">
+            <Typography
+              variant="label1"
+              weight="bold"
+              color="semantic.label.assistive"
+            >
+              {variant.key}
+            </Typography>
+            <SectionVariantsItem
+              options={variant.options}
+              props={props}
+              onPropsChange={setProps}
+            />
+          </FlexBox>
+        ))}
+      </FlexBox>
+    </FlexBox>
+  );
+};
+
+type SectionVariantsItemDemoProps = PropsWithChildren<{
+  props: Record<string, any>;
+  components: Array<string>;
+  icons: Array<string>;
+}>;
+
+const SectionVariantsItemDemo = memo(
+  ({ props, components, icons }: SectionVariantsItemDemoProps) => {
+    const code = useMemo(() => {
+      return makeSectionVariantDemoCode(components, icons, props);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(props)]);
+
+    const scope = useMemo(() => {
+      return {
+        import: {
+          react: React,
+          '@wanteddev/wds': Wds,
+          '@wanteddev/wds-icon': WdsIcon,
+        },
+      };
+    }, []);
+
+    const { element } = useRunner({
+      code,
+      scope,
+    });
+
+    return (
+      <FlexBox
+        flex="1"
+        sx={{ aspectRatio: '1 / 1' }}
+        justifyContent="center"
+        alignItems="center"
+      >
+        {element}
+      </FlexBox>
+    );
+  },
+);
+
+type SectionVariantsItemProps = PropsWithChildren<{
+  options?: Array<{
+    label: string;
+    value: Record<string, any>;
+  }>;
+  props: Record<string, any>;
+  onPropsChange?: (props: Record<string, any>) => void;
+}>;
+
+const SectionVariantsItem = ({
+  options = [],
+  props,
+  onPropsChange,
+}: SectionVariantsItemProps) => {
+  const selectedValue = useMemo(() => {
+    // 모든 options에서 사용되는 키들을 수집
+    const allKeys = new Set<string>();
+
+    options.forEach((option) => {
+      Object.keys(option.value).forEach((key) => allKeys.add(key));
+    });
+
+    return JSON.stringify(
+      options.find((option) => {
+        // props에서 이 variant group과 관련된 키들만 추출
+        const relevantProps: Record<string, any> = {};
+        allKeys.forEach((key) => {
+          if (key in props) {
+            relevantProps[key] = props[key];
+          }
+        });
+
+        // option.value와 relevantProps가 완전히 일치하는지 확인
+        return JSON.stringify(option.value) === JSON.stringify(relevantProps);
+      })?.value ?? '',
+    );
+  }, [options, props]);
+
+  const prevSelectedValue = useRef<string>(selectedValue);
+
+  return (
+    <RadioGroup
+      value={selectedValue}
+      onValueChange={(value) => {
+        const option = options.find(
+          (opt) => JSON.stringify(opt.value) === value,
+        );
+
+        if (option && onPropsChange) {
+          const updatedProps = { ...props };
+
+          const prevValue = JSON.parse(prevSelectedValue.current);
+          if (prevValue && typeof prevValue === 'object') {
+            Object.keys(prevValue).forEach((key) => {
+              delete updatedProps[key];
+            });
+          }
+
+          onPropsChange({ ...updatedProps, ...option.value });
+          prevSelectedValue.current = value;
+        }
+      }}
+    >
+      <FlexBox flexDirection="column" gap="16px">
+        {options.map((option) => (
+          <FormField
+            key={option.label}
+            flexDirection="row"
+            alignItems="center"
+            gap="8px"
+          >
+            <FormControl>
+              <RadioGroupItem value={JSON.stringify(option.value)} />
+            </FormControl>
+            <FormLabel
+              sx={sectionVariantsItemRadioStyle}
+              data-selected={selectedValue === JSON.stringify(option.value)}
+            >
+              {option.label}
+            </FormLabel>
+          </FormField>
+        ))}
+      </FlexBox>
+    </RadioGroup>
+  );
+};
+
 export {
   SectionLayout,
   SectionFigure,
@@ -394,4 +689,5 @@ export {
   SectionCustomize,
   SectionHierarchy,
   SectionHierarchyItem,
+  SectionVariants,
 };

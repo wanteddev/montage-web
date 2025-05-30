@@ -1,4 +1,3 @@
-import { sentenceCase } from 'change-case';
 import {
   Accordion,
   AccordionSummaryContent,
@@ -11,10 +10,14 @@ import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
 import { SectionHeader } from '@wanteddev/wds';
-import { useCallback } from 'react';
+import { Fragment } from 'react';
 
-import { getIsActive, isFrontmatter } from '../helpers';
-import { PLATFORM_PATTERN } from '../constants';
+import {
+  getFrontmatterLink,
+  getFrontmatterTitle,
+  getIsActive,
+  isFrontmatter,
+} from '../helpers';
 
 import {
   accordionIconContentStyle,
@@ -24,7 +27,6 @@ import {
 } from './style';
 import LnbGroupItem from './item';
 
-import type { Frontmatter } from '@/features/docs/types';
 import type {
   LNBFrontmatterChild,
   LNBFrontmatterType,
@@ -38,28 +40,6 @@ type Props = {
 const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
 
-  const getFrontmatterOption = useCallback((item: Frontmatter) => {
-    let title: string;
-    const lastSlug = item.originSlug.at(item.originSlug.length - 1)!;
-
-    if (lastSlug.match(/utilities/i)) {
-      title = item.title;
-    } else if (lastSlug.match(PLATFORM_PATTERN)) {
-      title = sentenceCase(item.originSlug[item.originSlug.length - 2]!);
-    } else if (lastSlug.match(/index$/i)) {
-      title = sentenceCase(item.originSlug[item.originSlug.length - 2]!);
-    } else {
-      title = sentenceCase(item.originSlug[item.originSlug.length - 1]!);
-    }
-
-    const href = `/docs/${item.slug.join('/')}`;
-
-    return {
-      title,
-      href,
-    };
-  }, []);
-
   if (isFrontmatter(frontmatter)) {
     return (
       <LnbGroupItem
@@ -67,7 +47,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
         isActive={getIsActive(params, frontmatter)}
         depth="0"
       >
-        {sentenceCase(frontmatter.title)}
+        {frontmatter.title}
       </LnbGroupItem>
     );
   }
@@ -94,23 +74,21 @@ const LnbGroup = ({ frontmatter }: Props) => {
             weight: 'bold',
           }}
         >
-          {sentenceCase(frontmatter.key)}
+          {frontmatter.key}
         </AccordionSummary>
 
         <AccordionDetails sx={lnbAccordionStyle}>
           <FlexBox flexDirection="column" gap="4px">
             {frontmatter.children.map((item, idx) => {
               if (isFrontmatter(item)) {
-                const { title, href } = getFrontmatterOption(item);
-
                 return (
                   <LnbGroupItem
-                    href={href}
+                    href={getFrontmatterLink(item)}
                     key={item.title + idx}
                     isActive={getIsActive(params, item)}
                     depth="1"
                   >
-                    {title}
+                    {item.title}
                   </LnbGroupItem>
                 );
               }
@@ -134,21 +112,42 @@ const LnbGroup = ({ frontmatter }: Props) => {
                     ]}
                     color="semantic.label.assistive"
                   >
-                    {sentenceCase(item.key)}
+                    {item.key}
                   </SectionHeader>
 
                   {item.children.map((child, childIdx) => {
-                    const { title, href } = getFrontmatterOption(child);
+                    if (isFrontmatter(child)) {
+                      return (
+                        <LnbGroupItem
+                          href={getFrontmatterLink(child)}
+                          key={child.slug.toString() + childIdx}
+                          isActive={getIsActive(params, child)}
+                          depth="2"
+                        >
+                          {getFrontmatterTitle(child)}
+                        </LnbGroupItem>
+                      );
+                    }
 
                     return (
-                      <LnbGroupItem
-                        href={href}
-                        key={child.slug.toString() + childIdx}
-                        isActive={getIsActive(params, child)}
-                        depth="2"
-                      >
-                        {title}
-                      </LnbGroupItem>
+                      <Fragment key={child.key + childIdx}>
+                        {child.children.map((component, componentIdx) => {
+                          if (isFrontmatter(component)) {
+                            return (
+                              <LnbGroupItem
+                                href={getFrontmatterLink(component)}
+                                key={component.title + componentIdx}
+                                isActive={getIsActive(params, component)}
+                                depth="3"
+                              >
+                                {component.title}
+                              </LnbGroupItem>
+                            );
+                          }
+
+                          return null;
+                        })}
+                      </Fragment>
                     );
                   })}
                 </FlexBox>

@@ -163,23 +163,15 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(details),
     details {
       margin-bottom: 16px;
-      padding-left: 24px;
+      padding-left: 16px;
 
       summary {
-        list-style: none;
-        margin-left: -24px;
-        padding-left: 24px;
-        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAwCAYAAABwrHhvAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAGMSURBVHgB7ZY9T4NAGMefAxrSzowcmqajg4bEkGoIQ+fOrn4HZ+d+C1ddmRkalb4MjXO3ahkc6lpbcuUEq0lrylt7yHK/iXB34Xf/54AHgMPhcDickkFpE0zTxMslvYiuq1XR6Xa7M2BIooCuW0qlQjpbCxD0ZFmyWYmISYOahtvhA+t/bmNCglNVPfr0vLcpHIiQPIxqMQMKAL02jMuOZVkKHEBiAuEuzxCiOGFKLUyjhbGmNBr16WQymUNOBGAApdBcLMiNYVgtyMmhCWwSlis4UVWtifHxh+e9vmdZxFJgQ4SeZy0LkxLsYl2W1W1aWQoT+NEI0yBXhmG2oRyBX4K2ruu1EgXi+RcBSgNnNBrtPIwSFAoKH0rt4bDnxM0oTAAh4UWWhYe0n1YRAjNRpHeu+zjOMpmhwDruweDZybOKiUDUI/j+/D7uoBUmgBAaC0Jgu66bKe49BGjMjtZx9/tPueLOLSDLyPV9uvUtj95pQpb2PnHvIrUpjfpCSVp9SxTRlHI4HA6HUzpfJfKPmv7kZGAAAAAASUVORK5CYII=')
-          no-repeat;
-        background-size: 16px 24px;
+        margin-left: -16px;
         ${typographyStyle('body1', 'regular')}
       }
 
       &[open] {
         summary {
-          background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAwCAYAAABwrHhvAAAACXBIWXMAABYlAAAWJQFJUiTwAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF5SURBVHgB7dW/T8JAFAfwd3fl58xWYHB262hCHPzH3Bz8G5xlcOniwkAqhW4sLizGWJIuZa0BjuI1LtXctXe0kZi8T0JC7r2m1+u3dwAIIYQQOjOiKoxGo8F2e7yi9NiFCtKUJJ0Om0yn0xh0J+A4171Gg99BjZpNeut5Xvh7nMqaLetwAzXLVlM2TuHMpBPgnE2gZlkOZONMNhhF74lt97uEkAuoASEwn808X1ZTvgLOt664NIHq4lbLclVFpipEUbTv94d78fcSKiFj8fQrVbUwhEEwm4jXsILTxUHw4hc1lH4FlKYunKjdtu7LelhZQxiGG9se9kSQBmCgKHh5WvsA55+PhoEsDF5e6QpkTgikK57+VadReyfMAilWYaPRGn/36jHaihlLH8p6CDmMwYDRBHzfXxFCl6C8OcwXi8USDBgfRrsdHcsDSRLd4OVphTAvEueEIpBPusGrNIHMev3x9vOwOrpB4D/DX3Mcp5v9ACGEEPrPvgB2D35PtkcsWwAAAABJRU5ErkJggg==')
-            no-repeat;
-          background-size: 16px 24px;
           margin-bottom: 16px;
         }
       }

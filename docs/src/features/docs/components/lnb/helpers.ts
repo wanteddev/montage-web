@@ -1,5 +1,10 @@
+import { sentenceCase } from 'change-case';
+
+import { PLATFORM_PATTERN, PLATFORM_PATTERN_WITHOUT_DESIGN } from './constants';
+
 import type {
   LNBFrontmatterChild,
+  LNBFrontmatterGroup,
   LNBFrontmatterType,
   SlugParams,
 } from './types';
@@ -15,10 +20,8 @@ export const getIsActive = (
 ): boolean => {
   if (isFrontmatter(item)) {
     return (
-      params.slug
-        .toString()
-        .replace(/(web|ios|android|changelog|design)$/, '') ===
-      item.slug.toString().replace(/(web|ios|android|changelog|design)$/, '')
+      params.slug.toString().replace(PLATFORM_PATTERN, '') ===
+      item.slug.toString().replace(PLATFORM_PATTERN, '')
     );
   }
 
@@ -34,7 +37,8 @@ export const hasMatchingDevelopPlatformPage = (
   allFrontmatter: Array<Frontmatter>,
 ) => {
   const lastSegment = slug.at(-1);
-  if (!lastSegment?.match(/(web|ios|android|changelog)$/)) {
+
+  if (!lastSegment?.match(PLATFORM_PATTERN_WITHOUT_DESIGN)) {
     return false;
   }
 
@@ -57,4 +61,58 @@ export const hasMatchingDevelopPlatformPage = (
   }
 
   return false;
+};
+
+export const getFrontmatterLink = (item: Frontmatter) => {
+  return `/docs/${item.slug.join('/')}`;
+};
+
+export const getFrontmatterTitle = (
+  item: Frontmatter,
+  depth: number = item.slug.length - 1,
+) => {
+  let title = '';
+
+  switch (depth) {
+    case item.slug.length - 1:
+      title = item.title;
+      break;
+    default:
+      title = item.slug[depth] ?? '';
+      break;
+  }
+
+  const isUtilitiesPage = Boolean(
+    [...item.slug].splice(1).find((slug) => slug.match(/utilities/i)),
+  );
+
+  if (!isUtilitiesPage) {
+    title = sentenceCase(title);
+  }
+
+  if (title.match(/^ios$/i)) {
+    title = 'iOS';
+  }
+
+  return title;
+};
+
+export const findOrCreateGroup = (
+  groups: LNBFrontmatterGroup,
+  key: string,
+): LNBFrontmatterType => {
+  let group = groups.find(
+    (item) => !isFrontmatter(item) && item.key === key,
+  ) as LNBFrontmatterType | undefined;
+
+  if (!group) {
+    group = {
+      key,
+      defaultOpen: false,
+      children: [],
+    };
+    groups.push(group);
+  }
+
+  return group;
 };

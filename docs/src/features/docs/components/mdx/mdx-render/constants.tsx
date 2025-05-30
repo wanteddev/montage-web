@@ -26,6 +26,7 @@ import {
   SectionHierarchyItem,
   SectionLayout,
   SectionStates,
+  SectionVariants,
 } from '../section';
 import DocsCollection from '../docs-collection';
 
@@ -117,9 +118,13 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       target={href.includes('http') ? '_blank' : undefined}
       color="semantic.primary.normal"
       sx={{
-        textDecoration: 'solid underline auto',
+        textDecoration: 'underline',
+        textDecorationStyle: 'solid',
+        textDecorationLine: 'underline',
         textUnderlineOffset: 'auto',
         textUnderlinePosition: 'from-font',
+        textDecorationSkipInk: 'auto',
+        textDecorationThickness: '0.5px',
       }}
       href={href}
     />
@@ -138,6 +143,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionCustomize,
   SectionHierarchy,
   SectionHierarchyItem,
+  SectionVariants,
   DocsCollection,
   table: (props) => (
     <Table

@@ -12,6 +12,7 @@ export const lnbWrapperStyle = (theme: Theme) => css`
   --lnb-padding-left: 40px;
 
   [data-radix-scroll-area-content] {
+    min-width: initial !important;
     border-right: 1px solid ${theme.semantic.line.solid.alternative};
     padding: 0px 8px;
   }
