@@ -28,6 +28,7 @@ import {
   snackbarActionStyle,
   snackbarStyle,
   textStyle,
+  wrapperStyle,
 } from './style';
 
 import type {
@@ -134,6 +135,7 @@ const Snackbar = forwardRef<
           )}
           style={{ ...containerStyle, ...props.style }}
           sx={[
+            wrapperStyle,
             { transition: disableAnimation ? 'none' : 'all 0.2s ease' },
             props.sx,
           ]}

@@ -4,10 +4,16 @@ import { addOpacity, respondMore, respondTo } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
+export const wrapperStyle = css`
+  backdrop-filter: blur(32px);
+  will-change: backdrop-filter;
+  border-radius: 12px;
+`;
+
 export const snackbarStyle = (theme: Theme) => css`
+  border-radius: inherit;
   padding: 11px 16px;
   max-width: 100%;
-  border-radius: 12px;
   display: flex;
   gap: 16px;
   font-size: 20px;
@@ -15,7 +21,6 @@ export const snackbarStyle = (theme: Theme) => css`
   align-items: center;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(32px);
 
   ${respondMore(theme.breakpoint.sm)} {
     min-width: 356px;

@@ -15,6 +15,7 @@ import {
   secondOverlayStyle,
   textStyle,
   toastStyle,
+  wrapperStyle,
 } from './style';
 import { useToastAnimation } from './hooks';
 import { ToastProvider, useToastContext } from './contexts';
@@ -124,6 +125,7 @@ const Toast = forwardRef<
           )}
           style={{ ...containerStyle, ...props.style }}
           sx={[
+            wrapperStyle,
             { transition: disableAnimation ? 'none' : 'all 0.2s ease' },
             props.sx,
           ]}
