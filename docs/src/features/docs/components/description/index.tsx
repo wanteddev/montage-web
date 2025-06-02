@@ -18,13 +18,14 @@ import {
   useState,
 } from 'react';
 import Link from 'next/link';
-import { sentenceCase } from 'change-case';
 
 import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
 
 import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
+import { getFrontmatterTitle } from '../lnb/helpers';
+import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../lnb/constants';
 
 import { tabScrollStyle, tabStyle, titleSectionWrapperStyle } from './style';
 
@@ -135,6 +136,29 @@ const DocsDescription = () => {
       });
   }, [allFrontmatter, params.slug]);
 
+  const description = useMemo(() => {
+    if (!frontmatter) {
+      return null;
+    }
+
+    if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(frontmatter.slug.toString())) {
+      const designPage = allFrontmatter.find((v) =>
+        v.slug
+          .toString()
+          .includes(
+            frontmatter.slug
+              .toString()
+              .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
+          ),
+      );
+
+      if (designPage) {
+        return designPage.description;
+      }
+    }
+    return frontmatter.description;
+  }, [frontmatter, allFrontmatter]);
+
   if (!frontmatter) {
     return null;
   }
@@ -152,10 +176,10 @@ const DocsDescription = () => {
             overflowWrap: 'break-word',
           }}
         >
-          {sentenceCase(frontmatter.title)}
+          {getFrontmatterTitle(frontmatter)}
         </Typography>
 
-        {Boolean(frontmatter.description) && (
+        {Boolean(description) && (
           <Typography
             variant="body2-reading"
             weight="regular"
@@ -168,7 +192,7 @@ const DocsDescription = () => {
             }}
             as="p"
           >
-            {frontmatter.description?.split('\\n').map((v) => (
+            {description?.split('\\n').map((v) => (
               <Fragment key={v}>
                 {v}
                 <br />

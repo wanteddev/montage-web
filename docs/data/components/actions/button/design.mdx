@@ -108,22 +108,26 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
   <SectionHierarchyItem
     level={4}
     description="가장 중요한 메인 행동을 유도 및 제안합니다."
-    render={`import { Button } from '@wanteddev/wds';export default () => <Button sx={{width:140}}>Primary</Button>;`}
+    components={['Button']}
+    render={`<Button sx={{width:140}}>Primary</Button>`}
   />
   <SectionHierarchyItem
     level={3}
     description="미리보기, 임시 저장 등 대체 행동을 제안합니다."
-    render={`import { Button } from '@wanteddev/wds';export default () => <Button variant="outlined" color="secondary" sx={{width:140}}>Alternative</Button>`}
+    components={['Button']}
+    render={`<Button variant="outlined" color="secondary" sx={{width:140}}>Alternative</Button>`}
   />
   <SectionHierarchyItem
     level={2}
     description="Toggle Button을 보조합니다."
-    render={`import { Button } from '@wanteddev/wds';export default () => <Button variant="solid" color="assistive" sx={{width:140}}>Assistive</Button>`}
+    components={['Button']}
+    render={`<Button variant="solid" color="assistive" sx={{width:140}}>Assistive</Button>`}
   />
   <SectionHierarchyItem
     level={1}
     description="닫기, 취소, 돌아가기 등 보조 행동을 제시합니다."
-    render={`import { Button } from '@wanteddev/wds';export default () => <Button variant="outlined" color="assistive" sx={{width:140}}>Assistive</Button>`}
+    components={['Button']}
+    render={`<Button variant="outlined" color="assistive" sx={{width:140}}>Assistive</Button>`}
   />
 </SectionHierarchy>
 
@@ -176,7 +180,6 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
     description="버튼의 높이, 둥글기를 임의로 변경하지 않습니다."
     src="/components/actions/button/design/Image-13.png"
   />
-  
 </SectionLayout>
 
 <SectionCustomize

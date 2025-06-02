@@ -18,17 +18,14 @@ import PropsTable from '../props-table';
 import Thumbnail from '../thumbnail';
 import Anatomy from '../anatomy';
 import Note from '../note';
-import {
-  SectionCustomize,
-  SectionFigure,
-  SectionFigureGroup,
-  SectionHierarchy,
-  SectionHierarchyItem,
-  SectionLayout,
-  SectionStates,
-  SectionVariants,
-} from '../section';
 import DocsCollection from '../docs-collection';
+import { SectionLayout } from '../section/layout';
+import SectionFigureGroup from '../section/figure-group';
+import SectionFigure from '../section/figure';
+import SectionStates from '../section/states';
+import SectionCustomize from '../section/customize';
+import { SectionHierarchy, SectionHierarchyItem } from '../section/hierarchy';
+import SectionVariants from '../section/variants';
 
 import type { ReactNode } from 'react';
 
