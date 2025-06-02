@@ -15,33 +15,31 @@ createdAt: 2025-04-03
   ]}
 />
 
-<SectionLayout>
-  <SectionVariants
-    title="Solid - Primary"
-    description="화면 내에서 가장 주요한 액션을 제시 혹은 유도합니다."
-    components={["Button"]}
-    icons={["IconRefresh"]}
-    variants={[
-      {
-        key: 'Variants',
-        options: [
-          { label: 'Solid/Primary', value: { variant: 'solid', color: 'primary' } },
-          { label: 'Solid/Assistive', value: { variant: 'solid', color: 'assistive' } },
-          { label: 'Outlined/Primary', value: { variant: 'outlined', color: 'primary' } },
-          { label: 'Outlined/Secondary', value: { variant: 'outlined', color: 'secondary' } },
-        ]
-      },
-      {
-        key: 'Icon option',
-        options: [
-          { label: 'Label only', value: { children: 'Button' } },
-          { label: 'Icon with label', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
-          { label: 'Icon only', value: { children: '<IconRefresh />', iconOnly: true } },
-        ]
-      }
-    ]}
-  />
-</SectionLayout>
+<SectionVariants
+  title="Solid - Primary"
+  description="화면 내에서 가장 주요한 액션을 제시 혹은 유도합니다."
+  components={["Button"]}
+  icons={["IconRefresh"]}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Solid/Primary', value: { variant: 'solid', color: 'primary' } },
+        { label: 'Solid/Assistive', value: { variant: 'solid', color: 'assistive' } },
+        { label: 'Outlined/Primary', value: { variant: 'outlined', color: 'primary' } },
+        { label: 'Outlined/Secondary', value: { variant: 'outlined', color: 'secondary' } },
+      ]
+    },
+    {
+      key: 'Icon option',
+      options: [
+        { label: 'Label only', value: { children: 'Button' } },
+        { label: 'Icon with label', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
+        { label: 'Icon only', value: { children: '<IconRefresh />', iconOnly: true } },
+      ]
+    }
+  ]}
+/>
 
 <SectionStates
   src="/components/actions/button/design/Image-1.png"

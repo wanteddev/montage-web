@@ -496,92 +496,92 @@ const SectionVariants = ({
   };
 
   return (
-    <FlexBox
-      flexDirection="row"
-      gap="24px"
-      sx={[sectionLayoutStyle, sectionVariantsStyle]}
-    >
-      <FlexBox flexDirection="column" justifyContent="space-between" flex="1">
-        <Popover open={mobileControlOpen} onOpenChange={setMobileControlOpen}>
-          <PopoverTrigger>
-            <IconButton
-              size={24}
-              sx={sectionVariantsControlMobileTriggerStyle}
-              aria-label="Toggle control panel"
-            >
-              <IconTune />
-            </IconButton>
-          </PopoverTrigger>
-          <PopoverContent
-            sx={sectionVariantsControlMobileStyle}
-            position="top-end"
-            offset={16}
-          >
-            <ScrollArea sx={{ width: '100%' }}>
-              {variants.map((variant) => (
-                <FlexBox key={variant.key} flexDirection="column" gap="12px">
-                  <Typography
-                    variant="label1"
-                    weight="bold"
-                    color="semantic.label.assistive"
-                  >
-                    {variant.key}
-                  </Typography>
-                  <SectionVariantsItem
-                    options={variant.options}
-                    variantKey={variant.key}
-                    disabled={selectedVariant[variant.key]?.disabled}
-                    value={selectedVariant[variant.key]?.value ?? ''}
-                    onSelectedVariantChange={handleSelectedVariantChange}
-                  />
-                </FlexBox>
-              ))}
-            </ScrollArea>
-          </PopoverContent>
-        </Popover>
-        <SectionVariantsItemDemo
-          props={props}
-          components={components}
-          icons={icons}
-        />
-        <FlexBox
-          flexDirection="column"
-          gap="4px"
-          sx={{ padding: '20px 12px 12px' }}
-        >
-          <Typography
-            variant="headline2"
-            weight="bold"
-            color="semantic.label.normal"
-          >
-            {title}
-          </Typography>
-          <Description content={description} />
-        </FlexBox>
-      </FlexBox>
+    <FlexBox sx={[sectionLayoutStyle]} flexDirection="column">
+      <Heading2 content={title} />
 
-      <ScrollArea sx={sectionVariantsControlStyle}>
-        <FlexBox flexDirection="column" gap="32px">
-          {variants.map((variant) => (
-            <FlexBox key={variant.key} flexDirection="column" gap="12px">
-              <Typography
-                variant="label1"
-                weight="bold"
-                color="semantic.label.assistive"
+      <FlexBox flexDirection="row" gap="24px" sx={sectionVariantsStyle}>
+        <FlexBox flexDirection="column" justifyContent="space-between" flex="1">
+          <Popover open={mobileControlOpen} onOpenChange={setMobileControlOpen}>
+            <PopoverTrigger>
+              <IconButton
+                size={24}
+                sx={sectionVariantsControlMobileTriggerStyle}
+                aria-label="Toggle control panel"
               >
-                {variant.key}
-              </Typography>
-              <SectionVariantsItem
-                options={variant.options}
-                variantKey={variant.key}
-                disabled={selectedVariant[variant.key]?.disabled}
-                value={selectedVariant[variant.key]?.value ?? ''}
-                onSelectedVariantChange={handleSelectedVariantChange}
-              />
-            </FlexBox>
-          ))}
+                <IconTune />
+              </IconButton>
+            </PopoverTrigger>
+            <PopoverContent
+              sx={sectionVariantsControlMobileStyle}
+              position="top-end"
+              offset={16}
+            >
+              <ScrollArea sx={{ width: '100%' }}>
+                {variants.map((variant) => (
+                  <FlexBox key={variant.key} flexDirection="column" gap="12px">
+                    <Typography
+                      variant="label1"
+                      weight="bold"
+                      color="semantic.label.assistive"
+                    >
+                      {variant.key}
+                    </Typography>
+                    <SectionVariantsItem
+                      options={variant.options}
+                      variantKey={variant.key}
+                      disabled={selectedVariant[variant.key]?.disabled}
+                      value={selectedVariant[variant.key]?.value ?? ''}
+                      onSelectedVariantChange={handleSelectedVariantChange}
+                    />
+                  </FlexBox>
+                ))}
+              </ScrollArea>
+            </PopoverContent>
+          </Popover>
+          <SectionVariantsItemDemo
+            props={props}
+            components={components}
+            icons={icons}
+          />
+          <FlexBox
+            flexDirection="column"
+            gap="4px"
+            sx={{ padding: '20px 12px 12px' }}
+          >
+            <Typography
+              variant="headline2"
+              weight="bold"
+              color="semantic.label.normal"
+            >
+              {title}
+            </Typography>
+            <Description content={description} />
+          </FlexBox>
         </FlexBox>
-      </ScrollArea>
+
+        <ScrollArea sx={sectionVariantsControlStyle}>
+          <FlexBox flexDirection="column" gap="32px">
+            {variants.map((variant) => (
+              <FlexBox key={variant.key} flexDirection="column" gap="12px">
+                <Typography
+                  variant="label1"
+                  weight="bold"
+                  color="semantic.label.assistive"
+                >
+                  {variant.key}
+                </Typography>
+                <SectionVariantsItem
+                  options={variant.options}
+                  variantKey={variant.key}
+                  disabled={selectedVariant[variant.key]?.disabled}
+                  value={selectedVariant[variant.key]?.value ?? ''}
+                  onSelectedVariantChange={handleSelectedVariantChange}
+                />
+              </FlexBox>
+            ))}
+          </FlexBox>
+        </ScrollArea>
+      </FlexBox>
     </FlexBox>
   );
 };

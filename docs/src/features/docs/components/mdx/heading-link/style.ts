@@ -15,33 +15,31 @@ export const linkStyle = (theme: Theme) => css`
     position: absolute;
     width: calc(0.75em + 16px);
     height: 100%;
-
-    &:hover [data-role='heading-link'] {
-      visibility: visible;
-    }
   }
 
   [data-role='heading-link'] {
     pointer-events: auto;
     width: 0.75em;
     height: 0.75em;
-    visibility: hidden;
+    opacity: 0;
     display: inline-flex;
 
     ${respondTo('960px')} {
-      visibility: hidden !important;
+      display: none !important;
     }
 
     svg {
       color: ${theme.semantic.label.normal};
     }
 
-    &:hover {
-      visibility: visible;
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      opacity: 1;
     }
   }
 
   &:hover [data-role='heading-link'] {
-    visibility: visible;
+    opacity: 1;
   }
 `;
