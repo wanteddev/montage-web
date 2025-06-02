@@ -32,7 +32,7 @@ export const generateMetadata = async ({
   try {
     const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
     const title = sentenceCase(frontmatter.title) + ' - Montage';
-    const description = frontmatter.description?.replace(/\\n/g, '');
+    const description = frontmatter.description?.replace(/\\n/g, ' ');
 
     return {
       title,
