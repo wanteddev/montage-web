@@ -1,6 +1,6 @@
 ---
 title: Action area
-description: 화면 하단에 사용자 액션 버튼을 표시하는 영역 컴포넌트입니다.
+description: 모달 혹은 화면 하단 영역에서 사용자가 메인, 대체, 보조 행동을 할 수 있는 다양한 레벨의 버튼(Buttons) 묶음을 제공합니다.
 ---
 
 ```swift
@@ -28,13 +28,13 @@ ActionArea(variant: .neutral(
 ActionArea(variant: .cancel(
     main: .init(text: "닫기", action: { dismiss() })
 ))
-.extra({ 
+.extra({
     Text("추가 정보")
-        .montage(variant: .label2) 
+        .montage(variant: .label2)
 })
 ```
 
->  **Note**
+> **Note**
 >
 > 키보드가 표시될 때 자동으로 조정됩니다.
 
@@ -47,6 +47,7 @@ ActionArea(variant: .cancel(
 <summary>``struct ButtonInfo``</summary>
 
 ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
+
 #### Initializers
 
 <details>
@@ -63,7 +64,7 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 - **Return Value**
 
   구성된 ButtonInfo 인스턴스
-</details>
+  </details>
 
 #### Type Methods
 
@@ -80,8 +81,9 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 - **Return Value**
 
   커스텀 뷰가 포함된 ButtonInfo 인스턴스
+
 - **Discussion**
-  >  **Note**
+  > **Note**
   >
   > 버튼 크기가 가능한 한 최대 크기가 되도록 하려면 fill(horizontal:vertical:) 모디파이어를 사용하세요.
 
@@ -93,6 +95,7 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 <summary>``struct Model``</summary>
 
 ActionArea를 구성하기 위한 모델 구조체입니다.
+
 #### Initializers
 
 <details>
@@ -102,18 +105,19 @@ ActionArea를 구성하기 위한 모델 구조체입니다.
 ActionArea 모델을 초기화합니다.
 
 - **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | 버튼 레이아웃 변형 |
-  | `backgroundVisibility` | 배경 가시성 설정 |
-  | `caption` | 캡션 텍스트 |
-  | `extra` | 추가 콘텐츠를 생성하는 클로저 |
-  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부 |
+| Parameter | Description |
+| --- | --- |
+| `variant` | 버튼 레이아웃 변형 |
+| `backgroundVisibility` | 배경 가시성 설정 |
+| `caption` | 캡션 텍스트 |
+| `extra` | 추가 콘텐츠를 생성하는 클로저 |
+| `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부 |
 </details>
 
 </details>
 
-___
+---
+
 ### Initializers
 
 <details>
@@ -129,9 +133,10 @@ ActionArea 컴포넌트를 초기화합니다.
 - **Return Value**
 
   구성된 ActionArea 인스턴스
-</details>
+  </details>
 
-___
+---
+
 ### Instance Properties
 
 <details>
@@ -139,7 +144,8 @@ ___
 <summary>``var body: some View``</summary>
 </details>
 
-___
+---
+
 ### Instance Methods
 
 <details>
@@ -155,8 +161,8 @@ ___
 - **Return Value**
 
   수정된 ActionArea 인스턴스
-</details>
-<details>
+  </details>
+  <details>
 
 <summary>``func clearBackground(Bool) -> ActionArea``</summary>
 
@@ -169,11 +175,12 @@ ___
 - **Return Value**
 
   수정된 ActionArea 인스턴스
+
 - **Discussion**
 
   이 수정자를 사용하면 그라데이션 배경이 숨겨지고 투명한 배경이 표시됩니다.
-</details>
-<details>
+  </details>
+  <details>
 
 <summary>``func extra((() -> any View)?, divider: Bool) -> ActionArea``</summary>
 
@@ -187,9 +194,10 @@ ___
 - **Return Value**
 
   수정된 ActionArea 인스턴스
-</details>
+  </details>
 
-___
+---
+
 ### Enumerations
 
 <details>
@@ -197,6 +205,7 @@ ___
 <summary>``enum BackgroundVisibility``</summary>
 
 ActionArea의 배경 가시성을 제어하는 열거형입니다.
+
 #### Enumeration Cases
 
 <details>
@@ -204,12 +213,14 @@ ActionArea의 배경 가시성을 제어하는 열거형입니다.
 <summary>``case automatic``</summary>
 
 자동으로 배경 가시성을 결정합니다. 기본적으로 스크롤 위치나 콘텐츠에 따라 가시성이 자동 처리됩니다.
+
 </details>
 <details>
 
 <summary>``case manual(Bool)``</summary>
 
 수동으로 배경 가시성을 설정합니다. true면 배경이 표시되고, false면 배경이 투명해집니다.
+
 </details>
 
 </details>
@@ -218,6 +229,7 @@ ActionArea의 배경 가시성을 제어하는 열거형입니다.
 <summary>``enum Variant``</summary>
 
 ActionArea의 버튼 레이아웃 변형을 정의합니다.
+
 #### Enumeration Cases
 
 <details>
@@ -225,25 +237,28 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 <summary>``case cancel(main: ButtonInfo)``</summary>
 
 취소 버튼만 있는 간단한 레이아웃
+
 </details>
 <details>
 
 <summary>``case neutral(main: ButtonInfo, sub: ButtonInfo?, alternative: ButtonInfo?)``</summary>
 
 중립적인 스타일의 버튼 레이아웃
+
 </details>
 <details>
 
 <summary>``case strong(main: ButtonInfo, sub: ButtonInfo?, alternative: ButtonInfo?)``</summary>
 
 강조된 주 버튼과 보조/대체 버튼이 있는 레이아웃
-</details>
 
 </details>
 
-___
+</details>
+
+---
+
 ### Default Implementations
-
 
 [View Implementations](/docs/utilities/ios/view-implementations.md)
 
@@ -256,6 +271,3 @@ Conforms To
 `Swift.Sendable`
 
 `SwiftUICore.View`
-
-
-

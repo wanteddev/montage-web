@@ -1,5 +1,7 @@
 import { FlexBox, Typography } from '@wanteddev/wds';
-import { Fragment } from 'react';
+import { Fragment, memo, useMemo } from 'react';
+
+import { generateHeadingId } from '@/features/docs/helpers/heading';
 
 import HeadingLink from '../../heading-link';
 import { sectionLayoutStyle } from '../style';
@@ -10,7 +12,12 @@ type HeadingProps = {
   content?: string;
 };
 
-const Heading2 = ({ content }: HeadingProps) => {
+const Heading2 = memo(({ content }: HeadingProps) => {
+  const id = useMemo(() => {
+    if (!content) return '';
+    return generateHeadingId(content);
+  }, [content]);
+
   if (!content) return null;
 
   return (
@@ -20,14 +27,19 @@ const Heading2 = ({ content }: HeadingProps) => {
       variant="title3"
       weight="bold"
       color="semantic.label.normal"
-      id={content.replaceAll(' ', '-')}
+      id={id}
     >
-      <HeadingLink id={content.replaceAll(' ', '-')}>{content}</HeadingLink>
+      <HeadingLink id={id}>{content}</HeadingLink>
     </Typography>
   );
-};
+});
 
-const Heading3 = ({ content }: HeadingProps) => {
+const Heading3 = memo(({ content }: HeadingProps) => {
+  const id = useMemo(() => {
+    if (!content) return '';
+    return generateHeadingId(content);
+  }, [content]);
+
   if (!content) return null;
 
   return (
@@ -37,12 +49,12 @@ const Heading3 = ({ content }: HeadingProps) => {
       variant="heading2"
       weight="bold"
       color="semantic.label.normal"
-      id={content.replaceAll(' ', '-')}
+      id={id}
     >
-      <HeadingLink id={content.replaceAll(' ', '-')}>{content}</HeadingLink>
+      <HeadingLink id={id}>{content}</HeadingLink>
     </Typography>
   );
-};
+});
 
 type SectionDescriptionProps = {
   content?: string;

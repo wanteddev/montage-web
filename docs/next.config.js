@@ -11,7 +11,7 @@ const commitHash = exec('git rev-parse HEAD').stdout.substring(0, 9);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   output: 'export',
   generateBuildId: () => {
     return commitHash;

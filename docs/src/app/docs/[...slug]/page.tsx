@@ -6,6 +6,7 @@ import {
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
+import { resetHeadingIds } from '@/features/docs/helpers/heading';
 
 import type { Metadata } from 'next';
 
@@ -62,6 +63,8 @@ export const dynamic = 'force-static';
 
 const DocsPage = async ({ params }: Props) => {
   const source = await getSourceBySlug('/', parseSlug(params));
+
+  resetHeadingIds();
 
   return <MDXRender {...source} />;
 };
