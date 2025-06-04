@@ -19,7 +19,7 @@ const SectionCustomize = ({ data }: Props) => {
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
       <Heading2 content="Customize" />
 
-      {data.map((v, i) => (
+      {data.map((v) => (
         <Fragment key={v.key}>
           <FlexBox sx={customizeStyle}>
             <Typography
@@ -46,9 +46,10 @@ const SectionCustomize = ({ data }: Props) => {
             </FlexBox>
           </FlexBox>
 
-          {(data.length < 2 || i !== data.length - 1) && (
-            <Divider color="semantic.line.normal.alternative" />
-          )}
+          <Divider
+            color="semantic.line.normal.alternative"
+            sx={{ margin: '0 !important' }}
+          />
         </Fragment>
       ))}
     </FlexBox>

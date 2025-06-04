@@ -6,6 +6,8 @@ import { generateHeadingId } from '@/features/docs/helpers/heading';
 import HeadingLink from '../../heading-link';
 import { sectionLayoutStyle } from '../style';
 
+import { ulStyle } from './style';
+
 import type { PropsWithChildren } from 'react';
 
 type HeadingProps = {
@@ -62,6 +64,22 @@ type SectionDescriptionProps = {
 
 const SectionDescription = ({ content }: SectionDescriptionProps) => {
   if (!content) return null;
+
+  if (content.startsWith('- ')) {
+    return (
+      <Typography
+        variant="body2-reading"
+        weight="regular"
+        as="ul"
+        color="semantic.label.neutral"
+        sx={[{ marginBottom: '0 !important' }, ulStyle]}
+      >
+        {content.split('\n').map((v, i) => (
+          <li key={i}>{v.replace(/^- /, '')}</li>
+        ))}
+      </Typography>
+    );
+  }
 
   return (
     <Typography

@@ -8,16 +8,16 @@ createdAt: 2025-04-03
 <Anatomy
   src="/components/actions/button/design/Image.png"
   data={[
-    'Leading Icon',
+    'Leading icon',
     'Label',
-    'Trailing Icon',
+    'Trailing icon',
     'Background',
   ]}
 />
 
 <SectionVariants
-  components={["Button"]}
-  icons={["IconRefresh"]}
+  components={['Button']}
+  icons={['IconRefresh', 'IconChevronRightTightSmall']}
   variants={[
     {
       key: 'Variants',
@@ -31,8 +31,9 @@ createdAt: 2025-04-03
     {
       key: 'Icon option',
       options: [
-        { label: 'Label only', value: { children: 'Button' } },
-        { label: 'Icon with label', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
+        { label: 'None', value: { children: 'Button' } },
+        { label: 'Leading icon', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
+        { label: 'Trailing icon', value: { children: 'Button', trailingContent: '<IconChevronRightTightSmall />' } },
         { label: 'Icon only', value: { children: '<IconRefresh />', iconOnly: true } },
       ]
     }
@@ -47,7 +48,7 @@ createdAt: 2025-04-03
 
 <SectionLayout title="Size">
   <SectionFigure
-    title="Size Customize"
+    title="Size customize"
     description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
     src="/components/actions/button/design/Image-2.png"
   />
@@ -56,7 +57,7 @@ createdAt: 2025-04-03
 <SectionLayout title="Loading">
   <SectionFigure
     ratio="16:10"
-    title="Button Loading"
+    title="Button loading"
     description="파일 업로드와 같이 간단한 로딩 상태를 표현할 때 사용합니다.
 로딩 중 페이지 이탈을 통해 동작을 중단할 수 있습니다."
     src="/components/actions/button/design/Image-3.png"
@@ -66,23 +67,23 @@ createdAt: 2025-04-03
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Icon Only">
     <SectionFigure
-      title="Icon Only"
+      title="Icon only"
       description="라벨 버튼과 별도의 가벼운 행동을 제시할 때 Icon Only를 사용합니다."
       src="/components/actions/button/design/Image-4.png"
     />
 
     <SectionFigure
-      title="Label with Icon"
-      description="Leading Icon - 버튼 라벨의 추가 설명을 도울 때 사용합니다.
-Trailing Icon - 버튼의 행동 자체를 강하게 유도할 때 사용합니다.
-Leading, Trailing Icon을 함께 사용하지 않습니다."
+      title="Label with icon"
+      description="Leading icon - 버튼 라벨의 추가 설명을 도울 때 사용합니다.
+Trailing icon - 버튼의 행동 자체를 강하게 유도할 때 사용합니다.
+Leading, Trailing icon을 함께 사용하지 않습니다."
       src="/components/actions/button/design/Image-5.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="Application">
-  <SectionFigureGroup title="Conditional Button">
+  <SectionFigureGroup title="Conditional button">
     <SectionFigure
       title="Meet the conditions"
       description="기준 값이 충족될 때 버튼의 상태가 Inactive → Active로 변경됩니다.
@@ -91,9 +92,9 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
       ratio="16:10"
     />
   </SectionFigureGroup>
-  <SectionFigureGroup title="Toggle Button">
+  <SectionFigureGroup title="Toggle button">
     <SectionFigure
-      title="Changing Button Type"
+      title="Changing button type"
       description="버튼을 눌렀을 때 버튼이 변경됩니다. CTA를 유도한 이후에 주목도를 떨어뜨리기 위해 사용하는 용도로 사용합니다.
 변경되는 버튼의 타입은 자유롭지만 사용자에게 의도의 혼란을 줄 수 있는 여지가 있는 Primary → Primary의 변경은 지양합니다. (e.g., Outlined/Primary → Solid/Primary)"
       src="/components/actions/button/design/Image-7.png"
@@ -129,7 +130,7 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
   />
 </SectionHierarchy>
 
-<SectionLayout title="Button Layout">
+<SectionLayout title="Button layout">
   <SectionFigureGroup title="Priority: Strong">
     <SectionFigure
       title="Vertical"
@@ -153,15 +154,15 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
   <SectionFigureGroup title="Keyboard">
     <SectionFigure
       title="Usage"
-      description="키보드 위에서 Sticky 할 시 Action Area를 활용하며 Sticky 옵션을 활성화하여 사용합니다.
+      description="키보드 위에서 Sticky 할 시 Action area를 활용하며 Sticky 옵션을 활성화하여 사용합니다.
   키보드의 자체의 액션버튼과 이중으로 함께 디자인하지 않도록 주의합니다."
       src="/components/actions/button/design/Image-10.png"
     />
   </SectionFigureGroup>
-  <SectionFigureGroup title="Action Area">
+  <SectionFigureGroup title="Action area">
     <SectionFigure
       title="Usage"
-      description="Action Area는 화면 내에서 가장 높은 위계를 갖고 있으며 페이지 혹은 모달의 하단에 고정 되어 유저의 접근을 용이하게 할 때 사용합니다. Caption과 Extra 옵션을 활용하여 버튼과 밀접한 메시지나 콘텐츠를 함께 Sticky 시킬 수 있습니다."
+      description="Action area는 화면 내에서 가장 높은 위계를 갖고 있으며 페이지 혹은 모달의 하단에 고정 되어 유저의 접근을 용이하게 할 때 사용합니다. Caption과 Extra 옵션을 활용하여 버튼과 밀접한 메시지나 콘텐츠를 함께 Sticky 시킬 수 있습니다."
       src="/components/actions/button/design/Image-11.png"
     />
   </SectionFigureGroup>
@@ -170,7 +171,7 @@ Leading, Trailing Icon을 함께 사용하지 않습니다."
 <SectionLayout title="How to use">
   <SectionFigure
     variant="positive"
-    description="Solid 타입의 커스텀을 통해 Distructive Button을 표현할 수 있습니다."
+    description="Solid 타입의 커스텀을 통해 Distructive button을 표현할 수 있습니다."
     src="/components/actions/button/design/Image-12.png"
   />
   <SectionFigure

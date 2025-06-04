@@ -1,0 +1,121 @@
+---
+title: Text button
+description: Background 요소 없이 텍스트만으로 행동을 유도해요.
+createdAt: 2025-05-12
+---
+
+<Anatomy
+  src="/components/actions/text-button/design/Image.png"
+  data={[
+    'Leading icon',
+    'Label',
+    'Trailing icon',
+    'Background',
+  ]}
+/>
+
+<SectionVariants
+  components={["TextButton"]}
+  icons={['IconUpload', 'IconExternalLink']}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Primary', value: { variant: 'primary' } },
+        { label: 'Assistive', value: { variant: 'assistive' } },
+      ]
+    },
+    {
+      key: 'Icon option',
+      options: [
+        { label: 'Label only', value: { children: 'Button' } },
+        { label: 'Leading icon', value: { children: 'Button', leadingContent: '<IconUpload />' } },
+        { label: 'Trailing icon', value: { children: 'Button', trailingContent: '<IconExternalLink />' } },
+      ]
+    }
+  ]}
+/>
+
+<SectionStates
+  src="/components/actions/text-button/design/Image-1.png"
+  ratio="21:9"
+  options={['Normal','Hovered','Focused', 'Pressed', 'Disabled']}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    title="Size customize"
+    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    src="/components/actions/text-button/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Loading">
+	<SectionFigure
+		title="Button loading"
+		description="파일 업로드와 같이 간단한 로딩 상태를 표현할 때 사용합니다.
+로딩 중 페이지 이탈을 통해 동작을 중단할 수 있습니다."
+		src="/components/actions/text-button/design/Image-3.png"
+	/>
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="With text">
+    <SectionFigure
+      title="Usage"
+      description="유도 문장과 함께 행동을 이끌어 낼 때 가벼운 버튼으로 사용할 수 있습니다."
+      src="/components/actions/text-button/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+	<SectionFigureGroup title="In component">
+    <SectionFigure
+      title="Usage"
+      description="Text area를 포함한 여러 컴포넌트 내부에 Text button이 위치할 시 인터랙션 영역을 고려하여 버튼의 위치를 잡습니다."
+      src="/components/actions/text-button/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Color structure">
+	<SectionFigure
+		title="Guideline"
+		description="- Web: 모든 타입이 동일하게 Icon과 Label, Interaction은 서로 동일한 컬러를 유지하는 것이 기본 동작이며, 각각의 요소별로 컬러 지정이 가능합니다.
+- iOS: 모든 타입이 동일하게 Icon과 Label, Interaction이 서로 동일한 컬러를 유지합니다.
+- Android: 모든 타입이 동일하게 Icon과 Label 각각의 컬러 지정이 별도로 가능하며, Primary 타입의 경우 Interaction의 색상이 Text 색상을 쫓아갑니다. 단, Assistive 타입은 Text 색상에 관계없이 Interaction의 색상이 Assistive로 고정됩니다."
+		src="/components/actions/text-button/design/Image-6.png"
+	/>
+</SectionLayout>
+
+<SectionLayout title="Icon">
+  <SectionFigure
+    title="Guideline"
+    description="Leading icon은 Label을 보조설명하는 용도, Trailing icon은 버튼의 직접적인 행동을 강조하는 역할로 사용합니다."
+    src="/components/actions/text-button/design/Image-7.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="Icon 요소를 활용하여 Button과 Text를 구분할 수 있도록 디자인합니다."
+    src="/components/actions/text-button/design/Image-8.png"
+  />
+  <SectionFigure
+    variant="negative"
+    description="Action area에 Alternative를 대체하여 사용할 수 없습니다."
+    src="/components/actions/text-button/design/Image-9.png"
+  />
+</SectionLayout>
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Primary',
+      options: ['contentColor', 'typography']
+    },
+		{
+			key: 'Assistive',
+			options: ['contentColor', 'typography']
+		}
+  ]}
+/>

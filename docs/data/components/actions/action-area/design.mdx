@@ -14,7 +14,7 @@ createdAt: 2025-05-12
 />
 
 <SectionVariants
-	components={["ActionArea", "ActionAreaButton"]}
+	components={['ActionArea', 'ActionAreaButton']}
 	icons={['IconRefresh']}
 	variants={[
 		{
@@ -37,7 +37,7 @@ createdAt: 2025-05-12
 		},
 		{
 			key: 'Sub button option',
-			disabled: (value) => value['Combination'] !== 'With sub button' || value['Variants'] !== 'Neutral',
+			disabled: (value) => value['Combination'] !== 'With sub action' || value['Variants'] !== 'Neutral',
 			options: [
 				{ label: 'Label', value: { children: '<ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="sub">Alternative</ActionAreaButton>' } },
 				{ label: 'With icon', value: { children: '<ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="sub" iconOnly><IconRefresh/></ActionAreaButton>' } },
@@ -196,7 +196,7 @@ Extra contents에는 추가 버튼을 배치할 수 있습니다."
 <SectionCustomize
   data={[
     {
-      key: 'Solid Button',
+      key: 'Solid button',
       options: ['button']
     }
   ]}
