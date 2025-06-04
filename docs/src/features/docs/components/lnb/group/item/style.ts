@@ -31,7 +31,7 @@ export const lnbItemStyle = (theme: Theme) => css`
 
   &:not([data-depth='0']) {
     border-radius: 8px;
-    --wds-list-cell-vertical-padding: 6px;
+    --wds-list-cell-vertical-padding: 4px;
 
     &[aria-current='page'] {
       background-color: ${addOpacity(theme.semantic.primary.normal, 0.09)};
@@ -44,5 +44,9 @@ export const lnbItemStyle = (theme: Theme) => css`
         background-color: ${theme.semantic.primary.normal};
       }
     }
+  }
+
+  &[data-depth='3'] {
+    padding-left: calc(var(--lnb-padding-left) + 12px);
   }
 `;

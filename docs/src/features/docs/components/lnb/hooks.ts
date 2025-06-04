@@ -10,6 +10,7 @@ import {
   hasMatchingDevelopPlatformPage,
   isFrontmatter,
 } from './helpers';
+import { PLATFORM_PATTERN } from './constants';
 
 import type {
   LNBFrontmatterChild,
@@ -42,30 +43,20 @@ export const useLNBContent = () => {
       }
 
       const currentKey = getFrontmatterTitle(frontmatter, depth);
+
       if (!currentKey) return;
 
       const isActive = getIsActive(params, frontmatter);
 
       // 마지막 depth이거나 더 이상 하위 키가 없는 경우
-      if (depth >= frontmatter.slug.length - 1) {
-        if (depth === 0) {
-          groups.push({
-            ...frontmatter,
-            title: currentKey,
-          });
-        } else {
-          groups.push({
-            ...frontmatter,
-            title: currentKey,
-          });
-        }
-        return;
-      }
-
-      if (currentKey === frontmatter.title) {
+      if (
+        depth >= frontmatter.slug.length - 1 ||
+        (frontmatter.slug.at(-1)?.match(PLATFORM_PATTERN) &&
+          depth === frontmatter.slug.length - 2)
+      ) {
         groups.push({
           ...frontmatter,
-          title: frontmatter.title,
+          title: currentKey,
         });
         return;
       }
@@ -97,7 +88,7 @@ export const useLNBContent = () => {
       return getOrder(a) - getOrder(b);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(allFrontmatter)]);
+  }, [JSON.stringify(allFrontmatter), params.slug]);
 
   return {
     frontmatters: filteredFrontmatter,

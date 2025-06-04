@@ -22,3 +22,10 @@ export const accordionIconStyle = (theme: Theme) => css`
   font-size: 16px;
   color: ${theme.semantic.label.assistive};
 `;
+
+export const utilitiesAccordionGroupStyle = css`
+  padding-left: var(--lnb-padding-left);
+  && {
+    --wds-list-cell-vertical-padding: 4px;
+  }
+`;

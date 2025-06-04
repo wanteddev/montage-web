@@ -21,7 +21,7 @@ import * as WdsIcon from '@wanteddev/wds-icon';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { IconTune } from '@wanteddev/wds-icon';
 
-import { Heading2, SectionDescription } from '../layout';
+import { Heading2 } from '../layout';
 import { sectionLayoutStyle } from '../style';
 import { useRunner } from '../../demo/react-runner';
 
@@ -45,16 +45,12 @@ import type {
 import type { PropsWithChildren } from 'react';
 
 type SectionVariantsProps = {
-  title?: string;
-  description?: string;
   components: Array<string>;
   icons?: Array<string>;
   variants: SectionVariantsType;
 };
 
 const SectionVariants = ({
-  title,
-  description,
   components,
   icons = [],
   variants,
@@ -174,20 +170,6 @@ const SectionVariants = ({
             components={components}
             icons={icons}
           />
-          <FlexBox
-            flexDirection="column"
-            gap="4px"
-            sx={{ padding: '20px 12px 12px' }}
-          >
-            <Typography
-              variant="headline2"
-              weight="bold"
-              color="semantic.label.normal"
-            >
-              {title}
-            </Typography>
-            <SectionDescription content={description} />
-          </FlexBox>
         </FlexBox>
 
         <ScrollArea sx={sectionVariantsControlStyle}>

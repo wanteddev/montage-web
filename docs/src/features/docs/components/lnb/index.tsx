@@ -1,6 +1,6 @@
 'use client';
 import { Divider, FlexBox, ScrollArea } from '@wanteddev/wds';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
@@ -11,11 +11,25 @@ import LnbMobile from './mobile';
 const Lnb = () => {
   const { frontmatters } = useLNBContent();
 
+  const viewportRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+
+    if (!viewport) return;
+
+    const activeElement = viewport.querySelector('[aria-current="page"]');
+
+    if (activeElement) {
+      activeElement.scrollIntoView();
+    }
+  }, []);
+
   return (
     <>
       <LnbMobile frontmatters={frontmatters} />
 
-      <ScrollArea sx={lnbWrapperStyle}>
+      <ScrollArea sx={lnbWrapperStyle} viewportRef={viewportRef}>
         <FlexBox
           as="aside"
           sx={{ width: '100%' }}

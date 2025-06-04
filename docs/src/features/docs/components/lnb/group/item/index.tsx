@@ -58,7 +58,7 @@ const LnbGroupItem = ({ href, children, isActive, depth = '1' }: Props) => {
           aria-current={isActive ? 'page' : undefined}
           disableInteraction={depth === '0'}
           textProps={{
-            variant: depth === '0' ? 'headline2' : 'label1',
+            variant: depth === '0' ? 'body2' : 'label1',
             weight: depth === '0' ? 'bold' : 'medium',
           }}
         >

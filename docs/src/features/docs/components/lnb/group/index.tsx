@@ -10,20 +10,15 @@ import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
 import { SectionHeader } from '@wanteddev/wds';
-import { Fragment } from 'react';
 
-import {
-  getFrontmatterLink,
-  getFrontmatterTitle,
-  getIsActive,
-  isFrontmatter,
-} from '../helpers';
+import { getFrontmatterLink, getIsActive, isFrontmatter } from '../helpers';
 
 import {
   accordionIconContentStyle,
   accordionIconStyle,
   accordionSummaryStyle,
   lnbAccordionStyle,
+  utilitiesAccordionGroupStyle,
 } from './style';
 import LnbGroupItem from './item';
 
@@ -54,7 +49,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
 
   return (
     <List>
-      <Accordion divider={false} defaultExpanded>
+      <Accordion divider={false} defaultExpanded={frontmatter.defaultOpen}>
         <AccordionSummary
           sx={accordionSummaryStyle}
           fillWidth
@@ -70,7 +65,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
           disableInteraction
           data-active={getIsActive(params, frontmatter)}
           textProps={{
-            variant: 'headline2',
+            variant: 'body2',
             weight: 'bold',
           }}
         >
@@ -124,30 +119,64 @@ const LnbGroup = ({ frontmatter }: Props) => {
                           isActive={getIsActive(params, child)}
                           depth="2"
                         >
-                          {getFrontmatterTitle(child)}
+                          {child.title}
                         </LnbGroupItem>
                       );
                     }
 
                     return (
-                      <Fragment key={child.key + childIdx}>
-                        {child.children.map((component, componentIdx) => {
-                          if (isFrontmatter(component)) {
-                            return (
-                              <LnbGroupItem
-                                href={getFrontmatterLink(component)}
-                                key={component.title + componentIdx}
-                                isActive={getIsActive(params, component)}
-                                depth="3"
-                              >
-                                {component.title}
-                              </LnbGroupItem>
-                            );
+                      <Accordion
+                        key={child.key + childIdx}
+                        divider={false}
+                        defaultExpanded={child.defaultOpen}
+                      >
+                        <AccordionSummary
+                          sx={utilitiesAccordionGroupStyle}
+                          fillWidth
+                          trailingContent={
+                            <AccordionSummaryContent
+                              variant="icon"
+                              rotate
+                              sx={accordionIconContentStyle}
+                            >
+                              <IconChevronDownThickSmall
+                                sx={accordionIconStyle}
+                              />
+                            </AccordionSummaryContent>
                           }
+                          disableInteraction
+                          data-active={getIsActive(params, frontmatter)}
+                          textProps={{
+                            variant: 'label1',
+                            weight: 'medium',
+                            color: 'semantic.label.alternative',
+                          }}
+                        >
+                          {child.key}
+                        </AccordionSummary>
+                        <AccordionDetails
+                          sx={[lnbAccordionStyle, { paddingBottom: 0 }]}
+                        >
+                          <List gap="4px">
+                            {child.children.map((component, componentIdx) => {
+                              if (isFrontmatter(component)) {
+                                return (
+                                  <LnbGroupItem
+                                    href={getFrontmatterLink(component)}
+                                    key={component.title + componentIdx}
+                                    isActive={getIsActive(params, component)}
+                                    depth="3"
+                                  >
+                                    {component.title}
+                                  </LnbGroupItem>
+                                );
+                              }
 
-                          return null;
-                        })}
-                      </Fragment>
+                              return null;
+                            })}
+                          </List>
+                        </AccordionDetails>
+                      </Accordion>
                     );
                   })}
                 </FlexBox>

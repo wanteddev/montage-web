@@ -76,6 +76,7 @@ export const getFrontmatterTitle = (
   switch (depth) {
     case item.slug.length - 1:
       title = item.title;
+
       break;
     default:
       title = item.slug[depth] ?? '';
@@ -83,10 +84,10 @@ export const getFrontmatterTitle = (
   }
 
   const isUtilitiesPage = Boolean(
-    [...item.slug].splice(1).find((slug) => slug.match(/utilities/i)),
+    item.slug.find((slug) => slug.match(/utilities/i)),
   );
 
-  if (!isUtilitiesPage) {
+  if (!isUtilitiesPage || depth < item.slug.length - 1) {
     title = sentenceCase(title);
   }
 
