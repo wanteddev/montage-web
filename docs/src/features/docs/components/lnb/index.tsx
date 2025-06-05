@@ -36,6 +36,7 @@ const Lnb = () => {
       <ScrollArea sx={lnbWrapperStyle} viewportRef={viewportRef}>
         <FlexBox
           as="aside"
+          data-algolia-lnb-group
           sx={{ width: '100%' }}
           flexDirection="column"
           gap="20px"
