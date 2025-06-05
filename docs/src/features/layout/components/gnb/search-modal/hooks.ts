@@ -130,6 +130,7 @@ export const useDocSearch = ({
                 sourceId: 'recentSearches',
                 onSelect({ item, event }): void {
                   saveRecentSearch(item);
+                  router.push(item.url);
                   handleClose(event);
                 },
                 getItemUrl({ item }): string {
@@ -190,7 +191,6 @@ export const useDocSearch = ({
               setContext({ nbHits });
 
               const pageLevelResults = hits.filter(isPageLevel);
-
               const textLevelResults = sortByText(hits.filter(isTextLevel));
 
               return [

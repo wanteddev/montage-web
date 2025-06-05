@@ -131,6 +131,7 @@ const Gnb = () => {
                 aria-label="Search"
                 as="button"
                 role="search"
+                onClick={handleOpen}
                 sx={[gnbActionsStyle, gnbSearchMobileStyle]}
               >
                 <IconSearch />

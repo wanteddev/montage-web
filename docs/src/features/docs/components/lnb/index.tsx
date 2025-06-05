@@ -18,10 +18,14 @@ const Lnb = () => {
 
     if (!viewport) return;
 
-    const activeElement = viewport.querySelector('[aria-current="page"]');
+    const activeElement = viewport.querySelector<HTMLElement>(
+      '[aria-current="page"]',
+    );
 
     if (activeElement) {
-      activeElement.scrollIntoView();
+      const offsetTop = activeElement.offsetTop + activeElement.clientHeight;
+
+      viewport.scrollTop = offsetTop - 38;
     }
   }, []);
 
