@@ -19,7 +19,7 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
-  trailingSlash: true,
+  trailingSlash: false,
   assetPrefix: isProduction ? assetPrefix : undefined,
   transpilePackages: ['next-mdx-remote'],
   env: {
