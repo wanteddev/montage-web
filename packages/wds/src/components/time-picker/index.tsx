@@ -109,7 +109,10 @@ const TimePicker = forwardRef<
 
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
 
-    const views = useMemo(() => sectionsToViews(sections), [sections]);
+    const views = useMemo(
+      () => props.views ?? sectionsToViews(sections),
+      [sections, props.views],
+    );
 
     const invalid =
       originInvalid ||
