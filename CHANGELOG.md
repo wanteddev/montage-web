@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/wanteddev/wds/compare/v2.0.2...v2.0.3) (2025-06-10)
+
+### Bug Fixes
+
+- **wds:** time picker prop으로 주입된 views 가 반영되지 않음 ([#334](https://github.com/wanteddev/wds/issues/334)) ([cb39407](https://github.com/wanteddev/wds/commit/cb39407c1b670a3115b5d13d55ad42b856427c3c))
+- **wds:** 일부 컴포넌트 context scope 분리로 의도치 않은 동작 개선 ([#332](https://github.com/wanteddev/wds/issues/332)) ([99efb19](https://github.com/wanteddev/wds/commit/99efb19830f4a19586354ec322fb9c027aca9793))
+
+### Features
+
+- **wds:** snackbar, toast, dialog 컴포넌트 hook을 이용하지 않고 단독으로 사용할 수 있도록 지원 추가 ([#333](https://github.com/wanteddev/wds/issues/333)) ([012faba](https://github.com/wanteddev/wds/commit/012faba59f71f38a9883b3bf3c66afeb82bec4cb))
+
 ## [2.0.2](https://github.com/wanteddev/wds/compare/v2.0.1...v2.0.2) (2025-05-23)
 
 ### Bug Fixes
