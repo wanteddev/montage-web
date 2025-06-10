@@ -5,11 +5,11 @@ description: useDialog for WDS Utility
 
 # useDialog
 
-액션 내용 커스터마이징이 불가능한 웹에서 액션 내용을 맞춰 쓰고자 할 때 사용합니다.
+Dialog 컴포넌트를 `Promise<'confirm' | 'cancel'>` 형태로 사용할 수 있습니다.
 
 ## 활용
 
-<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -18,8 +18,8 @@ const Demo = () => {
     const result = await dialog({
       title: '제목',
       content: '설명',
-      confirm: <DialogButton>확인</DialogButton>,
-      cancel: <DialogButton variant="assistive">취소</DialogButton>,
+      confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
+      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
     });
 
     alert('결과: ' + result);
@@ -48,9 +48,9 @@ export default Demo;`}
 { name: 'disableEscapeKeyDownClose', types: 'boolean | undefined', defaultValue: 'false' },
 ]} />
 
-### DialogButton
+### DialogActionAreaButton
 
-<PropsTable component="DialogButton" />
+<PropsTable component="DialogActionAreaButton" />
 
 ## Examples
 
@@ -58,7 +58,7 @@ export default Demo;`}
 
 확인과 취소 버튼 위치를 변경합니다.
 
-<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -67,8 +67,8 @@ const Demo = () => {
     const result = await dialog({
       title: '제목',
       content: '설명',
-      confirm: <DialogButton>확인</DialogButton>,
-      cancel: <DialogButton variant="assistive">취소</DialogButton>,
+      confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
+      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
       direction: 'reverse'
     });
 
@@ -87,7 +87,7 @@ export default Demo;`}
 
 `variant` 옵션에 따라 버튼의 색상이 달라집니다.
 
-<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -96,8 +96,8 @@ const Demo = () => {
     const result = await dialog({
       title: '정말로 삭제하시겠습니까?',
       content: '삭제된 내용은 복구할 수 없습니다.',
-      confirm: <DialogButton variant="negative">확인</DialogButton>,
-      cancel: <DialogButton variant="assistive">취소</DialogButton>
+      confirm: <DialogActionAreaButton variant="negative">확인</DialogActionAreaButton>,
+      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>
     });
 
     alert('결과: ' + result);
@@ -115,7 +115,7 @@ export default Demo;`}
 
 `sx` Prop을 통해 커스텀 스타일을 적용할 수 있습니다.
 
-<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -124,8 +124,8 @@ const Demo = () => {
     const result = await dialog({
       title: '정말로 삭제하시겠습니까?',
       content: '삭제된 내용은 복구할 수 없습니다.',
-      confirm: <DialogButton>확인</DialogButton>,
-      cancel: <DialogButton variant="assistive">취소</DialogButton>,
+      confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
+      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
       sx: { padding: 40 }
     });
 
@@ -145,7 +145,7 @@ export default Demo;`}
 
 `e.preventDefault` 를 이용하면 클릭 액션을 막을 수 있습니다.
 
-<Demo code={`import { useDialog, Button, DialogButton } from '@wanteddev/wds';
+<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
   const dialog = useDialog();
@@ -154,8 +154,8 @@ const Demo = () => {
     const result = await dialog({
       title: '제목',
       content: '내용',
-      confirm: <DialogButton onClick={e => e.preventDefault()}>확인</DialogButton>,
-      cancel: <DialogButton variant="assistive">취소</DialogButton>,
+      confirm: <DialogActionAreaButton onClick={e => e.preventDefault()}>확인</DialogActionAreaButton>,
+      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
     });
 
     alert('결과: ' + result);

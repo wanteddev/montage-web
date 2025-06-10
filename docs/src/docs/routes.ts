@@ -89,6 +89,7 @@ export const routes: Array<Route> = [
         title: 'DatePicker',
         slug: '/docs/components/date-picker',
       },
+      { title: 'Dialog', slug: '/docs/components/dialog' },
       {
         title: 'DismissableLayer',
         slug: '/docs/components/dismissable-layer',
@@ -188,6 +189,7 @@ export const routes: Array<Route> = [
       },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
       { title: 'Slider', slug: '/docs/components/slider' },
+      { title: 'Snackbar', slug: '/docs/components/snackbar' },
       { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'Table', slug: '/docs/components/table' },
@@ -199,6 +201,7 @@ export const routes: Array<Route> = [
       { title: 'TextField', slug: '/docs/components/text-field' },
       { title: 'TimePicker', slug: '/docs/components/time-picker' },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail', alpha: true },
+      { title: 'Toast', slug: '/docs/components/toast' },
       {
         title: 'ToggleIcon',
         slug: '/docs/components/toggle-icon',

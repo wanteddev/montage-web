@@ -4,15 +4,16 @@ import { useStore } from 'zustand';
 
 import { generateId } from './helpers';
 
-import type { Merge } from '@wanteddev/wds-engine';
 import type { TextButton } from '../components';
 import type { ComponentProps, ReactNode } from 'react';
 import type { StoreApi } from 'zustand';
 
+export type UseRegionStoreAddDuration = number | 'short' | 'long';
+
 export type RegionToastItem = {
   id?: string;
   type: 'toast';
-  duration?: number;
+  duration?: UseRegionStoreAddDuration;
   variant?: 'normal' | 'positive' | 'cautionary' | 'negative';
   icon?: ReactNode;
   content: ReactNode;
@@ -22,7 +23,7 @@ export type RegionToastItem = {
 export type RegionSnackbarItem = {
   id?: string;
   type: 'snackbar';
-  duration?: number;
+  duration?: UseRegionStoreAddDuration;
   variant?: 'normal';
   title?: ReactNode;
   description?: ReactNode;
@@ -31,31 +32,14 @@ export type RegionSnackbarItem = {
   onAnimationEnd?: (type: 'hide' | 'show') => void;
 };
 
-export type UseRegionStoreAddDuration = number | 'short' | 'long';
-
-export type WithUseRegionStoreAddDuration<T extends object> = Merge<
-  {
-    duration?: UseRegionStoreAddDuration;
-  },
-  T
->;
-
 export type RegionItem = RegionToastItem | RegionSnackbarItem;
 
-export type WithRegionSystem<T extends object> = Merge<
-  T,
-  {
-    createdAt: number;
-    pausedAt?: number;
-    height?: number;
-    status: 'visible' | 'hidden';
-  }
->;
-
-export type RegionItemWithSystem = WithRegionSystem<RegionItem>;
+export type WithSystemRegionStoreItem<T extends RegionItem> = T & {
+  visibility?: 'visible' | 'hidden';
+};
 
 export type RegionState = {
-  items: Array<RegionItemWithSystem>;
+  items: Array<WithSystemRegionStoreItem<RegionItem>>;
   config: {
     viewportMaxWidth: string | number;
     viewportBottom: string | number;
@@ -64,17 +48,11 @@ export type RegionState = {
 
 export type RegionActions = {
   setConfig: (config: Partial<RegionState['config']>) => void;
-
   add: (item: RegionItem) => void;
-  remove: (id: RegionItemWithSystem['id']) => void;
+  remove: (id: RegionItem['id']) => void;
   removeAll: () => void;
-  hide: (id: RegionItemWithSystem['id']) => void;
-  pause: (id: RegionItemWithSystem['id']) => void;
-  resume: (id: RegionItemWithSystem['id']) => void;
-  updateHeight: (
-    id: RegionItemWithSystem['id'],
-    height: RegionItemWithSystem['height'],
-  ) => void;
+  hide: (id: RegionItem['id']) => void;
+  hideAll: () => void;
 };
 
 export type RegionStore = RegionState & RegionActions;
@@ -104,10 +82,9 @@ export const createRegionStore = (
           items: [
             ...state.items,
             {
-              createdAt: Date.now(),
               ...item,
+              visibility: 'visible',
               id,
-              status: 'visible',
             },
           ],
         };
@@ -119,53 +96,13 @@ export const createRegionStore = (
       })),
     hide: (id) =>
       set((state) => ({
-        items: state.items.map((item) => {
-          if (item.id === id) {
-            return { ...item, status: 'hidden' };
-          }
-
-          return item;
-        }),
+        items: state.items.map((item) =>
+          item.id === id ? { ...item, visibility: 'hidden' } : item,
+        ),
       })),
-    pause: (id) =>
+    hideAll: () =>
       set((state) => ({
-        items: state.items.map((item) => {
-          if (item.id === id) {
-            return { ...item, pausedAt: Date.now() };
-          }
-
-          return item;
-        }),
-      })),
-    resume: (id) =>
-      set((state) => ({
-        items: state.items.map((item) => {
-          if (item.id === id) {
-            return {
-              ...item,
-              pausedAt: undefined,
-              duration:
-                item.duration! -
-                (item.pausedAt ?? Date.now()) -
-                item.createdAt +
-                // 애니메이션 정지 후 바로 사라지면 어색하기 때문에 1초의 보정 추가
-                1000,
-            };
-          }
-
-          return item;
-        }),
-      })),
-
-    updateHeight: (id, height) =>
-      set((state) => ({
-        items: state.items.map((item) => {
-          if (item.id === id) {
-            return { ...item, height };
-          }
-
-          return item;
-        }),
+        items: state.items.map((item) => ({ ...item, visibility: 'hidden' })),
       })),
     setConfig: (config) =>
       set((state) => ({ config: { ...state.config, ...config } })),

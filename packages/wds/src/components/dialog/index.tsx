@@ -1,12 +1,15 @@
-import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
-import { Slot, Slottable } from '@radix-ui/react-slot';
+import { forwardRef, useEffect, useId, useRef } from 'react';
+import { Slot } from '@radix-ui/react-slot';
 import { Box, getColorByToken } from '@wanteddev/wds-engine';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { hideOthers } from '../../utils/aria-hidden';
 import RemoveScroll from '../remove-scroll';
-import { DismissableLayer, FlexBox, Portal, TextButton, Typography } from '..';
+import { DismissableLayer, FlexBox, TextButton, Typography } from '..';
 import FocusScope from '../focus-scope';
-import { useDialogStore } from '../../stores/dialog-store';
+import PortalOrFragment from '../portal-or-fragment';
 
 import {
   dialogActionStyle,
@@ -14,196 +17,270 @@ import {
   dialogDimmerStyle,
   dialogWrapperStyle,
 } from './style';
+import {
+  DIALOG_ACTION_AREA_BUTTON_NAME,
+  DIALOG_ACTION_AREA_NAME,
+  DIALOG_CONTENT_NAME,
+  DIALOG_DESCRIPTION_NAME,
+  DIALOG_HEADING_NAME,
+  DIALOG_NAME,
+} from './constants';
+import { DialogProvider, useDialogContext } from './contexts';
 
-import type { DialogButtonProps } from './types';
-import type { ElementType, ForwardedRef, MouseEvent } from 'react';
 import type {
+  DialogActionAreaButtonProps,
+  DialogActionAreaProps,
+  DialogContentProps,
+  DialogDescriptionProps,
+  DialogHeadingProps,
+  DialogProps,
+} from './types';
+import type { ElementType, ForwardedRef } from 'react';
+import type {
+  DefaultComponentProps,
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { DialogItem } from '../../stores/dialog-store';
 
-const Dialog = () => {
-  const items = useDialogStore((state) => state.items);
-
-  return (
-    <Portal>
-      {items.map((dialog) => (
-        <Item key={dialog.id} {...dialog} />
-      ))}
-    </Portal>
-  );
-};
-
-const Item = ({
-  id,
-  content,
-  title,
-  confirm,
-  cancel,
-  direction = 'normal',
-  disableOutsideClickClose,
-  disableEscapeKeyDownClose,
-  sx,
-  resolve,
-}: DialogItem) => {
-  const hide = useDialogStore((state) => state.hide);
-
-  const ref = useRef<HTMLDivElement>(null);
-
-  const titleId = useId();
-  const descriptionId = useId();
-
-  const handleClose = useCallback(() => {
-    hide(id);
-  }, [hide, id]);
-
-  const handleCancel = useCallback(
-    (e?: MouseEvent<HTMLElement>) => {
-      if (e?.defaultPrevented) {
-        return;
-      }
-
-      handleClose();
-      resolve('cancel');
+const Dialog = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<DialogProps, 'div'>
+>(
+  (
+    {
+      open: openProp,
+      defaultOpen,
+      onOpenChange,
+      wrapperProps,
+      children,
+      disableOutsideClickClose,
+      disableEscapeKeyDownClose,
+      disablePortal,
+      container,
+      onDismiss,
+      ...props
     },
-    [handleClose, resolve],
-  );
+    ref,
+  ) => {
+    const [open = false, setOpen] = useControllableState({
+      prop: openProp,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
+    });
 
-  const handleConfirm = useCallback(
-    (e?: MouseEvent<HTMLElement>) => {
-      if (e?.defaultPrevented) {
-        return;
+    const containerRef = useRef<HTMLDivElement>(null);
+    const composedRef = useComposedRefs(ref, containerRef);
+
+    const headingId = useId();
+    const descriptionId = useId();
+
+    useEffect(() => {
+      const element = containerRef.current;
+
+      if (element) {
+        return hideOthers(element);
       }
+    }, []);
 
-      handleClose();
-      resolve('confirm');
-    },
-    [handleClose, resolve],
-  );
-
-  useEffect(() => {
-    const element = ref.current;
-
-    if (element) {
-      return hideOthers(element);
-    }
-  }, []);
-
-  return (
-    <FlexBox sx={dialogWrapperStyle} wds-ignore-dismissable-layer="true">
-      <FocusScope loop trapped>
-        <DismissableLayer
-          onPointerDownOutside={(e) => {
-            const originalEvent = e.detail.originalEvent;
-            const ctrlLeftClick =
-              originalEvent.button === 0 && originalEvent.ctrlKey === true;
-            const isRightClick = originalEvent.button === 2 || ctrlLeftClick;
-
-            if (isRightClick || disableEscapeKeyDownClose) e.preventDefault();
-          }}
-          onFocusOutside={(e) => e.preventDefault()}
-          onDismiss={handleCancel}
-          role="presentation"
-          asChild
-        >
-          <RemoveScroll as={Slot} allowPinchZoom>
+    return (
+      <>
+        {open && (
+          <PortalOrFragment
+            container={disablePortal ? null : container}
+            disablePortal={disablePortal}
+          >
             <FlexBox
-              ref={ref}
-              role="alertdialog"
-              aria-describedby={descriptionId}
-              aria-labelledby={titleId}
-              flexDirection="column"
-              sx={[dialogContentStyle, sx]}
+              {...wrapperProps}
+              sx={[dialogWrapperStyle, wrapperProps?.sx]}
+              wds-ignore-dismissable-layer="true"
             >
-              <Box
-                sx={dialogDimmerStyle}
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (!disableOutsideClickClose) {
-                    handleCancel();
-                  }
-                }}
-                onPointerDown={(e) => {
-                  const target = e.target as HTMLElement;
+              <FocusScope loop trapped>
+                <DismissableLayer
+                  onPointerDownOutside={(e) => {
+                    const originalEvent = e.detail.originalEvent;
+                    const ctrlLeftClick =
+                      originalEvent.button === 0 &&
+                      originalEvent.ctrlKey === true;
+                    const isRightClick =
+                      originalEvent.button === 2 || ctrlLeftClick;
 
-                  if (target.hasPointerCapture(e.pointerId)) {
-                    target.releasePointerCapture(e.pointerId);
-                  }
-                }}
-              />
-
-              <FlexBox
-                wds-component="dialog-wrapper"
-                flexDirection="column"
-                gap="6px"
-                sx={{ padding: '20px' }}
-              >
-                {Boolean(title) && (
-                  <Typography
-                    wds-component="dialog-title"
-                    variant="headline1"
-                    weight="bold"
-                    color="semantic.label.normal"
-                  >
-                    {title}
-                  </Typography>
-                )}
-
-                <Typography
-                  wds-component="dialog-content"
-                  variant="body2"
-                  weight="regular"
-                  color="semantic.label.alternative"
-                  sx={{
-                    wordBreak: 'keep-all',
-                    overflowWrap: 'anywhere',
+                    if (isRightClick || disableEscapeKeyDownClose)
+                      e.preventDefault();
                   }}
-                  display="block"
+                  onFocusOutside={(e) => e.preventDefault()}
+                  onDismiss={() => {
+                    onDismiss?.();
+                    setOpen(false);
+                  }}
+                  role="presentation"
+                  asChild
                 >
-                  {content}
-                </Typography>
-              </FlexBox>
+                  <RemoveScroll as={Slot} allowPinchZoom>
+                    <FlexBox
+                      ref={composedRef}
+                      role="alertdialog"
+                      aria-describedby={descriptionId}
+                      aria-labelledby={headingId}
+                      flexDirection="column"
+                      {...props}
+                      sx={[dialogContentStyle, props.sx]}
+                    >
+                      <Box
+                        sx={dialogDimmerStyle}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (!disableOutsideClickClose) {
+                            setOpen(false);
+                            onDismiss?.();
+                          }
+                        }}
+                        onPointerDown={(e) => {
+                          const target = e.target as HTMLElement;
 
-              <FlexBox
-                flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
-                alignItems="center"
-                wds-component="dialog-action-wrapper"
-                justifyContent={
-                  direction === 'reverse' ? 'initial' : 'flex-end'
-                }
-                gap="24px"
-                sx={dialogActionStyle}
-              >
-                <Slot onClick={handleConfirm}>
-                  <Slottable>{confirm}</Slottable>
-                </Slot>
+                          if (target.hasPointerCapture(e.pointerId)) {
+                            target.releasePointerCapture(e.pointerId);
+                          }
+                        }}
+                      />
 
-                {Boolean(cancel) && (
-                  <Slot onClick={handleCancel}>
-                    <Slottable>{cancel}</Slottable>
-                  </Slot>
-                )}
-              </FlexBox>
+                      <DialogProvider
+                        open={open}
+                        setOpen={setOpen}
+                        headingId={headingId}
+                        descriptionId={descriptionId}
+                      >
+                        {children}
+                      </DialogProvider>
+                    </FlexBox>
+                  </RemoveScroll>
+                </DismissableLayer>
+              </FocusScope>
             </FlexBox>
-          </RemoveScroll>
-        </DismissableLayer>
-      </FocusScope>
+          </PortalOrFragment>
+        )}
+      </>
+    );
+  },
+);
+
+Dialog.displayName = DIALOG_NAME;
+
+const DialogContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<DialogContentProps, 'div'>
+>(({ children, ...props }, ref) => {
+  return (
+    <FlexBox
+      wds-component="dialog-content"
+      flexDirection="column"
+      gap="6px"
+      ref={ref}
+      {...props}
+      sx={[{ padding: '20px' }, props.sx]}
+    >
+      {children}
     </FlexBox>
   );
-};
+});
 
-export const DialogButton = forwardRef(
+DialogContent.displayName = DIALOG_CONTENT_NAME;
+
+const DialogHeading = forwardRef<
+  HTMLHeadingElement,
+  DefaultComponentProps<DialogHeadingProps, 'h2'>
+>(({ children, ...props }, ref) => {
+  const { headingId } = useDialogContext(DIALOG_HEADING_NAME);
+
+  return (
+    <Typography
+      wds-component="dialog-title"
+      variant="headline1"
+      weight="bold"
+      color="semantic.label.normal"
+      ref={ref}
+      as="h2"
+      id={headingId}
+      {...props}
+    >
+      {children}
+    </Typography>
+  );
+});
+
+DialogHeading.displayName = DIALOG_HEADING_NAME;
+
+const DialogDescription = forwardRef<
+  HTMLParagraphElement,
+  DefaultComponentProps<DialogDescriptionProps, 'p'>
+>(({ children, ...props }, ref) => {
+  const { descriptionId } = useDialogContext(DIALOG_DESCRIPTION_NAME);
+
+  return (
+    <Typography
+      variant="body2"
+      weight="regular"
+      color="semantic.label.alternative"
+      wds-component="dialog-description"
+      ref={ref}
+      as="p"
+      id={descriptionId}
+      {...props}
+      sx={[
+        {
+          wordBreak: 'keep-all',
+          overflowWrap: 'anywhere',
+        },
+        props.sx,
+      ]}
+    >
+      {children}
+    </Typography>
+  );
+});
+
+DialogDescription.displayName = DIALOG_DESCRIPTION_NAME;
+
+const DialogActionArea = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<DialogActionAreaProps, 'div'>
+>(({ children, ...props }, ref) => {
+  return (
+    <FlexBox
+      flexDirection="row"
+      alignItems="center"
+      wds-component="dialog-action-area"
+      justifyContent="flex-end"
+      gap="24px"
+      ref={ref}
+      {...props}
+      sx={[dialogActionStyle, props.sx]}
+    >
+      {children}
+    </FlexBox>
+  );
+});
+
+DialogActionArea.displayName = DIALOG_ACTION_AREA_NAME;
+
+const DialogActionAreaButton = forwardRef(
   <E extends ElementType = 'button'>(
-    { variant = 'normal', ...props }: PolymorphicProps<DialogButtonProps, E>,
+    {
+      variant = 'normal',
+      ...props
+    }: PolymorphicProps<DialogActionAreaButtonProps, E>,
     ref: ForwardedRef<E>,
   ) => {
+    const { setOpen } = useDialogContext(DIALOG_ACTION_AREA_BUTTON_NAME);
+
     return (
       <TextButton
         size="medium"
         variant={variant === 'normal' ? 'primary' : 'assistive'}
         ref={ref}
         {...props}
+        onClick={composeEventHandlers(props.onClick, () => {
+          setOpen(false);
+        })}
         sx={
           variant === 'negative'
             ? [
@@ -223,8 +300,21 @@ export const DialogButton = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<DialogButtonProps, 'button'>;
+) as PolymorphicComponent<DialogActionAreaButtonProps, 'button'>;
 
-DialogButton.displayName = 'DialogButton';
+DialogActionAreaButton.displayName = DIALOG_ACTION_AREA_BUTTON_NAME;
 
-export default Dialog;
+/**
+ * @deprecated 3.0.0 에서 사용이 중지될 예정입니다. DialogActionAreaButton를 이용해주세요.
+ */
+const DialogButton = DialogActionAreaButton;
+
+export {
+  Dialog,
+  DialogContent,
+  DialogHeading,
+  DialogDescription,
+  DialogActionArea,
+  DialogActionAreaButton,
+  DialogButton,
+};
