@@ -88,7 +88,7 @@ const Gnb = () => {
           flex="1"
           gap="32px"
         >
-          <FlexBox alignItems="center" gap="8px">
+          <FlexBox alignItems="center" gap="36px">
             <Box
               as={Link}
               href="/"
