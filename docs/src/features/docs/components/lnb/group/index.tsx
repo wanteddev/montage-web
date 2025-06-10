@@ -53,6 +53,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
         <AccordionSummary
           sx={accordionSummaryStyle}
           fillWidth
+          verticalPadding="small"
           trailingContent={
             <AccordionSummaryContent
               variant="icon"
@@ -65,15 +66,15 @@ const LnbGroup = ({ frontmatter }: Props) => {
           disableInteraction
           data-active={getIsActive(params, frontmatter)}
           textProps={{
-            variant: 'body2',
-            weight: 'bold',
+            variant: 'label1',
+            weight: 'medium',
           }}
         >
           {frontmatter.key}
         </AccordionSummary>
 
         <AccordionDetails sx={lnbAccordionStyle}>
-          <FlexBox flexDirection="column" gap="4px">
+          <FlexBox flexDirection="column" gap="2px">
             {frontmatter.children.map((item, idx) => {
               if (isFrontmatter(item)) {
                 return (
@@ -92,17 +93,20 @@ const LnbGroup = ({ frontmatter }: Props) => {
                 <FlexBox
                   flexDirection="column"
                   key={item.key + idx}
-                  gap="4px"
+                  gap="2px"
                   sx={{
                     [':not(:last-child)']: {
-                      marginBottom: 16,
+                      marginBottom: 32,
                     },
                   }}
                 >
                   <SectionHeader
                     size="xsmall"
                     sx={[
-                      { padding: '12px 20px 12px var(--lnb-padding-left)' },
+                      {
+                        padding: '4px 20px 4px var(--lnb-padding-left)',
+                        marginBottom: 6,
+                      },
                       typographyStyle('caption1', 'bold'),
                     ]}
                     color="semantic.label.assistive"
@@ -157,7 +161,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                         <AccordionDetails
                           sx={[lnbAccordionStyle, { paddingBottom: 0 }]}
                         >
-                          <List gap="4px">
+                          <List gap="2px">
                             {child.children.map((component, componentIdx) => {
                               if (isFrontmatter(component)) {
                                 return (

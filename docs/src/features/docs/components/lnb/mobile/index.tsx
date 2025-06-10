@@ -1,5 +1,4 @@
 import {
-  Divider,
   FlexBox,
   Modal,
   ModalContainer,
@@ -7,9 +6,9 @@ import {
   ModalNavigation,
   useTransitionStatus,
 } from '@wanteddev/wds';
-import { Fragment, memo, useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
-import { useLnbMobileContext } from '../contexts';
+import { useLnbContext } from '../contexts';
 import { isFrontmatter } from '../helpers';
 import LnbGroup from '../group';
 
@@ -22,7 +21,7 @@ type Props = {
 };
 
 const LnbMobile = ({ frontmatters }: Props) => {
-  const lnbMobile = useLnbMobileContext();
+  const lnbMobile = useLnbContext();
   const [open, setOpen] = useState(lnbMobile.open);
 
   const { status, hasExited } = useTransitionStatus({
@@ -56,23 +55,14 @@ const LnbMobile = ({ frontmatters }: Props) => {
             <FlexBox as="nav" flexDirection="column" justifyContent="center">
               {frontmatters.map((frontmatter, i) => {
                 return (
-                  <Fragment
+                  <LnbGroup
                     key={
                       isFrontmatter(frontmatter)
                         ? frontmatter.slug.toString() + i
                         : frontmatter.key + i
                     }
-                  >
-                    <LnbGroup frontmatter={frontmatter} />
-
-                    {i < frontmatters.length - 1 && (
-                      <Divider
-                        color="semantic.line.solid.alternative"
-                        size="calc(100% + 16px)"
-                        sx={{ marginLeft: '-8px' }}
-                      />
-                    )}
-                  </Fragment>
+                    frontmatter={frontmatter}
+                  />
                 );
               })}
             </FlexBox>

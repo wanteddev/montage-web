@@ -5,15 +5,18 @@ import { createContext, useContext } from 'react';
 
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
 
-const LnbMobileContext = createContext<{
+const LnbContext = createContext<{
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-}>({ open: false, setOpen: () => '' });
+  hide: boolean;
+  setHide: Dispatch<SetStateAction<boolean>>;
+}>({ open: false, setOpen: () => '', hide: false, setHide: () => '' });
 
-export const useLnbMobileContext = () => useContext(LnbMobileContext);
+export const useLnbContext = () => useContext(LnbContext);
 
-export const LnbMobileProvider = ({ children }: PropsWithChildren) => {
+export const LnbProvider = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState(false);
+  const [hide, setHide] = useState(false);
 
   const pathname = usePathname();
 
@@ -38,8 +41,8 @@ export const LnbMobileProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <LnbMobileContext.Provider value={{ open, setOpen }}>
+    <LnbContext.Provider value={{ open, setOpen, hide, setHide }}>
       {children}
-    </LnbMobileContext.Provider>
+    </LnbContext.Provider>
   );
 };

@@ -18,7 +18,7 @@ const useRouteScroll = (cb: () => void) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug.toString()]);
+  }, [params.slug?.toString()]);
 
   return {
     handleRouteChange,

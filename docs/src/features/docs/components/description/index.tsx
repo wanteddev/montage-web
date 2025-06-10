@@ -48,25 +48,25 @@ const DocsDescription = () => {
   const hasPlatformPage = useMemo(
     () =>
       /(web|ios|android|design)$/.test(
-        params.slug.at(params.slug.length - 1) ?? '',
+        params.slug?.at(params.slug.length - 1) ?? '',
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [params.slug.toString()],
+    [params.slug?.toString()],
   );
 
-  const [value, setValue] = useState(`/docs/${params.slug.join('/')}`);
+  const [value, setValue] = useState(`/docs/${params.slug?.join('/')}`);
 
   const frontmatter = useMemo(() => {
     return allFrontmatter.find(
-      (v) => v.slug.toString() === params.slug.toString(),
+      (v) => v.slug.toString() === params.slug?.toString(),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug.toString(), allFrontmatter]);
+  }, [params.slug?.toString(), allFrontmatter]);
 
   useEffect(() => {
-    setValue(`/docs/${params.slug.join('/')}`);
+    setValue(`/docs/${params.slug?.join('/')}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug.toString()]);
+  }, [params.slug?.toString()]);
 
   const handleScroll = useThrottle(() => {
     const top = tabRef.current?.getBoundingClientRect().top ?? GNB_HEIGHT + 1;
@@ -85,7 +85,7 @@ const DocsDescription = () => {
       document.removeEventListener('resize', handleScroll);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setIsSticky, handleScroll, params.slug.toString()]);
+  }, [setIsSticky, handleScroll, params.slug?.toString()]);
 
   const { handleRouteChange } = useRouteScroll(
     useCallback(() => {
@@ -107,7 +107,7 @@ const DocsDescription = () => {
   );
 
   const tabs = useMemo(() => {
-    if (!/(web|ios|android|design)$/.test(params.slug.toString())) {
+    if (!/(web|ios|android|design)$/.test(params.slug?.toString() ?? '')) {
       return [];
     }
 
@@ -115,7 +115,8 @@ const DocsDescription = () => {
       v.slug
         .toString()
         .includes(
-          params.slug.toString().replace(/(web|ios|android|design)$/, ''),
+          params.slug?.toString().replace(/(web|ios|android|design)$/, '') ??
+            '',
         ),
     );
 

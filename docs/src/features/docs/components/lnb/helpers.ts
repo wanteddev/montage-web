@@ -20,7 +20,7 @@ export const getIsActive = (
 ): boolean => {
   if (isFrontmatter(item)) {
     return (
-      params.slug.toString().replace(PLATFORM_PATTERN, '') ===
+      params.slug?.toString().replace(PLATFORM_PATTERN, '') ===
       item.slug.toString().replace(PLATFORM_PATTERN, '')
     );
   }

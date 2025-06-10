@@ -12,7 +12,6 @@ export const gnbWrapperStyle = (theme: Theme) => css`
     theme.semantic.background.normal.normal,
     theme.opacity[88],
   )};
-  border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -22,55 +21,13 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-export const searchFieldStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.fill.normal};
-  border-radius: 12px;
-  padding: 8px 10px;
-  width: 280px;
-  align-items: center;
-  position: relative;
-  color: ${theme.semantic.label.assistive};
-  font-size: 20px;
-
-  ${respondTo(theme.breakpoint.sm)} {
-    display: none;
-  }
-
-  ${respondMore(theme.breakpoint.xl)} {
-    width: calc((100dvw - 240px - 840px - 32px) / 2);
-    max-width: 480px;
-  }
-`;
-
-export const gnbSearchMobileStyle = (theme: Theme) => css`
-  ${respondMore(theme.breakpoint.sm)} {
-    display: none;
-  }
-`;
-
-export const kbdStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.fill.normal};
-  border-radius: 6px;
-  padding: 2px 6px;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  & > kbd {
-    width: 16px;
-    display: inline-block;
-  }
-`;
-
 export const gnbActionsStyle = (theme: Theme) => css`
   background-color: transparent;
   border-radius: 12px;
   padding: 8px;
   position: relative;
   font-size: 22px;
-  color: ${theme.semantic.label.normal};
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+  color: ${theme.semantic.label.alternative};
 
   &[aria-expanded='true'] {
     & > [wds-component='with-interaction'] {
@@ -79,10 +36,46 @@ export const gnbActionsStyle = (theme: Theme) => css`
   }
 `;
 
+export const gnbHideActionStyle = (theme: Theme) => css`
+  display: flex;
+
+  ${respondTo(theme.breakpoint.lg)} {
+    display: none;
+  }
+`;
+
 export const gnbMenuStyle = (theme: Theme) => css`
   display: none;
 
   ${respondTo(theme.breakpoint.lg)} {
     display: flex;
+  }
+`;
+
+export const menuItemStyle = (theme: Theme) => css`
+  align-items: center;
+  width: calc(100% - 30px);
+
+  & > [wds-component='with-interaction'] {
+    border-radius: 6px;
+  }
+
+  [data-role='list-text-content-wrapper'] {
+    color: ${theme.semantic.label.alternative};
+  }
+
+  &[data-active='true'] {
+    [data-role='menu-item-icon'],
+    [data-role='list-text-content-wrapper'] {
+      color: ${theme.semantic.label.normal};
+    }
+
+    & > [wds-component='with-interaction'] {
+      background-color: ${theme.semantic.primary.normal};
+    }
+  }
+
+  [wds-component='list-cell-content'] {
+    font-size: 18px;
   }
 `;

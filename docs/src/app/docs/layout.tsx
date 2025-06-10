@@ -1,33 +1,39 @@
-import { FlexBox } from '@wanteddev/wds';
+'use client';
+import { FlexBox, respondMore } from '@wanteddev/wds';
 
-import { MDXProvider } from '@/features/docs/context';
-import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
-import { generatePropTypes } from '@/features/docs/helpers/props';
-import Lnb from '@/features/docs/components/lnb';
-import Footer from '@/features/layout/components/footer';
+import Sidebar from '@/features/docs/components/sidebar';
 import DocsDescription from '@/features/docs/components/description';
-
-import DocsClientLayout from './layout.client';
+import Footer from '@/features/layout/components/footer';
 
 import type { PropsWithChildren } from 'react';
 
-const DocsLayout = async ({ children }: PropsWithChildren) => {
-  const allFrontmatter = await getAllFrontmatter();
-
-  const propTypes = generatePropTypes();
-
+const DocsLayout = ({ children }: PropsWithChildren) => {
   return (
-    <FlexBox>
-      <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
-        <Lnb />
+    <>
+      <FlexBox
+        data-algolia-page-scope
+        flexDirection="column"
+        sx={(theme) => ({
+          padding: '0px 20px',
+          maxWidth: '100%',
+          [respondMore(theme.breakpoint.sm)]: {
+            padding: '0px 40px',
+            maxWidth: '840px',
+          },
+          [respondMore(theme.breakpoint.xl)]: {
+            maxWidth: 'min(840px, calc(100% - 208px))',
+          },
+        })}
+        flex="1 1 0"
+      >
+        <DocsDescription />
+        {children}
 
-        <DocsClientLayout>
-          <DocsDescription />
-          {children}
-          <Footer />
-        </DocsClientLayout>
-      </MDXProvider>
-    </FlexBox>
+        <Footer />
+      </FlexBox>
+
+      <Sidebar />
+    </>
   );
 };
 

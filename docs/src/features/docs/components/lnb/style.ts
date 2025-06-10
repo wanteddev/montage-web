@@ -8,13 +8,19 @@ export const lnbWrapperStyle = (theme: Theme) => css`
   position: sticky !important;
   height: calc(100dvh - var(--gnb-height));
   display: none;
+  left: 0px;
+  transition: transform 0.3s ease;
 
   --lnb-padding-left: 40px;
 
+  &[aria-hidden='true'] {
+    transform: translateX(-100%);
+    margin-left: -240px;
+  }
+
   [data-radix-scroll-area-content] {
     min-width: initial !important;
-    border-right: 1px solid ${theme.semantic.line.solid.alternative};
-    padding: 0px 8px;
+    padding: 32px 8px 20px 8px;
   }
 
   ${respondMore(theme.breakpoint.lg)} {

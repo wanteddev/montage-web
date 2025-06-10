@@ -18,4 +18,4 @@ export type LNBFrontmatterGroup = Array<
   LNBFrontmatterChild | LNBFrontmatterType
 >;
 
-export type SlugParams = { slug: Array<string> };
+export type SlugParams = { slug?: Array<string> };

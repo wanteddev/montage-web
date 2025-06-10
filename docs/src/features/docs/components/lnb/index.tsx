@@ -1,15 +1,18 @@
 'use client';
-import { Divider, FlexBox, ScrollArea } from '@wanteddev/wds';
-import { Fragment, useEffect, useRef } from 'react';
+import { FlexBox, ScrollArea } from '@wanteddev/wds';
+import { useEffect, useRef } from 'react';
 
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
 import { useLNBContent } from './hooks';
 import { isFrontmatter } from './helpers';
 import LnbMobile from './mobile';
+import { useLnbContext } from './contexts';
 
 const Lnb = () => {
   const { frontmatters } = useLNBContent();
+
+  const lnbContext = useLnbContext();
 
   const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -33,7 +36,11 @@ const Lnb = () => {
     <>
       <LnbMobile frontmatters={frontmatters} />
 
-      <ScrollArea sx={lnbWrapperStyle} viewportRef={viewportRef}>
+      <ScrollArea
+        sx={lnbWrapperStyle}
+        aria-hidden={lnbContext.hide}
+        viewportRef={viewportRef}
+      >
         <FlexBox
           as="aside"
           data-algolia-lnb-group
@@ -44,23 +51,14 @@ const Lnb = () => {
           <FlexBox as="nav" flexDirection="column" justifyContent="center">
             {frontmatters.map((frontmatter, i) => {
               return (
-                <Fragment
+                <LnbGroup
                   key={
                     isFrontmatter(frontmatter)
                       ? frontmatter.slug.toString() + i
                       : frontmatter.key + i
                   }
-                >
-                  <LnbGroup frontmatter={frontmatter} />
-
-                  {i < frontmatters.length - 1 && (
-                    <Divider
-                      color="semantic.line.solid.alternative"
-                      size="calc(100% + 16px)"
-                      sx={{ marginLeft: '-8px' }}
-                    />
-                  )}
-                </Fragment>
+                  frontmatter={frontmatter}
+                />
               );
             })}
           </FlexBox>

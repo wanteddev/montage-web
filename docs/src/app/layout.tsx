@@ -1,6 +1,13 @@
+import { FlexBox } from '@wanteddev/wds';
+
 import Gnb from '@/features/layout/components/gnb';
+import { MDXProvider } from '@/features/docs/context';
+import Lnb from '@/features/docs/components/lnb';
+import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
+import { generatePropTypes } from '@/features/docs/helpers/props';
 
 import Providers from './providers';
+import ClientLayout from './layout.client';
 
 import type { PropsWithChildren } from 'react';
 
@@ -11,7 +18,11 @@ export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_PATH!),
 };
 
-const RootLayout = ({ children }: PropsWithChildren) => {
+const RootLayout = async ({ children }: PropsWithChildren) => {
+  const allFrontmatter = await getAllFrontmatter();
+
+  const propTypes = generatePropTypes();
+
   return (
     <html suppressHydrationWarning>
       <head>
@@ -134,8 +145,15 @@ const RootLayout = ({ children }: PropsWithChildren) => {
       </head>
       <body suppressHydrationWarning>
         <Providers>
-          <Gnb />
-          {children}
+          <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
+            <Gnb />
+
+            <FlexBox>
+              <Lnb />
+
+              <ClientLayout>{children}</ClientLayout>
+            </FlexBox>
+          </MDXProvider>
         </Providers>
       </body>
     </html>

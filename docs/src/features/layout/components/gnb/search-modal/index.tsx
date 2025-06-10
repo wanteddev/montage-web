@@ -1,14 +1,18 @@
 import { useEffect } from 'react';
 import {
   ActionArea,
-  ActionAreaButton,
   Modal,
   ModalContainer,
   ModalContent,
   ModalContentItem,
   SearchField,
+  TextButton,
   TopNavigation,
+  Typography,
 } from '@wanteddev/wds';
+import { FlexBox } from '@wanteddev/wds';
+
+import AlgoliaLogo from '@/assets/algolia-logo';
 
 import { useDocSearch } from './hooks';
 import { searchModalHeaderStyle } from './styles';
@@ -111,13 +115,40 @@ export const DocSearchModal = ({
             </ModalContentItem>
           </ModalContent>
 
-          <ActionArea variant="compact" extra>
-            <ActionAreaButton
-              variant="sub"
-              onClick={() => onOpenChange?.(false)}
-            >
-              Cancel
-            </ActionAreaButton>
+          <ActionArea
+            variant="compact"
+            extra
+            sx={{
+              '--wds-action-area-margin-x': '24px',
+            }}
+            compactContent={
+              <TextButton
+                variant="assistive"
+                size="small"
+                onClick={() => onOpenChange?.(false)}
+              >
+                Cancel
+              </TextButton>
+            }
+          >
+            <FlexBox alignItems="center" gap="6px">
+              <Typography
+                variant="caption1"
+                weight="medium"
+                color="semantic.label.alternative"
+              >
+                Search by
+              </Typography>
+              <FlexBox
+                as="a"
+                alignItems="center"
+                href="https://www.algolia.com/developers?utm_source=montage.wanted.co.kr&utm_medium=referral&utm_content=powered_by&utm_campaign=docsearch"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <AlgoliaLogo />
+              </FlexBox>
+            </FlexBox>
           </ActionArea>
         </DocSearchFilterContext.Provider>
       </ModalContainer>

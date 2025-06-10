@@ -2,6 +2,8 @@
 
 import { FlexBox } from '@wanteddev/wds';
 
+import Footer from '@/features/layout/components/footer';
+
 // import HomeIntro from '@/features/home/components/intro';
 
 const RootPage = () => {
@@ -11,9 +13,11 @@ const RootPage = () => {
       alignItems="center"
       justifyContent="center"
       gap="8px"
-      sx={{ marginTop: 'calc(var(--gnb-height) * -1)' }}
+      flex="1"
+      // sx={{ marginTop: 'calc(var(--gnb-height) * -1)' }}
     >
       {/* <HomeIntro /> */}
+      <Footer />
     </FlexBox>
   );
 };

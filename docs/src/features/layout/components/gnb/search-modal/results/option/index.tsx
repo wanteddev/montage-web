@@ -7,9 +7,10 @@ import {
 import { memo, useMemo } from 'react';
 import {
   IconArrowTurnDownRight,
-  IconBlank,
   IconChevronRightTightSmall,
   IconComponentFill,
+  IconPaletteFill,
+  IconUtilityFill,
 } from '@wanteddev/wds-icon';
 
 import { isPageLevel, parseStringFromHit } from '../../helpers';
@@ -36,16 +37,25 @@ const SearchOption = ({ item, ...props }: Props) => {
           />
         );
       case 'Foundations':
-      default:
-        // TODO: Palette icon
         return (
-          <IconBlank
+          <IconPaletteFill
             sx={(theme) => ({
               fontSize: 16,
               color: theme.semantic.primary.normal,
             })}
           />
         );
+      case 'Utilities':
+        return (
+          <IconUtilityFill
+            sx={(theme) => ({
+              fontSize: 16,
+              color: theme.semantic.primary.normal,
+            })}
+          />
+        );
+      default:
+        return null;
     }
   }, [item]);
 

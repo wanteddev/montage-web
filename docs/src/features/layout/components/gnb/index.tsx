@@ -9,7 +9,6 @@ import {
   MenuList,
   MenuTrigger,
   NoSsr,
-  Typography,
   WithInteraction,
   useThemeControl,
 } from '@wanteddev/wds';
@@ -25,15 +24,15 @@ import { useSelectedLayoutSegments } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import Logo from '@/assets/logo';
-import { useLnbMobileContext } from '@/features/docs/components/lnb/contexts';
+import { useLnbContext } from '@/features/docs/components/lnb/contexts';
+import IconFlexAlignLeft from '@/assets/icon-flex-align-left';
 
 import {
   gnbActionsStyle,
+  gnbHideActionStyle,
   gnbMenuStyle,
-  gnbSearchMobileStyle,
   gnbWrapperStyle,
-  kbdStyle,
-  searchFieldStyle,
+  menuItemStyle,
 } from './style';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
@@ -41,7 +40,7 @@ import { DocSearchModal } from './search-modal';
 const Gnb = () => {
   const { setTheme, themeOriginValue } = useThemeControl();
 
-  const lnbMobile = useLnbMobileContext();
+  const lnbContext = useLnbContext();
 
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -89,50 +88,39 @@ const Gnb = () => {
           flex="1"
           gap="32px"
         >
-          <Box
-            as={Link}
-            href="/"
-            sx={(theme) => ({ color: theme.semantic.label.normal })}
-          >
-            <Logo />
-          </Box>
-
-          <FlexBox gap="8px" alignItems="center">
-            <FlexBox
-              as="button"
-              role="search"
-              aria-label="Search"
-              onClick={handleOpen}
-              sx={searchFieldStyle}
-              gap="6px"
+          <FlexBox alignItems="center" gap="8px">
+            <Box
+              as={Link}
+              href="/"
+              sx={(theme) => ({ color: theme.semantic.label.normal })}
             >
-              <IconSearch />
+              <Logo />
+            </Box>
 
-              <FlexBox alignItems="center" gap="4px">
-                <Typography variant="label1" weight="medium">
-                  Press
-                </Typography>
-                <Typography
-                  variant="label2"
-                  weight="medium"
-                  as="kbd"
-                  sx={kbdStyle}
-                >
-                  <kbd>⌘</kbd>
-                  <kbd>K</kbd>
-                </Typography>
-                <Typography variant="label1" weight="medium">
-                  to search
-                </Typography>
+            <WithInteraction>
+              <FlexBox
+                aria-label="Toggle left navigation bar"
+                as="button"
+                onClick={() => lnbContext.setHide(!lnbContext.hide)}
+                sx={[gnbActionsStyle, gnbHideActionStyle]}
+              >
+                {lnbContext.hide ? (
+                  <IconFlexAlignLeft sx={{ transform: 'rotate(180deg)' }} />
+                ) : (
+                  <IconFlexAlignLeft />
+                )}
               </FlexBox>
-            </FlexBox>
+            </WithInteraction>
+          </FlexBox>
+
+          <FlexBox gap="4px" alignItems="center">
             <WithInteraction>
               <FlexBox
                 aria-label="Search"
                 as="button"
                 role="search"
                 onClick={handleOpen}
-                sx={[gnbActionsStyle, gnbSearchMobileStyle]}
+                sx={[gnbActionsStyle, { fontSize: 20, padding: 9 }]}
               >
                 <IconSearch />
               </FlexBox>
@@ -165,37 +153,59 @@ const Gnb = () => {
                 </WithInteraction>
               </MenuTrigger>
 
-              <MenuContent sx={{ width: 200 }} position="top-end">
-                <MenuList>
+              <MenuContent
+                sx={{ width: 200, borderRadius: 8 }}
+                position="top-end"
+                offset={4}
+              >
+                <MenuList sx={{ paddingBlock: 4 }}>
                   <MenuItem
+                    verticalPadding="small"
+                    sx={menuItemStyle}
                     leadingContent={
                       <ListCellContent variant="icon">
-                        <IconSun />
+                        <IconSun data-role="menu-item-icon" />
                       </ListCellContent>
                     }
+                    textProps={{
+                      variant: 'label1',
+                      weight: 'medium',
+                    }}
                     value="light"
                   >
                     Light
                   </MenuItem>
                   <MenuItem
+                    verticalPadding="small"
+                    sx={menuItemStyle}
                     leadingContent={
                       <ListCellContent variant="icon">
-                        <IconMoon />
+                        <IconMoon data-role="menu-item-icon" />
                       </ListCellContent>
                     }
+                    textProps={{
+                      variant: 'label1',
+                      weight: 'medium',
+                    }}
                     value="dark"
                   >
                     Dark
                   </MenuItem>
                   <MenuItem
+                    verticalPadding="small"
+                    sx={menuItemStyle}
                     leadingContent={
                       <ListCellContent variant="icon">
-                        <IconDesktop />
+                        <IconDesktop data-role="menu-item-icon" />
                       </ListCellContent>
                     }
+                    textProps={{
+                      variant: 'label1',
+                      weight: 'medium',
+                    }}
                     value="system"
                   >
-                    System
+                    Match browser
                   </MenuItem>
                 </MenuList>
               </MenuContent>
@@ -205,7 +215,7 @@ const Gnb = () => {
               <FlexBox
                 aria-label="menu"
                 as="button"
-                onClick={() => lnbMobile.setOpen(!lnbMobile.open)}
+                onClick={() => lnbContext.setOpen(!lnbContext.open)}
                 sx={[gnbActionsStyle, gnbMenuStyle]}
               >
                 <IconMenu />
