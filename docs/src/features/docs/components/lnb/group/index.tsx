@@ -9,6 +9,7 @@ import {
 import {
   IconChevronDownThickSmall,
   IconComponentFill,
+  IconPaletteFill,
 } from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
@@ -91,6 +92,26 @@ const LnbGroup = ({ frontmatter }: Props) => {
                 const isNextItemFrontmatterGroup =
                   Boolean(nextItem) && !isFrontmatter(nextItem!);
 
+                const getLeadingContent = () => {
+                  if (isComponentOverview(item.slug)) {
+                    return (
+                      <ListCellContent variant="icon">
+                        <IconComponentFill sx={{ fontSize: 14 }} />
+                      </ListCellContent>
+                    );
+                  }
+
+                  if (isFoundationsOverview(item.slug)) {
+                    return (
+                      <ListCellContent variant="icon">
+                        <IconPaletteFill sx={{ fontSize: 14 }} />
+                      </ListCellContent>
+                    );
+                  }
+
+                  return null;
+                };
+
                 return (
                   <LnbGroupItem
                     href={getFrontmatterLink(item)}
@@ -104,14 +125,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                           }
                         : {}
                     }
-                    leadingContent={
-                      isComponentOverview(item.slug) ||
-                      isFoundationsOverview(item.slug) ? (
-                        <ListCellContent variant="icon">
-                          <IconComponentFill sx={{ fontSize: 14 }} />
-                        </ListCellContent>
-                      ) : null
-                    }
+                    leadingContent={getLeadingContent()}
                   >
                     {item.title}
                   </LnbGroupItem>
