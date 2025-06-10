@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+'use client';
+import { useMemo } from 'react';
 import {
   Card,
   CardContent,
@@ -14,7 +15,7 @@ import Link from 'next/link';
 
 import { useMDXContext } from '@/features/docs/context';
 
-import HeadingLink from '../heading-link';
+import HeadingLink from '../mdx/heading-link';
 
 import type { Frontmatter } from '@/features/docs/types';
 
@@ -22,14 +23,18 @@ type Collection = {
   [key in string]: Array<Frontmatter>;
 };
 
-const DocsCollection = () => {
+type Props = {
+  category: 'foundations' | 'components';
+};
+
+const DocsCollection = ({ category }: Props) => {
   const { allFrontmatter } = useMDXContext();
 
   const collection = useMemo(() => {
     return allFrontmatter
       .filter(
         (frontmatter) =>
-          frontmatter.slug.at(0) !== 'overview' &&
+          frontmatter.slug.at(0) === category &&
           frontmatter.slug.at(frontmatter.slug.length - 1) === 'design',
       )
       .reduce((acc, cur) => {
@@ -47,7 +52,7 @@ const DocsCollection = () => {
 
         return acc;
       }, {} as Collection);
-  }, [allFrontmatter]);
+  }, [allFrontmatter, category]);
 
   return (
     <FlexBox flexDirection="column">

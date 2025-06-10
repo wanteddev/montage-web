@@ -8,6 +8,7 @@ import { footerStyle } from './style';
 const Footer = () => {
   return (
     <FlexBox
+      as="footer"
       sx={footerStyle}
       flexDirection="row"
       justifyContent="space-between"

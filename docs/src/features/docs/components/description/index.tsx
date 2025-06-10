@@ -26,6 +26,7 @@ import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
 import { getFrontmatterTitle } from '../lnb/helpers';
 import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../lnb/constants';
+import { shouldNotSerializeMDX } from '../../helpers/overview';
 
 import { tabScrollStyle, tabStyle, titleSectionWrapperStyle } from './style';
 
@@ -160,7 +161,7 @@ const DocsDescription = () => {
     return frontmatter.description;
   }, [frontmatter, allFrontmatter]);
 
-  if (!frontmatter) {
+  if (!frontmatter || shouldNotSerializeMDX(frontmatter.slug)) {
     return null;
   }
 

@@ -7,9 +7,15 @@ import { serialize } from 'next-mdx-remote/serialize';
 import { sync } from 'glob';
 import matter from 'gray-matter';
 
-import { remarkStyle, remarkTable } from './remark';
+import { shouldNotSerializeMDXFrontmatters } from '../constants';
 
-import type { SerializeOptions } from 'node_modules/next-mdx-remote/dist/types';
+import { remarkStyle, remarkTable } from './remark';
+import { shouldNotSerializeMDX } from './overview';
+
+import type {
+  MDXRemoteSerializeResult,
+  SerializeOptions,
+} from 'node_modules/next-mdx-remote/dist/types';
 import type { Frontmatter } from '@/features/docs/types';
 
 const ROOT_PATH = process.cwd();
@@ -18,23 +24,26 @@ export const DATA_PATH = join(ROOT_PATH, 'data');
 export const getAllFrontmatter = async () => {
   const paths = sync(`${DATA_PATH}/**/*.{mdx,md}`);
 
-  return paths.map((filePath) => {
-    const source = readFileSync(join(filePath), 'utf8');
-    const { data } = matter(source);
+  return [
+    ...paths.map((filePath) => {
+      const source = readFileSync(join(filePath), 'utf8');
+      const { data } = matter(source);
 
-    return {
-      ...(data as Frontmatter),
-      slug: filePath
-        .replace(`${DATA_PATH}/`, '')
-        .replace(/\.mdx|\.md$/, '')
-        .replace(/\/index$/, '')
-        .split('/'),
-      originSlug: filePath
-        .replace(`${DATA_PATH}/`, '')
-        .replace(/\.mdx|\.md$/, '')
-        .split('/'),
-    } as Frontmatter;
-  });
+      return {
+        ...(data as Frontmatter),
+        slug: filePath
+          .replace(`${DATA_PATH}/`, '')
+          .replace(/\.mdx|\.md$/, '')
+          .replace(/\/index$/, '')
+          .split('/'),
+        originSlug: filePath
+          .replace(`${DATA_PATH}/`, '')
+          .replace(/\.mdx|\.md$/, '')
+          .split('/'),
+      } as Frontmatter;
+    }),
+    ...shouldNotSerializeMDXFrontmatters,
+  ];
 };
 
 const SERIALIZE_OPTIONS: SerializeOptions = {
@@ -49,6 +58,20 @@ export const getSourceBySlug = async (
   basePath: string,
   slug: Array<string>,
 ) => {
+  if (shouldNotSerializeMDX(slug)) {
+    const frontmatter = shouldNotSerializeMDXFrontmatters.find(
+      (item) => item.slug.toString() === slug.toString(),
+    );
+
+    if (!frontmatter) {
+      throw new Error(`${slug.join('/')} is not found`);
+    }
+
+    return {
+      frontmatter,
+    } as MDXRemoteSerializeResult<unknown, Frontmatter>;
+  }
+
   if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}.mdx`))) {
     return serialize<unknown, Frontmatter>(
       readFileSync(join(DATA_PATH, basePath, `${slug.join('/')}.mdx`), 'utf8'),

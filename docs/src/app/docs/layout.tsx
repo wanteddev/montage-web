@@ -1,13 +1,29 @@
 'use client';
 import { FlexBox, respondMore } from '@wanteddev/wds';
+import { useParams } from 'next/navigation';
 
 import Sidebar from '@/features/docs/components/sidebar';
 import DocsDescription from '@/features/docs/components/description';
 import Footer from '@/features/layout/components/footer';
+import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
+import Container from '@/features/layout/components/container';
 
+import type { SlugParams } from '@/features/docs/components/lnb/types';
 import type { PropsWithChildren } from 'react';
 
 const DocsLayout = ({ children }: PropsWithChildren) => {
+  const params = useParams<SlugParams>();
+
+  if (shouldNotSerializeMDX(params.slug ?? [])) {
+    return (
+      <Container data-algolia-page-scope>
+        {children}
+
+        <Footer />
+      </Container>
+    );
+  }
+
   return (
     <>
       <FlexBox

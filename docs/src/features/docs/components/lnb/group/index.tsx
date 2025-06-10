@@ -3,13 +3,22 @@ import {
   AccordionSummaryContent,
   FlexBox,
   List,
+  ListCellContent,
   typographyStyle,
 } from '@wanteddev/wds';
-import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
+import {
+  IconChevronDownThickSmall,
+  IconComponentFill,
+} from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
 import { SectionHeader } from '@wanteddev/wds';
+
+import {
+  isComponentOverview,
+  isFoundationsOverview,
+} from '@/features/docs/helpers/overview';
 
 import { getFrontmatterLink, getIsActive, isFrontmatter } from '../helpers';
 
@@ -77,12 +86,32 @@ const LnbGroup = ({ frontmatter }: Props) => {
           <FlexBox flexDirection="column" gap="2px">
             {frontmatter.children.map((item, idx) => {
               if (isFrontmatter(item)) {
+                const nextItem = frontmatter.children.at(idx + 1);
+
+                const isNextItemFrontmatterGroup =
+                  Boolean(nextItem) && !isFrontmatter(nextItem!);
+
                 return (
                   <LnbGroupItem
                     href={getFrontmatterLink(item)}
                     key={item.title + idx}
                     isActive={getIsActive(params, item)}
                     depth="1"
+                    sx={
+                      isNextItemFrontmatterGroup
+                        ? {
+                            marginBottom: 32,
+                          }
+                        : {}
+                    }
+                    leadingContent={
+                      isComponentOverview(item.slug) ||
+                      isFoundationsOverview(item.slug) ? (
+                        <ListCellContent variant="icon">
+                          <IconComponentFill sx={{ fontSize: 14 }} />
+                        </ListCellContent>
+                      ) : null
+                    }
                   >
                     {item.title}
                   </LnbGroupItem>

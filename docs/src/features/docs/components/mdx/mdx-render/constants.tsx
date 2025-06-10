@@ -18,7 +18,6 @@ import PropsTable from '../props-table';
 import Thumbnail from '../thumbnail';
 import Anatomy from '../anatomy';
 import Note from '../note';
-import DocsCollection from '../docs-collection';
 import { SectionLayout } from '../section/layout';
 import SectionFigureGroup from '../section/figure-group';
 import SectionFigure from '../section/figure';
@@ -141,7 +140,6 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionHierarchy,
   SectionHierarchyItem,
   SectionVariants,
-  DocsCollection,
   table: (props) => (
     <Table
       {...props}

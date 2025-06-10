@@ -43,6 +43,10 @@ export const lnbItemStyle = (theme: Theme) => css`
       & > [wds-component='with-interaction'] {
         background-color: ${theme.semantic.primary.normal};
       }
+
+      [wds-component='list-cell-content'] {
+        color: ${theme.semantic.primary.normal};
+      }
     }
   }
 

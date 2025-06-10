@@ -7,6 +7,8 @@ import {
 } from '@/features/docs/helpers/mdx';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
 import { resetHeadingIds } from '@/features/docs/helpers/heading';
+import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
+import CustomRender from '@/features/docs/components/custom-render';
 
 import type { Metadata } from 'next';
 
@@ -62,6 +64,10 @@ export const generateMetadata = async ({
 export const dynamic = 'force-static';
 
 const DocsPage = async ({ params }: Props) => {
+  if (shouldNotSerializeMDX(parseSlug(params))) {
+    return <CustomRender />;
+  }
+
   const source = await getSourceBySlug('/', parseSlug(params));
 
   resetHeadingIds();
