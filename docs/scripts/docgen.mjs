@@ -12,7 +12,11 @@ const parser = withCustomConfig(
       'PolymorphicButtonComponent',
     ],
     propFilter: (prop) => {
-      if (prop.name === 'css' || prop.name === '__wdsCustomChildren') {
+      if (
+        prop.name === 'css' ||
+        prop.name === '__wdsCustomChildren' ||
+        prop.name.match(/^__scope/)
+      ) {
         return false;
       }
       if (prop.declarations !== undefined && prop.declarations.length > 0) {

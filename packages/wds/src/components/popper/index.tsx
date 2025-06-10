@@ -41,6 +41,7 @@ import {
   POPPER_CONTENT_NAME,
 } from './constants';
 
+import type { ScopedProps } from '../../hooks/use-scope-context';
 import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
 import type { PopperArrowProps, PopperContentProps } from './types';
@@ -52,11 +53,18 @@ const OPPOSITE_SIDE = {
   left: 'right',
 } as const;
 
-const Popper = ({ children }: PropsWithChildren) => {
+const Popper = ({
+  children,
+  __scopePopper = 'Popper',
+}: ScopedProps<PropsWithChildren, 'Popper'>) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   return (
-    <PopperProvider anchor={anchor} onAnchorChange={setAnchor}>
+    <PopperProvider
+      scope={__scopePopper}
+      anchor={anchor}
+      onAnchorChange={setAnchor}
+    >
       {children}
     </PopperProvider>
   );
@@ -64,9 +72,9 @@ const Popper = ({ children }: PropsWithChildren) => {
 
 const PopperAnchor = forwardRef<
   HTMLElement,
-  ComponentPropsWithoutRef<typeof Slot>
->((props, forwardedRef) => {
-  const context = usePopperContext(POPPER_ANCHOR_NAME);
+  ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popper'>
+>(({ __scopePopper = 'Popper', ...props }, forwardedRef) => {
+  const context = usePopperContext(POPPER_ANCHOR_NAME, __scopePopper);
   const ref = useRef<HTMLElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
 
@@ -81,10 +89,12 @@ PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
 const PopperArrow = forwardRef<
   SVGSVGElement,
-  DefaultComponentProps<PopperArrowProps, 'svg'>
->(({ overlay, ...props }, ref) => {
-  const { onArrowChange, side, arrowX, arrowY } =
-    usePopperContentContext(POPPER_ARROW_NAME);
+  DefaultComponentProps<ScopedProps<PopperArrowProps, 'Popper'>, 'svg'>
+>(({ overlay, __scopePopper = 'Popper', ...props }, ref) => {
+  const { onArrowChange, side, arrowX, arrowY } = usePopperContentContext(
+    POPPER_ARROW_NAME,
+    __scopePopper,
+  );
 
   const composedRef = useComposedRefs(
     ref,
@@ -179,7 +189,7 @@ PopperArrow.displayName = POPPER_ARROW_NAME;
 
 const PopperContent: ReturnType<
   typeof forwardRef<HTMLElement, PopperContentProps>
-> = forwardRef<HTMLElement, PopperContentProps>(
+> = forwardRef<HTMLElement, ScopedProps<PopperContentProps, 'Popper'>>(
   (
     {
       wrapperProps = {},
@@ -190,12 +200,13 @@ const PopperContent: ReturnType<
       setContext,
       container,
       disablePortal,
+      __scopePopper = 'Popper',
       ...props
     },
     ref,
   ) => {
     const theme = useTheme();
-    const context = usePopperContext(POPPER_CONTENT_NAME);
+    const context = usePopperContext(POPPER_CONTENT_NAME, __scopePopper);
 
     const [arrow, setArrow] = useState<HTMLElement | null>(null);
     const arrowSize = useSize(arrow);
@@ -291,6 +302,7 @@ const PopperContent: ReturnType<
           dir={props.dir}
         >
           <PopperContentProvider
+            scope={__scopePopper}
             side={side}
             onArrowChange={setArrow}
             arrowX={arrowX}
