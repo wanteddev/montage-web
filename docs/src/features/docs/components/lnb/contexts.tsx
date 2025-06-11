@@ -16,7 +16,7 @@ export const useLnbContext = () => useContext(LnbContext);
 
 export const LnbProvider = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState(false);
-  const [hide, setHide] = useState(false);
+  const [hide, setHide] = useState(true);
 
   const pathname = usePathname();
 

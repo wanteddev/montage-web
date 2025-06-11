@@ -10,6 +10,9 @@ import { useState } from 'react';
 
 import { useDocSearchFilterContext } from '../../contexts';
 
+import { platformFilterStyle } from './style';
+import { PLATFORM_FILTER_LIST } from './constants';
+
 import type { DocSearchHit } from '../../types';
 
 const PlatformFilter = () => {
@@ -37,13 +40,26 @@ const PlatformFilter = () => {
           {category ?? 'Platform'}
         </ChipFilter>
       </MenuTrigger>
-      <MenuContent sx={{ width: 'fit-content' }} position="top-end">
-        <MenuList>
-          <MenuItem value="">All</MenuItem>
-          <MenuItem value="Design">Design</MenuItem>
-          <MenuItem value="Web">Web</MenuItem>
-          <MenuItem value="iOS">iOS</MenuItem>
-          <MenuItem value="Android">Android</MenuItem>
+      <MenuContent
+        sx={{ width: 'fit-content', borderRadius: 8 }}
+        position="top-end"
+        offset={4}
+      >
+        <MenuList sx={{ paddingBlock: 4 }}>
+          {PLATFORM_FILTER_LIST.map((item) => (
+            <MenuItem
+              key={item.value}
+              sx={platformFilterStyle}
+              textProps={{
+                variant: 'label1',
+                weight: 'medium',
+              }}
+              verticalPadding="small"
+              value={item.value}
+            >
+              {item.label}
+            </MenuItem>
+          ))}
         </MenuList>
       </MenuContent>
     </Menu>

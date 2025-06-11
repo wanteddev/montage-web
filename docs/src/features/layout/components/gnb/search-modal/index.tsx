@@ -78,6 +78,7 @@ export const DocSearchModal = ({
           {
             '--wds-modal-content-margin': '16px',
             '--wds-action-area-margin-y': '16px',
+            '--wds-modal-popup-border-radius': '8px',
           } as CSSProperties
         }
       >

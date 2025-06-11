@@ -19,7 +19,7 @@ const Lnb = () => {
   useEffect(() => {
     const viewport = viewportRef.current;
 
-    if (!viewport) return;
+    if (!viewport || lnbContext.hide) return;
 
     const activeElement = viewport.querySelector<HTMLElement>(
       '[aria-current="page"]',
@@ -30,7 +30,7 @@ const Lnb = () => {
 
       viewport.scrollTop = offsetTop - 38;
     }
-  }, []);
+  }, [lnbContext.hide]);
 
   return (
     <>
@@ -40,6 +40,7 @@ const Lnb = () => {
         sx={lnbWrapperStyle}
         aria-hidden={lnbContext.hide}
         viewportRef={viewportRef}
+        size="small"
       >
         <FlexBox
           as="aside"

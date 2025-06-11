@@ -54,7 +54,7 @@ export const gnbMenuStyle = (theme: Theme) => css`
 
 export const menuItemStyle = (theme: Theme) => css`
   align-items: center;
-  width: calc(100% - 30px);
+  width: calc(100% - var(--wds-list-cell-interaction-padding) * 2 - 8px);
 
   & > [wds-component='with-interaction'] {
     border-radius: 6px;
