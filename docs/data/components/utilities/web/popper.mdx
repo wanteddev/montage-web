@@ -8,15 +8,16 @@ createdAt: 2025-06-17
 
 floating ui 라이브러리를 사용하여 특정 요소를 기준으로 오버레이를 띄울 때 사용합니다.
 
-<Demo code={`import { Popper, PopperTrigger, PopperContent, Button } from '@wanteddev/wds';
+<Demo code={`import { Popper, PopperAnchor, PopperContent, PopperArrow, Button } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <Popper>
-      <PopperTrigger>
+      <PopperAnchor>
         <Button>클릭</Button>
-      </PopperTrigger>
-      <PopperContent arrow>
+      </PopperAnchor>
+      <PopperContent>
+        <PopperArrow />
         콘텐츠
       </PopperContent>
     </Popper>
@@ -32,11 +33,13 @@ Popper는 아래와 같은 구조를 가집니다.
 
 ```tsx
 <Popper>
-  <PopperTrigger>
+  <PopperAnchor>
     <Button />
-  </PopperTrigger>
+  </PopperAnchor>
 
-  <PopperContent />
+  <PopperContent>
+    <PopperArrow />
+  </PopperContent>
 </Popper>
 ```
 
@@ -46,9 +49,13 @@ Popper는 아래와 같은 구조를 가집니다.
 
 <PropsTable component="Popper" />
 
-### PopperTrigger
+### PopperAnchor
 
 `children` 으로 요소를 지정합니다.
+
+### PopperArrow
+
+<PropsTable component="PopperArrow" />
 
 ### PopperContent
 
