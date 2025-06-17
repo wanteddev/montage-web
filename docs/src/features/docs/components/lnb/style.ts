@@ -3,13 +3,15 @@ import { css, respondMore } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbWrapperStyle = (theme: Theme) => css`
-  flex: 0 0 240px;
+  flex: 1 0 240px;
   top: var(--gnb-height);
   position: sticky !important;
   height: calc(100dvh - var(--gnb-height));
   display: none;
   left: 0px;
-  transition: transform 0.3s ease;
+  transition:
+    transform 0.2s ease,
+    margin-left 0.2s ease;
 
   --lnb-padding-left: 40px;
 
