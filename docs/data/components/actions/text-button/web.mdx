@@ -1,12 +1,13 @@
 ---
 title: Text Button
-description: Background 요소 없이 텍스트만으로 행동을 유도해요.
+description: Background 요소 없이 텍스트만으로 행동을 유도합니다.
 createdAt: 2025-05-12
+updatedAt: 2025-06-17
 ---
 
 ## Basic text button
 
-`TextButton` 은 2가지 색상을 사용할 수 있어요.
+`TextButton` 은 2가지 색상을 사용할 수 있습니다.
 - primary (default)
 - assistive
 
@@ -26,7 +27,7 @@ export default Demo;`}
 
 ## With icon
 
-`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있어요.
+`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있습니다.
 
 <Demo code={`import { FlexBox, TextButton } from '@wanteddev/wds';
 import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
@@ -55,7 +56,7 @@ export default Demo;`}
 
 ## Sizes
 
-2가지 사이즈를 제공해요.
+2가지 사이즈를 제공합니다.
 - small
 - medium (default)
 
@@ -90,14 +91,14 @@ export default Demo;`}
 
 ## Loading
 
-`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있어요.
-disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막아요.
+`loading` 옵션을 통해 로딩 상태를 트리거 할 수 있습니다.
+disabled 상태와는 다르게 동작하며 아래 이벤트 실행을 막습니다.
   - `onClick`
   - `onMouseDown`
   - `onPointerDown`
   - `onKeyDown (e.key === 'Enter' || e.key === ' ')`
 
-이벤트 실행을 막지 않으려면 `disableLoadingPreventEvents` 을 사용할 수 있어요.
+이벤트 실행을 막지 않으려면 `disableLoadingPreventEvents` 을 사용할 수 있습니다.
 
 <Demo code={`import { TextButton, FlexBox } from '@wanteddev/wds';
 import { useState, useEffect } from 'react';
@@ -127,9 +128,9 @@ export default Demo;`}
 
 ## API
 
-`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
+`as` 옵션을 통해 `Link` 등 다른 컴포넌트/태그로 활용할 수 있습니다.
 
-정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
 - size
 
 <PropsTable component="TextButton" />

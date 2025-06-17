@@ -34,6 +34,10 @@ export const sidebarContentStyle = (theme: Theme) => css`
     color: ${theme.semantic.label.neutral};
   }
 
+  &[data-level='3'] {
+    padding-left: 16px;
+  }
+
   a {
     display: block;
     width: fit-content;

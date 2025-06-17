@@ -1,12 +1,13 @@
 ---
 title: Icon Button
-description: 아이콘으로 행동을 직관적으로 유추해요.
+description: 아이콘으로 행동을 직관적으로 유추합니다.
 createdAt: 2025-05-12
+updatedAt: 2025-06-17
 ---
 
 ## Basic icon button
 
-`IconButton` 은 4가지 variant 를 사용할 수 있어요.
+`IconButton` 은 4가지 variant 를 사용할 수 있습니다.
 - normal (default)
 - background
 - outlined
@@ -39,7 +40,7 @@ export default Demo;`}
 
 ## Alternative
 
-`background` variant 를 사용할 때에는 `alternative` prop 으로 배경 색상을 다르게 표시할 수 있어요.
+`background` variant 를 사용할 때에는 `alternative` prop 으로 배경 색상을 다르게 표시할 수 있습니다.
 
 <Demo code={`import { FlexBox, IconButton } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -62,7 +63,7 @@ export default Demo;`}
 
 ## With push badge
 
-[PushBadge](/components/feedback/push-badge/web) 와 함께 사용할 수 있어요.
+[PushBadge](/components/feedback/push-badge/web) 와 함께 사용할 수 있습니다.
 
 <Demo code={`import { FlexBox, IconButton, PushBadge } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -95,13 +96,13 @@ export default Demo;`}
 
 ## Sizes
 
-2가지 사이즈를 제공해요.
+2가지 사이즈를 제공합니다.
 - small
 - medium (default)
 
-`normal` variant와 `background` variant는 `small` 사이즈를 지원하지 않아요.
+`normal` variant와 `background` variant는 `small` 사이즈를 지원하지 않습니다.
 
-number 타입 옵션을 넣어 크기를 커스텀 할 수 있어요.
+number 타입 옵션을 넣어 크기를 커스텀 할 수 있습니다.
 
 <Demo code={`import { TextButton, FlexBox, IconButton, Typography } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
@@ -145,13 +146,11 @@ const Demo = () => {
 export default Demo;`}
 />
 
-
-
 ## API
 
-`as` 옵션을 통해 `Link` 등으로 활용할 수 있어요.
+`as` 옵션을 통해 `Link` 등 다른 컴포넌트/태그로 활용할 수 있습니다.
 
-정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
 - size
 
 <PropsTable component="IconButton" />

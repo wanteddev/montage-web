@@ -1,12 +1,12 @@
 ---
 title: Text area
-description: 필드 안에 한 줄 이상의 텍스트 값을 입력해요.
+description: 필드 안에 한 줄 이상의 텍스트 값을 입력합니다.
 createdAt: 2025-05-12
 ---
 
 ## Basic text area
 
-`TextArea` 는 입력한 텍스트에 따라 자동으로 높이가 늘어나요.
+`TextArea` 는 입력한 텍스트에 따라 자동으로 높이가 늘어나는 컴포넌트입니다.
 
 <Demo code={`import { TextArea } from '@wanteddev/wds';
 
@@ -21,7 +21,7 @@ export default Demo;`}
 
 ## Min/Max rows
 
-`minRows`, `maxRows` prop 으로 최대 / 최소로 늘어나는 line 수를 정할 수 있어요.
+`minRows`, `maxRows` prop 으로 최대 / 최소로 늘어나는 line 수를 정할 수 있습니다.
 
 <Demo code={`import { TextArea } from '@wanteddev/wds';
 
@@ -40,7 +40,7 @@ export default Demo;`}
 
 ## States
 
-validation 을 통해 여러 상태를 표현할 수 있어요.
+validation 을 통해 여러 상태를 표현할 수 있습니다.
 - default
 - invalid (negative)
 - readOnly
@@ -64,7 +64,7 @@ export default Demo;`}
 
 ## Form field
 
-Form과 관련된 컴포넌트와 함께 사용할 수 있어요.
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormField`
 - `FormControl`
 - `FormLabel`
@@ -100,9 +100,9 @@ export default Demo;`}
 
 ## Content
 
-`leadingContent`, `trailingContent` prop 을 사용하여 하단 앞/뒤에 컨텐츠를 추가할 수 있어요.
+`leadingContent`, `trailingContent` prop 을 사용하여 하단 앞/뒤에 컨텐츠를 추가할 수 있습니다.
 
-해당 옵션을 사용할 때에는 `TextAreaContent` 로 감싸서 사용해요.
+해당 옵션을 사용할 때에는 `TextAreaContent` 로 감싸서 사용합니다.
 
 <Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, ChipFilter, IconButton, TextButton } from '@wanteddev/wds';
 import { IconBlank, IconCopy, IconSendFill } from '@wanteddev/wds-icon';
@@ -219,9 +219,9 @@ export default Demo;`}
 
 ## Controlled
 
-기본적으로 비제어 컴포넌트로 동작해요.
+기본적으로 비제어 컴포넌트로 동작합니다.
 
-`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작해요.
+`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
@@ -253,7 +253,7 @@ export default Demo;`}
 
 ## React hook form
 
-`react-hook-form` 과 유연하게 조합해서 사용할 수 있어요.
+`react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
 
 <Demo code={`import { Button, FlexBox, TextArea, TextAreaContent, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';

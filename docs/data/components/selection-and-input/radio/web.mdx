@@ -1,12 +1,12 @@
 ---
 title: Radio
-description: 하나의 항목을 선택하는 요소로 사용해요.
+description: 하나의 항목을 선택하는 요소로 사용합니다.
 createdAt: 2025-05-12
 ---
 
 ## Radio group
 
-`RadioGroup`과 `RadioGroupItem` 을 사용하여 적절한 키보드 접근성을 제공해요.
+`RadioGroup`과 `RadioGroupItem` 을 사용하여 적절한 키보드 접근성을 제공합니다.
 
 <Demo code={`import { RadioGroup, RadioGroupItem, Label, FlexBox } from '@wanteddev/wds';
 
@@ -36,11 +36,11 @@ export default Demo;`}
 
 ## Sizes
 
-2가지 size를 제공해요.
+2가지 size를 제공합니다.
 - small
 - medium (default)
 
-medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰요.
+medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰야 합니다.
 
 <Demo code={`import { RadioGroup, RadioGroupItem, Label, FlexBox } from '@wanteddev/wds';
 
@@ -69,7 +69,7 @@ export default Demo;`}
 
 ## Tight
 
-`tight` prop 을 사용하면 체크 박스의 좌우 여백을 조정할 수 있어요.
+`tight` prop 을 사용하면 체크 박스의 좌우 여백을 조정할 수 있습니다.
 
 <Demo code={`import { RadioGroup, RadioGroupItem, FlexBox, Label } from '@wanteddev/wds';
 
@@ -118,7 +118,7 @@ export default Demo;`}
 
 ## Form field
 
-Form과 관련된 컴포넌트와 함께 사용할 수 있어요.
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormField`
 - `FormControl`
 - `FormLabel`
@@ -166,9 +166,9 @@ export default Demo;`}
 
 ## Controlled
 
-기본적으로 비제어 컴포넌트로 동작해요.
+기본적으로 비제어 컴포넌트로 동작합니다.
 
-`value`, `onValueChange` prop 을 사용하면 제어 컴포넌트로 동작해요.
+`value`, `onValueChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
@@ -240,7 +240,7 @@ export default Demo;`}
 
 ## React hook form
 
-`react-hook-form` 과 유연하게 조합해서 사용할 수 있어요.
+`react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
 
 <Demo code={`import { Button, FlexBox, RadioGroup, RadioGroupItem, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
 import { useForm, Controller } from 'react-hook-form';
@@ -329,10 +329,10 @@ export default Demo;`}
 
 ## Accessibility
 
-[WAI-ARIA Radio Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/) 을 준수해요.
+[WAI-ARIA Radio Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/) 을 준수합니다.
 
-- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있어요.
-- 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 해요.
+- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
+- 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 합니다.
 
 ## API
 
@@ -342,7 +342,7 @@ export default Demo;`}
 
 ### RadioGroupItem
 
-정해진 viewport에 따라 아래 옵션을 override 할 수 있어요.
+정해진 viewport에 따라 아래 옵션을 override 할 수 있습니다.
 - size
 
 <PropsTable component="RadioGroupItem" />

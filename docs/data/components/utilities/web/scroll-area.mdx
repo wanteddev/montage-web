@@ -1,0 +1,169 @@
+---
+title: ScrollArea
+description: ScrollArea는 레이아웃을 깨지게 하지 않는 inner scroll 영역을 생성하는 컴포넌트입니다.
+createdAt: 2025-06-17
+---
+
+## Basic scroll area
+
+`@radix-ui/react-scroll-area` 컴포넌트에 원티드의 디자인을 입힌 컴포넌트입니다.
+
+`scrollbars` 옵션을 사용하여 특정 영역에만 스크롤바를 표시할 수 있습니다.
+- horizontal
+- vertical
+- both
+
+<Demo code={`import { ScrollArea, Typography, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ScrollArea scrollbars="both" sx={(theme) => ({
+      width: "150px",
+      height: "80px",
+      borderRadius: "10px",
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`,
+      padding: "10px",
+    })}>
+      <FlexBox flexDirection="column" gap="4px">
+        {Array.from(new Array(10)).map((_, i) => (
+          <Typography variant="label2" noWrap key={i}>
+            This is Tag {i}, and long content in box container
+          </Typography>
+        ))}
+      </FlexBox>
+    </ScrollArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Type
+
+`type` prop으로 스크롤을 표시하는 유형을 결정할 수 있습니다.
+
+### Hover (default)
+
+콘텐츠가 overflow 영역을 넘어간 경우에 마우스 오버를 하면 스크롤바를 표시합니다.
+
+<Demo code={`import { ScrollArea, Typography, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ScrollArea scrollbars="both" sx={(theme) => ({
+      width: "150px",
+      height: "80px",
+      borderRadius: "10px",
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`,
+      padding: "10px",
+    })}>
+      <FlexBox flexDirection="column" gap="4px">
+        {Array.from(new Array(10)).map((_, i) => (
+          <Typography variant="label2" noWrap key={i}>
+            This is Tag {i}, and long content in box container
+          </Typography>
+        ))}
+      </FlexBox>
+    </ScrollArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Scroll
+
+콘텐츠가 overflow 영역을 넘어간 경우에 스크롤 동작을 할 때 스크롤바를 표시합니다.
+
+<Demo code={`import { ScrollArea, Typography, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ScrollArea scrollbars="both" type="scroll" sx={(theme) => ({
+      width: "150px",
+      height: "80px",
+      borderRadius: "10px",
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`,
+      padding: "10px",
+    })}>
+      <FlexBox flexDirection="column" gap="4px">
+        {Array.from(new Array(10)).map((_, i) => (
+          <Typography variant="label2" noWrap key={i}>
+            This is Tag {i}, and long content in box container
+          </Typography>
+        ))}
+      </FlexBox>
+    </ScrollArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Auto
+
+콘텐츠가 overflow 영역을 넘어간 경우에 항상 스크롤바를 표시합니다.
+
+<Demo code={`import { ScrollArea, Typography, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ScrollArea scrollbars="both" type="auto" sx={(theme) => ({
+      width: "150px",
+      height: "80px",
+      borderRadius: "10px",
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`,
+      padding: "10px",
+    })}>
+      <FlexBox flexDirection="column" gap="4px">
+        {Array.from(new Array(10)).map((_, i) => (
+          <Typography variant="label2" noWrap key={i}>
+            This is Tag {i}, and long content in box container
+          </Typography>
+        ))}
+      </FlexBox>
+    </ScrollArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Always
+
+콘텐츠가 overflow 영역을 넘어간 경우에 항상 스크롤바 + 영역을 표시합니다.
+현재 스크롤바 영역에 background color가 지정되어 있지 않아 사실상 auto와 동일하게 동작합니다.
+
+<Demo code={`import { ScrollArea, Typography, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ScrollArea scrollbars="both" type="always" sx={(theme) => ({
+      width: "150px",
+      height: "80px",
+      borderRadius: "10px",
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`,
+      padding: "10px",
+    })}>
+      <FlexBox flexDirection="column" gap="4px">
+        {Array.from(new Array(10)).map((_, i) => (
+          <Typography variant="label2" noWrap key={i}>
+            This is Tag {i}, and long content in box container
+          </Typography>
+        ))}
+      </FlexBox>
+    </ScrollArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+<PropsTable component="ScrollArea" />

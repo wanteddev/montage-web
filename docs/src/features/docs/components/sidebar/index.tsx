@@ -29,8 +29,11 @@ const Sidebar = () => {
     setHeadings(headingElements);
   }, [params.slug]);
 
-  const heading2Elements = useMemo(() => {
-    return headings.filter(({ nodeName }) => getHeadingLevel(nodeName) === 2);
+  const headingElements = useMemo(() => {
+    return headings.filter(
+      ({ nodeName }) =>
+        getHeadingLevel(nodeName) === 2 || getHeadingLevel(nodeName) === 3,
+    );
   }, [headings]);
 
   const [visibleSectionId, setVisibleSectionId] = useState<string | null>(null);
@@ -70,32 +73,41 @@ const Sidebar = () => {
 
     if (
       Boolean(
-        filteredHeadings.find(({ nodeName }) => getHeadingLevel(nodeName) < 3),
+        filteredHeadings.find(({ nodeName }) => getHeadingLevel(nodeName) < 4),
       )
     ) {
       setVisibleSectionId(
         filteredHeadings
-          .filter(({ nodeName }) => getHeadingLevel(nodeName) < 3)
+          .filter(({ nodeName }) => getHeadingLevel(nodeName) < 4)
           .sort(
             (a, b) => getHeadingLevel(b.nodeName) - getHeadingLevel(a.nodeName),
           )[0]!.id,
       );
     } else {
-      const h3Elements = filteredHeadings.filter(
-        ({ nodeName }) => getHeadingLevel(nodeName) === 3,
+      const h4Elements = filteredHeadings.filter(
+        ({ nodeName }) => getHeadingLevel(nodeName) === 4,
       );
 
-      if (h3Elements.length > 0 && h3Elements[0]) {
-        const firstH3Id = h3Elements[0].id;
-        const firstH3Index = headings.findIndex(({ id }) => id === firstH3Id);
+      if (h4Elements.length > 0 && h4Elements[0]) {
+        const firstH4Id = h4Elements[0].id;
+        const firstH4Index = headings.findIndex(({ id }) => id === firstH4Id);
 
-        const closestH2 = headings
-          .slice(0, firstH3Index)
+        const closestH3 = headings
+          .slice(0, firstH4Index)
           .reverse()
-          .find(({ nodeName }) => getHeadingLevel(nodeName) === 2);
+          .find(({ nodeName }) => getHeadingLevel(nodeName) === 4);
 
-        if (closestH2) {
-          setVisibleSectionId(closestH2.id);
+        if (closestH3) {
+          setVisibleSectionId(closestH3.id);
+        } else {
+          const closestH2 = headings
+            .slice(0, firstH4Index)
+            .reverse()
+            .find(({ nodeName }) => getHeadingLevel(nodeName) === 2);
+
+          if (closestH2) {
+            setVisibleSectionId(closestH2.id);
+          }
         }
       }
     }
@@ -134,7 +146,7 @@ const Sidebar = () => {
                 On this page
               </Typography>
               <FlexBox flexDirection="column" as="ul">
-                {heading2Elements.map(({ id, nodeName, text }) => {
+                {headingElements.map(({ id, nodeName, text }) => {
                   return (
                     <Typography
                       variant="label2"

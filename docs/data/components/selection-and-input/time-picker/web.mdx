@@ -1,16 +1,16 @@
 ---
 title: Time picker
-description: 사용자가 00:00:00 (시간, 분, 초)순으로 시간을 입력할 수 있는 폼을 제공해요.
+description: 사용자가 00:00:00 (시간, 분, 초)순으로 시간을 입력할 수 있는 폼을 제공합니다.
 createdAt: 2025-05-12
 ---
 
 ## Basic usage
 
-사용자가 YYYY. MM. DD순으로 날짜를 입력할 수 있는 폼을 제공해요.
+사용자가 YYYY. MM. DD순으로 날짜를 입력할 수 있는 폼을 제공합니다.
 
-- locale, timezone을 지정할 수 있어요.
-- 기본적으로 TextField 컴포넌트를 사용해요.
-- 항상 유효한 Date 값을 가지고 있지는 않아요. Invalid date 상태를 가질 수 있어요.
+- locale, timezone을 지정할 수 있습니다.
+- 기본적으로 TextField 컴포넌트를 사용합니다.
+- 항상 유효한 Date 값을 가지고 있지는 않습니다. Invalid date 상태를 가질 수 있습니다.
 
 <Demo code={`import { TimePicker } from '@wanteddev/wds';
 
@@ -25,8 +25,8 @@ export default Demo;`}
 
 ## Format
 
-input에 시간이 표시되는 format 을 지정할 수 있어요.
-아래 format을 모두 사용할 수 있어요.
+input에 시간이 표시되는 format 을 지정할 수 있습니다.
+아래 format을 모두 사용할 수 있습니다.
 - H, HH, h, hh
 - m, mm
 - s, ss
@@ -36,7 +36,7 @@ input에 시간이 표시되는 format 을 지정할 수 있어요.
 - D, DD
 
 12시간 형식일 경우 `a` 또는 `A`와 `h` 또는 `hh`를 함께 사용해야하며
-24시간 형식일 경우 `H` 또는 `HH`만 사용해요.
+24시간 형식일 경우 `H` 또는 `HH`만 사용합니다.
 
 <Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
@@ -59,11 +59,11 @@ export default Demo;`}
 ## Localization
 
 - Locale
-  - 기본적으로 locale은 `ko-KR` 으로 지정되어 있어요.
-  - [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) API 에서 지원하는 언어를 모두 import 없이 사용할 수 있어요.
+  - 기본적으로 locale은 `ko-KR` 으로 지정되어 있습니다.
+  - [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat) API 에서 지원하는 언어를 모두 import 없이 사용할 수 있습니다.
 - Timezone
-  - 기본적으로 timezone은 사용자의 환경에 따라 결정돼요.
-  - [dayjs](https://day.js.org/docs/en/timezone/timezone) 에서 지원하는 timezone과 `UTC` 를 모두 import 없이 사용할 수 있어요.
+  - 기본적으로 timezone은 사용자의 환경에 따라 결정됩니다.
+  - [dayjs](https://day.js.org/docs/en/timezone/timezone) 에서 지원하는 timezone과 `UTC` 를 모두 import 없이 사용할 수 있습니다.
 
 <Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
@@ -81,9 +81,9 @@ export default Demo;`}
 
 ## Views
 
-`views`, `defaultView`, `view`, `onViewChange` 로 선택 UI를 조정할 수 있어요.
+`views`, `defaultView`, `view`, `onViewChange` 로 선택 UI를 조정할 수 있습니다.
 
-`'meridiem' | 'hour' | 'minute' | 'second'` 를 지원해요.
+`'meridiem' | 'hour' | 'minute' | 'second'` 를 지원합니다.
 
 <Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
 
@@ -110,15 +110,15 @@ export default Demo;`}
 
 ### ActionArea
 
-`PickerActionArea` 를 사용하여 하단 영역의 버튼을 커스텀 할 수 있어요.
+`PickerActionArea` 를 사용하여 하단 영역의 버튼을 커스텀 할 수 있습니다.
 
-총 4가지 variant를 사용할 수 있어요.
+총 4가지 variant를 사용할 수 있습니다.
 - now
 - accept
 - cancel
 - reset
 
-`Checkbox` 컴포넌트와 함께 사용할 때에는 `disableLastUnitClickClose` prop 을 사용하여 더욱 자연스러운 동작을 구현할 수 있어요.
+`Checkbox` 컴포넌트와 함께 사용할 때에는 `disableLastUnitClickClose` prop 을 사용하여 더욱 자연스러운 동작을 구현할 수 있
 
 <Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
 
@@ -180,9 +180,9 @@ export default Demo;`}
 
 ## Validation
 
-- `min`, `max` prop 을 사용하여 최소값과 최대값을 설정할 수 있어요.
-- 키보드 조작을 통해서는 범위를 벗어나는 값을 입력할 수 있어요.
-- Invalid date 상태를 가질 수 있어요.
+- `min`, `max` prop 을 사용하여 최소값과 최대값을 설정할 수 있습니다.
+- 키보드 조작을 통해서는 범위를 벗어나는 값을 입력할 수 있습니다.
+- Invalid date 상태를 가질 수 있습니다.
 
 
 <Demo code={`import { TimePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
@@ -251,7 +251,7 @@ export default Demo;`}
 
 ## Form field
 
-Form과 관련된 컴포넌트와 함께 사용할 수 있어요.
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormField`
 - `FormControl`
 - `FormLabel`
@@ -280,7 +280,7 @@ export default Demo;`}
 
 ## Customize
 
-`TextField` 컴포넌트 대신 커스텀 컴포넌트를 사용할 수 있어요.
+`TextField` 컴포넌트 대신 커스텀 컴포넌트를 사용할 수 있습니다.
 
 > react 18.3 미만의 버전을 사용 중이라면, `forwardRef` 를 필수로 작성해주세요.
 
@@ -336,9 +336,9 @@ export default Demo;`}
 
 ## Controlled
 
-기본적으로 비제어 컴포넌트로 동작해요.
+기본적으로 비제어 컴포넌트로 동작합니다.
 
-`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작해요.
+`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
@@ -361,9 +361,9 @@ export default Demo;`}
 
 ## Accessibility
 
-[WAI-ARIA Datepicker dialog](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/) 패턴 대부분을 지원해요.
+[WAI-ARIA Datepicker dialog](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/) 패턴 대부분을 지원합니다.
 
-- [Form Field](#form-field) 와 함께 사용할 때 더욱 명확한 접근성 속성을 주입할 수 있어요.
+- [Form Field](#form-field) 와 함께 사용할 때 더욱 명확한 접근성 속성을 주입할 수 있습니다.
 
 ## API
 

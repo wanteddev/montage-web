@@ -1,0 +1,94 @@
+---
+title: gradient
+description: gradient는 그라디언트 스타일을 관리하는 유틸리티 함수입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+그라디언트 스타일을 관리합니다.
+
+Sx Prop 혹은 `css ` 내부에서 사용 가능합니다.
+
+## Solid
+
+배경 경계를 자연스럽게 표현합니다.
+
+단독 sx prop으로 사용할 경우 `css`로 감싸서 사용해야합니다.
+
+<Demo code={`import { Box, css, gradient } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box
+      sx={[
+        theme => gradient(theme.semantic.inverse.background, 'right', '100%', 'solid'),
+        {
+          width: '100%',
+          height: '200px',
+        },
+      ]}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Multiple
+
+두 가지 색을 그라디언트로 표현합니다.
+
+<Demo code={`import { Box, css, gradient } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+const demoStyle = (theme: Theme) => css\`
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: \$\{theme.semantic.primary.normal\};
+  &::before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    \$\{gradient(theme.semantic.inverse.background, 'right', '100%', 'multiple')\}
+  }
+\`;
+
+const Demo = () => {
+  return (
+    <Box
+      sx={demoStyle}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Mask
+
+요소에 마스크를 씌워 경계를 매끄럽게 표현합니다.
+
+<Demo code={`import { Box, css, gradient } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box
+      sx={[
+        theme => gradient(theme.semantic.inverse.background, 'right', '80px', 'mask'),
+        {
+          width: '100%',
+          height: '200px',
+        },
+      ]}
+    />
+  )
+}
+
+export default Demo;`}
+/>
