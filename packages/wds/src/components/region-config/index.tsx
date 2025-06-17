@@ -4,7 +4,7 @@ import { useRegionStore } from '../../stores/region-store';
 
 import type { RegionConfigProps } from './types';
 
-const RegionConfig = (props: RegionConfigProps) => {
+const RegionConfig = memo((props: RegionConfigProps) => {
   const config = useRegionStore((state) => state.config);
   const setConfig = useRegionStore((state) => state.setConfig);
 
@@ -22,6 +22,8 @@ const RegionConfig = (props: RegionConfigProps) => {
   }, [memoizedProps, setConfig]);
 
   return null;
-};
+});
 
-export default memo(RegionConfig);
+RegionConfig.displayName = 'RegionConfig';
+
+export default RegionConfig;
