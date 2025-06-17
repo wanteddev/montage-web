@@ -19,6 +19,8 @@ export type FlexBoxDefaultProps = {
   children?: ReactNode;
 };
 
-type FlexBoxResponsiveProps = ResponsiveProps<FlexBoxDefaultProps>;
+type FlexBoxResponsiveProps = ResponsiveProps<
+  Omit<FlexBoxDefaultProps, 'children'>
+>;
 
 export type FlexBoxProps = Merge<FlexBoxDefaultProps, FlexBoxResponsiveProps>;
