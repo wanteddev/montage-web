@@ -40,10 +40,3 @@ export const avatarButtonStyle = (theme: Theme) => css`
     }
   }
 `;
-
-export const pushBadgeStyle = css`
-  position: absolute;
-  right: -10px;
-  top: -10px;
-  display: inline-flex;
-`;

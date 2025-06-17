@@ -3,7 +3,7 @@ import { Box } from '@wanteddev/wds-engine';
 
 import WithInteraction from '../with-interaction';
 
-import { avatarButtonStyle, pushBadgeStyle } from './style';
+import { avatarButtonStyle } from './style';
 
 import type {
   PolymorphicComponent,
@@ -17,7 +17,6 @@ const AvatarButton = forwardRef(
     {
       as,
       children,
-      pushBadge,
       disableInteraction = false,
       disabled,
       ...props
@@ -41,12 +40,6 @@ const AvatarButton = forwardRef(
         >
           {children}
         </WithInteraction>
-
-        {pushBadge && (
-          <Box sx={pushBadgeStyle} data-role="avatar-button-push-badge">
-            {pushBadge}
-          </Box>
-        )}
       </Box>
     );
   },
