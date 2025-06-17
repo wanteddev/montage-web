@@ -165,6 +165,11 @@ const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
         flex-shrink: 0;
         align-items: center;
         color: ${theme.semantic.primary.normal};
+
+        svg {
+          width: 1em !important;
+          height: 1em !important;
+        }
       `;
     case 'new':
     case 'number':
