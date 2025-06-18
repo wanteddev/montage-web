@@ -19,7 +19,7 @@ export const GET = async () => {
         const lastModified = value.updatedAt ?? value.createdAt ?? Date.now();
 
         return {
-          url: `${BASE_PATH}/${value.slug.join('/')}`,
+          url: `${BASE_PATH}/docs/${value.slug.join('/')}`,
           lastModified: new Date(lastModified).toISOString(),
           priority: 0.7,
         };
