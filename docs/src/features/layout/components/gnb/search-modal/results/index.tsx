@@ -55,7 +55,6 @@ const SearchResults = ({
       <FlexBox
         as="section"
         {...getListProps()}
-        key={firstCollections.source.sourceId}
         flexDirection="column"
         gap="4px"
         sx={searchResultGroupStyle}
@@ -68,53 +67,48 @@ const SearchResults = ({
           Recent Searches
         </SectionHeader>
         <List gap="4px">
-          {firstCollections.items.map((item, idx) => {
-            return (
-              <SearchOption
-                {...(getItemProps({
-                  item,
-                  source: firstCollections.source,
-                }) as unknown as HTMLAttributes<HTMLLIElement>)}
-                item={item}
-                leadingContent={
-                  <ListCellContent variant="icon">
-                    <IconHistory
-                      sx={(theme) => ({
-                        fontSize: 16,
-                        color: theme.semantic.label.alternative,
-                      })}
-                    />
-                  </ListCellContent>
-                }
-                trailingContent={
-                  <ListCellContent variant="icon-button">
-                    <IconButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        recentSearchRemove(item);
-                      }}
-                      size={16}
-                      sx={(theme) => ({
-                        color: theme.semantic.label.assistive,
-                      })}
-                    >
-                      <IconClose />
-                    </IconButton>
-                  </ListCellContent>
-                }
-                key={[
-                  firstCollections.source.sourceId,
-                  idx,
-                  item.objectID,
-                  item.type,
-                ].join(':')}
-              >
-                <Typography variant="body1" weight="regular">
-                  {item.hierarchy.lvl1}
-                </Typography>
-              </SearchOption>
-            );
-          })}
+          {firstCollections.items.map((item, idx) => (
+            <SearchOption
+              {...(getItemProps({
+                item,
+                source: firstCollections.source,
+              }) as unknown as HTMLAttributes<HTMLLIElement>)}
+              item={item}
+              leadingContent={
+                <ListCellContent variant="icon">
+                  <IconHistory
+                    sx={(theme) => ({
+                      fontSize: 16,
+                      color: theme.semantic.label.alternative,
+                    })}
+                  />
+                </ListCellContent>
+              }
+              trailingContent={
+                <ListCellContent variant="icon-button">
+                  <IconButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      recentSearchRemove(item);
+                    }}
+                    size={16}
+                    sx={(theme) => ({
+                      color: theme.semantic.label.assistive,
+                    })}
+                  >
+                    <IconClose />
+                  </IconButton>
+                </ListCellContent>
+              }
+              key={[firstCollections.source.sourceId, idx, item.objectID].join(
+                ':',
+              )}
+            >
+              <Typography variant="body1" weight="regular">
+                {item.hierarchy.lvl1}
+              </Typography>
+            </SearchOption>
+          ))}
         </List>
       </FlexBox>
     );

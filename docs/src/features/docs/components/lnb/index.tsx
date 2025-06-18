@@ -19,7 +19,7 @@ const Lnb = () => {
   useEffect(() => {
     const viewport = viewportRef.current;
 
-    if (!viewport || lnbContext.hide) return;
+    if (!viewport) return;
 
     const activeElement = viewport.querySelector<HTMLElement>(
       '[aria-current="page"]',
@@ -29,6 +29,24 @@ const Lnb = () => {
       const offsetTop = activeElement.offsetTop + activeElement.clientHeight;
 
       viewport.scrollTop = offsetTop - 38;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (lnbContext.hide) {
+      viewportRef.current
+        ?.querySelectorAll<HTMLElement>('[tabindex="0"]')
+        .forEach((el) => {
+          el.tabIndex = -1;
+        });
+    } else {
+      viewportRef.current
+        ?.querySelectorAll<HTMLElement>('[tabindex="-1"]')
+        .forEach((el) => {
+          if (!el.getAttribute('data-prev-tabindex')) {
+            el.tabIndex = 0;
+          }
+        });
     }
   }, [lnbContext.hide]);
 

@@ -1,7 +1,8 @@
 'use client';
-import { FlexBox, respondMore } from '@wanteddev/wds';
+import { Box, FlexBox, respondMore } from '@wanteddev/wds';
 
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
+import Lnb from '@/features/docs/components/lnb';
 
 import type { PropsWithChildren } from 'react';
 
@@ -9,20 +10,28 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
   const lnbContext = useLnbContext();
 
   return (
-    <FlexBox
-      justifyContent="center"
-      flex="1 0 100%"
+    <Box
       sx={(theme) => ({
-        paddingTop: 56,
-        maxWidth: '100%',
+        display: 'grid',
+        gridTemplateColumns: '1fr',
         transition: 'all 0.2s ease',
         [respondMore(theme.breakpoint.lg)]: {
-          flex: lnbContext.hide ? '2 0 100%' : '1 0 calc(100% - 240px)',
+          gridTemplateColumns: lnbContext.hide ? '0px 1fr' : '240px 1fr',
         },
       })}
     >
-      {children}
-    </FlexBox>
+      <Lnb />
+
+      <FlexBox
+        justifyContent="center"
+        sx={{
+          paddingTop: 56,
+          maxWidth: '100%',
+        }}
+      >
+        {children}
+      </FlexBox>
+    </Box>
   );
 };
 

@@ -1,8 +1,5 @@
-import { FlexBox } from '@wanteddev/wds';
-
 import Gnb from '@/features/layout/components/gnb';
 import { MDXProvider } from '@/features/docs/context';
-import Lnb from '@/features/docs/components/lnb';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { generatePropTypes } from '@/features/docs/helpers/props';
 
@@ -131,6 +128,11 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
         />
 
         <link
+          rel="preconnect"
+          href="https://static.wanted.co.kr"
+          crossOrigin="anonymous"
+        />
+        <link
           rel="preload stylesheet"
           as="style"
           crossOrigin="anonymous"
@@ -142,17 +144,24 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
           crossOrigin="anonymous"
           href="https://static.wanted.co.kr/fonts/pretendard/pretendard-jp/pretendardvariable-jp-dynamic-subset.min.css"
         />
+        <link
+          rel="preconnect"
+          href="https://cdn.jsdelivr.net"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="style"
+          crossOrigin="anonymous"
+          href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css"
+        />
       </head>
       <body suppressHydrationWarning>
         <Providers>
           <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
             <Gnb />
 
-            <FlexBox>
-              <Lnb />
-
-              <ClientLayout>{children}</ClientLayout>
-            </FlexBox>
+            <ClientLayout>{children}</ClientLayout>
           </MDXProvider>
         </Providers>
       </body>
