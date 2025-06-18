@@ -402,18 +402,6 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.1
         version: 18.3.3(@types/react@18.3.14)
-      change-case:
-        specifier: ^5.4.3
-        version: 5.4.3
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      inquirer:
-        specifier: ^9.2.16
-        version: 9.2.16
-      shelljs:
-        specifier: ^0.8.5
-        version: 0.8.5
       typescript:
         specifier: ^5.4.2
         version: 5.4.2
