@@ -1,4 +1,7 @@
 User-agent: *
 Disallow: /
 
+User-agent: Algolia Crawler
+Allow: /
+
 Sitemap: https://montage.wanted.co.kr/sitemap.xml
