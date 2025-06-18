@@ -5,6 +5,7 @@ import {
   createResponsiveStyle,
   ellipsisTypographyStyle,
 } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectMultipleProps } from '../select-multiple/types';
@@ -29,8 +30,8 @@ export const selectStyle =
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
       0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
     background-color: transparent;
-    width: ${width};
-    height: ${height};
+    width: ${toCssValue(width)};
+    height: ${toCssValue(height)};
     padding: 12px;
     gap: 8px;
     transition: box-shadow ease 0.2s;
@@ -129,14 +130,14 @@ export const selectStyle =
       theme,
     )(
       (params) => css`
-        ${Boolean(params?.width) &&
+        ${params?.width !== undefined &&
         css`
-          width: ${params!.width};
+          width: ${toCssValue(params.width)};
         `}
 
-        ${Boolean(params?.height) &&
+        ${params?.height !== undefined &&
         css`
-          height: ${params!.height};
+          height: ${toCssValue(params.height)};
         `}
         ${params?.sx}
       `,

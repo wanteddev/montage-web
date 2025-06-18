@@ -5,6 +5,7 @@ import {
   getPreviousValue,
 } from '../../utils/responsive-props';
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -553,7 +554,7 @@ export const modalContentStyle =
           gap: calc(var(--wds-modal-content-margin, 20px));
         `
       : css`
-          gap: ${gap};
+          gap: ${toCssValue(gap)};
         `}
 
     ${createResponsiveStyle(
@@ -563,7 +564,7 @@ export const modalContentStyle =
       (params) => css`
         ${params?.gap !== undefined &&
         css`
-          gap: ${params.gap};
+          gap: ${toCssValue(params.gap)};
         `}
         ${params?.sx}
       `,

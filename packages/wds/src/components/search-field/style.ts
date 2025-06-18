@@ -2,6 +2,7 @@ import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
+import { toCssValue } from '../../utils/css';
 
 import type { SearchFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -26,7 +27,7 @@ export const searchFieldWrapperStyle =
     background-color: ${theme.semantic.fill.normal};
     backdrop-filter: blur(32px);
     will-change: backdrop-filter;
-    width: ${width};
+    width: ${toCssValue(width)};
     cursor: text;
 
     ${searchFieldWrapperSizeStyle({ size })}
@@ -131,9 +132,9 @@ export const searchFieldWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${Boolean(params?.width) &&
+        ${params?.width !== undefined &&
         css`
-          width: ${params!.width};
+          width: ${toCssValue(params.width)};
         `}
 
         ${searchFieldWrapperSizeStyle({ size: params?.size })}

@@ -2,6 +2,7 @@ import { css, getColorByToken, keyframes } from '@wanteddev/wds-engine';
 import objectPath from 'object-path';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
+import { toCssValue } from '../../utils/css';
 
 import type { SkeletonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -76,25 +77,25 @@ const skeletonSizeStyle = ({
   switch (variant) {
     case 'text':
       return css`
-        height: ${height ?? '22px'};
+        height: ${toCssValue(height) ?? '22px'};
 
         > span {
-          ${Boolean(width) &&
+          ${width !== undefined &&
           css`
-            width: ${width};
+            width: ${toCssValue(width)};
           `}
         }
       `;
     case 'rectangle':
     case 'circle':
       return css`
-        ${Boolean(width) &&
+        ${width !== undefined &&
         css`
-          width: ${width};
+          width: ${toCssValue(width)};
         `}
-        ${Boolean(height) &&
+        ${height !== undefined &&
         css`
-          height: ${height};
+          height: ${toCssValue(height)};
         `}
       `;
   }
@@ -130,7 +131,7 @@ const skeletonVariantStyle = (
       `;
     case 'rectangle':
       return css`
-        border-radius: ${radius};
+        border-radius: ${toCssValue(radius)};
 
         & > span {
           background-color: ${color ?? theme.semantic.fill.alternative};

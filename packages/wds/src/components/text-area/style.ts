@@ -5,6 +5,7 @@ import {
   createResponsiveStyle,
   typographyStyle,
 } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { TextAreaProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -102,7 +103,7 @@ export const textAreaWrapperStyle =
           }
         `}
 
-    width: ${width};
+    width: ${toCssValue(width)};
 
     button {
       flex-shrink: 0;
@@ -120,9 +121,9 @@ export const textAreaWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${Boolean(params?.width) &&
+        ${params?.width !== undefined &&
         css`
-          width: ${params!.width};
+          width: ${toCssValue(params.width)};
         `}
       `,
     )}

@@ -1,6 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { FlexBoxDefaultProps, FlexBoxProps } from './types';
@@ -40,15 +41,15 @@ const flexibleStyle = ({
 }: FlexBoxDefaultProps = {}) => css`
   ${gap !== undefined &&
   css`
-    gap: ${gap};
+    gap: ${toCssValue(gap)};
   `}
   ${rowGap !== undefined &&
   css`
-    row-gap: ${rowGap};
+    row-gap: ${toCssValue(rowGap)};
   `}
     ${columnGap !== undefined &&
   css`
-    column-gap: ${columnGap};
+    column-gap: ${toCssValue(columnGap)};
   `}
   ${flexDirection !== undefined &&
   css`
@@ -92,6 +93,6 @@ const flexibleStyle = ({
   `}
   ${flexBasis !== undefined &&
   css`
-    flex-basis: ${flexBasis};
+    flex-basis: ${toCssValue(flexBasis)};
   `}
 `;
