@@ -1,5 +1,3 @@
-import { sentenceCase } from 'change-case';
-
 import { PLATFORM_PATTERN, PLATFORM_PATTERN_WITHOUT_DESIGN } from './constants';
 
 import type {
@@ -65,37 +63,6 @@ export const hasMatchingDevelopPlatformPage = (
 
 export const getFrontmatterLink = (item: Frontmatter) => {
   return `/docs/${item.slug.join('/')}`;
-};
-
-export const getFrontmatterTitle = (
-  item: Frontmatter,
-  depth: number = item.slug.length - 1,
-) => {
-  let title = '';
-
-  switch (depth) {
-    case item.slug.length - 1:
-      title = item.title;
-
-      break;
-    default:
-      title = item.slug[depth] ?? '';
-      break;
-  }
-
-  const isUtilitiesPage = Boolean(
-    item.slug.find((slug) => slug.match(/utilities/i)),
-  );
-
-  if (!isUtilitiesPage || depth < item.slug.length - 1) {
-    title = sentenceCase(title);
-  }
-
-  if (title.match(/^ios$/i)) {
-    title = 'iOS';
-  }
-
-  return title;
 };
 
 export const findOrCreateGroup = (

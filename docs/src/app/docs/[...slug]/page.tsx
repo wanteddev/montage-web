@@ -1,10 +1,11 @@
 import { notFound } from 'next/navigation';
-import { sentenceCase } from 'change-case';
 
 import {
   getAllFrontmatter,
+  getFrontmatterBySlug,
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
+import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
 import { resetHeadingIds } from '@/features/docs/helpers/heading';
 import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
@@ -32,8 +33,8 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   try {
-    const { frontmatter } = await getSourceBySlug('/', parseSlug(params));
-    const title = sentenceCase(frontmatter.title) + ' - Montage';
+    const frontmatter = await getFrontmatterBySlug(parseSlug(params));
+    const title = getFrontmatterTitle(frontmatter) + ' - Montage';
     const description = frontmatter.description?.replace(/\\n/g, ' ');
 
     return {
@@ -68,7 +69,7 @@ const DocsPage = async ({ params }: Props) => {
     return <CustomRender />;
   }
 
-  const source = await getSourceBySlug('/', parseSlug(params));
+  const source = await getSourceBySlug(parseSlug(params));
 
   resetHeadingIds();
 

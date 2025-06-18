@@ -13,7 +13,7 @@ export const lnbWrapperStyle = (theme: Theme) => css`
 
   --lnb-padding-left: 40px;
 
-  &[aria-hidden='true'] {
+  &[data-visible='false'] {
     transform: translateX(-100%);
   }
 

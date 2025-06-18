@@ -57,6 +57,7 @@ const Lnb = () => {
       <ScrollArea
         sx={lnbWrapperStyle}
         aria-hidden={lnbContext.hide}
+        data-visible={!lnbContext.hide}
         viewportRef={viewportRef}
         size="small"
       >

@@ -65,52 +65,20 @@ const Sidebar = () => {
   }, []);
 
   const throttledCheckVisibility = useThrottle(() => {
-    const filteredHeadings = headings.filter(({ id }) => isSectionVisible(id));
+    const filteredHeadings = headings.filter(
+      ({ id, nodeName }) =>
+        isSectionVisible(id) && getHeadingLevel(nodeName) < 4,
+    );
 
     if (filteredHeadings.length === 0) {
       return;
     }
 
-    if (
-      Boolean(
-        filteredHeadings.find(({ nodeName }) => getHeadingLevel(nodeName) < 4),
-      )
-    ) {
-      setVisibleSectionId(
-        filteredHeadings
-          .filter(({ nodeName }) => getHeadingLevel(nodeName) < 4)
-          .sort(
-            (a, b) => getHeadingLevel(b.nodeName) - getHeadingLevel(a.nodeName),
-          )[0]!.id,
-      );
-    } else {
-      const h4Elements = filteredHeadings.filter(
-        ({ nodeName }) => getHeadingLevel(nodeName) === 4,
-      );
-
-      if (h4Elements.length > 0 && h4Elements[0]) {
-        const firstH4Id = h4Elements[0].id;
-        const firstH4Index = headings.findIndex(({ id }) => id === firstH4Id);
-
-        const closestH3 = headings
-          .slice(0, firstH4Index)
-          .reverse()
-          .find(({ nodeName }) => getHeadingLevel(nodeName) === 4);
-
-        if (closestH3) {
-          setVisibleSectionId(closestH3.id);
-        } else {
-          const closestH2 = headings
-            .slice(0, firstH4Index)
-            .reverse()
-            .find(({ nodeName }) => getHeadingLevel(nodeName) === 2);
-
-          if (closestH2) {
-            setVisibleSectionId(closestH2.id);
-          }
-        }
-      }
-    }
+    setVisibleSectionId(
+      filteredHeadings.sort(
+        (a, b) => getHeadingLevel(b.nodeName) - getHeadingLevel(a.nodeName),
+      )[0]!.id,
+    );
   }, 400);
 
   useEffect(() => {

@@ -19,7 +19,57 @@ import type {
 import type { Frontmatter } from '@/features/docs/types';
 
 const ROOT_PATH = process.cwd();
-export const DATA_PATH = join(ROOT_PATH, 'data');
+const DATA_PATH = join(ROOT_PATH, 'data');
+
+const makeSlug = (filePath: string) => {
+  return {
+    slug: filePath
+      .replace(`${DATA_PATH}/`, '')
+      .replace(/\.mdx|\.md$/, '')
+      .replace(/\/index$/, '')
+      .split('/'),
+    originSlug: filePath
+      .replace(`${DATA_PATH}/`, '')
+      .replace(/\.mdx|\.md$/, '')
+      .split('/'),
+  };
+};
+
+const getFilePaths = (slug: Array<string>) => [
+  join(DATA_PATH, `${slug.join('/')}.mdx`),
+  join(DATA_PATH, `${slug.join('/')}.md`),
+  join(DATA_PATH, `${slug.join('/')}/index.md`),
+  join(DATA_PATH, `${slug.join('/')}/index.mdx`),
+];
+
+export const getFrontmatterBySlug = async (slug: Array<string>) => {
+  if (shouldNotSerializeMDX(slug)) {
+    const frontmatter = shouldNotSerializeMDXFrontmatters.find(
+      (item) => item.slug.toString() === slug.toString(),
+    );
+
+    if (!frontmatter) {
+      throw new Error(`${slug.join('/')} is not found`);
+    }
+
+    return frontmatter;
+  }
+
+  const filePaths = getFilePaths(slug);
+
+  const filePath = filePaths.find((path) => existsSync(path));
+
+  if (!filePath) {
+    throw new Error(`File not found for slug: ${slug.join('/')}`);
+  }
+
+  const { data } = matter(readFileSync(filePath, 'utf8'));
+
+  return {
+    ...data,
+    ...makeSlug(filePath),
+  } as Frontmatter;
+};
 
 export const getAllFrontmatter = async () => {
   const paths = sync(`${DATA_PATH}/**/*.{mdx,md}`);
@@ -31,15 +81,7 @@ export const getAllFrontmatter = async () => {
 
       return {
         ...(data as Frontmatter),
-        slug: filePath
-          .replace(`${DATA_PATH}/`, '')
-          .replace(/\.mdx|\.md$/, '')
-          .replace(/\/index$/, '')
-          .split('/'),
-        originSlug: filePath
-          .replace(`${DATA_PATH}/`, '')
-          .replace(/\.mdx|\.md$/, '')
-          .split('/'),
+        ...makeSlug(filePath),
       } as Frontmatter;
     }),
     ...shouldNotSerializeMDXFrontmatters,
@@ -54,10 +96,7 @@ const SERIALIZE_OPTIONS: SerializeOptions = {
   },
 };
 
-export const getSourceBySlug = async (
-  basePath: string,
-  slug: Array<string>,
-) => {
+export const getSourceBySlug = async (slug: Array<string>) => {
   if (shouldNotSerializeMDX(slug)) {
     const frontmatter = shouldNotSerializeMDXFrontmatters.find(
       (item) => item.slug.toString() === slug.toString(),
@@ -72,35 +111,16 @@ export const getSourceBySlug = async (
     } as MDXRemoteSerializeResult<unknown, Frontmatter>;
   }
 
-  if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}.mdx`))) {
-    return serialize<unknown, Frontmatter>(
-      readFileSync(join(DATA_PATH, basePath, `${slug.join('/')}.mdx`), 'utf8'),
-      SERIALIZE_OPTIONS,
-    );
-  }
+  const filePaths = getFilePaths(slug);
 
-  if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}.md`))) {
-    return serialize<unknown, Frontmatter>(
-      readFileSync(join(DATA_PATH, basePath, `${slug.join('/')}.md`), 'utf8'),
-      SERIALIZE_OPTIONS,
-    );
-  }
+  const filePath = filePaths.find((path) => existsSync(path));
 
-  if (existsSync(join(DATA_PATH, basePath, `${slug.join('/')}/index.md`))) {
-    return serialize<unknown, Frontmatter>(
-      readFileSync(
-        join(DATA_PATH, basePath, `${slug.join('/')}/index.md`),
-        'utf8',
-      ),
-      SERIALIZE_OPTIONS,
-    );
+  if (!filePath) {
+    throw new Error(`File not found for slug: ${slug.join('/')}`);
   }
 
   return serialize<unknown, Frontmatter>(
-    readFileSync(
-      join(DATA_PATH, basePath, `${slug.join('/')}/index.mdx`),
-      'utf8',
-    ),
+    readFileSync(filePath, 'utf8'),
     SERIALIZE_OPTIONS,
   );
 };

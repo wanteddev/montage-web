@@ -2,10 +2,10 @@ import { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 
 import { useMDXContext } from '@/features/docs/context';
+import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 
 import {
   findOrCreateGroup,
-  getFrontmatterTitle,
   getIsActive,
   hasMatchingDevelopPlatformPage,
   isFrontmatter,

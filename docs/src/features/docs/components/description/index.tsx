@@ -24,8 +24,8 @@ import useThrottle from '@/hooks/use-throttle';
 
 import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
-import { getFrontmatterTitle } from '../lnb/helpers';
 import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../lnb/constants';
+import { getFrontmatterTitle } from '../../helpers/mdx.client';
 import { shouldNotSerializeMDX } from '../../helpers/overview';
 
 import { tabScrollStyle, tabStyle, titleSectionWrapperStyle } from './style';
