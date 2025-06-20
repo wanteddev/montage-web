@@ -14,7 +14,7 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
       sx={(theme) => ({
         display: 'grid',
         gridTemplateColumns: '1fr',
-        transition: 'all 0.2s ease',
+        transition: 'grid-template-columns 0.2s ease-out',
         [respondMore(theme.breakpoint.lg)]: {
           gridTemplateColumns: lnbContext.hide ? '0px 1fr' : '240px 1fr',
         },
@@ -25,7 +25,6 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
       <FlexBox
         justifyContent="center"
         sx={{
-          paddingTop: 56,
           maxWidth: '100%',
         }}
       >

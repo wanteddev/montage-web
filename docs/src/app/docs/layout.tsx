@@ -25,7 +25,12 @@ const DocsLayout = ({ children }: PropsWithChildren) => {
   }
 
   return (
-    <>
+    <FlexBox
+      flex="1"
+      sx={{
+        paddingTop: 56,
+      }}
+    >
       <FlexBox
         data-algolia-page-scope
         flexDirection="column"
@@ -49,7 +54,7 @@ const DocsLayout = ({ children }: PropsWithChildren) => {
       </FlexBox>
 
       <Sidebar />
-    </>
+    </FlexBox>
   );
 };
 

@@ -9,11 +9,15 @@ export const lnbWrapperStyle = (theme: Theme) => css`
   height: calc(100dvh - var(--gnb-height));
   display: none;
   left: 0px;
-  transition: transform 0.2s ease;
+  opacity: 1;
+  transition:
+    transform 0.3s ease-out,
+    opacity 0.3s ease-in;
 
   --lnb-padding-left: 40px;
 
   &[data-visible='false'] {
+    opacity: 0;
     transform: translateX(-100%);
   }
 
