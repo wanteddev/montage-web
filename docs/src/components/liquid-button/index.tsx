@@ -43,13 +43,6 @@ const LiquidButton = forwardRef(
 
     const composedRefs = useComposedRefs(ref, setNode as (v: T | null) => void);
 
-    const isFirefox = navigator.userAgent.toLowerCase().includes('firefox');
-
-    const backdropStyle = {
-      filter: isFirefox ? undefined : `url(#${filterId})`,
-      backdropFilter: `blur(${4 + 0.1 * 32}px) saturate(${130}%)`,
-    };
-
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
@@ -198,8 +191,7 @@ const LiquidButton = forwardRef(
       };
     }, [mousePos, calculateFadeInFactor, node]);
 
-    const transformStyle = `translate(calc(-50% + ${calculateElasticTranslation().x}px), calc(-50% + ${calculateElasticTranslation().y}px)) ${isActive ? 'scaleX(0.96) scaleY(0.96)' : calculateDirectionalScale()}`;
-    const transformRelativeStyle = `translate(calc(${calculateElasticTranslation().x / 2}px), calc(${calculateElasticTranslation().y / 2}px)) ${isActive ? 'scaleX(0.96) scaleY(0.96)' : calculateDirectionalScale()}`;
+    const transformStyle = `translate(${calculateElasticTranslation().x}px, ${calculateElasticTranslation().y}px) ${isActive ? 'scaleX(0.96) scaleY(0.96)' : calculateDirectionalScale()}`;
 
     useEffect(() => {
       const container = containerRef?.current || node;
@@ -223,11 +215,12 @@ const LiquidButton = forwardRef(
         style={
           {
             '--liquid-button-transform': transformStyle,
-            '--liquid-button-transform-relative': transformRelativeStyle,
+            '--liquid-button-transform-relative': transformStyle,
             '--liquid-button-transition': 'all ease-out 0.2s',
             '--liquid-button-radius': '145px',
             '--liquid-button-width': `${size.width}px`,
             '--liquid-button-height': `${size.height}px`,
+            '--liquid-button-filter': `url(#${filterId})`,
           } as React.CSSProperties
         }
       >
@@ -243,11 +236,7 @@ const LiquidButton = forwardRef(
             <Filter filterId={filterId} aria-hidden />
 
             <FlexBox alignItems="center" sx={liquidButtonGlassStyle}>
-              <Box
-                style={backdropStyle}
-                role="presentation"
-                sx={liquidButtonGlassFilterStyle}
-              />
+              <Box role="presentation" sx={liquidButtonGlassFilterStyle} />
 
               <Box role="presentation" sx={liquidButtonShadowStyle} />
 

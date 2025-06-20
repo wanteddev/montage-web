@@ -23,6 +23,12 @@ export const liquidButtonGlassFilterStyle = css`
   position: absolute;
   inset: 0;
   border-radius: inherit;
+  filter: var(--liquid-button-filter);
+  backdrop-filter: blur(7.2px) saturate(130%);
+
+  @supports (-moz-appearance: none) {
+    filter: none;
+  }
 `;
 
 export const liquidButtonShadowStyle = css`
@@ -52,8 +58,7 @@ export const liquidButtonContentStyle = css`
 
 export const liquidButtonLineBaseStyle = css`
   position: absolute;
-  left: 50%;
-  top: 50%;
+  inset: 0;
   border-radius: var(--liquid-button-radius);
   transform: var(--liquid-button-transform);
   transition: var(--liquid-button-transition);
