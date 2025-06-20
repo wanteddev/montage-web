@@ -1,7 +1,6 @@
 import {
   Box,
   FlexBox,
-  Slot,
   Typography,
   useComposedRefs,
   useSize,
@@ -43,9 +42,6 @@ const LiquidButton = forwardRef(
 
     const composedRefs = useComposedRefs(ref, setNode as (v: T | null) => void);
 
-    const [isHovered, setIsHovered] = useState(false);
-    const [isActive, setIsActive] = useState(false);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const size = useSize(node) || DEFAULT_SIZE;
 
@@ -83,7 +79,6 @@ const LiquidButton = forwardRef(
       [containerRef, node],
     );
 
-    // Calculate directional scaling based on mouse position
     const calculateDirectionalScale = useCallback(() => {
       if (!mousePos.x || !mousePos.y || !node) {
         return 'scaleX(1) scaleY(1)';
@@ -98,25 +93,20 @@ const LiquidButton = forwardRef(
       const deltaX = mousePos.x - pillCenterX;
       const deltaY = mousePos.y - pillCenterY;
 
-      // Calculate distance from mouse to pill edges (not center)
       const edgeDistanceX = Math.max(0, Math.abs(deltaX) - pillWidth / 2);
       const edgeDistanceY = Math.max(0, Math.abs(deltaY) - pillHeight / 2);
       const edgeDistance = Math.sqrt(
         edgeDistanceX * edgeDistanceX + edgeDistanceY * edgeDistanceY,
       );
 
-      // Activation zone: 200px from edges
       const activationZone = 200;
 
-      // If outside activation zone, no effect
       if (edgeDistance > activationZone) {
         return 'scaleX(1) scaleY(1)';
       }
 
-      // Calculate fade-in factor (1 at edge, 0 at activation zone boundary)
       const fadeInFactor = 1 - edgeDistance / activationZone;
 
-      // Normalize the deltas for direction
       const centerDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
       if (centerDistance === 0) {
         return 'scaleX(1) scaleY(1)';
@@ -125,17 +115,14 @@ const LiquidButton = forwardRef(
       const normalizedX = deltaX / centerDistance;
       const normalizedY = deltaY / centerDistance;
 
-      // Calculate stretch factors with fade-in
       const stretchIntensity =
         Math.min(centerDistance / 300, 1) * 0.35 * fadeInFactor;
 
-      // X-axis scaling: stretch horizontally when moving left/right, compress when moving up/down
       const scaleX =
         1 +
         Math.abs(normalizedX) * stretchIntensity * 0.3 -
         Math.abs(normalizedY) * stretchIntensity * 0.15;
 
-      // Y-axis scaling: stretch vertically when moving up/down, compress when moving left/right
       const scaleY =
         1 +
         Math.abs(normalizedY) * stretchIntensity * 0.3 -
@@ -144,7 +131,6 @@ const LiquidButton = forwardRef(
       return `scaleX(${Math.max(0.8, scaleX)}) scaleY(${Math.max(0.8, scaleY)})`;
     }, [mousePos.x, mousePos.y, node, size.height, size.width]);
 
-    // Helper function to calculate fade-in factor based on distance from element edges
     const calculateFadeInFactor = useCallback(() => {
       if (!mousePos.x || !mousePos.y || !node) {
         return 0;
@@ -191,8 +177,6 @@ const LiquidButton = forwardRef(
       };
     }, [mousePos, calculateFadeInFactor, node]);
 
-    const transformStyle = `translate(${calculateElasticTranslation().x}px, ${calculateElasticTranslation().y}px) ${isActive ? 'scaleX(0.96) scaleY(0.96)' : calculateDirectionalScale()}`;
-
     useEffect(() => {
       const container = containerRef?.current || node;
       if (!container) {
@@ -214,8 +198,9 @@ const LiquidButton = forwardRef(
         sx={liquidButtonWrapperStyle}
         style={
           {
-            '--liquid-button-transform': transformStyle,
-            '--liquid-button-transform-relative': transformStyle,
+            '--liquid-button-transform-translate-x': `${calculateElasticTranslation().x}px`,
+            '--liquid-button-transform-translate-y': `${calculateElasticTranslation().y}px`,
+            '--liquid-button-transform-scale': calculateDirectionalScale(),
             '--liquid-button-transition': 'all ease-out 0.2s',
             '--liquid-button-radius': '145px',
             '--liquid-button-width': `${size.width}px`,
@@ -224,30 +209,27 @@ const LiquidButton = forwardRef(
           } as React.CSSProperties
         }
       >
-        <Slot ref={composedRefs} {...props}>
-          <Box
-            as={props.as || 'button'}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onMouseDown={() => setIsActive(true)}
-            onMouseUp={() => setIsActive(false)}
-            sx={[liquidButtonStyle, props.sx]}
-          >
-            <Filter filterId={filterId} aria-hidden />
+        <Box
+          as={props.as || 'button'}
+          ref={composedRefs}
+          {...props}
+          data-role="liquid-button"
+          sx={[liquidButtonStyle, props.sx]}
+        >
+          <Filter filterId={filterId} aria-hidden />
 
-            <FlexBox alignItems="center" sx={liquidButtonGlassStyle}>
-              <Box role="presentation" sx={liquidButtonGlassFilterStyle} />
+          <FlexBox alignItems="center" sx={liquidButtonGlassStyle}>
+            <Box role="presentation" sx={liquidButtonGlassFilterStyle} />
 
-              <Box role="presentation" sx={liquidButtonShadowStyle} />
+            <Box role="presentation" sx={liquidButtonShadowStyle} />
 
-              <FlexBox alignItems="center" sx={liquidButtonContentStyle}>
-                <Typography weight="bold" color="semantic.static.white">
-                  {children}
-                </Typography>
-              </FlexBox>
+            <FlexBox alignItems="center" sx={liquidButtonContentStyle}>
+              <Typography weight="bold" color="semantic.static.white">
+                {children}
+              </Typography>
             </FlexBox>
-          </Box>
-        </Slot>
+          </FlexBox>
+        </Box>
 
         <Box
           role="presentation"
@@ -286,30 +268,24 @@ const LiquidButton = forwardRef(
             liquidButtonLineBaseStyle,
             liquidButtonInteractionOverlayFirstStyle,
           ]}
-          style={{
-            opacity: isHovered || isActive ? 0.5 : 0,
-          }}
+          data-role="liquid-button-interaction"
         />
 
         <Box
           role="presentation"
+          data-role="liquid-button-interaction-active"
           sx={[
             liquidButtonLineBaseStyle,
             liquidButtonInteractionOverlaySecondStyle,
           ]}
-          style={{
-            opacity: isActive ? 0.5 : 0,
-          }}
         />
         <Box
           role="presentation"
+          data-role="liquid-button-interaction-alternative"
           sx={[
             liquidButtonLineBaseStyle,
             liquidButtonInteractionOverlayThirdStyle,
           ]}
-          style={{
-            opacity: isHovered ? 0.4 : isActive ? 0.8 : 0,
-          }}
         />
       </Box>
     );

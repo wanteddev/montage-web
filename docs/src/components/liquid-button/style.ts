@@ -2,6 +2,32 @@ import { css } from '@wanteddev/wds';
 
 export const liquidButtonWrapperStyle = css`
   position: relative;
+
+  &:has([data-role='liquid-button']:hover) {
+    [data-role='liquid-button-interaction'] {
+      opacity: 0.5;
+    }
+
+    [data-role='liquid-button-interaction-alternative'] {
+      opacity: 0.4;
+    }
+  }
+
+  &:has([data-role='liquid-button']:active) {
+    [data-role='liquid-button-interaction'] {
+      opacity: 0.5;
+    }
+
+    [data-role='liquid-button-interaction-active'] {
+      opacity: 0.5;
+    }
+
+    [data-role='liquid-button-interaction-alternative'] {
+      opacity: 0.8;
+    }
+
+    --liquid-button-transform-scale: scaleX(0.96) scaleY(0.96) !important;
+  }
 `;
 
 export const liquidButtonStyle = css`
@@ -11,7 +37,11 @@ export const liquidButtonStyle = css`
   background-color: transparent;
   position: relative;
   border-radius: var(--liquid-button-radius);
-  transform: var(--liquid-button-transform-relative);
+  transform: translate(
+      var(--liquid-button-transform-translate-x),
+      var(--liquid-button-transform-translate-y)
+    )
+    var(--liquid-button-transform-scale);
   transition: var(--liquid-button-transition);
 `;
 
@@ -60,7 +90,11 @@ export const liquidButtonLineBaseStyle = css`
   position: absolute;
   inset: 0;
   border-radius: var(--liquid-button-radius);
-  transform: var(--liquid-button-transform);
+  transform: translate(
+      var(--liquid-button-transform-translate-x),
+      var(--liquid-button-transform-translate-y)
+    )
+    var(--liquid-button-transform-scale);
   transition: var(--liquid-button-transition);
   width: var(--liquid-button-width);
   height: var(--liquid-button-height);
@@ -104,6 +138,7 @@ export const liquidButtonInteractionOverlayFirstStyle = css`
   );
   mix-blend-mode: overlay;
   width: calc(var(--liquid-button-width) + 1px);
+  opacity: 0;
 `;
 
 export const liquidButtonInteractionOverlaySecondStyle = css`
@@ -114,6 +149,7 @@ export const liquidButtonInteractionOverlaySecondStyle = css`
   );
   mix-blend-mode: overlay;
   width: calc(var(--liquid-button-width) + 1px);
+  opacity: 0;
 `;
 
 export const liquidButtonInteractionOverlayThirdStyle = css`
@@ -124,4 +160,5 @@ export const liquidButtonInteractionOverlayThirdStyle = css`
   );
   mix-blend-mode: overlay;
   width: calc(var(--liquid-button-width) + 1px);
+  opacity: 0;
 `;
