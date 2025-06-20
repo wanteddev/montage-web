@@ -30,6 +30,7 @@ const DocsLayout = ({ children }: PropsWithChildren) => {
       sx={{
         paddingTop: 56,
       }}
+      justifyContent="center"
     >
       <FlexBox
         data-algolia-page-scope
