@@ -12,9 +12,9 @@ const Intro = () => {
       alignItems="center"
       justifyContent="center"
       ref={ref}
+      flex="1"
       sx={{
         position: 'relative',
-        width: '100vw',
         height: '100vh',
         backgroundImage: 'url(/background-image.png)',
         backgroundSize: 'cover',
