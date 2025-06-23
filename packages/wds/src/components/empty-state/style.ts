@@ -1,6 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, typographyStyle } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { EmptyStateProps } from './types';
@@ -103,7 +104,6 @@ const emptyStatePaddingStyle = ({
         padding-bottom: 80px;
       `;
     case 'normal':
-    default:
       return css`
         padding-top: 160px;
         padding-bottom: 160px;
@@ -118,7 +118,7 @@ export const emptyStateStyle =
 
     ${emptyStatePlatformStyle({ platform })}
     ${emptyStatePaddingStyle({ padding })}
-    width: ${width};
+    width: ${toCssValue(width)};
 
     [wds-component='empty-state-image'] {
       max-width: 100%;
@@ -149,7 +149,10 @@ export const emptyStateStyle =
       (params) => css`
         ${emptyStatePlatformStyle({ platform: params?.platform })}
         ${emptyStatePaddingStyle({ padding: params?.padding })}
-        width: ${params?.width};
+        ${params?.width !== undefined &&
+        css`
+          width: ${toCssValue(params.width)};
+        `}
         ${params?.sx}
       `,
     )}

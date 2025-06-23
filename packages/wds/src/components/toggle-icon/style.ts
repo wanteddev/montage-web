@@ -1,6 +1,7 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle } from '../../utils/responsive-props';
+import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { ToggleIconProps } from './types';
@@ -35,10 +36,10 @@ export const toggleIconStyle =
   `;
 
 const toggleIconSizeStyle = (size: ToggleIconProps['size']) =>
-  Boolean(size)
+  size !== undefined
     ? css`
-        width: ${size};
-        height: ${size};
-        font-size: ${size};
+        width: ${toCssValue(size)};
+        height: ${toCssValue(size)};
+        font-size: ${toCssValue(size)};
       `
     : undefined;

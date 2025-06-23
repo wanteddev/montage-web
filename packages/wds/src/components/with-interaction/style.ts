@@ -1,5 +1,7 @@
 import { type Theme, css, getColorByToken } from '@wanteddev/wds-engine';
 
+import { toCssValue } from '../../utils/css';
+
 import type { WithInteractionProps } from './types';
 
 type VariantType = 'normal' | 'light' | 'strong';
@@ -23,13 +25,13 @@ export const interactionStyle =
     top: 50%;
     transform: translate(-50%, -50%);
 
-    ${width &&
+    ${width !== undefined &&
     css`
-      width: ${width};
+      width: ${toCssValue(width)};
     `}
-    ${height &&
+    ${height !== undefined &&
     css`
-      height: ${height};
+      height: ${toCssValue(height)};
     `}
   `;
 

@@ -6,6 +6,7 @@ import {
   gradient,
   typographyStyle,
 } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -103,7 +104,7 @@ export const cardStyle =
     --wds-card-thumbnail-overlay-z-index: 1;
     --wds-card-thumbnail-content-z-index: 2;
 
-    width: ${width ?? '100%'};
+    width: ${toCssValue(width) ?? '100%'};
     ${cardPlatformStyle({ platform })}
 
     &:hover {
@@ -132,7 +133,7 @@ export const cardStyle =
       (params) => css`
         ${params?.width !== undefined &&
         css`
-          width: ${params.width};
+          width: ${toCssValue(params.width)};
         `}
         ${cardPlatformStyle({ platform: params?.platform })}
         ${params?.sx}

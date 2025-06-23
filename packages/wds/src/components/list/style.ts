@@ -6,6 +6,7 @@ import {
   getPreviousValue,
   typographyStyle,
 } from '../../utils';
+import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { ListCellContentProps, ListCellProps } from './types';
@@ -128,7 +129,8 @@ const listCellInteractionPaddingStyle = ({
     `;
   }
   return css`
-    --wds-list-cell-interaction-padding: ${interactionPadding ?? '12px'};
+    --wds-list-cell-interaction-padding: ${toCssValue(interactionPadding) ??
+    '12px'};
 
     & > [wds-component='with-interaction'] {
       width: calc(100% + (var(--wds-list-cell-interaction-padding, 0px) * 2));

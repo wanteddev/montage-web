@@ -4,6 +4,7 @@ import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
+import { toCssValue } from '../../utils/css';
 
 import type { DividerProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -56,20 +57,20 @@ const dividerSizeStyle = ({
   (vertical
     ? css`
         border-width: 0px;
-        border-right-width: ${thickness};
+        border-right-width: ${toCssValue(thickness)};
       `
     : css`
         border-width: 0px;
-        border-bottom-width: ${thickness};
+        border-bottom-width: ${toCssValue(thickness)};
       `)}
 
   ${vertical
     ? css`
         width: 0px;
-        height: ${size};
+        height: ${toCssValue(size)};
       `
     : css`
         height: 0px;
-        width: ${size};
+        width: ${toCssValue(size)};
       `};
 `;
