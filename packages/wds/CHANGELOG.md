@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/wanteddev/wds/compare/v2.0.3...v2.0.4) (2025-06-23)
+
+### Bug Fixes
+
+- **wds:** dot 형태 push-badge를 아이콘 버튼과 함께 사용할 때 크기가 올바르게 적용되지 않음 ([#337](https://github.com/wanteddev/wds/issues/337)) ([b919fb1](https://github.com/wanteddev/wds/commit/b919fb1a95d5b4b7075ef7f8b02bf9c51ab75847))
+- **wds:** flexbox responsive 타입에 children이 잡히는 이슈 ([#338](https://github.com/wanteddev/wds/issues/338)) ([b7dac60](https://github.com/wanteddev/wds/commit/b7dac60d850edb685d0fd3d0f77f1ef4db224453))
+- **wds:** text area SSR 환경에서 기본 높이가 올바르게 적용되지 않음 ([#335](https://github.com/wanteddev/wds/issues/335)) ([2c658c4](https://github.com/wanteddev/wds/commit/2c658c4555afd8c8a542c5b8825e2bdbebc117ba))
+- **wds:** 사용하지 않는 pushBadge 인터페이스 제거 ([#340](https://github.com/wanteddev/wds/issues/340)) ([13cdd8a](https://github.com/wanteddev/wds/commit/13cdd8aa670006485422ae4891afa8dbdd020e8f))
+
+### Features
+
+- **wds:** avatar에 size number로 주입한 경우 대응 ([#339](https://github.com/wanteddev/wds/issues/339)) ([d5b1393](https://github.com/wanteddev/wds/commit/d5b1393d315a12e9d5c2287f3c85a0c29aaf743f))
+- **wds:** card typography variant 커스터마이징 편의성 개선 ([#336](https://github.com/wanteddev/wds/issues/336)) ([c395e3c](https://github.com/wanteddev/wds/commit/c395e3c39ec0aa69862c1b258e727ebc393d4de2))
+- **wds:** composeEventHandlers 내보내기 추가 ([#344](https://github.com/wanteddev/wds/issues/344)) ([face30b](https://github.com/wanteddev/wds/commit/face30b77ff59cdf2e8b0697c3c864c91b4e753a))
+- **wds:** region config에 displayName 추가 ([#341](https://github.com/wanteddev/wds/issues/341)) ([bc0a933](https://github.com/wanteddev/wds/commit/bc0a9334a7513959ff4bc7069988a3edddbef267))
+- **wds:** tooltip hover 모드일 때 enableOpenOnFocusVisibleOnly 옵션 추가 ([#345](https://github.com/wanteddev/wds/issues/345)) ([e419540](https://github.com/wanteddev/wds/commit/e419540c5c2171be75888f890510ff83aff6958f))
+- **wds:** width, height, gap 속성에 number 타입 지원 추가 ([#343](https://github.com/wanteddev/wds/issues/343)) ([15b75fb](https://github.com/wanteddev/wds/commit/15b75fb5803769a666baccfdfd14298153e90eea))
+
 ## [2.0.3](https://github.com/wanteddev/wds/compare/v2.0.2...v2.0.3) (2025-06-10)
 
 ### Bug Fixes
