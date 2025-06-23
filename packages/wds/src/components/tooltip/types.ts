@@ -23,9 +23,14 @@ export type TooltipProps = {
    */
   disableCloseOnPointDown?: boolean;
   /**
-   *  mode="hover" 일 때 focus 이벤트 시 툴팁 열림 여부
+   * mode="hover" 일 때 focus 이벤트 시 툴팁 열림 여부
    */
   disableOpenOnFocus?: boolean;
+  /**
+   * mode="hover" 일 때 focus 이벤트가 아닌
+   * focus-visible 일 때만 툴팁 열림 여부
+   */
+  enableOpenOnFocusVisibleOnly?: boolean;
   children?: ReactNode;
 };
 

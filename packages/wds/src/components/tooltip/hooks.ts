@@ -16,6 +16,7 @@ export const useTooltip = ({
   leaveDelay,
   disableCloseOnPointDown,
   disableOpenOnFocus,
+  enableOpenOnFocusVisibleOnly,
 }: TooltipProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const groupContext = useTooltipGroupContext();
@@ -122,12 +123,18 @@ export const useTooltip = ({
       return;
     }
 
-    if (!latestOpen.current && !isMouseDownTriggered.current) {
+    if (
+      !latestOpen.current &&
+      !isMouseDownTriggered.current &&
+      (enableOpenOnFocusVisibleOnly
+        ? triggerRef.current?.matches(':focus-visible')
+        : true)
+    ) {
       handleOpen(0);
     }
 
     isMouseDownTriggered.current = false;
-  }, [handleOpen, mode, disableOpenOnFocus]);
+  }, [handleOpen, mode, disableOpenOnFocus, enableOpenOnFocusVisibleOnly]);
 
   const handleBlur = useCallback(() => {
     if (mode === 'hover') {

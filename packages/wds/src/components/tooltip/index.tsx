@@ -90,6 +90,7 @@ const Tooltip = ({
   leaveDelay = 250,
   disableCloseOnPointDown = false,
   disableOpenOnFocus = false,
+  enableOpenOnFocusVisibleOnly = false,
 }: TooltipProps) => {
   const containerId = useId();
   const {
@@ -113,6 +114,7 @@ const Tooltip = ({
     leaveDelay,
     disableCloseOnPointDown,
     disableOpenOnFocus,
+    enableOpenOnFocusVisibleOnly,
   });
 
   const scopes = useTooltipScope('Tooltip');
