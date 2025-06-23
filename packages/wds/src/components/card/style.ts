@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import {
   createResponsiveStyle,
@@ -7,7 +7,10 @@ import {
   typographyStyle,
 } from '../../utils';
 import { toCssValue } from '../../utils/css';
+import { getWeightMap } from '../typography/style';
 
+import type { SkeletonProps } from '../skeleton/types';
+import type { TypographyProps } from '../typography/types';
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -118,13 +121,6 @@ export const cardStyle =
     [wds-component='thumbnail-skeleton'] {
       width: 100%;
     }
-    // text
-    [wds-component='card-title'] {
-      ${ellipsisTypographyStyle(2)}
-    }
-    [wds-component='card-caption'] {
-      ${ellipsisTypographyStyle()}
-    }
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -195,6 +191,7 @@ export const cardThumbnailStyle =
 export const cardThumbnailSkeletonStyle =
   ({ ratio, xs, sm, md, lg, xl }: ThumbnailSkeletonProps) =>
   (theme: Theme) => css`
+    width: 100%;
     ${cardThumbnailRatioStyle({ ratio })}
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -241,6 +238,65 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
     color: ${theme.semantic.static.white};
   }
 `;
+
+export const cardTitleStyle = (props: TypographyProps) => (theme: Theme) => css`
+  ${ellipsisTypographyStyle(2)}
+
+  &[wds-component='card-title'] {
+    ${cardTypographyStyle(props, 'bold')(theme)}
+  }
+`;
+
+export const cardCaptionStyle =
+  (props: TypographyProps) => (theme: Theme) => css`
+    ${ellipsisTypographyStyle()}
+
+    &[wds-component='card-caption'] {
+      ${cardTypographyStyle(props, 'medium')(theme)}
+    }
+  `;
+
+export const cardTypographyStyle =
+  (props: TypographyProps, defaultWeight?: TypographyProps['weight']) =>
+  (theme: Theme) => {
+    if (Object.keys(props).length === 0) {
+      return undefined;
+    }
+
+    const getTypographyStyle = ({ variant, weight }: TypographyProps) => {
+      if (!variant && !weight) {
+        return undefined;
+      }
+
+      if (!variant) {
+        return css`
+          ${getWeightMap('body1')[weight ?? defaultWeight ?? 'regular']}
+        `;
+      }
+
+      return typographyStyle(variant, weight);
+    };
+
+    const { xs, sm, md, lg, xl } = props;
+
+    return css`
+      ${getTypographyStyle(props)}
+
+      ${Boolean(props.color) &&
+      css`
+        color: ${getColorByToken(theme, props.color!)};
+      `}
+
+    ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${getTypographyStyle(params ?? {})}
+        `,
+      )}
+    `;
+  };
 
 export const cardContentStyle = css`
   overflow: hidden;
@@ -356,3 +412,41 @@ export const cardSkeletonStyle =
       `,
     )}
   `;
+
+export const cardTitleSkeletonStyle =
+  (props: SkeletonProps) => (theme: Theme) => css`
+    &[wds-component='card-title-skeleton'] {
+      ${cardSkeletonWidthStyle(props)(theme)}
+    }
+  `;
+
+const cardSkeletonWidthStyle =
+  ({ width, height, xs, sm, md, lg, xl }: SkeletonProps) =>
+  (theme: Theme) => {
+    return css`
+      ${width !== undefined &&
+      css`
+        width: ${toCssValue(width)};
+      `}
+      ${height !== undefined &&
+      css`
+        height: ${toCssValue(height)};
+      `}
+
+    ${createResponsiveStyle(
+        { xs, sm, md, lg, xl },
+        theme,
+      )(
+        (params) => css`
+          ${params?.width !== undefined &&
+          css`
+            width: ${toCssValue(params.width)};
+          `}
+          ${params?.height !== undefined &&
+          css`
+            height: ${toCssValue(params.height)};
+          `}
+        `,
+      )}
+    `;
+  };

@@ -7,9 +7,9 @@ import {
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
-import Typography from '../typography';
 import { Thumbnail, ThumbnailSkeleton } from '../thumbnail';
 import Skeleton from '../skeleton';
+import Typography from '../typography';
 
 import {
   CARD_CAPTION_NAME,
@@ -26,6 +26,7 @@ import {
   CARD_TITLE_SKELETON_NAME,
 } from './constants';
 import {
+  cardCaptionStyle,
   cardContentItemStyle,
   cardContentStyle,
   cardSkeletonStyle,
@@ -35,6 +36,8 @@ import {
   cardThumbnailContentWrapperStyle,
   cardThumbnailSkeletonStyle,
   cardThumbnailStyle,
+  cardTitleSkeletonStyle,
+  cardTitleStyle,
 } from './style';
 
 import type { FlexBoxProps } from '../flex-box/types';
@@ -216,34 +219,50 @@ const CardContentItem = forwardRef(
 CardContentItem.displayName = CARD_CONTENT_ITEM_NAME;
 
 const CardTitle = forwardRef(
-  <E extends ElementType = 'span'>(
+  <E extends ElementType = 'p'>(
     {
-      variant = 'body1',
-      weight = 'bold',
+      variant,
+      weight,
+      color,
+      as,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     }: PolymorphicProps<TypographyProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     return (
       <Typography
+        as={as ?? 'p'}
         ref={ref}
         wds-component="card-title"
-        variant={variant}
-        weight={weight}
         {...props}
+        sx={[
+          cardTitleStyle({ variant, weight, color, xs, sm, md, lg, xl }),
+          props.sx,
+        ]}
       />
     );
   },
-) as PolymorphicComponent<TypographyProps, 'span'>;
+) as PolymorphicComponent<TypographyProps, 'p'>;
 
 CardTitle.displayName = CARD_TITLE_NAME;
 
 const CardCaption = forwardRef(
-  <E extends ElementType = 'span'>(
+  <E extends ElementType = 'p'>(
     {
-      variant = 'label2',
-      weight = 'medium',
+      variant,
+      weight,
       color = 'semantic.label.alternative',
+      as,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     }: PolymorphicProps<TypographyProps, E>,
     ref: ForwardedRef<E>,
@@ -251,15 +270,17 @@ const CardCaption = forwardRef(
     return (
       <Typography
         ref={ref}
+        as={as ?? 'p'}
         wds-component="card-caption"
-        variant={variant}
-        weight={weight}
-        color={color}
         {...props}
+        sx={[
+          cardCaptionStyle({ variant, weight, color, xs, sm, md, lg, xl }),
+          props.sx,
+        ]}
       />
     );
   },
-) as PolymorphicComponent<TypographyProps, 'span'>;
+) as PolymorphicComponent<TypographyProps, 'p'>;
 
 CardCaption.displayName = CARD_CAPTION_NAME;
 
@@ -345,11 +366,28 @@ CardContentItemSkeleton.displayName = CARD_CONTENT_ITEM_SKELETON_NAME;
 
 const CardTitleSkeleton = forwardRef(
   (
-    props: DefaultComponentProps<SkeletonProps, 'div'>,
+    {
+      width,
+      height,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
+      ...props
+    }: DefaultComponentProps<SkeletonProps, 'div'>,
     ref: ForwardedRef<ElementRef<'div'>>,
   ) => {
     return (
-      <Skeleton ref={ref} wds-component="card-title-skeleton" {...props} />
+      <Skeleton
+        ref={ref}
+        wds-component="card-title-skeleton"
+        {...props}
+        sx={[
+          cardTitleSkeletonStyle({ width, height, xs, sm, md, lg, xl }),
+          props.sx,
+        ]}
+      />
     );
   },
 );
