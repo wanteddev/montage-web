@@ -6,6 +6,7 @@ export { Slot, Slottable } from '@radix-ui/react-slot';
 export { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
 export { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 export { useControllableState } from '@radix-ui/react-use-controllable-state';
+export { composeEventHandlers } from '@radix-ui/primitive';
 export { usePrevious } from '@radix-ui/react-use-previous';
 export {
   createRovingFocusGroupScope,
