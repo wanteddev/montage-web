@@ -423,20 +423,14 @@ export const cardTitleSkeletonStyle =
 const cardSkeletonWidthStyle =
   ({ width, height, xs, sm, md, lg, xl }: SkeletonProps) =>
   (theme: Theme) => {
-    if (width) {
-      return css`
-        width: ${width};
-      `;
-    }
-
     return css`
-      ${Boolean(width) &&
+      ${width !== undefined &&
       css`
-        width: ${width};
+        width: ${toCssValue(width)};
       `}
-      ${Boolean(height) &&
+      ${height !== undefined &&
       css`
-        height: ${height};
+        height: ${toCssValue(height)};
       `}
 
     ${createResponsiveStyle(
@@ -446,11 +440,11 @@ const cardSkeletonWidthStyle =
         (params) => css`
           ${params?.width !== undefined &&
           css`
-            width: ${params.width};
+            width: ${toCssValue(params.width)};
           `}
           ${params?.height !== undefined &&
           css`
-            height: ${params.height};
+            height: ${toCssValue(params.height)};
           `}
         `,
       )}
