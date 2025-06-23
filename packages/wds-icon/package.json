@@ -35,10 +35,6 @@
   "devDependencies": {
     "@types/react": "^18.3.14",
     "@types/react-dom": "^18.3.1",
-    "change-case": "^5.4.3",
-    "glob": "^10.3.10",
-    "inquirer": "^9.2.16",
-    "shelljs": "^0.8.5",
     "typescript": "^5.4.2"
   },
   "dependencies": {
