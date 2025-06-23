@@ -86,7 +86,9 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
             }}
           />
         ) : (
-          <Box sx={fallbackWrapperStyle}>{getDefaultFallback()}</Box>
+          <Box data-role="avatar-fallback" sx={fallbackWrapperStyle}>
+            {getDefaultFallback()}
+          </Box>
         )}
         {children}
       </Box>

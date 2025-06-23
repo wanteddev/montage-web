@@ -10,7 +10,6 @@ export const avatarWrapperStyle =
   ({ size, variant, xs, sm, md, lg, xl }: AvatarProps) =>
   (theme: Theme) => css`
     background-color: ${theme.semantic.background.normal.normal};
-    color: ${theme.semantic.static.white};
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,6 +66,7 @@ export const fallbackWrapperStyle = (theme: Theme) => css`
   color: inherit;
   font-size: inherit;
   background-color: ${theme.semantic.fill.strong};
+  color: ${theme.semantic.static.white};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,6 +99,16 @@ const avatarSizeStyle = (
         `;
     }
   };
+
+  if (typeof size === 'number') {
+    return css`
+      width: ${size}px;
+      height: ${size}px;
+      font-size: calc(${size}px / 1.5);
+
+      ${getBorderRadius(size / 4.8 > 6 ? size / 4.8 : 6)}
+    `;
+  }
 
   switch (size) {
     case 'xlarge':
