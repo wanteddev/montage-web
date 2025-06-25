@@ -6,7 +6,7 @@ import Intro from '@/home/components/intro';
 
 const RootPage = () => {
   return (
-    <FlexBox flexDirection="column" flex="1">
+    <FlexBox flexDirection="column" flex="1" alignItems="center">
       <Intro />
 
       <Container>

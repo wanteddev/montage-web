@@ -1,4 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelectedLayoutSegments } from 'next/navigation';
+
+import { useLnbContext } from '@/features/docs/components/lnb/contexts';
+
+import { GNB_HEIGHT } from './constants';
+import { getBodyScrollTop } from './helpers';
+
+import type { FocusEvent } from 'react';
 
 export const useSearch = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,5 +37,88 @@ export const useSearch = () => {
     isOpen,
     handleOpen,
     handleOpenChange,
+  };
+};
+
+export const useFloatingGnb = () => {
+  const lnbContext = useLnbContext();
+  const segments = useSelectedLayoutSegments();
+  const isRootPage = segments.length === 0;
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  const [focused, setFocused] = useState(false);
+  const [translateY, setTranslateY] = useState(0);
+
+  const prevScrollTop = useRef(0);
+  const scrollDirection = useRef<'up' | 'down'>('down');
+  const transitionPoint = useRef(GNB_HEIGHT);
+
+  const handleFocusCapture = useCallback((e: FocusEvent<HTMLDivElement>) => {
+    if (e.target.matches(':focus-visible')) {
+      setFocused(true);
+    }
+  }, []);
+
+  const handleBlurCapture = useCallback(() => {
+    setFocused(false);
+  }, []);
+
+  useEffect(() => {
+    if (!lnbContext.hide || focused) {
+      const scrollTop = getBodyScrollTop();
+
+      transitionPoint.current = scrollTop + GNB_HEIGHT;
+
+      setTranslateY(0);
+    }
+  }, [lnbContext.hide, focused, isRootPage]);
+
+  const handleScroll = useCallback(() => {
+    const scrollTop = getBodyScrollTop();
+    const nextDirection = prevScrollTop.current > scrollTop ? 'up' : 'down';
+
+    if (
+      scrollDirection.current === 'down' &&
+      nextDirection === 'up' &&
+      transitionPoint.current - scrollTop < 0
+    ) {
+      transitionPoint.current = scrollTop;
+    }
+
+    if (
+      scrollDirection.current === 'up' &&
+      nextDirection === 'down' &&
+      scrollTop - transitionPoint.current < -GNB_HEIGHT
+    ) {
+      transitionPoint.current = scrollTop + GNB_HEIGHT;
+    }
+
+    const newTranslateY = Math.min(
+      0,
+      -GNB_HEIGHT + transitionPoint.current - scrollTop,
+    );
+
+    if (lnbContext.hide && !focused) {
+      setTranslateY(newTranslateY);
+    }
+
+    scrollDirection.current = nextDirection;
+    prevScrollTop.current = scrollTop;
+  }, [lnbContext.hide, focused]);
+
+  useEffect(() => {
+    document.addEventListener('scroll', handleScroll);
+
+    return () => {
+      document.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
+
+  return {
+    ref,
+    translateY: !isRootPage ? 0 : translateY,
+    handleFocusCapture,
+    handleBlurCapture,
   };
 };

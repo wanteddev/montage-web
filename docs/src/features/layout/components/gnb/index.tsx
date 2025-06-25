@@ -20,8 +20,7 @@ import {
   IconSun,
 } from '@wanteddev/wds-icon';
 import Link from 'next/link';
-import { useSelectedLayoutSegments } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Logo from '@/assets/logo';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
@@ -34,8 +33,10 @@ import {
   gnbWrapperStyle,
   menuItemStyle,
 } from './style';
-import { useSearch } from './hooks';
+import { useFloatingGnb, useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
+
+import type { CSSProperties } from 'react';
 
 const Gnb = () => {
   const { setTheme, themeOriginValue } = useThemeControl();
@@ -44,24 +45,10 @@ const Gnb = () => {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const [isSticky, setIsSticky] = useState(false);
-
-  const segments = useSelectedLayoutSegments();
-  const isDocsPage = segments.includes('docs');
-
   const { isOpen, handleOpen, handleOpenChange } = useSearch();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsSticky(window.scrollY > 0);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  const { ref, translateY, handleFocusCapture, handleBlurCapture } =
+    useFloatingGnb();
 
   return (
     <>
@@ -75,12 +62,19 @@ const Gnb = () => {
       )}
 
       <FlexBox
+        ref={ref}
+        onFocusCapture={handleFocusCapture}
+        onBlurCapture={handleBlurCapture}
         suppressHydrationWarning
         alignContent="center"
         as="header"
-        sx={gnbWrapperStyle}
-        data-is-docs-page={isDocsPage}
-        data-is-sticky={isSticky}
+        sx={[gnbWrapperStyle]}
+        style={
+          {
+            '--gnb-position': 'sticky',
+            '--gnb-translate-y': `${translateY}px`,
+          } as CSSProperties
+        }
       >
         <FlexBox
           alignItems="center"

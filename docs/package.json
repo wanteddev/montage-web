@@ -22,6 +22,7 @@
     "algoliasearch": "^5.15.0",
     "autosuggest-highlight": "^3.3.4",
     "copy-to-clipboard": "^3.3.3",
+    "framer-motion": "^12.19.1",
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.0",
     "mdast-util-mdx-jsx": "^3.2.0",

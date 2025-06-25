@@ -3,10 +3,12 @@ import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const gnbWrapperStyle = (theme: Theme) => css`
-  position: sticky;
+  position: var(--gnb-position);
+  margin-top: var(--gnb-margin-top);
   z-index: ${theme.zIndex.modal};
   top: 0;
   padding: 12px 20px;
+  width: 100%;
   backdrop-filter: blur(32px);
   background-color: ${addOpacity(
     theme.semantic.background.normal.normal,
@@ -15,6 +17,7 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
+  transform: translateY(var(--gnb-translate-y));
 
   ${respondMore(theme.breakpoint.sm)} {
     padding: 12px 40px;
