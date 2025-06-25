@@ -71,7 +71,6 @@ const Gnb = () => {
         sx={[gnbWrapperStyle]}
         style={
           {
-            '--gnb-position': 'sticky',
             '--gnb-translate-y': `${translateY}px`,
           } as CSSProperties
         }

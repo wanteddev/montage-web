@@ -3,8 +3,7 @@ import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const gnbWrapperStyle = (theme: Theme) => css`
-  position: var(--gnb-position);
-  margin-top: var(--gnb-margin-top);
+  position: sticky;
   z-index: ${theme.zIndex.modal};
   top: 0;
   padding: 12px 20px;
@@ -20,7 +19,7 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   transform: translateY(var(--gnb-translate-y));
 
   ${respondMore(theme.breakpoint.sm)} {
-    padding: 12px 40px;
+    padding: 12px 48px;
   }
 `;
 
