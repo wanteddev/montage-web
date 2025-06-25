@@ -9,6 +9,10 @@ import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 
 import { useMotionState } from './hooks';
 
+const SCROLL_TRIGGER_POINT = GNB_HEIGHT + 24;
+const PADDING_INLINE = 48;
+const BORDER_RADIUS = 40;
+
 const Intro = () => {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -18,14 +22,20 @@ const Intro = () => {
 
   const widthOffset = useMotionState(
     scrollYMotionValue,
-    [0, GNB_HEIGHT + 24],
-    [96, 0],
+    [0, SCROLL_TRIGGER_POINT],
+    [PADDING_INLINE * 2, 0],
   );
 
   const borderRadius = useMotionState(
     scrollYMotionValue,
-    [0, GNB_HEIGHT + 24],
+    [0, SCROLL_TRIGGER_POINT],
     [40, 0],
+  );
+
+  const heightOffset = useMotionState(
+    scrollYMotionValue,
+    [0, SCROLL_TRIGGER_POINT],
+    [SCROLL_TRIGGER_POINT + PADDING_INLINE, 0],
   );
 
   return (
@@ -36,19 +46,21 @@ const Intro = () => {
         ref={ref}
         sx={{
           position: 'relative',
-          height: '100dvh',
           backgroundImage: 'url(/background-image.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           marginTop: 24,
-          transition: 'border-radius 0.3s ease-in-out',
+          transition: 'border-radius 0.2s ease-in-out',
         }}
         style={{
           width: lnbContext.hide
             ? `calc(100% - ${widthOffset}px)`
-            : 'calc(100% - 96px)',
-          borderRadius: lnbContext.hide ? borderRadius : 40,
+            : `calc(100% - ${PADDING_INLINE * 2}px)`,
+          height: lnbContext.hide
+            ? `calc(100dvh - ${heightOffset}px)`
+            : `calc(100dvh - ${SCROLL_TRIGGER_POINT + PADDING_INLINE}px)`,
+          borderRadius: lnbContext.hide ? borderRadius : BORDER_RADIUS,
         }}
       >
         <LiquidButton containerRef={ref}>GET STARTED</LiquidButton>
