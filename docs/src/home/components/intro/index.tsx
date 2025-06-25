@@ -1,22 +1,24 @@
 'use client';
 import { FlexBox } from '@wanteddev/wds';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useScroll } from 'framer-motion';
 
 import LiquidButton from '@/components/liquid-button';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
-import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 
 import { useMotionState } from './hooks';
+import {
+  BORDER_RADIUS,
+  PADDING_BOTTOM,
+  PADDING_INLINE,
+  SCROLL_TRIGGER_POINT,
+} from './constants';
+import { introBackgroundStyle } from './style';
 
-const SCROLL_TRIGGER_POINT = GNB_HEIGHT + 24;
-const PADDING_INLINE = 48;
-const BORDER_RADIUS = 40;
+import type { CSSProperties } from 'react';
 
 const Intro = () => {
   const ref = useRef<HTMLDivElement>(null);
-
-  const lnbContext = useLnbContext();
 
   const { scrollY: scrollYMotionValue } = useScroll();
 
@@ -29,14 +31,61 @@ const Intro = () => {
   const borderRadius = useMotionState(
     scrollYMotionValue,
     [0, SCROLL_TRIGGER_POINT],
-    [40, 0],
+    [BORDER_RADIUS, 0],
   );
 
   const heightOffset = useMotionState(
     scrollYMotionValue,
     [0, SCROLL_TRIGGER_POINT],
-    [SCROLL_TRIGGER_POINT + PADDING_INLINE, 0],
+    [SCROLL_TRIGGER_POINT + PADDING_BOTTOM, 0],
   );
+
+  const lnbHide = useLnbContext().hide;
+
+  const prevLnbHide = useRef(lnbHide);
+
+  const getCssProperties = useCallback(
+    (isLnbHidden: boolean): CSSProperties => {
+      if (isLnbHidden) {
+        return {
+          width: `calc(100% - ${widthOffset}px)`,
+          height: `calc(100dvh - ${heightOffset}px)`,
+          borderRadius: borderRadius,
+        };
+      }
+
+      return {
+        width: `calc(100% - ${PADDING_INLINE * 2}px)`,
+        height: `calc(100dvh - ${SCROLL_TRIGGER_POINT + PADDING_BOTTOM}px)`,
+        borderRadius: BORDER_RADIUS,
+      };
+    },
+    [widthOffset, heightOffset, borderRadius],
+  );
+
+  const [cssProperties, setCssProperties] = useState(getCssProperties(lnbHide));
+
+  useEffect(() => {
+    setCssProperties(getCssProperties(lnbHide));
+  }, [getCssProperties, lnbHide]);
+
+  useEffect(() => {
+    if (prevLnbHide.current !== lnbHide) {
+      ref.current?.animate(
+        [
+          getCssProperties(prevLnbHide.current) as Keyframe,
+          getCssProperties(lnbHide) as Keyframe,
+        ],
+        {
+          duration: 200,
+          easing: 'ease-in-out',
+        },
+      );
+    }
+
+    prevLnbHide.current = lnbHide;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lnbHide]);
 
   return (
     <>
@@ -44,24 +93,8 @@ const Intro = () => {
         alignItems="center"
         justifyContent="center"
         ref={ref}
-        sx={{
-          position: 'relative',
-          backgroundImage: 'url(/background-image.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          marginTop: 24,
-          transition: 'border-radius 0.2s ease-in-out',
-        }}
-        style={{
-          width: lnbContext.hide
-            ? `calc(100% - ${widthOffset}px)`
-            : `calc(100% - ${PADDING_INLINE * 2}px)`,
-          height: lnbContext.hide
-            ? `calc(100dvh - ${heightOffset}px)`
-            : `calc(100dvh - ${SCROLL_TRIGGER_POINT + PADDING_INLINE}px)`,
-          borderRadius: lnbContext.hide ? borderRadius : BORDER_RADIUS,
-        }}
+        sx={introBackgroundStyle}
+        style={cssProperties}
       >
         <LiquidButton containerRef={ref}>GET STARTED</LiquidButton>
       </FlexBox>
