@@ -19,7 +19,7 @@ const Intro = () => {
   const widthOffset = useMotionState(
     scrollYMotionValue,
     [0, GNB_HEIGHT + 24],
-    [48, 0],
+    [96, 0],
   );
 
   const borderRadius = useMotionState(
@@ -47,7 +47,7 @@ const Intro = () => {
         style={{
           width: lnbContext.hide
             ? `calc(100% - ${widthOffset}px)`
-            : 'calc(100% - 48px)',
+            : 'calc(100% - 96px)',
           borderRadius: lnbContext.hide ? borderRadius : 40,
         }}
       >
