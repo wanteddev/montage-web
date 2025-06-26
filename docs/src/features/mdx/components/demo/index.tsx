@@ -11,6 +11,7 @@ import * as autosuggestParse from 'autosuggest-highlight/parse';
 // @ts-expect-error
 import * as autosuggestMatch from 'autosuggest-highlight/match';
 import * as reactVirtual from '@tanstack/react-virtual';
+import * as reactSpring from 'react-spring';
 
 import { useRunner } from './react-runner';
 import { demoStyle, errorStyle } from './style';
@@ -39,6 +40,7 @@ const Demo = ({ code, hideCode }: Props) => {
         'copy-to-clipboard': copy,
         'autosuggest-highlight/match': autosuggestMatch,
         'autosuggest-highlight/parse': autosuggestParse,
+        'react-spring': reactSpring,
       },
     };
   }, []);
