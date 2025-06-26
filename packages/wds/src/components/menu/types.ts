@@ -30,6 +30,7 @@ export type MenuContentProps = Pick<
   | 'referenceHiddenOffsets'
   | 'setContext'
   | 'wrapperProps'
+  | 'forceMount'
 >;
 
 export type MenuGroupDefaultProps = {

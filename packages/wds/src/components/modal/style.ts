@@ -14,59 +14,28 @@ import type {
   ModalNavigationProps,
 } from './types';
 
-export const modalDimmerStyle =
-  ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
-  (theme: Theme) => css`
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background-color: ${theme.semantic.material.dimmer};
+export const modalDimmerStyle = (theme: Theme) => css`
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: ${theme.semantic.material.dimmer};
+
+  &[data-visibility='visible'] {
+    transition: opacity ease 200ms;
     opacity: 1;
-
-    &[data-visibility='visible'] {
-      opacity: 1;
-    }
-
-    &[data-visibility='hidden'] {
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    &[data-status='initial'],
-    &[data-status='unmounted'],
-    &[data-status='close'] {
-      pointer-events: none;
-      opacity: 0 !important;
-    }
-
-    ${modalDimmerVariantStyle({ variant })}
-
-    ${createResponsiveStyle(
-      { xs, sm, md, lg, xl },
-      theme,
-    )(
-      (params) => css`
-        ${modalDimmerVariantStyle({ variant: params?.variant })}
-      `,
-    )}
-  `;
-
-const modalDimmerVariantStyle = ({ variant }: ModalContainerProps) => {
-  switch (variant) {
-    case 'bottom':
-      return css`
-        transition: opacity ease 200ms;
-      `;
-    case 'full':
-      return css`
-        transition: none;
-      `;
-    case 'popup':
-      return css`
-        transition: none;
-      `;
   }
-};
+
+  &[data-visibility='hidden'] {
+    transition: opacity ease 200ms;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &[data-status='close'] {
+    pointer-events: none;
+    opacity: 0;
+  }
+`;
 
 export const modalContainerWrapperStyle =
   ({ variant, xs, sm, md, lg, xl }: ModalContainerProps) =>
@@ -375,13 +344,11 @@ const modalContainerVariant = (
         padding: initial;
         transition: none;
 
-        &[data-status='initial'],
         &[data-status='open'] {
           transform: initial;
           transition: none;
         }
 
-        &[data-status='unmounted'],
         &[data-status='close'] {
           transform: initial;
         }
@@ -409,13 +376,11 @@ const modalContainerVariant = (
         overflow: hidden;
         transition: none;
 
-        &[data-status='initial'],
         &[data-status='open'] {
           transform: initial;
           transition: none;
         }
 
-        &[data-status='unmounted'],
         &[data-status='close'] {
           transform: initial;
         }
@@ -450,12 +415,10 @@ const modalContainerVariant = (
         transform: translateY(var(--wds-modal-translate, 0px));
         animation: 0.2s ease ${modalBottomMountKeyframes};
 
-        &[data-status='initial'],
         &[data-status='open'] {
           transform: translateY(var(--wds-modal-translate, 0px));
         }
 
-        &[data-status='unmounted'],
         &[data-status='close'] {
           transform: translateY(100%);
         }

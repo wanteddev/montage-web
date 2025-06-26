@@ -36,6 +36,7 @@ export type ModalProps = PropsWithChildren<{
    * UI가 깨질 수 있습니다.
    */
   disablePortal?: boolean;
+  forceMount?: boolean;
 }>;
 
 type ModalContainerDefaultProps = {
@@ -54,6 +55,7 @@ type ModalContainerDefaultProps = {
   resize?: 'hug' | 'fixed';
   children?: ReactNode;
   wrapperProps?: DefaultComponentProps<{}, 'div'>;
+  dimmer?: ReactNode;
 };
 
 type ModalContainerResponsiveProps = ResponsiveProps<
@@ -64,6 +66,8 @@ export type ModalContainerProps = Merge<
   ModalContainerDefaultProps,
   ModalContainerResponsiveProps
 >;
+
+export type ModalDimmerProps = {};
 
 export type ModalScrollProviderProps = PropsWithChildren<{
   sticky: boolean;

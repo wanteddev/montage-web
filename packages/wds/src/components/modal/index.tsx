@@ -23,20 +23,24 @@ import ScrollArea from '../scroll-area';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/use-resize-observer';
-import { useSize, useTransitionStatus } from '../../hooks';
+import { useSize } from '../../hooks';
 import { useTopNavigationContext } from '../top-navigation/contexts';
 import { TopNavigation, TopNavigationButton } from '../top-navigation';
+import { useAnimationPresence } from '../animation-presence';
 
 import {
   ModalActionAreaProvider,
+  ModalDimmerProvider,
   ModalNavigationProvider,
   ModalProvider,
   useModalContext,
+  useModalDimmerContext,
   useModalNavigationContext,
 } from './contexts';
 import {
   MODAL_CLOSE_NAME,
   MODAL_CONTAINER_NAME,
+  MODAL_DIMMER_NAME,
   MODAL_NAME,
   MODAL_NAVIGATION_BUTTON_NAME,
   MODAL_NAVIGATION_NAME,
@@ -63,12 +67,19 @@ import type {
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
-import type { ElementType, ForwardedRef, MouseEvent } from 'react';
+import type {
+  ElementType,
+  ForwardedRef,
+  MouseEvent,
+  PointerEvent,
+  RefObject,
+} from 'react';
 import type {
   ModalContainerProps,
   ModalContentItemProps,
   ModalContentProps,
   ModalDescriptionProps,
+  ModalDimmerProps,
   ModalHeadingProps,
   ModalNavigationProps,
   ModalProps,
@@ -86,6 +97,7 @@ const Modal = ({
   disableOutsideClickClose = false,
   disableEscapeKeyDownClose = false,
   disablePortal = false,
+  forceMount = false,
 }: ModalProps) => {
   const [open = false, setOpen] = useControllableState({
     prop: openProp,
@@ -93,20 +105,17 @@ const Modal = ({
     onChange: onOpenChange,
   });
 
+  const { isPresent, ref } = useAnimationPresence(open || forceMount, {
+    subtree: true,
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const innerContainerRef = useRef<HTMLDivElement>(null);
 
-  const [duration, setDuration] = useState(0);
   const [isBottomSheet, setIsBottomSheet] = useState(false);
   const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
 
-  const { hasExited, status } = useTransitionStatus({ open, duration });
-
   const onVisibilityChangeCallback = useCallbackRef(onVisibilityChange);
-
-  useEffect(() => {
-    setDuration(isBottomSheet ? 250 : 0);
-  }, [isBottomSheet, setDuration]);
 
   useEffect(() => {
     // variant="bottom" sm={{ variant: 'popup' }} 일 때 예외 처리
@@ -117,10 +126,10 @@ const Modal = ({
   }, [isBottomSheet, open, visibility, setOpen, setVisibility]);
 
   useEffect(() => {
-    if (hasExited || status === 'unmounted') {
+    if (!open) {
       setVisibility('visible');
     }
-  }, [hasExited, status]);
+  }, [open]);
 
   return (
     <ModalProvider
@@ -149,25 +158,21 @@ const Modal = ({
       disableOutsideClickClose={disableOutsideClickClose}
       disableEscapeKeyDownClose={disableEscapeKeyDownClose}
       onOpenChange={setOpen}
-      status={status}
-      setTransitionDuration={setDuration}
+      wrapperRef={ref}
     >
-      {!hasExited && (
+      {isPresent ? (
         <PortalOrFragment disablePortal={disablePortal} container={container}>
           {children}
         </PortalOrFragment>
-      )}
+      ) : null}
     </ModalProvider>
   );
 };
 
 Modal.displayName = MODAL_NAME;
 
-const ModalContainer = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<ModalContainerProps, 'div'>
->(
-  (
+const ModalContainer = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       variant = 'popup',
       size = 'medium',
@@ -181,20 +186,22 @@ const ModalContainer = forwardRef<
       children,
       sticky = true,
       wrapperProps,
+      dimmer = <ModalDimmer />,
       ...props
-    },
-    ref,
+    }: PolymorphicProps<ModalContainerProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const {
       containerRef,
-      disableOutsideClickClose,
       disableEscapeKeyDownClose,
       onOpenChange,
-      status,
       ...context
     } = useModalContext(MODAL_CONTAINER_NAME);
 
-    const composedContainerRefs = useComposedRefs(ref, containerRef);
+    const composedContainerRefs = useComposedRefs(
+      containerRef,
+      ref as ForwardedRef<HTMLDivElement>,
+    );
 
     const dimmerRef = useRef<HTMLDivElement>(null);
 
@@ -247,6 +254,10 @@ const ModalContainer = forwardRef<
           isBottomSheetWithHandle ? context.visibility : undefined
         }
         {...wrapperProps}
+        ref={useComposedRefs<HTMLDivElement>(
+          wrapperProps?.ref as RefObject<HTMLDivElement> | undefined,
+          context.wrapperRef,
+        )}
         sx={[
           modalContainerWrapperStyle({
             variant,
@@ -260,51 +271,13 @@ const ModalContainer = forwardRef<
           wrapperProps?.sx,
         ]}
       >
-        <Box
-          data-role="modal-dimmer"
-          ref={dimmerRef}
-          data-status={status}
-          data-visibility={context.visibility}
-          onPointerDown={(e) => {
-            const target = e.target as HTMLElement;
-
-            if (target.hasPointerCapture(e.pointerId)) {
-              target.releasePointerCapture(e.pointerId);
-            }
-          }}
-          onClick={useCallback(
-            (e: MouseEvent) => {
-              const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-              const isRightClick = e.button === 2 || ctrlLeftClick;
-
-              if (isRightClick || disableOutsideClickClose) {
-                return;
-              }
-
-              e.preventDefault();
-
-              if (!isBottomSheetWithHandle) {
-                onOpenChange(false);
-              } else {
-                handleVisibilityHidden();
-              }
-            },
-            [
-              disableOutsideClickClose,
-              handleVisibilityHidden,
-              isBottomSheetWithHandle,
-              onOpenChange,
-            ],
-          )}
-          sx={modalDimmerStyle({
-            variant,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          })}
-        />
+        <ModalDimmerProvider
+          isBottomSheetWithHandle={isBottomSheetWithHandle}
+          handleVisibilityHidden={handleVisibilityHidden}
+          dimmerRef={dimmerRef}
+        >
+          {dimmer}
+        </ModalDimmerProvider>
 
         <FocusScope
           loop={context.open && context.visibility === 'visible'}
@@ -349,7 +322,7 @@ const ModalContainer = forwardRef<
                 aria-labelledby={`${context.titleId} ${context.headingId}`}
                 {...props}
                 data-visibility={context.visibility}
-                data-status={status}
+                data-status={context.open ? 'open' : 'close'}
                 sx={[
                   modalContainerStyle({
                     resize,
@@ -415,9 +388,67 @@ const ModalContainer = forwardRef<
       </Box>
     );
   },
-);
+) as PolymorphicComponent<ModalContainerProps, 'div'>;
 
 ModalContainer.displayName = MODAL_CONTAINER_NAME;
+
+/**
+ * @description
+ * `<ModalContainer dimmer={<ModalDimmer />} />` 형태로 사용합니다.
+ * Dimmer에 커스텀 스타일을 적용하기 위해서만 사용합니다.
+ */
+const ModalDimmer = forwardRef(
+  <T extends ElementType = 'div'>(
+    { as, ...props }: PolymorphicProps<ModalDimmerProps, T>,
+    ref: ForwardedRef<T>,
+  ) => {
+    const { open, visibility, onOpenChange, disableOutsideClickClose } =
+      useModalContext(MODAL_DIMMER_NAME);
+
+    const { isBottomSheetWithHandle, dimmerRef, handleVisibilityHidden } =
+      useModalDimmerContext(MODAL_DIMMER_NAME);
+
+    return (
+      <Box
+        data-role="modal-dimmer"
+        data-status={open ? 'open' : 'close'}
+        data-visibility={isBottomSheetWithHandle ? visibility : undefined}
+        as={as || 'div'}
+        {...props}
+        ref={useComposedRefs(ref, dimmerRef as ForwardedRef<T>)}
+        onPointerDown={composeEventHandlers(
+          props.onPointerDown,
+          (e: PointerEvent) => {
+            const target = e.target as HTMLElement;
+
+            if (target.hasPointerCapture(e.pointerId)) {
+              target.releasePointerCapture(e.pointerId);
+            }
+          },
+        )}
+        onClick={composeEventHandlers(props.onClick, (e: MouseEvent) => {
+          const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
+          const isRightClick = e.button === 2 || ctrlLeftClick;
+
+          if (isRightClick || disableOutsideClickClose) {
+            return;
+          }
+
+          e.preventDefault();
+
+          if (!isBottomSheetWithHandle) {
+            onOpenChange(false);
+          } else {
+            handleVisibilityHidden();
+          }
+        })}
+        sx={[modalDimmerStyle, props.sx]}
+      />
+    );
+  },
+) as PolymorphicComponent<ModalDimmerProps, 'div'>;
+
+ModalDimmer.displayName = MODAL_DIMMER_NAME;
 
 const ModalScrollProvider = ({
   children,
@@ -715,6 +746,7 @@ ModalDescription.displayName = 'ModalDescription';
 export {
   Modal,
   ModalContainer,
+  ModalDimmer,
   ModalNavigation,
   ModalNavigationButton,
   ModalClose,

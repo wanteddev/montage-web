@@ -21,6 +21,7 @@ import { List, ListCell, ListCellContent } from '../list';
 import ScrollArea from '../scroll-area';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
+import { AnimationPresence } from '../animation-presence';
 
 import {
   AUTOCOMPLETE_FIELD_NAME,
@@ -41,8 +42,18 @@ import {
 import { focusSelectedOption, setAttributeSelection } from './helpers';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ChangeEvent, KeyboardEvent, MouseEvent } from 'react';
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
+import type {
+  ChangeEvent,
+  ElementType,
+  ForwardedRef,
+  KeyboardEvent,
+  MouseEvent,
+} from 'react';
 import type {
   AutocompleteCollectionItem,
   AutocompleteGroupProps,
@@ -444,62 +455,79 @@ const AutocompleteField = forwardRef<HTMLElement, SlotProps>(
 
 AutocompleteField.displayName = AUTOCOMPLETE_FIELD_NAME;
 
-const AutocompleteList = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<AutocompleteListProps, 'div'>
->(({ children, disableTrappedContent = false, ...props }, ref) => {
-  const {
-    input,
-    open,
-    contentId,
-    asSelect,
-    value,
-    width,
-    onSelectedOptionChange,
-  } = useAutocompleteContext(AUTOCOMPLETE_LIST_NAME);
-  const getItems = useCollection(AUTOCOMPLETE_SCOPE);
+const AutocompleteList = forwardRef(
+  <T extends ElementType = 'div'>(
+    {
+      children,
+      as,
+      forceMount = false,
+      disableTrappedContent = false,
+      ...props
+    }: PolymorphicProps<AutocompleteListProps, T>,
+    ref: ForwardedRef<T>,
+  ) => {
+    const {
+      input,
+      open,
+      contentId,
+      asSelect,
+      value,
+      width,
+      onSelectedOptionChange,
+    } = useAutocompleteContext(AUTOCOMPLETE_LIST_NAME);
+    const getItems = useCollection(AUTOCOMPLETE_SCOPE);
 
-  useLayoutEffect(() => {
-    if (!open || !asSelect || disableTrappedContent) return;
+    useLayoutEffect(() => {
+      if (!open || !asSelect || disableTrappedContent) return;
 
-    requestAnimationFrame(() => {
-      const items = getItems();
+      requestAnimationFrame(() => {
+        const items = getItems();
 
-      const option = items.find((v) => v.value === value);
+        const option = items.find((v) => v.value === value);
 
-      focusSelectedOption(option, items);
-      onSelectedOptionChange(option ?? null);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, disableTrappedContent]);
+        focusSelectedOption(option, items);
+        onSelectedOptionChange(option ?? null);
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open, disableTrappedContent]);
 
-  return open && !input?.readOnly && !input?.disabled ? (
-    <PopperContent
-      role="presentation"
-      ref={ref}
-      offset={8}
-      {...props}
-      sx={[{ width }, autocompleteListStyle, props.sx]}
-    >
-      <ScrollArea
-        scrollbars="vertical"
-        size="small"
-        zIndex={11}
-        viewportProps={{ sx: autocompleteScrollAreaStyle }}
+    const Component = as ?? Slot;
+
+    return (
+      <AnimationPresence
+        present={(open && !input?.readOnly && !input?.disabled) || forceMount}
       >
-        <List
-          role="listbox"
-          id={contentId}
-          gap="4px"
-          sx={autocompleteListContentStyle}
-          onMouseDown={(e) => e.preventDefault()}
+        <PopperContent
+          role="presentation"
+          ref={ref}
+          offset={8}
+          {...props}
+          data-status={open ? 'open' : 'close'}
+          sx={[{ width }, autocompleteListStyle, props.sx]}
         >
-          {children}
-        </List>
-      </ScrollArea>
-    </PopperContent>
-  ) : null;
-});
+          <Component>
+            <ScrollArea
+              scrollbars="vertical"
+              size="small"
+              zIndex={11}
+              viewportProps={{ sx: autocompleteScrollAreaStyle }}
+            >
+              <List
+                role="listbox"
+                id={contentId}
+                gap="4px"
+                sx={autocompleteListContentStyle}
+                onMouseDown={(e) => e.preventDefault()}
+              >
+                {children}
+              </List>
+            </ScrollArea>
+          </Component>
+        </PopperContent>
+      </AnimationPresence>
+    );
+  },
+) as PolymorphicComponent<AutocompleteListProps, 'div'>;
 
 AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
 

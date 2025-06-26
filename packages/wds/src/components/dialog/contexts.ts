@@ -7,6 +7,8 @@ type DialogContextType = {
   setOpen: (open: boolean) => void;
   headingId: string;
   descriptionId: string;
+  disableOutsideClickClose: boolean;
+  onDismiss?: () => void;
 };
 
 export const [DialogProvider, useDialogContext] =

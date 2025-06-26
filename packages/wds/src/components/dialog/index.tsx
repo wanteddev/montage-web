@@ -4,12 +4,14 @@ import { Box, getColorByToken } from '@wanteddev/wds-engine';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { hideOthers } from '../../utils/aria-hidden';
 import RemoveScroll from '../remove-scroll';
 import { DismissableLayer, FlexBox, TextButton, Typography } from '..';
 import FocusScope from '../focus-scope';
 import PortalOrFragment from '../portal-or-fragment';
+import { useAnimationPresence } from '../animation-presence';
 
 import {
   dialogActionStyle,
@@ -22,6 +24,7 @@ import {
   DIALOG_ACTION_AREA_NAME,
   DIALOG_CONTENT_NAME,
   DIALOG_DESCRIPTION_NAME,
+  DIALOG_DIMMER_NAME,
   DIALOG_HEADING_NAME,
   DIALOG_NAME,
 } from './constants';
@@ -32,35 +35,40 @@ import type {
   DialogActionAreaProps,
   DialogContentProps,
   DialogDescriptionProps,
+  DialogDimmerProps,
   DialogHeadingProps,
   DialogProps,
 } from './types';
-import type { ElementType, ForwardedRef } from 'react';
+import type {
+  ElementType,
+  ForwardedRef,
+  MouseEvent,
+  PointerEvent,
+} from 'react';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
   PolymorphicProps,
 } from '@wanteddev/wds-engine';
 
-const Dialog = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<DialogProps, 'div'>
->(
-  (
+const Dialog = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       open: openProp,
       defaultOpen,
       onOpenChange,
       wrapperProps,
       children,
-      disableOutsideClickClose,
+      disableOutsideClickClose = false,
       disableEscapeKeyDownClose,
       disablePortal,
       container,
       onDismiss,
+      forceMount = false,
+      dimmer = <DialogDimmer />,
       ...props
-    },
-    ref,
+    }: PolymorphicProps<DialogProps, T>,
+    forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
       prop: openProp,
@@ -68,8 +76,15 @@ const Dialog = forwardRef<
       onChange: onOpenChange,
     });
 
-    const containerRef = useRef<HTMLDivElement>(null);
-    const composedRef = useComposedRefs(ref, containerRef);
+    const { isPresent, ref } = useAnimationPresence(open || forceMount, {
+      subtree: true,
+    });
+
+    const containerRef = useRef<HTMLElement | null>(null);
+    const composedRef = useComposedRefs(
+      containerRef,
+      forwardedRef as ForwardedRef<HTMLElement>,
+    );
 
     const headingId = useId();
     const descriptionId = useId();
@@ -77,23 +92,33 @@ const Dialog = forwardRef<
     useEffect(() => {
       const element = containerRef.current;
 
-      if (element) {
+      if (element && isPresent) {
         return hideOthers(element);
       }
-    }, []);
+    }, [isPresent]);
 
     return (
-      <>
-        {open && (
+      <DialogProvider
+        open={open}
+        setOpen={setOpen}
+        headingId={headingId}
+        descriptionId={descriptionId}
+        disableOutsideClickClose={disableOutsideClickClose}
+        onDismiss={useCallbackRef(onDismiss)}
+      >
+        {isPresent ? (
           <PortalOrFragment
             container={disablePortal ? null : container}
             disablePortal={disablePortal}
+            ref={ref}
           >
             <FlexBox
               {...wrapperProps}
               sx={[dialogWrapperStyle, wrapperProps?.sx]}
               wds-ignore-dismissable-layer="true"
             >
+              {dimmer}
+
               <FocusScope loop trapped>
                 <DismissableLayer
                   onPointerDownOutside={(e) => {
@@ -116,54 +141,76 @@ const Dialog = forwardRef<
                   asChild
                 >
                   <RemoveScroll as={Slot} allowPinchZoom>
-                    <FlexBox
+                    <Box
                       ref={composedRef}
                       role="alertdialog"
                       aria-describedby={descriptionId}
                       aria-labelledby={headingId}
-                      flexDirection="column"
                       {...props}
+                      data-status={open ? 'open' : 'close'}
                       sx={[dialogContentStyle, props.sx]}
                     >
-                      <Box
-                        sx={dialogDimmerStyle}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (!disableOutsideClickClose) {
-                            setOpen(false);
-                            onDismiss?.();
-                          }
-                        }}
-                        onPointerDown={(e) => {
-                          const target = e.target as HTMLElement;
-
-                          if (target.hasPointerCapture(e.pointerId)) {
-                            target.releasePointerCapture(e.pointerId);
-                          }
-                        }}
-                      />
-
-                      <DialogProvider
-                        open={open}
-                        setOpen={setOpen}
-                        headingId={headingId}
-                        descriptionId={descriptionId}
-                      >
-                        {children}
-                      </DialogProvider>
-                    </FlexBox>
+                      {children}
+                    </Box>
                   </RemoveScroll>
                 </DismissableLayer>
               </FocusScope>
             </FlexBox>
           </PortalOrFragment>
-        )}
-      </>
+        ) : null}
+      </DialogProvider>
     );
   },
-);
+) as PolymorphicComponent<DialogProps, 'div'>;
 
 Dialog.displayName = DIALOG_NAME;
+
+/**
+ * @description
+ * `<Dialog dimmer={<DialogDimmer />} />` 형태로 사용합니다.
+ * Dimmer에 커스텀 스타일을 적용하기 위해서만 사용합니다.
+ */
+const DialogDimmer = forwardRef(
+  <T extends ElementType = 'div'>(
+    props: PolymorphicProps<DialogDimmerProps, T>,
+    ref: ForwardedRef<T>,
+  ) => {
+    const { open, setOpen, disableOutsideClickClose, onDismiss } =
+      useDialogContext(DIALOG_DIMMER_NAME);
+
+    return (
+      <Box
+        ref={ref}
+        {...props}
+        data-role="dialog-dimmer"
+        data-status={open ? 'open' : 'close'}
+        onClick={composeEventHandlers(
+          props.onClick,
+          (e: MouseEvent<HTMLElement>) => {
+            e.preventDefault();
+            if (!disableOutsideClickClose) {
+              setOpen(false);
+              onDismiss?.();
+            }
+          },
+        )}
+        onPointerDown={composeEventHandlers(
+          props.onPointerDown,
+          (e: PointerEvent<HTMLElement>) => {
+            const target = e.target as HTMLElement;
+
+            if (target.hasPointerCapture(e.pointerId)) {
+              target.releasePointerCapture(e.pointerId);
+            }
+          },
+        )}
+        sx={[dialogDimmerStyle, props.sx]}
+      />
+    );
+  },
+) as PolymorphicComponent<DialogDimmerProps, 'div'>;
+
+DialogDimmer.displayName = DIALOG_DIMMER_NAME;
 
 const DialogContent = forwardRef<
   HTMLDivElement,
@@ -263,12 +310,12 @@ const DialogActionArea = forwardRef<
 DialogActionArea.displayName = DIALOG_ACTION_AREA_NAME;
 
 const DialogActionAreaButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       variant = 'normal',
       ...props
-    }: PolymorphicProps<DialogActionAreaButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<DialogActionAreaButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { setOpen } = useDialogContext(DIALOG_ACTION_AREA_BUTTON_NAME);
 
@@ -311,6 +358,7 @@ const DialogButton = DialogActionAreaButton;
 
 export {
   Dialog,
+  DialogDimmer,
   DialogContent,
   DialogHeading,
   DialogDescription,
