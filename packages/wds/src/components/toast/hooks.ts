@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { makeTransitionStyle } from './helpers';
-
 import type { CSSProperties } from 'react';
 import type { RegionToastItem } from '../../stores/region-store';
 
@@ -12,31 +10,21 @@ type UseToastAnimationParams = Pick<
   open: boolean;
   setOpen: (open: boolean) => void;
   disablePortal?: boolean;
-  disableAnimation?: boolean;
+  component?: 'toast' | 'snackbar';
 };
 
 export const useToastAnimation = ({
   open,
-  setOpen,
   duration,
   onAnimationEnd,
+  setOpen,
   disablePortal,
-  disableAnimation,
+  component = 'toast',
 }: UseToastAnimationParams) => {
   const timeoutRef = useRef<NodeJS.Timeout>();
   const startTimeRef = useRef<number>();
   const remainingTimeRef = useRef<number>();
-  const [containerStyle, setContainerStyle] = useState<CSSProperties>(
-    disableAnimation
-      ? {}
-      : {
-          height: 0,
-          margin: 0,
-          opacity: 0,
-        },
-  );
 
-  const [isMounted, setIsMounted] = useState(open);
   const [height, setHeight] = useState(0);
 
   const ref = useCallback(
@@ -57,29 +45,6 @@ export const useToastAnimation = ({
     },
     [setHeight],
   );
-
-  useEffect(() => {
-    if (open) {
-      setIsMounted(true);
-    } else if (disableAnimation) {
-      setIsMounted(false);
-    }
-
-    return () => {
-      if (!isMounted) {
-        setHeight(0);
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
-
-  useEffect(() => {
-    setContainerStyle(
-      disableAnimation
-        ? {}
-        : makeTransitionStyle({ open, height, disablePortal }),
-    );
-  }, [open, height, disablePortal, disableAnimation]);
 
   const startTimer = useCallback(
     (timeMs: number) => {
@@ -134,22 +99,23 @@ export const useToastAnimation = ({
     }
   };
 
-  const handleTransitionEnd = () => {
+  const handleAnimationEnd = () => {
     if (open) {
       onAnimationEnd?.('show');
       return;
     }
 
     onAnimationEnd?.('hide');
-    setIsMounted(false);
   };
 
   return {
     ref,
-    isMounted,
-    containerStyle,
+    handleAnimationEnd,
     handleMouseEnter,
     handleMouseLeave,
-    handleTransitionEnd,
+    style: {
+      [`--wds-${component}-animation-height`]: `${height}px`,
+      [`--wds-${component}-animation-margin-top`]: disablePortal ? 0 : '10px',
+    } as CSSProperties,
   };
 };

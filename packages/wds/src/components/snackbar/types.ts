@@ -17,6 +17,7 @@ export type SnackbarProps = Pick<
   disablePortal?: ComponentProps<typeof PortalOrFragment>['disablePortal'];
   children?: ReactNode;
   disableAnimation?: boolean;
+  forceMount?: boolean;
 };
 
 export type SnackbarContentProps = Merge<
