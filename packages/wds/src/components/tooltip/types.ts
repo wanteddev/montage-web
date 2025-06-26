@@ -1,4 +1,9 @@
-import type { PropsWithChildren, ReactNode } from 'react';
+import type { DismissableLayer } from '@radix-ui/react-dismissable-layer';
+import type {
+  ComponentPropsWithoutRef,
+  PropsWithChildren,
+  ReactNode,
+} from 'react';
 import type { PopperContentProps } from '../popper/types';
 
 export type TooltipGroupProps = PropsWithChildren<{
@@ -55,9 +60,16 @@ export type TooltipContentProps = {
    */
   referenceHiddenOffsets?: PopperContentProps['referenceHiddenOffsets'];
   setContext?: PopperContentProps['setContext'];
-  animationDuration?: number;
+  forceMount?: boolean;
   /**
    * compact tooltip을 위해 사용
    */
   __wdsCustomChildren?: ReactNode;
 };
+
+export type TooltipContentWrapperProps = {
+  isAlways?: boolean;
+} & Pick<
+  ComponentPropsWithoutRef<typeof DismissableLayer>,
+  'onPointerDownOutside' | 'onDismiss' | 'onFocusOutside'
+>;
