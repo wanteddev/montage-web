@@ -52,10 +52,10 @@ import type {
   CardThumbnailContentProps,
   CardThumbnailProps,
 } from './types';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 
 const Card = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       platform = 'desktop',
       width,
@@ -66,8 +66,8 @@ const Card = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<CardProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<CardProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <FlexBox
@@ -136,7 +136,7 @@ const CardThumbnailContent = forwardRef(
       sx,
       ...props
     }: DefaultComponentProps<CardThumbnailContentProps, 'span'>,
-    ref: ForwardedRef<ElementRef<'span'>>,
+    ref: ForwardedRef<HTMLSpanElement>,
   ) => {
     switch (variant) {
       case 'text':
@@ -177,7 +177,7 @@ CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 const CardContent = forwardRef(
   (
     { sx, ...props }: DefaultComponentProps<FlexBoxProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox
@@ -203,7 +203,7 @@ const CardContentItem = forwardRef(
       variant,
       ...props
     }: DefaultComponentProps<CardContentItemProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox
@@ -219,7 +219,7 @@ const CardContentItem = forwardRef(
 CardContentItem.displayName = CARD_CONTENT_ITEM_NAME;
 
 const CardTitle = forwardRef(
-  <E extends ElementType = 'p'>(
+  <T extends ElementType = 'p'>(
     {
       variant,
       weight,
@@ -231,8 +231,8 @@ const CardTitle = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TypographyProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<TypographyProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Typography
@@ -252,7 +252,7 @@ const CardTitle = forwardRef(
 CardTitle.displayName = CARD_TITLE_NAME;
 
 const CardCaption = forwardRef(
-  <E extends ElementType = 'p'>(
+  <T extends ElementType = 'p'>(
     {
       variant,
       weight,
@@ -264,8 +264,8 @@ const CardCaption = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TypographyProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<TypographyProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Typography
@@ -285,7 +285,7 @@ const CardCaption = forwardRef(
 CardCaption.displayName = CARD_CAPTION_NAME;
 
 const CardSkeleton = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       platform = 'desktop',
       width,
@@ -296,8 +296,8 @@ const CardSkeleton = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<CardProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<CardProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <FlexBox
@@ -324,7 +324,7 @@ const CardThumbnailSkeleton = forwardRef(
       sx,
       ...props
     }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <ThumbnailSkeleton
@@ -346,7 +346,7 @@ const CardContentItemSkeleton = forwardRef(
       height = '20px',
       ...props
     }: DefaultComponentProps<SkeletonProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <Skeleton
@@ -376,7 +376,7 @@ const CardTitleSkeleton = forwardRef(
       xl,
       ...props
     }: DefaultComponentProps<SkeletonProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <Skeleton
@@ -402,7 +402,7 @@ const CardCaptionSkeleton = forwardRef(
       height = '18px',
       ...props
     }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const width = useMemo(() => {
       if (originWidth !== undefined) {

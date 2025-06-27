@@ -15,7 +15,7 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { ToggleIconProps } from './types';
 
 const ToggleIcon = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       active,
@@ -31,8 +31,8 @@ const ToggleIcon = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ToggleIconProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ToggleIconProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const [pressed = false, setPressed] = useControllableState({
       prop: active,

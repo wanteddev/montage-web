@@ -196,12 +196,15 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       as,
       ...props
     }: PolymorphicProps<SegmentedControlItemProps, T>,
-    forwardedRef: ForwardedRef<ElementRef<T>>,
+    forwardedRef: ForwardedRef<T>,
   ) => {
     const id = useId();
 
     const [node, setNode] = useState<ElementRef<T> | null>(null);
-    const composedRefs = useComposedRefs(forwardedRef, setNode);
+    const composedRefs = useComposedRefs(
+      forwardedRef,
+      setNode as ForwardedRef<T>,
+    );
 
     const { size, variant, responsive, name, ...context } =
       useSegmentedControlContext(SEGMENTED_CONTROL_ITEM_NAME);

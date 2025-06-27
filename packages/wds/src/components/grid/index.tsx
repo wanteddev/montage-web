@@ -11,7 +11,7 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { GridProps } from './types';
 
 const Grid = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       as,
       justifyContent = 'initial',
@@ -25,12 +25,12 @@ const Grid = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<GridProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<GridProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Box
-        as={(as || 'div') as E}
+        as={as || 'div'}
         ref={ref}
         {...props}
         sx={[

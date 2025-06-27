@@ -16,7 +16,7 @@ import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { ButtonProps } from './types';
 
 const Button = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       variant: originVariant,
@@ -37,8 +37,8 @@ const Button = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
 
@@ -72,7 +72,7 @@ const Button = forwardRef(
         disabled={disableInteraction || disabled}
       >
         <Box
-          as={(as || 'button') as E}
+          as={(as || 'button') as T}
           aria-labelledby={iconOnly ? undefined : id}
           ref={ref}
           disabled={disabled}

@@ -11,7 +11,7 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { SkeletonProps } from './types';
 
 const Skeleton = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       variant = 'text',
       width,
@@ -27,8 +27,8 @@ const Skeleton = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<SkeletonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<SkeletonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Box

@@ -14,7 +14,7 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { ChipActionProps } from './types';
 
 const ChipAction = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       variant = 'solid',
@@ -31,8 +31,8 @@ const ChipAction = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ChipActionProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ChipActionProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
 
@@ -57,7 +57,7 @@ const ChipAction = forwardRef(
         disabled={disableInteraction || disabled}
       >
         <Box
-          as={(as || 'button') as E}
+          as={as || 'button'}
           aria-labelledby={id}
           role="button"
           type="button"

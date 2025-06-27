@@ -92,15 +92,15 @@ const BottomNavigation = forwardRef(
 BottomNavigation.displayName = BOTTOM_NAVIGATION_NAME;
 
 const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       label,
       value,
       icon,
       as,
       ...props
-    }: PolymorphicProps<BottomNavigationItemProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<BottomNavigationItemProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
     const context = useBottomNavigationContext(BOTTOM_NAVIGATION_ITEM_NAME);
@@ -110,7 +110,7 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
     return (
       <WithInteraction variant="light">
         <FlexBox
-          as={(as || 'button') as E}
+          as={as || 'button'}
           ref={ref}
           {...props}
           flex="1 1 0"

@@ -14,7 +14,7 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
 
 const IconButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       disabled = false,
@@ -31,8 +31,8 @@ const IconButton = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<IconButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<IconButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const context = useIconButtonContext();
 
