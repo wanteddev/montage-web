@@ -187,7 +187,7 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="16px">
       <Button onClick={handleOpen}>열기</Button>
 
-      <Dialog sx={dialogContentStyle} open={open} onOpenChange={setOpen} dimmer={<Dialog sx={dialogContentStyle} />}>
+      <Dialog sx={dialogContentStyle} open={open} onOpenChange={setOpen} dimmer={<DialogDimmer sx={dialogContentStyle} />}>
         <DialogContent>
           <DialogHeading>제목</DialogHeading>
           <DialogDescription>설명</DialogDescription>
