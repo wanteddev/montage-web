@@ -67,7 +67,7 @@
     "object-path": "^0.11.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-remove-scroll": "^2.6.0",
+    "react-remove-scroll": "^2.7.1",
     "zustand": "^4.5.5"
   },
   "peerDependencies": {
