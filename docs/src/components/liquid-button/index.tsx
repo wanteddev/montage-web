@@ -1,10 +1,4 @@
-import {
-  Box,
-  FlexBox,
-  Typography,
-  useComposedRefs,
-  useSize,
-} from '@wanteddev/wds';
+import { Box, FlexBox, useComposedRefs, useSize } from '@wanteddev/wds';
 import { forwardRef, useCallback, useEffect, useId, useState } from 'react';
 
 import Filter from './filter';
@@ -201,10 +195,7 @@ const LiquidButton = forwardRef(
             '--liquid-button-transform-translate-x': `${calculateElasticTranslation().x}px`,
             '--liquid-button-transform-translate-y': `${calculateElasticTranslation().y}px`,
             '--liquid-button-transform-scale': calculateDirectionalScale(),
-            '--liquid-button-transition': 'all ease-out 0.2s',
-            '--liquid-button-radius': '145px',
-            '--liquid-button-width': `${size.width}px`,
-            '--liquid-button-height': `${size.height}px`,
+            '--liquid-button-transition': 'transform ease-out 0.2s',
             '--liquid-button-filter': `url(#${filterId})`,
           } as React.CSSProperties
         }
@@ -218,16 +209,14 @@ const LiquidButton = forwardRef(
         >
           <Filter filterId={filterId} aria-hidden />
 
-          <FlexBox alignItems="center" sx={liquidButtonGlassStyle}>
+          <FlexBox alignItems="center" sx={liquidButtonGlassStyle} flex="1">
             <Box role="presentation" sx={liquidButtonGlassFilterStyle} />
 
             <Box role="presentation" sx={liquidButtonShadowStyle} />
 
-            <FlexBox alignItems="center" sx={liquidButtonContentStyle}>
-              <Typography weight="bold" color="semantic.static.white">
-                {children}
-              </Typography>
-            </FlexBox>
+            <Box as="span" sx={[liquidButtonContentStyle]}>
+              {children}
+            </Box>
           </FlexBox>
         </Box>
 

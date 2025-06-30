@@ -23,6 +23,7 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
       <Lnb />
 
       <FlexBox
+        as="main"
         justifyContent="center"
         sx={{
           maxWidth: '100%',

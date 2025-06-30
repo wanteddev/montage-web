@@ -54,6 +54,20 @@ export const useFloatingGnb = () => {
   const scrollDirection = useRef<'up' | 'down'>('down');
   const transitionPoint = useRef(GNB_HEIGHT);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQueryList = window.matchMedia(`(max-width: 500px)`);
+
+    const handleChange = () => {
+      setIsMobile(mediaQueryList.matches);
+    };
+
+    handleChange();
+    mediaQueryList.addEventListener('change', handleChange);
+    return () => mediaQueryList.removeEventListener('change', handleChange);
+  }, [setIsMobile]);
+
   const handleFocusCapture = useCallback((e: FocusEvent<HTMLDivElement>) => {
     if (e.target.matches(':focus-visible')) {
       setFocused(true);
@@ -65,14 +79,14 @@ export const useFloatingGnb = () => {
   }, []);
 
   useEffect(() => {
-    if (!lnbContext.hide || focused) {
+    if (!lnbContext.hide || focused || isMobile) {
       const scrollTop = getBodyScrollTop();
 
       transitionPoint.current = scrollTop + GNB_HEIGHT;
 
       setTranslateY(0);
     }
-  }, [lnbContext.hide, focused, isRootPage]);
+  }, [lnbContext.hide, focused, isRootPage, isMobile]);
 
   const handleScroll = useCallback(() => {
     const scrollTop = getBodyScrollTop();
@@ -117,7 +131,7 @@ export const useFloatingGnb = () => {
 
   return {
     ref,
-    translateY: !isRootPage ? 0 : translateY,
+    translateY: !isRootPage || isMobile ? 0 : translateY,
     handleFocusCapture,
     handleBlurCapture,
   };

@@ -18,6 +18,8 @@ const Providers = ({ children }: PropsWithChildren) => {
             styles={() => ({
               [':root']: {
                 '--gnb-height': `${GNB_HEIGHT}px`,
+                '--font-family-wanted-sans':
+                  '"Wanted Sans Variable", "Wanted Sans", -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
               },
             })}
           />

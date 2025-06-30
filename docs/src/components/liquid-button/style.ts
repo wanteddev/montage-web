@@ -1,7 +1,13 @@
 import { css } from '@wanteddev/wds';
 
+import type { Theme } from '@wanteddev/wds';
+
 export const liquidButtonWrapperStyle = css`
   position: relative;
+
+  --liquid-button-radius: clamp(145px, 10vw, 10vw);
+  --liquid-button-width: clamp(125px, 11vw, 11vw);
+  --liquid-button-height: clamp(40px, 3vw, 3vw);
 
   &:has([data-role='liquid-button']:hover) {
     [data-role='liquid-button-interaction'] {
@@ -31,7 +37,8 @@ export const liquidButtonWrapperStyle = css`
 `;
 
 export const liquidButtonStyle = css`
-  padding: 14.5px 31px;
+  width: var(--liquid-button-width);
+  height: var(--liquid-button-height);
   display: flex;
   border: none;
   background-color: transparent;
@@ -76,9 +83,17 @@ export const liquidButtonShadowStyle = css`
     0px 12px 40px rgba(0, 0, 0, 0.25);
 `;
 
-export const liquidButtonContentStyle = css`
+export const liquidButtonContentStyle = (theme: Theme) => css`
   position: relative;
   z-index: 1;
+  color: ${theme.semantic.static.white};
+  font-family: var(--font-family-wanted-sans);
+  font-size: clamp(13px, 1.1vw, 1.1vw);
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.392px;
+  text-transform: uppercase;
+  width: 100%;
 
   &,
   & * {
