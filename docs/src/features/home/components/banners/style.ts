@@ -106,6 +106,7 @@ export const bannerSliderItemTitleStyle = (theme: Theme) => css`
   text-align: center;
   font-family: var(--font-family-wanted-sans);
   color: ${theme.semantic.label.normal};
+  user-select: none;
 
   ${respondMore('620px')} {
     white-space: pre-line;
@@ -129,6 +130,7 @@ export const bannerSliderItemDescriptionStyle = (theme: Theme) => css`
   text-align: center;
   font-family: var(--font-family-wanted-sans);
   color: ${theme.semantic.label.alternative};
+  user-select: none;
 
   ${respondMore('620px')} {
     height: fit-content;
