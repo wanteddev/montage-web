@@ -22,10 +22,11 @@ const RootPage = () => {
           maxWidth: '1400px',
           gap: '88px',
           [respondMore('500px')]: {
-            padding: '56px clamp(20px, calc(8vw - 16px), 80px)',
+            paddingInline: 'clamp(20px, calc(8vw - 16px), 80px)',
           },
           [respondMore('620px')]: {
             gap: '104px',
+            paddingBlock: '0px',
           },
         }}
       >
@@ -35,6 +36,7 @@ const RootPage = () => {
           sx={{
             gap: '88px',
             [respondMore('620px')]: {
+              paddingBlock: '56px',
               gap: '96px',
             },
             [respondMore('780px')]: {

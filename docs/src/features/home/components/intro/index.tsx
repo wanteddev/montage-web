@@ -35,9 +35,11 @@ const Intro = () => {
               MONTAGE
             </Box>
             <Box as="p" sx={[descriptionTextStyle, breakWordStyle]}>
-              일하는 사람들의 모든 가능성
+              {
+                '일하는 사람들의 모든 가능성, \n원티드가 만든 모두를 위한 일하는 방식'
+              }
               <br />
-              원티드의 일하는 방식, MONTAGE.
+              Wanted Design System — MONTAGE
             </Box>
           </FlexBox>
 

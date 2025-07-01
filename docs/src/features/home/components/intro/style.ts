@@ -129,4 +129,9 @@ export const descriptionTextStyle = (theme: Theme) => css`
   letter-spacing: 0.203px;
   font-size: clamp(14px, 1vw, 1vw);
   text-shadow: 0px 0px 64px rgba(0, 0, 0, 0.05);
+  white-space: pre-wrap;
+
+  ${respondMore('620px')} {
+    white-space: unset;
+  }
 `;
