@@ -195,7 +195,8 @@ const LiquidButton = forwardRef(
             '--liquid-button-transform-translate-x': `${calculateElasticTranslation().x}px`,
             '--liquid-button-transform-translate-y': `${calculateElasticTranslation().y}px`,
             '--liquid-button-transform-scale': calculateDirectionalScale(),
-            '--liquid-button-transition': 'transform ease-out 0.2s',
+            '--liquid-button-transition':
+              'transform ease-out 0.2s, background ease-out 0.2s, opacity ease-out 0.2s',
             '--liquid-button-filter': `url(#${filterId})`,
           } as React.CSSProperties
         }

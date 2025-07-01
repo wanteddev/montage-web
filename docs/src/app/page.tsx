@@ -1,17 +1,31 @@
-import { FlexBox } from '@wanteddev/wds';
+'use client';
+import { FlexBox, respondMore } from '@wanteddev/wds';
 
 import Footer from '@/features/layout/components/footer';
-import Container from '@/features/layout/components/container';
-import Intro from '@/home/components/intro';
+import Intro from '@/features/home/components/intro';
+import Banners from '@/features/home/components/banners';
 
 const RootPage = () => {
   return (
     <FlexBox flexDirection="column" flex="1" alignItems="center">
       <Intro />
 
-      <Container>
+      <FlexBox
+        flex="1"
+        flexDirection="column"
+        sx={{
+          width: '100%',
+          padding: '0px 20px',
+          maxWidth: '1400px',
+          [respondMore('500px')]: {
+            padding: '0px clamp(20px, calc(8vw - 16px), 80px)',
+          },
+        }}
+      >
+        <Banners />
+
         <Footer />
-      </Container>
+      </FlexBox>
     </FlexBox>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
 import { createContext, useContext } from 'react';
 
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
@@ -15,8 +15,10 @@ const LnbContext = createContext<{
 export const useLnbContext = () => useContext(LnbContext);
 
 export const LnbProvider = ({ children }: PropsWithChildren) => {
+  const segments = useSelectedLayoutSegments();
+
   const [open, setOpen] = useState(false);
-  const [hide, setHide] = useState(true);
+  const [hide, setHide] = useState(!segments.includes('docs'));
 
   const pathname = usePathname();
 
