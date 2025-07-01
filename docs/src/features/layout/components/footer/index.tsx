@@ -1,9 +1,9 @@
 'use client';
-import { FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox } from '@wanteddev/wds';
 import React from 'react';
 import Link from 'next/link';
 
-import { footerStyle } from './style';
+import { footerLinkStyle, footerStyle } from './style';
 
 const Footer = () => {
   return (
@@ -13,27 +13,14 @@ const Footer = () => {
       flexDirection="row"
       justifyContent="space-between"
     >
-      <Typography variant="label1" color="semantic.label.neutral">
+      <Box as="p" sx={footerLinkStyle}>
         © 2025 Wanted Lab, Inc.
-      </Typography>
+      </Box>
 
       <FlexBox gap="40px">
-        <Typography
-          as={Link}
-          href="#"
-          variant="label1"
-          color="semantic.label.neutral"
-        >
+        <Box as={Link} href="#" sx={footerLinkStyle}>
           Terms of Use
-        </Typography>
-        <Typography
-          as={Link}
-          href="#"
-          variant="label1"
-          color="semantic.label.neutral"
-        >
-          FAQ
-        </Typography>
+        </Box>
       </FlexBox>
     </FlexBox>
   );

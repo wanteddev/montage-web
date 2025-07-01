@@ -1,11 +1,12 @@
-import { css, respondTo } from '@wanteddev/wds';
+import { css, respondMore } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const footerStyle = (theme: Theme) => css`
   position: relative;
-  padding: 64px 0px;
+  padding: 20px 0px;
   width: 100%;
+  gap: 20px;
 
   &::before {
     content: '';
@@ -17,14 +18,16 @@ export const footerStyle = (theme: Theme) => css`
     background-color: ${theme.semantic.line.normal.alternative};
   }
 
-  ${respondTo('620px')} {
+  ${respondMore('620px')} {
     padding: 64px 0px;
-    gap: 20px;
-    flex-direction: column;
-
-    &::before {
-      left: -20px;
-      width: calc(100% + 40px);
-    }
   }
+`;
+
+export const footerLinkStyle = (theme: Theme) => css`
+  font-family: var(--font-family-wanted-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 142.9%;
+  letter-spacing: 0.203px;
+  color: ${theme.semantic.label.neutral};
 `;

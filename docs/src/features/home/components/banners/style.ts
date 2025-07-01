@@ -4,50 +4,19 @@ import type { Theme } from '@wanteddev/wds';
 
 export const bannerWrapperStyle = css`
   width: 100%;
-  margin-top: 64px;
 
   ${respondMore('620px')} {
-    margin-top: 56px;
     margin-bottom: 16px;
   }
 
-  ${respondMore('1200px')} {
+  ${respondMore('1360px')} {
     margin-bottom: 20px;
   }
 `;
 
 export const bannerTitleStyle = css`
-  font-size: 24px;
-  line-height: 120%;
-  letter-spacing: -0.336px;
-  font-style: normal;
-  font-weight: 800;
   text-transform: capitalize;
   text-align: center;
-  font-family: var(--font-family-wanted-sans);
-  margin-bottom: 20px;
-
-  ${respondMore('375px')} {
-    font-size: 28px;
-    line-height: 120%;
-    letter-spacing: -0.392px;
-  }
-
-  ${respondMore('620px')} {
-    margin-bottom: 28px;
-  }
-
-  ${respondMore('768px')} {
-    font-size: 32px;
-    line-height: 120%;
-    letter-spacing: -0.768px;
-  }
-
-  ${respondMore('1200px')} {
-    font-size: 40px;
-    line-height: 120%;
-    letter-spacing: -0.96px;
-  }
 `;
 
 export const bannerSliderStyle = css`
@@ -70,7 +39,7 @@ export const bannerSliderItemStyle = css`
     gap: 24px;
   }
 
-  ${respondMore('1200px')} {
+  ${respondMore('1360px')} {
     gap: 28px;
   }
 `;
@@ -78,19 +47,25 @@ export const bannerSliderItemStyle = css`
 export const bannerSliderItemImageStyle = css`
   border-radius: 24px;
   width: 100%;
-  height: clamp(280px, 20vw, 429px);
+  aspect-ratio: 1/1;
 
-  ${respondMore('768px')} {
+  ${respondMore('620px')} {
+    aspect-ratio: 21/9;
+  }
+
+  ${respondMore('780px')} {
     border-radius: 32px;
   }
 
-  ${respondMore('1200px')} {
+  ${respondMore('1360px')} {
     border-radius: 40px;
   }
 `;
 
 export const bannerContentWrapperStyle = css`
+  width: 100%;
   gap: 6px;
+  position: relative;
 `;
 
 export const bannerSliderDotStyle = css`
@@ -100,7 +75,7 @@ export const bannerSliderDotStyle = css`
     margin-top: 32px;
   }
 
-  ${respondMore('1200px')} {
+  ${respondMore('1360px')} {
     display: none;
   }
 `;
@@ -108,23 +83,40 @@ export const bannerSliderDotStyle = css`
 export const bannerSliderItemContentStyle = css`
   gap: 6px;
   flex-direction: column;
+
+  ${respondMore('620px')} {
+    gap: 32px;
+    flex-direction: row;
+    padding-inline: 16px;
+    align-items: center;
+  }
+
+  ${respondMore('1360px')} {
+    padding-inline: 20px;
+  }
 `;
 
 export const bannerSliderItemTitleStyle = (theme: Theme) => css`
   width: 100%;
-  font-size: 18px;
   font-style: normal;
   font-weight: 700;
+  font-size: 18px;
   line-height: 136.4%;
   letter-spacing: -0.252px;
   text-align: center;
   font-family: var(--font-family-wanted-sans);
   color: ${theme.semantic.label.normal};
 
-  ${respondMore('768px')} {
+  ${respondMore('620px')} {
+    white-space: pre-line;
+    text-align: left;
+    flex: 0 0 fit-content;
+  }
+
+  ${respondMore('780px')} {
     font-size: 20px;
     line-height: 136.4%;
-    letter-spacing: -0.388px;
+    letter-spacing: -0.28px;
   }
 `;
 
@@ -137,4 +129,48 @@ export const bannerSliderItemDescriptionStyle = (theme: Theme) => css`
   text-align: center;
   font-family: var(--font-family-wanted-sans);
   color: ${theme.semantic.label.alternative};
+
+  ${respondMore('620px')} {
+    height: fit-content;
+    flex: 1 0 0%;
+    text-align: left;
+    font-size: 13px;
+    line-height: 142.9%;
+    letter-spacing: -0.182px;
+    color: ${theme.semantic.label.neutral};
+  }
+
+  ${respondMore('700px')} {
+    font-size: 14px;
+    line-height: 142.9%;
+    letter-spacing: -0.196px;
+  }
+
+  ${respondMore('780px')} {
+    font-size: 15px;
+    line-height: 142.9%;
+    letter-spacing: -0.21px;
+  }
+
+  ${respondMore('1360px')} {
+    max-width: 560px;
+  }
+`;
+
+export const bannerSliderButtonWrapperStyle = css`
+  display: none;
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+
+  ${respondMore('1360px')} {
+    display: flex;
+  }
+`;
+
+export const bannerSliderButtonStyle = css`
+  svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
 `;
