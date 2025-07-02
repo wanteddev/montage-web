@@ -24,7 +24,7 @@ export const linkStyle = (theme: Theme) => css`
     opacity: 0;
     display: inline-flex;
 
-    ${respondTo('960px')} {
+    ${respondTo(theme.breakpoint.md)} {
       display: none !important;
     }
 

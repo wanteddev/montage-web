@@ -2,14 +2,14 @@ import { css, respondMore } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const bannerWrapperStyle = css`
+export const bannerWrapperStyle = (theme: Theme) => css`
   width: 100%;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     margin-bottom: 16px;
   }
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     margin-bottom: 20px;
   }
 `;
@@ -30,33 +30,28 @@ export const bannerSliderContentStyle = css`
   width: 100%;
 `;
 
-export const bannerSliderItemStyle = css`
+export const bannerSliderItemStyle = (theme: Theme) => css`
   min-width: 0px;
   gap: 20px;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     gap: 24px;
   }
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     gap: 28px;
   }
 `;
 
-export const bannerSliderItemImageStyle = css`
+export const bannerSliderItemImageStyle = (theme: Theme) => css`
   border-radius: 24px;
   width: 100%;
-  aspect-ratio: 1/1;
 
-  ${respondMore('620px')} {
-    aspect-ratio: 21/9;
-  }
-
-  ${respondMore('780px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     border-radius: 32px;
   }
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     border-radius: 40px;
   }
 `;
@@ -67,30 +62,29 @@ export const bannerContentWrapperStyle = css`
   position: relative;
 `;
 
-export const bannerSliderDotStyle = css`
+export const bannerSliderDotStyle = (theme: Theme) => css`
   margin-top: 20px;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     margin-top: 32px;
   }
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     display: none;
   }
 `;
 
-export const bannerSliderItemContentStyle = css`
+export const bannerSliderItemContentStyle = (theme: Theme) => css`
   gap: 6px;
   flex-direction: column;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     gap: 32px;
     flex-direction: row;
     padding-inline: 16px;
-    align-items: center;
   }
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     padding-inline: 20px;
   }
 `;
@@ -107,13 +101,13 @@ export const bannerSliderItemTitleStyle = (theme: Theme) => css`
   color: ${theme.semantic.label.normal};
   user-select: none;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     white-space: pre-line;
     text-align: left;
     flex: 0 0 fit-content;
   }
 
-  ${respondMore('780px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     font-size: 20px;
     line-height: 136.4%;
     letter-spacing: -0.28px;
@@ -131,40 +125,29 @@ export const bannerSliderItemDescriptionStyle = (theme: Theme) => css`
   color: ${theme.semantic.label.alternative};
   user-select: none;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     height: fit-content;
     flex: 1 0 0%;
     text-align: left;
-    font-size: 13px;
-    line-height: 142.9%;
-    letter-spacing: -0.182px;
-    color: ${theme.semantic.label.neutral};
-  }
-
-  ${respondMore('700px')} {
-    font-size: 14px;
-    line-height: 142.9%;
-    letter-spacing: -0.196px;
-  }
-
-  ${respondMore('780px')} {
     font-size: 15px;
     line-height: 142.9%;
     letter-spacing: -0.21px;
+    color: ${theme.semantic.label.neutral};
+    align-self: center;
   }
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     max-width: 560px;
   }
 `;
 
-export const bannerSliderButtonWrapperStyle = css`
+export const bannerSliderButtonWrapperStyle = (theme: Theme) => css`
   display: none;
   position: absolute;
   bottom: 12px;
   right: 20px;
 
-  ${respondMore('1360px')} {
+  ${respondMore(theme.breakpoint.lg)} {
     display: flex;
   }
 `;

@@ -1,6 +1,8 @@
 import { css, respondTo } from '@wanteddev/wds';
 
-export const sectionLayoutStyle = css`
+import type { Theme } from '@wanteddev/wds';
+
+export const sectionLayoutStyle = (theme: Theme) => css`
   && {
     h1,
     h2,
@@ -16,7 +18,7 @@ export const sectionLayoutStyle = css`
 
   margin-bottom: 120px;
 
-  ${respondTo('620px')} {
+  ${respondTo(theme.breakpoint.sm)} {
     margin-bottom: 108px;
   }
 

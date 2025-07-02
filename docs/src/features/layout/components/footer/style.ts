@@ -18,7 +18,11 @@ export const footerStyle = (theme: Theme) => css`
     background-color: ${theme.semantic.line.normal.alternative};
   }
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
+    padding: 32px 0px;
+  }
+
+  ${respondMore(theme.breakpoint.md)} {
     padding: 64px 0px;
   }
 `;

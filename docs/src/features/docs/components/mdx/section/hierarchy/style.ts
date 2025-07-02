@@ -9,7 +9,7 @@ export const sectionHierarchyItemStyle = (theme: Theme) => css`
   align-items: center;
   border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
 
-  ${respondTo('620px')} {
+  ${respondTo(theme.breakpoint.sm)} {
     flex-direction: column;
     gap: 20px;
     align-items: initial;

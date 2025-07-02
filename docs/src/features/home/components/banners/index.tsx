@@ -1,5 +1,11 @@
 'use client';
-import { Box, FlexBox, IconButton, PaginationDot } from '@wanteddev/wds';
+import {
+  Box,
+  FlexBox,
+  IconButton,
+  PaginationDot,
+  Thumbnail,
+} from '@wanteddev/wds';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoPlayPlugin from 'embla-carousel-autoplay';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
@@ -101,14 +107,15 @@ const Banners = () => {
                 aria-roledescription="slide"
                 flexDirection="column"
               >
-                <FlexBox
-                  sx={[
-                    bannerSliderItemImageStyle,
-                    (theme) => ({
-                      backgroundColor:
-                        theme.semantic.accent.background.lightBlue,
-                    }),
-                  ]}
+                <Thumbnail
+                  src="/images/banners/banner-1.png"
+                  alt={title}
+                  width="1500px"
+                  ratio="1:1"
+                  sm={{
+                    ratio: '21:9',
+                  }}
+                  sx={bannerSliderItemImageStyle}
                 />
                 <FlexBox sx={bannerSliderItemContentStyle}>
                   <Box as="p" sx={[bannerSliderItemTitleStyle, breakWordStyle]}>

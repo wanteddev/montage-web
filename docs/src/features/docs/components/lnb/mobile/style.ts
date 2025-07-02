@@ -26,7 +26,7 @@ export const containerStyle = css`
     transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
   }
 
-  ${respondMore('500px')} {
+  ${respondMore('620px')} {
     width: 75%;
     border-radius: 12px 0px 0px 12px;
     --lnb-padding-left: 48px;
