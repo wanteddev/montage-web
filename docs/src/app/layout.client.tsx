@@ -12,8 +12,9 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
   return (
     <Box
       sx={(theme) => ({
+        width: '100%',
         display: 'grid',
-        gridTemplateColumns: '1fr',
+        gridTemplateColumns: '100%',
         transition: 'grid-template-columns 0.2s ease-out',
         [respondMore(theme.breakpoint.lg)]: {
           gridTemplateColumns: lnbContext.hide ? '0px 1fr' : '240px 1fr',
@@ -22,13 +23,7 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
     >
       <Lnb />
 
-      <FlexBox
-        as="main"
-        justifyContent="center"
-        sx={{
-          maxWidth: '100%',
-        }}
-      >
+      <FlexBox as="main" justifyContent="center">
         {children}
       </FlexBox>
     </Box>

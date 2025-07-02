@@ -20,28 +20,12 @@ export const resourceItemStyle = (theme: Theme) => css`
     font-family: var(--font-family-wanted-sans);
   }
 
-  mark {
-    background-color: transparent;
-    font: inherit;
-    color: inherit;
-    display: none;
-  }
-
   &[data-interaction='false'] {
     display: none;
   }
 
-  ${respondMore('375px')} {
-    mark {
-      display: inline;
-    }
-  }
-
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     --wds-list-cell-vertical-padding: 16px;
-  }
-
-  ${respondMore('700px')} {
     &[data-interaction='true'] {
       display: none;
     }
@@ -50,15 +34,6 @@ export const resourceItemStyle = (theme: Theme) => css`
       display: flex;
     }
 
-    [data-role='list-text-caption'] {
-      color: ${theme.semantic.label.neutral};
-      font-size: 14px;
-      line-height: 160%;
-      letter-spacing: -0.196px;
-    }
-  }
-
-  ${respondMore('780px')} {
     [data-role='list-text-content'] {
       font-size: 20px;
       line-height: 140%;
@@ -69,11 +44,13 @@ export const resourceItemStyle = (theme: Theme) => css`
       font-size: 15px;
       line-height: 160%;
       letter-spacing: -0.21px;
+      color: ${theme.semantic.label.neutral};
     }
   }
 `;
 
 export const resourceItemButtonStyle = (theme: Theme) => css`
+  gap: 6px;
   color: ${theme.semantic.label.alternative};
 
   & > span {
@@ -84,20 +61,13 @@ export const resourceItemButtonStyle = (theme: Theme) => css`
     font-size: 18px;
   }
 
-  ${respondMore('620px')} {
-    svg {
-      font-size: 20px;
-    }
-  }
-
-  ${respondMore('700px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     & > span {
       display: block;
       font-family: var(--font-family-wanted-sans);
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 15px;
       line-height: 146.7%;
-      letter-spacing: -0.196px;
+      letter-spacing: -0.21px;
     }
 
     svg {
@@ -105,13 +75,5 @@ export const resourceItemButtonStyle = (theme: Theme) => css`
     }
 
     color: ${theme.semantic.label.neutral};
-  }
-
-  ${respondMore('780px')} {
-    & > span {
-      font-size: 15px;
-      line-height: 146.7%;
-      letter-spacing: -0.21px;
-    }
   }
 `;

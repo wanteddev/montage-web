@@ -38,7 +38,7 @@ export const introWrapperStyle = (theme: Theme) => css`
     100dvh - 1px * var(--gnb-height-with-margin)
   );
 
-  ${respondMore('500px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     --gnb-height-with-margin: ${GNB_HEIGHT + 16};
     --intro-background-margin-top: 16px;
     --intro-background-height: calc(
@@ -131,7 +131,7 @@ export const descriptionTextStyle = (theme: Theme) => css`
   text-shadow: 0px 0px 64px rgba(0, 0, 0, 0.05);
   white-space: pre-wrap;
 
-  ${respondMore('620px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     white-space: unset;
   }
 `;

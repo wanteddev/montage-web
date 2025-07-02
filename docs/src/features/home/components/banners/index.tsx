@@ -26,7 +26,7 @@ import {
   bannerTitleStyle,
   bannerWrapperStyle,
 } from './style';
-import { BANNER_SLIDES } from './constants';
+import { BANNER_ITEMS } from './constants';
 
 const Banners = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
@@ -84,44 +84,45 @@ const Banners = () => {
       </Box>
 
       <FlexBox flexDirection="column" sx={bannerContentWrapperStyle}>
-        <FlexBox role="region" aria-roledescription="carousel">
-          <FlexBox flexDirection="row" ref={carouselRef} sx={bannerSliderStyle}>
-            <FlexBox sx={bannerSliderContentStyle}>
-              {BANNER_SLIDES.map(({ title, description }) => (
+        <FlexBox
+          role="region"
+          aria-roledescription="carousel"
+          flexDirection="row"
+          ref={carouselRef}
+          sx={bannerSliderStyle}
+        >
+          <FlexBox sx={bannerSliderContentStyle}>
+            {BANNER_ITEMS.map(({ title, description }) => (
+              <FlexBox
+                key={title}
+                flex="0 0 100%"
+                sx={bannerSliderItemStyle}
+                role="group"
+                aria-roledescription="slide"
+                flexDirection="column"
+              >
                 <FlexBox
-                  key={title}
-                  flex="0 0 100%"
-                  sx={bannerSliderItemStyle}
-                  role="group"
-                  aria-roledescription="slide"
-                  flexDirection="column"
-                >
-                  <FlexBox
-                    sx={[
-                      bannerSliderItemImageStyle,
-                      (theme) => ({
-                        backgroundColor:
-                          theme.semantic.accent.background.lightBlue,
-                      }),
-                    ]}
-                  />
-                  <FlexBox sx={bannerSliderItemContentStyle}>
-                    <Box
-                      as="p"
-                      sx={[bannerSliderItemTitleStyle, breakWordStyle]}
-                    >
-                      {title}
-                    </Box>
-                    <Box
-                      as="p"
-                      sx={[bannerSliderItemDescriptionStyle, breakWordStyle]}
-                    >
-                      {description}
-                    </Box>
-                  </FlexBox>
+                  sx={[
+                    bannerSliderItemImageStyle,
+                    (theme) => ({
+                      backgroundColor:
+                        theme.semantic.accent.background.lightBlue,
+                    }),
+                  ]}
+                />
+                <FlexBox sx={bannerSliderItemContentStyle}>
+                  <Box as="p" sx={[bannerSliderItemTitleStyle, breakWordStyle]}>
+                    {title}
+                  </Box>
+                  <Box
+                    as="p"
+                    sx={[bannerSliderItemDescriptionStyle, breakWordStyle]}
+                  >
+                    {description}
+                  </Box>
                 </FlexBox>
-              ))}
-            </FlexBox>
+              </FlexBox>
+            ))}
           </FlexBox>
         </FlexBox>
 
@@ -149,7 +150,7 @@ const Banners = () => {
 
       <PaginationDot
         size="small"
-        totalPage={BANNER_SLIDES.length}
+        totalPage={BANNER_ITEMS.length}
         currentPage={currentSlide}
         onClickDot={handleClickDot}
         sx={bannerSliderDotStyle}

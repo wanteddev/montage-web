@@ -1,4 +1,4 @@
-export const BANNER_SLIDES = [
+export const BANNER_ITEMS = [
   {
     title: '협업이 필요한 어디든 \nOpen Source.',
     description:

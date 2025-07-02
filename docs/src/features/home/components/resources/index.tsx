@@ -1,3 +1,4 @@
+'use client';
 import {
   Box,
   FlexBox,
@@ -18,7 +19,7 @@ import { RESOURCE_ITEMS } from './constants';
 
 const Resources = () => {
   return (
-    <FlexBox flexDirection="column">
+    <FlexBox flexDirection="column" as="section" sx={{ width: '100%' }}>
       <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
         Downloads
       </Box>

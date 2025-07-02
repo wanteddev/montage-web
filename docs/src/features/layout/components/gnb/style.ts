@@ -29,7 +29,7 @@ export const gnbActionsStyle = (theme: Theme) => css`
   padding: 8px;
   position: relative;
   font-size: 22px;
-  color: ${theme.semantic.label.alternative};
+  color: ${theme.semantic.label.normal};
 
   &[aria-expanded='true'] {
     & > [wds-component='with-interaction'] {

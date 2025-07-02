@@ -13,15 +13,8 @@ export const accordionSummaryStyle = (theme: Theme) => css`
     letter-spacing: -0.21px;
     color: ${theme.semantic.label.normal};
 
-    ${respondMore('620px')} {
+    ${respondMore(theme.breakpoint.sm)} {
       font-size: 16px;
-      line-height: 140%;
-      font-weight: 600;
-      letter-spacing: -0.224px;
-    }
-
-    ${respondMore('780px')} {
-      font-size: 18px;
       line-height: 140%;
       font-weight: 600;
       letter-spacing: -0.252px;
@@ -54,8 +47,7 @@ export const accordionSummaryStyle = (theme: Theme) => css`
 `;
 
 export const accordionSummaryContentStyle = (theme: Theme) => css`
-  display: none;
-  font-size: 20px;
+  font-size: 18px;
   color: ${theme.semantic.label.normal};
   position: relative;
 
@@ -68,8 +60,8 @@ export const accordionSummaryContentStyle = (theme: Theme) => css`
     top: 0px;
   }
 
-  ${respondMore('620px')} {
-    display: flex;
+  ${respondMore(theme.breakpoint.sm)} {
+    font-size: 20px;
   }
 `;
 
@@ -81,20 +73,8 @@ export const accordionDescriptionStyle = (theme: Theme) => css`
   letter-spacing: -0.196px;
   color: ${theme.semantic.label.alternative};
 
-  ${respondMore('620px')} {
-    font-size: 13px;
-    line-height: 157.1%;
-    letter-spacing: -0.182px;
-  }
-
-  ${respondMore('700px')} {
+  ${respondMore(theme.breakpoint.sm)} {
     white-space: pre-wrap;
-    font-size: 14px;
-    line-height: 157.1%;
-    letter-spacing: -0.196px;
-  }
-
-  ${respondMore('780px')} {
     font-size: 15px;
     line-height: 160%;
     letter-spacing: -0.21px;

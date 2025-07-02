@@ -32,7 +32,6 @@ export const bannerSliderContentStyle = css`
 
 export const bannerSliderItemStyle = css`
   min-width: 0px;
-  margin-right: 12px;
   gap: 20px;
 
   ${respondMore('620px')} {

@@ -1,3 +1,4 @@
+'use client';
 import {
   Accordion,
   AccordionDescription,
@@ -23,7 +24,7 @@ import {
 
 const Faq = () => {
   return (
-    <FlexBox flexDirection="column" as="section">
+    <FlexBox flexDirection="column" as="section" sx={{ width: '100%' }}>
       <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
         FAQ
       </Box>
