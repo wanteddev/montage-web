@@ -17,7 +17,9 @@ const ClientLayout = ({ children }: PropsWithChildren) => {
         gridTemplateColumns: '100%',
         transition: 'grid-template-columns 0.2s ease-out',
         [respondMore(theme.breakpoint.lg)]: {
-          gridTemplateColumns: lnbContext.hide ? '0px 1fr' : '240px 1fr',
+          gridTemplateColumns: lnbContext.hide
+            ? '0px 100%'
+            : '240px calc(100% - 240px)',
         },
       })}
     >

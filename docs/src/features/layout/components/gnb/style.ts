@@ -18,7 +18,7 @@ export const gnbWrapperStyle = (theme: Theme) => css`
     border-color 0.2s ease;
   transform: translateY(var(--gnb-translate-y));
 
-  ${respondMore(theme.breakpoint.sm)} {
+  ${respondMore(theme.breakpoint.lg)} {
     padding: 12px 48px;
   }
 `;

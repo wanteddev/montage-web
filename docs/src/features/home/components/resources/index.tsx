@@ -33,6 +33,10 @@ const Resources = () => {
               tabIndex={-1}
               onClick={(e) => e.preventDefault()}
               data-interaction="false"
+              verticalPadding="medium"
+              sm={{
+                verticalPadding: 'large',
+              }}
               trailingContent={
                 <ListCellContent variant="button">
                   <TextButton
@@ -65,6 +69,10 @@ const Resources = () => {
               role="link"
               alignItems="center"
               data-interaction="true"
+              verticalPadding="medium"
+              sm={{
+                verticalPadding: 'large',
+              }}
               trailingContent={
                 <ListCellContent variant="icon">
                   <IconExternalLink aria-label={item.button} />

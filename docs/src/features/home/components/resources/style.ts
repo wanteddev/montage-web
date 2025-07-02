@@ -25,7 +25,6 @@ export const resourceItemStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.sm)} {
-    --wds-list-cell-vertical-padding: 16px;
     &[data-interaction='true'] {
       display: none;
     }

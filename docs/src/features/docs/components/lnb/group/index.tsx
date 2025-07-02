@@ -3,23 +3,13 @@ import {
   AccordionSummaryContent,
   FlexBox,
   List,
-  ListCellContent,
   typographyStyle,
 } from '@wanteddev/wds';
-import {
-  IconChevronDownThickSmall,
-  IconComponentFill,
-  IconPaletteFill,
-} from '@wanteddev/wds-icon';
+import { IconChevronDownThickSmall } from '@wanteddev/wds-icon';
 import { AccordionSummary } from '@wanteddev/wds';
 import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
 import { SectionHeader } from '@wanteddev/wds';
-
-import {
-  isComponentOverview,
-  isFoundationsOverview,
-} from '@/features/docs/helpers/overview';
 
 import { getFrontmatterLink, getIsActive, isFrontmatter } from '../helpers';
 
@@ -92,26 +82,6 @@ const LnbGroup = ({ frontmatter }: Props) => {
                 const isNextItemFrontmatterGroup =
                   Boolean(nextItem) && !isFrontmatter(nextItem!);
 
-                const getLeadingContent = () => {
-                  if (isComponentOverview(item.slug)) {
-                    return (
-                      <ListCellContent variant="icon">
-                        <IconComponentFill sx={{ fontSize: 14 }} />
-                      </ListCellContent>
-                    );
-                  }
-
-                  if (isFoundationsOverview(item.slug)) {
-                    return (
-                      <ListCellContent variant="icon">
-                        <IconPaletteFill sx={{ fontSize: 14 }} />
-                      </ListCellContent>
-                    );
-                  }
-
-                  return null;
-                };
-
                 return (
                   <LnbGroupItem
                     href={getFrontmatterLink(item)}
@@ -125,7 +95,6 @@ const LnbGroup = ({ frontmatter }: Props) => {
                           }
                         : {}
                     }
-                    leadingContent={getLeadingContent()}
                   >
                     {item.title}
                   </LnbGroupItem>
