@@ -19,9 +19,21 @@ export const bannerTitleStyle = css`
   text-align: center;
 `;
 
-export const bannerSliderStyle = css`
+export const bannerSliderStyle = (theme: Theme) => css`
   overflow: hidden;
   width: 100%;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+
+  ${respondMore(theme.breakpoint.sm)} {
+    border-top-left-radius: 32px;
+    border-top-right-radius: 32px;
+  }
+
+  ${respondMore(theme.breakpoint.lg)} {
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+  }
 `;
 
 export const bannerSliderContentStyle = css`
