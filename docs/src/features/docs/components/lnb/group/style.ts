@@ -8,6 +8,10 @@ export const lnbAccordionStyle = css`
 
 export const accordionSummaryStyle = css`
   padding-left: var(--lnb-padding-left);
+
+  [data-role='list-text-content'] {
+    letter-spacing: -0.014em;
+  }
 `;
 
 export const accordionIconContentStyle = css`
@@ -23,8 +27,19 @@ export const accordionIconStyle = (theme: Theme) => css`
   color: ${theme.semantic.label.assistive};
 `;
 
+export const sectionHeaderStyle = css`
+  letter-spacing: -0.014em;
+  font-size: 11px;
+  padding: 4px 20px 4px var(--lnb-padding-left);
+`;
+
 export const utilitiesAccordionGroupStyle = css`
   padding-left: var(--lnb-padding-left);
+
+  [data-role='list-text-content'] {
+    letter-spacing: -0.014em;
+  }
+
   && {
     --wds-list-cell-vertical-padding: 4px;
   }

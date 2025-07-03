@@ -21,6 +21,7 @@ export const lnbItemStyle = (theme: Theme) => css`
 
   [data-role='list-text-content'] {
     color: ${theme.semantic.label.alternative};
+    letter-spacing: -0.014em;
   }
 
   &[data-depth='0'] {

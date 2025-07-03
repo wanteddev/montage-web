@@ -11,6 +11,11 @@ import { AccordionDetails } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
 import { SectionHeader } from '@wanteddev/wds';
 
+import {
+  isComponentOverview,
+  isFoundationsOverview,
+} from '@/features/docs/helpers/overview';
+
 import { getFrontmatterLink, getIsActive, isFrontmatter } from '../helpers';
 
 import {
@@ -18,6 +23,7 @@ import {
   accordionIconStyle,
   accordionSummaryStyle,
   lnbAccordionStyle,
+  sectionHeaderStyle,
   utilitiesAccordionGroupStyle,
 } from './style';
 import LnbGroupItem from './item';
@@ -66,21 +72,25 @@ const LnbGroup = ({ frontmatter }: Props) => {
           disableInteraction
           data-active={getIsActive(params, frontmatter)}
           textProps={{
-            variant: 'label1',
-            weight: 'medium',
+            variant: 'body1',
+            weight: 'bold',
           }}
         >
           {frontmatter.key}
         </AccordionSummary>
 
         <AccordionDetails sx={lnbAccordionStyle}>
-          <FlexBox flexDirection="column" gap="2px">
+          <FlexBox flexDirection="column" gap="0px">
             {frontmatter.children.map((item, idx) => {
               if (isFrontmatter(item)) {
                 const nextItem = frontmatter.children.at(idx + 1);
 
                 const isNextItemFrontmatterGroup =
                   Boolean(nextItem) && !isFrontmatter(nextItem!);
+
+                const isOverviewPage =
+                  isComponentOverview(item.slug) ||
+                  isFoundationsOverview(item.slug);
 
                 return (
                   <LnbGroupItem
@@ -91,7 +101,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                     sx={
                       isNextItemFrontmatterGroup
                         ? {
-                            marginBottom: 32,
+                            marginBottom: isOverviewPage ? 16 : 32,
                           }
                         : {}
                     }
@@ -105,7 +115,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                 <FlexBox
                   flexDirection="column"
                   key={item.key + idx}
-                  gap="2px"
+                  gap="0px"
                   sx={{
                     [':not(:last-child)']: {
                       marginBottom: 32,
@@ -115,11 +125,8 @@ const LnbGroup = ({ frontmatter }: Props) => {
                   <SectionHeader
                     size="xsmall"
                     sx={[
-                      {
-                        padding: '4px 20px 4px var(--lnb-padding-left)',
-                        marginBottom: 6,
-                      },
                       typographyStyle('caption1', 'bold'),
+                      sectionHeaderStyle,
                     ]}
                     color="semantic.label.assistive"
                   >
@@ -163,7 +170,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                           disableInteraction
                           data-active={getIsActive(params, frontmatter)}
                           textProps={{
-                            variant: 'label1',
+                            variant: 'body2',
                             weight: 'medium',
                             color: 'semantic.label.alternative',
                           }}
@@ -173,7 +180,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
                         <AccordionDetails
                           sx={[lnbAccordionStyle, { paddingBottom: 0 }]}
                         >
-                          <List gap="2px">
+                          <List gap="0px">
                             {child.children.map((component, componentIdx) => {
                               if (isFrontmatter(component)) {
                                 return (

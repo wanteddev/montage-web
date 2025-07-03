@@ -70,8 +70,8 @@ const LnbGroupItem = ({
           aria-current={isActive ? 'page' : undefined}
           disableInteraction={depth === '0'}
           textProps={{
-            variant: 'label1',
-            weight: 'medium',
+            variant: depth === '0' ? 'body1' : 'body2',
+            weight: depth === '0' ? 'bold' : 'medium',
           }}
           sx={[lnbItemStyle, sx]}
           leadingContent={leadingContent}
