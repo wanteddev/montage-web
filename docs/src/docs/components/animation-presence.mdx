@@ -43,13 +43,12 @@ WDS 컴포넌트 중 `forceMount` prop을 지원하는 컴포넌트에서는 기
 - [Tooltip](./tooltip)
 - [CompactTooltip](./compact-tooltip)
 - [Menu](./menu)
-- [Tab](./tab)
-  - Tab 컴포넌트는 TabPanel 컴포넌트에서만 지원합니다.
 
 ### Accordion
 
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
 <Demo code={`import { css, keyframes, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
-import { useState } from 'react';
 
 const mountAnimation = keyframes\`
   from {
@@ -84,10 +83,8 @@ const accordionStyle = css\`
 \`;
 
 const Demo = () => {
-  const [expanded, setExpanded] = useState(false);
-
   return (
-    <Accordion expanded={expanded} onChange={setExpanded}>
+    <Accordion>
       <AccordionSummary>
         제목
       </AccordionSummary>
@@ -104,37 +101,155 @@ const Demo = () => {
 export default Demo;`}
 />
 
-또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+### Autocomplete
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
-import { useState } from 'react';
-import { useTransition, animated, config } from "react-spring";
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const autocompleteStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.2s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.2s ease;
+  }
+\`;
 
 const Demo = () => {
-  const [expanded, setExpanded] = useState(false);
-  const transitions = useTransition(expanded, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
+  const [value, setValue] = useState('');
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList sx={autocompleteStyle}>
+        {filteredOptions.length === 0 &&
+          <Typography
+            variant="body1"
+            weight="regular"
+            color="semantic.label.alternative"
+            sx={{ padding: '12px 0px' }}
+          >
+            검색 결과가 없습니다.
+          </Typography>
+        }
+        {filteredOptions.map((option) => {
+          return (
+            <AutocompleteOption value={option} key={option}>
+              {option}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+`forceMount` 옵션과 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
+
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
     config: config.stiff,
   });
 
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
   return (
-    <Accordion forceMount expanded={expanded} onChange={setExpanded} disableAnimation>
-      <AccordionSummary>
-        제목
-      </AccordionSummary>
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+
       {transitions((styles, item) =>
         item ? (
-          <AccordionDetails as={animated.div} style={styles}>
-            <AccordionDescription>
-              제목에 대한 상세 내용을 입력해주세요.<br />
-              긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
-            </AccordionDescription>
-          </AccordionDetails>
-        ) : null
-      )}
-    </Accordion>
+          <AutocompleteList as={animated.div} style={styles} forceMount>
+            {filteredOptions.length === 0 &&
+              <Typography
+                variant="body1"
+                weight="regular"
+                color="semantic.label.alternative"
+                sx={{ padding: '12px 0px' }}
+              >
+                검색 결과가 없습니다.
+              </Typography>
+            }
+            {filteredOptions.map((option) => {
+              return (
+                <AutocompleteOption value={option} key={option}>
+                  {option}
+                </AutocompleteOption>
+                )
+            })}
+        </AutocompleteList>
+      ) : null)}
+    </Autocomplete>
   )
 }
 
@@ -211,10 +326,10 @@ const Demo = () => {
 export default Demo;`}
 />
 
-마찬가지로 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
+`forceMount` 옵션과 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
 
 <Demo code={`import { Button, Slot, Dialog, DialogDimmer, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton } from '@wanteddev/wds';
-import { useTransition, animated, config, useSpring } from "react-spring";
+import { useTransition, animated, config } from "react-spring";
 import { useState } from "react";
 
 const Demo = () => {
@@ -269,6 +384,98 @@ const Demo = () => {
     </>
   );
 };
+
+export default Demo;`}
+/>
+
+### Menu
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Button, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const menuStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.2s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.2s ease;
+  }
+\`;
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuTrigger>
+        <Button>클릭</Button>
+      </MenuTrigger>
+      <MenuContent sx={menuStyle}>
+        <MenuList>
+          <MenuItem value="item1">
+            Item1
+          </MenuItem>
+        </MenuList>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
+import { useState } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  return (
+    <Menu open={open} onOpenChange={setOpen}>
+      <MenuTrigger>
+        <Button>클릭</Button>
+      </MenuTrigger>
+      {transitions((styles, item) =>
+        item ? (
+          <MenuContent as={animated.div} style={styles} forceMount>
+            <MenuList>
+              <MenuItem value="item1">
+                Item1
+              </MenuItem>
+            </MenuList>
+          </MenuContent>
+        ) : null
+      )}
+    </Menu>
+  )
+}
 
 export default Demo;`}
 />
@@ -418,6 +625,90 @@ const Demo = () => {
 export default Demo;
 
 `}
+/>
+
+### Popover
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const popoverStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.2s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.2s ease;
+  }
+\`;
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>클릭</Button>
+      </PopoverTrigger>
+      <PopoverContent arrow sx={popoverStyle}>
+        콘텐츠
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+import { useState } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger>
+        <Button>클릭</Button>
+      </PopoverTrigger>
+      {transitions((styles, item) =>
+        item ? (
+          <PopoverContent as={animated.div} style={styles} forceMount>
+            콘텐츠
+          </PopoverContent>
+        ) : null
+      )}
+    </Popover>
+  )
+}
+
+export default Demo;`}
 />
 
 ### Tooltip, CompactTooltip

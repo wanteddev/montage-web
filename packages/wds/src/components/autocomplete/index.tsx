@@ -15,6 +15,12 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { flushSync } from 'react-dom';
 import { IconCheck } from '@wanteddev/wds-icon';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+import {
+  Box,
+  type DefaultComponentProps,
+  type PolymorphicComponent,
+  type PolymorphicProps,
+} from '@wanteddev/wds-engine';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { List, ListCell, ListCellContent } from '../list';
@@ -42,11 +48,6 @@ import {
 import { focusSelectedOption, setAttributeSelection } from './helpers';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
-} from '@wanteddev/wds-engine';
 import type {
   ChangeEvent,
   ElementType,
@@ -491,8 +492,6 @@ const AutocompleteList = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, disableTrappedContent]);
 
-    const Component = as ?? Slot;
-
     return (
       <AnimationPresence
         present={(open && !input?.readOnly && !input?.disabled) || forceMount}
@@ -505,12 +504,13 @@ const AutocompleteList = forwardRef(
           data-status={open ? 'open' : 'close'}
           sx={[{ width }, autocompleteListStyle, props.sx]}
         >
-          <Component>
+          <Box as={as ?? Slot}>
             <ScrollArea
               scrollbars="vertical"
               size="small"
               zIndex={11}
               viewportProps={{ sx: autocompleteScrollAreaStyle }}
+              sx={{ borderRadius: 'inherit' }}
             >
               <List
                 role="listbox"
@@ -522,7 +522,7 @@ const AutocompleteList = forwardRef(
                 {children}
               </List>
             </ScrollArea>
-          </Component>
+          </Box>
         </PopperContent>
       </AnimationPresence>
     );
