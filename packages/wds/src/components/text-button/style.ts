@@ -93,7 +93,7 @@ const getColorTheme = (
         background-color: transparent;
         border: none;
         box-shadow: none;
-        ${color
+        color: ${color
           ? getColorByToken(theme, color)
           : theme.semantic.label.alternative};
 
