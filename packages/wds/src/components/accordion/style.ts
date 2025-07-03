@@ -1,9 +1,27 @@
 import { css } from '@wanteddev/wds-engine';
 
-export const accordionStyle = ({ disabled }: { disabled: boolean }) => css`
+export const accordionStyle = ({
+  disabled,
+  expanded,
+}: {
+  disabled: boolean;
+  expanded: boolean;
+}) => css`
   & > *:not([data-role='accordion-divider']) {
     opacity: ${disabled ? 0.2 : 1};
   }
+
+  ${!expanded &&
+  css`
+    &:has(:hover),
+    &:has(:active),
+    &:hover,
+    &:active {
+      [data-role='accordion-divider'] {
+        opacity: 0;
+      }
+    }
+  `}
 `;
 
 export const accordionSummaryStyle = ({
@@ -95,10 +113,8 @@ export const accordionDetailsWrapperStyle = css`
 `;
 
 export const accordionDividerStyle = ({
-  expanded,
   disableAnimation,
 }: {
-  expanded: boolean;
   disableAnimation: boolean;
 }) => css`
   margin: 0 auto;
@@ -108,14 +124,6 @@ export const accordionDividerStyle = ({
   ${!disableAnimation &&
   css`
     transition: opacity 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-  `}
-
-  ${!expanded &&
-  css`
-    &:hover,
-    &:active {
-      opacity: 0;
-    }
   `}
 `;
 
