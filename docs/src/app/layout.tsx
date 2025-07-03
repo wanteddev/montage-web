@@ -145,15 +145,10 @@ const RootLayout = async ({ children }: PropsWithChildren) => {
           href="https://static.wanted.co.kr/fonts/pretendard/pretendard-jp/pretendardvariable-jp-dynamic-subset.min.css"
         />
         <link
-          rel="preconnect"
-          href="https://cdn.jsdelivr.net"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
+          rel="preload stylesheet"
           as="style"
           crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/gh/wanteddev/wanted-sans@v1.0.3/packages/wanted-sans/fonts/webfonts/variable/split/WantedSansVariable.min.css"
+          href="https://static.wanted.co.kr/fonts/wantedsans/WantedSansVariable.min.css"
         />
       </head>
       <body suppressHydrationWarning>

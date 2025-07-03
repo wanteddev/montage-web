@@ -1,13 +1,9 @@
-import { css } from '@wanteddev/wds';
+import { css, respondMore } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const liquidButtonWrapperStyle = css`
   position: relative;
-
-  --liquid-button-radius: clamp(145px, 10vw, 10vw);
-  --liquid-button-width: clamp(125px, 11vw, 11vw);
-  --liquid-button-height: clamp(40px, 3vw, 3vw);
 
   &:has([data-role='liquid-button']:hover) {
     [data-role='liquid-button-interaction'] {
@@ -36,9 +32,8 @@ export const liquidButtonWrapperStyle = css`
   }
 `;
 
-export const liquidButtonStyle = css`
-  width: var(--liquid-button-width);
-  height: var(--liquid-button-height);
+export const liquidButtonStyle = (theme: Theme) => css`
+  padding: 12px 20px;
   display: flex;
   border: none;
   background-color: transparent;
@@ -50,6 +45,14 @@ export const liquidButtonStyle = css`
     )
     var(--liquid-button-transform-scale);
   transition: var(--liquid-button-transition);
+
+  ${respondMore(theme.breakpoint.sm)} {
+    padding: 11.5px 20px;
+  }
+
+  ${respondMore(theme.breakpoint.md)} {
+    padding: 15px 24px;
+  }
 `;
 
 export const liquidButtonGlassStyle = css`
@@ -88,16 +91,27 @@ export const liquidButtonContentStyle = (theme: Theme) => css`
   z-index: 1;
   color: ${theme.semantic.static.white};
   font-family: var(--font-family-wanted-sans);
-  font-size: clamp(13px, 1.1vw, 1.1vw);
-  font-weight: 700;
-  line-height: normal;
-  letter-spacing: -0.392px;
-  text-transform: uppercase;
   width: 100%;
+  line-height: normal;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.312px;
+  text-transform: uppercase;
 
   &,
   & * {
     text-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  ${respondMore(theme.breakpoint.sm)} {
+    font-size: 14px;
+    letter-spacing: -0.196px;
+  }
+
+  ${respondMore(theme.breakpoint.md)} {
+    font-size: 15px;
+    letter-spacing: -0.21px;
   }
 `;
 

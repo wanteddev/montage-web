@@ -1,5 +1,7 @@
 'use client';
-import { Box, FlexBox } from '@wanteddev/wds';
+import { Box, Button, FlexBox } from '@wanteddev/wds';
+import { IconChevronDownSmall } from '@wanteddev/wds-icon';
+import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';
 import LiquidButton from '@/components/liquid-button';
@@ -9,8 +11,16 @@ import {
   descriptionTextStyle,
   introBackgroundStyle,
   introWrapperStyle,
+  navigationBarLinkStyle,
+  navigationBarStyle,
+  scrollDownIconStyle,
+  scrollDownTextStyle,
+  scrollDownWrapperStyle,
   titleTextStyle,
+  versionInfoStyle,
 } from './style';
+import IconComponentGradient from './icon-component-gradient';
+import IconDiamondGradient from './icon-diamond-gradient';
 
 const Intro = () => {
   const { ref, lnbHide } = useIntroAnimate();
@@ -25,10 +35,19 @@ const Intro = () => {
       >
         <FlexBox
           flexDirection="column"
-          gap="clamp(32px, 3vw, 3vw)"
+          gap="32px"
           alignItems="center"
+          lg={{
+            gap: '48px',
+          }}
         >
-          <FlexBox flexDirection="column" gap="clamp(24px, 2vw, 2vw)">
+          <FlexBox
+            flexDirection="column"
+            gap="24px"
+            lg={{
+              gap: '32px',
+            }}
+          >
             <Box as="h1" sx={titleTextStyle}>
               Our Work Culture.
               <br />
@@ -44,6 +63,56 @@ const Intro = () => {
           </FlexBox>
 
           <LiquidButton containerRef={ref}>GET STARTED</LiquidButton>
+        </FlexBox>
+
+        <FlexBox
+          sx={navigationBarStyle}
+          justifyContent="space-between"
+          gap="12px"
+        >
+          <Box as="span" sx={versionInfoStyle}>
+            Ver 2.0.0
+          </Box>
+
+          <FlexBox gap="12px" alignItems="center">
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              leadingContent={<IconDiamondGradient />}
+              as={Link}
+              href="/docs/foundations/overview"
+              sx={navigationBarLinkStyle}
+            >
+              Foundations
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              size="small"
+              leadingContent={<IconComponentGradient />}
+              as={Link}
+              href="/docs/components/overview"
+              sx={navigationBarLinkStyle}
+            >
+              Components
+            </Button>
+          </FlexBox>
+        </FlexBox>
+
+        <FlexBox
+          sx={scrollDownWrapperStyle}
+          flexDirection="column"
+          gap="6px"
+          alignItems="center"
+        >
+          <IconChevronDownSmall
+            aria-label="scroll down"
+            sx={scrollDownIconStyle}
+          />
+          <Box as="span" sx={scrollDownTextStyle}>
+            Scroll down
+          </Box>
         </FlexBox>
       </FlexBox>
     </Box>

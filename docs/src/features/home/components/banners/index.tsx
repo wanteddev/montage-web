@@ -9,8 +9,7 @@ import {
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoPlayPlugin from 'embla-carousel-autoplay';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
-import FadePlugin from 'embla-carousel-fade';
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { IconArrowLeft, IconArrowRight } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
@@ -35,6 +34,8 @@ import {
 import { BANNER_ITEMS } from './constants';
 
 const Banners = () => {
+  const id = useId();
+
   const [currentSlide, setCurrentSlide] = useState(1);
   const [carouselRef, emblaApi] = useEmblaCarousel(
     {
@@ -49,7 +50,6 @@ const Banners = () => {
         stopOnMouseEnter: true,
       }),
       WheelGesturesPlugin(),
-      FadePlugin(),
     ],
   );
 
@@ -98,14 +98,16 @@ const Banners = () => {
           sx={bannerSliderStyle}
         >
           <FlexBox sx={bannerSliderContentStyle}>
-            {BANNER_ITEMS.map(({ title, description }) => (
+            {BANNER_ITEMS.map(({ title, description }, idx) => (
               <FlexBox
                 key={title}
                 flex="0 0 100%"
                 sx={bannerSliderItemStyle}
+                flexDirection="column"
                 role="group"
                 aria-roledescription="slide"
-                flexDirection="column"
+                aria-labelledby={`banner-${id}-${idx}`}
+                aria-describedby={`banner-${id}-${idx}-description`}
               >
                 <Thumbnail
                   src="/images/banners/banner-1.png"
@@ -118,12 +120,17 @@ const Banners = () => {
                   sx={bannerSliderItemImageStyle}
                 />
                 <FlexBox sx={bannerSliderItemContentStyle}>
-                  <Box as="p" sx={[bannerSliderItemTitleStyle, breakWordStyle]}>
+                  <Box
+                    as="p"
+                    sx={[bannerSliderItemTitleStyle, breakWordStyle]}
+                    id={`banner-${id}-${idx}`}
+                  >
                     {title}
                   </Box>
                   <Box
                     as="p"
                     sx={[bannerSliderItemDescriptionStyle, breakWordStyle]}
+                    id={`banner-${id}-${idx}-description`}
                   >
                     {description}
                   </Box>

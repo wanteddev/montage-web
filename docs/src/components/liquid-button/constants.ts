@@ -1,4 +1,4 @@
 export const DEFAULT_SIZE = {
-  width: 125,
-  height: 40,
+  width: 0,
+  height: 0,
 };

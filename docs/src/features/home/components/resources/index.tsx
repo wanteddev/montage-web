@@ -7,7 +7,7 @@ import {
   ListCellContent,
   TextButton,
 } from '@wanteddev/wds';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { IconExternalLink } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
@@ -25,7 +25,7 @@ const Resources = () => {
       </Box>
 
       <List gap="0px">
-        {RESOURCE_ITEMS.map((item) => (
+        {RESOURCE_ITEMS.map((item, idx) => (
           <Fragment key={item.title}>
             <ListCell
               alignItems="center"
@@ -37,6 +37,7 @@ const Resources = () => {
               sm={{
                 verticalPadding: 'large',
               }}
+              divider={idx !== RESOURCE_ITEMS.length - 1}
               trailingContent={
                 <ListCellContent variant="button">
                   <TextButton
@@ -73,6 +74,7 @@ const Resources = () => {
               sm={{
                 verticalPadding: 'large',
               }}
+              divider={idx !== RESOURCE_ITEMS.length - 1}
               trailingContent={
                 <ListCellContent variant="icon">
                   <IconExternalLink aria-label={item.button} />

@@ -21,10 +21,6 @@ export const footerStyle = (theme: Theme) => css`
   ${respondMore(theme.breakpoint.sm)} {
     padding: 32px 0px;
   }
-
-  ${respondMore(theme.breakpoint.md)} {
-    padding: 64px 0px;
-  }
 `;
 
 export const footerLinkStyle = (theme: Theme) => css`

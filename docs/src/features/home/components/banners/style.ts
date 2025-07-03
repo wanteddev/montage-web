@@ -1,4 +1,4 @@
-import { css, respondMore } from '@wanteddev/wds';
+import { css, getGradientMaskImage, respondMore } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -33,6 +33,7 @@ export const bannerSliderContentStyle = css`
 export const bannerSliderItemStyle = (theme: Theme) => css`
   min-width: 0px;
   gap: 20px;
+  margin-right: 20px;
 
   ${respondMore(theme.breakpoint.sm)} {
     gap: 24px;
@@ -105,6 +106,7 @@ export const bannerSliderItemTitleStyle = (theme: Theme) => css`
     white-space: pre-line;
     text-align: left;
     flex: 0 0 fit-content;
+    min-width: 184px;
   }
 
   ${respondMore(theme.breakpoint.lg)} {
@@ -144,8 +146,11 @@ export const bannerSliderItemDescriptionStyle = (theme: Theme) => css`
 export const bannerSliderButtonWrapperStyle = (theme: Theme) => css`
   display: none;
   position: absolute;
-  bottom: 12px;
-  right: 20px;
+  bottom: 0px;
+  right: 0px;
+  padding: 12px 20px 12px 48px;
+  background-color: ${theme.semantic.background.normal.normal};
+  mask-image: ${getGradientMaskImage('left', '48px', 'mask')};
 
   ${respondMore(theme.breakpoint.lg)} {
     display: flex;

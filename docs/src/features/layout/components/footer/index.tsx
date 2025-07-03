@@ -1,6 +1,5 @@
 'use client';
 import { Box, FlexBox } from '@wanteddev/wds';
-import React from 'react';
 import Link from 'next/link';
 
 import { footerLinkStyle, footerStyle } from './style';

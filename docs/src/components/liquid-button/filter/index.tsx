@@ -1,5 +1,4 @@
 import { Box } from '@wanteddev/wds';
-import React from 'react';
 
 import type { DefaultComponentProps } from '@wanteddev/wds';
 

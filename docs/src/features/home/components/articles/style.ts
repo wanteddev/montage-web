@@ -28,6 +28,7 @@ export const articleItemStyle = (theme: Theme) => css`
   position: relative;
   width: 100%;
   margin-right: 16px;
+  overflow: hidden;
 
   &:last-child {
     margin-right: 0px;
@@ -40,6 +41,17 @@ export const articleItemStyle = (theme: Theme) => css`
   ${respondMore(theme.breakpoint.md)} {
     flex: 0 0 336px;
   }
+
+  &:hover {
+    [data-role='article-icon'] {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    [data-role='article-image'] {
+      transform: scale(1.05);
+    }
+  }
 `;
 
 export const articleItemImageStyle = css`
@@ -51,6 +63,8 @@ export const articleItemImageStyle = css`
   top: 0px;
   left: 0px;
   z-index: -1;
+  transform-origin: center center;
+  transition: transform 0.2s ease;
 `;
 
 export const articleIconStyle = css`
@@ -59,6 +73,13 @@ export const articleIconStyle = css`
   left: 24px;
   z-index: 1;
   font-size: 32px;
+  opacity: 0;
+  will-change: transform, opacity;
+  transform: scale(0);
+  transform-origin: center center;
+  transition:
+    transform 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
 `;
 
 export const articleItemContentStyle = (theme: Theme) => css`
@@ -68,7 +89,7 @@ export const articleItemContentStyle = (theme: Theme) => css`
     theme.opacity[12],
   )};
   backdrop-filter: blur(32px);
-  padding: 16px;
+  padding: 24px 16px 16px;
   align-items: center;
 `;
 
@@ -96,18 +117,23 @@ export const articleItemDescriptionStyle = (theme: Theme) => css`
   text-shadow: 0px 0px 32px ${addOpacity(theme.semantic.static.black, 0.05)};
   font-size: 13px;
   font-weight: 500;
-  line-height: 157.1%;
+  line-height: 146.1%;
   letter-spacing: -0.182px;
 
   ${respondMore(theme.breakpoint.sm)} {
     font-size: 14px;
-    line-height: 157.1%;
     letter-spacing: -0.196px;
   }
 `;
 
 export const articleItemLinkStyle = (theme: Theme) => css`
+  gap: 0px;
+  border-radius: 8px;
+  padding: 8px 0px;
   color: ${theme.semantic.static.white};
+  display: grid;
+  grid-template-columns: 1fr 0px;
+  transition: grid-template-columns 0.2s ease-in-out;
 
   span {
     font-family: var(--font-family-wanted-sans);
@@ -118,7 +144,28 @@ export const articleItemLinkStyle = (theme: Theme) => css`
   }
 
   svg {
-    font-size: 16px;
+    display: block;
+    margin-left: 8px;
+    font-size: 20px;
+    opacity: 0;
+    will-change: transform, opacity;
+    transform: scale(0);
+    transform-origin: center center;
+    transition:
+      transform 0.2s ease-in-out,
+      opacity 0.2s ease-in-out;
+  }
+
+  & > [wds-component='with-interaction'] {
+    opacity: 0 !important;
+  }
+
+  &:hover {
+    grid-template-columns: 1fr 20px;
+    svg {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   ${respondMore(theme.breakpoint.sm)} {

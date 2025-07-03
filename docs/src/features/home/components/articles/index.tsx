@@ -3,6 +3,8 @@ import { Box, FlexBox, TextButton } from '@wanteddev/wds';
 import useEmblaCarousel from 'embla-carousel-react';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import { IconExternalLink } from '@wanteddev/wds-icon';
+import { useId } from 'react';
+import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';
 
@@ -29,6 +31,8 @@ const Articles = () => {
     [WheelGesturesPlugin()],
   );
 
+  const id = useId();
+
   return (
     <FlexBox flexDirection="column" as="section" sx={{ width: '100%' }}>
       <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
@@ -42,23 +46,35 @@ const Articles = () => {
         aria-roledescription="carousel"
       >
         <FlexBox flexDirection="row" sx={articleContentStyle}>
-          {ARTICLE_ITEMS.map((item) => (
+          {ARTICLE_ITEMS.map((item, idx) => (
             <FlexBox
               key={item.title}
+              as={Link}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
               sx={articleItemStyle}
               flexDirection="column"
               justifyContent="flex-end"
               role="group"
               aria-roledescription="article slide"
+              aria-labelledby={`article-${id}-${idx}`}
+              aria-describedby={`article-${id}-${idx}-description`}
             >
               <Box
                 as="img"
                 src="/home/Article1.png"
                 alt={item.title}
+                data-role="article-image"
                 sx={articleItemImageStyle}
               />
 
-              <FlexBox role="presentation" sx={articleIconStyle}>
+              <FlexBox
+                role="presentation"
+                aria-label={item.title}
+                data-role="article-icon"
+                sx={articleIconStyle}
+              >
                 {item.icon}
               </FlexBox>
 
@@ -68,13 +84,18 @@ const Articles = () => {
                 gap="20px"
               >
                 <FlexBox flexDirection="column" gap="8px">
-                  <Box as="p" sx={[articleItemTitleStyle, breakWordStyle]}>
+                  <Box
+                    as="p"
+                    sx={[articleItemTitleStyle, breakWordStyle]}
+                    id={`article-${id}-${idx}`}
+                  >
                     {item.title}
                   </Box>
 
                   <Box
                     as="p"
                     sx={[articleItemDescriptionStyle, breakWordStyle]}
+                    id={`article-${id}-${idx}-description`}
                   >
                     {item.description}
                   </Box>

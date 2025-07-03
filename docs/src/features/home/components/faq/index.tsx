@@ -8,7 +8,6 @@ import {
   Box,
   FlexBox,
 } from '@wanteddev/wds';
-import React from 'react';
 import { IconMinus, IconPlus } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';

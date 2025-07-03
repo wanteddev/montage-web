@@ -4,6 +4,10 @@ import { css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const resourceItemStyle = (theme: Theme) => css`
+  [data-role='list-cell-divider'] {
+    border-color: ${theme.semantic.line.normal.alternative};
+  }
+
   [data-role='list-text-content'] {
     font-size: 18px;
     font-weight: 800;
@@ -18,6 +22,7 @@ export const resourceItemStyle = (theme: Theme) => css`
     line-height: 142.9%;
     letter-spacing: -0.336px;
     font-family: var(--font-family-wanted-sans);
+    color: ${theme.semantic.label.alternative};
   }
 
   &[data-interaction='false'] {
@@ -43,14 +48,16 @@ export const resourceItemStyle = (theme: Theme) => css`
       font-size: 15px;
       line-height: 160%;
       letter-spacing: -0.21px;
-      color: ${theme.semantic.label.neutral};
     }
   }
 `;
 
 export const resourceItemButtonStyle = (theme: Theme) => css`
-  gap: 6px;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 8px 0px;
   color: ${theme.semantic.label.alternative};
+  transition: color 0.2s ease;
 
   & > span {
     display: none;
@@ -58,6 +65,10 @@ export const resourceItemButtonStyle = (theme: Theme) => css`
 
   svg {
     font-size: 18px;
+  }
+
+  & > [wds-component='with-interaction'] {
+    width: calc(100% + 28px);
   }
 
   ${respondMore(theme.breakpoint.sm)} {
@@ -70,9 +81,11 @@ export const resourceItemButtonStyle = (theme: Theme) => css`
     }
 
     svg {
-      font-size: 16px;
+      font-size: 20px;
     }
 
-    color: ${theme.semantic.label.neutral};
+    &:hover {
+      color: ${theme.semantic.label.neutral};
+    }
   }
 `;

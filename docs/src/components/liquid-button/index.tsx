@@ -195,6 +195,9 @@ const LiquidButton = forwardRef(
             '--liquid-button-transform-translate-x': `${calculateElasticTranslation().x}px`,
             '--liquid-button-transform-translate-y': `${calculateElasticTranslation().y}px`,
             '--liquid-button-transform-scale': calculateDirectionalScale(),
+            '--liquid-button-width': `${size.width}px`,
+            '--liquid-button-height': `${size.height}px`,
+            '--liquid-button-radius': '145px',
             '--liquid-button-transition':
               'transform ease-out 0.2s, background ease-out 0.2s, opacity ease-out 0.2s',
             '--liquid-button-filter': `url(#${filterId})`,
@@ -221,62 +224,69 @@ const LiquidButton = forwardRef(
           </FlexBox>
         </Box>
 
-        <Box
-          role="presentation"
-          sx={[liquidButtonLineBaseStyle, liquidButtonLineOverlayFirstStyle]}
-          style={{
-            background: `linear-gradient(
+        {size.width > 0 && size.height > 0 && (
+          <>
+            <Box
+              role="presentation"
+              sx={[
+                liquidButtonLineBaseStyle,
+                liquidButtonLineOverlayFirstStyle,
+              ]}
+              style={{
+                background: `linear-gradient(
             ${135 + mouseOffset.x * 1.2}deg,
             rgba(255, 255, 255, 0.0) 0%,
             rgba(255, 255, 255, ${0.12 + Math.abs(mouseOffset.x) * 0.008}) ${Math.max(10, 33 + mouseOffset.y * 0.3)}%,
             rgba(255, 255, 255, ${0.4 + Math.abs(mouseOffset.x) * 0.012}) ${Math.min(90, 66 + mouseOffset.y * 0.4)}%,
             rgba(255, 255, 255, 0.0) 100%
           )`,
-          }}
-        />
+              }}
+            />
 
-        <Box
-          role="presentation"
-          sx={[
-            liquidButtonLineBaseStyle,
-            liquidButtonLineOverlaySecondaryStyle,
-          ]}
-          style={{
-            background: `linear-gradient(
+            <Box
+              role="presentation"
+              sx={[
+                liquidButtonLineBaseStyle,
+                liquidButtonLineOverlaySecondaryStyle,
+              ]}
+              style={{
+                background: `linear-gradient(
             ${135 + mouseOffset.x * 1.2}deg,
             rgba(255, 255, 255, 0.0) 0%,
             rgba(255, 255, 255, ${0.32 + Math.abs(mouseOffset.x) * 0.008}) ${Math.max(10, 33 + mouseOffset.y * 0.3)}%,
             rgba(255, 255, 255, ${0.6 + Math.abs(mouseOffset.x) * 0.012}) ${Math.min(90, 66 + mouseOffset.y * 0.4)}%,
             rgba(255, 255, 255, 0.0) 100%
           )`,
-          }}
-        />
+              }}
+            />
 
-        <Box
-          role="presentation"
-          sx={[
-            liquidButtonLineBaseStyle,
-            liquidButtonInteractionOverlayFirstStyle,
-          ]}
-          data-role="liquid-button-interaction"
-        />
+            <Box
+              role="presentation"
+              sx={[
+                liquidButtonLineBaseStyle,
+                liquidButtonInteractionOverlayFirstStyle,
+              ]}
+              data-role="liquid-button-interaction"
+            />
 
-        <Box
-          role="presentation"
-          data-role="liquid-button-interaction-active"
-          sx={[
-            liquidButtonLineBaseStyle,
-            liquidButtonInteractionOverlaySecondStyle,
-          ]}
-        />
-        <Box
-          role="presentation"
-          data-role="liquid-button-interaction-alternative"
-          sx={[
-            liquidButtonLineBaseStyle,
-            liquidButtonInteractionOverlayThirdStyle,
-          ]}
-        />
+            <Box
+              role="presentation"
+              data-role="liquid-button-interaction-active"
+              sx={[
+                liquidButtonLineBaseStyle,
+                liquidButtonInteractionOverlaySecondStyle,
+              ]}
+            />
+            <Box
+              role="presentation"
+              data-role="liquid-button-interaction-alternative"
+              sx={[
+                liquidButtonLineBaseStyle,
+                liquidButtonInteractionOverlayThirdStyle,
+              ]}
+            />
+          </>
+        )}
       </Box>
     );
   },
