@@ -25,6 +25,7 @@ export const lnbItemStyle = (theme: Theme) => css`
   }
 
   &[data-depth='0'] {
+    font-family: var(--font-family-wanted-sans);
     [data-role='list-text-content'] {
       color: ${theme.semantic.label.normal};
     }

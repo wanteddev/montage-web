@@ -10,7 +10,6 @@ export const lnbWrapperStyle = (theme: Theme) => css`
   display: none;
   left: 0px;
   opacity: 1;
-  font-family: var(--font-family-wanted-sans);
   transition:
     transform 0.3s ease-out,
     opacity 0.3s ease-in;

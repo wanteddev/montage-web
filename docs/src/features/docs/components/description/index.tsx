@@ -21,6 +21,7 @@ import Link from 'next/link';
 
 import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
+import { breakWordStyle } from '@/styles/text';
 
 import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
@@ -173,10 +174,7 @@ const DocsDescription = () => {
           weight="bold"
           as="h1"
           data-algolia-page-title
-          sx={{
-            wordBreak: 'keep-all',
-            overflowWrap: 'break-word',
-          }}
+          sx={breakWordStyle}
         >
           {getFrontmatterTitle(frontmatter)}
         </Typography>
@@ -186,12 +184,13 @@ const DocsDescription = () => {
             variant="body2-reading"
             weight="regular"
             color="semantic.label.neutral"
-            sx={{
-              maxWidth: '640px',
-              wordBreak: 'keep-all',
-              overflowWrap: 'break-word',
-              minHeight: '110px',
-            }}
+            sx={[
+              {
+                maxWidth: '640px',
+                minHeight: '110px',
+              },
+              breakWordStyle,
+            ]}
             as="p"
           >
             {description?.split('\\n').map((v) => (
