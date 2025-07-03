@@ -4,7 +4,6 @@ import {
   useDeferredValue,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -19,7 +18,6 @@ import FlexBox from '../flex-box';
 import ScrollArea from '../scroll-area';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { calculateAnimationStyle } from '../../utils/animation';
-import { AnimationPresence } from '../animation-presence';
 
 import {
   motionDividerStyle,
@@ -421,67 +419,62 @@ const TabListItem = forwardRef<any, TabListItemProps>(
 
 TabListItem.displayName = TAB_LIST_ITEM_NAME;
 
-const TabPanel = forwardRef<any, TabPanelProps>(
-  <T extends ElementType = 'div'>(
-    {
+const TabPanel = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<TabPanelProps, 'div'>
+>(({ value, mountMode = 'force-mount', ...props }, ref) => {
+  const context = useTabContext(TAB_PANEL_NAME);
+  const [firstRendered, setFirstRendered] = useState(false);
+
+  const deferredValue = useDeferredValue(value);
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const isActive = context.value?.toString() === value?.toString();
+
+  useEffect(() => {
+    if (!firstRendered && isActive) {
+      setFirstRendered(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActive]);
+
+  useEffect(() => {
+    context.onPanelsChange((prev) => [
+      ...prev.filter((v) => v !== deferredValue),
       value,
-      mountMode = 'force-mount',
-      ...props
-    }: PolymorphicProps<TabPanelProps, T>,
-    ref: ForwardedRef<T>,
-  ) => {
-    const context = useTabContext(TAB_PANEL_NAME);
-    const [firstRendered, setFirstRendered] = useState(false);
+    ]);
 
-    const deferredValue = useDeferredValue(value);
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    const isActive = context.value?.toString() === value?.toString();
+    return () => {
+      context.onPanelsChange((prev) => [...prev.filter((v) => v !== value)]);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
 
-    useEffect(() => {
-      if (!firstRendered && isActive) {
-        setFirstRendered(true);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isActive]);
+  if (!isActive) {
+    switch (mountMode) {
+      case 'always':
+        break;
+      case 'only-active':
+        return null;
+      case 'force-mount':
+        if (firstRendered) {
+          break;
+        }
+        return null;
+    }
+  }
 
-    useEffect(() => {
-      context.onPanelsChange((prev) => [
-        ...prev.filter((v) => v !== deferredValue),
-        value,
-      ]);
-
-      return () => {
-        context.onPanelsChange((prev) => [...prev.filter((v) => v !== value)]);
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value]);
-
-    const isPresent = useMemo(() => {
-      switch (mountMode) {
-        case 'always':
-          return true;
-        case 'only-active':
-          return isActive;
-        case 'force-mount':
-          return firstRendered || isActive;
-      }
-    }, [mountMode, isActive, firstRendered]);
-
-    return (
-      <AnimationPresence present={isPresent}>
-        <Box
-          {...props}
-          ref={ref}
-          wds-component="tab-panel"
-          id={`${context.id}-${value}-panel`}
-          aria-labelledby={`${context.id}-${value}`}
-          role="tabpanel"
-          hidden={!isActive}
-        />
-      </AnimationPresence>
-    );
-  },
-) as PolymorphicComponent<TabPanelProps, 'div'>;
+  return (
+    <div
+      {...props}
+      ref={ref}
+      wds-component="tab-panel"
+      id={`${context.id}-${value}-panel`}
+      aria-labelledby={`${context.id}-${value}`}
+      role="tabpanel"
+      hidden={!isActive}
+    />
+  );
+});
 
 TabPanel.displayName = TAB_PANEL_NAME;
 
