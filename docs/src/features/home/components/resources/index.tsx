@@ -47,6 +47,7 @@ const Resources = () => {
                     target="_blank"
                     rel="noreferrer"
                     trailingContent={<IconExternalLink />}
+                    onClick={(e) => e.stopPropagation()}
                     sx={resourceItemButtonStyle}
                   >
                     {item.buttonText}
