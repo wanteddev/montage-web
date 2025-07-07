@@ -2,11 +2,14 @@ export type ImageLoaderProps = {
   src: string;
   width: number | string;
   alt: string;
+  /**
+   * @deprecated v3.0.0에서 제거될 예정입니다.
+   */
   quality?: number | string;
   onError?: () => void;
   onLoad?: () => void;
   /**
-   * `ImageLoader` 이미지 최적화를 비활성화 합니다.
+   * @deprecated v3.0.0에서 제거될 예정입니다.
    */
   disableOptimize?: boolean;
 };

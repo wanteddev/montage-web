@@ -95,6 +95,8 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
       lg,
       xl,
       sx,
+      style,
+      className,
       ...props
     },
     ref,
@@ -106,7 +108,8 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
     return (
       <Box
         ref={ref}
-        {...props}
+        className={className}
+        style={style}
         sx={[cardThumbnailStyle({ ratio, xs, sm, md, lg, xl }), sx]}
       >
         {hasContent && (
@@ -125,6 +128,7 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
             </FlexBox>
           </FlexBox>
         )}
+
         <Thumbnail width={width} radius border {...props} />
       </Box>
     );
