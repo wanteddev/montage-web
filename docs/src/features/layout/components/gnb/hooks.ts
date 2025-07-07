@@ -57,7 +57,7 @@ export const useFloatingGnb = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const mediaQueryList = window.matchMedia(`(max-width: 500px)`);
+    const mediaQueryList = window.matchMedia(`(max-width: 767px)`);
 
     const handleChange = () => {
       setIsMobile(mediaQueryList.matches);

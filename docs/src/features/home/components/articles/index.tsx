@@ -63,7 +63,7 @@ const Articles = () => {
             >
               <Box
                 as="img"
-                src="/home/Article1.png"
+                src={item.image}
                 alt={item.title}
                 data-role="article-image"
                 sx={articleItemImageStyle}

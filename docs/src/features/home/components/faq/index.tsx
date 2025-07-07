@@ -29,7 +29,7 @@ const Faq = () => {
       </Box>
 
       {FAQ_ITEMS.map((item) => (
-        <Accordion key={item.question} divider={false}>
+        <Accordion key={item.question}>
           <AccordionSummary
             sx={accordionSummaryStyle}
             alignItems="center"

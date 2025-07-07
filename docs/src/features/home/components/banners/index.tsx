@@ -98,9 +98,9 @@ const Banners = () => {
           sx={bannerSliderStyle}
         >
           <FlexBox sx={bannerSliderContentStyle}>
-            {BANNER_ITEMS.map(({ title, description }, idx) => (
+            {BANNER_ITEMS.map((item, idx) => (
               <FlexBox
-                key={title}
+                key={item.title}
                 flex="0 0 100%"
                 sx={bannerSliderItemStyle}
                 flexDirection="column"
@@ -110,8 +110,8 @@ const Banners = () => {
                 aria-describedby={`banner-${id}-${idx}-description`}
               >
                 <Thumbnail
-                  src="/images/banners/banner-1.png"
-                  alt={title}
+                  src={item.image}
+                  alt={item.title}
                   width="1500px"
                   ratio="1:1"
                   sm={{
@@ -125,14 +125,14 @@ const Banners = () => {
                     sx={[bannerSliderItemTitleStyle, breakWordStyle]}
                     id={`banner-${id}-${idx}`}
                   >
-                    {title}
+                    {item.title}
                   </Box>
                   <Box
                     as="p"
                     sx={[bannerSliderItemDescriptionStyle, breakWordStyle]}
                     id={`banner-${id}-${idx}-description`}
                   >
-                    {description}
+                    {item.description}
                   </Box>
                 </FlexBox>
               </FlexBox>

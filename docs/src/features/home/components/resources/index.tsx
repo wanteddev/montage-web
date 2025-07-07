@@ -31,7 +31,6 @@ const Resources = () => {
               alignItems="center"
               disableInteraction
               tabIndex={-1}
-              onClick={(e) => e.preventDefault()}
               data-interaction="false"
               verticalPadding="medium"
               sm={{
@@ -50,12 +49,12 @@ const Resources = () => {
                     trailingContent={<IconExternalLink />}
                     sx={resourceItemButtonStyle}
                   >
-                    {item.button}
+                    {item.buttonText}
                   </TextButton>
                 </ListCellContent>
               }
               textProps={{
-                caption: item.caption,
+                caption: item.description,
               }}
               sx={resourceItemStyle}
             >
@@ -77,11 +76,11 @@ const Resources = () => {
               divider={idx !== RESOURCE_ITEMS.length - 1}
               trailingContent={
                 <ListCellContent variant="icon">
-                  <IconExternalLink aria-label={item.button} />
+                  <IconExternalLink aria-label={item.buttonText} />
                 </ListCellContent>
               }
               textProps={{
-                caption: item.caption,
+                caption: item.description,
               }}
               sx={resourceItemStyle}
             >
