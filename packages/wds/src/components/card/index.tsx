@@ -117,8 +117,12 @@ const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
             justifyContent="space-between"
             sx={cardThumbnailContentWrapperStyle}
           >
-            {hasLeadingContent && leadingContent}
-            {hasTrailingContent && trailingContent}
+            <FlexBox data-role="card-thumbnail-leading-content-wrapper">
+              {leadingContent}
+            </FlexBox>
+            <FlexBox data-role="card-thumbnail-trailing-content-wrapper">
+              {trailingContent}
+            </FlexBox>
           </FlexBox>
         )}
         <Thumbnail width={width} radius border {...props} />
