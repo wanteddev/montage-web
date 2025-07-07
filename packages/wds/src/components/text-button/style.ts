@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils';
@@ -72,7 +72,9 @@ const getColorTheme = (
   switch (variant) {
     case 'primary':
       return css`
-        color: ${color ?? theme.semantic.primary.normal};
+        color: ${color
+          ? getColorByToken(theme, color)
+          : theme.semantic.primary.normal};
         background-color: transparent;
         border: none;
         box-shadow: none;
@@ -91,7 +93,9 @@ const getColorTheme = (
         background-color: transparent;
         border: none;
         box-shadow: none;
-        color: ${color ?? theme.semantic.label.alternative};
+        color: ${color
+          ? getColorByToken(theme, color)
+          : theme.semantic.label.alternative};
 
         [data-role='text-button-loading'] {
           color: ${theme.semantic.label.assistive};
