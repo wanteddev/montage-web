@@ -30,6 +30,7 @@ export type AutocompleteListProps = Merge<
      * asSelect=`true` 일 때 첫 포커스를 지정하지 않습니다.
      */
     disableTrappedContent?: boolean;
+    forceMount?: boolean;
   },
   PopperContentProps
 >;

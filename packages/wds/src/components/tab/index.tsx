@@ -284,10 +284,10 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       as,
       ...props
     }: PolymorphicProps<TabListItemProps, T>,
-    forwardedRef: ForwardedRef<ElementRef<T>>,
+    forwardedRef: ForwardedRef<T>,
   ) => {
     const ref = useRef<ElementRef<T> | null>(null);
-    const composedRefs = useComposedRefs(ref, forwardedRef);
+    const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);
     const { handleResize } = useTabListContext(TAB_LIST_ITEM_NAME);

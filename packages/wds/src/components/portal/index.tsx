@@ -1,16 +1,29 @@
-import { createPortal } from 'react-dom';
+import { forwardRef } from 'react';
+import { Portal as RadixPortal } from '@radix-ui/react-portal';
 
+import type { DefaultComponentProps } from '@wanteddev/wds-engine';
 import type { PortalProps } from './types';
 
-type Props = PortalProps;
-
-const Portal = ({
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  container = globalThis?.document?.body,
-  children,
-}: Props) => {
-  return container ? createPortal(children, container) : null;
-};
+const Portal = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<PortalProps, 'div'>
+>(
+  (
+    {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      container = globalThis?.document?.body,
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <RadixPortal container={container} ref={ref} asChild {...props}>
+        {children}
+      </RadixPortal>
+    );
+  },
+);
 
 Portal.displayName = 'Portal';
 

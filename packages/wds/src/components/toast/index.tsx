@@ -1,13 +1,13 @@
 import { Box } from '@wanteddev/wds-engine';
 import { forwardRef, useId, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Slot } from '@radix-ui/react-slot';
 
 import FlexBox from '../flex-box';
 import Typography from '../typography';
 import PortalOrFragment from '../portal-or-fragment';
+import { AnimationPresence } from '../animation-presence';
 
 import {
   firstOverlayStyle,
@@ -27,8 +27,12 @@ import {
   toastIconComponent,
 } from './constants';
 
-import type { ComponentProps, Ref } from 'react';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { ComponentProps, ElementType, ForwardedRef, Ref } from 'react';
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type {
   ToastContainerProps,
   ToastContentProps,
@@ -36,11 +40,8 @@ import type {
   ToastProps,
 } from './types';
 
-const Toast = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<ToastProps, 'div'>
->(
-  (
+const Toast = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       duration: durationProp = 'short',
       variant = 'normal',
@@ -52,9 +53,10 @@ const Toast = forwardRef<
       container,
       disablePortal,
       disableAnimation,
+      forceMount,
       ...props
-    },
-    forwardedRef,
+    }: PolymorphicProps<ToastProps, T>,
+    forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
       defaultProp: defaultOpen,
@@ -80,76 +82,66 @@ const Toast = forwardRef<
 
     const {
       ref,
-      containerStyle,
-      isMounted,
+      handleAnimationEnd,
       handleMouseEnter,
       handleMouseLeave,
-      handleTransitionEnd,
+      style,
     } = useToastAnimation({
       open,
       setOpen,
       duration,
       onAnimationEnd,
       disablePortal,
-      disableAnimation,
+      component: 'toast',
     });
 
-    const composedRefs = useComposedRefs(forwardedRef, ref);
-
-    if (!isMounted) {
-      return null;
-    }
-
     return (
-      <PortalOrFragment
-        disablePortal={disablePortal}
-        container={
-          container ??
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          globalThis?.document?.querySelector('#wds-region-manager-bottom')
-        }
-      >
-        <Box
-          {...props}
-          onMouseEnter={composeEventHandlers(
-            props.onMouseEnter,
-            handleMouseEnter,
-          )}
-          onMouseLeave={composeEventHandlers(
-            props.onMouseLeave,
-            handleMouseLeave,
-          )}
-          onTransitionEnd={composeEventHandlers(
-            props.onTransitionEnd,
-            handleTransitionEnd,
-          )}
-          style={{ ...containerStyle, ...props.style }}
-          sx={[
-            wrapperStyle,
-            { transition: disableAnimation ? 'none' : 'all 0.2s ease' },
-            props.sx,
-          ]}
+      <AnimationPresence present={open || forceMount}>
+        <PortalOrFragment
+          disablePortal={disablePortal}
+          container={
+            container ??
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            globalThis?.document?.querySelector('#wds-region-manager-bottom')
+          }
         >
           <Box
-            ref={composedRefs}
-            aria-atomic
-            role={variant === 'negative' ? 'alert' : 'status'}
-            aria-live={variant === 'negative' ? 'assertive' : 'polite'}
-            sx={toastStyle}
-            aria-describedby={contentId}
-            data-role="toast"
+            {...props}
+            ref={forwardedRef}
+            onMouseEnter={composeEventHandlers(
+              props.onMouseEnter,
+              handleMouseEnter,
+            )}
+            onMouseLeave={composeEventHandlers(
+              props.onMouseLeave,
+              handleMouseLeave,
+            )}
+            data-status={open ? 'open' : 'close'}
+            onAnimationEnd={handleAnimationEnd}
+            style={{ ...style, ...props.style }}
+            sx={[wrapperStyle({ disableAnimation }), props.sx]}
           >
-            <Box role="presentation" sx={firstOverlayStyle} />
-            <Box role="presentation" sx={secondOverlayStyle} />
-            <ToastProvider contentId={contentId} variant={variant}>
-              {children}
-            </ToastProvider>
+            <Box
+              ref={ref}
+              aria-atomic
+              role={variant === 'negative' ? 'alert' : 'status'}
+              aria-live={variant === 'negative' ? 'assertive' : 'polite'}
+              sx={toastStyle}
+              aria-describedby={contentId}
+              data-role="toast"
+            >
+              <Box role="presentation" sx={firstOverlayStyle} />
+              <Box role="presentation" sx={secondOverlayStyle} />
+              <ToastProvider contentId={contentId} variant={variant}>
+                {children}
+              </ToastProvider>
+            </Box>
           </Box>
-        </Box>
-      </PortalOrFragment>
+        </PortalOrFragment>
+      </AnimationPresence>
     );
   },
-);
+) as PolymorphicComponent<ToastProps, 'div'>;
 
 Toast.displayName = TOAST_NAME;
 

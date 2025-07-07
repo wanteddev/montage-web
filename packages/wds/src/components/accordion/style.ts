@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
 export const accordionStyle = ({
   disabled,
@@ -77,31 +77,55 @@ export const accordionSummaryContentStyle = ({
   `}
 `;
 
+const mountKeyframes = keyframes`
+  from {
+    height: 0px;
+    overflow: hidden;
+  }
+  to {
+    height: var(--wds-accordion-height);
+    overflow: var(--wds-accordion-overflow);
+  }
+`;
+
+const unmountKeyframes = keyframes`
+  from {
+    height: var(--wds-accordion-height);
+    overflow: var(--wds-accordion-overflow);
+  }
+
+  to {
+    height: 0px;
+    overflow: hidden;
+  }
+`;
+
 export const accordionDetailsStyle = ({
-  initialExpanded,
+  shouldAnimate,
   disableAnimation,
 }: {
-  initialExpanded: boolean;
+  shouldAnimate: boolean;
   disableAnimation: boolean;
 }) => css`
   will-change: height, overflow;
+  height: initial;
+  overflow: visible;
+  &[data-status='close'] {
+    height: 0px;
+    overflow: hidden;
+  }
 
   ${!disableAnimation &&
+  shouldAnimate &&
   css`
-    transition:
-      height 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-      overflow;
-  `}
+    &[data-status='open'] {
+      animation: ${mountKeyframes} 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
 
-  ${initialExpanded
-    ? css`
-        overflow: visible;
-        height: initial;
-      `
-    : css`
-        overflow: hidden;
-        height: 0;
-      `}
+    &[data-status='close'] {
+      animation: ${unmountKeyframes} 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
+  `}
 `;
 
 export const accordionDetailsWrapperStyle = css`

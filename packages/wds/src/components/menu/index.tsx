@@ -127,11 +127,8 @@ const MenuTrigger = forwardRef<
 
 MenuTrigger.displayName = MENU_TRIGGER_NAME;
 
-const MenuContent = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<MenuContentProps, 'div'>
->(
-  (
+const MenuContent = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       position = 'top-center',
       offset,
@@ -139,9 +136,10 @@ const MenuContent = forwardRef<
       disablePortal,
       sx,
       children,
+      forceMount,
       ...props
-    },
-    ref,
+    }: PolymorphicProps<MenuContentProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const scopes = useMenuScope('Menu');
 
@@ -153,6 +151,7 @@ const MenuContent = forwardRef<
           offset={offset}
           container={container}
           disablePortal={disablePortal}
+          forceMount={forceMount}
           {...props}
           {...scopes}
           sx={[menuPopoverContentStyle, sx]}
@@ -164,7 +163,7 @@ const MenuContent = forwardRef<
       </RovingFocusGroup>
     );
   },
-);
+) as PolymorphicComponent<MenuContentProps, 'div'>;
 
 MenuContent.displayName = MENU_CONTENT_NAME;
 
@@ -218,14 +217,14 @@ const MenuGroup = forwardRef<
 MenuGroup.displayName = MENU_GROUP_NAME;
 
 const MenuItem = forwardRef<any, MenuItemProps>(
-  <E extends ElementType = 'li'>(
+  <T extends ElementType = 'li'>(
     {
       variant = 'normal',
       onKeyDown,
       sx,
       ...props
-    }: PolymorphicProps<MenuItemProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<MenuItemProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { disabled } = props;
     const context = useMenuContext(MENU_ITEM_NAME);
@@ -302,9 +301,9 @@ const MenuItem = forwardRef<any, MenuItemProps>(
 MenuItem.displayName = MENU_ITEM_NAME;
 
 const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
-  <E extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'li'>(
+    { value, ...props }: PolymorphicProps<MenuItemRadioProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
 
@@ -336,9 +335,9 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
 MenuItemRadio.displayName = MENU_ITEM_CHECKBOX_NAME;
 
 const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
-  <E extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuItemRadioProps, E>,
-    ref: ForwardedRef<ElementRef<E>>,
+  <T extends ElementType = 'li'>(
+    { value, ...props }: PolymorphicProps<MenuItemRadioProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
     const valueList = Array.isArray(context.value) ? [...context.value] : [];

@@ -8,7 +8,6 @@ export type CompactTooltipContentProps = {
   position?: TooltipContentProps['position'];
   container?: TooltipContentProps['container'];
   disablePortal?: TooltipContentProps['disablePortal'];
-  animationDuration?: TooltipContentProps['animationDuration'];
   /**
    * 요소가 가려질 경우 숨김 처리 합니다.
    */

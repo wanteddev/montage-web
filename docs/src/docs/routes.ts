@@ -40,6 +40,10 @@ export const routes: Array<Route> = [
         title: 'ActionArea',
         slug: '/docs/components/action-area',
       },
+      {
+        title: 'AnimationPresence',
+        slug: '/docs/components/animation-presence',
+      },
       { title: 'Autocomplete', slug: '/docs/components/autocomplete' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
       {

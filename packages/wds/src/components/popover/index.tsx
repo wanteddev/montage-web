@@ -2,12 +2,14 @@ import { forwardRef, useId } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { Box } from '@wanteddev/wds-engine';
 
 import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
 import FocusScope from '../focus-scope';
 import { createScope } from '../../hooks/use-scope-context';
+import { AnimationPresence } from '../animation-presence';
 
 import { PopoverProvider, usePopoverContext } from './contexts';
 import {
@@ -19,8 +21,16 @@ import { popoverStyle } from './style';
 
 import type { ScopedProps } from '../../hooks/use-scope-context';
 import type { PopoverContentProps, PopoverProps } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
+import type {
+  ComponentPropsWithoutRef,
+  ElementType,
+  ForwardedRef,
+  PropsWithChildren,
+} from 'react';
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 
 const usePopoverScope = createScope('Popper');
 
@@ -101,11 +111,8 @@ const PopoverTrigger = forwardRef<
 
 PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 
-const PopoverContent = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<ScopedProps<PopoverContentProps, 'Popover'>, 'div'>
->(
-  (
+const PopoverContent = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       arrow,
       position,
@@ -122,10 +129,12 @@ const PopoverContent = forwardRef<
       referenceHiddenOffsets,
       setContext,
       wrapperProps,
+      forceMount = false,
+      as,
       __scopePopover = 'Popover',
       ...props
-    },
-    ref,
+    }: PolymorphicProps<ScopedProps<PopoverContentProps, 'Popover'>, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { contentId, open, onOpenChange } = usePopoverContext(
       POPOVER_CONTENT_NAME,
@@ -134,49 +143,53 @@ const PopoverContent = forwardRef<
 
     const scopes = usePopoverScope(__scopePopover);
 
-    return open ? (
-      <PopperContent
-        {...scopes}
-        position={position}
-        offset={offset}
-        disablePortal={disablePortal}
-        container={container}
-        referenceHidden={referenceHidden}
-        referenceHiddenOffsets={referenceHiddenOffsets}
-        setContext={setContext}
-        wrapperProps={wrapperProps}
-      >
-        <FocusScope
-          loop={loop}
-          trapped={trapped}
-          trappedContent={trappedContent}
-          onMountAutoFocus={onMountAutoFocus}
-          onUnmountAutoFocus={onUnmountAutoFocus}
+    return (
+      <AnimationPresence present={open || forceMount}>
+        <PopperContent
+          {...scopes}
+          data-status={open ? 'open' : 'close'}
+          position={position}
+          offset={offset}
+          disablePortal={disablePortal}
+          container={container}
+          referenceHidden={referenceHidden}
+          referenceHiddenOffsets={referenceHiddenOffsets}
+          setContext={setContext}
+          wrapperProps={wrapperProps}
         >
-          <DismissableLayer
-            asChild
-            disableOutsidePointerEvents
-            onDismiss={() => {
-              onOpenChange(false);
-            }}
+          <FocusScope
+            loop={loop}
+            trapped={trapped}
+            trappedContent={trappedContent}
+            onMountAutoFocus={onMountAutoFocus}
+            onUnmountAutoFocus={onUnmountAutoFocus}
           >
-            <FlexBox
-              role="dialog"
-              id={contentId}
-              ref={ref}
-              {...props}
-              sx={[popoverStyle, props.sx]}
+            <DismissableLayer
+              asChild
+              disableOutsidePointerEvents
+              onDismiss={() => {
+                onOpenChange(false);
+              }}
             >
-              {children}
+              <Box
+                role="dialog"
+                id={contentId}
+                ref={ref}
+                as={as ?? FlexBox}
+                {...props}
+                sx={[popoverStyle, props.sx]}
+              >
+                {children}
 
-              {arrow && <PopperArrow {...scopes} />}
-            </FlexBox>
-          </DismissableLayer>
-        </FocusScope>
-      </PopperContent>
-    ) : null;
+                {arrow && <PopperArrow {...scopes} />}
+              </Box>
+            </DismissableLayer>
+          </FocusScope>
+        </PopperContent>
+      </AnimationPresence>
+    );
   },
-);
+) as PolymorphicComponent<PopoverContentProps, 'div'>;
 
 PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 

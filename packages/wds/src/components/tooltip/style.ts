@@ -1,25 +1,39 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
 import { addOpacity } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
+
+const mountKeyframes = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const unmountKeyframes = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
 
 export const tooltipWrapperStyle = css`
   border-radius: 8px;
   backdrop-filter: blur(32px);
   min-width: 64px;
   max-width: 280px;
-  transition-property: opacity;
-  transition-duration: var(--wds-tooltip-transition-duration, 250ms);
 
   &[data-status='open'] {
-    opacity: 1;
+    animation: ${mountKeyframes} 200ms ease-in-out;
   }
 
-  &[data-status='initial'],
-  &[data-status='unmounted'],
   &[data-status='close'] {
-    opacity: 0;
+    animation: ${unmountKeyframes} 200ms ease-in-out;
   }
 `;
 

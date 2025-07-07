@@ -10,7 +10,11 @@ import {
   compactTooltipWrapperStyle,
 } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { ElementType, ForwardedRef } from 'react';
+import type {
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type { CompactTooltipContentProps } from './types';
 
 const CompactTooltip = Tooltip;
@@ -21,11 +25,8 @@ const CompactTooltipTrigger = TooltipTrigger;
 
 CompactTooltipTrigger.displayName = 'CompactTooltipTrigger';
 
-const CompactTooltipContent = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<CompactTooltipContentProps, 'div'>
->(
-  (
+const CompactTooltipContent = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       children,
       shortcut,
@@ -34,13 +35,13 @@ const CompactTooltipContent = forwardRef<
       position = 'top-center',
       variant = 'normal',
       offset = 4,
-      animationDuration = 250,
       referenceHidden = false,
       referenceHiddenOffsets,
       setContext,
+      as,
       ...props
-    },
-    ref,
+    }: PolymorphicProps<CompactTooltipContentProps, 'div'>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <TooltipContent
@@ -48,13 +49,16 @@ const CompactTooltipContent = forwardRef<
         offset={offset}
         container={container}
         disablePortal={disablePortal}
-        animationDuration={animationDuration}
         referenceHidden={referenceHidden}
         referenceHiddenOffsets={referenceHiddenOffsets}
+        ref={ref as ForwardedRef<HTMLDivElement>}
         setContext={setContext}
-        ref={ref}
         __wdsCustomChildren={
-          <FlexBox {...props} sx={[compactTooltipWrapperStyle, props.sx]}>
+          <Box
+            {...props}
+            as={as ?? FlexBox}
+            sx={[compactTooltipWrapperStyle, props.sx]}
+          >
             <Box sx={compactTooltipContentStyle({ variant })}>
               <Typography variant="label2" weight="medium">
                 {children}
@@ -74,12 +78,12 @@ const CompactTooltipContent = forwardRef<
                 </Typography>
               )}
             </Box>
-          </FlexBox>
+          </Box>
         }
       />
     );
   },
-);
+) as PolymorphicComponent<CompactTooltipContentProps, 'div'>;
 
 CompactTooltipContent.displayName = 'CompactTooltipContent';
 
