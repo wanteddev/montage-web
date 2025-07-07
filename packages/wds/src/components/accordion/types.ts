@@ -1,4 +1,4 @@
-import type { Merge } from '@wanteddev/wds-engine';
+import type { Merge, SxProp } from '@wanteddev/wds-engine';
 import type { ListCellContentProps } from '../list/types';
 
 export type AccordionProps = {
@@ -20,4 +20,7 @@ export type AccordionSummaryContentProps = Merge<
   ListCellContentProps
 >;
 
-export type AccordionDetailsProps = {};
+export type AccordionDetailsProps = {
+  forceMount?: boolean;
+  wrapperSx?: SxProp;
+};

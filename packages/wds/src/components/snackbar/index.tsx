@@ -1,7 +1,6 @@
 import { Box } from '@wanteddev/wds-engine';
 import { forwardRef, useId, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import FlexBox from '../flex-box';
@@ -10,6 +9,7 @@ import { useToastAnimation } from '../toast/hooks';
 import { ellipsisTypographyStyle } from '../../utils';
 import TextButton from '../text-button';
 import PortalOrFragment from '../portal-or-fragment';
+import { AnimationPresence } from '../animation-presence';
 
 import { SnackbarProvider, useSnackbarContext } from './contexts';
 import {
@@ -31,6 +31,7 @@ import {
   wrapperStyle,
 } from './style';
 
+import type { ElementType, ForwardedRef } from 'react';
 import type {
   DefaultComponentProps,
   PolymorphicComponent,
@@ -45,11 +46,8 @@ import type {
   SnackbarProps,
 } from './types';
 
-const Snackbar = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<SnackbarProps, 'div'>
->(
-  (
+const Snackbar = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       duration: durationProp = 'short',
       variant = 'normal',
@@ -60,10 +58,11 @@ const Snackbar = forwardRef<
       children,
       container,
       disablePortal,
+      forceMount = false,
       disableAnimation,
       ...props
-    },
-    forwardedRef,
+    }: PolymorphicProps<SnackbarProps, T>,
+    forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
       defaultProp: defaultOpen,
@@ -90,89 +89,79 @@ const Snackbar = forwardRef<
 
     const {
       ref,
-      containerStyle,
-      isMounted,
+      handleAnimationEnd,
       handleMouseEnter,
       handleMouseLeave,
-      handleTransitionEnd,
+      style,
     } = useToastAnimation({
       open,
       setOpen,
       duration,
       onAnimationEnd,
       disablePortal,
-      disableAnimation,
+      component: 'snackbar',
     });
 
-    const composedRefs = useComposedRefs(forwardedRef, ref);
-
-    if (!isMounted) {
-      return null;
-    }
-
     return (
-      <PortalOrFragment
-        disablePortal={disablePortal}
-        container={
-          container ??
-          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-          globalThis?.document?.querySelector('#wds-region-manager-bottom')
-        }
-      >
-        <Box
-          {...props}
-          onMouseEnter={composeEventHandlers(
-            props.onMouseEnter,
-            handleMouseEnter,
-          )}
-          onMouseLeave={composeEventHandlers(
-            props.onMouseLeave,
-            handleMouseLeave,
-          )}
-          onTransitionEnd={composeEventHandlers(
-            props.onTransitionEnd,
-            handleTransitionEnd,
-          )}
-          style={{ ...containerStyle, ...props.style }}
-          sx={[
-            wrapperStyle,
-            { transition: disableAnimation ? 'none' : 'all 0.2s ease' },
-            props.sx,
-          ]}
+      <AnimationPresence present={open || forceMount}>
+        <PortalOrFragment
+          disablePortal={disablePortal}
+          container={
+            container ??
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            globalThis?.document?.querySelector('#wds-region-manager-bottom')
+          }
         >
           <Box
-            ref={composedRefs}
-            aria-atomic
-            role="status"
-            aria-live="polite"
-            sx={snackbarStyle}
-            aria-describedby={descriptionId}
-            aria-labelledby={headingId}
-            data-role="snackbar"
+            {...props}
+            ref={forwardedRef}
+            onMouseEnter={composeEventHandlers(
+              props.onMouseEnter,
+              handleMouseEnter,
+            )}
+            onMouseLeave={composeEventHandlers(
+              props.onMouseLeave,
+              handleMouseLeave,
+            )}
+            data-status={open ? 'open' : 'close'}
+            onAnimationEnd={handleAnimationEnd}
+            style={{ ...style, ...props.style }}
+            sx={[wrapperStyle({ disableAnimation }), props.sx]}
           >
-            <Box role="presentation" sx={firstOverlayStyle} />
-            <Box role="presentation" sx={secondOverlayStyle} />
-            <FlexBox
-              gap="12px"
-              alignItems="center"
-              justifyContent="space-between"
-              data-role="snackbar-container"
-              sx={fullWidthFlexBoxStyle}
+            <Box
+              ref={ref}
+              aria-atomic
+              role="status"
+              aria-live="polite"
+              sx={snackbarStyle}
+              aria-describedby={descriptionId}
+              aria-labelledby={headingId}
+              data-role="snackbar"
             >
-              <SnackbarProvider
-                headingId={headingId}
-                descriptionId={descriptionId}
-                variant={variant}
+              <Box role="presentation" sx={firstOverlayStyle} />
+              <Box role="presentation" sx={secondOverlayStyle} />
+              <FlexBox
+                gap="12px"
+                alignItems="center"
+                justifyContent="space-between"
+                data-role="snackbar-container"
+                sx={fullWidthFlexBoxStyle}
               >
-                {children}
-              </SnackbarProvider>
-            </FlexBox>
+                <SnackbarProvider
+                  headingId={headingId}
+                  descriptionId={descriptionId}
+                  variant={variant}
+                >
+                  {children}
+                </SnackbarProvider>
+              </FlexBox>
+            </Box>
           </Box>
-        </Box>
-      </PortalOrFragment>
+        </PortalOrFragment>
+      </AnimationPresence>
     );
   },
-);
+) as PolymorphicComponent<SnackbarProps, 'div'>;
 
 Snackbar.displayName = SNACKBAR_NAME;
 

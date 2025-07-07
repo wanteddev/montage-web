@@ -1,5 +1,6 @@
 export * from './accordion';
 export * from './action-area';
+export * from './animation-presence';
 export * from './autocomplete';
 export { default as Avatar } from './avatar';
 export { default as AvatarButton } from './avatar-button';

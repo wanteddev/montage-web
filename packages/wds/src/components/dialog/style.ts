@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { respondTo } from '../../utils';
+import { addOpacity, respondTo } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
@@ -24,8 +24,10 @@ export const dialogWrapperStyle = (theme: Theme) => css`
 export const dialogDimmerStyle = (theme: Theme) => css`
   position: fixed;
   inset: 0;
-  background-color: ${theme.semantic.material.dimmer};
-  opacity: ${theme.opacity[43]};
+  background-color: ${addOpacity(
+    theme.semantic.material.dimmer,
+    theme.opacity[43],
+  )};
   z-index: -1;
 `;
 
@@ -35,6 +37,8 @@ export const dialogContentStyle = (theme: Theme) => css`
   min-width: 320px;
   max-width: 400px;
   outline: none;
+  display: flex;
+  flex-direction: column;
 
   ${respondTo('360px')} {
     min-width: 100%;

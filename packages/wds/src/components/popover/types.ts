@@ -31,6 +31,7 @@ export type PopoverContentProps = {
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];
   wrapperProps?: PopperContentProps['wrapperProps'];
+  forceMount?: boolean;
 } & Pick<
   FocusScopeProps,
   | 'trappedContent'

@@ -1,11 +1,4 @@
-import {
-  Fragment,
-  forwardRef,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-} from 'react';
+import { forwardRef, useCallback, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -16,12 +9,11 @@ import DismissableLayer from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import FlexBox from '../flex-box';
 import Typography from '../typography';
-import NoSsr from '../no-ssr';
 import { addOpacity } from '../../utils';
 import IconButton from '../icon-button';
-import useTransitionStatus from '../../hooks/use-transition-status';
-import ComponentOrFragment from '../component-or-fragment';
 import { createScope } from '../../hooks/use-scope-context';
+import NoSsr from '../no-ssr';
+import { AnimationPresence } from '../animation-presence';
 
 import {
   TooltipGroupProvider,
@@ -30,6 +22,7 @@ import {
 } from './contexts';
 import {
   TOOLTIP_CONTENT_NAME,
+  TOOLTIP_CONTENT_WRAPPER_NAME,
   TOOLTIP_GROUP_NAME,
   TOOLTIP_NAME,
   TOOLTIP_TRIGGER_NAME,
@@ -37,13 +30,18 @@ import {
 import { tooltipContentStyle, tooltipWrapperStyle } from './style';
 import { useTooltip } from './hooks';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentProps,
+  PolymorphicComponent,
+  PolymorphicProps,
+} from '@wanteddev/wds-engine';
 import type {
   TooltipContentProps,
+  TooltipContentWrapperProps,
   TooltipGroupProps,
   TooltipProps,
 } from './types';
-import type { CSSProperties } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 
 const useTooltipScope = createScope('Popper');
 
@@ -182,11 +180,8 @@ const TooltipTrigger = forwardRef<
 
 TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
 
-const TooltipContent = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<TooltipContentProps, 'div'>
->(
-  (
+const TooltipContent = forwardRef(
+  <T extends ElementType = 'div'>(
     {
       arrow = true,
       action,
@@ -196,14 +191,15 @@ const TooltipContent = forwardRef<
       container,
       disablePortal,
       closeButton,
-      animationDuration = 250,
       referenceHidden = false,
       referenceHiddenOffsets,
       setContext,
+      forceMount = false,
+      as,
       __wdsCustomChildren,
       ...props
-    },
-    ref,
+    }: PolymorphicProps<TooltipContentProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const scopes = useTooltipScope('Tooltip');
 
@@ -220,29 +216,21 @@ const TooltipContent = forwardRef<
       handlePointerDownOutside,
     } = useTooltipContext(TOOLTIP_CONTENT_NAME);
 
-    const { hasExited, status } = useTransitionStatus({
-      open,
-      duration: animationDuration,
-    });
-
-    const composedRef = useComposedRefs(ref, containerRef);
+    const composedRef = useComposedRefs(ref, containerRef as ForwardedRef<T>);
 
     const isAlways = mode === 'always';
-
-    const Wrapper = isAlways ? NoSsr : Fragment;
 
     const theme = useTheme();
 
     const overlay = addOpacity(theme.semantic.primary.normal, theme.opacity[5]);
 
-    return !hasExited ? (
-      <Wrapper>
-        <ComponentOrFragment
-          component={DismissableLayer}
-          flag={!isAlways}
-          asChild
-          disableOutsidePointerEvents={false}
-          onFocusOutside={(event) => event.preventDefault()}
+    const Component = as ?? Slot;
+
+    return (
+      <AnimationPresence present={open || forceMount}>
+        <TooltipContentWrapper
+          isAlways={isAlways}
+          onFocusOutside={(e) => e.preventDefault()}
           onPointerDownOutside={handlePointerDownOutside}
           onDismiss={handleDismiss}
         >
@@ -250,11 +238,10 @@ const TooltipContent = forwardRef<
             {...scopes}
             position={position}
             role="tooltip"
-            data-status={status}
+            data-status={open ? 'open' : 'close'}
             id={containerId}
             container={container}
             disablePortal={disablePortal}
-            ref={composedRef}
             offset={offset}
             referenceHidden={referenceHidden}
             referenceHiddenOffsets={referenceHiddenOffsets}
@@ -265,70 +252,101 @@ const TooltipContent = forwardRef<
               onMouseLeave: handleMouseLeave,
               onFocus: handleFocus,
               onBlur: handleBlur,
-              style: {
-                '--wds-tooltip-transition-duration': `${animationDuration}ms`,
-              } as CSSProperties,
             }}
           >
-            {Boolean(__wdsCustomChildren) ? (
-              __wdsCustomChildren
-            ) : (
-              <FlexBox {...props} sx={[tooltipWrapperStyle, props.sx]}>
-                <FlexBox sx={tooltipContentStyle}>
-                  <FlexBox gap="8px" sx={{ zIndex: 1 }}>
-                    <FlexBox
-                      flexDirection="column"
-                      gap="6px"
-                      sx={{
-                        padding: '0px 2px',
-                      }}
-                    >
-                      <Typography
-                        variant="label1"
-                        weight="medium"
+            <Component ref={composedRef} {...props}>
+              {Boolean(__wdsCustomChildren) ? (
+                __wdsCustomChildren
+              ) : (
+                <FlexBox sx={[tooltipWrapperStyle, props.sx]}>
+                  <FlexBox sx={tooltipContentStyle}>
+                    <FlexBox gap="8px" sx={{ zIndex: 1 }}>
+                      <FlexBox
+                        flexDirection="column"
+                        gap="6px"
                         sx={{
-                          wordBreak: 'keep-all',
-                          overflowWrap: 'anywhere',
+                          padding: '0px 2px',
                         }}
                       >
-                        {children}
-                      </Typography>
-
-                      {Boolean(action) && (
-                        <FlexBox
-                          data-role="tooltip-content-action"
-                          alignItems="center"
-                          sx={{ height: 20 }}
+                        <Typography
+                          variant="label1"
+                          weight="medium"
+                          sx={{
+                            wordBreak: 'keep-all',
+                            overflowWrap: 'anywhere',
+                          }}
                         >
-                          {action}
+                          {children}
+                        </Typography>
+
+                        {Boolean(action) && (
+                          <FlexBox
+                            data-role="tooltip-content-action"
+                            alignItems="center"
+                            sx={{ height: 20 }}
+                          >
+                            {action}
+                          </FlexBox>
+                        )}
+                      </FlexBox>
+
+                      {closeButton && (
+                        <FlexBox sx={{ padding: '0 2px' }}>
+                          <IconButton
+                            variant="normal"
+                            size={16}
+                            onClick={handleDismiss}
+                          >
+                            <IconClose />
+                          </IconButton>
                         </FlexBox>
                       )}
                     </FlexBox>
 
-                    {closeButton && (
-                      <FlexBox sx={{ padding: '0 2px' }}>
-                        <IconButton
-                          variant="normal"
-                          size={16}
-                          onClick={handleDismiss}
-                        >
-                          <IconClose />
-                        </IconButton>
-                      </FlexBox>
-                    )}
+                    {arrow && <PopperArrow overlay={overlay} {...scopes} />}
                   </FlexBox>
-
-                  {arrow && <PopperArrow overlay={overlay} {...scopes} />}
                 </FlexBox>
-              </FlexBox>
-            )}
+              )}
+            </Component>
           </PopperContent>
-        </ComponentOrFragment>
-      </Wrapper>
-    ) : null;
+        </TooltipContentWrapper>
+      </AnimationPresence>
+    );
+  },
+) as PolymorphicComponent<TooltipContentProps, 'div'>;
+
+TooltipContent.displayName = TOOLTIP_CONTENT_NAME;
+
+const TooltipContentWrapper = forwardRef<
+  HTMLDivElement,
+  DefaultComponentProps<TooltipContentWrapperProps, 'div'>
+>(
+  (
+    { isAlways, onFocusOutside, onPointerDownOutside, onDismiss, ...props },
+    ref,
+  ) => {
+    if (isAlways) {
+      return (
+        <NoSsr>
+          <Slot ref={ref} {...props} />
+        </NoSsr>
+      );
+    }
+
+    return (
+      <DismissableLayer
+        ref={ref}
+        asChild
+        disableOutsidePointerEvents={false}
+        onFocusOutside={onFocusOutside}
+        onPointerDownOutside={onPointerDownOutside}
+        onDismiss={onDismiss}
+        {...props}
+      />
+    );
   },
 );
 
-TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
+TooltipContentWrapper.displayName = TOOLTIP_CONTENT_WRAPPER_NAME;
 
 export { TooltipGroup, Tooltip, TooltipTrigger, TooltipContent };

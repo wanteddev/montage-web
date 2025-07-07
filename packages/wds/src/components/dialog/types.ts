@@ -1,7 +1,7 @@
 import type { TypographyProps } from '../typography/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { Portal } from '../..';
-import type { ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
 import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from '../text-button/types';
 
@@ -19,7 +19,11 @@ export type DialogProps = {
    * esc 키 또는 dialog 외부 클릭 시 제어할 수 있습니다.
    */
   onDismiss?: () => void;
+  forceMount?: boolean;
+  dimmer?: ReactNode;
 };
+
+export type DialogDimmerProps = {};
 
 export type DialogContentProps = FlexBoxProps;
 

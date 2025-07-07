@@ -6,7 +6,8 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ListCell, ListCellContent } from '../list';
 import Typography from '../typography';
-import { Divider, FlexBox, useComposedRefs, useSize } from '../..';
+import { Divider, FlexBox, useComposedRefs, usePrevious, useSize } from '../..';
+import { AnimationPresence } from '../animation-presence';
 
 import {
   ACCORDION_CONTENT_NAME,
@@ -29,7 +30,9 @@ import {
 } from './style';
 
 import type {
+  CSSProperties,
   ComponentPropsWithoutRef,
+  ElementRef,
   ElementType,
   ForwardedRef,
   PropsWithChildren,
@@ -208,118 +211,102 @@ const AccordionSummaryContent = forwardRef<
 
 AccordionSummaryContent.displayName = ACCORDION_SUMMARY_CONTENT_NAME;
 
-const AccordionDetails = forwardRef<
-  HTMLDivElement,
-  DefaultComponentProps<AccordionDetailsProps, 'div'>
->(({ sx, children, ...props }, forwardedRef) => {
-  const { expanded, detailsId, summaryId, disableAnimation } =
-    useAccordionContext(ACCORDION_DETAILS_NAME);
+const AccordionDetails = forwardRef(
+  <T extends ElementType = 'div'>(
+    {
+      sx,
+      children,
+      forceMount = false,
+      wrapperSx,
+      ...props
+    }: PolymorphicProps<AccordionDetailsProps, T>,
+    forwardedRef: ForwardedRef<T>,
+  ) => {
+    const { expanded, detailsId, summaryId, disableAnimation } =
+      useAccordionContext(ACCORDION_DETAILS_NAME);
 
-  const ref = useRef<HTMLDivElement>(null);
-  const composedRefs = useComposedRefs(forwardedRef, ref);
+    const ref = useRef<ElementRef<T>>(null);
+    const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
-  const [wrapperNode, setWrapperNode] = useState<HTMLDivElement | null>(null);
-  const height = useSize(wrapperNode)?.height;
+    const [wrapperNode, setWrapperNode] = useState<HTMLDivElement | null>(null);
+    const height = useSize(wrapperNode)?.height;
 
-  const initialExpanded = useRef(expanded).current;
+    const prevExpanded = usePrevious(expanded);
 
-  useEffect(() => {
-    if (ref.current) {
-      const elements = ref.current.querySelectorAll(
-        'a, button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), details, [tabindex]',
-      );
+    useEffect(() => {
+      if (ref.current) {
+        const elements = (
+          ref.current as unknown as HTMLDivElement
+        ).querySelectorAll(
+          'a, button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), details, [tabindex]',
+        );
 
-      elements.forEach((elm) => {
-        const currentTabIndex = elm.getAttribute('tabindex');
-        const prevTabIndex = elm.getAttribute('data-prev-tabindex');
+        elements.forEach((elm) => {
+          const currentTabIndex = elm.getAttribute('tabindex');
+          const prevTabIndex = elm.getAttribute('data-prev-tabindex');
 
-        const details = elm.closest('[wds-component="accordion-details"]');
+          const details = elm.closest('[wds-component="accordion-details"]');
 
-        if (details !== ref.current) {
-          return;
-        }
-
-        if (expanded) {
-          if (prevTabIndex === 'unset') {
-            elm.removeAttribute('tabindex');
-          } else if (prevTabIndex !== null) {
-            elm.setAttribute('tabindex', prevTabIndex);
+          if (details !== ref.current) {
+            return;
           }
-          elm.removeAttribute('data-prev-tabindex');
-        } else {
-          if (prevTabIndex === null) {
-            elm.setAttribute('data-prev-tabindex', currentTabIndex || 'unset');
+
+          if (expanded) {
+            if (prevTabIndex === 'unset') {
+              elm.removeAttribute('tabindex');
+            } else if (prevTabIndex !== null) {
+              elm.setAttribute('tabindex', prevTabIndex);
+            }
+            elm.removeAttribute('data-prev-tabindex');
+          } else {
+            if (prevTabIndex === null) {
+              elm.setAttribute(
+                'data-prev-tabindex',
+                currentTabIndex || 'unset',
+              );
+            }
+            elm.setAttribute('tabindex', '-1');
           }
-          elm.setAttribute('tabindex', '-1');
-        }
-      });
-    }
-  }, [expanded]);
-
-  useEffect(() => {
-    if (!ref.current || !wrapperNode) return;
-
-    const element = ref.current;
-
-    if (expanded) {
-      if (disableAnimation) {
-        element.style.overflow = 'visible';
-        element.style.height = 'initial';
-      } else {
-        element.style.overflow = 'hidden';
-        element.style.height = `${height}px`;
-      }
-    } else {
-      if (disableAnimation) {
-        element.style.overflow = 'hidden';
-        element.style.height = '0px';
-      } else {
-        element.style.height = `${height}px`;
-        element.style.overflow = 'hidden';
-
-        requestAnimationFrame(() => {
-          element.style.height = '0px';
         });
       }
-    }
+    }, [expanded]);
 
-    const handleTransitionEnd = () => {
-      if (expanded) {
-        element.style.height = 'auto';
-        element.style.overflow = 'visible';
-      }
-    };
-
-    element.addEventListener('transitionend', handleTransitionEnd);
-    return () => {
-      element.removeEventListener('transitionend', handleTransitionEnd);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [expanded, disableAnimation]);
-
-  return (
-    <Box
-      ref={composedRefs}
-      wds-component="accordion-details"
-      aria-labelledby={summaryId}
-      aria-hidden={!expanded}
-      id={detailsId}
-      {...props}
-      sx={accordionDetailsStyle({
-        initialExpanded,
-        disableAnimation,
-      })}
-    >
-      <FlexBox
-        ref={setWrapperNode}
-        data-role="accordion-details-wrapper"
-        sx={[accordionDetailsWrapperStyle, sx]}
-      >
-        {children}
-      </FlexBox>
-    </Box>
-  );
-});
+    return (
+      <AnimationPresence present={expanded || forceMount}>
+        <Box
+          ref={composedRefs}
+          wds-component="accordion-details"
+          aria-labelledby={summaryId}
+          aria-hidden={!expanded}
+          id={detailsId}
+          {...props}
+          data-status={expanded ? 'open' : 'close'}
+          sx={[
+            accordionDetailsStyle({
+              disableAnimation,
+              shouldAnimate: prevExpanded !== expanded,
+            }),
+            wrapperSx,
+          ]}
+          style={
+            {
+              '--wds-accordion-height': `${height}px`,
+              ...props.style,
+            } as CSSProperties
+          }
+        >
+          <FlexBox
+            ref={setWrapperNode}
+            data-role="accordion-details-wrapper"
+            sx={[accordionDetailsWrapperStyle, sx]}
+          >
+            {children}
+          </FlexBox>
+        </Box>
+      </AnimationPresence>
+    );
+  },
+) as PolymorphicComponent<AccordionDetailsProps, 'div'>;
 
 AccordionDetails.displayName = ACCORDION_DETAILS_NAME;
 
@@ -342,9 +329,9 @@ const AccordionDescription = forwardRef<
 AccordionDescription.displayName = ACCORDION_DESCRIPTION_NAME;
 
 const AccordionContent = forwardRef(
-  <E extends ElementType = 'div'>(
-    { sx, ...props }: PolymorphicProps<PropsWithChildren, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'div'>(
+    { sx, ...props }: PolymorphicProps<PropsWithChildren, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Box

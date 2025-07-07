@@ -1,13 +1,53 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, keyframes } from '@wanteddev/wds-engine';
 
 import { addOpacity, respondMore, respondTo } from '../../utils';
 
+import type { SnackbarProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const wrapperStyle = css`
+const mountKeyframes = keyframes`
+  from {
+    opacity: 0;
+    height: 0;
+    margin-top: 0;
+  }
+  to {
+    opacity: 1;
+    height: var(--wds-snackbar-animation-height);
+    margin-top: var(--wds-snackbar-animation-margin-top);
+  }
+`;
+
+const unmountKeyframes = keyframes`
+  from {
+    opacity: 1;
+    height: var(--wds-snackbar-animation-height);
+    margin-top: var(--wds-snackbar-animation-margin-top);
+  }
+  to {
+    opacity: 0;
+    height: 0;
+    margin-top: 0;
+  }
+`;
+
+export const wrapperStyle = ({
+  disableAnimation,
+}: Pick<SnackbarProps, 'disableAnimation'>) => css`
   backdrop-filter: blur(32px);
   will-change: backdrop-filter;
   border-radius: 12px;
+  margin-top: var(--wds-snackbar-animation-margin-top);
+
+  ${!disableAnimation &&
+  css`
+    &[data-status='open'] {
+      animation: ${mountKeyframes} 0.2s ease;
+    }
+    &[data-status='close'] {
+      animation: ${unmountKeyframes} 0.2s ease;
+    }
+  `}
 `;
 
 export const snackbarStyle = (theme: Theme) => css`

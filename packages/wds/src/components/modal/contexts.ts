@@ -4,8 +4,7 @@ import createLooseContext from '../../hooks/use-loose-context';
 
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
-import type { TransitionStatus } from '../../hooks/use-transition-status';
-import type { RefObject } from 'react';
+import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement>;
@@ -19,16 +18,24 @@ type ModalContextValue = {
   onOpenChange: (open: boolean) => void;
   disableOutsideClickClose: boolean;
   disableEscapeKeyDownClose: boolean;
-  status?: TransitionStatus;
-  setTransitionDuration: (transitionDuration: number) => void;
   isBottomSheet: boolean;
   setIsBottomSheet: (isBottomSheet: boolean) => void;
   visibility: 'hidden' | 'visible';
   setVisibility: (visibility: 'hidden' | 'visible') => void;
+  wrapperRef: Dispatch<SetStateAction<HTMLElement | null>>;
 };
 
 export const [ModalProvider, useModalContext] =
   createContext<ModalContextValue>(MODAL_NAME);
+
+type ModalDimmerContextValue = {
+  dimmerRef: RefObject<HTMLDivElement>;
+  isBottomSheetWithHandle: boolean;
+  handleVisibilityHidden: () => void;
+};
+
+export const [ModalDimmerProvider, useModalDimmerContext] =
+  createContext<ModalDimmerContextValue>(MODAL_CONTAINER_NAME);
 
 type ModalNavigationContextValue = {
   scrolled: boolean;

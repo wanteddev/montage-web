@@ -52,6 +52,7 @@
     "@radix-ui/react-compose-refs": "^1.1.0",
     "@radix-ui/react-context": "^1.1.1",
     "@radix-ui/react-dismissable-layer": "^1.1.1",
+    "@radix-ui/react-portal": "^1.1.9",
     "@radix-ui/react-roving-focus": "^1.1.0",
     "@radix-ui/react-scroll-area": "1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
