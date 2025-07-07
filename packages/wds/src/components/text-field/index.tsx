@@ -287,7 +287,7 @@ const TextFieldContent = forwardRef<
 TextFieldContent.displayName = 'TextFieldContent';
 
 const TextFieldButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       type = 'button',
       as,
@@ -295,8 +295,8 @@ const TextFieldButton = forwardRef(
       variant = 'normal',
       disabled,
       ...props
-    }: PolymorphicProps<TextFieldButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<TextFieldButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Button

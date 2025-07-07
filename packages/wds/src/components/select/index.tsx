@@ -311,14 +311,14 @@ OptionGroup.isOptionGroup = true;
 
 const Option = memo(
   forwardRef<any, OptionProps>(
-    <E extends ElementType = 'li'>(
+    <T extends ElementType = 'li'>(
       {
         variant = 'normal',
         children,
         as,
         ...props
-      }: PolymorphicProps<OptionProps, E>,
-      ref: ForwardedRef<E>,
+      }: PolymorphicProps<OptionProps, T>,
+      ref: ForwardedRef<T>,
     ) => {
       const { onOpenChange, enableMenuActionArea } = useSelectContext() || {};
 

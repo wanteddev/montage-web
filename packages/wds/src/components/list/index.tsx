@@ -65,7 +65,7 @@ const List = forwardRef(
 List.displayName = LIST_NAME;
 
 const ListCell = forwardRef(
-  <E extends ElementType = 'li'>(
+  <T extends ElementType = 'li'>(
     {
       as,
       verticalPadding = 'medium',
@@ -90,11 +90,11 @@ const ListCell = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<ListCellProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ListCellProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
-    const [item, setItem] = useState<E | null>(null);
-    const composedRefs = useComposedRefs(ref, (node) => setItem(node as E));
+    const [item, setItem] = useState<T | null>(null);
+    const composedRefs = useComposedRefs(ref, (node) => setItem(node as T));
 
     const itemElement = item as unknown as HTMLElement | null;
 
@@ -112,7 +112,7 @@ const ListCell = forwardRef(
       >
         <WithInteraction disabled={disabled || disableInteraction}>
           <FlexBox
-            as={(as || 'li') as E}
+            as={(as || 'li') as T}
             role="listitem"
             ref={composedRefs}
             flexDirection="row"
@@ -310,7 +310,7 @@ const ListCellContent = forwardRef<
 ListCellContent.displayName = LIST_CELL_CONTENT_NAME;
 
 const ListText = forwardRef(
-  <E extends ElementType = 'p'>(
+  <T extends ElementType = 'p'>(
     {
       variant = 'body1',
       weight: givenWeight,
@@ -320,8 +320,8 @@ const ListText = forwardRef(
       captionProps,
       as,
       ...props
-    }: PolymorphicProps<ListTextProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ListTextProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { active, disabled, ellipsis } = useListCellContext(LIST_TEXT_NAME);
     const { active: menuItemActive } = useMenuItemContext() || {};

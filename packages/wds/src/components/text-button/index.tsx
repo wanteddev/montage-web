@@ -17,7 +17,7 @@ import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { TextButtonProps } from './types';
 
 const TextButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       disabled = false,
@@ -35,8 +35,8 @@ const TextButton = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TextButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<TextButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
     const context = useTextButtonContext();
@@ -65,7 +65,7 @@ const TextButton = forwardRef(
         scale
       >
         <Box
-          as={(as || 'button') as E}
+          as={(as || 'button') as T}
           wds-component="text-button"
           data-variant={variant}
           aria-labelledby={id}

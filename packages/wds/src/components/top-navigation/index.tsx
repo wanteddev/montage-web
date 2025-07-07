@@ -171,15 +171,15 @@ const TopNavigation = forwardRef<
 TopNavigation.displayName = TOP_NAVIGATION_NAME;
 
 const TopNavigationButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       children,
       variant = 'icon',
       alternative,
       background = false,
       ...props
-    }: PolymorphicProps<TopNavigationButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<TopNavigationButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
     const { variant: navigationVariant } = useTopNavigationContext() || {};

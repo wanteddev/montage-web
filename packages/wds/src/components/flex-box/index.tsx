@@ -11,7 +11,7 @@ import type { FlexBoxProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
 
 const FlexBox = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       as,
       flexDirection,
@@ -34,12 +34,12 @@ const FlexBox = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<FlexBoxProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<FlexBoxProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Box
-        as={(as || 'div') as E}
+        as={as || 'div'}
         ref={ref}
         {...props}
         sx={[

@@ -13,15 +13,15 @@ import type { AvatarButtonProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
 
 const AvatarButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       children,
       disableInteraction = false,
       disabled,
       ...props
-    }: PolymorphicProps<AvatarButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<AvatarButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Box

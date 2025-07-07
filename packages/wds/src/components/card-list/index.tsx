@@ -24,11 +24,11 @@ import type {
   CardListProps,
   CardListSkeletonProps,
 } from './types';
-import type { ElementRef, ForwardedRef } from 'react';
+import type { ForwardedRef } from 'react';
 import type { ElementType } from 'react';
 
 const CardList = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       platform = 'desktop',
       width,
@@ -42,8 +42,8 @@ const CardList = forwardRef(
       sx,
       children,
       ...props
-    }: PolymorphicProps<CardListProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<CardListProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <FlexBox
@@ -69,7 +69,7 @@ const CardListContent = forwardRef(
       sx,
       ...props
     }: DefaultComponentProps<CardListContentProps, 'div'>,
-    ref: ForwardedRef<ElementRef<'div'>>,
+    ref: ForwardedRef<HTMLDivElement>,
   ) => {
     switch (variant) {
       case 'checkbox':
@@ -112,7 +112,7 @@ const CardListContent = forwardRef(
 CardListContent.displayName = CARD_LIST_CONTENT_NAME;
 
 const CardListSkeleton = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       platform = 'desktop',
       width,
@@ -125,8 +125,8 @@ const CardListSkeleton = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<CardListSkeletonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<CardListSkeletonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <FlexBox

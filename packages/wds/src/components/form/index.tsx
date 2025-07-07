@@ -29,16 +29,16 @@ import type {
 } from './types';
 
 const FormField = forwardRef(
-  <E extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicProps<FlexBoxProps, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'div'>(
+    { as, ...props }: PolymorphicProps<FlexBoxProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
 
     return (
       <FormFieldProvider id={id}>
         <FlexBox
-          as={(as || 'div') as E}
+          as={as || 'div'}
           ref={ref}
           flexDirection="column"
           gap="8px"
@@ -79,9 +79,9 @@ const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
 FormControl.displayName = FORM_CONTROL_NAME;
 
 const FormMessage = forwardRef(
-  <E extends ElementType = 'p'>(
-    { as, children, ...props }: PolymorphicProps<FormMessageProps, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'p'>(
+    { as, children, ...props }: PolymorphicProps<FormMessageProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { formMessageId } = useFormField(FORM_MESSAGE_NAME);
 
@@ -91,7 +91,7 @@ const FormMessage = forwardRef(
 
     return (
       <Typography
-        as={(as || 'p') as E}
+        as={as || 'p'}
         ref={ref}
         id={formMessageId}
         variant="label2"
@@ -108,9 +108,9 @@ const FormMessage = forwardRef(
 FormMessage.displayName = FORM_MESSAGE_NAME;
 
 const FormErrorMessage = forwardRef(
-  <E extends ElementType = 'p'>(
-    { as, children, ...props }: PolymorphicProps<FormErrorMessageProps, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'p'>(
+    { as, children, ...props }: PolymorphicProps<FormErrorMessageProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
 
@@ -120,7 +120,7 @@ const FormErrorMessage = forwardRef(
 
     return (
       <Typography
-        as={(as || 'p') as E}
+        as={as || 'p'}
         ref={ref}
         id={formErrorMessageId}
         variant="label2"
