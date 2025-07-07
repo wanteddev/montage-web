@@ -61,6 +61,7 @@ const Accordion = forwardRef<
       divider = true,
       sx,
       children,
+      ...props
     },
     ref,
   ) => {
@@ -82,13 +83,17 @@ const Accordion = forwardRef<
         detailsId={detailsId}
         disableAnimation={disableAnimation}
       >
-        <Box ref={ref} sx={[accordionStyle({ disabled }), sx]}>
+        <Box
+          ref={ref}
+          {...props}
+          sx={[accordionStyle({ disabled, expanded }), sx]}
+        >
           {children}
           {divider && (
             <Divider
               data-role="accordion-divider"
               color="semantic.line.normal.alternative"
-              sx={accordionDividerStyle({ expanded, disableAnimation })}
+              sx={accordionDividerStyle({ disableAnimation })}
             />
           )}
         </Box>
