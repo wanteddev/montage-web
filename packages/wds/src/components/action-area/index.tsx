@@ -122,15 +122,15 @@ const ActionArea = forwardRef<
 ActionArea.displayName = ACTION_AREA_NAME;
 
 const ActionAreaButton = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       variant = 'main',
       textButtonVariant,
       buttonVariant,
       buttonColor,
       ...props
-    }: PolymorphicProps<ActionButtonProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ActionButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const { variant: parentVariant } = useActionAreaContext(
       ACTION_AREA_BUTTON_NAME,

@@ -18,7 +18,7 @@ import type {
 import type { TypographyProps } from './types';
 
 const Typography = forwardRef(
-  <E extends ElementType = 'span'>(
+  <T extends ElementType = 'span'>(
     {
       as,
       variant = 'body1',
@@ -34,12 +34,12 @@ const Typography = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TypographyProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<TypographyProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Box
-        as={(as || 'span') as E}
+        as={as || 'span'}
         ref={ref}
         sx={[
           (theme) => css`

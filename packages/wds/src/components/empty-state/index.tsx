@@ -27,7 +27,7 @@ import type {
 } from './types';
 
 const EmptyState = forwardRef(
-  <E extends ElementType = 'div'>(
+  <T extends ElementType = 'div'>(
     {
       as,
       platform = 'desktop',
@@ -41,12 +41,12 @@ const EmptyState = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<EmptyStateProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<EmptyStateProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <FlexBox
-        as={(as || 'div') as E}
+        as={as || 'div'}
         ref={ref}
         flexDirection="column"
         alignItems="center"
@@ -133,9 +133,9 @@ const EmptyStateText = forwardRef(
 EmptyStateText.displayName = EMPTY_STATE_TEXT_NAME;
 
 const EmptyStateButton = forwardRef(
-  <E extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicProps<ButtonProps, E>,
-    ref: ForwardedRef<E>,
+  <T extends ElementType = 'button'>(
+    { as, ...props }: PolymorphicProps<ButtonProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     return (
       <Button

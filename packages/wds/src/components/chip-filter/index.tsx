@@ -15,7 +15,7 @@ import type { ElementType, ForwardedRef } from 'react';
 import type { ChipFilterProps } from './types';
 
 const ChipFilter = forwardRef(
-  <E extends ElementType = 'button'>(
+  <T extends ElementType = 'button'>(
     {
       as,
       variant = 'solid',
@@ -32,8 +32,8 @@ const ChipFilter = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ChipFilterProps, E>,
-    ref: ForwardedRef<E>,
+    }: PolymorphicProps<ChipFilterProps, T>,
+    ref: ForwardedRef<T>,
   ) => {
     const id = useId();
 
@@ -51,7 +51,7 @@ const ChipFilter = forwardRef(
         disabled={disableInteraction || disabled}
       >
         <Box
-          as={(as || 'button') as E}
+          as={as || 'button'}
           aria-labelledby={id}
           role="button"
           type="button"

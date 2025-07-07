@@ -245,10 +245,10 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       xl,
       ...props
     }: PolymorphicProps<CategoryListItemProps, T>,
-    forwardedRef: ForwardedRef<ElementRef<T>>,
+    forwardedRef: ForwardedRef<T>,
   ) => {
     const ref = useRef<ElementRef<T> | null>(null);
-    const composedRefs = useComposedRefs(ref, forwardedRef);
+    const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useCategoryContext(CATEGORY_LIST_ITEM_NAME);
     const { handleResize, size, variant, ...categoryListContext } =
