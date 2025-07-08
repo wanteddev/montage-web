@@ -6,6 +6,11 @@ export const titleSectionWrapperStyle = css`
   margin-bottom: 24px;
 `;
 
+export const thumbnailStyle = css`
+  margin-block: 8px 32px;
+  border-radius: 24px;
+`;
+
 export const tabScrollStyle = css`
   scroll-margin-top: var(--gnb-height);
 `;

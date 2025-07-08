@@ -6,6 +6,7 @@ import {
   Tab,
   TabList,
   TabListItem,
+  Thumbnail,
   Typography,
 } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
@@ -29,7 +30,12 @@ import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../lnb/constants';
 import { getFrontmatterTitle } from '../../helpers/mdx.client';
 import { shouldNotSerializeMDX } from '../../helpers/overview';
 
-import { tabScrollStyle, tabStyle, titleSectionWrapperStyle } from './style';
+import {
+  tabScrollStyle,
+  tabStyle,
+  thumbnailStyle,
+  titleSectionWrapperStyle,
+} from './style';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -162,6 +168,29 @@ const DocsDescription = () => {
     return frontmatter.description;
   }, [frontmatter, allFrontmatter]);
 
+  const image = useMemo(() => {
+    if (!frontmatter) {
+      return null;
+    }
+
+    if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(frontmatter.slug.toString())) {
+      const designPage = allFrontmatter.find((v) =>
+        v.slug
+          .toString()
+          .includes(
+            frontmatter.slug
+              .toString()
+              .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
+          ),
+      );
+
+      if (designPage) {
+        return designPage.image;
+      }
+    }
+    return frontmatter.image;
+  }, [frontmatter, allFrontmatter]);
+
   if (!frontmatter || shouldNotSerializeMDX(frontmatter.slug)) {
     return null;
   }
@@ -187,7 +216,6 @@ const DocsDescription = () => {
             sx={[
               {
                 maxWidth: '640px',
-                minHeight: '110px',
               },
               breakWordStyle,
             ]}
@@ -202,6 +230,17 @@ const DocsDescription = () => {
           </Typography>
         )}
       </FlexBox>
+
+      {image && (
+        <Thumbnail
+          radius
+          ratio="21:9"
+          src={image}
+          width={960}
+          alt={frontmatter.title}
+          sx={thumbnailStyle}
+        />
+      )}
 
       {hasPlatformPage ? (
         <>

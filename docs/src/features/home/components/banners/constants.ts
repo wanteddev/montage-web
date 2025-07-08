@@ -9,18 +9,21 @@ export const BANNER_ITEMS: Array<BannerItem> = [
     title: '협업이 필요한 어디든 \nOpen Source.',
     description:
       'Montage는 적은 인원으로도 효율적인 협업이 가능하도록, 각 플랫폼의 사용성을 높게 반영하고 운영의 효율성과 유연한 확장을 고려한 구조 위에 설계된 원티드의 오픈소스 디자인 시스템입니다.',
-    image: '/home/Banner1.png',
+    image:
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdQsaFwSLatziXxBYjgKwqZ5Dk7fmCBCumDA&s',
   },
   {
     title: '해결에 집중할 수 있도록 \nSwift Pace.',
     description:
       '원티드에서 제공하는 정교한 컴포넌트로 더 빠르고 매끄럽게 높은 수준의 UI를 완성할 수 있습니다. 이제 픽셀 단위의 반복적인 고민에서 벗어나서 더 중요한 진짜 문제 해결에 집중해보세요.',
-    image: '/home/Banner1.png',
+    image:
+      'https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?cs=srgb&dl=pexels-thatguycraig000-1563356.jpg&fm=jpg',
   },
   {
     title: '효율적인 구조의 \nHigh Quality.',
     description:
       '원티드의 디자인 시스템은 각 컴포넌트가 본래의 성격을 자연스럽게 계승하도록 설계되어 운영과 유지보수 측면에서도 빠르고 효율적인 관리가 가능한 고품질의 시스템입니다.',
-    image: '/home/Banner1.png',
+    image:
+      'https://png.pngtree.com/thumb_back/fh260/background/20240601/pngtree-nice-picsart-cb-backgrounds-hd-phone-wallpaper-image_15846248.jpg',
   },
 ];

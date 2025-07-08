@@ -2,10 +2,6 @@
 title: CoreFoundation
 ---
 
-Extended Module
-
-# CoreFoundation
-
 ## Topics
 
 ### Extended Structures

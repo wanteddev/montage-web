@@ -57,7 +57,12 @@ const SectionFigure = ({
           <FlexBox
             flexDirection="column"
             gap="2px"
-            sx={{ ['&& p']: { marginBottom: '0 !important' } }}
+            sx={{
+              ['&& p']: {
+                marginBottom: '0 !important',
+                paddingInline: '0px !important',
+              },
+            }}
           >
             <Typography
               color={
@@ -83,6 +88,9 @@ const SectionFigure = ({
               weight="bold"
               color="semantic.label.normal"
               id={id}
+              sx={{
+                paddingInline: '12px !important',
+              }}
             >
               {title}
             </Typography>

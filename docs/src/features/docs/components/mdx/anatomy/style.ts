@@ -40,7 +40,7 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
 
 export const anatomyThumbnailStyle = (theme: Theme) => css`
   width: 100%;
-  border-radius: 6px;
+  border-radius: 24px;
   overflow: hidden;
   border: 1px solid ${theme.semantic.line.normal.alternative};
 

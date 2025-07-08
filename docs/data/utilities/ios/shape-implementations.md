@@ -2,18 +2,10 @@
 title: Shape Implementations
 ---
 
-API Collection
-
-# Shape Implementations
-
 ## Topics
 
 ### Instance Properties
 
-<details>
-
-<summary>``var body: _ShapeView<Self, ForegroundStyle>``</summary>
-</details>
 <details>
 
 <summary>``var layoutDirectionBehavior: LayoutDirectionBehavior``</summary>

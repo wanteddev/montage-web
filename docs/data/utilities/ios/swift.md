@@ -2,10 +2,6 @@
 title: Swift
 ---
 
-Extended Module
-
-# Swift
-
 ## Topics
 
 ### Extended Structures

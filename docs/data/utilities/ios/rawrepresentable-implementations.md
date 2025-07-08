@@ -2,10 +2,6 @@
 title: RawRepresentable Implementations
 ---
 
-API Collection
-
-# RawRepresentable Implementations
-
 ## Topics
 
 ### Instance Properties

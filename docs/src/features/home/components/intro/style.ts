@@ -189,8 +189,6 @@ export const navigationBarStyle = (theme: Theme) => css`
   bottom: 20px;
   left: 20px;
   width: calc(100% - 40px);
-  background-color: ${addOpacity(theme.semantic.static.white, 0.01)};
-  backdrop-filter: blur(12px);
   border-radius: 999px;
 
   ${respondTo(theme.breakpoint.lg)} {
@@ -212,6 +210,8 @@ export const versionInfoStyle = (theme: Theme) => css`
 export const navigationBarLinkStyle = (theme: Theme) => css`
   border-radius: 999px;
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+  background-color: ${addOpacity(theme.semantic.static.white, 0.01)};
+  backdrop-filter: blur(12px);
 
   span {
     color: ${theme.semantic.static.white};

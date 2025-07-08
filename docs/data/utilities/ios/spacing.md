@@ -3,10 +3,6 @@ title: Spacing
 description: UI 요소 간의 간격을 정의하는 시스템
 ---
 
-Enumeration
-
-# Spacing
-
 ```swift
 enum Spacing
 ```
@@ -141,7 +137,7 @@ ___
 ### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
 ## Relationships
 

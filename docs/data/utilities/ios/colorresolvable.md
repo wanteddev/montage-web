@@ -3,10 +3,6 @@ title: ColorResolvable
 description: 색상을 동적으로 해석할 수 있는 타입을 정의하는 프로토콜
 ---
 
-Protocol
-
-# ColorResolvable
-
 ```swift
 protocol ColorResolvable
 ```

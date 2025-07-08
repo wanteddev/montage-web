@@ -2,10 +2,6 @@
 title: Animatable Implementations
 ---
 
-API Collection
-
-# Animatable Implementations
-
 ## Topics
 
 ### Instance Properties

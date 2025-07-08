@@ -59,6 +59,7 @@ export const bannerSliderItemStyle = (theme: Theme) => css`
 export const bannerSliderItemImageStyle = (theme: Theme) => css`
   border-radius: 24px;
   width: 100%;
+  overflow: hidden;
 
   ${respondMore(theme.breakpoint.sm)} {
     border-radius: 32px;

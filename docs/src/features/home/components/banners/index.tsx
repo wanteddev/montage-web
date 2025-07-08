@@ -6,10 +6,7 @@ import {
   PaginationDot,
   Thumbnail,
 } from '@wanteddev/wds';
-import useEmblaCarousel from 'embla-carousel-react';
-import AutoPlayPlugin from 'embla-carousel-autoplay';
-import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
-import { useEffect, useId, useState } from 'react';
+import { useId } from 'react';
 import { IconArrowLeft, IconArrowRight } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
@@ -32,51 +29,18 @@ import {
   bannerWrapperStyle,
 } from './style';
 import { BANNER_ITEMS } from './constants';
+import { useBannerCarousel } from './hooks';
 
 const Banners = () => {
   const id = useId();
 
-  const [currentSlide, setCurrentSlide] = useState(1);
-  const [carouselRef, emblaApi] = useEmblaCarousel(
-    {
-      axis: 'x',
-      loop: true,
-    },
-    [
-      AutoPlayPlugin({
-        playOnInit: true,
-        delay: 4000,
-        stopOnInteraction: false,
-        stopOnMouseEnter: true,
-      }),
-      WheelGesturesPlugin(),
-    ],
-  );
-
-  useEffect(() => {
-    const handleSlideSelect = (api: ReturnType<typeof useEmblaCarousel>[1]) => {
-      setCurrentSlide((api?.selectedScrollSnap() ?? 0) + 1);
-      emblaApi?.plugins().autoplay.reset();
-    };
-
-    emblaApi?.on('select', handleSlideSelect);
-
-    return () => {
-      emblaApi?.off('select', handleSlideSelect);
-    };
-  }, [emblaApi]);
-
-  const handleClickPrev = () => {
-    emblaApi?.scrollPrev();
-  };
-
-  const handleClickNext = () => {
-    emblaApi?.scrollNext();
-  };
-
-  const handleClickDot = (page: number) => {
-    emblaApi?.scrollTo(page - 1);
-  };
+  const {
+    carouselRef,
+    currentSlide,
+    handleClickPrev,
+    handleClickNext,
+    handleClickDot,
+  } = useBannerCarousel();
 
   return (
     <FlexBox
@@ -119,6 +83,7 @@ const Banners = () => {
                   }}
                   sx={bannerSliderItemImageStyle}
                 />
+
                 <FlexBox sx={bannerSliderItemContentStyle}>
                   <Box
                     as="p"

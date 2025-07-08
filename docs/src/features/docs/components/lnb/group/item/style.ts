@@ -24,6 +24,12 @@ export const lnbItemStyle = (theme: Theme) => css`
     letter-spacing: -0.014em;
   }
 
+  transition: background-color 0.5s ease;
+
+  [data-role='list-text-content'] {
+    transition: color 0.5s ease;
+  }
+
   &[data-depth='0'] {
     font-family: var(--font-family-wanted-sans);
     [data-role='list-text-content'] {

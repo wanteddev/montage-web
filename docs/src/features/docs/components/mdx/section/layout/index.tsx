@@ -72,7 +72,10 @@ const SectionDescription = ({ content }: SectionDescriptionProps) => {
         weight="regular"
         as="ul"
         color="semantic.label.neutral"
-        sx={[{ marginBottom: '0 !important' }, ulStyle]}
+        sx={[
+          { marginBottom: '0 !important', paddingInline: '12px !important' },
+          ulStyle,
+        ]}
       >
         {content.split('\n').map((v, i) => (
           <li key={i}>{v.replace(/^- /, '')}</li>
@@ -87,7 +90,7 @@ const SectionDescription = ({ content }: SectionDescriptionProps) => {
       weight="regular"
       as="p"
       color="semantic.label.neutral"
-      sx={{ marginBottom: '0 !important' }}
+      sx={{ marginBottom: '0 !important', paddingInline: '12px !important' }}
     >
       {content.split('\n').map((v, i) => (
         <Fragment key={i}>

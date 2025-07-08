@@ -3,10 +3,6 @@ title: Opacity
 description: 색상의 투명도를 정의한 열거형입니다.
 ---
 
-Enumeration
-
-# Opacity
-
 ```swift
 enum Opacity
 ```
@@ -135,7 +131,7 @@ ___
 ### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
 ## Relationships
 

@@ -2,10 +2,6 @@
 title: Equatable Implementations
 ---
 
-API Collection
-
-# Equatable Implementations
-
 ## Topics
 
 ### Operators

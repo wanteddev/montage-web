@@ -13,7 +13,7 @@ export const sectionVariantsDemoStyle = (theme: Theme) => css`
 
 export const sectionVariantsStyle = (theme: Theme) => css`
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 24px;
   background-color: ${theme.semantic.fill.alternative};
   border: 1px solid ${theme.semantic.line.normal.alternative};
   position: relative;
@@ -22,7 +22,7 @@ export const sectionVariantsStyle = (theme: Theme) => css`
 export const sectionVariantsControlStyle = (theme: Theme) => css`
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
   background-color: ${theme.semantic.background.elevated.normal};
-  border-radius: 4px;
+  border-radius: 20px;
   display: flex;
   position: absolute !important;
   height: calc(100% - 24px);
@@ -60,7 +60,7 @@ export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.elevated.normal};
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
   width: 280px;
-  border-radius: 4px;
+  border-radius: 16px;
   height: 400px;
   padding: 0px;
   filter: none;

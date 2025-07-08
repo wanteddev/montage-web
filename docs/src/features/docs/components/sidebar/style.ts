@@ -41,6 +41,6 @@ export const sidebarContentStyle = (theme: Theme) => css`
   a {
     display: block;
     width: fit-content;
-    padding: 6px 0px;
+    padding: 4px 0px;
   }
 `;

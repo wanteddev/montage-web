@@ -2,10 +2,6 @@
 title: Layout Implementations
 ---
 
-API Collection
-
-# Layout Implementations
-
 ## Topics
 
 ### Instance Methods

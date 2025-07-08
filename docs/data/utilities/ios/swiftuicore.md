@@ -2,10 +2,6 @@
 title: SwiftUICore
 ---
 
-Extended Module
-
-# SwiftUICore
-
 ## Topics
 
 ### Extended Protocols
@@ -488,7 +484,7 @@ iOS 16.4 이상에서 시스템 팝오버를 사용하는 툴팁 modifier를 적
 </details>
 <details>
 
-<summary>``func topNavigation(variant: TopNavigation.Variant, title: String, backgroundColorResolvable: ColorResolvable?, leadingButton: TopNavigation.Resource.LeadingButtonInfo?, trailingButtons: [TopNavigation.Resource.TrailingButtonInfo], withBottom: ActionArea.Model?) -> some View``</summary>
+<summary>``func topNavigation(variant: TopNavigation.Variant, title: String, backgroundColor: SwiftUI.Color?, leadingButton: TopNavigation.Resource.LeadingButtonInfo?, trailingButtons: [TopNavigation.Resource.TrailingButtonInfo], withBottom: ActionArea.Model?) -> some View``</summary>
 
 현재 뷰에 TopNavigation 바를 적용합니다.
 
@@ -497,7 +493,7 @@ iOS 16.4 이상에서 시스템 팝오버를 사용하는 툴팁 modifier를 적
   | --- | --- |
   | `variant` | 내비게이션 바의 외관 스타일 (기본값: .normal) |
   | `title` | 표시할 제목 |
-  | `backgroundColorResolvable` | 배경색 리졸버 (기본값: nil) |
+  | `backgroundColor` | 배경색 (기본값: nil) |
   | `leadingButton` | 좌측에 표시할 버튼 (기본값: nil) |
   | `trailingButtons` | 우측에 표시할 버튼 배열 (기본값: []) |
   | `model` | 하단 액션 영역에 대한 모델 (기본값: nil) |
@@ -561,20 +557,6 @@ Atomic 색상 타입에 해당하는 SwiftUI.Color를 생성합니다.
 </details>
 <details>
 
-<summary>``static func montage(ColorResolvable) -> SwiftUI.Color``</summary>
-
-ColorResolvable 프로토콜을 준수하는 타입에 해당하는 SwiftUI.Color를 생성합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `type` | 생성할 색상 타입 |
-- **Return Value**
-
-  동적으로 생성된 SwiftUI.Color 인스턴스
-</details>
-<details>
-
 <summary>``static func semantic(Color.Semantic) -> SwiftUI.Color``</summary>
 
 Semantic 색상 타입에 해당하는 SwiftUI.Color를 생성합니다.
@@ -596,7 +578,7 @@ Semantic 색상 타입에 해당하는 SwiftUI.Color를 생성합니다.
 
 <details>
 
-<summary>``static func montage(size: CGFloat, weight: Typography.Weight) -> Font``</summary>
+<summary>``static func font(size: CGFloat, weight: Typography.Weight) -> Font``</summary>
 
 Montage 디자인 시스템의 폰트를 생성합니다.
 
@@ -611,7 +593,7 @@ Montage 디자인 시스템의 폰트를 생성합니다.
 </details>
 <details>
 
-<summary>``static func montage(variant: Typography.Variant, weight: Typography.Weight) -> Font?``</summary>
+<summary>``static func font(variant: Typography.Variant, weight: Typography.Weight) -> Font?``</summary>
 
 Montage 디자인 시스템의 폰트를 생성합니다.
 
@@ -633,21 +615,7 @@ Montage 디자인 시스템의 폰트를 생성합니다.
 
 <details>
 
-<summary>``static func montage(Logo) -> Image``</summary>
-
-Montage 디자인 시스템의 로고를 생성합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `type` | 생성할 로고 타입 |
-- **Return Value**
-
-  생성된 Image 인스턴스
-</details>
-<details>
-
-<summary>``static func montage(Icon) -> Image``</summary>
+<summary>``static func icon(Icon) -> Image``</summary>
 
 Montage 디자인 시스템의 아이콘을 생성합니다.
 
@@ -668,7 +636,7 @@ Montage 디자인 시스템의 아이콘을 생성합니다.
 
 <details>
 
-<summary>``func montage(variant: Typography.Variant, weight: Typography.Weight, atomic: Color.Atomic) -> Text``</summary>
+<summary>``func typography(variant: Typography.Variant, weight: Typography.Weight, atomic: Color.Atomic) -> Text``</summary>
 
 Montage 디자인 시스템의 스타일을 적용합니다.
 
@@ -684,7 +652,7 @@ Montage 디자인 시스템의 스타일을 적용합니다.
 </details>
 <details>
 
-<summary>``func montage(variant: Typography.Variant, weight: Typography.Weight, color: SwiftUI.Color) -> Text``</summary>
+<summary>``func typography(variant: Typography.Variant, weight: Typography.Weight, color: SwiftUI.Color) -> Text``</summary>
 
 Montage 디자인 시스템의 스타일을 적용합니다.
 
@@ -700,23 +668,7 @@ Montage 디자인 시스템의 스타일을 적용합니다.
 </details>
 <details>
 
-<summary>``func montage(variant: Typography.Variant, weight: Typography.Weight, colorResolver: ColorResolvable) -> Text``</summary>
-
-Montage 디자인 시스템의 스타일을 적용합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | 텍스트 변형 |
-  | `weight` | 폰트 두께 |
-  | `colorResolver` | 색상 해석기 |
-- **Return Value**
-
-  스타일이 적용된 Text 인스턴스
-</details>
-<details>
-
-<summary>``func montage(variant: Typography.Variant, weight: Typography.Weight, semantic: Color.Semantic) -> Text``</summary>
+<summary>``func typography(variant: Typography.Variant, weight: Typography.Weight, semantic: Color.Semantic) -> Text``</summary>
 
 Montage 디자인 시스템의 스타일을 적용합니다.
 
