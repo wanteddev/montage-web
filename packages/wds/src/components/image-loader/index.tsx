@@ -15,6 +15,9 @@ const loadImage = (src: string) => {
   });
 };
 
+/**
+ * @deprecated v3.0.0에서 제거될 예정입니다. `<Box as="img" />` 사용을 권장합니다.
+ */
 const ImageLoader = forwardRef<
   HTMLImageElement,
   DefaultComponentProps<ImageLoaderProps, 'img'>

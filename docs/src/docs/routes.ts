@@ -114,7 +114,7 @@ export const routes: Array<Route> = [
       {
         title: 'ImageLoader',
         slug: '/docs/components/image-loader',
-        alpha: true,
+        deprecated: true,
       },
       { title: 'Label', slug: '/docs/components/label' },
       { title: 'List', slug: '/docs/components/list' },
