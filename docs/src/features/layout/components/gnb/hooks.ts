@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelectedLayoutSegments } from 'next/navigation';
+import { usePrevious } from '@wanteddev/wds';
 
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
 
@@ -56,6 +57,8 @@ export const useFloatingGnb = () => {
 
   const [isMobile, setIsMobile] = useState(false);
 
+  const prevLnbHide = usePrevious(lnbContext.hide);
+
   useEffect(() => {
     const mediaQueryList = window.matchMedia(`(max-width: 767px)`);
 
@@ -83,10 +86,21 @@ export const useFloatingGnb = () => {
       const scrollTop = getBodyScrollTop();
 
       transitionPoint.current = scrollTop + GNB_HEIGHT;
+      prevScrollTop.current = scrollTop + GNB_HEIGHT;
 
       setTranslateY(0);
     }
-  }, [lnbContext.hide, focused, isRootPage, isMobile]);
+  }, [lnbContext.hide, focused, isRootPage, isMobile, prevLnbHide]);
+
+  useEffect(() => {
+    if (prevLnbHide !== lnbContext.hide) {
+      setTimeout(() => {
+        transitionPoint.current = getBodyScrollTop() + GNB_HEIGHT;
+        prevScrollTop.current = getBodyScrollTop() + GNB_HEIGHT;
+        setTranslateY(0);
+      }, 100);
+    }
+  }, [lnbContext.hide, prevLnbHide]);
 
   const handleScroll = useCallback(() => {
     const scrollTop = getBodyScrollTop();
