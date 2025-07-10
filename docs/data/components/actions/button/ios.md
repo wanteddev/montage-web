@@ -1,6 +1,6 @@
 ---
 title: Button
-description: 버튼(Buttons)은 작업을 수행하는데 사용되는 클릭 가능한 컴포넌트입니다.\n주로 콘텐츠 혹은 화면의 하단 영역에 배치되며 다양한 방식으로 콘텐츠와 함께\n상호 작용할 수 있도록 돕습니다.
+description: 사용자가 상호작용할 수 있는 버튼 컴포넌트입니다.
 ---
 
 ```swift
@@ -342,9 +342,9 @@ Outlined 스타일 버튼의 크기를 정의합니다.
 ##### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 <details>
@@ -383,9 +383,9 @@ Outlined 스타일 버튼의 변형을 정의합니다.
 ##### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 
@@ -426,9 +426,9 @@ Outlined 스타일 버튼의 변형을 정의합니다.
 #### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 <details>
@@ -474,9 +474,9 @@ Solid 스타일 버튼의 크기를 정의합니다.
 ##### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 <details>
@@ -509,9 +509,9 @@ Solid 스타일 버튼의 변형을 정의합니다.
 ##### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 
@@ -553,9 +553,9 @@ Text 스타일 버튼의 크기를 정의합니다.
 ##### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 <details>
@@ -588,9 +588,9 @@ Text 스타일 버튼의 변형을 정의합니다.
 ##### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 
@@ -631,9 +631,9 @@ Text 스타일 버튼의 변형을 정의합니다.
 #### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 
@@ -641,9 +641,9 @@ ___
 ### Default Implementations
 
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
 ## Relationships
 

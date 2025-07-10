@@ -40,9 +40,6 @@ IconButton(
   | `variant` | 버튼의 외관 스타일, 기본값은 `.default` |
   | `icon` | 표시할 아이콘 |
   | `handler` | 버튼 탭 시 실행할 핸들러 |
-- **Return Value**
-
-  구성된 아이콘 버튼 뷰
 </details>
 
 ___
@@ -259,9 +256,9 @@ ___
 ### Default Implementations
 
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
 ## Relationships
 

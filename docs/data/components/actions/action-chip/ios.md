@@ -43,9 +43,6 @@ ActionChip(
   | `size` | 칩의 크기, 기본값은 `.medium` |
   | `text` | 칩에 표시할 텍스트 |
   | `handler` | 칩 클릭 시 실행할 핸들러, 기본값은 `nil` |
-- **Return Value**
-
-  구성된 액션 칩 인스턴스
 </details>
 
 ___
@@ -238,9 +235,9 @@ ___
 #### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
-[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations.md)
+[RawRepresentable Implementations](/docs/utilities/ios/rawrepresentable-implementations)
 
 </details>
 <details>
@@ -266,7 +263,7 @@ ___
 #### Default Implementations
 
 
-[Equatable Implementations](/docs/utilities/ios/equatable-implementations.md)
+[Equatable Implementations](/docs/utilities/ios/equatable-implementations)
 
 </details>
 
@@ -274,9 +271,9 @@ ___
 ### Default Implementations
 
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
 ## Relationships
 

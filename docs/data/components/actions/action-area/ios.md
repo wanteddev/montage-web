@@ -1,6 +1,6 @@
 ---
 title: Action area
-description: 모달 혹은 화면 하단 영역에서 사용자가 메인, 대체, 보조 행동을 할 수 있는 다양한 레벨의 버튼(Buttons) 묶음을 제공합니다.
+description: 화면 하단에 사용자 액션 버튼을 표시하는 영역 컴포넌트입니다.
 ---
 
 ```swift
@@ -30,7 +30,7 @@ ActionArea(variant: .cancel(
 ))
 .extra({ 
     Text("추가 정보")
-        .montage(variant: .label2) 
+        .typography(variant: .label2) 
 })
 ```
 
@@ -60,9 +60,6 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
   | --- | --- |
   | `text` | 버튼에 표시할 텍스트 |
   | `action` | 버튼 클릭 시 실행할 액션 |
-- **Return Value**
-
-  구성된 ButtonInfo 인스턴스
 </details>
 
 #### Type Methods
@@ -126,9 +123,6 @@ ActionArea 컴포넌트를 초기화합니다.
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼 영역의 변형 스타일과 버튼 구성 |
-- **Return Value**
-
-  구성된 ActionArea 인스턴스
 </details>
 
 ___
@@ -245,9 +239,9 @@ ___
 ### Default Implementations
 
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
-[View Implementations](/docs/utilities/ios/view-implementations.md)
+[View Implementations](/docs/utilities/ios/view-implementations)
 
 ## Relationships
 
