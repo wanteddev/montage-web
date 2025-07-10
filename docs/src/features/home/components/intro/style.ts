@@ -104,10 +104,6 @@ export const introWrapperStyle = (theme: Theme) => css`
 
 export const introBackgroundStyle = css`
   position: relative;
-  background-image: url(/background-image.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   border-radius: inherit;
   padding: 20px;
   width: 100%;
@@ -118,7 +114,7 @@ export const titleTextStyle = (theme: Theme) => css`
   text-align: center;
   leading-trim: both;
   text-edge: cap;
-  text-shadow: 0px 0px 60px rgba(0, 0, 0, 0.32);
+  text-shadow: 0px 0px 60px rgba(0, 0, 0, 0.16);
   font-family: var(--font-family-wanted-sans);
   font-size: 48px;
   font-weight: 800;
@@ -126,6 +122,8 @@ export const titleTextStyle = (theme: Theme) => css`
   letter-spacing: -0.72px;
   text-transform: uppercase;
   color: ${theme.semantic.static.white};
+  mix-blend-mode: overlay;
+  will-change: mix-blend-mode;
 
   ${respondMore(theme.breakpoint.sm)} {
     font-size: 56px;
@@ -150,12 +148,12 @@ export const descriptionTextStyle = (theme: Theme) => css`
   font-family: var(--font-family-wanted-sans);
   text-align: center;
   color: ${theme.semantic.static.white};
-  font-weight: 500;
+  font-weight: 600;
   font-size: 13px;
   line-height: 142.9%;
   letter-spacing: -0.182px;
   text-shadow: 0px 0px 32px
-    ${addOpacity(theme.semantic.static.black, theme.opacity[5])};
+    ${addOpacity(theme.semantic.static.black, theme.opacity[16])};
   white-space: pre-wrap;
 
   ${respondMore(theme.breakpoint.sm)} {
@@ -209,12 +207,12 @@ export const versionInfoStyle = (theme: Theme) => css`
 
 export const navigationBarLinkStyle = (theme: Theme) => css`
   border-radius: 999px;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
-  background-color: ${addOpacity(theme.semantic.static.white, 0.01)};
+  box-shadow: none;
+  background-color: ${addOpacity(theme.semantic.static.black, 0.08)};
   backdrop-filter: blur(12px);
+  color: ${theme.semantic.static.white};
 
   span {
-    color: ${theme.semantic.static.white};
     font-family: var(--font-family-wanted-sans);
     font-size: 13px;
     font-weight: 600;

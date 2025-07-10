@@ -1,6 +1,10 @@
 'use client';
 import { Box, Button, FlexBox } from '@wanteddev/wds';
-import { IconChevronDownSmall } from '@wanteddev/wds-icon';
+import {
+  IconChevronDownSmall,
+  IconComponentFill,
+  IconDiamondFill,
+} from '@wanteddev/wds-icon';
 import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';
@@ -19,8 +23,8 @@ import {
   titleTextStyle,
   versionInfoStyle,
 } from './style';
-import IconComponentGradient from './icon-component-gradient';
-import IconDiamondGradient from './icon-diamond-gradient';
+// import IconComponentGradient from './icon-component-gradient';
+// import IconDiamondGradient from './icon-diamond-gradient';
 
 const Intro = () => {
   const { ref, lnbHide } = useIntroAnimate();
@@ -33,6 +37,25 @@ const Intro = () => {
         data-role="intro-background"
         sx={introBackgroundStyle}
       >
+        <Box
+          as="video"
+          autoPlay
+          muted
+          loop
+          controls={false}
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'bottom left',
+            borderRadius: 'inherit',
+            inset: 0,
+            zIndex: -1,
+          }}
+        >
+          <source src="/Hero.mp4" type="video/mp4" />
+        </Box>
         <FlexBox
           flexDirection="column"
           gap="32px"
@@ -79,7 +102,8 @@ const Intro = () => {
               variant="outlined"
               color="secondary"
               size="small"
-              leadingContent={<IconDiamondGradient />}
+              // leadingContent={<IconDiamondGradient />}
+              leadingContent={<IconDiamondFill />}
               as={Link}
               href="/docs/foundations/overview"
               sx={navigationBarLinkStyle}
@@ -90,7 +114,8 @@ const Intro = () => {
               variant="outlined"
               color="secondary"
               size="small"
-              leadingContent={<IconComponentGradient />}
+              // leadingContent={<IconComponentGradient />}
+              leadingContent={<IconComponentFill />}
               as={Link}
               href="/docs/components/overview"
               sx={navigationBarLinkStyle}

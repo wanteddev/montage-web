@@ -99,11 +99,6 @@ export const liquidButtonContentStyle = (theme: Theme) => css`
   letter-spacing: -0.312px;
   text-transform: uppercase;
 
-  &,
-  & * {
-    text-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
-  }
-
   ${respondMore(theme.breakpoint.sm)} {
     font-size: 14px;
     letter-spacing: -0.196px;

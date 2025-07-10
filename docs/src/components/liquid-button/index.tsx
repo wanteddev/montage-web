@@ -8,7 +8,7 @@ import {
   liquidButtonGlassStyle,
   liquidButtonInteractionOverlayFirstStyle,
   liquidButtonInteractionOverlaySecondStyle,
-  liquidButtonInteractionOverlayThirdStyle,
+  // liquidButtonInteractionOverlayThirdStyle,
   liquidButtonLineBaseStyle,
   liquidButtonLineOverlayFirstStyle,
   liquidButtonLineOverlaySecondaryStyle,
@@ -277,14 +277,14 @@ const LiquidButton = forwardRef(
                 liquidButtonInteractionOverlaySecondStyle,
               ]}
             />
-            <Box
+            {/* <Box
               role="presentation"
               data-role="liquid-button-interaction-alternative"
               sx={[
                 liquidButtonLineBaseStyle,
                 liquidButtonInteractionOverlayThirdStyle,
               ]}
-            />
+            /> */}
           </>
         )}
       </Box>
