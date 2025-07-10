@@ -101,6 +101,7 @@ export const articleItemTitleStyle = (theme: Theme) => css`
   font-weight: 600;
   line-height: 140%;
   letter-spacing: -0.252px;
+  text-align: center;
 
   ${respondMore(theme.breakpoint.sm)} {
     font-size: 20px;

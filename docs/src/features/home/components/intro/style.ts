@@ -6,99 +6,29 @@ import {
   respondTo,
 } from '@wanteddev/wds';
 
-import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
-
 import type { Theme } from '@wanteddev/wds';
 
 export const introWrapperStyle = (theme: Theme) => css`
   width: 100%;
-  margin-top: var(--intro-background-margin-top);
-  padding: 0px var(--intro-background-padding-inline)
-    var(--intro-background-padding-inline);
-  height: var(--intro-background-height);
+  margin-top: 0px;
+  padding: 0px;
   min-height: clamp(620px, 30vw, 30vw);
-  border-radius: var(--intro-background-border-radius);
-
-  /* initial value */
-  --intro-scroll-y: 0px;
-
-  &[data-lnb-hide='false'] {
-    margin-top: var(--intro-background-origin-margin-top);
-    padding: 0px var(--intro-background-origin-padding-inline)
-      var(--intro-background-origin-padding-inline);
-    height: var(--intro-background-origin-height);
-    border-radius: var(--intro-background-origin-border-radius);
-  }
-
-  --gnb-height-with-margin: ${GNB_HEIGHT};
-  --intro-background-margin-top: 0px;
-  --intro-background-padding-inline: 0px;
-  --intro-background-border-radius: 0px;
-  --intro-background-height: calc(100dvh - 1px * var(--gnb-height-with-margin));
-
-  /* for lnb animation */
-  --intro-background-origin-margin-top: 0px;
-  --intro-background-origin-padding-inline: 0px;
-  --intro-background-origin-border-radius: 0px;
-  --intro-background-origin-height: calc(
-    100dvh - 1px * var(--gnb-height-with-margin)
-  );
+  border-radius: 0px;
+  height: calc(100vh - var(--gnb-height));
 
   ${respondMore(theme.breakpoint.sm)} {
-    --gnb-height-with-margin: ${GNB_HEIGHT + 8};
-    --intro-background-margin-top: 8px;
-    --intro-background-height: calc(
-      100dvh - max(
-          0px,
-          calc(50px + var(--intro-background-padding-inline)) -
-            (var(--intro-scroll-y) * (50 / var(--gnb-height-with-margin)))
-        )
-    );
-    --intro-background-padding-inline: max(
-      0px,
-      20px - (var(--intro-scroll-y) * (20 / var(--gnb-height-with-margin)))
-    );
-    --intro-background-border-radius: max(
-      0px,
-      24px - (var(--intro-scroll-y) * (24 / var(--gnb-height-with-margin)))
-    );
-
-    /* for lnb animation */
-    --intro-background-origin-margin-top: 8px;
-    --intro-background-origin-padding-inline: 20px;
-    --intro-background-origin-border-radius: 24px;
-    --intro-background-origin-height: calc(
-      100dvh - 1px * var(--gnb-height-with-margin)
-    );
+    margin-top: 8px;
+    padding: 0px 20px 20px;
+    border-radius: 24px;
+    height: calc(100vh - var(--gnb-height) - 8px);
   }
 
   ${respondMore(theme.breakpoint.md)} {
-    --intro-background-border-radius: max(
-      0px,
-      28px - (var(--intro-scroll-y) * (28 / var(--gnb-height-with-margin)))
-    );
-    --intro-background-origin-border-radius: 28px;
+    border-radius: 28px;
   }
 
   ${respondMore(theme.breakpoint.lg)} {
-    --intro-background-height: calc(
-      100dvh - max(
-          0px,
-          calc(42px + var(--intro-background-padding-inline)) -
-            (var(--intro-scroll-y) * (42 / var(--gnb-height-with-margin)))
-        )
-    );
-
-    --intro-background-padding-inline: max(
-      0px,
-      28px - (var(--intro-scroll-y) * (28 / var(--gnb-height-with-margin)))
-    );
-
-    /* for lnb animation */
-    --intro-background-origin-padding-inline: 28px;
-    --intro-background-origin-height: calc(
-      100dvh - 1px * var(--gnb-height-with-margin)
-    );
+    padding: 0px 28px 28px;
   }
 `;
 
@@ -122,8 +52,6 @@ export const titleTextStyle = (theme: Theme) => css`
   letter-spacing: -0.72px;
   text-transform: uppercase;
   color: ${theme.semantic.static.white};
-  mix-blend-mode: overlay;
-  will-change: mix-blend-mode;
 
   ${respondMore(theme.breakpoint.sm)} {
     font-size: 56px;
@@ -182,12 +110,12 @@ export const scrollDownWrapperStyle = (theme: Theme) => css`
 `;
 
 export const navigationBarStyle = (theme: Theme) => css`
-  padding: 12px;
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  width: calc(100% - 40px);
-  border-radius: 999px;
+  bottom: 16px;
+  left: 16px;
+  width: calc(100% - 32px);
+  padding-top: 16px;
+  border-top: 1px solid ${addOpacity(theme.semantic.static.white, 0.18)};
 
   ${respondTo(theme.breakpoint.lg)} {
     display: none;
@@ -199,10 +127,12 @@ export const versionInfoStyle = (theme: Theme) => css`
   color: ${theme.semantic.static.white};
   font-size: 13px;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 138.5%;
   letter-spacing: -0.182px;
-  padding: 7px 32px;
+  padding-bottom: 6px;
+  padding-left: 6px;
+  display: block;
 `;
 
 export const navigationBarLinkStyle = (theme: Theme) => css`

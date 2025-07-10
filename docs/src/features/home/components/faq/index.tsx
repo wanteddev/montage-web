@@ -8,7 +8,7 @@ import {
   Box,
   FlexBox,
 } from '@wanteddev/wds';
-import { IconMinus, IconPlus } from '@wanteddev/wds-icon';
+import { IconMinusThick, IconPlusThick } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
 
@@ -31,6 +31,7 @@ const Faq = () => {
       {FAQ_ITEMS.map((item) => (
         <Accordion key={item.question}>
           <AccordionSummary
+            disableInteraction
             sx={accordionSummaryStyle}
             alignItems="center"
             trailingContent={
@@ -38,8 +39,8 @@ const Faq = () => {
                 variant="icon"
                 sx={accordionSummaryContentStyle}
               >
-                <IconMinus aria-label="close" />
-                <IconPlus aria-label="open" />
+                <IconMinusThick aria-label="close" />
+                <IconPlusThick aria-label="open" />
               </AccordionSummaryContent>
             }
           >

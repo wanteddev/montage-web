@@ -6,11 +6,11 @@ import {
   IconDiamondFill,
 } from '@wanteddev/wds-icon';
 import Link from 'next/link';
+import { useRef } from 'react';
 
 import { breakWordStyle } from '@/styles/text';
 import LiquidButton from '@/components/liquid-button';
 
-import { useIntroAnimate } from './hooks';
 import {
   descriptionTextStyle,
   introBackgroundStyle,
@@ -23,14 +23,12 @@ import {
   titleTextStyle,
   versionInfoStyle,
 } from './style';
-// import IconComponentGradient from './icon-component-gradient';
-// import IconDiamondGradient from './icon-diamond-gradient';
 
 const Intro = () => {
-  const { ref, lnbHide } = useIntroAnimate();
+  const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Box as="section" ref={ref} sx={introWrapperStyle} data-lnb-hide={lnbHide}>
+    <Box as="section" ref={ref} sx={introWrapperStyle}>
       <FlexBox
         alignItems="center"
         justifyContent="center"
@@ -91,13 +89,14 @@ const Intro = () => {
         <FlexBox
           sx={navigationBarStyle}
           justifyContent="space-between"
+          alignItems="center"
           gap="12px"
         >
           <Box as="span" sx={versionInfoStyle}>
-            Ver 2.0.0
+            v2.0.0
           </Box>
 
-          <FlexBox gap="12px" alignItems="center">
+          <FlexBox gap="6px" alignItems="center">
             <Button
               variant="outlined"
               color="secondary"

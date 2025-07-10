@@ -26,7 +26,7 @@ export const footerStyle = (theme: Theme) => css`
 export const footerLinkStyle = (theme: Theme) => css`
   font-family: var(--font-family-wanted-sans);
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 142.9%;
   letter-spacing: 0.203px;
   color: ${theme.semantic.label.neutral};

@@ -4,6 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const accordionSummaryStyle = (theme: Theme) => css`
   --wds-list-cell-vertical-padding: 20px;
+  border-radius: 0px;
 
   [data-role='list-text-content'] {
     font-family: var(--font-family-wanted-sans);
@@ -18,6 +19,21 @@ export const accordionSummaryStyle = (theme: Theme) => css`
       line-height: 140%;
       font-weight: 600;
       letter-spacing: -0.252px;
+    }
+  }
+
+  [wds-component='list-cell-content'] {
+    color: ${theme.semantic.label.assistive};
+    transition: color 0.3s ease;
+  }
+
+  &:hover {
+    [wds-component='list-cell-content'] {
+      color: ${theme.semantic.label.neutral};
+    }
+
+    & ~ [data-role='accordion-divider'] {
+      opacity: 1 !important;
     }
   }
 
@@ -48,7 +64,6 @@ export const accordionSummaryStyle = (theme: Theme) => css`
 
 export const accordionSummaryContentStyle = (theme: Theme) => css`
   font-size: 18px;
-  color: ${theme.semantic.label.normal};
   position: relative;
 
   svg {

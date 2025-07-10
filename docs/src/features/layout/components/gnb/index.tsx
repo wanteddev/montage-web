@@ -33,7 +33,7 @@ import {
   gnbWrapperStyle,
   menuItemStyle,
 } from './style';
-import { useFloatingGnb, useSearch } from './hooks';
+import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
 
 import type { CSSProperties } from 'react';
@@ -47,8 +47,8 @@ const Gnb = () => {
 
   const { isOpen, handleOpen, handleOpenChange } = useSearch();
 
-  const { ref, translateY, handleFocusCapture, handleBlurCapture } =
-    useFloatingGnb();
+  // const { ref, translateY, handleFocusCapture, handleBlurCapture } =
+  //   useFloatingGnb();
 
   return (
     <>
@@ -62,16 +62,16 @@ const Gnb = () => {
       )}
 
       <FlexBox
-        ref={ref}
-        onFocusCapture={handleFocusCapture}
-        onBlurCapture={handleBlurCapture}
+        // ref={ref}
+        // onFocusCapture={handleFocusCapture}
+        // onBlurCapture={handleBlurCapture}
         suppressHydrationWarning
         alignContent="center"
         as="header"
         sx={[gnbWrapperStyle]}
         style={
           {
-            '--gnb-translate-y': `${translateY}px`,
+            // '--gnb-translate-y': `${translateY}px`,
           } as CSSProperties
         }
       >
@@ -81,7 +81,7 @@ const Gnb = () => {
           flex="1"
           gap="32px"
         >
-          <FlexBox alignItems="center" gap="36px">
+          <FlexBox alignItems="center" gap="24px">
             <Box
               as={Link}
               href="/"

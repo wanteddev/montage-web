@@ -68,7 +68,7 @@ export const resourceItemButtonStyle = (theme: Theme) => css`
   }
 
   & > [wds-component='with-interaction'] {
-    width: calc(100% + 28px);
+    background-color: transparent;
   }
 
   ${respondMore(theme.breakpoint.sm)} {

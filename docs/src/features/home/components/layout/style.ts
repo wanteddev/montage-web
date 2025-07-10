@@ -14,10 +14,6 @@ export const wrapperStyle = (theme: Theme) => css`
 
 export const contentWrapperStyle = css`
   width: 100%;
-  padding-block: 120px 56px;
+  padding-block: 114px 56px;
   transition: padding 0.2s ease-in-out;
-
-  &[data-lnb-hide='false'] {
-    padding-block: 56px;
-  }
 `;
