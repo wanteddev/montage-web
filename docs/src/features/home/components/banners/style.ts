@@ -19,21 +19,9 @@ export const bannerTitleStyle = css`
   text-align: center;
 `;
 
-export const bannerSliderStyle = (theme: Theme) => css`
+export const bannerSliderStyle = css`
   overflow: hidden;
   width: 100%;
-  border-top-left-radius: 24px;
-  border-top-right-radius: 24px;
-
-  ${respondMore(theme.breakpoint.sm)} {
-    border-top-left-radius: 32px;
-    border-top-right-radius: 32px;
-  }
-
-  ${respondMore(theme.breakpoint.lg)} {
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-  }
 `;
 
 export const bannerSliderContentStyle = css`
@@ -61,12 +49,8 @@ export const bannerSliderItemImageStyle = (theme: Theme) => css`
   width: 100%;
   overflow: hidden;
 
-  ${respondMore(theme.breakpoint.sm)} {
-    border-radius: 32px;
-  }
-
-  ${respondMore(theme.breakpoint.lg)} {
-    border-radius: 40px;
+  ${respondMore(theme.breakpoint.md)} {
+    border-radius: 28px;
   }
 `;
 
