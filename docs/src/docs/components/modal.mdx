@@ -15,8 +15,7 @@ description: Modal Component
 - `ModalNavigation` 에서 leadingContent, trailingContent 에는 `ModalNavigationButton`, `ModalClose` 를 사용합니다.
 - `ModalContainer`, `ModalNavigation`, `ModalContent`, `ActionArea` 의 위계를 변경해서는 안됩니다.
 
-<Demo code={`import { useState } from 'react';
-import {
+<Demo code={`import {
   Button,
   Modal,
   ActionArea,
@@ -28,40 +27,39 @@ import {
   ModalHeading,
   ModalNavigation,
   ModalSummary,
+  ModalTrigger,
 } from '@wanteddev/wds';
 
 const Demo = () => {
-  const [show, setShow] = useState(false);
-
   return (
-    <>
-      <Modal
-        open={show}
-        onOpenChange={setShow}
-      >
-        <ModalContainer variant="popup">
-          <ModalNavigation>
-            제목
-          </ModalNavigation>
+    <Modal
+      open={show}
+      onOpenChange={setShow}
+    >
+      <ModalTrigger>
+        <Button>열기</Button>
+      </ModalTrigger>
 
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
+      <ModalContainer variant="popup">
+        <ModalNavigation>
+          제목
+        </ModalNavigation>
 
-          <ActionArea>
-            <ActionAreaButton>
-              액션
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
 
-      <Button onClick={() => setShow(true)}>Click me</Button>
-    </>
+        <ActionArea>
+          <ActionAreaButton>
+            액션
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
   )
 }
 
@@ -72,10 +70,16 @@ export default Demo;`}
 
 Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
+`ModalTrigger` 는 선택적으로 사용할 수 있습니다.
+
 기본 구성은 아래와 같습니다.
 
 ```tsx
 <Modal>
+  <ModalTrigger>
+    <Button>열기</Button>
+  </ModalTrigger>
+
   <ModalContainer>
     <ModalNavigation />
 

@@ -44,6 +44,7 @@ import {
   MODAL_NAME,
   MODAL_NAVIGATION_BUTTON_NAME,
   MODAL_NAVIGATION_NAME,
+  MODAL_TRIGGER_NAME,
 } from './constants';
 import {
   modalContainerStyle,
@@ -85,6 +86,7 @@ import type {
   ModalProps,
   ModalScrollProviderProps,
   ModalSummaryProps,
+  ModalTriggerProps,
 } from './types';
 
 const Modal = ({
@@ -170,6 +172,24 @@ const Modal = ({
 };
 
 Modal.displayName = MODAL_NAME;
+
+const ModalTrigger = forwardRef<HTMLElement, ModalTriggerProps>(
+  (props, ref) => {
+    const { containerId, open } = useModalContext(MODAL_TRIGGER_NAME);
+
+    return (
+      <Slot
+        ref={ref}
+        aria-controls={containerId}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        {...props}
+      />
+    );
+  },
+);
+
+ModalTrigger.displayName = MODAL_TRIGGER_NAME;
 
 const ModalContainer = forwardRef(
   <T extends ElementType = 'div'>(
@@ -755,4 +775,18 @@ export {
   ModalHeading,
   ModalSummary,
   ModalDescription,
+};
+
+export type {
+  ModalProps,
+  ModalDimmerProps,
+  ModalTriggerProps,
+  ModalContainerProps,
+  ModalContentProps,
+  ModalContentItemProps,
+  ModalNavigationProps,
+  TopNavigationButtonProps as ModalNavigationButtonProps,
+  ModalHeadingProps,
+  ModalSummaryProps,
+  ModalDescriptionProps,
 };
