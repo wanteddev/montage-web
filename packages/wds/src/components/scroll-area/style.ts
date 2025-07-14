@@ -1,4 +1,4 @@
-import { css, keyframes } from '@wanteddev/wds-engine';
+import { css } from '@wanteddev/wds-engine';
 
 import type { ScrollBarProps } from './types';
 import type { SerializedStyles, Theme } from '@wanteddev/wds-engine';
@@ -13,24 +13,6 @@ export const viewportStyle = css`
   height: 100%;
 `;
 
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-  `;
-
-const fadeOut = keyframes`
-    from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-  `;
-
 export const scrollBarStyle =
   ({ orientation, size }: ScrollBarProps) =>
   (theme: Theme) => css`
@@ -38,13 +20,17 @@ export const scrollBarStyle =
     touch-action: none;
     user-select: none;
     background: transparent;
+    transition:
+      width 0.2s ease,
+      height 0.2s ease,
+      opacity 0.2s ease;
+
+    --radix-scroll-area-thumb-width: 100%;
+    --radix-scroll-area-thumb-height: 100%;
 
     [data-role='scroll-area-bar-wrapper'] {
-      transition:
-        width 0.2s ease,
-        height 0.2s ease,
-        transform 0.2s ease;
-      will-change: transform, width, height;
+      width: 100%;
+      height: 100%;
     }
 
     ${orientation === 'vertical'
@@ -53,10 +39,6 @@ export const scrollBarStyle =
           border-left-width: 1px;
           border-left-color: transparent;
           padding: 3px;
-
-          [data-role='scroll-area-bar-wrapper'] {
-            transform-origin: right;
-          }
         `
       : css`
           width: 100%;
@@ -64,19 +46,13 @@ export const scrollBarStyle =
           border-top-width: 1px;
           border-top-color: transparent;
           padding: 3px;
-
-          [data-role='scroll-area-bar-wrapper'] {
-            transform-origin: bottom;
-          }
         `}
 
     &[data-state='hidden'] {
       opacity: 0;
-      animation: ${fadeOut} 300ms ease;
     }
     &[data-state='visible'] {
       opacity: 1;
-      animation: ${fadeIn} 300ms ease;
     }
 
     ${scrollbarSizeStyle({ size, orientation }, theme)}
@@ -91,44 +67,32 @@ const scrollbarSizeStyle = (
       return orientation === 'vertical'
         ? css`
             width: 9px;
-            --radix-scroll-area-thumb-width: 3px;
 
             &:hover {
-              [data-role='scroll-area-bar-wrapper'] {
-                transform: scale(1.33333, 1);
-              }
+              width: 13px;
             }
           `
         : css`
             height: 9px;
-            --radix-scroll-area-thumb-height: 3px;
 
             &:hover {
-              [data-role='scroll-area-bar-wrapper'] {
-                transform: scale(1, 1.33333);
-              }
+              height: 13px;
             }
           `;
     case 'medium':
       return orientation === 'vertical'
         ? css`
             width: 13px;
-            --radix-scroll-area-thumb-width: 7px;
 
             &:hover {
-              [data-role='scroll-area-bar-wrapper'] {
-                transform: scale(1.5714, 1);
-              }
+              width: 17px;
             }
           `
         : css`
             height: 13px;
-            --radix-scroll-area-thumb-height: 7px;
 
             &:hover {
-              [data-role='scroll-area-bar-wrapper'] {
-                transform: scale(1, 1.5714);
-              }
+              height: 17px;
             }
           `;
     case 'responsive':
@@ -147,6 +111,8 @@ export const scrollBarThumbStyle = (theme: Theme) => css`
   position: relative;
   border-radius: 10px;
   background-color: ${theme.semantic.fill.strong};
-  transition: background-color 0.2s ease;
-  will-change: background-color;
+
+  & > [wds-component='with-interaction'] {
+    transition: opacity 0.2s ease;
+  }
 `;
