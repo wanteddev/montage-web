@@ -2,7 +2,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { forwardRef, useCallback, useId } from 'react';
 import {
   IconCircleCheckFill,
-  IconCircleExclamationFill,
+  IconCircleCloseFill,
   IconCircleInfoFill,
   IconClose,
   IconTriangleExclamationFill,
@@ -64,7 +64,7 @@ const SectionMessage = forwardRef<
     } = {
       custom: null,
       positive: <IconCircleCheckFill aria-label="positive" role="img" />,
-      negative: <IconCircleExclamationFill aria-label="negative" role="img" />,
+      negative: <IconCircleCloseFill aria-label="negative" role="img" />,
       cautionary: (
         <IconTriangleExclamationFill aria-label="cautionary" role="img" />
       ),
