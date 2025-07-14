@@ -1,6 +1,6 @@
 import {
   IconCircleCheckFill,
-  IconCircleExclamationFill,
+  IconCircleCloseFill,
   IconTriangleExclamationFill,
 } from '@wanteddev/wds-icon';
 
@@ -47,7 +47,7 @@ export const toastIconComponent: {
       justifyContent="center"
       sx={toastCircleIconWrapperStyle}
     >
-      <IconCircleExclamationFill
+      <IconCircleCloseFill
         sx={(theme) => ({
           color: theme.atomic.red[60],
         })}
