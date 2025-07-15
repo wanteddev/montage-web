@@ -1,9 +1,14 @@
+import type Portal from '../portal';
 import type { TypographyProps } from '../typography/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { Portal } from '../..';
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
+  ReactNode,
+} from 'react';
 import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from '../text-button/types';
+import type { Slot } from '@radix-ui/react-slot';
 
 export type DialogProps = {
   open?: boolean;
@@ -24,6 +29,8 @@ export type DialogProps = {
 };
 
 export type DialogDimmerProps = {};
+
+export type DialogTriggerProps = ComponentPropsWithoutRef<typeof Slot>;
 
 export type DialogContentProps = FlexBoxProps;
 
