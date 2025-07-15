@@ -11,14 +11,14 @@ import {
   sectionFigureVariantStyle,
 } from './style';
 
-import type { ComponentProps } from 'react';
+import type { ThumbnailProps } from '@wanteddev/wds';
 
 type Props = {
   title?: string;
   description?: string;
   src?: string;
-  ratio?: ComponentProps<typeof Thumbnail>['ratio'];
-  portrait?: ComponentProps<typeof Thumbnail>['portrait'];
+  ratio?: ThumbnailProps['ratio'];
+  portrait?: ThumbnailProps['portrait'];
   variant?: 'positive' | 'negative';
 };
 

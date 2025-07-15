@@ -5,14 +5,14 @@ import { Heading2, SectionDescription } from '../layout';
 import { sectionFigureThumbnailStyle } from '../figure/style';
 import { anatomyItemPinStyle, anatomyItemStyle } from '../../anatomy/style';
 
-import type { ComponentProps } from 'react';
+import type { ThumbnailProps } from '@wanteddev/wds';
 
 type SectionStatesProps = {
   description?: string;
   options?: Array<string>;
   src?: string;
-  ratio?: ComponentProps<typeof Thumbnail>['ratio'];
-  portrait?: ComponentProps<typeof Thumbnail>['portrait'];
+  ratio?: ThumbnailProps['ratio'];
+  portrait?: ThumbnailProps['portrait'];
 };
 
 const SectionStates = ({

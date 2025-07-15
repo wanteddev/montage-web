@@ -40,7 +40,11 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h1),
     h1,
     :is(h2),
-    h2,
+    h2 {
+      color: ${theme.semantic.label.normal};
+      scroll-margin-top: calc(var(--gnb-height) + 56px);
+    }
+
     :is(h3),
     h3,
     :is(h4),
@@ -50,7 +54,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h6),
     h6 {
       color: ${theme.semantic.label.normal};
-      scroll-margin-top: calc(var(--gnb-height) + 56px);
+      scroll-margin-top: calc(var(--gnb-height) + 64px);
     }
 
     :is(p),

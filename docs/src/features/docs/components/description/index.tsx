@@ -236,7 +236,7 @@ const DocsDescription = () => {
           radius
           ratio="21:9"
           src={image}
-          width={960}
+          width="100%"
           alt={frontmatter.title}
           sx={thumbnailStyle}
         />

@@ -9,13 +9,13 @@ import {
   anatomyWrapperStyle,
 } from './style';
 
-import type { ComponentProps } from 'react';
+import type { ThumbnailProps } from '@wanteddev/wds';
 
 type Props = {
   data: Array<string>;
   src?: string;
-  portrait?: ComponentProps<typeof Thumbnail>['portrait'];
-  ratio?: ComponentProps<typeof Thumbnail>['ratio'];
+  portrait?: ThumbnailProps['portrait'];
+  ratio?: ThumbnailProps['ratio'];
 };
 
 const Anatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
