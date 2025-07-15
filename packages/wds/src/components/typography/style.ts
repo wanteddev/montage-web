@@ -17,10 +17,15 @@ export const variantMap: {
     line-height: 3.25rem;
     letter-spacing: -0.0282em;
   `,
-  title1: css`
+  display3: css`
     font-size: 2.25rem;
     line-height: 3rem;
     letter-spacing: -0.027em;
+  `,
+  title1: css`
+    font-size: 2rem;
+    line-height: 2.75rem;
+    letter-spacing: -0.0253em;
   `,
   title2: css`
     font-size: 1.75rem;
@@ -113,6 +118,7 @@ export const getWeightMap = (
   bold:
     variant === 'display1' ||
     variant === 'display2' ||
+    variant === 'display3' ||
     variant === 'title1' ||
     variant === 'title2' ||
     variant === 'title3'

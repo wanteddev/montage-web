@@ -16,7 +16,7 @@ const MDXComponents: { [key: string]: (props: any) => ReactNode } = {
     <Typography
       {...props}
       data-heading="true"
-      variant="title1"
+      variant="display3"
       weight="bold"
       as="h2"
     >
