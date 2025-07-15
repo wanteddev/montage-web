@@ -31,6 +31,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { invalidIconWrapperStyle } from '../text-field/style';
 import { VirtualValueInput } from '../virtual-input';
+import { ListCellContent } from '../list';
 
 import { selectIconStyle, selectStyle, selectTextStyle } from './style';
 import { convertChildrenToData } from './helpers';
@@ -42,6 +43,7 @@ import {
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
+import type { ListCellContentProps } from '../list';
 import type { TextFieldContentProps } from '../text-field';
 import type {
   DefaultComponentPropsInternal,
@@ -351,11 +353,14 @@ const SelectContent = TextFieldContent;
 
 SelectContent.displayName = SELECT_CONTENT_NAME;
 
-export { Select, SelectContent, Option, OptionGroup };
+const OptionContent = ListCellContent;
+
+export { Select, SelectContent, Option, OptionGroup, OptionContent };
 
 export type {
   SelectProps,
   OptionGroupProps,
   TextFieldContentProps as SelectContentProps,
+  ListCellContentProps as OptionContentProps,
   OptionProps,
 };
