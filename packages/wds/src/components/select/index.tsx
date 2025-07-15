@@ -36,6 +36,7 @@ import { ListCellContent } from '../list';
 import { selectIconStyle, selectStyle, selectTextStyle } from './style';
 import { convertChildrenToData } from './helpers';
 import {
+  OPTION_CONTENT_NAME,
   OPTION_GROUP_NAME,
   OPTION_NAME,
   SELECT_CONTENT_NAME,
@@ -354,6 +355,8 @@ const SelectContent = TextFieldContent;
 SelectContent.displayName = SELECT_CONTENT_NAME;
 
 const OptionContent = ListCellContent;
+
+OptionContent.displayName = OPTION_CONTENT_NAME;
 
 export { Select, SelectContent, Option, OptionGroup, OptionContent };
 
