@@ -1,7 +1,11 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type ChipMultiSelectDefaultProps = {
+export type ChipMultiSelectDefaultProps = WithSxProps<{
   name?: string;
   checked?: boolean;
   defaultChecked?: boolean;
@@ -13,7 +17,7 @@ export type ChipMultiSelectDefaultProps = {
   invalid?: boolean;
   onCheckedChange?: (state: boolean) => void;
   children?: ReactNode;
-};
+}>;
 
 export type ChipMultiSelectResponsiveProps = ResponsiveProps<
   Pick<ChipMultiSelectDefaultProps, 'size' | 'bold'>

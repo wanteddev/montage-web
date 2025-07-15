@@ -12,8 +12,8 @@ import {
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { TypographyProps } from './types';
 
@@ -34,7 +34,7 @@ const Typography = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TypographyProps, T>,
+    }: PolymorphicPropsInternal<TypographyProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -97,8 +97,10 @@ const Typography = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<TypographyProps, 'span'>;
+) as PolymorphicComponentInternal<TypographyProps, 'span'>;
 
 Typography.displayName = 'Typography';
 
-export default Typography;
+export { Typography };
+
+export type { TypographyProps };

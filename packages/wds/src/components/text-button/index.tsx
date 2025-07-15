@@ -2,15 +2,15 @@ import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import WithInteraction from '../with-interaction';
-import Loading from '../loading';
+import { WithInteraction } from '../with-interaction';
+import { Loading } from '../loading';
 
 import { textButtonStyle } from './style';
 import { useTextButtonContext } from './contexts';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
@@ -35,7 +35,7 @@ const TextButton = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TextButtonProps, T>,
+    }: PolymorphicPropsInternal<TextButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -120,8 +120,10 @@ const TextButton = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<TextButtonProps, 'button'>;
+) as PolymorphicComponentInternal<TextButtonProps, 'button'>;
 
 TextButton.displayName = 'TextButton';
 
-export default TextButton;
+export { TextButton };
+
+export type { TextButtonProps };

@@ -8,7 +8,7 @@ type TextButtonContextValue = {
 };
 
 /**
- * @description text button의 기본 color 값을 쉽게 override 하기 위해 사용합니다.
+ * Used to easily override the default color value of the text button.
  */
 export const [TextButtonProvider, useTextButtonContext] =
   createLooseContext<TextButtonContextValue>('AnyComponent');

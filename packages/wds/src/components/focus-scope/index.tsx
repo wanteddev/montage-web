@@ -20,21 +20,17 @@ import {
   removeLinks,
 } from './helpers';
 
-import type { Merge } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { FocusScopeProps } from './types';
-import type {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  KeyboardEvent,
-} from 'react';
+import type { ElementRef, KeyboardEvent } from 'react';
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount';
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount';
 const EVENT_OPTIONS = { bubbles: false, cancelable: true };
 
 const FocusScope = forwardRef<
-  ElementRef<typeof Slot>,
-  Merge<FocusScopeProps, ComponentPropsWithoutRef<typeof Slot>>
+  HTMLElement,
+  DefaultComponentPropsInternal<FocusScopeProps, 'div'>
 >(
   (
     {
@@ -268,4 +264,6 @@ const createFocusScopesStack = () => {
 
 const focusScopesStack = createFocusScopesStack();
 
-export default FocusScope;
+export { FocusScope };
+
+export type { FocusScopeProps };

@@ -1,25 +1,30 @@
 import type { ChipActionProps } from '../chip-action/types';
-import type { PropsWithChildren, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { ReactNode } from 'react';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type CategoryProps = PropsWithChildren<{
+export type CategoryProps = {
   defaultValue?: string;
   value?: string;
   onValueChange?: (tab: string) => void;
   /**
-   * 값이 변경되었을 때 스크롤을 이동하지 않음.
+   * When the value is changed, the scroll does not move.
    */
   disableScrollMoveOnChange?: boolean;
-}>;
+  children?: ReactNode;
+};
 
-type CategoryListDefaultProps = {
+type CategoryListDefaultProps = WithSxProps<{
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   verticalPadding?: boolean;
   horizontalPadding?: boolean;
   variant?: 'normal' | 'alternative';
   iconButton?: ReactNode;
   children?: ReactNode;
-};
+}>;
 
 type CategoryListResponsiveProps = ResponsiveProps<
   Pick<
@@ -42,8 +47,8 @@ export type CategoryListItemProps = Merge<
   Omit<ChipActionProps, 'active' | 'size'>
 >;
 
-export type CategoryPanelProps = {
+export type CategoryPanelProps = WithSxProps<{
   value: string;
   mountMode?: 'only-active' | 'force-mount' | 'always';
   children?: ReactNode;
-};
+}>;
