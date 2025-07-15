@@ -14,8 +14,8 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
 import { usePrevious } from '@radix-ui/react-use-previous';
 
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { calculateAnimationStyle } from '../../utils/animation';
 
@@ -41,9 +41,9 @@ import {
 } from './constants';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
@@ -100,7 +100,7 @@ Tab.displayName = TAB_NAME;
 
 const TabList = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TabListProps, 'div'>
+  DefaultComponentPropsInternal<TabListProps, 'div'>
 >(
   (
     {
@@ -283,7 +283,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       disabled,
       as,
       ...props
-    }: PolymorphicProps<TabListItemProps, T>,
+    }: PolymorphicPropsInternal<TabListItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const ref = useRef<ElementRef<T> | null>(null);
@@ -415,13 +415,13 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<TabListItemProps, 'div'>;
+) as PolymorphicComponentInternal<TabListItemProps, 'div'>;
 
 TabListItem.displayName = TAB_LIST_ITEM_NAME;
 
 const TabPanel = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TabPanelProps, 'div'>
+  DefaultComponentPropsInternal<TabPanelProps, 'div'>
 >(({ value, mountMode = 'force-mount', ...props }, ref) => {
   const context = useTabContext(TAB_PANEL_NAME);
   const [firstRendered, setFirstRendered] = useState(false);
@@ -464,7 +464,7 @@ const TabPanel = forwardRef<
   }
 
   return (
-    <div
+    <Box
       {...props}
       ref={ref}
       wds-component="tab-panel"
@@ -479,3 +479,5 @@ const TabPanel = forwardRef<
 TabPanel.displayName = TAB_PANEL_NAME;
 
 export { Tab, TabList, TabListItem, TabPanel };
+
+export type { TabProps, TabListProps, TabListItemProps, TabPanelProps };

@@ -8,7 +8,7 @@ import atomic from './atomic';
 import * as semantic from './semantic';
 
 /**
- * @description css variable을 사용하지 않는 theme
+ * Theme without css variable
  */
 export const lightOriginTheme = {
   atomic,
@@ -30,7 +30,7 @@ export const lightOriginTheme = {
 };
 
 /**
- * @description css variable을 사용하지 않는 theme
+ * Theme without css variable
  */
 export const darkOriginTheme = {
   atomic,

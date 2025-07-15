@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip';
 
 import {
@@ -10,10 +10,11 @@ import {
   compactTooltipWrapperStyle,
 } from './style';
 
+import type { TooltipProps, TooltipTriggerProps } from '../tooltip';
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { CompactTooltipContentProps } from './types';
 
@@ -40,7 +41,7 @@ const CompactTooltipContent = forwardRef(
       setContext,
       as,
       ...props
-    }: PolymorphicProps<CompactTooltipContentProps, 'div'>,
+    }: PolymorphicPropsInternal<CompactTooltipContentProps, 'div'>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -83,8 +84,14 @@ const CompactTooltipContent = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<CompactTooltipContentProps, 'div'>;
+) as PolymorphicComponentInternal<CompactTooltipContentProps, 'div'>;
 
 CompactTooltipContent.displayName = 'CompactTooltipContent';
 
 export { CompactTooltip, CompactTooltipTrigger, CompactTooltipContent };
+
+export type {
+  TooltipProps as CompactTooltipProps,
+  TooltipTriggerProps as CompactTooltipTriggerProps,
+  CompactTooltipContentProps,
+};

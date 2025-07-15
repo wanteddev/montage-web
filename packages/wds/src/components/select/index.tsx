@@ -27,8 +27,8 @@ import {
   MenuTrigger,
 } from '../menu';
 import { TextFieldContent } from '../text-field';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { invalidIconWrapperStyle } from '../text-field/style';
 import { VirtualValueInput } from '../virtual-input';
 
@@ -42,17 +42,18 @@ import {
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
+import type { TextFieldContentProps } from '../text-field';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ForwardedRef } from 'react';
 import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
 const Select = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SelectProps, 'div'>
+  DefaultComponentPropsInternal<SelectProps, 'div'>
 >(
   (
     {
@@ -300,7 +301,7 @@ Select.displayName = SELECT_NAME;
 
 const OptionGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<OptionGroupProps, 'div'>
+  DefaultComponentPropsInternal<OptionGroupProps, 'div'>
 >((props, ref) => {
   return <MenuGroup ref={ref} {...props} />;
 });
@@ -317,7 +318,7 @@ const Option = memo(
         children,
         as,
         ...props
-      }: PolymorphicProps<OptionProps, T>,
+      }: PolymorphicPropsInternal<OptionProps, T>,
       ref: ForwardedRef<T>,
     ) => {
       const { onOpenChange, enableMenuActionArea } = useSelectContext() || {};
@@ -339,7 +340,7 @@ const Option = memo(
         </MenuItem>
       );
     },
-  ) as PolymorphicComponent<OptionProps, 'li'>,
+  ) as PolymorphicComponentInternal<OptionProps, 'li'>,
 );
 
 Option.displayName = OPTION_NAME;
@@ -351,3 +352,10 @@ const SelectContent = TextFieldContent;
 SelectContent.displayName = SELECT_CONTENT_NAME;
 
 export { Select, SelectContent, Option, OptionGroup };
+
+export type {
+  SelectProps,
+  OptionGroupProps,
+  TextFieldContentProps as SelectContentProps,
+  OptionProps,
+};

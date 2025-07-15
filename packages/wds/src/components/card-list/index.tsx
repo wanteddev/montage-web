@@ -1,11 +1,11 @@
 import { forwardRef } from 'react';
 import {
-  type PolymorphicComponent,
-  type PolymorphicProps,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import {
   CARD_LIST_CONTENT_NAME,
@@ -18,7 +18,7 @@ import {
   cardListStyle,
 } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type {
   CardListContentProps,
   CardListProps,
@@ -42,7 +42,7 @@ const CardList = forwardRef(
       sx,
       children,
       ...props
-    }: PolymorphicProps<CardListProps, T>,
+    }: PolymorphicPropsInternal<CardListProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -58,7 +58,7 @@ const CardList = forwardRef(
       </FlexBox>
     );
   },
-) as PolymorphicComponent<CardListProps, 'div'>;
+) as PolymorphicComponentInternal<CardListProps, 'div'>;
 
 CardList.displayName = CARD_LIST_NAME;
 
@@ -68,7 +68,7 @@ const CardListContent = forwardRef(
       variant = 'custom',
       sx,
       ...props
-    }: DefaultComponentProps<CardListContentProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardListContentProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     switch (variant) {
@@ -125,7 +125,7 @@ const CardListSkeleton = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<CardListSkeletonProps, T>,
+    }: PolymorphicPropsInternal<CardListSkeletonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -150,8 +150,10 @@ const CardListSkeleton = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<CardListSkeletonProps, 'div'>;
+) as PolymorphicComponentInternal<CardListSkeletonProps, 'div'>;
 
 CardListSkeleton.displayName = CARD_LIST_SKELETON_NAME;
 
 export { CardList, CardListContent, CardListSkeleton };
+
+export type { CardListProps, CardListContentProps, CardListSkeletonProps };

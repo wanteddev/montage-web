@@ -10,6 +10,11 @@ import type { Theme } from '@wanteddev/wds-engine';
 
 const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
 
+type TextFieldWrapperStyleProps = TextFieldProps & {
+  type?: string;
+  readOnly?: boolean;
+};
+
 export const textFieldWrapperStyle =
   ({
     invalid,
@@ -23,7 +28,7 @@ export const textFieldWrapperStyle =
     md,
     lg,
     xl,
-  }: TextFieldProps & { type?: string; readOnly?: boolean }) =>
+  }: TextFieldWrapperStyleProps) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;

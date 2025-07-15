@@ -1,10 +1,13 @@
 import { forwardRef, useId } from 'react';
-import { type DefaultComponentProps, useTheme } from '@wanteddev/wds-engine';
+import {
+  type DefaultComponentPropsInternal,
+  useTheme,
+} from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
-import IconButton from '../icon-button';
-import TextButton from '../text-button';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { IconButton } from '../icon-button';
+import { TextButton } from '../text-button';
 
 import {
   topNavigationButtonFloat,
@@ -19,15 +22,15 @@ import { TopNavigationProvider, useTopNavigationContext } from './contexts';
 import { TOP_NAVIGATION_ACTION_NAME, TOP_NAVIGATION_NAME } from './constants';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { CSSProperties, ElementType, ForwardedRef } from 'react';
 import type { TopNavigationButtonProps, TopNavigationProps } from './types';
 
 const TopNavigation = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TopNavigationProps, 'div'>
+  DefaultComponentPropsInternal<TopNavigationProps, 'div'>
 >(
   (
     {
@@ -178,7 +181,7 @@ const TopNavigationButton = forwardRef(
       alternative,
       background = false,
       ...props
-    }: PolymorphicProps<TopNavigationButtonProps, T>,
+    }: PolymorphicPropsInternal<TopNavigationButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -241,8 +244,10 @@ const TopNavigationButton = forwardRef(
       </TextButton>
     );
   },
-) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
+) as PolymorphicComponentInternal<TopNavigationButtonProps, 'button'>;
 
 TopNavigationButton.displayName = TOP_NAVIGATION_ACTION_NAME;
 
 export { TopNavigation, TopNavigationButton };
+
+export type { TopNavigationProps, TopNavigationButtonProps };

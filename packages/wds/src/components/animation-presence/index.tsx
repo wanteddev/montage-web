@@ -19,3 +19,5 @@ const AnimationPresence = forwardRef<HTMLElement, AnimationPresenceProps>(
 AnimationPresence.displayName = 'AnimationPresence';
 
 export { AnimationPresence, useAnimationPresence };
+
+export type { AnimationPresenceProps };

@@ -3,13 +3,13 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { progressIndicatorStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { CSSProperties } from 'react';
 import type { ProgressIndicatorProps } from './types';
 
 const ProgressIndicator = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ProgressIndicatorProps, 'div'>
+  DefaultComponentPropsInternal<ProgressIndicatorProps, 'div'>
 >(({ percent = 0, ...props }, ref) => {
   return (
     <Box
@@ -34,4 +34,6 @@ const ProgressIndicator = forwardRef<
 
 ProgressIndicator.displayName = 'ProgressIndicator';
 
-export default ProgressIndicator;
+export { ProgressIndicator };
+
+export type { ProgressIndicatorProps };

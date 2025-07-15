@@ -1,7 +1,11 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type CheckboxDefaultProps = {
+export type CheckboxDefaultProps = WithSxProps<{
   name?: string;
   checked?: boolean;
   defaultChecked?: boolean;
@@ -15,7 +19,7 @@ export type CheckboxDefaultProps = {
   indeterminateIcon?: ReactNode;
   onCheckedChange?: (state: boolean) => void;
   tight?: boolean;
-};
+}>;
 
 export type CheckboxResponsiveProps = ResponsiveProps<
   Pick<CheckboxDefaultProps, 'size' | 'bold'>

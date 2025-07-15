@@ -4,8 +4,8 @@ import { Box } from '@wanteddev/wds-engine';
 import { gridStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { GridProps } from './types';
@@ -25,7 +25,7 @@ const Grid = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<GridProps, T>,
+    }: PolymorphicPropsInternal<GridProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -50,8 +50,10 @@ const Grid = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<GridProps, 'div'>;
+) as PolymorphicComponentInternal<GridProps, 'div'>;
 
 Grid.displayName = 'Grid';
 
-export default Grid;
+export { Grid };
+
+export type { GridProps };

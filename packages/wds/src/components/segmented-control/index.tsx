@@ -13,7 +13,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
 import { usePrevious } from '@radix-ui/react-use-previous';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { calculateAnimationStyle } from '../../utils/animation';
 import { VirtualCheckboxInput } from '../virtual-input';
@@ -33,9 +33,9 @@ import {
 } from './constants';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
@@ -49,7 +49,7 @@ const ARROW_KEYS = ['ArrowLeft', 'ArrowRight'];
 
 const SegmentedControl = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SegmentedControlProps, 'div'>
+  DefaultComponentPropsInternal<SegmentedControlProps, 'div'>
 >(
   (
     {
@@ -195,7 +195,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       trailingContent,
       as,
       ...props
-    }: PolymorphicProps<SegmentedControlItemProps, T>,
+    }: PolymorphicPropsInternal<SegmentedControlItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -296,8 +296,10 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<SegmentedControlItemProps, 'label'>;
+) as PolymorphicComponentInternal<SegmentedControlItemProps, 'label'>;
 
 SegmentedControlItem.displayName = SEGMENTED_CONTROL_ITEM_NAME;
 
 export { SegmentedControl, SegmentedControlItem };
+
+export type { SegmentedControlProps, SegmentedControlItemProps };

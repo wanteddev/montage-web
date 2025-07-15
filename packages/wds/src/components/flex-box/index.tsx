@@ -4,8 +4,8 @@ import { Box } from '@wanteddev/wds-engine';
 import { flexBoxStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { FlexBoxProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
@@ -34,7 +34,7 @@ const FlexBox = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<FlexBoxProps, T>,
+    }: PolymorphicPropsInternal<FlexBoxProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -69,8 +69,10 @@ const FlexBox = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<FlexBoxProps, 'div'>;
+) as PolymorphicComponentInternal<FlexBoxProps, 'div'>;
 
 FlexBox.displayName = 'FlexBox';
 
-export default FlexBox;
+export { FlexBox };
+
+export type { FlexBoxProps };
