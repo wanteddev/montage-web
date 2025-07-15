@@ -1,3 +1,4 @@
+import type { Slot } from '@radix-ui/react-slot';
 import type { TopNavigationProps } from '../top-navigation/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type {
@@ -9,6 +10,7 @@ import type Portal from '../portal';
 import type {
   CSSProperties,
   ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
   PropsWithChildren,
   ReactNode,
 } from 'react';
@@ -38,6 +40,8 @@ export type ModalProps = PropsWithChildren<{
   disablePortal?: boolean;
   forceMount?: boolean;
 }>;
+
+export type ModalTriggerProps = ComponentPropsWithoutRef<typeof Slot>;
 
 type ModalContainerDefaultProps = {
   variant?: 'popup' | 'bottom' | 'full';

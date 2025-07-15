@@ -10,7 +10,7 @@ description: Dialog Component
 - 유저에게 중요한 액션을 실행할지 다시 한 번 묻고 싶을 때 사용해요.
 - Promise 형태로 사용하려면 [useDialog](../hooks/use-dialog) 훅을 사용해요.
 
-<Demo code={`import { FlexBox, Button, Typography, Dialog, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Button, Typography, Dialog, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton, DialogTrigger } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -23,10 +23,13 @@ const Demo = () => {
 
   return (
     <FlexBox flexDirection="column" gap="16px">
-      <Button onClick={handleOpen}>열기</Button>
       <Typography>{result}</Typography>
 
       <Dialog onDismiss={() => setResult('Dismissed')} open={open} onOpenChange={setOpen}>
+        <DialogTrigger>
+          <Button onClick={handleOpen}>열기</Button>
+        </DialogTrigger>
+
         <DialogContent>
           <DialogHeading>제목</DialogHeading>
           <DialogDescription>설명</DialogDescription>
@@ -54,10 +57,16 @@ export default Demo;`}
 
 Dialog 는 여러 컴포넌트를 조합해서 사용합니다.
 
+`DialogTrigger` 는 선택적으로 사용할 수 있습니다.
+
 기본 구성은 아래와 같습니다.
 
 ```tsx
 <Dialog>
+  <DialogTrigger>
+    <Button>열기</Button>
+  </DialogTrigger>
+
   <DialogContent>
     <DialogHeading />
     <DialogDescription />
