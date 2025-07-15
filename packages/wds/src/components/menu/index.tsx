@@ -23,6 +23,7 @@ import {
   MENU_CONTENT_NAME,
   MENU_GROUP_NAME,
   MENU_ITEM_CHECKBOX_NAME,
+  MENU_ITEM_CONTENT_NAME,
   MENU_ITEM_NAME,
   MENU_ITEM_RADIO_NAME,
   MENU_LIST_NAME,
@@ -41,6 +42,7 @@ import {
 } from './style';
 import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 
+import type { ListCellContentProps } from '../list';
 import type {
   MenuActionAreaContentProps,
   MenuActionAreaProps,
@@ -374,6 +376,10 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
 
 MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
+const MenuItemContent = ListCellContent;
+
+MenuItemContent.displayName = MENU_ITEM_CONTENT_NAME;
+
 const MenuActionArea = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<MenuActionAreaProps, 'div'>
@@ -459,6 +465,7 @@ export {
   MenuList,
   MenuGroup,
   MenuItem,
+  MenuItemContent,
   MenuActionArea,
   MenuActionAreaContent,
 };
@@ -470,6 +477,7 @@ export type {
   MenuListProps,
   MenuGroupProps,
   MenuItemProps,
+  ListCellContentProps as MenuItemContentProps,
   MenuActionAreaProps,
   MenuActionAreaContentProps,
 };
