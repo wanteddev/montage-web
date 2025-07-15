@@ -12,6 +12,9 @@ reviews:
     enabled: true
     drafts: false
     base_branches:
-      - '*'
+      - 'main'
+      - 'feature/*'
+      - 'fix/*'
+      - 'v*'
 chat:
   auto_reply: true
