@@ -20,7 +20,10 @@ export const thumbnailStyle =
     xl,
   }: ThumbnailProps) =>
   (theme: Theme) => css`
-    width: ${toCssValue(width)};
+    ${width !== undefined &&
+    css`
+      width: ${toCssValue(width)};
+    `}
 
     ${thumbnailRatioStyle({ ratio, portrait })}
     ${thumbnailBorderRadiusStyle({ radius, border }, theme)}
