@@ -23,7 +23,6 @@ const Demo = () => {
       src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
       alt="Wanted Company Image"
       width="200px"
-      quality={95}
     />
   )
 }
@@ -37,100 +36,6 @@ export default Demo;`}
 
 ## Usage
 
-### 이미지 깨짐 방지
-
-이미지 깨짐을 방지하기 위해서 `quality` 와 `width` 를 적절하게 조절합니다.
-
-혹은 `disableOptimize` 를 사용합니다.
-
-<Demo code={`import { FlexBox, Thumbnail } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <FlexBox>
-      <Thumbnail
-        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-        alt="Wanted Company Image"
-        width="400px"
-        quality={95}
-        sx={{ width: '200px' }}
-      />
-      <Thumbnail
-        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-        alt="Wanted Company Image"
-        width="200px"
-        disableOptimize
-      />
-    </FlexBox>
-  )
-}
-
-export default Demo;`}
-/>
-
-### Responsive
-
-`srcset`, `sizes` 속성을 통해 브라우저 첫 접속 시 `mediaQuery` 에 따라 사진 사이즈를 조절할 수 있습니다.
-
-또한 단순 스타일로도 반응형 대응을 할 수 있습니다.
-
-<Demo code={`import { Thumbnail, getOptimizedImageSource, useMediaQuery } from '@wanteddev/wds';
-
-const Demo = () => {
-  const { breakpoint, respondTo } = useMediaQuery();
-
-  return (
-    <Thumbnail
-      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-      quality={90}
-      width="400px"
-      alt="Wanted Company Image"
-      srcSet={\`\$\{getOptimizedImageSource({
-        src: 'https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png',
-        width: '200px',
-        quality: 90
-      })\} 200w, \$\{getOptimizedImageSource({
-        src: 'https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png',
-        width: '400px',
-        quality: 90
-      })\} 400w\`}
-      sizes="(max-width: 767px) 200px, 400px"
-      sx={{
-        width: '200px',
-        [respondTo(breakpoint.sm)]: {
-          width: '100px'
-        }
-      }}
-    />
-  )
-}
-
-export default Demo;`}
-/>
-
-### Border & Radius
-
-<Demo code={`import { Thumbnail } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <Thumbnail
-      border
-      radius
-      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
-      alt="Wanted Company Image"
-      width="200px"
-      quality={95}
-      portrait
-      ratio="4:3"
-    />
-  )
-}
-
-export default Demo;`}
-/>
-
-
 ### Portrait
 
 <Demo code={`import { Thumbnail } from '@wanteddev/wds';
@@ -141,7 +46,6 @@ const Demo = () => {
       src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
       alt="Wanted Company Image"
       width="200px"
-      quality={95}
       portrait
       ratio="4:3"
     />
@@ -162,9 +66,7 @@ const Demo = () => {
     <Thumbnail
       src="https://"
       alt="Wanted Company Image"
-      width="400px"
-      quality={95}
-      sx={{ width: '200px' }}
+      width="200px"
     />
   )
 }
