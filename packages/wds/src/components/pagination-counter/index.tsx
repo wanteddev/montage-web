@@ -1,16 +1,16 @@
 import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import { backgroundBlendStyle, paginationCounterStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { PaginationCounterProps } from './types';
 
 const PaginationCounter = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PaginationCounterProps, 'div'>
+  DefaultComponentPropsInternal<PaginationCounterProps, 'div'>
 >(
   (
     {
@@ -56,4 +56,6 @@ const PaginationCounter = forwardRef<
 
 PaginationCounter.displayName = 'PaginationCounter';
 
-export default PaginationCounter;
+export { PaginationCounter };
+
+export type { PaginationCounterProps };

@@ -1,13 +1,13 @@
 import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 
 import { avatarButtonStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { AvatarButtonProps } from './types';
 import type { ElementType, ForwardedRef } from 'react';
@@ -20,7 +20,7 @@ const AvatarButton = forwardRef(
       disableInteraction = false,
       disabled,
       ...props
-    }: PolymorphicProps<AvatarButtonProps, T>,
+    }: PolymorphicPropsInternal<AvatarButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -43,8 +43,10 @@ const AvatarButton = forwardRef(
       </Box>
     );
   },
-) as PolymorphicComponent<AvatarButtonProps, 'button'>;
+) as PolymorphicComponentInternal<AvatarButtonProps, 'button'>;
 
 AvatarButton.displayName = 'AvatarButton';
 
-export default AvatarButton;
+export { AvatarButton };
+
+export type { AvatarButtonProps };

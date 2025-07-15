@@ -1,5 +1,5 @@
 /**
- * @description `respondDown` 와 같은 역할을 하며 지정한 breakpoint 보다 작을 때 동작합니다.
+ * `respondDown` has the same function as `respondDown`, and works when it is smaller than the specified breakpoint.
  *
  * @example
  * // returns `@media screen and (max-width: 767px)`
@@ -9,7 +9,7 @@ export const respondTo = (breakpoint: string) =>
   `@media only screen and (max-width: ${parseInt(breakpoint, 10) - 1}px)`;
 
 /**
- * @description `respondUp` 와 같은 역할을 하며 지정한 breakpoint 보다 작을 때 동작합니다.
+ * `respondUp` has the same function as `respondUp`, and works when it is smaller than the specified breakpoint.
  *
  * @example
  * // returns `@media screen and (min-width: 768px)`
@@ -19,7 +19,7 @@ export const respondMore = (breakpoint: string) =>
   `@media only screen and (min-width: ${breakpoint})`;
 
 /**
- * @description `respondTo` 와 같은 역할을 하며 지정한 breakpoint 보다 작을 때 동작합니다.
+ * `respondTo` has the same function as `respondTo`, and works when it is smaller than the specified breakpoint.
  *
  * @example
  * // returns `@media screen and (max-width: 767px)`
@@ -29,7 +29,7 @@ export const respondDown = (breakpoint: string) =>
   `@media only screen and (max-width: ${parseInt(breakpoint, 10) - 1}px)`;
 
 /**
- * @description `respondMore` 와 같은 역할을 하며 지정한 breakpoint 보다 클 때 동작합니다.
+ * `respondMore` has the same function as `respondMore`, and works when it is larger than the specified breakpoint.
  *
  * @example
  * // returns `@media screen and (min-width: 768px)`

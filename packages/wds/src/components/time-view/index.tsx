@@ -14,11 +14,11 @@ import {
 } from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
-import FlexBox from '../flex-box';
-import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
-import ScrollArea from '../scroll-area';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
 import { List, ListCell } from '../list';
 import { useDefaultSelectedDate } from '../date-calendar/hooks';
+import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
 
 import {
   ACCESSIBLE_MAX_TIME,
@@ -38,7 +38,7 @@ import { TimeViewContextProvider, useTimeViewContext } from './contexts';
 import { scrollToTime } from './helpers';
 
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ElementRef, KeyboardEvent } from 'react';
 import type {
   HourType,
@@ -49,7 +49,7 @@ import type {
 
 const TimeView = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TimeViewProps, 'div'>
+  DefaultComponentPropsInternal<TimeViewProps, 'div'>
 >(
   (
     {
@@ -184,7 +184,7 @@ TimeList.displayName = TIME_LIST_NAME;
 
 const TimeItem = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<TimeItemProps, 'li'>
+  DefaultComponentPropsInternal<TimeItemProps, 'li'>
 >(({ value, text, variant, view, currentTimeValue, ...props }, ref) => {
   const {
     value: time,
@@ -313,4 +313,6 @@ const TimeItem = forwardRef<
 
 TimeItem.displayName = TIME_ITEM_NAME;
 
-export default TimeView;
+export { TimeView };
+
+export type { TimeViewProps };

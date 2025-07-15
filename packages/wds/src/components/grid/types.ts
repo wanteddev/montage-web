@@ -1,15 +1,21 @@
-import type { Merge, ResponsiveProps, Spacing } from '@wanteddev/wds-engine';
-import type { CSSProperties } from 'react';
+import type {
+  Merge,
+  ResponsiveProps,
+  Spacing,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
+import type { CSSProperties, ReactNode } from 'react';
 
 export type GridSpacing = keyof Spacing;
 
-export type GridDefaultProps = {
+export type GridDefaultProps = WithSxProps<{
   justifyContent?: CSSProperties['justifyContent'];
   alignItems?: CSSProperties['alignItems'];
   spacing?: GridSpacing;
   rowSpacing?: GridSpacing;
   columnSpacing?: GridSpacing;
-};
+  children?: ReactNode;
+}>;
 
 export type GridResponsiveProps = ResponsiveProps<
   Pick<

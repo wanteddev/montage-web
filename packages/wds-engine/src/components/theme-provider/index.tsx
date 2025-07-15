@@ -3,20 +3,13 @@ import { theme } from '@wanteddev/wds-theme';
 
 import ThemeContext from '../../context';
 
-import type { Theme } from '@wanteddev/wds-theme';
-import type { JSX, ReactNode } from 'react';
-
-type Props = {
-  theme?: 'light' | 'dark';
-  children: ReactNode;
-  provider?: (props: { theme: Theme; children: ReactNode }) => JSX.Element;
-};
+import type { ThemeProviderProps } from './types';
 
 const ThemeProvider = ({
   theme: localTheme = 'light',
   children,
   provider,
-}: Props) => {
+}: ThemeProviderProps) => {
   const engineTheme = useMemo(() => {
     switch (localTheme) {
       case 'light':
@@ -24,7 +17,7 @@ const ThemeProvider = ({
       case 'dark':
         return theme.dark;
       default: {
-        console.error('WDS: 올바른 Theme 값을 설정했는지 확인이 필요합니다.');
+        console.error('WDS: Please check if the correct Theme value is set.');
       }
     }
   }, [localTheme]);
@@ -42,4 +35,6 @@ const ThemeProvider = ({
   );
 };
 
-export default ThemeProvider;
+export { ThemeProvider };
+
+export type { ThemeProviderProps };

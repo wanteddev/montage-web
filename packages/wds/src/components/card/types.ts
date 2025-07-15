@@ -1,16 +1,26 @@
+import type { TypographyProps } from '../typography';
 import type { SkeletonProps } from '../skeleton/types';
-import type ImageLoader from '../image-loader';
+import type { ImageLoader } from '../image-loader';
 import type { CSSProperties, ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { ThumbnailDefaultProps } from '../thumbnail/types';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
+import type {
+  ThumbnailDefaultProps,
+  ThumbnailSkeletonProps,
+} from '../thumbnail/types';
 import type { FlexBoxProps } from '../flex-box/types';
 
-export type CardDefaultProps = {
+export type CardDefaultProps = WithSxProps<{
   platform?: 'desktop' | 'mobile';
   width?: CSSProperties['width'];
   children?: ReactNode;
-};
-export type CardResponsiveProps = ResponsiveProps<CardDefaultProps>;
+}>;
+
+export type CardResponsiveProps = ResponsiveProps<Omit<CardDefaultProps, 'sx'>>;
+
 export type CardProps = Merge<
   Merge<CardDefaultProps, CardResponsiveProps>,
   FlexBoxProps
@@ -40,6 +50,11 @@ export type CardThumbnailContentProps = Merge<
   FlexBoxProps
 >;
 
+export type CardTitleProps = TypographyProps;
+export type CardCaptionProps = TypographyProps;
+
+export type CardContentProps = FlexBoxProps;
+
 export type CardContentItemDefaultProps = {
   variant?: 'badge' | 'custom';
   position?: 'top' | 'bottom';
@@ -57,3 +72,7 @@ export type CardCaptionSkeletonProps = Merge<
   CardCaptionSkeletonDefaultProps,
   SkeletonProps
 >;
+
+export type CardTitleSkeletonProps = SkeletonProps;
+
+export type CardThumbnailSkeletonProps = ThumbnailSkeletonProps;

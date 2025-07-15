@@ -3,9 +3,9 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useTheme } from '@wanteddev/wds-engine';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
-import WithInteraction from '../with-interaction';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
+import { WithInteraction } from '../with-interaction';
 
 import {
   BottomNavigationProvider,
@@ -18,9 +18,9 @@ import {
 import { bottomNavigationItemStyle, bottomNavigationStyle } from './style';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { CSSProperties, ElementType, ForwardedRef } from 'react';
 import type { BottomNavigationItemProps, BottomNavigationProps } from './types';
@@ -33,7 +33,7 @@ const BottomNavigation = forwardRef(
       onValueChange,
       children,
       ...props
-    }: DefaultComponentProps<BottomNavigationProps, 'div'>,
+    }: DefaultComponentPropsInternal<BottomNavigationProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const theme = useTheme();
@@ -99,7 +99,7 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
       icon,
       as,
       ...props
-    }: PolymorphicProps<BottomNavigationItemProps, T>,
+    }: PolymorphicPropsInternal<BottomNavigationItemProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -136,8 +136,10 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<BottomNavigationItemProps, 'button'>;
+) as PolymorphicComponentInternal<BottomNavigationItemProps, 'button'>;
 
 BottomNavigationItem.displayName = BOTTOM_NAVIGATION_ITEM_NAME;
 
 export { BottomNavigation, BottomNavigationItem };
+
+export type { BottomNavigationProps, BottomNavigationItemProps };

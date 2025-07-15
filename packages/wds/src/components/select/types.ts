@@ -1,9 +1,13 @@
 import type { MenuContent } from '../menu';
 import type { CSSProperties, ComponentProps, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { MenuGroupProps, MenuItemProps } from '../menu/types';
 
-export type SelectDefaultProps = {
+export type SelectDefaultProps = WithSxProps<{
   invalid?: boolean;
   disabled?: boolean;
   width?: CSSProperties['width'];
@@ -16,19 +20,19 @@ export type SelectDefaultProps = {
   render?: (label: ReactNode, value: string) => ReactNode;
   onChange?: (value: string) => void;
   contentProps?: ComponentProps<typeof MenuContent>;
-  // Popover props
+
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
 
   /**
-   * @description Menu Action Area를 사용하는 경우 활성화 하여 메뉴 아이템을 클릭할 때 오픈 상태를 유지합니다.
+   * When using `MenuActionArea`, this prop is enabled to keep the open state when the menu item is clicked.
    */
   enableMenuActionArea?: boolean;
   menuValue?: string;
   onMenuValueChange?: (value: string) => void;
   children?: ReactNode;
-};
+}>;
 
 export type SelectResponsiveProps = ResponsiveProps<
   Pick<SelectDefaultProps, 'width' | 'height'>
