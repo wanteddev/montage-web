@@ -9,6 +9,7 @@ import type { CSSProperties, ReactNode } from 'react';
 export type TypographyVariant =
   | 'display1'
   | 'display2'
+  | 'display3'
   | 'title1'
   | 'title2'
   | 'title3'
