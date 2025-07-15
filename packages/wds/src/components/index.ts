@@ -21,7 +21,7 @@ export * from './date-picker';
 export * from './dialog';
 export * from './dismissable-layer';
 export * from './divider';
-export * from './empty-state';
+export * from './fallback-view';
 export * from './flex-box';
 export * from './form';
 export * from './grid';

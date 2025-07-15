@@ -1,4 +1,4 @@
-import { EmptyState, EmptyStateButton } from '@wanteddev/wds';
+import { FallbackView, FallbackViewButton } from '@wanteddev/wds';
 import Link from 'next/link';
 
 import FullPageLayout from './full-page-layout';
@@ -6,11 +6,11 @@ import FullPageLayout from './full-page-layout';
 const RootPage = () => {
   return (
     <FullPageLayout>
-      <EmptyState platform="mobile" sm={{ platform: 'desktop' }}>
-        <EmptyStateButton as={Link} href="/docs/overview/getting-started">
+      <FallbackView platform="mobile" sm={{ platform: 'desktop' }}>
+        <FallbackViewButton as={Link} href="/docs/overview/getting-started">
           문서 확인하기
-        </EmptyStateButton>
-      </EmptyState>
+        </FallbackViewButton>
+      </FallbackView>
     </FullPageLayout>
   );
 };

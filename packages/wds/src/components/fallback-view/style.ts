@@ -4,39 +4,39 @@ import { createResponsiveStyle, typographyStyle } from '../../utils';
 import { toCssValue } from '../../utils/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
-import type { EmptyStateProps } from './types';
+import type { FallbackViewProps } from './types';
 
-const emptyStatePlatformStyle = ({
+const fallbackViewPlatformStyle = ({
   platform,
-}: Pick<EmptyStateProps, 'platform'>) => {
+}: Pick<FallbackViewProps, 'platform'>) => {
   switch (platform) {
     case 'mobile':
       return css`
         width: 335px;
         max-width: 100%;
 
-        [wds-component='empty-state-image'] {
+        [wds-component='fallback-view-image'] {
           width: 128px;
           height: 128px;
         }
 
-        [wds-component='empty-state-image']
-          + [wds-component='empty-state-content'] {
-          --wds-empty-state-bottom-space: 20px;
+        [wds-component='fallback-view-image']
+          + [wds-component='fallback-view-content'] {
+          --wds-fallback-view-bottom-space: 20px;
         }
-        [wds-component='empty-state-content'] {
+        [wds-component='fallback-view-content'] {
           padding-top: 8px;
-          padding-bottom: calc(8px + var(--wds-empty-state-bottom-space));
+          padding-bottom: calc(8px + var(--wds-fallback-view-bottom-space));
         }
 
-        [data-role='empty-state-text-title'] {
+        [data-role='fallback-view-text-title'] {
           ${typographyStyle('headline1', 'bold')}
         }
-        [data-role='empty-state-text-description'] {
+        [data-role='fallback-view-text-description'] {
           ${typographyStyle('body2-reading')}
         }
 
-        [wds-component='empty-state-button'] {
+        [wds-component='fallback-view-button'] {
           // button/style.ts size="medium"
           border-radius: 10px;
           padding: 9px 20px;
@@ -56,28 +56,28 @@ const emptyStatePlatformStyle = ({
         width: 400px;
         max-width: 100%;
 
-        [wds-component='empty-state-image'] {
+        [wds-component='fallback-view-image'] {
           width: 160px;
           height: 160px;
         }
 
-        [wds-component='empty-state-image']
-          + [wds-component='empty-state-content'] {
-          --wds-empty-state-bottom-space: 20px;
+        [wds-component='fallback-view-image']
+          + [wds-component='fallback-view-content'] {
+          --wds-fallback-view-bottom-space: 20px;
         }
-        [wds-component='empty-state-content'] {
+        [wds-component='fallback-view-content'] {
           padding-top: 12px;
-          padding-bottom: calc(12px + var(--wds-empty-state-bottom-space));
+          padding-bottom: calc(12px + var(--wds-fallback-view-bottom-space));
         }
 
-        [data-role='empty-state-text-title'] {
+        [data-role='fallback-view-text-title'] {
           ${typographyStyle('heading2', 'bold')}
         }
-        [data-role='empty-state-text-description'] {
+        [data-role='fallback-view-text-description'] {
           ${typographyStyle('body1-reading')}
         }
 
-        [wds-component='empty-state-button'] {
+        [wds-component='fallback-view-button'] {
           // button/style.ts size="large"
           border-radius: 12px;
           padding: 12px 28px;
@@ -94,9 +94,9 @@ const emptyStatePlatformStyle = ({
   }
 };
 
-const emptyStatePaddingStyle = ({
+const fallbackViewPaddingStyle = ({
   padding,
-}: Pick<EmptyStateProps, 'padding'>) => {
+}: Pick<FallbackViewProps, 'padding'>) => {
   switch (padding) {
     case 'compact':
       return css`
@@ -111,16 +111,16 @@ const emptyStatePaddingStyle = ({
   }
 };
 
-export const emptyStateStyle =
-  ({ platform, padding, width, xs, sm, md, lg, xl }: EmptyStateProps) =>
+export const fallbackViewStyle =
+  ({ platform, padding, width, xs, sm, md, lg, xl }: FallbackViewProps) =>
   (theme: Theme) => css`
-    --wds-empty-state-bottom-space: 0px;
+    --wds-fallback-view-bottom-space: 0px;
 
-    ${emptyStatePlatformStyle({ platform })}
-    ${emptyStatePaddingStyle({ padding })}
+    ${fallbackViewPlatformStyle({ platform })}
+    ${fallbackViewPaddingStyle({ padding })}
     width: ${toCssValue(width)};
 
-    [wds-component='empty-state-image'] {
+    [wds-component='fallback-view-image'] {
       max-width: 100%;
       max-height: 100%;
 
@@ -134,10 +134,10 @@ export const emptyStateStyle =
       }
     }
 
-    [data-role='empty-state-text-title'] {
+    [data-role='fallback-view-text-title'] {
       text-align: center;
     }
-    [data-role='empty-state-text-description'] {
+    [data-role='fallback-view-text-description'] {
       text-align: center;
       color: ${theme.semantic.label.alternative};
     }
@@ -147,8 +147,8 @@ export const emptyStateStyle =
       theme,
     )(
       (params) => css`
-        ${emptyStatePlatformStyle({ platform: params?.platform })}
-        ${emptyStatePaddingStyle({ padding: params?.padding })}
+        ${fallbackViewPlatformStyle({ platform: params?.platform })}
+        ${fallbackViewPaddingStyle({ padding: params?.padding })}
         ${params?.width !== undefined &&
         css`
           width: ${toCssValue(params.width)};
