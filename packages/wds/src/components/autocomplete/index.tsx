@@ -28,6 +28,7 @@ import {
   AUTOCOMPLETE_FIELD_NAME,
   AUTOCOMPLETE_LIST_NAME,
   AUTOCOMPLETE_NAME,
+  AUTOCOMPLETE_OPTION_CONTENT_NAME,
   AUTOCOMPLETE_OPTION_NAME,
   AUTOCOMPLETE_ROOT_NAME,
   AUTOCOMPLETE_SCOPE,
@@ -42,6 +43,7 @@ import {
 } from './style';
 import { focusSelectedOption, setAttributeSelection } from './helpers';
 
+import type { ListCellContentProps } from '../list';
 import type {
   DefaultComponentProps,
   DefaultComponentPropsInternal,
@@ -658,12 +660,17 @@ const AutocompleteOption = forwardRef<
 
 AutocompleteOption.displayName = AUTOCOMPLETE_OPTION_NAME;
 
+const AutocompleteOptionContent = ListCellContent;
+
+AutocompleteOptionContent.displayName = AUTOCOMPLETE_OPTION_CONTENT_NAME;
+
 export {
   Autocomplete,
   AutocompleteField,
   AutocompleteList,
   AutocompleteGroup,
   AutocompleteOption,
+  AutocompleteOptionContent,
 };
 
 export type {
@@ -672,4 +679,5 @@ export type {
   AutocompleteListProps,
   AutocompleteOptionProps,
   AutocompleteGroupProps,
+  ListCellContentProps as AutocompleteOptionContentProps,
 };

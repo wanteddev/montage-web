@@ -11,7 +11,7 @@ description: Menu Component
 
 - `Menu`의 값은 `MenuItem`의 variant에 따라 달라져요.
   - normal, radio, variant를 선택하면 value는 문자열이고, checkbox variant를 선택하면 value는 Array\<value\> 입니다.
-- `MenuItem` 의 leadingContent, trailingContent에 요소를 추가 할 때는 `ListCellContent`로 감싸서 사용합니다.
+- `MenuItem` 의 leadingContent, trailingContent에 요소를 추가 할 때는 `MenuItemContent`로 감싸서 사용합니다.
 - `MenuActionArea`의 leadingContent, trailingContent에 요소를 추가 할 때는 `MenuActionAreaContent`로 감싸서 사용합니다.
 
 <Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, MenuList } from '@wanteddev/wds';
@@ -144,6 +144,10 @@ export default Demo;`}
 ### MenuItem
 
 <PropsTable component="MenuItem" />
+
+### MenuItemContent
+
+<PropsTable component="MenuItemContent" />
 
 ### MenuActionArea
 
