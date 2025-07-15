@@ -1,4 +1,5 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { ImageBaseProps } from '../image-base';
+import type { ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
@@ -15,8 +16,5 @@ type AvatarResponsiveProps = ResponsiveProps<Pick<AvatarDefaultProps, 'size'>>;
 
 export type AvatarProps = Merge<
   Merge<AvatarDefaultProps, AvatarResponsiveProps>,
-  Pick<
-    ComponentPropsWithoutRef<'img'>,
-    'src' | 'srcSet' | 'alt' | 'onLoad' | 'onError'
-  >
+  ImageBaseProps
 >;

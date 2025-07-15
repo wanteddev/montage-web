@@ -1,4 +1,5 @@
-import type { CSSProperties, ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { ImageBaseProps } from '../image-base';
+import type { CSSProperties, ReactNode } from 'react';
 import type { SkeletonProps } from '../skeleton/types';
 import type {
   Merge,
@@ -36,13 +37,7 @@ type ThumbnailBaseProps = Merge<
   ThumbnailResponsiveProps
 >;
 
-export type ThumbnailProps = Merge<
-  ThumbnailBaseProps,
-  Pick<
-    ComponentPropsWithoutRef<'img'>,
-    'src' | 'srcSet' | 'alt' | 'onLoad' | 'onError'
-  >
->;
+export type ThumbnailProps = Merge<ThumbnailBaseProps, ImageBaseProps>;
 
 export type ThumbnailSkeletonDefaultProps = Omit<SkeletonProps, 'radius'>;
 

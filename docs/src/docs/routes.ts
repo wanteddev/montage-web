@@ -199,12 +199,11 @@ export const routes: Array<Route> = [
       },
       { title: 'TextField', slug: '/docs/components/text-field' },
       { title: 'TimePicker', slug: '/docs/components/time-picker' },
-      { title: 'Thumbnail', slug: '/docs/components/thumbnail', alpha: true },
+      { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'Toast', slug: '/docs/components/toast' },
       {
         title: 'ToggleIcon',
         slug: '/docs/components/toggle-icon',
-        alpha: true,
       },
       { title: 'Tooltip', slug: '/docs/components/tooltip' },
       {

@@ -1,9 +1,9 @@
 import { forwardRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
-import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { FlexBox } from '../flex-box';
 import { Skeleton } from '../skeleton';
+import { ImageBase } from '../image-base';
 
 import { thumbnailStyle } from './style';
 import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
@@ -62,15 +62,17 @@ const Thumbnail = forwardRef<
           sx,
         ]}
       >
-        <img
+        <ImageBase
           ref={ref}
           {...props}
-          onLoad={composeEventHandlers(props.onLoad, () => {
+          onLoad={() => {
+            props.onLoad?.();
             setImageLoadingStatus('loaded');
-          })}
-          onError={composeEventHandlers(props.onError, () => {
+          }}
+          onError={() => {
+            props.onError?.();
             setImageLoadingStatus('error');
-          })}
+          }}
         />
         {children}
       </FlexBox>

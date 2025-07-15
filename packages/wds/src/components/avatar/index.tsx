@@ -5,7 +5,8 @@ import {
   IconPersonFill,
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
-import { composeEventHandlers } from '@radix-ui/primitive';
+
+import { ImageBase } from '../image-base';
 
 import { avatarWrapperStyle, fallbackWrapperStyle } from './style';
 
@@ -70,14 +71,16 @@ const Avatar = forwardRef<
         style={style}
       >
         {imageLoadingStatus !== 'error' && hasImage(props) ? (
-          <img
+          <ImageBase
             {...props}
-            onLoad={composeEventHandlers(props.onLoad, () => {
+            onLoad={() => {
+              props.onLoad?.();
               setImageLoadingStatus('loaded');
-            })}
-            onError={composeEventHandlers(props.onError, () => {
+            }}
+            onError={() => {
+              props.onError?.();
               setImageLoadingStatus('error');
-            })}
+            }}
           />
         ) : (
           <Box data-role="avatar-fallback" sx={fallbackWrapperStyle}>
