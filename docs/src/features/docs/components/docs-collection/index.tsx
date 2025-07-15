@@ -74,11 +74,8 @@ const DocsCollection = ({ category }: Props) => {
               <GridItem key={data.slug.toString()} columns={3}>
                 <Card as={Link} href={`/docs/${data.slug.join('/')}`}>
                   <CardThumbnail
-                    // TODO: fallback image
                     src={data.image ?? '/images/placeholder.png'}
                     alt={data.title}
-                    width="500px"
-                    quality={95}
                   />
                   <CardContent>
                     <CardTitle>{data.title}</CardTitle>

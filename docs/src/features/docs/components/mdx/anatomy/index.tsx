@@ -38,7 +38,6 @@ const Anatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
             src={src}
             portrait={portrait}
             alt="thumbnail"
-            disableOptimize
             width="100%"
             sx={anatomyThumbnailStyle}
             ratio={ratio}

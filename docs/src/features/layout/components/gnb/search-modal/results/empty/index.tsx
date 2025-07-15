@@ -1,10 +1,9 @@
 import {
-  EmptyState,
-  EmptyStateContent,
-  EmptyStateImage,
-  EmptyStateText,
+  FallbackView,
+  FallbackViewContent,
+  FallbackViewImage,
+  FallbackViewText,
   FlexBox,
-  ImageLoader,
   Typography,
 } from '@wanteddev/wds';
 
@@ -21,17 +20,15 @@ const SearchResultEmpty = ({ query }: Props) => {
         <PlatformFilter />
       </FlexBox>
       <FlexBox justifyContent="center" alignItems="center" flex="1">
-        <EmptyState platform="desktop" sx={{ padding: 0 }}>
-          <EmptyStateImage>
-            <ImageLoader
+        <FallbackView platform="desktop" sx={{ padding: 0 }}>
+          <FallbackViewImage sx={{ width: 200 }}>
+            <img
               src="https://static.wanted.co.kr/images/ghost.png"
-              width={200}
-              quality={100}
               alt="ghost"
             />
-          </EmptyStateImage>
-          <EmptyStateContent>
-            <EmptyStateText
+          </FallbackViewImage>
+          <FallbackViewContent>
+            <FallbackViewText
               sx={{ paddingTop: 32 }}
               description={
                 <Typography
@@ -43,8 +40,8 @@ const SearchResultEmpty = ({ query }: Props) => {
                 </Typography>
               }
             />
-          </EmptyStateContent>
-        </EmptyState>
+          </FallbackViewContent>
+        </FallbackView>
       </FlexBox>
     </FlexBox>
   );

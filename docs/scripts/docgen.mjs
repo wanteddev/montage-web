@@ -7,7 +7,11 @@ import { withCustomConfig } from 'react-docgen-typescript';
 const parser = withCustomConfig(
   path.join(process.cwd(), '../packages/wds/tsconfig.json'),
   {
-    customComponentTypes: ['MemoExoticComponent', 'PolymorphicComponent'],
+    customComponentTypes: [
+      'MemoExoticComponent',
+      'PolymorphicComponent',
+      'PolymorphicComponentInternal',
+    ],
     propFilter: (prop) => {
       if (prop.name === 'css' || prop.name.match(/^__scope/)) {
         return false;
@@ -38,7 +42,11 @@ const parser = withCustomConfig(
 const engineParser = withCustomConfig(
   path.join(process.cwd(), '../packages/wds-engine/tsconfig.json'),
   {
-    customComponentTypes: ['MemoExoticComponent', 'PolymorphicComponent'],
+    customComponentTypes: [
+      'MemoExoticComponent',
+      'PolymorphicComponent',
+      'PolymorphicComponentInternal',
+    ],
     propFilter: (prop) => {
       if (prop.name === 'css') {
         return false;

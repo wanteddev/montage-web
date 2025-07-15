@@ -39,7 +39,6 @@ const SectionFigure = ({
           aria-labelledby={id}
           src={src}
           alt="thumbnail"
-          disableOptimize
           width="100%"
           sx={[sectionFigureThumbnailStyle, variant && { marginBottom: 12 }]}
           ratio={ratio}

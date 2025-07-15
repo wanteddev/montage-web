@@ -34,7 +34,6 @@ const SectionStates = ({
             aria-labelledby="states"
             src={src}
             alt="component states"
-            disableOptimize
             width="100%"
             sx={sectionFigureThumbnailStyle}
             ratio={ratio}
