@@ -6,6 +6,7 @@ export const MENU_LIST_NAME = 'MenuList';
 export const MENU_GROUP_NAME = 'MenuGroup';
 
 export const MENU_ITEM_NAME = 'MenuItem';
+export const MENU_ITEM_CONTENT_NAME = 'MenuItemContent';
 export const MENU_ITEM_RADIO_NAME = 'MenuItemRadio';
 export const MENU_ITEM_CHECKBOX_NAME = 'MenuItemCheckbox';
 
