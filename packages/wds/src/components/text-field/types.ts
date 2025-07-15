@@ -1,18 +1,17 @@
 import type {
   Merge,
   ResponsiveProps,
-  SxProp,
   ThemeColorsToken,
+  WithSxProps,
 } from '@wanteddev/wds-engine';
 import type {
   ButtonHTMLAttributes,
   CSSProperties,
-  PropsWithChildren,
   ReactNode,
   Ref,
 } from 'react';
 
-export type TextFieldDefaultProps = {
+export type TextFieldDefaultProps = WithSxProps<{
   invalid?: boolean;
   positive?: boolean;
   leadingContent?: ReactNode;
@@ -23,7 +22,7 @@ export type TextFieldDefaultProps = {
   onReset?: (prevValue: string) => void;
   children?: ReactNode;
   wrapperRef?: Ref<HTMLDivElement>;
-};
+}>;
 
 export type TextFieldResponsiveProps = ResponsiveProps<
   Pick<TextFieldDefaultProps, 'width' | 'height'>
@@ -34,17 +33,17 @@ export type TextFieldProps = Merge<
   TextFieldResponsiveProps
 >;
 
-export type TextFieldContentProps = PropsWithChildren<{
+export type TextFieldContentProps = WithSxProps<{
   variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
   color?: ThemeColorsToken;
-  sx?: SxProp;
+  children?: ReactNode;
 }>;
 
-export type TextFieldButtonProps = {
+export type TextFieldButtonProps = WithSxProps<{
   variant?: 'normal' | 'assistive';
   loading?: boolean;
   /**
-   * loading=true 일 때 event 막는 동작을 비활성화합니다.
+   * When `loading=true`, the event blocking action is disabled.
    */
   disableLoadingPreventEvents?: boolean;
   disabled?: boolean;
@@ -53,4 +52,4 @@ export type TextFieldButtonProps = {
   position?: 'right' | 'left';
   children?: ReactNode;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
-};
+}>;

@@ -1,6 +1,11 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { ReactNode } from 'react';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-type PushBadgeDefaultProps = {
+type PushBadgeDefaultProps = WithSxProps<{
   variant?: 'dot' | 'number' | 'new';
   count?: number;
   invisible?: boolean;
@@ -17,7 +22,8 @@ type PushBadgeDefaultProps = {
     | 'bottom-right';
   offsetX?: string;
   offsetY?: string;
-};
+  children?: ReactNode;
+}>;
 
 type PushBadgeResponsiveProps = ResponsiveProps<
   Pick<PushBadgeDefaultProps, 'size' | 'offsetX' | 'offsetY'>

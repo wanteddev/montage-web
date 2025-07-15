@@ -7,11 +7,11 @@ import {
   useState,
 } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { VirtualValueInput } from '../virtual-input';
 
 import {
@@ -41,7 +41,7 @@ const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 const Slider = forwardRef<
   HTMLSpanElement,
-  DefaultComponentProps<SliderProps, 'span'>
+  DefaultComponentPropsInternal<SliderProps, 'span'>
 >(
   (
     {
@@ -356,7 +356,7 @@ const SliderThumb = ({
   length,
   thumbs,
   ...props
-}: DefaultComponentProps<SliderThumbProps, 'span'>) => {
+}: DefaultComponentPropsInternal<SliderThumbProps, 'span'>) => {
   const [thumb, setThumb] = useState<HTMLSpanElement | null>(null);
   const isFormControl = thumb ? Boolean(thumb.closest('form')) : true;
 
@@ -417,4 +417,6 @@ const SliderThumb = ({
 
 SliderThumb.displayName = 'SliderThumb';
 
-export { Slider, SliderTitleProps, SliderLabelProps };
+export { Slider };
+
+export type { SliderProps, SliderLabelProps, SliderTitleProps };

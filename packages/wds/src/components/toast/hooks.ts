@@ -83,7 +83,7 @@ export const useToastAnimation = ({
       remainingTimeRef.current
     ) {
       clearTimer();
-      // 남은 시간 계산
+      // Calculate remaining time
       const elapsed = Date.now() - startTimeRef.current;
       remainingTimeRef.current = Math.max(
         0,
@@ -94,7 +94,7 @@ export const useToastAnimation = ({
 
   const handleMouseLeave = () => {
     if (open && remainingTimeRef.current !== undefined) {
-      // 남은 시간으로 타이머 재시작
+      // Restart timer with remaining time
       startTimer(remainingTimeRef.current);
     }
   };

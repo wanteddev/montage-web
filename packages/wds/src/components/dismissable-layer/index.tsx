@@ -1,14 +1,14 @@
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { DismissableLayer as OriginalDismissableLayer } from '@radix-ui/react-dismissable-layer';
+import { DismissableLayer as RadixDismissableLayer } from '@radix-ui/react-dismissable-layer';
 import { forwardRef, useCallback } from 'react';
 
-import type { FocusOutsideEvent, PointerDownOutsideEvent } from './types';
-import type { ComponentPropsWithoutRef, ElementRef } from 'react';
+import type {
+  DismissableLayerProps,
+  FocusOutsideEvent,
+  PointerDownOutsideEvent,
+} from './types';
 
-const DismissableLayer = forwardRef<
-  ElementRef<typeof OriginalDismissableLayer>,
-  ComponentPropsWithoutRef<typeof OriginalDismissableLayer>
->(
+const DismissableLayer = forwardRef<HTMLDivElement, DismissableLayerProps>(
   (
     { onInteractOutside, onFocusOutside, onPointerDownOutside, ...props },
     ref,
@@ -30,7 +30,7 @@ const DismissableLayer = forwardRef<
     );
 
     return (
-      <OriginalDismissableLayer
+      <RadixDismissableLayer
         ref={ref}
         onPointerDownOutside={composeEventHandlers((e) => {
           handleSkipDismissableLayer(e);
@@ -49,4 +49,6 @@ const DismissableLayer = forwardRef<
 
 DismissableLayer.displayName = 'DismissableLayer';
 
-export default DismissableLayer;
+export { DismissableLayer };
+
+export type { DismissableLayerProps };

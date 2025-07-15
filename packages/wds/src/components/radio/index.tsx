@@ -4,17 +4,17 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconDot } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import { radioStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { RadioProps } from './types';
 
 const Radio = forwardRef<
   HTMLButtonElement,
-  Omit<DefaultComponentProps<RadioProps, 'button'>, 'onChange'>
+  Omit<DefaultComponentPropsInternal<RadioProps, 'button'>, 'onChange'>
 >(
   (
     {
@@ -109,4 +109,6 @@ const Radio = forwardRef<
 
 Radio.displayName = 'Radio';
 
-export default Radio;
+export { Radio };
+
+export type { RadioProps };

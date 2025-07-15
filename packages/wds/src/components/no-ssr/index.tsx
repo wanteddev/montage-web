@@ -17,4 +17,6 @@ const NoSsr = ({ children, fallback }: NoSsrProps) => {
   return <>{mountedState ? children : fallback}</>;
 };
 
-export default NoSsr;
+export { NoSsr };
+
+export type { NoSsrProps };

@@ -13,10 +13,10 @@ import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
+import { ChipAction } from '../chip-action';
 import useResizeObserver from '../../hooks/use-resize-observer';
-import ChipAction from '../chip-action';
 
 import {
   categoryListItemStyle,
@@ -38,9 +38,9 @@ import {
 } from './constants';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   ElementRef,
@@ -96,7 +96,7 @@ Category.displayName = CATEGORY_NAME;
 
 const CategoryList = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<CategoryListProps, 'div'>
+  DefaultComponentPropsInternal<CategoryListProps, 'div'>
 >(
   (
     {
@@ -244,7 +244,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<CategoryListItemProps, T>,
+    }: PolymorphicPropsInternal<CategoryListItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const ref = useRef<ElementRef<T> | null>(null);
@@ -390,13 +390,13 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<CategoryListItemProps, 'button'>;
+) as PolymorphicComponentInternal<CategoryListItemProps, 'button'>;
 
 CategoryListItem.displayName = CATEGORY_LIST_ITEM_NAME;
 
 const CategoryPanel = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<CategoryPanelProps, 'div'>
+  DefaultComponentPropsInternal<CategoryPanelProps, 'div'>
 >(({ value, mountMode = 'force-mount', ...props }, ref) => {
   const context = useCategoryContext(CATEGORY_PANEL_NAME);
   const [firstRendered, setFirstRendered] = useState(false);
@@ -453,3 +453,10 @@ const CategoryPanel = forwardRef<
 CategoryPanel.displayName = CATEGORY_PANEL_NAME;
 
 export { Category, CategoryList, CategoryListItem, CategoryPanel };
+
+export type {
+  CategoryProps,
+  CategoryListProps,
+  CategoryListItemProps,
+  CategoryPanelProps,
+};

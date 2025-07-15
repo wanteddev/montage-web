@@ -7,11 +7,11 @@ import type {
   VirtualCheckboxInputProps,
   VirtualValueInputProps,
 } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 const VirtualCheckboxInput = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<VirtualCheckboxInputProps, 'input'>
+  DefaultComponentPropsInternal<VirtualCheckboxInputProps, 'input'>
 >(({ checked, bubbles, ...props }, forwardedRef) => {
   const ref = useRef<HTMLInputElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
@@ -61,7 +61,7 @@ VirtualCheckboxInput.displayName = 'VirtualCheckboxInput';
 
 const VirtualValueInput = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<VirtualValueInputProps, 'input'>
+  DefaultComponentPropsInternal<VirtualValueInputProps, 'input'>
 >(({ value, bubbles, ...props }, forwardedRef) => {
   const ref = useRef<HTMLInputElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
@@ -111,3 +111,5 @@ const VirtualValueInput = forwardRef<
 VirtualValueInput.displayName = 'VirtualValueInput';
 
 export { VirtualCheckboxInput, VirtualValueInput };
+
+export type { VirtualCheckboxInputProps, VirtualValueInputProps };

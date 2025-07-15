@@ -7,10 +7,13 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { hideOthers } from '../../utils/aria-hidden';
-import RemoveScroll from '../remove-scroll';
-import { DismissableLayer, FlexBox, TextButton, Typography } from '..';
-import FocusScope from '../focus-scope';
-import PortalOrFragment from '../portal-or-fragment';
+import { RemoveScroll } from '../remove-scroll';
+import { Typography } from '../typography';
+import { DismissableLayer } from '../dismissable-layer';
+import { FlexBox } from '../flex-box';
+import { TextButton } from '../text-button';
+import { FocusScope } from '../focus-scope';
+import { PortalOrFragment } from '../portal-or-fragment';
 import { useAnimationPresence } from '../animation-presence';
 
 import {
@@ -48,9 +51,9 @@ import type {
   PointerEvent,
 } from 'react';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
 const Dialog = forwardRef(
@@ -69,7 +72,7 @@ const Dialog = forwardRef(
       forceMount = false,
       dimmer = <DialogDimmer />,
       ...props
-    }: PolymorphicProps<DialogProps, T>,
+    }: PolymorphicPropsInternal<DialogProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
@@ -166,18 +169,17 @@ const Dialog = forwardRef(
       </DialogProvider>
     );
   },
-) as PolymorphicComponent<DialogProps, 'div'>;
+) as PolymorphicComponentInternal<DialogProps, 'div'>;
 
 Dialog.displayName = DIALOG_NAME;
 
 /**
- * @description
- * `<Dialog dimmer={<DialogDimmer />} />` 형태로 사용합니다.
- * Dimmer에 커스텀 스타일을 적용하기 위해서만 사용합니다.
+ * Use the form `<Dialog dimmer={<DialogDimmer />} />`.
+ * Only used to apply custom styles to the Dimmer.
  */
 const DialogDimmer = forwardRef(
   <T extends ElementType = 'div'>(
-    props: PolymorphicProps<DialogDimmerProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<DialogDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { open, setOpen, disableOutsideClickClose, onDismiss } =
@@ -186,6 +188,7 @@ const DialogDimmer = forwardRef(
     return (
       <Box
         ref={ref}
+        as={(as || 'div') as T}
         {...props}
         data-role="dialog-dimmer"
         data-status={open ? 'open' : 'close'}
@@ -213,7 +216,7 @@ const DialogDimmer = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<DialogDimmerProps, 'div'>;
+) as PolymorphicComponentInternal<DialogDimmerProps, 'div'>;
 
 DialogDimmer.displayName = DIALOG_DIMMER_NAME;
 
@@ -237,7 +240,7 @@ DialogTrigger.displayName = DIALOG_TRIGGER_NAME;
 
 const DialogContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DialogContentProps, 'div'>
+  DefaultComponentPropsInternal<DialogContentProps, 'div'>
 >(({ children, ...props }, ref) => {
   return (
     <FlexBox
@@ -257,7 +260,7 @@ DialogContent.displayName = DIALOG_CONTENT_NAME;
 
 const DialogHeading = forwardRef<
   HTMLHeadingElement,
-  DefaultComponentProps<DialogHeadingProps, 'h2'>
+  DefaultComponentPropsInternal<DialogHeadingProps, 'h2'>
 >(({ children, ...props }, ref) => {
   const { headingId } = useDialogContext(DIALOG_HEADING_NAME);
 
@@ -281,7 +284,7 @@ DialogHeading.displayName = DIALOG_HEADING_NAME;
 
 const DialogDescription = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentProps<DialogDescriptionProps, 'p'>
+  DefaultComponentPropsInternal<DialogDescriptionProps, 'p'>
 >(({ children, ...props }, ref) => {
   const { descriptionId } = useDialogContext(DIALOG_DESCRIPTION_NAME);
 
@@ -312,7 +315,7 @@ DialogDescription.displayName = DIALOG_DESCRIPTION_NAME;
 
 const DialogActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DialogActionAreaProps, 'div'>
+  DefaultComponentPropsInternal<DialogActionAreaProps, 'div'>
 >(({ children, ...props }, ref) => {
   return (
     <FlexBox
@@ -337,7 +340,7 @@ const DialogActionAreaButton = forwardRef(
     {
       variant = 'normal',
       ...props
-    }: PolymorphicProps<DialogActionAreaButtonProps, T>,
+    }: PolymorphicPropsInternal<DialogActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { setOpen } = useDialogContext(DIALOG_ACTION_AREA_BUTTON_NAME);
@@ -370,7 +373,7 @@ const DialogActionAreaButton = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<DialogActionAreaButtonProps, 'button'>;
+) as PolymorphicComponentInternal<DialogActionAreaButtonProps, 'button'>;
 
 DialogActionAreaButton.displayName = DIALOG_ACTION_AREA_BUTTON_NAME;
 

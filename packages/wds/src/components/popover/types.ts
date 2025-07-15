@@ -1,3 +1,5 @@
+import type { WithSxProps } from '@wanteddev/wds-engine';
+import type { SlotProps } from '@radix-ui/react-slot';
 import type { FocusScopeProps } from '../focus-scope/types';
 import type { ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
@@ -6,37 +8,41 @@ export type PopoverProps = {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
+  children?: ReactNode;
 };
 
-export type PopoverContentProps = {
+export type PopoverTriggerProps = SlotProps;
+
+export type PopoverContentProps = WithSxProps<{
   children?: ReactNode;
   position?: PopperContentProps['position'];
   offset?: PopperContentProps['offset'];
   /**
-   * 요소가 가려질 경우 숨김 처리 합니다.
+   * When the element is hidden, it is hidden.
    */
   referenceHidden?: PopperContentProps['referenceHidden'];
   /**
-   * 요소가 가려질 경우 숨김 처리 할 때 넘치는 offset을 조정합니다.
+   * When the element is hidden, the offset is adjusted.
    */
   referenceHiddenOffsets?: PopperContentProps['referenceHiddenOffsets'];
   /**
-   * floating ui context를 콜백을 통해 가져올 수 있습니다.
+   * The floating ui context can be obtained through a callback.
    */
   setContext?: PopperContentProps['setContext'];
   arrow?: boolean;
   /**
-   * Portal로 표시될 container를 지정합니다.
+   * Specifies the container to be displayed by Portal.
    */
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];
   wrapperProps?: PopperContentProps['wrapperProps'];
   forceMount?: boolean;
-} & Pick<
-  FocusScopeProps,
-  | 'trappedContent'
-  | 'onMountAutoFocus'
-  | 'onUnmountAutoFocus'
-  | 'trapped'
-  | 'loop'
->;
+}> &
+  Pick<
+    FocusScopeProps,
+    | 'trappedContent'
+    | 'onMountAutoFocus'
+    | 'onUnmountAutoFocus'
+    | 'trapped'
+    | 'loop'
+  >;

@@ -3,7 +3,7 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { getOptimizedImageSource } from '../../utils';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ImageLoaderProps } from './types';
 
 const loadImage = (src: string) => {
@@ -16,11 +16,11 @@ const loadImage = (src: string) => {
 };
 
 /**
- * @deprecated v3.0.0에서 제거될 예정입니다. `<Box as="img" />` 사용을 권장합니다.
+ * @deprecated use `<Box as="img" />` instead
  */
 const ImageLoader = forwardRef<
   HTMLImageElement,
-  DefaultComponentProps<ImageLoaderProps, 'img'>
+  DefaultComponentPropsInternal<ImageLoaderProps, 'img'>
 >(
   (
     {
@@ -58,4 +58,4 @@ const ImageLoader = forwardRef<
 
 ImageLoader.displayName = 'ImageLoader';
 
-export default ImageLoader;
+export { ImageLoader };

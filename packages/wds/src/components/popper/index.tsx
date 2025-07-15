@@ -21,7 +21,7 @@ import {
 import { Slot } from '@radix-ui/react-slot';
 import { Box, useTheme } from '@wanteddev/wds-engine';
 
-import PortalOrFragment from '../portal-or-fragment';
+import { PortalOrFragment } from '../portal-or-fragment';
 
 import {
   PopperContentProvider,
@@ -39,12 +39,17 @@ import {
   POPPER_ANCHOR_NAME,
   POPPER_ARROW_NAME,
   POPPER_CONTENT_NAME,
+  POPPER_NAME,
 } from './constants';
 
 import type { ScopedProps } from '../../hooks/use-scope-context';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
-import type { PopperArrowProps, PopperContentProps } from './types';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
+import type {
+  PopperAnchorProps,
+  PopperArrowProps,
+  PopperContentProps,
+  PopperProps,
+} from './types';
 
 const OPPOSITE_SIDE = {
   top: 'bottom',
@@ -56,7 +61,7 @@ const OPPOSITE_SIDE = {
 const Popper = ({
   children,
   __scopePopper = 'Popper',
-}: ScopedProps<PropsWithChildren, 'Popper'>) => {
+}: ScopedProps<PopperProps, 'Popper'>) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   return (
@@ -70,9 +75,11 @@ const Popper = ({
   );
 };
 
+Popper.displayName = POPPER_NAME;
+
 const PopperAnchor = forwardRef<
   HTMLElement,
-  ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popper'>
+  DefaultComponentPropsInternal<ScopedProps<PopperAnchorProps, 'Popper'>, 'div'>
 >(({ __scopePopper = 'Popper', ...props }, forwardedRef) => {
   const context = usePopperContext(POPPER_ANCHOR_NAME, __scopePopper);
   const ref = useRef<HTMLElement>(null);
@@ -89,7 +96,7 @@ PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
 const PopperArrow = forwardRef<
   SVGSVGElement,
-  DefaultComponentProps<ScopedProps<PopperArrowProps, 'Popper'>, 'svg'>
+  DefaultComponentPropsInternal<ScopedProps<PopperArrowProps, 'Popper'>, 'svg'>
 >(({ overlay, __scopePopper = 'Popper', ...props }, ref) => {
   const { onArrowChange, side, arrowX, arrowY } = usePopperContentContext(
     POPPER_ARROW_NAME,
@@ -187,9 +194,13 @@ const PopperArrow = forwardRef<
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
-const PopperContent: ReturnType<
-  typeof forwardRef<HTMLElement, PopperContentProps>
-> = forwardRef<HTMLElement, ScopedProps<PopperContentProps, 'Popper'>>(
+const PopperContent = forwardRef<
+  HTMLElement,
+  DefaultComponentPropsInternal<
+    ScopedProps<PopperContentProps, 'Popper'>,
+    'div'
+  >
+>(
   (
     {
       wrapperProps = {},
@@ -324,3 +335,10 @@ const PopperContent: ReturnType<
 PopperContent.displayName = POPPER_CONTENT_NAME;
 
 export { Popper, PopperAnchor, PopperContent, PopperArrow };
+
+export type {
+  PopperProps,
+  PopperAnchorProps,
+  PopperArrowProps,
+  PopperContentProps,
+};

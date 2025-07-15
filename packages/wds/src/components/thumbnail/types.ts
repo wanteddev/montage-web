@@ -1,9 +1,13 @@
 import type { ReactNode } from 'react';
 import type { ImageLoaderProps } from '../image-loader/types';
 import type { SkeletonProps } from '../skeleton/types';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type ThumbnailDefaultProps = {
+export type ThumbnailDefaultProps = WithSxProps<{
   ratio?:
     | '1:1'
     | '5:4'
@@ -18,7 +22,7 @@ export type ThumbnailDefaultProps = {
   border?: boolean;
   radius?: boolean;
   children?: ReactNode;
-};
+}>;
 
 type ThumbnailResponsiveProps = ResponsiveProps<
   Pick<ThumbnailDefaultProps, 'ratio' | 'portrait' | 'radius' | 'border'>

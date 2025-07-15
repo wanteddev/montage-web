@@ -3,12 +3,12 @@ import { forwardRef, useId, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { useToastAnimation } from '../toast/hooks';
 import { ellipsisTypographyStyle } from '../../utils';
-import TextButton from '../text-button';
-import PortalOrFragment from '../portal-or-fragment';
+import { TextButton } from '../text-button';
+import { PortalOrFragment } from '../portal-or-fragment';
 import { AnimationPresence } from '../animation-presence';
 
 import { SnackbarProvider, useSnackbarContext } from './contexts';
@@ -33,9 +33,9 @@ import {
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   SnackbarActionProps,
@@ -61,7 +61,7 @@ const Snackbar = forwardRef(
       forceMount = false,
       disableAnimation,
       ...props
-    }: PolymorphicProps<SnackbarProps, T>,
+    }: PolymorphicPropsInternal<SnackbarProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
@@ -161,13 +161,13 @@ const Snackbar = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<SnackbarProps, 'div'>;
+) as PolymorphicComponentInternal<SnackbarProps, 'div'>;
 
 Snackbar.displayName = SNACKBAR_NAME;
 
 const SnackbarContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SnackbarContentProps, 'div'>
+  DefaultComponentPropsInternal<SnackbarContentProps, 'div'>
 >(({ extraContent, children, ...props }, ref) => {
   return (
     <FlexBox gap="12px" alignItems="center" ref={ref} {...props}>
@@ -187,7 +187,7 @@ SnackbarContent.displayName = SNACKBAR_CONTENT_NAME;
 
 const SnackbarExtraContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SnackbarExtraContentProps, 'div'>
+  DefaultComponentPropsInternal<SnackbarExtraContentProps, 'div'>
 >((props, ref) => {
   return (
     <FlexBox
@@ -203,7 +203,7 @@ SnackbarExtraContent.displayName = SNACKBAR_EXTRA_CONTENT_NAME;
 
 const SnackbarHeading = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentProps<SnackbarHeadingProps, 'p'>
+  DefaultComponentPropsInternal<SnackbarHeadingProps, 'p'>
 >((props, ref) => {
   const { headingId } = useSnackbarContext(SNACKBAR_HEADING_NAME);
   return (
@@ -224,7 +224,7 @@ SnackbarHeading.displayName = SNACKBAR_HEADING_NAME;
 
 const SnackbarDescription = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentProps<SnackbarDescriptionProps, 'p'>
+  DefaultComponentPropsInternal<SnackbarDescriptionProps, 'p'>
 >((props, ref) => {
   const { descriptionId } = useSnackbarContext(SNACKBAR_DESCRIPTION_NAME);
   return (
@@ -245,7 +245,7 @@ SnackbarDescription.displayName = SNACKBAR_DESCRIPTION_NAME;
 
 const SnackbarAction = forwardRef<
   HTMLButtonElement,
-  PolymorphicProps<SnackbarActionProps, 'button'>
+  PolymorphicPropsInternal<SnackbarActionProps, 'button'>
 >((props, ref) => {
   return (
     <TextButton
@@ -256,7 +256,7 @@ const SnackbarAction = forwardRef<
       sx={[snackbarActionStyle, props.sx]}
     />
   );
-}) as PolymorphicComponent<SnackbarActionProps, 'button'>;
+}) as PolymorphicComponentInternal<SnackbarActionProps, 'button'>;
 
 SnackbarAction.displayName = SNACKBAR_ACTION_NAME;
 
@@ -267,4 +267,13 @@ export {
   SnackbarHeading,
   SnackbarDescription,
   SnackbarAction,
+};
+
+export type {
+  SnackbarProps,
+  SnackbarContentProps,
+  SnackbarExtraContentProps,
+  SnackbarHeadingProps,
+  SnackbarDescriptionProps,
+  SnackbarActionProps,
 };
