@@ -1,5 +1,5 @@
-import type { ImageLoader } from '../image-loader';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ImageBaseProps } from '../image-base';
+import type { ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
@@ -16,5 +16,5 @@ type AvatarResponsiveProps = ResponsiveProps<Pick<AvatarDefaultProps, 'size'>>;
 
 export type AvatarProps = Merge<
   Merge<AvatarDefaultProps, AvatarResponsiveProps>,
-  Partial<ComponentProps<typeof ImageLoader>>
+  ImageBaseProps
 >;

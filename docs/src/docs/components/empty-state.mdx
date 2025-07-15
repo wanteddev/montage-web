@@ -8,15 +8,13 @@ description: Empty State Component
 - 콘텐츠가 빈 상태일 때 사용자의 이해를 돕기 위해 사용합니다.
 - 이미지를 추가할 땐 `EmptyStateImage`로 감싸주세요.
 
-<Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton, ImageLoader } from '@wanteddev/wds';
+<Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <EmptyState sx={{ margin: 'auto' }}>
       <EmptyStateImage>
-        <ImageLoader
-          quality={90}
-          width="500px"
+        <img
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
@@ -47,9 +45,13 @@ export default Demo;`}
 
 ```tsx
 <EmptyState>
-  <EmptyStateImage />
+  <EmptyStateImage>
+    <img />
+  </EmptyStateImage>
+
   <EmptyStateContent>
     <EmptyStateText />
+
     <EmptyStateButton />
   </EmptyStateContent>
 </EmptyState>
@@ -87,16 +89,14 @@ export default Demo;`}
 
 `platform`에 따라 이미지, 글자, 버튼 크기가 달라져요.
 
-<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage, ImageLoader } from '@wanteddev/wds';
+<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px">
       <EmptyState width="100%">
         <EmptyStateImage>
-          <ImageLoader
-            quality={90}
-            width="500px"
+          <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
@@ -117,9 +117,7 @@ const Demo = () => {
       </EmptyState>
       <EmptyState platform="mobile" width="100%">
         <EmptyStateImage>
-          <ImageLoader
-            quality={90}
-            width="500px"
+          <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
@@ -147,7 +145,7 @@ export default Demo;`}
 
 ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 `platform`을 지정할 수 있어요.
 
-<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage, ImageLoader } from '@wanteddev/wds';
+<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
@@ -157,9 +155,7 @@ const Demo = () => {
       sx={{ margin: 'auto' }}
     >
       <EmptyStateImage>
-        <ImageLoader
-          quality={90}
-          width="500px"
+        <img
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
@@ -186,16 +182,14 @@ export default Demo;`}
 
 ### Padding
 
-<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage, ImageLoader } from '@wanteddev/wds';
+<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px">
       <EmptyState>
         <EmptyStateImage>
-          <ImageLoader
-            quality={90}
-            width="500px"
+          <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
@@ -216,9 +210,7 @@ const Demo = () => {
       </EmptyState>
       <EmptyState padding="compact">
         <EmptyStateImage>
-          <ImageLoader
-            quality={90}
-            width="500px"
+          <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
