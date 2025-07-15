@@ -27,6 +27,7 @@ import {
   DIALOG_DIMMER_NAME,
   DIALOG_HEADING_NAME,
   DIALOG_NAME,
+  DIALOG_TRIGGER_NAME,
 } from './constants';
 import { DialogProvider, useDialogContext } from './contexts';
 
@@ -38,6 +39,7 @@ import type {
   DialogDimmerProps,
   DialogHeadingProps,
   DialogProps,
+  DialogTriggerProps,
 } from './types';
 import type {
   ElementType,
@@ -88,6 +90,7 @@ const Dialog = forwardRef(
 
     const headingId = useId();
     const descriptionId = useId();
+    const containerId = useId();
 
     useEffect(() => {
       const element = containerRef.current;
@@ -103,6 +106,7 @@ const Dialog = forwardRef(
         setOpen={setOpen}
         headingId={headingId}
         descriptionId={descriptionId}
+        containerId={containerId}
         disableOutsideClickClose={disableOutsideClickClose}
         onDismiss={useCallbackRef(onDismiss)}
       >
@@ -145,6 +149,7 @@ const Dialog = forwardRef(
                       role="alertdialog"
                       aria-describedby={descriptionId}
                       aria-labelledby={headingId}
+                      id={containerId}
                       {...props}
                       data-status={open ? 'open' : 'close'}
                       sx={[dialogContentStyle, props.sx]}
@@ -210,6 +215,24 @@ const DialogDimmer = forwardRef(
 ) as PolymorphicComponent<DialogDimmerProps, 'div'>;
 
 DialogDimmer.displayName = DIALOG_DIMMER_NAME;
+
+const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
+  (props, ref) => {
+    const { containerId, open } = useDialogContext(DIALOG_TRIGGER_NAME);
+
+    return (
+      <Slot
+        ref={ref}
+        aria-controls={containerId}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        {...props}
+      />
+    );
+  },
+);
+
+DialogTrigger.displayName = DIALOG_TRIGGER_NAME;
 
 const DialogContent = forwardRef<
   HTMLDivElement,
@@ -357,6 +380,7 @@ const DialogButton = DialogActionAreaButton;
 
 export {
   Dialog,
+  DialogTrigger,
   DialogDimmer,
   DialogContent,
   DialogHeading,
@@ -364,4 +388,15 @@ export {
   DialogActionArea,
   DialogActionAreaButton,
   DialogButton,
+};
+
+export type {
+  DialogProps,
+  DialogDimmerProps,
+  DialogTriggerProps,
+  DialogContentProps,
+  DialogHeadingProps,
+  DialogDescriptionProps,
+  DialogActionAreaProps,
+  DialogActionAreaButtonProps,
 };
