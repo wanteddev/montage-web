@@ -99,7 +99,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/dismissable-layer',
       },
       { title: 'Divider', slug: '/docs/components/divider' },
-      { title: 'EmptyState', slug: '/docs/components/empty-state' },
+      { title: 'FallbackView', slug: '/docs/components/fallback-view' },
       { title: 'FlexBox', slug: '/docs/components/flex-box' },
       {
         title: 'FocusScope',

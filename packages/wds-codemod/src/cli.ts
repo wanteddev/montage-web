@@ -41,6 +41,10 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     name: 'Typography Title1 to Display3',
     value: 'typography-title1-to-display3',
   },
+  {
+    name: 'Empty State to Fallback View',
+    value: 'empty-state-to-fallback-view',
+  },
 ];
 
 const run = () => {
