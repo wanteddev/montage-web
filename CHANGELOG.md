@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/wanteddev/wds/compare/v2.0.4...v2.1.0) (2025-07-15)
+
+### Bug Fixes
+
+- **wds:** accordion hover시 divider가 사라지지 않음 ([#350](https://github.com/wanteddev/wds/issues/350)) ([a08ec94](https://github.com/wanteddev/wds/commit/a08ec94120fb5f732efda9fb1bf522ef23b28b18))
+- **wds:** card thumbnail leading content가 비어 있을 때 정렬이 올바르게 되지 않음 ([#346](https://github.com/wanteddev/wds/issues/346)) ([3697a7a](https://github.com/wanteddev/wds/commit/3697a7a9ae0be4767f2c4a8402e4b17045137315))
+- **wds:** failed to execute 'contains' on 'Node' 종속성 업데이트 ([#348](https://github.com/wanteddev/wds/issues/348)) ([bde9273](https://github.com/wanteddev/wds/commit/bde9273849ec2111bf4e8656787fd0913de2a77c))
+- **wds:** list cell content로 text button을 사용할 경우 색상이 올바르지 않음 ([#349](https://github.com/wanteddev/wds/issues/349)) ([5b48ff0](https://github.com/wanteddev/wds/commit/5b48ff0978d16825cc2180e10ce86a022ed72039))
+- **wds:** package 종속성 업데이트 ([5936b6a](https://github.com/wanteddev/wds/commit/5936b6a371a39aa23cd77fc088bf135972e79dcd))
+
+### Features
+
+- **wds:** animation presence 컴포넌트 추가 및 오버레이 컴포넌트 애니메이션 확장성 개선 ([#347](https://github.com/wanteddev/wds/issues/347)) ([bc83747](https://github.com/wanteddev/wds/commit/bc837471f2d48af46de9be57b54545f07fd2a637))
+- **wds:** image loader deprecated 처리 ([#352](https://github.com/wanteddev/wds/issues/352)) ([df6f9ca](https://github.com/wanteddev/wds/commit/df6f9ca4946bd3aa55883725a58431682405089a))
+- **wds:** scroll area transition 개선 ([#353](https://github.com/wanteddev/wds/issues/353)) ([bb55ee8](https://github.com/wanteddev/wds/commit/bb55ee8ecbc8116eb4e967c24bcd6f333c5895f6))
+- **wds:** secion message negative 아이콘 변경 ([#354](https://github.com/wanteddev/wds/issues/354)) ([673341f](https://github.com/wanteddev/wds/commit/673341f5027dba475d8b5cb6ecdab705be4b21f8))
+- **wds:** toast negative 아이콘 변경 ([#355](https://github.com/wanteddev/wds/issues/355)) ([89ed28d](https://github.com/wanteddev/wds/commit/89ed28d84cc40f604b623fd8aa70babfcaf207d9))
+
 ## [2.0.4](https://github.com/wanteddev/wds/compare/v2.0.3...v2.0.4) (2025-06-23)
 
 ### Bug Fixes
