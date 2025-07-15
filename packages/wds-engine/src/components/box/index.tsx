@@ -22,4 +22,6 @@ const Box = forwardRef(
 
 Box.displayName = 'Box';
 
-export default Box;
+export { Box };
+
+export type { BoxProps };

@@ -3,7 +3,6 @@
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
 import * as WdsIcon from '@wanteddev/wds-icon';
-import * as WdsLottie from '@wanteddev/wds-lottie';
 import * as HookForm from 'react-hook-form';
 import * as copy from 'copy-to-clipboard';
 // @ts-expect-error
@@ -12,10 +11,16 @@ import * as autosuggestParse from 'autosuggest-highlight/parse';
 import * as autosuggestMatch from 'autosuggest-highlight/match';
 import * as reactVirtual from '@tanstack/react-virtual';
 import * as reactSpring from 'react-spring';
+import dynamic from 'next/dynamic';
 
 import { useRunner } from './react-runner';
 import { demoStyle, errorStyle } from './style';
 import Editor from './editor';
+
+const WdsLottieLoading = dynamic(
+  () => import('@wanteddev/wds-lottie').then(({ Loading }) => Loading),
+  { ssr: false },
+);
 
 type Props = {
   code: string;
@@ -34,7 +39,7 @@ const Demo = ({ code, hideCode }: Props) => {
         react: React,
         '@wanteddev/wds': Wds,
         '@wanteddev/wds-icon': WdsIcon,
-        '@wanteddev/wds-lottie': WdsLottie,
+        '@wanteddev/wds-lottie': { Loading: WdsLottieLoading },
         '@tanstack/react-virtual': reactVirtual,
         'react-hook-form': HookForm,
         'copy-to-clipboard': copy,

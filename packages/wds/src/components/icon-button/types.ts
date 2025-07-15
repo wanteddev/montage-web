@@ -3,11 +3,12 @@ import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
+  WithSxProps,
 } from '@wanteddev/wds-engine';
 
 export type IconButtonVariant = 'normal' | 'background' | 'outlined' | 'solid';
 
-export type IconButtonDefaultProps = {
+export type IconButtonDefaultProps = WithSxProps<{
   variant?: IconButtonVariant;
   disabled?: boolean;
   disableInteraction?: boolean;
@@ -15,12 +16,11 @@ export type IconButtonDefaultProps = {
   color?: ThemeColorsToken;
   interactionColor?: ThemeColorsToken;
   /**
-   * `background` 버튼으로 사용할 때
-   * alternative를 true로 넘기면 검정 테마가 활성화 됩니다.
+   * When using `background` button, if `alternative` is true, the dark theme is activated.
    */
   alternative?: boolean;
   children?: ReactNode;
-};
+}>;
 
 export type IconButtonResponsiveProps = ResponsiveProps<
   Pick<IconButtonDefaultProps, 'size'>

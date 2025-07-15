@@ -1,15 +1,12 @@
 import { forwardRef } from 'react';
 
-import Checkbox from '../checkbox';
+import { Checkbox } from '../checkbox';
 
 import { checkMarkStyle } from './style';
 
 import type { CheckMarkProps } from './types';
-import type { ElementRef } from 'react';
 
-type Props = CheckMarkProps;
-
-const CheckMark = forwardRef<ElementRef<typeof Checkbox>, Props>(
+const CheckMark = forwardRef<HTMLButtonElement, CheckMarkProps>(
   ({ size = 'medium', bold = false, tight = false, ...props }, ref) => {
     return (
       <Checkbox
@@ -31,4 +28,6 @@ const CheckMark = forwardRef<ElementRef<typeof Checkbox>, Props>(
 
 CheckMark.displayName = 'CheckMark';
 
-export default CheckMark;
+export { CheckMark };
+
+export type { CheckMarkProps };

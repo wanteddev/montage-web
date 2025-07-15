@@ -4,9 +4,9 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Slot } from '@radix-ui/react-slot';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
-import PortalOrFragment from '../portal-or-fragment';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { PortalOrFragment } from '../portal-or-fragment';
 import { AnimationPresence } from '../animation-presence';
 
 import {
@@ -27,11 +27,11 @@ import {
   toastIconComponent,
 } from './constants';
 
-import type { ComponentProps, ElementType, ForwardedRef, Ref } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   ToastContainerProps,
@@ -55,7 +55,7 @@ const Toast = forwardRef(
       disableAnimation,
       forceMount,
       ...props
-    }: PolymorphicProps<ToastProps, T>,
+    }: PolymorphicPropsInternal<ToastProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
@@ -141,13 +141,13 @@ const Toast = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<ToastProps, 'div'>;
+) as PolymorphicComponentInternal<ToastProps, 'div'>;
 
 Toast.displayName = TOAST_NAME;
 
 const ToastContainer = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ToastContainerProps, 'div'>
+  DefaultComponentPropsInternal<ToastContainerProps, 'div'>
 >((props, ref) => {
   return (
     <FlexBox
@@ -162,33 +162,29 @@ const ToastContainer = forwardRef<
 
 ToastContainer.displayName = TOAST_CONTAINER_NAME;
 
-const ToastIcon = forwardRef<
-  SVGSVGElement,
-  DefaultComponentProps<ToastIconProps, 'svg'>
->(({ children, ...props }, ref) => {
-  const { variant } = useToastContext(TOAST_ICON_NAME);
+const ToastIcon = forwardRef<HTMLElement, ToastIconProps>(
+  ({ children, ...props }, ref) => {
+    const { variant } = useToastContext(TOAST_ICON_NAME);
 
-  const icon = children || toastIconComponent[variant];
+    const icon = children || toastIconComponent[variant];
 
-  if (!icon) {
-    return null;
-  }
+    if (!icon) {
+      return null;
+    }
 
-  return (
-    <Slot
-      ref={ref as Ref<HTMLElement>}
-      {...(props as ComponentProps<typeof Slot>)}
-    >
-      {icon}
-    </Slot>
-  );
-});
+    return (
+      <Slot ref={ref} {...props}>
+        {icon}
+      </Slot>
+    );
+  },
+);
 
 ToastIcon.displayName = TOAST_ICON_NAME;
 
 const ToastContent = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentProps<ToastContentProps, 'p'>
+  DefaultComponentPropsInternal<ToastContentProps, 'p'>
 >((props, ref) => {
   const { contentId } = useToastContext(TOAST_CONTENT_NAME);
 
@@ -209,3 +205,10 @@ const ToastContent = forwardRef<
 ToastContent.displayName = TOAST_CONTENT_NAME;
 
 export { Toast, ToastContainer, ToastIcon, ToastContent };
+
+export type {
+  ToastProps,
+  ToastContainerProps,
+  ToastIconProps,
+  ToastContentProps,
+};

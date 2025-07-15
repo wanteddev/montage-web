@@ -1,9 +1,10 @@
-import type { Slot } from '@radix-ui/react-slot';
-import type { ComponentPropsWithoutRef } from 'react';
-import type Label from '../label';
+import type { FlexBoxProps } from '../flex-box/types';
+import type { LabelProps } from '../label';
+import type { SlotProps } from '@radix-ui/react-slot';
 import type { TypographyProps } from '../typography/types';
 
-export type FormLabelProps = ComponentPropsWithoutRef<typeof Label>;
+export type FormFieldProps = FlexBoxProps;
+export type FormLabelProps = LabelProps;
 export type FormMessageProps = TypographyProps;
 export type FormErrorMessageProps = TypographyProps;
-export type FormControlProps = ComponentPropsWithoutRef<typeof Slot>;
+export type FormControlProps = SlotProps;

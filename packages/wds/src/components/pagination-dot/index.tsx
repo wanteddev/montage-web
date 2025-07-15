@@ -5,17 +5,17 @@ import {
 } from '@radix-ui/react-roving-focus';
 import { Box } from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import { getPaginationDotScale, getPaginationDotVisibleArea } from './helpers';
 import { paginationDotStyle, paginationDotWrapperStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { PaginationDotProps } from './types';
 
 const PaginationDot = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PaginationDotProps, 'div'>
+  DefaultComponentPropsInternal<PaginationDotProps, 'div'>
 >(
   (
     {
@@ -99,4 +99,6 @@ const PaginationDot = forwardRef<
 
 PaginationDot.displayName = 'PaginationDot';
 
-export default PaginationDot;
+export { PaginationDot };
+
+export type { PaginationDotProps };
