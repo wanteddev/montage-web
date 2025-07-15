@@ -2,14 +2,14 @@ import { forwardRef, useId } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { IconCaretDown, IconCaretUp } from '@wanteddev/wds-icon';
 
-import WithInteraction from '../with-interaction';
-import FlexBox from '../flex-box';
+import { WithInteraction } from '../with-interaction';
+import { FlexBox } from '../flex-box';
 
 import { actionStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ChipFilterProps } from './types';
@@ -32,7 +32,7 @@ const ChipFilter = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ChipFilterProps, T>,
+    }: PolymorphicPropsInternal<ChipFilterProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -75,8 +75,10 @@ const ChipFilter = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<ChipFilterProps, 'button'>;
+) as PolymorphicComponentInternal<ChipFilterProps, 'button'>;
 
 ChipFilter.displayName = 'ChipFilter';
 
-export default ChipFilter;
+export { ChipFilter };
+
+export type { ChipFilterProps };

@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
 import {
-  type DefaultComponentProps,
-  type PolymorphicComponent,
-  type PolymorphicProps,
+  type DefaultComponentPropsInternal,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
-import Button from '../button';
+import { FlexBox } from '../flex-box';
+import { Button } from '../button';
 
 import {
   EMPTY_STATE_BUTTON_NAME,
@@ -17,10 +17,10 @@ import {
 } from './constants';
 import { emptyStateStyle } from './style';
 
-import type { ButtonProps } from '../button/types';
-import type { FlexBoxProps } from '../flex-box/types';
 import type { ElementType, ForwardedRef } from 'react';
 import type {
+  EmptyStateButtonProps,
+  EmptyStateContentProps,
   EmptyStateImageProps,
   EmptyStateProps,
   EmptyStateTextProps,
@@ -41,7 +41,7 @@ const EmptyState = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<EmptyStateProps, T>,
+    }: PolymorphicPropsInternal<EmptyStateProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -69,13 +69,13 @@ const EmptyState = forwardRef(
       </FlexBox>
     );
   },
-) as PolymorphicComponent<EmptyStateProps, 'div'>;
+) as PolymorphicComponentInternal<EmptyStateProps, 'div'>;
 
 EmptyState.displayName = EMPTY_STATE_NAME;
 
 const EmptyStateImage = forwardRef(
   (
-    props: DefaultComponentProps<EmptyStateImageProps, 'div'>,
+    props: DefaultComponentPropsInternal<EmptyStateImageProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -94,7 +94,7 @@ EmptyStateImage.displayName = EMPTY_STATE_IMAGE_NAME;
 
 const EmptyStateContent = forwardRef(
   (
-    props: DefaultComponentProps<FlexBoxProps, 'div'>,
+    props: DefaultComponentPropsInternal<EmptyStateContentProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -118,7 +118,7 @@ const EmptyStateText = forwardRef(
       title,
       description,
       ...props
-    }: DefaultComponentProps<EmptyStateTextProps, 'div'>,
+    }: DefaultComponentPropsInternal<EmptyStateTextProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -134,7 +134,7 @@ EmptyStateText.displayName = EMPTY_STATE_TEXT_NAME;
 
 const EmptyStateButton = forwardRef(
   <T extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicProps<ButtonProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<EmptyStateButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -148,7 +148,7 @@ const EmptyStateButton = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ButtonProps, 'button'>;
+) as PolymorphicComponentInternal<EmptyStateButtonProps, 'button'>;
 
 EmptyStateButton.displayName = EMPTY_STATE_BUTTON_NAME;
 
@@ -158,4 +158,12 @@ export {
   EmptyStateContent,
   EmptyStateText,
   EmptyStateButton,
+};
+
+export type {
+  EmptyStateProps,
+  EmptyStateImageProps,
+  EmptyStateContentProps,
+  EmptyStateTextProps,
+  EmptyStateButtonProps,
 };

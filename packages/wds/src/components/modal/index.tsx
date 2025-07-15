@@ -15,13 +15,13 @@ import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { flushSync } from 'react-dom';
 
 import { hideOthers } from '../../utils';
-import RemoveScroll from '../remove-scroll';
-import DismissableLayer from '../dismissable-layer';
-import FocusScope from '../focus-scope';
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
-import Typography from '../typography';
-import PortalOrFragment from '../portal-or-fragment';
+import { RemoveScroll } from '../remove-scroll';
+import { DismissableLayer } from '../dismissable-layer';
+import { FocusScope } from '../focus-scope';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
+import { Typography } from '../typography';
+import { PortalOrFragment } from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { useSize } from '../../hooks';
 import { useTopNavigationContext } from '../top-navigation/contexts';
@@ -59,11 +59,10 @@ import { useDraggable } from './hooks';
 import { getDefaultCloseIcon } from './helpers';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
-import type { TopNavigationButtonProps } from '../top-navigation/types';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   ElementType,
@@ -73,12 +72,14 @@ import type {
   RefObject,
 } from 'react';
 import type {
+  ModalCloseProps,
   ModalContainerProps,
   ModalContentItemProps,
   ModalContentProps,
   ModalDescriptionProps,
   ModalDimmerProps,
   ModalHeadingProps,
+  ModalNavigationButtonProps,
   ModalNavigationProps,
   ModalProps,
   ModalScrollProviderProps,
@@ -205,7 +206,7 @@ const ModalContainer = forwardRef(
       wrapperProps,
       dimmer = <ModalDimmer />,
       ...props
-    }: PolymorphicProps<ModalContainerProps, T>,
+    }: PolymorphicPropsInternal<ModalContainerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const {
@@ -412,18 +413,17 @@ const ModalContainer = forwardRef(
       </Box>
     );
   },
-) as PolymorphicComponent<ModalContainerProps, 'div'>;
+) as PolymorphicComponentInternal<ModalContainerProps, 'div'>;
 
 ModalContainer.displayName = MODAL_CONTAINER_NAME;
 
 /**
- * @description
- * `<ModalContainer dimmer={<ModalDimmer />} />` 형태로 사용합니다.
- * Dimmer에 커스텀 스타일을 적용하기 위해서만 사용합니다.
+ * Use the form `<ModalContainer dimmer={<ModalDimmer />} />`.
+ * Only used to apply custom styles to the Dimmer.
  */
 const ModalDimmer = forwardRef(
   <T extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicProps<ModalDimmerProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<ModalDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { open, visibility, onOpenChange, disableOutsideClickClose } =
@@ -467,7 +467,7 @@ const ModalDimmer = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalDimmerProps, 'div'>;
+) as PolymorphicComponentInternal<ModalDimmerProps, 'div'>;
 
 ModalDimmer.displayName = MODAL_DIMMER_NAME;
 
@@ -532,7 +532,7 @@ const ModalScrollProvider = ({
 
 const ModalNavigation = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ModalNavigationProps, 'div'>
+  DefaultComponentPropsInternal<ModalNavigationProps, 'div'>
 >(
   (
     { leadingContent, trailingContent = <ModalClose />, variant, ...props },
@@ -542,8 +542,8 @@ const ModalNavigation = forwardRef<
       MODAL_NAVIGATION_NAME,
     );
 
-    // 모달에서 extended 사용할 때 아이콘이 없더라도 간격을 유지해야하기 때문에
-    // mockup 요소를 렌더링 하도록 한다.
+    // When using extended in modal, since the icon is not always present,
+    // render a mockup element to maintain the spacing.
     const shouldRenderMockup =
       variant === 'extended' && !leadingContent && !trailingContent;
 
@@ -568,12 +568,12 @@ ModalNavigation.displayName = MODAL_NAVIGATION_NAME;
 
 const ModalNavigationButton = forwardRef(
   <E extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicProps<TopNavigationButtonProps, E>,
+    { as, ...props }: PolymorphicPropsInternal<ModalNavigationButtonProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     return <TopNavigationButton {...props} as={as || 'button'} ref={ref} />;
   },
-) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ModalNavigationButtonProps, 'button'>;
 
 ModalNavigationButton.displayName = MODAL_NAVIGATION_BUTTON_NAME;
 
@@ -583,7 +583,7 @@ const ModalClose = forwardRef(
       children,
       background = false,
       ...props
-    }: PolymorphicProps<TopNavigationButtonProps, E>,
+    }: PolymorphicPropsInternal<ModalCloseProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const { onOpenChange } = useModalNavigationContext(MODAL_CLOSE_NAME);
@@ -600,13 +600,13 @@ const ModalClose = forwardRef(
       </TopNavigationButton>
     );
   },
-) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ModalCloseProps, 'button'>;
 
 ModalClose.displayName = MODAL_CLOSE_NAME;
 
 const ModalContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ModalContentProps, 'div'>
+  DefaultComponentPropsInternal<ModalContentProps, 'div'>
 >(
   (
     {
@@ -655,7 +655,7 @@ ModalContent.displayName = 'ModalContent';
 
 const ModalContentItem = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ModalContentItemProps, 'div'>
+  DefaultComponentPropsInternal<ModalContentItemProps, 'div'>
 >((props, ref) => {
   return (
     <FlexBox
@@ -679,7 +679,7 @@ const ModalHeading = forwardRef(
       weight = 'bold',
       color = 'semantic.label.normal',
       ...props
-    }: PolymorphicProps<ModalHeadingProps, E>,
+    }: PolymorphicPropsInternal<ModalHeadingProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -698,7 +698,7 @@ const ModalHeading = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalHeadingProps, 'h1'>;
+) as PolymorphicComponentInternal<ModalHeadingProps, 'h1'>;
 
 ModalHeading.displayName = 'ModalHeading';
 
@@ -710,7 +710,7 @@ const ModalSummary = forwardRef(
       weight = 'regular',
       color = 'semantic.label.alternative',
       ...props
-    }: PolymorphicProps<ModalSummaryProps, E>,
+    }: PolymorphicPropsInternal<ModalSummaryProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -729,7 +729,7 @@ const ModalSummary = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalSummaryProps, 'p'>;
+) as PolymorphicComponentInternal<ModalSummaryProps, 'p'>;
 
 ModalSummary.displayName = 'ModalSummary';
 
@@ -741,7 +741,7 @@ const ModalDescription = forwardRef(
       weight = 'regular',
       color = 'semantic.label.normal',
       ...props
-    }: PolymorphicProps<ModalDescriptionProps, E>,
+    }: PolymorphicPropsInternal<ModalDescriptionProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -760,12 +760,13 @@ const ModalDescription = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalDescriptionProps, 'p'>;
+) as PolymorphicComponentInternal<ModalDescriptionProps, 'p'>;
 
 ModalDescription.displayName = 'ModalDescription';
 
 export {
   Modal,
+  ModalTrigger,
   ModalContainer,
   ModalDimmer,
   ModalNavigation,
@@ -780,13 +781,14 @@ export {
 
 export type {
   ModalProps,
-  ModalDimmerProps,
-  ModalTriggerProps,
   ModalContainerProps,
+  ModalTriggerProps,
+  ModalDimmerProps,
+  ModalNavigationProps,
+  ModalNavigationButtonProps,
+  ModalCloseProps,
   ModalContentProps,
   ModalContentItemProps,
-  ModalNavigationProps,
-  TopNavigationButtonProps as ModalNavigationButtonProps,
   ModalHeadingProps,
   ModalSummaryProps,
   ModalDescriptionProps,

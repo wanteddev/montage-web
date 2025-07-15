@@ -9,9 +9,9 @@ import {
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
-import IconButton from '../icon-button';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
 
 import {
   firstOverlayStyle,
@@ -24,11 +24,11 @@ import {
 
 import type { ReactNode } from 'react';
 import type { SectionMessageProps } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 const SectionMessage = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SectionMessageProps, 'div'>
+  DefaultComponentPropsInternal<SectionMessageProps, 'div'>
 >(
   (
     {
@@ -165,4 +165,6 @@ const SectionMessage = forwardRef<
 
 SectionMessage.displayName = 'SectionMessage';
 
-export default SectionMessage;
+export { SectionMessage };
+
+export type { SectionMessageProps };

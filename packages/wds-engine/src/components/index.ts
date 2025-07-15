@@ -1,4 +1,4 @@
-export { default as Box } from './box';
-export { default as ForceTheme } from './force-theme';
-export { default as Global } from './global';
-export { default as ThemeProvider } from './theme-provider';
+export * from './box';
+export * from './force-theme';
+export * from './global';
+export * from './theme-provider';

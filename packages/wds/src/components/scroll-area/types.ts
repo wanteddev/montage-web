@@ -1,28 +1,29 @@
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 import type { ElementRef, ReactNode, Ref } from 'react';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
-export type ScrollAreaProps = DefaultComponentProps<
-  {
-    size?: 'small' | 'medium' | 'responsive';
-    scrollbars?: 'vertical' | 'horizontal' | 'both';
-    viewportRef?: Ref<
-      ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
-    >;
-    viewportProps?: Omit<
-      DefaultComponentProps<{}, typeof ScrollAreaPrimitive.ScrollAreaViewport>,
-      'ref'
-    >;
-    /**
-     * scroll bar의 zindex를 설정합니다.
-     */
-    zIndex?: number;
-    children?: ReactNode;
-  },
-  typeof ScrollAreaPrimitive.Root
+export type ScrollAreaProps = WithSxProps<
+  Merge<
+    {
+      size?: 'small' | 'medium' | 'responsive';
+      scrollbars?: 'vertical' | 'horizontal' | 'both';
+      viewportRef?: Ref<
+        ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
+      >;
+      viewportProps?: WithSxProps<ScrollAreaPrimitive.ScrollAreaViewportProps>;
+      /**
+       * Sets the z-index of the scroll bar.
+       */
+      zIndex?: number;
+      children?: ReactNode;
+    },
+    ScrollAreaPrimitive.ScrollAreaProps
+  >
 >;
 
-export type ScrollBarProps = DefaultComponentProps<
-  Pick<ScrollAreaProps, 'size' | 'children'>,
-  typeof ScrollAreaPrimitive.ScrollAreaScrollbar
+export type ScrollBarProps = WithSxProps<
+  Merge<
+    Pick<ScrollAreaProps, 'size' | 'children'>,
+    ScrollAreaPrimitive.ScrollAreaScrollbarProps
+  >
 >;

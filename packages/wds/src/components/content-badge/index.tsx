@@ -3,12 +3,12 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { contentBadgeStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ContentBadgeProps } from './types';
 
 const ContentBadge = forwardRef<
   HTMLSpanElement,
-  DefaultComponentProps<ContentBadgeProps, 'span'>
+  DefaultComponentPropsInternal<ContentBadgeProps, 'span'>
 >(
   (
     {
@@ -60,4 +60,6 @@ const ContentBadge = forwardRef<
 
 ContentBadge.displayName = 'ContentBadge';
 
-export default ContentBadge;
+export { ContentBadge };
+
+export type { ContentBadgeProps };

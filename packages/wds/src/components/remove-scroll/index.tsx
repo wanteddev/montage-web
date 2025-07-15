@@ -1,3 +1,7 @@
 import { RemoveScroll } from 'react-remove-scroll';
 
-export default RemoveScroll;
+import type { RemoveScrollProps } from './types';
+
+export { RemoveScroll };
+
+export type { RemoveScrollProps };

@@ -1,7 +1,8 @@
+import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { TooltipContentProps } from '../tooltip/types';
 import type { ReactNode } from 'react';
 
-export type CompactTooltipContentProps = {
+export type CompactTooltipContentProps = WithSxProps<{
   variant?: 'normal' | 'inverse';
   shortcut?: ReactNode;
   offset?: TooltipContentProps['offset'];
@@ -9,16 +10,16 @@ export type CompactTooltipContentProps = {
   container?: TooltipContentProps['container'];
   disablePortal?: TooltipContentProps['disablePortal'];
   /**
-   * 요소가 가려질 경우 숨김 처리 합니다.
+   * When the element is hidden, it is hidden.
    */
   referenceHidden?: TooltipContentProps['referenceHidden'];
   /**
-   * 요소가 가려질 경우 숨김 처리 할 때 넘치는 offset을 조정합니다.
+   * When the element is hidden, the offset is adjusted.
    */
   referenceHiddenOffsets?: TooltipContentProps['referenceHiddenOffsets'];
   /**
-   * floating ui context를 콜백을 통해 가져올 수 있습니다.
+   * The floating ui context can be obtained through a callback.
    */
   setContext?: TooltipContentProps['setContext'];
   children?: ReactNode;
-};
+}>;

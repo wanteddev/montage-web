@@ -1,23 +1,28 @@
-import type { PropsWithChildren, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type { ReactNode } from 'react';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type TabProps = PropsWithChildren<{
+export type TabProps = {
   defaultValue?: string;
   value?: string;
   onValueChange?: (tab: string) => void;
   /**
-   * 값이 변경되었을 때 스크롤을 이동하지 않음.
+   * When the value is changed, the scroll does not move.
    */
   disableScrollMoveOnChange?: boolean;
-}>;
+  children?: ReactNode;
+};
 
-type TabListDefaultProps = {
+type TabListDefaultProps = WithSxProps<{
   size?: 'small' | 'medium' | 'large';
   horizontalPadding?: boolean;
   iconButton?: ReactNode;
   resize?: 'hug' | 'fill';
   children?: ReactNode;
-};
+}>;
 
 type TabListResponsiveProps = ResponsiveProps<
   Pick<TabListDefaultProps, 'size' | 'horizontalPadding' | 'resize'>
@@ -25,14 +30,14 @@ type TabListResponsiveProps = ResponsiveProps<
 
 export type TabListProps = Merge<TabListDefaultProps, TabListResponsiveProps>;
 
-export type TabListItemProps = {
+export type TabListItemProps = WithSxProps<{
   value: string;
   disabled?: boolean;
   children?: ReactNode;
-};
+}>;
 
-export type TabPanelProps = {
+export type TabPanelProps = WithSxProps<{
   value: string;
   mountMode?: 'only-active' | 'force-mount' | 'always';
   children?: ReactNode;
-};
+}>;
