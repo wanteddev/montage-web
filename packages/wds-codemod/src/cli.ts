@@ -37,6 +37,10 @@ const TRANSFORMER_INQUIRER_CHOICES = [
   { name: 'Palette to Atomic & Semantic', value: 'palette-to-atomic-semantic' },
   { name: 'Size Migration', value: 'size-migration' },
   { name: 'Toast Migration', value: 'toast-migration' },
+  {
+    name: 'Typography Title1 to Display3',
+    value: 'typography-title1-to-display3',
+  },
 ];
 
 const run = () => {
