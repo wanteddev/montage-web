@@ -8,8 +8,8 @@ on:
         required: false
         default: 'true'
         options:
-          - true
-          - false
+          - 'true'
+          - 'false'
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
