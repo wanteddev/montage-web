@@ -1,36 +1,36 @@
-import type Portal from '../portal';
+import type { ReactNode } from 'react';
+import type {
+  DefaultComponentProps,
+  Merge,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { PortalProps } from '../portal/types';
 import type { TypographyProps } from '../typography/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type {
-  ComponentPropsWithRef,
-  ComponentPropsWithoutRef,
-  ReactNode,
-} from 'react';
-import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from '../text-button/types';
-import type { Slot } from '@radix-ui/react-slot';
 
-export type DialogProps = {
+export type DialogProps = WithSxProps<{
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  wrapperProps?: DefaultComponentProps<{}, 'div'>;
+  wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
   disablePortal?: boolean;
-  container?: ComponentPropsWithRef<typeof Portal>['container'];
+  container?: PortalProps['container'];
   /**
-   * @description
-   * esc 키 또는 dialog 외부 클릭 시 제어할 수 있습니다.
+   * When the esc key or dialog outside click is controlled.
    */
   onDismiss?: () => void;
   forceMount?: boolean;
   dimmer?: ReactNode;
-};
+  children?: ReactNode;
+}>;
 
-export type DialogDimmerProps = {};
+export type DialogDimmerProps = WithSxProps<{}>;
 
-export type DialogTriggerProps = ComponentPropsWithoutRef<typeof Slot>;
+export type DialogTriggerProps = SlotProps;
 
 export type DialogContentProps = FlexBoxProps;
 

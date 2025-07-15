@@ -1,8 +1,12 @@
 import type { MenuContent } from '../menu';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 
-export type SelectMultipleDefaultProps = {
+export type SelectMultipleDefaultProps = WithSxProps<{
   invalid?: boolean;
   disabled?: boolean;
   width?: CSSProperties['width'];
@@ -24,7 +28,7 @@ export type SelectMultipleDefaultProps = {
   enableMenuActionArea?: boolean;
   menuValue?: Array<string>;
   onMenuValueChange?: (value: Array<string>) => void;
-};
+}>;
 
 export type SelectMultipleResponsiveProps = ResponsiveProps<
   Pick<SelectMultipleDefaultProps, 'width' | 'height'>

@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import { LOADING_NAME } from './constants';
 import {
@@ -25,7 +25,7 @@ const Loading = forwardRef(
       xs,
       sx,
       ...props
-    }: DefaultComponentProps<LoadingProps, 'div'>,
+    }: DefaultComponentPropsInternal<LoadingProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const loadingSvgRender = () => {
@@ -100,4 +100,6 @@ const LoadingCircularAnimatedSvg = () => {
   );
 };
 
-export default Loading;
+export { Loading };
+
+export type { LoadingProps };

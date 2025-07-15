@@ -1,10 +1,10 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import { IconCircleCloseFill, IconSearch } from '@wanteddev/wds-icon';
 import { forwardRef, useEffect, useRef } from 'react';
 
-import FlexBox from '../flex-box';
-import IconButton from '../icon-button';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
 
 import { searchFieldContentStyle, searchFieldWrapperStyle } from './style';
 
@@ -12,7 +12,7 @@ import type { SearchFieldProps } from './types';
 
 const SearchField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<SearchFieldProps, 'input'>
+  DefaultComponentPropsInternal<SearchFieldProps, 'input'>
 >(
   (
     {
@@ -160,4 +160,6 @@ const SearchField = forwardRef<
 
 SearchField.displayName = 'SearchField';
 
-export default SearchField;
+export { SearchField };
+
+export type { SearchFieldProps };

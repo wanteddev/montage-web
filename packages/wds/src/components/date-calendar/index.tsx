@@ -14,18 +14,18 @@ import {
   IconChevronLeftSmall,
   IconChevronRightSmall,
 } from '@wanteddev/wds-icon';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import { useRef } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
-import FlexBox from '../flex-box';
-import TextButton from '../text-button';
-import IconButton from '../icon-button';
-import Grid from '../grid';
-import GridItem from '../grid-item';
-import WithInteraction from '../with-interaction';
-import ScrollArea from '../scroll-area';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { TextButton } from '../text-button';
+import { IconButton } from '../icon-button';
+import { Grid } from '../grid';
+import { GridItem } from '../grid-item';
+import { WithInteraction } from '../with-interaction';
+import { ScrollArea } from '../scroll-area';
+import { Typography } from '../typography';
 
 import {
   dateCalendarHeaderLabelButtonStyle,
@@ -61,13 +61,15 @@ import type { KeyboardEvent, ReactNode } from 'react';
 import type {
   DateCalendarProps,
   DateItemProps,
+  DayCalendarProps,
+  MonthCalendarProps,
   ViewType,
   YearCalendarProps,
 } from './types';
 
 const DateCalendar = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DateCalendarProps, 'div'>
+  DefaultComponentPropsInternal<DateCalendarProps, 'div'>
 >(
   (
     {
@@ -354,7 +356,7 @@ DateCalendar.displayName = 'DateCalendar';
 
 const YearCalendar = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<YearCalendarProps, 'div'>
+  DefaultComponentPropsInternal<YearCalendarProps, 'div'>
 >(({ order = 'asc', ...props }, ref) => {
   const {
     min,
@@ -582,7 +584,10 @@ const YearCalendar = forwardRef<
 YearCalendar.displayName = 'YearCalendar';
 
 const MonthCalendar = memo(
-  forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>((props, ref) => {
+  forwardRef<
+    HTMLDivElement,
+    DefaultComponentPropsInternal<MonthCalendarProps, 'div'>
+  >((props, ref) => {
     const {
       min,
       max,
@@ -811,7 +816,10 @@ const MonthCalendar = memo(
 MonthCalendar.displayName = 'MonthCalendar';
 
 const DayCalendar = memo(
-  forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>((props, ref) => {
+  forwardRef<
+    HTMLDivElement,
+    DefaultComponentPropsInternal<DayCalendarProps, 'div'>
+  >((props, ref) => {
     const {
       min,
       max,
@@ -916,7 +924,7 @@ const DayCalendar = memo(
       dayRange.findIndex((v) => !v.isOtherMonth),
     );
 
-    // 첫 포커스
+    // first focus
     useEffect(
       () => {
         const selectedDateIdx = isValidDate(value)
@@ -1158,34 +1166,35 @@ const DayCalendar = memo(
 DayCalendar.displayName = 'DayCalendar';
 
 const DateItem = memo(
-  forwardRef<HTMLButtonElement, DefaultComponentProps<DateItemProps, 'button'>>(
-    ({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
-      return (
-        <WithInteraction disabled={disabled}>
-          <Box
-            as="button"
-            disabled={disabled}
-            ref={ref}
-            role="radio"
-            type="button"
-            {...props}
-            aria-checked={isActive}
-            aria-disabled={disabled}
-            aria-current={isCurrent ? 'date' : undefined}
-            data-other-month={isOtherMonth}
-            sx={[dayItemButtonStyle, { borderRadius: 8 }, props.sx]}
-          />
-        </WithInteraction>
-      );
-    },
-  ),
+  forwardRef<
+    HTMLButtonElement,
+    DefaultComponentPropsInternal<DateItemProps, 'button'>
+  >(({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
+    return (
+      <WithInteraction disabled={disabled}>
+        <Box
+          as="button"
+          disabled={disabled}
+          ref={ref}
+          role="radio"
+          type="button"
+          {...props}
+          aria-checked={isActive}
+          aria-disabled={disabled}
+          aria-current={isCurrent ? 'date' : undefined}
+          data-other-month={isOtherMonth}
+          sx={[dayItemButtonStyle, { borderRadius: 8 }, props.sx]}
+        />
+      </WithInteraction>
+    );
+  }),
 );
 
 DateItem.displayName = 'DateItem';
 
 const DayItem = forwardRef<
   HTMLButtonElement,
-  DefaultComponentProps<DateItemProps, 'button'>
+  DefaultComponentPropsInternal<DateItemProps, 'button'>
 >(({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
   return (
     <WithInteraction disabled={disabled}>
@@ -1208,4 +1217,6 @@ const DayItem = forwardRef<
 
 DayItem.displayName = 'DayItem';
 
-export default DateCalendar;
+export { DateCalendar };
+
+export type { DateCalendarProps };

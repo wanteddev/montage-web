@@ -2,18 +2,18 @@ import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { IconClock } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { TextField, TextFieldContent } from '../text-field';
-import IconButton from '../icon-button';
+import { IconButton } from '../icon-button';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import FocusScope from '../focus-scope';
-import DismissableLayer from '../dismissable-layer';
+import { FocusScope } from '../focus-scope';
+import { DismissableLayer } from '../dismissable-layer';
 import { useDateField } from '../date-picker/hooks';
-import TimeView from '../time-view';
-import FlexBox from '../flex-box';
+import { TimeView } from '../time-view';
+import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
@@ -26,7 +26,7 @@ import type { DateType } from '../date-picker';
 
 const TimePicker = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TimePickerProps, 'input'>
+  DefaultComponentPropsInternal<TimePickerProps, 'input'>
 >(
   (
     {
@@ -117,6 +117,7 @@ const TimePicker = forwardRef<
 
     const invalid =
       originInvalid ||
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
@@ -160,14 +161,14 @@ const TimePicker = forwardRef<
         <PopperAnchor
           ref={composedRefs}
           onChange={() => {}}
-          autoComplete="off"
-          type="text"
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
           aria-expanded={open}
           data-role="time-picker-input"
-          {...props}
           {...({
+            ...props,
+            autoComplete: 'off',
+            type: 'text',
             readOnly,
             disabled,
             placeholder,
@@ -272,7 +273,7 @@ TimePicker.displayName = TIME_PICKER_NAME;
 
 const TimePickerInput = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TimePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<TimePickerFieldProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
@@ -280,4 +281,5 @@ const TimePickerInput = forwardRef<
 TimePickerInput.displayName = TIME_PICKER_INPUT_NAME;
 
 export { TimePicker };
-export type { TimePickerFieldProps };
+
+export type { TimePickerFieldProps, TimePickerProps };

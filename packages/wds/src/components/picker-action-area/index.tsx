@@ -3,24 +3,26 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ActionArea } from '../action-area';
 import { dateTypeToDateObject } from '../date-calendar/helpers';
-import TextButton from '../text-button';
+import { TextButton } from '../text-button';
 
 import { pickerActionAreaStyle } from './style';
 import { PICKER_ACTION_AREA_BUTTON_NAME } from './constants';
 import { usePickerActionAreaContext } from './contexts';
 
-import type { PickerActionAreaButtonProps } from './types';
-import type { ElementType, ForwardedRef } from 'react';
-import type { ActionAreaProps } from '../action-area/types';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  PickerActionAreaButtonProps,
+  PickerActionAreaProps,
+} from './types';
+import type { ElementType, ForwardedRef } from 'react';
+import type {
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
 const PickerActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ActionAreaProps, 'div'>
+  DefaultComponentPropsInternal<PickerActionAreaProps, 'div'>
 >(({ sx, ...props }, ref) => {
   return (
     <ActionArea
@@ -40,7 +42,7 @@ const PickerActionAreaButton = forwardRef(
       variant,
       buttonVariant,
       ...props
-    }: PolymorphicProps<PickerActionAreaButtonProps, T>,
+    }: PolymorphicPropsInternal<PickerActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { initialValue, value, timezone, onChangeComplete } =
@@ -136,8 +138,10 @@ const PickerActionAreaButton = forwardRef(
         );
     }
   },
-) as PolymorphicComponent<PickerActionAreaButtonProps, 'button'>;
+) as PolymorphicComponentInternal<PickerActionAreaButtonProps, 'button'>;
 
 PickerActionAreaButton.displayName = PICKER_ACTION_AREA_BUTTON_NAME;
 
 export { PickerActionArea, PickerActionAreaButton };
+
+export type { PickerActionAreaProps, PickerActionAreaButtonProps };

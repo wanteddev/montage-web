@@ -1,9 +1,9 @@
 import { Slot } from '@radix-ui/react-slot';
 import { forwardRef, useId } from 'react';
 
-import FlexBox from '../flex-box';
-import Label from '../label';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Label } from '../label';
+import { Typography } from '../typography';
 
 import {
   FORM_CONTROL_NAME,
@@ -16,21 +16,22 @@ import { FormFieldProvider } from './contexts';
 import { useFormField } from './hooks';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef } from 'react';
-import type { FlexBoxProps } from '../flex-box/types';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
   FormControlProps,
   FormErrorMessageProps,
+  FormFieldProps,
   FormLabelProps,
   FormMessageProps,
 } from './types';
 
 const FormField = forwardRef(
   <T extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicProps<FlexBoxProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<FormFieldProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -47,11 +48,14 @@ const FormField = forwardRef(
       </FormFieldProvider>
     );
   },
-) as PolymorphicComponent<FlexBoxProps, 'div'>;
+) as PolymorphicComponentInternal<FormFieldProps, 'div'>;
 
 FormField.displayName = FORM_FIELD_NAME;
 
-const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
+const FormLabel = forwardRef<
+  HTMLLabelElement,
+  DefaultComponentPropsInternal<FormLabelProps, 'label'>
+>((props, ref) => {
   const { formFieldId, formLabelId } = useFormField(FORM_LABEL_NAME);
 
   return <Label ref={ref} id={formLabelId} htmlFor={formFieldId} {...props} />;
@@ -59,28 +63,26 @@ const FormLabel = forwardRef<HTMLLabelElement, FormLabelProps>((props, ref) => {
 
 FormLabel.displayName = FORM_LABEL_NAME;
 
-const FormControl = forwardRef<ElementRef<typeof Slot>, FormControlProps>(
-  (props, ref) => {
-    const { formFieldId, formLabelId, formMessageId, formErrorMessageId } =
-      useFormField(FORM_CONTROL_NAME);
+const FormControl = forwardRef<HTMLElement, FormControlProps>((props, ref) => {
+  const { formFieldId, formLabelId, formMessageId, formErrorMessageId } =
+    useFormField(FORM_CONTROL_NAME);
 
-    return (
-      <Slot
-        ref={ref}
-        id={formFieldId}
-        aria-describedby={`${formMessageId} ${formErrorMessageId}`}
-        aria-labelledby={formLabelId}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <Slot
+      ref={ref}
+      id={formFieldId}
+      aria-describedby={`${formMessageId} ${formErrorMessageId}`}
+      aria-labelledby={formLabelId}
+      {...props}
+    />
+  );
+});
 
 FormControl.displayName = FORM_CONTROL_NAME;
 
 const FormMessage = forwardRef(
   <T extends ElementType = 'p'>(
-    { as, children, ...props }: PolymorphicProps<FormMessageProps, T>,
+    { as, children, ...props }: PolymorphicPropsInternal<FormMessageProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { formMessageId } = useFormField(FORM_MESSAGE_NAME);
@@ -103,13 +105,17 @@ const FormMessage = forwardRef(
       </Typography>
     );
   },
-) as PolymorphicComponent<FormMessageProps, 'p'>;
+) as PolymorphicComponentInternal<FormMessageProps, 'p'>;
 
 FormMessage.displayName = FORM_MESSAGE_NAME;
 
 const FormErrorMessage = forwardRef(
   <T extends ElementType = 'p'>(
-    { as, children, ...props }: PolymorphicProps<FormErrorMessageProps, T>,
+    {
+      as,
+      children,
+      ...props
+    }: PolymorphicPropsInternal<FormErrorMessageProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { formErrorMessageId } = useFormField(FORM_ERROR_MESSAGE_NAME);
@@ -132,8 +138,16 @@ const FormErrorMessage = forwardRef(
       </Typography>
     );
   },
-) as PolymorphicComponent<FormErrorMessageProps, 'p'>;
+) as PolymorphicComponentInternal<FormErrorMessageProps, 'p'>;
 
 FormErrorMessage.displayName = FORM_ERROR_MESSAGE_NAME;
 
 export { FormControl, FormErrorMessage, FormField, FormLabel, FormMessage };
+
+export type {
+  FormFieldProps,
+  FormLabelProps,
+  FormControlProps,
+  FormMessageProps,
+  FormErrorMessageProps,
+};

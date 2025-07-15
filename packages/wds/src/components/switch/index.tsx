@@ -4,17 +4,20 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import { switchStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { SwitchProps } from './types';
 
 const Switch = forwardRef<
   HTMLButtonElement,
-  Omit<DefaultComponentProps<SwitchProps, 'button'>, 'onChange' | 'value'>
+  Omit<
+    DefaultComponentPropsInternal<SwitchProps, 'button'>,
+    'onChange' | 'value'
+  >
 >(
   (
     {
@@ -112,4 +115,6 @@ const Switch = forwardRef<
 
 Switch.displayName = 'Switch';
 
-export default Switch;
+export { Switch };
+
+export type { SwitchProps };

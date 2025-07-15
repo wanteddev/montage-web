@@ -4,23 +4,19 @@ import {
   IconChevronRightTightSmall,
 } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
-import {
-  ChipFilter,
-  FlexBox,
-  IconButton,
-  Label,
-  Menu,
-  MenuContent,
-  MenuItem,
-  MenuList,
-  MenuTrigger,
-  TextButton,
-  TextField,
-  Typography,
-  useControllableState,
-} from '../..';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
+import { Typography } from '../typography';
+import { TextButton } from '../text-button';
+import { Menu, MenuContent, MenuItem, MenuList, MenuTrigger } from '../menu';
+import { ChipFilter } from '../chip-filter';
+import { Label } from '../label';
+import { TextField } from '../text-field';
 
+import { getPaginationItems } from './helpers';
+import { PaginationProvider, usePaginationContext } from './contexts';
 import {
   PAGINATION_FIELD_NAME,
   PAGINATION_NAME,
@@ -33,8 +29,6 @@ import {
   paginationItemStyle,
   paginationStyle,
 } from './style';
-import { PaginationProvider, usePaginationContext } from './contexts';
-import { getPaginationItems } from './helpers';
 
 import type {
   PaginationFieldProps,
@@ -42,11 +36,11 @@ import type {
   PaginationProps,
   PaginationSelectProps,
 } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 const Pagination = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PaginationProps, 'div'>
+  DefaultComponentPropsInternal<PaginationProps, 'div'>
 >(
   (
     {
@@ -261,7 +255,7 @@ const PaginationItem = ({
 
 const PaginationSelect = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PaginationSelectProps, 'div'>
+  DefaultComponentPropsInternal<PaginationSelectProps, 'div'>
 >(
   (
     {
@@ -353,7 +347,7 @@ PaginationSelect.displayName = PAGINATION_SELECT_NAME;
 
 const PaginationField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<PaginationFieldProps, 'input'>
+  DefaultComponentPropsInternal<PaginationFieldProps, 'input'>
 >(({ label = '페이지 이동', sx, onKeyDown, disabled, ...props }, ref) => {
   const {
     totalPages,
@@ -403,3 +397,5 @@ const PaginationField = forwardRef<
 PaginationField.displayName = PAGINATION_FIELD_NAME;
 
 export { Pagination, PaginationSelect, PaginationField };
+
+export type { PaginationProps, PaginationSelectProps, PaginationFieldProps };

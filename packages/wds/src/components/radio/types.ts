@@ -1,6 +1,10 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type RadioDefaultProps = {
+export type RadioDefaultProps = WithSxProps<{
   name?: string;
   checked?: boolean;
   value?: string;
@@ -10,7 +14,7 @@ export type RadioDefaultProps = {
   size?: 'medium' | 'small';
   onCheck?: () => void;
   tight?: boolean;
-};
+}>;
 
 export type RadioResponsiveProps = ResponsiveProps<
   Pick<RadioDefaultProps, 'size'>

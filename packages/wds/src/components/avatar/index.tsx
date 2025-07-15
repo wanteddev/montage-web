@@ -6,16 +6,14 @@ import {
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
-import ImageLoader from '../image-loader';
+import { ImageLoader } from '../image-loader';
 
 import { avatarWrapperStyle, fallbackWrapperStyle } from './style';
 
-import type { ComponentProps, PropsWithChildren } from 'react';
+import type { ComponentProps } from 'react';
 import type { AvatarProps } from './types';
 
-type Props = PropsWithChildren<AvatarProps>;
-
-const Avatar = forwardRef<HTMLDivElement, Props>(
+const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
   (
     {
       size = 'small',
@@ -98,4 +96,6 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
 
 Avatar.displayName = 'Avatar';
 
-export default Avatar;
+export { Avatar };
+
+export type { AvatarProps };
