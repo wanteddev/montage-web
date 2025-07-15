@@ -1,26 +1,26 @@
 ---
-title: Empty State
-description: Empty State Component
+title: Fallback View
+description: Fallback View Component
 ---
 
-# Empty State
+# Fallback View
 
 - 콘텐츠가 빈 상태일 때 사용자의 이해를 돕기 위해 사용합니다.
-- 이미지를 추가할 땐 `EmptyStateImage`로 감싸주세요.
+- 이미지를 추가할 땐 `FallbackViewImage`로 감싸주세요.
 
-<Demo code={`import { EmptyState, EmptyStateImage, EmptyStateContent, EmptyStateText, EmptyStateButton } from '@wanteddev/wds';
+<Demo code={`import { FallbackView, FallbackViewImage, FallbackViewContent, FallbackViewText, FallbackViewButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <EmptyState sx={{ margin: 'auto' }}>
-      <EmptyStateImage>
+    <FallbackView sx={{ margin: 'auto' }}>
+      <FallbackViewImage>
         <img
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
-      </EmptyStateImage>
-      <EmptyStateContent>
-        <EmptyStateText
+      </FallbackViewImage>
+      <FallbackViewContent>
+        <FallbackViewText
           title="타이틀이 들어가요." 
           description={
             <>
@@ -30,9 +30,9 @@ const Demo = () => {
             </>
           }
         />
-        <EmptyStateButton>텍스트</EmptyStateButton>
-      </EmptyStateContent>
-    </EmptyState>
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
   )
 }
 
@@ -44,44 +44,44 @@ export default Demo;`}
 아래와 같이 조합하여 사용합니다.
 
 ```tsx
-<EmptyState>
-  <EmptyStateImage>
+<FallbackView>
+  <FallbackViewImage>
     <img />
-  </EmptyStateImage>
+  </FallbackViewImage>
 
-  <EmptyStateContent>
-    <EmptyStateText />
+  <FallbackViewContent>
+    <FallbackViewText />
 
-    <EmptyStateButton />
-  </EmptyStateContent>
-</EmptyState>
+    <FallbackViewButton />
+  </FallbackViewContent>
+</FallbackView>
 ```
 
-### EmptyState
+### FallbackView
 
-<PropsTable component="EmptyState" />
+<PropsTable component="FallbackView" />
 
-### EmptyStateImage
-
-`FlexBox`와 동일한 props를 사용해요.
-
-<PropsTable component="EmptyStateImage" />
-
-### EmptyStateContent
+### FallbackViewImage
 
 `FlexBox`와 동일한 props를 사용해요.
 
-<PropsTable component="EmptyStateContent" />
+<PropsTable component="FallbackViewImage" />
 
-### EmptyStateText
+### FallbackViewContent
 
-<PropsTable component="EmptyStateText" />
+`FlexBox`와 동일한 props를 사용해요.
 
-### EmptyStateButton
+<PropsTable component="FallbackViewContent" />
+
+### FallbackViewText
+
+<PropsTable component="FallbackViewText" />
+
+### FallbackViewButton
 
 `Button`과 동일한 props를 사용해요.
 
-<PropsTable component="EmptyStateButton" />
+<PropsTable component="FallbackViewButton" />
 
 ## Examples
 
@@ -89,20 +89,20 @@ export default Demo;`}
 
 `platform`에 따라 이미지, 글자, 버튼 크기가 달라져요.
 
-<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage } from '@wanteddev/wds';
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FlexBox, FallbackViewImage } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px">
-      <EmptyState width="100%">
-        <EmptyStateImage>
+      <FallbackView width="100%">
+        <FallbackViewImage>
           <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
-        </EmptyStateImage>      
-        <EmptyStateContent>
-          <EmptyStateText
+        </FallbackViewImage>      
+        <FallbackViewContent>
+          <FallbackViewText
             title="platform: desktop" 
             description={
               <>
@@ -112,18 +112,18 @@ const Demo = () => {
               </>
             }
           />
-          <EmptyStateButton>텍스트</EmptyStateButton>
-        </EmptyStateContent>
-      </EmptyState>
-      <EmptyState platform="mobile" width="100%">
-        <EmptyStateImage>
+          <FallbackViewButton>텍스트</FallbackViewButton>
+        </FallbackViewContent>
+      </FallbackView>
+      <FallbackView platform="mobile" width="100%">
+        <FallbackViewImage>
           <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
-        </EmptyStateImage>
-        <EmptyStateContent>
-          <EmptyStateText
+        </FallbackViewImage>
+        <FallbackViewContent>
+          <FallbackViewText
             title="platform: mobile" 
             description={
               <>
@@ -133,9 +133,9 @@ const Demo = () => {
               </>
             }
           />
-          <EmptyStateButton>텍스트</EmptyStateButton>
-        </EmptyStateContent>
-      </EmptyState>
+          <FallbackViewButton>텍스트</FallbackViewButton>
+        </FallbackViewContent>
+      </FallbackView>
     </FlexBox>
   )
 }
@@ -145,23 +145,23 @@ export default Demo;`}
 
 ResponsiveProps를 사용하여 해당 breakpoint 이상일 때 `platform`을 지정할 수 있어요.
 
-<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage } from '@wanteddev/wds';
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FlexBox, FallbackViewImage } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <EmptyState 
+    <FallbackView 
       platform="mobile" 
       sm={{ platform: "desktop" }} 
       sx={{ margin: 'auto' }}
     >
-      <EmptyStateImage>
+      <FallbackViewImage>
         <img
           src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
           alt="Wanted Company Image"
         />
-      </EmptyStateImage>      
-      <EmptyStateContent>
-        <EmptyStateText
+      </FallbackViewImage>      
+      <FallbackViewContent>
+        <FallbackViewText
           title="타이틀이 들어가요." 
           description={
             <>
@@ -171,9 +171,9 @@ const Demo = () => {
             </>
           }
         />
-        <EmptyStateButton>텍스트</EmptyStateButton>
-      </EmptyStateContent>
-    </EmptyState>
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
   )
 }
 
@@ -182,20 +182,20 @@ export default Demo;`}
 
 ### Padding
 
-<Demo code={`import { EmptyState, EmptyStateContent, EmptyStateText, EmptyStateButton, FlexBox, EmptyStateImage } from '@wanteddev/wds';
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FlexBox, FallbackViewImage } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="24px">
-      <EmptyState>
-        <EmptyStateImage>
+      <FallbackView>
+        <FallbackViewImage>
           <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
-        </EmptyStateImage>
-        <EmptyStateContent>
-          <EmptyStateText
+        </FallbackViewImage>
+        <FallbackViewContent>
+          <FallbackViewText
             title="padding: normal"
               description={
                 <>
@@ -205,18 +205,18 @@ const Demo = () => {
                 </>
               }
             />
-            <EmptyStateButton>텍스트</EmptyStateButton>
-        </EmptyStateContent>
-      </EmptyState>
-      <EmptyState padding="compact">
-        <EmptyStateImage>
+            <FallbackViewButton>텍스트</FallbackViewButton>
+        </FallbackViewContent>
+      </FallbackView>
+      <FallbackView padding="compact">
+        <FallbackViewImage>
           <img
             src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
             alt="Wanted Company Image"
           />
-        </EmptyStateImage>
-        <EmptyStateContent>
-          <EmptyStateText
+        </FallbackViewImage>
+        <FallbackViewContent>
+          <FallbackViewText
             title="padding: compact" 
               description={
                 <>
@@ -226,9 +226,9 @@ const Demo = () => {
                 </>
               }
             />
-            <EmptyStateButton>텍스트</EmptyStateButton>
-        </EmptyStateContent>
-      </EmptyState>
+            <FallbackViewButton>텍스트</FallbackViewButton>
+        </FallbackViewContent>
+      </FallbackView>
     </FlexBox>
   )
 }

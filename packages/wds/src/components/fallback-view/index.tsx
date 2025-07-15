@@ -9,24 +9,24 @@ import { FlexBox } from '../flex-box';
 import { Button } from '../button';
 
 import {
-  EMPTY_STATE_BUTTON_NAME,
-  EMPTY_STATE_CONTENT_NAME,
-  EMPTY_STATE_IMAGE_NAME,
-  EMPTY_STATE_NAME,
-  EMPTY_STATE_TEXT_NAME,
+  FALLBACK_VIEW_BUTTON_NAME,
+  FALLBACK_VIEW_CONTENT_NAME,
+  FALLBACK_VIEW_IMAGE_NAME,
+  FALLBACK_VIEW_NAME,
+  FALLBACK_VIEW_TEXT_NAME,
 } from './constants';
-import { emptyStateStyle } from './style';
+import { fallbackViewStyle } from './style';
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  EmptyStateButtonProps,
-  EmptyStateContentProps,
-  EmptyStateImageProps,
-  EmptyStateProps,
-  EmptyStateTextProps,
+  FallbackViewButtonProps,
+  FallbackViewContentProps,
+  FallbackViewImageProps,
+  FallbackViewProps,
+  FallbackViewTextProps,
 } from './types';
 
-const EmptyState = forwardRef(
+const FallbackView = forwardRef(
   <T extends ElementType = 'div'>(
     {
       as,
@@ -41,7 +41,7 @@ const EmptyState = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicPropsInternal<EmptyStateProps, T>,
+    }: PolymorphicPropsInternal<FallbackViewProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -51,7 +51,7 @@ const EmptyState = forwardRef(
         flexDirection="column"
         alignItems="center"
         sx={[
-          emptyStateStyle({
+          fallbackViewStyle({
             platform,
             padding,
             width,
@@ -69,19 +69,19 @@ const EmptyState = forwardRef(
       </FlexBox>
     );
   },
-) as PolymorphicComponentInternal<EmptyStateProps, 'div'>;
+) as PolymorphicComponentInternal<FallbackViewProps, 'div'>;
 
-EmptyState.displayName = EMPTY_STATE_NAME;
+FallbackView.displayName = FALLBACK_VIEW_NAME;
 
-const EmptyStateImage = forwardRef(
+const FallbackViewImage = forwardRef(
   (
-    props: DefaultComponentPropsInternal<EmptyStateImageProps, 'div'>,
+    props: DefaultComponentPropsInternal<FallbackViewImageProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox
         ref={ref}
-        wds-component="empty-state-image"
+        wds-component="fallback-view-image"
         justifyContent="center"
         alignItems="center"
         {...props}
@@ -90,17 +90,17 @@ const EmptyStateImage = forwardRef(
   },
 );
 
-EmptyStateImage.displayName = EMPTY_STATE_IMAGE_NAME;
+FallbackViewImage.displayName = FALLBACK_VIEW_IMAGE_NAME;
 
-const EmptyStateContent = forwardRef(
+const FallbackViewContent = forwardRef(
   (
-    props: DefaultComponentPropsInternal<EmptyStateContentProps, 'div'>,
+    props: DefaultComponentPropsInternal<FallbackViewContentProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox
         ref={ref}
-        wds-component="empty-state-content"
+        wds-component="fallback-view-content"
         flexDirection="column"
         alignItems="center"
         gap="24px"
@@ -110,60 +110,60 @@ const EmptyStateContent = forwardRef(
   },
 );
 
-EmptyStateContent.displayName = EMPTY_STATE_CONTENT_NAME;
+FallbackViewContent.displayName = FALLBACK_VIEW_CONTENT_NAME;
 
-const EmptyStateText = forwardRef(
+const FallbackViewText = forwardRef(
   (
     {
       title,
       description,
       ...props
-    }: DefaultComponentPropsInternal<EmptyStateTextProps, 'div'>,
+    }: DefaultComponentPropsInternal<FallbackViewTextProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
       <FlexBox ref={ref} flexDirection="column" gap="12px" {...props}>
-        {title && <span data-role="empty-state-text-title">{title}</span>}
-        <span data-role="empty-state-text-description">{description}</span>
+        {title && <span data-role="fallback-view-text-title">{title}</span>}
+        <span data-role="fallback-view-text-description">{description}</span>
       </FlexBox>
     );
   },
 );
 
-EmptyStateText.displayName = EMPTY_STATE_TEXT_NAME;
+FallbackViewText.displayName = FALLBACK_VIEW_TEXT_NAME;
 
-const EmptyStateButton = forwardRef(
+const FallbackViewButton = forwardRef(
   <T extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicPropsInternal<EmptyStateButtonProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<FallbackViewButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
       <Button
         as={(as || 'button') as ElementType}
         ref={ref}
-        wds-component="empty-state-button"
+        wds-component="fallback-view-button"
         variant="outlined"
         color="assistive"
         {...props}
       />
     );
   },
-) as PolymorphicComponentInternal<EmptyStateButtonProps, 'button'>;
+) as PolymorphicComponentInternal<FallbackViewButtonProps, 'button'>;
 
-EmptyStateButton.displayName = EMPTY_STATE_BUTTON_NAME;
+FallbackViewButton.displayName = FALLBACK_VIEW_BUTTON_NAME;
 
 export {
-  EmptyState,
-  EmptyStateImage,
-  EmptyStateContent,
-  EmptyStateText,
-  EmptyStateButton,
+  FallbackView,
+  FallbackViewImage,
+  FallbackViewContent,
+  FallbackViewText,
+  FallbackViewButton,
 };
 
 export type {
-  EmptyStateProps,
-  EmptyStateImageProps,
-  EmptyStateContentProps,
-  EmptyStateTextProps,
-  EmptyStateButtonProps,
+  FallbackViewProps,
+  FallbackViewImageProps,
+  FallbackViewContentProps,
+  FallbackViewTextProps,
+  FallbackViewButtonProps,
 };
