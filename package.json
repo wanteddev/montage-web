@@ -28,7 +28,7 @@
     "deps:update": "pnpm dlx npm-check-updates@latest -u --deep",
     "publish:codeconnect": "figma connect publish"
   },
-  "packageManager": "pnpm@9.1.2",
+  "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "@commitlint/cli": "^19.1.0",
     "@commitlint/config-conventional": "^19.1.0",

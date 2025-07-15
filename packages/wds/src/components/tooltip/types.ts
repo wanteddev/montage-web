@@ -1,9 +1,7 @@
-import type { DismissableLayer } from '@radix-ui/react-dismissable-layer';
-import type {
-  ComponentPropsWithoutRef,
-  PropsWithChildren,
-  ReactNode,
-} from 'react';
+import type { WithSxProps } from '@wanteddev/wds-engine';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
+import type { PropsWithChildren, ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
 
 export type TooltipGroupProps = PropsWithChildren<{
@@ -16,30 +14,31 @@ export type TooltipProps = {
   defaultOpen?: boolean;
   onOpenChange?: (state: boolean) => void;
   /**
-   * mode="hover" 일 때 mouseenter 이벤트 이후 나타나기까지 딜레이 (ms)
+   * When `mode="hover"`, the delay (ms) until the mouseenter event appears.
    */
   enterDelay?: number;
   /**
-   * mode="hover" 일 때 mouseleave 이벤트 이후 사라지기까지 딜레이 (ms)
+   * When `mode="hover"`, the delay (ms) until the mouseleave event disappears.
    */
   leaveDelay?: number;
   /**
-   * mode="hover" 일 때 pointdown 이벤트 시 툴팁 닫힘 여부
+   * When `mode="hover"`, whether the tooltip closes when the pointdown event occurs.
    */
   disableCloseOnPointDown?: boolean;
   /**
-   * mode="hover" 일 때 focus 이벤트 시 툴팁 열림 여부
+   * When `mode="hover"`, whether the tooltip opens when the focus event occurs.
    */
   disableOpenOnFocus?: boolean;
   /**
-   * mode="hover" 일 때 focus 이벤트가 아닌
-   * focus-visible 일 때만 툴팁 열림 여부
+   * When `mode="hover"`, whether the tooltip opens when the focus-visible event occurs.
    */
   enableOpenOnFocusVisibleOnly?: boolean;
   children?: ReactNode;
 };
 
-export type TooltipContentProps = {
+export type TooltipTriggerProps = SlotProps;
+
+export type TooltipContentProps = WithSxProps<{
   arrow?: boolean;
   action?: ReactNode;
   children?: ReactNode;
@@ -49,27 +48,28 @@ export type TooltipContentProps = {
   container?: PopperContentProps['container'];
   disablePortal?: PopperContentProps['disablePortal'];
   /**
-   * 요소가 가려질 경우 숨김 처리 합니다.
+   * When the element is hidden, it is hidden.
    */
   referenceHidden?: PopperContentProps['referenceHidden'];
   /**
-   * floating ui context를 콜백을 통해 가져올 수 있습니다.
-   */
-  /**
-   * 요소가 가려질 경우 숨김 처리 할 때 넘치는 offset을 조정합니다.
+   * When the element is hidden, the offset is adjusted.
    */
   referenceHiddenOffsets?: PopperContentProps['referenceHiddenOffsets'];
+  /**
+   * The floating ui context can be obtained through a callback.
+   */
   setContext?: PopperContentProps['setContext'];
   forceMount?: boolean;
   /**
-   * compact tooltip을 위해 사용
+   * Used for compact tooltip.
    */
   __wdsCustomChildren?: ReactNode;
-};
+}>;
 
 export type TooltipContentWrapperProps = {
   isAlways?: boolean;
+  children?: ReactNode;
 } & Pick<
-  ComponentPropsWithoutRef<typeof DismissableLayer>,
+  DismissableLayerProps,
   'onPointerDownOutside' | 'onDismiss' | 'onFocusOutside'
 >;

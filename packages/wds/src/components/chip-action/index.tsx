@@ -1,13 +1,13 @@
 import { forwardRef, useId, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 
 import { actionStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
@@ -31,7 +31,7 @@ const ChipAction = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ChipActionProps, T>,
+    }: PolymorphicPropsInternal<ChipActionProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -76,8 +76,10 @@ const ChipAction = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<ChipActionProps, 'button'>;
+) as PolymorphicComponentInternal<ChipActionProps, 'button'>;
 
 ChipAction.displayName = 'ChipAction';
 
-export default ChipAction;
+export { ChipAction };
+
+export type { ChipActionProps };

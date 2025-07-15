@@ -26,4 +26,6 @@ const RegionConfig = memo((props: RegionConfigProps) => {
 
 RegionConfig.displayName = 'RegionConfig';
 
-export default RegionConfig;
+export { RegionConfig };
+
+export type { RegionConfigProps };

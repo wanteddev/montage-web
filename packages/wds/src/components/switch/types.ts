@@ -1,6 +1,10 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type SwitchDefaultProps = {
+export type SwitchDefaultProps = WithSxProps<{
   name?: string;
   checked?: boolean;
   defaultChecked?: boolean;
@@ -8,7 +12,7 @@ export type SwitchDefaultProps = {
   required?: boolean;
   size?: 'small' | 'medium';
   onCheckedChange?: (state: boolean) => void;
-};
+}>;
 
 export type SwitchResponsiveProps = ResponsiveProps<
   Pick<SwitchDefaultProps, 'size'>

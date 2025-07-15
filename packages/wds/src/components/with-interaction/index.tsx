@@ -5,12 +5,12 @@ import { composeRefs } from '@radix-ui/react-compose-refs';
 
 import { getWrapperStyle, interactionStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { WithInteractionProps } from './types';
 
 const WithInteraction = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<WithInteractionProps, 'div'>
+  DefaultComponentPropsInternal<WithInteractionProps, 'div'>
 >(
   (
     {
@@ -67,8 +67,6 @@ const WithInteraction = forwardRef<
 
 WithInteraction.displayName = 'WithInteraction';
 
-export default WithInteraction;
-
 const Interaction = ({
   color = 'semantic.label.normal',
   width = '100%',
@@ -82,3 +80,7 @@ const Interaction = ({
     />
   );
 };
+
+export { WithInteraction };
+
+export type { WithInteractionProps };

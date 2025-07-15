@@ -18,8 +18,8 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { useSize } from '@radix-ui/react-use-size';
 
 import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { ellipsisTypographyStyle } from '../../utils';
 import { SelectContent } from '../select';
 import { convertChildrenToData } from '../select/helpers';
@@ -33,13 +33,13 @@ import { VirtualValueInput } from '../virtual-input';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
 
 const SelectMultiple = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SelectMultipleProps, 'div'>
+  DefaultComponentPropsInternal<SelectMultipleProps, 'div'>
 >(
   (
     {
@@ -356,4 +356,6 @@ const SelectMultiple = forwardRef<
 
 SelectMultiple.displayName = 'SelectMultiple';
 
-export default SelectMultiple;
+export { SelectMultiple };
+
+export type { SelectMultipleProps };

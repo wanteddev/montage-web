@@ -3,9 +3,10 @@ import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
+  WithSxProps,
 } from '@wanteddev/wds-engine';
 
-type ToggleIconDefaultProps = {
+type ToggleIconDefaultProps = WithSxProps<{
   active?: boolean;
   defaultActive?: boolean;
   onActiveChange?: (state: boolean) => void;
@@ -14,7 +15,7 @@ type ToggleIconDefaultProps = {
   disabled?: boolean;
   disableInteraction?: boolean;
   children?: ReactNode;
-};
+}>;
 
 type ToggleIconResponsiveProps = ResponsiveProps<
   Pick<ToggleIconDefaultProps, 'size'>

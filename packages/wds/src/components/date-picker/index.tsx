@@ -6,25 +6,25 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { TextField, TextFieldContent } from '../text-field';
-import IconButton from '../icon-button';
-import DateCalendar from '../date-calendar';
+import { IconButton } from '../icon-button';
+import { DateCalendar } from '../date-calendar';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import DismissableLayer from '../dismissable-layer';
-import FocusScope from '../focus-scope';
-import FlexBox from '../flex-box';
+import { DismissableLayer } from '../dismissable-layer';
+import { FocusScope } from '../focus-scope';
+import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { DatePickerFieldProps, DatePickerProps } from './types';
 import type { DateType } from '../date-calendar/types';
 
 const DatePicker = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DatePickerProps, 'input'>
+  DefaultComponentPropsInternal<DatePickerProps, 'input'>
 >(
   (
     {
@@ -156,14 +156,14 @@ const DatePicker = forwardRef<
         <PopperAnchor
           ref={composedRefs}
           onChange={() => {}}
-          autoComplete="off"
-          type="text"
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
           aria-expanded={open}
           data-role="date-picker-field"
           {...props}
           {...({
+            type: 'text',
+            autoComplete: 'off',
             readOnly,
             disabled,
             placeholder,
@@ -270,7 +270,7 @@ DatePicker.displayName = 'DatePicker';
 
 const DatePickerField = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DatePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<DatePickerFieldProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
@@ -278,4 +278,5 @@ const DatePickerField = forwardRef<
 DatePickerField.displayName = 'DatePickerField';
 
 export { DatePicker };
-export type { DatePickerFieldProps, DateType };
+
+export type { DatePickerProps, DatePickerFieldProps, DateType };

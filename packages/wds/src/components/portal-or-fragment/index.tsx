@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 
-import Portal from '../portal';
+import { Portal } from '../portal';
 
 import type { ForwardedRef } from 'react';
 import type { PortalOrFragmentProps } from './types';
@@ -20,4 +20,6 @@ const PortalOrFragment = forwardRef<HTMLElement, PortalOrFragmentProps>(
   },
 );
 
-export default PortalOrFragment;
+export { PortalOrFragment };
+
+export type { PortalOrFragmentProps };

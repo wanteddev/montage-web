@@ -5,13 +5,13 @@ import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import Radio from '../radio';
+import { Radio } from '../radio';
 import { createEmptyResponsiveStyle } from '../../utils';
 
 import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ElementRef } from 'react';
 import type { RadioGroupItemProps, RadioGroupProps } from './types';
 
@@ -19,7 +19,7 @@ const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 const RadioGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<RadioGroupProps, 'div'>
+  DefaultComponentPropsInternal<RadioGroupProps, 'div'>
 >((props, ref) => {
   const {
     name,
@@ -136,3 +136,5 @@ const RadioGroupItem = forwardRef<
 RadioGroupItem.displayName = RADIO_ITEM_NAME;
 
 export { RadioGroup, RadioGroupItem };
+
+export type { RadioGroupProps, RadioGroupItemProps };
