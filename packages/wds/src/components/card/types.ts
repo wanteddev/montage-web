@@ -1,14 +1,13 @@
 import type { TypographyProps } from '../typography';
 import type { SkeletonProps } from '../skeleton/types';
-import type { ImageLoader } from '../image-loader';
-import type { CSSProperties, ComponentPropsWithoutRef, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import type {
   Merge,
   ResponsiveProps,
   WithSxProps,
 } from '@wanteddev/wds-engine';
 import type {
-  ThumbnailDefaultProps,
+  ThumbnailProps,
   ThumbnailSkeletonProps,
 } from '../thumbnail/types';
 import type { FlexBoxProps } from '../flex-box/types';
@@ -26,21 +25,21 @@ export type CardProps = Merge<
   FlexBoxProps
 >;
 
-export type CardThumbnailBasicProps = Merge<
-  Omit<ThumbnailDefaultProps, 'border' | 'radius'>,
-  ComponentPropsWithoutRef<typeof ImageLoader>
+export type CardThumbnailDefaultProps = Merge<
+  {
+    leadingContent?: ReactNode;
+    trailingContent?: ReactNode;
+    children?: ReactNode;
+  },
+  Omit<ThumbnailProps, 'border' | 'radius'>
 >;
-export type CardThumbnailDefaultProps = {
-  leadingContent?: ReactNode;
-  trailingContent?: ReactNode;
-  children?: ReactNode;
-};
+
 export type CardThumbnailResponsiveProps = ResponsiveProps<
-  Pick<CardThumbnailBasicProps, 'ratio'>
+  Pick<CardThumbnailDefaultProps, 'ratio'>
 >;
 export type CardThumbnailProps = Merge<
-  Merge<CardThumbnailDefaultProps, CardThumbnailBasicProps>,
-  CardThumbnailResponsiveProps
+  CardThumbnailResponsiveProps,
+  CardThumbnailDefaultProps
 >;
 
 export type CardThumbnailContentProps = Merge<

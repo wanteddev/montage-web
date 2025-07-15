@@ -27,7 +27,6 @@ export * from './form';
 export * from './grid';
 export * from './grid-item';
 export * from './icon-button';
-export * from './image-loader';
 export * from './label';
 export * from './loading';
 export * from './list';
