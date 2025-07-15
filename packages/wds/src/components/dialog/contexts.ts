@@ -7,6 +7,7 @@ type DialogContextType = {
   setOpen: (open: boolean) => void;
   headingId: string;
   descriptionId: string;
+  containerId: string;
   disableOutsideClickClose: boolean;
   onDismiss?: () => void;
 };
