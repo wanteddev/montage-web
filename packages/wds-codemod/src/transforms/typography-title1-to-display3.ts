@@ -46,6 +46,35 @@ const changeTypographyVariant = (
   }
 };
 
+const changeTextPropsTypographyVariant = (
+  componentName: string,
+  j: API['jscodeshift'],
+  root: Collection<any>,
+) => {
+  const importDeclaration = findImportDeclaration(
+    componentName,
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (importDeclaration) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: importDeclaration.imported.name },
+      })
+      .forEach((comp) => {
+        const textProps = (
+          comp.value.attributes?.find(
+            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
+          ) as JSXAttribute | undefined
+        )?.value as JSXExpressionContainer;
+
+        deepConvertPropertyValue(textProps, 'variant', convertTitle1ToDisplay3);
+      });
+  }
+};
+
 const transformer = (file: FileInfo, api: API, options: Options) => {
   const j = api.jscodeshift.withParser('tsx');
   const root = j(file.source);
@@ -54,7 +83,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     source: { value: '@wanteddev/wds' },
   });
 
-  if (wdsImport.length < 0) {
+  if (wdsImport.length < 1) {
     return file.source;
   }
 
@@ -85,120 +114,17 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     changeTypographyVariant(componentName, j, root);
   });
 
-  const listCellImport = findImportDeclaration(
+  const textPropsComponentList = [
     'ListCell',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
-
-  if (listCellImport) {
-    root
-      .find(j.JSXOpeningElement, {
-        name: { name: listCellImport.imported.name },
-      })
-      .forEach((comp) => {
-        const textProps = (
-          comp.value.attributes?.find(
-            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
-          ) as JSXAttribute | undefined
-        )?.value as JSXExpressionContainer;
-
-        deepConvertPropertyValue(textProps, 'variant', convertTitle1ToDisplay3);
-      });
-  }
-
-  const menuItemImport = findImportDeclaration(
     'MenuItem',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
-
-  if (menuItemImport) {
-    root
-      .find(j.JSXOpeningElement, {
-        name: { name: menuItemImport.imported.name },
-      })
-      .forEach((comp) => {
-        const textProps = (
-          comp.value.attributes?.find(
-            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
-          ) as JSXAttribute | undefined
-        )?.value as JSXExpressionContainer;
-
-        deepConvertPropertyValue(textProps, 'variant', convertTitle1ToDisplay3);
-      });
-  }
-
-  const optionImport = findImportDeclaration(
     'Option',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
-
-  if (optionImport) {
-    root
-      .find(j.JSXOpeningElement, {
-        name: { name: optionImport.imported.name },
-      })
-      .forEach((comp) => {
-        const textProps = (
-          comp.value.attributes?.find(
-            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
-          ) as JSXAttribute | undefined
-        )?.value as JSXExpressionContainer;
-
-        deepConvertPropertyValue(textProps, 'variant', convertTitle1ToDisplay3);
-      });
-  }
-
-  const autocompleteOptionImport = findImportDeclaration(
     'AutocompleteOption',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
-
-  if (autocompleteOptionImport) {
-    root
-      .find(j.JSXOpeningElement, {
-        name: { name: autocompleteOptionImport.imported.name },
-      })
-      .forEach((comp) => {
-        const textProps = (
-          comp.value.attributes?.find(
-            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
-          ) as JSXAttribute | undefined
-        )?.value as JSXExpressionContainer;
-
-        deepConvertPropertyValue(textProps, 'variant', convertTitle1ToDisplay3);
-      });
-  }
-
-  const accordionSummaryImport = findImportDeclaration(
     'AccordionSummary',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
+  ];
 
-  if (accordionSummaryImport) {
-    root
-      .find(j.JSXOpeningElement, {
-        name: { name: accordionSummaryImport.imported.name },
-      })
-      .forEach((comp) => {
-        const textProps = (
-          comp.value.attributes?.find(
-            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
-          ) as JSXAttribute | undefined
-        )?.value as JSXExpressionContainer;
-
-        deepConvertPropertyValue(textProps, 'variant', convertTitle1ToDisplay3);
-      });
-  }
+  textPropsComponentList.forEach((componentName) => {
+    changeTextPropsTypographyVariant(componentName, j, root);
+  });
 
   const typographyStyleImport = findImportDeclaration(
     'typographyStyle',
