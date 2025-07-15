@@ -9,7 +9,7 @@ export default defineConfig(
     dts: 'src/index.ts',
     onSuccess: () =>
       injectUseClient([
-        './dist/components/**/index.{js,mjs}',
+        './dist/components/*/index.{js,mjs}',
         './dist/context/**/index.{js,mjs}',
         './dist/hooks/**/*.{js,mjs}',
         './dist/global/**/index.{js,mjs}',

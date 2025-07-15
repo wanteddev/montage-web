@@ -84,7 +84,10 @@ const Card = forwardRef(
 
 Card.displayName = CARD_NAME;
 
-const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
+const CardThumbnail = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<CardThumbnailProps, 'img'>
+>(
   (
     {
       leadingContent,

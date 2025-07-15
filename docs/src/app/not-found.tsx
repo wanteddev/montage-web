@@ -6,7 +6,6 @@ import {
   EmptyStateContent,
   EmptyStateImage,
   EmptyStateText,
-  ImageLoader,
 } from '@wanteddev/wds';
 import Link from 'next/link';
 
@@ -17,12 +16,8 @@ const NotFoundPage = () => {
     <FullPageLayout>
       <EmptyState platform="mobile" sm={{ platform: 'desktop' }}>
         <EmptyStateImage>
-          <ImageLoader
-            src="https://static.wanted.co.kr/images/ghost.png"
-            width={200}
-            quality={100}
-            alt="ghost"
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="https://static.wanted.co.kr/images/ghost.png" alt="ghost" />
         </EmptyStateImage>
         <EmptyStateContent>
           <EmptyStateText
