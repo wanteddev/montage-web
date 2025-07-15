@@ -111,11 +111,6 @@ export const routes: Array<Route> = [
         title: 'IconButton',
         slug: '/docs/components/icon-button',
       },
-      {
-        title: 'ImageLoader',
-        slug: '/docs/components/image-loader',
-        deprecated: true,
-      },
       { title: 'Label', slug: '/docs/components/label' },
       { title: 'List', slug: '/docs/components/list' },
       { title: 'Loading', slug: '/docs/components/loading' },

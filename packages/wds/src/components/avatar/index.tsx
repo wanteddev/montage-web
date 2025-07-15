@@ -5,15 +5,17 @@ import {
   IconPersonFill,
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
-
-import { ImageLoader } from '../image-loader';
+import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { avatarWrapperStyle, fallbackWrapperStyle } from './style';
 
-import type { ComponentProps } from 'react';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { AvatarProps } from './types';
 
-const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
+const Avatar = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<AvatarProps, 'img'>
+>(
   (
     {
       size = 'small',
@@ -46,9 +48,7 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
       'idle' | 'loaded' | 'error'
     >('idle');
 
-    const hasImage = (
-      value: AvatarProps,
-    ): value is ComponentProps<typeof ImageLoader> =>
+    const hasImage = (value: AvatarProps) =>
       'src' in value && Boolean(value.src);
 
     const prevSrc = useRef(props.src);
@@ -70,18 +70,14 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
         style={style}
       >
         {imageLoadingStatus !== 'error' && hasImage(props) ? (
-          <ImageLoader
-            quality={90}
+          <img
             {...props}
-            width={props.width ? props.width : '80px'}
-            onLoad={() => {
-              props.onLoad?.();
+            onLoad={composeEventHandlers(props.onLoad, () => {
               setImageLoadingStatus('loaded');
-            }}
-            onError={() => {
-              props.onError?.();
+            })}
+            onError={composeEventHandlers(props.onError, () => {
               setImageLoadingStatus('error');
-            }}
+            })}
           />
         ) : (
           <Box data-role="avatar-fallback" sx={fallbackWrapperStyle}>
