@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
-import Button from '../button';
-import TextButton from '../text-button';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { Button } from '../button';
+import { TextButton } from '../text-button';
 import { useModalActionAreaContext } from '../modal/contexts';
 
 import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
@@ -13,14 +13,14 @@ import { actionAreaStyle, actionButtonCancel } from './style';
 import type { ActionAreaProps, ActionButtonProps } from './types';
 import type { ElementType, ForwardedRef, ReactNode } from 'react';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
 const ActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ActionAreaProps, 'div'>
+  DefaultComponentPropsInternal<ActionAreaProps, 'div'>
 >(
   (
     {
@@ -129,7 +129,7 @@ const ActionAreaButton = forwardRef(
       buttonVariant,
       buttonColor,
       ...props
-    }: PolymorphicProps<ActionButtonProps, T>,
+    }: PolymorphicPropsInternal<ActionButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { variant: parentVariant } = useActionAreaContext(
@@ -196,8 +196,10 @@ const ActionAreaButton = forwardRef(
 
     return renderComponent[variant];
   },
-) as PolymorphicComponent<ActionButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ActionButtonProps, 'button'>;
 
 ActionAreaButton.displayName = ACTION_AREA_BUTTON_NAME;
 
 export { ActionArea, ActionAreaButton };
+
+export type { ActionAreaProps, ActionButtonProps };

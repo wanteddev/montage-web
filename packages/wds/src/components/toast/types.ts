@@ -1,8 +1,9 @@
-import type PortalOrFragment from '../portal-or-fragment';
+import type { SlotProps } from '@radix-ui/react-slot';
+import type { PortalOrFragmentProps } from '../portal-or-fragment/types';
 import type { TypographyProps } from '../typography/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { RegionToastItem } from '../../stores/region-store';
-import type { ComponentProps, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export type ToastProps = Pick<
   RegionToastItem,
@@ -11,12 +12,12 @@ export type ToastProps = Pick<
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  container?: ComponentProps<typeof PortalOrFragment>['container'];
-  disablePortal?: ComponentProps<typeof PortalOrFragment>['disablePortal'];
+  container?: PortalOrFragmentProps['container'];
+  disablePortal?: PortalOrFragmentProps['disablePortal'];
   disableAnimation?: boolean;
   children?: ReactNode;
 };
 
 export type ToastContainerProps = FlexBoxProps;
-export type ToastIconProps = {};
+export type ToastIconProps = SlotProps;
 export type ToastContentProps = TypographyProps;

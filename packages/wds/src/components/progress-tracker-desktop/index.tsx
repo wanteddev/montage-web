@@ -5,8 +5,8 @@ import {
 } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
 import { findComponentInChildren } from '../../utils/children';
 
 import {
@@ -25,7 +25,7 @@ import {
 } from './contexts';
 
 import type {
-  DefaultComponentProps,
+  DefaultComponentPropsInternal,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type {
@@ -35,7 +35,7 @@ import type {
 
 const ProgressTrackerDesktop = forwardRef<
   HTMLOListElement,
-  DefaultComponentProps<ProgressTrackerDesktopProps, 'ol'>
+  DefaultComponentPropsInternal<ProgressTrackerDesktopProps, 'ol'>
 >(
   (
     { value: originValue, defaultValue, onValueChange, children, ...props },
@@ -90,7 +90,7 @@ ProgressTrackerDesktop.displayName = PROGRESS_TRACKER_DESKTOP_NAME;
 
 const ProgressTrackerDesktopItem = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<ProgressTrackerDesktopItemProps, 'li'>
+  DefaultComponentPropsInternal<ProgressTrackerDesktopItemProps, 'li'>
 >(({ value, label, completedLabel, ...props }, ref) => {
   const {
     value: contextValue,
@@ -156,6 +156,8 @@ ProgressTrackerDesktopItem.displayName = PROGRESS_TRACKER_DESKTOP_ITEM_NAME;
 ProgressTrackerDesktopItem.isProgressTrackerDesktopItem = true;
 
 export { ProgressTrackerDesktop, ProgressTrackerDesktopItem };
+
+export type { ProgressTrackerDesktopProps, ProgressTrackerDesktopItemProps };
 
 const ProgressTrackerDesktopItemLabel = ({
   isCompleted,

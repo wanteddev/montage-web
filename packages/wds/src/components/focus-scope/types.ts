@@ -1,14 +1,14 @@
 export type FocusScopeProps = {
   /**
-   * container 내에서만 포커스 가능하도록 loop 여부
+   * Whether the focus is only possible within the container.
    */
   loop?: boolean;
   /**
-   * 첫 포커스를 `trappedContent`에 따라 자동으로 이동 여부
+   * Whether the first focus automatically moves according to `trappedContent`.
    */
   trapped?: boolean;
   /**
-   * container 외 내부 콘텐츠 영역에 포커스 여부
+   * Whether the focus is within the internal content area outside the container.
    */
   trappedContent?: boolean;
   onMountAutoFocus?: (event: Event) => void;
