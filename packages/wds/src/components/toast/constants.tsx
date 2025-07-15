@@ -4,7 +4,7 @@ import {
   IconTriangleExclamationFill,
 } from '@wanteddev/wds-icon';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import { toastCircleIconWrapperStyle } from './style';
 

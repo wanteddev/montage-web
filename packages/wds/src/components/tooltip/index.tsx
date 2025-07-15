@@ -5,14 +5,14 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { useTheme } from '@wanteddev/wds-engine';
 import { IconClose } from '@wanteddev/wds-icon';
 
-import DismissableLayer from '../dismissable-layer';
+import { DismissableLayer } from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { addOpacity } from '../../utils';
-import IconButton from '../icon-button';
+import { IconButton } from '../icon-button';
 import { createScope } from '../../hooks/use-scope-context';
-import NoSsr from '../no-ssr';
+import { NoSsr } from '../no-ssr';
 import { AnimationPresence } from '../animation-presence';
 
 import {
@@ -31,15 +31,16 @@ import { tooltipContentStyle, tooltipWrapperStyle } from './style';
 import { useTooltip } from './hooks';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   TooltipContentProps,
   TooltipContentWrapperProps,
   TooltipGroupProps,
   TooltipProps,
+  TooltipTriggerProps,
 } from './types';
 import type { ElementType, ForwardedRef } from 'react';
 
@@ -140,43 +141,42 @@ const Tooltip = ({
 
 Tooltip.displayName = TOOLTIP_NAME;
 
-const TooltipTrigger = forwardRef<
-  HTMLElement,
-  DefaultComponentProps<{}, typeof Slot>
->((props, ref) => {
-  const {
-    triggerRef,
-    containerId,
-    open,
-    handleMouseOver,
-    handleMouseLeave,
-    handleFocus,
-    handleBlur,
-    handleMouseDown,
-    handleClick,
-  } = useTooltipContext(TOOLTIP_TRIGGER_NAME);
+const TooltipTrigger = forwardRef<HTMLElement, TooltipTriggerProps>(
+  (props, ref) => {
+    const {
+      triggerRef,
+      containerId,
+      open,
+      handleMouseOver,
+      handleMouseLeave,
+      handleFocus,
+      handleBlur,
+      handleMouseDown,
+      handleClick,
+    } = useTooltipContext(TOOLTIP_TRIGGER_NAME);
 
-  const scopes = useTooltipScope('Tooltip');
+    const scopes = useTooltipScope('Tooltip');
 
-  return (
-    <PopperAnchor ref={triggerRef} {...scopes}>
-      <Slot
-        aria-describedby={open ? containerId : undefined}
-        {...props}
-        ref={ref}
-        onMouseOver={composeEventHandlers(props.onMouseOver, handleMouseOver)}
-        onMouseLeave={composeEventHandlers(
-          props.onMouseLeave,
-          handleMouseLeave,
-        )}
-        onFocus={composeEventHandlers(props.onFocus, handleFocus)}
-        onBlur={composeEventHandlers(props.onBlur, handleBlur)}
-        onMouseDown={composeEventHandlers(props.onMouseDown, handleMouseDown)}
-        onClick={composeEventHandlers(props.onClick, handleClick)}
-      />
-    </PopperAnchor>
-  );
-});
+    return (
+      <PopperAnchor ref={triggerRef} {...scopes}>
+        <Slot
+          aria-describedby={open ? containerId : undefined}
+          {...props}
+          ref={ref}
+          onMouseOver={composeEventHandlers(props.onMouseOver, handleMouseOver)}
+          onMouseLeave={composeEventHandlers(
+            props.onMouseLeave,
+            handleMouseLeave,
+          )}
+          onFocus={composeEventHandlers(props.onFocus, handleFocus)}
+          onBlur={composeEventHandlers(props.onBlur, handleBlur)}
+          onMouseDown={composeEventHandlers(props.onMouseDown, handleMouseDown)}
+          onClick={composeEventHandlers(props.onClick, handleClick)}
+        />
+      </PopperAnchor>
+    );
+  },
+);
 
 TooltipTrigger.displayName = TOOLTIP_TRIGGER_NAME;
 
@@ -198,7 +198,7 @@ const TooltipContent = forwardRef(
       as,
       __wdsCustomChildren,
       ...props
-    }: PolymorphicProps<TooltipContentProps, T>,
+    }: PolymorphicPropsInternal<TooltipContentProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const scopes = useTooltipScope('Tooltip');
@@ -247,7 +247,7 @@ const TooltipContent = forwardRef(
             referenceHiddenOffsets={referenceHiddenOffsets}
             setContext={setContext}
             wrapperProps={{
-              // 사라지는 animation 도중 mouseover 이벤트 발생 방지
+              // Prevent mouseover events during the disappearing animation
               onMouseOver: open ? handleMouseOver : undefined,
               onMouseLeave: handleMouseLeave,
               onFocus: handleFocus,
@@ -313,13 +313,13 @@ const TooltipContent = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<TooltipContentProps, 'div'>;
+) as PolymorphicComponentInternal<TooltipContentProps, 'div'>;
 
 TooltipContent.displayName = TOOLTIP_CONTENT_NAME;
 
 const TooltipContentWrapper = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TooltipContentWrapperProps, 'div'>
+  DefaultComponentPropsInternal<TooltipContentWrapperProps, 'div'>
 >(
   (
     { isAlways, onFocusOutside, onPointerDownOutside, onDismiss, ...props },
@@ -350,3 +350,10 @@ const TooltipContentWrapper = forwardRef<
 TooltipContentWrapper.displayName = TOOLTIP_CONTENT_WRAPPER_NAME;
 
 export { TooltipGroup, Tooltip, TooltipTrigger, TooltipContent };
+
+export type {
+  TooltipGroupProps,
+  TooltipProps,
+  TooltipTriggerProps,
+  TooltipContentProps,
+};

@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
 import { Portal as RadixPortal } from '@radix-ui/react-portal';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { PortalProps } from './types';
 
 const Portal = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PortalProps, 'div'>
+  DefaultComponentPropsInternal<PortalProps, 'div'>
 >(
   (
     {
@@ -27,4 +27,6 @@ const Portal = forwardRef<
 
 Portal.displayName = 'Portal';
 
-export default Portal;
+export { Portal };
+
+export type { PortalProps };

@@ -1,10 +1,11 @@
+import type { SlotProps } from '@radix-ui/react-slot';
 import type { PopperContentProps } from '../popper/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { ListCellProps } from '../list/types';
-import type { Merge } from '@wanteddev/wds-engine';
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 import type { PropsWithChildren, ReactNode, RefObject } from 'react';
 
-export type AutocompleteProps = {
+export type AutocompleteProps = WithSxProps<{
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -16,18 +17,20 @@ export type AutocompleteProps = {
   defaultInputValue?: string;
   onInputValueChange?: (value: string) => void;
   /**
-   * 값을 선택하거나 엔터를 입력했을 때를 컨트롤 할 수 있습니다.
+   * When a value is selected or entered, this function can control the event.
    */
   onSearch?: (value: string) => void;
   children?: ReactNode;
-};
+}>;
+
+export type AutocompleteFieldProps = SlotProps;
 
 export type AutocompleteTriggerProps = PropsWithChildren;
 
 export type AutocompleteListProps = Merge<
   {
     /**
-     * asSelect=`true` 일 때 첫 포커스를 지정하지 않습니다.
+     * When `asSelect=true`, the first focus is not specified.
      */
     disableTrappedContent?: boolean;
     forceMount?: boolean;

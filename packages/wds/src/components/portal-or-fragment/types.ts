@@ -1,9 +1,8 @@
 import type { Merge } from '@wanteddev/wds-engine';
-import type Portal from '../portal';
-import type { ComponentPropsWithoutRef } from 'react';
+import type { PortalProps } from '../portal/types';
 
 export type PortalOrFragmentProps = Merge<
-  ComponentPropsWithoutRef<typeof Portal>,
+  PortalProps,
   {
     disablePortal?: boolean;
   }

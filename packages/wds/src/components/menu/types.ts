@@ -1,9 +1,12 @@
-import type { ListCellProps } from '../list/types';
-import type { PopoverTrigger } from '../popover';
+import type { ListCellProps, ListProps } from '../list/types';
 import type { FlexBoxProps } from '../flex-box/types';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { PopoverContentProps, PopoverProps } from '../popover/types';
-import type { Merge } from '@wanteddev/wds-engine';
+import type { ReactNode } from 'react';
+import type {
+  PopoverContentProps,
+  PopoverProps,
+  PopoverTriggerProps,
+} from '../popover/types';
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 
 export type MenuDefaultProps = {
   defaultValue?: string | Array<string>;
@@ -13,7 +16,7 @@ export type MenuDefaultProps = {
 };
 export type MenuProps = Merge<MenuDefaultProps, PopoverProps>;
 
-export type MenuTriggerProps = ComponentPropsWithoutRef<typeof PopoverTrigger>;
+export type MenuTriggerProps = PopoverTriggerProps;
 
 export type MenuContentProps = Pick<
   PopoverContentProps,
@@ -36,30 +39,34 @@ export type MenuContentProps = Pick<
   | 'onPointerDownOutside'
   | 'onDismiss'
   | 'disableOutsidePointerEvents'
+  | 'sx'
+  | 'children'
 >;
 
-export type MenuGroupDefaultProps = {
+export type MenuListProps = ListProps;
+
+export type MenuGroupDefaultProps = WithSxProps<{
   title?: ReactNode;
   children?: ReactNode;
-};
+}>;
 export type MenuGroupProps = Merge<MenuGroupDefaultProps, FlexBoxProps>;
 
-export type MenuItemDefaultProps = {
+export type MenuItemDefaultProps = WithSxProps<{
   variant?: 'normal' | 'radio' | 'checkbox';
   children?: ReactNode;
   value: string;
-};
+}>;
 export type MenuItemProps = Merge<MenuItemDefaultProps, ListCellProps>;
 
 export type MenuItemRadioProps = Omit<MenuItemProps, 'variant'>;
 export type MenuItemCheckboxProps = Omit<MenuItemProps, 'variant'>;
 
-export type MenuActionAreaProps = {
+export type MenuActionAreaProps = WithSxProps<{
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
   children?: ReactNode;
-};
-export type MenuActionAreaContentProps = {
+}>;
+export type MenuActionAreaContentProps = WithSxProps<{
   variant?:
     | 'icon'
     | 'button'
@@ -69,4 +76,4 @@ export type MenuActionAreaContentProps = {
     | 'badge'
     | 'custom';
   children?: ReactNode;
-};
+}>;

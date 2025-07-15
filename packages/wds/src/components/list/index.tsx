@@ -1,8 +1,8 @@
 import { forwardRef, useState } from 'react';
 import {
   Box,
-  type PolymorphicComponent,
-  type PolymorphicProps,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
   type ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
@@ -32,7 +32,7 @@ import {
 } from './style';
 import { ListCellProvider, useListCellContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
@@ -44,7 +44,7 @@ import type {
 
 const List = forwardRef(
   (
-    { children, ...props }: DefaultComponentProps<ListProps, 'ul'>,
+    { children, ...props }: DefaultComponentPropsInternal<ListProps, 'ul'>,
     ref: ForwardedRef<HTMLUListElement>,
   ) => {
     return (
@@ -90,7 +90,7 @@ const ListCell = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<ListCellProps, T>,
+    }: PolymorphicPropsInternal<ListCellProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const [item, setItem] = useState<T | null>(null);
@@ -146,7 +146,7 @@ const ListCell = forwardRef(
 
               if (
                 controllable &&
-                // controllable 직접 클릭 시 이벤트 중복 호출을 방어함.
+                // prevent double call of event when clicking directly on controllable
                 !controllable.contains(e.target as HTMLElement)
               ) {
                 (controllable as HTMLElement).click();
@@ -196,13 +196,13 @@ const ListCell = forwardRef(
       </ListCellProvider>
     );
   },
-) as PolymorphicComponent<ListCellProps, 'li'>;
+) as PolymorphicComponentInternal<ListCellProps, 'li'>;
 
 ListCell.displayName = LIST_CELL_NAME;
 
 const ListCellContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ListCellContentProps, 'div'>
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
 >(({ variant = 'custom', children, chevron = true, sx, ...props }, ref) => {
   const { alignItems } = useListCellContext(LIST_CELL_CONTENT_NAME);
 
@@ -320,7 +320,7 @@ const ListText = forwardRef(
       captionProps,
       as,
       ...props
-    }: PolymorphicProps<ListTextProps, T>,
+    }: PolymorphicPropsInternal<ListTextProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { active, disabled, ellipsis } = useListCellContext(LIST_TEXT_NAME);
@@ -379,8 +379,10 @@ const ListText = forwardRef(
       </Typography>
     );
   },
-) as PolymorphicComponent<ListTextProps, 'p'>;
+) as PolymorphicComponentInternal<ListTextProps, 'p'>;
 
 ListText.displayName = LIST_TEXT_NAME;
 
 export { List, ListCell, ListCellContent };
+
+export type { ListProps, ListCellProps, ListCellContentProps };

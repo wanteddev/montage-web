@@ -1,14 +1,17 @@
 import { forwardRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
 
-import ImageLoader from '../image-loader';
-import FlexBox from '../flex-box';
-import Skeleton from '../skeleton';
+import { ImageLoader } from '../image-loader';
+import { FlexBox } from '../flex-box';
+import { Skeleton } from '../skeleton';
 
 import { thumbnailStyle } from './style';
 import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
 
-import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentPropsInternal,
+  Merge,
+} from '@wanteddev/wds-engine';
 import type { ComponentPropsWithoutRef, ForwardedRef } from 'react';
 import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
 
@@ -126,7 +129,7 @@ const ThumbnailSkeleton = forwardRef(
       xs,
       sx,
       ...props
-    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<ThumbnailSkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -159,3 +162,5 @@ const ThumbnailSkeleton = forwardRef(
 ThumbnailSkeleton.displayName = THUMBNAIL_SKELETON_NAME;
 
 export { Thumbnail, ThumbnailSkeleton };
+
+export type { ThumbnailProps, ThumbnailSkeletonProps };
