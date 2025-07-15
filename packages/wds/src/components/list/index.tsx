@@ -101,7 +101,7 @@ const ListCell = forwardRef(
     const controllable = itemElement?.querySelector(
       '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a',
     );
-    const clickable = Boolean(props.onClick || controllable) && !disabled;
+    const clickable = !disabled && !disableInteraction;
 
     return (
       <ListCellProvider
@@ -124,7 +124,8 @@ const ListCell = forwardRef(
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (
-                (e.key === 'Enter' || e.key === ' ') &&
+                e.key === 'Enter' &&
+                !e.metaKey &&
                 (e.target as HTMLElement) === itemElement
               ) {
                 e.preventDefault();
