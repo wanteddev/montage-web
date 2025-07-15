@@ -4,8 +4,8 @@ import { Box } from '@wanteddev/wds-engine';
 import { skeletonStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { SkeletonProps } from './types';
@@ -27,7 +27,7 @@ const Skeleton = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<SkeletonProps, T>,
+    }: PolymorphicPropsInternal<SkeletonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -57,8 +57,10 @@ const Skeleton = forwardRef(
       </Box>
     );
   },
-) as PolymorphicComponent<SkeletonProps, 'div'>;
+) as PolymorphicComponentInternal<SkeletonProps, 'div'>;
 
 Skeleton.displayName = 'Skeleton';
 
-export default Skeleton;
+export { Skeleton };
+
+export type { SkeletonProps };

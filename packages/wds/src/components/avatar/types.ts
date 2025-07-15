@@ -1,12 +1,16 @@
-import type ImageLoader from '../image-loader';
+import type { ImageLoader } from '../image-loader';
 import type { ComponentProps, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-type AvatarDefaultProps = {
+type AvatarDefaultProps = WithSxProps<{
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | number;
   variant?: 'person' | 'company' | 'academy';
   children?: ReactNode;
-};
+}>;
 
 type AvatarResponsiveProps = ResponsiveProps<Pick<AvatarDefaultProps, 'size'>>;
 

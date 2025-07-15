@@ -4,9 +4,10 @@ import type {
   ResponsiveProps,
   ThemeColorsToken,
   ThemeOpacityToken,
+  WithSxProps,
 } from '@wanteddev/wds-engine';
 
-type SkeletonDefaultProps = {
+type SkeletonDefaultProps = WithSxProps<{
   variant?: 'text' | 'circle' | 'rectangle';
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
@@ -15,7 +16,7 @@ type SkeletonDefaultProps = {
   opacity?: ThemeOpacityToken;
   align?: 'left' | 'center' | 'right';
   animation?: boolean;
-};
+}>;
 
 type SkeletonResponsiveProps = ResponsiveProps<
   Pick<SkeletonDefaultProps, 'width' | 'height'>

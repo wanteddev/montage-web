@@ -4,10 +4,10 @@ import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
 
-import DismissableLayer from '../dismissable-layer';
+import { DismissableLayer } from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
-import FlexBox from '../flex-box';
-import FocusScope from '../focus-scope';
+import { FlexBox } from '../flex-box';
+import { FocusScope } from '../focus-scope';
 import { createScope } from '../../hooks/use-scope-context';
 import { AnimationPresence } from '../animation-presence';
 
@@ -20,16 +20,15 @@ import {
 import { popoverStyle } from './style';
 
 import type { ScopedProps } from '../../hooks/use-scope-context';
-import type { PopoverContentProps, PopoverProps } from './types';
 import type {
-  ComponentPropsWithoutRef,
-  ElementType,
-  ForwardedRef,
-  PropsWithChildren,
-} from 'react';
+  PopoverContentProps,
+  PopoverProps,
+  PopoverTriggerProps,
+} from './types';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
 const usePopoverScope = createScope('Popper');
@@ -40,7 +39,7 @@ const Popover = ({
   onOpenChange,
   children,
   __scopePopover = 'Popover',
-}: PropsWithChildren<ScopedProps<PopoverProps, 'Popover'>>) => {
+}: ScopedProps<PopoverProps, 'Popover'>) => {
   const triggerId = useId();
   const contentId = useId();
 
@@ -67,15 +66,12 @@ const Popover = ({
 
 Popover.displayName = POPOVER_NAME;
 
-const PopoverTrigger = forwardRef<
-  HTMLElement,
-  ComponentPropsWithoutRef<typeof Slot>
->(
+const PopoverTrigger = forwardRef<HTMLElement, PopoverTriggerProps>(
   (
     {
       __scopePopover = 'Popover',
       ...props
-    }: ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popover'>,
+    }: ScopedProps<PopoverTriggerProps, 'Popover'>,
     ref,
   ) => {
     const { contentId, triggerId, open, onOpenChange } = usePopoverContext(
@@ -138,7 +134,7 @@ const PopoverContent = forwardRef(
       disableOutsidePointerEvents = true,
       __scopePopover = 'Popover',
       ...props
-    }: PolymorphicProps<ScopedProps<PopoverContentProps, 'Popover'>, T>,
+    }: PolymorphicPropsInternal<ScopedProps<PopoverContentProps, 'Popover'>, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { contentId, open, onOpenChange } = usePopoverContext(
@@ -198,8 +194,10 @@ const PopoverContent = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<PopoverContentProps, 'div'>;
+) as PolymorphicComponentInternal<PopoverContentProps, 'div'>;
 
 PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 
 export { Popover, PopoverTrigger, PopoverContent };
+
+export type { PopoverProps, PopoverTriggerProps, PopoverContentProps };

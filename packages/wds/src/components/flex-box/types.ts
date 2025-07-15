@@ -1,7 +1,11 @@
 import type { CSSProperties, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type FlexBoxDefaultProps = {
+export type FlexBoxDefaultProps = WithSxProps<{
   flexDirection?: CSSProperties['flexDirection'];
   flexWrap?: CSSProperties['flexWrap'];
   justifyContent?: CSSProperties['justifyContent'];
@@ -17,10 +21,10 @@ export type FlexBoxDefaultProps = {
   rowGap?: CSSProperties['rowGap'];
   columnGap?: CSSProperties['columnGap'];
   children?: ReactNode;
-};
+}>;
 
 type FlexBoxResponsiveProps = ResponsiveProps<
-  Omit<FlexBoxDefaultProps, 'children'>
+  Omit<FlexBoxDefaultProps, 'children' | 'sx'>
 >;
 
 export type FlexBoxProps = Merge<FlexBoxDefaultProps, FlexBoxResponsiveProps>;

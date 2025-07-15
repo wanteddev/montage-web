@@ -1,8 +1,9 @@
+import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { DateType } from '../date-picker';
 
 export type TimeViewType = 'meridiem' | 'hour' | 'minute' | 'second';
 
-export type TimeViewProps = {
+export type TimeViewProps = WithSxProps<{
   value?: DateType;
   defaultValue?: DateType;
   views?: Array<TimeViewType>;
@@ -14,7 +15,7 @@ export type TimeViewProps = {
   disabled?: boolean;
   onChange?: (value: DateType) => void;
   onChangeComplete?: (value: DateType) => void;
-};
+}>;
 
 export type TimeListProps = {
   view: TimeViewType;
