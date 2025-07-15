@@ -1,18 +1,18 @@
 import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
 
 import { pushBadgeStyle, pushBadgeWrapperStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 import type { PushBadgeProps } from './types';
 
 const PushBadge = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PushBadgeProps, 'div'>
+  DefaultComponentPropsInternal<PushBadgeProps, 'div'>
 >(
   (
     {
@@ -100,4 +100,6 @@ const PushBadge = forwardRef<
 
 PushBadge.displayName = 'PushBadge';
 
-export default PushBadge;
+export { PushBadge };
+
+export type { PushBadgeProps };

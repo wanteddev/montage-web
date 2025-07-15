@@ -1,7 +1,11 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { CSSProperties, ReactNode } from 'react';
 
-export type GridItemDefaultProps = {
+export type GridItemDefaultProps = WithSxProps<{
   alignSelf?: CSSProperties['alignSelf'];
   columns?:
     | 1
@@ -21,7 +25,7 @@ export type GridItemDefaultProps = {
     | true;
   offset?: number | 'auto';
   children?: ReactNode;
-};
+}>;
 
 export type GridItemResponsiveProps = ResponsiveProps<
   Pick<GridItemDefaultProps, 'alignSelf' | 'columns' | 'offset'>

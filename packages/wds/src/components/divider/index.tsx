@@ -3,12 +3,12 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { dividerStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { DividerProps } from './types';
 
 const Divider = forwardRef<
   HTMLHRElement,
-  DefaultComponentProps<DividerProps, 'hr'>
+  DefaultComponentPropsInternal<DividerProps, 'hr'>
 >(
   (
     {
@@ -51,4 +51,6 @@ const Divider = forwardRef<
 
 Divider.displayName = 'Divider';
 
-export default Divider;
+export { Divider };
+
+export type { DividerProps };

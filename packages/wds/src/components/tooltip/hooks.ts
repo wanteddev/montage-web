@@ -41,7 +41,7 @@ export const useTooltip = ({
     },
   });
 
-  // setTimeout 에서 최신 state를 가지기 위해 ref로도 저장해야함.
+  // Store the latest state in a ref to ensure setTimeout callbacks access the most recent value.
   const latestOpen = useRef(open);
 
   useEffect(() => {

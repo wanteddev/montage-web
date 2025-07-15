@@ -3,13 +3,9 @@ import { useMemo } from 'react';
 
 import ThemeContext from '../../context';
 
-import type { PropsWithChildren } from 'react';
+import type { ForceThemeProps } from './types';
 
-type Props = PropsWithChildren<{
-  theme: 'light' | 'dark';
-}>;
-
-const ForceTheme = ({ theme: localTheme, children }: Props) => {
+const ForceTheme = ({ theme: localTheme, children }: ForceThemeProps) => {
   const engineTheme = useMemo(() => {
     switch (localTheme) {
       case 'light':
@@ -17,7 +13,7 @@ const ForceTheme = ({ theme: localTheme, children }: Props) => {
       case 'dark':
         return darkOriginTheme;
       default: {
-        console.error('WDS: 올바른 Theme 값을 설정했는지 확인이 필요합니다.');
+        console.error('WDS: Please check if the correct Theme value is set.');
       }
     }
   }, [localTheme]);
@@ -31,4 +27,6 @@ const ForceTheme = ({ theme: localTheme, children }: Props) => {
 
 ForceTheme.displayName = 'ForceTheme';
 
-export default ForceTheme;
+export { ForceTheme };
+
+export type { ForceThemeProps };

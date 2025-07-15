@@ -1,7 +1,7 @@
 import type { TextFieldProps } from '../text-field/types';
 import type { TextField } from '../text-field';
 import type { Merge } from '@wanteddev/wds-engine';
-import type DateCalendar from '../date-calendar';
+import type { DateCalendar } from '../date-calendar';
 import type {
   ComponentProps,
   ComponentPropsWithoutRef,
@@ -10,7 +10,7 @@ import type {
   Ref,
 } from 'react';
 import type { PopperContent } from '../popper';
-import type FocusScope from '../focus-scope';
+import type { FocusScope } from '../focus-scope';
 
 export type DatePickerProps = Merge<
   {
@@ -26,7 +26,7 @@ export type DatePickerProps = Merge<
     input?: ElementType;
     actionArea?: ReactNode;
     /**
-     * 마지막 요소를 선택 완료 했을 때 popover를 닫지 않습니다.
+     * When the last element is selected, the popover is not closed.
      */
     disableLastUnitClickClose?: boolean;
   },

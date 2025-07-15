@@ -1,16 +1,16 @@
 import { forwardRef } from 'react';
 import { IconPlay } from '@wanteddev/wds-icon';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import { playBadgeStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { PlayBadgeProps } from './types';
 
 const PlayBadge = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PlayBadgeProps, 'div'>
+  DefaultComponentPropsInternal<PlayBadgeProps, 'div'>
 >(
   (
     { size = 'medium', alternative = false, xs, sm, md, lg, xl, ...props },
@@ -41,4 +41,6 @@ const PlayBadge = forwardRef<
 
 PlayBadge.displayName = 'PlayBadge';
 
-export default PlayBadge;
+export { PlayBadge };
+
+export type { PlayBadgeProps };

@@ -1,13 +1,13 @@
 import { forwardRef } from 'react';
 
-import Typography from '../typography';
+import { Typography } from '../typography';
 
 import type { LabelProps } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 const Label = forwardRef<
   HTMLLabelElement,
-  DefaultComponentProps<LabelProps, 'label'>
+  DefaultComponentPropsInternal<LabelProps, 'label'>
 >(({ display = 'inline-block', required, children, ...props }, ref) => {
   return (
     <Typography
@@ -37,4 +37,6 @@ const Label = forwardRef<
 
 Label.displayName = 'Label';
 
-export default Label;
+export { Label };
+
+export type { LabelProps };

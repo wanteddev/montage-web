@@ -16,4 +16,4 @@ const Global = ({ styles }: Props) => {
   return <StyleEngineGlobal styles={interpolationTheme(styles, theme)} />;
 };
 
-export default Global;
+export { Global };

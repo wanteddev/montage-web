@@ -1,5 +1,5 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import {
   IconCircleCheckFill,
   IconCircleCloseFill,
@@ -7,10 +7,10 @@ import {
 } from '@wanteddev/wds-icon';
 import { forwardRef, useRef } from 'react';
 
-import FlexBox from '../flex-box';
-import IconButton from '../icon-button';
-import Typography from '../typography';
-import Button from '../button';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
+import { Typography } from '../typography';
+import { Button } from '../button';
 import { IconButtonProvider } from '../icon-button/contexts';
 
 import {
@@ -22,8 +22,8 @@ import {
 } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type {
@@ -34,7 +34,7 @@ import type {
 
 const TextField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<TextFieldProps, 'input'>
+  DefaultComponentPropsInternal<TextFieldProps, 'input'>
 >(
   (
     {
@@ -187,7 +187,7 @@ TextField.displayName = 'TextField';
 
 const TextFieldContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TextFieldContentProps, 'div'>
+  DefaultComponentPropsInternal<TextFieldContentProps, 'div'>
 >(({ variant = 'text', children, sx, color, ...props }, ref) => {
   switch (variant) {
     case 'text':
@@ -295,7 +295,7 @@ const TextFieldButton = forwardRef(
       variant = 'normal',
       disabled,
       ...props
-    }: PolymorphicProps<TextFieldButtonProps, T>,
+    }: PolymorphicPropsInternal<TextFieldButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -312,8 +312,10 @@ const TextFieldButton = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<TextFieldButtonProps, 'button'>;
+) as PolymorphicComponentInternal<TextFieldButtonProps, 'button'>;
 
 TextFieldButton.displayName = 'TextFieldButton';
 
 export { TextField, TextFieldContent, TextFieldButton };
+
+export type { TextFieldProps, TextFieldContentProps, TextFieldButtonProps };

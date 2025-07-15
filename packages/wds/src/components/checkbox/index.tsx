@@ -5,17 +5,20 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import { checkboxStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { CheckboxProps } from './types';
 
 const Checkbox = forwardRef<
   HTMLButtonElement,
-  Omit<DefaultComponentProps<CheckboxProps, 'button'>, 'onChange' | 'value'>
+  Omit<
+    DefaultComponentPropsInternal<CheckboxProps, 'button'>,
+    'onChange' | 'value'
+  >
 >(
   (
     {
@@ -114,7 +117,6 @@ const Checkbox = forwardRef<
               props.sx,
             ]}
             onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
-              // WAI ARIA 상으로 checkbox는 enter로 선택 하지 않음.
               if (event.key === 'Enter') event.preventDefault();
             })}
             onClick={composeEventHandlers(props.onClick, (event) => {
@@ -141,4 +143,6 @@ const Checkbox = forwardRef<
 
 Checkbox.displayName = 'Checkbox';
 
-export default Checkbox;
+export { Checkbox };
+
+export type { CheckboxProps };

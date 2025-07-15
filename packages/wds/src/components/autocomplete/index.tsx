@@ -15,18 +15,13 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { flushSync } from 'react-dom';
 import { IconCheck } from '@wanteddev/wds-icon';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
-import {
-  Box,
-  type DefaultComponentProps,
-  type PolymorphicComponent,
-  type PolymorphicProps,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { List, ListCell, ListCellContent } from '../list';
-import ScrollArea from '../scroll-area';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { ScrollArea } from '../scroll-area';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { AnimationPresence } from '../animation-presence';
 
 import {
@@ -47,7 +42,12 @@ import {
 } from './style';
 import { focusSelectedOption, setAttributeSelection } from './helpers';
 
-import type { SlotProps } from '@radix-ui/react-slot';
+import type {
+  DefaultComponentProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@wanteddev/wds-engine';
 import type {
   ChangeEvent,
   ElementType,
@@ -57,6 +57,7 @@ import type {
 } from 'react';
 import type {
   AutocompleteCollectionItem,
+  AutocompleteFieldProps,
   AutocompleteGroupProps,
   AutocompleteListProps,
   AutocompleteOptionProps,
@@ -70,7 +71,7 @@ const [Collection, useCollection] = createCollection<
 
 const Autocomplete = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AutocompleteProps, 'div'>
+  DefaultComponentPropsInternal<AutocompleteProps, 'div'>
 >(
   (
     {
@@ -205,7 +206,7 @@ const AutocompleteRoot = forwardRef<
 
 AutocompleteRoot.displayName = AUTOCOMPLETE_ROOT_NAME;
 
-const AutocompleteField = forwardRef<HTMLElement, SlotProps>(
+const AutocompleteField = forwardRef<HTMLElement, AutocompleteFieldProps>(
   ({ children, ...props }, forwardedRef) => {
     const {
       open,
@@ -464,7 +465,7 @@ const AutocompleteList = forwardRef(
       forceMount = false,
       disableTrappedContent = false,
       ...props
-    }: PolymorphicProps<AutocompleteListProps, T>,
+    }: PolymorphicPropsInternal<AutocompleteListProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const {
@@ -527,13 +528,13 @@ const AutocompleteList = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<AutocompleteListProps, 'div'>;
+) as PolymorphicComponentInternal<AutocompleteListProps, 'div'>;
 
 AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
 
 const AutocompleteGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AutocompleteGroupProps>
+  DefaultComponentPropsInternal<AutocompleteGroupProps>
 >(({ title, children, ...props }, ref) => {
   return (
     <FlexBox
@@ -565,7 +566,7 @@ AutocompleteGroup.displayName = 'AutocompleteGroup';
 
 const AutocompleteOption = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<AutocompleteOptionProps, 'li'>
+  DefaultComponentPropsInternal<AutocompleteOptionProps, 'li'>
 >(({ disabled, value, children, ...props }, forwardedRef) => {
   const ref = useRef<HTMLLIElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
@@ -663,4 +664,12 @@ export {
   AutocompleteList,
   AutocompleteGroup,
   AutocompleteOption,
+};
+
+export type {
+  AutocompleteProps,
+  AutocompleteFieldProps,
+  AutocompleteListProps,
+  AutocompleteOptionProps,
+  AutocompleteGroupProps,
 };
