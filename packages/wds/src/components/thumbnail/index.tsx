@@ -1,26 +1,21 @@
 import { forwardRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
 
-import { ImageLoader } from '../image-loader';
 import { FlexBox } from '../flex-box';
 import { Skeleton } from '../skeleton';
+import { ImageBase } from '../image-base';
 
 import { thumbnailStyle } from './style';
 import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
 
-import type {
-  DefaultComponentPropsInternal,
-  Merge,
-} from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, ForwardedRef } from 'react';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
+import type { ForwardedRef } from 'react';
 import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
 
-type Props = Merge<
-  ThumbnailProps,
-  ComponentPropsWithoutRef<typeof ImageLoader>
->;
-
-const Thumbnail = forwardRef<HTMLImageElement, Props>(
+const Thumbnail = forwardRef<
+  HTMLImageElement,
+  DefaultComponentPropsInternal<ThumbnailProps, 'img'>
+>(
   (
     {
       ratio = '4:3',
@@ -30,6 +25,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
       className,
       style,
       children,
+      width,
       sx,
       xs,
       sm,
@@ -55,7 +51,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
             ratio,
             radius,
             border,
-            width: props.width,
+            width,
             portrait,
             xs,
             sm,
@@ -66,7 +62,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
           sx,
         ]}
       >
-        <ImageLoader
+        <ImageBase
           ref={ref}
           {...props}
           onLoad={() => {
@@ -93,7 +89,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
             ratio,
             radius,
             border,
-            width: props.width,
+            width,
             portrait,
             xs,
             sm,
