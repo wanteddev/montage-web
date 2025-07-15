@@ -1,11 +1,11 @@
 'use client';
 
 import {
-  EmptyState,
-  EmptyStateButton,
-  EmptyStateContent,
-  EmptyStateImage,
-  EmptyStateText,
+  FallbackView,
+  FallbackViewButton,
+  FallbackViewContent,
+  FallbackViewImage,
+  FallbackViewText,
 } from '@wanteddev/wds';
 import Link from 'next/link';
 
@@ -14,13 +14,13 @@ import FullPageLayout from './full-page-layout';
 const NotFoundPage = () => {
   return (
     <FullPageLayout>
-      <EmptyState platform="mobile" sm={{ platform: 'desktop' }}>
-        <EmptyStateImage>
+      <FallbackView platform="mobile" sm={{ platform: 'desktop' }}>
+        <FallbackViewImage>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://static.wanted.co.kr/images/ghost.png" alt="ghost" />
-        </EmptyStateImage>
-        <EmptyStateContent>
-          <EmptyStateText
+        </FallbackViewImage>
+        <FallbackViewContent>
+          <FallbackViewText
             title="페이지를 찾을 수 없어요."
             description={
               <>
@@ -30,11 +30,11 @@ const NotFoundPage = () => {
               </>
             }
           />
-          <EmptyStateButton as={Link} href="/docs/overview/getting-started">
+          <FallbackViewButton as={Link} href="/docs/overview/getting-started">
             문서 확인하기
-          </EmptyStateButton>
-        </EmptyStateContent>
-      </EmptyState>
+          </FallbackViewButton>
+        </FallbackViewContent>
+      </FallbackView>
     </FullPageLayout>
   );
 };
