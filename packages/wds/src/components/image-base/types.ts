@@ -5,6 +5,7 @@ export type ImageBaseProps = Merge<
   {
     onLoad?: () => void;
     onError?: () => void;
+    onAbort?: () => void;
   },
   Pick<
     ImgHTMLAttributes<HTMLImageElement>,
