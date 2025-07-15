@@ -118,7 +118,7 @@ export const useDraggable = ({
       return;
     }
 
-    // ios에서 꾹 눌렀을 때 target이 없을 수도 있기 때문에 try catch
+    // In iOS, target may be undefined when long-pressing, so use try-catch
     try {
       if (
         (e.target as HTMLElement).closest('[wds-component="top-navigation"]') ||
@@ -171,7 +171,7 @@ export const useDraggable = ({
 
       const diffY = clientY - startedY.current;
 
-      // 아래로 드래그
+      // Dragging down
       if (diffY > 0) {
         if (context.visibility === 'hidden') {
           const nextPosition = topNavigationHeight.current - diffY;
@@ -190,7 +190,7 @@ export const useDraggable = ({
         );
       }
 
-      // 위로 드래그
+      // Dragging up
       if (diffY < 0 && context.visibility === 'hidden') {
         const nextPosition = Math.abs(diffY) + topNavigationHeight.current;
 
@@ -226,7 +226,7 @@ export const useDraggable = ({
         ? e.changedTouches[0]!.clientY
         : e.clientY;
 
-      // 10px 움직인걸로는 동작되지 않게 막기
+      // Prevent action if moved less than or equal to 10px
       if (Math.abs(startedY.current - clientY) <= 10) {
         if (context.visibility === 'hidden') {
           container.style.setProperty(

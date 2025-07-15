@@ -3,8 +3,8 @@ import { IconCheckThick } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
 import { findComponentInChildren } from '../../utils/children';
 
 import {
@@ -20,7 +20,7 @@ import {
 import { PROGRESS_TRACKER_ITEM_NAME, PROGRESS_TRACKER_NAME } from './constants';
 import { ProgressTrackerProvider, useProgressTrackerContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type {
   ProgressTrackerItemProps,
   ProgressTrackerLabelContentProps,
@@ -29,7 +29,7 @@ import type {
 
 const ProgressTracker = forwardRef<
   HTMLOListElement,
-  DefaultComponentProps<ProgressTrackerProps, 'ol'>
+  DefaultComponentPropsInternal<ProgressTrackerProps, 'ol'>
 >(
   (
     {
@@ -90,7 +90,7 @@ ProgressTracker.displayName = PROGRESS_TRACKER_NAME;
 
 const ProgressTrackerItem = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<ProgressTrackerItemProps, 'li'>
+  DefaultComponentPropsInternal<ProgressTrackerItemProps, 'li'>
 >((props, ref) => {
   const { direction } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
 
@@ -108,7 +108,7 @@ ProgressTrackerItem.isProgressTrackerItem = true;
 
 const ProgressTrackerItemVertical = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<ProgressTrackerItemProps, 'li'>
+  DefaultComponentPropsInternal<ProgressTrackerItemProps, 'li'>
 >(({ value, label, completedLabel, children, labelContent, ...props }, ref) => {
   const {
     value: contextValue,
@@ -225,7 +225,7 @@ const ProgressTrackerItemVertical = forwardRef<
 
 const ProgressTrackerItemHorizontal = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<ProgressTrackerItemProps, 'li'>
+  DefaultComponentPropsInternal<ProgressTrackerItemProps, 'li'>
 >(({ value, label, completedLabel, ...props }, ref) => {
   const {
     value: contextValue,
@@ -359,7 +359,7 @@ const ProgressTrackerItemLabel = ({
 
 const ProgressTrackerLabelContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ProgressTrackerLabelContentProps, 'div'>
+  DefaultComponentPropsInternal<ProgressTrackerLabelContentProps, 'div'>
 >(({ variant = 'custom', ...props }, ref) => {
   switch (variant) {
     case 'badge':
@@ -410,3 +410,9 @@ const ProgressTrackerLabelContent = forwardRef<
 ProgressTrackerLabelContent.displayName = 'ProgressTrackerLabelContent';
 
 export { ProgressTracker, ProgressTrackerItem, ProgressTrackerLabelContent };
+
+export type {
+  ProgressTrackerProps,
+  ProgressTrackerItemProps,
+  ProgressTrackerLabelContentProps,
+};

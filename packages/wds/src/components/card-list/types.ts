@@ -1,13 +1,13 @@
 import type { FlexBoxProps } from '../flex-box/types';
-import type { Merge } from '@wanteddev/wds-engine';
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 import type { CardProps, CardThumbnailBasicProps } from '../card/types';
 
-type CardListDefaultProps = {
+type CardListDefaultProps = WithSxProps<{
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
   children?: ReactNode;
-};
+}>;
 export type CardListProps = Merge<CardProps, CardListDefaultProps>;
 
 export type CardListThumbnailProps = CardThumbnailBasicProps &

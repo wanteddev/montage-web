@@ -3,13 +3,13 @@ export type ImageLoaderProps = {
   width: number | string;
   alt: string;
   /**
-   * @deprecated v3.0.0에서 제거될 예정입니다.
+   * @deprecated will be removed in v3.0.0. use `<Box as="img" />` instead
    */
   quality?: number | string;
   onError?: () => void;
   onLoad?: () => void;
   /**
-   * @deprecated v3.0.0에서 제거될 예정입니다.
+   * @deprecated will be removed in v3.0.0. use `<Box as="img" />` instead
    */
   disableOptimize?: boolean;
 };

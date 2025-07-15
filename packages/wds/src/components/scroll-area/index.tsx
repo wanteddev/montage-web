@@ -2,8 +2,8 @@ import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import { forwardRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
-import FlexBox from '../flex-box';
+import { WithInteraction } from '../with-interaction';
+import { FlexBox } from '../flex-box';
 
 import {
   scrollAreaStyle,
@@ -12,12 +12,13 @@ import {
   viewportStyle,
 } from './style';
 
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ScrollAreaProps, ScrollBarProps } from './types';
 import type { ElementRef, ReactNode } from 'react';
 
 const ScrollArea = forwardRef<
-  ElementRef<typeof ScrollAreaPrimitive.Root>,
-  ScrollAreaProps
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ScrollAreaProps, 'div'>
 >(
   (
     {
@@ -100,11 +101,13 @@ const ScrollArea = forwardRef<
 
 ScrollArea.displayName = 'ScrollArea';
 
-export default ScrollArea;
+export { ScrollArea };
+
+export type { ScrollAreaProps };
 
 const ScrollBar = forwardRef<
   ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
-  ScrollBarProps
+  DefaultComponentPropsInternal<ScrollBarProps, 'div'>
 >(({ orientation = 'vertical', size = 'responsive', ...props }, ref) => (
   <Box
     as={ScrollAreaPrimitive.ScrollAreaScrollbar}

@@ -1,7 +1,11 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type ChipActionDefaultProps = {
+export type ChipActionDefaultProps = WithSxProps<{
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   variant?: 'solid' | 'outlined';
   active?: boolean;
@@ -10,7 +14,7 @@ export type ChipActionDefaultProps = {
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
   children?: ReactNode;
-};
+}>;
 
 export type ChipActionResponsiveProps = ResponsiveProps<
   Pick<ChipActionDefaultProps, 'size'>

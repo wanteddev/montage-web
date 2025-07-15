@@ -1,20 +1,21 @@
+import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type SectionMessageProps = {
+export type SectionMessageProps = WithSxProps<{
   variant?: 'info' | 'positive' | 'cautionary' | 'negative' | 'custom';
-  children: ReactNode;
+  children?: ReactNode;
   show?: boolean;
   defaultShow?: boolean;
   onShowChange?: (state: boolean) => void;
   /**
-   * 닫기 버튼을 표시합니다.
+   * Displays the close button.
    */
   closeButton?: boolean;
   /**
-   * 기본적으로 variant에 따른 아이콘을 표시합니다.
+   * Displays the icon according to the `variant`.
    */
   leadingContent?: ReactNode;
   trailingButton?: ReactNode;
   description?: ReactNode;
   bottomButton?: ReactNode;
-};
+}>;
