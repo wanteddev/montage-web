@@ -19,6 +19,7 @@ export const switchStyle =
     height: fit-content;
     flex-shrink: 0;
     padding: var(--wds-switch-padding, 4px);
+    width: var(--wds-switch-width, 52px);
     transition: background-color 200ms cubic-bezier(0.4, 0, 0.2, 1);
 
     & > [wds-component='with-interaction'] {
@@ -63,7 +64,8 @@ export const switchStyle =
 
       span {
         margin-left: calc(
-          var(--wds-switch-thumb-size, 24px) - var(--wds-switch-padding, 4px)
+          var(--wds-switch-width, 52px) - var(--wds-switch-thumb-size, 24px) -
+            (var(--wds-switch-padding, 4px) * 2)
         );
       }
 
@@ -73,8 +75,8 @@ export const switchStyle =
             var(--wds-switch-thumb-size, 24px) + var(--wds-switch-padding, 4px)
           );
           margin-left: calc(
-            var(--wds-switch-thumb-size, 24px) -
-              (var(--wds-switch-padding, 4px) * 2)
+            var(--wds-switch-width, 52px) - var(--wds-switch-thumb-size, 24px) -
+              (var(--wds-switch-padding, 4px) * 3)
           );
         }
       }
@@ -104,9 +106,8 @@ const switchSizeStyle = ({ size }: Pick<SwitchProps, 'size'>) => {
     case 'medium':
       return css`
         border-radius: 100px;
-        width: 52px;
-        padding: 4px;
 
+        --wds-switch-width: 52px;
         --wds-switch-padding: 4px;
         --wds-switch-thumb-size: 24px;
       `;
@@ -114,8 +115,8 @@ const switchSizeStyle = ({ size }: Pick<SwitchProps, 'size'>) => {
     case 'small':
       return css`
         border-radius: 75px;
-        width: 39px;
 
+        --wds-switch-width: 39px;
         --wds-switch-padding: 3px;
         --wds-switch-thumb-size: 18px;
       `;
