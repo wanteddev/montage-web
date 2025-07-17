@@ -514,7 +514,7 @@ jobs:
                     .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
                     .filter((iconAsset) => iconAsset.endsWith('.imageset'));
 
-                  const swiftFilePath = './Sources/Montage/1 Theme/Icon.swift';
+                  const swiftFilePath = './Sources/Montage/0 Foundations/Icon.swift';
 
                   let swiftFileContent = fs.readFileSync(swiftFilePath, 'utf8');
 
