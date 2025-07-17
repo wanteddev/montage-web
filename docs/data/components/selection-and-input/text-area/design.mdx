@@ -1,21 +1,21 @@
 ---
 title: Text area
 description: 필드 내부에 2줄 이상의 텍스트를 입력할 때 사용하며 Heading, Placeholder, Description등의 요소를 활용하여 사용자가 입력할 내용의 형식을 보다 명확하게 안내합니다.
-image: /components/selection-and-input/text-field/design/Thumbnail.png
+image: /components/selection-and-input/text-area/design/Thumbnail.png
 createdAt: 2025-04-03
 ---
 
 <Anatomy
-  src="/components/selection-and-input/text-field/design/Image.png"
+  src="/components/selection-and-input/text-area/design/Image.png"
 	ratio="16:9"
   data={[
     'Heading',
     'Placeholder',
-    'Leading content',
+    'Leading contents',
     'Description',
     'Required badge',
     'Field',
-		'Trailing content',
+		'Trailing contents',
   ]}
 />
 
@@ -27,7 +27,7 @@ createdAt: 2025-04-03
 		let trailingContent = "null";
 		let rows = {};
 
-		switch (value["Leading content"]) {
+		switch (value["Leading contents"]) {
 			case "Character counter":
 				leadingContent =
 					'<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
@@ -56,7 +56,7 @@ createdAt: 2025-04-03
 				leadingContent = "null";
 		}
 
-		switch (value["Trailing content"]) {
+		switch (value["Trailing contents"]) {
 			case "Character counter":
 				trailingContent =
 					'<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
@@ -125,7 +125,7 @@ createdAt: 2025-04-03
       ]
     },
 		{
-			key: 'Leading content',
+			key: 'Leading contents',
 			options: [
 				{ label: 'None', value: {} },
 				{ label: 'Character counter', value: {} },
@@ -137,7 +137,7 @@ createdAt: 2025-04-03
 			]
 		},
 		{
-			key: 'Trailing content',
+			key: 'Trailing contents',
 			options: [
 				{ label: 'None', value: {} },
 				{ label: 'Character counter', value: {} },
@@ -152,76 +152,65 @@ createdAt: 2025-04-03
 />
 
 <SectionStates
-  src="/components/selection-and-input/text-field/design/Image-1.png"
+  src="/components/selection-and-input/text-area/design/Image-1.png"
   ratio="3:2"
-  options={['Normal', 'Focused', 'Negative', 'Positive', 'Read only', 'Disabled']}
+  options={['Normal', 'Focused', 'Negative', 'Read only', 'Disabled']}
 />
 
 
-<SectionLayout title="Usage">
-  <SectionFigureGroup title="Password">
+<SectionLayout title="Resize">
+  <SectionFigureGroup title="Normal">
     <SectionFigure
       title="Usage"
-      description="패스워드 입력 시 Hidden과 Visibility 옵션 제공을 권장하며 해당 옵션 제공 시 기본 값은 Hidden 상태입니다."
-      src="/components/selection-and-input/text-field/design/Image-2.png"
+      description="필드 내부의 텍스트 양과 비례하여 필드의 높이가 제한 없이 아래로 늘어납니다."
+      src="/components/selection-and-input/text-area/design/Image-2.png"
     />
   </SectionFigureGroup>
-	<SectionFigureGroup title="Certification">
+	<SectionFigureGroup title="Limited">
     <SectionFigure
       title="Usage"
 			ratio="3:2"
-      description="Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다.
-행동을 유도하는 발송, 재발송과 같은 버튼은 Normal을 사용하며 행동을 마무리하는 확인 버튼은 Assistive를 사용합니다.
-일정 시간 이후에는 입력필드의 버튼과 타이머가 비활성화 됩니다."
-      src="/components/selection-and-input/text-field/design/Image-3.png"
+      description="기본 높이에서 시작하여 필드 내부의 텍스트 양과 비례하며 일정 높이까지 필드가 늘어나다 고정됩니다.
+단, 필드의 높이는 Max height가 지정되어 있으며 iOS는 ‘높이’ 기준, Android, Web은 ‘글 줄'로 소통합니다.
+최대 높이는 기본적으로 있지만, 상황에 따라 메이커가 직접 지정할 수 있습니다.
+
+Max height: iOS: 102px/Android: 3줄/Web: 12줄"
+      src="/components/selection-and-input/text-area/design/Image-3.png"
     />
   </SectionFigureGroup>
-	<SectionFigureGroup title="Autocomplete">
+	<SectionFigureGroup title="Fixed">
     <SectionFigure
       title="Usage"
 			ratio="3:2"
-      description="이메일, 직군 검색 등 정확한 명칭이나 양식의 입력을 받아야할 시 자동완성 기능을 활용하여 사용자의 편의성 돕습니다."
-      src="/components/selection-and-input/text-field/design/Image-4.png"
+      description="메이커의 의도에 따라 텍스트의 양에 관계 없이 필드의 기본, 최대 높이를 자유롭게 고정하여 사용할 수 있습니다."
+      src="/components/selection-and-input/text-area/design/Image-4.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="Input mask">
-  <SectionFigureGroup title="Call number">
+<SectionLayout title="Bottom">
+  <SectionFigureGroup title="Leading contents">
 		<SectionFigure
 			title="Usage"
-			description="휴대전화 번호 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
-컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
-			src="/components/selection-and-input/text-field/design/Image-5.png"
+			description="Bottom 영역은 비활성할 수 있으며, Charactor counter, Text button, Icon button(인터랙션 영역 포함), Icon, Content badge, Chip filter 만 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 Detach하여 사용하시는 것을 권장합니다. Leading Contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다."
+			src="/components/selection-and-input/text-area/design/Image-5.png"
 		/>
   </SectionFigureGroup>
-
-	<SectionFigureGroup title="Card number">
+	<SectionFigureGroup title="Trailing contents">
 		<SectionFigure
 			title="Usage"
-			description="카드번호 16자 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
-컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
-			src="/components/selection-and-input/text-field/design/Image-6.png"
-		/>
-	</SectionFigureGroup>
-
-	<SectionFigureGroup title="Date">
-		<SectionFigure
-			title="Usage"
-			description="날짜 입력 시 YYYY. MM. DD 양식 사용을 권장하며, Text input을 기반으로한 Date picker 컴포넌트를 사용합니다."
-			src="/components/selection-and-input/text-field/design/Image-7.png"
+			description="Bottom 영역은 비활성할 수 있으며, Charactor counter, Text button(Primary, Assistive), Icon button(Normal, Solid), Icon, Content badge, Chip filter 만 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 Detach하여 사용하시는 것을 권장합니다. Trailing Contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다."
+			src="/components/selection-and-input/text-area/design/Image-6.png"
 		/>
 	</SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="Gap">
+<SectionLayout title="Sticky of keyboard">
 	<SectionFigure
 		title="Usage"
 		ratio="16:10"
-		description="필드간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다.
-단, 레이아웃이 제한적인 상황일 시 필드가 고정되어 위치하여 Description만큼 간격이 줄어들 수 있습니다.
-간격은 시스템 자체에서 제공되지 않으며, 프로젝트 담당 개발자와 디자이너의 논의 하에 결정할 수 있습니다."
-		src="/components/selection-and-input/text-field/design/Image-8.png"
+		description="모든 플랫폼에서 사용된 케이스가 존재하지 않아 구현되어 있지 않습니다."
+		src="/components/selection-and-input/text-area/design/Image-7.png"
 	/>
 </SectionLayout>
 
@@ -229,19 +218,19 @@ createdAt: 2025-04-03
   <SectionFigure
 		title="Usage"
 		description="필수적으로 값을 입력해야 하는 필드일 시 Required badge를 사용합니다."
-		src="/components/selection-and-input/text-field/design/Image-9.png"
+		src="/components/selection-and-input/text-area/design/Image-8.png"
 	/>
 </SectionLayout>
 
 <SectionLayout title="How to use">
   <SectionFigure
     variant="positive"
-    description="사유를 명확하게 안내하여 사용자에게 명확한 행동을 유도합니다."
-    src="/components/selection-and-input/text-field/design/Image-10.png"
+    description="Bottom의 Contents는 인터랙션 영역을 고려하여 Gap을 조절합니다."
+    src="/components/selection-and-input/text-area/design/Image-9.png"
   />
   <SectionFigure
     variant="negative"
-    description="버튼명을 6자 이상으로 적용하지 않습니다."
-    src="/components/selection-and-input/text-field/design/Image-11.png"
+    description="모바일에서 Text area를 사용할 때 키보드의 Sticky 된 버튼을 고려하여 높이가 지속적으로 늘어나는 Resize=Normal 타입의 사용은 지양합니다. "
+    src="/components/selection-and-input/text-area/design/Image-10.png"
   />
 </SectionLayout>
