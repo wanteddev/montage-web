@@ -8,8 +8,8 @@ on:
         required: false
         default: 'true'
         options:
-          - true
-          - false
+          - 'true'
+          - 'false'
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -24,21 +24,23 @@ jobs:
   sync:
     uses: wanteddev/wds/.github/workflows/figma-icon-sync.yml@main
     with:
-      platform: web
-      ignore_icons: 'IconLogoInstagramColor,IconSymbol'
-      pr_name: 'feat(wds,wds-icon): icon figma sync and new code connect publish'
+      output_dir: output
     secrets: inherit
 
-  publish:
+  create-pull-request:
     needs: sync
     runs-on: ubuntu-latest
-    if: ${{ inputs.publish == 'true' }}
 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v4
         with:
-          ref: ${{ needs.sync.outputs.branch }}
+          path: output
+          key: ${{ needs.sync.outputs.figma-output-cache-key }}
 
       - name: Node.js install
         uses: actions/setup-node@v4
@@ -47,11 +49,68 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@wanteddev'
 
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        id: pnpm-install
+      - uses: pnpm/action-setup@v4
         with:
-          version: 9.1.2
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - run: node scripts/figma-icon.mjs
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create Branch And Commit
+        run: |
+          git branch feature/code-connect/${{ github.run_id }}
+          git checkout feature/code-connect/${{ github.run_id }}
+          git add .
+          git commit -m "feat(wds-icon): add icons synced from figma" --no-verify
+          git push origin feature/code-connect/${{ github.run_id }}
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Create New PR
+        run: |
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "feat(wds,wds-icon): icon figma sync and new code connect publish" --body "add icons synced from figma"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+
+  publish:
+    needs: create-pull-request
+    if: ${{ inputs.publish == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Node.js install
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@wanteddev'
+
+      - uses: pnpm/action-setup@v4
+        with:
           run_install: false
 
       - name: Get pnpm store directory

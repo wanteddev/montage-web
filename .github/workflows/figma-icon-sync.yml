@@ -2,25 +2,16 @@ name: Figma icon sync
 on:
   workflow_call:
     inputs:
-      ignore_icons:
+      output_dir:
         type: string
-        description: 'ignore icons separated by comma'
-        required: false
-        default: ''
-      platform:
-        type: string
-        description: 'platform'
+        description: 'output directory'
         required: true
-      pr_name:
-        type: string
-        required: false
-        default: 'feat: add icons synced from figma'
+        default: output
     outputs:
-      branch:
-        value: ${{ jobs.sync.outputs.branch }}
+      figma-output-cache-key:
+        value: ${{ jobs.sync.outputs.figma-output-cache-key }}
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
 jobs:
@@ -29,69 +20,24 @@ jobs:
     permissions:
       packages: write
       contents: write
-      pull-requests: write
     outputs:
-      branch: ${{ steps.extract_branch.outputs.branch }}
+      figma-output-cache-key: ${{ steps.create-cache-key.outputs.figma-output-cache-key }}
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Node.js install
-        uses: actions/setup-node@v4
-        if: ${{ inputs.platform == 'web' }}
-        with:
-          node-version: 20
-          registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
-
-      - uses: pnpm/action-setup@v2.0.1
-        name: Install pnpm
-        if: ${{ inputs.platform == 'web' }}
-        id: pnpm-install
-        with:
-          version: 9.1.2
-          run_install: false
-
-      - name: Get pnpm store directory
-        if: ${{ inputs.platform == 'web' }}
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        if: ${{ inputs.platform == 'web' }}
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store
-
-      - name: Install dependencies
-        if: ${{ inputs.platform == 'web' }}
-        run: pnpm install
+      - name: Create cache key
+        id: create-cache-key
+        run: echo "figma-output-cache-key=${{ github.run_id }}-${{ github.sha }}-${{ github.ref }}" >> $GITHUB_OUTPUT
 
       - uses: actions/github-script@v7
         env:
           FIGMA_TOKEN: ${{ env.FIGMA_TOKEN }}
-          PLATFORM: ${{ inputs.platform }}
-          IGNORE_ICONS: ${{ inputs.ignore_icons }}
+          OUTPUT_DIR: ${{ inputs.output_dir }}
         with:
           script: |
             const fs = require('fs');
             const path = require('path');
-
-            const platform = process.env.PLATFORM;
-
-            const ignoreIcons = (process.env.IGNORE_ICONS || '').split(',');
-
-            const kebabCase = (name) =>
-              name
-                .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-                .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
-                .toLowerCase();
-            const pascalCase = (text) =>
-              text.replace(/(^\w|-\w)/g, (v) => v.replace(/-/, '').toUpperCase());
 
             const TOKEN = process.env.FIGMA_TOKEN;
             const URL_BASE = 'https://api.figma.com/v1/files';
@@ -261,7 +207,7 @@ jobs:
                   name,
                   content: svg,
                   id: componentSetId.replace(':', '-'),
-                  parsedName,
+                  parsedName: name.includes('Color') ? parsedName + 'Color' : parsedName,
                 });
               };
 
@@ -305,269 +251,34 @@ jobs:
             };
 
             const main = async () => {
-              const data = (await getIconComponents()).filter(
-                ({ name }) => !ignoreIcons.includes(name),
-              );
+              const data = await getIconComponents();
 
-              switch (platform) {
-                case 'web': {
-                  /**
-                  * @type {Array<[string, string]>}
-                  */
-                  const files = [];
-
-                  /**
-                  * @type {Array<string>}
-                  */
-                  const indexContents = [];
-
-                  /**
-                  * @type {Array<string>}
-                  */
-                  const figmaConnectContents = [];
-
-                  data.forEach((icon) => {
-                    const { name, content, id, parsedName } = icon;
-                    const fileName = kebabCase(name);
-                    const fileContent = `import { Box } from '@wanteddev/wds-engine';
-              import { forwardRef } from 'react';
-              
-              import type { SxProp } from '@wanteddev/wds-engine';
-              import type { ComponentPropsWithoutRef } from 'react';
-              
-              type Props = ComponentPropsWithoutRef<'svg'> & {
-                sx?: SxProp;
-              };
-              
-              const ${name} = forwardRef<SVGSVGElement, Props>((props, ref) => {
-                return (
-                  ${content
-                    .replace(/width="(.*?)"/, '')
-                    .replace(/height="(.*?)"/, '')
-                    .replace(
-                      'xmlns="http://www.w3.org/2000/svg"',
-                      'xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" ref={ref} {...props}',
-                    )
-                    .replace('xmlns:xlink="http://www.w3.org/1999/xlink"', '')
-                    .replace(
-                      content.includes('viewBox="0 0 12 24"') ? 'width="1em"' : '',
-                      '',
-                    )
-                    .replaceAll('fill="#171719"', 'fill="currentColor"')
-                    .replace(
-                      /(stroke|fill|line|clip)-(.)/g,
-                      (_, p1, p2) => p1 + p2.toUpperCase(),
-                    )
-                    .replace('<svg', '<Box as="svg"')
-                    .replace('</svg', '</Box')}
-                )
-              });
-              
-              export default ${name};`;
-
-                    files.push([fileName, fileContent]);
-
-                    indexContents.push(
-                      `export { default as ${name} } from "./${kebabCase(name)}";`,
-                    );
-
-                    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
-                    // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
-                    figmaConnectContents.push(
-                      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });`,
-                    );
-                  });
-
-                  fs.writeFileSync(
-                    './figma/icons/index.figma.tsx',
-                    `import figma from "@figma/code-connect";\nimport {${files.map(([name]) => pascalCase(name)).join(', ')}} from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
-                  );
-
-                  await Promise.all(
-                    files.map(
-                      ([fileName, fileContents]) =>
-                        new Promise((resolve, reject) => {
-                          fs.writeFile(
-                            `./packages/wds-icon/src/${fileName}.tsx`,
-                            fileContents,
-                            (err) => (err ? reject(err) : resolve()),
-                          );
-                        }),
-                    ),
-                  );
-
-                  fs.writeFileSync(
-                    './packages/wds-icon/src/index.ts',
-                    [
-                      ...data.map(
-                        ({ name }) =>
-                          `export { default as ${name} } from "./${kebabCase(name)}";`,
-                      ),
-                      ...ignoreIcons.map(
-                        (icon) =>
-                          `export { default as ${icon} } from "./${kebabCase(icon)}";`,
-                      ),
-                    ]
-                      .sort()
-                      .join('\n'),
-                    'utf-8',
-                  );
-
-                  await exec.exec(
-                    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/src/transforms/svg-use-id.ts',
-                  ).catch(() => {});
-                  await exec.exec('pnpm -F wds-icon lint:fix src').catch(() => {});
-
-                  break;
-                }
-                case 'android':
-                  break;
-                case 'ios': {
-                  const iconAssets = fs
-                    .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
-                    .filter(
-                      (iconAsset) =>
-                        iconAsset.endsWith('.imageset') &&
-                        !ignoreIcons.includes(iconAsset.replace('.imageset', '')),
-                    );
-
-                  iconAssets.forEach((iconAsset) => {
-                    const iconAssetPath = path.join(
-                      './Sources/Montage/Asset/Icon.xcassets',
-                      iconAsset,
-                    );
-
-                    if (fs.existsSync(iconAssetPath)) {
-                      fs.rmdirSync(iconAssetPath, { recursive: true, force: true });
-                    }
-                  });
-
-                  const promises = [];
-
-                  data.forEach(({ name, content, parsedName }) => {
-                    const fileName = name.includes('Color') ? `${parsedName}Color` : parsedName;
-
-                    promises.push(
-                      new Promise((resolve, reject) => {
-                        try {
-                          fs.mkdirSync(
-                            path.join(
-                              './Sources/Montage/Asset/Icon.xcassets',
-                              `${fileName}.imageset`,
-                            ),
-                          );
-
-                          fs.writeFileSync(
-                            path.join(
-                              './Sources/Montage/Asset/Icon.xcassets',
-                              `${fileName}.imageset`,
-                              'Contents.json',
-                            ),
-                            JSON.stringify(
-                              {
-                                images: [
-                                  {
-                                    filename: `${fileName}.svg`,
-                                    idiom: 'universal',
-                                  },
-                                ],
-                                info: {
-                                  author: 'xcode',
-                                  version: 1,
-                                },
-                                properties: {
-                                  'preserves-vector-representation': true,
-                                  'template-rendering-intent': 'template',
-                                },
-                              },
-                              null,
-                              2,
-                            ).replaceAll('\":', '\" :'),
-                          );
-
-                          fs.writeFileSync(
-                            path.join(
-                              './Sources/Montage/Asset/Icon.xcassets',
-                              `${fileName}.imageset`,
-                              `${fileName}.svg`,
-                            ),
-                            content
-                              .replaceAll('width="24"', '')
-                              .replaceAll('height="24"', '')
-                              .replaceAll('width="12"', '')
-                              .replaceAll('height="12"', '')
-                              .replaceAll('fill="none"', '')
-                              .replaceAll('fill="#171719"', ''),
-                          );
-
-                          resolve();
-                        } catch (err) {
-                          reject(err);
-                        }
-                      }),
-                    );
-                  });
-
-                  await Promise.all(promises);
-
-                  const shouldShowFoundations = fs
-                    .readdirSync('./Sources/Montage/Asset/Icon.xcassets', 'utf8')
-                    .filter((iconAsset) => iconAsset.endsWith('.imageset'));
-
-                  const swiftFilePath = './Sources/Montage/0 Foundations/Icon.swift';
-
-                  let swiftFileContent = fs.readFileSync(swiftFilePath, 'utf8');
-
-                  const enumCases = shouldShowFoundations
-                    .sort()
-                    .map(iconAsset => `    case ${iconAsset.replace('.imageset', '')}`)
-                    .join('\n');
-
-                  // Icon enum의 case 선언들만 정확히 찾아 대체하고, 다른 멤버(주석, 프로퍼티 등)는 유지합니다.
-                  swiftFileContent = swiftFileContent.replace(
-                    /(\n\s*public enum Icon: String, CaseIterable\s*\{\s*\n)([\s\S]*?)(\n\s*(?:\/\/[^\n]*|\w+[^\n]*)\n\s*\})/,
-                    (match, enumStart, existingCases, enumEnd) => {
-                      // 기존 케이스들 중에서 실제 case 선언만 필터링 (주석 등 제외)
-                      const oldCases = existingCases.split('\n').filter(line => line.trim().startsWith('case ')).join('\n');
-                      // 새로운 케이스 목록과 기존 케이스 목록이 다를 경우에만 업데이트
-                      if (oldCases !== enumCases.split('\n').map(c => c.trim()).join('\n')) {
-                        return `${enumStart}${enumCases}\n${enumEnd}`;
-                      }
-                      // 케이스가 동일하면 원본 유지
-                      return match;
-                    }
-                  );
-
-                  fs.writeFileSync(swiftFilePath, swiftFileContent, 'utf-8');
-
-                  break;
-                }
+              if (!fs.existsSync(process.env.OUTPUT_DIR)) {
+                fs.mkdirSync(process.env.OUTPUT_DIR);
               }
 
-              console.log('DONE!');
+              data.forEach(({ content, parsedName }) => {
+                fs.writeFileSync(
+                  path.join(process.env.OUTPUT_DIR, `${parsedName}.svg`),
+                  content,
+                  'utf-8',
+                );
+              });
+
+              const result = data.map(({ id, parsedName }) => ({ id, name: parsedName }));
+
+              fs.writeFileSync(
+                path.join(process.env.OUTPUT_DIR, 'result.json'),
+                JSON.stringify(result, null, 2),
+                'utf-8',
+              );
             };
 
             await main();
 
-      - run: git config user.name "github-actions[bot]"
-      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Create Branch And Commit
-        run: |
-          git branch feature/code-connect/${{ github.run_id }}
-          git checkout feature/code-connect/${{ github.run_id }}
-          git add .
-          git commit -m "feat(${{ inputs.platform }}): add icons synced from figma" --no-verify
-          git push origin feature/code-connect/${{ github.run_id }}
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
-
-      - name: Create New PR
-        run: |
-          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/code-connect/${{ github.run_id }} --title "${{ inputs.pr_name }}" --body "add icons synced from figma"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
+      - uses: actions/cache/save@v4
+        name: Save cache
+        with:
+          path: |
+            ${{ inputs.output_dir }}
+          key: ${{ steps.create-cache-key.outputs.figma-output-cache-key }}
