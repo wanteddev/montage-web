@@ -11,3 +11,5 @@ export type SectionVariants = Array<{
     value: Record<string, any>;
   }>;
 }>;
+
+export type SectionVariantsRender = (props: Record<string, string>) => string;

@@ -40,33 +40,42 @@ export const isComponent = (value: any) => {
   if (typeof value !== 'string') return false;
 
   const tagPattern =
-    /^<[a-zA-Z][a-zA-Z0-9]*(?:\s[^>]*)?\s*\/>$|^<[a-zA-Z][a-zA-Z0-9]*(?:\s[^>]*)?>.*<\/[a-zA-Z][a-zA-Z0-9]*>$/;
+    /^<([a-zA-Z][a-zA-Z0-9]*)(?:\s[^>]*)?\s*\/>$|^<([a-zA-Z][a-zA-Z0-9]*)(?:\s[^>]*)?>.*<\/\2>$|^<>\s*.*\s*<\/>$/s;
 
-  return tagPattern.test(value);
+  return tagPattern.test(value.trim().trimEnd());
 };
 
 export const makeSectionVariantDemoCode = (
   components: Array<string>,
   icons: Array<string> = [],
   props: Record<string, any>,
+  render?: string,
 ) => {
+  const Component =
+    render ??
+    `
+    <${components[0]} ${Object.entries(props)
+      .map(
+        ([key, value]) =>
+          `${key}={${
+            isComponent(value)
+              ? `<>${value}</>`
+              : typeof value === 'function'
+                ? value.toString()
+                : JSON.stringify(value)
+          }}`,
+      )
+      .join(' ')} />
+  `;
+
   return `import { ${components.join(', ')} } from '@wanteddev/wds';
   import { ${icons.join(', ')} } from '@wanteddev/wds-icon';
 
   const Demo = () => {
     return (
-      <${components[0]} ${Object.entries(props)
-        .map(
-          ([key, value]) =>
-            `${key}={${
-              isComponent(value)
-                ? `<>${value}</>`
-                : typeof value === 'function'
-                  ? value.toString()
-                  : JSON.stringify(value)
-            }}`,
-        )
-        .join(' ')} />
+      <>
+        ${Component}
+      </>
     );
   };
 

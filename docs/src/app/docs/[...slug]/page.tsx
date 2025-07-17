@@ -44,13 +44,17 @@ export const generateMetadata = async ({
         type: 'website',
         title,
         description,
-        ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
+        ...(frontmatter.image && {
+          images: [{ url: frontmatter.image, width: 1200, height: 630 }],
+        }),
       },
       twitter: {
         card: 'summary_large_image',
         title,
         description,
-        ...(frontmatter.image && { images: [{ url: frontmatter.image }] }),
+        ...(frontmatter.image && {
+          images: [{ url: frontmatter.image, width: 1200, height: 630 }],
+        }),
       },
     };
   } catch (error) {

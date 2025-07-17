@@ -40,6 +40,7 @@ import {
 
 import type {
   SectionSelectedVariants,
+  SectionVariantsRender,
   SectionVariants as SectionVariantsType,
 } from './types';
 import type { PropsWithChildren } from 'react';
@@ -48,12 +49,14 @@ type SectionVariantsProps = {
   components: Array<string>;
   icons?: Array<string>;
   variants: SectionVariantsType;
+  render?: SectionVariantsRender;
 };
 
 const SectionVariants = ({
   components,
   icons = [],
   variants,
+  render,
 }: SectionVariantsProps) => {
   const theme = useTheme();
   const [mobileControlOpen, setMobileControlOpen] = useState(false);
@@ -96,12 +99,30 @@ const SectionVariants = ({
       if (value.disabled) {
         return acc;
       }
+
       const val = variants
         .find((variant) => variant.key === key)
         ?.options.find((option) => option.label === value.value)?.value;
 
       return { ...acc, ...val };
     }, {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(selectedVariant)]);
+
+  const renderResult = useMemo(() => {
+    if (render) {
+      return render(
+        Object.entries(selectedVariant).reduce(
+          (acc, [key, value]) => ({
+            ...acc,
+            [key]: value.value,
+          }),
+          {},
+        ),
+      );
+    }
+
+    return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(selectedVariant)]);
 
@@ -169,6 +190,7 @@ const SectionVariants = ({
             props={props}
             components={components}
             icons={icons}
+            render={renderResult}
           />
         </FlexBox>
 
@@ -203,14 +225,15 @@ type SectionVariantsItemDemoProps = PropsWithChildren<{
   props: Record<string, any>;
   components: Array<string>;
   icons: Array<string>;
+  render?: string;
 }>;
 
 const SectionVariantsItemDemo = memo(
-  ({ props, components, icons }: SectionVariantsItemDemoProps) => {
+  ({ props, components, icons, render }: SectionVariantsItemDemoProps) => {
     const code = useMemo(() => {
-      return makeSectionVariantDemoCode(components, icons, props);
+      return makeSectionVariantDemoCode(components, icons, props, render);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(props)]);
+    }, [JSON.stringify(props), render]);
 
     const scope = useMemo(() => {
       return {

@@ -1,0 +1,202 @@
+---
+title: Text field
+description: 일정 높이의 필드 안에 한 줄 이하의 값을 입력할 수 있는 컴포넌트로 Heading, Placeholder, Help massage 등의 요소를 활용하여 사용자가 입력할 내용의 형식을 보다 명확하게 안내합니다.
+image: /components/selection-and-input/text-field/design/Thumbnail.png
+createdAt: 2025-04-03
+---
+
+<Anatomy
+  src="/components/selection-and-input/text-field/design/Image.png"
+	ratio="16:9"
+  data={[
+    'Heading',
+    'Placeholder',
+    'Description',
+    'Leading icon',
+    'Field',
+    'Required badge',
+		'Trailing contents',
+    'Trailing button',
+  ]}
+/>
+
+<SectionVariants
+  components={['FormField', 'FlexBox', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'Box']}
+  icons={['IconMail', 'IconMagicWand']}
+	render={(value) => {
+		const hasButton = value['Trailing button'] === 'Button';
+
+		const leadingContent =
+			value['Leading icon'] === 'Icon'
+				? '<TextFieldContent variant="icon"><IconMail /></TextFieldContent>'
+				: 'null';
+
+		let trailingContent = 'null';
+
+		switch (value['Trailing contents']) {
+			case 'Icon':
+				trailingContent =
+					'<TextFieldContent variant="icon"><IconMagicWand /></TextFieldContent>';
+				break;
+			case 'Custom':
+				trailingContent =
+					'<TextFieldContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.accent.background.violet, opacity: 0.08 })} /></TextFieldContent>';
+				break;
+			case 'Badge':
+				trailingContent =
+					'<TextFieldContent variant="badge"><ContentBadge color="neutral">Badge</ContentBadge></TextFieldContent>';
+				break;
+			case 'Text':
+				trailingContent =
+					'<TextFieldContent variant="text">원</TextFieldContent>';
+				break;
+			case 'Timer':
+				trailingContent =
+					'<TextFieldContent variant="timer">4:59</TextFieldContent>';
+				break;
+			default:
+				trailingContent = 'null';
+		}
+
+		return `
+			<FormField sx={{ width: '75%' }}>
+				<FormLabel required>Heading</FormLabel>
+				<FlexBox justifyContent="center">
+					<FormControl>
+						<TextField
+							placeholder="Placeholder"
+							leadingContent={${leadingContent}}
+							trailingContent={${trailingContent}}
+							width="100%"
+							${hasButton ? 'sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}' : ''}
+						/>
+					</FormControl>
+					${hasButton ? '<TextFieldButton>Button</TextFieldButton>' : ''}
+				</FlexBox>
+				<FormMessage>Description</FormMessage>
+			</FormField>
+		`;
+	}}
+  variants={[
+    {
+      key: 'Leading icon',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Icon', value: {} },
+      ]
+    },
+    {
+      key: 'Trailing button',
+      options: [
+				{ label: 'None', value: {} },
+				{ label: 'Button', value: {} },
+			],
+    },
+		{
+			key: 'Trailing contents',
+			options: [
+				{ label: 'None', value: {} },
+				{ label: 'Custom', value: {} },
+				{ label: 'Badge', value: {} },
+				{ label: 'Text', value: {} },
+				{ label: 'Icon', value: {} },
+				{ label: 'Timer', value: {} },
+			]
+		},
+  ]}
+/>
+
+<SectionStates
+  src="/components/selection-and-input/text-field/design/Image-1.png"
+  ratio="3:2"
+  options={['Normal', 'Focused', 'Negative', 'Positive', 'Read only', 'Disabled']}
+/>
+
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Password">
+    <SectionFigure
+      title="Usage"
+      description="패스워드 입력 시 Hidden과 Visible 옵션 제공을 권장하며 해당 옵션 제공 시 기본 값은 Hidden 상태입니다."
+      src="/components/selection-and-input/text-field/design/Image-2.png"
+    />
+  </SectionFigureGroup>
+	<SectionFigureGroup title="Certification">
+    <SectionFigure
+      title="Usage"
+			ratio="3:2"
+      description="Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다.
+행동을 유도하는 발송, 재발송과 같은 버튼은 Normal을 사용하며 행동을 마무리하는 확인 버튼은 Assistive를 사용합니다.
+일정 시간 이후에는 입력필드의 버튼과 타이머가 비활성화 됩니다."
+      src="/components/selection-and-input/text-field/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+	<SectionFigureGroup title="Autocomplete">
+    <SectionFigure
+      title="Usage"
+			ratio="3:2"
+      description="이메일, 직군 검색 등 정확한 명칭이나 양식의 입력을 받아야할 시 자동완성 기능을 활용하여 사용자의 편의성 돕습니다."
+      src="/components/selection-and-input/text-field/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Input mask">
+  <SectionFigureGroup title="Call number">
+		<SectionFigure
+			title="Usage"
+			description="휴대전화 번호 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
+컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
+			src="/components/selection-and-input/text-field/design/Image-5.png"
+		/>
+  </SectionFigureGroup>
+
+	<SectionFigureGroup title="Card number">
+		<SectionFigure
+			title="Usage"
+			description="카드번호 16자 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
+컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
+			src="/components/selection-and-input/text-field/design/Image-6.png"
+		/>
+	</SectionFigureGroup>
+
+	<SectionFigureGroup title="Date">
+		<SectionFigure
+			title="Usage"
+			description="날짜 입력 시 YYYY. MM. DD 양식 사용을 권장하며, Text field를 기반으로한 Date picker 컴포넌트를 사용합니다."
+			src="/components/selection-and-input/text-field/design/Image-7.png"
+		/>
+	</SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Gap">
+	<SectionFigure
+		title="Usage"
+		ratio="16:10"
+		description="필드간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다.
+단, 레이아웃이 제한적인 상황일 시 필드가 고정되어 위치하여 Description만큼 간격이 줄어들 수 있습니다.
+간격은 시스템 자체에서 제공되지 않으며, 프로젝트 담당 개발자와 디자이너의 논의 하에 결정할 수 있습니다."
+		src="/components/selection-and-input/text-field/design/Image-8.png"
+	/>
+</SectionLayout>
+
+<SectionLayout title="Required badge">
+  <SectionFigure
+		title="Usage"
+		description="필수적으로 값을 입력해야 하는 필드일 시 Required badge를 사용합니다."
+		src="/components/selection-and-input/text-field/design/Image-9.png"
+	/>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="사유를 명확하게 안내하여 사용자에게 명확한 행동을 유도합니다."
+    src="/components/selection-and-input/text-field/design/Image-10.png"
+  />
+  <SectionFigure
+    variant="negative"
+    description="버튼명을 6자 이상으로 적용하지 않습니다."
+    src="/components/selection-and-input/text-field/design/Image-11.png"
+  />
+</SectionLayout>
