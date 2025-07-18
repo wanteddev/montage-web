@@ -30,6 +30,7 @@ import {
 } from '../select/style';
 import useResizeObserver from '../../hooks/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
+import { SelectProvider } from '../select/context';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
@@ -186,7 +187,12 @@ const SelectMultiple = forwardRef<
     }, [node, setValue]);
 
     return (
-      <>
+      <SelectProvider
+        onOpenChange={setOpenState}
+        enableMenuActionArea={enableMenuActionArea}
+        value={value}
+        isMultiple
+      >
         {isFormControl && (
           <VirtualValueInput
             name={props.name}
@@ -349,7 +355,7 @@ const SelectMultiple = forwardRef<
             </MenuList>
           </MenuContent>
         </Menu>
-      </>
+      </SelectProvider>
     );
   },
 );
