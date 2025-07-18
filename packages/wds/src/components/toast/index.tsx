@@ -54,6 +54,7 @@ const Toast = forwardRef(
       disablePortal,
       disableAnimation,
       forceMount,
+      as,
       ...props
     }: PolymorphicPropsInternal<ToastProps, T>,
     forwardedRef: ForwardedRef<T>,
@@ -95,6 +96,20 @@ const Toast = forwardRef(
       component: 'toast',
     });
 
+    const ariaAttributes = useMemo(() => {
+      if (variant === 'negative') {
+        return {
+          role: 'alert',
+          'aria-live': 'assertive',
+        };
+      }
+
+      return {
+        role: variant === 'cautionary' ? 'alert' : 'status',
+        'aria-live': 'polite',
+      };
+    }, [variant]);
+
     return (
       <AnimationPresence present={open || forceMount}>
         <PortalOrFragment
@@ -106,8 +121,12 @@ const Toast = forwardRef(
           }
         >
           <Box
-            {...props}
+            aria-atomic
+            {...ariaAttributes}
+            aria-describedby={contentId}
             ref={forwardedRef}
+            {...props}
+            as={(as ?? 'div') as ElementType}
             onMouseEnter={composeEventHandlers(
               props.onMouseEnter,
               handleMouseEnter,
@@ -121,15 +140,7 @@ const Toast = forwardRef(
             style={{ ...style, ...props.style }}
             sx={[wrapperStyle({ disableAnimation }), props.sx]}
           >
-            <Box
-              ref={ref}
-              aria-atomic
-              role={variant === 'negative' ? 'alert' : 'status'}
-              aria-live={variant === 'negative' ? 'assertive' : 'polite'}
-              sx={toastStyle}
-              aria-describedby={contentId}
-              data-role="toast"
-            >
+            <Box ref={ref} sx={toastStyle} data-role="toast">
               <Box role="presentation" sx={firstOverlayStyle} />
               <Box role="presentation" sx={secondOverlayStyle} />
               <ToastProvider contentId={contentId} variant={variant}>
