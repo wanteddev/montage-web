@@ -15,15 +15,10 @@ const DismissableLayer = forwardRef<HTMLDivElement, DismissableLayerProps>(
   ) => {
     const handleSkipDismissableLayer = useCallback(
       (e: PointerDownOutsideEvent | FocusOutsideEvent) => {
-        for (const element of Array.from(
-          document.querySelectorAll('[wds-ignore-dismissable-layer="true"]'),
-        )) {
-          const target = e.target as HTMLElement;
+        const target = e.target as HTMLElement;
 
-          if (element.contains(target)) {
-            e.preventDefault();
-            break;
-          }
+        if (target.closest('[wds-ignore-dismissable-layer="true"]')) {
+          e.preventDefault();
         }
       },
       [],
