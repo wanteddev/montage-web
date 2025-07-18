@@ -240,9 +240,10 @@ const MenuItem = forwardRef<any, MenuItemProps>(
       normal: (
         <ListCell
           disabled={disabled}
-          role="menuitem"
+          role="menuitemradio"
           ref={ref}
           active={normalActive}
+          aria-checked={normalActive}
           trailingContent={
             normalActive ? (
               <ListCellContent variant="icon">
@@ -304,17 +305,16 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
 
+    const checked = context.value === value;
+
     return (
       <ListCell
         ref={ref}
         role="menuitemradio"
+        aria-checked={checked}
         leadingContent={
           <ListCellContent variant="radio">
-            <Radio
-              tabIndex={-1}
-              checked={context.value === value}
-              value={value}
-            />
+            <Radio tabIndex={-1} checked={checked} value={value} />
           </ListCellContent>
         }
         {...props}
@@ -353,6 +353,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
       <ListCell
         ref={ref}
         role="menuitemcheckbox"
+        aria-checked={checked}
         leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox

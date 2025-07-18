@@ -151,6 +151,7 @@ const Select = forwardRef<
       <SelectProvider
         onOpenChange={setOpenState}
         enableMenuActionArea={enableMenuActionArea}
+        value={value}
       >
         {isFormControl && (
           <VirtualValueInput
@@ -324,7 +325,12 @@ const Option = memo(
       }: PolymorphicPropsInternal<OptionProps, T>,
       ref: ForwardedRef<T>,
     ) => {
-      const { onOpenChange, enableMenuActionArea } = useSelectContext() || {};
+      const { onOpenChange, enableMenuActionArea, value, isMultiple } =
+        useSelectContext(OPTION_NAME);
+
+      const selected = Array.isArray(value)
+        ? value.includes(props.value)
+        : value === props.value;
 
       return (
         <MenuItem
@@ -332,10 +338,12 @@ const Option = memo(
           role="option"
           variant={variant}
           as={as || 'li'}
+          aria-checked={undefined}
+          aria-selected={selected}
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
-            if (enableMenuActionArea === false) {
-              onOpenChange?.(false);
+            if (enableMenuActionArea === false && !isMultiple) {
+              onOpenChange(false);
             }
           })}
         >
