@@ -32,10 +32,7 @@ description: Modal Component
 
 const Demo = () => {
   return (
-    <Modal
-      open={show}
-      onOpenChange={setShow}
-    >
+    <Modal>
       <ModalTrigger>
         <Button>열기</Button>
       </ModalTrigger>
@@ -151,8 +148,7 @@ Modal 은 여러 컴포넌트를 조합해서 사용합니다.
 
 `variant="bottom"` 일 때 드래그로 숨기고 열 수 있는 옵션을 사용할 수 있습니다.
 
-<Demo code={`import { useState } from 'react';
-import {
+<Demo code={`import {
   Button,
   Modal,
   ActionArea,
@@ -167,37 +163,32 @@ import {
 } from '@wanteddev/wds';
 
 const Demo = () => {
-  const [show, setShow] = useState(false);
-
   return (
-    <>
-      <Modal
-        open={show}
-        onOpenChange={setShow}
-      >
-        <ModalContainer variant="bottom" handle>
-          <ModalNavigation>
-            제목
-          </ModalNavigation>
+    <Modal>
+      <ModalTrigger>
+        <Button>Click me</Button>
+      </ModalTrigger>
 
-          <ModalContent>
-            <ModalContentItem>
-              <ModalHeading>Heading</ModalHeading>
-              <ModalSummary>Summary</ModalSummary>
-              <ModalDescription>Description</ModalDescription>
-            </ModalContentItem>
-          </ModalContent>
+      <ModalContainer variant="bottom" handle>
+        <ModalNavigation>
+          제목
+        </ModalNavigation>
 
-          <ActionArea>
-            <ActionAreaButton>
-              액션
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
 
-      <Button onClick={() => setShow(true)}>Click me</Button>
-    </>
+        <ActionArea>
+          <ActionAreaButton>
+            액션
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
   )
 }
 
