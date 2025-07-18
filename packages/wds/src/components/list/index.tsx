@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useId, useState } from 'react';
 import {
   Box,
   type PolymorphicComponentInternal,
@@ -103,12 +103,17 @@ const ListCell = forwardRef(
     );
     const clickable = !disabled && !disableInteraction;
 
+    const textId = useId();
+    const captionId = useId();
+
     return (
       <ListCellProvider
         active={active}
         disabled={disabled}
         ellipsis={ellipsis}
         alignItems={alignItems}
+        textId={textId}
+        captionId={captionId}
       >
         <WithInteraction disabled={disabled || disableInteraction}>
           <FlexBox
@@ -121,6 +126,8 @@ const ListCell = forwardRef(
             aria-disabled={disabled}
             disabled={disabled}
             tabIndex={clickable ? 0 : undefined}
+            aria-labelledby={textId}
+            aria-describedby={captionId}
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (
@@ -324,7 +331,8 @@ const ListText = forwardRef(
     }: PolymorphicPropsInternal<ListTextProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { active, disabled, ellipsis } = useListCellContext(LIST_TEXT_NAME);
+    const { active, disabled, ellipsis, textId, captionId } =
+      useListCellContext(LIST_TEXT_NAME);
     const { active: menuItemActive } = useMenuItemContext() || {};
 
     if (!children) {
@@ -361,7 +369,7 @@ const ListText = forwardRef(
           data-role="list-text-content-wrapper"
           sx={listTextContentWrapperStyle(ellipsis)}
         >
-          <Box as="span" data-role="list-text-content">
+          <Box as="span" data-role="list-text-content" id={textId}>
             {children}
           </Box>
         </Box>
@@ -371,6 +379,7 @@ const ListText = forwardRef(
             variant="label1"
             color="semantic.label.alternative"
             data-role="list-text-caption"
+            id={captionId}
             {...captionProps}
             sx={[listTextEllipsisStyle(ellipsis), captionProps?.sx]}
           >
