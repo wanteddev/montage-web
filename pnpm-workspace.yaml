@@ -2,3 +2,28 @@ packages:
   - 'packages/*'
   - 'docs'
   - '.github/actions/*'
+
+catalogs:
+  react:
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    '@types/react': ^18.3.14
+    '@types/react-dom': ^18.3.1
+
+  peer-react:
+    react: ^18.0 || ^19.0 || ^19.0.0-rc
+    react-dom: ^18.0 || ^19.0 || ^19.0.0-rc
+    '@types/react': ^18.0 || ^19.0 || ^19.0.0-rc
+    '@types/react-dom': ^18.0 || ^19.0 || ^19.0.0-rc
+
+  next:
+    next: ^14.2.20
+
+  peer-next:
+    next: ^13.0.0 || ^14.0.0 || ^15.0.0
+
+  config:
+    typescript: 5.4.2
+
+  node:
+    '@types/node': ^20.11.27
