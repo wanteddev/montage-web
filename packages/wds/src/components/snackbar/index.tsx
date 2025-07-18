@@ -60,6 +60,7 @@ const Snackbar = forwardRef(
       disablePortal,
       forceMount = false,
       disableAnimation,
+      as,
       ...props
     }: PolymorphicPropsInternal<SnackbarProps, T>,
     forwardedRef: ForwardedRef<T>,
@@ -88,7 +89,7 @@ const Snackbar = forwardRef(
     }, [durationProp]);
 
     const {
-      ref,
+      ref: containerRef,
       handleAnimationEnd,
       handleMouseEnter,
       handleMouseLeave,
@@ -113,7 +114,13 @@ const Snackbar = forwardRef(
           }
         >
           <Box
+            aria-atomic
+            role="status"
+            aria-live="polite"
+            aria-describedby={descriptionId}
+            aria-labelledby={headingId}
             {...props}
+            as={(as ?? 'div') as ElementType}
             ref={forwardedRef}
             onMouseEnter={composeEventHandlers(
               props.onMouseEnter,
@@ -123,21 +130,20 @@ const Snackbar = forwardRef(
               props.onMouseLeave,
               handleMouseLeave,
             )}
+            onKeyDown={composeEventHandlers(
+              props.onKeyDown,
+              (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                  setOpen(false);
+                }
+              },
+            )}
             data-status={open ? 'open' : 'close'}
             onAnimationEnd={handleAnimationEnd}
             style={{ ...style, ...props.style }}
             sx={[wrapperStyle({ disableAnimation }), props.sx]}
           >
-            <Box
-              ref={ref}
-              aria-atomic
-              role="status"
-              aria-live="polite"
-              sx={snackbarStyle}
-              aria-describedby={descriptionId}
-              aria-labelledby={headingId}
-              data-role="snackbar"
-            >
+            <Box ref={containerRef} sx={snackbarStyle} data-role="snackbar">
               <Box role="presentation" sx={firstOverlayStyle} />
               <Box role="presentation" sx={secondOverlayStyle} />
               <FlexBox
