@@ -7,13 +7,17 @@ import type { ForwardedRef } from 'react';
 import type { PortalOrFragmentProps } from './types';
 
 const PortalOrFragment = forwardRef<HTMLElement, PortalOrFragmentProps>(
-  ({ disablePortal, children, ...props }, ref) => {
+  ({ disablePortal, container, children, ...props }, ref) => {
     return disablePortal ? (
       <Slot {...props} ref={ref}>
         {children}
       </Slot>
     ) : (
-      <Portal {...props} ref={ref as ForwardedRef<HTMLDivElement>}>
+      <Portal
+        {...props}
+        container={container}
+        ref={ref as ForwardedRef<HTMLDivElement>}
+      >
         {children}
       </Portal>
     );
