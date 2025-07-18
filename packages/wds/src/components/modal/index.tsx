@@ -592,6 +592,7 @@ const ModalClose = forwardRef(
 
     return (
       <TopNavigationButton
+        aria-label="Close dialog"
         {...props}
         background={background}
         onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
