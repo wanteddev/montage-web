@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../helpers';
+import { findImportDeclaration } from '../../helpers';
 
 import type { API, FileInfo, Options, Property } from 'jscodeshift';
 

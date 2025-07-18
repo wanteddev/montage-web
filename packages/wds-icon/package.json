@@ -33,20 +33,16 @@
     "watch": "tsup --watch"
   },
   "devDependencies": {
-    "@types/react": "^18.3.14",
-    "@types/react-dom": "^18.3.1",
-    "typescript": "^5.4.2"
+    "@types/react": "catalog:react",
+    "typescript": "catalog:config"
   },
   "dependencies": {
     "@wanteddev/wds-engine": "workspace:*",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "catalog:react"
   },
   "peerDependencies": {
-    "@types/react": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "@types/react-dom": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "react": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "react-dom": "^18.0 || ^19.0 || ^19.0.0-rc"
+    "@types/react": "catalog:peer-react",
+    "react": "catalog:peer-react"
   },
   "peerDependenciesMeta": {
     "@types/react": {

@@ -1,4 +1,4 @@
-import { deepConvertPropertyValue, findImportDeclaration } from '../helpers';
+import { deepConvertPropertyValue, findImportDeclaration } from '../../helpers';
 
 import type { API, CallExpression, FileInfo, Options } from 'jscodeshift';
 
