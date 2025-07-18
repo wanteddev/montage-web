@@ -69,7 +69,10 @@ const Switch = forwardRef<
           />
         )}
 
-        <WithInteraction disabled={disabled}>
+        <WithInteraction
+          disabled={disabled}
+          color={checked ? 'semantic.static.white' : 'semantic.label.normal'}
+        >
           <Box
             as="button"
             type="button"
@@ -105,7 +108,11 @@ const Switch = forwardRef<
               }
             })}
           >
-            <span />
+            <span
+              data-role="switch-knob"
+              data-checked={checked}
+              data-disabled={disabled}
+            />
           </Box>
         </WithInteraction>
       </>
