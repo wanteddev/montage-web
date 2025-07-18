@@ -1,6 +1,7 @@
 import {
   forwardRef,
   useCallback,
+  useEffect,
   useId,
   useLayoutEffect,
   useRef,
@@ -144,6 +145,17 @@ const Autocomplete = forwardRef<
     >(null);
 
     const contentId = useId();
+
+    useEffect(() => {
+      const optionId = selectedOption?.ref.current?.id;
+
+      if (optionId && open) {
+        input?.setAttribute('aria-activedescendant', optionId);
+      } else {
+        input?.removeAttribute('aria-activedescendant');
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedOption, open]);
 
     return (
       <AutocompleteProvider
@@ -589,6 +601,8 @@ const AutocompleteOption = forwardRef<
 
   const active = contextValue === value && asSelect;
 
+  const id = useId();
+
   return (
     <Collection.ItemSlot
       value={value}
@@ -601,6 +615,7 @@ const AutocompleteOption = forwardRef<
         aria-disabled={disabled}
         active={active}
         role="option"
+        id={id}
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
         onTouchStart={composeEventHandlers(props.onTouchStart, (e) => {
