@@ -21,7 +21,10 @@ module.exports = {
     'prettier/prettier': 'warn',
     'import/resolver': {
       typescript: {
-        project: [__dirname + '/tsconfig.json'],
+        project: [
+          __dirname + '/tsconfig.json',
+          __dirname + '/tsconfig.node.json',
+        ],
       },
     },
   },
@@ -77,6 +80,12 @@ module.exports = {
     'sort-imports': ['error', { ignoreDeclarationSort: true }],
   },
   overrides: [
+    {
+      files: ['vitest.config.ts'],
+      parserOptions: {
+        project: ['./tsconfig.node.json'],
+      },
+    },
     {
       files: ['**/*.test.{ts,tsx}'],
       rules: {
