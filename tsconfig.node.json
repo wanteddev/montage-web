@@ -8,5 +8,10 @@
     "allowSyntheticDefaultImports": true
   },
   "exclude": ["**/node_modules", "**/.*/", "./dist", "*.cjs"],
-  "include": ["scripts/**/*.mjs", ".tsup/**/*.ts"]
+  "include": [
+    "scripts/**/*.mjs",
+    ".tsup/**/*.ts",
+    "vitest.config.ts",
+    ".vitest"
+  ]
 }
