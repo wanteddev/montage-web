@@ -7,7 +7,7 @@ export const getColorByToken = (theme: Theme, token: ThemeColorsToken) =>
 
 export const addHexOpacity = (hex: string, value: number) =>
   hex.substring(0, 7) +
-  Math.floor(value * 255)
+  Math.round(value * 255)
     .toString(16)
     .padStart(2, '0')
     .toUpperCase();
