@@ -141,28 +141,16 @@ export const versionInfoStyle = (theme: Theme) => css`
   display: block;
 `;
 
-export const navigationBarLinkGroupStyle = (theme: Theme) => css`
+export const navigationBarLinkStyle = (theme: Theme) => css`
+  box-shadow: none;
+  color: ${theme.semantic.static.white};
   background: ${addOpacity(theme.atomic.blue[30], theme.opacity[28])};
   border-radius: 14px;
   padding: 10px 16px;
   backdrop-filter: blur(32px);
-`;
-
-export const navigationBarLinkStyle = (theme: Theme) => css`
-  box-shadow: none;
-  color: ${theme.semantic.static.white};
 
   svg {
     font-size: 18px;
-  }
-
-  &:hover span {
-    text-decoration-line: underline;
-    text-decoration-style: solid;
-    text-decoration-skip-ink: none;
-    text-decoration-thickness: auto;
-    text-underline-offset: auto;
-    text-underline-position: from-font;
   }
 `;
 

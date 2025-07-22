@@ -1,5 +1,5 @@
 'use client';
-import { Box, Divider, FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Typography, WithInteraction } from '@wanteddev/wds';
 import {
   IconChevronDownSmall,
   IconComponentFill,
@@ -15,7 +15,6 @@ import {
   descriptionTextStyle,
   introBackgroundStyle,
   introWrapperStyle,
-  navigationBarLinkGroupStyle,
   navigationBarLinkStyle,
   navigationBarStyle,
   scrollDownIconStyle,
@@ -83,48 +82,46 @@ const Intro = () => {
             Wanted Design System: Montage V2.0.0
           </Box>
 
-          <FlexBox
-            gap="12px"
-            alignItems="center"
-            sx={navigationBarLinkGroupStyle}
-          >
-            <FlexBox
-              as={Link}
-              role="link"
-              href="/docs/foundations/overview"
-              sx={navigationBarLinkStyle}
-              gap="4px"
-              alignItems="center"
-            >
-              <IconDiamondFill />
-              <Typography
-                variant="label1"
-                weight="bold"
-                color="semantic.static.white"
+          <FlexBox gap="8px" alignItems="center">
+            <WithInteraction>
+              <FlexBox
+                as={Link}
+                role="link"
+                href="/docs/foundations/overview"
+                sx={navigationBarLinkStyle}
+                gap="4px"
+                alignItems="center"
               >
-                Foundations
-              </Typography>
-            </FlexBox>
+                <IconDiamondFill />
+                <Typography
+                  variant="label1"
+                  weight="bold"
+                  color="semantic.static.white"
+                >
+                  Foundations
+                </Typography>
+              </FlexBox>
+            </WithInteraction>
 
-            <Divider vertical size="8px" color="semantic.static.white" />
-
-            <FlexBox
-              as={Link}
-              role="link"
-              href="/docs/foundations/overview"
-              sx={navigationBarLinkStyle}
-              gap="4px"
-              alignItems="center"
-            >
-              <IconComponentFill />
-              <Typography
-                variant="label1"
-                weight="bold"
-                color="semantic.static.white"
+            <WithInteraction>
+              <FlexBox
+                as={Link}
+                role="link"
+                href="/docs/foundations/overview"
+                sx={navigationBarLinkStyle}
+                gap="4px"
+                alignItems="center"
               >
-                Components
-              </Typography>
-            </FlexBox>
+                <IconComponentFill />
+                <Typography
+                  variant="label1"
+                  weight="bold"
+                  color="semantic.static.white"
+                >
+                  Components
+                </Typography>
+              </FlexBox>
+            </WithInteraction>
           </FlexBox>
         </FlexBox>
 
