@@ -1,9 +1,9 @@
-import lottie from 'lottie-web/build/player/lottie_light.min';
 import { forwardRef, memo, useCallback, useEffect, useRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
-import type { AnimationConfig } from 'lottie-web';
-import type { ComponentPropsWithoutRef, MutableRefObject } from 'react';
+import type { AnimationConfig, AnimationItem } from 'lottie-web';
+import type { ComponentPropsWithoutRef } from 'react';
 
 /**
  * @deprecated use `@wanteddev/wds` Loading instead
@@ -15,38 +15,37 @@ const Loading = memo(
       ComponentPropsWithoutRef<typeof Box<'div'>>
   >(({ sx, loop, name, ...props }, forwardedRef) => {
     const lottieRef = useRef<HTMLDivElement>(null);
+    const animationRef = useRef<AnimationItem | null>(null);
 
-    const composedRefs = useCallback(
-      (node: HTMLDivElement) => {
-        (lottieRef as MutableRefObject<HTMLDivElement>).current = node;
+    const composedRefs = useComposedRefs(forwardedRef, lottieRef);
 
-        if (typeof forwardedRef === 'function') {
-          forwardedRef(node);
-        } else if (forwardedRef !== null) {
-          (forwardedRef as MutableRefObject<HTMLDivElement>).current = node;
-        }
-      },
-      [forwardedRef],
-    );
+    const loadAnimation = useCallback(async () => {
+      const lottie = (await import('lottie-web/build/player/lottie_light.min'))
+        .default;
+
+      animationRef.current = lottie.loadAnimation({
+        container: lottieRef.current!,
+        renderer: 'svg',
+        loop: loop ?? true,
+        autoplay: true,
+        path: 'https://static.wanted.co.kr/lottie/loading_brand_new.json',
+        name,
+      });
+    }, [loop, name]);
 
     useEffect(() => {
       if (lottieRef.current) {
-        lottie.loadAnimation({
-          container: lottieRef.current,
-          renderer: 'svg',
-          loop: loop ?? true,
-          autoplay: true,
-          path: 'https://static.wanted.co.kr/lottie/loading_brand_new.json',
-          name,
-        });
+        loadAnimation();
       }
 
-      return () => lottie.destroy();
-    }, [loop, name]);
+      return () => animationRef.current?.destroy();
+    }, [loadAnimation]);
 
     return (
       <Box
         ref={composedRefs}
+        role="status"
+        aria-label="Loading..."
         {...props}
         sx={[{ margin: '0 auto', width: '135px', padding: '16px' }, sx]}
       />
