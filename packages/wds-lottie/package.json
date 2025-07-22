@@ -37,6 +37,7 @@
     "typescript": "catalog:config"
   },
   "dependencies": {
+    "@radix-ui/react-compose-refs": "^1.1.0",
     "@wanteddev/wds-engine": "workspace:*",
     "lottie-web": "^5.12.2",
     "react": "catalog:react"
