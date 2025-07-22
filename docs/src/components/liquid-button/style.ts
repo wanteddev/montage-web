@@ -147,10 +147,6 @@ export const liquidButtonLineOverlaySecondaryStyle = css`
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  box-shadow:
-    0 0 0 0.5px rgba(255, 255, 255, 0.5) inset,
-    0 1px 3px rgba(255, 255, 255, 0.25) inset,
-    0 1px 4px rgba(0, 0, 0, 0.35);
 `;
 
 export const liquidButtonInteractionOverlayFirstStyle = css`

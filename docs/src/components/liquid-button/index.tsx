@@ -277,14 +277,6 @@ const LiquidButton = forwardRef(
                 liquidButtonInteractionOverlaySecondStyle,
               ]}
             />
-            {/* <Box
-              role="presentation"
-              data-role="liquid-button-interaction-alternative"
-              sx={[
-                liquidButtonLineBaseStyle,
-                liquidButtonInteractionOverlayThirdStyle,
-              ]}
-            /> */}
           </>
         )}
       </Box>
