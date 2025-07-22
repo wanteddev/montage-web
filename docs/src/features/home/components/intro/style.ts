@@ -29,7 +29,7 @@ export const introWrapperStyle = (theme: Theme) => css`
 
   ${respondMore(theme.breakpoint.lg)} {
     margin-top: 12px;
-    padding: 0px 48px 28px;
+    padding: 0px 48px 48px;
     height: calc(100vh - var(--gnb-height) - 12px);
   }
 `;
