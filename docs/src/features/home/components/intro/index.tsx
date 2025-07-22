@@ -1,5 +1,5 @@
 'use client';
-import { Box, Button, FlexBox } from '@wanteddev/wds';
+import { Box, Divider, FlexBox, TextButton } from '@wanteddev/wds';
 import {
   IconChevronDownSmall,
   IconComponentFill,
@@ -15,6 +15,7 @@ import {
   descriptionTextStyle,
   introBackgroundStyle,
   introWrapperStyle,
+  navigationBarLinkGroupStyle,
   navigationBarLinkStyle,
   navigationBarStyle,
   scrollDownIconStyle,
@@ -30,60 +31,46 @@ const Intro = () => {
   return (
     <Box as="section" ref={ref} sx={introWrapperStyle}>
       <FlexBox
-        alignItems="center"
-        justifyContent="center"
+        flexDirection="column"
         data-role="intro-background"
         sx={introBackgroundStyle}
       >
-        <Box
-          as="video"
-          autoPlay
-          muted
-          loop
-          controls={false}
-          sx={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'bottom left',
-            borderRadius: 'inherit',
-            inset: 0,
-            zIndex: -1,
-          }}
-        >
-          <source src="/Hero.mp4" type="video/mp4" />
-        </Box>
+        <Box as="img" src="/home/Intro.png" alt="Intro" />
+
         <FlexBox
           flexDirection="column"
           gap="32px"
           alignItems="center"
+          justifyContent="center"
           lg={{
-            gap: '48px',
+            gap: '32px',
+          }}
+          sx={{
+            height: '100%',
+            padding: '20px',
           }}
         >
           <FlexBox
             flexDirection="column"
             gap="24px"
             lg={{
-              gap: '32px',
+              gap: '40px',
             }}
           >
             <Box as="h1" sx={titleTextStyle}>
-              Our Work Culture.
+              Our Work
+              <br />
+              Culture.
               <br />
               MONTAGE
             </Box>
             <Box as="p" sx={[descriptionTextStyle, breakWordStyle]}>
-              {
-                '일하는 사람들의 모든 가능성, \n원티드가 만든 모두를 위한 일하는 방식'
-              }
-              <br />
-              Wanted Design System — MONTAGE
+              일하는 사람들의 모든 가능성, 원티드 <br />
+              원티드가 생각한 협업 문화. 몽타주입니다.
             </Box>
           </FlexBox>
 
-          <LiquidButton containerRef={ref}>GET STARTED</LiquidButton>
+          <LiquidButton containerRef={ref}>Get Started</LiquidButton>
         </FlexBox>
 
         <FlexBox
@@ -93,34 +80,39 @@ const Intro = () => {
           gap="12px"
         >
           <Box as="span" sx={versionInfoStyle}>
-            v2.0.0
+            Wanted Design System: Montage V2.0.0
           </Box>
 
-          <FlexBox gap="6px" alignItems="center">
-            <Button
-              variant="outlined"
+          <FlexBox
+            gap="12px"
+            alignItems="center"
+            sx={navigationBarLinkGroupStyle}
+          >
+            <TextButton
+              variant="assistive"
               color="secondary"
               size="small"
-              // leadingContent={<IconDiamondGradient />}
               leadingContent={<IconDiamondFill />}
               as={Link}
               href="/docs/foundations/overview"
               sx={navigationBarLinkStyle}
             >
               Foundations
-            </Button>
-            <Button
-              variant="outlined"
+            </TextButton>
+
+            <Divider vertical size="8px" color="semantic.static.white" />
+
+            <TextButton
+              variant="assistive"
               color="secondary"
               size="small"
-              // leadingContent={<IconComponentGradient />}
               leadingContent={<IconComponentFill />}
               as={Link}
               href="/docs/components/overview"
               sx={navigationBarLinkStyle}
             >
               Components
-            </Button>
+            </TextButton>
           </FlexBox>
         </FlexBox>
 

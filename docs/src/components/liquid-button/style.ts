@@ -51,7 +51,7 @@ export const liquidButtonStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.md)} {
-    padding: 15px 24px;
+    padding: 11px 24px;
   }
 `;
 
@@ -92,12 +92,11 @@ export const liquidButtonContentStyle = (theme: Theme) => css`
   color: ${theme.semantic.static.white};
   font-family: var(--font-family-wanted-sans);
   width: 100%;
-  line-height: normal;
+  line-height: 144.5%;
   font-size: 13px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.312px;
-  text-transform: uppercase;
 
   ${respondMore(theme.breakpoint.sm)} {
     font-size: 14px;
@@ -105,8 +104,8 @@ export const liquidButtonContentStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.md)} {
-    font-size: 15px;
-    letter-spacing: -0.21px;
+    font-size: 18px;
+    letter-spacing: -0.252px;
   }
 `;
 

@@ -28,23 +28,34 @@ export const introWrapperStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.lg)} {
-    padding: 0px 28px 28px;
+    margin-top: 12px;
+    padding: 0px 48px 28px;
+    height: calc(100vh - var(--gnb-height) - 12px);
   }
 `;
 
 export const introBackgroundStyle = css`
   position: relative;
   border-radius: inherit;
-  padding: 20px;
   width: 100%;
   height: 100%;
+
+  & > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+    z-index: -1;
+    inset: 0;
+  }
 `;
 
 export const titleTextStyle = (theme: Theme) => css`
   text-align: center;
   leading-trim: both;
   text-edge: cap;
-  text-shadow: 0px 0px 60px rgba(0, 0, 0, 0.16);
+  text-shadow: 4px 4px 24px rgba(0, 0, 0, 0.12);
   font-family: var(--font-family-wanted-sans);
   font-size: 48px;
   font-weight: 800;
@@ -66,9 +77,9 @@ export const titleTextStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.lg)} {
-    font-size: 88px;
+    font-size: 116px;
     line-height: 100.7%;
-    letter-spacing: -1.32px;
+    letter-spacing: -1.74px;
   }
 `;
 
@@ -80,8 +91,7 @@ export const descriptionTextStyle = (theme: Theme) => css`
   font-size: 13px;
   line-height: 142.9%;
   letter-spacing: -0.182px;
-  text-shadow: 0px 0px 32px
-    ${addOpacity(theme.semantic.static.black, theme.opacity[16])};
+  text-shadow: 4px 4px 24px rgba(0, 0, 0, 0.16);
   white-space: pre-wrap;
 
   ${respondMore(theme.breakpoint.sm)} {
@@ -92,9 +102,9 @@ export const descriptionTextStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.md)} {
-    font-size: 15px;
-    line-height: 146.7%;
-    letter-spacing: -0.21px;
+    font-size: 16px;
+    line-height: 160%;
+    letter-spacing: -0.224px;
   }
 `;
 
@@ -110,11 +120,9 @@ export const scrollDownWrapperStyle = (theme: Theme) => css`
 `;
 
 export const navigationBarStyle = (theme: Theme) => css`
-  position: absolute;
-  bottom: 16px;
-  left: 16px;
-  width: calc(100% - 32px);
-  padding-top: 16px;
+  width: 100%;
+  padding: 20px;
+  align-self: flex-end;
   border-top: 1px solid ${addOpacity(theme.semantic.static.white, 0.18)};
 
   ${respondTo(theme.breakpoint.lg)} {
@@ -123,35 +131,43 @@ export const navigationBarStyle = (theme: Theme) => css`
 `;
 
 export const versionInfoStyle = (theme: Theme) => css`
-  font-family: var(--font-family-wanted-sans);
   color: ${theme.semantic.static.white};
   font-size: 13px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 138.5%;
-  letter-spacing: -0.182px;
-  padding-bottom: 6px;
-  padding-left: 6px;
+  letter-spacing: 0.252px;
+  padding-inline: 16px;
   display: block;
 `;
 
+export const navigationBarLinkGroupStyle = (theme: Theme) => css`
+  background: ${addOpacity(theme.atomic.blue[30], theme.opacity[28])};
+  border-radius: 14px;
+  padding: 10px 16px;
+  backdrop-filter: blur(32px);
+`;
+
 export const navigationBarLinkStyle = (theme: Theme) => css`
-  border-radius: 999px;
   box-shadow: none;
-  background-color: ${addOpacity(theme.semantic.static.black, 0.08)};
-  backdrop-filter: blur(12px);
   color: ${theme.semantic.static.white};
+  padding-block: 0px;
 
   span {
     font-family: var(--font-family-wanted-sans);
-    font-size: 13px;
+    font-size: 14px;
+    font-style: normal;
     font-weight: 600;
-    line-height: 138.5%;
-    letter-spacing: -0.182px;
+    line-height: 142.9%;
+    letter-spacing: 0.203px;
   }
 
   svg {
-    font-size: 16px;
+    font-size: 18px;
+  }
+
+  & > [wds-component='with-interaction'] {
+    height: calc(100% + 6px);
   }
 `;
 

@@ -54,6 +54,41 @@ export const gnbMenuStyle = (theme: Theme) => css`
   }
 `;
 
+export const searchBarStyle = (theme: Theme) => css`
+  display: none;
+  border-radius: 12px;
+  background: ${theme.semantic.fill.normal};
+  backdrop-filter: blur(32px);
+  padding: 8px 10px;
+  margin-right: 4px;
+  width: 280px;
+  cursor: pointer;
+
+  svg {
+    color: ${theme.semantic.label.assistive};
+    font-size: 20px;
+  }
+
+  ${respondMore(theme.breakpoint.lg)} {
+    display: flex;
+  }
+`;
+
+export const kbdWrapperStyle = (theme: Theme) => css`
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+  background-color: ${theme.semantic.fill.normal};
+  border-radius: 6px;
+  padding: 2px 6px;
+`;
+
+export const gnbSearchButtonStyle = (theme: Theme) => css`
+  padding: 9px;
+  font-size: 20px;
+  ${respondMore(theme.breakpoint.lg)} {
+    display: none;
+  }
+`;
+
 export const menuItemStyle = (theme: Theme) => css`
   align-items: center;
   width: calc(100% - var(--wds-list-cell-interaction-padding) * 2 - 8px);

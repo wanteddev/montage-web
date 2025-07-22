@@ -9,6 +9,7 @@ import {
   MenuList,
   MenuTrigger,
   NoSsr,
+  Typography,
   WithInteraction,
   useThemeControl,
 } from '@wanteddev/wds';
@@ -30,8 +31,11 @@ import {
   gnbActionsStyle,
   gnbHideActionStyle,
   gnbMenuStyle,
+  gnbSearchButtonStyle,
   gnbWrapperStyle,
+  kbdWrapperStyle,
   menuItemStyle,
+  searchBarStyle,
 } from './style';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
@@ -109,11 +113,59 @@ const Gnb = () => {
           <FlexBox gap="4px" alignItems="center">
             <WithInteraction>
               <FlexBox
+                role="search"
+                aria-label="Search"
+                sx={searchBarStyle}
+                onClick={handleOpen}
+                alignItems="center"
+                gap="6px"
+              >
+                <IconSearch />
+
+                <FlexBox alignItems="center" gap="4px">
+                  <Typography
+                    variant="label1"
+                    weight="medium"
+                    color="semantic.label.assistive"
+                  >
+                    Press
+                  </Typography>
+                  <FlexBox alignItems="center" sx={kbdWrapperStyle}>
+                    <Typography
+                      as="kbd"
+                      variant="label2"
+                      weight="medium"
+                      color="semantic.label.assistive"
+                    >
+                      ⌘
+                    </Typography>
+                    <Typography
+                      as="kbd"
+                      variant="label2"
+                      weight="medium"
+                      color="semantic.label.assistive"
+                    >
+                      K
+                    </Typography>
+                  </FlexBox>
+                  <Typography
+                    variant="label1"
+                    weight="medium"
+                    color="semantic.label.assistive"
+                  >
+                    to search
+                  </Typography>
+                </FlexBox>
+              </FlexBox>
+            </WithInteraction>
+
+            <WithInteraction>
+              <FlexBox
                 aria-label="Search"
                 as="button"
                 role="search"
                 onClick={handleOpen}
-                sx={[gnbActionsStyle, { fontSize: 20, padding: 9 }]}
+                sx={[gnbActionsStyle, gnbSearchButtonStyle]}
               >
                 <IconSearch />
               </FlexBox>
