@@ -151,23 +151,18 @@ export const navigationBarLinkGroupStyle = (theme: Theme) => css`
 export const navigationBarLinkStyle = (theme: Theme) => css`
   box-shadow: none;
   color: ${theme.semantic.static.white};
-  padding-block: 0px;
-
-  span {
-    font-family: var(--font-family-wanted-sans);
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 142.9%;
-    letter-spacing: 0.203px;
-  }
 
   svg {
     font-size: 18px;
   }
 
-  & > [wds-component='with-interaction'] {
-    height: calc(100% + 6px);
+  &:hover span {
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: auto;
+    text-underline-offset: auto;
+    text-underline-position: from-font;
   }
 `;
 

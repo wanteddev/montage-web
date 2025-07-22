@@ -1,5 +1,5 @@
 'use client';
-import { Box, Divider, FlexBox, TextButton } from '@wanteddev/wds';
+import { Box, Divider, FlexBox, Typography } from '@wanteddev/wds';
 import {
   IconChevronDownSmall,
   IconComponentFill,
@@ -88,31 +88,43 @@ const Intro = () => {
             alignItems="center"
             sx={navigationBarLinkGroupStyle}
           >
-            <TextButton
-              variant="assistive"
-              color="secondary"
-              size="small"
-              leadingContent={<IconDiamondFill />}
+            <FlexBox
               as={Link}
+              role="link"
               href="/docs/foundations/overview"
               sx={navigationBarLinkStyle}
+              gap="4px"
+              alignItems="center"
             >
-              Foundations
-            </TextButton>
+              <IconDiamondFill />
+              <Typography
+                variant="label1"
+                weight="bold"
+                color="semantic.static.white"
+              >
+                Foundations
+              </Typography>
+            </FlexBox>
 
             <Divider vertical size="8px" color="semantic.static.white" />
 
-            <TextButton
-              variant="assistive"
-              color="secondary"
-              size="small"
-              leadingContent={<IconComponentFill />}
+            <FlexBox
               as={Link}
-              href="/docs/components/overview"
+              role="link"
+              href="/docs/foundations/overview"
               sx={navigationBarLinkStyle}
+              gap="4px"
+              alignItems="center"
             >
-              Components
-            </TextButton>
+              <IconComponentFill />
+              <Typography
+                variant="label1"
+                weight="bold"
+                color="semantic.static.white"
+              >
+                Components
+              </Typography>
+            </FlexBox>
           </FlexBox>
         </FlexBox>
 
