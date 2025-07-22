@@ -55,7 +55,7 @@ export const gnbMenuStyle = (theme: Theme) => css`
 `;
 
 export const searchBarStyle = (theme: Theme) => css`
-  display: none;
+  display: flex;
   border-radius: 12px;
   background: ${theme.semantic.fill.normal};
   backdrop-filter: blur(32px);
@@ -69,8 +69,8 @@ export const searchBarStyle = (theme: Theme) => css`
     font-size: 20px;
   }
 
-  ${respondMore(theme.breakpoint.lg)} {
-    display: flex;
+  ${respondTo(theme.breakpoint.sm)} {
+    display: none;
   }
 `;
 
@@ -84,7 +84,8 @@ export const kbdWrapperStyle = (theme: Theme) => css`
 export const gnbSearchButtonStyle = (theme: Theme) => css`
   padding: 9px;
   font-size: 20px;
-  ${respondMore(theme.breakpoint.lg)} {
+
+  ${respondMore(theme.breakpoint.sm)} {
     display: none;
   }
 `;

@@ -33,7 +33,7 @@ export const liquidButtonWrapperStyle = css`
 `;
 
 export const liquidButtonStyle = (theme: Theme) => css`
-  padding: 12px 20px;
+  padding: 9px 16px;
   display: flex;
   border: none;
   background-color: transparent;
@@ -47,7 +47,7 @@ export const liquidButtonStyle = (theme: Theme) => css`
   transition: var(--liquid-button-transition);
 
   ${respondMore(theme.breakpoint.sm)} {
-    padding: 11.5px 20px;
+    padding: 9px 20px;
   }
 
   ${respondMore(theme.breakpoint.md)} {
@@ -92,15 +92,16 @@ export const liquidButtonContentStyle = (theme: Theme) => css`
   color: ${theme.semantic.static.white};
   font-family: var(--font-family-wanted-sans);
   width: 100%;
-  line-height: 144.5%;
-  font-size: 13px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 600;
-  letter-spacing: -0.312px;
+  line-height: 144.5%;
+  letter-spacing: -0.003px;
 
   ${respondMore(theme.breakpoint.sm)} {
-    font-size: 14px;
-    letter-spacing: -0.196px;
+    font-size: 15px;
+    line-height: 144.5%;
+    letter-spacing: -0.003px;
   }
 
   ${respondMore(theme.breakpoint.md)} {

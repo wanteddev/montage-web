@@ -10,6 +10,7 @@ import { useRef } from 'react';
 
 import { breakWordStyle } from '@/styles/text';
 import LiquidButton from '@/components/liquid-button';
+import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 
 import {
   descriptionTextStyle,
@@ -27,6 +28,13 @@ import {
 const Intro = () => {
   const ref = useRef<HTMLDivElement>(null);
 
+  const handleScrollDown = () => {
+    window.scrollTo({
+      top: (ref.current?.clientHeight ?? 0) + GNB_HEIGHT,
+      behavior: 'smooth',
+    });
+  };
+
   return (
     <Box as="section" ref={ref} sx={introWrapperStyle}>
       <FlexBox
@@ -41,9 +49,6 @@ const Intro = () => {
           gap="32px"
           alignItems="center"
           justifyContent="center"
-          lg={{
-            gap: '32px',
-          }}
           sx={{
             height: '100%',
             padding: '20px',
@@ -52,7 +57,7 @@ const Intro = () => {
           <FlexBox
             flexDirection="column"
             gap="24px"
-            lg={{
+            md={{
               gap: '40px',
             }}
           >
@@ -130,6 +135,8 @@ const Intro = () => {
           flexDirection="column"
           gap="6px"
           alignItems="center"
+          as="button"
+          onClick={handleScrollDown}
         >
           <IconChevronDownSmall
             aria-label="scroll down"
