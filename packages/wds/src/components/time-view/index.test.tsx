@@ -8,7 +8,7 @@ import {
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
-import { TimeView } from './index';
+import { TimeView } from '.';
 
 // Mock scrollTo for test environment
 Object.defineProperty(window.Element.prototype, 'scrollTo', {
