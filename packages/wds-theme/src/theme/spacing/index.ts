@@ -17,7 +17,7 @@ const spacing = {
   48: '48px',
   56: '56px',
   64: '64px',
-  75: '72px',
+  72: '72px',
   80: '80px',
 } as const;
 
