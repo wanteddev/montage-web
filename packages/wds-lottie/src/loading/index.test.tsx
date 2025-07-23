@@ -1,6 +1,5 @@
 import { axe } from 'vitest-axe';
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import Loading from './index';
 

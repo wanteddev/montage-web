@@ -358,11 +358,21 @@ Option.displayName = OPTION_NAME;
 // @ts-expect-error
 Option.isOption = true;
 
-const SelectContent = TextFieldContent;
+const SelectContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<TextFieldContentProps, 'div'>
+>((props, ref) => {
+  return <TextFieldContent ref={ref} {...props} />;
+});
 
 SelectContent.displayName = SELECT_CONTENT_NAME;
 
-const OptionContent = ListCellContent;
+const OptionContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellContent ref={ref} {...props} />;
+});
 
 OptionContent.displayName = OPTION_CONTENT_NAME;
 
