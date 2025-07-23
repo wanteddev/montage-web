@@ -25,8 +25,8 @@ import {
 } from '../date-calendar/helpers';
 
 import {
-  ACCESSIBLE_MAX_TIME,
-  ACCESSIBLE_MIN_TIME,
+  // ACCESSIBLE_MAX_TIME,
+  // ACCESSIBLE_MIN_TIME,
   TIME_ITEM_NAME,
   TIME_LIST_NAME,
   TIME_VIEW_NAME,
@@ -59,8 +59,8 @@ const TimeView = forwardRef<
     {
       value: originValue,
       defaultValue,
-      minTime = ACCESSIBLE_MIN_TIME,
-      maxTime = ACCESSIBLE_MAX_TIME,
+      // minTime = ACCESSIBLE_MIN_TIME,
+      // maxTime = ACCESSIBLE_MAX_TIME,
       views = ['hour', 'minute'],
       locale = 'ko-KR',
       timezone,
@@ -81,7 +81,13 @@ const TimeView = forwardRef<
       onChange,
     });
 
-    const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
+    // const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
+    const { now } = useDefaultSelectedDate(
+      value,
+      undefined,
+      undefined,
+      timezone,
+    );
 
     const hourType: HourType = useMemo(
       () => (views.includes('meridiem') ? '12' : '24'),
@@ -164,7 +170,13 @@ const TimeList = memo(
             sx={timeListScrollAreaStyle}
             data-role="time-list-scroll-area"
           >
-            <List data-role={`time-list-${view}`} ref={ref} sx={timeListStyle}>
+            <List
+              data-role={`time-list-${view}`}
+              role="listbox"
+              aria-label={`Select ${view}`}
+              ref={ref}
+              sx={timeListStyle}
+            >
               {timeList.map((time) =>
                 time ? (
                   <TimeItem
@@ -305,6 +317,7 @@ const TimeItem = forwardRef<
         verticalPadding="small"
         active={active}
         value={value}
+        role="option"
         aria-selected={active}
         aria-label={text}
         data-role={`time-item-${view}`}
