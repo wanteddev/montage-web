@@ -158,7 +158,7 @@ const DatePicker = forwardRef<
           onChange={() => {}}
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
-          aria-expanded={open}
+          data-expanded={open}
           data-role="date-picker-field"
           {...props}
           {...({
