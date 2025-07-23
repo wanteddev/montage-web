@@ -19,6 +19,7 @@ import { ScrollArea } from '../scroll-area';
 import { List, ListCell } from '../list';
 import { useDefaultSelectedDate } from '../date-calendar/hooks';
 import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
+import { extendDayjs } from '../../utils/date';
 
 import {
   // ACCESSIBLE_MAX_TIME,
@@ -46,6 +47,8 @@ import type {
   TimeListProps,
   TimeViewProps,
 } from './types';
+
+extendDayjs();
 
 const TimeView = forwardRef<
   HTMLDivElement,
