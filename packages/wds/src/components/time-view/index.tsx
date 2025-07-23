@@ -23,6 +23,7 @@ import {
   dayjsTimezone,
   isValidDate,
 } from '../date-calendar/helpers';
+import { extendDayjs } from '../../utils/date';
 
 import {
   // ACCESSIBLE_MAX_TIME,
@@ -50,6 +51,8 @@ import type {
   TimeListProps,
   TimeViewProps,
 } from './types';
+
+extendDayjs();
 
 const TimeView = forwardRef<
   HTMLDivElement,
