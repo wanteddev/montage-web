@@ -676,7 +676,12 @@ const AutocompleteOption = forwardRef<
 
 AutocompleteOption.displayName = AUTOCOMPLETE_OPTION_NAME;
 
-const AutocompleteOptionContent = ListCellContent;
+const AutocompleteOptionContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellContent ref={ref} {...props} />;
+});
 
 AutocompleteOptionContent.displayName = AUTOCOMPLETE_OPTION_CONTENT_NAME;
 

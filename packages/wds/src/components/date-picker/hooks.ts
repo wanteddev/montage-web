@@ -6,6 +6,7 @@ import isBetween from 'dayjs/plugin/isBetween.js';
 import weekday from 'dayjs/plugin/weekday.js';
 import utc from 'dayjs/plugin/utc.js';
 import timezonePlugin from 'dayjs/plugin/timezone.js';
+import { flushSync } from 'react-dom';
 
 import {
   dateTypeToDateObject,
@@ -351,24 +352,24 @@ export const useDateField = ({
         return;
       }
 
-      let cursorPosition = e.currentTarget.selectionStart ?? 0;
-
       if (!inputValue) {
-        cursorPosition = 0;
         focusTimestamp.current = e.timeStamp;
       }
 
       const newInputValue = !inputValue ? format : inputValue;
       const newSections = getDateformatSections(newInputValue, format, locale);
 
-      setSections(newSections);
-      setInputValue(newInputValue);
+      flushSync(() => {
+        setSections(newSections);
+        setInputValue(newInputValue);
+      });
 
-      const closetSection = getClosetSection(cursorPosition, newSections);
+      const closetSection = getClosetSection(0, newSections);
 
       if (closetSection) {
-        e.preventDefault();
+        // e.preventDefault();
         setFocusedSection(closetSection);
+
         e.currentTarget.setSelectionRange(
           closetSection.startIndex,
           closetSection.endIndex,
@@ -750,6 +751,176 @@ export const useDateField = ({
             );
           });
           return;
+        case 'Home':
+          e.preventDefault();
+
+          if (readOnly || disabled) {
+            return;
+          }
+
+          if (focusedSection.type === 'text') {
+            const newInputValue =
+              inputValue.slice(0, focusedSection.startIndex) +
+              focusedSection.options[0] +
+              inputValue.slice(focusedSection.endIndex);
+
+            const newSectionValue = getDateformatSections(
+              newInputValue,
+              format,
+              locale,
+            );
+
+            const parsedDate = parseFromFormat(
+              newInputValue,
+              format,
+              locale,
+              timezone,
+            );
+
+            setInputValue(newInputValue);
+            setSections(newSectionValue);
+            setFocusedSection(newSectionValue[focusedSection.index]);
+            if (parsedDate) {
+              setValue(parsedDate);
+              isTriggeredChange.current = true;
+            }
+
+            requestAnimationFrame(() => {
+              inputRef.current?.setSelectionRange(
+                newSectionValue[focusedSection.index]!.startIndex,
+                newSectionValue[focusedSection.index]!.endIndex,
+              );
+            });
+          } else {
+            const { minValue } = getNumericFormatRange(
+              focusedSection.format,
+              value,
+              timezone,
+            );
+
+            const newParsedValue = minValue
+              .toString()
+              .padStart(focusedSection.format.length, '0');
+
+            const newInputValue =
+              inputValue.slice(0, focusedSection.startIndex) +
+              newParsedValue +
+              inputValue.slice(focusedSection.endIndex);
+
+            const newSectionValue = getDateformatSections(
+              newInputValue,
+              format,
+              locale,
+            );
+
+            const parsedDate = parseFromFormat(
+              newInputValue,
+              format,
+              locale,
+              timezone,
+            );
+
+            setInputValue(newInputValue);
+            setSections(newSectionValue);
+            setFocusedSection(newSectionValue[focusedSection.index]);
+            if (parsedDate) {
+              setValue(parsedDate);
+              isTriggeredChange.current = true;
+            }
+
+            requestAnimationFrame(() => {
+              inputRef.current?.setSelectionRange(
+                newSectionValue[focusedSection.index]!.startIndex,
+                newSectionValue[focusedSection.index]!.endIndex,
+              );
+            });
+          }
+          return;
+        case 'End':
+          e.preventDefault();
+
+          if (readOnly || disabled) {
+            return;
+          }
+
+          if (focusedSection.type === 'text') {
+            const newInputValue =
+              inputValue.slice(0, focusedSection.startIndex) +
+              focusedSection.options[focusedSection.options.length - 1] +
+              inputValue.slice(focusedSection.endIndex);
+
+            const newSectionValue = getDateformatSections(
+              newInputValue,
+              format,
+              locale,
+            );
+
+            const parsedDate = parseFromFormat(
+              newInputValue,
+              format,
+              locale,
+              timezone,
+            );
+
+            setInputValue(newInputValue);
+            setSections(newSectionValue);
+            setFocusedSection(newSectionValue[focusedSection.index]);
+            if (parsedDate) {
+              setValue(parsedDate);
+              isTriggeredChange.current = true;
+            }
+
+            requestAnimationFrame(() => {
+              inputRef.current?.setSelectionRange(
+                newSectionValue[focusedSection.index]!.startIndex,
+                newSectionValue[focusedSection.index]!.endIndex,
+              );
+            });
+          } else {
+            const { maxValue } = getNumericFormatRange(
+              focusedSection.format,
+              value,
+              timezone,
+            );
+
+            const newParsedValue = maxValue
+              .toString()
+              .padStart(focusedSection.format.length, '0');
+
+            const newInputValue =
+              inputValue.slice(0, focusedSection.startIndex) +
+              newParsedValue +
+              inputValue.slice(focusedSection.endIndex);
+
+            const newSectionValue = getDateformatSections(
+              newInputValue,
+              format,
+              locale,
+            );
+
+            const parsedDate = parseFromFormat(
+              newInputValue,
+              format,
+              locale,
+              timezone,
+            );
+
+            setInputValue(newInputValue);
+            setSections(newSectionValue);
+            setFocusedSection(newSectionValue[focusedSection.index]);
+            if (parsedDate) {
+              setValue(parsedDate);
+              isTriggeredChange.current = true;
+            }
+
+            requestAnimationFrame(() => {
+              inputRef.current?.setSelectionRange(
+                newSectionValue[focusedSection.index]!.startIndex,
+                newSectionValue[focusedSection.index]!.endIndex,
+              );
+            });
+          }
+          return;
       }
 
       const lowerKey = e.key.toLowerCase();
@@ -757,6 +928,8 @@ export const useDateField = ({
       if (e.ctrlKey || e.metaKey || e.altKey || readOnly || disabled) {
         return;
       }
+
+      e.preventDefault();
 
       if (focusedSection.type === 'text') {
         const foundOption = focusedSection.options.filter((v) => {
@@ -808,7 +981,6 @@ export const useDateField = ({
           isFinished = fallbackOption.length === 1;
         }
 
-        e.preventDefault();
         const newSectionValue = getDateformatSections(
           newInputValue,
           format,
@@ -878,8 +1050,6 @@ export const useDateField = ({
           format,
           locale,
         );
-
-        e.preventDefault();
 
         if (isComplete(sectionValueRef.current)) {
           setInputValue(newInputValue);
