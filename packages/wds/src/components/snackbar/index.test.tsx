@@ -18,18 +18,18 @@ import {
 
 const DEFAULT_DURATION = 4000;
 
+vi.mock('../animation-presence', () => ({
+  AnimationPresence: ({
+    children,
+    present,
+  }: {
+    children: React.ReactNode;
+    present: boolean;
+  }) => (present ? children : null),
+}));
+
 describe('when given snackbar component', () => {
   beforeEach(() => {
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
-
     vi.useFakeTimers({ shouldAdvanceTime: true });
 
     render(
