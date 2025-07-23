@@ -10,7 +10,10 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
 import { Slot } from '@radix-ui/react-slot';
 
-import { Divider, FlexBox, Typography, WithInteraction } from '..';
+import { Divider } from '../divider';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { WithInteraction } from '../with-interaction';
 import { useMenuItemContext } from '../menu/contexts';
 import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
