@@ -1,6 +1,6 @@
 import objectPath from 'object-path';
 
-import type { Theme, ThemeColorsToken } from '..';
+import type { Theme, ThemeColorsToken } from '../types';
 
 export const getColorByToken = (theme: Theme, token: ThemeColorsToken) =>
   objectPath.get(theme, token) as string;

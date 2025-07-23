@@ -1,7 +1,7 @@
 import { axe } from 'vitest-axe';
 import { cleanup, render, screen } from '@testing-library/react';
 
-import Loading from './index';
+import Loading from '.';
 
 import type { RenderResult } from '@testing-library/react';
 
