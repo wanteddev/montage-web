@@ -123,6 +123,7 @@ export const modalContainerStyle =
 
     [wds-component='action-area'] {
       position: sticky;
+      z-index: 5;
       bottom: 0;
       left: 0;
     }
