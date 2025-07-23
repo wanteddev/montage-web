@@ -11,19 +11,19 @@ import { Button } from '../button';
 
 import { Tooltip, TooltipContent, TooltipGroup, TooltipTrigger } from '.';
 
+vi.mock('../animation-presence', () => ({
+  AnimationPresence: ({
+    children,
+    present,
+  }: {
+    children: React.ReactNode;
+    present: boolean;
+  }) => (present ? children : null),
+}));
+
 describe('when given hover mode tooltip component', () => {
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
-
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
 
     render(
       <Tooltip enterDelay={200} leaveDelay={200}>
@@ -122,6 +122,7 @@ describe('when given click mode tooltip component', () => {
 
   afterEach(() => {
     cleanup();
+    vi.clearAllMocks();
     vi.useRealTimers();
   });
 
@@ -155,6 +156,8 @@ describe('when given always mode tooltip component', () => {
 
   afterEach(() => {
     cleanup();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('should keep open state', () => {
@@ -196,8 +199,9 @@ describe('when given tooltip with tooltip group component', () => {
   });
 
   afterEach(() => {
-    vi.useRealTimers();
     cleanup();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('should open the first tooltip after enter delay', () => {

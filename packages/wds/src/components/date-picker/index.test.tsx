@@ -118,12 +118,12 @@ describe('when given date picker component', () => {
         {...defaultProps}
         defaultValue={new Date('2025-01-01 01:30:00 GMT+0900')}
         timezone="UTC"
-        data-testid="time-picker"
+        data-testid="date-picker"
       />,
     );
 
-    expect(screen.getByTestId('time-picker')).toBeInTheDocument();
-    expect(screen.getByTestId('time-picker')).toHaveValue('2024.12.31');
+    expect(screen.getByTestId('date-picker')).toBeInTheDocument();
+    expect(screen.getByTestId('date-picker')).toHaveValue('2024.12.31');
   });
 
   it('should open date calendar when calendar icon is clicked', async () => {
