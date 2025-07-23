@@ -14,18 +14,18 @@ import type { ToastProps } from '.';
 
 const DEFAULT_DURATION = 3000;
 
+vi.mock('../animation-presence', () => ({
+  AnimationPresence: ({
+    children,
+    present,
+  }: {
+    children: React.ReactNode;
+    present: boolean;
+  }) => (present ? children : null),
+}));
+
 describe('when given toast component', () => {
   beforeEach(() => {
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
-
     vi.useFakeTimers({ shouldAdvanceTime: true });
 
     render(
