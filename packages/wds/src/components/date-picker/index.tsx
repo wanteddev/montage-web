@@ -160,6 +160,7 @@ const DatePicker = forwardRef<
           aria-haspopup="dialog"
           aria-expanded={open}
           data-role="date-picker-field"
+          role="combobox"
           {...props}
           {...({
             type: 'text',

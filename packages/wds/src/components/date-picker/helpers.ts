@@ -642,7 +642,7 @@ export const getNumericFormatRange = (
     case 'HH':
       return {
         minValue: 0,
-        maxValue: 24,
+        maxValue: 23,
         isComplete: (v: string) => {
           if (v.length === 0) return false;
           if (v.length > 2) return false;
