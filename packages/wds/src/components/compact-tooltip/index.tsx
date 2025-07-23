@@ -9,6 +9,11 @@ import {
   compactTooltipContentStyle,
   compactTooltipWrapperStyle,
 } from './style';
+import {
+  COMPACT_TOOLTIP_CONTENT_NAME,
+  COMPACT_TOOLTIP_NAME,
+  COMPACT_TOOLTIP_TRIGGER_NAME,
+} from './constants';
 
 import type { TooltipProps, TooltipTriggerProps } from '../tooltip';
 import type { ElementType, ForwardedRef } from 'react';
@@ -18,13 +23,19 @@ import type {
 } from '@wanteddev/wds-engine';
 import type { CompactTooltipContentProps } from './types';
 
-const CompactTooltip = Tooltip;
+const CompactTooltip = (props: TooltipProps) => {
+  return <Tooltip {...props} />;
+};
 
-CompactTooltip.displayName = 'CompactTooltip';
+CompactTooltip.displayName = COMPACT_TOOLTIP_NAME;
 
-const CompactTooltipTrigger = TooltipTrigger;
+const CompactTooltipTrigger = forwardRef<HTMLElement, TooltipTriggerProps>(
+  (props, ref) => {
+    return <TooltipTrigger {...props} ref={ref} />;
+  },
+);
 
-CompactTooltipTrigger.displayName = 'CompactTooltipTrigger';
+CompactTooltipTrigger.displayName = COMPACT_TOOLTIP_TRIGGER_NAME;
 
 const CompactTooltipContent = forwardRef(
   <T extends ElementType = 'div'>(
@@ -86,7 +97,7 @@ const CompactTooltipContent = forwardRef(
   },
 ) as PolymorphicComponentInternal<CompactTooltipContentProps, 'div'>;
 
-CompactTooltipContent.displayName = 'CompactTooltipContent';
+CompactTooltipContent.displayName = COMPACT_TOOLTIP_CONTENT_NAME;
 
 export { CompactTooltip, CompactTooltipTrigger, CompactTooltipContent };
 

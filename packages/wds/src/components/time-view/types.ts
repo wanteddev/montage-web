@@ -7,8 +7,8 @@ export type TimeViewProps = WithSxProps<{
   value?: DateType;
   defaultValue?: DateType;
   views?: Array<TimeViewType>;
-  minTime?: DateType;
-  maxTime?: DateType;
+  // minTime?: DateType;
+  // maxTime?: DateType;
   locale?: string;
   timezone?: string;
   readOnly?: boolean;
