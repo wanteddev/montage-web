@@ -377,7 +377,12 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
 
 MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
-const MenuItemContent = ListCellContent;
+const MenuItemContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellContent ref={ref} {...props} />;
+});
 
 MenuItemContent.displayName = MENU_ITEM_CONTENT_NAME;
 

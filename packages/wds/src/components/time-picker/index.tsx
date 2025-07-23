@@ -44,8 +44,8 @@ const TimePicker = forwardRef<
       placeholder = format,
       locale = 'ko-KR',
       timezone,
-      minTime,
-      maxTime,
+      // minTime,
+      // maxTime,
       invalid: originInvalid,
       input,
       inputRef: originInputRef,
@@ -165,6 +165,7 @@ const TimePicker = forwardRef<
           aria-haspopup="dialog"
           aria-expanded={open}
           data-role="time-picker-input"
+          role="combobox"
           {...({
             ...props,
             autoComplete: 'off',
@@ -194,6 +195,7 @@ const TimePicker = forwardRef<
                       handleInputValueChange();
                       setOpen(!open);
                     }}
+                    aria-label="Toggle time picker"
                   >
                     <IconClock />
                   </IconButton>
@@ -241,8 +243,8 @@ const TimePicker = forwardRef<
                     value={value}
                     defaultValue={defaultValue}
                     views={views}
-                    minTime={minTime}
-                    maxTime={maxTime}
+                    // minTime={minTime}
+                    // maxTime={maxTime}
                     locale={locale}
                     timezone={timezone}
                     readOnly={readOnly}
