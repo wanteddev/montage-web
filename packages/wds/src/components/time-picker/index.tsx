@@ -15,6 +15,7 @@ import { useDateField } from '../date-picker/hooks';
 import { TimeView } from '../time-view';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
+import { extendDayjs } from '../../utils/date';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
@@ -23,6 +24,8 @@ import { timePickerStyle } from './style';
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { TimePickerFieldProps, TimePickerProps } from './types';
 import type { DateType } from '../date-picker';
+
+extendDayjs();
 
 const TimePicker = forwardRef<
   HTMLDivElement,

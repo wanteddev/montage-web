@@ -13,6 +13,7 @@ import { DismissableLayer } from '../dismissable-layer';
 import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
+import { extendDayjs } from '../../utils/date';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
@@ -21,6 +22,8 @@ import type { SlotProps } from '@radix-ui/react-slot';
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { DatePickerFieldProps, DatePickerProps } from './types';
 import type { DateType } from '../date-calendar/types';
+
+extendDayjs();
 
 const DatePicker = forwardRef<
   HTMLDivElement,
@@ -184,6 +187,7 @@ const DatePicker = forwardRef<
                   variant="icon-button"
                 >
                   <IconButton
+                    aria-label="Toggle date picker"
                     disabled={disabled || readOnly}
                     onClick={() => {
                       handleInputValueChange();
