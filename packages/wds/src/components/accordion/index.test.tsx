@@ -14,18 +14,18 @@ import {
   AccordionSummary,
 } from '.';
 
+vi.mock('../animation-presence', () => ({
+  AnimationPresence: ({
+    children,
+    present,
+  }: {
+    children: React.ReactNode;
+    present: boolean;
+  }) => (present ? children : null),
+}));
+
 describe('when given accordion component', () => {
   beforeEach(() => {
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
-
     render(
       <Accordion>
         <AccordionSummary data-testid="accordion-summary">
@@ -87,15 +87,6 @@ describe('when given accordion component', () => {
 
 describe('when given accordion component with disabled prop', () => {
   beforeEach(() => {
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
     render(
       <Accordion disabled>
         <AccordionSummary data-testid="accordion-summary">

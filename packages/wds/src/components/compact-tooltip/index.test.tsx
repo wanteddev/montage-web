@@ -16,19 +16,19 @@ import {
   CompactTooltipTrigger,
 } from '.';
 
+vi.mock('../animation-presence', () => ({
+  AnimationPresence: ({
+    children,
+    present,
+  }: {
+    children: React.ReactNode;
+    present: boolean;
+  }) => (present ? children : null),
+}));
+
 describe('when given hover mode compact compact-tooltip component', () => {
   beforeEach(() => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
-
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
 
     render(
       <CompactTooltip enterDelay={200} leaveDelay={200}>
@@ -139,6 +139,7 @@ describe('when given click mode compact-tooltip component', () => {
 
   afterEach(() => {
     cleanup();
+    vi.clearAllMocks();
     vi.useRealTimers();
   });
 
@@ -176,6 +177,8 @@ describe('when given always mode compact tooltip component', () => {
 
   afterEach(() => {
     cleanup();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('should keep open state', () => {
@@ -217,8 +220,9 @@ describe('when given compact tooltip with compact-tooltip group component', () =
   });
 
   afterEach(() => {
-    vi.useRealTimers();
     cleanup();
+    vi.clearAllMocks();
+    vi.useRealTimers();
   });
 
   it('should open the first compact tooltip after enter delay', () => {

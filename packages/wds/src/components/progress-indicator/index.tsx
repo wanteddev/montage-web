@@ -19,7 +19,7 @@ const ProgressIndicator = forwardRef<
       aria-valuemin={0}
       aria-valuenow={percent}
       aria-valuetext={percent + '%'}
-      aria-label="Progress.."
+      aria-label="Progress indicator"
       ref={ref}
       {...props}
       sx={[progressIndicatorStyle, props.sx]}

@@ -17,17 +17,18 @@ import {
   AutocompleteOption,
 } from '.';
 
+vi.mock('../animation-presence', () => ({
+  AnimationPresence: ({
+    children,
+    present,
+  }: {
+    children: React.ReactNode;
+    present: boolean;
+  }) => (present ? children : null),
+}));
+
 describe('when given autocomplete component', () => {
   beforeEach(() => {
-    vi.mock('../animation-presence', () => ({
-      AnimationPresence: ({
-        children,
-        present,
-      }: {
-        children: React.ReactNode;
-        present: boolean;
-      }) => (present ? children : null),
-    }));
     render(
       <Autocomplete>
         <AutocompleteField>
@@ -138,6 +139,7 @@ describe('when given autocomplete component with form field', () => {
   });
 
   afterEach(() => {
+    vi.clearAllMocks();
     cleanup();
   });
 
