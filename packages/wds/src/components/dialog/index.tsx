@@ -230,10 +230,15 @@ const DialogContainer = forwardRef(
                   const isRightClick =
                     originalEvent.button === 2 || ctrlLeftClick;
 
-                  if (isRightClick || disableEscapeKeyDownClose)
+                  if (isRightClick || disableOutsideClickClose)
                     e.preventDefault();
                 }}
                 onFocusOutside={(e) => e.preventDefault()}
+                onEscapeKeyDown={(e: KeyboardEvent) => {
+                  if (disableEscapeKeyDownClose) {
+                    e.preventDefault();
+                  }
+                }}
                 onDismiss={() => {
                   onDismiss?.();
                   setOpen(false);
