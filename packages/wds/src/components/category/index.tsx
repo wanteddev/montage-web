@@ -344,21 +344,22 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
           type="button"
           role="tab"
           ref={composedRefs}
-          {...props}
+          aria-pressed={undefined}
           wds-component="category-list-item"
-          disabled={disabled}
           aria-selected={isActive}
-          active={isActive}
-          variant={
-            originVariant ??
-            (isActive && variant !== 'alternative' ? 'solid' : 'outlined')
-          }
           aria-disabled={disabled}
           data-value={value}
           aria-controls={
             controls !== undefined
               ? `${context.id}-${controls}-panel`
               : undefined
+          }
+          {...props}
+          disabled={disabled}
+          active={isActive}
+          variant={
+            originVariant ??
+            (isActive && variant !== 'alternative' ? 'solid' : 'outlined')
           }
           sx={[categoryListItemStyle({ ...responsiveProps, size }), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {

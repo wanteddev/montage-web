@@ -3,10 +3,14 @@ import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { IconChevronDown } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { usePrevious } from '@radix-ui/react-use-previous';
+import { useSize } from '@radix-ui/react-use-size';
 
 import { ListCell, ListCellContent } from '../list';
 import { Typography } from '../typography';
-import { Divider, FlexBox, useComposedRefs, usePrevious, useSize } from '../..';
+import { Divider } from '../divider';
+import { FlexBox } from '../flex-box';
 import { AnimationPresence } from '../animation-presence';
 
 import {
@@ -87,6 +91,7 @@ const Accordion = forwardRef<
       >
         <Box
           ref={ref}
+          as="div"
           {...props}
           sx={[accordionStyle({ disabled, expanded }), sx]}
         >
@@ -172,6 +177,10 @@ const AccordionSummary = forwardRef<
         {...props}
         sx={[accordionSummaryStyle({ disabled }), sx]}
         onClick={composeEventHandlers(props.onClick, (e) => {
+          if (disabled) {
+            return;
+          }
+
           onExpandedChange(!expanded);
           e.preventDefault();
         })}
