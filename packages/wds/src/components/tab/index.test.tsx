@@ -47,6 +47,16 @@ describe('when given tab component with panel', () => {
     });
   });
 
+  it('should handle keyboard navigation', async () => {
+    fireEvent.focus(screen.getByTestId('tab-1'));
+    fireEvent.keyDown(screen.getByTestId('tab-1'), { key: 'ArrowRight' });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('tab-2')).toHaveFocus();
+      expect(screen.getByTestId('tab-panel-2')).toBeInTheDocument();
+    });
+  });
+
   it('should pass accessibility test', async () => {
     expect(await axe(screen.getByTestId('tab-list'))).toHaveNoViolations();
     expect(await axe(screen.getByTestId('tab-1'))).toHaveNoViolations();

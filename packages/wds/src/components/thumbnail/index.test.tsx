@@ -1,13 +1,16 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
 
+import * as imageBaseHelpers from '../image-base/helpers';
+
 import { Thumbnail } from '.';
 
 describe('when given thumbnail component', () => {
   afterEach(() => {
     cleanup();
+    vi.restoreAllMocks();
   });
 
-  it('should render thumbnail with image', () => {
+  it('should render thumbnail with image', async () => {
     render(
       <Thumbnail
         alt="alt"
@@ -16,25 +19,21 @@ describe('when given thumbnail component', () => {
       />,
     );
 
-    // image load pending
     expect(screen.getByTestId('thumbnail')).toBeInTheDocument();
     expect(screen.getByAltText('alt')).toBeInTheDocument();
-
-    // image load success
-    waitFor(() => {
-      expect(screen.getByTestId('thumbnail')).toBeInTheDocument();
-      expect(screen.getByAltText('alt')).toBeInTheDocument();
-    });
   });
 
-  it('should render fallback icon when image load failure', () => {
+  it('should render fallback icon when image load failure', async () => {
+    vi.spyOn(imageBaseHelpers, 'loadImage').mockRejectedValue(
+      new Error('test'),
+    );
+
     render(<Thumbnail alt="alt" data-testid="thumbnail" src="/" />);
 
-    // image load
     expect(screen.getByTestId('thumbnail')).toBeInTheDocument();
 
     // image load failure
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.queryByTestId('thumbnail')).not.toBeInTheDocument();
       expect(screen.getByLabelText('alt')).toBeInTheDocument();
     });

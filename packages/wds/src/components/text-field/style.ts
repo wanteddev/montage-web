@@ -91,9 +91,9 @@ export const textFieldWrapperStyle =
             &:where(:has(input:focus)),
             &:where(
                 :has(
-                    input[data-role='date-picker-input'][data-expanded='true']
+                    input[data-role='date-picker-input'][aria-expanded='true']
                   ),
-                :has(input[data-role='time-picker-input'][data-expanded='true'])
+                :has(input[data-role='time-picker-input'][aria-expanded='true'])
               ) {
               ${invalid
                 ? css`

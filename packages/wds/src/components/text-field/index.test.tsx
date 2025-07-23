@@ -16,7 +16,7 @@ describe('when given text field component', () => {
     cleanup();
   });
 
-  it('should focus input when wrapper is clicked', () => {
+  it('should focus input when wrapper is clicked', async () => {
     const { container } = render(<TextField data-testid="text-field" />);
 
     const wrapper = container.querySelector<HTMLElement>(
@@ -25,7 +25,7 @@ describe('when given text field component', () => {
 
     fireEvent.click(wrapper);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.getByTestId('text-field')).toHaveFocus();
     });
   });

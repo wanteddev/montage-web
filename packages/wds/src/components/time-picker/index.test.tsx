@@ -130,6 +130,7 @@ describe('when given time picker component', () => {
     render(
       <TimePicker
         {...defaultProps}
+        defaultValue={new Date('2025-01-01 10:30:00 GMT+0900')}
         format="A hh:mm:ss"
         locale="ko-KR"
         timezone="UTC"
