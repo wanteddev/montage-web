@@ -149,6 +149,7 @@ const MenuContent = forwardRef(
           container={container}
           disablePortal={disablePortal}
           forceMount={forceMount}
+          aria-label="Select menu"
           {...props}
           {...scopes}
           sx={[menuPopoverContentStyle, sx]}
