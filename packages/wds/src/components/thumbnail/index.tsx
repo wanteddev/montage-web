@@ -101,7 +101,10 @@ const Thumbnail = forwardRef<
           sx,
         ]}
       >
-        <IconImage sx={{ width: '33.34%', height: 'auto' }} />
+        <IconImage
+          aria-label={props.alt}
+          sx={{ width: '33.34%', height: 'auto' }}
+        />
         {children}
       </FlexBox>
     );

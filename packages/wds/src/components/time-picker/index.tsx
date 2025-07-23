@@ -163,7 +163,7 @@ const TimePicker = forwardRef<
           onChange={() => {}}
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
-          aria-expanded={open}
+          data-expanded={open}
           data-role="time-picker-input"
           {...({
             ...props,
@@ -194,6 +194,7 @@ const TimePicker = forwardRef<
                       handleInputValueChange();
                       setOpen(!open);
                     }}
+                    aria-label="Toggle time picker"
                   >
                     <IconClock />
                   </IconButton>
