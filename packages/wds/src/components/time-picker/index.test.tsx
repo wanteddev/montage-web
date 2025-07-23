@@ -10,7 +10,7 @@ import { axe } from 'vitest-axe';
 
 import { FormControl, FormField, FormLabel, FormMessage } from '../form';
 
-import { TimePicker } from './index';
+import { TimePicker } from '.';
 
 Object.defineProperty(window.Element.prototype, 'scrollTo', {
   value: vi.fn(),
