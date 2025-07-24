@@ -31,7 +31,7 @@ export const dialogDimmerStyle = (theme: Theme) => css`
   z-index: -1;
 `;
 
-export const dialogContentStyle = (theme: Theme) => css`
+export const dialogContainerStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.elevated.normal};
   border-radius: 12px;
   min-width: 320px;
@@ -43,6 +43,10 @@ export const dialogContentStyle = (theme: Theme) => css`
   ${respondTo('360px')} {
     min-width: 100%;
   }
+`;
+
+export const dialogContentStyle = css`
+  padding: 20px;
 `;
 
 export const dialogActionStyle = css`
