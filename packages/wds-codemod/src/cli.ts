@@ -8,11 +8,6 @@ export const jscodeshiftExecutable = require.resolve('.bin/jscodeshift');
 export const transformerDirectory = path.join(__dirname, 'transforms');
 
 const TRANSFORMER_INQUIRER_CHOICES = [
-  {
-    name: 'Migration to v1',
-    value: 'v1/migration-v1',
-  },
-  { name: 'Migration Forms Design', value: 'v1/migration-forms' },
   { name: 'List Cell Migration', value: 'v2/list-cell-migration' },
   { name: 'Filled Variant to Solid', value: 'v2/filled-variant-to-solid' },
   {
@@ -57,6 +52,10 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     name: 'Empty State to Fallback View',
     value: 'v3/empty-state-to-fallback-view',
   },
+  {
+    name: 'Dialog Button to Dialog Action Area Button',
+    value: 'v3/dialog-button-migration',
+  },
 ];
 
 const run = () => {
@@ -72,13 +71,16 @@ const run = () => {
     },
   } as meow.Options<meow.AnyFlags>);
 
-  if (
-    cli.input[0] &&
-    !TRANSFORMER_INQUIRER_CHOICES.find((x) => x.value === cli.input[0])
-  ) {
+  const matchedTransformer = TRANSFORMER_INQUIRER_CHOICES.find(
+    (x) => x.value.replace(/v([0-9]+)\//, '') === cli.input[0],
+  )?.value;
+
+  if (cli.input[0] && !matchedTransformer) {
     console.error('Invalid transform choice, pick one of:');
     console.error(
-      TRANSFORMER_INQUIRER_CHOICES.map((x) => '- ' + x.value).join('\n'),
+      TRANSFORMER_INQUIRER_CHOICES.map(
+        (x) => '- ' + x.value.replace(/v([0-9]+)\//, ''),
+      ).join('\n'),
     );
     process.exit(1);
   }
@@ -106,7 +108,7 @@ const run = () => {
       const { files, transformer } = answers;
 
       const filesBeforeExpansion = cli.input[1] || files;
-      const selectedTransformer = cli.input[0] || transformer;
+      const selectedTransformer = matchedTransformer || transformer;
 
       return runTransform({
         files: filesBeforeExpansion,
