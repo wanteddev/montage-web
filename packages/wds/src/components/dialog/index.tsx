@@ -4,7 +4,6 @@ import { Box, getColorByToken } from '@wanteddev/wds-engine';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 
 import { hideOthers } from '../../utils/aria-hidden';
 import { RemoveScroll } from '../remove-scroll';
@@ -18,6 +17,7 @@ import { useAnimationPresence } from '../animation-presence';
 
 import {
   dialogActionStyle,
+  dialogContainerStyle,
   dialogContentStyle,
   dialogDimmerStyle,
   dialogWrapperStyle,
@@ -25,6 +25,7 @@ import {
 import {
   DIALOG_ACTION_AREA_BUTTON_NAME,
   DIALOG_ACTION_AREA_NAME,
+  DIALOG_CONTAINER_NAME,
   DIALOG_CONTENT_NAME,
   DIALOG_DESCRIPTION_NAME,
   DIALOG_DIMMER_NAME,
@@ -32,11 +33,17 @@ import {
   DIALOG_NAME,
   DIALOG_TRIGGER_NAME,
 } from './constants';
-import { DialogProvider, useDialogContext } from './contexts';
+import {
+  DialogContainerProvider,
+  DialogProvider,
+  useDialogContainerContext,
+  useDialogContext,
+} from './contexts';
 
 import type {
   DialogActionAreaButtonProps,
   DialogActionAreaProps,
+  DialogContainerProps,
   DialogContentProps,
   DialogDescriptionProps,
   DialogDimmerProps,
@@ -56,119 +63,34 @@ import type {
   PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
-const Dialog = forwardRef(
-  <T extends ElementType = 'div'>(
-    {
-      open: openProp,
-      defaultOpen,
-      onOpenChange,
-      wrapperProps,
-      children,
-      disableOutsideClickClose = false,
-      disableEscapeKeyDownClose,
-      disablePortal,
-      container,
-      onDismiss,
-      forceMount = false,
-      dimmer = <DialogDimmer />,
-      ...props
-    }: PolymorphicPropsInternal<DialogProps, T>,
-    forwardedRef: ForwardedRef<T>,
-  ) => {
-    const [open = false, setOpen] = useControllableState({
-      prop: openProp,
-      defaultProp: defaultOpen,
-      onChange: onOpenChange,
-    });
+const Dialog = ({
+  open: openProp,
+  defaultOpen,
+  onOpenChange,
+  children,
+}: DialogProps) => {
+  const [open = false, setOpen] = useControllableState({
+    prop: openProp,
+    defaultProp: defaultOpen,
+    onChange: onOpenChange,
+  });
 
-    const { isPresent, ref } = useAnimationPresence(open || forceMount, {
-      subtree: true,
-    });
+  const headingId = useId();
+  const descriptionId = useId();
+  const containerId = useId();
 
-    const containerRef = useRef<HTMLElement | null>(null);
-    const composedRef = useComposedRefs(
-      containerRef,
-      forwardedRef as ForwardedRef<HTMLElement>,
-    );
-
-    const headingId = useId();
-    const descriptionId = useId();
-    const containerId = useId();
-
-    useEffect(() => {
-      const element = containerRef.current;
-
-      if (element && isPresent) {
-        return hideOthers(element);
-      }
-    }, [isPresent]);
-
-    return (
-      <DialogProvider
-        open={open}
-        setOpen={setOpen}
-        headingId={headingId}
-        descriptionId={descriptionId}
-        containerId={containerId}
-        disableOutsideClickClose={disableOutsideClickClose}
-        onDismiss={useCallbackRef(onDismiss)}
-      >
-        {isPresent ? (
-          <PortalOrFragment
-            container={disablePortal ? null : container}
-            disablePortal={disablePortal}
-            ref={ref}
-          >
-            <FlexBox
-              {...wrapperProps}
-              sx={[dialogWrapperStyle, wrapperProps?.sx]}
-              wds-ignore-dismissable-layer="true"
-            >
-              {dimmer}
-
-              <FocusScope loop trapped>
-                <DismissableLayer
-                  onPointerDownOutside={(e) => {
-                    const originalEvent = e.detail.originalEvent;
-                    const ctrlLeftClick =
-                      originalEvent.button === 0 &&
-                      originalEvent.ctrlKey === true;
-                    const isRightClick =
-                      originalEvent.button === 2 || ctrlLeftClick;
-
-                    if (isRightClick || disableEscapeKeyDownClose)
-                      e.preventDefault();
-                  }}
-                  onDismiss={() => {
-                    onDismiss?.();
-                    setOpen(false);
-                  }}
-                  role="presentation"
-                  asChild
-                >
-                  <RemoveScroll as={Slot} allowPinchZoom>
-                    <Box
-                      ref={composedRef}
-                      role="alertdialog"
-                      aria-describedby={descriptionId}
-                      aria-labelledby={headingId}
-                      id={containerId}
-                      {...props}
-                      data-status={open ? 'open' : 'close'}
-                      sx={[dialogContentStyle, props.sx]}
-                    >
-                      {children}
-                    </Box>
-                  </RemoveScroll>
-                </DismissableLayer>
-              </FocusScope>
-            </FlexBox>
-          </PortalOrFragment>
-        ) : null}
-      </DialogProvider>
-    );
-  },
-) as PolymorphicComponentInternal<DialogProps, 'div'>;
+  return (
+    <DialogProvider
+      open={open}
+      setOpen={setOpen}
+      headingId={headingId}
+      descriptionId={descriptionId}
+      containerId={containerId}
+    >
+      {children}
+    </DialogProvider>
+  );
+};
 
 Dialog.displayName = DIALOG_NAME;
 
@@ -181,8 +103,9 @@ const DialogDimmer = forwardRef(
     { as, ...props }: PolymorphicPropsInternal<DialogDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { open, setOpen, disableOutsideClickClose, onDismiss } =
-      useDialogContext(DIALOG_DIMMER_NAME);
+    const { disableOutsideClickClose, onDismiss } =
+      useDialogContainerContext(DIALOG_DIMMER_NAME);
+    const { open, setOpen } = useDialogContext(DIALOG_DIMMER_NAME);
 
     return (
       <Box
@@ -221,7 +144,8 @@ DialogDimmer.displayName = DIALOG_DIMMER_NAME;
 
 const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
   (props, ref) => {
-    const { containerId, open } = useDialogContext(DIALOG_TRIGGER_NAME);
+    const { containerId, open, setOpen } =
+      useDialogContext(DIALOG_TRIGGER_NAME);
 
     return (
       <Slot
@@ -230,6 +154,9 @@ const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
         aria-haspopup="dialog"
         aria-expanded={open}
         {...props}
+        onClick={composeEventHandlers(props.onClick, () => {
+          setOpen(true);
+        })}
       />
     );
   },
@@ -237,18 +164,123 @@ const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
 
 DialogTrigger.displayName = DIALOG_TRIGGER_NAME;
 
+const DialogContainer = forwardRef(
+  <T extends ElementType = 'div'>(
+    {
+      disableOutsideClickClose = false,
+      disableEscapeKeyDownClose,
+      disablePortal,
+      container,
+      onDismiss,
+      forceMount = false,
+      wrapperProps,
+      dimmer = <DialogDimmer />,
+      children,
+      ...props
+    }: PolymorphicPropsInternal<DialogContainerProps, T>,
+    forwardedRef: ForwardedRef<T>,
+  ) => {
+    const { open, setOpen, headingId, descriptionId, containerId } =
+      useDialogContext(DIALOG_CONTENT_NAME);
+
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const composedRef = useComposedRefs(
+      containerRef,
+      forwardedRef as ForwardedRef<HTMLDivElement>,
+    );
+
+    const { isPresent, ref } = useAnimationPresence(open || forceMount, {
+      subtree: true,
+    });
+
+    useEffect(() => {
+      const element = containerRef.current;
+
+      if (element && isPresent) {
+        return hideOthers(element);
+      }
+    }, [isPresent]);
+
+    if (!isPresent) return null;
+
+    return (
+      <DialogContainerProvider
+        disableOutsideClickClose={disableOutsideClickClose}
+        onDismiss={onDismiss}
+      >
+        <PortalOrFragment
+          container={disablePortal ? null : container}
+          disablePortal={disablePortal}
+          ref={ref}
+        >
+          <FlexBox
+            {...wrapperProps}
+            sx={[dialogWrapperStyle, wrapperProps?.sx]}
+            wds-ignore-dismissable-layer="true"
+          >
+            {dimmer}
+
+            <FocusScope loop trapped>
+              <DismissableLayer
+                onPointerDownOutside={(e) => {
+                  const originalEvent = e.detail.originalEvent;
+                  const ctrlLeftClick =
+                    originalEvent.button === 0 &&
+                    originalEvent.ctrlKey === true;
+                  const isRightClick =
+                    originalEvent.button === 2 || ctrlLeftClick;
+
+                  if (isRightClick || disableOutsideClickClose)
+                    e.preventDefault();
+                }}
+                onEscapeKeyDown={(e: KeyboardEvent) => {
+                  if (disableEscapeKeyDownClose) {
+                    e.preventDefault();
+                  }
+                }}
+                onDismiss={() => {
+                  onDismiss?.();
+                  setOpen(false);
+                }}
+                role="presentation"
+                asChild
+              >
+                <RemoveScroll as={Slot} allowPinchZoom>
+                  <Box
+                    ref={composedRef}
+                    role="alertdialog"
+                    aria-describedby={descriptionId}
+                    aria-labelledby={headingId}
+                    id={containerId}
+                    data-status={open ? 'open' : 'close'}
+                    {...props}
+                    sx={[dialogContainerStyle, props.sx]}
+                  >
+                    {children}
+                  </Box>
+                </RemoveScroll>
+              </DismissableLayer>
+            </FocusScope>
+          </FlexBox>
+        </PortalOrFragment>
+      </DialogContainerProvider>
+    );
+  },
+) as PolymorphicComponentInternal<DialogContainerProps, 'div'>;
+
+DialogContainer.displayName = DIALOG_CONTAINER_NAME;
+
 const DialogContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<DialogContentProps, 'div'>
 >(({ children, ...props }, ref) => {
   return (
     <FlexBox
-      wds-component="dialog-content"
+      ref={ref}
       flexDirection="column"
       gap="6px"
-      ref={ref}
       {...props}
-      sx={[{ padding: '20px' }, props.sx]}
+      sx={[dialogContentStyle, props.sx]}
     >
       {children}
     </FlexBox>
@@ -385,6 +417,7 @@ export {
   Dialog,
   DialogTrigger,
   DialogDimmer,
+  DialogContainer,
   DialogContent,
   DialogHeading,
   DialogDescription,
@@ -398,6 +431,7 @@ export type {
   DialogDimmerProps,
   DialogTriggerProps,
   DialogContentProps,
+  DialogContainerProps,
   DialogHeadingProps,
   DialogDescriptionProps,
   DialogActionAreaProps,
