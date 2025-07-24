@@ -1,6 +1,6 @@
 import { createContext } from '@radix-ui/react-context';
 
-import { DIALOG_NAME } from './constants';
+import { DIALOG_CONTAINER_NAME, DIALOG_NAME } from './constants';
 
 type DialogContextType = {
   open: boolean;
@@ -8,9 +8,15 @@ type DialogContextType = {
   headingId: string;
   descriptionId: string;
   containerId: string;
-  disableOutsideClickClose: boolean;
-  onDismiss?: () => void;
 };
 
 export const [DialogProvider, useDialogContext] =
   createContext<DialogContextType>(DIALOG_NAME);
+
+type DialogContainerContextType = {
+  disableOutsideClickClose?: boolean;
+  onDismiss?: () => void;
+};
+
+export const [DialogContainerProvider, useDialogContainerContext] =
+  createContext<DialogContainerContextType>(DIALOG_CONTAINER_NAME);

@@ -5,6 +5,7 @@ import { useDialogStore } from '../../stores/dialog-store';
 import {
   Dialog,
   DialogActionArea,
+  DialogContainer,
   DialogContent,
   DialogDescription,
   DialogHeading,
@@ -70,32 +71,32 @@ const DialogPromise = ({
   );
 
   return (
-    <Dialog
-      open
-      sx={sx}
-      onDismiss={handleCancel}
-      disableOutsideClickClose={disableOutsideClickClose}
-      disableEscapeKeyDownClose={disableEscapeKeyDownClose}
-    >
-      <DialogContent>
-        {title && <DialogHeading>{title}</DialogHeading>}
-        {content && <DialogDescription>{content}</DialogDescription>}
-      </DialogContent>
-
-      <DialogActionArea
-        flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
-        justifyContent={direction === 'reverse' ? 'initial' : 'flex-end'}
+    <Dialog open onOpenChange={(open) => !open && handleCancel()}>
+      <DialogContainer
+        disableOutsideClickClose={disableOutsideClickClose}
+        disableEscapeKeyDownClose={disableEscapeKeyDownClose}
+        sx={sx}
       >
-        <Slot onClick={handleConfirm}>
-          <Slottable>{confirm}</Slottable>
-        </Slot>
+        <DialogContent>
+          {title && <DialogHeading>{title}</DialogHeading>}
+          {content && <DialogDescription>{content}</DialogDescription>}
+        </DialogContent>
 
-        {Boolean(cancel) && (
-          <Slot onClick={handleCancel}>
-            <Slottable>{cancel}</Slottable>
+        <DialogActionArea
+          flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
+          justifyContent={direction === 'reverse' ? 'initial' : 'flex-end'}
+        >
+          <Slot onClick={handleConfirm}>
+            <Slottable>{confirm}</Slottable>
           </Slot>
-        )}
-      </DialogActionArea>
+
+          {Boolean(cancel) && (
+            <Slot onClick={handleCancel}>
+              <Slottable>{cancel}</Slottable>
+            </Slot>
+          )}
+        </DialogActionArea>
+      </DialogContainer>
     </Dialog>
   );
 };
