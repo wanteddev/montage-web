@@ -10,7 +10,7 @@ description: Dialog Component
 - 유저에게 중요한 액션을 실행할지 다시 한 번 묻고 싶을 때 사용해요.
 - Promise 형태로 사용하려면 [useDialog](../hooks/use-dialog) 훅을 사용해요.
 
-<Demo code={`import { FlexBox, Button, Typography, Dialog, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton, DialogTrigger } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Button, Typography, Dialog, DialogContainer, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton, DialogTrigger } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -25,26 +25,28 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="16px">
       <Typography>{result}</Typography>
 
-      <Dialog onDismiss={() => setResult('Dismissed')} open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger>
           <Button onClick={handleOpen}>열기</Button>
         </DialogTrigger>
 
-        <DialogContent>
-          <DialogHeading>제목</DialogHeading>
-          <DialogDescription>설명</DialogDescription>
-        </DialogContent>
-        <DialogActionArea>
-          <DialogActionAreaButton variant="normal" onClick={() => setResult('Confirm')}>
-            확인
-          </DialogActionAreaButton>
-          <DialogActionAreaButton variant="assistive" onClick={() => setResult('Cancel')}>
-            취소
-          </DialogActionAreaButton>
-          <DialogActionAreaButton variant="negative" onClick={() => setResult('Negative')}>
-            삭제
-          </DialogActionAreaButton>
-        </DialogActionArea>
+        <DialogContainer onDismiss={() => setResult('Dismissed')}>
+          <DialogContent>
+            <DialogHeading>제목</DialogHeading>
+            <DialogDescription>설명</DialogDescription>
+          </DialogContent>
+          <DialogActionArea>
+            <DialogActionAreaButton variant="normal" onClick={() => setResult('Confirm')}>
+              확인
+            </DialogActionAreaButton>
+            <DialogActionAreaButton variant="assistive" onClick={() => setResult('Cancel')}>
+              취소
+            </DialogActionAreaButton>
+            <DialogActionAreaButton variant="negative" onClick={() => setResult('Negative')}>
+              삭제
+            </DialogActionAreaButton>
+          </DialogActionArea>
+        </DialogContainer>
       </Dialog>
     </FlexBox>
   )
@@ -67,20 +69,26 @@ Dialog 는 여러 컴포넌트를 조합해서 사용합니다.
     <Button>열기</Button>
   </DialogTrigger>
 
-  <DialogContent>
-    <DialogHeading />
-    <DialogDescription />
-  </DialogContent>
+  <DialogContainer>
+    <DialogContent>
+      <DialogHeading />
+      <DialogDescription />
+    </DialogContent>
 
-  <DialogActionArea>
-    <DialogActionAreaButton />
-  </DialogActionArea>
+    <DialogActionArea>
+      <DialogActionAreaButton />
+    </DialogActionArea>
+  </DialogContainer>
 </Dialog>
 ```
 
 ### Dialog
 
 <PropsTable component="Dialog" />
+
+### DialogContainer
+
+<PropsTable component="DialogContainer" />
 
 ### DialogContent
 
