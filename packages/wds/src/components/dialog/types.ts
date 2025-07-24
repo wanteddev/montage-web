@@ -10,27 +10,33 @@ import type { TypographyProps } from '../typography/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { TextButtonProps } from '../text-button/types';
 
-export type DialogProps = WithSxProps<{
+export type DialogProps = {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
-  disableOutsideClickClose?: boolean;
-  disableEscapeKeyDownClose?: boolean;
-  disablePortal?: boolean;
-  container?: PortalProps['container'];
-  /**
-   * When the esc key or dialog outside click is controlled.
-   */
-  onDismiss?: () => void;
-  forceMount?: boolean;
-  dimmer?: ReactNode;
   children?: ReactNode;
-}>;
+};
 
 export type DialogDimmerProps = WithSxProps<{}>;
 
 export type DialogTriggerProps = SlotProps;
+
+export type DialogContainerProps = Merge<
+  {
+    forceMount?: boolean;
+    disablePortal?: boolean;
+    container?: PortalProps['container'];
+    wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
+    disableOutsideClickClose?: boolean;
+    disableEscapeKeyDownClose?: boolean;
+    /**
+     * When the esc key or dialog outside click is controlled.
+     */
+    onDismiss?: () => void;
+    dimmer?: ReactNode;
+  },
+  FlexBoxProps
+>;
 
 export type DialogContentProps = FlexBoxProps;
 
