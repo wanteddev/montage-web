@@ -1,39 +1,29 @@
 'use client';
-import { Box, FlexBox, Typography, WithInteraction } from '@wanteddev/wds';
-import {
-  IconChevronDownSmall,
-  IconComponentFill,
-  IconDiamondFill,
-} from '@wanteddev/wds-icon';
-import Link from 'next/link';
-import { useRef } from 'react';
+import { Box, FlexBox } from '@wanteddev/wds';
+import { useCallback, useRef } from 'react';
 
 import { breakWordStyle } from '@/styles/text';
 import LiquidButton from '@/components/liquid-button';
 import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
+import LiquidButtonCopy from '@/components/liquid-button copy';
 
 import {
   descriptionTextStyle,
   introBackgroundStyle,
   introWrapperStyle,
-  navigationBarLinkStyle,
-  navigationBarStyle,
-  scrollDownIconStyle,
-  scrollDownTextStyle,
-  scrollDownWrapperStyle,
   titleTextStyle,
-  versionInfoStyle,
 } from './style';
+import IntroNavigation from './navigation';
 
 const Intro = () => {
   const ref = useRef<HTMLDivElement>(null);
 
-  const handleScrollDown = () => {
+  const handleScrollDown = useCallback(() => {
     window.scrollTo({
       top: (ref.current?.clientHeight ?? 0) + GNB_HEIGHT,
       behavior: 'smooth',
     });
-  };
+  }, []);
 
   return (
     <Box as="section" ref={ref} sx={introWrapperStyle}>
@@ -75,77 +65,11 @@ const Intro = () => {
           </FlexBox>
 
           <LiquidButton containerRef={ref}>Get Started</LiquidButton>
+
+          <LiquidButtonCopy containerRef={ref}>Get Started</LiquidButtonCopy>
         </FlexBox>
 
-        <FlexBox
-          sx={navigationBarStyle}
-          justifyContent="space-between"
-          alignItems="center"
-          gap="12px"
-        >
-          <Box as="span" sx={versionInfoStyle}>
-            Wanted Design System: Montage V2.0.0
-          </Box>
-
-          <FlexBox gap="8px" alignItems="center">
-            <WithInteraction>
-              <FlexBox
-                as={Link}
-                role="link"
-                href="/docs/foundations/overview"
-                sx={navigationBarLinkStyle}
-                gap="4px"
-                alignItems="center"
-              >
-                <IconDiamondFill />
-                <Typography
-                  variant="label1"
-                  weight="bold"
-                  color="semantic.static.white"
-                >
-                  Foundations
-                </Typography>
-              </FlexBox>
-            </WithInteraction>
-
-            <WithInteraction>
-              <FlexBox
-                as={Link}
-                role="link"
-                href="/docs/foundations/overview"
-                sx={navigationBarLinkStyle}
-                gap="4px"
-                alignItems="center"
-              >
-                <IconComponentFill />
-                <Typography
-                  variant="label1"
-                  weight="bold"
-                  color="semantic.static.white"
-                >
-                  Components
-                </Typography>
-              </FlexBox>
-            </WithInteraction>
-          </FlexBox>
-        </FlexBox>
-
-        <FlexBox
-          sx={scrollDownWrapperStyle}
-          flexDirection="column"
-          gap="6px"
-          alignItems="center"
-          as="button"
-          onClick={handleScrollDown}
-        >
-          <IconChevronDownSmall
-            aria-label="scroll down"
-            sx={scrollDownIconStyle}
-          />
-          <Box as="span" sx={scrollDownTextStyle}>
-            Scroll down
-          </Box>
-        </FlexBox>
+        <IntroNavigation onScrollDown={handleScrollDown} />
       </FlexBox>
     </Box>
   );
