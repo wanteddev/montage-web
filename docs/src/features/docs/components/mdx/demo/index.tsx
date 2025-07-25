@@ -1,26 +1,15 @@
 'use client';
+import { Box, FlexBox, Loading, NoSsr } from '@wanteddev/wds';
 
-import * as React from 'react';
-import * as Wds from '@wanteddev/wds';
-import * as WdsIcon from '@wanteddev/wds-icon';
-import * as HookForm from 'react-hook-form';
-import * as copy from 'copy-to-clipboard';
-// @ts-expect-error
-import * as autosuggestParse from 'autosuggest-highlight/parse';
-// @ts-expect-error
-import * as autosuggestMatch from 'autosuggest-highlight/match';
-import * as reactVirtual from '@tanstack/react-virtual';
-import * as reactSpring from 'react-spring';
-import dynamic from 'next/dynamic';
-
-import { useRunner } from './react-runner';
-import { demoStyle, demoWrapperStyle } from './style';
+import {
+  demoStyle,
+  demoWrapperStyle,
+  editorFallbackStyle,
+  editorWrapperStyle,
+} from './style';
 import Editor from './editor';
-
-const WdsLottieLoading = dynamic(
-  () => import('@wanteddev/wds-lottie').then(({ Loading }) => Loading),
-  { ssr: false },
-);
+import { useDemoControls, useReactDemoRunner } from './hooks';
+import Toolbar from './toolbar';
 
 type Props = {
   code: string;
@@ -28,64 +17,68 @@ type Props = {
 };
 
 const Demo = ({ code, hideCode }: Props) => {
-  const [value, setValue] = React.useState(code);
-  const [hatched, setHatched] = React.useState(false);
-
-  const [collapsed, setCollapsed] = React.useState(true);
-
-  const scope = React.useMemo(() => {
-    return {
-      import: {
-        react: React,
-        '@wanteddev/wds': Wds,
-        '@wanteddev/wds-icon': WdsIcon,
-        '@wanteddev/wds-lottie': { Loading: WdsLottieLoading },
-        '@tanstack/react-virtual': reactVirtual,
-        'react-hook-form': HookForm,
-        'copy-to-clipboard': copy,
-        'autosuggest-highlight/match': autosuggestMatch,
-        'autosuggest-highlight/parse': autosuggestParse,
-        'react-spring': reactSpring,
-      },
-    };
-  }, []);
-
-  const deferredCode = React.useDeferredValue(value);
-
-  const { element, error } = useRunner({
-    code: deferredCode,
-    scope,
+  const { value, handleValueChange, element, error } = useReactDemoRunner({
+    code,
   });
 
-  const reset = () => {
-    setValue(code);
-  };
+  const {
+    isTransparent,
+    setIsTransparent,
+    collapsed,
+    setCollapsed,
+    handleCopy,
+    handleReset,
+  } = useDemoControls({ initialValue: code, value, handleValueChange });
 
   return (
-    <Wds.FlexBox
+    <FlexBox
       flexDirection="column"
       data-role="demo"
       style={
         {
-          ['--demo-max-height']: collapsed ? '250px' : 'fit-content',
+          ['--demo-editor-height']: collapsed ? '250px' : 'fit-content',
         } as React.CSSProperties
       }
       sx={demoWrapperStyle}
     >
-      <Wds.Box sx={demoStyle(hideCode ?? false, hatched)}>{element}</Wds.Box>
+      <Box sx={demoStyle({ hideCode, isTransparent })}>{element}</Box>
 
       {!hideCode && (
-        <Editor
-          value={value}
-          reset={reset}
-          collapsed={collapsed}
-          setCollapsed={setCollapsed}
-          setValue={setValue}
-          setHatched={setHatched}
-          errorMessage={error?.toString()}
-        />
+        <FlexBox flexDirection="column">
+          <Toolbar
+            errorMessage={error?.toString()}
+            onCopy={handleCopy}
+            onReset={handleReset}
+            isTransparent={isTransparent}
+            onIsTransparentChange={setIsTransparent}
+            collapsed={collapsed}
+            onCollapseChange={setCollapsed}
+          />
+
+          <FlexBox flexDirection="column" sx={editorWrapperStyle}>
+            <NoSsr
+              fallback={
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="center"
+                  sx={editorFallbackStyle}
+                >
+                  <Loading />
+                </FlexBox>
+              }
+            >
+              <Editor
+                hasError={Boolean(error)}
+                value={value}
+                onValueChange={handleValueChange}
+                collapsed={collapsed}
+                onCollapseChange={setCollapsed}
+              />
+            </NoSsr>
+          </FlexBox>
+        </FlexBox>
       )}
-    </Wds.FlexBox>
+    </FlexBox>
   );
 };
 

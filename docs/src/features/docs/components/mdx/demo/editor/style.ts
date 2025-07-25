@@ -2,17 +2,6 @@ import { addOpacity, css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const editorWrapperStyle = css`
-  max-height: var(--demo-max-height);
-  position: relative;
-`;
-
-export const toolbarStyle = (theme: Theme) => css`
-  border-bottom: 1px solid ${theme.semantic.line.normal.normal};
-  border-top-width: 0px;
-  padding: 10px 16px;
-`;
-
 export const focusGuardStyle = (theme: Theme) => css`
   border: 1px solid ${theme.semantic.line.normal.normal};
   background-color: ${theme.semantic.background.elevated.alternative};
@@ -39,71 +28,67 @@ export const focusGuardStyle = (theme: Theme) => css`
   }
 `;
 
-export const editorStyle = (hasError: boolean) => (theme: Theme) => css`
-  background-color: ${theme.semantic.background.elevated.normal};
-  min-width: 100%;
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
-  border-top-width: 0px;
-  font-size: 0.9em;
-  white-space: break-spaces;
-  letter-spacing: -0.005em;
-  leading-trim: both;
-  text-edge: cap;
-  font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace,
-    'DejaVu Sans Mono', 'Roboto Mono' !important;
+type EditorStyleParams = {
+  collapsed: boolean;
+  hasError: boolean;
+};
 
-  textarea {
-    border-radius: inherit;
-    outline-color: ${addOpacity(
-      theme.semantic.primary.normal,
-      theme.opacity[43],
-    )};
-
-    ${hasError &&
-    css`
-      outline-color: ${addOpacity(
-        theme.semantic.status.negative,
-        theme.opacity[43],
-      )};
-    `}
-  }
-`;
-
-export const collapseWrapperStyle =
-  (collapsed?: boolean) => (theme: Theme) => css`
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 16px;
-
+export const editorStyle =
+  ({ collapsed, hasError }: EditorStyleParams) =>
+  (theme: Theme) => css`
     ${collapsed &&
     css`
-      &::before {
-        height: 130px;
-        content: '';
-        position: absolute;
-        bottom: 0px;
-        width: 100%;
-        left: 0px;
-        pointer-events: none;
-        ${gradient(
-          theme.semantic.background.normal.alternative,
-          'top',
-          '100%',
-          'mask',
-        )}
+      [data-radix-scroll-area-viewport] {
+        overflow: hidden !important;
       }
     `}
 
-    button {
-      background-color: ${theme.semantic.background.normal.normal};
-    }
+    transition: box-shadow ease 0.2s;
+    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+    background-color: ${theme.semantic.background.elevated.normal};
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+
+    ${hasError
+      ? css`
+          box-shadow: inset 0 0 0 1px
+            ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
+
+          &:has(.cm-focused) {
+            box-shadow: inset 0 0 0 2px
+              ${addOpacity(theme.semantic.status.negative, theme.opacity[43])};
+          }
+        `
+      : css`
+          &:has(.cm-focused) {
+            box-shadow: inset 0 0 0 2px
+              ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
+          }
+        `}
   `;
 
-export const errorStyle = (theme: Theme) => css`
-  svg {
-    color: ${theme.semantic.status.negative};
+export const collapsedStyle = (theme: Theme) => css`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+
+  &::before {
+    height: 130px;
+    position: absolute;
+    content: '';
+    bottom: 0px;
+    width: 100%;
+    left: 0px;
+    border-radius: inherit;
+    ${gradient(
+      theme.semantic.background.normal.alternative,
+      'top',
+      '100%',
+      'mask',
+    )}
   }
 `;

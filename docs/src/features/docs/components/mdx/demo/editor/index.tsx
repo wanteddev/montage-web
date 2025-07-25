@@ -1,221 +1,120 @@
-'use client';
-import { refractor } from 'refractor';
-import {
-  Box,
-  ChipAction,
-  FlexBox,
-  IconButton,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  useToast,
-} from '@wanteddev/wds';
-import {
-  IconCircleExclamationFill,
-  IconCopy,
-  IconImage,
-  IconRefresh,
-} from '@wanteddev/wds-icon';
-import copy from 'copy-to-clipboard';
-import { toHtml } from 'hast-util-to-html';
-import tsx from 'refractor/lang/tsx';
-import CodeEditor from 'react-simple-code-editor';
-import { useEffect, useRef } from 'react';
-import { Typography } from '@wanteddev/wds';
-import { TooltipGroup } from '@wanteddev/wds';
+import { useCallback, useEffect, useState } from 'react';
+import { javascript } from '@codemirror/lang-javascript';
+import { EditorState } from '@codemirror/state';
+import { basicSetup } from 'codemirror';
+import { EditorView, keymap } from '@codemirror/view';
+import { indentWithTab } from '@codemirror/commands';
+import { Box, ScrollArea, Typography, useTheme } from '@wanteddev/wds';
 
-import { codeBlockStyle } from '../../code-block/style';
+import { viewTheme } from './constants';
+import { collapsedStyle, editorStyle, focusGuardStyle } from './style';
 
-import {
-  collapseWrapperStyle,
-  editorStyle,
-  editorWrapperStyle,
-  errorStyle,
-  focusGuardStyle,
-  toolbarStyle,
-} from './style';
+import type { ViewUpdate } from '@codemirror/view';
+import type { Dispatch, SetStateAction } from 'react';
 
-import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
-
-refractor.register(tsx);
-
-type Props = PropsWithChildren<{
+type Props = {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  onValueChange: Dispatch<SetStateAction<string>>;
   collapsed: boolean;
-  setCollapsed: Dispatch<SetStateAction<boolean>>;
-  reset: () => void;
-  setHatched: Dispatch<SetStateAction<boolean>>;
-  errorMessage?: string;
-}>;
+  onCollapseChange: Dispatch<SetStateAction<boolean>>;
+  hasError: boolean;
+};
 
 const Editor = ({
-  collapsed,
-  setCollapsed,
   value,
-  setValue,
-  reset,
-  setHatched,
-  errorMessage,
+  onValueChange,
+  collapsed,
+  onCollapseChange,
+  hasError,
 }: Props) => {
-  const focusGuardRef = useRef<HTMLDivElement | null>(null);
-  const editorRef = useRef<HTMLDivElement | null>(null);
+  const [node, setNode] = useState<HTMLDivElement | null>(null);
 
-  const toast = useToast();
+  const theme = useTheme();
 
-  const handleCopy = () => {
-    const selection = window.getSelection()?.toString();
+  const [view, setView] = useState<EditorView>();
 
-    if (selection) {
-      copy(selection);
-      return;
-    }
+  useEffect(
+    () => {
+      if (!node) {
+        view?.destroy();
+        return;
+      }
 
-    const success = copy(value);
+      setView(
+        new EditorView({
+          state: EditorState.create({
+            doc: value,
+            extensions: [
+              basicSetup,
+              javascript({ jsx: true, typescript: true }),
+              keymap.of([indentWithTab]),
+              viewTheme(theme),
+              EditorView.updateListener.of((vu: ViewUpdate) => {
+                if (vu.docChanged) {
+                  onValueChange(vu.state.doc.toString());
+                }
+              }),
+            ],
+          }),
+          parent: node,
+        }),
+      );
 
-    if (success) {
-      toast({
-        variant: 'positive',
-        content: '코드를 클립보드에 복사 했습니다.',
-      });
-    }
-  };
+      node.querySelector<HTMLElement>('[contenteditable="true"]')!.tabIndex =
+        -1;
 
-  const getTextAreaElement = () =>
-    editorRef.current!.querySelector('textarea')!;
+      return () => {
+        view?.destroy();
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [node],
+  );
 
-  useEffect(() => {
-    getTextAreaElement().tabIndex = -1;
-  }, []);
+  const handleFocusEditor = useCallback(() => {
+    node?.querySelector<HTMLElement>('[contenteditable="true"]')?.focus();
+  }, [node]);
 
   return (
-    <FlexBox ref={editorRef} sx={editorWrapperStyle} flexDirection="column">
-      <FlexBox
-        alignItems="center"
-        justifyContent="space-between"
-        gap="16px"
-        sx={toolbarStyle}
-      >
-        <FlexBox sx={errorStyle} gap="4px" alignItems="center">
-          {errorMessage && (
-            <>
-              <IconCircleExclamationFill />
-              <Typography color="semantic.status.negative" variant="caption1">
-                {errorMessage}
-              </Typography>
-            </>
-          )}
-        </FlexBox>
-        <FlexBox alignItems="center" justifyContent="flex-end" gap="16px">
-          <ChipAction
-            size="small"
-            variant="outlined"
-            color="assistive"
-            onClick={() => setCollapsed((prev) => !prev)}
-            sx={{ borderRadius: '9999px' }}
-          >
-            {collapsed ? 'Expand' : 'Collapse'}
-          </ChipAction>
-
-          <TooltipGroup>
-            <Tooltip>
-              <TooltipTrigger>
-                <IconButton size={18} onClick={handleCopy} name="Copy code">
-                  <IconCopy />
-                </IconButton>
-              </TooltipTrigger>
-              <TooltipContent arrow={false} position="bottom-center">
-                Copy
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger>
-                <IconButton size={18} onClick={reset} name="Reset code">
-                  <IconRefresh />
-                </IconButton>
-              </TooltipTrigger>
-              <TooltipContent arrow={false} position="bottom-center">
-                Reset
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger>
-                <IconButton
-                  size={18}
-                  onClick={() => setHatched((prev) => !prev)}
-                  name="Change Background"
-                >
-                  <IconImage />
-                </IconButton>
-              </TooltipTrigger>
-              <TooltipContent arrow={false} position="bottom-center">
-                Change Background
-              </TooltipContent>
-            </Tooltip>
-          </TooltipGroup>
-        </FlexBox>
-
-        <Typography
-          variant="label2"
-          weight="regular"
-          color="semantic.label.neutral"
-          as="div"
-          tabIndex={0}
-          sx={focusGuardStyle}
-          ref={focusGuardRef}
-          aria-live="polite"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              getTextAreaElement().focus();
-            }
-          }}
-        >
-          <kbd>Enter</kbd> 키로 통해 코드 수정하기
-        </Typography>
-        <Box
-          as={CodeEditor}
-          ignoreTabKey={false}
-          insertSpaces
-          tabSize={2}
-          tabIndex={-1}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') {
-              e.preventDefault();
-              focusGuardRef.current?.focus();
-              return;
-            }
-
-            if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
-              if (e.key === 'c') {
-                e.preventDefault();
-                handleCopy();
-              } else if (e.key === 'r') {
-                e.preventDefault();
-                reset();
-              }
-            }
-          }}
-          onFocus={() => {
-            if (collapsed) {
-              setCollapsed(false);
-            }
-          }}
-          value={value}
-          onValueChange={setValue}
-          sx={[codeBlockStyle, editorStyle(Boolean(errorMessage))]}
-          padding={16}
-          highlight={(v) =>
-            toHtml(
-              refractor.highlight(v, 'tsx') as Parameters<typeof toHtml>[0],
-            )
+    <>
+      <Typography
+        variant="label2"
+        weight="regular"
+        color="semantic.label.neutral"
+        as="div"
+        tabIndex={0}
+        aria-live="polite"
+        sx={focusGuardStyle}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleFocusEditor();
           }
+        }}
+      >
+        <kbd>Enter</kbd> 키로 코드 수정 진입하기
+      </Typography>
+
+      <ScrollArea
+        viewportProps={{ tabIndex: -1 }}
+        sx={editorStyle({ collapsed, hasError })}
+      >
+        <Box ref={setNode} />
+      </ScrollArea>
+
+      {collapsed && (
+        <Box
+          sx={collapsedStyle}
+          role="button"
+          tabIndex={-1}
+          aria-label="Expand editor"
+          onClick={() => {
+            onCollapseChange(false);
+            handleFocusEditor();
+          }}
         />
-        <FlexBox sx={collapseWrapperStyle(collapsed)} />
-      </FlexBox>
-    </FlexBox>
+      )}
+    </>
   );
 };
 
