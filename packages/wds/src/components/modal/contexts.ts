@@ -4,7 +4,7 @@ import createLooseContext from '../../hooks/use-loose-context';
 
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
-import type { Dispatch, RefObject, SetStateAction } from 'react';
+import type { RefObject } from 'react';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement>;
@@ -16,13 +16,10 @@ type ModalContextValue = {
   descriptionId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  disableOutsideClickClose: boolean;
-  disableEscapeKeyDownClose: boolean;
   isBottomSheet: boolean;
   setIsBottomSheet: (isBottomSheet: boolean) => void;
   visibility: 'hidden' | 'visible';
   setVisibility: (visibility: 'hidden' | 'visible') => void;
-  wrapperRef: Dispatch<SetStateAction<HTMLElement | null>>;
 };
 
 export const [ModalProvider, useModalContext] =
@@ -32,6 +29,7 @@ type ModalDimmerContextValue = {
   dimmerRef: RefObject<HTMLDivElement>;
   isBottomSheetWithHandle: boolean;
   handleVisibilityHidden: () => void;
+  disableOutsideClickClose?: boolean;
 };
 
 export const [ModalDimmerProvider, useModalDimmerContext] =
