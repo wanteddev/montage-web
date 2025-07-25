@@ -22,19 +22,6 @@ export type ModalProps = WithSxProps<{
    * When `variant=bottom` and `handle=true`, this function is executed when the display is changed by dragging.
    */
   onVisibilityChange?: (visibility: 'visible' | 'hidden') => void;
-  /**
-   * Specifies the container to be displayed by Portal.
-   */
-  container?: PortalProps['container'];
-  disableOutsideClickClose?: boolean;
-  disableEscapeKeyDownClose?: boolean;
-  /**
-   * React Portal does not support SSR, so it is used to support Server Side Rendering.
-   *
-   * If the style using tags such as h2 and div is used in the upper component, the UI may break.
-   */
-  disablePortal?: boolean;
-  forceMount?: boolean;
   children?: ReactNode;
 }>;
 
@@ -55,6 +42,19 @@ type ModalContainerDefaultProps = WithSxProps<{
   children?: ReactNode;
   wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
   dimmer?: ReactNode;
+  /**
+   * Specifies the container to be displayed by Portal.
+   */
+  container?: PortalProps['container'];
+  disableOutsideClickClose?: boolean;
+  disableEscapeKeyDownClose?: boolean;
+  /**
+   * React Portal does not support SSR, so it is used to support Server Side Rendering.
+   *
+   * If the style using tags such as h2 and div is used in the upper component, the UI may break.
+   */
+  disablePortal?: boolean;
+  forceMount?: boolean;
 }>;
 
 type ModalContainerResponsiveProps = ResponsiveProps<
