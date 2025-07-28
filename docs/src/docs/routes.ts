@@ -106,6 +106,7 @@ export const routes: Array<Route> = [
         slug: '/docs/components/focus-scope',
       },
       { title: 'Form', slug: '/docs/components/form' },
+      { title: 'GradientIcon', slug: '/docs/components/gradient-icon' },
       { title: 'Grid', slug: '/docs/components/grid' },
       {
         title: 'IconButton',
