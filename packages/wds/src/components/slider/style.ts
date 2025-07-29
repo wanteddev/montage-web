@@ -54,6 +54,8 @@ export const sliderThumbStyle = (theme: Theme) => css`
   height: 20px;
   border-radius: 9999px;
   position: absolute;
+  background-color: ${theme.semantic.primary.normal};
+  box-shadow: 0 0 0 2px ${theme.semantic.background.normal.normal};
   top: 0px;
   display: block;
   cursor: pointer;
@@ -61,15 +63,17 @@ export const sliderThumbStyle = (theme: Theme) => css`
   &[aria-disabled='true'] {
     pointer-events: none;
     cursor: initial;
+    background-color: ${theme.semantic.interaction.disable};
 
-    [data-role='slider-thumb-knob'] {
-      background-color: ${theme.semantic.interaction.disable};
+    & > [data-role='slider-thumb-interaction'] {
+      opacity: 0;
     }
   }
 
   &:hover [data-role='slider-thumb-interaction'] {
     opacity: 0.075;
   }
+
   &:focus,
   &:focus-visible {
     outline: none;
@@ -95,14 +99,4 @@ export const sliderThumbInteractionStyle = (theme: Theme) => css`
   border-radius: inherit;
   display: inline-block;
   transition: opacity 0.15s ease;
-`;
-
-export const sliderThumbKnobStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.primary.normal};
-  border: 2px solid ${theme.semantic.background.normal.normal};
-  border-radius: inherit;
-  width: 100%;
-  height: 100%;
-  display: inline-block;
-  position: relative;
 `;

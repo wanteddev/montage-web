@@ -25,7 +25,6 @@ import {
   sliderProgressStyle,
   sliderProgressWrapperStyle,
   sliderThumbInteractionStyle,
-  sliderThumbKnobStyle,
   sliderThumbStyle,
 } from './style';
 
@@ -385,6 +384,7 @@ const SliderThumb = ({
           left: convertValueToPercentage(value, min, max) + '%',
           transform: `translateX(${convertValueToPercentage(value, min, max) * -1}%)`,
         }}
+        data-role="slider-thumb"
         sx={sliderThumbStyle}
         {...props}
         onPointerDown={composeEventHandlers(props.onPointerDown, () => {
@@ -395,11 +395,6 @@ const SliderThumb = ({
           data-role="slider-thumb-interaction"
           as="span"
           sx={sliderThumbInteractionStyle}
-        />
-        <Box
-          data-role="slider-thumb-knob"
-          as="span"
-          sx={sliderThumbKnobStyle}
         />
 
         {isFormControl && (
