@@ -61,8 +61,8 @@ export const liquidButtonFirstLayerStyle = (theme: Theme) => css`
   inset: 0;
   border-radius: inherit;
   background-color: ${addOpacity(
-    theme.semantic.static.white,
-    theme.opacity[12],
+    theme.semantic.static.black,
+    theme.opacity[8],
   )};
 `;
 
@@ -84,6 +84,8 @@ export const liquidButtonContentStyle = (theme: Theme) => css`
   z-index: 1;
   color: ${theme.semantic.static.white};
   font-family: var(--font-family-wanted-sans);
+  text-shadow: 0 0 4px
+    ${addOpacity(theme.semantic.static.white, theme.opacity[28])};
   width: 100%;
   font-size: 15px;
   font-style: normal;

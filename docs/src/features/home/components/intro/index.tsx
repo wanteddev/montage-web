@@ -32,7 +32,9 @@ const Intro = () => {
         data-role="intro-background"
         sx={introBackgroundStyle}
       >
-        <Box as="img" src="/home/Intro.png" alt="Intro" />
+        <video autoPlay muted loop>
+          <source src="/home/Hero.mp4" type="video/mp4" />
+        </video>
 
         <FlexBox
           flexDirection="column"
@@ -64,9 +66,11 @@ const Intro = () => {
             </Box>
           </FlexBox>
 
-          <LiquidButton containerRef={ref}>Get Started</LiquidButton>
+          <FlexBox gap="16px">
+            <LiquidButton containerRef={ref}>Get Started</LiquidButton>
 
-          <LiquidButtonCopy containerRef={ref}>Get Started</LiquidButtonCopy>
+            <LiquidButtonCopy containerRef={ref}>Get Started</LiquidButtonCopy>
+          </FlexBox>
         </FlexBox>
 
         <IntroNavigation onScrollDown={handleScrollDown} />

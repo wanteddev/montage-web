@@ -36,7 +36,7 @@ export const introBackgroundStyle = (theme: Theme) => css`
   width: 100%;
   height: 100%;
 
-  & > img {
+  & > video {
     position: absolute;
     width: 100%;
     height: 100%;

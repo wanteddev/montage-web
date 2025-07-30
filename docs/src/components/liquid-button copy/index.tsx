@@ -46,7 +46,7 @@ const LiquidButtonCopy = forwardRef(
           sx={[liquidButtonStyle, props.sx]}
           style={
             {
-              '--liquid-button-filter': `url(#${filterId}) blur(0px) brightness(1.35) saturate(1.5)`,
+              '--liquid-button-filter': `url(#${filterId}) blur(0px) brightness(1) saturate(1.75)`,
               ...animationStyle,
               ...props.style,
             } as CSSProperties
