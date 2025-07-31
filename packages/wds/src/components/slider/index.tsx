@@ -231,7 +231,11 @@ const Slider = forwardRef<
             target.setPointerCapture(event.pointerId);
             event.preventDefault();
 
-            if (thumbRefs.current.has(target)) {
+            const closestThumb = target.closest<HTMLSpanElement>(
+              '[data-role="slider-thumb"]',
+            );
+
+            if (closestThumb && thumbRefs.current.has(closestThumb)) {
               target.focus();
             } else {
               const newValue = getValueFromPointer(event.clientX);
@@ -263,6 +267,7 @@ const Slider = forwardRef<
                 slideStartValues.current[currentFocusedIndex.current];
               const nextValue = values[currentFocusedIndex.current];
               const hasChanged = nextValue !== prevValue;
+              rect.current = undefined;
 
               if (hasChanged) {
                 onValueChangeComplete?.(values);
