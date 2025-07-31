@@ -293,7 +293,7 @@ const PaginationSelect = forwardRef<
       <Menu
         open={open}
         onOpenChange={setOpen}
-        defaultValue={pageSize.toString()}
+        value={pageSize.toString()}
         onValueChange={(value) => setPageSize(Number(value))}
       >
         <FlexBox
