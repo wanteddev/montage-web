@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.1-alpha.0](https://github.com/wanteddev/wds/compare/v2.3.0...v2.3.1-alpha.0) (2025-07-31)
+
+### Bug Fixes
+
+- **wds:** pagination select controllable state not working ([45e8b85](https://github.com/wanteddev/wds/commit/45e8b85f410f9c588130bcd93b5272bf0d513782))
+
 # [2.3.0](https://github.com/wanteddev/wds/compare/v2.2.0...v2.3.0) (2025-07-31)
 
 ### Bug Fixes
