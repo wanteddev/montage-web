@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/wanteddev/wds/compare/v2.2.0...v2.3.0) (2025-07-31)
+
+### Bug Fixes
+
+- **wds:** slider thumb border to outer border ([#386](https://github.com/wanteddev/wds/issues/386)) ([6fe6b67](https://github.com/wanteddev/wds/commit/6fe6b6707a31890ab03b6fe792c03706bcb8eafa))
+- **wds:** when pinch zoomed slider pointer move not working in safari ([#387](https://github.com/wanteddev/wds/issues/387)) ([6c79a04](https://github.com/wanteddev/wds/commit/6c79a04fa97c71c576c930b9f9c7fe4b54d31ece))
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#388](https://github.com/wanteddev/wds/issues/388)) ([49a7d34](https://github.com/wanteddev/wds/commit/49a7d340e685e8c82832701a4d116fb5ab064678))
+
 # [2.2.0](https://github.com/wanteddev/wds/compare/v2.1.0...v2.2.0) (2025-07-18)
 
 ### Bug Fixes
