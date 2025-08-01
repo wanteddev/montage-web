@@ -5,7 +5,8 @@ import { useCallback, useRef } from 'react';
 import { breakWordStyle } from '@/styles/text';
 import LiquidButton from '@/components/liquid-button';
 import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
-import LiquidButtonCopy from '@/components/liquid-button copy';
+// import LiquidButtonCopy from '@/components/liquid-button copy';
+// import LiquidButtonCopy2 from '@/components/liquid-button copy 2';
 
 import {
   descriptionTextStyle,
@@ -69,7 +70,11 @@ const Intro = () => {
           <FlexBox gap="16px">
             <LiquidButton containerRef={ref}>Get Started</LiquidButton>
 
-            <LiquidButtonCopy containerRef={ref}>Get Started</LiquidButtonCopy>
+            {/* <LiquidButtonCopy containerRef={ref}>Get Started</LiquidButtonCopy>
+
+            <LiquidButtonCopy2 containerRef={ref}>
+              Get Started
+            </LiquidButtonCopy2> */}
           </FlexBox>
         </FlexBox>
 

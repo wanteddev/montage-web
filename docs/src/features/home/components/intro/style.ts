@@ -35,6 +35,7 @@ export const introBackgroundStyle = (theme: Theme) => css`
   border-radius: inherit;
   width: 100%;
   height: 100%;
+  box-shadow: inset 240px 240px 240px rgb(15 67 206 / 80%);
 
   & > video {
     position: absolute;
