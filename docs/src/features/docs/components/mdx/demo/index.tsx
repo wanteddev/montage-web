@@ -26,8 +26,10 @@ const Demo = ({ code, hideCode }: Props) => {
     setIsTransparent,
     collapsed,
     setCollapsed,
+    isResetting,
     handleCopy,
     handleReset,
+    handleResetComplete,
   } = useDemoControls({ initialValue: code, value, handleValueChange });
 
   return (
@@ -73,6 +75,8 @@ const Demo = ({ code, hideCode }: Props) => {
                 onValueChange={handleValueChange}
                 collapsed={collapsed}
                 onCollapseChange={setCollapsed}
+                isResetting={isResetting}
+                handleResetComplete={handleResetComplete}
               />
             </NoSsr>
           </FlexBox>

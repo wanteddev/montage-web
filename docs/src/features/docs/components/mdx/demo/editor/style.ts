@@ -43,26 +43,58 @@ export const editorStyle =
       }
     `}
 
-    transition: box-shadow ease 0.2s;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
     background-color: ${theme.semantic.background.elevated.normal};
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
+    position: relative;
+
+    &::before {
+      z-index: 1;
+      border-radius: inherit;
+      content: '';
+      inset: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      transition: box-shadow ease 0.2s;
+      box-shadow:
+        inset 0 0 0 1px ${theme.semantic.line.normal.normal},
+        inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+    }
 
     ${hasError
       ? css`
-          box-shadow: inset 0 0 0 1px
-            ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
+          &::before {
+            box-shadow:
+              inset 0 0 0 1px
+                ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
+              inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+          }
 
           &:has(.cm-focused) {
-            box-shadow: inset 0 0 0 2px
-              ${addOpacity(theme.semantic.status.negative, theme.opacity[43])};
+            &::before {
+              box-shadow:
+                inset 0 0 0 2px
+                  ${addOpacity(
+                    theme.semantic.status.negative,
+                    theme.opacity[43],
+                  )},
+                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
+            }
           }
         `
       : css`
           &:has(.cm-focused) {
-            box-shadow: inset 0 0 0 2px
-              ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
+            &::before {
+              box-shadow:
+                inset 0 0 0 2px
+                  ${addOpacity(
+                    theme.semantic.primary.normal,
+                    theme.opacity[43],
+                  )},
+                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
+            }
           }
         `}
   `;

@@ -13,25 +13,45 @@ import type { ViewUpdate } from '@codemirror/view';
 import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
+  hasError: boolean;
   value: string;
   onValueChange: Dispatch<SetStateAction<string>>;
   collapsed: boolean;
   onCollapseChange: Dispatch<SetStateAction<boolean>>;
-  hasError: boolean;
+  isResetting: boolean;
+  handleResetComplete: () => void;
 };
 
 const Editor = ({
+  hasError,
   value,
   onValueChange,
   collapsed,
   onCollapseChange,
-  hasError,
+  isResetting,
+  handleResetComplete,
 }: Props) => {
   const [node, setNode] = useState<HTMLDivElement | null>(null);
 
   const theme = useTheme();
 
   const [view, setView] = useState<EditorView>();
+
+  const handleCreateState = () =>
+    EditorState.create({
+      doc: value,
+      extensions: [
+        basicSetup,
+        javascript({ jsx: true, typescript: true }),
+        keymap.of([indentWithTab]),
+        viewTheme(theme),
+        EditorView.updateListener.of((vu: ViewUpdate) => {
+          if (vu.docChanged) {
+            onValueChange(vu.state.doc.toString());
+          }
+        }),
+      ],
+    });
 
   useEffect(
     () => {
@@ -42,20 +62,7 @@ const Editor = ({
 
       setView(
         new EditorView({
-          state: EditorState.create({
-            doc: value,
-            extensions: [
-              basicSetup,
-              javascript({ jsx: true, typescript: true }),
-              keymap.of([indentWithTab]),
-              viewTheme(theme),
-              EditorView.updateListener.of((vu: ViewUpdate) => {
-                if (vu.docChanged) {
-                  onValueChange(vu.state.doc.toString());
-                }
-              }),
-            ],
-          }),
+          state: handleCreateState(),
           parent: node,
         }),
       );
@@ -70,6 +77,14 @@ const Editor = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [node],
   );
+
+  useEffect(() => {
+    if (!isResetting) return;
+
+    view?.setState(handleCreateState());
+    handleResetComplete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isResetting]);
 
   const handleFocusEditor = useCallback(() => {
     node?.querySelector<HTMLElement>('[contenteditable="true"]')?.focus();

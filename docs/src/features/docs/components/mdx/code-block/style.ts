@@ -39,10 +39,13 @@ export const codeBlockStyle = (theme: Theme) => css`
     color: ${theme.semantic.accent.background.lightBlue};
   }
 
-  .token.attr-value,
   .token.color,
   .token.imports .token.unit {
     color: ${theme.semantic.accent.background.cyan};
+  }
+
+  .token.function-variable {
+    color: ${theme.semantic.label.neutral};
   }
 
   .token.number,
@@ -84,7 +87,8 @@ export const codeBlockStyle = (theme: Theme) => css`
     color: ${theme.semantic.status.negative};
   }
 
-  .token.inserted:not(.prefix) {
+  .token.inserted:not(.prefix),
+  .token.attr-value {
     color: ${theme.semantic.status.positive};
   }
 

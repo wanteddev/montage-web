@@ -68,14 +68,27 @@ export const viewTheme = (theme: Theme): Extension => [
     '& .cm-activeLine, & .cm-activeLineGutter': {
       backgroundColor: `${theme.semantic.fill.normal} !important`,
     },
-    '& .cm-selectionMatch, &.cm-focused .cm-selectionBackground, & .cm-line::selection, & .cm-selectionLayer .cm-selectionBackground, .cm-content ::selection':
+    '&.cm-focused .cm-selectionMatch, .cm-matchingBracket, .cm-selectionBackground, .cm-nonmatchingBracket, & .cm-line::selection, & .cm-content::selection':
       {
-        backgroundColor: `${theme.semantic.fill.normal} !important`,
+        backgroundColor: `${theme.semantic.fill.strong} !important`,
       },
     '& .cm-gutters': {
-      backgroundColor: theme.semantic.background.elevated.normal,
+      backgroundColor: theme.semantic.background.elevated.alternative,
       color: theme.semantic.label.alternative,
-      borderRightColor: 'transparent',
+      borderRightColor: theme.semantic.line.solid.alternative,
+    },
+
+    // autocomplete
+    '& .cm-tooltip-autocomplete ul li': {
+      color: theme.semantic.label.neutral,
+    },
+    '& .cm-tooltip-autocomplete ul li[aria-selected]': {
+      background: theme.semantic.primary.normal,
+      color: theme.semantic.static.white,
+    },
+    '& .cm-tooltip-autocomplete': {
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      borderColor: theme.semantic.line.normal.alternative,
     },
   }),
   syntaxHighlighting(tagStyleHighlighter(theme)),

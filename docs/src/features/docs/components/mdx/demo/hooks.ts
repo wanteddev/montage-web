@@ -75,6 +75,8 @@ export const useDemoControls = ({
   const [isTransparent, setIsTransparent] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
 
+  const [isResetting, setIsResetting] = useState(false);
+
   const handleCopy = useCallback(() => {
     const selection = window.getSelection()?.toString();
 
@@ -95,15 +97,22 @@ export const useDemoControls = ({
 
   const handleReset = useCallback(() => {
     handleValueChange(initialValue);
+    setIsResetting(true);
   }, [initialValue, handleValueChange]);
+
+  const handleResetComplete = useCallback(() => {
+    setIsResetting(false);
+  }, []);
 
   return {
     isTransparent,
     setIsTransparent,
     collapsed,
     setCollapsed,
+    isResetting,
     handleCopy,
     handleReset,
+    handleResetComplete,
     handleIsTransparentChange: setIsTransparent,
     handleCollapseChange: setCollapsed,
   };
