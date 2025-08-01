@@ -48,13 +48,13 @@ export const articleItemStyle = (theme: Theme) => css`
       transform: scale(1);
     }
 
-    [data-role='article-image'] {
+    [data-role='article-video'] {
       transform: scale(1.05);
     }
   }
 `;
 
-export const articleItemImageStyle = css`
+export const articleItemVideoStyle = css`
   width: 100%;
   height: 100%;
   border-radius: inherit;

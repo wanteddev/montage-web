@@ -16,10 +16,10 @@ import {
   articleIconStyle,
   articleItemContentStyle,
   articleItemDescriptionStyle,
-  articleItemImageStyle,
   articleItemLinkStyle,
   articleItemStyle,
   articleItemTitleStyle,
+  articleItemVideoStyle,
   articleWrapperStyle,
 } from './style';
 
@@ -62,12 +62,15 @@ const Articles = () => {
               aria-describedby={`article-${id}-${idx}-description`}
             >
               <Box
-                as="img"
-                src={item.image}
-                alt={item.title}
-                data-role="article-image"
-                sx={articleItemImageStyle}
-              />
+                as="video"
+                data-role="article-video"
+                sx={articleItemVideoStyle}
+                autoPlay
+                muted
+                loop
+              >
+                <source src={item.source} type="video/mp4" />
+              </Box>
 
               <FlexBox
                 role="presentation"

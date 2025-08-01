@@ -6,7 +6,7 @@ type ArticleItem = {
   title: string;
   description: string;
   href: string;
-  image: string;
+  source: string;
   icon: ReactNode;
 };
 
@@ -15,7 +15,7 @@ export const ARTICLE_ITEMS: Array<ArticleItem> = [
     title: 'Design System 제작기',
     description: '원티드의 디자인 시스템, 몽타주\n어떻게 만들어지고 있을까요?',
     href: '#',
-    image: '/home/Article1.png',
+    source: '/Home/Article.mp4',
     icon: (
       <IconLogoBrunch
         sx={(theme) => ({
@@ -30,7 +30,7 @@ export const ARTICLE_ITEMS: Array<ArticleItem> = [
     description:
       '원티드의 정체성을 전달하는\nWanted Sans는 어떻게 만들어졌을까요?',
     href: '#',
-    image: '/home/Article1.png',
+    source: '/Home/Article-1.mp4',
     icon: (
       <IconLogoBrunch
         sx={(theme) => ({
@@ -45,7 +45,7 @@ export const ARTICLE_ITEMS: Array<ArticleItem> = [
     description:
       '원티드의 디자이너들을 위한 디자이너들은\n어떤 문제를 해결하고 있을까요?',
     href: '#',
-    image: '/home/Article1.png',
+    source: '/Home/Article-2.mp4',
     icon: (
       <IconLogoBrunch
         sx={(theme) => ({
