@@ -22,5 +22,5 @@ export type RadioGroupItemProps = Merge<
   {
     value: string;
   },
-  Omit<ComponentPropsWithoutRef<typeof Radio>, 'onCheck' | 'name'>
+  Omit<ComponentPropsWithoutRef<typeof Radio>, 'onCheck'>
 >;
