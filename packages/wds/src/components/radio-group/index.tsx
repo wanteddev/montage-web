@@ -86,13 +86,13 @@ RadioGroup.displayName = RADIO_GROUP_NAME;
 const RadioGroupItem = forwardRef<
   ElementRef<typeof Radio>,
   RadioGroupItemProps
->(({ disabled, ...itemProps }, forwardedRef) => {
+>(({ disabled, ...props }, forwardedRef) => {
   const context = useRadioGroupContext(RADIO_ITEM_NAME);
   const isDisabled = context.disabled || disabled;
 
   const ref = useRef<React.ElementRef<typeof Radio>>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
-  const checked = context.value === itemProps.value;
+  const checked = context.value === props.value;
   const isArrowKeyPressedRef = useRef(false);
 
   useEffect(() => {
@@ -117,15 +117,15 @@ const RadioGroupItem = forwardRef<
         disabled={isDisabled}
         required={context.required}
         checked={checked}
-        {...itemProps}
-        sx={[itemProps.sx, createEmptyResponsiveStyle(itemProps)]}
         name={context.name}
+        {...props}
+        sx={[props.sx, createEmptyResponsiveStyle(props)]}
         ref={composedRefs}
-        onCheck={() => context.onValueChange(itemProps.value)}
-        onKeyDown={composeEventHandlers(itemProps.onKeyDown, (event) => {
+        onCheck={() => context.onValueChange(props.value)}
+        onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
           if (event.key === 'Enter') event.preventDefault();
         })}
-        onFocus={composeEventHandlers(itemProps.onFocus, () => {
+        onFocus={composeEventHandlers(props.onFocus, () => {
           if (isArrowKeyPressedRef.current) ref.current?.click();
         })}
       />
