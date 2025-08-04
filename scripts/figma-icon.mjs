@@ -104,12 +104,12 @@ const main = async () => {
     // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_NULL_COMPONENT}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });
     // figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${ICON_RESPONSIVE_COMPONENT}", { variant: { Name: '${parsedName}' }, props: { size: figma.enum('Size', { Small: '20px', Tiny: '16px', Normal: '24px', Medium: '28px', Large: '32px', }) }, example: ({ size }) => <${name} sx={{ fontSize: size }} /> });`,
     figmaConnectContents.push(
-      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${parsedName}' }, example: () => <${name} /> });`,
+      `figma.connect(${name}, "<FIGMA_ICONS_BASE>?node-id=${id}", { variant: { Name: '${parsedName.replace(/Color$/, '')}' }, example: () => <${name} /> });`,
     );
   });
 
   ignoreSyncIcons.forEach((icon) => {
-    const iconName = camelCase(icon.replace('Icon', ''));
+    const iconName = camelCase(icon.replace(/^Icon/, '').replace(/Color$/, ''));
     figmaConnectContents.push(
       `figma.connect(${icon}, "<FIGMA_ICONS_BASE>?node-id=${result.find((r) => iconName === r.name).id}", { variant: { Name: '${iconName}' }, example: () => <${icon} /> });`,
     );

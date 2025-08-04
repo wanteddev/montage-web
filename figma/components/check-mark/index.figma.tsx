@@ -9,6 +9,7 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
       Medium: 'medium',
       Small: 'small',
     }),
+    tight: figma.boolean('Tight'),
   },
   variant: {
     State: 'Checked',
@@ -23,6 +24,7 @@ figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
       Medium: 'medium',
       Small: 'small',
     }),
+    tight: figma.boolean('Tight'),
   },
   variant: {
     State: 'Unchecked',
@@ -34,13 +36,18 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
+    gap: figma.boolean('Tight', {
+      true: '6px',
+      false: '4px',
+    }),
+    tight: figma.boolean('Tight'),
   },
   variant: {
     State: 'Checked',
     Size: 'Medium',
   },
-  example: ({ label, ...props }) => (
-    <FormField gap="4px" flexDirection="row">
+  example: ({ label, gap, ...props }) => (
+    <FormField gap={gap} flexDirection="row">
       <FormControl>
         <CheckMark checked size="medium" {...props} />
       </FormControl>
@@ -53,13 +60,18 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
+    gap: figma.boolean('Tight', {
+      true: '6px',
+      false: '4px',
+    }),
+    tight: figma.boolean('Tight'),
   },
   variant: {
     State: 'Unchecked',
     Size: 'Medium',
   },
-  example: ({ label, ...props }) => (
-    <FormField gap="4px" flexDirection="row">
+  example: ({ label, gap, ...props }) => (
+    <FormField gap={gap} flexDirection="row">
       <FormControl>
         <CheckMark size="medium" {...props} />
       </FormControl>
@@ -72,13 +84,18 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
+    gap: figma.boolean('Tight', {
+      true: '6px',
+      false: '4px',
+    }),
+    tight: figma.boolean('Tight'),
   },
   variant: {
     State: 'Checked',
     Size: 'Small',
   },
-  example: ({ label, ...props }) => (
-    <FormField gap="4px" flexDirection="row">
+  example: ({ label, gap, ...props }) => (
+    <FormField gap={gap} flexDirection="row">
       <FormControl>
         <CheckMark checked size="small" {...props} />
       </FormControl>
@@ -91,13 +108,18 @@ figma.connect(CheckMark, '<FIGMA_CHECK_MARK>', {
   props: {
     disabled: figma.boolean('Disable'),
     label: figma.string('Label'),
+    gap: figma.boolean('Tight', {
+      true: '6px',
+      false: '4px',
+    }),
+    tight: figma.boolean('Tight'),
   },
   variant: {
     State: 'Unchecked',
     Size: 'Small',
   },
-  example: ({ label, ...props }) => (
-    <FormField gap="4px" flexDirection="row">
+  example: ({ label, gap, ...props }) => (
+    <FormField gap={gap} flexDirection="row">
       <FormControl>
         <CheckMark size="small" {...props} />
       </FormControl>
