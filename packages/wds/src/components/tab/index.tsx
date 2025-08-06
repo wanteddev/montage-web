@@ -16,8 +16,8 @@ import { usePrevious } from '@radix-ui/react-use-previous';
 
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
-import useResizeObserver from '../../hooks/use-resize-observer';
-import { calculateAnimationStyle } from '../../utils/animation';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import { calculateAnimationStyle } from '../../utils/internal/animation';
 
 import {
   motionDividerStyle,

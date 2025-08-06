@@ -13,9 +13,10 @@ import type { BreakPoint, Theme } from '@wanteddev/wds-theme';
 export {
   type ThemeToken,
   type BreakPoint,
-  type ThemeColorsToken,
   type Spacing,
   type Theme,
+  type ThemeColorsToken,
+  type ThemeShadowToken,
   type ThemeOpacityToken,
 } from '@wanteddev/wds-theme';
 export type {
