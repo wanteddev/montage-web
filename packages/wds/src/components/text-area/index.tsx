@@ -259,17 +259,16 @@ const TextArea = forwardRef<
                 alignItems="center"
                 data-role="text-area-bottom-area-trailing-content"
               >
-                {invalid ? (
-                  <TextAreaContent
-                    data-role="text-area-invalid"
-                    sx={invalidIconWrapperStyle}
-                    variant="icon"
-                  >
-                    <IconCircleExclamationFill />
-                  </TextAreaContent>
-                ) : (
-                  trailingContent
-                )}
+                {trailingContent ||
+                  (invalid && (
+                    <TextAreaContent
+                      data-role="text-area-invalid"
+                      sx={invalidIconWrapperStyle}
+                      variant="icon"
+                    >
+                      <IconCircleExclamationFill />
+                    </TextAreaContent>
+                  ))}
               </FlexBox>
             </FlexBox>
           )}
