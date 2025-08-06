@@ -19,7 +19,7 @@ import { ScrollArea } from '../scroll-area';
 import { List, ListCell } from '../list';
 import { useDefaultSelectedDate } from '../date-calendar/hooks';
 import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
-import { extendDayjs } from '../../utils/date';
+import { extendDayjs } from '../../utils/internal/date';
 
 import {
   // ACCESSIBLE_MAX_TIME,

@@ -5,7 +5,7 @@ import {
   createResponsiveStyle,
   ellipsisTypographyStyle,
 } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectMultipleProps } from '../select-multiple/types';

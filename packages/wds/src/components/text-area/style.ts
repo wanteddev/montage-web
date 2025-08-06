@@ -5,7 +5,7 @@ import {
   createResponsiveStyle,
   typographyStyle,
 } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { TextAreaProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

@@ -4,7 +4,7 @@ import {
   createResponsiveStyle,
   getPreviousValue,
 } from '../../utils/responsive-props';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { DividerProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

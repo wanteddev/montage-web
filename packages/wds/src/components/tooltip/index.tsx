@@ -11,7 +11,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { addOpacity } from '../../utils';
 import { IconButton } from '../icon-button';
-import { createScope } from '../../hooks/use-scope-context';
+import { createScope } from '../../hooks/internal/use-scope-context';
 import { NoSsr } from '../no-ssr';
 import { AnimationPresence } from '../animation-presence';
 

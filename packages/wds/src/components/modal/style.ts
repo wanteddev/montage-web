@@ -5,7 +5,7 @@ import {
   getPreviousValue,
 } from '../../utils/responsive-props';
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {

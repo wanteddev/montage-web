@@ -15,7 +15,7 @@ import { useDateField } from '../date-picker/hooks';
 import { TimeView } from '../time-view';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
-import { extendDayjs } from '../../utils/date';
+import { extendDayjs } from '../../utils/internal/date';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';

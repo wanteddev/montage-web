@@ -13,7 +13,7 @@ import { DismissableLayer } from '../dismissable-layer';
 import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
-import { extendDayjs } from '../../utils/date';
+import { extendDayjs } from '../../utils/internal/date';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';

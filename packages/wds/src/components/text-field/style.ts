@@ -3,7 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 import { addOpacity } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { TextFieldButtonProps, TextFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
