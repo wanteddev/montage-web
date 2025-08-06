@@ -26,7 +26,7 @@ import { GridItem } from '../grid-item';
 import { WithInteraction } from '../with-interaction';
 import { ScrollArea } from '../scroll-area';
 import { Typography } from '../typography';
-import { extendDayjs } from '../../utils/date';
+import { extendDayjs } from '../../utils/internal/date';
 
 import {
   dateCalendarHeaderLabelButtonStyle,

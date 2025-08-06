@@ -1,6 +1,6 @@
 import type { TextFieldProps } from '../text-field/types';
 import type { TextField } from '../text-field';
-import type { Merge } from '@wanteddev/wds-engine';
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 import type { DateCalendar } from '../date-calendar';
 import type {
   ComponentProps,
@@ -17,9 +17,11 @@ export type DatePickerProps = Merge<
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (state: boolean) => void;
-    contentProps?: Merge<
-      ComponentProps<typeof PopperContent>,
-      ComponentPropsWithoutRef<typeof FocusScope>
+    contentProps?: WithSxProps<
+      Merge<
+        ComponentProps<typeof PopperContent>,
+        ComponentPropsWithoutRef<typeof FocusScope>
+      >
     >;
     format?: string;
     inputRef?: Ref<HTMLInputElement>;

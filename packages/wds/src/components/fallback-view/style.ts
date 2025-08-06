@@ -1,7 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, typographyStyle } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { FallbackViewProps } from './types';

@@ -162,7 +162,7 @@ export const useDraggable = ({
         if (calcOpacityRatio(input, minPosition, maxPosition) <= 0.25) {
           container.style.setProperty(
             'box-shadow',
-            theme.semantic.elevation.shadow.strong,
+            theme.semantic.elevation.shadow.xlarge,
           );
         } else {
           container.style.removeProperty('box-shadow');
@@ -235,7 +235,7 @@ export const useDraggable = ({
           );
           container.style.setProperty(
             'box-shadow',
-            theme.semantic.elevation.shadow.strong,
+            theme.semantic.elevation.shadow.xlarge,
           );
           dimmerRef.current?.style.setProperty('opacity', '0');
         } else {
@@ -255,7 +255,7 @@ export const useDraggable = ({
         );
         container.style.setProperty(
           'box-shadow',
-          theme.semantic.elevation.shadow.strong,
+          theme.semantic.elevation.shadow.xlarge,
         );
         dimmerRef.current?.style.setProperty('opacity', '0');
       } else {

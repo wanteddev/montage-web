@@ -3,7 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/responsive-props';
 import { addOpacity } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { TextFieldButtonProps, TextFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -36,7 +36,7 @@ export const textFieldWrapperStyle =
     border: none;
     box-shadow:
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+      ${theme.semantic.elevation.shadow.xsmall};
     background-color: transparent;
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
@@ -75,7 +75,7 @@ export const textFieldWrapperStyle =
       box-shadow:
         inset 0 0 0 1px
           ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+        ${theme.semantic.elevation.shadow.xsmall};
     `}
 
     ${disabled
@@ -83,7 +83,7 @@ export const textFieldWrapperStyle =
           background-color: ${theme.semantic.interaction.disable};
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+            ${theme.semantic.elevation.shadow.xsmall};
           cursor: default;
         `
       : css`
@@ -103,8 +103,7 @@ export const textFieldWrapperStyle =
                           theme.semantic.status.negative,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `
                 : css`
                     box-shadow:
@@ -113,8 +112,7 @@ export const textFieldWrapperStyle =
                           theme.semantic.primary.normal,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `}
 
               [data-role='text-field-invalid'],
@@ -154,8 +152,7 @@ export const textFieldWrapperStyle =
                           theme.semantic.status.negative,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `
                 : css`
                     box-shadow:
@@ -164,8 +161,7 @@ export const textFieldWrapperStyle =
                           theme.semantic.primary.normal,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `}
 
               [data-role='text-field-invalid'],

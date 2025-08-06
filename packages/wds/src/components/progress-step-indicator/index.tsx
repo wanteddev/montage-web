@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import { findComponentInChildren } from '../../utils/children';
+import { findComponentInChildren } from '../../utils/internal/children';
 
 import {
   progressListStyle,

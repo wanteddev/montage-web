@@ -1,12 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils';
-
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const autocompleteListStyle = (theme: Theme) => css`
   padding: 0px;
-  box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.semantic.static.black, 0.04)};
+  box-shadow: ${theme.semantic.elevation.shadow.small};
   border-radius: 16px;
   background-color: ${theme.semantic.background.elevated.normal};
 `;

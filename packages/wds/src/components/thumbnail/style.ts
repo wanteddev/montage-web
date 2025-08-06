@@ -1,7 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { createResponsiveStyle, getPreviousValue } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { ThumbnailProps } from './types';
