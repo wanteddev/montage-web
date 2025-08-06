@@ -16,7 +16,7 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import { ChipAction } from '../chip-action';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 
 import {
   categoryListItemStyle,

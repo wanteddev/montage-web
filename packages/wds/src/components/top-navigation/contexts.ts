@@ -1,4 +1,4 @@
-import createLooseContext from '../../hooks/use-loose-context';
+import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { TOP_NAVIGATION_NAME } from './constants';
 

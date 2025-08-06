@@ -8,7 +8,7 @@ import { DismissableLayer } from '../dismissable-layer';
 import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
 import { FlexBox } from '../flex-box';
 import { FocusScope } from '../focus-scope';
-import { createScope } from '../../hooks/use-scope-context';
+import { createScope } from '../../hooks/internal/use-scope-context';
 import { AnimationPresence } from '../animation-presence';
 
 import { PopoverProvider, usePopoverContext } from './contexts';
@@ -19,7 +19,7 @@ import {
 } from './constants';
 import { popoverStyle } from './style';
 
-import type { ScopedProps } from '../../hooks/use-scope-context';
+import type { ScopedProps } from '../../hooks/internal/use-scope-context';
 import type {
   PopoverContentProps,
   PopoverProps,
