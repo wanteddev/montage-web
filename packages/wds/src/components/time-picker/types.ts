@@ -4,7 +4,7 @@ import type { TextFieldProps } from '../text-field/types';
 import type { PopperContentProps } from '../popper/types';
 import type { ElementType, ReactNode, Ref } from 'react';
 import type { DateType } from '../date-picker';
-import type { Merge } from '@wanteddev/wds-engine';
+import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
 
 export type TimePickerProps = Merge<
   {
@@ -14,7 +14,7 @@ export type TimePickerProps = Merge<
     format?: string;
     input?: ElementType;
     inputRef?: Ref<HTMLInputElement>;
-    contentProps?: Merge<PopperContentProps, FocusScopeProps>;
+    contentProps?: WithSxProps<Merge<PopperContentProps, FocusScopeProps>>;
     onChange?: (date: DateType) => void;
     actionArea?: ReactNode;
     /**

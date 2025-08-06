@@ -22,7 +22,7 @@ import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
 import { Typography } from '../typography';
 import { PortalOrFragment } from '../portal-or-fragment';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { useSize } from '../../hooks';
 import { useTopNavigationContext } from '../top-navigation/contexts';
 import { TopNavigation, TopNavigationButton } from '../top-navigation';

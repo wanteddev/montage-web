@@ -21,14 +21,19 @@ type ObjectToNestedKeys<T> = (
   : never;
 
 export type ThemeToken = ObjectToNestedKeys<Theme>;
+
+type PickThemeShadowToken<T extends string> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  T extends `semantic.elevation.shadow.${infer _}` ? T : never;
+
+export type ThemeShadowToken = PickThemeShadowToken<
+  ObjectToNestedKeys<Pick<Theme, 'semantic'>>
+>;
+
 export type ThemeColorsToken =
   | ObjectToNestedKeys<Pick<Theme, 'atomic'>>
   | Exclude<
       ObjectToNestedKeys<Pick<Theme, 'semantic'>>,
-      | 'semantic.platform.ios.navigation'
-      | 'semantic.elevation.shadow.emphasize'
-      | 'semantic.elevation.shadow.normal'
-      | 'semantic.elevation.shadow.heavy'
-      | 'semantic.elevation.shadow.strong'
+      'semantic.platform.ios.navigation' | ThemeShadowToken
     >;
 export type ThemeOpacityToken = ObjectToNestedKeys<Pick<Theme, 'opacity'>>;

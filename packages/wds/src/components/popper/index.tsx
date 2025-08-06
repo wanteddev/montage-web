@@ -42,7 +42,7 @@ import {
   POPPER_NAME,
 } from './constants';
 
-import type { ScopedProps } from '../../hooks/use-scope-context';
+import type { ScopedProps } from '../../hooks/internal/use-scope-context';
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type {
   PopperAnchorProps,
