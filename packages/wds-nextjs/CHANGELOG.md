@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.2](https://github.com/wanteddev/wds/compare/v2.3.1...v2.3.2) (2025-08-06)
+
+**Note:** Version bump only for package @wanteddev/wds-nextjs
+
 ## [2.3.1](https://github.com/wanteddev/wds/compare/v2.3.0...v2.3.1) (2025-07-31)
 
 **Note:** Version bump only for package @wanteddev/wds-nextjs
