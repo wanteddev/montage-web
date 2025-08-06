@@ -1,0 +1,312 @@
+---
+title: FramedStyle
+description: FramedStyle for WDS Utility
+---
+
+# FramedStyle
+
+프레임 스타일을 관리합니다.
+
+Sx Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
+
+## 활용
+
+<Demo code={`import { Box, css, framedStyle, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap={8} justifyContent="center">
+      <FlexBox flexWrap="wrap" gap={8} alignItems="center">
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'small',
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'medium',
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'large',
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'xlarge',
+          })}
+        >
+          <Placeholder />
+        </Box>
+      </FlexBox>
+
+      <FlexBox flexWrap="wrap" gap={8} alignItems="center">
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'small',
+            selected: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'medium',
+            selected: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'large',
+            selected: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'xlarge',
+            selected: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+      </FlexBox>
+
+      <FlexBox flexWrap="wrap" gap={8} alignItems="center">
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'small',
+            invalid: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'medium',
+            invalid: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'large',
+            invalid: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={0}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'xlarge',
+            invalid: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+      </FlexBox>
+
+      <FlexBox flexWrap="wrap" gap={8} alignItems="center">
+        <Box
+          tabIndex={-1}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'small',
+            disabled: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={-1}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'medium',
+            disabled: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={-1}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'large',
+            disabled: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+        <Box
+          tabIndex={-1}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'xlarge',
+            disabled: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+const Placeholder = () => {
+  return (
+    <Box
+      sx={theme => ({
+        width: 100,
+        height: 40,
+        backgroundColor: theme.semantic.accent.background.violet,
+        opacity: theme.opacity[8]
+      })}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+<PropsTable component="framedStyle" fallback={[
+{ name: 'invalid', types: 'boolean' },
+{ name: 'disabled', types: 'boolean' },
+{ name: 'selected', types: 'boolean' },
+{ name: 'shadow', types: 'ThemeShadowToken' },
+{ name: 'size', types: '\"small\" | \"medium\" | \"large\" | \"xlarge\" | undefined', defaultValue: 'medium' },
+{ name: 'attributes', types: '{ hover?: Array<string> | string, focusVisible?: Array<string> | string }' },
+]} />
+
+
+## Examples
+
+### Selected
+
+selected 속성을 사용하여 선택된 상태를 표현 할 수 있습니다.
+
+<Demo code={`import { Box, framedStyle, FlexBox, SegmentedControl, SegmentedControlItem } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [status, setStatus] = useState('normal');
+
+  const selected = status === 'selected';
+  const invalid = status === 'negative';
+  const disabled = status === 'disabled';
+
+  return (
+    <FlexBox flexDirection="column" gap={8}>
+      <Box
+        as="button"
+        tabIndex={0}
+        sx={framedStyle({
+          size: 'small',
+          selected,
+          invalid,
+          disabled
+        })}
+      >
+        <Placeholder />
+      </Box>
+
+      <SegmentedControl
+        value={status}
+        onValueChange={setStatus}
+      >
+        <SegmentedControlItem value="normal">Normal</SegmentedControlItem>
+        <SegmentedControlItem value="selected">Selected</SegmentedControlItem>
+        <SegmentedControlItem value="negative">Negative</SegmentedControlItem>
+        <SegmentedControlItem value="disabled">Disabled</SegmentedControlItem>
+      </SegmentedControl>
+    </FlexBox>
+  )
+}
+
+const Placeholder = () => {
+  return (
+    <Box
+      sx={theme => ({
+        width: 100,
+        height: 40,
+        backgroundColor: theme.semantic.accent.background.violet,
+        opacity: theme.opacity[8]
+      })}
+    />
+  )
+}
+
+
+export default Demo;`}
+/>
+
+### Attributes
+
+attributes 속성을 사용하여 특정 상태에 대한 스타일을 추가할 수 있습니다.
+
+<Demo code={`import { Box, framedStyle, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuTrigger>
+        <Box
+          as="button"
+          tabIndex={0}
+          sx={framedStyle({
+            size: 'small',
+            attributes: {
+              focusVisible: '[aria-expanded="true"]',
+            },
+          })}
+        >
+          Click Me!
+        </Box>
+      </MenuTrigger>
+      <MenuContent>
+        <MenuList>
+          <MenuItem value="1">Item 1</MenuItem>
+        </MenuList>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
