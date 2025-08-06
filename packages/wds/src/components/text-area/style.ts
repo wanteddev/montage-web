@@ -26,7 +26,7 @@ export const textAreaWrapperStyle =
     transition: box-shadow ease 0.2s;
     box-shadow:
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+      ${theme.semantic.elevation.shadow.xsmall};
     border-radius: 12px;
     background-color: transparent;
     padding: 12px;
@@ -36,7 +36,7 @@ export const textAreaWrapperStyle =
       box-shadow:
         inset 0 0 0 1px
           ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+        ${theme.semantic.elevation.shadow.xsmall};
     `}
 
     ${disabled
@@ -44,7 +44,7 @@ export const textAreaWrapperStyle =
           background-color: ${theme.semantic.interaction.disable};
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+            ${theme.semantic.elevation.shadow.xsmall};
           cursor: default;
         `
       : css`
@@ -60,8 +60,7 @@ export const textAreaWrapperStyle =
                           theme.semantic.status.negative,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `
                 : css`
                     box-shadow:
@@ -70,8 +69,7 @@ export const textAreaWrapperStyle =
                           theme.semantic.primary.normal,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `}
             }
           }
@@ -86,8 +84,7 @@ export const textAreaWrapperStyle =
                           theme.semantic.status.negative,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `
                 : css`
                     box-shadow:
@@ -96,8 +93,7 @@ export const textAreaWrapperStyle =
                           theme.semantic.primary.normal,
                           theme.opacity[43],
                         )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                      ${theme.semantic.elevation.shadow.xsmall};
                   `}
             }
           }

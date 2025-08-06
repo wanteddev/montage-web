@@ -86,6 +86,7 @@ const DatePicker = forwardRef<
       onUnmountAutoFocus,
       position = 'top-start',
       offset = 8,
+      sx: contentSx,
       ...otherContentProps
     } = contentProps || {};
 
@@ -210,7 +211,6 @@ const DatePicker = forwardRef<
             {...otherContentProps}
             position={position}
             offset={offset}
-            sx={[datePopperStyle, otherContentProps.sx]}
           >
             <FocusScope
               loop={loop}
@@ -235,7 +235,11 @@ const DatePicker = forwardRef<
                   setOpen(false);
                 }}
               >
-                <FlexBox flexDirection="column" data-role="date-picker-wrapper">
+                <FlexBox
+                  flexDirection="column"
+                  data-role="date-picker-wrapper"
+                  sx={[datePopperStyle, contentSx]}
+                >
                   <DateCalendar
                     min={min}
                     max={max}

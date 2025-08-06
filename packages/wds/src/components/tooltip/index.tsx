@@ -196,6 +196,7 @@ const TooltipContent = forwardRef(
       setContext,
       forceMount = false,
       as,
+      sx,
       __wdsCustomChildren,
       ...props
     }: PolymorphicPropsInternal<TooltipContentProps, T>,
@@ -258,7 +259,7 @@ const TooltipContent = forwardRef(
               {Boolean(__wdsCustomChildren) ? (
                 __wdsCustomChildren
               ) : (
-                <FlexBox sx={[tooltipWrapperStyle, props.sx]}>
+                <FlexBox sx={[tooltipWrapperStyle, sx]}>
                   <FlexBox sx={tooltipContentStyle}>
                     <FlexBox gap="8px" sx={{ zIndex: 1 }}>
                       <FlexBox
