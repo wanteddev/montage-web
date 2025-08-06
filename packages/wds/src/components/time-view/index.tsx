@@ -23,7 +23,7 @@ import {
   dayjsTimezone,
   isValidDate,
 } from '../date-calendar/helpers';
-import { extendDayjs } from '../../utils/date';
+import { extendDayjs } from '../../utils/internal/date';
 
 import {
   // ACCESSIBLE_MAX_TIME,
