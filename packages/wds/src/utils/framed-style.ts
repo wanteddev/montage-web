@@ -17,82 +17,82 @@ export type FramedStyleParams = {
   };
 };
 
-export const framedStyle =
-  ({
-    invalid,
-    disabled,
-    selected,
+export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
+  const {
     shadow = 'semantic.elevation.shadow.xsmall',
     size = 'medium',
     attributes = {},
-  }: FramedStyleParams) =>
-  (theme: Theme) => {
-    const givenShadow = objectPath.get(theme, shadow);
-    const boxShadow = givenShadow
-      ? givenShadow
-      : theme.semantic.elevation.shadow.xsmall;
+    invalid,
+    disabled,
+    selected,
+  } = params ?? {};
 
-    return css`
-      ${getSizeStyle(size)}
-      ${getShadowStyle(
-        { base: boxShadow, invalid, disabled, selected, attributes },
-        theme,
-      )}
+  const givenShadow = objectPath.get(theme, shadow);
+  const boxShadow = givenShadow
+    ? givenShadow
+    : theme.semantic.elevation.shadow.xsmall;
+
+  return css`
+    ${getSizeStyle(size)}
+    ${getShadowStyle(
+      { base: boxShadow, invalid, disabled, selected, attributes },
+      theme,
+    )}
       background-color: ${theme.semantic.background.normal.normal};
-      display: flex;
-      padding: var(--wds-framed-style-vertical-padding)
-        var(--wds-framed-style-horizontal-padding);
-      border-radius: var(--wds-framed-style-border-radius);
+    display: flex;
+    padding: var(--wds-framed-style-vertical-padding)
+      var(--wds-framed-style-horizontal-padding);
+    border-radius: var(--wds-framed-style-border-radius);
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    transition:
+      box-shadow ease 0.2s,
+      background-color ease 0.2s;
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    & > * {
       position: relative;
-      width: fit-content;
-      height: fit-content;
-      transition:
-        box-shadow ease 0.2s,
-        background-color ease 0.2s;
+    }
 
-      &:focus-visible {
-        outline: none;
-      }
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      background-color: ${theme.semantic.fill.alternative};
+      border-radius: inherit;
+      z-index: 0;
+      transition: opacity 0.2s ease;
+    }
 
-      & > * {
-        position: relative;
-      }
+    ${disabled
+      ? css`
+          background-color: ${theme.semantic.interaction.disable};
+        `
+      : css`
+          &:hover {
+            &::before {
+              opacity: 1;
+            }
+          }
 
-      &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        background-color: ${theme.semantic.fill.alternative};
-        border-radius: inherit;
-        z-index: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      ${disabled
-        ? css`
-            background-color: ${theme.semantic.interaction.disable};
-          `
-        : css`
-            &:hover {
+          ${attributes.hover &&
+          css`
+            &${attributesSelector(attributes.hover)} {
               &::before {
                 opacity: 1;
               }
             }
-
-            ${attributes.hover &&
-            css`
-              &${attributesSelector(attributes.hover)} {
-                &::before {
-                  opacity: 1;
-                }
-              }
-            `}
           `}
-    `;
-  };
+        `}
+  `;
+};
 
 const getSizeStyle = (size: FramedStyleParams['size']) => {
   switch (size) {
