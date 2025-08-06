@@ -231,6 +231,7 @@ export const routes: Array<Route> = [
     label: 'Utility',
     pages: [
       { title: 'Container', slug: '/docs/utility/container' },
+      { title: 'FramedStyle', slug: '/docs/utility/framed-style' },
       { title: 'Gradient', slug: '/docs/utility/gradient' },
       { title: 'List', slug: '/docs/utility/list' },
       { title: 'Media', slug: '/docs/utility/media' },
