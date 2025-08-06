@@ -1,6 +1,6 @@
 import { createContext } from '@radix-ui/react-context';
 
-import createLooseContext from '../../hooks/use-loose-context';
+import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { MENU_ITEM_NAME, MENU_NAME } from './constants';
 

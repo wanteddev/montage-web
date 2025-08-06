@@ -28,7 +28,7 @@ import {
   selectIconStyle,
   selectStyle,
 } from '../select/style';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
 import { SelectProvider } from '../select/context';
 

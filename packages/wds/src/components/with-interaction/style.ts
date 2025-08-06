@@ -1,6 +1,6 @@
 import { type Theme, css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { WithInteractionProps } from './types';
 
