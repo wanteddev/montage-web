@@ -4,7 +4,7 @@ import type { SideObject, useFloating } from '@floating-ui/react';
 
 export type PopperProps = PropsWithChildren;
 
-export type PopperContentProps = WithSxProps<{
+export type PopperContentProps = {
   offset?: number;
   position?:
     | 'top-start'
@@ -29,7 +29,7 @@ export type PopperContentProps = WithSxProps<{
   container?: Element | DocumentFragment | null;
   disablePortal?: boolean;
   children?: ReactNode;
-}>;
+};
 
 export type PopperAnchorProps = WithSxProps<{
   children?: ReactNode;

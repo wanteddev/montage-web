@@ -5,7 +5,7 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { Typography } from '../typography';
 import { FlexBox } from '../flex-box';
-import { findComponentInChildren } from '../../utils/children';
+import { findComponentInChildren } from '../../utils/internal/children';
 
 import {
   progressCircleStyle,

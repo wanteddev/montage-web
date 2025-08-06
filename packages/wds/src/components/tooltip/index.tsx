@@ -11,7 +11,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { addOpacity } from '../../utils';
 import { IconButton } from '../icon-button';
-import { createScope } from '../../hooks/use-scope-context';
+import { createScope } from '../../hooks/internal/use-scope-context';
 import { NoSsr } from '../no-ssr';
 import { AnimationPresence } from '../animation-presence';
 
@@ -196,6 +196,7 @@ const TooltipContent = forwardRef(
       setContext,
       forceMount = false,
       as,
+      sx,
       __wdsCustomChildren,
       ...props
     }: PolymorphicPropsInternal<TooltipContentProps, T>,
@@ -258,7 +259,7 @@ const TooltipContent = forwardRef(
               {Boolean(__wdsCustomChildren) ? (
                 __wdsCustomChildren
               ) : (
-                <FlexBox sx={[tooltipWrapperStyle, props.sx]}>
+                <FlexBox sx={[tooltipWrapperStyle, sx]}>
                   <FlexBox sx={tooltipContentStyle}>
                     <FlexBox gap="8px" sx={{ zIndex: 1 }}>
                       <FlexBox

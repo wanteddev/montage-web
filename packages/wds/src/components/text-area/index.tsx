@@ -8,7 +8,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { ScrollArea } from '../scroll-area';
 import { typographyStyle } from '../../utils/typography';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { IconButtonProvider } from '../icon-button/contexts';
 
 import { getTextAreaDefaultHeight } from './helpers';
