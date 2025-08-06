@@ -5,7 +5,7 @@ import {
   getPreviousValue,
 } from '../../utils/responsive-props';
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -434,7 +434,7 @@ const modalContainerVariant = (
         }
 
         &[data-status='open'][data-visibility='hidden'] {
-          box-shadow: ${theme.semantic.elevation.shadow.strong};
+          box-shadow: ${theme.semantic.elevation.shadow.xlarge};
           transition:
             transform 200ms ease,
             box-shadow 200ms ease;

@@ -14,7 +14,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     },
   });
 
-  if (idAttributes.length < 0) {
+  if (idAttributes.length < 1) {
     return file.source;
   }
 

@@ -1,6 +1,6 @@
 import { createContext } from '@radix-ui/react-context';
 
-import createLooseContext from '../../hooks/use-loose-context';
+import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { TOOLTIP_GROUP_NAME, TOOLTIP_NAME } from './constants';
 

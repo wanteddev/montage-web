@@ -1,4 +1,4 @@
-import { createScopeContext } from '../../hooks/use-scope-context';
+import { createScopeContext } from '../../hooks/internal/use-scope-context';
 
 import { POPPER_CONTENT_NAME, POPPER_NAME } from './constants';
 

@@ -15,7 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../popover';
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { usePopoverContext } from '../popover/contexts';
-import { createScope } from '../../hooks/use-scope-context';
+import { createScope } from '../../hooks/internal/use-scope-context';
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,

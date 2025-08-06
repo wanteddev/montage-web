@@ -90,14 +90,11 @@ export const light = {
   },
   elevation: {
     shadow: {
-      normal:
-        '0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-      emphasize:
-        '0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)',
-      strong:
-        '0px 0px 4px 0px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 6px 12px 0px rgba(0, 0, 0, 0.12)',
-      heavy:
-        '0px 0px 8px 0px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 20px 0px rgba(0, 0, 0, 0.12)',
+      xsmall: `0px 1px 2px -1px ${addHexOpacity(atomic.neutral[10], 0.1)}`,
+      small: `0px 2px 4px -2px ${addHexOpacity(atomic.neutral[10], 0.06)}, 0px 4px 6px -1px ${addHexOpacity(atomic.neutral[10], 0.06)}`,
+      medium: `0x 4px 6px -2px ${addHexOpacity(atomic.neutral[10], 0.07)}, 0px 10px 15px -3px ${addHexOpacity(atomic.neutral[10], 0.07)}`,
+      large: `0px 6px 10px -4px ${addHexOpacity(atomic.neutral[10], 0.08)}, 0px 16px 24px -6px ${addHexOpacity(atomic.neutral[10], 0.08)}`,
+      xlarge: `0px 10px 15px -5px ${addHexOpacity(atomic.neutral[10], 0.1)}, 0px 24px 38px -10px ${addHexOpacity(atomic.neutral[10], 0.12)}`,
     },
   },
 };
@@ -190,14 +187,11 @@ export const dark = {
   },
   elevation: {
     shadow: {
-      normal:
-        '0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 2px 0px rgba(0, 0, 0, 0.12)',
-      emphasize:
-        '0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 4px 0px rgba(0, 0, 0, 0.08), 0px 2px 8px 0px rgba(0, 0, 0, 0.12)',
-      strong:
-        '0px 0px 4px 0px rgba(0, 0, 0, 0.08), 0px 4px 8px 0px rgba(0, 0, 0, 0.08), 0px 6px 12px 0px rgba(0, 0, 0, 0.12)',
-      heavy:
-        '0px 0px 8px 0px rgba(0, 0, 0, 0.08), 0px 8px 16px 0px rgba(0, 0, 0, 0.08), 0px 16px 20px 0px rgba(0, 0, 0, 0.12)',
+      xsmall: `0px 1px 2px -1px ${addHexOpacity(atomic.neutral[10], 0.1)}`,
+      small: `0px 2px 4px -2px ${addHexOpacity(atomic.neutral[10], 0.06)}, 0px 4px 6px -1px ${addHexOpacity(atomic.neutral[10], 0.06)}`,
+      medium: `0x 4px 6px -2px ${addHexOpacity(atomic.neutral[10], 0.07)}, 0px 10px 15px -3px ${addHexOpacity(atomic.neutral[10], 0.07)}`,
+      large: `0px 6px 10px -4px ${addHexOpacity(atomic.neutral[10], 0.08)}, 0px 16px 24px -6px ${addHexOpacity(atomic.neutral[10], 0.08)}`,
+      xlarge: `0px 10px 15px -5px ${addHexOpacity(atomic.neutral[10], 0.1)}, 0px 24px 38px -10px ${addHexOpacity(atomic.neutral[10], 0.12)}`,
     },
   },
 };

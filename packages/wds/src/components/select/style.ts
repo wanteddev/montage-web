@@ -5,7 +5,7 @@ import {
   createResponsiveStyle,
   ellipsisTypographyStyle,
 } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectMultipleProps } from '../select-multiple/types';
@@ -28,7 +28,7 @@ export const selectStyle =
     border: none;
     box-shadow:
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+      ${theme.semantic.elevation.shadow.xsmall};
     background-color: transparent;
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
@@ -66,7 +66,7 @@ export const selectStyle =
       box-shadow:
         inset 0 0 0 1px
           ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+        ${theme.semantic.elevation.shadow.xsmall};
     `}
 
     ${disabled
@@ -74,7 +74,7 @@ export const selectStyle =
           background-color: ${theme.semantic.interaction.disable};
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+            ${theme.semantic.elevation.shadow.xsmall};
           cursor: default;
 
           [data-role='select-placeholder']
@@ -98,8 +98,7 @@ export const selectStyle =
                         theme.semantic.status.negative,
                         theme.opacity[43],
                       )},
-                    0px 1px 2px 0px
-                      ${addOpacity(theme.semantic.static.black, 0.03)};
+                    ${theme.semantic.elevation.shadow.xsmall};
                 `
               : css`
                   box-shadow:
@@ -108,8 +107,7 @@ export const selectStyle =
                         theme.semantic.primary.normal,
                         theme.opacity[43],
                       )},
-                    0px 1px 2px 0px
-                      ${addOpacity(theme.semantic.static.black, 0.03)};
+                    ${theme.semantic.elevation.shadow.xsmall};
                 `}
           }
 
