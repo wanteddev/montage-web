@@ -5,6 +5,7 @@ import type { Theme } from '@wanteddev/wds';
 export const searchOptionStyle = (theme: Theme) => css`
   mark {
     background-color: transparent;
+    color: inherit;
   }
 
   &[data-depth='2'] {

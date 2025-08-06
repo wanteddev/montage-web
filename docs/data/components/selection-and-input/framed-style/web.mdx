@@ -5,7 +5,7 @@ description: 콘텐츠를 스타일링이 적용된 프레임으로 감싸, 하�
 
 ## Basic usage
 
-Sx Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
+Sx Prop 혹은 `css` 내부에서 사용 가능합니다.
 
 기본적으로 포커스 가능한 요소로 사용하는 것을 권장합니다.
 
@@ -14,7 +14,6 @@ Sx Prop 혹은 `css`` ` 내부에서 사용 가능합니다.
 const Demo = () => {
   return (
     <Box
-      as="button"
       tabIndex={0}
       sx={framedStyle()}
     >
@@ -126,7 +125,7 @@ const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap={24} sx={{ width: '100%' }} justifyContent="center">
       <Box
-        as="button"
+        tabIndex={disabled ? -1 : 0}
         sx={[
           framedStyle({
             size: 'small',
@@ -245,7 +244,6 @@ const Demo = () => {
     <Menu>
       <MenuTrigger>
         <Box
-          as="button"
           tabIndex={0}
           sx={framedStyle({
             attributes: {
