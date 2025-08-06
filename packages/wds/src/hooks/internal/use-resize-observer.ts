@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { debounce } from '../utils/debounce';
+import { debounce } from '../../utils/internal/debounce';
 
 const useResizeObserver = (
   target: Element | HTMLElement | null | undefined,

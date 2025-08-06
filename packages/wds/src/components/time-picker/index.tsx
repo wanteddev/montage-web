@@ -15,7 +15,7 @@ import { useDateField } from '../date-picker/hooks';
 import { TimeView } from '../time-view';
 import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
-import { extendDayjs } from '../../utils/date';
+import { extendDayjs } from '../../utils/internal/date';
 
 import { TIME_PICKER_INPUT_NAME, TIME_PICKER_NAME } from './constants';
 import { sectionsToViews } from './helpers';
@@ -84,6 +84,7 @@ const TimePicker = forwardRef<
       onUnmountAutoFocus,
       position = 'top-start',
       offset,
+      sx: contentSx,
       ...otherContentProps
     } = contentProps || {};
 
@@ -120,7 +121,6 @@ const TimePicker = forwardRef<
 
     const invalid =
       originInvalid ||
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
@@ -216,7 +216,6 @@ const TimePicker = forwardRef<
             {...otherContentProps}
             position={position}
             offset={offset}
-            sx={[timePickerStyle, otherContentProps.sx]}
           >
             <FocusScope
               loop={loop}
@@ -241,7 +240,11 @@ const TimePicker = forwardRef<
                   setOpen(false);
                 }}
               >
-                <FlexBox flexDirection="column" data-role="time-picker-wrapper">
+                <FlexBox
+                  flexDirection="column"
+                  data-role="time-picker-wrapper"
+                  sx={[timePickerStyle, contentSx]}
+                >
                   <TimeView
                     value={value}
                     defaultValue={defaultValue}

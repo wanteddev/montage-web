@@ -6,7 +6,7 @@ import {
   gradient,
   typographyStyle,
 } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 import { getWeightMap } from '../typography/style';
 
 import type { TypographyProps } from '../typography/types';

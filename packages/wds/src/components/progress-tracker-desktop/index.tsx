@@ -7,7 +7,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
 import { Typography } from '../typography';
 import { FlexBox } from '../flex-box';
-import { findComponentInChildren } from '../../utils/children';
+import { findComponentInChildren } from '../../utils/internal/children';
 
 import {
   progressChevronStyle,

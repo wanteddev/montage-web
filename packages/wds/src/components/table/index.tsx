@@ -4,7 +4,7 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { Typography } from '../typography';
 
 import {

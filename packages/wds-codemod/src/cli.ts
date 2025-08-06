@@ -56,6 +56,10 @@ const TRANSFORMER_INQUIRER_CHOICES = [
     name: 'Dialog Button to Dialog Action Area Button',
     value: 'v3/dialog-button-migration',
   },
+  {
+    name: 'Shadow Migration',
+    value: 'v3/shadow-migration',
+  },
 ];
 
 const run = () => {
