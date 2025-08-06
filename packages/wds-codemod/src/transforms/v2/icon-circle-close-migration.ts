@@ -12,7 +12,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     source: { value: '@wanteddev/wds-icon' },
   });
 
-  if (wdsIconImport.length < 0) {
+  if (wdsIconImport.length < 1) {
     return file.source;
   }
 

@@ -52,7 +52,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     source: { value: '@wanteddev/wds' },
   });
 
-  if (wdsImport.length < 0) {
+  if (wdsImport.length < 1) {
     return file.source;
   }
 
