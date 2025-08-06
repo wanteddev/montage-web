@@ -37,7 +37,7 @@ jobs:
       - name: Node.js install
         uses: actions/setup-node@v4
         with:
-          node-version: 22.13.10
+          node-version: 22.18.0
           registry-url: https://npm.pkg.github.com
           scope: '@wanteddev'
 

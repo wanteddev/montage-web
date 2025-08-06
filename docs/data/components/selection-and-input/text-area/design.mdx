@@ -108,7 +108,7 @@ createdAt: 2025-04-03
 						leadingContent={${leadingContent}}
 						trailingContent={${trailingContent}}
 						width="100%"
-						${rows}
+						{...${JSON.stringify(rows)}}
 					/>
 				</FormControl>
 				<FormMessage>Description</FormMessage>
@@ -153,7 +153,7 @@ createdAt: 2025-04-03
 
 <SectionStates
   src="/components/selection-and-input/text-area/design/Image-1.png"
-  ratio="3:2"
+  ratio="5:4"
   options={['Normal', 'Focused', 'Negative', 'Read only', 'Disabled']}
 />
 

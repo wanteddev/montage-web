@@ -85,7 +85,7 @@ const getSizeStyle = (size: FramedStyleParams['size']) => {
     case 'large':
       return css`
         --wds-framed-style-border-radius: 16px;
-        --wds-framed-style-vertical-padding: 8px;
+        --wds-framed-style-vertical-padding: 4px;
         --wds-framed-style-horizontal-padding: 20px;
       `;
     case 'xlarge':

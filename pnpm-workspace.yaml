@@ -41,4 +41,4 @@ catalogs:
     typescript: 5.9.3
 
   node:
-    '@types/node': ^20.11.27
+    '@types/node': ^22.13.14
