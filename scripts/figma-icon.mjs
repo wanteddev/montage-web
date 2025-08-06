@@ -111,7 +111,12 @@ const main = async () => {
   ignoreSyncIcons.forEach((icon) => {
     const iconName = camelCase(icon.replace(/^Icon/, '').replace(/Color$/, ''));
     figmaConnectContents.push(
-      `figma.connect(${icon}, "<FIGMA_ICONS_BASE>?node-id=${result.find((r) => iconName === r.name).id}", { variant: { Name: '${iconName}' }, example: () => <${icon} /> });`,
+      `figma.connect(${icon}, "<FIGMA_ICONS_BASE>?node-id=${
+        result
+          .filter((r) => iconName === r.name)
+          .reverse()
+          .at(0).id
+      }", { variant: { Name: '${iconName}' }, example: () => <${icon} /> });`,
     );
   });
 
