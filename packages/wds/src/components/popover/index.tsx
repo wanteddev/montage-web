@@ -131,6 +131,11 @@ const PopoverContent = forwardRef(
       wrapperProps,
       forceMount = false,
       as,
+      onInteractOutside,
+      onFocusOutside,
+      onPointerDownOutside,
+      onDismiss,
+      disableOutsidePointerEvents = true,
       __scopePopover = 'Popover',
       ...props
     }: PolymorphicProps<ScopedProps<PopoverContentProps, 'Popover'>, T>,
@@ -166,9 +171,13 @@ const PopoverContent = forwardRef(
           >
             <DismissableLayer
               asChild
-              disableOutsidePointerEvents
+              disableOutsidePointerEvents={disableOutsidePointerEvents}
+              onInteractOutside={onInteractOutside}
+              onFocusOutside={onFocusOutside}
+              onPointerDownOutside={onPointerDownOutside}
               onDismiss={() => {
                 onOpenChange(false);
+                onDismiss?.();
               }}
             >
               <Box

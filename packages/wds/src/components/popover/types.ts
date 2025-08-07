@@ -1,3 +1,4 @@
+import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
 import type { FocusScopeProps } from '../focus-scope/types';
 import type { ReactNode } from 'react';
 import type { PopperContentProps } from '../popper/types';
@@ -39,4 +40,12 @@ export type PopoverContentProps = {
   | 'onUnmountAutoFocus'
   | 'trapped'
   | 'loop'
->;
+> &
+  Pick<
+    DismissableLayerProps,
+    | 'onInteractOutside'
+    | 'onFocusOutside'
+    | 'onPointerDownOutside'
+    | 'onDismiss'
+    | 'disableOutsidePointerEvents'
+  >;
