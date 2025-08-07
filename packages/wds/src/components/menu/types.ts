@@ -31,6 +31,11 @@ export type MenuContentProps = Pick<
   | 'setContext'
   | 'wrapperProps'
   | 'forceMount'
+  | 'onInteractOutside'
+  | 'onFocusOutside'
+  | 'onPointerDownOutside'
+  | 'onDismiss'
+  | 'disableOutsidePointerEvents'
 >;
 
 export type MenuGroupDefaultProps = {
