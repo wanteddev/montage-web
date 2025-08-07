@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.3](https://github.com/wanteddev/wds/compare/v2.3.2...v2.3.3) (2025-08-07)
+
+### Bug Fixes
+
+- **wds:** in popover add interface for dismissable layer ([#394](https://github.com/wanteddev/wds/issues/394)) ([68f61fb](https://github.com/wanteddev/wds/commit/68f61fbacb999027ac0869c213f2a4b35d89c48b))
+
 ## [2.3.2](https://github.com/wanteddev/wds/compare/v2.3.1...v2.3.2) (2025-08-06)
 
 ### Features
