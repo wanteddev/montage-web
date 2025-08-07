@@ -26,9 +26,9 @@ const DocsLayout = ({ children }: PropsWithChildren) => {
 
   return (
     <FlexBox
-      flex="1"
       sx={{
         paddingTop: 56,
+        width: '100%',
       }}
       justifyContent="center"
     >
