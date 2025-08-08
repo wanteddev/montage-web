@@ -86,7 +86,7 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
           css`
             &${attributesSelector(attributes.hover)} {
               &::before {
-                opacity: 1;
+                opacity: ${theme.opacity[5]};
               }
             }
           `}
