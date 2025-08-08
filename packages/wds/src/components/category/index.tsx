@@ -12,6 +12,12 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import {
+  Box,
+  type DefaultComponentPropsInternal,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
+} from '@wanteddev/wds-engine';
 
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
@@ -37,11 +43,6 @@ import {
   CATEGORY_PANEL_NAME,
 } from './constants';
 
-import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@wanteddev/wds-engine';
 import type {
   ElementRef,
   ElementType,
@@ -439,7 +440,7 @@ const CategoryPanel = forwardRef<
   }
 
   return (
-    <div
+    <Box
       {...props}
       ref={ref}
       wds-component="category-panel"
