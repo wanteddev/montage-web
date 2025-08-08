@@ -29,6 +29,8 @@ const Divider = forwardRef<
       <Box
         as="hr"
         ref={ref}
+        role="separator"
+        aria-orientation={vertical ? 'vertical' : 'horizontal'}
         {...props}
         sx={[
           dividerStyle({
