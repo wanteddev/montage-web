@@ -65,10 +65,10 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
       width: 100%;
       height: 100%;
       opacity: 0;
-      background-color: ${theme.semantic.fill.alternative};
+      background-color: ${theme.semantic.label.normal};
       border-radius: inherit;
       z-index: 0;
-      transition: opacity 0.2s ease;
+      transition: opacity 0.15s ease;
     }
 
     ${disabled
@@ -78,7 +78,7 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
       : css`
           &:hover {
             &::before {
-              opacity: 1;
+              opacity: ${theme.opacity[5]};
             }
           }
 
