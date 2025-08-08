@@ -60,7 +60,6 @@ const ChipFilter = forwardRef(
           aria-disabled={disabled}
           aria-pressed={active}
           aria-expanded={expanded}
-          tabIndex={0}
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
