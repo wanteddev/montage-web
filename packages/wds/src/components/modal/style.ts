@@ -334,8 +334,8 @@ const modalContainerVariant = (
   switch (variant) {
     case 'full':
       return css`
-        min-width: none;
-        max-height: none;
+        min-width: initial;
+        max-height: initial;
         max-width: 100%;
         width: 100%;
         height: 100%;
