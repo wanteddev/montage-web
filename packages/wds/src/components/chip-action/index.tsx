@@ -65,7 +65,6 @@ const ChipAction = forwardRef(
           disabled={disabled}
           aria-disabled={disabled}
           aria-pressed={active}
-          tabIndex={0}
           {...props}
           sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
         >
