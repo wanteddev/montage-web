@@ -68,6 +68,18 @@ export const radioStyle =
       pointer-events: none;
     }
 
+    &:focus-visible {
+      outline: none;
+
+      span {
+        outline-style: solid;
+        outline-width: 2px;
+        outline-offset: 2px;
+        outline-color: Highlight;
+        outline-color: -webkit-focus-ring-color;
+      }
+    }
+
     ${radioSizeStyle({ size, tight }, theme)}
 
     ${checked &&
