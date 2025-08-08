@@ -78,6 +78,18 @@ export const checkboxStyle =
         box-shadow 0.2s ease;
     }
 
+    &:focus-visible {
+      outline: none;
+
+      [data-role='checkbox-icon-wrapper'] {
+        outline-style: solid;
+        outline-width: 2px;
+        outline-offset: 2px;
+        outline-color: Highlight;
+        outline-color: -webkit-focus-ring-color;
+      }
+    }
+
     & svg {
       opacity: 0;
       transition:
