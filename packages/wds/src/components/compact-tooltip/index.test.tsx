@@ -4,6 +4,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
@@ -50,54 +51,58 @@ describe('when given hover mode compact compact-tooltip component', () => {
     vi.useRealTimers();
   });
 
-  it('should render compact tooltip content with mouse enter', () => {
+  it('should render compact tooltip content with mouse enter', async () => {
     expect(screen.getByTestId('compact-tooltip-trigger')).toBeInTheDocument();
     expect(
       screen.queryByTestId('compact-tooltip-content'),
     ).not.toBeInTheDocument();
 
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger'));
-
     act(() => {
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger'));
       vi.advanceTimersByTime(200);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
-
-    fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger'));
+    await waitFor(() => {
+      expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    });
 
     act(() => {
+      fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger'));
       vi.advanceTimersByTime(200);
     });
 
-    expect(
-      screen.queryByTestId('compact-tooltip-content'),
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('compact-tooltip-content'),
+      ).not.toBeInTheDocument();
+    });
   });
 
-  it('should render compact tooltip content with focus', () => {
+  it('should render compact tooltip content with focus', async () => {
     expect(screen.getByTestId('compact-tooltip-trigger')).toBeInTheDocument();
     expect(
       screen.queryByTestId('compact-tooltip-content'),
     ).not.toBeInTheDocument();
 
-    fireEvent.focus(screen.getByTestId('compact-tooltip-trigger'));
-
     act(() => {
+      fireEvent.focus(screen.getByTestId('compact-tooltip-trigger'));
       vi.advanceTimersByTime(0);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
-
-    fireEvent.blur(screen.getByTestId('compact-tooltip-trigger'));
+    await waitFor(() => {
+      expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    });
 
     act(() => {
+      fireEvent.blur(screen.getByTestId('compact-tooltip-trigger'));
       vi.advanceTimersByTime(0);
     });
 
-    expect(
-      screen.queryByTestId('compact-tooltip-content'),
-    ).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.queryByTestId('compact-tooltip-content'),
+      ).not.toBeInTheDocument();
+    });
   });
 
   it('should pass accessibility tests', async () => {
@@ -105,13 +110,14 @@ describe('when given hover mode compact compact-tooltip component', () => {
       await axe(screen.getByTestId('compact-tooltip-trigger')),
     ).toHaveNoViolations();
 
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger'));
-
     act(() => {
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger'));
       vi.advanceTimersByTime(200);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    });
 
     expect(
       await axe(screen.getByTestId('compact-tooltip-content')),
@@ -143,19 +149,20 @@ describe('when given click mode compact-tooltip component', () => {
     vi.useRealTimers();
   });
 
-  it('should render compact tooltip content with click', () => {
+  it('should render compact tooltip content with click', async () => {
     expect(screen.getByTestId('compact-tooltip-trigger')).toBeInTheDocument();
     expect(
       screen.queryByTestId('compact-tooltip-content'),
     ).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByTestId('compact-tooltip-trigger'));
-
     act(() => {
+      fireEvent.click(screen.getByTestId('compact-tooltip-trigger'));
       vi.runAllTimers();
     });
 
-    expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    });
   });
 });
 
@@ -181,13 +188,18 @@ describe('when given always mode compact tooltip component', () => {
     vi.useRealTimers();
   });
 
-  it('should keep open state', () => {
+  it('should keep open state', async () => {
     expect(screen.getByTestId('compact-tooltip-trigger')).toBeInTheDocument();
-    expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
 
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger'));
-    fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger'));
-    fireEvent.click(screen.getByTestId('compact-tooltip-trigger'));
+    await waitFor(() => {
+      expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
+    });
+
+    act(() => {
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger'));
+      fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger'));
+      fireEvent.click(screen.getByTestId('compact-tooltip-trigger'));
+    });
 
     expect(screen.getByTestId('compact-tooltip-content')).toBeInTheDocument();
   });
@@ -225,50 +237,61 @@ describe('when given compact tooltip with compact-tooltip group component', () =
     vi.useRealTimers();
   });
 
-  it('should open the first compact tooltip after enter delay', () => {
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-1'));
-
+  it('should open the first compact tooltip after enter delay', async () => {
     act(() => {
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-1'));
       vi.advanceTimersByTime(200);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content-1')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('compact-tooltip-content-1'),
+      ).toBeInTheDocument();
+    });
   });
 
-  it('should open the second compact-tooltip immediately when moving from the first to the second within skipDelayDuration', () => {
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-1'));
-
+  it('should open the second compact-tooltip immediately when moving from the first to the second within skipDelayDuration', async () => {
     act(() => {
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-1'));
       vi.advanceTimersByTime(200);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content-1')).toBeInTheDocument();
-
-    fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger-1'));
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-2'));
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('compact-tooltip-content-1'),
+      ).toBeInTheDocument();
+    });
 
     act(() => {
+      fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger-1'));
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-2'));
       vi.advanceTimersByTime(0);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content-2')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('compact-tooltip-content-2'),
+      ).toBeInTheDocument();
+    });
   });
 
-  it('should apply enter delay again if moving to another compact tooltip after skipDelayDuration', () => {
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-1'));
+  it('should apply enter delay again if moving to another compact tooltip after skipDelayDuration', async () => {
     act(() => {
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-1'));
       vi.advanceTimersByTime(200);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content-1')).toBeInTheDocument();
-
-    fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger-1'));
-
-    act(() => {
-      vi.advanceTimersByTime(350);
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('compact-tooltip-content-1'),
+      ).toBeInTheDocument();
     });
 
-    fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-2'));
+    act(() => {
+      fireEvent.mouseLeave(screen.getByTestId('compact-tooltip-trigger-1'));
+      vi.advanceTimersByTime(350);
+      fireEvent.mouseEnter(screen.getByTestId('compact-tooltip-trigger-2'));
+    });
 
     expect(
       screen.queryByTestId('compact-tooltip-content-2'),
@@ -278,6 +301,10 @@ describe('when given compact tooltip with compact-tooltip group component', () =
       vi.advanceTimersByTime(200);
     });
 
-    expect(screen.getByTestId('compact-tooltip-content-2')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('compact-tooltip-content-2'),
+      ).toBeInTheDocument();
+    });
   });
 });
