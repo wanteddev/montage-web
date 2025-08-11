@@ -134,7 +134,7 @@ const maxTime = new Date(new Date().setHours(17, 30, 0));
 const Demo = () => {
   const form = useForm({
     defaultValues: {
-      time: new Date(),
+      time: new Date(2000, 0, 1, 10, 0, 0),
     },
     mode: 'onChange'
   });
@@ -171,6 +171,7 @@ const Demo = () => {
                 format="HH시 mm분"
                 minTime={minTime}
                 maxTime={maxTime}
+                format="HH:mm"
                 inputRef={field.ref}
                 value={field.value}
                 onChange={field.onChange}

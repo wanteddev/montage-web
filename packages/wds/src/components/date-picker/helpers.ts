@@ -214,6 +214,7 @@ export const toFormat = (
 export const parseFromFormat = (
   text: string,
   format: string,
+  previousValue: DateType,
   locale: string | undefined,
   timezone?: string,
 ) => {
@@ -226,7 +227,10 @@ export const parseFromFormat = (
     return null;
   }
 
-  let parsedDate = dayjsTimezone(dayjs(), timezone);
+  let parsedDate = dayjsTimezone(
+    isValidDate(previousValue) ? dayjs(previousValue) : dayjs(),
+    timezone,
+  );
 
   sections.sort(
     (a, b) =>

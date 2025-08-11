@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
+import dayjs from 'dayjs';
 
 import { getMeridiem, isValidDate } from '../date-calendar/helpers';
 import { toFormat } from '../date-picker/helpers';
 
-import { getHours, getMinutes, getSeconds } from './helpers';
+import { getHours, getMinutes, getSeconds, isDisabledTime } from './helpers';
 
 import type { HourType, TimeViewType } from './types';
 import type { DateType } from '../date-picker';
@@ -14,6 +15,8 @@ type Props = {
   value: DateType;
   timezone?: string;
   hourType: HourType;
+  minTime?: DateType;
+  maxTime?: DateType;
 };
 
 export const useTimeList = ({
@@ -22,6 +25,8 @@ export const useTimeList = ({
   timezone,
   locale,
   hourType,
+  minTime,
+  maxTime,
 }: Props) => {
   const currentTimeValue = useMemo(() => {
     if (!isValidDate(value)) return;
@@ -44,6 +49,8 @@ export const useTimeList = ({
   }, [value, timezone, view, locale, hourType]);
 
   const timeList = useMemo(() => {
+    const currentHour = isValidDate(value) ? dayjs(value).hour() : 0;
+
     switch (view) {
       case 'meridiem':
         return getMeridiem(locale).map((meridiem, index) => ({
@@ -52,13 +59,80 @@ export const useTimeList = ({
         }));
       case 'hour':
         const hours = getHours({ locale, hourType });
-        return hourType === '12' ? [hours.pop(), ...hours] : hours;
+        const hoursWithDisabled = hours.map((hour) => {
+          let targetHour = hour.value;
+
+          if (hourType === '12') {
+            if (currentHour >= 12) {
+              targetHour = hour.value === 12 ? 12 : hour.value + 12;
+            } else {
+              targetHour = hour.value === 12 ? 0 : hour.value;
+            }
+          }
+
+          const testTime = dayjs()
+            .hour(targetHour)
+            .minute(0)
+            .second(0)
+            .toDate();
+          const disabled = isDisabledTime({
+            minTime,
+            maxTime,
+            value: testTime,
+            timezone,
+          });
+
+          return {
+            ...hour,
+            disabled,
+          };
+        });
+
+        return hourType === '12'
+          ? [hoursWithDisabled.pop(), ...hoursWithDisabled]
+          : hoursWithDisabled;
       case 'minute':
-        return getMinutes();
+        return getMinutes().map((minute) => {
+          const testTime = dayjs()
+            .hour(currentHour)
+            .minute(minute.value)
+            .second(0)
+            .toDate();
+          const disabled = isDisabledTime({
+            minTime,
+            maxTime,
+            value: testTime,
+            timezone,
+          });
+
+          return {
+            ...minute,
+            disabled,
+          };
+        });
       case 'second':
-        return getSeconds();
+        return getSeconds().map((second) => {
+          const currentMinute = isValidDate(value) ? dayjs(value).minute() : 0;
+
+          const testTime = dayjs()
+            .hour(currentHour)
+            .minute(currentMinute)
+            .second(second.value)
+            .toDate();
+          const disabled = isDisabledTime({
+            minTime,
+            maxTime,
+            value: testTime,
+            timezone,
+          });
+
+          return {
+            ...second,
+            disabled,
+          };
+        });
     }
-  }, [locale, view, hourType]);
+  }, [locale, view, hourType, minTime, maxTime, timezone, value]);
 
   return { hourType, currentTimeValue, timeList };
 };
