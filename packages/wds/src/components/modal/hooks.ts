@@ -103,6 +103,10 @@ export const useDraggable = ({
       );
       dimmerRef.current?.style.removeProperty('transition');
       dimmerRef.current?.style.removeProperty('opacity');
+    } else if (!context.open) {
+      container.style.removeProperty('transition');
+      dimmerRef.current?.style.removeProperty('transition');
+      dimmerRef.current?.style.removeProperty('opacity');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEnabled, context.visibility, context.open]);
