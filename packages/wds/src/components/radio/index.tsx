@@ -8,6 +8,7 @@ import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import { radioStyle } from './style';
+import { useRadioContext } from './contexts';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { RadioProps } from './types';
@@ -26,7 +27,7 @@ const Radio = forwardRef<
       invalid = false,
       onCheck,
       size = 'medium',
-      tight = false,
+      tight: originTight,
       xs,
       sm,
       md,
@@ -36,6 +37,10 @@ const Radio = forwardRef<
     },
     ref,
   ) => {
+    const { tight: contextTight } = useRadioContext() || {};
+
+    const tight = originTight ?? contextTight ?? false;
+
     const [button, setButton] = useState<HTMLButtonElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setButton(node));
     const hasConsumerStoppedPropagationRef = useRef(false);
@@ -71,6 +76,8 @@ const Radio = forwardRef<
             disabled={disabled}
             value={value}
             ref={composedRefs}
+            data-tight={tight}
+            wds-component="radio"
             {...props}
             sx={[
               radioStyle({

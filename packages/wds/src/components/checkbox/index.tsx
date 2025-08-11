@@ -103,6 +103,8 @@ const Checkbox = forwardRef<
             disabled={disabled}
             aria-required={required}
             ref={composedRefs}
+            data-tight={tight}
+            wds-component="checkbox"
             {...props}
             sx={[
               checkboxStyle({

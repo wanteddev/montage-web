@@ -18,6 +18,7 @@ import { useMenuItemContext } from '../menu/contexts';
 import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
 import { CheckboxProvider } from '../checkbox/contexts';
+import { RadioProvider } from '../radio/contexts';
 
 import {
   LIST_CELL_CONTENT_NAME,
@@ -311,10 +312,23 @@ const ListCellContent = forwardRef<
           </FlexBox>
         </CheckboxProvider>
       );
+    case 'radio':
+      return (
+        <RadioProvider tight>
+          <FlexBox
+            wds-component="list-cell-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            {children}
+          </FlexBox>
+        </RadioProvider>
+      );
     case 'icon':
     case 'avatar':
     case 'badge':
-    case 'radio':
     case 'switch':
     case 'custom':
     default:

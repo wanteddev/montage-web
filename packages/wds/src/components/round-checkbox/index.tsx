@@ -17,8 +17,9 @@ const RoundCheckbox = forwardRef<
   return (
     <Checkbox
       ref={ref}
-      {...props}
+      wds-component="round-checkbox"
       tight={false}
+      {...props}
       sx={[roundCheckboxStyle(props), props.sx]}
     />
   );

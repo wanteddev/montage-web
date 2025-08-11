@@ -239,7 +239,19 @@ const listCellContentVariantStyle =
         `;
       case 'checkbox':
         return css`
-          padding-right: 2px;
+          &:not([data-role='list-item-trailing-content']):has(
+              [wds-component='checkbox'][data-tight='true']
+            ) {
+            padding-right: 2px;
+          }
+        `;
+      case 'radio':
+        return css`
+          &:not([data-role='list-item-trailing-content']):has(
+              [wds-component='radio'][data-tight='true']
+            ) {
+            padding-right: 2px;
+          }
         `;
     }
   };
