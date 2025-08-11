@@ -30,11 +30,6 @@ export const modalDimmerStyle = (theme: Theme) => css`
     pointer-events: none;
     opacity: 0;
   }
-
-  &[data-status='close'] {
-    pointer-events: none;
-    opacity: 0;
-  }
 `;
 
 export const modalContainerWrapperStyle =
@@ -92,6 +87,12 @@ const modalContainerWrapperVariant = (
         padding: 0px;
         align-items: flex-end;
         justify-content: center;
+
+        [data-role='modal-dimmer'][data-status='close'] {
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity ease 200ms;
+        }
       `;
   }
 };
