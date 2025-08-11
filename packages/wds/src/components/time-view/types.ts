@@ -7,8 +7,8 @@ export type TimeViewProps = WithSxProps<{
   value?: DateType;
   defaultValue?: DateType;
   views?: Array<TimeViewType>;
-  // minTime?: DateType;
-  // maxTime?: DateType;
+  minTime?: DateType;
+  maxTime?: DateType;
   locale?: string;
   timezone?: string;
   readOnly?: boolean;
@@ -19,18 +19,23 @@ export type TimeViewProps = WithSxProps<{
 
 export type TimeListProps = {
   view: TimeViewType;
+  views: Array<TimeViewType>;
   timezone?: string;
   locale?: string;
   value: DateType;
   variant: 'first' | 'last' | 'middle' | 'single';
+  minTime?: DateType;
+  maxTime?: DateType;
 };
 
 export type TimeItemProps = {
   view: TimeViewType;
+  views: Array<TimeViewType>;
   variant: TimeListProps['variant'];
   value: number;
   text: string;
   currentTimeValue?: string;
+  disabled?: boolean;
 };
 
 export type HourType = '12' | '24';
