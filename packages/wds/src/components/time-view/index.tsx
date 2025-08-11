@@ -62,8 +62,8 @@ const TimeView = forwardRef<
     {
       value: originValue,
       defaultValue,
-      // minTime = ACCESSIBLE_MIN_TIME,
-      // maxTime = ACCESSIBLE_MAX_TIME,
+      minTime,
+      maxTime,
       views = ['hour', 'minute'],
       locale = 'ko-KR',
       timezone,
@@ -84,13 +84,7 @@ const TimeView = forwardRef<
       onChange,
     });
 
-    // const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
-    const { now } = useDefaultSelectedDate(
-      value,
-      undefined,
-      undefined,
-      timezone,
-    );
+    const { now } = useDefaultSelectedDate(value, minTime, maxTime, timezone);
 
     const hourType: HourType = useMemo(
       () => (views.includes('meridiem') ? '12' : '24'),
@@ -118,9 +112,12 @@ const TimeView = forwardRef<
             <TimeList
               key={`${id}-${view}`}
               view={view}
+              views={views}
               value={value}
               locale={locale}
               timezone={timezone}
+              minTime={minTime}
+              maxTime={maxTime}
               variant={
                 views.length === 1
                   ? 'single'
@@ -142,7 +139,10 @@ TimeView.displayName = TIME_VIEW_NAME;
 
 const TimeList = memo(
   forwardRef<HTMLUListElement, TimeListProps>(
-    ({ view, value, locale, variant, timezone }, ref) => {
+    (
+      { views, view, value, locale, variant, timezone, minTime, maxTime },
+      ref,
+    ) => {
       const id = useId();
 
       const { hourType } = useTimeViewContext(TIME_VIEW_NAME);
@@ -152,6 +152,8 @@ const TimeList = memo(
         timezone,
         locale,
         hourType,
+        minTime,
+        maxTime,
       });
 
       const scrollViewportRef =
@@ -183,6 +185,7 @@ const TimeList = memo(
               {timeList.map((time) =>
                 time ? (
                   <TimeItem
+                    views={views}
                     key={`${id}-${time.value}`}
                     view={view}
                     variant={variant}
@@ -204,143 +207,168 @@ TimeList.displayName = TIME_LIST_NAME;
 const TimeItem = forwardRef<
   HTMLLIElement,
   DefaultComponentPropsInternal<TimeItemProps, 'li'>
->(({ value, text, variant, view, currentTimeValue, ...props }, ref) => {
-  const {
-    value: time,
-    disabled,
-    readOnly,
-    now,
-    hourType,
-    timezone,
-    onChange,
-    onChangeComplete,
-  } = useTimeViewContext(TIME_ITEM_NAME);
+>(
+  (
+    {
+      views,
+      value,
+      text,
+      variant,
+      view,
+      currentTimeValue,
+      disabled: itemDisabled,
+      ...props
+    },
+    ref,
+  ) => {
+    const {
+      value: time,
+      disabled: contextDisabled,
+      readOnly,
+      now,
+      hourType,
+      timezone,
+      onChange,
+      onChangeComplete,
+    } = useTimeViewContext(TIME_ITEM_NAME);
 
-  const textValue = view === 'meridiem' ? value.toString() : text;
-  const active = currentTimeValue ? currentTimeValue === textValue : false;
+    const textValue = view === 'meridiem' ? value.toString() : text;
+    const active = currentTimeValue ? currentTimeValue === textValue : false;
+    const isDisabled = contextDisabled || itemDisabled || false;
 
-  const handleClick = useCallback(() => {
-    if (readOnly || disabled) return;
+    const handleClick = useCallback(() => {
+      if (readOnly || isDisabled) return;
 
-    let newValue = isValidDate(time)
-      ? dayjsTimezone(dayjs(time), timezone)
-      : now;
+      let newValue = isValidDate(time)
+        ? dayjsTimezone(dayjs(time), timezone)
+        : now;
 
-    switch (view) {
-      case 'meridiem':
-        newValue = newValue.set(
-          'hour',
-          value === 0
-            ? newValue.hour() >= 12
-              ? newValue.hour() - 12
-              : newValue.hour()
-            : newValue.hour() < 12
-              ? newValue.hour() + 12
-              : newValue.hour(),
-        );
-        break;
-      case 'hour':
-        if (hourType === '12') {
-          newValue = newValue.hour(
-            value === 12
+      switch (view) {
+        case 'meridiem':
+          newValue = newValue.set(
+            'hour',
+            value === 0
               ? newValue.hour() >= 12
-                ? 12
-                : 0
-              : newValue.hour() >= 12
-                ? value + 12
-                : value,
+                ? newValue.hour() - 12
+                : newValue.hour()
+              : newValue.hour() < 12
+                ? newValue.hour() + 12
+                : newValue.hour(),
           );
-        } else {
-          newValue = newValue.hour(value);
-        }
-        break;
-      case 'minute':
-        newValue = newValue.minute(value);
-        break;
-      case 'second':
-        newValue = newValue.second(value);
-        break;
-    }
+          break;
+        case 'hour':
+          if (hourType === '12') {
+            newValue = newValue.hour(
+              value === 12
+                ? newValue.hour() >= 12
+                  ? 12
+                  : 0
+                : newValue.hour() >= 12
+                  ? value + 12
+                  : value,
+            );
+          } else {
+            newValue = newValue.hour(value);
+          }
+          break;
+        case 'minute':
+          newValue = newValue.minute(value);
+          break;
+        case 'second':
+          newValue = newValue.second(value);
+          break;
+      }
 
-    const parsedDateNewValue = dateTypeToDateObject(newValue, timezone);
+      if (!views.includes('second')) {
+        newValue = newValue.second(0);
+      }
 
-    onChange(parsedDateNewValue);
+      if (!views.includes('minute')) {
+        newValue = newValue.minute(0);
+      }
 
-    if (variant === 'last' || variant === 'single') {
-      onChangeComplete?.(parsedDateNewValue);
-    }
-  }, [
-    hourType,
-    time,
-    timezone,
-    disabled,
-    readOnly,
-    value,
-    now,
-    view,
-    onChange,
-    variant,
-    onChangeComplete,
-  ]);
+      const parsedDateNewValue = dateTypeToDateObject(newValue, timezone);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
-    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      onChange(parsedDateNewValue);
 
-    const timeViewElement = e.currentTarget.closest(
-      '[wds-component="time-view"]',
-    );
-    const currentTimeListScrollArea = e.currentTarget.closest(
-      '[data-role="time-list-scroll-area"]',
-    );
+      if (variant === 'last' || variant === 'single') {
+        onChangeComplete?.(parsedDateNewValue);
+      }
+    }, [
+      readOnly,
+      isDisabled,
+      time,
+      timezone,
+      now,
+      view,
+      views,
+      value,
+      hourType,
+      onChange,
+      variant,
+      onChangeComplete,
+    ]);
 
-    if (!timeViewElement || !currentTimeListScrollArea) return;
+    const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
 
-    const scrollAreaList = Array.from(
-      timeViewElement.querySelectorAll('[data-role="time-list-scroll-area"]'),
-    );
-    const currentIndex = scrollAreaList.indexOf(currentTimeListScrollArea);
-    const moveIndex =
-      e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
+      const timeViewElement = e.currentTarget.closest(
+        '[wds-component="time-view"]',
+      );
+      const currentTimeListScrollArea = e.currentTarget.closest(
+        '[data-role="time-list-scroll-area"]',
+      );
 
-    if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
-      (scrollAreaList[moveIndex] as HTMLElement).focus();
-    }
-  }, []);
+      if (!timeViewElement || !currentTimeListScrollArea) return;
 
-  return (
-    <RovingFocusGroupItem
-      asChild
-      focusable={!disabled}
-      active={active}
-      data-active={active}
-    >
-      <ListCell
-        ref={ref}
-        fillWidth
-        verticalPadding="small"
+      const scrollAreaList = Array.from(
+        timeViewElement.querySelectorAll('[data-role="time-list-scroll-area"]'),
+      );
+      const currentIndex = scrollAreaList.indexOf(currentTimeListScrollArea);
+      const moveIndex =
+        e.key === 'ArrowLeft' ? currentIndex - 1 : currentIndex + 1;
+
+      if (moveIndex >= 0 && moveIndex < scrollAreaList.length) {
+        (scrollAreaList[moveIndex] as HTMLElement).focus();
+      }
+    }, []);
+
+    return (
+      <RovingFocusGroupItem
+        asChild
+        focusable={!isDisabled}
         active={active}
-        value={value}
-        role="option"
-        aria-selected={active}
-        aria-label={text}
-        data-role={`time-item-${view}`}
-        {...{
-          [`data-${view}`]: textValue,
-        }}
-        sx={timeItemStyle({
-          active,
-          disabled,
-          variant,
-        })}
-        {...props}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
+        data-active={active}
       >
-        {text}
-      </ListCell>
-    </RovingFocusGroupItem>
-  );
-});
+        <ListCell
+          ref={ref}
+          fillWidth
+          verticalPadding="small"
+          active={active}
+          value={value}
+          role="option"
+          aria-selected={active}
+          aria-label={text}
+          data-role={`time-item-${view}`}
+          disabled={isDisabled}
+          {...{
+            [`data-${view}`]: textValue,
+          }}
+          sx={timeItemStyle({
+            active,
+            disabled: isDisabled,
+            variant,
+          })}
+          {...props}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+        >
+          {text}
+        </ListCell>
+      </RovingFocusGroupItem>
+    );
+  },
+);
 
 TimeItem.displayName = TIME_ITEM_NAME;
 
