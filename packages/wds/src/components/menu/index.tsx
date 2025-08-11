@@ -6,6 +6,7 @@ import {
 } from '@radix-ui/react-roving-focus';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { IconCheck } from '@wanteddev/wds-icon';
+import { Slot } from '@radix-ui/react-slot';
 
 import { List, ListCell, ListCellContent } from '../list';
 import { ScrollArea } from '../scroll-area';
@@ -399,9 +400,17 @@ const MenuActionArea = forwardRef<
       {...props}
       sx={[menuActionAreaStyle, sx]}
     >
-      {Boolean(leadingContent) && leadingContent}
+      {Boolean(leadingContent) && (
+        <Slot data-role="menu-action-area-leading-content">
+          {leadingContent}
+        </Slot>
+      )}
       {children}
-      {Boolean(trailingContent) && trailingContent}
+      {Boolean(trailingContent) && (
+        <Slot data-role="menu-action-area-trailing-content">
+          {trailingContent}
+        </Slot>
+      )}
     </FlexBox>
   );
 });
@@ -420,7 +429,7 @@ const MenuActionAreaContent = forwardRef<
           ref={ref}
           {...props}
           sx={[
-            menuActionAreaContentStyle,
+            menuActionAreaContentStyle(variant),
             (theme) => ({
               fontSize: '24px',
               color: theme.semantic.label.alternative,
@@ -441,7 +450,7 @@ const MenuActionAreaContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuActionAreaContentStyle, sx]}
+          sx={[menuActionAreaContentStyle(variant), sx]}
         >
           {children}
         </FlexBox>
@@ -455,7 +464,7 @@ const MenuActionAreaContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuActionAreaContentStyle, sx]}
+          sx={[menuActionAreaContentStyle(variant), sx]}
         >
           {children}
         </FlexBox>
