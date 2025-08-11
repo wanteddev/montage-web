@@ -12,6 +12,7 @@ const CheckMark = forwardRef<HTMLButtonElement, CheckMarkProps>(
       <Checkbox
         ref={ref}
         {...props}
+        tight={false}
         sx={[
           checkMarkStyle({
             ...props,

@@ -9,6 +9,7 @@ import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import { checkboxStyle } from './style';
+import { useCheckboxContext } from './contexts';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { CheckboxProps } from './types';
@@ -33,7 +34,7 @@ const Checkbox = forwardRef<
       invalid = false,
       indeterminate,
       indeterminateIcon: originIndeterminateIcon,
-      tight = false,
+      tight: originTight,
       bold,
       xs,
       sm,
@@ -44,6 +45,10 @@ const Checkbox = forwardRef<
     },
     ref,
   ) => {
+    const { tight: contextTight } = useCheckboxContext() || {};
+
+    const tight = originTight ?? contextTight ?? false;
+
     const icon = originIcon || <IconCheckThick />;
     const indeterminateIcon = originIndeterminateIcon || (
       <IconLineHorizontalThick />

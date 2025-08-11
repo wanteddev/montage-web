@@ -237,6 +237,10 @@ const listCellContentVariantStyle =
           ${typographyStyle('body1', 'regular')}
           color: ${theme.semantic.label.alternative};
         `;
+      case 'checkbox':
+        return css`
+          padding-right: 2px;
+        `;
     }
   };
 

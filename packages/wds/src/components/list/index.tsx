@@ -17,6 +17,7 @@ import { WithInteraction } from '../with-interaction';
 import { useMenuItemContext } from '../menu/contexts';
 import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
+import { CheckboxProvider } from '../checkbox/contexts';
 
 import {
   LIST_CELL_CONTENT_NAME,
@@ -296,10 +297,23 @@ const ListCellContent = forwardRef<
         </FlexBox>
       );
 
+    case 'checkbox':
+      return (
+        <CheckboxProvider tight>
+          <FlexBox
+            wds-component="list-cell-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            {children}
+          </FlexBox>
+        </CheckboxProvider>
+      );
     case 'icon':
     case 'avatar':
     case 'badge':
-    case 'checkbox':
     case 'radio':
     case 'switch':
     case 'custom':
