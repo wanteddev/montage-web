@@ -1,5 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
+import type { MenuActionAreaContentProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const menuPopoverContentStyle = (theme: Theme) => css`
@@ -78,8 +79,34 @@ export const menuActionAreaStyle = (theme: Theme) => css`
   border-top: 1px solid ${theme.semantic.line.solid.alternative};
 `;
 
-export const menuActionAreaContentStyle = css`
+export const menuActionAreaContentStyle = (
+  variant: MenuActionAreaContentProps['variant'],
+) => css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
+
+  &[data-role='menu-action-area-leading-content'] {
+    ${variant === 'icon' &&
+    css`
+      padding-left: 6px;
+    `}
+
+    ${variant === 'text-button' &&
+    css`
+      padding-left: 8px;
+    `}
+
+    ${variant === 'badge' &&
+    css`
+      padding-left: 6px;
+    `}
+  }
+
+  &[data-role='menu-action-area-trailing-content'] {
+    ${variant === 'badge' &&
+    css`
+      padding-right: 6px;
+    `}
+  }
 `;
