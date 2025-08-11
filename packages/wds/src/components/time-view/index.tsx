@@ -290,8 +290,20 @@ const TimeItem = forwardRef<
           onChangeComplete?.(parsedDateNewValue);
         }
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [views, hourType, time, timezone, value, variant, onChangeComplete]);
+    }, [
+      readOnly,
+      isDisabled,
+      time,
+      timezone,
+      now,
+      view,
+      views,
+      value,
+      hourType,
+      onChange,
+      variant,
+      onChangeComplete,
+    ]);
 
     const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
       if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;

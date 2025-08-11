@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
 import dayjs from 'dayjs';
 
-import { getMeridiem, isValidDate } from '../date-calendar/helpers';
+import {
+  dayjsTimezone,
+  getMeridiem,
+  isValidDate,
+} from '../date-calendar/helpers';
 import { toFormat } from '../date-picker/helpers';
 
 import { getHours, getMinutes, getSeconds, isDisabledTime } from './helpers';
@@ -49,7 +53,9 @@ export const useTimeList = ({
   }, [value, timezone, view, locale, hourType]);
 
   const timeList = useMemo(() => {
-    const currentHour = isValidDate(value) ? dayjs(value).hour() : 0;
+    const currentHour = isValidDate(value)
+      ? dayjsTimezone(dayjs(value), timezone).hour()
+      : 0;
 
     switch (view) {
       case 'meridiem':
@@ -112,7 +118,9 @@ export const useTimeList = ({
         });
       case 'second':
         return getSeconds().map((second) => {
-          const currentMinute = isValidDate(value) ? dayjs(value).minute() : 0;
+          const currentMinute = isValidDate(value)
+            ? dayjsTimezone(dayjs(value), timezone).minute()
+            : 0;
 
           const testTime = dayjs()
             .hour(currentHour)
