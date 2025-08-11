@@ -163,6 +163,7 @@ export const useDateField = ({
       const parsedDate = parseFromFormat(
         newInputValue,
         format,
+        value,
         locale,
         timezone,
       );
@@ -197,7 +198,16 @@ export const useDateField = ({
         });
       }
     },
-    [focusedSection, format, locale, setValue, timezone, readOnly, disabled],
+    [
+      focusedSection,
+      format,
+      value,
+      locale,
+      timezone,
+      readOnly,
+      disabled,
+      setValue,
+    ],
   );
 
   const handlePaste = useCallback(
@@ -214,7 +224,13 @@ export const useDateField = ({
         e.currentTarget.selectionStart === 0 &&
         e.currentTarget.selectionEnd === inputValue.length
       ) {
-        const parsedDate = parseFromFormat(newValue, format, locale, timezone);
+        const parsedDate = parseFromFormat(
+          newValue,
+          format,
+          value,
+          locale,
+          timezone,
+        );
 
         if (parsedDate && isValidDate(parsedDate)) {
           const newSectionValue = getDateformatSections(
@@ -297,6 +313,7 @@ export const useDateField = ({
       disabled,
       inputValue,
       format,
+      value,
       locale,
       timezone,
       setValue,
@@ -412,6 +429,7 @@ export const useDateField = ({
             const parsedNewDateFromFormat = parseFromFormat(
               removedInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -450,6 +468,7 @@ export const useDateField = ({
           const parsedNewDateFromFormat = parseFromFormat(
             removedInputValue,
             format,
+            value,
             locale,
             timezone,
           );
@@ -500,6 +519,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -564,6 +584,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -616,6 +637,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -680,6 +702,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -760,6 +783,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -803,6 +827,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -845,6 +870,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -888,6 +914,7 @@ export const useDateField = ({
             const parsedDate = parseFromFormat(
               newInputValue,
               format,
+              value,
               locale,
               timezone,
             );
@@ -982,6 +1009,7 @@ export const useDateField = ({
           const parsedDate = parseFromFormat(
             newInputValue,
             format,
+            value,
             locale,
             timezone,
           );
@@ -1046,6 +1074,7 @@ export const useDateField = ({
           const parsedDate = parseFromFormat(
             newInputValue,
             format,
+            value,
             locale,
             timezone,
           );
