@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.5](https://github.com/wanteddev/wds/compare/v2.3.4...v2.3.5) (2025-08-12)
+
+### Bug Fixes
+
+- **wds:** fixed modal dom mount delayed when open change ([#400](https://github.com/wanteddev/wds/issues/400)) ([100c7b9](https://github.com/wanteddev/wds/commit/100c7b9c89bb09bdaa30477bcc14159ba0a5dfd1))
+
 ## [2.3.4](https://github.com/wanteddev/wds/compare/v2.3.3...v2.3.4) (2025-08-11)
 
 ### Bug Fixes
