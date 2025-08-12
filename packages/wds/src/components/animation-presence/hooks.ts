@@ -39,7 +39,8 @@ export const useAnimationPresence = (
 
   useSafeLayoutEffect(() => {
     if (present) {
-      return dispatch('MOUNT');
+      dispatch('MOUNT');
+      return;
     }
 
     if (!node) return;
@@ -49,7 +50,8 @@ export const useAnimationPresence = (
     const animations = node.getAnimations(options);
 
     if (animations.length === 0) {
-      return dispatch('UNMOUNT');
+      dispatch('UNMOUNT');
+      return;
     }
 
     dispatch('ANIMATION_START');
