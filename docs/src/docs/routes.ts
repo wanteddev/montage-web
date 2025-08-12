@@ -14,7 +14,6 @@ export const routes: Array<Route> = [
     label: 'Overview',
     pages: [
       { title: 'Getting Started', slug: '/docs/overview/getting-started' },
-      { title: 'Sx Prop', slug: '/docs/overview/sx-prop' },
       { title: 'Changelog', slug: '/docs/overview/changelog' },
     ],
   },
@@ -36,14 +35,6 @@ export const routes: Array<Route> = [
         title: 'Accordion',
         slug: '/docs/components/accordion',
       },
-      {
-        title: 'ActionArea',
-        slug: '/docs/components/action-area',
-      },
-      {
-        title: 'AnimationPresence',
-        slug: '/docs/components/animation-presence',
-      },
       { title: 'Autocomplete', slug: '/docs/components/autocomplete' },
       { title: 'Avatar', slug: '/docs/components/avatar' },
       {
@@ -58,8 +49,6 @@ export const routes: Array<Route> = [
         title: 'BottomNavigation',
         slug: '/docs/components/bottom-navigation',
       },
-      { title: 'Box', slug: '/docs/components/box' },
-      { title: 'Button', slug: '/docs/components/button' },
       {
         title: 'Card',
         slug: '/docs/components/card',
@@ -69,13 +58,6 @@ export const routes: Array<Route> = [
         slug: '/docs/components/card-list',
       },
       { title: 'Category', slug: '/docs/components/category' },
-      {
-        title: 'CheckMark',
-        slug: '/docs/components/check-mark',
-      },
-      { title: 'Checkbox', slug: '/docs/components/checkbox' },
-      { title: 'ChipAction', slug: '/docs/components/chip-action' },
-      { title: 'ChipFilter', slug: '/docs/components/chip-filter' },
       {
         title: 'ChipMultiSelect',
         slug: '/docs/components/chip-multi-select',
@@ -100,18 +82,7 @@ export const routes: Array<Route> = [
       },
       { title: 'Divider', slug: '/docs/components/divider' },
       { title: 'FallbackView', slug: '/docs/components/fallback-view' },
-      { title: 'FlexBox', slug: '/docs/components/flex-box' },
-      {
-        title: 'FocusScope',
-        slug: '/docs/components/focus-scope',
-      },
-      { title: 'Form', slug: '/docs/components/form' },
       { title: 'Grid', slug: '/docs/components/grid' },
-      {
-        title: 'IconButton',
-        slug: '/docs/components/icon-button',
-      },
-      { title: 'Label', slug: '/docs/components/label' },
       { title: 'List', slug: '/docs/components/list' },
       { title: 'Loading', slug: '/docs/components/loading' },
       { title: 'Menu', slug: '/docs/components/menu' },
@@ -127,8 +98,6 @@ export const routes: Array<Route> = [
         slug: '/docs/components/pagination',
       },
       { title: 'PlayBadge', slug: '/docs/components/play-badge' },
-      { title: 'Popover', slug: '/docs/components/popover' },
-      { title: 'Portal', slug: '/docs/components/portal' },
       {
         title: 'ProgressIndicator',
         slug: '/docs/components/progress-indicator',
@@ -148,14 +117,6 @@ export const routes: Array<Route> = [
       },
       { title: 'PushBadge', slug: '/docs/components/push-badge' },
       {
-        title: 'RadioGroup',
-        slug: '/docs/components/radio-group',
-      },
-      {
-        title: 'RegionConfig',
-        slug: '/docs/components/region-config',
-      },
-      {
         title: 'RemoveScroll',
         slug: '/docs/components/remove-scroll',
       },
@@ -168,10 +129,6 @@ export const routes: Array<Route> = [
         title: 'ScrollArea',
         slug: '/docs/components/scroll-area',
       },
-      {
-        title: 'SearchField',
-        slug: '/docs/components/search-field',
-      },
       { title: 'Select', slug: '/docs/components/select' },
       { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
       {
@@ -182,23 +139,10 @@ export const routes: Array<Route> = [
         title: 'SectionMessage',
         slug: '/docs/components/section-message',
       },
-      {
-        title: 'SegmentedControl',
-        slug: '/docs/components/segmented-control',
-      },
       { title: 'Skeleton', slug: '/docs/components/skeleton' },
-      { title: 'Slider', slug: '/docs/components/slider' },
       { title: 'Snackbar', slug: '/docs/components/snackbar' },
-      { title: 'Switch', slug: '/docs/components/switch' },
       { title: 'Tab', slug: '/docs/components/tab' },
       { title: 'Table', slug: '/docs/components/table' },
-      { title: 'TextArea', slug: '/docs/components/text-area' },
-      {
-        title: 'TextButton',
-        slug: '/docs/components/text-button',
-      },
-      { title: 'TextField', slug: '/docs/components/text-field' },
-      { title: 'TimePicker', slug: '/docs/components/time-picker' },
       { title: 'Thumbnail', slug: '/docs/components/thumbnail' },
       { title: 'Toast', slug: '/docs/components/toast' },
       {
@@ -210,34 +154,6 @@ export const routes: Array<Route> = [
         title: 'TopNavigation',
         slug: '/docs/components/top-navigation',
       },
-      {
-        title: 'WithInteraction',
-        slug: '/docs/components/with-interaction',
-      },
-    ],
-  },
-  {
-    label: 'Hooks',
-    pages: [
-      { title: 'useAlert', slug: '/docs/hooks/use-alert' },
-      { title: 'useMediaQuery', slug: '/docs/hooks/use-media-query' },
-      { title: 'useSize', slug: '/docs/hooks/use-size' },
-      { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },
-      { title: 'useThemeControl', slug: '/docs/hooks/use-theme-control' },
-      { title: 'useToast', slug: '/docs/hooks/use-toast' },
-    ],
-  },
-  {
-    label: 'Utility',
-    pages: [
-      { title: 'Container', slug: '/docs/utility/container' },
-      { title: 'FramedStyle', slug: '/docs/utility/framed-style' },
-      { title: 'Gradient', slug: '/docs/utility/gradient' },
-      { title: 'List', slug: '/docs/utility/list' },
-      { title: 'Media', slug: '/docs/utility/media' },
-      { title: 'Navigation', slug: '/docs/utility/navigation' },
-      { title: 'Opacity', slug: '/docs/utility/opacity' },
-      { title: 'Typography', slug: '/docs/utility/typography' },
     ],
   },
   {
