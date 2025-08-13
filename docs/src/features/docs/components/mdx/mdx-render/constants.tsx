@@ -25,6 +25,7 @@ import { SectionStates, SectionStatesItem } from '../section/states';
 import SectionCustomize from '../section/customize';
 import { SectionHierarchy, SectionHierarchyItem } from '../section/hierarchy';
 import SectionVariants from '../section/variants';
+import SectionAccessibility from '../section/accessibility';
 
 import type { ReactNode } from 'react';
 
@@ -141,6 +142,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionHierarchy,
   SectionHierarchyItem,
   SectionVariants,
+  SectionAccessibility,
   table: (props) => (
     <Table
       {...props}

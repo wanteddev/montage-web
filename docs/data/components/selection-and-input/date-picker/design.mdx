@@ -72,7 +72,7 @@ createdAt: 2025-04-03
 				case 'Icon':
 				  actionArea = `
 						<PickerActionArea>
-							<IconSparkle />
+							<IconSparkle sx={theme => ({ fontSize: 24, color: theme.semantic.label.normal })} />
 							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
 						</PickerActionArea>`;
 					break;
@@ -142,8 +142,7 @@ createdAt: 2025-04-03
   ]}
 />
 
-
-<SectionLayout title="Accessibility">
+<SectionLayout title="States">
   <SectionFigureGroup title="Normal">
 		<SectionFigure
 			src="/components/selection-and-input/date-picker/design/Image-1.png"
@@ -223,6 +222,31 @@ createdAt: 2025-04-03
 		description="데이트 피커를 호출하는 컴포넌트는 기본적으로 Textfield로 지정 되어있지만 상황에 따라 호출 요소를 자유롭게 커스텀하여 사용 할 수 있습니다."
 	/>
 </SectionLayout>
+
+<SectionAccessibility
+  contents={[
+		{
+			keys: ['ArrowRight', 'ArrowLeft'],
+			description: 'Picker 내부에서 이전/다음 요소로 초점을 이동합니다.\nField 영역에서는 이전/다음 영역으로 초점을 이동합니다.',
+		},
+		{
+			keys: ['ArrowUp', 'ArrowDown'],
+			description: 'Picker 내부에서 상단/하단 요소로 초점을 이동합니다.\nField 영역에서는 이전/다음 값으로 변경합니다.',
+		},
+		{
+      keys: ['Home', 'End'],
+			description: 'Picker 내부에서 첫 번째/마지막 요소로 초점을 이동합니다.\nField 영역에서는 첫 번째/마지막 값으로 변경합니다.',
+		},
+		{
+      keys: ['PageUp', 'PageDown'],
+			description: 'Day 선택 캘린더에서 이전/다음 달로 초점을 이동합니다.',
+		},
+		{
+			keys: ['Escape'],
+			description: 'Picker를 닫습니다.',
+		}
+	]}
+/>
 
 <SectionLayout title="Mobile">
   <SectionFigureGroup title="iOS">
