@@ -1,0 +1,287 @@
+---
+title: Date picker
+description: Date picker는 직관적인 캘린더 뷰를 통해 특정 날짜를 선택할 수 있게 해주는 요소로 월 단위 탐색, 연도 선택, 오늘 날짜 표시 등의 기능을 제공하며, 날짜 형식 오류를 방지하고 일관된 데이터 입력을 보장합니다
+image: /components/selection-and-input/date-picker/design/Thumbnail.png
+createdAt: 2025-04-03
+---
+
+<Anatomy
+  src="/components/selection-and-input/date-picker/design/Image.png"
+  ratio="16:10"
+  data={[
+    'Year and month control',
+    'Navigation',
+    'Current date',
+    'Start day',
+    'Range of selected days',
+    'End day',
+    'Picker Action Area',
+  ]}
+/>
+
+<SectionVariants
+  components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'DatePicker', 'PickerActionArea', 'PickerActionAreaButton', 'ContentBadge', 'Button', 'Checkbox']}
+  icons={['IconSparkle', 'IconRefresh']}
+	states={`
+		const [value, setValue] = React.useState(null);
+	`}
+  render={(value) => {
+    const props = {};
+
+    switch (value['Variants']) {
+      case 'YYYY.MM.DD':
+        props.format = 'YYYY.MM.DD';
+        break;
+      case 'YYYY.MM':
+        props.format = 'YYYY.MM';
+				props.views = ['year', 'month'];
+        break;
+    }
+
+		let actionArea = 'null';
+
+		if (value['Action area'] === 'True') {
+			props.disableLastUnitClickClose = true;
+			switch (value['Action area/Leading contents']) {
+				case 'Badge':
+					actionArea = `
+						<PickerActionArea>
+							<ContentBadge color="neutral">가능</ContentBadge>
+							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+						</PickerActionArea>`;
+					break;
+				case 'Button':
+					actionArea = `
+						<PickerActionArea>
+							<PickerActionAreaButton variant="now">오늘</PickerActionAreaButton>
+							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+						</PickerActionArea>`;
+					break;
+				case 'Checkbox':
+					actionArea = `
+						<PickerActionArea>
+							<FormField gap="8px" flexDirection="row" alignItems="center">
+								<FormControl>
+									<Checkbox size="medium" />
+								</FormControl>
+								<FormLabel>재직 중</FormLabel>
+							</FormField>
+							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+						</PickerActionArea>`;
+					break;
+				case 'Icon':
+				  actionArea = `
+						<PickerActionArea>
+							<IconSparkle />
+							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+						</PickerActionArea>`;
+					break;
+				case 'Icon button':
+					actionArea = `
+						<PickerActionArea>
+							<Button variant="outlined" iconOnly size="small" color="assistive" onClick={() => setValue(null)}>
+								<IconRefresh />
+							</Button>
+							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+						</PickerActionArea>`;
+					break;
+				case 'None':
+					actionArea = `
+						<PickerActionArea>
+							<div />
+							<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+						</PickerActionArea>`;
+					break;
+			}
+		}
+
+
+    return `
+      <FormField sx={{ width: '75%' }}>
+        <FormLabel required>Heading</FormLabel>
+				<FormControl>
+					<DatePicker
+						width="100%"
+						onChange={setValue}
+						value={value}
+						{...${JSON.stringify(props)}}
+						actionArea={${actionArea}}
+					/>
+				</FormControl>
+        <FormMessage>Description</FormMessage>
+      </FormField>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'YYYY.MM.DD', value: {} },
+        { label: 'YYYY.MM', value: {} },
+      ]
+    },
+    {
+      key: 'Action area',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False', value: {} },
+      ],
+    },
+    {
+      key: 'Action area/Leading contents',
+			disabled: (value) => value['Action area'] === 'False',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Badge', value: {} },
+        { label: 'Button', value: {} },
+        { label: 'Checkbox', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Icon button', value: {} },
+      ]
+    },
+  ]}
+/>
+
+
+<SectionLayout title="Accessibility">
+  <SectionFigureGroup title="Normal">
+		<SectionFigure
+			src="/components/selection-and-input/date-picker/design/Image-1.png"
+			ratio="21:9"
+			description={
+				<SectionStatesItem options={['Normal', 'Hovered', 'Focused', 'Pressed', 'Disabled']} />
+			}
+		/>
+	</SectionFigureGroup>
+	<SectionFigureGroup title="Range">
+		<SectionFigure
+			src="/components/selection-and-input/date-picker/design/Image-2.png"
+			ratio="21:9"
+			description={
+				<SectionStatesItem options={['Leading', 'Middle', 'Trailing']} />
+			}
+		/>
+	</SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Size">
+	<SectionFigure
+		src="/components/selection-and-input/date-picker/design/Image-3.png"
+		ratio="3:2"
+		title="Explanation"
+		description="데이트피커의 Action area 여부에 따라 Height가 48px씩 차이가 납니다. 피커 호출 시 호출 요소와의 간격을 유지를 위해 8px의 Safe area를 가지고 있습니다."
+	/>
+</SectionLayout>
+
+<SectionLayout title="Default date">
+	<SectionFigure
+		src="/components/selection-and-input/date-picker/design/Image-4.png"
+		ratio="4:3"
+		title="Explanation"
+		description="사용자 혹은 특정 프로젝트 내에서 지정 된 날짜를 제공하지 않을 시 Current date를 기준으로 캘린더 뷰를 제공합니다."
+	/>
+</SectionLayout>
+
+<SectionLayout title="Range select">
+	<SectionFigure
+		src="/components/selection-and-input/date-picker/design/Image-5.png"
+		ratio="4:3"
+		title="Explanation"
+		description="싱글 필드 각각으로 시작, 종료 날짜를 선택하여 기간을 지정합니다."
+	/>
+</SectionLayout>
+
+<SectionLayout title="Format type">
+	<SectionFigure
+		src="/components/selection-and-input/date-picker/design/Image-6.png"
+		ratio="2:1"
+		title="Explanation"
+		description={`다양한 날짜 포맷의 사용을 방지하고자 디자인에서는 포맷을 제한하고 있습니다. 기본 표현 방식을 권장하고 있으나 표현 공간이 협소할 때에는 Short, 특정 지정된 날짜를 강조하고자 할 때에는 Long 타입을 사용할 수 있습니다.
+- 개발 지원 포맷 = YYYY(2025), YY(25) / M(1), MM(01), MMM(Jan), MMMM(January) / D(1), DD(01)
+- 디자인 지원 포맷 = YYYY. MM. DD(2025. 03. 05),YYYY년 M월 D일(2025년 3월 5일), YY/M/D
+- 표현 방식 예시
+  - 포맷: YYYY. MM. DD
+  - 결과: 2025. 01. 05`}
+	/>
+</SectionLayout>
+
+<SectionLayout title="Localization">
+	<SectionFigure
+		src="/components/selection-and-input/date-picker/design/Image-7.png"
+		ratio="16:9"
+		title="Locale and Timezone"
+		description={`- Locale: ko-KR을 기본 값으로 두고 있으며, Locale에 따라 시간 표현 방식과 Format에 영향을 미칩니다. 이 때 국가 코드 별 연도, 월, 일의 표기 방법을 고려하여 작업합니다.
+- Timezone: 사용자의 환경에 따라 결정 됩니다.`}
+	/>
+</SectionLayout>
+
+<SectionLayout title="Triggerable Components">
+	<SectionFigure
+		src="/components/selection-and-input/date-picker/design/Image-8.png"
+		ratio="21:9"
+		title="Explanation"
+		description="데이트 피커를 호출하는 컴포넌트는 기본적으로 Textfield로 지정 되어있지만 상황에 따라 호출 요소를 자유롭게 커스텀하여 사용 할 수 있습니다."
+	/>
+</SectionLayout>
+
+<SectionLayout title="Mobile">
+  <SectionFigureGroup title="iOS">
+    <SectionFigure
+		  ratio="16:9"
+      title="Explanation"
+      description="iOS Native Wheel, Calender 컴포넌트를 사용합니다. 바텀시트, 모달 형태로 자유롭게 사용할 수 있습니다. "
+      src="/components/selection-and-input/date-picker/design/Image-9.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Android">
+    <SectionFigure
+      title="Explanation"
+      ratio="5:4"
+      description="Android Native를 사용합니다. Input, Picker, Wheel 등 상황에 맞게 다양한 타입으로 사용할 수 있습니다. "
+      src="/components/selection-and-input/date-picker/design/Image-10.png"
+    />
+  </SectionFigureGroup>
+	<SectionFigureGroup title="Mobile web">
+    <SectionFigure
+      title="Explanation"
+      ratio="5:4"
+      description="Popover의 성격에 종속되어 띄우는 요소를 변경할 수 없습니다. 화면의 필드 위치에 따라 피커가 뜨는 위치를 자동으로 계산하여 노출됩니다."
+      src="/components/selection-and-input/date-picker/design/Image-11.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Current time">
+    <SectionFigure
+		  ratio="21:9"
+      title="Explanation"
+      description="사용자가 오늘의 날짜를 입력해야 할 때에는 편의상 바로 오늘의 날짜를 적용할 수 있도록 버튼을 제공합니다."
+      src="/components/selection-and-input/date-picker/design/Image-12.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Icon button">
+    <SectionFigure
+		  ratio="21:9"
+      title="Explanation"
+      description="Textfield를 기본으로 사용할 때에는 피커 호출이라는 명확한 행동을 사용자가 유추할 수 있도록 행동을 암시하는 Trailing content 쪽에 아이콘 버튼을 배치하여 사용합니다. 날짜는 필드에 직접 입력하거나 아이콘 버튼을 눌러 피커를 호출할 수 있습니다."
+      src="/components/selection-and-input/date-picker/design/Image-13.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+		ratio="21:9"
+    variant="positive"
+    description="Placeholder 혹은 Heading으로 입력 폼에 대한 명확한 입력 형식을 안내합니다."
+    src="/components/selection-and-input/date-picker/design/Image-14.png"
+  />
+  <SectionFigure
+	  ratio="21:9"
+    variant="negative"
+    description="피커의 폭을 임의로 늘리거나 줄이지 마세요."
+    src="/components/selection-and-input/date-picker/design/Image-15.png"
+  />
+</SectionLayout>

@@ -32,14 +32,14 @@ export default Demo;`}
 const Demo = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
-	useEffect(() => {
-		if (localStorage.getItem('custom-theme') === 'custom') {
-			setTheme('dark');
-		}
-	}, [])
+  useEffect(() => {
+    if (localStorage.getItem('custom-theme') === 'custom') {
+      setTheme('dark');
+    }
+  }, [])
 
   return (
-		// Hydration Error!
+    // Hydration Error!
     <ForceTheme theme={theme}>
       <Button>강제 dark theme</Button>
     </ForceTheme>

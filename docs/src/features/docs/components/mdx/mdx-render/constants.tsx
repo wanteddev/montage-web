@@ -21,7 +21,7 @@ import Note from '../note';
 import { SectionLayout } from '../section/layout';
 import SectionFigureGroup from '../section/figure-group';
 import SectionFigure from '../section/figure';
-import SectionStates from '../section/states';
+import { SectionStates, SectionStatesItem } from '../section/states';
 import SectionCustomize from '../section/customize';
 import { SectionHierarchy, SectionHierarchyItem } from '../section/hierarchy';
 import SectionVariants from '../section/variants';
@@ -136,6 +136,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionFigureGroup,
   SectionFigure,
   SectionStates,
+  SectionStatesItem,
   SectionCustomize,
   SectionHierarchy,
   SectionHierarchyItem,

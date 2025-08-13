@@ -1,0 +1,163 @@
+---
+title: Checkbox
+description: Input checkbox는 Label을 포함한 Checkbox로 하나 이상의 선택지를 독립적으로 선택하거나 해제할 수 있는 요소입니다. \n복수 선택이 가능하며, 항목의 "선택됨" 또는 "선택되지 않음" 상태를 명확하게 표현합니다.
+image: /components/selection-and-input/checkbox/design/Thumbnail.png
+createdAt: 2025-08-11
+---
+
+<Anatomy
+  src="/components/selection-and-input/checkbox/design/Image.png"
+  ratio="16:9"
+  data={[
+    'Control',
+    'Label',
+  ]}
+/>
+
+<SectionVariants
+  components={['FormField', 'FlexBox', 'FormControl', 'FormLabel', 'Checkbox']}
+  render={(value) => {
+    const props = {
+      tight: value['Tight'] === 'True',
+      size: value['Size'] === 'Small' ? 'small' : 'medium',
+      bold: value['Bold'] === 'True',
+    }
+
+    const gap = props.tight ? '10px' : '8px'
+
+    return `
+      <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
+        <FormControl>
+          <Checkbox
+            {...${JSON.stringify(props)}}
+          />
+        </FormControl>
+        <FormLabel>Checkbox</FormLabel>
+      </FormField>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Size',
+      options: [
+        { label: 'Small', value: {} },
+        { label: 'Medium(Default)', value: {} },
+      ]
+    },
+    {
+      key: 'Tight',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ],
+    },
+    {
+      key: 'Bold',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False(Default)', value: {} },
+      ],
+    },
+  ]}
+/>
+
+<SectionStates
+  src="/components/selection-and-input/checkbox/design/Image-1.png"
+  ratio="16:9"
+  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
+/>
+
+
+<SectionLayout title="Clickable area">
+  <SectionFigure
+    title="Usage"
+    ratio="21:9"
+    description="Checkbox는 Label까지 인터랙션 영역에 포함됩니다."
+    src="/components/selection-and-input/checkbox/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Select">
+  <SectionFigure
+    title="Usage"
+    ratio="16:10"
+    description="다중항목을 선택할 때 체크박스를 사용하며 Clickable 영역에 따라 Cell과 함께 Trailing content쪽에 Control을 배치하여 사용합니다. 단, Label 영역까지만 인터랙션을 허용할 시 Label이 포함된 Checkbox를 사용합니다."
+    src="/components/selection-and-input/checkbox/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionHierarchy title="Check terms hierarchy">
+  <SectionHierarchyItem
+    level={3}
+    description="항목의 동의 및 확인을 체크합니다."
+    components={['FormField', 'FormControl', 'FormLabel', 'Checkbox']}
+    render={`
+    <FormField gap="8px" flexDirection="row">
+      <FormControl>
+        <Checkbox defaultChecked size="medium" />
+      </FormControl>
+      <FormLabel sx={{ padding: "1px 0px" }}>Medium</FormLabel>
+    </FormField>
+    `}
+  />
+  <SectionHierarchyItem
+    level={2}
+    description="항목의 하위 항목을 동의하거나 확인합니다."
+    components={['FormField', 'FormControl', 'FormLabel', 'Checkbox']}
+    render={`
+    <FormField gap="8px" flexDirection="row">
+      <FormControl>
+        <Checkbox defaultChecked size="small" />
+      </FormControl>
+      <FormLabel>Small</FormLabel>
+    </FormField>
+    `}
+  />
+  <SectionHierarchyItem
+    level={1}
+    description="하위 항목의 요소를 선택하거나 확인합니다."
+    components={['FormField', 'FormControl', 'FormLabel', 'CheckMark']}
+    render={`
+    <FormField gap="4px" flexDirection="row">
+      <FormControl>
+        <CheckMark defaultChecked size="small" />
+      </FormControl>
+      <FormLabel>Check mark</FormLabel>
+    </FormField>
+    `}
+  />
+</SectionHierarchy>
+
+<SectionLayout title="Gap">
+  <SectionFigure
+    title="Usage"
+    ratio="2:1"
+    description="반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 Gap을 두는 것을 권장합니다.
+간격을 조정할 시에는 4배수 간격으로 변경하는 것을 권장합니다."
+    src="/components/selection-and-input/checkbox/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="16:10"
+    description="공백을 포함해서 터치 영역으로 둘 때 Cell을 활용할 수 있으며 Control과 Label 영역까지만 터치 영역으로 둘 때는 Input을 활용하여 화면을 설계할 수 있습니다."
+    src="/components/selection-and-input/checkbox/design/Image-5.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="체크박스를 Trailing Content에 위치하여 사용하지 않습니다."
+    src="/components/selection-and-input/checkbox/design/Image-6.png"
+  />
+</SectionLayout>
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Outlined',
+      options: ['typography', 'typographyColor']
+    }
+  ]}
+/>

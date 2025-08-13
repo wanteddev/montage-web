@@ -50,6 +50,7 @@ type SectionVariantsProps = {
   icons?: Array<string>;
   variants: SectionVariantsType;
   render?: SectionVariantsRender;
+  states?: string;
 };
 
 const SectionVariants = ({
@@ -57,6 +58,7 @@ const SectionVariants = ({
   icons = [],
   variants,
   render,
+  states,
 }: SectionVariantsProps) => {
   const theme = useTheme();
   const [mobileControlOpen, setMobileControlOpen] = useState(false);
@@ -191,6 +193,7 @@ const SectionVariants = ({
             components={components}
             icons={icons}
             render={renderResult}
+            states={states}
           />
         </FlexBox>
 
@@ -226,14 +229,27 @@ type SectionVariantsItemDemoProps = PropsWithChildren<{
   components: Array<string>;
   icons: Array<string>;
   render?: string;
+  states?: string;
 }>;
 
 const SectionVariantsItemDemo = memo(
-  ({ props, components, icons, render }: SectionVariantsItemDemoProps) => {
+  ({
+    props,
+    components,
+    icons,
+    render,
+    states,
+  }: SectionVariantsItemDemoProps) => {
     const code = useMemo(() => {
-      return makeSectionVariantDemoCode(components, icons, props, render);
+      return makeSectionVariantDemoCode(
+        components,
+        icons,
+        props,
+        render,
+        states,
+      );
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(props), render]);
+    }, [JSON.stringify(props), render, states]);
 
     const scope = useMemo(() => {
       return {

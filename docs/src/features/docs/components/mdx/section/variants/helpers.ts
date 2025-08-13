@@ -50,6 +50,7 @@ export const makeSectionVariantDemoCode = (
   icons: Array<string> = [],
   props: Record<string, any>,
   render?: string,
+  states?: string,
 ) => {
   const Component =
     render ??
@@ -70,8 +71,10 @@ export const makeSectionVariantDemoCode = (
 
   return `import { ${components.join(', ')} } from '@wanteddev/wds';
   import { ${icons.join(', ')} } from '@wanteddev/wds-icon';
+  import * as React from 'react';
 
   const Demo = () => {
+    ${states ?? ''}
     return (
       <>
         ${Component}

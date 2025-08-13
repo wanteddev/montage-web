@@ -12,10 +12,11 @@ import {
 } from './style';
 
 import type { ThumbnailProps } from '@wanteddev/wds';
+import type { ReactNode } from 'react';
 
 type Props = {
   title?: string;
-  description?: string;
+  description?: ReactNode;
   src?: string;
   ratio?: ThumbnailProps['ratio'];
   portrait?: ThumbnailProps['portrait'];

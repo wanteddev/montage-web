@@ -33,7 +33,7 @@ const Intro = () => {
         data-role="intro-background"
         sx={introBackgroundStyle}
       >
-        <video autoPlay muted loop>
+        <video autoPlay muted loop playsInline>
           <source src="/home/Hero.mp4" type="video/mp4" />
         </video>
 

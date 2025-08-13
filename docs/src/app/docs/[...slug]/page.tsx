@@ -73,11 +73,15 @@ const DocsPage = async ({ params }: Props) => {
     return <CustomRender />;
   }
 
-  const source = await getSourceBySlug(parseSlug(params));
+  try {
+    const source = await getSourceBySlug(parseSlug(params));
 
-  resetHeadingIds();
+    resetHeadingIds();
 
-  return <MDXRender {...source} />;
+    return <MDXRender {...source} />;
+  } catch (err) {
+    notFound();
+  }
 };
 
 export default DocsPage;

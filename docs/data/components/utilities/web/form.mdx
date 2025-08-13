@@ -16,10 +16,10 @@ import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {
   const form = useForm({
-	  defaultValues: {
-		  content: ''
-	  }
-	});
+    defaultValues: {
+      content: ''
+    }
+  });
 
   return (
     <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>

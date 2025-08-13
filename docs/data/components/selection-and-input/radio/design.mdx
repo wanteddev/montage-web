@@ -1,0 +1,123 @@
+---
+title: Radio
+description: Radio는 Label을 포함한 Radio로 여러 선택지 중 단 하나만 선택할 수 있도록 하는 요소입니다. \n사용자는 동일한 그룹 내에서 오직 하나의 항목만 선택 가능하며, 선택 시 다른 항목은 자동으로 해제됩니다.
+image: /components/selection-and-input/radio/design/Thumbnail.png
+createdAt: 2025-08-11
+---
+
+<Anatomy
+  src="/components/selection-and-input/radio/design/Image.png"
+  ratio="16:9"
+  data={[
+    'Control',
+    'Label',
+  ]}
+/>
+
+<SectionVariants
+  components={['FormField', 'FlexBox', 'FormControl', 'FormLabel', 'RadioGroup', 'RadioGroupItem']}
+  render={(value) => {
+    const props = {
+      tight: value['Tight'] === 'True',
+      size: value['Size'] === 'Small' ? 'small' : 'medium',
+      bold: value['Bold'] === 'True',
+    }
+
+    const gap = props.tight ? '10px' : '8px'
+
+    return `
+      <RadioGroup name="radio">
+        <FormField flexDirection="row" gap="${gap}" alignItems="center">
+          <FormControl>
+            <RadioGroupItem
+              value="radio"
+              {...${JSON.stringify(props)}}
+            />
+          </FormControl>
+          <FormLabel>Radio</FormLabel>
+        </FormField>
+      </RadioGroup>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Size',
+      options: [
+        { label: 'Small', value: {} },
+        { label: 'Medium(Default)', value: {} },
+      ]
+    },
+    {
+      key: 'Tight',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ],
+    },
+    {
+      key: 'Bold',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False(Default)', value: {} },
+      ],
+    },
+  ]}
+/>
+
+<SectionStates
+  src="/components/selection-and-input/radio/design/Image-1.png"
+  ratio="16:9"
+  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
+/>
+
+<SectionLayout title="Clickable area">
+  <SectionFigure
+    title="Usage"
+    ratio="21:9"
+    description="Radio는 Label까지 Clickable 영역에 포함됩니다."
+    src="/components/selection-and-input/radio/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Select">
+  <SectionFigure
+    title="Usage"
+    ratio="16:10"
+    description="단일항목을 선택할 때 라디오를 사용하며 Clickable 영역에 따라 Cell과 함께 Trailing content의 Control을 배치하여 사용합니다. 단, Label 영역까지만 인터랙션을 허용할 시 Label이 포함된 Input radio를 사용합니다."
+    src="/components/selection-and-input/radio/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Gap">
+  <SectionFigure
+    title="Usage"
+    ratio="2:1"
+    description="반복하여 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 최소 8px 이상의 Gap을 두는 것을 권장합니다.
+간격을 조정할 시에는 4배수 간격으로 변경하는 것을 권장합니다."
+    src="/components/selection-and-input/radio/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="박스 형태로 UI를 변형하여 활용할 수 있습니다."
+    src="/components/selection-and-input/checkbox/design/Image-5.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="컨트롤을 우측에 배치하여 사용하지 않습니다."
+    src="/components/selection-and-input/checkbox/design/Image-6.png"
+  />
+</SectionLayout>
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Outlined',
+      options: ['typography', 'typographyColor']
+    }
+  ]}
+/>

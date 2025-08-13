@@ -12,10 +12,17 @@ import { makeSectionHierarchyCode } from './helpers';
 
 import type { PropsWithChildren } from 'react';
 
-const SectionHierarchy = ({ children }: PropsWithChildren) => {
+type SectionHierarchyProps = PropsWithChildren<{
+  title?: string;
+}>;
+
+const SectionHierarchy = ({
+  children,
+  title = 'Hierarchy',
+}: SectionHierarchyProps) => {
   return (
     <FlexBox flexDirection="column" gap="56px" sx={sectionLayoutStyle}>
-      <Heading2 content="Hierarchy" />
+      <Heading2 content={title} />
       <FlexBox flexDirection="column">{children}</FlexBox>
     </FlexBox>
   );

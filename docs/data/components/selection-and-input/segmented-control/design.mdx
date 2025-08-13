@@ -1,0 +1,155 @@
+---
+title: Segmented control
+description: 상호 배타적인 옵션들을 수평으로 나열한 버튼 그룹으로 한 번에 하나의 옵션만 선택합니다. 선택된 항목은 시각적으로 강조 되는 형태의 구조로 같은 콘텐츠 영역 내에서 보기 방식이나 필터를 변경할 때 사용됩니다. 
+image: /components/selection-and-input/segmented-control/design/Thumbnail.png
+createdAt: 2025-08-11
+---
+
+<Anatomy
+  src="/components/selection-and-input/segmented-control/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Segment',
+    'Label',
+    'Container'
+  ]}
+/>
+
+<SectionVariants
+  components={['SegmentedControl', 'SegmentedControlItem']}
+  icons={['IconList']}
+  render={(value) => {
+    const variant = value['Variant'].toLowerCase();
+    const leadingContent = value['Icon'] === 'True' ? '<IconList />' : 'null';
+
+    return `
+      <SegmentedControl value="active" variant="${variant}" sx={{maxWidth: 335}}>
+        <SegmentedControlItem value="active" leadingContent={${leadingContent}}>
+          Active
+        </SegmentedControlItem>
+        <SegmentedControlItem value="inactive1" leadingContent={${leadingContent}}>
+          Inactive
+        </SegmentedControlItem>
+        <SegmentedControlItem value="inactive2" leadingContent={${leadingContent}}>
+          Inactive
+        </SegmentedControlItem>
+      </SegmentedControl>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Variant',
+      options: [
+        { label: 'Solid', value: {} },
+        { label: 'Outlined', value: {} },
+      ]
+    },
+    {
+      key: 'Icon',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ],
+    }
+  ]}
+/>
+
+<SectionStates
+  src="/components/selection-and-input/segmented-control/design/Image-1.png"
+  ratio="21:9"
+  options={['Active', 'Inactive']}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    title="Size customize"
+    ratio="21:9"
+    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    src="/components/selection-and-input/segmented-control/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Min and Max">
+  <SectionFigure
+    title="How to use in platform"
+    ratio="21:9"
+    description="Desktop에서는 최소 2개, 최대 6개의 Segment를 활용할 수 있습니다. 
+단, App에서는 유저의 사용성을 위해서 가급적 최대 4개까지의 Segment 사용을 권장하고 있습니다."
+    src="/components/selection-and-input/segmented-control/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Conversion view">
+    <SectionFigure
+      title="Case"
+      ratio="21:9"
+      description="리스트/그리드, 지도/목록, 일/주/월 캘린더 뷰 전환 등 화면에 뿌려지는 값의 뷰 스타일을 변경할 때 사용합니다."
+      src="/components/selection-and-input/segmented-control/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Filter">
+    <SectionFigure
+      title="Case"
+      ratio="16:10"
+      description="전체/진행중/완료 같은 상태 필터, 최신순/인기순/가격순 같은 정렬 옵션을 표현할 때 사용합니다."
+      src="/components/selection-and-input/segmented-control/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Select mode">
+    <SectionFigure
+      title="Case"
+      ratio="16:10"
+      description="라이트/다크 모드, 섭씨/화씨 온도 단위, km/mile 거리 등 단위나 모드를 전환할 때 사용합니다."
+      src="/components/selection-and-input/segmented-control/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionHierarchy>
+  <SectionHierarchyItem
+    level={2}
+    description="화면 전체에 대한 뷰 값을 컨트롤 합니다."
+    components={['SegmentedControl', 'SegmentedControlItem']}
+    render={`
+    <SegmentedControl value="active" variant="solid" sx={{width:180}}>
+      <SegmentedControlItem value="active">
+        Active
+      </SegmentedControlItem>
+      <SegmentedControlItem value="inactive">
+        Inactive
+      </SegmentedControlItem>
+    </SegmentedControl>
+    `}
+  />
+  <SectionHierarchyItem
+    level={1}
+    description="일정 영역에 대한 뷰 값을 컨트롤 합니다."
+    components={['SegmentedControl', 'SegmentedControlItem']}
+    render={`
+    <SegmentedControl value="active" variant="outlined" sx={{width:180}}>
+      <SegmentedControlItem value="active">
+        Active
+      </SegmentedControlItem>
+      <SegmentedControlItem value="inactive">
+        Inactive
+      </SegmentedControlItem>
+    </SegmentedControl>
+    `}
+  />
+</SectionHierarchy>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="Label의 부가적인 설명이 필요할 때 아이콘을 활용할 수 있습니다."
+    src="/components/selection-and-input/segmented-control/design/Image-7.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="세그먼트 자체의 속성을 변경하거나, Radius, Typography Color를 임의로 변경하지 마세요."
+    src="/components/selection-and-input/segmented-control/design/Image-8.png"
+  />
+</SectionLayout>

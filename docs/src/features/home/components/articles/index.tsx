@@ -68,6 +68,7 @@ const Articles = () => {
                 autoPlay
                 muted
                 loop
+                playsInline
               >
                 <source src={item.source} type="video/mp4" />
               </Box>

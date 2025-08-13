@@ -7,7 +7,7 @@ createdAt: 2025-04-03
 
 <Anatomy
   src="/components/selection-and-input/text-field/design/Image.png"
-	ratio="16:9"
+  ratio="16:9"
   data={[
     'Heading',
     'Placeholder',
@@ -15,7 +15,7 @@ createdAt: 2025-04-03
     'Leading icon',
     'Field',
     'Required badge',
-		'Trailing contents',
+    'Trailing contents',
     'Trailing button',
   ]}
 />
@@ -23,60 +23,60 @@ createdAt: 2025-04-03
 <SectionVariants
   components={['FormField', 'FlexBox', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'Box']}
   icons={['IconMail', 'IconMagicWand']}
-	render={(value) => {
-		const hasButton = value['Trailing button'] === 'Button';
+  render={(value) => {
+    const hasButton = value['Trailing button'] === 'Button';
 
-		const leadingContent =
-			value['Leading icon'] === 'Icon'
-				? '<TextFieldContent variant="icon"><IconMail /></TextFieldContent>'
-				: 'null';
+    const leadingContent =
+      value['Leading icon'] === 'Icon'
+        ? '<TextFieldContent variant="icon"><IconMail /></TextFieldContent>'
+        : 'null';
 
-		let trailingContent = 'null';
+    let trailingContent = 'null';
 
-		switch (value['Trailing contents']) {
-			case 'Icon':
-				trailingContent =
-					'<TextFieldContent variant="icon"><IconMagicWand /></TextFieldContent>';
-				break;
-			case 'Custom':
-				trailingContent =
-					'<TextFieldContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.accent.background.violet, opacity: 0.08 })} /></TextFieldContent>';
-				break;
-			case 'Badge':
-				trailingContent =
-					'<TextFieldContent variant="badge"><ContentBadge color="neutral">Badge</ContentBadge></TextFieldContent>';
-				break;
-			case 'Text':
-				trailingContent =
-					'<TextFieldContent variant="text">원</TextFieldContent>';
-				break;
-			case 'Timer':
-				trailingContent =
-					'<TextFieldContent variant="timer">4:59</TextFieldContent>';
-				break;
-			default:
-				trailingContent = 'null';
-		}
+    switch (value['Trailing contents']) {
+      case 'Icon':
+        trailingContent =
+          '<TextFieldContent variant="icon"><IconMagicWand /></TextFieldContent>';
+        break;
+      case 'Custom':
+        trailingContent =
+          '<TextFieldContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.accent.background.violet, opacity: 0.08 })} /></TextFieldContent>';
+        break;
+      case 'Badge':
+        trailingContent =
+          '<TextFieldContent variant="badge"><ContentBadge color="neutral">Badge</ContentBadge></TextFieldContent>';
+        break;
+      case 'Text':
+        trailingContent =
+          '<TextFieldContent variant="text">원</TextFieldContent>';
+        break;
+      case 'Timer':
+        trailingContent =
+          '<TextFieldContent variant="timer">4:59</TextFieldContent>';
+        break;
+      default:
+        trailingContent = 'null';
+    }
 
-		return `
-			<FormField sx={{ width: '75%' }}>
-				<FormLabel required>Heading</FormLabel>
-				<FlexBox justifyContent="center">
-					<FormControl>
-						<TextField
-							placeholder="Placeholder"
-							leadingContent={${leadingContent}}
-							trailingContent={${trailingContent}}
-							width="100%"
-							${hasButton ? 'sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}' : ''}
-						/>
-					</FormControl>
-					${hasButton ? '<TextFieldButton>Button</TextFieldButton>' : ''}
-				</FlexBox>
-				<FormMessage>Description</FormMessage>
-			</FormField>
-		`;
-	}}
+    return `
+      <FormField sx={{ width: '75%' }}>
+        <FormLabel required>Heading</FormLabel>
+        <FlexBox justifyContent="center">
+          <FormControl>
+            <TextField
+              placeholder="Placeholder"
+              leadingContent={${leadingContent}}
+              trailingContent={${trailingContent}}
+              width="100%"
+              ${hasButton ? 'sx={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}' : ''}
+            />
+          </FormControl>
+          ${hasButton ? '<TextFieldButton>Button</TextFieldButton>' : ''}
+        </FlexBox>
+        <FormMessage>Description</FormMessage>
+      </FormField>
+    `;
+  }}
   variants={[
     {
       key: 'Leading icon',
@@ -88,21 +88,21 @@ createdAt: 2025-04-03
     {
       key: 'Trailing button',
       options: [
-				{ label: 'None', value: {} },
-				{ label: 'Button', value: {} },
-			],
+        { label: 'None', value: {} },
+        { label: 'Button', value: {} },
+      ],
     },
-		{
-			key: 'Trailing contents',
-			options: [
-				{ label: 'None', value: {} },
-				{ label: 'Custom', value: {} },
-				{ label: 'Badge', value: {} },
-				{ label: 'Text', value: {} },
-				{ label: 'Icon', value: {} },
-				{ label: 'Timer', value: {} },
-			]
-		},
+    {
+      key: 'Trailing contents',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Custom', value: {} },
+        { label: 'Badge', value: {} },
+        { label: 'Text', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Timer', value: {} },
+      ]
+    },
   ]}
 />
 
@@ -121,20 +121,20 @@ createdAt: 2025-04-03
       src="/components/selection-and-input/text-field/design/Image-2.png"
     />
   </SectionFigureGroup>
-	<SectionFigureGroup title="Certification">
+  <SectionFigureGroup title="Certification">
     <SectionFigure
       title="Usage"
-			ratio="3:2"
+      ratio="3:2"
       description="Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다.
 행동을 유도하는 발송, 재발송과 같은 버튼은 Normal을 사용하며 행동을 마무리하는 확인 버튼은 Assistive를 사용합니다.
 일정 시간 이후에는 입력필드의 버튼과 타이머가 비활성화 됩니다."
       src="/components/selection-and-input/text-field/design/Image-3.png"
     />
   </SectionFigureGroup>
-	<SectionFigureGroup title="Autocomplete">
+  <SectionFigureGroup title="Autocomplete">
     <SectionFigure
       title="Usage"
-			ratio="3:2"
+      ratio="3:2"
       description="이메일, 직군 검색 등 정확한 명칭이나 양식의 입력을 받아야할 시 자동완성 기능을 활용하여 사용자의 편의성 돕습니다."
       src="/components/selection-and-input/text-field/design/Image-4.png"
     />
@@ -143,49 +143,49 @@ createdAt: 2025-04-03
 
 <SectionLayout title="Input mask">
   <SectionFigureGroup title="Call number">
-		<SectionFigure
-			title="Usage"
-			description="휴대전화 번호 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
+    <SectionFigure
+      title="Usage"
+      description="휴대전화 번호 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
 컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
-			src="/components/selection-and-input/text-field/design/Image-5.png"
-		/>
+      src="/components/selection-and-input/text-field/design/Image-5.png"
+    />
   </SectionFigureGroup>
 
-	<SectionFigureGroup title="Card number">
-		<SectionFigure
-			title="Usage"
-			description="카드번호 16자 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
+  <SectionFigureGroup title="Card number">
+    <SectionFigure
+      title="Usage"
+      description="카드번호 16자 입력 시 4자 단위로 띄어쓰기가 포함된 형식을 사용하는 것을 권장합니다.
 컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
-			src="/components/selection-and-input/text-field/design/Image-6.png"
-		/>
-	</SectionFigureGroup>
+      src="/components/selection-and-input/text-field/design/Image-6.png"
+    />
+  </SectionFigureGroup>
 
-	<SectionFigureGroup title="Date">
-		<SectionFigure
-			title="Usage"
-			description="날짜 입력 시 YYYY. MM. DD 양식 사용을 권장하며, Text field를 기반으로한 Date picker 컴포넌트를 사용합니다."
-			src="/components/selection-and-input/text-field/design/Image-7.png"
-		/>
-	</SectionFigureGroup>
+  <SectionFigureGroup title="Date">
+    <SectionFigure
+      title="Usage"
+      description="날짜 입력 시 YYYY. MM. DD 양식 사용을 권장하며, Text field를 기반으로한 Date picker 컴포넌트를 사용합니다."
+      src="/components/selection-and-input/text-field/design/Image-7.png"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="Gap">
-	<SectionFigure
-		title="Usage"
-		ratio="16:10"
-		description="필드간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다.
+  <SectionFigure
+    title="Usage"
+    ratio="16:10"
+    description="필드간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다.
 단, 레이아웃이 제한적인 상황일 시 필드가 고정되어 위치하여 Description만큼 간격이 줄어들 수 있습니다.
 간격은 시스템 자체에서 제공되지 않으며, 프로젝트 담당 개발자와 디자이너의 논의 하에 결정할 수 있습니다."
-		src="/components/selection-and-input/text-field/design/Image-8.png"
-	/>
+    src="/components/selection-and-input/text-field/design/Image-8.png"
+  />
 </SectionLayout>
 
 <SectionLayout title="Required badge">
   <SectionFigure
-		title="Usage"
-		description="필수적으로 값을 입력해야 하는 필드일 시 Required badge를 사용합니다."
-		src="/components/selection-and-input/text-field/design/Image-9.png"
-	/>
+    title="Usage"
+    description="필수적으로 값을 입력해야 하는 필드일 시 Required badge를 사용합니다."
+    src="/components/selection-and-input/text-field/design/Image-9.png"
+  />
 </SectionLayout>
 
 <SectionLayout title="How to use">

@@ -55,41 +55,41 @@ const Demo = () => {
   return (
     <FlexBox gap="12px">
       <Avatar
-			  size="medium"
-				sx={theme => ({
-				  backgroundColor: theme.semantic.fill.strong,
-					color: theme.semantic.static.white,
-					['[data-role="avatar-fallback"]']: {
-					  display: 'none',
-					},
-				})}
-			>
-			  <IconFolderFill />
-			</Avatar>
+        size="medium"
+        sx={theme => ({
+          backgroundColor: theme.semantic.fill.strong,
+          color: theme.semantic.static.white,
+          ['[data-role="avatar-fallback"]']: {
+            display: 'none',
+          },
+        })}
+      >
+        <IconFolderFill />
+      </Avatar>
       <Avatar
-			  size="medium"
-				sx={theme => ({
-					backgroundColor: theme.semantic.primary.normal,
-					color: theme.semantic.static.white,
-					['[data-role="avatar-fallback"]']: {
-					  display: 'none',
-					},
-				})}
-			>
-			  <IconClockFill />
-			</Avatar>
-			<Avatar
-			  size="medium"
-				sx={theme => ({
-					backgroundColor: theme.semantic.background.normal.normal,
-					color: theme.semantic.label.neutral,
-					['[data-role="avatar-fallback"]']: {
-					  display: 'none',
-					},
-				})}
-			>
-			  S
-			</Avatar>
+        size="medium"
+        sx={theme => ({
+          backgroundColor: theme.semantic.primary.normal,
+          color: theme.semantic.static.white,
+          ['[data-role="avatar-fallback"]']: {
+            display: 'none',
+          },
+        })}
+      >
+        <IconClockFill />
+      </Avatar>
+      <Avatar
+        size="medium"
+        sx={theme => ({
+          backgroundColor: theme.semantic.background.normal.normal,
+          color: theme.semantic.label.neutral,
+          ['[data-role="avatar-fallback"]']: {
+            display: 'none',
+          },
+        })}
+      >
+        S
+      </Avatar>
     </FlexBox>
   );
 }
@@ -116,11 +116,11 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" flexWrap="wrap" alignItems="center">
       <Avatar size="xsmall" />
-			<Avatar size="small" />
-			<Avatar size="medium" />
-			<Avatar size="large" />
-			<Avatar size="xlarge" />
-			<Avatar size={60} />
+      <Avatar size="small" />
+      <Avatar size="medium" />
+      <Avatar size="large" />
+      <Avatar size="xlarge" />
+      <Avatar size={60} />
     </FlexBox>
   );
 }
@@ -137,15 +137,15 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox gap="12px">
-		  <AvatarButton>
-			  <Avatar variant="person" size="medium" />
-			</AvatarButton>
-			<AvatarButton>
-			  <Avatar variant="company" size="medium" />
-			</AvatarButton>
-			<AvatarButton>
-			  <Avatar variant="academy" size="medium" />
-			</AvatarButton>
+      <AvatarButton>
+        <Avatar variant="person" size="medium" />
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar variant="company" size="medium" />
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar variant="academy" size="medium" />
+      </AvatarButton>
     </FlexBox>
   );
 }
@@ -162,21 +162,21 @@ export default Demo;`}
 const Demo = () => {
   return (
     <FlexBox gap="12px">
-		  <AvatarButton>
-				<PushBadge>
-					<Avatar variant="person" size="medium" />
-				</PushBadge>
-			</AvatarButton>
-			<AvatarButton>
-				<PushBadge>
-					<Avatar variant="company" size="medium" />
-				</PushBadge>
-			</AvatarButton>
-			<AvatarButton>
-				<PushBadge>
-					<Avatar variant="academy" size="medium" />
-				</PushBadge>
-			</AvatarButton>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar variant="person" size="medium" />
+        </PushBadge>
+      </AvatarButton>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar variant="company" size="medium" />
+        </PushBadge>
+      </AvatarButton>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar variant="academy" size="medium" />
+        </PushBadge>
+      </AvatarButton>
     </FlexBox>
   );
 }
@@ -192,12 +192,12 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-		<AvatarGroup size="small">
-			<Avatar variant="person" size="small" />
-			<Avatar variant="person" size="small" />
-			<Avatar variant="person" size="small" />
-			<Avatar variant="person" size="small" />
-		</AvatarGroup>
+    <AvatarGroup size="small">
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+    </AvatarGroup>
   );
 }
 
@@ -217,20 +217,20 @@ Avatar의 사이즈와 동일하게 사용하는 것을 권장합니다.
 
 const Demo = () => {
   return (
-		<FlexBox flexDirection="column" gap="12px">
-			<AvatarGroup size="xsmall">
-				<Avatar variant="person" size="xsmall" />
-				<Avatar variant="person" size="xsmall" />
-				<Avatar variant="person" size="xsmall" />
-				<Avatar variant="person" size="xsmall" />
-			</AvatarGroup>
-			<AvatarGroup size="small">
-				<Avatar variant="person" size="small" />
-				<Avatar variant="person" size="small" />
-				<Avatar variant="person" size="small" />
-				<Avatar variant="person" size="small" />
-			</AvatarGroup>
-		</FlexBox>
+    <FlexBox flexDirection="column" gap="12px">
+      <AvatarGroup size="xsmall">
+        <Avatar variant="person" size="xsmall" />
+        <Avatar variant="person" size="xsmall" />
+        <Avatar variant="person" size="xsmall" />
+        <Avatar variant="person" size="xsmall" />
+      </AvatarGroup>
+      <AvatarGroup size="small">
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+      </AvatarGroup>
+    </FlexBox>
   );
 }
 
@@ -245,16 +245,16 @@ export default Demo;`}
 
 const Demo = () => {
   return (
-		<AvatarGroup
-		  size="small"
-			trailingContent={(
-				<TextButton variant="assistive" size="small">
-					외 0명
-				</TextButton>
-			)}>
-			<Avatar variant="person" size="small" />
-			<Avatar variant="person" size="small" />
-		</AvatarGroup>
+    <AvatarGroup
+      size="small"
+      trailingContent={(
+        <TextButton variant="assistive" size="small">
+          외 0명
+        </TextButton>
+      )}>
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+    </AvatarGroup>
   );
 }
 

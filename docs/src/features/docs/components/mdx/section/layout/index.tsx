@@ -1,4 +1,4 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Typography } from '@wanteddev/wds';
 import { Fragment, memo, useMemo } from 'react';
 
 import { generateHeadingId } from '@/features/docs/helpers/heading';
@@ -6,9 +6,9 @@ import { generateHeadingId } from '@/features/docs/helpers/heading';
 import HeadingLink from '../../heading-link';
 import { sectionLayoutStyle } from '../style';
 
-import { ulStyle } from './style';
+import { hasList, renderParsedContent } from './helpers';
 
-import type { PropsWithChildren } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 
 type HeadingProps = {
   content?: string;
@@ -59,48 +59,52 @@ const Heading3 = memo(({ content }: HeadingProps) => {
 });
 
 type SectionDescriptionProps = {
-  content?: string;
+  content?: ReactNode;
 };
 
-const SectionDescription = ({ content }: SectionDescriptionProps) => {
+const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
+  const isString = typeof content === 'string';
+  const hasListContent = isString && hasList(content);
+
+  const renderContent = useMemo(
+    () => (isString ? renderParsedContent(content) : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   if (!content) return null;
 
-  if (content.startsWith('- ')) {
+  if (!isString) {
+    return content;
+  }
+
+  if (!hasListContent) {
     return (
       <Typography
         variant="body2-reading"
         weight="regular"
-        as="ul"
+        as="p"
         color="semantic.label.neutral"
-        sx={[
-          { marginBottom: '0 !important', paddingInline: '12px !important' },
-          ulStyle,
-        ]}
+        sx={{ marginBottom: '0 !important', paddingInline: '12px !important' }}
       >
-        {content.split('\n').map((v, i) => (
-          <li key={i}>{v.replace(/^- /, '')}</li>
+        {content.split('\n').map((line, index) => (
+          <Fragment key={index}>
+            {line}
+            <br />
+          </Fragment>
         ))}
       </Typography>
     );
   }
 
   return (
-    <Typography
-      variant="body2-reading"
-      weight="regular"
-      as="p"
-      color="semantic.label.neutral"
+    <Box
       sx={{ marginBottom: '0 !important', paddingInline: '12px !important' }}
     >
-      {content.split('\n').map((v, i) => (
-        <Fragment key={i}>
-          {v}
-          <br />
-        </Fragment>
-      ))}
-    </Typography>
+      {renderContent}
+    </Box>
   );
-};
+});
 
 type SectionLayoutProps = PropsWithChildren<{
   title?: string;
