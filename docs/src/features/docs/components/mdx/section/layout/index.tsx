@@ -1,7 +1,7 @@
 import { Box, FlexBox, Typography } from '@wanteddev/wds';
 import { Fragment, memo, useMemo } from 'react';
 
-import { generateHeadingId } from '@/features/docs/helpers/heading';
+import { useHeadingContext } from '@/features/docs/context';
 
 import HeadingLink from '../../heading-link';
 import { sectionLayoutStyle } from '../style';
@@ -15,10 +15,12 @@ type HeadingProps = {
 };
 
 const Heading2 = memo(({ content }: HeadingProps) => {
+  const { generateHeadingId } = useHeadingContext();
+
   const id = useMemo(() => {
     if (!content) return '';
     return generateHeadingId(content);
-  }, [content]);
+  }, [content, generateHeadingId]);
 
   if (!content) return null;
 
@@ -37,10 +39,12 @@ const Heading2 = memo(({ content }: HeadingProps) => {
 });
 
 const Heading3 = memo(({ content }: HeadingProps) => {
+  const { generateHeadingId } = useHeadingContext();
+
   const id = useMemo(() => {
     if (!content) return '';
     return generateHeadingId(content);
-  }, [content]);
+  }, [content, generateHeadingId]);
 
   if (!content) return null;
 

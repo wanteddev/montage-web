@@ -7,9 +7,9 @@ import {
 } from '@/features/docs/helpers/mdx';
 import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
-import { resetHeadingIds } from '@/features/docs/helpers/heading';
 import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
 import CustomRender from '@/features/docs/components/custom-render';
+import { HeadingProvider } from '@/features/docs/context';
 
 import type { Metadata } from 'next';
 
@@ -76,9 +76,11 @@ const DocsPage = async ({ params }: Props) => {
   try {
     const source = await getSourceBySlug(parseSlug(params));
 
-    resetHeadingIds();
-
-    return <MDXRender {...source} />;
+    return (
+      <HeadingProvider>
+        <MDXRender {...source} />
+      </HeadingProvider>
+    );
   } catch (err) {
     notFound();
   }
