@@ -132,7 +132,6 @@ const Dialog = forwardRef(
                     if (isRightClick || disableEscapeKeyDownClose)
                       e.preventDefault();
                   }}
-                  onFocusOutside={(e) => e.preventDefault()}
                   onDismiss={() => {
                     onDismiss?.();
                     setOpen(false);
