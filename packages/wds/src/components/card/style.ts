@@ -97,6 +97,9 @@ const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
         [wds-component='card-title'] {
           ${typographyStyle('body2', 'bold')}
         }
+        [wds-component='card-caption'] {
+          ${typographyStyle('label2', 'medium')}
+        }
       `;
   }
 };
