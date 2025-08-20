@@ -57,10 +57,7 @@ import {
 import { useDraggable } from './hooks';
 import { getDefaultCloseIcon } from './helpers';
 
-import type {
-  FocusOutsideEvent,
-  PointerDownOutsideEvent,
-} from '../dismissable-layer/types';
+import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type { TopNavigationButtonProps } from '../top-navigation/types';
 import type {
   DefaultComponentProps,
@@ -194,6 +191,7 @@ const ModalContainer = forwardRef(
     const {
       containerRef,
       disableEscapeKeyDownClose,
+      disableOutsideClickClose,
       onOpenChange,
       ...context
     } = useModalContext(MODAL_CONTAINER_NAME);
@@ -285,12 +283,18 @@ const ModalContainer = forwardRef(
         >
           <DismissableLayer
             asChild
-            onPointerDownOutside={useCallback((e: PointerDownOutsideEvent) => {
-              e.preventDefault();
-            }, [])}
-            onFocusOutside={useCallback(
-              (e: FocusOutsideEvent) => e.preventDefault(),
-              [],
+            onPointerDownOutside={useCallback(
+              (e: PointerDownOutsideEvent) => {
+                const originalEvent = e.detail.originalEvent;
+                const ctrlLeftClick =
+                  originalEvent.button === 0 && originalEvent.ctrlKey === true;
+                const isRightClick =
+                  originalEvent.button === 2 || ctrlLeftClick;
+
+                if (isRightClick || disableOutsideClickClose)
+                  e.preventDefault();
+              },
+              [disableOutsideClickClose],
             )}
             onEscapeKeyDown={useCallback(
               (e: KeyboardEvent) => {
@@ -415,6 +419,7 @@ const ModalDimmer = forwardRef(
         data-visibility={isBottomSheetWithHandle ? visibility : undefined}
         as={as || 'div'}
         {...props}
+        wds-ignore-dismissable-layer="true"
         ref={useComposedRefs(ref, dimmerRef as ForwardedRef<T>)}
         onPointerDown={composeEventHandlers(
           props.onPointerDown,
@@ -427,14 +432,10 @@ const ModalDimmer = forwardRef(
           },
         )}
         onClick={composeEventHandlers(props.onClick, (e: MouseEvent) => {
-          const ctrlLeftClick = e.button === 0 && e.ctrlKey === true;
-          const isRightClick = e.button === 2 || ctrlLeftClick;
-
-          if (isRightClick || disableOutsideClickClose) {
+          e.preventDefault();
+          if (disableOutsideClickClose) {
             return;
           }
-
-          e.preventDefault();
 
           if (!isBottomSheetWithHandle) {
             onOpenChange(false);
