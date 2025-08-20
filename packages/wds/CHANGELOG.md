@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.6](https://github.com/wanteddev/wds/compare/v2.3.5...v2.3.6) (2025-08-20)
+
+### Bug Fixes
+
+- **wds:** card platform 모바일에서 card-caption typographyStyle 원복 ([#402](https://github.com/wanteddev/wds/issues/402)) ([2ba40b6](https://github.com/wanteddev/wds/commit/2ba40b6efc1fdd193b83414ac147f98e2dc59fe6))
+- **wds:** fixed card list caption style when platform is mobile ([#404](https://github.com/wanteddev/wds/issues/404)) ([78de831](https://github.com/wanteddev/wds/commit/78de831b9ca810a40f91102660f64550755ccd29))
+- **wds:** fixed modal pointerdownoutside not working, also export focus scope ([#403](https://github.com/wanteddev/wds/issues/403)) ([b305d76](https://github.com/wanteddev/wds/commit/b305d7606360bf3388884271b1b5506b9e67141f))
+
 ## [2.3.5](https://github.com/wanteddev/wds/compare/v2.3.4...v2.3.5) (2025-08-12)
 
 ### Bug Fixes
