@@ -33,7 +33,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['scripts/**.ts', 'tsup.config.ts'],
+      files: ['tsup.config.ts'],
       parserOptions: {
         project: ['./tsconfig.node.json'],
       },
