@@ -51,6 +51,6 @@ export const autocompleteOptionStyle = (theme: Theme) => css`
   }
 
   &[data-focus-visible='true'] > [wds-component='with-interaction'] {
-    opacity: ${theme.opacity[5]};
+    opacity: 0.06;
   }
 `;

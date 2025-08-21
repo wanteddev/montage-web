@@ -1175,7 +1175,7 @@ const DateItem = memo(
     DefaultComponentPropsInternal<DateItemProps, 'button'>
   >(({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
     return (
-      <WithInteraction disabled={disabled}>
+      <WithInteraction disabled={disabled} variant="light">
         <Box
           as="button"
           disabled={disabled}
@@ -1201,7 +1201,7 @@ const DayItem = forwardRef<
   DefaultComponentPropsInternal<DateItemProps, 'button'>
 >(({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
   return (
-    <WithInteraction disabled={disabled}>
+    <WithInteraction disabled={disabled} variant="light">
       <Box
         as="button"
         disabled={disabled}
