@@ -40,6 +40,14 @@ ruleTester.run('image-uses-alt', imageUsesAltRule, {
     },
     {
       code: `
+        import { Avatar as Avatar2 } from '@wanteddev/wds';
+
+        <Avatar2 />
+      `,
+      errors: 1,
+    },
+    {
+      code: `
         import { Avatar } from '@wanteddev/wds';
 
         <Avatar />

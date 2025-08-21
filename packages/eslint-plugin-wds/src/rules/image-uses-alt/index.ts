@@ -32,18 +32,22 @@ export default {
 
         if (
           !importParser.isWdsComponent(name) ||
-          !TARGET_COMPONENTS.includes(name.componentName)
+          !TARGET_COMPONENTS.includes(
+            importParser.resolveImportedName(name) ?? '',
+          )
         ) {
           return;
         }
 
         const element = node as JSXOpeningElement;
 
-        if (
-          name.componentName === 'Box' &&
-          getLiteralPropValue(getProp(element.attributes, 'as')!) !== 'img'
-        ) {
-          return;
+        if (name.componentName === 'Box') {
+          const asProp = getProp(element.attributes, 'as');
+          const asValue = asProp ? getLiteralPropValue(asProp) : null;
+
+          if (asValue !== 'img') {
+            return;
+          }
         }
 
         if (

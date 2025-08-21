@@ -43,5 +43,8 @@
   },
   "dependencies": {
     "jsx-ast-utils": "^3.3.5"
+  },
+  "peerDependencies": {
+    "eslint": "^6 || ^7 || ^8 || ^9"
   }
 }

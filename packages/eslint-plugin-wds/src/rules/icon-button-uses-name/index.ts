@@ -34,7 +34,7 @@ export default {
     },
     messages: {
       error:
-        'For accessibility, please provide an name or aria-label attribute.',
+        'For accessibility, please provide a name or aria-label attribute.',
     },
   },
 
@@ -50,18 +50,24 @@ export default {
 
         if (
           !importParser.isWdsComponent(name) ||
-          !TARGET_COMPONENTS.includes(name.componentName)
+          !TARGET_COMPONENTS.includes(
+            importParser.resolveImportedName(name) ?? '',
+          )
         ) {
           return;
         }
 
         const element = node as JSXOpeningElement;
 
-        if (
-          ICON_ONLY_BUTTON_COMPONENTS.includes(name.componentName) &&
-          getLiteralPropValue(getProp(element.attributes, 'iconOnly')!) !== true
-        ) {
-          return;
+        if (ICON_ONLY_BUTTON_COMPONENTS.includes(name.componentName)) {
+          const iconOnlyProp = getProp(element.attributes, 'iconOnly');
+          const iconOnlyValue = iconOnlyProp
+            ? getLiteralPropValue(iconOnlyProp)
+            : null;
+
+          if (iconOnlyValue !== true) {
+            return;
+          }
         }
 
         if (

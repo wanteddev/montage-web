@@ -8,7 +8,7 @@ type WdsComponentName = {
 };
 
 export class WdsImportParser {
-  private wdsImport: Array<string> = [];
+  private wdsImport: Array<{ local: string; source: string }> = [];
   private wdsImportNamespace: Array<string> = [];
 
   public saveImportDeclaration(
@@ -17,7 +17,13 @@ export class WdsImportParser {
     if (node.source.value === '@wanteddev/wds') {
       node.specifiers.forEach((specifier) => {
         if (specifier.type === 'ImportSpecifier') {
-          this.wdsImport.push(specifier.local.name);
+          this.wdsImport.push({
+            local: specifier.local.name,
+            source:
+              specifier.imported.type === 'Identifier'
+                ? specifier.imported.name
+                : specifier.imported.value?.toString() ?? '',
+          });
         } else if (specifier.type === 'ImportNamespaceSpecifier') {
           this.wdsImportNamespace.push(specifier.local.name);
         }
@@ -51,6 +57,20 @@ export class WdsImportParser {
       return this.wdsImportNamespace.includes(namespaceName);
     }
 
-    return this.wdsImport.includes(componentName);
+    return this.wdsImport.some(
+      (wdsImport) => wdsImport.local === componentName,
+    );
+  }
+
+  public resolveImportedName({
+    componentName,
+    namespaceName,
+  }: WdsComponentName) {
+    if (namespaceName) {
+      return componentName;
+    }
+
+    return this.wdsImport.find((wdsImport) => wdsImport.local === componentName)
+      ?.source;
   }
 }

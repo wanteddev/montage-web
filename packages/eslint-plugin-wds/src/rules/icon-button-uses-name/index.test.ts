@@ -30,6 +30,13 @@ ruleTester.run('icon-button-uses-name', iconButtonUsesNameRule, {
     },
     {
       code: `
+        import { Button } from '@wanteddev/wds';
+
+        <Button iconOnly={false} />
+      `,
+    },
+    {
+      code: `
         import { TopNavigationButton } from '@wanteddev/wds';
 
         <TopNavigationButton name="close" />
