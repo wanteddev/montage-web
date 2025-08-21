@@ -120,7 +120,10 @@ const ListCell = forwardRef(
         textId={textId}
         captionId={captionId}
       >
-        <WithInteraction disabled={disabled || disableInteraction}>
+        <WithInteraction
+          disabled={disabled || disableInteraction}
+          variant="light"
+        >
           <FlexBox
             as={(as || 'li') as T}
             role="listitem"
