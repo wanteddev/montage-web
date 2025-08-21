@@ -128,7 +128,7 @@ export const dayItemButtonStyle = (theme: Theme) => css`
 
     & > [wds-component='with-interaction'] {
       transition: none;
-      opacity: ${theme.opacity[12]};
+      opacity: 0.06;
     }
   }
 `;
