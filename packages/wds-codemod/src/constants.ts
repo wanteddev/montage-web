@@ -1,0 +1,28 @@
+export const MIGRATION_TRANSFORMS = {
+  v2: {
+    'list-cell-migration': 'List Cell Migration',
+    'filled-variant-to-solid': 'Filled Variant to Solid',
+    'typography-variant-cases': 'Typography Variant to kebab-case',
+    'check-mark-migration': 'CheckMark Migration',
+    'padding-to-vertical-padding': 'Padding to Vertical Padding',
+    'padding-to-horizontal-padding': 'Padding to Horizontal Padding',
+    'play-badge-migration': 'PlayBadge Migration',
+    'heading-to-title': 'Heading to Title',
+    'input-to-field': 'Input to Field',
+    'modal-migration': 'ModalContainer Migration',
+    'action-area-migration': 'ActionArea Migration',
+    'icon-circle-close-migration': 'IconCircleClose Migration',
+    'avatar-migration': 'Avatar Migration',
+    'menu-bottom-migration': 'MenuBottom Migration',
+    'leading-trailing-migration': 'Leading, Trailing Migration',
+    'palette-to-atomic-semantic': 'Palette to Atomic & Semantic',
+    'size-migration': 'Size Migration',
+    'toast-migration': 'Toast Migration',
+  },
+  v3: {
+    'typography-title1-to-display3': 'Typography Title1 to Display3',
+    'empty-state-to-fallback-view': 'Empty State to Fallback View',
+    'dialog-button-migration': 'Dialog Button to Dialog Action Area Button',
+    'stepper-migration': 'Progress Tracker to Stepper',
+  },
+};
