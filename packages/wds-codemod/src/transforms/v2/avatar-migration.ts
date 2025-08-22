@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -17,7 +17,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (avatarImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: avatarImport.imported.name },
+        name: { name: getLocalName(avatarImport) },
       })
       .forEach((avatar) => {
         const variant = avatar.value.attributes?.find(
