@@ -54,7 +54,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       j(listItemImport)
         .find(j.ImportSpecifier, {
           imported: {
-            name: listItemImport.imported.name,
+            name: getLocalName(listItemImport),
           },
         })
         .remove();
