@@ -22,7 +22,11 @@ export type ListCellDefaultProps = WithSxProps<{
   ellipsis?: boolean;
   divider?: boolean;
 
-  active?: boolean;
+  /**
+   /**
+    * Used to indicate the selected style.
+    */
+  selected?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
 

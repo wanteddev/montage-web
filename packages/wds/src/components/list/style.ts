@@ -22,7 +22,7 @@ export const listCellStyle =
     verticalPadding,
     fillWidth,
     interactionPadding,
-    active,
+    selected,
     disabled,
     disableInteraction,
     xs,
@@ -46,7 +46,7 @@ export const listCellStyle =
           opacity: ${theme.opacity[43]};
         `
       : css`
-          color: ${active
+          color: ${selected
             ? theme.semantic.primary.normal
             : theme.semantic.label.normal};
 

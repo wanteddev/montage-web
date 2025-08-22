@@ -340,9 +340,10 @@ const TimeItem = forwardRef<
           ref={ref}
           fillWidth
           verticalPadding="small"
-          active={active}
+          selected={active}
           value={value}
           role="option"
+          aria-current={undefined}
           aria-selected={active}
           aria-label={text}
           data-role={`time-item-${view}`}

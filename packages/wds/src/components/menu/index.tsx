@@ -244,7 +244,8 @@ const MenuItem = forwardRef<any, MenuItemProps>(
           disabled={disabled}
           role="menuitemradio"
           ref={ref}
-          active={normalActive}
+          selected={normalActive}
+          aria-current={undefined}
           aria-checked={normalActive}
           trailingContent={
             normalActive ? (
@@ -277,7 +278,7 @@ const MenuItem = forwardRef<any, MenuItemProps>(
 
     return (
       <MenuItemProvider
-        active={variant === 'normal' ? normalActive : undefined}
+        selected={variant === 'normal' ? normalActive : undefined}
       >
         <RovingFocusGroupItem
           asChild
@@ -319,6 +320,7 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
             <Radio tabIndex={-1} checked={checked} value={value} />
           </ListCellContent>
         }
+        aria-current={undefined}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (!e.defaultPrevented) {
@@ -365,6 +367,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
             />
           </ListCellContent>
         }
+        aria-current={undefined}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (!e.defaultPrevented) {
