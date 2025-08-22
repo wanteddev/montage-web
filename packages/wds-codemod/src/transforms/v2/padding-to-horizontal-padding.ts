@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -20,7 +20,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (tabImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: tabImport.imported.name },
+        name: { name: getLocalName(tabImport) },
       })
       .forEach((tabList) => {
         // <TabList padding />, <TabList padding={true} />

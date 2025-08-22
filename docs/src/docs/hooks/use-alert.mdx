@@ -1,0 +1,170 @@
+---
+title: useAlert
+description: useAlert for WDS Utility
+---
+
+# useAlert
+
+Alert 컴포넌트를 `Promise<'confirm' | 'cancel'>` 형태로 사용할 수 있습니다.
+
+## 활용
+
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const alert = useAlert();
+
+  const handleClick = async () => {
+    const result = await alert({
+      title: '제목',
+      content: '설명',
+      confirm: <AlertActionAreaButton>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
+    });
+
+    window.alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Props
+
+### useAlert
+
+<PropsTable component="useAlert" fallback={[
+{ name: 'title', types: 'ReactNode | undefined' },
+{ name: 'content', types: 'ReactNode', required: true },
+{ name: 'cancel', types: 'ReactNode | undefined' },
+{ name: 'confirm', types: 'ReactNode', required: true },
+{ name: 'sx', types: 'SxProp | undefined' },
+{ name: 'direction', types: '"normal" | "reverse" | undefined', description: "버튼 순서를 변경합니다.", defaultValue: "normal" },
+{ name: 'disableOutsideClickClose', types: 'boolean | undefined', defaultValue: 'false' },
+{ name: 'disableEscapeKeyDownClose', types: 'boolean | undefined', defaultValue: 'false' },
+]} />
+
+### AlertActionAreaButton
+
+<PropsTable component="AlertActionAreaButton" />
+
+## Examples
+
+### Reverse
+
+확인과 취소 버튼 위치를 변경합니다.
+
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const alert = useAlert();
+
+  const handleClick = async () => {
+    const result = await alert({
+      title: '제목',
+      content: '설명',
+      confirm: <AlertActionAreaButton>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
+      direction: 'reverse'
+    });
+
+    window.alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Button Color
+
+`variant` 옵션에 따라 버튼의 색상이 달라집니다.
+
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const alert = useAlert();
+
+  const handleClick = async () => {
+    const result = await alert({
+      title: '정말로 삭제하시겠습니까?',
+      content: '삭제된 내용은 복구할 수 없습니다.',
+      confirm: <AlertActionAreaButton variant="negative">확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>
+    });
+
+    window.alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Custom Style
+
+`sx` Prop을 통해 커스텀 스타일을 적용할 수 있습니다.
+
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const alert = useAlert();
+
+  const handleClick = async () => {
+    const result = await alert({
+      title: '정말로 삭제하시겠습니까?',
+      content: '삭제된 내용은 복구할 수 없습니다.',
+      confirm: <AlertActionAreaButton>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
+      sx: { padding: 40 }
+    });
+
+    window.alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Prevent Event
+
+`e.preventDefault` 를 이용하면 클릭 액션을 막을 수 있습니다.
+
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const alert = useAlert();
+
+  const handleClick = async () => {
+    const result = await alert({
+      title: '제목',
+      content: '내용',
+      confirm: <AlertActionAreaButton onClick={e => e.preventDefault()}>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
+    });
+
+    window.alert('결과: ' + result);
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>

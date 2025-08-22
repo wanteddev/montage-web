@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -28,7 +28,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.JSXOpeningElement, {
-        name: { name: targetImport.imported.name },
+        name: { name: getLocalName(targetImport) },
       })
       .forEach((target) => {
         // <ListCell padding="12px" />

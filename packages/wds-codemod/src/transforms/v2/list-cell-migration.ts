@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type {
   API,
@@ -44,9 +44,9 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     if (!listCellImport) {
       root
-        .find(j.Identifier, { name: listItemImport.imported.name })
-        .forEach((textfield) => {
-          textfield.value.name = 'ListCell';
+        .find(j.Identifier, { name: getLocalName(listItemImport) })
+        .forEach((cell) => {
+          cell.value.name = 'ListCell';
         });
       listItemImport.imported = j.identifier('ListCell');
       listCellName = 'ListCell';
@@ -54,16 +54,16 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       j(listItemImport)
         .find(j.ImportSpecifier, {
           imported: {
-            name: 'ListItem',
+            name: listItemImport.imported.name,
           },
         })
         .remove();
-      listCellName = listCellImport.imported.name;
+      listCellName = getLocalName(listCellImport);
     }
 
     root
       .find(j.JSXOpeningElement, {
-        name: { name: listItemImport.imported.name },
+        name: { name: getLocalName(listItemImport) },
       })
       .forEach((listItem) => {
         if (listItem.value.name.type === 'JSXIdentifier') {
@@ -90,7 +90,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (listItemContentImport) {
     root
-      .find(j.Identifier, { name: listItemContentImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(listItemContentImport) })
       .forEach((alert) => {
         alert.value.name = 'ListCellContent';
       });
@@ -109,7 +109,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (listTextImport) {
     root
       .find(j.JSXElement, {
-        openingElement: { name: { name: 'ListText' } },
+        openingElement: { name: { name: getLocalName(listTextImport) } },
       })
       .forEach((listItem) => {
         const attributes = listItem.value.openingElement.attributes;
@@ -162,7 +162,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     root
       .find(j.ImportSpecifier, {
         imported: {
-          name: 'ListText',
+          name: getLocalName(listTextImport),
         },
       })
       .remove();

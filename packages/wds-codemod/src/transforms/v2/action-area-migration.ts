@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -24,7 +24,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (actionAreaImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: actionAreaImport.imported.name },
+        name: { name: getLocalName(actionAreaImport) },
       })
       .forEach((actionArea) => {
         const priority = actionArea.value.attributes?.find(
@@ -110,7 +110,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (pickerActionAreaImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: pickerActionAreaImport.imported.name },
+        name: { name: getLocalName(pickerActionAreaImport) },
       })
       .forEach((pickerActionArea) => {
         const priority = pickerActionArea.value.attributes?.find(

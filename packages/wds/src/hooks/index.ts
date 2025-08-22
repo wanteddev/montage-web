@@ -1,4 +1,4 @@
-export { default as useDialog } from './use-dialog';
+export { default as useAlert } from './use-alert';
 export { default as useMediaQuery } from './use-media-query';
 export { default as useMedia } from './use-media-query';
 export { default as useSize } from './use-size';

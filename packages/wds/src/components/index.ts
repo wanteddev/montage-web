@@ -18,7 +18,7 @@ export * from './compact-tooltip';
 export * from './content-badge';
 export * from './date-calendar';
 export * from './date-picker';
-export * from './dialog';
+export * from './alert';
 export * from './dismissable-layer';
 export * from './divider';
 export * from './fallback-view';
