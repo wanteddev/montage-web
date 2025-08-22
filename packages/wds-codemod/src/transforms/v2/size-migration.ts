@@ -1,4 +1,8 @@
-import { deepConvertPropertyValue, findImportDeclaration } from '../../helpers';
+import {
+  deepConvertPropertyValue,
+  findImportDeclaration,
+  getLocalName,
+} from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -38,7 +42,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.JSXOpeningElement, {
-        name: { name: targetImport.imported.name },
+        name: { name: getLocalName(targetImport) },
       })
       .forEach((target) => {
         target.value.attributes?.forEach((attr) =>
@@ -59,7 +63,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (tabImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: tabImport.imported.name },
+        name: { name: getLocalName(tabImport) },
       })
       .forEach((target) => {
         target.value.attributes?.forEach((attr) =>
@@ -88,7 +92,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.JSXOpeningElement, {
-        name: { name: targetImport.imported.name },
+        name: { name: getLocalName(targetImport) },
       })
       .forEach((target) => {
         target.value.attributes?.forEach((attr) =>
@@ -127,7 +131,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (modalContainerImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: modalContainerImport.imported.name },
+        name: { name: getLocalName(modalContainerImport) },
       })
       .forEach((target) => {
         target.value.attributes?.forEach((attr) =>
@@ -159,7 +163,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (contentBadgeImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: contentBadgeImport.imported.name },
+        name: { name: getLocalName(contentBadgeImport) },
       })
       .forEach((target) => {
         target.value.attributes?.forEach((attr) =>

@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -28,7 +28,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: emptyStateImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(emptyStateImport) })
       .forEach((emptyState) => {
         emptyState.value.name = 'FallbackView';
       });
@@ -46,7 +46,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: emptyStateImageImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(emptyStateImageImport) })
       .forEach((emptyStateImage) => {
         emptyStateImage.value.name = 'FallbackViewImage';
       });
@@ -64,7 +64,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: emptyStateContentImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(emptyStateContentImport) })
       .forEach((emptyStateContent) => {
         emptyStateContent.value.name = 'FallbackViewContent';
       });
@@ -82,7 +82,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: emptyStateTextImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(emptyStateTextImport) })
       .forEach((emptyStateText) => {
         emptyStateText.value.name = 'FallbackViewText';
       });
@@ -100,7 +100,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: emptyStateButtonImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(emptyStateButtonImport) })
       .forEach((emptyStateButton) => {
         emptyStateButton.value.name = 'FallbackViewButton';
       });
