@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -28,7 +28,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogImport) })
       .forEach((element) => {
         element.value.name = 'Alert';
       });
@@ -46,7 +46,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogDimmerImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogDimmerImport) })
       .forEach((element) => {
         element.value.name = 'AlertDimmer';
       });
@@ -64,7 +64,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogContainerImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogContainerImport) })
       .forEach((element) => {
         element.value.name = 'AlertContainer';
       });
@@ -82,7 +82,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogContentImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogContentImport) })
       .forEach((element) => {
         element.value.name = 'AlertContent';
       });
@@ -100,7 +100,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogHeadingImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogHeadingImport) })
       .forEach((element) => {
         element.value.name = 'AlertHeading';
       });
@@ -117,7 +117,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (dialogDescriptionImport) {
     hasChanges = true;
     root
-      .find(j.Identifier, { name: dialogDescriptionImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogDescriptionImport) })
       .forEach((element) => {
         element.value.name = 'AlertDescription';
       });
@@ -134,7 +134,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (dialogActionAreaImport) {
     hasChanges = true;
     root
-      .find(j.Identifier, { name: dialogActionAreaImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogActionAreaImport) })
       .forEach((element) => {
         element.value.name = 'AlertActionArea';
       });
@@ -152,7 +152,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogButtonImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogButtonImport) })
       .forEach((dialogButton) => {
         dialogButton.value.name = 'AlertActionAreaButton';
       });
@@ -170,7 +170,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: dialogActionAreaButtonImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(dialogActionAreaButtonImport) })
       .forEach((dialogButton) => {
         dialogButton.value.name = 'AlertActionAreaButton';
       });
@@ -188,7 +188,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: useDialogImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(useDialogImport) })
       .forEach((element) => {
         element.value.name = 'useAlert';
       });

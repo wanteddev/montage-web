@@ -180,7 +180,7 @@ const AlertContainer = forwardRef(
     forwardedRef: ForwardedRef<T>,
   ) => {
     const { open, setOpen, headingId, descriptionId, containerId } =
-      useAlertContext(ALERT_CONTENT_NAME);
+      useAlertContext(ALERT_CONTAINER_NAME);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const composedRef = useComposedRefs(

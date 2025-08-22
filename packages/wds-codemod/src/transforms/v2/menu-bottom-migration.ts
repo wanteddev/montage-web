@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -25,7 +25,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (selectImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: selectImport.imported.name },
+        name: { name: getLocalName(selectImport) },
       })
       .forEach((target) => {
         const enableMenuBottomAttr = target.value.attributes?.find(
@@ -51,7 +51,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (selectMultipleImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: selectMultipleImport.imported.name },
+        name: { name: getLocalName(selectMultipleImport) },
       })
       .forEach((target) => {
         const enableMenuBottomAttr = target.value.attributes?.find(
@@ -76,7 +76,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (menuBottomImport) {
     root
-      .find(j.Identifier, { name: menuBottomImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(menuBottomImport) })
       .forEach((target) => {
         target.value.name = 'MenuActionArea';
       });
@@ -92,7 +92,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   );
   if (menuBottomContentImport) {
     root
-      .find(j.Identifier, { name: menuBottomContentImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(menuBottomContentImport) })
       .forEach((target) => {
         target.value.name = 'MenuActionAreaContent';
       });

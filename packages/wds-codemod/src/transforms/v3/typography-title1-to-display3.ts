@@ -1,4 +1,8 @@
-import { deepConvertPropertyValue, findImportDeclaration } from '../../helpers';
+import {
+  deepConvertPropertyValue,
+  findImportDeclaration,
+  getLocalName,
+} from '../../helpers';
 
 import type {
   API,
@@ -35,7 +39,7 @@ const changeTypographyVariant = (
   if (importDeclaration) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: importDeclaration.imported.name },
+        name: { name: getLocalName(importDeclaration) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -64,7 +68,7 @@ const changeTextPropsTypographyVariant = (
   if (importDeclaration) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: importDeclaration.imported.name },
+        name: { name: getLocalName(importDeclaration) },
       })
       .forEach((comp) => {
         const textProps = (
@@ -139,7 +143,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (typographyStyleImport) {
     root
       .find(j.CallExpression, {
-        callee: { name: typographyStyleImport.imported.name },
+        callee: { name: getLocalName(typographyStyleImport) },
       })
       .forEach((ce) => {
         const firstArgs = ce.value.arguments.at(0);
