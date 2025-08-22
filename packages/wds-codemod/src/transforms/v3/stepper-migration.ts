@@ -16,39 +16,41 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     return file.source;
   }
 
-  // progress-tracker -> stepper
-  const progressTrackerImport = findImportDeclaration(
-    'ProgressTracker',
+  // progress-tracker-desktop -> stepper
+  const progressTrackerDesktopImport = findImportDeclaration(
+    'ProgressTrackerDesktop',
     '@wanteddev/wds',
     j,
     root,
   );
 
-  if (progressTrackerImport) {
+  if (progressTrackerDesktopImport) {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: progressTrackerImport.imported.name })
-      .forEach((progressTracker) => {
-        progressTracker.value.name = 'Stepper';
+      .find(j.Identifier, { name: progressTrackerDesktopImport.imported.name })
+      .forEach((progressTrackerDesktop) => {
+        progressTrackerDesktop.value.name = 'Stepper';
       });
   }
 
-  // progress-tracker-item -> stepper-item
-  const progressTrackerItemImport = findImportDeclaration(
-    'ProgressTrackerItem',
+  // progress-tracker-desktop-item -> stepper-item
+  const progressTrackerDesktopItemImport = findImportDeclaration(
+    'ProgressTrackerDesktopItem',
     '@wanteddev/wds',
     j,
     root,
   );
 
-  if (progressTrackerItemImport) {
+  if (progressTrackerDesktopItemImport) {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: progressTrackerItemImport.imported.name })
-      .forEach((progressTrackerItem) => {
-        progressTrackerItem.value.name = 'StepperItem';
+      .find(j.Identifier, {
+        name: progressTrackerDesktopItemImport.imported.name,
+      })
+      .forEach((progressTrackerDesktopItem) => {
+        progressTrackerDesktopItem.value.name = 'StepperItem';
       });
   }
 

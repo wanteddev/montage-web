@@ -11,11 +11,13 @@ export const transformerDirectory = path.join(__dirname, 'transforms');
 
 const TRANSFORMER_INQUIRER_CHOICES = Object.entries(MIGRATION_TRANSFORMS)
   .map(([version, transformers]) => {
-    return Object.entries(transformers).map(([name, value]) => {
+    return Object.entries(transformers).map(([value, name]) => {
       return { name, value: `${version}/${value}` };
     });
   })
   .flat();
+
+const VERSIONS = Object.keys(MIGRATION_TRANSFORMS);
 
 const run = () => {
   const cli = meow({
@@ -45,7 +47,10 @@ const run = () => {
   }
 
   inquirer
-    .prompt([
+    .prompt<{
+      files?: string;
+      version?: string;
+    }>([
       {
         type: 'input',
         name: 'files',
@@ -56,22 +61,43 @@ const run = () => {
       },
       {
         type: 'list',
-        name: 'transformer',
-        message: '실행할 transformer를 선택하세요.',
+        name: 'version',
+        message: '마이그레이션 대상 버전을 선택하세요.',
         when: !cli.input[0],
-        pageSize: TRANSFORMER_INQUIRER_CHOICES.length,
-        choices: TRANSFORMER_INQUIRER_CHOICES,
+        pageSize: 5,
+        choices: VERSIONS,
       },
     ])
-    .then((answers) => {
-      const { files, transformer } = answers;
+    .then(async (answers) => {
+      const { version, files } = answers;
 
       const filesBeforeExpansion = cli.input[1] || files;
-      const selectedTransformer = matchedTransformer || transformer;
+      let selectedTransformer = matchedTransformer;
+
+      if (version) {
+        const choices = TRANSFORMER_INQUIRER_CHOICES.filter((x) =>
+          x.value.startsWith(version),
+        );
+
+        const { transformer } = await inquirer.prompt<{
+          transformer?: string;
+        }>([
+          {
+            type: 'list',
+            name: 'transformer',
+            message: '실행할 transformer를 선택하세요.',
+            pageSize: 5,
+            choices,
+            loop: false,
+          },
+        ]);
+
+        selectedTransformer = transformer;
+      }
 
       return runTransform({
-        files: filesBeforeExpansion,
-        transformer: selectedTransformer,
+        files: filesBeforeExpansion!,
+        transformer: selectedTransformer!,
       });
     });
 };
