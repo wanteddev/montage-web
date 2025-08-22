@@ -5,7 +5,7 @@ import { LIST_CELL_NAME } from './constants';
 import type { ListCellProps } from './types';
 
 type ListCellContextType = Required<
-  Pick<ListCellProps, 'active' | 'disabled' | 'ellipsis' | 'alignItems'>
+  Pick<ListCellProps, 'selected' | 'disabled' | 'ellipsis' | 'alignItems'>
 > & {
   textId: string;
   captionId: string;
