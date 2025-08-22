@@ -143,8 +143,8 @@ export const routes: Array<Route> = [
         slug: '/docs/components/progress-tracker',
       },
       {
-        title: 'ProgressTrackerDesktop',
-        slug: '/docs/components/progress-tracker-desktop',
+        title: 'Stepper',
+        slug: '/docs/components/stepper',
       },
       { title: 'PushBadge', slug: '/docs/components/push-badge' },
       {
