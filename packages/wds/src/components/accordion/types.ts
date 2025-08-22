@@ -12,7 +12,7 @@ export type AccordionProps = WithSxProps<{
   disableAnimation?: boolean;
 }>;
 
-export type AccordionSummaryProps = ListCellProps;
+export type AccordionSummaryProps = Omit<ListCellProps, 'selected'>;
 
 export type AccordionSummaryContentProps = Merge<
   {
