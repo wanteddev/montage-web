@@ -1,4 +1,8 @@
-import { deepConvertPropertyValue, findImportDeclaration } from '../../helpers';
+import {
+  deepConvertPropertyValue,
+  findImportDeclaration,
+  getLocalName,
+} from '../../helpers';
 
 import type {
   API,
@@ -174,7 +178,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (typographyImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: typographyImport.imported.name },
+        name: { name: getLocalName(typographyImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -197,7 +201,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (cardTitleImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: cardTitleImport.imported.name },
+        name: { name: getLocalName(cardTitleImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -220,7 +224,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (cardCaptionImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: cardCaptionImport.imported.name },
+        name: { name: getLocalName(cardCaptionImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -243,7 +247,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (emptyStateTextImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: emptyStateTextImport.imported.name },
+        name: { name: getLocalName(emptyStateTextImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -266,7 +270,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (formLabelImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: formLabelImport.imported.name },
+        name: { name: getLocalName(formLabelImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -289,7 +293,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (formMessageImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: formMessageImport.imported.name },
+        name: { name: getLocalName(formMessageImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -312,7 +316,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (formErrorMessageImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: formErrorMessageImport.imported.name },
+        name: { name: getLocalName(formErrorMessageImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -330,7 +334,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (labelImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: labelImport.imported.name },
+        name: { name: getLocalName(labelImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -353,7 +357,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (autocompleteOptionImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: autocompleteOptionImport.imported.name },
+        name: { name: getLocalName(autocompleteOptionImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -376,7 +380,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (menuItemImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: menuItemImport.imported.name },
+        name: { name: getLocalName(menuItemImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -399,7 +403,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (optionImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: optionImport.imported.name },
+        name: { name: getLocalName(optionImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -422,7 +426,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (getColorByTokenImport) {
     root
       .find(j.CallExpression, {
-        callee: { name: getColorByTokenImport.imported.name },
+        callee: { name: getLocalName(getColorByTokenImport) },
       })
       .forEach((comp) => {
         j(comp)
@@ -448,7 +452,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (modalHeadingImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: modalHeadingImport.imported.name },
+        name: { name: getLocalName(modalHeadingImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -471,7 +475,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (modalSummaryImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: modalSummaryImport.imported.name },
+        name: { name: getLocalName(modalSummaryImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -494,7 +498,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (modalDescriptionImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: modalDescriptionImport.imported.name },
+        name: { name: getLocalName(modalDescriptionImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -517,7 +521,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (tableCellImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: tableCellImport.imported.name },
+        name: { name: getLocalName(tableCellImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -540,7 +544,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (tableHeadCellImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: tableHeadCellImport.imported.name },
+        name: { name: getLocalName(tableHeadCellImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -563,7 +567,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (withInteractionImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: withInteractionImport.imported.name },
+        name: { name: getLocalName(withInteractionImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -586,7 +590,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (skeletonImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: skeletonImport.imported.name },
+        name: { name: getLocalName(skeletonImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -609,7 +613,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (textInputContentImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: textInputContentImport.imported.name },
+        name: { name: getLocalName(textInputContentImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -632,7 +636,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (toggleIconImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: toggleIconImport.imported.name },
+        name: { name: getLocalName(toggleIconImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -655,7 +659,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (textFieldContentImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: textFieldContentImport.imported.name },
+        name: { name: getLocalName(textFieldContentImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -678,7 +682,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (contentBadgeImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: contentBadgeImport.imported.name },
+        name: { name: getLocalName(contentBadgeImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -701,7 +705,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (dividerImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: dividerImport.imported.name },
+        name: { name: getLocalName(dividerImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -724,7 +728,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (sectionHeaderImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: sectionHeaderImport.imported.name },
+        name: { name: getLocalName(sectionHeaderImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) =>
@@ -747,7 +751,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (iconButtonImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: iconButtonImport.imported.name },
+        name: { name: getLocalName(iconButtonImport) },
       })
       .forEach((comp) => {
         comp.value.attributes?.forEach((attr) => {
@@ -776,7 +780,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (listCellImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: listCellImport.imported.name },
+        name: { name: getLocalName(listCellImport) },
       })
       .forEach((comp) => {
         const textProps = (

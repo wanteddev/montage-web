@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, Options, Property } from 'jscodeshift';
 
@@ -20,7 +20,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   root
     .find(j.JSXOpeningElement, {
-      name: { name: modalContainerImport.imported.name },
+      name: { name: getLocalName(modalContainerImport) },
     })
     .forEach((container) => {
       const size = container.value.attributes?.find(

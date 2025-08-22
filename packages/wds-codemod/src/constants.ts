@@ -22,7 +22,7 @@ export const MIGRATION_TRANSFORMS = {
   v3: {
     'typography-title1-to-display3': 'Typography Title1 to Display3',
     'empty-state-to-fallback-view': 'Empty State to Fallback View',
-    'dialog-button-migration': 'Dialog Button to Dialog Action Area Button',
+    'dialog-to-alert': 'Dialog to Alert',
     'stepper-migration': 'Progress Tracker to Stepper',
     'list-cell-active-to-selected': 'List Cell Active to Selected',
   },
