@@ -46,7 +46,7 @@ export * from './portal';
 export * from './progress-indicator';
 export * from './progress-step-indicator';
 export * from './progress-tracker';
-export * from './progress-tracker-desktop';
+export * from './stepper';
 export * from './push-badge';
 export * from './radio-group';
 export * from './region-config';
