@@ -1,37 +1,37 @@
 import { useRef } from 'react';
 import { type StoreApi } from 'zustand';
 
-import { DialogContext, createDialogStore } from '../../stores/dialog-store';
+import { AlertContext, createAlertStore } from '../../stores/alert-store';
 import { RegionContext, createRegionStore } from '../../stores/region-store';
 
 import RegionArea from './region';
-import DialogArea from './dialog';
+import AlertArea from './alert';
 
 import type { PropsWithChildren } from 'react';
-import type { DialogStore } from '../../stores/dialog-store';
+import type { AlertStore } from '../../stores/alert-store';
 import type { RegionStore } from '../../stores/region-store';
 
 const StoreProvider = ({ children }: PropsWithChildren) => {
   const regionStoreRef = useRef<StoreApi<RegionStore> | undefined>(undefined);
-  const dialogStoreRef = useRef<StoreApi<DialogStore> | undefined>(undefined);
+  const dialogStoreRef = useRef<StoreApi<AlertStore> | undefined>(undefined);
 
   if (!regionStoreRef.current) {
     regionStoreRef.current = createRegionStore();
   }
 
   if (!dialogStoreRef.current) {
-    dialogStoreRef.current = createDialogStore();
+    dialogStoreRef.current = createAlertStore();
   }
 
   return (
-    <DialogContext.Provider value={dialogStoreRef.current}>
+    <AlertContext.Provider value={dialogStoreRef.current}>
       <RegionContext.Provider value={regionStoreRef.current}>
         {children}
 
         <RegionArea />
-        <DialogArea />
+        <AlertArea />
       </RegionContext.Provider>
-    </DialogContext.Provider>
+    </AlertContext.Provider>
   );
 };
 

@@ -1,0 +1,119 @@
+---
+title: Alert
+description: Alert Component
+---
+
+# Alert
+
+## 활용
+
+- 유저에게 중요한 액션을 실행할지 다시 한 번 묻고 싶을 때 사용해요.
+- Promise 형태로 사용하려면 [useAlert](../hooks/use-alert) 훅을 사용해요.
+
+<Demo code={`import { FlexBox, Button, Typography, Alert, AlertContainer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton, AlertTrigger } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <Typography>{result}</Typography>
+
+      <Alert open={open} onOpenChange={setOpen}>
+        <AlertTrigger>
+          <Button onClick={handleOpen}>열기</Button>
+        </AlertTrigger>
+
+        <AlertContainer onDismiss={() => setResult('Dismissed')}>
+          <AlertContent>
+            <AlertHeading>제목</AlertHeading>
+            <AlertDescription>설명</AlertDescription>
+          </AlertContent>
+          <AlertActionArea>
+            <AlertActionAreaButton variant="normal" onClick={() => setResult('Confirm')}>
+              확인
+            </AlertActionAreaButton>
+            <AlertActionAreaButton variant="assistive" onClick={() => setResult('Cancel')}>
+              취소
+            </AlertActionAreaButton>
+            <AlertActionAreaButton variant="negative" onClick={() => setResult('Negative')}>
+              삭제
+            </AlertActionAreaButton>
+          </AlertActionArea>
+        </AlertContainer>
+      </Alert>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+Alert 는 여러 컴포넌트를 조합해서 사용합니다.
+
+`AlertTrigger` 는 선택적으로 사용할 수 있습니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Alert>
+  <AlertTrigger>
+    <Button>열기</Button>
+  </AlertTrigger>
+
+  <AlertContainer>
+    <AlertContent>
+      <AlertHeading />
+      <AlertDescription />
+    </AlertContent>
+
+    <AlertActionArea>
+      <AlertActionAreaButton />
+    </AlertActionArea>
+  </AlertContainer>
+</Alert>
+```
+
+### Alert
+
+<PropsTable component="Alert" />
+
+### AlertContainer
+
+<PropsTable component="AlertContainer" />
+
+### AlertContent
+
+`FlexBox` 와 동일한 Props를 사용합니다.
+
+<PropsTable component="AlertContent" />
+
+### AlertHeading
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+<PropsTable component="AlertHeading" />
+
+### AlertDescription
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+<PropsTable component="AlertDescription" />
+
+### AlertActionArea
+
+`FlexBox` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="AlertActionArea" />
+
+### AlertActionAreaButton
+
+<PropsTable component="AlertActionAreaButton" />
