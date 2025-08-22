@@ -16,15 +16,13 @@ export const isHidden = (
 
   const hiddenAttr = getProp(attributes, 'hidden');
 
-  if (hiddenAttr) {
-    return true;
+  if (!hiddenAttr) {
+    return false;
   }
 
-  const ariaHiddenAttr = getProp(attributes, 'aria-hidden');
-  const ariaHidden =
-    ariaHiddenAttr != null ? getPropValue(ariaHiddenAttr) : null;
-
-  return ariaHidden === true || ariaHidden === 'true';
+  return (
+    getPropValue(hiddenAttr) === true || getPropValue(hiddenAttr) === 'true'
+  );
 };
 
 export const isPresentationRole = (
