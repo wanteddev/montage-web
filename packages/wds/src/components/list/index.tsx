@@ -80,7 +80,7 @@ const ListCell = forwardRef(
       interactionPadding = fillWidth ? undefined : '12px',
       alignItems = 'flex-start',
 
-      active = false,
+      selected = false,
       disabled = false,
       disableInteraction = false,
 
@@ -113,7 +113,7 @@ const ListCell = forwardRef(
 
     return (
       <ListCellProvider
-        active={active}
+        selected={selected}
         disabled={disabled}
         ellipsis={ellipsis}
         alignItems={alignItems}
@@ -136,6 +136,7 @@ const ListCell = forwardRef(
             tabIndex={clickable ? 0 : undefined}
             aria-labelledby={textId}
             aria-describedby={captionId}
+            aria-current={selected}
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (
@@ -182,7 +183,7 @@ const ListCell = forwardRef(
                 verticalPadding,
                 fillWidth,
                 interactionPadding,
-                active,
+                selected,
                 disabled,
                 disableInteraction,
                 xl,
@@ -365,22 +366,22 @@ const ListText = forwardRef(
     }: PolymorphicPropsInternal<ListTextProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { active, disabled, ellipsis, textId, captionId } =
+    const { selected, disabled, ellipsis, textId, captionId } =
       useListCellContext(LIST_TEXT_NAME);
-    const { active: menuItemActive } = useMenuItemContext() || {};
+    const { selected: menuItemSelected } = useMenuItemContext() || {};
 
     if (!children) {
       return null;
     }
 
     const weight: TypographyWeight =
-      givenWeight ?? (active || menuItemActive ? 'medium' : 'regular');
+      givenWeight ?? (selected || menuItemSelected ? 'medium' : 'regular');
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
         return 'semantic.label.alternative';
       }
-      if (active) {
+      if (selected) {
         return 'semantic.primary.normal';
       }
 
