@@ -24,5 +24,6 @@ export const MIGRATION_TRANSFORMS = {
     'empty-state-to-fallback-view': 'Empty State to Fallback View',
     'dialog-button-migration': 'Dialog Button to Dialog Action Area Button',
     'stepper-migration': 'Progress Tracker to Stepper',
+    'list-cell-active-to-selected': 'List Cell Active to Selected',
   },
 };
