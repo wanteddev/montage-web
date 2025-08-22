@@ -4,7 +4,7 @@ import { addOpacity, respondTo } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const dialogWrapperStyle = (theme: Theme) => css`
+export const alertWrapperStyle = (theme: Theme) => css`
   position: fixed;
   display: flex;
   align-items: center;
@@ -21,7 +21,7 @@ export const dialogWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-export const dialogDimmerStyle = (theme: Theme) => css`
+export const alertDimmerStyle = (theme: Theme) => css`
   position: fixed;
   inset: 0;
   background-color: ${addOpacity(
@@ -31,7 +31,7 @@ export const dialogDimmerStyle = (theme: Theme) => css`
   z-index: -1;
 `;
 
-export const dialogContainerStyle = (theme: Theme) => css`
+export const alertContainerStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.elevated.normal};
   border-radius: 12px;
   min-width: 320px;
@@ -45,10 +45,10 @@ export const dialogContainerStyle = (theme: Theme) => css`
   }
 `;
 
-export const dialogContentStyle = css`
+export const alertContentStyle = css`
   padding: 20px;
 `;
 
-export const dialogActionStyle = css`
+export const alertActionStyle = css`
   padding: 0px 20px 12px 20px;
 `;

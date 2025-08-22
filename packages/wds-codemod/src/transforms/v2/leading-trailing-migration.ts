@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -58,7 +58,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.JSXOpeningElement, {
-        name: { name: targetImport.imported.name },
+        name: { name: getLocalName(targetImport) },
       })
       .forEach((target) => {
         const leftContentAttr = target.value.attributes?.find(
@@ -71,7 +71,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
           if (
             target.value.name.type === 'JSXIdentifier' &&
-            target.value.name.name === 'SectionHeader'
+            targetImport.imported.name === 'SectionHeader'
           ) {
             leftContentAttr.name.name = 'headingContent';
           } else {
@@ -103,7 +103,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.JSXOpeningElement, {
-        name: { name: targetImport.imported.name },
+        name: { name: getLocalName(targetImport) },
       })
       .forEach((target) => {
         const rightContentAttr = target.value.attributes?.find(
@@ -129,7 +129,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (cardListSkeletonImports) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: cardListSkeletonImports.imported.name },
+        name: { name: getLocalName(cardListSkeletonImports) },
       })
       .forEach((target) => {
         const leftContentAttr = target.value.attributes?.find(

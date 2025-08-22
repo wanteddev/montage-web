@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type {
   API,
@@ -24,7 +24,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (emptyStateTextImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: emptyStateTextImport.imported.name },
+        name: { name: getLocalName(emptyStateTextImport) },
       })
       .forEach((emptyState) => {
         const heading = emptyState.value.attributes?.find(
@@ -49,7 +49,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (sliderImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: sliderImport.imported.name },
+        name: { name: getLocalName(sliderImport) },
       })
       .forEach((slider) => {
         const heading = slider.value.attributes?.find(
@@ -80,7 +80,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
             declaration.type === 'VariableDeclarator' &&
             j.CallExpression.check(declaration.init) &&
             declaration.init.callee.type === 'Identifier' &&
-            declaration.init.callee.name === useSnackbarImport.imported.name
+            declaration.init.callee.name === getLocalName(useSnackbarImport)
           );
         });
       });

@@ -1,34 +1,34 @@
 import { useCallback } from 'react';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 
-import { useDialogStore } from '../../stores/dialog-store';
+import { useAlertStore } from '../../stores/alert-store';
 import {
-  Dialog,
-  DialogActionArea,
-  DialogContainer,
-  DialogContent,
-  DialogDescription,
-  DialogHeading,
-} from '../../components/dialog';
+  Alert,
+  AlertActionArea,
+  AlertContainer,
+  AlertContent,
+  AlertDescription,
+  AlertHeading,
+} from '../../components/alert';
 
 import type { MouseEvent } from 'react';
-import type { DialogItem } from '../../stores/dialog-store';
+import type { AlertItem } from '../../stores/alert-store';
 
-const DialogArea = () => {
-  const items = useDialogStore((state) => state.items);
+const AlertArea = () => {
+  const items = useAlertStore((state) => state.items);
 
   return (
     <>
       {items.map((dialog) => (
-        <DialogPromise key={dialog.id} {...dialog} />
+        <AlertPromise key={dialog.id} {...dialog} />
       ))}
     </>
   );
 };
 
-export default DialogArea;
+export default AlertArea;
 
-const DialogPromise = ({
+const AlertPromise = ({
   id,
   content,
   title,
@@ -39,8 +39,8 @@ const DialogPromise = ({
   disableEscapeKeyDownClose,
   sx,
   resolve,
-}: DialogItem) => {
-  const hide = useDialogStore((state) => state.hide);
+}: AlertItem) => {
+  const hide = useAlertStore((state) => state.hide);
 
   const handleClose = useCallback(() => {
     hide(id);
@@ -71,18 +71,18 @@ const DialogPromise = ({
   );
 
   return (
-    <Dialog open onOpenChange={(open) => !open && handleCancel()}>
-      <DialogContainer
+    <Alert open onOpenChange={(open) => !open && handleCancel()}>
+      <AlertContainer
         disableOutsideClickClose={disableOutsideClickClose}
         disableEscapeKeyDownClose={disableEscapeKeyDownClose}
         sx={sx}
       >
-        <DialogContent>
-          {title && <DialogHeading>{title}</DialogHeading>}
-          {content && <DialogDescription>{content}</DialogDescription>}
-        </DialogContent>
+        <AlertContent>
+          {title && <AlertHeading>{title}</AlertHeading>}
+          {content && <AlertDescription>{content}</AlertDescription>}
+        </AlertContent>
 
-        <DialogActionArea
+        <AlertActionArea
           flexDirection={direction === 'reverse' ? 'row-reverse' : 'row'}
           justifyContent={direction === 'reverse' ? 'initial' : 'flex-end'}
         >
@@ -95,8 +95,8 @@ const DialogPromise = ({
               <Slottable>{cancel}</Slottable>
             </Slot>
           )}
-        </DialogActionArea>
-      </DialogContainer>
-    </Dialog>
+        </AlertActionArea>
+      </AlertContainer>
+    </Alert>
   );
 };

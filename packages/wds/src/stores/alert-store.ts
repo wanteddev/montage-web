@@ -8,40 +8,38 @@ import type { SxProp } from '@wanteddev/wds-engine';
 import type { StoreApi } from 'zustand';
 import type { ReactNode } from 'react';
 
-export type DialogReturnType = 'cancel' | 'confirm';
+export type AlertReturnType = 'cancel' | 'confirm';
 
-export type DialogItem = {
+export type AlertItem = {
   id: string;
   title?: ReactNode;
   content: ReactNode;
   direction?: 'normal' | 'reverse';
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
-  resolve: (value: DialogReturnType | PromiseLike<DialogReturnType>) => void;
+  resolve: (value: AlertReturnType | PromiseLike<AlertReturnType>) => void;
   confirm: ReactNode;
   cancel?: ReactNode;
   sx?: SxProp;
 };
 
-export type DialogState = {
-  items: Array<DialogItem>;
+export type AlertState = {
+  items: Array<AlertItem>;
 };
 
-export type DialogActions = {
-  show: (item: Omit<DialogItem, 'id'>) => void;
-  hide: (id: DialogItem['id']) => void;
+export type AlertActions = {
+  show: (item: Omit<AlertItem, 'id'>) => void;
+  hide: (id: AlertItem['id']) => void;
 };
 
-export type DialogStore = DialogState & DialogActions;
+export type AlertStore = AlertState & AlertActions;
 
-export const defaultInitState: DialogState = {
+export const defaultInitState: AlertState = {
   items: [],
 };
 
-export const createDialogStore = (
-  initState: DialogState = defaultInitState,
-) => {
-  return create<DialogStore>()((set) => ({
+export const createAlertStore = (initState: AlertState = defaultInitState) => {
+  return create<AlertStore>()((set) => ({
     ...initState,
     show: (item) =>
       set((state) => ({
@@ -60,13 +58,13 @@ export const createDialogStore = (
   }));
 };
 
-export const DialogContext = createContext<StoreApi<DialogStore> | null>(null);
+export const AlertContext = createContext<StoreApi<AlertStore> | null>(null);
 
-export const useDialogStore = <T>(selector: (store: DialogStore) => T): T => {
-  const context = useContext(DialogContext);
+export const useAlertStore = <T>(selector: (store: AlertStore) => T): T => {
+  const context = useContext(AlertContext);
 
   if (!context) {
-    throw new Error(`useDialogStore must be use within DialogProvider`);
+    throw new Error(`useAlertStore must be use within AlertProvider`);
   }
 
   return useStore(context, selector);
