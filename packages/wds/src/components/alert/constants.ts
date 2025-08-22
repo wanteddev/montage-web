@@ -1,0 +1,9 @@
+export const ALERT_NAME = 'Alert';
+export const ALERT_DIMMER_NAME = 'AlertDimmer';
+export const ALERT_TRIGGER_NAME = 'AlertTrigger';
+export const ALERT_CONTAINER_NAME = 'AlertContainer';
+export const ALERT_CONTENT_NAME = 'AlertContent';
+export const ALERT_HEADING_NAME = 'AlertHeading';
+export const ALERT_DESCRIPTION_NAME = 'AlertDescription';
+export const ALERT_ACTION_AREA_NAME = 'AlertActionArea';
+export const ALERT_ACTION_AREA_BUTTON_NAME = 'AlertActionAreaButton';
