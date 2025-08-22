@@ -613,10 +613,11 @@ const AutocompleteOption = forwardRef<
         ref={composedRefs}
         disabled={disabled}
         aria-disabled={disabled}
-        active={active}
+        selected={active}
         role="option"
         id={id}
         aria-selected={active}
+        aria-current={undefined}
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
         onTouchStart={composeEventHandlers(props.onTouchStart, (e) => {

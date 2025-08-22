@@ -15,7 +15,7 @@ export const [MenuProvider, useMenuContext] =
   createContext<MenuContextType>(MENU_NAME);
 
 type MenuItemContextType = {
-  active?: boolean;
+  selected?: boolean;
 };
 
 export const [MenuItemProvider, useMenuItemContext] =
