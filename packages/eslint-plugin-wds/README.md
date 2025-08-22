@@ -14,14 +14,28 @@ Legacy config
   ]
 ```
 
+or
+
+```json
+  "extends": [
+    "plugin:@wanteddev/wds/strict"
+  ]
+```
+
 Flat config
 
 ```ts
 import wdsPlugin from '@wanteddev/eslint-plugin-wds';
 
-export default = [
-  wdsPlugin.flatConfig.recommended
-]
+export default [wdsPlugin.flatConfig.recommended];
+```
+
+or
+
+```ts
+import wdsPlugin from '@wanteddev/eslint-plugin-wds';
+
+export default [wdsPlugin.flatConfig.strict];
 ```
 
 ## Rules
@@ -38,7 +52,7 @@ export default = [
 
 해당 옵션이 없는 경우 스크린리더가 해당 버튼이 어떤 버튼인지 알 수 없어 지정해 주어야 합니다.
 
-```
+```tsx
 // good
 <IconButton name="Close modal">
   <IconCloseThick />

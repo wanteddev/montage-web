@@ -1,6 +1,6 @@
 import { getLiteralPropValue, getProp, getPropValue } from 'jsx-ast-utils';
 
-import type { JSXAttribute, JSXOpeningElement } from 'estree-jsx';
+import type { JSXOpeningElement } from 'estree-jsx';
 
 export const isHidden = (
   type: string,
@@ -14,10 +14,17 @@ export const isHidden = (
     }
   }
 
-  const ariaHidden = getPropValue(
-    getProp(attributes, 'aria-hidden') as JSXAttribute,
-  );
-  return ariaHidden === true;
+  const hiddenAttr = getProp(attributes, 'hidden');
+
+  if (hiddenAttr) {
+    return true;
+  }
+
+  const ariaHiddenAttr = getProp(attributes, 'aria-hidden');
+  const ariaHidden =
+    ariaHiddenAttr != null ? getPropValue(ariaHiddenAttr) : null;
+
+  return ariaHidden === true || ariaHidden === 'true';
 };
 
 export const isPresentationRole = (
