@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -25,7 +25,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (chipActionImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: chipActionImport.imported.name },
+        name: { name: getLocalName(chipActionImport) },
       })
       .forEach((chipAction) => {
         const variant = chipAction.value.attributes?.find(
@@ -86,7 +86,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (chipFilterImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: chipFilterImport.imported.name },
+        name: { name: getLocalName(chipFilterImport) },
       })
       .forEach((chipFilter) => {
         const variant = chipFilter.value.attributes?.find(
@@ -147,7 +147,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (contentBadgeImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: contentBadgeImport.imported.name },
+        name: { name: getLocalName(contentBadgeImport) },
       })
       .forEach((contentBadge) => {
         const variant = contentBadge.value.attributes?.find(

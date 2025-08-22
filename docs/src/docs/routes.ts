@@ -93,7 +93,7 @@ export const routes: Array<Route> = [
         title: 'DatePicker',
         slug: '/docs/components/date-picker',
       },
-      { title: 'Dialog', slug: '/docs/components/dialog' },
+      { title: 'Alert', slug: '/docs/components/alert' },
       {
         title: 'DismissableLayer',
         slug: '/docs/components/dismissable-layer',
@@ -219,7 +219,7 @@ export const routes: Array<Route> = [
   {
     label: 'Hooks',
     pages: [
-      { title: 'useDialog', slug: '/docs/hooks/use-dialog' },
+      { title: 'useAlert', slug: '/docs/hooks/use-alert' },
       { title: 'useMediaQuery', slug: '/docs/hooks/use-media-query' },
       { title: 'useSize', slug: '/docs/hooks/use-size' },
       { title: 'useSnackbar', slug: '/docs/hooks/use-snackbar' },

@@ -1,4 +1,4 @@
-import { findImportDeclaration } from '../../helpers';
+import { findImportDeclaration, getLocalName } from '../../helpers';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -17,7 +17,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (textInputImport) {
     root
-      .find(j.Identifier, { name: textInputImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(textInputImport) })
       .forEach((textInput) => {
         textInput.value.name = 'TextField';
       });
@@ -35,7 +35,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (textInputButtonImport) {
     root
-      .find(j.Identifier, { name: textInputButtonImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(textInputButtonImport) })
       .forEach((textInputButton) => {
         textInputButton.value.name = 'TextFieldButton';
       });
@@ -53,7 +53,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (textInputContentImport) {
     root
-      .find(j.Identifier, { name: textInputContentImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(textInputContentImport) })
       .forEach((textInputContent) => {
         textInputContent.value.name = 'TextFieldContent';
       });
@@ -71,7 +71,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (searchInputImport) {
     root
-      .find(j.Identifier, { name: searchInputImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(searchInputImport) })
       .forEach((searchInput) => {
         searchInput.value.name = 'SearchField';
       });
@@ -89,7 +89,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (paginationInputImport) {
     root
-      .find(j.Identifier, { name: paginationInputImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(paginationInputImport) })
       .forEach((paginationInput) => {
         paginationInput.value.name = 'PaginationField';
       });
@@ -107,7 +107,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (timePickerInputPropsImport) {
     root
-      .find(j.Identifier, { name: timePickerInputPropsImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(timePickerInputPropsImport) })
       .forEach((timePickerInputProps) => {
         timePickerInputProps.value.name = 'TimePickerFieldProps';
       });
@@ -125,7 +125,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (datePickerInputPropsImport) {
     root
-      .find(j.Identifier, { name: datePickerInputPropsImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(datePickerInputPropsImport) })
       .forEach((datePickerInputProps) => {
         datePickerInputProps.value.name = 'DatePickerFieldProps';
       });
@@ -143,7 +143,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (autocompleteFieldImport) {
     root
-      .find(j.Identifier, { name: autocompleteFieldImport.imported.name })
+      .find(j.Identifier, { name: getLocalName(autocompleteFieldImport) })
       .forEach((autocompleteField) => {
         autocompleteField.value.name = 'AutocompleteField';
       });

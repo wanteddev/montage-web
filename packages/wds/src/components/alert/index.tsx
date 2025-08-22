@@ -16,40 +16,40 @@ import { PortalOrFragment } from '../portal-or-fragment';
 import { useAnimationPresence } from '../animation-presence';
 
 import {
-  dialogActionStyle,
-  dialogContainerStyle,
-  dialogContentStyle,
-  dialogDimmerStyle,
-  dialogWrapperStyle,
+  alertActionStyle,
+  alertContainerStyle,
+  alertContentStyle,
+  alertDimmerStyle,
+  alertWrapperStyle,
 } from './style';
 import {
-  DIALOG_ACTION_AREA_BUTTON_NAME,
-  DIALOG_ACTION_AREA_NAME,
-  DIALOG_CONTAINER_NAME,
-  DIALOG_CONTENT_NAME,
-  DIALOG_DESCRIPTION_NAME,
-  DIALOG_DIMMER_NAME,
-  DIALOG_HEADING_NAME,
-  DIALOG_NAME,
-  DIALOG_TRIGGER_NAME,
+  ALERT_ACTION_AREA_BUTTON_NAME,
+  ALERT_ACTION_AREA_NAME,
+  ALERT_CONTAINER_NAME,
+  ALERT_CONTENT_NAME,
+  ALERT_DESCRIPTION_NAME,
+  ALERT_DIMMER_NAME,
+  ALERT_HEADING_NAME,
+  ALERT_NAME,
+  ALERT_TRIGGER_NAME,
 } from './constants';
 import {
-  DialogContainerProvider,
-  DialogProvider,
-  useDialogContainerContext,
-  useDialogContext,
+  AlertContainerProvider,
+  AlertProvider,
+  useAlertContainerContext,
+  useAlertContext,
 } from './contexts';
 
 import type {
-  DialogActionAreaButtonProps,
-  DialogActionAreaProps,
-  DialogContainerProps,
-  DialogContentProps,
-  DialogDescriptionProps,
-  DialogDimmerProps,
-  DialogHeadingProps,
-  DialogProps,
-  DialogTriggerProps,
+  AlertActionAreaButtonProps,
+  AlertActionAreaProps,
+  AlertContainerProps,
+  AlertContentProps,
+  AlertDescriptionProps,
+  AlertDimmerProps,
+  AlertHeadingProps,
+  AlertProps,
+  AlertTriggerProps,
 } from './types';
 import type {
   ElementType,
@@ -63,12 +63,12 @@ import type {
   PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
-const Dialog = ({
+const Alert = ({
   open: openProp,
   defaultOpen,
   onOpenChange,
   children,
-}: DialogProps) => {
+}: AlertProps) => {
   const [open = false, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen,
@@ -80,7 +80,7 @@ const Dialog = ({
   const containerId = useId();
 
   return (
-    <DialogProvider
+    <AlertProvider
       open={open}
       setOpen={setOpen}
       headingId={headingId}
@@ -88,24 +88,24 @@ const Dialog = ({
       containerId={containerId}
     >
       {children}
-    </DialogProvider>
+    </AlertProvider>
   );
 };
 
-Dialog.displayName = DIALOG_NAME;
+Alert.displayName = ALERT_NAME;
 
 /**
- * Use the form `<Dialog dimmer={<DialogDimmer />} />`.
+ * Use the form `<Alert dimmer={<AlertDimmer />} />`.
  * Only used to apply custom styles to the Dimmer.
  */
-const DialogDimmer = forwardRef(
+const AlertDimmer = forwardRef(
   <T extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicPropsInternal<DialogDimmerProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<AlertDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { disableOutsideClickClose, onDismiss } =
-      useDialogContainerContext(DIALOG_DIMMER_NAME);
-    const { open, setOpen } = useDialogContext(DIALOG_DIMMER_NAME);
+      useAlertContainerContext(ALERT_DIMMER_NAME);
+    const { open, setOpen } = useAlertContext(ALERT_DIMMER_NAME);
 
     return (
       <Box
@@ -113,7 +113,7 @@ const DialogDimmer = forwardRef(
         as={(as || 'div') as T}
         {...props}
         wds-ignore-dismissable-layer="true"
-        data-role="dialog-dimmer"
+        data-role="alert-dimmer"
         data-status={open ? 'open' : 'close'}
         onClick={composeEventHandlers(
           props.onClick,
@@ -135,18 +135,17 @@ const DialogDimmer = forwardRef(
             }
           },
         )}
-        sx={[dialogDimmerStyle, props.sx]}
+        sx={[alertDimmerStyle, props.sx]}
       />
     );
   },
-) as PolymorphicComponentInternal<DialogDimmerProps, 'div'>;
+) as PolymorphicComponentInternal<AlertDimmerProps, 'div'>;
 
-DialogDimmer.displayName = DIALOG_DIMMER_NAME;
+AlertDimmer.displayName = ALERT_DIMMER_NAME;
 
-const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
+const AlertTrigger = forwardRef<HTMLElement, AlertTriggerProps>(
   (props, ref) => {
-    const { containerId, open, setOpen } =
-      useDialogContext(DIALOG_TRIGGER_NAME);
+    const { containerId, open, setOpen } = useAlertContext(ALERT_TRIGGER_NAME);
 
     return (
       <Slot
@@ -163,9 +162,9 @@ const DialogTrigger = forwardRef<HTMLElement, DialogTriggerProps>(
   },
 );
 
-DialogTrigger.displayName = DIALOG_TRIGGER_NAME;
+AlertTrigger.displayName = ALERT_TRIGGER_NAME;
 
-const DialogContainer = forwardRef(
+const AlertContainer = forwardRef(
   <T extends ElementType = 'div'>(
     {
       disableOutsideClickClose = false,
@@ -175,14 +174,14 @@ const DialogContainer = forwardRef(
       onDismiss,
       forceMount = false,
       wrapperProps,
-      dimmer = <DialogDimmer />,
+      dimmer = <AlertDimmer />,
       children,
       ...props
-    }: PolymorphicPropsInternal<DialogContainerProps, T>,
+    }: PolymorphicPropsInternal<AlertContainerProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const { open, setOpen, headingId, descriptionId, containerId } =
-      useDialogContext(DIALOG_CONTENT_NAME);
+      useAlertContext(ALERT_CONTAINER_NAME);
 
     const containerRef = useRef<HTMLDivElement | null>(null);
     const composedRef = useComposedRefs(
@@ -205,7 +204,7 @@ const DialogContainer = forwardRef(
     if (!isPresent) return null;
 
     return (
-      <DialogContainerProvider
+      <AlertContainerProvider
         disableOutsideClickClose={disableOutsideClickClose}
         onDismiss={onDismiss}
       >
@@ -216,7 +215,7 @@ const DialogContainer = forwardRef(
         >
           <FlexBox
             {...wrapperProps}
-            sx={[dialogWrapperStyle, wrapperProps?.sx]}
+            sx={[alertWrapperStyle, wrapperProps?.sx]}
             wds-ignore-dismissable-layer="true"
           >
             {dimmer}
@@ -250,12 +249,13 @@ const DialogContainer = forwardRef(
                   <Box
                     ref={composedRef}
                     role="alertdialog"
+                    aria-modal
                     aria-describedby={descriptionId}
                     aria-labelledby={headingId}
                     id={containerId}
                     data-status={open ? 'open' : 'close'}
                     {...props}
-                    sx={[dialogContainerStyle, props.sx]}
+                    sx={[alertContainerStyle, props.sx]}
                   >
                     {children}
                   </Box>
@@ -264,16 +264,16 @@ const DialogContainer = forwardRef(
             </FocusScope>
           </FlexBox>
         </PortalOrFragment>
-      </DialogContainerProvider>
+      </AlertContainerProvider>
     );
   },
-) as PolymorphicComponentInternal<DialogContainerProps, 'div'>;
+) as PolymorphicComponentInternal<AlertContainerProps, 'div'>;
 
-DialogContainer.displayName = DIALOG_CONTAINER_NAME;
+AlertContainer.displayName = ALERT_CONTAINER_NAME;
 
-const DialogContent = forwardRef<
+const AlertContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<DialogContentProps, 'div'>
+  DefaultComponentPropsInternal<AlertContentProps, 'div'>
 >(({ children, ...props }, ref) => {
   return (
     <FlexBox
@@ -281,24 +281,24 @@ const DialogContent = forwardRef<
       flexDirection="column"
       gap="6px"
       {...props}
-      sx={[dialogContentStyle, props.sx]}
+      sx={[alertContentStyle, props.sx]}
     >
       {children}
     </FlexBox>
   );
 });
 
-DialogContent.displayName = DIALOG_CONTENT_NAME;
+AlertContent.displayName = ALERT_CONTENT_NAME;
 
-const DialogHeading = forwardRef<
+const AlertHeading = forwardRef<
   HTMLHeadingElement,
-  DefaultComponentPropsInternal<DialogHeadingProps, 'h2'>
+  DefaultComponentPropsInternal<AlertHeadingProps, 'h2'>
 >(({ children, ...props }, ref) => {
-  const { headingId } = useDialogContext(DIALOG_HEADING_NAME);
+  const { headingId } = useAlertContext(ALERT_HEADING_NAME);
 
   return (
     <Typography
-      wds-component="dialog-title"
+      wds-component="alert-title"
       variant="headline1"
       weight="bold"
       color="semantic.label.normal"
@@ -312,20 +312,20 @@ const DialogHeading = forwardRef<
   );
 });
 
-DialogHeading.displayName = DIALOG_HEADING_NAME;
+AlertHeading.displayName = ALERT_HEADING_NAME;
 
-const DialogDescription = forwardRef<
+const AlertDescription = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentPropsInternal<DialogDescriptionProps, 'p'>
+  DefaultComponentPropsInternal<AlertDescriptionProps, 'p'>
 >(({ children, ...props }, ref) => {
-  const { descriptionId } = useDialogContext(DIALOG_DESCRIPTION_NAME);
+  const { descriptionId } = useAlertContext(ALERT_DESCRIPTION_NAME);
 
   return (
     <Typography
       variant="body2"
       weight="regular"
       color="semantic.label.alternative"
-      wds-component="dialog-description"
+      wds-component="alert-description"
       ref={ref}
       as="p"
       id={descriptionId}
@@ -343,39 +343,39 @@ const DialogDescription = forwardRef<
   );
 });
 
-DialogDescription.displayName = DIALOG_DESCRIPTION_NAME;
+AlertDescription.displayName = ALERT_DESCRIPTION_NAME;
 
-const DialogActionArea = forwardRef<
+const AlertActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<DialogActionAreaProps, 'div'>
+  DefaultComponentPropsInternal<AlertActionAreaProps, 'div'>
 >(({ children, ...props }, ref) => {
   return (
     <FlexBox
       flexDirection="row"
       alignItems="center"
-      wds-component="dialog-action-area"
+      wds-component="alert-action-area"
       justifyContent="flex-end"
       gap="24px"
       ref={ref}
       {...props}
-      sx={[dialogActionStyle, props.sx]}
+      sx={[alertActionStyle, props.sx]}
     >
       {children}
     </FlexBox>
   );
 });
 
-DialogActionArea.displayName = DIALOG_ACTION_AREA_NAME;
+AlertActionArea.displayName = ALERT_ACTION_AREA_NAME;
 
-const DialogActionAreaButton = forwardRef(
+const AlertActionAreaButton = forwardRef(
   <T extends ElementType = 'button'>(
     {
       variant = 'normal',
       ...props
-    }: PolymorphicPropsInternal<DialogActionAreaButtonProps, T>,
+    }: PolymorphicPropsInternal<AlertActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { setOpen } = useDialogContext(DIALOG_ACTION_AREA_BUTTON_NAME);
+    const { setOpen } = useAlertContext(ALERT_ACTION_AREA_BUTTON_NAME);
 
     return (
       <TextButton
@@ -405,36 +405,30 @@ const DialogActionAreaButton = forwardRef(
       />
     );
   },
-) as PolymorphicComponentInternal<DialogActionAreaButtonProps, 'button'>;
+) as PolymorphicComponentInternal<AlertActionAreaButtonProps, 'button'>;
 
-DialogActionAreaButton.displayName = DIALOG_ACTION_AREA_BUTTON_NAME;
-
-/**
- * @deprecated 3.0.0 에서 사용이 중지될 예정입니다. DialogActionAreaButton를 이용해주세요.
- */
-const DialogButton = DialogActionAreaButton;
+AlertActionAreaButton.displayName = ALERT_ACTION_AREA_BUTTON_NAME;
 
 export {
-  Dialog,
-  DialogTrigger,
-  DialogDimmer,
-  DialogContainer,
-  DialogContent,
-  DialogHeading,
-  DialogDescription,
-  DialogActionArea,
-  DialogActionAreaButton,
-  DialogButton,
+  Alert,
+  AlertTrigger,
+  AlertDimmer,
+  AlertContainer,
+  AlertContent,
+  AlertHeading,
+  AlertDescription,
+  AlertActionArea,
+  AlertActionAreaButton,
 };
 
 export type {
-  DialogProps,
-  DialogDimmerProps,
-  DialogTriggerProps,
-  DialogContentProps,
-  DialogContainerProps,
-  DialogHeadingProps,
-  DialogDescriptionProps,
-  DialogActionAreaProps,
-  DialogActionAreaButtonProps,
+  AlertProps,
+  AlertDimmerProps,
+  AlertTriggerProps,
+  AlertContentProps,
+  AlertContainerProps,
+  AlertHeadingProps,
+  AlertDescriptionProps,
+  AlertActionAreaProps,
+  AlertActionAreaButtonProps,
 };

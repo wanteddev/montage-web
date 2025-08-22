@@ -1,4 +1,8 @@
-import { deepConvertPropertyValue, findImportDeclaration } from '../../helpers';
+import {
+  deepConvertPropertyValue,
+  findImportDeclaration,
+  getLocalName,
+} from '../../helpers';
 
 import type { API, CallExpression, FileInfo, Options } from 'jscodeshift';
 
@@ -21,7 +25,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
           declaration.type === 'VariableDeclarator' &&
           j.CallExpression.check(declaration.init) &&
           declaration.init.callee.type === 'Identifier' &&
-          declaration.init.callee.name === useToastImport.imported.name
+          declaration.init.callee.name === getLocalName(useToastImport)
         );
       });
     });

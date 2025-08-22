@@ -10,18 +10,18 @@ import type { TypographyProps } from '../typography/types';
 import type { FlexBoxProps } from '../flex-box/types';
 import type { TextButtonProps } from '../text-button/types';
 
-export type DialogProps = {
+export type AlertProps = {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   children?: ReactNode;
 };
 
-export type DialogDimmerProps = WithSxProps<{}>;
+export type AlertDimmerProps = WithSxProps<{}>;
 
-export type DialogTriggerProps = SlotProps;
+export type AlertTriggerProps = SlotProps;
 
-export type DialogContainerProps = Merge<
+export type AlertContainerProps = Merge<
   {
     forceMount?: boolean;
     disablePortal?: boolean;
@@ -38,15 +38,15 @@ export type DialogContainerProps = Merge<
   FlexBoxProps
 >;
 
-export type DialogContentProps = FlexBoxProps;
+export type AlertContentProps = FlexBoxProps;
 
-export type DialogHeadingProps = TypographyProps;
+export type AlertHeadingProps = TypographyProps;
 
-export type DialogDescriptionProps = TypographyProps;
+export type AlertDescriptionProps = TypographyProps;
 
-export type DialogActionAreaProps = FlexBoxProps;
+export type AlertActionAreaProps = FlexBoxProps;
 
-export type DialogActionAreaButtonProps = Merge<
+export type AlertActionAreaButtonProps = Merge<
   {
     variant?: 'normal' | 'assistive' | 'negative';
   },
