@@ -1,10 +1,10 @@
 import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import type { ThemeColorsToken } from '@wanteddev/wds-engine';
-import type { TextButtonVariant } from './types';
+import type { TextButtonColor } from './types';
 
 type TextButtonContextValue = {
-  [key in TextButtonVariant]?: ThemeColorsToken;
+  [key in TextButtonColor]?: ThemeColorsToken;
 };
 
 /**

@@ -35,9 +35,9 @@ export type ActionButtonProps = WithSxProps<{
   iconOnly?: boolean;
   disabled?: boolean;
   /**
-   * When overriding the variant of the `TextButton`.
+   * When overriding the color of the `TextButton`.
    */
-  textButtonVariant?: TextButtonProps['variant'];
+  textButtonColor?: TextButtonProps['color'];
   /**
    * When overriding the variant of the `Button`.
    */

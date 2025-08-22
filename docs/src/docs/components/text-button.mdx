@@ -29,15 +29,15 @@ export default Demo;`}
 
 <PropsTable component="TextButton" />
 
-## Variant
+## Color
 
 <Demo code={`import { FlexBox, TextButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="20px">
-      <TextButton variant="primary">텍스트</TextButton>
-      <TextButton variant="assistive">텍스트</TextButton>
+      <TextButton color="primary">텍스트</TextButton>
+      <TextButton color="assistive">텍스트</TextButton>
     </FlexBox>
   )
 }
@@ -72,12 +72,12 @@ const Demo = () => {
   return (
     <FlexBox gap="16px" flexDirection="column">
       <FlexBox gap="16px">
-        <TextButton variant="primary" loading={loading} size="medium">텍스트</TextButton>
-        <TextButton variant="assistive" loading={loading} size="medium">텍스트</TextButton>
+        <TextButton color="primary" loading={loading} size="medium">텍스트</TextButton>
+        <TextButton color="assistive" loading={loading} size="medium">텍스트</TextButton>
       </FlexBox>
       <FlexBox gap="16px">
-        <TextButton variant="primary" loading={loading} size="small">텍스트</TextButton>
-        <TextButton variant="assistive" loading={loading} size="small">텍스트</TextButton>
+        <TextButton color="primary" loading={loading} size="small">텍스트</TextButton>
+        <TextButton color="assistive" loading={loading} size="small">텍스트</TextButton>
       </FlexBox>
     </FlexBox>
   )
