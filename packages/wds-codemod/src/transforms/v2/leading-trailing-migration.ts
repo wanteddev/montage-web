@@ -71,7 +71,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
           if (
             target.value.name.type === 'JSXIdentifier' &&
-            target.value.name.name === 'SectionHeader'
+            targetImport.imported.name === 'SectionHeader'
           ) {
             leftContentAttr.name.name = 'headingContent';
           } else {
