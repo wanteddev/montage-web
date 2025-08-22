@@ -115,6 +115,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   );
 
   if (dialogDescriptionImport) {
+    hasChanges = true;
     root
       .find(j.Identifier, { name: dialogDescriptionImport.imported.name })
       .forEach((element) => {
@@ -131,6 +132,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   );
 
   if (dialogActionAreaImport) {
+    hasChanges = true;
     root
       .find(j.Identifier, { name: dialogActionAreaImport.imported.name })
       .forEach((element) => {

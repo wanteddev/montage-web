@@ -112,7 +112,7 @@ const AlertDimmer = forwardRef(
         ref={ref}
         as={(as || 'div') as T}
         {...props}
-        data-role="dialog-dimmer"
+        data-role="alert-dimmer"
         data-status={open ? 'open' : 'close'}
         onClick={composeEventHandlers(
           props.onClick,

@@ -9,8 +9,11 @@ import type {
   Options,
 } from 'jscodeshift';
 
+let hasChanges = false;
+
 const convertTitle1ToDisplay3 = (value: string) => {
   if (value === 'title1') {
+    hasChanges = true;
     return 'display3';
   }
 
@@ -174,7 +177,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
   }
 
-  return root.toSource(options);
+  return hasChanges ? root.toSource(options) : file.source;
 };
 
 export default transformer;
