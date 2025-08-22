@@ -4,63 +4,18 @@ import inquirer from 'inquirer';
 import meow from 'meow';
 import execa from 'execa';
 
+import { MIGRATION_TRANSFORMS } from './constants';
+
 export const jscodeshiftExecutable = require.resolve('.bin/jscodeshift');
 export const transformerDirectory = path.join(__dirname, 'transforms');
 
-const TRANSFORMER_INQUIRER_CHOICES = [
-  { name: 'List Cell Migration', value: 'v2/list-cell-migration' },
-  { name: 'Filled Variant to Solid', value: 'v2/filled-variant-to-solid' },
-  {
-    name: 'Typography Variant to kebab-case',
-    value: 'v2/typography-variant-cases',
-  },
-  { name: 'CheckMark Migration', value: 'v2/check-mark-migration' },
-  {
-    name: 'Padding to Vertical Padding',
-    value: 'v2/padding-to-vertical-padding',
-  },
-  {
-    name: 'Padding to Horizontal Padding',
-    value: 'v2/padding-to-horizontal-padding',
-  },
-  { name: 'PlayBadge Migration', value: 'v2/play-badge-migration' },
-  { name: 'Heading to Title', value: 'v2/heading-to-title' },
-  { name: 'Input to Field', value: 'v2/input-to-field' },
-  { name: 'ModalContainer Migration', value: 'v2/modal-migration' },
-  { name: 'ActionArea Migration', value: 'v2/action-area-migration' },
-  {
-    name: 'IconCircleClose Migration',
-    value: 'v2/icon-circle-close-migration',
-  },
-  { name: 'Avatar Migration', value: 'v2/avatar-migration' },
-  { name: 'MenuBottom Migration', value: 'v2/menu-bottom-migration' },
-  {
-    name: 'Leading, Trailing Migration',
-    value: 'v2/leading-trailing-migration',
-  },
-  {
-    name: 'Palette to Atomic & Semantic',
-    value: 'v2/palette-to-atomic-semantic',
-  },
-  { name: 'Size Migration', value: 'v2/size-migration' },
-  { name: 'Toast Migration', value: 'v2/toast-migration' },
-  {
-    name: 'Typography Title1 to Display3',
-    value: 'v3/typography-title1-to-display3',
-  },
-  {
-    name: 'Empty State to Fallback View',
-    value: 'v3/empty-state-to-fallback-view',
-  },
-  {
-    name: 'Dialog Button to Dialog Action Area Button',
-    value: 'v3/dialog-button-migration',
-  },
-  {
-    name: 'Shadow Migration',
-    value: 'v3/shadow-migration',
-  },
-];
+const TRANSFORMER_INQUIRER_CHOICES = Object.entries(MIGRATION_TRANSFORMS)
+  .map(([version, transformers]) => {
+    return Object.entries(transformers).map(([name, value]) => {
+      return { name, value: `${version}/${value}` };
+    });
+  })
+  .flat();
 
 const run = () => {
   const cli = meow({

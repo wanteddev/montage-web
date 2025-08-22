@@ -4,7 +4,7 @@ import { addOpacity } from '../../utils';
 
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const progressTrackerDesktopWrapperStyle = css`
+export const stepperWrapperStyle = css`
   width: 100%;
   height: fit-content;
   position: relative;
@@ -13,12 +13,12 @@ export const progressTrackerDesktopWrapperStyle = css`
   margin: 0;
 `;
 
-export const progressChevronStyle = (theme: Theme) => css`
+export const stepperChevronStyle = (theme: Theme) => css`
   font-size: 16px;
   color: ${theme.semantic.label.assistive};
 `;
 
-export const progressCircleStyle =
+export const stepperCircleStyle =
   (isActive: boolean, completed: boolean) => (theme: Theme) => css`
     background-color: ${theme.semantic.fill.strong};
     color: ${theme.semantic.static.white};
@@ -28,7 +28,7 @@ export const progressCircleStyle =
     border-radius: 9999px;
     font-size: 14px;
 
-    [data-role='progress-tracker-desktop-item-step'] {
+    [data-role='stepper-item-step'] {
       text-shadow: 0px 0px 12px
         ${addOpacity(theme.semantic.static.black, theme.opacity[12])};
     }
@@ -37,13 +37,13 @@ export const progressCircleStyle =
     css`
       background-color: ${theme.semantic.primary.normal};
 
-      [data-role='progress-tracker-desktop-item-step'] {
+      [data-role='stepper-item-step'] {
         text-shadow: none;
       }
     `}
   `;
 
-export const progressTrackerLabelStyle = css`
+export const stepperLabelStyle = css`
   padding: 1px 0px;
   height: fit-content;
 `;

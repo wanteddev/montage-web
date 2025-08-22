@@ -1,14 +1,14 @@
 import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type ProgressTrackerDesktopProps = WithSxProps<{
+export type StepperProps = WithSxProps<{
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   children?: ReactNode;
 }>;
 
-export type ProgressTrackerDesktopItemProps = WithSxProps<{
+export type StepperItemProps = WithSxProps<{
   value: string;
   label?: ReactNode;
   completedLabel?: ReactNode;

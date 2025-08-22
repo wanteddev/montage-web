@@ -10,32 +10,23 @@ import { FlexBox } from '../flex-box';
 import { findComponentInChildren } from '../../utils/internal/children';
 
 import {
-  progressChevronStyle,
-  progressCircleStyle,
-  progressTrackerDesktopWrapperStyle,
-  progressTrackerLabelStyle,
+  stepperChevronStyle,
+  stepperCircleStyle,
+  stepperLabelStyle,
+  stepperWrapperStyle,
 } from './style';
-import {
-  PROGRESS_TRACKER_DESKTOP_ITEM_NAME,
-  PROGRESS_TRACKER_DESKTOP_NAME,
-} from './constants';
-import {
-  ProgressTrackerDesktopProvider,
-  useProgressTrackerDesktopContext,
-} from './contexts';
+import { STEPPER_ITEM_NAME, STEPPER_NAME } from './constants';
+import { StepperProvider, useStepperContext } from './contexts';
 
 import type {
   DefaultComponentPropsInternal,
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
-import type {
-  ProgressTrackerDesktopItemProps,
-  ProgressTrackerDesktopProps,
-} from './types';
+import type { StepperItemProps, StepperProps } from './types';
 
-const ProgressTrackerDesktop = forwardRef<
+const Stepper = forwardRef<
   HTMLOListElement,
-  DefaultComponentPropsInternal<ProgressTrackerDesktopProps, 'ol'>
+  DefaultComponentPropsInternal<StepperProps, 'ol'>
 >(
   (
     { value: originValue, defaultValue, onValueChange, children, ...props },
@@ -48,19 +39,19 @@ const ProgressTrackerDesktop = forwardRef<
     });
 
     const steps = useMemo(() => {
-      return findComponentInChildren<ProgressTrackerDesktopItemProps>(
+      return findComponentInChildren<StepperItemProps>(
         children,
-        'isProgressTrackerDesktopItem',
+        'isStepperItem',
       );
     }, [children]);
 
     return (
-      <ProgressTrackerDesktopProvider
+      <StepperProvider
         value={value}
         onValueChange={setValue}
         steps={steps}
         getStepIndex={useCallback(
-          (step: string) => steps.findIndex((cur) => cur.value === step),
+          (v: string) => steps.findIndex((cur) => cur.value === v),
           [steps],
         )}
         getActiveStepIndex={useCallback(
@@ -69,7 +60,7 @@ const ProgressTrackerDesktop = forwardRef<
         )}
       >
         <FlexBox
-          wds-component="progress-tracker-desktop"
+          wds-component="stepper"
           aria-label="progress"
           ref={ref}
           {...props}
@@ -77,26 +68,26 @@ const ProgressTrackerDesktop = forwardRef<
           alignItems="center"
           justifyContent="center"
           gap="24px"
-          sx={[progressTrackerDesktopWrapperStyle, props.sx]}
+          sx={[stepperWrapperStyle, props.sx]}
         >
           {children}
         </FlexBox>
-      </ProgressTrackerDesktopProvider>
+      </StepperProvider>
     );
   },
 );
 
-ProgressTrackerDesktop.displayName = PROGRESS_TRACKER_DESKTOP_NAME;
+Stepper.displayName = STEPPER_NAME;
 
-const ProgressTrackerDesktopItem = forwardRef<
+const StepperItem = forwardRef<
   HTMLLIElement,
-  DefaultComponentPropsInternal<ProgressTrackerDesktopItemProps, 'li'>
+  DefaultComponentPropsInternal<StepperItemProps, 'li'>
 >(({ value, label, completedLabel, ...props }, ref) => {
   const {
     value: contextValue,
     getStepIndex,
     getActiveStepIndex,
-  } = useProgressTrackerDesktopContext(PROGRESS_TRACKER_DESKTOP_ITEM_NAME);
+  } = useStepperContext(STEPPER_ITEM_NAME);
 
   const isActive = contextValue === value;
   const index = getStepIndex(value);
@@ -108,12 +99,12 @@ const ProgressTrackerDesktopItem = forwardRef<
 
   return (
     <>
-      {!isFirst && <IconChevronRightTightSmall sx={progressChevronStyle} />}
+      {!isFirst && <IconChevronRightTightSmall sx={stepperChevronStyle} />}
 
       <FlexBox
         as="li"
         ref={ref}
-        wds-component="progress-tracker-desktop-item"
+        wds-component="stepper-item"
         aria-current={isActive ? 'step' : undefined}
         aria-label={`Step ${index}`}
         alignItems="center"
@@ -121,7 +112,7 @@ const ProgressTrackerDesktopItem = forwardRef<
         {...props}
       >
         <FlexBox
-          sx={progressCircleStyle(isActive, isCompleted)}
+          sx={stepperCircleStyle(isActive, isCompleted)}
           alignItems="center"
           justifyContent="center"
         >
@@ -132,14 +123,14 @@ const ProgressTrackerDesktopItem = forwardRef<
               variant="caption1"
               weight="bold"
               align="center"
-              data-role="progress-tracker-desktop-item-step"
+              data-role="stepper-item-step"
             >
               {(index === -1 ? 0 : index) + 1}
             </Typography>
           )}
         </FlexBox>
 
-        <ProgressTrackerDesktopItemLabel
+        <StepperItemLabel
           isActive={isActive}
           isCompleted={isCompleted}
           label={label}
@@ -150,21 +141,21 @@ const ProgressTrackerDesktopItem = forwardRef<
   );
 });
 
-ProgressTrackerDesktopItem.displayName = PROGRESS_TRACKER_DESKTOP_ITEM_NAME;
+StepperItem.displayName = STEPPER_ITEM_NAME;
 
 // @ts-expect-error
-ProgressTrackerDesktopItem.isProgressTrackerDesktopItem = true;
+StepperItem.isStepperItem = true;
 
-export { ProgressTrackerDesktop, ProgressTrackerDesktopItem };
+export { Stepper, StepperItem };
 
-export type { ProgressTrackerDesktopProps, ProgressTrackerDesktopItemProps };
+export type { StepperProps, StepperItemProps };
 
-const ProgressTrackerDesktopItemLabel = ({
+const StepperItemLabel = ({
   isCompleted,
   isActive,
   label,
   completedLabel,
-}: Pick<ProgressTrackerDesktopItemProps, 'label' | 'completedLabel'> & {
+}: Pick<StepperItemProps, 'label' | 'completedLabel'> & {
   isCompleted: boolean;
   isActive: boolean;
 }) => {
@@ -175,8 +166,8 @@ const ProgressTrackerDesktopItemLabel = ({
   if (isCompleted) {
     return Boolean(completedLabel) ? (
       <Typography
-        sx={progressTrackerLabelStyle}
-        data-role="progress-tracker-desktop-item-label"
+        sx={stepperLabelStyle}
+        data-role="stepper-item-label"
         color={color}
         variant="label2"
         weight="bold"
@@ -188,8 +179,8 @@ const ProgressTrackerDesktopItemLabel = ({
 
   return Boolean(label) ? (
     <Typography
-      sx={progressTrackerLabelStyle}
-      data-role="progress-tracker-desktop-item-label"
+      sx={stepperLabelStyle}
+      data-role="stepper-item-label"
       color={color}
       variant="label2"
       weight="bold"
