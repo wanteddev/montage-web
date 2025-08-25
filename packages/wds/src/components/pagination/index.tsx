@@ -226,7 +226,7 @@ const PaginationItem = ({
       {type === 'page' ? (
         <TextButton
           size="medium"
-          variant="assistive"
+          color="assistive"
           disabled={disabled}
           disableInteraction={disabled}
           aria-label={`Page ${itemPage}`}

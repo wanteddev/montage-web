@@ -380,7 +380,7 @@ const AlertActionAreaButton = forwardRef(
     return (
       <TextButton
         size="medium"
-        variant={variant === 'normal' ? 'primary' : 'assistive'}
+        color={variant === 'normal' ? 'primary' : 'assistive'}
         ref={ref}
         {...props}
         onClick={composeEventHandlers(props.onClick, () => {
