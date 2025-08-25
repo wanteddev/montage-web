@@ -238,7 +238,7 @@ const DateCalendar = forwardRef<
                           }
                         });
                       }}
-                      variant="assistive"
+                      color="assistive"
                       size="medium"
                       aria-expanded={headerExpanded}
                       sx={[
