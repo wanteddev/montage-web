@@ -25,5 +25,6 @@ export const MIGRATION_TRANSFORMS = {
     'dialog-to-alert': 'Dialog to Alert',
     'stepper-migration': 'Progress Tracker to Stepper',
     'list-cell-active-to-selected': 'List Cell Active to Selected',
+    'text-button-variant-to-color': 'TextButton Variant to Color',
   },
 };
