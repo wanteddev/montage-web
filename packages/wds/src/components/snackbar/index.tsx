@@ -256,7 +256,7 @@ const SnackbarAction = forwardRef<
   return (
     <TextButton
       ref={ref}
-      variant="assistive"
+      color="assistive"
       size="medium"
       {...props}
       sx={[snackbarActionStyle, props.sx]}

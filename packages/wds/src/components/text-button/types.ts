@@ -5,10 +5,10 @@ import type {
 } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type TextButtonVariant = 'primary' | 'assistive';
+export type TextButtonColor = 'primary' | 'assistive';
 
 export type TextButtonDefaultProps = WithSxProps<{
-  variant?: 'primary' | 'assistive';
+  color?: 'primary' | 'assistive';
   disabled?: boolean;
   size?: 'small' | 'medium';
   disableInteraction?: boolean;

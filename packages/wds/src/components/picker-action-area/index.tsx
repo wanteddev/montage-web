@@ -40,7 +40,6 @@ const PickerActionAreaButton = forwardRef(
   <T extends ElementType = 'button'>(
     {
       variant,
-      buttonVariant,
       ...props
     }: PolymorphicPropsInternal<PickerActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
@@ -53,7 +52,7 @@ const PickerActionAreaButton = forwardRef(
         return (
           <TextButton
             ref={ref}
-            variant={buttonVariant ?? 'assistive'}
+            color="assistive"
             size="small"
             {...props}
             onClick={composeEventHandlers(props.onClick, () => {
@@ -71,7 +70,7 @@ const PickerActionAreaButton = forwardRef(
         return (
           <TextButton
             ref={ref}
-            variant={buttonVariant ?? 'assistive'}
+            color="assistive"
             size="small"
             {...props}
             onClick={composeEventHandlers(props.onClick, () => {
@@ -89,7 +88,7 @@ const PickerActionAreaButton = forwardRef(
         return (
           <TextButton
             ref={ref}
-            variant={buttonVariant ?? 'assistive'}
+            color="assistive"
             size="small"
             {...props}
             onClick={composeEventHandlers(props.onClick, () => {
@@ -107,7 +106,7 @@ const PickerActionAreaButton = forwardRef(
         return (
           <TextButton
             ref={ref}
-            variant={buttonVariant ?? 'primary'}
+            color="primary"
             size="small"
             {...props}
             onClick={composeEventHandlers(props.onClick, () => {
@@ -125,7 +124,7 @@ const PickerActionAreaButton = forwardRef(
         return (
           <TextButton
             ref={ref}
-            variant={buttonVariant ?? 'assistive'}
+            color="assistive"
             size="small"
             {...props}
             sx={[

@@ -233,7 +233,7 @@ const TopNavigationButton = forwardRef(
 
     return (
       <TextButton
-        variant="assistive"
+        color="assistive"
         size="medium"
         {...props}
         sx={[topNavigationButtonTextStyle, props.sx]}

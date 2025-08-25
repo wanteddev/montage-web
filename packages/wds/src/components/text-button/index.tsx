@@ -22,7 +22,7 @@ const TextButton = forwardRef(
       as,
       disabled = false,
       disableInteraction = false,
-      variant = 'primary',
+      color = 'primary',
       leadingContent,
       trailingContent,
       size = 'medium',
@@ -42,13 +42,11 @@ const TextButton = forwardRef(
     const context = useTextButtonContext();
 
     const interactionColor: ThemeColorsToken =
-      variant === 'primary'
-        ? 'semantic.primary.normal'
-        : 'semantic.label.normal';
+      color === 'primary' ? 'semantic.primary.normal' : 'semantic.label.normal';
 
-    const color = useMemo(() => {
-      return context?.[variant];
-    }, [context, variant]);
+    const overrideColor = useMemo(() => {
+      return context?.[color];
+    }, [context, color]);
 
     const handlePreventEventsLoading = (e: SyntheticEvent) => {
       if (loading && !disableLoadingPreventEvents) {
@@ -61,13 +59,13 @@ const TextButton = forwardRef(
       <WithInteraction
         color={interactionColor}
         disabled={disableInteraction || disabled}
-        variant={variant === 'primary' ? 'strong' : 'light'}
+        variant={color === 'primary' ? 'strong' : 'light'}
         scale
       >
         <Box
           as={(as || 'button') as T}
           wds-component="text-button"
-          data-variant={variant}
+          data-color={color}
           aria-labelledby={id}
           ref={ref}
           type="button"
@@ -93,10 +91,10 @@ const TextButton = forwardRef(
           }, props.onKeyDown)}
           sx={[
             textButtonStyle({
-              color,
+              overrideColor,
               size,
               loading,
-              variant,
+              color,
               xs,
               sm,
               md,

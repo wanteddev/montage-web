@@ -125,7 +125,7 @@ const ActionAreaButton = forwardRef(
   <T extends ElementType = 'button'>(
     {
       variant = 'main',
-      textButtonVariant,
+      textButtonColor,
       buttonVariant,
       buttonColor,
       ...props
@@ -170,7 +170,7 @@ const ActionAreaButton = forwardRef(
         parentVariant === 'strong' ? (
           <TextButton
             ref={ref}
-            variant={textButtonVariant ?? 'assistive'}
+            color={textButtonColor ?? 'assistive'}
             size="small"
             {...props}
             sx={[

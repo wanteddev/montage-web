@@ -7,7 +7,6 @@ export type PickerActionAreaProps = ActionAreaProps;
 export type PickerActionAreaButtonProps = Merge<
   {
     variant?: 'now' | 'cancel' | 'accept' | 'reset';
-    buttonVariant?: TextButtonProps['variant'];
   },
   TextButtonProps
 >;
