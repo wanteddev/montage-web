@@ -633,7 +633,7 @@ const AutocompleteOption = forwardRef<
           );
           setAttributeSelection(ref.current, items, true);
         })}
-        onMouseMove={composeEventHandlers(props.onMouseEnter, (e) => {
+        onMouseEnter={composeEventHandlers(props.onMouseEnter, (e) => {
           if (disabled) return;
 
           const items = getItems();
