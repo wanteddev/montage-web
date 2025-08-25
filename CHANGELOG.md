@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.7](https://github.com/wanteddev/wds/compare/v2.3.6...v2.3.7) (2025-08-25)
+
+### Bug Fixes
+
+- **wds:** segmented control disabled not working ([#409](https://github.com/wanteddev/wds/issues/409)) ([2db160b](https://github.com/wanteddev/wds/commit/2db160b135a9c8ef94c6a276fa8b6b81b000a6fc))
+
 ## [2.3.6](https://github.com/wanteddev/wds/compare/v2.3.5...v2.3.6) (2025-08-20)
 
 ### Bug Fixes
