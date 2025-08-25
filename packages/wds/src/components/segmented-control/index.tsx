@@ -262,12 +262,18 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
             props.sx,
           ]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
+            if (disabled) return;
+
             if (event.key === 'Enter') event.preventDefault();
           })}
           onClick={composeEventHandlers(props.onClick, () => {
+            if (disabled) return;
+
             context.onValueChange(value);
           })}
           onFocus={composeEventHandlers(props.onFocus, (e) => {
+            if (disabled) return;
+
             if (isArrowKeyPressedRef.current) {
               (e.currentTarget as HTMLElement).click();
             }
