@@ -252,6 +252,7 @@ const ModalContainer = forwardRef(
           isBottomSheetWithHandle ? context.visibility : undefined
         }
         {...wrapperProps}
+        wds-ignore-dismissable-layer="true"
         ref={useComposedRefs<HTMLDivElement>(
           wrapperProps?.ref as RefObject<HTMLDivElement> | undefined,
           context.wrapperRef,
