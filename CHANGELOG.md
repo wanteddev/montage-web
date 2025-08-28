@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.8](https://github.com/wanteddev/wds/compare/v2.3.7...v2.3.8) (2025-08-28)
+
+### Bug Fixes
+
+- **wds:** modal을 2중으로 사용하는 경우 기존 모달이 닫히는 이슈 ([#413](https://github.com/wanteddev/wds/issues/413)) ([955e02c](https://github.com/wanteddev/wds/commit/955e02c57d84a355b03667072adc8d35faba9859))
+
 ## [2.3.7](https://github.com/wanteddev/wds/compare/v2.3.6...v2.3.7) (2025-08-25)
 
 ### Bug Fixes
