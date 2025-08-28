@@ -6,6 +6,7 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
+import { hapticFeedback } from '../../utils/internal/haptic';
 
 import { switchStyle } from './style';
 
@@ -98,6 +99,8 @@ const Switch = forwardRef<
             ]}
             onClick={composeEventHandlers(props.onClick, (event) => {
               setChecked((prevChecked) => !prevChecked);
+
+              hapticFeedback();
 
               if (isFormControl) {
                 hasConsumerStoppedPropagationRef.current =
