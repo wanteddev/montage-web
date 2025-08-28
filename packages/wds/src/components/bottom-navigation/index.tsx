@@ -1,11 +1,11 @@
 import { forwardRef, useEffect, useId, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { useTheme } from '@wanteddev/wds-engine';
 
 import { Typography } from '../typography';
 import { FlexBox } from '../flex-box';
 import { WithInteraction } from '../with-interaction';
+import { hapticFeedback } from '../../utils/internal/haptic';
 
 import {
   BottomNavigationProvider,
@@ -22,7 +22,7 @@ import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
-import type { CSSProperties, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { BottomNavigationItemProps, BottomNavigationProps } from './types';
 
 const BottomNavigation = forwardRef(
@@ -36,8 +36,6 @@ const BottomNavigation = forwardRef(
     }: DefaultComponentPropsInternal<BottomNavigationProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    const theme = useTheme();
-
     const [value, setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue,
@@ -72,15 +70,8 @@ const BottomNavigation = forwardRef(
           alignItems="center"
           {...props}
           wds-component="bottom-navigation"
+          data-scroll-end={scrollEnd}
           sx={[bottomNavigationStyle, props.sx]}
-          style={
-            {
-              '--wds-bottom-navigation-border-color': scrollEnd
-                ? 'transparent'
-                : theme.semantic.line.normal.neutral,
-              ...props.style,
-            } as CSSProperties
-          }
         >
           {children}
         </FlexBox>
@@ -124,6 +115,10 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
           sx={[bottomNavigationItemStyle, props.sx]}
           onClick={composeEventHandlers(props.onClick, () => {
             context.onValueChange(value);
+
+            if (value !== context.value) {
+              hapticFeedback();
+            }
           })}
         >
           {icon}
