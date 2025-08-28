@@ -325,6 +325,7 @@ const ModalContainer = forwardRef(
                 aria-describedby={`${context.descriptionId} ${context.summaryId}`}
                 aria-labelledby={`${context.titleId} ${context.headingId}`}
                 {...props}
+                wds-ignore-dismissable-layer="true"
                 data-visibility={context.visibility}
                 data-status={context.open ? 'open' : 'close'}
                 sx={[

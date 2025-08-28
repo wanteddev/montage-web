@@ -115,7 +115,6 @@ const Dialog = forwardRef(
             <FlexBox
               {...wrapperProps}
               sx={[dialogWrapperStyle, wrapperProps?.sx]}
-              wds-ignore-dismissable-layer="true"
             >
               {dimmer}
 
@@ -146,6 +145,7 @@ const Dialog = forwardRef(
                       aria-describedby={descriptionId}
                       aria-labelledby={headingId}
                       {...props}
+                      wds-ignore-dismissable-layer="true"
                       data-status={open ? 'open' : 'close'}
                       sx={[dialogContentStyle, props.sx]}
                     >
@@ -181,6 +181,7 @@ const DialogDimmer = forwardRef(
       <Box
         ref={ref}
         {...props}
+        wds-ignore-dismissable-layer="true"
         data-role="dialog-dimmer"
         data-status={open ? 'open' : 'close'}
         onClick={composeEventHandlers(
