@@ -15,7 +15,11 @@ import {
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
 import FlexBox from '../flex-box';
-import { dateTypeToDateObject, dayjsTimezone } from '../date-calendar/helpers';
+import {
+  dateTypeToDateObject,
+  dayjsTimezone,
+  isValidDate,
+} from '../date-calendar/helpers';
 import ScrollArea from '../scroll-area';
 import { List, ListCell } from '../list';
 import { useDefaultSelectedDate } from '../date-calendar/hooks';
@@ -201,9 +205,11 @@ const TimeItem = forwardRef<
   const active = currentTimeValue ? currentTimeValue === textValue : false;
 
   const handleClick = useCallback(() => {
-    if (readOnly) return;
+    if (readOnly || disabled) return;
 
-    let newValue = time ? dayjsTimezone(dayjs(time), timezone) : now;
+    let newValue = isValidDate(time)
+      ? dayjsTimezone(dayjs(time), timezone)
+      : now;
 
     switch (view) {
       case 'meridiem':
@@ -241,17 +247,26 @@ const TimeItem = forwardRef<
         break;
     }
 
-    if (newValue.isValid()) {
-      const parsedDateNewValue = dateTypeToDateObject(newValue, timezone);
+    const parsedDateNewValue = dateTypeToDateObject(newValue, timezone);
 
-      onChange(parsedDateNewValue);
+    onChange(parsedDateNewValue);
 
-      if (variant === 'last' || variant === 'single') {
-        onChangeComplete?.(parsedDateNewValue);
-      }
+    if (variant === 'last' || variant === 'single') {
+      onChangeComplete?.(parsedDateNewValue);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hourType, time, timezone, value, variant, onChangeComplete]);
+  }, [
+    hourType,
+    time,
+    timezone,
+    disabled,
+    readOnly,
+    value,
+    now,
+    view,
+    onChange,
+    variant,
+    onChangeComplete,
+  ]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
