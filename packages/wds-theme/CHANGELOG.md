@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.9](https://github.com/wanteddev/wds/compare/v2.3.8...v2.3.9) (2025-09-02)
+
+**Note:** Version bump only for package @wanteddev/wds-theme
+
 ## [2.3.8](https://github.com/wanteddev/wds/compare/v2.3.7...v2.3.8) (2025-08-28)
 
 **Note:** Version bump only for package @wanteddev/wds-theme
