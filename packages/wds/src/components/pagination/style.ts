@@ -15,12 +15,12 @@ export const paginationStyle = ({
   `;
 
 export const paginationItemStyle = css`
-  min-width: 20px;
-  max-width: 20px;
+  width: fit-content;
 `;
 
 export const pageButtonStyle = (theme: Theme) => css`
-  width: 100%;
+  width: fit-content;
+  min-width: 20px;
 
   // TextButton Typography
   > span {
