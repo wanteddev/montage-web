@@ -26,5 +26,6 @@ export const MIGRATION_TRANSFORMS = {
     'stepper-migration': 'Progress Tracker to Stepper',
     'list-cell-active-to-selected': 'List Cell Active to Selected',
     'text-button-variant-to-color': 'TextButton Variant to Color',
+    'pagination-migration': 'Pagination Migration',
   },
 };
