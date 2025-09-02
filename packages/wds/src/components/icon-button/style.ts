@@ -26,6 +26,7 @@ export const iconButtonStyle =
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     &:disabled,
     &[aria-disabled='true'] {
