@@ -85,7 +85,7 @@ const IconButton = forwardRef(
 
     return (
       <WithInteraction
-        width={interactionSize}
+        width="auto"
         height={interactionSize}
         color={interactionColor}
         disabled={disableInteraction || disabled}
