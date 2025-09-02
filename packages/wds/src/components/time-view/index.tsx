@@ -205,7 +205,7 @@ const TimeItem = forwardRef<
   const active = currentTimeValue ? currentTimeValue === textValue : false;
 
   const handleClick = useCallback(() => {
-    if (readOnly) return;
+    if (readOnly || disabled) return;
 
     let newValue = isValidDate(time)
       ? dayjsTimezone(dayjs(time), timezone)
@@ -254,8 +254,19 @@ const TimeItem = forwardRef<
     if (variant === 'last' || variant === 'single') {
       onChangeComplete?.(parsedDateNewValue);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hourType, time, timezone, value, variant, onChangeComplete]);
+  }, [
+    hourType,
+    time,
+    timezone,
+    disabled,
+    readOnly,
+    value,
+    now,
+    view,
+    onChange,
+    variant,
+    onChangeComplete,
+  ]);
 
   const handleKeyDown = useCallback((e: KeyboardEvent<HTMLLIElement>) => {
     if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
