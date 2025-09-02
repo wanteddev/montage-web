@@ -26,11 +26,17 @@ export const iconButtonStyle =
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 
     &:disabled,
     &[aria-disabled='true'] {
       pointer-events: none;
       cursor: not-allowed;
+    }
+
+    & > [wds-component='with-interaction'] {
+      width: auto;
+      aspect-ratio: 1 / 1;
     }
 
     ${iconButtonSizeStyle({ size: props.size, variant: props.variant })}
@@ -55,22 +61,36 @@ const iconButtonSizeStyle = (
 
   if (typeof size === 'number') {
     return css`
-      width: ${size}px;
-      height: ${size}px;
+      font-size: ${size}px;
+      width: fit-content;
+      height: fit-content;
+
+      svg {
+        width: initial;
+        height: 1em;
+      }
 
       ${variant === 'background' &&
       css`
         padding: 2px;
+        font-size: ${size - 4}px;
       `}
 
       ${(variant === 'solid' || variant === 'outlined') &&
       css`
         padding: 6px;
+        width: ${size}px;
+        height: ${size}px;
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
       `}
 
-      svg, [data-role="push-badge-wrapper"] {
-        width: 100% !important;
-        height: 100% !important;
+      [data-role="push-badge-wrapper"] {
+        width: 100%;
+        height: 100%;
       }
     `;
   }
@@ -78,40 +98,68 @@ const iconButtonSizeStyle = (
   switch (size) {
     case 'medium':
       return css`
-        width: 40px;
-        height: 40px;
+        font-size: 40px;
+        width: fit-content;
+        height: fit-content;
+
+        svg {
+          width: initial;
+          height: 1em;
+        }
 
         ${variant === 'background' &&
         css`
           padding: 2px;
+          font-size: 36px;
         `}
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
           padding: 10px;
+          width: 40px;
+          height: 40px;
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
         `}
 
-        svg, [data-role="push-badge-wrapper"] {
+        [data-role="push-badge-wrapper"] {
           width: 100%;
           height: 100%;
         }
       `;
     case 'small':
       return css`
-        width: 32px;
-        height: 32px;
+        font-size: 32px;
+        width: fit-content;
+        height: fit-content;
+
+        svg {
+          width: initial;
+          height: 1em;
+        }
 
         ${variant === 'background' &&
         css`
           padding: 2px;
+          font-size: 28px;
         `}
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
           padding: 7px;
+          width: 32px;
+          height: 32px;
+
+          svg {
+            width: 100%;
+            height: 100%;
+          }
         `}
 
-        svg, [data-role="push-badge-wrapper"] {
+        [data-role="push-badge-wrapper"] {
           width: 100%;
           height: 100%;
         }
@@ -195,10 +243,12 @@ const iconButtonColorStyle = (
         &::before {
           position: absolute;
           content: '';
-          width: calc(100% + 8px);
+          width: auto;
           height: calc(100% + 8px);
-          top: -4px;
-          left: -4px;
+          aspect-ratio: 1 / 1;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           border-radius: inherit;
 
           ${alternative
@@ -308,10 +358,12 @@ export const backgroundBlendStyle = (theme: Theme) => css`
     theme.semantic.static.black,
     theme.opacity[5],
   )};
-  width: calc(100% + 8px);
+  width: auto;
   height: calc(100% + 8px);
-  top: -4px;
-  left: -4px;
+  aspect-ratio: 1 / 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: inherit;
 
   @supports (-webkit-backdrop-filter: none) {
