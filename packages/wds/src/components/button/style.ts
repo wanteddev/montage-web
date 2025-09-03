@@ -204,23 +204,6 @@ const buttonColorStyle = (
       return css`
         color: ${theme.semantic.primary.normal};
         background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.primary.normal};
-
-        [data-role='button-loading'] {
-          color: inherit;
-        }
-
-        &:disabled,
-        &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
-          background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-        }
-      `;
-    case variant === 'outlined' && color === 'secondary':
-      return css`
-        color: ${theme.semantic.primary.normal};
-        background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
         [data-role='button-loading'] {

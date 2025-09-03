@@ -303,7 +303,7 @@ const TextFieldButton = forwardRef(
         as={(as || 'button') as ElementType}
         variant="outlined"
         type={type}
-        color={variant === 'normal' ? 'secondary' : 'assistive'}
+        color={variant === 'normal' ? 'primary' : 'assistive'}
         ref={ref}
         disabled={disabled}
         size="large"
