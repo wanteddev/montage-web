@@ -60,10 +60,6 @@ export type TooltipContentProps = WithSxProps<{
    */
   setContext?: PopperContentProps['setContext'];
   forceMount?: boolean;
-  /**
-   * Used for compact tooltip.
-   */
-  __wdsCustomChildren?: ReactNode;
 }>;
 
 export type TooltipContentWrapperProps = {
