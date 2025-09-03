@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.3.10](https://github.com/wanteddev/wds/compare/v2.3.9...v2.3.10) (2025-09-03)
+
+**Note:** Version bump only for package @wanteddev/wds-codemod
+
 ## [2.3.9](https://github.com/wanteddev/wds/compare/v2.3.8...v2.3.9) (2025-09-02)
 
 **Note:** Version bump only for package @wanteddev/wds-codemod
