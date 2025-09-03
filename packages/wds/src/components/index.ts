@@ -14,7 +14,6 @@ export * from './checkbox';
 export * from './chip-action';
 export * from './chip-filter';
 export * from './chip-multi-select';
-export * from './compact-tooltip';
 export * from './content-badge';
 export * from './date-calendar';
 export * from './date-picker';
