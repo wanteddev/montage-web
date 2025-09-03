@@ -5,7 +5,7 @@ import {
   IconCircleCloseFill,
   IconCircleExclamationFill,
 } from '@wanteddev/wds-icon';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
@@ -43,6 +43,7 @@ const TextField = forwardRef<
       trailingContent,
       positive,
       readOnly,
+      disabled,
       className,
       style,
       onReset,
@@ -60,21 +61,47 @@ const TextField = forwardRef<
     },
     ref,
   ) => {
+    const parentRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
+
+    useEffect(() => {
+      const container = parentRef.current;
+
+      if (!container || disabled) return;
+
+      const handleClick = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+
+        if (
+          target.closest(
+            'input, textarea, button, a, [data-role="text-field-reset"], [contenteditable]',
+          )
+        )
+          return;
+
+        inputRef.current?.click();
+        inputRef.current?.focus();
+      };
+
+      container.addEventListener('click', handleClick);
+
+      return () => container.removeEventListener('click', handleClick);
+    }, [disabled]);
 
     return (
       <Box
         className={className}
         style={style}
         wds-component="text-field"
-        ref={wrapperRef}
+        ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           textFieldWrapperStyle({
             invalid,
             width,
             height,
             readOnly,
+            disabled,
             type,
             positive,
             xs,
@@ -86,31 +113,16 @@ const TextField = forwardRef<
           }),
           sx,
         ]}
-        onClick={(event) => {
-          const target = event.target as HTMLElement;
-          if (target.closest('input, button, a')) return;
-
-          const input = inputRef.current;
-          if (
-            !input ||
-            target.tagName === 'INPUT' ||
-            target.getAttribute('data-role') === 'text-field-reset'
-          )
-            return;
-
-          requestAnimationFrame(() => {
-            input.focus();
-            input.click();
-          });
-        }}
       >
         {leadingContent}
         <input
           ref={composedRefs}
           type={type}
           readOnly={readOnly}
+          disabled={disabled}
           aria-readonly={readOnly}
           aria-invalid={invalid}
+          aria-disabled={disabled}
           {...props}
         />
         {invalid ? (

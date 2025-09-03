@@ -1,7 +1,7 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
 import { IconCircleCloseFill, IconSearch } from '@wanteddev/wds-icon';
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 
 import FlexBox from '../flex-box';
 import IconButton from '../icon-button';
@@ -18,6 +18,7 @@ const SearchField = forwardRef<
     {
       readOnly,
       className,
+      disabled,
       style,
       onReset,
       width,
@@ -33,18 +34,44 @@ const SearchField = forwardRef<
     },
     ref,
   ) => {
+    const parentRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const composedRefs = useComposedRefs(inputRef, ref);
+
+    useEffect(() => {
+      const container = parentRef.current;
+
+      if (!container || disabled) return;
+
+      const handleClick = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+
+        if (
+          target.closest(
+            'input, textarea, button, a, [data-role="search-field-reset"], [contenteditable]',
+          )
+        )
+          return;
+
+        inputRef.current?.click();
+        inputRef.current?.focus();
+      };
+
+      container.addEventListener('click', handleClick);
+
+      return () => container.removeEventListener('click', handleClick);
+    }, [disabled]);
 
     return (
       <Box
         className={className}
         style={style}
         wds-component="search-field"
-        ref={wrapperRef}
+        ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           searchFieldWrapperStyle({
             readOnly,
+            disabled,
             size,
             width,
             xs,
@@ -56,23 +83,6 @@ const SearchField = forwardRef<
           }),
           sx,
         ]}
-        onClick={(event) => {
-          const target = event.target as HTMLElement;
-          if (target.closest('input, button, a')) return;
-
-          const input = inputRef.current;
-          if (
-            !input ||
-            target.tagName === 'INPUT' ||
-            target.getAttribute('data-role') === 'search-field-reset'
-          )
-            return;
-
-          requestAnimationFrame(() => {
-            input.focus();
-            input.click();
-          });
-        }}
       >
         <FlexBox
           data-role="search-field-icon"
@@ -91,6 +101,8 @@ const SearchField = forwardRef<
           readOnly={readOnly}
           aria-readonly={readOnly}
           autoComplete="off"
+          disabled={disabled}
+          aria-disabled={disabled}
           {...props}
         />
         <FlexBox

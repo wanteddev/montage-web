@@ -157,6 +157,26 @@ const TextArea = forwardRef<
       }
     }, [node, syncTextAreaHeight, setLength]);
 
+    useEffect(() => {
+      const container = parentRef.current;
+
+      if (!container || disabled) return;
+
+      const handleClick = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+
+        if (target.closest('input, textarea, button, a, [contenteditable]'))
+          return;
+
+        textAreaRef.current?.click();
+        textAreaRef.current?.focus();
+      };
+
+      container.addEventListener('click', handleClick);
+
+      return () => container.removeEventListener('click', handleClick);
+    }, [disabled]);
+
     return (
       <TextAreaProvider length={length}>
         <FlexBox
@@ -169,18 +189,6 @@ const TextArea = forwardRef<
             ...style,
           }}
           gap="12px"
-          onClick={(event) => {
-            const target = event.target as HTMLElement;
-            if (target.closest('input, textarea, button, a')) return;
-
-            const textArea = textAreaRef.current;
-            if (!textArea || target.tagName === 'TEXTAREA') return;
-
-            requestAnimationFrame(() => {
-              textArea.focus();
-              textArea.click();
-            });
-          }}
           sx={[
             textAreaWrapperStyle({
               invalid: invalid,
