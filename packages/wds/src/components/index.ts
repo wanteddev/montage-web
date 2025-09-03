@@ -13,7 +13,6 @@ export * from './category';
 export * from './checkbox';
 export * from './chip-action';
 export * from './chip-filter';
-export * from './chip-multi-select';
 export * from './content-badge';
 export * from './date-calendar';
 export * from './date-picker';
