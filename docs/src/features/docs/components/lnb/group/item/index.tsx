@@ -63,7 +63,7 @@ const LnbGroupItem = ({
           as={Link}
           href={href}
           onClick={handleRouteChange}
-          active={isActive}
+          selected={isActive}
           fillWidth
           verticalPadding="small"
           data-depth={depth}
@@ -79,7 +79,6 @@ const LnbGroupItem = ({
           {children}
         </ListCell>
       </CompactTooltipTrigger>
-
       <CompactTooltipContent position="right-center" offset={16}>
         {children}
       </CompactTooltipContent>

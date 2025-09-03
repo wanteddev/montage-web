@@ -28,8 +28,7 @@ export default Demo;`}
 
 ### Outlined button
 
-Primary(Default), Secondary, Assistive로 구성되어있습니다.<br/>
-단, Primary는 Solid로 대체하기 때문에 사용을 지양합니다.
+Primary(Default), Assistive로 구성되어있습니다.
 
 <Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
 
@@ -37,7 +36,6 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" justifyContent="center" flexWrap="wrap">
       <Button variant="outlined" color="primary">Primary</Button>
-      <Button variant="outlined" color="secondary">Secondary</Button>
       <Button variant="outlined" color="assistive">Assistive</Button>
     </FlexBox>
   )
@@ -101,9 +99,6 @@ const Demo = () => {
       <Button iconOnly variant="outlined" color="primary">
         <IconPlusThick />
       </Button>
-      <Button iconOnly variant="outlined" color="secondary">
-        <IconPlusThick />
-      </Button>
       <Button iconOnly variant="outlined" color="assistive">
         <IconPlusThick />
       </Button>
@@ -155,18 +150,6 @@ const Demo = () => {
           Medium
         </Button>
         <Button variant="outlined" color="primary" size="large">
-          Large
-        </Button>
-      </FlexBox>
-
-      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
-        <Button variant="outlined" color="secondary" size="small">
-          Small
-        </Button>
-        <Button variant="outlined" color="secondary" size="medium">
-          Medium
-        </Button>
-        <Button variant="outlined" color="secondary" size="large">
           Large
         </Button>
       </FlexBox>

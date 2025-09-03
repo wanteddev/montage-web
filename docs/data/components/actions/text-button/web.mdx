@@ -16,8 +16,8 @@ updatedAt: 2025-06-17
 const Demo = () => {
   return (
     <FlexBox gap="12px" justifyContent="center">
-      <TextButton variant="primary">Primary</TextButton>
-      <TextButton variant="assistive">Assistive</TextButton>
+      <TextButton color="primary">Primary</TextButton>
+      <TextButton color="assistive">Assistive</TextButton>
     </FlexBox>
   )
 }
@@ -36,13 +36,13 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" justifyContent="center">
       <TextButton
-        variant="primary"
+        color="primary"
         leadingContent={<IconPlus />}
       >
         추가
       </TextButton>
       <TextButton
-        variant="assistive"
+        color="assistive"
         trailingContent={<IconTrash />}
       >
         삭제
@@ -66,19 +66,19 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center">
-        <TextButton variant="primary" size="small">
+        <TextButton color="primary" size="small">
           Small
         </TextButton>
-        <TextButton variant="primary" size="medium">
+        <TextButton color="primary" size="medium">
           Medium
         </TextButton>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
-        <TextButton variant="assistive" size="small">
+        <TextButton color="assistive" size="small">
           Small
         </TextButton>
-        <TextButton variant="assistive" size="medium">
+        <TextButton color="assistive" size="medium">
           Medium
         </TextButton>
       </FlexBox>
@@ -116,7 +116,7 @@ const Demo = () => {
 
   return (
     <FlexBox gap="12px" justifyContent="center">
-      <TextButton variant="primary" loading={loading}>
+      <TextButton color="primary" loading={loading}>
         제출
       </TextButton>
     </FlexBox>

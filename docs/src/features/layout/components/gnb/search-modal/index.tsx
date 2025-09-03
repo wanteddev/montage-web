@@ -124,7 +124,7 @@ export const DocSearchModal = ({
             }}
             compactContent={
               <TextButton
-                variant="assistive"
+                color="assistive"
                 size="small"
                 onClick={() => onOpenChange?.(false)}
               >

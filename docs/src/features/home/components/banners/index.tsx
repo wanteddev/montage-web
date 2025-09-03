@@ -3,7 +3,7 @@ import {
   Box,
   FlexBox,
   IconButton,
-  PaginationDot,
+  PaginationDots,
   Thumbnail,
 } from '@wanteddev/wds';
 import { useId } from 'react';
@@ -52,7 +52,6 @@ const Banners = () => {
       <Box as="h2" sx={[homeTitleStyle, bannerTitleStyle, breakWordStyle]}>
         wanted design system
       </Box>
-
       <FlexBox flexDirection="column" sx={bannerContentWrapperStyle}>
         <FlexBox
           role="region"
@@ -126,10 +125,9 @@ const Banners = () => {
           </IconButton>
         </FlexBox>
       </FlexBox>
-
-      <PaginationDot
+      <PaginationDots
         size="small"
-        totalPage={BANNER_ITEMS.length}
+        totalPages={BANNER_ITEMS.length}
         currentPage={currentSlide}
         onClickDot={handleClickDot}
         sx={bannerSliderDotStyle}

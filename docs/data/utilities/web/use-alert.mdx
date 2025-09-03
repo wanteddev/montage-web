@@ -1,27 +1,27 @@
 ---
-title: useDialog
-description: useDialog는 Dialog를 더 쉽게 사용할 수 있도록 도와주는 훅입니다.
+title: useAlert
+description: useAlert는 Alert을 더 쉽게 사용할 수 있도록 도와주는 훅입니다.
 createdAt: 2025-06-17
 ---
 
 ## Usage
 
-Dialog 컴포넌트를 `Promise<'confirm' | 'cancel'>` 형태로 사용할 수 있습니다.
+Alert 컴포넌트를 `Promise<'confirm' | 'cancel'>` 형태로 사용할 수 있습니다.
 
-<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
-  const dialog = useDialog();
+  const alert = useAlert();
 
   const handleClick = async () => {
-    const result = await dialog({
+    const result = await alert({
       title: '제목',
       content: '설명',
-      confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
-      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
+      confirm: <AlertActionAreaButton>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
     });
 
-    alert('결과: ' + result);
+    window.alert('결과: ' + result);
   };
 
   return (
@@ -36,21 +36,21 @@ export default Demo;`}
 
 `direction` 옵션으로 확인과 취소 버튼 위치를 변경할 수 있습니다.
 
-<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
-  const dialog = useDialog();
+  const alert = useAlert();
 
   const handleClick = async () => {
-    const result = await dialog({
+    const result = await alert({
       title: '제목',
       content: '설명',
-      confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
-      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
+      confirm: <AlertActionAreaButton>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
       direction: 'reverse'
     });
 
-    alert('결과: ' + result);
+    window.alert('결과: ' + result);
   };
 
   return (
@@ -65,20 +65,20 @@ export default Demo;`}
 
 `variant` 옵션에 따라 버튼의 색상이 달라집니다.
 
-<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
-  const dialog = useDialog();
+  const alert = useAlert();
 
   const handleClick = async () => {
-    const result = await dialog({
+    const result = await alert({
       title: '정말로 삭제하시겠습니까?',
       content: '삭제된 내용은 복구할 수 없습니다.',
-      confirm: <DialogActionAreaButton variant="negative">확인</DialogActionAreaButton>,
-      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>
+      confirm: <AlertActionAreaButton variant="negative">확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>
     });
 
-    alert('결과: ' + result);
+    window.alert('결과: ' + result);
   };
 
   return (
@@ -93,13 +93,13 @@ export default Demo;`}
 
 `sx` Prop을 통해 커스텀 스타일을 적용할 수 있습니다.
 
-<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
-  const dialog = useDialog();
+  const alert = useAlert();
 
   const handleClick = async () => {
-    const result = await dialog({
+    const result = await alert({
       title: '정말로 삭제하시겠습니까?',
       content: '삭제된 내용은 복구할 수 없습니다.',
       confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
@@ -107,7 +107,7 @@ const Demo = () => {
       sx: { padding: 40 }
     });
 
-    alert('결과: ' + result);
+    window.alert('결과: ' + result);
   };
 
   return (
@@ -123,20 +123,20 @@ export default Demo;`}
 
 `e.preventDefault` 를 이용하면 클릭 액션을 막을 수 있습니다.
 
-<Demo code={`import { useDialog, Button, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { useAlert, Button, AlertActionAreaButton } from '@wanteddev/wds';
 
 const Demo = () => {
-  const dialog = useDialog();
+  const alert = useAlert();
 
   const handleClick = async () => {
-    const result = await dialog({
+    const result = await alert({
       title: '제목',
       content: '내용',
-      confirm: <DialogActionAreaButton onClick={e => e.preventDefault()}>확인</DialogActionAreaButton>,
-      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
+      confirm: <AlertActionAreaButton onClick={e => e.preventDefault()}>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
     });
 
-    alert('결과: ' + result);
+    window.alert('결과: ' + result);
   };
 
   return (
@@ -149,7 +149,7 @@ export default Demo;`}
 
 ## API
 
-<PropsTable component="useDialog" fallback={[
+<PropsTable component="useAlert" fallback={[
 { name: 'title', types: 'ReactNode | undefined' },
 { name: 'content', types: 'ReactNode', required: true },
 { name: 'cancel', types: 'ReactNode | undefined' },

@@ -38,7 +38,6 @@ const Articles = () => {
       <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
         Articles
       </Box>
-
       <FlexBox
         ref={carouselRef}
         sx={articleWrapperStyle}
@@ -107,7 +106,7 @@ const Articles = () => {
 
                 <TextButton
                   size="small"
-                  variant="assistive"
+                  color="assistive"
                   trailingContent={<IconExternalLink />}
                   sx={articleItemLinkStyle}
                 >

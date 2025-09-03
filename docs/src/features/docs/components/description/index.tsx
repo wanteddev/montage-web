@@ -199,7 +199,7 @@ const DocsDescription = () => {
     <>
       <FlexBox flexDirection="column" gap="24px" sx={titleSectionWrapperStyle}>
         <Typography
-          variant="title1"
+          variant="display3"
           weight="bold"
           as="h1"
           data-algolia-page-title
@@ -230,7 +230,6 @@ const DocsDescription = () => {
           </Typography>
         )}
       </FlexBox>
-
       {image && (
         <Thumbnail
           radius
@@ -241,7 +240,6 @@ const DocsDescription = () => {
           sx={thumbnailStyle}
         />
       )}
-
       {hasPlatformPage ? (
         <>
           <Box role="presentation" ref={tabRef} sx={tabScrollStyle} />

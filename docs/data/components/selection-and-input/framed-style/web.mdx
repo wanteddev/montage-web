@@ -7,8 +7,6 @@ description: 콘텐츠를 스타일링이 적용된 프레임으로 감싸, 하�
 
 Sx Prop 혹은 `css` 내부에서 사용 가능합니다.
 
-기본적으로 포커스 가능한 요소로 사용하는 것을 권장합니다.
-
 <Demo code={`import { Box, framedStyle } from '@wanteddev/wds';
 
 const Demo = () => {
@@ -231,41 +229,6 @@ const Placeholder = () => {
 export default Demo;`}
 />
 
-## Attributes
-
-`attributes` 옵션을 사용하여 특정 상태에 대한 스타일을 추가할 수 있습니다.
-
-아래는 Menu가 열렸을 때 focus 상태를 표현하는 예시입니다.
-
-<Demo code={`import { Box, framedStyle, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <Menu>
-      <MenuTrigger>
-        <Box
-          tabIndex={0}
-          sx={framedStyle({
-            attributes: {
-              focusVisible: '[aria-expanded="true"]',
-            },
-          })}
-        >
-          Click Me!
-        </Box>
-      </MenuTrigger>
-      <MenuContent>
-        <MenuList>
-          <MenuItem value="1">Item 1</MenuItem>
-        </MenuList>
-      </MenuContent>
-    </Menu>
-  )
-}
-
-export default Demo;`}
-/>
-
 ## API
 
 <PropsTable component="framedStyle" fallback={[
@@ -274,5 +237,4 @@ export default Demo;`}
 { name: 'selected', types: 'boolean' },
 { name: 'shadow', types: 'ThemeShadowToken', defaultValue: 'semantic.elevation.shadow.xsmall' },
 { name: 'size', types: '\"small\" | \"medium\" | \"large\" | \"xlarge\" | undefined', defaultValue: 'medium' },
-{ name: 'attributes', types: '{ hover?: Array<string> | string, focusVisible?: Array<string> | string }' },
 ]} />

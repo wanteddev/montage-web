@@ -31,7 +31,7 @@ import type { ReactNode } from 'react';
 
 export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   h1: (props) => (
-    <Typography {...props} variant="title1" weight="bold" as="h1" />
+    <Typography {...props} variant="display3" weight="bold" as="h1" />
   ),
   h2: ({ children, id, ...props }) => (
     <Typography

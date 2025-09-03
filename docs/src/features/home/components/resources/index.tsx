@@ -23,7 +23,6 @@ const Resources = () => {
       <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
         Downloads
       </Box>
-
       <List gap="0px">
         {RESOURCE_ITEMS.map((item, idx) => (
           <Fragment key={item.title}>
@@ -40,7 +39,7 @@ const Resources = () => {
               trailingContent={
                 <ListCellContent variant="button">
                   <TextButton
-                    variant="assistive"
+                    color="assistive"
                     size="small"
                     as="a"
                     href={item.href}
