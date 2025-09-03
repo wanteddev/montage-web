@@ -3,18 +3,18 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { FlexBox } from '../flex-box';
 
-import { backgroundBlendStyle, paginationCounterStyle } from './style';
+import { backgroundBlendStyle, pageCounterStyle } from './style';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
-import type { PaginationCounterProps } from './types';
+import type { PageCounterProps } from './types';
 
-const PaginationCounter = forwardRef<
+const PageCounter = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<PaginationCounterProps, 'div'>
+  DefaultComponentPropsInternal<PageCounterProps, 'div'>
 >(
   (
     {
-      totalPage = 3,
+      totalPages = 3,
       currentPage = 1,
       size = 'medium',
       alternative = false,
@@ -33,7 +33,7 @@ const PaginationCounter = forwardRef<
         {...props}
         alignItems="center"
         sx={[
-          paginationCounterStyle({ size, alternative, xs, sm, md, lg, xl }),
+          pageCounterStyle({ size, alternative, xs, sm, md, lg, xl }),
           props.sx,
         ]}
       >
@@ -41,21 +41,21 @@ const PaginationCounter = forwardRef<
           <Box
             as="span"
             role="presentation"
-            data-role="pagination-counter-background-blend"
+            data-role="page-counter-background-blend"
             sx={backgroundBlendStyle}
           />
         )}
 
-        <span data-role="pagination-counter-text">{currentPage}</span>
-        <span data-role="pagination-counter-divider">/</span>
-        <span data-role="pagination-counter-text">{totalPage}</span>
+        <span data-role="page-counter-text">{currentPage}</span>
+        <span data-role="page-counter-divider">/</span>
+        <span data-role="page-counter-text">{totalPages}</span>
       </FlexBox>
     );
   },
 );
 
-PaginationCounter.displayName = 'PaginationCounter';
+PageCounter.displayName = 'PageCounter';
 
-export { PaginationCounter };
+export { PageCounter };
 
-export type { PaginationCounterProps };
+export type { PageCounterProps };

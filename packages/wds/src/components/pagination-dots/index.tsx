@@ -7,19 +7,19 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { FlexBox } from '../flex-box';
 
-import { getPaginationDotScale, getPaginationDotVisibleArea } from './helpers';
-import { paginationDotStyle, paginationDotWrapperStyle } from './style';
+import { getPaginationDotScale, getPaginationDotsVisibleArea } from './helpers';
+import { paginationDotsStyle, paginationDotsWrapperStyle } from './style';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
-import type { PaginationDotProps } from './types';
+import type { PaginationDotsProps } from './types';
 
-const PaginationDot = forwardRef<
+const PaginationDots = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<PaginationDotProps, 'div'>
+  DefaultComponentPropsInternal<PaginationDotsProps, 'div'>
 >(
   (
     {
-      totalPage = 3,
+      totalPages = 3,
       currentPage = 1,
       maxDotCount = 5,
       color = 'normal',
@@ -36,17 +36,17 @@ const PaginationDot = forwardRef<
   ) => {
     const visibleArea = useMemo<[number, number]>(
       () =>
-        getPaginationDotVisibleArea({
+        getPaginationDotsVisibleArea({
           maxDotCount,
           currentPage,
-          totalPage,
+          totalPages,
         }),
-      [maxDotCount, currentPage, totalPage],
+      [maxDotCount, currentPage, totalPages],
     );
 
-    if (typeof totalPage !== 'number' || totalPage < 0) {
+    if (typeof totalPages !== 'number' || totalPages < 0) {
       if (process.env.NODE_ENV !== 'production') {
-        throw new Error('Invalid totalPage in PaginationDot');
+        throw new Error('Invalid totalPages in PaginationDots');
       }
 
       return null;
@@ -58,16 +58,16 @@ const PaginationDot = forwardRef<
           alignItems="center"
           {...props}
           sx={[
-            paginationDotWrapperStyle({ color, size, xs, sm, md, lg, xl }),
+            paginationDotsWrapperStyle({ color, size, xs, sm, md, lg, xl }),
             props.sx,
           ]}
           ref={ref}
         >
-          {[...Array(totalPage)].map((_, i) => {
+          {[...Array(totalPages)].map((_, i) => {
             const scale = getPaginationDotScale({
               index: i,
               visibleArea,
-              totalPage,
+              totalPages,
               maxDotCount,
             });
             const isActive = i + 1 === currentPage;
@@ -85,7 +85,7 @@ const PaginationDot = forwardRef<
                   onFocus={(e) => {
                     e.currentTarget.click();
                   }}
-                  sx={paginationDotStyle(scale, i === visibleArea[0])}
+                  sx={paginationDotsStyle(scale, i === visibleArea[0])}
                   aria-current={isActive ? 'page' : undefined}
                 />
               </RovingFocusGroupItem>
@@ -97,8 +97,8 @@ const PaginationDot = forwardRef<
   },
 );
 
-PaginationDot.displayName = 'PaginationDot';
+PaginationDots.displayName = 'PaginationDots';
 
-export { PaginationDot };
+export { PaginationDots };
 
-export type { PaginationDotProps };
+export type { PaginationDotsProps };
