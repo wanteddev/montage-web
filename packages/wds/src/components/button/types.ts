@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 
 export type ButtonVariant = 'solid' | 'outlined';
 
-export type ButtonColor = 'primary' | 'secondary' | 'assistive';
+export type ButtonColor = 'primary' | 'assistive';
 
 export type ButtonDefaultProps = WithSxProps<{
   size?: 'small' | 'medium' | 'large';
