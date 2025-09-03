@@ -28,5 +28,6 @@ export const MIGRATION_TRANSFORMS = {
     'text-button-variant-to-color': 'TextButton Variant to Color',
     'button-secondary-migration': 'Button Secondary Migration',
     'pagination-migration': 'Pagination Migration',
+    'compact-tooltip-migration': 'Compact Tooltip Migration',
   },
 };

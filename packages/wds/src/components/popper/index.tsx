@@ -204,7 +204,7 @@ const PopperContent = forwardRef<
   (
     {
       wrapperProps = {},
-      position = 'top-center',
+      position = 'bottom-center',
       offset: givenOffset = 10,
       referenceHidden = false,
       referenceHiddenOffsets,
