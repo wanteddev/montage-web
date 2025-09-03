@@ -6,10 +6,10 @@ import {
   typographyStyle,
 } from '../../utils';
 
-import type { PaginationCounterProps } from './types';
+import type { PageCounterProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const paginationCounterStyle =
+export const pageCounterStyle =
   ({
     alternative,
     size,
@@ -18,7 +18,7 @@ export const paginationCounterStyle =
     md,
     lg,
     xl,
-  }: Omit<PaginationCounterProps, 'totalPage'>) =>
+  }: Omit<PageCounterProps, 'totalPages'>) =>
   (theme: Theme) => css`
     list-style: none;
     margin: 0px;
@@ -26,8 +26,8 @@ export const paginationCounterStyle =
     width: fit-content;
     position: relative;
 
-    [data-role='pagination-counter-text'],
-    [data-role='pagination-counter-divider'] {
+    [data-role='page-counter-text'],
+    [data-role='page-counter-divider'] {
       position: relative;
     }
 
@@ -64,7 +64,7 @@ export const paginationCounterStyle =
 
     ${alternative
       ? css`
-          [data-role='pagination-counter-text'] {
+          [data-role='page-counter-text'] {
             color: ${addOpacity(
               theme.semantic.static.white,
               theme.opacity[88],
@@ -76,7 +76,7 @@ export const paginationCounterStyle =
             }
           }
 
-          [data-role='pagination-counter-divider'] {
+          [data-role='page-counter-divider'] {
             color: ${addOpacity(
               theme.semantic.static.white,
               theme.opacity[52],
@@ -84,7 +84,7 @@ export const paginationCounterStyle =
           }
         `
       : css`
-          [data-role='pagination-counter-text'] {
+          [data-role='page-counter-text'] {
             color: ${addOpacity(
               theme.semantic.static.white,
               theme.opacity[88],
@@ -96,7 +96,7 @@ export const paginationCounterStyle =
             }
           }
 
-          [data-role='pagination-counter-divider'] {
+          [data-role='page-counter-divider'] {
             color: ${addOpacity(
               theme.semantic.static.white,
               theme.opacity[61],
@@ -119,17 +119,17 @@ export const paginationCounterStyle =
 
 const paginationCounterSizeStyle = ({
   size,
-}: Omit<PaginationCounterProps, 'totalPage'>) => {
+}: Omit<PageCounterProps, 'totalPages'>) => {
   switch (size) {
     case 'small':
       return css`
         padding: 4px 10px;
         gap: 3px;
 
-        [data-role='pagination-counter-divider'] {
+        [data-role='page-counter-divider'] {
           ${typographyStyle('label2', 'regular')}
         }
-        [data-role='pagination-counter-text'] {
+        [data-role='page-counter-text'] {
           ${typographyStyle('label2', 'bold')}
         }
       `;
@@ -138,10 +138,10 @@ const paginationCounterSizeStyle = ({
         padding: 6px 12px;
         gap: 4px;
 
-        [data-role='pagination-counter-divider'] {
+        [data-role='page-counter-divider'] {
           ${typographyStyle('body2', 'regular')}
         }
-        [data-role='pagination-counter-text'] {
+        [data-role='page-counter-text'] {
           ${typographyStyle('body2', 'bold')}
         }
       `;

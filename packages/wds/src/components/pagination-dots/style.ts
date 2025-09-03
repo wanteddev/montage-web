@@ -2,10 +2,10 @@ import { css } from '@wanteddev/wds-engine';
 
 import { addOpacity, createResponsiveStyle } from '../../utils';
 
-import type { PaginationDotProps } from './types';
+import type { PaginationDotsProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const paginationDotWrapperStyle =
+export const paginationDotsWrapperStyle =
   ({
     color,
     size,
@@ -14,7 +14,7 @@ export const paginationDotWrapperStyle =
     md,
     lg,
     xl,
-  }: Omit<PaginationDotProps, 'totalPage'>) =>
+  }: Omit<PaginationDotsProps, 'totalPages'>) =>
   (theme: Theme) => css`
     list-style: none;
     margin: 0px;
@@ -37,8 +37,8 @@ export const paginationDotWrapperStyle =
       z-index: 1;
     }
 
-    ${paginationDotWrapperSizeStyle({ size })}
-    ${paginationDotWrapperColorStyle({ color }, theme)}
+    ${paginationDotsWrapperSizeStyle({ size })}
+    ${paginationDotsWrapperColorStyle({ color }, theme)}
 
     &:hover, &:has(*:focus-visible) {
       [data-role='pagination-dot'] {
@@ -61,14 +61,14 @@ export const paginationDotWrapperStyle =
       theme,
     )(
       (params) => css`
-        ${paginationDotWrapperSizeStyle({ size: params?.size })}
+        ${paginationDotsWrapperSizeStyle({ size: params?.size })}
         ${params?.sx}
       `,
     )}
   `;
 
-const paginationDotWrapperColorStyle = (
-  { color }: Omit<PaginationDotProps, 'totalPage'>,
+const paginationDotsWrapperColorStyle = (
+  { color }: Omit<PaginationDotsProps, 'totalPages'>,
   theme: Theme,
 ) => {
   switch (color) {
@@ -120,9 +120,9 @@ const paginationDotWrapperColorStyle = (
   }
 };
 
-const paginationDotWrapperSizeStyle = ({
+const paginationDotsWrapperSizeStyle = ({
   size,
-}: Omit<PaginationDotProps, 'totalPage'>) => {
+}: Omit<PaginationDotsProps, 'totalPages'>) => {
   switch (size) {
     case 'medium':
       return css`
@@ -139,7 +139,7 @@ const paginationDotWrapperSizeStyle = ({
   }
 };
 
-export const paginationDotStyle = (scale: number, isFirst: boolean) => css`
+export const paginationDotsStyle = (scale: number, isFirst: boolean) => css`
   transition: all ease 0.2s;
   width: calc(var(--wds-pagination-dot-size, 10px) * ${scale});
   height: calc(var(--wds-pagination-dot-size, 10px) * ${scale});
