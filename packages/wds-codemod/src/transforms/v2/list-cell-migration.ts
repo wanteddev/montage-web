@@ -1,4 +1,8 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
+import {
+  findImportDeclaration,
+  getImportedName,
+  getLocalName,
+} from '../../helpers';
 
 import type {
   API,
@@ -44,7 +48,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     if (!listCellImport) {
       root
-        .find(j.Identifier, { name: getLocalName(listItemImport) })
+        .find(j.Identifier, { name: getImportedName(listItemImport) })
         .forEach((cell) => {
           cell.value.name = 'ListCell';
         });
@@ -90,7 +94,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (listItemContentImport) {
     root
-      .find(j.Identifier, { name: getLocalName(listItemContentImport) })
+      .find(j.Identifier, { name: getImportedName(listItemContentImport) })
       .forEach((alert) => {
         alert.value.name = 'ListCellContent';
       });
@@ -162,7 +166,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     root
       .find(j.ImportSpecifier, {
         imported: {
-          name: getLocalName(listTextImport),
+          name: getImportedName(listTextImport),
         },
       })
       .remove();
