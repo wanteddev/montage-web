@@ -1,13 +1,13 @@
 import { MEDIUM_SCALE_RATIO, SMALL_SCALE_RATIO } from './constants';
 
-export const getPaginationDotVisibleArea = ({
+export const getPaginationDotsVisibleArea = ({
   maxDotCount,
-  totalPage,
+  totalPages,
   currentPage,
 }: {
   maxDotCount: number;
   currentPage: number;
-  totalPage: number;
+  totalPages: number;
 }): [number, number] => {
   if (!currentPage) {
     return [0, maxDotCount - 1];
@@ -20,7 +20,7 @@ export const getPaginationDotVisibleArea = ({
   if (
     isEven &&
     currentIndex >= reference &&
-    totalPage - reference > currentIndex
+    totalPages - reference > currentIndex
   ) {
     return [
       currentIndex - reference + 1,
@@ -34,8 +34,8 @@ export const getPaginationDotVisibleArea = ({
   }
 
   // last
-  if (totalPage - reference <= currentIndex) {
-    return [totalPage - maxDotCount, totalPage - 1];
+  if (totalPages - reference <= currentIndex) {
+    return [totalPages - maxDotCount, totalPages - 1];
   }
 
   return [
@@ -48,14 +48,14 @@ type GetPaginationDotScaleParams = {
   index: number;
   visibleArea: [number, number];
   maxDotCount: number;
-  totalPage: number;
+  totalPages: number;
 };
 
 export const getPaginationDotScale = ({
   index,
   visibleArea,
   maxDotCount,
-  totalPage,
+  totalPages,
 }: GetPaginationDotScaleParams) => {
   if (!(index >= visibleArea[0] && index <= visibleArea[1])) {
     return 0;
@@ -71,9 +71,9 @@ export const getPaginationDotScale = ({
 
   // last
   if (
-    (visibleArea[1] === totalPage - 1 &&
-      index >= totalPage - Math.floor(maxDotCount / 2) - 1) ||
-    (visibleArea[1] === totalPage - 2 && index === totalPage - 3)
+    (visibleArea[1] === totalPages - 1 &&
+      index >= totalPages - Math.floor(maxDotCount / 2) - 1) ||
+    (visibleArea[1] === totalPages - 2 && index === totalPages - 3)
   ) {
     return 1;
   }
@@ -85,7 +85,7 @@ export const getPaginationDotScale = ({
 
   if (
     (visibleArea[0] === 1 && index === 1) ||
-    (visibleArea[1] === totalPage - 2 && index === totalPage - 2)
+    (visibleArea[1] === totalPages - 2 && index === totalPages - 2)
   ) {
     return MEDIUM_SCALE_RATIO;
   }

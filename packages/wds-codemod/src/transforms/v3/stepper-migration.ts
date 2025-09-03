@@ -1,4 +1,4 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
+import { findImportDeclaration, getImportedName } from '../../helpers';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -28,7 +28,9 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
 
     root
-      .find(j.Identifier, { name: getLocalName(progressTrackerDesktopImport) })
+      .find(j.Identifier, {
+        name: getImportedName(progressTrackerDesktopImport),
+      })
       .forEach((progressTrackerDesktop) => {
         progressTrackerDesktop.value.name = 'Stepper';
       });
@@ -47,7 +49,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
     root
       .find(j.Identifier, {
-        name: getLocalName(progressTrackerDesktopItemImport),
+        name: getImportedName(progressTrackerDesktopItemImport),
       })
       .forEach((progressTrackerDesktopItem) => {
         progressTrackerDesktopItem.value.name = 'StepperItem';
