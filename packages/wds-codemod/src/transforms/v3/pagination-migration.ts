@@ -1,4 +1,8 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
+import {
+  findImportDeclaration,
+  getImportedName,
+  getLocalName,
+} from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -43,7 +47,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
 
     root
-      .find(j.Identifier, { name: getLocalName(paginationCounterImport) })
+      .find(j.Identifier, { name: getImportedName(paginationCounterImport) })
       .forEach((paginationCounter) => {
         paginationCounter.value.name = 'PageCounter';
       });
@@ -76,7 +80,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
 
     root
-      .find(j.Identifier, { name: getLocalName(paginationDotImport) })
+      .find(j.Identifier, { name: getImportedName(paginationDotImport) })
       .forEach((paginationDot) => {
         paginationDot.value.name = 'PaginationDots';
       });
