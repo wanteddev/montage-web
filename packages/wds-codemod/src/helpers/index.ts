@@ -22,6 +22,10 @@ export const getLocalName = (importSpecifier: ImportSpecifier) => {
   return importSpecifier.imported.name;
 };
 
+export const getImportedName = (importSpecifier: ImportSpecifier) => {
+  return importSpecifier.imported.name;
+};
+
 export const findImportDeclaration = (
   name: string,
   from: string,

@@ -117,15 +117,15 @@ export const routes: Array<Route> = [
       { title: 'Menu', slug: '/docs/components/menu' },
       { title: 'Modal', slug: '/docs/components/modal' },
       { title: 'NoSsr', slug: '/docs/components/no-ssr' },
+      { title: 'PageCounter', slug: '/docs/components/page-counter' },
+      {
+        title: 'PaginationDots',
+        slug: '/docs/components/pagination-dots',
+      },
       {
         title: 'Pagination',
         slug: '/docs/components/pagination',
       },
-      {
-        title: 'PaginationCounter',
-        slug: '/docs/components/pagination-counter',
-      },
-      { title: 'PaginationDot', slug: '/docs/components/pagination-dot' },
       { title: 'PlayBadge', slug: '/docs/components/play-badge' },
       { title: 'Popover', slug: '/docs/components/popover' },
       { title: 'Portal', slug: '/docs/components/portal' },

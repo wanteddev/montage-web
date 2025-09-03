@@ -1,4 +1,8 @@
-import { findImportDeclaration, getLocalName } from '../../helpers';
+import {
+  findImportDeclaration,
+  getImportedName,
+  getLocalName,
+} from '../../helpers';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -76,7 +80,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   if (menuBottomImport) {
     root
-      .find(j.Identifier, { name: getLocalName(menuBottomImport) })
+      .find(j.Identifier, { name: getImportedName(menuBottomImport) })
       .forEach((target) => {
         target.value.name = 'MenuActionArea';
       });
@@ -92,7 +96,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   );
   if (menuBottomContentImport) {
     root
-      .find(j.Identifier, { name: getLocalName(menuBottomContentImport) })
+      .find(j.Identifier, { name: getImportedName(menuBottomContentImport) })
       .forEach((target) => {
         target.value.name = 'MenuActionAreaContent';
       });
