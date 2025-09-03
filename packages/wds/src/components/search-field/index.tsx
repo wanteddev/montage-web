@@ -47,8 +47,9 @@ const SearchField = forwardRef<
         const target = event.target as HTMLElement;
 
         if (
-          target.closest('input, textarea, button, a') ||
-          target.getAttribute('data-role') === 'search-field-reset'
+          target.closest(
+            'input, textarea, button, a, [data-role="search-field-reset"], [contenteditable]',
+          )
         )
           return;
 

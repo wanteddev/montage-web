@@ -74,8 +74,9 @@ const TextField = forwardRef<
         const target = event.target as HTMLElement;
 
         if (
-          target.closest('input, textarea, button, a') ||
-          target.getAttribute('data-role') === 'text-field-reset'
+          target.closest(
+            'input, textarea, button, a, [data-role="text-field-reset"], [contenteditable]',
+          )
         )
           return;
 

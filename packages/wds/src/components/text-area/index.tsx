@@ -165,7 +165,8 @@ const TextArea = forwardRef<
       const handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
 
-        if (target.closest('input, textarea, button, a')) return;
+        if (target.closest('input, textarea, button, a, [contenteditable]'))
+          return;
 
         textAreaRef.current?.click();
         textAreaRef.current?.focus();
