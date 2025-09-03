@@ -11,17 +11,12 @@ export type FramedStyleParams = {
   selected?: boolean;
   shadow?: ThemeShadowToken;
   size?: 'small' | 'medium' | 'large' | 'xlarge';
-  attributes?: {
-    hover?: Array<string> | string;
-    focusVisible?: Array<string> | string;
-  };
 };
 
 export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
   const {
     shadow = 'semantic.elevation.shadow.xsmall',
     size = 'medium',
-    attributes = {},
     invalid,
     disabled,
     selected,
@@ -34,11 +29,9 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
 
   return css`
     ${getSizeStyle(size)}
-    ${getShadowStyle(
-      { base: boxShadow, invalid, disabled, selected, attributes },
-      theme,
-    )}
-      background-color: ${theme.semantic.background.normal.normal};
+    ${getShadowStyle({ base: boxShadow, invalid, selected }, theme)}
+
+    background-color: transparent;
     display: flex;
     padding: var(--wds-framed-style-vertical-padding)
       var(--wds-framed-style-horizontal-padding);
@@ -46,13 +39,6 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
     position: relative;
     width: fit-content;
     height: fit-content;
-    transition:
-      box-shadow ease 0.2s,
-      background-color ease 0.2s;
-
-    &:focus-visible {
-      outline: none;
-    }
 
     & > * {
       position: relative;
@@ -64,33 +50,20 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
       inset: 0;
       width: 100%;
       height: 100%;
-      opacity: 0;
-      background-color: ${theme.semantic.label.normal};
+      opacity: 1;
+      pointer-events: none;
       border-radius: inherit;
       z-index: 0;
       transition: opacity 0.15s ease;
+      transition: box-shadow ease 0.2s;
     }
 
-    ${disabled
-      ? css`
-          background-color: ${theme.semantic.interaction.disable};
-        `
-      : css`
-          &:hover {
-            &::before {
-              opacity: ${theme.opacity[5]};
-            }
-          }
-
-          ${attributes.hover &&
-          css`
-            &${attributesSelector(attributes.hover)} {
-              &::before {
-                opacity: ${theme.opacity[5]};
-              }
-            }
-          `}
-        `}
+    ${disabled &&
+    css`
+      &::before {
+        opacity: ${theme.opacity[43]};
+      }
+    `}
   `;
 };
 
@@ -128,122 +101,38 @@ const getShadowStyle = (
   {
     base,
     invalid,
-    disabled,
     selected,
-    attributes,
-  }: { base: string } & Pick<
-    FramedStyleParams,
-    'invalid' | 'disabled' | 'selected' | 'attributes'
-  >,
+  }: { base: string } & Pick<FramedStyleParams, 'invalid' | 'selected'>,
   theme: Theme,
 ) => {
-  if (disabled) {
-    return css`
-      box-shadow:
-        ${base},
-        inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-    `;
-  }
-
   if (invalid) {
     return css`
-      box-shadow:
-        ${base},
-        inset 0 0 0 1px
-          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
-
-      &:focus,
-      &:focus-visible,
-      &[aria-expanded='true'] {
+      &::before {
         box-shadow:
           ${base},
-          inset 0 0 0 0px transparent,
-          0 0 0 2px
-            ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-          0 0 0 2px ${theme.semantic.background.normal.normal};
+          inset 0 0 0 1px
+            ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
       }
-
-      ${attributes?.focusVisible &&
-      css`
-        &${attributesSelector(attributes.focusVisible)} {
-          box-shadow:
-            ${base},
-            inset 0 0 0 0px transparent,
-            0 0 0 2px
-              ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-            0 0 0 2px ${theme.semantic.background.normal.normal};
-        }
-      `}
     `;
   }
 
   if (selected) {
     return css`
-      box-shadow:
-        ${base},
-        inset 0 0 0 2px
-          ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
-        inset 0 0 0 2px ${theme.semantic.background.normal.normal};
-
-      &:focus,
-      &:focus-visible,
-      &[aria-expanded='true'] {
+      &::before {
         box-shadow:
           ${base},
           inset 0 0 0 2px
             ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
-          inset 0 0 0 2px ${theme.semantic.background.normal.normal},
-          0 0 0 2px
-            ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])};
+          inset 0 0 0 2px ${theme.semantic.background.normal.normal};
       }
-
-      ${attributes?.focusVisible &&
-      css`
-        &${attributesSelector(attributes.focusVisible)} {
-          box-shadow:
-            ${base},
-            inset 0 0 0 2px
-              ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
-            inset 0 0 0 2px ${theme.semantic.background.normal.normal},
-            0 0 0 2px
-              ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])};
-        }
-      `}
     `;
   }
 
   return css`
-    box-shadow:
-      ${base},
-      inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-
-    &:focus,
-    &:focus-visible,
-    &[aria-expanded='true'] {
+    &::before {
       box-shadow:
         ${base},
-        inset 0 0 0 0px transparent,
-        0 0 0 2px
-          ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])};
+        inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
     }
-
-    ${attributes?.focusVisible &&
-    css`
-      &${attributesSelector(attributes.focusVisible)} {
-        box-shadow:
-          ${base},
-          inset 0 0 0 0px transparent,
-          0 0 0 2px
-            ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])};
-      }
-    `}
   `;
-};
-
-const attributesSelector = (attribute: Array<string> | string) => {
-  if (Array.isArray(attribute)) {
-    return attribute.join(',');
-  }
-
-  return attribute;
 };

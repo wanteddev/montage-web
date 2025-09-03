@@ -53,6 +53,16 @@ const Demo = () => {
         >
           <Placeholder />
         </Box>
+        <Box
+          tabIndex={-1}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'xlarge',
+            disabled: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
       </FlexBox>
 
       <FlexBox flexWrap="wrap" gap={8} alignItems="center">
@@ -96,6 +106,17 @@ const Demo = () => {
         >
           <Placeholder />
         </Box>
+        <Box
+          tabIndex={-1}
+          sx={framedStyle({
+            shadow: 'semantic.elevation.shadow.xsmall',
+            size: 'xlarge',
+            selected: true,
+            disabled: true,
+          })}
+        >
+          <Placeholder />
+        </Box>
       </FlexBox>
 
       <FlexBox flexWrap="wrap" gap={8} alignItems="center">
@@ -139,44 +160,12 @@ const Demo = () => {
         >
           <Placeholder />
         </Box>
-      </FlexBox>
-
-      <FlexBox flexWrap="wrap" gap={8} alignItems="center">
-        <Box
-          tabIndex={-1}
-          sx={framedStyle({
-            shadow: 'semantic.elevation.shadow.xsmall',
-            size: 'small',
-            disabled: true,
-          })}
-        >
-          <Placeholder />
-        </Box>
-        <Box
-          tabIndex={-1}
-          sx={framedStyle({
-            shadow: 'semantic.elevation.shadow.xsmall',
-            size: 'medium',
-            disabled: true,
-          })}
-        >
-          <Placeholder />
-        </Box>
-        <Box
-          tabIndex={-1}
-          sx={framedStyle({
-            shadow: 'semantic.elevation.shadow.xsmall',
-            size: 'large',
-            disabled: true,
-          })}
-        >
-          <Placeholder />
-        </Box>
         <Box
           tabIndex={-1}
           sx={framedStyle({
             shadow: 'semantic.elevation.shadow.xsmall',
             size: 'xlarge',
+            invalid: true,
             disabled: true,
           })}
         >
@@ -211,7 +200,6 @@ export default Demo;`}
 { name: 'selected', types: 'boolean' },
 { name: 'shadow', types: 'ThemeShadowToken' },
 { name: 'size', types: '\"small\" | \"medium\" | \"large\" | \"xlarge\" | undefined', defaultValue: 'medium' },
-{ name: 'attributes', types: '{ hover?: Array<string> | string, focusVisible?: Array<string> | string }' },
 ]} />
 
 
@@ -272,41 +260,6 @@ const Placeholder = () => {
   )
 }
 
-
-export default Demo;`}
-/>
-
-### Attributes
-
-attributes 속성을 사용하여 특정 상태에 대한 스타일을 추가할 수 있습니다.
-
-<Demo code={`import { Box, framedStyle, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
-
-const Demo = () => {
-  return (
-    <Menu>
-      <MenuTrigger>
-        <Box
-          as="button"
-          tabIndex={0}
-          sx={framedStyle({
-            size: 'small',
-            attributes: {
-              focusVisible: '[aria-expanded="true"]',
-            },
-          })}
-        >
-          Click Me!
-        </Box>
-      </MenuTrigger>
-      <MenuContent>
-        <MenuList>
-          <MenuItem value="1">Item 1</MenuItem>
-        </MenuList>
-      </MenuContent>
-    </Menu>
-  )
-}
 
 export default Demo;`}
 />
