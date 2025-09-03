@@ -197,7 +197,6 @@ const TooltipContent = forwardRef(
       forceMount = false,
       as,
       sx,
-      __wdsCustomChildren,
       ...props
     }: PolymorphicPropsInternal<TooltipContentProps, T>,
     ref: ForwardedRef<T>,
@@ -256,58 +255,54 @@ const TooltipContent = forwardRef(
             }}
           >
             <Component ref={composedRef} {...props}>
-              {Boolean(__wdsCustomChildren) ? (
-                __wdsCustomChildren
-              ) : (
-                <FlexBox sx={[tooltipWrapperStyle, sx]}>
-                  <FlexBox sx={tooltipContentStyle}>
-                    <FlexBox gap="8px" sx={{ zIndex: 1 }}>
-                      <FlexBox
-                        flexDirection="column"
-                        gap="6px"
+              <FlexBox sx={[tooltipWrapperStyle, sx]}>
+                <FlexBox sx={tooltipContentStyle}>
+                  <FlexBox gap="8px" sx={{ zIndex: 1 }}>
+                    <FlexBox
+                      flexDirection="column"
+                      gap="6px"
+                      sx={{
+                        padding: '0px 2px',
+                      }}
+                    >
+                      <Typography
+                        variant="label1"
+                        weight="medium"
                         sx={{
-                          padding: '0px 2px',
+                          wordBreak: 'keep-all',
+                          overflowWrap: 'anywhere',
                         }}
                       >
-                        <Typography
-                          variant="label1"
-                          weight="medium"
-                          sx={{
-                            wordBreak: 'keep-all',
-                            overflowWrap: 'anywhere',
-                          }}
+                        {children}
+                      </Typography>
+
+                      {Boolean(action) && (
+                        <FlexBox
+                          data-role="tooltip-content-action"
+                          alignItems="center"
+                          sx={{ height: 20 }}
                         >
-                          {children}
-                        </Typography>
-
-                        {Boolean(action) && (
-                          <FlexBox
-                            data-role="tooltip-content-action"
-                            alignItems="center"
-                            sx={{ height: 20 }}
-                          >
-                            {action}
-                          </FlexBox>
-                        )}
-                      </FlexBox>
-
-                      {closeButton && (
-                        <FlexBox sx={{ padding: '0 2px' }}>
-                          <IconButton
-                            variant="normal"
-                            size={16}
-                            onClick={handleDismiss}
-                          >
-                            <IconClose />
-                          </IconButton>
+                          {action}
                         </FlexBox>
                       )}
                     </FlexBox>
 
-                    {arrow && <PopperArrow overlay={overlay} {...scopes} />}
+                    {closeButton && (
+                      <FlexBox sx={{ padding: '0 2px' }}>
+                        <IconButton
+                          variant="normal"
+                          size={16}
+                          onClick={handleDismiss}
+                        >
+                          <IconClose />
+                        </IconButton>
+                      </FlexBox>
+                    )}
                   </FlexBox>
+
+                  {arrow && <PopperArrow overlay={overlay} {...scopes} />}
                 </FlexBox>
-              )}
+              </FlexBox>
             </Component>
           </PopperContent>
         </TooltipContentWrapper>

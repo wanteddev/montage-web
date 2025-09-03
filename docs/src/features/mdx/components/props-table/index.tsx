@@ -66,7 +66,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                           </Box>
                         </TooltipTrigger>
                         <TooltipContent
-                          position="bottom-center"
+                          position="top-center"
                           sx={{ maxWidth: '350px' }}
                         >
                           {value.description}
@@ -139,7 +139,7 @@ const PropsTable = ({ component, fallback }: Props) => {
                         </Box>
                       </TooltipTrigger>
                       <TooltipContent
-                        position="bottom-center"
+                        position="top-center"
                         sx={{ maxWidth: '350px' }}
                       >
                         {value.description}
