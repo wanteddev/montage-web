@@ -10,7 +10,6 @@ import { buttonStyle } from './style';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
-  ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { ButtonProps } from './types';
@@ -19,7 +18,7 @@ const Button = forwardRef(
   <T extends ElementType = 'button'>(
     {
       as,
-      variant: originVariant,
+      variant = 'solid',
       disabled = false,
       disableInteraction = false,
       fullWidth = false,
@@ -42,17 +41,10 @@ const Button = forwardRef(
   ) => {
     const id = useId();
 
-    const variant = originVariant || 'solid';
-
-    const interactionColor: ThemeColorsToken =
-      color === 'primary' && variant === 'outlined'
-        ? 'semantic.primary.normal'
-        : 'semantic.label.normal';
-
     const getInteractionVariant = () => {
       switch (variant) {
         case 'outlined':
-          return color === 'primary' ? 'normal' : 'light';
+          return 'light';
         case 'solid':
           return color === 'primary' ? 'strong' : 'normal';
       }
@@ -67,7 +59,7 @@ const Button = forwardRef(
 
     return (
       <WithInteraction
-        color={interactionColor}
+        color="semantic.label.normal"
         variant={getInteractionVariant()}
         disabled={disableInteraction || disabled}
       >
