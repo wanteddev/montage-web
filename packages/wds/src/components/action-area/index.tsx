@@ -160,7 +160,7 @@ const ActionAreaButton = forwardRef(
           ref={ref}
           variant={buttonVariant ?? 'outlined'}
           size="large"
-          color={buttonColor ?? 'secondary'}
+          color={buttonColor ?? 'primary'}
           fullWidth={parentVariant === 'strong'}
           {...props}
           sx={[actionButtonCancel({ variant, parentVariant }), props.sx]}

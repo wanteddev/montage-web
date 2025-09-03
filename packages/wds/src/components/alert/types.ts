@@ -50,5 +50,5 @@ export type AlertActionAreaButtonProps = Merge<
   {
     variant?: 'normal' | 'assistive' | 'negative';
   },
-  Omit<TextButtonProps, 'color' | 'variant'>
+  Omit<TextButtonProps, 'color'>
 >;
