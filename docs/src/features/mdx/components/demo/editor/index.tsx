@@ -3,9 +3,9 @@ import { refractor } from 'refractor';
 import {
   Box,
   ChipAction,
-  CompactTooltip,
-  CompactTooltipContent,
-  CompactTooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
   FlexBox,
   IconButton,
   useToast,
@@ -99,32 +99,32 @@ const Editor = ({
         </ChipAction>
 
         <TooltipGroup>
-          <CompactTooltip>
-            <CompactTooltipTrigger>
+          <Tooltip>
+            <TooltipTrigger>
               <IconButton size={18} onClick={handleCopy}>
                 <IconCopy />
               </IconButton>
-            </CompactTooltipTrigger>
-            <CompactTooltipContent shortcut="⌘C">Copy</CompactTooltipContent>
-          </CompactTooltip>
+            </TooltipTrigger>
+            <TooltipContent shortcut="⌘C" arrow={false} position="bottom-center">Copy</TooltipContent>
+          </Tooltip>
 
-          <CompactTooltip>
-            <CompactTooltipTrigger>
+          <Tooltip>
+            <TooltipTrigger>
               <IconButton size={18} onClick={reset}>
                 <IconRefresh />
               </IconButton>
-            </CompactTooltipTrigger>
-            <CompactTooltipContent shortcut="⌘R">Reset</CompactTooltipContent>
-          </CompactTooltip>
+            </TooltipTrigger>
+            <TooltipContent shortcut="⌘R" arrow={false} position="bottom-center">Reset</TooltipContent>
+          </Tooltip>
 
-          <CompactTooltip>
-            <CompactTooltipTrigger>
+          <Tooltip>
+            <TooltipTrigger>
               <IconButton size={18} onClick={() => setHatched((prev) => !prev)}>
                 <IconImage />
               </IconButton>
-            </CompactTooltipTrigger>
-            <CompactTooltipContent>Change Background</CompactTooltipContent>
-          </CompactTooltip>
+            </TooltipTrigger>
+            <TooltipContent arrow={false} position="bottom-center">Change Background</TooltipContent>
+          </Tooltip>
         </TooltipGroup>
       </FlexBox>
       {children}

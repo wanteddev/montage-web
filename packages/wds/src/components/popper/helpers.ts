@@ -14,7 +14,7 @@ export const roundByDPR = (value: number) => {
 export const getPlacementMapper = (
   placement: Required<PopperContentProps>['position'],
 ): Placement => {
-  const [slide = 'top', align = 'center'] = placement.split('-') as [
+  const [side = 'top', align = 'center'] = placement.split('-') as [
     Side,
     Alignment | 'center',
   ];
@@ -22,16 +22,7 @@ export const getPlacementMapper = (
   const mergePlaceSide = () =>
     align === 'center' ? '' : (`-${align}` as const);
 
-  switch (slide) {
-    case 'top':
-      return `bottom${mergePlaceSide()}`;
-    case 'left':
-      return `right${mergePlaceSide()}`;
-    case 'bottom':
-      return `top${mergePlaceSide()}`;
-    case 'right':
-      return `left${mergePlaceSide()}`;
-  }
+  return `${side}${mergePlaceSide()}`;
 };
 
 export const getSideAlignFromPlacement = (placement: Placement) => {
