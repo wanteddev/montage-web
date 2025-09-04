@@ -34,7 +34,14 @@ export type TextFieldProps = Merge<
 >;
 
 export type TextFieldContentProps = WithSxProps<{
-  variant?: 'custom' | 'text' | 'timer' | 'badge' | 'icon' | 'icon-button';
+  variant?:
+    | 'custom'
+    | 'text'
+    | 'timer'
+    | 'badge'
+    | 'icon'
+    | 'icon-button'
+    | 'text-button';
   color?: ThemeColorsToken;
   children?: ReactNode;
 }>;
