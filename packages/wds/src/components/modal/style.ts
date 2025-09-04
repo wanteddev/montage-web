@@ -7,6 +7,8 @@ import {
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import { toCssValue } from '../../utils/internal/css';
 
+import { BOTTOM_SHEET_SHADOW } from './constants';
+
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
   ModalContainerProps,
@@ -130,7 +132,7 @@ export const modalContainerStyle =
     }
 
     ${modalContainerSize(size, resize)}
-    ${modalContainerVariant(variant, theme)}
+    ${modalContainerVariant(variant)}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -155,7 +157,6 @@ export const modalContainerStyle =
               variant,
               breakpoint!,
             ),
-            theme,
           )}
         `}
 
@@ -328,10 +329,7 @@ const modalContainerSize = (
   }
 };
 
-const modalContainerVariant = (
-  variant: ModalContainerProps['variant'],
-  theme: Theme,
-) => {
+const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
   switch (variant) {
     case 'full':
       return css`
@@ -434,7 +432,7 @@ const modalContainerVariant = (
         }
 
         &[data-status='open'][data-visibility='hidden'] {
-          box-shadow: ${theme.semantic.elevation.shadow.xlarge};
+          box-shadow: ${BOTTOM_SHEET_SHADOW};
           transition:
             transform 200ms ease,
             box-shadow 200ms ease;
