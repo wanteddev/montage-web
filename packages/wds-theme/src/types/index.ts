@@ -30,10 +30,20 @@ export type ThemeShadowToken = PickThemeShadowToken<
   ObjectToNestedKeys<Pick<Theme, 'semantic'>>
 >;
 
+type PickThemeDropShadowToken<T extends string> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  T extends `semantic.elevation.dropShadow.${infer _}` ? T : never;
+
+export type ThemeDropShadowToken = PickThemeDropShadowToken<
+  ObjectToNestedKeys<Pick<Theme, 'semantic'>>
+>;
+
 export type ThemeColorsToken =
   | ObjectToNestedKeys<Pick<Theme, 'atomic'>>
   | Exclude<
       ObjectToNestedKeys<Pick<Theme, 'semantic'>>,
-      'semantic.platform.ios.navigation' | ThemeShadowToken
+      | 'semantic.platform.ios.navigation'
+      | ThemeShadowToken
+      | ThemeDropShadowToken
     >;
 export type ThemeOpacityToken = ObjectToNestedKeys<Pick<Theme, 'opacity'>>;
