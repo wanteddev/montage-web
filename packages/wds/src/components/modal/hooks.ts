@@ -3,7 +3,7 @@ import { useTheme } from '@wanteddev/wds-engine';
 
 import { getPreviousValue } from '../../utils/responsive-props';
 
-import { MODAL_NAME } from './constants';
+import { BOTTOM_SHEET_SHADOW, MODAL_NAME } from './constants';
 import { useModalContext } from './contexts';
 import { calcOpacityRatio, isTouchEvent } from './helpers';
 
@@ -160,10 +160,7 @@ export const useDraggable = ({
         );
 
         if (calcOpacityRatio(input, minPosition, maxPosition) <= 0.25) {
-          container.style.setProperty(
-            'box-shadow',
-            theme.semantic.elevation.shadow.xlarge,
-          );
+          container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
         } else {
           container.style.removeProperty('box-shadow');
         }
@@ -233,10 +230,7 @@ export const useDraggable = ({
             '--wds-modal-translate',
             `calc(100% - ${topNavigationHeight.current}px)`,
           );
-          container.style.setProperty(
-            'box-shadow',
-            theme.semantic.elevation.shadow.xlarge,
-          );
+          container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
           dimmerRef.current?.style.setProperty('opacity', '0');
         } else {
           container.style.setProperty('--wds-modal-translate', '0px');
@@ -253,10 +247,7 @@ export const useDraggable = ({
           '--wds-modal-translate',
           `calc(100% - ${topNavigationHeight.current}px)`,
         );
-        container.style.setProperty(
-          'box-shadow',
-          theme.semantic.elevation.shadow.xlarge,
-        );
+        container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
         dimmerRef.current?.style.setProperty('opacity', '0');
       } else {
         context.setVisibility('visible');

@@ -96,6 +96,13 @@ export const light = {
       large: `0px 6px 10px -4px ${addHexOpacity(atomic.neutral[10], 0.08)}, 0px 16px 24px -6px ${addHexOpacity(atomic.neutral[10], 0.08)}`,
       xlarge: `0px 10px 15px -5px ${addHexOpacity(atomic.neutral[10], 0.1)}, 0px 24px 38px -10px ${addHexOpacity(atomic.neutral[10], 0.12)}`,
     },
+    dropShadow: {
+      xsmall: `drop-shadow(0px 1px 0.5px ${addHexOpacity(atomic.neutral[10], 0.05)})`,
+      small: `drop-shadow(0px 2px 1px ${addHexOpacity(atomic.neutral[10], 0.03)}) drop-shadow(0px 4px 2.5px ${addHexOpacity(atomic.neutral[10], 0.03)})`,
+      medium: `drop-shadow(0px 4px 2px ${addHexOpacity(atomic.neutral[10], 0.035)}) drop-shadow(0px 10px 6px ${addHexOpacity(atomic.neutral[10], 0.035)})`,
+      large: `drop-shadow(0px 6px 3px ${addHexOpacity(atomic.neutral[10], 0.04)}) drop-shadow(0px 16px 9px ${addHexOpacity(atomic.neutral[10], 0.03)})`,
+      xlarge: `drop-shadow(0px 10px 5px ${addHexOpacity(atomic.neutral[10], 0.05)}) drop-shadow(0px 24px 14px ${addHexOpacity(atomic.neutral[10], 0.06)})`,
+    },
   },
 };
 
@@ -192,6 +199,13 @@ export const dark = {
       medium: `0px 4px 6px -2px ${addHexOpacity(atomic.neutral[10], 0.07)}, 0px 10px 15px -3px ${addHexOpacity(atomic.neutral[10], 0.07)}`,
       large: `0px 6px 10px -4px ${addHexOpacity(atomic.neutral[10], 0.08)}, 0px 16px 24px -6px ${addHexOpacity(atomic.neutral[10], 0.08)}`,
       xlarge: `0px 10px 15px -5px ${addHexOpacity(atomic.neutral[10], 0.1)}, 0px 24px 38px -10px ${addHexOpacity(atomic.neutral[10], 0.12)}`,
+    },
+    dropShadow: {
+      xsmall: `drop-shadow(0px 1px 0.5px ${addHexOpacity(atomic.neutral[10], 0.05)})`,
+      small: `drop-shadow(0px 2px 1px ${addHexOpacity(atomic.neutral[10], 0.03)}) drop-shadow(0px 4px 2.5px ${addHexOpacity(atomic.neutral[10], 0.03)})`,
+      medium: `drop-shadow(0px 4px 2px ${addHexOpacity(atomic.neutral[10], 0.035)}) drop-shadow(0px 10px 6px ${addHexOpacity(atomic.neutral[10], 0.035)})`,
+      large: `drop-shadow(0px 6px 3px ${addHexOpacity(atomic.neutral[10], 0.04)}) drop-shadow(0px 16px 9px ${addHexOpacity(atomic.neutral[10], 0.03)})`,
+      xlarge: `drop-shadow(0px 10px 5px ${addHexOpacity(atomic.neutral[10], 0.05)}) drop-shadow(0px 24px 14px ${addHexOpacity(atomic.neutral[10], 0.06)})`,
     },
   },
 };
