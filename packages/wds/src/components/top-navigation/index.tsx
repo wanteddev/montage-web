@@ -1,8 +1,4 @@
 import { forwardRef, useId } from 'react';
-import {
-  type DefaultComponentPropsInternal,
-  useTheme,
-} from '@wanteddev/wds-engine';
 
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
@@ -22,10 +18,11 @@ import { TopNavigationProvider, useTopNavigationContext } from './contexts';
 import { TOP_NAVIGATION_ACTION_NAME, TOP_NAVIGATION_NAME } from './constants';
 
 import type {
+  DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
-import type { CSSProperties, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { TopNavigationButtonProps, TopNavigationProps } from './types';
 
 const TopNavigation = forwardRef<
@@ -50,8 +47,6 @@ const TopNavigation = forwardRef<
     },
     ref,
   ) => {
-    const theme = useTheme();
-
     const leadingContentRender = () =>
       Boolean(leadingContent) ? (
         <FlexBox
@@ -74,12 +69,21 @@ const TopNavigation = forwardRef<
         </FlexBox>
       );
 
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      variant === 'floating' &&
+      Boolean(toolbar)
+    ) {
+      console.error('toolbar is not supported in floating variant');
+    }
+
     return (
       <TopNavigationProvider variant={variant}>
         <FlexBox
           wds-component="top-navigation"
           ref={ref}
           flexDirection="column"
+          data-is-scrolled={scrolled && variant !== 'floating'}
           {...props}
           sx={[
             topNavigationStyle({
@@ -92,75 +96,41 @@ const TopNavigation = forwardRef<
             }),
             props.sx,
           ]}
-          style={
-            {
-              ['--wds-top-navigation-border-color']:
-                scrolled && variant !== 'floating'
-                  ? theme.semantic.line.normal.normal
-                  : 'transparent',
-              ...props.style,
-            } as CSSProperties
-          }
         >
           <FlexBox sx={topNavigationWrapperStyle(variant)}>
-            {variant !== 'floating' ? (
-              <>
-                {variant !== 'extended' && leadingContentRender()}
-
-                {Boolean(children) && (
-                  <FlexBox
-                    alignItems="center"
-                    sx={topNavigationTitleStyle(variant)}
-                    data-role="navigation-title"
-                  >
-                    <Typography
-                      as="h2"
-                      id={titleId}
-                      variant="headline2"
-                      weight="bold"
-                      color="semantic.label.strong"
-                      display="block"
-                      sx={{ margin: 0, border: 'none' }}
-                    >
-                      {children}
-                    </Typography>
-                  </FlexBox>
-                )}
-
-                {variant !== 'extended' ? (
-                  trailingContentRender()
-                ) : (
-                  <FlexBox sx={{ width: '100%' }}>
-                    {leadingContentRender()}
-                    {trailingContentRender()}
-                  </FlexBox>
-                )}
-              </>
+            {variant === 'extended' ? (
+              <FlexBox sx={{ width: '100%' }}>
+                {leadingContentRender()}
+                {trailingContentRender()}
+              </FlexBox>
             ) : (
-              <>
-                {Boolean(leadingContent) && (
-                  <FlexBox
-                    gap="16px"
-                    data-role="top-navigation-left-button"
-                    sx={topNavigationLeftIconStyle(variant)}
-                  >
-                    {leadingContent}
-                  </FlexBox>
-                )}
-                {Boolean(trailingContent) && (
-                  <FlexBox
-                    gap="16px"
-                    data-role="top-navigation-right-button"
-                    sx={topNavigationRightIconStyle(variant)}
-                  >
-                    {trailingContent}
-                  </FlexBox>
-                )}
-              </>
+              leadingContentRender()
             )}
+
+            {Boolean(children) && (
+              <FlexBox
+                alignItems="center"
+                sx={topNavigationTitleStyle(variant)}
+                data-role="navigation-title"
+              >
+                <Typography
+                  as="h2"
+                  id={titleId}
+                  variant="headline2"
+                  weight="bold"
+                  color="semantic.label.strong"
+                  display="block"
+                  sx={{ margin: 0, border: 'none' }}
+                >
+                  {children}
+                </Typography>
+              </FlexBox>
+            )}
+
+            {variant !== 'extended' && trailingContentRender()}
           </FlexBox>
 
-          {toolbar && (
+          {toolbar && variant !== 'floating' && (
             <FlexBox sx={{ width: '100%' }} data-role="top-navigation-toolbar">
               {toolbar}
             </FlexBox>
