@@ -6,9 +6,9 @@ export const makeSectionHierarchyCode = (
 
   const Demo = () => {
     return (
-			<>
-			${render}
-			</>
+      <>
+      ${render}
+      </>
     );
   };
 

@@ -31,63 +31,19 @@ export const routes: Array<Route> = [
   {
     label: 'Components',
     pages: [
-      {
-        title: 'Accordion',
-        slug: '/docs/components/accordion',
-      },
       { title: 'Autocomplete', slug: '/docs/components/autocomplete' },
-      { title: 'Avatar', slug: '/docs/components/avatar' },
-      {
-        title: 'AvatarButton',
-        slug: '/docs/components/avatar-button',
-      },
-      {
-        title: 'AvatarGroup',
-        slug: '/docs/components/avatar-group',
-      },
       {
         title: 'BottomNavigation',
         slug: '/docs/components/bottom-navigation',
       },
-      {
-        title: 'Card',
-        slug: '/docs/components/card',
-      },
-      {
-        title: 'CardList',
-        slug: '/docs/components/card-list',
-      },
       { title: 'Category', slug: '/docs/components/category' },
-      {
-        title: 'ChipMultiSelect',
-        slug: '/docs/components/chip-multi-select',
-        deprecated: true,
-      },
-      {
-        title: 'CompactTooltip',
-        slug: '/docs/components/compact-tooltip',
-      },
-      {
-        title: 'ContentBadge',
-        slug: '/docs/components/content-badge',
-      },
-      {
-        title: 'DatePicker',
-        slug: '/docs/components/date-picker',
-      },
       { title: 'Alert', slug: '/docs/components/alert' },
-      {
-        title: 'DismissableLayer',
-        slug: '/docs/components/dismissable-layer',
-      },
       { title: 'Divider', slug: '/docs/components/divider' },
       { title: 'FallbackView', slug: '/docs/components/fallback-view' },
       { title: 'Grid', slug: '/docs/components/grid' },
-      { title: 'List', slug: '/docs/components/list' },
       { title: 'Loading', slug: '/docs/components/loading' },
       { title: 'Menu', slug: '/docs/components/menu' },
       { title: 'Modal', slug: '/docs/components/modal' },
-      { title: 'NoSsr', slug: '/docs/components/no-ssr' },
       { title: 'PageCounter', slug: '/docs/components/page-counter' },
       {
         title: 'PaginationDots',
@@ -97,15 +53,9 @@ export const routes: Array<Route> = [
         title: 'Pagination',
         slug: '/docs/components/pagination',
       },
-      { title: 'PlayBadge', slug: '/docs/components/play-badge' },
       {
         title: 'ProgressIndicator',
         slug: '/docs/components/progress-indicator',
-      },
-      {
-        title: 'ProgressStepIndicator',
-        slug: '/docs/components/progress-step-indicator',
-        deprecated: true,
       },
       {
         title: 'ProgressTracker',
@@ -116,21 +66,6 @@ export const routes: Array<Route> = [
         slug: '/docs/components/stepper',
       },
       { title: 'PushBadge', slug: '/docs/components/push-badge' },
-      {
-        title: 'RemoveScroll',
-        slug: '/docs/components/remove-scroll',
-      },
-      {
-        title: 'RoundCheckbox',
-        slug: '/docs/components/round-checkbox',
-        deprecated: true,
-      },
-      {
-        title: 'ScrollArea',
-        slug: '/docs/components/scroll-area',
-      },
-      { title: 'Select', slug: '/docs/components/select' },
-      { title: 'SelectMultiple', slug: '/docs/components/select-multiple' },
       {
         title: 'SectionHeader',
         slug: '/docs/components/section-header',

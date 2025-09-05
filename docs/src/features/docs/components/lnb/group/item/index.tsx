@@ -1,8 +1,8 @@
 import {
-  CompactTooltip,
-  CompactTooltipContent,
-  CompactTooltipTrigger,
   ListCell,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from '@wanteddev/wds';
 import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
@@ -55,8 +55,8 @@ const LnbGroupItem = ({
   }, []);
 
   return (
-    <CompactTooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>
-      <CompactTooltipTrigger>
+    <Tooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>
+      <TooltipTrigger>
         <ListCell
           alignItems="center"
           ref={ref}
@@ -78,11 +78,11 @@ const LnbGroupItem = ({
         >
           {children}
         </ListCell>
-      </CompactTooltipTrigger>
-      <CompactTooltipContent position="right-center" offset={16}>
+      </TooltipTrigger>
+      <TooltipContent position="right-center" offset={16} arrow={false}>
         {children}
-      </CompactTooltipContent>
-    </CompactTooltip>
+      </TooltipContent>
+    </Tooltip>
   );
 };
 

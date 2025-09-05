@@ -65,7 +65,7 @@ const Demo = ({ code, hideCode }: Props) => {
                   justifyContent="center"
                   sx={editorFallbackStyle}
                 >
-                  <Loading />
+                  <Loading variant="circular" />
                 </FlexBox>
               }
             >
