@@ -319,6 +319,7 @@ export const textFieldButtonStyle =
     overflow: hidden;
     background-color: transparent;
     flex-shrink: 0;
+    position: relative;
 
     &:disabled {
       box-shadow: none;
