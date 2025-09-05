@@ -35,7 +35,7 @@ createdAt: 2025-07-15
 - [Accordion](../../contents/accordion)
 - [Autocomplete](../../presentation/autocomplete)
 - [CompactTooltip](../../feedback/compact-tooltip)
-- [Dialog](../../feedback/dialog)
+- [Alert](../../feedback/alert)
 - [Menu](../../presentation/menu)
 - [Modal](../../presentation/modal)
 - [Popover](./popover)
@@ -255,11 +255,11 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Dialog
+### Alert
 
 `[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
 
-<Demo code={`import { css, keyframes, FlexBox, Button, Typography, Dialog, DialogDimmer, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { css, keyframes, FlexBox, Button, Typography, Alert, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const mountAnimation = keyframes\`
@@ -280,7 +280,7 @@ const unmountAnimation = keyframes\`
   }
 \`;
 
-const dialogContentStyle = css\`
+const alertContentStyle = css\`
   &[data-status='open'] {
     animation: \${mountAnimation} 0.2s ease;
   }
@@ -301,23 +301,23 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="16px">
       <Button onClick={handleOpen}>열기</Button>
 
-      <Dialog sx={dialogContentStyle} open={open} onOpenChange={setOpen} dimmer={<DialogDimmer sx={dialogContentStyle} />}>
-        <DialogContent>
-          <DialogHeading>제목</DialogHeading>
-          <DialogDescription>설명</DialogDescription>
-        </DialogContent>
-        <DialogActionArea>
-          <DialogActionAreaButton variant="normal">
+      <Alert sx={alertContentStyle} open={open} onOpenChange={setOpen} dimmer={<AlertDimmer sx={alertContentStyle} />}>
+        <AlertContent>
+          <AlertHeading>제목</AlertHeading>
+          <AlertDescription>설명</AlertDescription>
+        </AlertContent>
+        <AlertActionArea>
+          <AlertActionAreaButton variant="normal">
             확인
-          </DialogActionAreaButton>
-          <DialogActionAreaButton variant="assistive">
+          </AlertActionAreaButton>
+          <AlertActionAreaButton variant="assistive">
             취소
-          </DialogActionAreaButton>
-          <DialogActionAreaButton variant="negative">
+          </AlertActionAreaButton>
+          <AlertActionAreaButton variant="negative">
             삭제
-          </DialogActionAreaButton>
-        </DialogActionArea>
-      </Dialog>
+          </AlertActionAreaButton>
+        </AlertActionArea>
+      </Alert>
     </FlexBox>
   )
 }
@@ -327,7 +327,7 @@ export default Demo;`}
 
 `forceMount` 옵션과 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
 
-<Demo code={`import { Button, Slot, Dialog, DialogDimmer, DialogContent, DialogHeading, DialogDescription, DialogActionArea, DialogActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { Button, Slot, Alert, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
 import { useTransition, animated, config } from "react-spring";
 import { useState } from "react";
 
@@ -352,32 +352,32 @@ const Demo = () => {
       <Button onClick={() => setOpen(true)}>열기</Button>
       {transitions((styles, item) =>
         item ? (
-          <Dialog 
+          <Alert 
             open={open} 
             onOpenChange={setOpen} 
             dimmer={
-              dimmerTransitions((styles, item) => item ? <DialogDimmer as={animated.div} style={styles} /> : null)
+              dimmerTransitions((styles, item) => item ? <AlertDimmer as={animated.div} style={styles} /> : null)
             }
             style={styles}
             as={animated.div}
             forceMount
           >
-            <DialogContent>
-              <DialogHeading>제목</DialogHeading>
-              <DialogDescription>설명</DialogDescription>
-            </DialogContent>
-            <DialogActionArea>
-              <DialogActionAreaButton variant="normal">
+            <AlertContent>
+              <AlertHeading>제목</AlertHeading>
+              <AlertDescription>설명</AlertDescription>
+            </AlertContent>
+            <AlertActionArea>
+              <AlertActionAreaButton variant="normal">
                 확인
-              </DialogActionAreaButton>
-              <DialogActionAreaButton variant="assistive">
+              </AlertActionAreaButton>
+              <AlertActionAreaButton variant="assistive">
                 취소
-              </DialogActionAreaButton>
-              <DialogActionAreaButton variant="negative">
+              </AlertActionAreaButton>
+              <AlertActionAreaButton variant="negative">
                 삭제
-              </DialogActionAreaButton>
-            </DialogActionArea>
-          </Dialog>
+              </AlertActionAreaButton>
+            </AlertActionArea>
+          </Alert>
         ) : null
       )}
     </>
