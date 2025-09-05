@@ -118,6 +118,7 @@ const Gnb = () => {
                 sx={searchBarStyle}
                 onClick={handleOpen}
                 alignItems="center"
+                tabIndex={0}
                 data-lnb-hide={lnbContext.hide}
                 gap="6px"
               >
