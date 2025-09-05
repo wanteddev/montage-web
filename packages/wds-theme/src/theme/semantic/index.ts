@@ -29,6 +29,10 @@ export const light = {
       normal: atomic.common[100],
       alternative: atomic.coolNeutral[99],
     },
+    transparent: {
+      normal: addHexOpacity(atomic.common[100], opacity[8]),
+      alternative: addHexOpacity(atomic.common[100], opacity[28]),
+    },
   },
   interaction: {
     inactive: atomic.coolNeutral[70],
@@ -132,6 +136,10 @@ export const dark = {
     elevated: {
       normal: atomic.coolNeutral[17],
       alternative: atomic.coolNeutral[7],
+    },
+    transparent: {
+      normal: addHexOpacity(atomic.coolNeutral[17], opacity[61]),
+      alternative: addHexOpacity(atomic.coolNeutral[17], opacity[61]),
     },
   },
   interaction: {
