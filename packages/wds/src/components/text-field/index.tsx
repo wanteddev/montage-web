@@ -281,6 +281,18 @@ const TextFieldContent = forwardRef<
           </IconButtonProvider>
         </FlexBox>
       );
+    case 'text-button':
+      return (
+        <FlexBox
+          wds-component="text-field-content"
+          ref={ref}
+          sx={[textFieldContentStyle, sx]}
+          alignItems="center"
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      );
     case 'custom':
     default:
       return (
