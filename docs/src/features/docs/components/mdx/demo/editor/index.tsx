@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { javascript } from '@codemirror/lang-javascript';
 import { EditorState } from '@codemirror/state';
 import { basicSetup } from 'codemirror';
@@ -32,6 +32,7 @@ const Editor = ({
   handleResetComplete,
 }: Props) => {
   const [node, setNode] = useState<HTMLDivElement | null>(null);
+  const focusGuardRef = useRef<HTMLDivElement>(null);
 
   const theme = useTheme();
 
@@ -43,7 +44,16 @@ const Editor = ({
       extensions: [
         basicSetup,
         javascript({ jsx: true, typescript: true }),
-        keymap.of([indentWithTab]),
+        keymap.of([
+          indentWithTab,
+          {
+            key: 'Escape',
+            run: () => {
+              focusGuardRef.current?.focus();
+              return true;
+            },
+          },
+        ]),
         viewTheme(theme),
         EditorView.updateListener.of((vu: ViewUpdate) => {
           if (vu.docChanged) {
@@ -88,6 +98,8 @@ const Editor = ({
 
   const handleFocusEditor = useCallback(() => {
     node?.querySelector<HTMLElement>('[contenteditable="true"]')?.focus();
+    onCollapseChange(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [node]);
 
   return (
@@ -99,6 +111,7 @@ const Editor = ({
         as="div"
         tabIndex={0}
         aria-live="polite"
+        ref={focusGuardRef}
         sx={focusGuardStyle}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
@@ -122,9 +135,8 @@ const Editor = ({
           sx={collapsedStyle}
           role="button"
           tabIndex={-1}
-          aria-label="Expand editor"
+          aria-label="Edit code"
           onClick={() => {
-            onCollapseChange(false);
             handleFocusEditor();
           }}
         />

@@ -10,7 +10,7 @@ export const focusGuardStyle = (theme: Theme) => css`
   position: absolute;
   transition: all ease 0.2s;
   z-index: 2;
-  top: 60px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   outline-offset: 4px;
