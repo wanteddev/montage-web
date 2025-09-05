@@ -55,8 +55,11 @@ export const pageButtonStyle = (theme: Theme) => css`
 `;
 
 export const paginationFieldStyle = css`
-  padding: 6px;
   border-radius: 8px;
+
+  [data-role='text-field-wrapper'] {
+    padding: 6px;
+  }
 
   input {
     ${typographyStyle('label1', 'medium')}

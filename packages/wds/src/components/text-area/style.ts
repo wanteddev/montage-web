@@ -28,7 +28,8 @@ export const textAreaWrapperStyle =
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
       ${theme.semantic.elevation.shadow.xsmall};
     border-radius: 12px;
-    background-color: transparent;
+    background-color: ${theme.semantic.background.transparent.normal};
+    backdrop-filter: blur(32px);
     padding: 12px;
 
     ${invalid &&
@@ -41,7 +42,8 @@ export const textAreaWrapperStyle =
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.interaction.disable};
+          background-color: ${theme.semantic.fill.alternative};
+          backdrop-filter: none;
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
             ${theme.semantic.elevation.shadow.xsmall};
