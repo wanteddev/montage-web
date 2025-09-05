@@ -29,7 +29,8 @@ export const selectStyle =
     box-shadow:
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
       ${theme.semantic.elevation.shadow.xsmall};
-    background-color: transparent;
+    background-color: ${theme.semantic.background.transparent.normal};
+    backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
     padding: 12px;
@@ -71,7 +72,8 @@ export const selectStyle =
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.interaction.disable};
+          background-color: ${theme.semantic.fill.alternative};
+          backdrop-filter: none;
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
             ${theme.semantic.elevation.shadow.xsmall};
