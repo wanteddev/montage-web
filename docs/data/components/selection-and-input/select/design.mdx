@@ -10,79 +10,79 @@ createdAt: 2025-08-11
   ratio="21:9"
   data={[
     'Heading',
-		'Required badge',
-		'Leading icon',
-		'Dropdown icon',
-		'Placeholder',
-		'Description',
-		'Container'
+    'Required badge',
+    'Leading icon',
+    'Dropdown icon',
+    'Placeholder',
+    'Description',
+    'Container'
   ]}
 />
 
 <SectionVariants
   components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'ChipAction']}
   icons={['IconGlobe', 'IconCloseThick']}
-	states={`
-		const [value, setValue] = React.useState([]);
-		const ref = React.useRef(null);
-	`}
+  states={`
+    const [value, setValue] = React.useState([]);
+    const ref = React.useRef(null);
+  `}
   render={(value) => {
     const props = {};
-		const component = value['Variants'] === 'Single' ? 'Select' : 'SelectMultiple';
+    const component = value['Variants'] === 'Single' ? 'Select' : 'SelectMultiple';
 
     let render = undefined;
-		let leadingContent = undefined;
+    let leadingContent = undefined;
 
-		let optionVariant = 'radio';
+    let optionVariant = 'radio';
 
     if (component === 'SelectMultiple') {
       props.overflow = value['Overflow'] === 'True';
-			optionVariant = 'checkbox';
+      optionVariant = 'checkbox';
 
-			if (value['Render'] === 'Chip') {
-				render = `() => (
-					value.map((v) => (
-						<ChipAction
-							key={v}
-							size="xsmall"
-							variant="solid"
-							trailingContent={<IconCloseThick />}
-							onClick={(e) => {
-								e.stopPropagation();
-								setValue(value.filter(data => data !== v))
-								ref.current?.focus();
-							}}
-						>
-							{v}
-						</ChipAction>
-					))
-				)`;
-			}
-		}
+      if (value['Render'] === 'Chip') {
+        render = `() => (
+          value.map((v) => (
+            <ChipAction
+              key={v}
+              size="xsmall"
+              variant="solid"
+              trailingContent={<IconCloseThick />}
+              onClick={(e) => {
+                e.stopPropagation();
+                setValue(value.filter(data => data !== v))
+                ref.current?.focus();
+              }}
+            >
+              {v}
+            </ChipAction>
+          ))
+        )`;
+      }
+    }
 
-		if (value['Leading icon'] === 'True') {
-			leadingContent = '<SelectContent variant="icon"><IconGlobe /></SelectContent>';
-		}
+    if (value['Leading icon'] === 'True') {
+      leadingContent = '<SelectContent variant="icon"><IconGlobe /></SelectContent>';
+    }
 
     return `
       <FormField sx={{ width: '75%' }}>
         <FormLabel required>Heading</FormLabel>
-				<FormControl>
-					<${component}
-						width="100%"
-						ref={ref}
-						placeholder="Placeholder"
-						leadingContent={${leadingContent}}
-						{...${JSON.stringify(props)}}
-						${component === 'SelectMultiple' ? `onChange={setValue} value={value} render={${render}}` : ''}
-					>
-					  <Option value="Option 1" variant="${optionVariant}">Option 1</Option>
-					  <Option value="Option 2" variant="${optionVariant}">Option 2</Option>
-					  <Option value="Option 3" variant="${optionVariant}">Option 3</Option>
-						<Option value="Option 4" variant="${optionVariant}">Option 4</Option>
-						<Option value="Option 5" variant="${optionVariant}">Option 5</Option>
-					</${component}>
-				</FormControl>
+        <FormControl>
+          <${component}
+            width="100%"
+            ref={ref}
+            placeholder="Placeholder"
+            leadingContent={${leadingContent}}
+            {...${JSON.stringify(props)}}
+            ${component === 'SelectMultiple' ? `onChange={setValue} value={value} render={${render}}` : ''}
+          >
+            <Option value="Option 1" variant="${optionVariant}">Option 1</Option>
+            <Option value="Option 2" variant="${optionVariant}">Option 2</Option>
+            <Option value="Option 3" variant="${optionVariant}">Option 3</Option>
+            <Option value="Option 4" variant="${optionVariant}">Option 4</Option>
+            <Option value="Option 5" variant="${optionVariant}">Option 5</Option>
+          </${component}>
+        </FormControl>
         <FormMessage>Description</FormMessage>
       </FormField>
     `;
@@ -95,7 +95,7 @@ createdAt: 2025-08-11
         { label: 'Multiple', value: {} },
       ]
     },
-		{
+    {
       key: 'Leading icon',
       options: [
         { label: 'False', value: {} },
@@ -104,7 +104,7 @@ createdAt: 2025-08-11
     },
     {
       key: 'Render',
-			disabled: (value) => value['Variants'] === 'Single',
+      disabled: (value) => value['Variants'] === 'Single',
       options: [
         { label: 'Text', value: {} },
         { label: 'Chip', value: {} },
@@ -112,7 +112,7 @@ createdAt: 2025-08-11
     },
     {
       key: 'Overflow',
-			disabled: (value) => value['Variants'] === 'Single',
+      disabled: (value) => value['Variants'] === 'Single',
       options: [
         { label: 'False', value: {} },
         { label: 'True', value: {} },

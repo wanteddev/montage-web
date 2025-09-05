@@ -13,7 +13,7 @@ createdAt: 2025-04-03
     'Hours',
     'Minutes',
     'Seconds',
-		'Current time',
+    'Current time',
     'Button to confirm time',
   ]}
 />
@@ -22,31 +22,31 @@ createdAt: 2025-04-03
   components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'TimePicker', 'PickerActionArea', 'PickerActionAreaButton']}
   render={(value) => {
     const props = {
-			format: value['Variants']
-		};
+      format: value['Variants']
+    };
 
-		let actionArea = 'null';
+    let actionArea = 'null';
 
-		if (value['Action area'] === 'True') {
-			props.disableLastUnitClickClose = true;
-			actionArea = `
-				<PickerActionArea>
-					<PickerActionAreaButton variant="now">현재</PickerActionAreaButton>
-					<PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
-				</PickerActionArea>`;
-		}
+    if (value['Action area'] === 'True') {
+      props.disableLastUnitClickClose = true;
+      actionArea = `
+        <PickerActionArea>
+          <PickerActionAreaButton variant="now">현재</PickerActionAreaButton>
+          <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
+        </PickerActionArea>`;
+    }
 
 
     return `
       <FormField sx={{ width: '75%' }}>
         <FormLabel required>Heading</FormLabel>
-				<FormControl>
-					<TimePicker
-						width="100%"
-						{...${JSON.stringify(props)}}
-						actionArea={${actionArea}}
-					/>
-				</FormControl>
+        <FormControl>
+          <TimePicker
+            width="100%"
+            {...${JSON.stringify(props)}}
+            actionArea={${actionArea}}
+          />
+        </FormControl>
         <FormMessage>Description</FormMessage>
       </FormField>
     `;
@@ -57,8 +57,8 @@ createdAt: 2025-04-03
       options: [
         { label: 'HH:mm', value: {} },
         { label: 'A mm', value: {} },
-				{ label: 'A hh:mm', value: {} },
-				{ label: 'A hh:mm:ss', value: {} },
+        { label: 'A hh:mm', value: {} },
+        { label: 'A hh:mm:ss', value: {} },
       ]
     },
     {
@@ -79,69 +79,69 @@ createdAt: 2025-04-03
 />
 
 <SectionLayout title="Size">
-	<SectionFigure
-		src="/components/selection-and-input/time-picker/design/Image-2.png"
-		ratio="16:9"
-		title="Explanation"
-		description="타임피커는 Action area의 여부와 관계없이 324px의 Height를 가지고 있으며 최소 136, 최대 256 Width를 가지고 있습니다. 상하의 8px의 Safe area를 두어 호출 되는 요소와 모두 동일한 여백을 가질 수 있습니다."
-	/>
+  <SectionFigure
+    src="/components/selection-and-input/time-picker/design/Image-2.png"
+    ratio="16:9"
+    title="Explanation"
+    description="타임피커는 Action area의 여부와 관계없이 324px의 Height를 가지고 있으며 최소 136, 최대 256 Width를 가지고 있습니다. 상하의 8px의 Safe area를 두어 호출 되는 요소와 모두 동일한 여백을 가질 수 있습니다."
+  />
 </SectionLayout>
 
 <SectionLayout title="Default time">
-	<SectionFigure
-		src="/components/selection-and-input/time-picker/design/Image-3.png"
-		ratio="16:10"
-		title="Explanation"
-		description="모든 타임피커의 기본 세팅 시간은 오전(am) 12:00로 통일 되어있으나 기획의 필요에 따라 기본 시간을 변경할 수 있습니다."
-	/>
+  <SectionFigure
+    src="/components/selection-and-input/time-picker/design/Image-3.png"
+    ratio="16:10"
+    title="Explanation"
+    description="모든 타임피커의 기본 세팅 시간은 오전(am) 12:00로 통일 되어있으나 기획의 필요에 따라 기본 시간을 변경할 수 있습니다."
+  />
 </SectionLayout>
 
 <SectionLayout title="Range select">
-	<SectionFigure
-		src="/components/selection-and-input/time-picker/design/Image-4.png"
-		ratio="16:10"
-		title="Explanation"
-		description="시작-종료 시간과 같이 시간의 범위를 지정할 때에는 시간을 지정하는 필드를 각각 하나씩 두고 입력하는 방식을 권장합니다."
-	/>
+  <SectionFigure
+    src="/components/selection-and-input/time-picker/design/Image-4.png"
+    ratio="16:10"
+    title="Explanation"
+    description="시작-종료 시간과 같이 시간의 범위를 지정할 때에는 시간을 지정하는 필드를 각각 하나씩 두고 입력하는 방식을 권장합니다."
+  />
 </SectionLayout>
 
 <SectionLayout title="Format type">
-	<SectionFigure
-		src="/components/selection-and-input/time-picker/design/Image-5.png"
-		ratio="16:10"
-		title="Explanation"
-		description={`다양한 시간 포맷의 사용을 방지하고자 디자인에서는 포맷을 제한하고 있습니다. 
+  <SectionFigure
+    src="/components/selection-and-input/time-picker/design/Image-5.png"
+    ratio="16:10"
+    title="Explanation"
+    description={`다양한 시간 포맷의 사용을 방지하고자 디자인에서는 포맷을 제한하고 있습니다. 
 - 개발 지원 포맷 = H, HH(24시간 형식), h, hh(12시간 형식) / m, mm(0-59) / s, ss(0-59) / A,a(오전오후 표시)
 - 디자인 지원 포맷 = H,h / mm / ss / A
 - 표현 방식 예시
   - 포맷: h:mm:ss A 
   - 결과: 3:07:02 PM`}
-	/>
+  />
 </SectionLayout>
 
 <SectionLayout title="Localization">
-	<SectionFigure
-		src="/components/selection-and-input/time-picker/design/Image-6.png"
-		ratio="21:9"
-		title="Locale and Timezone"
-		description={`- Locale: ko-KR을 기본 값으로 두고 있으며, Locale에 따라 시간 표현 방식과 Format에 영향을 미칩니다. 이 때 AM, PM/오전, 오후의 표기 위치를 고려하여 작업합니다.
+  <SectionFigure
+    src="/components/selection-and-input/time-picker/design/Image-6.png"
+    ratio="21:9"
+    title="Locale and Timezone"
+    description={`- Locale: ko-KR을 기본 값으로 두고 있으며, Locale에 따라 시간 표현 방식과 Format에 영향을 미칩니다. 이 때 AM, PM/오전, 오후의 표기 위치를 고려하여 작업합니다.
 - Timezone: 사용자의 환경에 따라 결정 됩니다.`}
-	/>
+  />
 </SectionLayout>
 
 <SectionLayout title="Triggerable Components">
-	<SectionFigure
-		src="/components/selection-and-input/date-picker/design/Image-7.png"
-		ratio="21:9"
-		title="Explanation"
-		description="타임 피커를 호출하는 컴포넌트는 기본적으로 Textfield로 지정 되어있지만 상황에 따라 호출 요소를 자유롭게 커스텀하여 사용 할 수 있습니다."
-	/>
+  <SectionFigure
+    src="/components/selection-and-input/date-picker/design/Image-7.png"
+    ratio="21:9"
+    title="Explanation"
+    description="타임 피커를 호출하는 컴포넌트는 기본적으로 Textfield로 지정 되어있지만 상황에 따라 호출 요소를 자유롭게 커스텀하여 사용 할 수 있습니다."
+  />
 </SectionLayout>
 
 <SectionLayout title="Mobile">
   <SectionFigureGroup title="iOS">
     <SectionFigure
-		  ratio="3:2"
+      ratio="3:2"
       title="Explanation"
       description="iOS Native Wheel 컴포넌트를 Time Picker로 사용합니다. 바텀시트, 모달 형태로 자유롭게 사용할 수 있습니다."
       src="/components/selection-and-input/time-picker/design/Image-8.png"
@@ -155,7 +155,7 @@ createdAt: 2025-04-03
       src="/components/selection-and-input/time-picker/design/Image-9.png"
     />
   </SectionFigureGroup>
-	<SectionFigureGroup title="Mobile web">
+  <SectionFigureGroup title="Mobile web">
     <SectionFigure
       title="Explanation"
       ratio="3:2"
@@ -168,7 +168,7 @@ createdAt: 2025-04-03
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Current time">
     <SectionFigure
-		  ratio="21:9"
+      ratio="21:9"
       title="Explanation"
       description="사용자가 명확한 현재 시간을 입력해야할 때에는 ‘현재’ 시간을 바로 적용할 수 있도록 옵션을 제공합니다. 이 때 5배수로 분과 초의 간격이 설정 되어있다면 현재 시간 그대로 필드에 적용되며 Picker에서는 선택된 값을 노출하지 않습니다."
       src="/components/selection-and-input/time-picker/design/Image-11.png"
@@ -177,7 +177,7 @@ createdAt: 2025-04-03
 
   <SectionFigureGroup title="Icon button">
     <SectionFigure
-		  ratio="21:9"
+      ratio="21:9"
       title="Explanation"
       description="Textfield를 기본으로 사용할 때에는 피커 호출이라는 명확한 행동을 사용자가 유추할 수 있도록 행동을 암시하는 Trailing content 쪽에 아이콘 버튼을 배치하여 사용합니다. 시간은 필드에 직접 입력하거나 아이콘 버튼을 눌러 피커를 호출할 수 있습니다."
       src="/components/selection-and-input/time-picker/design/Image-12.png"
@@ -187,13 +187,13 @@ createdAt: 2025-04-03
 
 <SectionLayout title="How to use">
   <SectionFigure
-		ratio="21:9"
+    ratio="21:9"
     variant="positive"
     description="시간 간격을 설정할 때에는 간격을 명확하게 인지할 수 있는 Select를 대신 사용하세요."
     src="/components/selection-and-input/time-picker/design/Image-13.png"
   />
   <SectionFigure
-	  ratio="21:9"
+    ratio="21:9"
     variant="negative"
     description="필드에 Trailing, Leading 아이콘을 함께 배치하여 사용자에게 혼란을 주지 마세요."
     src="/components/selection-and-input/time-picker/design/Image-14.png"
