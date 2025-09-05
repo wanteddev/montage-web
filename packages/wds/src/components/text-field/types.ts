@@ -16,6 +16,7 @@ export type TextFieldDefaultProps = WithSxProps<{
   positive?: boolean;
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
+  trailingButton?: ReactNode;
   disabled?: boolean;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
@@ -56,7 +57,6 @@ export type TextFieldButtonProps = WithSxProps<{
   disabled?: boolean;
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
-  position?: 'right' | 'left';
   children?: ReactNode;
   type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }>;
