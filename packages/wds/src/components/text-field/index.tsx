@@ -41,6 +41,7 @@ const TextField = forwardRef<
       invalid,
       leadingContent,
       trailingContent,
+      trailingButton,
       positive,
       readOnly,
       disabled,
@@ -114,82 +115,86 @@ const TextField = forwardRef<
           sx,
         ]}
       >
-        {leadingContent}
-        <input
-          ref={composedRefs}
-          type={type}
-          readOnly={readOnly}
-          disabled={disabled}
-          aria-readonly={readOnly}
-          aria-invalid={invalid}
-          aria-disabled={disabled}
-          {...props}
-        />
-        {invalid ? (
-          <TextFieldContent
-            data-role="text-field-invalid"
-            sx={invalidIconWrapperStyle}
-            variant="icon"
-          >
-            <IconCircleExclamationFill />
-          </TextFieldContent>
-        ) : (
-          positive && (
+        <FlexBox gap="8px" data-role="text-field-wrapper">
+          {leadingContent}
+          <input
+            ref={composedRefs}
+            type={type}
+            readOnly={readOnly}
+            disabled={disabled}
+            aria-readonly={readOnly}
+            aria-invalid={invalid}
+            aria-disabled={disabled}
+            {...props}
+          />
+          {invalid ? (
             <TextFieldContent
-              data-role="text-field-positive"
-              sx={positiveIconWrapperStyle}
+              data-role="text-field-invalid"
+              sx={invalidIconWrapperStyle}
               variant="icon"
             >
-              <IconCircleCheckFill />
+              <IconCircleExclamationFill />
             </TextFieldContent>
-          )
-        )}
+          ) : (
+            positive && (
+              <TextFieldContent
+                data-role="text-field-positive"
+                sx={positiveIconWrapperStyle}
+                variant="icon"
+              >
+                <IconCircleCheckFill />
+              </TextFieldContent>
+            )
+          )}
 
-        <TextFieldContent
-          data-role="text-field-reset"
-          variant="icon-button"
-          onPointerDown={(e) => e.preventDefault()}
-          onClick={() => {
-            const input = inputRef.current;
+          <TextFieldContent
+            data-role="text-field-reset"
+            variant="icon-button"
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => {
+              const input = inputRef.current;
 
-            if (!input) return;
+              if (!input) return;
 
-            requestAnimationFrame(() => {
-              const prevValue = input.value;
+              requestAnimationFrame(() => {
+                const prevValue = input.value;
 
-              const event = new Event('change', { bubbles: true });
-              input.value = '';
+                const event = new Event('change', { bubbles: true });
+                input.value = '';
 
-              props.onChange?.({
-                ...event,
-                target: input as EventTarget & HTMLInputElement,
-                currentTarget: input as EventTarget & HTMLInputElement,
-                nativeEvent: {
+                props.onChange?.({
                   ...event,
-                  target: input as EventTarget,
-                  currentTarget: input as EventTarget,
-                },
-                isDefaultPrevented: () => false,
-                isPropagationStopped: () => false,
-                persist: (): void => {},
+                  target: input as EventTarget & HTMLInputElement,
+                  currentTarget: input as EventTarget & HTMLInputElement,
+                  nativeEvent: {
+                    ...event,
+                    target: input as EventTarget,
+                    currentTarget: input as EventTarget,
+                  },
+                  isDefaultPrevented: () => false,
+                  isPropagationStopped: () => false,
+                  persist: (): void => {},
+                });
+
+                onReset?.(prevValue);
+
+                input.focus();
               });
-
-              onReset?.(prevValue);
-
-              input.focus();
-            });
-          }}
-        >
-          <IconButton
-            type="button"
-            size={22}
-            tabIndex={-1}
-            sx={(theme) => ({ color: theme.semantic.label.assistive })}
+            }}
           >
-            <IconCircleCloseFill />
-          </IconButton>
-        </TextFieldContent>
-        {trailingContent}
+            <IconButton
+              type="button"
+              size={22}
+              tabIndex={-1}
+              sx={(theme) => ({ color: theme.semantic.label.assistive })}
+            >
+              <IconCircleCloseFill />
+            </IconButton>
+          </TextFieldContent>
+          {trailingContent}
+        </FlexBox>
+
+        {trailingButton}
       </Box>
     );
   },
@@ -315,7 +320,6 @@ const TextFieldButton = forwardRef(
     {
       type = 'button',
       as,
-      position = 'right',
       variant = 'normal',
       disabled,
       ...props
@@ -331,8 +335,9 @@ const TextFieldButton = forwardRef(
         ref={ref}
         disabled={disabled}
         size="large"
+        data-role="text-field-button"
         {...props}
-        sx={[textFieldButtonStyle({ variant, position, disabled }), props.sx]}
+        sx={[textFieldButtonStyle({ variant, disabled }), props.sx]}
       />
     );
   },
