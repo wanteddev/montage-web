@@ -14,14 +14,18 @@ export const topNavigationStyle =
   (theme: Theme) => css`
     width: 100%;
     align-items: center;
-    border-bottom: 1px solid var(--wds-top-navigation-border-color);
-    transition: border-color 0.2s ease;
     position: relative;
+    background-color: transparent;
 
     [wds-component='tab-list'] {
       &::after {
         background-color: transparent;
       }
+    }
+
+    &[data-is-scrolled='true'] {
+      ${theme.semantic.platform.ios.navigation}
+      border-bottom-color: ${theme.semantic.line.normal.normal};
     }
 
     ${topNavigationVariant(variant, theme)}
@@ -55,12 +59,17 @@ export const topNavigationWrapperStyle = (
           var(--wds-top-navigation-padding-x, 16px);
         gap: 16px;
         width: 100%;
-        flex-direction: column-reverse;
+        flex-direction: column;
         position: relative;
       `;
     case 'floating':
       return css`
         padding: 0;
+        position: absolute;
+        top: var(--wds-top-navigation-padding-y, 16px);
+        left: var(--wds-top-navigation-padding-x, 16px);
+        width: calc(100% - var(--wds-top-navigation-padding-x, 16px) * 2);
+        justify-content: center;
       `;
   }
 };
@@ -73,10 +82,19 @@ const topNavigationVariant = (
     case 'floating':
       return css`
         position: relative;
+        height: fit-content;
       `;
     default:
       return css`
-        ${theme.semantic.platform.ios.navigation}
+        border-bottom: 1px solid transparent;
+        transition:
+          border-color 0.2s ease,
+          background-color 0.2s ease;
+
+        &:has([wds-component='tab-list']) {
+          border-bottom-color: ${theme.semantic.line.normal.normal};
+          ${theme.semantic.platform.ios.navigation}
+        }
       `;
   }
 };
@@ -86,6 +104,7 @@ export const topNavigationTitleStyle = (
 ) => {
   switch (variant) {
     case 'normal':
+    case 'floating':
       return css`
         width: 100%;
         justify-content: center;
@@ -135,8 +154,8 @@ export const topNavigationRightIconStyle = (
     case 'floating':
       return css`
         position: absolute;
-        right: var(--wds-top-navigation-padding-x, 16px);
-        top: var(--wds-top-navigation-padding-y, 16px);
+        right: 0px;
+        top: 0px;
       `;
   }
 };
@@ -156,8 +175,8 @@ export const topNavigationLeftIconStyle = (
     case 'floating':
       return css`
         position: absolute;
-        left: var(--wds-top-navigation-padding-x, 16px);
-        top: var(--wds-top-navigation-padding-y, 16px);
+        left: 0px;
+        top: 0px;
       `;
   }
 };
