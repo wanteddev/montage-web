@@ -49,9 +49,6 @@ const Avatar = forwardRef<
       'idle' | 'loaded' | 'error'
     >('idle');
 
-    const hasImage = (value: AvatarProps) =>
-      'src' in value && Boolean(value.src);
-
     const prevSrc = useRef(props.src);
 
     useEffect(() => {
@@ -70,7 +67,7 @@ const Avatar = forwardRef<
         data-state={imageLoadingStatus}
         style={style}
       >
-        {imageLoadingStatus !== 'error' && hasImage(props) ? (
+        {imageLoadingStatus !== 'error' && Boolean(props.src) ? (
           <ImageBase
             {...props}
             onLoad={() => {

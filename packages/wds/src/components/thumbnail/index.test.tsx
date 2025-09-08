@@ -23,6 +23,45 @@ describe('when given thumbnail component', () => {
     expect(screen.getByAltText('alt')).toBeInTheDocument();
   });
 
+  it('should render thumbnail with image when src is changed', async () => {
+    const { rerender } = render(
+      <Thumbnail
+        alt="alt"
+        data-testid="thumbnail"
+        src="https://static.wanted.co.kr/favicon/new/favicon.ico"
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('thumbnail')).toBeInTheDocument();
+      expect(screen.getByAltText('alt')).toBeInTheDocument();
+    });
+
+    rerender(
+      <Thumbnail
+        alt="alt"
+        data-testid="thumbnail"
+        src="https://static.wanted.co.kr/favicon/favicon.ico"
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('thumbnail')).toBeInTheDocument();
+      expect(screen.getByAltText('alt')).toBeInTheDocument();
+    });
+
+    vi.spyOn(imageBaseHelpers, 'loadImage').mockRejectedValue(
+      new Error('test'),
+    );
+
+    rerender(<Thumbnail alt="alt" data-testid="thumbnail" src="/" />);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('thumbnail')).not.toBeInTheDocument();
+      expect(screen.getByLabelText('alt')).toBeInTheDocument();
+    });
+  });
+
   it('should render fallback icon when image load failure', async () => {
     vi.spyOn(imageBaseHelpers, 'loadImage').mockRejectedValue(
       new Error('test'),
