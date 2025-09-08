@@ -14,7 +14,7 @@ export const menuPopoverContentStyle = (theme: Theme) => css`
 export const menuScrollAreaStyle = (theme: Theme) => css`
   width: 100%;
   min-width: 140px;
-  max-height: 400px;
+  max-height: 416px;
   height: auto;
   border-radius: inherit;
   border: 1px solid ${theme.semantic.line.solid.neutral};
