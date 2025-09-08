@@ -1,10 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import { DateCalendar } from '.';
@@ -209,34 +203,22 @@ describe('when given date calendar component', () => {
   });
 
   it('should pass accessibility tests', async () => {
-    const { unmount: unmountDay } = render(<DateCalendar {...defaultProps} />);
+    const { rerender } = render(<DateCalendar {...defaultProps} />);
 
-    await waitFor(async () => {
-      expect(await axe(screen.getByRole('rowgroup'))).toHaveNoViolations();
+    expect(await axe(screen.getByRole('rowgroup'))).toHaveNoViolations();
 
-      const rows = screen.getAllByRole('row');
+    const rows = screen.getAllByRole('row');
 
-      for (const row of rows) {
-        expect(await axe(row)).toHaveNoViolations();
-      }
-    });
+    for (const row of rows) {
+      expect(await axe(row)).toHaveNoViolations();
+    }
 
-    unmountDay();
+    rerender(<DateCalendar {...defaultProps} view="year" views={['year']} />);
 
-    const { unmount: unmountYear } = render(
-      <DateCalendar {...defaultProps} view="year" views={['year']} />,
-    );
+    expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
 
-    await waitFor(async () => {
-      expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
-    });
+    rerender(<DateCalendar {...defaultProps} view="month" views={['month']} />);
 
-    unmountYear();
-
-    render(<DateCalendar {...defaultProps} view="month" views={['month']} />);
-
-    await waitFor(async () => {
-      expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
-    });
+    expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
   });
 });

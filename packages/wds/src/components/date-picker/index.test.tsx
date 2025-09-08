@@ -42,27 +42,19 @@ describe('when given date picker component', () => {
 
     fireEvent.keyDown(input, { key: 'ArrowDown' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2024.01.01');
-    });
+    expect(input).toHaveValue('2024.01.01');
 
     fireEvent.keyDown(input, { key: 'ArrowUp' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2025.01.01');
-    });
+    expect(input).toHaveValue('2025.01.01');
 
     fireEvent.keyDown(input, { key: 'End' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2100.01.01');
-    });
+    expect(input).toHaveValue('2100.01.01');
 
     fireEvent.keyDown(input, { key: 'Home' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('1900.01.01');
-    });
+    expect(input).toHaveValue('1900.01.01');
 
     fireEvent.keyDown(input, { key: 'ArrowRight' });
 
@@ -126,17 +118,15 @@ describe('when given date picker component', () => {
     expect(screen.getByTestId('date-picker')).toHaveValue('2024.12.31');
   });
 
-  it('should open date calendar when calendar icon is clicked', async () => {
+  it('should open date calendar when calendar icon is clicked', () => {
     render(<DatePicker {...defaultProps} data-testid="date-picker" />);
 
     fireEvent.click(screen.getByLabelText('Toggle date picker'));
 
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-    });
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
-  it('should handle paste events', async () => {
+  it('should handle paste events', () => {
     render(<DatePicker {...defaultProps} data-testid="date-picker" />);
 
     const input = screen.getByTestId<HTMLInputElement>('date-picker');
@@ -150,9 +140,7 @@ describe('when given date picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2025.05.01');
-    });
+    expect(input).toHaveValue('2025.05.01');
 
     input.setSelectionRange(0, input.value.length);
 
@@ -162,9 +150,7 @@ describe('when given date picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2999.12.31');
-    });
+    expect(input).toHaveValue('2999.12.31');
 
     fireEvent.paste(input, {
       clipboardData: {
@@ -172,9 +158,7 @@ describe('when given date picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2999.12.23');
-    });
+    expect(input).toHaveValue('2999.12.23');
 
     input.setSelectionRange(0, input.value.length);
 
@@ -184,8 +168,6 @@ describe('when given date picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('2050.12.01');
-    });
+    expect(input).toHaveValue('2050.12.01');
   });
 });

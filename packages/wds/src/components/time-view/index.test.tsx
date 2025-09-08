@@ -1,11 +1,5 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import { TimeView } from '.';
@@ -22,11 +16,8 @@ describe('when given time view component', () => {
     onChange: vi.fn(),
   };
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   afterEach(() => {
+    vi.clearAllMocks();
     cleanup();
   });
 
@@ -53,7 +44,7 @@ describe('when given time view component', () => {
     expect(screen.getAllByRole('option')).toHaveLength(12 + 60 / 5 + 2);
   });
 
-  it('should call onChangeComplete when last view is selected', async () => {
+  it('should call onChangeComplete when last view is selected', () => {
     const onChangeComplete = vi.fn();
 
     render(
@@ -64,12 +55,10 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      const minuteItem = screen.getByText('30');
-      fireEvent.click(minuteItem);
+    const minuteItem = screen.getByText('30');
+    fireEvent.click(minuteItem);
 
-      expect(onChangeComplete).toHaveBeenCalledWith(expect.any(Date));
-    });
+    expect(onChangeComplete).toHaveBeenCalledWith(expect.any(Date));
   });
 
   it('should handle minTime and maxTime props', async () => {
@@ -85,12 +74,10 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      expect(screen.getAllByRole('listbox')).toHaveLength(2);
-    });
+    expect(screen.getAllByRole('listbox')).toHaveLength(2);
   });
 
-  it('should handle minTime only', async () => {
+  it('should handle minTime only', () => {
     const minTime = new Date('2025-01-01T12:00:00');
 
     render(
@@ -101,12 +88,10 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      expect(screen.getAllByRole('listbox')).toHaveLength(2);
-    });
+    expect(screen.getAllByRole('listbox')).toHaveLength(2);
   });
 
-  it('should handle maxTime only', async () => {
+  it('should handle maxTime only', () => {
     const maxTime = new Date('2025-01-01T15:00:00');
 
     render(
@@ -117,12 +102,10 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      expect(screen.getAllByRole('listbox')).toHaveLength(2);
-    });
+    expect(screen.getAllByRole('listbox')).toHaveLength(2);
   });
 
-  it('should work with 12-hour format', async () => {
+  it('should work with 12-hour format', () => {
     const minTime = new Date('2025-01-01T09:00:00');
     const maxTime = new Date('2025-01-01T18:00:00');
 
@@ -135,12 +118,10 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      expect(screen.getAllByRole('listbox')).toHaveLength(3);
-    });
+    expect(screen.getAllByRole('listbox')).toHaveLength(3);
   });
 
-  it('should disable hours outside minTime and maxTime range', async () => {
+  it('should disable hours outside minTime and maxTime range', () => {
     const minTime = new Date('2025-01-01T09:00:00'); // 09:00
     const maxTime = new Date('2025-01-01T18:00:00'); // 18:00
 
@@ -153,27 +134,23 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      const hour8 = screen.getByText('8');
-      expect(hour8.closest('[role="option"]')).toHaveAttribute('disabled');
+    const hour8 = screen.getByText('8');
+    expect(hour8.closest('[role="option"]')).toHaveAttribute('disabled');
 
-      const hour19 = screen.getByText('19');
-      expect(hour19.closest('[role="option"]')).toHaveAttribute('disabled');
+    const hour19 = screen.getByText('19');
+    expect(hour19.closest('[role="option"]')).toHaveAttribute('disabled');
 
-      const hour10Elements = screen.getAllByText('10');
-      const hour10 = hour10Elements.find((el) =>
-        el
-          .closest('[role="option"]')
-          ?.getAttribute('data-role')
-          ?.includes('hour'),
-      );
-      expect(hour10?.closest('[role="option"]')).not.toHaveAttribute(
-        'disabled',
-      );
-    });
+    const hour10Elements = screen.getAllByText('10');
+    const hour10 = hour10Elements.find((el) =>
+      el
+        .closest('[role="option"]')
+        ?.getAttribute('data-role')
+        ?.includes('hour'),
+    );
+    expect(hour10?.closest('[role="option"]')).not.toHaveAttribute('disabled');
   });
 
-  it('should not call onChange when clicking disabled time items', async () => {
+  it('should not call onChange when clicking disabled time items', () => {
     const onChange = vi.fn();
     const minTime = new Date('2025-01-01T10:00:00');
     const maxTime = new Date('2025-01-01T18:00:00');
@@ -188,15 +165,13 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      const hour8 = screen.getByText('8');
-      fireEvent.click(hour8);
+    const hour8 = screen.getByText('8');
+    fireEvent.click(hour8);
 
-      expect(onChange).not.toHaveBeenCalled();
-    });
+    expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('should call onChange when clicking enabled time items', async () => {
+  it('should call onChange when clicking enabled time items', () => {
     const onChange = vi.fn();
     const minTime = new Date('2025-01-01T09:00:00');
     const maxTime = new Date('2025-01-01T18:00:00');
@@ -211,15 +186,13 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      const hour12 = screen.getByText('12');
-      fireEvent.click(hour12);
+    const hour12 = screen.getByText('12');
+    fireEvent.click(hour12);
 
-      expect(onChange).toHaveBeenCalledWith(expect.any(Date));
-    });
+    expect(onChange).toHaveBeenCalledWith(expect.any(Date));
   });
 
-  it('should ignore date part and only compare time', async () => {
+  it('should ignore date part and only compare time', () => {
     const minTime = new Date('2024-12-31T09:00:00');
     const maxTime = new Date('2026-01-02T18:00:00');
 
@@ -232,11 +205,9 @@ describe('when given time view component', () => {
       />,
     );
 
-    await waitFor(() => {
-      const hour8 = screen.getByText('8');
+    const hour8 = screen.getByText('8');
 
-      expect(hour8.closest('[role="option"]')).toHaveAttribute('disabled');
-    });
+    expect(hour8.closest('[role="option"]')).toHaveAttribute('disabled');
 
     const hour19 = screen.getByText('19');
     expect(hour19.closest('[role="option"]')).toHaveAttribute('disabled');
@@ -254,20 +225,16 @@ describe('when given time view component', () => {
   it('should pass accessibility tests', async () => {
     render(<TimeView {...defaultProps} />);
 
-    await waitFor(async () => {
-      // rendering check
-      expect(screen.getAllByRole('listbox').at(0)).toBeInTheDocument();
-    });
-
     const timeLists = screen.getAllByRole('listbox');
-
-    for (const timeList of timeLists) {
-      expect(await axe(timeList)).toHaveNoViolations();
-    }
-
     const timeItems = screen.getAllByRole('option');
 
+    for (const list of timeLists) {
+      expect(list).toBeInTheDocument();
+      expect(await axe(list)).toHaveNoViolations();
+    }
+
     for (const item of timeItems) {
+      expect(item).toBeInTheDocument();
       expect(await axe(item)).toHaveNoViolations();
     }
   });

@@ -21,10 +21,10 @@ describe('when given tab component with panel', () => {
             Tab 2
           </TabListItem>
         </TabList>
-        <TabPanel data-testid="tab-panel-1" value="1">
+        <TabPanel data-testid="tab-panel-1" value="1" mountMode="only-active">
           Panel 1
         </TabPanel>
-        <TabPanel data-testid="tab-panel-2" value="2">
+        <TabPanel data-testid="tab-panel-2" value="2" mountMode="only-active">
           Panel 2
         </TabPanel>
       </Tab>,
@@ -41,10 +41,8 @@ describe('when given tab component with panel', () => {
 
     fireEvent.click(screen.getByTestId('tab-2'));
 
-    waitFor(() => {
-      expect(screen.queryByTestId('tab-panel-1')).not.toBeInTheDocument();
-      expect(screen.getByTestId('tab-panel-2')).toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('tab-panel-1')).not.toBeInTheDocument();
+    expect(screen.getByTestId('tab-panel-2')).toBeInTheDocument();
   });
 
   it('should handle keyboard navigation', async () => {
@@ -52,8 +50,8 @@ describe('when given tab component with panel', () => {
     fireEvent.keyDown(screen.getByTestId('tab-1'), { key: 'ArrowRight' });
 
     await waitFor(() => {
-      expect(screen.getByTestId('tab-2')).toHaveFocus();
       expect(screen.getByTestId('tab-panel-2')).toBeInTheDocument();
+      expect(screen.getByTestId('tab-2')).toHaveFocus();
     });
   });
 

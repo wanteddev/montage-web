@@ -4,9 +4,9 @@ import type { ReactNode } from 'react';
 export type SectionMessageProps = WithSxProps<{
   variant?: 'info' | 'positive' | 'cautionary' | 'negative' | 'custom';
   children?: ReactNode;
-  show?: boolean;
-  defaultShow?: boolean;
-  onShowChange?: (state: boolean) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (state: boolean) => void;
   /**
    * Displays the close button.
    */
