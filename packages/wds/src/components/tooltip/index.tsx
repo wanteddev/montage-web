@@ -288,10 +288,15 @@ const TooltipContent = forwardRef(
                     </FlexBox>
 
                     {closeButton && (
-                      <FlexBox sx={{ padding: '0 2px' }}>
+                      <FlexBox
+                        sx={{ padding: '0 2px', height: 'fit-content' }}
+                        flexShrink="0"
+                        alignItems="center"
+                      >
                         <IconButton
                           variant="normal"
                           size={16}
+                          aria-label="Close tooltip"
                           onClick={handleDismiss}
                         >
                           <IconClose />
