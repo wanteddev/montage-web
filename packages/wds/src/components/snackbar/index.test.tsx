@@ -4,7 +4,6 @@ import {
   fireEvent,
   render,
   screen,
-  waitFor,
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
@@ -55,36 +54,30 @@ describe('when given snackbar component', () => {
     cleanup();
   });
 
-  it(`should render toast component and ${DEFAULT_DURATION}ms after close`, async () => {
+  it(`should render toast component and ${DEFAULT_DURATION}ms after close`, () => {
     expect(screen.getByTestId('snackbar')).toBeInTheDocument();
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
   });
 
-  it('should not close snackbar if mouse is over the toast container after open', async () => {
+  it('should not close snackbar if mouse is over the toast container after open', () => {
     expect(screen.getByTestId('snackbar')).toBeInTheDocument();
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
 
     fireEvent.mouseEnter(screen.getByTestId('snackbar'));
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('snackbar')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('snackbar')).toBeInTheDocument();
 
     fireEvent.mouseLeave(screen.getByTestId('snackbar'));
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
   });
 
   it('should pass accessibility test', async () => {
