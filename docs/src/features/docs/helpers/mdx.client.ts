@@ -1,5 +1,7 @@
 import { sentenceCase } from 'change-case';
 
+import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../components/lnb/constants';
+
 import type { Frontmatter } from '@/features/docs/types';
 
 export const getFrontmatterTitle = (
@@ -31,4 +33,50 @@ export const getFrontmatterTitle = (
   }
 
   return title;
+};
+
+export const getFrontmatterDescription = (
+  item: Frontmatter,
+  allFrontmatter: Array<Frontmatter>,
+) => {
+  if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(item.slug.toString())) {
+    const designPage = allFrontmatter.find((v) =>
+      v.slug
+        .toString()
+        .includes(
+          item.slug
+            .toString()
+            .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
+        ),
+    );
+
+    if (designPage) {
+      return designPage.description;
+    }
+  }
+
+  return item.description;
+};
+
+export const getFrontmatterImage = (
+  item: Frontmatter,
+  allFrontmatter: Array<Frontmatter>,
+) => {
+  if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(item.slug.toString())) {
+    const designPage = allFrontmatter.find((v) =>
+      v.slug
+        .toString()
+        .includes(
+          item.slug
+            .toString()
+            .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
+        ),
+    );
+
+    if (designPage) {
+      return designPage.image;
+    }
+  }
+
+  return item.image;
 };

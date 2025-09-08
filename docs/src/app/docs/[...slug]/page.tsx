@@ -5,7 +5,11 @@ import {
   getFrontmatterBySlug,
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
-import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
+import {
+  getFrontmatterDescription,
+  getFrontmatterImage,
+  getFrontmatterTitle,
+} from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
 import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
 import CustomRender from '@/features/docs/components/custom-render';
@@ -33,9 +37,16 @@ export const generateMetadata = async ({
   params,
 }: Props): Promise<Metadata> => {
   try {
-    const frontmatter = await getFrontmatterBySlug(parseSlug(params));
+    const [allFrontmatter, frontmatter] = await Promise.all([
+      getAllFrontmatter(),
+      getFrontmatterBySlug(parseSlug(params)),
+    ]);
     const title = getFrontmatterTitle(frontmatter) + ' - Montage';
-    const description = frontmatter.description?.replace(/\\n/g, ' ');
+    const description = getFrontmatterDescription(
+      frontmatter,
+      allFrontmatter,
+    )?.replace(/\\n/g, ' ');
+    const image = getFrontmatterImage(frontmatter, allFrontmatter);
 
     return {
       title,
@@ -44,16 +55,16 @@ export const generateMetadata = async ({
         type: 'website',
         title,
         description,
-        ...(frontmatter.image && {
-          images: [{ url: frontmatter.image, width: 1200, height: 630 }],
+        ...(image && {
+          images: [{ url: image, width: 1200, height: 630 }],
         }),
       },
       twitter: {
         card: 'summary_large_image',
         title,
         description,
-        ...(frontmatter.image && {
-          images: [{ url: frontmatter.image, width: 1200, height: 630 }],
+        ...(image && {
+          images: [{ url: image, width: 1200, height: 630 }],
         }),
       },
     };

@@ -26,8 +26,11 @@ import { breakWordStyle } from '@/styles/text';
 
 import { useMDXContext } from '../../context';
 import useRouteScroll from '../../hooks/use-route-scroll';
-import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../lnb/constants';
-import { getFrontmatterTitle } from '../../helpers/mdx.client';
+import {
+  getFrontmatterDescription,
+  getFrontmatterImage,
+  getFrontmatterTitle,
+} from '../../helpers/mdx.client';
 import { shouldNotSerializeMDX } from '../../helpers/overview';
 
 import {
@@ -150,22 +153,7 @@ const DocsDescription = () => {
       return null;
     }
 
-    if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(frontmatter.slug.toString())) {
-      const designPage = allFrontmatter.find((v) =>
-        v.slug
-          .toString()
-          .includes(
-            frontmatter.slug
-              .toString()
-              .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
-          ),
-      );
-
-      if (designPage) {
-        return designPage.description;
-      }
-    }
-    return frontmatter.description;
+    return getFrontmatterDescription(frontmatter, allFrontmatter);
   }, [frontmatter, allFrontmatter]);
 
   const image = useMemo(() => {
@@ -173,22 +161,7 @@ const DocsDescription = () => {
       return null;
     }
 
-    if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(frontmatter.slug.toString())) {
-      const designPage = allFrontmatter.find((v) =>
-        v.slug
-          .toString()
-          .includes(
-            frontmatter.slug
-              .toString()
-              .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
-          ),
-      );
-
-      if (designPage) {
-        return designPage.image;
-      }
-    }
-    return frontmatter.image;
+    return getFrontmatterImage(frontmatter, allFrontmatter);
   }, [frontmatter, allFrontmatter]);
 
   if (!frontmatter || shouldNotSerializeMDX(frontmatter.slug)) {
