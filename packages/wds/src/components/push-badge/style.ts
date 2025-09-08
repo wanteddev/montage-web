@@ -117,7 +117,7 @@ const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
         top: calc(50% + var(--wds-push-badge-offset-y));
         left: calc(100% + var(--wds-push-badge-offset-x));
         transform: scale(0) translate(-50%, -50%);
-        ${invisible &&
+        ${!invisible &&
         css`
           transform: scale(1) translate(-50%, -50%);
         `}
@@ -186,7 +186,6 @@ const pushBadgeVariantStyle = ({ variant }: PushBadgeProps, theme: Theme) => {
 
         & > [data-role='push-badge-text'] {
           display: block;
-          line-height: 1;
         }
       `;
   }
@@ -220,6 +219,7 @@ const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
 
             [data-role='push-badge-text'] {
               ${typographyStyle('caption2', 'bold')}
+              line-height: 1;
             }
           `;
         case 'small':
@@ -230,6 +230,7 @@ const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
 
             [data-role='push-badge-text'] {
               ${typographyStyle('caption2', 'bold')}
+              line-height: 1;
             }
           `;
         case 'medium':
@@ -240,6 +241,7 @@ const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
 
             [data-role='push-badge-text'] {
               ${typographyStyle('label1', 'bold')}
+              line-height: 1;
             }
           `;
       }
@@ -254,6 +256,7 @@ const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
 
             [data-role='push-badge-text'] {
               ${typographyStyle('caption2', 'bold')}
+              line-height: 1;
             }
           `;
         case 'small':
@@ -264,6 +267,7 @@ const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
 
             [data-role='push-badge-text'] {
               ${typographyStyle('caption2', 'bold')}
+              line-height: 1;
             }
           `;
         case 'medium':
@@ -274,6 +278,7 @@ const pushBadgeSizeStyle = ({ size, variant }: PushBadgeProps) => {
 
             [data-role='push-badge-text'] {
               ${typographyStyle('label1', 'bold')}
+              line-height: 1;
             }
           `;
       }
