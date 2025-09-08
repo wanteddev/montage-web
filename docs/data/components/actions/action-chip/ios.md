@@ -1,6 +1,6 @@
 ---
 title: Action chip
-description: 액션 칩 컴포넌트입니다.
+createdAt: 2025-09-08
 ---
 
 ```swift

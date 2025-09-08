@@ -1,6 +1,6 @@
 ---
 title: Action area
-description: 화면 하단에 사용자 액션 버튼을 표시하는 영역 컴포넌트입니다.
+createdAt: 2025-09-08
 ---
 
 ```swift

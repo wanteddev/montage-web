@@ -1,17 +1,19 @@
 ---
 title: Button
-description: 버튼(Buttons)은 작업을 수행하는데 사용되는 클릭 가능한 컴포넌트입니다.\n주로 콘텐츠 혹은 화면의 하단 영역에 배치되며 다양한 방식으로 콘텐츠와 함께\n상호 작용할 수 있도록 돕습니다.
+description: 작업을 수행하는데 사용되는 클릭 가능한 요소입니다. 콘텐츠 혹은 화면의 하단 영역에 배치되며 다양한 방식으로 콘텐츠와 함께 상호 작용할 수 있도록 돕습니다.
 image: /components/actions/button/design/thumbnail.png
 createdAt: 2025-04-03
+updatedAt: 2025-09-08
 ---
 
 <Anatomy
   src="/components/actions/button/design/Image.png"
+  ratio="21:9"
   data={[
     'Leading icon',
     'Label',
     'Trailing icon',
-    'Background',
+    'Container',
   ]}
 />
 
@@ -32,8 +34,8 @@ createdAt: 2025-04-03
       key: 'Icon option',
       options: [
         { label: 'None', value: { children: 'Button' } },
-        { label: 'Leading icon', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
-        { label: 'Trailing icon', value: { children: 'Button', trailingContent: '<IconChevronRightTightSmall />' } },
+        { label: 'Leading icon with label', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
+        { label: 'Trailing icon with label', value: { children: 'Button', trailingContent: '<IconChevronRightTightSmall />' } },
         { label: 'Icon only', value: { children: '<IconRefresh />', iconOnly: true } },
       ]
     }
@@ -42,41 +44,40 @@ createdAt: 2025-04-03
 
 <SectionStates
   src="/components/actions/button/design/Image-1.png"
-  ratio="3:2"
+  ratio="16:9"
   options={['Normal','Hovered', 'Pressed', 'Disabled']}
 />
 
 <SectionLayout title="Size">
   <SectionFigure
-    title="Size customize"
-    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    ratio="21:9"
+    description="너비는 자유롭게 커스터마이징하여 사용할 수 있으나 높이는 고정하여 사용합니다."
     src="/components/actions/button/design/Image-2.png"
   />
 </SectionLayout>
 
-<SectionLayout title="Loading">
+<SectionLayout title="Button loading">
   <SectionFigure
-    ratio="16:10"
-    title="Button loading"
-    description="파일 업로드와 같이 간단한 로딩 상태를 표현할 때 사용합니다.
-로딩 중 페이지 이탈을 통해 동작을 중단할 수 있습니다."
+    ratio="2:1"
+    description="파일 업로드와 같이 간단한 로딩 상태를 표현할 때 사용합니다. 로딩 중 페이지를 이탈할 경우 동작이 중단됩니다."
     src="/components/actions/button/design/Image-3.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
-  <SectionFigureGroup title="Label and icon">
+  <SectionFigureGroup title="Icon only">
     <SectionFigure
-      title="Icon only"
-      description="라벨 버튼과 별도의 가벼운 행동을 제시할 때 Icon Only를 사용합니다."
+      ratio="21:9"
+      description="Label button과 함께 가벼운 행동을 제시할 때 Icon only를 사용할 수 있습니다."
       src="/components/actions/button/design/Image-4.png"
     />
+  </SectionFigureGroup>
 
+  <SectionFigureGroup title="Icon with label">
     <SectionFigure
-      title="Label with icon"
-      description="Leading icon - 버튼 라벨의 추가 설명을 도울 때 사용합니다.
-Trailing icon - 버튼의 행동 자체를 강하게 유도할 때 사용합니다.
-Leading, Trailing icon을 함께 사용하지 않습니다."
+      ratio="21:9"
+      description="- Leading icon: Button label의 추가 설명을 도울 때 사용합니다.
+- Trailing icon: Button의 행동 자체를 강하게 유도할 때 사용합니다."
       src="/components/actions/button/design/Image-5.png"
     />
   </SectionFigureGroup>
@@ -85,20 +86,16 @@ Leading, Trailing icon을 함께 사용하지 않습니다."
 <SectionLayout title="Application">
   <SectionFigureGroup title="Conditional button">
     <SectionFigure
-      title="Meet the conditions"
-      description="기준 값이 충족될 때 버튼의 상태가 Inactive → Active로 변경됩니다.
-값은 프로젝트 내의 스펙에 따라 자유롭게 지정할 수 있습니다."
+      description="입력한 값이 유효할 때 Button의 상태가 Inactive → Active로 변경됩니다. 사용자가 자유롭게 지정할 수 있습니다."
       src="/components/actions/button/design/Image-6.png"
-      ratio="16:10"
+      ratio="2:1"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Toggle button">
     <SectionFigure
-      title="Changing button type"
-      description="버튼을 눌렀을 때 버튼이 변경됩니다. CTA를 유도한 이후에 주목도를 떨어뜨리기 위해 사용하는 용도로 사용합니다.
-변경되는 버튼의 타입은 자유롭지만 사용자에게 의도의 혼란을 줄 수 있는 여지가 있는 Primary → Primary의 변경은 지양합니다. (e.g., Outlined/Primary → Solid/Primary)"
+      description="클릭 시 Button 스타일이 변경됩니다. CTA를 유도한 이후에 주목도를 떨어뜨리기 위해 사용하는 용도로 사용합니다. 변경된 타입은 자유롭지만, 사용자에게 혼란을 줄 수 있는 여지가 있는 Primary → Primary의 변경은 지양합니다. (e.g., Outlined/Primary → Solid/Primary)"
       src="/components/actions/button/design/Image-7.png"
-      ratio="16:10"
+      ratio="16:9"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -106,7 +103,7 @@ Leading, Trailing icon을 함께 사용하지 않습니다."
 <SectionHierarchy>
   <SectionHierarchyItem
     level={4}
-    description="가장 중요한 메인 행동을 유도 및 제안합니다."
+    description="화면 내에서 가장 중요한 메인 행동을 유도 및 제안합니다."
     components={['Button']}
     render={`<Button sx={{width:140}}>Primary</Button>`}
   />
@@ -131,21 +128,18 @@ Leading, Trailing icon을 함께 사용하지 않습니다."
 </SectionHierarchy>
 
 <SectionLayout title="Button layout">
-  <SectionFigureGroup title="Priority: Strong">
+  <SectionFigureGroup title="Priority - Strong">
     <SectionFigure
-      title="Vertical"
-      description="세로 배열로 버튼 라벨이 길거나 메인과 서브 버튼의 비중이 명확하게 차이가 나거나 유도의 목적이 분명할 때 사용합니다."
+      description="수직 배열로 Label이 길거나, 메인과 서브의 비중이 명확하게 차이가 나는 경우 또는 유도의 목적이 분명할 때 사용합니다."
       src="/components/actions/button/design/Image-8.png"
-      ratio="4:3"
+      ratio="16:9"
     />
   </SectionFigureGroup>
-  <SectionFigureGroup title="Priority: Neutral">
+  <SectionFigureGroup title="Priority - Neutral">
     <SectionFigure
-      title="Horizontal"
-      description="버튼의 라벨이 짧고 명료하거나 버튼의 역할나 행동이 비등한 케이스에서 사용합니다.
-주요 버튼은 오른손 엄지의 접근이 용이한 오른쪽에 하단에 배치하는 것을 권장합니다."
+      description="Label이 짧고 명료하거나 Button의 역할 혹은 행동이 비등한 경우 사용합니다. 주 액션은 오른손 엄지의 접근이 용이한 오른쪽에 하단에 배치하는 것을 권장합니다."
       src="/components/actions/button/design/Image-9.png"
-      ratio="4:3"
+      ratio="1.618:1"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -153,16 +147,15 @@ Leading, Trailing icon을 함께 사용하지 않습니다."
 <SectionLayout title="Sticky">
   <SectionFigureGroup title="Keyboard">
     <SectionFigure
-      title="Usage"
-      description="키보드 위에서 Sticky 할 시 Action area를 활용하며 Sticky 옵션을 활성화하여 사용합니다.
-  키보드의 자체의 액션버튼과 이중으로 함께 디자인하지 않도록 주의합니다."
+      ratio="21:9"
+      description="키보드 위에서 Sticky 시 Action area를 활용합니다. 키보드의 액션 버튼과 이중으로 함께 사용하지 않도록 주의합니다."
       src="/components/actions/button/design/Image-10.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Action area">
     <SectionFigure
-      title="Usage"
-      description="Action area는 화면 내에서 가장 높은 위계를 갖고 있으며 페이지 혹은 모달의 하단에 고정 되어 유저의 접근을 용이하게 할 때 사용합니다. Caption과 Extra 옵션을 활용하여 버튼과 밀접한 메시지나 콘텐츠를 함께 Sticky 시킬 수 있습니다."
+      ratio="21:9"
+      description="화면 내에서 가장 높은 위계를 갖고 있으며, 페이지 혹은 모달의 하단에 고정되어 유저의 접근을 용이하게 할 때 사용합니다. Caption과 Extra 옵션을 활용하여 버튼과 밀접한 메시지나 콘텐츠를 함께 사용할 수 있습니다."
       src="/components/actions/button/design/Image-11.png"
     />
   </SectionFigureGroup>
@@ -171,12 +164,14 @@ Leading, Trailing icon을 함께 사용하지 않습니다."
 <SectionLayout title="How to use">
   <SectionFigure
     variant="positive"
-    description="Solid 타입의 커스텀을 통해 Distructive button을 표현할 수 있습니다."
+    ratio="21:9"
+    description="Solid 타입의 커스터마이징을 통해 Destructive button을 표현할 수 있습니다."
     src="/components/actions/button/design/Image-12.png"
   />
   <SectionFigure
     variant="negative"
-    description="버튼의 높이, 둥글기를 임의로 변경하지 않습니다."
+    ratio="21:9"
+    description="Button의 높이, 둥글기를 임의로 변경하지 않습니다."
     src="/components/actions/button/design/Image-13.png"
   />
 </SectionLayout>

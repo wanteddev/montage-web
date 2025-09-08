@@ -1,17 +1,18 @@
 ---
 title: Action chip
-description: 액션칩 (Action chip)은 간결한 정보나 선택 상태를 시각적으로 표현합니다.\n태그, 필터, 선택된 항목 등을 나타내며, 아이콘이나 텍스트와 함께 사용될 수 있습니다.\n작고 유연한 형태로 다양한 인터랙션(선택, 삭제 등)을 지원합니다.
+description: 간결한 정보나 선택 상태를 시각적으로 표현합니다. 태그, 필터, 선택된 항목 등을 나타내며, 아이콘 및 텍스트와 함께 사용할 수 있습니다. 작고 유연한 형태로 다양한 인터랙션을 지원합니다.
 createdAt: 2025-05-12
 image: /components/actions/action-chip/design/Thumbnail.png
 ---
 
 <Anatomy
   src="/components/actions/action-chip/design/Image.png"
+  ratio="21:9"
   data={[
-    'Leading contents',
+    'Leading content',
     'Label',
-    'Trailing contents',
-    'Background',
+    'Trailing content',
+    'Container',
   ]}
 />
 
@@ -27,7 +28,7 @@ image: /components/actions/action-chip/design/Thumbnail.png
       ]
     },
     {
-      key: 'Leading contents',
+      key: 'Leading content option',
       options: [
         { label: 'None', value: { trailingContent: null } },
         { label: 'Icon', value: { leadingContent: '<IconClose />' } },
@@ -35,7 +36,7 @@ image: /components/actions/action-chip/design/Thumbnail.png
       ]
     },
     {
-      key: 'Trailing contents',
+      key: 'Trailing content option',
       options: [
         { label: 'None', value: { trailingContent: null } },
         { label: 'Icon', value: { trailingContent: '<IconClose />' } },
@@ -54,38 +55,34 @@ image: /components/actions/action-chip/design/Thumbnail.png
 
 <SectionLayout title="Size">
   <SectionFigure
-    title="Size Customize"
-    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    ratio="21:9"
+    description="좌우 사이즈는 자유롭게 커스터마이징하여 사용할 수 있으나 높이는 고정하여 사용합니다."
     src="/components/actions/action-chip/design/Image-2.png"
   />
 </SectionLayout>
 
-<SectionLayout title="Layout">
+<SectionLayout title="Flow layout">
   <SectionFigure
-    ratio="16:10"
-    title="Flow layout"
-    description="좌측에서 우측으로 요소를 채워나가는 레이아웃 개념입니다.
-요소를 나열할 시 요소 간의 간격을 균일하게 유지하며 레이아웃을 채워나갑니다.
-Flow Layout의 개념은 칩 뿐만 아니라 뱃지, 카드 등 여러 요소를 나열할 때 사용할 수 있습니다."
+    ratio="2:1"
+    description="좌측에서 우측으로 요소를 채워나가는 레이아웃 개념입니다. 요소를 나열할 시 요소 간의 간격을 균일하게 유지하며 레이아웃을 채워나갑니다. Flow Layout의 개념은 Chip 뿐만 아니라 Badge, Card 등 여러 요소를 나열할 때 사용할 수 있습니다."
     src="/components/actions/action-chip/design/Image-3.png"
   />
 </SectionLayout>
 
 
 <SectionLayout title="Usage">
-  <SectionFigureGroup title="Selected">
+  <SectionFigureGroup title="Select chip">
     <SectionFigure
-      title="Select/Render: Chip"
       ratio="21:9"
-      description="Select의 Render type이 Chip일 시 선택된 값은 Chip의 Active 상태가 적용되지 않으며 선택된 값만 보여집니다."
+      description="Select에서 사용할 때 선택된 값을 표현할 수 있습니다."
       src="/components/actions/action-chip/design/Image-4.png"
     />
+  </SectionFigureGroup>
 
+  <SectionFigureGroup title="Chip group">
     <SectionFigure
-      title="Chip group"
       ratio="21:9"
-      description="클릭으로 Active → Inactive 상태로 변경할 수 있습니다.
-선택할 수 있는 모든 값이 한 화면에 보일 때 사용하는 것을 권장합니다."
+      description="클릭으로 상태로 변경할 수 있습니다. 선택할 수 있는 모든 값이 한 화면에 보일 때 사용하는 것을 권장합니다."
       src="/components/actions/action-chip/design/Image-5.png"
     />
   </SectionFigureGroup>
@@ -94,13 +91,13 @@ Flow Layout의 개념은 칩 뿐만 아니라 뱃지, 카드 등 여러 요소�
 <SectionHierarchy>
   <SectionHierarchyItem
     level={2}
-    description="Solid는 Active 상태에서의 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다."
+    description="Solid는 Active 상태에서 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다."
     components={['ChipAction']}
     render={`<ChipAction size="xsmall" active>Action chip</ChipAction>`}
   />
   <SectionHierarchyItem
     level={1}
-    description="Outlined는 Active 상태에서의 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다."
+    description="Outlined는 Active 상태에서 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다."
     components={['ChipAction']}
     render={`<ChipAction size="xsmall" variant="outlined" active>Action chip</ChipAction>`}
   />
@@ -109,49 +106,32 @@ Flow Layout의 개념은 칩 뿐만 아니라 뱃지, 카드 등 여러 요소�
 <SectionLayout title="Role">
   <SectionFigureGroup title="Clickable Value">
     <SectionFigure
-      title="Usage"
-      description="클릭으로 삭제, 추가, 이동이 가능한 값을 표현할 때 칩을 사용합니다."
+      description="클릭으로 삭제, 추가, 이동이 가능한 값을 표현할 때 Chip을 사용합니다."
       src="/components/actions/action-chip/design/Image-6.png"
       ratio="21:9"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Category">
     <SectionFigure
-      title="Usage"
-      description="탭보다 낮은 레벨로 화면 혹은 섹션에 뿌려지는 값을 구분할 때 칩으로 구성된 카테고리를 사용합니다."
+      description="Tab보다 낮은 레벨로 화면 혹은 섹션에 뿌려지는 값을 구분할 때 Chip으로 구성된 카테고리를 사용합니다."
       src="/components/actions/action-chip/design/Image-7.png"
       ratio="21:9"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="Category">
+<SectionLayout title="How to use">
   <SectionFigure
-    title="Usage"
-    ratio="16:10"
-    description="상단에 고정하여 최상단 카테고리를 구분하는 용도로 사용할 시 주목도가 높은 Solid 타입 사용을 권장합니다.
-위와 같은 케이스에서는 Chip으로 직접 제작하지 않고 Category Component/Normal을 사용합니다."
+    ratio="21:9"
+    variant="positive"
+    description="탭의 하위에서 카테고리를 구분하여 사용할 수 있어요."
     src="/components/actions/action-chip/design/Image-8.png"
   />
   <SectionFigure
-    title="Usage"
-    ratio="16:10"
-    description="화면 전체가 아닌 화면의 일부 Section의 카테고리를 변경할 때 사용합니다.
-위와 같은 케이스에서는 Chip으로 직접 제작하지 않고 Category Component/Alternatve를 사용합니다."
-    src="/components/actions/action-chip/design/Image-9.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    description="탭의 하위에서 카테고리를 구분하여 사용할 수 있어요."
-    src="/components/actions/action-chip/design/Image-10.png"
-  />
-  <SectionFigure
+    ratio="21:9"
     variant="negative"
     description="Border의 색상이나 둥글기를 임의로 변경하여 사용하지 않습니다."
-    src="/components/actions/action-chip/design/Image-11.png"
+    src="/components/actions/action-chip/design/Image-9.png"
   />
 </SectionLayout>
 
