@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
 
 import { FlexBox } from '../flex-box';
@@ -37,10 +37,19 @@ const Thumbnail = forwardRef<
     ref,
   ) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
-      'idle' | 'loading' | 'loaded' | 'error'
+      'idle' | 'loaded' | 'error'
     >('idle');
 
-    return imageLoadingStatus !== 'error' ? (
+    const prevSrc = useRef(props.src);
+
+    useEffect(() => {
+      if (prevSrc.current !== props.src) {
+        prevSrc.current = props.src;
+        setImageLoadingStatus('idle');
+      }
+    }, [props.src]);
+
+    return imageLoadingStatus !== 'error' && Boolean(props.src) ? (
       <FlexBox
         as="figure"
         wds-component="thumbnail"
@@ -102,6 +111,7 @@ const Thumbnail = forwardRef<
         ]}
       >
         <IconImage
+          role="img"
           aria-label={props.alt}
           sx={{ width: '33.34%', height: 'auto' }}
         />
