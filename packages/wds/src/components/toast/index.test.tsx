@@ -4,7 +4,6 @@ import {
   fireEvent,
   render,
   screen,
-  waitFor,
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
@@ -49,31 +48,25 @@ describe('when given toast component', () => {
 
     await act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('toast-container')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('toast-container')).not.toBeInTheDocument();
   });
 
-  it('should not close toast if mouse is over the toast container after open', async () => {
+  it('should not close toast if mouse is over the toast container after open', () => {
     expect(screen.getByTestId('toast-container')).toBeInTheDocument();
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
 
     fireEvent.mouseEnter(screen.getByTestId('toast-container'));
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('toast-container')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('toast-container')).toBeInTheDocument();
 
     fireEvent.mouseLeave(screen.getByTestId('toast-container'));
 
-    await act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('toast-container')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('toast-container')).not.toBeInTheDocument();
   });
 });
 

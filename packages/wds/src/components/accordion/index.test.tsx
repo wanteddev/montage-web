@@ -1,10 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import {
@@ -51,18 +45,14 @@ describe('when given accordion component', () => {
     expect(screen.queryByTestId('accordion-details')).not.toBeInTheDocument();
   });
 
-  it('should expand accordion when summary is clicked', async () => {
+  it('should expand accordion when summary is clicked', () => {
     fireEvent.click(screen.getByTestId('accordion-summary'));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('accordion-details')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('accordion-details')).toBeInTheDocument();
 
     fireEvent.click(screen.getByTestId('accordion-summary'));
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('accordion-details')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('accordion-details')).not.toBeInTheDocument();
   });
 
   it('should pass accessibility test', async () => {
@@ -72,9 +62,7 @@ describe('when given accordion component', () => {
 
     fireEvent.click(screen.getByTestId('accordion-summary'));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('accordion-details')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('accordion-details')).toBeInTheDocument();
 
     expect(
       await axe(screen.getByTestId('accordion-summary')),
@@ -107,11 +95,9 @@ describe('when given accordion component with disabled prop', () => {
     cleanup();
   });
 
-  it('should not expand accordion when summary is clicked', async () => {
+  it('should not expand accordion when summary is clicked', () => {
     fireEvent.click(screen.getByTestId('accordion-summary'));
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('accordion-details')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('accordion-details')).not.toBeInTheDocument();
   });
 });
