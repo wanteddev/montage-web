@@ -1,0 +1,129 @@
+---
+title: Snackbar
+description: Snackbar Component
+---
+
+## Basic snackbar
+
+간단한 메시지와 상호작용을 안내할 때 사용합니다.
+
+[useSnackbar](../../../utilities/web/use-snackbar) 훅을 사용하면 더 간편하게 사용할 수 있습니다.
+
+[RegionConfig](../../utilities/web/region-config) 컴포넌트를 활용하여 노출되는 위치를 조정할 수 있습니다.
+
+<Demo code={`import { Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarAction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Snackbar open disablePortal disableAnimation>
+      <SnackbarContent>
+        <SnackbarHeading>Heading</SnackbarHeading>
+        <SnackbarDescription>Description</SnackbarDescription>
+      </SnackbarContent>
+
+      <SnackbarAction>Action</SnackbarAction>
+    </Snackbar>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Snackbar 는 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Snackbar>
+  <SnackbarContent extraContent={<SnackbarExtraContent />}>
+    <SnackbarHeading />
+    <SnackbarDescription />
+  </SnackbarContent>
+
+  <SnackbarAction />
+</Snackbar>
+```
+
+## With extra content
+
+`SnackbarContent` 의 `extraContent` 속성으로 추가적인 컨텐츠를 추가할 수 있습니다.
+
+<Demo code={`import { Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarExtraContent } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Snackbar open disablePortal disableAnimation>
+      <SnackbarContent
+        extraContent={(
+          <SnackbarExtraContent>
+            <IconBlank />
+          </SnackbarExtraContent>
+        )}
+      >
+        <SnackbarHeading>Heading</SnackbarHeading>
+        <SnackbarDescription>Description</SnackbarDescription>
+      </SnackbarContent>
+    </Snackbar>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Duration
+
+`duration` 옵션을 통해 노출 시간을 조정할 수 있습니다.
+- `Infinity`로 설정하면 무한히 노출됩니다.
+- `short`, `long` 의 시멘틱 값을 사용할 수 있습니다.
+
+<Demo code={`import { Button, Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarAction } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Snackbar open={open} onOpenChange={setOpen} duration="short">
+        <SnackbarContent>
+          <SnackbarHeading>Heading</SnackbarHeading>
+          <SnackbarDescription>Description</SnackbarDescription>
+        </SnackbarContent>
+      </Snackbar>
+
+      <Button onClick={() => setOpen(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### Snackbar
+
+<PropsTable component="Snackbar" />
+
+### SnackbarContent
+
+<PropsTable component="SnackbarContent" />
+
+### SnackbarHeading
+
+<PropsTable component="SnackbarHeading" />
+
+### SnackbarDescription
+
+<PropsTable component="SnackbarDescription" />
+
+### SnackbarAction
+
+<PropsTable component="SnackbarAction" />
+
+### SnackbarExtraContent
+
+<PropsTable component="SnackbarExtraContent" />

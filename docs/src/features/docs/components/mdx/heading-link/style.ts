@@ -8,10 +8,10 @@ export const linkStyle = (theme: Theme) => css`
   position: relative;
 
   [data-role='heading-link-area'] {
-    left: -36px;
+    left: -42px;
     padding-left: 6px;
-    top: 0.25em;
-    transform: translate(0px, -0.25em);
+    top: 50%;
+    transform: translate(0px, -50%);
     position: absolute;
     width: calc(0.75em + 16px);
     height: 100%;
