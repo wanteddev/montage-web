@@ -25,7 +25,6 @@ const unmountKeyframes = keyframes`
 export const tooltipWrapperStyle = css`
   border-radius: 8px;
   backdrop-filter: blur(32px);
-  min-width: 64px;
   max-width: 280px;
 
   &[data-status='open'] {
