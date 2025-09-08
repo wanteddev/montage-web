@@ -1,10 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import { FormControl, FormField, FormLabel, FormMessage } from '../form';
@@ -59,12 +53,10 @@ describe('when given autocomplete component', () => {
     cleanup();
   });
 
-  it('should handle keyboard events', async () => {
+  it('should handle keyboard events', () => {
     fireEvent.click(screen.getByTestId('autocomplete-field'));
 
-    await waitFor(() => {
-      expect(screen.getByTestId('autocomplete-option-1')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('autocomplete-option-1')).toBeInTheDocument();
 
     fireEvent.keyDown(screen.getByTestId('autocomplete-field'), {
       key: 'End',
@@ -74,9 +66,7 @@ describe('when given autocomplete component', () => {
       key: 'Enter',
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-2');
-    });
+    expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-2');
 
     fireEvent.click(screen.getByTestId('autocomplete-field'));
 
@@ -88,9 +78,7 @@ describe('when given autocomplete component', () => {
       key: 'Enter',
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-1');
-    });
+    expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-1');
 
     fireEvent.click(screen.getByTestId('autocomplete-field'));
 
@@ -105,9 +93,7 @@ describe('when given autocomplete component', () => {
       key: 'Enter',
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-2');
-    });
+    expect(screen.getByTestId('autocomplete-field')).toHaveValue('item-2');
   });
 });
 
@@ -150,16 +136,14 @@ describe('when given autocomplete component with form field', () => {
 
     fireEvent.click(screen.getByTestId('autocomplete-field'));
 
-    await waitFor(async () => {
-      expect(
-        await axe(screen.getByTestId('autocomplete-list')),
-      ).toHaveNoViolations();
-      expect(
-        await axe(screen.getByTestId('autocomplete-group')),
-      ).toHaveNoViolations();
-      expect(
-        await axe(screen.getByTestId('autocomplete-option-1')),
-      ).toHaveNoViolations();
-    });
+    expect(
+      await axe(screen.getByTestId('autocomplete-list')),
+    ).toHaveNoViolations();
+    expect(
+      await axe(screen.getByTestId('autocomplete-group')),
+    ).toHaveNoViolations();
+    expect(
+      await axe(screen.getByTestId('autocomplete-option-1')),
+    ).toHaveNoViolations();
   });
 });

@@ -4,7 +4,6 @@ import {
   fireEvent,
   render,
   screen,
-  waitFor,
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
@@ -44,7 +43,7 @@ describe('when given hover mode tooltip component', () => {
     vi.useRealTimers();
   });
 
-  it('should render tooltip content with mouse enter', async () => {
+  it('should render tooltip content with mouse enter', () => {
     expect(screen.getByTestId('tooltip-trigger')).toBeInTheDocument();
     expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
 
@@ -53,21 +52,17 @@ describe('when given hover mode tooltip component', () => {
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
 
     act(() => {
       fireEvent.mouseLeave(screen.getByTestId('tooltip-trigger'));
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
   });
 
-  it('should render tooltip content with focus', async () => {
+  it('should render tooltip content with focus', () => {
     expect(screen.getByTestId('tooltip-trigger')).toBeInTheDocument();
     expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
 
@@ -76,18 +71,14 @@ describe('when given hover mode tooltip component', () => {
       vi.advanceTimersByTime(0);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
 
     act(() => {
       fireEvent.blur(screen.getByTestId('tooltip-trigger'));
       vi.advanceTimersByTime(0);
     });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
   });
 
   it('should pass accessibility tests', async () => {
@@ -100,9 +91,7 @@ describe('when given hover mode tooltip component', () => {
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
 
     expect(
       await axe(screen.getByTestId('tooltip-content')),
@@ -132,7 +121,7 @@ describe('when given click mode tooltip component', () => {
     vi.useRealTimers();
   });
 
-  it('should render tooltip content with click', async () => {
+  it('should render tooltip content with click', () => {
     expect(screen.getByTestId('tooltip-trigger')).toBeInTheDocument();
     expect(screen.queryByTestId('tooltip-content')).not.toBeInTheDocument();
 
@@ -141,9 +130,7 @@ describe('when given click mode tooltip component', () => {
       vi.runAllTimers();
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
   });
 });
 
@@ -167,18 +154,14 @@ describe('when given always mode tooltip component', () => {
     vi.useRealTimers();
   });
 
-  it('should keep open state', async () => {
+  it('should keep open state', () => {
     expect(screen.getByTestId('tooltip-trigger')).toBeInTheDocument();
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
 
-    act(() => {
-      fireEvent.mouseEnter(screen.getByTestId('tooltip-trigger'));
-      fireEvent.mouseLeave(screen.getByTestId('tooltip-trigger'));
-      fireEvent.click(screen.getByTestId('tooltip-trigger'));
-    });
+    fireEvent.mouseEnter(screen.getByTestId('tooltip-trigger'));
+    fireEvent.mouseLeave(screen.getByTestId('tooltip-trigger'));
+    fireEvent.click(screen.getByTestId('tooltip-trigger'));
 
     expect(screen.getByTestId('tooltip-content')).toBeInTheDocument();
   });
@@ -216,26 +199,22 @@ describe('when given tooltip with tooltip group component', () => {
     vi.useRealTimers();
   });
 
-  it('should open the first tooltip after enter delay', async () => {
+  it('should open the first tooltip after enter delay', () => {
     act(() => {
       fireEvent.mouseEnter(screen.getByTestId('tooltip-trigger-1'));
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content-1')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content-1')).toBeInTheDocument();
   });
 
-  it('should open the second tooltip immediately when moving from the first to the second within skipDelayDuration', async () => {
+  it('should open the second tooltip immediately when moving from the first to the second within skipDelayDuration', () => {
     act(() => {
       fireEvent.mouseEnter(screen.getByTestId('tooltip-trigger-1'));
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content-1')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content-1')).toBeInTheDocument();
 
     act(() => {
       fireEvent.mouseLeave(screen.getByTestId('tooltip-trigger-1'));
@@ -243,20 +222,16 @@ describe('when given tooltip with tooltip group component', () => {
       vi.advanceTimersByTime(0);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content-2')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content-2')).toBeInTheDocument();
   });
 
-  it('should apply enter delay again if moving to another tooltip after skipDelayDuration', async () => {
+  it('should apply enter delay again if moving to another tooltip after skipDelayDuration', () => {
     act(() => {
       fireEvent.mouseEnter(screen.getByTestId('tooltip-trigger-1'));
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content-1')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content-1')).toBeInTheDocument();
 
     act(() => {
       fireEvent.mouseLeave(screen.getByTestId('tooltip-trigger-1'));
@@ -270,8 +245,6 @@ describe('when given tooltip with tooltip group component', () => {
       vi.advanceTimersByTime(200);
     });
 
-    await waitFor(() => {
-      expect(screen.getByTestId('tooltip-content-2')).toBeInTheDocument();
-    });
+    expect(screen.getByTestId('tooltip-content-2')).toBeInTheDocument();
   });
 });

@@ -32,9 +32,9 @@ const SectionMessage = forwardRef<
 >(
   (
     {
-      show: originShow,
-      defaultShow = true,
-      onShowChange,
+      open: originOpen,
+      defaultOpen = true,
+      onOpenChange,
       variant = 'info',
       children,
       leadingContent,
@@ -46,17 +46,15 @@ const SectionMessage = forwardRef<
     },
     ref,
   ) => {
-    const [show = false, setShow] = useControllableState({
-      prop: originShow,
-      defaultProp: defaultShow,
-      onChange: onShowChange,
+    const [open = false, setOpen] = useControllableState({
+      prop: originOpen,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
     });
 
-    const handleShowToggle = useCallback(
-      () => setShow((prevShow) => !prevShow),
-      [setShow],
-    );
+    const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
+    const titleId = useId();
     const descriptionId = useId();
 
     const iconComponent: {
@@ -73,92 +71,93 @@ const SectionMessage = forwardRef<
 
     const renderLeadingContent = leadingContent ?? iconComponent[variant];
 
+    if (!open) return null;
+
     return (
-      <>
-        {show && (
-          <FlexBox
-            ref={ref}
-            gap="8px"
-            role="alert"
-            aria-describedby={descriptionId}
-            {...props}
-            sx={[sectionMessageWrapperStyle, props.sx]}
-          >
-            <Box role="presentation" sx={firstOverlayStyle} />
-            <Box role="presentation" sx={secondOverlayStyle(variant)} />
+      <FlexBox
+        ref={ref}
+        gap="8px"
+        role="alert"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        {...props}
+        sx={[sectionMessageWrapperStyle, props.sx]}
+      >
+        <Box role="presentation" sx={firstOverlayStyle} />
+        <Box role="presentation" sx={secondOverlayStyle(variant)} />
 
-            {renderLeadingContent && (
-              <FlexBox flexShrink={0} sx={sectionMessageIconStyle(variant)}>
-                {renderLeadingContent}
-              </FlexBox>
-            )}
-
-            <FlexBox
-              data-role="section-message-content"
-              flexDirection="column"
-              gap="4px"
-              flex="1"
-            >
-              <Typography
-                color="semantic.label.normal"
-                variant="body2"
-                weight="medium"
-                data-role="section-message-content-title"
-                id={descriptionId}
-                as="h2"
-              >
-                {children}
-              </Typography>
-
-              {description && (
-                <Typography
-                  variant="label1-reading"
-                  weight="regular"
-                  data-role="section-message-content-description"
-                  color="semantic.label.neutral"
-                  as="p"
-                >
-                  {description}
-                </Typography>
-              )}
-
-              {bottomButton && (
-                <FlexBox
-                  data-role="section-message-bottom-button"
-                  sx={{ marginTop: 8 }}
-                  gap="16px"
-                >
-                  {bottomButton}
-                </FlexBox>
-              )}
-            </FlexBox>
-
-            {trailingButton && (
-              <FlexBox
-                gap="16px"
-                alignItems="center"
-                sx={sectionMessageTrailingButtonStyle}
-                data-role="section-message-trailing-button"
-              >
-                {trailingButton}
-              </FlexBox>
-            )}
-
-            {closeButton && (
-              <IconButton
-                data-role="section-message-close-icon"
-                color="semantic.label.alternative"
-                interactionColor="semantic.label.alternative"
-                onClick={handleShowToggle}
-                size={20}
-                sx={sectionMessageCloseButtonStyle}
-              >
-                <IconClose />
-              </IconButton>
-            )}
+        {renderLeadingContent && (
+          <FlexBox flexShrink={0} sx={sectionMessageIconStyle(variant)}>
+            {renderLeadingContent}
           </FlexBox>
         )}
-      </>
+
+        <FlexBox
+          data-role="section-message-content"
+          flexDirection="column"
+          gap="4px"
+          flex="1"
+        >
+          <Typography
+            color="semantic.label.normal"
+            variant="body2"
+            weight="medium"
+            data-role="section-message-content-title"
+            id={titleId}
+            as="h2"
+          >
+            {children}
+          </Typography>
+
+          {description && (
+            <Typography
+              variant="label1-reading"
+              weight="regular"
+              data-role="section-message-content-description"
+              id={descriptionId}
+              color="semantic.label.neutral"
+              as="p"
+            >
+              {description}
+            </Typography>
+          )}
+
+          {bottomButton && (
+            <FlexBox
+              data-role="section-message-bottom-button"
+              sx={{ marginTop: 8 }}
+              gap="16px"
+            >
+              {bottomButton}
+            </FlexBox>
+          )}
+        </FlexBox>
+
+        {trailingButton && (
+          <FlexBox
+            gap="16px"
+            alignItems="center"
+            sx={sectionMessageTrailingButtonStyle}
+            data-role="section-message-trailing-button"
+          >
+            {trailingButton}
+          </FlexBox>
+        )}
+
+        {closeButton && (
+          <IconButton
+            data-role="section-message-close-icon"
+            color="semantic.label.alternative"
+            interactionColor="semantic.label.alternative"
+            onClick={handleClose}
+            size={20}
+            aria-label="Close message"
+            sx={sectionMessageCloseButtonStyle}
+          >
+            <IconClose />
+          </IconButton>
+        )}
+      </FlexBox>
     );
   },
 );

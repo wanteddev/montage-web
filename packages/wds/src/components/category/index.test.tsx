@@ -21,10 +21,18 @@ describe('when given category component with panel', () => {
             Category 2
           </CategoryListItem>
         </CategoryList>
-        <CategoryPanel data-testid="category-panel-1" value="1">
+        <CategoryPanel
+          data-testid="category-panel-1"
+          value="1"
+          mountMode="only-active"
+        >
           Panel 1
         </CategoryPanel>
-        <CategoryPanel data-testid="category-panel-2" value="2">
+        <CategoryPanel
+          data-testid="category-panel-2"
+          value="2"
+          mountMode="only-active"
+        >
           Panel 2
         </CategoryPanel>
       </Category>,
@@ -41,10 +49,8 @@ describe('when given category component with panel', () => {
 
     fireEvent.click(screen.getByTestId('category-2'));
 
-    waitFor(() => {
-      expect(screen.queryByTestId('category-panel-1')).not.toBeInTheDocument();
-      expect(screen.getByTestId('category-panel-2')).toBeInTheDocument();
-    });
+    expect(screen.queryByTestId('category-panel-1')).not.toBeInTheDocument();
+    expect(screen.getByTestId('category-panel-2')).toBeInTheDocument();
   });
 
   it('should handle keyboard navigation', async () => {
