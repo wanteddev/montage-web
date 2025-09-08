@@ -29,5 +29,6 @@ export const MIGRATION_TRANSFORMS = {
     'button-secondary-migration': 'Button Secondary Migration',
     'pagination-migration': 'Pagination Migration',
     'compact-tooltip-migration': 'Compact Tooltip Migration',
+    'section-message-show-to-open': 'Section Message Show to Open',
   },
 };
