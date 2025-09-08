@@ -42,27 +42,19 @@ describe('when given time picker component', () => {
 
     fireEvent.keyDown(input, { key: 'ArrowDown' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('09:30:00');
-    });
+    expect(input).toHaveValue('09:30:00');
 
     fireEvent.keyDown(input, { key: 'ArrowUp' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('10:30:00');
-    });
+    expect(input).toHaveValue('10:30:00');
 
     fireEvent.keyDown(input, { key: 'End' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('23:30:00');
-    });
+    expect(input).toHaveValue('23:30:00');
 
     fireEvent.keyDown(input, { key: 'Home' });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('00:30:00');
-    });
+    expect(input).toHaveValue('00:30:00');
 
     fireEvent.keyDown(input, { key: 'ArrowRight' });
 
@@ -153,9 +145,7 @@ describe('when given time picker component', () => {
 
     fireEvent.keyDown(input, { key: 'End' });
 
-    waitFor(() => {
-      expect(input).toHaveValue('12:30');
-    });
+    expect(input).toHaveValue('12:30');
   });
 
   it('should open time-view when clock icon is clicked', async () => {
@@ -165,13 +155,11 @@ describe('when given time picker component', () => {
 
     fireEvent.click(screen.getByLabelText('Toggle time picker'));
 
-    await waitFor(() => {
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
-      expect(document.activeElement).toHaveTextContent('10');
-    });
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(document.activeElement).toHaveTextContent('10');
   });
 
-  it('should handle paste events', async () => {
+  it('should handle paste events', () => {
     render(<TimePicker {...defaultProps} data-testid="time-picker" />);
 
     const input = screen.getByTestId<HTMLInputElement>('time-picker');
@@ -185,9 +173,7 @@ describe('when given time picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('14:30:00');
-    });
+    expect(input).toHaveValue('14:30:00');
 
     input.setSelectionRange(0, input.value.length);
 
@@ -197,9 +183,7 @@ describe('when given time picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('14:30:00');
-    });
+    expect(input).toHaveValue('14:30:00');
 
     fireEvent.paste(input, {
       clipboardData: {
@@ -207,9 +191,7 @@ describe('when given time picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('14:30:23');
-    });
+    expect(input).toHaveValue('14:30:23');
 
     input.setSelectionRange(0, input.value.length);
 
@@ -219,8 +201,6 @@ describe('when given time picker component', () => {
       },
     });
 
-    await waitFor(() => {
-      expect(input).toHaveValue('10:00:00');
-    });
+    expect(input).toHaveValue('10:00:00');
   });
 });
