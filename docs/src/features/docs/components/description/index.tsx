@@ -211,6 +211,7 @@ const DocsDescription = () => {
           width="100%"
           alt={frontmatter.title}
           sx={thumbnailStyle}
+          fetchPriority="high"
         />
       )}
       {hasPlatformPage ? (
