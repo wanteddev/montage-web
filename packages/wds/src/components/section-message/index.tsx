@@ -54,6 +54,7 @@ const SectionMessage = forwardRef<
 
     const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
+    const titleId = useId();
     const descriptionId = useId();
 
     const iconComponent: {
@@ -77,6 +78,7 @@ const SectionMessage = forwardRef<
         ref={ref}
         gap="8px"
         role="alert"
+        aria-labelledby={titleId}
         aria-describedby={descriptionId}
         {...props}
         sx={[sectionMessageWrapperStyle, props.sx]}
@@ -101,7 +103,7 @@ const SectionMessage = forwardRef<
             variant="body2"
             weight="medium"
             data-role="section-message-content-title"
-            id={descriptionId}
+            id={titleId}
             as="h2"
           >
             {children}
@@ -112,6 +114,7 @@ const SectionMessage = forwardRef<
               variant="label1-reading"
               weight="regular"
               data-role="section-message-content-description"
+              id={descriptionId}
               color="semantic.label.neutral"
               as="p"
             >
