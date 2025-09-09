@@ -66,7 +66,10 @@ const ChipAction = forwardRef(
           aria-disabled={disabled}
           aria-pressed={active}
           {...props}
-          sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
+          sx={[
+            actionStyle({ active, variant, size, xs, sm, md, lg, xl }),
+            props.sx,
+          ]}
         >
           {Boolean(leadingContent) && leadingContent}
           <span id={id}>{children}</span>
