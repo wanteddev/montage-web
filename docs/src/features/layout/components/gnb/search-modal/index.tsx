@@ -5,9 +5,9 @@ import {
   ModalContainer,
   ModalContent,
   ModalContentItem,
+  ModalNavigation,
   SearchField,
   TextButton,
-  TopNavigation,
   Typography,
 } from '@wanteddev/wds';
 import { FlexBox } from '@wanteddev/wds';
@@ -83,7 +83,7 @@ export const DocSearchModal = ({
         }
       >
         <DocSearchFilterContext.Provider value={{ category, setCategory }}>
-          <TopNavigation
+          <ModalNavigation
             variant="floating"
             sx={searchModalHeaderStyle}
             toolbar={
