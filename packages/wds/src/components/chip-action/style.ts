@@ -108,7 +108,7 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
 };
 
 const actionVariantStyle = (
-  { variant }: ChipActionProps = {},
+  { variant, active }: ChipActionProps = {},
   theme: Theme,
 ) => {
   switch (variant) {
@@ -118,10 +118,11 @@ const actionVariantStyle = (
         background-color: ${theme.semantic.fill.alternative};
         box-shadow: none;
 
-        &[aria-pressed='true'] {
+        ${active &&
+        css`
           color: ${theme.semantic.inverse.label};
           background-color: ${theme.semantic.inverse.background};
-        }
+        `}
 
         &:disabled,
         &[aria-disabled='true'] {
@@ -136,7 +137,8 @@ const actionVariantStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
-        &[aria-pressed='true'] {
+        ${active &&
+        css`
           background-color: ${addOpacity(
             theme.semantic.primary.normal,
             theme.opacity[5],
@@ -144,7 +146,7 @@ const actionVariantStyle = (
           box-shadow: inset 0 0 0 1px
             ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
           color: ${theme.semantic.primary.normal};
-        }
+        `}
 
         &:disabled,
         &[aria-disabled='true'] {
