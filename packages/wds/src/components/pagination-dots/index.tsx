@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react';
+import { forwardRef, useEffect, useMemo, useRef } from 'react';
 import {
   RovingFocusGroup,
   RovingFocusGroupItem,
@@ -12,6 +12,8 @@ import { paginationDotsStyle, paginationDotsWrapperStyle } from './style';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { PaginationDotsProps } from './types';
+
+const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 const PaginationDots = forwardRef<
   HTMLDivElement,
@@ -43,6 +45,24 @@ const PaginationDots = forwardRef<
         }),
       [maxDotCount, currentPage, totalPages],
     );
+
+    const isArrowKeyPressedRef = useRef(false);
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (ARROW_KEYS.includes(event.key)) {
+          isArrowKeyPressedRef.current = true;
+        }
+      };
+
+      const handleKeyUp = () => (isArrowKeyPressedRef.current = false);
+      document.addEventListener('keydown', handleKeyDown);
+      document.addEventListener('keyup', handleKeyUp);
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        document.removeEventListener('keyup', handleKeyUp);
+      };
+    }, []);
 
     if (typeof totalPages !== 'number' || totalPages < 0) {
       if (process.env.NODE_ENV !== 'production') {
@@ -78,6 +98,7 @@ const PaginationDots = forwardRef<
               <RovingFocusGroupItem
                 key={`wds-pagination-dot-${i}`}
                 active={isActive}
+                focusable
                 asChild
               >
                 <Box
@@ -85,12 +106,12 @@ const PaginationDots = forwardRef<
                   role="tab"
                   onClick={() => onClickDot?.(i + 1)}
                   data-role="pagination-dot-button"
-                  onFocus={(e) => {
-                    e.currentTarget.click();
-                  }}
                   sx={paginationDotsStyle(scale, i === visibleArea[0])}
                   aria-selected={isActive}
                   aria-label={`Slide dot ${i + 1}`}
+                  onFocus={(e) => {
+                    if (isArrowKeyPressedRef.current) e.currentTarget.click();
+                  }}
                 />
               </RovingFocusGroupItem>
             );
