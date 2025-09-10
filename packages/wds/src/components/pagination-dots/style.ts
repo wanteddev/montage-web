@@ -81,7 +81,7 @@ const paginationDotsWrapperColorStyle = (
           )};
           border: none;
 
-          &[aria-current='page'] {
+          &[aria-selected='true'] {
             background-color: ${theme.semantic.label.normal};
           }
         }
@@ -109,7 +109,7 @@ const paginationDotsWrapperColorStyle = (
             border: 1px solid ${theme.semantic.line.normal.neutral};
           }
 
-          &[aria-current='page'] {
+          &[aria-selected='true'] {
             background-color: ${theme.semantic.static.white};
             &::after {
               opacity: ${theme.opacity[100]};

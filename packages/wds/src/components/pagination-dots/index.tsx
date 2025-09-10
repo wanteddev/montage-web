@@ -56,6 +56,8 @@ const PaginationDots = forwardRef<
       <RovingFocusGroup>
         <FlexBox
           alignItems="center"
+          aria-label="Slide dots"
+          role="tablist"
           {...props}
           sx={[
             paginationDotsWrapperStyle({ color, size, xs, sm, md, lg, xl }),
@@ -80,13 +82,15 @@ const PaginationDots = forwardRef<
               >
                 <Box
                   as="button"
+                  role="tab"
                   onClick={() => onClickDot?.(i + 1)}
                   data-role="pagination-dot-button"
                   onFocus={(e) => {
                     e.currentTarget.click();
                   }}
                   sx={paginationDotsStyle(scale, i === visibleArea[0])}
-                  aria-current={isActive ? 'page' : undefined}
+                  aria-selected={isActive}
+                  aria-label={`Slide dot ${i + 1}`}
                 />
               </RovingFocusGroupItem>
             );
