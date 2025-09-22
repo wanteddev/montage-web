@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds-engine';
 
 export const autocompleteListStyle = (theme: Theme) => css`
   padding: 0px;
-  box-shadow: ${theme.semantic.elevation.shadow.small};
+  box-shadow: ${theme.semantic.elevation.shadow.normal.small};
   border-radius: 16px;
   background-color: ${theme.semantic.background.elevated.normal};
 `;

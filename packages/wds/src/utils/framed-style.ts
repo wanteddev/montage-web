@@ -15,7 +15,7 @@ export type FramedStyleParams = {
 
 export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
   const {
-    shadow = 'semantic.elevation.shadow.xsmall',
+    shadow = 'semantic.elevation.shadow.normal.xsmall',
     size = 'medium',
     invalid,
     disabled,
@@ -25,7 +25,7 @@ export const framedStyle = (params?: FramedStyleParams) => (theme: Theme) => {
   const givenShadow = objectPath.get(theme, shadow);
   const boxShadow = givenShadow
     ? givenShadow
-    : theme.semantic.elevation.shadow.xsmall;
+    : theme.semantic.elevation.shadow.normal.xsmall;
 
   return css`
     ${getSizeStyle(size)}

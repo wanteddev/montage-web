@@ -1,17 +1,17 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { addOpacity } from '../../utils';
+
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const popoverStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.elevated.normal};
-  border-radius: 12px;
-  padding: 24px;
+  background-color: ${addOpacity(
+    theme.semantic.background.elevated.normal,
+    theme.opacity[88],
+  )};
+  border-radius: 16px;
+  padding: 16px;
   outline-style: none;
-  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.12))
-    drop-shadow(0px 1px 4px rgba(0, 0, 0, 0.08))
-    drop-shadow(2px 0px 1px rgba(0, 0, 0, 0.08));
-
-  & [wds-component='popper-arrow'] {
-    color: ${theme.semantic.background.elevated.normal};
-  }
+  box-shadow: ${theme.semantic.elevation.shadow.spread.small};
+  backdrop-filter: blur(32px);
 `;
