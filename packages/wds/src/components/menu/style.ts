@@ -6,9 +6,10 @@ import type { Theme } from '@wanteddev/wds-engine';
 export const menuPopoverContentStyle = (theme: Theme) => css`
   padding: 0;
   width: 320px;
-  filter: none;
-  box-shadow: ${theme.semantic.elevation.shadow.small};
+  box-shadow: ${theme.semantic.elevation.shadow.normal.small};
   border-radius: 16px;
+  backdrop-filter: none;
+  background-color: transparent;
 `;
 
 export const menuScrollAreaStyle = (theme: Theme) => css`
