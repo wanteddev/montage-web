@@ -6,10 +6,10 @@ import { darkOriginTheme, lightOriginTheme } from '@wanteddev/wds-engine';
 import reset from './reset';
 
 const isHexColor = (value: string) =>
-  /#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})/i.test(value);
+  /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})/i.test(value);
 
 const isHexWithOpacity = (hexColor: string) =>
-  /#([a-f0-9]{8}|[a-f0-9]{4})\b/i.test(hexColor);
+  /^#([a-f0-9]{8}|[a-f0-9]{4})\b/i.test(hexColor);
 
 const hexToRgb = (hexColor: string) => {
   const parsedColor = hexColor.replace(

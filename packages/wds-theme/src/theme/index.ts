@@ -59,7 +59,10 @@ const addVarPrefix = (obj: any, prefix: string) => {
 
     if (typeof obj[key] === 'object') {
       newObj[key] = addVarPrefix(obj[key], originPrefix);
-    } else if (typeof obj[key] === 'string' && obj[key].startsWith('#')) {
+    } else if (
+      typeof obj[key] === 'string' &&
+      (obj[key].startsWith('#') || prefix.includes('shadow'))
+    ) {
       newObj[key] = `var(--${originPrefix})`;
     } else {
       newObj[key] = obj[key];

@@ -2,14 +2,18 @@ import { forwardRef, useId } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Slot } from '@radix-ui/react-slot';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { Box } from '@wanteddev/wds-engine';
+import { IconClose } from '@wanteddev/wds-icon';
 
 import { DismissableLayer } from '../dismissable-layer';
-import { Popper, PopperAnchor, PopperArrow, PopperContent } from '../popper';
+import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { FlexBox } from '../flex-box';
 import { FocusScope } from '../focus-scope';
 import { createScope } from '../../hooks/internal/use-scope-context';
 import { AnimationPresence } from '../animation-presence';
+import { IconButton } from '../icon-button';
+import { TextButtonProvider } from '../text-button/contexts';
+import { Typography } from '../typography';
+import { isElementDisabled } from '../../utils/internal/element';
 
 import { PopoverProvider, usePopoverContext } from './contexts';
 import {
@@ -91,11 +95,7 @@ const PopoverTrigger = forwardRef<HTMLElement, PopoverTriggerProps>(
           id={triggerId}
           ref={ref}
           onClick={composeEventHandlers(props.onClick, (e) => {
-            if (
-              !open &&
-              e.currentTarget.ariaDisabled?.toString() !== 'true' &&
-              e.currentTarget.getAttribute('disabled')?.toString() !== 'true'
-            ) {
+            if (!open && !isElementDisabled(e.currentTarget)) {
               onOpenChange(true);
             }
           })}
@@ -110,7 +110,6 @@ PopoverTrigger.displayName = POPOVER_TRIGGER_NAME;
 const PopoverContent = forwardRef(
   <T extends ElementType = 'div'>(
     {
-      arrow,
       position,
       offset = 10,
       loop = true,
@@ -132,11 +131,17 @@ const PopoverContent = forwardRef(
       onPointerDownOutside,
       onDismiss,
       disableOutsidePointerEvents = true,
+      closeButton = false,
+      action,
+      variant = 'normal',
+      heading,
       __scopePopover = 'Popover',
       ...props
     }: PolymorphicPropsInternal<ScopedProps<PopoverContentProps, 'Popover'>, T>,
     ref: ForwardedRef<T>,
   ) => {
+    const headingId = useId();
+    const descriptionId = useId();
     const { contentId, open, onOpenChange } = usePopoverContext(
       POPOVER_CONTENT_NAME,
       __scopePopover,
@@ -176,18 +181,95 @@ const PopoverContent = forwardRef(
                 onDismiss?.();
               }}
             >
-              <Box
+              <FlexBox
                 role="dialog"
                 id={contentId}
+                aria-modal={disableOutsidePointerEvents || trapped}
+                aria-describedby={
+                  variant !== 'custom' ? descriptionId : undefined
+                }
+                aria-labelledby={
+                  variant !== 'custom' && heading ? headingId : undefined
+                }
                 ref={ref}
-                as={as ?? FlexBox}
+                as={as}
+                gap="8px"
                 {...props}
                 sx={[popoverStyle, props.sx]}
               >
-                {children}
+                {variant === 'custom' ? (
+                  children
+                ) : (
+                  <>
+                    <FlexBox
+                      flexDirection="column"
+                      data-role="popover-content-wrapper"
+                      sx={{ paddingInline: '4px' }}
+                      gap="10px"
+                    >
+                      <FlexBox
+                        flexDirection="column"
+                        data-role="popover-content-heading-wrapper"
+                        gap="6px"
+                      >
+                        {heading && (
+                          <Typography
+                            id={headingId}
+                            variant="headline2"
+                            weight="bold"
+                            color="semantic.label.normal"
+                            data-role="popover-content-heading"
+                          >
+                            {heading}
+                          </Typography>
+                        )}
 
-                {arrow && <PopperArrow {...scopes} />}
-              </Box>
+                        <Typography
+                          id={descriptionId}
+                          variant="body2-reading"
+                          weight="medium"
+                          color="semantic.label.neutral"
+                          data-role="popover-content-description"
+                        >
+                          {children}
+                        </Typography>
+                      </FlexBox>
+
+                      {action && (
+                        <TextButtonProvider assistive="semantic.label.alternative">
+                          <FlexBox
+                            data-role="popover-content-action"
+                            flexShrink="0"
+                            alignItems="center"
+                            gap="16px"
+                            sx={{ height: '20px' }}
+                          >
+                            {action}
+                          </FlexBox>
+                        </TextButtonProvider>
+                      )}
+                    </FlexBox>
+
+                    {closeButton && (
+                      <FlexBox
+                        data-role="popover-content-close-button"
+                        flexShrink="0"
+                        alignItems="center"
+                        justifyContent="center"
+                        sx={{ padding: '4px', height: 'fit-content' }}
+                      >
+                        <IconButton
+                          size={16}
+                          onClick={() => onOpenChange(false)}
+                          aria-label="Close dialog"
+                        >
+                          <IconClose />
+                        </IconButton>
+                      </FlexBox>
+                    )}
+                  </>
+                )}
+              </FlexBox>
             </DismissableLayer>
           </FocusScope>
         </PopperContent>
