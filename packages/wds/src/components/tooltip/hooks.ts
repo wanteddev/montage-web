@@ -1,6 +1,8 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallback, useEffect, useRef } from 'react';
 
+import { isElementDisabled } from '../../utils/internal/element';
+
 import { useTooltipGroupContext } from './contexts';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
@@ -168,8 +170,7 @@ export const useTooltip = ({
       if (
         latestOpen.current ||
         mode !== 'click' ||
-        e.currentTarget.ariaDisabled?.toString() === 'true' ||
-        e.currentTarget.getAttribute('disabled')?.toString() === 'true'
+        isElementDisabled(e.currentTarget)
       ) {
         return;
       }

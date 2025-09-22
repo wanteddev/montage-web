@@ -31,7 +31,6 @@ export type PopoverContentProps = WithSxProps<
      * The floating ui context can be obtained through a callback.
      */
     setContext?: PopperContentProps['setContext'];
-    arrow?: boolean;
     /**
      * Specifies the container to be displayed by Portal.
      */
@@ -39,6 +38,10 @@ export type PopoverContentProps = WithSxProps<
     disablePortal?: PopperContentProps['disablePortal'];
     wrapperProps?: PopperContentProps['wrapperProps'];
     forceMount?: boolean;
+    closeButton?: boolean;
+    action?: ReactNode;
+    heading?: ReactNode;
+    variant?: 'normal' | 'custom';
   } & Pick<
     FocusScopeProps,
     | 'trappedContent'

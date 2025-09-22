@@ -28,7 +28,7 @@ export const selectStyle =
     border: none;
     box-shadow:
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      ${theme.semantic.elevation.shadow.xsmall};
+      ${theme.semantic.elevation.shadow.normal.xsmall};
     background-color: ${theme.semantic.background.transparent.normal};
     backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
@@ -67,7 +67,7 @@ export const selectStyle =
       box-shadow:
         inset 0 0 0 1px
           ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        ${theme.semantic.elevation.shadow.xsmall};
+        ${theme.semantic.elevation.shadow.normal.xsmall};
     `}
 
     ${disabled
@@ -76,7 +76,7 @@ export const selectStyle =
           backdrop-filter: none;
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            ${theme.semantic.elevation.shadow.xsmall};
+            ${theme.semantic.elevation.shadow.normal.xsmall};
           cursor: default;
 
           [data-role='select-placeholder']
@@ -100,7 +100,7 @@ export const selectStyle =
                         theme.semantic.status.negative,
                         theme.opacity[43],
                       )},
-                    ${theme.semantic.elevation.shadow.xsmall};
+                    ${theme.semantic.elevation.shadow.normal.xsmall};
                 `
               : css`
                   box-shadow:
@@ -109,7 +109,7 @@ export const selectStyle =
                         theme.semantic.primary.normal,
                         theme.opacity[43],
                       )},
-                    ${theme.semantic.elevation.shadow.xsmall};
+                    ${theme.semantic.elevation.shadow.normal.xsmall};
                 `}
           }
 

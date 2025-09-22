@@ -19,6 +19,7 @@ import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
 import { CheckboxProvider } from '../checkbox/contexts';
 import { RadioProvider } from '../radio/contexts';
+import { isElementDisabled } from '../../utils/internal/element';
 
 import {
   LIST_CELL_CONTENT_NAME,
@@ -149,14 +150,11 @@ const ListCell = forwardRef(
               }
             })}
             onClick={composeEventHandlers(props.onClick, (e) => {
+              const target = e.target as HTMLElement;
               if (
-                (e.target as HTMLElement)
-                  .getAttribute('disabled')
-                  ?.toString() === 'true' ||
-                (e.target as HTMLElement).ariaDisabled?.toString() === 'true' ||
-                (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                (e.target as HTMLElement).hidden?.toString() === 'true'
+                isElementDisabled(target) ||
+                target.ariaHidden?.toString() === 'true' ||
+                target.hidden.toString() === 'true'
               ) {
                 return;
               }

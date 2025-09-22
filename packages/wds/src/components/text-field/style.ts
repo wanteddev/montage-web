@@ -34,7 +34,7 @@ export const textFieldWrapperStyle =
     align-items: center;
     border-radius: 12px;
     border: none;
-    box-shadow: ${theme.semantic.elevation.shadow.xsmall};
+    box-shadow: ${theme.semantic.elevation.shadow.normal.xsmall};
     background-color: ${theme.semantic.background.transparent.normal};
     backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
