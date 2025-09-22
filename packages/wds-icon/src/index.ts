@@ -1,3 +1,4 @@
+export { default as IconAiReview } from './icon-ai-review';
 export { default as IconAlignCenter } from './icon-align-center';
 export { default as IconAlignJustify } from './icon-align-justify';
 export { default as IconAlignLeft } from './icon-align-left';
