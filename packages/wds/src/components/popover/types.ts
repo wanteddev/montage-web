@@ -40,7 +40,7 @@ export type PopoverContentProps = WithSxProps<
     forceMount?: boolean;
     closeButton?: boolean;
     action?: ReactNode;
-    title?: ReactNode;
+    heading?: ReactNode;
     variant?: 'normal' | 'custom';
   } & Pick<
     FocusScopeProps,

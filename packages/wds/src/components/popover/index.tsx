@@ -137,7 +137,7 @@ const PopoverContent = forwardRef(
       closeButton = false,
       action,
       variant = 'normal',
-      title,
+      heading,
       __scopePopover = 'Popover',
       ...props
     }: PolymorphicPropsInternal<ScopedProps<PopoverContentProps, 'Popover'>, T>,
@@ -197,27 +197,35 @@ const PopoverContent = forwardRef(
                   <>
                     <FlexBox
                       flexDirection="column"
-                      gap="6px"
                       data-role="popover-content-wrapper"
                       sx={{ paddingInline: '4px' }}
+                      gap="10px"
                     >
-                      {title && (
-                        <Typography
-                          variant="headline2"
-                          weight="bold"
-                          color="semantic.label.normal"
-                        >
-                          {title}
-                        </Typography>
-                      )}
-
-                      <Typography
-                        variant="body2-reading"
-                        weight="medium"
-                        color="semantic.label.neutral"
+                      <FlexBox
+                        flexDirection="column"
+                        data-role="popover-content-heading-wrapper"
+                        gap="6px"
                       >
-                        {children}
-                      </Typography>
+                        {heading && (
+                          <Typography
+                            variant="headline2"
+                            weight="bold"
+                            color="semantic.label.normal"
+                            data-role="popover-content-heading"
+                          >
+                            {heading}
+                          </Typography>
+                        )}
+
+                        <Typography
+                          variant="body2-reading"
+                          weight="medium"
+                          color="semantic.label.neutral"
+                          data-role="popover-content-description"
+                        >
+                          {children}
+                        </Typography>
+                      </FlexBox>
 
                       {action && (
                         <TextButtonProvider assistive="semantic.label.alternative">
@@ -226,7 +234,7 @@ const PopoverContent = forwardRef(
                             flexShrink="0"
                             alignItems="center"
                             gap="16px"
-                            sx={{ marginTop: '4px', height: '20px' }}
+                            sx={{ height: '20px' }}
                           >
                             {action}
                           </FlexBox>
