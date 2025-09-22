@@ -177,10 +177,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         if (!attributes) return;
 
         attributes.push(
-          j.jsxAttribute(
-            j.jsxIdentifier('arrow'),
-            j.jsxExpressionContainer(j.literal(false)),
-          ),
+          j.jsxAttribute(j.jsxIdentifier('size'), j.literal('small')),
         );
       });
 
@@ -188,6 +185,26 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       .find(j.Identifier, { name: getLocalName(compactTooltipContentImport) })
       .forEach((compactTooltipContent) => {
         compactTooltipContent.value.name = tooltipContentName;
+      });
+  }
+
+  if (tooltipContentImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(tooltipContentImport) },
+        },
+      })
+      .forEach((node) => {
+        const arrow = node.value.openingElement.attributes?.find(
+          (attr) => attr.type === 'JSXAttribute' && attr.name.name === 'arrow',
+        ) as JSXAttribute | undefined;
+
+        if (!arrow) return;
+        hasChanges = true;
+        j(node)
+          .find(j.JSXAttribute, { name: { name: 'arrow' } })
+          .remove();
       });
   }
 
