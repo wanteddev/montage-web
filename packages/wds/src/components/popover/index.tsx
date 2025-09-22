@@ -13,6 +13,7 @@ import { AnimationPresence } from '../animation-presence';
 import { IconButton } from '../icon-button';
 import { TextButtonProvider } from '../text-button/contexts';
 import { Typography } from '../typography';
+import { isElementDisabled } from '../../utils/internal/element';
 
 import { PopoverProvider, usePopoverContext } from './contexts';
 import {
@@ -94,11 +95,7 @@ const PopoverTrigger = forwardRef<HTMLElement, PopoverTriggerProps>(
           id={triggerId}
           ref={ref}
           onClick={composeEventHandlers(props.onClick, (e) => {
-            if (
-              !open &&
-              e.currentTarget.ariaDisabled?.toString() !== 'true' &&
-              e.currentTarget.getAttribute('disabled')?.toString() !== 'true'
-            ) {
+            if (!open && !isElementDisabled(e.currentTarget)) {
               onOpenChange(true);
             }
           })}
