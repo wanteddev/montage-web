@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.4.0](https://github.com/wanteddev/wds/compare/v2.3.10...v2.4.0) (2025-09-22)
+
+**Note:** Version bump only for package @wanteddev/wds
+
 ## [2.3.10](https://github.com/wanteddev/wds/compare/v2.3.9...v2.3.10) (2025-09-03)
 
 ### Bug Fixes
