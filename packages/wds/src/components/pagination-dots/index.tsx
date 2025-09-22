@@ -104,6 +104,7 @@ const PaginationDots = forwardRef<
                 <Box
                   as="button"
                   role="tab"
+                  type="button"
                   onClick={() => onClickDot?.(i + 1)}
                   data-role="pagination-dot-button"
                   sx={paginationDotsStyle(scale, i === visibleArea[0])}
