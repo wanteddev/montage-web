@@ -41,17 +41,17 @@ export const paginationDotsWrapperStyle =
     ${paginationDotsWrapperColorStyle({ color }, theme)}
 
     &:hover, &:has(*:focus-visible) {
-      [data-role='pagination-dot'] {
-        width: var(--wds-pagination-dot-size, 10px) !important;
-        height: var(--wds-pagination-dot-size, 10px) !important;
-        margin-left: var(--wds-pagination-dot-size, 10px) !important;
+      [data-role='pagination-dot-button'] {
+        width: var(--wds-pagination-dot-size, 10px);
+        height: var(--wds-pagination-dot-size, 10px);
+        margin-left: var(--wds-pagination-dot-size, 10px);
 
         &::after {
-          border-width: 1px !important;
+          border-width: 1px;
         }
 
         &:first-of-type {
-          margin-left: 0px !important;
+          margin-left: 0px;
         }
       }
     }
@@ -81,7 +81,7 @@ const paginationDotsWrapperColorStyle = (
           )};
           border: none;
 
-          &[aria-current='page'] {
+          &[aria-selected='true'] {
             background-color: ${theme.semantic.label.normal};
           }
         }
@@ -109,7 +109,7 @@ const paginationDotsWrapperColorStyle = (
             border: 1px solid ${theme.semantic.line.normal.neutral};
           }
 
-          &[aria-current='page'] {
+          &[aria-selected='true'] {
             background-color: ${theme.semantic.static.white};
             &::after {
               opacity: ${theme.opacity[100]};
@@ -150,7 +150,7 @@ export const paginationDotsStyle = (scale: number, isFirst: boolean) => css`
   ${scale === 0 &&
   css`
     &&::after {
-      border-width: 0px !important;
+      border-width: 0px;
     }
   `}
 
