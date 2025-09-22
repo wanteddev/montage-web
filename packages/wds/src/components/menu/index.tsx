@@ -17,6 +17,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { usePopoverContext } from '../popover/contexts';
 import { createScope } from '../../hooks/internal/use-scope-context';
+import { isElementDisabled } from '../../utils/internal/element';
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,
@@ -109,8 +110,7 @@ const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>((props, ref) => {
       onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
         if (
           open ||
-          e.currentTarget.ariaDisabled?.toString() === 'true' ||
-          e.currentTarget.getAttribute('disabled')?.toString() === 'true' ||
+          isElementDisabled(e.currentTarget) ||
           !ARROW_KEYS.includes(e.key)
         ) {
           return;
@@ -151,6 +151,7 @@ const MenuContent = forwardRef(
           disablePortal={disablePortal}
           forceMount={forceMount}
           aria-label="Select menu"
+          variant="custom"
           {...props}
           {...scopes}
           sx={[menuPopoverContentStyle, sx]}

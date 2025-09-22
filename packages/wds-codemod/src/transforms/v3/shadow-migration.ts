@@ -43,7 +43,8 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         parent.parent.value.object.type !== 'MemberExpression' ||
         parent.parent.value.object.property.type !== 'Identifier' ||
         parent.parent.value.object.property.name !== 'shadow' ||
-        parent.parent.value.property.type !== 'Identifier'
+        parent.parent.value.property.type !== 'Identifier' ||
+        parent.parent.parent.value.type === 'MemberExpression'
       ) {
         return;
       }
@@ -51,7 +52,15 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       const name = parent.parent.value.property.name;
 
       if (migrationSet.has(name)) {
-        parent.parent.value.property.name = migrationSet.get(name);
+        j(parent.parent).replaceWith(
+          j.memberExpression(
+            j.memberExpression(
+              parent.parent.value.object,
+              j.identifier('normal'),
+            ),
+            j.identifier(migrationSet.get(name)!),
+          ),
+        );
       }
     });
 
