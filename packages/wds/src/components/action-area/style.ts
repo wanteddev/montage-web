@@ -6,18 +6,18 @@ import type { ActionAreaProps, ActionButtonProps } from './types';
 import type { Merge, Theme } from '@wanteddev/wds-engine';
 
 export const actionAreaStyle =
-  ({ divider, background, variant, extra }: ActionAreaProps) =>
+  ({ divider, background, extra }: ActionAreaProps) =>
   (theme: Theme) => css`
     width: 100%;
     padding: var(--wds-action-area-margin-y, 20px)
       var(--wds-action-area-margin-x, 20px);
     position: relative;
 
-    ${actionAreaVariant({ divider, variant, background, extra }, theme)}
+    ${actionAreaBackgroundStyle({ divider, background, extra }, theme)}
   `;
 
-const actionAreaVariant = (
-  { divider, variant, background, extra }: ActionAreaProps,
+const actionAreaBackgroundStyle = (
+  { divider, background, extra }: ActionAreaProps,
   theme: Theme,
 ) => {
   switch (extra) {
@@ -34,33 +34,22 @@ const actionAreaVariant = (
       return css`
         ${background
           ? css`
-              ${variant === 'compact'
-                ? css`
-                    border-style: solid;
-                    border-top-width: 1px;
-                    transition: border-color 0.2s ease;
-                    border-color: ${theme.semantic.line.normal.neutral};
-                    background-color: ${theme.semantic.background.elevated
-                      .normal};
-                  `
-                : css`
-                    &::before {
-                      pointer-events: none;
-                      ${gradient(
-                        theme.semantic.background.elevated.normal,
-                        'top',
-                        'calc(var(--wds-action-area-margin-y, 20px) * 2)',
-                        'mask',
-                      )}
-                      height: calc(100% + var(--wds-action-area-margin-y, 20px));
-                      content: '';
-                      z-index: 0;
-                      position: absolute;
-                      left: 0;
-                      bottom: 0;
-                      width: 100%;
-                    }
-                  `}
+              &::before {
+                pointer-events: none;
+                ${gradient(
+                  theme.semantic.background.elevated.normal,
+                  'top',
+                  'calc(var(--wds-action-area-margin-y, 20px) * 2)',
+                  'mask',
+                )}
+                height: calc(100% + var(--wds-action-area-margin-y, 20px));
+                content: '';
+                z-index: 0;
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+              }
 
               & > * {
                 position: relative;
@@ -77,14 +66,6 @@ const actionAreaVariant = (
                 height: 100%;
                 width: 100%;
               }
-
-              ${variant === 'compact' &&
-              css`
-                border-style: solid;
-                border-top-width: 1px;
-                border-color: transparent;
-                transition: border-color 0.2s ease;
-              `}
 
               & > * {
                 position: relative;

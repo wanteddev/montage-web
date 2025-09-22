@@ -54,7 +54,6 @@ const ActionArea = forwardRef<
             actionAreaStyle({
               divider,
               extra,
-              variant,
               background: extra ? false : background ?? modalSticky,
             }),
             props.sx,
