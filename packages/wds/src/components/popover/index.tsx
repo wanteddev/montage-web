@@ -188,8 +188,12 @@ const PopoverContent = forwardRef(
                 role="dialog"
                 id={contentId}
                 aria-modal={disableOutsidePointerEvents || trapped}
-                aria-describedby={descriptionId}
-                aria-labelledby={heading ? headingId : undefined}
+                aria-describedby={
+                  variant !== 'custom' ? descriptionId : undefined
+                }
+                aria-labelledby={
+                  variant !== 'custom' && heading ? headingId : undefined
+                }
                 ref={ref}
                 as={as}
                 gap="8px"
