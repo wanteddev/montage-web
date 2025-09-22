@@ -11,7 +11,6 @@ export type TabContextType = {
   panels: Array<string>;
   onPanelsChange: Dispatch<SetStateAction<Array<string>>>;
   disableScrollMoveOnChange?: boolean;
-  enableScrollMoveOnMount?: boolean;
   viewportNode: HTMLDivElement | null;
   onViewportNodeChange: (node: HTMLDivElement) => void;
 };
