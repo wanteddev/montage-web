@@ -1,4 +1,8 @@
-import type { WithSxProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { DismissableLayerProps } from '@radix-ui/react-dismissable-layer';
 import type { PropsWithChildren, ReactNode } from 'react';
@@ -38,10 +42,17 @@ export type TooltipProps = {
 
 export type TooltipTriggerProps = SlotProps;
 
-export type TooltipContentProps = WithSxProps<{
-  arrow?: boolean;
-  action?: ReactNode;
+type TooltipDefaultProps = WithSxProps<{
   children?: ReactNode;
+  /**
+   * @deprecated
+   * tooltip should not have a focusable element.
+   */
+  action?: ReactNode;
+  /**
+   * @deprecated
+   * tooltip should not have a focusable element.
+   */
   closeButton?: boolean;
   offset?: PopperContentProps['offset'];
   position?: PopperContentProps['position'];
@@ -60,7 +71,18 @@ export type TooltipContentProps = WithSxProps<{
    */
   setContext?: PopperContentProps['setContext'];
   forceMount?: boolean;
+  size?: 'small' | 'medium';
+  shortcut?: ReactNode;
 }>;
+
+type TooltipResponsiveProps = ResponsiveProps<
+  Pick<TooltipDefaultProps, 'size'>
+>;
+
+export type TooltipContentProps = Merge<
+  TooltipDefaultProps,
+  TooltipResponsiveProps
+>;
 
 export type TooltipContentWrapperProps = {
   isAlways?: boolean;

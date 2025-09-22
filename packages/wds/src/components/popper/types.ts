@@ -36,9 +36,5 @@ export type PopperAnchorProps = WithSxProps<{
 }>;
 
 export type PopperArrowProps = WithSxProps<{
-  /**
-   * Normally, it is not used, and only used when coloring the arrow by nesting.
-   * Used in `tooltip`'s `accent`.
-   */
-  overlay?: string;
+  children?: ReactNode;
 }>;
