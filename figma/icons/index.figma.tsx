@@ -329,4 +329,4 @@ figma.connect(IconWebinar, "<FIGMA_ICONS_BASE>?node-id=33209-1282", { variant: {
 figma.connect(IconWrite, "<FIGMA_ICONS_BASE>?node-id=9450-17687", { variant: { Name: 'write' }, example: () => <IconWrite /> });
 figma.connect(IconZepFast, "<FIGMA_ICONS_BASE>?node-id=34197-131053", { variant: { Name: 'zepFast' }, example: () => <IconZepFast /> });
 figma.connect(IconZepFastFill, "<FIGMA_ICONS_BASE>?node-id=34197-131053", { variant: { Name: 'zepFastFill' }, example: () => <IconZepFastFill /> });
-figma.connect(IconLogoInstagramColor, "<FIGMA_ICONS_BASE>?node-id=4515-29858", { variant: { Name: 'logoInstagram' }, example: () => <IconLogoInstagramColor /> });
+figma.connect(IconLogoInstagramColor, "<FIGMA_ICONS_BASE>?node-id=11670-22176", { variant: { Name: 'logoInstagram' }, example: () => <IconLogoInstagramColor /> });

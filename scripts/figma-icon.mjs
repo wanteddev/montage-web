@@ -5,7 +5,12 @@ import shelljs from 'shelljs';
 
 const outputDir = './output';
 
-const ignoreSyncIcons = ['IconLogoInstagramColor'];
+const ignoreSyncIcons = [
+  {
+    name: 'IconLogoInstagramColor',
+    id: '11670-22176',
+  },
+];
 const includeIndexIcons = ['IconSymbol'];
 
 const kebabCase = (name) =>
@@ -33,8 +38,9 @@ const main = async () => {
     .filter((filename) => filename.match(/\.svg$/))
     .filter(
       (filename) =>
-        !ignoreSyncIcons.includes(
-          `Icon${pascalCase(filename.replace(/\.svg$/, ''))}`,
+        !ignoreSyncIcons.some(
+          (icon) =>
+            icon.name === `Icon${pascalCase(filename.replace(/\.svg$/, ''))}`,
         ),
     )
     .map((filename) => {
@@ -109,14 +115,11 @@ const main = async () => {
   });
 
   ignoreSyncIcons.forEach((icon) => {
-    const iconName = camelCase(icon.replace(/^Icon/, '').replace(/Color$/, ''));
+    const iconName = camelCase(
+      icon.name.replace(/^Icon/, '').replace(/Color$/, ''),
+    );
     figmaConnectContents.push(
-      `figma.connect(${icon}, "<FIGMA_ICONS_BASE>?node-id=${
-        result
-          .filter((r) => iconName === r.name)
-          .reverse()
-          .at(0).id
-      }", { variant: { Name: '${iconName}' }, example: () => <${icon} /> });`,
+      `figma.connect(${icon}, "<FIGMA_ICONS_BASE>?node-id=${icon.id}", { variant: { Name: '${iconName}' }, example: () => <${icon} /> });`,
     );
   });
 
@@ -149,7 +152,10 @@ const main = async () => {
         ({ name }) =>
           `export { default as ${name} } from "./${kebabCase(name)}";`,
       ),
-      ...[...ignoreSyncIcons, ...includeIndexIcons].map(
+      ...[
+        ...ignoreSyncIcons.map((icon) => icon.name),
+        ...includeIndexIcons,
+      ].map(
         (icon) => `export { default as ${icon} } from "./${kebabCase(icon)}";`,
       ),
     ]
