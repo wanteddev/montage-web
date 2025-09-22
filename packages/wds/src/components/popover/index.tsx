@@ -143,6 +143,8 @@ const PopoverContent = forwardRef(
     }: PolymorphicPropsInternal<ScopedProps<PopoverContentProps, 'Popover'>, T>,
     ref: ForwardedRef<T>,
   ) => {
+    const headingId = useId();
+    const descriptionId = useId();
     const { contentId, open, onOpenChange } = usePopoverContext(
       POPOVER_CONTENT_NAME,
       __scopePopover,
@@ -185,6 +187,9 @@ const PopoverContent = forwardRef(
               <FlexBox
                 role="dialog"
                 id={contentId}
+                aria-modal={disableOutsidePointerEvents || trapped}
+                aria-describedby={descriptionId}
+                aria-labelledby={heading ? headingId : undefined}
                 ref={ref}
                 as={as}
                 gap="8px"
@@ -208,6 +213,7 @@ const PopoverContent = forwardRef(
                       >
                         {heading && (
                           <Typography
+                            id={headingId}
                             variant="headline2"
                             weight="bold"
                             color="semantic.label.normal"
@@ -218,6 +224,7 @@ const PopoverContent = forwardRef(
                         )}
 
                         <Typography
+                          id={descriptionId}
                           variant="body2-reading"
                           weight="medium"
                           color="semantic.label.neutral"
