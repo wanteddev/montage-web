@@ -113,6 +113,7 @@ const PopperArrow = forwardRef<
     <FlexBox
       ref={composedRef}
       wds-component="popper-arrow"
+      aria-hidden
       {...props}
       sx={[{ width: 'fit-content', height: 'fit-content' }, props.sx]}
       style={{
@@ -144,6 +145,7 @@ const PopperArrow = forwardRef<
           width="20"
           height="8"
           fill="none"
+          aria-hidden
           xmlns="http://www.w3.org/2000/svg"
         >
           <path

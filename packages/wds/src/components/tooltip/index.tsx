@@ -341,6 +341,7 @@ const TooltipContent = forwardRef(
                       height="8"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden
                     >
                       <mask id={mediumArrowMaskId} maskUnits="userSpaceOnUse">
                         <path
@@ -372,6 +373,7 @@ const TooltipContent = forwardRef(
                       height="6"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden
                     >
                       <mask id={smallArrowMaskId} maskUnits="userSpaceOnUse">
                         <path
