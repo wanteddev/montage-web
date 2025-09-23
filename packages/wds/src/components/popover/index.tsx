@@ -193,7 +193,7 @@ const PopoverContent = forwardRef(
                 }
                 ref={ref}
                 as={as}
-                gap="8px"
+                gap="4px"
                 {...props}
                 sx={[popoverStyle, props.sx]}
               >
@@ -206,6 +206,7 @@ const PopoverContent = forwardRef(
                       data-role="popover-content-wrapper"
                       sx={{ paddingInline: '4px' }}
                       gap="10px"
+                      flex="1"
                     >
                       <FlexBox
                         flexDirection="column"
