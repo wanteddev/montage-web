@@ -211,7 +211,7 @@ const PopoverContent = forwardRef(
                       <FlexBox
                         flexDirection="column"
                         data-role="popover-content-heading-wrapper"
-                        gap="6px"
+                        gap="2px"
                       >
                         {heading && (
                           <Typography
