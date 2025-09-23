@@ -14,7 +14,7 @@ const Demo = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button>Mouse hover</Button>
+        <Button size="small" variant="outlined">Mouse hover</Button>
       </TooltipTrigger>
       <TooltipContent>
         Content
@@ -42,7 +42,7 @@ const Demo = () => {
       <TooltipGroup>
         <Tooltip>
           <TooltipTrigger>
-            <Button>Hover (default)</Button>
+            <Button size="small" variant="outlined">Hover (default)</Button>
           </TooltipTrigger>
           <TooltipContent>
             Content
@@ -50,7 +50,7 @@ const Demo = () => {
         </Tooltip>
         <Tooltip mode="always">
           <TooltipTrigger>
-            <Button>Always</Button>
+            <Button size="small" variant="outlined">Always</Button>
           </TooltipTrigger>
           <TooltipContent>
             Content
@@ -58,7 +58,7 @@ const Demo = () => {
         </Tooltip>
         <Tooltip mode="click">
           <TooltipTrigger>
-            <Button>Click</Button>
+            <Button size="small" variant="outlined">Click</Button>
           </TooltipTrigger>
           <TooltipContent>
             Content
@@ -102,7 +102,7 @@ const Demo = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button>Mouse hover</Button>
+        <Button size="small" variant="outlined">Mouse hover</Button>
       </TooltipTrigger>
       <TooltipContent size="small">
         Content
@@ -122,7 +122,7 @@ const Demo = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button>Mouse hover</Button>
+        <Button size="small" variant="outlined">Mouse hover</Button>
       </TooltipTrigger>
       <TooltipContent>
         Content
@@ -185,6 +185,306 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Position
+
+`position` 속성을 통해 툴팁의 위치를 설정할 수 있습니다.
+
+해당 position에 자리가 없는 경우 자동으로 위치가 조정됩니다.
+
+<Demo code={`import { Grid, GridItem, FlexBox, TooltipGroup, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TooltipGroup>
+      <Grid spacing={4} sx={{ width: '100%', maxWidth: '550px' }}>
+        <GridItem columns={12}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Top start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="top-start">
+                Top start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Top center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="top-center">
+                Top center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Top end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="top-end">
+                Top end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+        
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-start" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Left start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="left-start">
+                Left start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Left center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="left-center">
+                Left center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Left end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="left-end">
+                Left end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-end" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Right start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="right-start">
+                Right start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Right center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="right-center">
+                Right center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Right end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="right-end">
+                Right end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={12}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Bottom start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="bottom-start">
+                Bottom start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Bottom center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="bottom-center">
+                Bottom center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Bottom end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="bottom-end">
+                Bottom end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={12} sx={{ marginTop: '24px' }}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Top start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="top-start">
+                Top start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Top center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="top-center">
+                Top center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Top end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="top-end">
+                Top end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+        
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-start" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Left start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="left-start">
+                Left start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Left center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="left-center">
+                Left center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Left end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="left-end">
+                Left end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-end" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Right start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="right-start">
+                Right start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Right center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="right-center">
+                Right center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Right end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="right-end">
+                Right end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={12}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Bottom start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="bottom-start">
+                Bottom start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Bottom center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="bottom-center">
+                Bottom center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Bottom end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="bottom-end">
+                Bottom end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+      </Grid>
+    </TooltipGroup>
+  );
+};
+
+export default Demo;`}
+/>
+
+
 ## With shortcut
 
 `shortcut` 옵션을 통해 키보드 단축키를 표기할 수 있습니다.
@@ -195,7 +495,7 @@ const Demo = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button>Mouse hover</Button>
+        <Button size="small" variant="outlined">Mouse hover</Button>
       </TooltipTrigger>
       <TooltipContent shortcut="⌘C" size="small">
         Copy
@@ -206,6 +506,7 @@ const Demo = () => {
 
 export default Demo;`}
 />
+
 
 
 ## With action
@@ -220,7 +521,7 @@ const Demo = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button>Mouse hover</Button>
+        <Button size="small" variant="outlined">Mouse hover</Button>
       </TooltipTrigger>
       <TooltipContent
         action={
@@ -250,7 +551,7 @@ const Demo = () => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <Button>Mouse hover</Button>
+        <Button size="small" variant="outlined">Mouse hover</Button>
       </TooltipTrigger>
       <TooltipContent closeButton>
         Content

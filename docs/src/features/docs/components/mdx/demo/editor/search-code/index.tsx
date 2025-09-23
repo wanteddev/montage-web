@@ -114,12 +114,19 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
     };
 
     return (
-      <FlexBox sx={searchPanelStyle} alignItems="center" ref={ref} gap="6px">
+      <FlexBox sx={searchPanelStyle} ref={ref} gap="8px">
         <TooltipGroup>
           <Tooltip>
             <TooltipTrigger>
               <IconButton
                 size={18}
+                aria-label="Toggle replace"
+                sx={[
+                  searchInputToggleStyle,
+                  {
+                    marginTop: '4px',
+                  },
+                ]}
                 onClick={() => setIsReplaceOpen(!isReplaceOpen)}
               >
                 {isReplaceOpen ? <IconChevronDown /> : <IconChevronRight />}
@@ -215,52 +222,54 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                 <TooltipContent size="small">Use regex</TooltipContent>
               </Tooltip>
             </FlexBox>
-            <FlexBox alignItems="center" gap="10px">
-              <Box
-                {...register('replace')}
-                sx={searchInputStyle}
-                as="input"
-                autoComplete="off"
-                type="text"
-                onKeyDown={handleKeyDown}
-                placeholder="Replace"
-                aria-label="Replace field"
-              />
+            {isReplaceOpen && (
+              <FlexBox alignItems="center" gap="10px">
+                <Box
+                  {...register('replace')}
+                  sx={searchInputStyle}
+                  as="input"
+                  autoComplete="off"
+                  type="text"
+                  onKeyDown={handleKeyDown}
+                  placeholder="Replace"
+                  aria-label="Replace field"
+                />
 
-              <Tooltip>
-                <TooltipTrigger>
-                  <IconButton
-                    size={18}
-                    sx={[searchInputToggleStyle, { fontSize: 16 }]}
-                    aria-label="Replace"
-                    onClick={() => view.current && replaceNext(view.current)}
-                  >
-                    <IconReplace />
-                  </IconButton>
-                </TooltipTrigger>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <IconButton
+                      size={18}
+                      sx={[searchInputToggleStyle, { fontSize: 16 }]}
+                      aria-label="Replace"
+                      onClick={() => view.current && replaceNext(view.current)}
+                    >
+                      <IconReplace />
+                    </IconButton>
+                  </TooltipTrigger>
 
-                <TooltipContent size="small" shortcut="⌘+⏎">
-                  Replace
-                </TooltipContent>
-              </Tooltip>
+                  <TooltipContent size="small" shortcut="⌘+⏎">
+                    Replace
+                  </TooltipContent>
+                </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger>
-                  <IconButton
-                    size={18}
-                    sx={[searchInputToggleStyle, { fontSize: 16 }]}
-                    aria-label="Replace all"
-                    onClick={() => view.current && replaceAll(view.current)}
-                  >
-                    <IconReplaceAll />
-                  </IconButton>
-                </TooltipTrigger>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <IconButton
+                      size={18}
+                      sx={[searchInputToggleStyle, { fontSize: 16 }]}
+                      aria-label="Replace all"
+                      onClick={() => view.current && replaceAll(view.current)}
+                    >
+                      <IconReplaceAll />
+                    </IconButton>
+                  </TooltipTrigger>
 
-                <TooltipContent size="small" shortcut="⌘+⏎">
-                  Replace all
-                </TooltipContent>
-              </Tooltip>
-            </FlexBox>
+                  <TooltipContent size="small" shortcut="⌘+⏎">
+                    Replace all
+                  </TooltipContent>
+                </Tooltip>
+              </FlexBox>
+            )}
           </FlexBox>
 
           <Tooltip>
@@ -274,7 +283,6 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                   {
                     marginLeft: '10px',
                     marginTop: '4px',
-                    alignSelf: 'flex-start',
                   },
                 ]}
               >
