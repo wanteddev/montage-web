@@ -90,6 +90,9 @@ export const viewTheme = (theme: Theme): Extension => [
       backgroundColor: theme.semantic.background.elevated.alternative,
       borderColor: theme.semantic.line.normal.alternative,
     },
+    '& .cm-panels': {
+      border: 'none !important',
+    },
   }),
   syntaxHighlighting(tagStyleHighlighter(theme)),
 ];

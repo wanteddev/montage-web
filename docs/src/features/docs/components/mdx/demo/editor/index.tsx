@@ -1,14 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { javascript } from '@codemirror/lang-javascript';
 import { EditorState } from '@codemirror/state';
-import { basicSetup } from 'codemirror';
 import { EditorView, keymap } from '@codemirror/view';
+import { basicSetup } from 'codemirror';
 import { indentWithTab } from '@codemirror/commands';
-import { Box, ScrollArea, Typography, useTheme } from '@wanteddev/wds';
+import {
+  closeSearchPanel,
+  getSearchQuery,
+  openSearchPanel,
+  search,
+  setSearchQuery,
+} from '@codemirror/search';
+import {
+  Box,
+  ScrollArea,
+  Typography,
+  useCallbackRef,
+  useTheme,
+} from '@wanteddev/wds';
 
 import { viewTheme } from './constants';
 import { collapsedStyle, editorStyle, focusGuardStyle } from './style';
+import SearchCode from './search-code';
+import { getDefaultSearchQuery } from './helpers';
 
+import type { SearchQuery } from '@codemirror/search';
 import type { ViewUpdate } from '@codemirror/view';
 import type { Dispatch, SetStateAction } from 'react';
 
@@ -36,24 +52,94 @@ const Editor = ({
 
   const theme = useTheme();
 
-  const [view, setView] = useState<EditorView>();
+  const view = useRef<EditorView | null>(null);
+
+  const [isSearchPanelOpen, setIsSearchPanelOpen] = useState(false);
+  const [defaultSearchQuery, setDefaultSearchQuery] =
+    useState<SearchQuery | null>(null);
+  const searchPanelRef = useRef<HTMLDivElement>(null);
+  const getIsSearchPanelOpen = useCallbackRef(() => isSearchPanelOpen);
+
+  const handleOpenSearchPanel = () => {
+    if (!view.current) return false;
+
+    !getIsSearchPanelOpen() && openSearchPanel(view.current);
+
+    const query = getDefaultSearchQuery(
+      view.current.state,
+      (view.current.state as any)?.query?.spec,
+    );
+
+    setIsSearchPanelOpen(true);
+
+    if (query.valid && !query.eq(getSearchQuery(view.current.state))) {
+      view.current.dispatch({ effects: setSearchQuery.of(query) });
+      setDefaultSearchQuery(query);
+    }
+
+    setTimeout(() => {
+      const searchInput =
+        searchPanelRef.current?.querySelector<HTMLInputElement>(
+          '[data-main-field="true"]',
+        );
+
+      searchInput?.focus();
+      searchInput?.select();
+    }, 0);
+
+    return true;
+  };
+
+  const handleCloseSearchPanel = () => {
+    if (!view.current || !getIsSearchPanelOpen()) return false;
+
+    closeSearchPanel(view.current);
+    setIsSearchPanelOpen(false);
+
+    view.current.focus();
+
+    return true;
+  };
 
   const handleCreateState = () =>
     EditorState.create({
       doc: value,
       extensions: [
-        basicSetup,
-        javascript({ jsx: true, typescript: true }),
         keymap.of([
           indentWithTab,
           {
             key: 'Escape',
             run: () => {
+              if (getIsSearchPanelOpen() && handleCloseSearchPanel()) {
+                return true;
+              }
+
               focusGuardRef.current?.focus();
               return true;
             },
+            scope: 'editor',
+          },
+          {
+            key: 'Mod-f',
+            run: () => {
+              if (getIsSearchPanelOpen()) {
+                return handleOpenSearchPanel();
+              }
+
+              return false;
+            },
           },
         ]),
+        basicSetup,
+        search({
+          top: true,
+          createPanel: () => ({
+            dom: document.createElement('div'),
+            mount: handleOpenSearchPanel,
+            destroy: handleCloseSearchPanel,
+          }),
+        }),
+        javascript({ jsx: true, typescript: true }),
         viewTheme(theme),
         EditorView.updateListener.of((vu: ViewUpdate) => {
           if (vu.docChanged) {
@@ -65,23 +151,24 @@ const Editor = ({
 
   useEffect(
     () => {
+      view.current?.destroy();
+
       if (!node) {
-        view?.destroy();
         return;
       }
 
-      setView(
-        new EditorView({
-          state: handleCreateState(),
-          parent: node,
-        }),
-      );
+      const newView = new EditorView({
+        state: handleCreateState(),
+        parent: node,
+      });
+
+      view.current = newView;
 
       node.querySelector<HTMLElement>('[contenteditable="true"]')!.tabIndex =
         -1;
 
       return () => {
-        view?.destroy();
+        view.current?.destroy();
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,7 +178,8 @@ const Editor = ({
   useEffect(() => {
     if (!isResetting) return;
 
-    view?.setState(handleCreateState());
+    view.current?.setState(handleCreateState());
+    handleCloseSearchPanel();
     handleResetComplete();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isResetting]);
@@ -127,6 +215,15 @@ const Editor = ({
         viewportProps={{ tabIndex: -1 }}
         sx={editorStyle({ collapsed, hasError })}
       >
+        {isSearchPanelOpen && (
+          <SearchCode
+            ref={searchPanelRef}
+            view={view}
+            handleClose={handleCloseSearchPanel}
+            defaultValues={defaultSearchQuery}
+          />
+        )}
+
         <Box ref={setNode} />
       </ScrollArea>
 

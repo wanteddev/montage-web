@@ -1,0 +1,159 @@
+---
+title: Popover
+description: Popover는 특정 요소를 기준으로 오버레이를 띄울 때 사용하는 컴포넌트입니다.
+createdAt: 2025-06-17
+---
+
+## Basic Popover
+
+특정 요소를 기준으로 오버레이를 띄울 때 사용합니다.
+
+Popover가 열려있을 때에는 외부 영역과 상호작용할 수 없습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent heading="Heading">
+        Description
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Popover는 아래와 같은 구조를 가집니다.
+
+```tsx
+<Popover>
+  <PopoverTrigger>
+    <Button />
+  </PopoverTrigger>
+
+  <PopoverContent />
+</Popover>
+```
+
+## Variants
+
+2가지 variant를 제공합니다.
+- normal
+- custom
+
+custom variant를 사용할 경우 `heading`, `action`, `closeButton` prop 을 사용할 수 없습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent variant="custom">
+        Custom contents
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With close button
+
+`closeButton` prop 을 사용하여 닫기 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent heading="Heading" closeButton>
+        Description
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With action
+
+`action` prop 을 사용하여 하단에 액션 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button, TextButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent
+			  heading="Heading"
+				action={(
+					<TextButton color="assistive" size="small">
+						Action
+					</TextButton>
+				)}
+			>
+        Description
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+### Popover
+
+<PropsTable component="Popover" />
+
+### PopoverTrigger
+
+`children` 으로 요소를 지정합니다.
+
+### PopoverContent
+
+[FocusScope](../../../components/utilities/web/focus-scope) 컴포넌트의 옵션을 제공합니다.
+- `trapped`
+- `trappedContent`
+- `onMountAutoFocus`
+- `onUnmountAutoFocus`
+- `loop`
+
+[PopperContent](../../../components/utilities/web/popper) 컴포넌트의 옵션을 제공합니다.
+- `referenceHidden`
+- `referenceHiddenOffsets`
+- `setContext`
+- `offset`
+- `position`
+- `wrapperProps`
+- `disablePortal`
+- `container`
+
+[DismissableLayer](../../../components/utilities/web/dismissable-layer) 컴포넌트의 옵션을 제공합니다.
+- `onInteractOutside`
+- `onFocusOutside`
+- `onPointerDownOutside`
+- `onDismiss`
+- `disableOutsidePointerEvents`
+
+<PropsTable component="PopoverContent" />

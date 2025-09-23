@@ -96,7 +96,6 @@ Category 는 여러 컴포넌트를 조합해서 사용합니다.
 - alternative
 
 <Demo code={`import {
-  Button,
   Category,
   CategoryList,
   CategoryListItem,
@@ -155,7 +154,6 @@ export default Demo;`}
 - xlarge
 
 <Demo code={`import {
-  Button,
   Category,
   CategoryList,
   CategoryListItem,
@@ -248,7 +246,6 @@ size별로 icon button 의 크기를 각각 지정해주어야 합니다.
 - xlarge: 권장하지 않습니다.
 
 <Demo code={`import {
-  Button,
   Category,
   CategoryList,
   CategoryListItem,
@@ -360,7 +357,6 @@ export default Demo;`}
 - verticalPadding
 
 <Demo code={`import {
-  Button,
   Category,
   CategoryList,
   CategoryListItem,
@@ -405,6 +401,59 @@ const Demo = () => {
         </CategoryList>
       </Category>
     </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Prevent scroll
+
+`disableScrollMoveOnChange` prop 을 사용하면 카테고리 변경 시 스크롤이 이동하지 않습니다.
+
+<Demo code={`import {
+  Category,
+  CategoryList,
+  CategoryListItem,
+  CategoryPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Category defaultValue="0" disableScrollMoveOnChange>
+      <CategoryList sx={{ width: '75%' }}>
+        <CategoryListItem value="0">
+          First
+        </CategoryListItem>
+        <CategoryListItem value="1">
+          Second
+        </CategoryListItem>
+        <CategoryListItem value="2">
+          Third
+        </CategoryListItem>
+        <CategoryListItem value="3">
+          Fourth
+        </CategoryListItem>
+        <CategoryListItem value="4">
+          Fifth
+        </CategoryListItem>
+        <CategoryListItem value="5">
+          Sixth
+        </CategoryListItem>
+        <CategoryListItem value="6">
+          Seventh
+        </CategoryListItem>
+        <CategoryListItem value="7">
+          Eighth
+        </CategoryListItem>
+        <CategoryListItem value="8">
+          Ninth
+        </CategoryListItem>
+        <CategoryListItem value="9">
+          Tenth
+        </CategoryListItem>
+      </CategoryList>
+    </Category>
   )
 }
 

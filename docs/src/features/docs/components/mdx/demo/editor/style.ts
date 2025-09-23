@@ -112,9 +112,9 @@ export const collapsedStyle = (theme: Theme) => css`
     height: 130px;
     position: absolute;
     content: '';
-    bottom: 0px;
-    width: 100%;
-    left: 0px;
+    bottom: 1px;
+    left: 1px;
+    width: calc(100% - 2px);
     border-radius: inherit;
     ${gradient(
       theme.semantic.background.normal.alternative,
