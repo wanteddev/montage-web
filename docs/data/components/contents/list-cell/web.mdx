@@ -27,7 +27,7 @@ const Demo = () => {
       )}>
         텍스트
       </ListCell>
-      <ListCell textProps={{ caption: '캡션' }} leadingContent={(
+      <ListCell textProps={{ caption: 'Caption' }} leadingContent={(
         <ListCellContent variant="checkbox">
           <Checkbox tabIndex={-1} />
         </ListCellContent>
@@ -254,7 +254,7 @@ const Demo = () => {
         trailingContent={
           <ListCellContent variant="button">
             <TextButton size="small" variant="assistive" tabIndex={-1}>
-              버튼
+              Button
             </TextButton>
           </ListCellContent>
         }
@@ -264,7 +264,7 @@ const Demo = () => {
       <ListCell
         trailingContent={
           <ListCellContent>
-            <ContentBadge color="neutral">뱃지</ContentBadge>
+            <ContentBadge color="neutral">Badge</ContentBadge>
           </ListCellContent>
         }
       >
@@ -365,7 +365,7 @@ const Demo = () => {
         텍스트, Medium
       </ListCell>
       <ListCell
-        textProps={{ caption: '캡션' }}
+        textProps={{ caption: 'Caption' }}
         leadingContent={
           <ListCellContent variant="large-icon">
             <IconBlank />
@@ -377,11 +377,11 @@ const Demo = () => {
           </ListCellContent>
         }
       >
-        텍스트, Large
+        Content, Large
       </ListCell>
       <ListCell
         alignItems="center"
-        textProps={{ caption: '캡션' }}
+        textProps={{ caption: 'Caption' }}
         leadingContent={
           <ListCellContent variant="large-icon">
             <IconBlank />
@@ -393,10 +393,10 @@ const Demo = () => {
           </ListCellContent>
         }
       >
-        텍스트, Large
+        Content, Large
       </ListCell>
       <ListCell
-        textProps={{ caption: '캡션' }}
+        textProps={{ caption: 'Caption' }}
         leadingContent={
           <ListCellContent variant="custom">
             <Thumbnail
@@ -413,7 +413,7 @@ const Demo = () => {
           </ListCellContent>
         }
       >
-        텍스트, Large
+        Content, Large
       </ListCell>
     </List>
   )
@@ -501,7 +501,7 @@ export default Demo;`}
 
 ## Text ellipsis
 
-`ellipsis` 속성을 사용하여 텍스트가 넘치는 경우 말줄임표로 표시할 수 있습니다.
+`ellipsis` 속성을 사용하여 Content가 넘치는 경우 말줄임표로 표시할 수 있습니다.
 
 <Demo code={`import { List, ListCell, ListCellContent } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
