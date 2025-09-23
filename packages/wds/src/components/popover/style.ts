@@ -14,4 +14,5 @@ export const popoverStyle = (theme: Theme) => css`
   outline-style: none;
   box-shadow: ${theme.semantic.elevation.shadow.spread.small};
   backdrop-filter: blur(32px);
+  min-width: 140px;
 `;
