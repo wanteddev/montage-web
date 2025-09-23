@@ -79,7 +79,7 @@ const LnbGroupItem = ({
           {children}
         </ListCell>
       </TooltipTrigger>
-      <TooltipContent position="right-center" offset={16} size="small">
+      <TooltipContent position="right-center" offset={6} size="small">
         {children}
       </TooltipContent>
     </Tooltip>
