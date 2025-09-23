@@ -1,5 +1,5 @@
 'use client';
-import { Box, FlexBox, Loading, NoSsr } from '@wanteddev/wds';
+import { FlexBox, Loading, NoSsr, ScrollArea } from '@wanteddev/wds';
 
 import {
   demoStyle,
@@ -43,7 +43,14 @@ const Demo = ({ code, hideCode }: Props) => {
       }
       sx={demoWrapperStyle}
     >
-      <Box sx={demoStyle({ hideCode, isTransparent })}>{element}</Box>
+      <ScrollArea
+        scrollbars="horizontal"
+        viewportProps={{ sx: demoStyle({ hideCode, isTransparent }) }}
+      >
+        <FlexBox alignItems="center" flexDirection="column">
+          {element}
+        </FlexBox>
+      </ScrollArea>
 
       {!hideCode && (
         <FlexBox flexDirection="column">
