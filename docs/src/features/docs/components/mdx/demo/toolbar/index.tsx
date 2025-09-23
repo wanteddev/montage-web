@@ -73,7 +73,7 @@ const Toolbar = ({
                 <IconCopy />
               </IconButton>
             </TooltipTrigger>
-            <TooltipContent offset={12} arrow={false}>
+            <TooltipContent offset={12} size="small">
               Copy
             </TooltipContent>
           </Tooltip>
@@ -84,7 +84,7 @@ const Toolbar = ({
                 <IconRefresh />
               </IconButton>
             </TooltipTrigger>
-            <TooltipContent offset={12} arrow={false}>
+            <TooltipContent offset={12} size="small">
               Reset
             </TooltipContent>
           </Tooltip>
@@ -103,7 +103,7 @@ const Toolbar = ({
                 <IconImage />
               </IconButton>
             </TooltipTrigger>
-            <TooltipContent offset={12} arrow={false}>
+            <TooltipContent offset={12} size="small">
               Change Background
             </TooltipContent>
           </Tooltip>
