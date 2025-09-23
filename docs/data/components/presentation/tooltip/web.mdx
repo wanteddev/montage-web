@@ -88,6 +88,51 @@ Tooltip 는 여러 컴포넌트를 조합해서 사용합니다.
 </Tooltip>
 ```
 
+## Sizes
+
+2가지 size를 제공합니다.
+- small
+- medium (default)
+
+### Small
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button>Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent size="small">
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Medium
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button>Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
 
 ## Grouped tooltips
 
@@ -140,9 +185,34 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## With shortcut
+
+`shortcut` 옵션을 통해 키보드 단축키를 표기할 수 있습니다.
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button>Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent shortcut="⌘C" size="small">
+        Copy
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+
 ## With action
 
 `action` 옵션을 통해 하단에 액션 버튼을 추가할 수 있습니다.
+
+> Deprecated 되었습니다. action이 필요한 경우 [Popover](../../../components/presentation/popover/web) 컴포넌트를 사용해주세요.
 
 <Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
 
@@ -171,6 +241,8 @@ export default Demo;`}
 ## With close button
 
 `closeButton` 옵션을 통해 닫기 버튼을 표시할 수 있습니다.
+
+> Deprecated 되었습니다. closeButton이 필요한 경우 [Popover](../../../components/presentation/popover/web) 컴포넌트를 사용해주세요.
 
 <Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
 
