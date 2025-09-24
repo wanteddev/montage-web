@@ -30,9 +30,14 @@ export type ModalTriggerProps = SlotProps;
 type ModalContainerDefaultProps = WithSxProps<{
   variant?: 'popup' | 'bottom' | 'full';
   /**
-   * When `variant` is not `popup`, the modal can be pulled down and up by dragging.
+   * When `variant` is `bottom`, the modal can be pulled down and up by dragging.
    */
   handle?: boolean;
+  /**
+   * When `variant=bottom` and `handle=true`, sets the bottom sheet's peek height (px).
+   * If the peek height is not set, the bottom sheet will be peeked with navigation height.
+   */
+  peekHeight?: number;
   /**
    * When scrolling inside the modal, the gradient of `ModalActionArea` and the `borderBottom` style of `TopNavigation` are added.
    */
