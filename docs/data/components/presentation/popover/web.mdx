@@ -68,6 +68,164 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Position
+
+`position` 속성을 통해 툴팁의 위치를 설정할 수 있습니다.
+
+해당 position에 자리가 없는 경우 자동으로 위치가 조정됩니다.
+
+<Demo code={`import { Grid, GridItem, FlexBox, Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={4} sx={{ width: '100%', maxWidth: '550px' }}>
+      <GridItem columns={12}>
+        <FlexBox gap="12px" justifyContent="center">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Top start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="top-start">
+              Top start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Top center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="top-center">
+              Top center <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+            <Button size="small" variant="outlined">
+              Top end
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="top-end">
+              Top end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+      
+      <GridItem columns={6}>
+        <FlexBox gap="12px" alignItems="flex-start" flexDirection="column">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Left start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="left-start">
+              Left start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Left center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="left-center">
+              Left center <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+            <Button size="small" variant="outlined">
+              Left end
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="left-end">
+              Left end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+
+      <GridItem columns={6}>
+        <FlexBox gap="12px" alignItems="flex-end" flexDirection="column">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Right start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="right-start">
+              Right start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Right center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="right-center">
+              Right center <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+            <Button size="small" variant="outlined">
+              Right end
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="right-end">
+              Right end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+
+      <GridItem columns={12}>
+        <FlexBox gap="12px" justifyContent="center">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Bottom start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="bottom-start">
+              Bottom start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Bottom center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="bottom-center">
+              Bottom center <br/> content
+            </PopoverContent>
+          </Tooltip>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Bottom end
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="bottom-end">
+              Bottom end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+    </Grid>
+  );
+};
+
+export default Demo;`}
+/>
+
+
 ## With close button
 
 `closeButton` prop 을 사용하여 닫기 버튼을 추가할 수 있습니다.

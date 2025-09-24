@@ -48,6 +48,10 @@ export const editorStyle =
     border-bottom-left-radius: 16px;
     position: relative;
 
+    [data-radix-scroll-area-content] {
+      max-height: clamp(300px, 60dvh, 960px);
+    }
+
     &::before {
       z-index: 1;
       border-radius: inherit;
