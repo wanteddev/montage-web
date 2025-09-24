@@ -66,11 +66,8 @@ describe('when given segmented control component', () => {
       </SegmentedControl>,
     );
 
-    // Set arrow pressed state in component's effect
-    fireEvent.keyDown(document, { key: 'ArrowRight' });
-
-    const b = getItem(container, 'b');
-    if (b instanceof HTMLElement) b.focus();
+    fireEvent.focus(getItem(container, 'a')!);
+    fireEvent.keyDown(getItem(container, 'a')!, { key: 'ArrowRight' });
 
     await waitFor(() => {
       expect(getItem(container, 'b')).toHaveAttribute('aria-checked', 'true');

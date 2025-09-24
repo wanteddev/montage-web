@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import { PaginationDots } from '.';
@@ -37,21 +43,21 @@ describe('when given pagination dots component', () => {
     expect(onClickDot).toHaveBeenCalledWith(4);
   });
 
-  it('should select focused dot via roving focus when arrow keys are pressed', () => {
+  it('should select focused dot via roving focus when arrow keys are pressed', async () => {
     const onClickDot = vi.fn();
     const { container } = render(
       <PaginationDots totalPages={3} currentPage={1} onClickDot={onClickDot} />,
     );
 
-    // Simulate arrow pressed
-    fireEvent.keyDown(document, { key: 'ArrowRight' });
-
     const buttons = container.querySelectorAll(
       '[data-role="pagination-dot-button"]',
     );
-    const second = buttons.item(1) as HTMLButtonElement;
-    second.focus();
-    expect(onClickDot).toHaveBeenCalledWith(2);
+    fireEvent.focus(buttons[0]!);
+    fireEvent.keyDown(buttons[0]!, { key: 'ArrowRight' });
+
+    await waitFor(() => {
+      expect(onClickDot).toHaveBeenCalledWith(2);
+    });
   });
 
   it('should throw on invalid totalPages in non-production env', () => {
