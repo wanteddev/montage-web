@@ -38,6 +38,7 @@ import {
   useModalNavigationContext,
 } from './contexts';
 import {
+  BOTTOM_SHEET_PEEK_PADDING,
   MODAL_CLOSE_NAME,
   MODAL_CONTAINER_NAME,
   MODAL_DIMMER_NAME,
@@ -195,6 +196,7 @@ const ModalContainer = forwardRef(
       forceMount = false,
       sticky = true,
       wrapperProps,
+      peekHeight,
       dimmer = <ModalDimmer />,
       ...props
     }: PolymorphicPropsInternal<ModalContainerProps, T>,
@@ -224,6 +226,7 @@ const ModalContainer = forwardRef(
 
     const { isBottomSheetWithHandle, handleVisibilityHidden, ...dragProps } =
       useDraggable({
+        peekHeight,
         variant,
         handle,
         xs,
@@ -318,6 +321,14 @@ const ModalContainer = forwardRef(
                   e.preventDefault();
                 }
               }}
+              onFocusOutside={(e) => {
+                if (
+                  disableOutsideClickClose ||
+                  context.visibility === 'hidden'
+                ) {
+                  e.preventDefault();
+                }
+              }}
               onDismiss={() => {
                 if (!isBottomSheetWithHandle) {
                   onOpenChange(false);
@@ -366,12 +377,18 @@ const ModalContainer = forwardRef(
                     viewportProps={{
                       sx: {
                         height: 'initial',
-                        scrollPaddingTop: topNavigationHeight,
-                        scrollPaddingBottom: actionAreaHeight,
                         ['& [data-radix-scroll-area-content]']: {
                           display: 'flex',
                           flexDirection: 'column',
                         },
+                      },
+                      style: {
+                        scrollPaddingTop:
+                          topNavigationHeight +
+                          (isBottomSheetWithHandle
+                            ? BOTTOM_SHEET_PEEK_PADDING
+                            : 0),
+                        scrollPaddingBottom: actionAreaHeight,
                       },
                     }}
                     zIndex={11}
@@ -379,11 +396,11 @@ const ModalContainer = forwardRef(
                     <FlexBox
                       flexDirection="column"
                       flex="1"
+                      data-role="modal-container-wrapper"
                       sx={{
-                        ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
-                          {
-                            paddingTop: 12,
-                          },
+                        ['&:has([data-role="modal-container-grabber"])']: {
+                          paddingTop: BOTTOM_SHEET_PEEK_PADDING,
+                        },
                       }}
                       {...dragProps}
                     >
@@ -451,14 +468,15 @@ const ModalDimmer = forwardRef(
           },
         )}
         onClick={composeEventHandlers(props.onClick, (e: MouseEvent) => {
-          e.preventDefault();
           if (disableOutsideClickClose) {
+            e.preventDefault();
             return;
           }
 
           if (!isBottomSheetWithHandle) {
             onOpenChange(false);
-          } else {
+          } else if (visibility === 'visible') {
+            e.preventDefault();
             handleVisibilityHidden();
           }
         })}
