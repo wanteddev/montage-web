@@ -31,3 +31,14 @@ export const calcOpacityRatio = (
 
   return 1 - (input - minPosition) / (maxPosition - minPosition);
 };
+
+export const isMouseDownOnPeek = (
+  e: React.MouseEvent | React.TouchEvent,
+  peekHeight: number,
+) => {
+  const { top } = e.currentTarget.getBoundingClientRect();
+
+  const clientY = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
+
+  return clientY >= top && clientY <= top + peekHeight;
+};
