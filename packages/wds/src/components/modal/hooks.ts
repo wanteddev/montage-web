@@ -3,9 +3,13 @@ import { useTheme } from '@wanteddev/wds-engine';
 
 import { getPreviousValue } from '../../utils/responsive-props';
 
-import { BOTTOM_SHEET_SHADOW, MODAL_NAME } from './constants';
+import {
+  BOTTOM_SHEET_PEEK_PADDING,
+  BOTTOM_SHEET_SHADOW,
+  MODAL_NAME,
+} from './constants';
 import { useModalContext } from './contexts';
-import { calcOpacityRatio, isTouchEvent } from './helpers';
+import { calcOpacityRatio, isMouseDownOnPeek, isTouchEvent } from './helpers';
 
 import type { RefObject } from 'react';
 import type { BreakPoint } from '@wanteddev/wds-engine';
@@ -13,6 +17,7 @@ import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({
   variant: givenVariant,
+  peekHeight: givenPeekHeight,
   handle: givenHandle,
   xs,
   sm,
@@ -63,6 +68,15 @@ export const useDraggable = ({
     setIsBottomSheet(variant === 'bottom');
   }, [variant, setIsBottomSheet]);
 
+  const peekHeight = useRef(
+    givenPeekHeight !== undefined ? Math.max(givenPeekHeight, 20) : undefined,
+  );
+
+  useEffect(() => {
+    peekHeight.current =
+      givenPeekHeight !== undefined ? Math.max(givenPeekHeight, 20) : undefined;
+  }, [givenPeekHeight]);
+
   const calcTopNavigationHeight = () => {
     const topNavigation = ref.current?.querySelector(
       '[wds-component="top-navigation"]',
@@ -99,7 +113,10 @@ export const useDraggable = ({
       container.style.removeProperty('transition');
       container.style.setProperty(
         '--wds-modal-translate',
-        `calc(100% - ${topNavigationHeight.current}px)`,
+        `calc(100% - ${
+          peekHeight.current ??
+          topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
+        }px)`,
       );
       dimmerRef.current?.style.removeProperty('transition');
       dimmerRef.current?.style.removeProperty('opacity');
@@ -121,9 +138,13 @@ export const useDraggable = ({
     // In iOS, target may be undefined when long-pressing, so use try-catch
     try {
       if (
-        (e.target as HTMLElement).closest('[wds-component="top-navigation"]') ||
         (e.target as HTMLElement).closest(
           '[data-role="modal-container-grabber"]',
+        ) ||
+        isMouseDownOnPeek(
+          e,
+          peekHeight.current ??
+            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING,
         )
       ) {
         calcTopNavigationHeight();
@@ -151,7 +172,10 @@ export const useDraggable = ({
       const clientY = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
 
       const minPosition = window.innerHeight - container.clientHeight;
-      const maxPosition = window.innerHeight - topNavigationHeight.current;
+      const maxPosition =
+        window.innerHeight -
+        (peekHeight.current ??
+          topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING);
 
       const handleOpacityRatioStyle = (input: number) => {
         dimmerRef.current?.style.setProperty(
@@ -171,7 +195,9 @@ export const useDraggable = ({
       // Dragging down
       if (diffY > 0) {
         if (context.visibility === 'hidden') {
-          const nextPosition = topNavigationHeight.current - diffY;
+          const nextPosition =
+            (peekHeight.current ??
+              topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING) - diffY;
           handleOpacityRatioStyle(window.innerHeight - nextPosition);
           return container.style.setProperty(
             '--wds-modal-translate',
@@ -189,7 +215,10 @@ export const useDraggable = ({
 
       // Dragging up
       if (diffY < 0 && context.visibility === 'hidden') {
-        const nextPosition = Math.abs(diffY) + topNavigationHeight.current;
+        const nextPosition =
+          Math.abs(diffY) +
+          (peekHeight.current ??
+            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING);
 
         if (minPosition >= window.innerHeight - nextPosition) {
           handleOpacityRatioStyle(minPosition);
@@ -228,7 +257,10 @@ export const useDraggable = ({
         if (context.visibility === 'hidden') {
           container.style.setProperty(
             '--wds-modal-translate',
-            `calc(100% - ${topNavigationHeight.current}px)`,
+            `calc(100% - ${
+              peekHeight.current ??
+              topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
+            }px)`,
           );
           container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
           dimmerRef.current?.style.setProperty('opacity', '0');
@@ -245,7 +277,10 @@ export const useDraggable = ({
         context.setVisibility('hidden');
         container.style.setProperty(
           '--wds-modal-translate',
-          `calc(100% - ${topNavigationHeight.current}px)`,
+          `calc(100% - ${
+            peekHeight.current ??
+            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
+          }px)`,
         );
         container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
         dimmerRef.current?.style.setProperty('opacity', '0');
