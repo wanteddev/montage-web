@@ -233,6 +233,11 @@ const AlertContainer = forwardRef(
                   if (isRightClick || disableOutsideClickClose)
                     e.preventDefault();
                 }}
+                onFocusOutside={(e) => {
+                  if (disableOutsideClickClose) {
+                    e.preventDefault();
+                  }
+                }}
                 onEscapeKeyDown={(e: KeyboardEvent) => {
                   if (disableEscapeKeyDownClose) {
                     e.preventDefault();
