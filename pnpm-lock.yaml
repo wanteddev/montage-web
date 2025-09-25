@@ -217,6 +217,9 @@ importers:
       '@algolia/autocomplete-core':
         specifier: ^1.17.7
         version: 1.19.2(@algolia/client-search@5.35.0)(algoliasearch@5.35.0)(search-insights@2.17.2)
+      '@codemirror/autocomplete':
+        specifier: ^6.18.7
+        version: 6.18.7
       '@codemirror/commands':
         specifier: ^6.8.1
         version: 6.8.1
@@ -259,9 +262,6 @@ importers:
       autosuggest-highlight:
         specifier: ^3.3.4
         version: 3.3.4
-      codemirror:
-        specifier: ^6.0.2
-        version: 6.0.2
       copy-to-clipboard:
         specifier: ^3.3.3
         version: 3.3.3
@@ -4002,9 +4002,6 @@ packages:
 
   code-block-writer@13.0.3:
     resolution: {integrity: sha512-Oofo0pq3IKnsFtuHqSF7TqBfr71aeyZDVJ0HpmqB7FBM2qEigL0iPONSCZSO9pE9dZTAxANe5XHG9Uy0YMv8cg==}
-
-  codemirror@6.0.2:
-    resolution: {integrity: sha512-VhydHotNW5w1UGK0Qj96BwSk/Zqbp9WbnyK2W/eVMv4QyF41INRGpjUhFJY7/uDNuudSc33a/PKr4iDqRduvHw==}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -12486,16 +12483,6 @@ snapshots:
   cmd-shim@6.0.1: {}
 
   code-block-writer@13.0.3: {}
-
-  codemirror@6.0.2:
-    dependencies:
-      '@codemirror/autocomplete': 6.18.7
-      '@codemirror/commands': 6.8.1
-      '@codemirror/language': 6.11.2
-      '@codemirror/lint': 6.8.5
-      '@codemirror/search': 6.5.11
-      '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.38.1
 
   color-convert@2.0.1:
     dependencies:

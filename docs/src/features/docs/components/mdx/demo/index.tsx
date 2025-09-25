@@ -38,7 +38,9 @@ const Demo = ({ code, hideCode }: Props) => {
       data-role="demo"
       style={
         {
-          ['--demo-editor-height']: collapsed ? '250px' : 'fit-content',
+          ['--demo-editor-height']: collapsed
+            ? '250px'
+            : 'clamp(300px, 60dvh, 960px)',
         } as React.CSSProperties
       }
       sx={demoWrapperStyle}
@@ -64,7 +66,10 @@ const Demo = ({ code, hideCode }: Props) => {
             onCollapseChange={setCollapsed}
           />
 
-          <FlexBox flexDirection="column" sx={editorWrapperStyle}>
+          <FlexBox
+            flexDirection="column"
+            sx={editorWrapperStyle({ hasError: Boolean(error) })}
+          >
             <NoSsr
               fallback={
                 <FlexBox
@@ -77,7 +82,6 @@ const Demo = ({ code, hideCode }: Props) => {
               }
             >
               <Editor
-                hasError={Boolean(error)}
                 value={value}
                 onValueChange={handleValueChange}
                 collapsed={collapsed}

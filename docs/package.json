@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@algolia/autocomplete-core": "^1.17.7",
+    "@codemirror/autocomplete": "^6.18.7",
     "@codemirror/commands": "^6.8.1",
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/language": "^6.11.2",
@@ -27,7 +28,6 @@
     "@wanteddev/wds-nextjs": "workspace:*",
     "algoliasearch": "^5.15.0",
     "autosuggest-highlight": "^3.3.4",
-    "codemirror": "^6.0.2",
     "copy-to-clipboard": "^3.3.3",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-fade": "^8.6.0",

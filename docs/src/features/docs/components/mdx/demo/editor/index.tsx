@@ -1,14 +1,36 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { javascript } from '@codemirror/lang-javascript';
 import { EditorState } from '@codemirror/state';
-import { EditorView, keymap } from '@codemirror/view';
-import { basicSetup } from 'codemirror';
-import { indentWithTab } from '@codemirror/commands';
+import {
+  EditorView,
+  crosshairCursor,
+  drawSelection,
+  dropCursor,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  keymap,
+  lineNumbers,
+} from '@codemirror/view';
+import {
+  defaultKeymap,
+  history,
+  historyKeymap,
+  indentWithTab,
+} from '@codemirror/commands';
+import {
+  autocompletion,
+  closeBrackets,
+  closeBracketsKeymap,
+  completionKeymap,
+} from '@codemirror/autocomplete';
 import {
   closeSearchPanel,
   getSearchQuery,
+  highlightSelectionMatches,
   openSearchPanel,
   search,
+  searchKeymap,
   setSearchQuery,
 } from '@codemirror/search';
 import {
@@ -18,6 +40,14 @@ import {
   useCallbackRef,
   useTheme,
 } from '@wanteddev/wds';
+import {
+  bracketMatching,
+  defaultHighlightStyle,
+  foldGutter,
+  foldKeymap,
+  indentOnInput,
+  syntaxHighlighting,
+} from '@codemirror/language';
 
 import { viewTheme } from './constants';
 import { collapsedStyle, editorStyle, focusGuardStyle } from './style';
@@ -29,7 +59,6 @@ import type { ViewUpdate } from '@codemirror/view';
 import type { Dispatch, SetStateAction } from 'react';
 
 type Props = {
-  hasError: boolean;
   value: string;
   onValueChange: Dispatch<SetStateAction<string>>;
   collapsed: boolean;
@@ -39,7 +68,6 @@ type Props = {
 };
 
 const Editor = ({
-  hasError,
   value,
   onValueChange,
   collapsed,
@@ -106,6 +134,11 @@ const Editor = ({
       doc: value,
       extensions: [
         keymap.of([
+          ...closeBracketsKeymap,
+          ...defaultKeymap,
+          ...historyKeymap,
+          ...foldKeymap,
+          ...completionKeymap,
           indentWithTab,
           {
             key: 'Escape',
@@ -129,8 +162,24 @@ const Editor = ({
               return false;
             },
           },
+          ...searchKeymap,
         ]),
-        basicSetup,
+        EditorState.allowMultipleSelections.of(true),
+        lineNumbers(),
+        highlightActiveLineGutter(),
+        foldGutter(),
+        highlightSpecialChars(),
+        history(),
+        drawSelection(),
+        dropCursor(),
+        indentOnInput(),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        crosshairCursor(),
+        highlightActiveLine(),
+        highlightSelectionMatches(),
         search({
           top: true,
           createPanel: () => ({
@@ -211,10 +260,7 @@ const Editor = ({
         <kbd>Enter</kbd> 키로 코드 수정 진입하기
       </Typography>
 
-      <ScrollArea
-        viewportProps={{ tabIndex: -1 }}
-        sx={editorStyle({ collapsed, hasError })}
-      >
+      <ScrollArea sx={{ maxHeight: 'inherit' }}>
         {isSearchPanelOpen && (
           <SearchCode
             ref={searchPanelRef}
@@ -224,7 +270,7 @@ const Editor = ({
           />
         )}
 
-        <Box ref={setNode} />
+        <Box ref={setNode} sx={editorStyle} />
       </ScrollArea>
 
       {collapsed && (

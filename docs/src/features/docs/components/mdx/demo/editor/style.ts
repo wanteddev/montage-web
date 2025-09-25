@@ -1,4 +1,4 @@
-import { addOpacity, css, gradient } from '@wanteddev/wds';
+import { css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -28,80 +28,26 @@ export const focusGuardStyle = (theme: Theme) => css`
   }
 `;
 
-type EditorStyleParams = {
-  collapsed: boolean;
-  hasError: boolean;
-};
+export const editorStyle = (theme: Theme) => css`
+  background-color: ${theme.semantic.background.elevated.normal};
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
+  position: relative;
+  max-height: inherit;
 
-export const editorStyle =
-  ({ collapsed, hasError }: EditorStyleParams) =>
-  (theme: Theme) => css`
-    ${collapsed &&
-    css`
-      [data-radix-scroll-area-viewport] {
-        overflow: hidden !important;
-      }
-    `}
+  .cm-editor {
+    height: 100%;
+    display: inline-block !important;
+  }
 
-    background-color: ${theme.semantic.background.elevated.normal};
-    border-bottom-right-radius: 16px;
-    border-bottom-left-radius: 16px;
-    position: relative;
+  .cm-scroller {
+    overflow: auto;
+  }
 
-    [data-radix-scroll-area-content] {
-      max-height: clamp(300px, 60dvh, 960px);
-    }
-
-    &::before {
-      z-index: 1;
-      border-radius: inherit;
-      content: '';
-      inset: 0;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      transition: box-shadow ease 0.2s;
-      box-shadow:
-        inset 0 0 0 1px ${theme.semantic.line.normal.normal},
-        inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
-    }
-
-    ${hasError
-      ? css`
-          &::before {
-            box-shadow:
-              inset 0 0 0 1px
-                ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-              inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
-          }
-
-          &:has(.cm-focused) {
-            &::before {
-              box-shadow:
-                inset 0 0 0 2px
-                  ${addOpacity(
-                    theme.semantic.status.negative,
-                    theme.opacity[43],
-                  )},
-                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
-            }
-          }
-        `
-      : css`
-          &:has(.cm-focused) {
-            &::before {
-              box-shadow:
-                inset 0 0 0 2px
-                  ${addOpacity(
-                    theme.semantic.primary.normal,
-                    theme.opacity[43],
-                  )},
-                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
-            }
-          }
-        `}
-  `;
+  .cm-scroller {
+    width: 100%;
+  }
+`;
 
 export const collapsedStyle = (theme: Theme) => css`
   position: absolute;

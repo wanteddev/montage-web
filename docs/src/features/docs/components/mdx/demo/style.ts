@@ -1,4 +1,4 @@
-import { css, gradient } from '@wanteddev/wds';
+import { addOpacity, css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -63,10 +63,68 @@ export const demoStyle =
     `}
   `;
 
-export const editorWrapperStyle = css`
-  max-height: var(--demo-editor-height);
-  position: relative;
-`;
+type EditorWrapperStyleParams = {
+  hasError: boolean;
+};
+
+export const editorWrapperStyle =
+  ({ hasError }: EditorWrapperStyleParams) =>
+  (theme: Theme) => css`
+    max-height: var(--demo-editor-height);
+    position: relative;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+
+    &::before {
+      z-index: 1;
+      border-radius: inherit;
+      content: '';
+      inset: 0;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      transition: box-shadow ease 0.2s;
+      box-shadow:
+        inset 0 0 0 1px ${theme.semantic.line.normal.normal},
+        inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+    }
+
+    ${hasError
+      ? css`
+          &::before {
+            box-shadow:
+              inset 0 0 0 1px
+                ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
+              inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+          }
+
+          &:has(.cm-focused) {
+            &::before {
+              box-shadow:
+                inset 0 0 0 2px
+                  ${addOpacity(
+                    theme.semantic.status.negative,
+                    theme.opacity[43],
+                  )},
+                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
+            }
+          }
+        `
+      : css`
+          &:has(.cm-focused) {
+            &::before {
+              box-shadow:
+                inset 0 0 0 2px
+                  ${addOpacity(
+                    theme.semantic.primary.normal,
+                    theme.opacity[43],
+                  )},
+                inset 0 0 0 2px ${theme.semantic.background.elevated.normal};
+            }
+          }
+        `}
+  `;
 
 export const editorFallbackStyle = (theme: Theme) => css`
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
