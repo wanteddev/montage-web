@@ -1,6 +1,6 @@
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
-import { EditorView } from 'codemirror';
+import { EditorView } from '@codemirror/view';
 
 import type { Extension } from '@codemirror/state';
 import type { Theme } from '@wanteddev/wds';
