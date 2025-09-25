@@ -20,7 +20,7 @@ import {
 } from '@codemirror/search';
 import {
   IconChevronDown,
-  IconChevronRight,
+  IconChevronUp,
   IconClose,
   IconTextFormat,
 } from '@wanteddev/wds-icon';
@@ -114,22 +114,19 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
     };
 
     return (
-      <FlexBox sx={searchPanelStyle} ref={ref} gap="8px">
+      <FlexBox sx={searchPanelStyle} ref={ref} gap="16px">
         <TooltipGroup>
           <Tooltip>
             <TooltipTrigger>
               <IconButton
-                size={18}
+                size={16}
                 aria-label="Toggle replace"
-                sx={[
-                  searchInputToggleStyle,
-                  {
-                    marginTop: '4px',
-                  },
-                ]}
+                sx={{
+                  marginTop: '6px',
+                }}
                 onClick={() => setIsReplaceOpen(!isReplaceOpen)}
               >
-                {isReplaceOpen ? <IconChevronDown /> : <IconChevronRight />}
+                {isReplaceOpen ? <IconChevronUp /> : <IconChevronDown />}
               </IconButton>
             </TooltipTrigger>
 
@@ -137,7 +134,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
           </Tooltip>
 
           <FlexBox flexDirection="column" gap="4px">
-            <FlexBox alignItems="center" gap="10px">
+            <FlexBox alignItems="center" gap="12px">
               <Box
                 {...register('search')}
                 sx={searchInputStyle}
@@ -150,80 +147,85 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                 data-main-field="true"
               />
 
-              <Tooltip>
-                <Controller
-                  control={control}
-                  name="caseSensitive"
-                  render={({ field }) => (
-                    <TooltipTrigger>
-                      <IconButton
-                        size={18}
-                        sx={searchInputToggleStyle}
-                        aria-label="Match case"
-                        aria-pressed={field.value}
-                        onClick={() => {
-                          field.onChange(!field.value);
-                          setFocus('search');
-                        }}
-                      >
-                        <IconTextFormat />
-                      </IconButton>
-                    </TooltipTrigger>
-                  )}
-                />
-                <TooltipContent size="small">Match case</TooltipContent>
-              </Tooltip>
+              <FlexBox alignItems="center" gap="4px">
+                <Tooltip>
+                  <Controller
+                    control={control}
+                    name="caseSensitive"
+                    render={({ field }) => (
+                      <TooltipTrigger>
+                        <IconButton
+                          size={28}
+                          sx={searchInputToggleStyle}
+                          variant="outlined"
+                          aria-label="Match case"
+                          aria-pressed={field.value}
+                          onClick={() => {
+                            field.onChange(!field.value);
+                            setFocus('search');
+                          }}
+                        >
+                          <IconTextFormat />
+                        </IconButton>
+                      </TooltipTrigger>
+                    )}
+                  />
+                  <TooltipContent size="small">Match case</TooltipContent>
+                </Tooltip>
 
-              <Tooltip>
-                <Controller
-                  control={control}
-                  name="wholeWord"
-                  render={({ field }) => (
-                    <TooltipTrigger>
-                      <IconButton
-                        size={18}
-                        sx={searchInputToggleStyle}
-                        aria-label="Match whole word"
-                        aria-pressed={field.value}
-                        onClick={() => {
-                          field.onChange(!field.value);
-                          setFocus('search');
-                        }}
-                      >
-                        <IconWholeWord />
-                      </IconButton>
-                    </TooltipTrigger>
-                  )}
-                />
-                <TooltipContent size="small">Match whole word</TooltipContent>
-              </Tooltip>
+                <Tooltip>
+                  <Controller
+                    control={control}
+                    name="wholeWord"
+                    render={({ field }) => (
+                      <TooltipTrigger>
+                        <IconButton
+                          size={28}
+                          sx={searchInputToggleStyle}
+                          variant="outlined"
+                          aria-label="Match whole word"
+                          aria-pressed={field.value}
+                          onClick={() => {
+                            field.onChange(!field.value);
+                            setFocus('search');
+                          }}
+                        >
+                          <IconWholeWord />
+                        </IconButton>
+                      </TooltipTrigger>
+                    )}
+                  />
+                  <TooltipContent size="small">Match whole word</TooltipContent>
+                </Tooltip>
 
-              <Tooltip>
-                <Controller
-                  control={control}
-                  name="regexp"
-                  render={({ field }) => (
-                    <TooltipTrigger>
-                      <IconButton
-                        size={18}
-                        sx={searchInputToggleStyle}
-                        aria-label="Use regex"
-                        aria-pressed={field.value}
-                        onClick={() => {
-                          field.onChange(!field.value);
-                          setFocus('search');
-                        }}
-                      >
-                        <IconRegex />
-                      </IconButton>
-                    </TooltipTrigger>
-                  )}
-                />
-                <TooltipContent size="small">Use regex</TooltipContent>
-              </Tooltip>
+                <Tooltip>
+                  <Controller
+                    control={control}
+                    name="regexp"
+                    render={({ field }) => (
+                      <TooltipTrigger>
+                        <IconButton
+                          size={28}
+                          sx={searchInputToggleStyle}
+                          variant="outlined"
+                          aria-label="Use regex"
+                          aria-pressed={field.value}
+                          onClick={() => {
+                            field.onChange(!field.value);
+                            setFocus('search');
+                          }}
+                        >
+                          <IconRegex />
+                        </IconButton>
+                      </TooltipTrigger>
+                    )}
+                  />
+                  <TooltipContent size="small">Use regex</TooltipContent>
+                </Tooltip>
+              </FlexBox>
             </FlexBox>
             {isReplaceOpen && (
-              <FlexBox alignItems="center" gap="10px">
+              <FlexBox alignItems="center" gap="12px">
                 <Box
                   {...register('replace')}
                   sx={searchInputStyle}
@@ -235,39 +237,45 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                   aria-label="Replace field"
                 />
 
-                <Tooltip>
-                  <TooltipTrigger>
-                    <IconButton
-                      size={18}
-                      sx={[searchInputToggleStyle, { fontSize: 16 }]}
-                      aria-label="Replace"
-                      onClick={() => view.current && replaceNext(view.current)}
-                    >
-                      <IconReplace />
-                    </IconButton>
-                  </TooltipTrigger>
+                <FlexBox alignItems="center" gap="4px">
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <IconButton
+                        size={28}
+                        sx={[searchInputToggleStyle, { fontSize: 16 }]}
+                        aria-label="Replace"
+                        variant="outlined"
+                        onClick={() =>
+                          view.current && replaceNext(view.current)
+                        }
+                      >
+                        <IconReplace />
+                      </IconButton>
+                    </TooltipTrigger>
 
-                  <TooltipContent size="small" shortcut="⌘+⏎">
-                    Replace
-                  </TooltipContent>
-                </Tooltip>
+                    <TooltipContent size="small" shortcut="⌘+⏎">
+                      Replace
+                    </TooltipContent>
+                  </Tooltip>
 
-                <Tooltip>
-                  <TooltipTrigger>
-                    <IconButton
-                      size={18}
-                      sx={[searchInputToggleStyle, { fontSize: 16 }]}
-                      aria-label="Replace all"
-                      onClick={() => view.current && replaceAll(view.current)}
-                    >
-                      <IconReplaceAll />
-                    </IconButton>
-                  </TooltipTrigger>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <IconButton
+                        size={28}
+                        sx={[searchInputToggleStyle, { fontSize: 16 }]}
+                        variant="outlined"
+                        aria-label="Replace all"
+                        onClick={() => view.current && replaceAll(view.current)}
+                      >
+                        <IconReplaceAll />
+                      </IconButton>
+                    </TooltipTrigger>
 
-                  <TooltipContent size="small" shortcut="⌘+⏎">
-                    Replace all
-                  </TooltipContent>
-                </Tooltip>
+                    <TooltipContent size="small" shortcut="⌘+⏎">
+                      Replace all
+                    </TooltipContent>
+                  </Tooltip>
+                </FlexBox>
               </FlexBox>
             )}
           </FlexBox>
@@ -275,16 +283,13 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
           <Tooltip>
             <TooltipTrigger>
               <IconButton
-                size={18}
+                size={16}
+                variant="normal"
                 onClick={handleClose}
                 aria-label="Close"
-                sx={[
-                  searchInputToggleStyle,
-                  {
-                    marginLeft: '10px',
-                    marginTop: '4px',
-                  },
-                ]}
+                sx={{
+                  marginTop: '6px',
+                }}
               >
                 <IconClose />
               </IconButton>

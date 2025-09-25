@@ -7,15 +7,20 @@ export const searchPanelStyle = (theme: Theme) => css`
   top: 16px;
   right: 16px;
   z-index: 2;
-  background-color: ${theme.semantic.background.elevated.alternative};
+  background-color: ${addOpacity(
+    theme.semantic.background.normal.normal,
+    theme.opacity[88],
+  )};
   box-shadow: ${theme.semantic.elevation.shadow.normal.small};
-  padding: 10px;
-  border-radius: 8px;
+  border: 1px solid ${theme.semantic.line.normal.neutral};
+  padding: 10px 16px;
+  border-radius: 16px;
+  backdrop-filter: blur(32px);
 `;
 
 export const searchInputStyle = (theme: Theme) => css`
   width: 160px;
-  padding: 4px 6px;
+  padding: 4px 8px;
   border-radius: 8px;
   border: none;
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
@@ -32,20 +37,32 @@ export const searchInputStyle = (theme: Theme) => css`
   &:focus,
   &:focus-visible {
     outline: none;
-    box-shadow: inset 0 0 0 1.5px
-      ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
+    box-shadow:
+      inset 0 0 0 1.5px
+        ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
+      inset 0 0 0 1.5px ${theme.semantic.background.normal.normal};
   }
 `;
 
-export const searchInputToggleStyle = css`
-  border-radius: 6px;
+export const searchInputToggleStyle = (theme: Theme) => css`
+  border-radius: 8px;
+  color: ${theme.semantic.label.normal};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+  transition:
+    box-shadow ease 0.2s,
+    background-color ease 0.2s,
+    color ease 0.2s;
+  background-color: transparent;
 
-  & > [wds-component='with-interaction'] {
-    width: calc(100% + 8px);
-    height: calc(100% + 8px);
-  }
-
-  &[aria-pressed='true'] > [wds-component='with-interaction'] {
-    opacity: 0.08;
+  &[aria-pressed='true'] {
+    color: ${theme.semantic.primary.normal};
+    background-color: ${addOpacity(
+      theme.semantic.primary.normal,
+      theme.opacity[5],
+    )};
+    box-shadow:
+      inset 0 0 0 1.5px
+        ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])},
+      inset 0 0 0 1.5px ${theme.semantic.background.normal.normal};
   }
 `;

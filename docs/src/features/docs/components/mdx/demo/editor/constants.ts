@@ -97,15 +97,15 @@ export const viewTheme = (theme: Theme): Extension => [
     '& .cm-panels': {
       border: 'none !important',
     },
-    '& .cm-searchMatch-selected': {
-      backgroundColor: addOpacity(
-        theme.semantic.accent.background.redOrange,
-        theme.opacity[28],
-      ),
-    },
     '& .cm-searchMatch': {
       backgroundColor: addOpacity(
-        theme.semantic.accent.background.lime,
+        theme.semantic.accent.background.redOrange,
+        theme.opacity[16],
+      ),
+    },
+    '& .cm-searchMatch.cm-searchMatch-selected': {
+      backgroundColor: addOpacity(
+        theme.semantic.accent.background.redOrange,
         theme.opacity[28],
       ),
     },

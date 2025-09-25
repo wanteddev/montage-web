@@ -71,19 +71,29 @@ export const renderParsedContent = (content: string) => {
     }
   };
 
-  parsedContent.forEach((item) => {
+  parsedContent.forEach((item, idx) => {
     if (item.type === 'text') {
+      const isStrong =
+        item.content.startsWith('<strong>') &&
+        item.content.endsWith('</strong>');
+
+      const isNextItemList = parsedContent[idx + 1]?.type === 'list';
+      const isPrevItemList = parsedContent[idx - 1]?.type === 'list';
+
       flushList();
       elements.push(
         <Typography
           variant="body2-reading"
-          weight="regular"
+          weight={isStrong ? 'bold' : 'regular'}
           as="p"
           color="semantic.label.neutral"
           key={`text-${elements.length}`}
-          sx={{ marginBottom: '0 !important' }}
+          sx={{
+            marginBottom: isNextItemList ? '12px !important' : '0',
+            marginTop: isPrevItemList ? '24px !important' : '0',
+          }}
         >
-          {item.content}
+          {isStrong ? item.content.slice(8, -9) : item.content}
           <br />
         </Typography>,
       );
