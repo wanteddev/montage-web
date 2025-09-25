@@ -78,6 +78,9 @@ export const viewTheme = (theme: Theme): Extension => [
       color: theme.semantic.label.alternative,
       borderRightColor: theme.semantic.line.solid.alternative,
     },
+    '& .cm-lineNumbers .cm-gutterElement': {
+      padding: '0 3px 0 12px',
+    },
 
     // autocomplete
     '& .cm-tooltip-autocomplete ul li': {
