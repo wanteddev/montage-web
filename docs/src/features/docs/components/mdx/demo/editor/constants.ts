@@ -1,6 +1,7 @@
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 import { EditorView } from '@codemirror/view';
+import { addOpacity } from '@wanteddev/wds';
 
 import type { Extension } from '@codemirror/state';
 import type { Theme } from '@wanteddev/wds';
@@ -21,7 +22,7 @@ const tagStyleHighlighter = (theme: Theme) =>
     },
     {
       tag: [t.definition(t.variableName)],
-      color: theme.semantic.label.neutral,
+      color: theme.semantic.label.normal,
     },
     {
       tag: [t.attributeName],
@@ -92,6 +93,18 @@ export const viewTheme = (theme: Theme): Extension => [
     },
     '& .cm-panels': {
       border: 'none !important',
+    },
+    '& .cm-searchMatch-selected': {
+      backgroundColor: addOpacity(
+        theme.semantic.accent.background.redOrange,
+        theme.opacity[28],
+      ),
+    },
+    '& .cm-searchMatch': {
+      backgroundColor: addOpacity(
+        theme.semantic.accent.background.lime,
+        theme.opacity[28],
+      ),
     },
   }),
   syntaxHighlighting(tagStyleHighlighter(theme)),
