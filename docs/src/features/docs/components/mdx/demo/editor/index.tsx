@@ -194,6 +194,9 @@ const Editor = ({
           if (vu.docChanged) {
             onValueChange(vu.state.doc.toString());
           }
+          if (vu.focusChanged) {
+            vu.view.hasFocus && onCollapseChange(false);
+          }
         }),
       ],
     });
