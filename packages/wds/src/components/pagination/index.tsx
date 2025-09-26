@@ -126,6 +126,7 @@ const Pagination = forwardRef<
         <FlexBox
           ref={ref}
           alignItems="center"
+          gap="12px"
           {...props}
           sx={[paginationStyle({ variant }), sx]}
         >
