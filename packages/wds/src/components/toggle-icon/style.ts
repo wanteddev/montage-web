@@ -1,6 +1,6 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';

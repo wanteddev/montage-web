@@ -1,10 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
-import {
-  addOpacity,
-  createResponsiveStyle,
-  ellipsisTypographyStyle,
-} from '../../utils';
+import { addOpacity, ellipsisTypographyStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';

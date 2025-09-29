@@ -1,11 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import {
   createResponsiveStyle,
-  ellipsisTypographyStyle,
   getPreviousValue,
-  typographyStyle,
-} from '../../utils';
+} from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
