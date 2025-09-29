@@ -1,7 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { ButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

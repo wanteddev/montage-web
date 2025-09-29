@@ -1,10 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
-import {
-  addOpacity,
-  createResponsiveStyle,
-  typographyStyle,
-} from '../../utils';
+import { addOpacity, typographyStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { PageCounterProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

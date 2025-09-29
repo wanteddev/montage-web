@@ -1,11 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { getGradientMaskImage, typographyStyle } from '../../utils';
 import {
   createResponsiveStyle,
-  getGradientMaskImage,
   getPreviousValue,
-  typographyStyle,
-} from '../../utils';
+} from '../../utils/internal/responsive-props';
 
 import type { ResponsiveProps, Theme } from '@wanteddev/wds-engine';
 import type { CategoryListProps } from './types';

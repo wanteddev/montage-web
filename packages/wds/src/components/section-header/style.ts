@@ -1,10 +1,10 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
+import { typographyStyle } from '../../utils';
 import {
   createResponsiveStyle,
   getPreviousValue,
-  typographyStyle,
-} from '../../utils';
+} from '../../utils/internal/responsive-props';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SectionHeaderProps } from './types';
