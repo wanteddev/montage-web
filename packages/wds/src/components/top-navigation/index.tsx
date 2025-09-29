@@ -53,6 +53,7 @@ const TopNavigation = forwardRef<
         ref={ref}
         flexDirection="column"
         {...props}
+        data-variant={variant}
         sx={[
           topNavigationStyle({
             background,
