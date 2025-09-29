@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import {
   type DefaultComponentPropsInternal,
   type PolymorphicComponentInternal,
@@ -15,7 +15,13 @@ import {
   FALLBACK_VIEW_NAME,
   FALLBACK_VIEW_TEXT_NAME,
 } from './constants';
-import { fallbackViewStyle } from './style';
+import {
+  fallbackViewContentStyle,
+  fallbackViewImageStyle,
+  fallbackViewStyle,
+} from './style';
+import { FallbackViewProvider, useFallbackViewContext } from './contexts';
+import { getFallbackViewButtonSize } from './helpers';
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
@@ -45,28 +51,33 @@ const FallbackView = forwardRef(
     ref: ForwardedRef<T>,
   ) => {
     return (
-      <FlexBox
-        as={as || 'div'}
-        ref={ref}
-        flexDirection="column"
-        alignItems="center"
-        sx={[
-          fallbackViewStyle({
-            platform,
-            padding,
-            width,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          }),
-          sx,
-        ]}
-        {...props}
+      <FallbackViewProvider
+        platform={platform}
+        responsive={{ xs, sm, md, lg, xl }}
       >
-        {children}
-      </FlexBox>
+        <FlexBox
+          as={as || 'div'}
+          ref={ref}
+          flexDirection="column"
+          alignItems="center"
+          sx={[
+            fallbackViewStyle({
+              platform,
+              padding,
+              width,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            sx,
+          ]}
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      </FallbackViewProvider>
     );
   },
 ) as PolymorphicComponentInternal<FallbackViewProps, 'div'>;
@@ -78,6 +89,8 @@ const FallbackViewImage = forwardRef(
     props: DefaultComponentPropsInternal<FallbackViewImageProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
+    const context = useFallbackViewContext(FALLBACK_VIEW_IMAGE_NAME);
+
     return (
       <FlexBox
         ref={ref}
@@ -85,6 +98,7 @@ const FallbackViewImage = forwardRef(
         justifyContent="center"
         alignItems="center"
         {...props}
+        sx={[fallbackViewImageStyle(context), props.sx]}
       />
     );
   },
@@ -97,6 +111,8 @@ const FallbackViewContent = forwardRef(
     props: DefaultComponentPropsInternal<FallbackViewContentProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
+    const context = useFallbackViewContext(FALLBACK_VIEW_CONTENT_NAME);
+
     return (
       <FlexBox
         ref={ref}
@@ -105,6 +121,7 @@ const FallbackViewContent = forwardRef(
         alignItems="center"
         gap="24px"
         {...props}
+        sx={[fallbackViewContentStyle(context), props.sx]}
       />
     );
   },
@@ -122,7 +139,7 @@ const FallbackViewText = forwardRef(
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
-      <FlexBox ref={ref} flexDirection="column" gap="12px" {...props}>
+      <FlexBox ref={ref} flexDirection="column" gap="10px" {...props}>
         {title && <span data-role="fallback-view-text-title">{title}</span>}
         <span data-role="fallback-view-text-description">{description}</span>
       </FlexBox>
@@ -137,6 +154,13 @@ const FallbackViewButton = forwardRef(
     { as, ...props }: PolymorphicPropsInternal<FallbackViewButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
+    const context = useFallbackViewContext(FALLBACK_VIEW_BUTTON_NAME);
+
+    const sizeProps = useMemo(
+      () => getFallbackViewButtonSize(context, props),
+      [context, props],
+    );
+
     return (
       <Button
         as={(as || 'button') as ElementType}
@@ -145,6 +169,7 @@ const FallbackViewButton = forwardRef(
         variant="outlined"
         color="assistive"
         {...props}
+        {...sizeProps}
       />
     );
   },

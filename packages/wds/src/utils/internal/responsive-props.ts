@@ -1,7 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 import objectPath from 'object-path';
 
-import { respondMore } from './media';
+import { respondMore } from '../media';
 
 import type {
   BreakPoint,

@@ -3,5 +3,4 @@ export * from './color';
 export * from './layout';
 export * from './media';
 export * from './typography';
-export * from './responsive-props';
 export * from './framed-style';

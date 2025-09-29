@@ -1,7 +1,7 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { Theme, ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from './types';

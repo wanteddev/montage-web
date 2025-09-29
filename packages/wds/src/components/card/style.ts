@@ -1,11 +1,11 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import {
-  createResponsiveStyle,
   ellipsisTypographyStyle,
   gradient,
   typographyStyle,
 } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 import { getWeightMap } from '../typography/style';
 

@@ -1,6 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, typographyStyle } from '../../utils';
+import { typographyStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { PushBadgeProps } from './types';

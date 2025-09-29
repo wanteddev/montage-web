@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
 
-import { getPreviousValue } from '../../utils/responsive-props';
+import { getPreviousValue } from '../../utils/internal/responsive-props';
 
 import {
   BOTTOM_SHEET_PEEK_PADDING,

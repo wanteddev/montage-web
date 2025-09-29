@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { hoverInteractionStyle } from '../with-interaction/style';
 
 import type { SwitchProps } from './types';

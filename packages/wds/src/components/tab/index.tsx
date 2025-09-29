@@ -344,7 +344,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
 
     useEffect(() => {
       const scrollMove = () => {
-        if (context.value === value) {
+        if (context.value?.toString() === value.toString()) {
           scrollIntoView();
         }
       };
