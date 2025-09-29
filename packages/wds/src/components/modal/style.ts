@@ -445,7 +445,7 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
   switch (variant) {
     case 'emphasized':
       return css`
-        & > div {
+        [data-role='top-navigation-wrapper'] {
           padding: var(--wds-top-navigation-padding-y, 16px)
             var(--wds-top-navigation-padding-x, 16px);
           min-height: var(--wds-top-navigation-min-height, 64px);
@@ -454,8 +454,8 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
           justify-content: initial;
         }
 
-        [data-role='top-navigation-left-button'],
-        [data-role='top-navigation-right-button'] {
+        [data-role='top-navigation-leading-content-wrapper'],
+        [data-role='top-navigation-trailing-content-wrapper'] {
           flex: 0 0 auto;
           position: relative;
           right: initial;
