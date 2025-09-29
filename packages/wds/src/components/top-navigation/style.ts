@@ -1,10 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
-import {
-  createResponsiveStyle,
-  ellipsisTypographyStyle,
-  typographyStyle,
-} from '../../utils';
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { TopNavigationProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

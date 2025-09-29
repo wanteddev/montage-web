@@ -1,6 +1,7 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { addOpacity, createResponsiveStyle } from '../../utils';
+import { addOpacity } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { IconButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

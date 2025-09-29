@@ -1,7 +1,7 @@
 import { css, getColorByToken, keyframes } from '@wanteddev/wds-engine';
 import objectPath from 'object-path';
 
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 
 import type { SkeletonProps } from './types';

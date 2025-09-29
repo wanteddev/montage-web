@@ -1,6 +1,9 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, getPreviousValue } from '../../utils';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+} from '../../utils/internal/responsive-props';
 import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';

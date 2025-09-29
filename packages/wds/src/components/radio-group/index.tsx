@@ -6,7 +6,7 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
 import { Radio } from '../radio';
-import { createEmptyResponsiveStyle } from '../../utils';
+import { createEmptyResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
