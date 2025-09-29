@@ -367,6 +367,7 @@ const ModalContainer = forwardRef(
                   ]}
                 >
                   <ScrollArea
+                    data-role="modal-container-scroll-area"
                     scrollbars="vertical"
                     viewportRef={context.innerContainerRef}
                     sx={{

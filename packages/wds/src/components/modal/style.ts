@@ -77,12 +77,38 @@ const modalContainerWrapperVariant = (
         justify-content: center;
         align-items: initial;
         padding: 0px;
+
+        [data-role='modal-dimmer'][data-status='close'] {
+          opacity: initial;
+          pointer-events: none;
+          transition: initial;
+        }
+
+        [data-role='modal-container-scroll-area']:has(
+            [wds-component='top-navigation'][data-variant='floating']
+          ) {
+          background: initial;
+          will-change: unset;
+        }
       `;
     case 'popup':
       return css`
         align-items: center;
         justify-content: center;
         padding: 20px;
+
+        [data-role='modal-dimmer'][data-status='close'] {
+          opacity: initial;
+          pointer-events: none;
+          transition: initial;
+        }
+
+        [data-role='modal-container-scroll-area']:has(
+            [wds-component='top-navigation'][data-variant='floating']
+          ) {
+          background: initial;
+          will-change: unset;
+        }
       `;
     case 'bottom':
       return css`
@@ -94,6 +120,13 @@ const modalContainerWrapperVariant = (
           opacity: 0;
           pointer-events: none;
           transition: opacity ease 200ms;
+        }
+
+        [data-role='modal-container-scroll-area']:has(
+            [wds-component='top-navigation'][data-variant='floating']
+          ) {
+          background: inherit;
+          will-change: backdrop-filter;
         }
       `;
   }
