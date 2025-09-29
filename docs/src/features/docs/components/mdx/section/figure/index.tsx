@@ -43,6 +43,7 @@ const SectionFigure = ({
           width="100%"
           sx={[sectionFigureThumbnailStyle, variant && { marginBottom: 12 }]}
           ratio={ratio}
+          loading="lazy"
           radius
           portrait={portrait}
         />

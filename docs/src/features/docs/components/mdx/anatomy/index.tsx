@@ -41,6 +41,7 @@ const Anatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
             width="100%"
             sx={anatomyThumbnailStyle}
             ratio={ratio}
+            loading="lazy"
           />
         )}
 

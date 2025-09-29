@@ -12,6 +12,7 @@ const Thumbnail = ({ src, alt }: Props) => {
       src={src}
       alt={alt ?? 'thumbnail'}
       sx={{ width: '100%', margin: '20px 0px' }}
+      loading="lazy"
     />
   );
 };

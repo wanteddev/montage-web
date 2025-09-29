@@ -6,7 +6,6 @@ import {
   Tab,
   TabList,
   TabListItem,
-  Thumbnail,
   Typography,
 } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
@@ -19,6 +18,7 @@ import {
   useState,
 } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
 import useThrottle from '@/hooks/use-throttle';
@@ -204,15 +204,17 @@ const DocsDescription = () => {
         )}
       </FlexBox>
       {image && (
-        <Thumbnail
-          radius
-          ratio="21:9"
-          src={image}
-          width="100%"
-          alt={frontmatter.title}
-          sx={thumbnailStyle}
-          fetchPriority="high"
-        />
+        <Box sx={thumbnailStyle}>
+          <Box
+            as={Image}
+            src={image}
+            width={760}
+            height={326}
+            alt={frontmatter.title}
+            fetchPriority="high"
+            priority
+          />
+        </Box>
       )}
       {hasPlatformPage ? (
         <>

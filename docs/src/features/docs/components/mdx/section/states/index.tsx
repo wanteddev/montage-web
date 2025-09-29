@@ -36,6 +36,7 @@ const SectionStates = ({
             alt="component states"
             width="100%"
             sx={sectionFigureThumbnailStyle}
+            loading="lazy"
             ratio={ratio}
             portrait={portrait}
           />
