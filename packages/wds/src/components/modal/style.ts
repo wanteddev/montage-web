@@ -3,7 +3,7 @@ import { css, keyframes } from '@wanteddev/wds-engine';
 import {
   createResponsiveStyle,
   getPreviousValue,
-} from '../../utils/responsive-props';
+} from '../../utils/internal/responsive-props';
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import { toCssValue } from '../../utils/internal/css';
 

@@ -42,6 +42,7 @@ import {
   CATEGORY_NAME,
   CATEGORY_PANEL_NAME,
 } from './constants';
+import { getCategoryListItemSize } from './helpers';
 
 import type {
   ElementRef,
@@ -166,11 +167,7 @@ const CategoryList = forwardRef<
         handleResize={handleResize}
         variant={variant}
         size={size}
-        xs={xs}
-        sm={sm}
-        md={md}
-        lg={lg}
-        xl={xl}
+        responsive={{ xs, sm, md, lg, xl }}
       >
         <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
           <FlexBox
@@ -252,34 +249,15 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useCategoryContext(CATEGORY_LIST_ITEM_NAME);
-    const { handleResize, size, variant, ...categoryListContext } =
+    const { handleResize, variant, ...categoryListContext } =
       useCategoryListContext(CATEGORY_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
-    const responsiveProps = useMemo(() => {
-      return {
-        xs: {
-          ...xs,
-          size: categoryListContext.xs?.size,
-        },
-        sm: {
-          ...sm,
-          size: categoryListContext.sm?.size,
-        },
-        md: {
-          ...md,
-          size: categoryListContext.md?.size,
-        },
-        lg: {
-          ...lg,
-          size: categoryListContext.lg?.size,
-        },
-        xl: {
-          ...xl,
-          size: categoryListContext.xl?.size,
-        },
-      };
-    }, [xs, sm, md, lg, xl, categoryListContext]);
+    const sizeProps = useMemo(
+      () =>
+        getCategoryListItemSize(categoryListContext, { xs, sm, md, lg, xl }),
+      [xs, sm, md, lg, xl, categoryListContext],
+    );
 
     const isActive = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
@@ -362,7 +340,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
             originVariant ??
             (isActive && variant !== 'alternative' ? 'solid' : 'outlined')
           }
-          sx={[categoryListItemStyle({ ...responsiveProps, size }), props.sx]}
+          sx={[categoryListItemStyle(sizeProps), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (disabled) {
               return;

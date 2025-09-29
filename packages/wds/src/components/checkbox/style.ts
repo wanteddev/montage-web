@@ -4,7 +4,7 @@ import { typographyStyle } from '../../utils/typography';
 import {
   createResponsiveStyle,
   getPreviousValue,
-} from '../../utils/responsive-props';
+} from '../../utils/internal/responsive-props';
 
 import type { CheckboxProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

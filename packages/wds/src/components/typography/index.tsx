@@ -4,7 +4,7 @@ import { Box, css, getColorByToken } from '@wanteddev/wds-engine';
 import {
   createResponsiveStyle,
   getPreviousValue,
-} from '../../utils/responsive-props';
+} from '../../utils/internal/responsive-props';
 import {
   ellipsisTypographyStyle,
   typographyStyle,
