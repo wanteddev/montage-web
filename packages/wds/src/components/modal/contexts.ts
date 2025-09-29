@@ -36,7 +36,6 @@ export const [ModalDimmerProvider, useModalDimmerContext] =
   createContext<ModalDimmerContextValue>(MODAL_CONTAINER_NAME);
 
 type ModalNavigationContextValue = {
-  scrolled: boolean;
   titleId: string;
   onOpenChange: (open: boolean) => void;
 };
