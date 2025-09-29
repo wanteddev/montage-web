@@ -10,6 +10,7 @@ import {
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
 import { Box } from '@wanteddev/wds-engine';
+import { IconClose } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { flushSync } from 'react-dom';
@@ -24,7 +25,6 @@ import { Typography } from '../typography';
 import { PortalOrFragment } from '../portal-or-fragment';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { useSize } from '../../hooks';
-import { useTopNavigationContext } from '../top-navigation/contexts';
 import { TopNavigation, TopNavigationButton } from '../top-navigation';
 import { useAnimationPresence } from '../animation-presence';
 
@@ -57,7 +57,6 @@ import {
   modalNavigationStyle,
 } from './style';
 import { useDraggable } from './hooks';
-import { getDefaultCloseIcon } from './helpers';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
 import type {
@@ -496,7 +495,6 @@ const ModalScrollProvider = ({
     'ModalContextProviders',
   );
 
-  const [navigationSticky, setNavigationSticky] = useState(false);
   const [actionAreaSticky, setActionAreaSticky] = useState(false);
 
   const handleResize = useCallback(() => {
@@ -505,7 +503,6 @@ const ModalScrollProvider = ({
       return;
     }
 
-    setNavigationSticky(target.scrollTop > 0);
     setActionAreaSticky(
       target.scrollHeight - target.clientHeight > target.scrollTop,
     );
@@ -523,7 +520,6 @@ const ModalScrollProvider = ({
     const handleOnScroll = (e: Event) => {
       const target = e.target as HTMLElement;
 
-      setNavigationSticky(target.scrollTop > 0);
       setActionAreaSticky(
         target.scrollHeight - target.clientHeight > target.scrollTop,
       );
@@ -536,7 +532,6 @@ const ModalScrollProvider = ({
 
   return (
     <ModalNavigationProvider
-      scrolled={sticky && navigationSticky}
       titleId={context.titleId}
       onOpenChange={context.onOpenChange}
     >
@@ -555,22 +550,12 @@ const ModalNavigation = forwardRef<
     { leadingContent, trailingContent = <ModalClose />, variant, ...props },
     ref,
   ) => {
-    const { scrolled, titleId } = useModalNavigationContext(
-      MODAL_NAVIGATION_NAME,
-    );
-
-    // When using extended in modal, since the icon is not always present,
-    // render a mockup element to maintain the spacing.
-    const shouldRenderMockup =
-      variant === 'extended' && !leadingContent && !trailingContent;
+    const { titleId } = useModalNavigationContext(MODAL_NAVIGATION_NAME);
 
     return (
       <TopNavigation
-        scrolled={scrolled}
         titleId={titleId}
-        leadingContent={
-          shouldRenderMockup ? <Box sx={{ height: 24 }} /> : leadingContent
-        }
+        leadingContent={leadingContent}
         trailingContent={trailingContent}
         {...props}
         variant={variant === 'emphasized' ? undefined : variant}
@@ -596,25 +581,19 @@ ModalNavigationButton.displayName = MODAL_NAVIGATION_BUTTON_NAME;
 
 const ModalClose = forwardRef(
   <E extends ElementType = 'button'>(
-    {
-      children,
-      background = false,
-      ...props
-    }: PolymorphicPropsInternal<ModalCloseProps, E>,
+    { children, ...props }: PolymorphicPropsInternal<ModalCloseProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const { onOpenChange } = useModalNavigationContext(MODAL_CLOSE_NAME);
-    const { variant: navigationVariant } = useTopNavigationContext() || {};
 
     return (
       <TopNavigationButton
         aria-label="Close dialog"
         {...props}
-        background={background}
         onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
         ref={ref}
       >
-        {children ?? getDefaultCloseIcon(navigationVariant, background)}
+        {children ?? <IconClose />}
       </TopNavigationButton>
     );
   },
