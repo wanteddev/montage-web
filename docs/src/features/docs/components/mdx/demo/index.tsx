@@ -14,9 +14,10 @@ import Toolbar from './toolbar';
 type Props = {
   code: string;
   hideCode?: boolean;
+  defaultIsTransparent?: boolean;
 };
 
-const Demo = ({ code, hideCode }: Props) => {
+const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
   const { value, handleValueChange, element, error } = useReactDemoRunner({
     code,
   });
@@ -30,7 +31,12 @@ const Demo = ({ code, hideCode }: Props) => {
     handleCopy,
     handleReset,
     handleResetComplete,
-  } = useDemoControls({ initialValue: code, value, handleValueChange });
+  } = useDemoControls({
+    initialValue: code,
+    value,
+    handleValueChange,
+    defaultIsTransparent,
+  });
 
   return (
     <FlexBox

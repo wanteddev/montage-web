@@ -63,16 +63,20 @@ type UseDemoControlsParams = {
   initialValue: string;
   value: string;
   handleValueChange: (value: string) => void;
+  defaultIsTransparent?: boolean;
 };
 
 export const useDemoControls = ({
   initialValue,
   value,
   handleValueChange,
+  defaultIsTransparent,
 }: UseDemoControlsParams) => {
   const toast = useToast();
 
-  const [isTransparent, setIsTransparent] = useState(false);
+  const [isTransparent, setIsTransparent] = useState(
+    defaultIsTransparent ?? false,
+  );
   const [collapsed, setCollapsed] = useState(true);
 
   const [isResetting, setIsResetting] = useState(false);
