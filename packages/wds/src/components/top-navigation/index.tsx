@@ -1,4 +1,10 @@
-import { forwardRef, useId } from 'react';
+import { forwardRef } from 'react';
+import {
+  Box,
+  type DefaultComponentPropsInternal,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
+} from '@wanteddev/wds-engine';
 
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
@@ -6,22 +12,16 @@ import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
 
 import {
-  topNavigationButtonFloat,
   topNavigationButtonTextStyle,
+  topNavigationFloatingBackgroundStyle,
   topNavigationLeftIconStyle,
   topNavigationRightIconStyle,
   topNavigationStyle,
   topNavigationTitleStyle,
   topNavigationWrapperStyle,
 } from './style';
-import { TopNavigationProvider, useTopNavigationContext } from './contexts';
 import { TOP_NAVIGATION_ACTION_NAME, TOP_NAVIGATION_NAME } from './constants';
 
-import type {
-  DefaultComponentPropsInternal,
-  PolymorphicComponentInternal,
-  PolymorphicPropsInternal,
-} from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { TopNavigationButtonProps, TopNavigationProps } from './types';
 
@@ -35,7 +35,7 @@ const TopNavigation = forwardRef<
       leadingContent,
       trailingContent,
       toolbar,
-      scrolled,
+      background = true,
       titleId,
       xs,
       sm,
@@ -47,67 +47,82 @@ const TopNavigation = forwardRef<
     },
     ref,
   ) => {
-    const leadingContentRender = () =>
-      Boolean(leadingContent) ? (
-        <FlexBox
-          gap="16px"
-          alignItems="center"
-          sx={topNavigationLeftIconStyle(variant)}
-        >
-          {leadingContent}
-        </FlexBox>
-      ) : null;
-
-    const trailingContentRender = () =>
-      Boolean(trailingContent) && (
-        <FlexBox
-          gap="16px"
-          alignItems="center"
-          sx={topNavigationRightIconStyle(variant)}
-        >
-          {trailingContent}
-        </FlexBox>
-      );
-
-    if (
-      process.env.NODE_ENV !== 'production' &&
-      variant === 'floating' &&
-      Boolean(toolbar)
-    ) {
-      console.error('toolbar is not supported in floating variant');
-    }
-
     return (
-      <TopNavigationProvider variant={variant}>
+      <FlexBox
+        wds-component="top-navigation"
+        ref={ref}
+        flexDirection="column"
+        {...props}
+        sx={[
+          topNavigationStyle({
+            background,
+            variant,
+            xs,
+            sm,
+            md,
+            lg,
+            xl,
+          }),
+          props.sx,
+        ]}
+      >
+        {background && variant === 'floating' && (
+          <FlexBox
+            aria-hidden
+            data-role="top-navigation-floating-background"
+            sx={topNavigationFloatingBackgroundStyle}
+          >
+            <Box
+              aria-hidden
+              data-role="top-navigation-floating-background-layer"
+            />
+            <Box
+              aria-hidden
+              data-role="top-navigation-floating-background-layer"
+            />
+            <Box
+              aria-hidden
+              data-role="top-navigation-floating-background-layer"
+            />
+            <Box
+              aria-hidden
+              data-role="top-navigation-floating-background-layer"
+            />
+            <Box
+              aria-hidden
+              data-role="top-navigation-floating-background-layer"
+            />
+            <Box
+              aria-hidden
+              data-role="top-navigation-floating-background-layer"
+            />
+          </FlexBox>
+        )}
         <FlexBox
-          wds-component="top-navigation"
-          ref={ref}
-          flexDirection="column"
-          data-is-scrolled={scrolled && variant !== 'floating'}
-          {...props}
-          sx={[
-            topNavigationStyle({
-              variant,
-              xs,
-              sm,
-              md,
-              lg,
-              xl,
-            }),
-            props.sx,
-          ]}
+          data-role="top-navigation-wrapper"
+          sx={topNavigationWrapperStyle(variant)}
         >
-          <FlexBox sx={topNavigationWrapperStyle(variant)}>
-            {variant === 'extended' ? (
-              <FlexBox sx={{ width: '100%' }}>
-                {leadingContentRender()}
-                {trailingContentRender()}
+          {Boolean(leadingContent) && variant !== 'display' && (
+            <FlexBox
+              gap="16px"
+              alignItems="center"
+              sx={topNavigationLeftIconStyle(variant)}
+              data-role="top-navigation-leading-content-wrapper"
+            >
+              {leadingContent}
+            </FlexBox>
+          )}
+
+          {Boolean(children) &&
+            (variant === 'search' ? (
+              <FlexBox
+                data-role="navigation-field"
+                sx={topNavigationTitleStyle(variant)}
+                id={titleId}
+              >
+                {children}
               </FlexBox>
             ) : (
-              leadingContentRender()
-            )}
-
-            {Boolean(children) && (
               <FlexBox
                 alignItems="center"
                 sx={topNavigationTitleStyle(variant)}
@@ -125,18 +140,26 @@ const TopNavigation = forwardRef<
                   {children}
                 </Typography>
               </FlexBox>
-            )}
+            ))}
 
-            {variant !== 'extended' && trailingContentRender()}
-          </FlexBox>
-
-          {toolbar && variant !== 'floating' && (
-            <FlexBox sx={{ width: '100%' }} data-role="top-navigation-toolbar">
-              {toolbar}
+          {Boolean(trailingContent) && (
+            <FlexBox
+              gap="16px"
+              alignItems="center"
+              sx={topNavigationRightIconStyle(variant)}
+              data-role="top-navigation-trailing-content-wrapper"
+            >
+              {trailingContent}
             </FlexBox>
           )}
         </FlexBox>
-      </TopNavigationProvider>
+
+        {toolbar && variant !== 'floating' && (
+          <FlexBox sx={{ width: '100%' }} data-role="top-navigation-toolbar">
+            {toolbar}
+          </FlexBox>
+        )}
+      </FlexBox>
     );
   },
 );
@@ -148,55 +171,20 @@ const TopNavigationButton = forwardRef(
     {
       children,
       variant = 'icon',
-      alternative,
-      background = false,
       ...props
     }: PolymorphicPropsInternal<TopNavigationButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const id = useId();
-    const { variant: navigationVariant } = useTopNavigationContext() || {};
-
-    if (process.env.NODE_ENV !== 'production' && !navigationVariant) {
-      throw new Error(
-        'TopNavigationButton 은 TopNavigation 내부에서만 사용 가능합니다.',
-      );
-    }
-
     if (variant === 'icon') {
       return (
         <IconButton
-          variant={
-            navigationVariant === 'floating' && background
-              ? 'background'
-              : 'normal'
-          }
+          variant="normal"
           size={24}
-          alternative={alternative}
           {...props}
           wds-component="top-navigation-button"
           ref={ref}
         >
           {children}
-        </IconButton>
-      );
-    }
-
-    if (navigationVariant === 'floating' && background) {
-      return (
-        <IconButton
-          variant="background"
-          size={24}
-          alternative={alternative}
-          aria-labelledby={id}
-          {...props}
-          sx={[topNavigationButtonFloat({ alternative, background }), props.sx]}
-          wds-component="top-navigation-button"
-          ref={ref}
-        >
-          <Typography as="p" variant="body2" weight="medium" id={id}>
-            {children}
-          </Typography>
         </IconButton>
       );
     }
