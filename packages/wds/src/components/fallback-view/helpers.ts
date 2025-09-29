@@ -4,10 +4,10 @@ import type { FallbackViewButtonProps } from './types';
 
 export const getFallbackViewButtonSize = (
   context: FallbackViewContextType,
-  { xs, sm, md, lg, xl }: FallbackViewButtonProps,
+  { size, xs, sm, md, lg, xl }: FallbackViewButtonProps,
 ) => {
   return {
-    size: getFallbackViewButtonSizePlatform(context.platform),
+    size: size ?? getFallbackViewButtonSizePlatform(context.platform),
     xs: {
       size: getFallbackViewButtonSizePlatform(context.responsive?.xs?.platform),
       ...xs,
