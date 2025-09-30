@@ -41,17 +41,18 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
 export const anatomyThumbnailStyle = (theme: Theme) => css`
   width: 100%;
   position: relative;
+  border-radius: 24px;
 
   &::after {
     content: '';
     inset: 0;
     position: absolute;
-    border-radius: 24px;
+    border-radius: inherit;
     border: 1px solid ${theme.semantic.line.normal.alternative};
   }
 
   img {
     position: relative;
-    border-radius: 24px;
+    border-radius: inherit;
   }
 `;

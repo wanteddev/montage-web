@@ -79,10 +79,15 @@ const SectionVariants = ({
 
   const defaultSelectedVariant = useMemo(() => {
     const defaultVariant = variants.reduce((acc, variant) => {
-      const firstLabel = variant.options[0]?.label;
+      const firstLabel = variant.defaultValue ?? variant.options[0]?.label;
 
       if (firstLabel) {
-        return { ...acc, [variant.key]: { value: variant.options[0]?.label } };
+        return {
+          ...acc,
+          [variant.key]: {
+            value: firstLabel,
+          },
+        };
       }
 
       return acc;
@@ -146,8 +151,12 @@ const SectionVariants = ({
   };
 
   return (
-    <FlexBox sx={sectionLayoutStyle} flexDirection="column">
-      <Heading2 content="Variants" />
+    <FlexBox
+      data-role="variants"
+      sx={sectionLayoutStyle}
+      flexDirection="column"
+    >
+      <Heading2 content="Variants" sx={{ marginBottom: '24px' }} />
 
       <FlexBox flexDirection="row" gap="24px" sx={sectionVariantsStyle}>
         <FlexBox

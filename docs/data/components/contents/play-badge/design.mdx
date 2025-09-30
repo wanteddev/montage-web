@@ -1,0 +1,79 @@
+---
+title: Play badge
+description: Thumbnail 위에 배치해 동영상 콘텐츠임을 시각적으로 알려주는 아이콘입니다. 사용자가 동영상을 재생할 수 있도록 버튼 역할을 하여, 이미지와 비디오를 명확하게 구분하고 상호작용을 유도합니다.
+image: /components/contents/play-badge/design/Thumbnail.png
+createdAt: 2025-09-30
+updatedAt: 2025-09-30
+---
+
+<Anatomy
+  src="/components/contents/play-badge/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Container',
+    'Icon',
+  ]}
+/>
+
+<SectionVariants
+  components={['PlayBadge']}
+  icons={[]}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Normal', value: { size: 'medium' } },
+        { label: 'Alternative', value: { alternative: true, size: 'medium' } },
+      ]
+    }
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="16:9"
+    description="기본으로 제공되는 크기 외에 필요에 따라 직접 크기를 설정할 수 있습니다. 직접 크기를 변경할 경우 4의 배수로 설정하는 것을 권장합니다."
+    src="/components/contents/play-badge/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Alternative">
+  <SectionFigure
+    ratio="16:9"
+    description="Web과 iOS는 Normal을 사용하며 Android는 Alternative를 사용합니다."
+    src="/components/contents/play-badge/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Interaction">
+  <SectionFigure
+    ratio="16:9"
+    description="Hover 상태에서 Play badge가 Fade out되며 영상이 재생됩니다."
+    src="/components/contents/play-badge/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Position">
+    <SectionFigure
+      ratio="3:2"
+      description="썸네일의 중앙에 위치하며 썸네일 짧은면의 1/2 혹은 1/3 크기를 유지합니다."
+      src="/components/contents/play-badge/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="2:1"
+    description="비디오 중앙에 한 개만 사용합니다."
+    src="/components/contents/play-badge/design/Image-5.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="2:1"
+    description="배치나 색상을 임의로 변경하지 마세요."
+    src="/components/contents/play-badge/design/Image-6.png"
+  />
+</SectionLayout>

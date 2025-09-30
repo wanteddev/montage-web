@@ -16,18 +16,19 @@ export const sectionFigureThumbnailStyle = (theme: Theme) => css`
   width: 100%;
   margin-bottom: 24px;
   position: relative;
+  border-radius: 24px;
 
   &::after {
     content: '';
     inset: 0;
     position: absolute;
-    border-radius: 24px;
+    border-radius: inherit;
     border: 1px solid ${theme.semantic.line.normal.alternative};
   }
 
   img {
     position: relative;
-    border-radius: 24px;
+    border-radius: inherit;
   }
 `;
 

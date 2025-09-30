@@ -6,6 +6,7 @@ export type SectionSelectedVariants = Record<
 export type SectionVariants = Array<{
   key: string;
   disabled?: boolean | ((props: Record<string, string>) => boolean);
+  defaultValue?: string;
   options: Array<{
     label: string;
     value: Record<string, any>;

@@ -8,13 +8,15 @@ import { sectionLayoutStyle } from '../style';
 
 import { hasList, renderParsedContent } from './helpers';
 
+import type { SxProp } from '@wanteddev/wds-engine';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 type HeadingProps = {
   content?: string;
+  sx?: SxProp;
 };
 
-const Heading2 = memo(({ content }: HeadingProps) => {
+const Heading2 = memo(({ content, sx }: HeadingProps) => {
   const { generateHeadingId } = useHeadingContext();
 
   const id = useMemo(() => {
@@ -32,13 +34,14 @@ const Heading2 = memo(({ content }: HeadingProps) => {
       weight="bold"
       color="semantic.label.normal"
       id={id}
+      sx={sx}
     >
       <HeadingLink id={id}>{content}</HeadingLink>
     </Typography>
   );
 });
 
-const Heading3 = memo(({ content }: HeadingProps) => {
+const Heading3 = memo(({ content, sx }: HeadingProps) => {
   const { generateHeadingId } = useHeadingContext();
 
   const id = useMemo(() => {
@@ -56,6 +59,7 @@ const Heading3 = memo(({ content }: HeadingProps) => {
       weight="bold"
       color="semantic.label.normal"
       id={id}
+      sx={sx}
     >
       <HeadingLink id={id}>{content}</HeadingLink>
     </Typography>

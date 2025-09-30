@@ -1,0 +1,156 @@
+---
+title: List card
+description: 여러 콘텐츠를 목록 형태로 보여줄 때 사용하는 요소입니다. 이미지, 텍스트, 뱃지 등 다양한 요소를 조합하여 각 항목의 정보를 시각적으로 일관성 있게 전달합니다.
+image: /components/contents/list-card/design/Thumbnail.png
+createdAt: 2025-09-30
+updatedAt: 2025-09-30
+---
+
+<Anatomy
+  src="/components/contents/list-card/design/Image.png"
+  ratio="16:9"
+  data={[
+    'Container',
+    'Thumbnail',
+    'Leading content',
+    'Heading',
+    'Caption',
+    'Extra caption',
+		'Top content',
+		'Trailing content',
+		'Bottom content',
+  ]}
+/>
+
+<SectionVariants
+  components={['FlexBox', 'CardList', 'CardThumbnail', 'CardTitle', 'CardCaption', 'CardContent']}
+  icons={[]}
+	render={(value) => {
+		return `
+			<FlexBox
+        sx={(theme) => ({
+          width: '80%',
+          padding: '16px',
+          borderRadius: '20px',
+          backgroundColor: theme.semantic.background.normal.normal
+        })}
+      >
+				<CardList platform="${value['Platform'].toLowerCase()}">
+					<CardThumbnail />
+					<CardContent>
+						<CardTitle>Heading</CardTitle>
+						<CardCaption>Caption</CardCaption>
+					</CardContent>
+				</CardList>
+			</FlexBox>
+		`;
+	}}
+  variants={[
+    {
+      key: 'Platform',
+      options: [
+        { label: 'Desktop', value: { platform: 'desktop' } },
+        { label: 'Mobile', value: { platform: 'mobile' } },
+      ]
+    }
+  ]}
+/>
+
+
+<SectionLayout title="Platform">
+  <SectionFigure
+    ratio="16:9"
+    description="Card가 표시될 디바이스 환경에 맞춰 데스크톱과 모바일로 구분하여 사용합니다. 썸네일은 3:2 비율을 기본으로 하며, 필요한 경우 자유롭게 비율을 변경하여 사용할 수 있습니다."
+    src="/components/contents/list-card/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Skeleton">
+  <SectionFigure
+    ratio="16:10"
+    description="카드 형태의 정해진 규격의 데이터를 불러올 때 Skeleton을 사용해 로딩 상태를 보여줍니다."
+    src="/components/contents/list-card/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Content order">
+  <SectionFigure
+    ratio="21:9"
+    description="접근성을 보장하기 위해 화면에 보이는 콘텐츠의 시각적 순서와 코드(DOM)의 구조적 순서를 일치시켜야 합니다. 스크린 리더가 눈으로 읽는 것과 동일하게 페이지를 읽도록 하여 사용자가 맥락을 올바르게 이해하도록 돕습니다. 또한, 키보드 사용자가 Tab 키로 탐색할 때 초점이 예측 가능한 순서로 이동하도록 합니다."
+    src="/components/contents/list-card/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Alternative text">
+  <SectionFigure
+    ratio="21:9"
+    description={`이미지를 볼 수 없는 스크린 리더 사용자의 접근을 보장하기 위해 alt 속성을 통해 썸네일 이미지가 어떤 내용인지 설명하는 대체 텍스트를 제공해야 합니다. Heading, Caption을 통해 이미지가 전달하는 바를 명확하게 전달한 경우 장식용 이미지(alt=\"\")로 처리하여, 스크린 리더가 불필요하게 동일한 정보를 중복해서 읽지 않도록 합니다.`}
+    src="/components/contents/list-card/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Entry point">
+    <SectionFigure
+      ratio="16:9"
+      description="Card에 표기한 요약된 정보의 상세 페이지로 이동하거나, 다음 단계로 탐색을 유도하는 진입점 역할을 할 수 있습니다."
+      src="/components/contents/list-card/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+	<SectionFigureGroup title="Customize">
+    <SectionFigure
+      ratio="2:1"
+      description="좌우 끝, Heading, Caption에 추가 요소를 넣어 부가적인 정보를 표기하거나 액션을 제공할 수 있습니다."
+      src="/components/contents/list-card/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+
+	<SectionFigureGroup title="Text ellipsis">
+		<SectionFigure
+			ratio="21:9"
+			description="Heading과 Caption은 최대 표시 줄 수를 초과할 경우 말줄임 처리합니다. 각각 최대 1줄까지 표시할 수 있습니다."
+			src="/components/contents/list-card/design/Image-7.png"
+		/>
+	</SectionFigureGroup>
+
+	<SectionFigureGroup title="Overflow cue">
+		<SectionFigure
+			ratio="21:9"
+			description="반응형 화면, 특히 모바일에서 여러 카드를 가로로 나열할 때, 화면 가장자리에 다음 카드의 일부가 보이도록 배치하세요. 사용자에게 숨겨진 목록의 존재를 시각적 단서를 제공하여 알리고, 탐색을 유도할 수 있습니다."
+			src="/components/contents/list-card/design/Image-8.png"
+		/>
+	</SectionFigureGroup>
+
+	<SectionFigureGroup title="Divider">
+		<SectionFigure
+			ratio="2:1"
+			description="여러 카드를 수직으로 나열할 때 구분선을 사용해 콘텐츠를 분리하여 가독성을 높일 수 있습니다. "
+			src="/components/contents/list-card/design/Image-9.png"
+		/>
+	</SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+		ratio="16:9"
+    description="그리드, 캐러셀 형태로 배열하여 여러 항목을 효과적으로 탐색할 수 있습니다."
+    src="/components/contents/list-card/design/Image-10.png"
+  />
+  <SectionFigure
+    variant="negative"
+    description="Heading과 Caption을 임의로 변경하여 정보 위계를 불분명하게 사용하지 마세요."
+    src="/components/contents/list-card/design/Image-11.png"
+  />
+</SectionLayout>
+
+
+<SectionCustomize
+  data={[
+    {
+      key: 'List card',
+      options: ['width', 'thumbnailAspectRatio']
+    },
+  ]}
+/>
