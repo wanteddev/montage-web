@@ -67,6 +67,8 @@ export type ListCellContentProps = WithSxProps<{
     | 'badge'
     | 'avatar'
     | 'large-icon'
+    | 'value'
+    | 'thumbnail'
     | 'custom';
   disabled?: boolean;
   chevron?: boolean;

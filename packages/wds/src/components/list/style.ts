@@ -206,6 +206,17 @@ const listCellContentVariantStyle =
   ({ variant }: Pick<ListCellContentProps, 'variant'>) =>
   (theme: Theme) => {
     switch (variant) {
+      case 'value':
+        return css`
+          ${typographyStyle('body1', 'regular')}
+          color: ${theme.semantic.label.alternative};
+        `;
+
+      case 'thumbnail':
+        return css`
+          padding-right: 8px;
+        `;
+
       case 'icon':
         return css`
           color: ${theme.semantic.label.alternative};
