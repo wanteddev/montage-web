@@ -332,6 +332,8 @@ const ListCellContent = forwardRef<
     case 'avatar':
     case 'badge':
     case 'switch':
+    case 'thumbnail':
+    case 'value':
     case 'custom':
     default:
       return (
