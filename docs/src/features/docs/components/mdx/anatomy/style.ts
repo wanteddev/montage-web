@@ -40,13 +40,18 @@ export const anatomyItemPinStyle = (theme: Theme) => css`
 
 export const anatomyThumbnailStyle = (theme: Theme) => css`
   width: 100%;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid ${theme.semantic.line.normal.alternative};
+  position: relative;
+
+  &::after {
+    content: '';
+    inset: 0;
+    position: absolute;
+    border-radius: 24px;
+    border: 1px solid ${theme.semantic.line.normal.alternative};
+  }
 
   img {
-    border-radius: initial;
-    overflow: hidden;
-    aspect-ratio: inherit;
+    position: relative;
+    border-radius: 24px;
   }
 `;

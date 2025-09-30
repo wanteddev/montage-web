@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const sectionHierarchyItemStyle = (theme: Theme) => css`
   padding: 20px 0px;
-  gap: 32px;
+  gap: 20px;
   flex-direction: row;
   align-items: center;
   border-bottom: 1px solid ${theme.semantic.line.normal.alternative};

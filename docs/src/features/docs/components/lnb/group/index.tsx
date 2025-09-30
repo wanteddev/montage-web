@@ -57,12 +57,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
     <List>
       <Accordion divider={false} defaultExpanded={frontmatter.defaultOpen}>
         <AccordionSummary
-          sx={[
-            accordionSummaryStyle,
-            {
-              fontFamily: 'var(--font-family-wanted-sans)',
-            },
-          ]}
+          sx={accordionSummaryStyle}
           fillWidth
           verticalPadding="small"
           trailingContent={

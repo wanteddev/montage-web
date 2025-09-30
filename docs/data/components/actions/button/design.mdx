@@ -1,9 +1,9 @@
 ---
 title: Button
 description: 작업을 수행하는데 사용되는 클릭 가능한 요소입니다. 콘텐츠 혹은 화면의 하단 영역에 배치되며 다양한 방식으로 콘텐츠와 함께 상호 작용할 수 있도록 돕습니다.
-image: /components/actions/button/design/thumbnail.png
+image: /components/actions/button/design/Thumbnail.png
 createdAt: 2025-04-03
-updatedAt: 2025-09-08
+updatedAt: 2025-09-30
 ---
 
 <Anatomy
@@ -27,7 +27,7 @@ updatedAt: 2025-09-08
         { label: 'Solid/Primary', value: { variant: 'solid', color: 'primary' } },
         { label: 'Solid/Assistive', value: { variant: 'solid', color: 'assistive' } },
         { label: 'Outlined/Primary', value: { variant: 'outlined', color: 'primary' } },
-        { label: 'Outlined/Secondary', value: { variant: 'outlined', color: 'secondary' } },
+        { label: 'Outlined/Assistive', value: { variant: 'outlined', color: 'assistive' } },
       ]
     },
     {
@@ -105,25 +105,25 @@ updatedAt: 2025-09-08
     level={4}
     description="화면 내에서 가장 중요한 메인 행동을 유도 및 제안합니다."
     components={['Button']}
-    render={`<Button sx={{width:140}}>Primary</Button>`}
+    render={`<Button sx={{width:120}}>Primary</Button>`}
   />
   <SectionHierarchyItem
     level={3}
     description="미리보기, 임시 저장 등 대체 행동을 제안합니다."
     components={['Button']}
-    render={`<Button variant="outlined" color="secondary" sx={{width:140}}>Alternative</Button>`}
+    render={`<Button variant="outlined" color="primary" sx={{width:120}}>Alternative</Button>`}
   />
   <SectionHierarchyItem
     level={2}
-    description="Toggle Button을 보조합니다."
+    description="Toggle button을 보조합니다."
     components={['Button']}
-    render={`<Button variant="solid" color="assistive" sx={{width:140}}>Assistive</Button>`}
+    render={`<Button variant="solid" color="assistive" sx={{width:120}}>Assistive</Button>`}
   />
   <SectionHierarchyItem
     level={1}
     description="닫기, 취소, 돌아가기 등 보조 행동을 제시합니다."
     components={['Button']}
-    render={`<Button variant="outlined" color="assistive" sx={{width:140}}>Assistive</Button>`}
+    render={`<Button variant="outlined" color="assistive" sx={{width:120}}>Assistive</Button>`}
   />
 </SectionHierarchy>
 

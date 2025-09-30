@@ -150,7 +150,12 @@ const SectionVariants = ({
       <Heading2 content="Variants" />
 
       <FlexBox flexDirection="row" gap="24px" sx={sectionVariantsStyle}>
-        <FlexBox flexDirection="column" justifyContent="space-between" flex="1">
+        <FlexBox
+          flexDirection="column"
+          justifyContent="space-between"
+          flex="1"
+          sx={{ maxWidth: '100%' }}
+        >
           <Popover open={mobileControlOpen} onOpenChange={setMobileControlOpen}>
             <PopoverTrigger>
               <IconButton
@@ -267,14 +272,16 @@ const SectionVariantsItemDemo = memo(
     });
 
     return (
-      <FlexBox
-        flex="1"
-        sx={sectionVariantsDemoStyle}
-        justifyContent="center"
-        alignItems="center"
-      >
-        {element}
-      </FlexBox>
+      <ScrollArea scrollbars="horizontal" sx={sectionVariantsDemoStyle}>
+        <FlexBox
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          sx={{ height: '100%' }}
+        >
+          {element}
+        </FlexBox>
+      </ScrollArea>
     );
   },
 );

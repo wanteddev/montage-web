@@ -15,12 +15,19 @@ export const sectionFigureStyle = css`
 export const sectionFigureThumbnailStyle = (theme: Theme) => css`
   width: 100%;
   margin-bottom: 24px;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid ${theme.semantic.line.normal.alternative};
+  position: relative;
+
+  &::after {
+    content: '';
+    inset: 0;
+    position: absolute;
+    border-radius: 24px;
+    border: 1px solid ${theme.semantic.line.normal.alternative};
+  }
 
   img {
-    border-radius: initial;
+    position: relative;
+    border-radius: 24px;
   }
 `;
 
