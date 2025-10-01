@@ -191,6 +191,7 @@ const ModalContainer = forwardRef(
       container,
       disableOutsideClickClose = false,
       disableEscapeKeyDownClose = false,
+      disableRemoveScroll = false,
       disablePortal = false,
       forceMount = false,
       sticky = true,
@@ -338,7 +339,11 @@ const ModalContainer = forwardRef(
               ref={composedContainerRefs}
             >
               <RemoveScroll
-                enabled={open && context.visibility === 'visible'}
+                enabled={
+                  open &&
+                  context.visibility === 'visible' &&
+                  !disableRemoveScroll
+                }
                 as={Slot}
                 allowPinchZoom
               >
