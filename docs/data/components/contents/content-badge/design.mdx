@@ -36,11 +36,17 @@ updatedAt: 2025-10-01
       ]
     },
 		{
-      key: 'Icon option',
+      key: 'Leading icon',
       options: [
-        { label: 'None', value: {} },
-        { label: 'Leading icon', value: { leadingContent: '<IconBlank />' } },
-        { label: 'Trailing icon', value: { trailingContent: '<IconBlank />' } },
+        { label: 'False', value: {} },
+        { label: 'True', value: { leadingContent: '<IconBlank />' } },
+      ]
+    },
+    {
+      key: 'Trailing icon',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: { trailingContent: '<IconBlank />' } },
       ]
     },
   ]}
@@ -49,7 +55,7 @@ updatedAt: 2025-10-01
 <SectionLayout title="Size">
   <SectionFigure
     ratio="21:9"
-    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    description="좌우 사이즈는 자유롭게 커스터마이즈하여 사용할 수 있으나 높이는 고정하여 사용합니다."
     src="/components/contents/content-badge/design/Image-1.png"
   />
 </SectionLayout>

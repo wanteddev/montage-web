@@ -22,15 +22,17 @@ updatedAt: 2025-10-01
   components={['Snackbar', 'SnackbarContent', 'SnackbarHeading', 'SnackbarDescription', 'SnackbarAction', 'SnackbarExtraContent']}
   icons={['IconBlank']}
   render={(value) => {
-    const extraContent = value['Leading content'] === 'True' ? '<SnackbarExtraContent><IconBlank /></SnackbarExtraContent>' : 'null';
+    const extraContent = value['Leading content'] === 'True' ? '<SnackbarExtraContent><IconBlank sx={theme => ({ color: theme.semantic.static.white })} /></SnackbarExtraContent>' : 'null';
+    const shouldRenderHeading = value['Contents'].toLowerCase().includes('heading');
+    const shouldRenderDescription = value['Contents'].toLowerCase().includes('description');
 
 		return `
 			<Snackbar open disablePortal disableAnimation>
         <SnackbarContent
           extraContent={${extraContent}}
         >
-          ${value['Heading'] === 'True' ? '<SnackbarHeading>Heading</SnackbarHeading>' : ''}
-          ${value['Description'] === 'True' ? '<SnackbarDescription>Description</SnackbarDescription>' : ''}
+          ${shouldRenderHeading ? '<SnackbarHeading>Heading</SnackbarHeading>' : ''}
+          ${shouldRenderDescription ? '<SnackbarDescription>Description</SnackbarDescription>' : ''}
         </SnackbarContent>
 
         <SnackbarAction>Button</SnackbarAction>
@@ -39,17 +41,11 @@ updatedAt: 2025-10-01
 	}}
   variants={[
     {
-      key: 'Heading',
+      key: 'Contents',
       options: [
-        { label: 'True', value: {} },
-        { label: 'False', value: {} },
-      ]
-    },
-    {
-      key: 'Description',
-      options: [
-        { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'Heading only', value: {} },
+        { label: 'Heading with description', value: {} },
+        { label: 'Description only', value: {} },
       ]
     },
     {
