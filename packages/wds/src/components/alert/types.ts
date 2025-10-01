@@ -29,6 +29,7 @@ export type AlertContainerProps = Merge<
     wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
     disableOutsideClickClose?: boolean;
     disableEscapeKeyDownClose?: boolean;
+    disableRemoveScroll?: boolean;
     /**
      * When the esc key or dialog outside click is controlled.
      */
