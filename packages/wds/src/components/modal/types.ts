@@ -53,6 +53,7 @@ type ModalContainerDefaultProps = WithSxProps<{
   container?: PortalProps['container'];
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
+  disableRemoveScroll?: boolean;
   /**
    * React Portal does not support SSR, so it is used to support Server Side Rendering.
    *
