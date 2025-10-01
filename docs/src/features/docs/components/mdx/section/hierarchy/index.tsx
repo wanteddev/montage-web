@@ -66,9 +66,10 @@ const SectionHierarchyItem = ({
         color="neutral"
         size="small"
         variant="solid"
-        sx={{ flexShrink: 0, marginRight: '12px' }}
+        neutralColor="semantic.label.normal"
+        sx={{ flexShrink: 0, marginRight: '12px', width: '36px' }}
       >
-        L{level}
+        Lv.{level}
       </ContentBadge>
 
       {element}

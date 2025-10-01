@@ -5,7 +5,7 @@ import { Heading2, SectionDescription } from '../layout';
 import { sectionFigureThumbnailStyle } from '../figure/style';
 import { anatomyItemPinStyle, anatomyItemStyle } from '../../anatomy/style';
 
-import type { ThumbnailProps } from '@wanteddev/wds';
+import type { SxProp, ThumbnailProps } from '@wanteddev/wds';
 
 type SectionStatesProps = {
   description?: string;
@@ -27,8 +27,6 @@ const SectionStates = ({
       <FlexBox flexDirection="column">
         <Heading2 content="States" />
 
-        <SectionDescription content={description} />
-
         {src && (
           <Thumbnail
             aria-labelledby="states"
@@ -42,7 +40,19 @@ const SectionStates = ({
           />
         )}
 
-        {options && <SectionStatesItem options={options} />}
+        <SectionDescription content={description} />
+
+        {options && (
+          <SectionStatesItem
+            options={options}
+            sx={
+              Boolean(description) && {
+                paddingInline: '12px',
+                marginTop: '24px',
+              }
+            }
+          />
+        )}
       </FlexBox>
     </FlexBox>
   );
@@ -50,11 +60,18 @@ const SectionStates = ({
 
 type SectionStatesItemProps = {
   options: Array<string>;
+  sx?: SxProp;
 };
 
-const SectionStatesItem = ({ options }: SectionStatesItemProps) => {
+const SectionStatesItem = ({ options, sx }: SectionStatesItemProps) => {
   return (
-    <FlexBox flexWrap="wrap" rowGap="8px" columnGap="64px" flex="1 0 auto">
+    <FlexBox
+      flexWrap="wrap"
+      rowGap="8px"
+      columnGap="64px"
+      flex="1 0 auto"
+      sx={sx}
+    >
       {options.map((value, i) => (
         <FlexBox
           key={value + i}
