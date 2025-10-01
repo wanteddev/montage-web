@@ -96,6 +96,10 @@ const avatarSizeStyle = (
           & + [wds-component='with-interaction'] {
             border-radius: ${rounded + 8}px;
           }
+
+          &::after {
+            border-radius: ${rounded + 1.5}px;
+          }
         `;
     }
   };
@@ -117,7 +121,7 @@ const avatarSizeStyle = (
         height: 56px;
         font-size: 37.4px;
 
-        ${getBorderRadius(12)}
+        ${getBorderRadius(14)}
       `;
     case 'large':
       return css`
@@ -125,7 +129,7 @@ const avatarSizeStyle = (
         height: 48px;
         font-size: 32px;
 
-        ${getBorderRadius(10)}
+        ${getBorderRadius(12)}
       `;
     case 'medium':
       return css`
@@ -133,7 +137,7 @@ const avatarSizeStyle = (
         height: 40px;
         font-size: 26.7px;
 
-        ${getBorderRadius(8)}
+        ${getBorderRadius(10)}
       `;
     case 'small':
       return css`
@@ -141,7 +145,7 @@ const avatarSizeStyle = (
         height: 32px;
         font-size: 21.4px;
 
-        ${getBorderRadius(6)}
+        ${getBorderRadius(8)}
       `;
     case 'xsmall':
       return css`
