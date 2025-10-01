@@ -23,6 +23,8 @@ export const thumbnailStyle =
     xl,
   }: ThumbnailProps) =>
   (theme: Theme) => css`
+    position: relative;
+
     ${width !== undefined &&
     css`
       width: ${toCssValue(width)};
@@ -36,6 +38,13 @@ export const thumbnailStyle =
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    [data-role='thumbnail-overlay'] {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     ${createResponsiveStyle(
