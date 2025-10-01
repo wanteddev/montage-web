@@ -22,6 +22,7 @@ type ThumbnailDefaultProps = WithSxProps<{
   border?: boolean;
   radius?: boolean;
   children?: ReactNode;
+  overlay?: ReactNode;
   width?: CSSProperties['width'];
 }>;
 
