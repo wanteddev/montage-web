@@ -169,6 +169,7 @@ const AlertContainer = forwardRef(
     {
       disableOutsideClickClose = false,
       disableEscapeKeyDownClose,
+      disableRemoveScroll = false,
       disablePortal,
       container,
       onDismiss,
@@ -250,7 +251,11 @@ const AlertContainer = forwardRef(
                 role="presentation"
                 asChild
               >
-                <RemoveScroll as={Slot} allowPinchZoom>
+                <RemoveScroll
+                  as={Slot}
+                  allowPinchZoom
+                  enabled={!disableRemoveScroll}
+                >
                   <Box
                     ref={composedRef}
                     role="alertdialog"
