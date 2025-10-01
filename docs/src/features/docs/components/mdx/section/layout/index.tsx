@@ -8,7 +8,7 @@ import { sectionLayoutStyle } from '../style';
 
 import { hasList, renderParsedContent } from './helpers';
 
-import type { SxProp } from '@wanteddev/wds-engine';
+import type { SxProp } from '@wanteddev/wds';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 type HeadingProps = {
