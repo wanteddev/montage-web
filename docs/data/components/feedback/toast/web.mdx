@@ -53,13 +53,17 @@ Toast 는 여러 컴포넌트를 조합해서 사용합니다.
 - `negative`
 
 <Demo code={`import { FlexBox, Toast, ToastContainer, ToastContent, ToastIcon } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox alignItems="center" flexDirection="column" gap="16px">
       <Toast open disablePortal disableAnimation variant="normal">
         <ToastContainer>
-          <ToastIcon />
+          <ToastIcon>
+            <IconBlank />
+          </ToastIcon>
+
           <ToastContent>Normal</ToastContent>
         </ToastContainer>
       </Toast>

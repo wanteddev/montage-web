@@ -1,0 +1,106 @@
+---
+title: Skeleton
+description: 실제 콘텐츠를 불러오는 동안 해당 영역의 레이아웃 형태를 임시로 보여줍니다. 데이터가 로딩되고 있음을 직관적으로 인지할 수 있도록 돕고, 콘텐츠가 갑자기 나타날 때 발생할 수 있는 화면 깜빡임을 방지합니다.
+image: /components/loading/skeleton/design/Thumbnail.png
+createdAt: 2025-10-01
+updatedAt: 2025-10-01
+---
+
+<Anatomy
+  src="/components/loading/skeleton/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Shape',
+  ]}
+/>
+
+<SectionVariants
+  components={['Skeleton', 'FlexBox']}
+  render={(value) => {
+    switch (value['Variants']) {
+      case 'Rectangle':
+        return '<Skeleton variant="rectangle" width="64px" height="64px" />';
+      case 'Circle':
+        return '<Skeleton variant="circle" width="64px" height="64px" />';
+      case 'Text':
+      default:
+        return '<FlexBox flexDirection="column" sx={{ width: "120px" }}><Skeleton variant="text" width="100%" align="center" /><Skeleton variant="text" width="79px" /></FlexBox>';
+    }
+	}}
+  icons={[]}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Text', value: {} },
+        { label: 'Rectangle', value: {} },
+        { label: 'Circle', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="16:9"
+    description="너비와 높이를 화면에 맞는 크기로 조정해 사용할 수 있습니다. Text는 높이가 일정 값 이상 커질 때 줄나눔하여 여러 줄로 채워집니다."
+    src="/components/loading/skeleton/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Animation">
+  <SectionFigure
+    ratio="21:9"
+    description="애니메이션을 통해 사용자에게 로딩 중인 상태를 시각적으로 안내합니다. Pulse 효과를 통해 투명도(opacity)가 주기적으로 변하며(50% ↔ 100%), 부드럽게 깜빡이는 듯한 효과를 줍니다. 전체 애니메이션이 한 번 완료되는 데 2초가 소요됩니다."
+    src="/components/loading/skeleton/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Text align">
+  <SectionFigure
+    ratio="21:9"
+    description="Text 타입의 경우 align 속성을 사용하여 leading, center, trailing 세 가지 정렬 옵션을 제공합니다."
+    src="/components/loading/skeleton/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Contents view">
+    <SectionFigure
+      ratio="16:9"
+      description="반복적인 카드나 리스트 형태의 레이아웃을 불러올 때 Skeleton을 조합하여 표시함으로써, 나타날 콘텐츠의 형태를 미리 알려줄 수 있습니다."
+      src="/components/loading/skeleton/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Avatar">
+    <SectionFigure
+      ratio="16:9"
+      description="Circle을 활용해 Avatar 이미지의 로딩 상태를 표시할 수 있습니다."
+      src="/components/loading/skeleton/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Color">
+    <SectionFigure
+      ratio="2:1"
+      description="배경색에 따라 충분한 대비를 주기 위해 색상을 커스터마이징할 수 있습니다. "
+      src="/components/loading/skeleton/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="2:1"
+    description="단순한 도형으로 표현하여 로딩 상태에 집중하게 하세요."
+    src="/components/loading/skeleton/design/Image-7.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="2:1"
+    description="카테고리, 고정된 아이콘과 같이 로드할 필요가 없는 정적인 콘텐츠에 불필요하게 적용하지 마세요. "
+    src="/components/loading/skeleton/design/Image-8.png"
+  />
+</SectionLayout>

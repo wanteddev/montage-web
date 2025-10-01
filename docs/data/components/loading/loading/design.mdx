@@ -1,0 +1,97 @@
+---
+title: Loading
+description: 데이터를 불러오거나 시스템이 처리 중일 때 사용하여 작업이 진행 중임을 시각적으로 알립니다. 로딩 중에는 사용자의 추가적인 입력을 막아 데이터 충돌이나 중복 요청과 같은 오류를 방지하는 역할을 합니다.
+image: /components/loading/loading/design/Thumbnail.png
+createdAt: 2025-10-01
+updatedAt: 2025-10-01
+---
+
+<Anatomy
+  src="/components/loading/loading/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Indicator',
+  ]}
+/>
+
+<SectionVariants
+  components={['Loading']}
+  icons={[]}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Wanted', value: { variant: 'wanted', size: '32px' } },
+        { label: 'Circular', value: { variant: 'circular', size: '32px' } },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="21:9"
+    description="Size 속성으로 크기를 지정할 수 있으며, 항상 가로와 세로가 같은 1:1 비율로 보여집니다."
+    src="/components/loading/loading/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Color">
+  <SectionFigure
+    ratio="16:9"
+    description="Circular 타입을 사용할 때 필요 시 색상을 변경하여 사용할 수 있습니다."
+    src="/components/loading/loading/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Type">
+    <SectionFigure
+      ratio="2:1"
+      description="예상되는 로드 시간에 따라 두 가지 스타일로 구분하여 사용합니다. 
+
+- Wanted: 로드 시간이 길어질 것으로 예상되는 경우에 사용합니다. 로고 애니메이션을 통해 사용자가 상대적으로 긴 로딩 시간을 덜 지루하게 느끼도록 돕습니다. 주로 페이지 전체가 로드되거나 무거운 데이터를 처리할 때 적합합니다.
+- Circular: 로드 시간이 짧은 일반적인 상황에서 사용합니다. 버튼 클릭 후의 빠른 피드백, 리스트의 일부 항목 업데이트 등 즉각적인 반응이 필요한 경우에 적합합니다."
+      src="/components/loading/loading/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Duration">
+    <SectionFigure
+      ratio="16:9"
+      description="로딩이 완료되어 새로운 콘텐츠가 화면에 표시되거나, 사용자가 해당 화면에서 다른 곳으로 이동할 때까지 계속 보입니다."
+      src="/components/loading/loading/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Placement">
+    <SectionFigure
+      ratio="3:2"
+      description="콘텐츠를 불러올 영역의 중앙에 배치하는 것을 권장합니다."
+      src="/components/loading/loading/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Button loading">
+    <SectionFigure
+      ratio="21:9"
+      description="버튼 내부에 사용하여 버튼의 로딩 상태를 표시할 수 있습니다. 사용자가 버튼을 클릭한 후 시간이 걸리는 작업을 수행하는 동안 Circular 애니메이션을 보여줘, 요청이 처리 중임을 직관적으로 인지시킬 수 있습니다."
+      src="/components/loading/loading/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="16:9"
+    description="작업이 완료될 때까지 Loading 애니메이션을 계속 표기합니다."
+    src="/components/loading/loading/design/Image-7.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="즉각 완료되는 작업은 불필요하게 사용하지 마세요."
+    src="/components/loading/loading/design/Image-8.png"
+  />
+</SectionLayout>

@@ -1,0 +1,175 @@
+---
+title: Alert
+description: 현재 화면 위에 창을 띄워, 사용자의 흐름을 잠시 멈추고 주의할 내용을 안내하는 컴포넌트입니다. 사용자가 반드시 확인하고 넘어가야 하는 주요한 상황에 사용합니다.
+image: /components/feedback/alert/design/Thumbnail.png
+createdAt: 2025-10-01
+updatedAt: 2025-10-01
+---
+
+<Anatomy
+  src="/components/feedback/alert/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Scrim',
+    'Container',
+    'Heading',
+    'Body',
+    'Action',
+  ]}
+/>
+
+<SectionVariants
+  components={['Alert', 'AlertContainer', 'AlertContent', 'AlertHeading', 'AlertDescription', 'AlertActionArea', 'AlertActionAreaButton']}
+  icons={[]}
+  render={(value) => {
+    const heading = value['Heading'] === 'True' ? '<AlertHeading>Heading</AlertHeading>' : '';
+    const buttonVariant = value['Action'] === 'Normal button' ? 'normal' : 'negative';
+
+		return `
+			<Alert open>
+				<AlertContainer
+          disablePortal
+          disableOutsideClickClose
+          disableEscapeKeyDownClose
+          disableRemoveScroll
+          wrapperProps={{
+            sx: {
+              position: 'relative',
+              height: '85% !important',
+              width: '85%',
+              ['[data-role="alert-dimmer"]']: {
+                position: 'absolute',
+                display: 'none',
+              }
+            }
+          }}
+        >
+					<AlertContent>
+						${heading}
+						<AlertDescription>Caption</AlertDescription>
+					</AlertContent>
+					<AlertActionArea>
+						<AlertActionAreaButton variant="assistive">Button</AlertActionAreaButton>
+            <AlertActionAreaButton variant="${buttonVariant}">Button</AlertActionAreaButton>
+					</AlertActionArea>
+				</AlertContainer>
+			</Alert>
+		`;
+	}}
+  variants={[
+    {
+      key: 'Heading',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False', value: {} },
+      ]
+    },
+    {
+      key: 'Action',
+      options: [
+        { label: 'Normal button', value: {} },
+        { label: 'Negative button', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="21:9"
+    description="화면 크기에 따라 너비를 조정해 사용할 수 있습니다. 최소 너비는 320px, 최대 너비는 400px로 제한합니다."
+    src="/components/feedback/alert/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Without heading">
+  <SectionFigure
+    ratio="21:9"
+    description="메시지가 짧고 명확해 Heading이 불필요하게 반복된다고 느껴질 때 Heading을 제외하고 Body만 사용할 수 있습니다. "
+    src="/components/feedback/alert/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Dimmer">
+  <SectionFigure
+    ratio="1:1"
+    description="Dimmer는 각 플랫폼에서 시스템 순정과 동일하게 사용합니다."
+    src="/components/feedback/alert/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionAccessibility
+  contents={[
+    {
+      keys: ['Tab'],
+      description: '다음 요소로 이동합니다. (Alert 내부에서 순환)',
+    },
+    {
+      keys: ['Shift + Tab'],
+      description: '이전 요소로 이동합니다. (Alert 내부에서 순환)',
+    },
+    {
+      keys: ['Enter'],
+      description: '현재 포커스된 요소를 클릭합니다.',
+    },
+    {
+      keys: ['Escape'],
+      description: 'Alert을 닫고 포커스를 이전 요소로 이동합니다.',
+    }
+  ]}
+/>
+
+<SectionLayout title="Mobile">
+  <SectionFigureGroup title="Android">
+    <SectionFigure
+      ratio="16:9"
+      description="Android에서는 시스템 순정 Dialog를 래핑한 커스텀 컴포넌트를 사용합니다."
+      src="/components/feedback/alert/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="iOS">
+    <SectionFigure
+      ratio="16:9"
+      description="iOS에서는 시스템 순정 Alert을 사용합니다."
+      src="/components/feedback/alert/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Distinction from popup">
+    <SectionFigure
+      ratio="2:1"
+      description="Popup과 달리, 사용자의 주의가 즉시 필요한 경고나 되돌릴 수 없는 행동에 대한 확인을 받을 때 제한적으로 사용합니다."
+      src="/components/feedback/alert/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Action types">
+    <SectionFigure
+      ratio="21:9"
+      description="Action은 보조 행동, 권장 행동, 부정 행동 세 가지 유형으로 사용할 수 있습니다.
+
+- 권장 행동은 주요한 작업을 강조할 때 사용하며, 보조 행동과 함께 쓸 때 우측에 배치합니다.
+- 보조 행동은 현재 과업을 중단하거나 Alert을 닫는 등 권장 행동의 반대 역할을 하는 보조적인 행동입니다.
+- 부정 행동은 삭제, 탈퇴 등 되돌릴 수 없는 위험한 행동에 사용하며, 보조 행동과 함께 쓸 때 우측에 배치합니다."
+      src="/components/feedback/alert/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="2:1"
+    description="일어날 동작에 대해 명확히 인지할 수 있도록 액션을 명확히 작성합니다."
+    src="/components/feedback/alert/design/Image-8.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="2:1"
+    description="동일한 동작을 하는 버튼을 중복해서 배치하지 마세요."
+    src="/components/feedback/alert/design/Image-9.png"
+  />
+</SectionLayout>
