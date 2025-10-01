@@ -96,6 +96,26 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## With overlay
+
+`overlay` 옵션을 사용하면 이미지 위에 오버레이를 추가할 수 있습니다.
+
+<Demo code={`import { Thumbnail, PlayBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      border
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+      overlay={<PlayBadge />}
+    />
+  )
+}
+
+export default Demo;`}
+/>
 
 ## API
 

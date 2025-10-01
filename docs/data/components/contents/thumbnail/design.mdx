@@ -16,46 +16,28 @@ updatedAt: 2025-09-30
 />
 
 <SectionVariants
-  components={['Thumbnail', 'FlexBox', 'PlayBadge']}
+  components={['Thumbnail', 'PlayBadge']}
   icons={[]}
-  render={(value) => {
-    const radius = value['Radius'] === 'True'
-    const border = value['Border'] === 'True'
-    const playIcon = value['Play icon'] === 'True'
-
-    return `
-      <FlexBox sx={{ position: 'relative', width: '50%' }}>
-        <Thumbnail
-          ratio="1:1"
-          radius={${radius}}
-          border={${border}}
-          width="100%"
-        />
-
-        ${playIcon ? `<PlayBadge sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }} />` : ''}
-      </FlexBox>
-    `
-  }}
   variants={[
     {
       key: 'Radius',
       options: [
-        { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'False', value: { ratio: '1:1', width: '50%' } },
+        { label: 'True', value: { ratio: '1:1', width: '50%' , radius: true } },
       ]
     },
     {
       key: 'Border',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: { border: true } },
       ]
     },
     {
       key: 'Play icon',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: { overlay: '<PlayBadge />' } },
       ]
     }
   ]}

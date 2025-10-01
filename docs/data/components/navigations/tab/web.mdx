@@ -10,6 +10,7 @@ createdAt: 2025-09-22
 
 <Demo code={`import {
   Button,
+  Box,
   Tab,
   TabList,
   TabListItem,
@@ -35,18 +36,34 @@ const Demo = () => {
       </TabList>
 
       <TabPanel value="0">
-        First tab content
+        <Content>
+          First tab content
+        </Content>
       </TabPanel>
       <TabPanel value="1">
-        Second tab content
+        <Content>
+          Second tab content
+        </Content>
       </TabPanel>
       <TabPanel value="2">
-        Third tab content
+        <Content>
+          Third tab content
+        </Content>
       </TabPanel>
       <TabPanel value="3">
-        Fourth tab content
+        <Content>
+          Fourth tab content
+        </Content>
       </TabPanel>
     </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
   )
 }
 
@@ -164,6 +181,7 @@ export default Demo;`}
 ### Hug
 
 <Demo code={`import {
+  Box,
   Tab,
   TabList,
   TabListItem,
@@ -189,18 +207,34 @@ const Demo = () => {
       </TabList>
 
       <TabPanel value="0">
-        First tab content
+        <Content>
+          First tab content
+        </Content>
       </TabPanel>
       <TabPanel value="1">
-        Second tab content
+        <Content>
+          Second tab content
+        </Content>
       </TabPanel>
       <TabPanel value="2">
-        Third tab content
+        <Content>
+          Third tab content
+        </Content>
       </TabPanel>
       <TabPanel value="3">
-        Fourth tab content
+        <Content>
+          Fourth tab content
+        </Content>
       </TabPanel>
     </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
   )
 }
 
@@ -210,6 +244,7 @@ export default Demo;`}
 ### Fill
 
 <Demo code={`import {
+  Box,
   Tab,
   TabList,
   TabListItem,
@@ -235,18 +270,34 @@ const Demo = () => {
       </TabList>
 
       <TabPanel value="0">
-        First tab content
+        <Content>
+          First tab content
+        </Content>
       </TabPanel>
       <TabPanel value="1">
-        Second tab content
+        <Content>
+          Second tab content
+        </Content>
       </TabPanel>
       <TabPanel value="2">
-        Third tab content
+        <Content>
+          Third tab content
+        </Content>
       </TabPanel>
       <TabPanel value="3">
-        Fourth tab content
+        <Content>
+          Fourth tab content
+        </Content>
       </TabPanel>
     </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
   )
 }
 
@@ -260,6 +311,7 @@ export default Demo;`}
 > `resize="fill"` 옵션을 사용할 경우 `horizontalPadding` 옵션은 무시됩니다.
 
 <Demo code={`import {
+  Box,
   Tab,
   TabList,
   TabListItem,
@@ -285,18 +337,34 @@ const Demo = () => {
       </TabList>
 
       <TabPanel value="0">
-        First tab content
+        <Content>
+          First tab content
+        </Content>
       </TabPanel>
       <TabPanel value="1">
-        Second tab content
+        <Content>
+          Second tab content
+        </Content>
       </TabPanel>
       <TabPanel value="2">
-        Third tab content
+        <Content>
+          Third tab content
+        </Content>
       </TabPanel>
       <TabPanel value="3">
-        Fourth tab content
+        <Content>
+          Fourth tab content
+        </Content>
       </TabPanel>
     </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
   )
 }
 

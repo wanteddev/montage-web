@@ -7,8 +7,29 @@ createdAt: 2025-09-23
 ## Variants
 
 2가지 variant를 제공합니다.
-- `compact` (default)
+- `extended` (default)
+- `compact`
 - `minimize`
+
+### Extended
+
+<Demo code={`import { Pagination, PaginationSelect, PaginationField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination
+      leadingContent={<PaginationSelect />}
+      trailingContent={<PaginationField />}
+      variant="extended"
+      totalPages={10}
+      sx={{ width: '100%' }}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
 
 ### Compact
 
@@ -36,9 +57,9 @@ const Demo = () => {
 export default Demo;`}
 />
 
-## Boundary / Sibling
+## Boundary, Sibling
 
-boundaryPages, siblingPages로 표시할 페이지 수를 조정할 수 있어요.
+boundaryPages, siblingPages로 표시할 페이지 수를 조정할 수 있습니다.
 
 <Demo code={`import { Pagination, FlexBox } from '@wanteddev/wds';
 
@@ -58,8 +79,7 @@ export default Demo;`}
 
 ## With contents
 
-variant가 `compact` 일 때 `leadingContent`, `trailingContent` prop을 사용하여 콘텐츠를 추가할 수 있어요.
-
+variant가 `extended` 일 때 `leadingContent`, `trailingContent` prop을 사용하여 콘텐츠를 추가할 수 있습니다.
 
 <Demo code={`import { Pagination, PaginationField, PaginationSelect, FlexBox } from '@wanteddev/wds';
 
