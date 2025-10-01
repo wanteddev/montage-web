@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 import { FlexBox } from '../flex-box';
 import { Skeleton } from '../skeleton';
@@ -8,7 +9,6 @@ import { ImageBase } from '../image-base';
 import { thumbnailStyle } from './style';
 import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
 
-import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ForwardedRef } from 'react';
 import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
 
@@ -20,6 +20,7 @@ const Thumbnail = forwardRef<
     {
       ratio = '4:3',
       portrait = false,
+      overlay,
       radius,
       border,
       className,
@@ -55,6 +56,7 @@ const Thumbnail = forwardRef<
         wds-component="thumbnail"
         className={className}
         style={style}
+        data-status={imageLoadingStatus}
         sx={[
           thumbnailStyle({
             ratio,
@@ -83,6 +85,7 @@ const Thumbnail = forwardRef<
             setImageLoadingStatus('error');
           }}
         />
+        {overlay && <Box data-role="thumbnail-overlay">{overlay}</Box>}
         {children}
       </FlexBox>
     ) : (
@@ -91,6 +94,7 @@ const Thumbnail = forwardRef<
         wds-component="thumbnail"
         className={className}
         style={style}
+        data-status={imageLoadingStatus}
         alignItems="center"
         justifyContent="center"
         sx={[
@@ -115,6 +119,7 @@ const Thumbnail = forwardRef<
           aria-label={props.alt}
           sx={{ width: '33.34%', height: 'auto' }}
         />
+        {overlay && <Box data-role="thumbnail-overlay">{overlay}</Box>}
         {children}
       </FlexBox>
     );
