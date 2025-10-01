@@ -130,12 +130,14 @@ const Pagination = forwardRef<
           {...props}
           sx={[paginationStyle({ variant }), sx]}
         >
-          <FlexBox
-            data-role="pagination-leading-content-wrapper"
-            sx={paginationContentStyle}
-          >
-            {Boolean(leadingContent) && leadingContent}
-          </FlexBox>
+          {variant === 'extended' && (
+            <FlexBox
+              data-role="pagination-leading-content-wrapper"
+              sx={paginationContentStyle}
+            >
+              {Boolean(leadingContent) && leadingContent}
+            </FlexBox>
+          )}
 
           <FlexBox
             ref={ref}
@@ -201,12 +203,14 @@ const Pagination = forwardRef<
             )}
           </FlexBox>
 
-          <FlexBox
-            data-role="pagination-trailing-content-wrapper"
-            sx={paginationContentStyle}
-          >
-            {Boolean(trailingContent) && trailingContent}
-          </FlexBox>
+          {variant === 'extended' && (
+            <FlexBox
+              data-role="pagination-trailing-content-wrapper"
+              sx={paginationContentStyle}
+            >
+              {Boolean(trailingContent) && trailingContent}
+            </FlexBox>
+          )}
         </FlexBox>
       </PaginationProvider>
     );
