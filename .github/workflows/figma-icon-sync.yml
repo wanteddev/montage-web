@@ -4,7 +4,7 @@ on:
     inputs:
       output_dir:
         type: string
-        description: 'output directory'
+        description: "output directory"
         required: true
         default: output
     outputs:
@@ -61,8 +61,8 @@ jobs:
               '26894:99058',
             ];
 
-            // Icon/Assets/Color
-            const ROOT_TRAVERSE_COLOR_IDS = [
+            // Icon/Assets/Color/Logo
+            const ROOT_TRAVERSE_COLOR_LOGO_IDS = [
               // Components
               '26882:89366',
               // 0 Theme
@@ -73,7 +73,35 @@ jobs:
               '14854:45087',
               // Color
               '14854:45156',
+              // '' Section
+              '40167:141932',
+              // Logo
+              '40167:141933',
+              // '' Section
+              '40214:1350',
               // Content
+              '40167:141715',
+            ];
+
+            // Icon/Assets/Color/Normal
+            const ROOT_TRAVERSE_COLOR_NORMAL_IDS = [
+              // Components
+              '26882:89366',
+              // 0 Theme
+              '10077:24937',
+              // Icon
+              '14852:37729',
+              // '' Section
+              '14854:45087',
+              // Color
+              '14854:45156',
+              // '' Section
+              '40167:141932',
+              // Normal
+              '40167:141934',
+              // '' Section
+              '40214:1351',
+              // Logo
               '26900:94433',
             ];
 
@@ -128,8 +156,10 @@ jobs:
             const fileRESTResponseToIconComponentsJSON = async (response) => {
               // ICON
               let parentNode = response.document;
-              // ICON COLOR
-              let colorParentNode = response.document;
+              // ICON COLOR LOGO
+              let colorLogoParentNode = response.document;
+              // ICON COLOR NORMAL
+              let colorNormalParentNode = response.document;
               // ICON NAVIGATION
               let navigationParentNode = response.document;
 
@@ -137,9 +167,14 @@ jobs:
                 (id) => (parentNode = parentNode.children.find((a) => a.id === id)),
               );
 
-              ROOT_TRAVERSE_COLOR_IDS.forEach(
+              ROOT_TRAVERSE_COLOR_LOGO_IDS.forEach(
                 (id) =>
-                  (colorParentNode = colorParentNode.children.find((a) => a.id === id)),
+                  (colorLogoParentNode = colorLogoParentNode.children.find((a) => a.id === id)),
+              );
+
+              ROOT_TRAVERSE_COLOR_NORMAL_IDS.forEach(
+                (id) =>
+                  (colorNormalParentNode = colorNormalParentNode.children.find((a) => a.id === id)),
               );
 
               ROOT_TRAVERSE_NAVIGATION_IDS.forEach(
@@ -181,7 +216,8 @@ jobs:
               };
 
               getIconNames(parentNode);
-              getIconNames(colorParentNode, 'Color');
+              getIconNames(colorLogoParentNode, 'Color');
+              getIconNames(colorNormalParentNode, 'Color');
               getIconNames(navigationParentNode);
 
               const nodeIds = Object.keys(idsToNameAndComponentSetId);
