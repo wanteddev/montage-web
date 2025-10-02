@@ -25,6 +25,7 @@ export type TopNavigationProps = WithSxProps<
 
 export type TopNavigationButtonProps = WithSxProps<{
   variant?: 'text' | 'icon';
+  color?: 'primary' | 'assistive';
   disabled?: boolean;
   size?: number | 'medium' | 'small';
   children?: ReactNode;
