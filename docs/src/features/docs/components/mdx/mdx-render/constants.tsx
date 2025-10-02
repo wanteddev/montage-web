@@ -111,8 +111,8 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       {...props}
       variant="body1"
       weight="regular"
-      as={href.includes('http') ? 'a' : Link}
-      target={href.includes('http') ? '_blank' : undefined}
+      as={href.startsWith('http') ? 'a' : Link}
+      target={href.startsWith('http') ? '_blank' : undefined}
       color="semantic.primary.normal"
       sx={{
         textDecoration: 'underline',

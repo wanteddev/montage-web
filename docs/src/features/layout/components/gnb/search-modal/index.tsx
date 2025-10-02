@@ -83,25 +83,22 @@ export const DocSearchModal = ({
         }
       >
         <DocSearchFilterContext.Provider value={{ category, setCategory }}>
-          <ModalNavigation
-            variant="floating"
-            sx={searchModalHeaderStyle}
-            toolbar={
-              <SearchField
-                type="search"
-                width="100%"
-                size="small"
-                {...(getInputProps({
-                  inputElement: inputRef.current!,
-                }) as unknown as Omit<
-                  HTMLAttributes<HTMLInputElement>,
-                  'onReset'
-                >)}
-                autoFocus
-                ref={inputRef}
-              />
-            }
-          />
+          <ModalNavigation variant="search" sx={searchModalHeaderStyle}>
+            <SearchField
+              type="search"
+              width="100%"
+              size="small"
+              {...(getInputProps({
+                inputElement: inputRef.current!,
+              }) as unknown as Omit<
+                HTMLAttributes<HTMLInputElement>,
+                'onReset'
+              >)}
+              aria-labelledby={undefined}
+              autoFocus
+              ref={inputRef}
+            />
+          </ModalNavigation>
 
           <ModalContent sx={{ paddingTop: 0, height: '100%' }}>
             <ModalContentItem flex="1">

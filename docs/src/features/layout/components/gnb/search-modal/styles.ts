@@ -3,11 +3,8 @@ import { css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const searchModalHeaderStyle = css`
-  padding: 16px;
-
-  & > div:not([data-role='top-navigation-toolbar']) {
-    display: none;
-  }
+  --wds-top-navigation-padding-x: 16px;
+  --wds-top-navigation-padding-y: 16px;
 `;
 
 export const modalCloseButtonStyle = (theme: Theme) => css`

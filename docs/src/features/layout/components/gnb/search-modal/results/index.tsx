@@ -7,7 +7,7 @@ import {
   SectionHeader,
   Typography,
 } from '@wanteddev/wds';
-import { type HTMLAttributes, memo } from 'react';
+import { Fragment, type HTMLAttributes, memo } from 'react';
 import { IconClose, IconHistory } from '@wanteddev/wds-icon';
 
 import SearchOption from './option';
@@ -164,7 +164,7 @@ const SearchResults = ({
                   ) === itemIdx;
 
                 return (
-                  <>
+                  <Fragment key={[title, itemIdx, item.objectID].join(':')}>
                     {shouldShowHeading && (
                       <SearchOption
                         disableInteraction
@@ -178,9 +178,8 @@ const SearchResults = ({
                         source: collection.source,
                       }) as unknown as HTMLAttributes<HTMLLIElement>)}
                       item={item}
-                      key={[title, itemIdx, item.objectID].join(':')}
                     />
-                  </>
+                  </Fragment>
                 );
               })}
             </List>
