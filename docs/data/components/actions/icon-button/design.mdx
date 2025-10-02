@@ -25,8 +25,15 @@ updatedAt: 2025-09-30
         { label: 'Normal', value: { variant: 'normal', children: '<IconHistory />' } },
         { label: 'Solid', value: { variant: 'solid', children: '<IconHistory />' } },
         { label: 'Outlined', value: { variant: 'outlined', children: '<IconHistory />' } },
-        { label: 'Background/Normal', value: { variant: 'background', children: '<IconHistory />' } },
-        { label: 'Background/Alternative', value: { variant: 'background', alternative: true, children: '<IconHistory />' } },
+        { label: 'Background', value: { variant: 'background', children: '<IconHistory />' } },
+      ],
+    },
+    {
+      key: 'Alternative',
+      disabled: (value) => value['Variants'] !== 'Background',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: { alternative: true } },
       ],
     },
   ]}
@@ -75,7 +82,7 @@ updatedAt: 2025-09-30
   <SectionFigureGroup title="Background - Overlay with image">
     <SectionFigure
       ratio="16:9"
-      description="배경이 있을 시 사용하는 배경 전용 버튼입니다. Web, iOS에서는 Material 효과로 배경의 색상이 함께 자연스럽게 어우러집니다. 단, Android는 Material을 지원하지 않으므로 Alternative 옵션을 사용합니다."
+      description="배경이 있을 시 사용하는 배경 전용 버튼입니다. Web, iOS에서는 Material 효과로 배경의 색상이 함께 자연스럽게 어우러집니다. Android는 Alternative 옵션 사용을 권장합니다."
       src="/components/actions/icon-button/design/Image-6.png"
     />
   </SectionFigureGroup>

@@ -22,7 +22,11 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconClose,
+  IconRegex,
+  IconReplace,
+  IconReplaceAll,
   IconTextFormat,
+  IconWholeWord,
 } from '@wanteddev/wds-icon';
 
 import {
@@ -30,10 +34,6 @@ import {
   searchInputToggleStyle,
   searchPanelStyle,
 } from './style';
-import IconRegex from './icon-regex';
-import IconWholeWord from './icon-whole-word';
-import IconReplace from './icon-replace';
-import IconReplaceAll from './icon-replace-all';
 
 import type { EditorView } from '@codemirror/view';
 import type { KeyboardEvent, RefObject } from 'react';
@@ -242,7 +242,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                     <TooltipTrigger>
                       <IconButton
                         size={28}
-                        sx={[searchInputToggleStyle, { fontSize: 16 }]}
+                        sx={[searchInputToggleStyle]}
                         aria-label="Replace"
                         variant="outlined"
                         onClick={() =>
@@ -262,7 +262,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                     <TooltipTrigger>
                       <IconButton
                         size={28}
-                        sx={[searchInputToggleStyle, { fontSize: 16 }]}
+                        sx={[searchInputToggleStyle]}
                         variant="outlined"
                         aria-label="Replace all"
                         onClick={() => view.current && replaceAll(view.current)}

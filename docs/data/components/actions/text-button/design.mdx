@@ -18,21 +18,27 @@ updatedAt: 2025-09-30
 
 <SectionVariants
   components={["TextButton"]}
-  icons={['IconUpload', 'IconExternalLink']}
+  icons={['IconBlank']}
   variants={[
     {
-      key: 'Variants',
+      key: 'Color',
       options: [
-        { label: 'Primary', value: { variant: 'primary' } },
-        { label: 'Assistive', value: { variant: 'assistive' } },
+        { label: 'Primary', value: { color: 'primary', children: 'Button'  } },
+        { label: 'Assistive', value: { color: 'assistive', children: 'Button'  } },
       ]
     },
     {
-      key: 'Icon option',
+      key: 'Leading icon',
       options: [
-        { label: 'None', value: { children: 'Button' } },
-        { label: 'Leading icon', value: { children: 'Button', leadingContent: '<IconUpload />' } },
-        { label: 'Trailing icon', value: { children: 'Button', trailingContent: '<IconExternalLink />' } },
+        { label: 'False', value: {} },
+        { label: 'True', value: { leadingContent: '<IconBlank />' } },
+      ]
+    },
+    {
+      key: 'Trailing icon',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: { trailingContent: '<IconBlank />' } },
       ]
     }
   ]}

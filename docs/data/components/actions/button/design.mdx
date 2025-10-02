@@ -19,24 +19,29 @@ updatedAt: 2025-09-30
 
 <SectionVariants
   components={['Button']}
-  icons={['IconRefresh', 'IconChevronRightTightSmall']}
+  icons={['IconBlank']}
   variants={[
     {
       key: 'Variants',
       options: [
-        { label: 'Solid/Primary', value: { variant: 'solid', color: 'primary' } },
-        { label: 'Solid/Assistive', value: { variant: 'solid', color: 'assistive' } },
-        { label: 'Outlined/Primary', value: { variant: 'outlined', color: 'primary' } },
-        { label: 'Outlined/Assistive', value: { variant: 'outlined', color: 'assistive' } },
+        { label: 'Solid', value: { variant: 'solid' } },
+        { label: 'Outlined', value: { variant: 'outlined' } },
+      ]
+    },
+    {
+      key: 'Color',
+      options: [
+        { label: 'Primary', value: { color: 'primary' } },
+        { label: 'Assistive', value: { color: 'assistive' } },
       ]
     },
     {
       key: 'Icon option',
       options: [
         { label: 'None', value: { children: 'Button' } },
-        { label: 'Leading icon with label', value: { children: 'Button', leadingContent: '<IconRefresh />' } },
-        { label: 'Trailing icon with label', value: { children: 'Button', trailingContent: '<IconChevronRightTightSmall />' } },
-        { label: 'Icon only', value: { children: '<IconRefresh />', iconOnly: true } },
+        { label: 'Leading icon with label', value: { children: 'Button', leadingContent: '<IconBlank />' } },
+        { label: 'Trailing icon with label', value: { children: 'Button', trailingContent: '<IconBlank />' } },
+        { label: 'Icon only', value: { children: '<IconBlank />', iconOnly: true } },
       ]
     }
   ]}
