@@ -1,4 +1,4 @@
-import DocsCollection from '../../docs-collection';
+import DocsCollection from '../docs-collection';
 
 const FoundationsOverview = () => {
   return <DocsCollection category="foundations" />;

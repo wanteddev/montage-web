@@ -1,4 +1,4 @@
-import DocsCollection from '../../docs-collection';
+import DocsCollection from '../docs-collection';
 
 const ComponentsOverview = () => {
   return <DocsCollection category="components" />;

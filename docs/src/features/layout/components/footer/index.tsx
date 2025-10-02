@@ -4,11 +4,17 @@ import Link from 'next/link';
 
 import { footerLinkStyle, footerStyle } from './style';
 
-const Footer = () => {
+import type { SxProp } from '@wanteddev/wds';
+
+type Props = {
+  sx?: SxProp;
+};
+
+const Footer = ({ sx }: Props) => {
   return (
     <FlexBox
       as="footer"
-      sx={footerStyle}
+      sx={[footerStyle, sx]}
       flexDirection="row"
       justifyContent="space-between"
     >

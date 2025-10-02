@@ -4,7 +4,6 @@ import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
   padding-right: 1px;
-  padding-bottom: 80px;
   color: ${theme.semantic.label.neutral};
   ${typographyStyle('body2-reading', 'regular')}
 
@@ -179,6 +178,10 @@ export const mdxRootStyle = (theme: Theme) => css`
           margin-bottom: 16px;
         }
       }
+    }
+
+    :last-child {
+      margin-bottom: 0px !important;
     }
   }
 `;

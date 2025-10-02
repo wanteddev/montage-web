@@ -51,7 +51,11 @@ const DocsLayout = ({ children }: PropsWithChildren) => {
         <DocsDescription />
         {children}
 
-        <Footer />
+        <Footer
+          sx={{
+            marginTop: '120px',
+          }}
+        />
       </FlexBox>
 
       <Sidebar />

@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const kbdStyle = (theme: Theme) => css`
   ${typographyStyle('caption2', 'medium')}
-  color: ${theme.semantic.label.alternative};
+  color: ${theme.semantic.label.normal};
   background-color: ${theme.semantic.fill.alternative};
   border-radius: 6px;
   padding: 4px 6px;
