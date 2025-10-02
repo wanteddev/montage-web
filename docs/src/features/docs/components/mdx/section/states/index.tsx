@@ -1,4 +1,5 @@
-import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { ContentBadge, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { IconGlobe } from '@wanteddev/wds-icon';
 
 import { sectionLayoutStyle } from '../style';
 import { Heading2, SectionDescription } from '../layout';
@@ -13,6 +14,7 @@ type SectionStatesProps = {
   src?: string;
   ratio?: ThumbnailProps['ratio'];
   portrait?: ThumbnailProps['portrait'];
+  isWebOnly?: boolean;
 };
 
 const SectionStates = ({
@@ -21,11 +23,35 @@ const SectionStates = ({
   ratio = '21:9',
   portrait,
   src,
+  isWebOnly,
 }: SectionStatesProps) => {
   return (
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
       <FlexBox flexDirection="column">
-        <Heading2 content="States" />
+        <Heading2
+          content="States"
+          trailingContent={
+            isWebOnly ? (
+              <ContentBadge
+                variant="solid"
+                size="xsmall"
+                color="accent"
+                leadingContent={
+                  <IconGlobe
+                    sx={(theme) => ({
+                      fontSize: '12px',
+                      color: theme.semantic.accent.foreground.purple,
+                    })}
+                  />
+                }
+                accentColor="semantic.accent.foreground.purple"
+                sx={{ flexShrink: 0 }}
+              >
+                Web only
+              </ContentBadge>
+            ) : null
+          }
+        />
 
         {src && (
           <Thumbnail

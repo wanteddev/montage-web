@@ -2,6 +2,8 @@ import { Box, FlexBox, IconButton } from '@wanteddev/wds';
 import { IconLink } from '@wanteddev/wds-icon';
 import Link from 'next/link';
 
+import { breakWordStyle } from '@/styles/text';
+
 import { linkStyle } from './style';
 
 import type { ComponentPropsWithoutRef } from 'react';
@@ -20,9 +22,9 @@ const HeadingLink = ({ id, children, ...props }: Props) => (
       </IconButton>
     </FlexBox>
 
-    <Box as="span" sx={{ display: 'inline-block' }}>
+    <FlexBox alignItems="center" gap="6px" as="span" sx={breakWordStyle}>
       {children}
-    </Box>
+    </FlexBox>
   </Box>
 );
 

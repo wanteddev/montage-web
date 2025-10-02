@@ -44,6 +44,7 @@ export const sectionVariantsControlMobileTriggerStyle = (theme: Theme) => css`
   position: absolute;
   right: 24px;
   top: 24px;
+  z-index: 1;
 
   &[aria-expanded='true'] {
     & > [wds-component='with-interaction'] {
@@ -64,9 +65,10 @@ export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
   height: 400px;
   padding: 0px;
   filter: none;
+  padding: 0px 2px;
 
   [data-radix-scroll-area-content] {
-    padding: 32px 32px 12px;
+    padding: 32px 30px 12px;
     display: flex;
     flex-direction: column;
     gap: 28px;

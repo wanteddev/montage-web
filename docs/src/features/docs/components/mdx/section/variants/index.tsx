@@ -178,6 +178,7 @@ const SectionVariants = ({
             <PopoverContent
               sx={sectionVariantsControlMobileStyle}
               position="top-end"
+              variant="custom"
               offset={16}
             >
               <ScrollArea sx={{ width: '100%' }}>

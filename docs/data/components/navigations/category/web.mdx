@@ -243,7 +243,7 @@ size별로 icon button 의 크기를 각각 지정해주어야 합니다.
 - small: 20px
 - medium: 22px
 - large: 24px
-- xlarge: 권장하지 않습니다.
+- xlarge: 24px
 
 <Demo code={`import {
   Category,
@@ -328,7 +328,14 @@ const Demo = () => {
         </CategoryList>
       </Category>
       <Category defaultValue="0">
-        <CategoryList size="xlarge">
+        <CategoryList
+          size="xlarge"
+          iconButton={(
+            <IconButton size={24}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
           <CategoryListItem value="0">
             First
           </CategoryListItem>

@@ -13,10 +13,11 @@ import type { PropsWithChildren, ReactNode } from 'react';
 
 type HeadingProps = {
   content?: string;
+  trailingContent?: ReactNode;
   sx?: SxProp;
 };
 
-const Heading2 = memo(({ content, sx }: HeadingProps) => {
+const Heading2 = memo(({ content, trailingContent, sx }: HeadingProps) => {
   const { generateHeadingId } = useHeadingContext();
 
   const id = useMemo(() => {
@@ -36,7 +37,10 @@ const Heading2 = memo(({ content, sx }: HeadingProps) => {
       id={id}
       sx={sx}
     >
-      <HeadingLink id={id}>{content}</HeadingLink>
+      <HeadingLink id={id}>
+        {content}
+        {trailingContent}
+      </HeadingLink>
     </Typography>
   );
 });

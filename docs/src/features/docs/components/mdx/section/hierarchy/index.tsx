@@ -21,7 +21,12 @@ const SectionHierarchy = ({
   title = 'Hierarchy',
 }: SectionHierarchyProps) => {
   return (
-    <FlexBox flexDirection="column" gap="56px" sx={sectionLayoutStyle}>
+    <FlexBox
+      flexDirection="column"
+      data-role="hierarchy"
+      gap="56px"
+      sx={sectionLayoutStyle}
+    >
       <Heading2 content={title} />
       <FlexBox flexDirection="column">{children}</FlexBox>
     </FlexBox>

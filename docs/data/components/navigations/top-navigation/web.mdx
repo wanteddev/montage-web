@@ -220,6 +220,8 @@ export default Demo;`}
 
 `TopNavigationButton` 의 variant 를 `text` 로 설정하면 텍스트 타입의 버튼을 사용할 수 있습니다.
 
+`color` prop 을 사용하여 버튼의 색상을 제어할 수 있습니다.
+
 <Demo code={`import {
   TopNavigation,
   TopNavigationButton,
@@ -237,7 +239,7 @@ const Demo = () => {
           </TopNavigationButton>
         )}
         trailingContent={(
-          <TopNavigationButton variant="text">
+          <TopNavigationButton variant="text" color="primary">
             완료
           </TopNavigationButton>
         )}
@@ -248,7 +250,7 @@ const Demo = () => {
       <TopNavigation
         variant="display"
         trailingContent={(
-          <TopNavigationButton variant="text">
+          <TopNavigationButton variant="text" color="primary">
             완료
           </TopNavigationButton>
         )}
@@ -265,7 +267,7 @@ const Demo = () => {
             </TopNavigationButton>
           )}
           trailingContent={(
-            <TopNavigationButton variant="text">
+            <TopNavigationButton variant="text" color="primary">
               완료
             </TopNavigationButton>
           )}
@@ -280,7 +282,7 @@ const Demo = () => {
           </TopNavigationButton>
         )}
         trailingContent={(
-          <TopNavigationButton variant="text">
+          <TopNavigationButton variant="text" color="primary">
             완료
           </TopNavigationButton>
         )}
