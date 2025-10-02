@@ -26,6 +26,7 @@ import {
   tabListItemInteractionStyle,
   tabListItemStyle,
   tabListStyle,
+  tabListWrapperStyle,
 } from './style';
 import {
   TabListProvider,
@@ -243,7 +244,7 @@ const TabList = forwardRef<
             <FlexBox
               ref={context.onViewportNodeChange}
               data-role="tab-list-wrapper"
-              sx={{ position: 'relative' }}
+              sx={tabListWrapperStyle(context.value)}
             >
               <Box
                 data-role="tab-motion"
@@ -374,7 +375,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          sx={[tabListItemStyle, props.sx]}
+          sx={[tabListItemStyle({ disabled }), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (disabled) {
               return;
