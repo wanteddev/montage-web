@@ -275,7 +275,7 @@ export const scrollWrapperStyle = css`
   }
 `;
 
-export const tabListWrapperStyle = (value?: string) => (theme: Theme) => css`
+export const tabListWrapperStyle = (theme: Theme) => css`
   position: relative;
 
   --wds-tab-list-active-divider-color: ${theme.semantic.label.strong};
@@ -283,12 +283,9 @@ export const tabListWrapperStyle = (value?: string) => (theme: Theme) => css`
 
   --wds-tab-list-divider-color: var(--wds-tab-list-active-divider-color);
 
-  ${value !== undefined &&
-  css`
-    &:has([data-value='${value}'][aria-disabled='true']) {
-      --wds-tab-list-divider-color: var(--wds-tab-list-disabled-divider-color);
-    }
-  `}
+  &:has([aria-selected='true'][aria-disabled='true']) {
+    --wds-tab-list-divider-color: var(--wds-tab-list-disabled-divider-color);
+  }
 `;
 
 export const motionDividerStyle = css`

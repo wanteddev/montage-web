@@ -244,7 +244,7 @@ const TabList = forwardRef<
             <FlexBox
               ref={context.onViewportNodeChange}
               data-role="tab-list-wrapper"
-              sx={tabListWrapperStyle(context.value)}
+              sx={tabListWrapperStyle}
             >
               <Box
                 data-role="tab-motion"
