@@ -97,41 +97,58 @@ export default Demo;`}
 />
 
 
-## Label
+## Stepper
 
-`label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
+화면 전체를 한 단계로 활용할 때에는 Stepper를 사용합니다.
 
-<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css } from '@wanteddev/wds';
+<Demo code={`import { Stepper, StepperItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ProgressTracker value="1">
-      <ProgressTrackerItem label="단계" completedLabel="완료" value="0" />
-      <ProgressTrackerItem label="단계" completedLabel="완료" value="1" />
-      <ProgressTrackerItem label="단계" completedLabel="완료" value="2" />
-    </ProgressTracker>
+    <Stepper value="1">
+      <StepperItem value="0" />
+      <StepperItem value="1" />
+      <StepperItem value="2" />
+    </Stepper>
   );
 }
 
 export default Demo;`}
 />
 
+## Label
 
-<Demo code={`import { ProgressTracker, ProgressTrackerItem, Box, css } from '@wanteddev/wds';
+`label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css, FlexBox, Stepper, StepperItem } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
-    <ProgressTracker value="1" direction="vertical" sx={{ width: '75%'}}>
-      <ProgressTrackerItem value="0" label="단계" completedLabel="완료">
-        <Item />
-      </ProgressTrackerItem>
-      <ProgressTrackerItem value="1" label="단계" completedLabel="완료">
-        <Item />
-      </ProgressTrackerItem>
-      <ProgressTrackerItem value="2" label="단계" completedLabel="완료">
-        <Item />
-      </ProgressTrackerItem>
-    </ProgressTracker>
+    <FlexBox sx={{ width: '75%' }} flexDirection="column" gap="32px" alignItems="center">
+      <ProgressTracker value="1">
+        <ProgressTrackerItem label="단계" completedLabel="완료" value="0" />
+        <ProgressTrackerItem label="단계" completedLabel="완료" value="1" />
+        <ProgressTrackerItem label="단계" completedLabel="완료" value="2" />
+      </ProgressTracker>
+
+      <ProgressTracker value="1" direction="vertical" sx={{ width: '75%'}}>
+        <ProgressTrackerItem value="0" label="단계" completedLabel="완료">
+          <Item />
+        </ProgressTrackerItem>
+        <ProgressTrackerItem value="1" label="단계" completedLabel="완료">
+          <Item />
+        </ProgressTrackerItem>
+        <ProgressTrackerItem value="2" label="단계" completedLabel="완료">
+          <Item />
+        </ProgressTrackerItem>
+      </ProgressTracker>
+
+      <Stepper value="1">
+        <StepperItem value="0" label="단계" completedLabel="완료" />
+        <StepperItem value="1" label="단계" completedLabel="완료" />
+        <StepperItem value="2" label="단계" completedLabel="완료" />
+      </Stepper>
+    </FlexBox>
   );
 }
 
@@ -242,4 +259,12 @@ export default Demo;`}
 ### ProgressTrackerLabelContent
 
 <PropsTable component="ProgressTrackerLabelContent" />
+
+### Stepper
+
+<PropsTable component="Stepper" />
+
+### StepperItem
+
+<PropsTable component="StepperItem" />
 

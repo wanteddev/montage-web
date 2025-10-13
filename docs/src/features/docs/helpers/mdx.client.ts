@@ -51,11 +51,11 @@ export const getFrontmatterDescription = (
     );
 
     if (designPage) {
-      return designPage.description;
+      return designPage.description?.replace(/\\n/g, ' ');
     }
   }
 
-  return item.description;
+  return item.description?.replace(/\\n/g, ' ');
 };
 
 export const getFrontmatterImage = (
