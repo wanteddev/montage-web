@@ -262,8 +262,7 @@ export const topNavigationLeftIconStyle = (
   }
 };
 
-export const topNavigationButtonTextStyle = (theme: Theme) => css`
-  color: ${theme.semantic.label.normal};
+export const topNavigationButtonTextStyle = css`
   padding: 0px;
   flex-shrink: 0;
 
