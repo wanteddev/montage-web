@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils';
+import { addOpacity, ellipsisTypographyStyle } from '../../utils';
 
 import type { ProgressTrackerProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -41,6 +41,11 @@ export const progressTrackerItemVerticalLabelWrapperStyle = css`
 
 export const progressTrackerItemHorizontalStyle = css`
   flex: 1 0 0;
+  min-width: 0;
+
+  [data-role='progress-tracker-item-label'] {
+    ${ellipsisTypographyStyle(1)}
+  }
 `;
 
 export const progressTrackerItemHorizontalWrapperStyle = css`
