@@ -91,11 +91,17 @@ ProgressTracker.displayName = PROGRESS_TRACKER_NAME;
 const ProgressTrackerItem = forwardRef<
   HTMLLIElement,
   DefaultComponentPropsInternal<ProgressTrackerItemProps, 'li'>
->((props, ref) => {
+>(({ labelContent, ...props }, ref) => {
   const { direction } = useProgressTrackerContext(PROGRESS_TRACKER_ITEM_NAME);
 
   if (direction === 'vertical') {
-    return <ProgressTrackerItemVertical {...props} ref={ref} />;
+    return (
+      <ProgressTrackerItemVertical
+        labelContent={labelContent}
+        {...props}
+        ref={ref}
+      />
+    );
   }
 
   return <ProgressTrackerItemHorizontal {...props} ref={ref} />;
