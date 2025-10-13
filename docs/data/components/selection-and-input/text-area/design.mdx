@@ -3,6 +3,7 @@ title: Text area
 description: 필드 내부에 2줄 이상의 텍스트를 입력할 때 사용하며 Heading, Placeholder, Description등의 요소를 활용하여 사용자가 입력할 내용의 형식을 보다 명확하게 안내합니다.
 image: /components/selection-and-input/text-area/design/Thumbnail.png
 createdAt: 2025-04-03
+updatedAt: 2025-10-13
 ---
 
 <Anatomy
@@ -11,17 +12,17 @@ createdAt: 2025-04-03
   data={[
     'Heading',
     'Placeholder',
-    'Leading contents',
+    'Leading content',
     'Description',
     'Required badge',
     'Field',
-    'Trailing contents',
+    'Trailing content',
   ]}
 />
 
 <SectionVariants
   components={['FormField', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'TextButton', 'ChipFilter', 'IconButton']}
-  icons={['IconMail', 'IconGlobe',' IconCopy', 'IconSendFill']}
+  icons={['IconBlank']}
   render={(value) => {
     let leadingContent = "null";
     let trailingContent = "null";
@@ -38,11 +39,11 @@ createdAt: 2025-04-03
         break;
       case "Icon button":
         leadingContent =
-          '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconCopy /></IconButton></TextAreaContent>';
+          '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
         break;
       case "Icon":
         leadingContent =
-          '<TextAreaContent variant="icon"><IconGlobe /></TextAreaContent>';
+          '<TextAreaContent variant="icon"><IconBlank /></TextAreaContent>';
         break;
       case "Badge":
         leadingContent =
@@ -67,11 +68,11 @@ createdAt: 2025-04-03
         break;
       case "Icon button":
         trailingContent =
-          '<TextAreaContent variant="icon-button"><IconButton variant="solid" size="small"><IconSendFill /></IconButton></TextAreaContent>';
+          '<TextAreaContent variant="icon-button"><IconButton variant="solid" size="small"><IconBlank /></IconButton></TextAreaContent>';
         break;
       case "Icon":
         trailingContent =
-          '<TextAreaContent variant="icon"><IconGlobe /></TextAreaContent>';
+          '<TextAreaContent variant="icon"><IconBlank /></TextAreaContent>';
         break;
       case "Badge":
         trailingContent =
@@ -161,28 +162,27 @@ createdAt: 2025-04-03
 <SectionLayout title="Resize">
   <SectionFigureGroup title="Normal">
     <SectionFigure
-      title="Usage"
       description="필드 내부의 텍스트 양과 비례하여 필드의 높이가 제한 없이 아래로 늘어납니다."
       src="/components/selection-and-input/text-area/design/Image-2.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Limited">
     <SectionFigure
-      title="Usage"
       ratio="3:2"
-      description="기본 높이에서 시작하여 필드 내부의 텍스트 양과 비례하며 일정 높이까지 필드가 늘어나다 고정됩니다.
-단, 필드의 높이는 Max height가 지정되어 있으며 iOS는 ‘높이’ 기준, Android, Web은 ‘글 줄'로 소통합니다.
-최대 높이는 기본적으로 있지만, 상황에 따라 메이커가 직접 지정할 수 있습니다.
+      description="기본 높이에서 필드 내부의 텍스트 양과 비례하며 일정 높이까지 필드가 늘어나다가 고정됩니다. 필드의 최대 높이가 지정되어 있으며 iOS는 ‘높이’ 기준, Android, Web은 ‘글 줄'로 소통합니다. 단, 프로젝트 정책에 따라 최대 높이를 사용자가 직접 지정할 수 있습니다.
 
-Max height: iOS: 102px/Android: 3줄/Web: 12줄"
+<strong>Default max height</strong>
+- iOS: 102px/Android: 3줄/Web: 12줄"
       src="/components/selection-and-input/text-area/design/Image-3.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Fixed">
     <SectionFigure
-      title="Usage"
       ratio="3:2"
-      description="메이커의 의도에 따라 텍스트의 양에 관계 없이 필드의 기본, 최대 높이를 자유롭게 고정하여 사용할 수 있습니다."
+      description="사용자의 의도에 따라 텍스트 양에 관계 없이 필드의 기본, 최대 높이를 자유롭게 고정하여 사용할 수 있습니다. 단, Textfield와의 구분을 위해 Textarea의 최소 권장 높이를 지켜가며 디자인합니다. 
+
+<strong>Min height</strong>
+- iOS: 76px/Android: 2줄/Web: 2줄"
       src="/components/selection-and-input/text-area/design/Image-4.png"
     />
   </SectionFigureGroup>
@@ -191,32 +191,28 @@ Max height: iOS: 102px/Android: 3줄/Web: 12줄"
 <SectionLayout title="Bottom">
   <SectionFigureGroup title="Leading contents">
     <SectionFigure
-      title="Usage"
-      description="Bottom 영역은 비활성할 수 있으며, Charactor counter, Text button, Icon button(인터랙션 영역 포함), Icon, Content badge, Chip filter 만 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 Detach하여 사용하시는 것을 권장합니다. Leading Contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다."
+      description="Charactor counter, Text button, Icon button, Icon, Content badge, Chip filter가 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 커스터마이징하여 사용할 수 있습니다. Leading contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다."
       src="/components/selection-and-input/text-area/design/Image-5.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Trailing contents">
     <SectionFigure
-      title="Usage"
-      description="Bottom 영역은 비활성할 수 있으며, Charactor counter, Text button(Primary, Assistive), Icon button(Normal, Solid), Icon, Content badge, Chip filter 만 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 Detach하여 사용하시는 것을 권장합니다. Trailing Contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다."
+      description="Bottom 영역은 비활성할 수 있으며, Charactor counter, Text button(Primary, Assistive), Icon button(Normal, Solid), Icon, Content badge, Chip filter가 위치 합니다. 다른 요소가 들어갈 경우 커스터마이징할 수 있습니다. Trailing contents는 메인 영역 이외에 2개의 Extra가 존재하며 요소끼리의 간격을 2배수로 자유롭게 조절할 수 있습니다."
       src="/components/selection-and-input/text-area/design/Image-6.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
-<SectionLayout title="Sticky of keyboard">
+<SectionLayout title="Keyboard sticky">
   <SectionFigure
-    title="Usage"
     ratio="16:10"
-    description="모든 플랫폼에서 사용된 케이스가 존재하지 않아 구현되어 있지 않습니다."
+    description="키보드와 함께 사용하는 타입으로 필드의 최대 높이는 기본 5줄 이하로 권장합니다."
     src="/components/selection-and-input/text-area/design/Image-7.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Required badge">
   <SectionFigure
-    title="Usage"
     description="필수적으로 값을 입력해야 하는 필드일 시 Required badge를 사용합니다."
     src="/components/selection-and-input/text-area/design/Image-8.png"
   />
@@ -225,12 +221,12 @@ Max height: iOS: 102px/Android: 3줄/Web: 12줄"
 <SectionLayout title="How to use">
   <SectionFigure
     variant="positive"
-    description="Bottom의 Contents는 인터랙션 영역을 고려하여 Gap을 조절합니다."
+    description="Bottom의 Contents는 인터랙션 영역을 고려하여 간격을 조절합니다."
     src="/components/selection-and-input/text-area/design/Image-9.png"
   />
   <SectionFigure
     variant="negative"
-    description="모바일에서 Text area를 사용할 때 키보드의 Sticky 된 버튼을 고려하여 높이가 지속적으로 늘어나는 Resize=Normal 타입의 사용은 지양합니다. "
+    description="모바일에서 높이가 지속적으로 늘어나는 Resize=Normal 타입을 사용하여 사용성 혼란을 주지 않습니다."
     src="/components/selection-and-input/text-area/design/Image-10.png"
   />
 </SectionLayout>

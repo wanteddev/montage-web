@@ -130,7 +130,9 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
               </IconButton>
             </TooltipTrigger>
 
-            <TooltipContent size="small">Toggle replace</TooltipContent>
+            <TooltipContent offset={6} size="small">
+              Toggle replace
+            </TooltipContent>
           </Tooltip>
 
           <FlexBox flexDirection="column" gap="4px">
@@ -170,7 +172,9 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                       </TooltipTrigger>
                     )}
                   />
-                  <TooltipContent size="small">Match case</TooltipContent>
+                  <TooltipContent offset={2} size="small">
+                    Match case
+                  </TooltipContent>
                 </Tooltip>
 
                 <Tooltip>
@@ -195,7 +199,9 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                       </TooltipTrigger>
                     )}
                   />
-                  <TooltipContent size="small">Match whole word</TooltipContent>
+                  <TooltipContent offset={2} size="small">
+                    Match whole word
+                  </TooltipContent>
                 </Tooltip>
 
                 <Tooltip>
@@ -220,7 +226,9 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                       </TooltipTrigger>
                     )}
                   />
-                  <TooltipContent size="small">Use regex</TooltipContent>
+                  <TooltipContent offset={2} size="small">
+                    Use regex
+                  </TooltipContent>
                 </Tooltip>
               </FlexBox>
             </FlexBox>
@@ -253,7 +261,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                       </IconButton>
                     </TooltipTrigger>
 
-                    <TooltipContent size="small" shortcut="⌘+⏎">
+                    <TooltipContent offset={2} size="small" shortcut="⌘+⏎">
                       Replace
                     </TooltipContent>
                   </Tooltip>
@@ -271,7 +279,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
                       </IconButton>
                     </TooltipTrigger>
 
-                    <TooltipContent size="small" shortcut="⌘+⏎">
+                    <TooltipContent offset={2} size="small" shortcut="⌘+⏎">
                       Replace all
                     </TooltipContent>
                   </Tooltip>
@@ -295,7 +303,7 @@ const SearchCode = forwardRef<HTMLDivElement, Props>(
               </IconButton>
             </TooltipTrigger>
 
-            <TooltipContent size="small" shortcut="Esc">
+            <TooltipContent offset={6} size="small" shortcut="Esc">
               Close
             </TooltipContent>
           </Tooltip>

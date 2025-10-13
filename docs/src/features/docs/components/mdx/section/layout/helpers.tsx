@@ -79,6 +79,9 @@ export const renderParsedContent = (content: string) => {
 
       const isNextItemList = parsedContent[idx + 1]?.type === 'list';
       const isPrevItemList = parsedContent[idx - 1]?.type === 'list';
+      const isPrevItemText = parsedContent[idx - 1]?.type === 'text';
+
+      const shouldHasMarginTop = (isPrevItemText && isStrong) || isPrevItemList;
 
       flushList();
       elements.push(
@@ -90,7 +93,7 @@ export const renderParsedContent = (content: string) => {
           key={`text-${elements.length}`}
           sx={{
             marginBottom: isNextItemList ? '12px !important' : '0',
-            marginTop: isPrevItemList ? '24px !important' : '0',
+            marginTop: shouldHasMarginTop ? '24px !important' : '0',
           }}
         >
           {isStrong ? item.content.slice(8, -9) : item.content}
