@@ -240,15 +240,13 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
               j.literal('bottom-center'),
             ),
           );
-        }
-
-        if (
-          position!.value?.type === 'StringLiteral' ||
-          position!.value?.type === 'Literal'
+        } else if (
+          position.value?.type === 'StringLiteral' ||
+          position.value?.type === 'Literal'
         ) {
           hasChanges = true;
-          position!.value.value = reversePosition(
-            position!.value.value!.toString(),
+          position.value.value = reversePosition(
+            position.value.value!.toString(),
           );
         }
       });
@@ -273,6 +271,18 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
         if (!attributes) return;
 
+        const variant = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'variant',
+        ) as JSXAttribute | undefined;
+
+        if (!variant) {
+          hasChanges = true;
+          attributes.push(
+            j.jsxAttribute(j.jsxIdentifier('variant'), j.literal('custom')),
+          );
+        }
+
         const position = attributes.find(
           (attr) =>
             attr.type === 'JSXAttribute' && attr.name.name === 'position',
@@ -286,15 +296,13 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
               j.literal('bottom-center'),
             ),
           );
-        }
-
-        if (
-          position!.value?.type === 'StringLiteral' ||
-          position!.value?.type === 'Literal'
+        } else if (
+          position.value?.type === 'StringLiteral' ||
+          position.value?.type === 'Literal'
         ) {
           hasChanges = true;
-          position!.value.value = reversePosition(
-            position!.value.value!.toString(),
+          position.value.value = reversePosition(
+            position.value.value!.toString(),
           );
         }
       });
@@ -332,11 +340,9 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
               j.literal('bottom-center'),
             ),
           );
-        }
-
-        if (
-          position?.value?.type === 'StringLiteral' ||
-          position?.value?.type === 'Literal'
+        } else if (
+          position.value?.type === 'StringLiteral' ||
+          position.value?.type === 'Literal'
         ) {
           hasChanges = true;
           position.value.value = reversePosition(
