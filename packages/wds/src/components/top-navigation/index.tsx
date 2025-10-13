@@ -10,6 +10,7 @@ import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
 import { IconButton } from '../icon-button';
 import { TextButton } from '../text-button';
+import { TextButtonProvider } from '../text-button/contexts';
 
 import {
   topNavigationButtonTextStyle,
@@ -156,7 +157,11 @@ const TopNavigation = forwardRef<
         </FlexBox>
 
         {toolbar && variant !== 'floating' && (
-          <FlexBox sx={{ width: '100%' }} data-role="top-navigation-toolbar">
+          <FlexBox
+            sx={{ width: '100%' }}
+            flexDirection="column"
+            data-role="top-navigation-toolbar"
+          >
             {toolbar}
           </FlexBox>
         )}
@@ -172,6 +177,7 @@ const TopNavigationButton = forwardRef(
     {
       children,
       variant = 'icon',
+      color = 'assistive',
       ...props
     }: PolymorphicPropsInternal<TopNavigationButtonProps, T>,
     ref: ForwardedRef<T>,
@@ -191,16 +197,18 @@ const TopNavigationButton = forwardRef(
     }
 
     return (
-      <TextButton
-        color="assistive"
-        size="medium"
-        {...props}
-        sx={[topNavigationButtonTextStyle, props.sx]}
-        wds-component="top-navigation-button"
-        ref={ref}
-      >
-        {children}
-      </TextButton>
+      <TextButtonProvider assistive="semantic.label.normal">
+        <TextButton
+          color={color}
+          size="medium"
+          {...props}
+          sx={[topNavigationButtonTextStyle, props.sx]}
+          wds-component="top-navigation-button"
+          ref={ref}
+        >
+          {children}
+        </TextButton>
+      </TextButtonProvider>
     );
   },
 ) as PolymorphicComponentInternal<TopNavigationButtonProps, 'button'>;
