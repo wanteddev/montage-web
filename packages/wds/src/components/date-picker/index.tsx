@@ -84,7 +84,7 @@ const DatePicker = forwardRef<
       trappedContent = true,
       onMountAutoFocus,
       onUnmountAutoFocus,
-      position = 'top-start',
+      position = 'bottom-start',
       offset = 8,
       sx: contentSx,
       ...otherContentProps

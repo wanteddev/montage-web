@@ -82,7 +82,7 @@ const TimePicker = forwardRef<
       trappedContent = true,
       onMountAutoFocus,
       onUnmountAutoFocus,
-      position = 'top-start',
+      position = 'bottom-start',
       offset,
       sx: contentSx,
       ...otherContentProps
