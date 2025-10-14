@@ -128,7 +128,7 @@ MenuTrigger.displayName = MENU_TRIGGER_NAME;
 const MenuContent = forwardRef(
   <T extends ElementType = 'div'>(
     {
-      position = 'top-center',
+      position = 'bottom-center',
       offset,
       container,
       disablePortal,

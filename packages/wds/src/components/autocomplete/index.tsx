@@ -515,6 +515,7 @@ const AutocompleteList = forwardRef(
           role="presentation"
           ref={ref}
           offset={8}
+          position="bottom-center"
           {...props}
           data-status={open ? 'open' : 'close'}
           sx={[{ width }, autocompleteListStyle, props.sx]}

@@ -282,6 +282,7 @@ const Select = forwardRef<
 
           <MenuContent
             offset={8}
+            position="bottom-center"
             {...contentProps}
             sx={[
               { width: contentWidth ?? '320px', minWidth: '140px' },

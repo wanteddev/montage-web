@@ -1,10 +1,17 @@
 import {
+  deepConvertPropertyValue,
   findImportDeclaration,
   getImportedName,
   getLocalName,
 } from '../../helpers';
 
-import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
+import type {
+  API,
+  FileInfo,
+  JSXAttribute,
+  JSXExpressionContainer,
+  Options,
+} from 'jscodeshift';
 
 const reversePosition = (position: string) => {
   if (position.includes('bottom')) {
@@ -249,6 +256,161 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
             position.value.value!.toString(),
           );
         }
+      });
+  }
+
+  const autocompleteListImport = findImportDeclaration(
+    'AutocompleteList',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (autocompleteListImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(autocompleteListImport) },
+        },
+      })
+      .forEach((node) => {
+        const attributes = node.value.openingElement.attributes;
+
+        if (!attributes) return;
+
+        const position = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'position',
+        ) as JSXAttribute | undefined;
+
+        if (!position) {
+          return;
+        }
+
+        if (
+          position.value?.type === 'StringLiteral' ||
+          position.value?.type === 'Literal'
+        ) {
+          hasChanges = true;
+          position.value.value = reversePosition(
+            position.value.value!.toString(),
+          );
+        }
+      });
+  }
+
+  const menuContentImport = findImportDeclaration(
+    'MenuContent',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (menuContentImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(menuContentImport) },
+        },
+      })
+      .forEach((node) => {
+        const attributes = node.value.openingElement.attributes;
+
+        if (!attributes) return;
+
+        const position = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'position',
+        ) as JSXAttribute | undefined;
+
+        if (!position) {
+          return;
+        }
+
+        if (
+          position.value?.type === 'StringLiteral' ||
+          position.value?.type === 'Literal'
+        ) {
+          hasChanges = true;
+          position.value.value = reversePosition(
+            position.value.value!.toString(),
+          );
+        }
+      });
+  }
+
+  const timePickerImport = findImportDeclaration(
+    'TimePicker',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (timePickerImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(timePickerImport) },
+        },
+      })
+      .forEach((node) => {
+        const attributes = node.value.openingElement.attributes;
+
+        if (!attributes) return;
+
+        const contentProps = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'contentProps',
+        ) as JSXAttribute | undefined;
+
+        if (!contentProps) {
+          return;
+        }
+
+        hasChanges = true;
+
+        deepConvertPropertyValue(
+          contentProps.value as JSXExpressionContainer,
+          'position',
+          reversePosition,
+        );
+      });
+  }
+
+  const datePickerImport = findImportDeclaration(
+    'DatePicker',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (datePickerImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(datePickerImport) },
+        },
+      })
+      .forEach((node) => {
+        const attributes = node.value.openingElement.attributes;
+
+        if (!attributes) return;
+
+        const contentProps = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'contentProps',
+        ) as JSXAttribute | undefined;
+
+        if (!contentProps) {
+          return;
+        }
+
+        deepConvertPropertyValue(
+          contentProps.value as JSXExpressionContainer,
+          'position',
+          reversePosition,
+        );
+        hasChanges = true;
       });
   }
 
