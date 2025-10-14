@@ -35,7 +35,7 @@ const Heading2 = memo(({ content, trailingContent, sx }: HeadingProps) => {
       weight="bold"
       color="semantic.label.normal"
       id={id}
-      sx={sx}
+      sx={[{ scrollMarginTop: 'calc(var(--gnb-height) + 56px)' }, sx]}
     >
       <HeadingLink id={id}>
         {content}
@@ -63,7 +63,7 @@ const Heading3 = memo(({ content, sx }: HeadingProps) => {
       weight="bold"
       color="semantic.label.normal"
       id={id}
-      sx={sx}
+      sx={[{ scrollMarginTop: 'calc(var(--gnb-height) + 64px)' }, sx]}
     >
       <HeadingLink id={id}>{content}</HeadingLink>
     </Typography>

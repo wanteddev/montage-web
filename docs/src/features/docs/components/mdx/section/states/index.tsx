@@ -4,7 +4,7 @@ import { IconGlobe } from '@wanteddev/wds-icon';
 import { sectionLayoutStyle } from '../style';
 import { Heading2, SectionDescription } from '../layout';
 import { sectionFigureThumbnailStyle } from '../figure/style';
-import { anatomyItemPinStyle, anatomyItemStyle } from '../../anatomy/style';
+import { anatomyItemPinStyle, anatomyItemStyle } from '../anatomy/style';
 
 import type { SxProp, ThumbnailProps } from '@wanteddev/wds';
 

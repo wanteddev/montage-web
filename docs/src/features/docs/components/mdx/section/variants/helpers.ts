@@ -48,6 +48,7 @@ export const isComponent = (value: any) => {
 export const makeSectionVariantDemoCode = (
   components: Array<string>,
   icons: Array<string> = [],
+  internals: Array<string> = [],
   props: Record<string, any>,
   render?: string,
   states?: string,
@@ -71,6 +72,7 @@ export const makeSectionVariantDemoCode = (
 
   return `import { ${components.join(', ')} } from '@wanteddev/wds';
   import { ${icons.join(', ')} } from '@wanteddev/wds-icon';
+  import { ${internals.join(', ')} } from 'internal';
   import * as React from 'react';
 
   const Demo = () => {

@@ -25,6 +25,7 @@ import { Heading2 } from '../layout';
 import { sectionLayoutStyle } from '../style';
 import { useRunner } from '../../demo/react-runner';
 
+import Carousel from './internal/carousel';
 import {
   sectionVariantsControlMobileStyle,
   sectionVariantsControlMobileTriggerStyle,
@@ -47,6 +48,7 @@ import type { PropsWithChildren } from 'react';
 
 type SectionVariantsProps = {
   components: Array<string>;
+  internals?: Array<string>;
   icons?: Array<string>;
   variants: SectionVariantsType;
   render?: SectionVariantsRender;
@@ -55,6 +57,7 @@ type SectionVariantsProps = {
 
 const SectionVariants = ({
   components,
+  internals = [],
   icons = [],
   variants,
   render,
@@ -207,6 +210,7 @@ const SectionVariants = ({
             props={props}
             components={components}
             icons={icons}
+            internals={internals}
             render={renderResult}
             states={states}
           />
@@ -245,6 +249,7 @@ type SectionVariantsItemDemoProps = PropsWithChildren<{
   icons: Array<string>;
   render?: string;
   states?: string;
+  internals?: Array<string>;
 }>;
 
 const SectionVariantsItemDemo = memo(
@@ -254,11 +259,13 @@ const SectionVariantsItemDemo = memo(
     icons,
     render,
     states,
+    internals,
   }: SectionVariantsItemDemoProps) => {
     const code = useMemo(() => {
       return makeSectionVariantDemoCode(
         components,
         icons,
+        internals,
         props,
         render,
         states,
@@ -272,6 +279,7 @@ const SectionVariantsItemDemo = memo(
           react: React,
           '@wanteddev/wds': Wds,
           '@wanteddev/wds-icon': WdsIcon,
+          internal: { Carousel },
         },
       };
     }, []);

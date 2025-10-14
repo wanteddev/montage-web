@@ -16,8 +16,8 @@ import Pre from '../pre';
 import Demo from '../demo';
 import PropsTable from '../props-table';
 import Thumbnail from '../thumbnail';
-import Anatomy from '../anatomy';
 import Note from '../note';
+import SectionAnatomy from '../section/anatomy';
 import { SectionLayout } from '../section/layout';
 import SectionFigureGroup from '../section/figure-group';
 import SectionFigure from '../section/figure';
@@ -131,9 +131,9 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   Demo,
   PropsTable,
   Thumbnail,
-  Anatomy,
   Note,
   SectionLayout,
+  SectionAnatomy,
   SectionFigureGroup,
   SectionFigure,
   SectionStates,

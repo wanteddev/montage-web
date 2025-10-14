@@ -4,6 +4,7 @@ import { useId } from 'react';
 import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
 
 import { SectionDescription } from '../layout';
+import { SectionStatesItem } from '../states';
 
 import {
   sectionFigureStyle,
@@ -21,6 +22,7 @@ type Props = {
   ratio?: ThumbnailProps['ratio'];
   portrait?: ThumbnailProps['portrait'];
   variant?: 'positive' | 'negative';
+  options?: Array<string>;
 };
 
 const SectionFigure = ({
@@ -30,6 +32,7 @@ const SectionFigure = ({
   src,
   description,
   variant,
+  options,
 }: Props) => {
   const id = useId();
 
@@ -78,6 +81,8 @@ const SectionFigure = ({
             </Typography>
 
             <SectionDescription content={description} />
+
+            {options?.length && <SectionStatesItem options={options} />}
           </FlexBox>
         </FlexBox>
       ) : (
@@ -98,6 +103,8 @@ const SectionFigure = ({
           )}
 
           <SectionDescription content={description} />
+
+          {options?.length && <SectionStatesItem options={options} />}
         </FlexBox>
       )}
     </FlexBox>

@@ -1,12 +1,12 @@
 import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 
-import HeadingLink from '../heading-link';
+import { Heading2 } from '../layout';
+import { sectionLayoutStyle } from '../style';
 
 import {
   anatomyItemPinStyle,
   anatomyItemStyle,
   anatomyThumbnailStyle,
-  anatomyWrapperStyle,
 } from './style';
 
 import type { ThumbnailProps } from '@wanteddev/wds';
@@ -18,20 +18,11 @@ type Props = {
   ratio?: ThumbnailProps['ratio'];
 };
 
-const Anatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
+const SectionAnatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
   return (
-    <FlexBox flexDirection="column" sx={anatomyWrapperStyle}>
-      <Typography
-        as="h2"
-        data-heading=""
-        variant="title3"
-        weight="bold"
-        display="block"
-        id="anatomy"
-        sx={{ marginBottom: 24 }}
-      >
-        <HeadingLink id="anatomy">Anatomy</HeadingLink>
-      </Typography>
+    <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
+      <Heading2 content="Anatomy" />
+
       <FlexBox flexDirection="column" gap="24px">
         {src && (
           <Thumbnail
@@ -75,4 +66,4 @@ const Anatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
   );
 };
 
-export default Anatomy;
+export default SectionAnatomy;

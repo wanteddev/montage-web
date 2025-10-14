@@ -2,23 +2,6 @@ import { css } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const anatomyWrapperStyle = css`
-  margin-bottom: 120px;
-
-  && {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin-top: 16px;
-      padding-top: 0px;
-      border: none;
-    }
-  }
-`;
-
 export const anatomyItemStyle = css`
   padding: 4px 0px;
   width: 320px;

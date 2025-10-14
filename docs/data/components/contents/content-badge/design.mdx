@@ -6,7 +6,7 @@ createdAt: 2025-10-01
 updatedAt: 2025-10-01
 ---
 
-<Anatomy
+<SectionAnatomy
   src="/components/contents/content-badge/design/Image.png"
   ratio="2:1"
   data={[
@@ -96,16 +96,10 @@ updatedAt: 2025-10-01
 
 <SectionHierarchy>
   <SectionHierarchyItem
-    level={1}
-    description="가장 낮은 우선순위의 부가 정보를 표시할 때 사용합니다."
+    level={4}
+    description="화면 내에서 가장 중요하고 주목도 높은 정보를 강조하여 전달합니다."
     components={['ContentBadge']}
-    render={`<ContentBadge sx={{ flexShrink: 0 }} variant="outlined" color="neutral" size="medium">Badge</ContentBadge>`}
-  />
-	<SectionHierarchyItem
-    level={2}
-    description="콘텐츠의 일반적인 상태나 분류 정보를 중립적으로 표시합니다."
-    components={['ContentBadge']}
-    render={`<ContentBadge sx={{ flexShrink: 0 }} variant="solid" color="neutral" size="medium">Badge</ContentBadge>`}
+    render={`<ContentBadge sx={{ flexShrink: 0 }} variant="solid" color="accent" size="medium">Badge</ContentBadge>`}
   />
 	<SectionHierarchyItem
     level={3}
@@ -114,10 +108,16 @@ updatedAt: 2025-10-01
     render={`<ContentBadge sx={{ flexShrink: 0 }} variant="outlined" color="accent" size="medium">Badge</ContentBadge>`}
   />
 	<SectionHierarchyItem
-    level={4}
-    description="화면 내에서 가장 중요하고 주목도 높은 정보를 강조하여 전달합니다."
+    level={2}
+    description="콘텐츠의 일반적인 상태나 분류 정보를 중립적으로 표시합니다."
     components={['ContentBadge']}
-    render={`<ContentBadge sx={{ flexShrink: 0 }} variant="solid" color="accent" size="medium">Badge</ContentBadge>`}
+    render={`<ContentBadge sx={{ flexShrink: 0 }} variant="solid" color="neutral" size="medium">Badge</ContentBadge>`}
+  />
+  <SectionHierarchyItem
+    level={1}
+    description="가장 낮은 우선순위의 부가 정보를 표시할 때 사용합니다."
+    components={['ContentBadge']}
+    render={`<ContentBadge sx={{ flexShrink: 0 }} variant="outlined" color="neutral" size="medium">Badge</ContentBadge>`}
   />
 </SectionHierarchy>
 

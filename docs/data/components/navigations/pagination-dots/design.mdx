@@ -6,7 +6,7 @@ updatedAt: 2025-10-13
 image: /components/navigations/pagination-dots/design/Thumbnail.png
 ---
 
-<Anatomy
+<SectionAnatomy
   src="/components/navigations/pagination-dots/design/Image.png"
   ratio="21:9"
   data={[
@@ -18,19 +18,25 @@ image: /components/navigations/pagination-dots/design/Thumbnail.png
 <SectionVariants
   components={['FlexBox', 'Thumbnail', 'PaginationDots']}
   icons={[]}
+  internals={['Carousel']}
   render={(value) => {
     const color = value['Variants'].toLowerCase();
     const size = value['Size'].toLowerCase();
 
     return `
-      <FlexBox flexDirection="column" gap="20px" alignItems="center" sx={{ width: '55%' }}>
-        <Thumbnail
-          src="/components/navigations/pagination-dots/design/Variants.png"
-          ratio="1:1"
-          width="100%"
-          radius
+      <FlexBox sx={{ width: '55%' }}>
+        <Carousel
+          paginationDots={{ color: "${color}", size: "${size}" }}
+          sources={[
+            '/components/navigations/pagination-dots/design/Variants.png',
+            '/components/navigations/pagination-dots/design/Variants-1.png',
+            '/components/navigations/pagination-dots/design/Variants-2.png',
+            '/components/navigations/pagination-dots/design/Variants-3.png',
+            '/components/navigations/pagination-dots/design/Variants-4.png',
+            '/components/navigations/pagination-dots/design/Variants-5.png',
+            '/components/navigations/pagination-dots/design/Variants-6.png',
+          ]}
         />
-        <PaginationDots color="${color}" size="${size}" totalPages={5} currentPage={1} />
       </FlexBox>
     `
   }}
