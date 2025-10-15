@@ -38,6 +38,7 @@ updatedAt: 2025-10-15
     }
 
     const shortcut = value['Shortcut'] === 'True' ? '"⌘C"' : 'null';
+    const size = value['Size'].toLowerCase();
    
     return `
       <Tooltip open>
@@ -51,6 +52,7 @@ updatedAt: 2025-10-15
             zIndex: '1 !important',
             transform: 'none !important',
           }}
+          size="${size}"
           position="${position}"
           shortcut={${shortcut}}
         >
