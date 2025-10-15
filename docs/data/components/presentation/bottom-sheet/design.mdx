@@ -1,0 +1,171 @@
+---
+title: Bottom sheet
+description: 사용자가 현재 맥락과 밀접한 관련이 있는 범위가 정해진 작업을 수행할 수 있도록 돕는 요소입니다. 모바일 화면 하단에 오버레이되어 추가적인 사항이나 액션을 표시합니다. 메인 콘텐츠에 대한 접근성을 유지하면서 임시적으로 간단한 정보를 쉽게 접근할 수 있게 해줍니다.
+image: /components/presentation/bottom-sheet/design/Thumbnail.png
+createdAt: 2025-10-14
+updatedAt: 2025-10-14
+---
+
+<SectionAnatomy
+  src="/components/presentation/bottom-sheet/design/Image.png"
+  ratio="4:3"
+  data={[
+    'Handle',
+    'Content area',
+    'Action area',
+    'Scrim',
+    'Container',
+  ]}
+/>
+
+<SectionLayout title="Resize">
+  <SectionFigureGroup title="Hug">
+    <SectionFigure
+      ratio="16:9"
+      description="콘텐츠 영역의 높이만큼 Bottom sheet의 컨테이너 높이가 조정되는 타입으로 별도 여백의 활용 없이 콘텐츠만 명확하게 사용자에게 전달할 때 사용합니다. 
+
+<strong>Max height</strong>
+- Web: 브라우저 화면 상단에서 40px 아래까지 확장 가능
+- App: 상태바(Status bar)를 제외한 화면에서 상단 10px 아래까지 확장 가능"
+      src="/components/presentation/bottom-sheet/design/Image-1.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Flexible">
+    <SectionFigure
+      ratio="1:1"
+      description="최대 높이의 50%만 올라오며 스크롤을 하거나 혹은 핸들을 잡고 끌어올리면 최대 높이까지 늘어나는 타입입니다. 리스트를 탐색할 때 사용하면 사용자에게 더 나은 편의성을 제공할 수 있습니다.
+
+<strong>Max height</strong>
+- Web: 브라우저 화면 상단에서 40px 아래까지 확장 가능
+- App: 상태바(Status bar)를 제외한 화면에서 상단 10px 아래까지 확장 가능"
+      src="/components/presentation/bottom-sheet/design/Image-2.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Fill">
+    <SectionFigure
+      ratio="1:1"
+      description="콘텐츠의 높이 여부와 관계 없이 항상 화면을 모두 채우는 형태의 타입입니다. 상세 정책과 같이 줄 글이 많거나 매우 긴 콘텐츠를 제공할 때 사용을 권장합니다. 
+
+<strong>Max height</strong>
+- Web: 브라우저 화면 상단에서 40px 아래까지 확장 가능합니다.
+- App: 상태바(Status bar)를 제외한 화면에서 상단 10px 아래까지 확장 가능합니다."
+      src="/components/presentation/bottom-sheet/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Fixed">
+    <SectionFigure
+      ratio="1:1"
+      description="최대 높이 이전까지 사용자가 자유롭게 8배수 단위로 높이를 지정하여 사용합니다. Bottom sheet에서 탭과 같은 요소로 화면을 분할하는 UX를 디자인할 시 높이를 고정해야할 때 사용할 수 있습니다. 
+
+<strong>Max height</strong>
+- Web: 브라우저 화면 상단에서 40px 아래까지 확장 가능
+- App: 상태바(Status bar)를 제외한 화면에서 상단 10px 아래까지 확장 가능"
+      src="/components/presentation/bottom-sheet/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Handle">
+  <SectionFigure
+    ratio="1:1"
+    description="Bottom sheet는 Handle을 기본 형태로 사용합니다. Handle 영역을 잡아 끌거나 Dimmer 영역을 터치할 경우 Bottom sheet가 내려갑니다. 
+
+- Handle=True: 기본 동작으로 바텀시트를 닫거나 축소, 확장시킵니다. 
+- Handle=False: 특정 버튼을 눌러 바텀시트를 닫을 수 있도록 제한할 때 Handle을 제거하여 사용합니다."
+    src="/components/presentation/bottom-sheet/design/Image-5.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Heading">
+  <SectionFigure
+    ratio="4:3"
+    description="Bottom sheet에서는 Navigation 타이틀 대신 Heading을 사용하여 타이틀을 강조합니다."
+    src="/components/presentation/bottom-sheet/design/Image-6.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Action area">
+  <SectionFigure
+    ratio="1.618:1"
+    description="- Strong: 버튼을 상하로 배치하여 의도적으로 Main action을 강조할 때 사용합니다.
+- Neutral: 버튼이 양 옆으로 배치되어 Main action과 Sub action의 선택을 대등하게 제공해야 할 때 사용합니다.
+- Cancel: ‘취소’, ‘확인’ 등 단순 Bottom sheet를 종료하는 용도로 사용합니다."
+    src="/components/presentation/bottom-sheet/design/Image-7.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Confirm and cancel">
+  <SectionFigure
+    ratio="2:1"
+    description="‘확인, 취소’ 등의 역할을 하는 버튼을 사용할 때에는 Outlined/Alternative 버튼 사용을 권장합니다. 단, 의도적으로 사용자에게 강조해야 할 때는 Solide/Primary를 사용할 수 있습니다. 
+
+- 간단한 정보: 별도의 ‘확인’ 혹은 ‘취소’ 버튼을 배치하지 않고 핸들을 잡고 닫는 동작을 권장합니다. 
+- 명확히 인지 되어야 할 정보: ‘확인’ 혹은 ‘취소’ 등의 버튼을 두어 갑작스러운 닫힘을 방지합니다. "
+    src="/components/presentation/bottom-sheet/design/Image-8.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Full modal">
+    <SectionFigure
+      ratio="1:1"
+      description="콘텐츠의 편집 영역이 광범위하거나 화면 내에서 Depth가 생길 시 Full modal을 활용하여 확장성있게 대응할 수 있도록 설계하는 것을 권장합니다. "
+      src="/components/presentation/bottom-sheet/design/Image-9.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Change type">
+    <SectionFigure
+      ratio="3:2"
+      description="Bottom sheet에서 영역을 확장시켜 타입을 확장하여 사용할 수 있습니다. 하위 Depth 페이지와 역할이 자연스럽게 이어지거나 콘텐츠를 확장하여 사용성을 높일 때 사용합니다."
+      src="/components/presentation/bottom-sheet/design/Image-10.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Info message">
+    <SectionFigure
+      ratio="16:9"
+      description="Info icon을 눌러 사용자에게 보다 길거나 중요한 내용의 안내를 할 때 사용합니다. 간단한 정보는 Popover로 대신할 수 있습니다."
+      src="/components/presentation/bottom-sheet/design/Image-11.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Picker">
+    <SectionFigure
+      ratio="16:10"
+      description="모바일에서 Date, Time picker를 바텀시트로 호출하여 사용합니다."
+      src="/components/presentation/bottom-sheet/design/Image-12.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Menu">
+    <SectionFigure
+      ratio="4:3"
+      description="모바일에서 Menu 호출 시 Bottom sheet를 활용합니다."
+      src="/components/presentation/bottom-sheet/design/Image-13.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Action sheet">
+    <SectionFigure
+      ratio="2:1"
+      description="App은 각 플랫폼에서 제공하는 Action sheet를 사용하며 Web은 Bottom sheet를 활용하여 Action sheet를 구성합니다."
+      src="/components/presentation/bottom-sheet/design/Image-14.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="16:10"
+    description="Bottom sheet에서 높이의 변화가 없는 간단한 편집을 수행할 수 있습니다."
+    src="/components/presentation/bottom-sheet/design/Image-15.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="16:10"
+    description="Bottom sheet에서 이중으로 모달을 띄우는 것을 지양합니다."
+    src="/components/presentation/bottom-sheet/design/Image-16.png"
+  />
+</SectionLayout>

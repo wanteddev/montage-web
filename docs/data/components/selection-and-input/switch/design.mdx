@@ -1,8 +1,9 @@
 ---
 title: Switch
-description: 상호 배타적인 옵션들을 수평으로 나열한 버튼 그룹으로 한 번에 하나의 옵션만 선택하며 선택된 항목은 시각적으로 강조 되는 형태의 구조로 같은 콘텐츠 영역 내에서 보기 방식이나 필터를 변경할 때 사용됩니다. 
+description: 선택된 항목을 시각적으로 강조 되는 형태의 구조로 같은 콘텐츠 영역 내에서 보기 방식이나 필터를 변경할 때 사용될 수 있습니다. 
 image: /components/selection-and-input/switch/design/Thumbnail.png
 createdAt: 2025-08-11
+updatedAt: 2025-10-14
 ---
 
 <SectionAnatomy
@@ -16,22 +17,20 @@ createdAt: 2025-08-11
 
 <SectionStates
   src="/components/selection-and-input/switch/design/Image-1.png"
-  ratio="16:9"
+  ratio="21:9"
   options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
 />
 
 <SectionLayout title="Size">
   <SectionFigure
-    title="Height"
     ratio="21:9"
-    description="Height 24px, 32px를 기준으로 Small, Medium을 구분하여 사용합니다."
+    description="높이 24px, 32px를 기준으로 Small, Medium을 구분하여 사용합니다."
     src="/components/selection-and-input/switch/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Form">
   <SectionFigure
-    title="Platform specific design"
     ratio="21:9"
     description="Web과 Android는 커스텀한 Switch를 사용하며 iOS는 플랫폼에서 제공하는 순정 Toggle을 사용합니다. "
     src="/components/selection-and-input/switch/design/Image-3.png"
@@ -40,9 +39,8 @@ createdAt: 2025-08-11
 
 <SectionLayout title="Clickable area">
   <SectionFigure
-    title="Usage"
     ratio="21:9"
-    description="Switch는 Label을 포함하지 않은 Control을 터치 영역으로 사용하도록 권장합니다. 단, 컴포넌트 별로 clickable 영역이 다르기 때문에 용도와 사용 가이드에 따라 적절한 컴포넌트를 선택 적용하여 사용합니다."
+    description="Switch는 Label을 포함하지 않은 Control을 터치 영역으로 사용하도록 권장합니다. 단, 컴포넌트 별로 터치 영역이 다르기 때문에 용도와 사용 가이드에 따라 적절한 컴포넌트를 선택 적용하여 사용합니다."
     src="/components/selection-and-input/switch/design/Image-4.png"
   />
 </SectionLayout>
@@ -50,17 +48,15 @@ createdAt: 2025-08-11
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Medium">
     <SectionFigure
-      title="Case"
       ratio="21:9"
-      description="시스템의 전체 설정이나 중요도가 높은 옵션을 컨트롤 하거나 모바일과 같이 정밀하게 컨트롤할 수 없는 환경에서는 가급적 Medium 사이즈를 사용하는 것을 권장합니다."
+      description="시스템의 전체 설정과 같이 중요도가 높은 옵션을 컨트롤 하거나 정밀하게 컨트롤할 수 없는 모바일 환경에서는 가급적Medium 사이즈 사용을 권장합니다."
       src="/components/selection-and-input/switch/design/Image-5.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Small">
     <SectionFigure
-      title="Case"
       ratio="16:10"
-      description="테이블이나 리스트 등 반복적으로 노출되는 컴포넌트의 내부에 사용되거나 데스크탑 위주의 밀도 높은 UI를 구성할 때 사용하는 것을 권장하고 있습니다."
+      description="테이블이나 리스트 등 반복적으로 노출되는 컴포넌트의 내부에 사용되거나 데스크톱 위주의 밀도 높은 UI를 구성할 때 Small사용을 권장하고 있습니다."
       src="/components/selection-and-input/switch/design/Image-6.png"
     />
   </SectionFigureGroup>

@@ -290,7 +290,7 @@ const SectionVariantsItemDemo = memo(
     });
 
     return (
-      <ScrollArea scrollbars="horizontal" sx={sectionVariantsDemoStyle}>
+      <ScrollArea scrollbars="both" zIndex={11} sx={sectionVariantsDemoStyle}>
         <FlexBox
           alignItems="center"
           justifyContent="center"

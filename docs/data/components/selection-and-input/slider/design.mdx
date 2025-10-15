@@ -3,6 +3,7 @@ title: Slider
 description: 사용자가 특정 범위 내에서 값을 선택할 수 있게 해주는 입력 요소입니다. 드래그나 클릭을 통해 연속적인 값이나 단계별 값을 직관적으로 조정할 수 있습니다.
 image: /components/selection-and-input/slider/design/Thumbnail.png
 createdAt: 2025-08-11
+updatedAt: 2025-10-14
 ---
 
 <SectionAnatomy
@@ -12,7 +13,7 @@ createdAt: 2025-08-11
     'Thumb',
     'Heading',
     'Track',
-    'Label'
+    'Value'
   ]}
 />
 
@@ -46,52 +47,67 @@ createdAt: 2025-08-11
 <SectionStates
   src="/components/selection-and-input/slider/design/Image-1.png"
   ratio="21:9"
-  options={['Normal', 'Hovered', 'Focused', 'Pressed', 'Disabled']}
+  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
 />
-
 
 <SectionLayout title="Value visibility">
   <SectionFigure
-    title="Case"
     ratio="21:9"
-    description="사용자가 현재 선택한 값의 영역을 명확하게 인지할 수 있도록 라벨을 표시합니다."
+    description="사용자가 현재 선택한 값의 영역을 명확하게 인지할 수 있도록 Value를 표시합니다."
     src="/components/selection-and-input/slider/design/Image-2.png"
   />
 </SectionLayout>
 
-<SectionLayout title="Accessibility">
-  <SectionFigure
-    title="Explanation"
-    ratio="21:9"
-    description="키보드의 Tab으로 접근할 수 있으며 값을 방향키(← →)로 조절할 수 있습니다."
-    src="/components/selection-and-input/slider/design/Image-3.png"
-  />
-</SectionLayout>
+<SectionAccessibility
+  contents={[
+    {
+      keys: ['ArrowRight', 'ArrowUp'],
+      description: 'step 옵션만큼 값을 증가시킵니다.',
+    },
+    {
+      keys: ['ArrowLeft', 'ArrowDown'],
+      description: 'step 옵션만큼 값을 감소시킵니다.',
+    },
+    {
+      keys: ['PageUp'],
+      description: '10만큼 값을 증가시킵니다.',
+    },
+    {
+      keys: ['PageDown'],
+      description: '10만큼 값을 감소시킵니다.',
+    },
+    {
+      keys: ['Home'],
+      description: '지정된 최소값으로 값을 변경합니다.',
+    },
+    {
+      keys: ['End'],
+      description: '지정된 최대값으로 값을 변경합니다.',
+    },
+  ]}
+/>
 
 <SectionLayout title="Min and max value">
   <SectionFigure
-    title="Explanation"
     ratio="21:9"
-    description="Slider의 최소값, 최대값까지의 간격을 적절히 설정하여 사용자가 쉽게 조작할 수 있도록 안내합니다."
-    src="/components/selection-and-input/slider/design/Image-4.png"
+    description="Slider의 최소 값부터 최대 값까지의 간격을 적절히 설정하여 사용자가 쉽게 조작할 수 있도록 설계합니다."
+    src="/components/selection-and-input/slider/design/Image-3.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Select specific value">
     <SectionFigure
-      title="Case"
       ratio="21:9"
       description="특정 값을 실시간 반영하여 지정합니다."
-      src="/components/selection-and-input/slider/design/Image-5.png"
+      src="/components/selection-and-input/slider/design/Image-4.png"
     />
   </SectionFigureGroup>
-  <SectionFigureGroup title="Range">
+  <SectionFigureGroup title="Select range value">
     <SectionFigure
-      title="Select range value"
       ratio="21:9"
       description="특정 범위를 실시간 반영하여 지정합니다."
-      src="/components/selection-and-input/slider/design/Image-6.png"
+      src="/components/selection-and-input/slider/design/Image-5.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -100,13 +116,13 @@ createdAt: 2025-08-11
   <SectionFigure
     variant="positive"
     ratio="21:9"
-    description="범위를 명확히 인지할 수 있다면 Heading은 생략할 수 있습니다."
-    src="/components/selection-and-input/slider/design/Image-7.png"
+    description="범위를 명확히 인지할 수 있다면 Value는 생략할 수 있습니다."
+    src="/components/selection-and-input/slider/design/Image-6.png"
   />
   <SectionFigure
     variant="negative"
     ratio="21:9"
     description="값을 유추할 수 없는 곳에 표기하지 않습니다."
-    src="/components/selection-and-input/slider/design/Image-8.png"
+    src="/components/selection-and-input/slider/design/Image-7.png"
   />
 </SectionLayout>

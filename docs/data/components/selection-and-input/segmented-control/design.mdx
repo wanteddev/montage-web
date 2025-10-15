@@ -1,6 +1,6 @@
 ---
 title: Segmented control
-description: 상호 배타적인 옵션들을 수평으로 나열한 버튼 그룹으로 한 번에 하나의 옵션만 선택합니다. 선택된 항목은 시각적으로 강조 되는 형태의 구조로 같은 콘텐츠 영역 내에서 보기 방식이나 필터를 변경할 때 사용됩니다. 
+description: 옵션들을 수평으로 나열한 버튼 그룹으로 한 번에 하나의 옵션만 선택합니다. 선택된 항목은 시각적으로 강조 되는 형태의 구조로 같은 콘텐츠 영역 내에서 보기 방식이나 필터를 변경할 때 사용됩니다. 
 image: /components/selection-and-input/segmented-control/design/Thumbnail.png
 createdAt: 2025-08-11
 ---
@@ -62,19 +62,17 @@ createdAt: 2025-08-11
 
 <SectionLayout title="Size">
   <SectionFigure
-    title="Size customize"
     ratio="21:9"
-    description="좌우 사이즈는 자유롭게 커스텀하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    description="좌우 사이즈는 자유롭게 커스터마이징하여 사용할 수 있으며 높이는 고정되어 있습니다."
     src="/components/selection-and-input/segmented-control/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Min and Max">
   <SectionFigure
-    title="How to use in platform"
     ratio="21:9"
-    description="Desktop에서는 최소 2개, 최대 6개의 Segment를 활용할 수 있습니다. 
-단, App에서는 유저의 사용성을 위해서 가급적 최대 4개까지의 Segment 사용을 권장하고 있습니다."
+    description="- Desktop: 최소 2개, 최대 6개의 Segment를 활용할 수 있습니다. 
+- Mobile: 최대 4개까지의 Segment 사용을 권장하고 있습니다."
     src="/components/selection-and-input/segmented-control/design/Image-3.png"
   />
 </SectionLayout>
@@ -82,15 +80,13 @@ createdAt: 2025-08-11
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Conversion view">
     <SectionFigure
-      title="Case"
       ratio="21:9"
-      description="리스트/그리드, 지도/목록, 일/주/월 캘린더 뷰 전환 등 화면에 뿌려지는 값의 뷰 스타일을 변경할 때 사용합니다."
+      description="리스트/그리드, 지도/목록, 일/주/월 캘린더 뷰 전환 등 화면에 내려지는 값의 뷰 스타일을 변경할 때 사용합니다."
       src="/components/selection-and-input/segmented-control/design/Image-4.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Filter">
     <SectionFigure
-      title="Case"
       ratio="16:10"
       description="전체/진행중/완료 같은 상태 필터, 최신순/인기순/가격순 같은 정렬 옵션을 표현할 때 사용합니다."
       src="/components/selection-and-input/segmented-control/design/Image-5.png"
@@ -98,7 +94,6 @@ createdAt: 2025-08-11
   </SectionFigureGroup>
   <SectionFigureGroup title="Select mode">
     <SectionFigure
-      title="Case"
       ratio="16:10"
       description="라이트/다크 모드, 섭씨/화씨 온도 단위, km/mile 거리 등 단위나 모드를 전환할 때 사용합니다."
       src="/components/selection-and-input/segmented-control/design/Image-6.png"
@@ -138,6 +133,31 @@ createdAt: 2025-08-11
     `}
   />
 </SectionHierarchy>
+
+<SectionAccessibility
+  contents={[
+    {
+      keys: ['ArrowRight'],
+      description: '다음 요소로 값을 변경합니다. (Segmented control 내부에서 순환)',
+    },
+    {
+      keys: ['ArrowLeft'],
+      description: '이전 요소로 값을 변경합니다. (Segmented control 내부에서 순환)',
+    },
+    {
+      keys: ['Home', 'PageUp'],
+      description: '첫 번째 요소로 포커스를 이동합니다.',
+    },
+    {
+      keys: ['End', 'PageDown'],
+      description: '마지막 요소로 포커스를 이동합니다.',
+    },
+    {
+      keys: ['Enter'],
+      description: '현재 포커스된 요소를 클릭합니다.',
+    }
+  ]}
+/>
 
 <SectionLayout title="How to use">
   <SectionFigure
