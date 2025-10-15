@@ -35,6 +35,7 @@ export type MenuContentProps = Pick<
   | 'wrapperProps'
   | 'forceMount'
   | 'onInteractOutside'
+  | 'disableFocusScope'
   | 'onFocusOutside'
   | 'onPointerDownOutside'
   | 'onDismiss'

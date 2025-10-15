@@ -11,6 +11,7 @@ export type FocusScopeProps = {
    * Whether the focus is within the internal content area outside the container.
    */
   trappedContent?: boolean;
+  disableFocusScope?: boolean;
   onMountAutoFocus?: (event: Event) => void;
   onUnmountAutoFocus?: (event: Event) => void;
 };

@@ -170,6 +170,8 @@ const AlertContainer = forwardRef(
       disableOutsideClickClose = false,
       disableEscapeKeyDownClose,
       disableRemoveScroll = false,
+      disableFocusScope = false,
+      disableAriaHiddenOthers = false,
       disablePortal,
       container,
       onDismiss,
@@ -197,10 +199,10 @@ const AlertContainer = forwardRef(
     useEffect(() => {
       const element = containerRef.current;
 
-      if (element && isPresent) {
+      if (element && isPresent && !disableAriaHiddenOthers) {
         return hideOthers(element);
       }
-    }, [isPresent]);
+    }, [isPresent, disableAriaHiddenOthers]);
 
     if (!isPresent) return null;
 
@@ -221,7 +223,7 @@ const AlertContainer = forwardRef(
           >
             {dimmer}
 
-            <FocusScope loop trapped>
+            <FocusScope loop trapped disableFocusScope={disableFocusScope}>
               <DismissableLayer
                 onPointerDownOutside={(e) => {
                   const originalEvent = e.detail.originalEvent;

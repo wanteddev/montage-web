@@ -83,6 +83,7 @@ const TimePicker = forwardRef<
       onMountAutoFocus,
       onUnmountAutoFocus,
       position = 'bottom-start',
+      disableFocusScope,
       offset,
       sx: contentSx,
       ...otherContentProps
@@ -223,6 +224,7 @@ const TimePicker = forwardRef<
               trappedContent={trappedContent}
               onMountAutoFocus={onMountAutoFocus}
               onUnmountAutoFocus={onUnmountAutoFocus}
+              disableFocusScope={disableFocusScope}
             >
               <DismissableLayer
                 asChild
