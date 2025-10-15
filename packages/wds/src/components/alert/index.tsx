@@ -261,7 +261,7 @@ const AlertContainer = forwardRef(
                   <Box
                     ref={composedRef}
                     role="alertdialog"
-                    aria-modal
+                    aria-modal={!disableRemoveScroll || !disableFocusScope}
                     aria-describedby={descriptionId}
                     aria-labelledby={headingId}
                     id={containerId}
