@@ -357,7 +357,11 @@ const ModalContainer = forwardRef(
               >
                 <Box
                   role="dialog"
-                  aria-modal
+                  aria-modal={
+                    open &&
+                    context.visibility === 'visible' &&
+                    (!disableRemoveScroll || !disableFocusScope)
+                  }
                   id={context.containerId}
                   aria-describedby={`${context.descriptionId} ${context.summaryId}`}
                   aria-labelledby={`${context.titleId} ${context.headingId}`}
