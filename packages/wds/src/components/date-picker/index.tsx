@@ -82,6 +82,7 @@ const DatePicker = forwardRef<
       loop = true,
       trapped,
       trappedContent = true,
+      disableFocusScope,
       onMountAutoFocus,
       onUnmountAutoFocus,
       position = 'bottom-start',
@@ -218,6 +219,7 @@ const DatePicker = forwardRef<
               trappedContent={trappedContent}
               onMountAutoFocus={onMountAutoFocus}
               onUnmountAutoFocus={onUnmountAutoFocus}
+              disableFocusScope={disableFocusScope}
             >
               <DismissableLayer
                 asChild
