@@ -135,6 +135,7 @@ const PopoverContent = forwardRef(
       action,
       variant = 'normal',
       heading,
+      disableFocusScope,
       __scopePopover = 'Popover',
       ...props
     }: PolymorphicPropsInternal<ScopedProps<PopoverContentProps, 'Popover'>, T>,
@@ -167,6 +168,7 @@ const PopoverContent = forwardRef(
             loop={loop}
             trapped={trapped}
             trappedContent={trappedContent}
+            disableFocusScope={disableFocusScope}
             onMountAutoFocus={onMountAutoFocus}
             onUnmountAutoFocus={onUnmountAutoFocus}
           >
@@ -195,78 +197,126 @@ const PopoverContent = forwardRef(
                 as={as}
                 gap="4px"
                 {...props}
-                sx={[popoverStyle, props.sx]}
+                sx={[popoverStyle(variant), props.sx]}
               >
                 {variant === 'custom' ? (
                   children
                 ) : (
                   <>
                     <FlexBox
-                      flexDirection="column"
                       data-role="popover-content-wrapper"
                       sx={{ paddingInline: '4px' }}
-                      gap="10px"
                       flex="1"
+                      flexDirection={heading ? 'column' : 'row'}
+                      gap={heading ? '6px' : '4px'}
                     >
-                      <FlexBox
-                        flexDirection="column"
-                        data-role="popover-content-heading-wrapper"
-                        gap="2px"
-                      >
-                        {heading && (
-                          <Typography
-                            id={headingId}
-                            variant="headline2"
-                            weight="bold"
-                            color="semantic.label.normal"
-                            data-role="popover-content-heading"
-                          >
-                            {heading}
-                          </Typography>
-                        )}
-
-                        <Typography
-                          id={descriptionId}
-                          variant="body2-reading"
-                          weight="medium"
-                          color="semantic.label.neutral"
-                          data-role="popover-content-description"
-                        >
-                          {children}
-                        </Typography>
-                      </FlexBox>
-
-                      {action && (
-                        <TextButtonProvider assistive="semantic.label.alternative">
+                      {heading ? (
+                        <>
                           <FlexBox
-                            data-role="popover-content-action"
-                            flexShrink="0"
-                            alignItems="center"
-                            gap="16px"
-                            sx={{ height: '20px' }}
+                            data-role="popover-content-heading-wrapper"
+                            gap="4px"
                           >
-                            {action}
+                            <Typography
+                              id={headingId}
+                              variant="body2"
+                              weight="bold"
+                              color="semantic.label.normal"
+                              data-role="popover-content-heading"
+                              sx={{
+                                width: '100%',
+                              }}
+                            >
+                              {heading}
+                            </Typography>
+
+                            {closeButton && (
+                              <FlexBox
+                                data-role="popover-content-close-button"
+                                flexShrink="0"
+                                alignItems="center"
+                                justifyContent="center"
+                                sx={{ padding: '3px', height: 'fit-content' }}
+                              >
+                                <IconButton
+                                  size={16}
+                                  onClick={() => onOpenChange(false)}
+                                  aria-label="Close dialog"
+                                  sx={(theme) => ({
+                                    opacity: theme.opacity[61],
+                                  })}
+                                >
+                                  <IconClose />
+                                </IconButton>
+                              </FlexBox>
+                            )}
                           </FlexBox>
-                        </TextButtonProvider>
+
+                          <Typography
+                            id={descriptionId}
+                            variant="label2"
+                            weight="medium"
+                            color="semantic.label.neutral"
+                            data-role="popover-content-description"
+                          >
+                            {children}
+                          </Typography>
+                        </>
+                      ) : (
+                        <>
+                          <Typography
+                            id={descriptionId}
+                            variant="label2"
+                            weight="medium"
+                            color="semantic.label.neutral"
+                            data-role="popover-content-description"
+                            sx={{ padding: '2px 0px', width: '100%' }}
+                          >
+                            {children}
+                          </Typography>
+                          {closeButton && (
+                            <FlexBox
+                              data-role="popover-content-close-button"
+                              flexShrink="0"
+                              alignItems="center"
+                              justifyContent="center"
+                              sx={{ padding: '3px', height: 'fit-content' }}
+                            >
+                              <IconButton
+                                size={16}
+                                onClick={() => onOpenChange(false)}
+                                aria-label="Close dialog"
+                                sx={(theme) => ({ opacity: theme.opacity[61] })}
+                              >
+                                <IconClose />
+                              </IconButton>
+                            </FlexBox>
+                          )}
+                        </>
                       )}
                     </FlexBox>
 
-                    {closeButton && (
-                      <FlexBox
-                        data-role="popover-content-close-button"
-                        flexShrink="0"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{ padding: '4px', height: 'fit-content' }}
-                      >
-                        <IconButton
-                          size={16}
-                          onClick={() => onOpenChange(false)}
-                          aria-label="Close dialog"
+                    {action && (
+                      <TextButtonProvider assistive="semantic.label.alternative">
+                        <FlexBox
+                          data-role="popover-content-action-wrapper"
+                          flexShrink="0"
+                          alignItems="flex-end"
+                          flex="1"
+                          flexDirection="column"
+                          sx={{ marginTop: '16px' }}
                         >
-                          <IconClose />
-                        </IconButton>
-                      </FlexBox>
+                          <FlexBox
+                            data-role="popover-content-action"
+                            alignItems="center"
+                            gap="16px"
+                            sx={{
+                              height: '20px',
+                            }}
+                          >
+                            {action}
+                          </FlexBox>
+                        </FlexBox>
+                      </TextButtonProvider>
                     )}
                   </>
                 )}

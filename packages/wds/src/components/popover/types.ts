@@ -49,6 +49,7 @@ export type PopoverContentProps = WithSxProps<
     | 'onUnmountAutoFocus'
     | 'trapped'
     | 'loop'
+    | 'disableFocusScope'
   > &
     Pick<
       DismissableLayerProps,

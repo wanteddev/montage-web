@@ -1,4 +1,4 @@
-import { forwardRef, useId, useMemo, useState } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 import {
   IconChevronLeftTightSmall,
   IconChevronRightTightSmall,
@@ -271,6 +271,10 @@ const PaginationSelect = forwardRef<
       optionRender,
       onChange,
       disabled,
+      open: givenOpen,
+      defaultOpen,
+      onOpenChange,
+      contentProps,
       ...props
     },
     ref,
@@ -279,7 +283,11 @@ const PaginationSelect = forwardRef<
       PAGINATION_SELECT_NAME,
     );
 
-    const [open, setOpen] = useState(false);
+    const [open = false, setOpen] = useControllableState({
+      prop: givenOpen,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange,
+    });
 
     const [pageSize = defaultPageSize, setPageSize] =
       useControllableState<number>({
@@ -323,11 +331,15 @@ const PaginationSelect = forwardRef<
 
         <MenuContent
           offset={8}
-          position="top-start"
+          position="bottom-start"
           data-role="pagination-select-content"
-          sx={{
-            width: '140px',
-          }}
+          {...contentProps}
+          sx={[
+            {
+              width: '140px',
+            },
+            contentProps?.sx,
+          ]}
         >
           <MenuList role="listbox">
             {pageSizeOptions.map((option) => (
