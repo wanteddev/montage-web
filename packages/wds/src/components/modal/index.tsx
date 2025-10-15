@@ -193,6 +193,8 @@ const ModalContainer = forwardRef(
       disableEscapeKeyDownClose = false,
       disableRemoveScroll = false,
       disablePortal = false,
+      disableFocusScope = false,
+      disableAriaHiddenOthers = false,
       forceMount = false,
       sticky = true,
       wrapperProps,
@@ -254,7 +256,7 @@ const ModalContainer = forwardRef(
     useEffect(() => {
       const content = containerRef.current;
 
-      if (content && isPresent) {
+      if (content && isPresent && !disableAriaHiddenOthers) {
         const undo = hideOthers(content);
 
         if (isBottomSheetWithHandle && context.visibility === 'hidden') {
@@ -266,7 +268,12 @@ const ModalContainer = forwardRef(
         return undo;
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isBottomSheetWithHandle, context.visibility, isPresent]);
+    }, [
+      isBottomSheetWithHandle,
+      context.visibility,
+      isPresent,
+      disableAriaHiddenOthers,
+    ]);
 
     if (!isPresent) return null;
 
@@ -303,6 +310,7 @@ const ModalContainer = forwardRef(
           <FocusScope
             loop={open && context.visibility === 'visible'}
             trapped={open && context.visibility === 'visible'}
+            disableFocusScope={disableFocusScope}
           >
             <DismissableLayer
               asChild

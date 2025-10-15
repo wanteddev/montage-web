@@ -1,3 +1,4 @@
+import type { FocusScopeProps } from '../focus-scope';
 import type { SlotProps } from '@radix-ui/react-slot';
 import type {
   TopNavigationButtonProps,
@@ -54,6 +55,8 @@ type ModalContainerDefaultProps = WithSxProps<{
   disableOutsideClickClose?: boolean;
   disableEscapeKeyDownClose?: boolean;
   disableRemoveScroll?: boolean;
+  disableFocusScope?: FocusScopeProps['disableFocusScope'];
+  disableAriaHiddenOthers?: boolean;
   /**
    * React Portal does not support SSR, so it is used to support Server Side Rendering.
    *

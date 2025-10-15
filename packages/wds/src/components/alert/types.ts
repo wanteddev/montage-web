@@ -1,3 +1,4 @@
+import type { FocusScopeProps } from '../focus-scope';
 import type { ReactNode } from 'react';
 import type {
   DefaultComponentProps,
@@ -30,6 +31,8 @@ export type AlertContainerProps = Merge<
     disableOutsideClickClose?: boolean;
     disableEscapeKeyDownClose?: boolean;
     disableRemoveScroll?: boolean;
+    disableFocusScope?: FocusScopeProps['disableFocusScope'];
+    disableAriaHiddenOthers?: boolean;
     /**
      * When the esc key or dialog outside click is controlled.
      */

@@ -37,6 +37,51 @@ const FocusScope = forwardRef<
       loop = false,
       trapped = true,
       trappedContent = false,
+      disableFocusScope = false,
+      children,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    if (disableFocusScope) {
+      return (
+        <Slot ref={forwardedRef} {...props}>
+          {children}
+        </Slot>
+      );
+    }
+
+    return (
+      <FocusScopeWrapper
+        {...props}
+        ref={forwardedRef}
+        loop={loop}
+        trapped={trapped}
+        trappedContent={trappedContent}
+        onMountAutoFocus={onMountAutoFocus}
+        onUnmountAutoFocus={onUnmountAutoFocus}
+      >
+        {children}
+      </FocusScopeWrapper>
+    );
+  },
+);
+
+FocusScope.displayName = 'FocusScope';
+
+type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void };
+
+const FocusScopeWrapper = forwardRef<
+  HTMLElement,
+  DefaultComponentPropsInternal<FocusScopeProps, 'div'>
+>(
+  (
+    {
+      loop = false,
+      trapped = true,
+      trappedContent = false,
       onMountAutoFocus: onMountAutoFocusProp,
       onUnmountAutoFocus: onUnmountAutoFocusProp,
       ...props
@@ -235,10 +280,6 @@ const FocusScope = forwardRef<
     );
   },
 );
-
-FocusScope.displayName = 'FocusScope';
-
-type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void };
 
 const createFocusScopesStack = () => {
   let stack: Array<FocusScopeAPI> = [];
