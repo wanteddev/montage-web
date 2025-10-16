@@ -36,7 +36,7 @@ export const getVariantValueWithDisabled = (
   return newVariant;
 };
 
-export const isComponent = (value: any) => {
+export const isComponent = (value: any): value is string => {
   if (typeof value !== 'string') return false;
 
   const tagPattern =
@@ -61,7 +61,7 @@ export const makeSectionVariantDemoCode = (
         ([key, value]) =>
           `${key}={${
             isComponent(value)
-              ? `<>${value}</>`
+              ? value
               : typeof value === 'function'
                 ? value.toString()
                 : JSON.stringify(value)

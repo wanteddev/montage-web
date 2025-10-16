@@ -143,7 +143,7 @@ const SearchResults = ({
           <FlexBox
             as="section"
             {...getListProps()}
-            key={collection.source.sourceId}
+            key={collection.source.sourceId + idx}
             flexDirection="column"
             gap="4px"
             sx={searchResultGroupStyle}

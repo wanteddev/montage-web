@@ -1,5 +1,6 @@
 import {
   ContentBadge,
+  FlexBox,
   ListCell,
   ListCellContent,
   Typography,
@@ -92,7 +93,7 @@ const SearchOption = ({ item, ...props }: Props) => {
           <ListCellContent variant="icon">{lvl1Icon}</ListCellContent>
         }
         trailingContent={
-          <>
+          <FlexBox alignItems="center" gap="8px">
             <ListCellContent variant="badge">{badge}</ListCellContent>
             <ListCellContent variant="icon">
               <IconChevronRightTightSmall
@@ -102,7 +103,7 @@ const SearchOption = ({ item, ...props }: Props) => {
                 })}
               />
             </ListCellContent>
-          </>
+          </FlexBox>
         }
         textProps={{
           weight: 'regular',

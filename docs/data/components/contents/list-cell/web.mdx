@@ -67,19 +67,19 @@ export default Demo;`}
 
 ## States
 
-active, disabled, disableInteraction으로 상태를 표시할 수 있습니다.
+selected, disabled, disableInteraction으로 상태를 표시할 수 있습니다.
 
-### Active
+### Selected
 
-현재 활성화된 셀을 표시합니다.
+현재 선택된 셀을 표시합니다.
 
 <Demo code={`import { List, ListCell } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <List sx={{ width: '100%' }}>
-      <ListCell active>
-        Active list cell
+      <ListCell selected>
+        Selected list cell
       </ListCell>
     </List>
   )
@@ -281,18 +281,7 @@ const Demo = () => {
       </ListCell>
       <ListCell
         trailingContent={
-<<<<<<< Updated upstream
-          <ListCellContent variant="chevron" />
-        }
-      >
-        텍스트, Normal
-      </ListCell>
-      <ListCell
-        trailingContent={
-          <ListCellContent variant="chevron" chevron={false}>
-=======
           <ListCellContent variant="value">
->>>>>>> Stashed changes
             값
           </ListCellContent>
         }
@@ -345,13 +334,8 @@ const Demo = () => {
       <ListCell
         alignItems="center"
         leadingContent={
-<<<<<<< Updated upstream
-          <ListCellContent variant="avatar">
-            <Avatar variant="person" size="medium" />
-=======
           <ListCellContent variant="thumbnail">
             <Thumbnail border radius ratio="1:1" width="56px" />
->>>>>>> Stashed changes
           </ListCellContent>
         }
         trailingContent={
