@@ -49,7 +49,7 @@ const Popover = ({
 
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
-    defaultProp: defaultOpen,
+    defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,
   });
 

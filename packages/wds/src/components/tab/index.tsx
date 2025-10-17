@@ -71,7 +71,7 @@ const Tab = ({
 }: TabProps) => {
   const [value, setValue] = useControllableState({
     prop: valueProp,
-    defaultProp: defaultValue,
+    defaultProp: defaultValue ?? '',
     onChange: onValueChange,
   });
 

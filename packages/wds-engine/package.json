@@ -35,6 +35,7 @@
   "devDependencies": {
     "@emotion/serialize": "catalog:emotion",
     "@emotion/utils": "catalog:emotion",
+    "@types/react": "catalog:react",
     "react": "catalog:react",
     "typescript": "catalog:config"
   },

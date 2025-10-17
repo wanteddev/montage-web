@@ -37,7 +37,7 @@ const ToggleIcon = forwardRef(
     const [pressed = false, setPressed] = useControllableState({
       prop: active,
       onChange: onActiveChange,
-      defaultProp: defaultActive,
+      defaultProp: defaultActive ?? false,
     });
 
     return (

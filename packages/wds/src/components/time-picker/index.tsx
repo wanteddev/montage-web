@@ -64,7 +64,7 @@ const TimePicker = forwardRef<
 
     const [open = false, setOpen] = useControllableState({
       prop: originOpen,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,
     });
 

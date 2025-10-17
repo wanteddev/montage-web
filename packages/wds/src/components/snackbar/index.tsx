@@ -52,7 +52,7 @@ const Snackbar = forwardRef(
       duration: durationProp = 'short',
       variant = 'normal',
       onAnimationEnd,
-      defaultOpen = false,
+      defaultOpen,
       open: openProp,
       onOpenChange,
       children,
@@ -67,7 +67,7 @@ const Snackbar = forwardRef(
   ) => {
     const [open = false, setOpen] = useControllableState({
       defaultProp: defaultOpen,
-      prop: openProp,
+      prop: openProp ?? false,
       onChange: onOpenChange,
     });
 

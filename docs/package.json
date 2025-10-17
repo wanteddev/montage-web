@@ -24,12 +24,12 @@
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.0",
     "mdx-bundler": "^10.0.1",
-    "next": "^14.2.20",
+    "next": "catalog:peer-next",
     "next-mdx-remote": "^4.4.1",
     "next-sitemap": "^4.2.3",
-    "react": "^18.3.1",
+    "react": "catalog:peer-react",
     "react-docgen-typescript": "^2.2.2",
-    "react-dom": "^18.3.1",
+    "react-dom": "catalog:peer-react",
     "react-hook-form": "^7.51.0",
     "react-simple-code-editor": "^0.13.1",
     "react-spring": "^10.0.1",
@@ -42,12 +42,12 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^14.1.3",
-    "@next/eslint-plugin-next": "^14.1.3",
+    "@next/bundle-analyzer": "catalog:next",
+    "@next/eslint-plugin-next": "catalog:next",
     "@types/autosuggest-highlight": "^3.2.3",
-    "@types/node": "^20.11.25",
-    "@types/react": "^18.3.14",
-    "@types/react-dom": "^18.3.1",
-    "typescript": "^5.4.2"
+    "@types/node": "catalog:node",
+    "@types/react": "catalog:react",
+    "@types/react-dom": "catalog:react",
+    "typescript": "catalog:config"
   }
 }

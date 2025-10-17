@@ -100,7 +100,7 @@ const Autocomplete = forwardRef<
 
     const [value = '', setValue] = useControllableState({
       prop: valueProp,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 
@@ -115,7 +115,7 @@ const Autocomplete = forwardRef<
 
     const [open = false, setOpen] = useControllableState({
       prop: openProp,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: (state) => {
         onOpenChange?.(state);
 

@@ -24,7 +24,7 @@ const Checkbox = forwardRef<
   (
     {
       name,
-      defaultChecked = false,
+      defaultChecked,
       icon: originIcon,
       disabled,
       required,
@@ -61,7 +61,7 @@ const Checkbox = forwardRef<
     const isFormControl = button ? Boolean(button.closest('form')) : true;
     const [checked = false, setChecked] = useControllableState({
       prop: originChecked,
-      defaultProp: defaultChecked,
+      defaultProp: defaultChecked ?? false,
       onChange: onCheckedChange,
     });
     const initialCheckedStateRef = useRef(checked);

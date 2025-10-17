@@ -33,9 +33,9 @@
     "directory": "packages/wds-nextjs"
   },
   "devDependencies": {
+    "@types/react": "catalog:react",
     "next": "catalog:next",
     "react": "catalog:react",
-    "react-dom": "catalog:react",
     "typescript": "catalog:config"
   },
   "dependencies": {

@@ -46,7 +46,7 @@ const Toast = forwardRef(
       duration: durationProp = 'short',
       variant = 'normal',
       onAnimationEnd,
-      defaultOpen = false,
+      defaultOpen,
       open: openProp,
       onOpenChange,
       children,
@@ -60,7 +60,7 @@ const Toast = forwardRef(
     forwardedRef: ForwardedRef<T>,
   ) => {
     const [open = false, setOpen] = useControllableState({
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       prop: openProp,
       onChange: onOpenChange,
     });
