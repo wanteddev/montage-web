@@ -31,8 +31,8 @@ const main = async () => {
       .stdout.trim(),
   );
 
-  if (localHash !== remoteHash || branchName !== 'main') {
-    console.error('main 브랜치에서 최신 코드 상태로 실행해주세요.');
+  if (localHash !== remoteHash) {
+    console.error('최신 코드 상태로 실행해주세요.');
     return;
   }
 
@@ -43,6 +43,11 @@ const main = async () => {
     choices: SEMVER,
     loop: false,
   });
+
+  if (!version.includes('pre') && branchName !== 'main') {
+    console.error('main 브랜치에서만 배포할 수 있습니다.');
+    return;
+  }
 
   const { isConfirm } = await inquirer.prompt({
     type: 'confirm',
@@ -75,7 +80,7 @@ const main = async () => {
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token ${token}" \
     https://api.github.com/repos/wanteddev/wds/actions/workflows/version.yml/dispatches \
-    -d '{"ref":"main", "inputs": { "increment": "${version}" }}'`;
+    -d '{"ref":"${branchName}", "inputs": { "increment": "${version}" }}'`;
 
   shelljs.exec(command, { fatal: true }, (code, _stdout, stderr) => {
     if (code !== 0) {
