@@ -33,7 +33,6 @@
     "directory": "packages/wds-nextjs"
   },
   "devDependencies": {
-    "@emotion/cache": "catalog:emotion",
     "next": "catalog:next",
     "react": "catalog:react",
     "react-dom": "catalog:react",
@@ -45,7 +44,6 @@
   },
   "peerDependencies": {
     "@emotion/server": "catalog:emotion",
-    "@emotion/cache": "catalog:emotion",
     "@types/react": "catalog:peer-react",
     "next": "catalog:peer-next",
     "react": "catalog:peer-react"

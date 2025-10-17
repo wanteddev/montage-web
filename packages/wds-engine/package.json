@@ -33,14 +33,14 @@
     "directory": "packages/wds-engine"
   },
   "devDependencies": {
-    "@emotion/cache": "catalog:emotion",
-    "@emotion/react": "catalog:emotion",
     "@emotion/serialize": "catalog:emotion",
     "@emotion/utils": "catalog:emotion",
     "react": "catalog:react",
     "typescript": "catalog:config"
   },
   "dependencies": {
+    "@emotion/react": "catalog:emotion",
+    "@emotion/cache": "catalog:emotion",
     "@wanteddev/wds-theme": "workspace:*",
     "csstype": "^3.1.3"
   },

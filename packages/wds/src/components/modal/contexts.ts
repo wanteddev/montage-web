@@ -8,7 +8,8 @@ import type { RefObject } from 'react';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement | null>;
-  innerContainerRef: RefObject<HTMLDivElement | null>;
+  innerContainer: HTMLDivElement | null;
+  setInnerContainer: (innerContainer: HTMLDivElement | null) => void;
   containerId: string;
   titleId: string;
   headingId: string;

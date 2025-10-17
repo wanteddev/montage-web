@@ -20,7 +20,7 @@ export const useTooltip = ({
   disableOpenOnFocus,
   enableOpenOnFocusVisibleOnly,
 }: TooltipProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const groupContext = useTooltipGroupContext();
 
   const openTimerRef = useRef(0);
@@ -28,7 +28,7 @@ export const useTooltip = ({
 
   const isMouseDownTriggered = useRef(false);
 
-  const triggerRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
