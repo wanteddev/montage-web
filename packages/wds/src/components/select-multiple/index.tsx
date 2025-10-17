@@ -101,7 +101,7 @@ const SelectMultiple = forwardRef<
 
     const [openState = false, setOpenState] = useControllableState({
       prop: openProp,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: (v) => {
         setMenuValue(value);
         onOpenChange?.(v);

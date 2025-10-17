@@ -33,7 +33,7 @@ const SectionMessage = forwardRef<
   (
     {
       open: originOpen,
-      defaultOpen = true,
+      defaultOpen,
       onOpenChange,
       variant = 'info',
       children,
@@ -48,7 +48,7 @@ const SectionMessage = forwardRef<
   ) => {
     const [open = false, setOpen] = useControllableState({
       prop: originOpen,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? true,
       onChange: onOpenChange,
     });
 

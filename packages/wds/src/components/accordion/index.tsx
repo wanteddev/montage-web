@@ -73,7 +73,7 @@ const Accordion = forwardRef<
   ) => {
     const [expanded = false, setExpand] = useControllableState({
       prop: originExpanded,
-      defaultProp: defaultExpanded,
+      defaultProp: defaultExpanded ?? false,
       onChange,
     });
 

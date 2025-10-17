@@ -285,7 +285,7 @@ const PaginationSelect = forwardRef<
 
     const [open = false, setOpen] = useControllableState({
       prop: givenOpen,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,
     });
 

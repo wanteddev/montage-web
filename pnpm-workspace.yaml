@@ -18,6 +18,8 @@ catalogs:
 
   next:
     next: ^15.5.5
+    '@next/eslint-plugin-next': ^15.5.5
+    '@next/bundle-analyzer': ^15.5.5
 
   peer-next:
     next: ^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0-beta

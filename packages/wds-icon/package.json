@@ -33,6 +33,7 @@
     "watch": "tsup --watch"
   },
   "devDependencies": {
+    "@types/react": "catalog:react",
     "react": "catalog:react",
     "typescript": "catalog:config"
   },

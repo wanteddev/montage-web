@@ -50,7 +50,7 @@ const ProgressStepIndicator = forwardRef<
   ) => {
     const [value = '', setValue] = useControllableState({
       prop: originValue,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 

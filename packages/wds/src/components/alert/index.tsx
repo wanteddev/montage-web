@@ -71,7 +71,7 @@ const Alert = ({
 }: AlertProps) => {
   const [open = false, setOpen] = useControllableState({
     prop: openProp,
-    defaultProp: defaultOpen,
+    defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,
   });
 

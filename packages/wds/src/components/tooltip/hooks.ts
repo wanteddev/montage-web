@@ -32,7 +32,7 @@ export const useTooltip = ({
 
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
-    defaultProp: defaultOpen,
+    defaultProp: defaultOpen ?? false,
     onChange: (value) => {
       if (value) {
         groupContext?.onOpen();

@@ -33,6 +33,7 @@
     "packages": "packages/wds-lottie"
   },
   "devDependencies": {
+    "@types/react": "catalog:react",
     "react": "catalog:react",
     "typescript": "catalog:config"
   },
