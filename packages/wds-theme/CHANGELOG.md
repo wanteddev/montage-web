@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
+
+### Bug Fixes
+
+- **wds:** framed style params to optional ([888a636](https://github.com/wanteddev/wds/commit/888a63654679febf277a83fd8990fd021d10dcf7))
+- **wds:** theme spacing incorrect values fixed ([#377](https://github.com/wanteddev/wds/issues/377)) ([552ed2a](https://github.com/wanteddev/wds/commit/552ed2a6ac5c9b2490ab52fc884c95927fedae7f))
+
+### Features
+
+- **eslint-plugin-wds:** create eslint plugin for wds package ([#405](https://github.com/wanteddev/wds/issues/405)) ([cd6b8ba](https://github.com/wanteddev/wds/commit/cd6b8ba8c797517d12cccd6761cfd28cdf8cecb1))
+- **wds-theme:** add background transparent token ([#424](https://github.com/wanteddev/wds/issues/424)) ([0b5a4d4](https://github.com/wanteddev/wds/commit/0b5a4d4ce81f20b3e2c1e5888738fe2d31b52405))
+- **wds,wds-lottie,wds-engine:** export props for all components ([#357](https://github.com/wanteddev/wds/issues/357)) ([0dc2fc3](https://github.com/wanteddev/wds/commit/0dc2fc3b69af5aa4c69d462b1274be96e849b7aa))
+- **wds,wds-theme,wds-codemod:** add spread shadow theme, update popover design ([#440](https://github.com/wanteddev/wds/issues/440)) ([a08215c](https://github.com/wanteddev/wds/commit/a08215cf636a254550ea67ca2bd03ef703198afe))
+- **wds,wds-theme:** add dropShadow token and change modal shadow ([#423](https://github.com/wanteddev/wds/issues/423)) ([c5b3287](https://github.com/wanteddev/wds/commit/c5b32877bc7328d7d2ab4f52064ed47ad3f96a4e))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([a792958](https://github.com/wanteddev/wds/commit/a79295863ca728384c309c5931de94173a2f896a))
+
 # [2.6.0](https://github.com/wanteddev/wds/compare/v2.5.0...v2.6.0) (2025-11-05)
 
 **Note:** Version bump only for package @wanteddev/wds-theme

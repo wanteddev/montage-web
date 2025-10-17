@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
+
+### Bug Fixes
+
+- **wds,wds-codemod:** migration position in menu, select, autocomplete ([#460](https://github.com/wanteddev/wds/issues/460)) ([f6a79c3](https://github.com/wanteddev/wds/commit/f6a79c34804bce989f620d71dde186f06e83a891))
+
+### Features
+
+- **wds-codemod:** add codemod for dialog button migration ([#383](https://github.com/wanteddev/wds/issues/383)) ([c27cafe](https://github.com/wanteddev/wds/commit/c27cafe6a535a2190410fbe3a8efc8f4b9f92fc8))
+- **wds-codemod:** add popover content migration codemod ([#456](https://github.com/wanteddev/wds/issues/456)) ([eef499e](https://github.com/wanteddev/wds/commit/eef499e59a101c8a0c5b07f3047e95f59f1b02ee))
+- **wds,wds-codemod:** add tooltip size options ([#439](https://github.com/wanteddev/wds/issues/439)) ([439851a](https://github.com/wanteddev/wds/commit/439851a5b48edb983ab1cb96a43c136dd395e3a9))
+- **wds,wds-theme,wds-codemod:** add spread shadow theme, update popover design ([#440](https://github.com/wanteddev/wds/issues/440)) ([a08215c](https://github.com/wanteddev/wds/commit/a08215cf636a254550ea67ca2bd03ef703198afe))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([a792958](https://github.com/wanteddev/wds/commit/a79295863ca728384c309c5931de94173a2f896a))
+
 # [2.6.0](https://github.com/wanteddev/wds/compare/v2.5.0...v2.6.0) (2025-11-05)
 
 **Note:** Version bump only for package @wanteddev/wds-codemod
