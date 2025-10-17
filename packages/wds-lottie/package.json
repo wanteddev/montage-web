@@ -43,7 +43,7 @@
   },
   "peerDependencies": {
     "@types/react": "catalog:peer-react",
-    "lottie-web": "^5.0",
+    "lottie-web": "^5.0.0",
     "react": "catalog:peer-react"
   },
   "peerDependenciesMeta": {

@@ -29,3 +29,12 @@ global.ResizeObserver = class ResizeObserver {
   unobserve() {}
   disconnect() {}
 };
+
+// https://github.com/felippenardi/lottie-react-web/issues/21#issuecomment-1622224449
+/** @ts-expect-error */
+HTMLCanvasElement.prototype.getContext = () => {
+  return {
+    fillStyle: '',
+    fillRect: vi.fn(),
+  };
+};
