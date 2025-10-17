@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
+
+### Features
+
+- support react 19.2, next 16-beta ([#463](https://github.com/wanteddev/wds/issues/463)) ([5346208](https://github.com/wanteddev/wds/commit/5346208898ff4853a094f247c0513c3d5b512f46))
+- **wds,wds-lottie,wds-engine:** export props for all components ([#357](https://github.com/wanteddev/wds/issues/357)) ([0dc2fc3](https://github.com/wanteddev/wds/commit/0dc2fc3b69af5aa4c69d462b1274be96e849b7aa))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([a792958](https://github.com/wanteddev/wds/commit/a79295863ca728384c309c5931de94173a2f896a))
+
 # [2.5.0](https://github.com/wanteddev/wds/compare/v2.4.0...v2.5.0) (2025-10-02)
 
 **Note:** Version bump only for package @wanteddev/wds-lottie

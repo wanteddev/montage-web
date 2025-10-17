@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-engine",
-  "version": "2.5.0",
+  "version": "3.0.0-alpha.0",
   "files": [
     "dist"
   ],
@@ -39,8 +39,8 @@
     "typescript": "catalog:config"
   },
   "dependencies": {
-    "@emotion/react": "catalog:emotion",
     "@emotion/cache": "catalog:emotion",
+    "@emotion/react": "catalog:emotion",
     "@wanteddev/wds-theme": "workspace:*",
     "csstype": "^3.1.3"
   },
