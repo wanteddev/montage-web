@@ -22,7 +22,7 @@ import {
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { FocusScopeProps } from './types';
-import type { ElementRef, KeyboardEvent } from 'react';
+import type { ComponentRef, KeyboardEvent } from 'react';
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount';
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount';
@@ -88,9 +88,9 @@ const FocusScopeWrapper = forwardRef<
     },
     forwardedRef,
   ) => {
-    const [container, setContainer] = useState<ElementRef<typeof Slot> | null>(
-      null,
-    );
+    const [container, setContainer] = useState<ComponentRef<
+      typeof Slot
+    > | null>(null);
     const onMountAutoFocus = useCallbackRef(onMountAutoFocusProp);
     const onUnmountAutoFocus = useCallbackRef(onUnmountAutoFocusProp);
     const lastFocusedElementRef = useRef<HTMLElement | null>(null);

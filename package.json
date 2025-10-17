@@ -39,6 +39,7 @@
     "@types/eslint": "^8.56.5",
     "@types/inquirer": "^9.0.7",
     "@types/react": "catalog:react",
+    "@types/react-dom": "catalog:react",
     "@types/shelljs": "^0.8.15",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",

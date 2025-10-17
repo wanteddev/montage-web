@@ -1,5 +1,5 @@
 import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
-import type { ElementRef, ReactNode, Ref } from 'react';
+import type { ComponentRef, ReactNode, Ref } from 'react';
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 
 export type ScrollAreaProps = WithSxProps<
@@ -8,7 +8,7 @@ export type ScrollAreaProps = WithSxProps<
       size?: 'small' | 'medium' | 'responsive';
       scrollbars?: 'vertical' | 'horizontal' | 'both';
       viewportRef?: Ref<
-        ElementRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
+        ComponentRef<typeof ScrollAreaPrimitive.ScrollAreaViewport>
       >;
       viewportProps?: WithSxProps<ScrollAreaPrimitive.ScrollAreaViewportProps>;
       /**

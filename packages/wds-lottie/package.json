@@ -33,14 +33,13 @@
     "packages": "packages/wds-lottie"
   },
   "devDependencies": {
-    "@types/react": "catalog:react",
-    "typescript": "catalog:config"
+    "typescript": "catalog:config",
+    "react": "catalog:react"
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.0",
     "@wanteddev/wds-engine": "workspace:*",
-    "lottie-web": "^5.12.2",
-    "react": "catalog:react"
+    "lottie-web": "^5.12.2"
   },
   "peerDependencies": {
     "@types/react": "catalog:peer-react",

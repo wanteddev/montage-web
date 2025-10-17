@@ -45,7 +45,7 @@ import {
 import { getCategoryListItemSize } from './helpers';
 
 import type {
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
   UIEventHandler,
@@ -245,7 +245,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
     }: PolymorphicPropsInternal<CategoryListItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const ref = useRef<ElementRef<T> | null>(null);
+    const ref = useRef<ComponentRef<T> | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useCategoryContext(CATEGORY_LIST_ITEM_NAME);

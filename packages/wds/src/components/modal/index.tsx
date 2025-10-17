@@ -215,7 +215,7 @@ const ModalContainer = forwardRef(
     );
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
-      wrapperProps?.ref as RefObject<HTMLDivElement> | undefined,
+      wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
       wrapperRef,
     );
 

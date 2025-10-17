@@ -158,7 +158,7 @@ export const getMeridiem = (locale?: string) => {
 export const focusDate = (
   type: ViewType,
   value: number,
-  containerRef: RefObject<HTMLDivElement>,
+  containerRef: RefObject<HTMLDivElement | null>,
 ) => {
   switch (type) {
     case 'year':
@@ -181,7 +181,7 @@ export const focusDate = (
 export const scrollIntoViewDate = (
   type: Omit<ViewType, 'day'>,
   value: number,
-  containerRef: RefObject<HTMLDivElement>,
+  containerRef: RefObject<HTMLDivElement | null>,
 ) => {
   switch (type) {
     case 'year':

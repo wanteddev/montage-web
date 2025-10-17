@@ -1,9 +1,8 @@
 import type {
   ComponentPropsWithoutRef,
-  ElementRef,
+  ComponentRef,
   ElementType,
   JSX,
-  LegacyRef,
   Ref,
 } from 'react';
 import type { Interpolation } from '@emotion/react';
@@ -93,7 +92,7 @@ export type OverrideProps<P, C extends ElementType> = Merge<
   P,
   ComponentPropsWithoutRef<C>
 > & {
-  ref?: Ref<ElementRef<C>> | LegacyRef<ElementRef<C>>;
+  ref?: Ref<ComponentRef<C>>;
   sx?: SxProp;
 };
 
@@ -110,7 +109,7 @@ export type OverridePropsInternal<P, C extends ElementType> = Merge<
   P,
   ComponentPropsWithoutRef<C>
 > & {
-  ref?: Ref<ElementRef<C>> | LegacyRef<ElementRef<C>>;
+  ref?: Ref<ComponentRef<C>>;
 };
 
 /**
@@ -169,7 +168,7 @@ export type DefaultComponentProps<P, E extends ElementType = 'div'> = Merge<
   ComponentPropsWithoutRef<E>
 > & {
   sx?: SxProp;
-  ref?: Ref<ElementRef<E>> | LegacyRef<ElementRef<E>>;
+  ref?: Ref<ComponentRef<E>>;
 };
 
 /**
@@ -192,7 +191,7 @@ export type DefaultComponentPropsInternal<
   P,
   E extends ElementType = 'div',
 > = Merge<P, ComponentPropsWithoutRef<E>> & {
-  ref?: Ref<ElementRef<E>> | LegacyRef<ElementRef<E>>;
+  ref?: Ref<ComponentRef<E>>;
 };
 
 /**

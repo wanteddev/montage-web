@@ -33,12 +33,11 @@
     "watch": "tsup --watch"
   },
   "devDependencies": {
-    "@types/react": "catalog:react",
+    "react": "catalog:react",
     "typescript": "catalog:config"
   },
   "dependencies": {
-    "@wanteddev/wds-engine": "workspace:*",
-    "react": "catalog:react"
+    "@wanteddev/wds-engine": "workspace:*"
   },
   "peerDependencies": {
     "@types/react": "catalog:peer-react",
@@ -46,9 +45,6 @@
   },
   "peerDependenciesMeta": {
     "@types/react": {
-      "optional": true
-    },
-    "@types/react-dom": {
       "optional": true
     }
   }

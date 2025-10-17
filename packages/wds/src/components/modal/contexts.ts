@@ -7,8 +7,8 @@ import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 import type { RefObject } from 'react';
 
 type ModalContextValue = {
-  containerRef: RefObject<HTMLDivElement>;
-  innerContainerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
+  innerContainerRef: RefObject<HTMLDivElement | null>;
   containerId: string;
   titleId: string;
   headingId: string;
@@ -26,7 +26,7 @@ export const [ModalProvider, useModalContext] =
   createContext<ModalContextValue>(MODAL_NAME);
 
 type ModalDimmerContextValue = {
-  dimmerRef: RefObject<HTMLDivElement>;
+  dimmerRef: RefObject<HTMLDivElement | null>;
   isBottomSheetWithHandle: boolean;
   handleVisibilityHidden: () => void;
   disableOutsideClickClose?: boolean;
