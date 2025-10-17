@@ -21,9 +21,9 @@ export const useToastAnimation = ({
   disablePortal,
   component = 'toast',
 }: UseToastAnimationParams) => {
-  const timeoutRef = useRef<NodeJS.Timeout>();
-  const startTimeRef = useRef<number>();
-  const remainingTimeRef = useRef<number>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const startTimeRef = useRef<number | undefined>(undefined);
+  const remainingTimeRef = useRef<number | undefined>(undefined);
 
   const [height, setHeight] = useState(0);
 

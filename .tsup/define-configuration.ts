@@ -11,7 +11,7 @@ export const defineConfiguration = (opts: Partial<Options>): Options => {
     treeshake: true,
     bundle: true,
     silent: true,
-    external: ['react', 'react-dom', 'next', 'react-hook-form'],
+    external: ['react', 'react-dom', 'next'],
     esbuildPlugins: [esbuildPluginFilePathExtensions({ cjsExtension: 'js' })],
     ...opts,
     entry: Array.isArray(opts.entry)

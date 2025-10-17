@@ -48,7 +48,7 @@ import type {
 } from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
   UIEventHandler,
@@ -287,7 +287,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
     }: PolymorphicPropsInternal<TabListItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const ref = useRef<ElementRef<T> | null>(null);
+    const ref = useRef<ComponentRef<T> | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);

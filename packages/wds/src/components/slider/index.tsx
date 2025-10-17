@@ -28,6 +28,7 @@ import {
   sliderThumbStyle,
 } from './style';
 
+import type { ReactNode } from 'react';
 import type {
   SliderLabelProps,
   SliderProps,
@@ -185,7 +186,7 @@ const Slider = forwardRef<
             sx={{ margin: '0 auto 32px auto' }}
           >
             {typeof title === 'function'
-              ? title({ values, disabled, min, max })
+              ? (title({ values, disabled, min, max }) as ReactNode)
               : title}
           </FlexBox>
         )}
@@ -310,7 +311,13 @@ const Slider = forwardRef<
             {values.map((v, i) => {
               const render =
                 typeof label === 'function'
-                  ? label({ value: v, index: i, min, max, disabled })
+                  ? (label({
+                      value: v,
+                      index: i,
+                      min,
+                      max,
+                      disabled,
+                    }) as ReactNode)
                   : label;
 
               if (!render) {

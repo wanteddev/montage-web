@@ -5,13 +5,13 @@ import { Checkbox } from '../checkbox';
 import { roundCheckboxStyle } from './style';
 
 import type { RoundCheckboxProps } from './types';
-import type { ElementRef } from 'react';
+import type { ComponentRef } from 'react';
 
 /**
  * @deprecated
  */
 const RoundCheckbox = forwardRef<
-  ElementRef<typeof Checkbox>,
+  ComponentRef<typeof Checkbox>,
   RoundCheckboxProps
 >((props, ref) => {
   return (

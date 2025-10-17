@@ -1,5 +1,5 @@
 import type { Theme } from '@wanteddev/wds-theme';
-import type { ReactNode } from 'react';
+import type { JSX, ReactNode } from 'react';
 
 export type ThemeProviderProps = {
   theme?: 'light' | 'dark';
