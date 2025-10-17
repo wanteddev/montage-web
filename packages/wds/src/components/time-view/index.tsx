@@ -44,7 +44,7 @@ import { scrollToTime } from './helpers';
 
 import type * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
-import type { ElementRef, KeyboardEvent } from 'react';
+import type { ComponentRef, KeyboardEvent } from 'react';
 import type {
   HourType,
   TimeItemProps,
@@ -157,7 +157,7 @@ const TimeList = memo(
       });
 
       const scrollViewportRef =
-        useRef<ElementRef<typeof ScrollAreaPrimitive.Viewport>>(null);
+        useRef<ComponentRef<typeof ScrollAreaPrimitive.Viewport>>(null);
 
       useEffect(() => {
         if (currentTimeValue) {

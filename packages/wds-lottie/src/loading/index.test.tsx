@@ -5,15 +5,6 @@ import Loading from '.';
 
 import type { RenderResult } from '@testing-library/react';
 
-// https://github.com/felippenardi/lottie-react-web/issues/21#issuecomment-1622224449
-/** @ts-expect-error */
-HTMLCanvasElement.prototype.getContext = () => {
-  return {
-    fillStyle: '',
-    fillRect: vi.fn(),
-  };
-};
-
 describe('when given loading component', () => {
   let rendered: RenderResult;
 

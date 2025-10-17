@@ -63,7 +63,7 @@ export const getSeconds = () => {
 export const scrollToTime = (
   view: TimeViewType,
   value: string,
-  containerRef: RefObject<HTMLDivElement>,
+  containerRef: RefObject<HTMLDivElement | null>,
 ) => {
   const scrollItem = containerRef.current?.querySelector(
     `[data-${view}='${value}']`,

@@ -24,10 +24,10 @@ export const useDraggable = ({
   md,
   lg,
   xl,
-  ref,
+  target,
   dimmerRef,
-}: ModalContainerProps & {
-  ref: RefObject<HTMLDivElement | null>;
+}: Omit<ModalContainerProps, 'target'> & {
+  target: HTMLDivElement | null;
   dimmerRef: RefObject<HTMLDivElement | null>;
 }) => {
   const theme = useTheme();
@@ -78,12 +78,12 @@ export const useDraggable = ({
   }, [givenPeekHeight]);
 
   const calcTopNavigationHeight = () => {
-    const topNavigation = ref.current?.querySelector(
+    const topNavigation = target?.querySelector(
       '[wds-component="top-navigation"]',
     );
 
     const topNavigationToolbarHeight =
-      ref.current?.querySelector('[data-role="top-navigation-toolbar"]')
+      target?.querySelector('[data-role="top-navigation-toolbar"]')
         ?.clientHeight ?? 0;
 
     topNavigationHeight.current = topNavigation

@@ -68,8 +68,8 @@ import type {
   ElementType,
   ForwardedRef,
   MouseEvent,
+  MutableRefObject,
   PointerEvent,
-  RefObject,
 } from 'react';
 import type {
   ModalCloseProps,
@@ -101,16 +101,20 @@ const Modal = ({
   });
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const innerContainerRef = useRef<HTMLDivElement>(null);
 
   const [isBottomSheet, setIsBottomSheet] = useState(false);
   const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
+
+  const [innerContainer, setInnerContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
 
   const onVisibilityChangeCallback = useCallbackRef(onVisibilityChange);
 
   useEffect(() => {
     // variant="bottom" sm={{ variant: 'popup' }} 일 때 예외 처리
     if (!isBottomSheet && open && visibility === 'hidden') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisibility('visible');
       setOpen(false);
     }
@@ -118,6 +122,7 @@ const Modal = ({
 
   useEffect(() => {
     if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisibility('visible');
     }
   }, [open]);
@@ -139,7 +144,8 @@ const Modal = ({
         [onVisibilityChangeCallback],
       )}
       containerRef={containerRef}
-      innerContainerRef={innerContainerRef}
+      innerContainer={innerContainer}
+      setInnerContainer={setInnerContainer}
       containerId={useId()}
       titleId={useId()}
       headingId={useId()}
@@ -215,7 +221,7 @@ const ModalContainer = forwardRef(
     );
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
-      wrapperProps?.ref as RefObject<HTMLDivElement> | undefined,
+      wrapperProps?.ref as MutableRefObject<HTMLDivElement | null> | undefined,
       wrapperRef,
     );
 
@@ -236,7 +242,7 @@ const ModalContainer = forwardRef(
         md,
         lg,
         xl,
-        ref: context.innerContainerRef,
+        target: context.innerContainer,
         dimmerRef,
       });
 
@@ -386,7 +392,7 @@ const ModalContainer = forwardRef(
                   <ScrollArea
                     data-role="modal-container-scroll-area"
                     scrollbars="vertical"
-                    viewportRef={context.innerContainerRef}
+                    viewportRef={context.setInnerContainer}
                     sx={{
                       display: 'flex',
                       flexGrow: '1',
@@ -509,27 +515,27 @@ const ModalScrollProvider = ({
   children,
   sticky,
 }: ModalScrollProviderProps) => {
-  const { innerContainerRef, ...context } = useModalContext(
+  const { innerContainer, ...context } = useModalContext(
     'ModalContextProviders',
   );
 
   const [actionAreaSticky, setActionAreaSticky] = useState(false);
 
   const handleResize = useCallback(() => {
-    const target = innerContainerRef.current;
-    if (!target) {
+    if (!innerContainer) {
       return;
     }
 
     setActionAreaSticky(
-      target.scrollHeight - target.clientHeight > target.scrollTop,
+      innerContainer.scrollHeight - innerContainer.clientHeight >
+        innerContainer.scrollTop,
     );
-  }, [innerContainerRef]);
+  }, [innerContainer]);
 
-  useResizeObserver(innerContainerRef.current?.firstElementChild, handleResize);
+  useResizeObserver(innerContainer?.firstElementChild, handleResize);
 
   useEffect(() => {
-    const container = innerContainerRef.current;
+    const container = innerContainer;
 
     if (!container) {
       return;
@@ -546,7 +552,7 @@ const ModalScrollProvider = ({
     container.addEventListener('scroll', handleOnScroll);
 
     return () => container.removeEventListener('scroll', handleOnScroll);
-  }, [innerContainerRef]);
+  }, [innerContainer]);
 
   return (
     <ModalNavigationProvider

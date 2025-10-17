@@ -35,7 +35,7 @@ import {
 
 import type {
   CSSProperties,
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
 } from 'react';
@@ -235,7 +235,8 @@ const AccordionDetails = forwardRef(
     const { expanded, detailsId, summaryId, disableAnimation } =
       useAccordionContext(ACCORDION_DETAILS_NAME);
 
-    const ref = useRef<ElementRef<T>>(null);
+    const ref = useRef<ComponentRef<T>>(null);
+
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const [wrapperNode, setWrapperNode] = useState<HTMLDivElement | null>(null);

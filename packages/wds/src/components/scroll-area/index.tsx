@@ -14,7 +14,7 @@ import {
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ScrollAreaProps, ScrollBarProps } from './types';
-import type { ElementRef, ReactNode } from 'react';
+import type { ComponentRef, ReactNode } from 'react';
 
 const ScrollArea = forwardRef<
   HTMLDivElement,
@@ -106,7 +106,7 @@ export { ScrollArea };
 export type { ScrollAreaProps };
 
 const ScrollBar = forwardRef<
-  ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
+  ComponentRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>,
   DefaultComponentPropsInternal<ScrollBarProps, 'div'>
 >(({ orientation = 'vertical', size = 'responsive', ...props }, ref) => (
   <Box

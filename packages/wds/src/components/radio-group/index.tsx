@@ -12,7 +12,7 @@ import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
-import type { ElementRef } from 'react';
+import type { ComponentRef } from 'react';
 import type { RadioGroupItemProps, RadioGroupProps } from './types';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
@@ -84,13 +84,13 @@ const RadioGroup = forwardRef<
 RadioGroup.displayName = RADIO_GROUP_NAME;
 
 const RadioGroupItem = forwardRef<
-  ElementRef<typeof Radio>,
+  ComponentRef<typeof Radio>,
   RadioGroupItemProps
 >(({ disabled, ...props }, forwardedRef) => {
   const context = useRadioGroupContext(RADIO_ITEM_NAME);
   const isDisabled = context.disabled || disabled;
 
-  const ref = useRef<React.ElementRef<typeof Radio>>(null);
+  const ref = useRef<React.ComponentRef<typeof Radio>>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
   const checked = context.value === props.value;
   const isArrowKeyPressedRef = useRef(false);

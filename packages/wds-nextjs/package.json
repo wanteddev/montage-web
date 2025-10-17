@@ -33,33 +33,29 @@
     "directory": "packages/wds-nextjs"
   },
   "devDependencies": {
-    "@types/react": "catalog:react",
-    "@types/react-dom": "catalog:react",
+    "next": "catalog:next",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
     "typescript": "catalog:config"
   },
   "dependencies": {
-    "@emotion/server": "^11.11.0",
-    "@wanteddev/wds-engine": "workspace:*",
-    "next": "catalog:next",
-    "react": "catalog:react",
-    "react-dom": "catalog:react"
+    "@emotion/server": "catalog:emotion",
+    "@wanteddev/wds-engine": "workspace:*"
   },
   "peerDependencies": {
-    "@emotion/server": "^11.11.0",
+    "@emotion/server": "catalog:emotion",
     "@types/react": "catalog:peer-react",
-    "@types/react-dom": "catalog:peer-react",
     "next": "catalog:peer-next",
-    "react": "catalog:peer-react",
-    "react-dom": "catalog:peer-react"
+    "react": "catalog:peer-react"
   },
   "peerDependenciesMeta": {
     "@emotion/server": {
       "optional": true
     },
-    "@types/react": {
+    "@emotion/cache": {
       "optional": true
     },
-    "@types/react-dom": {
+    "@types/react": {
       "optional": true
     }
   }

@@ -1,3 +1,4 @@
+import lottie from 'lottie-web/build/player/lottie_light.min';
 import { forwardRef, memo, useCallback, useEffect, useRef } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
@@ -19,10 +20,7 @@ const Loading = memo(
 
     const composedRefs = useComposedRefs(forwardedRef, lottieRef);
 
-    const loadAnimation = useCallback(async () => {
-      const lottie = (await import('lottie-web/build/player/lottie_light.min'))
-        .default;
-
+    const loadAnimation = useCallback(() => {
       animationRef.current = lottie.loadAnimation({
         container: lottieRef.current!,
         renderer: 'svg',

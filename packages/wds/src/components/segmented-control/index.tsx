@@ -39,7 +39,7 @@ import type {
 } from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
 } from 'react';
@@ -200,7 +200,7 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
   ) => {
     const id = useId();
 
-    const [node, setNode] = useState<ElementRef<T> | null>(null);
+    const [node, setNode] = useState<ComponentRef<T> | null>(null);
     const composedRefs = useComposedRefs(
       forwardedRef,
       setNode as ForwardedRef<T>,
