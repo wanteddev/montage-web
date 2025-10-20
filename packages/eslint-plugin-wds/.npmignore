@@ -1,7 +1,6 @@
 src/
 tests/
 tsup.config.ts
-.eslintrc.cjs
-.eslintignore
 tsconfig.json
-tsconfig.node.json
+tsconfig.test.json
+.lintstagedrc.mjs

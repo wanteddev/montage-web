@@ -343,25 +343,21 @@ const useMedia = <T>(
       : defaultValue;
   }, [defaultValue, values, mediaQueryLists]);
 
-  useEffect(
-    () => {
-      const handler = () => {
-        setValue(getValue);
-      };
+  useEffect(() => {
+    const handler = () => {
+      setValue(getValue);
+    };
 
-      mediaQueryLists.forEach((mql) => {
-        handler();
-        mql.addEventListener('change', handler);
-      });
+    mediaQueryLists.forEach((mql) => {
+      handler();
+      mql.addEventListener('change', handler);
+    });
 
-      return () =>
-        mediaQueryLists.forEach((mql) =>
-          mql.removeEventListener('change', handler),
-        );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mediaQueryLists, getValue],
-  );
+    return () =>
+      mediaQueryLists.forEach((mql) =>
+        mql.removeEventListener('change', handler),
+      );
+  }, [mediaQueryLists, getValue]);
 
   return value;
 };

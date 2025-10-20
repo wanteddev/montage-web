@@ -154,7 +154,7 @@ const AccordionSummary = forwardRef<
         id={summaryId}
         leadingContent={leadingContent}
         trailingContent={
-          Boolean(trailingContent) ? (
+          trailingContent ? (
             trailingContent
           ) : (
             <AccordionSummaryContent

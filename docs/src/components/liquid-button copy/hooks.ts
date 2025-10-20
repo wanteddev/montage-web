@@ -6,7 +6,7 @@ import { DEFAULT_SIZE } from './constants';
 import type { CSSProperties, RefObject } from 'react';
 
 type UseLiquidButtonAnimationParams = {
-  containerRef?: RefObject<HTMLDivElement>;
+  containerRef?: RefObject<HTMLDivElement | null>;
   node: HTMLButtonElement | null;
 };
 

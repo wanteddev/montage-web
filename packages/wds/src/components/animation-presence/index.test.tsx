@@ -20,7 +20,6 @@ describe('when given animation presence component', () => {
         }
       ).getAnimations = originalGetAnimations;
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete (
         HTMLElement.prototype as unknown as {
           getAnimations?: (options?: GetAnimationsOptions) => Array<Animation>;

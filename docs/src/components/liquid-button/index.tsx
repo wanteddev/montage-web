@@ -22,7 +22,7 @@ import type { PolymorphicComponent, PolymorphicProps } from '@wanteddev/wds';
 import type { ElementType, ForwardedRef } from 'react';
 
 type Props = {
-  containerRef?: React.RefObject<HTMLDivElement>;
+  containerRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 const LiquidButton = forwardRef(
@@ -36,7 +36,6 @@ const LiquidButton = forwardRef(
 
     const composedRefs = useComposedRefs(ref, setNode as (v: T | null) => void);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const size = useSize(node) || DEFAULT_SIZE;
 
     const [mousePos, setMousePos] = useState({

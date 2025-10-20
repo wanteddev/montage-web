@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/error-boundaries */
 import { notFound } from 'next/navigation';
 
 import {
@@ -17,11 +18,9 @@ import { HeadingProvider } from '@/features/docs/context';
 
 import type { Metadata } from 'next';
 
-type Props = {
-  params: { slug: string | Array<string> };
-};
+type Props = PageProps<'/docs/[...slug]'>;
 
-const parseSlug = (params: Props['params']) =>
+const parseSlug = (params: Awaited<Props['params']>) =>
   Array.isArray(params.slug) ? params.slug : [params.slug];
 
 const isFileNotFoundError = (error: unknown) =>
@@ -33,9 +32,8 @@ export const generateStaticParams = async () => {
   return frontmatter;
 };
 
-export const generateMetadata = async ({
-  params,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async (props: Props): Promise<Metadata> => {
+  const params = await props.params;
   try {
     const [allFrontmatter, frontmatter] = await Promise.all([
       getAllFrontmatter(),
@@ -77,9 +75,9 @@ export const generateMetadata = async ({
   }
 };
 
-export const dynamic = 'force-static';
+const DocsPage = async (props: Props) => {
+  const params = await props.params;
 
-const DocsPage = async ({ params }: Props) => {
   if (shouldNotSerializeMDX(parseSlug(params))) {
     return <CustomRender />;
   }

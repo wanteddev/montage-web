@@ -27,6 +27,7 @@ export const LnbProvider = ({ children }: PropsWithChildren) => {
       document.activeElement.blur();
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
 

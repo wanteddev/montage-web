@@ -9,9 +9,8 @@ import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
 import Container from '@/features/layout/components/container';
 
 import type { SlugParams } from '@/features/docs/components/lnb/types';
-import type { PropsWithChildren } from 'react';
 
-const DocsLayout = ({ children }: PropsWithChildren) => {
+const DocsLayout = ({ children }: LayoutProps<'/docs'>) => {
   const params = useParams<SlugParams>();
 
   if (shouldNotSerializeMDX(params.slug ?? [])) {

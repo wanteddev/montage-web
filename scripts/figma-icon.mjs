@@ -119,7 +119,7 @@ const main = async () => {
       icon.name.replace(/^Icon/, '').replace(/Color$/, ''),
     );
     figmaConnectContents.push(
-      `figma.connect(${icon}, "<FIGMA_ICONS_BASE>?node-id=${icon.id}", { variant: { Name: '${iconName}' }, example: () => <${icon} /> });`,
+      `figma.connect(${icon.name}, "<FIGMA_ICONS_BASE>?node-id=${icon.id}", { variant: { Name: '${iconName}' }, example: () => <${icon.name} /> });`,
     );
   });
 
@@ -129,7 +129,7 @@ const main = async () => {
       .map(([name]) => pascalCase(name))
       .join(
         ', ',
-      )}, ${ignoreSyncIcons.join(', ')} } from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
+      )}, ${ignoreSyncIcons.map((icon) => icon.name).join(', ')} } from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
   );
 
   await Promise.all(

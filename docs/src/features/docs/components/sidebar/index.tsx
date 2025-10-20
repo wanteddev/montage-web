@@ -22,7 +22,7 @@ const Sidebar = () => {
       document.querySelectorAll('[data-heading]'),
     ).map((el) => ({
       nodeName: el.nodeName,
-      text: el.textContent!,
+      text: el.textContent,
       id: el.id,
     }));
 

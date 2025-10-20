@@ -6,8 +6,6 @@ import { generatePropTypes } from '@/features/docs/helpers/props';
 import Providers from './providers';
 import ClientLayout from './layout.client';
 
-import type { PropsWithChildren } from 'react';
-
 import '@wanteddev/wds/global.css';
 
 export const metadata = {
@@ -15,7 +13,7 @@ export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_PATH!),
 };
 
-const RootLayout = async ({ children }: PropsWithChildren) => {
+const RootLayout = async ({ children }: LayoutProps<'/'>) => {
   const allFrontmatter = await getAllFrontmatter();
 
   const propTypes = generatePropTypes();

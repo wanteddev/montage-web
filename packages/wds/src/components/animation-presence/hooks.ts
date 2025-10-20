@@ -83,7 +83,6 @@ export const useAnimationPresence = (
       cleanup.forEach((off) => off());
       cleanup = [];
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [present, node]);
 
   return { isPresent: present || state !== 'unmounted', ref: setNode };

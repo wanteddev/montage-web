@@ -17,7 +17,7 @@ import {
 import IntroNavigation from './navigation';
 
 const Intro = () => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const handleScrollDown = useCallback(() => {
     window.scrollTo({

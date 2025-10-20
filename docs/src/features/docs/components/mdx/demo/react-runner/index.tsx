@@ -23,6 +23,7 @@ export const useRunner = ({ code, scope, disableCache }: Params) => {
       scope,
       onRendered: (error: any) => {
         if (error) {
+          // eslint-disable-next-line react-hooks/immutability
           setState({
             element: disableCache ? null : elementRef.current,
             error: error.toString(),

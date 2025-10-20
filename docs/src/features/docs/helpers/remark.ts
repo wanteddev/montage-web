@@ -108,7 +108,6 @@ const makeSpanWithProperty = (
   properties: Record<string, Record<string, string> | string> = {},
 ): PhrasingContent => {
   return {
-    data: { _mdxExplicitJsx: true },
     type: 'mdxJsxTextElement',
     name: 'span',
     children: [

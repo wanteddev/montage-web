@@ -3,14 +3,14 @@
   "extends": "./tsconfig.react.json",
   "compilerOptions": {
     "removeComments": false,
-    "types": [
-      "./packages/wds/dist/index.d.mts",
-      "./packages/wds-icon/dist/index.d.mts"
-    ],
     "baseUrl": "./",
     "paths": {
-      "@wanteddev/wds": ["packages/wds/dist"],
-      "@wanteddev/wds-icon": ["packages/wds-icon/dist"]
+      "@wanteddev/wds": ["packages/wds/src"],
+      "@wanteddev/wds-icon": ["packages/wds-icon/src"],
+      "@wanteddev/wds-nextjs": ["packages/wds-nextjs/src"],
+      "@wanteddev/wds-engine": ["packages/wds-engine/src"],
+      "@wanteddev/wds-theme": ["packages/wds-theme/src"],
+      "@wanteddev/wds-lottie": ["packages/wds-lottie/src"]
     }
   },
   "include": ["figma"],

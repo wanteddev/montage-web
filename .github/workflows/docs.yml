@@ -6,7 +6,7 @@ on:
       - feature/sh031224/deploy-actions
 
 env:
-  PRETEXT: ''
+  PRETEXT: ""
   SERVICE: montage
   PLATFORM: front
 
@@ -222,20 +222,17 @@ jobs:
   #       env:
   #         SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
 
-  # algolia:
-  #   needs: [deploy-end]
-  #   runs-on: ubuntu-latest
+  algolia:
+    needs: [push-s3]
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Get the content of algolia.json as config
-  #       id: algolia_config
-  #       run: echo "::set-output name=config::$(cat algolia/config.json | jq -r tostring)"
-
-  #     - name: Push indices to Algolia
-  #       uses: signcl/docsearch-scraper-action@master
-  #       env:
-  #         APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
-  #         API_KEY: ${{ secrets.API_KEY }}
-  #         CONFIG: ${{ steps.algolia_config.outputs.config }}
+    steps:
+      - name: Push indices to Algolia
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr

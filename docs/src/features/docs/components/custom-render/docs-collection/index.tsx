@@ -50,8 +50,8 @@ const DocsCollection = ({ category }: Props) => {
             acc[key] = [];
           }
 
-          acc[key]!.push(cur);
-          acc[key] = acc[key]!.sort((a, b) => a.title.localeCompare(b.title));
+          acc[key].push(cur);
+          acc[key] = acc[key].sort((a, b) => a.title.localeCompare(b.title));
 
           return acc;
         }, {} as Collection),

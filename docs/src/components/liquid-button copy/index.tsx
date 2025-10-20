@@ -14,7 +14,7 @@ import type { PolymorphicComponent, PolymorphicProps } from '@wanteddev/wds';
 import type { CSSProperties, ElementType, ForwardedRef } from 'react';
 
 type Props = {
-  containerRef?: React.RefObject<HTMLDivElement>;
+  containerRef?: React.RefObject<HTMLDivElement | null>;
 };
 
 const LiquidButtonCopy = forwardRef(

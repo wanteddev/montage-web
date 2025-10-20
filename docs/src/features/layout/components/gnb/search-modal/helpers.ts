@@ -38,7 +38,7 @@ export const createRecentSearchStorage = <Item extends DocSearchHit>({
       const { _highlightResult, _snippetResult, ...hit } =
         item as unknown as DocSearchHit;
 
-      const removedHashUrl = hit.url.replace(/\#([^\s]+)$/, '');
+      const removedHashUrl = hit.url.replace(/#([^\s]+)$/, '');
 
       const isQueryAlreadySaved = items.findIndex(
         (x) => x.objectID === hit.objectID || removedHashUrl === x.url,

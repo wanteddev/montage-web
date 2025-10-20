@@ -88,6 +88,7 @@ export const useFloatingGnb = () => {
       transitionPoint.current = scrollTop + GNB_HEIGHT;
       prevScrollTop.current = scrollTop + GNB_HEIGHT;
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTranslateY(0);
     }
   }, [lnbContext.hide, focused, isRootPage, isMobile, prevLnbHide]);

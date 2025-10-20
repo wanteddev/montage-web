@@ -16,7 +16,6 @@ const NotFoundPage = () => {
     <FullPageLayout>
       <FallbackView platform="mobile" sm={{ platform: 'desktop' }}>
         <FallbackViewImage>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://static.wanted.co.kr/images/ghost.png" alt="ghost" />
         </FallbackViewImage>
         <FallbackViewContent>

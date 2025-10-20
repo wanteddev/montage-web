@@ -36,7 +36,7 @@ export const DocSearchModal = ({
   onOpenChange,
   open,
   ...props
-}: DocSearchModalProps): JSX.Element => {
+}: DocSearchModalProps) => {
   const {
     isEmpty,
     isQueryEmpty,
@@ -57,7 +57,7 @@ export const DocSearchModal = ({
     const scrollWrapper = containerRef.current?.firstElementChild;
 
     if (scrollWrapper) {
-      scrollWrapper.scrollTop = 0;
+      scrollWrapper.scrollTo({ top: 0 });
     }
   }, [containerRef, state.query]);
 
