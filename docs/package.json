@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev --turbo",
+    "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
     "build": "node scripts/docgen.mjs && next build",
     "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",
@@ -58,6 +58,7 @@
     "@types/node": "catalog:node",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
+    "babel-plugin-react-compiler": "^1.0.0",
     "typescript": "catalog:config"
   }
 }

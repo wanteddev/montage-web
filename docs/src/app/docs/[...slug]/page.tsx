@@ -26,6 +26,8 @@ const parseSlug = (params: Awaited<Props['params']>) =>
 const isFileNotFoundError = (error: unknown) =>
   error instanceof Error && 'code' in error && error.code === 'ENOENT';
 
+export const dynamic = 'force-static';
+
 export const generateStaticParams = async () => {
   const frontmatter = await getAllFrontmatter();
 

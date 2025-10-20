@@ -236,3 +236,4 @@ jobs:
           algolia-app-id: ${{ secrets.APPLICATION_ID }}
           algolia-api-key: ${{ secrets.API_KEY }}
           site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler

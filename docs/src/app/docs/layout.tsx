@@ -10,6 +10,8 @@ import Container from '@/features/layout/components/container';
 
 import type { SlugParams } from '@/features/docs/components/lnb/types';
 
+export const dynamic = 'force-static';
+
 const DocsLayout = ({ children }: LayoutProps<'/docs'>) => {
   const params = useParams<SlugParams>();
 

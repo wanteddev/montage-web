@@ -7,6 +7,8 @@ import Faq from '@/features/home/components/faq';
 import Articles from '@/features/home/components/articles';
 import Layout from '@/features/home/components/layout';
 
+export const dynamic = 'force-static';
+
 const RootPage = () => {
   return (
     <FlexBox flexDirection="column" alignItems="center" sx={{ width: '100%' }}>

@@ -20,6 +20,10 @@ const nextConfig = {
   },
   experimental: {
     scrollRestoration: true,
+    reactCompiler: true,
+    staleTimes: {
+      static: 30,
+    },
   },
   trailingSlash: false,
   assetPrefix: isProduction ? assetPrefix : undefined,
