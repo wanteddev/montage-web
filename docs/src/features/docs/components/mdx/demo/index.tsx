@@ -1,5 +1,7 @@
 'use client';
-import { FlexBox, Loading, NoSsr, ScrollArea } from '@wanteddev/wds';
+import { FlexBox, Loading, ScrollArea } from '@wanteddev/wds';
+
+import DelayMount from '@/components/delay-mount';
 
 import {
   demoStyle,
@@ -76,7 +78,8 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
             flexDirection="column"
             sx={editorWrapperStyle({ hasError: Boolean(error) })}
           >
-            <NoSsr
+            <DelayMount
+              delay={300}
               fallback={
                 <FlexBox
                   alignItems="center"
@@ -95,7 +98,7 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
                 isResetting={isResetting}
                 handleResetComplete={handleResetComplete}
               />
-            </NoSsr>
+            </DelayMount>
           </FlexBox>
         </FlexBox>
       )}

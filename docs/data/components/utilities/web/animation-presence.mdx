@@ -16,10 +16,10 @@ createdAt: 2025-07-15
     data-status={open ? 'open' : 'close'}
     sx={{
       '&[data-status="open"]': {
-        animation: 'fadeIn 0.2s ease',
+        animation: 'fadeIn 0.4s ease',
       },
       '&[data-status="close"]': {
-        animation: 'fadeOut 0.2s ease',
+        animation: 'fadeOut 0.4s ease',
       },
     }}
   >
@@ -82,8 +82,8 @@ const accordionStyle = css\`
 
 const Demo = () => {
   return (
-    <Accordion>
-      <AccordionSummary>
+    <Accordion sx={{ width: '75%' }}>
+      <AccordionSummary sx={{ width: '100%' }}>
         제목
       </AccordionSummary>
       <AccordionDetails wrapperSx={accordionStyle}>
@@ -135,11 +135,11 @@ const unmountAnimation = keyframes\`
 
 const autocompleteStyle = css\`
   &[data-status='open'] {
-    animation: \${mountAnimation} 0.2s ease;
+    animation: \${mountAnimation} 0.4s ease;
   }
 
   &[data-status='close'] {
-    animation: \${unmountAnimation} 0.2s ease;
+    animation: \${unmountAnimation} 0.4s ease;
   }
 \`;
 
@@ -258,7 +258,7 @@ export default Demo;`}
 
 `[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
 
-<Demo code={`import { css, keyframes, FlexBox, Button, Typography, Alert, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { css, keyframes, FlexBox, Button, Typography, Alert, AlertContainer, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
 import { useState } from 'react';
 
 const mountAnimation = keyframes\`
@@ -281,11 +281,11 @@ const unmountAnimation = keyframes\`
 
 const alertContentStyle = css\`
   &[data-status='open'] {
-    animation: \${mountAnimation} 0.2s ease;
+    animation: \${mountAnimation} 0.4s ease;
   }
 
   &[data-status='close'] {
-    animation: \${unmountAnimation} 0.2s ease;
+    animation: \${unmountAnimation} 0.4s ease;
   }
 \`;
 
@@ -300,22 +300,24 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="16px">
       <Button onClick={handleOpen}>열기</Button>
 
-      <Alert sx={alertContentStyle} open={open} onOpenChange={setOpen} dimmer={<AlertDimmer sx={alertContentStyle} />}>
-        <AlertContent>
-          <AlertHeading>제목</AlertHeading>
-          <AlertDescription>설명</AlertDescription>
-        </AlertContent>
-        <AlertActionArea>
-          <AlertActionAreaButton variant="normal">
-            확인
-          </AlertActionAreaButton>
-          <AlertActionAreaButton variant="assistive">
-            취소
-          </AlertActionAreaButton>
-          <AlertActionAreaButton variant="negative">
-            삭제
-          </AlertActionAreaButton>
-        </AlertActionArea>
+      <Alert  open={open} onOpenChange={setOpen}>
+        <AlertContainer sx={alertContentStyle} dimmer={<AlertDimmer sx={alertContentStyle} />}>
+          <AlertContent>
+            <AlertHeading>제목</AlertHeading>
+            <AlertDescription>설명</AlertDescription>
+          </AlertContent>
+          <AlertActionArea>
+            <AlertActionAreaButton variant="normal">
+              확인
+            </AlertActionAreaButton>
+            <AlertActionAreaButton variant="assistive">
+              취소
+            </AlertActionAreaButton>
+            <AlertActionAreaButton variant="negative">
+              삭제
+            </AlertActionAreaButton>
+          </AlertActionArea>
+        </AlertContainer>
       </Alert>
     </FlexBox>
   )
@@ -326,7 +328,7 @@ export default Demo;`}
 
 `forceMount` 옵션과 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
 
-<Demo code={`import { Button, Slot, Alert, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
+<Demo code={`import { Button, Slot, Alert, AlertContainer, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
 import { useTransition, animated, config } from "react-spring";
 import { useState } from "react";
 
@@ -354,28 +356,31 @@ const Demo = () => {
           <Alert 
             open={open} 
             onOpenChange={setOpen} 
-            dimmer={
-              dimmerTransitions((styles, item) => item ? <AlertDimmer as={animated.div} style={styles} /> : null)
-            }
-            style={styles}
-            as={animated.div}
-            forceMount
           >
-            <AlertContent>
-              <AlertHeading>제목</AlertHeading>
-              <AlertDescription>설명</AlertDescription>
-            </AlertContent>
-            <AlertActionArea>
-              <AlertActionAreaButton variant="normal">
-                확인
-              </AlertActionAreaButton>
-              <AlertActionAreaButton variant="assistive">
-                취소
-              </AlertActionAreaButton>
-              <AlertActionAreaButton variant="negative">
-                삭제
-              </AlertActionAreaButton>
-            </AlertActionArea>
+            <AlertContainer
+              forceMount
+              as={animated.div}
+              style={styles}
+              dimmer={
+                dimmerTransitions((styles, item) => item ? <AlertDimmer as={animated.div} style={styles} /> : null)
+              }
+            >
+              <AlertContent>
+                <AlertHeading>제목</AlertHeading>
+                <AlertDescription>설명</AlertDescription>
+              </AlertContent>
+              <AlertActionArea>
+                <AlertActionAreaButton variant="normal">
+                  확인
+                </AlertActionAreaButton>
+                <AlertActionAreaButton variant="assistive">
+                  취소
+                </AlertActionAreaButton>
+                <AlertActionAreaButton variant="negative">
+                  삭제
+                </AlertActionAreaButton>
+              </AlertActionArea>
+            </AlertContainer>
           </Alert>
         ) : null
       )}
@@ -412,11 +417,11 @@ const unmountAnimation = keyframes\`
 
 const menuStyle = css\`
   &[data-status='open'] {
-    animation: \${mountAnimation} 0.2s ease;
+    animation: \${mountAnimation} 0.4s ease;
   }
 
   &[data-status='close'] {
-    animation: \${unmountAnimation} 0.2s ease;
+    animation: \${unmountAnimation} 0.4s ease;
   }
 \`;
 
@@ -505,11 +510,11 @@ const unmountAnimation = keyframes\`
 
 const modalStyle = css\`
   &[data-status='open'] {
-    animation: \${mountAnimation} 0.2s ease;
+    animation: \${mountAnimation} 0.4s ease;
   }
 
   &[data-status='close'] {
-    animation: \${unmountAnimation} 0.2s ease;
+    animation: \${unmountAnimation} 0.4s ease;
   }
 \`;
 
@@ -583,10 +588,11 @@ const Demo = () => {
         Open
       </Button>
 
-      <Modal forceMount open={open} onOpenChange={setOpen}>
+      <Modal open={open} onOpenChange={setOpen}>
         {transitions((styles, item) =>
           item ? (
             <ModalContainer
+              forceMount
               as={animated.div}
               style={styles}
               dimmer={(
@@ -651,11 +657,11 @@ const unmountAnimation = keyframes\`
 
 const popoverStyle = css\`
   &[data-status='open'] {
-    animation: \${mountAnimation} 0.2s ease;
+    animation: \${mountAnimation} 0.4s ease;
   }
 
   &[data-status='close'] {
-    animation: \${unmountAnimation} 0.2s ease;
+    animation: \${unmountAnimation} 0.4s ease;
   }
 \`;
 
@@ -665,7 +671,7 @@ const Demo = () => {
       <PopoverTrigger>
         <Button>클릭</Button>
       </PopoverTrigger>
-      <PopoverContent arrow sx={popoverStyle}>
+      <PopoverContent sx={popoverStyle}>
         콘텐츠
       </PopoverContent>
     </Popover>
@@ -740,11 +746,11 @@ const unmountAnimation = keyframes\`
 
 const tooltipStyle = css\`
   &[data-status='open'] {
-    animation: \${mountAnimation} 0.2s ease;
+    animation: \${mountAnimation} 0.4s ease;
   }
 
   &[data-status='close'] {
-    animation: \${unmountAnimation} 0.2s ease;
+    animation: \${unmountAnimation} 0.4s ease;
   }
 \`;
 

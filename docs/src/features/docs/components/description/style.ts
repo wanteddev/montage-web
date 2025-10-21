@@ -44,4 +44,8 @@ export const tabStyle = (theme: Theme) => css`
   p {
     margin: 0 !important;
   }
+
+  [data-role='tab-motion'] {
+    will-change: left, width, height;
+  }
 `;

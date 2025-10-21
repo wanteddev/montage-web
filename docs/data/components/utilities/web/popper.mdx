@@ -4,22 +4,26 @@ description: Popper는 floating ui 라이브러리를 사용하여 특정 요소
 createdAt: 2025-06-17
 ---
 
-## Usage
+## Introduce
 
 floating ui 라이브러리를 사용하여 특정 요소를 기준으로 오버레이를 띄울 때 사용합니다.
 
-<Demo code={`import { Popper, PopperAnchor, PopperContent, PopperArrow, Button } from '@wanteddev/wds';
+<Demo code={`import { Popper, PopperAnchor, PopperContent, PopperArrow, Button, FlexBox, Typography, NoSsr } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <Popper>
       <PopperAnchor>
-        <Button>클릭</Button>
+        <Button>Anchor</Button>
       </PopperAnchor>
-      <PopperContent>
-        <PopperArrow />
-        콘텐츠
-      </PopperContent>
+      <NoSsr>
+        <PopperContent>
+          <FlexBox>
+            <PopperArrow />
+            <Typography>콘텐츠</Typography>
+          </FlexBox>
+        </PopperContent>
+      </NoSsr>
     </Popper>
   )
 }
@@ -47,7 +51,7 @@ Popper는 아래와 같은 구조를 가집니다.
 
 ### Popper
 
-<PropsTable component="Popper" />
+`children` 외 추가적인 옵션을 제공하지 않습니다.
 
 ### PopperAnchor
 

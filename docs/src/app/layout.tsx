@@ -6,9 +6,11 @@ import { generatePropTypes } from '@/features/docs/helpers/props';
 import Providers from './providers';
 import ClientLayout from './layout.client';
 
+import type { Metadata } from 'next';
+
 import '@wanteddev/wds/global.css';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Montage - Wanted Design System',
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_PATH!),
 };

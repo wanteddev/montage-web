@@ -88,6 +88,27 @@ export const getAllFrontmatter = async () => {
   ];
 };
 
+/**
+ * https://github.com/mdx-js/mdx/issues/2574
+ */
+const preprocessDemoCode = (source: string): string => {
+  return source.replace(
+    /<Demo\s+code=\{`([^`]*)`\}/g,
+    (match, codeContent: string) => {
+      const lines = codeContent.split('\n');
+      const processedLines = lines.map((line) => {
+        // 줄의 시작 공백이 2개 이상이면 2개 추가
+        const spaceMatch = line.match(/^( {2,})/);
+        if (spaceMatch) {
+          return '  ' + line;
+        }
+        return line;
+      });
+      return `<Demo code={\`${processedLines.join('\n')}\`}`;
+    },
+  );
+};
+
 const SERIALIZE_OPTIONS: SerializeOptions = {
   parseFrontmatter: true,
   mdxOptions: {
@@ -119,10 +140,9 @@ export const getSourceBySlug = async (slug: Array<string>) => {
     throw new Error(`File not found for slug: ${slug.join('/')}`);
   }
 
-  return serialize<unknown, Frontmatter>(
-    readFileSync(filePath, 'utf8'),
-    SERIALIZE_OPTIONS,
-  );
+  const source = preprocessDemoCode(readFileSync(filePath, 'utf8'));
+
+  return serialize<unknown, Frontmatter>(source, SERIALIZE_OPTIONS);
 };
 
 export const findFrontmatterByParams = async (params: Array<string>) => {

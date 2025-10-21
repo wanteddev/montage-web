@@ -1,5 +1,11 @@
 'use client';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -18,15 +24,17 @@ const Sidebar = () => {
   >([]);
 
   useEffect(() => {
-    const headingElements = Array.from(
-      document.querySelectorAll('[data-heading]'),
-    ).map((el) => ({
-      nodeName: el.nodeName,
-      text: el.textContent,
-      id: el.id,
-    }));
+    startTransition(() => {
+      const headingElements = Array.from(
+        document.querySelectorAll('[data-heading]'),
+      ).map((el) => ({
+        nodeName: el.nodeName,
+        text: el.textContent,
+        id: el.id,
+      }));
 
-    setHeadings(headingElements);
+      setHeadings(headingElements);
+    });
   }, [params.slug]);
 
   const headingElements = useMemo(() => {

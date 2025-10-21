@@ -14,9 +14,6 @@ import type {
   Text,
 } from 'mdast';
 
-const PROPERTY_NAME = ['name', '이름', '값', 'value', 'parameter', '파라미터'];
-const TYPE_NAME = ['type', 'types', '타입'];
-
 /**
  * @description jsx 구문으로 작성되지 않은 style을 객체 형태로 변환한다.
  */
@@ -166,6 +163,9 @@ const makeInlineCode = (cell: TableCell) => {
     value: getLabel(cell.children),
   } as InlineCode;
 };
+
+const PROPERTY_NAME = ['name', '이름', '값', 'value', 'parameter', '파라미터'];
+const TYPE_NAME = ['type', 'types', '타입'];
 
 /**
  * @description 테이블 헤더에서 속성과 타입을 추출하여 속성 타입 컬럼을 생성한다.

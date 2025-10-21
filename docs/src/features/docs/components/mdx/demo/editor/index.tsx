@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  startTransition,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { javascript } from '@codemirror/lang-javascript';
 import { EditorState } from '@codemirror/state';
 import {
@@ -209,15 +215,17 @@ const Editor = ({
         return;
       }
 
-      const newView = new EditorView({
-        state: handleCreateState(),
-        parent: node,
+      startTransition(() => {
+        const newView = new EditorView({
+          state: handleCreateState(),
+          parent: node,
+        });
+
+        view.current = newView;
+
+        node.querySelector<HTMLElement>('[contenteditable="true"]')!.tabIndex =
+          -1;
       });
-
-      view.current = newView;
-
-      node.querySelector<HTMLElement>('[contenteditable="true"]')!.tabIndex =
-        -1;
 
       return () => {
         view.current?.destroy();
