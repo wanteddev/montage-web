@@ -1,11 +1,10 @@
-import path from 'path';
-import fs from 'fs';
+import { join } from 'node:path';
+import { globSync, writeFileSync } from 'node:fs';
 
-import { sync } from 'glob';
 import { withCustomConfig } from 'react-docgen-typescript';
 
 const parser = withCustomConfig(
-  path.join(process.cwd(), '../packages/wds/tsconfig.json'),
+  join(process.cwd(), '../packages/wds/tsconfig.json'),
   {
     customComponentTypes: [
       'MemoExoticComponent',
@@ -40,7 +39,7 @@ const parser = withCustomConfig(
 );
 
 const engineParser = withCustomConfig(
-  path.join(process.cwd(), '../packages/wds-engine/tsconfig.json'),
+  join(process.cwd(), '../packages/wds-engine/tsconfig.json'),
   {
     customComponentTypes: [
       'MemoExoticComponent',
@@ -70,7 +69,7 @@ const engineParser = withCustomConfig(
 );
 
 const lottieParser = withCustomConfig(
-  path.join(process.cwd(), '../packages/wds-lottie/tsconfig.json'),
+  join(process.cwd(), '../packages/wds-lottie/tsconfig.json'),
   {
     propFilter: (prop) => {
       if (prop.name === 'css') {
@@ -96,20 +95,20 @@ const lottieParser = withCustomConfig(
 
 const main = () => {
   const getPathName = (pathname, packageName) =>
-    path.join(process.cwd(), `../packages/${packageName}/src/${pathname}`);
+    join(process.cwd(), `../packages/${packageName}/src/${pathname}`);
 
   const output = [
-    ...parser.parse(sync(getPathName('components/index.ts', 'wds'))),
+    ...parser.parse(globSync(getPathName('components/index.ts', 'wds'))),
     ...engineParser.parse(
-      sync(getPathName('components/index.ts', 'wds-engine')),
+      globSync(getPathName('components/index.ts', 'wds-engine')),
     ),
     ...lottieParser.parse(
-      sync(getPathName('components/index.ts', 'wds-lottie')),
+      globSync(getPathName('components/index.ts', 'wds-lottie')),
     ),
   ];
 
-  fs.writeFileSync(
-    path.join(process.cwd(), `../docs/src/data.json`),
+  writeFileSync(
+    join(process.cwd(), `../docs/src/data.json`),
     JSON.stringify({ result: output }),
     'utf-8',
   );

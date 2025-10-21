@@ -1,5 +1,11 @@
-import fs from 'fs';
-import path from 'path';
+import {
+  readFileSync,
+  readdirSync,
+  rmSync,
+  writeFile,
+  writeFileSync,
+} from 'node:fs';
+import { join } from 'node:path';
 
 import shelljs from 'shelljs';
 
@@ -28,10 +34,10 @@ const camelCase = (text) => {
 };
 
 const main = async () => {
-  const outputs = fs.readdirSync(outputDir);
+  const outputs = readdirSync(outputDir);
 
   const result = JSON.parse(
-    fs.readFileSync(path.join(outputDir, 'result.json'), 'utf-8'),
+    readFileSync(join(outputDir, 'result.json'), 'utf-8'),
   );
 
   const data = outputs
@@ -44,7 +50,7 @@ const main = async () => {
         ),
     )
     .map((filename) => {
-      const content = fs.readFileSync(path.join(outputDir, filename), 'utf-8');
+      const content = readFileSync(join(outputDir, filename), 'utf-8');
 
       const filenameWithoutExtension = filename.replace('.svg', '');
 
@@ -123,7 +129,7 @@ const main = async () => {
     );
   });
 
-  fs.writeFileSync(
+  writeFileSync(
     './figma/icons/index.figma.tsx',
     `import figma from "@figma/code-connect";\nimport {${files
       .map(([name]) => pascalCase(name))
@@ -136,7 +142,7 @@ const main = async () => {
     files.map(
       ([fileName, fileContents]) =>
         new Promise((resolve, reject) => {
-          fs.writeFile(
+          writeFile(
             `./packages/wds-icon/src/${fileName}.tsx`,
             fileContents,
             (err) => (err ? reject(err) : resolve()),
@@ -145,7 +151,7 @@ const main = async () => {
     ),
   );
 
-  fs.writeFileSync(
+  writeFileSync(
     './packages/wds-icon/src/index.ts',
     [
       ...data.map(
@@ -169,7 +175,7 @@ const main = async () => {
   );
   shelljs.exec('pnpm -F wds-icon lint:fix src');
 
-  fs.rmSync(outputDir, { recursive: true, force: true });
+  rmSync(outputDir, { recursive: true, force: true });
 
   console.log('DONE!');
 };

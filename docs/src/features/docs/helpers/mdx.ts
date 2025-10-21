@@ -1,10 +1,9 @@
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync, globSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import { serialize } from 'next-mdx-remote/serialize';
-import { sync } from 'glob';
 import matter from 'gray-matter';
 
 import { shouldNotSerializeMDXFrontmatters } from '../constants';
@@ -72,7 +71,7 @@ export const getFrontmatterBySlug = async (slug: Array<string>) => {
 };
 
 export const getAllFrontmatter = async () => {
-  const paths = sync(`${DATA_PATH}/**/*.{mdx,md}`);
+  const paths = globSync(`${DATA_PATH}/**/*.{mdx,md}`);
 
   return [
     ...paths.map((filePath) => {
