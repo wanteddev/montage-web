@@ -11,10 +11,7 @@ import { shouldNotSerializeMDXFrontmatters } from '../constants';
 import { remarkStyle, remarkTable } from './remark';
 import { shouldNotSerializeMDX } from './overview';
 
-import type {
-  MDXRemoteSerializeResult,
-  SerializeOptions,
-} from 'node_modules/next-mdx-remote/dist/types';
+import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import type { Frontmatter } from '@/features/docs/types';
 
 const ROOT_PATH = process.cwd();
@@ -108,14 +105,6 @@ const preprocessDemoCode = (source: string): string => {
   );
 };
 
-const SERIALIZE_OPTIONS: SerializeOptions = {
-  parseFrontmatter: true,
-  mdxOptions: {
-    rehypePlugins: [rehypeSlug],
-    remarkPlugins: [remarkGfm, remarkStyle, remarkTable],
-  },
-};
-
 export const getSourceBySlug = async (slug: Array<string>) => {
   if (shouldNotSerializeMDX(slug)) {
     const frontmatter = shouldNotSerializeMDXFrontmatters.find(
@@ -141,7 +130,13 @@ export const getSourceBySlug = async (slug: Array<string>) => {
 
   const source = preprocessDemoCode(readFileSync(filePath, 'utf8'));
 
-  return serialize<unknown, Frontmatter>(source, SERIALIZE_OPTIONS);
+  return serialize<unknown, Frontmatter>(source, {
+    parseFrontmatter: true,
+    mdxOptions: {
+      rehypePlugins: [rehypeSlug],
+      remarkPlugins: [remarkGfm, remarkStyle, remarkTable],
+    },
+  });
 };
 
 export const findFrontmatterByParams = async (params: Array<string>) => {

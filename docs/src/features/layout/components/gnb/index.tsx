@@ -2,57 +2,44 @@
 import {
   Box,
   FlexBox,
-  ListCellContent,
-  Menu,
-  MenuContent,
-  MenuItem,
-  MenuList,
-  MenuTrigger,
   NoSsr,
   Typography,
   WithInteraction,
   useThemeControl,
 } from '@wanteddev/wds';
-import {
-  IconDesktop,
-  IconMenu,
-  IconMoon,
-  IconSearch,
-  IconSun,
-} from '@wanteddev/wds-icon';
+import { IconMenu, IconMoon, IconSearch, IconSun } from '@wanteddev/wds-icon';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useParams } from 'next/navigation';
 
 import Logo from '@/assets/logo';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
-import IconFlexAlignLeft from '@/assets/icon-flex-align-left';
+
+// import { VERSION } from '../../constants';
 
 import {
   gnbActionsStyle,
-  gnbHideActionStyle,
+  gnbContainerStyle,
   gnbMenuStyle,
-  gnbSearchButtonStyle,
+  gnbNavigationLinkStyle,
+  gnbNavigationLinkWrapperStyle,
+  // gnbVersionStyle,
+  // gnbVersionTextStyle,
   gnbWrapperStyle,
-  kbdWrapperStyle,
-  menuItemStyle,
-  searchBarStyle,
 } from './style';
 import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
+import { GNB_NAVIGATION_LINKS } from './constants';
 
-import type { CSSProperties } from 'react';
+import type { SlugParams } from '@/features/docs/components/lnb/types';
 
 const Gnb = () => {
-  const { setTheme, themeOriginValue } = useThemeControl();
+  const { setTheme, theme: currentTheme } = useThemeControl();
+
+  const params = useParams<SlugParams>();
 
   const lnbContext = useLnbContext();
 
-  const [menuOpen, setMenuOpen] = useState(false);
-
   const { isOpen, handleOpen, handleOpenChange } = useSearch();
-
-  // const { ref, translateY, handleFocusCapture, handleBlurCapture } =
-  //   useFloatingGnb();
 
   return (
     <>
@@ -66,208 +53,104 @@ const Gnb = () => {
       )}
 
       <FlexBox
-        // ref={ref}
-        // onFocusCapture={handleFocusCapture}
-        // onBlurCapture={handleBlurCapture}
         suppressHydrationWarning
         alignContent="center"
         as="header"
         sx={[gnbWrapperStyle]}
-        style={
-          {
-            // '--gnb-translate-y': `${translateY}px`,
-          } as CSSProperties
-        }
       >
         <FlexBox
           alignItems="center"
           justifyContent="space-between"
           flex="1"
           gap="32px"
+          sx={gnbContainerStyle}
         >
-          <FlexBox alignItems="center" gap="24px">
-            <Box
-              as={Link}
-              href="/"
-              sx={(theme) => ({ color: theme.semantic.label.normal })}
+          <Box
+            as={Link}
+            href="/"
+            sx={(theme) => ({ color: theme.semantic.label.normal })}
+          >
+            <Logo />
+          </Box>
+
+          <FlexBox alignItems="center" gap="72px">
+            <FlexBox
+              gap="20px"
+              alignItems="center"
+              sx={gnbNavigationLinkWrapperStyle}
             >
-              <Logo />
-            </Box>
+              {GNB_NAVIGATION_LINKS.map((link) => (
+                <Typography
+                  as={Link}
+                  href={link.href}
+                  key={link.href}
+                  variant="body2"
+                  weight="bold"
+                  aria-current={
+                    params.slug?.at(0) === link.slug ? 'page' : undefined
+                  }
+                  color="semantic.label.alternative"
+                  data-role="gnb-navigation-link"
+                  sx={gnbNavigationLinkStyle}
+                >
+                  {link.label}
+                </Typography>
+              ))}
+            </FlexBox>
 
-            <WithInteraction>
-              <FlexBox
-                aria-label="Toggle left navigation bar"
-                as="button"
-                onClick={() => lnbContext.setHide(!lnbContext.hide)}
-                sx={[gnbActionsStyle, gnbHideActionStyle]}
-              >
-                {lnbContext.hide ? (
-                  <IconFlexAlignLeft sx={{ transform: 'rotate(180deg)' }} />
-                ) : (
-                  <IconFlexAlignLeft />
-                )}
-              </FlexBox>
-            </WithInteraction>
-          </FlexBox>
+            <FlexBox gap="8px" alignItems="center">
+              {/* <FlexBox sx={gnbVersionStyle} alignItems="center">
+                <Typography
+                  variant="label2"
+                  weight="bold"
+                  color="semantic.label.normal"
+                  sx={gnbVersionTextStyle}
+                >
+                  {`v ${VERSION}`}
+                </Typography>
+              </FlexBox> */}
 
-          <FlexBox gap="4px" alignItems="center">
-            <WithInteraction>
-              <FlexBox
-                role="search"
-                aria-label="Search"
-                sx={searchBarStyle}
-                onClick={handleOpen}
-                alignItems="center"
-                tabIndex={0}
-                data-lnb-hide={lnbContext.hide}
-                gap="6px"
-              >
-                <IconSearch />
-
-                <FlexBox alignItems="center" gap="4px">
-                  <Typography
-                    variant="label1"
-                    weight="medium"
-                    color="semantic.label.assistive"
-                  >
-                    Press
-                  </Typography>
-                  <FlexBox alignItems="center" sx={kbdWrapperStyle}>
-                    <Typography
-                      as="kbd"
-                      variant="label2"
-                      weight="medium"
-                      color="semantic.label.assistive"
-                    >
-                      ⌘
-                    </Typography>
-                    <Typography
-                      as="kbd"
-                      variant="label2"
-                      weight="medium"
-                      color="semantic.label.assistive"
-                    >
-                      K
-                    </Typography>
-                  </FlexBox>
-                  <Typography
-                    variant="label1"
-                    weight="medium"
-                    color="semantic.label.assistive"
-                  >
-                    to search
-                  </Typography>
-                </FlexBox>
-              </FlexBox>
-            </WithInteraction>
-
-            <WithInteraction>
-              <FlexBox
-                aria-label="Search"
-                as="button"
-                role="search"
-                onClick={handleOpen}
-                sx={[gnbActionsStyle, gnbSearchButtonStyle]}
-              >
-                <IconSearch />
-              </FlexBox>
-            </WithInteraction>
-
-            <Menu
-              open={menuOpen}
-              onOpenChange={setMenuOpen}
-              value={themeOriginValue}
-              onValueChange={(value) => {
-                setTheme(value?.toString() ?? 'system');
-                setMenuOpen(false);
-              }}
-            >
-              <MenuTrigger>
+              <FlexBox gap="4px" alignItems="center">
                 <WithInteraction>
                   <FlexBox
+                    aria-label="search"
                     as="button"
-                    aria-label="Theme toggle"
+                    aria-pressed={isOpen}
+                    onClick={handleOpen}
+                    sx={gnbActionsStyle}
+                  >
+                    <IconSearch />
+                  </FlexBox>
+                </WithInteraction>
+
+                <WithInteraction>
+                  <FlexBox
+                    aria-label="toggle theme"
+                    as="button"
+                    onClick={() =>
+                      setTheme(currentTheme === 'light' ? 'dark' : 'light')
+                    }
                     sx={gnbActionsStyle}
                   >
                     <NoSsr fallback={<IconSun />}>
-                      {themeOriginValue === 'system' && <IconDesktop />}
-
-                      {themeOriginValue === 'dark' && <IconMoon />}
-
-                      {themeOriginValue === 'light' && <IconSun />}
+                      {currentTheme === 'light' ? <IconSun /> : <IconMoon />}
                     </NoSsr>
                   </FlexBox>
                 </WithInteraction>
-              </MenuTrigger>
 
-              <MenuContent
-                sx={{ width: 200, borderRadius: 8 }}
-                position="top-end"
-                offset={4}
-              >
-                <MenuList sx={{ paddingBlock: 4 }}>
-                  <MenuItem
-                    verticalPadding="small"
-                    sx={menuItemStyle}
-                    leadingContent={
-                      <ListCellContent variant="icon">
-                        <IconSun data-role="menu-item-icon" />
-                      </ListCellContent>
-                    }
-                    textProps={{
-                      variant: 'label1',
-                      weight: 'medium',
-                    }}
-                    value="light"
+                <WithInteraction>
+                  <FlexBox
+                    aria-label="menu"
+                    as="button"
+                    aria-pressed={lnbContext.open}
+                    onClick={() => lnbContext.setOpen(!lnbContext.open)}
+                    sx={[gnbActionsStyle, gnbMenuStyle]}
                   >
-                    Light
-                  </MenuItem>
-                  <MenuItem
-                    verticalPadding="small"
-                    sx={menuItemStyle}
-                    leadingContent={
-                      <ListCellContent variant="icon">
-                        <IconMoon data-role="menu-item-icon" />
-                      </ListCellContent>
-                    }
-                    textProps={{
-                      variant: 'label1',
-                      weight: 'medium',
-                    }}
-                    value="dark"
-                  >
-                    Dark
-                  </MenuItem>
-                  <MenuItem
-                    verticalPadding="small"
-                    sx={menuItemStyle}
-                    leadingContent={
-                      <ListCellContent variant="icon">
-                        <IconDesktop data-role="menu-item-icon" />
-                      </ListCellContent>
-                    }
-                    textProps={{
-                      variant: 'label1',
-                      weight: 'medium',
-                    }}
-                    value="system"
-                  >
-                    Match browser
-                  </MenuItem>
-                </MenuList>
-              </MenuContent>
-            </Menu>
-
-            <WithInteraction>
-              <FlexBox
-                aria-label="menu"
-                as="button"
-                onClick={() => lnbContext.setOpen(!lnbContext.open)}
-                sx={[gnbActionsStyle, gnbMenuStyle]}
-              >
-                <IconMenu />
+                    <IconMenu />
+                  </FlexBox>
+                </WithInteraction>
               </FlexBox>
-            </WithInteraction>
+            </FlexBox>
           </FlexBox>
         </FlexBox>
       </FlexBox>

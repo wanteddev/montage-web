@@ -12,9 +12,9 @@ import {
   getFrontmatterTitle,
 } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
-import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
-import CustomRender from '@/features/docs/components/custom-render';
 import { HeadingProvider } from '@/features/docs/context';
+import CustomRender from '@/features/docs/components/custom-render';
+import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
 
 import type { Metadata } from 'next';
 
@@ -81,7 +81,11 @@ const DocsPage = async (props: Props) => {
   const params = await props.params;
 
   if (shouldNotSerializeMDX(parseSlug(params))) {
-    return <CustomRender />;
+    return (
+      <HeadingProvider>
+        <CustomRender />
+      </HeadingProvider>
+    );
   }
 
   try {

@@ -3,11 +3,11 @@ import { css, respondMore } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const sidebarStyle = (theme: Theme) => css`
-  width: 144px;
-  box-sizing: content-box;
+  width: 160px;
   position: sticky;
-  padding: 0px 32px;
-  top: calc(var(--gnb-height) + 56px);
+  flex-shrink: 0;
+  padding: 56px 0px 0px;
+  top: var(--gnb-height);
   height: calc(100dvh - var(--gnb-height) - 56px);
   display: none;
 

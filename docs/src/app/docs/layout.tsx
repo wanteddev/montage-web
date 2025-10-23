@@ -1,65 +1,57 @@
 'use client';
-import { FlexBox, respondMore } from '@wanteddev/wds';
-import { useParams } from 'next/navigation';
+import { FlexBox } from '@wanteddev/wds';
 
 import Sidebar from '@/features/docs/components/sidebar';
 import DocsDescription from '@/features/docs/components/description';
 import Footer from '@/features/layout/components/footer';
-import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
-import Container from '@/features/layout/components/container';
-
-import type { SlugParams } from '@/features/docs/components/lnb/types';
+import Lnb from '@/features/docs/components/lnb';
 
 export const dynamic = 'force-static';
 
 const DocsLayout = ({ children }: LayoutProps<'/docs'>) => {
-  const params = useParams<SlugParams>();
-
-  if (shouldNotSerializeMDX(params.slug ?? [])) {
-    return (
-      <Container data-algolia-page-scope>
-        {children}
-
-        <Footer />
-      </Container>
-    );
-  }
-
   return (
     <FlexBox
+      gap="40px"
       sx={{
-        paddingTop: 56,
         width: '100%',
+        margin: '0 auto',
+        maxWidth: 'var(--layout-max-width)',
+        boxSizing: 'content-box',
       }}
-      justifyContent="center"
     >
+      <Lnb />
+
       <FlexBox
-        data-algolia-page-scope
-        flexDirection="column"
-        sx={(theme) => ({
-          padding: '0px 20px',
-          maxWidth: '100%',
-          [respondMore(theme.breakpoint.sm)]: {
-            padding: '0px 40px',
-            maxWidth: '840px',
-          },
-          [respondMore(theme.breakpoint.xl)]: {
-            maxWidth: 'min(840px, calc(100% - 208px))',
-          },
-        })}
-        flex="1 1 0"
+        gap="20px"
+        sx={{ width: '100%' }}
+        sm={{ justifyContent: 'center' }}
+        lg={{
+          sx: { width: 'calc(100% - 200px)' },
+        }}
       >
-        <DocsDescription />
-        {children}
-
-        <Footer
+        <FlexBox
+          data-algolia-page-scope
+          flexDirection="column"
           sx={{
-            marginTop: '120px',
+            padding: '56px var(--layout-padding-inline) 0px',
+            width: '100%',
+            maxWidth: 'min(800px, 100%)',
           }}
-        />
-      </FlexBox>
+          flex="1 1 0"
+        >
+          <DocsDescription />
 
-      <Sidebar />
+          {children}
+
+          <Footer
+            sx={{
+              marginTop: '120px',
+            }}
+          />
+        </FlexBox>
+
+        <Sidebar />
+      </FlexBox>
     </FlexBox>
   );
 };

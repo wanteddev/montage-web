@@ -12,8 +12,6 @@ import { useParams } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
 
-import { shouldNotSerializeMDX } from '../../helpers/overview';
-
 import { sidebarContentStyle, sidebarStyle } from './style';
 import { getHeadingLevel } from './helpers';
 
@@ -101,10 +99,6 @@ const Sidebar = () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSectionVisible, headings]);
-
-  if (shouldNotSerializeMDX(params.slug)) {
-    return null;
-  }
 
   return (
     <FlexBox data-algolia-exclude sx={sidebarStyle} flexShrink={0}>

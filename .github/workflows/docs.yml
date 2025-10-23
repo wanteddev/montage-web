@@ -10,7 +10,7 @@ env:
   SERVICE: montage
   PLATFORM: front
 
-  NODE_VERSION: 20
+  NODE_VERSION: 22.18.0
 
   AWS_REGION: ap-northeast-2
   AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}

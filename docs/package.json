@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev",
+    "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev --turbo",
     "build": "node scripts/docgen.mjs && next build",
     "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",

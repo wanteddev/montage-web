@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { usePathname, useSelectedLayoutSegments } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { createContext, useContext } from 'react';
 
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
@@ -8,17 +8,12 @@ import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
 const LnbContext = createContext<{
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  hide: boolean;
-  setHide: Dispatch<SetStateAction<boolean>>;
-}>({ open: false, setOpen: () => '', hide: false, setHide: () => '' });
+}>({ open: false, setOpen: () => '' });
 
 export const useLnbContext = () => useContext(LnbContext);
 
 export const LnbProvider = ({ children }: PropsWithChildren) => {
-  const segments = useSelectedLayoutSegments();
-
   const [open, setOpen] = useState(false);
-  const [hide, setHide] = useState(!segments.includes('docs'));
 
   const pathname = usePathname();
 
@@ -44,7 +39,7 @@ export const LnbProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <LnbContext.Provider value={{ open, setOpen, hide, setHide }}>
+    <LnbContext.Provider value={{ open, setOpen }}>
       {children}
     </LnbContext.Provider>
   );

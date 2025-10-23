@@ -4,6 +4,9 @@ import {
   ModalContainer,
   ModalContent,
   ModalNavigation,
+  Tab,
+  TabList,
+  TabListItem,
   useTransitionStatus,
 } from '@wanteddev/wds';
 import { memo, useEffect, useRef, useState } from 'react';
@@ -33,7 +36,6 @@ const LnbMobile = ({ frontmatters }: Props) => {
 
   useEffect(() => {
     setOpen(lnbMobile.open);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lnbMobile.open]);
 
   useEffect(() => {
@@ -72,9 +74,17 @@ const LnbMobile = ({ frontmatters }: Props) => {
         wrapperProps={{ sx: wrapperStyle }}
       >
         <ModalNavigation variant="floating" />
-        <ModalContent sx={{ padding: '72px 8px 0px' }}>
+        <ModalContent sx={{ padding: '72px 28px 32px' }}>
+          <Tab>
+            <TabList size="small">
+              <TabListItem value="get-started">Get Started</TabListItem>
+              <TabListItem value="foundations">Foundations</TabListItem>
+              <TabListItem value="components">Components</TabListItem>
+              <TabListItem value="utilities">Utilities</TabListItem>
+            </TabList>
+          </Tab>
           <FlexBox flexDirection="column" gap="20px">
-            <FlexBox as="nav" flexDirection="column" justifyContent="center">
+            <FlexBox as="nav" flexDirection="column">
               {frontmatters.map((frontmatter, i) => {
                 return (
                   <LnbGroup

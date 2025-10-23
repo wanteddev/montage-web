@@ -1,15 +1,8 @@
-import {
-  addOpacity,
-  css,
-  ellipsisTypographyStyle,
-  respondMore,
-} from '@wanteddev/wds';
+import { css, ellipsisTypographyStyle, respondMore } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbItemStyle = (theme: Theme) => css`
-  padding-left: var(--lnb-padding-left);
-
   ${respondMore(theme.breakpoint.lg)} {
     [data-role='list-text-content'] {
       ${ellipsisTypographyStyle(1)}
@@ -19,45 +12,57 @@ export const lnbItemStyle = (theme: Theme) => css`
     }
   }
 
-  [data-role='list-text-content'] {
-    color: ${theme.semantic.label.alternative};
-    letter-spacing: -0.014em;
+  && {
+    --wds-list-cell-horizontal-padding: 0px;
+    --wds-list-cell-vertical-padding: 4px;
   }
 
-  transition: background-color 0.5s ease;
+  border-radius: 8px;
 
-  [data-role='list-text-content'] {
-    transition: color 0.5s ease;
+  & > [wds-component='with-interaction'] {
+    width: calc(100% + var(--lnb-padding) * 2);
   }
 
-  &[data-depth='0'] {
+  [wds-component='list-cell-content'] {
+    color: transparent;
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
+    transform: translateX(-10px);
+  }
+  @media (pointer: fine) {
+    &:hover {
+      [wds-component='list-cell-content'] {
+        color: ${theme.semantic.label.assistive};
+        transform: translateX(0px);
+      }
+    }
+  }
+
+  &[aria-current='page'] {
+    [wds-component='list-cell-content'] {
+      color: ${theme.semantic.label.normal};
+      transform: translateX(0px);
+    }
+
     [data-role='list-text-content'] {
       color: ${theme.semantic.label.normal};
     }
-  }
 
-  &:not([data-depth='0']) {
-    border-radius: 8px;
-    --wds-list-cell-vertical-padding: 4px;
+    & > [wds-component='with-interaction'] {
+      opacity: 0.02;
+    }
 
-    &[aria-current='page'] {
-      background-color: ${addOpacity(theme.semantic.primary.normal, 0.09)};
-
-      [data-role='list-text-content'] {
-        color: ${theme.semantic.primary.normal};
-      }
-
+    &:hover {
       & > [wds-component='with-interaction'] {
-        background-color: ${theme.semantic.primary.normal};
-      }
-
-      [wds-component='list-cell-content'] {
-        color: ${theme.semantic.primary.normal};
+        opacity: ${theme.opacity[5]};
       }
     }
-  }
 
-  &[data-depth='3'] {
-    padding-left: calc(var(--lnb-padding-left) + 12px);
+    &:active {
+      & > [wds-component='with-interaction'] {
+        opacity: ${theme.opacity[12]};
+      }
+    }
   }
 `;

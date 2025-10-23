@@ -1,53 +1,41 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useMemo } from 'react';
 
 import {
-  isComponentOverview,
-  isFoundationsOverview,
-  isGetStarted,
-} from '../../helpers/overview';
-import {
-  componentOverviewFrontmatter,
-  foundationsOverviewFrontmatter,
-  getStartedFrontmatter,
+  foundationsElevationFrontmatter,
+  foundationsGridAndLayoutFrontmatter,
+  foundationsTypographyFrontmatter,
 } from '../../constants';
 
-import FoundationsOverview from './foundations-overview';
-import GetStarted from './get-started';
-import ComponentsOverview from './components-overview';
 import CustomRenderLayout from './layout';
+import FoundationsTypography from './foundations/typography';
+import FoundationsGridAndLayout from './foundations/grid-and-layout';
+import FoundationsElevation from './foundations/elevation';
 
 import type { SlugParams } from '../lnb/types';
 
 const CustomRender = () => {
   const { slug = [] } = useParams<SlugParams>();
 
-  if (isFoundationsOverview(slug)) {
-    return (
-      <CustomRenderLayout frontmatter={foundationsOverviewFrontmatter}>
-        <FoundationsOverview />
-      </CustomRenderLayout>
-    );
-  }
+  const component = useMemo(() => {
+    switch (slug.join('/')) {
+      case foundationsTypographyFrontmatter.slug.join('/'):
+        return <FoundationsTypography />;
 
-  if (isComponentOverview(slug)) {
-    return (
-      <CustomRenderLayout frontmatter={componentOverviewFrontmatter}>
-        <ComponentsOverview />
-      </CustomRenderLayout>
-    );
-  }
+      case foundationsGridAndLayoutFrontmatter.slug.join('/'):
+        return <FoundationsGridAndLayout />;
 
-  if (isGetStarted(slug)) {
-    return (
-      <CustomRenderLayout frontmatter={getStartedFrontmatter}>
-        <GetStarted />
-      </CustomRenderLayout>
-    );
-  }
+      case foundationsElevationFrontmatter.slug.join('/'):
+        return <FoundationsElevation />;
 
-  return null;
+      default:
+        return null;
+    }
+  }, [slug]);
+
+  return <CustomRenderLayout>{component}</CustomRenderLayout>;
 };
 
 export default CustomRender;

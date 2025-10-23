@@ -4,7 +4,6 @@ import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { generatePropTypes } from '@/features/docs/helpers/props';
 
 import Providers from './providers';
-import ClientLayout from './layout.client';
 
 import type { Metadata } from 'next';
 
@@ -156,7 +155,7 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
             <Gnb />
 
-            <ClientLayout>{children}</ClientLayout>
+            {children}
           </MDXProvider>
         </Providers>
       </body>

@@ -6,20 +6,43 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   position: sticky;
   z-index: ${theme.zIndex.modal};
   top: 0;
-  padding: 12px 20px;
   width: 100%;
+  padding: 12px var(--layout-padding-inline);
   backdrop-filter: blur(32px);
   background-color: ${addOpacity(
     theme.semantic.background.normal.normal,
     theme.opacity[88],
   )};
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
-  transform: translateY(var(--gnb-translate-y));
+`;
+
+export const gnbContainerStyle = css`
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+`;
+
+export const gnbNavigationLinkWrapperStyle = (theme: Theme) => css`
+  display: none;
+  height: 22px;
 
   ${respondMore(theme.breakpoint.lg)} {
-    padding: 12px 48px;
+    display: flex;
+  }
+
+  &:has([data-role='gnb-navigation-link']:hover) {
+    [data-role='gnb-navigation-link']:not(:hover) {
+      color: ${theme.semantic.label.assistive};
+    }
+  }
+`;
+
+export const gnbNavigationLinkStyle = (theme: Theme) => css`
+  padding: 12px 10px;
+  transition: color 0.2s ease;
+
+  &[aria-current='page'],
+  &:hover {
+    color: ${theme.semantic.label.normal};
   }
 `;
 
@@ -54,66 +77,18 @@ export const gnbMenuStyle = (theme: Theme) => css`
   }
 `;
 
-export const searchBarStyle = (theme: Theme) => css`
-  display: flex;
-  border-radius: 12px;
-  background: ${theme.semantic.fill.normal};
-  backdrop-filter: blur(32px);
-  padding: 8px 10px;
-  margin-right: 4px;
-  width: 280px;
-  cursor: pointer;
+// export const gnbVersionStyle = (theme: Theme) => css`
+//   padding: 8px 12px;
+//   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+//   border-radius: 1000px;
+//   display: none;
 
-  svg {
-    color: ${theme.semantic.label.assistive};
-    font-size: 20px;
-  }
+//   ${respondMore(theme.breakpoint.lg)} {
+//     display: flex;
+//   }
+// `;
 
-  ${respondTo(theme.breakpoint.sm)} {
-    display: none;
-  }
-`;
-
-export const kbdWrapperStyle = (theme: Theme) => css`
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
-  background-color: ${theme.semantic.fill.normal};
-  border-radius: 6px;
-  padding: 2px 6px;
-`;
-
-export const gnbSearchButtonStyle = (theme: Theme) => css`
-  padding: 9px;
-  font-size: 20px;
-
-  ${respondMore(theme.breakpoint.sm)} {
-    display: none;
-  }
-`;
-
-export const menuItemStyle = (theme: Theme) => css`
-  align-items: center;
-  width: calc(100% - var(--wds-list-cell-interaction-padding) * 2 - 8px);
-
-  & > [wds-component='with-interaction'] {
-    border-radius: 6px;
-  }
-
-  [data-role='list-text-content-wrapper'] {
-    color: ${theme.semantic.label.alternative};
-  }
-
-  &[data-active='true'] {
-    [data-role='menu-item-icon'],
-    [data-role='list-text-content-wrapper'] {
-      color: ${theme.semantic.label.normal};
-    }
-
-    & > [wds-component='with-interaction'] {
-      background-color: ${theme.semantic.primary.normal};
-    }
-  }
-
-  [wds-component='list-cell-content'] {
-    font-size: 18px;
-  }
-`;
+// export const gnbVersionTextStyle = (theme: Theme) => css`
+//   text-shadow: 0 0 6px
+//     ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
+// `;

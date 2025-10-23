@@ -20,7 +20,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
+import { GNB_HEIGHT } from '@/features/layout/constants/constants';
 import useThrottle from '@/hooks/use-throttle';
 import { breakWordStyle } from '@/styles/text';
 
@@ -31,7 +31,6 @@ import {
   getFrontmatterImage,
   getFrontmatterTitle,
 } from '../../helpers/mdx.client';
-import { shouldNotSerializeMDX } from '../../helpers/overview';
 
 import {
   tabScrollStyle,
@@ -61,6 +60,12 @@ const DocsDescription = () => {
       /(web|ios|android|design)$/.test(
         params.slug?.at(params.slug.length - 1) ?? '',
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [params.slug?.toString()],
+  );
+
+  const isFoundationsPage = useMemo(
+    () => params.slug?.at(0) === 'foundations',
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [params.slug?.toString()],
   );
@@ -164,7 +169,7 @@ const DocsDescription = () => {
     return getFrontmatterImage(frontmatter, allFrontmatter);
   }, [frontmatter, allFrontmatter]);
 
-  if (!frontmatter || shouldNotSerializeMDX(frontmatter.slug)) {
+  if (!frontmatter) {
     return null;
   }
 
@@ -238,10 +243,12 @@ const DocsDescription = () => {
           </Tab>
         </>
       ) : (
-        <Divider
-          sx={{ margin: '55px 0px 88px' }}
-          color="semantic.line.normal.alternative"
-        />
+        !isFoundationsPage && (
+          <Divider
+            sx={{ margin: '55px 0px 88px' }}
+            color="semantic.line.normal.alternative"
+          />
+        )
       )}
     </>
   );

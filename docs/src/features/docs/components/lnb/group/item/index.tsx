@@ -1,11 +1,13 @@
 import {
   ListCell,
+  ListCellContent,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@wanteddev/wds';
 import Link from 'next/link';
 import { useCallback, useRef, useState } from 'react';
+import { IconArrowRightThick } from '@wanteddev/wds-icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
@@ -16,7 +18,7 @@ import type { SxProp } from '@wanteddev/wds';
 
 type Props = PropsWithChildren<{
   href: string;
-  isActive: boolean;
+  isActive?: boolean;
   depth?: string;
   sx?: SxProp;
   leadingContent?: ReactNode;
@@ -63,18 +65,28 @@ const LnbGroupItem = ({
           as={Link}
           href={href}
           onClick={handleRouteChange}
-          selected={isActive}
           fillWidth
           verticalPadding="small"
           data-depth={depth}
           aria-current={isActive ? 'page' : undefined}
-          disableInteraction={depth === '0'}
           textProps={{
-            variant: depth === '0' ? 'body1' : 'body2',
-            weight: depth === '0' ? 'bold' : 'medium',
+            variant: 'label1',
+            weight: isActive ? 'bold' : 'regular',
+            color: isActive
+              ? 'semantic.label.normal'
+              : 'semantic.label.alternative',
           }}
           sx={[lnbItemStyle, sx]}
           leadingContent={leadingContent}
+          trailingContent={
+            <ListCellContent variant="icon">
+              <IconArrowRightThick
+                sx={{
+                  fontSize: '12px',
+                }}
+              />
+            </ListCellContent>
+          }
         >
           {children}
         </ListCell>

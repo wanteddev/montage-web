@@ -1,11 +1,5 @@
 import type { Frontmatter } from '../../types';
 
-export type LNBFrontmatterChildObj = {
-  key: string;
-  children: Array<Frontmatter>;
-  defaultOpen?: boolean;
-};
-
 export type LNBFrontmatterChild = LNBFrontmatterType | Frontmatter;
 
 export type LNBFrontmatterType = {
@@ -14,8 +8,6 @@ export type LNBFrontmatterType = {
   children: Array<LNBFrontmatterChild>;
 };
 
-export type LNBFrontmatterGroup = Array<
-  LNBFrontmatterChild | LNBFrontmatterType
->;
+export type LNBFrontmatterGroup = Array<LNBFrontmatterType>;
 
 export type SlugParams = { slug?: Array<string> };

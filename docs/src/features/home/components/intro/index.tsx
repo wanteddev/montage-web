@@ -4,7 +4,7 @@ import { useCallback, useRef } from 'react';
 
 import { breakWordStyle } from '@/styles/text';
 import LiquidButton from '@/components/liquid-button';
-import { GNB_HEIGHT } from '@/features/layout/components/gnb/constants';
+import { GNB_HEIGHT } from '@/features/layout/constants/constants';
 // import LiquidButtonCopy from '@/components/liquid-button copy';
 // import LiquidButtonCopy2 from '@/components/liquid-button copy 2';
 

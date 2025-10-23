@@ -5,7 +5,6 @@ import {
   IconDiamondFill,
 } from '@wanteddev/wds-icon';
 import Link from 'next/link';
-import React from 'react';
 
 import {
   navigationBarLinkStyle,

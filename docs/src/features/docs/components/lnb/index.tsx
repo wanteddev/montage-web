@@ -7,12 +7,9 @@ import LnbGroup from './group';
 import { useLNBContent } from './hooks';
 import { isFrontmatter } from './helpers';
 import LnbMobile from './mobile';
-import { useLnbContext } from './contexts';
 
 const Lnb = () => {
   const { frontmatters } = useLNBContent();
-
-  const lnbContext = useLnbContext();
 
   const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -32,41 +29,16 @@ const Lnb = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (lnbContext.hide) {
-      viewportRef.current
-        ?.querySelectorAll<HTMLElement>('[tabindex="0"]')
-        .forEach((el) => {
-          el.tabIndex = -1;
-        });
-    } else {
-      viewportRef.current
-        ?.querySelectorAll<HTMLElement>('[tabindex="-1"]')
-        .forEach((el) => {
-          if (!el.getAttribute('data-prev-tabindex')) {
-            el.tabIndex = 0;
-          }
-        });
-    }
-  }, [lnbContext.hide]);
-
   return (
     <>
       <LnbMobile frontmatters={frontmatters} />
 
-      <ScrollArea
-        sx={lnbWrapperStyle}
-        aria-hidden={lnbContext.hide}
-        data-visible={!lnbContext.hide}
-        viewportRef={viewportRef}
-        size="small"
-      >
+      <ScrollArea sx={lnbWrapperStyle} viewportRef={viewportRef} size="small">
         <FlexBox
           as="aside"
           data-algolia-lnb-group
           sx={{ width: '100%' }}
           flexDirection="column"
-          gap="20px"
         >
           <FlexBox as="nav" flexDirection="column" justifyContent="center">
             {frontmatters.map((frontmatter, i) => {

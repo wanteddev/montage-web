@@ -15,6 +15,7 @@ import { PLATFORM_PATTERN } from './constants';
 import type {
   LNBFrontmatterChild,
   LNBFrontmatterGroup,
+  LNBFrontmatterType,
   SlugParams,
 } from './types';
 import type { Frontmatter } from '@/features/docs/types';
@@ -33,7 +34,7 @@ export const useLNBContent = () => {
   const filteredFrontmatter = useMemo(() => {
     const addToGroup = (
       frontmatter: Frontmatter,
-      groups: LNBFrontmatterGroup,
+      groups: LNBFrontmatterGroup | Array<LNBFrontmatterChild>,
       depth = 0,
     ): void => {
       if (
@@ -50,18 +51,22 @@ export const useLNBContent = () => {
 
       // 마지막 depth이거나 더 이상 하위 키가 없는 경우
       if (
-        depth >= frontmatter.slug.length - 1 ||
-        (frontmatter.slug.at(-1)?.match(PLATFORM_PATTERN) &&
-          depth === frontmatter.slug.length - 2)
+        depth !== 0 &&
+        (depth >= frontmatter.slug.length - 1 ||
+          (frontmatter.slug.at(-1)?.match(PLATFORM_PATTERN) &&
+            depth === frontmatter.slug.length - 2))
       ) {
         groups.push({
           ...frontmatter,
           title: currentKey,
-        });
+        } as unknown as LNBFrontmatterType);
         return;
       }
 
-      const currentGroup = findOrCreateGroup(groups, currentKey);
+      const currentGroup = findOrCreateGroup(
+        groups as unknown as LNBFrontmatterGroup,
+        currentKey,
+      );
 
       if (isActive) {
         currentGroup.defaultOpen = true;
@@ -76,17 +81,22 @@ export const useLNBContent = () => {
       addToGroup(frontmatter, result);
     });
 
-    return result.sort((a, b) => {
-      const getOrder = (item: LNBFrontmatterChild) => {
-        if (isFrontmatter(item)) {
-          return FIRST_LEVEL_ORDER[item.title] ?? 0;
-        }
+    return result
+      .filter((item) => {
+        return item.key.replace(/ /g, '-').toLowerCase() === params.slug?.at(0);
+      })
+      .sort((a, b) => {
+        const getOrder = (item: LNBFrontmatterChild) => {
+          if (isFrontmatter(item)) {
+            return FIRST_LEVEL_ORDER[item.title] ?? 0;
+          }
 
-        return FIRST_LEVEL_ORDER[item.key] ?? 0;
-      };
+          return FIRST_LEVEL_ORDER[item.key] ?? 0;
+        };
 
-      return getOrder(a) - getOrder(b);
-    });
+        return getOrder(a) - getOrder(b);
+      });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(allFrontmatter), params.slug]);
 
