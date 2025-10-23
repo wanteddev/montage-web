@@ -1,6 +1,7 @@
 'use client';
 import { FlexBox, ScrollArea } from '@wanteddev/wds';
 import { useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
 
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
@@ -8,8 +9,16 @@ import { useLNBContent } from './hooks';
 import { isFrontmatter } from './helpers';
 import LnbMobile from './mobile';
 
+import type { SlugParams } from './types';
+
 const Lnb = () => {
+  const params = useParams<SlugParams>();
+
   const { frontmatters } = useLNBContent();
+
+  const filteredFrontmatters = frontmatters.filter((item) => {
+    return item.key.replace(/ /g, '-').toLowerCase() === params.slug?.at(0);
+  });
 
   const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +50,7 @@ const Lnb = () => {
           flexDirection="column"
         >
           <FlexBox as="nav" flexDirection="column" justifyContent="center">
-            {frontmatters.map((frontmatter, i) => {
+            {filteredFrontmatters.map((frontmatter, i) => {
               return (
                 <LnbGroup
                   key={

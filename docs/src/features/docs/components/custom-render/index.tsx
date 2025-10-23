@@ -4,15 +4,18 @@ import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 
 import {
+  componentOverviewFrontmatter,
   foundationsElevationFrontmatter,
-  foundationsGridAndLayoutFrontmatter,
+  foundationsGridFrontmatter,
+  foundationsOverviewFrontmatter,
   foundationsTypographyFrontmatter,
 } from '../../constants';
 
 import CustomRenderLayout from './layout';
 import FoundationsTypography from './foundations/typography';
-import FoundationsGridAndLayout from './foundations/grid-and-layout';
+import FoundationsGrid from './foundations/grid';
 import FoundationsElevation from './foundations/elevation';
+import DocsCollection from './docs-collection';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -24,11 +27,17 @@ const CustomRender = () => {
       case foundationsTypographyFrontmatter.slug.join('/'):
         return <FoundationsTypography />;
 
-      case foundationsGridAndLayoutFrontmatter.slug.join('/'):
-        return <FoundationsGridAndLayout />;
+      case foundationsGridFrontmatter.slug.join('/'):
+        return <FoundationsGrid />;
 
       case foundationsElevationFrontmatter.slug.join('/'):
         return <FoundationsElevation />;
+
+      case foundationsOverviewFrontmatter.slug.join('/'):
+        return <DocsCollection category="foundations" />;
+
+      case componentOverviewFrontmatter.slug.join('/'):
+        return <DocsCollection category="components" />;
 
       default:
         return null;

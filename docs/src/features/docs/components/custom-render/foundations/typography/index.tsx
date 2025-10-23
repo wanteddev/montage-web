@@ -79,11 +79,11 @@ const FoundationsTypography = () => {
         스타일을 사용할 수 있습니다.
       </p>
 
-      <Heading3 content="Display 1, 2" sx={{ marginTop: '40px' }} />
+      <Heading3 content="Display" sx={{ marginTop: '40px' }} />
 
       <Thumbnail
         src="/foundations/typography/Image-2.png"
-        alt="Use case for Display 1, 2"
+        alt="Use case for Display"
         radius
         border
         sx={{
@@ -92,11 +92,11 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Heading3 content="Title 1, 2, 3" />
+      <Heading3 content="Title" />
 
       <Thumbnail
         src="/foundations/typography/Image-3.png"
-        alt="Use case for Title 1, 2, 3"
+        alt="Use case for Title"
         radius
         border
         sx={{
@@ -105,11 +105,11 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Heading3 content="Heading 1, 2" />
+      <Heading3 content="Heading" />
 
       <Thumbnail
         src="/foundations/typography/Image-4.png"
-        alt="Use case for Heading 1, 2"
+        alt="Use case for Heading"
         radius
         sx={{
           aspectRatio: '39 / 16',
@@ -117,11 +117,11 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Heading3 content="Headline 1, 2" />
+      <Heading3 content="Headline" />
 
       <Thumbnail
         src="/foundations/typography/Image-5.png"
-        alt="Use case for Headline 1, 2"
+        alt="Use case for Headline"
         radius
         border
         sx={{
@@ -130,11 +130,11 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Heading3 content="Body 1, 2" />
+      <Heading3 content="Body" />
 
       <Thumbnail
         src="/foundations/typography/Image-6.png"
-        alt="Use case for Body 1, 2"
+        alt="Use case for Body"
         radius
         border
         sx={{
@@ -143,11 +143,11 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Heading3 content="Label 1, 2" />
+      <Heading3 content="Label" />
 
       <Thumbnail
         src="/foundations/typography/Image-7.png"
-        alt="Use case for Label 1, 2"
+        alt="Use case for Label"
         radius
         border
         sx={{
@@ -156,11 +156,11 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Heading3 content="Caption 1, 2" />
+      <Heading3 content="Caption" />
 
       <Thumbnail
         src="/foundations/typography/Image-8.png"
-        alt="Use case for Caption 1, 2"
+        alt="Use case for Caption"
         radius
         border
         sx={{

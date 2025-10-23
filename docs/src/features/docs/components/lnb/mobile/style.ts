@@ -1,5 +1,7 @@
 import { css, keyframes, respondTo } from '@wanteddev/wds';
 
+import type { Theme } from '@wanteddev/wds';
+
 const mountKeyframe = keyframes`
   0% {
     transform: translateX(100%);
@@ -25,7 +27,7 @@ export const containerStyle = css`
   border-radius: 12px 0px 0px 12px;
   width: 75%;
   animation: ${mountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
-  --lnb-padding-left: 48px;
+  --lnb-padding: 10px;
 
   &[data-status='close'] {
     animation: ${unMountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
@@ -53,4 +55,79 @@ export const wrapperStyle = css`
   [data-role='modal-dimmer'] {
     transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
   }
+`;
+
+export const backButtonStyle = (theme: Theme) => css`
+  background-color: transparent;
+  border: none;
+  position: relative;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
+
+  &[aria-hidden='true'] {
+    opacity: 0;
+  }
+
+  svg {
+    font-size: 12px;
+    transition:
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: ${theme.semantic.label.neutral};
+  }
+
+  span {
+    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: ${theme.semantic.label.neutral};
+  }
+
+  &:hover {
+    svg {
+      transform: translateX(-4px);
+      color: ${theme.semantic.label.normal};
+    }
+
+    span {
+      color: ${theme.semantic.label.normal};
+    }
+  }
+`;
+
+export const backButtonClickableStyle = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+`;
+
+const frontmatterMountKeyframe = keyframes`
+  0% {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+`;
+
+export const frontmatterWrapperStyle = css`
+  animation: ${frontmatterMountKeyframe} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+`;
+
+const focusedCategoryMountKeyframe = keyframes`
+  0% {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+`;
+
+export const focusedCategoryWrapperStyle = css`
+  animation: ${focusedCategoryMountKeyframe} 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 `;

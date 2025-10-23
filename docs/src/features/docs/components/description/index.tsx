@@ -65,7 +65,7 @@ const DocsDescription = () => {
   );
 
   const isFoundationsPage = useMemo(
-    () => params.slug?.at(0) === 'foundations',
+    () => params.slug?.at(0) === 'foundations' && params.slug.length > 1,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [params.slug?.toString()],
   );

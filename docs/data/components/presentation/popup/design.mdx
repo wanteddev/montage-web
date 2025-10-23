@@ -1,0 +1,270 @@
+---
+title: Popup
+description: 사용자의 즉각적인 주의와 응답이 필요한 상황에서 사용하는 모달 요소입니다. 사용자의 현재 작업을 중단\n시키고 팝업 내용에 집중하도록 하며, 필수적인 결정이나 확인이 필요한 경우에 사용합니다.
+image: /components/presentation/popup/design/Thumbnail.png
+createdAt: 2025-10-14
+updatedAt: 2025-10-14
+---
+
+<SectionAnatomy
+  src="/components/presentation/popup/design/Image.png"
+  ratio="4:3"
+  data={[
+    'Navigation',
+    'Contents area',
+    'Scrim',
+    'Action area',
+  ]}
+/>
+
+<SectionVariants
+  components={['Box', 'Modal', 'ModalClose', 'ModalContainer', 'ModalContent', 'ModalContentItem', 'ModalNavigation', 'SearchField', 'ActionArea', 'ActionAreaButton']}
+  render={(value) => {
+    const size = value['Size'].toLowerCase();
+
+    let actionArea = '';
+
+    switch (value['Action area']) {
+      case 'Strong':
+        actionArea = '<ActionArea variant="strong"><ActionAreaButton>Main action</ActionAreaButton></ActionArea>';
+        break;
+      case 'Neutral':
+        actionArea = '<ActionArea variant="neutral"><ActionAreaButton variant="alternative">Alternative</ActionAreaButton><ActionAreaButton>Main</ActionAreaButton></ActionArea>';
+        break;
+      case 'Compact':
+        actionArea = '<ActionArea variant="compact"><ActionAreaButton variant="alternative">Alternative</ActionAreaButton><ActionAreaButton>Main</ActionAreaButton></ActionArea>';
+        break;
+      case 'Cancel':
+        actionArea = '<ActionArea variant="cancel"><ActionAreaButton>Cancel</ActionAreaButton></ActionArea>';
+        break;
+    }
+
+    let navigation = '';
+
+    switch (value['Navigation']) {
+      case 'Normal':
+      case 'Emphasized':
+      case 'Display':
+        navigation = `<ModalNavigation variant="${value['Navigation'].toLowerCase()}">Title</ModalNavigation>`;
+        break;
+      case 'Floating':
+        navigation = '<ModalNavigation variant="floating" />';
+        break;
+      case 'Search':
+        navigation = `
+          <ModalNavigation
+            variant="search"
+            trailingContent={<ModalClose variant="text">취소</ModalClose>}
+          >
+            <SearchField placeholder="Enter search keyword." size="small" />
+          </ModalNavigation>
+        `;
+        break;
+    }
+
+		return `
+			<Modal open>
+        <ModalContainer
+          disablePortal
+          disableOutsideClickClose
+          disableEscapeKeyDownClose
+          disableRemoveScroll
+          disableFocusScope
+          disableAriaHiddenOthers
+          size="${size}"
+          resize="hug"
+          sx={{ maxHeight: 'unset' }}
+          wrapperProps={{
+            sx: {
+              zIndex: 1,
+              position: 'relative',
+              height: '95% !important',
+              width: '95%',
+              ['[data-role="modal-dimmer"]']: {
+                position: 'absolute',
+                display: 'none',
+              }
+            }
+          }}
+        >
+          ${navigation}
+          <ModalContent>
+            <ModalContentItem>
+              <Box
+                sx={theme => ({
+                  backgroundColor: theme.semantic.accent.background.violet,
+                  opacity: theme.opacity[8],
+                  height: '240px',
+                })}
+              />
+            </ModalContentItem>
+          </ModalContent>
+          
+          ${actionArea}
+        </ModalContainer>
+      </Modal>
+		`;
+	}}
+  variants={[
+    {
+      key: 'Size',
+      options: [
+        { label: 'Medium', value: {} },
+        { label: 'Large', value: {} },
+        { label: 'XLarge', value: {} },
+      ]
+    },
+    {
+      key: 'Navigation',
+      options: [
+        { label: 'Normal', value: {} },
+        { label: 'Emphasized', value: {} },
+        { label: 'Display', value: {} },
+        { label: 'Floating', value: {} },
+        { label: 'Search', value: {} },
+      ]
+    },
+    {
+      key: 'Action area',
+      defaultValue: 'Strong',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Strong', value: {} },
+        { label: 'Neutral', value: {} },
+        { label: 'Compact', value: {} },
+        { label: 'Cancel', value: {} },
+      ]
+    },
+  ]}
+/>
+
+
+<SectionLayout disablePadding title="Size" description="모든 사이즈의 Popup은 두가지 타입을 쓸 수 있습니다. 사용자가 원하는 높이로 고정하여 콘텐츠를 보여주고 싶을 때는 고정을, 시스템에서 제공하는 기본 높이를 사용할 때에는 변동 타입을 사용합니다.">
+  <SectionFigureGroup title="Medium">
+    <SectionFigure
+      ratio="5:4"
+      src="/components/presentation/popup/design/Image-1.png"
+      description="- 높이 고정(Fixed)타입: 400*480px, 콘텐츠가 영역을 초과할 시 스크롤이 발생합니다. 
+- 높이 변동(Hug)타입: 400*760px, 콘텐츠가 최대 높이까지 늘어나다 스크롤이 발생합니다.
+- Padding: 20px"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Large">
+    <SectionFigure
+      ratio="1:1"
+      src="/components/presentation/popup/design/Image-2.png"
+      description="- 높이 고정(Fixed)타입: 560*480px, 콘텐츠가 영역을 초과할 시 스크롤이 발생합니다. 
+- 높이 변동(Hug)타입: 560*760px, 콘텐츠가 최대 높이까지 늘어나다 스크롤이 발생합니다.
+- Padding: 24px"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="XLarge">
+    <SectionFigure
+      ratio="1:1"
+      src="/components/presentation/popup/design/Image-3.png"
+      description="- 높이 고정(Fixed)타입: 640*560px, 콘텐츠가 영역을 초과할 시 스크롤이 발생합니다. 
+- 높이 변동(Hug)타입: 640*760px, 콘텐츠가 최대 높이까지 늘어나다 스크롤이 발생합니다.
+- Padding: 32px"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Navigation">
+  <SectionFigureGroup title="Normal">
+    <SectionFigure
+      ratio="5:4"
+      description="콘텐츠의 주목도를 높이기 위해 콘텐츠를 중앙배열로 배치할 때 사용합니다."
+      src="/components/presentation/popup/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Emphasized">
+    <SectionFigure
+      ratio="16:10"
+      description="콘텐츠나 리스트 셀 항목들이 좌측에 순차적으로 배열 되어 글의 흐름이 좌→우로 흐르는 경우에 사용합니다."
+      src="/components/presentation/popup/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Floating">
+    <SectionFigure
+      ratio="3:2"
+      description="Popup에 타이틀을 두지않고 [X] 버튼만 배치할 때 사용합니다."
+      src="/components/presentation/popup/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Action area">
+  <SectionFigure
+    ratio="3:2"
+    description="- Strong: 버튼이 상하로 배치되어 Main action을 강조하는 타입으로 Xlarge 이상의 Popup에서는 사용을 지양합니다.
+- Neutral: 버튼이 양옆으로 배치되어 메인행동과 보조행동의 선택을 대등하게 제공하는 UX를 의도할 때 사용하는 타입입니다. 너비 960px 이상의 Popup에서는 사용을 지양합니다. 
+- Compact: 버튼이 오른쪽으로 배치되어 너비 560px 이상의 Popup에서 시선을 분산시키지 않고 행동에 집중할 수 있도록하는 타입입니다. 560px 이하의 Popup에서는 사용을 지양합니다.
+- Cancel: 너비 960px 미만의 타입에서 취소, 확인 등 단순 Popup을 종료하는 용도로 사용하는 버튼입니다."
+    src="/components/presentation/popup/design/Image-7.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Mobile">
+  <SectionFigure
+    ratio="4:3"
+    description="모바일에서는 Popup이 아닌 Bottom sheet 사용을 권장하며 Bottom sheet를 사용할 시 현재 페이지의 맥락을 유지하도록 설계할 수 있도록 유의합니다."
+    src="/components/presentation/popup/design/Image-8.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Confirm and cancel">
+  <SectionFigure
+    ratio="2:1"
+    description="‘확인, 취소’ 등의 역할을 하는 버튼을 사용할 때에는 Outlined/Alternative 버튼 사용을 권장합니다. 단, UX 의도상 내용의 확인이 사용자에게 중요하게 전달되어야 할 때는 Solide/Primary를 사용할 수 있습니다."
+    src="/components/presentation/popup/design/Image-9.png"
+  />
+</SectionLayout>
+
+
+<SectionLayout title="Heading">
+  <SectionFigure
+    ratio="4:3"
+    description="타이틀 하단에 설명이 붙는 경우 Navigation 대신 Heading을 활용하면 더욱 자연스럽고 유려한 화면을 구성할 수 있습니다."
+    src="/components/presentation/popup/design/Image-10.png"
+  />
+</SectionLayout>
+
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Contents - Center align">
+    <SectionFigure
+      ratio="3:2"
+      description="화이트 스페이스의 활용을 극대화 할 수 있는 배치로 콘텐츠의 주목도가 좋은 배치입니다. 사용자에게 중요한 알림, 주요 상태를 표현할 때 시용하면 효과를 극대화 할 수 있습니다. 짧은 텍스트와 작은 모달에서 더 나은 균형을 제공할 수 있습니다."
+      src="/components/presentation/popup/design/Image-11.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Contents - Left align">
+    <SectionFigure
+      ratio="4:3"
+      description="일반적인 시선의 흐름을 따른(Left -> Right / Top -> Bottom) 가독성이 좋은 배치로 비교적 긴 컨텐츠에서 조화롭게 사용 될 수 있으며 사용자에게 보다 긴 정보의 내용을 효과적으로 전달하기 위해 사용합니다."
+      src="/components/presentation/popup/design/Image-12.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Contents - With image">
+    <SectionFigure
+      ratio="4:3"
+      description="이미지와 함께 사용할 때 Navigation의 Floating 타입을 사용합니다. Navigation의 모든 요소는 이미지의 색상에 따라 유동적으로 컬러 값을 조정할 수 있습니다."
+      src="/components/presentation/popup/design/Image-13.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    ratio="5:4"
+    variant="positive"
+    description="일정 기간 동안 띄우는 용도의 모달일 경우 ‘일주일 동안 보지 않기’ 등 해당 정보를 보지 않을 수 있는 권한을 제공할 수 있도록 설계하는 것을 권장합니다."
+    src="/components/presentation/popup/design/Image-14.png"
+  />
+  <SectionFigure
+    ratio="16:10"
+    variant="negative"
+    description="닫기 버튼과 [X] 버튼을 중복하여 배치하지 마세요."
+    src="/components/presentation/popup/design/Image-15.png"
+  />
+</SectionLayout>

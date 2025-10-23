@@ -6,6 +6,7 @@ import {
   typographyStyle,
   useTheme,
 } from '@wanteddev/wds';
+import { useMemo } from 'react';
 
 import {
   TokenGrid,
@@ -70,7 +71,7 @@ const ShadowGrid = () => {
                       Default
                     </Typography>
 
-                    <DashDivider />
+                    <DashDivider type="default" />
                   </FlexBox>
 
                   <FlexBox
@@ -100,7 +101,7 @@ const ShadowGrid = () => {
                       iOS
                     </Typography>
 
-                    <DashDivider />
+                    <DashDivider type="ios" />
                   </FlexBox>
 
                   <FlexBox
@@ -130,7 +131,7 @@ const ShadowGrid = () => {
                       Android
                     </Typography>
 
-                    <DashDivider />
+                    <DashDivider type="android" />
                   </FlexBox>
 
                   <FlexBox
@@ -156,19 +157,35 @@ const ShadowGrid = () => {
 
 export default ShadowGrid;
 
-const DashDivider = () => {
+type DashDividerProps = {
+  type: 'default' | 'ios' | 'android';
+};
+
+const DashDivider = ({ type = 'default' }: DashDividerProps) => {
   const theme = useTheme();
+
+  const { d, width } = useMemo(() => {
+    switch (type) {
+      case 'ios':
+        return { d: 'M0.5 0.5H51.5', width: 25 };
+      case 'android':
+        return { d: 'M0.5 0.5H19.5', width: 20 };
+      case 'default':
+      default:
+        return { d: 'M0.5 0.5H24.5', width: 52 };
+    }
+  }, [type]);
 
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
+      width={width}
       height="1"
-      viewBox="0 0 25 1"
+      viewBox={`0 0 ${width} 1`}
       fill="none"
     >
       <path
-        d="M0.5 0.5H24.5"
+        d={d}
         stroke={getColorByToken(theme, 'semantic.label.alternative')}
         strokeLinecap="round"
         strokeDasharray="1 3"

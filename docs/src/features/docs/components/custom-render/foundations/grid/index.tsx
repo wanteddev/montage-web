@@ -5,7 +5,7 @@ import { Heading2, Heading3 } from '../../../mdx/section/layout';
 import BreakpointGrid from './breakpoint-grid';
 import ArtboardSizeGrid from './artboard-size-grid';
 
-const FoundationsGridAndLayout = () => {
+const FoundationsGrid = () => {
   return (
     <>
       <Heading2 content="Artboard size" />
@@ -145,4 +145,4 @@ const FoundationsGridAndLayout = () => {
   );
 };
 
-export default FoundationsGridAndLayout;
+export default FoundationsGrid;

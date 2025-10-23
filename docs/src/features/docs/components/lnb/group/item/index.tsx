@@ -17,11 +17,12 @@ import type { PropsWithChildren, ReactNode } from 'react';
 import type { SxProp } from '@wanteddev/wds';
 
 type Props = PropsWithChildren<{
-  href: string;
+  href?: string;
   isActive?: boolean;
   depth?: string;
   sx?: SxProp;
   leadingContent?: ReactNode;
+  onClick?: () => void;
 }>;
 
 const LnbGroupItem = ({
@@ -31,6 +32,7 @@ const LnbGroupItem = ({
   depth = '1',
   sx,
   leadingContent,
+  onClick,
 }: Props) => {
   const { handleRouteChange } = useRouteScroll(
     useCallback(() => {
@@ -38,7 +40,7 @@ const LnbGroupItem = ({
     }, []),
   );
 
-  const ref = useRef<HTMLAnchorElement>(null);
+  const ref = useRef<HTMLLIElement>(null);
 
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
@@ -56,22 +58,24 @@ const LnbGroupItem = ({
     }
   }, []);
 
+  const routeProps = href
+    ? { href, onClick: handleRouteChange, as: Link }
+    : { onClick };
+
   return (
     <Tooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>
       <TooltipTrigger>
         <ListCell
           alignItems="center"
           ref={ref}
-          as={Link}
-          href={href}
-          onClick={handleRouteChange}
+          {...routeProps}
           fillWidth
           verticalPadding="small"
           data-depth={depth}
           aria-current={isActive ? 'page' : undefined}
           textProps={{
             variant: 'label1',
-            weight: isActive ? 'bold' : 'regular',
+            weight: isActive ? 'bold' : 'medium',
             color: isActive
               ? 'semantic.label.normal'
               : 'semantic.label.alternative',

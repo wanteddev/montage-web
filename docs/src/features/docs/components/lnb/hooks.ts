@@ -31,7 +31,7 @@ export const useLNBContent = () => {
   const { allFrontmatter } = useMDXContext();
   const params = useParams<SlugParams>();
 
-  const filteredFrontmatter = useMemo(() => {
+  const frontmatters = useMemo(() => {
     const addToGroup = (
       frontmatter: Frontmatter,
       groups: LNBFrontmatterGroup | Array<LNBFrontmatterChild>,
@@ -81,26 +81,22 @@ export const useLNBContent = () => {
       addToGroup(frontmatter, result);
     });
 
-    return result
-      .filter((item) => {
-        return item.key.replace(/ /g, '-').toLowerCase() === params.slug?.at(0);
-      })
-      .sort((a, b) => {
-        const getOrder = (item: LNBFrontmatterChild) => {
-          if (isFrontmatter(item)) {
-            return FIRST_LEVEL_ORDER[item.title] ?? 0;
-          }
+    return result.sort((a, b) => {
+      const getOrder = (item: LNBFrontmatterChild) => {
+        if (isFrontmatter(item)) {
+          return FIRST_LEVEL_ORDER[item.title] ?? 0;
+        }
 
-          return FIRST_LEVEL_ORDER[item.key] ?? 0;
-        };
+        return FIRST_LEVEL_ORDER[item.key] ?? 0;
+      };
 
-        return getOrder(a) - getOrder(b);
-      });
+      return getOrder(a) - getOrder(b);
+    });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(allFrontmatter), params.slug]);
 
   return {
-    frontmatters: filteredFrontmatter,
+    frontmatters,
   };
 };

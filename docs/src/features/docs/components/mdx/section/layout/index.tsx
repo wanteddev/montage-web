@@ -72,56 +72,68 @@ const Heading3 = memo(({ content, sx }: HeadingProps) => {
 
 type SectionDescriptionProps = {
   content?: ReactNode;
+  disablePadding?: boolean;
 };
 
-const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
-  const isString = typeof content === 'string';
-  const hasListContent = isString && hasList(content);
+const SectionDescription = memo(
+  ({ content, disablePadding = false }: SectionDescriptionProps) => {
+    const isString = typeof content === 'string';
+    const hasListContent = isString && hasList(content);
 
-  const renderContent = useMemo(
-    () => (isString ? renderParsedContent(content) : null),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  if (!content) return null;
-
-  if (!isString) {
-    return content;
-  }
-
-  if (!hasListContent) {
-    return (
-      <Typography
-        variant="body2-reading"
-        weight="regular"
-        as="p"
-        color="semantic.label.neutral"
-        sx={{ marginBottom: '0 !important', paddingInline: '12px !important' }}
-      >
-        {content.split('\n').map((line, index) => (
-          <Fragment key={index}>
-            {line}
-            <br />
-          </Fragment>
-        ))}
-      </Typography>
+    const renderContent = useMemo(
+      () => (isString ? renderParsedContent(content) : null),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
     );
-  }
 
-  return (
-    <Box
-      sx={{ marginBottom: '0 !important', paddingInline: '12px !important' }}
-    >
-      {renderContent}
-    </Box>
-  );
-});
+    if (!content) return null;
+
+    if (!isString) {
+      return content;
+    }
+
+    if (!hasListContent) {
+      return (
+        <Typography
+          variant="body2-reading"
+          weight="regular"
+          as="p"
+          color="semantic.label.neutral"
+          sx={{
+            marginBottom: '0 !important',
+            paddingInline: '12px !important',
+            ...(disablePadding && { paddingInline: '0px !important' }),
+          }}
+        >
+          {content.split('\n').map((line, index) => (
+            <Fragment key={index}>
+              {line}
+              <br />
+            </Fragment>
+          ))}
+        </Typography>
+      );
+    }
+
+    return (
+      <Box
+        sx={{
+          marginBottom: '0 !important',
+          paddingInline: '12px !important',
+          ...(disablePadding && { paddingInline: '0px !important' }),
+        }}
+      >
+        {renderContent}
+      </Box>
+    );
+  },
+);
 
 type SectionLayoutProps = PropsWithChildren<{
   title?: string;
   description?: string;
   direction?: 'row' | 'column';
+  disablePadding?: boolean;
 }>;
 
 const SectionLayout = ({
@@ -129,13 +141,17 @@ const SectionLayout = ({
   children,
   description,
   direction = 'column',
+  disablePadding = false,
 }: SectionLayoutProps) => {
   return (
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
       <FlexBox flexDirection="column">
         <Heading2 content={title} />
 
-        <SectionDescription content={description} />
+        <SectionDescription
+          content={description}
+          disablePadding={disablePadding}
+        />
       </FlexBox>
       <FlexBox
         flexDirection={direction}
