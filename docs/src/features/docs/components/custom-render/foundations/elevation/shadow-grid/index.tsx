@@ -61,6 +61,7 @@ const ShadowGrid = () => {
                   <FlexBox
                     gap="8px"
                     sx={{ width: '86px', height: 'fit-content' }}
+                    flexShrink={0}
                     alignItems="center"
                   >
                     <Typography
@@ -80,6 +81,11 @@ const ShadowGrid = () => {
                     weight="medium"
                     color="semantic.label.strong"
                     flexDirection="column"
+                    sx={
+                      token.values.default.includes('\n')
+                        ? { whiteSpace: 'pre' }
+                        : { whiteSpace: 'break-spaces' }
+                    }
                   >
                     {token.values.default.split('\n').map((line, index) => (
                       <span key={index}>{line}</span>
@@ -91,6 +97,7 @@ const ShadowGrid = () => {
                   <FlexBox
                     gap="8px"
                     sx={{ width: '86px', height: 'fit-content' }}
+                    flexShrink={0}
                     alignItems="center"
                   >
                     <Typography
@@ -110,6 +117,11 @@ const ShadowGrid = () => {
                     weight="medium"
                     color="semantic.label.strong"
                     flexDirection="column"
+                    sx={
+                      token.values.ios.includes('\n')
+                        ? { whiteSpace: 'pre' }
+                        : { whiteSpace: 'break-spaces' }
+                    }
                   >
                     {token.values.ios.split('\n').map((line, index) => (
                       <span key={index}>{line}</span>
@@ -121,6 +133,7 @@ const ShadowGrid = () => {
                   <FlexBox
                     gap="8px"
                     sx={{ width: '86px', height: 'fit-content' }}
+                    flexShrink={0}
                     alignItems="center"
                   >
                     <Typography
@@ -140,6 +153,11 @@ const ShadowGrid = () => {
                     weight="medium"
                     color="semantic.label.strong"
                     flexDirection="column"
+                    sx={
+                      token.values.android.includes('\n')
+                        ? { whiteSpace: 'pre' }
+                        : { whiteSpace: 'break-spaces' }
+                    }
                   >
                     {token.values.android.split('\n').map((line, index) => (
                       <span key={index}>{line}</span>
@@ -167,12 +185,12 @@ const DashDivider = ({ type = 'default' }: DashDividerProps) => {
   const { d, width } = useMemo(() => {
     switch (type) {
       case 'ios':
-        return { d: 'M0.5 0.5H51.5', width: 25 };
+        return { d: 'M0.5 0.5H51.5', width: 52 };
       case 'android':
         return { d: 'M0.5 0.5H19.5', width: 20 };
       case 'default':
       default:
-        return { d: 'M0.5 0.5H24.5', width: 52 };
+        return { d: 'M0.5 0.5H24.5', width: 25 };
     }
   }, [type]);
 

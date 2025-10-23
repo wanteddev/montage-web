@@ -5,6 +5,7 @@ export const utilitiesOverviewFrontmatter: Frontmatter = {
   description: 'Utilities Overview',
   slug: ['utilities'],
   originSlug: ['utilities', 'index'],
+  createdAt: '2025-10-23',
 };
 
 export const componentOverviewFrontmatter: Frontmatter = {
@@ -13,6 +14,7 @@ export const componentOverviewFrontmatter: Frontmatter = {
     '컴포넌트는 사용자 인터페이스를 구성하는 재사용 가능한 독립적인 UI 단위입니다. 특정 기능과 시각적 스타일을 가진 요소들로, 일관된 사용자 경험을 제공하기 위해 표준화된 규칙에 따라 설계되었습니다.\n각 컴포넌트는 다양한 상황에서 반복적으로 활용될 수 있으며, 디자인과 개발 효율성을 높이는 동시에 제품 전반의 일관성을 유지합니다.',
   slug: ['components'],
   originSlug: ['components', 'index'],
+  createdAt: '2025-10-23',
 };
 
 export const foundationsOverviewFrontmatter: Frontmatter = {
@@ -21,6 +23,7 @@ export const foundationsOverviewFrontmatter: Frontmatter = {
     '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다. 컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.',
   slug: ['foundations'],
   originSlug: ['foundations', 'index'],
+  createdAt: '2025-10-23',
 };
 
 export const foundationsTypographyFrontmatter: Frontmatter = {
@@ -30,6 +33,7 @@ export const foundationsTypographyFrontmatter: Frontmatter = {
   slug: ['foundations', 'base-material', 'typography'],
   originSlug: ['foundations', 'base-material', 'typography'],
   image: '/adsfasdf.png',
+  createdAt: '2025-10-23',
 };
 
 export const foundationsGridFrontmatter: Frontmatter = {
@@ -39,6 +43,7 @@ export const foundationsGridFrontmatter: Frontmatter = {
   slug: ['foundations', 'base-material', 'grid'],
   originSlug: ['foundations', 'base-material', 'grid'],
   image: '/adsfasdf.png',
+  createdAt: '2025-10-23',
 };
 
 export const foundationsElevationFrontmatter: Frontmatter = {
@@ -48,13 +53,39 @@ export const foundationsElevationFrontmatter: Frontmatter = {
   slug: ['foundations', 'base-material', 'elevation'],
   originSlug: ['foundations', 'base-material', 'elevation'],
   image: '/adsfasdf.png',
+  createdAt: '2025-10-23',
 };
 
-export const getStartedFrontmatter: Frontmatter = {
-  title: 'Get started',
+export const gettingStartedFrontmatter: Frontmatter = {
+  title: 'Designer',
   description: 'Welcome to montage',
-  slug: ['get-started'],
-  originSlug: ['get-started', 'index'],
+  slug: ['getting-started'],
+  originSlug: ['getting-started', 'index'],
+  createdAt: '2025-10-23',
+};
+
+export const gettingStartedWebFrontmatter: Frontmatter = {
+  title: 'Web',
+  description: 'Welcome to montage',
+  slug: ['getting-started', 'platform', 'web'],
+  originSlug: ['getting-started', 'platform', 'web', 'index'],
+  isPrivate: true,
+};
+
+export const gettingStartedIosFrontmatter: Frontmatter = {
+  title: 'ios',
+  description: 'Welcome to montage',
+  slug: ['getting-started', 'platform', 'ios'],
+  originSlug: ['getting-started', 'platform', 'ios', 'index'],
+  isPrivate: true,
+};
+
+export const gettingStartedAndroidFrontmatter: Frontmatter = {
+  title: 'Android',
+  description: 'Welcome to montage',
+  slug: ['getting-started', 'platform', 'android'],
+  originSlug: ['getting-started', 'platform', 'android', 'index'],
+  isPrivate: true,
 };
 
 export const shouldNotSerializeMDXFrontmatters = [
@@ -64,5 +95,8 @@ export const shouldNotSerializeMDXFrontmatters = [
   foundationsTypographyFrontmatter,
   foundationsGridFrontmatter,
   foundationsElevationFrontmatter,
-  getStartedFrontmatter,
+  gettingStartedFrontmatter,
+  gettingStartedWebFrontmatter,
+  gettingStartedIosFrontmatter,
+  gettingStartedAndroidFrontmatter,
 ];

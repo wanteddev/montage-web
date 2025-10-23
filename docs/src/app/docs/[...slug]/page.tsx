@@ -29,7 +29,9 @@ const isFileNotFoundError = (error: unknown) =>
 export const dynamic = 'force-static';
 
 export const generateStaticParams = async () => {
-  const frontmatter = await getAllFrontmatter();
+  const frontmatter = (await getAllFrontmatter()).filter(
+    (item) => !item.isPrivate,
+  );
 
   return frontmatter;
 };
@@ -45,7 +47,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const description = getFrontmatterDescription(
       frontmatter,
       allFrontmatter,
-    )?.replace(/\\n/g, ' ');
+    )?.replace(/\n/g, ' ');
     const image = getFrontmatterImage(frontmatter, allFrontmatter);
 
     return {

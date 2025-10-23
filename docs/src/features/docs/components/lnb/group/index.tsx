@@ -1,5 +1,8 @@
-import { List, Typography } from '@wanteddev/wds';
+import { List, ListCellContent, Typography } from '@wanteddev/wds';
 import { useParams } from 'next/navigation';
+import { IconLock } from '@wanteddev/wds-icon';
+
+import { gettingStartedFrontmatter } from '@/features/docs/constants';
 
 import { getFrontmatterLink, getIsActive, isFrontmatter } from '../helpers';
 
@@ -15,18 +18,33 @@ type Props = {
 const LnbGroup = ({ frontmatter }: Props) => {
   const params = useParams<SlugParams>();
 
+  const groupKey = frontmatter.key.replace(/ /g, '-').toLowerCase();
+
   return (
     <List gap="32px" sx={wrapperStyle}>
-      <LnbGroupItem
-        href={`/docs/${frontmatter.key.replace(/ /g, '-').toLowerCase()}`}
-        isActive={
-          params.slug?.join('/') ===
-          frontmatter.key.replace(/ /g, '-').toLowerCase()
-        }
-        depth="0"
-      >
-        Overview
-      </LnbGroupItem>
+      {groupKey === gettingStartedFrontmatter.slug.join('/') ? (
+        <LnbGroupItem
+          href={`/docs/${groupKey}`}
+          isActive={
+            params.slug?.join('/') ===
+            frontmatter.key.replace(/ /g, '-').toLowerCase()
+          }
+          depth="0"
+        >
+          {gettingStartedFrontmatter.title}
+        </LnbGroupItem>
+      ) : (
+        <LnbGroupItem
+          href={`/docs/${groupKey}`}
+          isActive={
+            params.slug?.join('/') ===
+            frontmatter.key.replace(/ /g, '-').toLowerCase()
+          }
+          depth="0"
+        >
+          Overview
+        </LnbGroupItem>
+      )}
 
       {frontmatter.children.map((item, idx) => {
         if (isFrontmatter(item)) {
@@ -57,6 +75,23 @@ const LnbGroup = ({ frontmatter }: Props) => {
 
             {item.children.map((child, childIdx) => {
               if (isFrontmatter(child)) {
+                if (child.isPrivate) {
+                  return (
+                    <LnbGroupItem
+                      key={child.slug.toString() + childIdx}
+                      depth="2"
+                      disabled
+                      trailingContent={
+                        <ListCellContent variant="icon">
+                          <IconLock sx={{ fontSize: '12px' }} />
+                        </ListCellContent>
+                      }
+                    >
+                      {child.title}
+                    </LnbGroupItem>
+                  );
+                }
+
                 return (
                   <LnbGroupItem
                     href={getFrontmatterLink(child)}

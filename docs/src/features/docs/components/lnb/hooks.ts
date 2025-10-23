@@ -53,13 +53,14 @@ export const useLNBContent = () => {
       if (
         depth !== 0 &&
         (depth >= frontmatter.slug.length - 1 ||
-          (frontmatter.slug.at(-1)?.match(PLATFORM_PATTERN) &&
-            depth === frontmatter.slug.length - 2))
+          (frontmatter.originSlug.at(-1)?.match(PLATFORM_PATTERN) &&
+            depth === frontmatter.originSlug.length - 2))
       ) {
         groups.push({
           ...frontmatter,
           title: currentKey,
         } as unknown as LNBFrontmatterType);
+
         return;
       }
 

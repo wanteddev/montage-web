@@ -1,8 +1,8 @@
 export const GNB_NAVIGATION_LINKS = [
   {
-    label: 'Get started',
-    href: '/docs/get-started',
-    slug: 'get-started',
+    label: 'Getting started',
+    href: '/docs/getting-started',
+    slug: 'getting-started',
   },
   {
     label: 'Foundations',

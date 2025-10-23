@@ -1,10 +1,4 @@
-import {
-  getStartedFrontmatter,
-  shouldNotSerializeMDXFrontmatters,
-} from '../constants';
-
-export const isGetStarted = (slug: Array<string>) =>
-  slug.toString() === getStartedFrontmatter.slug.toString();
+import { shouldNotSerializeMDXFrontmatters } from '../constants';
 
 export const shouldNotSerializeMDX = (slug: Array<string>) =>
   shouldNotSerializeMDXFrontmatters.some(

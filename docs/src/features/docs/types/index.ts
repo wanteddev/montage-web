@@ -6,4 +6,5 @@ export type Frontmatter = {
   originSlug: Array<string>;
   createdAt?: string;
   updatedAt?: string;
+  isPrivate?: boolean;
 };

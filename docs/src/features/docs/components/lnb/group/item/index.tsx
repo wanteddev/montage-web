@@ -21,7 +21,9 @@ type Props = PropsWithChildren<{
   isActive?: boolean;
   depth?: string;
   sx?: SxProp;
+  disabled?: boolean;
   leadingContent?: ReactNode;
+  trailingContent?: ReactNode;
   onClick?: () => void;
 }>;
 
@@ -31,7 +33,9 @@ const LnbGroupItem = ({
   isActive,
   depth = '1',
   sx,
+  disabled,
   leadingContent,
+  trailingContent,
   onClick,
 }: Props) => {
   const { handleRouteChange } = useRouteScroll(
@@ -80,16 +84,20 @@ const LnbGroupItem = ({
               ? 'semantic.label.normal'
               : 'semantic.label.alternative',
           }}
+          disableInteraction={disabled}
+          aria-disabled={disabled}
           sx={[lnbItemStyle, sx]}
           leadingContent={leadingContent}
           trailingContent={
-            <ListCellContent variant="icon">
-              <IconArrowRightThick
-                sx={{
-                  fontSize: '12px',
-                }}
-              />
-            </ListCellContent>
+            trailingContent ?? (
+              <ListCellContent variant="icon" data-role="lnb-group-item-arrow">
+                <IconArrowRightThick
+                  sx={{
+                    fontSize: '12px',
+                  }}
+                />
+              </ListCellContent>
+            )
           }
         >
           {children}

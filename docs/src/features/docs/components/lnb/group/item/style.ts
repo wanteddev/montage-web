@@ -23,7 +23,7 @@ export const lnbItemStyle = (theme: Theme) => css`
     width: calc(100% + var(--lnb-padding) * 2);
   }
 
-  [wds-component='list-cell-content'] {
+  [data-role='lnb-group-item-arrow'] {
     color: transparent;
     transition:
       color 0.2s ease,
@@ -32,7 +32,7 @@ export const lnbItemStyle = (theme: Theme) => css`
   }
   @media (pointer: fine) {
     &:hover {
-      [wds-component='list-cell-content'] {
+      [data-role='lnb-group-item-arrow'] {
         color: ${theme.semantic.label.assistive};
         transform: translateX(0px);
       }
@@ -40,7 +40,7 @@ export const lnbItemStyle = (theme: Theme) => css`
   }
 
   &[aria-current='page'] {
-    [wds-component='list-cell-content'] {
+    [data-role='lnb-group-item-arrow'] {
       color: ${theme.semantic.label.normal};
       transform: translateX(0px);
     }

@@ -26,7 +26,7 @@ type Collection = {
 };
 
 type Props = {
-  category: 'foundations' | 'components';
+  category: 'foundations' | 'components' | 'utilities';
 };
 
 const DocsCollection = ({ category }: Props) => {
@@ -95,7 +95,9 @@ const DocsCollection = ({ category }: Props) => {
                       <CardTitle color="semantic.label.normal">
                         {data.title}
                       </CardTitle>
-                      <CardCaption>{data.description}</CardCaption>
+                      <CardCaption title={data.description}>
+                        {data.description}
+                      </CardCaption>
                     </CardContent>
                   </Card>
                 </GridItem>

@@ -20,14 +20,33 @@ export const unMountKeyframe = keyframes`
   }
 `;
 
+const mobileMountKeyframe = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+export const mobileUnMountKeyframe = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
 export const containerStyle = css`
+  --lnb-padding: 10px;
+
   max-height: calc(
     100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
   );
   border-radius: 12px 0px 0px 12px;
   width: 75%;
   animation: ${mountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
-  --lnb-padding: 10px;
 
   &[data-status='close'] {
     animation: ${unMountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
@@ -37,12 +56,12 @@ export const containerStyle = css`
     border-radius: 0px;
     width: 100%;
     max-width: 100%;
-    transition: none;
-    animation: none;
-    --lnb-padding-left: 28px;
+    animation: ${mobileMountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
+    transform: none;
 
     &[data-status='close'] {
-      animation: none;
+      transform: none;
+      animation: ${mobileUnMountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
     }
   }
 `;
@@ -55,6 +74,12 @@ export const wrapperStyle = css`
   [data-role='modal-dimmer'] {
     transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
   }
+
+  ${respondTo('620px')} {
+    [data-role='modal-dimmer'] {
+      display: none;
+    }
+  }
 `;
 
 export const backButtonStyle = (theme: Theme) => css`
@@ -62,6 +87,7 @@ export const backButtonStyle = (theme: Theme) => css`
   border: none;
   position: relative;
   opacity: 1;
+  margin-top: -3px;
   transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
 
   &[aria-hidden='true'] {

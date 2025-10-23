@@ -1,3 +1,5 @@
+import { gettingStartedFrontmatter } from '../../constants';
+
 import { PLATFORM_PATTERN, PLATFORM_PATTERN_WITHOUT_DESIGN } from './constants';
 
 import type {
@@ -36,7 +38,10 @@ export const hasMatchingDevelopPlatformPage = (
 ) => {
   const lastSegment = slug.at(-1);
 
-  if (!lastSegment?.match(PLATFORM_PATTERN_WITHOUT_DESIGN)) {
+  if (
+    !lastSegment?.match(PLATFORM_PATTERN_WITHOUT_DESIGN) ||
+    slug.at(0) === gettingStartedFrontmatter.slug.at(0)
+  ) {
     return false;
   }
 

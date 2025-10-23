@@ -9,6 +9,7 @@ import {
   foundationsGridFrontmatter,
   foundationsOverviewFrontmatter,
   foundationsTypographyFrontmatter,
+  utilitiesOverviewFrontmatter,
 } from '../../constants';
 
 import CustomRenderLayout from './layout';
@@ -38,6 +39,9 @@ const CustomRender = () => {
 
       case componentOverviewFrontmatter.slug.join('/'):
         return <DocsCollection category="components" />;
+
+      case utilitiesOverviewFrontmatter.slug.join('/'):
+        return <DocsCollection category="utilities" />;
 
       default:
         return null;

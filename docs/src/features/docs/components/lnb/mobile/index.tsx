@@ -12,8 +12,6 @@ import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconArrowLeftThick, IconCloseThick } from '@wanteddev/wds-icon';
 import { useParams } from 'next/navigation';
 
-import { getStartedFrontmatter } from '@/features/docs/constants';
-
 import { useLnbContext } from '../contexts';
 import { isFrontmatter } from '../helpers';
 import LnbGroup from '../group';
@@ -42,9 +40,7 @@ const LnbMobile = ({ frontmatters }: Props) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [focusedCategory, setFocusedCategory] = useState<string | null>(
-    params.slug?.join('/') === getStartedFrontmatter.slug.join('/')
-      ? null
-      : params.slug?.[0] ?? null,
+    params.slug?.at(0) ?? null,
   );
 
   useLayoutEffect(() => {
@@ -70,11 +66,7 @@ const LnbMobile = ({ frontmatters }: Props) => {
     if (!params.slug) return;
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setFocusedCategory(
-      params.slug.join('/') === getStartedFrontmatter.slug.join('/')
-        ? null
-        : params.slug.at(0) ?? null,
-    );
+    setFocusedCategory(params.slug.at(0) ?? null);
   }, [params.slug]);
 
   return (
@@ -97,9 +89,13 @@ const LnbMobile = ({ frontmatters }: Props) => {
               aria-label="Back"
               alignItems="center"
               gap="6px"
+              tabIndex={focusedCategory === null ? -1 : 0}
               aria-hidden={focusedCategory === null}
               sx={backButtonStyle}
-              onClick={() => setFocusedCategory(null)}
+              onClick={(e) => {
+                e.currentTarget.blur();
+                setFocusedCategory(null);
+              }}
             >
               <IconArrowLeftThick />
 
@@ -121,10 +117,9 @@ const LnbMobile = ({ frontmatters }: Props) => {
             {focusedCategory === null ? (
               <FlexBox flexDirection="column" sx={frontmatterWrapperStyle}>
                 <LnbGroupItem
-                  href="/docs/get-started"
-                  isActive={params.slug?.join('/') === 'get-started'}
+                  onClick={() => setFocusedCategory('getting-started')}
                 >
-                  Get started
+                  Getting started
                 </LnbGroupItem>
                 <LnbGroupItem onClick={() => setFocusedCategory('foundations')}>
                   Foundations

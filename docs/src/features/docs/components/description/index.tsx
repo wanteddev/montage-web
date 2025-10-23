@@ -199,7 +199,7 @@ const DocsDescription = () => {
             ]}
             as="p"
           >
-            {description?.split('\\n').map((v) => (
+            {description?.split('\n').map((v) => (
               <Fragment key={v}>
                 {v}
                 <br />

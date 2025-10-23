@@ -25,7 +25,7 @@ const Lnb = () => {
   useEffect(() => {
     const viewport = viewportRef.current;
 
-    if (!viewport) return;
+    if (!viewport || params.slug?.length === 1) return;
 
     const activeElement = viewport.querySelector<HTMLElement>(
       '[aria-current="page"]',
@@ -36,6 +36,7 @@ const Lnb = () => {
 
       viewport.scrollTop = offsetTop - 38;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

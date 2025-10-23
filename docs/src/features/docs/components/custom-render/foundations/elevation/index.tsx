@@ -1,6 +1,7 @@
-import { Divider, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { Divider, Thumbnail } from '@wanteddev/wds';
 
 import { Heading2, Heading3 } from '../../../mdx/section/layout';
+import SectionCard from '../../section-card';
 
 import TokenExample from './token-example';
 import StyleGrid from './style-grid';
@@ -11,69 +12,22 @@ const FoundationsElevation = () => {
     <>
       <Heading2 content="Shadow type" />
 
-      <FlexBox gap="20px">
-        <FlexBox flexDirection="column" sx={{ width: '100%' }} gap="8px">
-          <Thumbnail
-            src="/foundations/elevation/Image.png"
-            alt="Shadow type"
-            radius
-            border
-            ratio="2:1"
-          />
-
-          <FlexBox flexDirection="column" gap="4px" sx={{ padding: '0px 6px' }}>
-            <Typography
-              variant="body1"
-              weight="bold"
-              color="semantic.label.strong"
-              as="p"
-            >
-              Normal
-            </Typography>
-
-            <Typography
-              variant="label2"
-              weight="medium"
-              color="semantic.label.alternative"
-              as="p"
-            >
-              빛의 위치에 따라 아래 쪽으로 그림자가 생기는 일반적인 경우
-              사용합니다.
-            </Typography>
-          </FlexBox>
-        </FlexBox>
-
-        <FlexBox flexDirection="column" sx={{ width: '100%' }} gap="8px">
-          <Thumbnail
-            src="/foundations/elevation/Image.png"
-            alt="Shadow type"
-            radius
-            border
-            ratio="2:1"
-          />
-
-          <FlexBox flexDirection="column" gap="4px" sx={{ padding: '0px 6px' }}>
-            <Typography
-              variant="body1"
-              weight="bold"
-              color="semantic.label.strong"
-              as="p"
-            >
-              Spread
-            </Typography>
-
-            <Typography
-              variant="label2"
-              weight="medium"
-              color="semantic.label.alternative"
-              as="p"
-            >
-              Dialog와 같이 그림자가 사방으로 고르게 퍼져야 하는 경우
-              사용합니다.
-            </Typography>
-          </FlexBox>
-        </FlexBox>
-      </FlexBox>
+      <SectionCard
+        data={[
+          {
+            title: 'Normal',
+            description:
+              '빛의 위치에 따라 아래 쪽으로 그림자가 생기는 일반적인 경우 사용합니다.',
+            image: '/foundations/elevation/Image.png',
+          },
+          {
+            title: 'Spread',
+            description:
+              'Dialog와 같이 그림자가 사방으로 고르게 퍼져야 하는 경우 사용합니다.',
+            image: '/foundations/elevation/Image.png',
+          },
+        ]}
+      />
 
       <TokenExample />
 

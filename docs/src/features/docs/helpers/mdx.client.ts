@@ -27,9 +27,8 @@ export const getFrontmatterTitle = (
   if (!isUtilitiesPage || depth < item.slug.length - 1) {
     title = sentenceCase(title);
   }
-
-  if (title.match(/^ios$/i)) {
-    title = 'iOS';
+  if (item.title.match(/ios/gi)) {
+    title = title.replace(/ios/gi, 'iOS');
   }
 
   return title;
