@@ -6,22 +6,6 @@ export const accordionSummaryStyle = (theme: Theme) => css`
   --wds-list-cell-vertical-padding: 20px;
   border-radius: 0px;
 
-  [data-role='list-text-content'] {
-    font-family: var(--font-family-wanted-sans);
-    font-size: 15px;
-    font-weight: 500;
-    line-height: 146.7%;
-    letter-spacing: -0.21px;
-    color: ${theme.semantic.label.normal};
-
-    ${respondMore(theme.breakpoint.sm)} {
-      font-size: 16px;
-      line-height: 140%;
-      font-weight: 600;
-      letter-spacing: -0.252px;
-    }
-  }
-
   [wds-component='list-cell-content'] {
     color: ${theme.semantic.label.assistive};
     transition: color 0.3s ease;
@@ -62,8 +46,8 @@ export const accordionSummaryStyle = (theme: Theme) => css`
   }
 `;
 
-export const accordionSummaryContentStyle = (theme: Theme) => css`
-  font-size: 18px;
+export const accordionSummaryContentStyle = css`
+  font-size: 20px;
   position: relative;
 
   svg {
@@ -74,24 +58,16 @@ export const accordionSummaryContentStyle = (theme: Theme) => css`
     right: 0px;
     top: 0px;
   }
-
-  ${respondMore(theme.breakpoint.sm)} {
-    font-size: 20px;
-  }
 `;
 
 export const accordionDescriptionStyle = (theme: Theme) => css`
-  font-family: var(--font-family-wanted-sans);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 157.1%;
-  letter-spacing: -0.196px;
-  color: ${theme.semantic.label.alternative};
-
   ${respondMore(theme.breakpoint.sm)} {
     white-space: pre-wrap;
-    font-size: 15px;
-    line-height: 160%;
-    letter-spacing: -0.21px;
+  }
+`;
+
+export const accordionDetailsStyle = css`
+  [data-role='accordion-details-wrapper'] {
+    padding-bottom: 32px;
   }
 `;

@@ -46,67 +46,87 @@ const LnbGroup = ({ frontmatter }: Props) => {
         </LnbGroupItem>
       )}
 
-      {frontmatter.children.map((item, idx) => {
-        if (isFrontmatter(item)) {
-          return (
-            <LnbGroupItem
-              href={getFrontmatterLink(item)}
-              key={item.title + idx}
-              isActive={getIsActive(params, item)}
-              depth="1"
-            >
-              {item.title}
-            </LnbGroupItem>
+      {frontmatter.children
+        .sort((a, b) => {
+          if (isFrontmatter(a) && isFrontmatter(b)) {
+            return a.title.localeCompare(b.title);
+          }
+
+          return (a as LNBFrontmatterType).key.localeCompare(
+            (b as LNBFrontmatterType).key,
           );
-        }
+        })
+        .map((item, idx) => {
+          if (isFrontmatter(item)) {
+            return (
+              <LnbGroupItem
+                href={getFrontmatterLink(item)}
+                key={item.title + idx}
+                isActive={getIsActive(params, item)}
+                depth="1"
+              >
+                {item.title}
+              </LnbGroupItem>
+            );
+          }
 
-        return (
-          <List key={item.key + idx} gap="0px">
-            <Typography
-              variant="caption2"
-              weight="bold"
-              color="semantic.label.assistive"
-              sx={{
-                marginBottom: '10px',
-              }}
-            >
-              {item.key}
-            </Typography>
+          return (
+            <List key={item.key + idx} gap="0px">
+              <Typography
+                variant="caption2"
+                weight="bold"
+                color="semantic.label.assistive"
+                sx={{
+                  marginBottom: '10px',
+                }}
+              >
+                {item.key}
+              </Typography>
 
-            {item.children.map((child, childIdx) => {
-              if (isFrontmatter(child)) {
-                if (child.isPrivate) {
-                  return (
-                    <LnbGroupItem
-                      key={child.slug.toString() + childIdx}
-                      depth="2"
-                      disabled
-                      trailingContent={
-                        <ListCellContent variant="icon">
-                          <IconLock sx={{ fontSize: '12px' }} />
-                        </ListCellContent>
-                      }
-                    >
-                      {child.title}
-                    </LnbGroupItem>
+              {item.children
+                .sort((a, b) => {
+                  if (isFrontmatter(a) && isFrontmatter(b)) {
+                    return a.title.localeCompare(b.title);
+                  }
+
+                  return (a as LNBFrontmatterType).key.localeCompare(
+                    (b as LNBFrontmatterType).key,
                   );
-                }
+                })
+                .map((child, childIdx) => {
+                  if (isFrontmatter(child)) {
+                    if (child.isPrivate) {
+                      return (
+                        <LnbGroupItem
+                          key={child.slug.toString() + childIdx}
+                          depth="2"
+                          disabled
+                          trailingContent={
+                            <ListCellContent variant="icon">
+                              <IconLock sx={{ fontSize: '12px' }} />
+                            </ListCellContent>
+                          }
+                        >
+                          {child.title}
+                        </LnbGroupItem>
+                      );
+                    }
 
-                return (
-                  <LnbGroupItem
-                    href={getFrontmatterLink(child)}
-                    key={child.slug.toString() + childIdx}
-                    isActive={getIsActive(params, child)}
-                    depth="2"
-                  >
-                    {child.title}
-                  </LnbGroupItem>
-                );
-              }
-            })}
-          </List>
-        );
-      })}
+                    return (
+                      <LnbGroupItem
+                        href={getFrontmatterLink(child)}
+                        key={child.slug.toString() + childIdx}
+                        isActive={getIsActive(params, child)}
+                        depth="2"
+                      >
+                        {child.title}
+                      </LnbGroupItem>
+                    );
+                  }
+                })}
+            </List>
+          );
+        })}
     </List>
   );
 };

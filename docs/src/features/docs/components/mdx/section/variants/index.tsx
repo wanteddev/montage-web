@@ -180,7 +180,7 @@ const SectionVariants = ({
             </PopoverTrigger>
             <PopoverContent
               sx={sectionVariantsControlMobileStyle}
-              position="top-end"
+              position="bottom-end"
               variant="custom"
               offset={16}
             >

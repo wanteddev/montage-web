@@ -8,7 +8,6 @@ import {
   findOrCreateGroup,
   getIsActive,
   hasMatchingDevelopPlatformPage,
-  isFrontmatter,
 } from './helpers';
 import { PLATFORM_PATTERN } from './constants';
 
@@ -19,13 +18,6 @@ import type {
   SlugParams,
 } from './types';
 import type { Frontmatter } from '@/features/docs/types';
-
-const FIRST_LEVEL_ORDER: { [key: string]: number } = {
-  'Get started': 0,
-  Foundations: 1,
-  Components: 2,
-  Utilities: 3,
-};
 
 export const useLNBContent = () => {
   const { allFrontmatter } = useMDXContext();
@@ -78,21 +70,11 @@ export const useLNBContent = () => {
 
     const result: LNBFrontmatterGroup = [];
 
-    [...allFrontmatter].reverse().forEach((frontmatter) => {
+    [...allFrontmatter].forEach((frontmatter) => {
       addToGroup(frontmatter, result);
     });
 
-    return result.sort((a, b) => {
-      const getOrder = (item: LNBFrontmatterChild) => {
-        if (isFrontmatter(item)) {
-          return FIRST_LEVEL_ORDER[item.title] ?? 0;
-        }
-
-        return FIRST_LEVEL_ORDER[item.key] ?? 0;
-      };
-
-      return getOrder(a) - getOrder(b);
-    });
+    return result;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(allFrontmatter), params.slug]);

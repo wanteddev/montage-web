@@ -1,27 +1,21 @@
-type ResourceItem = {
-  title: string;
-  description: string;
-  buttonText: string;
-  href: string;
-};
-
-export const RESOURCE_ITEMS: Array<ResourceItem> = [
+export const RESOURCE_ITEMS = [
   {
-    title: 'Wanted UI Kit',
-    description: '피그마에서 원티드 리소스를 다운 받을 수 있습니다.',
-    buttonText: 'Figma Community',
+    title: 'Wanted Figma UI Kit',
+    // TODO: 날짜 수정
+    createdAt: '2025.08.10',
     href: 'https://www.figma.com/community/file/1355516515676178246',
+    color: 'linear-gradient(159deg, #B566FF 16.68%, #FFC5F5 97.9%)',
   },
   {
     title: 'Platform UI Kit',
-    description: '피그마에서 플랫폼 별 리소스를 다운 받을 수 있습니다.',
-    buttonText: 'Figma Community',
+    createdAt: '2025.08.10',
     href: 'https://www.figma.com/community/file/1355516515676178246',
+    color: 'linear-gradient(332deg, #ABDCFF -23.25%, #0047FF 83.72%)',
   },
   {
     title: 'Pretendard JP',
-    description: '시스템 사용 폰트를 다운 받을 수 있습니다.',
-    buttonText: 'Orioncactus',
+    createdAt: '2025.08.10',
     href: 'https://github.com/orioncactus/pretendard',
+    color: 'linear-gradient(180deg, #FF5A00 -21.43%, #FFF 165.18%)',
   },
 ];

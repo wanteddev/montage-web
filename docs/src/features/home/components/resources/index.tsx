@@ -1,95 +1,45 @@
 'use client';
-import {
-  Box,
-  FlexBox,
-  List,
-  ListCell,
-  ListCellContent,
-  TextButton,
-} from '@wanteddev/wds';
-import { Fragment } from 'react';
-import { IconExternalLink } from '@wanteddev/wds-icon';
+import { Box, FlexBox, Typography } from '@wanteddev/wds';
 
-import { breakWordStyle } from '@/styles/text';
+import SectionWrapper from '../section/wrapper';
+import SectionTitle from '../section/title';
 
-import { homeTitleStyle } from '../../helpers';
-
-import { resourceItemButtonStyle, resourceItemStyle } from './style';
+import { itemDividerStyle } from './style';
 import { RESOURCE_ITEMS } from './constants';
 
 const Resources = () => {
   return (
-    <FlexBox flexDirection="column" as="section" sx={{ width: '100%' }}>
-      <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
-        Downloads
-      </Box>
-      <List gap="0px">
-        {RESOURCE_ITEMS.map((item, idx) => (
-          <Fragment key={item.title}>
-            <ListCell
-              alignItems="center"
-              disableInteraction
-              tabIndex={-1}
-              data-interaction="false"
-              verticalPadding="medium"
-              sm={{
-                verticalPadding: 'large',
-              }}
-              divider={idx !== RESOURCE_ITEMS.length - 1}
-              trailingContent={
-                <ListCellContent variant="button">
-                  <TextButton
-                    color="assistive"
-                    size="small"
-                    as="a"
-                    href={item.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    trailingContent={<IconExternalLink />}
-                    onClick={(e) => e.stopPropagation()}
-                    sx={resourceItemButtonStyle}
-                  >
-                    {item.buttonText}
-                  </TextButton>
-                </ListCellContent>
-              }
-              textProps={{
-                caption: item.description,
-              }}
-              sx={resourceItemStyle}
-            >
-              {item.title}
-            </ListCell>
+    <SectionWrapper gap="24px">
+      <SectionTitle>Start Your Montage</SectionTitle>
 
-            <ListCell
-              as="a"
-              href={item.href}
-              target="_blank"
-              rel="noreferrer"
-              role="link"
-              alignItems="center"
-              data-interaction="true"
-              verticalPadding="medium"
-              sm={{
-                verticalPadding: 'large',
-              }}
-              divider={idx !== RESOURCE_ITEMS.length - 1}
-              trailingContent={
-                <ListCellContent variant="icon">
-                  <IconExternalLink aria-label={item.buttonText} />
-                </ListCellContent>
-              }
-              textProps={{
-                caption: item.description,
-              }}
-              sx={resourceItemStyle}
-            >
-              {item.title}
-            </ListCell>
-          </Fragment>
+      <FlexBox gap="48px" justifyContent="space-between">
+        {RESOURCE_ITEMS.map((item) => (
+          <FlexBox key={item.title} gap="20px" flex="1 0 0">
+            <Box as="hr" sx={itemDividerStyle(item.color)} />
+
+            <FlexBox flexDirection="column" gap="6px">
+              <Typography
+                variant="heading2"
+                weight="bold"
+                color="semantic.label.normal"
+                as="p"
+              >
+                {item.title}
+              </Typography>
+
+              <Typography
+                variant="body2"
+                weight="medium"
+                color="semantic.label.alternative"
+                as="p"
+              >
+                {item.createdAt}
+              </Typography>
+            </FlexBox>
+          </FlexBox>
         ))}
-      </List>
-    </FlexBox>
+      </FlexBox>
+    </SectionWrapper>
   );
 };
 

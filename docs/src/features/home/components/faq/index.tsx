@@ -5,28 +5,26 @@ import {
   AccordionDetails,
   AccordionSummary,
   AccordionSummaryContent,
-  Box,
-  FlexBox,
 } from '@wanteddev/wds';
 import { IconMinusThick, IconPlusThick } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
 
-import { homeTitleStyle } from '../../helpers';
+import SectionWrapper from '../section/wrapper';
+import SectionTitle from '../section/title';
 
 import { FAQ_ITEMS } from './constants';
 import {
   accordionDescriptionStyle,
+  accordionDetailsStyle,
   accordionSummaryContentStyle,
   accordionSummaryStyle,
 } from './style';
 
 const Faq = () => {
   return (
-    <FlexBox flexDirection="column" as="section" sx={{ width: '100%' }}>
-      <Box as="h2" sx={[homeTitleStyle, breakWordStyle]}>
-        FAQ
-      </Box>
+    <SectionWrapper flexDirection="column" gap="16px">
+      <SectionTitle>FAQ</SectionTitle>
 
       {FAQ_ITEMS.map((item) => (
         <Accordion key={item.question}>
@@ -34,6 +32,10 @@ const Faq = () => {
             disableInteraction
             sx={accordionSummaryStyle}
             alignItems="center"
+            textProps={{
+              variant: 'heading2',
+              weight: 'bold',
+            }}
             trailingContent={
               <AccordionSummaryContent
                 variant="icon"
@@ -47,8 +49,11 @@ const Faq = () => {
             {item.question}
           </AccordionSummary>
 
-          <AccordionDetails>
+          <AccordionDetails sx={accordionDetailsStyle}>
             <AccordionDescription
+              variant="body2"
+              weight="medium"
+              color="semantic.label.neutral"
               sx={[accordionDescriptionStyle, breakWordStyle]}
             >
               {item.answer}
@@ -56,7 +61,7 @@ const Faq = () => {
           </AccordionDetails>
         </Accordion>
       ))}
-    </FlexBox>
+    </SectionWrapper>
   );
 };
 

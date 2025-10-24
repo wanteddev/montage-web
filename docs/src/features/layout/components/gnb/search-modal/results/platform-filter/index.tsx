@@ -42,7 +42,7 @@ const PlatformFilter = () => {
       </MenuTrigger>
       <MenuContent
         sx={{ width: 'fit-content', borderRadius: 8 }}
-        position="top-end"
+        position="bottom-end"
         offset={4}
       >
         <MenuList sx={{ paddingBlock: 4 }}>
