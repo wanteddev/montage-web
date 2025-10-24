@@ -14,11 +14,7 @@ import {
   titleStyle,
   wrapperStyle,
 } from './style';
-
-const RENDER_REPEAT = 3;
-
-const IMAGES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const REVERSE_IMAGES = [11, 12, 13, 14, 15, 16, 17, 18, 19];
+import { IMAGES, RENDER_REPEAT, REVERSE_IMAGES } from './constants';
 
 const Hero = () => {
   return (
@@ -77,38 +73,44 @@ const Hero = () => {
         </FlexBox>
 
         <FlexBox sx={marqueeWrapperStyle} flexDirection="column" gap="12px">
-          <FlexBox gap="var(--marquee-gap)" justifyContent="around">
+          <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
             {Array(RENDER_REPEAT)
               .fill(0)
               .map((_, i) => (
                 <FlexBox
                   key={i}
                   alignItems="center"
-                  justifyContent="around"
+                  justifyContent="space-around"
                   gap="var(--marquee-gap)"
                   data-role="marquee-wrapper"
                   sx={marqueeGroupStyle}
                 >
                   {IMAGES.map((j) => (
                     <Box
-                      as="img"
-                      key={j}
-                      src={`/home/marquee/Image-${j}.png`}
-                      sx={marqueeImageStyle}
-                    />
+                      as="figure"
+                      key={j.id}
+                      sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
+                    >
+                      <Box
+                        as="img"
+                        src={j.src}
+                        alt={`marquee-image-${j.id}`}
+                        aria-hidden
+                      />
+                    </Box>
                   ))}
                 </FlexBox>
               ))}
           </FlexBox>
 
-          <FlexBox gap="var(--marquee-gap)" justifyContent="around">
+          <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
             {Array(RENDER_REPEAT)
               .fill(0)
               .map((_, i) => (
                 <FlexBox
                   key={i}
                   alignItems="center"
-                  justifyContent="around"
+                  justifyContent="space-around"
                   gap="var(--marquee-gap)"
                   data-role="marquee-wrapper"
                   sx={[
@@ -120,11 +122,17 @@ const Hero = () => {
                 >
                   {REVERSE_IMAGES.map((j) => (
                     <Box
-                      as="img"
-                      key={j}
-                      src={`/home/marquee/Image-${j}.png`}
-                      sx={marqueeImageStyle}
-                    />
+                      as="figure"
+                      key={j.id}
+                      sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
+                    >
+                      <Box
+                        as="img"
+                        src={j.src}
+                        alt={`marquee-image-${j.id}`}
+                        aria-hidden
+                      />
+                    </Box>
                   ))}
                 </FlexBox>
               ))}

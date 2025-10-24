@@ -63,6 +63,7 @@ const marquee = keyframes`
 
 export const marqueeGroupStyle = css`
   animation: ${marquee} 40s linear infinite;
+  will-change: transform;
 `;
 
 export const marqueeBackgroundOverlayStyle = (theme: Theme) => css`
@@ -74,7 +75,7 @@ export const marqueeBackgroundOverlayStyle = (theme: Theme) => css`
   background: linear-gradient(
     var(--overlay-direction),
     transparent,
-    ${theme.semantic.background.normal.normal}
+    ${theme.semantic.background.normal.normal} 95%
   );
 
   [data-role='marquee-background-overlay-layer'] {
@@ -153,4 +154,9 @@ export const marqueeImageStyle = css`
   height: 144px;
   user-select: none;
   pointer-events: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
