@@ -32,14 +32,21 @@ export const linkStyle = (theme: Theme) => css`
       color: ${theme.semantic.label.normal};
     }
 
-    &:hover,
+    @media (pointer: fine) {
+      &:hover {
+        opacity: 1;
+      }
+    }
+
     &:focus,
     &:focus-visible {
       opacity: 1;
     }
   }
 
-  &:hover [data-role='heading-link'] {
-    opacity: 1;
+  @media (pointer: fine) {
+    &:hover [data-role='heading-link'] {
+      opacity: 1;
+    }
   }
 `;

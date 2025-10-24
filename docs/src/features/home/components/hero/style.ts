@@ -2,10 +2,14 @@ import { css, keyframes, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const wrapperStyle = css`
+export const wrapperStyle = (theme: Theme) => css`
   width: 100%;
   height: calc(100vh - var(--gnb-height));
   min-height: 856px;
+
+  ${respondTo(theme.breakpoint.sm)} {
+    min-height: 600px;
+  }
 `;
 
 export const contentWrapperStyle = (theme: Theme) => css`
@@ -77,9 +81,11 @@ export const startButtonStyle = (theme: Theme) => css`
     color 0.3s ease,
     background-color 0.3s ease;
 
-  &:hover {
-    background-color: ${theme.semantic.inverse.background};
-    color: ${theme.semantic.inverse.label};
+  @media (pointer: fine) {
+    &:hover {
+      background-color: ${theme.semantic.inverse.background};
+      color: ${theme.semantic.inverse.label};
+    }
   }
 `;
 

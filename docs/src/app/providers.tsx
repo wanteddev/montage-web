@@ -3,7 +3,7 @@ import { AppRouterCacheProvider } from '@wanteddev/wds-nextjs';
 import { Global, ThemeProvider, respondMore } from '@wanteddev/wds';
 
 import { LnbProvider } from '@/features/docs/components/lnb/contexts';
-import { GNB_HEIGHT } from '@/features/layout/constants/constants';
+import { GNB_HEIGHT } from '@/features/layout/constants';
 
 import type { PropsWithChildren } from 'react';
 

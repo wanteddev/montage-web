@@ -20,7 +20,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { GNB_HEIGHT } from '@/features/layout/constants/constants';
+import { GNB_HEIGHT } from '@/features/layout/constants';
 import useThrottle from '@/hooks/use-throttle';
 import { breakWordStyle } from '@/styles/text';
 

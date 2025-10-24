@@ -2,6 +2,7 @@ import Gnb from '@/features/layout/components/gnb';
 import { MDXProvider } from '@/features/docs/context';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { generatePropTypes } from '@/features/docs/helpers/props';
+import LnbMobile from '@/features/docs/components/lnb/mobile';
 
 import Providers from './providers';
 
@@ -151,13 +152,15 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
         />
       </head>
       <body suppressHydrationWarning>
-        <Providers>
-          <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
+        <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
+          <Providers>
+            <LnbMobile />
+
             <Gnb />
 
             {children}
-          </MDXProvider>
-        </Providers>
+          </Providers>
+        </MDXProvider>
       </body>
     </html>
   );

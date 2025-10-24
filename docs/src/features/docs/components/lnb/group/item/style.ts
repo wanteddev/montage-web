@@ -53,9 +53,11 @@ export const lnbItemStyle = (theme: Theme) => css`
       opacity: 0.02;
     }
 
-    &:hover {
-      & > [wds-component='with-interaction'] {
-        opacity: ${theme.opacity[5]};
+    @media (pointer: fine) {
+      &:hover {
+        & > [wds-component='with-interaction'] {
+          opacity: ${theme.opacity[5]};
+        }
       }
     }
 

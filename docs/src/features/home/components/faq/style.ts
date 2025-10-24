@@ -2,6 +2,22 @@ import { css, respondMore, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
+export const accordionSectionWrapperStyle = (theme: Theme) => css`
+  @media (pointer: fine) {
+    &:has([wds-component='accordion-summary']:hover) {
+      [wds-component='accordion-summary']:not(:hover) {
+        [wds-component='list-cell-content'] {
+          color: ${theme.semantic.label.assistive};
+        }
+
+        [data-role='list-text-wrapper'] {
+          color: ${theme.semantic.label.assistive};
+        }
+      }
+    }
+  }
+`;
+
 export const accordionSummaryStyle = (theme: Theme) => css`
   && {
     --wds-list-cell-vertical-padding: 32px;
@@ -16,12 +32,11 @@ export const accordionSummaryStyle = (theme: Theme) => css`
 
   [wds-component='list-cell-content'] {
     color: ${theme.semantic.label.normal};
+    transition: color 0.3s ease;
   }
 
-  &:hover {
-    & ~ [data-role='accordion-divider'] {
-      opacity: 1 !important;
-    }
+  [data-role='list-text-wrapper'] {
+    transition: color 0.3s ease;
   }
 
   &[aria-expanded='true'] {

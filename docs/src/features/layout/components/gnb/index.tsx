@@ -14,16 +14,12 @@ import { useParams } from 'next/navigation';
 import Logo from '@/assets/logo';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
 
-// import { VERSION } from '../../constants';
-
 import {
   gnbActionsStyle,
   gnbContainerStyle,
   gnbMenuStyle,
   gnbNavigationLinkStyle,
   gnbNavigationLinkWrapperStyle,
-  // gnbVersionStyle,
-  // gnbVersionTextStyle,
   gnbWrapperStyle,
 } from './style';
 import { useSearch } from './hooks';
@@ -99,18 +95,7 @@ const Gnb = () => {
             </FlexBox>
 
             <FlexBox gap="8px" alignItems="center">
-              {/* <FlexBox sx={gnbVersionStyle} alignItems="center">
-                <Typography
-                  variant="label2"
-                  weight="bold"
-                  color="semantic.label.normal"
-                  sx={gnbVersionTextStyle}
-                >
-                  {`v ${VERSION}`}
-                </Typography>
-              </FlexBox> */}
-
-              <FlexBox gap="4px" alignItems="center">
+              <FlexBox gap="20px" alignItems="center">
                 <WithInteraction>
                   <FlexBox
                     aria-label="search"

@@ -1,1 +1,1 @@
-export const VERSION = '3.0.0';
+export const GNB_HEIGHT = 62;

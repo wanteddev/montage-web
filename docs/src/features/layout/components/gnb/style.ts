@@ -7,6 +7,7 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   z-index: ${theme.zIndex.modal};
   top: 0;
   width: 100%;
+  height: var(--gnb-height);
   padding: 12px var(--layout-padding-inline);
   backdrop-filter: blur(32px);
   background-color: ${addOpacity(
@@ -29,9 +30,11 @@ export const gnbNavigationLinkWrapperStyle = (theme: Theme) => css`
     display: flex;
   }
 
-  &:has([data-role='gnb-navigation-link']:hover) {
-    [data-role='gnb-navigation-link']:not(:hover) {
-      color: ${theme.semantic.label.assistive};
+  @media (pointer: fine) {
+    &:has([data-role='gnb-navigation-link']:hover) {
+      [data-role='gnb-navigation-link']:not(:hover) {
+        color: ${theme.semantic.label.assistive};
+      }
     }
   }
 `;
@@ -40,8 +43,13 @@ export const gnbNavigationLinkStyle = (theme: Theme) => css`
   padding: 12px 10px;
   transition: color 0.2s ease;
 
-  &[aria-current='page'],
-  &:hover {
+  @media (pointer: fine) {
+    &:hover {
+      color: ${theme.semantic.label.normal};
+    }
+  }
+
+  &[aria-current='page'] {
     color: ${theme.semantic.label.normal};
   }
 `;
@@ -49,10 +57,14 @@ export const gnbNavigationLinkStyle = (theme: Theme) => css`
 export const gnbActionsStyle = (theme: Theme) => css`
   background-color: transparent;
   border-radius: 12px;
-  padding: 8px;
   position: relative;
   font-size: 22px;
   color: ${theme.semantic.label.normal};
+
+  & > [wds-component='with-interaction'] {
+    width: calc(100% + 16px);
+    height: calc(100% + 16px);
+  }
 
   &[aria-expanded='true'] {
     & > [wds-component='with-interaction'] {
@@ -76,19 +88,3 @@ export const gnbMenuStyle = (theme: Theme) => css`
     display: flex;
   }
 `;
-
-// export const gnbVersionStyle = (theme: Theme) => css`
-//   padding: 8px 12px;
-//   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-//   border-radius: 1000px;
-//   display: none;
-
-//   ${respondMore(theme.breakpoint.lg)} {
-//     display: flex;
-//   }
-// `;
-
-// export const gnbVersionTextStyle = (theme: Theme) => css`
-//   text-shadow: 0 0 6px
-//     ${addOpacity(theme.semantic.static.black, theme.opacity[8])};
-// `;

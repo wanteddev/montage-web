@@ -25,6 +25,7 @@ const Hero = () => {
       alignItems="center"
       justifyContent="center"
       sx={wrapperStyle}
+      as="section"
     >
       <FlexBox
         flexDirection="column"
@@ -50,11 +51,17 @@ const Hero = () => {
             </Box>
 
             <Typography
-              variant="body2-reading"
+              variant="label2"
               weight="regular"
               as="p"
               color="semantic.label.normal"
               align="center"
+              lg={{
+                variant: 'label1-reading',
+              }}
+              xl={{
+                variant: 'body2-reading',
+              }}
               sx={[descriptionStyle, breakWordStyle]}
             >
               {`원티드는 세상의 모든 일하는 사람들이 더 나답게 일하는 세상을 꿈꿉니다.\n이 꿈을 현실로 만들기 위해 우리는 디자인 시스템을 만듭니다.`}

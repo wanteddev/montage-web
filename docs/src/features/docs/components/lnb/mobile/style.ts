@@ -1,4 +1,4 @@
-import { css, keyframes, respondTo } from '@wanteddev/wds';
+import { css, gradient, keyframes, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -44,7 +44,7 @@ export const containerStyle = css`
   max-height: calc(
     100% - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
   );
-  border-radius: 12px 0px 0px 12px;
+  border-radius: 0px;
   width: 75%;
   animation: ${mountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
 
@@ -53,7 +53,6 @@ export const containerStyle = css`
   }
 
   ${respondTo('620px')} {
-    border-radius: 0px;
     width: 100%;
     max-width: 100%;
     animation: ${mobileMountKeyframe} 0.3s cubic-bezier(0.2, 0, 0, 1);
@@ -82,12 +81,28 @@ export const wrapperStyle = css`
   }
 `;
 
+export const navigationStyle = (theme: Theme) => css`
+  --wds-top-navigation-padding-x: 24px;
+
+  ${gradient(
+    theme.semantic.background.elevated.normal,
+    'bottom',
+    '16px',
+    'mask',
+  )}
+
+  [data-role='navigation-title'] h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
 export const backButtonStyle = (theme: Theme) => css`
   background-color: transparent;
   border: none;
   position: relative;
   opacity: 1;
-  margin-top: -3px;
   transition: opacity 0.3s cubic-bezier(0.2, 0, 0, 1);
 
   &[aria-hidden='true'] {
@@ -95,37 +110,36 @@ export const backButtonStyle = (theme: Theme) => css`
   }
 
   svg {
-    font-size: 12px;
-    transition:
-      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-      color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: ${theme.semantic.label.neutral};
-  }
-
-  span {
-    transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    color: ${theme.semantic.label.neutral};
-  }
-
-  &:hover {
-    svg {
-      transform: translateX(-4px);
-      color: ${theme.semantic.label.normal};
-    }
-
-    span {
-      color: ${theme.semantic.label.normal};
-    }
+    font-size: 16px;
+    color: ${theme.semantic.label.normal};
   }
 `;
 
-export const backButtonClickableStyle = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: calc(100% + 12px);
-  height: calc(100% + 12px);
+export const navigationTitleStyle = css`
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &[data-is-visible='false'] {
+    opacity: 0;
+  }
+
+  &[data-is-scrolling='true'] {
+    opacity: 1;
+  }
+  &[data-is-scrolling='false'] {
+    opacity: 0;
+  }
+`;
+
+export const categoryTitleStyle = css`
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-block: 8px;
+
+  &[data-is-scrolling='true'] {
+    opacity: 0;
+  }
+  &[data-is-scrolling='false'] {
+    opacity: 1;
+  }
 `;
 
 const frontmatterMountKeyframe = keyframes`

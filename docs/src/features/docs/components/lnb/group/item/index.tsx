@@ -55,7 +55,10 @@ const LnbGroupItem = ({
 
     if (!textContent) return;
 
-    if (textContent.getBoundingClientRect().width < textContent.scrollWidth) {
+    if (
+      Math.ceil(textContent.getBoundingClientRect().width) <
+      textContent.scrollWidth
+    ) {
       setTooltipOpen(open);
     } else {
       setTooltipOpen(false);

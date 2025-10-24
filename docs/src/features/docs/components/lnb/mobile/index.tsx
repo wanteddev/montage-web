@@ -1,16 +1,20 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+'use client';
 import {
-  Box,
   FlexBox,
   Modal,
   ModalClose,
   ModalContainer,
   ModalContent,
+  ModalContentItem,
   ModalNavigation,
+  ModalNavigationButton,
   Typography,
 } from '@wanteddev/wds';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconArrowLeftThick, IconCloseThick } from '@wanteddev/wds-icon';
 import { useParams } from 'next/navigation';
+import { sentenceCase } from 'change-case';
 
 import { useLnbContext } from '../contexts';
 import { isFrontmatter } from '../helpers';
@@ -18,30 +22,33 @@ import LnbGroup from '../group';
 import LnbGroupItem from '../group/item';
 
 import {
-  backButtonClickableStyle,
   backButtonStyle,
+  categoryTitleStyle,
   containerStyle,
   focusedCategoryWrapperStyle,
   frontmatterWrapperStyle,
+  navigationStyle,
+  navigationTitleStyle,
   wrapperStyle,
 } from './style';
 
-import type { LNBFrontmatterGroup, SlugParams } from '../types';
+import type { SlugParams } from '../types';
 
-type Props = {
-  frontmatters: LNBFrontmatterGroup;
-};
-
-const LnbMobile = ({ frontmatters }: Props) => {
+const LnbMobile = () => {
   const params = useParams<SlugParams>();
 
-  const lnbMobile = useLnbContext();
+  const { frontmatters, ...lnbMobile } = useLnbContext();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [focusedCategory, setFocusedCategory] = useState<string | null>(
     params.slug?.at(0) ?? null,
   );
+  const [previousFocusedCategory, setPreviousFocusedCategory] = useState<
+    string | null
+  >(focusedCategory);
+
+  const [isScrolling, setIsScrolling] = useState(false);
 
   useLayoutEffect(() => {
     if (lnbMobile.open) {
@@ -63,10 +70,38 @@ const LnbMobile = ({ frontmatters }: Props) => {
   }, [lnbMobile.open]);
 
   useEffect(() => {
-    if (!params.slug) return;
+    if (!lnbMobile.open || !containerRef.current) return;
 
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    const scrollContainer = containerRef.current.querySelector<HTMLElement>(
+      '[data-radix-scroll-area-viewport]',
+    );
+
+    if (!scrollContainer) return;
+
+    const handleScroll = (e: Event) => {
+      if ((e.target as HTMLElement).scrollTop > 10) {
+        setIsScrolling(true);
+      } else {
+        setIsScrolling(false);
+      }
+    };
+
+    scrollContainer.addEventListener('scroll', handleScroll);
+
+    return () => {
+      scrollContainer.removeEventListener('scroll', handleScroll);
+    };
+  }, [lnbMobile.open]);
+
+  useEffect(() => {
+    if (!params.slug) {
+      setFocusedCategory(null);
+      setPreviousFocusedCategory(null);
+      return;
+    }
+
     setFocusedCategory(params.slug.at(0) ?? null);
+    setPreviousFocusedCategory(params.slug.at(0) ?? null);
   }, [params.slug]);
 
   return (
@@ -78,82 +113,121 @@ const LnbMobile = ({ frontmatters }: Props) => {
         wrapperProps={{ sx: wrapperStyle }}
       >
         <ModalNavigation
-          variant="floating"
-          sx={{
-            '--top-navigation-padding-x': '20px',
-          }}
+          variant="emphasized"
+          sx={navigationStyle}
           leadingContent={
-            <FlexBox
-              as="button"
-              type="button"
+            <ModalNavigationButton
               aria-label="Back"
-              alignItems="center"
-              gap="6px"
-              tabIndex={focusedCategory === null ? -1 : 0}
-              aria-hidden={focusedCategory === null}
               sx={backButtonStyle}
+              aria-hidden={focusedCategory === null}
               onClick={(e) => {
-                e.currentTarget.blur();
+                e.preventDefault();
                 setFocusedCategory(null);
               }}
             >
               <IconArrowLeftThick />
-
-              <Typography variant="body2" weight="medium">
-                Back
-              </Typography>
-
-              <Box sx={backButtonClickableStyle} />
-            </FlexBox>
+            </ModalNavigationButton>
           }
           trailingContent={
             <ModalClose>
-              <IconCloseThick sx={{ fontSize: '16px' }} />
+              <IconCloseThick
+                sx={{
+                  fontSize: '16px',
+                }}
+              />
             </ModalClose>
           }
-        />
-        <ModalContent sx={{ padding: '72px 20px 32px' }}>
-          <FlexBox as="nav" flexDirection="column">
-            {focusedCategory === null ? (
-              <FlexBox flexDirection="column" sx={frontmatterWrapperStyle}>
-                <LnbGroupItem
-                  onClick={() => setFocusedCategory('getting-started')}
-                >
-                  Getting started
-                </LnbGroupItem>
-                <LnbGroupItem onClick={() => setFocusedCategory('foundations')}>
-                  Foundations
-                </LnbGroupItem>
-                <LnbGroupItem onClick={() => setFocusedCategory('components')}>
-                  Components
-                </LnbGroupItem>
-                <LnbGroupItem onClick={() => setFocusedCategory('utilities')}>
-                  Utilities
-                </LnbGroupItem>
-              </FlexBox>
-            ) : (
-              <FlexBox flexDirection="column" sx={focusedCategoryWrapperStyle}>
-                {frontmatters
-                  .filter(
-                    (frontmatter) =>
-                      frontmatter.key.replace(/ /g, '-').toLowerCase() ===
-                      focusedCategory,
-                  )
-                  .map((frontmatter, i) => {
-                    return (
-                      <LnbGroup
-                        key={
-                          isFrontmatter(frontmatter)
-                            ? frontmatter.slug.toString() + i
-                            : frontmatter.key + i
-                        }
-                        frontmatter={frontmatter}
-                      />
-                    );
-                  })}
-              </FlexBox>
+        >
+          <Typography
+            variant="headline2"
+            weight="bold"
+            as="span"
+            data-is-scrolling={isScrolling}
+            data-is-visible={previousFocusedCategory === focusedCategory}
+            sx={navigationTitleStyle}
+          >
+            {sentenceCase(previousFocusedCategory ?? '')}
+          </Typography>
+        </ModalNavigation>
+        <ModalContent
+          sx={{ '--wds-modal-content-margin': '20px', paddingTop: 0 }}
+        >
+          <ModalContentItem>
+            {focusedCategory !== null && (
+              <Typography
+                variant="heading2"
+                weight="bold"
+                color="semantic.label.neutral"
+                sx={[categoryTitleStyle, focusedCategoryWrapperStyle]}
+                data-is-scrolling={isScrolling}
+              >
+                {sentenceCase(focusedCategory)}
+              </Typography>
             )}
-          </FlexBox>
+
+            <FlexBox as="nav" flexDirection="column">
+              {focusedCategory === null ? (
+                <FlexBox flexDirection="column" sx={frontmatterWrapperStyle}>
+                  <LnbGroupItem
+                    onClick={() => {
+                      setFocusedCategory('getting-started');
+                      setPreviousFocusedCategory('getting-started');
+                    }}
+                  >
+                    Getting started
+                  </LnbGroupItem>
+                  <LnbGroupItem
+                    onClick={() => {
+                      setFocusedCategory('foundations');
+                      setPreviousFocusedCategory('foundations');
+                    }}
+                  >
+                    Foundations
+                  </LnbGroupItem>
+                  <LnbGroupItem
+                    onClick={() => {
+                      setFocusedCategory('components');
+                      setPreviousFocusedCategory('components');
+                    }}
+                  >
+                    Components
+                  </LnbGroupItem>
+                  <LnbGroupItem
+                    onClick={() => {
+                      setFocusedCategory('utilities');
+                      setPreviousFocusedCategory('utilities');
+                    }}
+                  >
+                    Utilities
+                  </LnbGroupItem>
+                </FlexBox>
+              ) : (
+                <FlexBox
+                  flexDirection="column"
+                  sx={focusedCategoryWrapperStyle}
+                >
+                  {frontmatters
+                    .filter(
+                      (frontmatter) =>
+                        frontmatter.key.replace(/ /g, '-').toLowerCase() ===
+                        focusedCategory,
+                    )
+                    .map((frontmatter, i) => {
+                      return (
+                        <LnbGroup
+                          key={
+                            isFrontmatter(frontmatter)
+                              ? frontmatter.slug.toString() + i
+                              : frontmatter.key + i
+                          }
+                          frontmatter={frontmatter}
+                        />
+                      );
+                    })}
+                </FlexBox>
+              )}
+            </FlexBox>
+          </ModalContentItem>
         </ModalContent>
       </ModalContainer>
     </Modal>
