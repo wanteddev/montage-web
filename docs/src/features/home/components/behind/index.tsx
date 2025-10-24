@@ -4,6 +4,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import { useId } from 'react';
 import Link from 'next/link';
+import { IconArrowUpRight } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
 
@@ -11,7 +12,11 @@ import SectionTitle from '../section/title';
 import SectionWrapper from '../section/wrapper';
 
 import { ARTICLE_ITEMS } from './constants';
-import { carouselContentStyle, carouselItemStyle } from './style';
+import {
+  carouselContentStyle,
+  carouselItemStyle,
+  carouselWrapperStyle,
+} from './style';
 
 const Behind = () => {
   const id = useId();
@@ -23,10 +28,15 @@ const Behind = () => {
   );
 
   return (
-    <SectionWrapper gap="24px">
+    <SectionWrapper gap="20px" md={{ gap: '24px' }}>
       <SectionTitle>Behind the System</SectionTitle>
 
-      <FlexBox ref={carouselRef} role="region" aria-roledescription="carousel">
+      <FlexBox
+        ref={carouselRef}
+        role="region"
+        aria-roledescription="carousel"
+        sx={carouselWrapperStyle}
+      >
         <FlexBox flexDirection="row" sx={carouselContentStyle}>
           {ARTICLE_ITEMS.map((item, idx) => (
             <FlexBox
@@ -55,15 +65,22 @@ const Behind = () => {
                 gap="6px"
                 sx={{ padding: '12px' }}
               >
-                <Typography
-                  variant="heading2"
-                  weight="bold"
-                  color="semantic.label.normal"
-                  as="p"
-                  id={`carousel-${id}-${idx}`}
-                >
-                  {item.title}
-                </Typography>
+                <FlexBox gap="12px">
+                  <Typography
+                    variant="headline1"
+                    weight="bold"
+                    color="semantic.label.normal"
+                    as="p"
+                    id={`carousel-${id}-${idx}`}
+                    md={{
+                      variant: 'heading2',
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+
+                  <IconArrowUpRight aria-hidden data-role="interaction-arrow" />
+                </FlexBox>
 
                 <Typography
                   variant="body2"

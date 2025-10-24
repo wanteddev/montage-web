@@ -3,6 +3,8 @@ import { Box, Typography } from '@wanteddev/wds';
 import { FlexBox } from '@wanteddev/wds';
 import Link from 'next/link';
 
+import { breakWordStyle } from '@/styles/text';
+
 import {
   contentWrapperStyle,
   descriptionStyle,
@@ -41,8 +43,8 @@ const Hero = () => {
             sx={{ width: '100%' }}
             alignItems="center"
           >
-            <Box as="h1" sx={titleStyle}>
-              From Separate Core Blocks
+            <Box as="h1" sx={[titleStyle, breakWordStyle]}>
+              {`From Separate\nCore Blocks`}
               <br />
               To a Seamless Flow
             </Box>
@@ -53,26 +55,20 @@ const Hero = () => {
               as="p"
               color="semantic.label.normal"
               align="center"
-              sx={descriptionStyle}
+              sx={[descriptionStyle, breakWordStyle]}
             >
-              원티드는 세상의 모든 일하는 사람들이 더 나답게 일하는 세상을
-              꿈꿉니다. <br />이 꿈을 현실로 만들기 위해 우리는 디자인 시스템을
-              만듭니다.
+              {`원티드는 세상의 모든 일하는 사람들이 더 나답게 일하는 세상을 꿈꿉니다.\n이 꿈을 현실로 만들기 위해 우리는 디자인 시스템을 만듭니다.`}
             </Typography>
 
             <Box as={Link} href="/docs/getting-started" sx={startButtonStyle}>
-              <Typography
-                variant="label1"
-                weight="medium"
-                color="semantic.label.normal"
-              >
+              <Typography variant="label1" weight="medium">
                 Getting Started
               </Typography>
             </Box>
           </FlexBox>
         </FlexBox>
 
-        <FlexBox sx={marqueeWrapperStyle} flexDirection="column" gap="12px">
+        <FlexBox sx={marqueeWrapperStyle} flexDirection="column">
           <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
             {Array(RENDER_REPEAT)
               .fill(0)
@@ -138,13 +134,7 @@ const Hero = () => {
               ))}
           </FlexBox>
 
-          <FlexBox
-            aria-hidden
-            sx={[
-              marqueeBackgroundOverlayStyle,
-              { left: 0, ['--overlay-direction']: 'to left' },
-            ]}
-          >
+          <FlexBox aria-hidden sx={marqueeBackgroundOverlayStyle('left')}>
             <Box aria-hidden data-role="marquee-background-overlay-layer" />
             <Box aria-hidden data-role="marquee-background-overlay-layer" />
             <Box aria-hidden data-role="marquee-background-overlay-layer" />
@@ -153,13 +143,7 @@ const Hero = () => {
             <Box aria-hidden data-role="marquee-background-overlay-layer" />
           </FlexBox>
 
-          <FlexBox
-            aria-hidden
-            sx={[
-              marqueeBackgroundOverlayStyle,
-              { right: 0, ['--overlay-direction']: 'to right' },
-            ]}
-          >
+          <FlexBox aria-hidden sx={marqueeBackgroundOverlayStyle('right')}>
             <Box aria-hidden data-role="marquee-background-overlay-layer" />
             <Box aria-hidden data-role="marquee-background-overlay-layer" />
             <Box aria-hidden data-role="marquee-background-overlay-layer" />

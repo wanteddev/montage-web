@@ -23,18 +23,22 @@ import {
 
 const Faq = () => {
   return (
-    <SectionWrapper flexDirection="column" gap="16px">
+    <SectionWrapper flexDirection="column" gap="12px" md={{ gap: '16px' }}>
       <SectionTitle>FAQ</SectionTitle>
 
-      {FAQ_ITEMS.map((item) => (
-        <Accordion key={item.question}>
+      {FAQ_ITEMS.map((item, idx) => (
+        <Accordion key={item.question} divider={idx !== FAQ_ITEMS.length - 1}>
           <AccordionSummary
             disableInteraction
             sx={accordionSummaryStyle}
             alignItems="center"
             textProps={{
-              variant: 'heading2',
+              variant: 'headline1',
               weight: 'bold',
+              color: 'semantic.label.normal',
+              md: {
+                variant: 'heading2',
+              },
             }}
             trailingContent={
               <AccordionSummaryContent
@@ -51,10 +55,13 @@ const Faq = () => {
 
           <AccordionDetails sx={accordionDetailsStyle}>
             <AccordionDescription
-              variant="body2"
+              variant="body2-reading"
               weight="medium"
               color="semantic.label.neutral"
               sx={[accordionDescriptionStyle, breakWordStyle]}
+              md={{
+                variant: 'body2',
+              }}
             >
               {item.answer}
             </AccordionDescription>

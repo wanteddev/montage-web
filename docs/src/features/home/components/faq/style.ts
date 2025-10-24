@@ -1,21 +1,24 @@
-import { css, respondMore } from '@wanteddev/wds';
+import { css, respondMore, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const accordionSummaryStyle = (theme: Theme) => css`
-  --wds-list-cell-vertical-padding: 20px;
+  && {
+    --wds-list-cell-vertical-padding: 32px;
+  }
   border-radius: 0px;
 
+  ${respondTo(theme.breakpoint.md)} {
+    && {
+      --wds-list-cell-vertical-padding: 28px;
+    }
+  }
+
   [wds-component='list-cell-content'] {
-    color: ${theme.semantic.label.assistive};
-    transition: color 0.3s ease;
+    color: ${theme.semantic.label.normal};
   }
 
   &:hover {
-    [wds-component='list-cell-content'] {
-      color: ${theme.semantic.label.neutral};
-    }
-
     & ~ [data-role='accordion-divider'] {
       opacity: 1 !important;
     }

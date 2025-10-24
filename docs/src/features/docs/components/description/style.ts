@@ -30,7 +30,7 @@ export const tabStyle = (theme: Theme) => css`
   margin-bottom: 88px;
   position: sticky;
   top: calc(var(--gnb-height));
-  z-index: 3;
+  z-index: 12;
   background-color: ${theme.semantic.background.normal.normal};
 
   & + h1,

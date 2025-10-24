@@ -18,10 +18,8 @@ updatedAt: 2025-10-14
 />
 
 <SectionVariants
-  components={['Box', 'Modal', 'ModalClose', 'ModalContainer', 'ModalContent', 'ModalContentItem', 'ModalNavigation', 'SearchField', 'ActionArea', 'ActionAreaButton']}
+  components={['FlexBox', 'Button', 'Box', 'Modal', 'ModalTrigger', 'ModalClose', 'ModalContainer', 'ModalContent', 'ModalContentItem', 'ModalNavigation', 'SearchField', 'ActionArea', 'ActionAreaButton']}
   render={(value) => {
-    const size = value['Size'].toLowerCase();
-
     let actionArea = '';
 
     switch (value['Action area']) {
@@ -62,58 +60,58 @@ updatedAt: 2025-10-14
         break;
     }
 
+    const getModalContainer = (size) => `
+      <ModalContainer
+        size="${size}"
+        resize="hug"
+        sx={{ maxHeight: 'unset' }}
+      >
+        ${navigation}
+        <ModalContent>
+          <ModalContentItem>
+            <Box
+              sx={theme => ({
+                backgroundColor: theme.semantic.accent.background.violet,
+                opacity: theme.opacity[8],
+                height: '240px',
+              })}
+            />
+          </ModalContentItem>
+        </ModalContent>
+        
+        ${actionArea}
+      </ModalContainer>
+    `
+
 		return `
-			<Modal open>
-        <ModalContainer
-          disablePortal
-          disableOutsideClickClose
-          disableEscapeKeyDownClose
-          disableRemoveScroll
-          disableFocusScope
-          disableAriaHiddenOthers
-          size="${size}"
-          resize="hug"
-          sx={{ maxHeight: 'unset' }}
-          wrapperProps={{
-            sx: {
-              zIndex: 1,
-              position: 'relative',
-              height: '95% !important',
-              width: '95%',
-              ['[data-role="modal-dimmer"]']: {
-                position: 'absolute',
-                display: 'none',
-              }
-            }
-          }}
-        >
-          ${navigation}
-          <ModalContent>
-            <ModalContentItem>
-              <Box
-                sx={theme => ({
-                  backgroundColor: theme.semantic.accent.background.violet,
-                  opacity: theme.opacity[8],
-                  height: '240px',
-                })}
-              />
-            </ModalContentItem>
-          </ModalContent>
-          
-          ${actionArea}
-        </ModalContainer>
-      </Modal>
+      <FlexBox gap="12px" flexDirection="column">
+        <Modal>
+          <ModalTrigger>
+            <Button sx={{ width: '100px' }}>Medium</Button>
+          </ModalTrigger>
+
+          ${getModalContainer('medium')}
+        </Modal>
+
+        <Modal>
+          <ModalTrigger>
+            <Button sx={{ width: '100px' }}>Large</Button>
+          </ModalTrigger>
+
+          ${getModalContainer('large')}
+        </Modal>
+
+        <Modal>
+          <ModalTrigger>
+            <Button sx={{ width: '100px' }}>XLarge</Button>
+          </ModalTrigger>
+
+          ${getModalContainer('xlarge')}
+        </Modal>
+      </FlexBox>
 		`;
 	}}
   variants={[
-    {
-      key: 'Size',
-      options: [
-        { label: 'Medium', value: {} },
-        { label: 'Large', value: {} },
-        { label: 'XLarge', value: {} },
-      ]
-    },
     {
       key: 'Navigation',
       options: [
