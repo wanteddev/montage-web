@@ -2,21 +2,26 @@
 
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
+import { FlexBox } from '@wanteddev/wds';
 
 import {
   componentOverviewFrontmatter,
-  foundationsElevationFrontmatter,
+  foundationsElevationNormalFrontmatter,
+  foundationsElevationSpreadFrontmatter,
   foundationsGridFrontmatter,
   foundationsOverviewFrontmatter,
   foundationsTypographyFrontmatter,
+  gettingStartedFrontmatter,
   utilitiesOverviewFrontmatter,
 } from '../../constants';
 
-import CustomRenderLayout from './layout';
 import FoundationsTypography from './foundations/typography';
 import FoundationsGrid from './foundations/grid';
-import FoundationsElevation from './foundations/elevation';
+import FoundationsElevationNormal from './foundations/elevation/normal';
 import DocsCollection from './docs-collection';
+import GettingStarted from './getting-started';
+import { wrapperStyle } from './style';
+import FoundationsElevationSpread from './foundations/elevation/spread';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -25,14 +30,20 @@ const CustomRender = () => {
 
   const component = useMemo(() => {
     switch (slug.join('/')) {
+      case gettingStartedFrontmatter.slug.join('/'):
+        return <GettingStarted />;
+
       case foundationsTypographyFrontmatter.slug.join('/'):
         return <FoundationsTypography />;
 
       case foundationsGridFrontmatter.slug.join('/'):
         return <FoundationsGrid />;
 
-      case foundationsElevationFrontmatter.slug.join('/'):
-        return <FoundationsElevation />;
+      case foundationsElevationNormalFrontmatter.slug.join('/'):
+        return <FoundationsElevationNormal />;
+
+      case foundationsElevationSpreadFrontmatter.slug.join('/'):
+        return <FoundationsElevationSpread />;
 
       case foundationsOverviewFrontmatter.slug.join('/'):
         return <DocsCollection category="foundations" />;
@@ -48,7 +59,11 @@ const CustomRender = () => {
     }
   }, [slug]);
 
-  return <CustomRenderLayout>{component}</CustomRenderLayout>;
+  return (
+    <FlexBox flexDirection="column" sx={wrapperStyle}>
+      {component}
+    </FlexBox>
+  );
 };
 
 export default CustomRender;

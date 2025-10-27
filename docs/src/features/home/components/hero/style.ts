@@ -50,9 +50,9 @@ export const titleStyle = (theme: Theme) => css`
   }
 
   ${respondTo(theme.breakpoint.sm)} {
-    font-size: 36px;
+    font-size: 40px;
     line-height: 105%;
-    letter-spacing: -0.788px;
+    letter-spacing: -0.876px;
   }
 
   ${respondTo('500px')} {

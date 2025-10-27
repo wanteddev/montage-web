@@ -7,7 +7,7 @@ import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 import {
   findOrCreateGroup,
   getIsActive,
-  hasMatchingDevelopPlatformPage,
+  shouldSkipAddFrontmatter,
 } from './helpers';
 import { PLATFORM_PATTERN } from './constants';
 
@@ -29,9 +29,7 @@ export const useLNBContent = () => {
       groups: LNBFrontmatterGroup | Array<LNBFrontmatterChild>,
       depth = 0,
     ): void => {
-      if (
-        hasMatchingDevelopPlatformPage(frontmatter.originSlug, allFrontmatter)
-      ) {
+      if (shouldSkipAddFrontmatter(frontmatter, allFrontmatter)) {
         return;
       }
 
@@ -45,7 +43,8 @@ export const useLNBContent = () => {
       if (
         depth !== 0 &&
         (depth >= frontmatter.slug.length - 1 ||
-          (frontmatter.originSlug.at(-1)?.match(PLATFORM_PATTERN) &&
+          ((frontmatter.originSlug.at(-1)?.match(PLATFORM_PATTERN) ||
+            frontmatter.originSlug.at(-1)?.match(/normal|spread/)) &&
             depth === frontmatter.originSlug.length - 2))
       ) {
         groups.push({

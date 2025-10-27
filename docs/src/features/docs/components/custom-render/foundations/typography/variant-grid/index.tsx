@@ -9,7 +9,7 @@ import {
 
 const VariantGrid = () => {
   return (
-    <TokenGrid>
+    <TokenGrid sx={{ marginBottom: '62px' }}>
       <colgroup>
         <col width="25%" />
         <col width="25%" />

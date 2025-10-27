@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, type SxProp } from '@wanteddev/wds';
 
 import { titleStyle } from './style';

@@ -1,14 +1,21 @@
 'use client';
 import { FlexBox } from '@wanteddev/wds';
+import { useParams } from 'next/navigation';
 
 import Sidebar from '@/features/docs/components/sidebar';
-import DocsDescription from '@/features/docs/components/description';
 import Footer from '@/features/layout/components/footer';
 import Lnb from '@/features/docs/components/lnb';
+import { shouldNotSerializeMDX } from '@/features/docs/helpers/overview';
+import DocsSummary from '@/features/docs/components/summary';
+import CustomRenderSummary from '@/features/docs/components/custom-render/summary';
+
+import type { SlugParams } from '@/features/docs/components/lnb/types';
 
 export const dynamic = 'force-static';
 
 const DocsLayout = ({ children }: LayoutProps<'/docs'>) => {
+  const { slug = [] } = useParams<SlugParams>();
+
   return (
     <FlexBox
       gap="40px"
@@ -35,11 +42,15 @@ const DocsLayout = ({ children }: LayoutProps<'/docs'>) => {
           sx={{
             padding: '56px var(--layout-padding-inline) 0px',
             width: '100%',
-            maxWidth: 'min(800px, 100%)',
+            maxWidth: 'min(840px, 100%)',
           }}
           flex="1 1 0"
         >
-          <DocsDescription />
+          {shouldNotSerializeMDX(slug) ? (
+            <CustomRenderSummary />
+          ) : (
+            <DocsSummary />
+          )}
 
           {children}
 

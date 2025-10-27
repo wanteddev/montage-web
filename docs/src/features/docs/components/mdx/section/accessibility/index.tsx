@@ -8,7 +8,7 @@ import {
   TableHeadCell,
   TableRow,
 } from '@wanteddev/wds';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 
 import { Heading2 } from '../layout';
 import { sectionLayoutStyle } from '../style';

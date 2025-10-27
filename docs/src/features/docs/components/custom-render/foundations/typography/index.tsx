@@ -1,17 +1,17 @@
-import { Divider, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { Divider, Thumbnail } from '@wanteddev/wds';
 
-import {
-  Heading2,
-  Heading3,
-} from '@/features/docs/components/mdx/section/layout';
+import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 
 import VariantGrid from './variant-grid';
-import Preview from './preview';
-import { downloadResourceStyle } from './style';
 
 const FoundationsTypography = () => {
   return (
     <>
+      <Divider
+        color="semantic.line.normal.alternative"
+        sx={{ '&&': { marginBlock: '48px 56px' } }}
+      />
+
       <Heading2 content="Basic typography" />
 
       <p>
@@ -30,23 +30,6 @@ const FoundationsTypography = () => {
           marginTop: '40px',
         }}
       />
-
-      <Divider color="semantic.line.normal.alternative" />
-
-      <Heading2 content="Style" />
-
-      <VariantGrid />
-
-      <Divider color="semantic.line.normal.alternative" />
-
-      <Heading2 content="Preview" sx={{ marginTop: '40px' }} />
-
-      <p>
-        Caption부터 Display까지 실제 적용되는 크기로 시스템 타이포를 미리 볼 수
-        있습니다. 적용되는 시스템 폰트를 비교해보세요.
-      </p>
-
-      <Preview />
 
       <Divider color="semantic.line.normal.alternative" />
 
@@ -70,139 +53,9 @@ const FoundationsTypography = () => {
 
       <Divider color="semantic.line.normal.alternative" />
 
-      <Heading2 content="Use case" />
+      <Heading2 content="Style" />
 
-      <p>
-        원티드랩의 시스템 타이포그래피는 기본적으로 각 상황에 맞는 사용 예시가
-        존재합니다. 하지만 이를 완전히 지킬 수 없는 상황도 있기 때문에 가능한
-        가이드라인대로 사용하는 것을 권장하되, 상황에 적합한 크기가 있는
-        스타일을 사용할 수 있습니다.
-      </p>
-
-      <Heading3 content="Display" sx={{ marginTop: '40px' }} />
-
-      <Thumbnail
-        src="/foundations/typography/Image-2.png"
-        alt="Use case for Display"
-        radius
-        border
-        sx={{
-          aspectRatio: '39 / 16',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="Title" />
-
-      <Thumbnail
-        src="/foundations/typography/Image-3.png"
-        alt="Use case for Title"
-        radius
-        border
-        sx={{
-          aspectRatio: '39 / 16',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="Heading" />
-
-      <Thumbnail
-        src="/foundations/typography/Image-4.png"
-        alt="Use case for Heading"
-        radius
-        sx={{
-          aspectRatio: '39 / 16',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="Headline" />
-
-      <Thumbnail
-        src="/foundations/typography/Image-5.png"
-        alt="Use case for Headline"
-        radius
-        border
-        sx={{
-          aspectRatio: '39 / 16',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="Body" />
-
-      <Thumbnail
-        src="/foundations/typography/Image-6.png"
-        alt="Use case for Body"
-        radius
-        border
-        sx={{
-          aspectRatio: '39 / 16',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="Label" />
-
-      <Thumbnail
-        src="/foundations/typography/Image-7.png"
-        alt="Use case for Label"
-        radius
-        border
-        sx={{
-          aspectRatio: '39 / 16',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="Caption" />
-
-      <Thumbnail
-        src="/foundations/typography/Image-8.png"
-        alt="Use case for Caption"
-        radius
-        border
-        sx={{
-          aspectRatio: '39 / 16',
-        }}
-      />
-
-      <Divider color="semantic.line.normal.alternative" />
-
-      <Heading2 content="Resource" />
-
-      {/* TODO: 다운로드 링크 추가 */}
-      <FlexBox
-        sx={downloadResourceStyle}
-        gap="16px"
-        alignItems="center"
-        as="a"
-        href="/#"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <FlexBox flexDirection="column" gap="2px">
-          <Typography
-            variant="heading2"
-            weight="bold"
-            color="semantic.label.normal"
-          >
-            Pretendard JP
-          </Typography>
-
-          <Typography
-            variant="label1"
-            weight="medium"
-            color="semantic.label.neutral"
-            sx={(theme) => ({
-              opacity: theme.opacity[88],
-            })}
-          >
-            시스템 폰트 다운로드
-          </Typography>
-        </FlexBox>
-      </FlexBox>
+      <VariantGrid />
     </>
   );
 };

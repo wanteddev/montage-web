@@ -8,6 +8,11 @@ import ArtboardSizeGrid from './artboard-size-grid';
 const FoundationsGrid = () => {
   return (
     <>
+      <Divider
+        color="semantic.line.normal.alternative"
+        sx={{ '&&': { marginBlock: '48px 56px' } }}
+      />
+
       <Heading2 content="Artboard size" />
 
       <Box as="p" sx={{ marginBottom: '40px' }}>
@@ -26,46 +31,6 @@ const FoundationsGrid = () => {
 
       <Divider color="semantic.line.normal.alternative" />
 
-      <Heading2 content="Desktop max width" />
-
-      <p>
-        Desktop은 1200px(lg)부터 1600px(xl) 미만의 화면에서는 최대 너비 1100px,
-        너비 1600px 이상의 화면부터는 1440px의 최대 너비를 가집니다.
-      </p>
-
-      <Heading3 content="1200px-1599px" sx={{ marginTop: '40px' }} />
-
-      <p>20px의 여백을 포함하여 1100px의 최대 너비를 가집니다.</p>
-
-      <Thumbnail
-        src="/foundations/grid-and-layout/Image.png"
-        alt="Desktop breakpoint lg"
-        radius
-        border
-        ratio="21:9"
-        sx={{
-          marginTop: '12px',
-          marginBottom: '64px',
-        }}
-      />
-
-      <Heading3 content="1600px~" />
-
-      <p>20px의 여백을 포함하여 1440px의 최대 너비를 가집니다.</p>
-
-      <Thumbnail
-        src="/foundations/grid-and-layout/Image.png"
-        alt="Desktop breakpoint xl"
-        radius
-        border
-        ratio="21:9"
-        sx={{
-          marginTop: '12px',
-        }}
-      />
-
-      <Divider color="semantic.line.normal.alternative" />
-
       <Heading2 content="Spacing" />
 
       <p>
@@ -81,7 +46,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '12px',
+          marginTop: '40px',
         }}
       />
 
@@ -106,7 +71,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '12px',
+          marginTop: '40px',
           marginBottom: '64px',
         }}
       />
@@ -122,7 +87,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '12px',
+          marginTop: '40px',
           marginBottom: '64px',
         }}
       />
@@ -138,7 +103,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '12px',
+          marginTop: '40px',
         }}
       />
     </>

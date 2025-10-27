@@ -1,4 +1,7 @@
-import { gettingStartedFrontmatter } from '../../constants';
+import {
+  MERGE_ONE_FRONTMATTER_PATTERN,
+  gettingStartedFrontmatter,
+} from '../../constants';
 
 import { PLATFORM_PATTERN, PLATFORM_PATTERN_WITHOUT_DESIGN } from './constants';
 
@@ -19,9 +22,24 @@ export const getIsActive = (
   item: LNBFrontmatterChild | LNBFrontmatterType,
 ): boolean => {
   if (isFrontmatter(item)) {
+    const firstSegment = item.originSlug.at(0) || '';
+
+    const values = Object.hasOwn(MERGE_ONE_FRONTMATTER_PATTERN, firstSegment);
+
+    if (!values) {
+      return (
+        params.slug?.toString().replace(PLATFORM_PATTERN, '') ===
+        item.slug.toString().replace(PLATFORM_PATTERN, '')
+      );
+    }
+
+    const PATTERN = new RegExp(
+      `${Object.keys(MERGE_ONE_FRONTMATTER_PATTERN[firstSegment as keyof typeof MERGE_ONE_FRONTMATTER_PATTERN]).join('|')}$`,
+    );
+
     return (
-      params.slug?.toString().replace(PLATFORM_PATTERN, '') ===
-      item.slug.toString().replace(PLATFORM_PATTERN, '')
+      params.slug?.toString().replace(PATTERN, '') ===
+      item.slug.toString().replace(PATTERN, '')
     );
   }
 
@@ -30,6 +48,38 @@ export const getIsActive = (
       ? getIsActive(params, root)
       : root.children.some((child) => getIsActive(params, child)),
   );
+};
+
+export const shouldMergeOneFrontmatter = (frontmatter: Frontmatter) => {
+  const firstSegment = frontmatter.originSlug.at(0) || '';
+  const lastSegment = frontmatter.originSlug.at(-1) || '';
+
+  const values = Object.hasOwn(MERGE_ONE_FRONTMATTER_PATTERN, firstSegment);
+
+  if (!values) {
+    return false;
+  }
+
+  const data =
+    MERGE_ONE_FRONTMATTER_PATTERN[
+      firstSegment as keyof typeof MERGE_ONE_FRONTMATTER_PATTERN
+    ];
+
+  return (
+    Object.keys(data).includes(lastSegment) &&
+    lastSegment !== data[lastSegment as keyof typeof data]
+  );
+};
+
+export const shouldSkipAddFrontmatter = (
+  frontmatter: Frontmatter,
+  allFrontmatter: Array<Frontmatter>,
+) => {
+  if (hasMatchingDevelopPlatformPage(frontmatter.originSlug, allFrontmatter)) {
+    return true;
+  }
+
+  return shouldMergeOneFrontmatter(frontmatter);
 };
 
 export const hasMatchingDevelopPlatformPage = (
