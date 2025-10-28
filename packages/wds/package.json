@@ -56,7 +56,7 @@
     "@radix-ui/react-dismissable-layer": "^1.1.10",
     "@radix-ui/react-portal": "^1.1.9",
     "@radix-ui/react-roving-focus": "^1.1.10",
-    "@radix-ui/react-scroll-area": "1.2.9",
+    "@radix-ui/react-scroll-area": "1.2.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-use-callback-ref": "^1.1.1",
     "@radix-ui/react-use-controllable-state": "^1.2.2",
