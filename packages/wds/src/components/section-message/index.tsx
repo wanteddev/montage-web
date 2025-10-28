@@ -46,7 +46,7 @@ const SectionMessage = forwardRef<
     },
     ref,
   ) => {
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       prop: originOpen,
       defaultProp: defaultOpen ?? true,
       onChange: onOpenChange,

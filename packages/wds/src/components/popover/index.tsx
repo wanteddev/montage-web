@@ -47,7 +47,7 @@ const Popover = ({
   const triggerId = useId();
   const contentId = useId();
 
-  const [open = false, setOpen] = useControllableState({
+  const [open, setOpen] = useControllableState({
     prop: originOpen,
     defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,

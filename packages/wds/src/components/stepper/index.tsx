@@ -32,7 +32,7 @@ const Stepper = forwardRef<
     { value: originValue, defaultValue, onValueChange, children, ...props },
     ref,
   ) => {
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: originValue,
       defaultProp: defaultValue ?? '',
       onChange: onValueChange,

@@ -93,13 +93,13 @@ const Select = forwardRef<
 
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
-    const [menuValue = '', setMenuValue] = useControllableState({
+    const [menuValue, setMenuValue] = useControllableState({
       prop: menuValueProp,
       defaultProp: defaultValue,
       onChange: onMenuValueChange,
     });
 
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue,
       onChange: (v) => {
@@ -108,7 +108,7 @@ const Select = forwardRef<
       },
     });
 
-    const [openState = false, setOpenState] = useControllableState({
+    const [openState, setOpenState] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen ?? false,
       onChange: (v) => {
@@ -122,7 +122,8 @@ const Select = forwardRef<
       () =>
         typeof value === 'string'
           ? value.length === 0
-          : !Boolean(value) && value !== 0,
+          : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            !Boolean(value) && value !== 0,
       [value],
     );
 

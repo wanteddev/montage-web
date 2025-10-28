@@ -64,7 +64,7 @@ const DatePicker = forwardRef<
     const ref = useRef<HTMLDivElement>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
 
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       prop: originOpen,
       defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,

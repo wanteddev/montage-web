@@ -42,7 +42,7 @@ const ProgressTracker = forwardRef<
     },
     ref,
   ) => {
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: originValue,
       defaultProp: defaultValue ?? '',
       onChange: onValueChange,

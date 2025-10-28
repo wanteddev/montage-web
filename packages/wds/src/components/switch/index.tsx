@@ -43,7 +43,7 @@ const Switch = forwardRef<
     const hasConsumerStoppedPropagationRef = useRef(false);
 
     const isFormControl = button ? Boolean(button.closest('form')) : true;
-    const [checked = false, setChecked] = useControllableState({
+    const [checked, setChecked] = useControllableState({
       prop: originChecked,
       defaultProp: defaultChecked ?? false,
       onChange: onCheckedChange,

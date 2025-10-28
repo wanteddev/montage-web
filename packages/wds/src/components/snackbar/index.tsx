@@ -65,9 +65,9 @@ const Snackbar = forwardRef(
     }: PolymorphicPropsInternal<SnackbarProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const [open = false, setOpen] = useControllableState({
-      defaultProp: defaultOpen,
-      prop: openProp ?? false,
+    const [open, setOpen] = useControllableState({
+      prop: openProp,
+      defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,
     });
 

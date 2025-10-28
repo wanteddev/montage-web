@@ -34,7 +34,7 @@ const ToggleIcon = forwardRef(
     }: PolymorphicPropsInternal<ToggleIconProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const [pressed = false, setPressed] = useControllableState({
+    const [pressed, setPressed] = useControllableState({
       prop: active,
       onChange: onActiveChange,
       defaultProp: defaultActive ?? false,
