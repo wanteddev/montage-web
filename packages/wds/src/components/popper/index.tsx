@@ -246,7 +246,7 @@ const PopperContent = forwardRef<
       if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
     }, [content]);
 
-    const [side] = getSideAlignFromPlacement(placementResult);
+    const [side, align] = getSideAlignFromPlacement(placementResult);
 
     useEffect(() => {
       setContext?.(floatingContext);
@@ -258,6 +258,9 @@ const PopperContent = forwardRef<
           wds-ignore-dismissable-layer="true"
           ref={refs.setFloating}
           {...wrapperProps}
+          data-side={side}
+          data-align={align}
+          data-placement={placementResult}
           style={{
             ...wrapperProps.style,
             ...floatingStyles,
