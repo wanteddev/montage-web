@@ -16,7 +16,6 @@ export const interactionStyle =
     border-radius: inherit;
     opacity: ${theme.opacity[0]};
     background-color: ${getColorByToken(theme, color!)};
-    will-change: opacity, transform;
     transition:
       opacity 0.15s ease,
       transform 0.15s ease;
