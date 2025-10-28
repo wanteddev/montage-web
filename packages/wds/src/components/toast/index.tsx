@@ -59,7 +59,7 @@ const Toast = forwardRef(
     }: PolymorphicPropsInternal<ToastProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       defaultProp: defaultOpen ?? false,
       prop: openProp,
       onChange: onOpenChange,

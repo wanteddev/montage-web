@@ -98,13 +98,13 @@ const Autocomplete = forwardRef<
 
     const { width } = useSize(node) || {};
 
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 
-    const [inputValue = '', setInputValue] = useControllableState({
+    const [inputValue, setInputValue] = useControllableState({
       prop: inputValueProp,
       defaultProp: defaultInputValue ?? value,
       onChange: onInputValueChange,
@@ -113,7 +113,7 @@ const Autocomplete = forwardRef<
     const [selectedOption, setSelectedOption] =
       useState<AutocompleteCollectionItem | null>(null);
 
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen ?? false,
       onChange: (state) => {

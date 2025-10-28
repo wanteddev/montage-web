@@ -1,11 +1,7 @@
 import type { MenuContent } from '../menu';
 import type { TextFieldProps } from '../text-field/types';
 import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
-import type {
-  ComponentPropsWithoutRef,
-  MouseEventHandler,
-  ReactNode,
-} from 'react';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
 export type PaginationProps = Merge<PaginationDefaultProps, FlexBoxProps>;
@@ -37,7 +33,7 @@ export type PaginationItemProps = {
   page: number;
   itemPage?: number;
   disabled: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onPageChange: (page: number) => void;
 };
 
 export type PaginationFieldDefaultProps = WithSxProps<{

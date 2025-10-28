@@ -6,7 +6,7 @@ type PaginationContextType = {
   id: string;
   totalPages: number;
   disabled: boolean;
-  setPage: (page?: number) => void;
+  setPage: (page: number) => void;
 };
 
 export const [PaginationProvider, usePaginationContext] =

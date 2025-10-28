@@ -94,7 +94,7 @@ const Modal = ({
   onOpenChange,
   onVisibilityChange,
 }: ModalProps) => {
-  const [open = false, setOpen] = useControllableState({
+  const [open, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,

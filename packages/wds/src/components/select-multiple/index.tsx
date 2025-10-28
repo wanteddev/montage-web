@@ -99,7 +99,7 @@ const SelectMultiple = forwardRef<
       },
     });
 
-    const [openState = false, setOpenState] = useControllableState({
+    const [openState, setOpenState] = useControllableState({
       prop: openProp,
       defaultProp: defaultOpen ?? false,
       onChange: (v) => {

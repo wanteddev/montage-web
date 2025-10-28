@@ -63,7 +63,7 @@ const Pagination = forwardRef<
   ) => {
     const id = useId();
 
-    const [page = defaultPage, setPage] = useControllableState<number>({
+    const [page, setPage] = useControllableState({
       prop: givenPage,
       defaultProp: defaultPage,
       onChange,
@@ -182,7 +182,7 @@ const Pagination = forwardRef<
                     page={page}
                     itemPage={itemPage}
                     disabled={disabled}
-                    onClick={() => pageButtonActions.set(itemPage)}
+                    onPageChange={pageButtonActions.set}
                   />
                 ))}
               </FlexBox>
@@ -224,7 +224,7 @@ const PaginationItem = ({
   page,
   itemPage,
   disabled,
-  ...props
+  onPageChange,
 }: PaginationItemProps) => {
   return (
     <FlexBox as="li" justifyContent="center" sx={paginationItemStyle}>
@@ -237,7 +237,7 @@ const PaginationItem = ({
           aria-label={`Page ${itemPage}`}
           aria-current={page === itemPage ? 'page' : undefined}
           data-role="pagination-item-page"
-          {...props}
+          onClick={() => onPageChange(itemPage!)}
           sx={pageButtonStyle}
         >
           {itemPage}
@@ -283,7 +283,7 @@ const PaginationSelect = forwardRef<
       PAGINATION_SELECT_NAME,
     );
 
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       prop: givenOpen,
       defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,
