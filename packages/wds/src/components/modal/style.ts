@@ -439,7 +439,7 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
         border-radius: 12px 12px 0px 0px;
         max-width: 480px;
         width: 100%;
-        min-width: none;
+        min-width: initial;
         overflow: hidden;
         transition:
           transform 200ms ease,

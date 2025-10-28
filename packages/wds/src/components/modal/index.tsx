@@ -571,7 +571,13 @@ const ModalNavigation = forwardRef<
   DefaultComponentPropsInternal<ModalNavigationProps, 'div'>
 >(
   (
-    { leadingContent, trailingContent = <ModalClose />, variant, ...props },
+    {
+      leadingContent,
+      trailingContent = <ModalClose />,
+      variant,
+      children,
+      ...props
+    },
     ref,
   ) => {
     const { titleId } = useModalNavigationContext(MODAL_NAVIGATION_NAME);
@@ -585,6 +591,8 @@ const ModalNavigation = forwardRef<
         variant={variant === 'emphasized' ? undefined : variant}
         sx={[modalNavigationStyle({ variant }), props.sx]}
         ref={ref}
+        // eslint-disable-next-line react/no-children-prop
+        children={variant === 'emphasized' && !children ? <span /> : children}
       />
     );
   },
