@@ -74,6 +74,7 @@ const Gnb = () => {
               gap="20px"
               alignItems="center"
               sx={gnbNavigationLinkWrapperStyle}
+              data-algolia-lvl0-scope
             >
               {GNB_NAVIGATION_LINKS.map((link) => (
                 <Typography
