@@ -176,7 +176,7 @@ const SnackbarContent = forwardRef<
   DefaultComponentPropsInternal<SnackbarContentProps, 'div'>
 >(({ extraContent, children, ...props }, ref) => {
   return (
-    <FlexBox gap="12px" alignItems="center" ref={ref} {...props}>
+    <FlexBox gap="8px" alignItems="center" ref={ref} {...props}>
       {extraContent}
       <FlexBox
         flexDirection="column"
