@@ -66,7 +66,7 @@ export const DocSearchModal = ({
     }
   }, [containerRef, state.query]);
 
-  const { getInputProps, getItemProps, getListProps } = autocomplete;
+  const { getInputProps, getItemProps } = autocomplete;
 
   return (
     <Modal {...props} open={open} onOpenChange={onOpenChange}>
@@ -121,7 +121,6 @@ export const DocSearchModal = ({
               isEmpty={isEmpty}
               isQueryEmpty={isQueryEmpty}
               getItemProps={getItemProps}
-              getListProps={getListProps}
               recentSearchRemove={recentSearchRemove}
             />
           </ModalContentItem>
