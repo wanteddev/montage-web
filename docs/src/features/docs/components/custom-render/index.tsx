@@ -6,6 +6,8 @@ import { FlexBox } from '@wanteddev/wds';
 
 import {
   componentOverviewFrontmatter,
+  foundationsColorsAtomicFrontmatter,
+  foundationsColorsSemanticFrontmatter,
   foundationsElevationNormalFrontmatter,
   foundationsElevationSpreadFrontmatter,
   foundationsGridFrontmatter,
@@ -22,6 +24,8 @@ import DocsCollection from './docs-collection';
 import GettingStarted from './getting-started';
 import { wrapperStyle } from './style';
 import FoundationsElevationSpread from './foundations/elevation/spread';
+import FoundationsColorsAtomic from './foundations/colors/atomic';
+import FoundationsColorsSemantic from './foundations/colors/semantic';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -35,6 +39,12 @@ const CustomRender = () => {
 
       case foundationsTypographyFrontmatter.slug.join('/'):
         return <FoundationsTypography />;
+
+      case foundationsColorsAtomicFrontmatter.slug.join('/'):
+        return <FoundationsColorsAtomic />;
+
+      case foundationsColorsSemanticFrontmatter.slug.join('/'):
+        return <FoundationsColorsSemantic />;
 
       case foundationsGridFrontmatter.slug.join('/'):
         return <FoundationsGrid />;

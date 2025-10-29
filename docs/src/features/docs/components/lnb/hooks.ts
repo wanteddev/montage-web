@@ -7,6 +7,7 @@ import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
 import {
   findOrCreateGroup,
   getIsActive,
+  isMergeOneFrontmatter,
   shouldSkipAddFrontmatter,
 } from './helpers';
 import { PLATFORM_PATTERN } from './constants';
@@ -44,7 +45,7 @@ export const useLNBContent = () => {
         depth !== 0 &&
         (depth >= frontmatter.slug.length - 1 ||
           ((frontmatter.originSlug.at(-1)?.match(PLATFORM_PATTERN) ||
-            frontmatter.originSlug.at(-1)?.match(/normal|spread/)) &&
+            isMergeOneFrontmatter(frontmatter)) &&
             depth === frontmatter.originSlug.length - 2))
       ) {
         groups.push({

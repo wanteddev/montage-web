@@ -2,7 +2,6 @@
 import { useMemo } from 'react';
 import {
   Card,
-  CardCaption,
   CardContent,
   CardThumbnail,
   CardTitle,
@@ -79,7 +78,7 @@ const DocsCollection = ({ category }: Props) => {
               <HeadingLink id={kebabCase(key)}>{capitalCase(key)}</HeadingLink>
             </Typography>
 
-            <Grid columnSpacing={32} rowSpacing={12}>
+            <Grid columnSpacing={56} rowSpacing={12}>
               {list.map((data) => (
                 <GridItem
                   key={data.slug.toString()}
@@ -90,14 +89,17 @@ const DocsCollection = ({ category }: Props) => {
                     <CardThumbnail
                       src={data.image ?? '/images/placeholder.png'}
                       alt={data.title}
+                      ratio="16:9"
+                      sx={{
+                        '&&': {
+                          borderRadius: '12px',
+                        },
+                      }}
                     />
                     <CardContent>
                       <CardTitle color="semantic.label.normal">
                         {data.title}
                       </CardTitle>
-                      <CardCaption title={data.description}>
-                        {data.description}
-                      </CardCaption>
                     </CardContent>
                   </Card>
                 </GridItem>

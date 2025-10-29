@@ -82,6 +82,20 @@ export const shouldSkipAddFrontmatter = (
   return shouldMergeOneFrontmatter(frontmatter);
 };
 
+export const isMergeOneFrontmatter = (frontmatter: Frontmatter) => {
+  const firstSegment = frontmatter.originSlug.at(0) || '';
+  const lastSegment = frontmatter.originSlug.at(-1) || '';
+
+  return (
+    Object.hasOwn(MERGE_ONE_FRONTMATTER_PATTERN, firstSegment) &&
+    Object.keys(
+      MERGE_ONE_FRONTMATTER_PATTERN[
+        firstSegment as keyof typeof MERGE_ONE_FRONTMATTER_PATTERN
+      ],
+    ).includes(lastSegment)
+  );
+};
+
 export const hasMatchingDevelopPlatformPage = (
   slug: Array<string>,
   allFrontmatter: Array<Frontmatter>,

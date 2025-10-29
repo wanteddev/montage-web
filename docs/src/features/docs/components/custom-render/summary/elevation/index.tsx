@@ -11,7 +11,11 @@ const ElevationSummary = () => {
         sx={{ marginTop: '56px', marginBottom: '80px' }}
       />
 
-      <Heading2 content="Shadow type" sx={{ marginBottom: '24px' }} />
+      <Heading2
+        id="shadow-type"
+        content="Shadow type"
+        sx={{ marginBottom: '24px' }}
+      />
 
       <SectionCard
         sx={{ marginBottom: '56px' }}
@@ -26,7 +30,7 @@ const ElevationSummary = () => {
             title: 'Spread',
             description:
               'Dialog와 같이 그림자가 사방으로 고르게 퍼져야 하는 경우 사용합니다.',
-            image: '/foundations/elevation/Image.png',
+            image: '/foundations/elevation/Image-1.png',
           },
         ]}
       />

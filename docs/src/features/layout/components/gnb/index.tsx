@@ -52,7 +52,7 @@ const Gnb = () => {
         suppressHydrationWarning
         alignContent="center"
         as="header"
-        sx={[gnbWrapperStyle]}
+        sx={gnbWrapperStyle}
       >
         <FlexBox
           alignItems="center"

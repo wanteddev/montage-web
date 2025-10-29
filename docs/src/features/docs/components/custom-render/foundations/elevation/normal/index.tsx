@@ -1,26 +1,84 @@
-import { Divider, Thumbnail } from '@wanteddev/wds';
+import { Box, Divider, Thumbnail, Typography } from '@wanteddev/wds';
 
 import { Heading2 } from '../../../../mdx/section/layout';
 import TokenExample from '../token-example';
+import { tokenContentStyle } from '../spread/style';
 
 import StyleGrid from './style-grid';
-import ShadowGrid from './shadow-grid';
-
-const NORMAL_TOKENS = ['XSmall', 'Small', 'Medium', 'Large', 'XLarge'] as const;
+import { NORMAL_TOKENS } from './constants';
 
 const FoundationsElevationNormal = () => {
   return (
     <>
       <TokenExample
         items={NORMAL_TOKENS.map((token) => ({
-          token,
-          src: `/foundations/elevation/normal/${token}.png`,
+          token: token.token,
+          src: `/foundations/elevation/normal/${token.key}.png`,
+          key: token.key,
+          render: (
+            <Box sx={tokenContentStyle}>
+              <Typography
+                variant="label1"
+                weight="medium"
+                color="semantic.label.neutral"
+              >
+                Default
+              </Typography>
+
+              <Typography
+                variant="label1"
+                weight="medium"
+                color="semantic.label.normal"
+                sx={{
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {token.values.default}
+              </Typography>
+              <Typography
+                variant="label1"
+                weight="medium"
+                color="semantic.label.neutral"
+              >
+                iOS
+              </Typography>
+
+              <Typography
+                variant="label1"
+                weight="medium"
+                color="semantic.label.normal"
+                sx={{
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {token.values.ios}
+              </Typography>
+              <Typography
+                variant="label1"
+                weight="medium"
+                color="semantic.label.neutral"
+              >
+                Android
+              </Typography>
+
+              <Typography
+                variant="label1"
+                weight="medium"
+                color="semantic.label.normal"
+                sx={{
+                  whiteSpace: 'pre-line',
+                }}
+              >
+                {token.values.android}
+              </Typography>
+            </Box>
+          ),
         }))}
       />
 
       <Divider
         color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBottom: '24px' } }}
+        sx={{ '&&': { marginTop: '50px', marginBottom: '24px' } }}
       />
 
       <Heading2 content="Composition" />
@@ -32,7 +90,7 @@ const FoundationsElevationNormal = () => {
       </p>
 
       <Thumbnail
-        src="/foundations/elevation/Image-1.png"
+        src="/foundations/elevation/Image-2.png"
         alt="Composition"
         radius
         border
@@ -46,12 +104,6 @@ const FoundationsElevationNormal = () => {
       <Heading2 content="Style" />
 
       <StyleGrid />
-
-      <Divider color="semantic.line.normal.alternative" />
-
-      <Heading2 content="Token" />
-
-      <ShadowGrid />
     </>
   );
 };

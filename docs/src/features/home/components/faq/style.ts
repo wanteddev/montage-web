@@ -9,10 +9,6 @@ export const accordionSectionWrapperStyle = (theme: Theme) => css`
         [wds-component='list-cell-content'] {
           color: ${theme.semantic.label.assistive};
         }
-
-        [data-role='list-text-wrapper'] {
-          color: ${theme.semantic.label.assistive};
-        }
       }
     }
   }
@@ -32,10 +28,6 @@ export const accordionSummaryStyle = (theme: Theme) => css`
 
   [wds-component='list-cell-content'] {
     color: ${theme.semantic.label.normal};
-    transition: color 0.3s ease;
-  }
-
-  [data-role='list-text-wrapper'] {
     transition: color 0.3s ease;
   }
 

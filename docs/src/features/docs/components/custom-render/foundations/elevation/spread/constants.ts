@@ -1,4 +1,4 @@
-export const TOKEN_VALUES = [
+export const SPREAD_TOKENS = [
   {
     token: 'shadow-spread-small',
     key: 'small',
@@ -6,7 +6,7 @@ export const TOKEN_VALUES = [
   },
   {
     token: 'shadow-spread-medium',
-    key: 'small',
+    key: 'medium',
     value: 'x:0px, y:15px, blur:75px, rgba(23, 23, 23, 0.16);',
   },
 ] as const;

@@ -79,16 +79,18 @@ export const foundationsElevationSpreadFrontmatter: Frontmatter = {
 };
 
 export const foundationsColorsSemanticFrontmatter: Frontmatter = {
-  title: 'Colors Semantic',
-  description: 'Colors Semantic',
+  title: 'Colors',
+  description:
+    '원티드의 컬러시스템은 시각적 일관성을 유지하고 효율적인 디자인 작업을 돕습니다. Atomic과 Semantic으로 구성 되어있으며 이를 통해 상황에 맞는 적절한 색상을 일관되게 사용할 수 있습니다.',
   slug: ['foundations', 'base-material', 'colors', 'semantic'],
   originSlug: ['foundations', 'base-material', 'colors', 'semantic'],
   createdAt: '2025-10-23',
 };
 
 export const foundationsColorsAtomicFrontmatter: Frontmatter = {
-  title: 'Colors Atomic',
-  description: 'Colors Atomic',
+  title: 'Colors',
+  description:
+    '원티드의 컬러시스템은 시각적 일관성을 유지하고 효율적인 디자인 작업을 돕습니다. Atomic과 Semantic으로 구성 되어있으며 이를 통해 상황에 맞는 적절한 색상을 일관되게 사용할 수 있습니다.',
   slug: ['foundations', 'base-material', 'colors', 'atomic'],
   originSlug: ['foundations', 'base-material', 'colors', 'atomic'],
   createdAt: '2025-10-23',

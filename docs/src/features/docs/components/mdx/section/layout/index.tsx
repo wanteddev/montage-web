@@ -15,35 +15,38 @@ type HeadingProps = {
   content?: string;
   trailingContent?: ReactNode;
   sx?: SxProp;
+  id?: string;
 };
 
-const Heading2 = memo(({ content, trailingContent, sx }: HeadingProps) => {
-  const { generateHeadingId } = useHeadingContext();
+const Heading2 = memo(
+  ({ content, trailingContent, sx, ...props }: HeadingProps) => {
+    const { generateHeadingId } = useHeadingContext();
 
-  const id = useMemo(() => {
-    if (!content) return '';
-    return generateHeadingId(content);
-  }, [content, generateHeadingId]);
+    const id = useMemo(() => {
+      if (!content) return '';
+      return props.id || generateHeadingId(content);
+    }, [content, generateHeadingId, props.id]);
 
-  if (!content) return null;
+    if (!content) return null;
 
-  return (
-    <Typography
-      as="h2"
-      data-heading=""
-      variant="title3"
-      weight="bold"
-      color="semantic.label.normal"
-      id={id}
-      sx={[{ scrollMarginTop: 'calc(var(--gnb-height) + 56px)' }, sx]}
-    >
-      <HeadingLink id={id}>
-        {content}
-        {trailingContent}
-      </HeadingLink>
-    </Typography>
-  );
-});
+    return (
+      <Typography
+        as="h2"
+        data-heading=""
+        variant="title3"
+        weight="bold"
+        color="semantic.label.normal"
+        id={id}
+        sx={[{ scrollMarginTop: 'calc(var(--gnb-height) + 56px)' }, sx]}
+      >
+        <HeadingLink id={id}>
+          {content}
+          {trailingContent}
+        </HeadingLink>
+      </Typography>
+    );
+  },
+);
 
 const Heading3 = memo(({ content, sx }: HeadingProps) => {
   const { generateHeadingId } = useHeadingContext();

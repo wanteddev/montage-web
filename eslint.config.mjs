@@ -210,10 +210,10 @@ export default defineConfig(
     languageOptions: {
       parserOptions: {
         project: [
-          'docs/tsconfig.json',
-          'docs/tsconfig.node.json',
           'tsconfig.json',
           'tsconfig.node.json',
+          'docs/tsconfig.json',
+          'docs/tsconfig.node.json',
           'packages/*/tsconfig.json',
           'packages/*/tsconfig.node.json',
           'packages/*/tsconfig.test.json',
@@ -230,6 +230,8 @@ export default defineConfig(
     '**/.lintstagedrc.mjs',
     'docs/src/data.json',
     'docs/next-env.d.ts',
+    'docs/.next',
+    'docs/out',
     'figma/icons/index.figma.tsx',
   ]),
 );

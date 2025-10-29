@@ -41,3 +41,14 @@ catalogs:
 
   node:
     '@types/node': ^22.13.14
+
+onlyBuiltDependencies:
+  - esbuild
+  - nx
+  - sharp
+  - unrs-resolver
+
+
+engineStrict: true
+
+enablePrePostScripts: true
