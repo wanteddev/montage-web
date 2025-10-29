@@ -1,130 +1,212 @@
 import {
-  ContentBadge,
   FlexBox,
+  IconButton,
   ListCell,
   ListCellContent,
   Typography,
 } from '@wanteddev/wds';
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
-  IconArrowTurnDownRight,
-  IconChevronRightTightSmall,
+  IconArrowRight,
+  IconClose,
   IconComponentFill,
-  IconPaletteFill,
+  IconHistory,
   IconUtilityFill,
 } from '@wanteddev/wds-icon';
+
+import IconTextShape from '@/assets/icon-text-shape';
 
 import { isPageLevel, parseStringFromHit } from '../../helpers';
 
 import { searchOptionStyle } from './style';
 
-import type { InternalDocSearchHit } from '../../types';
+import type { DocSearchHit, InternalDocSearchHit } from '../../types';
 import type { ComponentPropsWithoutRef } from 'react';
 
 type Props = {
   item: InternalDocSearchHit;
+  recentSearchRemove: (item: DocSearchHit) => void;
 } & ComponentPropsWithoutRef<typeof ListCell>;
 
-const SearchOption = ({ item, ...props }: Props) => {
-  const lvl1Icon = useMemo(() => {
-    switch (item.hierarchy.lvl0) {
-      case 'Components':
-        return (
-          <IconComponentFill
-            sx={(theme) => ({
-              fontSize: 16,
-              color: theme.semantic.primary.normal,
-            })}
-          />
-        );
-      case 'Foundations':
-        return (
-          <IconPaletteFill
-            sx={(theme) => ({
-              fontSize: 16,
-              color: theme.semantic.primary.normal,
-            })}
-          />
-        );
-      case 'Utilities':
-        return (
-          <IconUtilityFill
-            sx={(theme) => ({
-              fontSize: 16,
-              color: theme.semantic.primary.normal,
-            })}
-          />
-        );
-      default:
-        return null;
+const SearchOption = ({ item, recentSearchRemove, ...props }: Props) => {
+  const pageLevelIcon = useMemo(() => {
+    if (/docs\/components/.test(item.url)) {
+      return (
+        <IconComponentFill
+          sx={(theme) => ({
+            fontSize: 16,
+            color: theme.semantic.label.alternative,
+          })}
+        />
+      );
     }
+
+    if (/docs\/utilities/.test(item.url)) {
+      return (
+        <IconUtilityFill
+          sx={(theme) => ({
+            fontSize: 16,
+            color: theme.semantic.label.alternative,
+          })}
+        />
+      );
+    }
+
+    return null;
   }, [item]);
 
-  const badge = useMemo(() => {
-    switch (item.category) {
-      case 'Design':
-        return (
-          <ContentBadge color="neutral" size="xsmall">
-            Design
-          </ContentBadge>
-        );
-      case 'Web':
-      case 'iOS':
-      case 'Android':
-        return (
-          <ContentBadge color="neutral" size="xsmall">
-            {item.category}
-          </ContentBadge>
-        );
-      default:
-        return null;
-    }
-  }, [item.category]);
-
-  if (isPageLevel(item) || item.type === 'recent') {
+  if (item.type === 'recent') {
     return (
       <ListCell
         as="li"
         verticalPadding="small"
         sx={searchOptionStyle}
         ellipsis
-        alignItems="center"
+        data-type="recent"
         leadingContent={
-          <ListCellContent variant="icon">{lvl1Icon}</ListCellContent>
+          <ListCellContent variant="icon" sx={{ padding: '4px' }}>
+            <IconHistory sx={{ fontSize: 16 }} />
+          </ListCellContent>
         }
         trailingContent={
-          <FlexBox alignItems="center" gap="8px">
-            <ListCellContent variant="badge">{badge}</ListCellContent>
-            <ListCellContent variant="icon">
-              <IconChevronRightTightSmall
-                sx={(theme) => ({
-                  fontSize: 16,
-                  color: theme.semantic.label.assistive,
-                })}
-              />
-            </ListCellContent>
-          </FlexBox>
+          <ListCellContent variant="icon-button" sx={{ padding: '4px' }}>
+            <IconButton
+              size={16}
+              aria-label="Remove from recent search"
+              onClick={(e) => {
+                e.stopPropagation();
+                recentSearchRemove(item);
+              }}
+            >
+              <IconClose />
+            </IconButton>
+          </ListCellContent>
         }
-        textProps={{
-          weight: 'regular',
-        }}
         {...props}
       >
-        {props.children ?? (
+        <Typography
+          data-role="list-text"
+          variant="label1"
+          weight="medium"
+          color="semantic.label.alternative"
+          sx={{ padding: '2px 0px' }}
+        >
+          {parseStringFromHit(item, 'hierarchy.lvl1')}
+        </Typography>
+      </ListCell>
+    );
+  }
+
+  const isSelected = props['aria-selected'];
+
+  const trailingContent = isSelected && (
+    <ListCellContent variant="icon" sx={{ padding: '4px' }}>
+      <IconArrowRight
+        sx={(theme) => ({
+          fontSize: 16,
+          color: theme.semantic.label.neutral,
+        })}
+      />
+    </ListCellContent>
+  );
+
+  if (isPageLevel(item)) {
+    return (
+      <ListCell
+        as="li"
+        verticalPadding="small"
+        sx={searchOptionStyle}
+        ellipsis
+        data-type="page"
+        leadingContent={
+          pageLevelIcon ? (
+            <ListCellContent variant="icon" sx={{ padding: '4px' }}>
+              {pageLevelIcon}
+            </ListCellContent>
+          ) : null
+        }
+        trailingContent={trailingContent}
+        {...props}
+      >
+        <FlexBox gap="8px" as="span">
           <Typography
             data-role="list-text"
-            variant="body1"
+            variant="label1"
             weight="medium"
+            sx={{ padding: '2px 0px' }}
             dangerouslySetInnerHTML={{
-              __html: [
-                parseStringFromHit(item, 'hierarchy.lvl0'),
-                parseStringFromHit(item, 'hierarchy.lvl1'),
-              ]
+              __html: [parseStringFromHit(item, 'hierarchy.lvl1')]
                 .filter(Boolean)
                 .join('/'),
             }}
           />
-        )}
+          <Typography
+            variant="label1"
+            weight="regular"
+            color="semantic.label.alternative"
+            sx={{ padding: '2px 0px' }}
+          >
+            • {item.category ?? 'Design'}
+          </Typography>
+        </FlexBox>
+      </ListCell>
+    );
+  }
+
+  if (item.type === 'content') {
+    return (
+      <ListCell
+        as="li"
+        verticalPadding="small"
+        sx={searchOptionStyle}
+        ellipsis
+        data-type="text"
+        trailingContent={trailingContent}
+        textProps={{
+          captionProps: {
+            color: 'semantic.label.alternative',
+            variant: 'label2',
+            weight: 'regular',
+          },
+          caption: (
+            <span
+              dangerouslySetInnerHTML={{
+                __html: [
+                  parseStringFromHit(item, 'hierarchy.lvl1'),
+                  item.category,
+                  parseStringFromHit(item, 'hierarchy.lvl2'),
+                  parseStringFromHit(item, 'hierarchy.lvl3'),
+                  parseStringFromHit(item, 'hierarchy.lvl4'),
+                  parseStringFromHit(item, 'hierarchy.lvl5'),
+                  parseStringFromHit(item, 'hierarchy.lvl6'),
+                ]
+                  .filter(Boolean)
+                  .join('/'),
+              }}
+            />
+          ),
+        }}
+        leadingContent={
+          <ListCellContent variant="icon" sx={{ padding: '4px' }}>
+            <IconTextShape
+              sx={{
+                fontSize: 16,
+              }}
+            />
+          </ListCellContent>
+        }
+        {...props}
+      >
+        <Typography
+          data-role="list-text"
+          variant="label1"
+          weight="medium"
+          color="semantic.label.alternative"
+          sx={{ padding: '2px 0px' }}
+          dangerouslySetInnerHTML={{
+            __html: parseStringFromHit(item, 'content'),
+          }}
+        />
       </ListCell>
     );
   }
@@ -135,31 +217,38 @@ const SearchOption = ({ item, ...props }: Props) => {
       verticalPadding="small"
       sx={searchOptionStyle}
       ellipsis
-      data-depth="2"
+      data-type="text"
+      trailingContent={trailingContent}
       textProps={{
         captionProps: {
           color: 'semantic.label.alternative',
           variant: 'label2',
           weight: 'regular',
         },
-        caption:
-          item.type === 'content' ? (
-            <span
-              dangerouslySetInnerHTML={{
-                __html: parseStringFromHit(item, 'content'),
-              }}
-            />
-          ) : null,
+        caption: (
+          <span
+            dangerouslySetInnerHTML={{
+              __html: [
+                parseStringFromHit(item, 'hierarchy.lvl1'),
+                item.category,
+                parseStringFromHit(item, 'hierarchy.lvl2'),
+                parseStringFromHit(item, 'hierarchy.lvl3'),
+                parseStringFromHit(item, 'hierarchy.lvl4'),
+                parseStringFromHit(item, 'hierarchy.lvl5'),
+                parseStringFromHit(item, 'hierarchy.lvl6'),
+              ]
+                .filter(Boolean)
+                .join('/'),
+            }}
+          />
+        ),
       }}
       leadingContent={
-        <ListCellContent variant="icon">
-          <IconArrowTurnDownRight
-            sx={(theme) => ({
+        <ListCellContent variant="icon" sx={{ padding: '4px' }}>
+          <IconTextShape
+            sx={{
               fontSize: 16,
-              margin: '4px 0px',
-              display: 'block',
-              color: theme.semantic.label.assistive,
-            })}
+            }}
           />
         </ListCellContent>
       }
@@ -167,23 +256,16 @@ const SearchOption = ({ item, ...props }: Props) => {
     >
       <Typography
         data-role="list-text"
-        variant="label2"
-        weight="bold"
+        variant="label1"
+        weight="medium"
+        color="semantic.label.alternative"
+        sx={{ padding: '2px 0px' }}
         dangerouslySetInnerHTML={{
-          __html: [
-            item.category,
-            parseStringFromHit(item, 'hierarchy.lvl2'),
-            parseStringFromHit(item, 'hierarchy.lvl3'),
-            parseStringFromHit(item, 'hierarchy.lvl4'),
-            parseStringFromHit(item, 'hierarchy.lvl5'),
-            parseStringFromHit(item, 'hierarchy.lvl6'),
-          ]
-            .filter(Boolean)
-            .join('/'),
+          __html: parseStringFromHit(item, `hierarchy.${item.type}`),
         }}
       />
     </ListCell>
   );
 };
 
-export default memo(SearchOption);
+export default SearchOption;

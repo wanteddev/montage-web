@@ -3,12 +3,16 @@ import { liteClient } from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
 import { useRouter } from 'next/navigation';
 
+import { useMDXContext } from '@/features/docs/context';
+
 import {
   createRecentSearchStorage,
   isPageLevel,
   isTextLevel,
+  parseFrontmatterToDocSearchHit,
   sortByText,
 } from './helpers';
+import { RECENT_SEARCHES_SOURCE_ID } from './constants';
 
 import type { SearchResponse } from 'algoliasearch/lite';
 import type {
@@ -31,6 +35,7 @@ export const useDocSearch = ({
   appId,
   onOpenChange,
 }: UseDocSearchParams) => {
+  const { allFrontmatter } = useMDXContext();
   const [state, setState] = useState<DocSearchState<InternalDocSearchHit>>({
     query: '',
     collections: [],
@@ -40,7 +45,6 @@ export const useDocSearch = ({
     activeItemId: null,
     status: 'idle',
   });
-  const [category, setCategory] = useState<DocSearchHit['category']>(null);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -73,14 +77,6 @@ export const useDocSearch = ({
 
   const initialQueryRef = useRef(initialQueryFromSelection);
   const initialQuery: string = initialQueryRef.current;
-
-  const handleCategoryChange = useCallback(
-    (value: DocSearchHit['category']) => {
-      setCategory(value);
-      initialQueryRef.current = state.query;
-    },
-    [state.query],
-  );
 
   const searchClient = useMemo(() => {
     const client = liteClient(appId, apiKey);
@@ -127,7 +123,7 @@ export const useDocSearch = ({
           if (!query) {
             return [
               {
-                sourceId: 'recentSearches',
+                sourceId: RECENT_SEARCHES_SOURCE_ID,
                 onSelect({ item, event }): void {
                   saveRecentSearch(item);
                   router.push(item.url);
@@ -140,6 +136,28 @@ export const useDocSearch = ({
                   return recentSearches.getAll();
                 },
               },
+              {
+                sourceId: 'Pages',
+                onSelect({ item, event }): void {
+                  saveRecentSearch(item);
+                  router.push(item.url);
+                  handleClose(event);
+                },
+                getItemUrl({ item }): string {
+                  return item.url;
+                },
+                getItems(): Array<InternalDocSearchHit> {
+                  return allFrontmatter
+                    .filter(
+                      ({ slug }) =>
+                        !['foundations', 'getting-started'].includes(
+                          slug.at(0) ?? '',
+                        ),
+                    )
+                    .sort((a, b) => a.title.localeCompare(b.title))
+                    .map(parseFrontmatterToDocSearchHit);
+                },
+              },
             ];
           }
 
@@ -147,7 +165,6 @@ export const useDocSearch = ({
             .search<DocSearchHit>({
               requests: [
                 {
-                  filters: category ? `category:${category}` : undefined,
                   query,
                   indexName,
                   distinct: true,
@@ -230,10 +247,10 @@ export const useDocSearch = ({
       initialQuery,
       searchClient,
       saveRecentSearch,
+      router,
       handleClose,
       recentSearches,
-      router,
-      category,
+      allFrontmatter,
     ],
   );
 
@@ -290,7 +307,5 @@ export const useDocSearch = ({
     isQueryEmpty,
     containerRef,
     inputRef,
-    category,
-    handleCategoryChange,
   };
 };

@@ -1,31 +1,32 @@
-import { css, typographyStyle } from '@wanteddev/wds';
+import { css } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const searchOptionStyle = (theme: Theme) => css`
+  gap: 4px;
+
+  [data-role='list-text-wrapper'] {
+    color: ${theme.semantic.label.alternative};
+  }
+
   mark {
     background-color: transparent;
-    color: inherit;
+    color: ${theme.semantic.label.normal};
   }
 
-  &[data-depth='2'] {
-    padding-left: 24px;
+  &:hover:not(:active):not([aria-selected='true']) {
+    & > [wds-component='with-interaction'] {
+      opacity: 0;
+    }
   }
 
-  &[aria-selected='true'] {
+  &[aria-selected='true']:not(:active) {
     & > [wds-component='with-interaction'] {
       opacity: 0.05;
     }
   }
 
   [data-role='list-text-wrapper'] {
-    gap: 2px;
-  }
-
-  [data-role='list-text-caption'] {
-    mark {
-      color: ${theme.semantic.label.alternative};
-      ${typographyStyle('label2', 'bold')}
-    }
+    gap: 4px;
   }
 `;

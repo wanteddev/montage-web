@@ -1,4 +1,11 @@
-import type { DocSearchHit, InternalDocSearchHit } from './types';
+import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
+
+import type { Frontmatter } from '@/features/docs/types';
+import type {
+  DocSearchHit,
+  DocSearchState,
+  InternalDocSearchHit,
+} from './types';
 
 const createStorage = <Item>(key: string) => {
   if (typeof window === 'undefined') {
@@ -121,4 +128,92 @@ export const getPropertyByPath = (
     if (prev?.[current]) return prev[current];
     return null;
   }, object);
+};
+
+export const getViewType = (
+  state: DocSearchState<InternalDocSearchHit>,
+  isEmpty: boolean,
+  isQueryEmpty: boolean,
+) => {
+  if (isEmpty) {
+    return 'empty';
+  }
+
+  const firstCollections = state.collections[0];
+
+  if (isQueryEmpty || firstCollections?.source.sourceId === 'recentSearches') {
+    if (!firstCollections?.items.length) {
+      return 'initial';
+    }
+
+    return 'recent';
+  }
+
+  if (
+    (state.status === 'loading' || state.status === 'stalled') &&
+    (state.collections.length === 0 ||
+      state.collections.every((item) => item.items.length === 0))
+  ) {
+    return 'loading';
+  }
+
+  return 'results';
+};
+
+export const parseFrontmatterToDocSearchHit = (
+  frontmatter: Frontmatter,
+): DocSearchHit => {
+  const url = `${process.env.NEXT_PUBLIC_BASE_PATH}/docs/${frontmatter.slug.join('/')}`;
+
+  const urlMatch = url.match(/(ios|android|design|web)/i);
+  let category = urlMatch
+    ? (urlMatch.at(0) as DocSearchHit['category'])
+    : 'Design';
+
+  switch (category?.toLowerCase()) {
+    case 'web':
+      category = 'Web';
+      break;
+    case 'design':
+      category = 'Design';
+      break;
+    case 'android':
+      category = 'Android';
+      break;
+    case 'ios':
+      category = 'iOS';
+      break;
+    default:
+      category = null;
+      break;
+  }
+
+  return {
+    objectID: url,
+    content: frontmatter.title,
+    url,
+    url_without_anchor: url,
+    type: 'lvl1',
+    category,
+    hierarchy: {
+      lvl0: '',
+      lvl1: getFrontmatterTitle(frontmatter),
+      lvl2: null,
+      lvl3: null,
+      lvl4: null,
+      lvl5: null,
+      lvl6: null,
+    },
+    _highlightResult: {
+      content: undefined,
+      hierarchy: undefined,
+      hierarchy_camel: undefined,
+    },
+    _snippetResult: {
+      content: undefined,
+      hierarchy: undefined,
+      hierarchy_camel: undefined,
+    },
+    anchor: null,
+  };
 };

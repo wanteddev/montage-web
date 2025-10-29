@@ -1,14 +1,9 @@
 import { FlexBox, Typography } from '@wanteddev/wds';
 import { IconSearch } from '@wanteddev/wds-icon';
 
-import PlatformFilter from '../platform-filter';
-
 const SearchResultInitial = () => {
   return (
-    <FlexBox flexDirection="column" flex="1">
-      <FlexBox justifyContent="end" sx={{ padding: '0px 8px' }}>
-        <PlatformFilter />
-      </FlexBox>
+    <FlexBox flexDirection="column" flex="1" sx={{ minHeight: '280px' }}>
       <FlexBox
         alignItems="center"
         justifyContent="center"

@@ -2,22 +2,29 @@ import { useEffect } from 'react';
 import {
   ActionArea,
   Modal,
+  ModalClose,
   ModalContainer,
   ModalContent,
   ModalContentItem,
   ModalNavigation,
   SearchField,
-  TextButton,
   Typography,
 } from '@wanteddev/wds';
 import { FlexBox } from '@wanteddev/wds';
+import { IconArrowTurnDownLeft, IconChevronLeft } from '@wanteddev/wds-icon';
 
 import AlgoliaLogo from '@/assets/algolia-logo';
 
 import { useDocSearch } from './hooks';
-import { searchModalHeaderStyle } from './styles';
+import {
+  actionAreaStyle,
+  compactContentStyle,
+  kbdStyle,
+  modalCloseButtonStyle,
+  modalNavigationStyle,
+  modalWrapperStyle,
+} from './styles';
 import SearchResults from './results';
-import { DocSearchFilterContext } from './contexts';
 
 import type {
   CSSProperties,
@@ -45,8 +52,6 @@ export const DocSearchModal = ({
     recentSearchRemove,
     containerRef,
     inputRef,
-    category,
-    handleCategoryChange: setCategory,
   } = useDocSearch({
     appId,
     apiKey,
@@ -67,10 +72,13 @@ export const DocSearchModal = ({
     <Modal {...props} open={open} onOpenChange={onOpenChange}>
       <ModalContainer
         variant="full"
-        md={{
+        resize="hug"
+        sm={{
           variant: 'popup',
           size: 'xlarge',
-          resize: 'fixed',
+        }}
+        wrapperProps={{
+          sx: modalWrapperStyle,
         }}
         ref={containerRef}
         aria-haspopup="listbox"
@@ -78,77 +86,118 @@ export const DocSearchModal = ({
           {
             '--wds-modal-content-margin': '16px',
             '--wds-action-area-margin-y': '16px',
-            '--wds-modal-popup-border-radius': '8px',
           } as CSSProperties
         }
       >
-        <DocSearchFilterContext.Provider value={{ category, setCategory }}>
-          <ModalNavigation variant="search" sx={searchModalHeaderStyle}>
-            <SearchField
-              type="search"
-              width="100%"
-              size="small"
-              {...(getInputProps({
-                inputElement: inputRef.current!,
-              }) as unknown as Omit<
-                HTMLAttributes<HTMLInputElement>,
-                'onReset'
-              >)}
-              aria-labelledby={undefined}
-              autoFocus
-              ref={inputRef}
+        <ModalNavigation
+          variant="search"
+          sx={modalNavigationStyle}
+          trailingContent={null}
+          leadingContent={
+            <ModalClose aria-label="Back" sx={modalCloseButtonStyle}>
+              <IconChevronLeft />
+            </ModalClose>
+          }
+        >
+          <SearchField
+            type="search"
+            width="100%"
+            size="small"
+            {...(getInputProps({
+              inputElement: inputRef.current!,
+            }) as unknown as Omit<HTMLAttributes<HTMLInputElement>, 'onReset'>)}
+            aria-labelledby={undefined}
+            autoFocus
+            ref={inputRef}
+          />
+        </ModalNavigation>
+
+        <ModalContent
+          sx={{ paddingTop: 0, paddingBottom: '16px', height: '100%' }}
+        >
+          <ModalContentItem flex="1" sx={{ padding: '0px 20px' }}>
+            <SearchResults
+              state={state}
+              isEmpty={isEmpty}
+              isQueryEmpty={isQueryEmpty}
+              getItemProps={getItemProps}
+              getListProps={getListProps}
+              recentSearchRemove={recentSearchRemove}
             />
-          </ModalNavigation>
+          </ModalContentItem>
+        </ModalContent>
 
-          <ModalContent sx={{ paddingTop: 0, height: '100%' }}>
-            <ModalContentItem flex="1">
-              <SearchResults
-                state={state}
-                isEmpty={isEmpty}
-                isQueryEmpty={isQueryEmpty}
-                getItemProps={getItemProps}
-                getListProps={getListProps}
-                recentSearchRemove={recentSearchRemove}
-              />
-            </ModalContentItem>
-          </ModalContent>
+        <ActionArea
+          variant="compact"
+          extra
+          sx={actionAreaStyle}
+          compactContent={
+            <FlexBox gap="20px" sx={compactContentStyle}>
+              <FlexBox alignItems="center" gap="8px">
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="center"
+                  as="kbd"
+                  sx={[kbdStyle, { width: 22, height: 22 }]}
+                >
+                  <IconArrowTurnDownLeft />
+                </FlexBox>
 
-          <ActionArea
-            variant="compact"
-            extra
-            sx={{
-              '--wds-action-area-margin-x': '24px',
-            }}
-            compactContent={
-              <TextButton
-                color="assistive"
-                size="small"
-                onClick={() => onOpenChange?.(false)}
-              >
-                Cancel
-              </TextButton>
-            }
-          >
-            <FlexBox alignItems="center" gap="6px">
-              <Typography
-                variant="caption1"
-                weight="medium"
-                color="semantic.label.alternative"
-              >
-                Search by
-              </Typography>
-              <FlexBox
-                as="a"
-                alignItems="center"
-                href="https://www.algolia.com/developers?utm_source=montage.wanted.co.kr&utm_medium=referral&utm_content=powered_by&utm_campaign=docsearch"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <AlgoliaLogo />
+                <Typography
+                  variant="caption1"
+                  weight="medium"
+                  color="semantic.label.alternative"
+                >
+                  Go to Page
+                </Typography>
+              </FlexBox>
+
+              <FlexBox alignItems="center" gap="8px">
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="center"
+                  as="kbd"
+                  sx={kbdStyle}
+                >
+                  <Typography
+                    variant="caption2"
+                    weight="medium"
+                    color="semantic.label.alternative"
+                  >
+                    ESC
+                  </Typography>
+                </FlexBox>
+
+                <Typography
+                  variant="caption1"
+                  weight="medium"
+                  color="semantic.label.alternative"
+                >
+                  Close
+                </Typography>
               </FlexBox>
             </FlexBox>
-          </ActionArea>
-        </DocSearchFilterContext.Provider>
+          }
+        >
+          <FlexBox alignItems="center" gap="6px">
+            <Typography
+              variant="caption1"
+              weight="medium"
+              color="semantic.label.alternative"
+            >
+              Search by
+            </Typography>
+            <FlexBox
+              as="a"
+              alignItems="center"
+              href="https://www.algolia.com/developers?utm_source=montage.wanted.co.kr&utm_medium=referral&utm_content=powered_by&utm_campaign=docsearch"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <AlgoliaLogo />
+            </FlexBox>
+          </FlexBox>
+        </ActionArea>
       </ModalContainer>
     </Modal>
   );

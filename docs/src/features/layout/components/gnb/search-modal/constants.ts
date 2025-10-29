@@ -9,3 +9,5 @@ export const DEFAULT_SEARCH_STATE: DocSearchState<InternalDocSearchHit> = {
   activeItemId: null,
   status: 'idle',
 };
+
+export const RECENT_SEARCHES_SOURCE_ID = 'Recent Searches';
