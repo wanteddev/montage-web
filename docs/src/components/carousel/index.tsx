@@ -8,15 +8,22 @@ import {
   carouselWrapperStyle,
 } from './style';
 
-import type { PropsWithChildren, ReactNode } from 'react';
+import type {
+  HTMLAttributes,
+  PropsWithChildren,
+  ReactNode,
+  RefObject,
+} from 'react';
 import type { SxProp } from '@wanteddev/wds';
 
 type Props = PropsWithChildren<{
   sx?: SxProp;
   items: Array<ReactNode>;
-}>;
+  containerRef?: RefObject<HTMLDivElement | null>;
+}> &
+  HTMLAttributes<HTMLDivElement>;
 
-const Carousel = ({ sx, items }: Props) => {
+const Carousel = ({ sx, items, containerRef, ...props }: Props) => {
   const [carouselRef] = useEmblaCarousel(
     {
       dragFree: true,
@@ -29,9 +36,10 @@ const Carousel = ({ sx, items }: Props) => {
       ref={carouselRef}
       role="region"
       aria-roledescription="carousel"
+      {...props}
       sx={[carouselWrapperStyle, sx]}
     >
-      <FlexBox flexDirection="row" sx={carouselContentStyle}>
+      <FlexBox flexDirection="row" sx={carouselContentStyle} ref={containerRef}>
         {items.map((item, idx) => (
           <Box
             key={idx}

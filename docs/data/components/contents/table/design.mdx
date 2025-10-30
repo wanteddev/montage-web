@@ -19,10 +19,11 @@ updatedAt: 2025-10-01
 />
 
 <SectionVariants
-  components={['Table', 'TableHead', 'TableHeadCell', 'TableBody', 'TableRow', 'TableCell', 'Pagination', 'PaginationSelect', 'PaginationField']}
+  components={['Table', 'TableHead', 'TableHeadCell', 'TableBody', 'TableRow', 'TableCell', 'Pagination', 'PaginationSelect', 'PaginationField', 'Checkbox']}
   icons={[]}
 	render={(value) => {
     let pagination = 'null';
+		const showCheckbox = value['Content'] === 'Input';
 
 		switch (value['Pagination']) {
 			case 'None':
@@ -49,33 +50,38 @@ updatedAt: 2025-10-01
         })}
       >
 			  <colgroup>
-					<col width="50%" />
-					<col width="50%" />
+				  ${showCheckbox ? '<col width="36px" /><col width="auto" /><col width="auto" />' : '<col width="50%" /><col width="50%" />'}
 			  </colgroup>
 				<TableHead>
 					<TableRow>
+						${showCheckbox ? '<TableHeadCell />' : ''}
 						<TableHeadCell>Head</TableHeadCell>
 						<TableHeadCell>Head</TableHeadCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					<TableRow>
+						${showCheckbox ? '<TableCell><Checkbox size="small" /></TableCell>' : ''}
 						<TableCell>Cell</TableCell>
 						<TableCell>Cell</TableCell>
 				  </TableRow>
 					<TableRow>
+						${showCheckbox ? '<TableCell><Checkbox size="small" /></TableCell>' : ''}
 						<TableCell>Cell</TableCell>
 						<TableCell>Cell</TableCell>
 				  </TableRow>
 					<TableRow>
+						${showCheckbox ? '<TableCell><Checkbox size="small" /></TableCell>' : ''}
 						<TableCell>Cell</TableCell>
 						<TableCell>Cell</TableCell>
 				  </TableRow>
 					<TableRow>
+						${showCheckbox ? '<TableCell><Checkbox size="small" /></TableCell>' : ''}
 						<TableCell>Cell</TableCell>
 						<TableCell>Cell</TableCell>
 				  </TableRow>
 					<TableRow>
+						${showCheckbox ? '<TableCell><Checkbox size="small" /></TableCell>' : ''}
 						<TableCell>Cell</TableCell>
 						<TableCell>Cell</TableCell>
 				  </TableRow>

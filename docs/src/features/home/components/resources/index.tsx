@@ -3,6 +3,8 @@ import { Box, FlexBox, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { IconArrowUpRight } from '@wanteddev/wds-icon';
 
+import FadeInOut from '@/components/fade-in-out';
+
 import SectionWrapper from '../section/wrapper';
 import SectionTitle from '../section/title';
 
@@ -12,7 +14,9 @@ import { RESOURCE_ITEMS } from './constants';
 const Resources = () => {
   return (
     <SectionWrapper gap="20px" md={{ gap: '24px' }}>
-      <SectionTitle>Start Your Montage</SectionTitle>
+      <FadeInOut duration={600}>
+        <SectionTitle>Start Your Montage</SectionTitle>
+      </FadeInOut>
 
       <FlexBox
         gap="24px"
@@ -23,54 +27,51 @@ const Resources = () => {
           justifyContent: 'space-between',
         }}
       >
-        {RESOURCE_ITEMS.map((item) => (
-          <FlexBox
-            key={item.title}
-            gap="12px"
-            flex="1 0 0"
-            md={{ gap: '20px' }}
-          >
-            <Box as="hr" sx={itemDividerStyle(item.color)} />
+        {RESOURCE_ITEMS.map((item, idx) => (
+          <FadeInOut duration={600} delay={(idx + 1) * 100} key={item.title}>
+            <FlexBox gap="12px" flex="1 0 0" md={{ gap: '20px' }}>
+              <Box as="hr" sx={itemDividerStyle(item.color)} />
 
-            <FlexBox
-              gap="6px"
-              as={Link}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={itemLinkStyle}
-              flex="1"
-              justifyContent="space-between"
-              md={{
-                flexDirection: 'column',
-              }}
-            >
-              <FlexBox gap="12px">
-                <Typography
-                  variant="headline1"
-                  weight="bold"
-                  color="semantic.label.normal"
-                  as="p"
-                  md={{
-                    variant: 'heading2',
-                  }}
-                >
-                  {item.title}
-                </Typography>
-
-                <IconArrowUpRight aria-hidden data-role="interaction-arrow" />
-              </FlexBox>
-
-              <Typography
-                variant="body2"
-                weight="medium"
-                color="semantic.label.alternative"
-                as="p"
+              <FlexBox
+                gap="6px"
+                as={Link}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={itemLinkStyle}
+                flex="1"
+                justifyContent="space-between"
+                md={{
+                  flexDirection: 'column',
+                }}
               >
-                {item.createdAt}
-              </Typography>
+                <FlexBox gap="12px">
+                  <Typography
+                    variant="headline1"
+                    weight="bold"
+                    color="semantic.label.normal"
+                    as="p"
+                    md={{
+                      variant: 'heading2',
+                    }}
+                  >
+                    {item.title}
+                  </Typography>
+
+                  <IconArrowUpRight aria-hidden data-role="interaction-arrow" />
+                </FlexBox>
+
+                <Typography
+                  variant="body2"
+                  weight="medium"
+                  color="semantic.label.alternative"
+                  as="p"
+                >
+                  {item.createdAt}
+                </Typography>
+              </FlexBox>
             </FlexBox>
-          </FlexBox>
+          </FadeInOut>
         ))}
       </FlexBox>
     </SectionWrapper>

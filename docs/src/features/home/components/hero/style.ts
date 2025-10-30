@@ -89,6 +89,15 @@ export const startButtonStyle = (theme: Theme) => css`
   }
 `;
 
+const marquee = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--marquee-gap)));
+  }
+`;
+
 export const marqueeWrapperStyle = (theme: Theme) => css`
   width: calc(100% + (var(--layout-padding-inline) * 2));
   max-width: 1600px;
@@ -98,6 +107,10 @@ export const marqueeWrapperStyle = (theme: Theme) => css`
   gap: 12px;
 
   --marquee-gap: 20px;
+
+  &[data-animation-state='animation-end'] [data-role='marquee-wrapper'] {
+    animation: ${marquee} 40s linear infinite;
+  }
 
   ${respondTo(theme.breakpoint.xl)} {
     --marquee-gap: 19px;
@@ -113,17 +126,7 @@ export const marqueeWrapperStyle = (theme: Theme) => css`
   }
 `;
 
-const marquee = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(-100% - var(--marquee-gap)));
-  }
-`;
-
 export const marqueeGroupStyle = css`
-  animation: ${marquee} 40s linear infinite;
   will-change: transform;
 `;
 

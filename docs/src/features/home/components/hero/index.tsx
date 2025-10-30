@@ -4,6 +4,7 @@ import { FlexBox } from '@wanteddev/wds';
 import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';
+import FadeInOut from '@/components/fade-in-out';
 
 import {
   contentWrapperStyle,
@@ -44,121 +45,127 @@ const Hero = () => {
             sx={{ width: '100%' }}
             alignItems="center"
           >
-            <Box as="h1" sx={[titleStyle, breakWordStyle]}>
-              {`From Separate\nCore Blocks`}
-              <br />
-              To a Seamless Flow
-            </Box>
+            <FadeInOut duration={600}>
+              <Box as="h1" sx={[titleStyle, breakWordStyle]}>
+                {`From Separate\nCore Blocks`}
+                <br />
+                To a Seamless Flow
+              </Box>
+            </FadeInOut>
 
-            <Typography
-              variant="label2"
-              weight="regular"
-              as="p"
-              color="semantic.label.normal"
-              align="center"
-              lg={{
-                variant: 'label1-reading',
-              }}
-              xl={{
-                variant: 'body2-reading',
-              }}
-              sx={[descriptionStyle, breakWordStyle]}
-            >
-              {`원티드는 세상의 모든 일하는 사람들이 더 나답게 일하는 세상을 꿈꿉니다.\n이 꿈을 현실로 만들기 위해 우리는 디자인 시스템을 만듭니다.`}
-            </Typography>
-
-            <Box as={Link} href="/docs/getting-started" sx={startButtonStyle}>
-              <Typography variant="label1" weight="medium">
-                Getting Started
+            <FadeInOut duration={600} delay={200}>
+              <Typography
+                variant="label2"
+                weight="regular"
+                as="p"
+                color="semantic.label.normal"
+                align="center"
+                lg={{
+                  variant: 'label1-reading',
+                }}
+                xl={{
+                  variant: 'body2-reading',
+                }}
+                sx={[descriptionStyle, breakWordStyle]}
+              >
+                {`원티드는 세상의 모든 일하는 사람들이 더 나답게 일하는 세상을 꿈꿉니다.\n이 꿈을 현실로 만들기 위해 우리는 디자인 시스템을 만듭니다.`}
               </Typography>
-            </Box>
+            </FadeInOut>
+
+            <FadeInOut duration={600} delay={200}>
+              <Box as={Link} href="/docs/getting-started" sx={startButtonStyle}>
+                <Typography variant="label1" weight="medium">
+                  Getting Started
+                </Typography>
+              </Box>
+            </FadeInOut>
           </FlexBox>
         </FlexBox>
 
-        <FlexBox sx={marqueeWrapperStyle} flexDirection="column">
-          <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
-            {Array(RENDER_REPEAT)
-              .fill(0)
-              .map((_, i) => (
-                <FlexBox
-                  key={i}
-                  alignItems="center"
-                  justifyContent="space-around"
-                  gap="var(--marquee-gap)"
-                  data-role="marquee-wrapper"
-                  sx={marqueeGroupStyle}
-                >
-                  {IMAGES.map((j) => (
-                    <Box
-                      as="figure"
-                      key={j.id}
-                      sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
-                    >
+        <FadeInOut duration={1000} delay={400}>
+          <FlexBox sx={marqueeWrapperStyle} flexDirection="column">
+            <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
+              {Array(RENDER_REPEAT)
+                .fill(0)
+                .map((_, i) => (
+                  <FlexBox
+                    key={i}
+                    alignItems="center"
+                    justifyContent="space-around"
+                    gap="var(--marquee-gap)"
+                    data-role="marquee-wrapper"
+                    sx={marqueeGroupStyle}
+                  >
+                    {IMAGES.map((j) => (
                       <Box
-                        as="img"
-                        src={j.src}
-                        alt={`marquee-image-${j.id}`}
-                        aria-hidden
-                      />
-                    </Box>
-                  ))}
-                </FlexBox>
-              ))}
-          </FlexBox>
+                        as="figure"
+                        key={j.id}
+                        sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
+                      >
+                        <Box
+                          as="img"
+                          src={j.src}
+                          alt={`marquee-image-${j.id}`}
+                          aria-hidden
+                        />
+                      </Box>
+                    ))}
+                  </FlexBox>
+                ))}
+            </FlexBox>
 
-          <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
-            {Array(RENDER_REPEAT)
-              .fill(0)
-              .map((_, i) => (
-                <FlexBox
-                  key={i}
-                  alignItems="center"
-                  justifyContent="space-around"
-                  gap="var(--marquee-gap)"
-                  data-role="marquee-wrapper"
-                  sx={[
-                    marqueeGroupStyle,
-                    {
+            <FlexBox gap="var(--marquee-gap)" justifyContent="space-around">
+              {Array(RENDER_REPEAT)
+                .fill(0)
+                .map((_, i) => (
+                  <FlexBox
+                    key={i}
+                    alignItems="center"
+                    justifyContent="space-around"
+                    gap="var(--marquee-gap)"
+                    data-role="marquee-wrapper"
+                    sx={marqueeGroupStyle}
+                    style={{
                       animationDirection: 'reverse',
-                    },
-                  ]}
-                >
-                  {REVERSE_IMAGES.map((j) => (
-                    <Box
-                      as="figure"
-                      key={j.id}
-                      sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
-                    >
+                    }}
+                  >
+                    {REVERSE_IMAGES.map((j) => (
                       <Box
-                        as="img"
-                        src={j.src}
-                        alt={`marquee-image-${j.id}`}
-                        aria-hidden
-                      />
-                    </Box>
-                  ))}
-                </FlexBox>
-              ))}
-          </FlexBox>
+                        as="figure"
+                        key={j.id}
+                        sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
+                      >
+                        <Box
+                          as="img"
+                          src={j.src}
+                          alt={`marquee-image-${j.id}`}
+                          aria-hidden
+                        />
+                      </Box>
+                    ))}
+                  </FlexBox>
+                ))}
+            </FlexBox>
 
-          <FlexBox aria-hidden sx={marqueeBackgroundOverlayStyle('left')}>
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-          </FlexBox>
+            <FlexBox aria-hidden sx={marqueeBackgroundOverlayStyle('left')}>
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+            </FlexBox>
 
-          <FlexBox aria-hidden sx={marqueeBackgroundOverlayStyle('right')}>
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
-            <Box aria-hidden data-role="marquee-background-overlay-layer" />
+            <FlexBox aria-hidden sx={marqueeBackgroundOverlayStyle('right')}>
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+              <Box aria-hidden data-role="marquee-background-overlay-layer" />
+            </FlexBox>
           </FlexBox>
-        </FlexBox>
+        </FadeInOut>
       </FlexBox>
     </FlexBox>
   );
