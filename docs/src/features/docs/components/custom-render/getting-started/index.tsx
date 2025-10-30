@@ -16,7 +16,7 @@ const GettingStarted = () => {
         alt="Getting Started"
         sx={{
           marginTop: '40px',
-          marginBottom: '88px',
+          marginBottom: '32px',
           aspectRatio: '195 / 58',
         }}
       />

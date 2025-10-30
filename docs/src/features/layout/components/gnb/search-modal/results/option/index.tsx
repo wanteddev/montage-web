@@ -58,9 +58,11 @@ const SearchOption = ({ item, recentSearchRemove, ...props }: Props) => {
         trailingContent={
           <IconButton
             size={16}
+            data-role="recent-search-remove"
             aria-label="Remove from recent search"
             onClick={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               recentSearchRemove(item);
             }}
             color="semantic.label.alternative"
