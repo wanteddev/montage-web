@@ -31,13 +31,13 @@ import {
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
 import { SelectProvider } from '../select/context';
+import { ChipActionProvider } from '../chip-action/contexts';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
-import { ChipActionProvider } from '../chip-action/contexts';
 
 const SelectMultiple = forwardRef<
   HTMLDivElement,
