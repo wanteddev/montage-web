@@ -37,6 +37,7 @@ import { customSelectMultipleRenderWrapperStyle } from './style';
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
+import { ChipActionProvider } from '../chip-action/contexts';
 
 const SelectMultiple = forwardRef<
   HTMLDivElement,
@@ -308,16 +309,18 @@ const SelectMultiple = forwardRef<
                     isScrollableRight,
                   })}
                 >
-                  <FlexBox
-                    ref={setRenderWrapperNode}
-                    gap="4px"
-                    flexWrap={overflow ? 'wrap' : 'nowrap'}
-                    onScrollCapture={handleOnScroll}
-                  >
-                    {shouldShowAllSelectedLabel
-                      ? allSelectedLabel
-                      : render(label, value)}
-                  </FlexBox>
+                  <ChipActionProvider solid="semantic.label.alternative">
+                    <FlexBox
+                      ref={setRenderWrapperNode}
+                      gap="4px"
+                      flexWrap={overflow ? 'wrap' : 'nowrap'}
+                      onScrollCapture={handleOnScroll}
+                    >
+                      {shouldShowAllSelectedLabel
+                        ? allSelectedLabel
+                        : render(label, value)}
+                    </FlexBox>
+                  </ChipActionProvider>
                 </FlexBox>
               )}
 
