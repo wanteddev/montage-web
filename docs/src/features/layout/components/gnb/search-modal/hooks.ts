@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { liteClient } from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
+import { useRouter } from 'next/navigation';
 
 import { useMDXContext } from '@/features/docs/context';
 
@@ -45,6 +46,8 @@ export const useDocSearch = ({
     activeItemId: null,
     status: 'idle',
   });
+
+  const router = useRouter();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -120,6 +123,13 @@ export const useDocSearch = ({
         placeholder: 'Please enter a search term',
         openOnFocus: true,
         autoFocus: true,
+        navigator: {
+          navigate: ({ itemUrl }) => {
+            router.push(
+              itemUrl.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? '', ''),
+            );
+          },
+        },
         initialState: {
           query: initialQuery,
         },
@@ -146,15 +156,21 @@ export const useDocSearch = ({
                   return item.url;
                 },
                 getItems: () => {
-                  return allFrontmatter
-                    .filter(
-                      ({ slug }) =>
-                        !['foundations', 'getting-started'].includes(
-                          slug.at(0) ?? '',
-                        ),
-                    )
-                    .sort((a, b) => a.title.localeCompare(b.title))
-                    .map(parseFrontmatterToDocSearchHit);
+                  const componentsFrontmatter = allFrontmatter.filter(
+                    ({ slug }) => slug.at(0) === 'components',
+                  );
+                  const utilitiesFrontmatter = allFrontmatter.filter(
+                    ({ slug }) => slug.at(0) === 'utilities',
+                  );
+
+                  return [
+                    ...componentsFrontmatter.sort((a, b) =>
+                      a.title.localeCompare(b.title),
+                    ),
+                    ...utilitiesFrontmatter.sort((a, b) =>
+                      a.title.localeCompare(b.title),
+                    ),
+                  ].map(parseFrontmatterToDocSearchHit);
                 },
               },
             ];
@@ -234,7 +250,14 @@ export const useDocSearch = ({
             });
         },
       }),
-    [initialQuery, searchClient, handleSelect, recentSearches, allFrontmatter],
+    [
+      initialQuery,
+      searchClient,
+      handleSelect,
+      recentSearches,
+      allFrontmatter,
+      router,
+    ],
   );
 
   useEffect(() => {
@@ -269,8 +292,6 @@ export const useDocSearch = ({
   }, []);
 
   const isQueryEmpty = !state.query;
-
-  console.log(state.collections);
 
   const isEmpty =
     !isQueryEmpty &&

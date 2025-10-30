@@ -22,7 +22,6 @@ type Props = PropsWithChildren<{
   depth?: string;
   sx?: SxProp;
   disabled?: boolean;
-  leadingContent?: ReactNode;
   trailingContent?: ReactNode;
   onClick?: () => void;
 }>;
@@ -34,7 +33,6 @@ const LnbGroupItem = ({
   depth = '1',
   sx,
   disabled,
-  leadingContent,
   trailingContent,
   onClick,
 }: Props) => {
@@ -90,15 +88,10 @@ const LnbGroupItem = ({
           disableInteraction={disabled}
           aria-disabled={disabled}
           sx={[lnbItemStyle, sx]}
-          leadingContent={leadingContent}
           trailingContent={
             trailingContent ?? (
               <ListCellContent variant="icon" data-role="lnb-group-item-arrow">
-                <IconArrowRightThick
-                  sx={{
-                    fontSize: '12px',
-                  }}
-                />
+                <IconArrowRightThick sx={{ fontSize: '16px' }} />
               </ListCellContent>
             )
           }

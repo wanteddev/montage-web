@@ -83,13 +83,29 @@ export const wrapperStyle = css`
 
 export const navigationStyle = (theme: Theme) => css`
   --wds-top-navigation-padding-x: 24px;
+  position: relative;
+  background-color: transparent;
+  backdrop-filter: none;
 
-  ${gradient(
-    theme.semantic.background.elevated.normal,
-    'bottom',
-    '16px',
-    'mask',
-  )}
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 16px);
+    ${gradient(
+      theme.semantic.background.elevated.normal,
+      'bottom',
+      '32px',
+      'mask',
+    )}
+  }
+
+  [data-role='top-navigation-wrapper'] {
+    gap: 8px;
+  }
 
   [data-role='navigation-title'] h2 {
     display: flex;
@@ -98,7 +114,7 @@ export const navigationStyle = (theme: Theme) => css`
   }
 `;
 
-export const backButtonStyle = (theme: Theme) => css`
+export const backButtonStyle = css`
   background-color: transparent;
   border: none;
   position: relative;
@@ -107,11 +123,6 @@ export const backButtonStyle = (theme: Theme) => css`
 
   &[aria-hidden='true'] {
     opacity: 0;
-  }
-
-  svg {
-    font-size: 16px;
-    color: ${theme.semantic.label.normal};
   }
 `;
 

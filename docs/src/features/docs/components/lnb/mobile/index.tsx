@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@wanteddev/wds';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { IconArrowLeftThick, IconCloseThick } from '@wanteddev/wds-icon';
+import { IconArrowLeft, IconClose } from '@wanteddev/wds-icon';
 import { useParams } from 'next/navigation';
 import { sentenceCase } from 'change-case';
 
@@ -118,6 +118,7 @@ const LnbMobile = () => {
           leadingContent={
             <ModalNavigationButton
               aria-label="Back"
+              size={22}
               sx={backButtonStyle}
               aria-hidden={focusedCategory === null}
               onClick={(e) => {
@@ -125,16 +126,12 @@ const LnbMobile = () => {
                 setFocusedCategory(null);
               }}
             >
-              <IconArrowLeftThick />
+              <IconArrowLeft />
             </ModalNavigationButton>
           }
           trailingContent={
-            <ModalClose>
-              <IconCloseThick
-                sx={{
-                  fontSize: '16px',
-                }}
-              />
+            <ModalClose size={22}>
+              <IconClose />
             </ModalClose>
           }
         >
@@ -150,7 +147,7 @@ const LnbMobile = () => {
           </Typography>
         </ModalNavigation>
         <ModalContent
-          sx={{ '--wds-modal-content-margin': '20px', paddingTop: 0 }}
+          sx={{ '--wds-modal-content-margin': '24px', paddingTop: 0 }}
         >
           <ModalContentItem>
             {focusedCategory !== null && (

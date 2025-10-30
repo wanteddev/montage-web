@@ -1,4 +1,5 @@
 import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
+import { PLATFORM_PATTERN } from '@/features/docs/components/lnb/constants';
 
 import type { Frontmatter } from '@/features/docs/types';
 import type {
@@ -47,8 +48,13 @@ export const createRecentSearchStorage = <Item extends DocSearchHit>({
 
       const removedHashUrl = hit.url.replace(/#([^\s]+)$/, '');
 
-      const isQueryAlreadySaved = items.findIndex(
-        (x) => x.objectID === hit.objectID || removedHashUrl === x.url,
+      const isQueryAlreadySaved = items.findIndex((x) =>
+        x.objectID === hit.objectID ||
+        removedHashUrl === x.url ||
+        PLATFORM_PATTERN.test(removedHashUrl)
+          ? x.url.replace(PLATFORM_PATTERN, '') ===
+            removedHashUrl.replace(PLATFORM_PATTERN, '')
+          : false,
       );
 
       if (isQueryAlreadySaved > -1) {

@@ -73,7 +73,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
           return (
             <List key={item.key + idx} gap="0px">
               <Typography
-                variant="caption2"
+                variant="caption1"
                 weight="bold"
                 color="semantic.label.assistive"
                 sx={{
@@ -103,7 +103,9 @@ const LnbGroup = ({ frontmatter }: Props) => {
                           disabled
                           trailingContent={
                             <ListCellContent variant="icon">
-                              <IconLock sx={{ fontSize: '12px' }} />
+                              <IconLock
+                                sx={{ fontSize: '16px', margin: '4px 3px' }}
+                              />
                             </ListCellContent>
                           }
                         >

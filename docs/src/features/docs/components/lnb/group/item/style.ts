@@ -14,16 +14,17 @@ export const lnbItemStyle = (theme: Theme) => css`
 
   && {
     --wds-list-cell-horizontal-padding: 0px;
-    --wds-list-cell-vertical-padding: 4px;
+    --wds-list-cell-vertical-padding: 7px;
   }
 
-  border-radius: 8px;
+  border-radius: 12px;
 
   & > [wds-component='with-interaction'] {
     width: calc(100% + var(--lnb-padding) * 2);
   }
 
   [data-role='lnb-group-item-arrow'] {
+    margin: 4px 3px;
     color: transparent;
     transition:
       color 0.2s ease,
