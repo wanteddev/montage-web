@@ -1,0 +1,74 @@
+import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import Link from 'next/link';
+import { IconArrowRightThick } from '@wanteddev/wds-icon';
+
+import { Heading2 } from '../../../mdx/section/layout';
+
+import { BASE_MATERIAL_ITEMS } from './constants';
+import { interactionArrowStyle, linkStyle } from './style';
+
+const FoundationsOverview = () => {
+  return (
+    <>
+      <Thumbnail
+        src="/foundations/overview/Image.png"
+        alt="Foundations Overview"
+        radius
+        border
+        sx={{
+          marginTop: '40px',
+          marginBottom: '32px',
+          aspectRatio: '95 / 29',
+        }}
+      />
+
+      <Heading2 content="Base material" />
+
+      {BASE_MATERIAL_ITEMS.map((item) => (
+        <FlexBox
+          as={Link}
+          href={item.href}
+          key={item.title}
+          gap="12px"
+          alignItems="center"
+          sx={linkStyle}
+        >
+          <FlexBox
+            gap="6px"
+            flex="1 1 0"
+            flexDirection="column"
+            sm={{ gap: '12px', flexDirection: 'row', alignItems: 'center' }}
+          >
+            <Typography
+              variant="headline2"
+              weight="bold"
+              color="semantic.label.normal"
+              display="block"
+              sx={{
+                width: '120px',
+              }}
+            >
+              {item.title}
+            </Typography>
+
+            <Typography
+              variant="label1"
+              weight="medium"
+              color="semantic.label.neutral"
+            >
+              {item.description}
+            </Typography>
+          </FlexBox>
+
+          <IconArrowRightThick
+            sx={interactionArrowStyle}
+            aria-hidden
+            data-role="interaction-arrow"
+          />
+        </FlexBox>
+      ))}
+    </>
+  );
+};
+
+export default FoundationsOverview;

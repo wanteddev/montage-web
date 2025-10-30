@@ -26,20 +26,14 @@ const Filter = ({ filterId, ...props }: Props) => {
         <feColorMatrix
           in="offsetR"
           type="matrix"
-          values="1 0 0 0 0
-                  0 0 0 0 0
-                  0 0 0 0 0
-                  0 0 0 1 0"
+          values={`1 0 0 0 0\n0 0 0 0 0\n0 0 0 0 0\n0 0 0 1 0`}
           result="redChannel"
         />
 
         <feColorMatrix
           in="SourceGraphic"
           type="matrix"
-          values="0 0 0 0 0
-                  0 1 0 0 0
-                  0 0 0 0 0
-                  0 0 0 1 0"
+          values={`0 0 0 0 0\n0 1 0 0 0\n0 0 0 0 0\n0 0 0 1 0`}
           result="greenChannel"
         />
 
@@ -47,10 +41,7 @@ const Filter = ({ filterId, ...props }: Props) => {
         <feColorMatrix
           in="offsetB"
           type="matrix"
-          values="0 0 0 0 0
-                  0 0 0 0 0
-                  0 0 1 0 0
-                  0 0 0 1 0"
+          values={`0 0 0 0 0\n0 0 0 0 0\n0 0 1 0 0\n0 0 0 1 0`}
           result="blueChannel"
         />
 

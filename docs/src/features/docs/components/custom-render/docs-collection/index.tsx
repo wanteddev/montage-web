@@ -85,16 +85,19 @@ const DocsCollection = ({ category }: Props) => {
                   columns={6}
                   sm={{ columns: 4 }}
                 >
-                  <Card as={Link} href={`/docs/${data.slug.join('/')}`}>
+                  <Card
+                    as={Link}
+                    href={`/docs/${data.slug.join('/')}`}
+                    sx={{
+                      figure: {
+                        borderRadius: '12px !important',
+                      },
+                    }}
+                  >
                     <CardThumbnail
                       src={data.image ?? '/images/placeholder.png'}
                       alt={data.title}
                       ratio="16:9"
-                      sx={{
-                        '&&': {
-                          borderRadius: '12px',
-                        },
-                      }}
                     />
                     <CardContent>
                       <CardTitle color="semantic.label.normal">

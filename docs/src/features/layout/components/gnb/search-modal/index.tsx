@@ -133,7 +133,6 @@ export const DocSearchModal = ({
 
         <ActionArea
           variant="compact"
-          extra
           sx={actionAreaStyle}
           compactContent={
             <FlexBox gap="20px" sx={compactContentStyle}>

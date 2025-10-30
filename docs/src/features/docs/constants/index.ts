@@ -36,7 +36,7 @@ export const gettingStartedAndroidFrontmatter: Frontmatter = {
 export const foundationsOverviewFrontmatter: Frontmatter = {
   title: 'Foundations',
   description:
-    '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다. 컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.',
+    '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다.\n컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.',
   slug: ['foundations'],
   originSlug: ['foundations', 'index'],
   createdAt: '2025-10-23',
@@ -105,16 +105,43 @@ export const componentOverviewFrontmatter: Frontmatter = {
   createdAt: '2025-10-23',
 };
 
-export const utilitiesOverviewFrontmatter: Frontmatter = {
+export const utilitiesOverviewWebFrontmatter: Frontmatter = {
   title: 'Utilities',
-  description: 'Utilities Overview',
+  description:
+    '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다.\n컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.',
   slug: ['utilities'],
-  originSlug: ['utilities', 'index'],
+  originSlug: ['utilities'],
   createdAt: '2025-10-23',
 };
 
+// export const utilitiesOverviewAndroidFrontmatter: Frontmatter = {
+//   title: 'Utilities',
+//   description:
+//     '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다.\n컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.',
+//   slug: ['utilities', 'android'],
+//   originSlug: ['utilities', 'android'],
+//   createdAt: '2025-10-23',
+// };
+
+// export const utilitiesOverviewIosFrontmatter: Frontmatter = {
+//   title: 'Utilities',
+//   description:
+//     '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다.\n컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.',
+//   slug: ['utilities', 'ios'],
+//   originSlug: ['utilities', 'ios'],
+//   createdAt: '2025-10-23',
+// };
+
+export const utilitiesOverviewFrontmatters = [
+  utilitiesOverviewWebFrontmatter,
+  // utilitiesOverviewAndroidFrontmatter,
+  // utilitiesOverviewIosFrontmatter,
+];
+
 export const shouldNotSerializeMDXFrontmatters = [
-  utilitiesOverviewFrontmatter,
+  utilitiesOverviewWebFrontmatter,
+  // utilitiesOverviewAndroidFrontmatter,
+  // utilitiesOverviewIosFrontmatter,
   componentOverviewFrontmatter,
   foundationsOverviewFrontmatter,
   foundationsTypographyFrontmatter,

@@ -14,7 +14,9 @@ import {
   foundationsOverviewFrontmatter,
   foundationsTypographyFrontmatter,
   gettingStartedFrontmatter,
-  utilitiesOverviewFrontmatter,
+  // utilitiesOverviewAndroidFrontmatter,
+  // utilitiesOverviewIosFrontmatter,
+  utilitiesOverviewWebFrontmatter,
 } from '../../constants';
 
 import FoundationsTypography from './foundations/typography';
@@ -26,6 +28,8 @@ import { wrapperStyle } from './style';
 import FoundationsElevationSpread from './foundations/elevation/spread';
 import FoundationsColorsAtomic from './foundations/colors/atomic';
 import FoundationsColorsSemantic from './foundations/colors/semantic';
+import FoundationsOverview from './foundations/overview';
+import UtilitiesOverview from './utilities/overview';
 
 import type { SlugParams } from '../lnb/types';
 
@@ -56,13 +60,19 @@ const CustomRender = () => {
         return <FoundationsElevationSpread />;
 
       case foundationsOverviewFrontmatter.slug.join('/'):
-        return <DocsCollection category="foundations" />;
+        return <FoundationsOverview />;
 
       case componentOverviewFrontmatter.slug.join('/'):
         return <DocsCollection category="components" />;
 
-      case utilitiesOverviewFrontmatter.slug.join('/'):
-        return <DocsCollection category="utilities" />;
+      case utilitiesOverviewWebFrontmatter.slug.join('/'):
+        return <UtilitiesOverview platform="web" />;
+
+      // case utilitiesOverviewAndroidFrontmatter.slug.join('/'):
+      //   return <UtilitiesOverview platform="android" />;
+
+      // case utilitiesOverviewIosFrontmatter.slug.join('/'):
+      //   return <UtilitiesOverview platform="ios" />;
 
       default:
         return null;

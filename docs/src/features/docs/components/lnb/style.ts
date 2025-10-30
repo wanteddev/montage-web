@@ -16,7 +16,7 @@ export const lnbWrapperStyle = (theme: Theme) => css`
 
   [data-radix-scroll-area-content] {
     min-width: initial !important;
-    padding: 56px var(--lnb-padding) 20px;
+    padding: 56px calc(var(--lnb-padding) + 10px) 20px var(--lnb-padding);
   }
 
   ${respondMore(theme.breakpoint.lg)} {

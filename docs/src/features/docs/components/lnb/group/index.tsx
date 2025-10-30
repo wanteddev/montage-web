@@ -8,6 +8,7 @@ import { getFrontmatterLink, getIsActive, isFrontmatter } from '../helpers';
 
 import { wrapperStyle } from './style';
 import LnbGroupItem from './item';
+import { getIsActiveGroup } from './helpers';
 
 import type { LNBFrontmatterType, SlugParams } from '../types';
 
@@ -25,10 +26,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
       {groupKey === gettingStartedFrontmatter.slug.join('/') ? (
         <LnbGroupItem
           href={`/docs/${groupKey}`}
-          isActive={
-            params.slug?.join('/') ===
-            frontmatter.key.replace(/ /g, '-').toLowerCase()
-          }
+          isActive={getIsActiveGroup(params, frontmatter)}
           depth="0"
         >
           {gettingStartedFrontmatter.title}
@@ -36,10 +34,7 @@ const LnbGroup = ({ frontmatter }: Props) => {
       ) : (
         <LnbGroupItem
           href={`/docs/${groupKey}`}
-          isActive={
-            params.slug?.join('/') ===
-            frontmatter.key.replace(/ /g, '-').toLowerCase()
-          }
+          isActive={getIsActiveGroup(params, frontmatter)}
           depth="0"
         >
           Overview

@@ -1,6 +1,8 @@
 import {
   MERGE_ONE_FRONTMATTER_PATTERN,
   gettingStartedFrontmatter,
+  // utilitiesOverviewAndroidFrontmatter,
+  // utilitiesOverviewIosFrontmatter,
 } from '../../constants';
 
 import { PLATFORM_PATTERN, PLATFORM_PATTERN_WITHOUT_DESIGN } from './constants';
@@ -78,6 +80,15 @@ export const shouldSkipAddFrontmatter = (
   if (hasMatchingDevelopPlatformPage(frontmatter.originSlug, allFrontmatter)) {
     return true;
   }
+
+  // if (
+  //   frontmatter.slug.join('/') ===
+  //     utilitiesOverviewIosFrontmatter.slug.join('/') ||
+  //   frontmatter.slug.join('/') ===
+  //     utilitiesOverviewAndroidFrontmatter.slug.join('/')
+  // ) {
+  //   return true;
+  // }
 
   return shouldMergeOneFrontmatter(frontmatter);
 };
