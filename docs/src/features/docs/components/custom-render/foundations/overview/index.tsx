@@ -14,7 +14,6 @@ const FoundationsOverview = () => {
         src="/foundations/overview/Image.png"
         alt="Foundations Overview"
         radius
-        border
         sx={{
           marginTop: '40px',
           marginBottom: '32px',

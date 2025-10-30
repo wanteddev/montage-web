@@ -1,5 +1,7 @@
 import { Box } from '@wanteddev/wds';
 
+import { blueMatrix, greenMatrix, redMatrix } from './constants';
+
 import type { DefaultComponentProps } from '@wanteddev/wds';
 
 type Props = DefaultComponentProps<
@@ -26,14 +28,14 @@ const Filter = ({ filterId, ...props }: Props) => {
         <feColorMatrix
           in="offsetR"
           type="matrix"
-          values={`1 0 0 0 0\n0 0 0 0 0\n0 0 0 0 0\n0 0 0 1 0`}
+          values={redMatrix}
           result="redChannel"
         />
 
         <feColorMatrix
           in="SourceGraphic"
           type="matrix"
-          values={`0 0 0 0 0\n0 1 0 0 0\n0 0 0 0 0\n0 0 0 1 0`}
+          values={greenMatrix}
           result="greenChannel"
         />
 
@@ -41,7 +43,7 @@ const Filter = ({ filterId, ...props }: Props) => {
         <feColorMatrix
           in="offsetB"
           type="matrix"
-          values={`0 0 0 0 0\n0 0 0 0 0\n0 0 1 0 0\n0 0 0 1 0`}
+          values={blueMatrix}
           result="blueChannel"
         />
 

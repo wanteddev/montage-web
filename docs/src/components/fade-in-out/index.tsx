@@ -97,7 +97,7 @@ const FadeInOut = ({
       as={Slot}
       data-animation-state={state}
       ref={wrapperRef}
-      sx={{ ['[data-animation-state="animation-pending"]']: { opacity: 0 } }}
+      sx={{ ['&[data-animation-state="animation-pending"]']: { opacity: 0 } }}
     >
       {children}
     </Box>

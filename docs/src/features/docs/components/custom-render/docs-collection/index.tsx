@@ -5,6 +5,7 @@ import {
   CardContent,
   CardThumbnail,
   CardTitle,
+  Divider,
   FlexBox,
   Grid,
   GridItem,
@@ -61,56 +62,68 @@ const DocsCollection = ({ category }: Props) => {
   }, [allFrontmatter, category]);
 
   return (
-    <FlexBox flexDirection="column" gap="80px">
-      {collection
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .map(([key, list], i) => (
-          <FlexBox flexDirection="column" key={key + i} gap="24px">
-            <Typography
-              data-heading=""
-              variant="title2"
-              weight="bold"
-              display="block"
-              as="h2"
-              id={kebabCase(key)}
-              sx={{ scrollMarginTop: 'calc(var(--gnb-height) + 12px)' }}
-            >
-              <HeadingLink id={kebabCase(key)}>{capitalCase(key)}</HeadingLink>
-            </Typography>
+    <>
+      <Divider
+        color="semantic.line.normal.alternative"
+        sx={{ '&&': { marginBlock: '78px 48px' } }}
+      />
 
-            <Grid columnSpacing={56} rowSpacing={12}>
-              {list.map((data) => (
-                <GridItem
-                  key={data.slug.toString()}
-                  columns={6}
-                  sm={{ columns: 4 }}
-                >
-                  <Card
-                    as={Link}
-                    href={`/docs/${data.slug.join('/')}`}
-                    sx={{
-                      figure: {
-                        borderRadius: '12px !important',
-                      },
-                    }}
+      <FlexBox flexDirection="column" gap="80px">
+        {collection
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([key, list], i) => (
+            <FlexBox flexDirection="column" key={key + i} gap="24px">
+              <Typography
+                data-heading=""
+                variant="title2"
+                weight="bold"
+                display="block"
+                as="h2"
+                id={kebabCase(key)}
+                sx={{ scrollMarginTop: 'calc(var(--gnb-height) + 12px)' }}
+              >
+                <HeadingLink id={kebabCase(key)}>
+                  {capitalCase(key)}
+                </HeadingLink>
+              </Typography>
+
+              <Grid columnSpacing={56} rowSpacing={12}>
+                {list.map((data) => (
+                  <GridItem
+                    key={data.slug.toString()}
+                    columns={6}
+                    sm={{ columns: 4 }}
                   >
-                    <CardThumbnail
-                      src={data.image ?? '/images/placeholder.png'}
-                      alt={data.title}
-                      ratio="16:9"
-                    />
-                    <CardContent>
-                      <CardTitle color="semantic.label.normal">
-                        {data.title}
-                      </CardTitle>
-                    </CardContent>
-                  </Card>
-                </GridItem>
-              ))}
-            </Grid>
-          </FlexBox>
-        ))}
-    </FlexBox>
+                    <Card
+                      as={Link}
+                      href={`/docs/${data.slug.join('/')}`}
+                      sx={{
+                        figure: {
+                          borderRadius: '12px !important',
+                          '&::after': {
+                            border: 'none !important',
+                          },
+                        },
+                      }}
+                    >
+                      <CardThumbnail
+                        src={data.image ?? '/images/placeholder.png'}
+                        alt={data.title}
+                        ratio="16:9"
+                      />
+                      <CardContent>
+                        <CardTitle color="semantic.label.normal">
+                          {data.title}
+                        </CardTitle>
+                      </CardContent>
+                    </Card>
+                  </GridItem>
+                ))}
+              </Grid>
+            </FlexBox>
+          ))}
+      </FlexBox>
+    </>
   );
 };
 

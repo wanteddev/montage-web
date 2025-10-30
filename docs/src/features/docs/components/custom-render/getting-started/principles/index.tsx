@@ -6,7 +6,7 @@ import Carousel from '@/components/carousel';
 import { descriptionStyle } from '../style';
 
 import { PRINCIPLES } from './constants';
-import { carouselItemStyle } from './style';
+import { carouselItemStyle, thumbnailStyle } from './style';
 
 const Principles = () => {
   const id = useId();
@@ -26,7 +26,7 @@ const Principles = () => {
             src={principle.image}
             ratio="1:1"
             alt={principle.title}
-            sx={{ borderRadius: '24px' }}
+            sx={thumbnailStyle}
           />
           <FlexBox flexDirection="column" gap="6px">
             <Typography

@@ -23,8 +23,6 @@ export const UtilitiesOverview = ({ platform }: Props) => {
           a.title.localeCompare(b.title),
         );
 
-        console.log(Math.floor((v.children.length - 1) / 2));
-
         const firstGrid = sortedChildren.toSpliced(
           Math.floor((v.children.length - 1) / 2) + 1,
           v.children.length,
