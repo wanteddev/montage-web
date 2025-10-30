@@ -1,7 +1,7 @@
 import { Box } from '@wanteddev/wds-engine';
 import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { IconChevronDown } from '@wanteddev/wds-icon';
+import { IconChevronDownSmall } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { usePrevious } from '@radix-ui/react-use-previous';
@@ -162,7 +162,7 @@ const AccordionSummary = forwardRef<
               rotate
               data-role="accordion-summary-expand-icon"
             >
-              <IconChevronDown
+              <IconChevronDownSmall
                 sx={(theme) => ({
                   color: theme.semantic.label.normal,
                 })}
@@ -198,7 +198,7 @@ AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 const AccordionSummaryContent = forwardRef<
   HTMLDivElement,
   DefaultComponentPropsInternal<AccordionSummaryContentProps, 'div'>
->(({ sx, rotate = false, ...props }, ref) => {
+>(({ sx, rotate = false, variant, ...props }, ref) => {
   const { expanded, disableAnimation } = useAccordionContext(
     ACCORDION_SUMMARY_CONTENT_NAME,
   );
@@ -207,8 +207,10 @@ const AccordionSummaryContent = forwardRef<
     <ListCellContent
       ref={ref}
       {...props}
+      variant={variant}
       sx={[
         accordionSummaryContentStyle({
+          variant,
           expanded,
           disableAnimation,
           rotate,

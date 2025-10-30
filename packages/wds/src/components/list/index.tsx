@@ -138,6 +138,10 @@ const ListCell = forwardRef(
             aria-labelledby={textId}
             aria-describedby={captionId}
             aria-current={selected}
+            data-disable-interaction={
+              disabled || disableInteraction || verticalPadding === 'none'
+            }
+            wds-component="list-cell"
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (

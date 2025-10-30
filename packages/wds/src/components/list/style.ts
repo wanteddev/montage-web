@@ -55,6 +55,22 @@ export const listCellStyle =
           `}
         `}
 
+    &[data-disable-interaction='false'] {
+      @media (pointer: fine) {
+        &:hover {
+          [data-role='list-cell-divider'] {
+            opacity: 0;
+          }
+        }
+      }
+
+      &:active {
+        [data-role='list-cell-divider'] {
+          opacity: 0;
+        }
+      }
+    }
+
     ${listCellPaddingStyle({ verticalPadding })}
     ${listCellFillWidthStyle({ fillWidth })}
     ${listCellInteractionPaddingStyle({ fillWidth, interactionPadding })}
@@ -199,6 +215,7 @@ export const listCellDividerStyle = css`
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0px);
+  transition: opacity 0.15s ease;
   width: calc(100% - (var(--wds-list-cell-horizontal-padding) * 2));
 `;
 
