@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { liteClient } from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
-import { useRouter } from 'next/navigation';
 
 import { useMDXContext } from '@/features/docs/context';
 
@@ -49,7 +48,6 @@ export const useDocSearch = ({
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const router = useRouter();
   const snippetLength = useRef<number>(10);
   const initialQueryFromSelection: string = useRef<string>(
     typeof window !== 'undefined'
@@ -104,12 +102,9 @@ export const useDocSearch = ({
   const handleSelect = useCallback(
     ({ item, event }: OnSelectParams<DocSearchHit>) => {
       saveRecentSearch(item);
-      router.push(
-        item.url.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? '', ''),
-      );
       handleClose(event);
     },
-    [saveRecentSearch, router, handleClose],
+    [saveRecentSearch, handleClose],
   );
 
   const autocomplete = useMemo(
@@ -275,6 +270,8 @@ export const useDocSearch = ({
 
   const isQueryEmpty = !state.query;
 
+  console.log(state.collections);
+
   const isEmpty =
     !isQueryEmpty &&
     state.status !== 'loading' &&
@@ -308,8 +305,13 @@ export const useVisualViewport = () => {
       );
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    const viewport = visualViewport ?? window;
+
+    viewport.addEventListener('resize', handleResize);
+
+    return () => {
+      viewport.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   return { height };

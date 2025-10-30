@@ -150,6 +150,11 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           crossOrigin="anonymous"
           href="https://static.wanted.co.kr/fonts/wantedsans/WantedSansVariable.min.css"
         />
+        <link
+          rel="preconnect"
+          href={`https://${process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION?.toLowerCase()}-dsn.algolia.net`}
+          crossOrigin="anonymous"
+        />
       </head>
       <body suppressHydrationWarning>
         <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
