@@ -14,6 +14,7 @@ import {
 } from './helpers';
 import { RECENT_SEARCHES_SOURCE_ID } from './constants';
 
+import type { OnSelectParams } from '@algolia/autocomplete-core';
 import type { SearchResponse } from 'algoliasearch/lite';
 import type {
   DocSearchHit,
@@ -100,6 +101,17 @@ export const useDocSearch = ({
     [recentSearches],
   );
 
+  const handleSelect = useCallback(
+    ({ item, event }: OnSelectParams<DocSearchHit>) => {
+      saveRecentSearch(item);
+      router.push(
+        item.url.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? '', ''),
+      );
+      handleClose(event);
+    },
+    [saveRecentSearch, router, handleClose],
+  );
+
   const autocomplete = useMemo(
     () =>
       createAutocomplete<
@@ -124,29 +136,21 @@ export const useDocSearch = ({
             return [
               {
                 sourceId: RECENT_SEARCHES_SOURCE_ID,
-                onSelect({ item, event }): void {
-                  saveRecentSearch(item);
-                  router.push(item.url);
-                  handleClose(event);
-                },
-                getItemUrl({ item }): string {
+                onSelect: handleSelect,
+                getItemUrl: ({ item }) => {
                   return item.url;
                 },
-                getItems(): Array<InternalDocSearchHit> {
-                  return recentSearches.getAll();
+                getItems: () => {
+                  return recentSearches.getAll() as Array<InternalDocSearchHit>;
                 },
               },
               {
                 sourceId: 'Pages',
-                onSelect({ item, event }): void {
-                  saveRecentSearch(item);
-                  router.push(item.url);
-                  handleClose(event);
-                },
-                getItemUrl({ item }): string {
+                onSelect: handleSelect,
+                getItemUrl: ({ item }) => {
                   return item.url;
                 },
-                getItems(): Array<InternalDocSearchHit> {
+                getItems: () => {
                   return allFrontmatter
                     .filter(
                       ({ slug }) =>
@@ -213,11 +217,7 @@ export const useDocSearch = ({
               return [
                 {
                   sourceId: 'Pages',
-                  onSelect: ({ event, item }) => {
-                    saveRecentSearch(item);
-                    router.push(item.url);
-                    handleClose(event);
-                  },
+                  onSelect: handleSelect,
                   getItemUrl: ({ item }) => {
                     return item.url;
                   },
@@ -227,11 +227,7 @@ export const useDocSearch = ({
                 },
                 {
                   sourceId: 'Text',
-                  onSelect: ({ event, item }) => {
-                    saveRecentSearch(item);
-                    router.push(item.url);
-                    handleClose(event);
-                  },
+                  onSelect: handleSelect,
                   getItemUrl: ({ item }) => {
                     return item.url;
                   },
@@ -243,15 +239,7 @@ export const useDocSearch = ({
             });
         },
       }),
-    [
-      initialQuery,
-      searchClient,
-      saveRecentSearch,
-      router,
-      handleClose,
-      recentSearches,
-      allFrontmatter,
-    ],
+    [initialQuery, searchClient, handleSelect, recentSearches, allFrontmatter],
   );
 
   useEffect(() => {
@@ -308,4 +296,21 @@ export const useDocSearch = ({
     containerRef,
     inputRef,
   };
+};
+
+export const useVisualViewport = () => {
+  const [height, setHeight] = useState<string>('100dvh');
+
+  useEffect(() => {
+    const handleResize = () => {
+      setHeight(
+        window.visualViewport ? `${window.visualViewport.height}px` : '100dvh',
+      );
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return { height };
 };

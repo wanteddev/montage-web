@@ -34,7 +34,7 @@ export const sectionVariantsControlStyle = (theme: Theme) => css`
   }
 
   [data-radix-scroll-area-content] {
-    padding: 32px 32px 12px;
+    padding: 32px;
     width: 280px;
   }
 `;
@@ -62,13 +62,13 @@ export const sectionVariantsControlMobileStyle = (theme: Theme) => css`
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
   width: 280px;
   border-radius: 16px;
-  height: 400px;
+  max-height: 400px;
   padding: 0px;
   filter: none;
   padding: 0px 2px;
 
   [data-radix-scroll-area-content] {
-    padding: 32px 30px 12px;
+    padding: 32px 30px;
     display: flex;
     flex-direction: column;
     gap: 28px;

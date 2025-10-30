@@ -15,7 +15,7 @@ import { IconArrowTurnDownLeft, IconChevronLeft } from '@wanteddev/wds-icon';
 
 import AlgoliaLogo from '@/assets/algolia-logo';
 
-import { useDocSearch } from './hooks';
+import { useDocSearch, useVisualViewport } from './hooks';
 import {
   actionAreaStyle,
   compactContentStyle,
@@ -58,6 +58,8 @@ export const DocSearchModal = ({
     onOpenChange,
   });
 
+  const { height } = useVisualViewport();
+
   useEffect(() => {
     const scrollWrapper = containerRef.current?.firstElementChild;
 
@@ -78,6 +80,9 @@ export const DocSearchModal = ({
           size: 'xlarge',
         }}
         wrapperProps={{
+          style: {
+            '--wds-mobile-height': height,
+          } as CSSProperties,
           sx: modalWrapperStyle,
         }}
         ref={containerRef}

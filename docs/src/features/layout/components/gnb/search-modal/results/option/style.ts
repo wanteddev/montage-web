@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -7,6 +7,18 @@ export const searchOptionStyle = (theme: Theme) => css`
 
   [data-role='list-text-wrapper'] {
     color: ${theme.semantic.label.alternative};
+  }
+
+  [data-role='list-text'] {
+    mark {
+      ${typographyStyle('label1', 'bold')}
+    }
+  }
+
+  [data-role='list-text-caption'] {
+    mark {
+      ${typographyStyle('label2', 'bold')}
+    }
   }
 
   mark {
