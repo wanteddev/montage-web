@@ -4,6 +4,7 @@ import { Box } from '@wanteddev/wds-engine';
 import { WithInteraction } from '../with-interaction';
 
 import { actionStyle } from './style';
+import { useChipActionContext } from './contexts';
 
 import type {
   PolymorphicComponentInternal,
@@ -34,6 +35,7 @@ const ChipAction = forwardRef(
     }: PolymorphicPropsInternal<ChipActionProps, T>,
     ref: ForwardedRef<T>,
   ) => {
+    const context = useChipActionContext();
     const id = useId();
 
     const active = givenActive ?? props['aria-pressed'];
@@ -49,6 +51,10 @@ const ChipAction = forwardRef(
 
       return 'semantic.inverse.label';
     }, [active, variant]);
+
+    const overrideColor = useMemo(() => {
+      return context?.[variant];
+    }, [context, variant]);
 
     return (
       <WithInteraction
@@ -67,7 +73,17 @@ const ChipAction = forwardRef(
           aria-pressed={active}
           {...props}
           sx={[
-            actionStyle({ active, variant, size, xs, sm, md, lg, xl }),
+            actionStyle({
+              overrideColor,
+              active,
+              variant,
+              size,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
             props.sx,
           ]}
         >

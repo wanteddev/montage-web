@@ -32,6 +32,7 @@ import { Typography } from '../typography';
 import { invalidIconWrapperStyle } from '../text-field/style';
 import { VirtualValueInput } from '../virtual-input';
 import { ListCellContent } from '../list';
+import { ChipActionProvider } from '../chip-action/contexts';
 
 import { selectIconStyle, selectStyle, selectTextStyle } from './style';
 import { convertChildrenToData } from './helpers';
@@ -122,8 +123,7 @@ const Select = forwardRef<
       () =>
         typeof value === 'string'
           ? value.length === 0
-          : // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-            !Boolean(value) && value !== 0,
+          : !Boolean(value) && value !== 0,
       [value],
     );
 
@@ -253,14 +253,16 @@ const Select = forwardRef<
               )}
 
               {typeof render === 'function' && !shouldShowPlaceholder && (
-                <FlexBox
-                  flex="1"
-                  gap="4px"
-                  flexWrap="wrap"
-                  data-role="select-render-wrapper"
-                >
-                  {render(label, value)}
-                </FlexBox>
+                <ChipActionProvider solid="semantic.label.alternative">
+                  <FlexBox
+                    flex="1"
+                    gap="4px"
+                    flexWrap="wrap"
+                    data-role="select-render-wrapper"
+                  >
+                    {render(label, value)}
+                  </FlexBox>
+                </ChipActionProvider>
               )}
 
               {invalid && (
