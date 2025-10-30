@@ -1,14 +1,18 @@
-import { css } from '@wanteddev/wds-engine';
+import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { addOpacity } from '../../utils';
 
 import type { ChipActionProps } from './types';
-import type { Theme } from '@wanteddev/wds-engine';
+import type { Theme, ThemeColorsToken } from '@wanteddev/wds-engine';
+
+type ActionStyleProps = ChipActionProps & {
+  overrideColor?: ThemeColorsToken;
+};
 
 export const actionStyle =
-  ({ xs, sm, md, lg, xl, ...props }: ChipActionProps) =>
+  ({ xs, sm, md, lg, xl, overrideColor, ...props }: ActionStyleProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -31,7 +35,7 @@ export const actionStyle =
       cursor: initial;
     }
 
-    ${actionVariantStyle(props, theme)}
+    ${actionVariantStyle({ ...props, overrideColor }, theme)}
     ${actionSizeStyle(props)}
 
   ${createResponsiveStyle(
@@ -108,13 +112,15 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
 };
 
 const actionVariantStyle = (
-  { variant, active }: ChipActionProps = {},
+  { variant, active, overrideColor }: ActionStyleProps = {},
   theme: Theme,
 ) => {
   switch (variant) {
     case 'solid':
       return css`
-        color: ${theme.semantic.label.normal};
+        color: ${overrideColor
+          ? getColorByToken(theme, overrideColor)
+          : theme.semantic.label.normal};
         background-color: ${theme.semantic.fill.alternative};
         box-shadow: none;
 
@@ -133,7 +139,9 @@ const actionVariantStyle = (
       `;
     case 'outlined':
       return css`
-        color: ${theme.semantic.label.normal};
+        color: ${overrideColor
+          ? getColorByToken(theme, overrideColor)
+          : theme.semantic.label.normal};
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
