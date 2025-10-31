@@ -40,6 +40,10 @@ export const lnbItemStyle = (theme: Theme) => css`
     }
   }
 
+  [data-role='list-text-content'] {
+    transition: color 0.2s ease;
+  }
+
   &[aria-current='page'] {
     [data-role='lnb-group-item-arrow'] {
       color: ${theme.semantic.label.normal};

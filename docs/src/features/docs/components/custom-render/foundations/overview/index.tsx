@@ -39,7 +39,7 @@ const FoundationsOverview = () => {
             sm={{ gap: '12px', flexDirection: 'row', alignItems: 'center' }}
           >
             <Typography
-              variant="headline2"
+              variant="body2"
               weight="bold"
               color="semantic.label.normal"
               display="block"
@@ -54,6 +54,11 @@ const FoundationsOverview = () => {
               variant="label1"
               weight="medium"
               color="semantic.label.neutral"
+              sm={{
+                sx: {
+                  paddingBlock: '1px',
+                },
+              }}
             >
               {item.description}
             </Typography>

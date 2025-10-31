@@ -88,7 +88,7 @@ export const useDocSearch = ({
   const recentSearches = useRef(
     createRecentSearchStorage({
       key: `__DOCSEARCH_RECENT_SEARCHES__MONTAGE`,
-      limit: 10,
+      limit: 3,
     }),
   ).current;
 

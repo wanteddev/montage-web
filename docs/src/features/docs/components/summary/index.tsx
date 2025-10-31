@@ -37,11 +37,16 @@ const DocsSummary = () => {
       })
       .sort((a, b) => {
         const sortedObj: { [key: string]: number } = {
-          design: 1,
-          web: 0,
+          design: 3,
+          web: 2,
+          android: 1,
+          ios: 0,
         };
 
-        return (sortedObj[b.title] ?? 0) - (sortedObj[a.title] ?? 0);
+        return (
+          (sortedObj[b.title.toLowerCase()] ?? 0) -
+          (sortedObj[a.title.toLowerCase()] ?? 0)
+        );
       });
   }, [allFrontmatter, params.slug]);
 

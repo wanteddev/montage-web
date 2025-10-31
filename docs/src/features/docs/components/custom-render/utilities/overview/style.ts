@@ -9,7 +9,7 @@ export const headingStyle = css`
 `;
 
 export const linkStyle = (theme: Theme) => css`
-  padding-block: 24px;
+  padding-block: 16px;
   border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
 
   ${respondTo(theme.breakpoint.sm)} {
@@ -23,6 +23,10 @@ export const linkStyle = (theme: Theme) => css`
         transform: translateX(0px);
       }
     }
+  }
+
+  &:last-of-type {
+    border-bottom: none;
   }
 `;
 

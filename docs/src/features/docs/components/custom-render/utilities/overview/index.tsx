@@ -53,7 +53,7 @@ export const UtilitiesOverview = ({ platform }: Props) => {
                     gap="12px"
                   >
                     <Typography
-                      variant="headline2"
+                      variant="body2"
                       weight="bold"
                       color="semantic.label.normal"
                     >
@@ -80,7 +80,7 @@ export const UtilitiesOverview = ({ platform }: Props) => {
                     gap="12px"
                   >
                     <Typography
-                      variant="headline2"
+                      variant="body2"
                       weight="bold"
                       color="semantic.label.normal"
                     >
