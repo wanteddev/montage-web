@@ -13,7 +13,15 @@ import {
 
 import type { SlugParams } from '../lnb/types';
 
-const DocsTitle = () => {
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const DocsTitle = ({
+  title: customTitle,
+  description: customDescription,
+}: Props) => {
   const { allFrontmatter } = useMDXContext();
   const params = useParams<SlugParams>();
 
@@ -25,22 +33,30 @@ const DocsTitle = () => {
   }, [params.slug?.toString(), allFrontmatter]);
 
   const title = useMemo(() => {
+    if (customTitle) {
+      return customTitle;
+    }
+
     if (!frontmatter) {
       return null;
     }
 
     return getFrontmatterTitle(frontmatter);
-  }, [frontmatter]);
+  }, [frontmatter, customTitle]);
 
   const description = useMemo(() => {
+    if (customDescription) {
+      return customDescription;
+    }
+
     if (!frontmatter) {
       return null;
     }
 
     return getFrontmatterDescription(frontmatter, allFrontmatter);
-  }, [frontmatter, allFrontmatter]);
+  }, [frontmatter, allFrontmatter, customDescription]);
 
-  if (!frontmatter) {
+  if (!title && !description) {
     return null;
   }
 

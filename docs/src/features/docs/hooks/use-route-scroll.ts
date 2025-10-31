@@ -1,10 +1,8 @@
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef } from 'react';
 
-import type { SlugParams } from '../components/lnb/types';
-
 const useRouteScroll = (cb: () => void) => {
-  const params = useParams<SlugParams>();
+  const pathname = usePathname();
   const isTriggered = useRef(false);
 
   const handleRouteChange = useCallback(() => {
@@ -18,7 +16,7 @@ const useRouteScroll = (cb: () => void) => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug?.toString()]);
+  }, [pathname]);
 
   return {
     handleRouteChange,

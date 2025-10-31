@@ -13,13 +13,14 @@ import {
 } from '@wanteddev/wds';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { IconArrowLeft, IconClose } from '@wanteddev/wds-icon';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { sentenceCase } from 'change-case';
 
-import { useLnbContext } from '../contexts';
-import { isFrontmatter } from '../helpers';
+import { useMDXContext } from '@/features/docs/context';
+
 import LnbGroup from '../group';
 import LnbGroupItem from '../group/item';
+import { useLnbContext } from '../contexts';
 
 import {
   backButtonStyle,
@@ -32,17 +33,21 @@ import {
   wrapperStyle,
 } from './style';
 
-import type { SlugParams } from '../types';
-
 const LnbMobile = () => {
-  const params = useParams<SlugParams>();
+  const pathname = usePathname();
 
-  const { frontmatters, ...lnbMobile } = useLnbContext();
+  const lnbMobile = useLnbContext();
+
+  const { groupedPages } = useMDXContext();
+
+  const currentSlug = pathname.split('/').filter(Boolean);
+
+  const groupKey = currentSlug.at(1);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [focusedCategory, setFocusedCategory] = useState<string | null>(
-    params.slug?.at(0) ?? null,
+    groupKey ?? null,
   );
   const [previousFocusedCategory, setPreviousFocusedCategory] = useState<
     string | null
@@ -94,15 +99,15 @@ const LnbMobile = () => {
   }, [lnbMobile.open]);
 
   useEffect(() => {
-    if (!params.slug) {
+    if (!groupKey) {
       setFocusedCategory(null);
       setPreviousFocusedCategory(null);
       return;
     }
 
-    setFocusedCategory(params.slug.at(0) ?? null);
-    setPreviousFocusedCategory(params.slug.at(0) ?? null);
-  }, [params.slug]);
+    setFocusedCategory(groupKey);
+    setPreviousFocusedCategory(groupKey);
+  }, [groupKey]);
 
   return (
     <Modal open={lnbMobile.open} onOpenChange={lnbMobile.setOpen}>
@@ -203,24 +208,13 @@ const LnbMobile = () => {
                   flexDirection="column"
                   sx={focusedCategoryWrapperStyle}
                 >
-                  {frontmatters
-                    .filter(
-                      (frontmatter) =>
-                        frontmatter.key.replace(/ /g, '-').toLowerCase() ===
-                        focusedCategory,
-                    )
-                    .map((frontmatter, i) => {
-                      return (
-                        <LnbGroup
-                          key={
-                            isFrontmatter(frontmatter)
-                              ? frontmatter.slug.toString() + i
-                              : frontmatter.key + i
-                          }
-                          frontmatter={frontmatter}
-                        />
-                      );
-                    })}
+                  <LnbGroup
+                    frontmatters={
+                      groupedPages[focusedCategory]
+                        ? groupedPages[focusedCategory]
+                        : []
+                    }
+                  />
                 </FlexBox>
               )}
             </FlexBox>

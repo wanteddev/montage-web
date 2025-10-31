@@ -8,3 +8,10 @@ export type Frontmatter = {
   updatedAt?: string;
   isPrivate?: boolean;
 };
+
+export type GroupedPages = Record<
+  string,
+  Array<Frontmatter | Record<string, Array<Frontmatter>>>
+>;
+
+export type SlugParams = { slug?: Array<string> };

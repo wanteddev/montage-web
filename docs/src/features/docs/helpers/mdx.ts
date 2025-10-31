@@ -6,12 +6,8 @@ import remarkGfm from 'remark-gfm';
 import { serialize } from 'next-mdx-remote/serialize';
 import matter from 'gray-matter';
 
-import { shouldNotSerializeMDXFrontmatters } from '../constants';
-
 import { remarkStyle, remarkTable } from './remark';
-import { shouldNotSerializeMDX } from './overview';
 
-import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import type { Frontmatter } from '@/features/docs/types';
 
 const ROOT_PATH = process.cwd();
@@ -39,18 +35,6 @@ const getFilePaths = (slug: Array<string>) => [
 ];
 
 export const getFrontmatterBySlug = async (slug: Array<string>) => {
-  if (shouldNotSerializeMDX(slug)) {
-    const frontmatter = shouldNotSerializeMDXFrontmatters.find(
-      (item) => item.slug.toString() === slug.toString(),
-    );
-
-    if (!frontmatter) {
-      throw new Error(`${slug.join('/')} is not found`);
-    }
-
-    return frontmatter;
-  }
-
   const filePaths = getFilePaths(slug);
 
   const filePath = filePaths.find((path) => existsSync(path));
@@ -70,18 +54,15 @@ export const getFrontmatterBySlug = async (slug: Array<string>) => {
 export const getAllFrontmatter = async () => {
   const paths = globSync(`${DATA_PATH}/**/*.{mdx,md}`);
 
-  return [
-    ...paths.map((filePath) => {
-      const source = readFileSync(join(filePath), 'utf8');
-      const { data } = matter(source);
+  return paths.map((filePath) => {
+    const source = readFileSync(join(filePath), 'utf8');
+    const { data } = matter(source);
 
-      return {
-        ...(data as Frontmatter),
-        ...makeSlug(filePath),
-      } as Frontmatter;
-    }),
-    ...shouldNotSerializeMDXFrontmatters,
-  ];
+    return {
+      ...(data as Frontmatter),
+      ...makeSlug(filePath),
+    } as Frontmatter;
+  });
 };
 
 /**
@@ -106,20 +87,6 @@ const preprocessDemoCode = (source: string): string => {
 };
 
 export const getSourceBySlug = async (slug: Array<string>) => {
-  if (shouldNotSerializeMDX(slug)) {
-    const frontmatter = shouldNotSerializeMDXFrontmatters.find(
-      (item) => item.slug.toString() === slug.toString(),
-    );
-
-    if (!frontmatter) {
-      throw new Error(`${slug.join('/')} is not found`);
-    }
-
-    return {
-      frontmatter,
-    } as MDXRemoteSerializeResult<unknown, Frontmatter>;
-  }
-
   const filePaths = getFilePaths(slug);
 
   const filePath = filePaths.find((path) => existsSync(path));
@@ -137,16 +104,4 @@ export const getSourceBySlug = async (slug: Array<string>) => {
       remarkPlugins: [remarkGfm, remarkStyle, remarkTable],
     },
   });
-};
-
-export const findFrontmatterByParams = async (params: Array<string>) => {
-  if (params.length > 1 || params.length === 0) {
-    return;
-  }
-
-  const allFrontmatter = await getAllFrontmatter();
-
-  return allFrontmatter.find(
-    (frontmatter) => frontmatter.slug.at(0) === params.at(0),
-  );
 };

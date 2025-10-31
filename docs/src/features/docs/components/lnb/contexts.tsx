@@ -3,22 +3,17 @@ import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { createContext, useContext } from 'react';
 
-import { useLNBContent } from './hooks';
-
-import type { LNBFrontmatterGroup } from './types';
 import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
 
 const LnbContext = createContext<{
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  frontmatters: LNBFrontmatterGroup;
-}>({ open: false, setOpen: () => '', frontmatters: [] });
+}>({ open: false, setOpen: () => '' });
 
 export const useLnbContext = () => useContext(LnbContext);
 
 export const LnbProvider = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState(false);
-  const { frontmatters } = useLNBContent();
 
   const pathname = usePathname();
 
@@ -44,7 +39,7 @@ export const LnbProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <LnbContext.Provider value={{ open, setOpen, frontmatters }}>
+    <LnbContext.Provider value={{ open, setOpen }}>
       {children}
     </LnbContext.Provider>
   );

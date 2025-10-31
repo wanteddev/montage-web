@@ -1,30 +1,30 @@
 'use client';
 import { FlexBox, ScrollArea } from '@wanteddev/wds';
 import { useEffect, useRef } from 'react';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+
+import { useMDXContext } from '../../context';
 
 import { lnbWrapperStyle } from './style';
 import LnbGroup from './group';
-import { isFrontmatter } from './helpers';
-import { useLnbContext } from './contexts';
-
-import type { SlugParams } from './types';
 
 const Lnb = () => {
-  const params = useParams<SlugParams>();
+  const pathname = usePathname();
 
-  const { frontmatters } = useLnbContext();
+  const currentSlug = pathname.split('/').filter(Boolean);
 
-  const filteredFrontmatters = frontmatters.filter((item) => {
-    return item.key.replace(/ /g, '-').toLowerCase() === params.slug?.at(0);
-  });
+  const { groupedPages } = useMDXContext();
+
+  const groupKey = currentSlug.at(1);
+  const frontmatters =
+    groupKey && groupedPages[groupKey] ? groupedPages[groupKey] : [];
 
   const viewportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const viewport = viewportRef.current;
 
-    if (!viewport || params.slug?.length === 1) return;
+    if (!viewport || currentSlug.length === 1) return;
 
     const activeElement = viewport.querySelector<HTMLElement>(
       '[aria-current="page"]',
@@ -47,18 +47,7 @@ const Lnb = () => {
         flexDirection="column"
       >
         <FlexBox as="nav" flexDirection="column" justifyContent="center">
-          {filteredFrontmatters.map((frontmatter, i) => {
-            return (
-              <LnbGroup
-                key={
-                  isFrontmatter(frontmatter)
-                    ? frontmatter.slug.toString() + i
-                    : frontmatter.key + i
-                }
-                frontmatter={frontmatter}
-              />
-            );
-          })}
+          <LnbGroup frontmatters={frontmatters} />
         </FlexBox>
       </FlexBox>
     </ScrollArea>

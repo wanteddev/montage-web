@@ -23,7 +23,11 @@ const Footer = ({ sx }: Props) => {
       </Box>
 
       <FlexBox gap="40px">
-        <Box as={Link} href="#" sx={footerLinkStyle}>
+        <Box
+          as={Link}
+          href="/docs/getting-started/terms-of-use"
+          sx={footerLinkStyle}
+        >
           Terms of Use
         </Box>
       </FlexBox>

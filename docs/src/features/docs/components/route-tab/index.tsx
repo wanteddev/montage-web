@@ -1,5 +1,6 @@
+'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Box, Tab, TabList, TabListItem } from '@wanteddev/wds';
 import Link from 'next/link';
 
@@ -11,7 +12,6 @@ import useRouteScroll from '../../hooks/use-route-scroll';
 import { tabScrollStyle, tabStyle } from './style';
 
 import type { SxProp } from '@wanteddev/wds';
-import type { SlugParams } from '../lnb/types';
 
 type Props = {
   tabs: Array<{
@@ -22,23 +22,22 @@ type Props = {
 };
 
 const RouteTab = ({ tabs, sx }: Props) => {
-  const params = useParams<SlugParams>();
+  const pathname = usePathname();
   const tabRef = useRef<HTMLDivElement>(null);
 
   const [isSticky, setIsSticky] = useState(false);
 
-  const [value, setValue] = useState(`/docs/${params.slug?.join('/')}`);
-
-  useEffect(() => {
-    setValue(`/docs/${params.slug?.join('/')}`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.slug?.toString()]);
+  const [value, setValue] = useState(pathname);
 
   const handleScroll = useThrottle(() => {
     const top = tabRef.current?.getBoundingClientRect().top ?? GNB_HEIGHT + 1;
 
     setIsSticky(top <= GNB_HEIGHT);
   }, 250);
+
+  useEffect(() => {
+    setValue(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     handleScroll();
@@ -50,8 +49,7 @@ const RouteTab = ({ tabs, sx }: Props) => {
       document.removeEventListener('scroll', handleScroll);
       document.removeEventListener('resize', handleScroll);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setIsSticky, handleScroll, params.slug?.toString()]);
+  }, [setIsSticky, handleScroll, pathname]);
 
   const { handleRouteChange } = useRouteScroll(
     useCallback(() => {

@@ -9,10 +9,12 @@ import {
 } from '@wanteddev/wds';
 import { IconMenu, IconMoon, IconSearch, IconSun } from '@wanteddev/wds-icon';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import { useCallback } from 'react';
 
 import Logo from '@/assets/logo';
 import { useLnbContext } from '@/features/docs/components/lnb/contexts';
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import {
   gnbActionsStyle,
@@ -26,16 +28,20 @@ import { useSearch } from './hooks';
 import { DocSearchModal } from './search-modal';
 import { GNB_NAVIGATION_LINKS } from './constants';
 
-import type { SlugParams } from '@/features/docs/components/lnb/types';
-
 const Gnb = () => {
   const { setTheme, theme: currentTheme } = useThemeControl();
-
-  const params = useParams<SlugParams>();
+  const pathname = usePathname();
+  const [, ...currentSlug] = pathname.split('/').filter(Boolean);
 
   const lnbContext = useLnbContext();
 
   const { isOpen, handleOpen, handleOpenChange } = useSearch();
+
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
 
   return (
     <>
@@ -83,8 +89,9 @@ const Gnb = () => {
                   key={link.href}
                   variant="body2"
                   weight="bold"
+                  onClick={handleRouteChange}
                   aria-current={
-                    params.slug?.at(0) === link.slug ? 'page' : undefined
+                    currentSlug.at(0) === link.slug ? 'page' : undefined
                   }
                   color="semantic.label.alternative"
                   data-role="gnb-navigation-link"

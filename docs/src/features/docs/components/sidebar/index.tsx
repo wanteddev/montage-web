@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
 
@@ -16,7 +16,7 @@ import { sidebarContentStyle, sidebarStyle } from './style';
 import { getHeadingLevel } from './helpers';
 
 const Sidebar = () => {
-  const params = useParams<{ slug: Array<string> }>();
+  const pathname = usePathname();
   const [headings, setHeadings] = useState<
     Array<{ nodeName: string; id: string; text: string }>
   >([]);
@@ -33,7 +33,7 @@ const Sidebar = () => {
 
       setHeadings(headingElements);
     });
-  }, [params.slug]);
+  }, [pathname]);
 
   const headingElements = useMemo(() => {
     return headings.filter(

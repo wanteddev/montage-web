@@ -1,6 +1,6 @@
 import { sentenceCase } from 'change-case';
 
-import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../components/lnb/constants';
+import { PLATFORM_PATTERN_WITHOUT_DESIGN } from '../constants';
 
 import type { Frontmatter } from '@/features/docs/types';
 
@@ -28,6 +28,16 @@ export const getFrontmatterTitle = (
     title = sentenceCase(title);
   }
   if (item.title.match(/ios/gi)) {
+    title = title.replace(/ios/gi, 'iOS');
+  }
+
+  return title;
+};
+
+export const getFrontmatterGroupKey = (key: string) => {
+  let title = sentenceCase(key);
+
+  if (key.match(/ios/gi)) {
     title = title.replace(/ios/gi, 'iOS');
   }
 

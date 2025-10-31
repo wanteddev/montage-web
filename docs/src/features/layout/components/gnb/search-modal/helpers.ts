@@ -1,5 +1,5 @@
 import { getFrontmatterTitle } from '@/features/docs/helpers/mdx.client';
-import { PLATFORM_PATTERN } from '@/features/docs/components/lnb/constants';
+import { PLATFORM_PATTERN } from '@/features/docs/constants';
 
 import type { Frontmatter } from '@/features/docs/types';
 import type {

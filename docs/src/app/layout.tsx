@@ -3,6 +3,7 @@ import { MDXProvider } from '@/features/docs/context';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { generatePropTypes } from '@/features/docs/helpers/props';
 import LnbMobile from '@/features/docs/components/lnb/mobile';
+import { parseGroupedPages } from '@/features/docs/helpers/pages';
 
 import Providers from './providers';
 
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 
 const RootLayout = async ({ children }: LayoutProps<'/'>) => {
   const allFrontmatter = await getAllFrontmatter();
+  const groupedPages = parseGroupedPages(allFrontmatter);
 
   const propTypes = generatePropTypes();
 
@@ -157,7 +159,11 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
         />
       </head>
       <body suppressHydrationWarning>
-        <MDXProvider propTypes={propTypes} allFrontmatter={allFrontmatter}>
+        <MDXProvider
+          propTypes={propTypes}
+          allFrontmatter={allFrontmatter}
+          groupedPages={groupedPages}
+        >
           <Providers>
             <LnbMobile />
 

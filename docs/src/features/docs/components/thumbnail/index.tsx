@@ -11,7 +11,12 @@ import { thumbnailStyle } from './style';
 
 import type { SlugParams } from '../lnb/types';
 
-const DocsThumbnail = () => {
+type Props = {
+  src?: string;
+  alt?: string;
+};
+
+const DocsThumbnail = ({ src, alt }: Props) => {
   const { allFrontmatter } = useMDXContext();
   const { slug = [] } = useParams<SlugParams>();
 
@@ -21,12 +26,16 @@ const DocsThumbnail = () => {
   }, [slug.toString(), allFrontmatter]);
 
   const image = useMemo(() => {
+    if (src) {
+      return src;
+    }
+
     if (!frontmatter) {
       return null;
     }
 
     return getFrontmatterImage(frontmatter, allFrontmatter);
-  }, [frontmatter, allFrontmatter]);
+  }, [frontmatter, allFrontmatter, src]);
 
   if (!image) {
     return null;
@@ -39,7 +48,7 @@ const DocsThumbnail = () => {
         src={image}
         width={760}
         height={326}
-        alt={frontmatter?.title ?? 'thumbnail'}
+        alt={alt ?? frontmatter?.title ?? 'thumbnail'}
         fetchPriority="high"
         priority
       />
