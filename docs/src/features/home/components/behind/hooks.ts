@@ -12,12 +12,16 @@ export const useCarouselAnimation = () => {
 
     containerRef.current?.childNodes.forEach((child, index) => {
       if (child instanceof HTMLElement) {
-        child.animate(keyframes, {
-          easing: 'cubic-bezier(0.4, 0.14, 0.3, 1)',
-          fill: 'both',
-          duration: 600,
-          delay: (index + 1) * 100,
-        });
+        child
+          .animate(keyframes, {
+            easing: 'cubic-bezier(0.4, 0.14, 0.3, 1)',
+            fill: 'both',
+            duration: 600,
+            delay: (index + 1) * 100,
+          })
+          .addEventListener('finish', () => {
+            child.setAttribute('data-animation-state', 'animation-end');
+          });
       }
     });
 

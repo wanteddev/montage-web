@@ -24,7 +24,7 @@ const Filter = ({ filterId, ...props }: Props) => {
       ]}
     >
       <filter id={filterId} x="-10%" y="-10%" width="120%" height="120%">
-        <feOffset in="SourceGraphic" dx="2" dy="0" result="offsetR" />
+        <feOffset in="SourceGraphic" dx="1" dy="0" result="offsetR" />
         <feColorMatrix
           in="offsetR"
           type="matrix"
@@ -39,7 +39,7 @@ const Filter = ({ filterId, ...props }: Props) => {
           result="greenChannel"
         />
 
-        <feOffset in="SourceGraphic" dx="-2" dy="0" result="offsetB" />
+        <feOffset in="SourceGraphic" dx="-1" dy="0" result="offsetB" />
         <feColorMatrix
           in="offsetB"
           type="matrix"

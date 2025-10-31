@@ -46,7 +46,9 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
       sx={[
         carouselItemStyle,
         {
-          ['[data-animation-state="animation-pending"]']: { opacity: 0 },
+          [':not([data-animation-state="animation-end"])']: {
+            opacity: 0,
+          },
         },
       ]}
       flexDirection="column"
@@ -68,17 +70,20 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
           sx={thumbnailStyle}
         />
 
-        <Filter filterId={filterId} aria-hidden />
-
         <Box
           ref={glassRef}
           sx={glassEffectStyle}
+          data-role="glass-effect"
           style={{
-            backdropFilter: `url(#${filterId}) blur(0px) brightness(1) saturate(1.75)`,
+            backdropFilter: isMouseOver
+              ? `url(#${filterId}) blur(0px) brightness(1) saturate(1.75)`
+              : 'none',
             transform: `translate(${position.x}px, ${position.y}px)`,
             display: isMouseOver ? 'block' : 'none',
+            willChange: 'backdrop-filter',
           }}
         >
+          <Filter filterId={filterId} aria-hidden />
           <Box sx={glassShadowEffectStyle} />
         </Box>
       </FlexBox>

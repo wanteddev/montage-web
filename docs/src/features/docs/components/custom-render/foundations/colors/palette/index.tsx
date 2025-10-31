@@ -13,7 +13,6 @@ import { breakWordStyle } from '@/styles/text';
 import TokenPopover from '../../../token-popover';
 
 import {
-  paletteColorBackgroundStyle,
   paletteColorStyle,
   paletteInfoTableStyle,
   paletteWrapperStyle,
@@ -76,17 +75,12 @@ const PaletteItem = ({
             {
               '--background-position-x': position.x,
               '--background-position-y': position.y,
-              '--background-color': color,
+              '--background-color': `linear-gradient(${color}, ${color})`,
               '--border-left': border.left,
               '--border-right': border.right,
             } as CSSProperties
           }
-        >
-          <Box
-            data-role="palette-color-background"
-            sx={paletteColorBackgroundStyle}
-          />
-        </Box>
+        />
       </PopoverTrigger>
 
       <TokenPopover

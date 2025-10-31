@@ -2,13 +2,21 @@ import { css, respondTo, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const paletteWrapperStyle = css`
-  display: grid;
-  grid-gap: 24px 0px;
-  grid-template-columns: repeat(auto-fit, minmax(30px, 1fr));
+export const paletteWrapperStyle = (theme: Theme) => css`
+  & > * {
+    flex: 1 1 0;
+  }
 
   ${respondTo('860px')} {
-    grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+    & > * {
+      min-width: 20%;
+    }
+  }
+
+  ${respondTo(theme.breakpoint.sm)} {
+    & > * {
+      min-width: 33%;
+    }
   }
 `;
 
@@ -17,28 +25,34 @@ export const paletteColorStyle = (theme: Theme) => css`
   height: 32px;
   border: none;
   position: relative;
-  transform-origin: bottom;
   background-color: transparent;
-  transition: transform 0.3s ease;
 
   &:hover,
   &[aria-expanded='true'] {
-    transform: scaleY(1.25);
+    &::after {
+      height: calc(100% + 8px);
+    }
   }
 
   &::after {
     content: '';
     position: absolute;
-    transform: translate3d(0, 0, 0);
-    inset: 0;
-    pointer-events: none;
-    z-index: -1;
+    transition: height 0.3s ease;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
     width: 100%;
     height: 100%;
-    will-change: transform;
-    background-color: ${theme.semantic.background.normal.normal};
     border-radius: inherit;
-    background-image: linear-gradient(
+    border-style: solid;
+    border-color: ${theme.semantic.line.normal.alternative};
+    border-left-width: var(--border-left);
+    border-right-width: var(--border-right);
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    background-color: ${theme.semantic.background.normal.normal};
+    background-image: var(--background-color),
+      linear-gradient(
         45deg,
         ${theme.semantic.background.normal.alternative} 25%,
         transparent 25%
@@ -59,6 +73,7 @@ export const paletteColorStyle = (theme: Theme) => css`
         ${theme.semantic.background.normal.alternative} 75%
       );
     background-position:
+      0 0,
       calc(var(--background-position-x) * -1)
         calc(var(--background-position-y) * -1),
       calc(10px - var(--background-position-x))
@@ -67,26 +82,13 @@ export const paletteColorStyle = (theme: Theme) => css`
         calc(10px - var(--background-position-y)),
       calc(var(--background-position-x) * -1)
         calc(10px - var(--background-position-y));
-    background-size: 20px 20px;
+    background-size:
+      100% 100%,
+      20px 20px,
+      20px 20px,
+      20px 20px,
+      20px 20px;
   }
-`;
-
-export const paletteColorBackgroundStyle = (theme: Theme) => css`
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  transform: translate3d(0, 0, 0);
-  will-change: transform;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  background-color: var(--background-color);
-  border-style: solid;
-  border-color: ${theme.semantic.line.normal.alternative};
-  border-left-width: var(--border-left);
-  border-right-width: var(--border-right);
-  border-top-width: 1px;
-  border-bottom-width: 1px;
 `;
 
 export const paletteInfoTableStyle = (theme: Theme) => css`

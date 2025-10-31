@@ -1,10 +1,7 @@
 import { FlexBox, List, Typography } from '@wanteddev/wds';
 
-import { RECENT_SEARCHES_SOURCE_ID } from '../constants';
-
 import SearchOption from './option';
 import SearchResultEmpty from './empty';
-import SearchResultInitial from './initial';
 
 import type { HTMLAttributes } from 'react';
 import type { AutocompletePropGetters } from '@algolia/autocomplete-core';
@@ -26,21 +23,10 @@ const SearchResults = ({
   state,
   getItemProps,
   isEmpty,
-  isQueryEmpty,
   recentSearchRemove,
 }: Props) => {
   if (isEmpty) {
     return <SearchResultEmpty query={state.query} />;
-  }
-
-  const firstCollections = state.collections[0];
-
-  if (
-    (isQueryEmpty ||
-      firstCollections?.source.sourceId === RECENT_SEARCHES_SOURCE_ID) &&
-    !firstCollections?.items.length
-  ) {
-    return <SearchResultInitial />;
   }
 
   return (

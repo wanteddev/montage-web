@@ -12,7 +12,6 @@ import {
   parseFrontmatterToDocSearchHit,
   sortByText,
 } from './helpers';
-import { RECENT_SEARCHES_SOURCE_ID } from './constants';
 
 import type { OnSelectParams } from '@algolia/autocomplete-core';
 import type { SearchResponse } from 'algoliasearch/lite';
@@ -140,7 +139,7 @@ export const useDocSearch = ({
           if (!query) {
             return [
               {
-                sourceId: RECENT_SEARCHES_SOURCE_ID,
+                sourceId: 'Recent Searches',
                 onSelect: handleSelect,
                 getItemUrl: ({ item }) => {
                   return item.url;

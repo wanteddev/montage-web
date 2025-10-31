@@ -21,7 +21,7 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
   const propTypes = generatePropTypes();
 
   return (
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning lang="ko">
       <head>
         <meta
           name="viewport"
