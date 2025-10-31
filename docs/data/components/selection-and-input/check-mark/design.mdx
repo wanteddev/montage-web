@@ -27,6 +27,7 @@ updatedAt: 2025-10-14
       <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
         <FormControl>
           <CheckMark
+            defaultChecked
             size="${size}"
             tight={${tight}}
           />
@@ -63,7 +64,6 @@ updatedAt: 2025-10-14
 
 <SectionLayout title="Clickable area">
   <SectionFigure
-    title="Usage"
     ratio="21:9"
     description="Checkmark의 Label까지 인터랙션 영역에 포함됩니다. Label에 Hover 시 Control 영역에 인터랙션이 적용됩니다."
     src="/components/selection-and-input/check-mark/design/Image-2.png"
@@ -72,7 +72,6 @@ updatedAt: 2025-10-14
 
 <SectionLayout title="Information confirm">
   <SectionFigure
-    title="Usage"
     ratio="16:10"
     description="약관이나 특정 내용의 숙지 여부를 확인하는 용도로 사용합니다. Inactive를 기본 값으로 권장하지만, 상황에 따라 Active를 기본값으로 둘 수 있습니다."
     src="/components/selection-and-input/check-mark/design/Image-3.png"
@@ -81,7 +80,6 @@ updatedAt: 2025-10-14
 
 <SectionLayout title="Gap">
   <SectionFigure
-    title="Usage"
     ratio="2:1"
     description="반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 간격을 두는 것을 권장합니다.
 간격을 8px 이상으로 조절할 시에는 4배수 단위로 높입니다."

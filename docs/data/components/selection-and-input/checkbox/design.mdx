@@ -86,21 +86,20 @@ updatedAt: 2025-10-14
 <SectionHierarchy title="Check hierarchy">
   <SectionHierarchyItem
     level={2}
-    description="Solid는 Active 상태에서 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다."
+    description="상위 항목의 동의 및 선택 여부를 표현합니다."
     components={['FormField', 'FormControl', 'FormLabel', 'Checkbox']}
-    render={`<FormField flexDirection="row" gap="8px"><FormControl><Checkbox /></FormControl><FormLabel sx={{ padding: "1px 0px" }}>Medium</FormLabel></FormField>`}
+    render={`<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox defaultChecked /></FormControl><FormLabel sx={{ padding: "1px 0px" }}>Medium</FormLabel></FormField>`}
   />
   <SectionHierarchyItem
     level={1}
-    description="Outlined는 Active 상태에서 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다."
+    description="하위 항목의 동의 및 선택 여부를 표현합니다."
     components={['FormField', 'FormControl', 'FormLabel', 'Checkbox']}
-    render={`<FormField flexDirection="row" gap="8px"><FormControl><Checkbox size="small" /></FormControl><FormLabel>Small</FormLabel></FormField>`}
+    render={`<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox size="small" defaultChecked /></FormControl><FormLabel>Small</FormLabel></FormField>`}
   />
 </SectionHierarchy>
 
 <SectionLayout title="Gap">
   <SectionFigure
-    title="Usage"
     ratio="2:1"
     description="반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 간격을 두는 것을 권장합니다.
 간격을 8px 이상으로 조절할 시에는 4배수 단위로 변경합니다."

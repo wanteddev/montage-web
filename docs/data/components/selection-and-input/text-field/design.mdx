@@ -45,7 +45,7 @@ updatedAt: 2025-10-13
         break;
       case 'Badge':
         trailingContent =
-          '<TextFieldContent variant="badge"><ContentBadge color="neutral">Badge</ContentBadge></TextFieldContent>';
+          '<TextFieldContent variant="badge" sx={{padding: "2px 0px"}}><ContentBadge color="neutral">Badge</ContentBadge></TextFieldContent>';
         break;
       case 'Text':
         trailingContent =
@@ -123,8 +123,7 @@ updatedAt: 2025-10-13
   <SectionFigureGroup title="Card number">
     <SectionFigure
       ratio="21:9"
-      description="카드번호 16자 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다.
-컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
+      description="카드번호 16자 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다. 컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
       src="/components/selection-and-input/text-field/design/Image-3.png"
     />
   </SectionFigureGroup>
@@ -132,7 +131,7 @@ updatedAt: 2025-10-13
   <SectionFigureGroup title="Date">
     <SectionFigure
       ratio="21:9"
-      description="날짜를 직접 입력할 시 YYYY. MM. DD 양식 사용을 권장하며, 가급적 Text input을 기반으로 한 Date picker 컴포넌트를 사용을 권장합니다."
+      description="날짜를 직접 입력할 시 YYYY. MM. DD 양식 사용을 권장하며, 가급적 Text input을 기반으로 한 Date picker 컴포넌트 사용을 권장합니다."
       src="/components/selection-and-input/text-field/design/Image-4.png"
     />
   </SectionFigureGroup>
@@ -141,7 +140,7 @@ updatedAt: 2025-10-13
 <SectionLayout title="Gap">
   <SectionFigure
     ratio="16:10"
-    description="필드간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다. 단, 레이아웃이 제한적인 상황일 경우 필드가 고정으로 위치하여 Description 만큼 간격이 줄어들 수 있습니다."
+    description="필드 간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다. 단, 레이아웃이 제한적인 상황일 경우 필드가 고정으로 위치하여 Description 만큼 간격이 줄어들 수 있습니다."
     src="/components/selection-and-input/text-field/design/Image-5.png"
   />
 </SectionLayout>
@@ -180,7 +179,7 @@ updatedAt: 2025-10-13
   <SectionFigureGroup title="Certification">
     <SectionFigure
       ratio="3:2"
-      description="Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다. 행동을 유도하는 발송, 재발송과 같은 특정 행동을 유도하는 버튼은 Normal을 사용하며 행동을 종료하는 ‘확인’은 Assistive를 권장합니다. 일정 시간 이후필드의 버튼과 타이머가 비활성화 됩니다."
+      description="Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다. 행동을 유도하는 발송, 재발송과 같은 특정 행동을 유도하는 버튼은 Normal을 사용하며 행동을 종료하는 ‘확인’은 Assistive를 권장합니다. 일정 시간 이후 필드의 버튼과 타이머가 비활성화 됩니다."
       src="/components/selection-and-input/text-field/design/Image-10.png"
     />
   </SectionFigureGroup>

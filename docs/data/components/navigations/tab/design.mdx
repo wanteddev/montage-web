@@ -1,6 +1,6 @@
 ---
 title: Tab
-description: 관련된 콘텐츠를 그룹화하고, 한 번에 하나의 콘텐츠만 표시하는 네비게이션 요소입니다. 제한된 공간에서\n여러 정보를 효율적으로 구성할 때 사용하며, 사용자가 콘텐츠 간 빠르게 전환할 수 있도록 돕습니다.
+description: "관련된 콘텐츠를 그룹화하고, 한 번에 하나의 콘텐츠만 표시하는 네비게이션 요소입니다. 제한된 공간에서\n여러 정보를 효율적으로 구성할 때 사용하며, 사용자가 콘텐츠 간 빠르게 전환할 수 있도록 돕습니다."
 createdAt: 2025-10-02
 updatedAt: 2025-10-02
 image: /components/navigations/tab/design/Thumbnail.png
@@ -8,7 +8,7 @@ image: /components/navigations/tab/design/Thumbnail.png
 
 <SectionAnatomy
   src="/components/navigations/tab/design/Image.png"
-  ratio="16:9"
+  ratio="21:9"
   data={[
     'Selection indicator',
     'Active tab',
@@ -142,7 +142,7 @@ image: /components/navigations/tab/design/Thumbnail.png
 - 횡스크롤 시 맨 끝 좌측, 우측에 기본 여백을 확보합니다.
 
 <strong>Horizontal padding= False</strong>
-요소를 감싸는 Container가 여백을 포함하고 있을 경우 해당 옵션을 사용하지 않습니다."
+- 요소를 감싸는 Container가 여백을 포함하고 있을 경우 해당 옵션을 사용하지 않습니다."
     src="/components/navigations/tab/design/Image-5.png"
   />
 </SectionLayout>
@@ -196,7 +196,7 @@ image: /components/navigations/tab/design/Thumbnail.png
     level={2}
     description="화면의 최상단 영역에서 내려지는 콘텐츠를 구분합니다."
     components={['Tab', 'TabList', 'TabListItem']}
-    render={`<Tab value=""><TabList size="large" resize="fill" sx={{ width: "81px" }}><TabListItem value="">Tab</TabListItem></TabList></Tab>`}
+    render={`<Tab value=""><TabList size="large" resize="fill" sx={{ width: "81px", height: "fit-content" }}><TabListItem value="">Tab</TabListItem></TabList></Tab>`}
   />
   <SectionHierarchyItem
     level={1}
