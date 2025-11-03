@@ -190,6 +190,11 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
+      <Divider
+        color="semantic.line.normal.alternative"
+        sx={{ '&&': { marginBlock: '64px' } }}
+      />
+
       <Heading2 content="7. 약관의 변경" />
 
       <Box as="ul">

@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -14,6 +14,12 @@ export const tabStyle = (theme: Theme) => css`
   top: calc(var(--gnb-height));
   z-index: 12;
   background-color: ${theme.semantic.background.normal.normal};
+
+  ${respondTo('840px')} {
+    width: calc(100% + var(--layout-padding-inline) * 2);
+    padding-inline: var(--layout-padding-inline);
+    margin-left: calc(var(--layout-padding-inline) * -1);
+  }
 
   & + h1,
   & + h2,
