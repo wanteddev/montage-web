@@ -31,7 +31,10 @@ const DocsSummary = () => {
     return pages
       .map((page) => {
         return {
-          title: sentenceCase(page.slug.at(page.slug.length - 1)!),
+          title: sentenceCase(page.slug.at(page.slug.length - 1)!).replace(
+            /ios/i,
+            'iOS',
+          ),
           value: `/docs/${page.slug.join('/')}`,
         };
       })

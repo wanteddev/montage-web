@@ -132,11 +132,13 @@ export const mdxRootStyle = (theme: Theme) => css`
           margin-bottom: 16px;
         }
 
-        p + [data-role='table'] {
+        p + [data-role='table'],
+        strong + [data-role='table'] {
           margin-top: 16px;
         }
 
-        p + [data-role='pre'] {
+        p + [data-role='pre'],
+        strong + [data-role='pre'] {
           margin-top: 16px;
           margin-bottom: 16px;
         }
