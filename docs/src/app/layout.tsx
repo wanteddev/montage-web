@@ -157,6 +157,15 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           href={`https://${process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION?.toLowerCase()}-dsn.algolia.net`}
           crossOrigin="anonymous"
         />
+
+        <meta
+          name="google-site-verification"
+          content="yAUUR_mmN8bfpt8PpS9a0CACVDLOlNTgwYCyP1gSgpk"
+        />
+        <meta
+          name="naver-site-verification"
+          content="6479dc6aadc2e9ca474d02be49faeb0a69c0ad45"
+        />
       </head>
       <body suppressHydrationWarning>
         <MDXProvider
