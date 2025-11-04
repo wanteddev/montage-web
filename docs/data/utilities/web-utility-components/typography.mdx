@@ -34,10 +34,9 @@ const variants = [
 ];
 const weights = ['regular', 'medium', 'bold'];
 
-
 const Demo = () => {
   return (
-    <FlexBox flexDirection="column" gap="8px">
+    <FlexBox flexDirection="column" gap="8px" sx={{ width: '100%' }}>
       {variants.map((variant) => (
         <Grid
           spacing={4}

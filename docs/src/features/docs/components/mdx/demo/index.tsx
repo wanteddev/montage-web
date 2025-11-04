@@ -55,6 +55,7 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
     >
       <ScrollArea
         scrollbars="horizontal"
+        sx={hideCode && { borderRadius: 'inherit' }}
         viewportProps={{ sx: demoStyle({ hideCode, isTransparent }) }}
       >
         <FlexBox alignItems="center" flexDirection="column">
