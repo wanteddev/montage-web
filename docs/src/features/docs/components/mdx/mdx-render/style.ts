@@ -127,6 +127,21 @@ export const mdxRootStyle = (theme: Theme) => css`
         font-size: 0.8em;
       }
 
+      li {
+        [data-role='table'] {
+          margin-bottom: 16px;
+        }
+
+        p + [data-role='table'] {
+          margin-top: 16px;
+        }
+
+        p + [data-role='pre'] {
+          margin-top: 16px;
+          margin-bottom: 16px;
+        }
+      }
+
       ol:not([class]),
       ul:not([class]),
       p {

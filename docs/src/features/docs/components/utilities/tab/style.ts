@@ -4,7 +4,7 @@ export const wrapperStyle = css`
   margin-block: 40px 64px;
   border-radius: 24px;
   overflow: hidden;
-  aspect-ratio: 380/113;
+  aspect-ratio: 95 / 29;
   position: relative;
 
   img {

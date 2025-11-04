@@ -22,7 +22,7 @@ const GettingStarted = () => {
         }}
       />
 
-      <Heading2 content="What's Montage" />
+      <Heading2 content="What is Montage" />
 
       <Typography
         variant="body2-reading"
@@ -31,7 +31,8 @@ const GettingStarted = () => {
         as="p"
         sx={descriptionStyle}
       >
-        {`원티드가 꿈꿔온 세상은, 모든 일하는 사람이 더 나답게 일할 수 있는 세상입니다. 그 꿈에 한 걸음 더 다가가기 위해, 우리는 디자인 시스템을 만들었습니다.`}
+        {`원티드가 꿈꿔온 세상은, 모든 일하는 사람이 더 나답게 일할 수 있는 세상입니다.
+        그 꿈에 한 걸음 더 다가가기 위해, 우리는 디자인 시스템을 만들었습니다.`}
         <br />
         <br />
         <Typography variant="body2-reading" weight="bold" as="strong">

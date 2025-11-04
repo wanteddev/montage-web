@@ -1,7 +1,6 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Typography } from '@wanteddev/wds';
 
-import { GUIDE_ITEMS } from './constants';
-import { guideIndexStyle, listStyle } from './style';
+import { guideIndexStyle, guideLinkStyle } from './style';
 
 const Steps = () => {
   return (
@@ -27,30 +26,103 @@ const Steps = () => {
         </Typography>
       </FlexBox>
 
-      <FlexBox flexDirection="column" gap="16px" sx={{ paddingBlock: '24px' }}>
-        {GUIDE_ITEMS.map((item, idx) => (
-          <FlexBox key={idx} as="ul" sx={listStyle}>
-            <Typography
-              variant="label1"
-              weight="bold"
-              color="semantic.background.normal.normal"
-              align="center"
-              sx={guideIndexStyle}
-            >
-              {idx + 1}
-            </Typography>
+      <FlexBox
+        role="list"
+        flexDirection="column"
+        gap="16px"
+        sx={{ paddingBlock: '24px' }}
+      >
+        <FlexBox role="listitem" gap="8px">
+          <Typography
+            variant="label1"
+            weight="bold"
+            color="semantic.background.normal.normal"
+            align="center"
+            sx={guideIndexStyle}
+          >
+            1
+          </Typography>
 
-            <Typography
-              as="li"
-              variant="label1"
-              weight="medium"
-              color="semantic.label.neutral"
-              sx={{ listStyle: 'none' }}
+          <Typography
+            variant="label1"
+            weight="medium"
+            color="semantic.label.neutral"
+          >
+            몽타주의 가이드 문서와 Figma의{' '}
+            <Box
+              as="a"
+              href="https://www.figma.com/community/file/1355516515676178246"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={guideLinkStyle}
             >
-              {item}
-            </Typography>
-          </FlexBox>
-        ))}
+              디자인 라이브러리
+            </Box>
+            를 함께 보며 학습해보세요.
+          </Typography>
+        </FlexBox>
+
+        <FlexBox role="listitem" gap="8px">
+          <Typography
+            variant="label1"
+            weight="bold"
+            color="semantic.background.normal.normal"
+            align="center"
+            sx={guideIndexStyle}
+          >
+            2
+          </Typography>
+
+          <Typography
+            variant="label1"
+            weight="medium"
+            color="semantic.label.neutral"
+          >
+            가이드 문서와 디자인 라이브러리의 보라색 영역은 Slot(Customize)
+            영역을 표현합니다.
+          </Typography>
+        </FlexBox>
+
+        <FlexBox role="listitem" gap="8px">
+          <Typography
+            variant="label1"
+            weight="bold"
+            color="semantic.background.normal.normal"
+            align="center"
+            sx={guideIndexStyle}
+          >
+            3
+          </Typography>
+
+          <Typography
+            variant="label1"
+            weight="medium"
+            color="semantic.label.neutral"
+          >
+            사이즈와 같이 규격에 대한 정보는 빨간색으로 인지할 수 있습니다.
+          </Typography>
+        </FlexBox>
+
+        <FlexBox role="listitem" gap="8px">
+          <Typography
+            variant="label1"
+            weight="bold"
+            color="semantic.background.normal.normal"
+            align="center"
+            sx={guideIndexStyle}
+          >
+            4
+          </Typography>
+
+          <Typography
+            variant="label1"
+            weight="medium"
+            color="semantic.label.neutral"
+          >
+            다수 활용하거나 추가가 필요할 것 같은 기능이 있다면 의견을
+            남겨주세요.
+          </Typography>
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   );

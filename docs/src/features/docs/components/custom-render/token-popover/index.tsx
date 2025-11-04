@@ -14,6 +14,7 @@ import type { PropsWithChildren, ReactNode } from 'react';
 
 type Props = PropsWithChildren<{
   title: string;
+  leadingContent?: ReactNode;
   trailingContent?: ReactNode;
   offset?: number;
 }>;
@@ -22,6 +23,7 @@ const TokenPopover = ({
   title,
   children,
   trailingContent,
+  leadingContent,
   offset = 4,
 }: Props) => {
   const { theme } = useThemeControl();
@@ -37,7 +39,9 @@ const TokenPopover = ({
       <FlexBox gap="20px" flexDirection="column">
         <FlexBox gap="8px" justifyContent="space-between">
           <FlexBox gap="12px" alignItems="center">
-            {theme === 'light' ? (
+            {leadingContent !== undefined ? (
+              leadingContent
+            ) : theme === 'light' ? (
               <IconSun sx={popoverIconStyle} />
             ) : (
               <IconMoon sx={popoverIconStyle} />

@@ -11,11 +11,11 @@ export const guideIndexStyle = (theme: Theme) => css`
   flex-shrink: 0;
 `;
 
-export const listStyle = css`
-  && {
-    padding: 0;
-    margin: 0;
-    flex-direction: row;
-    gap: 8px;
-  }
+export const guideLinkStyle = css`
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-skip-ink: auto;
+  text-decoration-thickness: auto;
+  text-underline-offset: auto;
+  text-underline-position: from-font;
 `;

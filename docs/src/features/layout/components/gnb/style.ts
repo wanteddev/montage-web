@@ -1,4 +1,4 @@
-import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
+import { css, respondMore, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -9,11 +9,7 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   width: 100%;
   height: var(--gnb-height);
   padding: 12px var(--layout-padding-inline);
-  backdrop-filter: blur(32px);
-  background-color: ${addOpacity(
-    theme.semantic.background.normal.normal,
-    theme.opacity[88],
-  )};
+  background-color: ${theme.semantic.background.normal.normal};
 `;
 
 export const gnbContainerStyle = css`

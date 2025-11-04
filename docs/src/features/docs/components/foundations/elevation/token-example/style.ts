@@ -26,6 +26,10 @@ export const triggerStyle = (theme: Theme) => css`
     }
   }
 
+  &[aria-expanded='true'] {
+    box-shadow: ${theme.semantic.elevation.shadow.normal.small};
+  }
+
   &:disabled {
     cursor: initial;
   }

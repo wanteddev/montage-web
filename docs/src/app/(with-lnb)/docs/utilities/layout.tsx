@@ -7,7 +7,7 @@ import type { PropsWithChildren } from 'react';
 
 const TITLE = 'Utilities';
 const DESCRIPTION =
-  '파운데이션은 모든 디자인 요소의 기반이 되는 가장 원자적인 단위들입니다.\n컬러, 타이포그래피, 스페이싱, 그리드 등 시각적 언어의 최소 단위들로 구성됩니다.';
+  '디자인 시스템 전반에서 반복적으로 사용되는 보조 기능과 스타일링 도구들의 모음입니다.\nUI 개발 시 필수적인 헬퍼 함수와 유틸리티 클래스들을 제공합니다.';
 
 export const generateMetadata = (): Metadata =>
   createMetadata({

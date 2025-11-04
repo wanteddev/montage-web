@@ -62,6 +62,7 @@ const TokenExample = ({ items }: Props) => {
               {sentenceCase(item.key)}
             </Typography>
             <TokenPopover
+              leadingContent={null}
               offset={8}
               title={pathCase(item.token).replace(/^./, (c) => c.toUpperCase())}
             >

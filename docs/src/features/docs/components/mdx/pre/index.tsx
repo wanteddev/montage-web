@@ -8,7 +8,7 @@ type Props = ComponentProps<'pre'>;
 
 const Pre = (props: Props) => {
   return (
-    <ScrollArea sx={preWrapperStyle}>
+    <ScrollArea sx={preWrapperStyle} data-role="pre">
       <Box sx={preStyle} {...props} as="pre" />
     </ScrollArea>
   );

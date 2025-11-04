@@ -41,7 +41,7 @@ const UtilitiesTab = () => {
           as={Image}
           src="/utilities/overview/Image.png"
           width={760}
-          height={226}
+          height={232}
           alt="Utilities Overview"
           fetchPriority="high"
           priority

@@ -2,23 +2,24 @@ import { css, respondMore, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const accordionSectionWrapperStyle = (theme: Theme) => css`
-  @media (pointer: fine) {
-    &:has([wds-component='accordion-summary']:hover) {
-      [wds-component='accordion-summary']:not(:hover) {
-        [wds-component='list-cell-content'] {
-          color: ${theme.semantic.label.assistive};
-        }
-      }
-    }
-  }
-`;
-
 export const accordionSummaryStyle = (theme: Theme) => css`
   && {
     --wds-list-cell-vertical-padding: 32px;
+    --wds-list-cell-horizontal-padding: 0px;
+    --wds-list-cell-interaction-padding: 12px;
   }
+
   border-radius: 0px;
+  transition: padding-inline 0.3s ease;
+
+  @media (pointer: fine) {
+    &:hover {
+      --wds-list-cell-horizontal-padding: 12px;
+      [wds-component='list-cell-content'] {
+        color: ${theme.semantic.label.normal};
+      }
+    }
+  }
 
   ${respondTo(theme.breakpoint.md)} {
     && {
@@ -27,7 +28,7 @@ export const accordionSummaryStyle = (theme: Theme) => css`
   }
 
   [wds-component='list-cell-content'] {
-    color: ${theme.semantic.label.normal};
+    color: ${theme.semantic.label.assistive};
     transition: color 0.3s ease;
   }
 
@@ -71,13 +72,9 @@ export const accordionSummaryContentStyle = css`
 `;
 
 export const accordionDescriptionStyle = (theme: Theme) => css`
+  padding-bottom: 32px;
+
   ${respondMore(theme.breakpoint.sm)} {
     white-space: pre-wrap;
-  }
-`;
-
-export const accordionDetailsStyle = css`
-  [data-role='accordion-details-wrapper'] {
-    padding-bottom: 32px;
   }
 `;

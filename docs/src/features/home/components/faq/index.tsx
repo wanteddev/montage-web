@@ -18,8 +18,6 @@ import SectionTitle from '../section/title';
 import { FAQ_ITEMS } from './constants';
 import {
   accordionDescriptionStyle,
-  accordionDetailsStyle,
-  accordionSectionWrapperStyle,
   accordionSummaryContentStyle,
   accordionSummaryStyle,
 } from './style';
@@ -31,7 +29,7 @@ const Faq = () => {
         <SectionTitle>FAQ</SectionTitle>
       </FadeInOut>
 
-      <FlexBox flexDirection="column" sx={accordionSectionWrapperStyle}>
+      <FlexBox flexDirection="column">
         {FAQ_ITEMS.map((item, idx) => (
           <Accordion key={item.question} divider={idx !== FAQ_ITEMS.length - 1}>
             <FadeInOut duration={600}>
@@ -61,7 +59,7 @@ const Faq = () => {
               </AccordionSummary>
             </FadeInOut>
 
-            <AccordionDetails sx={accordionDetailsStyle}>
+            <AccordionDetails>
               <AccordionDescription
                 variant="body2-reading"
                 weight="medium"
