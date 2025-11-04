@@ -1,5 +1,6 @@
 ---
-title: Progress tracker
+title: Vertical progress tracker
+description: 수직 방향으로 단계별 진행 상태를 표시하는 컴포넌트입니다.
 ---
 
 ## Vertical progress tracker
@@ -116,6 +117,7 @@ Conforms To
 `SwiftUICore.View`
 
 
+
 ## Horizontal progress tracker
 
 수평 방향으로 단계별 진행 상태를 표시하는 컴포넌트입니다.
@@ -193,5 +195,6 @@ Conforms To
 `Swift.Sendable`
 
 `SwiftUICore.View`
+
 
 

@@ -1,5 +1,5 @@
 ---
-title: Scroll view
+title: ScrollView
 description: 스크롤 상태 추적과 오프셋 감지가 가능한 커스텀 스크롤 뷰입니다.
 ---
 

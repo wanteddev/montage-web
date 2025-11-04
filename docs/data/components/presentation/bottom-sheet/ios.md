@@ -1,5 +1,6 @@
 ---
 title: Bottom sheet modal
+description: 화면 하단에서 위로 올라오는 바텀 시트 모달 컴포넌트입니다.
 ---
 
 ## Bottom sheet modal
@@ -214,6 +215,7 @@ Conforms To
 `Swift.Sendable`
 
 `SwiftUICore.View`
+
 
 
 ## Full modal

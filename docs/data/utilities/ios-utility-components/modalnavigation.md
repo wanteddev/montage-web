@@ -1,5 +1,5 @@
 ---
-title: Modal navigation
+title: ModalNavigation
 description: 모달 내에서 사용하는 내비게이션 바 컴포넌트입니다.
 ---
 

@@ -60,6 +60,9 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
   | --- | --- |
   | `text` | 버튼에 표시할 텍스트 |
   | `action` | 버튼 클릭 시 실행할 액션 |
+- **Return Value**
+
+  구성된 ButtonInfo 인스턴스
 </details>
 
 #### Type Methods
@@ -94,7 +97,7 @@ ActionArea를 구성하기 위한 모델 구조체입니다.
 
 <details>
 
-<summary>``init<V>(variant: ActionArea.Variant, backgroundTransparencyControl: BackgroundTransparencyControl, caption: String?, extra: () -> V, extraDivider: Bool)``</summary>
+<summary>``init<V>(variant: ActionArea.Variant, backgroundTransparencyControl: ActionArea.BackgroundTransparencyControl, caption: String?, extra: () -> V, extraDivider: Bool)``</summary>
 
 ActionArea 모델을 초기화합니다.
 
@@ -109,7 +112,7 @@ ActionArea 모델을 초기화합니다.
 </details>
 <details>
 
-<summary>``init(variant: ActionArea.Variant, backgroundTransparencyControl: BackgroundTransparencyControl, caption: String?, extraDivider: Bool)``</summary>
+<summary>``init(variant: ActionArea.Variant, backgroundTransparencyControl: ActionArea.BackgroundTransparencyControl, caption: String?, extraDivider: Bool)``</summary>
 
 ActionArea 모델을 초기화합니다.
 
@@ -137,6 +140,9 @@ ActionArea 컴포넌트를 초기화합니다.
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼 영역의 변형 스타일과 버튼 구성 |
+- **Return Value**
+
+  구성된 ActionArea 인스턴스
 </details>
 
 ___
@@ -200,6 +206,27 @@ ___
 ___
 ### Enumerations
 
+<details>
+
+<summary>``enum BackgroundTransparencyControl``</summary>
+
+ActionArea의 배경 투명도를 제어하는 열거형입니다.
+#### Enumeration Cases
+
+<details>
+
+<summary>``case automatic``</summary>
+
+자동으로 배경 투명도를 결정합니다. 기본적으로 스크롤 위치나 콘텐츠에 따라 투명도가 자동 처리됩니다.
+</details>
+<details>
+
+<summary>``case manual(Bool)``</summary>
+
+수동으로 배경 투명도를 설정합니다. true면 배경이 투명해지고, false면 배경이 표시됩니다.
+</details>
+
+</details>
 <details>
 
 <summary>``enum Variant``</summary>

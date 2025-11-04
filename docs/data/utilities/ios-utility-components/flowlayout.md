@@ -110,6 +110,10 @@ ___
 
 Conforms To
 
+`Swift.Sendable`
+
+`Swift.SendableMetatype`
+
 `SwiftUICore.Animatable`
 
 `SwiftUICore.Layout`

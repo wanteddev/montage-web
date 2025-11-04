@@ -52,6 +52,9 @@ ___
   | `size` | 버튼의 크기, 기본값은 `.large` |
   | `icon` | 버튼에 표시할 아이콘 |
   | `handler` | 버튼 탭 시 실행할 핸들러 |
+- **Return Value**
+
+  구성된 버튼 인스턴스
 - **Discussion**
 </details>
 <details>
@@ -70,6 +73,9 @@ ___
   | `leadingIcon` | 텍스트 앞에 표시할 아이콘 |
   | `trailingIcon` | 텍스트 뒤에 표시할 아이콘 |
   | `handler` | 버튼 탭 시 실행할 핸들러 |
+- **Return Value**
+
+  구성된 버튼 인스턴스
 - **Discussion**
 </details>
 

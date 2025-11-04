@@ -17,7 +17,7 @@ TopNavigation(
     backgroundColor: .white
 )
 .variant(.normal)
-.title(text: "제목")
+.title("제목")
 .leadingContent { /* 왼쪽 영역 컴포넌트 */ }
 .trailingContents(
     { /* 컴포넌트1 */ },

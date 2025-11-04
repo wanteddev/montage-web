@@ -39,6 +39,9 @@ Interaction(
   | `state` | 상호작용 상태, 기본값은 `.normal` |
   | `variant` | 상호작용 효과 강도, 기본값은 `.normal` |
   | `color` | 적용할 색상, 기본값은 `.labelNormal` |
+- **Return Value**
+
+  구성된 상호작용 장식 인스턴스
 </details>
 
 ___
