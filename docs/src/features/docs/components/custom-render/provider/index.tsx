@@ -1,7 +1,7 @@
 'use client';
 import { FlexBox } from '@wanteddev/wds';
 
-import { HeadingProvider } from '@/features/docs/context';
+import { HeadingProvider } from '@/features/docs/contexts';
 
 import { wrapperStyle } from './style';
 

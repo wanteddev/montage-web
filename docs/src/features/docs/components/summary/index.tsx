@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { sentenceCase } from 'change-case';
 
-import { useMDXContext } from '../../context';
+import { useMDXContext } from '../../contexts';
 import RouteTab from '../route-tab';
 import DocsTitle from '../title';
 import DocsThumbnail from '../thumbnail';

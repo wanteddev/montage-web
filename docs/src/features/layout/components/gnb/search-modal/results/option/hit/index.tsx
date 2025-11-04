@@ -1,4 +1,13 @@
 import { Box, FlexBox, Typography, WithInteraction } from '@wanteddev/wds';
+import {
+  type HTMLAttributes,
+  type PropsWithChildren,
+  type ReactNode,
+  useCallback,
+} from 'react';
+import Link from 'next/link';
+
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import {
   captionStyle,
@@ -8,7 +17,6 @@ import {
   wrapperStyle,
 } from './style';
 
-import type { HTMLAttributes, PropsWithChildren, ReactNode } from 'react';
 import type { InternalDocSearchHit } from '../../../types';
 
 type Props = PropsWithChildren<{
@@ -27,10 +35,22 @@ const SearchOptionHit = ({
   caption,
   ...props
 }: Props) => {
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
+
   return (
     <FlexBox as="li" {...props} justifyContent="center" sx={wrapperStyle}>
       <WithInteraction width="calc(100% + 24px)">
-        <FlexBox as="a" href={item.url} gap="4px" sx={linkStyle}>
+        <FlexBox
+          as={Link}
+          href={item.url.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? '', '')}
+          gap="4px"
+          sx={linkStyle}
+          onClick={handleRouteChange}
+        >
           {leadingContent && <Box sx={contentStyle}>{leadingContent}</Box>}
           <FlexBox
             as="span"

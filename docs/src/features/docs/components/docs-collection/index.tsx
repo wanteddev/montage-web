@@ -1,5 +1,5 @@
 'use client';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   Card,
   CardContent,
@@ -9,15 +9,15 @@ import {
   FlexBox,
   Grid,
   GridItem,
-  Typography,
 } from '@wanteddev/wds';
-import { capitalCase, kebabCase } from 'change-case';
+import { capitalCase } from 'change-case';
 import Link from 'next/link';
 
-import { useMDXContext } from '@/features/docs/context';
+import { useMDXContext } from '@/features/docs/contexts';
 
-import HeadingLink from '../mdx/heading-link';
 import { PLATFORM_PATTERN } from '../../constants';
+import { Heading2 } from '../mdx/section/layout';
+import useRouteScroll from '../../hooks/use-route-scroll';
 
 import type { Frontmatter } from '@/features/docs/types';
 
@@ -31,6 +31,12 @@ type Props = {
 
 const DocsCollection = ({ category }: Props) => {
   const { allFrontmatter } = useMDXContext();
+
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
 
   const collection = useMemo(() => {
     return Object.entries(
@@ -73,19 +79,7 @@ const DocsCollection = ({ category }: Props) => {
           .sort((a, b) => a[0].localeCompare(b[0]))
           .map(([key, list], i) => (
             <FlexBox flexDirection="column" key={key + i} gap="24px">
-              <Typography
-                data-heading=""
-                variant="title2"
-                weight="bold"
-                display="block"
-                as="h2"
-                id={kebabCase(key)}
-                sx={{ scrollMarginTop: 'calc(var(--gnb-height) + 12px)' }}
-              >
-                <HeadingLink id={kebabCase(key)}>
-                  {capitalCase(key)}
-                </HeadingLink>
-              </Typography>
+              <Heading2 content={capitalCase(key)} />
 
               <Grid columnSpacing={56} rowSpacing={12}>
                 {list.map((data) => (
@@ -96,6 +90,7 @@ const DocsCollection = ({ category }: Props) => {
                   >
                     <Card
                       as={Link}
+                      onClick={handleRouteChange}
                       href={`/docs/${data.slug.join('/')}`}
                       sx={{
                         figure: {

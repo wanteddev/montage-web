@@ -1,9 +1,11 @@
 'use client';
-import { Fragment } from 'react';
+import { Fragment, useCallback } from 'react';
 import { sentenceCase } from 'change-case';
 import { FlexBox, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { IconArrowRightThick } from '@wanteddev/wds-icon';
+
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { Heading2 } from '../../mdx/section/layout';
 
@@ -16,6 +18,12 @@ type Props = {
 
 export const UtilitiesOverview = ({ platform }: Props) => {
   const frontmatters = useUtilitiesFrontmatter({ platform });
+
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
 
   return (
     <>
@@ -48,6 +56,7 @@ export const UtilitiesOverview = ({ platform }: Props) => {
                   <FlexBox
                     as={Link}
                     sx={linkStyle}
+                    onClick={handleRouteChange}
                     key={item.slug.toString()}
                     href={`/docs/${item.slug.join('/')}`}
                     alignItems="center"
@@ -74,6 +83,7 @@ export const UtilitiesOverview = ({ platform }: Props) => {
                 {secondGrid.map((item) => (
                   <FlexBox
                     as={Link}
+                    onClick={handleRouteChange}
                     sx={linkStyle}
                     key={item.slug.toString()}
                     href={`/docs/${item.slug.join('/')}`}

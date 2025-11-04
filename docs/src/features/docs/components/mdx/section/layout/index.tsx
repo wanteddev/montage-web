@@ -1,7 +1,7 @@
 import { Box, FlexBox, Typography } from '@wanteddev/wds';
 import { Fragment, memo, useMemo } from 'react';
 
-import { useHeadingContext } from '@/features/docs/context';
+import { useHeadingContext } from '@/features/docs/contexts';
 
 import HeadingLink from '../../heading-link';
 import { sectionLayoutStyle } from '../style';

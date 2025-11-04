@@ -1,22 +1,15 @@
-import { usePathname } from 'next/navigation';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
+
+import { useRouteContext } from '@/contexts';
 
 const useRouteScroll = (cb: () => void) => {
-  const pathname = usePathname();
-  const isTriggered = useRef(false);
+  const { addListenerOnce } = useRouteContext();
 
   const handleRouteChange = useCallback(() => {
-    isTriggered.current = true;
-  }, []);
-
-  useEffect(() => {
-    if (isTriggered.current) {
-      isTriggered.current = false;
+    addListenerOnce(() => {
       cb();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+    });
+  }, [addListenerOnce, cb]);
 
   return {
     handleRouteChange,

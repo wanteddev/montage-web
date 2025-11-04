@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { useMDXContext } from '@/features/docs/context';
+import { useMDXContext } from '@/features/docs/contexts';
 
 import type { UtilitiesFrontmatter } from './types';
 

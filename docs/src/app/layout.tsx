@@ -1,5 +1,5 @@
 import Gnb from '@/features/layout/components/gnb';
-import { MDXProvider } from '@/features/docs/context';
+import { MDXProvider } from '@/features/docs/contexts';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 import { generatePropTypes } from '@/features/docs/helpers/props';
 import LnbMobile from '@/features/docs/components/lnb/mobile';

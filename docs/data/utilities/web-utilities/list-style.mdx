@@ -1,0 +1,46 @@
+---
+title: listStyle
+description: listStyle은 불릿 형태의 리스트 스타일을 관리하는 유틸리티 함수입니다.
+createdAt: 2025-11-04
+---
+
+## Introduce
+
+불릿 형태의 리스트 스타일을 관리합니다.
+
+`listStyle` 으로 사용합니다.
+
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box as="ul" sx={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Nested list
+
+중첩된 리스트에서도 사용할 수 있습니다.
+
+<Demo code={`import { Box, css, listStyle } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Box as="ul" sx={listStyle}>
+      <li>List1</li>
+      <li>List2</li>
+      <ul>
+        <li>List3</li>
+      </ul>
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>

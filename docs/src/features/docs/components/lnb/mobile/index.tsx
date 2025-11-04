@@ -16,7 +16,7 @@ import { IconArrowLeft, IconClose } from '@wanteddev/wds-icon';
 import { usePathname } from 'next/navigation';
 import { sentenceCase } from 'change-case';
 
-import { useMDXContext } from '@/features/docs/context';
+import { useMDXContext } from '@/features/docs/contexts';
 
 import LnbGroup from '../group';
 import LnbGroupItem from '../group/item';

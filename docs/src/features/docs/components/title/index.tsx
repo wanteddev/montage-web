@@ -5,7 +5,7 @@ import { Fragment, useMemo } from 'react';
 
 import { breakWordStyle } from '@/styles/text';
 
-import { useMDXContext } from '../../context';
+import { useMDXContext } from '../../contexts';
 import {
   getFrontmatterDescription,
   getFrontmatterTitle,

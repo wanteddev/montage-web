@@ -11,7 +11,7 @@ import {
   getFrontmatterTitle,
 } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
-import { HeadingProvider } from '@/features/docs/context';
+import { HeadingProvider } from '@/features/docs/contexts';
 
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import type { Metadata } from 'next';

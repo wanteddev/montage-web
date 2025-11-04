@@ -2,6 +2,9 @@
 import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { IconArrowRightThick } from '@wanteddev/wds-icon';
+import { useCallback } from 'react';
+
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { Heading2 } from '../../mdx/section/layout';
 
@@ -9,6 +12,12 @@ import { BASE_MATERIAL_ITEMS } from './constants';
 import { interactionArrowStyle, linkStyle } from './style';
 
 const FoundationsOverview = () => {
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
+
   return (
     <>
       <Thumbnail
@@ -29,6 +38,7 @@ const FoundationsOverview = () => {
           as={Link}
           href={item.href}
           key={item.title}
+          onClick={handleRouteChange}
           gap="12px"
           alignItems="center"
           sx={linkStyle}

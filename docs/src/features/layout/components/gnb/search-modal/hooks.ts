@@ -3,7 +3,8 @@ import { liteClient } from 'algoliasearch/lite';
 import { createAutocomplete } from '@algolia/autocomplete-core';
 import { useRouter } from 'next/navigation';
 
-import { useMDXContext } from '@/features/docs/context';
+import { useMDXContext } from '@/features/docs/contexts';
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import {
   createRecentSearchStorage,
@@ -109,6 +110,12 @@ export const useDocSearch = ({
     [saveRecentSearch, handleClose],
   );
 
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
+
   const autocomplete = useMemo(
     () =>
       createAutocomplete<
@@ -124,6 +131,7 @@ export const useDocSearch = ({
         autoFocus: true,
         navigator: {
           navigate: ({ itemUrl }) => {
+            handleRouteChange();
             router.push(
               itemUrl.replace(process.env.NEXT_PUBLIC_BASE_PATH ?? '', ''),
             );
@@ -256,6 +264,7 @@ export const useDocSearch = ({
       recentSearches,
       allFrontmatter,
       router,
+      handleRouteChange,
     ],
   );
 

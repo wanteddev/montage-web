@@ -8,7 +8,6 @@ import {
   TableRow,
   Typography,
 } from '@wanteddev/wds';
-import Link from 'next/link';
 
 import HeadingLink from '../heading-link';
 import CodeBlock from '../code-block';
@@ -29,6 +28,7 @@ import {
   SectionAccessibility,
   SectionAccessibilityTable,
 } from '../section/accessibility';
+import Anchor from '../anchor';
 
 import type { ReactNode } from 'react';
 
@@ -109,26 +109,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       display="block"
     />
   ),
-  a: ({ href, ...props }) => (
-    <Typography
-      {...props}
-      variant="body1"
-      weight="regular"
-      as={href.startsWith('http') ? 'a' : Link}
-      target={href.startsWith('http') ? '_blank' : undefined}
-      color="semantic.primary.normal"
-      sx={{
-        textDecoration: 'underline',
-        textDecorationStyle: 'solid',
-        textDecorationLine: 'underline',
-        textUnderlineOffset: 'auto',
-        textUnderlinePosition: 'from-font',
-        textDecorationSkipInk: 'auto',
-        textDecorationThickness: '0.5px',
-      }}
-      href={href}
-    />
-  ),
+  a: Anchor,
   pre: Pre,
   code: CodeBlock,
   Demo,

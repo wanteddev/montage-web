@@ -1,6 +1,9 @@
 'use client';
 import { Box, FlexBox } from '@wanteddev/wds';
 import Link from 'next/link';
+import { useCallback } from 'react';
+
+import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { footerLinkStyle, footerStyle } from './style';
 
@@ -11,6 +14,12 @@ type Props = {
 };
 
 const Footer = ({ sx }: Props) => {
+  const { handleRouteChange } = useRouteScroll(
+    useCallback(() => {
+      window.scrollTo(0, 0);
+    }, []),
+  );
+
   return (
     <FlexBox
       as="footer"
@@ -27,6 +36,7 @@ const Footer = ({ sx }: Props) => {
           as={Link}
           href="/docs/getting-started/terms-of-use"
           sx={footerLinkStyle}
+          onClick={handleRouteChange}
         >
           Terms of Use
         </Box>

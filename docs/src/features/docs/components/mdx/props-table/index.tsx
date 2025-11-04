@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from '@wanteddev/wds';
 
-import { useMDXContext } from '../../../context';
+import { useMDXContext } from '../../../contexts';
 import CodeBlock from '../code-block';
 
 import { defaultValueStyle } from './style';

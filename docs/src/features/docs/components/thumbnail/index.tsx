@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { Box } from '@wanteddev/wds';
 import Image from 'next/image';
 
-import { useMDXContext } from '../../context';
+import { useMDXContext } from '../../contexts';
 import { getFrontmatterImage } from '../../helpers/mdx.client';
 
 import { thumbnailStyle } from './style';
