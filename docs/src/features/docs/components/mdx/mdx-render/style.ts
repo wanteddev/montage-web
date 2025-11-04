@@ -142,6 +142,14 @@ export const mdxRootStyle = (theme: Theme) => css`
           margin-top: 16px;
           margin-bottom: 16px;
         }
+
+        p + p {
+          margin-bottom: 16px;
+        }
+
+        p + blockquote {
+          margin-top: 16px;
+        }
       }
 
       ol:not([class]),
