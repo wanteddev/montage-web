@@ -8,7 +8,7 @@ import RouteTab from '../../route-tab';
 import { wrapperStyle } from './style';
 
 const defaultPlatform = 'web';
-const platforms = ['web'];
+const platforms = ['web', 'ios'];
 
 const UtilitiesTab = () => {
   const tabs = useMemo(() => {

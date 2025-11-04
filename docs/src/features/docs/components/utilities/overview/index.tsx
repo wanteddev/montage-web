@@ -44,7 +44,10 @@ export const UtilitiesOverview = ({ platform }: Props) => {
 
         return (
           <Fragment key={v.title}>
-            <Heading2 content={sentenceCase(v.title)} sx={headingStyle} />
+            <Heading2
+              content={sentenceCase(v.title).replace(/ios/i, 'iOS')}
+              sx={headingStyle}
+            />
 
             <FlexBox
               flexDirection="column"
