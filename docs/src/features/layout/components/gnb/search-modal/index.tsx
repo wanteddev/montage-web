@@ -134,6 +134,7 @@ export const DocSearchModal = ({
         <ActionArea
           variant="compact"
           sx={actionAreaStyle}
+          background={false}
           compactContent={
             <FlexBox gap="20px" sx={compactContentStyle}>
               <FlexBox alignItems="center" gap="8px">

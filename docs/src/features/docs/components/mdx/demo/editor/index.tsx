@@ -271,7 +271,10 @@ const Editor = ({
         <kbd>Enter</kbd> 키로 코드 수정 진입하기
       </Typography>
 
-      <ScrollArea sx={{ maxHeight: 'inherit' }}>
+      <ScrollArea
+        sx={{ maxHeight: 'inherit' }}
+        viewportProps={{ tabIndex: -1 }}
+      >
         {isSearchPanelOpen && (
           <SearchCode
             ref={searchPanelRef}

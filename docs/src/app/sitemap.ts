@@ -1,3 +1,4 @@
+import { DOCS_PAGES } from '@/features/docs/constants';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
 
 import type { MetadataRoute } from 'next';
@@ -9,13 +10,28 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
 
   const frontmatter = await getAllFrontmatter();
 
-  const docsMetadata: MetadataRoute.Sitemap = frontmatter.map((value) => {
+  const dynamicSitemap: MetadataRoute.Sitemap = frontmatter.map((value) => {
     const lastModified = value.updatedAt ?? value.createdAt ?? Date.now();
 
     return {
       url: `${BASE_PATH}/docs/${value.slug.join('/')}`,
       lastModified: new Date(lastModified).toISOString(),
       priority: 0.7,
+      changeFrequency: 'weekly',
+    };
+  });
+
+  const staticSitemap: MetadataRoute.Sitemap = [
+    ...DOCS_PAGES.filter((page) => !page.isPrivate),
+    { slug: ['foundations', 'base-material', 'colors', 'atomic'] },
+    {
+      slug: ['foundations', 'base-material', 'elevation', 'spread'],
+    },
+  ].map((page) => {
+    return {
+      url: `${BASE_PATH}/docs/${page.slug.join('/')}`,
+      lastModified: new Date().toISOString(),
+      priority: 0.8,
       changeFrequency: 'weekly',
     };
   });
@@ -27,7 +43,8 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
       priority: 1,
       changeFrequency: 'yearly',
     },
-    ...docsMetadata,
+    ...dynamicSitemap,
+    ...staticSitemap,
   ];
 };
 

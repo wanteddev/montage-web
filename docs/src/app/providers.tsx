@@ -10,7 +10,7 @@ import type { PropsWithChildren } from 'react';
 const Providers = ({ children }: PropsWithChildren) => {
   return (
     <AppRouterCacheProvider>
-      <ThemeProvider enableDarkMode disableTransitionOnChange>
+      <ThemeProvider enableDarkMode>
         <LnbProvider>
           {children}
 

@@ -17,14 +17,20 @@ updatedAt: 2025-10-14
 
 <SectionVariants
   components={['Box', 'framedStyle']}
+  states={`
+    const [selected, setSelected] = React.useState(false);
+  `}
   render={(value) => {
     const invalid = value['Status'] === 'Negative';
 
     return `
       <Box
+        tabIndex={0}
+        onClick={() => setSelected(!selected)}
         sx={[
           framedStyle({
             invalid: ${invalid},
+            selected,
           }),
           {
             width: '80%',
@@ -70,7 +76,7 @@ updatedAt: 2025-10-14
 <SectionLayout title="Vertical padding">
   <SectionFigure
     ratio="21:9"
-    description="내부에 Cell 컴포넌트를 배치하여, 단독으로 사용할 때보다 정보를 더 명확한 그룹으로 묶어줄 수 있습니다. 테두리와 그림자 효과를 통해 그룹 전체가 선택되었음을 시각적으로 강조하기위해 사용합니다."
+    description="상하 여백은 Cell 컴포넌트와 함께 사용될 것을 고려해 최소한으로 설정되어 있습니다. 만약 Cell이 아닌 다른 요소를 내부에 배치할 경우, 시각적 균형을 위해 좌우 여백과 동일한 값을 상하 여백에 직접 추가하는 것을 권장합니다."
     src="/components/selection-and-input/framed-style/design/Image-3.png"
   />
 </SectionLayout>
@@ -78,7 +84,7 @@ updatedAt: 2025-10-14
 <SectionLayout title="With cell">
   <SectionFigure
     ratio="21:9"
-    description="상하 여백은 Cell 컴포넌트와 함께 사용될 것을 고려해 최소한으로 설정되어 있습니다. 만약 Cell이 아닌 다른 요소를 내부에 배치할 경우, 시각적 균형을 위해 좌우 여백과 동일한 값을 상하 여백에 직접 추가하는 것을 권장합니다."
+    description="내부에 Cell 컴포넌트를 배치하여, 단독으로 사용할 때보다 정보를 더 명확한 그룹으로 묶어줄 수 있습니다. 테두리와 그림자 효과를 통해 그룹 전체가 선택되었음을 시각적으로 강조하기위해 사용합니다."
     src="/components/selection-and-input/framed-style/design/Image-4.png"
   />
 </SectionLayout>

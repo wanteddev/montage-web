@@ -1,7 +1,6 @@
 import DocsCollection from '@/features/docs/components/docs-collection';
 import CustomRenderProvider from '@/features/docs/components/custom-render/provider';
 import CustomRenderSummary from '@/features/docs/components/custom-render/summary';
-import { HeadingProvider } from '@/features/docs/context';
 import { createMetadata } from '@/helpers/metadata';
 
 import type { Metadata } from 'next';
@@ -18,13 +17,13 @@ export const generateMetadata = (): Metadata =>
 
 const ComponentsOverviewPage = () => {
   return (
-    <HeadingProvider>
+    <>
       <CustomRenderSummary title={TITLE} description={DESCRIPTION} />
 
       <CustomRenderProvider>
         <DocsCollection category="components" />
       </CustomRenderProvider>
-    </HeadingProvider>
+    </>
   );
 };
 

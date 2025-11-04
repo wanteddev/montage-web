@@ -43,6 +43,10 @@ const Gnb = () => {
     }, []),
   );
 
+  const handleThemeChange = useCallback(() => {
+    setTheme(currentTheme === 'light' ? 'dark' : 'light');
+  }, [currentTheme, setTheme]);
+
   return (
     <>
       {isOpen && (
@@ -120,9 +124,7 @@ const Gnb = () => {
                   <FlexBox
                     aria-label="toggle theme"
                     as="button"
-                    onClick={() =>
-                      setTheme(currentTheme === 'light' ? 'dark' : 'light')
-                    }
+                    onClick={handleThemeChange}
                     sx={gnbActionsStyle}
                   >
                     <NoSsr fallback={<IconSun />}>
