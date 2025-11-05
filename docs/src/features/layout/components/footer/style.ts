@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const footerStyle = (theme: Theme) => css`
   position: relative;
-  padding: 20px 0px 100px;
+  padding: 20px 0px;
   width: 100%;
   gap: 20px;
 
@@ -19,7 +19,7 @@ export const footerStyle = (theme: Theme) => css`
   }
 
   ${respondMore(theme.breakpoint.sm)} {
-    padding: 32px 0px 120px;
+    padding: 32px 0px;
   }
 `;
 

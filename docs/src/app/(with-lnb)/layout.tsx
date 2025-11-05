@@ -27,7 +27,7 @@ const WithLnbLayout = ({ children }: PropsWithChildren) => {
         sx={{ width: '100%' }}
         sm={{ justifyContent: 'center' }}
         lg={{
-          sx: { width: 'calc(100% - 200px)' },
+          sx: { width: 'calc(100% - 200px)', paddingLeft: '60px' },
         }}
       >
         <FlexBox

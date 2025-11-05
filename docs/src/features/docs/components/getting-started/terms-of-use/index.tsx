@@ -4,7 +4,7 @@ import { Box, Divider } from '@wanteddev/wds';
 
 import { Heading2, Heading3 } from '../../mdx/section/layout';
 
-import { linkStyle } from './style';
+import { linkStyle, listStyle } from './style';
 
 const TermsOfUse = () => {
   return (
@@ -23,7 +23,7 @@ const TermsOfUse = () => {
         환영합니다.
       </Box>
 
-      <Box as="ul" sx={{ marginTop: '32px' }}>
+      <Box as="ul" sx={{ '&&': { margin: '32px 0px 0px' } }}>
         <li>
           본 시스템은 피싱, 사기, 개인정보 탈취 등 불법적이거나 공익에 반하는
           목적으로 사용할 수 없습니다.
@@ -50,7 +50,7 @@ const TermsOfUse = () => {
 
       <Heading2 content="2. 라이선스" />
 
-      <Box as="p" sx={{ marginBottom: '40px', '&&': { maxWidth: 'unset' } }}>
+      <Box as="p" sx={{ margin: '0px 0px 40px', '&&': { maxWidth: 'unset' } }}>
         본 시스템은{' '}
         <Box
           href="https://opensource.org/license/MIT"
@@ -70,7 +70,7 @@ const TermsOfUse = () => {
 
       <Heading3 content="허용 사항" />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle()}>
         <li>상업적 목적을 포함한 모든 용도로 자유롭게 사용 가능합니다.</li>
         <li>파생 저작물 생성 가능합니다.</li>
         <li>소스 코드의 수정 및 배포 가능합니다.</li>
@@ -80,7 +80,7 @@ const TermsOfUse = () => {
 
       <Heading3 content="의무 사항" />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle()}>
         <li>
           저작권 표시 및 라이선스 전문을 소프트웨어의 모든 복사본 또는 상당
           부분에 포함합니다.
@@ -90,7 +90,7 @@ const TermsOfUse = () => {
 
       <Heading3 content="제한 사항" />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle(true)}>
         <li>
           본 소프트웨어는 &quot;있는 그대로&quot; 제공되며, 어떠한 명시적 또는
           묵시적 보증도 하지 않습니다.
@@ -114,7 +114,7 @@ const TermsOfUse = () => {
         sx={{ marginTop: '8px' }}
       />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle()}>
         <li>
           원티드의 로고, 워드마크, 기타 브랜드 자산은 별도의 브랜드 가이드라인을
           따릅니다.
@@ -127,7 +127,7 @@ const TermsOfUse = () => {
 
       <Heading3 content="2. 기여자 표시" />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle(true)}>
         <li>
           본 시스템을 사용하여 제품을 만드는 경우, 원티드 디자인 시스템을
           사용했음을 명시하는 것을 권장합니다.
@@ -143,7 +143,7 @@ const TermsOfUse = () => {
 
       <Heading3 content="1. 기여 방법" sx={{ marginTop: '8px' }} />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle()}>
         <li>
           Figma Community를 통해 의견 및 이슈 리포팅 및 개선을 제안할 수
           있습니다.
@@ -152,7 +152,7 @@ const TermsOfUse = () => {
 
       <Heading3 content="2. 기여자 동의" />
 
-      <Box as="ul" sx={{ marginBottom: '28px' }}>
+      <Box as="ul" sx={listStyle(true)}>
         <li>
           모든 기여는 본 프로젝트의 라이선스 조건에 따라 제공됨에 동의합니다.
         </li>
@@ -182,7 +182,7 @@ const TermsOfUse = () => {
 
       <Heading2 content="6. 개인정보 보호" />
 
-      <Box as="ul">
+      <Box as="ul" sx={listStyle(true)}>
         <li>본 시스템 자체는 사용자의 개인정보를 수집하지 않습니다.</li>
         <li>
           단, GitHub 등 제3자 플랫폼을 통한 기여 시 해당 플랫폼의 개인정보
@@ -197,7 +197,7 @@ const TermsOfUse = () => {
 
       <Heading2 content="7. 약관의 변경" />
 
-      <Box as="ul">
+      <Box as="ul" sx={listStyle(true)}>
         <li>본 약관은 필요에 따라 변경될 수 있습니다.</li>
         <li>중요한 변경 사항은 공식 채널을 통해 공지됩니다.</li>
       </Box>

@@ -9,3 +9,9 @@ export const linkStyle = css`
   text-underline-position: from-font;
   ${typographyStyle('body2-reading', 'bold')}
 `;
+
+export const listStyle = (isLast: boolean) => css`
+  && {
+    margin: 0px 0px ${isLast ? '0px' : '28px'};
+  }
+`;
