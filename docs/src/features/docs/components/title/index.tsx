@@ -8,7 +8,7 @@ import { breakWordStyle } from '@/styles/text';
 import { useMDXContext } from '../../contexts';
 import {
   getFrontmatterDescription,
-  getFrontmatterTitle,
+  getFrontmatterTitleWithDesignPage,
 } from '../../helpers/mdx.client';
 
 import type { SlugParams } from '../lnb/types';
@@ -41,8 +41,8 @@ const DocsTitle = ({
       return null;
     }
 
-    return getFrontmatterTitle(frontmatter);
-  }, [frontmatter, customTitle]);
+    return getFrontmatterTitleWithDesignPage(frontmatter, allFrontmatter);
+  }, [frontmatter, allFrontmatter, customTitle]);
 
   const description = useMemo(() => {
     if (customDescription) {

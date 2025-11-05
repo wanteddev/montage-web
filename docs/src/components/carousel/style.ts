@@ -3,12 +3,12 @@ import { css } from '@wanteddev/wds';
 export const carouselWrapperStyle = css`
   width: calc(100% + var(--layout-padding-inline) * 2);
   margin-left: calc(var(--layout-padding-inline) * -1);
-  padding-right: var(--carousel-item-gap);
   position: relative;
   overflow: hidden;
+  padding-inline: var(--layout-padding-inline);
 
   --carousel-item-gap: 16px;
-  --carousel-item-width: calc(33% - var(--carousel-item-gap) / 3);
+  --carousel-item-width: calc((100% - var(--carousel-item-gap) * 2) / 3);
 `;
 
 export const descriptionStyle = css`
@@ -20,7 +20,6 @@ export const descriptionStyle = css`
 export const carouselContentStyle = css`
   touch-action: pan-y pinch-zoom;
   width: 100%;
-  padding-inline: var(--layout-padding-inline);
 `;
 
 export const carouselItemStyle = css`

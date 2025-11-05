@@ -44,6 +44,29 @@ export const getFrontmatterGroupKey = (key: string) => {
   return title;
 };
 
+export const getFrontmatterTitleWithDesignPage = (
+  item: Frontmatter,
+  allFrontmatter: Array<Frontmatter>,
+) => {
+  if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(item.slug.toString())) {
+    const designPage = allFrontmatter.find((v) =>
+      v.slug
+        .toString()
+        .includes(
+          item.slug
+            .toString()
+            .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
+        ),
+    );
+
+    if (designPage) {
+      return getFrontmatterTitle(designPage);
+    }
+  }
+
+  return getFrontmatterTitle(item);
+};
+
 export const getFrontmatterDescription = (
   item: Frontmatter,
   allFrontmatter: Array<Frontmatter>,

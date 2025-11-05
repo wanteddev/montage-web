@@ -4,8 +4,8 @@ import {
   FallbackView,
   FallbackViewButton,
   FallbackViewContent,
-  FallbackViewImage,
   FallbackViewText,
+  typographyStyle,
 } from '@wanteddev/wds';
 import Link from 'next/link';
 
@@ -14,23 +14,35 @@ import FullPageLayout from './full-page-layout';
 const NotFoundPage = () => {
   return (
     <FullPageLayout>
-      <FallbackView platform="mobile" sm={{ platform: 'desktop' }}>
-        <FallbackViewImage>
-          <img src="https://static.wanted.co.kr/images/ghost.png" alt="ghost" />
-        </FallbackViewImage>
+      <FallbackView>
         <FallbackViewContent>
           <FallbackViewText
-            title="페이지를 찾을 수 없어요."
+            sx={{
+              ['[data-role="fallback-view-text-title"]']: typographyStyle(
+                'display2',
+                'bold',
+              ),
+              ['[data-role="fallback-view-text-description"]']: typographyStyle(
+                'body2',
+                'regular',
+              ),
+            }}
+            title="404"
             description={
               <>
-                잘못된 경로로 접근했거나 페이지가 삭제되었어요.
+                요청하신 페이지를 찾을 수 없습니다.
                 <br />
-                다시 시도해 주세요.
+                홈으로 돌아가 다시 시도해주세요.
               </>
             }
           />
-          <FallbackViewButton as={Link} href="/">
-            메인으로 이동하기
+          <FallbackViewButton
+            as={Link}
+            href="/"
+            size="medium"
+            sx={{ borderRadius: '999px !important' }}
+          >
+            Go Home
           </FallbackViewButton>
         </FallbackViewContent>
       </FallbackView>
