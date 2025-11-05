@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const accordionSummaryStyle = (theme: Theme) => css`
   && {
-    --wds-list-cell-vertical-padding: 32px;
+    --wds-list-cell-vertical-padding: 28px;
     --wds-list-cell-horizontal-padding: 0px;
     --wds-list-cell-interaction-padding: 12px;
   }
@@ -14,7 +14,10 @@ export const accordionSummaryStyle = (theme: Theme) => css`
 
   @media (pointer: fine) {
     &:hover {
-      --wds-list-cell-horizontal-padding: 12px;
+      ${respondMore('500px')} {
+        --wds-list-cell-horizontal-padding: 12px;
+      }
+
       [wds-component='list-cell-content'] {
         color: ${theme.semantic.label.normal};
       }
@@ -72,7 +75,7 @@ export const accordionSummaryContentStyle = css`
 `;
 
 export const accordionDescriptionStyle = (theme: Theme) => css`
-  padding-bottom: 32px;
+  padding-bottom: 16px;
 
   ${respondMore(theme.breakpoint.sm)} {
     white-space: pre-wrap;

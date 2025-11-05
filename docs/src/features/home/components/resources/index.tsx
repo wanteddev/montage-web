@@ -19,7 +19,7 @@ const Resources = () => {
       </FadeInOut>
 
       <FlexBox
-        gap="24px"
+        gap="8px"
         flexDirection="column"
         md={{
           gap: '48px',
@@ -47,12 +47,12 @@ const Resources = () => {
               >
                 <FlexBox gap="12px">
                   <Typography
-                    variant="headline1"
+                    variant="headline2"
                     weight="bold"
                     color="semantic.label.normal"
                     as="p"
                     md={{
-                      variant: 'heading2',
+                      variant: 'headline1',
                     }}
                   >
                     {item.title}

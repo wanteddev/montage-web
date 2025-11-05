@@ -158,7 +158,7 @@ const SectionLayout = ({
       </FlexBox>
       <FlexBox
         flexDirection={direction}
-        gap={direction === 'row' ? '20px' : '88px'}
+        gap={direction === 'row' ? '20px' : '64px'}
       >
         {children}
       </FlexBox>

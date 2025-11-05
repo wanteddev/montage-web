@@ -14,7 +14,7 @@ export const sectionFigureStyle = css`
 
 export const sectionFigureThumbnailStyle = (theme: Theme) => css`
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   position: relative;
   border-radius: 24px;
 

@@ -86,6 +86,15 @@ const preprocessDemoCode = (source: string): string => {
   );
 };
 
+/**
+ * 테이블 셀 내의 제네릭 타입 표현을 이스케이프 처리
+ */
+const preprocessGenericTypes = (source: string): string => {
+  return source.replace(/(\|[^|\n]*?)(<|>)([^|\n]*?)(?=\|)/g, (match) => {
+    return match.replace(/</g, '\\<').replace(/>/g, '\\>');
+  });
+};
+
 export const getSourceBySlug = async (slug: Array<string>) => {
   const filePaths = getFilePaths(slug);
 
@@ -95,7 +104,9 @@ export const getSourceBySlug = async (slug: Array<string>) => {
     throw new Error(`File not found for slug: ${slug.join('/')}`);
   }
 
-  const source = preprocessDemoCode(readFileSync(filePath, 'utf8'));
+  const source = preprocessDemoCode(
+    preprocessGenericTypes(readFileSync(filePath, 'utf8')),
+  );
 
   return serialize<unknown, Frontmatter>(source, {
     parseFrontmatter: true,

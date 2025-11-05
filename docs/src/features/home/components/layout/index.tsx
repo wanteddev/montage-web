@@ -1,4 +1,5 @@
 'use client';
+import { respondTo } from '@wanteddev/wds';
 import { FlexBox } from '@wanteddev/wds';
 
 import type { PropsWithChildren } from 'react';
@@ -8,11 +9,14 @@ const HomeLayout = ({ children }: PropsWithChildren) => {
     <FlexBox
       flexDirection="column"
       alignItems="center"
-      sx={{
+      sx={(theme) => ({
         width: '100%',
         padding: '0px var(--layout-padding-inline)',
         '--home-layout-gap': '96px',
-      }}
+        [respondTo(theme.breakpoint.md)]: {
+          '--home-layout-gap': '80px',
+        },
+      })}
     >
       <FlexBox
         flexDirection="column"

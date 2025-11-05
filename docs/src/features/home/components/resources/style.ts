@@ -25,9 +25,8 @@ export const itemLinkStyle = (theme: Theme) => css`
   [data-role='interaction-arrow'] {
     color: ${theme.semantic.label.normal};
     transition: transform 0.2s ease;
-    font-size: 26px;
+    font-size: 24px;
     transform: scale(0);
-    padding-block: 1px;
   }
 
   @media (pointer: fine) {
@@ -39,7 +38,6 @@ export const itemLinkStyle = (theme: Theme) => css`
   }
 
   ${respondTo(theme.breakpoint.md)} {
-    font-size: 24px;
     padding: 8px 0px;
   }
 

@@ -38,11 +38,11 @@ const Faq = () => {
                 sx={accordionSummaryStyle}
                 alignItems="center"
                 textProps={{
-                  variant: 'headline1',
+                  variant: 'headline2',
                   weight: 'bold',
                   color: 'semantic.label.normal',
                   md: {
-                    variant: 'heading2',
+                    variant: 'headline1',
                   },
                 }}
                 trailingContent={

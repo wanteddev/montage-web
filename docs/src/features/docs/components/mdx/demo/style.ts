@@ -6,7 +6,7 @@ export const demoWrapperStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.normal.normal};
   border-radius: 16px;
   overflow: hidden;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
 type DemoStyleParams = {

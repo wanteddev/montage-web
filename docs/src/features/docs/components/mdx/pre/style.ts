@@ -9,7 +9,7 @@ export const preWrapperStyle = (theme: Theme) => css`
   );
   box-shadow: inset 0px 0px 0px 1px ${theme.semantic.line.solid.alternative};
   border-radius: 8px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   position: relative;
 
   @supports not (color: light-dark(black, white)) {

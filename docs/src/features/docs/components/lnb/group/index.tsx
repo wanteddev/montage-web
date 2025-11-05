@@ -48,7 +48,7 @@ const LnbGroup = ({ frontmatters }: Props) => {
           return (
             <List key={key + idx} gap="0px">
               <Typography
-                variant="caption1"
+                variant="caption2"
                 weight="bold"
                 color="semantic.label.assistive"
                 sx={{

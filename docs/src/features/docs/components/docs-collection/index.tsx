@@ -71,14 +71,14 @@ const DocsCollection = ({ category }: Props) => {
     <>
       <Divider
         color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '78px 48px' } }}
+        sx={{ '&&': { marginBlock: '40px 48px' } }}
       />
 
-      <FlexBox flexDirection="column" gap="80px">
+      <FlexBox flexDirection="column" gap="54px">
         {collection
           .sort((a, b) => a[0].localeCompare(b[0]))
           .map(([key, list], i) => (
-            <FlexBox flexDirection="column" key={key + i} gap="24px">
+            <FlexBox flexDirection="column" key={key + i}>
               <Heading2 content={capitalCase(key)} />
 
               <Grid columnSpacing={56} rowSpacing={12}>

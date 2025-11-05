@@ -91,13 +91,13 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
       <FlexBox flexDirection="column" gap="6px" sx={{ padding: '12px' }}>
         <FlexBox gap="12px">
           <Typography
-            variant="headline1"
+            variant="headline2"
             weight="bold"
             color="semantic.label.normal"
             as="p"
             id={`carousel-${id}`}
             md={{
-              variant: 'heading2',
+              variant: 'headline1',
             }}
           >
             {title}

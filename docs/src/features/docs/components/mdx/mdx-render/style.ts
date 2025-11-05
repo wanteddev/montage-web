@@ -86,30 +86,25 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h3),
     h3 {
       margin-top: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     :is(h4),
     h4 {
       margin-top: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     :is(h5),
     h5 {
       margin-top: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     :is(h6),
     h6 {
       margin-top: 8px;
       margin-bottom: 16px;
-    }
-
-    :is(h2) + :is(h3),
-    h2 + h3 {
-      margin-top: 32px;
     }
 
     :is(ol),
@@ -133,7 +128,8 @@ export const mdxRootStyle = (theme: Theme) => css`
         }
 
         p + [data-role='table'],
-        strong + [data-role='table'] {
+        strong + [data-role='table'],
+        p + details {
           margin-top: 16px;
         }
 
@@ -185,6 +181,10 @@ export const mdxRootStyle = (theme: Theme) => css`
       :is(p),
       p {
         margin: 0 !important;
+      }
+
+      p + p {
+        margin-top: 16px !important;
       }
     }
 

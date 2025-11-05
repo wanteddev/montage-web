@@ -42,8 +42,8 @@ const DocsSummary = () => {
         const sortedObj: { [key: string]: number } = {
           design: 3,
           web: 2,
-          android: 1,
-          ios: 0,
+          ios: 1,
+          android: 0,
         };
 
         return (
