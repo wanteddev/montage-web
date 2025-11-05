@@ -1,5 +1,5 @@
 'use client';
-import { Box, FlexBox, Typography } from '@wanteddev/wds';
+import { Divider, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { IconArrowUpRight } from '@wanteddev/wds-icon';
 
@@ -8,7 +8,7 @@ import FadeInOut from '@/components/fade-in-out';
 import SectionWrapper from '../section/wrapper';
 import SectionTitle from '../section/title';
 
-import { itemDividerStyle, itemLinkStyle } from './style';
+import { itemDividerStyle, itemImageStyle, itemWrapperStyle } from './style';
 import { RESOURCE_ITEMS } from './constants';
 
 const Resources = () => {
@@ -19,30 +19,48 @@ const Resources = () => {
       </FadeInOut>
 
       <FlexBox
-        gap="8px"
+        gap="0px"
         flexDirection="column"
         md={{
-          gap: '48px',
+          gap: '16px',
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}
+        sx={{ position: 'relative' }}
       >
+        <Divider color="semantic.line.normal.neutral" sx={itemDividerStyle} />
+
         {RESOURCE_ITEMS.map((item, idx) => (
           <FadeInOut duration={600} delay={(idx + 1) * 100} key={item.title}>
-            <FlexBox gap="12px" flex="1 0 0" md={{ gap: '20px' }}>
-              <Box as="hr" sx={itemDividerStyle(item.color)} />
+            <FlexBox
+              gap="16px"
+              flex="1 0 0"
+              alignItems="center"
+              md={{
+                gap: '53px',
+                flexDirection: 'column',
+                alignItems: 'initial',
+              }}
+              sx={itemWrapperStyle}
+              as={Link}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Thumbnail
+                src={item.image}
+                alt={item.title}
+                sx={itemImageStyle}
+              />
 
               <FlexBox
                 gap="6px"
-                as={Link}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={itemLinkStyle}
                 flex="1"
                 justifyContent="space-between"
+                alignItems="center"
                 md={{
                   flexDirection: 'column',
+                  alignItems: 'initial',
                 }}
               >
                 <FlexBox gap="12px">

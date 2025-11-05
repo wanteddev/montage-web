@@ -3,24 +3,9 @@ import { css } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const itemDividerStyle = (color: string) => (theme: Theme) => css`
-  width: 5px;
-  height: 100%;
-  border-radius: 2px;
-  background: ${color};
-  margin: 0px;
-  border: none;
-
-  ${respondTo(theme.breakpoint.md)} {
-    width: 8px;
-    height: 8px;
-    border-radius: 5px;
-    margin-block: auto;
-  }
-`;
-
-export const itemLinkStyle = (theme: Theme) => css`
-  padding: 0px;
+export const itemWrapperStyle = (theme: Theme) => css`
+  padding-top: 28px;
+  position: relative;
 
   [data-role='interaction-arrow'] {
     color: ${theme.semantic.label.normal};
@@ -37,8 +22,74 @@ export const itemLinkStyle = (theme: Theme) => css`
     }
   }
 
+  ${respondTo('500px')} {
+    [data-role='interaction-arrow'] {
+      display: none;
+    }
+  }
+
   ${respondTo(theme.breakpoint.md)} {
-    padding: 8px 0px;
+    padding-block: 20px;
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      height: 1px;
+      background: ${theme.semantic.line.normal.neutral};
+      border-radius: 2px;
+      pointer-events: none;
+    }
+  }
+`;
+
+export const itemDividerStyle = (theme: Theme) => css`
+  position: absolute;
+  top: 94px;
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  border-radius: 2px;
+  pointer-events: none;
+
+  ${respondTo(theme.breakpoint.md)} {
+    display: none;
+  }
+`;
+
+export const itemImageStyle = (theme: Theme) => css`
+  aspect-ratio: unset;
+  width: 40px;
+  height: 40px;
+
+  img {
+    width: auto;
+  }
+
+  ${respondTo(theme.breakpoint.md)} {
+    height: 32px;
+    width: 32px;
+    img {
+      margin: 0 auto;
+    }
+  }
+`;
+
+export const itemLinkStyle = (theme: Theme) => css`
+  [data-role='interaction-arrow'] {
+    color: ${theme.semantic.label.normal};
+    transition: transform 0.2s ease;
+    font-size: 24px;
+    transform: scale(0);
+  }
+
+  @media (pointer: fine) {
+    &:hover {
+      [data-role='interaction-arrow'] {
+        transform: scale(1);
+      }
+    }
   }
 
   ${respondTo('500px')} {
