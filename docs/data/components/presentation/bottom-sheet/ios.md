@@ -32,7 +32,8 @@ Button("바텀 시트 열기") {
     }
     .resize(.flexible)
     .modalNavigation {
-        ModalNavigation(title: "제목")
+        ModalNavigation()
+            .title("제목")
     }
 }
 ```
@@ -247,10 +248,13 @@ Button("전체 화면 모달 열기") {
         .padding()
     }
     .modalNavigation {
-        ModalNavigation(title: "제목")
-            .leadingButton(.back {
-                showFullModal = false
-            })
+        ModalNavigation()
+            .title("제목")
+            .leadingContent {
+                TopNavigation.LeadingButton(.back {
+                    showFullModal = false
+                })
+            }
     }
 }
 ```
@@ -259,13 +263,11 @@ Button("전체 화면 모달 열기") {
 
 ```swift
 YourView()
-    .modifier(
-        FullModalModifier(
-            isPresented: $showFullModal
-        ) {
-            Text("풀스크린 모달 내용")
-        }
-    )
+    .fullModal(
+        isPresented: $showFullModal
+    ) {
+        Text("풀스크린 모달 내용")
+    }
 ```
 
 ### Topics

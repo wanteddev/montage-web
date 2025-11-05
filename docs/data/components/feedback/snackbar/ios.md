@@ -17,13 +17,11 @@ description: 화면 상단 또는 하단에 임시로 표시되는 알림 메시
 
 var body: some View {
     ContentView()
-        .modifier(
-            SnackBar.SnackBarModifier(
-                model: $snackBarModel,
-                handler: {
-                    // 액션 버튼 클릭 시 실행할 코드
-                }
-            )
+        .snackBar(
+            $snackBarModel,
+            handler: {
+                // 액션 버튼 클릭 시 실행할 코드
+            }
         )
         .onAppear {
             snackBarModel = SnackBar.Model(

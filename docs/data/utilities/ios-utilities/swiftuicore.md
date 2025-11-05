@@ -83,6 +83,7 @@ View를 UIImage로 변환합니다.
   | `message` | 출력할 메시지 |
   | `font` | 폰트 |
   | `alignment` | 정렬 |
+  | `drawOnPreviewOnly` | 프리뷰에서만 그릴지 여부 (기본값: true) |
 - **Return Value**
 
   로그가 출력된 View
@@ -97,6 +98,7 @@ View를 UIImage로 변환합니다.
   | Parameter | Description |
   | --- | --- |
   | `axis` | 측정할 축 |
+  | `drawOnPreviewOnly` | 프리뷰에서만 그릴지 여부 (기본값: true) |
 - **Return Value**
 
   뷰 크기가 그려진 View
@@ -378,6 +380,10 @@ View의 지오메트리 변경정보를 디바운스시켜서 받습니다.
 - **Discussion**
 
   사용자가 스크롤 뷰를 아래로 당기면 애니메이션과 함께 리프레시 기능을 제공합니다. iOS 18 이상에서 사용 가능하며, 로딩 애니메이션과 함께 당김 정도에 따른 시각적 피드백을 제공합니다.
+  >  **Note**
+  >
+  > 이 모디파이어는 스크롤 뷰의 오프셋을 감지하고, 특정 임계값 이상으로 당겨질 때 리프레시 동작을 트리거합니다.
+
 </details>
 <details>
 
@@ -412,6 +418,7 @@ View의 지오메트리 변경정보를 디바운스시켜서 받습니다.
   | --- | --- |
   | `color` | 인식 색상 |
   | `fill` | 배경 채우기 여부 |
+  | `drawOnPreviewOnly` | 프리뷰에서만 그릴지 여부 (기본값: true) |
 - **Return Value**
 
   인식된 View
@@ -533,6 +540,10 @@ View의 지오메트리 변경정보를 디바운스시켜서 받습니다.
   | `leadingContent` | 좌측에 표시할 컴포넌트 클로저 (기본값: nil) |
   | `trailingContents` | 우측에 표시할 컴포넌트 클로저 (기본값: []) |
   | `model` | 하단 액션 영역에 대한 모델 (기본값: nil) |
+  | `searchPlaceholder` | 검색 필드의 플레이스홀더 텍스트 (기본값: nil) |
+  | `searchTerm` | 검색어 바인딩 (기본값: nil) |
+  | `searchFocused` | 검색 필드 포커스 상태 바인딩 (기본값: nil) |
+  | `onSearch` | 검색 실행 시 호출될 클로저 (기본값: nil) |
 - **Return Value**
 
   TopNavigation이 적용된 뷰
@@ -552,6 +563,10 @@ View의 지오메트리 변경정보를 디바운스시켜서 받습니다.
   | `leadingContent` | 좌측에 표시할 컴포넌트 클로저 (기본값: nil) |
   | `trailingContents` | 우측에 표시할 컴포넌트 클로저 (기본값: []) |
   | `model` | 하단 액션 영역에 대한 모델 (기본값: nil) |
+  | `searchPlaceholder` | 검색 필드의 플레이스홀더 텍스트 (기본값: nil) |
+  | `searchTerm` | 검색어 바인딩 (기본값: nil) |
+  | `searchFocused` | 검색 필드 포커스 상태 바인딩 (기본값: nil) |
+  | `onSearch` | 검색 실행 시 호출될 클로저 (기본값: nil) |
 - **Return Value**
 
   TopNavigation이 적용된 뷰

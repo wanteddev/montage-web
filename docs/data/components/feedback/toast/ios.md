@@ -17,12 +17,10 @@ description: 화면의 상단 또는 하단에 짧게 표시되는 알림 메시
 
 var body: some View {
     ContentView()
-        .modifier(
-            Toast.ToastModifier(
-                model: $toastModel,
-                location: .bottom(),
-                duration: .short
-            )
+        .toast(
+            $toastModel,
+            location: .bottom(),
+            duration: .short
         )
         .onAppear {
             toastModel = Toast.Model(

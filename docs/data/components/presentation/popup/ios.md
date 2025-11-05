@@ -40,13 +40,11 @@ Button("팝업 열기") {
 
 ```swift
 YourView()
-    .modifier(
-        PopupModalModifier(
-            isPresented: $showPopup
-        ) {
-            Text("팝업 내용")
-        }
-    )
+    .popupModal(
+        isPresented: $showPopup
+    ) {
+        Text("팝업 내용")
+    }
 ```
 
 ## Topics

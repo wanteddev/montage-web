@@ -15,7 +15,7 @@ description: 썸네일과 콘텐츠를 포함하는 기본 카드 컴포넌트�
 @State private var isLoading = false
 
 Card(
-    thumbnail: { Thumbnail(.image(Image("sample"))) },
+    thumbnail: { Thumbnail(urlString: imageURL, ratio: .r16x9) },
     skeleton: $isLoading,
     title: "카드 제목"
 )

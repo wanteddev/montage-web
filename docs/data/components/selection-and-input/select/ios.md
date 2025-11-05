@@ -17,10 +17,10 @@ description:   컴포넌트는 사용자가 드롭다운 메뉴에서 하나 또
 ]
 
 Select(
-    variant: .single(.checkmark, nil),
-    placeholder: "선택하세요",
+    variant: .single(selectionType: .checkmark),
     items: $items
 )
+.placeholder("선택하세요")
 ```
 
 ## Topics

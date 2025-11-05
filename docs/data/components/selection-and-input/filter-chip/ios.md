@@ -20,8 +20,7 @@ FilterChip(
 )
 .backgroundColor(.semantic(.primaryNormal))
 .fontColor(.semantic(.staticWhite))
-.active(true)
-.activeLabel("최신순")
+.active(true, label: "최신순")
 ```
 
 ## Topics

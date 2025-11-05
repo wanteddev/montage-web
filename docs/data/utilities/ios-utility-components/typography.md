@@ -14,11 +14,11 @@ Typography는 Montage 디자인 시스템에서 사용되는 모든 텍스트 �
 ```swift
 // UIKit에서 사용
 let label = UILabel()
-label.font = UIFont.font(.body1, .regular)
+label.font = UIFont.font(variant: .body1, weight: .regular)
 
 // SwiftUI에서 사용
 Text("Hello, World!")
-    .typography.heading1, .bold)
+    .typography(variant: .heading1, weight: .bold, semantic: .labelNormal)
 ```
 
 >  **Note**

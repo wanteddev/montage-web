@@ -21,7 +21,7 @@ Loading(kind: .wanted, size: CGSize(width: 100, height: 100))
 
 // 로딩 오버레이로 적용
 someView
-    .loading(isLoading: $isLoadingState, type: .circular)
+    .loading($isLoadingState, type: .circular)
 ```
 
 >  **Note**
