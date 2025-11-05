@@ -323,25 +323,3 @@ export const useDocSearch = ({
     inputRef,
   };
 };
-
-export const useVisualViewport = () => {
-  const [height, setHeight] = useState<string>('100dvh');
-
-  useEffect(() => {
-    const handleResize = () => {
-      setHeight(
-        window.visualViewport ? `${window.visualViewport.height}px` : '100dvh',
-      );
-    };
-
-    const viewport = visualViewport ?? window;
-
-    viewport.addEventListener('resize', handleResize);
-
-    return () => {
-      viewport.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  return { height };
-};

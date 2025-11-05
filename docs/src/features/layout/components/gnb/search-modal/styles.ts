@@ -3,12 +3,9 @@ import { css, respondMore, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const modalWrapperStyle = (theme: Theme) => css`
-  height: var(--wds-mobile-height) !important;
-
   ${respondMore(theme.breakpoint.sm)} {
     align-items: initial;
     padding-top: 80px;
-    height: 100dvh !important;
 
     [role='dialog'] {
       height: fit-content;
