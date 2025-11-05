@@ -74,6 +74,7 @@ const Gnb = () => {
           <Box
             as={Link}
             href="/"
+            aria-label="Go to home"
             sx={(theme) => ({ color: theme.semantic.label.normal })}
           >
             <Logo />

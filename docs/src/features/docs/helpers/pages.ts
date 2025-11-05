@@ -173,9 +173,20 @@ export const parseGroupedPages = (
         return a.title.localeCompare(b.title);
       }
 
-      // 둘 다 Record인 경우 key로 정렬
+      // 둘 다 Record인 경우 web, ios, android 우선 정렬 후 나머지 정렬
       const aKey = Object.keys(a)[0] || '';
       const bKey = Object.keys(b)[0] || '';
+      const order = ['web', 'ios', 'android'];
+
+      const aIndex = order.indexOf(aKey.match(/^(web|ios|android)/)?.[0] ?? '');
+      const bIndex = order.indexOf(bKey.match(/^(web|ios|android)/)?.[0] ?? '');
+
+      if (aIndex !== -1 && bIndex !== -1) {
+        return aIndex - bIndex;
+      }
+      if (aIndex !== -1) return -1;
+      if (bIndex !== -1) return 1;
+
       return aKey.localeCompare(bKey);
     });
 

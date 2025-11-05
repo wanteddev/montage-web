@@ -27,7 +27,7 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
       <head>
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <meta
           name="theme-color"
@@ -127,12 +127,6 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           rel="apple-touch-icon"
           sizes="180x180"
           href="https://static.wanted.co.kr/favicon/new/apple-touch-icon-180x180.png"
-        />
-
-        <link
-          rel="preconnect"
-          href="https://static.wanted.co.kr"
-          crossOrigin="anonymous"
         />
         <link
           rel="preload stylesheet"

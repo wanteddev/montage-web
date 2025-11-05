@@ -23,6 +23,7 @@ const WithLnbLayout = ({ children }: PropsWithChildren) => {
       <Lnb />
 
       <FlexBox
+        as="main"
         gap="20px"
         sx={{ width: '100%' }}
         sm={{ justifyContent: 'center' }}
