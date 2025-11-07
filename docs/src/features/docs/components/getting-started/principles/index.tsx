@@ -6,19 +6,19 @@ import Carousel from '@/components/carousel';
 import { descriptionStyle } from '../style';
 
 import { PRINCIPLES } from './constants';
-import { carouselItemStyle, thumbnailStyle } from './style';
+import { carouselWrapperStyle, thumbnailStyle } from './style';
 
 const Principles = () => {
   const id = useId();
 
   return (
     <Carousel
+      sx={carouselWrapperStyle}
       items={PRINCIPLES.map((principle, idx) => (
         <FlexBox
           key={principle.title}
           gap="12px"
           flexDirection="column"
-          sx={carouselItemStyle}
           aria-labelledby={`carousel-${id}-${idx}`}
           aria-describedby={`carousel-${id}-${idx}-description`}
         >

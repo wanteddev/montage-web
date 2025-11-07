@@ -1,22 +1,31 @@
 import type { Metadata } from 'next';
 
 type CreateMetadataParams = {
-  title: string;
+  title?: string;
   description?: string;
   image?: string;
+  metadataBase?: string;
+  isRoot?: boolean;
 };
 
 export const createMetadata = ({
-  title,
+  title: givenTitle,
   description,
   image,
+  metadataBase,
+  isRoot = false,
 }: CreateMetadataParams): Metadata => {
   const parsedDescription = description?.replace(/\n/g, ' ');
+
+  const title = isRoot ? givenTitle : `${givenTitle} - Montage`;
 
   return {
     title,
     ...(parsedDescription && {
       description: parsedDescription,
+    }),
+    ...(metadataBase && {
+      metadataBase: new URL(metadataBase),
     }),
     openGraph: {
       type: 'website',
@@ -29,12 +38,12 @@ export const createMetadata = ({
       }),
     },
     twitter: {
-      card: 'summary_large_image',
       title,
       ...(parsedDescription && {
         description: parsedDescription,
       }),
       ...(image && {
+        card: 'summary_large_image',
         images: [{ url: image, width: 1200, height: 630 }],
       }),
     },

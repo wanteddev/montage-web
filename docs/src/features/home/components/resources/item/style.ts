@@ -1,0 +1,128 @@
+import { respondTo } from '@wanteddev/wds';
+import { css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const itemWrapperStyle = (theme: Theme) => css`
+  padding-top: 28px;
+  position: relative;
+
+  [data-role='resource-webp'] {
+    display: none;
+  }
+
+  [data-role='interaction-arrow'] {
+    color: ${theme.semantic.label.normal};
+    transition: transform 0.2s ease;
+    font-size: 24px;
+    transform: scale(0);
+  }
+
+  @media (pointer: fine) {
+    &:hover {
+      [data-role='interaction-arrow'] {
+        transform: scale(1);
+      }
+
+      [data-role='resource-webp'] {
+        display: block;
+      }
+
+      [data-role='resource-image'] {
+        display: none;
+      }
+    }
+  }
+
+  ${respondTo('500px')} {
+    [data-role='interaction-arrow'] {
+      display: none;
+    }
+  }
+
+  ${respondTo(theme.breakpoint.md)} {
+    padding-block: 20px;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      width: 100%;
+      height: 1px;
+      background: ${theme.semantic.line.normal.neutral};
+      pointer-events: none;
+    }
+  }
+`;
+
+export const itemDividerStyle = (theme: Theme) => css`
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.4, 0.14, 0.3, 1);
+
+  ${respondTo(theme.breakpoint.md)} {
+    display: none;
+  }
+`;
+
+export const itemImageStyle = (theme: Theme) => css`
+  aspect-ratio: unset;
+  width: 40px;
+  height: 40px;
+
+  img {
+    width: auto;
+  }
+
+  &:has([data-role='resource-webp']) {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+
+  ${respondTo(theme.breakpoint.md)} {
+    height: 32px;
+    width: 32px;
+    img {
+      margin: 0 auto;
+    }
+  }
+`;
+
+export const itemLinkStyle = (theme: Theme) => css`
+  [data-role='interaction-arrow'] {
+    color: ${theme.semantic.label.normal};
+    transition: transform 0.2s ease;
+    font-size: 24px;
+    transform: scale(0);
+  }
+
+  @media (pointer: fine) {
+    &:hover {
+      [data-role='interaction-arrow'] {
+        transform: scale(1);
+      }
+    }
+  }
+
+  ${respondTo('500px')} {
+    [data-role='interaction-arrow'] {
+      display: none;
+    }
+  }
+`;
+
+export const hiddenTextStyle = (theme: Theme) => css`
+  ${respondTo(theme.breakpoint.xl)} {
+    .max-xl\\:hidden {
+      display: none;
+    }
+  }
+
+  ${respondTo(theme.breakpoint.sm)} {
+    .max-sm\\:hidden {
+      display: none;
+    }
+  }
+`;

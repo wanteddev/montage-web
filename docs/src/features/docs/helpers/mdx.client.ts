@@ -112,3 +112,20 @@ export const getFrontmatterImage = (
 
   return item.image;
 };
+
+export const getFrontmatterDefaultImage = (item: Frontmatter) => {
+  const baseSlug = item.slug.at(0)!;
+
+  switch (baseSlug) {
+    case 'foundations':
+      return '/foundations/Thumbnail.png';
+    case 'components':
+      return '/components/Thumbnail.png';
+    case 'utilities':
+      return '/utilities/Thumbnail.png';
+    case 'getting-started':
+      return '/getting-started/Thumbnail.png';
+  }
+
+  return undefined;
+};

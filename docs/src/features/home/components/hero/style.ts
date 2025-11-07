@@ -172,7 +172,7 @@ export const marqueeBackgroundOverlayStyle =
     }
 
     ${respondTo(theme.breakpoint.sm)} {
-      width: 140px;
+      width: 80px;
     }
 
     [data-role='marquee-background-overlay-layer'] {

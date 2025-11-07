@@ -8,6 +8,7 @@ import SectionWrapper from '../section/wrapper';
 import { ARTICLE_ITEMS } from './constants';
 import { useCarouselAnimation } from './hooks';
 import BehindItem from './item';
+import { behindStyle } from './style';
 
 const Behind = () => {
   const { containerRef } = useCarouselAnimation();
@@ -19,6 +20,7 @@ const Behind = () => {
       </FadeInOut>
 
       <Carousel
+        sx={behindStyle}
         containerRef={containerRef}
         items={ARTICLE_ITEMS.map((item) => (
           <BehindItem key={item.title} {...item} />

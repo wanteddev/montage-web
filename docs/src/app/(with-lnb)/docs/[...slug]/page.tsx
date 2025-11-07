@@ -6,6 +6,7 @@ import {
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
 import {
+  getFrontmatterDefaultImage,
   getFrontmatterDescription,
   getFrontmatterImage,
   getFrontmatterTitle,
@@ -46,7 +47,9 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
       frontmatter,
       allFrontmatter,
     )?.replace(/\n/g, ' ');
-    const image = getFrontmatterImage(frontmatter, allFrontmatter);
+    const image =
+      getFrontmatterImage(frontmatter, allFrontmatter) ??
+      getFrontmatterDefaultImage(frontmatter);
 
     return {
       title,

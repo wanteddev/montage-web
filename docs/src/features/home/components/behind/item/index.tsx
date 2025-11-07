@@ -9,22 +9,23 @@ import {
   carouselItemStyle,
   glassEffectStyle,
   glassShadowEffectStyle,
+  itemLinkStyle,
   thumbnailStyle,
   thumbnailWrapperStyle,
+  titleStyle,
 } from './style';
 import { useCursor } from './hooks';
 import Filter from './filter';
-
-import type { HTMLAttributes } from 'react';
 
 type Props = {
   title: string;
   description: string;
   href: string;
   image: string;
-} & HTMLAttributes<HTMLAnchorElement>;
+  className?: string;
+};
 
-const BehindItem = ({ title, description, href, image, ...props }: Props) => {
+const BehindItem = ({ title, description, href, image, className }: Props) => {
   const id = useId();
   const filterId = useId();
 
@@ -39,10 +40,6 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
 
   return (
     <FlexBox
-      as={Link}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
       sx={[
         carouselItemStyle,
         {
@@ -54,18 +51,19 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
       flexDirection="column"
       aria-labelledby={`carousel-${id}`}
       aria-describedby={`carousel-${id}-description`}
-      {...props}
+      gap="20px"
+      className={className}
     >
       <FlexBox
+        ref={thumbnailRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         sx={thumbnailWrapperStyle}
       >
         <Thumbnail
-          ref={thumbnailRef}
           ratio="3:2"
           src={image}
-          alt={title}
+          alt={title.replace(/<[^>]+>/g, '')}
           width="100%"
           sx={thumbnailStyle}
         />
@@ -79,7 +77,7 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
               ? `url(#${filterId}) blur(0px) brightness(1) saturate(1.75)`
               : 'none',
             transform: `translate(${position.x}px, ${position.y}px)`,
-            display: isMouseOver ? 'block' : 'none',
+            visibility: isMouseOver ? 'visible' : 'hidden',
             willChange: 'backdrop-filter',
           }}
         >
@@ -88,7 +86,15 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
         </Box>
       </FlexBox>
 
-      <FlexBox flexDirection="column" gap="6px" sx={{ padding: '12px' }}>
+      <FlexBox
+        flexDirection="column"
+        gap="8px"
+        sx={itemLinkStyle}
+        as={Link}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <FlexBox gap="12px">
           <Typography
             variant="headline2"
@@ -99,9 +105,9 @@ const BehindItem = ({ title, description, href, image, ...props }: Props) => {
             md={{
               variant: 'headline1',
             }}
-          >
-            {title}
-          </Typography>
+            dangerouslySetInnerHTML={{ __html: title }}
+            sx={titleStyle}
+          />
 
           <IconArrowUpRight aria-hidden data-role="interaction-arrow" />
         </FlexBox>

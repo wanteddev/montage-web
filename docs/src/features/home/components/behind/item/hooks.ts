@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 export const useCursor = () => {
   const [isMouseOver, setIsMouseOver] = useState(false);
 
-  const thumbnailRef = useRef<HTMLImageElement>(null);
+  const thumbnailRef = useRef<HTMLDivElement>(null);
   const glassRef = useRef<HTMLDivElement>(null);
 
   const [position, setPosition] = useState({
@@ -30,6 +30,7 @@ export const useCursor = () => {
       const glassRect = glassRef.current.clientWidth / 2;
 
       const rect = thumbnailRef.current.getBoundingClientRect();
+
       const mouseX = e.clientX - rect.left - glassRect;
       const mouseY = e.clientY - rect.top - glassRect;
 

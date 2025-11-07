@@ -7,10 +7,10 @@ import type { Metadata } from 'next';
 
 const TITLE = 'Terms of use';
 
-export const generateMetadata = (): Metadata =>
-  createMetadata({
-    title: TITLE,
-  });
+export const metadata: Metadata = createMetadata({
+  title: TITLE,
+  image: '/getting-started/Thumbnail.png',
+});
 
 const TermsOfUsePage = () => {
   return (

@@ -2,17 +2,16 @@ import { addOpacity, css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const itemDividerStyle = (color: string) => css`
-  width: 5px;
-  height: 100%;
-  border-radius: 2px;
-  background: ${color};
-  margin: 0px;
-  border: none;
-`;
-
 export const carouselItemStyle = (theme: Theme) => css`
   --carousel-item-width: calc(33% - var(--carousel-item-gap) / 3);
+
+  ${respondTo(theme.breakpoint.md)} {
+    --carousel-item-width: 283px;
+  }
+`;
+
+export const itemLinkStyle = (theme: Theme) => css`
+  padding: 0px 6px;
 
   [data-role='interaction-arrow'] {
     color: ${theme.semantic.label.normal};
@@ -30,8 +29,6 @@ export const carouselItemStyle = (theme: Theme) => css`
   }
 
   ${respondTo(theme.breakpoint.md)} {
-    --carousel-item-width: 283px;
-
     [data-role='interaction-arrow'] {
       font-size: 24px;
     }
@@ -47,6 +44,22 @@ export const thumbnailWrapperStyle = css`
 export const thumbnailStyle = (theme: Theme) => css`
   border-radius: inherit;
   position: relative;
+
+  img {
+    width: 124px;
+    height: 124px;
+    margin: auto;
+
+    ${respondTo(theme.breakpoint.lg)} {
+      width: 112px;
+      height: 112px;
+    }
+
+    ${respondTo(theme.breakpoint.md)} {
+      width: 106px;
+      height: 106px;
+    }
+  }
 
   &::after {
     content: '';
@@ -64,6 +77,7 @@ export const glassEffectStyle = css`
   background-color: transparent;
   border: none;
   border-radius: 50%;
+  transform-origin: center center;
   position: absolute;
   left: 0;
   top: 0;
@@ -100,4 +114,12 @@ export const glassShadowEffectStyle = (theme: Theme) => css`
     inset -1px -1px 1px
       ${addOpacity(theme.semantic.static.white, theme.opacity[28])},
     ${theme.semantic.elevation.shadow.normal.small};
+`;
+
+export const titleStyle = (theme: Theme) => css`
+  ${respondTo(theme.breakpoint.xl)} {
+    .max-xl\\:hidden {
+      display: none;
+    }
+  }
 `;

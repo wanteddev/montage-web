@@ -1,9 +1,14 @@
-import { css } from '@wanteddev/wds';
+import { css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const carouselItemStyle = css`
-  --carousel-item-width: 252px;
+export const carouselWrapperStyle = css`
+  --carousel-item-gap: 12px;
+  --carousel-item-width: calc((100% - var(--carousel-item-gap) * 2) / 3);
+
+  ${respondTo('840px')} {
+    --carousel-item-width: 244px;
+  }
 `;
 
 export const thumbnailStyle = (theme: Theme) => css`
