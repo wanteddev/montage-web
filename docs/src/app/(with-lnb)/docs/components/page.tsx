@@ -12,7 +12,7 @@ const DESCRIPTION =
 export const metadata: Metadata = createMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  image: '/components/Thumbnail-Temp1.png',
+  image: '/components/Thumbnails.png',
 });
 
 const ComponentsOverviewPage = () => {

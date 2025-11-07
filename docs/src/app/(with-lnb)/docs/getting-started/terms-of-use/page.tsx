@@ -9,7 +9,7 @@ const TITLE = 'Terms of use';
 
 export const metadata: Metadata = createMetadata({
   title: TITLE,
-  image: '/home/Thumbnail-Temp1.png',
+  image: '/home/Thumbnails.png',
 });
 
 const TermsOfUsePage = () => {

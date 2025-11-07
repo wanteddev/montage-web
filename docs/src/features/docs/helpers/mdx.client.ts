@@ -118,13 +118,13 @@ export const getFrontmatterDefaultImage = (item: Frontmatter) => {
 
   switch (baseSlug) {
     case 'foundations':
-      return '/foundations/Thumbnail-Temp1.png';
+      return '/foundations/Thumbnails.png';
     case 'components':
-      return '/components/Thumbnail-Temp1.png';
+      return '/components/Thumbnails.png';
     case 'utilities':
-      return '/utilities/Thumbnail-Temp1.png';
+      return '/utilities/Thumbnails.png';
     case 'getting-started':
-      return '/home/Thumbnail-Temp1.png';
+      return '/home/Thumbnails.png';
   }
 
   return undefined;

@@ -12,7 +12,7 @@ const DESCRIPTION =
 export const metadata: Metadata = createMetadata({
   title: TITLE,
   description: DESCRIPTION,
-  image: '/foundations/Thumbnail-Temp1.png',
+  image: '/foundations/Thumbnails.png',
 });
 
 const ElevationLayout = ({ children }: PropsWithChildren) => {
