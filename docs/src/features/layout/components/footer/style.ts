@@ -1,12 +1,12 @@
-import { css, respondMore } from '@wanteddev/wds';
+import { css } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
 export const footerStyle = (theme: Theme) => css`
   position: relative;
-  padding: 20px 0px;
   width: 100%;
   gap: 20px;
+  padding: 32px 0px;
 
   &::before {
     content: '';
@@ -16,10 +16,6 @@ export const footerStyle = (theme: Theme) => css`
     width: 100%;
     height: 1px;
     background-color: ${theme.semantic.line.normal.alternative};
-  }
-
-  ${respondMore(theme.breakpoint.sm)} {
-    padding: 32px 0px;
   }
 `;
 
