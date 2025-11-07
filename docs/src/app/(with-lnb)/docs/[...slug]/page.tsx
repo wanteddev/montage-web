@@ -6,13 +6,14 @@ import {
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
 import {
-  // getFrontmatterDefaultImage,
+  getFrontmatterDefaultImage,
   getFrontmatterDescription,
-  // getFrontmatterImage,
+  getFrontmatterImage,
   getFrontmatterTitle,
 } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
 import { HeadingProvider } from '@/features/docs/contexts';
+import { createMetadata } from '@/helpers/metadata';
 
 import type { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import type { Metadata } from 'next';
@@ -48,20 +49,13 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
       allFrontmatter,
     )?.replace(/\n/g, ' ');
 
-    return {
+    return createMetadata({
       title,
       description,
-      openGraph: {
-        type: 'website',
-        title,
-        description,
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title,
-        description,
-      },
-    };
+      image:
+        getFrontmatterImage(frontmatter, allFrontmatter) ??
+        getFrontmatterDefaultImage(frontmatter),
+    });
   } catch (error) {
     if (isFileNotFoundError(error)) {
       notFound();
