@@ -1,6 +1,8 @@
 import { css } from '@wanteddev/wds';
 
-export const wrapperStyle = css`
+import type { Theme } from '@wanteddev/wds';
+
+export const wrapperStyle = (theme: Theme) => css`
   margin-block: 40px 64px;
   border-radius: 24px;
   overflow: hidden;
@@ -11,5 +13,14 @@ export const wrapperStyle = css`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  &::before {
+    content: '';
+    inset: 0;
+    position: absolute;
+    border-radius: inherit;
+    background-color: ${theme.semantic.fill.alternative};
+    opacity: ${theme.opacity[52]};
   }
 `;

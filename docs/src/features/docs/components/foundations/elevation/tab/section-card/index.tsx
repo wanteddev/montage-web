@@ -1,5 +1,7 @@
 import { FlexBox, Grid, GridItem, Thumbnail, Typography } from '@wanteddev/wds';
 
+import { sectionCardStyle } from './style';
+
 import type { SxProp } from '@wanteddev/wds';
 
 type Props = {
@@ -20,6 +22,7 @@ const SectionCard = ({ data, sx }: Props) => {
               width="100%"
               src={item.image}
               alt={item.title}
+              sx={sectionCardStyle}
             />
             <FlexBox
               flexDirection="column"

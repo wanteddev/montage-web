@@ -2,6 +2,21 @@ import { css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
+export const thumbnailStyle = (theme: Theme) => css`
+  margin-top: 40px;
+  margin-bottom: 32px;
+  aspect-ratio: 95 / 29;
+
+  &::before {
+    content: '';
+    inset: 0;
+    position: absolute;
+    border-radius: inherit;
+    background-color: ${theme.semantic.fill.alternative};
+    opacity: ${theme.opacity[52]};
+  }
+`;
+
 export const linkStyle = (theme: Theme) => css`
   padding-block: 24px;
   border-bottom: 1px solid ${theme.semantic.line.normal.alternative};

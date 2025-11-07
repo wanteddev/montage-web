@@ -13,7 +13,7 @@ export const thumbnailStyle = (theme: Theme) => css`
     position: absolute;
     border-radius: inherit;
     background-color: ${theme.semantic.fill.alternative};
-    opacity: ${theme.opacity[22]};
+    opacity: ${theme.opacity[52]};
   }
 `;
 

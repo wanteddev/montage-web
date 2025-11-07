@@ -9,7 +9,7 @@ import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 import { Heading2 } from '../../mdx/section/layout';
 
 import { BASE_MATERIAL_ITEMS } from './constants';
-import { interactionArrowStyle, linkStyle } from './style';
+import { interactionArrowStyle, linkStyle, thumbnailStyle } from './style';
 
 const FoundationsOverview = () => {
   const { handleRouteChange } = useRouteScroll(
@@ -24,11 +24,7 @@ const FoundationsOverview = () => {
         src="/foundations/overview/Image.png"
         alt="Foundations Overview"
         radius
-        sx={{
-          marginTop: '40px',
-          marginBottom: '32px',
-          aspectRatio: '95 / 29',
-        }}
+        sx={thumbnailStyle}
       />
 
       <Heading2 content="Base material" />

@@ -4,8 +4,9 @@ import { useMemo } from 'react';
 import { sentenceCase } from 'change-case';
 
 import { Heading2 } from '../../../mdx/section/layout';
-import SectionCard from '../../../section-card';
 import RouteTab from '../../../route-tab';
+
+import SectionCard from './section-card';
 
 const pages = ['normal', 'spread'];
 
