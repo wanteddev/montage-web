@@ -15,7 +15,7 @@ export const dynamic = 'force-static';
 export const metadata: Metadata = createMetadata({
   title: 'Wanted Design System',
   description: '일하는 사람들의 모든 가능성을 위해, 원티드 디자인 시스템',
-  image: '/getting-started/Thumbnail.png',
+  image: '/home/Thumbnail.png',
 });
 
 const RootPage = () => {
