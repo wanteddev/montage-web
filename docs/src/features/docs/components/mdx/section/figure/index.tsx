@@ -1,6 +1,5 @@
 import { FlexBox, Typography } from '@wanteddev/wds';
 import { Thumbnail } from '@wanteddev/wds';
-import { useId } from 'react';
 import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
 
 import { SectionDescription } from '../layout';
@@ -31,15 +30,13 @@ const SectionFigure = ({
   description,
   variant,
 }: Props) => {
-  const id = useId();
-
   return (
     <FlexBox flexDirection="column" sx={sectionFigureStyle} flex="1 1 0%">
       {src && (
         <Thumbnail
-          aria-labelledby={id}
           src={src}
-          alt="thumbnail"
+          alt={title ?? 'thumbnail'}
+          aria-hidden
           width="100%"
           sx={[sectionFigureThumbnailStyle, variant && { marginBottom: 12 }]}
           ratio={ratio}
@@ -51,9 +48,9 @@ const SectionFigure = ({
       {variant ? (
         <FlexBox gap="16px" sx={sectionFigureVariantStyle(variant)}>
           {variant === 'positive' ? (
-            <IconCircleCheckFill sx={{ fontSize: 40 }} />
+            <IconCircleCheckFill aria-hidden sx={{ fontSize: 40 }} />
           ) : (
-            <IconCircleCloseFill sx={{ fontSize: 40 }} />
+            <IconCircleCloseFill aria-hidden sx={{ fontSize: 40 }} />
           )}
           <FlexBox
             flexDirection="column"
@@ -88,7 +85,6 @@ const SectionFigure = ({
               variant="headline2"
               weight="bold"
               color="semantic.label.normal"
-              id={id}
               sx={{
                 paddingInline: '12px !important',
               }}

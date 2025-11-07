@@ -16,6 +16,7 @@ const SearchResultEmpty = ({ query }: Props) => {
         gap="20px"
       >
         <IconInbox
+          aria-hidden
           sx={(theme) => ({
             fontSize: 40,
             color: theme.semantic.label.assistive,

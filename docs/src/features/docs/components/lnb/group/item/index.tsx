@@ -91,7 +91,7 @@ const LnbGroupItem = ({
           trailingContent={
             trailingContent ?? (
               <ListCellContent variant="icon" data-role="lnb-group-item-arrow">
-                <IconArrowRightThick sx={{ fontSize: '16px' }} />
+                <IconArrowRightThick aria-hidden sx={{ fontSize: '16px' }} />
               </ListCellContent>
             )
           }

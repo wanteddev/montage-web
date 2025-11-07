@@ -42,9 +42,9 @@ const TokenPopover = ({
             {leadingContent !== undefined ? (
               leadingContent
             ) : theme === 'light' ? (
-              <IconSun sx={popoverIconStyle} />
+              <IconSun aria-hidden sx={popoverIconStyle} />
             ) : (
-              <IconMoon sx={popoverIconStyle} />
+              <IconMoon aria-hidden sx={popoverIconStyle} />
             )}
             <Typography
               variant="headline2"

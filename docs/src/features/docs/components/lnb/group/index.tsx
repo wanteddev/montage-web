@@ -69,6 +69,7 @@ const LnbGroup = ({ frontmatters }: Props) => {
                         trailingContent={
                           <ListCellContent variant="icon">
                             <IconLock
+                              aria-hidden
                               sx={{ fontSize: '16px', margin: '4px 3px' }}
                             />
                           </ListCellContent>

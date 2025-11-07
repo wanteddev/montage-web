@@ -48,7 +48,7 @@ const Toolbar = ({
       <FlexBox sx={errorStyle} gap="4px" alignItems="center">
         {errorMessage && (
           <>
-            <IconCircleExclamationFill />
+            <IconCircleExclamationFill aria-hidden />
             <Typography color="semantic.status.negative" variant="caption1">
               {errorMessage}
             </Typography>
