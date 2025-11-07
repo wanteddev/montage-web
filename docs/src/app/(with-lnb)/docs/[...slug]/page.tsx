@@ -6,9 +6,9 @@ import {
   getSourceBySlug,
 } from '@/features/docs/helpers/mdx';
 import {
-  getFrontmatterDefaultImage,
+  // getFrontmatterDefaultImage,
   getFrontmatterDescription,
-  getFrontmatterImage,
+  // getFrontmatterImage,
   getFrontmatterTitle,
 } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
@@ -47,9 +47,6 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
       frontmatter,
       allFrontmatter,
     )?.replace(/\n/g, ' ');
-    const image =
-      getFrontmatterImage(frontmatter, allFrontmatter) ??
-      getFrontmatterDefaultImage(frontmatter);
 
     return {
       title,
@@ -58,17 +55,11 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
         type: 'website',
         title,
         description,
-        ...(image && {
-          images: [{ url: image, width: 1200, height: 630 }],
-        }),
       },
       twitter: {
         card: 'summary_large_image',
         title,
         description,
-        ...(image && {
-          images: [{ url: image, width: 1200, height: 630 }],
-        }),
       },
     };
   } catch (error) {
