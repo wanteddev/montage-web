@@ -72,6 +72,7 @@ export const itemWebpStyle =
     height: 40px;
     background: url(${image}) no-repeat center center;
     background-size: 100% 100%;
+    margin-left: -4px;
 
     &[data-state='hover'] {
       background-image: url(${webp});
@@ -80,35 +81,12 @@ export const itemWebpStyle =
     ${respondTo(theme.breakpoint.md)} {
       height: 32px;
       width: 32px;
+      margin-left: -3px;
       img {
         margin: 0 auto;
       }
     }
   `;
-
-export const itemImageStyle = (theme: Theme) => css`
-  aspect-ratio: unset;
-  width: 40px;
-  height: 40px;
-
-  img {
-    width: auto;
-  }
-
-  &:has([data-role='resource-webp']) {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-  }
-
-  ${respondTo(theme.breakpoint.md)} {
-    height: 32px;
-    width: 32px;
-    img {
-      margin: 0 auto;
-    }
-  }
-`;
 
 export const itemLinkStyle = (theme: Theme) => css`
   [data-role='interaction-arrow'] {

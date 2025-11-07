@@ -64,23 +64,6 @@ const ResourcesItem = ({
           sx={itemWebpStyle(image, webp)}
           data-state={isMouseOver ? 'hover' : 'idle'}
         />
-        {/* <Thumbnail
-          src={image}
-          alt={title.replace(/<[^>]+>/g, '')}
-          data-role="resource-image"
-          sx={itemImageStyle}
-        />
-
-        {isMouseOver && (
-          <Thumbnail
-            aria-hidden
-            src={webp}
-            alt={title.replace(/<[^>]+>/g, '')}
-            data-role="resource-webp"
-            sx={itemImageStyle}
-            loading="lazy"
-          />
-        )} */}
       </FlexBox>
 
       <Divider color="semantic.line.normal.neutral" sx={itemDividerStyle} />
