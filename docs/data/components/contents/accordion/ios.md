@@ -39,10 +39,6 @@ Accordion(title: "커스텀 스타일")
     .fillWidth()
 ```
 
->  **Note**
->
-> 아코디언은 기본적으로 하단에 구분선을 갖고 있으며, `hideDivider()` 수정자를 통해 제거할 수 있습니다.
-
 ## Topics
 
 ### Initializers
@@ -51,26 +47,28 @@ Accordion(title: "커스텀 스타일")
 
 <summary>``init(title: String, description: String?)``</summary>
 
+
 아코디언을 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `title` | 아코디언의 제목 |
-  | `description` | 확장 시 표시될 설명 텍스트 (선택 사항) |
+  | `description` | 확장 시 표시될 설명 텍스트, 기본값은 `nil` |
 </details>
 <details>
 
 <summary>``init<V>(title: String, description: String?, content: () -> V)``</summary>
 
+
 아코디언을 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `title` | 아코디언의 제목 |
-  | `description` | 확장 시 표시될 설명 텍스트 (선택 사항) |
-  | `content` | 확장 시 표시될 커스텀 컨텐츠 뷰 (선택 사항) |
+  | `description` | 확장 시 표시될 설명 텍스트, 기본값은 `nil` |
+  | `content` | 확장 시 표시될 커스텀 컨텐츠 뷰 |
 </details>
 
 ___
@@ -79,6 +77,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -88,14 +89,15 @@ ___
 
 <summary>``func description(Typography.Variant, weight: Typography.Weight, color: SwiftUI.Color) -> Accordion``</summary>
 
+
 설명 텍스트의 타이포그래피 속성을 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 텍스트 변형 (기본값: .label1) |
-  | `weight` | 텍스트 굵기 (기본값: .regular) |
-  | `color` | 텍스트 색상 (기본값: .semantic(.labelNeutral)) |
+  | `variant` | 텍스트 변형, 기본값은 `.label1` |
+  | `weight` | 텍스트 굵기, 기본값은 `.regular` |
+  | `color` | 텍스트 색상, 기본값은 `.semantic(.labelNeutral)` |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -104,12 +106,13 @@ ___
 
 <summary>``func fillWidth(Bool) -> Accordion``</summary>
 
+
 아코디언이 부모 컨테이너의 너비를 채우도록 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `fillWidth` | 너비를 채울지 여부 |
+  | `fillWidth` | 너비를 채울지 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -121,12 +124,13 @@ ___
 
 <summary>``func hideDivider(Bool) -> Accordion``</summary>
 
+
 아코디언 하단의 구분선을 숨깁니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `hideDivider` | 구분선을 숨길지 여부 (기본값: `true`) |
+  | `hideDivider` | 구분선을 숨길지 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -135,13 +139,14 @@ ___
 
 <summary>``func leadingIcon(Icon?, color: SwiftUI.Color?) -> Accordion``</summary>
 
+
 아코디언 제목 앞에 아이콘을 추가합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `leadingIcon` | 표시할 아이콘 |
-  | `color` | 아이콘 색상 (기본값: nil - 기본 색상 사용) |
+  | `leadingIcon` | 표시할 아이콘, 기본값은 `nil` |
+  | `color` | 아이콘 색상, 기본값은 `nil` (기본 색상 사용) |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -150,14 +155,15 @@ ___
 
 <summary>``func title(Typography.Variant, weight: Typography.Weight, color: SwiftUI.Color) -> Accordion``</summary>
 
+
 타이틀 텍스트의 타이포그래피 속성을 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 텍스트 변형 (기본값: .body2) |
-  | `weight` | 텍스트 굵기 (기본값: .bold) |
-  | `color` | 텍스트 색상 (기본값: .semantic(.labelNormal)) |
+  | `variant` | 텍스트 변형, 기본값은 `.body2` |
+  | `weight` | 텍스트 굵기, 기본값은 `.bold` |
+  | `color` | 텍스트 색상, 기본값은 `.semantic(.labelNormal)` |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -165,6 +171,7 @@ ___
 <details>
 
 <summary>``func trailingContent<V>(() -> V) -> Accordion``</summary>
+
 
 아코디언 헤더 우측에 커스텀 컨텐츠를 추가합니다.
 
@@ -183,12 +190,13 @@ ___
 
 <summary>``func verticalPadding(VerticalPadding) -> Accordion``</summary>
 
+
 아코디언 헤더의 상하 여백 크기를 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `verticalPadding` | 상하 여백 크기 (기본값: .large) |
+  | `verticalPadding` | 상하 여백 크기, 기본값은 `.large` |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -201,6 +209,7 @@ ___
 
 <summary>``enum VerticalPadding``</summary>
 
+
 아코디언의 상하 여백을 나타내는 열거형입니다.
 #### Enumeration Cases
 
@@ -208,11 +217,13 @@ ___
 
 <summary>``case large``</summary>
 
+
 넓은 여백
 </details>
 <details>
 
 <summary>``case medium``</summary>
+
 
 중간 여백
 </details>
@@ -220,24 +231,13 @@ ___
 
 <summary>``case small``</summary>
 
+
 좁은 여백
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

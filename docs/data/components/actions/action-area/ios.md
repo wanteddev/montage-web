@@ -28,7 +28,7 @@ ActionArea(variant: .neutral(
 ActionArea(variant: .cancel(
     main: .init(text: "닫기", action: { dismiss() })
 ))
-.extra({ 
+.extra({
     Text("추가 정보")
         .typography(variant: .label2) 
 })
@@ -36,7 +36,7 @@ ActionArea(variant: .cancel(
 
 >  **Note**
 >
-> 키보드가 표시될 때 자동으로 조정됩니다.
+> 키보드가 표시될 때 ActionArea가 위치가 자동으로 키보드 상단에 붙어있도록 조정됩니다.
 
 ## Topics
 
@@ -46,12 +46,14 @@ ActionArea(variant: .cancel(
 
 <summary>``struct ButtonInfo``</summary>
 
+
 ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 #### Initializers
 
 <details>
 
 <summary>``init(text: String, action: (() -> Void))``</summary>
+
 
 기본 버튼 정보를 초기화합니다.
 
@@ -70,6 +72,7 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 <details>
 
 <summary>``static func custom<V>(() -> V) -> ActionArea.ButtonInfo``</summary>
+
 
 커스텀 버튼 뷰를 사용하는 버튼 정보를 생성합니다.
 
@@ -92,6 +95,7 @@ ActionArea에 표시될 버튼 정보를 정의하는 구조체입니다.
 
 <summary>``struct Model``</summary>
 
+
 ActionArea를 구성하기 위한 모델 구조체입니다.
 #### Initializers
 
@@ -99,30 +103,32 @@ ActionArea를 구성하기 위한 모델 구조체입니다.
 
 <summary>``init<V>(variant: ActionArea.Variant, backgroundTransparencyControl: ActionArea.BackgroundTransparencyControl, caption: String?, extra: () -> V, extraDivider: Bool)``</summary>
 
+
 ActionArea 모델을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼 레이아웃 변형 |
-  | `backgroundTransparencyControl` | 배경 투명도 설정 |
-  | `caption` | 캡션 텍스트 |
+  | `backgroundTransparencyControl` | 배경 투명도 설정, 기본값은 `.automatic` |
+  | `caption` | 캡션 텍스트, 기본값은 `nil` |
   | `extra` | 추가 콘텐츠를 생성하는 클로저 |
-  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부 |
+  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부, 기본값은 `true` |
 </details>
 <details>
 
 <summary>``init(variant: ActionArea.Variant, backgroundTransparencyControl: ActionArea.BackgroundTransparencyControl, caption: String?, extraDivider: Bool)``</summary>
 
+
 ActionArea 모델을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `variant` | 버튼 레이아웃 변형 |
-  | `backgroundTransparencyControl` | 배경 투명도 제어 방식 (기본값: .automatic) |
-  | `caption` | 캡션 텍스트 |
-  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부 |
+  | `backgroundTransparencyControl` | 배경 투명도 제어 방식, 기본값은 `.automatic` |
+  | `caption` | 캡션 텍스트, 기본값은 `nil` |
+  | `extraDivider` | 추가 콘텐츠 위에 구분선 표시 여부, 기본값은 `true` |
 </details>
 
 </details>
@@ -133,6 +139,7 @@ ___
 <details>
 
 <summary>``init(variant: Variant)``</summary>
+
 
 ActionArea 컴포넌트를 초기화합니다.
 
@@ -151,6 +158,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -159,6 +169,7 @@ ___
 <details>
 
 <summary>``func caption(String?) -> ActionArea``</summary>
+
 
 버튼 위에 표시할 캡션 텍스트를 설정합니다.
 
@@ -174,6 +185,7 @@ ___
 
 <summary>``func extra<V>(() -> V, divider: Bool) -> ActionArea``</summary>
 
+
 버튼 위에 표시할 추가 콘텐츠를 설정합니다.
 
 - **Parameters**
@@ -188,6 +200,7 @@ ___
 <details>
 
 <summary>``func transparentBackground(Bool) -> ActionArea``</summary>
+
 
 배경을 투명하게 설정합니다.
 
@@ -210,6 +223,7 @@ ___
 
 <summary>``enum BackgroundTransparencyControl``</summary>
 
+
 ActionArea의 배경 투명도를 제어하는 열거형입니다.
 #### Enumeration Cases
 
@@ -217,11 +231,13 @@ ActionArea의 배경 투명도를 제어하는 열거형입니다.
 
 <summary>``case automatic``</summary>
 
+
 자동으로 배경 투명도를 결정합니다. 기본적으로 스크롤 위치나 콘텐츠에 따라 투명도가 자동 처리됩니다.
 </details>
 <details>
 
 <summary>``case manual(Bool)``</summary>
+
 
 수동으로 배경 투명도를 설정합니다. true면 배경이 투명해지고, false면 배경이 표시됩니다.
 </details>
@@ -231,6 +247,7 @@ ActionArea의 배경 투명도를 제어하는 열거형입니다.
 
 <summary>``enum Variant``</summary>
 
+
 ActionArea의 버튼 레이아웃 변형을 정의합니다.
 #### Enumeration Cases
 
@@ -238,30 +255,84 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 
 <summary>``case cancel(main: ButtonInfo)``</summary>
 
+
 취소 버튼만 있는 간단한 레이아웃
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `main` | 주 버튼 정보 |
 </details>
 <details>
 
 <summary>``case neutral(main: ButtonInfo, sub: ButtonInfo?, alternative: ButtonInfo?)``</summary>
 
+
 중립적인 스타일의 버튼 레이아웃
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `main` | 주 버튼 정보 |
+  | `sub` | 보조 버튼 정보, 기본값은 `nil` |
+  | `alternative` | 대체 버튼 정보, 기본값은 `nil` |
 </details>
 <details>
 
 <summary>``case strong(main: ButtonInfo, sub: ButtonInfo?, alternative: ButtonInfo?)``</summary>
 
+
 강조된 주 버튼과 보조/대체 버튼이 있는 레이아웃
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `main` | 주 버튼 정보 |
+  | `sub` | 보조 버튼 정보, 기본값은 `nil` |
+  | `alternative` | 대체 버튼 정보, 기본값은 `nil` |
 </details>
 
 </details>
 
 ___
-### Default Implementations
+___
+### Associated Extensions
+
+<details>
+
+<summary>``extension View``</summary>
+
+<details>
+
+<summary>``func actionArea(model: ActionArea.Model) -> some View``</summary>
 
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+현재 뷰에 하단 ActionArea를 적용합니다.
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `model` | ActionArea의 구성 모델 |
+- **Return Value**
+
+  ActionArea가 적용된 뷰
+- **Discussion**
+
+  ```swift
+  contentView
+      .actionArea(model: .init(
+          variant: .strong(
+              main: .init(text: "확인", action: { confirmAction() }),
+              sub: .init(text: "취소", action: { cancelAction() })
+          ),
+          caption: "변경 사항을 저장하시겠습니까?"
+      ))
+  ```
+
+</details>
+
+
+</details>
 
 ## Relationships
 

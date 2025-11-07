@@ -23,10 +23,6 @@ Card(
 .overlay(caption: "New", buttonIcon: .heart)
 ```
 
->  **Note**
->
-> 썸네일 이미지는 둥근 모서리로 표시되며, 콘텐츠 영역의 너비는 썸네일 너비에 맞춰집니다.
-
 ## Topics
 
 ### Initializers
@@ -34,6 +30,7 @@ Card(
 <details>
 
 <summary>``init(thumbnail: () -> Thumbnail, skeleton: Binding<Bool>, title: String)``</summary>
+
 
 카드를 초기화합니다.
 
@@ -51,6 +48,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -59,6 +59,7 @@ ___
 <details>
 
 <summary>``func bottomContent<V>(() -> V) -> Card``</summary>
+
 
 카드 하단에 표시할 콘텐츠를 설정합니다.
 
@@ -74,6 +75,7 @@ ___
 
 <summary>``func caption(String?) -> Card``</summary>
 
+
 카드의 캡션(부제목)을 설정합니다.
 
 - **Parameters**
@@ -88,6 +90,7 @@ ___
 
 <summary>``func extraCaption(String?) -> Card``</summary>
 
+
 카드의 추가 캡션을 설정합니다.
 
 - **Parameters**
@@ -101,6 +104,7 @@ ___
 <details>
 
 <summary>``func overlay(caption: String?, buttonIcon: Montage.Icon?, buttonColor: SwiftUI.Color, onTapButton: (() -> Void)?) -> Card``</summary>
+
 
 썸네일에 오버레이할 콘텐츠를 설정합니다.
 
@@ -119,6 +123,7 @@ ___
 
 <summary>``func subCaption(String?) -> Card``</summary>
 
+
 카드의 보조 캡션을 설정합니다.
 
 - **Parameters**
@@ -133,6 +138,7 @@ ___
 
 <summary>``func topContent<V>(() -> V) -> Card``</summary>
 
+
 카드 상단에 표시할 콘텐츠를 설정합니다.
 
 - **Parameters**
@@ -145,13 +151,6 @@ ___
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

@@ -33,10 +33,6 @@ SegmentedControl(
 .size(.medium)
 ```
 
->  **Note**
->
-> 기본 변형(.solid)은 배경이 있는 형태로, .outlined 변형은 테두리만 있는 형태로 표시됩니다.
-
 ## Topics
 
 ### Structures
@@ -45,6 +41,7 @@ SegmentedControl(
 
 <summary>``struct Item``</summary>
 
+
 세그먼트 컨트롤의 항목을 나타내는 구조체입니다.
 #### Initializers
 
@@ -52,12 +49,13 @@ SegmentedControl(
 
 <summary>``init(image: Image?, title: String)``</summary>
 
+
 세그먼트 항목을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `image` | 표시할 이미지 (선택 사항) |
+  | `image` | 표시할 이미지, 기본값은 `nil` |
   | `title` | 표시할 텍스트 |
 </details>
 
@@ -70,6 +68,7 @@ ___
 
 <summary>``init(selectedIndex: Binding<Int>, items: [Item], onSelect: ((Int) -> Void)?)``</summary>
 
+
 항목 배열을 이용해 세그먼트 컨트롤을 초기화합니다.
 
 - **Parameters**
@@ -77,11 +76,12 @@ ___
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `items` | 표시할 항목 배열 |
-  | `onSelect` | 항목 선택 시 호출될 클로저 (기본값: nil) |
+  | `onSelect` | 항목 선택 시 호출될 클로저, 기본값은 `nil` |
 </details>
 <details>
 
 <summary>``init(selectedIndex: Binding<Int>, labels: [String], onSelect: ((Int) -> Void)?)``</summary>
+
 
 텍스트 배열을 이용해 세그먼트 컨트롤을 초기화합니다.
 
@@ -90,7 +90,7 @@ ___
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `labels` | 표시할 텍스트 배열 |
-  | `onSelect` | 항목 선택 시 호출될 클로저 (기본값: nil) |
+  | `onSelect` | 항목 선택 시 호출될 클로저, 기본값은 `nil` |
 </details>
 
 ___
@@ -99,6 +99,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -108,12 +111,13 @@ ___
 
 <summary>``func size(Size) -> SegmentedControl``</summary>
 
+
 세그먼트 컨트롤의 크기를 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `size` | 적용할 크기 (.large, .medium, 또는 .small) |
+  | `size` | 적용할 크기 |
 - **Return Value**
 
   수정된 세그먼트 컨트롤 인스턴스
@@ -122,12 +126,13 @@ ___
 
 <summary>``func variant(Variant) -> SegmentedControl``</summary>
 
+
 세그먼트 컨트롤의 시각적 스타일을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 적용할 스타일 (.solid 또는 .outlined) |
+  | `variant` | 적용할 스타일 |
 - **Return Value**
 
   수정된 세그먼트 컨트롤 인스턴스
@@ -140,6 +145,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 세그먼트 컨트롤의 크기를 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -147,11 +153,13 @@ ___
 
 <summary>``case large``</summary>
 
+
 큰 크기
 </details>
 <details>
 
 <summary>``case medium``</summary>
+
 
 중간 크기
 </details>
@@ -159,18 +167,15 @@ ___
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 세그먼트 컨트롤의 시각적 스타일을 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -179,30 +184,20 @@ ___
 
 <summary>``case outlined``</summary>
 
+
 테두리만 있는 스타일
 </details>
 <details>
 
 <summary>``case solid``</summary>
 
+
 배경이 채워진 스타일
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

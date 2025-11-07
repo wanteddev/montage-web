@@ -31,6 +31,7 @@ Interaction(
 
 <summary>``init(state: State, variant: Variant, color: Color.Semantic)``</summary>
 
+
 상호작용 장식 컴포넌트를 초기화합니다.
 
 - **Parameters**
@@ -50,6 +51,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -59,6 +63,7 @@ ___
 
 <summary>``enum State``</summary>
 
+
 상호작용의 상태를 정의합니다.
 #### Enumeration Cases
 
@@ -66,11 +71,13 @@ ___
 
 <summary>``case focused``</summary>
 
+
 포커스 상태 (키보드 포커스)
 </details>
 <details>
 
 <summary>``case hovered``</summary>
+
 
 호버 상태 (마우스 오버)
 </details>
@@ -78,24 +85,22 @@ ___
 
 <summary>``case normal``</summary>
 
+
 기본 상태 (아무 상호작용 없음)
 </details>
 <details>
 
 <summary>``case pressed``</summary>
 
+
 누름 상태 (클릭/터치)
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 상호작용 효과의 강도를 정의합니다.
 #### Enumeration Cases
@@ -104,11 +109,13 @@ ___
 
 <summary>``case light``</summary>
 
+
 약한 강도
 </details>
 <details>
 
 <summary>``case normal``</summary>
+
 
 기본 강도
 </details>
@@ -116,24 +123,13 @@ ___
 
 <summary>``case strong``</summary>
 
+
 강한 강도
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

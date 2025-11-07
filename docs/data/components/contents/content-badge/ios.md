@@ -30,12 +30,13 @@ ContentBadge(variant: .outlined, text: "Updated")
 
 <summary>``init(variant: Variant, text: String)``</summary>
 
+
 ContentBadge를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 뱃지의 스타일 (solid 또는 outlined) |
+  | `variant` | 뱃지의 스타일, 기본값은 `.solid` |
   | `text` | 뱃지에 표시할 텍스트 |
 </details>
 
@@ -45,6 +46,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -53,6 +57,7 @@ ___
 <details>
 
 <summary>``func colorStyle(ColorStyle) -> ContentBadge``</summary>
+
 
 뱃지의 색상 스타일을 설정합니다.
 
@@ -68,6 +73,7 @@ ___
 
 <summary>``func leadingIcon(Icon) -> ContentBadge``</summary>
 
+
 뱃지 텍스트 앞에 표시될 아이콘을 설정합니다.
 
 - **Parameters**
@@ -82,6 +88,7 @@ ___
 
 <summary>``func size(Size) -> ContentBadge``</summary>
 
+
 뱃지의 크기를 설정합니다.
 
 - **Parameters**
@@ -95,6 +102,7 @@ ___
 <details>
 
 <summary>``func trailingIcon(Icon) -> ContentBadge``</summary>
+
 
 뱃지 텍스트 뒤에 표시될 아이콘을 설정합니다.
 
@@ -114,6 +122,7 @@ ___
 
 <summary>``enum ColorStyle``</summary>
 
+
 뱃지의 색상을 결정하는 열거형입니다.
 #### Enumeration Cases
 
@@ -121,35 +130,33 @@ ___
 
 <summary>``case accent(SwiftUI.Color, background: SwiftUI.Color?)``</summary>
 
+
 강조 색상 뱃지
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `contentColor` | 콘텐츠 색상 |
-  | `background` | 배경 색상 (nil일 경우 contentColor의 투명도를 조절하여 사용) |
+  | `background` | 배경 색상, 기본값은 `nil` (contentColor의 투명도를 조절하여 사용) |
 </details>
 <details>
 
 <summary>``case neutral(SwiftUI.Color?)``</summary>
+
 
 중립 색상 뱃지
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `contentColor` | 콘텐츠 색상 (nil일 경우 기본 색상 사용) |
+  | `contentColor` | 콘텐츠 색상, 기본값은 `nil` (기본 색상 사용) |
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Size``</summary>
+
 
 뱃지의 사이즈를 결정하는 열거형입니다.
 #### Enumeration Cases
@@ -157,25 +164,33 @@ ___
 <details>
 
 <summary>``case medium``</summary>
+
+- **Discussion**
+  - medium: 큰 크기의 뱃지
+
 </details>
 <details>
 
 <summary>``case small``</summary>
+
+- **Discussion**
+  - small: 중간 크기의 뱃지
+
 </details>
 <details>
 
 <summary>``case xsmall``</summary>
+
+- **Discussion**
+  - xsmall: 가장 작은 크기의 뱃지
+
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 뱃지의 외관을 결정하는 열거형 타입입니다.
 #### Enumeration Cases
@@ -184,30 +199,20 @@ ___
 
 <summary>``case outlined``</summary>
 
+
 테두리만 있는 뱃지
 </details>
 <details>
 
 <summary>``case solid``</summary>
 
+
 색상이 채워진 배경을 가진 뱃지
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

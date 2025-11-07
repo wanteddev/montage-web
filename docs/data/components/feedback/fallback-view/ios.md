@@ -34,10 +34,6 @@ FallbackView(
 )
 ```
 
->  **Note**
->
-> 컴포넌트가 기본적으로 화면 전체를 차지하므로 필요하다면 .frame modifier를 사용하여 크기를 조절하여 사용하시길 권장합니다.
-
 ## Topics
 
 ### Initializers
@@ -46,15 +42,16 @@ FallbackView(
 
 <summary>``init(image: (() -> any View)?, title: String?, description: String, button: (() -> any View)?)``</summary>
 
+
 FallbackView 컴포넌트를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `image` | 상단에 표시할 이미지 뷰를 반환하는 클로저 (선택 사항) |
-  | `title` | 강조되어 표시할 제목 (선택 사항) |
-  | `description` | 상황을 설명하는 텍스트 (필수) |
-  | `button` | 하단에 표시할 버튼 뷰를 반환하는 클로저 (선택 사항) |
+  | `image` | 상단에 표시할 이미지 뷰를 반환하는 클로저, 기본값은 `nil` |
+  | `title` | 강조되어 표시할 제목, 기본값은 `nil` |
+  | `description` | 상황을 설명하는 텍스트 |
+  | `button` | 하단에 표시할 버튼 뷰를 반환하는 클로저, 기본값은 `nil` |
 - **Discussion**
 
   원하는 레이아웃을 구성하기 위해 이미지, 제목, 설명, 버튼을 선택적으로 제공할 수 있습니다. 설명은 필수이며, 최대 2줄로 표시됩니다.
@@ -66,16 +63,12 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

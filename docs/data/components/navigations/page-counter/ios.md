@@ -19,10 +19,6 @@ CounterPagination(selectedPage: $currentPage, totalPages: 10)
     .alternative(true)
 ```
 
->  **Note**
->
-> 이 컴포넌트는 기본적으로 어두운 배경 위에서 잘 보이도록 설계되었습니다.
-
 ## Topics
 
 ### Initializers
@@ -30,6 +26,7 @@ CounterPagination(selectedPage: $currentPage, totalPages: 10)
 <details>
 
 <summary>``init(selectedPage: Binding<Int>, totalPages: Int)``</summary>
+
 
 카운터 형태의 페이지네이션을 초기화합니다.
 
@@ -46,6 +43,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -55,26 +55,24 @@ ___
 
 <summary>``func alternative(Bool) -> CounterPagination``</summary>
 
+
 카운터 페이지네이션의 대체 스타일을 적용합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `alternative` | 대체 스타일 적용 여부 (기본값: true) |
+  | `alternative` | 대체 스타일 적용 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 Counter 인스턴스
 - **Discussion**
 
   기본 스타일은 반투명 배경을 사용하고, 대체 스타일은 좀 더 불투명한 회색 배경을 사용합니다.
-  >  **Note**
-  >
-  > 기본값은 `false`입니다.
-
 </details>
 <details>
 
 <summary>``func size(Size) -> CounterPagination``</summary>
+
 
 카운터 페이지네이션의 크기를 설정합니다.
 
@@ -85,11 +83,6 @@ ___
 - **Return Value**
 
   수정된 Counter 인스턴스
-- **Discussion**
-  >  **Note**
-  >
-  > 기본값은 `.medium`입니다.
-
 </details>
 
 ___
@@ -99,6 +92,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 카운터 페이지네이션의 크기를 지정하는 열거형입니다.
 #### Enumeration Cases
 
@@ -106,30 +100,20 @@ ___
 
 <summary>``case medium``</summary>
 
+
 중간 크기
 </details>
 <details>
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

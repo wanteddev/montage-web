@@ -41,12 +41,14 @@ var body: some View {
 
 <summary>``struct Model``</summary>
 
+
 SnackBar의 데이터 모델을 정의하는 구조체입니다.
 #### Operators
 
 <details>
 
 <summary>``static func == (`Self`, `Self`) -> Bool``</summary>
+
 </details>
 
 #### Initializers
@@ -55,36 +57,32 @@ SnackBar의 데이터 모델을 정의하는 구조체입니다.
 
 <summary>``init(duration: Duration, heading: String?, description: String?, action: String)``</summary>
 
+
 SnackBar 모델을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `duration` | 스낵바가 표시되는 시간 |
-  | `heading` | 스낵바의 제목 (선택 사항) |
-  | `description` | 스낵바의 설명 텍스트 (선택 사항) |
+  | `duration` | 스낵바가 표시되는 시간, 기본값은 `.short` |
+  | `heading` | 스낵바의 제목, 기본값은 `nil` |
+  | `description` | 스낵바의 설명 텍스트, 기본값은 `nil` |
   | `action` | 스낵바의 액션 버튼에 표시할 텍스트 |
 </details>
 <details>
 
 <summary>``init<V>(duration: Duration, heading: String?, description: String?, extraContents: () -> V, action: String)``</summary>
 
+
 SnackBar 모델을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `duration` | 스낵바가 표시되는 시간 |
-  | `heading` | 스낵바의 제목 (선택 사항) |
-  | `description` | 스낵바의 설명 텍스트 (선택 사항) |
-  | `extraContents` | 스낵바에 표시할 추가 콘텐츠를 반환하는 클로저 (선택 사항) |
+  | `duration` | 스낵바가 표시되는 시간, 기본값은 `.short` |
+  | `heading` | 스낵바의 제목, 기본값은 `nil` |
+  | `description` | 스낵바의 설명 텍스트, 기본값은 `nil` |
   | `action` | 스낵바의 액션 버튼에 표시할 텍스트 |
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
@@ -94,6 +92,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -103,6 +104,7 @@ ___
 
 <summary>``enum Duration``</summary>
 
+
 SnackBar가 자동으로 사라지는 시간을 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -110,11 +112,13 @@ SnackBar가 자동으로 사라지는 시간을 정의하는 열거형입니다.
 
 <summary>``case long``</summary>
 
+
 긴 표시 시간 (16초)
 </details>
 <details>
 
 <summary>``case short``</summary>
+
 
 짧은 표시 시간 (4초)
 </details>
@@ -124,19 +128,14 @@ SnackBar가 자동으로 사라지는 시간을 정의하는 열거형입니다.
 <details>
 
 <summary>``init?(rawValue: Double)``</summary>
+
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
-
-[RawRepresentable Implementations](/docs/utilities/ios-utilities/rawrepresentable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Location``</summary>
+
 
 스낵바가 표시될 위치를 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -145,34 +144,88 @@ SnackBar가 자동으로 사라지는 시간을 정의하는 열거형입니다.
 
 <summary>``case bottom(offset: CGFloat)``</summary>
 
+
 화면 하단에 스낵바 표시
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `offset` | 하단에서의 오프셋 값 (기본값: 0) |
+  | `offset` | 하단에서의 오프셋 값, 기본값은 `.zero` |
 </details>
 <details>
 
 <summary>``case top(offset: CGFloat)``</summary>
+
 
 화면 상단에 스낵바 표시
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `offset` | 상단에서의 오프셋 값 (기본값: 0) |
+  | `offset` | 상단에서의 오프셋 값, 기본값은 `.zero` |
 </details>
 
 </details>
 
 ___
-### Default Implementations
+___
+### Associated Extensions
+
+<details>
+
+<summary>``extension View``</summary>
+
+<details>
+
+<summary>``func snackBar(Binding<SnackBar.Model?>, location: SnackBar.Location, handler: () -> Void) -> some View``</summary>
 
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+현재 뷰에 SnackBar를 표시하는 modifier를 적용합니다.
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `model` | SnackBar 모델을 바인딩합니다. nil이 아닌 값이 설정되면 SnackBar가 표시됩니다. |
+  | `location` | SnackBar가 표시될 위치, 기본값은 `.bottom(offset: .zero)` |
+  | `handler` | SnackBar의 액션 버튼이 클릭되었을 때 실행될 클로저 |
+- **Return Value**
+
+  SnackBar가 적용된 뷰
+- **Discussion**
+
+  ```swift
+  @State private var snackBarModel: SnackBar.Model?
+  
+  var body: some View {
+      VStack {
+          Button("Show SnackBar") {
+              snackBarModel = SnackBar.Model(
+                  description: "작업이 완료되었습니다",
+                  action: "확인"
+              )
+          }
+      }
+      // 기본 위치 (하단)
+      .snackBar($snackBarModel) {
+          // 액션 버튼 클릭 시 실행될 코드
+      }
+  
+      // 상단에 표시
+      .snackBar($snackBarModel, location: .top(offset: 20)) {
+          // 액션 버튼 클릭 시 실행될 코드
+      }
+  
+      // Bottom Navigation과 함께 사용
+      .snackBar($snackBarModel, location: .bottom(offset: 80)) {
+          // 액션 버튼 클릭 시 실행될 코드
+      }
+  }
+  ```
+
+</details>
+
+
+</details>
 
 ## Relationships
 

@@ -30,10 +30,6 @@ Control.radio(checked: false, size: .small)
 Control.switch(checked: true)
 ```
 
->  **Note**
->
-> 모든 컨트롤은 상태에 따라 적절한 시각적 피드백을 제공합니다.
-
 ## Topics
 
 ### Instance Properties
@@ -41,6 +37,9 @@ Control.switch(checked: true)
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -50,12 +49,13 @@ ___
 
 <summary>``func bold(Bool) -> Control``</summary>
 
+
 레이블을 볼드체로 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `isBold` | 볼드 적용 여부 (기본값: true) |
+  | `isBold` | 볼드 적용 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 입력 컴포넌트
@@ -73,12 +73,13 @@ ___
 
 <summary>``func disable(Bool) -> Control``</summary>
 
+
 컨트롤을 비활성화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부 (기본값: true) |
+  | `disable` | 비활성화 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 컨트롤 인스턴스
@@ -89,6 +90,7 @@ ___
 <details>
 
 <summary>``func label(String) -> Control``</summary>
+
 
 레이블 텍스트를 설정합니다.
 
@@ -102,21 +104,22 @@ ___
 - **Discussion**
   >  **Note**
   >
-  > Switch 변형에서는 레이블이 표시되지 않습니다.
+  > `.switch` 변형에서는 레이블이 표시되지 않습니다.
 
 </details>
 <details>
 
 <summary>``func labelTypography(Typography.Variant?, weight: Typography.Weight?, color: SwiftUI.Color?) -> Control``</summary>
 
+
 레이블의 타이포그래피 속성을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 레이블 변형 (.body2 또는 .label1) |
-  | `weight` | 레이블 굵기 |
-  | `color` | 레이블 색상 |
+  | `variant` | 레이블 변형, 기본값은 `nil` |
+  | `weight` | 레이블 굵기, 기본값은 `nil` |
+  | `color` | 레이블 색상, 기본값은 `nil` |
 - **Return Value**
 
   수정된 입력 컴포넌트
@@ -130,18 +133,22 @@ ___
 
 <summary>``func tight(Bool) -> Control``</summary>
 
+
 컨트롤을 더 조밀한 레이아웃으로 표시합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `tight` | 조밀한 레이아웃 적용 여부 (기본값: true) |
+  | `tight` | 조밀한 레이아웃 적용 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 컨트롤 인스턴스
 - **Discussion**
 
   이 수정자를 적용하면 컨트롤의 가로 너비가 줄어듭니다.
+  - medium: 24px → 20px
+  - small: 20px → 16px
+
   >  **Note**
   >
   > 레이블이 지정되지 않은 경우 이 설정은 적용되지 않습니다.
@@ -155,14 +162,15 @@ ___
 
 <summary>``static func checkbox(checked: Bool, size: Size, onSelect: ((Bool) -> Void)?) -> Control``</summary>
 
+
 불리언 값을 이용해 체크박스를 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `checked` | 체크박스의 초기 선택 상태 |
-  | `size` | 체크박스 크기 (기본값: .medium) |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저 |
+  | `size` | 체크박스 크기, 기본값은 `.medium` |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
 - **Return Value**
 
   구성된 체크박스 컨트롤
@@ -171,14 +179,15 @@ ___
 
 <summary>``static func checkbox(state: State, size: Size, onSelect: ((State) -> Void)?) -> Control``</summary>
 
+
 상태 값을 이용해 체크박스를 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `state` | 체크박스의 초기 상태 |
-  | `size` | 체크박스 크기 (기본값: .medium) |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저 |
+  | `size` | 체크박스 크기, 기본값은 `.medium` |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
 - **Return Value**
 
   구성된 체크박스 컨트롤
@@ -187,14 +196,15 @@ ___
 
 <summary>``static func checkmark(checked: Bool, size: Size, onSelect: ((Bool) -> Void)?) -> Control``</summary>
 
+
 불리언 값을 이용해 체크마크를 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `checked` | 체크마크의 초기 선택 상태 |
-  | `size` | 체크마크 크기 (기본값: .medium) |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저 |
+  | `size` | 체크마크 크기, 기본값은 `.medium` |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
 - **Return Value**
 
   구성된 체크마크 컨트롤
@@ -203,14 +213,15 @@ ___
 
 <summary>``static func radio(checked: Bool, size: Size, onSelect: ((Bool) -> Void)?) -> Control``</summary>
 
+
 불리언 값을 이용해 라디오 버튼을 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `checked` | 라디오 버튼의 초기 선택 상태 |
-  | `size` | 라디오 버튼 크기 (기본값: .medium) |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저 |
+  | `size` | 라디오 버튼 크기, 기본값은 `.medium` |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
 - **Return Value**
 
   구성된 라디오 버튼 컨트롤
@@ -219,14 +230,15 @@ ___
 
 <summary>``static func `switch`(checked: Bool, size: Size, onSelect: ((Bool) -> Void)?) -> Control``</summary>
 
+
 불리언 값을 이용해 스위치를 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `checked` | 스위치의 초기 선택 상태 |
-  | `size` | 스위치 크기 (기본값: .small) |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저 |
+  | `size` | 스위치 크기, 기본값은 `.small` |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
 - **Return Value**
 
   구성된 스위치 컨트롤
@@ -239,6 +251,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 컨트롤의 크기를 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -246,24 +259,22 @@ ___
 
 <summary>``case medium``</summary>
 
+
 중간 크기
 </details>
 <details>
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum State``</summary>
+
 
 컨트롤의 상태를 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -272,11 +283,13 @@ ___
 
 <summary>``case checked``</summary>
 
+
 선택된 상태
 </details>
 <details>
 
 <summary>``case indeterminate``</summary>
+
 
 중간 상태 (checkbox에서만 지원)
 </details>
@@ -284,18 +297,15 @@ ___
 
 <summary>``case unchecked``</summary>
 
+
 선택되지 않은 상태
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 컨트롤의 종류를 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -304,11 +314,13 @@ ___
 
 <summary>``case checkbox``</summary>
 
+
 체크박스 (3가지 상태: 선택, 미선택, 중간 상태)
 </details>
 <details>
 
 <summary>``case checkmark``</summary>
+
 
 체크마크 (선택, 미선택 상태만 지원)
 </details>
@@ -316,30 +328,20 @@ ___
 
 <summary>``case radio``</summary>
 
+
 라디오 버튼 (선택, 미선택 상태만 지원)
 </details>
 <details>
 
 <summary>``case `switch```</summary>
 
+
 스위치 (선택, 미선택 상태만 지원)
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

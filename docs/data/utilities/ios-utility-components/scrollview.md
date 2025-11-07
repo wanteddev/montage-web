@@ -45,6 +45,7 @@ ScrollView(scrollStatus: $scrollStatus,
 
 <summary>``struct ScrollStatus``</summary>
 
+
 스크롤 뷰의 상태를 추적하는 구조체입니다.
 #### Initializers
 
@@ -52,15 +53,16 @@ ScrollView(scrollStatus: $scrollStatus,
 
 <summary>``init(axis: Axis, scrollViewSize: CGSize, contentSize: CGSize, contentOffset: CGPoint)``</summary>
 
+
 스크롤 상태를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `axis` | 스크롤 방향 (기본값: .vertical) |
-  | `scrollViewSize` | 스크롤 뷰 크기 (기본값: .zero) |
-  | `contentSize` | 콘텐츠 크기 (기본값: .zero) |
-  | `contentOffset` | 콘텐츠 오프셋 (기본값: .zero) |
+  | `axis` | 스크롤 방향, 기본값은 `.vertical` |
+  | `scrollViewSize` | 스크롤 뷰 크기, 기본값은 `.zero` |
+  | `contentSize` | 콘텐츠 크기, 기본값은 `.zero` |
+  | `contentOffset` | 콘텐츠 오프셋, 기본값은 `.zero` |
 </details>
 
 #### Instance Properties
@@ -68,30 +70,38 @@ ScrollView(scrollStatus: $scrollStatus,
 <details>
 
 <summary>``var axis: Axis``</summary>
+
+
+스크롤 방향
 </details>
 <details>
 
 <summary>``var contentOffset: CGPoint``</summary>
+
+
+콘텐츠 오프셋
 </details>
 <details>
 
 <summary>``var contentSize: CGSize``</summary>
+
+
+콘텐츠 크기
 </details>
 <details>
 
 <summary>``var scrollViewSize: CGSize``</summary>
+
+
+스크롤 뷰 크기
 </details>
 <details>
 
 <summary>``var scrolledToMax: Bool``</summary>
 
+
 스크롤이 최대 위치에 도달했는지 여부입니다.
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
@@ -102,13 +112,14 @@ ___
 
 <summary>``init(scrollStatus: Binding<ScrollStatus>?, onOffsetChanged: (CGPoint) -> Void, content: () -> any View)``</summary>
 
+
 스크롤 뷰를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `scrollStatus` | 스크롤 상태를 추적하기 위한 바인딩 (선택 사항) |
-  | `onOffsetChanged` | 스크롤 오프셋이 변경될 때 호출되는 클로저 (기본값: 빈 클로저) |
+  | `scrollStatus` | 스크롤 상태를 추적하기 위한 바인딩, 기본값은 `nil` |
+  | `onOffsetChanged` | 스크롤 오프셋이 변경될 때 호출되는 클로저, 기본값은 빈 클로저 |
   | `content` | 스크롤 뷰에 표시할 콘텐츠를 반환하는 클로저 |
 </details>
 
@@ -118,6 +129,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -126,6 +140,7 @@ ___
 <details>
 
 <summary>``func axis(Axis) -> ScrollView``</summary>
+
 
 스크롤 방향을 설정합니다.
 
@@ -141,12 +156,13 @@ ___
 
 <summary>``func hidesIndicators(Bool) -> ScrollView``</summary>
 
+
 스크롤 인디케이터 표시 여부를 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `hidesIndicators` | 인디케이터를 숨길지 여부 (기본값: true) |
+  | `hidesIndicators` | 인디케이터를 숨길지 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 스크롤 뷰
@@ -154,6 +170,7 @@ ___
 <details>
 
 <summary>``func onRefresh(() async -> Void) -> ScrollView``</summary>
+
 
 당겨서 새로고침 동작을 설정합니다.
 
@@ -167,13 +184,6 @@ ___
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

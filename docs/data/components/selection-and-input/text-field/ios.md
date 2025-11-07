@@ -45,12 +45,14 @@ TextField(text: $inputText)
 
 <summary>``struct AutoCompletionDataSource``</summary>
 
+
 텍스트 필드의 자동완성 기능을 위한 데이터 소스를 정의합니다.
 #### Operators
 
 <details>
 
 <summary>``static func == (AutoCompletionDataSource, AutoCompletionDataSource) -> Bool``</summary>
+
 </details>
 
 #### Initializers
@@ -59,18 +61,19 @@ TextField(text: $inputText)
 
 <summary>``init<V>(numberOfSections: Int, sectionTitleAt: ((Int) -> String)?, numberOfItemsInSection: (Int) -> Int, cellForItemAt: (IndexPath) -> V, headerView: (() -> any View)?, footerView: (() -> any View)?, maxHeight: CGFloat)``</summary>
 
+
 자동완성 데이터 소스를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `numberOfSections` | 섹션 수, 기본값은 1 |
-  | `sectionTitleAt` | 섹션 제목을 반환하는 클로저 |
+  | `numberOfSections` | 섹션 수, 기본값은 `1` |
+  | `sectionTitleAt` | 섹션 제목을 반환하는 클로저, 기본값은 `nil` |
   | `numberOfItemsInSection` | 각 섹션의 항목 수를 반환하는 클로저 |
   | `cellForItemAt` | 각 항목의 뷰를 반환하는 클로저 |
-  | `headerView` | 헤더 뷰 클로저 (기본값: nil) |
-  | `footerView` | 푸터 뷰 클로저 (기본값: nil) |
-  | `maxHeight` | 자동완성 목록의 최대 높이, 기본값은 400 |
+  | `headerView` | 헤더 뷰 클로저, 기본값은 `nil` |
+  | `footerView` | 푸터 뷰 클로저, 기본값은 `nil` |
+  | `maxHeight` | 자동완성 목록의 최대 높이, 기본값은 `400` |
 - **Return Value**
 
   구성된 자동완성 데이터 소스 인스턴스
@@ -82,18 +85,15 @@ TextField(text: $inputText)
 
 <summary>``var totalNumberOfItems: Int``</summary>
 
+
 전체 항목 수를 반환합니다.
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``struct TrailingButtonInfo``</summary>
+
 
 텍스트 필드의 오른쪽에 표시할 버튼의 속성을 정의합니다.
 #### Initializers
@@ -101,6 +101,7 @@ TextField(text: $inputText)
 <details>
 
 <summary>``init(variant: Button.Color, title: String, handler: (() -> Void)?)``</summary>
+
 
 트레일링 버튼을 초기화합니다.
 
@@ -124,6 +125,7 @@ ___
 
 <summary>``init(text: Binding<String>, autoCompletionDataSource: Binding<AutoCompletionDataSource?>)``</summary>
 
+
 텍스트 필드를 초기화합니다.
 
 - **Parameters**
@@ -142,6 +144,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -150,6 +155,7 @@ ___
 <details>
 
 <summary>``func backgroundColor(SwiftUI.Color?) -> TextField``</summary>
+
 
 텍스트 필드의 배경색을 설정합니다.
 
@@ -165,6 +171,7 @@ ___
 
 <summary>``func disable(Bool) -> TextField``</summary>
 
+
 텍스트 필드의 활성화 상태를 설정합니다.
 
 - **Parameters**
@@ -178,6 +185,7 @@ ___
 <details>
 
 <summary>``func heading(String?) -> TextField``</summary>
+
 
 텍스트 필드 위에 표시할 제목을 설정합니다.
 
@@ -193,6 +201,7 @@ ___
 
 <summary>``func icon(Icon?) -> TextField``</summary>
 
+
 텍스트 필드 왼쪽에 표시할 아이콘을 설정합니다.
 
 - **Parameters**
@@ -207,6 +216,7 @@ ___
 
 <summary>``func placeholder(String?) -> TextField``</summary>
 
+
 텍스트 필드에 입력된 텍스트가 없을 때 표시할 플레이스홀더를 설정합니다.
 
 - **Parameters**
@@ -220,6 +230,7 @@ ___
 <details>
 
 <summary>``func requiredBadge(Bool) -> TextField``</summary>
+
 
 제목 옆에 필수 입력을 나타내는 뱃지를 표시할지 설정합니다.
 
@@ -240,6 +251,7 @@ ___
 
 <summary>``func status(Status) -> TextField``</summary>
 
+
 텍스트 필드의 상태를 설정합니다.
 
 - **Parameters**
@@ -254,6 +266,7 @@ ___
 
 <summary>``func trailingButton(TrailingButtonInfo?) -> TextField``</summary>
 
+
 텍스트 필드 오른쪽에 표시할 버튼을 설정합니다.
 
 - **Parameters**
@@ -267,6 +280,7 @@ ___
 <details>
 
 <summary>``func trailingContent<V>(() -> V) -> TextField``</summary>
+
 
 텍스트 필드 오른쪽에 표시할 커스텀 콘텐츠를 설정합니다.
 
@@ -286,6 +300,7 @@ ___
 
 <summary>``enum Status``</summary>
 
+
 텍스트 필드의 상태를 정의합니다.
 #### Enumeration Cases
 
@@ -293,46 +308,42 @@ ___
 
 <summary>``case negative(description: String)``</summary>
 
+
 오류 상태, 선택적으로 오류 설명 텍스트 포함 가능
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `description` | 오류 설명 텍스트, 기본값은 빈 문자열 |
+  | `description` | 오류 설명 텍스트, 기본값은 `""` |
 </details>
 <details>
 
 <summary>``case normal(description: String)``</summary>
+
 
 기본 상태, 선택적으로 설명 텍스트 포함 가능
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `description` | 설명 텍스트, 기본값은 빈 문자열 |
+  | `description` | 설명 텍스트, 기본값은 `""` |
 </details>
 <details>
 
 <summary>``case positive(description: String)``</summary>
+
 
 유효한 입력 상태, 선택적으로 설명 텍스트 포함 가능
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `description` | 설명 텍스트, 기본값은 빈 문자열 |
+  | `description` | 설명 텍스트, 기본값은 `""` |
 </details>
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

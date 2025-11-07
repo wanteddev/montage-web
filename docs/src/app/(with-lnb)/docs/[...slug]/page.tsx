@@ -43,18 +43,16 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
       getAllFrontmatter(),
       getFrontmatterBySlug(parseSlug(params)),
     ]);
-    const title = getFrontmatterTitle(frontmatter) + ' - Montage';
-    const description = getFrontmatterDescription(
-      frontmatter,
-      allFrontmatter,
-    )?.replace(/\n/g, ' ');
+    const title = getFrontmatterTitle(frontmatter);
+    const description = getFrontmatterDescription(frontmatter, allFrontmatter);
+    const image =
+      getFrontmatterImage(frontmatter, allFrontmatter) ??
+      getFrontmatterDefaultImage(frontmatter);
 
     return createMetadata({
       title,
       description,
-      image:
-        getFrontmatterImage(frontmatter, allFrontmatter) ??
-        getFrontmatterDefaultImage(frontmatter),
+      image,
     });
   } catch (error) {
     if (isFileNotFoundError(error)) {

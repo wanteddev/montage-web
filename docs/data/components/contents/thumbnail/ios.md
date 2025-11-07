@@ -27,10 +27,6 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
    .border(true)
 ```
 
->  **Note**
->
-> 이미지 로딩에는 SDWebImage 라이브러리를 사용하며, 로드 실패 시 기본 플레이스홀더가 표시됩니다.
-
 ## Topics
 
 ### Initializers
@@ -38,6 +34,7 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
 <details>
 
 <summary>``init(urlString: String, ratio: Ratio)``</summary>
+
 
 썸네일을 초기화합니다.
 
@@ -54,6 +51,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -63,43 +63,46 @@ ___
 
 <summary>``func border(Bool) -> Thumbnail``</summary>
 
+
 썸네일에 테두리를 적용합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `border` | 테두리 적용 여부 (기본값: true) |
+  | `border` | 테두리 적용 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 Thumbnail 인스턴스
-- **Discussion**
-  >  **Note**
-  >
-  > 적용 시 1포인트 두께의 .lineNormal 색상 테두리가 적용됩니다.
-
 </details>
 <details>
 
 <summary>``func radius(Bool) -> Thumbnail``</summary>
+
 
 썸네일에 둥근 모서리를 적용합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `radius` | 둥근 모서리 적용 여부 (기본값: true) |
+  | `radius` | 둥근 모서리 적용 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 Thumbnail 인스턴스
-- **Discussion**
-  >  **Note**
-  >
-  > 적용 시 12포인트 반경의 둥근 모서리가 적용됩니다.
-
 </details>
 <details>
 
 <summary>``func width(CGFloat) -> Thumbnail``</summary>
+
+
+썸네일의 너비를 설정합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `width` | 썸네일의 너비 |
+- **Return Value**
+
+  수정된 Thumbnail 인스턴스
 </details>
 
 ___
@@ -109,6 +112,7 @@ ___
 
 <summary>``enum Ratio``</summary>
 
+
 썸네일의 가로세로 비율을 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -116,11 +120,13 @@ ___
 
 <summary>``case r10x16``</summary>
 
+
 10:16 비율
 </details>
 <details>
 
 <summary>``case r16x10``</summary>
+
 
 16:10 비율 (와이드스크린 모니터)
 </details>
@@ -128,11 +134,13 @@ ___
 
 <summary>``case r16x9``</summary>
 
+
 16:9 비율 (와이드스크린 비디오)
 </details>
 <details>
 
 <summary>``case r1_618x1``</summary>
+
 
 황금비(1.618:1)
 </details>
@@ -140,11 +148,13 @@ ___
 
 <summary>``case r1x1``</summary>
 
+
 1:1 비율 (정사각형)
 </details>
 <details>
 
 <summary>``case r1x1_618``</summary>
+
 
 역황금비(1:1.618)
 </details>
@@ -152,11 +162,13 @@ ___
 
 <summary>``case r1x2``</summary>
 
+
 1:2 비율
 </details>
 <details>
 
 <summary>``case r21x9``</summary>
+
 
 21:9 비율 (울트라와이드 영화)
 </details>
@@ -164,11 +176,13 @@ ___
 
 <summary>``case r2x1``</summary>
 
+
 2:1 비율
 </details>
 <details>
 
 <summary>``case r2x3``</summary>
+
 
 2:3 비율 (일부 사진)
 </details>
@@ -176,11 +190,13 @@ ___
 
 <summary>``case r3x2``</summary>
 
+
 3:2 비율 (일부 사진)
 </details>
 <details>
 
 <summary>``case r3x4``</summary>
+
 
 3:4 비율
 </details>
@@ -188,11 +204,13 @@ ___
 
 <summary>``case r4x3``</summary>
 
+
 4:3 비율 (전통적인 TV, 모니터)
 </details>
 <details>
 
 <summary>``case r4x5``</summary>
+
 
 4:5 비율 (일부 소셜 미디어 이미지)
 </details>
@@ -200,11 +218,13 @@ ___
 
 <summary>``case r5x4``</summary>
 
+
 5:4 비율
 </details>
 <details>
 
 <summary>``case r9x16``</summary>
+
 
 9:16 비율 (스마트폰 세로 화면)
 </details>
@@ -212,24 +232,13 @@ ___
 
 <summary>``case r9x21``</summary>
 
+
 9:21 비율 (세로 울트라와이드)
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

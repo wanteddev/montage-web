@@ -39,6 +39,7 @@ var body: some View {
 
 <summary>``struct Model``</summary>
 
+
 토스트 메시지의 데이터 모델을 정의하는 구조체입니다.
 #### Initializers
 
@@ -46,19 +47,15 @@ var body: some View {
 
 <summary>``init(Toast.Variant, message: String)``</summary>
 
+
 Toast 모델을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 토스트 메시지의 스타일 (기본값: .normal()) |
+  | `variant` | 토스트 메시지의 스타일, 기본값은 `.normal()` |
   | `message` | 토스트에 표시할 메시지 텍스트 |
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
@@ -68,6 +65,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -77,6 +77,7 @@ ___
 
 <summary>``enum Duration``</summary>
 
+
 토스트 메시지의 표시 시간을 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -84,24 +85,22 @@ ___
 
 <summary>``case long``</summary>
 
+
 긴 표시 시간 (5초)
 </details>
 <details>
 
 <summary>``case short``</summary>
 
+
 짧은 표시 시간 (3초)
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Location``</summary>
+
 
 토스트 메시지가 표시될 위치를 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -110,29 +109,32 @@ ___
 
 <summary>``case bottom(offset: CGFloat)``</summary>
 
+
 화면 하단에 토스트 표시
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `offset` | 하단에서의 오프셋 값 (기본값: 0) |
+  | `offset` | 하단에서의 오프셋 값, 기본값은 `.zero` |
 </details>
 <details>
 
 <summary>``case top(offset: CGFloat)``</summary>
+
 
 화면 상단에 토스트 표시
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `offset` | 상단에서의 오프셋 값 (기본값: 0) |
+  | `offset` | 상단에서의 오프셋 값, 기본값은 `.zero` |
 </details>
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 토스트 메시지의 시각적 스타일을 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -141,11 +143,13 @@ ___
 
 <summary>``case cautionary``</summary>
 
+
 주의 메시지를 위한 주황색 경고 아이콘 스타일
 </details>
 <details>
 
 <summary>``case negative``</summary>
+
 
 오류 메시지를 위한 빨간색 경고 아이콘 스타일
 </details>
@@ -153,35 +157,68 @@ ___
 
 <summary>``case normal(Montage.Icon?, tint: Montage.Color.Semantic?)``</summary>
 
+
 기본 스타일의 토스트 (선택적으로 아이콘과 색상 지정 가능)
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `icon` | 표시할 아이콘 (선택 사항) |
-  | `tint` | 아이콘의 색상 (선택 사항) |
+  | `icon` | 표시할 아이콘, 기본값은 `nil` |
+  | `tint` | 아이콘의 색상, 기본값은 `nil` |
 </details>
 <details>
 
 <summary>``case positive``</summary>
 
+
 성공 메시지를 위한 녹색 체크 아이콘 스타일
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
+___
+### Associated Extensions
+
+<details>
+
+<summary>``extension View``</summary>
+
+<details>
+
+<summary>``func toast(Binding<Toast.Model?>, location: Toast.Location, duration: Toast.Duration) -> some View``</summary>
 
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+현재 뷰에 Toast 메시지를 표시하는 modifier를 적용합니다.
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `model` | Toast 모델을 바인딩합니다. nil이 아닌 값이 설정되면 Toast가 표시됩니다. |
+  | `location` | Toast가 표시될 위치, 기본값은 `.bottom(offset: 0)` |
+  | `duration` | Toast가 표시될 시간, 기본값은 `.short` |
+- **Return Value**
+
+  Toast가 적용된 뷰
+- **Discussion**
+
+  ```swift
+  @State private var toastModel: Toast.Model?
+  
+  var body: some View {
+      VStack {
+          Button("Show Toast") {
+              toastModel = Toast.Model(message: "작업이 완료되었습니다")
+          }
+      }
+      .toast($toastModel)
+  }
+  ```
+
+</details>
+
+
+</details>
 
 ## Relationships
 

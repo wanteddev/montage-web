@@ -24,10 +24,6 @@ Avatar("https://example.com/profile.jpg", variant: .person)
     .pushBadge()
 ```
 
->  **Note**
->
-> 이미지 로딩은 SDWebImage를 통해 처리되며, 탭 상호작용을 지원합니다.
-
 ## Topics
 
 ### Initializers
@@ -36,6 +32,7 @@ Avatar("https://example.com/profile.jpg", variant: .person)
 
 <summary>``init(String, variant: Variant, size: Size, onTap: (() -> Void)?)``</summary>
 
+
 아바타를 초기화합니다.
 
 - **Parameters**
@@ -43,8 +40,8 @@ Avatar("https://example.com/profile.jpg", variant: .person)
   | --- | --- |
   | `imageUrl` | 표시할 이미지의 URL 문자열 |
   | `variant` | 아바타 유형 (.person, .company, .academy) |
-  | `size` | 아바타 크기 (기본값: .small) |
-  | `onTap` | 탭 시 실행할 액션 (기본값: nil) |
+  | `size` | 아바타 크기, 기본값은 `.small` |
+  | `onTap` | 탭 시 실행할 액션, 기본값은 `nil` |
 </details>
 
 ___
@@ -53,6 +50,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -62,13 +62,14 @@ ___
 
 <summary>``func border(color: SwiftUI.Color, width: CGFloat) -> Avatar``</summary>
 
+
 아바타에 테두리를 추가합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `color` | 테두리 색상 (기본값: .semantic(.lineAlternative)) |
-  | `width` | 테두리 두께 (기본값: 1) |
+  | `color` | 테두리 색상, 기본값은 `.semantic(.lineAlternative)` |
+  | `width` | 테두리 두께, 기본값은 `1` |
 - **Return Value**
 
   수정된 아바타 인스턴스
@@ -77,12 +78,13 @@ ___
 
 <summary>``func pushBadge(Bool) -> Avatar``</summary>
 
+
 푸시 알림 표시 뱃지를 아바타에 추가합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `pushBadge` | 뱃지 표시 여부 (기본값: true) |
+  | `pushBadge` | 뱃지 표시 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 아바타 인스턴스
@@ -98,6 +100,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 아바타의 크기를 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -105,11 +108,13 @@ ___
 
 <summary>``case large``</summary>
 
+
 큰 크기
 </details>
 <details>
 
 <summary>``case medium``</summary>
+
 
 중간 크기
 </details>
@@ -117,11 +122,13 @@ ___
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
 <details>
 
 <summary>``case xlarge``</summary>
+
 
 가장 큰 크기
 </details>
@@ -129,18 +136,15 @@ ___
 
 <summary>``case xsmall``</summary>
 
+
 가장 작은 크기
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 아바타의 유형을 정의하는 열거형입니다.
 #### Enumeration Cases
@@ -149,11 +153,13 @@ ___
 
 <summary>``case academy``</summary>
 
+
 학원 프로필 (둥근 모서리 사각형)
 </details>
 <details>
 
 <summary>``case company``</summary>
+
 
 회사 프로필 (둥근 모서리 사각형)
 </details>
@@ -161,24 +167,13 @@ ___
 
 <summary>``case person``</summary>
 
+
 사용자 프로필 (원형)
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

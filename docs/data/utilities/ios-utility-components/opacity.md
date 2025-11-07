@@ -34,11 +34,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p000``</summary>
 
+
 0% 투명도 (완전 불투명)
 </details>
 <details>
 
 <summary>``case p005``</summary>
+
 
 5% 투명도
 </details>
@@ -46,11 +48,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p008``</summary>
 
+
 8% 투명도
 </details>
 <details>
 
 <summary>``case p012``</summary>
+
 
 12% 투명도
 </details>
@@ -58,11 +62,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p016``</summary>
 
+
 16% 투명도
 </details>
 <details>
 
 <summary>``case p022``</summary>
+
 
 22% 투명도
 </details>
@@ -70,11 +76,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p028``</summary>
 
+
 28% 투명도
 </details>
 <details>
 
 <summary>``case p032``</summary>
+
 
 32% 투명도
 </details>
@@ -82,11 +90,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p035``</summary>
 
+
 35% 투명도
 </details>
 <details>
 
 <summary>``case p043``</summary>
+
 
 43% 투명도
 </details>
@@ -94,11 +104,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p052``</summary>
 
+
 52% 투명도
 </details>
 <details>
 
 <summary>``case p061``</summary>
+
 
 61% 투명도
 </details>
@@ -106,11 +118,13 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p074``</summary>
 
+
 74% 투명도
 </details>
 <details>
 
 <summary>``case p088``</summary>
+
 
 88% 투명도
 </details>
@@ -118,20 +132,83 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 
 <summary>``case p097``</summary>
 
+
 97% 투명도
 </details>
 <details>
 
 <summary>``case p100``</summary>
 
+
 100% 투명도 (완전 투명)
 </details>
 
 ___
-### Default Implementations
+___
+### Associated Extensions
+
+<details>
+
+<summary>``extension CGFloat``</summary>
+
+<details>
+
+<summary>``static func opacity(Opacity) -> CGFloat``</summary>
 
 
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
+Opacity 열거형 값에 해당하는 CGFloat 불투명도 값을 반환합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `opacityComponent` | 사용할 불투명도 열거형 값 |
+- **Return Value**
+
+  지정된 불투명도에 해당하는 CGFloat 값 (0.0 ~ 1.0 범위)
+- **Discussion**
+
+  디자인 시스템에서 정의된 일관된 불투명도 값을 사용할 수 있도록 합니다.
+
+  ```swift
+  let alpha = CGFloat.opacity(.p052) // 0.52
+  ```
+
+</details>
+
+
+</details>
+
+
+<details>
+
+<summary>``extension Float``</summary>
+
+<details>
+
+<summary>``static func opacity(Opacity) -> Float``</summary>
+
+
+Opacity 열거형 값에 해당하는 Float 불투명도 값을 반환합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `opacityComponent` | 사용할 불투명도 열거형 값 |
+- **Return Value**
+
+  지정된 불투명도에 해당하는 Float 값 (0.0 ~ 1.0 범위)
+- **Discussion**
+
+  디자인 시스템에서 정의된 일관된 불투명도 값을 사용할 수 있도록 합니다.
+
+  ```swift
+  let alpha = Float.opacity(.p050) // 0.5
+  ```
+
+</details>
+
+
+</details>
 
 ## Relationships
 

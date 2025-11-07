@@ -25,90 +25,28 @@ FlowLayout(spacing: 8, lineSpacing: 12) {
 
 ## Topics
 
-### Structures
-
-<details>
-
-<summary>``struct Cache``</summary>
-
-레이아웃 계산에 사용되는 캐시 구조체입니다.
-</details>
-
-___
 ### Initializers
 
 <details>
 
 <summary>``init(spacing: CGFloat?, lineSpacing: CGFloat)``</summary>
 
+
 FlowLayout을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `spacing` | 항목 간 수평 간격. nil인 경우 시스템 기본 간격을 사용합니다. (기본값: nil) |
-  | `lineSpacing` | 줄 간 수직 간격 (기본값: 10.0) |
+  | `spacing` | 항목 간 수평 간격. nil인 경우 시스템 기본 간격을 사용합니다., 기본값은 `nil` |
+  | `lineSpacing` | 줄 간 수직 간격, 기본값은 `10.0` |
 </details>
 
 ___
-### Instance Methods
-
-<details>
-
-<summary>``func makeCache(subviews: Subviews) -> Cache``</summary>
-
-레이아웃 캐시를 생성합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `subviews` | 배치할 서브뷰 컬렉션 |
-- **Return Value**
-
-  각 서브뷰의 크기와 간격 정보를 포함한 캐시
-</details>
-<details>
-
-<summary>``func placeSubviews(in: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout Cache)``</summary>
-
-서브뷰들을 실제 위치에 배치합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `bounds` | 레이아웃의 경계 사각형 |
-  | `proposal` | 제안된 크기 |
-  | `subviews` | 배치할 서브뷰 컬렉션 |
-  | `cache` | 레이아웃 캐시 |
-</details>
-<details>
-
-<summary>``func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout Cache) -> CGSize``</summary>
-
-레이아웃의 전체 크기를 계산합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `proposal` | 제안된 크기 |
-  | `subviews` | 배치할 서브뷰 컬렉션 |
-  | `cache` | 레이아웃 캐시 |
-- **Return Value**
-
-  계산된 레이아웃의 전체 크기
-</details>
-
-___
-### Default Implementations
-
-
-[Animatable Implementations](/docs/utilities/ios-utilities/animatable-implementations)
-
-[Layout Implementations](/docs/utilities/ios-utilities/layout-implementations)
-
 ## Relationships
 
 Conforms To
+
+`Swift.Copyable`
 
 `Swift.Sendable`
 

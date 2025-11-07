@@ -10,6 +10,7 @@ title: Foundation
 
 <summary>``extension NSAttributedString``</summary>
 
+
 Montage 디자인 시스템의 타이포그래피를 적용한 NSAttributedString을 생성하는 확장입니다.
 #### Type Methods
 
@@ -17,16 +18,17 @@ Montage 디자인 시스템의 타이포그래피를 적용한 NSAttributedStrin
 
 <summary>``static func attributedString(String, variant: Typography.Variant, weight: Typography.Weight, color: SwiftUI.Color, lineBreakMode: NSLineBreakMode) -> NSAttributedString``</summary>
 
+
 Montage 디자인 시스템의 타이포그래피를 적용한 NSAttributedString을 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `string` | 변환할 문자열 |
-  | `variant` | 타이포그래피 변형 (기본값: .body1) |
-  | `weight` | 폰트 두께 (기본값: .regular) |
-  | `color` | 색상 |
-  | `lineBreakMode` | 줄바꿈 모드 (기본값: .byWordWrapping) |
+  | `variant` | 타이포그래피 변형, 기본값은 `.body1` |
+  | `weight` | 폰트 두께, 기본값은 `.regular` |
+  | `color` | 색상, 기본값은 `.semantic(.labelNormal)` |
+  | `lineBreakMode` | 줄바꿈 모드, 기본값은 `.byWordWrapping` |
 - **Return Value**
 
   Montage 스타일이 적용된 NSAttributedString
@@ -35,16 +37,17 @@ Montage 디자인 시스템의 타이포그래피를 적용한 NSAttributedStrin
 
 <summary>``static func attributedString(String, variant: Typography.Variant, weight: Typography.Weight, semantic: Color.Semantic, lineBreakMode: NSLineBreakMode) -> NSAttributedString``</summary>
 
+
 Montage 디자인 시스템의 타이포그래피를 적용한 NSAttributedString을 생성합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `string` | 변환할 문자열 |
-  | `variant` | 타이포그래피 변형 (기본값: .body1) |
-  | `weight` | 폰트 두께 (기본값: .regular) |
+  | `variant` | 타이포그래피 변형, 기본값은 `.body1` |
+  | `weight` | 폰트 두께, 기본값은 `.regular` |
   | `semantic` | 의미론적 색상 |
-  | `lineBreakMode` | 줄바꿈 모드 (기본값: .byWordWrapping) |
+  | `lineBreakMode` | 줄바꿈 모드, 기본값은 `.byWordWrapping` |
 - **Return Value**
 
   Montage 스타일이 적용된 NSAttributedString

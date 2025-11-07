@@ -22,10 +22,6 @@ ActionChip(
 .leadingImage(Image(systemName: "heart"))
 ```
 
->  **Note**
->
-> 기본적으로 8pt의 패딩과 12pt의 모서리 반경을 가집니다.
-
 ## Topics
 
 ### Initializers
@@ -33,6 +29,7 @@ ActionChip(
 <details>
 
 <summary>``init(variant: Variant, size: Size, text: String, handler: (() -> Void)?)``</summary>
+
 
 액션 칩을 초기화합니다.
 
@@ -54,22 +51,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
-</details>
-<details>
 
-<summary>``let handler: (() -> Void)?``</summary>
-</details>
-<details>
 
-<summary>``let size: Size``</summary>
-</details>
-<details>
-
-<summary>``let text: String``</summary>
-</details>
-<details>
-
-<summary>``let variant: Variant``</summary>
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -78,6 +62,7 @@ ___
 <details>
 
 <summary>``func active(Bool) -> ActionChip``</summary>
+
 
 칩의 선택 상태를 설정합니다.
 
@@ -93,6 +78,7 @@ ___
 
 <summary>``func activeColor(SwiftUI.Color) -> ActionChip``</summary>
 
+
 칩의 활성화 상태 색상을 설정합니다.
 
 - **Parameters**
@@ -106,6 +92,7 @@ ___
 <details>
 
 <summary>``func backgroundColor(SwiftUI.Color) -> ActionChip``</summary>
+
 
 칩의 배경색을 설정합니다.
 
@@ -121,6 +108,7 @@ ___
 
 <summary>``func disabled(Bool) -> ActionChip``</summary>
 
+
 칩의 비활성화 여부를 설정합니다.
 
 - **Parameters**
@@ -134,6 +122,7 @@ ___
 <details>
 
 <summary>``func fontColor(SwiftUI.Color) -> ActionChip``</summary>
+
 
 칩의 텍스트 색상을 설정합니다.
 
@@ -149,6 +138,7 @@ ___
 
 <summary>``func imageColor(SwiftUI.Color) -> ActionChip``</summary>
 
+
 이미지의 색상을 설정합니다.
 
 - **Parameters**
@@ -163,6 +153,7 @@ ___
 
 <summary>``func leadingImage(Image) -> ActionChip``</summary>
 
+
 칩의 좌측에 이미지를 추가합니다.
 
 - **Parameters**
@@ -176,6 +167,7 @@ ___
 <details>
 
 <summary>``func trailingImage(Image) -> ActionChip``</summary>
+
 
 칩의 우측에 이미지를 추가합니다.
 
@@ -195,6 +187,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 칩의 크기를 정의합니다.
 #### Enumeration Cases
 
@@ -202,11 +195,13 @@ ___
 
 <summary>``case large``</summary>
 
+
 큰 크기
 </details>
 <details>
 
 <summary>``case medium``</summary>
+
 
 중간 크기
 </details>
@@ -214,11 +209,13 @@ ___
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
 <details>
 
 <summary>``case xsmall``</summary>
+
 
 가장 작은 크기
 </details>
@@ -228,19 +225,14 @@ ___
 <details>
 
 <summary>``init?(rawValue: String)``</summary>
+
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
-
-[RawRepresentable Implementations](/docs/utilities/ios-utilities/rawrepresentable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 칩의 외관을 결정하는 열거형입니다.
 #### Enumeration Cases
@@ -249,30 +241,20 @@ ___
 
 <summary>``case outlined``</summary>
 
+
 테두리만 있는 아웃라인 스타일
 </details>
 <details>
 
 <summary>``case solid``</summary>
 
-배경색이 있는 실선 스타일
+
+배경색이 채워진 스타일
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

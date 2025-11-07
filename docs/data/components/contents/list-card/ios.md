@@ -23,10 +23,6 @@ ListCard(
 .trailingContent { IconButton(variant: .default, icon: .arrowRight) }
 ```
 
->  **Note**
->
-> 리스트 형태의 UI에 적합하며, 선택적으로 앞뒤에 추가 콘텐츠를 배치할 수 있습니다.
-
 ## Topics
 
 ### Initializers
@@ -34,6 +30,7 @@ ListCard(
 <details>
 
 <summary>``init(thumbnail: () -> Thumbnail, skeleton: Binding<Bool>, title: String)``</summary>
+
 
 List 카드를 초기화합니다.
 
@@ -51,6 +48,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -59,6 +59,7 @@ ___
 <details>
 
 <summary>``func bottomContent<V>(() -> V) -> ListCard``</summary>
+
 
 카드 하단에 표시할 콘텐츠를 설정합니다.
 
@@ -74,6 +75,7 @@ ___
 
 <summary>``func caption(String?) -> ListCard``</summary>
 
+
 카드의 캡션(부제목)을 설정합니다.
 
 - **Parameters**
@@ -87,6 +89,7 @@ ___
 <details>
 
 <summary>``func extraCaption(String?) -> ListCard``</summary>
+
 
 카드의 추가 캡션을 설정합니다.
 
@@ -102,6 +105,7 @@ ___
 
 <summary>``func leadingContent<V>(() -> V) -> ListCard``</summary>
 
+
 카드 왼쪽(썸네일 앞)에 표시할 콘텐츠를 설정합니다.
 
 - **Parameters**
@@ -115,6 +119,7 @@ ___
 <details>
 
 <summary>``func topContent<V>(() -> V) -> ListCard``</summary>
+
 
 카드 상단에 표시할 콘텐츠를 설정합니다.
 
@@ -130,6 +135,7 @@ ___
 
 <summary>``func trailingContent<V>(() -> V) -> ListCard``</summary>
 
+
 카드 오른쪽에 표시할 콘텐츠를 설정합니다.
 
 - **Parameters**
@@ -142,13 +148,6 @@ ___
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

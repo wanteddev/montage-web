@@ -55,6 +55,7 @@ YourView()
 
 <summary>``init<V>(() -> V)``</summary>
 
+
 팝업 모달을 초기화합니다.
 
 - **Parameters**
@@ -69,6 +70,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -77,6 +81,7 @@ ___
 <details>
 
 <summary>``func ignoresEdgeInsets(Bool) -> PopupModal``</summary>
+
 
 컨텐츠의 기본 여백을 무시할지 설정합니다.
 
@@ -92,6 +97,7 @@ ___
 
 <summary>``func modalActionArea(ActionArea.Model?) -> PopupModal``</summary>
 
+
 팝업 모달 하단에 액션 영역을 설정합니다.
 
 - **Parameters**
@@ -106,6 +112,7 @@ ___
 
 <summary>``func modalNavigation((() -> Montage.ModalNavigation)?) -> PopupModal``</summary>
 
+
 팝업 모달 상단에 내비게이션 바를 설정합니다.
 
 - **Parameters**
@@ -119,6 +126,7 @@ ___
 <details>
 
 <summary>``func resize(Resize) -> PopupModal``</summary>
+
 
 팝업 모달의 크기를 설정합니다.
 
@@ -138,12 +146,14 @@ ___
 
 <summary>``enum Resize``</summary>
 
+
 팝업의 크기를 정의하는 열거형입니다.
 #### Enumeration Cases
 
 <details>
 
 <summary>``case fixed(CGFloat)``</summary>
+
 
 지정한 높이로 고정됩니다.
 
@@ -156,18 +166,46 @@ ___
 
 <summary>``case hug``</summary>
 
+
 컨텐츠 크기에 맞게 자동 조절됩니다.
 </details>
 
 </details>
 
 ___
-### Default Implementations
+___
+### Associated Extensions
+
+<details>
+
+<summary>``extension View``</summary>
+
+<details>
+
+<summary>``func popupModal<V>(isPresented: Binding<Bool>, resize: PopupModal.Resize, ignoresEdgeInsets: Bool, actionAreaModel: ActionArea.Model?, () -> V, navigation: (() -> ModalNavigation)?) -> some View``</summary>
 
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+팝업 모달을 표시합니다.
 
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `isPresented` | 모달 표시 여부를 제어하는 바인딩 |
+  | `resize` | 모달 크기 조절 방식, 기본값은 `.hug` |
+  | `ignoresEdgeInsets` | 모달 내용이 Edge 인셋을 무시할지 여부, 기본값은 `false` |
+  | `actionAreaModel` | 모달 하단에 표시할 액션 영역 모델, 기본값은 `nil` |
+  | `content` | 모달에 표시할 콘텐츠 클로저 |
+  | `navigation` | 모달 상단에 표시할 네비게이션 클로저, 기본값은 `nil` |
+- **Return Value**
+
+  팝업 모달이 적용된 뷰
+- **Discussion**
+
+  화면 중앙에 표시되는 팝업 형태의 모달을 표시합니다.
+</details>
+
+
+</details>
 
 ## Relationships
 

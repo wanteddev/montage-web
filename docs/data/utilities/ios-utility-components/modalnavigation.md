@@ -34,12 +34,13 @@ ModalNavigation()
 
 <summary>``init(scrollOffset: Binding<CGFloat>)``</summary>
 
+
 내비게이션 바를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `scrollOffset` | 스크롤 오프셋 바인딩 (기본값: .constant(0)) |
+  | `scrollOffset` | 스크롤 오프셋 바인딩, 기본값은 `.constant(0)` |
 </details>
 
 ___
@@ -48,6 +49,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -56,6 +60,7 @@ ___
 <details>
 
 <summary>``func backgroundColor(SwiftUI.Color) -> ModalNavigation``</summary>
+
 
 내비게이션 바의 배경색을 설정합니다.
 
@@ -71,6 +76,7 @@ ___
 
 <summary>``func leadingContent<V>(() -> V) -> ModalNavigation``</summary>
 
+
 내비게이션 바의 왼쪽 버튼 영역을 설정합니다.
 
 - **Parameters**
@@ -84,6 +90,7 @@ ___
 <details>
 
 <summary>``func needHandleArea(Bool) -> ModalNavigation``</summary>
+
 
 바텀 시트의 핸들 영역 필요 여부를 설정합니다.
 
@@ -104,6 +111,7 @@ ___
 
 <summary>``func scrollOffset(Binding<CGFloat>) -> ModalNavigation``</summary>
 
+
 스크롤 오프셋을 설정합니다.
 
 - **Parameters**
@@ -117,6 +125,7 @@ ___
 <details>
 
 <summary>``func title(String) -> ModalNavigation``</summary>
+
 
 내비게이션 바의 타이틀을 설정합니다.
 
@@ -132,6 +141,7 @@ ___
 
 <summary>``func titleView<V>(() -> V) -> ModalNavigation``</summary>
 
+
 내비게이션 바의 타이틀 영역을 설정합니다.
 
 - **Parameters**
@@ -144,12 +154,13 @@ ___
 - **Discussion**
   >  **Note**
   >
-  > title(text:)와 함께 사용될 경우 title(_:) 메서드로 설정된 텍스트만 표시됩니다.
+  > Title(:) 메서드로 설정된 텍스트만 표시됩니다.
 
 </details>
 <details>
 
 <summary>``func trailingContents((() -> any View)...) -> ModalNavigation``</summary>
+
 
 내비게이션 바의 오른쪽 버튼 영역을 설정합니다.
 
@@ -168,6 +179,7 @@ ___
 
 <summary>``func trailingContents([() -> any View]) -> ModalNavigation``</summary>
 
+
 내비게이션 바의 오른쪽 버튼 영역을 설정합니다.
 
 - **Parameters**
@@ -184,6 +196,7 @@ ___
 <details>
 
 <summary>``func variant(Variant) -> ModalNavigation``</summary>
+
 
 내비게이션 바의 스타일을 설정합니다.
 
@@ -203,6 +216,7 @@ ___
 
 <summary>``enum Variant``</summary>
 
+
 내비게이션 바의 외관을 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -210,11 +224,13 @@ ___
 
 <summary>``case emphasized``</summary>
 
+
 강조된 큰 제목 스타일
 </details>
 <details>
 
 <summary>``case extended``</summary>
+
 
 제목이 별도 줄에 표시되는 확장된 스타일
 </details>
@@ -222,36 +238,26 @@ ___
 
 <summary>``case floating(alternative: Bool, background: Bool)``</summary>
 
+
 배경이 투명한 플로팅 스타일
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `alternative` | 대체 아이콘 사용 여부 (기본값: false) |
-  | `background` | 배경 표시 여부 (기본값: true) |
+  | `alternative` | 대체 아이콘 사용 여부, 기본값은 `false` |
+  | `background` | 배경 표시 여부, 기본값은 `true` |
 </details>
 <details>
 
 <summary>``case normal``</summary>
 
+
 기본 스타일의 내비게이션 바
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

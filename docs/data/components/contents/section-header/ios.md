@@ -31,10 +31,6 @@ SectionHeader(title: "카테고리") {
 }
 ```
 
->  **Note**
->
-> 본 컴포넌트는 타이틀, 서브타이틀, 더보기 버튼, 커스텀 트레일링 콘텐츠를 조합하여 다양한 형태의 섹션 헤더를 구성할 수 있습니다.
-
 ## Topics
 
 ### Initializers
@@ -42,6 +38,7 @@ SectionHeader(title: "카테고리") {
 <details>
 
 <summary>``init(title: String)``</summary>
+
 
 섹션 헤더를 초기화합니다.
 
@@ -57,6 +54,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -65,6 +65,7 @@ ___
 <details>
 
 <summary>``func headingContent<V>(() -> V) -> SectionHeader``</summary>
+
 
 헤더 타이틀 옆에 추가 콘텐츠를 표시합니다.
 
@@ -83,6 +84,7 @@ ___
 
 <summary>``func size(Size) -> SectionHeader``</summary>
 
+
 섹션 헤더의 크기를 설정합니다.
 
 - **Parameters**
@@ -95,14 +97,11 @@ ___
 - **Discussion**
 
   크기에 따라 폰트 크기와 높이가 자동으로 조정됩니다. `xsmall` 크기를 선택하면 타이틀 색상이 `.labelAlternative`로 변경됩니다.
-  >  **Note**
-  >
-  > 기본값은 `.medium`입니다.
-
 </details>
 <details>
 
 <summary>``func titleColor(SwiftUI.Color) -> SectionHeader``</summary>
+
 
 타이틀 텍스트의 색상을 설정합니다.
 
@@ -113,15 +112,11 @@ ___
 - **Return Value**
 
   수정된 SectionHeader 인스턴스
-- **Discussion**
-  >  **Note**
-  >
-  > 기본값은 `.semantic(.labelStrong)`입니다.
-
 </details>
 <details>
 
 <summary>``func trailingContent<V>(() -> V) -> SectionHeader``</summary>
+
 
 헤더의 오른쪽에 추가적인 콘텐츠를 표시합니다.
 
@@ -144,6 +139,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 섹션 헤더의 크기를 정의하는 열거형입니다.
 #### Enumeration Cases
 
@@ -151,11 +147,13 @@ ___
 
 <summary>``case large``</summary>
 
+
 큰 크기
 </details>
 <details>
 
 <summary>``case medium``</summary>
+
 
 중간 크기
 </details>
@@ -163,30 +161,20 @@ ___
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
 <details>
 
 <summary>``case xsmall``</summary>
 
+
 가장 작은 크기
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

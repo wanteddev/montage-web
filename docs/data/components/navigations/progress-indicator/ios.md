@@ -25,6 +25,7 @@ ProgressIndicator(percentage: $progress)
 
 <summary>``init(percentage: Binding<CGFloat>)``</summary>
 
+
 진행 상태 인디케이터를 초기화합니다.
 
 - **Parameters**
@@ -39,16 +40,12 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

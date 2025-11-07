@@ -9,11 +9,13 @@ title: Swift
 <details>
 
 <summary>``extension Float``</summary>
+
 #### Type Methods
 
 <details>
 
 <summary>``static func opacity(Opacity) -> Float``</summary>
+
 
 Opacity 열거형 값에 해당하는 Float 불투명도 값을 반환합니다.
 
@@ -27,10 +29,16 @@ Opacity 열거형 값에 해당하는 Float 불투명도 값을 반환합니다.
 - **Discussion**
 
   디자인 시스템에서 정의된 일관된 불투명도 값을 사용할 수 있도록 합니다.
+
+  ```swift
+  let alpha = Float.opacity(.p050) // 0.5
+  ```
+
 </details>
 <details>
 
 <summary>``static func spacing(Spacing) -> Float``</summary>
+
 
 Spacing 열거형 값에 해당하는 Float 값을 반환합니다.
 
@@ -44,6 +52,11 @@ Spacing 열거형 값에 해당하는 Float 값을 반환합니다.
 - **Discussion**
 
   디자인 시스템에서 정의된 일관된 간격 값을 사용할 수 있도록 합니다.
+
+  ```swift
+  let padding = Float.spacing(.pt16) // 16.0
+  ```
+
 </details>
 
 </details>

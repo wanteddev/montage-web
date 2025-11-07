@@ -29,10 +29,6 @@ contentView
     }
 ```
 
->  **Note**
->
-> 스켈레톤 뷰는 로딩 상태일 때 부드러운 페이드 인/아웃 애니메이션을 제공합니다.
-
 ## Topics
 
 ### Structures
@@ -41,12 +37,14 @@ contentView
 
 <summary>``struct SkeletonView``</summary>
 
+
 스켈레톤 로딩 UI를 표시하는 뷰입니다.
 #### Initializers
 
 <details>
 
 <summary>``init(Kind)``</summary>
+
 
 스켈레톤 뷰를 초기화합니다.
 
@@ -61,6 +59,9 @@ contentView
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 #### Instance Methods
@@ -68,6 +69,7 @@ contentView
 <details>
 
 <summary>``func color(SwiftUI.Color) -> Skeleton.SkeletonView``</summary>
+
 
 스켈레톤 뷰의 색상을 설정합니다.
 
@@ -83,6 +85,7 @@ contentView
 
 <summary>``func opacity(CGFloat) -> Skeleton.SkeletonView``</summary>
 
+
 스켈레톤 뷰의 투명도를 설정합니다.
 
 - **Parameters**
@@ -94,13 +97,6 @@ contentView
   수정된 SkeletonView 인스턴스
 </details>
 
-#### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 </details>
 
 ___
@@ -110,6 +106,7 @@ ___
 
 <summary>``enum Align``</summary>
 
+
 스켈레톤 요소의 정렬 방식을 지정하는 열거형입니다.
 #### Enumeration Cases
 
@@ -117,11 +114,13 @@ ___
 
 <summary>``case center``</summary>
 
+
 중앙 정렬
 </details>
 <details>
 
 <summary>``case leading``</summary>
+
 
 좌측 정렬
 </details>
@@ -129,18 +128,15 @@ ___
 
 <summary>``case trailing``</summary>
 
+
 우측 정렬
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Kind``</summary>
+
 
 스켈레톤 요소의 종류를 지정하는 열거형입니다.
 #### Enumeration Cases
@@ -149,32 +145,35 @@ ___
 
 <summary>``case circle``</summary>
 
+
 원형 스켈레톤
 </details>
 <details>
 
 <summary>``case rectangle(cornerRadius: CGFloat)``</summary>
 
+
 사각형 모양의 스켈레톤
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `cornerRadius` | 모서리 둥글기 (기본값: 3) |
+  | `cornerRadius` | 모서리 둥글기, 기본값은 `3` |
 </details>
 <details>
 
 <summary>``case text(alignment: Align, lengths: [Length], cornerRadius: CGFloat, lineNumber: Int)``</summary>
+
 
 텍스트 줄을 나타내는 스켈레톤
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `alignment` | 텍스트 정렬 방식 (기본값: .leading) |
-  | `lengths` | 각 줄의 상대적 길이 (기본값: [._100]) |
-  | `cornerRadius` | 모서리 둥글기 (기본값: 3) |
-  | `lineNumber` | 텍스트 줄 수 (기본값: 1) |
+  | `alignment` | 텍스트 정렬 방식, 기본값은 `.leading` |
+  | `lengths` | 각 줄의 상대적 길이, 기본값은 `[._100]` |
+  | `cornerRadius` | 모서리 둥글기, 기본값은 `3` |
+  | `lineNumber` | 텍스트 줄 수, 기본값은 `1` |
 </details>
 
 </details>
@@ -182,20 +181,62 @@ ___
 
 <summary>``enum Length``</summary>
 
+
 스켈레톤 요소의 길이 비율을 지정하는 열거형입니다.
 #### Initializers
 
 <details>
 
 <summary>``init?(rawValue: CGFloat)``</summary>
+
 </details>
 
-#### Default Implementations
+</details>
+
+___
+### Associated Extensions
+
+<details>
+
+<summary>``extension View``</summary>
+
+<details>
+
+<summary>``func skeleton<V>(isPresented: Bool, skeletonView: () -> V) -> some View``</summary>
 
 
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
+현재 뷰에 커스텀 스켈레톤 로딩 UI를 적용합니다.
 
-[RawRepresentable Implementations](/docs/utilities/ios-utilities/rawrepresentable-implementations)
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `isPresented` | 스켈레톤 표시 여부를 제어하는 불리언 값 |
+  | `skeletonView` | 커스텀 스켈레톤 뷰를 생성하는 클로저 |
+- **Return Value**
+
+  스켈레톤 기능이 적용된 뷰
+</details>
+
+<details>
+
+<summary>``func skeleton(isPresented: Bool, kind: Skeleton.Kind, color: SwiftUI.Color?, opacity: CGFloat?, size: CGSize?) -> some View``</summary>
+
+
+현재 뷰에 미리 정의된 스켈레톤 로딩 UI를 적용합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `isPresented` | 스켈레톤 표시 여부를 제어하는 불리언 값 |
+  | `kind` | 스켈레톤 종류 (텍스트, 사각형, 원형 등) |
+  | `color` | 스켈레톤 색상, 기본값은 `nil` (.semantic(.fillNormal) 사용) |
+  | `opacity` | 스켈레톤 투명도, 기본값은 `nil` |
+  | `size` | 스켈레톤 크기 (지정하지 않으면 원본 뷰 크기를 사용), 기본값은 `nil` |
+- **Return Value**
+
+  스켈레톤 기능이 적용된 뷰
+</details>
+
 
 </details>
 

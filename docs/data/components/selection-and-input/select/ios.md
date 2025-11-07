@@ -31,6 +31,7 @@ Select(
 
 <summary>``struct Item``</summary>
 
+
 Select 컴포넌트에서 사용하는 항목 모델을 정의합니다.
 #### Initializers
 
@@ -38,15 +39,16 @@ Select 컴포넌트에서 사용하는 항목 모델을 정의합니다.
 
 <summary>``init(text: String, icon: Icon?, isNegative: Bool, isSelected: Bool)``</summary>
 
+
 아이템 초기화
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `text` | 아이템 텍스트 |
-  | `icon` | 아이템 아이콘 (기본값: nil) |
-  | `isNegative` | 부정적 상태 여부 (기본값: false) |
-  | `isSelected` | 선택 여부 (기본값: false) |
+  | `icon` | 아이템 아이콘, 기본값은 `nil` |
+  | `isNegative` | 부정적 상태 여부, 기본값은 `false` |
+  | `isSelected` | 선택 여부, 기본값은 `false` |
 </details>
 
 #### Instance Properties
@@ -55,11 +57,13 @@ Select 컴포넌트에서 사용하는 항목 모델을 정의합니다.
 
 <summary>``let icon: Icon?``</summary>
 
-아이템의 아이콘 (선택 사항)
+
+아이템의 아이콘
 </details>
 <details>
 
 <summary>``let isNegative: Bool``</summary>
+
 
 부정적 상태 여부 (오류나 경고를 나타낼 때 사용)
 </details>
@@ -67,19 +71,16 @@ Select 컴포넌트에서 사용하는 항목 모델을 정의합니다.
 
 <summary>``var isSelected: Bool``</summary>
 
+
 항목의 선택 여부
 </details>
 <details>
 
 <summary>``let text: String``</summary>
 
+
 아이템 텍스트 내용
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
@@ -90,15 +91,16 @@ ___
 
 <summary>``init(menuPresented: Binding<Bool>?, variant: Variant, items: Binding<[Item]>, onTapItem: ((Select.Item) -> Void)?)``</summary>
 
+
 Select 컴포넌트 초기화
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `menuPresented` | 메뉴 표시 상태 바인딩 (기본값: nil) |
+  | `menuPresented` | 메뉴 표시 상태 바인딩, 기본값은 `nil` |
   | `variant` | 컴포넌트의 시각적/기능적 변형 |
   | `items` | 선택 가능한 항목 배열 (바인딩) |
-  | `onTapItem` | 항목 선택 시 호출되는 클로저 (기본값: nil) |
+  | `onTapItem` | 항목 선택 시 호출되는 클로저, 기본값은 `nil` |
 </details>
 
 ___
@@ -107,6 +109,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -115,6 +120,7 @@ ___
 <details>
 
 <summary>``func description(String) -> Select``</summary>
+
 
 설명을 추가합니다.
 
@@ -130,12 +136,13 @@ ___
 
 <summary>``func disable(Bool) -> Select``</summary>
 
+
 활성화 여부를 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부 (기본값: true) |
+  | `disable` | 비활성화 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 Select 인스턴스
@@ -143,6 +150,7 @@ ___
 <details>
 
 <summary>``func heading(String) -> Select``</summary>
+
 
 제목을 추가합니다.
 
@@ -158,6 +166,7 @@ ___
 
 <summary>``func leadingContent(LeadingContent?) -> Select``</summary>
 
+
 왼쪽 컨텐츠를 추가합니다.
 
 - **Parameters**
@@ -171,6 +180,7 @@ ___
 <details>
 
 <summary>``func menuResize(BottomSheetModal.Resize) -> Select``</summary>
+
 
 메뉴의 높이 detent를 지정합니다.
 
@@ -186,12 +196,13 @@ ___
 
 <summary>``func negative(Bool) -> Select``</summary>
 
+
 negative 상태 여부를 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `negative` | 부정적 상태 여부 (기본값: true) |
+  | `negative` | 부정적 상태 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 Select 인스턴스
@@ -199,6 +210,7 @@ negative 상태 여부를 조정합니다.
 <details>
 
 <summary>``func placeholder(String) -> Select``</summary>
+
 
 선택된 항목들이 없는 경우 placeholder를 표시합니다.
 
@@ -214,12 +226,13 @@ negative 상태 여부를 조정합니다.
 
 <summary>``func requiredBadge(Bool) -> Select``</summary>
 
+
 필수 표시 노출 여부를 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `requiredBadge` | 필수 표시 여부 (기본값: true) |
+  | `requiredBadge` | 필수 표시 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 Select 인스턴스
@@ -227,6 +240,7 @@ negative 상태 여부를 조정합니다.
 <details>
 
 <summary>``func shadowBackgroundColor(SwiftUI.Color) -> Select``</summary>
+
 
 shadow 배경색을 조정합니다. 기본값은 systemBackgroundColor 입니다.
 
@@ -246,6 +260,7 @@ ___
 
 <summary>``enum LeadingContent``</summary>
 
+
 왼쪽에 표시될 컨텐트 타입입니다.
 #### Enumeration Cases
 
@@ -253,25 +268,44 @@ ___
 
 <summary>``case custom(() -> any View)``</summary>
 
+
 사용자 정의 뷰 표시
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `content` | 사용자 정의 뷰를 반환하는 클로저 |
 </details>
 <details>
 
 <summary>``case icon(Icon)``</summary>
 
+
 아이콘 표시
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `icon` | 표시할 아이콘 |
 </details>
 <details>
 
 <summary>``case iconButton(IconButton)``</summary>
 
+
 아이콘 버튼 표시
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `iconButton` | 표시할 아이콘 버튼 |
 </details>
 
 </details>
 <details>
 
 <summary>``enum Render``</summary>
+
 
 variant가 multiple일 때 컴포넌트에 표시될 내용의 형태를 결정하는 열거형입니다.
 #### Enumeration Cases
@@ -280,24 +314,22 @@ variant가 multiple일 때 컴포넌트에 표시될 내용의 형태를 결정�
 
 <summary>``case chip``</summary>
 
+
 선택된 항목을 칩(chip) 형태로 표시
 </details>
 <details>
 
 <summary>``case text``</summary>
 
+
 선택된 항목 텍스트만 표시
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum SingleSelectionType``</summary>
+
 
 variant가 single일 때 아이템 선택 창에 아이템이 표시되는 방식을 결정하는 열거형입니다.
 #### Enumeration Cases
@@ -306,24 +338,22 @@ variant가 single일 때 아이템 선택 창에 아이템이 표시되는 방�
 
 <summary>``case checkmark``</summary>
 
+
 체크마크로 선택 표시
 </details>
 <details>
 
 <summary>``case radio``</summary>
 
+
 라디오 버튼으로 선택 표시
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 선택 모드를 나타내는 열거형입니다.
 #### Enumeration Cases
@@ -332,38 +362,33 @@ variant가 single일 때 아이템 선택 창에 아이템이 표시되는 방�
 
 <summary>``case multiple(render: Render, overflow: Bool, menuPrimaryButtonTitle: String)``</summary>
 
+
 다중 선택 모드
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `render` | 선택된 항목 표시 방식 (텍스트 또는 칩), 기본값은 .text |
-  | `overflow` | 선택된 항목이 여러 줄로 표시되는지 여부, 기본값은 false |
+  | `render` | 선택된 항목 표시 방식, 기본값은 `.text` |
+  | `overflow` | 선택된 항목이 여러 줄로 표시되는지 여부, 기본값은 `false` |
   | `menuPrimaryButtonTitle` | 확인 버튼 제목 |
 </details>
 <details>
 
 <summary>``case single(selectionType: SingleSelectionType, menuPrimaryButtonTitle: String?)``</summary>
 
+
 단일 선택 모드
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `selectionType` | 선택 표시 방식 (체크마크 또는 라디오 버튼), 기본값은 `.radio` |
-  | `menuPrimaryButtonTitle` | 확인 버튼 제목 (nil일 경우 버튼 표시 안 함), 기본값은 `nil` |
+  | `selectionType` | 선택 표시 방식, 기본값은 `.radio` |
+  | `menuPrimaryButtonTitle` | 확인 버튼 제목, 기본값은 `nil` (nil일 경우 버튼 표시 안 함) |
 </details>
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To

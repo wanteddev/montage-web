@@ -31,6 +31,7 @@ FilterChip(
 
 <summary>``init(variant: Variant, size: Size, text: String, state: Binding<State>, handler: (() -> Void)?)``</summary>
 
+
 필터 칩을 초기화합니다.
 
 - **Parameters**
@@ -49,6 +50,9 @@ ___
 <details>
 
 <summary>``var body: some View``</summary>
+
+
+뷰의 내용과 동작을 정의합니다.
 </details>
 
 ___
@@ -58,13 +62,14 @@ ___
 
 <summary>``func active(Bool, label: String?) -> FilterChip``</summary>
 
+
 칩의 활성화 상태와 레이블을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `active` | 활성화 여부 |
-  | `label` | 활성화 상태일 때 표시할 레이블 |
+  | `label` | 활성화 상태일 때 표시할 레이블, 기본값은 `nil` |
 - **Return Value**
 
   수정된 칩 인스턴스
@@ -72,6 +77,7 @@ ___
 <details>
 
 <summary>``func activeColor(SwiftUI.Color) -> FilterChip``</summary>
+
 
 칩의 활성화 상태 색상을 설정합니다.
 
@@ -87,6 +93,7 @@ ___
 
 <summary>``func backgroundColor(SwiftUI.Color) -> FilterChip``</summary>
 
+
 칩의 배경색을 설정합니다.
 
 - **Parameters**
@@ -101,12 +108,13 @@ ___
 
 <summary>``func disabled(Bool) -> FilterChip``</summary>
 
+
 칩의 비활성화 여부를 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부 |
+  | `disable` | 비활성화 여부, 기본값은 `true` |
 - **Return Value**
 
   수정된 칩 인스턴스
@@ -114,6 +122,7 @@ ___
 <details>
 
 <summary>``func fontColor(SwiftUI.Color) -> FilterChip``</summary>
+
 
 칩의 텍스트 색상을 설정합니다.
 
@@ -129,6 +138,7 @@ ___
 
 <summary>``func iconColor(SwiftUI.Color) -> FilterChip``</summary>
 
+
 아이콘의 색상을 설정합니다.
 
 - **Parameters**
@@ -138,11 +148,6 @@ ___
 - **Return Value**
 
   수정된 칩 인스턴스
-- **Discussion**
-  >  **Note**
-  >
-  > 기본값은 `.semantic(.labelAlternative)`입니다.
-
 </details>
 
 ___
@@ -152,6 +157,7 @@ ___
 
 <summary>``enum Size``</summary>
 
+
 칩의 크기를 정의합니다.
 #### Enumeration Cases
 
@@ -159,11 +165,13 @@ ___
 
 <summary>``case large``</summary>
 
+
 큰 크기
 </details>
 <details>
 
 <summary>``case medium``</summary>
+
 
 중간 크기
 </details>
@@ -171,11 +179,13 @@ ___
 
 <summary>``case small``</summary>
 
+
 작은 크기
 </details>
 <details>
 
 <summary>``case xsmall``</summary>
+
 
 가장 작은 크기
 </details>
@@ -185,19 +195,14 @@ ___
 <details>
 
 <summary>``init?(rawValue: String)``</summary>
+
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
-
-[RawRepresentable Implementations](/docs/utilities/ios-utilities/rawrepresentable-implementations)
 
 </details>
 <details>
 
 <summary>``enum State``</summary>
+
 
 칩의 확장 상태를 정의합니다.
 #### Enumeration Cases
@@ -206,24 +211,22 @@ ___
 
 <summary>``case expand``</summary>
 
+
 확장된 상태 (드롭다운 표시)
 </details>
 <details>
 
 <summary>``case normal``</summary>
 
+
 기본 상태
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 <details>
 
 <summary>``enum Variant``</summary>
+
 
 칩의 외관을 결정하는 열거형입니다.
 #### Enumeration Cases
@@ -232,30 +235,20 @@ ___
 
 <summary>``case outlined``</summary>
 
+
 테두리만 있는 아웃라인 스타일
 </details>
 <details>
 
 <summary>``case solid``</summary>
 
+
 배경색이 있는 실선 스타일
 </details>
-
-#### Default Implementations
-
-
-[Equatable Implementations](/docs/utilities/ios-utilities/equatable-implementations)
 
 </details>
 
 ___
-### Default Implementations
-
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
-[View Implementations](/docs/utilities/ios-utilities/view-implementations)
-
 ## Relationships
 
 Conforms To
