@@ -1,4 +1,10 @@
 User-agent: *
+Allow: /
+
+User-agent: Yeti
+Disallow: /
+
+User-agent: Googlebot
 Disallow: /
 
 User-agent: Algolia Crawler

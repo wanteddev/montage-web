@@ -13,14 +13,10 @@ export const useCursor = () => {
 
   const handleMouseEnter = useCallback(() => {
     setIsMouseOver(true);
-
-    glassRef.current?.parentElement?.style.setProperty('cursor', 'none');
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     setIsMouseOver(false);
-
-    glassRef.current?.parentElement?.style.removeProperty('cursor');
   }, []);
 
   useEffect(() => {

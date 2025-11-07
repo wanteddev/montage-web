@@ -39,6 +39,12 @@ export const thumbnailWrapperStyle = css`
   border-radius: 24px;
   overflow: hidden;
   position: relative;
+
+  @media (pointer: fine) {
+    &:has([data-role='glass-effect'][data-visible='true']) {
+      cursor: none;
+    }
+  }
 `;
 
 export const thumbnailStyle = (theme: Theme) => css`
@@ -75,6 +81,7 @@ export const thumbnailStyle = (theme: Theme) => css`
 
 export const glassEffectStyle = css`
   background-color: transparent;
+  visibility: hidden;
   border: none;
   border-radius: 50%;
   transform-origin: center center;
@@ -83,6 +90,14 @@ export const glassEffectStyle = css`
   top: 0;
   width: min(35%, 70px);
   aspect-ratio: 1 / 1;
+  backdrop-filter: brightness(1.1) saturate(1.75) contrast(1.25) blur(2px);
+  will-change: backdrop-filter;
+
+  @media (pointer: fine) {
+    &[data-visible='true'] {
+      visibility: visible;
+    }
+  }
 
   &::before {
     opacity: 0;

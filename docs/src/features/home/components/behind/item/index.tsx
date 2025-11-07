@@ -15,7 +15,6 @@ import {
   titleStyle,
 } from './style';
 import { useCursor } from './hooks';
-import Filter from './filter';
 
 type Props = {
   title: string;
@@ -27,7 +26,6 @@ type Props = {
 
 const BehindItem = ({ title, description, href, image, className }: Props) => {
   const id = useId();
-  const filterId = useId();
 
   const {
     handleMouseEnter,
@@ -72,16 +70,11 @@ const BehindItem = ({ title, description, href, image, className }: Props) => {
           ref={glassRef}
           sx={glassEffectStyle}
           data-role="glass-effect"
+          data-visible={isMouseOver}
           style={{
-            backdropFilter: isMouseOver
-              ? `url(#${filterId}) blur(0px) brightness(1) saturate(1.75)`
-              : 'none',
             transform: `translate(${position.x}px, ${position.y}px)`,
-            visibility: isMouseOver ? 'visible' : 'hidden',
-            willChange: 'backdrop-filter',
           }}
         >
-          <Filter filterId={filterId} aria-hidden />
           <Box sx={glassShadowEffectStyle} />
         </Box>
       </FlexBox>
