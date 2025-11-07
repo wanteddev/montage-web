@@ -13,9 +13,8 @@ import type { Metadata } from 'next';
 import '@wanteddev/wds/global.css';
 
 export const metadata: Metadata = createMetadata({
-  title: 'Montage - Wanted Design System',
+  title: 'Wanted Design System',
   metadataBase: process.env.NEXT_PUBLIC_BASE_PATH!,
-  isRoot: true,
 });
 
 const RootLayout = async ({ children }: LayoutProps<'/'>) => {

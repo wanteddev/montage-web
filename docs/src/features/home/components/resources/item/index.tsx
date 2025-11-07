@@ -1,14 +1,16 @@
-import { Divider, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { Box, Divider, FlexBox, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { IconArrowUpRight } from '@wanteddev/wds-icon';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import {
   hiddenTextStyle,
   itemDividerStyle,
-  itemImageStyle,
+  itemWebpStyle,
   itemWrapperStyle,
 } from './style';
+
+import type { HTMLAttributes } from 'react';
 
 type Props = {
   title: string;
@@ -16,8 +18,7 @@ type Props = {
   image: string;
   webp: string;
   updatedAt: string;
-  className?: string;
-};
+} & HTMLAttributes<HTMLAnchorElement>;
 
 const ResourcesItem = ({
   title,
@@ -25,34 +26,11 @@ const ResourcesItem = ({
   image,
   webp,
   updatedAt,
-  className,
+  ...props
 }: Props) => {
-  const ref = useRef<HTMLAnchorElement>(null);
-  const [isLoadedWebp, setIsLoadedWebp] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const [isMouseOver, setIsMouseOver] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current || isLoadedWebp) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          fetch(`${window.location.origin}${webp}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'image/webp',
-            },
-          }).then(() => {
-            setIsLoadedWebp(true);
-          });
-        }
-      });
-    });
-
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [isLoadedWebp, webp]);
 
   const handleMouseEnter = useCallback(() => {
     setIsMouseOver(true);
@@ -64,8 +42,7 @@ const ResourcesItem = ({
 
   return (
     <FlexBox
-      ref={ref}
-      className={className}
+      {...props}
       gap="16px"
       flex="1 0 0"
       alignItems="center"
@@ -82,8 +59,12 @@ const ResourcesItem = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <FlexBox sx={{ position: 'relative' }}>
-        <Thumbnail
+      <FlexBox ref={ref} sx={{ position: 'relative' }}>
+        <Box
+          sx={itemWebpStyle(image, webp)}
+          data-state={isMouseOver ? 'hover' : 'idle'}
+        />
+        {/* <Thumbnail
           src={image}
           alt={title.replace(/<[^>]+>/g, '')}
           data-role="resource-image"
@@ -99,7 +80,7 @@ const ResourcesItem = ({
             sx={itemImageStyle}
             loading="lazy"
           />
-        )}
+        )} */}
       </FlexBox>
 
       <Divider color="semantic.line.normal.neutral" sx={itemDividerStyle} />

@@ -66,6 +66,26 @@ export const itemDividerStyle = (theme: Theme) => css`
   }
 `;
 
+export const itemWebpStyle =
+  (image: string, webp: string) => (theme: Theme) => css`
+    width: 40px;
+    height: 40px;
+    background: url(${image}) no-repeat center center;
+    background-size: 100% 100%;
+
+    &[data-state='hover'] {
+      background-image: url(${webp});
+    }
+
+    ${respondTo(theme.breakpoint.md)} {
+      height: 32px;
+      width: 32px;
+      img {
+        margin: 0 auto;
+      }
+    }
+  `;
+
 export const itemImageStyle = (theme: Theme) => css`
   aspect-ratio: unset;
   width: 40px;

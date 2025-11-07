@@ -5,19 +5,17 @@ type CreateMetadataParams = {
   description?: string;
   image?: string;
   metadataBase?: string;
-  isRoot?: boolean;
 };
 
 export const createMetadata = ({
-  title: givenTitle,
+  title: givenTitle = 'Wanted Design System',
   description,
   image,
   metadataBase,
-  isRoot = false,
 }: CreateMetadataParams): Metadata => {
   const parsedDescription = description?.replace(/\n/g, ' ');
 
-  const title = isRoot ? givenTitle : `${givenTitle} - Montage`;
+  const title = `${givenTitle} - Montage`;
 
   return {
     title,
