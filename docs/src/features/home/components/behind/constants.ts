@@ -5,8 +5,8 @@ export const ARTICLE_ITEMS = [
     description: 'by Wanted Design System Team',
     href: 'https://brunch.co.kr/@wanteddesign/37',
     image: '/home/behind/Image.png',
-    lightText: '/home/behind/Text-light.png',
-    darkText: '/home/behind/Text-dark.png',
+    lightText: '/home/behind/Text-Light.png',
+    darkText: '/home/behind/Text-Dark.png',
   },
   {
     title:
@@ -14,8 +14,8 @@ export const ARTICLE_ITEMS = [
     description: 'by Wanted Design System Team',
     href: 'https://brunch.co.kr/@wanteddesign/28',
     image: '/home/behind/Image-1.png',
-    lightText: '/home/behind/Text-light-1.png',
-    darkText: '/home/behind/Text-dark-1.png',
+    lightText: '/home/behind/Text-Light-1.png',
+    darkText: '/home/behind/Text-Dark-1.png',
   },
   {
     title:
@@ -23,7 +23,7 @@ export const ARTICLE_ITEMS = [
     description: 'by Wanted Design System Team',
     href: 'https://brunch.co.kr/@wanteddesign/38',
     image: '/home/behind/Image-2.png',
-    lightText: '/home/behind/Text-light-2.png',
-    darkText: '/home/behind/Text-dark-2.png',
+    lightText: '/home/behind/Text-Light-2.png',
+    darkText: '/home/behind/Text-Dark-2.png',
   },
 ];
