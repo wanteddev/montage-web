@@ -6,10 +6,18 @@ export const modalWrapperStyle = (theme: Theme) => css`
   ${respondMore(theme.breakpoint.sm)} {
     align-items: initial;
     padding-top: 80px;
+  }
+`;
 
-    [role='dialog'] {
-      height: fit-content;
-    }
+export const modalContainerStyle = (theme: Theme) => css`
+  &
+    > [data-role='modal-container-scroll-area']
+    > [data-orientation='vertical'] {
+    padding-block: 20px;
+  }
+
+  ${respondTo(theme.breakpoint.sm)} {
+    height: fit-content;
   }
 `;
 

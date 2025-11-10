@@ -67,14 +67,14 @@ const DocsCollection = ({ category }: Props) => {
   }, [allFrontmatter, category]);
 
   return (
-    <FlexBox flexDirection="column" gap="54px" sx={{ marginTop: '32px' }}>
+    <FlexBox flexDirection="column" gap="24px" sx={{ marginTop: '32px' }}>
       {collection
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, list], i) => (
           <FlexBox flexDirection="column" key={key + i}>
             <Heading2 content={capitalCase(key)} />
 
-            <Grid columnSpacing={56} rowSpacing={12}>
+            <Grid columnSpacing={8} rowSpacing={12}>
               {list.map((data) => (
                 <GridItem
                   key={data.slug.toString()}
@@ -86,6 +86,7 @@ const DocsCollection = ({ category }: Props) => {
                     onClick={handleRouteChange}
                     href={`/docs/${data.slug.join('/')}`}
                     sx={{
+                      marginBottom: '22px',
                       figure: {
                         borderRadius: '12px !important',
                         '&::after': {
@@ -100,7 +101,12 @@ const DocsCollection = ({ category }: Props) => {
                       ratio="16:9"
                     />
                     <CardContent>
-                      <CardTitle color="semantic.label.normal">
+                      <CardTitle
+                        variant="body1"
+                        weight="medium"
+                        color="semantic.label.neutral"
+                        sx={{ '&&': { margin: '0px' } }}
+                      >
                         {data.title}
                       </CardTitle>
                     </CardContent>

@@ -58,8 +58,6 @@ export const itemWrapperStyle = (theme: Theme) => css`
 
 export const itemDividerStyle = (theme: Theme) => css`
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s cubic-bezier(0.4, 0.14, 0.3, 1);
 
   ${respondTo(theme.breakpoint.md)} {
     display: none;

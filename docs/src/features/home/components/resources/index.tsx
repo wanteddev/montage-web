@@ -7,7 +7,6 @@ import SectionWrapper from '../section/wrapper';
 import SectionTitle from '../section/title';
 
 import ResourcesItem from './item';
-import { wrapperStyle } from './style';
 import { RESOURCE_ITEMS } from './constants';
 
 const Resources = () => {
@@ -25,7 +24,6 @@ const Resources = () => {
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}
-        sx={wrapperStyle}
       >
         {RESOURCE_ITEMS.map((item, idx) => (
           <FadeInOut duration={600} delay={(idx + 1) * 100} key={item.title}>

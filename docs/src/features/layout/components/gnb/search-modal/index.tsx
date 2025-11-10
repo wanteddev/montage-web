@@ -21,6 +21,7 @@ import {
   compactContentStyle,
   kbdStyle,
   modalCloseButtonStyle,
+  modalContainerStyle,
   modalNavigationStyle,
   modalWrapperStyle,
 } from './styles';
@@ -80,6 +81,7 @@ export const DocSearchModal = ({
         wrapperProps={{
           sx: modalWrapperStyle,
         }}
+        sx={modalContainerStyle}
         ref={containerRef}
         aria-haspopup="listbox"
         style={
