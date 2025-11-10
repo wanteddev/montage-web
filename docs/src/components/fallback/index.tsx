@@ -23,19 +23,25 @@ const Fallback = ({ title, subtitle, description }: Props) => {
         <FlexBox flexDirection="column" gap="11px">
           <Typography
             as="p"
-            variant="title2"
+            variant="headline1"
             align="center"
             weight="bold"
             color="semantic.label.normal"
+            lg={{
+              variant: 'title2',
+            }}
           >
             {subtitle}
           </Typography>
           <Typography
             as="p"
-            variant="label1"
+            variant="label2"
             align="center"
             weight="regular"
             color="semantic.label.alternative"
+            lg={{
+              variant: 'label1',
+            }}
           >
             {description}
           </Typography>
