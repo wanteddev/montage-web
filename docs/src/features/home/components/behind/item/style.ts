@@ -3,7 +3,7 @@ import { addOpacity, css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const carouselItemStyle = (theme: Theme) => css`
-  --carousel-item-width: calc(33% - var(--carousel-item-gap) / 3);
+  --carousel-item-width: calc((100% - var(--carousel-item-gap) * 2) / 3);
 
   ${respondTo(theme.breakpoint.md)} {
     --carousel-item-width: 283px;
