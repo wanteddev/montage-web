@@ -65,7 +65,7 @@ const DocsSummary = () => {
         <RouteTab tabs={tabs} />
       ) : (
         <Divider
-          sx={{ margin: '55px 0px 88px' }}
+          sx={{ margin: '40px 0px 64px' }}
           color="semantic.line.normal.neutral"
         />
       )}

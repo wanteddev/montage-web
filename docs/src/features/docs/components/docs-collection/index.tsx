@@ -5,7 +5,6 @@ import {
   CardContent,
   CardThumbnail,
   CardTitle,
-  Divider,
   FlexBox,
   Grid,
   GridItem,
@@ -68,57 +67,50 @@ const DocsCollection = ({ category }: Props) => {
   }, [allFrontmatter, category]);
 
   return (
-    <>
-      <Divider
-        color="semantic.line.normal.neutral"
-        sx={{ '&&': { marginBlock: '40px 48px' } }}
-      />
+    <FlexBox flexDirection="column" gap="54px" sx={{ marginTop: '32px' }}>
+      {collection
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([key, list], i) => (
+          <FlexBox flexDirection="column" key={key + i}>
+            <Heading2 content={capitalCase(key)} />
 
-      <FlexBox flexDirection="column" gap="54px">
-        {collection
-          .sort((a, b) => a[0].localeCompare(b[0]))
-          .map(([key, list], i) => (
-            <FlexBox flexDirection="column" key={key + i}>
-              <Heading2 content={capitalCase(key)} />
-
-              <Grid columnSpacing={56} rowSpacing={12}>
-                {list.map((data) => (
-                  <GridItem
-                    key={data.slug.toString()}
-                    columns={6}
-                    sm={{ columns: 4 }}
-                  >
-                    <Card
-                      as={Link}
-                      onClick={handleRouteChange}
-                      href={`/docs/${data.slug.join('/')}`}
-                      sx={{
-                        figure: {
-                          borderRadius: '12px !important',
-                          '&::after': {
-                            border: 'none !important',
-                          },
+            <Grid columnSpacing={56} rowSpacing={12}>
+              {list.map((data) => (
+                <GridItem
+                  key={data.slug.toString()}
+                  columns={6}
+                  sm={{ columns: 4 }}
+                >
+                  <Card
+                    as={Link}
+                    onClick={handleRouteChange}
+                    href={`/docs/${data.slug.join('/')}`}
+                    sx={{
+                      figure: {
+                        borderRadius: '12px !important',
+                        '&::after': {
+                          border: 'none !important',
                         },
-                      }}
-                    >
-                      <CardThumbnail
-                        src={data.image ?? '/images/placeholder.png'}
-                        alt={data.title}
-                        ratio="16:9"
-                      />
-                      <CardContent>
-                        <CardTitle color="semantic.label.normal">
-                          {data.title}
-                        </CardTitle>
-                      </CardContent>
-                    </Card>
-                  </GridItem>
-                ))}
-              </Grid>
-            </FlexBox>
-          ))}
-      </FlexBox>
-    </>
+                      },
+                    }}
+                  >
+                    <CardThumbnail
+                      src={data.image ?? '/images/placeholder.png'}
+                      alt={data.title}
+                      ratio="16:9"
+                    />
+                    <CardContent>
+                      <CardTitle color="semantic.label.normal">
+                        {data.title}
+                      </CardTitle>
+                    </CardContent>
+                  </Card>
+                </GridItem>
+              ))}
+            </Grid>
+          </FlexBox>
+        ))}
+    </FlexBox>
   );
 };
 
