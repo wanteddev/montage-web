@@ -59,6 +59,7 @@ export const thumbnailStyle = (theme: Theme) => css`
     margin: auto;
     position: relative;
     z-index: 1;
+    border-radius: unset;
 
     ${respondTo(theme.breakpoint.lg)} {
       width: 112px;
