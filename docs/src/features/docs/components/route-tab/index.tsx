@@ -75,7 +75,12 @@ const RouteTab = ({ tabs, sx }: Props) => {
       <Box role="presentation" ref={tabRef} sx={tabScrollStyle} />
 
       <Tab value={value} onValueChange={handleValueChange}>
-        <TabList sx={[tabStyle, sx]} size="large">
+        <TabList
+          sx={[tabStyle, sx]}
+          size="large"
+          data-is-sticky={isSticky}
+          data-role="route-tab"
+        >
           {tabs.map((tab) => (
             <TabListItem
               as={Link}

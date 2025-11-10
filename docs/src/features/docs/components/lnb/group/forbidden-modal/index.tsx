@@ -39,9 +39,9 @@ const ForbiddenModal = ({ open, onOpenChange }: Props) => {
               variant="body2-reading"
               color="semantic.label.neutral"
             >
-              개발자들을 위한 시작 문서를 준비중이에요.
+              개발자들을 위한 문서를 준비중이에요.
               <br />
-              보다 빠른 시일 내에 준비하여 찾아뵐게요.
+              빠른 시일 내에 찾아뵐게요.
             </ModalDescription>
           </ModalContentItem>
         </ModalContent>

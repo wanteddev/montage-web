@@ -1,4 +1,4 @@
-import { css, respondMore, respondTo } from '@wanteddev/wds';
+import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -43,7 +43,12 @@ export const actionAreaStyle = (theme: Theme) => css`
   --wds-action-area-margin-x: 16px;
   --wds-action-area-margin-y: 16px;
 
-  background-color: ${theme.semantic.background.normal.alternative};
+  background-color: ${addOpacity(
+    theme.semantic.background.normal.normal,
+    theme.opacity[88],
+  )};
+  backdrop-filter: blur(32px);
+  border-top: 1px solid ${theme.semantic.line.normal.alternative};
 
   ${respondTo(theme.breakpoint.sm)} {
     --wds-action-area-margin-x: 20px;

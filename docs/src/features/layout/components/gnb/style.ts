@@ -1,4 +1,4 @@
-import { css, respondMore, respondTo } from '@wanteddev/wds';
+import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -9,7 +9,19 @@ export const gnbWrapperStyle = (theme: Theme) => css`
   width: 100%;
   height: var(--gnb-height);
   padding: 12px var(--layout-padding-inline);
-  background-color: ${theme.semantic.background.normal.normal};
+  background-color: ${addOpacity(
+    theme.semantic.background.normal.normal,
+    theme.opacity[88],
+  )};
+  backdrop-filter: blur(32px);
+  transition:
+    background-color 0.2s ease,
+    backdrop-filter 0.2s ease;
+
+  body:has([data-role='route-tab'][data-is-sticky='true']) & {
+    background-color: ${theme.semantic.background.normal.normal};
+    backdrop-filter: none;
+  }
 `;
 
 export const gnbContainerStyle = css`
