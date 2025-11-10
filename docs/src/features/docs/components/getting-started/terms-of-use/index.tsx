@@ -10,7 +10,7 @@ const TermsOfUse = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.alternative"
+        color="semantic.line.normal.neutral"
         sx={{ '&&': { marginTop: '40px', marginBottom: '32px' } }}
       />
 

@@ -9,7 +9,7 @@ const FoundationsTypography = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.alternative"
+        color="semantic.line.normal.neutral"
         sx={{ '&&': { marginBlock: '48px 56px' } }}
       />
 
