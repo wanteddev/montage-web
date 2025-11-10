@@ -12,8 +12,8 @@ updatedAt: 2025-10-01
   data={[
     'Leading icon',
     'Label',
-		'Trailing icon',
-		'Container'
+    'Trailing icon',
+    'Container'
   ]}
 />
 
@@ -28,14 +28,14 @@ updatedAt: 2025-10-01
         { label: 'Outlined', value: { variant: 'outlined', children: 'Label', size: 'medium' } },
       ]
     },
-		{
+    {
       key: 'Color',
       options: [
         { label: 'Neutral', value: { color: 'neutral' } },
         { label: 'Accent', value: { color: 'accent' } },
       ]
     },
-		{
+    {
       key: 'Leading icon',
       options: [
         { label: 'False', value: {} },
@@ -70,28 +70,28 @@ updatedAt: 2025-10-01
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Accent color">
-		<SectionFigure
-			ratio="21:9"
-			description="특정 요소의 상태, 속성, 혹은 분류를 시각적으로 강조하고 싶을 때 다양한 색상으로 활용할 수 있습니다. 사용자의 시선을 끌어 중요한 정보를 효과적으로 전달하는 데 사용합니다. 색상을 변경할 경우 Foreground color를 사용합니다."
-			src="/components/contents/content-badge/design/Image-3.png"
-		/>
-	</SectionFigureGroup>
+    <SectionFigure
+      ratio="21:9"
+      description="특정 요소의 상태, 속성, 혹은 분류를 시각적으로 강조하고 싶을 때 다양한 색상으로 활용할 수 있습니다. 사용자의 시선을 끌어 중요한 정보를 효과적으로 전달하는 데 사용합니다. 색상을 변경할 경우 Foreground color를 사용합니다."
+      src="/components/contents/content-badge/design/Image-3.png"
+    />
+  </SectionFigureGroup>
 
-	<SectionFigureGroup title="Neutral color">
-		<SectionFigure
-			ratio="21:9"
-			description="특정 요소의 상태, 속성, 혹은 분류를 시각적으로 강조하지 않으면서 부가적인 정보를 제공하기 위해 사용합니다."
-			src="/components/contents/content-badge/design/Image-4.png"
-		/>
-	</SectionFigureGroup>
+  <SectionFigureGroup title="Neutral color">
+    <SectionFigure
+      ratio="21:9"
+      description="특정 요소의 상태, 속성, 혹은 분류를 시각적으로 강조하지 않으면서 부가적인 정보를 제공하기 위해 사용합니다."
+      src="/components/contents/content-badge/design/Image-4.png"
+    />
+  </SectionFigureGroup>
 
-	<SectionFigureGroup title="Color customize">
-		<SectionFigure
-			ratio="21:9"
-			description="Neutral, Accent, Status 컬러를 사용하여 부가 정보를 제공하거나 상태를 더욱 명확하게 표현합니다. Accent 컬러를 사용할 때 배경과 텍스트의 최소 명도 대비를 보장하기 위해 Accent/Foreground 색상을 사용합니다."
-			src="/components/contents/content-badge/design/Image-5.png"
-		/>
-	</SectionFigureGroup>
+  <SectionFigureGroup title="Color customize">
+    <SectionFigure
+      ratio="21:9"
+      description="Neutral, Accent, Status 컬러를 사용하여 부가 정보를 제공하거나 상태를 더욱 명확하게 표현합니다. Accent 컬러를 사용할 때 배경과 텍스트의 최소 명도 대비를 보장하기 위해 Accent/Foreground 색상을 사용합니다."
+      src="/components/contents/content-badge/design/Image-5.png"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionHierarchy>
@@ -101,13 +101,13 @@ updatedAt: 2025-10-01
     components={['ContentBadge']}
     render={`<ContentBadge sx={{ flexShrink: 0 }} variant="solid" color="accent" size="medium">Badge</ContentBadge>`}
   />
-	<SectionHierarchyItem
+  <SectionHierarchyItem
     level={3}
     description="주요 정보 다음으로 사용자의 주목을 끌 필요가 있는 긍정적이거나 중요한 상태를 나타냅니다."
     components={['ContentBadge']}
     render={`<ContentBadge sx={{ flexShrink: 0 }} variant="outlined" color="accent" size="medium">Badge</ContentBadge>`}
   />
-	<SectionHierarchyItem
+  <SectionHierarchyItem
     level={2}
     description="콘텐츠의 일반적인 상태나 분류 정보를 중립적으로 표시합니다."
     components={['ContentBadge']}
@@ -137,7 +137,7 @@ updatedAt: 2025-10-01
     description="클릭 등 액션을 제공하지 않습니다. 액션으로 오해하지 않도록 Button, Chip과 구분하여 사용합니다."
     src="/components/contents/content-badge/design/Image-8.png"
   />
-	<SectionFigure
+  <SectionFigure
     variant="negative"
     description="Border의 색상이나 둥글기를 임의로 변경하여 사용하지 않습니다."
     src="/components/contents/content-badge/design/Image-9.png"
@@ -151,7 +151,7 @@ updatedAt: 2025-10-01
       key: 'Solid badge',
       options: ['contentColor', 'backgroundColor']
     },
-		{
+    {
       key: 'Outlined badge',
       options: ['contentColor', 'backgroundColor', 'borderColor']
     },

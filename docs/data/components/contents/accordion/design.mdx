@@ -13,31 +13,31 @@ updatedAt: 2025-09-30
     'Heading',
     'Leading icon',
     'Description',
-		'Trailing content',
-		'Divider',
+    'Trailing content',
+    'Divider',
   ]}
 />
 
 <SectionVariants
   components={['Accordion', 'AccordionSummary', 'AccordionDetails', 'AccordionDescription']}
   icons={[]}
-	render={(value) => {
+  render={(value) => {
     const fillWidth = value['Fill width'] === 'True';
-		const verticalPadding = value['Vertical padding'];
-		
-		return `
-			<Accordion sx={{ width: '80%' }}>
-				<AccordionSummary fillWidth={${fillWidth}} verticalPadding="${verticalPadding.toLowerCase()}">
-					Heading
-				</AccordionSummary>
-				<AccordionDetails>
-					<AccordionDescription>
-						We are building a world where everyone can work and grow authentically.
-					</AccordionDescription>
-				</AccordionDetails>
-			</Accordion>
-		`;
-	}}
+    const verticalPadding = value['Vertical padding'];
+    
+    return `
+      <Accordion sx={{ width: '80%' }}>
+        <AccordionSummary fillWidth={${fillWidth}} verticalPadding="${verticalPadding.toLowerCase()}">
+          Heading
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            We are building a world where everyone can work and grow authentically.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    `;
+  }}
   variants={[
     {
       key: 'Fill width',
@@ -128,7 +128,7 @@ updatedAt: 2025-09-30
     />
   </SectionFigureGroup>
 
-	<SectionFigureGroup title="Text overflow">
+  <SectionFigureGroup title="Text overflow">
     <SectionFigure
       ratio="16:9"
       description="Heading과 콘텐츠의 길이가 길어지는 경우 제한 없이 여러 줄로 나타납니다."
@@ -140,13 +140,13 @@ updatedAt: 2025-09-30
 <SectionLayout title="How to use">
   <SectionFigure
     variant="positive"
-		ratio="16:10"
+    ratio="16:10"
     description="Accordion이 포함한 콘텐츠를 예상할 수 있도록 명확하고 간결한 Heading을 사용하세요."
     src="/components/contents/accordion/design/Image-11.png"
   />
   <SectionFigure
     variant="negative"
-		ratio="16:10"
+    ratio="16:10"
     description="한 페이지나 시스템 내에서 열림, 닫힘을 의미하는 아이콘을 여러 스타일로 혼용하지 마세요."
     src="/components/contents/accordion/design/Image-12.png"
   />

@@ -19,22 +19,22 @@ updatedAt: 2025-09-30
 <SectionVariants
   components={['AvatarGroup', 'Avatar', 'TextButton']}
   icons={[]}
-	render={(value) => {
+  render={(value) => {
     const variant = value['Variants'].toLowerCase();
-		const trailingContent = value['Trailing content'] === 'True'
+    const trailingContent = value['Trailing content'] === 'True'
       ? '<TextButton color="assistive" size="small">외 0명</TextButton>'
       : 'null';
-		
-		return `
-			<AvatarGroup size="small" trailingContent={${trailingContent}}>
-				<Avatar size="small" variant="${variant}" />
-				<Avatar size="small" variant="${variant}" />
+    
+    return `
+      <AvatarGroup size="small" trailingContent={${trailingContent}}>
         <Avatar size="small" variant="${variant}" />
         <Avatar size="small" variant="${variant}" />
         <Avatar size="small" variant="${variant}" />
-			</AvatarGroup>
-		`;
-	}}
+        <Avatar size="small" variant="${variant}" />
+        <Avatar size="small" variant="${variant}" />
+      </AvatarGroup>
+    `;
+  }}
   variants={[
     {
       key: 'Variants',

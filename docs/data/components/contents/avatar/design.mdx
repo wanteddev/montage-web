@@ -18,7 +18,7 @@ updatedAt: 2025-09-30
 <SectionVariants
   components={['Avatar', 'AvatarButton', 'PushBadge']}
   icons={[]}
-	render={(value) => {
+  render={(value) => {
     const variant = value['Variants'].toLowerCase();
     const interaction = value['Interaction'] === 'True'
     const pushBadge = value['Push badge'] === 'True'
@@ -34,13 +34,13 @@ updatedAt: 2025-09-30
         </AvatarButton>
       `
     }
-		
-		return `
+    
+    return `
       ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
         ${avatar}
       ${pushBadge ? `</PushBadge>` : ''}
-		`;
-	}}
+    `;
+  }}
   variants={[
     {
       key: 'Variants',

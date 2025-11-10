@@ -248,31 +248,31 @@ handle이 활성화된 경우 dimmer 영역 클릭 시 닫히지 않고 아래�
 
 const Demo = () => {
   return (
-		<Modal>
-			<ModalTrigger>
-				<Button>Handle</Button>
-			</ModalTrigger>
+    <Modal>
+      <ModalTrigger>
+        <Button>Handle</Button>
+      </ModalTrigger>
 
-			<ModalContainer variant="bottom" handle>
+      <ModalContainer variant="bottom" handle>
         <ModalNavigation>
           Handle
         </ModalNavigation>
 
-				<ModalContent>
-					<ModalContentItem>
-						<ModalHeading>Heading</ModalHeading>
-						<ModalSummary>Summary</ModalSummary>
-						<ModalDescription>Description</ModalDescription>
-					</ModalContentItem>
-				</ModalContent>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
 
-				<ActionArea>
-					<ActionAreaButton>
-						Main action
-					</ActionAreaButton>
-				</ActionArea>
-			</ModalContainer>
-		</Modal>
+        <ActionArea>
+          <ActionAreaButton>
+            Main action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
   )
 }
 
@@ -304,27 +304,27 @@ const Demo = () => {
   const [open, setOpen] = useState(false);
 
   return (
-		<Modal open={open} onOpenChange={setOpen}>
-			<ModalTrigger>
-				<Button>Peek height</Button>
-			</ModalTrigger>
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
+        <Button>Peek height</Button>
+      </ModalTrigger>
 
-			<ModalContainer variant="bottom" handle peekHeight={76}>
-				<ModalContent>
-					<ModalContentItem>
-						<ModalHeading>Heading</ModalHeading>
-						<ModalSummary>Summary</ModalSummary>
-						<ModalDescription>Description</ModalDescription>
-					</ModalContentItem>
-				</ModalContent>
+      <ModalContainer variant="bottom" handle peekHeight={76}>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
 
-				<ActionArea>
-					<ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
-						Close sheet
-					</ActionAreaButton>
-				</ActionArea>
-			</ModalContainer>
-		</Modal>
+        <ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
+            Close sheet
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
   )
 }
 

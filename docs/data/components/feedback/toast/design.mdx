@@ -20,15 +20,15 @@ updatedAt: 2025-10-01
   components={['Toast', 'ToastContainer', 'ToastContent', 'ToastIcon']}
   icons={['IconBlank']}
   render={(value) => {
-		return `
-			<Toast open disablePortal disableAnimation variant="${value['Variants'].toLowerCase()}">
+    return `
+      <Toast open disablePortal disableAnimation variant="${value['Variants'].toLowerCase()}">
         <ToastContainer>
           <ToastIcon>${value['Leading icon'] === 'True' && value['Variants'] === 'Normal' ? '<IconBlank sx={theme => ({ color: theme.semantic.static.white })} />' : ''}</ToastIcon>
           <ToastContent>Message</ToastContent>
         </ToastContainer>
       </Toast>
-		`;
-	}}
+    `;
+  }}
   variants={[
     {
       key: 'Variants',

@@ -25,9 +25,9 @@ updatedAt: 2025-10-01
     const heading = value['Heading'] === 'True' ? '<AlertHeading>Heading</AlertHeading>' : '';
     const buttonVariant = value['Action'] === 'Normal button' ? 'normal' : 'negative';
 
-		return `
-			<Alert open>
-				<AlertContainer
+    return `
+      <Alert open>
+        <AlertContainer
           disablePortal
           disableOutsideClickClose
           disableEscapeKeyDownClose
@@ -47,18 +47,18 @@ updatedAt: 2025-10-01
             }
           }}
         >
-					<AlertContent>
-						${heading}
-						<AlertDescription>Body</AlertDescription>
-					</AlertContent>
-					<AlertActionArea>
-						<AlertActionAreaButton variant="assistive">Button</AlertActionAreaButton>
+          <AlertContent>
+            ${heading}
+            <AlertDescription>Body</AlertDescription>
+          </AlertContent>
+          <AlertActionArea>
+            <AlertActionAreaButton variant="assistive">Button</AlertActionAreaButton>
             <AlertActionAreaButton variant="${buttonVariant}">Button</AlertActionAreaButton>
-					</AlertActionArea>
-				</AlertContainer>
-			</Alert>
-		`;
-	}}
+          </AlertActionArea>
+        </AlertContainer>
+      </Alert>
+    `;
+  }}
   variants={[
     {
       key: 'Heading',

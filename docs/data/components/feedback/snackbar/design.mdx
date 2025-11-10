@@ -26,8 +26,8 @@ updatedAt: 2025-10-01
     const shouldRenderHeading = value['Contents'].toLowerCase().includes('heading');
     const shouldRenderDescription = value['Contents'].toLowerCase().includes('description');
 
-		return `
-			<Snackbar open disablePortal disableAnimation>
+    return `
+      <Snackbar open disablePortal disableAnimation>
         <SnackbarContent
           extraContent={${extraContent}}
         >
@@ -37,8 +37,8 @@ updatedAt: 2025-10-01
 
         <SnackbarAction>Button</SnackbarAction>
       </Snackbar>
-		`;
-	}}
+    `;
+  }}
   variants={[
     {
       key: 'Contents',

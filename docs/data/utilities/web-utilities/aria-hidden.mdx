@@ -20,18 +20,18 @@ import { hideOthers, css } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 const Demo = () => {
-	const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
-	useEffect(() => {
-		if (!ref.current) return;
+  useEffect(() => {
+    if (!ref.current) return;
 
-		const undo = hideOthers(ref.current);
+    const undo = hideOthers(ref.current);
 
-		return undo;
-	}, []);
+    return undo;
+  }, []);
 
-	return (
-		<div ref={ref} />
-	)
+  return (
+    <div ref={ref} />
+  )
 }
 ```

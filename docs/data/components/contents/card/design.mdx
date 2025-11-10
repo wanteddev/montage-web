@@ -14,20 +14,20 @@ updatedAt: 2025-09-30
     'Heading',
     'Caption',
     'Thumbnail',
-		'Top content',
+    'Top content',
     'Sub caption',
     'Extra caption',
-		'Bottom content',
+    'Bottom content',
   ]}
 />
 
 <SectionVariants
   components={['FlexBox', 'Card', 'CardThumbnail', 'CardTitle', 'CardCaption', 'CardContent', 'CardThumbnailContent', 'ToggleIcon']}
   icons={['IconBookmark']}
-	render={(value) => {
+  render={(value) => {
     const platform = value['Platform'].toLowerCase();
 
-		return `
+    return `
       <FlexBox
         sx={(theme) => ({
           width: "${platform === 'desktop' ? '60%' : '45%'}",
@@ -59,8 +59,8 @@ updatedAt: 2025-09-30
           </CardContent>
         </Card>
       </FlexBox>
-		`;
-	}}
+    `;
+  }}
   variants={[
     {
       key: 'Platform',
@@ -114,7 +114,7 @@ updatedAt: 2025-09-30
     />
   </SectionFigureGroup>
 
-	<SectionFigureGroup title="Customize">
+  <SectionFigureGroup title="Customize">
     <SectionFigure
       ratio="16:9"
       description="Heading 상단과 Caption 하단에 추가 요소를 넣어 부가적인 정보를 표기할 수 있습니다."
@@ -122,27 +122,27 @@ updatedAt: 2025-09-30
     />
   </SectionFigureGroup>
 
-	<SectionFigureGroup title="Text ellipsis">
-		<SectionFigure
-			ratio="21:9"
-			description="Heading과 Caption은 최대 표시 줄 수를 초과할 경우 말줄임 처리합니다. Heading은 최대 2줄, Caption은 최대 1줄로 표기합니다."
-			src="/components/contents/card/design/Image-7.png"
-		/>
-	</SectionFigureGroup>
+  <SectionFigureGroup title="Text ellipsis">
+    <SectionFigure
+      ratio="21:9"
+      description="Heading과 Caption은 최대 표시 줄 수를 초과할 경우 말줄임 처리합니다. Heading은 최대 2줄, Caption은 최대 1줄로 표기합니다."
+      src="/components/contents/card/design/Image-7.png"
+    />
+  </SectionFigureGroup>
 
-	<SectionFigureGroup title="Overflow cue">
-		<SectionFigure
-			ratio="21:9"
-			description="반응형 화면, 특히 모바일에서 여러 카드를 가로로 나열할 때, 화면 가장자리에 다음 카드의 일부가 보이도록 배치하세요. 사용자에게 숨겨진 목록의 존재를 시각적 단서를 제공하여 알리고, 탐색을 유도할 수 있습니다."
-			src="/components/contents/card/design/Image-8.png"
-		/>
-	</SectionFigureGroup>
+  <SectionFigureGroup title="Overflow cue">
+    <SectionFigure
+      ratio="21:9"
+      description="반응형 화면, 특히 모바일에서 여러 카드를 가로로 나열할 때, 화면 가장자리에 다음 카드의 일부가 보이도록 배치하세요. 사용자에게 숨겨진 목록의 존재를 시각적 단서를 제공하여 알리고, 탐색을 유도할 수 있습니다."
+      src="/components/contents/card/design/Image-8.png"
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
   <SectionFigure
     variant="positive"
-		ratio="3:2"
+    ratio="3:2"
     description="카드를 Grid, Carousel 형태로 배열하여 여러 항목을 효과적으로 탐색합니다."
     src="/components/contents/card/design/Image-9.png"
   />
