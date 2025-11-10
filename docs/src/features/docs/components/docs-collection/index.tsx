@@ -67,7 +67,7 @@ const DocsCollection = ({ category }: Props) => {
   }, [allFrontmatter, category]);
 
   return (
-    <FlexBox flexDirection="column" gap="24px" sx={{ marginTop: '32px' }}>
+    <FlexBox flexDirection="column" gap="40px" sx={{ marginTop: '32px' }}>
       {collection
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([key, list], i) => (

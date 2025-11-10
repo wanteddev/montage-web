@@ -5,14 +5,6 @@ import type { Theme } from '@wanteddev/wds';
 export const carouselItemStyle = (theme: Theme) => css`
   --carousel-item-width: calc((100% - var(--carousel-item-gap) * 2) / 3);
 
-  ${respondTo(theme.breakpoint.md)} {
-    --carousel-item-width: 283px;
-  }
-`;
-
-export const itemLinkStyle = (theme: Theme) => css`
-  padding: 0px 6px;
-
   [data-role='interaction-arrow'] {
     color: ${theme.semantic.label.normal};
     transition: transform 0.2s ease;
@@ -29,10 +21,15 @@ export const itemLinkStyle = (theme: Theme) => css`
   }
 
   ${respondTo(theme.breakpoint.md)} {
+    --carousel-item-width: 283px;
     [data-role='interaction-arrow'] {
       font-size: 24px;
     }
   }
+`;
+
+export const itemContainerStyle = css`
+  padding: 0px 6px;
 `;
 
 export const thumbnailWrapperStyle = css`

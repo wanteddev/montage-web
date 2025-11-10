@@ -10,7 +10,7 @@ import {
   glassBackgroundEffectStyle,
   glassEffectStyle,
   glassShadowEffectStyle,
-  itemLinkStyle,
+  itemContainerStyle,
   thumbnailStyle,
   thumbnailWrapperStyle,
   titleStyle,
@@ -49,6 +49,10 @@ const BehindItem = ({
 
   return (
     <FlexBox
+      as={Link}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       sx={[
         carouselItemStyle,
         {
@@ -78,7 +82,6 @@ const BehindItem = ({
         />
 
         <Box
-          ref={glassRef}
           sx={glassBackgroundEffectStyle(lightText, darkText)}
           data-role="glass-background-effect"
           data-visible={isMouseOver}
@@ -101,15 +104,7 @@ const BehindItem = ({
         </Box>
       </FlexBox>
 
-      <FlexBox
-        flexDirection="column"
-        gap="8px"
-        sx={itemLinkStyle}
-        as={Link}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <FlexBox flexDirection="column" gap="8px" sx={itemContainerStyle}>
         <FlexBox gap="12px">
           <Typography
             variant="headline2"

@@ -1,9 +1,10 @@
 'use client';
-import { Divider, Thumbnail } from '@wanteddev/wds';
+import { Box, Divider, Thumbnail } from '@wanteddev/wds';
 
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 
 import VariantGrid from './variant-grid';
+import { linkStyle } from './style';
 
 const FoundationsTypography = () => {
   return (
@@ -17,8 +18,17 @@ const FoundationsTypography = () => {
 
       <p>
         원티드랩에서는 일본어 서비스도 함께 대응하기 때문에, One Design
-        System에서 기본 글꼴로 한국어, 영어, 일본어를 지원하는 Pretendard JP를
-        사용하고 있습니다.
+        System에서 기본 글꼴로 한국어, 영어, 일본어를 지원하는{' '}
+        <Box
+          as="a"
+          href="https://github.com/orioncactus/pretendard"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={linkStyle}
+        >
+          Pretendard JP
+        </Box>
+        를 사용하고 있습니다.
       </p>
 
       <Thumbnail
