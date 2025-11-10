@@ -7,6 +7,7 @@ import { breakWordStyle } from '@/styles/text';
 
 import {
   carouselItemStyle,
+  glassBackgroundEffectStyle,
   glassEffectStyle,
   glassShadowEffectStyle,
   itemLinkStyle,
@@ -22,9 +23,19 @@ type Props = {
   href: string;
   image: string;
   className?: string;
+  lightText: string;
+  darkText: string;
 };
 
-const BehindItem = ({ title, description, href, image, className }: Props) => {
+const BehindItem = ({
+  title,
+  description,
+  href,
+  image,
+  className,
+  lightText,
+  darkText,
+}: Props) => {
   const id = useId();
 
   const {
@@ -64,6 +75,17 @@ const BehindItem = ({ title, description, href, image, className }: Props) => {
           alt={title.replace(/<[^>]+>/g, '')}
           width="100%"
           sx={thumbnailStyle}
+        />
+
+        <Box
+          ref={glassRef}
+          sx={glassBackgroundEffectStyle(lightText, darkText)}
+          data-role="glass-background-effect"
+          data-visible={isMouseOver}
+          style={{
+            transform: `translate(${position.x}px, ${position.y}px)`,
+            backgroundPosition: `${position.backgroundX}px ${position.backgroundY}px`,
+          }}
         />
 
         <Box

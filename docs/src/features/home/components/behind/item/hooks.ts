@@ -9,6 +9,8 @@ export const useCursor = () => {
   const [position, setPosition] = useState({
     x: 0,
     y: 0,
+    backgroundX: 0,
+    backgroundY: 0,
   });
 
   const handleMouseEnter = useCallback(() => {
@@ -30,9 +32,16 @@ export const useCursor = () => {
       const mouseX = e.clientX - rect.left - glassRect;
       const mouseY = e.clientY - rect.top - glassRect;
 
+      // glass effect 내부의 배경 이미지를 반대 방향으로 이동시켜서
+      // 실제 배경 이미지와 일치하도록 함 (돋보기 효과)
+      const backgroundX = -mouseX;
+      const backgroundY = -mouseY;
+
       setPosition({
         x: mouseX,
         y: mouseY,
+        backgroundX,
+        backgroundY,
       });
     };
 

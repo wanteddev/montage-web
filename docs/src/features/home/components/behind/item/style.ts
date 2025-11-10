@@ -41,7 +41,8 @@ export const thumbnailWrapperStyle = css`
   position: relative;
 
   @media (pointer: fine) {
-    &:has([data-role='glass-effect'][data-visible='true']) {
+    &:has([data-role='glass-effect'][data-visible='true']),
+    &:has([data-role='glass-background-effect'][data-visible='true']) {
       cursor: none;
     }
   }
@@ -50,11 +51,14 @@ export const thumbnailWrapperStyle = css`
 export const thumbnailStyle = (theme: Theme) => css`
   border-radius: inherit;
   position: relative;
+  z-index: 2;
 
   img {
     width: 124px;
     height: 124px;
     margin: auto;
+    position: relative;
+    z-index: 1;
 
     ${respondTo(theme.breakpoint.lg)} {
       width: 112px;
@@ -88,47 +92,80 @@ export const glassEffectStyle = css`
   position: absolute;
   left: 0;
   top: 0;
-  width: min(35%, 70px);
+  width: min(40%, 100px);
+  z-index: 2;
   aspect-ratio: 1 / 1;
-  backdrop-filter: brightness(1.1) saturate(1.75) contrast(1.25) blur(2px);
-  will-change: backdrop-filter;
+  will-change: backdrop-filter, transform;
+  overflow: hidden;
+  filter: drop-shadow(4px 4px 15px rgba(0, 0, 0, 0.1));
 
   @media (pointer: fine) {
     &[data-visible='true'] {
       visibility: visible;
     }
   }
-
-  &::before {
-    opacity: 0;
-    background-image: radial-gradient(
-      circle at 50% 0%,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 0) 80%
-    );
-    content: '';
-    mix-blend-mode: overlay;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    position: absolute;
-    transition: opacity 0.2s ease-in-out;
-  }
 `;
+
+export const glassBackgroundEffectStyle =
+  (lightText: string, darkText: string) => (theme: Theme) => css`
+    position: absolute;
+    aspect-ratio: 1 / 1;
+    width: min(40%, 100px);
+    border-radius: 50%;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image: url(${lightText});
+    background-repeat: no-repeat;
+    background-size: 452px;
+    visibility: hidden;
+
+    html[data-theme='dark'] & {
+      background-image: url(${darkText});
+    }
+
+    @media (pointer: fine) {
+      &[data-visible='true'] {
+        visibility: visible;
+      }
+    }
+
+    ${respondTo(theme.breakpoint.xl)} {
+      background-size: 340px;
+    }
+
+    ${respondTo(theme.breakpoint.lg)} {
+      background-size: calc(
+        (
+            100vw - var(--layout-padding-inline) * 2 - var(--carousel-item-gap) *
+              2
+          ) / 3
+      );
+      background-size: calc(
+        (
+            100dvw - var(--layout-padding-inline) * 2 - var(--carousel-item-gap) *
+              2
+          ) / 3
+      );
+    }
+
+    ${respondTo(theme.breakpoint.md)} {
+      background-size: var(--carousel-item-width);
+    }
+  `;
 
 export const glassShadowEffectStyle = (theme: Theme) => css`
   position: absolute;
   inset: 0;
   border-radius: inherit;
   overflow: hidden;
+  z-index: 3;
   box-shadow:
     inset 0 0 6px ${addOpacity(theme.semantic.static.white, theme.opacity[28])},
     inset 1px 1px 1px
       ${addOpacity(theme.semantic.static.white, theme.opacity[28])},
     inset -1px -1px 1px
-      ${addOpacity(theme.semantic.static.white, theme.opacity[28])},
-    ${theme.semantic.elevation.shadow.normal.small};
+      ${addOpacity(theme.semantic.static.white, theme.opacity[28])};
 `;
 
 export const titleStyle = (theme: Theme) => css`
