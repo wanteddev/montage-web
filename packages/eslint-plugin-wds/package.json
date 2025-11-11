@@ -8,6 +8,7 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
+  
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -24,8 +25,8 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "tsc && tsup",
-    "watch": "tsc && tsup --watch",
+    "build": "tsdown",
+    "watch": "tsdown --watch",
     "test": "ts-node -P tsconfig.test.json tests/index.ts"
   },
   "repository": {

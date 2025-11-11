@@ -22,8 +22,8 @@
     }
   },
   "scripts": {
-    "watch": "tsc && tsup --watch",
-    "build": "tsc && tsup",
+    "watch": "tsdown --watch",
+    "build": "tsdown",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
