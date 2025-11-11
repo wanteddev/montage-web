@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-      - feature/sh031224/deploy-actions
+  workflow_dispatch:
 
 env:
   PRETEXT: ""
