@@ -1,0 +1,200 @@
+---
+title: Avatar
+description: 아바타는 사용자(개인) 또는 기업의 시각적 표현이며, 이미지를 표시할 수 있습니다.
+createdAt: 2025-06-17
+updatedAt: 2025-06-17
+---
+
+## Basic avatars
+
+사용자를 시각적으로 표현할 때 사용합니다.
+
+<Demo code={`import { Avatar, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px">
+      <Avatar variant="person" size="medium" />
+      <Avatar variant="company" size="medium" />
+      <Avatar variant="academy" size="medium" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Image avatars
+
+`src` 옵션을 사용하여 이미지로 표시할 수 있습니다.
+
+<Demo code={`import { Avatar, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px">
+      <Avatar variant="person" size="medium" src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png" alt="User avatar" />
+      <Avatar variant="company" size="medium" src="https://static.wanted.co.kr/images/wdes/0_4.54699760.png" alt="Wanted company" />
+      <Avatar variant="academy" size="medium" src="https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FCYoCP%2FbtrSeivmaxD%2Fe7JaOZVPI3Je55nAJaHDMK%2Fimg.png" alt="Wanted academy" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Custom avatars
+
+`children` 을 통해 아이콘 또는 텍스트로 표시할 수 있습니다.
+
+<Demo code={`import { Avatar, FlexBox } from '@wanteddev/wds';
+
+import { IconFolderFill, IconClockFill } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px">
+      <Avatar
+        size="medium"
+        sx={theme => ({
+          backgroundColor: theme.semantic.fill.strong,
+          color: theme.semantic.static.white,
+          ['[data-role="avatar-fallback"]']: {
+            display: 'none',
+          },
+        })}
+      >
+        <IconFolderFill />
+      </Avatar>
+      <Avatar
+        size="medium"
+        sx={theme => ({
+          backgroundColor: theme.semantic.primary.normal,
+          color: theme.semantic.static.white,
+          ['[data-role="avatar-fallback"]']: {
+            display: 'none',
+          },
+        })}
+      >
+        <IconClockFill />
+      </Avatar>
+      <Avatar
+        size="medium"
+        sx={theme => ({
+          backgroundColor: theme.semantic.background.normal.normal,
+          color: theme.semantic.label.neutral,
+          ['[data-role="avatar-fallback"]']: {
+            display: 'none',
+          },
+        })}
+      >
+        S
+      </Avatar>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+
+## Sizes
+
+`size` 옵션을 통해 아바타의 크기를 조정할 수 있습니다.
+- xsmall
+- small
+- medium
+- large
+- xlarge
+- custom (4배수 크기로 사용합니다.)
+
+<Demo code={`import { Avatar, FlexBox } from '@wanteddev/wds';
+
+import { IconFolderFill, IconHomeFill, IconClockFill } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexWrap="wrap" alignItems="center">
+      <Avatar size="xsmall" />
+      <Avatar size="small" />
+      <Avatar size="medium" />
+      <Avatar size="large" />
+      <Avatar size="xlarge" />
+      <Avatar size={60} />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Button avatars
+
+`AvatarButton` 컴포넌트를 사용하여 아바타를 버튼으로 표시할 수 있습니다.
+
+<Demo code={`import { Avatar, AvatarButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px">
+      <AvatarButton>
+        <Avatar variant="person" size="medium" />
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar variant="company" size="medium" />
+      </AvatarButton>
+      <AvatarButton>
+        <Avatar variant="academy" size="medium" />
+      </AvatarButton>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+### With push badge
+
+`PushBadge` 컴포넌트와 함께 사용하여 뱃지를 표시할 수 있습니다.
+
+<Demo code={`import { Avatar, AvatarButton, PushBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px">
+      <AvatarButton>
+        <PushBadge>
+          <Avatar variant="person" size="medium" />
+        </PushBadge>
+      </AvatarButton>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar variant="company" size="medium" />
+        </PushBadge>
+      </AvatarButton>
+      <AvatarButton>
+        <PushBadge>
+          <Avatar variant="academy" size="medium" />
+        </PushBadge>
+      </AvatarButton>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### Avatar
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="Avatar" />
+
+### AvatarButton
+
+`as` 옵션을 통해 `Link` 등 다른 컴포넌트/태그로 활용할 수 있습니다.
+
+<PropsTable component="AvatarButton" />

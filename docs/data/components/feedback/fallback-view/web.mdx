@@ -1,0 +1,238 @@
+---
+title: Fallback view
+createdAt: 2025-09-08
+---
+
+## Basic fallback view
+
+콘텐츠가 비어있거나 오류가난 상황에 사용합니다.
+
+이미지를 추가할 땐 `FallbackViewImage`로 감싸서 사용합니다.
+
+<Demo code={`import { FallbackView, FallbackViewImage, FallbackViewContent, FallbackViewText, FallbackViewButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FallbackView sx={{ margin: 'auto' }}>
+      <FallbackViewImage>
+        <img
+          src="https://static.wanted.co.kr/images/ghost.png"
+          alt="Example image"
+        />
+      </FallbackViewImage>
+      <FallbackViewContent>
+        <FallbackViewText
+          title="타이틀이 들어가요." 
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+아래와 같이 조합하여 사용합니다.
+
+```tsx
+<FallbackView>
+  <FallbackViewImage>
+    <img />
+  </FallbackViewImage>
+
+  <FallbackViewContent>
+    <FallbackViewText />
+
+    <FallbackViewButton />
+  </FallbackViewContent>
+</FallbackView>
+```
+
+## Platform
+
+`platform`에 따라 이미지, 글자, 버튼 크기가 달라집니다.
+- mobile
+- desktop (default)
+
+### Desktop
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FallbackView width="100%">
+      <FallbackViewImage>
+        <img
+          src="https://static.wanted.co.kr/images/ghost.png"
+          alt="Example image"
+        />
+      </FallbackViewImage>      
+      <FallbackViewContent>
+        <FallbackViewText
+          title="platform: desktop" 
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Mobile
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FallbackView platform="mobile" width="100%">
+      <FallbackViewImage>
+        <img
+          src="https://static.wanted.co.kr/images/ghost.png"
+          alt="Example image"
+        />
+      </FallbackViewImage>      
+      <FallbackViewContent>
+        <FallbackViewText
+          title="platform: mobile" 
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Padding
+
+`padding` 옵션에 따라 상/하 패딩이 달라집니다.
+- normal (default)
+- compact
+
+flex 레이아웃을 이용한 center 배치 보단, padding을 이용한 배치를 권장합니다.
+
+### Normal
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FallbackView padding="normal">
+      <FallbackViewImage>
+        <img
+          src="https://static.wanted.co.kr/images/ghost.png"
+          alt="Example image"
+        />
+      </FallbackViewImage>
+      <FallbackViewContent>
+        <FallbackViewText
+          title="padding: normal"
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Compact
+
+<Demo code={`import { FallbackView, FallbackViewContent, FallbackViewText, FallbackViewButton, FallbackViewImage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FallbackView padding="compact">
+      <FallbackViewImage>
+        <img
+          src="https://static.wanted.co.kr/images/ghost.png"
+          alt="Example image"
+        />
+      </FallbackViewImage>
+      <FallbackViewContent>
+        <FallbackViewText
+          title="padding: compact"
+          description={
+            <>
+              상황에 대한 설명이 들어가요.
+              <br />
+              설명은 최대 두 줄로 작성해요.
+            </>
+          }
+        />
+        <FallbackViewButton>텍스트</FallbackViewButton>
+      </FallbackViewContent>
+    </FallbackView>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### FallbackView
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- platform
+- padding
+- width
+
+<PropsTable component="FallbackView" />
+
+### FallbackViewImage
+
+`FlexBox`와 동일한 props를 사용합니다.
+
+<PropsTable component="FallbackViewImage" />
+
+### FallbackViewContent
+
+`FlexBox`와 동일한 props를 사용합니다.
+
+<PropsTable component="FallbackViewContent" />
+
+### FallbackViewText
+
+<PropsTable component="FallbackViewText" />
+
+### FallbackViewButton
+
+`Button`과 동일한 props를 사용합니다.
+
+<PropsTable component="FallbackViewButton" />

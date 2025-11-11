@@ -1,0 +1,405 @@
+---
+title: Autocomplete
+description: 사용자가 텍스트를 입력할 때 실시간으로 관련된 옵션을 제안하여 빠르고 정확한 입력을 돕는 요소입니다. 텍스트 입력 필드와 Menu가 결합된 형태로, 타이핑 수고를 줄이고 입력 오류를 방지하며 사용자가 가능한 옵션을 탐색할 수 있도록 지원합니다.
+createdAt: 2025-09-23
+---
+
+## Basic autocomplete
+
+입력 가능한 요소에 자동완성을 지원할 때 사용합니다.
+option 종류가 많을 경우 `debounce` 를 활용해서 속도를 최적화해서 사용하는 것을 추천합니다.
+
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
+import { useState, useEffect, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList>
+        {filteredOptions.length === 0 &&
+          <Typography
+            variant="body1"
+            weight="regular"
+            color="semantic.label.alternative"
+            sx={{ padding: '12px 0px' }}
+          >
+            검색 결과가 없습니다.
+          </Typography>
+        }
+        {filteredOptions.map((option) => {
+          return (
+            <AutocompleteOption value={option} key={option}>
+              {option}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Components
+
+Autocomplete는 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Autocomplete>
+  <AutocompleteField>
+    <TextField />
+  <AutocompleteField>
+
+  <AutocompleteList>
+    <AutocompleteOption />
+    <AutocompleteOption />
+  </AutocompleteList>
+</Autocomplete>
+```
+
+## As select
+
+`asSelect` 옵션을 사용하면, Option 목록에 있는 값 외에 다른 값을 사용할 수 없어 Select 처럼 사용할 수 있습니다.
+
+`inputValue`, `value` 총 2가지 값으로 관리하며 올바른 값을 선택한 경우 value의 값이 변경됩니다. 
+
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox, Typography } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [inputValue, setInputValue] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(inputValue.toLowerCase()))
+  }, [inputValue])
+
+  return (
+    <Autocomplete
+      inputValue={inputValue}
+      onInputValueChange={setInputValue}
+      open={open && filteredOptions.length > 0}
+      onOpenChange={setOpen}
+      asSelect
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList>
+        {filteredOptions.length === 0 && (
+          <AutocompleteOption value={inputValue}>
+            '{inputValue}' <Typography variant="body1" weight="bold">사용하기</Typography>
+          </AutocompleteOption>
+        )}
+        {filteredOptions.map((option) => {
+          return (
+            <AutocompleteOption value={option} key={option}>
+              {option}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Highlights
+
+간단한 하이라이트는 함수로 직접 처리할 수 있습니다.
+
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+      open={open && filteredOptions.length > 0}
+      onOpenChange={setOpen}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList>
+        {filteredOptions.map((option) => {
+          const quote = (str) => str.replace(/([.?*+^$[\\]\\\\(){}|-])/g, '\\\\$1');
+          const highlight = quote(value);
+
+          const matcher = new RegExp(
+            \`(\${highlight})\`,
+            'i'
+          );
+
+          return (
+            <AutocompleteOption value={option} key={option}>
+              {option.split(matcher).map((match, index) => (
+                <Box
+                  key={index}
+                  as="span"
+                  sx={matcher.test(match) && highlight.length > 0 && (theme => ({ color: theme.semantic.primary.normal }))}
+                >
+                  {match}
+                </Box>
+              ))}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `autosuggest-highlight` 라는 라이브러리를 사용해서 다양한 필터 케이스를 대응할 수 있습니다.
+
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+      open={open && filteredOptions.length > 0}
+      onOpenChange={setOpen}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList>
+        {filteredOptions.map((option) => {
+          const matches = match(option, value, { insideWords: true });
+          const parts = parse(option, matches);
+
+          return (
+            <AutocompleteOption value={option} key={option}>
+              {parts.map((part, index) => (
+                <Box
+                  key={index}
+                  as="span"
+                  sx={part.highlight && (theme => ({ color: theme.semantic.primary.normal }))}
+                >
+                  {part.text}
+                </Box>
+              ))}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Email
+
+Email 자동완성을 지원할 수 있습니다.
+
+<Demo code={`import { Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+import { useState, useEffect, useMemo } from 'react';
+
+const options = ['@naver.com', '@wantedlab.com', '@hanmail.net', '@gmail.com'];
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+  const [open, setOpen] = useState(false);
+
+  const filteredOptions = useMemo(() => {
+    return options.filter((option) => {
+      return option.toLowerCase().includes(value.replace(/^([^\\s]+)(?=\\@)/, '').toLowerCase());
+    })
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+      open={open && value.includes('@') && filteredOptions.length > 0}
+      onOpenChange={setOpen}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList>
+        {filteredOptions.map((option) => {
+          const optionValue = value.replace(/(\@)([^s]+)?$/, '') + option;
+
+          return (
+            <AutocompleteOption value={optionValue} key={option}>
+              {optionValue}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With group
+
+`AutocompleteGroup` 을 통해 각 섹션을 구분할 수 있습니다.
+
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, AutocompleteGroup, AutocompleteOption, TextField } from '@wanteddev/wds';
+import { useState, useEffect, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+    >
+      <AutocompleteField>
+        <TextField
+          width="300px"
+          placeholder="입력하세요."
+        />
+      </AutocompleteField>
+
+      <AutocompleteList>
+        {filteredOptions.length === 0 &&
+          <Typography
+            variant="body1"
+            weight="regular"
+            color="semantic.label.alternative"
+            sx={{ padding: '12px 0px' }}
+          >
+            검색 결과가 없습니다.
+          </Typography>
+        }
+        <AutocompleteGroup title="Fruits">
+          {filteredOptions.map((option) => {
+            return (
+              <AutocompleteOption value={option} key={option}>
+                {option}
+              </AutocompleteOption>
+            )
+          })}
+        </AutocompleteGroup>
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+
+### Autocomplete
+
+<PropsTable component="Autocomplete" />
+
+### AutocompleteField
+
+`AutocompleteField` 는 `HTMLAttributes<HTMLElement>` prop을 사용합니다.
+
+### AutocompleteList
+
+<PropsTable component="AutocompleteList" />
+
+### AutocompleteGroup
+
+<PropsTable component="AutocompleteGroup" />
+
+### AutocompleteOption
+
+<PropsTable component="AutocompleteOption" />
+
+### AutocompleteOptionContent
+
+<PropsTable component="AutocompleteOptionContent" />

@@ -1,0 +1,558 @@
+---
+title: List cell
+description: 리스트에서 사용되는 셀 컴포넌트입니다.
+createdAt: 2025-06-17
+updatedAt: 2025-06-17
+---
+
+## Basic cell
+
+인터랙션이 가능한 리스트 셀입니다.
+
+leadingContent, trailingContent에 요소를 추가할 때는 `ListCellContent`로 감싸서 사용합니다.
+<br/>
+`ListCell` 클릭 시 자동으로 leadingContent, trailingContent 내부의 컨트롤 요소를 클릭 처리합니다.
+
+> 단, `Switch` 컴포넌트는 클릭 처리하지 않습니다.
+
+<Demo code={`import { List, ListCell, ListCellContent, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell leadingContent={(
+        <ListCellContent variant="checkbox">
+          <Checkbox tabIndex={-1} />
+        </ListCellContent>
+      )}>
+        텍스트
+      </ListCell>
+      <ListCell textProps={{ caption: 'Caption' }} leadingContent={(
+        <ListCellContent variant="checkbox">
+          <Checkbox tabIndex={-1} />
+        </ListCellContent>
+      )}>
+        텍스트
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+보통 List 컴포넌트와 함께 사용합니다.
+
+```tsx
+<List>
+  <ListCell
+    leadingContent={(
+      <ListCellContent variant="checkbox">
+        <Checkbox />
+      </ListCellContent>
+    )}
+  />
+
+  <ListCell
+    trailingContent={(
+      <ListCellContent variant="switch">
+        <Switch />
+      </ListCellContent>
+    )}
+  />
+</List>
+```
+
+## States
+
+selected, disabled, disableInteraction으로 상태를 표시할 수 있습니다.
+
+### Selected
+
+현재 선택된 셀을 표시합니다.
+
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell selected>
+        Selected list cell
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Disabled
+
+disabled 상태의 셀을 표시할 수 있으며 클릭 이벤트는 비활성화됩니다.
+
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell disabled>
+        Disabled list cell
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Fill width
+
+Cell을 화면 가득 채워야할 때 `fillWidth` 속성을 사용하여 UI를 표시합니다.
+
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell fillWidth>
+        Fill width list cell
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Vertical align
+
+기본 수직 정렬은 `flex-start`입니다. `alignItems`로 수직 정렬을 조정할 수 있습니다.
+
+<Demo code={`import { List, ListCell, ListCellContent, Switch } from '@wanteddev/wds'; 
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell
+        trailingContent={(
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        )}
+      >
+        텍스트, Top 정렬
+      </ListCell>
+
+      <ListCell
+        alignItems="center"
+        trailingContent={(
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        )}
+      >
+        텍스트, Center 정렬
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Divider
+
+`divider` 속성을 사용하여 셀 사이에 구분선을 추가할 수 있습니다.
+
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell divider>
+        Divider list cell
+      </ListCell>
+      <ListCell>
+        Divider list cell
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Vertical padding
+
+`verticalPadding` 속성을 사용하여 수직 간격을 조정할 수 있습니다.
+- none
+- small
+- medium (default)
+- large
+
+`verticalPadding="none"` 일 때에는 인터렉션 영역이 비활성화됩니다.
+
+<Demo code={`import { List, ListCell } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <List sx={{ width: '100%' }}>
+      <ListCell verticalPadding="none">
+        VerticalPadding, None
+      </ListCell>
+      <ListCell>
+        VerticalPadding, Medium (default)
+      </ListCell>
+      <ListCell verticalPadding="small">
+        VerticalPadding, Small
+      </ListCell>
+      <ListCell verticalPadding="large">
+        VerticalPadding, Large
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With content
+
+leadingContent, trailingContent를 사용해서 콘텐츠를 추가할 수 있습니다.
+콘텐츠를 추가할 때는 `ListCellContent`로 래핑해서 사용합니다.
+
+Cell을 클릭했을 때 콘텐츠 영역이 클릭되지 않게 하려면 `e.stopPropagation` 을 사용해서 방지할 수 있습니다.
+
+<Demo code={`import { Checkbox, Thumbnail, Avatar, List, ListCell, ListCellContent, IconButton, CheckMark, TextButton, ContentBadge, Switch } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <List gap="16px" sx={{ width: '100%' }}>
+      <ListCell
+        trailingContent={
+          <ListCellContent variant="icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        trailingContent={
+          <ListCellContent variant="checkbox">
+            <CheckMark tabIndex={-1} />
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        trailingContent={
+          <ListCellContent variant="button">
+            <TextButton size="small" color="assistive" tabIndex={-1}>
+              Button
+            </TextButton>
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        trailingContent={
+          <ListCellContent>
+            <ContentBadge color="neutral">Badge</ContentBadge>
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        trailingContent={
+          <ListCellContent variant="chevron">
+            값
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        trailingContent={
+          <ListCellContent variant="value">
+            값
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        leadingContent={
+          <ListCellContent variant="icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="chevron" chevron={false}>
+            값
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        leadingContent={
+          <ListCellContent variant="checkbox">
+            <Checkbox tabIndex={-1} />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="chevron" chevron={false}>
+            값
+          </ListCellContent>
+        }
+      >
+        텍스트, Normal
+      </ListCell>
+      <ListCell
+        alignItems="center"
+        leadingContent={
+          <ListCellContent variant="avatar">
+            <Avatar variant="person" size="medium" />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="chevron" chevron={false}>
+            값
+          </ListCellContent>
+        }
+      >
+        텍스트, Medium
+      </ListCell>
+      <ListCell
+        alignItems="center"
+        leadingContent={
+          <ListCellContent variant="thumbnail">
+            <Thumbnail border radius ratio="1:1" width="56px" />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="checkbox">
+            <CheckMark tabIndex={-1} />
+          </ListCellContent>
+        }
+      >
+        텍스트, Medium
+      </ListCell>
+      <ListCell
+        alignItems="center"
+        disableInteraction
+        trailingContent={
+          <ListCellContent variant="switch">
+            <Switch />
+          </ListCellContent>
+        }
+      >
+        텍스트, Medium
+      </ListCell>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        leadingContent={
+          <ListCellContent variant="large-icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="chevron" chevron={false}>
+            값
+          </ListCellContent>
+        }
+      >
+        Content, Large
+      </ListCell>
+      <ListCell
+        alignItems="center"
+        textProps={{ caption: 'Caption' }}
+        leadingContent={
+          <ListCellContent variant="large-icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="checkbox">
+            <CheckMark tabIndex={-1} />
+          </ListCellContent>
+        }
+      >
+        Content, Large
+      </ListCell>
+      <ListCell
+        textProps={{ caption: 'Caption' }}
+        leadingContent={
+          <ListCellContent variant="custom">
+            <Thumbnail
+              src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+              alt="Wanted Company Image"
+              width="56px"
+              ratio="1:1"
+            />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="checkbox">
+            <CheckMark tabIndex={-1} />
+          </ListCellContent>
+        }
+      >
+        Content, Large
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Switch
+
+Switch를 사용하는 경우 `ListCell` 영역을 클릭해서 토글되지 않습니다. 스위치 영역을 직접 클릭해야만 스위치가 토글됩니다.
+
+`disableInteraction`과 함께 사용하면 자연스러운 동작으로 사용 가능합니다.
+
+<Demo code={`import { Button, FlexBox, Switch, List, ListCell, ListCellContent, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+      sx={{ width: '100%' }}
+    >
+      <List>
+        <Controller
+          control={form.control}
+          name="notification"
+          render={({ field, formState }) => (
+            <ListCell
+              as={FormField}
+              disableInteraction
+              trailingContent={
+                <FormControl>
+                  <ListCellContent variant="switch">
+                    <Switch
+                      {...field}
+                      checked={field.value} 
+                      onCheckedChange={field.onChange}
+                    />
+                  </ListCellContent>
+                </FormControl>
+              }
+            >
+              알림 받기
+            </ListCell>
+          )}
+        />
+        <Controller
+          control={form.control}
+          name="darkMode"
+          render={({ field, formState }) => (
+            <ListCell
+              as={FormField}
+              disableInteraction
+              trailingContent={
+                <FormControl>
+                  <ListCellContent variant="switch">
+                    <Switch
+                      {...field}
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </ListCellContent>
+                </FormControl>
+              }
+            >
+              다크 모드
+            </ListCell>
+          )}
+        />
+      </List>
+      
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Text ellipsis
+
+`ellipsis` 속성을 사용하여 Content가 넘치는 경우 말줄임표로 표시할 수 있습니다.
+
+<Demo code={`import { List, ListCell, ListCellContent } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const TITLE = '동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 무궁화 삼천리 화려 강산 대한사람 대한으로 길이 보전하세.';
+const CAPTION = '남산위에 저 소나무 철갑을 두른 듯 바람서리 불변함은 우리 기상일세 무궁화 삼천리 화려 강산 대한사람 대한으로 길이 보전하세.';
+
+const Demo = () => {
+  return (
+    <List gap="16px" sx={{ width: '100%' }}>
+      <ListCell
+        textProps={{ caption: CAPTION }}
+        leadingContent={
+          <ListCellContent variant="large-icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="chevron">
+            값
+          </ListCellContent>
+        }
+      >
+        {TITLE}
+      </ListCell>
+      <ListCell
+        ellipsis
+        textProps={{ caption: CAPTION }}
+        leadingContent={
+          <ListCellContent variant="large-icon">
+            <IconBlank />
+          </ListCellContent>
+        }
+        trailingContent={
+          <ListCellContent variant="chevron">
+            값
+          </ListCellContent>
+        }
+      >
+        {TITLE}
+      </ListCell>
+    </List>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### List
+
+<PropsTable component="List" />
+
+### ListCell
+
+<PropsTable component="ListCell" />
+
+### ListCellContent
+
+<PropsTable component="ListCellContent" />

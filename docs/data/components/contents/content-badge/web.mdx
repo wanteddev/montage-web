@@ -1,0 +1,223 @@
+---
+title: Content badge
+description: 아이콘과 텍스트를 조합하여 특정 정보의 상태나 속성을 시각적으로 강조하는 컴포넌트입니다. 카드나 리스트 등에서 사용자가 관련 정보를 빠르게 알아볼 수 있도록 돕는 라벨 역할을 합니다.
+createdAt: 2025-06-17
+updatedAt: 2025-06-17
+---
+
+## Basic content badge
+
+추가 정보를 보여줄 때 사용합니다.
+
+배경과 텍스트 컬러를 섞어 쓰지 않습니다.
+
+<Demo code={`import { ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ContentBadge color="neutral" size="small">
+      Content badge
+    </ContentBadge>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Variants
+
+위계에 따라 두 가지 variant를 제공합니다.
+- solid
+- outlined
+
+<Demo code={`import { ContentBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
+      <ContentBadge color="neutral" size="small" variant="solid">
+        Content badge
+      </ContentBadge>
+      <ContentBadge color="neutral" size="small" variant="outlined">
+        Content badge
+      </ContentBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+3가지 사이즈를 제공합니다.
+- xsmall
+- small
+- medium
+
+<Demo code={`import { ContentBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <ContentBadge color="neutral" size="xsmall">
+        Content badge
+      </ContentBadge>
+      <ContentBadge color="neutral" size="small">
+        Content badge
+      </ContentBadge>
+      <ContentBadge color="neutral" size="medium">
+        Content badge
+      </ContentBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Color
+
+### Neutral
+
+보통 위계가 낮거나 보통인 경우 neutral color를 사용합니다.
+
+`neutralColor` 로 뱃지 텍스트 색상을 커스텀할 수 있습니다.
+
+<Demo code={`import { FlexBox, ContentBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <ContentBadge color="neutral" size="medium">
+        Content badge
+      </ContentBadge>
+      <ContentBadge color="neutral" neutralColor="semantic.label.strong" size="medium">
+        Content badge
+      </ContentBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Accent
+
+강하게 강조되어야하거나 사용자의 주목을 끌어야하는 중요한 상태를 나타낼 때 사용합니다.
+
+`accentColor` 로 뱃지 색상을 커스텀할 수 있습니다.
+- 텍스트 색상과 배경 색상이 같이 변경됩니다.
+
+<Demo code={`import { ContentBadge, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="24px" alignItems="center">
+      <FlexBox gap="12px" flexWrap="wrap" sx={{ width: '85%' }}>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.red">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.redOrange">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.orange">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.lime">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.green">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.cyan">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.lightBlue">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.blue">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.violet">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.purple">
+          Content badge
+        </ContentBadge>
+        <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.pink">
+          Content badge
+        </ContentBadge>
+      </FlexBox>
+
+      <FlexBox gap="12px" flexWrap="wrap" sx={{ width: '85%' }}>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.red">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.redOrange">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.orange">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.lime">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.green">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.cyan">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.lightBlue">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.blue">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.violet">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.purple">
+          Content badge
+        </ContentBadge>
+        <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.pink">
+          Content badge
+        </ContentBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With content
+
+leadingContent, trailingContent 로 뱃지 좌우에 요소를 추가할 수 있습니다.
+
+<Demo code={`import { ContentBadge, FlexBox } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px">
+      <ContentBadge color="neutral" leadingContent={<IconPlusThick />}>
+        Content badge
+      </ContentBadge>
+      <ContentBadge color="neutral" trailingContent={<IconPlusThick />}>
+        Content badge
+      </ContentBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="ContentBadge" />

@@ -1,0 +1,100 @@
+---
+title: Search field
+description: 사용자가 키워드나 문장을 입력하여 데이터, 콘텐츠, 또는 기능을 검색할 수 있도록 도와주는 요소를 제공합니다. 자동완성, 추천 검색어, 최근 검색어 등의 기능을 함께 제공할 수 있습니다.
+image: /components/selection-and-input/search-field/design/Thumbnails.png
+createdAt: 2025-10-14
+updatedAt: 2025-10-14
+---
+
+<SectionAnatomy
+  src="/components/selection-and-input/search-field/design/Image.png"
+  ratio="2:1"
+  data={[
+    'Search icon',
+    'Placeholder',
+    'Value',
+    'Field',
+    'Clear button'
+  ]}
+/>
+
+<SectionLayout title="States">
+  <SectionFigureGroup title="Desktop">
+    <SectionFigure
+      ratio="2:1"
+      src="/components/selection-and-input/search-field/design/Image-1.png"
+      description={<SectionStatesItem options={['Normal', 'Focused', 'Typing', 'Entered', 'Disabled']} />}
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Mobile">
+    <SectionFigure
+      ratio="2:1"
+      src="/components/selection-and-input/search-field/design/Image-2.png"
+      description={<SectionStatesItem options={['Normal', 'Focused', 'Typing', 'Entered', 'Disabled']} />}
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="21:9"
+    description="Search input은 Button과 동일한 높이 체계를 가지고 있으며 Small, Medium 사이즈를 제공합니다. 상황에 맞춰 자유롭게 사용할 수 있습니다."
+    src="/components/selection-and-input/search-field/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="With top navigation">
+  <SectionFigure
+    ratio="21:9"
+    description="Top navigation과 함께 사용할 시 제공되는 Size와는 별개로 고정된 높이만 사용할 수 있습니다. Navigation과 함께 사용할 때에는 ‘취소' 버튼을 함께 제공하여 Focused 상태에서 벗어날 수 있도록 설계하는 것을 권장합니다."
+    src="/components/selection-and-input/search-field/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Auto complete">
+  <SectionFigure
+    ratio="21:9"
+    description="자동완성 기능을 함께 사용할 수 있습니다. Menu 형식을 활용하는 것을 권장하지만 검색 결과의 양이 방대할 시 페이지 전체 영역을 자동 추천 영역으로 활용할 수 있습니다."
+    src="/components/selection-and-input/search-field/design/Image-5.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="History">
+    <SectionFigure
+      ratio="21:9"
+      description="Action chip을 활용하여 이전 검색 내역을 나타낼 수 있습니다. 단, 콘텐츠의 경중에 따라 가로 배열, 그리드 배열을 선택하여 설계할 수 있습니다. "
+      src="/components/selection-and-input/search-field/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Suggestion">
+    <SectionFigure
+      ratio="2:1"
+      description="인기 검색어, 추천 검색어를 배치하여 검색에 대한 유도 장치를 제공할 수 있습니다. 검색어를 클릭할 시 필드에 값이 입력되며 결과 페이지로 이동됩니다."
+      src="/components/selection-and-input/search-field/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Voice search">
+    <SectionFigure
+      ratio="3:2"
+      description="음성 검색을 사용할 시 명확하게 음성 인식이 되고 있음을 화면에 표현하며 필드에 인식 된 키워드가 타이핑 될 수 있도록 설계합니다."
+      src="/components/selection-and-input/search-field/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="Menu의 선택 항목이 40개 이상을 넘어갈 시 사용성을 위해 검색 필드를 배치하세요."
+    src="/components/selection-and-input/search-field/design/Image-9.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="700px 이상의 너무 긴 Search field 사용은 지양하세요."
+    src="/components/selection-and-input/search-field/design/Image-10.png"
+  />
+</SectionLayout>

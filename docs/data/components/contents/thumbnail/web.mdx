@@ -1,0 +1,129 @@
+---
+title: Thumbnail
+description: 이미지나 영상 등 전체 콘텐츠를 대표하는 이미지입니다. 다양한 비율에 맞게 콘텐츠를 표시할 수 있으며, 사용자가 내용을 쉽게 식별하고 탐색할 수 있도록 돕습니다.
+createdAt: 2025-06-17
+updatedAt: 2025-06-17
+---
+
+## Basic thumbnail
+
+비율에 따라 이미지를 표시할 수 있습니다.
+
+<Demo code={`import { Thumbnail } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Ratio
+
+ratio 옵션을 통해 이미지의 비율을 설정할 수 있습니다.
+
+`portrait` 옵션을 사용하면 가로보다 세로가 더 긴 비율로 사용할 수 있습니다.
+
+<Demo code={`import { Thumbnail, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Thumbnail
+        ratio="21:9"
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="200px"
+      />
+
+      <Thumbnail
+        ratio="21:9"
+        portrait
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="100px"
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Radius
+
+radius 옵션을 통해 이미지의 모서리를 둥글게 할 수 있습니다.
+
+<Demo code={`import { Thumbnail } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      radius
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Border
+
+border 옵션을 통해 이미지의 테두리를 추가할 수 있습니다.
+
+<Demo code={`import { Thumbnail } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      border
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## With overlay
+
+`overlay` 옵션을 사용하면 이미지 위에 오버레이를 추가할 수 있습니다.
+
+<Demo code={`import { Thumbnail, PlayBadge } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Thumbnail
+      border
+      src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+      alt="Wanted Company Image"
+      width="200px"
+      overlay={<PlayBadge />}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- ratio
+- portrait
+- radius
+- border
+- width
+
+<PropsTable component="Thumbnail" />

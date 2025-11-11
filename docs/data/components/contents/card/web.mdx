@@ -1,0 +1,296 @@
+---
+title: Card
+description: 콘텐츠에 대한 정보를 간략하게 표현하는 기본 카드 컴포넌트입니다. 이미지, 텍스트, 뱃지 등 다양한 요소를 조합하여 각 항목의 정보를 시각적으로 일관성 있게 전달합니다.
+createdAt: 2025-06-17
+updatedAt: 2025-06-17
+---
+
+## Basic card
+
+일반적인 상황에서 정보를 묶어 표시할 때 사용합니다.
+
+<Demo code={`import { Card, CardThumbnail, CardTitle, CardCaption, CardContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Card 
+      width="240px" 
+      sx={{ margin: 'auto' }}
+    >
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+      />
+      <CardContent>
+        <CardTitle>Heading</CardTitle>
+        <CardCaption>Caption</CardCaption>
+        <CardCaption>Sub caption</CardCaption>
+        <CardCaption>Extra caption</CardCaption>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Demo;`}
+/>
+
+
+## Anatomy
+
+아래와 같은 구조로 조합하여 사용합니다.
+
+```tsx
+<Card>
+  <CardThumbnail />
+  <CardContent>
+    <CardContentItem position="top" />
+    <CardTitle />
+    <CardCaption />
+    <CardCaption />
+    <CardCaption />
+    <CardContentItem position="bottom" />
+  </CardContent>
+</Card>
+```
+
+## With content
+
+`CardContentItem`의 `position`을 조정하여 상단, 하단에 콘텐츠를 추가할 수 있습니다.
+
+뱃지나 부가적인 내용을 추가할 때 사용합니다.
+
+<Demo code={`import { FlexBox, Card, CardTitle, CardCaption, CardContent, CardContentItem, ContentBadge, CardThumbnailSkeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column" alignItems="center">
+      <Card width="240px">
+        <CardThumbnailSkeleton animation={false} />
+        <CardContent>
+          <CardContentItem position="top" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">Badge</ContentBadge>
+            ))}
+          </CardContentItem>
+          <CardTitle>Heading</CardTitle>
+          <CardCaption>Caption</CardCaption>
+        </CardContent>
+      </Card>
+      <Card width="240px">
+        <CardThumbnailSkeleton animation={false} />
+        <CardContent>
+          <CardTitle>Heading</CardTitle>
+          <CardCaption>Caption</CardCaption>
+          <CardContentItem position="bottom" variant="badge">
+            {new Array(3).fill(0).map((_, i) => (
+              <ContentBadge key={i} color="neutral">Badge</ContentBadge>
+            ))}
+          </CardContentItem>
+        </CardContent>
+      </Card>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+
+## With thumbnail content
+
+CardThumbnail의 leadingContent, trailingContent로 썸네일에 콘텐츠를 추가할 수 있습니다.
+
+`CardThumbnailContent`로 요소를 감싸서 사용합니다.
+
+<Demo code={`import { useToast, ToggleIcon, Card, CardThumbnail, CardTitle, CardCaption, CardContent, CardThumbnailContent } from '@wanteddev/wds';
+import { IconBookmark, IconBookmarkFill } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const toast = useToast();
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  return (
+    <Card 
+      as="a" 
+      href="https://wanted.co.kr" 
+      target="_blank" 
+      width="240px" 
+      sx={{ margin: 'auto' }}
+    >
+      <CardThumbnail
+        src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+        alt="Wanted Company Image"
+        width="240px"
+        leadingContent={
+          <CardThumbnailContent variant="text">
+            캡션
+          </CardThumbnailContent>
+        }
+        trailingContent={
+          <CardThumbnailContent variant="toggle-icon">
+            <ToggleIcon 
+              active={isBookmarked} 
+              onActiveChange={setIsBookmarked} 
+              activeColor="semantic.primary.normal" 
+              onClick={() => {
+                if (!isBookmarked) {
+                  toast({
+                    variant: 'positive',
+                    content: '북마크에 저장되었습니다.',
+                  });
+                }
+                setIsBookmarked((prevIsBookmarked) => !prevIsBookmarked);
+              }}
+            >
+              {isBookmarked 
+                ? <IconBookmarkFill /> 
+                : <IconBookmark />
+              }
+            </ToggleIcon>
+          </CardThumbnailContent>
+        }
+      />
+      <CardContent>
+        <CardTitle>Heading</CardTitle>
+        <CardCaption>Caption</CardCaption>
+        <CardCaption>Sub caption</CardCaption>
+        <CardCaption>Extra caption</CardCaption>
+      </CardContent>
+    </Card>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Platform
+
+`platform` 옵션을 통해 내부 콘텐츠의 간격 및 크기를 조정할 수 있습니다.
+
+- desktop (default)
+- mobile
+
+<Demo code={`import { FlexBox, Card, CardThumbnail, CardTitle, CardCaption, CardContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column" alignItems="center">
+      <Card width="240px" platform="desktop">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+        />
+        <CardContent>
+          <CardTitle>Heading</CardTitle>
+          <CardCaption>platform: desktop</CardCaption>
+          <CardCaption>Sub caption</CardCaption>
+          <CardCaption>Extra caption</CardCaption>
+        </CardContent>
+      </Card>
+
+      <Card width="200px" platform="mobile">
+        <CardThumbnail
+          src="https://static.wanted.co.kr/images/company/79/elpzxpmgh94xesrf__1080_790.png"
+          alt="Wanted Company Image"
+        />
+        <CardContent>
+          <CardTitle>Heading</CardTitle>
+          <CardCaption>platform: mobile</CardCaption>
+          <CardCaption>Sub caption</CardCaption>
+          <CardCaption>Extra caption</CardCaption>
+        </CardContent>
+      </Card>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Skeleton
+
+Card의 로딩 상태를 표현할 때 Skeleton 컴포넌트들을 조합해서 사용합니다.
+- CardSkeleton
+- CardThumbnailSkeleton
+- CardContent
+- CardContentItemSkeleton
+- CardTitleSkeleton
+- CardCaptionSkeleton
+
+<Demo code={`import { CardSkeleton, CardThumbnailSkeleton, CardContentItemSkeleton, CardTitleSkeleton, CardCaptionSkeleton, CardContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <CardSkeleton width="240px" sx={{ marginInline: 'auto' }}>
+      <CardThumbnailSkeleton />
+      <CardContent>
+        <CardContentItemSkeleton />
+        <CardTitleSkeleton />
+        <CardCaptionSkeleton type="normal" />
+        <CardCaptionSkeleton type="sub" />
+        <CardCaptionSkeleton type="extra" />
+        <CardContentItemSkeleton />
+      </CardContent>
+    </CardSkeleton>
+  );
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### Card
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- platform
+- width
+
+<PropsTable component="Card" />
+
+### CardThumbnail
+
+<PropsTable component="CardThumbnail" />
+
+### CardThumbnailContent
+
+<PropsTable component="CardThumbnailContent" />
+
+### CardContent
+
+<PropsTable component="CardContent" />
+
+### CardTitle
+
+<PropsTable component="CardTitle" />
+
+### CardCaption
+
+<PropsTable component="CardCaption" />
+
+
+### CardContentItem
+
+<PropsTable component="CardContentItem" />
+
+### CardSkeleton
+
+<PropsTable component="CardSkeleton" />
+
+### CardThumbnailSkeleton
+
+<PropsTable component="CardThumbnailSkeleton" />
+
+### CardContentItemSkeleton
+
+<PropsTable component="CardContentItemSkeleton" />
+
+### CardTitleSkeleton
+
+<PropsTable component="CardTitleSkeleton" />
+
+### CardCaptionSkeleton
+
+<PropsTable component="CardCaptionSkeleton" />

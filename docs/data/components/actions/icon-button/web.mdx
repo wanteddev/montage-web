@@ -1,0 +1,179 @@
+---
+title: Icon button
+createdAt: 2025-05-12
+updatedAt: 2025-08-12
+---
+
+## Basic icon button
+
+아이콘을 버튼으로 사용할 때 활용합니다.
+
+접근성을 위해 `aria-label` 속성을 필수로 작성하길 권장합니다.
+
+<Demo code={`import { FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <IconButton variant="normal" aria-label="Basic icon button">
+        <IconBlank />
+      </IconButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Variants
+
+`IconButton` 은 4가지 variant 를 사용할 수 있습니다.
+- normal (default)
+- background
+- outlined
+- solid
+
+<Demo code={`import { FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center" alignItems="center">
+      <IconButton variant="normal" aria-label="Normal icon button">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" aria-label="Background icon button">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="outlined" aria-label="Outlined icon button">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="solid" aria-label="Solid icon button">
+        <IconBlank />
+      </IconButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Alternative
+
+`background` variant 를 사용할 때에는 `alternative` prop 으로 배경 색상을 다르게 표시할 수 있습니다.
+
+`alternative` prop 을 사용하면 blur 효과가 적용되지 않는 환경에서도 자연스러운 스타일을 적용할 수 있습니다.
+
+<Demo code={`import { FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center" alignItems="center">
+      <IconButton variant="background" aria-label="Background icon button">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" alternative aria-label="Alternative background icon button">
+        <IconBlank />
+      </IconButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With push badge
+
+[PushBadge](/components/feedback/push-badge/web) 와 함께 사용할 수 있습니다.
+
+<Demo code={`import { FlexBox, IconButton, PushBadge } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center" alignItems="center">
+      <PushBadge variant="dot">
+        <IconButton aria-label="Icon button with dot badge">
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+      <PushBadge variant="new">
+        <IconButton aria-label="Icon button with new badge">
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+      <PushBadge variant="number" count={6}>
+        <IconButton aria-label="Icon button with number badge">
+          <IconBlank />
+        </IconButton>
+      </PushBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Sizes
+
+2가지 사이즈를 제공합니다.
+- small
+- medium (default)
+
+`normal` variant와 `background` variant는 `small` 사이즈를 지원하지 않습니다.
+
+number 타입 옵션을 넣어 크기를 커스텀 할 수 있습니다.
+
+<Demo code={`import { TextButton, FlexBox, IconButton, Typography } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Medium</Typography>
+        <FlexBox gap="12px" alignItems="center">
+          <IconButton size="medium" variant="normal" aria-label="Medium normal icon button">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="medium" variant="background" aria-label="Medium background icon button">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="medium" variant="outlined" aria-label="Medium outlined icon button">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="medium" variant="solid" aria-label="Medium solid icon button">
+            <IconBlank />
+          </IconButton>
+        </FlexBox>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Typography variant="body2-reading">Small</Typography>
+        <FlexBox gap="12px" alignItems="center">
+          <IconButton size="small" variant="outlined" aria-label="Small outlined icon button">
+            <IconBlank />
+          </IconButton>
+          <IconButton size="small" variant="solid" aria-label="Small solid icon button">
+            <IconBlank />
+          </IconButton>
+        </FlexBox>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+`as` 옵션을 통해 `Link` 등 다른 컴포넌트/태그로 활용할 수 있습니다.
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="IconButton" />

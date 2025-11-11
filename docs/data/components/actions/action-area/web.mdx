@@ -1,0 +1,279 @@
+---
+title: Action area
+createdAt: 2025-05-12
+updatedAt: 2025-06-17
+---
+
+## Variants
+
+`ActionArea` 은 4가지 variant 를 사용할 수 있습니다.
+- strong (default)
+- neutral
+- compact
+- cancel
+
+### Strong
+
+Strong variant는 세로로 버튼을 크게 배치합니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <ActionArea variant="strong">
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+        <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea variant="strong">
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+        <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Neutral
+
+Neutral variant는 가로로 버튼을 최대 영역만큼 배치합니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <ActionArea variant="neutral">
+        <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea variant="neutral">
+        <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Cancel
+
+Cancel variant는 하나의 Main 버튼을 배치합니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea variant="cancel">
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Compact
+
+Compact variant는 가로로 우측에 배치합니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <ActionArea variant="compact">
+        <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+
+      <ActionArea variant="compact">
+        <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+`compact` variant에서 `compactContent` prop 을 통해 버튼 좌측에 컨텐츠를 배치할 수 있습니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea
+      sx={{ width: '100%' }}
+      variant="compact"
+      compactContent={(
+        <FormField flexDirection="row" alignItems="center">
+          <FormControl>
+            <Checkbox />
+          </FormControl>
+          <FormLabel>약관에 동의합니다.</FormLabel>
+        </FormField>
+      )}
+    >
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+아래와 같은 구조로 조합하여 사용합니다.
+
+```tsx
+<ActionArea>
+  <ActionAreaButton variant="main">Main</ActionAreaButton>
+  <ActionAreaButton variant="alternative">Alternative</ActionAreaButton>
+  <ActionAreaButton variant="sub">Sub</ActionAreaButton>
+</ActionArea>
+```
+
+## Extra action area
+
+`extra` 옵션을 활성화하여 버튼 영역과 상단 콘텐츠 영역을 명확하게 구분할 수 있습니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea extra sx={{ width: '100%' }}>
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `extraContent` prop 을 통해 상단에 콘텐츠를 배치할 수 있습니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea
+      extra
+      extraContent={(
+        <FormField flexDirection="row" alignItems="center">
+          <FormControl>
+            <Checkbox />
+          </FormControl>
+          <FormLabel>약관에 동의합니다.</FormLabel>
+        </FormField>
+      )}
+    >
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+`divider` prop 을 사용하면 상단 divider를 제어할 수 있지만 권장하지 않습니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea extra divider={false} sx={{ width: '100%' }}>
+      <ActionAreaButton variant="main">Main</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Caption
+
+`caption` prop 을 통해 캡션을 표시할 수 있습니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea caption="Caption" sx={{ width: '100%' }}>
+      <ActionAreaButton>
+        Main
+      </ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Background
+
+`background` prop 을 이용하여 gradient 혹은 divider를 표시할 수 있습니다.
+
+[Popup](/docs/components/presentation/popup/web), [Bottom sheet](/docs/components/presentation/bottom-sheet/web) 내부에서 사용할 경우 자동으로 스크롤 여부에 따라 background 옵션을 조정합니다.
+
+<Demo
+  defaultIsTransparent
+  code={`import { FlexBox, ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox sx={{ width: '100%' }}>
+      <ActionArea background>
+        <ActionAreaButton variant="main">Main</ActionAreaButton>
+      </ActionArea>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Customize
+
+`ActionAreaButton` 의 버튼 variant를 교체할 수 있습니다.
+- buttonVariant
+- buttonColor
+- textButtonColor
+
+내부 간격을 조정할 때는 `--wds-action-area-margin-x`, `--wds-action-area-margin-y` CSS Variable 을 사용합니다.
+
+<Demo code={`import { ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ActionArea sx={{ width: '100%' }}>
+      <ActionAreaButton variant="main" buttonVariant="outlined">Main</ActionAreaButton>
+      <ActionAreaButton variant="alternative" buttonColor="primary">Alternative</ActionAreaButton>
+      <ActionAreaButton variant="sub" textButtonColor="primary">Sub</ActionAreaButton>
+    </ActionArea>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### ActionArea
+
+<PropsTable component="ActionArea" />
+
+### ActionAreaButton
+
+`as` 옵션을 통해 `Link` 등 다른 컴포넌트/태그로 활용할 수 있습니다.
+
+<PropsTable component="ActionAreaButton" />

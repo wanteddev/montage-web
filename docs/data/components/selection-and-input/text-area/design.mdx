@@ -1,0 +1,234 @@
+---
+title: Text area
+description: 필드 내부에 2줄 이상의 텍스트를 입력할 때 사용하며 Heading, Placeholder, Description등의 요소를 활용하여 사용자가 입력할 내용의 형식을 보다 명확하게 안내합니다.
+image: /components/selection-and-input/text-area/design/Thumbnails.png
+createdAt: 2025-04-03
+updatedAt: 2025-10-13
+---
+
+<SectionAnatomy
+  src="/components/selection-and-input/text-area/design/Image.png"
+  ratio="16:9"
+  data={[
+    'Heading',
+    'Placeholder',
+    'Leading content',
+    'Description',
+    'Required badge',
+    'Field',
+    'Trailing content',
+  ]}
+/>
+
+<SectionVariants
+  components={['FormField', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'TextButton', 'ChipFilter', 'IconButton']}
+  icons={['IconBlank']}
+  render={(value) => {
+    let leadingContent = "null";
+    let trailingContent = "null";
+    let rows = {};
+
+    switch (value["Leading contents"]) {
+      case "Character counter":
+        leadingContent =
+          '<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
+        break;
+      case "Button":
+        leadingContent =
+          '<TextAreaContent variant="button"><TextButton size="small" color="assistive">Button</TextButton></TextAreaContent>';
+        break;
+      case "Icon button":
+        leadingContent =
+          '<TextAreaContent variant="icon-button"><IconButton variant="normal"><IconBlank /></IconButton></TextAreaContent>';
+        break;
+      case "Icon":
+        leadingContent =
+          '<TextAreaContent variant="icon"><IconBlank /></TextAreaContent>';
+        break;
+      case "Badge":
+        leadingContent =
+          '<TextAreaContent variant="badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
+        break;
+      case "Chip":
+        leadingContent =
+          '<TextAreaContent variant="chip"><ChipFilter size="small">Chip</ChipFilter></TextAreaContent>';
+        break;
+      default:
+        leadingContent = "null";
+    }
+
+    switch (value["Trailing contents"]) {
+      case "Character counter":
+        trailingContent =
+          '<TextAreaContent variant="characterCounter">2000</TextAreaContent>';
+        break;
+      case "Button":
+        trailingContent =
+          '<TextAreaContent variant="button"><TextButton size="small" variant="primary">Button</TextButton></TextAreaContent>';
+        break;
+      case "Icon button":
+        trailingContent =
+          '<TextAreaContent variant="icon-button"><IconButton variant="solid" size="small"><IconBlank /></IconButton></TextAreaContent>';
+        break;
+      case "Icon":
+        trailingContent =
+          '<TextAreaContent variant="icon"><IconBlank /></TextAreaContent>';
+        break;
+      case "Badge":
+        trailingContent =
+          '<TextAreaContent variant="badge"><ContentBadge color="neutral" size="small">Badge</ContentBadge></TextAreaContent>';
+        break;
+      case "Chip":
+        trailingContent =
+          '<TextAreaContent variant="chip"><ChipFilter size="small">Chip</ChipFilter></TextAreaContent>';
+        break;
+      default:
+        trailingContent = "null";
+    }
+
+    switch (value["Resize"]) {
+      case "Normal":
+        rows = {};
+        break;
+      case "Limited":
+        rows = { maxRows: 3 };
+        break;
+      case "Fixed":
+        rows = { maxRows: 2 };
+        break;
+      default:
+        rows = {};
+    }
+
+    return `
+      <FormField sx={{ width: '75%' }}>
+        <FormLabel required>Heading</FormLabel>
+        <FormControl>
+          <TextArea
+            placeholder="Placeholder"
+            leadingContent={${leadingContent}}
+            trailingContent={${trailingContent}}
+            width="100%"
+            {...${JSON.stringify(rows)}}
+          />
+        </FormControl>
+        <FormMessage>Description</FormMessage>
+      </FormField>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Resize',
+      options: [
+        { label: 'Normal', value: {} },
+        { label: 'Limited', value: {} },
+        { label: 'Fixed', value: {} },
+      ]
+    },
+    {
+      key: 'Leading contents',
+      defaultValue: 'Character counter',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Character counter', value: {} },
+        { label: 'Button', value: {} },
+        { label: 'Icon button', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Badge', value: {} },
+        { label: 'Chip', value: {} },
+      ]
+    },
+    {
+      key: 'Trailing contents',
+      defaultValue: 'Button',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Character counter', value: {} },
+        { label: 'Button', value: {} },
+        { label: 'Icon button', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Badge', value: {} },
+        { label: 'Chip', value: {} },
+      ]
+    }
+  ]}
+/>
+
+<SectionStates
+  src="/components/selection-and-input/text-area/design/Image-1.png"
+  ratio="5:4"
+  options={['Normal', 'Focused', 'Negative', 'Read only', 'Disabled']}
+/>
+
+
+<SectionLayout title="Resize">
+  <SectionFigureGroup title="Normal">
+    <SectionFigure
+      description="필드 내부의 텍스트 양과 비례하여 필드의 높이가 제한 없이 아래로 늘어납니다."
+      src="/components/selection-and-input/text-area/design/Image-2.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Limited">
+    <SectionFigure
+      ratio="3:2"
+      description="기본 높이에서 필드 내부의 텍스트 양과 비례하며 일정 높이까지 필드가 늘어나다가 고정됩니다. 필드의 최대 높이가 지정되어 있으며 iOS는 ‘높이’ 기준, Android, Web은 ‘글 줄'로 소통합니다. 단, 프로젝트 정책에 따라 최대 높이를 사용자가 직접 지정할 수 있습니다.
+
+<strong>Default max height</strong>
+- iOS: 102px/Android: 3줄/Web: 12줄"
+      src="/components/selection-and-input/text-area/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Fixed">
+    <SectionFigure
+      ratio="3:2"
+      description="사용자의 의도에 따라 텍스트 양에 관계 없이 필드의 기본, 최대 높이를 자유롭게 고정하여 사용할 수 있습니다. 단, Textfield와의 구분을 위해 Textarea의 최소 권장 높이를 지켜가며 디자인합니다. 
+
+<strong>Min height</strong>
+- iOS: 76px/Android: 2줄/Web: 2줄"
+      src="/components/selection-and-input/text-area/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Bottom">
+  <SectionFigureGroup title="Leading contents">
+    <SectionFigure
+      description="Character counter, Text button, Icon button, Icon, Content badge, Filter chip이 자리할 수 있습니다. 고정된 요소들만 들어갈 수 있으며 다른 요소가 들어갈 경우 커스터마이징하여 사용할 수 있습니다. Leading contents는 메인 영역 이외에 2개의 Extra가 존재하며 간격을 자유롭게 조절할 수 있습니다."
+      src="/components/selection-and-input/text-area/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Trailing contents">
+    <SectionFigure
+      description="Bottom 영역은 비활성할 수 있으며, Character counter, Text button(Primary, Assistive), Icon button(Normal, Solid), Icon, Content badge, Filter chip이 위치합니다. 다른 요소가 들어갈 경우 커스터마이징할 수 있습니다. Trailing contents는 메인 영역 이외에 2개의 Extra가 존재하며 요소끼리의 간격을 2배수로 자유롭게 조절할 수 있습니다."
+      src="/components/selection-and-input/text-area/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Keyboard sticky">
+  <SectionFigure
+    ratio="16:10"
+    description="키보드와 함께 사용하는 타입으로 필드의 최대 높이는 기본 5줄 이하로 권장합니다."
+    src="/components/selection-and-input/text-area/design/Image-7.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Required badge">
+  <SectionFigure
+    description="필수적으로 값을 입력해야 하는 필드일 시 Required badge를 사용합니다."
+    src="/components/selection-and-input/text-area/design/Image-8.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="Bottom의 Contents는 인터랙션 영역을 고려하여 간격을 조절합니다."
+    src="/components/selection-and-input/text-area/design/Image-9.png"
+  />
+  <SectionFigure
+    variant="negative"
+    description="모바일에서 높이가 지속적으로 늘어나는 Resize=Normal 타입을 사용하여 사용성 혼란을 주지 않습니다."
+    src="/components/selection-and-input/text-area/design/Image-10.png"
+  />
+</SectionLayout>

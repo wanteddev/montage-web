@@ -1,0 +1,8 @@
+name: Generate Mobile Docs
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+inputs:
+  gh_token:
+    description: github token
+    required: true

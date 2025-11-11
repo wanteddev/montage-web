@@ -23,7 +23,7 @@ const configs = {
   },
 } satisfies ESLint.Plugin['configs'];
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
 const { name, version } = require('../package.json') as {
   name: string;
   version: string;

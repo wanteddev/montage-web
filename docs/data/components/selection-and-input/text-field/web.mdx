@@ -1,0 +1,291 @@
+---
+title: Text field
+description: 필드 안에 한 줄 이하의 텍스트 값을 입력합니다.
+createdAt: 2025-05-12
+---
+
+## Basic text field
+
+`TextField` 는 필드 안에 한 줄 이하의 텍스트 값을 입력할 수 있습니다.
+
+<Demo code={`import { TextField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TextField width="25ch" placeholder="Text field" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## States
+
+validation 을 통해 여러 상태를 표현할 수 있습니다.
+- default
+- positive
+- invalid (negative)
+- readOnly
+- disabled
+
+<Demo code={`import { FlexBox, TextField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <TextField width="25ch" placeholder="Default" />
+      <TextField width="25ch" placeholder="Positive" positive />
+      <TextField width="25ch" placeholder="Invalid" invalid />
+      <TextField width="25ch" placeholder="Read Only" readOnly />
+      <TextField width="25ch" placeholder="Disabled" disabled />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With button
+
+`trailingButton` prop 을 사용하여 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { TextField, FlexBox, TextFieldButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px" alignItems="center" sx={{ width: '100%' }}>
+      <TextField
+        placeholder="입력하세요."
+        width="50%"
+        trailingButton={(
+          <TextFieldButton>
+            텍스트
+          </TextFieldButton>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Form field
+
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
+- `FormField`
+- `FormControl`
+- `FormLabel`
+- `FormMessage`
+- `FormErrorMessage`
+
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TextField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FormField>
+        <FormLabel required>Label</FormLabel>
+        <FormControl>
+          <TextField width="25ch" placeholder="Form field" />
+        </FormControl>
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+
+      <FormField>
+        <FormLabel required>Label</FormLabel>
+        <FormControl>
+          <TextField width="25ch" placeholder="Invalid form field" invalid />
+        </FormControl>
+        <FormErrorMessage>Error Message</FormErrorMessage>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Contents
+
+`leadingContent`, `trailingContent` prop 을 사용하여 앞/뒤에 컨텐츠를 추가할 수 있습니다.
+
+해당 옵션을 사용할 때에는 `TextFieldContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { FlexBox, TextField, TextFieldContent, ContentBadge, IconButton } from '@wanteddev/wds';
+import { IconBlank, IconEye } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
+      <TextField
+        width="45%"
+        placeholder="Icon"
+        leadingContent={(
+          <TextFieldContent variant="icon">
+            <IconBlank />
+          </TextFieldContent>
+        )}
+        trailingContent={(
+          <TextFieldContent variant="icon">
+            <IconBlank />
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Text"
+        trailingContent={(
+          <TextFieldContent variant="text">
+            텍스트
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Badge"
+        trailingContent={(
+          <TextFieldContent variant="badge">
+            <ContentBadge>
+              Badge
+            </ContentBadge>
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Timer"
+        trailingContent={(
+          <TextFieldContent variant="timer">
+            4:59
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Timer"
+        trailingContent={(
+          <TextFieldContent variant="timer" color="semantic.status.negative">
+            0:00
+          </TextFieldContent>
+        )}
+      />
+      <TextField
+        width="45%"
+        placeholder="Icon button"
+        trailingContent={(
+          <TextFieldContent variant="icon-button">
+            <IconButton>
+              <IconEye />
+            </IconButton>
+          </TextFieldContent>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작합니다.
+
+`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, TextField } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <TextField
+        defaultValue="Uncontrolled"
+        placeholder="Uncontrolled"
+        width="25ch"
+      />
+      <TextField
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Controlled"
+        width="25ch"
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## React hook form
+
+`react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
+
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="content"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel required>내용</FormLabel>
+
+            <FormControl>
+              <TextField
+                {...field}
+                placeholder="입력하세요."
+                width="300px"
+                invalid={Boolean(formState.errors.content)}
+              />
+            </FormControl>
+            
+            {!!formState.errors.content ? (
+              <FormErrorMessage>{formState.errors.content?.message?.toString()}</FormErrorMessage>
+            ) : (
+              <FormMessage>내용을 입력하세요.</FormMessage>
+            )}
+          </FormField>
+        )}
+      />
+
+      <Button type="submit" fullWidth>제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### TextField
+
+<PropsTable component="TextField" />
+
+### TextFieldContent
+
+<PropsTable component="TextFieldContent" />

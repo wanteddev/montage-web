@@ -39,7 +39,6 @@ const ActionArea = forwardRef<
     const modalOption = useModalActionAreaContext();
 
     const modalSticky =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       modalOption !== undefined ? modalOption.sticky : undefined;
 
     return (

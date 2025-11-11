@@ -1,0 +1,130 @@
+---
+title: Push badge
+description: 새로운 업데이트나 알림이 있음을 시각적으로 알려주기 위해 사용합니다.
+image: /components/feedback/push-badge/design/Thumbnails.png
+createdAt: 2025-10-01
+updatedAt: 2025-10-01
+---
+
+<SectionAnatomy
+  src="/components/feedback/push-badge/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Dot badge',
+    'Container',
+    'Label',
+  ]}
+/>
+
+<SectionVariants
+  components={['PushBadge', 'Box']}
+  icons={[]}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Dot', value: { variant: 'dot', children: '<Box data-role="content" />', sx: (theme) => ({ ['[data-role="content"]']: { width: 64, height: 64, boxShadow: `inset 0 0 0 1px ${theme.semantic.line.normal.normal}` } }) } },
+        { label: 'New', value: { variant: 'new', children: '<Box data-role="content" />', sx: (theme) => ({ ['[data-role="content"]']: { width: 64, height: 64, boxShadow: `inset 0 0 0 1px ${theme.semantic.line.normal.normal}` } }) } },
+        { label: 'Number', value: { count: 5, variant: 'number', children: '<Box data-role="content" />', sx: (theme) => ({ ['[data-role="content"]']: { width: 64, height: 64, boxShadow: `inset 0 0 0 1px ${theme.semantic.line.normal.normal}` } }) } },
+      ]
+    },
+    {
+      key: 'Size',
+      options: [
+        { label: 'Xsmall', value: { size: 'xsmall' } },
+        { label: 'Small', value: { size: 'small' } },
+        { label: 'Medium', value: { size: 'medium' } },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="16:9"
+    description="좌우 사이즈는 자유롭게 커스터마이징하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    src="/components/feedback/push-badge/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Position">
+  <SectionFigure
+    ratio="16:9"
+    description="Push badge는 부모 요소의 우측 상단에 위치하는 것을 기본으로 합니다. UI 디자인에 따라 위치 변경이 필요한 경우 부모 요소를 기준으로 변경해서 사용할 수 있습니다."
+    src="/components/feedback/push-badge/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Notification">
+    <SectionFigure
+      ratio="2:1"
+      description="새로운 기능이 업데이트되거나, 알림이 있을 때 특정 요소와 함께 배치하여 사용자의 주의를 끌 수 있습니다."
+      src="/components/feedback/push-badge/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="With avatar">
+    <SectionFigure
+      ratio="21:9"
+      description="Avatar와 함께 사용자의 상태 변화를 시각적으로 알리기 위해 사용할 수 있습니다. 사용자의 프로필에 새로운 활동이 있거나 업데이트가 필요할 때 표시하여 사용자의 확인을 유도합니다."
+      src="/components/feedback/push-badge/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Tab">
+    <SectionFigure
+      ratio="2:1"
+      description="Tab의 콘텐츠가 업데이트될 때 Push badge를 사용해 업데이트를 알릴 수 있습니다."
+      src="/components/feedback/push-badge/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Updates">
+    <SectionFigure
+      ratio="2:1"
+      description="새로 추가된 기능이나 항목에 함께 배치해 사용자가 새로운 기능을 발견하도록 유도하는데 사용할 수 있습니다."
+      src="/components/feedback/push-badge/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Indicating count">
+    <SectionFigure
+      ratio="2:1"
+      description="숫자 정보를 통해 새로운 소식의 정확한 개수를 알려줄 수 있습니다. 주로 탭 메뉴, 특정 아이콘의 오른쪽 상단에 작게 표시되어 사용자의 주의를 끌고 정확한 수를 안내합니다."
+      src="/components/feedback/push-badge/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Maximum count">
+    <SectionFigure
+      ratio="21:9"
+      description="Number badge에 표시되는 숫자는 최대 99까지입니다. 표시할 항목의 개수가 99개를 초과할 경우, 숫자 대신 '99+'로 표시하여 시각적인 복잡성을 줄입니다."
+      src="/components/feedback/push-badge/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="한 화면에서 일관성을 위해 Push badge의 위치(Position)를 동일하게 사용하세요."
+    src="/components/feedback/push-badge/design/Image-9.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="작은 공간에서 Number badge를 사용하지 않습니다."
+    src="/components/feedback/push-badge/design/Image-10.png"
+  />
+</SectionLayout>
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Push badge',
+      options: ['offset', 'typographyColor', 'backgroundColor']
+    },
+  ]}
+/>

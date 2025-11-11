@@ -1,0 +1,174 @@
+---
+title: Progress tracker
+description: 여러 단계로 구성된 프로세스에서 사용자의 현재 위치와 전체 진행 상황을 시각적으로 표현하는 요소입니다. 단계별 작업의 순서와 관계를 명확히 보여주어 사용자가 전체 프로세스를 예측할 수 있도록 돕습니다.
+createdAt: 2025-10-13
+updatedAt: 2025-10-13
+image: /components/navigations/progress-tracker/design/Thumbnails.png
+---
+
+<SectionAnatomy
+  src="/components/navigations/progress-tracker/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Stepper',
+    'Label',
+    'Connector',
+  ]}
+/>
+
+<SectionVariants
+  components={['ProgressTracker', 'ProgressTrackerItem', 'Stepper', 'StepperItem', 'ContentBadge', 'ProgressTrackerLabelContent', 'Box']}
+  icons={[]}
+  render={(value) => {
+    const label = value['Label'] === 'True' ? '"Label"' : 'null';
+
+    if (value['Variants'] === 'Stepper') {
+      return `
+        <Stepper value="0">
+          <StepperItem value="0" label={${label}} />
+          <StepperItem value="1" label={${label}} />
+          <StepperItem value="2" label={${label}} />
+        </Stepper>
+      `
+    }
+
+    const direction = value['Variants'].toLowerCase().includes('vertical') ? 'vertical' : 'horizontal';
+    let labelContent = 'null';
+    let children = 'null';
+
+    if (direction === 'vertical') {
+      switch (value['Label contents']) {
+        case 'Badge':
+          labelContent = `<ProgressTrackerLabelContent variant="badge"><ContentBadge color="neutral" variant="solid">Badge</ContentBadge></ProgressTrackerLabelContent>`;
+          break;
+        case 'Label':
+          labelContent = `<ProgressTrackerLabelContent variant="caption">Label</ProgressTrackerLabelContent>`;
+          break;
+      }
+
+
+      children = `<Box
+        sx={theme => ({
+          width: '100%',
+          height: '24px',
+          background: theme.semantic.accent.background.violet,
+          opacity: 0.08,
+        })}
+      />`
+    }
+
+    return `
+      <ProgressTracker value="0" direction="${direction}" sx={{ width: '80%' }}>
+        <ProgressTrackerItem value="0" label={${label}} labelContent={${labelContent}} children={${children}} />
+        <ProgressTrackerItem value="1" label={${label}} labelContent={${labelContent}} children={${children}} />
+        <ProgressTrackerItem value="2" label={${label}} labelContent={${labelContent}} children={${children}} />
+      </ProgressTracker>
+    `
+  }}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Normal horizontal', value: { } },
+        { label: 'Normal vertical', value: { } },
+        { label: 'Stepper', value: { } },
+      ]
+    },
+    {
+      key: 'Label',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False', value: {} },
+      ]
+    },
+    {
+      key: 'Label contents',
+      disabled: (value) => value['Label'] === 'False' || value['Variants'] !== 'Normal vertical',
+      options: [
+        { label: 'Badge', value: {} },
+        { label: 'Label', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionStates
+  src="/components/navigations/progress-tracker/design/Image-1.png"
+  ratio="21:9"
+  options={['Completed', 'In progress', 'Upcoming']}
+/>
+
+<SectionLayout title="Ellipsis">
+  <SectionFigure
+    ratio="21:9"
+    description="화면 공간 제약으로 Label을 표기하지 못하거나 말줄임표를 사용할 때 Tooltip을 통해 단계명, 정보 등을 제공하여 사용성을 높입니다."
+    src="/components/navigations/progress-tracker/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Min and max step">
+  <SectionFigureGroup title="Normal horizontal">
+    <SectionFigure
+      ratio="2:1"
+      description="모든 플랫폼에서 최소 3개 이상 5개 이하의 단계를 안내합니다. 모바일에서는 한글 6자 이하의 Label 사용을 권장합니다."
+      src="/components/navigations/progress-tracker/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Normal vertical">
+    <SectionFigure
+      ratio="21:9"
+      description="모든 플랫폼에서 최소 2개 이상, 최대 5개 이하의 단계를 안내합니다. Label이 길거나 단계별 상세 정보가 많을 시 효과적으로 전달하기 위해서 사용합니다."
+      src="/components/navigations/progress-tracker/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Stepper">
+    <SectionFigure
+      ratio="21:9"
+      description="데스트톱에서 최소 3개 이상, 5개 이하의 단계를 안내합니다. 화면 전체에 단계 요소를 강조할 때 사용합니다."
+      src="/components/navigations/progress-tracker/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Normal horizontal">
+    <SectionFigure
+      ratio="21:9"
+      description="Label 사용 시 짧고 간결한 6자 이하로 사용을 권장하며 Label이 길어질 때 적절한 여백을 두어 가독성을 확보합니다. 모바일, 데스크톱 모두 사용할 수 있으나 반응형 작업을 할 시 너비 360px을 기준으로 추가 보정 작업이 필요한지 확인하는 것을 권장합니다."
+      src="/components/navigations/progress-tracker/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Normal vertical">
+    <SectionFigure
+      ratio="16:10"
+      description="좁은 공간에서 단계별 상세 정보가 많은 경우 활용할 수 있습니다. 비교적 긴 Label을 수용할 수 있으며 확장성에 용이합니다. 단, 사용자가 단계를 인지하기에 부담스럽지 않아야 합니다."
+      src="/components/navigations/progress-tracker/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Stepper">
+    <SectionFigure
+      ratio="16:10"
+      description="화면 전체를 한 단계로 활용할 때 사용합니다. 상단 GNB에 고정되어 활용할 수 있으며 각 단계를 클릭하여 이전 단계를 스킵하거나 다음 단계를 미리 볼 수 있을 때 활용합니다."
+      src="/components/navigations/progress-tracker/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    ratio="16:9"
+    variant="positive"
+    description="로딩 화면으로 응용하여 사용할 수 있습니다. "
+    src="/components/navigations/progress-tracker/design/Image-9.png"
+  />
+  <SectionFigure
+    ratio="21:9"
+    variant="negative"
+    description="Label에 단계 숫자를 중복으로 표현하지 마세요."
+    src="/components/navigations/progress-tracker/design/Image-10.png"
+  />
+</SectionLayout>

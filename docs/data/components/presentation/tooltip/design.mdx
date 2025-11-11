@@ -1,0 +1,161 @@
+---
+title: Tooltip
+description: 특정 UI 요소 위에서 해당 요소에 대한 간략한 레이블이나 추가적인 정보를 제공합니다.
+image: /components/presentation/tooltip/design/Thumbnails.png
+createdAt: 2025-10-15
+updatedAt: 2025-10-15
+---
+
+<SectionAnatomy
+  src="/components/presentation/tooltip/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Container',
+    'Arrow',
+    'Label',
+    'Shortcut',
+  ]}
+/>
+
+<SectionVariants
+  components={['Tooltip', 'TooltipTrigger', 'TooltipContent', 'Box', 'TextButton']}
+  render={(value) => {
+    let position;
+
+    switch (value['Position']) {
+      case 'Bottom':
+        position = 'bottom-start';
+        break;
+      case 'Top':
+        position = 'top-start';
+        break;
+      case 'Right':
+        position = 'right-center';
+        break;
+      case 'Left':
+        position = 'left-center';
+        break;
+    }
+
+    const shortcut = value['Shortcut'] === 'True' ? '"⌘C"' : 'null';
+    const size = value['Size'].toLowerCase();
+   
+    return `
+      <Tooltip open>
+        <TooltipTrigger>
+          <Box sx={{ width: 0 }} />
+        </TooltipTrigger>
+        <TooltipContent
+          disablePortal
+          sx={{
+            position: 'relative !important',
+            zIndex: '1 !important',
+            transform: 'none !important',
+          }}
+          size="${size}"
+          position="${position}"
+          shortcut={${shortcut}}
+        >
+          Label
+        </TooltipContent>
+      </Tooltip>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Size',
+      options: [
+        { label: 'Medium', value: {} },
+        { label: 'Small', value: {} },
+      ]
+    },
+    {
+      key: 'Position',
+      options: [
+        { label: 'Bottom', value: {} },
+        { label: 'Top', value: {} },
+        { label: 'Right', value: {} },
+        { label: 'Left', value: {} },
+      ]
+    },
+    {
+      key: 'Shortcut',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="21:9"
+    description="최대 너비는 280px로 제한하며, 표시할 내용이 최대 너비를 초과할 경우 텍스트는 줄바꿈 처리합니다. 최소 너비는 Small인 경우 36px, Medium인 경우 64px로 제한합니다.
+
+- Small: Hover 시 아이콘 버튼의 역할을 안내하거나 텍스트가 말줄임 처리된 경우 전체 텍스트를 보여주는 등 데스크톱에서 보조적인 정보를 제공할 때 사용합니다. 
+- Medium: 신규 기능의 위치를 안내하거나  온보딩을 제공하는 등 모든 플랫폼에서 기본으로 사용할 수 있습니다."
+    src="/components/presentation/tooltip/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Mode">
+  <SectionFigure
+    ratio="16:9"
+    description="Tooltip은 트리거 요소에 마우스 호버 시 나타나는 것을 기본으로 합니다. 다만 의도와 목적에 따라 항상 노출되도록 변경해 사용할 수 있습니다."
+    src="/components/presentation/tooltip/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Shortcut">
+  <SectionFigure
+    ratio="21:9"
+    description="자주 사용하는 기능의 키보드 단축키를 안내할 경우 Shortcut을 표시할 수 있습니다. "
+    src="/components/presentation/tooltip/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Position">
+  <SectionFigure
+    ratio="4:3"
+    description="화면 영역을 벗어나 툴팁이 잘려 보이는 것을 방지하기 위해, 트리거 요소의 위치에 따라 Arrow의 방향을 적절히 조정하여 사용하세요."
+    src="/components/presentation/tooltip/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Display on hover">
+    <SectionFigure
+      ratio="16:9"
+      description="웹에서는 특정 요소에 마우스를 올렸을 때 Tooltip을 표시하는 것을 기본으로 하지만, 모바일에서는 제공하지 않습니다. 마우스 커서가 Tooltip이 표시된 요소를 벗어나거나 페이지를 스크롤하면 툴팁은 자동으로 닫힙니다."
+      src="/components/presentation/tooltip/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Always on">
+    <SectionFigure
+      ratio="5:4"
+      description="중요한 가이드나 업데이트 정보를 알리고자 할 때 Tooltip이 항상 노출되도록 고정해 사용할 수 있습니다. 이 경우 Tooltip을 닫는 방식은 아래 옵션 중에서 사용자가 자유롭게 지정할 수 있습니다. 만약 스크롤 시에도 툴팁이 계속 노출되도록 설정했다면, Tooltip이 GNB(상단 메뉴) 영역에 닿았을 때 잠시 사라지도록 처리해 화면 가림을 방지하는 것을 권장합니다.
+
+- 스크롤 또는 외부 영역 클릭 시 닫기
+- Tooltip을 표시한 요소 클릭 시 닫기
+- 닫히지 않도록 고정"
+      src="/components/presentation/tooltip/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="아이콘 버튼처럼 의미가 명확하지 않은 요소에 설명을 제공할 때 사용하세요."
+    src="/components/presentation/tooltip/design/Image-7.png"
+  />
+  <SectionFigure
+  variant="negative"
+    ratio="21:9"
+    description="모바일에서 Small 사이즈를 사용하지 않습니다."
+    src="/components/presentation/tooltip/design/Image-8.png"
+  />
+</SectionLayout>

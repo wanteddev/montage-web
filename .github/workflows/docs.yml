@@ -3,92 +3,142 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
+  PRETEXT: ""
+  SERVICE: montage
+  PLATFORM: front
+
+  NODE_VERSION: 22.18.0
+
   AWS_REGION: ap-northeast-2
   AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BUCKET: montage.wanted.co.kr
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  deploy-docs:
-    permissions:
-      id-token: write
-      contents: write
+  set-env:
+    name: Set Env
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Node.js install
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 10.13.1
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
+      - name: Set Common Env
+        id: env
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          if [[ $PLATFORM == "front" ]]; then
+            echo "::set-output name=SLACK_COLOR::00E5BA"
+          else
+            echo "::set-output name=SLACK_COLOR::003CFF"
+          fi
+          echo "::set-output name=PRETEXT::${PRETEXT}"
+          echo "::set-output name=SERVICE::${SERVICE^^}"
+          echo "::set-output name=SLACK_CHANNEL::#wds-deploy"
+          echo "PLATFORM=${PLATFORM^^}" >> $GITHUB_OUTPUT
+          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
+          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
+          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
+      - uses: actions/checkout@v3
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store
+          ref: ${{ github.ref }}
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Set Environment Variable
+        id: env-vars
+        run: |
+          server_type="www"
+          build="prod"
+          ref=${GITHUB_REF}
 
-      - uses: actions/cache@v4
-        name: Nx cache
-        with:
-          path: .nx/cache
-          key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-nx-store-
+          IFS='/' read -ra vBranch <<< "$ref"
+          branch=${vBranch[2]}
 
-      - name: Build local packages
-        run: pnpm run build
+          IFS='/' read -ra vName <<< "$REPOSITORY"
+          name=${vName[1]}
 
-      - name: Reinstall dependencies
-        run: pnpm install
+          echo "DATE=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+          echo "SERVER_TYPE=$server_type" >> $GITHUB_OUTPUT
+          echo "BUILD=$build" >> $GITHUB_OUTPUT
+          echo "BRANCH=$branch" >> $GITHUB_OUTPUT
+          echo "STAGE=www" >> $GITHUB_OUTPUT
 
-      - name: Build docs
-        run: pnpm -F docs run build
+          echo "HASH=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
+          commit_message=$(git log -1 --pretty=format:%s | tr \" \')
+          echo "COMMIT_MESSAGE=$commit_message" >> $GITHUB_OUTPUT
 
-      - name: Build my App
-        run: touch ./docs/out/.nojekyll
+    outputs:
+      slack_color: ${{ steps.env.outputs.SLACK_COLOR }}
+      pretext: ${{ steps.env.outputs.PRETEXT }}
+      service: ${{ steps.env.outputs.SERVICE }}
+      slack_channel: ${{ steps.env.outputs.SLACK_CHANNEL }}
+      stage: ${{ steps.env.outputs.STAGE }}
+      platform: ${{ steps.env.outputs.PLATFORM }}
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.6.8
-        with:
-          folder: docs/out
+      node_version: ${{ steps.env.outputs.NODE_VERSION }}
+      aws_region: ${{ steps.env.outputs.AWS_REGION }}
+      bucket: ${{ steps.env.outputs.BUCKET }}
+
+      date: ${{ steps.env-vars.outputs.DATE }}
+      server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
+      build: ${{ steps.env-vars.outputs.BUILD }}
+      barnch: ${{ steps.env-vars.outputs.BRANCH }}
+      hash: ${{ steps.env-vars.outputs.HASH }}
+      commit_msg: ${{ steps.env-vars.outputs.COMMIT_MESSAGE }}
+
+  set-pnpm:
+    needs: [set-env]
+    uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+    secrets: inherit
+
+  build-react:
+    needs: [set-env, set-pnpm]
+    uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+      package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
+      package_manager: pnpm
+      build_cache_path: |
+        .nx/cache
+        docs/.next/cache
+      build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
+      build_path: docs/out
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_command: pnpm run build && pnpm -F docs build
+    secrets: inherit
+
+  push-s3:
+    needs: [set-env, set-pnpm, build-react]
+    uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
+    with:
+      aws_region: ${{ needs.set-env.outputs.aws_region }}
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_path: docs/out
+      build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
+      run_command: |
+        echo "build files to s3"
+        aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
+        aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
+    secrets: inherit
 
   algolia:
-    needs: [deploy-docs]
+    needs: [push-s3]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Get the content of algolia.json as config
-        id: algolia_config
-        run: echo "::set-output name=config::$(cat algolia/config.json | jq -r tostring)"
-
       - name: Push indices to Algolia
-        uses: signcl/docsearch-scraper-action@master
-        env:
-          APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
-          API_KEY: ${{ secrets.API_KEY }}
-          CONFIG: ${{ steps.algolia_config.outputs.config }}
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler

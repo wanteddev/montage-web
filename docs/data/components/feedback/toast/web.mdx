@@ -1,0 +1,169 @@
+---
+title: Toast
+createdAt: 2025-09-08
+---
+
+## Basic toast
+
+상태에 대한 메시지를 안내할 때 사용합니다.
+
+[useToast](/docs/utilities/web-utilities/use-toast) 훅을 사용하면 더 간편하게 사용할 수 있습니다.
+
+[RegionConfig](/docs/utilities/web-utility-components/region-config) 컴포넌트를 활용하여 노출되는 위치를 조정할 수 있습니다.
+
+<Demo code={`import { Toast, ToastContainer, ToastContent, ToastIcon } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Toast open disablePortal disableAnimation variant="positive">
+      <ToastContainer>
+        <ToastIcon />
+        <ToastContent>Content</ToastContent>
+      </ToastContainer>
+    </Toast>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Toast 는 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Toast>
+  <ToastContainer>
+    <ToastIcon />
+
+    <ToastContent />
+  </ToastContainer>
+</Toast>
+```
+
+## Variants
+
+4가지 variant를 제공합니다.
+
+- `normal` (default)
+- `positive`
+- `cautionary`
+- `negative`
+
+<Demo code={`import { FlexBox, Toast, ToastContainer, ToastContent, ToastIcon } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="16px">
+      <Toast open disablePortal disableAnimation variant="normal">
+        <ToastContainer>
+          <ToastIcon>
+            <IconBlank />
+          </ToastIcon>
+
+          <ToastContent>Normal</ToastContent>
+        </ToastContainer>
+      </Toast>
+
+      <Toast open disablePortal disableAnimation variant="positive">
+        <ToastContainer>
+          <ToastIcon />
+          <ToastContent>Positive</ToastContent>
+        </ToastContainer>
+      </Toast>
+
+      <Toast open disablePortal disableAnimation variant="cautionary">
+        <ToastContainer>
+          <ToastIcon />
+          <ToastContent>Cautionary</ToastContent>
+        </ToastContainer>
+      </Toast>
+
+      <Toast open disablePortal disableAnimation variant="negative">
+        <ToastContainer>
+          <ToastIcon />
+          <ToastContent>Negative</ToastContent>
+        </ToastContainer>
+      </Toast>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Duration
+
+`duration` 옵션을 통해 노출 시간을 조정할 수 있습니다.
+- `Infinity`로 설정하면 무한히 노출됩니다.
+- `short`, `long` 의 시멘틱 값을 사용할 수 있습니다.
+
+<Demo code={`import { Button, Toast, ToastContainer, ToastContent, ToastIcon } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Toast open={open} onOpenChange={setOpen} duration="short">
+        <ToastContainer>
+          <ToastIcon />
+          <ToastContent>Content</ToastContent>
+        </ToastContainer>
+      </Toast>
+
+      <Button onClick={() => setOpen(true)}>Click me</Button>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With custom icon
+
+`ToastIcon` 의 children 으로 아이콘을 커스텀할 수 있습니다.
+
+<Demo code={`import { FlexBox, Toast, ToastContainer, ToastContent, ToastIcon } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox justifyContent="center">
+      <Toast open disablePortal disableAnimation variant="positive">
+        <ToastContainer>
+          <ToastIcon>
+            <IconBlank />
+          </ToastIcon>
+
+          <ToastContent>Content</ToastContent>
+        </ToastContainer>
+      </Toast>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### Toast
+
+<PropsTable component="Toast" />
+
+### ToastContainer
+
+<PropsTable component="ToastContainer" />
+
+### ToastIcon
+
+<PropsTable component="ToastIcon" />
+
+### ToastContent
+
+<PropsTable component="ToastContent" />

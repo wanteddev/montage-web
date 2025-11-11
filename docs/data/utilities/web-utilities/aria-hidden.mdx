@@ -1,0 +1,37 @@
+---
+title: ariaHidden
+description: 요소를 스크린 리더에서 숨깁니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+접근성 관련 유틸리티 함수입니다.
+
+[aria-hidden](https://www.npmjs.com/package/aria-hidden) 패키지 함수를 re-export 합니다.
+
+## Usage
+
+`hideOthers` 함수를 이용하면 해당 요소를 제외한 모든 요소를 스크린 리더에서 숨깁니다.
+
+```tsx
+import { hideOthers, css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+const Demo = () => {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const undo = hideOthers(ref.current);
+
+    return undo;
+  }, []);
+
+  return (
+    <div ref={ref} />
+  )
+}
+```

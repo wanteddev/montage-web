@@ -1,0 +1,220 @@
+---
+title: Section message
+createdAt: 2025-09-08
+---
+
+## Basic section message
+
+사용자의 작업 또는 시스템 상황에 대한 상태를 제공합니다.
+
+가독성을 위해 메시지가 2줄 이상 넘지 않도록 작성합니다.
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage>
+      Basic section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Variants
+
+SectionMessage는 5가지 variant를 제공합니다.
+- info
+- positive
+- cautionary
+- negative
+- custom
+
+### Info
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage variant="info">
+      Info section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Positive
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage variant="positive">
+      Positive section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Cautionary
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage variant="cautionary">
+      Cautionary section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Negative
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage variant="negative">
+      Negative section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Custom
+
+Custom variant는 좌측에 아이콘을 추가할 수 있습니다.
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <SectionMessage
+      variant="custom"
+      leadingContent={<IconBlank />}
+    >
+      Custom section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Description
+
+추가 설명을 작성할 수 있습니다.
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage variant="info" description="Description">
+      Section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With close button
+
+`closeButton` 옵션을 통해 닫기 버튼을 표시할 수 있습니다.
+
+<Demo code={`import { SectionMessage } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SectionMessage variant="info" closeButton>
+      Section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With button
+
+`trailingButton`, `bottomButton` 옵션을 통해 버튼을 추가할 수 있습니다.
+
+### Trailing Button
+
+우측에 오는 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { SectionMessage, FlexBox, TextButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="16px" sx={{ width: '100%' }}>
+      <SectionMessage
+        variant="info"
+        closeButton
+        description="Description"
+        trailingButton={(
+          <TextButton size="small">Button</TextButton>
+        )}>
+        Section message
+      </SectionMessage>
+      <SectionMessage
+        variant="info"
+        description="Description"
+        trailingButton={(
+          <TextButton size="small">Button</TextButton>
+        )}>
+        Section message
+      </SectionMessage>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Bottom Button
+
+하단 영역에 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { SectionMessage, FlexBox, Button } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <SectionMessage
+      variant="info"
+      description="Description"
+      closeButton
+      bottomButton={(
+        <Button size="small">
+          Button
+        </Button>
+      )}>
+      Section message
+    </SectionMessage>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA Alert Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/) 을 준수합니다.
+
+## API
+
+<PropsTable component="SectionMessage" />

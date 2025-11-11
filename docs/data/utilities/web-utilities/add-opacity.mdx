@@ -1,0 +1,52 @@
+---
+title: addOpacity
+description: addOpacity는 테마 팔레트에 투명도를 조절합니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+테마 팔레트에 투명도를 조절할 때 사용합니다.
+
+```ts
+import { addOpacity, css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  background-color: ${addOpacity(
+    theme.semantic.label.normal,
+    theme.opacity[12],
+  )};
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  background-color: rgba(var(--theme-semantic-label-normal-rgb), 0.12);
+}
+```
+
+## Custom color
+
+Custom Hex 색상에도 사용할 수 있습니다.
+
+```ts
+import { addOpacity, css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  background-color: ${addOpacity('#000000', theme.opacity[12])};
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  background-color: #0000001f;
+}
+```

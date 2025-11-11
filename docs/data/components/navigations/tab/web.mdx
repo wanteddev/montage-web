@@ -1,0 +1,556 @@
+---
+title: Tab
+description: 관련된 콘텐츠를 그룹화하고, 한 번에 하나의 콘텐츠만 표시하는 네비게이션 요소입니다. 제한된 공간에서 여러 정보를 효율적으로 구성할 때 사용하며, 사용자가 콘텐츠 간 빠르게 전환할 수 있도록 돕습니다.
+createdAt: 2025-09-22
+---
+
+## Basic tab
+
+한 번에 하나의 콘텐츠만 표시하는 네비게이션 요소로 사용합니다.
+
+<Demo code={`import {
+  Button,
+  Box,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList sx={{ width: '75%' }}>
+        <TabListItem value="0">
+          First
+        </TabListItem>
+        <TabListItem value="1">
+          Second
+        </TabListItem>
+        <TabListItem value="2">
+          Third
+        </TabListItem>
+        <TabListItem value="3">
+          Fourth
+        </TabListItem>
+      </TabList>
+
+      <TabPanel value="0">
+        <Content>
+          First tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="1">
+        <Content>
+          Second tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="2">
+        <Content>
+          Third tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="3">
+        <Content>
+          Fourth tab content
+        </Content>
+      </TabPanel>
+    </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy  
+
+Tab 은 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Tab>
+  <TabList>
+    <TabListItem />
+    <TabListItem />
+    <TabListItem />
+  </TabList>
+
+  <TabPanel />
+  <TabPanel />
+  <TabPanel />
+</Tab>
+```
+
+## Sizes
+
+총 3가지 사이즈를 제공합니다.
+- small
+- medium
+- large
+
+<Demo code={`import {
+  Tab,
+  TabList,
+  TabListItem,
+  IconButton,
+  FlexBox,
+} from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column" sx={{ width: '75%' }}>
+      <Tab defaultValue="0">
+        <TabList
+          size="small"
+        >
+          <TabListItem value="0">
+            First
+          </TabListItem>
+          <TabListItem value="1">
+            Second
+          </TabListItem>
+          <TabListItem value="2">
+            Third
+          </TabListItem>
+          <TabListItem value="3">
+            Fourth
+          </TabListItem>
+        </TabList>
+      </Tab>
+
+      <Tab defaultValue="0">
+        <TabList
+          size="medium"
+        >
+          <TabListItem value="0">
+            First
+          </TabListItem>
+          <TabListItem value="1">
+            Second
+          </TabListItem>
+          <TabListItem value="2">
+            Third
+          </TabListItem>
+          <TabListItem value="3">
+            Fourth
+          </TabListItem>
+        </TabList>
+      </Tab>
+
+      <Tab defaultValue="0">
+        <TabList
+          size="large"
+        >
+          <TabListItem value="0">
+            First
+          </TabListItem>
+          <TabListItem value="1">
+            Second
+          </TabListItem>
+          <TabListItem value="2">
+            Third
+          </TabListItem>
+          <TabListItem value="3">
+            Fourth
+          </TabListItem>
+        </TabList>
+      </Tab>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Resizes
+
+`resize` props 으로 탭 콘텐츠 요소가 차지하는 공간을 조정할 수 있습니다.
+- hug (default)
+- fill
+
+### Hug
+
+<Demo code={`import {
+  Box,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList sx={{ width: '75%' }}>
+        <TabListItem value="0">
+          First
+        </TabListItem>
+        <TabListItem value="1">
+          Second
+        </TabListItem>
+        <TabListItem value="2">
+          Third
+        </TabListItem>
+        <TabListItem value="3">
+          Fourth
+        </TabListItem>
+      </TabList>
+
+      <TabPanel value="0">
+        <Content>
+          First tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="1">
+        <Content>
+          Second tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="2">
+        <Content>
+          Third tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="3">
+        <Content>
+          Fourth tab content
+        </Content>
+      </TabPanel>
+    </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Fill
+
+<Demo code={`import {
+  Box,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList sx={{ width: '75%' }} resize="fill">
+        <TabListItem value="0">
+          First
+        </TabListItem>
+        <TabListItem value="1">
+          Second
+        </TabListItem>
+        <TabListItem value="2">
+          Third
+        </TabListItem>
+        <TabListItem value="3">
+          Fourth
+        </TabListItem>
+      </TabList>
+
+      <TabPanel value="0">
+        <Content>
+          First tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="1">
+        <Content>
+          Second tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="2">
+        <Content>
+          Third tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="3">
+        <Content>
+          Fourth tab content
+        </Content>
+      </TabPanel>
+    </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With padding
+
+`horizontalPadding` prop 을 사용하면 탭 콘텐츠 요소의 좌우 패딩을 추가할 수 있습니다.
+
+> `resize="fill"` 옵션을 사용할 경우 `horizontalPadding` 옵션은 무시됩니다.
+
+<Demo code={`import {
+  Box,
+  Tab,
+  TabList,
+  TabListItem,
+  TabPanel,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0">
+      <TabList sx={{ width: '75%' }} horizontalPadding>
+        <TabListItem value="0">
+          First
+        </TabListItem>
+        <TabListItem value="1">
+          Second
+        </TabListItem>
+        <TabListItem value="2">
+          Third
+        </TabListItem>
+        <TabListItem value="3">
+          Fourth
+        </TabListItem>
+      </TabList>
+
+      <TabPanel value="0">
+        <Content>
+          First tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="1">
+        <Content>
+          Second tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="2">
+        <Content>
+          Third tab content
+        </Content>
+      </TabPanel>
+      <TabPanel value="3">
+        <Content>
+          Fourth tab content
+        </Content>
+      </TabPanel>
+    </Tab>
+  )
+}
+
+const Content = ({ children }: React.PropsWithChildren) => {
+  return (
+    <Box sx={{ padding: '16px' }}>
+      {children}
+    </Box>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With icon button
+
+iconButton prop 으로 우측에 아이콘 버튼을 추가할 수 있습니다.
+
+size별로 icon button 의 크기를 각각 지정해주어야 합니다.
+- small: 20px
+- medium: 22px
+- large: 24px
+
+<Demo code={`import {
+  Tab,
+  TabList,
+  TabListItem,
+  IconButton,
+  FlexBox,
+} from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column" sx={{ width: '75%' }}>
+      <Tab defaultValue="0">
+        <TabList
+          size="small"
+          iconButton={(
+            <IconButton size={20}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
+          <TabListItem value="0">
+            First
+          </TabListItem>
+          <TabListItem value="1">
+            Second
+          </TabListItem>
+          <TabListItem value="2">
+            Third
+          </TabListItem>
+          <TabListItem value="3">
+            Fourth
+          </TabListItem>
+        </TabList>
+      </Tab>
+
+      <Tab defaultValue="0">
+        <TabList
+          size="medium"
+          iconButton={(
+            <IconButton size={22}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
+          <TabListItem value="0">
+            First
+          </TabListItem>
+          <TabListItem value="1">
+            Second
+          </TabListItem>
+          <TabListItem value="2">
+            Third
+          </TabListItem>
+          <TabListItem value="3">
+            Fourth
+          </TabListItem>
+        </TabList>
+      </Tab>
+
+      <Tab defaultValue="0">
+        <TabList
+          size="large"
+          iconButton={(
+            <IconButton size={24}>
+              <IconBlank />
+            </IconButton>
+          )}
+        >
+          <TabListItem value="0">
+            First
+          </TabListItem>
+          <TabListItem value="1">
+            Second
+          </TabListItem>
+          <TabListItem value="2">
+            Third
+          </TabListItem>
+          <TabListItem value="3">
+            Fourth
+          </TabListItem>
+        </TabList>
+      </Tab>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Prevent scroll
+
+`disableScrollMoveOnChange` prop 을 사용하면 탭 변경 시 스크롤이 이동하지 않습니다.
+
+<Demo code={`import {
+  Tab,
+  TabList,
+  TabListItem,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="0" disableScrollMoveOnChange>
+      <TabList size="large" sx={{ width: '75%' }}>
+        <TabListItem value="0">
+          First
+        </TabListItem>
+        <TabListItem value="1">
+          Second
+        </TabListItem>
+        <TabListItem value="2">
+          Third
+        </TabListItem>
+        <TabListItem value="3">
+          Fourth
+        </TabListItem>
+        <TabListItem value="4">
+          Fifth
+        </TabListItem>
+        <TabListItem value="5">
+          Sixth
+        </TabListItem>
+        <TabListItem value="6">
+          Seventh
+        </TabListItem>
+        <TabListItem value="7">
+          Eighth
+        </TabListItem>
+        <TabListItem value="8">
+          Ninth
+        </TabListItem>
+        <TabListItem value="9">
+          Tenth
+        </TabListItem>
+      </TabList>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/) 을 준수합니다.
+
+## API
+
+### Tab
+
+<PropsTable component="Tab" />
+
+### TabList
+
+viewport에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+- horizontalPadding
+- resize
+
+<PropsTable component="TabList" />
+
+### TabListItem
+
+<PropsTable component="TabListItem" />
+
+### TabPanel
+
+`TabPanel` 은 성능 최적화를 위해 마운트 모드를 설정할 수 있습니다.
+
+- `only-active` 는 활성화 상태일 때만 렌더링 되며 상태가 변경되는 경우 언마운트 됩니다.
+- `force-mount` 는 활성화 상태일 때 렌더링 되며 상태가 변경되는 경우 언마운트되지 않고 숨김 처리 됩니다.
+- `always` 는 항상 렌더링 되어 있으며 상태가 변경되는 경우 언마운트되지 않고 숨김 처리 됩니다.
+
+<PropsTable component="TabPanel" />

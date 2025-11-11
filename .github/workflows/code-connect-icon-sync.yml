@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: 'code connect push 여부'
+        description: "code connect push 여부"
         type: choice
         required: false
-        default: 'true'
+        default: "true"
         options:
-          - 'true'
-          - 'false'
+          - "true"
+          - "false"
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -45,9 +45,9 @@ jobs:
       - name: Node.js install
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.18.0
           registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
+          scope: "@wanteddev"
 
       - uses: pnpm/action-setup@v4
         with:
@@ -105,9 +105,9 @@ jobs:
       - name: Node.js install
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.18.0
           registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
+          scope: "@wanteddev"
 
       - uses: pnpm/action-setup@v4
         with:

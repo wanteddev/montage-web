@@ -1,0 +1,78 @@
+---
+title: TextArea
+description: 여러 줄의 텍스트 입력이 필요한 경우 사용되는 텍스트 영역 입력 필드 컴포저블
+---
+
+## WantedTextArea (String 기반)
+텍스트 영역 입력 필드 컴포저블입니다. 여러 줄의 텍스트 입력이 필요한 경우 사용되며, 버튼, 아이콘, 타이틀, 설명 등을 유연하게 조합할 수 있습니다. 내부적으로 `TextFieldValue`를 상태로 관리하며 `onValueChange`를 통해 외부에 값을 전달합니다.
+
+```kotlin
+WantedTextArea(
+    text = "내용",
+    title = "설명",
+    placeholder = "입력해주세요",
+    rightButton = "완료",
+    onValueChange = { newText -> ... }
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| text | String | 입력된 텍스트 값입니다. |
+| modifier | Modifier | 외형 및 레이아웃 조정용입니다. |
+| placeholder | String | 힌트로 보여질 텍스트입니다. |
+| title | String | 상단 제목 텍스트입니다. |
+| description | String? | 하단 메시지 또는 설명입니다. |
+| rightButton | String? | 우측 버튼 텍스트입니다. |
+| leadingContent | (() -> Unit)? | 왼쪽 슬롯 콘텐츠입니다. |
+| trailingContent | (() -> Unit)? | 오른쪽 슬롯 콘텐츠입니다. |
+| enabled | Boolean | 입력 활성화 여부입니다. |
+| negative | Boolean | 에러 상태 여부입니다. |
+| maxLines | Int | 최대 줄 수입니다. |
+| minLines | Int | 최소 줄 수입니다. |
+| maxWordCount | Int | 입력 가능한 최대 글자 수입니다. |
+| enabledOverflowText | Boolean | 글자 수 초과 입력 허용 여부입니다. |
+| isGraphemeClusterCount | Boolean | 문자 수 대신 grapheme cluster 기준으로 글자 수를 셉니다. |
+| requiredBadge | Boolean | 필수 입력 뱃지 표시 여부입니다. |
+| interactionSource | MutableInteractionSource | 포커스 등 인터랙션 추적용입니다. |
+| focused | State<Boolean> | 포커스 상태입니다. |
+| keyboardOptions | KeyboardOptions | 키보드 설정입니다. |
+| keyboardActions | KeyboardActions | 키보드 액션 설정입니다. |
+| background | Color | 배경 색상입니다. |
+| onClickRightButton | () -> Unit | 우측 버튼 클릭 콜백입니다. |
+| onValueChange | (String) -> Unit | 값 변경 콜백입니다. |
+
+## Overload (TextFieldValue 기반)
+텍스트 영역 입력 필드 컴포저블입니다. 커서, 선택 영역 등 복잡한 상태를 다룰 수 있는 `TextFieldValue`를 사용합니다.
+
+```kotlin
+val state = remember { mutableStateOf(TextFieldValue("입력값")) }
+WantedTextArea(value = state.value, onValueChange = { state.value = it })
+```
+<details>
+  <summary>Parameters</summary>
+  
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | value | TextFieldValue | 입력 값 및 커서, 선택 정보 등을 포함합니다. |
+  | onValueChange | (TextFieldValue) -> Unit | 값 변경 콜백입니다. |
+  | modifier | Modifier | 외형 및 레이아웃 조정용입니다. |
+  | placeholder | String | 힌트 텍스트입니다. |
+  | title | String | 상단 제목입니다. |
+  | description | String? | 하단 설명 또는 상태 메시지입니다. |
+  | rightButton | String? | 우측 버튼 텍스트입니다. |
+  | enabled | Boolean | 입력 활성화 여부입니다. |
+  | negative | Boolean | 에러 상태 여부입니다. |
+  | maxLines | Int | 최대 줄 수입니다. |
+  | minLines | Int | 최소 줄 수입니다. |
+  | maxWordCount | Int | 입력 가능한 최대 글자 수입니다. |
+  | enabledOverflowText | Boolean | 글자 수 초과 허용 여부입니다. |
+  | requiredBadge | Boolean | 필수 입력 여부입니다. |
+  | isGraphemeClusterCount | Boolean | grapheme cluster 기준 글자 수 사용 여부입니다. |
+  | interactionSource | MutableInteractionSource | 포커스 등 인터랙션 추적용입니다. |
+  | focused | State<Boolean> | 포커스 상태입니다. |
+  | keyboardOptions | KeyboardOptions | 키보드 동작 설정입니다. |
+  | keyboardActions | KeyboardActions | 키보드 액션 설정입니다. |
+  | background | Color | 배경 색상입니다. |
+</details>

@@ -1,0 +1,28 @@
+---
+title: NoSsr
+description: NoSsr는 SSR로 렌더링하면 안 되는 요소를 감싸는 용도로 사용하는 컴포넌트입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+SSR로 렌더링하면 안 되는 요소를 감싸는 용도로 사용합니다.
+server side hydration 오류를 무효화 할 수 있지만, SSR이 아니기 때문에 검색엔진에서 제외될 수 있습니다.
+
+```tsx
+import { NoSsr, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <NoSsr fallback={<div>Loading...</div>}>
+      <Button>버튼</Button>
+    </NoSsr>
+  )
+}
+
+export default Demo;
+```
+
+## API
+
+<PropsTable component="NoSsr" />

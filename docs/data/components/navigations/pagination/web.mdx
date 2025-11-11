@@ -1,0 +1,145 @@
+---
+title: Pagination
+description: 대량의 콘텐츠를 관리 가능한 크기의 페이지로 나누어 탐색할 수 있게 하는 네비게이션 요소입니다. 사용자가 콘텐츠를 효율적으로 탐색하고, 특정 페이지로 직접 이동하며, 현재 위치를 파악할 수 있도록 돕습니다.
+createdAt: 2025-09-23
+---
+
+## Variants
+
+2가지 variant를 제공합니다.
+- `extended` (default)
+- `compact`
+- `minimize`
+
+### Extended
+
+<Demo code={`import { Pagination, PaginationSelect, PaginationField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination
+      leadingContent={<PaginationSelect />}
+      trailingContent={<PaginationField />}
+      variant="extended"
+      totalPages={10}
+      sx={{ width: '100%' }}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Compact
+
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination variant="compact" totalPages={10} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Minimize
+
+<Demo code={`import { Pagination } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Pagination variant="minimize" totalPages={10} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Boundary, Sibling
+
+boundaryPages, siblingPages로 표시할 페이지 수를 조정할 수 있습니다.
+
+<Demo code={`import { Pagination, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="24px">
+      <Pagination totalPages={99} defaultPage={9} />
+      <Pagination totalPages={99} defaultPage={9} boundaryPages={3} />
+      <Pagination totalPages={99} defaultPage={9} siblingPages={3} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## With contents
+
+variant가 `extended` 일 때 `leadingContent`, `trailingContent` prop을 사용하여 콘텐츠를 추가할 수 있습니다.
+
+<Demo code={`import { Pagination, PaginationField, PaginationSelect, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="40px" sx={{ width: '100%' }}>
+      <FlexBox flexDirection="column" gap="24px">
+        <Pagination 
+          totalPages={10}
+          leadingContent={<PaginationSelect />}
+        />
+        <Pagination 
+          totalPages={10}
+          leadingContent={<PaginationField />}
+        />
+        <Pagination 
+          totalPages={10}
+          leadingContent={<span>커스텀 요소</span>}
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px" flex="1">
+        <Pagination 
+          totalPages={10}
+          trailingContent={<PaginationSelect />} 
+        />
+        <Pagination 
+          totalPages={10}
+          trailingContent={<PaginationField />} 
+        />
+        <Pagination 
+          totalPages={10}
+          trailingContent={<span>커스텀 요소</span>} 
+        />
+      </FlexBox>
+
+      <FlexBox flexDirection="column" gap="24px" flex="1">
+        <Pagination 
+          totalPages={10}
+          leadingContent={<PaginationSelect />}
+          trailingContent={<PaginationField />} 
+        />
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### Pagination
+
+<PropsTable component="Pagination" />
+
+### PaginationSelect
+
+<PropsTable component="PaginationSelect" />
+
+### PaginationField
+
+<PropsTable component="PaginationField" />

@@ -1,5 +1,6 @@
 import { esbuildPluginFilePathExtensions } from './esbuild-plugin-file-path-extensions';
-import { Options } from 'tsup';
+
+import type { Options } from 'tsup';
 
 export const defineConfiguration = (opts: Partial<Options>): Options => {
   return {

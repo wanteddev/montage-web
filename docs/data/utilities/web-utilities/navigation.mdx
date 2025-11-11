@@ -1,0 +1,28 @@
+---
+title: Navigation
+description: Navigation은 주로 네비게이션에서 사용하는 스타일을 테마로 제공합니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+theme 객체 내에 네비게이션에 대한 스타일을 제공합니다.
+
+```ts
+import { css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  ${theme.platform.ios.navigation}
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  background-color: rgba(var(--semantic-background-elevated-normal-rgb), 0.74);
+  backdrop-filter: blur(32px);
+}
+```

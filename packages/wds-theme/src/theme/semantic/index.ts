@@ -57,13 +57,13 @@ export const light = {
   },
   accent: {
     background: {
+      redOrange: atomic.redOrange[50],
       lime: atomic.lime[50],
       cyan: atomic.cyan[50],
       lightBlue: atomic.lightBlue[50],
       violet: atomic.violet[50],
-      pink: atomic.pink[50],
-      redOrange: atomic.redOrange[50],
       purple: atomic.purple[50],
+      pink: atomic.pink[50],
     },
     foreground: {
       red: atomic.red[40],
@@ -171,13 +171,13 @@ export const dark = {
   },
   accent: {
     background: {
+      redOrange: atomic.redOrange[60],
       lime: atomic.lime[60],
       cyan: atomic.cyan[60],
       lightBlue: atomic.lightBlue[60],
       violet: atomic.violet[60],
-      pink: atomic.pink[60],
-      redOrange: atomic.redOrange[60],
       purple: atomic.purple[60],
+      pink: atomic.pink[60],
     },
     foreground: {
       red: atomic.red[60],

@@ -1,0 +1,38 @@
+---
+title: typographyStyle
+description: Typography 스타일을 유틸리티로 제공해주는 함수입니다.
+---
+
+## Introduce
+
+[Typography](/docs/utilities/web-utility-components/typography) 컴포넌트를 스타일 유틸리티 함수로 제공합니다.
+
+`typographyStyle(variant, weight)` 로 사용합니다.
+
+## Sx prop
+
+```tsx
+import { Box, css, typographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+const Component = () => {
+  return (
+    <Box
+      sx={typographyStyle('title1', 'bold')}
+    />
+  )
+}
+```
+
+## Css function
+
+```ts
+import { css, typographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  ${typographyStyle('title1', 'bold')}
+`;
+```

@@ -1,0 +1,164 @@
+---
+title: Segmented control
+description: 여러 항목 중 하나를 선택하여 뷰 혹은 컨텐츠를 컨트롤 할 수 있습니다.
+createdAt: 2025-05-12
+---
+
+## Basic segmented control
+
+`SegmentedControl` 은 2가지 variant 를 사용할 수 있습니다.
+- solid (default)
+- outlined
+
+### Solid
+
+<Demo code={`import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SegmentedControl variant="solid" defaultValue="0">
+      <SegmentedControlItem value="0">
+        Board
+      </SegmentedControlItem>
+     <SegmentedControlItem value="1">
+        List
+      </SegmentedControlItem>
+    </SegmentedControl>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Outlined
+
+<Demo code={`import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SegmentedControl variant="outlined" defaultValue="0">
+      <SegmentedControlItem value="0">
+        Board
+      </SegmentedControlItem>
+     <SegmentedControlItem value="1">
+        List
+      </SegmentedControlItem>
+    </SegmentedControl>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+3가지 크기를 사용할 수 있습니다.
+- small
+- medium (default)
+- large
+
+<Demo code={`import {
+  SegmentedControl,
+  SegmentedControlItem,
+  FlexBox,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="Column" gap="12px" sx={{ width: '100%' }}>
+      <SegmentedControl variant="solid" size="small" defaultValue="0">
+        <SegmentedControlItem value="0">
+          Board
+        </SegmentedControlItem>
+      <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+      <SegmentedControl variant="solid" size="medium" defaultValue="0">
+        <SegmentedControlItem value="0">
+          Board
+        </SegmentedControlItem>
+      <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+      <SegmentedControl variant="solid" size="large" defaultValue="0">
+        <SegmentedControlItem value="0">
+          Board
+        </SegmentedControlItem>
+      <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+      <SegmentedControl variant="outlined" size="small" defaultValue="0">
+        <SegmentedControlItem value="0">
+          Board
+        </SegmentedControlItem>
+      <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+      <SegmentedControl variant="outlined" size="medium" defaultValue="0">
+        <SegmentedControlItem value="0">
+          Board
+        </SegmentedControlItem>
+      <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+      <SegmentedControl variant="outlined" size="large" defaultValue="0">
+        <SegmentedControlItem value="0">
+          Board
+        </SegmentedControlItem>
+      <SegmentedControlItem value="1">
+          List
+        </SegmentedControlItem>
+      </SegmentedControl>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With icon
+
+`leadingContent` prop 을 사용하면 앞쪽에 아이콘을 추가할 수 있습니다.
+
+<Demo code={`import {
+  SegmentedControl,
+  SegmentedControlItem,
+} from '@wanteddev/wds';
+import { IconColumn, IconList } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <SegmentedControl defaultValue="0">
+      <SegmentedControlItem value="0"  leadingContent={<IconColumn />}>
+        Board
+      </SegmentedControlItem>
+     <SegmentedControlItem value="1" leadingContent={<IconList />}>
+        List
+      </SegmentedControlItem>
+    </SegmentedControl>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### SegmentedControl
+
+<PropsTable component="SegmentedControl" />
+
+### SegmentedControlItem
+
+<PropsTable component="SegmentedControlItem" />

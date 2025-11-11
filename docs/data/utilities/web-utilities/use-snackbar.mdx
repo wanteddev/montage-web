@@ -1,0 +1,116 @@
+---
+title: useSnackbar
+description: useSnackbar는 스낵바를 더 쉽게 사용할 수 있도록 도와주는 훅입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+`Snackbar` 컴포넌트를 더 쉽게 사용할 수 있도록 도와주는 훅입니다.
+
+[RegionConfig](/docs/utilities/web-utility-components/region-config) 컴포넌트를 활용하여 노출되는 위치를 조정할 수 있습니다.
+
+<Demo code={`import { useSnackbar, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  const snackbar = useSnackbar();
+
+  const handleClick = () => {
+    snackbar({
+      variant: 'normal',
+      title: '메시지에 마침표를 찍어요.',
+      action: {
+        children: '텍스트'
+      }
+    });
+  };
+
+  return (
+    <Button onClick={handleClick}>클릭</Button>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Advanced
+
+Snackbar 에서 사용할 수 있는 `variant`, `action`, `extraContent`, `duration`, `onAnimationEnd` 을 그대로 사용할 수 있습니다.
+
+<Demo code={`import { FlexBox, useSnackbar, Button, Avatar } from '@wanteddev/wds';
+import { IconCircleFill } from '@wanteddev/wds-icon';
+
+const description = '설명이 두 줄 이상 들어갈 때 예외적으로 쓸 수 있게끔 고려해두었습니다.';
+const title = '메시지에 마침표를 찍어요.';
+const extraContent = <Avatar variant="company" size="medium" />
+
+const Demo = () => {
+  const snackbar = useSnackbar();
+
+  const handleClick = (options = {}) => () => {
+    snackbar({ action: { children: '텍스트' },...options });
+  };
+
+  return (
+    <FlexBox gap="8px" flexWrap="wrap">
+      <Button onClick={handleClick({ title })}>title</Button>
+      <Button onClick={handleClick({ description })}>description</Button>
+      <Button onClick={handleClick({ title, description })}>title + description</Button>
+      <Button onClick={handleClick({ title, extraContent })}>extraContent1</Button>
+      <Button onClick={handleClick({ title, description, extraContent })}>extraContent2</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Control
+
+id를 직접 주입하고 `useRegionStore`와 함께 사용하여 열리고 닫히는 상태를 추가적으로 컨트롤 할 수 있어요.
+
+<Demo code={`import { FlexBox, useSnackbar, Button, useRegionStore } from '@wanteddev/wds';
+import { useId, useEffect } from 'react';
+ 
+const Demo = () => {
+  const snackbar = useSnackbar();
+  const hide = useRegionStore((state) => state.hide);
+
+  const id = useId();
+
+  const handleClickShow = () => {
+    snackbar({ id, action: { children: '텍스트' }, title: '메시지에 마침표를 찍어요.' });
+  };
+
+  const handleClickHide = () => {
+    hide(id);
+  }
+
+  useEffect(() => {
+    return () => hide(id);
+  }, [])
+
+  return (
+    <FlexBox gap="8px">
+      <Button onClick={handleClickShow}>show</Button>
+      <Button onClick={handleClickHide}>hide</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+`duration` 옵션은 Infinity를 지원합니다.
+
+<PropsTable component="useSnackbar" fallback={[
+{ name: 'duration', types: 'number | "short" | "long" | undefined', defaultValue: 'short' },
+{ name: 'variant', types: '\"normal\" | undefined', defaultValue: 'normal' },
+{ name: 'title', types: 'ReactNode' },
+{ name: 'description', types: 'ReactNode' },
+{ name: 'extraContent', types: 'ReactNode' },
+{ name: 'action', types: 'ComponentProps<typeof TextButton>', required: true },
+{ name: 'onAnimationEnd', types: '(type: \"hide\" | \"show\") => void' }
+]} />

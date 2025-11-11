@@ -14,6 +14,6 @@
     "moduleResolution": "node",
     "module": "CommonJS"
   },
-  "include": ["tsup.config.ts", "scripts"],
+  "include": ["tsup.config.ts", "scripts", ".lintstagedrc.mjs"],
   "exclude": ["node_modules"]
 }

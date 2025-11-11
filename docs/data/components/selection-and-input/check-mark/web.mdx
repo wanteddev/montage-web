@@ -1,0 +1,177 @@
+---
+title: Check Mark
+description: 내용의 동의함을 표현합니다.
+createdAt: 2025-05-12
+---
+
+## Basic check mark
+
+`CheckMark` 는 기본적으로 테두리가 없는 체크 박스 형태의 컴포넌트입니다.
+
+<Demo code={`import { CheckMark } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <CheckMark />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Sizes
+
+2가지 size를 제공합니다.
+- small
+- medium (default)
+
+medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰야 합니다.
+
+<Demo code={`import { FlexBox, CheckMark, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px" flexDirection="column">
+      <FlexBox gap="8px">
+        <CheckMark size="small" id="small" />
+        <Label htmlFor="small">Small</Label>
+      </FlexBox>
+
+      <FlexBox gap="8px">
+        <CheckMark size="medium" id="medium" />
+        <Label htmlFor="medium">Medium</Label>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Tight
+
+`tight` prop 을 사용하면 체크 박스의 좌우 여백을 조정할 수 있습니다.
+
+<Demo code={`import { CheckMark, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Small</Label>
+      <FlexBox gap="8px" flexDirection="column">
+        <FlexBox gap="4px">
+          <CheckMark id="small-default" size="small" value="small-default" />
+          <Label htmlFor="small-default">Default</Label>
+        </FlexBox>
+        <FlexBox gap="6px">
+          <CheckMark id="small-tight" size="small" value="small-tight" tight />
+          <Label htmlFor="small-tight">Tight</Label>
+        </FlexBox>
+      </FlexBox>
+
+      <Label sx={{ marginTop: 8 }}>Medium</Label>
+      <FlexBox flexDirection="column" gap="8px">
+        <FlexBox gap="4px">
+          <CheckMark id="medium-default" size="medium" value="medium-default" />
+          <Label htmlFor="medium-default" sx={{ padding: '1px 0px' }}>Default</Label>
+        </FlexBox>
+
+        <FlexBox gap="6px">
+          <CheckMark id="medium-tight" size="medium" value="medium-tight" tight />
+          <Label htmlFor="medium-tight" sx={{ padding: '1px 0px' }}>Tight</Label>
+        </FlexBox>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Form field
+
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
+- `FormField`
+- `FormControl`
+- `FormLabel`
+- `FormMessage`
+- `FormErrorMessage`
+
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, CheckMark } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FormField>
+        <FlexBox flexDirection="row" gap="4px">
+          <FormControl>
+            <CheckMark size="medium" />
+          </FormControl>
+          <FormLabel sx={{ padding: '1px 0px' }}>Label</FormLabel>
+        </FlexBox>
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Customize
+
+`icon` props 을 사용해서 아이콘을 커스텀할 수 있습니다.
+
+<Demo code={`import { CheckMark } from '@wanteddev/wds';
+import { IconCircleCheckFill } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <CheckMark icon={<IconCircleCheckFill />} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작합니다.
+
+`checked`, `onCheckedChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, CheckMark } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <CheckMark defaultChecked={false} />
+      <CheckMark checked={checked} onCheckedChange={setChecked} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA Checkbox Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/) 을 준수합니다.
+
+- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
+- 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 합니다.
+
+## API
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="CheckMark" />

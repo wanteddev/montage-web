@@ -1,0 +1,35 @@
+---
+title: TouchArea
+description: 터치 영역을 확장하고 클릭 가능하도록 만드는 래퍼 컴포저블
+---
+
+## WantedTouchArea
+터치 영역을 확장하고 클릭 가능하도록 만드는 래퍼 컴포저블입니다.
+
+내부 콘텐츠의 사이즈를 계산하여 사용자의 터치 영역을 넓혀주는 목적이며, 실제 콘텐츠 주변에 여백(Padding)을 추가하여 UX를 향상시킵니다. 리플 효과, 클릭 이벤트, 터치 활성화 여부 등을 설정할 수 있으며, LocalWantedTouchArea를 활용해 내부 터치 허용 여부를 Composition으로 전달받습니다.
+
+```kotlin
+WantedTouchArea(
+    horizontalPadding = 16.dp,
+    verticalPadding = 12.dp,
+    shape = RoundedCornerShape(6.dp),
+    onClick = { /* 클릭 이벤트 */ }
+) {
+    Icon(painter = painterResource(id = R.drawable.ic_example), contentDescription = null)
+}
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| modifier | Modifier | 전체 래퍼의 외형 및 배치를 제어합니다. |
+| verticalPadding | Dp | 상하 터치 영역 확장 값입니다. |
+| horizontalPadding | Dp | 좌우 터치 영역 확장 값입니다. |
+| shape | Shape | 터치 영역의 모양입니다. 기본값은 6dp의 라운드 사각형입니다. |
+| enabled | Boolean | 클릭 가능 여부를 설정합니다. |
+| enabledInnerTouch | Boolean | 내부 콘텐츠 사이즈 계산 여부입니다. 내부 CompositionLocal에서 기본값을 제공합니다. |
+| rippleColor | Color | 리플 효과의 색상입니다. 기본값은 Unspecified입니다. |
+| isUseRipple | Boolean | true일 경우 리플 효과를 사용합니다. |
+| interactionSource | MutableInteractionSource | 상호작용 상태 관리를 위한 InteractionSource입니다. |
+| content | (@Composable BoxScope.() -> Unit) | 실제 표시할 콘텐츠입니다. |
+| onClick | (() -> Unit)? | 클릭 이벤트가 발생할 경우 호출되는 콜백입니다. null일 경우 클릭이 비활성화됩니다. |

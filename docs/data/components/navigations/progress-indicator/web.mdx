@@ -1,0 +1,24 @@
+---
+title: Progress indicator
+description: 작업의 진행 상태를 시각적으로 표현하는 선형 요소입니다. 사용자에게 현재 진행 중인 작업의 완료율을 직관적으로 전달하여 대기 시간에 대한 예측 가능성을 제공합니다.
+createdAt: 2025-09-23
+---
+
+## Basic progress indicator
+
+0 ~ 100 까지 퍼센트로 값을 관리합니다.
+
+<Demo code={`import { ProgressIndicator } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressIndicator percent={30} />
+  );
+}
+
+export default Demo;`}
+/>
+
+## API
+
+<PropsTable component="ProgressIndicator" />

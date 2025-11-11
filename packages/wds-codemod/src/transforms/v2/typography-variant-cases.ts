@@ -224,12 +224,16 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         name: { name: getLocalName(autocompleteOptionImport) },
       })
       .forEach((comp) => {
-        comp.value.attributes?.forEach((attr) =>
-          deepConvertPropertyValue(
-            attr as JSXAttribute,
-            'variant',
-            convertTypographyVariant,
-          ),
+        const textProps = (
+          comp.value.attributes?.find(
+            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
+          ) as JSXAttribute | undefined
+        )?.value as JSXExpressionContainer;
+
+        deepConvertPropertyValue(
+          textProps,
+          'variant',
+          convertTypographyVariant,
         );
       });
   }
@@ -247,12 +251,16 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         name: { name: getLocalName(menuItemImport) },
       })
       .forEach((comp) => {
-        comp.value.attributes?.forEach((attr) =>
-          deepConvertPropertyValue(
-            attr as JSXAttribute,
-            'variant',
-            convertTypographyVariant,
-          ),
+        const textProps = (
+          comp.value.attributes?.find(
+            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
+          ) as JSXAttribute | undefined
+        )?.value as JSXExpressionContainer;
+
+        deepConvertPropertyValue(
+          textProps,
+          'variant',
+          convertTypographyVariant,
         );
       });
   }
@@ -270,12 +278,16 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
         name: { name: getLocalName(optionImport) },
       })
       .forEach((comp) => {
-        comp.value.attributes?.forEach((attr) =>
-          deepConvertPropertyValue(
-            attr as JSXAttribute,
-            'variant',
-            convertTypographyVariant,
-          ),
+        const textProps = (
+          comp.value.attributes?.find(
+            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
+          ) as JSXAttribute | undefined
+        )?.value as JSXExpressionContainer;
+
+        deepConvertPropertyValue(
+          textProps,
+          'variant',
+          convertTypographyVariant,
         );
       });
   }
@@ -406,6 +418,33 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     root
       .find(j.JSXOpeningElement, {
         name: { name: getLocalName(listCellImport) },
+      })
+      .forEach((comp) => {
+        const textProps = (
+          comp.value.attributes?.find(
+            (v) => v.type === 'JSXAttribute' && v.name.name === 'textProps',
+          ) as JSXAttribute | undefined
+        )?.value as JSXExpressionContainer;
+
+        deepConvertPropertyValue(
+          textProps,
+          'variant',
+          convertTypographyVariant,
+        );
+      });
+  }
+
+  const accordionSummaryImport = findImportDeclaration(
+    'AccordionSummary',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (accordionSummaryImport) {
+    root
+      .find(j.JSXOpeningElement, {
+        name: { name: accordionSummaryImport.imported.name },
       })
       .forEach((comp) => {
         const textProps = (

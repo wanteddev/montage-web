@@ -1,0 +1,427 @@
+---
+title: Accordion
+description: 접을 수 있는 컨텐츠를 제공하는 아코디언 컴포넌트입니다.
+createdAt: 2025-05-12
+updatedAt: 2025-06-17
+---
+
+## Basic accordion
+
+내용을 최소화하거나 펼칠 때 사용합니다.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Accordion sx={{ width: '100%' }}>
+      <AccordionSummary>
+        제목
+      </AccordionSummary>
+      <AccordionDetails>
+        <AccordionDescription>
+          제목에 대한 상세 내용을 입력해주세요.<br />
+          긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+        </AccordionDescription>
+      </AccordionDetails>
+    </Accordion>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+아래와 같은 구조로 조합하여 사용합니다.
+
+```tsx
+<Accordion>
+  <AccordionSummary />
+
+  <AccordionDetails>
+    <AccordionDescription />
+    <AccordionContent />
+  </AccordionDetails>
+</Accordion>
+```
+
+## Accordion summary
+
+### With accordion summary content
+
+leadingContent를 추가하거나 기본 trailingContent를 교체할 수 있습니다.
+
+trailingContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPropagation` 을 통해 아코디언이 열리고 닫히는 동작을 막을 수 있습니다.
+
+`AccordionSummaryContent` 컴포넌트로 감싸서 사용하고, `rotate` 옵션을 통해 열리고 닫힐 때 회전 여부를 결정할 수 있습니다.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton, FlexBox } from '@wanteddev/wds';
+import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown, IconPlus } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [expandedCheckAccordion, setExpandedCheckAccordion] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Accordion disabled>
+        <AccordionSummary>
+          Disabled, true
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          leadingContent={
+            <AccordionSummaryContent variant="icon">
+              <IconPlus />
+            </AccordionSummaryContent>
+          }
+        >
+          LeadingContent, Icon<br />
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          trailingContent={
+            <AccordionSummaryContent variant="icon" rotate>
+              <IconCaretDown />
+            </AccordionSummaryContent>
+          }
+        >
+          TrailingContent, Icon, Rotate<br />
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion
+        expanded={expandedCheckAccordion}
+        onChange={setExpandedCheckAccordion}
+      >
+        <AccordionSummary
+          trailingContent={
+            <AccordionSummaryContent
+              variant="icon"
+            >
+              <IconCircleCheckFill
+                sx={(theme) => ({
+                  color: expandedCheckAccordion 
+                    ? theme.semantic.primary.normal 
+                    : theme.semantic.label.alternative,
+                })}
+              />
+            </AccordionSummaryContent>
+          }
+        >
+          TrailingContent, Icon<br />
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+      
+      <Accordion>
+        <AccordionSummary
+          trailingContent={
+            <AccordionSummaryContent variant="icon-button" rotate>
+              <IconButton>
+                <IconChevronDown
+                  sx={(theme) => ({
+                    color: theme.semantic.label.normal,
+                  })}
+                />
+              </IconButton>
+            </AccordionSummaryContent>
+          }
+        >
+          TrailingContent, IconButton, Rotate
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary
+          trailingContent={
+            <AccordionSummaryContent
+              variant="icon-button"
+            >
+              <IconButton
+                as="a"
+                href="https://www.wanted.co.kr"
+                target="_blank"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <IconArrowRight />
+              </IconButton>
+            </AccordionSummaryContent>
+          }
+        >
+          TrailingContent, IconButton<br />
+          trailingContent onClick
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Padding
+
+AccordionSummary의 `verticalPadding`, `fillWidth`으로 간격을 조정할 수 있습니다.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Accordion>
+        <AccordionSummary fillWidth>
+          FillWidth, true
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion divider={false}>
+        <AccordionSummary>
+          Divider, false
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary>
+          VerticalPadding, Large (default)
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary verticalPadding="medium">
+        VerticalPadding, Medium
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary verticalPadding="small">
+          VerticalPadding, Small
+        </AccordionSummary>
+        <AccordionDetails>
+          <AccordionDescription>
+            제목에 대한 상세 내용을 입력해주세요.<br />
+            긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+          </AccordionDescription>
+        </AccordionDetails>
+      </Accordion>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Nested accordion  
+
+Accordion을 중첩해서 사용할 수 있습니다.
+
+> 중첩 인터렉션 영역이 잘리는 경우가 생길 수 있습니다.
+> `disableAnimation` 를 사용하거나 하위 Accordion은 `fillWidth` 로 사용하여 인터렉션 영역을 보호할 수 있습니다.
+
+<Demo code={`import { FlexBox, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+import type { CSSProperties } from 'react';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" sx={{ width: '100%' }}>
+      <Accordion disableAnimation>
+        <AccordionSummary>
+          최상위 Accordion, disableAnimation
+        </AccordionSummary>
+        <AccordionDetails sx={{ gap: '4px' }}>
+          <Accordion divider={false} disableAnimation>
+            <AccordionSummary>
+              하위 Accordion, disableAnimation
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion divider={false} disableAnimation>
+            <AccordionSummary>
+              하위 Accordion, disableAnimation
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
+        <AccordionSummary fillWidth>
+          최상위 Accordion, fillWidth
+        </AccordionSummary>
+        <AccordionDetails sx={{ gap: '4px', padding: 0 }}>
+          <Accordion divider={false}>
+            <AccordionSummary fillWidth>
+              하위 Accordion, fillWidth
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion divider={false}>
+            <AccordionSummary fillWidth>
+              하위 Accordion, fillWidth
+            </AccordionSummary>
+            <AccordionDetails>
+              <AccordionDescription>
+                제목에 대한 상세 내용을 입력해주세요.<br />
+                긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+              </AccordionDescription>
+            </AccordionDetails>
+          </Accordion>
+        </AccordionDetails>
+      </Accordion>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With accordion content
+
+`AccordionContent`를 이용하여 `AccordionDetails` 내부에 콘텐츠를 추가할 수 있습니다.
+
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionContent, TextButton } from '@wanteddev/wds';
+import { IconExternalLink } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Accordion sx={{ width: '100%' }}>
+      <AccordionSummary>
+        제목
+      </AccordionSummary>
+      <AccordionDetails>
+        <AccordionDescription>
+          제목에 대한 상세 내용을 입력해주세요.<br />
+          긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+        </AccordionDescription>
+        <AccordionContent>
+          <TextButton
+            size="small"
+            color="assistive"
+            trailingContent={<IconExternalLink />}
+          >
+            자세히 알아보기
+          </TextButton>
+        </AccordionContent>
+      </AccordionDetails>
+    </Accordion>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA Accordion Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/) 을 준수합니다.
+
+## API
+
+### Accordion
+
+<PropsTable component="Accordion" />
+
+### AccordionSummary
+
+`ListCell`과 동일한 props를 사용합니다.
+
+<PropsTable component="AccordionSummary" />
+
+### AccordionSummaryContent
+
+`ListCellContent`과 유사한 props를 사용합니다.
+
+<PropsTable component="AccordionSummaryContent" />
+
+### AccordionDetails
+
+<PropsTable component="AccordionDetails" />
+
+### AccordionDescription
+
+`Typography`와 동일한 props를 사용합니다.
+
+<PropsTable component="AccordionDescription" />
+
+### AccordionContent
+
+<PropsTable component="AccordionContent" />

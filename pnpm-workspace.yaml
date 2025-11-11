@@ -18,7 +18,6 @@ catalogs:
 
   next:
     next: ^15.5.5
-    '@next/eslint-plugin-next': ^15.5.5
     '@next/bundle-analyzer': ^15.5.5
 
   peer-next:
@@ -41,4 +40,15 @@ catalogs:
     typescript: 5.9.3
 
   node:
-    '@types/node': ^20.11.27
+    '@types/node': ^22.13.14
+
+onlyBuiltDependencies:
+  - esbuild
+  - nx
+  - sharp
+  - unrs-resolver
+
+
+engineStrict: true
+
+enablePrePostScripts: true

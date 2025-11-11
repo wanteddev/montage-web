@@ -1,0 +1,37 @@
+---
+title: RegionConfig
+description: RegionConfig 컴포넌트는 region status의 노출 위치를 조정할 수 있는 컴포넌트입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+region status (`useSnackbar`, `useToast`) 의 노출 위치를 조정합니다.
+언마운트 시 기존 값으로 초기화 됩니다.
+
+ActionArea의 상단에 토스트를 표시하려면 아래와 같이 작성합니다.
+
+```tsx
+import { RegionConfig, ActionArea, ActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  const [node, setNode] = useState<HTMLElement | null>(null);
+  const { height } = useSize(node) || {};
+
+  return (
+    <>
+      <ActionArea ref={setNode}>
+        <ActionAreaButton>Button</ActionAreaButton>
+      </ActionArea>
+
+      <RegionConfig viewportBottom={`${height}px`} />
+    </>
+  )
+}
+
+export default Demo;
+```
+
+## API
+
+<PropsTable component="RegionConfig" />

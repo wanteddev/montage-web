@@ -916,7 +916,7 @@ const DayCalendar = memo(
             acc[chunkIndex] = [];
           }
 
-          acc[chunkIndex]?.push(cur);
+          acc[chunkIndex].push(cur);
 
           return acc;
         },

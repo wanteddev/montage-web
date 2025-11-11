@@ -1,0 +1,213 @@
+---
+title: Slider
+description: 특정 범위에 대한 값을 지정합니다.
+createdAt: 2025-05-12
+---
+
+## Basic slider
+
+기본적으로 특정 범위 내에 값을 선택할 때 사용합니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[0, 50]} />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Label
+
+`label` prop 을 사용하여 각 Thumb 부분에 label 을 추가할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider
+      defaultValue={[1, 4]}
+      label={({ value }) => {
+        if (value === 0) return '신입';
+        if (value === 10) return '10년 이상';
+        return \`\${value}년\`
+      }}
+      max={35}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Heading
+
+또한 제목 영역을 표시할 때에는 `heading` 옵션을 사용합니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const getSliderLabel = ({ value }) => {
+  if (value === 0) return '신입';
+  if (value === 10) return '10년 이상';
+  return \`\${value}년\`
+}
+
+const MIN = 0;
+const MAX = 10;
+
+const Demo = () => {
+  return (
+    <Slider
+      min={MIN}
+      max={MAX}
+      defaultValue={[MIN, MAX]}
+      label={getSliderLabel}
+      title={({ values }) => {
+        if (values.every((v) => v === values.at(0))) {
+          return \`경력 \$\{getSliderLabel({ value: values.at(0) })\}\`
+        }
+
+        if (values.every((v) => v === MIN || v === MAX)) {
+          return '경력 전체'
+        }
+
+        return (
+          <>
+            <span>{getSliderLabel({ value: values.at(0) })}</span>
+            <span>~</span>
+            <span>{getSliderLabel({ value: values.at(1) })}</span>
+          </>
+        )
+      }}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작합니다.
+
+`value`, `onValueChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, Slider } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState([0]);
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Slider defaultValue={[10]} />
+      <Slider value={value} onValueChange={setValue} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Advanced
+
+### Step
+
+`step` prop 을 이용하여 키보드로 조작했을 때 한번에 이동할 거리를 설정할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[0, 8]} step={4} max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### DisableSwapThumbs
+
+Slider 를 조작할 때 다른 Thumb을 넘어갈 수 없도록 제한할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[6, 8]} disableSwapThumbs max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Single
+
+단일 슬라이더로도 구성할 수 있습니다.
+
+<Demo code={`import { Slider } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Slider defaultValue={[10]} max={20} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## React hook form
+
+`react-hook-form` 과 함께 유연하게 조합하여 사용할 수 있습니다.
+
+<Demo code={`import { Slider, FlexBox, Button } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      single: 0,
+      multiple: [0, 5]
+    }
+  })
+
+  return (
+    <FlexBox as="form" gap="16px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))} flexDirection="column" sx={{ width: '100%' }}>
+      <Controller 
+        name="single"
+        control={form.control}
+        render={({ field }) => (
+          <Slider {...field} title="Single" value={[field.value]} onValueChange={([value]) => field.onChange(value)} max={10} />
+        )}
+      />
+
+      <Controller 
+        name="multiple"
+        control={form.control}
+        render={({ field }) => (
+          <Slider {...field} title="Multiple" onValueChange={field.onChange} max={10} />
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA Slider Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/) 의 대부분을 준수합니다.
+
+## API
+
+<PropsTable component="Slider" />

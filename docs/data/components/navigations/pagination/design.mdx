@@ -1,0 +1,146 @@
+---
+title: Pagination
+description: 대량의 콘텐츠를 관리 가능한 크기의 페이지로 나누어 탐색할 수 있게 하는 네비게이션 요소입니다. 사용자가 콘텐츠를 효율적으로 탐색하고, 특정 페이지로 직접 이동하며, 현재 위치를 파악할 수 있도록 돕습니다.
+createdAt: 2025-10-13
+updatedAt: 2025-10-13
+image: /components/navigations/pagination/design/Thumbnails.png
+---
+
+<SectionAnatomy
+  src="/components/navigations/pagination/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Per page',
+    'Backward navigation',
+    'First page',
+    'Ellipsis',
+    'Current page',
+    'Last page',
+    'Forward navigation',
+    'Move to page',
+  ]}
+/>
+
+
+<SectionVariants
+  components={['Pagination', 'PaginationSelect', 'PaginationField']}
+  icons={[]}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Extended', value: { variant: 'extended', totalPages: 10, boundaryPages: 0, siblingPages: 6, sx: { width: '100%' } } },
+        { label: 'Compact', value: { variant: 'compact', totalPages: 10, boundaryPages: 0, siblingPages: 6, sx: { width: '100%' } } },
+        { label: 'Minimize', value: { variant: 'minimize', totalPages: 10, boundaryPages: 0, siblingPages: 6 } },
+      ]
+    },
+    {
+      key: 'Leading content',
+      disabled: (value) => value['Variants'] !== 'Extended',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Per page', value: { leadingContent: '<PaginationSelect />' } },
+        { label: 'Move to page', value: { leadingContent: '<PaginationField />' } },
+      ]
+    },
+    {
+      key: 'Trailing content',
+      disabled: (value) => value['Variants'] !== 'Extended',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Per page', value: { trailingContent: '<PaginationSelect />' } },
+        { label: 'Move to page', value: { trailingContent: '<PaginationField />' } },
+      ]
+    }
+  ]}
+/>
+
+<SectionStates
+  src="/components/navigations/pagination/design/Image-1.png"
+  ratio="21:9"
+  options={['Normal','Hovered', 'Pressed', 'Disabled']}
+/>
+
+<SectionLayout title="Disabled">
+  <SectionFigure
+    ratio="21:9"
+    description="Disable은 Leading, Trailing contents와 같이 일부 요소만 부분적으로 적용 될 수 있습니다. Navigation은 페이지 하나에만 Disable이 적용 될 수 없고, 모든 페이지 전체에 적용 됩니다."
+    src="/components/navigations/pagination/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Contents option">
+  <SectionFigure
+    ratio="21:9"
+    description="정보 탐색에 용이할 수 있도록 Leading, Trailing content 위치에 컴포넌트에서 제공하고 있는 ‘Per page’, ‘Move to page’ 옵션을 자유롭게 배치하여 사용성을 높일 수 있습니다. 해당 요소 이외에도 커스터마이징 요소 역시 위치할 수 있습니다. 760px 이하의 해상도에서만 Contents option을 사용할 수 있습니다.
+
+- Per page: 페이지의 표시할 아이템 수를 조정할 수 있습니다.
+- Move to page: 원하는 페이지의 번호를 입력하여 이동할 수 있습니다."
+    src="/components/navigations/pagination/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Boundary pages">
+  <SectionFigure
+    ratio="21:9"
+    description="시작과 끝 페이지에 표시되는 페이지 수를 조정하는 옵션입니다. 기본값은 ‘1’로 가장 처음과 끝 페이지만 표기됩니다. 해당 옵션은 Extended 타입에서만 적용됩니다. Sibling pages의 값에 상호 영향을 받습니다."
+    src="/components/navigations/pagination/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Sibling pages">
+  <SectionFigure
+    ratio="21:9"
+    description="현재 페이지 양 옆에 표시되는 페이지의 개수를 조정하는 옵션입니다. 기본값은 ‘1’입니다. 해당 옵션은 Extended 타입에서만 적용됩니다. Boundary pages의 값에 상호 영향을 받습니다."
+    src="/components/navigations/pagination/design/Image-5.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Page ellipsis">
+  <SectionFigure
+    ratio="21:9"
+    description="Total page가 20개 이상일 시 Boundary 옵션을 적용함으로써 탐색 시 가장 처음 페이지와 끝 페이지로 이동하는 편의성을 제공하는 것을 권장합니다."
+    src="/components/navigations/pagination/design/Image-6.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Extended">
+    <SectionFigure
+      ratio="2:1"
+      description="기본적으로 말줄임을 포함하여 11개의 페이지 버튼이 보여집니다. Total page가 20개 이상일 시 Boundary=1, Sibling=3을 기본값으로 두어 처음과 끝 페이지의 탐색 편의성을 제공합니다. 탐색 데이터 수가 40개 이상일 시 Per page, Move to page를 제공하는 것을 권장합니다."
+      src="/components/navigations/pagination/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Compact">
+    <SectionFigure
+      ratio="16:9"
+      description="Compact는 반응형에서 모바일 웹에 적용할 수 있습니다. 최대 7개의 페이지가 보여질 수 있으며 Boundary, Sibling 옵션을 설정할 수 없습니다."
+      src="/components/navigations/pagination/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Minimize">
+    <SectionFigure
+      ratio="16:9"
+      description="Minimize를 사용하여 공간을 보다 효과적으로 활용할 수 있습니다."
+      src="/components/navigations/pagination/design/Image-9.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    ratio="21:9"
+    variant="positive"
+    description="반응형 대응을 제외한 모바일 환경에서는 Infinite scroll 혹은 ‘더 보기’ 버튼을 사용하여 데이터를 탐색하는 것을 권장합니다."
+    src="/components/navigations/pagination/design/Image-10.png"
+  />
+  <SectionFigure
+    ratio="21:9"
+    variant="negative"
+    description="너무 많은 페이지 버튼을 제공하여 혼란을 주지 않습니다."
+    src="/components/navigations/pagination/design/Image-11.png"
+  />
+</SectionLayout>

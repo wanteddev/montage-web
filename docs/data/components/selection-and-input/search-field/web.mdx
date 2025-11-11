@@ -1,0 +1,104 @@
+---
+title: Search field
+description: 사용자가 컨텐츠를 검색을 할 수 있는 요소를 제공합니다.
+createdAt: 2025-05-12
+---
+
+
+## Basic search field
+
+`SearchField` 는 주로 상단 영역에 컨텐츠를 검색할 수 있는 요소로 사용합니다.
+
+<Demo code={`import { SearchField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SearchField width="25ch" placeholder="Search field" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+2가지 크기를 제공합니다.
+- small
+- medium (default)
+
+<Demo code={`import { FlexBox, SearchField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <SearchField size="small" width="25ch" placeholder="Small" />
+      <SearchField size="medium" width="25ch" placeholder="Medium" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## States
+
+validation 을 통해 여러 상태를 표현할 수 있습니다.
+- default
+- readOnly
+- disabled
+
+<Demo code={`import { FlexBox, SearchField } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <SearchField width="25ch" placeholder="Default" />
+      <SearchField width="25ch" placeholder="Read Only" readOnly />
+      <SearchField width="25ch" placeholder="Disabled" disabled />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작합니다.
+
+`value`, `onChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, SearchField } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <SearchField
+        defaultValue="Uncontrolled"
+        placeholder="Uncontrolled"
+        width="25ch"
+      />
+      <SearchField
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder="Controlled"
+        width="25ch"
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="SearchField" />

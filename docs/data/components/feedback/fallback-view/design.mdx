@@ -1,0 +1,152 @@
+---
+title: Fallback view
+description: 화면에 표시할 데이터가 없을 때 사용자에게 현재 상황을 알려주는 요소입니다. 단순히 비어있음을 알리는 것을 넘어, 다음에 무엇을 해야 할지 안내하는 메시지와 액션 버튼을 함께 제공하여 사용 흐름이 끊기지 않도록 돕습니다.
+image: /components/feedback/fallback-view/design/Thumbnails.png
+createdAt: 2025-10-01
+updatedAt: 2025-10-01
+---
+
+<SectionAnatomy
+  src="/components/feedback/fallback-view/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Container',
+    'Image',
+    'Heading',
+    'Description',
+    'Button',
+  ]}
+/>
+
+<SectionVariants
+  components={['FallbackView', 'FallbackViewImage', 'FallbackViewContent', 'FallbackViewText', 'FallbackViewButton', 'Box']}
+  icons={[]}
+  render={(value) => {
+    const image = `<FallbackViewImage sx={{ padding: '16px' }}><Box sx={theme => ({ width: '100%', height: '100%', borderRadius: '50%', backgroundColor: theme.semantic.fill.normal })} /></FallbackViewImage>`;
+
+    return `
+      <FallbackView platform="${value['Platform'].toLowerCase()}" sx={{ padding: '0px' }}>
+        ${value['Image'] === 'True' ? image : ''}
+        <FallbackViewContent>
+          <FallbackViewText
+            title={${value['Heading'] === 'True' ? '"Heading"' : 'null'}} 
+            description="Description"
+          />
+
+          ${value['Button'] === 'True' ? '<FallbackViewButton>Button</FallbackViewButton>' : ''}
+        </FallbackViewContent>
+      </FallbackView>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Platform',
+      options: [
+        { label: 'Desktop', value: {} },
+        { label: 'Mobile', value: {} },
+      ]
+    },
+    {
+      key: 'Image',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False', value: {} },
+      ]
+    },
+    {
+      key: 'Heading',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False', value: {} },
+      ]
+    },
+    {
+      key: 'Button',
+      options: [
+        { label: 'True', value: {} },
+        { label: 'False', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="16:10"
+    description="테스크톱과 모바일 각 환경에 적절한 크기로 사용합니다. 데스크톱에서 이미지는 160px로 고정하며, 모바일에서는 128px로 고정하여 사용합니다."
+    src="/components/feedback/fallback-view/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Compact">
+  <SectionFigure
+    ratio="3:2"
+    description="페이지 전체가 아닌 특정 영역에 배치하거나, 다른 UI 요소와 밀접하게 배치될 필요가 있을 때 Compact 속성을 사용할 수 있습니다. 불필요한 상하 여백을 제거하여 다른 콘텐츠와 조화롭게 배치하고 레이아웃을 유연하게 구성할 수 있습니다."
+    src="/components/feedback/fallback-view/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Heading">
+  <SectionFigure
+    ratio="4:3"
+    description="상태를 강조해서 표시할 때 Heading을 포함해 사용합니다. 특정 컴포넌트의 내부나 작은 영역에 사용하는 경우 Heading을 사용하지 않고 간결하게 표시하는 것을 권장합니다."
+    src="/components/feedback/fallback-view/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Line limits">
+    <SectionFigure
+      ratio="16:9"
+      description="사용자가 내용을 빠르게 훑어보고 이해할 수 있도록, Description은 최대 2줄을 넘지 않도록 작성하는 것을 권장합니다."
+      src="/components/feedback/fallback-view/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Empty state">
+    <SectionFigure
+      ratio="4:3"
+      description="화면에 표시할 콘텐츠가 없을 때 현재 상황을 안내하고, 다음 행동을 유도할 수 있습니다. 주로 사용자가 서비스나 해당 기능을 처음 사용해 표시할 데이터가 아직 없거나, 검색 또는 필터 결과가 없는 경우 사용합니다."
+      src="/components/feedback/fallback-view/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Error state">
+    <SectionFigure
+      ratio="16:9"
+      description="사용자가 의도한 작업을 완료하지 못했을 때의 오류 상황을 명확하게 전달할 수 있습니다. 주로 데이터 로딩에 실패했거나 특정 페이지나 콘텐츠에 접근 권한이 없는 경우 사용합니다."
+      src="/components/feedback/fallback-view/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Success state">
+    <SectionFigure
+      ratio="16:9"
+      description="회원가입, 양식 제출, 정보 수정 등 사용자가 수행한 작업이 성공적으로 완료되었음을 안내할 수 있습니다. 주로 양식 제출을 완료했거나, 회원가입과 같은 주요한 행동을 완료한 경우 사용합니다."
+      src="/components/feedback/fallback-view/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="UX Writing">
+    <SectionFigure
+      ratio="16:9"
+      description="사용자가 오류나 빈 화면을 마주했을 때, 딱딱하지 않으며 존중하는 뉘앙스를 전달하기 위해 Fallback view에 표시되는 문구는 ‘해요'체를 사용하는 것을 원칙으로 합니다. "
+      src="/components/feedback/fallback-view/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="선택적으로 요소를 제외하여 사용할 수 있습니다."
+    src="/components/feedback/fallback-view/design/Image-9.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="행동을 촉구하는 내용을 타이틀에 작성하지 않습니다."
+    src="/components/feedback/fallback-view/design/Image-10.png"
+  />
+</SectionLayout>

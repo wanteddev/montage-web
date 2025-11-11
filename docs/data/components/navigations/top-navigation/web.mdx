@@ -1,0 +1,341 @@
+---
+title: Top navigation
+description: 관련된 콘텐츠를 그룹화하고, 한 번에 하나의 콘텐츠만 표시하는 네비게이션 요소입니다. 제한된 공간에서 여러 정보를 효율적으로 구성할 때 사용하며, 사용자가 콘텐츠 간 빠르게 전환할 수 있도록 돕습니다.
+createdAt: 2025-09-29
+---
+
+## Basic top navigation
+
+애플리케이션과 웹에서 주요한 제어 영역을 구성할 때 사용합니다.
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+} from '@wanteddev/wds';
+import { IconChevronLeft, IconClose } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <TopNavigation
+      leadingContent={(
+        <TopNavigationButton>
+          <IconChevronLeft />
+        </TopNavigationButton>
+      )}
+      trailingContent={(
+        <TopNavigationButton>
+          <IconClose />
+        </TopNavigationButton>
+      )}>
+      Top navigation
+    </TopNavigation>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy  
+
+TopNavigation 은 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<TopNavigation
+  leadingContent={<TopNavigationButton />}
+  trailingContent={<TopNavigationButton />}
+>
+  Heading
+</TopNavigation>
+```
+
+## Variants
+
+총 4가지 variant를 제공합니다.
+- normal
+- display
+- floating
+- search
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  FlexBox,
+  SearchField,
+} from '@wanteddev/wds';
+import { IconChevronLeft, IconClose } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
+      <TopNavigation
+        leadingContent={(
+          <TopNavigationButton variant="icon">
+            <IconChevronLeft />
+          </TopNavigationButton>
+        )}
+        trailingContent={(
+          <TopNavigationButton variant="icon">
+            <IconClose />
+          </TopNavigationButton>
+        )}
+      >
+        Normal
+      </TopNavigation>
+
+      <TopNavigation
+        variant="display"
+        trailingContent={(
+          <TopNavigationButton variant="icon">
+            <IconClose />
+          </TopNavigationButton>
+        )}
+      >
+        Display
+      </TopNavigation>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation
+          variant="floating"
+          leadingContent={(
+            <TopNavigationButton variant="icon">
+              <IconChevronLeft />
+            </TopNavigationButton>
+          )}
+          trailingContent={(
+            <TopNavigationButton variant="icon">
+              <IconClose />
+            </TopNavigationButton>
+          )}
+        />
+      </FlexBox>
+
+      <TopNavigation
+        variant="search"
+        leadingContent={(
+          <TopNavigationButton variant="icon">
+            <IconChevronLeft />
+          </TopNavigationButton>
+        )}
+        trailingContent={(
+          <TopNavigationButton variant="icon">
+            <IconClose />
+          </TopNavigationButton>
+        )}
+      >
+        <SearchField size="small" placeholder="Search" />
+      </TopNavigation>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Background
+
+`background` prop 을 사용하여 배경 색을 제어할 수 있습니다.
+
+floating variant 일 경우 gradient 효과가 적용됩니다.
+
+<Demo
+  defaultIsTransparent
+  code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  FlexBox,
+  SearchField,
+} from '@wanteddev/wds';
+import { IconChevronLeft, IconClose } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
+      <TopNavigation
+        leadingContent={(
+          <TopNavigationButton variant="icon">
+            <IconChevronLeft />
+          </TopNavigationButton>
+        )}
+        trailingContent={(
+          <TopNavigationButton variant="icon">
+            <IconClose />
+          </TopNavigationButton>
+        )}
+      >
+        Normal
+      </TopNavigation>
+
+      <TopNavigation
+        variant="display"
+        trailingContent={(
+          <TopNavigationButton variant="icon">
+            <IconClose />
+          </TopNavigationButton>
+        )}
+      >
+        Display
+      </TopNavigation>
+
+      <FlexBox sx={{ height: 60 }}>
+        <TopNavigation
+          variant="floating"
+          leadingContent={(
+            <TopNavigationButton variant="icon">
+              <IconChevronLeft />
+            </TopNavigationButton>
+          )}
+          trailingContent={(
+            <TopNavigationButton variant="icon">
+              <IconClose />
+            </TopNavigationButton>
+          )}
+        />
+      </FlexBox>
+
+      <TopNavigation
+        variant="search"
+        leadingContent={(
+          <TopNavigationButton variant="icon">
+            <IconChevronLeft />
+          </TopNavigationButton>
+        )}
+        trailingContent={(
+          <TopNavigationButton variant="icon">
+            <IconClose />
+          </TopNavigationButton>
+        )}
+      >
+        <SearchField size="small" placeholder="Search" />
+      </TopNavigation>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With text type button
+
+`TopNavigationButton` 의 variant 를 `text` 로 설정하면 텍스트 타입의 버튼을 사용할 수 있습니다.
+
+`color` prop 을 사용하여 버튼의 색상을 제어할 수 있습니다.
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  FlexBox,
+  SearchField,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="20px" sx={{ width: '100%' }}>
+      <TopNavigation
+        leadingContent={(
+          <TopNavigationButton variant="text">
+            뒤로
+          </TopNavigationButton>
+        )}
+        trailingContent={(
+          <TopNavigationButton variant="text" color="primary">
+            완료
+          </TopNavigationButton>
+        )}
+      >
+        Normal
+      </TopNavigation>
+
+      <TopNavigation
+        variant="display"
+        trailingContent={(
+          <TopNavigationButton variant="text" color="primary">
+            완료
+          </TopNavigationButton>
+        )}
+      >
+        Display
+      </TopNavigation>
+
+      <FlexBox sx={{ height: 72, position: 'relative' }}>
+        <TopNavigation
+          variant="floating"
+          leadingContent={(
+            <TopNavigationButton variant="text">
+              뒤로
+            </TopNavigationButton>
+          )}
+          trailingContent={(
+            <TopNavigationButton variant="text" color="primary">
+              완료
+            </TopNavigationButton>
+          )}
+        />
+      </FlexBox>
+
+      <TopNavigation
+        variant="search"
+        leadingContent={(
+          <TopNavigationButton variant="text">
+            뒤로
+          </TopNavigationButton>
+        )}
+        trailingContent={(
+          <TopNavigationButton variant="text" color="primary">
+            완료
+          </TopNavigationButton>
+        )}
+      >
+        <SearchField size="small" placeholder="Search" />
+      </TopNavigation>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With toolbar
+
+### Toolbar
+
+`Tab` 컴포넌트 등과 함께 조합할 수 있습니다.
+
+Background blur 효과를 함께 적용하기 위해 사용합니다.
+
+<Demo code={`import {
+  TopNavigation,
+  TopNavigationButton,
+  Tab,
+  TabList,
+  TabListItem,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tab defaultValue="">
+      <TopNavigation toolbar={(
+        <TabList horizontalPadding size="small">
+          <TabListItem value="">Tab 1</TabListItem>
+          <TabListItem value="1">Tab 2</TabListItem>
+        </TabList>
+      )}>
+        Normal
+      </TopNavigation>
+    </Tab>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### TopNavigation
+
+<PropsTable component="TopNavigation" />
+
+### TopNavigationButton
+
+<PropsTable component="TopNavigationButton" />

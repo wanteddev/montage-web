@@ -1,13 +1,14 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { globSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { glob, GlobOptionsWithFileTypesUnset } from 'glob';
+
+import type { GlobOptionsWithoutFileTypes } from 'node:fs';
 
 export const injectUseClient = async (
-  pattern: string | string[],
-  options?: GlobOptionsWithFileTypesUnset | undefined,
+  pattern: string | Array<string>,
+  options?: GlobOptionsWithoutFileTypes | undefined,
 ) => {
   try {
-    const files = await glob(pattern, options);
+    const files = globSync(pattern, options ?? {});
 
     for (const file of files) {
       const filePath = join(process.cwd(), file.toString());

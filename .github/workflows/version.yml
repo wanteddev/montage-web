@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       increment:
-        description: 'SemVer Increment (prepatch = bump alpha)'
+        description: "SemVer Increment (prepatch = bump alpha)"
         required: true
-        default: 'prepatch'
+        default: "prepatch"
         type: choice
         options:
           - prerelease
@@ -19,8 +19,8 @@ on:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   GH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  SLACK_CHANNEL: '#wds-deploy'
-  SERVICE: 'WDS'
+  SLACK_CHANNEL: "#wds-deploy"
+  SERVICE: "WDS"
 
 jobs:
   deploy:
@@ -37,15 +37,15 @@ jobs:
       - name: Node.js install
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.18.0
           registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
+          scope: "@wanteddev"
 
       - uses: pnpm/action-setup@v4
         name: Install pnpm
         id: pnpm-install
         with:
-          version: 10.13.1
+          version: 10.19.0
           run_install: false
 
       - name: Get pnpm store directory

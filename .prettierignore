@@ -1,5 +1,6 @@
 pnpm-lock.yaml
 
-**/*.mdx
+docs/data/**/*.mdx
+docs/data/**/*.md
 
 figma/icons/index.figma.tsx
