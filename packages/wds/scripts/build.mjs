@@ -3,18 +3,17 @@ import path from 'node:path';
 
 import { darkOriginTheme, lightOriginTheme } from '@wanteddev/wds-engine';
 
-import reset from './reset';
+import reset from './reset.mjs';
 
-const isHexColor = (value: string) =>
-  /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})/i.test(value);
+const isHexColor = (value) => /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})/i.test(value);
 
-const isHexWithOpacity = (hexColor: string) =>
+const isHexWithOpacity = (hexColor) =>
   /^#([a-f0-9]{8}|[a-f0-9]{4})\b/i.test(hexColor);
 
-const hexToRgb = (hexColor: string) => {
+const hexToRgb = (hexColor) => {
   const parsedColor = hexColor.replace(
     /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-    (_, r: string, g: string, b: string) => r + r + g + g + b + b,
+    (_, r, g, b) => r + r + g + g + b + b,
   );
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(parsedColor);
@@ -29,7 +28,7 @@ const hexToRgb = (hexColor: string) => {
   return null;
 };
 
-const generateVariable = (token: string, value: string) => {
+const generateVariable = (token, value) => {
   if (token.includes('platform')) {
     return '';
   }
@@ -44,19 +43,10 @@ const generateVariable = (token: string, value: string) => {
   };`;
 };
 
-type Entries<T> = Array<
-  {
-    [K in keyof T]: [K, T[K]];
-  }[keyof T]
->;
-
-const objectToCssKey = <T extends object>(
-  object: T,
-  prefix: string,
-): Array<unknown> =>
-  Object.entries(object).map((v: Entries<T>) => {
+const objectToCssKey = (object, prefix) =>
+  Object.entries(object).map((v) => {
     if (typeof v[1] !== 'object') {
-      return generateVariable(`${prefix}-${v[0]}`, v[1] as unknown as string);
+      return generateVariable(`${prefix}-${v[0]}`, v[1]);
     }
 
     return objectToCssKey(v[1], `${prefix}-${v[0]}`);
@@ -81,7 +71,7 @@ html[data-theme='dark'] {
 `;
 
 fs.writeFile(
-  path.join(path.dirname(__dirname), '/dist/reset.css'),
+  path.join(path.dirname(process.cwd()), '/dist/reset.css'),
   reset,
   () => {
     console.log('Build done by reset.css');
@@ -89,7 +79,7 @@ fs.writeFile(
 );
 
 fs.writeFile(
-  path.join(path.dirname(__dirname), '/dist/theme.css'),
+  path.join(path.dirname(process.cwd()), '/dist/theme.css'),
   content,
   () => {
     console.log('Build done by theme.css');
@@ -97,7 +87,7 @@ fs.writeFile(
 );
 
 fs.writeFile(
-  path.join(path.dirname(__dirname), '/dist/global.css'),
+  path.join(path.dirname(process.cwd()), '/dist/global.css'),
   `${reset}
 
 ${content}`,

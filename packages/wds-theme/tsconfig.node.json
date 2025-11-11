@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.node.json",
-  "include": ["tsup.config.ts", ".lintstagedrc.mjs"],
+  "include": ["tsdown.config.ts", ".lintstagedrc.mjs"],
   "exclude": ["node_modules", "dist"]
 }

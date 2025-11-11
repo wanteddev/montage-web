@@ -27,7 +27,7 @@
     "directory": "packages/wds-icon"
   },
   "scripts": {
-    "build": "tsc && tsup",
+    "build": "tsdown",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "watch": "tsup --watch"

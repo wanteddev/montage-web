@@ -1,5 +1,5 @@
 src/
-tsup.config.ts
+tsdown.config.ts
 tsconfig.json
 tsconfig.node.json
 .lintstagedrc.mjs

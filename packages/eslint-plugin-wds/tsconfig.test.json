@@ -9,6 +9,6 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["tsup.config.ts", "tests", "**/*.test.ts"],
+  "include": ["tsdown.config.ts", "tests", "**/*.test.ts"],
   "exclude": ["node_modules", "dist"]
 }
