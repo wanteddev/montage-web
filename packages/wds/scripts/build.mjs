@@ -71,7 +71,7 @@ html[data-theme='dark'] {
 `;
 
 fs.writeFile(
-  path.join(path.dirname(process.cwd()), '/dist/reset.css'),
+  path.join(path.dirname(import.meta.dirname), 'dist', 'reset.css'),
   reset,
   () => {
     console.log('Build done by reset.css');
@@ -79,7 +79,7 @@ fs.writeFile(
 );
 
 fs.writeFile(
-  path.join(path.dirname(process.cwd()), '/dist/theme.css'),
+  path.join(path.dirname(import.meta.dirname), 'dist', 'theme.css'),
   content,
   () => {
     console.log('Build done by theme.css');
@@ -87,7 +87,7 @@ fs.writeFile(
 );
 
 fs.writeFile(
-  path.join(path.dirname(process.cwd()), '/dist/global.css'),
+  path.join(path.dirname(import.meta.dirname), 'dist', 'global.css'),
   `${reset}
 
 ${content}`,
