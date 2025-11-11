@@ -1,6 +1,7 @@
 import path from 'node:path';
 import fs from 'node:fs';
 
+import { globSync } from 'glob';
 import matter from 'gray-matter';
 
 import BaseModule from './base';
@@ -34,7 +35,7 @@ export default class Android extends BaseModule {
   public gitClone = () => super.gitClone(this.REPOSITORY);
 
   public load = () => {
-    this.files = fs.globSync(
+    this.files = globSync(
       path.join(this.REPOSITORY, this.PROJECT_PATH, '**/*.{md,mdx}'),
     );
   };
@@ -134,8 +135,8 @@ export default class Android extends BaseModule {
 
   public save = () => {
     const prevFiles = [
-      ...fs.globSync('docs/data/utilities/ios-*/*.md'),
-      ...fs.globSync('docs/data/components/**/ios.md'),
+      ...globSync('docs/data/utilities/ios-*/*.md'),
+      ...globSync('docs/data/components/**/ios.md'),
     ];
     for (const file of prevFiles) {
       fs.rmSync(file, { recursive: true, force: true });

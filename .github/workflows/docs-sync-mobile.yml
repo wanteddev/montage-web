@@ -44,3 +44,24 @@ jobs:
         timeout-minutes: 15
         with:
           gh_token: ${{ secrets.GH_TOKEN }}
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Create Branch And Commit
+        run: |
+          git branch feature/sync-docs/${{ github.run_id }}
+          git checkout feature/sync-docs/${{ github.run_id }}
+          git add .
+          git commit -m "docs: sync with mobile docs" --no-verify
+          git push origin feature/sync-docs/${{ github.run_id }}
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Create New PR
+        run: |
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/sync-docs/${{ github.run_id }} --title "docs: sync from mobile document" --body "sync from mobile document"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}

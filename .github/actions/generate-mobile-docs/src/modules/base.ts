@@ -1,6 +1,6 @@
 import path from 'node:path';
-import fs from 'node:fs';
 
+import { globSync } from 'glob';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 
@@ -12,7 +12,7 @@ export default abstract class BaseModule {
   protected abstract readonly COPY_COMPONENT_MAP: Record<string, Array<string>>;
 
   constructor() {
-    this.designComponentFiles = fs.globSync(
+    this.designComponentFiles = globSync(
       path.join('docs/data/components', '**/*/design.{md,mdx}'),
     );
   }
