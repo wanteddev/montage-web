@@ -39,6 +39,7 @@ export default defineConfig(
       'react-hooks/exhaustive-deps': 'error',
       'react-hooks/refs': 'off',
       'react/react-in-jsx-scope': 'off',
+      'no-empty': ['error', { allowEmptyCatch: true }],
 
       'react/no-unknown-property': [
         'error',
@@ -211,6 +212,7 @@ export default defineConfig(
     languageOptions: {
       parserOptions: {
         project: [
+          '.github/actions/*/tsconfig.json',
           'tsconfig.json',
           'tsconfig.node.json',
           'docs/tsconfig.json',

@@ -90,50 +90,6 @@ jobs:
       hash: ${{ steps.env-vars.outputs.HASH }}
       commit_msg: ${{ steps.env-vars.outputs.COMMIT_MESSAGE }}
 
-  # slack-alarm:
-  #   runs-on: ubuntu-latest
-  #   needs: set-env
-
-  #   steps:
-  #     - name: Compose Slack Message - Deploy Start
-  #       id: start-message
-  #       run: >
-  #         echo 'START_MESSAGE=Commit: <${{ github.event.head_commit.url }}|${{ needs.set-env.outputs.HASH }}>\n
-  #         ``` Author: ${{ github.event.head_commit.author.name }} <${{ github.event.head_commit.author.email }}>\n
-  #         Date: ${{ github.event.head_commit.timestamp }}\n\n
-  #         ${{ needs.set-env.outputs.commit_msg }}\n```' >> $GITHUB_OUTPUT
-
-  #     - name: Compose Slack Message - Deploy Success/Failure
-  #       id: deploy-message
-  #       run: >
-  #         echo 'DEPLOY_MESSAGE=Repo: ${{ github.repository }}\n
-  #         Action: <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} #${{ github.run_number }}>' >> $GITHUB_OUTPUT
-
-  #     - name: Post Slack Message - Deploy Start
-  #       uses: slackapi/slack-github-action@v1.22.0
-  #       with:
-  #         channel-id: ${{ needs.set-env.outputs.slack_channel }}
-  #         payload: |
-  #           {
-  #             "text": "${{ needs.set-env.outputs.pretext }}",
-  #             "attachments": [
-  #               {
-  #                 "color": "${{ needs.set-env.outputs.slack_color }}",
-  #                 "fields": [
-  #                   {
-  #                     "title": "${{ needs.set-env.outputs.service }} ${{ needs.set-env.outputs.platform }} ${{ needs.set-env.outputs.server_type }} Reusable 배포 시작",
-  #                     "value": "${{ steps.start-message.outputs.START_MESSAGE }}"
-  #                   }
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #       env:
-  #         SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
-
-  #   outputs:
-  #     deploy_msg: ${{ steps.deploy-message.outputs.DEPLOY_MESSAGE }}
-
   set-pnpm:
     needs: [set-env]
     uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
@@ -171,69 +127,18 @@ jobs:
         aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
     secrets: inherit
 
-  # deploy-end:
-  #   runs-on: ubuntu-latest
-  #   needs: [set-env, slack-alarm, set-pnpm, build-react, push-s3]
-  #   if: always()
-  #   steps:
-  #     - name: Post Slack Message - Deploy Success
-  #       if: ${{ (needs.set-pnpm.result == 'success') &&  (needs.build-react.result == 'success') &&  (needs.push-s3.result == 'success') }}
-  #       uses: slackapi/slack-github-action@v1.21.0
-  #       with:
-  #         channel-id: ${{ needs.set-env.outputs.slack_channel }}
-  #         payload: |
-  #           {
-  #             "text": "${{ needs.set-env.outputs.pretext }}",
-  #             "attachments": [
-  #               {
-  #                 "color": "${{ needs.set-env.outputs.slack_color }}",
-  #                 "fields": [
-  #                   {
-  #                     "title": "${{ needs.set-env.outputs.service }} ${{ needs.set-env.outputs.platform }} ${{ needs.set-env.outputs.server_type }} Reusable 배포 완료",
-  #                     "value": "${{ needs.slack-alarm.outputs.deploy_msg }}"
-  #                   }
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #       env:
-  #         SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
+  algolia:
+    needs: [push-s3]
+    runs-on: ubuntu-latest
 
-  #     - name: Post Slack Message - Deploy Failure
-  #       if: ${{ (needs.set-pnpm.result == 'failure') || (needs.build-react.result == 'failure') || (needs.push-s3.result == 'failure') }}
-  #       uses: slackapi/slack-github-action@v1.21.0
-  #       with:
-  #         channel-id: ${{ needs.set-env.outputs.slack_channel }}
-  #         payload: |
-  #           {
-  #             "text": "${{ needs.set-env.outputs.pretext }}",
-  #             "attachments": [
-  #               {
-  #                 "color": "danger",
-  #                 "fields": [
-  #                   {
-  #                     "title": "${{ needs.set-env.outputs.service }} ${{ needs.set-env.outputs.platform }} ${{ needs.set-env.outputs.server_type }} Reusable 배포 실패",
-  #                     "value": "${{ needs.slack-alarm.outputs.deploy_msg }}"
-  #                   }
-  #                 ]
-  #               }
-  #             ]
-  #           }
-  #       env:
-  #         SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
-
-  # algolia:
-  #   needs: [push-s3]
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Push indices to Algolia
-  #       id: algolia-crawler
-  #       uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
-  #       with:
-  #         crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
-  #         crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-  #         algolia-app-id: ${{ secrets.APPLICATION_ID }}
-  #         algolia-api-key: ${{ secrets.API_KEY }}
-  #         site-url: https://montage.wanted.co.kr
-  #         crawler-name: Montage Crawler
+    steps:
+      - name: Push indices to Algolia
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler

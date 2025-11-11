@@ -1,10 +1,9 @@
-name: Component Tracking Report
+name: Generate Mobile Docs
 on:
-  schedule:
-    - cron: 0 0 1 * *
+  workflow_dispatch:
 
 jobs:
-  tracking:
+  generate-mobile-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -40,9 +39,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Tracking And Report
-        uses: ./.github/actions/jsx-tracking
+      - name: Generate Mobile Docs
+        uses: ./.github/actions/generate-mobile-docs
         timeout-minutes: 15
         with:
           gh_token: ${{ secrets.GH_TOKEN }}
-          webhook_url: ${{ secrets.MONITORING_WEBHOOK_URL }}
