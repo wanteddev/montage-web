@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2025-11-12)
+
+### Bug Fixes
+
+- **wds-codemod:** content props migration select, select-multiple ([3e73a90](https://github.com/wanteddev/wds/commit/3e73a90f3698ea181cb9cc760e5f6d02ff625f2e))
+
 # [3.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2025-11-12)
 
 ### Features
