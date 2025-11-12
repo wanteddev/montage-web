@@ -6,10 +6,6 @@ on:
   workflow_dispatch:
 
 env:
-  PRETEXT: ""
-  SERVICE: montage
-  PLATFORM: front
-
   NODE_VERSION: 22.18.0
 
   AWS_REGION: ap-northeast-2
@@ -28,23 +24,7 @@ jobs:
     name: Set Env
     runs-on: ubuntu-latest
     steps:
-      - name: Set Common Env
-        id: env
-        run: |
-          if [[ $PLATFORM == "front" ]]; then
-            echo "::set-output name=SLACK_COLOR::00E5BA"
-          else
-            echo "::set-output name=SLACK_COLOR::003CFF"
-          fi
-          echo "::set-output name=PRETEXT::${PRETEXT}"
-          echo "::set-output name=SERVICE::${SERVICE^^}"
-          echo "::set-output name=SLACK_CHANNEL::#wds-deploy"
-          echo "PLATFORM=${PLATFORM^^}" >> $GITHUB_OUTPUT
-          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
-          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
-          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
-
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
 
@@ -52,43 +32,18 @@ jobs:
         id: env-vars
         run: |
           server_type="www"
-          build="prod"
-          ref=${GITHUB_REF}
 
-          IFS='/' read -ra vBranch <<< "$ref"
-          branch=${vBranch[2]}
-
-          IFS='/' read -ra vName <<< "$REPOSITORY"
-          name=${vName[1]}
-
-          echo "DATE=$(date +%Y%m%d%H%M%S)" >> $GITHUB_OUTPUT
+          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
+          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
+          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
           echo "SERVER_TYPE=$server_type" >> $GITHUB_OUTPUT
-          echo "BUILD=$build" >> $GITHUB_OUTPUT
-          echo "BRANCH=$branch" >> $GITHUB_OUTPUT
-          echo "STAGE=www" >> $GITHUB_OUTPUT
-
-          echo "HASH=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_OUTPUT
-          commit_message=$(git log -1 --pretty=format:%s | tr \" \')
-          echo "COMMIT_MESSAGE=$commit_message" >> $GITHUB_OUTPUT
 
     outputs:
-      slack_color: ${{ steps.env.outputs.SLACK_COLOR }}
-      pretext: ${{ steps.env.outputs.PRETEXT }}
-      service: ${{ steps.env.outputs.SERVICE }}
-      slack_channel: ${{ steps.env.outputs.SLACK_CHANNEL }}
-      stage: ${{ steps.env.outputs.STAGE }}
-      platform: ${{ steps.env.outputs.PLATFORM }}
+      node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
+      aws_region: ${{ steps.env-vars.outputs.AWS_REGION }}
+      bucket: ${{ steps.env-vars.outputs.BUCKET }}
 
-      node_version: ${{ steps.env.outputs.NODE_VERSION }}
-      aws_region: ${{ steps.env.outputs.AWS_REGION }}
-      bucket: ${{ steps.env.outputs.BUCKET }}
-
-      date: ${{ steps.env-vars.outputs.DATE }}
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
-      build: ${{ steps.env-vars.outputs.BUILD }}
-      barnch: ${{ steps.env-vars.outputs.BRANCH }}
-      hash: ${{ steps.env-vars.outputs.HASH }}
-      commit_msg: ${{ steps.env-vars.outputs.COMMIT_MESSAGE }}
 
   set-pnpm:
     needs: [set-env]
