@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-codemod",
-  "version": "3.0.0-alpha.3",
+  "version": "3.0.0-alpha.4",
   "dependencies": {
     "execa": "4.0.3",
     "inquirer": "7.3.3",

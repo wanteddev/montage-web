@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.4](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.3...v3.0.0-alpha.4) (2025-11-12)
+
+### Bug Fixes
+
+- **wds,wds-codemod:** fixed type error image base, add shadow migration ([6ff9c64](https://github.com/wanteddev/wds/commit/6ff9c6477dddf1121186af5e54ed3691c367026c))
+
 # [3.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2025-11-12)
 
 ### Bug Fixes
