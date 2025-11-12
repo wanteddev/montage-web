@@ -1,5 +1,176 @@
 # Migration Guide
 
+## 3.0.0 (2025-11-12)
+
+### Switch
+
+Switch의 사이즈를 커스터마이징 할 때에는 CSS Variable을 사용하도록 변경이 필요합니다.
+
+### Navigation
+
+TopNavigation, ModalNavigation `variant="floating"` 에서 그라디언트 배경이 추가됩니다.
+
+디자인상 깨지지 않는지 확인이 필요합니다.
+
+### Popper
+
+공통
+
+position의 의미가 변경되었습니다.
+기존에는 trigger의 위치로 지정되었는데, trigger에서 콘텐츠가 표시될 위치를 결정하도록 변경되었습니다.
+
+ex) bottom-center -> top-center
+
+영향 받는 컴포넌트:
+
+- AutocompleteList, MenuContent, PopoverContent, TooltipContent, PopperContent, TimePicker, DatePicker, Select, SelectMultiple
+
+```sh
+npx @wanteddev/wds-codemod@latest compact-tooltip-migration
+```
+
+#### PopoverContent
+
+arrow 옵션이 제거되었습니다.
+
+PopoverContent에 새로운 디자인이 추가되어 기존에 사용하던 부분은 variant=“custom” 으로 사용합니다.
+
+#### TooltipContent
+
+arrow 옵션이 제거되었고 size 옵션이 추가되었습니다.
+
+#### CompactTooltipContent
+
+compact tooltip이 제거되었습니다.
+
+tooltip size="small" 로 사용합니다.
+
+### ImageLoader
+
+ImageLoader가 제거되었습니다. `<Box as=“img” />` 혹은 `<img />` 를 사용해주세요.
+
+Thumbnail, CardThumbnail, Avatar에 기본적으로 적용되던 이미지 optimize 가 제거되었습니다.
+
+### Dialog
+
+Dialog 컴포넌트가 Alert 컴포넌트로 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest dialog-to-alert
+```
+
+접근성을 위한 AlertTrigger (DialogTrigger) 컴포넌트가 추가되었습니다.
+Alert (Dialog) 컴포넌트를 직접적으로 사용한 경우 AlertContainer로 감싸주어야 합니다.
+
+기존 Dialog 컴포넌트에서 받던 옵션들이 AlertContainer (DialogContainer)로 옮겨졌습니다.
+
+- forceMount
+- container
+- disablePortal
+- wrapperProps
+- disableOutsideClickClose
+- disableEscapeKeyDownClose
+- onDismiss
+- dimmer
+
+### Modal
+
+접근성을 위한 ModalTrigger 컴포넌트가 추가되었습니다.
+
+기존 Modal 컴포넌트에서 받던 옵션들이 ModalContainer로 옮겨졌습니다.
+
+- forceMount
+- container
+- disablePortal
+- disableOutsideClickClose
+- disableEscapeKeyDownClose
+
+### Theme
+
+theme.spacing.75 → theme.spacing.72 로 올바른 값을 바라보도록 키를 수정하였습니다.
+
+Elevation Shadow 토큰이 변경되었습니다.
+
+- Normal → XSmall, Emphasize → Small, Strong → Medium, Bold → Large, Heavy → XLarge
+
+```sh
+npx @wanteddev/wds-codemod@latest shadow-migration
+```
+
+### Tooltip
+
+Tooltip의 closeButton, action 옵션이 deprecated 되었습니다.
+clickable 요소가 있는 경우 Popover를 사용하도록 마이그레이션 하세요.
+
+### TextField
+
+TextField에 Background 색상이 추가되면서 dom 구조가 변경되어 padding, box-shadow (line) 을 커스텀한 경우 수정이 필요합니다.
+
+- TextField
+- DatePicker
+- TimePicker
+- PaginationField
+
+TextFieldButton의 경우 TextField에 trailingButton 옵션으로 사용하도록 변경해야합니다.
+
+### Chip
+
+ChipAction 컴포넌트가 Chip 컴포넌트로 변경되었고, ChipFiler 컴포넌트가 FilterButton 컴포넌트로 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest chip-naming-migration
+```
+
+### EmptyState
+
+EmptyState 컴포넌트가 FallbackView 컴포넌트로 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest empty-state-to-fallback-view
+```
+
+### ProgressTrackDesktop
+
+ProgressTrackDesktop 컴포넌트가 Stepper 컴포넌트로 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest stepper-migration
+```
+
+### TextButton
+
+TextButton 컴포넌트의 variant 옵션이 color로 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest text-button-variant-to-color
+```
+
+### Typography
+
+Typography의 title1이 display3로 변경되었고 기존 title1 스타일이 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest typography-title1-to-display3
+```
+
+### Pagination
+
+PaginationDot 컴포넌트가 PaginationDots 컴포넌트로 변경되었고 totalPage 옵션이 totalPages 으로 변경되었습니다.
+
+PaginationCounter 컴포넌트가 PageCounter 변경되었고 totalPage 옵션이 totalPages 으로 변경되었습니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest pagination-migration
+```
+
+### SectionMessage
+
+SectionMessage 컴포넌트의 show, defaultShow, onShowChange 옵션이 open, defaultOpen, onOpenChange로 변경됩니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest section-message-show-to-open
+```
+
 ## 2.0.0 (2025-04-30)
 
 꼭 아래 나열된 순서대로 마이그레이션을 진행해주세요.

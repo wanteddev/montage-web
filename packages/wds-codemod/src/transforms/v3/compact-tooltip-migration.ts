@@ -414,6 +414,82 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
   }
 
+  const selectImport = findImportDeclaration(
+    'Select',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (selectImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(selectImport) },
+        },
+      })
+      .forEach((node) => {
+        const attributes = node.value.openingElement.attributes;
+
+        if (!attributes) return;
+
+        const contentProps = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'contentProps',
+        ) as JSXAttribute | undefined;
+
+        if (!contentProps) {
+          return;
+        }
+
+        hasChanges = true;
+
+        deepConvertPropertyValue(
+          contentProps.value as JSXExpressionContainer,
+          'position',
+          reversePosition,
+        );
+      });
+  }
+
+  const selectMultipleImport = findImportDeclaration(
+    'SelectMultiple',
+    '@wanteddev/wds',
+    j,
+    root,
+  );
+
+  if (selectMultipleImport) {
+    root
+      .find(j.JSXElement, {
+        openingElement: {
+          name: { name: getLocalName(selectMultipleImport) },
+        },
+      })
+      .forEach((node) => {
+        const attributes = node.value.openingElement.attributes;
+
+        if (!attributes) return;
+
+        const contentProps = attributes.find(
+          (attr) =>
+            attr.type === 'JSXAttribute' && attr.name.name === 'contentProps',
+        ) as JSXAttribute | undefined;
+
+        if (!contentProps) {
+          return;
+        }
+
+        hasChanges = true;
+
+        deepConvertPropertyValue(
+          contentProps.value as JSXExpressionContainer,
+          'position',
+          reversePosition,
+        );
+      });
+  }
+
   const popoverContentImport = findImportDeclaration(
     'PopoverContent',
     '@wanteddev/wds',

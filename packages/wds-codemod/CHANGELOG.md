@@ -11,18 +11,9 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [3.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.6.0...v3.0.0-alpha.1) (2025-11-12)
 
-### Bug Fixes
-
-- **wds,wds-codemod:** migration position in menu, select, autocomplete ([#460](https://github.com/wanteddev/wds/issues/460)) ([43b5525](https://github.com/wanteddev/wds/commit/43b5525f421744bd12a9be1947f925c45677b694))
-
 ### Features
 
 - tsup to tsdown migration ([#472](https://github.com/wanteddev/wds/issues/472)) ([f2a81f6](https://github.com/wanteddev/wds/commit/f2a81f6f23a85d5a090120ecd8fe21e8862c6ecc))
-- **wds-codemod:** add codemod for dialog button migration ([#383](https://github.com/wanteddev/wds/issues/383)) ([be917da](https://github.com/wanteddev/wds/commit/be917da357874bf638fd93581e17d7d8e30cadec))
-- **wds-codemod:** add popover content migration codemod ([#456](https://github.com/wanteddev/wds/issues/456)) ([2909ecb](https://github.com/wanteddev/wds/commit/2909ecb126fa4e260b686178e359837ec0783a0c))
-- **wds,wds-codemod:** add tooltip size options ([#439](https://github.com/wanteddev/wds/issues/439)) ([cdf7466](https://github.com/wanteddev/wds/commit/cdf7466d0f12a728c28de53b208806608f0b4ee1))
-- **wds,wds-theme,wds-codemod:** add spread shadow theme, update popover design ([#440](https://github.com/wanteddev/wds/issues/440)) ([b42729c](https://github.com/wanteddev/wds/commit/b42729cddc6409abf4deab71fad2ae3e1a4bc964))
-- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([d3c9bed](https://github.com/wanteddev/wds/commit/d3c9bed1a7637357687b84fdd70877bf0de9b38c))
 
 # [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
 

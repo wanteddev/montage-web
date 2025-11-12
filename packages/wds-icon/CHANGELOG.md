@@ -15,10 +15,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **eslint-plugin-wds:** create eslint plugin for wds package ([#405](https://github.com/wanteddev/wds/issues/405)) ([fe50f57](https://github.com/wanteddev/wds/commit/fe50f57e5673bcbab329df724a1192dedf953adf))
-- support react 19.2, next 16-beta ([#463](https://github.com/wanteddev/wds/issues/463)) ([9ae4911](https://github.com/wanteddev/wds/commit/9ae4911d36be089dd2b5d2c788f6db16afa0e1b7))
 - tsup to tsdown migration ([#472](https://github.com/wanteddev/wds/issues/472)) ([f2a81f6](https://github.com/wanteddev/wds/commit/f2a81f6f23a85d5a090120ecd8fe21e8862c6ecc))
-- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([d3c9bed](https://github.com/wanteddev/wds/commit/d3c9bed1a7637357687b84fdd70877bf0de9b38c))
 
 # [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
 
