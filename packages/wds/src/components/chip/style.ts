@@ -4,15 +4,15 @@ import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { addOpacity } from '../../utils';
 
-import type { ChipActionProps } from './types';
+import type { ChipProps } from './types';
 import type { Theme, ThemeColorsToken } from '@wanteddev/wds-engine';
 
-type ActionStyleProps = ChipActionProps & {
+type ChipStyleProps = ChipProps & {
   overrideColor?: ThemeColorsToken;
 };
 
-export const actionStyle =
-  ({ xs, sm, md, lg, xl, overrideColor, ...props }: ActionStyleProps) =>
+export const chipStyle =
+  ({ xs, sm, md, lg, xl, overrideColor, ...props }: ChipStyleProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -35,21 +35,21 @@ export const actionStyle =
       cursor: initial;
     }
 
-    ${actionVariantStyle({ ...props, overrideColor }, theme)}
-    ${actionSizeStyle(props)}
+    ${chipVariantStyle({ ...props, overrideColor }, theme)}
+    ${chipSizeStyle(props)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${actionSizeStyle(params)}
+        ${chipSizeStyle(params)}
         ${params?.sx}
       `,
     )}
   `;
 
-const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
+const chipSizeStyle = ({ size }: ChipProps = {}) => {
   switch (size) {
     case 'xsmall':
       return css`
@@ -111,8 +111,8 @@ const actionSizeStyle = ({ size }: ChipActionProps = {}) => {
   }
 };
 
-const actionVariantStyle = (
-  { variant, active, overrideColor }: ActionStyleProps = {},
+const chipVariantStyle = (
+  { variant, active, overrideColor }: ChipStyleProps = {},
   theme: Theme,
 ) => {
   switch (variant) {

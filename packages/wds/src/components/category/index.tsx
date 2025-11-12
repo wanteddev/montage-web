@@ -21,7 +21,7 @@ import {
 
 import { FlexBox } from '../flex-box';
 import { ScrollArea } from '../scroll-area';
-import { ChipAction } from '../chip-action';
+import { Chip } from '../chip';
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 
 import {
@@ -318,7 +318,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
 
     return (
       <RovingFocusGroup.Item asChild focusable={!isDisabled} active={isActive}>
-        <ChipAction
+        <Chip
           as={(as || 'button') as T}
           type="button"
           role="tab"
@@ -366,7 +366,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
           })}
         >
           {children}
-        </ChipAction>
+        </Chip>
       </RovingFocusGroup.Item>
     );
   },

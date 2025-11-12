@@ -330,7 +330,7 @@ export default Demo;`}
 
 `MenuActionAreaContent` 컴포넌트로 감싸서 MenuActionArea의 leadingContent, trailingContent prop 을 사용하여 콘텐츠를 추가할 수 있습니다.
 
-<Demo code={`import { Button, TextFieldContent, IconButton, FlexBox, Menu, MenuTrigger, TextButton, ContentBadge, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, ChipFilter, MenuList } from '@wanteddev/wds';
+<Demo code={`import { Button, TextFieldContent, IconButton, FlexBox, Menu, MenuTrigger, TextButton, ContentBadge, MenuContent, MenuActionArea, MenuActionAreaContent, MenuGroup, MenuItem, FilterButton, MenuList } from '@wanteddev/wds';
 import { IconRefresh, IconSend } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -512,7 +512,7 @@ const Demo = () => {
           <MenuActionArea
             leadingContent={
               <MenuActionAreaContent variant="chip-filter">
-                <ChipFilter>Filter</ChipFilter>
+                <FilterButton>Filter</FilterButton>
               </MenuActionAreaContent>
             }
             trailingContent={

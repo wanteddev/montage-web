@@ -25,14 +25,14 @@ export default Demo;`}
 
 headingContent, trailingContent 옵션을 통해 컨텐츠를 추가할 수 있어요.
 
-<Demo code={`import { SectionHeader, TextButton, ChipFilter } from '@wanteddev/wds';
+<Demo code={`import { SectionHeader, TextButton, FilterButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <SectionHeader
       sx={{ width: '75%' }}
       headingContent={(
-        <ChipFilter size="small" variant="outlined">Filter chip</ChipFilter>
+        <FilterButton size="small" variant="outlined">Filter chip</FilterButton>
       )}
       trailingContent={(
         <TextButton color="assistive" size="small">Text button</TextButton>

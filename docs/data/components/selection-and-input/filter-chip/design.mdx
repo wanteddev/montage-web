@@ -17,7 +17,7 @@ updatedAt: 2025-10-14
 />
 
 <SectionVariants
-  components={['ChipFilter', 'Menu', 'MenuTrigger', 'MenuContent', 'MenuList', 'MenuItem']}
+  components={['FilterButton', 'Menu', 'MenuTrigger', 'MenuContent', 'MenuList', 'MenuItem']}
   render={(value) => {
     const props = {
       size: value['Size'].toLowerCase(),
@@ -27,7 +27,7 @@ updatedAt: 2025-10-14
     return `
       <Menu>
         <MenuTrigger>
-          <ChipFilter {...${JSON.stringify(props)}}>Filter</ChipFilter>
+          <FilterButton {...${JSON.stringify(props)}}>Filter</FilterButton>
         </MenuTrigger>
         <MenuContent position="top-start">
           <MenuList>
@@ -111,10 +111,10 @@ updatedAt: 2025-10-14
   <SectionHierarchyItem
     level={2}
     description="한 개 이하의 중요한 필터가 단독으로 위치할 때 사용합니다."
-    components={['ChipFilter', 'Box']}
+    components={['FilterButton', 'Box']}
     render={`
     <Box sx={{ width:'102px'}}>
-      <ChipFilter
+      <FilterButton
         expanded
         active
         size="small"
@@ -122,16 +122,16 @@ updatedAt: 2025-10-14
         activeLabel="1"
       >
         Solid
-      </ChipFilter>
+      </FilterButton>
     </Box>
     `}
   />
   <SectionHierarchyItem
     level={1}
     description="두 개 이상의 필터가 나란히 위치할 때 사용합니다."
-    components={['ChipFilter']}
+    components={['FilterButton']}
     render={`
-    <ChipFilter
+    <FilterButton
       expanded
       active
       size="small"
@@ -139,7 +139,7 @@ updatedAt: 2025-10-14
       activeLabel="1"
     >
       Outlined
-    </ChipFilter>
+    </FilterButton>
     `}
   />
 </SectionHierarchy>

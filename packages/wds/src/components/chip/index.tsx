@@ -3,8 +3,8 @@ import { Box } from '@wanteddev/wds-engine';
 
 import { WithInteraction } from '../with-interaction';
 
-import { actionStyle } from './style';
-import { useChipActionContext } from './contexts';
+import { chipStyle } from './style';
+import { useChipContext } from './contexts';
 
 import type {
   PolymorphicComponentInternal,
@@ -12,9 +12,9 @@ import type {
   ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { ChipActionProps } from './types';
+import type { ChipProps } from './types';
 
-const ChipAction = forwardRef(
+const Chip = forwardRef(
   <T extends ElementType = 'button'>(
     {
       as,
@@ -32,10 +32,10 @@ const ChipAction = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicPropsInternal<ChipActionProps, T>,
+    }: PolymorphicPropsInternal<ChipProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const context = useChipActionContext();
+    const context = useChipContext();
     const id = useId();
 
     const active = givenActive ?? props['aria-pressed'];
@@ -73,7 +73,7 @@ const ChipAction = forwardRef(
           aria-pressed={active}
           {...props}
           sx={[
-            actionStyle({
+            chipStyle({
               overrideColor,
               active,
               variant,
@@ -94,10 +94,10 @@ const ChipAction = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponentInternal<ChipActionProps, 'button'>;
+) as PolymorphicComponentInternal<ChipProps, 'button'>;
 
-ChipAction.displayName = 'ChipAction';
+Chip.displayName = 'Chip';
 
-export { ChipAction };
+export { Chip };
 
-export type { ChipActionProps };
+export type { ChipProps };

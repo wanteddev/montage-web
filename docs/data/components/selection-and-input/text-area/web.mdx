@@ -104,7 +104,7 @@ export default Demo;`}
 
 해당 옵션을 사용할 때에는 `TextAreaContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, ChipFilter, IconButton, TextButton } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, FilterButton, IconButton, TextButton } from '@wanteddev/wds';
 import { IconBlank, IconCopy, IconSendFill } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -129,16 +129,16 @@ const Demo = () => {
         placeholder="Chip"
         leadingContent={(
           <TextAreaContent variant="chip">
-            <ChipFilter size="small">
+            <FilterButton size="small">
               Chip
-            </ChipFilter>
+            </FilterButton>
           </TextAreaContent>
         )}
         trailingContent={(
           <TextAreaContent variant="chip">
-            <ChipFilter size="small">
+            <FilterButton size="small">
               Chip
-            </ChipFilter>
+            </FilterButton>
           </TextAreaContent>
         )}
       />

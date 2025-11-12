@@ -21,7 +21,7 @@ updatedAt: 2025-10-14
 />
 
 <SectionVariants
-  components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'ChipAction']}
+  components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'Select', 'SelectContent', 'SelectMultiple', 'Option', 'Chip']}
   icons={['IconGlobe', 'IconCloseThick']}
   states={`
     const [value, setValue] = React.useState([]);
@@ -43,7 +43,7 @@ updatedAt: 2025-10-14
       if (value['Render'] === 'Chip') {
         render = `() => (
           value.map((v) => (
-            <ChipAction
+            <Chip
               key={v}
               size="xsmall"
               variant="solid"
@@ -55,7 +55,7 @@ updatedAt: 2025-10-14
               }}
             >
               {v}
-            </ChipAction>
+            </Chip>
           ))
         )`;
       }

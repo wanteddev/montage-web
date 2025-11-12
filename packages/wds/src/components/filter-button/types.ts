@@ -5,7 +5,7 @@ import type {
   WithSxProps,
 } from '@wanteddev/wds-engine';
 
-export type ChipFilterDefaultProps = WithSxProps<{
+export type FilterButtonDefaultProps = WithSxProps<{
   size?: 'xsmall' | 'small' | 'medium' | 'large';
   variant?: 'solid' | 'outlined';
   active?: boolean;
@@ -16,11 +16,11 @@ export type ChipFilterDefaultProps = WithSxProps<{
   children?: ReactNode;
 }>;
 
-export type ChipFilterResponsiveProps = ResponsiveProps<
-  Pick<ChipFilterDefaultProps, 'size'>
+export type FilterButtonResponsiveProps = ResponsiveProps<
+  Pick<FilterButtonDefaultProps, 'size'>
 >;
 
-export type ChipFilterProps = Merge<
-  ChipFilterDefaultProps,
-  ChipFilterResponsiveProps
+export type FilterButtonProps = Merge<
+  FilterButtonDefaultProps,
+  FilterButtonResponsiveProps
 >;
