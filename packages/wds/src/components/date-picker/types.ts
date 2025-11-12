@@ -1,6 +1,10 @@
 import type { TextFieldProps } from '../text-field/types';
 import type { TextField } from '../text-field';
-import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentPropsInternal,
+  Merge,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { DateCalendar } from '../date-calendar';
 import type {
   ComponentProps,
@@ -41,7 +45,10 @@ export type DatePickerFieldProps = Merge<
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;
   },
-  Omit<ComponentPropsWithoutRef<typeof TextField>, 'wrapperRef'>
+  DefaultComponentPropsInternal<
+    Omit<ComponentPropsWithoutRef<typeof TextField>, 'wrapperRef'>,
+    'input'
+  >
 >;
 
 export type DatePickerFormat =

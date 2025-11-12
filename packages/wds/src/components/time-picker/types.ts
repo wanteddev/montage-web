@@ -4,7 +4,11 @@ import type { TextFieldProps } from '../text-field/types';
 import type { PopperContentProps } from '../popper/types';
 import type { ElementType, ReactNode, Ref } from 'react';
 import type { DateType } from '../date-picker';
-import type { Merge, WithSxProps } from '@wanteddev/wds-engine';
+import type {
+  DefaultComponentPropsInternal,
+  Merge,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
 export type TimePickerProps = Merge<
   {
@@ -30,5 +34,5 @@ export type TimePickerFieldProps = Merge<
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;
   },
-  Omit<TextFieldProps, 'wrapperRef'>
+  DefaultComponentPropsInternal<Omit<TextFieldProps, 'wrapperRef'>, 'input'>
 >;
