@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.6.0...v3.0.0-alpha.1) (2025-11-12)
+
+### Bug Fixes
+
+- **wds:** fixed lint, build errors ([28e330f](https://github.com/wanteddev/wds/commit/28e330f01bf767943734025aab793582c3cfbaf4))
+
+### Features
+
+- support react 19.2, next 16-beta ([#463](https://github.com/wanteddev/wds/issues/463)) ([9ae4911](https://github.com/wanteddev/wds/commit/9ae4911d36be089dd2b5d2c788f6db16afa0e1b7))
+- tsup to tsdown migration ([#472](https://github.com/wanteddev/wds/issues/472)) ([f2a81f6](https://github.com/wanteddev/wds/commit/f2a81f6f23a85d5a090120ecd8fe21e8862c6ecc))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([d3c9bed](https://github.com/wanteddev/wds/commit/d3c9bed1a7637357687b84fdd70877bf0de9b38c))
+
 # [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
 
 ### Features

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.6.0...v3.0.0-alpha.1) (2025-11-12)
+
+### Bug Fixes
+
+- **wds:** framed style params to optional ([6663bea](https://github.com/wanteddev/wds/commit/6663bea111e2fa35ded6247f3df26facfbff80de))
+- **wds:** theme spacing incorrect values fixed ([#377](https://github.com/wanteddev/wds/issues/377)) ([9413bb0](https://github.com/wanteddev/wds/commit/9413bb0a258e0d746a2d5af9a6fa01620bb86c60))
+
+### Features
+
+- **eslint-plugin-wds:** create eslint plugin for wds package ([#405](https://github.com/wanteddev/wds/issues/405)) ([fe50f57](https://github.com/wanteddev/wds/commit/fe50f57e5673bcbab329df724a1192dedf953adf))
+- tsup to tsdown migration ([#472](https://github.com/wanteddev/wds/issues/472)) ([f2a81f6](https://github.com/wanteddev/wds/commit/f2a81f6f23a85d5a090120ecd8fe21e8862c6ecc))
+- **wds-theme:** add background transparent token ([#424](https://github.com/wanteddev/wds/issues/424)) ([f0d5fee](https://github.com/wanteddev/wds/commit/f0d5feeb4f70a82247bd6507d2994410f0a54ddf))
+- **wds,wds-lottie,wds-engine:** export props for all components ([#357](https://github.com/wanteddev/wds/issues/357)) ([d469480](https://github.com/wanteddev/wds/commit/d4694801bfd04bc8d68d2b1fa8eb94e58cc7ef40))
+- **wds,wds-theme,wds-codemod:** add spread shadow theme, update popover design ([#440](https://github.com/wanteddev/wds/issues/440)) ([b42729c](https://github.com/wanteddev/wds/commit/b42729cddc6409abf4deab71fad2ae3e1a4bc964))
+- **wds,wds-theme:** add dropShadow token and change modal shadow ([#423](https://github.com/wanteddev/wds/issues/423)) ([80d6d75](https://github.com/wanteddev/wds/commit/80d6d75bfa35916c940e4c6914e4fe1f768fe31e))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([d3c9bed](https://github.com/wanteddev/wds/commit/d3c9bed1a7637357687b84fdd70877bf0de9b38c))
+
 # [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
 
 ### Bug Fixes
