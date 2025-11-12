@@ -1,5 +1,5 @@
 import {
-  ChipAction,
+  Chip,
   FlexBox,
   IconButton,
   Tooltip,
@@ -56,7 +56,7 @@ const Toolbar = ({
         )}
       </FlexBox>
       <FlexBox alignItems="center" justifyContent="flex-end" gap="16px">
-        <ChipAction
+        <Chip
           size="small"
           variant="outlined"
           color="assistive"
@@ -64,7 +64,7 @@ const Toolbar = ({
           sx={{ borderRadius: '9999px' }}
         >
           {collapsed ? 'Expand' : 'Collapse'}
-        </ChipAction>
+        </Chip>
 
         <TooltipGroup>
           <Tooltip>

@@ -4,11 +4,11 @@ import { typographyStyle } from '../../utils/typography';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { addOpacity } from '../../utils';
 
-import type { ChipFilterProps } from './types';
+import type { FilterButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
-export const actionStyle =
-  ({ xs, sm, md, lg, xl, ...props }: ChipFilterProps) =>
+export const filterButtonStyle =
+  ({ xs, sm, md, lg, xl, ...props }: FilterButtonProps) =>
   (theme: Theme) => css`
     display: inline-flex;
     align-items: center;
@@ -27,21 +27,21 @@ export const actionStyle =
       cursor: initial;
     }
 
-    ${actionVariantStyle(props, theme)}
-    ${actionSizeStyle(props)}
+    ${filterButtonVariantStyle(props, theme)}
+    ${filterButtonSizeStyle(props)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params) => css`
-        ${actionSizeStyle(params)}
+        ${filterButtonSizeStyle(params)}
         ${params?.sx}
       `,
     )}
   `;
 
-const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
+const filterButtonSizeStyle = ({ size }: FilterButtonProps = {}) => {
   switch (size) {
     case 'xsmall':
       return css`
@@ -134,8 +134,8 @@ const actionSizeStyle = ({ size }: ChipFilterProps = {}) => {
   }
 };
 
-const actionVariantStyle = (
-  { variant }: ChipFilterProps = {},
+const filterButtonVariantStyle = (
+  { variant }: FilterButtonProps = {},
   theme: Theme,
 ) => {
   switch (variant) {

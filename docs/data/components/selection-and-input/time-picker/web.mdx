@@ -284,15 +284,15 @@ export default Demo;`}
 
 > react 18.3 미만의 버전을 사용 중이라면, `forwardRef` 를 필수로 작성해주세요.
 
-<Demo code={`import { TimePicker, TimePickerFieldProps, ChipAction, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, TimePickerFieldProps, Chip, FlexBox } from '@wanteddev/wds';
 import { forwardRef, useState } from 'react';
 
 const CustomChipField = forwardRef<HTMLDivElement, TimePickerFieldProps>(
   ({ value, onClick, inputRef, invalid, ...props }, ref) => {
     return (
-      <ChipAction ref={ref} onClick={onClick}>
+      <Chip ref={ref} onClick={onClick}>
         {value || 'YYYY.MM.DD'}
-      </ChipAction>
+      </Chip>
     )
   }
 )

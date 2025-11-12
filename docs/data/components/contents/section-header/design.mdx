@@ -17,7 +17,7 @@ updatedAt: 2025-09-30
 />
 
 <SectionVariants
-  components={['SectionHeader', 'IconButton', 'ChipFilter', 'TextButton', 'SectionHeaderNavigation', 'SectionHeaderNavigationButton']}
+  components={['SectionHeader', 'IconButton', 'FilterButton', 'TextButton', 'SectionHeaderNavigation', 'SectionHeaderNavigationButton']}
   icons={['IconBlank', 'IconChevronLeftSmall', 'IconChevronRightSmall']}
   variants={[
     {
@@ -32,7 +32,7 @@ updatedAt: 2025-09-30
       defaultValue: 'Filter chip',
       options: [
         { label: 'None', value: {} },
-        { label: 'Filter chip', value: { headingContent: '<ChipFilter size="small" variant="outlined">Chip</ChipFilter>' } },
+        { label: 'Filter chip', value: { headingContent: '<FilterButton size="small" variant="outlined">Chip</FilterButton>' } },
         { label: 'Icon button', value: { headingContent: '<IconButton size={24}><IconBlank /></IconButton>' } },
       ]
     },

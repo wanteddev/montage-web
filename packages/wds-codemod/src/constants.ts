@@ -30,5 +30,6 @@ export const MIGRATION_TRANSFORMS = {
     'pagination-migration': 'Pagination Migration',
     'compact-tooltip-migration': 'Compact Tooltip Migration',
     'section-message-show-to-open': 'Section Message Show to Open',
+    'chip-naming-migration': 'Chip Naming Migration',
   },
 };

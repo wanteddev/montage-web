@@ -11,7 +11,7 @@ import { IconButton } from '../icon-button';
 import { Typography } from '../typography';
 import { TextButton } from '../text-button';
 import { Menu, MenuContent, MenuItem, MenuList, MenuTrigger } from '../menu';
-import { ChipFilter } from '../chip-filter';
+import { ChipFilter } from '../filter-button';
 import { Label } from '../label';
 import { TextField } from '../text-field';
 

@@ -1,4 +1,4 @@
-import type { ChipActionProps } from '../chip-action/types';
+import type { ChipProps } from '../chip/types';
 import type { ReactNode } from 'react';
 import type {
   Merge,
@@ -44,7 +44,7 @@ export type CategoryListItemProps = Merge<
     disabled?: boolean;
     children?: ReactNode;
   } & ResponsiveProps<{}>,
-  Omit<ChipActionProps, 'active' | 'size'>
+  Omit<ChipProps, 'active' | 'size'>
 >;
 
 export type CategoryPanelProps = WithSxProps<{

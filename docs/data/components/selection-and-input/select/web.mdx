@@ -64,7 +64,7 @@ export default Demo;`}
 
 Chip에 onClick이 들어가는 경우 `e.stopPropagation()` 을 통해 메뉴가 열리고 닫히는 동작을 막을 수 있습니다.
 
-<Demo code={`import { ChipAction, SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
+<Demo code={`import { Chip, SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
 import { IconCloseThick } from '@wanteddev/wds-icon';
 import { useState, useRef } from 'react';
 
@@ -81,7 +81,7 @@ const Demo = () => {
       placeholder="선택해주세요."
       render={() => (
         value.map((v) => (
-          <ChipAction
+          <Chip
             key={v}
             size="xsmall"
             variant="solid"
@@ -93,7 +93,7 @@ const Demo = () => {
             }}
           >
             {v}
-          </ChipAction>
+          </Chip>
         ))
       )}
     >

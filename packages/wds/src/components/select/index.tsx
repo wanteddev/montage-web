@@ -32,7 +32,7 @@ import { Typography } from '../typography';
 import { invalidIconWrapperStyle } from '../text-field/style';
 import { VirtualValueInput } from '../virtual-input';
 import { ListCellContent } from '../list';
-import { ChipActionProvider } from '../chip-action/contexts';
+import { ChipProvider } from '../chip/contexts';
 
 import { selectIconStyle, selectStyle, selectTextStyle } from './style';
 import { convertChildrenToData } from './helpers';
@@ -253,7 +253,7 @@ const Select = forwardRef<
               )}
 
               {typeof render === 'function' && !shouldShowPlaceholder && (
-                <ChipActionProvider solid="semantic.label.alternative">
+                <ChipProvider solid="semantic.label.alternative">
                   <FlexBox
                     flex="1"
                     gap="4px"
@@ -262,7 +262,7 @@ const Select = forwardRef<
                   >
                     {render(label, value)}
                   </FlexBox>
-                </ChipActionProvider>
+                </ChipProvider>
               )}
 
               {invalid && (

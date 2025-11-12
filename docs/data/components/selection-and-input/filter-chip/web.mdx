@@ -6,21 +6,21 @@ createdAt: 2025-05-13
 
 ## Basic filter chip
 
-`ChipFilter` 는 2가지 variant를 사용할 수 있습니다.
+`FilterButton` 은 2가지 variant를 사용할 수 있습니다.
 - solid (default)
 - outlined
 
-<Demo code={`import { FlexBox, ChipFilter } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, FilterButton } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <ChipFilter variant="solid">
+      <FilterButton variant="solid">
         Solid
-      </ChipFilter>
-      <ChipFilter variant="outlined">
+      </FilterButton>
+      <FilterButton variant="outlined">
         Outlined
-      </ChipFilter>
+      </FilterButton>
     </FlexBox>
   );
 }
@@ -36,39 +36,39 @@ export default Demo;`}
 - medium (default)
 - large
 
-<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { FilterButton, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
-        <ChipFilter variant="solid" size="xsmall">
+        <FilterButton variant="solid" size="xsmall">
           Xsmall
-        </ChipFilter>
-        <ChipFilter variant="solid" size="small">
+        </FilterButton>
+        <FilterButton variant="solid" size="small">
           Small
-        </ChipFilter>
-        <ChipFilter variant="solid" size="medium">
+        </FilterButton>
+        <FilterButton variant="solid" size="medium">
           Medium
-        </ChipFilter>
-        <ChipFilter variant="solid" size="large">
+        </FilterButton>
+        <FilterButton variant="solid" size="large">
           Large
-        </ChipFilter>
+        </FilterButton>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
-        <ChipFilter variant="outlined" size="xsmall">
+        <FilterButton variant="outlined" size="xsmall">
           Xsmall
-        </ChipFilter>
-        <ChipFilter variant="outlined" size="small">
+        </FilterButton>
+        <FilterButton variant="outlined" size="small">
           Small
-        </ChipFilter>
-        <ChipFilter variant="outlined" size="medium">
+        </FilterButton>
+        <FilterButton variant="outlined" size="medium">
           Medium
-        </ChipFilter>
-        <ChipFilter variant="outlined" size="large">
+        </FilterButton>
+        <FilterButton variant="outlined" size="large">
           Large
-        </ChipFilter>
+        </FilterButton>
       </FlexBox>
     </FlexBox>
   )
@@ -83,15 +83,15 @@ export default Demo;`}
 
 또한 `activeLabel` prop 을 사용하면 활성화된 필터의 개수를 표현할 수 있습니다.
 
-<Demo code={`import { ChipFilter, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { FilterButton, FlexBox } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <FlexBox gap="8px" alignItems="center" flexWrap="wrap">
-      <ChipFilter variant="solid">직군</ChipFilter>
-      <ChipFilter activeLabel={3} variant="solid" active>직무</ChipFilter>
-      <ChipFilter variant="outlined">지역</ChipFilter>
-      <ChipFilter activeLabel={2} variant="outlined" active>태그</ChipFilter>
+      <FilterButton variant="solid">직군</FilterButton>
+      <FilterButton activeLabel={3} variant="solid" active>직무</FilterButton>
+      <FilterButton variant="outlined">지역</FilterButton>
+      <FilterButton activeLabel={2} variant="outlined" active>태그</FilterButton>
     </FlexBox>
   )
 }
@@ -105,13 +105,13 @@ export default Demo;`}
 
 혹은 `expanded` prop 을 사용하여 필터가 열린 상태를 표현할 수 있습니다.
 
-<Demo code={`import { ChipFilter, FlexBox, Popover, PopoverTrigger, PopoverContent } from '@wanteddev/wds';
+<Demo code={`import { FilterButton, FlexBox, Popover, PopoverTrigger, PopoverContent } from '@wanteddev/wds';
 
 const Demo = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <ChipFilter variant="solid" active>직군</ChipFilter>
+        <FilterButton variant="solid" active>직군</FilterButton>
       </PopoverTrigger>
       <PopoverContent>
         필터 콘텐츠
@@ -129,4 +129,4 @@ export default Demo;`}
 
 ## API
 
-<PropsTable component="ChipFilter" />
+<PropsTable component="FilterButton" />

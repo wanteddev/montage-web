@@ -21,7 +21,7 @@ updatedAt: 2025-10-13
 />
 
 <SectionVariants
-  components={['FormField', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'TextButton', 'ChipFilter', 'IconButton']}
+  components={['FormField', 'TextArea', 'TextAreaContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'TextButton', 'FilterButton', 'IconButton']}
   icons={['IconBlank']}
   render={(value) => {
     let leadingContent = "null";
@@ -51,7 +51,7 @@ updatedAt: 2025-10-13
         break;
       case "Chip":
         leadingContent =
-          '<TextAreaContent variant="chip"><ChipFilter size="small">Chip</ChipFilter></TextAreaContent>';
+          '<TextAreaContent variant="chip"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
         break;
       default:
         leadingContent = "null";
@@ -80,7 +80,7 @@ updatedAt: 2025-10-13
         break;
       case "Chip":
         trailingContent =
-          '<TextAreaContent variant="chip"><ChipFilter size="small">Chip</ChipFilter></TextAreaContent>';
+          '<TextAreaContent variant="chip"><FilterButton size="small">Chip</FilterButton></TextAreaContent>';
         break;
       default:
         trailingContent = "null";

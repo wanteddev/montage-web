@@ -31,7 +31,7 @@ import {
 import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
 import { SelectProvider } from '../select/context';
-import { ChipActionProvider } from '../chip-action/contexts';
+import { ChipProvider } from '../chip/contexts';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
@@ -309,7 +309,7 @@ const SelectMultiple = forwardRef<
                     isScrollableRight,
                   })}
                 >
-                  <ChipActionProvider solid="semantic.label.alternative">
+                  <ChipProvider solid="semantic.label.alternative">
                     <FlexBox
                       ref={setRenderWrapperNode}
                       gap="4px"
@@ -320,7 +320,7 @@ const SelectMultiple = forwardRef<
                         ? allSelectedLabel
                         : render(label, value)}
                     </FlexBox>
-                  </ChipActionProvider>
+                  </ChipProvider>
                 </FlexBox>
               )}
 

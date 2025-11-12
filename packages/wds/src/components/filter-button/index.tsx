@@ -5,16 +5,16 @@ import { IconCaretDown, IconCaretUp } from '@wanteddev/wds-icon';
 import { WithInteraction } from '../with-interaction';
 import { FlexBox } from '../flex-box';
 
-import { actionStyle } from './style';
+import { filterButtonStyle } from './style';
 
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
-import type { ChipFilterProps } from './types';
+import type { FilterButtonProps } from './types';
 
-const ChipFilter = forwardRef(
+const FilterButton = forwardRef(
   <T extends ElementType = 'button'>(
     {
       as,
@@ -32,7 +32,7 @@ const ChipFilter = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicPropsInternal<ChipFilterProps, T>,
+    }: PolymorphicPropsInternal<FilterButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -61,7 +61,10 @@ const ChipFilter = forwardRef(
           aria-pressed={active}
           aria-expanded={expanded}
           {...props}
-          sx={[actionStyle({ variant, size, xs, sm, md, lg, xl }), props.sx]}
+          sx={[
+            filterButtonStyle({ variant, size, xs, sm, md, lg, xl }),
+            props.sx,
+          ]}
         >
           <FlexBox data-role="chip-filter-wrapper" alignItems="center">
             <span id={id}>{children}</span>
@@ -74,10 +77,10 @@ const ChipFilter = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponentInternal<ChipFilterProps, 'button'>;
+) as PolymorphicComponentInternal<FilterButtonProps, 'button'>;
 
-ChipFilter.displayName = 'ChipFilter';
+FilterButton.displayName = 'FilterButton';
 
-export { ChipFilter };
+export { FilterButton };
 
-export type { ChipFilterProps };
+export type { FilterButtonProps };
