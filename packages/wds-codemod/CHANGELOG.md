@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2025-11-12)
+
+### Features
+
+- **wds:** chip-action to chip, chip-filter to filter-button ([#476](https://github.com/wanteddev/wds/issues/476)) ([9bbfe16](https://github.com/wanteddev/wds/commit/9bbfe16318a4e716fda85e78ff3bb0f057cde4de))
+
 # [3.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.6.0...v3.0.0-alpha.1) (2025-11-12)
 
 ### Bug Fixes
