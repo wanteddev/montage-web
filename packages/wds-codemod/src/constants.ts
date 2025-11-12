@@ -31,5 +31,6 @@ export const MIGRATION_TRANSFORMS = {
     'compact-tooltip-migration': 'Compact Tooltip Migration',
     'section-message-show-to-open': 'Section Message Show to Open',
     'chip-naming-migration': 'Chip Naming Migration',
+    'shadow-migration': 'Shadow Migration',
   },
 };

@@ -2,6 +2,22 @@
 
 ## 3.0.0 (2025-11-12)
 
+### Button
+
+Button의 `color="secondary"` 가 제거되었습니다. 기존 secondary는 assistive로 대체됩니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest button-secondary-migration
+```
+
+## ListCell
+
+ListCell 컴포넌트의 active 옵션이 selected로 변경됩니다.
+
+```sh
+npx @wanteddev/wds-codemod@latest list-cell-active-to-selected
+```
+
 ### Switch
 
 Switch의 사이즈를 커스터마이징 할 때에는 CSS Variable을 사용하도록 변경이 필요합니다.
@@ -38,6 +54,8 @@ PopoverContent에 새로운 디자인이 추가되어 기존에 사용하던 부
 #### TooltipContent
 
 arrow 옵션이 제거되었고 size 옵션이 추가되었습니다.
+
+`variant="inverse"` 가 제거되었습니다.
 
 #### CompactTooltipContent
 

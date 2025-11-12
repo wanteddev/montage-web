@@ -9,11 +9,6 @@ export type ImageBaseProps = Merge<
   },
   Pick<
     ImgHTMLAttributes<HTMLImageElement>,
-    | 'src'
-    | 'srcSet'
-    | 'alt'
-    | 'referrerPolicy'
-    | 'crossOrigin'
-    | 'fetchPriority'
+    'src' | 'srcSet' | 'alt' | 'referrerPolicy' | 'crossOrigin'
   >
 >;
