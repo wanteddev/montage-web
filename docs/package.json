@@ -36,11 +36,11 @@
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.0",
     "mdast-util-mdx-jsx": "^3.2.0",
-    "next": "catalog:next",
+    "next": "^15.5.5",
     "next-mdx-remote": "^5.0.0",
-    "react": "catalog:react",
+    "react": "^19.2.0",
     "react-docgen-typescript": "^2.2.2",
-    "react-dom": "catalog:react",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.51.0",
     "react-simple-code-editor": "^0.14.1",
     "react-spring": "^10.0.1",
@@ -52,13 +52,13 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "catalog:next",
+    "@next/bundle-analyzer": "^15.5.5",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/mdast": "^4.0.4",
-    "@types/node": "catalog:node",
-    "@types/react": "catalog:react",
-    "@types/react-dom": "catalog:react",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "babel-plugin-react-compiler": "^1.0.0",
-    "typescript": "catalog:config"
+    "typescript": "^5.9.3"
   }
 }

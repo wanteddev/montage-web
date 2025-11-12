@@ -33,9 +33,9 @@
     "packages": "packages/wds-lottie"
   },
   "devDependencies": {
-    "@types/react": "catalog:react",
-    "react": "catalog:react",
-    "typescript": "catalog:config"
+    "@types/react": "^19.2.2",
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@radix-ui/react-compose-refs": "^1.1.0",
@@ -43,9 +43,9 @@
     "lottie-web": "^5.12.2"
   },
   "peerDependencies": {
-    "@types/react": "catalog:peer-react",
+    "@types/react": "^18.0.0 || ^19.0.0",
     "lottie-web": "^5.0.0",
-    "react": "catalog:peer-react"
+    "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {

@@ -10,7 +10,7 @@
     "@babel/traverse": "^7.27.0",
     "@babel/types": "^7.27.0",
     "@slack/webhook": "^7.0.5",
-    "typescript": "catalog:config"
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=18"

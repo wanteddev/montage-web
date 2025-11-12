@@ -39,7 +39,7 @@
     "@types/estree-jsx": "^1.0.5",
     "@types/jsx-ast-utils": "^3.3.1",
     "eslint": "^8.57.0",
-    "typescript": "catalog:config"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "jsx-ast-utils": "^3.3.5"
