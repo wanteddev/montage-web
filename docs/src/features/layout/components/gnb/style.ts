@@ -14,9 +14,6 @@ export const gnbWrapperStyle = (theme: Theme) => css`
     theme.opacity[88],
   )};
   backdrop-filter: blur(32px);
-  transition:
-    background-color 0.2s ease,
-    backdrop-filter 0.2s ease;
 
   body:has([data-role='route-tab'][data-is-sticky='true']) & {
     background-color: ${theme.semantic.background.normal.normal};
