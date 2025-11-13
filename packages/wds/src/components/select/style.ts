@@ -1,11 +1,8 @@
 import { css } from '@wanteddev/wds-engine';
 
-import {
-  addOpacity,
-  createResponsiveStyle,
-  ellipsisTypographyStyle,
-} from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { addOpacity, ellipsisTypographyStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { SelectMultipleProps } from '../select-multiple/types';
@@ -28,8 +25,9 @@ export const selectStyle =
     border: none;
     box-shadow:
       inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
-    background-color: transparent;
+      ${theme.semantic.elevation.shadow.normal.xsmall};
+    background-color: ${theme.semantic.background.transparent.normal};
+    backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
     padding: 12px;
@@ -66,15 +64,16 @@ export const selectStyle =
       box-shadow:
         inset 0 0 0 1px
           ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+        ${theme.semantic.elevation.shadow.normal.xsmall};
     `}
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.interaction.disable};
+          background-color: ${theme.semantic.fill.alternative};
+          backdrop-filter: none;
           box-shadow:
             inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+            ${theme.semantic.elevation.shadow.normal.xsmall};
           cursor: default;
 
           [data-role='select-placeholder']
@@ -98,8 +97,7 @@ export const selectStyle =
                         theme.semantic.status.negative,
                         theme.opacity[43],
                       )},
-                    0px 1px 2px 0px
-                      ${addOpacity(theme.semantic.static.black, 0.03)};
+                    ${theme.semantic.elevation.shadow.normal.xsmall};
                 `
               : css`
                   box-shadow:
@@ -108,8 +106,7 @@ export const selectStyle =
                         theme.semantic.primary.normal,
                         theme.opacity[43],
                       )},
-                    0px 1px 2px 0px
-                      ${addOpacity(theme.semantic.static.black, 0.03)};
+                    ${theme.semantic.elevation.shadow.normal.xsmall};
                 `}
           }
 

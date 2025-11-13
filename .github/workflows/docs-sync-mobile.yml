@@ -1,0 +1,67 @@
+name: Generate Mobile Docs
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-mobile-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Node.js install
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          registry-url: https://npm.pkg.github.com
+          scope: "@wanteddev"
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 10.19.0
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate Mobile Docs
+        uses: ./.github/actions/generate-mobile-docs
+        timeout-minutes: 15
+        with:
+          gh_token: ${{ secrets.GH_TOKEN }}
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Create Branch And Commit
+        run: |
+          git branch feature/sync-docs/${{ github.run_id }}
+          git checkout feature/sync-docs/${{ github.run_id }}
+          git add .
+          git commit -m "docs: sync with mobile docs" --no-verify
+          git push origin feature/sync-docs/${{ github.run_id }}
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Create New PR
+        run: |
+          gh pr create -B ${{ steps.extract_branch.outputs.branch }} -H feature/sync-docs/${{ github.run_id }} --title "docs: sync from mobile document" --body "sync from mobile document"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}

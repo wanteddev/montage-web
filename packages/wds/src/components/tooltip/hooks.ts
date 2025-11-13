@@ -1,6 +1,8 @@
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallback, useEffect, useRef } from 'react';
 
+import { isElementDisabled } from '../../utils/internal/element';
+
 import { useTooltipGroupContext } from './contexts';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
@@ -18,7 +20,7 @@ export const useTooltip = ({
   disableOpenOnFocus,
   enableOpenOnFocusVisibleOnly,
 }: TooltipProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const groupContext = useTooltipGroupContext();
 
   const openTimerRef = useRef(0);
@@ -26,11 +28,11 @@ export const useTooltip = ({
 
   const isMouseDownTriggered = useRef(false);
 
-  const triggerRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   const [open = false, setOpen] = useControllableState({
     prop: originOpen,
-    defaultProp: defaultOpen,
+    defaultProp: defaultOpen ?? false,
     onChange: (value) => {
       if (value) {
         groupContext?.onOpen();
@@ -41,7 +43,7 @@ export const useTooltip = ({
     },
   });
 
-  // setTimeout 에서 최신 state를 가지기 위해 ref로도 저장해야함.
+  // Store the latest state in a ref to ensure setTimeout callbacks access the most recent value.
   const latestOpen = useRef(open);
 
   useEffect(() => {
@@ -168,8 +170,7 @@ export const useTooltip = ({
       if (
         latestOpen.current ||
         mode !== 'click' ||
-        e.currentTarget.ariaDisabled?.toString() === 'true' ||
-        e.currentTarget.getAttribute('disabled')?.toString() === 'true'
+        isElementDisabled(e.currentTarget)
       ) {
         return;
       }

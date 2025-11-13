@@ -1,6 +1,7 @@
 import {
   forwardRef,
   useCallback,
+  useEffect,
   useId,
   useLayoutEffect,
   useRef,
@@ -15,24 +16,20 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { flushSync } from 'react-dom';
 import { IconCheck } from '@wanteddev/wds-icon';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
-import {
-  Box,
-  type DefaultComponentProps,
-  type PolymorphicComponent,
-  type PolymorphicProps,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { List, ListCell, ListCellContent } from '../list';
-import ScrollArea from '../scroll-area';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { ScrollArea } from '../scroll-area';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { AnimationPresence } from '../animation-presence';
 
 import {
   AUTOCOMPLETE_FIELD_NAME,
   AUTOCOMPLETE_LIST_NAME,
   AUTOCOMPLETE_NAME,
+  AUTOCOMPLETE_OPTION_CONTENT_NAME,
   AUTOCOMPLETE_OPTION_NAME,
   AUTOCOMPLETE_ROOT_NAME,
   AUTOCOMPLETE_SCOPE,
@@ -47,7 +44,13 @@ import {
 } from './style';
 import { focusSelectedOption, setAttributeSelection } from './helpers';
 
-import type { SlotProps } from '@radix-ui/react-slot';
+import type { ListCellContentProps } from '../list';
+import type {
+  DefaultComponentProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
+} from '@wanteddev/wds-engine';
 import type {
   ChangeEvent,
   ElementType,
@@ -57,6 +60,7 @@ import type {
 } from 'react';
 import type {
   AutocompleteCollectionItem,
+  AutocompleteFieldProps,
   AutocompleteGroupProps,
   AutocompleteListProps,
   AutocompleteOptionProps,
@@ -70,7 +74,7 @@ const [Collection, useCollection] = createCollection<
 
 const Autocomplete = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AutocompleteProps, 'div'>
+  DefaultComponentPropsInternal<AutocompleteProps, 'div'>
 >(
   (
     {
@@ -94,13 +98,13 @@ const Autocomplete = forwardRef<
 
     const { width } = useSize(node) || {};
 
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: valueProp,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 
-    const [inputValue = '', setInputValue] = useControllableState({
+    const [inputValue, setInputValue] = useControllableState({
       prop: inputValueProp,
       defaultProp: defaultInputValue ?? value,
       onChange: onInputValueChange,
@@ -109,9 +113,9 @@ const Autocomplete = forwardRef<
     const [selectedOption, setSelectedOption] =
       useState<AutocompleteCollectionItem | null>(null);
 
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       prop: openProp,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: (state) => {
         onOpenChange?.(state);
 
@@ -141,6 +145,17 @@ const Autocomplete = forwardRef<
     >(null);
 
     const contentId = useId();
+
+    useEffect(() => {
+      const optionId = selectedOption?.ref.current?.id;
+
+      if (optionId && open) {
+        input?.setAttribute('aria-activedescendant', optionId);
+      } else {
+        input?.removeAttribute('aria-activedescendant');
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedOption, open]);
 
     return (
       <AutocompleteProvider
@@ -205,7 +220,7 @@ const AutocompleteRoot = forwardRef<
 
 AutocompleteRoot.displayName = AUTOCOMPLETE_ROOT_NAME;
 
-const AutocompleteField = forwardRef<HTMLElement, SlotProps>(
+const AutocompleteField = forwardRef<HTMLElement, AutocompleteFieldProps>(
   ({ children, ...props }, forwardedRef) => {
     const {
       open,
@@ -464,7 +479,7 @@ const AutocompleteList = forwardRef(
       forceMount = false,
       disableTrappedContent = false,
       ...props
-    }: PolymorphicProps<AutocompleteListProps, T>,
+    }: PolymorphicPropsInternal<AutocompleteListProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const {
@@ -500,6 +515,7 @@ const AutocompleteList = forwardRef(
           role="presentation"
           ref={ref}
           offset={8}
+          position="bottom-center"
           {...props}
           data-status={open ? 'open' : 'close'}
           sx={[{ width }, autocompleteListStyle, props.sx]}
@@ -527,13 +543,13 @@ const AutocompleteList = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<AutocompleteListProps, 'div'>;
+) as PolymorphicComponentInternal<AutocompleteListProps, 'div'>;
 
 AutocompleteList.displayName = AUTOCOMPLETE_LIST_NAME;
 
 const AutocompleteGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AutocompleteGroupProps>
+  DefaultComponentPropsInternal<AutocompleteGroupProps>
 >(({ title, children, ...props }, ref) => {
   return (
     <FlexBox
@@ -565,7 +581,7 @@ AutocompleteGroup.displayName = 'AutocompleteGroup';
 
 const AutocompleteOption = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<AutocompleteOptionProps, 'li'>
+  DefaultComponentPropsInternal<AutocompleteOptionProps, 'li'>
 >(({ disabled, value, children, ...props }, forwardedRef) => {
   const ref = useRef<HTMLLIElement>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
@@ -586,6 +602,8 @@ const AutocompleteOption = forwardRef<
 
   const active = contextValue === value && asSelect;
 
+  const id = useId();
+
   return (
     <Collection.ItemSlot
       value={value}
@@ -596,8 +614,11 @@ const AutocompleteOption = forwardRef<
         ref={composedRefs}
         disabled={disabled}
         aria-disabled={disabled}
-        active={active}
+        selected={active}
         role="option"
+        id={id}
+        aria-selected={active}
+        aria-current={undefined}
         {...props}
         sx={[autocompleteOptionStyle, props.sx]}
         onTouchStart={composeEventHandlers(props.onTouchStart, (e) => {
@@ -613,7 +634,7 @@ const AutocompleteOption = forwardRef<
           );
           setAttributeSelection(ref.current, items, true);
         })}
-        onMouseMove={composeEventHandlers(props.onMouseEnter, (e) => {
+        onMouseEnter={composeEventHandlers(props.onMouseEnter, (e) => {
           if (disabled) return;
 
           const items = getItems();
@@ -657,10 +678,29 @@ const AutocompleteOption = forwardRef<
 
 AutocompleteOption.displayName = AUTOCOMPLETE_OPTION_NAME;
 
+const AutocompleteOptionContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellContent ref={ref} {...props} />;
+});
+
+AutocompleteOptionContent.displayName = AUTOCOMPLETE_OPTION_CONTENT_NAME;
+
 export {
   Autocomplete,
   AutocompleteField,
   AutocompleteList,
   AutocompleteGroup,
   AutocompleteOption,
+  AutocompleteOptionContent,
+};
+
+export type {
+  AutocompleteProps,
+  AutocompleteFieldProps,
+  AutocompleteListProps,
+  AutocompleteOptionProps,
+  AutocompleteGroupProps,
+  ListCellContentProps as AutocompleteOptionContentProps,
 };

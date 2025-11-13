@@ -1,0 +1,270 @@
+---
+title: Progress tracker
+description: 여러 단계로 구성된 프로세스에서 사용자의 현재 위치와 전체 진행 상황을 시각적으로 표현하는 요소입니다. 단계별 작업의 순서와 관계를 명확히 보여주어 사용자가 전체 프로세스를 예측할 수 있도록 돕습니다.
+createdAt: 2025-09-23
+---
+
+## Basic progress tracker
+
+번호가 매겨진 단계로 진행 상황을 전달합니다.
+
+<Demo code={`import { ProgressTracker, ProgressTrackerItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker value="1">
+      <ProgressTrackerItem value="0" />
+      <ProgressTrackerItem value="1" />
+      <ProgressTrackerItem value="2" />
+    </ProgressTracker>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Progress tracker 는 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<ProgressTracker>
+  <ProgressTrackerItem />
+  <ProgressTrackerItem />
+  <ProgressTrackerItem />
+</ProgressTracker>
+```
+
+## Direction
+
+2가지 direction을 제공합니다.
+- `horizontal` (default)
+- `vertical`
+
+### Horizontal
+
+<Demo code={`import { ProgressTracker, ProgressTrackerItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker value="1">
+      <ProgressTrackerItem value="0" />
+      <ProgressTrackerItem value="1" />
+      <ProgressTrackerItem value="2" />
+    </ProgressTracker>
+  );
+}
+
+export default Demo;`}
+/>
+
+### Vertical
+
+<Demo code={`import { ProgressTracker, ProgressTrackerItem, Box, css } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker value="1" direction="vertical" sx={{ width: '75%'}}>
+      <ProgressTrackerItem value="0">
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem value="1">
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem value="2">
+        <Item />
+      </ProgressTrackerItem>
+    </ProgressTracker>
+  );
+}
+
+const Item = () => {
+  return (
+    <Box
+      sx={theme => css\`
+        width: 100%;
+        height: 64px;
+        background: \${theme.semantic.accent.background.violet};
+        opacity: 0.08;
+      \`}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Stepper
+
+화면 전체를 한 단계로 활용할 때에는 Stepper를 사용합니다.
+
+<Demo code={`import { Stepper, StepperItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Stepper value="1">
+      <StepperItem value="0" />
+      <StepperItem value="1" />
+      <StepperItem value="2" />
+    </Stepper>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Label
+
+`label`, `completedLabel` prop을 통해 라벨을 주입할 수 있습니다.
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, css, FlexBox, Stepper, StepperItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox sx={{ width: '75%' }} flexDirection="column" gap="32px" alignItems="center">
+      <ProgressTracker value="1">
+        <ProgressTrackerItem label="단계" completedLabel="완료" value="0" />
+        <ProgressTrackerItem label="단계" completedLabel="완료" value="1" />
+        <ProgressTrackerItem label="단계" completedLabel="완료" value="2" />
+      </ProgressTracker>
+
+      <ProgressTracker value="1" direction="vertical" sx={{ width: '75%'}}>
+        <ProgressTrackerItem value="0" label="단계" completedLabel="완료">
+          <Item />
+        </ProgressTrackerItem>
+        <ProgressTrackerItem value="1" label="단계" completedLabel="완료">
+          <Item />
+        </ProgressTrackerItem>
+        <ProgressTrackerItem value="2" label="단계" completedLabel="완료">
+          <Item />
+        </ProgressTrackerItem>
+      </ProgressTracker>
+
+      <Stepper value="1">
+        <StepperItem value="0" label="단계" completedLabel="완료" />
+        <StepperItem value="1" label="단계" completedLabel="완료" />
+        <StepperItem value="2" label="단계" completedLabel="완료" />
+      </Stepper>
+    </FlexBox>
+  );
+}
+
+const Item = () => {
+  return (
+    <Box
+      sx={theme => css\`
+        width: 100%;
+        height: 64px;
+        background: \${theme.semantic.accent.background.violet};
+        opacity: 0.08;
+      \`}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+### With label content
+
+`direction=vertical` 인 경우에 `labelContent` prop을 통해 라벨 영역에 추가 컨텐츠를 주입할 수 있습니다.
+
+`ProgressTrackerLabelContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { Box, ProgressTracker, ProgressTrackerItem, ProgressTrackerLabelContent, ContentBadge, css } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <ProgressTracker direction="vertical" value="1">
+      <ProgressTrackerItem
+        label="단계"
+        completedLabel="완료"
+        value="0"
+        labelContent={(
+          <ProgressTrackerLabelContent variant="caption">
+            캡션
+          </ProgressTrackerLabelContent>
+        )}
+      >
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem
+        label="단계"
+        completedLabel="완료"
+        value="1"
+        labelContent={(
+          <ProgressTrackerLabelContent variant="badge">
+            <ContentBadge
+              color="neutral"
+              variant="solid"
+            >
+              텍스트
+            </ContentBadge>
+            <ContentBadge
+              color="neutral"
+              variant="solid"
+              >
+              텍스트
+            </ContentBadge>
+          </ProgressTrackerLabelContent>
+        )}
+      >
+        <Item />
+      </ProgressTrackerItem>
+      <ProgressTrackerItem
+        label="단계"
+        completedLabel="완료"
+        value="2"
+        labelContent={(
+          <ProgressTrackerLabelContent variant="custom">
+            커스텀
+          </ProgressTrackerLabelContent>
+        )}
+      >
+        <Item />
+      </ProgressTrackerItem>
+    </ProgressTracker>
+  );
+}
+
+const Item = () => {
+  return (
+    <Box
+      sx={theme => css\`
+        width: 100%;
+        height: 64px;
+        background: \${theme.semantic.accent.background.violet};
+        opacity: 0.08;
+      \`}
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### ProgressTracker
+
+<PropsTable component="ProgressTracker" />
+
+### ProgressTrackerItem
+
+<PropsTable component="ProgressTrackerItem" />
+
+### ProgressTrackerLabelContent
+
+<PropsTable component="ProgressTrackerLabelContent" />
+
+### Stepper
+
+<PropsTable component="Stepper" />
+
+### StepperItem
+
+<PropsTable component="StepperItem" />
+

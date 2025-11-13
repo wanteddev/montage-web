@@ -1,12 +1,11 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import {
   createResponsiveStyle,
-  ellipsisTypographyStyle,
   getPreviousValue,
-  typographyStyle,
-} from '../../utils';
-import { toCssValue } from '../../utils/css';
+} from '../../utils/internal/responsive-props';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { ListCellContentProps, ListCellProps } from './types';
@@ -22,7 +21,7 @@ export const listCellStyle =
     verticalPadding,
     fillWidth,
     interactionPadding,
-    active,
+    selected,
     disabled,
     disableInteraction,
     xs,
@@ -46,7 +45,7 @@ export const listCellStyle =
           opacity: ${theme.opacity[43]};
         `
       : css`
-          color: ${active
+          color: ${selected
             ? theme.semantic.primary.normal
             : theme.semantic.label.normal};
 
@@ -55,6 +54,22 @@ export const listCellStyle =
             cursor: pointer;
           `}
         `}
+
+    &[data-disable-interaction='false'] {
+      @media (pointer: fine) {
+        &:hover {
+          [data-role='list-cell-divider'] {
+            opacity: 0;
+          }
+        }
+      }
+
+      &:active {
+        [data-role='list-cell-divider'] {
+          opacity: 0;
+        }
+      }
+    }
 
     ${listCellPaddingStyle({ verticalPadding })}
     ${listCellFillWidthStyle({ fillWidth })}
@@ -200,6 +215,7 @@ export const listCellDividerStyle = css`
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, 0px);
+  transition: opacity 0.15s ease;
   width: calc(100% - (var(--wds-list-cell-horizontal-padding) * 2));
 `;
 
@@ -207,6 +223,17 @@ const listCellContentVariantStyle =
   ({ variant }: Pick<ListCellContentProps, 'variant'>) =>
   (theme: Theme) => {
     switch (variant) {
+      case 'value':
+        return css`
+          ${typographyStyle('body1', 'regular')}
+          color: ${theme.semantic.label.alternative};
+        `;
+
+      case 'thumbnail':
+        return css`
+          padding-right: 8px;
+        `;
+
       case 'icon':
         return css`
           color: ${theme.semantic.label.alternative};
@@ -236,6 +263,22 @@ const listCellContentVariantStyle =
         return css`
           ${typographyStyle('body1', 'regular')}
           color: ${theme.semantic.label.alternative};
+        `;
+      case 'checkbox':
+        return css`
+          &:not([data-role='list-item-trailing-content']):has(
+              [wds-component='checkbox'][data-tight='true']
+            ) {
+            padding-right: 2px;
+          }
+        `;
+      case 'radio':
+        return css`
+          &:not([data-role='list-item-trailing-content']):has(
+              [wds-component='radio'][data-tight='true']
+            ) {
+            padding-right: 2px;
+          }
         `;
     }
   };

@@ -5,22 +5,26 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import { checkboxStyle } from './style';
+import { useCheckboxContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { CheckboxProps } from './types';
 
 const Checkbox = forwardRef<
   HTMLButtonElement,
-  Omit<DefaultComponentProps<CheckboxProps, 'button'>, 'onChange' | 'value'>
+  Omit<
+    DefaultComponentPropsInternal<CheckboxProps, 'button'>,
+    'onChange' | 'value'
+  >
 >(
   (
     {
       name,
-      defaultChecked = false,
+      defaultChecked,
       icon: originIcon,
       disabled,
       required,
@@ -30,7 +34,7 @@ const Checkbox = forwardRef<
       invalid = false,
       indeterminate,
       indeterminateIcon: originIndeterminateIcon,
-      tight = false,
+      tight: originTight,
       bold,
       xs,
       sm,
@@ -41,6 +45,10 @@ const Checkbox = forwardRef<
     },
     ref,
   ) => {
+    const { tight: contextTight } = useCheckboxContext() || {};
+
+    const tight = originTight ?? contextTight ?? false;
+
     const icon = originIcon || <IconCheckThick />;
     const indeterminateIcon = originIndeterminateIcon || (
       <IconLineHorizontalThick />
@@ -51,9 +59,9 @@ const Checkbox = forwardRef<
     const hasConsumerStoppedPropagationRef = useRef(false);
 
     const isFormControl = button ? Boolean(button.closest('form')) : true;
-    const [checked = false, setChecked] = useControllableState({
+    const [checked, setChecked] = useControllableState({
       prop: originChecked,
-      defaultProp: defaultChecked,
+      defaultProp: defaultChecked ?? false,
       onChange: onCheckedChange,
     });
     const initialCheckedStateRef = useRef(checked);
@@ -95,6 +103,8 @@ const Checkbox = forwardRef<
             disabled={disabled}
             aria-required={required}
             ref={composedRefs}
+            data-tight={tight}
+            wds-component="checkbox"
             {...props}
             sx={[
               checkboxStyle({
@@ -114,7 +124,6 @@ const Checkbox = forwardRef<
               props.sx,
             ]}
             onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
-              // WAI ARIA 상으로 checkbox는 enter로 선택 하지 않음.
               if (event.key === 'Enter') event.preventDefault();
             })}
             onClick={composeEventHandlers(props.onClick, (event) => {
@@ -141,4 +150,6 @@ const Checkbox = forwardRef<
 
 Checkbox.displayName = 'Checkbox';
 
-export default Checkbox;
+export { Checkbox };
+
+export type { CheckboxProps };

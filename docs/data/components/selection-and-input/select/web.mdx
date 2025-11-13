@@ -1,0 +1,646 @@
+---
+title: Select
+description: 사용자가 미리 정의된 옵션 목록 중 하나 혹은 하나 이상의 항목을 선택할 수 있는 입력 요소입니다.
+createdAt: 2025-08-12
+---
+
+## Basic select
+
+`Select`는 여러 옵션 중 하나의 값을 선택할 수 있습니다.
+
+<Demo code={`import { Select, Option, OptionGroup } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Select width="25ch" placeholder="선택해주세요.">
+      {new Array(3).fill(0).map((_, i) => (
+        <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+          {new Array(3).fill(0)
+            .map((__, j) => (
+              <Option key={j} value={\`값 \${i} \${j}\`}>
+                {\`값 \${i} \${j}\`}
+              </Option>
+            ))
+          }
+        </OptionGroup>
+      ))}
+    </Select>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Multiple select
+
+`SelectMultiple` 을 사용하여 여러 옵션 중 하나 이상의 값을 선택할 수 있습니다.
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SelectMultiple width="25ch" placeholder="선택해주세요.">
+      {new Array(3).fill(0).map((_, i) => (
+        <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+          {new Array(3).fill(0)
+            .map((__, j) => (
+              <Option key={j} value={\`값 \${i} \${j}\`}>
+                {\`값 \${i} \${j}\`}
+              </Option>
+            ))
+          }
+        </OptionGroup>
+      ))}
+    </SelectMultiple>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Render
+
+`render` 옵션을 사용하여 텍스트 대신 Chip으로 렌더링 하거나 커스텀 텍스트를 작성할 수 있습니다.
+
+Chip에 onClick이 들어가는 경우 `e.stopPropagation()` 을 통해 메뉴가 열리고 닫히는 동작을 막을 수 있습니다.
+
+<Demo code={`import { Chip, SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
+import { IconCloseThick } from '@wanteddev/wds-icon';
+import { useState, useRef } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState(['값 1 0']);
+  const ref = useRef(null);
+
+  return (
+    <SelectMultiple
+      ref={ref}
+      value={value}
+      onChange={setValue}
+      width="25ch"
+      placeholder="선택해주세요."
+      render={() => (
+        value.map((v) => (
+          <Chip
+            key={v}
+            size="xsmall"
+            variant="solid"
+            trailingContent={<IconCloseThick />}
+            onClick={(e) => {
+              e.stopPropagation();
+              setValue(value.filter(data => data !== v))
+              ref.current?.focus();
+            }}
+          >
+            {v}
+          </Chip>
+        ))
+      )}
+    >
+      {new Array(3).fill(0).map((_, i) => (
+        <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+          {new Array(3).fill(0)
+            .map((__, j) => (
+              <Option key={j} value={\`값 \${i} \${j}\`}>
+                {\`값 \${i} \${j}\`}
+              </Option>
+            ))
+          }
+        </OptionGroup>
+      ))}
+    </SelectMultiple>
+  )
+}
+
+export default Demo;`}
+/>
+
+### All selected label
+
+`allSelectedLabel` prop을 사용하여 모든 옵션이 선택되었을 때 표시할 label을 커스텀할 수 있습니다.
+
+<Demo code={`import { SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <SelectMultiple defaultValue={['값 0 0', '값 0 1', '값 0 2']} width="25ch" placeholder="선택해주세요." allSelectedLabel="전체">
+      {new Array(1).fill(0).map((_, i) => (
+        <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+          {new Array(3).fill(0)
+            .map((__, j) => (
+              <Option key={j} value={\`값 \${i} \${j}\`}>
+                {\`값 \${i} \${j}\`}
+              </Option>
+            ))
+          }
+        </OptionGroup>
+      ))}
+    </SelectMultiple>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+아래와 같은 구조로 조합하여 사용합니다.
+
+```tsx
+<Select>
+  <OptionGroup>
+    <Option value="1">옵션1</Option>
+  </OptionGroup>
+  <OptionGroup>
+    <Option value="2">옵션2</Option>
+  </OptionGroup>
+</Select>
+```
+
+## Variants
+
+`Option` 컴포넌트에 variant prop을 주어 다양한 형태의 옵션을 렌더링 할 수 있습니다.
+- normal (default)
+- radio (single only)
+- checkbox (multiple only)
+
+<Demo code={`import { SelectMultiple, Select, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select width="25ch" placeholder="Radio">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+
+      <SelectMultiple width="25ch" placeholder="Checkbox">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="checkbox" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </SelectMultiple>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## States
+
+validation 을 통해 여러 상태를 표현할 수 있습니다.
+- default
+- invalid (negative)
+- disabled
+
+<Demo code={`import { Select, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select width="25ch" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+
+      <Select invalid width="25ch" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+
+      <Select disabled width="25ch" placeholder="선택해주세요.">
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option variant="radio" key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Contents
+
+### With select content
+
+`Select`, `SelectMultiple` 컴포넌트에 `leadingContent` prop 을 사용하여 요소의 앞쪽에 콘텐츠를 추가할 수 있습니다.
+
+`SelectContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select
+        width="25ch"
+        placeholder="Icon button"
+        leadingContent={(
+          <SelectContent variant="icon-button">
+            <IconButton onClick={e => e.stopPropagation()} size={22}>
+              <IconBlank />
+            </IconButton>
+          </SelectContent>
+        )}
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+
+      <Select
+        width="25ch"
+        placeholder="Icon"
+        leadingContent={(
+          <SelectContent variant="icon">
+            <IconBlank />
+          </SelectContent>
+        )}
+      >
+        {new Array(3).fill(0).map((_, i) => (
+          <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+            {new Array(3).fill(0)
+              .map((__, j) => (
+                <Option key={j} value={\`값 \${i} \${j}\`}>
+                  {\`값 \${i} \${j}\`}
+                </Option>
+              ))
+            }
+          </OptionGroup>
+        ))}
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### With option content
+
+`Option` 컴포넌트에 `leadingContent`, `trailingContent` prop 을 사용하여 옵션의 앞/뒤에 콘텐츠를 추가할 수 있습니다.
+
+`OptionContent` 로 감싸서 사용합니다.
+
+<Demo code={`import { Select, Option, OptionContent, FlexBox, IconButton, Avatar, ContentBadge } from '@wanteddev/wds';
+import { IconBlank } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <Select width="25ch" placeholder="Option content">
+        <Option
+          value="1"
+          trailingContent={(
+            <OptionContent variant="chevron">
+              값
+            </OptionContent>
+          )}
+        >
+          Chevron
+        </Option>
+        <Option
+          value="2"
+          alignItems="center"
+          leadingContent={(
+            <OptionContent variant="avatar">
+              <Avatar size="medium" />
+            </OptionContent>
+          )}
+        >
+          Avatar
+        </Option>
+        <Option
+          value="3"
+          alignItems="center"
+          trailingContent={(
+            <OptionContent variant="badge">
+              <ContentBadge>
+                Badge
+              </ContentBadge>
+            </OptionContent>
+          )}
+        >
+          Badge
+        </Option>
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## With action area
+
+Action Area 영역을 추가할 수 있습니다.
+
+Action Area 영역을 사용한다면 `enableMenuActionArea` prop 을 주어 `value` 와 `menuValue` 두 가지 상태로 관리할 수 있습니다.
+
+- value: 실제 값
+- menuValue: 메뉴에서 선택된 값
+
+<Demo code={`import { Select, Option, OptionGroup, MenuActionArea, MenuActionAreaContent, Button } from '@wanteddev/wds';
+import { IconRefresh } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+  const [menuValue, setMenuValue] = useState('');
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Select
+      enableMenuActionArea
+      open={open}
+      onOpenChange={setOpen}
+      value={value}
+      onChange={setValue}
+      menuValue={menuValue}
+      onMenuValueChange={setMenuValue}
+      width="25ch"
+      placeholder="선택해주세요."
+    >
+      {new Array(3).fill(0).map((_, i) => (
+        <OptionGroup key={i} title={\`그룹 \${i + 1}\`}>
+          {new Array(3).fill(0)
+            .map((__, j) => (
+              <Option key={j} value={\`값 \${i} \${j}\`}>
+                {\`값 \${i} \${j}\`}
+              </Option>
+            ))
+          }
+        </OptionGroup>
+      ))}
+
+      <MenuActionArea
+        leadingContent={
+          <MenuActionAreaContent variant="button">
+            <Button
+              variant="outlined"
+              color="assistive"
+              iconOnly
+              size="small"
+              onClick={() => setMenuValue('')}
+            >
+              <IconRefresh />
+            </Button> 
+          </MenuActionAreaContent>
+        }
+        trailingContent={
+          <MenuActionAreaContent variant="button">
+            <Button size="small" onClick={() => {
+              setValue(menuValue);
+              setOpen(false);
+            }}>
+              적용
+            </Button>
+          </MenuActionAreaContent>
+        }
+      />
+    </Select>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Form field
+
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
+- `FormField`
+- `FormControl`
+- `FormLabel`
+- `FormMessage`
+- `FormErrorMessage`
+
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, Select, Option, OptionGroup } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FormField>
+        <FormLabel required>Label</FormLabel>
+        <FormControl>
+          <Select width="25ch" placeholder="Form field">
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </Select>
+        </FormControl>
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+
+      <FormField>
+        <FormLabel required>Label</FormLabel>
+        <FormControl>
+          <Select width="25ch" placeholder="Invalid form field" invalid>
+            <OptionGroup title="그룹 1">
+              <Option value="옵션1">옵션1</Option>
+              <Option value="옵션2">옵션2</Option>
+            </OptionGroup>
+          </Select>
+        </FormControl>
+        <FormErrorMessage>Error Message</FormErrorMessage>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작합니다.
+
+`value`, `onChange` prop을 사용하면 제어 컴포넌트로 동작합니다.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components)를 참조해주세요.
+
+<Demo code={`import { FlexBox, Select, Option, OptionGroup } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="12px">
+      <Select
+        defaultValue="옵션1"
+        width="25ch"
+        placeholder="Uncontrolled"
+      >
+        <OptionGroup title="그룹 1">
+          <Option value="옵션1">옵션1</Option>
+          <Option value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </Select>
+      <Select
+        value={value}
+        onChange={setValue}
+        width="25ch"
+        placeholder="Controlled"
+      >
+        <OptionGroup title="그룹 1">
+          <Option value="옵션1">옵션1</Option>
+          <Option value="옵션2">옵션2</Option>
+        </OptionGroup>
+      </Select>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## React Hook Form
+
+`react-hook-form`과 유연하게 조합해서 사용할 수 있습니다.
+
+<Demo code={`import { Button, FlexBox, Select, Option, OptionGroup, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selection"
+        rules={{
+          required: {
+            value: true,
+            message: "필수 값입니다.",
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel required>선택</FormLabel>
+
+            <FormControl>
+              <Select
+                {...field}
+                placeholder="선택하세요."
+                width="300px"
+                invalid={Boolean(formState.errors.selection)}
+              >
+                <OptionGroup title="그룹 1">
+                  <Option value="옵션1">옵션1</Option>
+                  <Option value="옵션2">옵션2</Option>
+                </OptionGroup>
+              </Select>
+            </FormControl>
+            
+            {!!formState.errors.selection ? (
+              <FormErrorMessage>{formState.errors.selection?.message?.toString()}</FormErrorMessage>
+            ) : (
+              <FormMessage>옵션을 선택하세요.</FormMessage>
+            )}
+          </FormField>
+        )}
+      />
+
+      <Button type="submit" fullWidth>제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA Combobox Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) 대부분을 준수합니다.
+
+- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
+- 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 합니다.
+
+## API
+
+### Select
+
+<PropsTable component="Select" />
+
+### SelectMultiple
+
+<PropsTable component="SelectMultiple" />
+
+### SelectContent
+
+<PropsTable component="SelectContent" />
+
+### OptionGroup
+
+<PropsTable component="OptionGroup" />
+
+### Option
+
+<PropsTable component="Option" />
+
+### OptionContent
+
+<PropsTable component="OptionContent" />

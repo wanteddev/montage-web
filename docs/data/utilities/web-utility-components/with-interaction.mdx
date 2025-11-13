@@ -1,0 +1,110 @@
+---
+title: WithInteraction
+description: WithInteraction는 인터랙션이 있는 요소에서 인터랙션을 안내하기 위해 사용하는 컴포넌트 입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+인터렉션이 있는 요소에서 손쉽게 인터렉션 영역을 표시할 수 있습니다.
+
+<Demo code={`import { Box, WithInteraction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <WithInteraction>
+      <Item />
+    </WithInteraction>
+  )
+}
+
+const Item = (props) => (
+  <Box
+    {...props}
+    as="button"
+    sx={theme => ({
+      width: '100px',
+      height: '100px',
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`
+    })}
+  />
+);
+
+export default Demo;`}
+/>
+
+## Variants
+
+`variant` 옵션을 사용하여 보다 약하게 혹은 보다 강하게 강조할 수 있습니다.
+- light
+- normal (default)
+- strong
+
+<Demo code={`import { Box, WithInteraction, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="20px">
+      <WithInteraction variant="light">
+        <Item />
+      </WithInteraction>
+      <WithInteraction variant="normal">
+        <Item />
+      </WithInteraction>
+      <WithInteraction variant="strong">
+        <Item />
+      </WithInteraction>
+    </FlexBox>
+  )
+}
+
+const Item = (props) => (
+  <Box
+    {...props}
+    as="button"
+    sx={theme => ({
+      width: '100px',
+      height: '100px',
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      border: \`1px solid \$\{theme.semantic.line.normal.normal\}\`
+    })}
+  />
+);
+
+export default Demo;`}
+/>
+
+## Scale
+
+`scale` 옵션을 사용하여 Hover 시 Scale 효과와 함께 인터렉션 영역을 표시할 수 있습니다.
+
+<Demo code={`import { Box, WithInteraction } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <WithInteraction scale width="calc(100% + 20px)" height="calc(100% + 20px)">
+      <Item />
+    </WithInteraction>
+  )
+}
+
+const Item = (props) => (
+  <Box
+    {...props}
+    as="button"
+    sx={theme => ({
+      width: '100px',
+      height: '100px',
+      backgroundColor: theme.semantic.background.elevated.alternative,
+      borderRadius: '50%',
+    })}
+  />
+);
+
+export default Demo;`}
+/>
+
+## API
+
+<PropsTable component="WithInteraction" />

@@ -8,7 +8,7 @@ import atomic from './atomic';
 import * as semantic from './semantic';
 
 /**
- * @description css variable을 사용하지 않는 theme
+ * Theme without css variable
  */
 export const lightOriginTheme = {
   atomic,
@@ -30,7 +30,7 @@ export const lightOriginTheme = {
 };
 
 /**
- * @description css variable을 사용하지 않는 theme
+ * Theme without css variable
  */
 export const darkOriginTheme = {
   atomic,
@@ -59,7 +59,10 @@ const addVarPrefix = (obj: any, prefix: string) => {
 
     if (typeof obj[key] === 'object') {
       newObj[key] = addVarPrefix(obj[key], originPrefix);
-    } else if (typeof obj[key] === 'string' && obj[key].startsWith('#')) {
+    } else if (
+      typeof obj[key] === 'string' &&
+      (obj[key].startsWith('#') || prefix.includes('shadow'))
+    ) {
       newObj[key] = `var(--${originPrefix})`;
     } else {
       newObj[key] = obj[key];

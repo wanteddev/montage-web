@@ -1,0 +1,592 @@
+---
+title: Tooltip
+createdAt: 2025-09-08
+---
+
+## Basic tooltip
+
+설명이 필요한 경우에 사용합니다.
+기본적으로 마우스 호버시 노출됩니다.
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button size="small" variant="outlined">Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Mode
+
+mode 속성을 이용하여 툴팁의 모드를 설정할 수 있습니다.
+
+- `hover` (default)
+- `always`
+- `click`
+
+<Demo code={`import { FlexBox, TooltipGroup, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="10px">
+      <TooltipGroup>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button size="small" variant="outlined">Hover (default)</Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Content
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip mode="always">
+          <TooltipTrigger>
+            <Button size="small" variant="outlined">Always</Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Content
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip mode="click">
+          <TooltipTrigger>
+            <Button size="small" variant="outlined">Click</Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            Content
+          </TooltipContent>
+        </Tooltip>
+      </TooltipGroup>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Tooltip 는 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Tooltip>
+  <TooltipTrigger>
+    <Button />
+  </TooltipTrigger>
+
+  <TooltipContent />
+</Tooltip>
+```
+
+## Sizes
+
+2가지 size를 제공합니다.
+- small
+- medium (default)
+
+### Small
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button size="small" variant="outlined">Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent size="small">
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Medium
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button size="small" variant="outlined">Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Grouped tooltips
+
+`TooltipGroup`을 사용하면 여러 개의 `Tooltip`을 그룹으로 묶어 표현할 수 있습니다.
+
+Tooltip 요소들 사이 전환이 더 빠르게 일어나 자연스럽게 전환됩니다.
+
+<Demo code={`import { FlexBox, TooltipGroup, Tooltip, TooltipTrigger, TooltipContent, IconButton } from '@wanteddev/wds';
+import { IconCopy, IconTrash, IconRefresh } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="10px">
+      <TooltipGroup>
+        <Tooltip>
+          <TooltipTrigger>
+            <IconButton>
+              <IconCopy />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>
+            복사
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <IconButton>
+              <IconTrash />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>
+            삭제
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>
+            <IconButton>
+              <IconRefresh />
+            </IconButton>
+          </TooltipTrigger>
+          <TooltipContent>
+            새로고침
+          </TooltipContent>
+        </Tooltip>
+      </TooltipGroup>
+    </FlexBox>
+  );
+};
+
+export default Demo;`}
+/>
+
+## Position
+
+`position` 속성을 통해 툴팁의 위치를 설정할 수 있습니다.
+
+해당 position에 자리가 없는 경우 자동으로 위치가 조정됩니다.
+
+<Demo code={`import { Grid, GridItem, FlexBox, TooltipGroup, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <TooltipGroup>
+      <Grid spacing={4} sx={{ width: '100%', maxWidth: '550px' }}>
+        <GridItem columns={12}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Top start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="top-start">
+                Top start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Top center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="top-center">
+                Top center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Top end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="top-end">
+                Top end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+        
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-start" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Left start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="left-start">
+                Left start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Left center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="left-center">
+                Left center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Left end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="left-end">
+                Left end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-end" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Right start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="right-start">
+                Right start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Right center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="right-center">
+                Right center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Right end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="right-end">
+                Right end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={12}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Bottom start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="bottom-start">
+                Bottom start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="small" variant="outlined">
+                  Bottom center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="bottom-center">
+                Bottom center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="small" variant="outlined">
+                Bottom end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="small" position="bottom-end">
+                Bottom end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={12} sx={{ marginTop: '24px' }}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Top start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="top-start">
+                Top start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Top center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="top-center">
+                Top center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Top end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="top-end">
+                Top end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+        
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-start" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Left start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="left-start">
+                Left start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Left center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="left-center">
+                Left center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Left end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="left-end">
+                Left end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={6}>
+          <FlexBox gap="12px" alignItems="flex-end" flexDirection="column">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Right start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="right-start">
+                Right start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Right center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="right-center">
+                Right center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Right end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="right-end">
+                Right end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+
+        <GridItem columns={12}>
+          <FlexBox gap="12px" justifyContent="center">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Bottom start
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="bottom-start">
+                Bottom start <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button size="medium" variant="outlined">
+                  Bottom center
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="bottom-center">
+                Bottom center <br/> content
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger>
+              <Button size="medium" variant="outlined">
+                Bottom end
+              </Button>
+              </TooltipTrigger>
+              <TooltipContent size="medium" position="bottom-end">
+                Bottom end <br/> content
+              </TooltipContent>
+            </Tooltip>
+          </FlexBox>
+        </GridItem>
+      </Grid>
+    </TooltipGroup>
+  );
+};
+
+export default Demo;`}
+/>
+
+
+## With shortcut
+
+`shortcut` 옵션을 통해 키보드 단축키를 표기할 수 있습니다.
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button size="small" variant="outlined">Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent shortcut="⌘C" size="small">
+        Copy
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+
+## With action
+
+`action` 옵션을 통해 하단에 액션 버튼을 추가할 수 있습니다.
+
+> Deprecated 되었습니다. action이 필요한 경우 [Popover](/docs/components/presentation/popover/web) 컴포넌트를 사용해주세요.
+
+<Demo code={`import { TextButton, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button size="small" variant="outlined">Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent
+        action={
+          <TextButton size="small">
+            See more
+          </TextButton>
+        }
+      >
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With close button
+
+`closeButton` 옵션을 통해 닫기 버튼을 표시할 수 있습니다.
+
+> Deprecated 되었습니다. closeButton이 필요한 경우 [Popover](/docs/components/presentation/popover/web) 컴포넌트를 사용해주세요.
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Tooltip>
+      <TooltipTrigger>
+        <Button size="small" variant="outlined">Mouse hover</Button>
+      </TooltipTrigger>
+      <TooltipContent closeButton>
+        Content
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+### TooltipGroup
+
+<PropsTable component="TooltipGroup" />
+
+### Tooltip
+
+<PropsTable component="Tooltip" />
+
+### TooltipTrigger
+
+`children` 으로 요소를 지정합니다.
+
+### TooltipContent
+
+[PopoverContent](/docs/components/presentation/popover/web) 컴포넌트의 옵션을 제공합니다.
+- `referenceHidden`
+- `referenceHiddenOffsets`
+- `setContext`
+- `offset`
+- `position`
+- `disablePortal`
+- `container`
+
+<PropsTable component="TooltipContent" />
+

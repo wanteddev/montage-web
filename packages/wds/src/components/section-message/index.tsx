@@ -9,9 +9,9 @@ import {
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
-import IconButton from '../icon-button';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
 
 import {
   firstOverlayStyle,
@@ -24,17 +24,17 @@ import {
 
 import type { ReactNode } from 'react';
 import type { SectionMessageProps } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 const SectionMessage = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SectionMessageProps, 'div'>
+  DefaultComponentPropsInternal<SectionMessageProps, 'div'>
 >(
   (
     {
-      show: originShow,
-      defaultShow = true,
-      onShowChange,
+      open: originOpen,
+      defaultOpen,
+      onOpenChange,
       variant = 'info',
       children,
       leadingContent,
@@ -46,17 +46,15 @@ const SectionMessage = forwardRef<
     },
     ref,
   ) => {
-    const [show = false, setShow] = useControllableState({
-      prop: originShow,
-      defaultProp: defaultShow,
-      onChange: onShowChange,
+    const [open, setOpen] = useControllableState({
+      prop: originOpen,
+      defaultProp: defaultOpen ?? true,
+      onChange: onOpenChange,
     });
 
-    const handleShowToggle = useCallback(
-      () => setShow((prevShow) => !prevShow),
-      [setShow],
-    );
+    const handleClose = useCallback(() => setOpen(false), [setOpen]);
 
+    const titleId = useId();
     const descriptionId = useId();
 
     const iconComponent: {
@@ -73,96 +71,99 @@ const SectionMessage = forwardRef<
 
     const renderLeadingContent = leadingContent ?? iconComponent[variant];
 
+    if (!open) return null;
+
     return (
-      <>
-        {show && (
-          <FlexBox
-            ref={ref}
-            gap="8px"
-            role="alert"
-            aria-describedby={descriptionId}
-            {...props}
-            sx={[sectionMessageWrapperStyle, props.sx]}
-          >
-            <Box role="presentation" sx={firstOverlayStyle} />
-            <Box role="presentation" sx={secondOverlayStyle(variant)} />
+      <FlexBox
+        ref={ref}
+        gap="8px"
+        role="alert"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+        {...props}
+        sx={[sectionMessageWrapperStyle, props.sx]}
+      >
+        <Box role="presentation" sx={firstOverlayStyle} />
+        <Box role="presentation" sx={secondOverlayStyle(variant)} />
 
-            {renderLeadingContent && (
-              <FlexBox flexShrink={0} sx={sectionMessageIconStyle(variant)}>
-                {renderLeadingContent}
-              </FlexBox>
-            )}
-
-            <FlexBox
-              data-role="section-message-content"
-              flexDirection="column"
-              gap="4px"
-              flex="1"
-            >
-              <Typography
-                color="semantic.label.normal"
-                variant="body2"
-                weight="medium"
-                data-role="section-message-content-title"
-                id={descriptionId}
-                as="h2"
-              >
-                {children}
-              </Typography>
-
-              {description && (
-                <Typography
-                  variant="label1-reading"
-                  weight="regular"
-                  data-role="section-message-content-description"
-                  color="semantic.label.neutral"
-                  as="p"
-                >
-                  {description}
-                </Typography>
-              )}
-
-              {bottomButton && (
-                <FlexBox
-                  data-role="section-message-bottom-button"
-                  sx={{ marginTop: 8 }}
-                  gap="16px"
-                >
-                  {bottomButton}
-                </FlexBox>
-              )}
-            </FlexBox>
-
-            {trailingButton && (
-              <FlexBox
-                gap="16px"
-                alignItems="center"
-                sx={sectionMessageTrailingButtonStyle}
-                data-role="section-message-trailing-button"
-              >
-                {trailingButton}
-              </FlexBox>
-            )}
-
-            {closeButton && (
-              <IconButton
-                data-role="section-message-close-icon"
-                color="semantic.label.alternative"
-                interactionColor="semantic.label.alternative"
-                onClick={handleShowToggle}
-                size={20}
-                sx={sectionMessageCloseButtonStyle}
-              >
-                <IconClose />
-              </IconButton>
-            )}
+        {renderLeadingContent && (
+          <FlexBox flexShrink={0} sx={sectionMessageIconStyle(variant)}>
+            {renderLeadingContent}
           </FlexBox>
         )}
-      </>
+
+        <FlexBox
+          data-role="section-message-content"
+          flexDirection="column"
+          gap="4px"
+          flex="1"
+        >
+          <Typography
+            color="semantic.label.normal"
+            variant="body2"
+            weight="medium"
+            data-role="section-message-content-title"
+            id={titleId}
+            as="h2"
+          >
+            {children}
+          </Typography>
+
+          {description && (
+            <Typography
+              variant="label1-reading"
+              weight="regular"
+              data-role="section-message-content-description"
+              id={descriptionId}
+              color="semantic.label.neutral"
+              as="p"
+            >
+              {description}
+            </Typography>
+          )}
+
+          {bottomButton && (
+            <FlexBox
+              data-role="section-message-bottom-button"
+              sx={{ marginTop: 8 }}
+              gap="16px"
+            >
+              {bottomButton}
+            </FlexBox>
+          )}
+        </FlexBox>
+
+        {trailingButton && (
+          <FlexBox
+            gap="16px"
+            alignItems="center"
+            sx={sectionMessageTrailingButtonStyle}
+            data-role="section-message-trailing-button"
+          >
+            {trailingButton}
+          </FlexBox>
+        )}
+
+        {closeButton && (
+          <IconButton
+            data-role="section-message-close-icon"
+            color="semantic.label.alternative"
+            interactionColor="semantic.label.alternative"
+            onClick={handleClose}
+            size={20}
+            aria-label="Close message"
+            sx={sectionMessageCloseButtonStyle}
+          >
+            <IconClose />
+          </IconButton>
+        )}
+      </FlexBox>
     );
   },
 );
 
 SectionMessage.displayName = 'SectionMessage';
 
-export default SectionMessage;
+export { SectionMessage };
+
+export type { SectionMessageProps };

@@ -1,0 +1,84 @@
+---
+title: Media
+description: 여러가지 Media와 관련된 유틸리티 함수들을 제공합니다.
+createdAt: 2025-06-17
+---
+
+## respondTo, respondDown
+
+```ts
+import { css, respondTo } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  width: 100px;
+
+  // 또는 respondDown
+  ${respondTo(theme.breakpoint.sm)} {
+    width: 50px;
+  }
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  width: 100px;
+  @media only screen and (max-width: 767px) {
+    width: 50px;
+  }
+}
+```
+
+## respondMore, respondUp
+
+```ts
+import { css, respondMore } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  width: 50px;
+
+  // 또는 respondUp
+  ${respondMore(theme.breakpoint.sm)} {
+    width: 100px;
+  }
+`;
+```
+
+위 코드는 아래와 같이 렌더링 됩니다.
+
+```css
+.wds-exampleStyle1 {
+  width: 100px;
+  @media only screen and (min-width: 768px) {
+    width: 50px;
+  }
+}
+```
+
+## useMediaQuery
+
+Theme 객체를 직접 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
+
+```tsx
+import { Box, useMediaQuery } from '@wanteddev/wds';
+
+const Component = () => {
+  const { respondTo, respondMore, respondUp, respondDown, breakpoint } = useMediaQuery();
+
+  return (
+    <Box
+      sx={{
+        width: '100px',
+        [respondTo(breakpoint.xs)]: {
+          width: '200px',
+        },
+      }}
+    />
+  );
+};
+```

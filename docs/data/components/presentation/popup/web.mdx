@@ -1,0 +1,702 @@
+---
+title: Popup
+description: Popup component
+createdAt: 2025-09-23
+---
+
+## Basic popup
+
+Popup overlay를 표시합니다.
+
+breakpoint에 따라 variant를 override 하여 [Bottom sheet](/components/presentation/bottom-sheet/web) 와 쉽게 통합할 수 있습니다.
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Modal>
+      <ModalTrigger>
+        <Button>Open</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="popup">
+        <ModalNavigation>
+          Title
+        </ModalNavigation>
+
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Popup 은 여러 컴포넌트를 조합해서 사용합니다.
+
+`ModalTrigger` 는 선택적으로 사용할 수 있습니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Modal>
+  <ModalTrigger>
+    <Button />
+  </ModalTrigger>
+
+  <ModalContainer>
+    <ModalNavigation />
+
+    <ModalContent>
+      <ModalContentItem>
+        <ModalHeading />
+        <ModalSummary />
+        <ModalDescription />
+      </ModalContentItem>
+    </ModalContent>
+
+    <ActionArea>
+      <ActionAreaButton />
+    </ActionArea>
+  </ModalContainer>
+</Modal>
+```
+
+
+## Sizes
+
+4가지 사이즈를 사용할 수 있습니다.
+
+- small (deprecated)
+- medium (default)
+- large
+- xlarge
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexWrap="wrap">
+      <Modal>
+        <ModalTrigger>
+          <Button>Small</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup" size="small">
+          <ModalNavigation>
+            Title
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Medium</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup" size="medium">
+          <ModalNavigation>
+            Title
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Large</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup" size="large">
+          <ModalNavigation>
+            Title
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Xlarge</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup" size="xlarge">
+          <ModalNavigation>
+            Title
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Resize
+
+resize 옵션을 사용하면 Bottom sheet가 차지하는 높이를 조정할 수 있습니다.
+- hug (default)
+- fixed
+
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexWrap="wrap">
+      <Modal>
+        <ModalTrigger>
+          <Button>Hug</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup" resize="hug">
+          <ModalNavigation>
+            Hug
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Fixed</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup" resize="fixed">
+          <ModalNavigation>
+            Fixed
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+
+## Navigation
+
+4가지 variant의 Navigation을 사용할 수 있습니다.
+- normal
+- emphasized
+- floating
+- extended
+
+또한 `ModalNavigation` 의 leadingContent, trailingContent로 콘텐츠를 추가할 수 있으며 `ModalNavigationButton` 으로 감싸서 사용합니다.
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexWrap="wrap">
+      <Modal>
+        <ModalTrigger>
+          <Button>Normal</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup">
+          <ModalNavigation variant="normal">
+            Normal
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Emphasized</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup">
+          <ModalNavigation variant="emphasized">
+            Emphasized
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Floating</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup">
+          <ModalNavigation variant="floating" />
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Extended</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="popup">
+          <ModalNavigation variant="extended">
+            Extended
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Close button
+
+닫기 버튼을 없애거나 좌측에 배치할 수도 있습니다.
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ModalTrigger,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalClose,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+
+  return (
+    <Modal>
+       <ModalTrigger>
+        <Button>Open</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="popup">
+        <ModalNavigation trailingContent={null} leadingContent={<ModalClose />}>
+          Title
+        </ModalNavigation>
+
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Customize
+
+ModalContainer의 `wrapperProps` 를 사용하면 모달이 나타나는 위치를 조정할 수 있습니다.
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ModalTrigger,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Modal>
+      <ModalTrigger>
+        <Button>Open</Button>
+      </ModalTrigger>
+
+      <ModalContainer
+        variant="popup"
+        wrapperProps={{
+          sx: {
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end'
+          }
+        }}>
+        <ModalNavigation>
+          Title
+        </ModalNavigation>
+
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With form
+
+Form 구조로 사용하려면 `ModalContainer` 하위에 `<FlexBox as="form" flex="1" flexDirection="column">` 구조를 사용합니다.
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalNavigation,
+  ModalTrigger,
+  TextField,
+  FlexBox,
+  FormField,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormMessage,
+} from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm({ defaultValues: { value: '' } });
+
+  return (
+    <Modal>
+      <ModalTrigger>
+        <Button>Open</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="popup">
+        <FlexBox
+          as="form"
+          flex="1"
+          flexDirection="column"
+          onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+        >
+          <ModalNavigation>
+            Title
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <Controller
+                control={form.control}
+                name="value"
+                rules={{
+                  required: {
+                    value: true,
+                    message: '필수 값입니다.'
+                  }
+                }}
+                render={({ field, formState }) => (
+                  <FormField>
+                    <FormLabel>라벨</FormLabel>
+
+                    <FormControl>
+                      <TextField {...field} width="100%" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.test)} />
+                    </FormControl>
+
+                    {Boolean(formState.errors.test) ? (
+                      <FormErrorMessage>{formState.errors.test?.message}</FormErrorMessage>
+                    ): (
+                      <FormMessage>Description</FormMessage>
+                    )}
+                  </FormField>
+                )} />
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton type="submit">
+              Submit
+            </ActionAreaButton>
+          </ActionArea>
+        </FlexBox>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+### Modal
+
+<PropsTable component="Modal" />
+
+### ModalContainer
+
+<PropsTable component="ModalContainer" />
+
+### ModalNavigation
+
+<PropsTable component="ModalNavigation" />
+
+### ModalNavigationButton
+
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalNavigationButton" />
+
+### ModalClose
+
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalClose" />
+
+### ModalContent
+
+<PropsTable component="ModalContent" />
+
+### ModalContentItem
+
+`FlexBox` 와 동일한 Props를 사용합니다.
+
+### ModalHeading
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalSummary
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalDescription
+
+`Typography` 와 동일한 Props를 사용합니다.

@@ -1,5 +1,5 @@
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import {
   IconCircleCheckFill,
   IconCircleCloseFill,
@@ -7,10 +7,10 @@ import {
 } from '@wanteddev/wds-icon';
 import { forwardRef, useEffect, useRef } from 'react';
 
-import FlexBox from '../flex-box';
-import IconButton from '../icon-button';
-import Typography from '../typography';
-import Button from '../button';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
+import { Typography } from '../typography';
+import { Button } from '../button';
 import { IconButtonProvider } from '../icon-button/contexts';
 
 import {
@@ -22,8 +22,8 @@ import {
 } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type {
@@ -34,13 +34,14 @@ import type {
 
 const TextField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<TextFieldProps, 'input'>
+  DefaultComponentPropsInternal<TextFieldProps, 'input'>
 >(
   (
     {
       invalid,
       leadingContent,
       trailingContent,
+      trailingButton,
       positive,
       readOnly,
       disabled,
@@ -114,82 +115,86 @@ const TextField = forwardRef<
           sx,
         ]}
       >
-        {leadingContent}
-        <input
-          ref={composedRefs}
-          type={type}
-          readOnly={readOnly}
-          disabled={disabled}
-          aria-readonly={readOnly}
-          aria-invalid={invalid}
-          aria-disabled={disabled}
-          {...props}
-        />
-        {invalid ? (
-          <TextFieldContent
-            data-role="text-field-invalid"
-            sx={invalidIconWrapperStyle}
-            variant="icon"
-          >
-            <IconCircleExclamationFill />
-          </TextFieldContent>
-        ) : (
-          positive && (
+        <FlexBox gap="8px" data-role="text-field-wrapper">
+          {leadingContent}
+          <input
+            ref={composedRefs}
+            type={type}
+            readOnly={readOnly}
+            disabled={disabled}
+            aria-readonly={readOnly}
+            aria-invalid={invalid}
+            aria-disabled={disabled}
+            {...props}
+          />
+          {invalid ? (
             <TextFieldContent
-              data-role="text-field-positive"
-              sx={positiveIconWrapperStyle}
+              data-role="text-field-invalid"
+              sx={invalidIconWrapperStyle}
               variant="icon"
             >
-              <IconCircleCheckFill />
+              <IconCircleExclamationFill />
             </TextFieldContent>
-          )
-        )}
+          ) : (
+            positive && (
+              <TextFieldContent
+                data-role="text-field-positive"
+                sx={positiveIconWrapperStyle}
+                variant="icon"
+              >
+                <IconCircleCheckFill />
+              </TextFieldContent>
+            )
+          )}
 
-        <TextFieldContent
-          data-role="text-field-reset"
-          variant="icon-button"
-          onPointerDown={(e) => e.preventDefault()}
-          onClick={() => {
-            const input = inputRef.current;
+          <TextFieldContent
+            data-role="text-field-reset"
+            variant="icon-button"
+            onPointerDown={(e) => e.preventDefault()}
+            onClick={() => {
+              const input = inputRef.current;
 
-            if (!input) return;
+              if (!input) return;
 
-            requestAnimationFrame(() => {
-              const prevValue = input.value;
+              requestAnimationFrame(() => {
+                const prevValue = input.value;
 
-              const event = new Event('change', { bubbles: true });
-              input.value = '';
+                const event = new Event('change', { bubbles: true });
+                input.value = '';
 
-              props.onChange?.({
-                ...event,
-                target: input as EventTarget & HTMLInputElement,
-                currentTarget: input as EventTarget & HTMLInputElement,
-                nativeEvent: {
+                props.onChange?.({
                   ...event,
-                  target: input as EventTarget,
-                  currentTarget: input as EventTarget,
-                },
-                isDefaultPrevented: () => false,
-                isPropagationStopped: () => false,
-                persist: (): void => {},
+                  target: input as EventTarget & HTMLInputElement,
+                  currentTarget: input as EventTarget & HTMLInputElement,
+                  nativeEvent: {
+                    ...event,
+                    target: input as EventTarget,
+                    currentTarget: input as EventTarget,
+                  },
+                  isDefaultPrevented: () => false,
+                  isPropagationStopped: () => false,
+                  persist: (): void => {},
+                });
+
+                onReset?.(prevValue);
+
+                input.focus();
               });
-
-              onReset?.(prevValue);
-
-              input.focus();
-            });
-          }}
-        >
-          <IconButton
-            type="button"
-            size={22}
-            tabIndex={-1}
-            sx={(theme) => ({ color: theme.semantic.label.assistive })}
+            }}
           >
-            <IconCircleCloseFill />
-          </IconButton>
-        </TextFieldContent>
-        {trailingContent}
+            <IconButton
+              type="button"
+              size={22}
+              tabIndex={-1}
+              sx={(theme) => ({ color: theme.semantic.label.assistive })}
+            >
+              <IconCircleCloseFill />
+            </IconButton>
+          </TextFieldContent>
+          {trailingContent}
+        </FlexBox>
+
+        {trailingButton}
       </Box>
     );
   },
@@ -199,7 +204,7 @@ TextField.displayName = 'TextField';
 
 const TextFieldContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TextFieldContentProps, 'div'>
+  DefaultComponentPropsInternal<TextFieldContentProps, 'div'>
 >(({ variant = 'text', children, sx, color, ...props }, ref) => {
   switch (variant) {
     case 'text':
@@ -281,6 +286,18 @@ const TextFieldContent = forwardRef<
           </IconButtonProvider>
         </FlexBox>
       );
+    case 'text-button':
+      return (
+        <FlexBox
+          wds-component="text-field-content"
+          ref={ref}
+          sx={[textFieldContentStyle, sx]}
+          alignItems="center"
+          {...props}
+        >
+          {children}
+        </FlexBox>
+      );
     case 'custom':
     default:
       return (
@@ -303,11 +320,10 @@ const TextFieldButton = forwardRef(
     {
       type = 'button',
       as,
-      position = 'right',
       variant = 'normal',
       disabled,
       ...props
-    }: PolymorphicProps<TextFieldButtonProps, T>,
+    }: PolymorphicPropsInternal<TextFieldButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -315,17 +331,20 @@ const TextFieldButton = forwardRef(
         as={(as || 'button') as ElementType}
         variant="outlined"
         type={type}
-        color={variant === 'normal' ? 'secondary' : 'assistive'}
+        color={variant === 'normal' ? 'primary' : 'assistive'}
         ref={ref}
         disabled={disabled}
         size="large"
+        data-role="text-field-button"
         {...props}
-        sx={[textFieldButtonStyle({ variant, position, disabled }), props.sx]}
+        sx={[textFieldButtonStyle({ variant, disabled }), props.sx]}
       />
     );
   },
-) as PolymorphicComponent<TextFieldButtonProps, 'button'>;
+) as PolymorphicComponentInternal<TextFieldButtonProps, 'button'>;
 
 TextFieldButton.displayName = 'TextFieldButton';
 
 export { TextField, TextFieldContent, TextFieldButton };
+
+export type { TextFieldProps, TextFieldContentProps, TextFieldButtonProps };

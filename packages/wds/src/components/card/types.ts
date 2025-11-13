@@ -1,36 +1,45 @@
+import type { TypographyProps } from '../typography';
 import type { SkeletonProps } from '../skeleton/types';
-import type ImageLoader from '../image-loader';
-import type { CSSProperties, ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
-import type { ThumbnailDefaultProps } from '../thumbnail/types';
+import type { CSSProperties, ReactNode } from 'react';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
+import type {
+  ThumbnailProps,
+  ThumbnailSkeletonProps,
+} from '../thumbnail/types';
 import type { FlexBoxProps } from '../flex-box/types';
 
-export type CardDefaultProps = {
+export type CardDefaultProps = WithSxProps<{
   platform?: 'desktop' | 'mobile';
   width?: CSSProperties['width'];
   children?: ReactNode;
-};
-export type CardResponsiveProps = ResponsiveProps<CardDefaultProps>;
+}>;
+
+export type CardResponsiveProps = ResponsiveProps<Omit<CardDefaultProps, 'sx'>>;
+
 export type CardProps = Merge<
   Merge<CardDefaultProps, CardResponsiveProps>,
   FlexBoxProps
 >;
 
-export type CardThumbnailBasicProps = Merge<
-  Omit<ThumbnailDefaultProps, 'border' | 'radius'>,
-  ComponentPropsWithoutRef<typeof ImageLoader>
+export type CardThumbnailDefaultProps = Merge<
+  {
+    leadingContent?: ReactNode;
+    trailingContent?: ReactNode;
+    children?: ReactNode;
+  },
+  Omit<ThumbnailProps, 'border' | 'radius'>
 >;
-export type CardThumbnailDefaultProps = {
-  leadingContent?: ReactNode;
-  trailingContent?: ReactNode;
-  children?: ReactNode;
-};
+
 export type CardThumbnailResponsiveProps = ResponsiveProps<
-  Pick<CardThumbnailBasicProps, 'ratio'>
+  Pick<CardThumbnailDefaultProps, 'ratio'>
 >;
 export type CardThumbnailProps = Merge<
-  Merge<CardThumbnailDefaultProps, CardThumbnailBasicProps>,
-  CardThumbnailResponsiveProps
+  CardThumbnailResponsiveProps,
+  CardThumbnailDefaultProps
 >;
 
 export type CardThumbnailContentProps = Merge<
@@ -39,6 +48,11 @@ export type CardThumbnailContentProps = Merge<
   },
   FlexBoxProps
 >;
+
+export type CardTitleProps = TypographyProps;
+export type CardCaptionProps = TypographyProps;
+
+export type CardContentProps = FlexBoxProps;
 
 export type CardContentItemDefaultProps = {
   variant?: 'badge' | 'custom';
@@ -57,3 +71,7 @@ export type CardCaptionSkeletonProps = Merge<
   CardCaptionSkeletonDefaultProps,
   SkeletonProps
 >;
+
+export type CardTitleSkeletonProps = SkeletonProps;
+
+export type CardThumbnailSkeletonProps = ThumbnailSkeletonProps;

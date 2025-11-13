@@ -5,8 +5,17 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
   "exclude": ["**/node_modules", "**/.*/", "./dist", "*.cjs"],
-  "include": ["scripts/**/*.mjs", ".tsup/**/*.ts"]
+  "include": [
+    "scripts/**/*.mjs",
+    ".tsup/**/*.ts",
+    "vitest.config.ts",
+    ".vitest",
+    "eslint.config.mjs",
+    "prettier.config.mjs",
+    ".lintstagedrc.mjs"
+  ]
 }

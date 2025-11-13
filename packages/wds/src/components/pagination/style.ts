@@ -15,12 +15,12 @@ export const paginationStyle = ({
   `;
 
 export const paginationItemStyle = css`
-  min-width: 20px;
-  max-width: 20px;
+  width: fit-content;
 `;
 
 export const pageButtonStyle = (theme: Theme) => css`
-  width: 100%;
+  width: fit-content;
+  min-width: 20px;
 
   // TextButton Typography
   > span {
@@ -55,8 +55,11 @@ export const pageButtonStyle = (theme: Theme) => css`
 `;
 
 export const paginationFieldStyle = css`
-  padding: 6px;
   border-radius: 8px;
+
+  [data-role='text-field-wrapper'] {
+    padding: 6px;
+  }
 
   input {
     ${typographyStyle('label1', 'medium')}

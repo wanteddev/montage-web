@@ -1,0 +1,134 @@
+---
+title: Section header
+description: 콘텐츠 영역이나 특정 섹션의 시작을 명확하게 알려주는 제목 요소입니다. 섹션의 주제를 설명하고 추가 정보나 관련 페이지로 이동할 수 있는 링크를 함께 제공하여 탐색을 쉽게 할 수 있도록 돕습니다.
+image: /components/contents/section-header/design/Thumbnails.png
+createdAt: 2025-09-30
+updatedAt: 2025-09-30
+---
+
+<SectionAnatomy
+  src="/components/contents/section-header/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Heading',
+    'Heading content',
+    'Trailing content',
+  ]}
+/>
+
+<SectionVariants
+  components={['SectionHeader', 'IconButton', 'FilterButton', 'TextButton', 'SectionHeaderNavigation', 'SectionHeaderNavigationButton']}
+  icons={['IconBlank', 'IconChevronLeftSmall', 'IconChevronRightSmall']}
+  variants={[
+    {
+      key: 'Platform',
+      options: [
+        { label: 'Mobile', value: { platform: 'mobile', sx: { width:'75%' }, children: 'Heading' } },
+        { label: 'Desktop', value: { platform: 'desktop', sx: { width:'75%' }, children: 'Heading' } },
+      ]
+    },
+    {
+      key: 'Heading content',
+      defaultValue: 'Filter chip',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Filter chip', value: { headingContent: '<FilterButton size="small" variant="outlined">Chip</FilterButton>' } },
+        { label: 'Icon button', value: { headingContent: '<IconButton size={24}><IconBlank /></IconButton>' } },
+      ]
+    },
+    {
+      key: 'Trailing content',
+      defaultValue: 'Text button',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Text button', value: { trailingContent: '<TextButton size="small" color="assistive">Text</TextButton>' } },
+        { label: 'Pagination', value: { trailingContent: '<SectionHeaderNavigation><SectionHeaderNavigationButton><IconChevronLeftSmall /></SectionHeaderNavigationButton><SectionHeaderNavigationButton><IconChevronRightSmall /></SectionHeaderNavigationButton></SectionHeaderNavigation>' } },
+        { label: 'Icon button', value: { trailingContent: '<IconButton size={24}><IconBlank /></IconButton>' } },
+      ]
+    },
+  ]}
+/>
+
+
+<SectionLayout title="Size">
+  <SectionFigureGroup title="Mobile">
+    <SectionFigure
+      ratio="16:9"
+      description="화면 위계에 따라 크기를 변경해 사용합니다. Title의 Line height에 따라 높이가 결정됩니다."
+      src="/components/contents/section-header/design/Image-1.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Desktop">
+    <SectionFigure
+      ratio="16:9"
+      description="화면 위계에 따라 크기를 변경해 사용합니다. 타이틀 텍스트의 Line height에 따라 높이가 결정됩니다. 데스크톱에서는 가독성을 위해 모바일보다 큰 타이틀 텍스트를 사용합니다."
+      src="/components/contents/section-header/design/Image-2.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Heading content">
+  <SectionFigure
+    ratio="21:9"
+    description="Title 우측은 Slot 영역으로 Chip, Icon button 등이 배치 될 수 있습니다."
+    src="/components/contents/section-header/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Trailing content">
+  <SectionFigure
+    ratio="2:1"
+    description="컴포넌트의 가장 우측 Slot 영역으로 Button, Pagination, Icon button 등이 배치 될 수 있습니다."
+    src="/components/contents/section-header/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Text wrapping">
+    <SectionFigure
+      ratio="16:9"
+      description="타이틀은 컨테이너 너비보다 길어질 경우 최대 두 줄로 줄 바꿈 처리됩니다. Heading content는 타이틀의 기준선(baseline)에 맞춰 하단 정렬됩니다. Trailing content는 타이틀의 기준선(baseline)에 맞춰 하단 정렬됩니다."
+      src="/components/contents/section-header/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Mobile break point">
+    <SectionFigure
+      ratio="21:9"
+      description="화면 너비가 767px 이하일 때 모바일용을 사용합니다."
+      src="/components/contents/section-header/design/Image-6.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Desktop break point">
+    <SectionFigure
+      ratio="2:1"
+      description="화면 너비가 768px 이상일 때 데스크톱용을 사용합니다."
+      src="/components/contents/section-header/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="Heading은 최대한 간결하게 작성하세요."
+    src="/components/contents/section-header/design/Image-8.png"
+  />
+  <SectionFigure
+    variant="negative"
+    description="타이틀을 너무 길게 작성하지 마세요."
+    src="/components/contents/section-header/design/Image-9.png"
+  />
+</SectionLayout>
+
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Title',
+      options: ['typographyColor', 'contentColor']
+    },
+  ]}
+/>

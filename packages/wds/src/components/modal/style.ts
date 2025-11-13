@@ -3,9 +3,11 @@ import { css, keyframes } from '@wanteddev/wds-engine';
 import {
   createResponsiveStyle,
   getPreviousValue,
-} from '../../utils/responsive-props';
+} from '../../utils/internal/responsive-props';
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
+
+import { BOTTOM_SHEET_SHADOW } from './constants';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type {
@@ -75,12 +77,38 @@ const modalContainerWrapperVariant = (
         justify-content: center;
         align-items: initial;
         padding: 0px;
+
+        [data-role='modal-dimmer'][data-status='close'] {
+          opacity: initial;
+          pointer-events: none;
+          transition: initial;
+        }
+
+        [data-role='modal-container-scroll-area']:has(
+            [wds-component='top-navigation'][data-variant='floating']
+          ) {
+          background: initial;
+          will-change: unset;
+        }
       `;
     case 'popup':
       return css`
         align-items: center;
         justify-content: center;
         padding: 20px;
+
+        [data-role='modal-dimmer'][data-status='close'] {
+          opacity: initial;
+          pointer-events: none;
+          transition: initial;
+        }
+
+        [data-role='modal-container-scroll-area']:has(
+            [wds-component='top-navigation'][data-variant='floating']
+          ) {
+          background: initial;
+          will-change: unset;
+        }
       `;
     case 'bottom':
       return css`
@@ -92,6 +120,13 @@ const modalContainerWrapperVariant = (
           opacity: 0;
           pointer-events: none;
           transition: opacity ease 200ms;
+        }
+
+        [data-role='modal-container-scroll-area']:has(
+            [wds-component='top-navigation'][data-variant='floating']
+          ) {
+          background: inherit;
+          will-change: backdrop-filter;
         }
       `;
   }
@@ -124,12 +159,13 @@ export const modalContainerStyle =
 
     [wds-component='action-area'] {
       position: sticky;
+      z-index: 5;
       bottom: 0;
       left: 0;
     }
 
     ${modalContainerSize(size, resize)}
-    ${modalContainerVariant(variant, theme)}
+    ${modalContainerVariant(variant)}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -154,7 +190,6 @@ export const modalContainerStyle =
               variant,
               breakpoint!,
             ),
-            theme,
           )}
         `}
 
@@ -327,15 +362,12 @@ const modalContainerSize = (
   }
 };
 
-const modalContainerVariant = (
-  variant: ModalContainerProps['variant'],
-  theme: Theme,
-) => {
+const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
   switch (variant) {
     case 'full':
       return css`
-        min-width: none;
-        max-height: none;
+        min-width: initial;
+        max-height: initial;
         max-width: 100%;
         width: 100%;
         height: 100%;
@@ -407,7 +439,7 @@ const modalContainerVariant = (
         border-radius: 12px 12px 0px 0px;
         max-width: 480px;
         width: 100%;
-        min-width: none;
+        min-width: initial;
         overflow: hidden;
         transition:
           transform 200ms ease,
@@ -433,7 +465,7 @@ const modalContainerVariant = (
         }
 
         &[data-status='open'][data-visibility='hidden'] {
-          box-shadow: ${theme.semantic.elevation.shadow.strong};
+          box-shadow: ${BOTTOM_SHEET_SHADOW};
           transition:
             transform 200ms ease,
             box-shadow 200ms ease;
@@ -446,7 +478,7 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
   switch (variant) {
     case 'emphasized':
       return css`
-        & > div {
+        [data-role='top-navigation-wrapper'] {
           padding: var(--wds-top-navigation-padding-y, 16px)
             var(--wds-top-navigation-padding-x, 16px);
           min-height: var(--wds-top-navigation-min-height, 64px);
@@ -455,8 +487,8 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
           justify-content: initial;
         }
 
-        [data-role='top-navigation-left-button'],
-        [data-role='top-navigation-right-button'] {
+        [data-role='top-navigation-leading-content-wrapper'],
+        [data-role='top-navigation-trailing-content-wrapper'] {
           flex: 0 0 auto;
           position: relative;
           right: initial;

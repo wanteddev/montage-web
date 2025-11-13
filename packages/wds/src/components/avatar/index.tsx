@@ -6,16 +6,17 @@ import {
 } from '@wanteddev/wds-icon';
 import { Box } from '@wanteddev/wds-engine';
 
-import ImageLoader from '../image-loader';
+import { ImageBase } from '../image-base';
 
 import { avatarWrapperStyle, fallbackWrapperStyle } from './style';
 
-import type { ComponentProps, PropsWithChildren } from 'react';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { AvatarProps } from './types';
 
-type Props = PropsWithChildren<AvatarProps>;
-
-const Avatar = forwardRef<HTMLDivElement, Props>(
+const Avatar = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<AvatarProps, 'img'>
+>(
   (
     {
       size = 'small',
@@ -48,16 +49,12 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
       'idle' | 'loaded' | 'error'
     >('idle');
 
-    const hasImage = (
-      value: AvatarProps,
-    ): value is ComponentProps<typeof ImageLoader> =>
-      'src' in value && Boolean(value.src);
-
     const prevSrc = useRef(props.src);
 
     useEffect(() => {
       if (prevSrc.current !== props.src) {
         prevSrc.current = props.src;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setImageLoadingStatus('idle');
       }
     }, [props.src]);
@@ -71,11 +68,9 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
         data-state={imageLoadingStatus}
         style={style}
       >
-        {imageLoadingStatus !== 'error' && hasImage(props) ? (
-          <ImageLoader
-            quality={90}
+        {imageLoadingStatus !== 'error' && Boolean(props.src) ? (
+          <ImageBase
             {...props}
-            width={props.width ? props.width : '80px'}
             onLoad={() => {
               props.onLoad?.();
               setImageLoadingStatus('loaded');
@@ -98,4 +93,6 @@ const Avatar = forwardRef<HTMLDivElement, Props>(
 
 Avatar.displayName = 'Avatar';
 
-export default Avatar;
+export { Avatar };
+
+export type { AvatarProps };

@@ -13,9 +13,9 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
 import { usePrevious } from '@radix-ui/react-use-previous';
 
-import FlexBox from '../flex-box';
-import useResizeObserver from '../../hooks/use-resize-observer';
-import { calculateAnimationStyle } from '../../utils/animation';
+import { FlexBox } from '../flex-box';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import { calculateAnimationStyle } from '../../utils/internal/animation';
 import { VirtualCheckboxInput } from '../virtual-input';
 
 import {
@@ -33,13 +33,13 @@ import {
 } from './constants';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
 } from 'react';
@@ -49,7 +49,7 @@ const ARROW_KEYS = ['ArrowLeft', 'ArrowRight'];
 
 const SegmentedControl = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SegmentedControlProps, 'div'>
+  DefaultComponentPropsInternal<SegmentedControlProps, 'div'>
 >(
   (
     {
@@ -76,7 +76,7 @@ const SegmentedControl = forwardRef<
 
     const [value, setValue] = useControllableState({
       prop: valueProp,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 
@@ -195,12 +195,12 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       trailingContent,
       as,
       ...props
-    }: PolymorphicProps<SegmentedControlItemProps, T>,
+    }: PolymorphicPropsInternal<SegmentedControlItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const id = useId();
 
-    const [node, setNode] = useState<ElementRef<T> | null>(null);
+    const [node, setNode] = useState<ComponentRef<T> | null>(null);
     const composedRefs = useComposedRefs(
       forwardedRef,
       setNode as ForwardedRef<T>,
@@ -302,8 +302,10 @@ const SegmentedControlItem = forwardRef<any, SegmentedControlItemProps>(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<SegmentedControlItemProps, 'label'>;
+) as PolymorphicComponentInternal<SegmentedControlItemProps, 'label'>;
 
 SegmentedControlItem.displayName = SEGMENTED_CONTROL_ITEM_NAME;
 
 export { SegmentedControl, SegmentedControlItem };
+
+export type { SegmentedControlProps, SegmentedControlItemProps };

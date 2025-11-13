@@ -12,11 +12,17 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import {
+  Box,
+  type DefaultComponentPropsInternal,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
+} from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
-import useResizeObserver from '../../hooks/use-resize-observer';
-import ChipAction from '../chip-action';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
+import { Chip } from '../chip';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 
 import {
   categoryListItemStyle,
@@ -36,14 +42,10 @@ import {
   CATEGORY_NAME,
   CATEGORY_PANEL_NAME,
 } from './constants';
+import { getCategoryListItemSize } from './helpers';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
-} from '@wanteddev/wds-engine';
-import type {
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
   UIEventHandler,
@@ -66,7 +68,7 @@ const Category = ({
 }: CategoryProps) => {
   const [value, setValue] = useControllableState({
     prop: valueProp,
-    defaultProp: defaultValue,
+    defaultProp: defaultValue ?? '',
     onChange: onValueChange,
   });
 
@@ -96,7 +98,7 @@ Category.displayName = CATEGORY_NAME;
 
 const CategoryList = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<CategoryListProps, 'div'>
+  DefaultComponentPropsInternal<CategoryListProps, 'div'>
 >(
   (
     {
@@ -165,11 +167,7 @@ const CategoryList = forwardRef<
         handleResize={handleResize}
         variant={variant}
         size={size}
-        xs={xs}
-        sm={sm}
-        md={md}
-        lg={lg}
-        xl={xl}
+        responsive={{ xs, sm, md, lg, xl }}
       >
         <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
           <FlexBox
@@ -244,41 +242,22 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<CategoryListItemProps, T>,
+    }: PolymorphicPropsInternal<CategoryListItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const ref = useRef<ElementRef<T> | null>(null);
+    const ref = useRef<ComponentRef<T> | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useCategoryContext(CATEGORY_LIST_ITEM_NAME);
-    const { handleResize, size, variant, ...categoryListContext } =
+    const { handleResize, variant, ...categoryListContext } =
       useCategoryListContext(CATEGORY_LIST_ITEM_NAME);
     const isDisabled = disabled;
 
-    const responsiveProps = useMemo(() => {
-      return {
-        xs: {
-          ...xs,
-          size: categoryListContext.xs?.size,
-        },
-        sm: {
-          ...sm,
-          size: categoryListContext.sm?.size,
-        },
-        md: {
-          ...md,
-          size: categoryListContext.md?.size,
-        },
-        lg: {
-          ...lg,
-          size: categoryListContext.lg?.size,
-        },
-        xl: {
-          ...xl,
-          size: categoryListContext.xl?.size,
-        },
-      };
-    }, [xs, sm, md, lg, xl, categoryListContext]);
+    const sizeProps = useMemo(
+      () =>
+        getCategoryListItemSize(categoryListContext, { xs, sm, md, lg, xl }),
+      [xs, sm, md, lg, xl, categoryListContext],
+    );
 
     const isActive = context.value === value;
     const isArrowKeyPressedRef = useRef(false);
@@ -339,20 +318,14 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
 
     return (
       <RovingFocusGroup.Item asChild focusable={!isDisabled} active={isActive}>
-        <ChipAction
+        <Chip
           as={(as || 'button') as T}
           type="button"
           role="tab"
           ref={composedRefs}
-          {...props}
+          aria-pressed={undefined}
           wds-component="category-list-item"
-          disabled={disabled}
           aria-selected={isActive}
-          active={isActive}
-          variant={
-            originVariant ??
-            (isActive && variant !== 'alternative' ? 'solid' : 'outlined')
-          }
           aria-disabled={disabled}
           data-value={value}
           aria-controls={
@@ -360,7 +333,14 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          sx={[categoryListItemStyle({ ...responsiveProps, size }), props.sx]}
+          {...props}
+          disabled={disabled}
+          active={isActive}
+          variant={
+            originVariant ??
+            (isActive && variant !== 'alternative' ? 'solid' : 'outlined')
+          }
+          sx={[categoryListItemStyle(sizeProps), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (disabled) {
               return;
@@ -386,17 +366,17 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
           })}
         >
           {children}
-        </ChipAction>
+        </Chip>
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<CategoryListItemProps, 'button'>;
+) as PolymorphicComponentInternal<CategoryListItemProps, 'button'>;
 
 CategoryListItem.displayName = CATEGORY_LIST_ITEM_NAME;
 
 const CategoryPanel = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<CategoryPanelProps, 'div'>
+  DefaultComponentPropsInternal<CategoryPanelProps, 'div'>
 >(({ value, mountMode = 'force-mount', ...props }, ref) => {
   const context = useCategoryContext(CATEGORY_PANEL_NAME);
   const [firstRendered, setFirstRendered] = useState(false);
@@ -438,7 +418,7 @@ const CategoryPanel = forwardRef<
   }
 
   return (
-    <div
+    <Box
       {...props}
       ref={ref}
       wds-component="category-panel"
@@ -453,3 +433,10 @@ const CategoryPanel = forwardRef<
 CategoryPanel.displayName = CATEGORY_PANEL_NAME;
 
 export { Category, CategoryList, CategoryListItem, CategoryPanel };
+
+export type {
+  CategoryProps,
+  CategoryListProps,
+  CategoryListItemProps,
+  CategoryPanelProps,
+};

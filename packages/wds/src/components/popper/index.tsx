@@ -21,7 +21,8 @@ import {
 import { Slot } from '@radix-ui/react-slot';
 import { Box, useTheme } from '@wanteddev/wds-engine';
 
-import PortalOrFragment from '../portal-or-fragment';
+import { PortalOrFragment } from '../portal-or-fragment';
+import { FlexBox } from '../flex-box';
 
 import {
   PopperContentProvider,
@@ -39,12 +40,17 @@ import {
   POPPER_ANCHOR_NAME,
   POPPER_ARROW_NAME,
   POPPER_CONTENT_NAME,
+  POPPER_NAME,
 } from './constants';
 
-import type { ScopedProps } from '../../hooks/use-scope-context';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, PropsWithChildren } from 'react';
-import type { PopperArrowProps, PopperContentProps } from './types';
+import type { ScopedProps } from '../../hooks/internal/use-scope-context';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
+import type {
+  PopperAnchorProps,
+  PopperArrowProps,
+  PopperContentProps,
+  PopperProps,
+} from './types';
 
 const OPPOSITE_SIDE = {
   top: 'bottom',
@@ -56,7 +62,7 @@ const OPPOSITE_SIDE = {
 const Popper = ({
   children,
   __scopePopper = 'Popper',
-}: ScopedProps<PropsWithChildren, 'Popper'>) => {
+}: ScopedProps<PopperProps, 'Popper'>) => {
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   return (
@@ -70,9 +76,11 @@ const Popper = ({
   );
 };
 
+Popper.displayName = POPPER_NAME;
+
 const PopperAnchor = forwardRef<
   HTMLElement,
-  ScopedProps<ComponentPropsWithoutRef<typeof Slot>, 'Popper'>
+  DefaultComponentPropsInternal<ScopedProps<PopperAnchorProps, 'Popper'>, 'div'>
 >(({ __scopePopper = 'Popper', ...props }, forwardedRef) => {
   const context = usePopperContext(POPPER_ANCHOR_NAME, __scopePopper);
   const ref = useRef<HTMLElement>(null);
@@ -88,9 +96,9 @@ const PopperAnchor = forwardRef<
 PopperAnchor.displayName = POPPER_ANCHOR_NAME;
 
 const PopperArrow = forwardRef<
-  SVGSVGElement,
-  DefaultComponentProps<ScopedProps<PopperArrowProps, 'Popper'>, 'svg'>
->(({ overlay, __scopePopper = 'Popper', ...props }, ref) => {
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ScopedProps<PopperArrowProps, 'Popper'>, 'div'>
+>(({ children, __scopePopper = 'Popper', ...props }, ref) => {
   const { onArrowChange, side, arrowX, arrowY } = usePopperContentContext(
     POPPER_ARROW_NAME,
     __scopePopper,
@@ -98,102 +106,71 @@ const PopperArrow = forwardRef<
 
   const composedRef = useComposedRefs(
     ref,
-    onArrowChange as (node: SVGSVGElement | null) => void,
+    onArrowChange as (node: HTMLDivElement | null) => void,
   );
 
   return (
-    <>
-      <Box
-        as="svg"
-        wds-component="popper-arrow"
-        ref={composedRef}
-        style={{
-          ...props.style,
-          position: 'absolute',
-          width: '24px',
-          height: '8px',
-          display: 'block',
-          left: arrowX,
-          top: arrowY,
-          right: '',
-          bottom: '',
-          [OPPOSITE_SIDE[side]]: '0px',
-          transformOrigin: {
-            top: '',
-            right: '0 0',
-            bottom: 'center 0',
-            left: '100% 0',
-          }[side],
-          transform: {
-            top: 'translateY(100%)',
-            right: 'translateY(50%) rotate(90deg) translateX(-50%)',
-            bottom: `rotate(180deg)`,
-            left: 'translateY(50%) rotate(-90deg) translateX(50%)',
-          }[side],
-        }}
-        viewBox="0 0 24 8"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        {...props}
-      >
-        <path
-          d="M11.2407 6.11563L6 0.00143462H18L12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563Z"
-          fill="currentColor"
-        />
-      </Box>
-
-      {Boolean(overlay) && (
+    <FlexBox
+      ref={composedRef}
+      wds-component="popper-arrow"
+      aria-hidden
+      {...props}
+      sx={[{ width: 'fit-content', height: 'fit-content' }, props.sx]}
+      style={{
+        ...props.style,
+        position: 'absolute',
+        left: arrowX,
+        top: arrowY,
+        right: '',
+        bottom: '',
+        [OPPOSITE_SIDE[side]]: '0px',
+        transformOrigin: {
+          top: '',
+          right: '0 0',
+          bottom: 'center 0',
+          left: '100% 0',
+        }[side],
+        transform: {
+          top: 'translateY(100%)',
+          right: 'translateY(50%) rotate(90deg) translateX(-50%)',
+          bottom: `rotate(180deg)`,
+          left: 'translateY(50%) rotate(-90deg) translateX(50%)',
+        }[side],
+      }}
+    >
+      {children ?? (
         <Box
           as="svg"
-          style={{
-            ...props.style,
-            position: 'absolute',
-            width: '24px',
-            height: '8px',
-            display: 'block',
-            left: arrowX,
-            top: arrowY,
-            color: overlay,
-            right: '',
-            bottom: '',
-            [OPPOSITE_SIDE[side]]: '0px',
-            transformOrigin: {
-              top: '',
-              right: '0 0',
-              bottom: 'center 0',
-              left: '100% 0',
-            }[side],
-            transform: {
-              top: 'translateY(100%)',
-              right: 'translateY(50%) rotate(90deg) translateX(-50%)',
-              bottom: `rotate(180deg)`,
-              left: 'translateY(50%) rotate(-90deg) translateX(50%)',
-            }[side],
-          }}
-          viewBox="0 0 24 8"
+          viewBox="0 0 20 8"
+          width="20"
+          height="8"
           fill="none"
+          aria-hidden
           xmlns="http://www.w3.org/2000/svg"
-          {...props}
         >
           <path
-            d="M12.7593 6.11564C12.3602 6.58125 11.6398 6.58125 11.2407 6.11563L6 0.00143462H18L12.7593 6.11564Z"
+            d="M8.07038 4.16544L6.41566 2.23494C5.71105 1.41289 5.35874 1.00187 4.93043 0.706626C4.5509 0.445007 4.129 0.250961 3.68337 0.133056C3.18047 0 2.63912 0 1.55642 0H19.4436C18.3609 0 17.8195 0 17.3166 0.133056C16.871 0.250961 16.4491 0.445007 16.0696 0.706626C15.6413 1.00186 15.289 1.41289 14.5843 2.23493L14.5843 2.23494L12.9296 4.16544L12.9296 4.16545C12.0926 5.14193 11.6741 5.63017 11.1761 5.80906C10.7391 5.96607 10.2609 5.96607 9.82386 5.80906C9.32586 5.63017 8.90737 5.14193 8.07038 4.16545L8.07038 4.16544Z"
             fill="currentColor"
           />
         </Box>
       )}
-    </>
+    </FlexBox>
   );
 });
 
 PopperArrow.displayName = POPPER_ARROW_NAME;
 
-const PopperContent: ReturnType<
-  typeof forwardRef<HTMLElement, PopperContentProps>
-> = forwardRef<HTMLElement, ScopedProps<PopperContentProps, 'Popper'>>(
+const PopperContent = forwardRef<
+  HTMLElement,
+  DefaultComponentPropsInternal<
+    ScopedProps<PopperContentProps, 'Popper'>,
+    'div'
+  >
+>(
   (
     {
       wrapperProps = {},
-      position = 'top-center',
+      position = 'bottom-center',
       offset: givenOffset = 10,
       referenceHidden = false,
       referenceHiddenOffsets,
@@ -214,7 +191,7 @@ const PopperContent: ReturnType<
     const [content, setContent] = useState<HTMLElement | null>(null);
     const composedRefs = useComposedRefs(ref, (node) => setContent(node));
 
-    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 24 : 0;
+    const arrowWidth = Boolean(arrow) ? arrowSize?.width || 20 : 0;
     const arrowHeight = Boolean(arrow) ? arrowSize?.height || 8 : 0;
 
     const floatingPlacement = getPlacementMapper(position);
@@ -248,7 +225,7 @@ const PopperContent: ReturnType<
               element: arrow as Element,
               padding:
                 placement.includes('left') || placement.includes('right')
-                  ? 12
+                  ? 8
                   : 6,
             };
           }),
@@ -281,6 +258,9 @@ const PopperContent: ReturnType<
           wds-ignore-dismissable-layer="true"
           ref={refs.setFloating}
           {...wrapperProps}
+          data-side={side}
+          data-align={align}
+          data-placement={placementResult}
           style={{
             ...wrapperProps.style,
             ...floatingStyles,
@@ -308,12 +288,7 @@ const PopperContent: ReturnType<
             arrowX={arrowX}
             arrowY={arrowY}
           >
-            <Slot
-              data-side={side}
-              data-align={align}
-              ref={composedRefs}
-              {...props}
-            />
+            <Slot ref={composedRefs} {...props} />
           </PopperContentProvider>
         </Box>
       </PortalOrFragment>
@@ -324,3 +299,10 @@ const PopperContent: ReturnType<
 PopperContent.displayName = POPPER_CONTENT_NAME;
 
 export { Popper, PopperAnchor, PopperContent, PopperArrow };
+
+export type {
+  PopperProps,
+  PopperAnchorProps,
+  PopperArrowProps,
+  PopperContentProps,
+};

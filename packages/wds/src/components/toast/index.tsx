@@ -4,9 +4,9 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Slot } from '@radix-ui/react-slot';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
-import PortalOrFragment from '../portal-or-fragment';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { PortalOrFragment } from '../portal-or-fragment';
 import { AnimationPresence } from '../animation-presence';
 
 import {
@@ -27,11 +27,11 @@ import {
   toastIconComponent,
 } from './constants';
 
-import type { ComponentProps, ElementType, ForwardedRef, Ref } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   ToastContainerProps,
@@ -46,7 +46,7 @@ const Toast = forwardRef(
       duration: durationProp = 'short',
       variant = 'normal',
       onAnimationEnd,
-      defaultOpen = false,
+      defaultOpen,
       open: openProp,
       onOpenChange,
       children,
@@ -54,12 +54,13 @@ const Toast = forwardRef(
       disablePortal,
       disableAnimation,
       forceMount,
+      as,
       ...props
-    }: PolymorphicProps<ToastProps, T>,
+    }: PolymorphicPropsInternal<ToastProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const [open = false, setOpen] = useControllableState({
-      defaultProp: defaultOpen,
+    const [open, setOpen] = useControllableState({
+      defaultProp: defaultOpen ?? false,
       prop: openProp,
       onChange: onOpenChange,
     });
@@ -95,6 +96,20 @@ const Toast = forwardRef(
       component: 'toast',
     });
 
+    const ariaAttributes = useMemo(() => {
+      if (variant === 'negative') {
+        return {
+          role: 'alert',
+          'aria-live': 'assertive',
+        };
+      }
+
+      return {
+        role: variant === 'cautionary' ? 'alert' : 'status',
+        'aria-live': 'polite',
+      };
+    }, [variant]);
+
     return (
       <AnimationPresence present={open || forceMount}>
         <PortalOrFragment
@@ -106,8 +121,12 @@ const Toast = forwardRef(
           }
         >
           <Box
-            {...props}
+            aria-atomic
+            {...ariaAttributes}
+            aria-describedby={contentId}
             ref={forwardedRef}
+            {...props}
+            as={(as ?? 'div') as ElementType}
             onMouseEnter={composeEventHandlers(
               props.onMouseEnter,
               handleMouseEnter,
@@ -121,15 +140,7 @@ const Toast = forwardRef(
             style={{ ...style, ...props.style }}
             sx={[wrapperStyle({ disableAnimation }), props.sx]}
           >
-            <Box
-              ref={ref}
-              aria-atomic
-              role={variant === 'negative' ? 'alert' : 'status'}
-              aria-live={variant === 'negative' ? 'assertive' : 'polite'}
-              sx={toastStyle}
-              aria-describedby={contentId}
-              data-role="toast"
-            >
+            <Box ref={ref} sx={toastStyle} data-role="toast">
               <Box role="presentation" sx={firstOverlayStyle} />
               <Box role="presentation" sx={secondOverlayStyle} />
               <ToastProvider contentId={contentId} variant={variant}>
@@ -141,13 +152,13 @@ const Toast = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<ToastProps, 'div'>;
+) as PolymorphicComponentInternal<ToastProps, 'div'>;
 
 Toast.displayName = TOAST_NAME;
 
 const ToastContainer = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ToastContainerProps, 'div'>
+  DefaultComponentPropsInternal<ToastContainerProps, 'div'>
 >((props, ref) => {
   return (
     <FlexBox
@@ -162,33 +173,29 @@ const ToastContainer = forwardRef<
 
 ToastContainer.displayName = TOAST_CONTAINER_NAME;
 
-const ToastIcon = forwardRef<
-  SVGSVGElement,
-  DefaultComponentProps<ToastIconProps, 'svg'>
->(({ children, ...props }, ref) => {
-  const { variant } = useToastContext(TOAST_ICON_NAME);
+const ToastIcon = forwardRef<HTMLElement, ToastIconProps>(
+  ({ children, ...props }, ref) => {
+    const { variant } = useToastContext(TOAST_ICON_NAME);
 
-  const icon = children || toastIconComponent[variant];
+    const icon = children || toastIconComponent[variant];
 
-  if (!icon) {
-    return null;
-  }
+    if (!icon) {
+      return null;
+    }
 
-  return (
-    <Slot
-      ref={ref as Ref<HTMLElement>}
-      {...(props as ComponentProps<typeof Slot>)}
-    >
-      {icon}
-    </Slot>
-  );
-});
+    return (
+      <Slot ref={ref} {...props}>
+        {icon}
+      </Slot>
+    );
+  },
+);
 
 ToastIcon.displayName = TOAST_ICON_NAME;
 
 const ToastContent = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentProps<ToastContentProps, 'p'>
+  DefaultComponentPropsInternal<ToastContentProps, 'p'>
 >((props, ref) => {
   const { contentId } = useToastContext(TOAST_CONTENT_NAME);
 
@@ -209,3 +216,10 @@ const ToastContent = forwardRef<
 ToastContent.displayName = TOAST_CONTENT_NAME;
 
 export { Toast, ToastContainer, ToastIcon, ToastContent };
+
+export type {
+  ToastProps,
+  ToastContainerProps,
+  ToastIconProps,
+  ToastContentProps,
+};

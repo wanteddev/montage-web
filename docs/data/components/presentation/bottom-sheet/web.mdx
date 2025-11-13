@@ -1,0 +1,494 @@
+---
+title: Bottom sheet
+description: Bottom sheet component
+createdAt: 2025-09-23
+---
+
+## Basic Bottom sheet
+
+Bottom sheet를 표시합니다.
+
+breakpoint에 따라 variant를 override 하여 [Popup](/components/presentation/popup/web) 과 쉽게 통합할 수 있습니다.
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Modal>
+      <ModalTrigger>
+        <Button>Open</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="bottom">
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Main action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Bottom sheet 는 여러 컴포넌트를 조합해서 사용합니다.
+
+`ModalTrigger`, `ModalNavigation` 은 선택적으로 사용할 수 있습니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Modal>
+  <ModalTrigger>
+    <Button />
+  </ModalTrigger>
+
+  <ModalContainer>
+    <ModalNavigation />
+
+    <ModalContent>
+      <ModalContentItem>
+        <ModalHeading />
+        <ModalSummary />
+        <ModalDescription />
+      </ModalContentItem>
+    </ModalContent>
+
+    <ActionArea>
+      <ActionAreaButton />
+    </ActionArea>
+  </ModalContainer>
+</Modal>
+```
+
+
+## Sizes
+
+1가지 사이즈만 사용합니다.
+
+- medium
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexWrap="wrap">
+      <Modal>
+        <ModalTrigger>
+          <Button>Medium</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="bottom" size="medium">
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Main action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Resize
+
+resize 옵션을 사용하면 Bottom sheet가 차지하는 높이를 조정할 수 있습니다.
+- hug (default)
+- fixed
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexWrap="wrap">
+      <Modal>
+        <ModalTrigger>
+          <Button>Hug</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="bottom" resize="hug">
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Main action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Fixed</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="bottom" resize="fixed">
+          <ModalNavigation>
+            Fixed
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Main action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Handle
+
+Bottom sheet의 상단에 핸들을 표시하여 드래그로 숨기고 열 수 있는 옵션을 사용할 수 있습니다.
+- true
+- false (default)
+
+handle이 활성화된 경우 dimmer 영역 클릭 시 닫히지 않고 아래로 숨겨집니다.
+
+이 때 숨겨지는 영역의 높이는 ModalNavigation의 높이를 사용합니다.
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Modal>
+      <ModalTrigger>
+        <Button>Handle</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="bottom" handle>
+        <ModalNavigation>
+          Handle
+        </ModalNavigation>
+
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Main action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+### Peek height
+
+`peekHeight` 옵션을 사용하면 숨겨지는 영역의 높이를 조정할 수 있습니다.
+
+<Demo code={`import {
+  FlexBox,
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalSummary,
+  ModalTrigger,
+} from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
+        <Button>Peek height</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="bottom" handle peekHeight={76}>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
+            Close sheet
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Visibility
+
+아래로 숨겨지거나 다시 나타날 때 `onVisibilityChange` 콜백을 사용할 수 있습니다.
+
+해당 콜백을 사용하여 아래로 숨김 처리 되지 않고 바로 닫히게 구성할 수 있습니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalTrigger,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal
+      open={open}
+      onOpenChange={setOpen}
+      onVisibilityChange={(visibility) => {
+        if (visibility === 'hidden') {
+          setOpen(false)
+        }
+      }}
+    >
+      <ModalTrigger>
+        <Button>Visibility</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="bottom" handle peekHeight={76}>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea variant="cancel">
+          <ActionAreaButton onClick={() => setOpen(false)}>
+            Close sheet
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Full modal
+
+`variant="full"` 옵션을 사용하면 전체 화면 모달 형태로 표시할 수 있습니다.
+
+[Popup Navigation](/components/presentation/popup/web#navigation) 과 동일하게 Navigation을 사용할 수 있습니다.
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ModalTrigger,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalNavigation,
+  ModalSummary,
+} from '@wanteddev/wds';
+
+const Demo = () => {
+
+  return (
+    <Modal>
+       <ModalTrigger>
+        <Button>Full modal</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="full">
+        <ModalNavigation>
+          Title
+        </ModalNavigation>
+
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>Summary</ModalSummary>
+            <ModalDescription>Description</ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Main action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+### Modal
+
+<PropsTable component="Modal" />
+
+### ModalContainer
+
+<PropsTable component="ModalContainer" />
+
+### ModalNavigation
+
+<PropsTable component="ModalNavigation" />
+
+### ModalNavigationButton
+
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalNavigationButton" />
+
+### ModalClose
+
+`TopNavigationButton` 과 동일한 Props를 사용합니다.
+
+<PropsTable component="ModalClose" />
+
+### ModalContent
+
+<PropsTable component="ModalContent" />
+
+### ModalContentItem
+
+`FlexBox` 와 동일한 Props를 사용합니다.
+
+### ModalHeading
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalSummary
+
+`Typography` 와 동일한 Props를 사용합니다.
+
+### ModalDescription
+
+`Typography` 와 동일한 Props를 사용합니다.

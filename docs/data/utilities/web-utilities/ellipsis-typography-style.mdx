@@ -1,0 +1,39 @@
+---
+title: ellipsisTypographyStyle
+description: 말줄임 처리를 유틸리티로 제공해주는 함수입니다.
+createdAt: 2025-11-04
+---
+
+## Introduce
+
+`ellipsisTypographyStyle(line)` 으로 사용하며 말줄임 처리를 합니다.
+
+아무 인자도 넣지 않은 경우 기본값은 1입니다.
+
+## Sx prop
+
+```tsx
+import { css, Box, ellipsisTypographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+const Component = () => {
+  return (
+    <Box
+      sx={ellipsisTypographyStyle()}
+    />
+  )
+}
+```
+
+## Css function
+
+```ts
+import { css, ellipsisTypographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  ${ellipsisTypographyStyle(3)}
+`;
+```

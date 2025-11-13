@@ -1,26 +1,35 @@
-import { MobileMenuProvider } from '@/features/menu/context';
-import Header from '@/features/menu/components/header';
-import Menu from '@/features/menu/components/menu';
-import MobileMenu from '@/features/menu/components/mobile-menu';
+import Gnb from '@/features/layout/components/gnb';
+import { MDXProvider } from '@/features/docs/contexts';
+import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
+import { generatePropTypes } from '@/features/docs/helpers/props';
+import LnbMobile from '@/features/docs/components/lnb/mobile';
+import { parseGroupedPages } from '@/features/docs/helpers/pages';
+import { createMetadata } from '@/helpers/metadata';
 
 import Providers from './providers';
-import ClientRootLayout from './layout.client';
 
-import type { PropsWithChildren } from 'react';
+import type { Metadata } from 'next';
 
 import '@wanteddev/wds/global.css';
 
-import '@/features/menu/style/index.css';
+export const metadata: Metadata = createMetadata({
+  title: 'Wanted Design System',
+  metadataBase: process.env.NEXT_PUBLIC_BASE_PATH!,
+});
 
-export const metadata = {
-  title: 'WDS Docs',
-};
+const RootLayout = async ({ children }: LayoutProps<'/'>) => {
+  const allFrontmatter = await getAllFrontmatter();
+  const groupedPages = parseGroupedPages(allFrontmatter);
 
-const RootLayout = ({ children }: PropsWithChildren) => {
+  const propTypes = generatePropTypes();
+
   return (
-    <html suppressHydrationWarning>
+    <html suppressHydrationWarning lang="ko">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
         <meta
           name="theme-color"
           content="#ffffff"
@@ -120,7 +129,6 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           sizes="180x180"
           href="https://static.wanted.co.kr/favicon/new/apple-touch-icon-180x180.png"
         />
-
         <link
           rel="preload stylesheet"
           as="style"
@@ -133,18 +141,41 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           crossOrigin="anonymous"
           href="https://static.wanted.co.kr/fonts/pretendard/pretendard-jp/pretendardvariable-jp-dynamic-subset.min.css"
         />
+        <link
+          rel="preload stylesheet"
+          as="style"
+          crossOrigin="anonymous"
+          href="https://static.wanted.co.kr/fonts/wantedsans/WantedSansVariable.min.css"
+        />
+        <link
+          rel="preconnect"
+          href={`https://${process.env.NEXT_PUBLIC_ALGOLIA_APPLICATION?.toLowerCase()}-dsn.algolia.net`}
+          crossOrigin="anonymous"
+        />
+
+        <meta
+          name="google-site-verification"
+          content="yAUUR_mmN8bfpt8PpS9a0CACVDLOlNTgwYCyP1gSgpk"
+        />
+        <meta
+          name="naver-site-verification"
+          content="6479dc6aadc2e9ca474d02be49faeb0a69c0ad45"
+        />
       </head>
       <body suppressHydrationWarning>
-        <Providers>
-          <MobileMenuProvider>
-            <Header />
-            <ClientRootLayout>
-              <Menu />
-              <MobileMenu />
-              {children}
-            </ClientRootLayout>
-          </MobileMenuProvider>
-        </Providers>
+        <MDXProvider
+          propTypes={propTypes}
+          allFrontmatter={allFrontmatter}
+          groupedPages={groupedPages}
+        >
+          <Providers>
+            <LnbMobile />
+
+            <Gnb />
+
+            {children}
+          </Providers>
+        </MDXProvider>
       </body>
     </html>
   );

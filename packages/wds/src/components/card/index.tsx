@@ -1,15 +1,11 @@
 import { forwardRef, useMemo } from 'react';
-import {
-  Box,
-  type DefaultComponentProps,
-  type PolymorphicProps,
-} from '@wanteddev/wds-engine';
+import { Box } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 import { Thumbnail, ThumbnailSkeleton } from '../thumbnail';
-import Skeleton from '../skeleton';
-import Typography from '../typography';
+import { Skeleton } from '../skeleton';
+import { Typography } from '../typography';
 
 import {
   CARD_CAPTION_NAME,
@@ -40,17 +36,23 @@ import {
   cardTitleStyle,
 } from './style';
 
-import type { FlexBoxProps } from '../flex-box/types';
-import type { TypographyProps } from '../typography/types';
-import type { SkeletonProps } from '../skeleton/types';
-import type { ThumbnailSkeletonProps } from '../thumbnail/types';
-import type { PolymorphicComponent } from '@wanteddev/wds-engine';
 import type {
+  DefaultComponentPropsInternal,
+  PolymorphicPropsInternal,
+} from '@wanteddev/wds-engine';
+import type { SkeletonProps } from '../skeleton/types';
+import type { PolymorphicComponentInternal } from '@wanteddev/wds-engine';
+import type {
+  CardCaptionProps,
   CardCaptionSkeletonProps,
   CardContentItemProps,
+  CardContentProps,
   CardProps,
   CardThumbnailContentProps,
   CardThumbnailProps,
+  CardThumbnailSkeletonProps,
+  CardTitleProps,
+  CardTitleSkeletonProps,
 } from './types';
 import type { ElementType, ForwardedRef } from 'react';
 
@@ -66,7 +68,7 @@ const Card = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<CardProps, T>,
+    }: PolymorphicPropsInternal<CardProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -78,11 +80,14 @@ const Card = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<CardProps, 'div'>;
+) as PolymorphicComponentInternal<CardProps, 'div'>;
 
 Card.displayName = CARD_NAME;
 
-const CardThumbnail = forwardRef<HTMLDivElement, CardThumbnailProps>(
+const CardThumbnail = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<CardThumbnailProps, 'img'>
+>(
   (
     {
       leadingContent,
@@ -143,7 +148,7 @@ const CardThumbnailContent = forwardRef(
       variant = 'custom',
       sx,
       ...props
-    }: DefaultComponentProps<CardThumbnailContentProps, 'span'>,
+    }: DefaultComponentPropsInternal<CardThumbnailContentProps, 'span'>,
     ref: ForwardedRef<HTMLSpanElement>,
   ) => {
     switch (variant) {
@@ -184,7 +189,7 @@ CardThumbnailContent.displayName = CARD_THUMBNAIL_CONTENT_NAME;
 
 const CardContent = forwardRef(
   (
-    { sx, ...props }: DefaultComponentProps<FlexBoxProps, 'div'>,
+    { sx, ...props }: DefaultComponentPropsInternal<CardContentProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -210,7 +215,7 @@ const CardContentItem = forwardRef(
       position = 'top',
       variant,
       ...props
-    }: DefaultComponentProps<CardContentItemProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardContentItemProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -239,7 +244,7 @@ const CardTitle = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TypographyProps, T>,
+    }: PolymorphicPropsInternal<CardTitleProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -255,7 +260,7 @@ const CardTitle = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<TypographyProps, 'p'>;
+) as PolymorphicComponentInternal<CardTitleProps, 'p'>;
 
 CardTitle.displayName = CARD_TITLE_NAME;
 
@@ -272,7 +277,7 @@ const CardCaption = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<TypographyProps, T>,
+    }: PolymorphicPropsInternal<CardCaptionProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -288,7 +293,7 @@ const CardCaption = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<TypographyProps, 'p'>;
+) as PolymorphicComponentInternal<CardCaptionProps, 'p'>;
 
 CardCaption.displayName = CARD_CAPTION_NAME;
 
@@ -304,7 +309,7 @@ const CardSkeleton = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<CardProps, T>,
+    }: PolymorphicPropsInternal<CardProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -316,7 +321,7 @@ const CardSkeleton = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<CardProps, 'div'>;
+) as PolymorphicComponentInternal<CardProps, 'div'>;
 
 CardSkeleton.displayName = CARD_SKELETON_NAME;
 
@@ -331,7 +336,7 @@ const CardThumbnailSkeleton = forwardRef(
       xs,
       sx,
       ...props
-    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardThumbnailSkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -353,7 +358,7 @@ const CardContentItemSkeleton = forwardRef(
       width = '48px',
       height = '20px',
       ...props
-    }: DefaultComponentProps<SkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<SkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -383,7 +388,7 @@ const CardTitleSkeleton = forwardRef(
       lg,
       xl,
       ...props
-    }: DefaultComponentProps<SkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardTitleSkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -409,7 +414,7 @@ const CardCaptionSkeleton = forwardRef(
       width: originWidth,
       height = '18px',
       ...props
-    }: DefaultComponentProps<CardCaptionSkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<CardCaptionSkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     const width = useMemo(() => {
@@ -455,4 +460,18 @@ export {
   CardContentItemSkeleton,
   CardTitleSkeleton,
   CardCaptionSkeleton,
+};
+
+export type {
+  CardProps,
+  CardThumbnailProps,
+  CardThumbnailContentProps,
+  CardContentProps,
+  CardTitleProps,
+  CardCaptionProps,
+  CardContentItemProps,
+  CardProps as CardSkeletonProps,
+  CardThumbnailSkeletonProps,
+  CardTitleSkeletonProps,
+  CardCaptionSkeletonProps,
 };

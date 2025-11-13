@@ -4,7 +4,7 @@ import {
   IconTriangleExclamationFill,
 } from '@wanteddev/wds-icon';
 
-import FlexBox from '../flex-box';
+import { FlexBox } from '../flex-box';
 
 import { toastCircleIconWrapperStyle } from './style';
 
@@ -22,6 +22,7 @@ export const toastIconComponent: {
       sx={toastCircleIconWrapperStyle}
     >
       <IconCircleCheckFill
+        aria-label="positive"
         sx={(theme) => ({
           color: theme.atomic.green[60],
         })}
@@ -35,6 +36,7 @@ export const toastIconComponent: {
       sx={toastCircleIconWrapperStyle}
     >
       <IconTriangleExclamationFill
+        aria-label="cautionary"
         sx={(theme) => ({
           color: theme.atomic.orange[60],
         })}
@@ -48,6 +50,7 @@ export const toastIconComponent: {
       sx={toastCircleIconWrapperStyle}
     >
       <IconCircleCloseFill
+        aria-label="negative"
         sx={(theme) => ({
           color: theme.atomic.red[60],
         })}

@@ -1,0 +1,251 @@
+---
+title: List cell
+description: 콘텐츠를 하나의 리스트 단위로 표현하는 요소로, 이미지, 텍스트, 인터랙션 요소 등을 유연하게 조합하여 구성할 수 있습니다. 일관되고 정돈된 형태로 정보를 탐색할 수 있도록 돕습니다.
+image: /components/contents/list-cell/design/Thumbnails.png
+createdAt: 2025-09-30
+updatedAt: 2025-09-30
+---
+
+<SectionAnatomy
+  src="/components/contents/list-cell/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Leading content',
+    'Label',
+    'Trailing content',
+    'Description',
+    'Divider',
+  ]}
+/>
+
+<SectionVariants
+  components={['List', 'ListCell', 'ListCellContent', 'Thumbnail', 'RadioGroup', 'RadioGroupItem', 'Checkbox', 'Avatar', 'ContentBadge', 'IconButton', 'CheckMark', 'TextButton', 'Switch']}
+  icons={['IconBlank']}
+  render={(value) => {
+    const fillWidth = value['Fill width'] === 'True';
+    const divider = value['Divider'] === 'True';
+    const verticalPadding = value['Vertical padding'].toLowerCase();
+    const verticalAlign = value['Vertical align'].toLowerCase();
+    const textProps = value['Description'] === 'True' ? "{ caption: 'Description' }" : "{}";
+
+    let leadingContent = null;
+
+    switch (value['Leading content']) {
+      case 'Icon':
+        leadingContent = '<ListCellContent variant="icon"><IconBlank /></ListCellContent>';
+        break;
+      case 'Avatar':
+        leadingContent = '<ListCellContent variant="avatar"><Avatar variant="person" size="medium" /></ListCellContent>';
+        break;
+      case 'Checkbox':
+        leadingContent = '<ListCellContent variant="checkbox"><Checkbox /></ListCellContent>';
+        break;
+      case 'Large icon':
+        leadingContent = '<ListCellContent variant="large-icon"><IconBlank /></ListCellContent>';
+        break;
+      case 'Radio':
+        leadingContent = '<ListCellContent variant="radio"><RadioGroup><RadioGroupItem value="" /></RadioGroup></ListCellContent>';
+        break;
+      case 'Thumbnail':
+        leadingContent = '<ListCellContent variant="thumbnail"><Thumbnail border radius ratio="1:1" width="56px" /></ListCellContent>';
+        break;
+    }
+
+    let trailingContent = null;
+    switch (value['Trailing content']) {
+      case 'Icon':
+        trailingContent = '<ListCellContent variant="icon"><IconBlank /></ListCellContent>';
+        break;
+      case 'Badge':
+        trailingContent = '<ListCellContent variant="badge"><ContentBadge color="neutral">Badge</ContentBadge></ListCellContent>';
+        break;
+      case 'Checkbox':
+        trailingContent = '<ListCellContent variant="checkbox"><CheckMark /></ListCellContent>';
+        break;
+      case 'Icon button':
+        trailingContent = '<ListCellContent variant="icon-button"><IconButton><IconBlank /></IconButton></ListCellContent>';
+        break;
+      case 'Switch':
+        trailingContent = '<ListCellContent variant="switch"><Switch /></ListCellContent>';
+        break;
+      case 'Text button':
+        trailingContent = '<ListCellContent variant="button"><TextButton size="small" color="assistive">Text button</TextButton></ListCellContent>';
+        break;
+      case 'Value':
+        trailingContent = '<ListCellContent variant="value">Value</ListCellContent>';
+        break;
+    }
+
+
+    return `
+      <List gap="0px" sx={theme => ({ width: '85%', backgroundColor: theme.semantic.background.normal.normal, borderRadius: '12px', ${fillWidth ? "padding: '8px 0px'": "padding: '8px 20px'"} })}>
+        <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          Label
+        </ListCell>
+        <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          Label
+        </ListCell>
+        <ListCell verticalPadding="${verticalPadding}" alignItems="${verticalAlign}" fillWidth={${fillWidth}} leadingContent={${leadingContent}} trailingContent={${trailingContent}} divider={${divider}} textProps={${textProps}}>
+          Label
+        </ListCell>
+      </List>
+    `
+  }}
+  variants={[
+    {
+      key: 'Fill width',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ]
+    },
+    {
+      key: 'Vertical padding',
+      defaultValue: 'Medium',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Small', value: {} },
+        { label: 'Medium', value: {} },
+        { label: 'Large', value: {} },
+      ]
+    },
+    {
+      key: 'Vertical align',
+      options: [
+        { label: 'Top', value: {} },
+        { label: 'Center', value: {} },
+      ]
+    },
+    {
+      key: 'Description',
+      defaultValue: 'True',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ]
+    },
+    {
+      key: 'Leading content',
+      defaultValue: 'Icon',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Avatar', value: {} },
+        { label: 'Checkbox', value: {} },
+        { label: 'Large icon', value: {} },
+        { label: 'Radio', value: {} },
+        { label: 'Thumbnail', value: {} },
+      ]
+    },
+    {
+      key: 'Trailing content',
+      defaultValue: 'Value',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Badge', value: {} },
+        { label: 'Checkbox', value: {} },
+        { label: 'Icon button', value: {} },
+        { label: 'Switch', value: {} },
+        { label: 'Text button', value: {} },
+        { label: 'Value', value: {} },
+      ]
+    },
+    {
+      key: 'Divider',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionStates
+  src="/components/contents/list-cell/design/Image-1.png"
+  ratio="2:1"
+  options={['Normal','Hovered', 'Pressed', 'Disabled']}
+/>
+
+<SectionLayout title="Fill width">
+  <SectionFigure
+    ratio="2:1"
+    description="내부에 좌우 여백을 포함하거나, 여백 없이 컨테이너 너비를 모두 채워 사용할 수 있습니다."
+    src="/components/contents/list-cell/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Vertical padding">
+  <SectionFigure
+    ratio="2:1"
+    description="화면 레이아웃에 따라 상하 여백을 변경해 사용할 수 있습니다. 기본 제공하는 여백 외에 다른 값 적용이 필요한 경우 커스터마이징해 사용할 수 있습니다."
+    src="/components/contents/list-cell/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Vertical align">
+  <SectionFigure
+    ratio="21:9"
+    description="Cell 내부 요소를 상단 정렬 혹은 중앙 정렬해서 사용할 수 있습니다."
+    src="/components/contents/list-cell/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Divider">
+  <SectionFigure
+    ratio="4:3"
+    description="인터랙션과 구분선을 함께 쓰는 것을 권장하지 않습니다. 단순한 항목을 나열할 때에는 구분선을 지양하며 콘텐츠의 복잡도가 올라갈 시 구분선을 사용하여 화면의 명확성을 올립니다."
+    src="/components/contents/list-cell/design/Image-5.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Selected">
+  <SectionFigure
+    ratio="16:9"
+    description="Selected 상태를 통해 사용자가 선택했음을 시각적으로 명확하게 표시할 수 있습니다. Default, Checkbox, Radio 세 가지 타입으로 사용할 수 있습니다."
+    src="/components/contents/list-cell/design/Image-6.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Customize">
+    <SectionFigure
+      ratio="2:1"
+      description="좌우 끝, Heading, Caption에 추가 요소를 넣어 부가적인 정보를 표기하거나 액션을 제공할 수 있습니다."
+      src="/components/contents/list-cell/design/Image-7.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Text ellipsis">
+    <SectionFigure
+      ratio="21:9"
+      description="Label과 Description 텍스트는 최대 표시 줄 수를 초과한 경우 말줄임 처리합니다. 기본 최대 줄 수는 한 줄로 하되, 필요에 따라 최대 줄 수를 커스터마이징할 수 있습니다."
+      src="/components/contents/list-cell/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Item selection">
+    <SectionFigure
+      ratio="16:9"
+      description="다중 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Checkbox를 선택 적용합니다.
+
+  - Cell: 공백을 포함한 모든 영역이 터치 영역
+  - Input: Control과 Label 영역만 터치 영역"
+      src="/components/contents/list-cell/design/Image-9.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="인터랙션 영역을 고려하여 간격, divider 사용 여부를 정의하세요."
+    src="/components/contents/list-cell/design/Image-10.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="1.618:1"
+    description="그룹 내에서 다른 형태의 Leading content를 함께 사용하지 마세요."
+    src="/components/contents/list-cell/design/Image-11.png"
+  />
+</SectionLayout>

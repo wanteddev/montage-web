@@ -1,5 +1,7 @@
 import { css, keyframes } from '@wanteddev/wds-engine';
 
+import type { AccordionSummaryContentProps } from './types';
+
 export const accordionStyle = ({
   disabled,
   expanded,
@@ -13,12 +15,25 @@ export const accordionStyle = ({
 
   ${!expanded &&
   css`
+    @media (pointer: fine) {
+      &:has(:hover),
+      &:hover {
+        :not(:has([data-disable-interaction='true'])) {
+          [data-role='accordion-divider'] {
+            opacity: 0;
+          }
+        }
+      }
+    }
+
     &:has(:hover),
     &:has(:active),
     &:hover,
     &:active {
-      [data-role='accordion-divider'] {
-        opacity: 0;
+      :not(:has([data-disable-interaction='true'])) {
+        [data-role='accordion-divider'] {
+          opacity: 0;
+        }
       }
     }
   `}
@@ -44,16 +59,34 @@ export const accordionSummaryContentStyle = ({
   expanded,
   disableAnimation,
   rotate,
+  variant,
 }: {
   rotate: boolean;
   expanded: boolean;
   disableAnimation: boolean;
+  variant: AccordionSummaryContentProps['variant'];
 }) => css`
   min-width: 20px;
-  max-width: 20px;
   font-size: 20px;
-  height: 20px;
+  min-height: 24px;
   z-index: 1;
+
+  ${variant === 'icon' &&
+  css`
+    &[data-role='list-item-trailing-content'],
+    &[data-role='accordion-summary-expand-icon'] {
+      padding: 2px 0px;
+    }
+
+    &:not(
+        :is(
+            [data-role='list-item-trailing-content'],
+            [data-role='accordion-summary-expand-icon']
+          )
+      ) {
+      padding: 2px;
+    }
+  `}
 
   [wds-component='icon-button'] {
     width: 100%;

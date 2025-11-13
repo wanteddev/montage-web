@@ -1,6 +1,6 @@
 src/
-tsup.config.ts
+tsdown.config.ts
 scripts/
-.eslintrc.cjs
 tsconfig.json
 tsconfig.node.json
+.lintstagedrc.mjs

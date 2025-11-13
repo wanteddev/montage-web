@@ -1,0 +1,157 @@
+---
+title: Form
+description: Form 컴포넌트는 form 구조 및 접근성 처리를 다루는 컴포넌트입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+form 구조 및 접근성 처리를 다룹니다.
+각 컴포넌트별 활용법은 `TextField`, `TextArea`, `Checkbox`, `Radio` 등을 참고해주세요.
+
+이 문서는 `react-hook-form`과 함께 활용하는 예시를 소개합니다.
+
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      content: ''
+    }
+  });
+
+  return (
+    <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
+      <Controller
+        control={form.control}
+        name="content"
+        rules={{
+        required: {
+            value: true,
+            message: '필수 값입니다.'
+          }
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>라벨</FormLabel>
+
+            <FormControl>
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+            </FormControl>
+
+            {Boolean(formState.errors.content) ? (
+              <FormErrorMessage>
+                {formState.errors.content?.message}
+              </FormErrorMessage>
+            ) : (
+             <FormMessage>값을 입력해주세요.</FormMessage>
+            )}
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}/>
+
+## Anatomy
+
+`Form` 연관 컴포넌트는 아래와 같은 구조를 가집니다.
+
+```tsx
+<form onSubmit={handleSubmit}>
+  <FormField>
+    <FormLabel>label</FormLabel>
+    <FormControl>
+      <input {...field} />
+    </FormControl>
+
+    <FormMessage>설명</FormMessage>
+    <FormErrorMessage>오류 메시지</FormErrorMessage>
+  </FormField>
+
+  <button type="submit" />
+</form>
+```
+
+## With all messages
+
+field에 대한 설명과 오류 메시지를 모두 노출합니다.
+
+<Demo code={`import { Button, FlexBox, TextField, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const Demo = () => {
+  const form = useForm();
+
+  return (
+    <FlexBox as="form" flexDirection="column" gap="12px" onSubmit={form.handleSubmit(v => alert(JSON.stringify(v)))}>
+      <Controller
+        control={form.control}
+        name="content"
+        rules={{
+          required: {
+           value: true,
+           message: '필수 값입니다.'
+          }
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>라벨</FormLabel>
+
+            <FormControl>
+              <TextField {...field} width="300px" placeholder="값을 입력하세요." invalid={Boolean(formState.errors.content)} />
+            </FormControl>
+
+            <FormMessage>설명</FormMessage>
+            
+            <FormErrorMessage>{formState.errors.content?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}/>
+
+
+## Common issue
+
+`form.reset()` 이 동작하지 않는 경우가 있습니다.
+이 경우 `defaultValue` 가 설정되어 있는지 확인하세요.
+
+[react-hook-form](https://github.com/orgs/react-hook-form/discussions/5858) 은 undefined value를 지원하지 않습니다.
+
+## Accessibility
+
+- Unique id를 생성하여 label의 htmlFor, input의 id를 연결합니다.
+- aria-describedby, aria-labelledby를 통해 추가 메시지를 연결합니다.
+
+## API
+
+### FormField
+
+<PropsTable component="FormField" />
+
+### FormLabel
+
+<PropsTable component="FormLabel" />
+
+### FormControl
+
+children으로 form 요소 컴포넌트를 넣어 사용합니다.
+
+### FormMessage
+
+<PropsTable component="FormMessage" />
+
+### FormErrorMessage
+
+<PropsTable component="FormErrorMessage" />

@@ -1,0 +1,43 @@
+---
+title: Label
+description: Label은 기본 디자인이 적용된 label 요소입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+기본 디자인이 적용된 `label` 요소 입니다.
+주로 해당 컴포넌트 대신 `FormLabel` 으로 사용합니다.
+
+<Demo code={`import { Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Label>라벨</Label>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Required
+
+`required` 속성을 사용하여 필수 필드임을 표시할 수 있습니다.
+
+<Demo code={`import { Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Label required>라벨</Label>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+<PropsTable component="Label" />
+

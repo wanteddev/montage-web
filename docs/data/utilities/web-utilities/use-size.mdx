@@ -1,0 +1,33 @@
+---
+title: useSize
+description: useSize는 Element의 크기를 state로 가져올 때 사용하는 훅입니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+Element의 크기를 가져올 때 사용합니다.
+
+<Demo code={`import { useState } from 'react';
+import { Box, useSize } from '@wanteddev/wds';
+
+const Demo = () => {
+  const [node, setNode] = useState<HTMLElement | null>(null);
+  const { width, height } = useSize(node) || {};
+
+  return (
+    <Box
+      ref={setNode}
+      sx={{
+        width: '100%',
+        height: '20px',
+      }}
+    >
+      {width} {height}
+    </Box>
+  );
+};
+
+export default Demo;`}
+/>
+

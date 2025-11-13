@@ -3,92 +3,97 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 env:
+  NODE_VERSION: 22.18.0
+
   AWS_REGION: ap-northeast-2
   AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
   AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  BUCKET: montage.wanted.co.kr
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  deploy-docs:
-    permissions:
-      id-token: write
-      contents: write
+  set-env:
+    name: Set Env
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Node.js install
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://npm.pkg.github.com
-          scope: '@wanteddev'
-
-      - uses: pnpm/action-setup@v4
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 9.1.2
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - uses: actions/cache@v4
-        name: Nx cache
-        with:
-          path: .nx/cache
-          key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-nx-store-
-
-      - name: Build local packages
-        run: pnpm run build
-
-      - name: Reinstall dependencies
-        run: pnpm install
-
-      - name: Build docs
-        run: pnpm -F docs run build
-
-      - name: Build my App
-        run: touch ./docs/out/.nojekyll
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.6.8
-        with:
-          folder: docs/out
-
-  algolia:
-    needs: [deploy-docs]
-    runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
 
-      - name: Get the content of algolia.json as config
-        id: algolia_config
-        run: echo "::set-output name=config::$(cat algolia/config.json | jq -r tostring)"
+      - name: Set Environment Variable
+        id: env-vars
+        run: |
+          server_type="www"
 
+          echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
+          echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
+          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
+          echo "SERVER_TYPE=$server_type" >> $GITHUB_OUTPUT
+
+    outputs:
+      node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
+      aws_region: ${{ steps.env-vars.outputs.AWS_REGION }}
+      bucket: ${{ steps.env-vars.outputs.BUCKET }}
+
+      server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
+
+  set-pnpm:
+    needs: [set-env]
+    uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+    secrets: inherit
+
+  build-react:
+    needs: [set-env, set-pnpm]
+    uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+      package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
+      package_manager: pnpm
+      build_cache_path: |
+        .nx/cache
+        docs/.next/cache
+      build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
+      build_path: docs/out
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_command: pnpm run build && pnpm -F docs build
+    secrets: inherit
+
+  push-s3:
+    needs: [set-env, set-pnpm, build-react]
+    uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
+    with:
+      aws_region: ${{ needs.set-env.outputs.aws_region }}
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_path: docs/out
+      build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
+      run_command: |
+        echo "build files to s3"
+        aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
+        aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
+    secrets: inherit
+
+  algolia:
+    needs: [push-s3]
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Push indices to Algolia
-        uses: signcl/docsearch-scraper-action@master
-        env:
-          APPLICATION_ID: ${{ secrets.APPLICATION_ID }}
-          API_KEY: ${{ secrets.API_KEY }}
-          CONFIG: ${{ steps.algolia_config.outputs.config }}
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler

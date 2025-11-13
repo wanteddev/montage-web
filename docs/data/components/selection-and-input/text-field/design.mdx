@@ -1,0 +1,206 @@
+---
+title: Text field
+description: 일정 높이의 필드 안에 한 줄 이하의 값을 입력할 수 있는 컴포넌트로 Heading, Placeholder, Description 등의 요소를 활용하여 사용자가 입력할 내용의 형식을 보다 명확하게 안내합니다.
+image: /components/selection-and-input/text-field/design/Thumbnails.png
+createdAt: 2025-04-03
+updatedAt: 2025-10-13
+---
+
+<SectionAnatomy
+  src="/components/selection-and-input/text-field/design/Image.png"
+  ratio="16:9"
+  data={[
+    'Heading',
+    'Placeholder',
+    'Description',
+    'Leading icon',
+    'Field',
+    'Required badge',
+    'Trailing contents',
+    'Trailing button',
+  ]}
+/>
+
+<SectionVariants
+  components={['FormField', 'FlexBox', 'TextField', 'TextFieldContent', 'TextFieldButton', 'FormControl', 'FormMessage', 'FormLabel', 'ContentBadge', 'Box']}
+  icons={['IconBlank']}
+  render={(value) => {
+    const hasButton = value['Trailing button'] === 'Button';
+
+    const leadingContent =
+      value['Leading icon'] === 'Icon'
+        ? '<TextFieldContent variant="icon"><IconBlank /></TextFieldContent>'
+        : 'null';
+
+    let trailingContent = 'null';
+
+    switch (value['Trailing contents']) {
+      case 'Icon':
+        trailingContent =
+          '<TextFieldContent variant="icon"><IconBlank /></TextFieldContent>';
+        break;
+      case 'Custom':
+        trailingContent =
+          '<TextFieldContent variant="custom"><Box sx={theme => ({ width: 24, height: 24, backgroundColor: theme.semantic.accent.background.violet, opacity: 0.08 })} /></TextFieldContent>';
+        break;
+      case 'Badge':
+        trailingContent =
+          '<TextFieldContent variant="badge" sx={{padding: "2px 0px"}}><ContentBadge color="neutral">Badge</ContentBadge></TextFieldContent>';
+        break;
+      case 'Text':
+        trailingContent =
+          '<TextFieldContent variant="text">원</TextFieldContent>';
+        break;
+      case 'Timer':
+        trailingContent =
+          '<TextFieldContent variant="timer">4:59</TextFieldContent>';
+        break;
+      default:
+        trailingContent = 'null';
+    }
+
+    return `
+      <FormField sx={{ width: '75%' }}>
+        <FormLabel required>Heading</FormLabel>
+        <FormControl>
+          <TextField
+            placeholder="Placeholder"
+            leadingContent={${leadingContent}}
+            trailingContent={${trailingContent}}
+            width="100%"
+            ${hasButton ? 'trailingButton={<TextFieldButton>Button</TextFieldButton>}' : ''}
+          />
+        </FormControl>
+        <FormMessage>Description</FormMessage>
+      </FormField>
+    `;
+  }}
+  variants={[
+    {
+      key: 'Leading icon',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Icon', value: {} },
+      ]
+    },
+    {
+      key: 'Trailing button',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Button', value: {} },
+      ],
+    },
+    {
+      key: 'Trailing contents',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Custom', value: {} },
+        { label: 'Badge', value: {} },
+        { label: 'Text', value: {} },
+        { label: 'Icon', value: {} },
+        { label: 'Timer', value: {} },
+      ]
+    },
+  ]}
+/>
+
+<SectionStates
+  src="/components/selection-and-input/text-field/design/Image-1.png"
+  ratio="3:2"
+  options={['Normal', 'Focused', 'Negative', 'Positive', 'Read only', 'Disabled']}
+/>
+
+<SectionLayout title="Input mask">
+  <SectionFigureGroup title="Call number">
+    <SectionFigure
+      ratio="21:9"
+      description="휴대전화 번호 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다. 컴포넌트 자체 지원이 아닌 각 
+프로젝트 담당자들간의 커뮤니케이션으로 적용 가능합니다."
+      src="/components/selection-and-input/text-field/design/Image-2.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Card number">
+    <SectionFigure
+      ratio="21:9"
+      description="카드번호 16자 입력 시 4자 단위로 하이픈(-)이 포함된 형식을 사용하는 것을 권장합니다. 컴포넌트 자체 지원이 아닌 각 프로젝트 담당자들간의 커뮤니케이션으로 적용가능합니다."
+      src="/components/selection-and-input/text-field/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Date">
+    <SectionFigure
+      ratio="21:9"
+      description="날짜를 직접 입력할 시 YYYY. MM. DD 양식 사용을 권장하며, 가급적 Text input을 기반으로 한 Date picker 컴포넌트 사용을 권장합니다."
+      src="/components/selection-and-input/text-field/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="Gap">
+  <SectionFigure
+    ratio="16:10"
+    description="필드 간의 간격은 기본적으로 Description의 활성 여부와 관계없이 동일한 간격을 유지합니다. 단, 레이아웃이 제한적인 상황일 경우 필드가 고정으로 위치하여 Description 만큼 간격이 줄어들 수 있습니다."
+    src="/components/selection-and-input/text-field/design/Image-5.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Validation check">
+  <SectionFigure
+    ratio="21:9"
+    description="값을 입력하고 확인 버튼을 눌러 유효성 검사를 실시하도록 설계하는 것을 권장합니다. "
+    src="/components/selection-and-input/text-field/design/Image-6.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Required badge">
+  <SectionFigure
+    ratio="21:9"
+    description="필수적으로 값을 입력해야 하는 필드에는 Required badge를 사용합니다."
+    src="/components/selection-and-input/text-field/design/Image-7.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Password">
+    <SectionFigure
+      ratio="21:9"
+      description="패스워드 입력 시 Hidden과 Visible 옵션 제공을 권장하며 해당 옵션 제공 시 기본 값은 Hidden 상태입니다."
+      src="/components/selection-and-input/text-field/design/Image-8.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Unit">
+    <SectionFigure
+      ratio="21:9"
+      description="Trailing content의 ‘Text’를 활용하여 특정 고정 값에 대한 Suffix 값을 둘 수 있습니다."
+      src="/components/selection-and-input/text-field/design/Image-9.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Certification">
+    <SectionFigure
+      ratio="3:2"
+      description="Trailing button을 활성하여 사용하며 인증번호 입력 필드가 노출 될 때 포커스가 이동합니다. 행동을 유도하는 발송, 재발송과 같은 특정 행동을 유도하는 버튼은 Normal을 사용하며 행동을 종료하는 ‘확인’은 Assistive를 권장합니다. 일정 시간 이후 필드의 버튼과 타이머가 비활성화 됩니다."
+      src="/components/selection-and-input/text-field/design/Image-10.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Autocomplete">
+    <SectionFigure
+      ratio="21:9"
+      description="이메일, 직군 검색 등 정확한 명칭이나 값의 입력을 받아야할 시 자동완성 기능을 활용하여 사용자의 편의성을 돕습니다."
+      src="/components/selection-and-input/text-field/design/Image-11.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    description="실패 사유를 명확하게 안내하여 사용자에게 명확한 행동을 유도합니다."
+    src="/components/selection-and-input/text-field/design/Image-12.png"
+  />
+  <SectionFigure
+    variant="negative"
+    description="버튼명을 6자 이상으로 길게 적용하지 않습니다."
+    src="/components/selection-and-input/text-field/design/Image-13.png"
+  />
+</SectionLayout>

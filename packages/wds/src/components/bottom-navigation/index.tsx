@@ -1,11 +1,11 @@
 import { forwardRef, useEffect, useId, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { useTheme } from '@wanteddev/wds-engine';
 
-import Typography from '../typography';
-import FlexBox from '../flex-box';
-import WithInteraction from '../with-interaction';
+import { Typography } from '../typography';
+import { FlexBox } from '../flex-box';
+import { WithInteraction } from '../with-interaction';
+import { hapticFeedback } from '../../utils/internal/haptic';
 
 import {
   BottomNavigationProvider,
@@ -18,11 +18,11 @@ import {
 import { bottomNavigationItemStyle, bottomNavigationStyle } from './style';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
-import type { CSSProperties, ElementType, ForwardedRef } from 'react';
+import type { ElementType, ForwardedRef } from 'react';
 import type { BottomNavigationItemProps, BottomNavigationProps } from './types';
 
 const BottomNavigation = forwardRef(
@@ -33,14 +33,12 @@ const BottomNavigation = forwardRef(
       onValueChange,
       children,
       ...props
-    }: DefaultComponentProps<BottomNavigationProps, 'div'>,
+    }: DefaultComponentPropsInternal<BottomNavigationProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
-    const theme = useTheme();
-
     const [value, setValue] = useControllableState({
       prop: valueProp,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 
@@ -72,15 +70,8 @@ const BottomNavigation = forwardRef(
           alignItems="center"
           {...props}
           wds-component="bottom-navigation"
+          data-scroll-end={scrollEnd}
           sx={[bottomNavigationStyle, props.sx]}
-          style={
-            {
-              '--wds-bottom-navigation-border-color': scrollEnd
-                ? 'transparent'
-                : theme.semantic.line.normal.neutral,
-              ...props.style,
-            } as CSSProperties
-          }
         >
           {children}
         </FlexBox>
@@ -99,7 +90,7 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
       icon,
       as,
       ...props
-    }: PolymorphicProps<BottomNavigationItemProps, T>,
+    }: PolymorphicPropsInternal<BottomNavigationItemProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
@@ -124,6 +115,10 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
           sx={[bottomNavigationItemStyle, props.sx]}
           onClick={composeEventHandlers(props.onClick, () => {
             context.onValueChange(value);
+
+            if (value !== context.value) {
+              hapticFeedback();
+            }
           })}
         >
           {icon}
@@ -136,8 +131,10 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<BottomNavigationItemProps, 'button'>;
+) as PolymorphicComponentInternal<BottomNavigationItemProps, 'button'>;
 
 BottomNavigationItem.displayName = BOTTOM_NAVIGATION_ITEM_NAME;
 
 export { BottomNavigation, BottomNavigationItem };
+
+export type { BottomNavigationProps, BottomNavigationItemProps };

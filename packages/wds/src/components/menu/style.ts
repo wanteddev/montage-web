@@ -1,21 +1,21 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils';
-
+import type { MenuActionAreaContentProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const menuPopoverContentStyle = (theme: Theme) => css`
   padding: 0;
   width: 320px;
-  filter: none;
-  box-shadow: 0 1px 2px 0 ${addOpacity(theme.semantic.static.black, 0.04)};
+  box-shadow: ${theme.semantic.elevation.shadow.normal.small};
   border-radius: 16px;
+  backdrop-filter: none;
+  background-color: transparent;
 `;
 
 export const menuScrollAreaStyle = (theme: Theme) => css`
   width: 100%;
   min-width: 140px;
-  max-height: 400px;
+  max-height: 416px;
   height: auto;
   border-radius: inherit;
   border: 1px solid ${theme.semantic.line.solid.neutral};
@@ -48,17 +48,11 @@ export const menuListStyle = css`
 export const menuItemStyle = (theme: Theme) => css`
   width: calc(100% - 40px);
 
-  &:hover {
-    > [wds-component='with-interaction'] {
-      opacity: ${theme.opacity[5]};
-    }
-  }
-
   &:focus-visible {
     outline: none;
 
     > [wds-component='with-interaction'] {
-      opacity: ${theme.opacity[5]};
+      opacity: 0.06;
     }
   }
 
@@ -80,8 +74,34 @@ export const menuActionAreaStyle = (theme: Theme) => css`
   border-top: 1px solid ${theme.semantic.line.solid.alternative};
 `;
 
-export const menuActionAreaContentStyle = css`
+export const menuActionAreaContentStyle = (
+  variant: MenuActionAreaContentProps['variant'],
+) => css`
   flex-shrink: 0;
   width: fit-content;
   height: fit-content;
+
+  &[data-role='menu-action-area-leading-content'] {
+    ${variant === 'icon' &&
+    css`
+      padding-left: 6px;
+    `}
+
+    ${variant === 'text-button' &&
+    css`
+      padding-left: 8px;
+    `}
+
+    ${variant === 'badge' &&
+    css`
+      padding-left: 6px;
+    `}
+  }
+
+  &[data-role='menu-action-area-trailing-content'] {
+    ${variant === 'badge' &&
+    css`
+      padding-right: 6px;
+    `}
+  }
 `;

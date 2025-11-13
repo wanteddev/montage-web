@@ -27,14 +27,17 @@ import {
   MenuTrigger,
 } from '../menu';
 import { TextFieldContent } from '../text-field';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { invalidIconWrapperStyle } from '../text-field/style';
 import { VirtualValueInput } from '../virtual-input';
+import { ListCellContent } from '../list';
+import { ChipProvider } from '../chip/contexts';
 
 import { selectIconStyle, selectStyle, selectTextStyle } from './style';
 import { convertChildrenToData } from './helpers';
 import {
+  OPTION_CONTENT_NAME,
   OPTION_GROUP_NAME,
   OPTION_NAME,
   SELECT_CONTENT_NAME,
@@ -42,17 +45,19 @@ import {
 } from './constants';
 import { SelectProvider, useSelectContext } from './context';
 
+import type { ListCellContentProps } from '../list';
+import type { TextFieldContentProps } from '../text-field';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ForwardedRef } from 'react';
 import type { OptionGroupProps, OptionProps, SelectProps } from './types';
 
 const Select = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SelectProps, 'div'>
+  DefaultComponentPropsInternal<SelectProps, 'div'>
 >(
   (
     {
@@ -89,13 +94,13 @@ const Select = forwardRef<
 
     const composedRefs = useComposedRefs<HTMLDivElement>(forwardedRef, setNode);
 
-    const [menuValue = '', setMenuValue] = useControllableState({
+    const [menuValue, setMenuValue] = useControllableState({
       prop: menuValueProp,
       defaultProp: defaultValue,
       onChange: onMenuValueChange,
     });
 
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: valueProp,
       defaultProp: defaultValue,
       onChange: (v) => {
@@ -104,9 +109,9 @@ const Select = forwardRef<
       },
     });
 
-    const [openState = false, setOpenState] = useControllableState({
+    const [openState, setOpenState] = useControllableState({
       prop: openProp,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: (v) => {
         setMenuValue(value);
         onOpenChange?.(v);
@@ -147,6 +152,7 @@ const Select = forwardRef<
       <SelectProvider
         onOpenChange={setOpenState}
         enableMenuActionArea={enableMenuActionArea}
+        value={value}
       >
         {isFormControl && (
           <VirtualValueInput
@@ -247,14 +253,16 @@ const Select = forwardRef<
               )}
 
               {typeof render === 'function' && !shouldShowPlaceholder && (
-                <FlexBox
-                  flex="1"
-                  gap="4px"
-                  flexWrap="wrap"
-                  data-role="select-render-wrapper"
-                >
-                  {render(label, value)}
-                </FlexBox>
+                <ChipProvider solid="semantic.label.alternative">
+                  <FlexBox
+                    flex="1"
+                    gap="4px"
+                    flexWrap="wrap"
+                    data-role="select-render-wrapper"
+                  >
+                    {render(label, value)}
+                  </FlexBox>
+                </ChipProvider>
               )}
 
               {invalid && (
@@ -277,6 +285,7 @@ const Select = forwardRef<
 
           <MenuContent
             offset={8}
+            position="bottom-center"
             {...contentProps}
             sx={[
               { width: contentWidth ?? '320px', minWidth: '140px' },
@@ -300,7 +309,7 @@ Select.displayName = SELECT_NAME;
 
 const OptionGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<OptionGroupProps, 'div'>
+  DefaultComponentPropsInternal<OptionGroupProps, 'div'>
 >((props, ref) => {
   return <MenuGroup ref={ref} {...props} />;
 });
@@ -317,10 +326,15 @@ const Option = memo(
         children,
         as,
         ...props
-      }: PolymorphicProps<OptionProps, T>,
+      }: PolymorphicPropsInternal<OptionProps, T>,
       ref: ForwardedRef<T>,
     ) => {
-      const { onOpenChange, enableMenuActionArea } = useSelectContext() || {};
+      const { onOpenChange, enableMenuActionArea, value, isMultiple } =
+        useSelectContext(OPTION_NAME);
+
+      const selected = Array.isArray(value)
+        ? value.includes(props.value)
+        : value === props.value;
 
       return (
         <MenuItem
@@ -328,10 +342,12 @@ const Option = memo(
           role="option"
           variant={variant}
           as={as || 'li'}
+          aria-checked={undefined}
+          aria-selected={selected}
           {...props}
           onClick={composeEventHandlers(props.onClick, () => {
-            if (enableMenuActionArea === false) {
-              onOpenChange?.(false);
+            if (enableMenuActionArea === false && !isMultiple) {
+              onOpenChange(false);
             }
           })}
         >
@@ -339,15 +355,37 @@ const Option = memo(
         </MenuItem>
       );
     },
-  ) as PolymorphicComponent<OptionProps, 'li'>,
+  ) as PolymorphicComponentInternal<OptionProps, 'li'>,
 );
 
 Option.displayName = OPTION_NAME;
 // @ts-expect-error
 Option.isOption = true;
 
-const SelectContent = TextFieldContent;
+const SelectContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<TextFieldContentProps, 'div'>
+>((props, ref) => {
+  return <TextFieldContent ref={ref} {...props} />;
+});
 
 SelectContent.displayName = SELECT_CONTENT_NAME;
 
-export { Select, SelectContent, Option, OptionGroup };
+const OptionContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellContent ref={ref} {...props} />;
+});
+
+OptionContent.displayName = OPTION_CONTENT_NAME;
+
+export { Select, SelectContent, Option, OptionGroup, OptionContent };
+
+export type {
+  SelectProps,
+  OptionGroupProps,
+  TextFieldContentProps as SelectContentProps,
+  ListCellContentProps as OptionContentProps,
+  OptionProps,
+};

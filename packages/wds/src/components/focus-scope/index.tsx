@@ -20,21 +20,62 @@ import {
   removeLinks,
 } from './helpers';
 
-import type { Merge } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { FocusScopeProps } from './types';
-import type {
-  ComponentPropsWithoutRef,
-  ElementRef,
-  KeyboardEvent,
-} from 'react';
+import type { ComponentRef, KeyboardEvent } from 'react';
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount';
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount';
 const EVENT_OPTIONS = { bubbles: false, cancelable: true };
 
 const FocusScope = forwardRef<
-  ElementRef<typeof Slot>,
-  Merge<FocusScopeProps, ComponentPropsWithoutRef<typeof Slot>>
+  HTMLElement,
+  DefaultComponentPropsInternal<FocusScopeProps, 'div'>
+>(
+  (
+    {
+      loop = false,
+      trapped = true,
+      trappedContent = false,
+      disableFocusScope = false,
+      children,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
+      ...props
+    },
+    forwardedRef,
+  ) => {
+    if (disableFocusScope) {
+      return (
+        <Slot ref={forwardedRef} {...props}>
+          {children}
+        </Slot>
+      );
+    }
+
+    return (
+      <FocusScopeWrapper
+        {...props}
+        ref={forwardedRef}
+        loop={loop}
+        trapped={trapped}
+        trappedContent={trappedContent}
+        onMountAutoFocus={onMountAutoFocus}
+        onUnmountAutoFocus={onUnmountAutoFocus}
+      >
+        {children}
+      </FocusScopeWrapper>
+    );
+  },
+);
+
+FocusScope.displayName = 'FocusScope';
+
+type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void };
+
+const FocusScopeWrapper = forwardRef<
+  HTMLElement,
+  DefaultComponentPropsInternal<FocusScopeProps, 'div'>
 >(
   (
     {
@@ -47,9 +88,9 @@ const FocusScope = forwardRef<
     },
     forwardedRef,
   ) => {
-    const [container, setContainer] = useState<ElementRef<typeof Slot> | null>(
-      null,
-    );
+    const [container, setContainer] = useState<ComponentRef<
+      typeof Slot
+    > | null>(null);
     const onMountAutoFocus = useCallbackRef(onMountAutoFocusProp);
     const onUnmountAutoFocus = useCallbackRef(onUnmountAutoFocusProp);
     const lastFocusedElementRef = useRef<HTMLElement | null>(null);
@@ -240,10 +281,6 @@ const FocusScope = forwardRef<
   },
 );
 
-FocusScope.displayName = 'FocusScope';
-
-type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void };
-
 const createFocusScopesStack = () => {
   let stack: Array<FocusScopeAPI> = [];
 
@@ -268,4 +305,6 @@ const createFocusScopesStack = () => {
 
 const focusScopesStack = createFocusScopesStack();
 
-export default FocusScope;
+export { FocusScope };
+
+export type { FocusScopeProps };

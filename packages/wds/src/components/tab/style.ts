@@ -1,11 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
+import { getGradientMaskImage, typographyStyle } from '../../utils';
 import {
   createResponsiveStyle,
-  getGradientMaskImage,
   getPreviousValue,
-  typographyStyle,
-} from '../../utils';
+} from '../../utils/internal/responsive-props';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { TabListProps } from './types';
@@ -276,83 +275,111 @@ export const scrollWrapperStyle = css`
   }
 `;
 
-export const motionDividerStyle = (theme: Theme) => css`
+export const tabListWrapperStyle = (theme: Theme) => css`
+  position: relative;
+
+  --wds-tab-list-active-divider-color: ${theme.semantic.label.strong};
+  --wds-tab-list-disabled-divider-color: ${theme.semantic.fill.alternative};
+
+  --wds-tab-list-divider-color: var(--wds-tab-list-active-divider-color);
+
+  &:has([aria-selected='true'][aria-disabled='true']) {
+    --wds-tab-list-divider-color: var(--wds-tab-list-disabled-divider-color);
+  }
+`;
+
+export const motionDividerStyle = css`
   position: absolute;
   height: 2px;
-  background-color: ${theme.semantic.label.strong};
+  background-color: var(--wds-tab-list-divider-color);
+  transition: background-color 0.2s ease;
   display: none;
 `;
 
-export const tabListItemStyle = (theme: Theme) => css`
-  padding: var(--wds-tab-padding-y) 0px;
-  scroll-margin-inline: 25px;
-  flex: var(--wds-tab-list-item-flex, initial);
-  overflow: var(--wds-tab-list-item-overflow, initial);
-  position: relative;
-  cursor: pointer;
-
-  &[aria-disabled='true'] {
-    cursor: initial;
-  }
-
-  [data-role='tab-list-item-text-wrapper'] {
+export const tabListItemStyle =
+  ({ disabled }: { disabled?: boolean }) =>
+  (theme: Theme) => css`
+    padding: var(--wds-tab-padding-y) 0px;
+    scroll-margin-inline: 25px;
+    flex: var(--wds-tab-list-item-flex, initial);
+    overflow: var(--wds-tab-list-item-overflow, initial);
     position: relative;
-    margin: 0;
-    height: fit-content;
-    padding: 0;
-  }
+    cursor: pointer;
 
-  [data-role='tab-list-item-text'] {
-    white-space: nowrap;
-    transition: color 0.2s ease;
-    display: var(--wds-tab-list-item-text-display, block);
-    text-align: var(--wds-tab-list-item-text-align, initial);
-  }
-
-  [data-role='tab-list-item-divider'] {
-    position: absolute;
-    left: 0;
-    transition: background-color 0.2s ease;
-    bottom: calc(var(--wds-tab-padding-y) * -1);
-    max-height: 0px;
-    height: 2px;
-    width: 100%;
-    background-color: transparent;
-    will-change: auto;
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-  }
-
-  &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
-    color: ${theme.semantic.label.alternative};
-  }
-
-  &[aria-selected='false'] [data-role='tab-list-item-text'] {
-    color: ${theme.semantic.label.assistive};
-    &:hover {
-      color: ${theme.semantic.label.alternative};
+    [data-role='tab-list-item-text-wrapper'] {
+      position: relative;
+      margin: 0;
+      height: fit-content;
+      padding: 0;
     }
-  }
 
-  &[aria-selected='true'] {
     [data-role='tab-list-item-text'] {
-      color: ${theme.semantic.label.strong};
+      white-space: nowrap;
+      transition: color 0.2s ease;
+      display: var(--wds-tab-list-item-text-display, block);
+      text-align: var(--wds-tab-list-item-text-align, initial);
     }
 
-    &[data-ssr-motion='true'] {
-      [data-role='tab-list-item-divider'] {
-        max-height: 2px;
-        background-color: ${theme.semantic.label.strong};
-      }
+    [data-role='tab-list-item-divider'] {
+      position: absolute;
+      left: 0;
+      transition: background-color 0.2s ease;
+      bottom: calc(var(--wds-tab-padding-y) * -1);
+      max-height: 0px;
+      height: 2px;
+      width: 100%;
+      background-color: transparent;
+      will-change: auto;
+      margin: 0;
+      padding: 0;
+      border: none;
+      outline: none;
     }
-  }
 
-  &:focus-visible {
-    outline-offset: -1px;
-  }
-`;
+    ${disabled
+      ? css`
+          cursor: initial;
+          [data-role='tab-list-item-text'] {
+            color: ${theme.semantic.label.disable};
+          }
+
+          &[data-ssr-motion='true'] {
+            [data-role='tab-list-item-divider'] {
+              max-height: 2px;
+              background-color: var(--wds-tab-list-disabled-divider-color);
+            }
+          }
+        `
+      : css`
+          &[aria-selected='false']:hover [data-role='tab-list-item-text'] {
+            color: ${theme.semantic.label.alternative};
+          }
+
+          &[aria-selected='false'] [data-role='tab-list-item-text'] {
+            color: ${theme.semantic.label.assistive};
+            &:hover {
+              color: ${theme.semantic.label.alternative};
+            }
+          }
+
+          &[aria-selected='true'] {
+            [data-role='tab-list-item-text'] {
+              color: ${theme.semantic.label.strong};
+            }
+
+            &[data-ssr-motion='true'] {
+              [data-role='tab-list-item-divider'] {
+                max-height: 2px;
+                background-color: var(--wds-tab-list-active-divider-color);
+              }
+            }
+          }
+        `}
+
+    &:focus-visible {
+      outline-offset: -1px;
+    }
+  `;
 
 export const tabListItemInteractionStyle = css`
   position: absolute;

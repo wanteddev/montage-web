@@ -1,0 +1,6 @@
+src/
+tests/
+tsdown.config.ts
+tsconfig.json
+tsconfig.test.json
+.lintstagedrc.mjs

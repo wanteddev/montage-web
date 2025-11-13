@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { GridProps } from './types';

@@ -1,0 +1,812 @@
+---
+title: AnimationPresence
+description: AnimationPresence는 언마운트 애니메이션 효과를 쉽게 관리할 수 있는 컴포넌트입니다.
+createdAt: 2025-07-15
+---
+
+
+## Introduce
+
+`AnimationPresence`는 컴포넌트의 언마운트 애니메이션을 쉽게 적용할 수 있도록 도와주는 컴포넌트입니다.<br/>
+[getAnimations](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAnimations) API를 사용하여 전체 Animation, Transition이 종료된 후에 언마운트 합니다.
+
+```tsx
+<AnimationPresence present={open}>
+  <Box
+    data-status={open ? 'open' : 'close'}
+    sx={{
+      '&[data-status="open"]': {
+        animation: 'fadeIn 0.4s ease',
+      },
+      '&[data-status="close"]': {
+        animation: 'fadeOut 0.4s ease',
+      },
+    }}
+  >
+    Hello
+  </Box>
+</AnimationPresence>
+```
+
+## System component
+
+디자인시스템 컴포넌트 중 `forceMount` prop을 지원하는 컴포넌트에서는 기본적으로 `AnimationPresence`로 감싸져 있습니다.
+
+- [Accordion](/docs/components/contents/accordion/web)
+- [Autocomplete](/docs/components/presentation/autocomplete/web)
+- [Alert](/docs/components/feedback/alert/web)
+- [Menu](/docs/components/presentation/menu/web)
+- [Popup](/docs/components/presentation/popup/web)
+- [Popover](/docs/components/presentation/popover/web)
+- [Snackbar](/docs/components/feedback/snackbar/web)
+- [Toast](/docs/components/feedback/toast/web)
+- [Tooltip](/docs/components/presentation/tooltip/web)
+
+### Accordion
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+
+const mountAnimation = keyframes\`
+  from {
+    height: 0px;
+    opacity: 0;
+  }
+  to {
+    height: var(--wds-accordion-height);
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    height: var(--wds-accordion-height);
+    opacity: 1;
+  }
+  to {
+    height: 0px;
+    opacity: 0;
+  }
+\`;
+
+const accordionStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  return (
+    <Accordion sx={{ width: '75%' }}>
+      <AccordionSummary sx={{ width: '100%' }}>
+        제목
+      </AccordionSummary>
+      <AccordionDetails wrapperSx={accordionStyle}>
+        <AccordionDescription>
+          제목에 대한 상세 내용을 입력해주세요.<br />
+          긴 컨텐츠라면 접은 상태를 기본 값으로 사용하세요.
+        </AccordionDescription>
+      </AccordionDetails>
+    </Accordion>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Autocomplete
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const autocompleteStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  const [value, setValue] = useState('');
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+      <AutocompleteList sx={autocompleteStyle}>
+        {filteredOptions.length === 0 &&
+          <Typography
+            variant="body1"
+            weight="regular"
+            color="semantic.label.alternative"
+            sx={{ padding: '12px 0px' }}
+          >
+            검색 결과가 없습니다.
+          </Typography>
+        }
+        {filteredOptions.map((option) => {
+          return (
+            <AutocompleteOption value={option} key={option}>
+              {option}
+            </AutocompleteOption>
+          )
+        })}
+      </AutocompleteList>
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+`forceMount` 옵션과 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
+
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
+import { useState, useMemo } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const fruits = [
+  "Apple", "Banana", "Orange", "Mango", "Pineapple",
+  "Strawberry", "Blueberry", "Grapes", "Peach", "Plum",
+  "Watermelon", "Lemon", "Lime", "Cherry", "Pear",
+  "Kiwi", "Papaya", "Coconut", "Avocado", "Raspberry",
+  "Blackberry", "Cantaloupe", "Pomegranate", "Fig", "Dragonfruit",
+  "Guava", "Lychee", "Tangerine", "Nectarine", "Cranberry"
+];
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  const filteredOptions = useMemo(() => {
+    return fruits.filter((fruit) => fruit.toLowerCase().includes(value.toLowerCase()))
+  }, [value])
+
+  return (
+    <Autocomplete
+      value={value}
+      onValueChange={setValue}
+      open={open}
+      onOpenChange={setOpen}
+    >
+      <AutocompleteField>
+        <TextField width="300px" placeholder="입력하세요." />
+      </AutocompleteField>
+
+      {transitions((styles, item) =>
+        item ? (
+          <AutocompleteList as={animated.div} style={styles} forceMount>
+            {filteredOptions.length === 0 &&
+              <Typography
+                variant="body1"
+                weight="regular"
+                color="semantic.label.alternative"
+                sx={{ padding: '12px 0px' }}
+              >
+                검색 결과가 없습니다.
+              </Typography>
+            }
+            {filteredOptions.map((option) => {
+              return (
+                <AutocompleteOption value={option} key={option}>
+                  {option}
+                </AutocompleteOption>
+                )
+            })}
+        </AutocompleteList>
+      ) : null)}
+    </Autocomplete>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Alert
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, FlexBox, Button, Typography, Alert, AlertContainer, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const alertContentStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  return (
+    <FlexBox flexDirection="column" gap="16px">
+      <Button onClick={handleOpen}>열기</Button>
+
+      <Alert  open={open} onOpenChange={setOpen}>
+        <AlertContainer sx={alertContentStyle} dimmer={<AlertDimmer sx={alertContentStyle} />}>
+          <AlertContent>
+            <AlertHeading>제목</AlertHeading>
+            <AlertDescription>설명</AlertDescription>
+          </AlertContent>
+          <AlertActionArea>
+            <AlertActionAreaButton variant="normal">
+              확인
+            </AlertActionAreaButton>
+            <AlertActionAreaButton variant="assistive">
+              취소
+            </AlertActionAreaButton>
+            <AlertActionAreaButton variant="negative">
+              삭제
+            </AlertActionAreaButton>
+          </AlertActionArea>
+        </AlertContainer>
+      </Alert>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+`forceMount` 옵션과 `react-spring` 등의 라이브러리와 함께 사용할 수 있습니다.
+
+<Demo code={`import { Button, Slot, Alert, AlertContainer, AlertDimmer, AlertContent, AlertHeading, AlertDescription, AlertActionArea, AlertActionAreaButton } from '@wanteddev/wds';
+import { useTransition, animated, config } from "react-spring";
+import { useState } from "react";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  const dimmerTransitions = useTransition(open, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: config.stiff,
+  });
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>열기</Button>
+      {transitions((styles, item) =>
+        item ? (
+          <Alert 
+            open={open} 
+            onOpenChange={setOpen} 
+          >
+            <AlertContainer
+              forceMount
+              as={animated.div}
+              style={styles}
+              dimmer={
+                dimmerTransitions((styles, item) => item ? <AlertDimmer as={animated.div} style={styles} /> : null)
+              }
+            >
+              <AlertContent>
+                <AlertHeading>제목</AlertHeading>
+                <AlertDescription>설명</AlertDescription>
+              </AlertContent>
+              <AlertActionArea>
+                <AlertActionAreaButton variant="normal">
+                  확인
+                </AlertActionAreaButton>
+                <AlertActionAreaButton variant="assistive">
+                  취소
+                </AlertActionAreaButton>
+                <AlertActionAreaButton variant="negative">
+                  삭제
+                </AlertActionAreaButton>
+              </AlertActionArea>
+            </AlertContainer>
+          </Alert>
+        ) : null
+      )}
+    </>
+  );
+};
+
+export default Demo;`}
+/>
+
+### Menu
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Button, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const menuStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  return (
+    <Menu>
+      <MenuTrigger>
+        <Button>클릭</Button>
+      </MenuTrigger>
+      <MenuContent sx={menuStyle}>
+        <MenuList>
+          <MenuItem value="item1">
+            Item1
+          </MenuItem>
+        </MenuList>
+      </MenuContent>
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+
+<Demo code={`import { Button, Menu, MenuTrigger, MenuContent, MenuList, MenuItem } from '@wanteddev/wds';
+import { useState } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  return (
+    <Menu open={open} onOpenChange={setOpen}>
+      <MenuTrigger>
+        <Button>클릭</Button>
+      </MenuTrigger>
+      {transitions((styles, item) =>
+        item ? (
+          <MenuContent as={animated.div} style={styles} forceMount>
+            <MenuList>
+              <MenuItem value="item1">
+                Item1
+              </MenuItem>
+            </MenuList>
+          </MenuContent>
+        ) : null
+      )}
+    </Menu>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Modal
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Button, Modal, ModalDimmer, ModalContainer, ModalNavigation, ModalContent, ModalContentItem, ModalHeading, ModalSummary, ModalDescription, ActionArea, ActionAreaButton } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const modalStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  }
+
+  return (
+    <>
+      <Button onClick={handleOpen}>Open</Button>
+
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+      >
+        <ModalContainer variant="popup" sx={modalStyle} dimmer={<ModalDimmer sx={modalStyle} />}>
+          <ModalNavigation>
+            Example
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
+    </>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+
+<Demo code={`import { Button, Modal, ModalContainer, ModalDimmer, ModalNavigation, ModalContent, ModalContentItem, ModalHeading, ModalSummary, ModalDescription, ActionArea, ActionAreaButton } from '@wanteddev/wds';
+import { useTransition, animated, config } from "react-spring";
+import { useState } from "react";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  const dimmerTransitions = useTransition(open, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: config.stiff,
+  });
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>
+        Open
+      </Button>
+
+      <Modal open={open} onOpenChange={setOpen}>
+        {transitions((styles, item) =>
+          item ? (
+            <ModalContainer
+              forceMount
+              as={animated.div}
+              style={styles}
+              dimmer={(
+                dimmerTransitions((styles, item) => 
+                  item ? <ModalDimmer as={animated.div} style={styles} /> : null
+                )
+              )}
+            >
+              <ModalNavigation>
+                Example
+              </ModalNavigation>
+
+              <ModalContent>
+                <ModalContentItem>
+                  <ModalHeading>Heading</ModalHeading>
+                  <ModalSummary>Summary</ModalSummary>
+                  <ModalDescription>Description</ModalDescription>
+                </ModalContentItem>
+              </ModalContent>
+
+              <ActionArea>
+                <ActionAreaButton>
+                  Action
+                </ActionAreaButton>
+              </ActionArea>
+            </ModalContainer>
+          ) : null
+        )}
+      </Modal>
+    </>
+  )
+};
+
+export default Demo;
+
+`}
+/>
+
+### Popover
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+\`;
+
+const popoverStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>클릭</Button>
+      </PopoverTrigger>
+      <PopoverContent sx={popoverStyle}>
+        콘텐츠
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+import { useState } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    config: config.stiff,
+  });
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger>
+        <Button>클릭</Button>
+      </PopoverTrigger>
+      {transitions((styles, item) =>
+        item ? (
+          <PopoverContent as={animated.div} style={styles} forceMount>
+            콘텐츠
+          </PopoverContent>
+        ) : null
+      )}
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Tooltip
+
+`[data-status='open']` 과 `[data-status='close']` 속성을 이용하여 애니메이션을 지정할 수 있습니다.
+
+<Demo code={`import { css, keyframes, Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const mountAnimation = keyframes\`
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+\`;
+
+const unmountAnimation = keyframes\`
+  from {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+\`;
+
+const tooltipStyle = css\`
+  &[data-status='open'] {
+    animation: \${mountAnimation} 0.4s ease;
+  }
+
+  &[data-status='close'] {
+    animation: \${unmountAnimation} 0.4s ease;
+  }
+\`;
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Tooltip open={open} onOpenChange={setOpen}>
+      <TooltipTrigger>
+        <Button>마우스 호버</Button>
+      </TooltipTrigger>
+      <TooltipContent sx={tooltipStyle}>
+        메시지에 마침표를 찍어요.
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export default Demo;
+`}
+/>
+
+또한 `forceMount` 옵션과 `react-spring` 라이브러리를 사용하여 애니메이션 관리를 할 수 있습니다.
+
+<Demo code={`import { Tooltip, TooltipTrigger, TooltipContent, Button } from '@wanteddev/wds';
+import { useState } from 'react';
+import { useTransition, animated, config } from "react-spring";
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const transitions = useTransition(open, {
+    from: { opacity: 0, y: 10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: -10 },
+    config: config.stiff,
+  });
+
+  return (
+    <Tooltip open={open} onOpenChange={setOpen}>
+      <TooltipTrigger>
+        <Button>마우스 호버</Button>
+      </TooltipTrigger>
+      {transitions((styles, item) =>
+        item ? (
+          <TooltipContent as={animated.div} style={styles} forceMount>
+            메시지에 마침표를 찍어요.
+          </TooltipContent>
+        ) : null
+      )}
+    </Tooltip>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+<PropsTable component="AnimationPresence" />

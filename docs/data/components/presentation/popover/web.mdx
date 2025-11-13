@@ -1,0 +1,318 @@
+---
+title: Popover
+description: Popover는 특정 요소를 기준으로 오버레이를 띄울 때 사용하는 컴포넌트입니다.
+createdAt: 2025-06-17
+---
+
+## Basic Popover
+
+특정 요소를 기준으로 오버레이를 띄울 때 사용합니다.
+
+Popover가 열려있을 때에는 외부 영역과 상호작용할 수 없습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent heading="Heading">
+        Description
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Popover는 아래와 같은 구조를 가집니다.
+
+```tsx
+<Popover>
+  <PopoverTrigger>
+    <Button />
+  </PopoverTrigger>
+
+  <PopoverContent />
+</Popover>
+```
+
+## Variants
+
+2가지 variant를 제공합니다.
+- normal
+- custom
+
+custom variant를 사용할 경우 `heading`, `action`, `closeButton` prop 을 사용할 수 없습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent variant="custom">
+        Custom contents
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Position
+
+`position` 속성을 통해 툴팁의 위치를 설정할 수 있습니다.
+
+해당 position에 자리가 없는 경우 자동으로 위치가 조정됩니다.
+
+<Demo code={`import { Grid, GridItem, FlexBox, Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={4} sx={{ width: '100%', maxWidth: '550px' }}>
+      <GridItem columns={12}>
+        <FlexBox gap="12px" justifyContent="center">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Top start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="top-start">
+              Top start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Top center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="top-center">
+              Top center <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+            <Button size="small" variant="outlined">
+              Top end
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="top-end">
+              Top end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+      
+      <GridItem columns={6}>
+        <FlexBox gap="12px" alignItems="flex-start" flexDirection="column">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Left start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="left-start">
+              Left start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Left center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="left-center">
+              Left center <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+            <Button size="small" variant="outlined">
+              Left end
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="left-end">
+              Left end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+
+      <GridItem columns={6}>
+        <FlexBox gap="12px" alignItems="flex-end" flexDirection="column">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Right start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="right-start">
+              Right start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Right center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="right-center">
+              Right center <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+            <Button size="small" variant="outlined">
+              Right end
+            </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="right-end">
+              Right end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+
+      <GridItem columns={12}>
+        <FlexBox gap="12px" justifyContent="center">
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Bottom start
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="bottom-start">
+              Bottom start <br/> content
+            </PopoverContent>
+          </Popover>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Bottom center
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="bottom-center">
+              Bottom center <br/> content
+            </PopoverContent>
+          </Tooltip>
+          <Popover>
+            <PopoverTrigger>
+              <Button size="small" variant="outlined">
+                Bottom end
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent size="small" position="bottom-end">
+              Bottom end <br/> content
+            </PopoverContent>
+          </Popover>
+        </FlexBox>
+      </GridItem>
+    </Grid>
+  );
+};
+
+export default Demo;`}
+/>
+
+
+## With close button
+
+`closeButton` prop 을 사용하여 닫기 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent heading="Heading" closeButton>
+        Description
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With action
+
+`action` prop 을 사용하여 하단에 액션 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { Popover, PopoverTrigger, PopoverContent, Button, TextButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Button>Click</Button>
+      </PopoverTrigger>
+      <PopoverContent
+        heading="Heading"
+        action={(
+          <TextButton size="small">
+            Action
+          </TextButton>
+        )}
+      >
+        Description
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+### Popover
+
+<PropsTable component="Popover" />
+
+### PopoverTrigger
+
+`children` 으로 요소를 지정합니다.
+
+### PopoverContent
+
+[FocusScope](/docs/utilities/web-utility-components/focus-scope) 컴포넌트의 옵션을 제공합니다.
+- `trapped`
+- `trappedContent`
+- `onMountAutoFocus`
+- `onUnmountAutoFocus`
+- `loop`
+- `disableFocusScope`
+
+[PopperContent](/docs/utilities/web-utility-components/popper) 컴포넌트의 옵션을 제공합니다.
+- `referenceHidden`
+- `referenceHiddenOffsets`
+- `setContext`
+- `offset`
+- `position`
+- `wrapperProps`
+- `disablePortal`
+- `container`
+
+[DismissableLayer](/docs/utilities/web-utility-components/dismissable-layer) 컴포넌트의 옵션을 제공합니다.
+- `onInteractOutside`
+- `onFocusOutside`
+- `onPointerDownOutside`
+- `onDismiss`
+- `disableOutsidePointerEvents`
+
+<PropsTable component="PopoverContent" />

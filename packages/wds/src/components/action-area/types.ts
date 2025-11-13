@@ -1,32 +1,33 @@
+import type { WithSxProps } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from '../text-button/types';
 import type { ButtonProps } from '../button/types';
 import type { ReactNode } from 'react';
 
-export type ActionAreaProps = {
+export type ActionAreaProps = WithSxProps<{
   children?: ReactNode;
   variant?: 'strong' | 'neutral' | 'compact' | 'cancel';
   extra?: boolean;
   caption?: ReactNode;
   /**
-   * `extra=true` 일 때 버튼 위 콘텐츠 영역을 표시할 때 사용합니다.
+   * When `extra=true`, this prop is used to display the content area above the button.
    */
   extraContent?: ReactNode;
   /**
-   * `variant=compact` 일 때 버튼 좌측 콘텐츠 영역을 표시할 때 사용합니다.
+   * When `variant=compact`, this prop is used to display the content area on the left of the button.
    */
   compactContent?: ReactNode;
   /**
-   * 스크롤이 있을 때 `background=true` 로 주면 추가 스타일이 활성화됩니다.
-   * Modal 내부에서 사용할 경우 Modal 내부 로직에 의해 처리됩니다.
+   * When `background=true` and there is a scroll, additional styles are activated.
+   * When used inside a Modal, it is handled by the Modal's internal logic.
    */
   background?: boolean;
   /**
-   * `extra=true` 일 때 상단에 라인을 표시합니다.
+   * When `extra=true`, a line is displayed at the top.
    */
   divider?: boolean;
-};
+}>;
 
-export type ActionButtonProps = {
+export type ActionButtonProps = WithSxProps<{
   children?: ReactNode;
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
@@ -34,20 +35,20 @@ export type ActionButtonProps = {
   iconOnly?: boolean;
   disabled?: boolean;
   /**
-   * text button의 variant를 override 할 때 사용합니다.
+   * When overriding the color of the `TextButton`.
    */
-  textButtonVariant?: TextButtonProps['variant'];
+  textButtonColor?: TextButtonProps['color'];
   /**
-   * button의 variant를 override 할 때 사용합니다.
+   * When overriding the variant of the `Button`.
    */
   buttonVariant?: ButtonProps['variant'];
   /**
-   * button의 color를 override 할 때 사용합니다.
+   * When overriding the color of the `Button`.
    */
   buttonColor?: ButtonProps['color'];
   loading?: ButtonProps['loading'];
   /**
-   * loading=true 일 때 event 막는 동작을 비활성화합니다.
+   * When `loading=true`, the event blocking action is disabled.
    */
   disableLoadingPreventEvents?: boolean;
-};
+}>;

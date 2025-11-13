@@ -1,10 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
 import {
-  createResponsiveStyle,
   ellipsisTypographyStyle,
   typographyStyle,
-} from '../..';
+} from '../../utils/typography';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { CardListSkeletonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';

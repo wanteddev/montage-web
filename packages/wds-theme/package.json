@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-theme",
-  "version": "2.6.0",
+  "version": "3.0.0-alpha.4",
   "files": [
     "dist"
   ],
@@ -24,8 +24,8 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "tsc && tsup",
-    "watch": "tsc && tsup --watch"
+    "build": "tsdown",
+    "watch": "tsdown --watch"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",
@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/object-path": "^0.11.4",
-    "typescript": "^5.4.2"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "object-path": "^0.11.8"

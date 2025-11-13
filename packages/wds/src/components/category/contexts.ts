@@ -2,6 +2,7 @@ import { createContext } from '@radix-ui/react-context';
 
 import { CATEGORY_LIST_NAME, CATEGORY_NAME } from './constants';
 
+import type { BreakPoint } from '@wanteddev/wds-engine';
 import type { CategoryListProps } from './types';
 import type { Dispatch, SetStateAction } from 'react';
 
@@ -12,7 +13,6 @@ export type CategoryContextType = {
   panels: Array<string>;
   onPanelsChange: Dispatch<SetStateAction<Array<string>>>;
   disableScrollMoveOnChange?: boolean;
-  enableScrollMoveOnMount?: boolean;
   viewportNode: HTMLDivElement | null;
   onViewportNodeChange: (node: HTMLDivElement) => void;
 };
@@ -24,11 +24,7 @@ export type CategoryListContextType = {
   handleResize: () => void;
   variant: CategoryListProps['variant'];
   size: CategoryListProps['size'];
-  xs: CategoryListProps['xs'];
-  sm: CategoryListProps['sm'];
-  md: CategoryListProps['md'];
-  lg: CategoryListProps['lg'];
-  xl: CategoryListProps['xl'];
+  responsive?: Pick<CategoryListProps, keyof BreakPoint>;
 };
 
 export const [CategoryListProvider, useCategoryListContext] =

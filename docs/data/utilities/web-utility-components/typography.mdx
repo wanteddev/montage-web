@@ -1,0 +1,69 @@
+---
+title: Typography
+description: 원티드의 타이포그래피를 웹 환경에서 사용할 수 있는 컴포넌트입니다.
+createdAt: 2025-11-04
+---
+
+## Introduce
+
+일반적으로 텍스트를 표시할 때 사용하는 컴포넌트입니다.
+
+<Demo 
+  hideCode
+  code={`import { FlexBox, Grid, GridItem, Typography } from '@wanteddev/wds';
+
+const variants = [
+  'display1',
+  'display2',
+  'title1',
+  'title2',
+  'title3',
+  'heading1',
+  'heading2',
+  'headline1',
+  'headline2',
+  'body1',
+  'body1-reading',
+  'body2',
+  'body2-reading',
+  'label1',
+  'label1-reading',
+  'label2',
+  'caption1',
+  'caption2',
+];
+const weights = ['regular', 'medium', 'bold'];
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px" sx={{ width: '100%' }}>
+      {variants.map((variant) => (
+        <Grid
+          spacing={4}
+          md={{ spacing: 10 }}
+          key={variant}
+        >
+          <GridItem columns>
+            <Typography variant="label1" color="semantic.label.alternative" weight="regular">
+              {variant}
+            </Typography>
+          </GridItem>
+          {weights.map((weight) => (
+            <GridItem key={variant + weight} columns={12} md={{ columns: 3 }}>
+              <Typography variant={variant} weight={weight}>
+                원티드
+              </Typography>
+            </GridItem>
+          ))}
+        </Grid>
+      ))}
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+<PropsTable component="Typography" />

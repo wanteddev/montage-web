@@ -1,7 +1,11 @@
-import type { Merge, ResponsiveProps, SxProp } from '@wanteddev/wds-engine';
-import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
+import type { CSSProperties, ReactNode } from 'react';
 
-export type TextAreaDefaultProps = {
+export type TextAreaDefaultProps = WithSxProps<{
   invalid?: boolean;
   maxLength?: number;
   leadingContent?: ReactNode;
@@ -11,7 +15,7 @@ export type TextAreaDefaultProps = {
   maxRows?: number;
   minRows?: number;
   value?: string;
-};
+}>;
 
 export type TextAreaResponsiveProps = ResponsiveProps<
   Pick<TextAreaDefaultProps, 'width'>
@@ -22,7 +26,7 @@ export type TextAreaProps = Merge<
   TextAreaResponsiveProps
 >;
 
-export type TextAreaContentProps = PropsWithChildren<{
+export type TextAreaContentProps = WithSxProps<{
   variant?:
     | 'custom'
     | 'button'
@@ -31,5 +35,5 @@ export type TextAreaContentProps = PropsWithChildren<{
     | 'chip'
     | 'icon'
     | 'icon-button';
-  sx?: SxProp;
+  children?: ReactNode;
 }>;

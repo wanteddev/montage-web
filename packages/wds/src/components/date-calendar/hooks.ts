@@ -28,7 +28,7 @@ export const useDefaultSelectedDate = (
       return dateTypeToDateObject(value, timezone);
     }
 
-    if (now.isBetween(min, max)) {
+    if (isValidDate(min) && isValidDate(max) && now.isBetween(min, max)) {
       return dateTypeToDateObject(now, timezone);
     }
 

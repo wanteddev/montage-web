@@ -7,11 +7,11 @@ import {
   useState,
 } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { VirtualValueInput } from '../virtual-input';
 
 import {
@@ -28,6 +28,7 @@ import {
   sliderThumbStyle,
 } from './style';
 
+import type { ReactNode } from 'react';
 import type {
   SliderLabelProps,
   SliderProps,
@@ -40,7 +41,7 @@ const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 const Slider = forwardRef<
   HTMLSpanElement,
-  DefaultComponentProps<SliderProps, 'span'>
+  DefaultComponentPropsInternal<SliderProps, 'span'>
 >(
   (
     {
@@ -185,7 +186,7 @@ const Slider = forwardRef<
             sx={{ margin: '0 auto 32px auto' }}
           >
             {typeof title === 'function'
-              ? title({ values, disabled, min, max })
+              ? (title({ values, disabled, min, max }) as ReactNode)
               : title}
           </FlexBox>
         )}
@@ -310,7 +311,13 @@ const Slider = forwardRef<
             {values.map((v, i) => {
               const render =
                 typeof label === 'function'
-                  ? label({ value: v, index: i, min, max, disabled })
+                  ? (label({
+                      value: v,
+                      index: i,
+                      min,
+                      max,
+                      disabled,
+                    }) as ReactNode)
                   : label;
 
               if (!render) {
@@ -360,7 +367,7 @@ const SliderThumb = ({
   length,
   thumbs,
   ...props
-}: DefaultComponentProps<SliderThumbProps, 'span'>) => {
+}: DefaultComponentPropsInternal<SliderThumbProps, 'span'>) => {
   const [thumb, setThumb] = useState<HTMLSpanElement | null>(null);
   const isFormControl = thumb ? Boolean(thumb.closest('form')) : true;
 
@@ -417,4 +424,6 @@ const SliderThumb = ({
 
 SliderThumb.displayName = 'SliderThumb';
 
-export { Slider, SliderTitleProps, SliderLabelProps };
+export { Slider };
+
+export type { SliderProps, SliderLabelProps, SliderTitleProps };

@@ -1,0 +1,78 @@
+---
+title: useThemeControl
+description: useThemeControl은 현재 테마를 확인하거나 테마를 변경할 때 사용합니다.
+createdAt: 2025-06-19
+---
+
+## Introduce
+
+`theme` 는 `'light' | 'dark'` 타입의 테마 값을 반환합니다.
+
+<Demo code={`import { NoSsr, Button, useThemeControl } from '@wanteddev/wds';
+
+const Demo = () => {
+  const { theme, setTheme } = useThemeControl();
+
+  const handleClick = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <NoSsr fallback={<Button>Loading...</Button>}>
+      <Button
+        onClick={handleClick}
+      >
+        {theme}
+      </Button>
+    </NoSsr>
+  );
+};
+
+export default Demo;`}
+/>
+
+
+## System theme
+
+`themeOriginValue` 는 `'light' | 'dark' | 'system'` 타입의 테마 값을 반환합니다.
+
+또한 `ThemeProvider` 컴포넌트의 `enableSystem` 속성을 `true` 로 설정한 경우 `system` 값으로 테마를 지정할 수 있습니다.
+
+<Demo code={`import { NoSsr, RadioGroup, RadioGroupItem, FormField, FormLabel, FormControl, useThemeControl } from '@wanteddev/wds';
+
+const Demo = () => {
+  const { themeOriginValue, setTheme } = useThemeControl();
+
+  return (
+    <NoSsr>
+      <RadioGroup
+        value={themeOriginValue}
+        onValueChange={setTheme}
+      >
+        <FormField flexDirection="row" gap="12px" alignItems="center">
+          <FormControl>
+            <RadioGroupItem value="light" />
+          </FormControl>
+          <FormLabel>Light</FormLabel>
+        </FormField>
+
+        <FormField flexDirection="row" gap="12px" alignItems="center">
+          <FormControl>
+            <RadioGroupItem value="dark" />
+          </FormControl>
+          <FormLabel>Dark</FormLabel>
+        </FormField>
+
+        <FormField flexDirection="row" gap="12px" alignItems="center">
+          <FormControl>
+            <RadioGroupItem value="system" />
+          </FormControl>
+          <FormLabel>System</FormLabel>
+        </FormField>
+      </RadioGroup>
+    </NoSsr>
+  );
+};
+
+export default Demo;`}
+/>

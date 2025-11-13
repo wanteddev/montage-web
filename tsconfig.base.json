@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "incremental": false,
     "isolatedModules": true,
-    "lib": ["es2022", "DOM", "DOM.Iterable"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "module": "NodeNext",
     "moduleDetection": "force",
     "moduleResolution": "NodeNext",
@@ -13,5 +13,10 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ES2022",
-  },
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom",
+      "vitest-axe/extend-expect"
+    ]
+  }
 }

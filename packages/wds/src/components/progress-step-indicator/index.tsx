@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import { findComponentInChildren } from '../../utils/children';
+import { findComponentInChildren } from '../../utils/internal/children';
 
 import {
   progressListStyle,
@@ -18,7 +18,7 @@ import {
   PROGRESS_STEP_INDICATOR_NAME,
 } from './constants';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type {
   ProgressStepIndicatorItemProps,
   ProgressStepIndicatorProps,
@@ -29,7 +29,7 @@ import type {
  */
 const ProgressStepIndicator = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ProgressStepIndicatorProps, 'div'>
+  DefaultComponentPropsInternal<ProgressStepIndicatorProps, 'div'>
 >(
   (
     {
@@ -48,9 +48,9 @@ const ProgressStepIndicator = forwardRef<
     },
     ref,
   ) => {
-    const [value = '', setValue] = useControllableState({
+    const [value, setValue] = useControllableState({
       prop: originValue,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? '',
       onChange: onValueChange,
     });
 
@@ -101,7 +101,7 @@ ProgressStepIndicator.displayName = PROGRESS_STEP_INDICATOR_NAME;
  */
 const ProgressStepIndicatorItem = forwardRef<
   HTMLLIElement,
-  DefaultComponentProps<ProgressStepIndicatorItemProps, 'li'>
+  DefaultComponentPropsInternal<ProgressStepIndicatorItemProps, 'li'>
 >(({ value, ...props }, ref) => {
   const {
     value: contextValue,
@@ -135,3 +135,5 @@ ProgressStepIndicatorItem.displayName = PROGRESS_STEP_INDICATOR_ITEM_NAME;
 ProgressStepIndicatorItem.isProgressStepIndicatorItem = true;
 
 export { ProgressStepIndicator, ProgressStepIndicatorItem };
+
+export type { ProgressStepIndicatorProps, ProgressStepIndicatorItemProps };

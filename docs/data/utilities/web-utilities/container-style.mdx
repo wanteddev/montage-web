@@ -1,0 +1,41 @@
+---
+title: containerStyle
+description: containerStyle은 콘텐츠 컨테이너 영역에 대한 스타일을 다룹니다.
+createdAt: 2025-06-17
+---
+
+## Introduce
+
+콘텐츠 컨테이너 영역에 대한 스타일을 다룹니다.
+
+보통 헤더와 페이지 컨테이너에서 사용합니다.
+
+`containerStyle()(theme)` 로 사용합니다.
+
+`containerStyle(true)(theme)` true를 인자로 넣을 경우 `xl` breakpoint에서도 대응합니다.
+
+## Sx Prop
+
+```tsx
+import { Box, containerStyle, css } from '@wanteddev/wds';
+
+const Component = () => {
+  return (
+    <Box
+      sx={containerStyle()}
+    />
+  )
+}
+```
+
+## Css function
+
+```ts
+import { addOpacity, css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const exampleStyle = (theme: Theme) => css`
+  ${containerStyle()(theme)}
+`;
+```

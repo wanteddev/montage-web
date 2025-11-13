@@ -1,14 +1,19 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { addOpacity } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { TextFieldButtonProps, TextFieldProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
 
 const EXCLUDE_TYPE = ['date', 'month', 'week', 'datetime-local', 'time'];
+
+type TextFieldWrapperStyleProps = TextFieldProps & {
+  type?: string;
+  readOnly?: boolean;
+};
 
 export const textFieldWrapperStyle =
   ({
@@ -23,22 +28,34 @@ export const textFieldWrapperStyle =
     md,
     lg,
     xl,
-  }: TextFieldProps & { type?: string; readOnly?: boolean }) =>
+  }: TextFieldWrapperStyleProps) =>
   (theme: Theme) => css`
     display: flex;
     align-items: center;
     border-radius: 12px;
     border: none;
-    box-shadow:
-      inset 0 0 0 1px ${theme.semantic.line.normal.neutral},
-      0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
-    background-color: transparent;
+    box-shadow: ${theme.semantic.elevation.shadow.normal.xsmall};
+    background-color: ${theme.semantic.background.transparent.normal};
+    backdrop-filter: blur(32px);
     width: ${toCssValue(width)};
     height: ${toCssValue(height)};
-    padding: 12px;
-    gap: 8px;
-    cursor: text;
-    transition: box-shadow ease 0.2s;
+
+    [data-role='text-field-wrapper'] {
+      padding: 12px;
+      width: 100%;
+      cursor: text;
+      position: relative;
+      transition: box-shadow ease 0.2s;
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+      border-radius: inherit;
+    }
+
+    &:has([data-role='text-field-button']) {
+      [data-role='text-field-wrapper'] {
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+    }
 
     [data-role='text-field-invalid'],
     [data-role='text-field-positive'] {
@@ -67,18 +84,20 @@ export const textFieldWrapperStyle =
 
     ${invalid &&
     css`
-      box-shadow:
-        inset 0 0 0 1px
-          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])},
-        0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+      [data-role='text-field-wrapper'] {
+        box-shadow: inset 0 0 0 1px
+          ${addOpacity(theme.semantic.status.negative, theme.opacity[28])};
+      }
     `}
 
     ${disabled
       ? css`
-          background-color: ${theme.semantic.interaction.disable};
-          box-shadow:
-            inset 0 0 0 1px ${theme.semantic.line.normal.alternative},
-            0px 1px 2px 0px ${addOpacity(theme.semantic.static.black, 0.03)};
+          background-color: ${theme.semantic.fill.alternative};
+          backdrop-filter: none;
+          [data-role='text-field-wrapper'] {
+            box-shadow: inset 0 0 0 1px
+              ${theme.semantic.line.normal.alternative};
+          }
           cursor: default;
         `
       : css`
@@ -92,24 +111,22 @@ export const textFieldWrapperStyle =
               ) {
               ${invalid
                 ? css`
-                    box-shadow:
-                      inset 0 0 0 2px
+                    [data-role='text-field-wrapper'] {
+                      box-shadow: inset 0 0 0 2px
                         ${addOpacity(
                           theme.semantic.status.negative,
                           theme.opacity[43],
-                        )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                        )};
+                    }
                   `
                 : css`
-                    box-shadow:
-                      inset 0 0 0 2px
+                    [data-role='text-field-wrapper'] {
+                      box-shadow: inset 0 0 0 2px
                         ${addOpacity(
                           theme.semantic.primary.normal,
                           theme.opacity[43],
-                        )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                        )};
+                    }
                   `}
 
               [data-role='text-field-invalid'],
@@ -143,24 +160,22 @@ export const textFieldWrapperStyle =
               ) {
               ${invalid
                 ? css`
-                    box-shadow:
-                      inset 0 0 0 2px
+                    [data-role='text-field-wrapper'] {
+                      box-shadow: inset 0 0 0 2px
                         ${addOpacity(
                           theme.semantic.status.negative,
                           theme.opacity[43],
-                        )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                        )};
+                    }
                   `
                 : css`
-                    box-shadow:
-                      inset 0 0 0 2px
+                    [data-role='text-field-wrapper'] {
+                      box-shadow: inset 0 0 0 2px
                         ${addOpacity(
                           theme.semantic.primary.normal,
                           theme.opacity[43],
-                        )},
-                      0px 1px 2px 0px
-                        ${addOpacity(theme.semantic.static.black, 0.03)};
+                        )};
+                    }
                   `}
 
               [data-role='text-field-invalid'],
@@ -293,74 +308,40 @@ export const textFieldContentStyle = css`
 `;
 
 export const textFieldButtonStyle =
-  ({ position, variant, disabled }: TextFieldButtonProps) =>
+  ({ variant, disabled }: TextFieldButtonProps) =>
   (theme: Theme) => css`
     box-shadow: none;
     padding: 12px 16px;
     min-width: 80px;
+    border-radius: inherit;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    overflow: hidden;
+    background-color: transparent;
+    flex-shrink: 0;
+    position: relative;
 
     &:disabled {
       box-shadow: none;
-      background-color: ${theme.semantic.interaction.disable};
     }
 
-    ${textFieldButtonPositionStyle({ position, disabled }, theme)}
+    &::before {
+      content: '';
+      right: 0px;
+      top: 0px;
+      border-radius: inherit;
+      position: absolute;
+      width: calc(100% + 3px);
+      height: calc(100% + 0px);
+      box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
-    &>span {
+      ${disabled &&
+      css`
+        box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
+      `}
+    }
+
+    & > span {
       ${typographyStyle('body1', variant === 'assistive' ? 'medium' : 'bold')};
     }
   `;
-
-export const textFieldButtonPositionStyle = (
-  { position, disabled }: TextFieldButtonProps,
-  theme: Theme,
-) => {
-  switch (position) {
-    case 'right':
-      return css`
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
-        overflow: hidden;
-
-        &::before {
-          content: '';
-          right: 0px;
-          top: 0px;
-          border-radius: inherit;
-          position: absolute;
-          width: calc(100% + 3px);
-          height: calc(100% + 0px);
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-
-          ${disabled &&
-          css`
-            box-shadow: inset 0 0 0 1px
-              ${theme.semantic.line.normal.alternative};
-          `}
-        }
-      `;
-    case 'left':
-      return css`
-        overflow: hidden;
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
-
-        &::before {
-          content: '';
-          left: 0px;
-          top: 0px;
-          border-radius: inherit;
-          position: absolute;
-          width: calc(100% + 3px);
-          height: calc(100% + 0px);
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-
-          ${disabled &&
-          css`
-            box-shadow: inset 0 0 0 1px
-              ${theme.semantic.line.normal.alternative};
-          `}
-        }
-      `;
-  }
-};

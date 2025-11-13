@@ -4,7 +4,7 @@ import { typographyStyle } from '../../utils/typography';
 import {
   createResponsiveStyle,
   getPreviousValue,
-} from '../../utils/responsive-props';
+} from '../../utils/internal/responsive-props';
 
 import type { CheckboxProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -76,6 +76,18 @@ export const checkboxStyle =
       transition:
         background-color 0.2s ease,
         box-shadow 0.2s ease;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      [data-role='checkbox-icon-wrapper'] {
+        outline-style: solid;
+        outline-width: 2px;
+        outline-offset: 2px;
+        outline-color: Highlight;
+        outline-color: -webkit-focus-ring-color;
+      }
     }
 
     & svg {

@@ -4,11 +4,11 @@ import { Box, css } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { IconCircleExclamationFill } from '@wanteddev/wds-icon';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
-import ScrollArea from '../scroll-area';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { ScrollArea } from '../scroll-area';
 import { typographyStyle } from '../../utils/typography';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { IconButtonProvider } from '../icon-button/contexts';
 
 import { getTextAreaDefaultHeight } from './helpers';
@@ -23,12 +23,12 @@ import {
 import { TEXT_AREA_CONTENT_NAME, TEXT_AREA_NAME } from './constants';
 import { TextAreaProvider, useTextAreaContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { TextAreaContentProps, TextAreaProps } from './types';
 
 const TextArea = forwardRef<
   HTMLTextAreaElement,
-  DefaultComponentProps<TextAreaProps, 'textarea'>
+  DefaultComponentPropsInternal<TextAreaProps, 'textarea'>
 >(
   (
     {
@@ -267,17 +267,16 @@ const TextArea = forwardRef<
                 alignItems="center"
                 data-role="text-area-bottom-area-trailing-content"
               >
-                {invalid ? (
-                  <TextAreaContent
-                    data-role="text-area-invalid"
-                    sx={invalidIconWrapperStyle}
-                    variant="icon"
-                  >
-                    <IconCircleExclamationFill />
-                  </TextAreaContent>
-                ) : (
-                  trailingContent
-                )}
+                {trailingContent ||
+                  (invalid && (
+                    <TextAreaContent
+                      data-role="text-area-invalid"
+                      sx={invalidIconWrapperStyle}
+                      variant="icon"
+                    >
+                      <IconCircleExclamationFill />
+                    </TextAreaContent>
+                  ))}
               </FlexBox>
             </FlexBox>
           )}
@@ -291,7 +290,7 @@ TextArea.displayName = TEXT_AREA_NAME;
 
 const TextAreaContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TextAreaContentProps, 'div'>
+  DefaultComponentPropsInternal<TextAreaContentProps, 'div'>
 >(({ variant = 'characterCounter', children, sx, ...props }, ref) => {
   const { length } = useTextAreaContext(TEXT_AREA_CONTENT_NAME);
 
@@ -397,3 +396,5 @@ const TextAreaContent = forwardRef<
 TextAreaContent.displayName = TEXT_AREA_CONTENT_NAME;
 
 export { TextArea, TextAreaContent };
+
+export type { TextAreaProps, TextAreaContentProps };

@@ -1,10 +1,14 @@
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type TextButtonVariant = 'primary' | 'assistive';
+export type TextButtonColor = 'primary' | 'assistive';
 
-export type TextButtonDefaultProps = {
-  variant?: 'primary' | 'assistive';
+export type TextButtonDefaultProps = WithSxProps<{
+  color?: 'primary' | 'assistive';
   disabled?: boolean;
   size?: 'small' | 'medium';
   disableInteraction?: boolean;
@@ -13,10 +17,10 @@ export type TextButtonDefaultProps = {
   children?: ReactNode;
   loading?: boolean;
   /**
-   * loading=true 일 때 event 막는 동작을 비활성화합니다.
+   * When `loading=true`, the event blocking action is disabled.
    */
   disableLoadingPreventEvents?: boolean;
-};
+}>;
 
 export type TextButtonResponsiveProps = ResponsiveProps<
   Pick<TextButtonDefaultProps, 'size'>

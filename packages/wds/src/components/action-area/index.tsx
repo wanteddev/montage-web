@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 
-import FlexBox from '../flex-box';
-import Typography from '../typography';
-import Button from '../button';
-import TextButton from '../text-button';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { Button } from '../button';
+import { TextButton } from '../text-button';
 import { useModalActionAreaContext } from '../modal/contexts';
 
 import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
@@ -13,14 +13,14 @@ import { actionAreaStyle, actionButtonCancel } from './style';
 import type { ActionAreaProps, ActionButtonProps } from './types';
 import type { ElementType, ForwardedRef, ReactNode } from 'react';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
 const ActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ActionAreaProps, 'div'>
+  DefaultComponentPropsInternal<ActionAreaProps, 'div'>
 >(
   (
     {
@@ -39,7 +39,6 @@ const ActionArea = forwardRef<
     const modalOption = useModalActionAreaContext();
 
     const modalSticky =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       modalOption !== undefined ? modalOption.sticky : undefined;
 
     return (
@@ -54,7 +53,6 @@ const ActionArea = forwardRef<
             actionAreaStyle({
               divider,
               extra,
-              variant,
               background: extra ? false : background ?? modalSticky,
             }),
             props.sx,
@@ -125,11 +123,11 @@ const ActionAreaButton = forwardRef(
   <T extends ElementType = 'button'>(
     {
       variant = 'main',
-      textButtonVariant,
+      textButtonColor,
       buttonVariant,
       buttonColor,
       ...props
-    }: PolymorphicProps<ActionButtonProps, T>,
+    }: PolymorphicPropsInternal<ActionButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { variant: parentVariant } = useActionAreaContext(
@@ -160,7 +158,7 @@ const ActionAreaButton = forwardRef(
           ref={ref}
           variant={buttonVariant ?? 'outlined'}
           size="large"
-          color={buttonColor ?? 'secondary'}
+          color={buttonColor ?? 'primary'}
           fullWidth={parentVariant === 'strong'}
           {...props}
           sx={[actionButtonCancel({ variant, parentVariant }), props.sx]}
@@ -170,7 +168,7 @@ const ActionAreaButton = forwardRef(
         parentVariant === 'strong' ? (
           <TextButton
             ref={ref}
-            variant={textButtonVariant ?? 'assistive'}
+            color={textButtonColor ?? 'assistive'}
             size="small"
             {...props}
             sx={[
@@ -196,8 +194,10 @@ const ActionAreaButton = forwardRef(
 
     return renderComponent[variant];
   },
-) as PolymorphicComponent<ActionButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ActionButtonProps, 'button'>;
 
 ActionAreaButton.displayName = ACTION_AREA_BUTTON_NAME;
 
 export { ActionArea, ActionAreaButton };
+
+export type { ActionAreaProps, ActionButtonProps };

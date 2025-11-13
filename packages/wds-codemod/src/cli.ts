@@ -4,40 +4,20 @@ import inquirer from 'inquirer';
 import meow from 'meow';
 import execa from 'execa';
 
+import { MIGRATION_TRANSFORMS } from './constants';
+
 export const jscodeshiftExecutable = require.resolve('.bin/jscodeshift');
 export const transformerDirectory = path.join(__dirname, 'transforms');
 
-const TRANSFORMER_INQUIRER_CHOICES = [
-  {
-    name: 'Migration to v1',
-    value: 'migration-v1',
-  },
-  { name: 'Migration Forms Design', value: 'migration-forms' },
-  { name: 'List Cell Migration', value: 'list-cell-migration' },
-  { name: 'Filled Variant to Solid', value: 'filled-variant-to-solid' },
-  {
-    name: 'Typography Variant to kebab-case',
-    value: 'typography-variant-cases',
-  },
-  { name: 'CheckMark Migration', value: 'check-mark-migration' },
-  { name: 'Padding to Vertical Padding', value: 'padding-to-vertical-padding' },
-  {
-    name: 'Padding to Horizontal Padding',
-    value: 'padding-to-horizontal-padding',
-  },
-  { name: 'PlayBadge Migration', value: 'play-badge-migration' },
-  { name: 'Heading to Title', value: 'heading-to-title' },
-  { name: 'Input to Field', value: 'input-to-field' },
-  { name: 'ModalContainer Migration', value: 'modal-migration' },
-  { name: 'ActionArea Migration', value: 'action-area-migration' },
-  { name: 'IconCircleClose Migration', value: 'icon-circle-close-migration' },
-  { name: 'Avatar Migration', value: 'avatar-migration' },
-  { name: 'MenuBottom Migration', value: 'menu-bottom-migration' },
-  { name: 'Leading, Trailing Migration', value: 'leading-trailing-migration' },
-  { name: 'Palette to Atomic & Semantic', value: 'palette-to-atomic-semantic' },
-  { name: 'Size Migration', value: 'size-migration' },
-  { name: 'Toast Migration', value: 'toast-migration' },
-];
+const TRANSFORMER_INQUIRER_CHOICES = Object.entries(MIGRATION_TRANSFORMS)
+  .map(([version, transformers]) => {
+    return Object.entries(transformers).map(([value, name]) => {
+      return { name, value: `${version}/${value}` };
+    });
+  })
+  .flat();
+
+const VERSIONS = Object.keys(MIGRATION_TRANSFORMS);
 
 const run = () => {
   const cli = meow({
@@ -52,19 +32,25 @@ const run = () => {
     },
   } as meow.Options<meow.AnyFlags>);
 
-  if (
-    cli.input[0] &&
-    !TRANSFORMER_INQUIRER_CHOICES.find((x) => x.value === cli.input[0])
-  ) {
+  const matchedTransformer = TRANSFORMER_INQUIRER_CHOICES.find(
+    (x) => x.value.replace(/v([0-9]+)\//, '') === cli.input[0],
+  )?.value;
+
+  if (cli.input[0] && !matchedTransformer) {
     console.error('Invalid transform choice, pick one of:');
     console.error(
-      TRANSFORMER_INQUIRER_CHOICES.map((x) => '- ' + x.value).join('\n'),
+      TRANSFORMER_INQUIRER_CHOICES.map(
+        (x) => '- ' + x.value.replace(/v([0-9]+)\//, ''),
+      ).join('\n'),
     );
     process.exit(1);
   }
 
   inquirer
-    .prompt([
+    .prompt<{
+      files?: string;
+      version?: string;
+    }>([
       {
         type: 'input',
         name: 'files',
@@ -75,22 +61,43 @@ const run = () => {
       },
       {
         type: 'list',
-        name: 'transformer',
-        message: '실행할 transformer를 선택하세요.',
+        name: 'version',
+        message: '마이그레이션 대상 버전을 선택하세요.',
         when: !cli.input[0],
-        pageSize: TRANSFORMER_INQUIRER_CHOICES.length,
-        choices: TRANSFORMER_INQUIRER_CHOICES,
+        pageSize: 5,
+        choices: VERSIONS,
       },
     ])
-    .then((answers) => {
-      const { files, transformer } = answers;
+    .then(async (answers) => {
+      const { version, files } = answers;
 
       const filesBeforeExpansion = cli.input[1] || files;
-      const selectedTransformer = cli.input[0] || transformer;
+      let selectedTransformer = matchedTransformer;
+
+      if (version) {
+        const choices = TRANSFORMER_INQUIRER_CHOICES.filter((x) =>
+          x.value.startsWith(version),
+        );
+
+        const { transformer } = await inquirer.prompt<{
+          transformer?: string;
+        }>([
+          {
+            type: 'list',
+            name: 'transformer',
+            message: '실행할 transformer를 선택하세요.',
+            pageSize: 5,
+            choices,
+            loop: false,
+          },
+        ]);
+
+        selectedTransformer = transformer;
+      }
 
       return runTransform({
-        files: filesBeforeExpansion,
-        transformer: selectedTransformer,
+        files: filesBeforeExpansion!,
+        transformer: selectedTransformer!,
       });
     });
 };

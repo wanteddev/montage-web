@@ -2,15 +2,14 @@ import { forwardRef, useId } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
-import WithInteraction from '../with-interaction';
-import Loading from '../loading';
+import { WithInteraction } from '../with-interaction';
+import { Loading } from '../loading';
 
 import { buttonStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
-  ThemeColorsToken,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { ButtonProps } from './types';
@@ -19,7 +18,7 @@ const Button = forwardRef(
   <T extends ElementType = 'button'>(
     {
       as,
-      variant: originVariant,
+      variant = 'solid',
       disabled = false,
       disableInteraction = false,
       fullWidth = false,
@@ -37,22 +36,15 @@ const Button = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ButtonProps, T>,
+    }: PolymorphicPropsInternal<ButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const id = useId();
 
-    const variant = originVariant || 'solid';
-
-    const interactionColor: ThemeColorsToken =
-      color === 'primary' && variant === 'outlined'
-        ? 'semantic.primary.normal'
-        : 'semantic.label.normal';
-
     const getInteractionVariant = () => {
       switch (variant) {
         case 'outlined':
-          return color === 'primary' ? 'normal' : 'light';
+          return 'light';
         case 'solid':
           return color === 'primary' ? 'strong' : 'normal';
       }
@@ -67,7 +59,7 @@ const Button = forwardRef(
 
     return (
       <WithInteraction
-        color={interactionColor}
+        color="semantic.label.normal"
         variant={getInteractionVariant()}
         disabled={disableInteraction || disabled}
       >
@@ -127,8 +119,10 @@ const Button = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<ButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ButtonProps, 'button'>;
 
 Button.displayName = 'Button';
 
-export default Button;
+export { Button };
+
+export type { ButtonProps };

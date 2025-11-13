@@ -5,21 +5,21 @@ import * as RovingFocusGroup from '@radix-ui/react-roving-focus';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { Box } from '@wanteddev/wds-engine';
 
-import Radio from '../radio';
-import { createEmptyResponsiveStyle } from '../../utils';
+import { Radio } from '../radio';
+import { createEmptyResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import { RADIO_GROUP_NAME, RADIO_ITEM_NAME } from './constants';
 import { RadioGroupProvider, useRadioGroupContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
-import type { ElementRef } from 'react';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
+import type { ComponentRef } from 'react';
 import type { RadioGroupItemProps, RadioGroupProps } from './types';
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 
 const RadioGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<RadioGroupProps, 'div'>
+  DefaultComponentPropsInternal<RadioGroupProps, 'div'>
 >((props, ref) => {
   const {
     name,
@@ -35,7 +35,7 @@ const RadioGroup = forwardRef<
   } = props;
   const [value, setValue] = useControllableState({
     prop: valueProp,
-    defaultProp: defaultValue,
+    defaultProp: defaultValue ?? '',
     onChange: onValueChange,
   });
 
@@ -84,15 +84,15 @@ const RadioGroup = forwardRef<
 RadioGroup.displayName = RADIO_GROUP_NAME;
 
 const RadioGroupItem = forwardRef<
-  ElementRef<typeof Radio>,
+  ComponentRef<typeof Radio>,
   RadioGroupItemProps
->(({ disabled, ...itemProps }, forwardedRef) => {
+>(({ disabled, ...props }, forwardedRef) => {
   const context = useRadioGroupContext(RADIO_ITEM_NAME);
   const isDisabled = context.disabled || disabled;
 
-  const ref = useRef<React.ElementRef<typeof Radio>>(null);
+  const ref = useRef<React.ComponentRef<typeof Radio>>(null);
   const composedRefs = useComposedRefs(forwardedRef, ref);
-  const checked = context.value === itemProps.value;
+  const checked = context.value === props.value;
   const isArrowKeyPressedRef = useRef(false);
 
   useEffect(() => {
@@ -117,15 +117,15 @@ const RadioGroupItem = forwardRef<
         disabled={isDisabled}
         required={context.required}
         checked={checked}
-        {...itemProps}
-        sx={[itemProps.sx, createEmptyResponsiveStyle(itemProps)]}
         name={context.name}
+        {...props}
+        sx={[props.sx, createEmptyResponsiveStyle(props)]}
         ref={composedRefs}
-        onCheck={() => context.onValueChange(itemProps.value)}
-        onKeyDown={composeEventHandlers(itemProps.onKeyDown, (event) => {
+        onCheck={() => context.onValueChange(props.value)}
+        onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
           if (event.key === 'Enter') event.preventDefault();
         })}
-        onFocus={composeEventHandlers(itemProps.onFocus, () => {
+        onFocus={composeEventHandlers(props.onFocus, () => {
           if (isArrowKeyPressedRef.current) ref.current?.click();
         })}
       />
@@ -136,3 +136,5 @@ const RadioGroupItem = forwardRef<
 RadioGroupItem.displayName = RADIO_ITEM_NAME;
 
 export { RadioGroup, RadioGroupItem };
+
+export type { RadioGroupProps, RadioGroupItemProps };

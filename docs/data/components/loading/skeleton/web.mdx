@@ -1,0 +1,152 @@
+---
+title: Skeleton
+createdAt: 2025-09-08
+---
+
+## Basic skeleton
+
+자리를 일시적으로 표시할 때 사용합니다.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton width="75%" align="center" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Variants
+
+3가지 variant를 사용할 수 있습니다.
+- `text`
+- `rectangle`
+- `circle`
+
+### Text
+
+텍스트 자리를 일시적으로 표시할 때 사용합니다.
+
+- 상/하 padding 값이 포함되어 높이를 차지합니다.
+- `text`에서만 `align` prop으로 가로 정렬을 조정할 수 있습니다.
+
+<Demo code={`import { Skeleton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="24px" flexDirection="column" sx={{ width: '75%' }} alignItems="center">
+      <FlexBox flexDirection="column" gap="16px" sx={{ width: '100%' }}>
+        <Skeleton align="left" />
+        <Skeleton width="75%" align="left" />
+        <Skeleton width="50%" align="left" />
+        <Skeleton width="25%" align="left" />
+      </FlexBox>
+      <FlexBox flexDirection="column" gap="16px" sx={{ width: '100%' }}>
+        <Skeleton align="center" />
+        <Skeleton width="75%" align="center" />
+        <Skeleton width="50%" align="center" />
+        <Skeleton width="25%" align="center" />
+      </FlexBox>
+      <FlexBox flexDirection="column" gap="16px" sx={{ width: '100%' }}>
+        <Skeleton align="right" />
+        <Skeleton width="75%" align="right" />
+        <Skeleton width="50%" align="right" />
+        <Skeleton width="25%" align="right" />
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Rectangle
+
+네모난 모양을 가진 자리에 사용합니다.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton variant="rectangle" width="64px" height="64px" />
+  )
+}
+
+export default Demo;`}
+/>
+
+### Circle
+
+동그란 모양을 가진 자리에 사용합니다.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton variant="circle" width="64px" height="64px" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Color
+
+`color`, `opacity` prop으로 색상과 투명도를 조정할 수 있습니다.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton
+      color="semantic.label.normal"
+      opacity="opacity.61"
+    />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Radius
+
+variant가 `rectangle`과 `text`일 때 `radius` prop으로 border radius를 조정할 수 있습니다.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton radius="24px" variant="rectangle" width="75%" height="24px" />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Animation
+
+기본적으로 2초 동안 지속되는 애니메이션이 무한 반복됩니다.
+
+`animation={false}` 로 애니메이션을 종료할 수 있습니다.
+
+<Demo code={`import { Skeleton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Skeleton align="center" width="75%" animation={false} />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- width
+- height
+
+<PropsTable component="Skeleton" />

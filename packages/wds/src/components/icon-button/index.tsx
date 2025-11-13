@@ -1,14 +1,14 @@
 import { forwardRef, useMemo } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 
 import { backgroundBlendStyle, iconButtonStyle } from './style';
 import { useIconButtonContext } from './contexts';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { IconButtonProps } from './types';
@@ -31,7 +31,7 @@ const IconButton = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<IconButtonProps, T>,
+    }: PolymorphicPropsInternal<IconButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const context = useIconButtonContext();
@@ -85,7 +85,7 @@ const IconButton = forwardRef(
 
     return (
       <WithInteraction
-        width={interactionSize}
+        width="auto"
         height={interactionSize}
         color={interactionColor}
         disabled={disableInteraction || disabled}
@@ -130,8 +130,10 @@ const IconButton = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<IconButtonProps, 'button'>;
+) as PolymorphicComponentInternal<IconButtonProps, 'button'>;
 
 IconButton.displayName = 'IconButton';
 
-export default IconButton;
+export { IconButton };
+
+export type { IconButtonProps };

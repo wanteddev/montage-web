@@ -3,13 +3,13 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 
 import { toggleIconStyle } from './style';
 
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { ToggleIconProps } from './types';
@@ -31,13 +31,13 @@ const ToggleIcon = forwardRef(
       lg,
       xl,
       ...props
-    }: PolymorphicProps<ToggleIconProps, T>,
+    }: PolymorphicPropsInternal<ToggleIconProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const [pressed = false, setPressed] = useControllableState({
+    const [pressed, setPressed] = useControllableState({
       prop: active,
       onChange: onActiveChange,
-      defaultProp: defaultActive,
+      defaultProp: defaultActive ?? false,
     });
 
     return (
@@ -78,8 +78,10 @@ const ToggleIcon = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<ToggleIconProps, 'button'>;
+) as PolymorphicComponentInternal<ToggleIconProps, 'button'>;
 
 ToggleIcon.displayName = 'ToggleIcon';
 
-export default ToggleIcon;
+export { ToggleIcon };
+
+export type { ToggleIconProps };

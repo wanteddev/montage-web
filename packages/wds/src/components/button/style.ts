@@ -1,7 +1,7 @@
 import { css } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { ButtonProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -201,23 +201,6 @@ const buttonColorStyle = (
         }
       `;
     case variant === 'outlined' && color === 'primary':
-      return css`
-        color: ${theme.semantic.primary.normal};
-        background-color: transparent;
-        box-shadow: inset 0 0 0 1px ${theme.semantic.primary.normal};
-
-        [data-role='button-loading'] {
-          color: inherit;
-        }
-
-        &:disabled,
-        &[aria-disabled='true'] {
-          color: ${theme.semantic.label.disable};
-          background-color: transparent;
-          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
-        }
-      `;
-    case variant === 'outlined' && color === 'secondary':
       return css`
         color: ${theme.semantic.primary.normal};
         background-color: transparent;

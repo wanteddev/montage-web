@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-nextjs",
-  "version": "2.6.0",
+  "version": "3.0.0-alpha.4",
   "files": [
     "dist"
   ],
@@ -24,8 +24,8 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "watch": "tsc && tsup --watch",
-    "build": "tsc && tsup"
+    "watch": "tsdown --watch",
+    "build": "tsdown"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",
@@ -33,33 +33,29 @@
     "directory": "packages/wds-nextjs"
   },
   "devDependencies": {
-    "@types/react": "^18.3.14",
-    "@types/react-dom": "^18.3.1",
-    "typescript": "^5.4.2"
+    "@types/react": "^19.2.2",
+    "next": "^15.5.5",
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "@emotion/server": "^11.11.0",
-    "@wanteddev/wds-engine": "workspace:*",
-    "next": "^14.2.20",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@wanteddev/wds-engine": "workspace:*"
   },
   "peerDependencies": {
     "@emotion/server": "^11.11.0",
-    "@types/react": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "@types/react-dom": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "next": "^13.0.0 || ^14.0.0 || ^15.0.0",
-    "react": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "react-dom": "^18.0 || ^19.0 || ^19.0.0-rc"
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "next": "^13.0.0 || ^14.0.0 || ^15.0.0 || ^16.0.0",
+    "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
     "@emotion/server": {
       "optional": true
     },
-    "@types/react": {
+    "@emotion/cache": {
       "optional": true
     },
-    "@types/react-dom": {
+    "@types/react": {
       "optional": true
     }
   }

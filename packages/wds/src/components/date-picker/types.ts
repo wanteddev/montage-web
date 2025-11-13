@@ -1,7 +1,11 @@
 import type { TextFieldProps } from '../text-field/types';
 import type { TextField } from '../text-field';
-import type { Merge } from '@wanteddev/wds-engine';
-import type DateCalendar from '../date-calendar';
+import type {
+  DefaultComponentPropsInternal,
+  Merge,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
+import type { DateCalendar } from '../date-calendar';
 import type {
   ComponentProps,
   ComponentPropsWithoutRef,
@@ -10,23 +14,25 @@ import type {
   Ref,
 } from 'react';
 import type { PopperContent } from '../popper';
-import type FocusScope from '../focus-scope';
+import type { FocusScope } from '../focus-scope';
 
 export type DatePickerProps = Merge<
   {
     open?: boolean;
     defaultOpen?: boolean;
     onOpenChange?: (state: boolean) => void;
-    contentProps?: Merge<
-      ComponentProps<typeof PopperContent>,
-      ComponentPropsWithoutRef<typeof FocusScope>
+    contentProps?: WithSxProps<
+      Merge<
+        ComponentProps<typeof PopperContent>,
+        ComponentPropsWithoutRef<typeof FocusScope>
+      >
     >;
     format?: string;
     inputRef?: Ref<HTMLInputElement>;
     input?: ElementType;
     actionArea?: ReactNode;
     /**
-     * 마지막 요소를 선택 완료 했을 때 popover를 닫지 않습니다.
+     * When the last element is selected, the popover is not closed.
      */
     disableLastUnitClickClose?: boolean;
   },
@@ -39,7 +45,10 @@ export type DatePickerFieldProps = Merge<
     ref?: Ref<HTMLDivElement>;
     inputRef?: Ref<HTMLInputElement>;
   },
-  Omit<ComponentPropsWithoutRef<typeof TextField>, 'wrapperRef'>
+  DefaultComponentPropsInternal<
+    Omit<ComponentPropsWithoutRef<typeof TextField>, 'wrapperRef'>,
+    'input'
+  >
 >;
 
 export type DatePickerFormat =

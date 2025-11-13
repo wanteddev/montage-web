@@ -6,25 +6,28 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { TextField, TextFieldContent } from '../text-field';
-import IconButton from '../icon-button';
-import DateCalendar from '../date-calendar';
+import { IconButton } from '../icon-button';
+import { DateCalendar } from '../date-calendar';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
-import DismissableLayer from '../dismissable-layer';
-import FocusScope from '../focus-scope';
-import FlexBox from '../flex-box';
+import { DismissableLayer } from '../dismissable-layer';
+import { FocusScope } from '../focus-scope';
+import { FlexBox } from '../flex-box';
 import { PickerActionAreaProvider } from '../picker-action-area/contexts';
+import { extendDayjs } from '../../utils/internal/date';
 
 import { datePopperStyle } from './style';
 import { useDateField } from './hooks';
 
 import type { SlotProps } from '@radix-ui/react-slot';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { DatePickerFieldProps, DatePickerProps } from './types';
 import type { DateType } from '../date-calendar/types';
 
+extendDayjs();
+
 const DatePicker = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DatePickerProps, 'input'>
+  DefaultComponentPropsInternal<DatePickerProps, 'input'>
 >(
   (
     {
@@ -61,9 +64,9 @@ const DatePicker = forwardRef<
     const ref = useRef<HTMLDivElement>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
 
-    const [open = false, setOpen] = useControllableState({
+    const [open, setOpen] = useControllableState({
       prop: originOpen,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: onOpenChange,
     });
 
@@ -79,10 +82,12 @@ const DatePicker = forwardRef<
       loop = true,
       trapped,
       trappedContent = true,
+      disableFocusScope,
       onMountAutoFocus,
       onUnmountAutoFocus,
-      position = 'top-start',
+      position = 'bottom-start',
       offset = 8,
+      sx: contentSx,
       ...otherContentProps
     } = contentProps || {};
 
@@ -156,14 +161,15 @@ const DatePicker = forwardRef<
         <PopperAnchor
           ref={composedRefs}
           onChange={() => {}}
-          autoComplete="off"
-          type="text"
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
           aria-expanded={open}
           data-role="date-picker-field"
+          role="combobox"
           {...props}
           {...({
+            type: 'text',
+            autoComplete: 'off',
             readOnly,
             disabled,
             placeholder,
@@ -183,6 +189,7 @@ const DatePicker = forwardRef<
                   variant="icon-button"
                 >
                   <IconButton
+                    aria-label="Toggle date picker"
                     disabled={disabled || readOnly}
                     onClick={() => {
                       handleInputValueChange();
@@ -205,7 +212,6 @@ const DatePicker = forwardRef<
             {...otherContentProps}
             position={position}
             offset={offset}
-            sx={[datePopperStyle, otherContentProps.sx]}
           >
             <FocusScope
               loop={loop}
@@ -213,6 +219,7 @@ const DatePicker = forwardRef<
               trappedContent={trappedContent}
               onMountAutoFocus={onMountAutoFocus}
               onUnmountAutoFocus={onUnmountAutoFocus}
+              disableFocusScope={disableFocusScope}
             >
               <DismissableLayer
                 asChild
@@ -230,7 +237,11 @@ const DatePicker = forwardRef<
                   setOpen(false);
                 }}
               >
-                <FlexBox flexDirection="column" data-role="date-picker-wrapper">
+                <FlexBox
+                  flexDirection="column"
+                  data-role="date-picker-wrapper"
+                  sx={[datePopperStyle, contentSx]}
+                >
                   <DateCalendar
                     min={min}
                     max={max}
@@ -270,7 +281,7 @@ DatePicker.displayName = 'DatePicker';
 
 const DatePickerField = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<DatePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<DatePickerFieldProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
@@ -278,4 +289,5 @@ const DatePickerField = forwardRef<
 DatePickerField.displayName = 'DatePickerField';
 
 export { DatePicker };
-export type { DatePickerFieldProps, DateType };
+
+export type { DatePickerProps, DatePickerFieldProps, DateType };

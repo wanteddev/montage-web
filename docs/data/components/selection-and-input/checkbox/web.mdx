@@ -1,0 +1,345 @@
+---
+title: Checkbox
+description: 여러 항목을 선택합니다.
+createdAt: 2025-05-12
+---
+
+## Basic checkbox
+
+`Checkbox` 를 사용하여 옵션을 켜거나 끌 수 있습니다.
+
+<Demo code={`import { Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Checkbox />
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Sizes
+
+2가지 size를 제공합니다.
+- small
+- medium (default)
+
+medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰야 합니다.
+
+<Demo code={`import { FlexBox, Checkbox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px" flexDirection="column">
+      <FlexBox gap="8px">
+        <Checkbox size="small" id="small" />
+        <Label htmlFor="small">Small</Label>
+      </FlexBox>
+
+      <FlexBox gap="8px">
+        <Checkbox size="medium" id="medium" />
+        <Label htmlFor="medium">Medium</Label>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Tight
+
+`tight` prop 을 사용하면 체크 박스의 좌우 여백을 조정할 수 있습니다.
+
+<Demo code={`import { Checkbox, FlexBox, Label } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Label>Small</Label>
+      <FlexBox gap="8px" flexDirection="column">
+        <FlexBox gap="8px">
+          <Checkbox id="small-default" size="small" value="small-default" />
+          <Label htmlFor="small-default">Default</Label>
+        </FlexBox>
+        <FlexBox gap="10px">
+          <Checkbox id="small-tight" size="small" value="small-tight" tight />
+          <Label htmlFor="small-tight">Tight</Label>
+        </FlexBox>
+      </FlexBox>
+
+      <Label sx={{ marginTop: 8 }}>Medium</Label>
+      <FlexBox flexDirection="column" gap="8px">
+        <FlexBox gap="8px">
+          <Checkbox id="medium-default" size="medium" value="medium-default" />
+          <Label htmlFor="medium-default" sx={{ padding: '1px 0px' }}>Default</Label>
+        </FlexBox>
+
+        <FlexBox gap="10px">
+          <Checkbox id="medium-tight" size="medium" value="medium-tight" tight />
+          <Label htmlFor="medium-tight" sx={{ padding: '1px 0px' }}>Tight</Label>
+        </FlexBox>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Form field
+
+Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
+- `FormField`
+- `FormControl`
+- `FormLabel`
+- `FormMessage`
+- `FormErrorMessage`
+
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, Checkbox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FormField>
+        <FlexBox flexDirection="row" gap="8px">
+          <FormControl>
+            <Checkbox size="medium" />
+          </FormControl>
+          <FormLabel sx={{ padding: '1px 0px' }}>Label</FormLabel>
+        </FlexBox>
+        <FormMessage>Helper Message</FormMessage>
+      </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Indeterminate
+
+기본적으로 체크박스는 form 에서 선택됨/선택되지 않음 두 가지 상태만 가질 수 있습니다.
+
+`indeterminate` prop 을 사용하면 시각적으로 불확정 상태를 가질 수 있습니다.
+
+또한 `indeterminateIcon` prop 을 사용하여 불확정 상태의 아이콘을 커스텀할 수 있습니다.
+
+<Demo code={`import { FlexBox, Checkbox, FormField, FormControl, FormLabel } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [checked1, setChecked1] = useState(true);
+  const [checked2, setChecked2] = useState(false);
+
+  return (
+    <FlexBox
+      flexDirection="column"
+      gap="20px"
+    >
+      <FormField>
+        <FormLabel>관심 분야</FormLabel>
+
+        <FormField
+          flexDirection="row"
+          gap="8px"
+        >
+          <FormControl>
+            <Checkbox
+              checked={checked1 && checked2}
+              indeterminate={checked1 !== checked2}
+              onCheckedChange={(checked) => {
+                setChecked1(checked);
+                setChecked2(checked);
+              }}
+            />
+          </FormControl>
+          <FormLabel sx={{ padding: '1px 0px' }}>전체 선택</FormLabel>
+        </FormField>
+     
+       <FlexBox flexDirection="column" gap="8px" sx={{ paddingLeft: 20 }}>
+          <FormField
+            flexDirection="row"
+            gap="8px"
+          >
+            <FormControl>
+              <Checkbox
+                checked={checked1}
+                onCheckedChange={setChecked1}
+              />
+            </FormControl>
+            <FormLabel sx={{ padding: '1px 0px' }}>개발</FormLabel>
+          </FormField>
+
+          <FormField
+            flexDirection="row"
+            gap="8px"
+          >
+            <FormControl>
+              <Checkbox
+                checked={checked2}
+                onCheckedChange={setChecked2}
+              />
+            </FormControl>
+            <FormLabel sx={{ padding: '1px 0px' }}>디자인</FormLabel>
+          </FormField>
+        </FlexBox>
+     </FormField>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Customize
+
+`icon` props 을 사용해서 아이콘을 커스텀할 수 있습니다.
+
+<Demo code={`import { Checkbox } from '@wanteddev/wds';
+import { IconCircleCheckFill } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <Checkbox icon={<IconCircleCheckFill />} />
+  )
+}
+
+export default Demo;`}
+/>
+
+## Controlled
+
+기본적으로 비제어 컴포넌트로 동작합니다.
+
+`checked`, `onCheckedChange` prop 을 사용하면 제어 컴포넌트로 동작합니다.
+
+> 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
+
+<Demo code={`import { FlexBox, Checkbox } from '@wanteddev/wds';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <FlexBox alignItems="center" flexDirection="column" gap="8px">
+      <Checkbox defaultChecked={false} />
+      <Checkbox checked={checked} onCheckedChange={setChecked} />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## React hook form
+
+`react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
+
+<Demo code={`import { Button, FlexBox, Checkbox, FormField, FormControl, FormLabel, FormErrorMessage } from '@wanteddev/wds';
+import { useForm, Controller } from 'react-hook-form';
+
+const items = [
+  {
+    id: "develop",
+    label: "개발",
+  },
+  {
+    id: "design",
+    label: "디자인",
+  },
+];
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      selected: [],
+    },
+  });
+
+  return (
+    <FlexBox
+      as="form"
+      flexDirection="column"
+      gap="20px"
+      onSubmit={form.handleSubmit((v) => alert(JSON.stringify(v)))}
+    >
+      <Controller
+        control={form.control}
+        name="selected"
+        render={({ formState }) => (
+          <FormField>
+            <FormLabel>관심 분야</FormLabel>
+
+            {items.map((item) => (
+              <Controller
+                key={item.id}
+                control={form.control}
+                name="selected"
+                rules={{
+                  required: {
+                    value: true,
+                    message: "필수 값입니다.",
+                  },
+                }}
+                render={({ field }) => {
+                  return (
+                    <FormField
+                      key={item.id}
+                      flexDirection="row"
+                      gap="8px"
+                    >
+                      <FormControl>
+                        <Checkbox
+                          {...field}
+                          checked={field.value.includes(item.id)}
+                          onCheckedChange={(checked) => {
+                            return checked
+                              ? field.onChange([...field.value, item.id])
+                              : field.onChange(
+                                  field.value.filter(
+                                    (value) => value !== item.id
+                                  )
+                                );
+                          }}
+                        />
+                      </FormControl>
+                      <FormLabel sx={{ padding: '1px 0px' }}>{item.label}</FormLabel>
+                    </FormField>
+                  );
+                }}
+              />
+            ))}
+
+            <FormErrorMessage>{formState.errors.selected?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+
+      <Button type="submit">제출</Button>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## Accessibility
+
+[WAI-ARIA Checkbox Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/) 을 준수합니다.
+
+- [Form Field](#form-field) 와 함께 사용할 때 모든 접근성 속성을 주입할 수 있습니다.
+- 그렇지 않은 경우에는 직접 `aria-label` 등을 사용해서 접근성을 충족시켜야 합니다.
+
+## API
+
+정해진 viewport에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="Checkbox" />

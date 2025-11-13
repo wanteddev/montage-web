@@ -1,6 +1,6 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle } from '../../utils/responsive-props';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import { typographyStyle } from '../../utils/typography';
 
 import type { RadioProps } from './types';
@@ -66,6 +66,18 @@ export const radioStyle =
 
     & svg {
       pointer-events: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      span {
+        outline-style: solid;
+        outline-width: 2px;
+        outline-offset: 2px;
+        outline-color: Highlight;
+        outline-color: -webkit-focus-ring-color;
+      }
     }
 
     ${radioSizeStyle({ size, tight }, theme)}

@@ -3,6 +3,119 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.4](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.3...v3.0.0-alpha.4) (2025-11-12)
+
+### Bug Fixes
+
+- **wds,wds-codemod:** fixed type error image base, add shadow migration ([6ff9c64](https://github.com/wanteddev/wds/commit/6ff9c6477dddf1121186af5e54ed3691c367026c))
+
+# [3.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2025-11-12)
+
+### Bug Fixes
+
+- revert catalog ([7ff4e84](https://github.com/wanteddev/wds/commit/7ff4e84737f21cc08f9947e0a47fd01084e9db41))
+- **wds-codemod:** content props migration select, select-multiple ([3e73a90](https://github.com/wanteddev/wds/commit/3e73a90f3698ea181cb9cc760e5f6d02ff625f2e))
+
+# [3.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2025-11-12)
+
+### Features
+
+- **wds:** chip-action to chip, chip-filter to filter-button ([#476](https://github.com/wanteddev/wds/issues/476)) ([9bbfe16](https://github.com/wanteddev/wds/commit/9bbfe16318a4e716fda85e78ff3bb0f057cde4de))
+
+# [3.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.6.0...v3.0.0-alpha.1) (2025-11-12)
+
+### Bug Fixes
+
+- **wds:** fixed css build script ([#474](https://github.com/wanteddev/wds/issues/474)) ([f87df26](https://github.com/wanteddev/wds/commit/f87df26b9944996d6ac5d2dba99ce49e0b4d9b14))
+- **wds:** fixed lint, build errors ([28e330f](https://github.com/wanteddev/wds/commit/28e330f01bf767943734025aab793582c3cfbaf4))
+- **wds:** fixed use controllable state ([89b275e](https://github.com/wanteddev/wds/commit/89b275efd90cb80c2a8d757b8e75838a987ca4cb))
+- **wds:** snackbar extraContent gap to 8px ([#467](https://github.com/wanteddev/wds/issues/467)) ([171cabc](https://github.com/wanteddev/wds/commit/171cabc76fe2e00ca6e4b1093c6fda25ca2c6408))
+- **wds:** fixed bottom sheet min width and emphasized navigation broken ([#466](https://github.com/wanteddev/wds/issues/466)) ([190124f](https://github.com/wanteddev/wds/commit/190124fee95527874fd6dc8423478b53dd4f0846))
+
+### Features
+
+- tsup to tsdown migration ([#472](https://github.com/wanteddev/wds/issues/472)) ([f2a81f6](https://github.com/wanteddev/wds/commit/f2a81f6f23a85d5a090120ecd8fe21e8862c6ecc))
+- **wds:** add data attribute for resolved position in popper ([#465](https://github.com/wanteddev/wds/issues/465)) ([0251618](https://github.com/wanteddev/wds/commit/0251618cb5b91bead0e4c8ff4f8130c82ac96ba0))
+- **wds:** chip action in select render prop, change default color to alternative ([#468](https://github.com/wanteddev/wds/issues/468)) ([93848d8](https://github.com/wanteddev/wds/commit/93848d8a46264c8df1f815358cce7ab85ae27000))
+- **wds:** radix scroll area downgrade ([96ce26d](https://github.com/wanteddev/wds/commit/96ce26d061e3c294f8a02476707bfdda882e9725))
+- **wds:** remove unnecessary will change ([#464](https://github.com/wanteddev/wds/issues/464)) ([9b37b7f](https://github.com/wanteddev/wds/commit/9b37b7f246ff8960ac17592934e6072848ae914e))
+
+# [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
+
+### Bug Fixes
+
+- **wds,wds-codemod:** migration position in menu, select, autocomplete ([#460](https://github.com/wanteddev/wds/issues/460)) ([f6a79c3](https://github.com/wanteddev/wds/commit/f6a79c34804bce989f620d71dde186f06e83a891))
+- **wds:** add handle for thumbnail width is undefined ([622d75a](https://github.com/wanteddev/wds/commit/622d75ac0e1123a9c0c2281b6405ddcd91d289c3))
+- **wds:** avatar border radius is not match design ([#453](https://github.com/wanteddev/wds/issues/453)) ([4bccb8c](https://github.com/wanteddev/wds/commit/4bccb8c2e78997d0470762ea0bcbbdaf6c3d0a37))
+- **wds:** category panel supports sx prop ([7110af3](https://github.com/wanteddev/wds/commit/7110af34d39ef43cef44677eeae3d6950f23d3a8))
+- **wds:** fix focus ring on radio, checkbox when tight is true ([a621573](https://github.com/wanteddev/wds/commit/a621573610952d82eab871c6dedcf26eeee83040))
+- **wds:** fixed align to center tooltip close button ([#435](https://github.com/wanteddev/wds/issues/435)) ([94f42a0](https://github.com/wanteddev/wds/commit/94f42a02db8f5786163824c8de097ebd342a5b6c))
+- **wds:** fixed design is incorrectly reflected when category is active ([#436](https://github.com/wanteddev/wds/issues/436)) ([d6e1ab5](https://github.com/wanteddev/wds/commit/d6e1ab559864399db0b75c0e79a81eb7ed3812fe))
+- **wds:** fixed interaction colors to match the design ([#401](https://github.com/wanteddev/wds/issues/401)) ([929b93e](https://github.com/wanteddev/wds/commit/929b93ef143bf64d0a1a87e60afa2488b8090396))
+- **wds:** floating top navigation in bottom modal, gradient is not working ([#449](https://github.com/wanteddev/wds/issues/449)) ([bc25b89](https://github.com/wanteddev/wds/commit/bc25b89d0fbcb955f46f917a1b1f982f186a97b5))
+- **wds:** framed style params to optional ([888a636](https://github.com/wanteddev/wds/commit/888a63654679febf277a83fd8990fd021d10dcf7))
+- **wds:** incorrect z-index of action area within modal ([#379](https://github.com/wanteddev/wds/issues/379)) ([ddc7233](https://github.com/wanteddev/wds/commit/ddc7233843bcefe3de593cc1bf477a0ff905ed2a))
+- **wds:** modal trigger fix strange behavior ([#384](https://github.com/wanteddev/wds/issues/384)) ([827b86b](https://github.com/wanteddev/wds/commit/827b86be1dbe84ecea3150dcf87607b161030816))
+- **wds:** push badge is not display when position is middle right ([#430](https://github.com/wanteddev/wds/issues/430)) ([3a34c35](https://github.com/wanteddev/wds/commit/3a34c35e9bfab1c90dd921aa57c4996e761a6743))
+- **wds:** thumbnail reload when src is changed ([#431](https://github.com/wanteddev/wds/issues/431)) ([9754ebf](https://github.com/wanteddev/wds/commit/9754ebf27cbb3863c8c42dc698735a8580ccd337))
+- **wds:** unnecessary props being passed when disablePortal is true ([#369](https://github.com/wanteddev/wds/issues/369)) ([7138e33](https://github.com/wanteddev/wds/commit/7138e33d3d28e77a8e4812ddf099637eb70f225d))
+
+### Features
+
+- **eslint-plugin-wds:** create eslint plugin for wds package ([#405](https://github.com/wanteddev/wds/issues/405)) ([cd6b8ba](https://github.com/wanteddev/wds/commit/cd6b8ba8c797517d12cccd6761cfd28cdf8cecb1))
+- support react 19.2, next 16-beta ([#463](https://github.com/wanteddev/wds/issues/463)) ([5346208](https://github.com/wanteddev/wds/commit/5346208898ff4853a094f247c0513c3d5b512f46))
+- **wds,wds-codemod:** add tooltip size options ([#439](https://github.com/wanteddev/wds/issues/439)) ([439851a](https://github.com/wanteddev/wds/commit/439851a5b48edb983ab1cb96a43c136dd395e3a9))
+- **wds,wds-lottie,wds-engine:** export props for all components ([#357](https://github.com/wanteddev/wds/issues/357)) ([0dc2fc3](https://github.com/wanteddev/wds/commit/0dc2fc3b69af5aa4c69d462b1274be96e849b7aa))
+- **wds,wds-theme,wds-codemod:** add spread shadow theme, update popover design ([#440](https://github.com/wanteddev/wds/issues/440)) ([a08215c](https://github.com/wanteddev/wds/commit/a08215cf636a254550ea67ca2bd03ef703198afe))
+- **wds,wds-theme:** add dropShadow token and change modal shadow ([#423](https://github.com/wanteddev/wds/issues/423)) ([c5b3287](https://github.com/wanteddev/wds/commit/c5b32877bc7328d7d2ab4f52064ed47ad3f96a4e))
+- **wds:** add aria label to modal close button ([#372](https://github.com/wanteddev/wds/issues/372)) ([ef949f9](https://github.com/wanteddev/wds/commit/ef949f938f0b13ca43e6d41194cd92f5cb3e3312))
+- **wds:** add background blur in select, select multiple ([#426](https://github.com/wanteddev/wds/issues/426)) ([1a53bc9](https://github.com/wanteddev/wds/commit/1a53bc94b65393fe18de6505bf719ce1f1d905bb))
+- **wds:** add background color in text field, text area ([#427](https://github.com/wanteddev/wds/issues/427)) ([77fa521](https://github.com/wanteddev/wds/commit/77fa5212aa0329014b0c63696d244f026b9feab4))
+- **wds:** add controllable peek height on bottom sheet ([#444](https://github.com/wanteddev/wds/issues/444)) ([2a90e99](https://github.com/wanteddev/wds/commit/2a90e99f3ec7dac705800dadb9a7bcadea53553a))
+- **wds:** add disableRemoveScroll prop in alert, modal ([#452](https://github.com/wanteddev/wds/issues/452)) ([7bbbf62](https://github.com/wanteddev/wds/commit/7bbbf62d4b5a44f0bb060e920087970d36cc4200))
+- **wds:** add framedStyle utility ([#393](https://github.com/wanteddev/wds/issues/393)) ([73873bb](https://github.com/wanteddev/wds/commit/73873bb8de04b469cecede73c3a850862fbe147c))
+- **wds:** add gap in pagination wrapper ([#446](https://github.com/wanteddev/wds/issues/446)) ([e575d7d](https://github.com/wanteddev/wds/commit/e575d7dab7a18f24e6a89fa90bdb0069b47f6fb1))
+- **wds:** add haptic feedback for switch, bottom navigation and bottom navigation style change ([#412](https://github.com/wanteddev/wds/issues/412)) ([e542564](https://github.com/wanteddev/wds/commit/e5425648c1389723d79f920835ad5ec0f45f8ee9))
+- **wds:** add list cell content thumbnail, value variant ([19d6fcd](https://github.com/wanteddev/wds/commit/19d6fcd09288ea3cd06f462941e5a91be21f2045))
+- **wds:** add min width for popover ([#442](https://github.com/wanteddev/wds/issues/442)) ([86f0fec](https://github.com/wanteddev/wds/commit/86f0fec981a40c8f1951a4aaa69eab85e2a3494c))
+- **wds:** add overlay prop in thumbnail ([#451](https://github.com/wanteddev/wds/issues/451)) ([98af0a8](https://github.com/wanteddev/wds/commit/98af0a8568557bb69c6307838b56c82385183eff))
+- **wds:** add search, display variant in top navigation and updated design ([#447](https://github.com/wanteddev/wds/issues/447)) ([84f9450](https://github.com/wanteddev/wds/commit/84f94500700ab1dd394229ddd39bedada481915a))
+- **wds:** add support top navigation button color prop ([#457](https://github.com/wanteddev/wds/issues/457)) ([2092d04](https://github.com/wanteddev/wds/commit/2092d0400562396dd3e2bd6cb78324ead923ebca))
+- **wds:** add tab list item disabled design ([#458](https://github.com/wanteddev/wds/issues/458)) ([65fc6d6](https://github.com/wanteddev/wds/commit/65fc6d661d8905cb9cdf326b4b3db14187bdaf35))
+- **wds:** add tabIndex for accordion ([#429](https://github.com/wanteddev/wds/issues/429)) ([c254a41](https://github.com/wanteddev/wds/commit/c254a4105f0458d0867c46425312244545673bdf))
+- **wds:** add test codes for wds components ([#445](https://github.com/wanteddev/wds/issues/445)) ([6cd1780](https://github.com/wanteddev/wds/commit/6cd1780fbbab062ff21696e60b72a1dd79f65a09))
+- **wds:** add text ellipsis in horizontal progress tracker ([#459](https://github.com/wanteddev/wds/issues/459)) ([9b6b3b6](https://github.com/wanteddev/wds/commit/9b6b3b65637b2b745226e15dc8ed40d927039b4b))
+- **wds:** add text-button variant in text field content ([#425](https://github.com/wanteddev/wds/issues/425)) ([01c0d63](https://github.com/wanteddev/wds/commit/01c0d63d0bf17dc116c24e28d2114641ea716fad))
+- **wds:** adjust the spacing according to the contents of the menu ([#398](https://github.com/wanteddev/wds/issues/398)) ([bde0096](https://github.com/wanteddev/wds/commit/bde00964c7085bb06a017b4cf05d80f99e85f809))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([a792958](https://github.com/wanteddev/wds/commit/a79295863ca728384c309c5931de94173a2f896a))
+- **wds:** apply design qa for framed style ([#395](https://github.com/wanteddev/wds/issues/395)) ([f205847](https://github.com/wanteddev/wds/commit/f2058476e63f36ea85ee8e792aec1ff3dd780473))
+- **wds:** apply framed style design QA ([#417](https://github.com/wanteddev/wds/issues/417)) ([470729e](https://github.com/wanteddev/wds/commit/470729e980deb2cb558199bb66ee85ef7b4ff5c4))
+- **wds:** apply min, max time for time picker ([#396](https://github.com/wanteddev/wds/issues/396)) ([2a9042b](https://github.com/wanteddev/wds/commit/2a9042b4ecd2070437e0c6840b9a46667cdc1a15))
+- **wds:** change menu max height to 416px ([#432](https://github.com/wanteddev/wds/issues/432)) ([fdbacfe](https://github.com/wanteddev/wds/commit/fdbacfe6b0e3abaf751fe8f4925c834b522a424c))
+- **wds:** change some options to respond to dialog triggers ([#380](https://github.com/wanteddev/wds/issues/380)) ([34fc8c9](https://github.com/wanteddev/wds/commit/34fc8c95fbddc32f3b75901d64026cb7ee39af9d))
+- **wds:** change tooltip min width to unset ([#433](https://github.com/wanteddev/wds/issues/433)) ([38b62d4](https://github.com/wanteddev/wds/commit/38b62d4ded87ec38fa9c4bd4345b02ad7a9c8b82))
+- **wds:** checkbox tight set true when use in list cell ([#397](https://github.com/wanteddev/wds/issues/397)) ([d6f94db](https://github.com/wanteddev/wds/commit/d6f94db244498f62a21a0799ef520cabe36edb9c))
+- **wds:** fallback view mobile button size to small ([#448](https://github.com/wanteddev/wds/issues/448)) ([699bd63](https://github.com/wanteddev/wds/commit/699bd638e296c8e26bbf0840a6cbfbd5fa872414))
+- **wds:** fixed gap for popover heading ([#443](https://github.com/wanteddev/wds/issues/443)) ([f591bba](https://github.com/wanteddev/wds/commit/f591bbaa15eb720a55e6e627bef063914346bde3))
+- **wds:** improve accesibility pagination dots ([#437](https://github.com/wanteddev/wds/issues/437)) ([087078c](https://github.com/wanteddev/wds/commit/087078c5d58faccd002f6e015d9ba2f3b80eeb14))
+- **wds:** improve accessibility of menu-type components ([#371](https://github.com/wanteddev/wds/issues/371)) ([9d4f76e](https://github.com/wanteddev/wds/commit/9d4f76e68fc0aa976eeba30390b0389e56a5a35e))
+- **wds:** improve accessibility of snackbar and toast aria-live ([#373](https://github.com/wanteddev/wds/issues/373)) ([ea6e912](https://github.com/wanteddev/wds/commit/ea6e912f78928a969520a54a08f5ce7a44764320))
+- **wds:** improve accessibility using the autocomplete aria-activedescendant option ([#370](https://github.com/wanteddev/wds/issues/370)) ([17b7bf9](https://github.com/wanteddev/wds/commit/17b7bf9783df5a03fd444ac646fc84295f172234))
+- **wds:** improve detail in switch interaction style ([#364](https://github.com/wanteddev/wds/issues/364)) ([4ab5b94](https://github.com/wanteddev/wds/commit/4ab5b94a9be3dfbb557fd3061ed288b7c928a4f8))
+- **wds:** improve radio accessibility without name prop ([2de8e76](https://github.com/wanteddev/wds/commit/2de8e763249e34ceb717f621e4ea55a5a985fd65))
+- **wds:** list cell is always defined as a clickable element, so make it focusable ([56b4d9f](https://github.com/wanteddev/wds/commit/56b4d9f8e973e2c4609e8cf7c5e84b359183ba1a))
+- **wds:** modify aria modal attribute appropriately ([#462](https://github.com/wanteddev/wds/issues/462)) ([2a5fc69](https://github.com/wanteddev/wds/commit/2a5fc6969f30b8827e028166be41abd443390032))
+- **wds:** pagination button width to fit-content ([#415](https://github.com/wanteddev/wds/issues/415)) ([f18ab84](https://github.com/wanteddev/wds/commit/f18ab84e6511122c1c80e6a62ce90f62e8191325))
+- **wds:** pagination leading, trailing content should render only extended variant ([#450](https://github.com/wanteddev/wds/issues/450)) ([5270be5](https://github.com/wanteddev/wds/commit/5270be5fea03118fe7f75adc3c50206050d4c06b))
+- **wds:** provide ListCellContent as a subcomponent instead of ListCellContent ([#362](https://github.com/wanteddev/wds/issues/362)) ([96c005b](https://github.com/wanteddev/wds/commit/96c005bb5bab57a7b211156e574d8b17e14bb8aa))
+- **wds:** remove hover interaction in touch device ([#411](https://github.com/wanteddev/wds/issues/411)) ([8bd6522](https://github.com/wanteddev/wds/commit/8bd65223ebf35371247460f130fc50e80ac3dce4))
+- **wds:** support disableFocusScope, disableAriaHiddenOthers and update popover design ([#461](https://github.com/wanteddev/wds/issues/461)) ([a0e913b](https://github.com/wanteddev/wds/commit/a0e913b7cdcfbe559fb60be1a8e312cf6017bf34))
+- **wds:** support tight icon for icon button ([#414](https://github.com/wanteddev/wds/issues/414)) ([214ed92](https://github.com/wanteddev/wds/commit/214ed92114dfa114e979042299d469aa3f72cf35))
+- **wds:** text area use trailing content instead of invalid icon ([#391](https://github.com/wanteddev/wds/issues/391)) ([e03525f](https://github.com/wanteddev/wds/commit/e03525fa61d89c789a6f37c73ca3d092f5394046))
+- **wds:** top navigation background to transparent when scrolled is false ([#428](https://github.com/wanteddev/wds/issues/428)) ([3e67d54](https://github.com/wanteddev/wds/commit/3e67d5441617edced3e6b9ebb9bd500b709a74c5))
+- **wds:** when background is true in action area, divider to mask gradient ([#441](https://github.com/wanteddev/wds/issues/441)) ([1a426b5](https://github.com/wanteddev/wds/commit/1a426b5879827131067fe102dc05610e82e4f06c))
+- **wds:** 접근성을 위해 DialogTrigger, ModalTrigger 제공 ([#356](https://github.com/wanteddev/wds/issues/356)) ([497c219](https://github.com/wanteddev/wds/commit/497c21940563b294dcedcf0d7e72fd268559f63f))
+
 # [2.6.0](https://github.com/wanteddev/wds/compare/v2.5.0...v2.6.0) (2025-11-05)
 
 **Note:** Version bump only for package @wanteddev/wds

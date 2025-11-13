@@ -2,12 +2,14 @@ import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
+  WithSxProps,
 } from '@wanteddev/wds-engine';
 import type { CSSProperties, ReactNode } from 'react';
 
 export type TypographyVariant =
   | 'display1'
   | 'display2'
+  | 'display3'
   | 'title1'
   | 'title2'
   | 'title3'
@@ -27,7 +29,7 @@ export type TypographyVariant =
 
 export type TypographyWeight = 'regular' | 'medium' | 'bold';
 
-export type TypographyDefaultProps = {
+export type TypographyDefaultProps = WithSxProps<{
   variant?: TypographyVariant;
   weight?: TypographyWeight;
   noWrap?: boolean;
@@ -35,7 +37,7 @@ export type TypographyDefaultProps = {
   display?: CSSProperties['display'];
   color?: ThemeColorsToken;
   children?: ReactNode;
-};
+}>;
 
 export type TypographyResponsiveProps = ResponsiveProps<
   Pick<TypographyDefaultProps, 'variant' | 'weight' | 'align'>

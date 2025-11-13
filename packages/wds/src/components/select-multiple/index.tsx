@@ -18,8 +18,8 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { useSize } from '@radix-ui/react-use-size';
 
 import { Menu, MenuContent, MenuList, MenuTrigger } from '../menu';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { ellipsisTypographyStyle } from '../../utils';
 import { SelectContent } from '../select';
 import { convertChildrenToData } from '../select/helpers';
@@ -28,18 +28,20 @@ import {
   selectIconStyle,
   selectStyle,
 } from '../select/style';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { VirtualValueInput } from '../virtual-input';
+import { SelectProvider } from '../select/context';
+import { ChipProvider } from '../chip/contexts';
 
 import { customSelectMultipleRenderWrapperStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { UIEventHandler } from 'react';
 import type { SelectMultipleProps } from './types';
 
 const SelectMultiple = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SelectMultipleProps, 'div'>
+  DefaultComponentPropsInternal<SelectMultipleProps, 'div'>
 >(
   (
     {
@@ -98,9 +100,9 @@ const SelectMultiple = forwardRef<
       },
     });
 
-    const [openState = false, setOpenState] = useControllableState({
+    const [openState, setOpenState] = useControllableState({
       prop: openProp,
-      defaultProp: defaultOpen,
+      defaultProp: defaultOpen ?? false,
       onChange: (v) => {
         setMenuValue(value);
         onOpenChange?.(v);
@@ -186,7 +188,12 @@ const SelectMultiple = forwardRef<
     }, [node, setValue]);
 
     return (
-      <>
+      <SelectProvider
+        onOpenChange={setOpenState}
+        enableMenuActionArea={enableMenuActionArea}
+        value={value}
+        isMultiple
+      >
         {isFormControl && (
           <VirtualValueInput
             name={props.name}
@@ -302,16 +309,18 @@ const SelectMultiple = forwardRef<
                     isScrollableRight,
                   })}
                 >
-                  <FlexBox
-                    ref={setRenderWrapperNode}
-                    gap="4px"
-                    flexWrap={overflow ? 'wrap' : 'nowrap'}
-                    onScrollCapture={handleOnScroll}
-                  >
-                    {shouldShowAllSelectedLabel
-                      ? allSelectedLabel
-                      : render(label, value)}
-                  </FlexBox>
+                  <ChipProvider solid="semantic.label.alternative">
+                    <FlexBox
+                      ref={setRenderWrapperNode}
+                      gap="4px"
+                      flexWrap={overflow ? 'wrap' : 'nowrap'}
+                      onScrollCapture={handleOnScroll}
+                    >
+                      {shouldShowAllSelectedLabel
+                        ? allSelectedLabel
+                        : render(label, value)}
+                    </FlexBox>
+                  </ChipProvider>
                 </FlexBox>
               )}
 
@@ -349,11 +358,13 @@ const SelectMultiple = forwardRef<
             </MenuList>
           </MenuContent>
         </Menu>
-      </>
+      </SelectProvider>
     );
   },
 );
 
 SelectMultiple.displayName = 'SelectMultiple';
 
-export default SelectMultiple;
+export { SelectMultiple };
+
+export type { SelectMultipleProps };

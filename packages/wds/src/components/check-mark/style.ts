@@ -3,7 +3,7 @@ import { css } from '@wanteddev/wds-engine';
 import {
   createResponsiveStyle,
   getPreviousValue,
-} from '../../utils/responsive-props';
+} from '../../utils/internal/responsive-props';
 import { typographyStyle } from '../../utils';
 
 import type { CheckMarkProps } from './types';

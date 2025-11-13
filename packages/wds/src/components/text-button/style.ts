@@ -1,13 +1,13 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import { typographyStyle } from '../../utils/typography';
-import { createResponsiveStyle } from '../../utils';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { Theme, ThemeColorsToken } from '@wanteddev/wds-engine';
 import type { TextButtonProps } from './types';
 
 type TextButtonStyleProps = TextButtonProps & {
-  color?: ThemeColorsToken;
+  overrideColor?: ThemeColorsToken;
 };
 
 export const textButtonStyle =
@@ -66,14 +66,14 @@ export const textButtonStyle =
   `;
 
 const getColorTheme = (
-  { variant, color }: TextButtonStyleProps,
+  { color, overrideColor }: TextButtonStyleProps,
   theme: Theme,
 ) => {
-  switch (variant) {
+  switch (color) {
     case 'primary':
       return css`
-        color: ${color
-          ? getColorByToken(theme, color)
+        color: ${overrideColor
+          ? getColorByToken(theme, overrideColor)
           : theme.semantic.primary.normal};
         background-color: transparent;
         border: none;
@@ -93,8 +93,8 @@ const getColorTheme = (
         background-color: transparent;
         border: none;
         box-shadow: none;
-        color: ${color
-          ? getColorByToken(theme, color)
+        color: ${overrideColor
+          ? getColorByToken(theme, overrideColor)
           : theme.semantic.label.alternative};
 
         [data-role='text-button-loading'] {

@@ -1,15 +1,14 @@
 import { css, getColorByToken } from '@wanteddev/wds-engine';
 
 import {
-  createResponsiveStyle,
   ellipsisTypographyStyle,
   gradient,
   typographyStyle,
 } from '../../utils';
-import { toCssValue } from '../../utils/css';
+import { createResponsiveStyle } from '../../utils/internal/responsive-props';
+import { toCssValue } from '../../utils/internal/css';
 import { getWeightMap } from '../typography/style';
 
-import type { SkeletonProps } from '../skeleton/types';
 import type { TypographyProps } from '../typography/types';
 import type { ThumbnailSkeletonProps } from '../thumbnail/types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -17,6 +16,8 @@ import type {
   CardContentItemProps,
   CardProps,
   CardThumbnailProps,
+  CardTitleProps,
+  CardTitleSkeletonProps,
 } from './types';
 
 const cardPlatformStyle = ({ platform }: Pick<CardProps, 'platform'>) => {
@@ -242,7 +243,7 @@ export const cardThumbnailContentToggleIconStyle = (theme: Theme) => css`
   }
 `;
 
-export const cardTitleStyle = (props: TypographyProps) => (theme: Theme) => css`
+export const cardTitleStyle = (props: CardTitleProps) => (theme: Theme) => css`
   ${ellipsisTypographyStyle(2)}
 
   &[wds-component='card-title'] {
@@ -417,14 +418,14 @@ export const cardSkeletonStyle =
   `;
 
 export const cardTitleSkeletonStyle =
-  (props: SkeletonProps) => (theme: Theme) => css`
+  (props: CardTitleSkeletonProps) => (theme: Theme) => css`
     &[wds-component='card-title-skeleton'] {
       ${cardSkeletonWidthStyle(props)(theme)}
     }
   `;
 
 const cardSkeletonWidthStyle =
-  ({ width, height, xs, sm, md, lg, xl }: SkeletonProps) =>
+  ({ width, height, xs, sm, md, lg, xl }: CardTitleSkeletonProps) =>
   (theme: Theme) => {
     return css`
       ${width !== undefined &&

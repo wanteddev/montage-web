@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-icon",
-  "version": "2.6.0",
+  "version": "3.0.0-alpha.4",
   "files": [
     "dist"
   ],
@@ -27,32 +27,25 @@
     "directory": "packages/wds-icon"
   },
   "scripts": {
-    "build": "tsc && tsup",
+    "build": "tsdown",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "watch": "tsup --watch"
   },
   "devDependencies": {
-    "@types/react": "^18.3.14",
-    "@types/react-dom": "^18.3.1",
-    "typescript": "^5.4.2"
+    "@types/react": "^19.2.2",
+    "react": "^19.2.0",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@wanteddev/wds-engine": "workspace:*",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "@wanteddev/wds-engine": "workspace:*"
   },
   "peerDependencies": {
-    "@types/react": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "@types/react-dom": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "react": "^18.0 || ^19.0 || ^19.0.0-rc",
-    "react-dom": "^18.0 || ^19.0 || ^19.0.0-rc"
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "react": "^18.0.0 || ^19.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {
-      "optional": true
-    },
-    "@types/react-dom": {
       "optional": true
     }
   }

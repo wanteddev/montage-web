@@ -1,0 +1,120 @@
+---
+title: Avatar group
+description: Avatar Group은 여러 사용자를 그룹으로 묶어 표시하는 컴포넌트입니다. 겹쳐진 아바타 목록을 통해 공간을 효율적으로 사용하며, 그룹에 속한 멤버들을 직관적으로 보여주고 추가 멤버 수를 표시할 수 있습니다.
+createdAt: 2025-06-17
+updatedAt: 2025-06-17
+---
+
+
+## Basic avatar group
+
+여러개의 아바타를 그룹으로 표시할 수 있습니다.
+
+<Demo code={`import { Avatar, AvatarGroup } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <AvatarGroup size="small">
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+      <Avatar variant="person" size="small" />
+    </AvatarGroup>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+아래와 같은 구조로 조합하여 사용합니다.
+
+```tsx
+<AvatarGroup>
+  <Avatar />
+  <Avatar />
+  <Avatar />
+  <Avatar />
+  <Avatar />
+</AvatarGroup>
+```
+
+## Sizes
+
+`size` 옵션을 통해 아바타 그룹의 간격을 조정할 수 있습니다.
+- xsmall
+- small
+
+Avatar의 사이즈와 동일하게 사용하는 것을 권장합니다.
+
+<Demo code={`import { Avatar, AvatarGroup, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center">
+      <AvatarGroup size="xsmall">
+        <Avatar variant="person" size="xsmall" />
+        <Avatar variant="person" size="xsmall" />
+        <Avatar variant="person" size="xsmall" />
+        <Avatar variant="person" size="xsmall" />
+      </AvatarGroup>
+      <AvatarGroup size="small">
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+      </AvatarGroup>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## With content
+
+`trailingContent` 옵션을 통해 그룹 뒤에 컨텐츠를 추가할 수 있습니다.
+
+<Demo code={`import { Avatar, AvatarGroup, TextButton, FlexBox, Typography } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center">
+      <AvatarGroup
+        size="small"
+        trailingContent={(
+          <TextButton color="assistive" size="small">
+            외 0명
+          </TextButton>
+        )}>
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+      </AvatarGroup>
+      <AvatarGroup
+        size="small"
+        trailingContent={(
+          <Typography variant="label1" weight="bold" color="semantic.label.alternative">
+            외 0명
+          </Typography>
+        )}>
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+        <Avatar variant="person" size="small" />
+      </AvatarGroup>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## API
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="AvatarGroup" />

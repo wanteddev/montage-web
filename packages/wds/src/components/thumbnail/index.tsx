@@ -1,32 +1,32 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { IconImage } from '@wanteddev/wds-icon';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
-import ImageLoader from '../image-loader';
-import FlexBox from '../flex-box';
-import Skeleton from '../skeleton';
+import { FlexBox } from '../flex-box';
+import { Skeleton } from '../skeleton';
+import { ImageBase } from '../image-base';
 
 import { thumbnailStyle } from './style';
 import { THUMBNAIL_NAME, THUMBNAIL_SKELETON_NAME } from './constants';
 
-import type { DefaultComponentProps, Merge } from '@wanteddev/wds-engine';
-import type { ComponentPropsWithoutRef, ForwardedRef } from 'react';
+import type { ForwardedRef } from 'react';
 import type { ThumbnailProps, ThumbnailSkeletonProps } from './types';
 
-type Props = Merge<
-  ThumbnailProps,
-  ComponentPropsWithoutRef<typeof ImageLoader>
->;
-
-const Thumbnail = forwardRef<HTMLImageElement, Props>(
+const Thumbnail = forwardRef<
+  HTMLImageElement,
+  DefaultComponentPropsInternal<ThumbnailProps, 'img'>
+>(
   (
     {
       ratio = '4:3',
       portrait = false,
+      overlay,
       radius,
       border,
       className,
       style,
       children,
+      width,
       sx,
       xs,
       sm,
@@ -38,21 +38,32 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
     ref,
   ) => {
     const [imageLoadingStatus, setImageLoadingStatus] = useState<
-      'idle' | 'loading' | 'loaded' | 'error'
+      'idle' | 'loaded' | 'error'
     >('idle');
 
-    return imageLoadingStatus !== 'error' ? (
+    const prevSrc = useRef(props.src);
+
+    useEffect(() => {
+      if (prevSrc.current !== props.src) {
+        prevSrc.current = props.src;
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setImageLoadingStatus('idle');
+      }
+    }, [props.src]);
+
+    return imageLoadingStatus !== 'error' && Boolean(props.src) ? (
       <FlexBox
         as="figure"
         wds-component="thumbnail"
         className={className}
         style={style}
+        data-status={imageLoadingStatus}
         sx={[
           thumbnailStyle({
             ratio,
             radius,
             border,
-            width: props.width,
+            width,
             portrait,
             xs,
             sm,
@@ -63,7 +74,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
           sx,
         ]}
       >
-        <ImageLoader
+        <ImageBase
           ref={ref}
           {...props}
           onLoad={() => {
@@ -75,6 +86,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
             setImageLoadingStatus('error');
           }}
         />
+        {overlay && <Box data-role="thumbnail-overlay">{overlay}</Box>}
         {children}
       </FlexBox>
     ) : (
@@ -83,6 +95,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
         wds-component="thumbnail"
         className={className}
         style={style}
+        data-status={imageLoadingStatus}
         alignItems="center"
         justifyContent="center"
         sx={[
@@ -90,7 +103,7 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
             ratio,
             radius,
             border,
-            width: props.width,
+            width,
             portrait,
             xs,
             sm,
@@ -102,7 +115,12 @@ const Thumbnail = forwardRef<HTMLImageElement, Props>(
           sx,
         ]}
       >
-        <IconImage sx={{ width: '33.34%', height: 'auto' }} />
+        <IconImage
+          role="img"
+          aria-label={props.alt}
+          sx={{ width: '33.34%', height: 'auto' }}
+        />
+        {overlay && <Box data-role="thumbnail-overlay">{overlay}</Box>}
         {children}
       </FlexBox>
     );
@@ -126,7 +144,7 @@ const ThumbnailSkeleton = forwardRef(
       xs,
       sx,
       ...props
-    }: DefaultComponentProps<ThumbnailSkeletonProps, 'div'>,
+    }: DefaultComponentPropsInternal<ThumbnailSkeletonProps, 'div'>,
     ref: ForwardedRef<HTMLDivElement>,
   ) => {
     return (
@@ -159,3 +177,5 @@ const ThumbnailSkeleton = forwardRef(
 ThumbnailSkeleton.displayName = THUMBNAIL_SKELETON_NAME;
 
 export { Thumbnail, ThumbnailSkeleton };
+
+export type { ThumbnailProps, ThumbnailSkeletonProps };

@@ -1,6 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { createResponsiveStyle, getPreviousValue } from '../../utils';
+import {
+  createResponsiveStyle,
+  getPreviousValue,
+} from '../../utils/internal/responsive-props';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { Theme } from '@wanteddev/wds-engine';
 import type { ThumbnailProps } from './types';
@@ -17,9 +21,14 @@ export const thumbnailStyle =
     md,
     lg,
     xl,
-  }: ThumbnailProps & { width?: string | number }) =>
+  }: ThumbnailProps) =>
   (theme: Theme) => css`
-    width: ${width};
+    position: relative;
+
+    ${width !== undefined &&
+    css`
+      width: ${toCssValue(width)};
+    `}
 
     ${thumbnailRatioStyle({ ratio, portrait })}
     ${thumbnailBorderRadiusStyle({ radius, border }, theme)}
@@ -29,6 +38,13 @@ export const thumbnailStyle =
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    [data-role='thumbnail-overlay'] {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
     ${createResponsiveStyle(
@@ -52,6 +68,11 @@ export const thumbnailStyle =
           ),
         })}
         ${thumbnailBorderRadiusStyle(params || {}, theme)}
+        
+        ${params?.width !== undefined &&
+        css`
+          width: ${toCssValue(params.width)};
+        `}
 
         ${params?.sx}
       `,

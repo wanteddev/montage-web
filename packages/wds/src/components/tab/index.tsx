@@ -14,10 +14,10 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 import { Box } from '@wanteddev/wds-engine';
 import { usePrevious } from '@radix-ui/react-use-previous';
 
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
-import useResizeObserver from '../../hooks/use-resize-observer';
-import { calculateAnimationStyle } from '../../utils/animation';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import { calculateAnimationStyle } from '../../utils/internal/animation';
 
 import {
   motionDividerStyle,
@@ -26,6 +26,7 @@ import {
   tabListItemInteractionStyle,
   tabListItemStyle,
   tabListStyle,
+  tabListWrapperStyle,
 } from './style';
 import {
   TabListProvider,
@@ -41,13 +42,13 @@ import {
 } from './constants';
 
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   CSSProperties,
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
   UIEventHandler,
@@ -70,7 +71,7 @@ const Tab = ({
 }: TabProps) => {
   const [value, setValue] = useControllableState({
     prop: valueProp,
-    defaultProp: defaultValue,
+    defaultProp: defaultValue ?? '',
     onChange: onValueChange,
   });
 
@@ -100,7 +101,7 @@ Tab.displayName = TAB_NAME;
 
 const TabList = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TabListProps, 'div'>
+  DefaultComponentPropsInternal<TabListProps, 'div'>
 >(
   (
     {
@@ -243,7 +244,7 @@ const TabList = forwardRef<
             <FlexBox
               ref={context.onViewportNodeChange}
               data-role="tab-list-wrapper"
-              sx={{ position: 'relative' }}
+              sx={tabListWrapperStyle}
             >
               <Box
                 data-role="tab-motion"
@@ -283,10 +284,10 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       disabled,
       as,
       ...props
-    }: PolymorphicProps<TabListItemProps, T>,
+    }: PolymorphicPropsInternal<TabListItemProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
-    const ref = useRef<ElementRef<T> | null>(null);
+    const ref = useRef<ComponentRef<T> | null>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const context = useTabContext(TAB_LIST_ITEM_NAME);
@@ -344,7 +345,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
 
     useEffect(() => {
       const scrollMove = () => {
-        if (context.value === value) {
+        if (context.value?.toString() === value.toString()) {
           scrollIntoView();
         }
       };
@@ -374,7 +375,7 @@ const TabListItem = forwardRef<any, TabListItemProps>(
               ? `${context.id}-${controls}-panel`
               : undefined
           }
-          sx={[tabListItemStyle, props.sx]}
+          sx={[tabListItemStyle({ disabled }), props.sx]}
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             if (disabled) {
               return;
@@ -415,13 +416,13 @@ const TabListItem = forwardRef<any, TabListItemProps>(
       </RovingFocusGroup.Item>
     );
   },
-) as PolymorphicComponent<TabListItemProps, 'div'>;
+) as PolymorphicComponentInternal<TabListItemProps, 'div'>;
 
 TabListItem.displayName = TAB_LIST_ITEM_NAME;
 
 const TabPanel = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<TabPanelProps, 'div'>
+  DefaultComponentPropsInternal<TabPanelProps, 'div'>
 >(({ value, mountMode = 'force-mount', ...props }, ref) => {
   const context = useTabContext(TAB_PANEL_NAME);
   const [firstRendered, setFirstRendered] = useState(false);
@@ -464,7 +465,7 @@ const TabPanel = forwardRef<
   }
 
   return (
-    <div
+    <Box
       {...props}
       ref={ref}
       wds-component="tab-panel"
@@ -479,3 +480,5 @@ const TabPanel = forwardRef<
 TabPanel.displayName = TAB_PANEL_NAME;
 
 export { Tab, TabList, TabListItem, TabPanel };
+
+export type { TabProps, TabListProps, TabListItemProps, TabPanelProps };

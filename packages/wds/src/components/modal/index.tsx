@@ -10,21 +10,21 @@ import {
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
 import { Box } from '@wanteddev/wds-engine';
+import { IconClose } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { flushSync } from 'react-dom';
 
 import { hideOthers } from '../../utils';
-import RemoveScroll from '../remove-scroll';
-import DismissableLayer from '../dismissable-layer';
-import FocusScope from '../focus-scope';
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
-import Typography from '../typography';
-import PortalOrFragment from '../portal-or-fragment';
-import useResizeObserver from '../../hooks/use-resize-observer';
+import { RemoveScroll } from '../remove-scroll';
+import { DismissableLayer } from '../dismissable-layer';
+import { FocusScope } from '../focus-scope';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
+import { Typography } from '../typography';
+import { PortalOrFragment } from '../portal-or-fragment';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
 import { useSize } from '../../hooks';
-import { useTopNavigationContext } from '../top-navigation/contexts';
 import { TopNavigation, TopNavigationButton } from '../top-navigation';
 import { useAnimationPresence } from '../animation-presence';
 
@@ -38,12 +38,14 @@ import {
   useModalNavigationContext,
 } from './contexts';
 import {
+  BOTTOM_SHEET_PEEK_PADDING,
   MODAL_CLOSE_NAME,
   MODAL_CONTAINER_NAME,
   MODAL_DIMMER_NAME,
   MODAL_NAME,
   MODAL_NAVIGATION_BUTTON_NAME,
   MODAL_NAVIGATION_NAME,
+  MODAL_TRIGGER_NAME,
 } from './constants';
 import {
   modalContainerStyle,
@@ -55,33 +57,34 @@ import {
   modalNavigationStyle,
 } from './style';
 import { useDraggable } from './hooks';
-import { getDefaultCloseIcon } from './helpers';
 
 import type { PointerDownOutsideEvent } from '../dismissable-layer/types';
-import type { TopNavigationButtonProps } from '../top-navigation/types';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   ElementType,
   ForwardedRef,
   MouseEvent,
+  MutableRefObject,
   PointerEvent,
-  RefObject,
 } from 'react';
 import type {
+  ModalCloseProps,
   ModalContainerProps,
   ModalContentItemProps,
   ModalContentProps,
   ModalDescriptionProps,
   ModalDimmerProps,
   ModalHeadingProps,
+  ModalNavigationButtonProps,
   ModalNavigationProps,
   ModalProps,
   ModalScrollProviderProps,
   ModalSummaryProps,
+  ModalTriggerProps,
 } from './types';
 
 const Modal = ({
@@ -90,33 +93,28 @@ const Modal = ({
   defaultOpen,
   onOpenChange,
   onVisibilityChange,
-  container,
-  disableOutsideClickClose = false,
-  disableEscapeKeyDownClose = false,
-  disablePortal = false,
-  forceMount = false,
 }: ModalProps) => {
-  const [open = false, setOpen] = useControllableState({
+  const [open, setOpen] = useControllableState({
     prop: openProp,
-    defaultProp: defaultOpen,
+    defaultProp: defaultOpen ?? false,
     onChange: onOpenChange,
   });
 
-  const { isPresent, ref } = useAnimationPresence(open || forceMount, {
-    subtree: true,
-  });
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const innerContainerRef = useRef<HTMLDivElement>(null);
 
   const [isBottomSheet, setIsBottomSheet] = useState(false);
   const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
+
+  const [innerContainer, setInnerContainer] = useState<HTMLDivElement | null>(
+    null,
+  );
 
   const onVisibilityChangeCallback = useCallbackRef(onVisibilityChange);
 
   useEffect(() => {
     // variant="bottom" sm={{ variant: 'popup' }} 일 때 예외 처리
     if (!isBottomSheet && open && visibility === 'hidden') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisibility('visible');
       setOpen(false);
     }
@@ -124,6 +122,7 @@ const Modal = ({
 
   useEffect(() => {
     if (!open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVisibility('visible');
     }
   }, [open]);
@@ -145,28 +144,42 @@ const Modal = ({
         [onVisibilityChangeCallback],
       )}
       containerRef={containerRef}
-      innerContainerRef={innerContainerRef}
+      innerContainer={innerContainer}
+      setInnerContainer={setInnerContainer}
       containerId={useId()}
       titleId={useId()}
       headingId={useId()}
       summaryId={useId()}
       descriptionId={useId()}
       open={open}
-      disableOutsideClickClose={disableOutsideClickClose}
-      disableEscapeKeyDownClose={disableEscapeKeyDownClose}
       onOpenChange={setOpen}
-      wrapperRef={ref}
     >
-      {isPresent ? (
-        <PortalOrFragment disablePortal={disablePortal} container={container}>
-          {children}
-        </PortalOrFragment>
-      ) : null}
+      {children}
     </ModalProvider>
   );
 };
 
 Modal.displayName = MODAL_NAME;
+
+const ModalTrigger = forwardRef<HTMLElement, ModalTriggerProps>(
+  (props, ref) => {
+    const { containerId, open, onOpenChange } =
+      useModalContext(MODAL_TRIGGER_NAME);
+
+    return (
+      <Slot
+        ref={ref}
+        aria-controls={containerId}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        {...props}
+        onClick={composeEventHandlers(props.onClick, () => onOpenChange(true))}
+      />
+    );
+  },
+);
+
+ModalTrigger.displayName = MODAL_TRIGGER_NAME;
 
 const ModalContainer = forwardRef(
   <T extends ElementType = 'div'>(
@@ -181,20 +194,36 @@ const ModalContainer = forwardRef(
       lg,
       xl,
       children,
+      container,
+      disableOutsideClickClose = false,
+      disableEscapeKeyDownClose = false,
+      disableRemoveScroll = false,
+      disablePortal = false,
+      disableFocusScope = false,
+      disableAriaHiddenOthers = false,
+      forceMount = false,
       sticky = true,
       wrapperProps,
+      peekHeight,
       dimmer = <ModalDimmer />,
       ...props
-    }: PolymorphicProps<ModalContainerProps, T>,
+    }: PolymorphicPropsInternal<ModalContainerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const {
-      containerRef,
-      disableEscapeKeyDownClose,
-      disableOutsideClickClose,
-      onOpenChange,
-      ...context
-    } = useModalContext(MODAL_CONTAINER_NAME);
+    const { containerRef, open, onOpenChange, ...context } =
+      useModalContext(MODAL_CONTAINER_NAME);
+
+    const { isPresent, ref: wrapperRef } = useAnimationPresence(
+      open || forceMount,
+      {
+        subtree: true,
+      },
+    );
+
+    const composedRefs = useComposedRefs<HTMLDivElement>(
+      wrapperProps?.ref as MutableRefObject<HTMLDivElement | null> | undefined,
+      wrapperRef,
+    );
 
     const composedContainerRefs = useComposedRefs(
       containerRef,
@@ -205,6 +234,7 @@ const ModalContainer = forwardRef(
 
     const { isBottomSheetWithHandle, handleVisibilityHidden, ...dragProps } =
       useDraggable({
+        peekHeight,
         variant,
         handle,
         xs,
@@ -212,7 +242,7 @@ const ModalContainer = forwardRef(
         md,
         lg,
         xl,
-        ref: context.innerContainerRef,
+        target: context.innerContainer,
         dimmerRef,
       });
 
@@ -232,7 +262,7 @@ const ModalContainer = forwardRef(
     useEffect(() => {
       const content = containerRef.current;
 
-      if (content) {
+      if (content && isPresent && !disableAriaHiddenOthers) {
         const undo = hideOthers(content);
 
         if (isBottomSheetWithHandle && context.visibility === 'hidden') {
@@ -244,47 +274,53 @@ const ModalContainer = forwardRef(
         return undo;
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isBottomSheetWithHandle, context.visibility]);
+    }, [
+      isBottomSheetWithHandle,
+      context.visibility,
+      isPresent,
+      disableAriaHiddenOthers,
+    ]);
+
+    if (!isPresent) return null;
 
     return (
-      <Box
-        data-visibility={
-          isBottomSheetWithHandle ? context.visibility : undefined
-        }
-        {...wrapperProps}
-        ref={useComposedRefs<HTMLDivElement>(
-          wrapperProps?.ref as RefObject<HTMLDivElement> | undefined,
-          context.wrapperRef,
-        )}
-        sx={[
-          modalContainerWrapperStyle({
-            variant,
-            size,
-            xs,
-            sm,
-            md,
-            lg,
-            xl,
-          }),
-          wrapperProps?.sx,
-        ]}
-      >
-        <ModalDimmerProvider
-          isBottomSheetWithHandle={isBottomSheetWithHandle}
-          handleVisibilityHidden={handleVisibilityHidden}
-          dimmerRef={dimmerRef}
+      <PortalOrFragment disablePortal={disablePortal} container={container}>
+        <Box
+          data-visibility={
+            isBottomSheetWithHandle ? context.visibility : undefined
+          }
+          {...wrapperProps}
+          ref={composedRefs}
+          sx={[
+            modalContainerWrapperStyle({
+              variant,
+              size,
+              xs,
+              sm,
+              md,
+              lg,
+              xl,
+            }),
+            wrapperProps?.sx,
+          ]}
         >
-          {dimmer}
-        </ModalDimmerProvider>
+          <ModalDimmerProvider
+            disableOutsideClickClose={disableOutsideClickClose}
+            isBottomSheetWithHandle={isBottomSheetWithHandle}
+            handleVisibilityHidden={handleVisibilityHidden}
+            dimmerRef={dimmerRef}
+          >
+            {dimmer}
+          </ModalDimmerProvider>
 
-        <FocusScope
-          loop={context.open && context.visibility === 'visible'}
-          trapped={context.open && context.visibility === 'visible'}
-        >
-          <DismissableLayer
-            asChild
-            onPointerDownOutside={useCallback(
-              (e: PointerDownOutsideEvent) => {
+          <FocusScope
+            loop={open && context.visibility === 'visible'}
+            trapped={open && context.visibility === 'visible'}
+            disableFocusScope={disableFocusScope}
+          >
+            <DismissableLayer
+              asChild
+              onPointerDownOutside={(e: PointerDownOutsideEvent) => {
                 const originalEvent = e.detail.originalEvent;
                 const ctrlLeftClick =
                   originalEvent.button === 0 && originalEvent.ctrlKey === true;
@@ -293,125 +329,147 @@ const ModalContainer = forwardRef(
 
                 if (isRightClick || disableOutsideClickClose)
                   e.preventDefault();
-              },
-              [disableOutsideClickClose],
-            )}
-            onEscapeKeyDown={useCallback(
-              (e: KeyboardEvent) => {
+              }}
+              onEscapeKeyDown={(e: KeyboardEvent) => {
                 if (disableEscapeKeyDownClose) {
                   e.preventDefault();
                 }
-              },
-              [disableEscapeKeyDownClose],
-            )}
-            onDismiss={useCallback(() => {
-              if (!isBottomSheetWithHandle) {
-                onOpenChange(false);
-              } else {
-                handleVisibilityHidden();
-              }
-            }, [isBottomSheetWithHandle, onOpenChange, handleVisibilityHidden])}
-            ref={composedContainerRefs}
-          >
-            <RemoveScroll
-              enabled={context.open && context.visibility === 'visible'}
-              as={Slot}
-              allowPinchZoom
+              }}
+              onFocusOutside={(e) => {
+                if (
+                  disableOutsideClickClose ||
+                  context.visibility === 'hidden'
+                ) {
+                  e.preventDefault();
+                }
+              }}
+              onDismiss={() => {
+                if (!isBottomSheetWithHandle) {
+                  onOpenChange(false);
+                } else {
+                  handleVisibilityHidden();
+                }
+              }}
+              ref={composedContainerRefs}
             >
-              <Box
-                role="dialog"
-                aria-modal
-                id={context.containerId}
-                aria-describedby={`${context.descriptionId} ${context.summaryId}`}
-                aria-labelledby={`${context.titleId} ${context.headingId}`}
-                {...props}
-                wds-ignore-dismissable-layer="true"
-                data-visibility={context.visibility}
-                data-status={context.open ? 'open' : 'close'}
-                sx={[
-                  modalContainerStyle({
-                    resize,
-                    variant,
-                    size,
-                    xs,
-                    sm,
-                    md,
-                    lg,
-                    xl,
-                  }),
-                  props.sx,
-                ]}
+              <RemoveScroll
+                enabled={
+                  open &&
+                  context.visibility === 'visible' &&
+                  !disableRemoveScroll
+                }
+                as={Slot}
+                allowPinchZoom
               >
-                <ScrollArea
-                  scrollbars="vertical"
-                  viewportRef={context.innerContainerRef}
-                  sx={{
-                    display: 'flex',
-                    flexGrow: '1',
-                  }}
-                  viewportProps={{
-                    sx: {
-                      height: 'initial',
-                      scrollPaddingTop: topNavigationHeight,
-                      scrollPaddingBottom: actionAreaHeight,
-                      ['& [data-radix-scroll-area-content]']: {
-                        display: 'flex',
-                        flexDirection: 'column',
-                      },
-                    },
-                  }}
-                  zIndex={11}
+                <Box
+                  role="dialog"
+                  aria-modal={
+                    open &&
+                    context.visibility === 'visible' &&
+                    (!disableRemoveScroll || !disableFocusScope)
+                  }
+                  id={context.containerId}
+                  aria-describedby={`${context.descriptionId} ${context.summaryId}`}
+                  aria-labelledby={`${context.titleId} ${context.headingId}`}
+                  {...props}
+                  wds-ignore-dismissable-layer="true"
+                  data-visibility={context.visibility}
+                  data-status={open ? 'open' : 'close'}
+                  sx={[
+                    modalContainerStyle({
+                      resize,
+                      variant,
+                      size,
+                      xs,
+                      sm,
+                      md,
+                      lg,
+                      xl,
+                    }),
+                    props.sx,
+                  ]}
                 >
-                  <FlexBox
-                    flexDirection="column"
-                    flex="1"
+                  <ScrollArea
+                    data-role="modal-container-scroll-area"
+                    scrollbars="vertical"
+                    viewportRef={context.setInnerContainer}
                     sx={{
-                      ['[data-role="modal-container-grabber"] + [wds-component="top-navigation"]']:
-                        {
-                          paddingTop: 12,
-                        },
+                      display: 'flex',
+                      flexGrow: '1',
                     }}
-                    {...dragProps}
+                    viewportProps={{
+                      sx: {
+                        height: 'initial',
+                        ['& [data-radix-scroll-area-content]']: {
+                          display: 'flex',
+                          flexDirection: 'column',
+                        },
+                      },
+                      style: {
+                        scrollPaddingTop:
+                          topNavigationHeight +
+                          (isBottomSheetWithHandle
+                            ? BOTTOM_SHEET_PEEK_PADDING
+                            : 0),
+                        scrollPaddingBottom: actionAreaHeight,
+                      },
+                    }}
+                    zIndex={11}
                   >
-                    {isBottomSheetWithHandle && (
-                      <FlexBox
-                        justifyContent="center"
-                        sx={modalGrabberStyle}
-                        data-role="modal-container-grabber"
-                      />
-                    )}
+                    <FlexBox
+                      flexDirection="column"
+                      flex="1"
+                      data-role="modal-container-wrapper"
+                      sx={{
+                        ['&:has([data-role="modal-container-grabber"])']: {
+                          paddingTop: BOTTOM_SHEET_PEEK_PADDING,
+                        },
+                      }}
+                      {...dragProps}
+                    >
+                      {isBottomSheetWithHandle && (
+                        <FlexBox
+                          justifyContent="center"
+                          sx={modalGrabberStyle}
+                          data-role="modal-container-grabber"
+                        />
+                      )}
 
-                    <ModalScrollProvider sticky={sticky}>
-                      {children}
-                    </ModalScrollProvider>
-                  </FlexBox>
-                </ScrollArea>
-              </Box>
-            </RemoveScroll>
-          </DismissableLayer>
-        </FocusScope>
-      </Box>
+                      <ModalScrollProvider sticky={sticky}>
+                        {children}
+                      </ModalScrollProvider>
+                    </FlexBox>
+                  </ScrollArea>
+                </Box>
+              </RemoveScroll>
+            </DismissableLayer>
+          </FocusScope>
+        </Box>
+      </PortalOrFragment>
     );
   },
-) as PolymorphicComponent<ModalContainerProps, 'div'>;
+) as PolymorphicComponentInternal<ModalContainerProps, 'div'>;
 
 ModalContainer.displayName = MODAL_CONTAINER_NAME;
 
 /**
- * @description
- * `<ModalContainer dimmer={<ModalDimmer />} />` 형태로 사용합니다.
- * Dimmer에 커스텀 스타일을 적용하기 위해서만 사용합니다.
+ * Use the form `<ModalContainer dimmer={<ModalDimmer />} />`.
+ * Only used to apply custom styles to the Dimmer.
  */
 const ModalDimmer = forwardRef(
   <T extends ElementType = 'div'>(
-    { as, ...props }: PolymorphicProps<ModalDimmerProps, T>,
+    { as, ...props }: PolymorphicPropsInternal<ModalDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { open, visibility, onOpenChange, disableOutsideClickClose } =
+    const { open, visibility, onOpenChange } =
       useModalContext(MODAL_DIMMER_NAME);
 
-    const { isBottomSheetWithHandle, dimmerRef, handleVisibilityHidden } =
-      useModalDimmerContext(MODAL_DIMMER_NAME);
+    const {
+      isBottomSheetWithHandle,
+      dimmerRef,
+      handleVisibilityHidden,
+      disableOutsideClickClose,
+    } = useModalDimmerContext(MODAL_DIMMER_NAME);
 
     return (
       <Box
@@ -433,14 +491,15 @@ const ModalDimmer = forwardRef(
           },
         )}
         onClick={composeEventHandlers(props.onClick, (e: MouseEvent) => {
-          e.preventDefault();
           if (disableOutsideClickClose) {
+            e.preventDefault();
             return;
           }
 
           if (!isBottomSheetWithHandle) {
             onOpenChange(false);
-          } else {
+          } else if (visibility === 'visible') {
+            e.preventDefault();
             handleVisibilityHidden();
           }
         })}
@@ -448,7 +507,7 @@ const ModalDimmer = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalDimmerProps, 'div'>;
+) as PolymorphicComponentInternal<ModalDimmerProps, 'div'>;
 
 ModalDimmer.displayName = MODAL_DIMMER_NAME;
 
@@ -456,29 +515,27 @@ const ModalScrollProvider = ({
   children,
   sticky,
 }: ModalScrollProviderProps) => {
-  const { innerContainerRef, ...context } = useModalContext(
+  const { innerContainer, ...context } = useModalContext(
     'ModalContextProviders',
   );
 
-  const [navigationSticky, setNavigationSticky] = useState(false);
   const [actionAreaSticky, setActionAreaSticky] = useState(false);
 
   const handleResize = useCallback(() => {
-    const target = innerContainerRef.current;
-    if (!target) {
+    if (!innerContainer) {
       return;
     }
 
-    setNavigationSticky(target.scrollTop > 0);
     setActionAreaSticky(
-      target.scrollHeight - target.clientHeight > target.scrollTop,
+      innerContainer.scrollHeight - innerContainer.clientHeight >
+        innerContainer.scrollTop,
     );
-  }, [innerContainerRef]);
+  }, [innerContainer]);
 
-  useResizeObserver(innerContainerRef.current?.firstElementChild, handleResize);
+  useResizeObserver(innerContainer?.firstElementChild, handleResize);
 
   useEffect(() => {
-    const container = innerContainerRef.current;
+    const container = innerContainer;
 
     if (!container) {
       return;
@@ -487,7 +544,6 @@ const ModalScrollProvider = ({
     const handleOnScroll = (e: Event) => {
       const target = e.target as HTMLElement;
 
-      setNavigationSticky(target.scrollTop > 0);
       setActionAreaSticky(
         target.scrollHeight - target.clientHeight > target.scrollTop,
       );
@@ -496,11 +552,10 @@ const ModalScrollProvider = ({
     container.addEventListener('scroll', handleOnScroll);
 
     return () => container.removeEventListener('scroll', handleOnScroll);
-  }, [innerContainerRef]);
+  }, [innerContainer]);
 
   return (
     <ModalNavigationProvider
-      scrolled={sticky && navigationSticky}
       titleId={context.titleId}
       onOpenChange={context.onOpenChange}
     >
@@ -513,33 +568,31 @@ const ModalScrollProvider = ({
 
 const ModalNavigation = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ModalNavigationProps, 'div'>
+  DefaultComponentPropsInternal<ModalNavigationProps, 'div'>
 >(
   (
-    { leadingContent, trailingContent = <ModalClose />, variant, ...props },
+    {
+      leadingContent,
+      trailingContent = <ModalClose />,
+      variant,
+      children,
+      ...props
+    },
     ref,
   ) => {
-    const { scrolled, titleId } = useModalNavigationContext(
-      MODAL_NAVIGATION_NAME,
-    );
-
-    // 모달에서 extended 사용할 때 아이콘이 없더라도 간격을 유지해야하기 때문에
-    // mockup 요소를 렌더링 하도록 한다.
-    const shouldRenderMockup =
-      variant === 'extended' && !leadingContent && !trailingContent;
+    const { titleId } = useModalNavigationContext(MODAL_NAVIGATION_NAME);
 
     return (
       <TopNavigation
-        scrolled={scrolled}
         titleId={titleId}
-        leadingContent={
-          shouldRenderMockup ? <Box sx={{ height: 24 }} /> : leadingContent
-        }
+        leadingContent={leadingContent}
         trailingContent={trailingContent}
         {...props}
         variant={variant === 'emphasized' ? undefined : variant}
         sx={[modalNavigationStyle({ variant }), props.sx]}
         ref={ref}
+        // eslint-disable-next-line react/no-children-prop
+        children={variant === 'emphasized' && !children ? <span /> : children}
       />
     );
   },
@@ -549,45 +602,40 @@ ModalNavigation.displayName = MODAL_NAVIGATION_NAME;
 
 const ModalNavigationButton = forwardRef(
   <E extends ElementType = 'button'>(
-    { as, ...props }: PolymorphicProps<TopNavigationButtonProps, E>,
+    { as, ...props }: PolymorphicPropsInternal<ModalNavigationButtonProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     return <TopNavigationButton {...props} as={as || 'button'} ref={ref} />;
   },
-) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ModalNavigationButtonProps, 'button'>;
 
 ModalNavigationButton.displayName = MODAL_NAVIGATION_BUTTON_NAME;
 
 const ModalClose = forwardRef(
   <E extends ElementType = 'button'>(
-    {
-      children,
-      background = false,
-      ...props
-    }: PolymorphicProps<TopNavigationButtonProps, E>,
+    { children, ...props }: PolymorphicPropsInternal<ModalCloseProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const { onOpenChange } = useModalNavigationContext(MODAL_CLOSE_NAME);
-    const { variant: navigationVariant } = useTopNavigationContext() || {};
 
     return (
       <TopNavigationButton
+        aria-label="Close dialog"
         {...props}
-        background={background}
         onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
         ref={ref}
       >
-        {children ?? getDefaultCloseIcon(navigationVariant, background)}
+        {children ?? <IconClose />}
       </TopNavigationButton>
     );
   },
-) as PolymorphicComponent<TopNavigationButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ModalCloseProps, 'button'>;
 
 ModalClose.displayName = MODAL_CLOSE_NAME;
 
 const ModalContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ModalContentProps, 'div'>
+  DefaultComponentPropsInternal<ModalContentProps, 'div'>
 >(
   (
     {
@@ -636,7 +684,7 @@ ModalContent.displayName = 'ModalContent';
 
 const ModalContentItem = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ModalContentItemProps, 'div'>
+  DefaultComponentPropsInternal<ModalContentItemProps, 'div'>
 >((props, ref) => {
   return (
     <FlexBox
@@ -660,7 +708,7 @@ const ModalHeading = forwardRef(
       weight = 'bold',
       color = 'semantic.label.normal',
       ...props
-    }: PolymorphicProps<ModalHeadingProps, E>,
+    }: PolymorphicPropsInternal<ModalHeadingProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -679,7 +727,7 @@ const ModalHeading = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalHeadingProps, 'h1'>;
+) as PolymorphicComponentInternal<ModalHeadingProps, 'h1'>;
 
 ModalHeading.displayName = 'ModalHeading';
 
@@ -691,7 +739,7 @@ const ModalSummary = forwardRef(
       weight = 'regular',
       color = 'semantic.label.alternative',
       ...props
-    }: PolymorphicProps<ModalSummaryProps, E>,
+    }: PolymorphicPropsInternal<ModalSummaryProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -710,7 +758,7 @@ const ModalSummary = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalSummaryProps, 'p'>;
+) as PolymorphicComponentInternal<ModalSummaryProps, 'p'>;
 
 ModalSummary.displayName = 'ModalSummary';
 
@@ -722,7 +770,7 @@ const ModalDescription = forwardRef(
       weight = 'regular',
       color = 'semantic.label.normal',
       ...props
-    }: PolymorphicProps<ModalDescriptionProps, E>,
+    }: PolymorphicPropsInternal<ModalDescriptionProps, E>,
     ref: ForwardedRef<E>,
   ) => {
     const context = useModalContext(MODAL_NAME);
@@ -741,12 +789,13 @@ const ModalDescription = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ModalDescriptionProps, 'p'>;
+) as PolymorphicComponentInternal<ModalDescriptionProps, 'p'>;
 
 ModalDescription.displayName = 'ModalDescription';
 
 export {
   Modal,
+  ModalTrigger,
   ModalContainer,
   ModalDimmer,
   ModalNavigation,
@@ -757,4 +806,19 @@ export {
   ModalHeading,
   ModalSummary,
   ModalDescription,
+};
+
+export type {
+  ModalProps,
+  ModalContainerProps,
+  ModalTriggerProps,
+  ModalDimmerProps,
+  ModalNavigationProps,
+  ModalNavigationButtonProps,
+  ModalCloseProps,
+  ModalContentProps,
+  ModalContentItemProps,
+  ModalHeadingProps,
+  ModalSummaryProps,
+  ModalDescriptionProps,
 };

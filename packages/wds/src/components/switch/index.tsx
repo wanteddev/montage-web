@@ -4,22 +4,26 @@ import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Box } from '@wanteddev/wds-engine';
 
-import WithInteraction from '../with-interaction';
+import { WithInteraction } from '../with-interaction';
 import { VirtualCheckboxInput } from '../virtual-input';
+import { hapticFeedback } from '../../utils/internal/haptic';
 
 import { switchStyle } from './style';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { SwitchProps } from './types';
 
 const Switch = forwardRef<
   HTMLButtonElement,
-  Omit<DefaultComponentProps<SwitchProps, 'button'>, 'onChange' | 'value'>
+  Omit<
+    DefaultComponentPropsInternal<SwitchProps, 'button'>,
+    'onChange' | 'value'
+  >
 >(
   (
     {
       name,
-      defaultChecked = false,
+      defaultChecked,
       disabled,
       checked: originChecked,
       onCheckedChange,
@@ -39,9 +43,9 @@ const Switch = forwardRef<
     const hasConsumerStoppedPropagationRef = useRef(false);
 
     const isFormControl = button ? Boolean(button.closest('form')) : true;
-    const [checked = false, setChecked] = useControllableState({
+    const [checked, setChecked] = useControllableState({
       prop: originChecked,
-      defaultProp: defaultChecked,
+      defaultProp: defaultChecked ?? false,
       onChange: onCheckedChange,
     });
     const initialCheckedStateRef = useRef(checked);
@@ -66,7 +70,10 @@ const Switch = forwardRef<
           />
         )}
 
-        <WithInteraction disabled={disabled}>
+        <WithInteraction
+          disabled={disabled}
+          color={checked ? 'semantic.static.white' : 'semantic.label.normal'}
+        >
           <Box
             as="button"
             type="button"
@@ -93,6 +100,8 @@ const Switch = forwardRef<
             onClick={composeEventHandlers(props.onClick, (event) => {
               setChecked((prevChecked) => !prevChecked);
 
+              hapticFeedback();
+
               if (isFormControl) {
                 hasConsumerStoppedPropagationRef.current =
                   event.isPropagationStopped();
@@ -102,7 +111,11 @@ const Switch = forwardRef<
               }
             })}
           >
-            <span />
+            <span
+              data-role="switch-knob"
+              data-checked={checked}
+              data-disabled={disabled}
+            />
           </Box>
         </WithInteraction>
       </>
@@ -112,4 +125,6 @@ const Switch = forwardRef<
 
 Switch.displayName = 'Switch';
 
-export default Switch;
+export { Switch };
+
+export type { SwitchProps };

@@ -1,0 +1,132 @@
+---
+title: Section message
+description: 특정 섹션이나 페이지에 대해 사용자의 주의가 필요한 상황을 전달하는 요소입니다. 정보, 성공, 경고, 오류 등 상황에 맞는 시각적 단서를 제공하여 사용자가 메시지의 중요도를 직관적으로 인지하도록 돕습니다.
+image: /components/feedback/section-message/design/Thumbnails.png
+createdAt: 2025-10-01
+updatedAt: 2025-10-01
+---
+
+<SectionAnatomy
+  src="/components/feedback/section-message/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Container',
+    'Heading',
+    'Icon',
+    'Description',
+    'Bottom button',
+    'Trailing button',
+    'Close button',
+  ]}
+/>
+
+<SectionVariants
+  components={['SectionMessage', 'TextButton']}
+  icons={['IconBlank']}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Custom', value: { variant: 'custom', leadingContent: '<IconBlank />' } },
+        { label: 'Info', value: { variant: 'info' } },
+        { label: 'Positive', value: { variant: 'positive' } },
+        { label: 'Cautionary', value: { variant: 'cautionary' } },
+        { label: 'Negative', value: { variant: 'negative' } },
+      ]
+    },
+    {
+      key: 'Description',
+      options: [
+        { label: 'False', value: { children: 'Heading', sx: { width: '90%' }, open: true } },
+        { label: 'True', value: { description: 'Description', children: 'Heading', sx: { width: '90%' }, open: true } },
+      ]
+    },
+    {
+      key: 'Close button',
+      options: [
+        { label: 'False', value: {} },
+        { label: 'True', value: { closeButton: true } },
+      ]
+    },
+    {
+      key: 'Action',
+      options: [
+        { label: 'None', value: {} },
+        { label: 'Trailing button', value: { trailingButton: '<TextButton size="small">Button</TextButton>'} },
+        { label: 'Bottom button', value: { bottomButton: '<TextButton size="small">Button</TextButton>'} },
+      ]
+    },
+  ]}
+/>
+
+<SectionLayout title="Status">
+  <SectionFigure
+    ratio="16:9"
+    description="메시지의 성격에 따라 아이콘과 색상을 구분하여, 사용자가 상황을 즉시 인지할 수 있도록 돕습니다.
+
+- Custom: 특정 상태를 강조하지 않고 예외적으로 자유롭게 변형하여 사용할 수 있습니다.
+- Info: 일반적인 안내를 제공할 때 사용합니다.
+- Positive: 사용자가 요청한 작업이 성공적으로 완료되었음을 알리는 긍정적인 피드백에 사용합니다.
+- Cautionary: 치명적인 오류는 아니지만, 사용자에게 주의가 필요한 상황을 알리기 위해 사용합니다.
+- Negative: 작업이 실패했거나 오류가 발생했음을 알리는 부정적인 피드백입니다."
+    src="/components/feedback/section-message/design/Image-1.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Position">
+  <SectionFigure
+    ratio="21:9"
+    description="GNB 하단으로부터 20px 아래에 배치되며, 페이지와 함께 스크롤 되는 것을 기본 동작으로 합니다."
+    src="/components/feedback/section-message/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="With close button">
+  <SectionFigure
+    ratio="21:9"
+    description="중요도가 낮은 메시지의 경우, 닫기 버튼을 추가하여 사용자가 직접 화면에서 숨길 수 있습니다."
+    src="/components/feedback/section-message/design/Image-3.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="With action">
+  <SectionFigure
+    ratio="21:9"
+    description="메시지에 대한 사용자의 즉각적인 응답이나 행동이 필요한 경우 Button을 추가할 수 있습니다."
+    src="/components/feedback/section-message/design/Image-4.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Customize">
+    <SectionFigure
+      ratio="21:9"
+      description="Custom 속성을 통해 낮은 위계의 메시지를 제공하거나, 특정 목적에 맞는 메시지를 제공할 수 있습니다."
+      src="/components/feedback/section-message/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    variant="positive"
+    ratio="21:9"
+    description="간략한 메시지인 경우 버튼이 필요하다면 Bottom button이 아닌 Trailing button을 활용합니다."
+    src="/components/feedback/section-message/design/Image-6.png"
+  />
+  <SectionFigure
+    variant="negative"
+    ratio="21:9"
+    description="여러 메시지를 동시에 노출하지 마세요."
+    src="/components/feedback/section-message/design/Image-7.png"
+  />
+</SectionLayout>
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Custom',
+      options: ['backgroundColor', 'contentColor']
+    }
+  ]}
+/>

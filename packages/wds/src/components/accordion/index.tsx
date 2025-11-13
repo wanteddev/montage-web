@@ -1,12 +1,16 @@
 import { Box } from '@wanteddev/wds-engine';
 import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { IconChevronDown } from '@wanteddev/wds-icon';
+import { IconChevronDownSmall } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { usePrevious } from '@radix-ui/react-use-previous';
+import { useSize } from '@radix-ui/react-use-size';
 
 import { ListCell, ListCellContent } from '../list';
-import Typography from '../typography';
-import { Divider, FlexBox, useComposedRefs, usePrevious, useSize } from '../..';
+import { Typography } from '../typography';
+import { Divider } from '../divider';
+import { FlexBox } from '../flex-box';
 import { AnimationPresence } from '../animation-presence';
 
 import {
@@ -31,28 +35,27 @@ import {
 
 import type {
   CSSProperties,
-  ComponentPropsWithoutRef,
-  ElementRef,
+  ComponentRef,
   ElementType,
   ForwardedRef,
-  PropsWithChildren,
 } from 'react';
-import type { ListCellProps } from '../list/types';
-import type { TypographyProps } from '../typography/types';
 import type {
+  AccordionContentProps,
+  AccordionDescriptionProps,
   AccordionDetailsProps,
   AccordionProps,
   AccordionSummaryContentProps,
+  AccordionSummaryProps,
 } from './types';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 
 const Accordion = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AccordionProps, 'div'>
+  DefaultComponentPropsInternal<AccordionProps, 'div'>
 >(
   (
     {
@@ -68,9 +71,9 @@ const Accordion = forwardRef<
     },
     ref,
   ) => {
-    const [expanded = false, setExpand] = useControllableState({
+    const [expanded, setExpand] = useControllableState({
       prop: originExpanded,
-      defaultProp: defaultExpanded,
+      defaultProp: defaultExpanded ?? false,
       onChange,
     });
 
@@ -88,6 +91,7 @@ const Accordion = forwardRef<
       >
         <Box
           ref={ref}
+          as="div"
           {...props}
           sx={[accordionStyle({ disabled, expanded }), sx]}
         >
@@ -109,7 +113,7 @@ Accordion.displayName = ACCORDION_NAME;
 
 const AccordionSummary = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ListCellProps, 'div'>
+  DefaultComponentPropsInternal<AccordionSummaryProps, 'div'>
 >(
   (
     {
@@ -142,13 +146,15 @@ const AccordionSummary = forwardRef<
         role="button"
         verticalPadding={verticalPadding}
         disabled={disabled}
+        aria-disabled={disabled}
         disableInteraction={disabled}
         aria-expanded={expanded}
         aria-controls={detailsId}
+        tabIndex={disabled ? -1 : 0}
         id={summaryId}
         leadingContent={leadingContent}
         trailingContent={
-          Boolean(trailingContent) ? (
+          trailingContent ? (
             trailingContent
           ) : (
             <AccordionSummaryContent
@@ -156,7 +162,7 @@ const AccordionSummary = forwardRef<
               rotate
               data-role="accordion-summary-expand-icon"
             >
-              <IconChevronDown
+              <IconChevronDownSmall
                 sx={(theme) => ({
                   color: theme.semantic.label.normal,
                 })}
@@ -173,6 +179,10 @@ const AccordionSummary = forwardRef<
         {...props}
         sx={[accordionSummaryStyle({ disabled }), sx]}
         onClick={composeEventHandlers(props.onClick, (e) => {
+          if (disabled) {
+            return;
+          }
+
           onExpandedChange(!expanded);
           e.preventDefault();
         })}
@@ -187,8 +197,8 @@ AccordionSummary.displayName = ACCORDION_SUMMARY_NAME;
 
 const AccordionSummaryContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<AccordionSummaryContentProps, 'div'>
->(({ sx, rotate = false, ...props }, ref) => {
+  DefaultComponentPropsInternal<AccordionSummaryContentProps, 'div'>
+>(({ sx, rotate = false, variant, ...props }, ref) => {
   const { expanded, disableAnimation } = useAccordionContext(
     ACCORDION_SUMMARY_CONTENT_NAME,
   );
@@ -197,8 +207,10 @@ const AccordionSummaryContent = forwardRef<
     <ListCellContent
       ref={ref}
       {...props}
+      variant={variant}
       sx={[
         accordionSummaryContentStyle({
+          variant,
           expanded,
           disableAnimation,
           rotate,
@@ -219,13 +231,14 @@ const AccordionDetails = forwardRef(
       forceMount = false,
       wrapperSx,
       ...props
-    }: PolymorphicProps<AccordionDetailsProps, T>,
+    }: PolymorphicPropsInternal<AccordionDetailsProps, T>,
     forwardedRef: ForwardedRef<T>,
   ) => {
     const { expanded, detailsId, summaryId, disableAnimation } =
       useAccordionContext(ACCORDION_DETAILS_NAME);
 
-    const ref = useRef<ElementRef<T>>(null);
+    const ref = useRef<ComponentRef<T>>(null);
+
     const composedRefs = useComposedRefs(forwardedRef, ref as ForwardedRef<T>);
 
     const [wrapperNode, setWrapperNode] = useState<HTMLDivElement | null>(null);
@@ -306,13 +319,13 @@ const AccordionDetails = forwardRef(
       </AnimationPresence>
     );
   },
-) as PolymorphicComponent<AccordionDetailsProps, 'div'>;
+) as PolymorphicComponentInternal<AccordionDetailsProps, 'div'>;
 
 AccordionDetails.displayName = ACCORDION_DETAILS_NAME;
 
 const AccordionDescription = forwardRef<
   HTMLParagraphElement,
-  DefaultComponentProps<TypographyProps, 'p'>
+  DefaultComponentPropsInternal<AccordionDescriptionProps, 'p'>
 >((props, ref) => {
   return (
     <Typography
@@ -330,7 +343,7 @@ AccordionDescription.displayName = ACCORDION_DESCRIPTION_NAME;
 
 const AccordionContent = forwardRef(
   <T extends ElementType = 'div'>(
-    { sx, ...props }: PolymorphicProps<PropsWithChildren, T>,
+    { sx, ...props }: PolymorphicPropsInternal<AccordionContentProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -342,7 +355,7 @@ const AccordionContent = forwardRef(
       />
     );
   },
-) as PolymorphicComponent<ComponentPropsWithoutRef<typeof Box>, 'div'>;
+) as PolymorphicComponentInternal<AccordionContentProps, 'div'>;
 
 AccordionContent.displayName = ACCORDION_CONTENT_NAME;
 
@@ -353,4 +366,13 @@ export {
   AccordionDetails,
   AccordionDescription,
   AccordionContent,
+};
+
+export type {
+  AccordionProps,
+  AccordionSummaryProps,
+  AccordionSummaryContentProps,
+  AccordionDetailsProps,
+  AccordionDescriptionProps,
+  AccordionContentProps,
 };

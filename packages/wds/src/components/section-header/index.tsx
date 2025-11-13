@@ -1,8 +1,8 @@
 import { forwardRef } from 'react';
-import { Box, type DefaultComponentProps } from '@wanteddev/wds-engine';
+import { Box, type DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
-import FlexBox from '../flex-box';
-import WithInteraction from '../with-interaction';
+import { FlexBox } from '../flex-box';
+import { WithInteraction } from '../with-interaction';
 
 import {
   sectionHeaderNavigationButtonStyle,
@@ -12,8 +12,8 @@ import {
 
 import type { ElementType, ForwardedRef } from 'react';
 import type {
-  PolymorphicComponent,
-  PolymorphicProps,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
 import type {
   SectionHeaderNavigationButtonProps,
@@ -23,7 +23,7 @@ import type {
 
 const SectionHeader = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SectionHeaderProps, 'div'>
+  DefaultComponentPropsInternal<SectionHeaderProps, 'div'>
 >(
   (
     {
@@ -93,7 +93,7 @@ SectionHeader.displayName = 'SectionHeader';
 
 const SectionHeaderNavigation = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<SectionHeaderNavigationProps, 'div'>
+  DefaultComponentPropsInternal<SectionHeaderNavigationProps, 'div'>
 >((props, ref) => {
   return (
     <FlexBox
@@ -116,7 +116,7 @@ const SectionHeaderNavigationButton = forwardRef(
       disableInteraction,
       children,
       ...props
-    }: PolymorphicProps<SectionHeaderNavigationButtonProps, T>,
+    }: PolymorphicPropsInternal<SectionHeaderNavigationButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     return (
@@ -134,10 +134,16 @@ const SectionHeaderNavigationButton = forwardRef(
       </WithInteraction>
     );
   },
-) as PolymorphicComponent<SectionHeaderNavigationButtonProps, 'button'>;
+) as PolymorphicComponentInternal<SectionHeaderNavigationButtonProps, 'button'>;
 
 export {
   SectionHeader,
   SectionHeaderNavigation,
   SectionHeaderNavigationButton,
+};
+
+export type {
+  SectionHeaderProps,
+  SectionHeaderNavigationProps,
+  SectionHeaderNavigationButtonProps,
 };

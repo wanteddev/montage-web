@@ -1,0 +1,66 @@
+---
+title: Loading
+createdAt: 2025-09-08
+---
+
+## Basic loading
+
+화면을 불러올 때 사용합니다.
+
+<Demo code={`import { Loading } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Loading variant="circular" />
+  );
+}
+
+export default Demo;`}
+/>
+
+
+## Variants
+
+2가지 variant를 사용할 수 있습니다.
+- `wanted`: 2초 이상 로드할 때 사용합니다.
+- `circular`: 로드 시간이 적은 일반적인 상황에서 사용합니다.
+
+<Demo code={`import { Loading, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center" gap="16px">
+      <Loading variant="wanted" />
+      <Loading variant="circular" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Size
+
+width와 height를 size로 지정할 수 있습니다.
+
+<Demo code={`import { Loading, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center" gap="16px">
+      <Loading size="50px" variant="circular" />
+      <Loading size="1em" variant="circular" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="Loading" />

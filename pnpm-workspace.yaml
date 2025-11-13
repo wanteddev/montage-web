@@ -2,3 +2,13 @@ packages:
   - 'packages/*'
   - 'docs'
   - '.github/actions/*'
+
+onlyBuiltDependencies:
+  - esbuild
+  - nx
+  - sharp
+  - unrs-resolver
+
+engineStrict: true
+
+enablePrePostScripts: true

@@ -1,6 +1,6 @@
 import { type Theme, css, getColorByToken } from '@wanteddev/wds-engine';
 
-import { toCssValue } from '../../utils/css';
+import { toCssValue } from '../../utils/internal/css';
 
 import type { WithInteractionProps } from './types';
 
@@ -16,7 +16,6 @@ export const interactionStyle =
     border-radius: inherit;
     opacity: ${theme.opacity[0]};
     background-color: ${getColorByToken(theme, color!)};
-    will-change: opacity, transform;
     transition:
       opacity 0.15s ease,
       transform 0.15s ease;
@@ -50,6 +49,13 @@ export const getWrapperStyle =
       &:hover > [wds-component='with-interaction'] {
         ${hoverInteractionStyle(theme, variant)}
       }
+
+      @media not (pointer: fine) {
+        &:hover > [wds-component='with-interaction'] {
+          opacity: ${theme.opacity[0]};
+        }
+      }
+
       &:focus-visible > [wds-component='with-interaction'] {
         opacity: ${theme.opacity[0]};
       }
@@ -65,6 +71,12 @@ export const getWrapperStyle =
 
         &:hover > [wds-component='with-interaction'] {
           transform: translate(-50%, -50%) scale(1);
+        }
+
+        @media not (pointer: fine) {
+          & > [wds-component='with-interaction'] {
+            transform: translate(-50%, -50%) scale(1);
+          }
         }
       `}
     `}

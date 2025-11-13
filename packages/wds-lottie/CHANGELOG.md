@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-alpha.4](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.3...v3.0.0-alpha.4) (2025-11-12)
+
+**Note:** Version bump only for package @wanteddev/wds-lottie
+
+# [3.0.0-alpha.3](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.2...v3.0.0-alpha.3) (2025-11-12)
+
+### Bug Fixes
+
+- revert catalog ([7ff4e84](https://github.com/wanteddev/wds/commit/7ff4e84737f21cc08f9947e0a47fd01084e9db41))
+- **wds-codemod:** content props migration select, select-multiple ([3e73a90](https://github.com/wanteddev/wds/commit/3e73a90f3698ea181cb9cc760e5f6d02ff625f2e))
+
+# [3.0.0-alpha.2](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.1...v3.0.0-alpha.2) (2025-11-12)
+
+**Note:** Version bump only for package @wanteddev/wds-lottie
+
+# [3.0.0-alpha.1](https://github.com/wanteddev/wds/compare/v2.6.0...v3.0.0-alpha.1) (2025-11-12)
+
+### Bug Fixes
+
+- **wds:** fixed lint, build errors ([28e330f](https://github.com/wanteddev/wds/commit/28e330f01bf767943734025aab793582c3cfbaf4))
+
+### Features
+
+- tsup to tsdown migration ([#472](https://github.com/wanteddev/wds/issues/472)) ([f2a81f6](https://github.com/wanteddev/wds/commit/f2a81f6f23a85d5a090120ecd8fe21e8862c6ecc))
+
+# [3.0.0-alpha.0](https://github.com/wanteddev/wds/compare/v2.5.0...v3.0.0-alpha.0) (2025-10-17)
+
+### Features
+
+- support react 19.2, next 16-beta ([#463](https://github.com/wanteddev/wds/issues/463)) ([5346208](https://github.com/wanteddev/wds/commit/5346208898ff4853a094f247c0513c3d5b512f46))
+- **wds,wds-lottie,wds-engine:** export props for all components ([#357](https://github.com/wanteddev/wds/issues/357)) ([0dc2fc3](https://github.com/wanteddev/wds/commit/0dc2fc3b69af5aa4c69d462b1274be96e849b7aa))
+- **wds:** apply catalog for dependecies and cleanup codemod ([#374](https://github.com/wanteddev/wds/issues/374)) ([a792958](https://github.com/wanteddev/wds/commit/a79295863ca728384c309c5931de94173a2f896a))
+
 # [2.6.0](https://github.com/wanteddev/wds/compare/v2.5.0...v2.6.0) (2025-11-05)
 
 **Note:** Version bump only for package @wanteddev/wds-lottie

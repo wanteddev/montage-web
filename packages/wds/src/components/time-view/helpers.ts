@@ -1,9 +1,12 @@
 import dayjs from 'dayjs';
 
+import { dayjsTimezone } from '../date-calendar/helpers';
+
 import { TIME_UNIT_STEP } from './constants';
 
 import type { RefObject } from 'react';
 import type { HourType, TimeViewType } from './types';
+import type { DateType } from '../date-picker';
 
 export type GetTimeUnitsResult = ReturnType<typeof getHours>;
 
@@ -60,7 +63,7 @@ export const getSeconds = () => {
 export const scrollToTime = (
   view: TimeViewType,
   value: string,
-  containerRef: RefObject<HTMLDivElement>,
+  containerRef: RefObject<HTMLDivElement | null>,
 ) => {
   const scrollItem = containerRef.current?.querySelector(
     `[data-${view}='${value}']`,
@@ -71,4 +74,97 @@ export const scrollToTime = (
       top: (scrollItem as HTMLElement).offsetTop - 8,
     });
   }
+};
+
+// 시간만 비교하는 helper 함수들
+export const isDisabledTime = ({
+  minTime,
+  maxTime,
+  value,
+  timezone,
+}: {
+  minTime?: DateType;
+  maxTime?: DateType;
+  value: DateType;
+  timezone?: string;
+}) => {
+  if (!value) return false;
+
+  const currentTime = dayjsTimezone(dayjs(value), timezone);
+  const currentTimeOnly = dayjsTimezone(dayjs(), timezone)
+    .hour(currentTime.hour())
+    .minute(currentTime.minute())
+    .second(currentTime.second());
+
+  if (minTime) {
+    const minTimeObj = dayjsTimezone(dayjs(minTime), timezone);
+    const minTimeOnly = dayjsTimezone(dayjs(), timezone)
+      .hour(minTimeObj.hour())
+      .minute(minTimeObj.minute())
+      .second(minTimeObj.second());
+
+    if (currentTimeOnly.isBefore(minTimeOnly)) {
+      return true;
+    }
+  }
+
+  if (maxTime) {
+    const maxTimeObj = dayjsTimezone(dayjs(maxTime), timezone);
+    const maxTimeOnly = dayjsTimezone(dayjs(), timezone)
+      .hour(maxTimeObj.hour())
+      .minute(maxTimeObj.minute())
+      .second(maxTimeObj.second());
+
+    if (currentTimeOnly.isAfter(maxTimeOnly)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+export const findClosestEnableTime = ({
+  minTime,
+  maxTime,
+  value,
+  timezone,
+}: {
+  minTime?: DateType;
+  maxTime?: DateType;
+  value: DateType;
+  timezone?: string;
+}) => {
+  if (!value) return value;
+
+  const currentTime = dayjsTimezone(dayjs(value), timezone);
+  const currentTimeOnly = dayjsTimezone(dayjs(), timezone)
+    .hour(currentTime.hour())
+    .minute(currentTime.minute())
+    .second(currentTime.second());
+
+  if (minTime) {
+    const minTimeObj = dayjsTimezone(dayjs(minTime), timezone);
+    const minTimeOnly = dayjsTimezone(dayjs(), timezone)
+      .hour(minTimeObj.hour())
+      .minute(minTimeObj.minute())
+      .second(minTimeObj.second());
+
+    if (currentTimeOnly.isBefore(minTimeOnly)) {
+      return minTime;
+    }
+  }
+
+  if (maxTime) {
+    const maxTimeObj = dayjsTimezone(dayjs(maxTime), timezone);
+    const maxTimeOnly = dayjsTimezone(dayjs(), timezone)
+      .hour(maxTimeObj.hour())
+      .minute(maxTimeObj.minute())
+      .second(maxTimeObj.second());
+
+    if (currentTimeOnly.isAfter(maxTimeOnly)) {
+      return maxTime;
+    }
+  }
+
+  return value;
 };

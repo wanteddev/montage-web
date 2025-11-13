@@ -1,26 +1,22 @@
-import { forwardRef, useId, useMemo, useState } from 'react';
+import { forwardRef, useId, useMemo } from 'react';
 import {
   IconChevronLeftTightSmall,
   IconChevronRightTightSmall,
 } from '@wanteddev/wds-icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { useControllableState } from '@radix-ui/react-use-controllable-state';
 
-import {
-  ChipFilter,
-  FlexBox,
-  IconButton,
-  Label,
-  Menu,
-  MenuContent,
-  MenuItem,
-  MenuList,
-  MenuTrigger,
-  TextButton,
-  TextField,
-  Typography,
-  useControllableState,
-} from '../..';
+import { FlexBox } from '../flex-box';
+import { IconButton } from '../icon-button';
+import { Typography } from '../typography';
+import { TextButton } from '../text-button';
+import { Menu, MenuContent, MenuItem, MenuList, MenuTrigger } from '../menu';
+import { FilterButton } from '../filter-button';
+import { Label } from '../label';
+import { TextField } from '../text-field';
 
+import { getPaginationItems } from './helpers';
+import { PaginationProvider, usePaginationContext } from './contexts';
 import {
   PAGINATION_FIELD_NAME,
   PAGINATION_NAME,
@@ -33,8 +29,6 @@ import {
   paginationItemStyle,
   paginationStyle,
 } from './style';
-import { PaginationProvider, usePaginationContext } from './contexts';
-import { getPaginationItems } from './helpers';
 
 import type {
   PaginationFieldProps,
@@ -42,11 +36,11 @@ import type {
   PaginationProps,
   PaginationSelectProps,
 } from './types';
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 
 const Pagination = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PaginationProps, 'div'>
+  DefaultComponentPropsInternal<PaginationProps, 'div'>
 >(
   (
     {
@@ -69,7 +63,7 @@ const Pagination = forwardRef<
   ) => {
     const id = useId();
 
-    const [page = defaultPage, setPage] = useControllableState<number>({
+    const [page, setPage] = useControllableState({
       prop: givenPage,
       defaultProp: defaultPage,
       onChange,
@@ -132,15 +126,18 @@ const Pagination = forwardRef<
         <FlexBox
           ref={ref}
           alignItems="center"
+          gap="12px"
           {...props}
           sx={[paginationStyle({ variant }), sx]}
         >
-          <FlexBox
-            data-role="pagination-leading-content-wrapper"
-            sx={paginationContentStyle}
-          >
-            {Boolean(leadingContent) && leadingContent}
-          </FlexBox>
+          {variant === 'extended' && (
+            <FlexBox
+              data-role="pagination-leading-content-wrapper"
+              sx={paginationContentStyle}
+            >
+              {Boolean(leadingContent) && leadingContent}
+            </FlexBox>
+          )}
 
           <FlexBox
             ref={ref}
@@ -185,7 +182,7 @@ const Pagination = forwardRef<
                     page={page}
                     itemPage={itemPage}
                     disabled={disabled}
-                    onClick={() => pageButtonActions.set(itemPage)}
+                    onPageChange={pageButtonActions.set}
                   />
                 ))}
               </FlexBox>
@@ -206,12 +203,14 @@ const Pagination = forwardRef<
             )}
           </FlexBox>
 
-          <FlexBox
-            data-role="pagination-trailing-content-wrapper"
-            sx={paginationContentStyle}
-          >
-            {Boolean(trailingContent) && trailingContent}
-          </FlexBox>
+          {variant === 'extended' && (
+            <FlexBox
+              data-role="pagination-trailing-content-wrapper"
+              sx={paginationContentStyle}
+            >
+              {Boolean(trailingContent) && trailingContent}
+            </FlexBox>
+          )}
         </FlexBox>
       </PaginationProvider>
     );
@@ -225,20 +224,20 @@ const PaginationItem = ({
   page,
   itemPage,
   disabled,
-  ...props
+  onPageChange,
 }: PaginationItemProps) => {
   return (
     <FlexBox as="li" justifyContent="center" sx={paginationItemStyle}>
       {type === 'page' ? (
         <TextButton
           size="medium"
-          variant="assistive"
+          color="assistive"
           disabled={disabled}
           disableInteraction={disabled}
           aria-label={`Page ${itemPage}`}
           aria-current={page === itemPage ? 'page' : undefined}
           data-role="pagination-item-page"
-          {...props}
+          onClick={() => onPageChange(itemPage!)}
           sx={pageButtonStyle}
         >
           {itemPage}
@@ -261,7 +260,7 @@ const PaginationItem = ({
 
 const PaginationSelect = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<PaginationSelectProps, 'div'>
+  DefaultComponentPropsInternal<PaginationSelectProps, 'div'>
 >(
   (
     {
@@ -272,6 +271,10 @@ const PaginationSelect = forwardRef<
       optionRender,
       onChange,
       disabled,
+      open: givenOpen,
+      defaultOpen,
+      onOpenChange,
+      contentProps,
       ...props
     },
     ref,
@@ -280,7 +283,11 @@ const PaginationSelect = forwardRef<
       PAGINATION_SELECT_NAME,
     );
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useControllableState({
+      prop: givenOpen,
+      defaultProp: defaultOpen ?? false,
+      onChange: onOpenChange,
+    });
 
     const [pageSize = defaultPageSize, setPageSize] =
       useControllableState<number>({
@@ -304,13 +311,13 @@ const PaginationSelect = forwardRef<
           {...props}
         >
           <MenuTrigger>
-            <ChipFilter
+            <FilterButton
               variant="outlined"
               size="small"
               disabled={paginationDisabled || disabled}
             >
               {pageSize}
-            </ChipFilter>
+            </FilterButton>
           </MenuTrigger>
           <Label
             variant="label2"
@@ -324,11 +331,15 @@ const PaginationSelect = forwardRef<
 
         <MenuContent
           offset={8}
-          position="top-start"
+          position="bottom-start"
           data-role="pagination-select-content"
-          sx={{
-            width: '140px',
-          }}
+          {...contentProps}
+          sx={[
+            {
+              width: '140px',
+            },
+            contentProps?.sx,
+          ]}
         >
           <MenuList role="listbox">
             {pageSizeOptions.map((option) => (
@@ -353,7 +364,7 @@ PaginationSelect.displayName = PAGINATION_SELECT_NAME;
 
 const PaginationField = forwardRef<
   HTMLInputElement,
-  DefaultComponentProps<PaginationFieldProps, 'input'>
+  DefaultComponentPropsInternal<PaginationFieldProps, 'input'>
 >(({ label = '페이지 이동', sx, onKeyDown, disabled, ...props }, ref) => {
   const {
     totalPages,
@@ -403,3 +414,5 @@ const PaginationField = forwardRef<
 PaginationField.displayName = PAGINATION_FIELD_NAME;
 
 export { Pagination, PaginationSelect, PaginationField };
+
+export type { PaginationProps, PaginationSelectProps, PaginationFieldProps };

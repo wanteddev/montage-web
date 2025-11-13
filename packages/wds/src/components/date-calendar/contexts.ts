@@ -17,7 +17,7 @@ export type DateCalendarContextType = {
     newView: DateCalendarProps['view'],
     newValue: DateCalendarProps['value'],
   ) => void;
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
 };
 
 export const [DateCalendarContextProvider, useDateCalendarContext] =

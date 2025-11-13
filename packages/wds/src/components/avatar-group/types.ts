@@ -1,11 +1,15 @@
 import type { ReactNode } from 'react';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-type AvatarGroupDefaultProps = {
+type AvatarGroupDefaultProps = WithSxProps<{
   size?: 'xsmall' | 'small';
   children?: ReactNode;
   trailingContent?: ReactNode;
-};
+}>;
 
 type AvatarGroupResponsiveProps = ResponsiveProps<
   Pick<AvatarGroupDefaultProps, 'size'>

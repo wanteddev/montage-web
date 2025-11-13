@@ -1,6 +1,6 @@
 import { createContext } from '@radix-ui/react-context';
 
-import createLooseContext from '../../hooks/use-loose-context';
+import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { MENU_ITEM_NAME, MENU_NAME } from './constants';
 
@@ -15,7 +15,7 @@ export const [MenuProvider, useMenuContext] =
   createContext<MenuContextType>(MENU_NAME);
 
 type MenuItemContextType = {
-  active?: boolean;
+  selected?: boolean;
 };
 
 export const [MenuItemProvider, useMenuItemContext] =

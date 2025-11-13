@@ -2,10 +2,11 @@ import type {
   Merge,
   ResponsiveProps,
   ThemeColorsToken,
+  WithSxProps,
 } from '@wanteddev/wds-engine';
 import type { ReactNode } from 'react';
 
-export type ContentBadgeDefaultProps = {
+export type ContentBadgeDefaultProps = WithSxProps<{
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
   size?: 'xsmall' | 'small' | 'medium';
@@ -14,7 +15,7 @@ export type ContentBadgeDefaultProps = {
   accentColor?: ThemeColorsToken;
   neutralColor?: ThemeColorsToken;
   children?: ReactNode;
-};
+}>;
 
 export type ContentBadgeResponsiveProps = ResponsiveProps<
   Pick<ContentBadgeDefaultProps, 'size'>

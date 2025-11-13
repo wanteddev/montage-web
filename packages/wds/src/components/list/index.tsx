@@ -1,8 +1,8 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useId, useState } from 'react';
 import {
   Box,
-  type PolymorphicComponent,
-  type PolymorphicProps,
+  type PolymorphicComponentInternal,
+  type PolymorphicPropsInternal,
   type ThemeColorsToken,
 } from '@wanteddev/wds-engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
@@ -10,10 +10,16 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { IconChevronRightTightSmall } from '@wanteddev/wds-icon';
 import { Slot } from '@radix-ui/react-slot';
 
-import { Divider, FlexBox, Typography, WithInteraction } from '..';
+import { Divider } from '../divider';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
+import { WithInteraction } from '../with-interaction';
 import { useMenuItemContext } from '../menu/contexts';
 import { IconButtonProvider } from '../icon-button/contexts';
 import { TextButtonProvider } from '../text-button/contexts';
+import { CheckboxProvider } from '../checkbox/contexts';
+import { RadioProvider } from '../radio/contexts';
+import { isElementDisabled } from '../../utils/internal/element';
 
 import {
   LIST_CELL_CONTENT_NAME,
@@ -32,7 +38,7 @@ import {
 } from './style';
 import { ListCellProvider, useListCellContext } from './contexts';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { ElementType, ForwardedRef } from 'react';
 import type { TypographyWeight } from '../typography/types';
 import type {
@@ -44,7 +50,7 @@ import type {
 
 const List = forwardRef(
   (
-    { children, ...props }: DefaultComponentProps<ListProps, 'ul'>,
+    { children, ...props }: DefaultComponentPropsInternal<ListProps, 'ul'>,
     ref: ForwardedRef<HTMLUListElement>,
   ) => {
     return (
@@ -75,7 +81,7 @@ const ListCell = forwardRef(
       interactionPadding = fillWidth ? undefined : '12px',
       alignItems = 'flex-start',
 
-      active = false,
+      selected = false,
       disabled = false,
       disableInteraction = false,
 
@@ -90,7 +96,7 @@ const ListCell = forwardRef(
       xl,
       sx,
       ...props
-    }: PolymorphicProps<ListCellProps, T>,
+    }: PolymorphicPropsInternal<ListCellProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const [item, setItem] = useState<T | null>(null);
@@ -101,16 +107,24 @@ const ListCell = forwardRef(
     const controllable = itemElement?.querySelector(
       '[role="checkbox"], [role="radio"], button:not([role="switch"]), [role="button"], a',
     );
-    const clickable = Boolean(props.onClick || controllable) && !disabled;
+    const clickable = !disabled && !disableInteraction;
+
+    const textId = useId();
+    const captionId = useId();
 
     return (
       <ListCellProvider
-        active={active}
+        selected={selected}
         disabled={disabled}
         ellipsis={ellipsis}
         alignItems={alignItems}
+        textId={textId}
+        captionId={captionId}
       >
-        <WithInteraction disabled={disabled || disableInteraction}>
+        <WithInteraction
+          disabled={disabled || disableInteraction}
+          variant="light"
+        >
           <FlexBox
             as={(as || 'li') as T}
             role="listitem"
@@ -121,10 +135,18 @@ const ListCell = forwardRef(
             aria-disabled={disabled}
             disabled={disabled}
             tabIndex={clickable ? 0 : undefined}
+            aria-labelledby={textId}
+            aria-describedby={captionId}
+            aria-current={selected}
+            data-disable-interaction={
+              disabled || disableInteraction || verticalPadding === 'none'
+            }
+            wds-component="list-cell"
             {...props}
             onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
               if (
-                (e.key === 'Enter' || e.key === ' ') &&
+                e.key === 'Enter' &&
+                !e.metaKey &&
                 (e.target as HTMLElement) === itemElement
               ) {
                 e.preventDefault();
@@ -132,21 +154,18 @@ const ListCell = forwardRef(
               }
             })}
             onClick={composeEventHandlers(props.onClick, (e) => {
+              const target = e.target as HTMLElement;
               if (
-                (e.target as HTMLElement)
-                  .getAttribute('disabled')
-                  ?.toString() === 'true' ||
-                (e.target as HTMLElement).ariaDisabled?.toString() === 'true' ||
-                (e.target as HTMLElement).ariaHidden?.toString() === 'true' ||
-                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                (e.target as HTMLElement).hidden?.toString() === 'true'
+                isElementDisabled(target) ||
+                target.ariaHidden?.toString() === 'true' ||
+                target.hidden.toString() === 'true'
               ) {
                 return;
               }
 
               if (
                 controllable &&
-                // controllable 직접 클릭 시 이벤트 중복 호출을 방어함.
+                // prevent double call of event when clicking directly on controllable
                 !controllable.contains(e.target as HTMLElement)
               ) {
                 (controllable as HTMLElement).click();
@@ -166,7 +185,7 @@ const ListCell = forwardRef(
                 verticalPadding,
                 fillWidth,
                 interactionPadding,
-                active,
+                selected,
                 disabled,
                 disableInteraction,
                 xl,
@@ -196,13 +215,13 @@ const ListCell = forwardRef(
       </ListCellProvider>
     );
   },
-) as PolymorphicComponent<ListCellProps, 'li'>;
+) as PolymorphicComponentInternal<ListCellProps, 'li'>;
 
 ListCell.displayName = LIST_CELL_NAME;
 
 const ListCellContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<ListCellContentProps, 'div'>
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
 >(({ variant = 'custom', children, chevron = true, sx, ...props }, ref) => {
   const { alignItems } = useListCellContext(LIST_CELL_CONTENT_NAME);
 
@@ -285,12 +304,40 @@ const ListCellContent = forwardRef<
         </FlexBox>
       );
 
+    case 'checkbox':
+      return (
+        <CheckboxProvider tight>
+          <FlexBox
+            wds-component="list-cell-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            {children}
+          </FlexBox>
+        </CheckboxProvider>
+      );
+    case 'radio':
+      return (
+        <RadioProvider tight>
+          <FlexBox
+            wds-component="list-cell-content"
+            alignItems={alignItems}
+            ref={ref}
+            {...props}
+            sx={[listCellContentStyle({ variant }), sx]}
+          >
+            {children}
+          </FlexBox>
+        </RadioProvider>
+      );
     case 'icon':
     case 'avatar':
     case 'badge':
-    case 'checkbox':
-    case 'radio':
     case 'switch':
+    case 'thumbnail':
+    case 'value':
     case 'custom':
     default:
       return (
@@ -320,24 +367,25 @@ const ListText = forwardRef(
       captionProps,
       as,
       ...props
-    }: PolymorphicProps<ListTextProps, T>,
+    }: PolymorphicPropsInternal<ListTextProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { active, disabled, ellipsis } = useListCellContext(LIST_TEXT_NAME);
-    const { active: menuItemActive } = useMenuItemContext() || {};
+    const { selected, disabled, ellipsis, textId, captionId } =
+      useListCellContext(LIST_TEXT_NAME);
+    const { selected: menuItemSelected } = useMenuItemContext() || {};
 
     if (!children) {
       return null;
     }
 
     const weight: TypographyWeight =
-      givenWeight ?? (active || menuItemActive ? 'medium' : 'regular');
+      givenWeight ?? (selected || menuItemSelected ? 'medium' : 'regular');
 
     const getTextColor = (): ThemeColorsToken => {
       if (disabled) {
         return 'semantic.label.alternative';
       }
-      if (active) {
+      if (selected) {
         return 'semantic.primary.normal';
       }
 
@@ -360,7 +408,7 @@ const ListText = forwardRef(
           data-role="list-text-content-wrapper"
           sx={listTextContentWrapperStyle(ellipsis)}
         >
-          <Box as="span" data-role="list-text-content">
+          <Box as="span" data-role="list-text-content" id={textId}>
             {children}
           </Box>
         </Box>
@@ -370,6 +418,7 @@ const ListText = forwardRef(
             variant="label1"
             color="semantic.label.alternative"
             data-role="list-text-caption"
+            id={captionId}
             {...captionProps}
             sx={[listTextEllipsisStyle(ellipsis), captionProps?.sx]}
           >
@@ -379,8 +428,10 @@ const ListText = forwardRef(
       </Typography>
     );
   },
-) as PolymorphicComponent<ListTextProps, 'p'>;
+) as PolymorphicComponentInternal<ListTextProps, 'p'>;
 
 ListText.displayName = LIST_TEXT_NAME;
 
 export { List, ListCell, ListCellContent };
+
+export type { ListProps, ListCellProps, ListCellContentProps };

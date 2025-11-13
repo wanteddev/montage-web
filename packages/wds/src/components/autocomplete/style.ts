@@ -1,12 +1,10 @@
 import { css } from '@wanteddev/wds-engine';
 
-import { addOpacity } from '../../utils';
-
 import type { Theme } from '@wanteddev/wds-engine';
 
 export const autocompleteListStyle = (theme: Theme) => css`
   padding: 0px;
-  box-shadow: inset 0 1px 2px 0 ${addOpacity(theme.semantic.static.black, 0.04)};
+  box-shadow: ${theme.semantic.elevation.shadow.normal.small};
   border-radius: 16px;
   background-color: ${theme.semantic.background.elevated.normal};
 `;
@@ -53,6 +51,6 @@ export const autocompleteOptionStyle = (theme: Theme) => css`
   }
 
   &[data-focus-visible='true'] > [wds-component='with-interaction'] {
-    opacity: ${theme.opacity[5]};
+    opacity: 0.06;
   }
 `;

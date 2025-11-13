@@ -1,9 +1,13 @@
-import type { ReactNode } from 'react';
-import type { ImageLoaderProps } from '../image-loader/types';
+import type { ImageBaseProps } from '../image-base';
+import type { CSSProperties, ReactNode } from 'react';
 import type { SkeletonProps } from '../skeleton/types';
-import type { Merge, ResponsiveProps } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 
-export type ThumbnailDefaultProps = {
+type ThumbnailDefaultProps = WithSxProps<{
   ratio?:
     | '1:1'
     | '5:4'
@@ -18,25 +22,27 @@ export type ThumbnailDefaultProps = {
   border?: boolean;
   radius?: boolean;
   children?: ReactNode;
-};
+  overlay?: ReactNode;
+  width?: CSSProperties['width'];
+}>;
 
 type ThumbnailResponsiveProps = ResponsiveProps<
-  Pick<ThumbnailDefaultProps, 'ratio' | 'portrait' | 'radius' | 'border'>
+  Pick<
+    ThumbnailDefaultProps,
+    'ratio' | 'portrait' | 'radius' | 'border' | 'width'
+  >
 >;
 
-export type ThumbnailProps = Merge<
+type ThumbnailBaseProps = Merge<
   ThumbnailDefaultProps,
   ThumbnailResponsiveProps
 >;
 
-export type ThumbnailSkeletonDefaultProps = Omit<
-  SkeletonProps,
-  'width' | 'radius'
-> & {
-  width?: ImageLoaderProps['width'];
-};
+export type ThumbnailProps = Merge<ThumbnailBaseProps, ImageBaseProps>;
+
+export type ThumbnailSkeletonDefaultProps = Omit<SkeletonProps, 'radius'>;
 
 export type ThumbnailSkeletonProps = Merge<
-  ThumbnailProps,
+  ThumbnailBaseProps,
   ThumbnailSkeletonDefaultProps
 >;

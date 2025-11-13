@@ -1,22 +1,32 @@
-import type Typography from '../typography';
+import type { Typography } from '../typography';
 import type { TypographyProps } from '../typography/types';
-import type { Merge, ResponsiveProps, SxProp } from '@wanteddev/wds-engine';
+import type {
+  Merge,
+  ResponsiveProps,
+  SxProp,
+  WithSxProps,
+} from '@wanteddev/wds-engine';
 import type { CSSProperties, ComponentProps, ReactNode } from 'react';
 import type { FlexBoxProps } from '../flex-box/types';
 
 export type ListProps = FlexBoxProps;
 
-export type ListCellDefaultProps = {
+export type ListCellDefaultProps = WithSxProps<{
+  children?: ReactNode;
   verticalPadding?: 'small' | 'medium' | 'large' | 'none';
   fillWidth?: boolean;
   /**
-   * fillWidth가 false일 때 인터랙션의 좌우 패딩을 지정할 수 있습니다.
+   * When `fillWidth` is false, the left and right padding of the interaction can be specified.
    */
   interactionPadding?: CSSProperties['paddingLeft'];
   ellipsis?: boolean;
   divider?: boolean;
 
-  active?: boolean;
+  /**
+   /**
+    * Used to indicate the selected style.
+    */
+  selected?: boolean;
   disabled?: boolean;
   disableInteraction?: boolean;
 
@@ -31,7 +41,7 @@ export type ListCellDefaultProps = {
   >;
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;
-};
+}>;
 
 export type ListCellResponsiveProps = ResponsiveProps<
   Pick<
@@ -45,7 +55,7 @@ export type ListCellProps = Merge<
   FlexBoxProps
 >;
 
-export type ListCellContentProps = {
+export type ListCellContentProps = WithSxProps<{
   variant?:
     | 'icon'
     | 'radio'
@@ -57,10 +67,12 @@ export type ListCellContentProps = {
     | 'badge'
     | 'avatar'
     | 'large-icon'
+    | 'value'
+    | 'thumbnail'
     | 'custom';
   disabled?: boolean;
   chevron?: boolean;
   children?: ReactNode;
-};
+}>;
 
 export type ListTextProps = ListCellProps['textProps'];

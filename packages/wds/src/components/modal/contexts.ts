@@ -1,14 +1,15 @@
 import { createContext } from '@radix-ui/react-context';
 
-import createLooseContext from '../../hooks/use-loose-context';
+import createLooseContext from '../../hooks/internal/use-loose-context';
 
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
-import type { Dispatch, RefObject, SetStateAction } from 'react';
+import type { RefObject } from 'react';
 
 type ModalContextValue = {
-  containerRef: RefObject<HTMLDivElement>;
-  innerContainerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
+  innerContainer: HTMLDivElement | null;
+  setInnerContainer: (innerContainer: HTMLDivElement | null) => void;
   containerId: string;
   titleId: string;
   headingId: string;
@@ -16,29 +17,26 @@ type ModalContextValue = {
   descriptionId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  disableOutsideClickClose: boolean;
-  disableEscapeKeyDownClose: boolean;
   isBottomSheet: boolean;
   setIsBottomSheet: (isBottomSheet: boolean) => void;
   visibility: 'hidden' | 'visible';
   setVisibility: (visibility: 'hidden' | 'visible') => void;
-  wrapperRef: Dispatch<SetStateAction<HTMLElement | null>>;
 };
 
 export const [ModalProvider, useModalContext] =
   createContext<ModalContextValue>(MODAL_NAME);
 
 type ModalDimmerContextValue = {
-  dimmerRef: RefObject<HTMLDivElement>;
+  dimmerRef: RefObject<HTMLDivElement | null>;
   isBottomSheetWithHandle: boolean;
   handleVisibilityHidden: () => void;
+  disableOutsideClickClose?: boolean;
 };
 
 export const [ModalDimmerProvider, useModalDimmerContext] =
   createContext<ModalDimmerContextValue>(MODAL_CONTAINER_NAME);
 
 type ModalNavigationContextValue = {
-  scrolled: boolean;
   titleId: string;
   onOpenChange: (open: boolean) => void;
 };

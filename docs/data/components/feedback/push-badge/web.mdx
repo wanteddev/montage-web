@@ -1,0 +1,223 @@
+---
+title: Push badge
+createdAt: 2025-09-08
+---
+
+## Variants
+
+PushBadge는 3가지 variant를 제공합니다.
+- dot
+- new
+- number
+
+### Dot
+
+<Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@wanteddev/wds';
+import { IconBell } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [invisible, setInvisible] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
+
+      <FlexBox gap="16px" alignItems="center">
+        <IconButton size={24}>
+          <PushBadge invisible={invisible}>
+            <IconBell />
+          </PushBadge>
+        </IconButton>
+
+        <PushBadge invisible={invisible}>
+          <Avatar
+            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
+            alt="User"
+          />
+        </PushBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### New
+
+<Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@wanteddev/wds';
+import { IconBell } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [invisible, setInvisible] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
+
+      <FlexBox gap="16px" alignItems="center">
+        <IconButton size={24}>
+          <PushBadge variant="new" invisible={invisible}>
+            <IconBell />
+          </PushBadge>
+        </IconButton>
+
+        <PushBadge variant="new" invisible={invisible}>
+          <Avatar
+            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
+            alt="User"
+          />
+        </PushBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Number
+
+`count` 옵션을 주어 숫자를 표시할 수 있어요.
+
+<Demo code={`import { Avatar, PushBadge, FlexBox, IconButton, Switch } from '@wanteddev/wds';
+import { IconBell } from '@wanteddev/wds-icon';
+import { useState } from 'react';
+
+const Demo = () => {
+  const [invisible, setInvisible] = useState(false);
+
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <Switch checked={!invisible} onCheckedChange={(value) => setInvisible(!value)} size="small" />
+
+      <FlexBox gap="16px" alignItems="center">
+        <IconButton size={24}>
+          <PushBadge variant="number" count={3} invisible={invisible}>
+            <IconBell />
+          </PushBadge>
+        </IconButton>
+
+        <PushBadge variant="number" count={3} invisible={invisible}>
+          <Avatar
+            src="https://static.wanted.co.kr/oneid-user/2kcR2ULXRgEC7Rgk5psLTK/BwWtS7ZW8ryS2dpQrAW8Cr.png"
+            alt="User"
+          />
+        </PushBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Position
+
+- `position` 옵션으로 뱃지의 위치를 조정할 수 있습니다.
+- `offsetX`, `offsetY` 를 이용하여 추가적인 위치를 조정할 수 있습니다.
+
+<Demo code={`import { TextButton, PushBadge, FlexBox, Box } from '@wanteddev/wds';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.solid.normal}\`,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="8px">
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge position="top-left">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge position="top-center">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge position="top-right">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge position="middle-left">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge position="middle-center">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge position="middle-right">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+
+      <FlexBox gap="16px" alignItems="center">
+        <PushBadge position="bottom-left">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge position="bottom-center">
+          <ExampleBox />
+        </PushBadge>
+        <PushBadge position="bottom-right">
+          <ExampleBox />
+        </PushBadge>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+3가지 사이즈를 제공합니다.
+- xsmall (default)
+- small
+- medium
+
+<Demo code={`import { PushBadge, FlexBox, Box } from '@wanteddev/wds';
+
+const ExampleBox = () => {
+  return (
+    <Box
+      sx={(theme) => ({
+        boxShadow: \`inset 0 0 0 1px $\{theme.semantic.line.solid.normal}\`,
+        width: 60,
+        height: 60,
+      })}
+    />
+  )
+}
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <PushBadge size="xsmall">
+        <ExampleBox />
+      </PushBadge>
+      <PushBadge size="small">
+        <ExampleBox />
+      </PushBadge>
+      <PushBadge size="medium">
+        <ExampleBox />
+      </PushBadge>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+<PropsTable component="PushBadge" />

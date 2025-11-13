@@ -1,0 +1,146 @@
+---
+title: Action chip
+description: 간결한 정보나 선택 상태를 시각적으로 표현합니다. 태그, 필터, 선택된 항목 등을 나타내며, 아이콘 및 텍스트와 함께 사용할 수 있습니다. 작고 유연한 형태로 다양한 인터랙션을 지원합니다.
+createdAt: 2025-05-12
+updatedAt: 2025-09-30
+image: /components/actions/action-chip/design/Thumbnails.png
+---
+
+<SectionAnatomy
+  src="/components/actions/action-chip/design/Image.png"
+  ratio="21:9"
+  data={[
+    'Leading content',
+    'Label',
+    'Trailing content',
+    'Container',
+  ]}
+/>
+
+<SectionVariants
+  components={['Chip']}
+  icons={['IconBlank']}
+  variants={[
+    {
+      key: 'Variants',
+      options: [
+        { label: 'Solid', value: { variant: 'solid', size: 'xsmall', children: 'Action chip' } },
+        { label: 'Outlined', value: { variant: 'outlined', size: 'xsmall', children: 'Action chip' } },
+      ]
+    },
+    {
+      key: 'Leading content option',
+      options: [
+        { label: 'None', value: { trailingContent: null } },
+        { label: 'Icon', value: { leadingContent: '<IconBlank />' } },
+        { label: 'Image', value: { leadingContent: '<img style={{ width: 14, height: 14 }} src="/components/actions/action-chip/design/React.png" />' } },
+      ]
+    },
+    {
+      key: 'Trailing content option',
+      options: [
+        { label: 'None', value: { trailingContent: null } },
+        { label: 'Icon', value: { trailingContent: '<IconBlank />' } },
+        { label: 'Image', value: { trailingContent: '<img style={{ width: 14, height: 14 }} src="/components/actions/action-chip/design/React.png" />' } },
+      ]
+    }
+  ]}
+/>
+
+
+<SectionStates
+  src="/components/actions/action-chip/design/Image-1.png"
+  ratio="21:9"
+  options={['Normal','Hovered', 'Pressed', 'Active', 'Disabled']}
+/>
+
+<SectionLayout title="Size">
+  <SectionFigure
+    ratio="21:9"
+    description="좌우 사이즈는 자유롭게 커스터마이징하여 사용할 수 있으나 높이는 고정하여 사용합니다."
+    src="/components/actions/action-chip/design/Image-2.png"
+  />
+</SectionLayout>
+
+<SectionLayout title="Flow layout">
+  <SectionFigure
+    ratio="2:1"
+    description="좌측에서 우측으로 요소를 채워나가는 레이아웃 개념입니다. 요소를 나열할 시 요소 간의 간격을 균일하게 유지하며 레이아웃을 채워나갑니다. Flow Layout의 개념은 Chip 뿐만 아니라 Badge, Card 등 여러 요소를 나열할 때 사용할 수 있습니다."
+    src="/components/actions/action-chip/design/Image-3.png"
+  />
+</SectionLayout>
+
+
+<SectionLayout title="Usage">
+  <SectionFigureGroup title="Select chip">
+    <SectionFigure
+      ratio="21:9"
+      description="Select에서 사용할 때 선택된 값을 표현할 수 있습니다."
+      src="/components/actions/action-chip/design/Image-4.png"
+    />
+  </SectionFigureGroup>
+
+  <SectionFigureGroup title="Chip group">
+    <SectionFigure
+      ratio="21:9"
+      description="클릭으로 상태로 변경할 수 있습니다. 선택할 수 있는 모든 값이 한 화면에 보일 때 사용하는 것을 권장합니다."
+      src="/components/actions/action-chip/design/Image-5.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionHierarchy>
+  <SectionHierarchyItem
+    level={2}
+    description="Solid는 Active 상태에서 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다."
+    components={['Chip']}
+    render={`<Chip size="xsmall" active>Action chip</Chip>`}
+  />
+  <SectionHierarchyItem
+    level={1}
+    description="Outlined는 Active 상태에서 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다."
+    components={['Chip']}
+    render={`<Chip size="xsmall" variant="outlined" active>Action chip</Chip>`}
+  />
+</SectionHierarchy>
+
+<SectionLayout title="Role">
+  <SectionFigureGroup title="Clickable Value">
+    <SectionFigure
+      description="클릭으로 삭제, 추가, 이동이 가능한 값을 표현할 때 Chip을 사용합니다."
+      src="/components/actions/action-chip/design/Image-6.png"
+      ratio="21:9"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Category">
+    <SectionFigure
+      description="Tab보다 낮은 레벨로 화면 혹은 섹션에 뿌려지는 값을 구분할 때 Chip으로 구성된 카테고리를 사용합니다."
+      src="/components/actions/action-chip/design/Image-7.png"
+      ratio="21:9"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
+
+<SectionLayout title="How to use">
+  <SectionFigure
+    ratio="21:9"
+    variant="positive"
+    description="Tab의 하위에서 카테고리를 구분하여 사용할 수 있어요."
+    src="/components/actions/action-chip/design/Image-8.png"
+  />
+  <SectionFigure
+    ratio="21:9"
+    variant="negative"
+    description="Border의 색상이나 둥글기를 임의로 변경하여 사용하지 않습니다."
+    src="/components/actions/action-chip/design/Image-9.png"
+  />
+</SectionLayout>
+
+<SectionCustomize
+  data={[
+    {
+      key: 'Action chip',
+      options: ['contentColor', 'backgroundColor', 'activeColor']
+    }
+  ]}
+/>

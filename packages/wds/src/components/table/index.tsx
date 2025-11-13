@@ -2,10 +2,10 @@ import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Box } from '@wanteddev/wds-engine';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
-import FlexBox from '../flex-box';
-import ScrollArea from '../scroll-area';
-import useResizeObserver from '../../hooks/use-resize-observer';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { ScrollArea } from '../scroll-area';
+import useResizeObserver from '../../hooks/internal/use-resize-observer';
+import { Typography } from '../typography';
 
 import {
   paginationWrapperStyle,
@@ -21,7 +21,7 @@ import {
 import { TableProvider, useTableContext } from './contexts';
 import { TABLE_HEAD_NAME } from './constants';
 
-import type { DefaultComponentProps } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type {
   TableBodyProps,
   TableCellProps,
@@ -34,7 +34,7 @@ import type {
 
 const Table = forwardRef<
   HTMLTableElement,
-  DefaultComponentProps<TableProps, 'table'>
+  DefaultComponentPropsInternal<TableProps, 'table'>
 >(({ pagination, children, viewportRef: originViewportRef, ...props }, ref) => {
   const [isSticky, setIsSticky] = useState(false);
 
@@ -103,7 +103,7 @@ Table.displayName = 'Table';
 
 const TableHead = forwardRef<
   HTMLTableSectionElement,
-  DefaultComponentProps<TableHeadProps, 'thead'>
+  DefaultComponentPropsInternal<TableHeadProps, 'thead'>
 >((props, ref) => {
   const { isSticky } = useTableContext(TABLE_HEAD_NAME);
 
@@ -121,7 +121,7 @@ TableHead.displayName = TABLE_HEAD_NAME;
 
 const TableBody = forwardRef<
   HTMLTableSectionElement,
-  DefaultComponentProps<TableBodyProps, 'tbody'>
+  DefaultComponentPropsInternal<TableBodyProps, 'tbody'>
 >((props, ref) => {
   return (
     <Box as="tbody" ref={ref} {...props} sx={[tableBodyStyle, props.sx]} />
@@ -132,7 +132,7 @@ TableBody.displayName = 'TableBody';
 
 const TableFoot = forwardRef<
   HTMLTableSectionElement,
-  DefaultComponentProps<TableFootProps, 'tfoot'>
+  DefaultComponentPropsInternal<TableFootProps, 'tfoot'>
 >((props, ref) => {
   return (
     <Box as="tfoot" ref={ref} {...props} sx={[tableFootStyle, props.sx]} />
@@ -143,7 +143,7 @@ TableFoot.displayName = 'TableFoot';
 
 const TableRow = forwardRef<
   HTMLTableRowElement,
-  DefaultComponentProps<TableRowProps, 'tr'>
+  DefaultComponentPropsInternal<TableRowProps, 'tr'>
 >(({ interaction = false, ...props }, ref) => {
   return (
     <Box
@@ -160,7 +160,7 @@ TableRow.displayName = 'TableRow';
 
 const TableHeadCell = forwardRef<
   HTMLTableCellElement,
-  DefaultComponentProps<TableHeadCellProps, 'th'>
+  DefaultComponentPropsInternal<TableHeadCellProps, 'th'>
 >((props, ref) => {
   return (
     <Typography
@@ -180,7 +180,7 @@ TableHeadCell.displayName = 'TableHeadCell';
 
 const TableCell = forwardRef<
   HTMLTableCellElement,
-  DefaultComponentProps<TableCellProps, 'td'>
+  DefaultComponentPropsInternal<TableCellProps, 'td'>
 >((props, ref) => {
   return (
     <Typography
@@ -206,4 +206,14 @@ export {
   TableFoot,
   TableCell,
   TableRow,
+};
+
+export type {
+  TableProps,
+  TableBodyProps,
+  TableHeadProps,
+  TableHeadCellProps,
+  TableFootProps,
+  TableCellProps,
+  TableRowProps,
 };

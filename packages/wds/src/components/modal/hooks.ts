@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
 
-import { getPreviousValue } from '../../utils/responsive-props';
+import { getPreviousValue } from '../../utils/internal/responsive-props';
 
-import { MODAL_NAME } from './constants';
+import {
+  BOTTOM_SHEET_PEEK_PADDING,
+  BOTTOM_SHEET_SHADOW,
+  MODAL_NAME,
+} from './constants';
 import { useModalContext } from './contexts';
-import { calcOpacityRatio, isTouchEvent } from './helpers';
+import { calcOpacityRatio, isMouseDownOnPeek, isTouchEvent } from './helpers';
 
 import type { RefObject } from 'react';
 import type { BreakPoint } from '@wanteddev/wds-engine';
@@ -13,16 +17,17 @@ import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({
   variant: givenVariant,
+  peekHeight: givenPeekHeight,
   handle: givenHandle,
   xs,
   sm,
   md,
   lg,
   xl,
-  ref,
+  target,
   dimmerRef,
-}: ModalContainerProps & {
-  ref: RefObject<HTMLDivElement | null>;
+}: Omit<ModalContainerProps, 'target'> & {
+  target: HTMLDivElement | null;
   dimmerRef: RefObject<HTMLDivElement | null>;
 }) => {
   const theme = useTheme();
@@ -63,13 +68,22 @@ export const useDraggable = ({
     setIsBottomSheet(variant === 'bottom');
   }, [variant, setIsBottomSheet]);
 
+  const peekHeight = useRef(
+    givenPeekHeight !== undefined ? Math.max(givenPeekHeight, 20) : undefined,
+  );
+
+  useEffect(() => {
+    peekHeight.current =
+      givenPeekHeight !== undefined ? Math.max(givenPeekHeight, 20) : undefined;
+  }, [givenPeekHeight]);
+
   const calcTopNavigationHeight = () => {
-    const topNavigation = ref.current?.querySelector(
+    const topNavigation = target?.querySelector(
       '[wds-component="top-navigation"]',
     );
 
     const topNavigationToolbarHeight =
-      ref.current?.querySelector('[data-role="top-navigation-toolbar"]')
+      target?.querySelector('[data-role="top-navigation-toolbar"]')
         ?.clientHeight ?? 0;
 
     topNavigationHeight.current = topNavigation
@@ -99,7 +113,10 @@ export const useDraggable = ({
       container.style.removeProperty('transition');
       container.style.setProperty(
         '--wds-modal-translate',
-        `calc(100% - ${topNavigationHeight.current}px)`,
+        `calc(100% - ${
+          peekHeight.current ??
+          topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
+        }px)`,
       );
       dimmerRef.current?.style.removeProperty('transition');
       dimmerRef.current?.style.removeProperty('opacity');
@@ -118,12 +135,16 @@ export const useDraggable = ({
       return;
     }
 
-    // ios에서 꾹 눌렀을 때 target이 없을 수도 있기 때문에 try catch
+    // In iOS, target may be undefined when long-pressing, so use try-catch
     try {
       if (
-        (e.target as HTMLElement).closest('[wds-component="top-navigation"]') ||
         (e.target as HTMLElement).closest(
           '[data-role="modal-container-grabber"]',
+        ) ||
+        isMouseDownOnPeek(
+          e,
+          peekHeight.current ??
+            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING,
         )
       ) {
         calcTopNavigationHeight();
@@ -151,7 +172,10 @@ export const useDraggable = ({
       const clientY = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
 
       const minPosition = window.innerHeight - container.clientHeight;
-      const maxPosition = window.innerHeight - topNavigationHeight.current;
+      const maxPosition =
+        window.innerHeight -
+        (peekHeight.current ??
+          topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING);
 
       const handleOpacityRatioStyle = (input: number) => {
         dimmerRef.current?.style.setProperty(
@@ -160,10 +184,7 @@ export const useDraggable = ({
         );
 
         if (calcOpacityRatio(input, minPosition, maxPosition) <= 0.25) {
-          container.style.setProperty(
-            'box-shadow',
-            theme.semantic.elevation.shadow.strong,
-          );
+          container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
         } else {
           container.style.removeProperty('box-shadow');
         }
@@ -171,10 +192,12 @@ export const useDraggable = ({
 
       const diffY = clientY - startedY.current;
 
-      // 아래로 드래그
+      // Dragging down
       if (diffY > 0) {
         if (context.visibility === 'hidden') {
-          const nextPosition = topNavigationHeight.current - diffY;
+          const nextPosition =
+            (peekHeight.current ??
+              topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING) - diffY;
           handleOpacityRatioStyle(window.innerHeight - nextPosition);
           return container.style.setProperty(
             '--wds-modal-translate',
@@ -190,9 +213,12 @@ export const useDraggable = ({
         );
       }
 
-      // 위로 드래그
+      // Dragging up
       if (diffY < 0 && context.visibility === 'hidden') {
-        const nextPosition = Math.abs(diffY) + topNavigationHeight.current;
+        const nextPosition =
+          Math.abs(diffY) +
+          (peekHeight.current ??
+            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING);
 
         if (minPosition >= window.innerHeight - nextPosition) {
           handleOpacityRatioStyle(minPosition);
@@ -226,17 +252,17 @@ export const useDraggable = ({
         ? e.changedTouches[0]!.clientY
         : e.clientY;
 
-      // 10px 움직인걸로는 동작되지 않게 막기
+      // Prevent action if moved less than or equal to 10px
       if (Math.abs(startedY.current - clientY) <= 10) {
         if (context.visibility === 'hidden') {
           container.style.setProperty(
             '--wds-modal-translate',
-            `calc(100% - ${topNavigationHeight.current}px)`,
+            `calc(100% - ${
+              peekHeight.current ??
+              topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
+            }px)`,
           );
-          container.style.setProperty(
-            'box-shadow',
-            theme.semantic.elevation.shadow.strong,
-          );
+          container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
           dimmerRef.current?.style.setProperty('opacity', '0');
         } else {
           container.style.setProperty('--wds-modal-translate', '0px');
@@ -251,12 +277,12 @@ export const useDraggable = ({
         context.setVisibility('hidden');
         container.style.setProperty(
           '--wds-modal-translate',
-          `calc(100% - ${topNavigationHeight.current}px)`,
+          `calc(100% - ${
+            peekHeight.current ??
+            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
+          }px)`,
         );
-        container.style.setProperty(
-          'box-shadow',
-          theme.semantic.elevation.shadow.strong,
-        );
+        container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
         dimmerRef.current?.style.setProperty('opacity', '0');
       } else {
         context.setVisibility('visible');
@@ -317,25 +343,21 @@ const useMedia = <T>(
       : defaultValue;
   }, [defaultValue, values, mediaQueryLists]);
 
-  useEffect(
-    () => {
-      const handler = () => {
-        setValue(getValue);
-      };
+  useEffect(() => {
+    const handler = () => {
+      setValue(getValue);
+    };
 
-      mediaQueryLists.forEach((mql) => {
-        handler();
-        mql.addEventListener('change', handler);
-      });
+    mediaQueryLists.forEach((mql) => {
+      handler();
+      mql.addEventListener('change', handler);
+    });
 
-      return () =>
-        mediaQueryLists.forEach((mql) =>
-          mql.removeEventListener('change', handler),
-        );
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mediaQueryLists, getValue],
-  );
+    return () =>
+      mediaQueryLists.forEach((mql) =>
+        mql.removeEventListener('change', handler),
+      );
+  }, [mediaQueryLists, getValue]);
 
   return value;
 };

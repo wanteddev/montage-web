@@ -1,0 +1,110 @@
+---
+title: Grid
+description: Grid는 레이아웃을 구성할 때 12단 컬럼 시스템을 기반으로 영역을 분할하고 정렬하는 컴포넌트입니다.
+createdAt: 2025-09-23
+---
+
+## Basic grid
+
+`Grid`는 width 100% 기준으로 12개의 columns로 구분되어 있습니다.
+
+`GridItem` 의 columns 속성을 통해 영역을 차지할 수 있습니다.  
+
+- `1 ~ 12` 는 `(columns / 12)%` 만큼 영역을 차지합니다.
+- `auto` 는 children의 너비만큼 영역을 차지합니다.
+- `true` 는 남은 영역을 자동으로 차지합니다.
+- 5개의 콘텐츠를 한 줄에 표시하고 싶을 땐 `2.4` 를 사용합니다.
+
+<Demo code={`import { Box, Grid, GridItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={10}>
+        <Item>columns=10</Item>
+      </GridItem>
+      <GridItem columns={2}>
+        <Item>columns=2</Item>
+      </GridItem>
+
+      <GridItem columns>
+        <Item>columns=true</Item>
+      </GridItem>
+      <GridItem columns="auto">
+        <Item>columns=auto</Item>
+      </GridItem>
+      <GridItem columns={6}>
+        <Item>columns=6</Item>
+      </GridItem>
+    </Grid>
+  )
+}
+
+const Item = ({ children }) => {
+  return (
+    <Box sx={theme => ({ border: \`1px solid \$\{theme.semantic.line.normal.normal\}\` })}>{children}</div>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Anatomy
+
+Grid 는 여러 컴포넌트를 조합해서 사용합니다.
+
+기본 구성은 아래와 같습니다.
+
+```tsx
+<Grid>
+  <GridItem />
+  <GridItem />
+  <GridItem />
+</Grid>
+```
+
+## Offset
+
+`offset` 은 해당 값(칸) 만큼 오른쪽으로 밀어냅니다.
+`auto` 일 경우 가장 오른쪽으로 밀어냅니다.
+
+<Demo code={`import { Box, Grid, GridItem } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Grid spacing={20}>
+      <GridItem columns={2}>
+        <Item>1</Item>
+      </GridItem>
+      <GridItem offset="auto" columns={2}>
+        <Item>2</Item>
+      </GridItem>
+      <GridItem columns={2}>
+        <Item>3</Item>
+      </GridItem>
+      <GridItem columns={8} offset={2}>
+        <Item>4</Item>
+      </GridItem>
+    </Grid>
+  )
+}
+
+const Item = ({ children }) => {
+  return (
+    <Box sx={theme => ({ border: \`1px solid \$\{theme.semantic.line.normal.normal\}\` })}>{children}</div>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+## API
+
+### Grid
+
+<PropsTable component="Grid" />
+
+### GridItem
+
+<PropsTable component="GridItem" />

@@ -6,16 +6,18 @@ import {
 } from '@radix-ui/react-roving-focus';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { IconCheck } from '@wanteddev/wds-icon';
+import { Slot } from '@radix-ui/react-slot';
 
 import { List, ListCell, ListCellContent } from '../list';
-import ScrollArea from '../scroll-area';
-import Radio from '../radio';
-import Checkbox from '../checkbox';
+import { ScrollArea } from '../scroll-area';
+import { Radio } from '../radio';
+import { Checkbox } from '../checkbox';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';
-import FlexBox from '../flex-box';
-import Typography from '../typography';
+import { FlexBox } from '../flex-box';
+import { Typography } from '../typography';
 import { usePopoverContext } from '../popover/contexts';
-import { createScope } from '../../hooks/use-scope-context';
+import { createScope } from '../../hooks/internal/use-scope-context';
+import { isElementDisabled } from '../../utils/internal/element';
 
 import {
   MENU_ACTION_AREA_CONTENT_NAME,
@@ -23,6 +25,7 @@ import {
   MENU_CONTENT_NAME,
   MENU_GROUP_NAME,
   MENU_ITEM_CHECKBOX_NAME,
+  MENU_ITEM_CONTENT_NAME,
   MENU_ITEM_NAME,
   MENU_ITEM_RADIO_NAME,
   MENU_LIST_NAME,
@@ -41,7 +44,7 @@ import {
 } from './style';
 import { MenuItemProvider, MenuProvider, useMenuContext } from './contexts';
 
-import type { ListProps } from '../list/types';
+import type { ListCellContentProps } from '../list';
 import type {
   MenuActionAreaContentProps,
   MenuActionAreaProps,
@@ -51,29 +54,28 @@ import type {
   MenuItemCheckboxProps,
   MenuItemProps,
   MenuItemRadioProps,
+  MenuListProps,
   MenuProps,
   MenuTriggerProps,
 } from './types';
 import type {
-  DefaultComponentProps,
-  PolymorphicComponent,
-  PolymorphicProps,
+  DefaultComponentPropsInternal,
+  PolymorphicComponentInternal,
+  PolymorphicPropsInternal,
 } from '@wanteddev/wds-engine';
-import type { ElementRef, ElementType, ForwardedRef, ReactNode } from 'react';
+import type { ElementType, ForwardedRef, ReactNode } from 'react';
 
 const useMenuScope = createScope('Popover');
 
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown'];
 
-const Menu = (props: MenuProps) => {
-  const {
-    defaultValue,
-    value: valueProp,
-    onValueChange,
-    children,
-    ...popoverProps
-  } = props;
-
+const Menu = ({
+  defaultValue,
+  value: valueProp,
+  onValueChange,
+  children,
+  ...props
+}: MenuProps) => {
   const [value, setValue] = useControllableState<MenuDefaultProps['value']>({
     prop: valueProp,
     defaultProp: defaultValue,
@@ -84,7 +86,7 @@ const Menu = (props: MenuProps) => {
 
   return (
     <MenuProvider value={value} onValueChange={setValue}>
-      <Popover {...scopes} {...popoverProps}>
+      <Popover {...scopes} {...props}>
         {children}
       </Popover>
     </MenuProvider>
@@ -93,10 +95,7 @@ const Menu = (props: MenuProps) => {
 
 Menu.displayName = MENU_NAME;
 
-const MenuTrigger = forwardRef<
-  ElementRef<typeof PopoverTrigger>,
-  MenuTriggerProps
->((props, ref) => {
+const MenuTrigger = forwardRef<HTMLElement, MenuTriggerProps>((props, ref) => {
   const scopes = useMenuScope('Menu');
   const { open, onOpenChange } = usePopoverContext(
     MENU_TRIGGER_NAME,
@@ -111,8 +110,7 @@ const MenuTrigger = forwardRef<
       onKeyDown={composeEventHandlers(props.onKeyDown, (e) => {
         if (
           open ||
-          e.currentTarget.ariaDisabled?.toString() === 'true' ||
-          e.currentTarget.getAttribute('disabled')?.toString() === 'true' ||
+          isElementDisabled(e.currentTarget) ||
           !ARROW_KEYS.includes(e.key)
         ) {
           return;
@@ -130,7 +128,7 @@ MenuTrigger.displayName = MENU_TRIGGER_NAME;
 const MenuContent = forwardRef(
   <T extends ElementType = 'div'>(
     {
-      position = 'top-center',
+      position = 'bottom-center',
       offset,
       container,
       disablePortal,
@@ -138,7 +136,7 @@ const MenuContent = forwardRef(
       children,
       forceMount,
       ...props
-    }: PolymorphicProps<MenuContentProps, T>,
+    }: PolymorphicPropsInternal<MenuContentProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const scopes = useMenuScope('Menu');
@@ -152,6 +150,8 @@ const MenuContent = forwardRef(
           container={container}
           disablePortal={disablePortal}
           forceMount={forceMount}
+          aria-label="Select menu"
+          variant="custom"
           {...props}
           {...scopes}
           sx={[menuPopoverContentStyle, sx]}
@@ -163,13 +163,13 @@ const MenuContent = forwardRef(
       </RovingFocusGroup>
     );
   },
-) as PolymorphicComponent<MenuContentProps, 'div'>;
+) as PolymorphicComponentInternal<MenuContentProps, 'div'>;
 
 MenuContent.displayName = MENU_CONTENT_NAME;
 
 const MenuList = forwardRef<
   HTMLUListElement,
-  DefaultComponentProps<ListProps, 'ul'>
+  DefaultComponentPropsInternal<MenuListProps, 'ul'>
 >(({ sx, ...props }, ref) => {
   return (
     <List
@@ -187,7 +187,7 @@ MenuList.displayName = MENU_LIST_NAME;
 
 const MenuGroup = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuGroupProps>
+  DefaultComponentPropsInternal<MenuGroupProps, 'div'>
 >(({ title, sx, children, ...props }, ref) => {
   return (
     <FlexBox
@@ -223,7 +223,7 @@ const MenuItem = forwardRef<any, MenuItemProps>(
       onKeyDown,
       sx,
       ...props
-    }: PolymorphicProps<MenuItemProps, T>,
+    }: PolymorphicPropsInternal<MenuItemProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { disabled } = props;
@@ -243,9 +243,11 @@ const MenuItem = forwardRef<any, MenuItemProps>(
       normal: (
         <ListCell
           disabled={disabled}
-          role="menuitem"
+          role="menuitemradio"
           ref={ref}
-          active={normalActive}
+          selected={normalActive}
+          aria-current={undefined}
+          aria-checked={normalActive}
           trailingContent={
             normalActive ? (
               <ListCellContent variant="icon">
@@ -277,7 +279,7 @@ const MenuItem = forwardRef<any, MenuItemProps>(
 
     return (
       <MenuItemProvider
-        active={variant === 'normal' ? normalActive : undefined}
+        selected={variant === 'normal' ? normalActive : undefined}
       >
         <RovingFocusGroupItem
           asChild
@@ -296,30 +298,30 @@ const MenuItem = forwardRef<any, MenuItemProps>(
       </MenuItemProvider>
     );
   },
-) as PolymorphicComponent<MenuItemProps, 'li'>;
+) as PolymorphicComponentInternal<MenuItemProps, 'li'>;
 
 MenuItem.displayName = MENU_ITEM_NAME;
 
 const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
   <T extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuItemRadioProps, T>,
+    { value, ...props }: PolymorphicPropsInternal<MenuItemRadioProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
+
+    const checked = context.value === value;
 
     return (
       <ListCell
         ref={ref}
         role="menuitemradio"
+        aria-checked={checked}
         leadingContent={
           <ListCellContent variant="radio">
-            <Radio
-              tabIndex={-1}
-              checked={context.value === value}
-              value={value}
-            />
+            <Radio tabIndex={-1} checked={checked} value={value} />
           </ListCellContent>
         }
+        aria-current={undefined}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (!e.defaultPrevented) {
@@ -330,13 +332,13 @@ const MenuItemRadio = forwardRef<any, MenuItemRadioProps>(
       />
     );
   },
-) as PolymorphicComponent<MenuItemRadioProps, 'li'>;
+) as PolymorphicComponentInternal<MenuItemRadioProps, 'li'>;
 
 MenuItemRadio.displayName = MENU_ITEM_CHECKBOX_NAME;
 
 const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
   <T extends ElementType = 'li'>(
-    { value, ...props }: PolymorphicProps<MenuItemRadioProps, T>,
+    { value, ...props }: PolymorphicPropsInternal<MenuItemRadioProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const context = useMenuContext(MENU_ITEM_NAME);
@@ -356,6 +358,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
       <ListCell
         ref={ref}
         role="menuitemcheckbox"
+        aria-checked={checked}
         leadingContent={
           <ListCellContent variant="checkbox">
             <Checkbox
@@ -365,6 +368,7 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
             />
           </ListCellContent>
         }
+        aria-current={undefined}
         {...props}
         onClick={composeEventHandlers(props.onClick, (e) => {
           if (!e.defaultPrevented) {
@@ -375,13 +379,22 @@ const MenuItemCheckbox = forwardRef<any, MenuItemRadioProps>(
       />
     );
   },
-) as PolymorphicComponent<MenuItemCheckboxProps, 'li'>;
+) as PolymorphicComponentInternal<MenuItemCheckboxProps, 'li'>;
 
 MenuItemCheckbox.displayName = MENU_ITEM_RADIO_NAME;
 
+const MenuItemContent = forwardRef<
+  HTMLDivElement,
+  DefaultComponentPropsInternal<ListCellContentProps, 'div'>
+>((props, ref) => {
+  return <ListCellContent ref={ref} {...props} />;
+});
+
+MenuItemContent.displayName = MENU_ITEM_CONTENT_NAME;
+
 const MenuActionArea = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuActionAreaProps, 'div'>
+  DefaultComponentPropsInternal<MenuActionAreaProps, 'div'>
 >(({ leadingContent, trailingContent, children, sx, ...props }, ref) => {
   return (
     <FlexBox
@@ -391,9 +404,17 @@ const MenuActionArea = forwardRef<
       {...props}
       sx={[menuActionAreaStyle, sx]}
     >
-      {Boolean(leadingContent) && leadingContent}
+      {Boolean(leadingContent) && (
+        <Slot data-role="menu-action-area-leading-content">
+          {leadingContent}
+        </Slot>
+      )}
       {children}
-      {Boolean(trailingContent) && trailingContent}
+      {Boolean(trailingContent) && (
+        <Slot data-role="menu-action-area-trailing-content">
+          {trailingContent}
+        </Slot>
+      )}
     </FlexBox>
   );
 });
@@ -402,7 +423,7 @@ MenuActionArea.displayName = MENU_ACTION_AREA_NAME;
 
 const MenuActionAreaContent = forwardRef<
   HTMLDivElement,
-  DefaultComponentProps<MenuActionAreaContentProps, 'div'>
+  DefaultComponentPropsInternal<MenuActionAreaContentProps, 'div'>
 >(({ variant = 'custom', sx, children, ...props }, ref) => {
   switch (variant) {
     case 'icon':
@@ -412,7 +433,7 @@ const MenuActionAreaContent = forwardRef<
           ref={ref}
           {...props}
           sx={[
-            menuActionAreaContentStyle,
+            menuActionAreaContentStyle(variant),
             (theme) => ({
               fontSize: '24px',
               color: theme.semantic.label.alternative,
@@ -433,7 +454,7 @@ const MenuActionAreaContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuActionAreaContentStyle, sx]}
+          sx={[menuActionAreaContentStyle(variant), sx]}
         >
           {children}
         </FlexBox>
@@ -447,7 +468,7 @@ const MenuActionAreaContent = forwardRef<
           wds-component="menu-bottom-content"
           ref={ref}
           {...props}
-          sx={[menuActionAreaContentStyle, sx]}
+          sx={[menuActionAreaContentStyle(variant), sx]}
         >
           {children}
         </FlexBox>
@@ -464,6 +485,19 @@ export {
   MenuList,
   MenuGroup,
   MenuItem,
+  MenuItemContent,
   MenuActionArea,
   MenuActionAreaContent,
+};
+
+export type {
+  MenuProps,
+  MenuTriggerProps,
+  MenuContentProps,
+  MenuListProps,
+  MenuGroupProps,
+  MenuItemProps,
+  ListCellContentProps as MenuItemContentProps,
+  MenuActionAreaProps,
+  MenuActionAreaContentProps,
 };

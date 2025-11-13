@@ -14,7 +14,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     },
   });
 
-  if (idAttributes.length < 0) {
+  if (idAttributes.length < 1) {
     return file.source;
   }
 
@@ -22,7 +22,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     const id = (node.node.value as StringLiteral).value;
 
     const usedIds = root.find(j.StringLiteral, ({ value }) => {
-      const match = /\#(?<id>\w+)/.exec(value);
+      const match = /#(?<id>\w+)/.exec(value);
       const { groups } = match || {};
 
       return groups?.id === id;
