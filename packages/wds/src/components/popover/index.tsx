@@ -205,7 +205,6 @@ const PopoverContent = forwardRef(
                   <>
                     <FlexBox
                       data-role="popover-content-wrapper"
-                      sx={{ paddingInline: '4px' }}
                       flex="1"
                       flexDirection={heading ? 'column' : 'row'}
                       gap={heading ? '6px' : '4px'}
@@ -257,6 +256,7 @@ const PopoverContent = forwardRef(
                             weight="medium"
                             color="semantic.label.neutral"
                             data-role="popover-content-description"
+                            sx={{ padding: '2px 0px', width: '100%' }}
                           >
                             {children}
                           </Typography>
@@ -303,7 +303,7 @@ const PopoverContent = forwardRef(
                           alignItems="flex-end"
                           flex="1"
                           flexDirection="column"
-                          sx={{ marginTop: '16px' }}
+                          sx={{ marginTop: heading ? '12px' : '16px' }}
                         >
                           <FlexBox
                             data-role="popover-content-action"
