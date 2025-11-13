@@ -79,7 +79,7 @@ const LnbGroupItem = ({
           data-depth={depth}
           aria-current={isActive ? 'page' : undefined}
           textProps={{
-            variant: 'label1',
+            variant: 'body2',
             weight: isActive ? 'bold' : 'medium',
             color: isActive
               ? 'semantic.label.normal'
