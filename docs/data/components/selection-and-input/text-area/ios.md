@@ -251,20 +251,6 @@ ___
 
 <details>
 
-<summary>``case actionChip(ActionChip.Variant, title: String, handler: (() -> Void)?)``</summary>
-
-
-액션 칩
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `variant` | 칩 변형 스타일, 기본값은 `.solid` |
-  | `title` | 칩 텍스트 |
-  | `handler` | 칩 클릭 핸들러, 기본값은 `nil` |
-</details>
-<details>
-
 <summary>``case badge(ContentBadge.Variant, title: String)``</summary>
 
 
@@ -291,10 +277,10 @@ ___
 </details>
 <details>
 
-<summary>``case filterChip(FilterChip.Variant, title: String, handler: (() -> Void)?)``</summary>
+<summary>``case chip(Chip.Variant, title: String, handler: (() -> Void)?)``</summary>
 
 
-필터 칩
+칩
 
 - **Parameters**
   | Parameter | Description |
@@ -302,6 +288,20 @@ ___
   | `variant` | 칩 변형 스타일, 기본값은 `.solid` |
   | `title` | 칩 텍스트 |
   | `handler` | 칩 클릭 핸들러, 기본값은 `nil` |
+</details>
+<details>
+
+<summary>``case filterButton(FilterButton.Variant, title: String, handler: (() -> Void)?)``</summary>
+
+
+필터 버튼
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `variant` | 버튼 변형 스타일, 기본값은 `.solid` |
+  | `title` | 버튼 텍스트 |
+  | `handler` | 버튼 클릭 핸들러, 기본값은 `nil` |
 </details>
 <details>
 

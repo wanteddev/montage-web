@@ -1,10 +1,10 @@
 ---
-title: Filter chip
-description: 필터링 기능을 제공하는 칩 컴포넌트입니다.
+title: Filter button
+description: 필터링 기능을 제공하는 버튼 컴포넌트입니다.
 ---
 
 ```swift
-@MainActor struct FilterChip
+@MainActor struct FilterButton
 ```
 
 ## Overview
@@ -12,7 +12,7 @@ description: 필터링 기능을 제공하는 칩 컴포넌트입니다.
 이 컴포넌트는 사용자가 항목을 필터링하는 데 사용할 수 있는 탭 가능한 UI 요소입니다. 다양한 크기와 스타일을 지원하며, 활성/비활성 상태를 표시할 수 있습니다.
 
 ```swift
-FilterChip(
+FilterButton(
     variant: .solid,
     size: .medium,
     text: "카테고리",
@@ -32,16 +32,16 @@ FilterChip(
 <summary>``init(variant: Variant, size: Size, text: String, state: Binding<State>, handler: (() -> Void)?)``</summary>
 
 
-필터 칩을 초기화합니다.
+필터 버튼을 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 칩의 외관 스타일, 기본값은 `.solid` |
-  | `size` | 칩의 크기, 기본값은 `.medium` |
-  | `text` | 칩에 표시할 텍스트 |
-  | `state` | 칩의 확장 상태 바인딩, 기본값은 `.constant(.normal)` |
-  | `handler` | 칩 클릭 시 실행할 핸들러, 기본값은 `nil` |
+  | `variant` | 버튼의 외관 스타일, 기본값은 `.solid` |
+  | `size` | 버튼의 크기, 기본값은 `.medium` |
+  | `text` | 버튼에 표시할 텍스트 |
+  | `state` | 버튼의 확장 상태 바인딩, 기본값은 `.constant(.normal)` |
+  | `handler` | 버튼 클릭 시 실행할 핸들러, 기본값은 `nil` |
 </details>
 
 ___
@@ -60,10 +60,10 @@ ___
 
 <details>
 
-<summary>``func active(Bool, label: String?) -> FilterChip``</summary>
+<summary>``func active(Bool, label: String?) -> FilterButton``</summary>
 
 
-칩의 활성화 상태와 레이블을 설정합니다.
+버튼의 활성화 상태와 레이블을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -72,14 +72,14 @@ ___
   | `label` | 활성화 상태일 때 표시할 레이블, 기본값은 `nil` |
 - **Return Value**
 
-  수정된 칩 인스턴스
+  수정된 버튼 인스턴스
 </details>
 <details>
 
-<summary>``func activeColor(SwiftUI.Color) -> FilterChip``</summary>
+<summary>``func activeColor(SwiftUI.Color) -> FilterButton``</summary>
 
 
-칩의 활성화 상태 색상을 설정합니다.
+버튼의 활성화 상태 색상을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -87,14 +87,14 @@ ___
   | `color` | 활성화 상태일 때의 색상 |
 - **Return Value**
 
-  수정된 칩 인스턴스
+  수정된 버튼 인스턴스
 </details>
 <details>
 
-<summary>``func backgroundColor(SwiftUI.Color) -> FilterChip``</summary>
+<summary>``func backgroundColor(SwiftUI.Color) -> FilterButton``</summary>
 
 
-칩의 배경색을 설정합니다.
+버튼의 배경색을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -102,14 +102,14 @@ ___
   | `color` | 적용할 배경색 |
 - **Return Value**
 
-  수정된 칩 인스턴스
+  수정된 버튼 인스턴스
 </details>
 <details>
 
-<summary>``func disabled(Bool) -> FilterChip``</summary>
+<summary>``func disabled(Bool) -> FilterButton``</summary>
 
 
-칩의 비활성화 여부를 설정합니다.
+버튼의 비활성화 여부를 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -117,14 +117,14 @@ ___
   | `disable` | 비활성화 여부, 기본값은 `true` |
 - **Return Value**
 
-  수정된 칩 인스턴스
+  수정된 버튼 인스턴스
 </details>
 <details>
 
-<summary>``func fontColor(SwiftUI.Color) -> FilterChip``</summary>
+<summary>``func fontColor(SwiftUI.Color) -> FilterButton``</summary>
 
 
-칩의 텍스트 색상을 설정합니다.
+버튼의 텍스트 색상을 설정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -132,11 +132,11 @@ ___
   | `color` | 적용할 텍스트 색상 |
 - **Return Value**
 
-  수정된 칩 인스턴스
+  수정된 버튼 인스턴스
 </details>
 <details>
 
-<summary>``func iconColor(SwiftUI.Color) -> FilterChip``</summary>
+<summary>``func iconColor(SwiftUI.Color) -> FilterButton``</summary>
 
 
 아이콘의 색상을 설정합니다.
@@ -147,7 +147,7 @@ ___
   | `color` | 아이콘에 적용할 색상 |
 - **Return Value**
 
-  수정된 칩 인스턴스
+  수정된 버튼 인스턴스
 </details>
 
 ___
@@ -158,7 +158,7 @@ ___
 <summary>``enum Size``</summary>
 
 
-칩의 크기를 정의합니다.
+버튼의 크기를 정의합니다.
 #### Enumeration Cases
 
 <details>
@@ -204,7 +204,7 @@ ___
 <summary>``enum State``</summary>
 
 
-칩의 확장 상태를 정의합니다.
+버튼의 확장 상태를 정의합니다.
 #### Enumeration Cases
 
 <details>
@@ -228,7 +228,7 @@ ___
 <summary>``enum Variant``</summary>
 
 
-칩의 외관을 결정하는 열거형입니다.
+버튼의 외관을 결정하는 열거형입니다.
 #### Enumeration Cases
 
 <details>

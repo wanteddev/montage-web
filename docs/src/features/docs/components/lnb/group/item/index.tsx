@@ -84,6 +84,9 @@ const LnbGroupItem = ({
             color: isActive
               ? 'semantic.label.normal'
               : 'semantic.label.alternative',
+            lg: {
+              variant: 'label1',
+            },
           }}
           disableInteraction={disabled}
           aria-disabled={disabled}
