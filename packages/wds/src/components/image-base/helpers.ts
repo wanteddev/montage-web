@@ -4,12 +4,12 @@ export const loadImage = (src: string, abortSignal?: AbortSignal) => {
     img.onerror = () => reject();
     img.onload = () => resolve();
     img.onabort = () => {
-      reject(new DOMException('AbortError'));
+      reject(new DOMException('The operation was aborted.', 'AbortError'));
     };
     img.src = src;
 
     abortSignal?.addEventListener('abort', () => {
-      reject(new DOMException('AbortError'));
+      reject(new DOMException('The operation was aborted.', 'AbortError'));
     });
   });
 };
