@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.4...v3.0.0) (2025-11-14)
+
+### Bug Fixes
+
+- **eslint-plugin-wds:** fixed build errors ([7de653f](https://github.com/wanteddev/wds/commit/7de653f8197bc63066c2d7e6b048e42b71d64819))
+- **wds:** fixed date picker, time picker types ([cbaeda4](https://github.com/wanteddev/wds/commit/cbaeda44861a875ed939b8848d9f6b997a29d799))
+- **wds:** fixed size snackbar, toast in mobile ([783417c](https://github.com/wanteddev/wds/commit/783417c91bc4710cde1453219e269a2d5f83e22f))
+- **wds:** image base abort error did not catched ([c8c75da](https://github.com/wanteddev/wds/commit/c8c75dab31d85272c760275d61114f9c175ac39d))
+- **wds:** popover margin, gap change ([5737147](https://github.com/wanteddev/wds/commit/57371471f7e49445f88832365578b30c7bb7b40e))
+
+### Features
+
+- **wds:** add aria label in thumbnail figure tag ([b64c109](https://github.com/wanteddev/wds/commit/b64c109994c7bc2cc34551d02be0797e6ba09582))
+
 # [3.0.0-alpha.4](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.3...v3.0.0-alpha.4) (2025-11-12)
 
 ### Bug Fixes

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.4...v3.0.0) (2025-11-14)
+
+### Bug Fixes
+
+- **eslint-plugin-wds:** fixed build errors ([7de653f](https://github.com/wanteddev/wds/commit/7de653f8197bc63066c2d7e6b048e42b71d64819))
+
 # [3.0.0-alpha.4](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.3...v3.0.0-alpha.4) (2025-11-12)
 
 **Note:** Version bump only for package @wanteddev/eslint-plugin-wds
