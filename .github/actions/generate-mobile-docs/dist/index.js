@@ -30082,10 +30082,12 @@ var Android = class extends BaseModule {
   REPOSITORY = "android";
   PROJECT_PATH = "core/wanted-library-design-system/document/md";
   CUSTOM_COMPONENT_MAP = {
-    modal: "popup"
+    modal: "popup",
+    filterchip: "filter-button",
+    actionchip: "chip"
   };
   COPY_COMPONENT_MAP = {
-    control: ["checkbox", "check-mark", "radio", "switch"]
+    input: ["checkbox", "check-mark", "radio", "switch"]
   };
   UTILITY_COMPONENT_MAP = ["toucharea"];
   constructor() {

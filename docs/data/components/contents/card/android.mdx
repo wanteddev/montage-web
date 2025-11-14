@@ -1,12 +1,12 @@
 ---
 title: Card
-description: 세로형 및 가로형 카드 컴포저블
+description: 세로형 카드 컴포저블입니다.
 ---
 
 ## WantedCard
 세로형 카드 컴포저블입니다.
-
-로딩 상태(isLoading)에 따라 Skeleton 또는 실제 콘텐츠를 렌더링하며, 썸네일, 오버레이 캡션, 타이틀, 캡션, 서브캡션, 추가 캡션, 상/하단 커스텀 콘텐츠를 지원합니다.
+로딩 상태(isLoading)에 따라 Skeleton 또는 실제 콘텐츠를 렌더링하며,
+썸네일, 오버레이 캡션, 타이틀, 캡션, 서브캡션, 추가 캡션, 상/하단 커스텀 콘텐츠를 지원합니다.
 
 ```kotlin
 WantedCard(
@@ -37,11 +37,12 @@ WantedCard(
 | bottomContent | (@Composable () -> Unit)? | 카드 하단에 추가 표시할 컴포저블입니다. |
 | onClick | () -> Unit | 카드 전체 클릭 시 호출되는 콜백입니다. |
 
+
 ## Advanced
 ### WantedListCard
 가로형 카드 컴포저블입니다.
-
-썸네일과 설명 영역을 좌우로 배치한 형태의 카드입니다. 로딩 상태에서는 Skeleton UI가 나타나며, 상단/하단 커스텀 콘텐츠와 좌우 콘텐츠 Slot을 제공합니다.
+썸네일과 설명 영역을 좌우로 배치한 형태의 카드입니다.
+로딩 상태에서는 Skeleton UI가 나타나며, 상단/하단 커스텀 콘텐츠와 좌우 콘텐츠 Slot을 제공합니다.
 
 ```kotlin
 WantedListCard(
@@ -56,9 +57,10 @@ WantedListCard(
     onClick = { /* 클릭 처리 */ }
 )
 ```
+
 <details>
   <summary>Parameters</summary>
-  
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | modifier | Modifier | 컴포넌트의 레이아웃과 스타일을 조정합니다. |
@@ -73,23 +75,30 @@ WantedListCard(
   | leadingContent | (@Composable () -> Unit)? | 썸네일 왼쪽에 표시될 콘텐츠입니다 (예: 체크박스). |
   | trailingContent | (@Composable () -> Unit)? | 설명 오른쪽에 표시될 콘텐츠입니다 (예: 아이콘 버튼). |
   | onClick | () -> Unit | 카드 클릭 시 호출되는 콜백 함수입니다. |
+
 </details>
-
-## Data Class
+<br />
 ### WantedCardDefault
-카드 UI의 스켈레톤 표시 여부를 지정하는 데이터 클래스입니다. 각 항목별로 스켈레톤을 표시할지 여부를 설정합니다.
+카드 UI의 스켈레톤 표시 여부를 지정하는 데이터 클래스입니다.
+각 항목별로 스켈레톤을 표시할지 여부를 설정합니다.
 
-#### Parameters
-| 이름 | 타입 | 설명 |
-|:---|:---|:---|
-| topContentSkeleton | Boolean | 상단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. |
-| captionSkeleton | Boolean | 메인 캡션에 스켈레톤을 표시할지 여부입니다. |
-| extraCaptionSkeleton | Boolean | 추가 캡션에 스켈레톤을 표시할지 여부입니다. |
-| bottomContentSkeleton | Boolean | 하단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. |
-| ratio | Float | 썸네일 스켈레톤의 비율입니다. |
+<details>
+  <summary>Properties</summary>
 
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | topContentSkeleton | Boolean | 상단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. |
+  | captionSkeleton | Boolean | 메인 캡션에 스켈레톤을 표시할지 여부입니다. |
+  | extraCaptionSkeleton | Boolean | 추가 캡션에 스켈레톤을 표시할지 여부입니다. |
+  | bottomContentSkeleton | Boolean | 하단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. |
+  | ratio | Float | 썸네일 스켈레톤의 비율입니다. |
+
+</details>
+<br />
 ### WantedCardDefaults
-기본 스켈레톤 설정값을 반환하는 Compose 함수입니다. 각 항목에 대해 스켈레톤 UI를 표시할지 여부를 설정할 수 있습니다.
+### getDefault
+기본 스켈레톤 설정값을 반환하는 Compose 함수입니다.
+각 항목에 대해 스켈레톤 UI를 표시할지 여부를 설정할 수 있습니다.
 
 ```kotlin
 val config = WantedCardDefaults.getDefault(
@@ -98,15 +107,25 @@ val config = WantedCardDefaults.getDefault(
 )
 ```
 
-#### Parameters
-| 이름 | 타입 | 설명 |
-|:---|:---|:---|
-| topContentSkeleton | Boolean | 상단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. 기본값은 false입니다. |
-| captionSkeleton | Boolean | 메인 캡션에 스켈레톤을 표시할지 여부입니다. 기본값은 true입니다. |
-| extraCaptionSkeleton | Boolean | 추가 캡션에 스켈레톤을 표시할지 여부입니다. 기본값은 true입니다. |
-| bottomContentSkeleton | Boolean | 하단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. 기본값은 false입니다. |
+<details>
+  <summary>Parameters</summary>
 
-#### Return
-| 타입 | 설명 |
-|:---|:---|
-| WantedCardDefault | 스켈레톤 설정 정보가 담긴 데이터 클래스입니다. |
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | topContentSkeleton | Boolean | 상단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. 기본값은 false입니다. |
+  | captionSkeleton | Boolean | 메인 캡션에 스켈레톤을 표시할지 여부입니다. 기본값은 true입니다. |
+  | extraCaptionSkeleton | Boolean | 추가 캡션에 스켈레톤을 표시할지 여부입니다. 기본값은 true입니다. |
+  | bottomContentSkeleton | Boolean | 하단 콘텐츠 영역에 스켈레톤을 표시할지 여부입니다. 기본값은 false입니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedCardDefault | 스켈레톤 설정 정보가 담긴 데이터 클래스입니다. |
+
+</details>
+<br />

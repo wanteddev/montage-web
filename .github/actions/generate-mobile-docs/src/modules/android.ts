@@ -15,9 +15,11 @@ export default class Android extends BaseModule {
 
   protected readonly CUSTOM_COMPONENT_MAP: Record<string, string> = {
     modal: 'popup',
+    filterchip: 'filter-button',
+    actionchip: 'chip',
   };
   protected readonly COPY_COMPONENT_MAP: Record<string, Array<string>> = {
-    control: ['checkbox', 'check-mark', 'radio', 'switch'],
+    input: ['checkbox', 'check-mark', 'radio', 'switch'],
   };
   protected readonly UTILITY_COMPONENT_MAP: Array<string> = ['toucharea'];
 
