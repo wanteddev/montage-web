@@ -3,18 +3,22 @@ import IOS from './modules/ios';
 
 const run = async () => {
   const android = new Android();
-  const ios = new IOS();
 
   await android.gitClone();
-  await ios.gitClone();
 
   android.load();
   android.convert();
   android.save();
+  android.cleanup();
+
+  const ios = new IOS();
+
+  await ios.gitClone();
 
   ios.load();
   ios.convert();
   ios.save();
+  ios.cleanup();
 };
 
 run();

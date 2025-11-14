@@ -23428,7 +23428,7 @@ var require_gray_matter = __commonJS({
 
 // src/modules/android.ts
 var import_node_path3 = __toESM(require("node:path"));
-var import_node_fs = __toESM(require("node:fs"));
+var import_node_fs2 = __toESM(require("node:fs"));
 
 // ../../../node_modules/.pnpm/@isaacs+balanced-match@4.0.1/node_modules/@isaacs/balanced-match/dist/esm/index.js
 var balanced = (a, b, str2) => {
@@ -30048,6 +30048,7 @@ glob.glob = glob;
 
 // src/modules/base.ts
 var import_node_path2 = __toESM(require("node:path"));
+var import_node_fs = require("node:fs");
 var core = __toESM(require_core());
 var exec = __toESM(require_exec());
 var BaseModule = class {
@@ -30065,6 +30066,12 @@ var BaseModule = class {
     return exec.exec(
       `git clone https://wantedFE:${ghToken}@github.com/wanteddev/${repository}.git`
     );
+  }
+  cleanup(repository) {
+    (0, import_node_fs.rmSync)(import_node_path2.default.join(repository), {
+      recursive: true,
+      force: true
+    });
   }
 };
 
@@ -30085,6 +30092,7 @@ var Android = class extends BaseModule {
     super();
   }
   gitClone = () => super.gitClone(this.REPOSITORY);
+  cleanup = () => super.cleanup(this.REPOSITORY);
   load = () => {
     this.files = globSync(
       import_node_path3.default.join(this.REPOSITORY, this.PROJECT_PATH, "**/*.{md,mdx}")
@@ -30104,7 +30112,7 @@ var Android = class extends BaseModule {
           if (!designFile2) {
             continue;
           }
-          this.tempFiles[designFile2.replace(/design\.mdx$/, "android.mdx")] = import_node_fs.default.readFileSync(file, "utf8");
+          this.tempFiles[designFile2.replace(/design\.mdx$/, "android.mdx")] = import_node_fs2.default.readFileSync(file, "utf8");
         }
         continue;
       }
@@ -30113,14 +30121,14 @@ var Android = class extends BaseModule {
         return slug.at(slug.length - 2).replace(/-/g, "") === (customTitle || title);
       });
       if (designFile) {
-        this.tempFiles[designFile.replace(/design\.mdx$/, "android.mdx")] = import_node_fs.default.readFileSync(file, "utf8");
+        this.tempFiles[designFile.replace(/design\.mdx$/, "android.mdx")] = import_node_fs2.default.readFileSync(file, "utf8");
       } else {
         const isUtilityComponent = this.UTILITY_COMPONENT_MAP.includes(title);
         const utilityPath = isUtilityComponent ? "docs/data/utilities/android-utility-components" : "docs/data/utilities/android-utilities";
         this.tempFiles[file.replace(
           import_node_path3.default.join(this.REPOSITORY, this.PROJECT_PATH),
           utilityPath
-        )] = import_node_fs.default.readFileSync(file, "utf8");
+        )] = import_node_fs2.default.readFileSync(file, "utf8");
       }
     }
   };
@@ -30130,21 +30138,21 @@ var Android = class extends BaseModule {
       ...globSync("docs/data/components/**/android.mdx")
     ];
     for (const file of prevFiles) {
-      import_node_fs.default.rmSync(file, { recursive: true, force: true });
+      import_node_fs2.default.rmSync(file, { recursive: true, force: true });
     }
     for (const [key, value] of Object.entries(this.tempFiles)) {
       const directory = key.replace(/\/([^/]+)\.mdx$/, "");
-      if (!import_node_fs.default.existsSync(directory)) {
-        import_node_fs.default.mkdirSync(directory, { recursive: true });
+      if (!import_node_fs2.default.existsSync(directory)) {
+        import_node_fs2.default.mkdirSync(directory, { recursive: true });
       }
-      import_node_fs.default.writeFileSync(key, value, "utf-8");
+      import_node_fs2.default.writeFileSync(key, value, "utf-8");
     }
   };
 };
 
 // src/modules/ios.ts
 var import_node_path4 = __toESM(require("node:path"));
-var import_node_fs2 = __toESM(require("node:fs"));
+var import_node_fs3 = __toESM(require("node:fs"));
 var import_gray_matter = __toESM(require_gray_matter());
 var Android2 = class extends BaseModule {
   files = [];
@@ -30168,6 +30176,7 @@ var Android2 = class extends BaseModule {
     super();
   }
   gitClone = () => super.gitClone(this.REPOSITORY);
+  cleanup = () => super.cleanup(this.REPOSITORY);
   load = () => {
     this.files = globSync(
       import_node_path4.default.join(this.REPOSITORY, this.PROJECT_PATH, "**/*.{md,mdx}")
@@ -30189,7 +30198,7 @@ var Android2 = class extends BaseModule {
           if (!designFile2) {
             continue;
           }
-          this.tempFiles[designFile2.replace(/design\.mdx$/, "ios.md")] = import_node_fs2.default.readFileSync(file, "utf8");
+          this.tempFiles[designFile2.replace(/design\.mdx$/, "ios.md")] = import_node_fs3.default.readFileSync(file, "utf8");
         }
         continue;
       }
@@ -30198,10 +30207,10 @@ var Android2 = class extends BaseModule {
         return designSlug.at(designSlug.length - 2).replace(/-/g, "") === (customTitle || title);
       });
       if (designFile) {
-        this.tempFiles[designFile.replace(/design\.mdx$/, "ios.md")] = import_node_fs2.default.readFileSync(file, "utf8");
+        this.tempFiles[designFile.replace(/design\.mdx$/, "ios.md")] = import_node_fs3.default.readFileSync(file, "utf8");
       } else {
         const utilityPath = file.match(/\/utilities\/([^/]+)\//)?.[1] ?? "ios-utilities";
-        this.tempFiles[`docs/data/utilities/${utilityPath}/${titleWithDash}.md`] = import_node_fs2.default.readFileSync(file, "utf8");
+        this.tempFiles[`docs/data/utilities/${utilityPath}/${titleWithDash}.md`] = import_node_fs3.default.readFileSync(file, "utf8");
       }
     }
     for (const [key, value] of Object.entries(this.MERGE_COMPONENT_MAP)) {
@@ -30241,14 +30250,14 @@ ${parsedMatter.data.description}
       ...globSync("docs/data/components/**/ios.md")
     ];
     for (const file of prevFiles) {
-      import_node_fs2.default.rmSync(file, { recursive: true, force: true });
+      import_node_fs3.default.rmSync(file, { recursive: true, force: true });
     }
     for (const [key, value] of Object.entries(this.tempFiles)) {
       const directory = key.replace(/\/([^/]+)\.md$/, "");
-      if (!import_node_fs2.default.existsSync(directory)) {
-        import_node_fs2.default.mkdirSync(directory, { recursive: true });
+      if (!import_node_fs3.default.existsSync(directory)) {
+        import_node_fs3.default.mkdirSync(directory, { recursive: true });
       }
-      import_node_fs2.default.writeFileSync(key, value, "utf-8");
+      import_node_fs3.default.writeFileSync(key, value, "utf-8");
     }
   };
 };
@@ -30256,15 +30265,17 @@ ${parsedMatter.data.description}
 // src/index.ts
 var run = async () => {
   const android = new Android();
-  const ios = new Android2();
   await android.gitClone();
-  await ios.gitClone();
   android.load();
   android.convert();
   android.save();
+  android.cleanup();
+  const ios = new Android2();
+  await ios.gitClone();
   ios.load();
   ios.convert();
   ios.save();
+  ios.cleanup();
 };
 run();
 /*! Bundled license information:

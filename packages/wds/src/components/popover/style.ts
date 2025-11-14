@@ -29,6 +29,7 @@ const popoverVariantStyle = (variant: PopoverContentProps['variant']) => {
     case 'normal':
     default:
       return css`
+        border-radius: 12px;
         padding: 12px 14px;
         max-width: 360px;
         flex-direction: column;

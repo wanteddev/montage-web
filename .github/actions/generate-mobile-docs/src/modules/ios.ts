@@ -34,6 +34,8 @@ export default class Android extends BaseModule {
 
   public gitClone = () => super.gitClone(this.REPOSITORY);
 
+  public cleanup = () => super.cleanup(this.REPOSITORY);
+
   public load = () => {
     this.files = globSync(
       path.join(this.REPOSITORY, this.PROJECT_PATH, '**/*.{md,mdx}'),

@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { rmSync } from 'node:fs';
 
 import { globSync } from 'glob';
 import * as core from '@actions/core';
@@ -27,6 +28,13 @@ export default abstract class BaseModule {
     return exec.exec(
       `git clone https://wantedFE:${ghToken}@github.com/wanteddev/${repository}.git`,
     );
+  }
+
+  public cleanup(repository: string) {
+    rmSync(path.join(repository), {
+      recursive: true,
+      force: true,
+    });
   }
 
   abstract load: () => void;
