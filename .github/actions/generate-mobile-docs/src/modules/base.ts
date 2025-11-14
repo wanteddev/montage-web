@@ -1,43 +1,165 @@
 import path from 'node:path';
-import { rmSync } from 'node:fs';
+import fs from 'node:fs';
 
 import { globSync } from 'glob';
 import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 
+export type CustomComponentMap = Record<string, string>;
+export type CopyComponentMap = Record<string, Array<string>>;
+
 export default abstract class BaseModule {
-  protected readonly designComponentFiles: Array<string>;
+  public tempFiles: Record<string, string> = {};
+
+  private readonly PLATFORM: string;
+  private files: Array<string> = [];
+
+  protected designComponentFiles: Array<string> = [];
+
   protected abstract readonly REPOSITORY: string;
   protected abstract readonly PROJECT_PATH: string;
-  protected abstract readonly CUSTOM_COMPONENT_MAP: Record<string, string>;
-  protected abstract readonly COPY_COMPONENT_MAP: Record<string, Array<string>>;
 
-  constructor() {
+  protected abstract readonly CUSTOM_COMPONENT_MAP: CustomComponentMap;
+  protected abstract readonly COPY_COMPONENT_MAP: CopyComponentMap;
+
+  constructor(platform: string) {
+    this.PLATFORM = platform;
+  }
+
+  public load() {
     this.designComponentFiles = globSync(
       path.join('docs/data/components', '**/*/design.{md,mdx}'),
     );
+    this.files = globSync(
+      path.join(this.REPOSITORY, this.PROJECT_PATH, '**/*.{md,mdx}'),
+    );
+
+    return this;
   }
 
-  public getDesignComponentFiles() {
-    return this.designComponentFiles;
-  }
-
-  public gitClone(repository: string) {
+  public async gitClone() {
     const ghToken = core.getInput('gh_token', { required: true });
 
-    return exec.exec(
-      `git clone https://wantedFE:${ghToken}@github.com/wanteddev/${repository}.git`,
-    );
+    return exec
+      .exec(
+        `git clone https://wantedFE:${ghToken}@github.com/wanteddev/${this.REPOSITORY}.git`,
+      )
+      .then(() => this);
   }
 
-  public cleanup(repository: string) {
-    rmSync(path.join(repository), {
+  public convert() {
+    for (const file of this.files) {
+      const { title, customTitle } = this.getComponentTitle(file);
+
+      if (this.shouldConvertCopyComponent(file)) {
+        this.convertCopyComponent(file);
+
+        continue;
+      }
+
+      const designFile = this.designComponentFiles.find((f) => {
+        const designSlug = f.split('/');
+
+        return (
+          designSlug.at(designSlug.length - 2)!.replace(/-/g, '') ===
+          (customTitle || title)
+        );
+      });
+
+      if (designFile) {
+        this.tempFiles[
+          designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)
+        ] = fs.readFileSync(file, 'utf8');
+      } else {
+        const matchUtilityPath = file.match(/\/utilities\/([^/]+)\//)?.[1];
+
+        const utilityPath = matchUtilityPath ?? `${this.PLATFORM}-utilities`;
+
+        this.tempFiles[`docs/data/utilities/${utilityPath}/${title}.mdx`] =
+          fs.readFileSync(file, 'utf8');
+      }
+    }
+
+    return this;
+  }
+
+  public save() {
+    const prevFiles = [
+      ...globSync(`docs/data/utilities/${this.PLATFORM}-*/*.{md,mdx}`),
+      ...globSync(`docs/data/components/**/${this.PLATFORM}.{md,mdx}`),
+    ];
+
+    for (const file of prevFiles) {
+      fs.rmSync(file, { recursive: true, force: true });
+    }
+
+    for (const [key, value] of Object.entries(this.tempFiles)) {
+      const directory = key.replace(/\/([^/]+)\.mdx$/, '');
+
+      if (!fs.existsSync(directory)) {
+        fs.mkdirSync(directory, { recursive: true });
+      }
+
+      fs.writeFileSync(key, value, 'utf-8');
+    }
+
+    return this;
+  }
+
+  public cleanup() {
+    fs.rmSync(path.join(this.REPOSITORY), {
       recursive: true,
       force: true,
     });
+
+    return this;
   }
 
-  abstract load: () => void;
-  abstract convert: () => void;
-  abstract save: () => void;
+  private getConvertCopyComponents(file: string) {
+    const { titleWithoutDash } = this.getComponentTitle(file);
+
+    return this.COPY_COMPONENT_MAP[titleWithoutDash!] ?? [];
+  }
+
+  private shouldConvertCopyComponent(file: string) {
+    return this.getConvertCopyComponents(file).length > 0;
+  }
+
+  private convertCopyComponent(file: string) {
+    const copyComponents = this.getConvertCopyComponents(file);
+
+    for (const copyComponent of copyComponents) {
+      const designFile = this.designComponentFiles.find((f) => {
+        const designSlug = f.split('/');
+
+        return (
+          designSlug.at(designSlug.length - 2)!.replace(/-/g, '') ===
+          copyComponent.replace(/-/g, '')
+        );
+      });
+
+      if (!designFile) {
+        continue;
+      }
+
+      this.tempFiles[
+        designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)
+      ] = fs.readFileSync(file, 'utf8');
+    }
+  }
+
+  private getComponentTitle(file: string) {
+    const slug = file.split('/');
+    const title = (
+      slug.at(-1)?.replace(/\.(md|mdx)$/, '') === this.PLATFORM
+        ? slug.at(-2)
+        : slug.at(-1)
+    )?.replace(/\.(md|mdx)$/, '');
+
+    return {
+      title,
+      titleWithoutDash: title?.replace(/-/g, ''),
+      customTitle: this.CUSTOM_COMPONENT_MAP[title!]?.replace(/-/g, ''),
+    };
+  }
 }
