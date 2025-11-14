@@ -58,6 +58,7 @@ const Thumbnail = forwardRef<
         className={className}
         style={style}
         data-status={imageLoadingStatus}
+        aria-label={props.alt}
         sx={[
           thumbnailStyle({
             ratio,
@@ -76,6 +77,7 @@ const Thumbnail = forwardRef<
       >
         <ImageBase
           ref={ref}
+          aria-hidden
           {...props}
           onLoad={() => {
             props.onLoad?.();
@@ -95,6 +97,7 @@ const Thumbnail = forwardRef<
         wds-component="thumbnail"
         className={className}
         style={style}
+        aria-label={props.alt}
         data-status={imageLoadingStatus}
         alignItems="center"
         justifyContent="center"
@@ -115,11 +118,7 @@ const Thumbnail = forwardRef<
           sx,
         ]}
       >
-        <IconImage
-          role="img"
-          aria-label={props.alt}
-          sx={{ width: '33.34%', height: 'auto' }}
-        />
+        <IconImage aria-hidden sx={{ width: '33.34%', height: 'auto' }} />
         {overlay && <Box data-role="thumbnail-overlay">{overlay}</Box>}
         {children}
       </FlexBox>
@@ -153,6 +152,7 @@ const ThumbnailSkeleton = forwardRef(
         wds-component="thumbnail-skeleton"
         as="figure"
         variant="rectangle"
+        aria-hidden
         {...props}
         sx={[
           thumbnailStyle({
