@@ -17,9 +17,14 @@ export default class Android extends BaseModule {
     modal: 'popup',
     filterchip: 'filter-button',
     actionchip: 'chip',
+    search: 'search-field',
+    fallback: 'fallback-view',
+    topappbar: 'top-navigation',
   };
+
   protected readonly COPY_COMPONENT_MAP: Record<string, Array<string>> = {
     input: ['checkbox', 'check-mark', 'radio', 'switch'],
+    button: ['button', 'text-button'],
   };
   protected readonly UTILITY_COMPONENT_MAP: Array<string> = ['toucharea'];
 

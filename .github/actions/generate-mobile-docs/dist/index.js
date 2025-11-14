@@ -30084,10 +30084,14 @@ var Android = class extends BaseModule {
   CUSTOM_COMPONENT_MAP = {
     modal: "popup",
     filterchip: "filter-button",
-    actionchip: "chip"
+    actionchip: "chip",
+    search: "search-field",
+    fallback: "fallback-view",
+    topappbar: "top-navigation"
   };
   COPY_COMPONENT_MAP = {
-    input: ["checkbox", "check-mark", "radio", "switch"]
+    input: ["checkbox", "check-mark", "radio", "switch"],
+    button: ["button", "text-button"]
   };
   UTILITY_COMPONENT_MAP = ["toucharea"];
   constructor() {
