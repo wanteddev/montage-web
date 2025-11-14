@@ -36,8 +36,8 @@ const Faq = () => {
 
       <FlexBox flexDirection="column">
         {FAQ_ITEMS.map((item, idx) => (
-          <Accordion key={item.question} divider={idx !== FAQ_ITEMS.length - 1}>
-            <FadeInOut duration={600}>
+          <FadeInOut duration={600} key={item.question}>
+            <Accordion divider={idx !== FAQ_ITEMS.length - 1}>
               <AccordionSummary
                 disableInteraction
                 sx={accordionSummaryStyle}
@@ -62,22 +62,22 @@ const Faq = () => {
               >
                 {item.question}
               </AccordionSummary>
-            </FadeInOut>
 
-            <AccordionDetails>
-              <AccordionDescription
-                variant="body2-reading"
-                weight="medium"
-                color="semantic.label.neutral"
-                sx={[accordionDescriptionStyle, breakWordStyle]}
-                md={{
-                  variant: 'body2',
-                }}
-              >
-                {item.answer}
-              </AccordionDescription>
-            </AccordionDetails>
-          </Accordion>
+              <AccordionDetails>
+                <AccordionDescription
+                  variant="body2-reading"
+                  weight="medium"
+                  color="semantic.label.neutral"
+                  sx={[accordionDescriptionStyle, breakWordStyle]}
+                  md={{
+                    variant: 'body2',
+                  }}
+                >
+                  {item.answer}
+                </AccordionDescription>
+              </AccordionDetails>
+            </Accordion>
+          </FadeInOut>
         ))}
       </FlexBox>
     </SectionWrapper>

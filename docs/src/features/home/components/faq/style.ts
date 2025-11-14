@@ -15,7 +15,7 @@ export const accordionSummaryStyle = (theme: Theme) => css`
   @media (pointer: fine) {
     &:hover {
       ${respondMore('500px')} {
-        --wds-list-cell-horizontal-padding: 12px;
+        --wds-list-cell-horizontal-padding: 10px;
       }
 
       [wds-component='list-cell-content'] {
