@@ -31,29 +31,37 @@ const unmountKeyframes = keyframes`
   }
 `;
 
-export const wrapperStyle = ({
-  disableAnimation,
-}: Pick<SnackbarProps, 'disableAnimation'>) => css`
-  backdrop-filter: blur(32px);
-  will-change: backdrop-filter;
-  border-radius: 12px;
-  margin-top: var(--wds-snackbar-animation-margin-top);
+export const wrapperStyle =
+  ({ disableAnimation }: Pick<SnackbarProps, 'disableAnimation'>) =>
+  (theme: Theme) => css`
+    backdrop-filter: blur(32px);
+    will-change: backdrop-filter;
+    border-radius: 12px;
+    margin-top: var(--wds-snackbar-animation-margin-top);
+    max-width: 100%;
 
-  ${!disableAnimation &&
-  css`
-    &[data-status='open'] {
-      animation: ${mountKeyframes} 0.2s ease;
+    ${respondMore(theme.breakpoint.sm)} {
+      min-width: 356px;
+      max-width: 420px;
     }
-    &[data-status='close'] {
-      animation: ${unmountKeyframes} 0.2s ease;
+    ${respondTo(theme.breakpoint.sm)} {
+      width: 100%;
     }
-  `}
-`;
 
-export const snackbarStyle = (theme: Theme) => css`
+    ${!disableAnimation &&
+    css`
+      &[data-status='open'] {
+        animation: ${mountKeyframes} 0.2s ease;
+      }
+      &[data-status='close'] {
+        animation: ${unmountKeyframes} 0.2s ease;
+      }
+    `}
+  `;
+
+export const snackbarStyle = css`
   border-radius: inherit;
   padding: 11px 16px;
-  max-width: 100%;
   display: flex;
   gap: 16px;
   font-size: 20px;
@@ -61,14 +69,6 @@ export const snackbarStyle = (theme: Theme) => css`
   align-items: center;
   position: relative;
   overflow: hidden;
-
-  ${respondMore(theme.breakpoint.sm)} {
-    min-width: 356px;
-    max-width: 420px;
-  }
-  ${respondTo(theme.breakpoint.sm)} {
-    width: 100%;
-  }
 
   & > :not([role='presentation']) {
     z-index: 1;
