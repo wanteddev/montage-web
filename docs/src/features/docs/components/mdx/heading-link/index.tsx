@@ -17,7 +17,12 @@ const HeadingLink = ({ id, children, ...props }: Props) => (
       alignItems="center"
       justifyContent="center"
     >
-      <IconButton as={Link} data-role="heading-link" href={`#${id}`}>
+      <IconButton
+        as={Link}
+        data-role="heading-link"
+        href={`#${id}`}
+        aria-labelledby={id}
+      >
         <IconLink aria-hidden />
       </IconButton>
     </FlexBox>

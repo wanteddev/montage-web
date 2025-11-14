@@ -1,4 +1,4 @@
-import { List, ListCellContent, Typography } from '@wanteddev/wds';
+import { FlexBox, List, ListCellContent, Typography } from '@wanteddev/wds';
 import { usePathname } from 'next/navigation';
 import { IconLock } from '@wanteddev/wds-icon';
 import { useState } from 'react';
@@ -36,7 +36,7 @@ const LnbGroup = ({ frontmatters }: Props) => {
         onOpenChange={setIsForbiddenModalOpen}
       />
 
-      <List gap="0px" sx={wrapperStyle}>
+      <List gap="0px" sx={wrapperStyle} aria-label="List of pages">
         {frontmatters.map((frontmatter) => {
           if (isFrontmatter(frontmatter)) {
             return (
@@ -44,8 +44,8 @@ const LnbGroup = ({ frontmatters }: Props) => {
                 key={frontmatter.slug.join('/')}
                 href={`/docs/${frontmatter.slug.join('/')}`}
                 isActive={getIsActiveGroup(pathname, frontmatter)}
-                sx={{
-                  '& + ul': { marginTop: '32px' },
+                wrapperSx={{
+                  '& + [data-is-group="true"]': { marginTop: '32px' },
                 }}
                 depth="0"
               >
@@ -56,53 +56,64 @@ const LnbGroup = ({ frontmatters }: Props) => {
 
           return Object.entries(frontmatter).map(([key, items], idx) => {
             return (
-              <List key={key + idx} gap="0px">
-                <Typography
-                  variant="caption2"
-                  weight="bold"
-                  color="semantic.label.assistive"
-                  sx={{
-                    marginBottom: '8px',
-                  }}
+              <FlexBox
+                flexDirection="column"
+                key={key + idx}
+                as="li"
+                data-is-group="true"
+              >
+                <List
+                  key={key + idx}
+                  gap="0px"
+                  aria-label={getFrontmatterGroupKey(key)}
                 >
-                  {getFrontmatterGroupKey(key)}
-                </Typography>
+                  <Typography
+                    variant="caption2"
+                    weight="bold"
+                    color="semantic.label.assistive"
+                    sx={{
+                      marginBottom: '8px',
+                    }}
+                  >
+                    {getFrontmatterGroupKey(key)}
+                  </Typography>
 
-                {items.map((child, childIdx) => {
-                  if (isFrontmatter(child)) {
-                    if (child.isPrivate) {
+                  {items.map((child, childIdx) => {
+                    if (isFrontmatter(child)) {
+                      if (child.isPrivate) {
+                        return (
+                          <LnbGroupItem
+                            key={child.slug.toString() + childIdx}
+                            depth="2"
+                            trailingContent={
+                              <ListCellContent variant="icon">
+                                <IconLock
+                                  aria-hidden
+                                  sx={{ fontSize: '16px', margin: '4px 3px' }}
+                                />
+                              </ListCellContent>
+                            }
+                            onClick={() => setIsForbiddenModalOpen(true)}
+                          >
+                            {child.title}
+                          </LnbGroupItem>
+                        );
+                      }
+
                       return (
                         <LnbGroupItem
+                          href={getFrontmatterLink(child)}
                           key={child.slug.toString() + childIdx}
+                          isActive={getIsActive(pathname, child)}
                           depth="2"
-                          trailingContent={
-                            <ListCellContent variant="icon">
-                              <IconLock
-                                aria-hidden
-                                sx={{ fontSize: '16px', margin: '4px 3px' }}
-                              />
-                            </ListCellContent>
-                          }
-                          onClick={() => setIsForbiddenModalOpen(true)}
                         >
                           {child.title}
                         </LnbGroupItem>
                       );
                     }
-
-                    return (
-                      <LnbGroupItem
-                        href={getFrontmatterLink(child)}
-                        key={child.slug.toString() + childIdx}
-                        isActive={getIsActive(pathname, child)}
-                        depth="2"
-                      >
-                        {child.title}
-                      </LnbGroupItem>
-                    );
-                  }
-                })}
-              </List>
+                  })}
+                </List>
+              </FlexBox>
             );
           });
         })}

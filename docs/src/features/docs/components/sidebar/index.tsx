@@ -3,6 +3,7 @@ import {
   startTransition,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useState,
 } from 'react';
@@ -16,6 +17,8 @@ import { sidebarContentStyle, sidebarStyle } from './style';
 import { getHeadingLevel } from './helpers';
 
 const Sidebar = () => {
+  const descriptionId = useId();
+
   const pathname = usePathname();
   const [headings, setHeadings] = useState<
     Array<{ nodeName: string; id: string; text: string }>
@@ -102,12 +105,13 @@ const Sidebar = () => {
 
   return (
     <FlexBox data-algolia-exclude sx={sidebarStyle} flexShrink={0}>
-      <aside>
+      <aside aria-label="Table of Contents">
         <ScrollArea>
-          <FlexBox as="nav">
+          <FlexBox as="nav" aria-labelledby={descriptionId}>
             <FlexBox flexDirection="column" gap="4px">
               <Typography
-                as="h4"
+                id={descriptionId}
+                as="p"
                 variant="body2"
                 weight="bold"
                 color="semantic.label.normal"

@@ -33,7 +33,7 @@ const Lnb = () => {
     if (
       activeElement &&
       !viewport
-        .querySelectorAll('[role="listitem"]')
+        .querySelectorAll('[role="link"]')
         .item(0)
         .isEqualNode(activeElement)
     ) {
@@ -50,11 +50,12 @@ const Lnb = () => {
     <ScrollArea sx={lnbWrapperStyle} viewportRef={viewportRef} size="small">
       <FlexBox
         as="aside"
+        aria-label={`Pages of ${groupKey}`}
         data-algolia-lnb-group
         sx={{ width: '100%' }}
         flexDirection="column"
       >
-        <FlexBox as="nav" flexDirection="column" justifyContent="center">
+        <FlexBox flexDirection="column" justifyContent="center">
           <LnbGroup frontmatters={frontmatters} />
         </FlexBox>
       </FlexBox>

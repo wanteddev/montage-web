@@ -24,7 +24,12 @@ import {
 
 const Faq = () => {
   return (
-    <SectionWrapper flexDirection="column" gap="12px" md={{ gap: '16px' }}>
+    <SectionWrapper
+      flexDirection="column"
+      gap="12px"
+      md={{ gap: '16px' }}
+      aria-label="FAQ Section"
+    >
       <FadeInOut duration={600}>
         <SectionTitle>FAQ</SectionTitle>
       </FadeInOut>
