@@ -30158,7 +30158,9 @@ var Android = class extends BaseModule {
     actionchip: "chip",
     search: "search-field",
     fallback: "fallback-view",
-    topappbar: "top-navigation"
+    topappbar: "top-navigation",
+    paginationcounter: "pagecounter",
+    paginationdot: "paginationdots"
   };
   COPY_COMPONENT_MAP = {
     input: ["checkbox", "check-mark", "radio", "switch"],

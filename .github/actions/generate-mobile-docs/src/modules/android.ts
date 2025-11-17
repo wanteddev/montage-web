@@ -14,6 +14,8 @@ export default class Android extends BaseModule {
     search: 'search-field',
     fallback: 'fallback-view',
     topappbar: 'top-navigation',
+    paginationcounter: 'pagecounter',
+    paginationdot: 'paginationdots',
   };
   protected readonly COPY_COMPONENT_MAP: CopyComponentMap = {
     input: ['checkbox', 'check-mark', 'radio', 'switch'],
