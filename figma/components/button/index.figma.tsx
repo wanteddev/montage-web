@@ -21,7 +21,7 @@ figma.connect(Button, '<FIGMA_BUTTON>', {
       false: undefined,
     }),
     loading: figma.boolean('Loading'),
-    color: figma.enum('Variant', {
+    color: figma.enum('Color', {
       Primary: 'primary',
       Assistive: 'assistive',
     }),
