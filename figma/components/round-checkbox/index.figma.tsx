@@ -6,7 +6,7 @@ figma.connect(RoundCheckbox, '<FIGMA_CONTROL_ROUND_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Normal: 'medium',
       Small: 'small',
     }),
   },
@@ -20,7 +20,7 @@ figma.connect(RoundCheckbox, '<FIGMA_CONTROL_ROUND_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Normal: 'medium',
       Small: 'small',
     }),
   },
@@ -34,7 +34,7 @@ figma.connect(RoundCheckbox, '<FIGMA_CONTROL_ROUND_CHECKBOX>', {
   props: {
     disabled: figma.boolean('Disable'),
     size: figma.enum('Size', {
-      Normal: 'normal',
+      Normal: 'medium',
       Small: 'small',
     }),
   },

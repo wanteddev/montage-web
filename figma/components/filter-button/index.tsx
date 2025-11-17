@@ -1,8 +1,8 @@
 import { figma } from '@figma/code-connect';
 
-import { ChipFilter } from '@wanteddev/wds';
+import { FilterButton } from '@wanteddev/wds';
 
-figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
+figma.connect(FilterButton, '<FIGMA_FILTER_BUTTON>', {
   props: {
     children: figma.string('Label'),
     disabled: figma.boolean('Disable'),
@@ -29,11 +29,11 @@ figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
     State: 'Normal',
   },
   example: ({ children, ...props }) => (
-    <ChipFilter {...props}>{children}</ChipFilter>
+    <FilterButton {...props}>{children}</FilterButton>
   ),
 });
 
-figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
+figma.connect(FilterButton, '<FIGMA_FILTER_BUTTON>', {
   props: {
     children: figma.string('Label'),
     disabled: figma.boolean('Disable'),
@@ -60,8 +60,8 @@ figma.connect(ChipFilter, '<FIGMA_CHIP_FILTER>', {
     State: 'Expand',
   },
   example: ({ children, ...props }) => (
-    <ChipFilter expanded {...props}>
+    <FilterButton expanded {...props}>
       {children}
-    </ChipFilter>
+    </FilterButton>
   ),
 });

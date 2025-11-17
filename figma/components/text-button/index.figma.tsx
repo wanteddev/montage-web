@@ -13,7 +13,7 @@ figma.connect(TextButton, '<FIGMA_TEXT_BUTTON>', {
       true: figma.children('Trailing Icon'),
       false: undefined,
     }),
-    variant: figma.enum('Variant', {
+    color: figma.enum('Color', {
       Primary: 'primary',
       Assistive: 'assistive',
     }),

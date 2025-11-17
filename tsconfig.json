@@ -13,6 +13,6 @@
       "@wanteddev/wds-lottie": ["packages/wds-lottie/src"]
     }
   },
-  "include": ["figma"],
+  "include": ["figma/**/*"],
   "exclude": ["node_modules"]
 }
