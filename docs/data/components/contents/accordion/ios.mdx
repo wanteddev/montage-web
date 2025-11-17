@@ -54,7 +54,7 @@ Accordion(title: "커스텀 스타일")
   | Parameter | Description |
   | --- | --- |
   | `title` | 아코디언의 제목 |
-  | `description` | 확장 시 표시될 설명 텍스트, 기본값은 `nil` |
+  | `description` | 확장 시 표시될 설명 텍스트, 생략하면 기본값으로 `nil` 적용 |
 </details>
 <details>
 
@@ -67,7 +67,7 @@ Accordion(title: "커스텀 스타일")
   | Parameter | Description |
   | --- | --- |
   | `title` | 아코디언의 제목 |
-  | `description` | 확장 시 표시될 설명 텍스트, 기본값은 `nil` |
+  | `description` | 확장 시 표시될 설명 텍스트, 생략하면 기본값으로 `nil` 적용 |
   | `content` | 확장 시 표시될 커스텀 컨텐츠 뷰 |
 </details>
 
@@ -95,9 +95,9 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 텍스트 변형, 기본값은 `.label1` |
-  | `weight` | 텍스트 굵기, 기본값은 `.regular` |
-  | `color` | 텍스트 색상, 기본값은 `.semantic(.labelNeutral)` |
+  | `variant` | 텍스트 변형, 생략하면 기본값으로 `.label1` 적용 |
+  | `weight` | 텍스트 굵기, 생략하면 기본값으로 `.regular` 적용 |
+  | `color` | 텍스트 색상, 생략하면 기본값으로 `.semantic(.labelNeutral)` 적용 |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -112,7 +112,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `fillWidth` | 너비를 채울지 여부, 기본값은 `true` |
+  | `fillWidth` | 너비를 채울지 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -130,7 +130,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `hideDivider` | 구분선을 숨길지 여부, 기본값은 `true` |
+  | `hideDivider` | 구분선을 숨길지 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -145,8 +145,8 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `leadingIcon` | 표시할 아이콘, 기본값은 `nil` |
-  | `color` | 아이콘 색상, 기본값은 `nil` (기본 색상 사용) |
+  | `leadingIcon` | 표시할 아이콘, 생략하면 기본값으로 `nil` 적용 |
+  | `color` | 아이콘 색상, 생략하면 기본값으로 `nil` 적용 (기본 색상 사용) |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -161,9 +161,9 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 텍스트 변형, 기본값은 `.body2` |
-  | `weight` | 텍스트 굵기, 기본값은 `.bold` |
-  | `color` | 텍스트 색상, 기본값은 `.semantic(.labelNormal)` |
+  | `variant` | 텍스트 변형, 생략하면 기본값으로 `.body2` 적용 |
+  | `weight` | 텍스트 굵기, 생략하면 기본값으로 `.bold` 적용 |
+  | `color` | 텍스트 색상, 생략하면 기본값으로 `.semantic(.labelNormal)` 적용 |
 - **Return Value**
 
   수정된 아코디언 인스턴스
@@ -196,7 +196,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `verticalPadding` | 상하 여백 크기, 기본값은 `.large` |
+  | `verticalPadding` | 상하 여백 크기, 생략하면 기본값으로 `.large` 적용 |
 - **Return Value**
 
   수정된 아코디언 인스턴스

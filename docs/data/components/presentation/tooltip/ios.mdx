@@ -90,7 +90,7 @@ Button("설정") {
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `arrowPosition` | 화살표의 수평 위치, 기본값은 `.center` |
+  | `arrowPosition` | 화살표의 수평 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 <details>
 
@@ -102,7 +102,7 @@ Button("설정") {
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `arrowPosition` | 화살표의 수직 위치, 기본값은 `.center` |
+  | `arrowPosition` | 화살표의 수직 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 <details>
 
@@ -114,7 +114,7 @@ Button("설정") {
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `arrowPosition` | 화살표의 수평 위치, 기본값은 `.center` |
+  | `arrowPosition` | 화살표의 수평 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 <details>
 
@@ -126,7 +126,7 @@ Button("설정") {
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `arrowPosition` | 화살표의 수직 위치, 기본값은 `.center` |
+  | `arrowPosition` | 화살표의 수직 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 
 </details>
@@ -175,7 +175,7 @@ ___
   | `isPresented` | 툴팁의 표시 여부를 제어하는 바인딩 |
   | `mode` | 툴팁의 표시 모드 |
   | `position` | 툴팁이 표시될 위치 및 화살표 위치 |
-  | `size` | 툴팁의 크기, 기본값은 `.medium` |
+  | `size` | 툴팁의 크기, 생략하면 기본값으로 `.medium` 적용 |
   | `message` | 툴팁에 표시될 메시지 |
 - **Return Value**
 

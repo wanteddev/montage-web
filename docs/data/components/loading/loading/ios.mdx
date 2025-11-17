@@ -21,7 +21,7 @@ Loading(kind: .wanted, size: CGSize(width: 100, height: 100))
 
 // 로딩 오버레이로 적용
 someView
-    .loading($isLoadingState, type: .circular)
+    .loading($isLoadingState, type: .circular(.blue))
 ```
 
 ## Topics
@@ -39,7 +39,7 @@ Loading 컴포넌트를 초기화합니다.
   | Parameter | Description |
   | --- | --- |
   | `kind` | 로딩 애니메이션의 종류 (.wanted 또는 .circular) |
-  | `size` | 로딩 애니메이션의 크기 (nil일 경우 기본 크기 사용) |
+  | `size` | 로딩 애니메이션의 크기 생략하면 기본값으로 `nil` 적용 (기본 크기 사용) |
 </details>
 
 ___
@@ -51,25 +51,6 @@ ___
 
 
 뷰의 내용과 동작을 정의합니다.
-</details>
-
-___
-### Instance Methods
-
-<details>
-
-<summary>``func foregroundColor(SwiftUI.Color?) -> Loading``</summary>
-
-
-로딩 애니메이션의 전경색을 설정합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `color` | 적용할 색상 |
-- **Return Value**
-
-  수정된 Loading 인스턴스
 </details>
 
 ___
@@ -85,10 +66,15 @@ ___
 
 <details>
 
-<summary>``case circular``</summary>
+<summary>``case circular(color: SwiftUI.Color?)``</summary>
 
 
 원형 회전 로딩 애니메이션
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `color` | 애니메이션의 색상을 지정합니다. 생략하면 기본값으로 `nil` 적용 (기본 색상 사용) |
 </details>
 <details>
 
@@ -120,7 +106,7 @@ ___
   | --- | --- |
   | `isLoading` | 로딩 상태를 제어하는 바인딩 불리언 값 |
   | `type` | 로딩 애니메이션 종류 (.wanted 또는 .circular) |
-  | `dimmedColor` | 오버레이 배경색, 기본값은 `.clear` |
+  | `dimmedColor` | 오버레이 배경색, 생략하면 기본값으로 `.clear` 적용 |
 - **Return Value**
 
   로딩 기능이 적용된 뷰

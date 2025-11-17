@@ -69,7 +69,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `border` | 테두리 적용 여부, 기본값은 `true` |
+  | `border` | 테두리 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 Thumbnail 인스턴스
@@ -84,7 +84,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `radius` | 둥근 모서리 적용 여부, 기본값은 `true` |
+  | `radius` | 둥근 모서리 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 Thumbnail 인스턴스

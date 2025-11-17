@@ -46,7 +46,7 @@ ListCell(title: "커스텀 셀", onTap: {
   | Parameter | Description |
   | --- | --- |
   | `title` | 셀에 표시할 제목 텍스트 |
-  | `onTap` | 셀을 탭했을 때 실행할 클로저, 기본값은 `nil` |
+  | `onTap` | 셀을 탭했을 때 실행할 클로저, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
 ___
@@ -73,7 +73,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `caption` | 표시할 캡션 텍스트, 기본값은 `nil` (nil 설정 시 캡션 제거) |
+  | `caption` | 표시할 캡션 텍스트, 생략하면 기본값으로 `nil` 적용 (nil 설정 시 캡션 제거) |
 - **Return Value**
 
   수정된 ListCell 인스턴스
@@ -91,7 +91,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `chevron` | 화살표 표시 여부, 기본값은 `true` |
+  | `chevron` | 화살표 표시 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 ListCell 인스턴스
@@ -109,7 +109,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부, 기본값은 `true` |
+  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 ListCell 인스턴스
@@ -127,7 +127,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `divider` | 구분선 표시 여부, 기본값은 `true` |
+  | `divider` | 구분선 표시 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 ListCell 인스턴스
@@ -142,7 +142,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `fillWidth` | 좌우 여백 적용 여부, 기본값은 `true` |
+  | `fillWidth` | 좌우 여백 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 ListCell 인스턴스
@@ -213,7 +213,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `selected` | 선택 여부, 기본값은 `true` |
+  | `selected` | 선택 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 ListCell 인스턴스
@@ -231,7 +231,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `textEllipsis` | 텍스트 생략 처리 여부, 기본값은 `true` |
+  | `textEllipsis` | 텍스트 생략 처리 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 ListCell 인스턴스

@@ -39,8 +39,8 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
   | --- | --- |
   | `selectedIndex` | 현재 선택된 탭의 인덱스를 바인딩하는 변수 |
   | `items` | 탭 항목 텍스트 배열 |
-  | `itemDisabled` | 탭 항목 비활성화 여부를 결정하는 클로저, 인덱스를 파라미터로 받음, 기본값은 false를 리턴하는 클로저 |
-  | `actions` | 탭 선택 시 호출되는 클로저, 선택된 인덱스를 파라미터로 받음, 기본값은 빈 클로저 |
+  | `itemDisabled` | 탭 항목 비활성화 여부를 결정하는 클로저, 인덱스를 파라미터로 받음, 생략하면 기본값으로 false를 리턴하는 클로저 적용 |
+  | `actions` | 탭 선택 시 호출되는 클로저, 선택된 인덱스를 파라미터로 받음, 생략하면 기본값으로 빈 클로저 적용 |
 </details>
 
 ___
@@ -67,7 +67,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `horizontalPadding` | 좌우 여백 사용 여부, 기본값은 `true` |
+  | `horizontalPadding` | 좌우 여백 사용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 Tab 인스턴스

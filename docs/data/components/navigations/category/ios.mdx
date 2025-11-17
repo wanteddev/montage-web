@@ -43,8 +43,8 @@ Category(
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `items` | 표시할 카테고리 항목 배열 |
-  | `itemModifier` | 카테고리 항목 수정 클로저, 인덱스와 Chip을 파라미터로 받음, 기본값은 원본 Chip을 반환하는 클로저 |
-  | `actions` | 항목 선택 시 호출될 클로저, 기본값은 빈 클로저 |
+  | `itemModifier` | 카테고리 항목 수정 클로저, 인덱스와 Chip을 파라미터로 받음, 생략하면 기본값으로 원본 Chip을 반환하는 클로저 적용 |
+  | `actions` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 빈 클로저 적용 |
 </details>
 
 ___
@@ -71,7 +71,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `horizontalPadding` | 패딩 적용 여부, 기본값은 `true` |
+  | `horizontalPadding` | 패딩 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 카테고리 인스턴스
@@ -132,7 +132,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `verticalPadding` | 패딩 적용 여부, 기본값은 `true` |
+  | `verticalPadding` | 패딩 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 카테고리 인스턴스

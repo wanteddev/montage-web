@@ -18,7 +18,6 @@ description: 다양한 스타일의 아이콘 버튼을 제공하는 컴포넌�
 
 ```swift
 IconButton(
-    variant: .default,
     icon: .arrowLeft,
     handler: { print("뒤로 가기 버튼 탭됨") }
 )
@@ -38,12 +37,9 @@ IconButton(
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 버튼의 외관 스타일, 기본값은 `.normal(size: 24)` |
+  | `variant` | 버튼의 외관 스타일, 생략하면 기본값으로 `.normal(size: 24)` 적용 |
   | `icon` | 표시할 아이콘 |
   | `handler` | 버튼 탭 시 실행할 핸들러 |
-- **Return Value**
-
-  구성된 아이콘 버튼 뷰
 </details>
 
 ___
@@ -229,7 +225,7 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `size` | 아이콘 크기 (픽셀) |
-  | `isAlternative` | 대체 스타일 사용 여부, 기본값은 `false` |
+  | `isAlternative` | 대체 스타일 사용 여부, 생략하면 기본값으로 `false` 적용 |
 </details>
 <details>
 

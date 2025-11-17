@@ -55,7 +55,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `isBold` | 볼드 적용 여부, 기본값은 `true` |
+  | `isBold` | 볼드 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 입력 컴포넌트
@@ -79,7 +79,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부, 기본값은 `true` |
+  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 컨트롤 인스턴스
@@ -117,9 +117,9 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 레이블 변형, 기본값은 `nil` |
-  | `weight` | 레이블 굵기, 기본값은 `nil` |
-  | `color` | 레이블 색상, 기본값은 `nil` |
+  | `variant` | 레이블 변형, 생략하면 기본값으로 `nil` 적용 |
+  | `weight` | 레이블 굵기, 생략하면 기본값으로 `nil` 적용 |
+  | `color` | 레이블 색상, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   수정된 입력 컴포넌트
@@ -139,7 +139,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `tight` | 조밀한 레이아웃 적용 여부, 기본값은 `true` |
+  | `tight` | 조밀한 레이아웃 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 컨트롤 인스턴스
@@ -169,8 +169,8 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `checked` | 체크박스의 초기 선택 상태 |
-  | `size` | 체크박스 크기, 기본값은 `.medium` |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
+  | `size` | 체크박스 크기, 생략하면 기본값으로 `.medium` 적용 |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   구성된 체크박스 컨트롤
@@ -186,8 +186,8 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `state` | 체크박스의 초기 상태 |
-  | `size` | 체크박스 크기, 기본값은 `.medium` |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
+  | `size` | 체크박스 크기, 생략하면 기본값으로 `.medium` 적용 |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   구성된 체크박스 컨트롤
@@ -203,8 +203,8 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `checked` | 체크마크의 초기 선택 상태 |
-  | `size` | 체크마크 크기, 기본값은 `.medium` |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
+  | `size` | 체크마크 크기, 생략하면 기본값으로 `.medium` 적용 |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   구성된 체크마크 컨트롤
@@ -220,8 +220,8 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `checked` | 라디오 버튼의 초기 선택 상태 |
-  | `size` | 라디오 버튼 크기, 기본값은 `.medium` |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
+  | `size` | 라디오 버튼 크기, 생략하면 기본값으로 `.medium` 적용 |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   구성된 라디오 버튼 컨트롤
@@ -237,8 +237,8 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `checked` | 스위치의 초기 선택 상태 |
-  | `size` | 스위치 크기, 기본값은 `.small` |
-  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 기본값은 `nil` |
+  | `size` | 스위치 크기, 생략하면 기본값으로 `.small` 적용 |
+  | `onSelect` | 선택 상태 변경 시 호출되는 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   구성된 스위치 컨트롤

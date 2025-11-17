@@ -40,7 +40,7 @@ ModalNavigation()
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `scrollOffset` | 스크롤 오프셋 바인딩, 기본값은 `.constant(0)` |
+  | `scrollOffset` | 스크롤 오프셋 바인딩, 생략하면 기본값으로 `.constant(0)` 적용 |
 </details>
 
 ___
@@ -244,8 +244,8 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `alternative` | 대체 아이콘 사용 여부, 기본값은 `false` |
-  | `background` | 배경 표시 여부, 기본값은 `true` |
+  | `alternative` | 대체 아이콘 사용 여부, 생략하면 기본값으로 `false` 적용 |
+  | `background` | 배경 표시 여부, 생략하면 기본값으로 `true` 적용 |
 </details>
 <details>
 

@@ -55,7 +55,7 @@ SegmentedControl(
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `image` | 표시할 이미지, 기본값은 `nil` |
+  | `image` | 표시할 이미지, 생략하면 기본값으로 `nil` 적용 |
   | `title` | 표시할 텍스트 |
 </details>
 
@@ -76,7 +76,7 @@ ___
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `items` | 표시할 항목 배열 |
-  | `onSelect` | 항목 선택 시 호출될 클로저, 기본값은 `nil` |
+  | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
 </details>
 <details>
 
@@ -90,7 +90,7 @@ ___
   | --- | --- |
   | `selectedIndex` | 현재 선택된 항목의 인덱스 바인딩 |
   | `labels` | 표시할 텍스트 배열 |
-  | `onSelect` | 항목 선택 시 호출될 클로저, 기본값은 `nil` |
+  | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
 ___

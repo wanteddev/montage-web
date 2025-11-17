@@ -37,11 +37,11 @@ FilterButton(
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 버튼의 외관 스타일, 기본값은 `.solid` |
-  | `size` | 버튼의 크기, 기본값은 `.medium` |
+  | `variant` | 버튼의 외관 스타일, 생략하면 기본값으로 `.solid` 적용 |
+  | `size` | 버튼의 크기, 생략하면 기본값으로 `.medium` 적용 |
   | `text` | 버튼에 표시할 텍스트 |
-  | `state` | 버튼의 확장 상태 바인딩, 기본값은 `.constant(.normal)` |
-  | `handler` | 버튼 클릭 시 실행할 핸들러, 기본값은 `nil` |
+  | `state` | 버튼의 확장 상태 바인딩, 생략하면 기본값으로 `.constant(.normal)` 적용 |
+  | `handler` | 버튼 클릭 시 실행할 핸들러, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
 ___
@@ -69,7 +69,7 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `active` | 활성화 여부 |
-  | `label` | 활성화 상태일 때 표시할 레이블, 기본값은 `nil` |
+  | `label` | 활성화 상태일 때 표시할 레이블, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   수정된 버튼 인스턴스
@@ -114,7 +114,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `disable` | 비활성화 여부, 기본값은 `true` |
+  | `disable` | 비활성화 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 버튼 인스턴스

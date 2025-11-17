@@ -63,9 +63,9 @@ SnackBar 모델을 초기화합니다.
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `duration` | 스낵바가 표시되는 시간, 기본값은 `.short` |
-  | `heading` | 스낵바의 제목, 기본값은 `nil` |
-  | `description` | 스낵바의 설명 텍스트, 기본값은 `nil` |
+  | `duration` | 스낵바가 표시되는 시간, 생략하면 기본값으로 `.short` 적용 |
+  | `heading` | 스낵바의 제목, 생략하면 기본값으로 `nil` 적용 |
+  | `description` | 스낵바의 설명 텍스트, 생략하면 기본값으로 `nil` 적용 |
   | `action` | 스낵바의 액션 버튼에 표시할 텍스트 |
 </details>
 <details>
@@ -78,9 +78,9 @@ SnackBar 모델을 초기화합니다.
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `duration` | 스낵바가 표시되는 시간, 기본값은 `.short` |
-  | `heading` | 스낵바의 제목, 기본값은 `nil` |
-  | `description` | 스낵바의 설명 텍스트, 기본값은 `nil` |
+  | `duration` | 스낵바가 표시되는 시간, 생략하면 기본값으로 `.short` 적용 |
+  | `heading` | 스낵바의 제목, 생략하면 기본값으로 `nil` 적용 |
+  | `description` | 스낵바의 설명 텍스트, 생략하면 기본값으로 `nil` 적용 |
   | `action` | 스낵바의 액션 버튼에 표시할 텍스트 |
 </details>
 
@@ -150,7 +150,7 @@ SnackBar가 자동으로 사라지는 시간을 정의하는 열거형입니다.
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `offset` | 하단에서의 오프셋 값, 기본값은 `.zero` |
+  | `offset` | 하단에서의 오프셋 값, 생략하면 기본값으로 `.zero` 적용 |
 </details>
 <details>
 
@@ -162,7 +162,7 @@ SnackBar가 자동으로 사라지는 시간을 정의하는 열거형입니다.
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `offset` | 상단에서의 오프셋 값, 기본값은 `.zero` |
+  | `offset` | 상단에서의 오프셋 값, 생략하면 기본값으로 `.zero` 적용 |
 </details>
 
 </details>
@@ -186,7 +186,7 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `model` | SnackBar 모델을 바인딩합니다. nil이 아닌 값이 설정되면 SnackBar가 표시됩니다. |
-  | `location` | SnackBar가 표시될 위치, 기본값은 `.bottom(offset: .zero)` |
+  | `location` | SnackBar가 표시될 위치, 생략하면 기본값으로 `.bottom(offset: .zero)` 적용 |
   | `handler` | SnackBar의 액션 버튼이 클릭되었을 때 실행될 클로저 |
 - **Return Value**
 

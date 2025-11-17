@@ -64,7 +64,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `alternative` | 대체 스타일 적용 여부, 기본값은 `true` |
+  | `alternative` | 대체 스타일 적용 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 PlayBadge 인스턴스

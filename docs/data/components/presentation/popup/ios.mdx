@@ -191,11 +191,11 @@ ___
   | Parameter | Description |
   | --- | --- |
   | `isPresented` | 모달 표시 여부를 제어하는 바인딩 |
-  | `resize` | 모달 크기 조절 방식, 기본값은 `.hug` |
-  | `ignoresEdgeInsets` | 모달 내용이 Edge 인셋을 무시할지 여부, 기본값은 `false` |
-  | `actionAreaModel` | 모달 하단에 표시할 액션 영역 모델, 기본값은 `nil` |
+  | `resize` | 모달 크기 조절 방식, 생략하면 기본값으로 `.hug` 적용 |
+  | `ignoresEdgeInsets` | 모달 내용이 Edge 인셋을 무시할지 여부, 생략하면 기본값으로 `false` 적용 |
+  | `actionAreaModel` | 모달 하단에 표시할 액션 영역 모델, 생략하면 기본값으로 `nil` 적용 |
   | `content` | 모달에 표시할 콘텐츠 클로저 |
-  | `navigation` | 모달 상단에 표시할 네비게이션 클로저, 기본값은 `nil` |
+  | `navigation` | 모달 상단에 표시할 네비게이션 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   팝업 모달이 적용된 뷰

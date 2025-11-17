@@ -122,7 +122,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `horizontalPosition` | 수평 위치, 기본값은 `.center` |
+  | `horizontalPosition` | 수평 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 <details>
 
@@ -134,7 +134,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `horizontalPosition` | 수평 위치, 기본값은 `.center` |
+  | `horizontalPosition` | 수평 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 <details>
 
@@ -146,7 +146,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `horizontalPosition` | 수평 위치, 기본값은 `.center` |
+  | `horizontalPosition` | 수평 위치, 생략하면 기본값으로 `.center` 적용 |
 </details>
 
 #### Enumerations
@@ -270,12 +270,12 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `variant` | 뱃지의 표시 형태, 기본값은 `.dot` |
-  | `size` | 뱃지 크기, 기본값은 `.xsmall` |
-  | `fontColor` | 텍스트 색상, 기본값은 `.semantic(.staticWhite)` |
-  | `backgroundColor` | 배경 색상, 기본값은 `.semantic(.primaryNormal)` |
-  | `position` | 뱃지 위치, 기본값은 `.top(.trailing)` |
-  | `inset` | 위치 조정을 위한 여백, 기본값은 `.zero` |
+  | `variant` | 뱃지의 표시 형태, 생략하면 기본값으로 `.dot` 적용 |
+  | `size` | 뱃지 크기, 생략하면 기본값으로 `.xsmall` 적용 |
+  | `fontColor` | 텍스트 색상, 생략하면 기본값으로 `.semantic(.staticWhite)` 적용 |
+  | `backgroundColor` | 배경 색상, 생략하면 기본값으로 `.semantic(.primaryNormal)` 적용 |
+  | `position` | 뱃지 위치, 생략하면 기본값으로 `.top(.trailing)` 적용 |
+  | `inset` | 위치 조정을 위한 여백, 생략하면 기본값으로 `.zero` 적용 |
 - **Return Value**
 
   뱃지가 적용된 뷰

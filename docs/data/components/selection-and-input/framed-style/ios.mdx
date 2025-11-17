@@ -59,10 +59,10 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `status` | 프레임 상태, 기본값은 `.normal` |
-  | `borderRadius` | 테두리 반경, 기본값은 `0` |
-  | `shadowLevel` | 그림자 레벨, 기본값은 `.xsmall` |
-  | `disabled` | 비활성화 상태 여부, 기본값은 `false` |
+  | `status` | 프레임 상태, 생략하면 기본값으로 `.normal` 적용 |
+  | `borderRadius` | 테두리 반경, 생략하면 기본값으로 `0` 적용 |
+  | `shadowLevel` | 그림자 레벨, 생략하면 기본값으로 `.xsmall` 적용 |
+  | `disabled` | 비활성화 상태 여부, 생략하면 기본값으로 `false` 적용 |
 - **Return Value**
 
   프레임 스타일이 적용된 뷰

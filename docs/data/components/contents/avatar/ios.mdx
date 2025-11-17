@@ -40,8 +40,8 @@ Avatar("https://example.com/profile.jpg", variant: .person)
   | --- | --- |
   | `imageUrl` | 표시할 이미지의 URL 문자열 |
   | `variant` | 아바타 유형 (.person, .company, .academy) |
-  | `size` | 아바타 크기, 기본값은 `.small` |
-  | `onTap` | 탭 시 실행할 액션, 기본값은 `nil` |
+  | `size` | 아바타 크기, 생략하면 기본값으로 `.small` 적용 |
+  | `onTap` | 탭 시 실행할 액션, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
 ___
@@ -68,8 +68,8 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `color` | 테두리 색상, 기본값은 `.semantic(.lineAlternative)` |
-  | `width` | 테두리 두께, 기본값은 `1` |
+  | `color` | 테두리 색상, 생략하면 기본값으로 `.semantic(.lineAlternative)` 적용 |
+  | `width` | 테두리 두께, 생략하면 기본값으로 `1` 적용 |
 - **Return Value**
 
   수정된 아바타 인스턴스
@@ -84,7 +84,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `pushBadge` | 뱃지 표시 여부, 기본값은 `true` |
+  | `pushBadge` | 뱃지 표시 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 아바타 인스턴스

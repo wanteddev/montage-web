@@ -20,7 +20,7 @@ ListCard(
     title: "리스트 카드 제목"
 )
 .caption("부제목")
-.trailingContent { IconButton(variant: .default, icon: .arrowRight) }
+.trailingContent { IconButton(icon: .arrowRight) }
 ```
 
 ## Topics

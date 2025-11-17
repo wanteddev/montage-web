@@ -59,10 +59,10 @@ ScrollView(scrollStatus: $scrollStatus,
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `axis` | 스크롤 방향, 기본값은 `.vertical` |
-  | `scrollViewSize` | 스크롤 뷰 크기, 기본값은 `.zero` |
-  | `contentSize` | 콘텐츠 크기, 기본값은 `.zero` |
-  | `contentOffset` | 콘텐츠 오프셋, 기본값은 `.zero` |
+  | `axis` | 스크롤 방향, 생략하면 기본값으로 `.vertical` 적용 |
+  | `scrollViewSize` | 스크롤 뷰 크기, 생략하면 기본값으로 `.zero` 적용 |
+  | `contentSize` | 콘텐츠 크기, 생략하면 기본값으로 `.zero` 적용 |
+  | `contentOffset` | 콘텐츠 오프셋, 생략하면 기본값으로 `.zero` 적용 |
 </details>
 
 #### Instance Properties
@@ -118,8 +118,8 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `scrollStatus` | 스크롤 상태를 추적하기 위한 바인딩, 기본값은 `nil` |
-  | `onOffsetChanged` | 스크롤 오프셋이 변경될 때 호출되는 클로저, 기본값은 빈 클로저 |
+  | `scrollStatus` | 스크롤 상태를 추적하기 위한 바인딩, 생략하면 기본값으로 `nil` 적용 |
+  | `onOffsetChanged` | 스크롤 오프셋이 변경될 때 호출되는 클로저, 생략하면 기본값으로 빈 클로저 적용 |
   | `content` | 스크롤 뷰에 표시할 콘텐츠를 반환하는 클로저 |
 </details>
 
@@ -162,7 +162,7 @@ ___
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `hidesIndicators` | 인디케이터를 숨길지 여부, 기본값은 `true` |
+  | `hidesIndicators` | 인디케이터를 숨길지 여부, 생략하면 기본값으로 `true` 적용 |
 - **Return Value**
 
   수정된 스크롤 뷰
