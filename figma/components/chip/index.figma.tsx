@@ -1,8 +1,8 @@
 import { figma } from '@figma/code-connect';
 
-import { ChipAction } from '@wanteddev/wds';
+import { Chip } from '@wanteddev/wds';
 
-figma.connect(ChipAction, '<FIGMA_CHIP_ACTION>', {
+figma.connect(Chip, '<FIGMA_CHIP>', {
   props: {
     children: figma.string('Text'),
     leadingContent: figma.boolean('Leading Content', {
@@ -26,7 +26,5 @@ figma.connect(ChipAction, '<FIGMA_CHIP_ACTION>', {
       Outlined: 'outlined',
     }),
   },
-  example: ({ children, ...props }) => (
-    <ChipAction {...props}>{children}</ChipAction>
-  ),
+  example: ({ children, ...props }) => <Chip {...props}>{children}</Chip>,
 });
