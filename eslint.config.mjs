@@ -8,6 +8,17 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import js from '@eslint/js';
 
+const typescriptProject = [
+  '.github/actions/*/tsconfig.json',
+  'tsconfig.json',
+  'tsconfig.node.json',
+  'docs/tsconfig.json',
+  'docs/tsconfig.node.json',
+  'packages/*/tsconfig.json',
+  'packages/*/tsconfig.node.json',
+  'packages/*/tsconfig.test.json',
+];
+
 export default defineConfig(
   js.configs.recommended,
   tseslint.configs.recommended,
@@ -26,7 +37,11 @@ export default defineConfig(
         version: 'detect',
       },
       'import/resolver': {
-        typescript: true,
+        typescript: {
+          alwaysTryTypes: true,
+          project: typescriptProject,
+          noWarnOnMultipleProjects: true,
+        },
         node: true,
       },
     },
@@ -211,16 +226,7 @@ export default defineConfig(
   {
     languageOptions: {
       parserOptions: {
-        project: [
-          '.github/actions/*/tsconfig.json',
-          'tsconfig.json',
-          'tsconfig.node.json',
-          'docs/tsconfig.json',
-          'docs/tsconfig.node.json',
-          'packages/*/tsconfig.json',
-          'packages/*/tsconfig.node.json',
-          'packages/*/tsconfig.test.json',
-        ],
+        project: typescriptProject,
         tsconfigRootDir: import.meta.dirname,
       },
     },

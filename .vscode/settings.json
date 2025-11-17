@@ -1,6 +1,11 @@
 {
   "typescript.tsdk": "./node_modules/typescript/lib",
-  "eslint.workingDirectories": [{ "mode": "auto" }],
+  "eslint.workingDirectories": [
+    { "pattern": ".github/actions/*/" },
+    { "pattern": "docs/" },
+    { "pattern": "packages/*/" }
+  ],
+  "eslint.useFlatConfig": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
