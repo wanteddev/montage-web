@@ -1,0 +1,86 @@
+---
+title: ModalBottomSheet
+description: BottomSheet 형태의 모달 컴포넌트입니다.
+---
+
+## WantedModalBottomSheet
+BottomSheet 형태의 모달 컴포넌트입니다.
+시스템 BottomSheet 또는 커스텀 드래그 가능한 BottomSheet를 사용할 수 있습니다.
+
+```kotlin
+var showSheet by remember { mutableStateOf(false) }
+
+Button(onClick = { showSheet = true }) {
+    Text("시트 열기")
+}
+
+WantedModalBottomSheet(
+    isShow = showSheet,
+    onDismissRequest = { showSheet = false },
+    content = { Text("시트 내용") }
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| isShow | Boolean | 모달 표시 여부입니다. |
+| onDismissRequest | () -> Unit | 모달이 닫힐 때 호출되는 콜백입니다. |
+| modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
+| background | Color | 배경 색상입니다. |
+| type | ModalType | 모달의 형태입니다. |
+| modalSize | ModalSize | 콘텐츠 패딩 등을 조절하는 크기 설정입니다. |
+| dismissOnClickOutside | Boolean | 외부 클릭 시 닫힘 여부입니다. |
+| topBar | (@Composable () -> Unit)? | 상단 바 슬롯입니다. |
+| bottomBar | (@Composable () -> Unit)? | 하단 바 슬롯입니다. |
+| content | (@Composable () -> Unit) | 본문 콘텐츠 슬롯입니다. |
+
+
+## Advanced
+### WantedModalDefaults
+모달 컴포넌트의 기본 구성 요소를 제공하는 객체입니다.
+
+### DragHandle
+BottomSheet 상단에 표시되는 드래그 핸들 컴포넌트입니다.
+
+```kotlin
+WantedModalDefaults.DragHandle()
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
+  | color | Color | 핸들의 배경 색상입니다. |
+  | shape | Shape | 핸들의 모양입니다. |
+
+</details>
+<br />
+### WantedModalContract
+모달 컴포넌트에서 사용하는 설정 값을 정의하는 객체입니다.
+
+
+## Enum
+### ModalSize
+| 값 | 설명 |
+|:---|:---|
+| Small | 작은 크기의 모달입니다. |
+| Medium | 중간 크기의 모달입니다. |
+| Large | 큰 크기의 모달입니다. |
+| XLarge | 매우 큰 크기의 모달입니다. |
+| Custom | 커스텀 크기의 모달입니다. 모든 패딩이 0dp로 설정되어 사용자가 직접 정의 할 수 있습니다. |
+
+## Sealed Class
+### ModalType
+모달의 형태를 정의하는 sealed 클래스입니다.
+Flexible, FixedWrapContent, Fixed, FixedFullScreen, FixedRatio 다섯 가지 형태가 존재합니다.
+
+| 값 | 설명 |
+|:---|:---|
+| Flexible | 콘텐츠 크기에 따라 자동으로 조정되는 유동형 모달입니다. |
+| FixedWrapContent | 콘텐츠 높이에 맞게 조정되는 고정형 모달입니다. |
+| Fixed | 특정 높이를 갖는 고정형 모달입니다. |
+| FixedFullScreen | 화면 전체를 덮는 고정형 모달입니다. |
+| FixedRatio | 화면 비율을 기준으로 높이가 설정되는 고정형 모달입니다. |

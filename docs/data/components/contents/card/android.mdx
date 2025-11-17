@@ -39,45 +39,6 @@ WantedCard(
 
 
 ## Advanced
-### WantedListCard
-가로형 카드 컴포저블입니다.
-썸네일과 설명 영역을 좌우로 배치한 형태의 카드입니다.
-로딩 상태에서는 Skeleton UI가 나타나며, 상단/하단 커스텀 콘텐츠와 좌우 콘텐츠 Slot을 제공합니다.
-
-```kotlin
-WantedListCard(
-    modifier = Modifier.fillMaxWidth(),
-    title = "제목",
-    caption = "캡션",
-    extraCaption = "추가 설명",
-    topContent = { WantedContentBadge(text = "상단") },
-    bottomContent = { WantedContentBadge(text = "하단") },
-    leadingContent = { WantedCheckBox(...) },
-    trailingContent = { Icon(...) },
-    onClick = { /* 클릭 처리 */ }
-)
-```
-
-<details>
-  <summary>Parameters</summary>
-
-  | 이름 | 타입 | 설명 |
-  |:---|:---|:---|
-  | modifier | Modifier | 컴포넌트의 레이아웃과 스타일을 조정합니다. |
-  | title | String | 카드의 주요 제목입니다. |
-  | caption | String | 제목 아래에 표시될 보조 설명입니다. |
-  | extraCaption | String | 추가적인 설명 텍스트입니다. |
-  | isLoading | Boolean | true일 경우 스켈레톤 UI로 렌더링됩니다. |
-  | cardDefault | WantedCardDefault | 스켈레톤 모드 시 항목별 표시 여부를 지정하는 설정 객체입니다. |
-  | thumbnail | (@Composable () -> Unit)? | 썸네일 이미지 영역입니다. null이면 기본 배경으로 표시됩니다. |
-  | topContent | (@Composable () -> Unit)? | 설명 위에 표시될 추가 콘텐츠입니다. |
-  | bottomContent | (@Composable () -> Unit)? | 설명 아래에 표시될 추가 콘텐츠입니다. |
-  | leadingContent | (@Composable () -> Unit)? | 썸네일 왼쪽에 표시될 콘텐츠입니다 (예: 체크박스). |
-  | trailingContent | (@Composable () -> Unit)? | 설명 오른쪽에 표시될 콘텐츠입니다 (예: 아이콘 버튼). |
-  | onClick | () -> Unit | 카드 클릭 시 호출되는 콜백 함수입니다. |
-
-</details>
-<br />
 ### WantedCardDefault
 카드 UI의 스켈레톤 표시 여부를 지정하는 데이터 클래스입니다.
 각 항목별로 스켈레톤을 표시할지 여부를 설정합니다.
