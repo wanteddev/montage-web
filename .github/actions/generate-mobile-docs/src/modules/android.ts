@@ -13,7 +13,7 @@ export default class Android extends BaseModule {
     actionchip: 'chip',
     search: 'search-field',
     fallback: 'fallback-view',
-    topappbar: 'top-navigation',
+    topbar: 'top-navigation',
     paginationcounter: 'pagecounter',
     paginationdot: 'paginationdots',
   };

@@ -24,7 +24,9 @@ const parseSlug = (params: Awaited<Props['params']>) =>
   Array.isArray(params.slug) ? params.slug : [params.slug];
 
 const isFileNotFoundError = (error: unknown) =>
-  error instanceof Error && 'code' in error && error.code === 'ENOENT';
+  error instanceof Error &&
+  'message' in error &&
+  error.message.includes('File not found');
 
 export const dynamic = 'force-static';
 
@@ -71,7 +73,11 @@ const DocsPage = async (props: Props) => {
   try {
     source = await getSourceBySlug(parseSlug(params));
   } catch (err) {
-    notFound();
+    if (isFileNotFoundError(err)) {
+      notFound();
+    }
+
+    throw err;
   }
 
   return (
