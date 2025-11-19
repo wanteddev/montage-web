@@ -8,7 +8,6 @@ import {
   useState,
 } from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
@@ -129,10 +128,10 @@ const Sidebar = () => {
                       as="li"
                       key={id}
                       data-level={getHeadingLevel(nodeName)}
-                      aria-current={visibleSectionId === id}
+                      data-is-active={visibleSectionId === id}
                       sx={sidebarContentStyle}
                     >
-                      <Link href={`#${id}`}>{text}</Link>
+                      <a href={`#${id}`}>{text}</a>
                     </Typography>
                   );
                 })}

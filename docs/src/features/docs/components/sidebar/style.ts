@@ -26,11 +26,11 @@ export const sidebarContentStyle = (theme: Theme) => css`
     border-color 0.2s ease,
     color 0.2s ease;
 
-  &[aria-current='true'] {
+  &[data-is-active='true'] {
     color: ${theme.semantic.label.normal};
   }
 
-  &[aria-current='false']:has(a:hover) {
+  &[data-is-active='false']:has(a:hover) {
     color: ${theme.semantic.label.neutral};
   }
 
