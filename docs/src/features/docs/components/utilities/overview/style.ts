@@ -3,6 +3,10 @@ import { css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const headingStyle = css`
+  &&:first-of-type {
+    margin-top: 0px;
+  }
+
   &:not(:first-of-type) {
     margin-top: 88px;
   }

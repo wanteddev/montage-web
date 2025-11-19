@@ -1,4 +1,6 @@
-import { css, typographyStyle } from '@wanteddev/wds';
+import { css, respondTo, typographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
 
 export const linkStyle = css`
   text-decoration-line: underline;
@@ -13,5 +15,16 @@ export const linkStyle = css`
 export const listStyle = (isLast?: boolean) => css`
   && {
     margin: 0px 0px ${isLast ? '0px' : '28px'};
+  }
+`;
+
+export const textStyle = (theme: Theme) => css`
+  && {
+    max-width: unset;
+    white-space: pre-line;
+
+    ${respondTo(theme.breakpoint.sm)} {
+      white-space: initial;
+    }
   }
 `;

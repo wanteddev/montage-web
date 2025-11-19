@@ -47,7 +47,7 @@ const LnbGroup = ({ frontmatters }: Props) => {
                 wrapperSx={{
                   '& + [data-is-group="true"]': { marginTop: '32px' },
                 }}
-                depth="0"
+                depth="1"
               >
                 {getFrontmatterTitle(frontmatter)}
               </LnbGroupItem>

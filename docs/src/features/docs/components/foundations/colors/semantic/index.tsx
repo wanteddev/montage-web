@@ -40,7 +40,10 @@ const FoundationsColorsSemantic = () => {
 
   return (
     <>
-      <Heading2 content="Primary" />
+      <Heading2
+        content="Primary"
+        sx={{ '&&:first-of-type': { marginTop: '0px' } }}
+      />
 
       <p>
         화면 내에서 가장 중요한 요소를 표현할 때 사용합니다. Normal, Strong,

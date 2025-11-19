@@ -4,7 +4,7 @@ import { Box, Divider } from '@wanteddev/wds';
 
 import { Heading2, Heading3 } from '../../mdx/section/layout';
 
-import { linkStyle, listStyle } from './style';
+import { linkStyle, listStyle, textStyle } from './style';
 
 const TermsOfUse = () => {
   return (
@@ -16,10 +16,10 @@ const TermsOfUse = () => {
 
       <Heading2 content="1. 약관 적용" />
 
-      <Box as="p" sx={{ '&&': { maxWidth: 'unset' } }}>
+      <Box as="p" sx={textStyle}>
         원티드 디자인 시스템(이하 &quot;시스템&quot;)을 사용하시는 경우, 본 이용
         약관이 적용됩니다.
-        <br />본 시스템은 오픈소스 프로젝트로서, 커뮤니티의 기여와 협업을
+        {'\n'}본 시스템은 오픈소스 프로젝트로서, 커뮤니티의 기여와 협업을
         환영합니다.
       </Box>
 
@@ -50,7 +50,7 @@ const TermsOfUse = () => {
 
       <Heading2 content="2. 라이선스" />
 
-      <Box as="p" sx={{ margin: '0px 0px 40px', '&&': { maxWidth: 'unset' } }}>
+      <Box as="p" sx={[{ margin: '0px 0px 40px' }, textStyle]}>
         본 시스템은{' '}
         <Box
           href="https://opensource.org/license/MIT"
@@ -61,11 +61,9 @@ const TermsOfUse = () => {
         >
           MIT 라이선스
         </Box>
-        에 따라 제공되는 오픈소스 프로젝트로서,
-        <br />
+        에 따라 제공되는 오픈소스 프로젝트로서,{'\n'}
         상업적 목적을 포함한 모든 용도로 자유롭게 사용, 수정, 배포가 가능합니다.
-        <br />
-        단, 저작권 표시 및 라이선스 전문을 포함해야 합니다.
+        {'\n'}단, 저작권 표시 및 라이선스 전문을 포함해야 합니다.
       </Box>
 
       <Heading3 content="허용 사항" />
@@ -169,7 +167,7 @@ const TermsOfUse = () => {
 
       <Heading2 content="5. 면책 조항" />
 
-      <Box as="p" sx={{ '&&': { maxWidth: 'unset' } }}>
+      <Box as="p" sx={textStyle}>
         본 시스템은 &quot;있는 그대로&quot; 제공되며, 특정 목적에의 적합성,
         상품성, 권리 비침해에 대한 묵시적 보증을 포함하여 어떠한 종류의 명시적
         또는 묵시적 보증도 하지 않습니다.

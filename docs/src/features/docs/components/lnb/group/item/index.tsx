@@ -68,7 +68,7 @@ const LnbGroupItem = ({
 
   const routeProps = href
     ? { role: 'link', href, onClick: handleRouteChange, as: Link }
-    : { role: 'button', onClick };
+    : { role: 'button', onClick, as: 'div' };
 
   return (
     <Tooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>
@@ -83,7 +83,7 @@ const LnbGroupItem = ({
             data-depth={depth}
             aria-current={isActive ? 'page' : undefined}
             textProps={{
-              variant: 'body2',
+              variant: depth === '0' ? 'headline2' : 'body2',
               weight: isActive ? 'bold' : 'medium',
               color: isActive
                 ? 'semantic.label.normal'

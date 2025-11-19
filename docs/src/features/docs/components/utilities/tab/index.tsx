@@ -48,7 +48,7 @@ const UtilitiesTab = () => {
         />
       </Box>
 
-      <RouteTab tabs={tabs} sx={{ marginBottom: '32px' }} />
+      <RouteTab tabs={tabs} />
     </>
   );
 };
