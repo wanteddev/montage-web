@@ -64,27 +64,17 @@ export const itemDividerStyle = (theme: Theme) => css`
   }
 `;
 
-export const itemWebpStyle =
-  (image: string, webp: string) => (theme: Theme) => css`
-    width: 40px;
-    height: 40px;
-    background: url(${image}) no-repeat center center;
-    background-size: 100% 100%;
-    margin-left: -4px;
+export const itemWebpStyle = (theme: Theme) => css`
+  width: 40px;
+  height: 40px;
+  margin-left: -4px;
 
-    &[data-state='hover'] {
-      background-image: url(${webp});
-    }
-
-    ${respondTo(theme.breakpoint.md)} {
-      height: 32px;
-      width: 32px;
-      margin-left: -3px;
-      img {
-        margin: 0 auto;
-      }
-    }
-  `;
+  ${respondTo(theme.breakpoint.md)} {
+    height: 32px;
+    width: 32px;
+    margin-left: -3px;
+  }
+`;
 
 export const itemLinkStyle = (theme: Theme) => css`
   [data-role='interaction-arrow'] {

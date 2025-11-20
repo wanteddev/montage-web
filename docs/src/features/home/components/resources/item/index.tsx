@@ -1,7 +1,7 @@
 import { Box, Divider, FlexBox, Typography } from '@wanteddev/wds';
 import Link from 'next/link';
 import { IconArrowUpRight } from '@wanteddev/wds-icon';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import {
   hiddenTextStyle,
@@ -10,35 +10,50 @@ import {
   itemWrapperStyle,
 } from './style';
 
+import type { AnimationItem } from 'lottie-web';
 import type { HTMLAttributes } from 'react';
 
 type Props = {
   title: string;
   href: string;
-  image: string;
-  webp: string;
   updatedAt: string;
+  lottie: string;
 } & HTMLAttributes<HTMLAnchorElement>;
 
-const ResourcesItem = ({
-  title,
-  href,
-  image,
-  webp,
-  updatedAt,
-  ...props
-}: Props) => {
-  const ref = useRef<HTMLDivElement>(null);
+const ResourcesItem = ({ title, href, updatedAt, lottie, ...props }: Props) => {
+  const animationRef = useRef<AnimationItem | null>(null);
 
-  const [isMouseOver, setIsMouseOver] = useState(false);
+  const lottieRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = useCallback(() => {
-    setIsMouseOver(true);
+    animationRef.current?.play();
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setIsMouseOver(false);
+    animationRef.current?.goToAndStop(0);
   }, []);
+
+  const loadAnimation = useCallback(async () => {
+    if (!lottieRef.current) return;
+
+    const { default: LottiePlayer } = await import(
+      'lottie-web/build/player/lottie_svg.min'
+    );
+
+    animationRef.current = LottiePlayer.loadAnimation({
+      container: lottieRef.current,
+      renderer: 'svg',
+      loop: true,
+      autoplay: false,
+      path: lottie,
+    });
+  }, [lottie]);
+
+  useEffect(() => {
+    loadAnimation();
+
+    return () => animationRef.current?.destroy();
+  }, [loadAnimation]);
 
   return (
     <FlexBox
@@ -59,11 +74,8 @@ const ResourcesItem = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <FlexBox ref={ref} sx={{ position: 'relative' }}>
-        <Box
-          sx={itemWebpStyle(image, webp)}
-          data-state={isMouseOver ? 'hover' : 'idle'}
-        />
+      <FlexBox sx={{ position: 'relative' }}>
+        <Box ref={lottieRef} sx={itemWebpStyle} />
       </FlexBox>
 
       <Divider color="semantic.line.normal.neutral" sx={itemDividerStyle} />

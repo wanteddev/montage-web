@@ -6,8 +6,6 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "strictNullChecks": true,
-    "jsx": "preserve",
     "plugins": [
       {
         "name": "next"
@@ -15,11 +13,10 @@
     ]
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    ".eslintrc.cjs",
-    "sentry.*.config.ts",
-    ".next/types/**/*.ts"
+    "next-env.d.ts",
+    "src",
+    ".next/types/**/*.ts",
+    "@types/index.d.ts"
   ],
-  "exclude": ["node_modules", ".next"]
+  "exclude": ["node_modules", ".next", "out"]
 }
