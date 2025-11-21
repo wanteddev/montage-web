@@ -8,18 +8,12 @@ export default class Android extends BaseModule {
     'core/wanted-library-design-system/document/md';
 
   protected readonly CUSTOM_COMPONENT_MAP: CustomComponentMap = {
-    modal: 'popup',
-    filterchip: 'filter-button',
-    actionchip: 'chip',
     search: 'search-field',
     fallback: 'fallback-view',
     topbar: 'top-navigation',
-    paginationcounter: 'pagecounter',
-    paginationdot: 'paginationdots',
   };
   protected readonly COPY_COMPONENT_MAP: CopyComponentMap = {
     input: ['checkbox', 'check-mark', 'radio', 'switch'],
-    button: ['button', 'text-button'],
   };
   protected readonly UTILITY_COMPONENTS: Array<string> = ['toucharea'];
 

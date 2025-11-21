@@ -1,11 +1,11 @@
 ---
 title: TextField
-description: 텍스트 입력을 위한 커스텀 TextField 컴포저블입니다. (String 기반)
+description: 텍스트 입력을 위한 커스텀 Text field 컴포넌트입니다.
 ---
 
 ## WantedTextField
-텍스트 입력을 위한 커스텀 TextField 컴포저블입니다. (String 기반)
-`TextFieldValue`가 아닌 문자열 기반으로 값을 주고받는 방식입니다.
+텍스트 입력을 위한 커스텀 Text field 컴포넌트입니다.
+TextFieldValue가 아닌 문자열 기반으로 값을 주고받는 방식입니다.
 에러, 완료 상태, 우측 버튼, 아이콘, 설명, 포커스 등을 커스터마이징할 수 있습니다.
 
 ```kotlin
@@ -45,8 +45,8 @@ WantedTextField(
 | onValueChange | (String) -> Unit | 텍스트 변경 시 콜백입니다. |
 
 ## Overload
-텍스트 입력을 위한 커스텀 TextField 컴포저블입니다. (TextFieldValue 기반)
-커서 위치 및 선택 영역 처리를 위해 `TextFieldValue` 객체를 사용합니다.
+Text field 컴포넌트에서 사용되는 설정 값을 정의하는 객체입니다.
+커서 위치 및 선택 영역 처리를 위해 TextFieldValue 객체를 사용합니다.
 
 ```kotlin
 val state = remember { mutableStateOf(TextFieldValue("")) }
