@@ -11,6 +11,7 @@ on:
       - ".github/**"
 
 permissions:
+  contents: read
   pull-requests: write
 jobs:
   test:
@@ -75,7 +76,7 @@ jobs:
           skip_step: build
 
   send_slack:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') && always() }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
     name: Send Slack Notification
     needs: test
     runs-on: ubuntu-latest
