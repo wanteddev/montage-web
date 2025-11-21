@@ -1,5 +1,5 @@
 {
-  "name": "@wanteddev/test-regressions",
+  "name": "@wanteddev/test-visual",
   "private": true,
   "scripts": {
     "test": "vitest run",

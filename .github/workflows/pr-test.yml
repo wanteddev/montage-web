@@ -51,7 +51,7 @@ jobs:
       - name: Run Unit Test
         run: pnpm run test:unit --silent --no-cache
 
-  regression-test:
+  visual-test:
     if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
@@ -65,7 +65,7 @@ jobs:
         uses: ./.github/actions/package-build
 
       - name: Install playwright
-        run: pnpm dlx playwright install --with-deps chromium
+        run: pnpm dlx playwright install --with-deps --only-shell
 
-      - name: Run Regression Test
-        run: pnpm run test:regression
+      - name: Run Visual Test
+        run: pnpm run test:visual

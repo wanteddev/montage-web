@@ -8,7 +8,7 @@ const fixtureModules = import.meta.glob('./fixtures/*.tsx', {
   eager: true,
 }) as Record<string, Record<string, React.ComponentType>>;
 
-describe('Regression Tests', () => {
+describe('Visual Regression Tests', () => {
   Object.entries(fixtureModules).forEach(([filePath, module]) => {
     const fileName =
       filePath.split('/').pop()?.replace('.tsx', '') || 'unknown';
