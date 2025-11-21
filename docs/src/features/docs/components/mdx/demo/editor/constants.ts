@@ -69,9 +69,19 @@ export const viewTheme = (theme: Theme): Extension => [
     '& .cm-activeLine, & .cm-activeLineGutter': {
       backgroundColor: `${theme.semantic.fill.normal} !important`,
     },
+    '&:not(.cm-focused) .cm-activeLine, &:not(.cm-focused) .cm-activeLineGutter':
+      {
+        backgroundColor: `transparent !important`,
+      },
+
     '&.cm-focused .cm-selectionMatch, .cm-matchingBracket, .cm-selectionBackground, .cm-nonmatchingBracket, & .cm-line::selection, & .cm-content::selection':
       {
         backgroundColor: `${theme.semantic.fill.strong} !important`,
+      },
+
+    '&:not(.cm-focused) .cm-selectionMatch, &:not(.cm-focused) .cm-matchingBracket, &:not(.cm-focused) .cm-selectionBackground, &:not(.cm-focused) .cm-nonmatchingBracket, &:not(.cm-focused) .cm-line::selection, &:not(.cm-focused) .cm-content::selection':
+      {
+        backgroundColor: `transparent !important`,
       },
     '& .cm-gutters': {
       backgroundColor: theme.semantic.background.elevated.alternative,
