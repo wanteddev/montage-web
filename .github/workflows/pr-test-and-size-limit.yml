@@ -1,4 +1,4 @@
-name: PR Checks
+name: PR Test and Size Limit
 
 on:
   pull_request:
