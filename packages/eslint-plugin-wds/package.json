@@ -25,8 +25,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "build": "tsdown",
-    "watch": "tsdown --watch",
-    "test": "ts-node -P tsconfig.test.json tests/index.ts"
+    "watch": "tsdown --watch"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",

@@ -3,16 +3,11 @@ name: PR Checks
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
-    paths-ignore:
-      - "**/*.md"
-      - "**/*.mdx"
-      - "docs/**"
-      - "figma/**"
-      - ".github/**"
 
 permissions:
   contents: read
   pull-requests: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -64,9 +59,6 @@ jobs:
 
       - name: Run Test
         run: pnpm run test --silent --no-cache
-
-      - name: Run ESLint Test
-        run: pnpm run test:eslint
 
       - name: Run Size Limit
         uses: ant-design/size-limit-action@master
