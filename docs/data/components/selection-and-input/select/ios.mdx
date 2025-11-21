@@ -179,7 +179,7 @@ ___
 </details>
 <details>
 
-<summary>``func menuResize(BottomSheetModal.Resize) -> Select``</summary>
+<summary>``func menuResize(BottomSheet.Resize) -> Select``</summary>
 
 
 메뉴의 높이 detent를 지정합니다.

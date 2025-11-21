@@ -1,20 +1,20 @@
 ---
-title: Counter pagination
+title: Page counter
 description: 숫자 카운터 형태의 페이지 표시기 컴포넌트입니다.
 ---
 
 ```swift
-@MainActor struct CounterPagination
+@MainActor struct PageCounter
 ```
 
 ## Overview
 
-`CounterPagination`은 현재 페이지와 전체, 페이지 수를 숫자로 표시하는 페이지네이션 컴포넌트를 제공합니다. “1/10”과 같은 형식으로 페이지 정보를 시각화하며, 반투명 배경이 적용됩니다.
+`PageCounter`은 현재 페이지와 전체, 페이지 수를 숫자로 표시하는 페이지네이션 컴포넌트를 제공합니다. “1/10”과 같은 형식으로 페이지 정보를 시각화하며, 반투명 배경이 적용됩니다.
 
 ```swift
 @State private var currentPage = 1
 
-CounterPagination(selectedPage: $currentPage, totalPages: 10)
+PageCounter(selectedPage: $currentPage, totalPages: 10)
     .size(.medium)
     .alternative(true)
 ```
@@ -53,7 +53,7 @@ ___
 
 <details>
 
-<summary>``func alternative(Bool) -> CounterPagination``</summary>
+<summary>``func alternative(Bool) -> PageCounter``</summary>
 
 
 카운터 페이지네이션의 대체 스타일을 적용합니다.
@@ -71,7 +71,7 @@ ___
 </details>
 <details>
 
-<summary>``func size(Size) -> CounterPagination``</summary>
+<summary>``func size(Size) -> PageCounter``</summary>
 
 
 카운터 페이지네이션의 크기를 설정합니다.

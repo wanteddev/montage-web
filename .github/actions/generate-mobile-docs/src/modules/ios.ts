@@ -8,19 +8,9 @@ export default class IOS extends BaseModule {
   protected readonly REPOSITORY = 'montage-ios';
   protected readonly PROJECT_PATH = 'documentation';
 
-  protected readonly CUSTOM_COMPONENT_MAP: CustomComponentMap = {
-    popupmodal: 'popup',
-    counterpagination: 'pagecounter',
-    dotpagination: 'paginationdots',
-    groupavatar: 'avatargroup',
-  };
-  protected readonly COPY_COMPONENT_MAP: CopyComponentMap = {
-    control: ['checkbox', 'check-mark', 'radio', 'switch'],
-  };
-  protected readonly MERGE_COMPONENT_MAP: Record<string, Array<string>> = {
-    progresstracker: ['verticalprogresstracker', 'horizontalprogresstracker'],
-    bottomsheet: ['bottomsheetmodal', 'fullmodal'],
-  };
+  protected readonly CUSTOM_COMPONENT_MAP: CustomComponentMap = {};
+  protected readonly COPY_COMPONENT_MAP: CopyComponentMap = {};
+  protected readonly MERGE_COMPONENT_MAP: Record<string, Array<string>> = {};
 
   constructor() {
     super('ios');

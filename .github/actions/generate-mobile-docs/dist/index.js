@@ -30196,19 +30196,9 @@ var import_gray_matter = __toESM(require_gray_matter());
 var IOS = class extends BaseModule {
   REPOSITORY = "montage-ios";
   PROJECT_PATH = "documentation";
-  CUSTOM_COMPONENT_MAP = {
-    popupmodal: "popup",
-    counterpagination: "pagecounter",
-    dotpagination: "paginationdots",
-    groupavatar: "avatargroup"
-  };
-  COPY_COMPONENT_MAP = {
-    control: ["checkbox", "check-mark", "radio", "switch"]
-  };
-  MERGE_COMPONENT_MAP = {
-    progresstracker: ["verticalprogresstracker", "horizontalprogresstracker"],
-    bottomsheet: ["bottomsheetmodal", "fullmodal"]
-  };
+  CUSTOM_COMPONENT_MAP = {};
+  COPY_COMPONENT_MAP = {};
+  MERGE_COMPONENT_MAP = {};
   constructor() {
     super("ios");
   }

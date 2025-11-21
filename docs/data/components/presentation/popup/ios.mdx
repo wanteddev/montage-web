@@ -1,10 +1,10 @@
 ---
-title: Popup modal
+title: Popup
 description: 화면 중앙에 표시되는 팝업 모달 컴포넌트입니다.
 ---
 
 ```swift
-@MainActor struct PopupModal
+@MainActor struct Popup
 ```
 
 ## Overview
@@ -18,12 +18,12 @@ Button("팝업 열기") {
     showPopup = true
 }
 .fullScreenCover(isPresented: $showPopup) {
-    PopupModal {
+    Popup {
         VStack(spacing: 16) {
             Text("알림")
                 .font(.headline)
             Text("중요한 메시지입니다.")
-            
+
             Button("확인") {
                 showPopup = false
             }
@@ -40,7 +40,7 @@ Button("팝업 열기") {
 
 ```swift
 YourView()
-    .popupModal(
+    .popup(
         isPresented: $showPopup
     ) {
         Text("팝업 내용")
@@ -80,7 +80,7 @@ ___
 
 <details>
 
-<summary>``func ignoresEdgeInsets(Bool) -> PopupModal``</summary>
+<summary>``func ignoresEdgeInsets(Bool) -> Popup``</summary>
 
 
 컨텐츠의 기본 여백을 무시할지 설정합니다.
@@ -95,7 +95,7 @@ ___
 </details>
 <details>
 
-<summary>``func modalActionArea(ActionArea.Model?) -> PopupModal``</summary>
+<summary>``func modalActionArea(ActionArea.Model?) -> Popup``</summary>
 
 
 팝업 모달 하단에 액션 영역을 설정합니다.
@@ -110,7 +110,7 @@ ___
 </details>
 <details>
 
-<summary>``func modalNavigation((() -> Montage.ModalNavigation)?) -> PopupModal``</summary>
+<summary>``func modalNavigation((() -> Montage.ModalNavigation)?) -> Popup``</summary>
 
 
 팝업 모달 상단에 내비게이션 바를 설정합니다.
@@ -125,7 +125,7 @@ ___
 </details>
 <details>
 
-<summary>``func resize(Resize) -> PopupModal``</summary>
+<summary>``func resize(Resize) -> Popup``</summary>
 
 
 팝업 모달의 크기를 설정합니다.
@@ -182,7 +182,7 @@ ___
 
 <details>
 
-<summary>``func popupModal<V>(isPresented: Binding<Bool>, resize: PopupModal.Resize, ignoresEdgeInsets: Bool, actionAreaModel: ActionArea.Model?, () -> V, navigation: (() -> ModalNavigation)?) -> some View``</summary>
+<summary>``func popup<V>(isPresented: Binding<Bool>, resize: Popup.Resize, ignoresEdgeInsets: Bool, actionAreaModel: ActionArea.Model?, () -> V, navigation: (() -> ModalNavigation)?) -> some View``</summary>
 
 
 팝업 모달을 표시합니다.

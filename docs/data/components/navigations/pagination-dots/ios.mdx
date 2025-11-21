@@ -1,20 +1,20 @@
 ---
-title: Dot pagination
+title: Pagination dots
 description: 점 형태의 페이지 표시기 컴포넌트입니다.
 ---
 
 ```swift
-@MainActor struct DotPagination
+@MainActor struct PaginationDots
 ```
 
 ## Overview
 
-`DotPagination`은 페이지 간 이동 및 현재 페이지 표시를 위한 점 형태의 페이지네이션 컴포넌트를 제공합니다. 현재 선택된 페이지는 강조 표시되며, 점을 탭하여 해당 페이지로 이동할 수 있습니다. 페이지 수가 많을 경우 표시되는 점의 개수(최대 5개)와 크기가 자동으로 조정됩니다.
+`PaginationDots`은 페이지 간 이동 및 현재 페이지 표시를 위한 점 형태의 페이지네이션 컴포넌트를 제공합니다. 현재 선택된 페이지는 강조 표시되며, 점을 탭하여 해당 페이지로 이동할 수 있습니다. 페이지 수가 많을 경우 표시되는 점의 개수(최대 5개)와 크기가 자동으로 조정됩니다.
 
 ```swift
 @State private var currentPage = 1
 
-DotPagination(selectedPage: $currentPage, totalPages: 10)
+PaginationDots(selectedPage: $currentPage, totalPages: 10)
     .variant(.normal)
     .size(.normal)
 ```
@@ -53,7 +53,7 @@ ___
 
 <details>
 
-<summary>``func size(Size) -> DotPagination``</summary>
+<summary>``func size(Size) -> PaginationDots``</summary>
 
 
 점 페이지네이션의 크기를 설정합니다.
@@ -68,7 +68,7 @@ ___
 </details>
 <details>
 
-<summary>``func variant(Variant) -> DotPagination``</summary>
+<summary>``func variant(Variant) -> PaginationDots``</summary>
 
 
 점 페이지네이션의 색상 변형을 설정합니다.
