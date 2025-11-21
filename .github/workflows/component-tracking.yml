@@ -10,7 +10,8 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/pnpm-install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
       - name: Tracking And Report
         uses: ./.github/actions/jsx-tracking

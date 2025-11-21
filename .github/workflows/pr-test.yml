@@ -22,9 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/pnpm-install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
-      - uses: ./.github/actions/package-build
+      - name: Build packages
+        uses: ./.github/actions/package-build
 
       - name: Run Size Limit
         uses: andresz1/size-limit-action@v1.8.0
@@ -40,9 +42,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/pnpm-install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
-      - uses: ./.github/actions/package-build
+      - name: Build packages
+        uses: ./.github/actions/package-build
 
       - name: Run Unit Test
         run: pnpm run test:unit --silent --no-cache
@@ -54,9 +58,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/pnpm-install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
-      - uses: ./.github/actions/package-build
+      - name: Build packages
+        uses: ./.github/actions/package-build
+
+      - name: Install playwright
+        run: pnpm dlx playwright install --with-deps chromium
 
       - name: Run Regression Test
         run: pnpm run test:regression

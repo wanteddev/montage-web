@@ -76,9 +76,11 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/pnpm-install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
-      - uses: ./.github/actions/package-build
+      - name: Build packages
+        uses: ./.github/actions/package-build
 
       - name: Publish
         run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50

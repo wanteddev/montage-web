@@ -9,7 +9,8 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/pnpm-install
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
 
       - name: Generate Mobile Docs
         uses: ./.github/actions/generate-mobile-docs
