@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true
   },
-  "exclude": ["**/node_modules", "**/.*/", "./dist", "*.cjs"],
+  "exclude": ["**/node_modules", "./dist", "*.cjs"],
   "include": [
     "scripts/**/*.mjs",
     ".tsup/**/*.ts",
@@ -16,6 +16,7 @@
     ".vitest",
     "eslint.config.mjs",
     "prettier.config.mjs",
-    ".lintstagedrc.mjs"
+    ".lintstagedrc.mjs",
+    ".size-limit.mjs"
   ]
 }

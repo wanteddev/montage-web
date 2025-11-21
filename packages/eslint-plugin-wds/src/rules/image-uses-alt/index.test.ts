@@ -1,8 +1,10 @@
-import { RuleTester } from 'eslint';
+import { run } from 'eslint-vitest-rule-tester';
 
 import imageUsesAltRule from '.';
 
-const ruleTester = new RuleTester({
+run({
+  name: 'image-uses-alt',
+  rule: imageUsesAltRule,
   parserOptions: {
     ecmaVersion: 2015,
     sourceType: 'module',
@@ -10,9 +12,6 @@ const ruleTester = new RuleTester({
       jsx: true,
     },
   },
-});
-
-ruleTester.run('image-uses-alt', imageUsesAltRule, {
   valid: [
     {
       code: `

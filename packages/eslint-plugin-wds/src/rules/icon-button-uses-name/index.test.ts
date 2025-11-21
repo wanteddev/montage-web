@@ -1,8 +1,11 @@
-import { RuleTester } from 'eslint';
+import { run } from 'eslint-vitest-rule-tester';
 
 import iconButtonUsesNameRule from '.';
 
-const ruleTester = new RuleTester({
+run({
+  name: 'icon-button-uses-name',
+  rule: iconButtonUsesNameRule,
+
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: 'module',
@@ -10,9 +13,6 @@ const ruleTester = new RuleTester({
       jsx: true,
     },
   },
-});
-
-ruleTester.run('icon-button-uses-name', iconButtonUsesNameRule, {
   valid: [
     {
       code: `
