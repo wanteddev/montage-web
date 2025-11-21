@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.react.json",
+  "compilerOptions": {
+    "removeComments": false,
+    "types": ["vitest/browser", "@testing-library/jest-dom"]
+  },
+  "include": ["src", "vitest.config.ts"],
+  "exclude": ["node_modules"]
+}

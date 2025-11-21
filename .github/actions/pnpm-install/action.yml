@@ -1,0 +1,38 @@
+name: Pnpm Install
+description: Install dependencies using pnpm
+
+runs:
+  using: composite
+
+  steps:
+    - name: Node.js install
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.18.0
+        registry-url: https://npm.pkg.github.com
+        scope: '@wanteddev'
+
+    - uses: pnpm/action-setup@v4
+      name: Install pnpm
+      id: pnpm-install
+      with:
+        version: 10.19.0
+        run_install: false
+
+    - name: Get pnpm store directory
+      shell: bash
+      id: pnpm-cache
+      run: |
+        echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v4
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
