@@ -3,7 +3,15 @@ name: PR Checks
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.mdx"
+      - "docs/**"
+      - "figma/**"
+      - ".github/**"
 
+permissions:
+  pull-requests: write
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -59,8 +67,15 @@ jobs:
       - name: Run ESLint Test
         run: pnpm run test:eslint
 
+      - name: Run Size Limit
+        uses: ant-design/size-limit-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          package_manager: pnpm
+          skip_step: build
+
   send_slack:
-    if: ${{ !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') && always() }}
     name: Send Slack Notification
     needs: test
     runs-on: ubuntu-latest
@@ -118,4 +133,4 @@ jobs:
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: https://hooks.slack.com/services/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
+          SLACK_WEBHOOK_URL: ${{ secrets.FE_PR_SLACK_WEBHOOK_URL }}
