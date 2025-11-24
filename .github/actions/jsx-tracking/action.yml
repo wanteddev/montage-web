@@ -1,4 +1,6 @@
 name: JSX Tracking
+description: Tracking JSX usage in other repositories
+
 runs:
   using: 'node20'
   main: 'dist/index.js'

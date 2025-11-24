@@ -18,7 +18,7 @@ jobs:
         uses: ./.github/actions/package-build
 
       - name: Install playwright
-        run: pnpm dlx playwright install --with-deps --only-shell
+        run: pnpm dlx playwright install --with-deps
 
       - name: Run Visual Test and update screenshots
         run: pnpm run test:visual --update

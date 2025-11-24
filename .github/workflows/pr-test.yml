@@ -27,6 +27,8 @@ jobs:
 
       - name: Build packages
         uses: ./.github/actions/package-build
+        with:
+          cache: false
 
       - name: Run Size Limit
         uses: andresz1/size-limit-action@v1.8.0
@@ -47,6 +49,8 @@ jobs:
 
       - name: Build packages
         uses: ./.github/actions/package-build
+        with:
+          cache: false
 
       - name: Run Unit Test
         run: pnpm run test:unit --silent --no-cache
@@ -63,9 +67,11 @@ jobs:
 
       - name: Build packages
         uses: ./.github/actions/package-build
+        with:
+          cache: false
 
       - name: Install playwright
-        run: pnpm dlx playwright install --with-deps --only-shell
+        run: pnpm dlx playwright install --with-deps
 
       - name: Run Visual Test
         run: pnpm run test:visual
