@@ -109,5 +109,5 @@ jobs:
         with:
           cache: false
 
-      - name: Run Tree Shanking Test
+      - name: Run Tree Shaking Test
         run: pnpm run test:treeshaking
