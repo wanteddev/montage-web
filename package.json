@@ -21,6 +21,7 @@
     "test:unit:watch": "vitest",
     "test:visual": "pnpm -F @wanteddev/test-visual test",
     "test:visual:watch": "pnpm -F @wanteddev/test-visual test:watch",
+    "test:commonjs": "pnpm -F @wanteddev/test-commonjs test",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
     "prepublish": "pnpm run build",
