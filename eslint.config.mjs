@@ -16,7 +16,7 @@ const typescriptProject = [
   'docs/tsconfig.node.json',
   'packages/*/tsconfig.json',
   'packages/*/tsconfig.node.json',
-  'packages/*/tsconfig.test.json',
+  'tests/*/tsconfig.json',
 ];
 
 export default defineConfig(

@@ -1,7 +1,8 @@
 packages:
-  - 'packages/*'
-  - 'docs'
   - '.github/actions/*'
+  - 'docs'
+  - 'tests/*'
+  - 'packages/*'
 
 onlyBuiltDependencies:
   - esbuild

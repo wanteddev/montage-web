@@ -1,0 +1,24 @@
+name: Package Build
+description: Build packages using nx cache
+
+inputs:
+  cache:
+    description: If true, use nx cache
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+
+  steps:
+    - uses: actions/cache@v4
+      name: Nx cache
+      with:
+        path: .nx/cache
+        key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-nx-store-
+
+    - name: Build local packages
+      shell: bash
+      run: pnpm run build ${{ inputs.cache != 'true' && '--skip-nx-cache' || '' }}

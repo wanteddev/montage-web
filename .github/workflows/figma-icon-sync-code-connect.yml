@@ -42,33 +42,7 @@ jobs:
           path: output
           key: ${{ needs.sync.outputs.figma-output-cache-key }}
 
-      - name: Node.js install
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.18.0
-          registry-url: https://npm.pkg.github.com
-          scope: "@wanteddev"
-
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store
-
-      - name: Install dependencies
-        run: pnpm install
-
+      - uses: ./.github/actions/pnpm-install
       - run: node scripts/figma-icon.mjs
 
       - run: git config user.name "github-actions[bot]"
@@ -102,43 +76,11 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Node.js install
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.18.0
-          registry-url: https://npm.pkg.github.com
-          scope: "@wanteddev"
-
-      - uses: pnpm/action-setup@v4
-        with:
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store
-
       - name: Install dependencies
-        run: pnpm install
+        uses: ./.github/actions/pnpm-install
 
-      - uses: actions/cache@v4
-        name: Nx cache
-        with:
-          path: .nx/cache
-          key: ${{ runner.os }}-nx-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-nx-store-
-
-      - name: Build
-        run: pnpm run build
+      - name: Build packages
+        uses: ./.github/actions/package-build
 
       - name: Publish
         run: pnpm run publish:codeconnect --token ${{ env.FIGMA_TOKEN }} --skip-validation --batch-size 50
