@@ -47,7 +47,6 @@
     "@types/shelljs": "^0.8.15",
     "@vitest/browser-playwright": "^4.0.12",
     "change-case": "^5.4.3",
-    "esbuild": "^0.20.2",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -74,7 +73,6 @@
   },
   "dependencies": {
     "inquirer": "^9.2.16",
-    "shelljs": "^0.8.5",
-    "ts-node": "^10.9.2"
+    "shelljs": "^0.8.5"
   }
 }
