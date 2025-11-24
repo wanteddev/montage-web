@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.node.json",
-  "include": ["tsdown.config.ts"],
+  "include": ["vite.config.ts", ".size-limit.mjs"],
   "exclude": ["node_modules"]
 }

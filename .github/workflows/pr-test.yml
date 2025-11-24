@@ -93,3 +93,21 @@ jobs:
 
       - name: Run CommonJS Test
         run: pnpm run test:commonjs
+
+  tree-shaking-test:
+    if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build packages
+        uses: ./.github/actions/package-build
+        with:
+          cache: false
+
+      - name: Run Tree Shaking Test
+        run: pnpm run test:treeshaking

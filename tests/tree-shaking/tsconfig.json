@@ -2,9 +2,11 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../tsconfig.react.json",
   "compilerOptions": {
-    "removeComments": false,
-    "types": ["vitest/browser", "@testing-library/jest-dom"]
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx"
   },
   "include": ["src"],
   "exclude": ["node_modules"]
 }
+

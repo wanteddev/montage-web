@@ -3,4 +3,3 @@ tsdown.config.ts
 scripts/
 tsconfig.json
 tsconfig.node.json
-.lintstagedrc.mjs

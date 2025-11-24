@@ -5,11 +5,6 @@
     "allowJs": true,
     "checkJs": false
   },
-  "include": [
-    "next-env.d.ts",
-    "next.config.js",
-    ".lintstagedrc.mjs",
-    "scripts/**/*.mjs"
-  ],
+  "include": ["next-env.d.ts", "next.config.js", "scripts/**/*.mjs"],
   "exclude": ["node_modules", ".next"]
 }
