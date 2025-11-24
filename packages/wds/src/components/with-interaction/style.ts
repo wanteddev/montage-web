@@ -66,6 +66,7 @@ export const getWrapperStyle =
       ${scale &&
       css`
         & > [wds-component='with-interaction'] {
+          will-change: transform;
           transform: translate(-50%, -50%) scale(0.95);
         }
 

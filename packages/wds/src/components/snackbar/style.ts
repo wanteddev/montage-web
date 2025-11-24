@@ -108,6 +108,12 @@ export const messageStyle = css`
 
 export const snackbarActionStyle = (theme: Theme) => css`
   color: ${theme.semantic.static.white};
+  margin: 0px 2px;
+  flex-shrink: 0;
+
+  & > span {
+    ${typographyStyle('body2', 'bold')}
+  }
 
   & > span {
     ${typographyStyle('body2', 'bold')}
@@ -120,8 +126,22 @@ export const snackbarActionStyle = (theme: Theme) => css`
 
 export const textStyle = (theme: Theme) => css`
   opacity: ${theme.opacity[88]};
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;
 
 export const fullWidthFlexBoxStyle = css`
   width: 100%;
+`;
+
+export const snackbarCloseButtonStyle = (theme: Theme) => css`
+  flex-shrink: 0;
+  padding: 2px;
+  width: fit-content;
+  height: fit-content;
+  opacity: ${theme.opacity[61]};
+
+  & [wds-component='with-interaction'] {
+    background-color: ${theme.semantic.static.white};
+  }
 `;

@@ -43,6 +43,8 @@ Snackbar 는 여러 컴포넌트를 조합해서 사용합니다.
   </SnackbarContent>
 
   <SnackbarAction />
+
+  <SnackbarCloseButton />
 </Snackbar>
 ```
 
@@ -66,6 +68,30 @@ const Demo = () => {
         <SnackbarHeading>Heading</SnackbarHeading>
         <SnackbarDescription>Description</SnackbarDescription>
       </SnackbarContent>
+    </Snackbar>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With close button
+
+`SnackbarCloseButton` 을 사용하여 닫기 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarAction, SnackbarCloseButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Snackbar open disablePortal disableAnimation>
+      <SnackbarContent>
+        <SnackbarHeading>Heading</SnackbarHeading>
+        <SnackbarDescription>Description</SnackbarDescription>
+      </SnackbarContent>
+
+      <SnackbarAction>Action</SnackbarAction>
+
+      <SnackbarCloseButton />
     </Snackbar>
   )
 }

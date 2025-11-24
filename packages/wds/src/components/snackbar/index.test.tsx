@@ -4,12 +4,14 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
 import {
   Snackbar,
   SnackbarAction,
+  SnackbarCloseButton,
   SnackbarContent,
   SnackbarDescription,
   SnackbarHeading,
@@ -40,10 +42,13 @@ describe('when given snackbar component', () => {
           <SnackbarDescription data-testid="snackbar-description">
             Snackbar Description
           </SnackbarDescription>
-          <SnackbarAction data-testid="snackbar-action">
-            Snackbar Action
-          </SnackbarAction>
         </SnackbarContent>
+
+        <SnackbarAction data-testid="snackbar-action">
+          Snackbar Action
+        </SnackbarAction>
+
+        <SnackbarCloseButton data-testid="snackbar-close-button" />
       </Snackbar>,
     );
   });
@@ -60,6 +65,16 @@ describe('when given snackbar component', () => {
     act(() => vi.advanceTimersByTime(DEFAULT_DURATION));
 
     expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
+  });
+
+  it('should on click close button to close snackbar', async () => {
+    expect(screen.getByTestId('snackbar')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByTestId('snackbar-close-button'));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
+    });
   });
 
   it('should not close snackbar if mouse is over the toast container after open', () => {

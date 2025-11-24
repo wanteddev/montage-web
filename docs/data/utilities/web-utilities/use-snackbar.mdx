@@ -35,7 +35,7 @@ export default Demo;`}
 
 ## Advanced
 
-Snackbar 에서 사용할 수 있는 `variant`, `action`, `extraContent`, `duration`, `onAnimationEnd` 을 그대로 사용할 수 있습니다.
+Snackbar 에서 사용할 수 있는 `variant`, `action`, `extraContent`, `duration`, `onAnimationEnd`, `closeButton` 을 그대로 사용할 수 있습니다.
 
 <Demo code={`import { FlexBox, useSnackbar, Button, Avatar } from '@wanteddev/wds';
 import { IconCircleFill } from '@wanteddev/wds-icon';
@@ -58,6 +58,7 @@ const Demo = () => {
       <Button onClick={handleClick({ title, description })}>title + description</Button>
       <Button onClick={handleClick({ title, extraContent })}>extraContent1</Button>
       <Button onClick={handleClick({ title, description, extraContent })}>extraContent2</Button>
+      <Button onClick={handleClick({ title, description, closeButton: true })}>closeButton</Button>
     </FlexBox>
   )
 }
@@ -112,5 +113,6 @@ export default Demo;`}
 { name: 'description', types: 'ReactNode' },
 { name: 'extraContent', types: 'ReactNode' },
 { name: 'action', types: 'ComponentProps<typeof TextButton>', required: true },
-{ name: 'onAnimationEnd', types: '(type: \"hide\" | \"show\") => void' }
+{ name: 'onAnimationEnd', types: '(type: \"hide\" | \"show\") => void' },
+{ name: 'closeButton', types: 'boolean', defaultValue: false }
 ]} />
