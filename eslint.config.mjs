@@ -17,6 +17,7 @@ const typescriptProject = [
   'packages/*/tsconfig.json',
   'packages/*/tsconfig.node.json',
   'tests/*/tsconfig.json',
+  'tests/*/tsconfig.node.json',
 ];
 
 export default defineConfig(
@@ -236,7 +237,6 @@ export default defineConfig(
     '.nx',
     '**/node_modules',
     '**/dist',
-    '**/.lintstagedrc.mjs',
     'docs/src/data.json',
     'docs/next-env.d.ts',
     'docs/.next',
