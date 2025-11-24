@@ -1,15 +1,7 @@
 import inquirer from 'inquirer';
 import shelljs from 'shelljs';
 
-const SEMVER = [
-  'prerelease',
-  'prepatch',
-  'preminor',
-  'premajor',
-  'patch',
-  'minor',
-  'major',
-];
+const SERVER_TYPES = ['dev', 'www'];
 
 const main = async () => {
   const branchName = shelljs
@@ -34,28 +26,37 @@ const main = async () => {
     return;
   }
 
-  const { version } = await inquirer.prompt({
+  const { serverType } = await inquirer.prompt({
     type: 'list',
-    name: 'version',
-    message: 'Select Semver Increment (prepatch = bump alpha)',
-    choices: SEMVER,
+    name: 'serverType',
+    message: 'Select Server Type',
+    choices: SERVER_TYPES,
     loop: false,
   });
-
-  if (!version.includes('pre') && branchName !== 'main') {
-    console.error('main 브랜치에서만 배포할 수 있습니다.');
-    return;
-  }
 
   const { isConfirm } = await inquirer.prompt({
     type: 'confirm',
     name: 'isConfirm',
-    message: `정말로 ${version} 버전으로 패키지들을 배포하시겠습니까?`,
+    message: `정말로 ${serverType} 환경에 배포하시겠습니까?`,
     loop: false,
   });
 
   if (!isConfirm) {
     return;
+  }
+
+  let algolia = false;
+
+  if (serverType === 'www') {
+    const { algoliaCrawler } = await inquirer.prompt({
+      type: 'confirm',
+      name: 'algoliaCrawler',
+      message: 'algolia crawler를 실행하시겠습니까?',
+      default: false,
+      loop: false,
+    });
+
+    algolia = algoliaCrawler;
   }
 
   const rawToken = shelljs.exec('cat ~/.npmrc', { silent: true }).stdout;
@@ -77,8 +78,8 @@ const main = async () => {
     -X POST \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token ${token}" \
-    https://api.github.com/repos/wanteddev/wds/actions/workflows/version.yml/dispatches \
-    -d '{"ref":"${branchName}", "inputs": { "increment": "${version}" }}'`;
+    https://api.github.com/repos/wanteddev/wds/actions/workflows/docs-deploy.yml/dispatches \
+    -d '{"ref":"${branchName}", "serverType": "${serverType}", "algolia": "${algolia}"}'`;
 
   shelljs.exec(command, { fatal: true }, (code, _stdout, stderr) => {
     if (code !== 0) {
@@ -90,7 +91,7 @@ const main = async () => {
     console.log('Deployment successfully triggered, view the output logs in');
     console.log(
       '\x1b[32m%s\x1b[0m',
-      'https://github.com/wanteddev/wds/actions/workflows/version.yml',
+      'https://github.com/wanteddev/wds/actions/workflows/docs-deploy.yml',
     );
   });
 };

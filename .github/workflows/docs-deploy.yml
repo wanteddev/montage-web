@@ -1,19 +1,34 @@
 name: Docs deploy
+
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      algolia:
+        description: Run algolia crawler
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      server_type:
+        description: Server type
+        required: false
+        default: "www"
+        type: choice
+        options:
+          - "www"
+          - "dev"
 
 env:
   NODE_VERSION: 22.18.0
-
   AWS_REGION: ap-northeast-2
-  AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
-  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   BUCKET: montage.wanted.co.kr
+  DEV_BUCKET: dev-montage.wanted.co.kr
+  SERVER_TYPE: ${{ inputs.server_type }}
+
+  CLOUDFRONT_DISTRIBUTION_ID: E43YG4RN0PRN4
+  DEV_CLOUDFRONT_DISTRIBUTION_ID: E43YG4RN0PRN4
 
 permissions:
   id-token: write
@@ -31,18 +46,26 @@ jobs:
       - name: Set Environment Variable
         id: env-vars
         run: |
-          server_type="www"
+          SERVER_TYPE=$SERVER_TYPE
 
+          if [ "$SERVER_TYPE" = "dev" ]; then
+            BUCKET=$DEV_BUCKET
+            CLOUDFRONT_DISTRIBUTION_ID=$DEV_CLOUDFRONT_DISTRIBUTION_ID
+          else
+            BUCKET=$BUCKET
+            CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID
+          fi
+
+          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
           echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
           echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
-          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
-          echo "SERVER_TYPE=$server_type" >> $GITHUB_OUTPUT
-
+          echo "SERVER_TYPE=$SERVER_TYPE" >> $GITHUB_OUTPUT
+          echo "CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
     outputs:
       node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
       aws_region: ${{ steps.env-vars.outputs.AWS_REGION }}
       bucket: ${{ steps.env-vars.outputs.BUCKET }}
-
+      cloudfront_distribution_id: ${{ steps.env-vars.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
 
   set-pnpm:
@@ -79,21 +102,22 @@ jobs:
       run_command: |
         echo "build files to s3"
         aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
-        aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
+        aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
     secrets: inherit
 
-  # algolia:
-  #   needs: [push-s3]
-  #   runs-on: ubuntu-latest
+  algolia:
+    needs: [push-s3]
+    if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Push indices to Algolia
-  #       id: algolia-crawler
-  #       uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
-  #       with:
-  #         crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
-  #         crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-  #         algolia-app-id: ${{ secrets.APPLICATION_ID }}
-  #         algolia-api-key: ${{ secrets.API_KEY }}
-  #         site-url: https://montage.wanted.co.kr
-  #         crawler-name: Montage Crawler
+    steps:
+      - name: Push indices to Algolia
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler

@@ -25,6 +25,7 @@
     "test:treeshaking": "pnpm -F @wanteddev/test-tree-shaking test",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
+    "deploy:docs": "node scripts/docs-deploy.mjs",
     "prepublish": "pnpm run build",
     "size-limit": "size-limit",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
