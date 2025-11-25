@@ -79,7 +79,7 @@ const main = async () => {
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token ${token}" \
     https://api.github.com/repos/wanteddev/wds/actions/workflows/docs-deploy.yml/dispatches \
-    -d '{"ref":"${branchName}", "serverType": "${serverType}", "algolia": "${algolia}"}'`;
+    -d '{"ref":"${branchName}",  "inputs": { "serverType": "${serverType}", "algolia": "${algolia}" }}'`;
 
   shelljs.exec(command, { fatal: true }, (code, _stdout, stderr) => {
     if (code !== 0) {

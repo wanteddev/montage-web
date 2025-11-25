@@ -131,6 +131,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - uses: actions/checkout@v4
       - run: git config user.name "github-actions[bot]"
       - run: git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Get existing comment ID
