@@ -23,6 +23,13 @@ on:
         options:
           - "www"
           - "dev"
+  workflow_call:
+    inputs:
+      server_type:
+        description: Server type
+        required: false
+        default: "dev"
+        type: string
 
 env:
   NODE_VERSION: 22.18.0
@@ -153,7 +160,7 @@ jobs:
           DEPLOY_URL="https://dev-montage.wanted.co.kr/${{ needs.set-env.outputs.short_commit_hash }}"
           COMMIT_HASH="${{ needs.set-env.outputs.short_commit_hash }}"
 
-          COMMENT_BODY=$'## 🚀 Preview\n\n<table><tbody><tr><td><strong>Last commit</strong></td><td>'"$COMMIT_HASH"'</td></tr><tr><td><strong>Preview URL</strong></td><td>'"$DEPLOY_URL"'</td></tr></tbody></table>'
+          COMMENT_BODY=$'## 🚀 Preview\n\n<table><tbody><tr><td><strong>Last commit</strong></td><td>'"$COMMIT_HASH"'</td></tr><tr><td><strong>Preview URL</strong></td><td><a href="'"$DEPLOY_URL"'">'"$DEPLOY_URL"'</a></td></tr></tbody></table>'
 
           if [ -n "${{ steps.get-comment.outputs.comment_id }}" ]; then
             gh api repos/${{ github.repository }}/issues/comments/${{ steps.get-comment.outputs.comment_id }} \

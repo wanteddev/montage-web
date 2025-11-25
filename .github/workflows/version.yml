@@ -121,4 +121,4 @@ jobs:
     needs: [deploy]
     if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') }}
     with:
-      server_type: "www"
+      server_type: www
