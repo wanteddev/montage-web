@@ -41,8 +41,7 @@ permissions:
 jobs:
   set-env:
     name: Set Env
-    if: |
-      ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'ci: skip document deploy')) }}
+    if: "${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'ci: skip document deploy')) }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -129,6 +128,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && needs.set-env.outputs.server_type == 'dev' }}
     permissions:
+      contents: read
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
@@ -153,7 +153,7 @@ jobs:
           DEPLOY_URL="https://dev-montage.wanted.co.kr/${{ needs.set-env.outputs.short_commit_hash }}"
           COMMIT_HASH="${{ needs.set-env.outputs.short_commit_hash }}"
 
-          COMMENT_BODY="## 🚀 Preview\n\n<table><tbody><tr><td><strong>Last commit</strong></td><td>$COMMIT_HASH</td></tr><tr><td><strong>Preview URL</strong></td><td>$DEPLOY_URL</td></tr></tbody></table>"
+          COMMENT_BODY=$'## 🚀 Preview\n\n<table><tbody><tr><td><strong>Last commit</strong></td><td>'"$COMMIT_HASH"'</td></tr><tr><td><strong>Preview URL</strong></td><td>'"$DEPLOY_URL"'</td></tr></tbody></table>'
 
           if [ -n "${{ steps.get-comment.outputs.comment_id }}" ]; then
             gh api repos/${{ github.repository }}/issues/comments/${{ steps.get-comment.outputs.comment_id }} \

@@ -8,7 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const isProduction = process.env.NODE_ENV === 'production';
 const isDev = process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'dev';
 
-const commitHash = exec('git rev-parse --short HEAD').stdout;
+const commitHash = exec('git rev-parse --short HEAD').stdout.trim();
 const basePath = isDev
   ? 'https://dev-montage.wanted.co.kr'
   : 'https://montage.wanted.co.kr';
