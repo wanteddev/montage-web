@@ -6,7 +6,7 @@ on:
 
 jobs:
   send_slack:
-    if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'DO NOT ALERT') }}
+    if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(join(github.event.pull_request.labels.*.name, ','), 'ci skip slack noti') }}
     name: Send Slack Notification
     runs-on: ubuntu-latest
     timeout-minutes: 10

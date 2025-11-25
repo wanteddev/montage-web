@@ -6,10 +6,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
+const isDev = process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'dev';
 
-const assetPrefix = `https://montage.wanted.co.kr`;
+const commitHash = exec('git rev-parse --short HEAD').stdout;
+const basePath = isDev
+  ? 'https://dev-montage.wanted.co.kr'
+  : 'https://montage.wanted.co.kr';
 
-const commitHash = exec('git rev-parse HEAD').stdout.substring(0, 9);
+const assetPrefix = isDev
+  ? `${basePath}/${commitHash}`
+  : 'https://montage.wanted.co.kr';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -30,7 +36,7 @@ const nextConfig = {
   transpilePackages: ['next-mdx-remote'],
   env: {
     APP_BUILD_ID: commitHash,
-    NEXT_PUBLIC_BASE_PATH: 'https://montage.wanted.co.kr',
+    NEXT_PUBLIC_BASE_PATH: basePath,
   },
   images: {
     unoptimized: true,

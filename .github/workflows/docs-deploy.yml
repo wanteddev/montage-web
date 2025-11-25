@@ -1,6 +1,10 @@
 name: Docs deploy
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - "figma/**"
   workflow_dispatch:
     inputs:
       algolia:
@@ -14,7 +18,7 @@ on:
       server_type:
         description: Server type
         required: false
-        default: "www"
+        default: "dev"
         type: choice
         options:
           - "www"
@@ -37,6 +41,7 @@ permissions:
 jobs:
   set-env:
     name: Set Env
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(join(github.event.pull_request.labels.*.name, ','), 'ci skip document deploy')) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +52,7 @@ jobs:
         id: env-vars
         run: |
           SERVER_TYPE=$SERVER_TYPE
+          SHORT_COMMIT_HASH=$(git rev-parse --short HEAD)
 
           if [ "$SERVER_TYPE" = "dev" ]; then
             BUCKET=$DEV_BUCKET
@@ -57,67 +63,118 @@ jobs:
           fi
 
           echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
+          echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> $GITHUB_OUTPUT
           echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
           echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
           echo "SERVER_TYPE=$SERVER_TYPE" >> $GITHUB_OUTPUT
           echo "CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
     outputs:
       node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
+      short_commit_hash: ${{ steps.env-vars.outputs.SHORT_COMMIT_HASH }}
       aws_region: ${{ steps.env-vars.outputs.AWS_REGION }}
       bucket: ${{ steps.env-vars.outputs.BUCKET }}
       cloudfront_distribution_id: ${{ steps.env-vars.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
 
-  set-pnpm:
+  # set-pnpm:
+  #   needs: [set-env]
+  #   uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
+  #   with:
+  #     node_version: ${{ needs.set-env.outputs.node_version }}
+  #   secrets: inherit
+
+  # build-react:
+  #   needs: [set-env, set-pnpm]
+  #   uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
+  #   with:
+  #     node_version: ${{ needs.set-env.outputs.node_version }}
+  #     package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
+  #     package_manager: pnpm
+  #     build_cache_path: |
+  #       .nx/cache
+  #       docs/.next/cache
+  #     build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
+  #     build_path: docs/out
+  #     server_type: ${{ needs.set-env.outputs.server_type }}
+  #     build_command: pnpm run build && pnpm -F docs build
+  #   secrets: inherit
+
+  # push-s3:
+  #   needs: [set-env, set-pnpm, build-react]
+  #   uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
+  #   with:
+  #     aws_region: ${{ needs.set-env.outputs.aws_region }}
+  #     server_type: ${{ needs.set-env.outputs.server_type }}
+  #     build_path: docs/out
+  #     build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
+  #     run_command: |
+  #       echo "build files to s3"
+
+  #       if [ "$SERVER_TYPE" = "dev" && "${{ github.event_name }}" = "pull_request" ]; then
+  #         aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/ --delete
+  #         aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
+  #       else
+  #         aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
+  #         aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
+  #       fi
+  #   secrets: inherit
+
+  create-pull-request-comment:
     needs: [set-env]
-    uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
-    with:
-      node_version: ${{ needs.set-env.outputs.node_version }}
-    secrets: inherit
-
-  build-react:
-    needs: [set-env, set-pnpm]
-    uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
-    with:
-      node_version: ${{ needs.set-env.outputs.node_version }}
-      package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
-      package_manager: pnpm
-      build_cache_path: |
-        .nx/cache
-        docs/.next/cache
-      build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
-      build_path: docs/out
-      server_type: ${{ needs.set-env.outputs.server_type }}
-      build_command: pnpm run build && pnpm -F docs build
-    secrets: inherit
-
-  push-s3:
-    needs: [set-env, set-pnpm, build-react]
-    uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
-    with:
-      aws_region: ${{ needs.set-env.outputs.aws_region }}
-      server_type: ${{ needs.set-env.outputs.server_type }}
-      build_path: docs/out
-      build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
-      run_command: |
-        echo "build files to s3"
-        aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
-        aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
-    secrets: inherit
-
-  algolia:
-    needs: [push-s3]
-    if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
     runs-on: ubuntu-latest
-
+    if: ${{ github.event_name == 'pull_request' && needs.set-env.outputs.server_type == 'dev' }}
+    permissions:
+      pull-requests: write
     steps:
-      - name: Push indices to Algolia
-        id: algolia-crawler
-        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
-        with:
-          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
-          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-          algolia-app-id: ${{ secrets.APPLICATION_ID }}
-          algolia-api-key: ${{ secrets.API_KEY }}
-          site-url: https://montage.wanted.co.kr
-          crawler-name: Montage Crawler
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get existing comment ID
+        id: get-comment
+        run: |
+          COMMENT_ID=$(gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            --jq '.[] | select(.body | startswith("## 🚀 Preview")) | .id' | head -n 1)
+
+          if [ -n "$COMMENT_ID" ]; then
+            echo "comment_id=$COMMENT_ID" >> $GITHUB_OUTPUT
+          else
+            echo "comment_id=" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create or Update Pull Request Comment
+        run: |
+          DEPLOY_URL="https://dev-montage.wanted.co.kr/${{ needs.set-env.outputs.short_commit_hash }}"
+          COMMIT_HASH="${{ needs.set-env.outputs.short_commit_hash }}"
+
+          COMMENT_BODY="## 🚀 Preview\n\n<table><tbody><tr><td><strong>Last commit</strong></td><td>$COMMIT_HASH</td></tr><tr><td><strong>Preview URL</strong></td><td>$DEPLOY_URL</td></tr></tbody></table>"
+
+          if [ -n "${{ steps.get-comment.outputs.comment_id }}" ]; then
+            gh api repos/${{ github.repository }}/issues/comments/${{ steps.get-comment.outputs.comment_id }} \
+              -X PATCH -f body="$COMMENT_BODY"
+            echo "Updated existing comment"
+          else
+            gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+              -X POST -f body="$COMMENT_BODY"
+            echo "Created new comment"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+
+  # algolia:
+  #   needs: [push-s3]
+  #   if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Push indices to Algolia
+  #       id: algolia-crawler
+  #       uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+  #       with:
+  #         crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+  #         crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+  #         algolia-app-id: ${{ secrets.APPLICATION_ID }}
+  #         algolia-api-key: ${{ secrets.API_KEY }}
+  #         site-url: https://montage.wanted.co.kr
+  #         crawler-name: Montage Crawler
