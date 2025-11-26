@@ -95,7 +95,7 @@ jobs:
         run: pnpm run test:commonjs
 
   tree-shaking-test:
-    if: ${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(join(github.event.pull_request.labels.*.name, ','), 'ci skip test') }}
+    if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

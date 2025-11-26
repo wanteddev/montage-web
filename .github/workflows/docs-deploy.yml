@@ -48,7 +48,7 @@ permissions:
 jobs:
   set-env:
     name: Set Env
-    if: "${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'ci: skip document deploy')) }}"
+    if: "${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'ci: skip document deploy')) }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -87,51 +87,51 @@ jobs:
       cloudfront_distribution_id: ${{ steps.env-vars.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
 
-  # set-pnpm:
-  #   needs: [set-env]
-  #   uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
-  #   with:
-  #     node_version: ${{ needs.set-env.outputs.node_version }}
-  #   secrets: inherit
+  set-pnpm:
+    needs: [set-env]
+    uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+    secrets: inherit
 
-  # build-react:
-  #   needs: [set-env, set-pnpm]
-  #   uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
-  #   with:
-  #     node_version: ${{ needs.set-env.outputs.node_version }}
-  #     package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
-  #     package_manager: pnpm
-  #     build_cache_path: |
-  #       .nx/cache
-  #       docs/.next/cache
-  #     build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
-  #     build_path: docs/out
-  #     server_type: ${{ needs.set-env.outputs.server_type }}
-  #     build_command: pnpm run build && pnpm -F docs build
-  #   secrets: inherit
+  build-react:
+    needs: [set-env, set-pnpm]
+    uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
+    with:
+      node_version: ${{ needs.set-env.outputs.node_version }}
+      package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
+      package_manager: pnpm
+      build_cache_path: |
+        .nx/cache
+        docs/.next/cache
+      build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
+      build_path: docs/out
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_command: pnpm run build && pnpm -F docs build
+    secrets: inherit
 
-  # push-s3:
-  #   needs: [set-env, set-pnpm, build-react]
-  #   uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
-  #   with:
-  #     aws_region: ${{ needs.set-env.outputs.aws_region }}
-  #     server_type: ${{ needs.set-env.outputs.server_type }}
-  #     build_path: docs/out
-  #     build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
-  #     run_command: |
-  #       echo "build files to s3"
+  push-s3:
+    needs: [set-env, set-pnpm, build-react]
+    uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
+    with:
+      aws_region: ${{ needs.set-env.outputs.aws_region }}
+      server_type: ${{ needs.set-env.outputs.server_type }}
+      build_path: docs/out
+      build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
+      run_command: |
+        echo "build files to s3"
 
-  #       if [ "$SERVER_TYPE" = "dev" && "${{ github.event_name }}" = "pull_request" ]; then
-  #         aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/ --delete
-  #         aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
-  #       else
-  #         aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
-  #         aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
-  #       fi
-  #   secrets: inherit
+        if [ "$SERVER_TYPE" = "dev" && "${{ github.event_name }}" = "pull_request" ]; then
+          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/ --delete
+          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
+        else
+          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
+          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
+        fi
+    secrets: inherit
 
   create-pull-request-comment:
-    needs: [set-env]
+    needs: [set-env, push-s3]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && needs.set-env.outputs.server_type == 'dev' }}
     permissions:
@@ -175,19 +175,19 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
 
-  # algolia:
-  #   needs: [push-s3]
-  #   if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
-  #   runs-on: ubuntu-latest
+  algolia:
+    needs: [push-s3]
+    if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Push indices to Algolia
-  #       id: algolia-crawler
-  #       uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
-  #       with:
-  #         crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
-  #         crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-  #         algolia-app-id: ${{ secrets.APPLICATION_ID }}
-  #         algolia-api-key: ${{ secrets.API_KEY }}
-  #         site-url: https://montage.wanted.co.kr
-  #         crawler-name: Montage Crawler
+    steps:
+      - name: Push indices to Algolia
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler
