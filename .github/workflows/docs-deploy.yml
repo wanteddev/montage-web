@@ -107,7 +107,7 @@ jobs:
       build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
       build_path: docs/out
       server_type: ${{ needs.set-env.outputs.server_type }}
-      build_command: pnpm run build && pnpm -F docs build
+      build_command: pnpm run build && NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
     secrets: inherit
 
   push-s3:
@@ -125,7 +125,7 @@ jobs:
           aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/
           aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
         else
-          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
+          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/
           aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
         fi
     secrets: inherit
