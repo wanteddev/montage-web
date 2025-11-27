@@ -121,8 +121,8 @@ jobs:
       run_command: |
         echo "build files to s3"
 
-        if [ "$SERVER_TYPE" = "dev" && "${{ github.event_name }}" = "pull_request" ]; then
-          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/ --delete
+        if [ "${{ needs.set-env.outputs.server_type }}" = "dev" ] && [ "${{ github.event_name }}" = "pull_request" ]; then
+          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/
           aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
         else
           aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
