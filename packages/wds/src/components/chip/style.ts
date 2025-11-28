@@ -27,7 +27,8 @@ export const chipStyle =
     flex-shrink: 0;
     transition:
       background-color 0.3s ease,
-      color 0.3s ease;
+      color 0.3s ease,
+      box-shadow 0.3s ease;
 
     &:disabled,
     &[aria-disabled='true'] {
@@ -112,7 +113,7 @@ const chipSizeStyle = ({ size }: ChipProps = {}) => {
 };
 
 const chipVariantStyle = (
-  { variant, active, overrideColor }: ChipStyleProps = {},
+  { variant, overrideColor }: ChipStyleProps = {},
   theme: Theme,
 ) => {
   switch (variant) {
@@ -124,11 +125,10 @@ const chipVariantStyle = (
         background-color: ${theme.semantic.fill.alternative};
         box-shadow: none;
 
-        ${active &&
-        css`
+        &[data-active='true'] {
           color: ${theme.semantic.inverse.label};
           background-color: ${theme.semantic.inverse.background};
-        `}
+        }
 
         &:disabled,
         &[aria-disabled='true'] {
@@ -145,8 +145,7 @@ const chipVariantStyle = (
         background-color: transparent;
         box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
 
-        ${active &&
-        css`
+        &[data-active='true'] {
           background-color: ${addOpacity(
             theme.semantic.primary.normal,
             theme.opacity[5],
@@ -154,7 +153,7 @@ const chipVariantStyle = (
           box-shadow: inset 0 0 0 1px
             ${addOpacity(theme.semantic.primary.normal, theme.opacity[43])};
           color: ${theme.semantic.primary.normal};
-        `}
+        }
 
         &:disabled,
         &[aria-disabled='true'] {

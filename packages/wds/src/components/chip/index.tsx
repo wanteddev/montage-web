@@ -70,6 +70,7 @@ const Chip = forwardRef(
           ref={ref}
           disabled={disabled}
           aria-disabled={disabled}
+          data-active={active}
           aria-pressed={active}
           {...props}
           sx={[
