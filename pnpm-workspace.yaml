@@ -1,15 +1,16 @@
 packages:
-  - '.github/actions/*'
-  - 'docs'
-  - 'tests/*'
-  - 'packages/*'
+  - .github/actions/*
+  - docs
+  - tests/*
+  - packages/*
+
+enablePrePostScripts: true
+
+engineStrict: true
 
 onlyBuiltDependencies:
+  - '@swc/core'
   - esbuild
   - nx
   - sharp
   - unrs-resolver
-
-engineStrict: true
-
-enablePrePostScripts: true
