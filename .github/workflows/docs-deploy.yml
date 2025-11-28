@@ -63,6 +63,9 @@ jobs:
 
           if [ "${{ github.event_name == 'pull_request' }}" = "true" ]; then
             SERVER_TYPE=dev
+            IS_PREVIEW=true
+          else
+            IS_PREVIEW=false
           fi
 
           if [ "$SERVER_TYPE" = "dev" ]; then
@@ -73,6 +76,7 @@ jobs:
             CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID
           fi
 
+          echo "IS_PREVIEW=$IS_PREVIEW" >> $GITHUB_OUTPUT
           echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
           echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> $GITHUB_OUTPUT
           echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
@@ -80,6 +84,7 @@ jobs:
           echo "SERVER_TYPE=$SERVER_TYPE" >> $GITHUB_OUTPUT
           echo "CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
     outputs:
+      is_preview: ${{ steps.env-vars.outputs.IS_PREVIEW }}
       node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
       short_commit_hash: ${{ steps.env-vars.outputs.SHORT_COMMIT_HASH }}
       aws_region: ${{ steps.env-vars.outputs.AWS_REGION }}
@@ -107,7 +112,15 @@ jobs:
       build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
       build_path: docs/out
       server_type: ${{ needs.set-env.outputs.server_type }}
-      build_command: pnpm run build && NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
+      build_command: |
+        pnpm run build
+
+        if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
+          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} PREVIEW_HASH=${{ needs.set-env.outputs.short_commit_hash }} pnpm -F docs build
+        else
+          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
+        fi
+
     secrets: inherit
 
   push-s3:
@@ -121,7 +134,7 @@ jobs:
       run_command: |
         echo "build files to s3"
 
-        if [ "${{ needs.set-env.outputs.server_type }}" = "dev" ] && [ "${{ github.event_name }}" = "pull_request" ]; then
+        if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
           aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/
           aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
         else
@@ -133,7 +146,7 @@ jobs:
   create-pull-request-comment:
     needs: [set-env, push-s3]
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'pull_request' && needs.set-env.outputs.server_type == 'dev' }}
+    if: ${{ needs.set-env.outputs.is_preview == 'true' }}
     permissions:
       contents: read
       pull-requests: write
