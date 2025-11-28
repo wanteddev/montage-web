@@ -1,6 +1,11 @@
 import { css, keyframes } from '@wanteddev/wds-engine';
 
-import { addOpacity, respondMore, respondTo } from '../../utils';
+import {
+  addOpacity,
+  respondMore,
+  respondTo,
+  typographyStyle,
+} from '../../utils';
 
 import type { SnackbarProps } from './types';
 import type { Theme } from '@wanteddev/wds-engine';
@@ -103,6 +108,10 @@ export const messageStyle = css`
 
 export const snackbarActionStyle = (theme: Theme) => css`
   color: ${theme.semantic.static.white};
+
+  & > span {
+    ${typographyStyle('body2', 'bold')}
+  }
 
   & [wds-component='with-interaction'] {
     background-color: ${theme.semantic.background.normal.normal};

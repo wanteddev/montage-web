@@ -71,7 +71,7 @@ jobs:
           cache: false
 
       - name: Install playwright
-        run: pnpm dlx playwright install --with-deps
+        run: pnpm dlx playwright@1.56.1 install --with-deps
 
       - name: Run Visual Test
         run: pnpm run test:visual
