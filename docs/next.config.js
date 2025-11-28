@@ -5,18 +5,30 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const previewHash = process.env.PREVIEW_HASH;
+
 const isProduction = process.env.NODE_ENV === 'production';
+const isDev = process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'dev';
+const isPreview = Boolean(previewHash);
 
-const assetPrefix = `https://montage.wanted.co.kr`;
+const commitHash = exec('git rev-parse --short HEAD').stdout.trim();
+const host = isDev
+  ? 'https://dev-montage.wanted.co.kr'
+  : 'https://montage.wanted.co.kr';
 
-const commitHash = exec('git rev-parse HEAD').stdout.substring(0, 9);
+const buildId = previewHash ?? commitHash;
+
+const assetPrefix = isPreview ? `${host}/${buildId}` : host;
+
+const basePath = isDev && isPreview ? `/${buildId}` : undefined;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   output: 'export',
+  basePath,
   generateBuildId: () => {
-    return commitHash;
+    return buildId;
   },
   experimental: {
     scrollRestoration: true,
@@ -29,8 +41,8 @@ const nextConfig = {
   assetPrefix: isProduction ? assetPrefix : undefined,
   transpilePackages: ['next-mdx-remote'],
   env: {
-    APP_BUILD_ID: commitHash,
-    NEXT_PUBLIC_BASE_PATH: 'https://montage.wanted.co.kr',
+    APP_BUILD_ID: buildId,
+    NEXT_PUBLIC_BASE_PATH: host,
   },
   images: {
     unoptimized: true,

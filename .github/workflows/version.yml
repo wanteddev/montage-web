@@ -114,3 +114,11 @@ jobs:
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
+
+  deploy-docs:
+    uses: ./.github/workflows/docs-deploy.yml
+    secrets: inherit
+    needs: [deploy]
+    if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') }}
+    with:
+      server_type: www

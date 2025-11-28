@@ -1,19 +1,45 @@
 name: Docs deploy
+
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - "figma/**"
   workflow_dispatch:
+    inputs:
+      algolia:
+        description: Run algolia crawler
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      server_type:
+        description: Server type
+        required: false
+        default: "dev"
+        type: choice
+        options:
+          - "www"
+          - "dev"
+  workflow_call:
+    inputs:
+      server_type:
+        description: Server type
+        required: false
+        default: "dev"
+        type: string
 
 env:
   NODE_VERSION: 22.18.0
-
   AWS_REGION: ap-northeast-2
-  AWS_DEPLOY_ROLE: ${{ secrets.AWS_DEPLOY_ROLE }}
-  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   BUCKET: montage.wanted.co.kr
+  DEV_BUCKET: dev-montage.wanted.co.kr
+  SERVER_TYPE: ${{ inputs.server_type }}
+
+  CLOUDFRONT_DISTRIBUTION_ID: E43YG4RN0PRN4
+  DEV_CLOUDFRONT_DISTRIBUTION_ID: E39V7XGT2FMQNT
 
 permissions:
   id-token: write
@@ -22,6 +48,7 @@ permissions:
 jobs:
   set-env:
     name: Set Env
+    if: "${{ github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false && !contains(github.event.pull_request.labels.*.name, 'ci: skip document deploy')) }}"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,18 +58,38 @@ jobs:
       - name: Set Environment Variable
         id: env-vars
         run: |
-          server_type="www"
+          SERVER_TYPE=$SERVER_TYPE
+          SHORT_COMMIT_HASH=$(git rev-parse --short HEAD)
 
+          if [ "${{ github.event_name == 'pull_request' }}" = "true" ]; then
+            SERVER_TYPE=dev
+            IS_PREVIEW=true
+          else
+            IS_PREVIEW=false
+          fi
+
+          if [ "$SERVER_TYPE" = "dev" ]; then
+            BUCKET=$DEV_BUCKET
+            CLOUDFRONT_DISTRIBUTION_ID=$DEV_CLOUDFRONT_DISTRIBUTION_ID
+          else
+            BUCKET=$BUCKET
+            CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID
+          fi
+
+          echo "IS_PREVIEW=$IS_PREVIEW" >> $GITHUB_OUTPUT
+          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
+          echo "SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH" >> $GITHUB_OUTPUT
           echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_OUTPUT
           echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
-          echo "BUCKET=$BUCKET" >> $GITHUB_OUTPUT
-          echo "SERVER_TYPE=$server_type" >> $GITHUB_OUTPUT
-
+          echo "SERVER_TYPE=$SERVER_TYPE" >> $GITHUB_OUTPUT
+          echo "CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
     outputs:
+      is_preview: ${{ steps.env-vars.outputs.IS_PREVIEW }}
       node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
+      short_commit_hash: ${{ steps.env-vars.outputs.SHORT_COMMIT_HASH }}
       aws_region: ${{ steps.env-vars.outputs.AWS_REGION }}
       bucket: ${{ steps.env-vars.outputs.BUCKET }}
-
+      cloudfront_distribution_id: ${{ steps.env-vars.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
 
   set-pnpm:
@@ -65,7 +112,15 @@ jobs:
       build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
       build_path: docs/out
       server_type: ${{ needs.set-env.outputs.server_type }}
-      build_command: pnpm run build && pnpm -F docs build
+      build_command: |
+        pnpm run build
+
+        if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
+          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} PREVIEW_HASH=${{ needs.set-env.outputs.short_commit_hash }} pnpm -F docs build
+        else
+          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
+        fi
+
     secrets: inherit
 
   push-s3:
@@ -78,22 +133,74 @@ jobs:
       build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
       run_command: |
         echo "build files to s3"
-        aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/ --delete
-        aws cloudfront create-invalidation --distribution-id E43YG4RN0PRN4 --paths "/*"
+
+        if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
+          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/
+          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
+        else
+          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/
+          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
+        fi
     secrets: inherit
 
-  # algolia:
-  #   needs: [push-s3]
-  #   runs-on: ubuntu-latest
+  create-pull-request-comment:
+    needs: [set-env, push-s3]
+    runs-on: ubuntu-latest
+    if: ${{ needs.set-env.outputs.is_preview == 'true' }}
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get existing comment ID
+        id: get-comment
+        run: |
+          COMMENT_ID=$(gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+            --jq '.[] | select(.body | startswith("## 🚀 Preview")) | .id' | head -n 1)
 
-  #   steps:
-  #     - name: Push indices to Algolia
-  #       id: algolia-crawler
-  #       uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
-  #       with:
-  #         crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
-  #         crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
-  #         algolia-app-id: ${{ secrets.APPLICATION_ID }}
-  #         algolia-api-key: ${{ secrets.API_KEY }}
-  #         site-url: https://montage.wanted.co.kr
-  #         crawler-name: Montage Crawler
+          if [ -n "$COMMENT_ID" ]; then
+            echo "comment_id=$COMMENT_ID" >> $GITHUB_OUTPUT
+          else
+            echo "comment_id=" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create or Update Pull Request Comment
+        run: |
+          DEPLOY_URL="https://dev-montage.wanted.co.kr/${{ needs.set-env.outputs.short_commit_hash }}"
+          COMMIT_HASH="${{ needs.set-env.outputs.short_commit_hash }}"
+
+          COMMENT_BODY=$'## 🚀 Preview\n\n<table><tbody><tr><td><strong>Last commit</strong></td><td>'"$COMMIT_HASH"'</td></tr><tr><td><strong>Preview URL</strong></td><td><a href="'"$DEPLOY_URL"'">'"$DEPLOY_URL"'</a></td></tr></tbody></table>'
+
+          if [ -n "${{ steps.get-comment.outputs.comment_id }}" ]; then
+            gh api repos/${{ github.repository }}/issues/comments/${{ steps.get-comment.outputs.comment_id }} \
+              -X PATCH -f body="$COMMENT_BODY"
+            echo "Updated existing comment"
+          else
+            gh api repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments \
+              -X POST -f body="$COMMENT_BODY"
+            echo "Created new comment"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+
+  algolia:
+    needs: [push-s3]
+    if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Push indices to Algolia
+        id: algolia-crawler
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        with:
+          crawler-user-id: ${{ secrets.CRAWLER_USER_ID }}
+          crawler-api-key: ${{ secrets.CRAWLER_API_KEY }}
+          algolia-app-id: ${{ secrets.APPLICATION_ID }}
+          algolia-api-key: ${{ secrets.API_KEY }}
+          site-url: https://montage.wanted.co.kr
+          crawler-name: Montage Crawler
