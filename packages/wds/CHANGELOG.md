@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/wanteddev/wds/compare/v3.0.0...v3.0.1) (2025-11-28)
+
+### Bug Fixes
+
+- **wds:** chip 색상을 커스텀한 경우 active 색상이 변경되지 않음 ([#486](https://github.com/wanteddev/wds/issues/486)) ([4b1682f](https://github.com/wanteddev/wds/commit/4b1682fa2e29ae4252227a608118b0e14c7bd1c0))
+- **wds:** snackbar action 텍스트 크기가 일치하지 않음 ([#485](https://github.com/wanteddev/wds/issues/485)) ([8fd4d05](https://github.com/wanteddev/wds/commit/8fd4d05de6293546b4102099dfe3428df788338d))
+- **wds:** 다크모드에서 text field positive 아이콘 배경색 이슈 ([#487](https://github.com/wanteddev/wds/issues/487)) ([341a2ab](https://github.com/wanteddev/wds/commit/341a2ab9f2f3565bf0c94eb5d216de58298dcc1e))
+
 # [3.0.0](https://github.com/wanteddev/wds/compare/v3.0.0-alpha.4...v3.0.0) (2025-11-14)
 
 ### Bug Fixes
