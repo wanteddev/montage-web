@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/wanteddev/wds/compare/v3.0.1...v3.0.2) (2025-12-01)
+
+### Bug Fixes
+
+- **wds:** text field 높이를 커스텀한 경우 가운데 정렬이 되지 않음 ([#488](https://github.com/wanteddev/wds/issues/488)) ([62fad8d](https://github.com/wanteddev/wds/commit/62fad8df212901094f0635232385291c0d1af23e))
+
 ## [3.0.1](https://github.com/wanteddev/wds/compare/v3.0.0...v3.0.1) (2025-11-28)
 
 ### Bug Fixes

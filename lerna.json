@@ -1,6 +1,6 @@
 {
   "$schema": "https://unpkg.com/lerna@8.1.2/schemas/lerna-schema.json",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "packages": ["packages/*"],
   "npmClient": "pnpm",
   "command": {
