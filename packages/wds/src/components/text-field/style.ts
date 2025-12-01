@@ -43,6 +43,8 @@ export const textFieldWrapperStyle =
     [data-role='text-field-wrapper'] {
       padding: 12px;
       width: 100%;
+      height: 100%;
+      align-items: center;
       cursor: text;
       position: relative;
       transition: box-shadow ease 0.2s;
@@ -314,6 +316,8 @@ export const textFieldButtonStyle =
   ({ variant, disabled }: TextFieldButtonProps) =>
   (theme: Theme) => css`
     box-shadow: none;
+    height: 100%;
+    align-items: center;
     padding: 12px 16px;
     min-width: 80px;
     border-radius: inherit;
