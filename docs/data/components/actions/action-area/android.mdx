@@ -1,12 +1,12 @@
 ---
 title: ActionArea
-description: 하단에 위치한 액션 버튼 영역을 생성하는 컴포넌트
+description: 하단 액션 버튼 영역을 생성합니다.
 ---
 
 ## WantedActionArea
-하단에 위치한 액션 버튼 영역을 생성합니다.
-
-positive, negative, neutral 텍스트를 통해 버튼을 생성하며, 각 클릭 콜백도 함께 전달드립니다. variant 영역을 통해 상단에 부가 요소를 렌더링할 수 있습니다.
+하단 액션 버튼 영역을 생성합니다.
+버튼은 positive, negative, neutral 텍스트로 생성하며, 각 버튼에 클릭 콜백을 전달할 수 있습니다.
+또한, Variant 속성을 활용하여 상단 영역에 부가적인 요소를 렌더링할 수 있습니다.
 
 ```kotlin
 WantedActionArea(
@@ -43,7 +43,8 @@ WantedActionArea(
 | extra | (@Composable () -> Unit)? | 추가적으로 표시할 컴포넌트입니다. |
 
 ## Overload
-Slot을 활용하여 커스텀 버튼을 직접 전달하는 방식의 액션 영역입니다. 버튼 스타일 및 배치를 완전히 제어할 수 있습니다.
+Slot을 활용하여 커스텀 버튼을 직접 전달할 수 있습니다.
+버튼의 스타일 및 배치를 완전히 자유롭게 제어할 수 있습니다.
 
 ```kotlin
 WantedActionArea(
@@ -58,7 +59,8 @@ WantedActionArea(
 ```
 <details>
   <summary>Parameters</summary>
-  
+
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | type | ActionAreaType | 액션 영역의 타입을 설정합니다. |
@@ -72,12 +74,67 @@ WantedActionArea(
   | negative | (@Composable (() -> Unit)?) | 서브(부정) 액션 버튼 Slot입니다. |
   | neutral | (@Composable (() -> Unit)?) | 추가(중립) 액션 버튼 Slot입니다. |
   | extra | (@Composable (() -> Unit)?) | 추가적으로 표시할 컴포넌트입니다. |
+
 </details>
+
+## Advanced
+### WantedActionAreaDefault
+ActionArea에 필요한 버튼 기본 스타일을 정의한 데이터 클래스입니다.
+각 버튼의 WantedButtonDefault를 개별적으로 설정할 수 있습니다.
+
+<details>
+  <summary>Properties</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | type | ActionAreaType | 액션 영역 타입입니다. |
+  | positiveButtonDefault | WantedButtonDefault | 메인 액션 버튼 스타일을 설정합니다. |
+  | negativeButtonDefault | WantedButtonDefault | 서브 액션 버튼 스타일을 설정합니다. |
+  | neutralButtonDefault | WantedButtonDefault | 추가 액션 버튼 스타일을 설정합니다. |
+
+</details>
+<br />
+### WantedActionAreaDefaults
+WantedActionAreaDefault의 기본값을 제공하는 객체입니다.
+액션 영역 타입에 따라 적절한 버튼 스타일을 자동으로 설정합니다.
+
+### getDefault
+WantedActionAreaDefault의 기본 설정을 생성합니다.
+액션 영역 타입에 따라 positive, negative, neutral 버튼의 기본 스타일을 자동으로 설정합니다.
+각 버튼의 스타일을 개별적으로 커스터마이징할 수도 있습니다.
+
+```kotlin
+val config = WantedActionAreaDefaults.getDefault(
+    type = ActionAreaType.Strong
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | type | ActionAreaType | 액션 영역의 타입입니다. 기본값은 ActionAreaType.Strong입니다. |
+  | positiveButtonDefault | WantedButtonDefault | 메인 액션 버튼의 기본 스타일입니다. 타입에 따라 자동 설정됩니다. |
+  | negativeButtonDefault | WantedButtonDefault | 서브 액션 버튼의 기본 스타일입니다. 타입에 따라 자동 설정됩니다. |
+  | neutralButtonDefault | WantedButtonDefault | 추가 액션 버튼의 기본 스타일입니다. 타입에 따라 자동 설정됩니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedActionAreaDefault | 설정된 WantedActionAreaDefault 인스턴스를 반환합니다. |
+
+</details>
+<br />
 
 ## Enum
 ### ActionAreaType
 | 값 | 설명 |
 |:---|:---|
-| Strong | 강한 강조의 액션 영역 타입 |
-| Neutral | 중립적인 액션 영역 타입 |
-| Cancel | 취소를 위한 액션 영역 타입 |
+| Strong | 강조된 액션 영역입니다. |
+| Neutral | 중립적인 액션 영역입니다. |
+| Cancel | 취소 중심의 액션 영역입니다. |

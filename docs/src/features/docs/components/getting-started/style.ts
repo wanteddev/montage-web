@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css, respondTo } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -17,10 +17,14 @@ export const thumbnailStyle = (theme: Theme) => css`
   }
 `;
 
-export const descriptionStyle = css`
+export const descriptionStyle = (theme: Theme) => css`
   && {
     max-width: unset;
     white-space: pre-line;
     margin-bottom: 40px;
+
+    ${respondTo(theme.breakpoint.sm)} {
+      white-space: initial;
+    }
   }
 `;

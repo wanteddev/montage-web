@@ -14,7 +14,11 @@ const Behind = () => {
   const { containerRef } = useCarouselAnimation();
 
   return (
-    <SectionWrapper gap="20px" md={{ gap: '24px' }}>
+    <SectionWrapper
+      gap="20px"
+      md={{ gap: '24px' }}
+      aria-label="Behind the System Section"
+    >
       <FadeInOut duration={600}>
         <SectionTitle>Behind the System</SectionTitle>
       </FadeInOut>

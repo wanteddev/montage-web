@@ -1,4 +1,5 @@
 import {
+  FlexBox,
   ListCell,
   ListCellContent,
   Tooltip,
@@ -24,6 +25,7 @@ type Props = PropsWithChildren<{
   disabled?: boolean;
   trailingContent?: ReactNode;
   onClick?: () => void;
+  wrapperSx?: SxProp;
 }>;
 
 const LnbGroupItem = ({
@@ -35,6 +37,7 @@ const LnbGroupItem = ({
   disabled,
   trailingContent,
   onClick,
+  wrapperSx,
 }: Props) => {
   const { handleRouteChange } = useRouteScroll(
     useCallback(() => {
@@ -64,40 +67,48 @@ const LnbGroupItem = ({
   }, []);
 
   const routeProps = href
-    ? { href, onClick: handleRouteChange, as: Link }
-    : { onClick };
+    ? { role: 'link', href, onClick: handleRouteChange, as: Link }
+    : { role: 'button', onClick, as: 'div' };
 
   return (
     <Tooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>
       <TooltipTrigger>
-        <ListCell
-          alignItems="center"
-          ref={ref}
-          {...routeProps}
-          fillWidth
-          verticalPadding="small"
-          data-depth={depth}
-          aria-current={isActive ? 'page' : undefined}
-          textProps={{
-            variant: 'label1',
-            weight: isActive ? 'bold' : 'medium',
-            color: isActive
-              ? 'semantic.label.normal'
-              : 'semantic.label.alternative',
-          }}
-          disableInteraction={disabled}
-          aria-disabled={disabled}
-          sx={[lnbItemStyle, sx]}
-          trailingContent={
-            trailingContent ?? (
-              <ListCellContent variant="icon" data-role="lnb-group-item-arrow">
-                <IconArrowRightThick aria-hidden sx={{ fontSize: '16px' }} />
-              </ListCellContent>
-            )
-          }
-        >
-          {children}
-        </ListCell>
+        <FlexBox as="li" sx={wrapperSx}>
+          <ListCell
+            alignItems="center"
+            ref={ref}
+            {...routeProps}
+            fillWidth
+            verticalPadding="small"
+            data-depth={depth}
+            aria-current={isActive ? 'page' : undefined}
+            textProps={{
+              variant: depth === '0' ? 'headline2' : 'body2',
+              weight: isActive ? 'bold' : 'medium',
+              color: isActive
+                ? 'semantic.label.normal'
+                : 'semantic.label.alternative',
+              lg: {
+                variant: 'label1',
+              },
+            }}
+            disableInteraction={disabled}
+            aria-disabled={disabled}
+            sx={[lnbItemStyle, sx]}
+            trailingContent={
+              trailingContent ?? (
+                <ListCellContent
+                  variant="icon"
+                  data-role="lnb-group-item-arrow"
+                >
+                  <IconArrowRightThick aria-hidden sx={{ fontSize: '16px' }} />
+                </ListCellContent>
+              )
+            }
+          >
+            {children}
+          </ListCell>
+        </FlexBox>
       </TooltipTrigger>
       <TooltipContent position="right-center" offset={6} size="small">
         {children}

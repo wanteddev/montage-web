@@ -27,6 +27,7 @@ const Hero = () => {
       justifyContent="center"
       sx={wrapperStyle}
       as="section"
+      aria-label="Hero Section"
     >
       <FlexBox
         flexDirection="column"
@@ -100,13 +101,13 @@ const Hero = () => {
                       <Box
                         as="figure"
                         key={j.id}
+                        aria-hidden
                         sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
                       >
                         <Box
                           as="img"
                           src={j.src}
                           alt={`marquee-image-${j.id}`}
-                          aria-hidden
                         />
                       </Box>
                     ))}
@@ -133,13 +134,13 @@ const Hero = () => {
                       <Box
                         as="figure"
                         key={j.id}
+                        aria-hidden
                         sx={[marqueeImageStyle, { aspectRatio: j.ratio }]}
                       >
                         <Box
                           as="img"
                           src={j.src}
                           alt={`marquee-image-${j.id}`}
-                          aria-hidden
                         />
                       </Box>
                     ))}

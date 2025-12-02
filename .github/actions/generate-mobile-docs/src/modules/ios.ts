@@ -1,106 +1,27 @@
-import path from 'node:path';
-import fs from 'node:fs';
-
-import { globSync } from 'glob';
 import matter from 'gray-matter';
 
 import BaseModule from './base';
 
-export default class Android extends BaseModule {
-  private files: Array<string> = [];
-  private tempFiles: Record<string, string> = {};
+import type { CopyComponentMap, CustomComponentMap } from './base';
 
+export default class IOS extends BaseModule {
   protected readonly REPOSITORY = 'montage-ios';
   protected readonly PROJECT_PATH = 'documentation';
 
-  protected readonly CUSTOM_COMPONENT_MAP: Record<string, string> = {
-    popupmodal: 'popup',
-    counterpagination: 'pagecounter',
-    dotpagination: 'paginationdots',
-    groupavatar: 'avatargroup',
-  };
-  protected readonly COPY_COMPONENT_MAP: Record<string, Array<string>> = {
-    control: ['checkbox', 'check-mark', 'radio', 'switch'],
-  };
-
-  protected readonly MERGE_COMPONENT_MAP: Record<string, Array<string>> = {
-    progresstracker: ['verticalprogresstracker', 'horizontalprogresstracker'],
-    bottomsheet: ['bottomsheetmodal', 'fullmodal'],
-  };
+  protected readonly CUSTOM_COMPONENT_MAP: CustomComponentMap = {};
+  protected readonly COPY_COMPONENT_MAP: CopyComponentMap = {};
+  protected readonly MERGE_COMPONENT_MAP: Record<string, Array<string>> = {};
 
   constructor() {
-    super();
+    super('ios');
   }
 
-  public gitClone = () => super.gitClone(this.REPOSITORY);
-
-  public cleanup = () => super.cleanup(this.REPOSITORY);
-
-  public load = () => {
-    this.files = globSync(
-      path.join(this.REPOSITORY, this.PROJECT_PATH, '**/*.{md,mdx}'),
-    );
-  };
-
-  public convert = () => {
-    for (const file of this.files) {
-      const slug = file.split('/');
-      const titleWithDash = (
-        slug.at(-1) === 'ios.md' ? slug.at(-2) : slug.at(-1)
-      )?.replace('.md', '');
-      const title = titleWithDash?.replace(/-/g, '');
-
-      const customTitle = this.CUSTOM_COMPONENT_MAP[title!]?.replace(/-/g, '');
-
-      const copyTitle = this.COPY_COMPONENT_MAP[title!];
-
-      if (copyTitle?.length) {
-        for (const copy of copyTitle) {
-          const designFile = super.getDesignComponentFiles().find((f) => {
-            const designSlug = f.split('/');
-
-            return (
-              designSlug.at(designSlug.length - 2)!.replace(/-/g, '') ===
-              copy.replace(/-/g, '')
-            );
-          });
-
-          if (!designFile) {
-            continue;
-          }
-
-          this.tempFiles[designFile.replace(/design\.mdx$/, 'ios.md')] =
-            fs.readFileSync(file, 'utf8');
-        }
-
-        continue;
-      }
-
-      const designFile = super.getDesignComponentFiles().find((f) => {
-        const designSlug = f.split('/');
-
-        return (
-          designSlug.at(designSlug.length - 2)!.replace(/-/g, '') ===
-          (customTitle || title)
-        );
-      });
-
-      if (designFile) {
-        this.tempFiles[designFile.replace(/design\.mdx$/, 'ios.md')] =
-          fs.readFileSync(file, 'utf8');
-      } else {
-        const utilityPath =
-          file.match(/\/utilities\/([^/]+)\//)?.[1] ?? 'ios-utilities';
-
-        this.tempFiles[
-          `docs/data/utilities/${utilityPath}/${titleWithDash}.md`
-        ] = fs.readFileSync(file, 'utf8');
-      }
-    }
+  public convert() {
+    super.convert();
 
     for (const [key, value] of Object.entries(this.MERGE_COMPONENT_MAP)) {
       const contents = value.map((merge) => {
-        const mergeKey = `docs/data/utilities/ios-utilities/${merge}.md`;
+        const mergeKey = `docs/data/utilities/ios-utilities/${merge}.mdx`;
         return {
           key: mergeKey,
           value: this.tempFiles[mergeKey],
@@ -125,30 +46,16 @@ export default class Android extends BaseModule {
         delete this.tempFiles[content.key];
       }
 
-      const newKey = super.getDesignComponentFiles().find((f) => {
+      const newKey = this.designComponentFiles.find((f) => {
         const slug = f.split('/');
 
         return slug.at(slug.length - 2)!.replace(/-/g, '') === key;
       });
 
-      this.tempFiles[newKey!.replace(/design\.mdx$/, 'ios.md')] = mergedContent;
+      this.tempFiles[newKey!.replace(/design\.mdx$/, 'ios.mdx')] =
+        mergedContent;
     }
-  };
 
-  public save = () => {
-    const prevFiles = [
-      ...globSync('docs/data/utilities/ios-*/*.md'),
-      ...globSync('docs/data/components/**/ios.md'),
-    ];
-    for (const file of prevFiles) {
-      fs.rmSync(file, { recursive: true, force: true });
-    }
-    for (const [key, value] of Object.entries(this.tempFiles)) {
-      const directory = key.replace(/\/([^/]+)\.md$/, '');
-      if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory, { recursive: true });
-      }
-      fs.writeFileSync(key, value, 'utf-8');
-    }
-  };
+    return this;
+  }
 }

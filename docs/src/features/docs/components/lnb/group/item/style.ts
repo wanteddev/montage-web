@@ -3,18 +3,15 @@ import { css, ellipsisTypographyStyle, respondMore } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const lnbItemStyle = (theme: Theme) => css`
-  ${respondMore(theme.breakpoint.lg)} {
-    [data-role='list-text-content'] {
-      ${ellipsisTypographyStyle(1)}
-      white-space: nowrap;
-      overflow-wrap: anywhere;
-      word-break: keep-all;
-    }
-  }
-
   && {
     --wds-list-cell-horizontal-padding: 0px;
     --wds-list-cell-vertical-padding: 7px;
+  }
+
+  &[data-depth='0'] {
+    && {
+      --wds-list-cell-vertical-padding: 8px;
+    }
   }
 
   border-radius: 12px;
@@ -31,17 +28,22 @@ export const lnbItemStyle = (theme: Theme) => css`
       transform 0.2s ease;
     transform: translateX(-10px);
   }
-  @media (pointer: fine) {
-    &:hover {
-      [data-role='lnb-group-item-arrow'] {
-        color: ${theme.semantic.label.assistive};
-        transform: translateX(0px);
-      }
-    }
-  }
 
   [data-role='list-text-content'] {
     transition: color 0.2s ease;
+  }
+
+  @media (pointer: fine) {
+    &:hover {
+      [data-role='lnb-group-item-arrow'] {
+        color: ${theme.semantic.label.normal};
+        transform: translateX(0px);
+      }
+
+      &[aria-current='page'] > [wds-component='with-interaction'] {
+        opacity: ${theme.opacity[5]};
+      }
+    }
   }
 
   &[aria-current='page'] {
@@ -58,18 +60,19 @@ export const lnbItemStyle = (theme: Theme) => css`
       opacity: 0.02;
     }
 
-    @media (pointer: fine) {
-      &:hover {
-        & > [wds-component='with-interaction'] {
-          opacity: ${theme.opacity[5]};
-        }
-      }
-    }
-
     &:active {
       & > [wds-component='with-interaction'] {
         opacity: ${theme.opacity[12]};
       }
+    }
+  }
+
+  ${respondMore(theme.breakpoint.lg)} {
+    [data-role='list-text-content'] {
+      ${ellipsisTypographyStyle(1)}
+      white-space: nowrap;
+      overflow-wrap: anywhere;
+      word-break: keep-all;
     }
   }
 `;

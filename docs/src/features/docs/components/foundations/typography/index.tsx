@@ -44,7 +44,7 @@ const FoundationsTypography = () => {
 
       <Divider color="semantic.line.normal.alternative" />
 
-      <Heading2 content="Work break" />
+      <Heading2 content="Word break" />
 
       <p>
         원티드랩에서는 개발 시 텍스트가 음절별로 나뉘어서 줄바꿈이 됩니다.
@@ -53,7 +53,7 @@ const FoundationsTypography = () => {
 
       <Thumbnail
         src="/foundations/typography/Image-1.png"
-        alt="Work break"
+        alt="Word break"
         ratio="21:9"
         radius
         border

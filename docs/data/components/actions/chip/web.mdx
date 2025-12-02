@@ -1,0 +1,138 @@
+---
+title: Chip
+createdAt: 2025-05-12
+updatedAt: 2025-06-17
+---
+
+## Basic chip
+
+`Chip` 은 2가지 variant를 사용할 수 있습니다.
+- solid (default)
+- outlined
+
+<Demo code={`import { FlexBox, Chip } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Chip variant="solid">Solid</Chip>
+      <Chip variant="outlined">Outlined</Chip>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## States
+
+`active` prop 을 사용하여 활성화 상태를 설정할 수 있습니다.
+
+<Demo code={`import { FlexBox, Chip } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column">
+      <FlexBox gap="12px" justifyContent="center">
+        <Chip variant="solid">Solid, Default</Chip>
+        <Chip variant="solid" active>Solid, Active</Chip>
+      </FlexBox>
+      <FlexBox gap="12px" justifyContent="center">
+        <Chip variant="outlined">Outlined, Default</Chip>
+        <Chip variant="outlined" active>Outlined, Active</Chip>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+
+
+## With Icon
+
+`leadingContent`, `trailingContent` 를 사용해서 아이콘과 함께 사용할 수 있습니다.
+
+<Demo code={`import { FlexBox, Chip } from '@wanteddev/wds';
+import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" justifyContent="center">
+      <Chip
+        variant="solid"
+        leadingContent={<IconPlus />}
+      >
+        추가
+      </Chip>
+      <Chip
+        variant="outlined"
+        trailingContent={<IconTrash />}
+      >
+        삭제
+      </Chip>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+4가지 사이즈를 제공합니다.
+- xsmall
+- small
+- medium (default)
+- large
+
+<Demo code={`import { Chip, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center">
+        <Chip variant="solid" size="xsmall">
+          XSmall
+        </Chip>
+        <Chip variant="solid" size="small">
+          Small
+        </Chip>
+        <Chip variant="solid" size="medium">
+          Medium
+        </Chip>
+        <Chip variant="solid" size="large">
+          Large
+        </Chip>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center">
+        <Chip variant="outlined" size="xsmall">
+          XSmall
+        </Chip>
+        <Chip variant="outlined" size="small">
+          Small
+        </Chip>
+        <Chip variant="outlined" size="medium">
+          Medium
+        </Chip>
+        <Chip variant="outlined" size="large">
+          Large
+        </Chip>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## API
+
+`as` 옵션을 통해 `Link` 등 다른 컴포넌트/태그로 활용할 수 있습니다.
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+
+<PropsTable component="Chip" />

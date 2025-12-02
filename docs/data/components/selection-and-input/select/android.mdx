@@ -1,12 +1,11 @@
 ---
 title: Select
-description: 단일 및 멀티 항목 선택을 위한 Select 컴포넌트
+description: 단일 항목을 선택할 수 있는 Select 컴포넌트입니다.
 ---
 
 ## WantedSelect
 단일 항목을 선택할 수 있는 Select 컴포넌트입니다.
-
-선택 가능한 항목을 BottomSheet로 제공하며, 선택 시 콜백으로 결과를 반환합니다.
+선택 가능한 항목을 Bottom sheet로 제공하며, 선택 시 콜백으로 결과를 반환합니다.
 
 ```kotlin
 var selectedValue by remember { mutableStateOf("") }
@@ -44,8 +43,7 @@ WantedSelect(
 
 ## Overload
 WantedSelectData를 사용하는 단일 항목 선택 컴포넌트입니다.
-
-선택된 항목을 화면에 표시하고, 클릭 시 BottomSheet를 통해 항목을 선택할 수 있습니다.
+선택된 항목을 화면에 표시하고, 클릭 시 Bottom sheet를 통해 항목을 선택할 수 있습니다.
 
 ```kotlin
 var selectedData by remember { mutableStateOf<WantedSelectData?>(null) }
@@ -62,7 +60,8 @@ WantedSelect(
 ```
 <details>
   <summary>Parameters</summary>
-  
+
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | selectData | WantedSelectData? | 화면에 표시할 현재 선택된 값입니다. |
@@ -83,12 +82,12 @@ WantedSelect(
   | onClick | () -> Unit | 셀렉트 박스 클릭 시 호출되는 콜백입니다. |
   | onSelectData | (WantedSelectData) -> Unit | 항목 선택 완료 후 호출되는 콜백입니다. |
   | leadingIcon | (@Composable () -> Unit)? | 좌측에 표시할 커스텀 아이콘 슬롯입니다. |
+
 </details>
 <br />
 
-여러 항목을 선택할 수 있는 멀티 셀렉트 컴포넌트입니다.
-
-선택된 항목들을 Chip 또는 텍스트 형태로 표시하며, 클릭 시 BottomSheet 형태의 다중 선택 다이얼로그를 표시합니다.
+여러 항목을 선택할 수 있는 Multi select 컴포넌트입니다.
+선택된 항목들을 Chip 또는 텍스트 형태로 표시하며, 클릭 시 Bottom sheet 형태의 다중 선택 Dialog를 표시합니다.
 
 ```kotlin
 var selectedList by remember { mutableStateOf(listOf<WantedSelectData>()) }
@@ -108,7 +107,8 @@ WantedSelect(
 ```
 <details>
   <summary>Parameters</summary>
-  
+
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | selectedDataList | List<WantedSelectData> | 현재 선택된 항목 리스트입니다. |
@@ -130,12 +130,12 @@ WantedSelect(
   | onClick | () -> Unit | 셀렉트 박스 클릭 시 호출되는 콜백입니다. |
   | onSelectDataList | (List<WantedSelectData>) -> Unit | 항목 선택 완료 후 호출되는 콜백입니다. |
   | leadingIcon | (@Composable () -> Unit)? | 셀렉트 박스 왼쪽에 표시할 커스텀 아이콘 슬롯입니다. |
+
 </details>
 
 ## Advanced
 ### WantedSelectWithString
-문자열 리스트 기반의 멀티 셀렉트 컴포넌트입니다.
-
+문자열 리스트 기반의 Multi select 컴포넌트입니다.
 여러 개의 문자열 값을 선택하고, 선택된 항목을 Chip 또는 텍스트 형태로 표시합니다.
 
 ```kotlin
@@ -151,9 +151,10 @@ WantedSelectWithString(
     }
 )
 ```
+
 <details>
   <summary>Parameters</summary>
-  
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | selectedValueList | List<String> | 현재 선택된 문자열 항목 리스트입니다. |
@@ -175,7 +176,41 @@ WantedSelectWithString(
   | onDelete | (String) -> Unit | 선택된 항목에서 삭제 버튼 클릭 시 호출되는 콜백입니다. |
   | onClick | () -> Unit | 셀렉트 영역 클릭 시 호출되는 콜백입니다. |
   | onSelectList | (List<String>) -> Unit | 항목 선택 완료 후 호출되는 콜백입니다. |
+
 </details>
+<br />
+### WantedSelectData
+WantedSelect, WantedMultiSelect에서 사용되는 선택 항목 데이터 모델입니다.
+선택 가능한 항목을 구성할 때 텍스트, 아이콘 리소스, URL, 부가 데이터 등을 함께 담을 수 있습니다.
+
+```kotlin
+val item = WantedSelectData(
+    id = "01",
+    text = "디자인",
+    iconUrl = "https://icon.url",
+    iconRes = R.drawable.ic_design,
+    tint = R.color.primary_normal,
+    any = DesignCategory.UI
+)
+```
+
+<details>
+  <summary>Properties</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | id | String | 항목의 고유 ID입니다. |
+  | text | String | 사용자에게 표시할 텍스트입니다. |
+  | iconUrl | String | 아이콘 이미지 URL입니다. |
+  | any | Any? | 부가 데이터를 담기 위한 확장 필드입니다. |
+  | iconRes | Int | Drawable 리소스 ID입니다. |
+  | tint | Int | 아이콘에 적용할 색상 리소스 ID입니다. |
+
+</details>
+<br />
+### WantedSelectDefaults
+Select 컴포넌트에서 사용되는 설정 값을 정의하는 객체입니다.
+
 
 ## Enum
 ### MultiSelectRender

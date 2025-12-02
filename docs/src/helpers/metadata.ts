@@ -32,7 +32,7 @@ export const createMetadata = ({
         description: parsedDescription,
       }),
       ...(image && {
-        images: [{ url: image, width: 1200, height: 630 }],
+        images: [{ url: image, width: 1200, height: 600 }],
       }),
     },
     twitter: {
@@ -42,7 +42,7 @@ export const createMetadata = ({
       }),
       ...(image && {
         card: 'summary_large_image',
-        images: [{ url: image, width: 1200, height: 630 }],
+        images: [{ url: image, width: 1200, height: 600 }],
       }),
     },
   };

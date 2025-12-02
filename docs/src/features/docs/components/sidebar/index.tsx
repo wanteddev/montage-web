@@ -3,11 +3,11 @@ import {
   startTransition,
   useCallback,
   useEffect,
+  useId,
   useMemo,
   useState,
 } from 'react';
 import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';
@@ -16,6 +16,8 @@ import { sidebarContentStyle, sidebarStyle } from './style';
 import { getHeadingLevel } from './helpers';
 
 const Sidebar = () => {
+  const descriptionId = useId();
+
   const pathname = usePathname();
   const [headings, setHeadings] = useState<
     Array<{ nodeName: string; id: string; text: string }>
@@ -102,12 +104,13 @@ const Sidebar = () => {
 
   return (
     <FlexBox data-algolia-exclude sx={sidebarStyle} flexShrink={0}>
-      <aside>
+      <aside aria-label="Table of Contents">
         <ScrollArea>
-          <FlexBox as="nav">
+          <FlexBox as="nav" aria-labelledby={descriptionId}>
             <FlexBox flexDirection="column" gap="4px">
               <Typography
-                as="h4"
+                id={descriptionId}
+                as="p"
                 variant="body2"
                 weight="bold"
                 color="semantic.label.normal"
@@ -125,10 +128,10 @@ const Sidebar = () => {
                       as="li"
                       key={id}
                       data-level={getHeadingLevel(nodeName)}
-                      aria-current={visibleSectionId === id}
+                      data-is-active={visibleSectionId === id}
                       sx={sidebarContentStyle}
                     >
-                      <Link href={`#${id}`}>{text}</Link>
+                      <a href={`#${id}`}>{text}</a>
                     </Typography>
                   );
                 })}

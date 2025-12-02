@@ -11,7 +11,11 @@ import { RESOURCE_ITEMS } from './constants';
 
 const Resources = () => {
   return (
-    <SectionWrapper gap="20px" md={{ gap: '24px' }}>
+    <SectionWrapper
+      gap="20px"
+      md={{ gap: '24px' }}
+      aria-label="Resources Section"
+    >
       <FadeInOut duration={600}>
         <SectionTitle>Start Your Montage</SectionTitle>
       </FadeInOut>

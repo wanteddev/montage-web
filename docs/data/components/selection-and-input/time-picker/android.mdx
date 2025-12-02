@@ -1,12 +1,13 @@
 ---
 title: TimePicker
-description: 시계 및 입력 형식을 지원하는 시간 선택 다이얼로그
+description: 시계 및 입력 형식을 지원하는 시간 선택 Dialog입니다.
 ---
 
 ## WantedTimePicker
-시계 및 입력 형식을 지원하는 시간 선택 다이얼로그입니다.
-
-사용자는 시계 기반 또는 직접 입력 기반의 시간 선택 UI를 전환하여 사용할 수 있으며, 선택 후 확인/취소 버튼으로 결과를 확정하거나 다이얼로그를 닫을 수 있습니다. 내부적으로 `TimePicker` 또는 `TimeInput`을 사용하며, 선택 모드 전환 버튼을 제공합니다.
+시계 및 입력 형식을 지원하는 시간 선택 Dialog입니다.
+사용자는 Wheel, Input, Dial 형식으로 전환하여 사용할 수 있습니다.
+선택 후 확인/취소 버튼으로 결과를 확정하거나 Dialog를 닫을 수 있습니다.
+내부적으로 TimePicker 또는 TimeInput을 사용하며, 선택 모드 전환 버튼을 제공합니다.
 
 ```kotlin
 WantedTimePicker(
@@ -15,7 +16,7 @@ WantedTimePicker(
     cancel = "취소",
     onClickConfirm = { /* 확인 처리 */ },
     onClickCancel = { /* 취소 처리 */ },
-    onDismissRequest = { /* 다이얼로그 종료 처리 */ },
+    onDismissRequest = { /* Dialog 종료 처리 */ },
     onClickChangeMode = { /* 입력 형식 전환 처리 */ },
     isEnableClock = true
 )
@@ -24,19 +25,22 @@ WantedTimePicker(
 ### Parameters
 | 이름 | 타입 | 설명 |
 |:---|:---|:---|
-| title | String | 다이얼로그 상단 제목 텍스트입니다. |
-| confirm | String | 확인 버튼 텍스트입니다. |
-| onClickConfirm | () -> Unit | 확인 버튼 클릭 시 호출되는 콜백입니다. |
-| onClickChangeMode | () -> Unit | 입력 형식 전환 버튼 클릭 시 호출되는 콜백입니다. |
-| onDismissRequest | () -> Unit | 다이얼로그 외부 클릭 또는 닫기 시 호출되는 콜백입니다. |
-| cancel | String? | 취소 버튼에 표시할 텍스트입니다. null일 경우 버튼이 표시되지 않습니다. |
-| isEnableClock | Boolean | true이면 시계 기반 TimePicker를 사용하고, false이면 TimeInput을 사용합니다. |
-| onClickCancel | () -> Unit | 취소 버튼 클릭 시 호출되는 콜백입니다. 기본값은 빈 함수입니다. |
+| title | String | Dialog 상단 제목 텍스트입니다 |
+| confirm | String | 확인 버튼 텍스트입니다 |
+| onClickConfirm | () -> Unit | 확인 버튼 클릭 시 호출되는 콜백입니다 |
+| onClickChangeMode | () -> Unit | 입력 형식 전환 버튼 클릭 시 호출되는 콜백입니다 |
+| onDismissRequest | () -> Unit | Dialog 외부 클릭 또는 닫기 시 호출되는 콜백입니다 |
+| cancel | String? | 취소 버튼에 표시할 텍스트입니다. null일 경우 버튼이 표시되지 않습니다 |
+| isEnableClock | Boolean | true이면 시계 기반 TimePicker를 사용하고, false이면 TimeInput을 사용합니다 |
+| onClickCancel | () -> Unit | 취소 버튼 클릭 시 호출되는 콜백입니다. 기본값은 빈 함수입니다 |
 
-## Overload
-시간(AM/PM, 시, 분)을 휠 형태로 선택할 수 있는 다이얼로그입니다.
 
-사용자는 오전/오후(AM/PM), 시(hour), 분(minute)을 각각 휠 컴포넌트를 통해 선택할 수 있습니다. `WantedNumberPicker` 및 `WantedStringPicker`를 활용하여 시각적인 휠 선택 UI를 제공합니다. 선택 완료 후 확인 버튼을 누르면 콜백으로 선택 값이 전달되며, 취소 또는 외부 클릭 시 닫힙니다.
+## Advanced
+### WantedTimePickerWheel
+시간(AM/PM, 시, 분)을 Wheel 형태로 선택할 수 있는 Dialog입니다.
+사용자는 오전/오후(AM/PM), 시(hour), 분(minute)을 각각 Wheel을 통해 선택할 수 있습니다.
+WantedNumberPicker 및 WantedStringPicker를 활용하여 선택 UI를 제공합니다.
+선택 완료 후 확인 버튼을 누르면 콜백으로 선택 값이 전달되며, 취소 또는 외부 클릭 시 닫힙니다.
 
 ```kotlin
 WantedTimePickerWheel(
@@ -48,55 +52,57 @@ WantedTimePickerWheel(
     onSelected = { isAm, hour, minute ->
         // 시간 선택 처리
     },
-    onDismissRequest = { /* 다이얼로그 닫기 처리 */ }
+    onDismissRequest = { /* Dialog 닫기 처리 */ }
 )
 ```
+
 <details>
   <summary>Parameters</summary>
-  
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
-  | isAm | Boolean | 초기 오전/오후 여부입니다. true이면 AM, false이면 PM입니다. |
-  | hour | Int | 초기 선택된 시(hour)입니다. |
-  | minute | Int | 초기 선택된 분(minute)입니다. |
-  | confirm | String | 확인 버튼에 표시할 텍스트입니다. |
-  | cancel | String | 취소 버튼에 표시할 텍스트입니다. |
-  | modifier | Modifier | 외형을 설정하는 Modifier입니다. |
-  | title | String | 다이얼로그 상단에 표시될 제목입니다. 기본값은 빈 문자열입니다. |
-  | default | WantedTimePickerWheelDefault | 시간 선택 휠에 대한 기본 설정 값입니다. |
-  | onSelected | (Boolean, Int, Int) -> Unit | 시간 선택 완료 시 호출되는 콜백입니다. 파라미터는 (isAm, hour, minute) 순입니다. |
-  | onDismissRequest | () -> Unit | 다이얼로그 닫기 요청 시 호출되는 콜백입니다. |
+  | isAm | Boolean | 초기 오전/오후 여부입니다. true이면 AM, false이면 PM입니다 |
+  | hour | Int | 초기 선택된 시(hour)입니다 |
+  | minute | Int | 초기 선택된 분(minute)입니다 |
+  | confirm | String | 확인 버튼에 표시할 텍스트입니다 |
+  | cancel | String | 취소 버튼에 표시할 텍스트입니다 |
+  | modifier | Modifier | 외형을 설정하는 Modifier입니다 |
+  | title | String | Dialog 상단에 표시될 제목입니다. 기본값은 빈 문자열입니다 |
+  | default | WantedTimePickerWheelDefault | 시간 선택 휠에 대한 기본 설정 값입니다 |
+  | onSelected | (Boolean, Int, Int) -> Unit | 시간 선택 완료 시 호출되는 콜백입니다. 파라미터는 (isAm, hour, minute) 순입니다 |
+  | onDismissRequest | () -> Unit | Dialog 닫기 요청 시 호출되는 콜백입니다 |
+
 </details>
-
-## Advanced
+<br />
 ### WantedTimePickerWheelDefault
-시간 선택 휠(TimePickerWheel)의 기본 설정 값을 담는 데이터 클래스입니다.
-
+시간 선택 Wheel의 기본 설정 값을 담는 데이터 클래스입니다.
 시(hour), 분(minute), AM/PM 설정과 비활성 시간 표시 여부를 지정할 수 있습니다.
 
 <details>
-  <summary>Parameters</summary>
-  
+  <summary>Properties</summary>
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
-  | enableMinHour | Int | 선택 가능한 최소 시입니다. |
-  | enableMaxHour | Int | 선택 가능한 최대 시입니다. |
-  | enableMinMinute | Int | 선택 가능한 최소 분입니다. |
-  | enableMaxMinute | Int | 선택 가능한 최대 분입니다. |
-  | enableAm | Boolean | 오전(AM) 선택 허용 여부입니다. |
-  | enablePm | Boolean | 오후(PM) 선택 허용 여부입니다. |
-  | isHideDisableTime | Boolean | 비활성 시간 숨김 여부입니다. |
+  | enableMinHour | Int | 선택 가능한 최소 시입니다 |
+  | enableMaxHour | Int | 선택 가능한 최대 시입니다 |
+  | enableMinMinute | Int | 선택 가능한 최소 분입니다 |
+  | enableMaxMinute | Int | 선택 가능한 최대 분입니다 |
+  | enableAm | Boolean | 오전(AM) 선택 허용 여부입니다 |
+  | enablePm | Boolean | 오후(PM) 선택 허용 여부입니다 |
+  | isHideDisableTime | Boolean | 비활성 시간 숨김 여부입니다 |
+
 </details>
-
+<br />
 ### WantedTimePickerWheelDefaults
-시간 선택 휠의 기본 설정을 제공하는 객체입니다.
-
-시간과 분의 선택 가능 범위, AM/PM 허용 여부, 비활성 시간 숨김 옵션 등을 포함하며, 유효하지 않은 값은 내부적으로 자동 보정됩니다.
+시간 선택 Wheel의 기본 설정을 제공하는 객체입니다.
+시간과 분의 선택 가능 범위, AM/PM 허용 여부, 비활성 시간 숨김 옵션 등을 포함하며,
+유효하지 않은 값은 내부적으로 자동 보정됩니다.
 
 ### getDefault
-시간 선택 휠 기본 설정 값을 반환합니다.
-
-시간 선택 시 사용할 수 있는 시, 분, AM/PM 범위를 설정할 수 있으며, 비활성 시간 숨김 여부도 조정 가능합니다. 잘못된 값은 자동으로 보정됩니다. 반환 값은 `WantedTimePickerWheelDefault` 객체입니다.
+시간 선택 Wheel 기본 설정 값을 반환합니다.
+시간 선택 시 사용할 수 있는 시, 분, AM/PM 범위를 설정할 수 있으며,
+비활성 시간 숨김 여부도 조정 가능합니다. 잘못된 값은 자동으로 보정됩니다.
+반환 값은 WantedTimePickerWheelDefault 객체입니다.
 
 ```kotlin
 val timeDefault = WantedTimePickerWheelDefaults.getDefault(
@@ -109,17 +115,28 @@ val timeDefault = WantedTimePickerWheelDefaults.getDefault(
     isHideDisableTime = true
 )
 ```
+
 <details>
   <summary>Parameters</summary>
-  
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
-  | enableAm | Boolean | 오전(AM) 선택을 허용할지 여부입니다. 기본값은 true입니다. |
-  | enablePm | Boolean | 오후(PM) 선택을 허용할지 여부입니다. 기본값은 true입니다. 단, AM이 false인 경우 자동으로 true로 설정됩니다. |
-  | enableMinHour | Int | 선택 가능한 최소 시입니다. 1 이상이어야 하며, 기본값은 1입니다. |
-  | enableMaxHour | Int | 선택 가능한 최대 시입니다. 12 이하이어야 하며, `enableMinHour`보다 작으면 자동 보정됩니다. 기본값은 12입니다. |
-  | enableMinMinute | Int | 선택 가능한 최소 분입니다. 0 이상이어야 하며, 기본값은 0입니다. |
-  | enableMaxMinute | Int | 선택 가능한 최대 분입니다. 59 이하이며, `enableMinMinute`보다 작으면 자동 보정됩니다. 기본값은 59입니다. |
-  | isHideDisableTime | Boolean | 비활성 시간대를 숨길지 여부입니다. 기본값은 false입니다. |
-  | return | WantedTimePickerWheelDefault | 설정된 시간 선택 휠 기본값 객체입니다. |
+  | enableAm | Boolean | 오전(AM) 선택을 허용할지 여부입니다. 기본값은 true입니다 |
+  | enablePm | Boolean | 오후(PM) 선택을 허용할지 여부입니다. 기본값은 true입니다. 단, AM이 false인 경우 자동으로 true로 설정됩니다 |
+  | enableMinHour | Int | 선택 가능한 최소 시입니다. 1 이상이어야 하며, 기본값은 1입니다 |
+  | enableMaxHour | Int | 선택 가능한 최대 시입니다. 12 이하이어야 하며, `enableMinHour`보다 작으면 자동 보정됩니다. 기본값은 12입니다 |
+  | enableMinMinute | Int | 선택 가능한 최소 분입니다. 0 이상이어야 하며, 기본값은 0입니다 |
+  | enableMaxMinute | Int | 선택 가능한 최대 분입니다. 59 이하이며, `enableMinMinute`보다 작으면 자동 보정됩니다. 기본값은 59입니다 |
+  | isHideDisableTime | Boolean | 비활성 시간대를 숨길지 여부입니다. 기본값은 false입니다 |
+
 </details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedTimePickerWheelDefault | 설정된 시간 선택 휠 기본값 객체입니다 |
+
+</details>
+<br />

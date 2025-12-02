@@ -55,7 +55,7 @@ const LnbMobile = () => {
 
   const [isScrolling, setIsScrolling] = useState(false);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (lnbMobile.open) {
       const activeElement = containerRef.current?.querySelector<HTMLElement>(
         '[aria-current="page"]',
@@ -74,7 +74,7 @@ const LnbMobile = () => {
     }
   }, [lnbMobile.open]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!lnbMobile.open || !containerRef.current) return;
 
     const scrollContainer = containerRef.current.querySelector<HTMLElement>(
@@ -84,12 +84,18 @@ const LnbMobile = () => {
     if (!scrollContainer) return;
 
     const handleScroll = (e: Event) => {
-      if ((e.target as HTMLElement).scrollTop > 10) {
+      if ((e.target as HTMLElement).scrollTop > 20) {
         setIsScrolling(true);
       } else {
         setIsScrolling(false);
       }
     };
+
+    if (scrollContainer.scrollTop > 20) {
+      setIsScrolling(true);
+    } else {
+      setIsScrolling(false);
+    }
 
     scrollContainer.addEventListener('scroll', handleScroll);
 
@@ -169,8 +175,13 @@ const LnbMobile = () => {
 
             <FlexBox as="nav" flexDirection="column">
               {focusedCategory === null ? (
-                <FlexBox flexDirection="column" sx={frontmatterWrapperStyle}>
+                <FlexBox
+                  flexDirection="column"
+                  sx={frontmatterWrapperStyle}
+                  gap="4px"
+                >
                   <LnbGroupItem
+                    depth="0"
                     onClick={() => {
                       setFocusedCategory('getting-started');
                       setPreviousFocusedCategory('getting-started');
@@ -179,6 +190,7 @@ const LnbMobile = () => {
                     Getting started
                   </LnbGroupItem>
                   <LnbGroupItem
+                    depth="0"
                     onClick={() => {
                       setFocusedCategory('foundations');
                       setPreviousFocusedCategory('foundations');
@@ -187,6 +199,7 @@ const LnbMobile = () => {
                     Foundations
                   </LnbGroupItem>
                   <LnbGroupItem
+                    depth="0"
                     onClick={() => {
                       setFocusedCategory('components');
                       setPreviousFocusedCategory('components');
@@ -195,6 +208,7 @@ const LnbMobile = () => {
                     Components
                   </LnbGroupItem>
                   <LnbGroupItem
+                    depth="0"
                     onClick={() => {
                       setFocusedCategory('utilities');
                       setPreviousFocusedCategory('utilities');

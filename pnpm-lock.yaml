@@ -248,6 +248,9 @@ importers:
       hast-util-to-html:
         specifier: ^9.0.0
         version: 9.0.0
+      lottie-web:
+        specifier: ^5.12.2
+        version: 5.12.2
       mdast-util-mdx-jsx:
         specifier: ^3.2.0
         version: 3.2.0

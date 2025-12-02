@@ -1,12 +1,14 @@
 ---
 title: TouchArea
-description: 터치 영역을 확장하고 클릭 가능하도록 만드는 래퍼 컴포저블
+description: 터치 영역을 확장하고 클릭 가능하도록 만드는 Wrapper 컴포넌트입니다.
 ---
 
 ## WantedTouchArea
-터치 영역을 확장하고 클릭 가능하도록 만드는 래퍼 컴포저블입니다.
-
-내부 콘텐츠의 사이즈를 계산하여 사용자의 터치 영역을 넓혀주는 목적이며, 실제 콘텐츠 주변에 여백(Padding)을 추가하여 UX를 향상시킵니다. 리플 효과, 클릭 이벤트, 터치 활성화 여부 등을 설정할 수 있으며, LocalWantedTouchArea를 활용해 내부 터치 허용 여부를 Composition으로 전달받습니다.
+터치 영역을 확장하고 클릭 가능하도록 만드는 Wrapper 컴포넌트입니다.
+내부 콘텐츠의 크기를 계산하여 사용자의 터치 영역을 보장하며,
+실제 콘텐츠 주변에 여백을 추가하여 사용성을 높입니다.
+리플 효과, 클릭 이벤트, 터치 활성화 여부 등을 설정할 수 있으며,
+LocalWantedTouchArea를 활용해 내부 터치 허용 여부를 Composition으로 전달받습니다.
 
 ```kotlin
 WantedTouchArea(

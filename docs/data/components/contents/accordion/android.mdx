@@ -1,12 +1,12 @@
 ---
 title: Accordion
-description: 확장/축소 가능한 UI 컴포넌트
+description: 아코디언 형태로 확장/축소가 가능한 컴포넌트입니다.
 ---
 
 ## WantedAccordion
-아코디언 형태로 확장/축소가 가능한 UI 컴포넌트입니다.
-
-사용자는 제목(Title) 영역을 클릭하여 추가 설명(Description)과 콘텐츠(Content)를 확장하거나 축소할 수 있습니다. FAQ, 설정 메뉴, 리스트 등 다양한 인터페이스에서 유용하게 활용됩니다.
+아코디언 형태로 확장/축소가 가능한 컴포넌트입니다.
+사용자는 제목 영역을 클릭하여 추가 설명과 콘텐츠를 확장하거나 축소할 수 있습니다.
+FAQ, 설정 메뉴, 리스트 등 다양하게 활용할 수 있습니다.
 
 ```kotlin
 WantedAccordion(
@@ -39,11 +39,12 @@ WantedAccordion(
 | content | (@Composable () -> Unit)? | 확장 상태일 때 표시될 추가 콘텐츠입니다. 선택 사항입니다. |
 | onChangeExpanded | (Boolean) -> Unit | 확장 상태 변경 시 호출되는 콜백입니다. |
 
+
 ## Advanced
 ### WantedAccordionDefaults
-아코디언 컴포넌트에서 사용되는 상수 및 설정 값을 정의하는 객체입니다.
-
+Accordion 컴포넌트에서 사용되는 상수 및 설정 값을 정의하는 객체입니다.
 이 객체는 주로 아코디언 헤더의 시각적 구성 요소 중 패딩 관련 값을 제공합니다.
+
 
 ## Enum
 ### VerticalPadding

@@ -75,6 +75,7 @@ const Gnb = () => {
             as={Link}
             href="/"
             aria-label="Go to home"
+            aria-current={pathname === '/' ? 'page' : undefined}
             sx={(theme) => ({ color: theme.semantic.label.normal })}
           >
             <Logo />
@@ -85,6 +86,8 @@ const Gnb = () => {
               gap="20px"
               alignItems="center"
               sx={gnbNavigationLinkWrapperStyle}
+              aria-label="Quick Navigation Links"
+              as="nav"
               data-algolia-lvl0-scope
             >
               {GNB_NAVIGATION_LINKS.map((link) => (

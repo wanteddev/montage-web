@@ -1,12 +1,12 @@
 ---
 title: PlayBadge
-description: 재생 아이콘을 원형 배지로 감싸서 표시하는 컴포저블
+description: 재생 아이콘을 시각적으로 구분할 수 있도록 표시하는 컴포넌트입니다.
 ---
 
 ## WantedPlayBadge
-재생(Play) 아이콘을 원형 배지로 감싸서 표시하는 컴포저블입니다.
-
-회색 계열 배경과 흰색 플레이 아이콘으로 구성되며, 크기 및 대체 색상 사용 여부를 설정할 수 있습니다. `Size`에 따라 배지와 아이콘의 크기가 달라집니다.
+재생 아이콘을 시각적으로 구분할 수 있도록 표시하는 컴포넌트입니다.
+배경과 아이콘으로 구성되며, 크기 및 대체 색상 사용 여부를 설정할 수 있습니다.
+Size에 따라 전체 크기와 아이콘 크기가 달라집니다.
 
 ```kotlin
 WantedPlayBadge(
@@ -23,11 +23,12 @@ WantedPlayBadge(
 | isAlternative | Boolean | true일 경우 대체 색상(더 어두운 회색 계열 배경)을 사용합니다. |
 | modifier | Modifier | 배지의 외형, 정렬, 패딩 등을 제어하는 Modifier입니다. |
 
+
 ## Advanced
 ### WantedPlayBadgeDefaults
-재생 배지(PlayBadge) 컴포넌트에서 사용되는 설정 값을 정의하는 객체입니다.
+Play badge 컴포넌트에서 사용되는 설정값을 정의하는 객체입니다.
+주로 badge의 크기와 관련된 정보를 제공합니다.
 
-주로 배지의 크기와 관련된 정보를 제공합니다.
 
 ## Enum
 ### Size

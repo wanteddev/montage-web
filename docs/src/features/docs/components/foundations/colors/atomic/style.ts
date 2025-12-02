@@ -11,7 +11,7 @@ export const paletteTitleStyle = (theme: Theme) => css`
     ${typographyStyle('headline2', 'bold')}
 
     &:first-of-type {
-      margin-top: 32px;
+      margin-top: 0px;
     }
   }
 `;

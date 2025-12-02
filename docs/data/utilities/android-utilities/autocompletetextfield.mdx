@@ -1,12 +1,12 @@
 ---
 title: AutoCompleteTextField
-description: 자동완성 기능이 포함된 TextField 컴포저블
+description: 자동완성 기능이 포함된 Text field 컴포넌트입니다.
 ---
 
 ## WantedAutoCompleteTextField
-자동완성 기능이 포함된 TextField 컴포저블입니다. (String 기반)
-
-입력값을 기반으로 드롭다운 자동완성 리스트를 표시합니다. 섹션별 아이템, 제목, 직접 입력 슬롯 등 다양한 확장이 가능합니다.
+자동완성 기능이 포함된 Text field 컴포넌트입니다.
+입력값을 기반으로 Dropdown 자동완성 리스트를 표시합니다.
+섹션별 아이템, 제목, 직접 입력 슬롯 등 다양한 확장이 가능합니다.
 
 ```kotlin
 WantedAutoCompleteTextField(
@@ -58,13 +58,23 @@ WantedAutoCompleteTextField(
 | sectionItem | @Composable (Int, Int) -> Unit | 각 섹션의 아이템 UI를 정의합니다. |
 
 ## Overload
-자동완성 기능이 포함된 TextField 컴포저블입니다. (TextFieldValue 기반)
+자동완성 기능이 포함된 Text field 컴포넌트입니다.
+커서 및 선택 영역 제어가 필요한 경우 TextFieldValue를 통해 입력 상태를 관리합니다.
+나머지 기능은 String 기반 버전과 동일합니다.
 
-커서 및 선택 영역 제어가 필요한 경우 `TextFieldValue`를 통해 입력 상태를 관리합니다. 나머지 기능은 `String` 기반 버전과 동일합니다.
-
+```kotlin
+WantedAutoCompleteTextField(
+    value = input,
+    sectionItemCount = { 1 },
+    sectionItem = { section, index -> ... },
+    onExpandedChange = { expanded = it },
+    onValueChange = { input = it }
+)
+```
 <details>
   <summary>Parameters</summary>
-  
+
+
   | 이름 | 타입 | 설명 |
   |:---|:---|:---|
   | value | TextFieldValue | 입력된 값 및 커서 상태입니다. |
@@ -102,4 +112,5 @@ WantedAutoCompleteTextField(
   | trailingContent | ((Dp) -> Unit)? | 우측 콘텐츠입니다. |
   | topDirectInput | (() -> Unit)? | 드롭다운 상단 콘텐츠입니다. |
   | bottomDirectInput | (() -> Unit)? | 드롭다운 하단 콘텐츠입니다. |
+
 </details>

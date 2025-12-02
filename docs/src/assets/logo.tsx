@@ -29,7 +29,7 @@ const Logo = () => {
   const idSuffix = useId();
 
   return (
-    <svg width="112" height="32" viewBox="0 0 4744 1356">
+    <svg width="112" height="32" viewBox="0 0 4744 1356" aria-hidden>
       <mask
         id={`WantedLogoSymbolMask_${idSuffix}`}
         style={{ maskType: 'alpha' }}

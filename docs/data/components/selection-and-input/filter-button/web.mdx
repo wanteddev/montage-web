@@ -1,0 +1,132 @@
+---
+title: Filter button
+description: 요소를 선택하여 내려지는 컨텐츠를 분류합니다.
+createdAt: 2025-05-13
+---
+
+## Basic filter button
+
+`FilterButton` 은 2가지 variant를 사용할 수 있습니다.
+- solid (default)
+- outlined
+
+<Demo code={`import { FlexBox, FilterButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FilterButton variant="solid">
+        Solid
+      </FilterButton>
+      <FilterButton variant="outlined">
+        Outlined
+      </FilterButton>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Sizes
+
+4가지 크기를 지원합니다.
+- xsmall
+- small
+- medium (default)
+- large
+
+<Demo code={`import { FilterButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <FilterButton variant="solid" size="xsmall">
+          Xsmall
+        </FilterButton>
+        <FilterButton variant="solid" size="small">
+          Small
+        </FilterButton>
+        <FilterButton variant="solid" size="medium">
+          Medium
+        </FilterButton>
+        <FilterButton variant="solid" size="large">
+          Large
+        </FilterButton>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <FilterButton variant="outlined" size="xsmall">
+          Xsmall
+        </FilterButton>
+        <FilterButton variant="outlined" size="small">
+          Small
+        </FilterButton>
+        <FilterButton variant="outlined" size="medium">
+          Medium
+        </FilterButton>
+        <FilterButton variant="outlined" size="large">
+          Large
+        </FilterButton>
+      </FlexBox>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Active
+
+`active` prop 을 사용하면 활성화된 상태를 표현할 수 있습니다.
+
+또한 `activeLabel` prop 을 사용하면 활성화된 필터의 개수를 표현할 수 있습니다.
+
+<Demo code={`import { FilterButton, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox gap="8px" alignItems="center" flexWrap="wrap">
+      <FilterButton variant="solid">직군</FilterButton>
+      <FilterButton activeLabel={3} variant="solid" active>직무</FilterButton>
+      <FilterButton variant="outlined">지역</FilterButton>
+      <FilterButton activeLabel={2} variant="outlined" active>태그</FilterButton>
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With popover
+
+`Popover` 컴포넌트와 함께 사용하여 자연스럽게 열리고 닫힌 상태를 표현할 수 있습니다.
+
+혹은 `expanded` prop 을 사용하여 필터가 열린 상태를 표현할 수 있습니다.
+
+<Demo code={`import { FilterButton, FlexBox, Popover, PopoverTrigger, PopoverContent } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <FilterButton variant="solid" active>직군</FilterButton>
+      </PopoverTrigger>
+      <PopoverContent>
+        필터 콘텐츠
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Accessibility
+
+[WAI-ARIA button Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) 을 준수합니다.
+
+## API
+
+<PropsTable component="FilterButton" />

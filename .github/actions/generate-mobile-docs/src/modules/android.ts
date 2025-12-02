@@ -1,113 +1,55 @@
-import path from 'node:path';
-import fs from 'node:fs';
-
-import { globSync } from 'glob';
-
 import BaseModule from './base';
 
-export default class Android extends BaseModule {
-  private files: Array<string> = [];
-  private tempFiles: Record<string, string> = {};
+import type { CopyComponentMap, CustomComponentMap } from './base';
 
+export default class Android extends BaseModule {
   protected readonly REPOSITORY = 'android';
   protected readonly PROJECT_PATH =
     'core/wanted-library-design-system/document/md';
 
-  protected readonly CUSTOM_COMPONENT_MAP: Record<string, string> = {
-    modal: 'popup',
+  protected readonly CUSTOM_COMPONENT_MAP: CustomComponentMap = {
+    search: 'search-field',
+    fallback: 'fallback-view',
+    topbar: 'top-navigation',
   };
-  protected readonly COPY_COMPONENT_MAP: Record<string, Array<string>> = {
-    control: ['checkbox', 'check-mark', 'radio', 'switch'],
+  protected readonly COPY_COMPONENT_MAP: CopyComponentMap = {
+    input: ['checkbox', 'check-mark', 'radio', 'switch'],
   };
-  protected readonly UTILITY_COMPONENT_MAP: Array<string> = ['toucharea'];
+  protected readonly UTILITY_COMPONENTS: Array<string> = ['toucharea'];
 
   constructor() {
-    super();
+    super('android');
   }
 
-  public gitClone = () => super.gitClone(this.REPOSITORY);
+  public convert() {
+    super.convert();
 
-  public cleanup = () => super.cleanup(this.REPOSITORY);
-
-  public load = () => {
-    this.files = globSync(
-      path.join(this.REPOSITORY, this.PROJECT_PATH, '**/*.{md,mdx}'),
-    );
-  };
-
-  public convert = () => {
-    for (const file of this.files) {
-      const title = file.split('/').pop()?.replace('.mdx', '');
-      const customTitle = this.CUSTOM_COMPONENT_MAP[title!]?.replace(/-/g, '');
-      const copyTitle = this.COPY_COMPONENT_MAP[title!];
-
-      if (copyTitle?.length) {
-        for (const copy of copyTitle) {
-          const designFile = super.getDesignComponentFiles().find((f) => {
-            const slug = f.split('/');
-
-            return (
-              slug.at(slug.length - 2)!.replace(/-/g, '') ===
-              copy.replace(/-/g, '')
-            );
-          });
-
-          if (!designFile) {
-            continue;
-          }
-
-          this.tempFiles[designFile.replace(/design\.mdx$/, 'android.mdx')] =
-            fs.readFileSync(file, 'utf8');
-        }
-
-        continue;
-      }
-
-      const designFile = super.getDesignComponentFiles().find((f) => {
+    for (const name of this.UTILITY_COMPONENTS) {
+      const file = Object.keys(this.tempFiles).find((f) => {
         const slug = f.split('/');
 
         return (
-          slug.at(slug.length - 2)!.replace(/-/g, '') === (customTitle || title)
+          slug
+            .at(slug.length - 1)!
+            .replace(/-/g, '')
+            .replace(/\.(md|mdx)$/, '') === name
         );
       });
 
-      if (designFile) {
-        this.tempFiles[designFile.replace(/design\.mdx$/, 'android.mdx')] =
-          fs.readFileSync(file, 'utf8');
-      } else {
-        const isUtilityComponent = this.UTILITY_COMPONENT_MAP.includes(title!);
-        const utilityPath = isUtilityComponent
-          ? 'docs/data/utilities/android-utility-components'
-          : 'docs/data/utilities/android-utilities';
+      if (!file) continue;
 
-        this.tempFiles[
-          file.replace(
-            path.join(this.REPOSITORY, this.PROJECT_PATH),
-            utilityPath,
-          )
-        ] = fs.readFileSync(file, 'utf8');
-      }
-    }
-  };
+      const prevUtilityKey = `docs/data/utilities/android-utilities/${name}.mdx`;
+      const utilityKey = `docs/data/utilities/android-utility-components/${name}.mdx`;
 
-  public save = () => {
-    const prevFiles = [
-      ...globSync('docs/data/utilities/android-*/*.mdx'),
-      ...globSync('docs/data/components/**/android.mdx'),
-    ];
+      const utilityValue = this.tempFiles[prevUtilityKey];
 
-    for (const file of prevFiles) {
-      fs.rmSync(file, { recursive: true, force: true });
+      if (!utilityValue) continue;
+
+      this.tempFiles[utilityKey] = utilityValue;
+
+      delete this.tempFiles[prevUtilityKey];
     }
 
-    for (const [key, value] of Object.entries(this.tempFiles)) {
-      const directory = key.replace(/\/([^/]+)\.mdx$/, '');
-
-      if (!fs.existsSync(directory)) {
-        fs.mkdirSync(directory, { recursive: true });
-      }
-
-      fs.writeFileSync(key, value, 'utf-8');
-    }
-  };
+    return this;
+  }
 }

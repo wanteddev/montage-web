@@ -35,6 +35,7 @@
     "embla-carousel-wheel-gestures": "^8.0.2",
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.0",
+    "lottie-web": "^5.12.2",
     "mdast-util-mdx-jsx": "^3.2.0",
     "next": "^15.5.5",
     "next-mdx-remote": "^5.0.0",
