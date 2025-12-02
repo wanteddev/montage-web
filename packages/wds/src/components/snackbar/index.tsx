@@ -281,7 +281,7 @@ const SnackbarCloseButton = forwardRef<
     <IconButton
       ref={ref}
       size={20}
-      color="semantic.inverse.label"
+      color="semantic.static.white"
       aria-label="Close snackbar"
       {...props}
       onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}

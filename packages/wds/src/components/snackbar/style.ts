@@ -140,8 +140,4 @@ export const snackbarCloseButtonStyle = (theme: Theme) => css`
   width: fit-content;
   height: fit-content;
   opacity: ${theme.opacity[61]};
-
-  & [wds-component='with-interaction'] {
-    background-color: ${theme.semantic.static.white};
-  }
 `;
