@@ -2,7 +2,7 @@ import { css } from '@wanteddev/wds-engine';
 
 import { gradient } from '../../utils';
 
-import type { ActionAreaProps, ActionButtonProps } from './types';
+import type { ActionAreaButtonProps, ActionAreaProps } from './types';
 import type { Merge, Theme } from '@wanteddev/wds-engine';
 
 export const actionAreaStyle =
@@ -79,7 +79,7 @@ export const actionButtonCancel = ({
   variant,
   parentVariant,
 }: Merge<
-  Pick<ActionButtonProps, 'variant'>,
+  Pick<ActionAreaButtonProps, 'variant'>,
   { parentVariant?: ActionAreaProps['variant'] }
 >) => {
   if (parentVariant === 'neutral' && variant !== 'sub') {

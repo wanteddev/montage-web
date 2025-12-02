@@ -115,10 +115,6 @@ export const snackbarActionStyle = (theme: Theme) => css`
     ${typographyStyle('body2', 'bold')}
   }
 
-  & > span {
-    ${typographyStyle('body2', 'bold')}
-  }
-
   & [wds-component='with-interaction'] {
     background-color: ${theme.semantic.background.normal.normal};
   }
