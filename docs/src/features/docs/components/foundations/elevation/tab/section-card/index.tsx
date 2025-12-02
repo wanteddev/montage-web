@@ -1,5 +1,7 @@
 import { FlexBox, Grid, GridItem, Thumbnail, Typography } from '@wanteddev/wds';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { sectionCardStyle } from './style';
 
 import type { SxProp } from '@wanteddev/wds';
@@ -20,7 +22,7 @@ const SectionCard = ({ data, sx }: Props) => {
               border
               radius
               width="100%"
-              src={item.image}
+              src={getImageUrl(item.image)}
               alt={item.title}
               sx={sectionCardStyle}
             />

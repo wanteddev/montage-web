@@ -3,6 +3,8 @@ import { Box } from '@wanteddev/wds';
 import Image from 'next/image';
 import { useMemo } from 'react';
 
+import { getImageUrl } from '@/helpers/image';
+
 import RouteTab from '../../route-tab';
 
 import { wrapperStyle } from './style';
@@ -39,7 +41,7 @@ const UtilitiesTab = () => {
       <Box sx={wrapperStyle}>
         <Box
           as={Image}
-          src="/utilities/overview/Image.png"
+          src={getImageUrl('/utilities/overview/Image.png')}
           width={760}
           height={232}
           alt="Utilities Overview"

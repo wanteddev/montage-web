@@ -2,6 +2,8 @@ import { FlexBox, Typography } from '@wanteddev/wds';
 import { Thumbnail } from '@wanteddev/wds';
 import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { SectionDescription } from '../layout';
 
 import {
@@ -34,7 +36,7 @@ const SectionFigure = ({
     <FlexBox flexDirection="column" sx={sectionFigureStyle} flex="1 1 0%">
       {src && (
         <Thumbnail
-          src={src}
+          src={getImageUrl(src)}
           alt={title ?? 'thumbnail'}
           aria-hidden
           width="100%"

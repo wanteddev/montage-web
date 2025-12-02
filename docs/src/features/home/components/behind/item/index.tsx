@@ -4,6 +4,7 @@ import { useId } from 'react';
 import { IconArrowUpRight } from '@wanteddev/wds-icon';
 
 import { breakWordStyle } from '@/styles/text';
+import { getImageUrl } from '@/helpers/image';
 
 import {
   carouselItemStyle,
@@ -75,14 +76,17 @@ const BehindItem = ({
       >
         <Thumbnail
           ratio="3:2"
-          src={image}
+          src={getImageUrl(image)}
           alt={title.replace(/<[^>]+>/g, '')}
           width="100%"
           sx={thumbnailStyle}
         />
 
         <Box
-          sx={glassBackgroundEffectStyle(lightText, darkText)}
+          sx={glassBackgroundEffectStyle(
+            getImageUrl(lightText),
+            getImageUrl(darkText),
+          )}
           data-role="glass-background-effect"
           data-visible={isMouseOver}
           style={{

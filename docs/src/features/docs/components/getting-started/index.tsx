@@ -1,6 +1,8 @@
 'use client';
 import { Divider, Thumbnail, Typography } from '@wanteddev/wds';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { Heading2 } from '../mdx/section/layout';
 
 import { descriptionStyle, thumbnailStyle } from './style';
@@ -13,7 +15,7 @@ const GettingStarted = () => {
     <>
       <Thumbnail
         radius
-        src="/getting-started/overview/Image.png"
+        src={getImageUrl('/getting-started/overview/Image.png')}
         alt="Getting Started"
         sx={thumbnailStyle}
       />

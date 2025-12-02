@@ -2,6 +2,7 @@ import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 import { useId } from 'react';
 
 import Carousel from '@/components/carousel';
+import { getImageUrl } from '@/helpers/image';
 
 import { descriptionStyle } from '../style';
 
@@ -23,7 +24,7 @@ const Principles = () => {
           aria-describedby={`carousel-${id}-${idx}-description`}
         >
           <Thumbnail
-            src={principle.image}
+            src={getImageUrl(principle.image)}
             ratio="1:1"
             alt={principle.title}
             sx={thumbnailStyle}

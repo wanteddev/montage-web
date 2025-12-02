@@ -38,6 +38,7 @@ export const wrapperStyle = (theme: Theme) => css`
   }
 
   figure {
+    width: 100%;
     border-radius: 24px;
 
     &::after {

@@ -5,6 +5,7 @@ import type { Theme } from '@wanteddev/wds';
 export const wrapperStyle = (theme: Theme) => css`
   margin-block: 40px 64px;
   border-radius: 24px;
+  width: 100%;
   overflow: hidden;
   aspect-ratio: 95 / 29;
   position: relative;

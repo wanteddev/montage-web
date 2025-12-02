@@ -2,6 +2,7 @@
 import { Box, Divider, Thumbnail } from '@wanteddev/wds';
 
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';
+import { getImageUrl } from '@/helpers/image';
 
 import VariantGrid from './variant-grid';
 import { linkStyle } from './style';
@@ -32,7 +33,7 @@ const FoundationsTypography = () => {
       </p>
 
       <Thumbnail
-        src="/foundations/typography/Image.png"
+        src={getImageUrl('/foundations/typography/Image.png')}
         alt="Pretendard JP"
         radius
         border
@@ -52,7 +53,7 @@ const FoundationsTypography = () => {
       </p>
 
       <Thumbnail
-        src="/foundations/typography/Image-1.png"
+        src={getImageUrl('/foundations/typography/Image-1.png')}
         alt="Word break"
         ratio="21:9"
         radius
