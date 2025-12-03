@@ -43,6 +43,7 @@ const nextConfig = {
   env: {
     APP_BUILD_ID: buildId,
     NEXT_PUBLIC_BASE_PATH: host,
+    NEXT_PUBLIC_ASSET_PREFIX: assetPrefix,
   },
   images: {
     unoptimized: true,

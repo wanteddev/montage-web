@@ -5,6 +5,7 @@ import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';
 import FadeInOut from '@/components/fade-in-out';
+import { getImageUrl } from '@/helpers/image';
 
 import {
   contentWrapperStyle,
@@ -106,7 +107,7 @@ const Hero = () => {
                       >
                         <Box
                           as="img"
-                          src={j.src}
+                          src={getImageUrl(j.src)}
                           alt={`marquee-image-${j.id}`}
                         />
                       </Box>
@@ -139,7 +140,7 @@ const Hero = () => {
                       >
                         <Box
                           as="img"
-                          src={j.src}
+                          src={getImageUrl(j.src)}
                           alt={`marquee-image-${j.id}`}
                         />
                       </Box>

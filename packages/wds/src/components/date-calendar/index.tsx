@@ -347,6 +347,7 @@ const DateCalendar = forwardRef<
             </FlexBox>
 
             <FlexBox sx={{ paddingBottom: 14 }} flexDirection="column">
+              {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
               {calendarComponent[view ?? 'day']}
             </FlexBox>
           </ScrollArea>

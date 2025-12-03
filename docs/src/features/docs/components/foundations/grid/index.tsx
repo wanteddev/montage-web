@@ -1,6 +1,8 @@
 'use client';
 import { Box, Divider, Thumbnail } from '@wanteddev/wds';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { Heading2, Heading3 } from '../../mdx/section/layout';
 
 import BreakpointGrid from './breakpoint-grid';
@@ -41,7 +43,7 @@ const FoundationsGrid = () => {
       </p>
 
       <Thumbnail
-        src="/foundations/grid/Image.png"
+        src={getImageUrl('/foundations/grid/Image.png')}
         alt="Spacing"
         radius
         border
@@ -66,7 +68,7 @@ const FoundationsGrid = () => {
       <p>2단 컬럼 그리드를 사용하며 20px의 간격을 둡니다.</p>
 
       <Thumbnail
-        src="/foundations/grid/Image-1.png"
+        src={getImageUrl('/foundations/grid/Image-1.png')}
         alt="Mobile layout"
         radius
         border
@@ -82,7 +84,7 @@ const FoundationsGrid = () => {
       <p>3단 컬럼 그리드를 사용하며 컬럼을 묶어서 사용할 수 있습니다.</p>
 
       <Thumbnail
-        src="/foundations/grid/Image-2.png"
+        src={getImageUrl('/foundations/grid/Image-2.png')}
         alt="Tablet layout"
         radius
         border
@@ -98,7 +100,7 @@ const FoundationsGrid = () => {
       <p>12단 컬럼 그리드를 사용하며 컬럼을 묶어서 사용할 수 있습니다.</p>
 
       <Thumbnail
-        src="/foundations/grid/Image-3.png"
+        src={getImageUrl('/foundations/grid/Image-3.png')}
         alt="Desktop layout"
         radius
         border

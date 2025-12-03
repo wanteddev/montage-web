@@ -2,6 +2,7 @@ import { Box } from '@wanteddev/wds-engine';
 import { forwardRef, useId, useMemo } from 'react';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { composeEventHandlers } from '@radix-ui/primitive';
+import { IconClose } from '@wanteddev/wds-icon';
 
 import { FlexBox } from '../flex-box';
 import { Typography } from '../typography';
@@ -10,10 +11,12 @@ import { ellipsisTypographyStyle } from '../../utils';
 import { TextButton } from '../text-button';
 import { PortalOrFragment } from '../portal-or-fragment';
 import { AnimationPresence } from '../animation-presence';
+import { IconButton } from '../icon-button';
 
 import { SnackbarProvider, useSnackbarContext } from './contexts';
 import {
   SNACKBAR_ACTION_NAME,
+  SNACKBAR_CLOSE_BUTTON_NAME,
   SNACKBAR_CONTENT_NAME,
   SNACKBAR_DESCRIPTION_NAME,
   SNACKBAR_EXTRA_CONTENT_NAME,
@@ -26,6 +29,7 @@ import {
   messageStyle,
   secondOverlayStyle,
   snackbarActionStyle,
+  snackbarCloseButtonStyle,
   snackbarStyle,
   textStyle,
   wrapperStyle,
@@ -39,6 +43,7 @@ import type {
 } from '@wanteddev/wds-engine';
 import type {
   SnackbarActionProps,
+  SnackbarCloseButtonProps,
   SnackbarContentProps,
   SnackbarDescriptionProps,
   SnackbarExtraContentProps,
@@ -149,7 +154,6 @@ const Snackbar = forwardRef(
               <FlexBox
                 gap="12px"
                 alignItems="center"
-                justifyContent="space-between"
                 data-role="snackbar-container"
                 sx={fullWidthFlexBoxStyle}
               >
@@ -157,6 +161,7 @@ const Snackbar = forwardRef(
                   headingId={headingId}
                   descriptionId={descriptionId}
                   variant={variant}
+                  onOpenChange={setOpen}
                 >
                   {children}
                 </SnackbarProvider>
@@ -176,7 +181,7 @@ const SnackbarContent = forwardRef<
   DefaultComponentPropsInternal<SnackbarContentProps, 'div'>
 >(({ extraContent, children, ...props }, ref) => {
   return (
-    <FlexBox gap="8px" alignItems="center" ref={ref} {...props}>
+    <FlexBox flex="1 1 auto" gap="8px" alignItems="center" ref={ref} {...props}>
       {extraContent}
       <FlexBox
         flexDirection="column"
@@ -266,6 +271,29 @@ const SnackbarAction = forwardRef<
 
 SnackbarAction.displayName = SNACKBAR_ACTION_NAME;
 
+const SnackbarCloseButton = forwardRef<
+  HTMLButtonElement,
+  PolymorphicPropsInternal<SnackbarCloseButtonProps, 'button'>
+>(({ children, ...props }, ref) => {
+  const { onOpenChange } = useSnackbarContext(SNACKBAR_CLOSE_BUTTON_NAME);
+
+  return (
+    <IconButton
+      ref={ref}
+      size={20}
+      color="semantic.static.white"
+      aria-label="Close snackbar"
+      {...props}
+      onClick={composeEventHandlers(props.onClick, () => onOpenChange(false))}
+      sx={[snackbarCloseButtonStyle, props.sx]}
+    >
+      {children ?? <IconClose aria-hidden />}
+    </IconButton>
+  );
+});
+
+SnackbarCloseButton.displayName = SNACKBAR_CLOSE_BUTTON_NAME;
+
 export {
   Snackbar,
   SnackbarContent,
@@ -273,6 +301,7 @@ export {
   SnackbarHeading,
   SnackbarDescription,
   SnackbarAction,
+  SnackbarCloseButton,
 };
 
 export type {
@@ -282,4 +311,5 @@ export type {
   SnackbarHeadingProps,
   SnackbarDescriptionProps,
   SnackbarActionProps,
+  SnackbarCloseButtonProps,
 };

@@ -4,6 +4,8 @@ import { useMemo } from 'react';
 import { Box } from '@wanteddev/wds';
 import Image from 'next/image';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { useMDXContext } from '../../contexts';
 import { getFrontmatterImage } from '../../helpers/mdx.client';
 
@@ -45,7 +47,7 @@ const DocsThumbnail = ({ src, alt }: Props) => {
     <Box sx={thumbnailStyle}>
       <Box
         as={Image}
-        src={image}
+        src={getImageUrl(image)}
         width={760}
         height={326}
         alt={alt ?? frontmatter?.title ?? 'thumbnail'}

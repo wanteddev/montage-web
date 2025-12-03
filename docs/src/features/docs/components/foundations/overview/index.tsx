@@ -5,6 +5,7 @@ import { IconArrowRightThick } from '@wanteddev/wds-icon';
 import { useCallback } from 'react';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
+import { getImageUrl } from '@/helpers/image';
 
 import { Heading2 } from '../../mdx/section/layout';
 
@@ -21,7 +22,7 @@ const FoundationsOverview = () => {
   return (
     <>
       <Thumbnail
-        src="/foundations/overview/Image.png"
+        src={getImageUrl('/foundations/overview/Image.png')}
         alt="Foundations Overview"
         radius
         sx={thumbnailStyle}

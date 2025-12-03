@@ -123,4 +123,6 @@ export const messageStyle = css`
 
 export const textStyle = (theme: Theme) => css`
   opacity: ${theme.opacity[88]};
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 `;

@@ -10,6 +10,7 @@ import { pathCase, sentenceCase } from 'change-case';
 
 import Carousel from '@/components/carousel';
 import TokenPopover from '@/features/docs/components/custom-render/token-popover';
+import { getImageUrl } from '@/helpers/image';
 
 import {
   carouselWrapperStyle,
@@ -47,7 +48,7 @@ const TokenExample = ({ items }: Props) => {
                   border
                   width="110px"
                   ratio="1:1"
-                  src={item.src}
+                  src={getImageUrl(item.src)}
                   sx={tokenThumbnailStyle}
                 />
               </Box>

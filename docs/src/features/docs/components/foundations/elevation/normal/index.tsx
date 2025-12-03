@@ -1,6 +1,8 @@
 'use client';
 import { Box, Divider, Thumbnail, Typography } from '@wanteddev/wds';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { Heading2 } from '../../../mdx/section/layout';
 import TokenExample from '../token-example';
 import { tokenContentStyle } from '../spread/style';
@@ -91,7 +93,7 @@ const FoundationsElevationNormal = () => {
       </p>
 
       <Thumbnail
-        src="/foundations/elevation/Image-2.png"
+        src={getImageUrl('/foundations/elevation/Image-2.png')}
         alt="Composition"
         radius
         border

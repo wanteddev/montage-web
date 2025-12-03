@@ -1,6 +1,8 @@
 import { ContentBadge, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 import { IconGlobe } from '@wanteddev/wds-icon';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { sectionLayoutStyle } from '../style';
 import { Heading2, SectionDescription } from '../layout';
 import { sectionFigureThumbnailStyle } from '../figure/style';
@@ -56,7 +58,7 @@ const SectionStates = ({
         {src && (
           <Thumbnail
             aria-labelledby="states"
-            src={src}
+            src={getImageUrl(src)}
             alt="component states"
             width="100%"
             sx={sectionFigureThumbnailStyle}

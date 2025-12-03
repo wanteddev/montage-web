@@ -27,7 +27,7 @@ export type ActionAreaProps = WithSxProps<{
   divider?: boolean;
 }>;
 
-export type ActionButtonProps = WithSxProps<{
+export type ActionAreaButtonProps = WithSxProps<{
   children?: ReactNode;
   leadingContent?: ReactNode;
   trailingContent?: ReactNode;

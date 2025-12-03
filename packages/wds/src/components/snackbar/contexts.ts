@@ -8,6 +8,7 @@ type SnackbarContextType = {
   headingId: string;
   descriptionId: string;
   variant: Exclude<RegionToastItem['variant'], undefined>;
+  onOpenChange: (open: boolean) => void;
 };
 
 export const [SnackbarProvider, useSnackbarContext] =

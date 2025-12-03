@@ -43,14 +43,16 @@ Snackbar 는 여러 컴포넌트를 조합해서 사용합니다.
   </SnackbarContent>
 
   <SnackbarAction />
+
+  <SnackbarCloseButton />
 </Snackbar>
 ```
 
 ## With extra content
 
-`SnackbarContent` 의 `extraContent` 속성으로 추가적인 컨텐츠를 추가할 수 있습니다.
+`SnackbarContent` 의 `extraContent` 속성으로 컨텐츠를 추가할 수 있습니다.
 
-<Demo code={`import { Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarExtraContent } from '@wanteddev/wds';
+<Demo code={`import { Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarExtraContent, SnackbarAction } from '@wanteddev/wds';
 import { IconBlank } from '@wanteddev/wds-icon';
 
 const Demo = () => {
@@ -66,6 +68,32 @@ const Demo = () => {
         <SnackbarHeading>Heading</SnackbarHeading>
         <SnackbarDescription>Description</SnackbarDescription>
       </SnackbarContent>
+
+      <SnackbarAction>Action</SnackbarAction>
+    </Snackbar>
+  )
+}
+
+export default Demo;`}
+/>
+
+## With close button
+
+`SnackbarCloseButton` 을 사용하여 닫기 버튼을 추가할 수 있습니다.
+
+<Demo code={`import { Snackbar, SnackbarContent, SnackbarHeading, SnackbarDescription, SnackbarAction, SnackbarCloseButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <Snackbar open disablePortal disableAnimation>
+      <SnackbarContent>
+        <SnackbarHeading>Heading</SnackbarHeading>
+        <SnackbarDescription>Description</SnackbarDescription>
+      </SnackbarContent>
+
+      <SnackbarAction>Action</SnackbarAction>
+
+      <SnackbarCloseButton />
     </Snackbar>
   )
 }
@@ -127,3 +155,7 @@ export default Demo;`}
 ### SnackbarExtraContent
 
 <PropsTable component="SnackbarExtraContent" />
+
+### SnackbarCloseButton
+
+<PropsTable component="SnackbarCloseButton" />

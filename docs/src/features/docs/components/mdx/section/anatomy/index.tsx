@@ -1,5 +1,7 @@
 import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { Heading2 } from '../layout';
 import { sectionLayoutStyle } from '../style';
 
@@ -26,7 +28,7 @@ const SectionAnatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
       <FlexBox flexDirection="column" gap="24px">
         {src && (
           <Thumbnail
-            src={src}
+            src={getImageUrl(src)}
             portrait={portrait}
             alt="thumbnail"
             width="100%"

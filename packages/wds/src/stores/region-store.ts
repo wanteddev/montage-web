@@ -29,6 +29,7 @@ export type RegionSnackbarItem = {
   description?: ReactNode;
   extraContent?: ReactNode;
   action: ComponentProps<typeof TextButton>;
+  closeButton?: boolean;
   onAnimationEnd?: (type: 'hide' | 'show') => void;
 };
 

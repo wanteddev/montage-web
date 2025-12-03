@@ -14,7 +14,6 @@ import CodeBlock from '../code-block';
 import Pre from '../pre';
 import Demo from '../demo';
 import PropsTable from '../props-table';
-import Thumbnail from '../thumbnail';
 import SectionAnatomy from '../section/anatomy';
 import { SectionLayout } from '../section/layout';
 import SectionFigureGroup from '../section/figure-group';
@@ -113,7 +112,6 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   code: CodeBlock,
   Demo,
   PropsTable,
-  Thumbnail,
   SectionLayout,
   SectionAnatomy,
   SectionFigureGroup,

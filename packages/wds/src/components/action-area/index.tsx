@@ -10,7 +10,7 @@ import { ACTION_AREA_BUTTON_NAME, ACTION_AREA_NAME } from './constants';
 import { ActionAreaProvider, useActionAreaContext } from './contexts';
 import { actionAreaStyle, actionButtonCancel } from './style';
 
-import type { ActionAreaProps, ActionButtonProps } from './types';
+import type { ActionAreaButtonProps, ActionAreaProps } from './types';
 import type { ElementType, ForwardedRef, ReactNode } from 'react';
 import type {
   DefaultComponentPropsInternal,
@@ -127,7 +127,7 @@ const ActionAreaButton = forwardRef(
       buttonVariant,
       buttonColor,
       ...props
-    }: PolymorphicPropsInternal<ActionButtonProps, T>,
+    }: PolymorphicPropsInternal<ActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
     const { variant: parentVariant } = useActionAreaContext(
@@ -194,10 +194,10 @@ const ActionAreaButton = forwardRef(
 
     return renderComponent[variant];
   },
-) as PolymorphicComponentInternal<ActionButtonProps, 'button'>;
+) as PolymorphicComponentInternal<ActionAreaButtonProps, 'button'>;
 
 ActionAreaButton.displayName = ACTION_AREA_BUTTON_NAME;
 
 export { ActionArea, ActionAreaButton };
 
-export type { ActionAreaProps, ActionButtonProps };
+export type { ActionAreaProps, ActionAreaButtonProps };

@@ -13,6 +13,7 @@ import { capitalCase } from 'change-case';
 import Link from 'next/link';
 
 import { useMDXContext } from '@/features/docs/contexts';
+import { getImageUrl } from '@/helpers/image';
 
 import { PLATFORM_PATTERN } from '../../constants';
 import { Heading2 } from '../mdx/section/layout';
@@ -96,9 +97,10 @@ const DocsCollection = ({ category }: Props) => {
                     }}
                   >
                     <CardThumbnail
-                      src={data.image ?? '/images/placeholder.png'}
+                      src={getImageUrl(data.image ?? '/images/placeholder.png')}
                       alt={data.title}
                       ratio="16:9"
+                      width="100%"
                     />
                     <CardContent>
                       <CardTitle

@@ -4,6 +4,7 @@ import { useRegionStore } from '../../hooks';
 import {
   Snackbar,
   SnackbarAction,
+  SnackbarCloseButton,
   SnackbarContent,
   SnackbarDescription,
   SnackbarExtraContent,
@@ -130,6 +131,8 @@ const SnackbarRegion = ({
       {Boolean(item.action) && Object.keys(item.action).length > 0 && (
         <SnackbarAction {...item.action} />
       )}
+
+      {Boolean(item.closeButton) && <SnackbarCloseButton />}
     </Snackbar>
   );
 };

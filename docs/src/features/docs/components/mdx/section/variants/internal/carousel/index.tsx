@@ -4,6 +4,8 @@ import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import AutoPlayPlugin from 'embla-carousel-autoplay';
 import { useEffect, useState } from 'react';
 
+import { getImageUrl } from '@/helpers/image';
+
 import { carouselContentStyle, carouselStyle } from './style';
 
 import type { PaginationDotsProps } from '@wanteddev/wds';
@@ -74,7 +76,7 @@ const Carousel = ({ paginationDots, sources }: Props) => {
             >
               <Thumbnail
                 radius
-                src={source}
+                src={getImageUrl(source)}
                 ratio="1:1"
                 width="100%"
                 alt={`carousel example image ${idx + 1}`}
