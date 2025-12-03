@@ -42,7 +42,6 @@ Interaction(
   | `color` | 적용할 색상, 생략하면 기본값으로 `.labelNormal` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -53,7 +52,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -126,7 +124,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

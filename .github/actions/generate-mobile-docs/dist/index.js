@@ -30150,8 +30150,8 @@ var BaseModule = class {
 
 // src/modules/android.ts
 var Android = class extends BaseModule {
-  REPOSITORY = "android";
-  PROJECT_PATH = "core/wanted-library-design-system/document/md";
+  REPOSITORY = "montage-android";
+  PROJECT_PATH = "library/document/md";
   CUSTOM_COMPONENT_MAP = {
     search: "search-field",
     fallback: "fallback-view",

@@ -40,7 +40,6 @@ ContentBadge를 초기화합니다.
   | `text` | 뱃지에 표시할 텍스트 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -51,7 +50,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -115,7 +113,6 @@ ___
   후행 아이콘이 추가된 ContentBadge
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -212,7 +209,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

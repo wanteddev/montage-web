@@ -61,7 +61,6 @@ SegmentedControl(
 
 </details>
 
-___
 ### Initializers
 
 <details>
@@ -93,7 +92,6 @@ ___
   | `onSelect` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -104,7 +102,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -138,7 +135,6 @@ ___
   수정된 세그먼트 컨트롤 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -197,7 +193,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

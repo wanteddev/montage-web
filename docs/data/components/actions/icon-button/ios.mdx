@@ -42,7 +42,6 @@ IconButton(
   | `handler` | 버튼 탭 시 실행할 핸들러 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -53,7 +52,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -167,7 +165,6 @@ ___
 
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -266,7 +263,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

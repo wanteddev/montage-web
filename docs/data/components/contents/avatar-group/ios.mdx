@@ -53,7 +53,6 @@ AvatarGroup(
   | `onTap` | 각 아바타 탭 시 실행할 액션 (인덱스가 전달됨), 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -64,7 +63,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -86,7 +84,6 @@ ___
   이 수정자를 사용하여 아바타 그룹 옆에 추가 정보(예: “+3” 같은 추가 멤버 수)를 표시할 수 있습니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -114,7 +111,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

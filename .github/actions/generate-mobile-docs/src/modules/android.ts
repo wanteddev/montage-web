@@ -3,9 +3,8 @@ import BaseModule from './base';
 import type { CopyComponentMap, CustomComponentMap } from './base';
 
 export default class Android extends BaseModule {
-  protected readonly REPOSITORY = 'android';
-  protected readonly PROJECT_PATH =
-    'core/wanted-library-design-system/document/md';
+  protected readonly REPOSITORY = 'montage-android';
+  protected readonly PROJECT_PATH = 'library/document/md';
 
   protected readonly CUSTOM_COMPONENT_MAP: CustomComponentMap = {
     search: 'search-field',

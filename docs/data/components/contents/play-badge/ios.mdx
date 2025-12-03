@@ -40,7 +40,6 @@ PlayBadge()
   초기화 시 기본 크기는 `.medium`이며, 반투명 배경의 기본 스타일이 적용됩니다.
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -51,7 +50,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -88,7 +86,6 @@ ___
   수정된 PlayBadge 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -123,7 +120,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

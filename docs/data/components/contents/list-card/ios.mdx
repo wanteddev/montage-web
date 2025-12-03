@@ -42,7 +42,6 @@ List 카드를 초기화합니다.
   | `title` | 카드 제목으로 표시할 뷰 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -53,7 +52,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -147,7 +145,6 @@ ___
   수정된 카드 인스턴스
 </details>
 
-___
 ## Relationships
 
 Conforms To

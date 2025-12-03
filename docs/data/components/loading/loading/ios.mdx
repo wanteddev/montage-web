@@ -42,7 +42,6 @@ Loading 컴포넌트를 초기화합니다.
   | `size` | 로딩 애니메이션의 크기 생략하면 기본값으로 `nil` 적용 (기본 크기 사용) |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -53,7 +52,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -86,8 +84,6 @@ Wanted 브랜드 스타일의 로딩 애니메이션
 
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

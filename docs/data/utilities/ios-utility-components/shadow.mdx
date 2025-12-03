@@ -63,7 +63,6 @@ enum Shadow
 
 </details>
 
-___
 ### Associated Extensions
 
 <details>

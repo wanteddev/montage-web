@@ -48,7 +48,6 @@ SectionHeader(title: "카테고리") {
   | `title` | 표시할 섹션 제목 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -59,7 +58,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -132,7 +130,6 @@ ___
   더보기 버튼이나 필터 등의 추가 기능을 제공할 때 사용합니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -174,7 +171,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

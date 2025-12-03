@@ -143,8 +143,6 @@ let transparentColor = UIColor.black.withAlphaComponent(.opacity(.p043))
 100% 투명도 (완전 투명)
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

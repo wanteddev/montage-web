@@ -38,7 +38,6 @@ Text 스타일의 버튼을 생성합니다.
   | `handler` | 버튼 탭 시 실행할 핸들러, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -49,7 +48,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -201,7 +199,6 @@ ___
 
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -269,7 +266,6 @@ Text 스타일 버튼의 크기를 정의합니다.
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

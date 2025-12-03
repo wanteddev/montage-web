@@ -41,7 +41,6 @@ Radio(checked: false, size: .small) { checked in
   | `onSelect` | 선택 상태 변경 콜백. 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -52,7 +51,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -152,7 +150,6 @@ ___
 
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -180,7 +177,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

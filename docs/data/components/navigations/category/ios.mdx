@@ -47,7 +47,6 @@ Category(
   | `actions` | 항목 선택 시 호출될 클로저, 생략하면 기본값으로 빈 클로저 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -58,7 +57,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -138,7 +136,6 @@ ___
   수정된 카테고리 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -204,7 +201,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

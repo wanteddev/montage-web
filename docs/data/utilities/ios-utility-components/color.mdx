@@ -1819,7 +1819,6 @@ let swiftUIColor = SwiftUI.Color.semantic(.primaryNormal)
 
 </details>
 
-___
 ### Associated Extensions
 
 <details>

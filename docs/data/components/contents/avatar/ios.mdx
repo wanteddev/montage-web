@@ -44,7 +44,6 @@ Avatar("https://example.com/profile.jpg", variant: .person)
   | `onTap` | 탭 시 실행할 액션, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -55,7 +54,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -93,7 +91,6 @@ ___
   푸시 뱃지는 사용자(.person) 아바타에만 적용 가능합니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -173,7 +170,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

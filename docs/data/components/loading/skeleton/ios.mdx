@@ -99,7 +99,6 @@ contentView
 
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -193,7 +192,6 @@ ___
 
 </details>
 
-___
 ### Associated Extensions
 
 <details>

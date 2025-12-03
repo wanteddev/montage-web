@@ -45,7 +45,6 @@ Thumbnail(urlString: imageURL, ratio: .r1x1)
   | `ratio` | 적용할 가로세로 비율 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -56,7 +55,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -105,7 +103,6 @@ ___
   수정된 Thumbnail 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -238,7 +235,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

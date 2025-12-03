@@ -105,7 +105,6 @@ ScrollView(scrollStatus: $scrollStatus,
 
 </details>
 
-___
 ### Initializers
 
 <details>
@@ -123,7 +122,6 @@ ___
   | `content` | 스크롤 뷰에 표시할 콘텐츠를 반환하는 클로저 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -134,7 +132,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -183,7 +180,6 @@ ___
   수정된 스크롤 뷰
 </details>
 
-___
 ## Relationships
 
 Conforms To

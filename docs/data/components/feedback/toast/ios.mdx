@@ -59,7 +59,6 @@ Toast 모델을 초기화합니다.
 
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -70,7 +69,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -176,8 +174,6 @@ ___
 
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

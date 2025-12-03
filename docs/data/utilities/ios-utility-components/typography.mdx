@@ -252,7 +252,6 @@ Pretendard 폰트 두께 매핑
 
 </details>
 
-___
 ### Associated Extensions
 
 <details>

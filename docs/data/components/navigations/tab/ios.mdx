@@ -43,7 +43,6 @@ Tab(selectedIndex: $selectedTab, items: tabItems) { index in
   | `actions` | 탭 선택 시 호출되는 클로저, 선택된 인덱스를 파라미터로 받음, 생략하면 기본값으로 빈 클로저 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -54,7 +53,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -122,7 +120,6 @@ ___
   수정된 Tab 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -181,7 +178,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

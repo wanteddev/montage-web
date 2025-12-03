@@ -129,7 +129,6 @@ ActionArea 모델을 초기화합니다.
 
 </details>
 
-___
 ### Initializers
 
 <details>
@@ -145,7 +144,6 @@ ActionArea 컴포넌트를 초기화합니다.
   | `variant` | 버튼 영역의 변형 스타일과 버튼 구성 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -156,7 +154,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -209,7 +206,6 @@ ___
   이 수정자를 사용하면 그라데이션 배경이 숨겨지고 투명한 배경이 표시됩니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -287,8 +283,6 @@ ActionArea의 버튼 레이아웃 변형을 정의합니다.
 
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

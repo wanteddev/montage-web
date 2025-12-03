@@ -49,7 +49,6 @@ ListCell(title: "커스텀 셀", onTap: {
   | `onTap` | 셀을 탭했을 때 실행할 클로저, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -60,7 +59,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -337,7 +335,6 @@ ___
   수정된 ListCell 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -379,7 +376,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

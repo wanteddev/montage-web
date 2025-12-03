@@ -1731,7 +1731,6 @@ Button(action: {}) {
 
 </details>
 
-___
 ### Initializers
 
 <details>
@@ -1740,8 +1739,6 @@ ___
 
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

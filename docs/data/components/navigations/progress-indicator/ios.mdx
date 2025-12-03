@@ -34,7 +34,6 @@ ProgressIndicator(percentage: $progress)
   | `percentage` | 진행 상태를 나타내는 바인딩 값 (0.0 ~ 1.0 사이의 값) |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -45,7 +44,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ## Relationships
 
 Conforms To

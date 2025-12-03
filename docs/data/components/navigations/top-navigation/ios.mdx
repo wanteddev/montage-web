@@ -145,7 +145,6 @@ TopNavigation(
 
 </details>
 
-___
 ### Initializers
 
 <details>
@@ -162,7 +161,6 @@ TopNavigation을 초기화합니다.
   | `backgroundColor` | 배경색 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -173,7 +171,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -309,7 +306,6 @@ ___
   `.normal`, `.display`, `.search`, `.floating` 중 하나의 스타일을 지정할 수 있으며, 스타일에 따라 내비게이션의 외형과 정렬 방식 등이 달라집니다.
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -482,8 +478,6 @@ TopNavigation의 외관을 결정하는 열거형입니다.
 
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

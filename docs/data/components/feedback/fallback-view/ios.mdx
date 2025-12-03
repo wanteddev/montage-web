@@ -57,7 +57,6 @@ FallbackView 컴포넌트를 초기화합니다.
   원하는 레이아웃을 구성하기 위해 이미지, 제목, 설명, 버튼을 선택적으로 제공할 수 있습니다. 설명은 필수이며, 최대 2줄로 표시됩니다.
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -68,7 +67,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ## Relationships
 
 Conforms To

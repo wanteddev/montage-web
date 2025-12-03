@@ -63,7 +63,6 @@ YourView()
   | `content` | 모달 내에 표시할 콘텐츠를 반환하는 클로저 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -74,7 +73,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -153,7 +151,6 @@ ___
   수정된 바텀 시트 뷰
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -212,8 +209,6 @@ ___
 
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

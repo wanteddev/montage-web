@@ -37,7 +37,6 @@ PaginationDots(selectedPage: $currentPage, totalPages: 10)
   | `totalPages` | 전체 페이지 수 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -48,7 +47,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -82,7 +80,6 @@ ___
   수정된 Dot 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -134,7 +131,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

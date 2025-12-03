@@ -150,8 +150,6 @@ Text("Hello, World!")
 80포인트 간격
 </details>
 
-___
-___
 ### Associated Extensions
 
 <details>

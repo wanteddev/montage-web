@@ -43,7 +43,6 @@ ModalNavigation()
   | `scrollOffset` | 스크롤 오프셋 바인딩, 생략하면 기본값으로 `.constant(0)` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -54,7 +53,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -209,7 +207,6 @@ ___
   수정된 내비게이션 바 뷰
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -257,7 +254,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

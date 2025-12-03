@@ -155,7 +155,6 @@ Button("설정") {
 
 </details>
 
-___
 ### Associated Extensions
 
 <details>

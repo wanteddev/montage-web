@@ -69,7 +69,6 @@ Checkbox(state: .unchecked, size: .small) { state in
 
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -80,7 +79,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -180,7 +178,6 @@ ___
 
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -239,7 +236,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

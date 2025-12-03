@@ -112,7 +112,6 @@ TextField(text: $inputText)
 
 </details>
 
-___
 ### Initializers
 
 <details>
@@ -129,7 +128,6 @@ ___
   | `autoCompletionDataSource` | 자동완성 데이터 소스를 바인딩, 생략하면 기본값으로 `nil` 적용 |
 </details>
 
-___
 ### Instance Properties
 
 <details>
@@ -140,7 +138,6 @@ ___
 뷰의 내용과 동작을 정의합니다.
 </details>
 
-___
 ### Instance Methods
 
 <details>
@@ -284,7 +281,6 @@ ___
   수정된 텍스트 필드 인스턴스
 </details>
 
-___
 ### Enumerations
 
 <details>
@@ -334,7 +330,6 @@ ___
 
 </details>
 
-___
 ## Relationships
 
 Conforms To

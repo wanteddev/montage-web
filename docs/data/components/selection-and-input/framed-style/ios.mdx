@@ -42,7 +42,6 @@ enum FramedStyle
 
 </details>
 
-___
 ### Associated Extensions
 
 <details>
