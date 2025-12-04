@@ -150,6 +150,9 @@ jobs:
   cleanup-cache:
     needs: [set-env, set-pnpm, build-react, push-s3]
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
     steps:
       - run: |
           gh cache delete ${{ needs.build-react.outputs.build_cache_key }} --repo "${{ github.repository }}"
