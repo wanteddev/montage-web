@@ -35,8 +35,8 @@
   "devDependencies": {
     "@emotion/serialize": "^1.1.0",
     "@emotion/utils": "^1.2.0",
-    "@types/react": "^19.2.2",
-    "react": "^19.2.0",
+    "@types/react": "^19.2.7",
+    "react": "^19.2.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
