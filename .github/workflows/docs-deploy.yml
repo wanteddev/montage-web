@@ -147,6 +147,15 @@ jobs:
         aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "$CLOUDFRONT_PATH"
     secrets: inherit
 
+  cleanup-cache:
+    needs: [set-env, set-pnpm, build-react, push-s3]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          gh cache delete ${{ needs.build-react.outputs.build_cache_key }} --repo "${{ github.repository }}"
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   create-pull-request-comment:
     needs: [set-env, push-s3]
     runs-on: ubuntu-latest
