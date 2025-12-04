@@ -135,13 +135,29 @@ jobs:
         echo "build files to s3"
 
         if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
-          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}/
-          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/${{ needs.set-env.outputs.short_commit_hash }}/*"
+          S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}"
+          CLOUDFRONT_PATH="/${{ needs.set-env.outputs.short_commit_hash }}/*"
         else
-          aws s3 sync docs/out s3://${{ needs.set-env.outputs.bucket }}/
-          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "/*"
+          S3_PATH="s3://${{ needs.set-env.outputs.bucket }}"
+          CLOUDFRONT_PATH="/*"
         fi
+
+        aws s3 sync docs/out $S3_PATH --exclude "*.html" --exclude "*.txt"
+        aws s3 sync docs/out $S3_PATH --exclude "*" --include "*.html" --include "*.txt" --cache-control "no-cache, no-store, must-revalidate"
+        aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "$CLOUDFRONT_PATH"
     secrets: inherit
+
+  cleanup-cache:
+    needs: [set-env, set-pnpm, build-react, push-s3]
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - run: |
+          gh cache delete ${{ needs.build-react.outputs.build_cache_key }} --repo "${{ github.repository }}"
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   create-pull-request-comment:
     needs: [set-env, push-s3]
