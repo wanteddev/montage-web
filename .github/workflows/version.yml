@@ -52,8 +52,6 @@ jobs:
     if: ${{ needs.deploy.result == 'success' }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Get current versions
         run: |
