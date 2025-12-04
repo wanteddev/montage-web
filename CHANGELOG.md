@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.3](https://github.com/wanteddev/wds/compare/v3.0.2...v3.0.3) (2025-12-04)
+
+### Bug Fixes
+
+- react CVE patch 버전 반영 ([9ee316c](https://github.com/wanteddev/wds/commit/9ee316c79a09d95648465cd6dc7cdc4f71710073))
+
 ## [3.0.2](https://github.com/wanteddev/wds/compare/v3.0.1...v3.0.2) (2025-12-01)
 
 ### Bug Fixes

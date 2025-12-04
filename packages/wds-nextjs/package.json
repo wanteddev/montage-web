@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-nextjs",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "files": [
     "dist"
   ],
@@ -33,9 +33,9 @@
     "directory": "packages/wds-nextjs"
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
-    "next": "^15.5.5",
-    "react": "^19.2.0",
+    "@types/react": "^19.2.7",
+    "next": "^15.5.7",
+    "react": "^19.2.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
