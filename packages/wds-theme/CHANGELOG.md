@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/wanteddev/wds/compare/v3.0.2...v3.1.0) (2025-12-04)
+
+### Bug Fixes
+
+- react CVE patch 버전 반영 ([#490](https://github.com/wanteddev/wds/issues/490)) ([a3ff8d9](https://github.com/wanteddev/wds/commit/a3ff8d937eebeb3ee806c4a4622b497c63665347))
+
 ## [3.0.3](https://github.com/wanteddev/wds/compare/v3.0.2...v3.0.3) (2025-12-04)
 
 **Note:** Version bump only for package @wanteddev/wds-theme
