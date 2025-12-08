@@ -257,11 +257,15 @@ export const remarkPropsTable = () => {
         return;
       }
 
+      const apiFilePath = path.join(process.cwd(), '/generated/api.json');
+
+      if (!fs.existsSync(apiFilePath)) {
+        console.warn('API file not found. Run pnpm run build:api first.');
+        return;
+      }
+
       const components = JSON.parse(
-        fs.readFileSync(
-          path.join(process.cwd(), '/generated/api.json'),
-          'utf8',
-        ),
+        fs.readFileSync(apiFilePath, 'utf8'),
       ) as Array<ComponentInfo>;
 
       const api = components.find((component) => component.name === name.value);

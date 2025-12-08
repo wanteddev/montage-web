@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "pnpm -w run build && pnpm run -w build:api && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev --turbo",
     "build": "pnpm -w run build:api && next build",
-    "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
