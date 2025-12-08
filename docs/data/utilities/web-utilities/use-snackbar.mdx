@@ -107,12 +107,12 @@ export default Demo;`}
 `duration` 옵션은 Infinity를 지원합니다.
 
 <PropsTable component="useSnackbar" fallback={[
-{ name: 'duration', types: 'number | "short" | "long" | undefined', defaultValue: 'short' },
-{ name: 'variant', types: '\"normal\" | undefined', defaultValue: 'normal' },
-{ name: 'title', types: 'ReactNode' },
-{ name: 'description', types: 'ReactNode' },
-{ name: 'extraContent', types: 'ReactNode' },
-{ name: 'action', types: 'ComponentProps<typeof TextButton>', required: true },
-{ name: 'onAnimationEnd', types: '(type: \"hide\" | \"show\") => void' },
-{ name: 'closeButton', types: 'boolean', defaultValue: false }
+{ name: 'duration', type: 'number | "short" | "long" | undefined', defaultValue: "\"short\"" },
+{ name: 'variant', type: '\"normal\" | undefined', defaultValue: "\"normal\"" },
+{ name: 'title', type: 'ReactNode' },
+{ name: 'description', type: 'ReactNode' },
+{ name: 'extraContent', type: 'ReactNode' },
+{ name: 'action', type: 'ComponentProps<typeof TextButton>', isOptional: false },
+{ name: 'onAnimationEnd', type: '(type: \"hide\" | \"show\") => void' },
+{ name: 'closeButton', type: 'boolean', defaultValue: 'false' }
 ]} />

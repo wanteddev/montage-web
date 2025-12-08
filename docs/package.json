@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm -w run build && node scripts/docgen.mjs && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev --turbo",
-    "build": "node scripts/docgen.mjs && next build",
+    "dev": "pnpm -w run build && pnpm run -w build:api && NODE_TLS_REJECT_UNAUTHORIZED=0 next dev --turbo",
+    "build": "pnpm -w run build:api && next build",
     "build:docgen": "node scripts/docgen.mjs",
     "start": "next start",
     "lint": "eslint",
@@ -40,7 +40,6 @@
     "next": "^15.5.7",
     "next-mdx-remote": "^5.0.0",
     "react": "^19.2.1",
-    "react-docgen-typescript": "^2.2.2",
     "react-dom": "^19.2.1",
     "react-hook-form": "^7.51.0",
     "react-simple-code-editor": "^0.14.1",

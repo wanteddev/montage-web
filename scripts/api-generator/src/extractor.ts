@@ -136,14 +136,19 @@ export class Extractor {
     propType: Type,
     valueDeclaration?: Node,
   ): string {
-    // 타입 annotation에서 preserved type 이름 확인
-    const typeAnnotationName = this.getTypeAnnotationName(valueDeclaration);
+    // 타입 annotation에서 원래 타입 텍스트 확인
+    const typeAnnotationText = this.getTypeAnnotationText(valueDeclaration);
 
-    if (
-      typeAnnotationName &&
-      this.resolver.isPreservedType(typeAnnotationName)
-    ) {
-      return typeAnnotationName;
+    if (typeAnnotationText) {
+      // preserved type이면 그대로 사용
+      if (this.resolver.isPreservedType(typeAnnotationText)) {
+        return typeAnnotationText;
+      }
+
+      // 복잡한 타입 annotation (Merge, WithSxProps 등)이면 그대로 사용
+      if (this.isComplexTypeAnnotation(typeAnnotationText)) {
+        return typeAnnotationText;
+      }
     }
 
     // 반응형 prop은 cleanTypeText 사용
@@ -162,16 +167,14 @@ export class Extractor {
       return null;
     }
 
+    let rawDescription: string | null = null;
+
     // PropertySignature에서 JSDoc 추출
     if (Node.isPropertySignature(declaration)) {
       const jsDocs = declaration.getJsDocs();
 
       if (jsDocs.length > 0) {
-        const description = jsDocs[0].getDescription().trim();
-
-        if (description) {
-          return description;
-        }
+        rawDescription = jsDocs[0].getDescription();
       }
     }
 
@@ -180,32 +183,54 @@ export class Extractor {
       const jsDocs = declaration.getJsDocs();
 
       if (jsDocs.length > 0) {
-        const description = jsDocs[0].getDescription().trim();
-
-        if (description) {
-          return description;
-        }
+        rawDescription = jsDocs[0].getDescription();
       }
     }
 
-    return null;
+    if (!rawDescription) {
+      return null;
+    }
+
+    // JSDoc 마커 및 불필요한 공백 제거
+    const cleaned = this.cleanDescription(rawDescription);
+
+    return cleaned || null;
   }
 
   /**
-   * valueDeclaration에서 타입 annotation 이름 추출
-   * TypeScript가 resolve하기 전의 원래 타입 이름을 가져옴
+   * JSDoc description 텍스트 정리
    */
-  private getTypeAnnotationName(declaration?: Node): string | null {
+  private cleanDescription(text: string): string {
+    return (
+      text
+        // JSDoc 마커 제거 (어디에 있든)
+        .replace(/\/\*\*\s*/g, '')
+        .replace(/\s*\*\//g, '')
+        // 각 줄 앞의 * 제거
+        .replace(/^\s*\*\s?/gm, '')
+        .replace(/\n+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    );
+  }
+
+  /**
+   * valueDeclaration에서 타입 annotation 텍스트 추출
+   * TypeScript가 resolve하기 전의 원래 타입을 가져옴
+   */
+  private getTypeAnnotationText(declaration?: Node): string | null {
     if (!declaration) {
       return null;
     }
+
+    let rawText: string | null = null;
 
     // PropertySignature: interface의 property
     if (Node.isPropertySignature(declaration)) {
       const typeNode = declaration.getTypeNode();
 
-      if (typeNode && Node.isTypeReference(typeNode)) {
-        return typeNode.getTypeName().getText();
+      if (typeNode) {
+        rawText = typeNode.getText();
       }
     }
 
@@ -213,17 +238,48 @@ export class Extractor {
     if (Node.isPropertyDeclaration(declaration)) {
       const typeNode = declaration.getTypeNode();
 
-      if (typeNode && Node.isTypeReference(typeNode)) {
-        return typeNode.getTypeName().getText();
+      if (typeNode) {
+        rawText = typeNode.getText();
       }
     }
 
-    return null;
+    if (!rawText) {
+      return null;
+    }
+
+    // 줄바꿈과 여러 공백을 정리
+    return this.cleanTypeText(rawText);
   }
 
   /**
-   * prop이 @types/react에서만 오는지 확인
+   * 타입 텍스트에서 불필요한 줄바꿈과 공백 제거
    */
+  private cleanTypeText(text: string): string {
+    return text
+      .replace(/\n/g, ' ')
+      .replace(/\s+/g, ' ')
+      .replace(/< /g, '<')
+      .replace(/ >/g, '>')
+      .trim();
+  }
+
+  /**
+   * 복잡한 타입 annotation인지 확인
+   * Generic 타입이나 utility 타입 조합
+   */
+  private isComplexTypeAnnotation(text: string): boolean {
+    const utilityTypes = [
+      'Merge',
+      'WithSxProps',
+      'Omit',
+      'Pick',
+      'Partial',
+      'Required',
+    ];
+
+    return utilityTypes.some((t) => text.includes(`${t}<`));
+  }
+
   private isFromReactTypes(
     prop: ReturnType<Type['getProperties']>[number],
   ): boolean {
@@ -233,11 +289,17 @@ export class Extractor {
       return true;
     }
 
-    // 선언 중 하나라도 프로젝트 파일에서 오면 React 타입이 아님
     for (const declaration of declarations) {
       const filePath = declaration.getSourceFile().getFilePath();
 
       if (!filePath.includes('node_modules')) {
+        return false;
+      }
+
+      if (
+        !filePath.includes('@types/react') &&
+        !filePath.includes('node_modules/react/')
+      ) {
         return false;
       }
     }

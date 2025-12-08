@@ -1,5 +1,9 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { visit } from 'unist-util-visit';
 
+import type { ComponentInfo } from '../types';
 import type {
   MdxJsxAttribute,
   MdxJsxAttributeValueExpression,
@@ -215,6 +219,85 @@ export const remarkTable = () => {
             }
           });
         });
+      }
+    });
+  };
+};
+
+const makeProperty = (name: string, value: string | boolean | undefined) => {
+  return {
+    type: 'Property',
+    key: { type: 'Identifier', name },
+    value: { type: 'Literal', value },
+    kind: 'init',
+    method: false,
+    shorthand: false,
+    computed: false,
+  };
+};
+
+/**
+ * @description PropsTable 컴포넌트에서 fallback 속성을 추출하여 속성 테이블에 적용한다.
+ */
+export const remarkPropsTable = () => {
+  return (tree: Root) => {
+    visit(tree, 'mdxJsxFlowElement', (node) => {
+      if (node.name !== 'PropsTable') {
+        return;
+      }
+
+      const fallback = node.attributes.find(
+        (attr) => attr.type === 'mdxJsxAttribute' && attr.name === 'fallback',
+      );
+      const name = node.attributes.find(
+        (attr) => attr.type === 'mdxJsxAttribute' && attr.name === 'component',
+      ) as MdxJsxAttribute | undefined;
+
+      if (Boolean(fallback) || !name) {
+        return;
+      }
+
+      const components = JSON.parse(
+        fs.readFileSync(
+          path.join(process.cwd(), '/generated/api.json'),
+          'utf8',
+        ),
+      ) as Array<ComponentInfo>;
+
+      const api = components.find((component) => component.name === name.value);
+
+      if (Boolean(api)) {
+        node.attributes.push({
+          type: 'mdxJsxAttribute',
+          name: 'fallback',
+          value: {
+            type: 'mdxJsxAttributeValueExpression',
+            value: JSON.stringify(api!.props),
+            data: {
+              estree: {
+                type: 'Program',
+                body: [
+                  {
+                    type: 'ExpressionStatement',
+                    expression: {
+                      type: 'ArrayExpression',
+                      elements: api!.props.map((prop) => ({
+                        type: 'ObjectExpression',
+                        properties: [
+                          makeProperty('name', prop.name),
+                          makeProperty('type', prop.type),
+                          makeProperty('description', prop.description),
+                          makeProperty('defaultValue', prop.defaultValue),
+                          makeProperty('isOptional', prop.isOptional),
+                        ],
+                      })),
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        } as unknown as MdxJsxAttribute);
       }
     });
   };

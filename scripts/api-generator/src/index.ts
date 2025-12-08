@@ -13,7 +13,7 @@ const parser = new Parser(tsconfigPath);
 const exportDeclarations = parser
   .getExportedItems()
   .filter((item) =>
-    item.filePath.match(/components\/(?!.*\.test\.tsx?$).*\.tsx?$/),
+    item.filePath.match(/components\/.*\/(?!.*\.test\.tsx?$).*\.tsx?$/),
   );
 
 const componentApi = parser.parse(exportDeclarations);

@@ -263,9 +263,6 @@ importers:
       react:
         specifier: ^19.2.1
         version: 19.2.1
-      react-docgen-typescript:
-        specifier: ^2.2.2
-        version: 2.2.2(typescript@5.9.3)
       react-dom:
         specifier: ^19.2.1
         version: 19.2.1(react@19.2.1)
@@ -7832,11 +7829,6 @@ packages:
 
   react-devtools-core@6.1.5:
     resolution: {integrity: sha512-ePrwPfxAnB+7hgnEr8vpKxL9cmnp7F322t8oqcPshbIQQhDKgFDW4tjhF2wjVbdXF9O/nyuy3sQWd9JGpiLPvA==}
-
-  react-docgen-typescript@2.2.2:
-    resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
-    peerDependencies:
-      typescript: '>= 4.3.x'
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -18964,10 +18956,6 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-
-  react-docgen-typescript@2.2.2(typescript@5.9.3):
-    dependencies:
-      typescript: 5.9.3
 
   react-dom@18.3.1(react@18.3.1):
     dependencies:

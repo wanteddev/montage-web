@@ -38,7 +38,7 @@ export class Resolver {
       return preservedName;
     }
 
-    return (
+    const value =
       this.resolvePrimitive(type) ??
       this.resolveUnion(type, depth) ??
       this.resolveIntersection(type, depth) ??
@@ -48,8 +48,9 @@ export class Resolver {
       this.resolveObject(type, depth) ??
       this.resolveAlias(type, depth) ??
       this.resolveSymbol(type, depth) ??
-      this.cleanTypeText(type.getText())
-    );
+      this.cleanTypeText(type.getText());
+
+    return value;
   }
 
   /**

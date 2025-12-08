@@ -108,6 +108,7 @@ export class Parser {
       return null;
     }
 
+    // 먼저 선언에서 컴포넌트 정보 추출 시도
     for (const declaration of symbol.getDeclarations()) {
       const result = this.extractComponentInfo(declaration, name, filePath);
 
@@ -116,7 +117,45 @@ export class Parser {
       }
     }
 
-    return null;
+    // 선언에서 추출 실패 시, 타입에서 직접 추출 (re-export된 외부 컴포넌트)
+    return this.extractFromIdentifierType(node, name, filePath);
+  }
+
+  /**
+   * Identifier의 타입에서 React 컴포넌트 props 추출
+   * 외부 라이브러리에서 re-export된 컴포넌트 처리용
+   */
+  private extractFromIdentifierType(
+    node: Identifier,
+    name: string,
+    filePath: string,
+  ): ComponentInfo | null {
+    const type = node.getType();
+    const callSignatures = type.getCallSignatures();
+
+    if (callSignatures.length === 0) {
+      return null;
+    }
+
+    // 첫 번째 call signature의 첫 번째 파라미터가 props
+    const sig = callSignatures[0];
+    const params = sig.getParameters();
+
+    if (params.length === 0) {
+      return { name, props: [], filePath };
+    }
+
+    const propsParam = params[0];
+    const valueDecl = propsParam.getValueDeclaration();
+
+    if (!valueDecl) {
+      return { name, props: [], filePath };
+    }
+
+    const propsType = propsParam.getTypeAtLocation(valueDecl);
+    const props = this.propsExtractor.extractFromType(propsType);
+
+    return { name, props, filePath };
   }
 
   private extractFromVariableDeclaration(
@@ -126,8 +165,9 @@ export class Parser {
   ): ComponentInfo | null {
     const initializer = node.getInitializer();
 
+    // initializer가 없는 경우 (re-export) 타입에서 추출
     if (!initializer) {
-      return null;
+      return this.extractFromVariableType(node, name, filePath);
     }
 
     // 화살표 함수
@@ -151,6 +191,42 @@ export class Parser {
     }
 
     return null;
+  }
+
+  /**
+   * VariableDeclaration의 타입에서 React 컴포넌트 props 추출
+   * re-export된 외부 컴포넌트 처리용
+   */
+  private extractFromVariableType(
+    node: VariableDeclaration,
+    name: string,
+    filePath: string,
+  ): ComponentInfo | null {
+    const type = node.getType();
+    const callSignatures = type.getCallSignatures();
+
+    if (callSignatures.length === 0) {
+      return null;
+    }
+
+    const sig = callSignatures[0];
+    const params = sig.getParameters();
+
+    if (params.length === 0) {
+      return { name, props: [], filePath };
+    }
+
+    const propsParam = params[0];
+    const valueDecl = propsParam.getValueDeclaration();
+
+    if (!valueDecl) {
+      return { name, props: [], filePath };
+    }
+
+    const propsType = propsParam.getTypeAtLocation(valueDecl);
+    const props = this.propsExtractor.extractFromType(propsType);
+
+    return { name, props, filePath };
   }
 
   private extractFromAsExpression(

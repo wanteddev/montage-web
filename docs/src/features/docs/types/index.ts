@@ -15,3 +15,15 @@ export type GroupedPages = Record<
 >;
 
 export type SlugParams = { slug?: Array<string> };
+
+export type ComponentInfo = {
+  name: string;
+  props: Array<{
+    name: string;
+    description?: string;
+    type: string;
+    defaultValue?: string;
+    isOptional?: boolean;
+  }>;
+  filePath?: string;
+};
