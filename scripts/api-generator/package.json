@@ -1,0 +1,14 @@
+{
+  "name": "@wanteddev/api-generator",
+  "private": true,
+  "scripts": {
+    "build": "tsx src/index.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "ts-morph": "^27.0.2"
+  }
+}

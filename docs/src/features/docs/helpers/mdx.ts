@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import { serialize } from 'next-mdx-remote/serialize';
 import matter from 'gray-matter';
 
-import { remarkStyle, remarkTable } from './remark';
+import { remarkPropsTable, remarkStyle, remarkTable } from './remark';
 
 import type { Frontmatter } from '@/features/docs/types';
 
@@ -112,7 +112,7 @@ export const getSourceBySlug = async (slug: Array<string>) => {
     parseFrontmatter: true,
     mdxOptions: {
       rehypePlugins: [rehypeSlug],
-      remarkPlugins: [remarkGfm, remarkStyle, remarkTable],
+      remarkPlugins: [remarkGfm, remarkStyle, remarkTable, remarkPropsTable],
     },
   });
 };

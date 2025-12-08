@@ -1,7 +1,6 @@
 import Gnb from '@/features/layout/components/gnb';
 import { MDXProvider } from '@/features/docs/contexts';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
-import { generatePropTypes } from '@/features/docs/helpers/props';
 import LnbMobile from '@/features/docs/components/lnb/mobile';
 import { parseGroupedPages } from '@/features/docs/helpers/pages';
 import { createMetadata } from '@/helpers/metadata';
@@ -20,8 +19,6 @@ export const metadata: Metadata = createMetadata({
 const RootLayout = async ({ children }: LayoutProps<'/'>) => {
   const allFrontmatter = await getAllFrontmatter();
   const groupedPages = parseGroupedPages(allFrontmatter);
-
-  const propTypes = generatePropTypes();
 
   return (
     <html suppressHydrationWarning lang="ko">
@@ -164,7 +161,6 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
       </head>
       <body suppressHydrationWarning>
         <MDXProvider
-          propTypes={propTypes}
           allFrontmatter={allFrontmatter}
           groupedPages={groupedPages}
         >

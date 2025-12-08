@@ -150,12 +150,12 @@ export default Demo;`}
 ## API
 
 <PropsTable component="useAlert" fallback={[
-{ name: 'title', types: 'ReactNode | undefined' },
-{ name: 'content', types: 'ReactNode', required: true },
-{ name: 'cancel', types: 'ReactNode | undefined' },
-{ name: 'confirm', types: 'ReactNode', required: true },
-{ name: 'sx', types: 'SxProp | undefined' },
-{ name: 'direction', types: '"normal" | "reverse" \ undefined', description: "버튼 순서를 변경합니다.", defaultValue: "normal" },
-{ name: 'disableOutsideClickClose', types: 'boolean | undefined', defaultValue: 'false' },
-{ name: 'disableEscapeKeyDownClose', types: 'boolean | undefined', defaultValue: 'false' },
+{ name: 'title', type: 'ReactNode | undefined' },
+{ name: 'content', type: 'ReactNode', isOptional: false },
+{ name: 'cancel', type: 'ReactNode | undefined' },
+{ name: 'confirm', type: 'ReactNode', isOptional: false },
+{ name: 'sx', type: 'SxProp | undefined' },
+{ name: 'direction', type: '"normal" | "reverse" | undefined', description: "버튼 순서를 변경합니다.", defaultValue: "\"normal\"" },
+{ name: 'disableOutsideClickClose', type: 'boolean | undefined', defaultValue: 'false' },
+{ name: 'disableEscapeKeyDownClose', type: 'boolean | undefined', defaultValue: 'false' },
 ]} />

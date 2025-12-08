@@ -18,6 +18,7 @@ const typescriptProject = [
   'packages/*/tsconfig.node.json',
   'tests/*/tsconfig.json',
   'tests/*/tsconfig.node.json',
+  'scripts/api-generator/tsconfig.json',
 ];
 
 export default defineConfig(

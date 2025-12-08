@@ -490,9 +490,9 @@ viewport에 따라 아래 옵션을 override 할 수 있습니다.
 ### CategoryListItem
 
 <PropsTable component="CategoryListItem" fallback={[
-{ name: 'value', required: true, types: 'string' },
-{ name: 'disabled', types: 'boolean | undefined', defaultValue: 'false' },
-{ name: 'as', types: 'Element | undefined', defaultValue: 'button' }
+{ name: 'value', isOptional: false, type: 'string' },
+{ name: 'disabled', type: 'boolean | undefined', defaultValue: 'false' },
+{ name: 'as', type: 'Element | undefined', defaultValue: "\"button\"" }
 ]} />
 
 ### CategoryPanel

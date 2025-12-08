@@ -2,17 +2,14 @@
 import { createContext, useCallback, useContext, useRef } from 'react';
 
 import type { Frontmatter, GroupedPages } from '../types';
-import type { ComponentDoc } from 'react-docgen-typescript';
 import type { PropsWithChildren } from 'react';
 
 type MDXContextType = {
-  propTypes: Array<ComponentDoc>;
   allFrontmatter: Array<Frontmatter>;
   groupedPages: GroupedPages;
 };
 
 export const MDXContext = createContext<MDXContextType>({
-  propTypes: [],
   allFrontmatter: [],
   groupedPages: {},
 });

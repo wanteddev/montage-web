@@ -14,51 +14,25 @@ import {
   TooltipTrigger,
 } from '@wanteddev/wds';
 
-import { useMDXContext } from '../../../contexts';
 import CodeBlock from '../code-block';
 
 import { defaultValueStyle } from './style';
 
-import type { ComponentDoc } from 'react-docgen-typescript';
+import type { ComponentInfo } from '@/features/docs/types';
 
 type Props = {
   component?: string;
-  fallback?: Array<{
-    name: string;
-    description?: string;
-    types: string;
-    defaultValue?: string;
-    required?: boolean;
-  }>;
+  fallback?: ComponentInfo['props'];
 };
 
 const PropsTable = ({ component, fallback }: Props) => {
-  const { propTypes } = useMDXContext();
-
-  const types = propTypes.find((c) => c.displayName === component);
-
-  if (!types && !fallback) {
+  if (!fallback) {
     return null;
   }
 
-  const propValues = Object.entries(
-    types?.props ??
-      fallback!.reduce(
-        (acc, cur) => ({
-          ...acc,
-          [Math.random()]: {
-            ...cur,
-            type: {
-              name: cur.types,
-            },
-          },
-        }),
-        {} as ComponentDoc['props'],
-      ),
-  );
-
   return (
     <Table
+      aria-label={`${component} props`}
       sx={(theme) => ({
         marginBottom: 40,
         '--wds-table-border-color': theme.semantic.line.solid.alternative,
@@ -78,44 +52,46 @@ const PropsTable = ({ component, fallback }: Props) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {propValues.map(([key, value]) => (
-          <TableRow key={key}>
-            <TableCell>
-              <FlexBox alignItems="center" gap="4px">
-                <CodeBlock>
-                  {`${value.name}${value.required && value.name !== 'as' ? ' *' : ''}`}
-                </CodeBlock>
-                {value.description && (
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <IconCircleInfo
-                        sx={(theme) => ({
-                          color: theme.semantic.label.alternative,
-                        })}
-                      />
-                    </TooltipTrigger>
-                    <TooltipContent
-                      position="top-center"
-                      sx={{ maxWidth: '350px' }}
-                    >
-                      {value.description}
-                    </TooltipContent>
-                  </Tooltip>
-                )}
-              </FlexBox>
-            </TableCell>
-            <TableCell>
-              <span data-role="property-type">{value.type.name}</span>
-            </TableCell>
-            <TableCell>
-              <Box sx={defaultValueStyle}>
-                <CodeBlock>
-                  {value.defaultValue?.value?.toString() ?? '-'}
-                </CodeBlock>
-              </Box>
-            </TableCell>
-          </TableRow>
-        ))}
+        {fallback.map(
+          ({ name, type, defaultValue, description, isOptional = true }) => (
+            <TableRow key={name}>
+              <TableCell>
+                <FlexBox alignItems="center" gap="4px">
+                  <CodeBlock>
+                    {`${name}${!isOptional && name !== 'as' ? ' *' : ''}`}
+                  </CodeBlock>
+                  {description && (
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <IconCircleInfo
+                          sx={(theme) => ({
+                            color: theme.semantic.label.alternative,
+                          })}
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent
+                        position="top-center"
+                        sx={{ maxWidth: '350px' }}
+                      >
+                        {description}
+                      </TooltipContent>
+                    </Tooltip>
+                  )}
+                </FlexBox>
+              </TableCell>
+              <TableCell>
+                <span data-role="property-type" title={type}>
+                  {type}
+                </span>
+              </TableCell>
+              <TableCell>
+                <Box sx={defaultValueStyle}>
+                  <CodeBlock>{defaultValue?.toString() ?? '-'}</CodeBlock>
+                </Box>
+              </TableCell>
+            </TableRow>
+          ),
+        )}
       </TableBody>
     </Table>
   );

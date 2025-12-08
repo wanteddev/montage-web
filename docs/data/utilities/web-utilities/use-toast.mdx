@@ -115,10 +115,10 @@ export default Demo;`}
 `duration` 옵션은 Infinity를 지원합니다.
 
 <PropsTable component="useToast" fallback={[
-{ name: 'id', types: 'string', required: false },
-{ name: 'content', types: 'ReactNode', required: true },
-{ name: 'duration', types: 'number | "short" | "long" | undefined', defaultValue: 'short' },
-{ name: 'icon', types: 'ReactNode', required: false },
-{ name: 'variant', types: '\"normal\" | \"positive\" | \"cautionary\" | \"negative\" | undefined', defaultValue: 'normal' },
-{ name: 'onAnimationEnd', types: '(type: \"hide\" | \"show\") => void' }
+{ name: 'id', type: 'string' },
+{ name: 'content', type: 'ReactNode', isOptional: false },
+{ name: 'duration', type: 'number | "short" | "long" | undefined', defaultValue: "\"short\"" },
+{ name: 'icon', type: 'ReactNode' },
+{ name: 'variant', type: '\"normal\" | \"positive\" | \"cautionary\" | \"negative\" | undefined', defaultValue: "\"normal\"" },
+{ name: 'onAnimationEnd', type: '(type: \"hide\" | \"show\") => void' }
 ]} />
