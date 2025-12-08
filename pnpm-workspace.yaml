@@ -3,6 +3,7 @@ packages:
   - docs
   - tests/*
   - packages/*
+  - scripts/*
 
 enablePrePostScripts: true
 
