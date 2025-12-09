@@ -46,7 +46,7 @@ type ModalContainerDefaultProps = WithSxProps<{
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   resize?: 'hug' | 'fixed';
   children?: ReactNode;
-  wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
+  wrapperProps?: DefaultComponentProps<{}, 'div'>;
   dimmer?: ReactNode;
   /**
    * Specifies the container to be displayed by Portal.

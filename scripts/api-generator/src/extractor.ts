@@ -145,7 +145,7 @@ export class Extractor {
         return typeAnnotationText;
       }
 
-      // 복잡한 타입 annotation (Merge, WithSxProps 등)이면 그대로 사용
+      // 복잡한 타입 annotation이면 그대로 사용
       if (this.isComplexTypeAnnotation(typeAnnotationText)) {
         return typeAnnotationText;
       }
@@ -270,11 +270,12 @@ export class Extractor {
   private isComplexTypeAnnotation(text: string): boolean {
     const utilityTypes = [
       'Merge',
-      'WithSxProps',
       'Omit',
       'Pick',
       'Partial',
       'Required',
+      'ComponentPropsWithoutRef',
+      'ComponentProps',
     ];
 
     return utilityTypes.some((t) => text.includes(`${t}<`));

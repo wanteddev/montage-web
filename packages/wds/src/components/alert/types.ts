@@ -27,7 +27,7 @@ export type AlertContainerProps = Merge<
     forceMount?: boolean;
     disablePortal?: boolean;
     container?: PortalProps['container'];
-    wrapperProps?: DefaultComponentProps<WithSxProps<{}>, 'div'>;
+    wrapperProps?: DefaultComponentProps<{}, 'div'>;
     disableOutsideClickClose?: boolean;
     disableEscapeKeyDownClose?: boolean;
     disableRemoveScroll?: boolean;
