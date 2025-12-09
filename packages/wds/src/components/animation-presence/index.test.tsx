@@ -147,13 +147,14 @@ describe('when given animation presence component', () => {
   });
 
   it('should unmount immediately when filter returns false for all animations', async () => {
+    const target = document.createElement('div');
+    target.setAttribute('data-ignore', 'true');
+
     const animation = {
       playState: 'running',
       effect: {
         updateTiming: vi.fn(),
-        target: document
-          .createElement('div')
-          .setAttribute('data-ignore', 'true'),
+        target,
       },
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
@@ -189,12 +190,15 @@ describe('when given animation presence component', () => {
   });
 
   it('should wait for all animations to finish if at least one passes the filter', async () => {
+    const target = document.createElement('div');
+    target.setAttribute('data-ignore', 'true');
+
     const listeners = new Map<string, Set<(...args: Array<unknown>) => void>>();
     const animation = {
       playState: 'running',
       effect: {
         updateTiming: vi.fn(),
-        target: document.createElement('div'),
+        target,
       },
       addEventListener: (
         type: string,
@@ -221,8 +225,7 @@ describe('when given animation presence component', () => {
       <AnimationPresence
         present
         options={{
-          subtree: true,
-          filter: () => true,
+          filter: (node) => node.isSameNode(target),
         }}
       >
         <div data-testid="content" />
@@ -232,7 +235,10 @@ describe('when given animation presence component', () => {
     expect(screen.getByTestId('content')).toBeInTheDocument();
 
     rerender(
-      <AnimationPresence present={false} options={{ filter: () => true }}>
+      <AnimationPresence
+        present={false}
+        options={{ filter: (node) => node.isSameNode(target) }}
+      >
         <div data-testid="content" />
       </AnimationPresence>,
     );
