@@ -53,7 +53,7 @@ export const useAnimationPresence = (
     let cleanup: Array<() => void> = [];
 
     const animations = node.getAnimations(options).filter(({ effect }) => {
-      if (effect instanceof KeyframeEffect) {
+      if (effect && 'target' in effect && effect.target) {
         return filterCallback(effect.target as HTMLElement);
       }
 

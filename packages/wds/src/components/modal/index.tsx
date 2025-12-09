@@ -213,6 +213,8 @@ const ModalContainer = forwardRef(
     const { containerRef, open, onOpenChange, ...context } =
       useModalContext(MODAL_CONTAINER_NAME);
 
+    const dimmerRef = useRef<HTMLDivElement>(null);
+
     const { isPresent, ref: wrapperRef } = useAnimationPresence(
       open || forceMount,
       {
@@ -235,8 +237,6 @@ const ModalContainer = forwardRef(
       containerRef,
       ref as ForwardedRef<HTMLDivElement>,
     );
-
-    const dimmerRef = useRef<HTMLDivElement>(null);
 
     const { isBottomSheetWithHandle, handleVisibilityHidden, ...dragProps } =
       useDraggable({
