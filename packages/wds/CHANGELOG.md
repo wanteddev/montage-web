@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/wanteddev/wds/compare/v3.1.0...v3.1.1) (2025-12-09)
+
+### Bug Fixes
+
+- **wds:** animation presence 필터 옵션 추가 및 모달이 닫히지 않는 현상 ([#493](https://github.com/wanteddev/wds/issues/493)) ([ecd6f37](https://github.com/wanteddev/wds/commit/ecd6f37d151b8839545185ca50db8eecb2e78d1c))
+- **wds:** 불필요한 중첩 타입 수정 ([5bebbae](https://github.com/wanteddev/wds/commit/5bebbaef5f4bc6d3ea1344a6eb996eed0f25c44a))
+
 # [3.1.0](https://github.com/wanteddev/wds/compare/v3.0.2...v3.1.0) (2025-12-04)
 
 ### Bug Fixes
