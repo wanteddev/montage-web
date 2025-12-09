@@ -68,8 +68,8 @@ import type {
   ElementType,
   ForwardedRef,
   MouseEvent,
-  MutableRefObject,
   PointerEvent,
+  RefObject,
 } from 'react';
 import type {
   ModalCloseProps,
@@ -217,11 +217,17 @@ const ModalContainer = forwardRef(
       open || forceMount,
       {
         subtree: true,
+        filter: (node) => {
+          return (
+            node.isSameNode(dimmerRef.current) ||
+            node.isSameNode(containerRef.current)
+          );
+        },
       },
     );
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
-      wrapperProps?.ref as MutableRefObject<HTMLDivElement | null> | undefined,
+      wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
       wrapperRef,
     );
 

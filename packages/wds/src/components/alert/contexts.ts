@@ -2,6 +2,8 @@ import { createContext } from '@radix-ui/react-context';
 
 import { ALERT_CONTAINER_NAME, ALERT_NAME } from './constants';
 
+import type { RefObject } from 'react';
+
 type AlertContextType = {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -16,6 +18,7 @@ export const [AlertProvider, useAlertContext] =
 type AlertContainerContextType = {
   disableOutsideClickClose?: boolean;
   onDismiss?: () => void;
+  dimmerRef: RefObject<HTMLDivElement | null>;
 };
 
 export const [AlertContainerProvider, useAlertContainerContext] =
