@@ -68,8 +68,8 @@ import type {
   ElementType,
   ForwardedRef,
   MouseEvent,
-  MutableRefObject,
   PointerEvent,
+  RefObject,
 } from 'react';
 import type {
   ModalCloseProps,
@@ -213,15 +213,23 @@ const ModalContainer = forwardRef(
     const { containerRef, open, onOpenChange, ...context } =
       useModalContext(MODAL_CONTAINER_NAME);
 
+    const dimmerRef = useRef<HTMLDivElement>(null);
+
     const { isPresent, ref: wrapperRef } = useAnimationPresence(
       open || forceMount,
       {
         subtree: true,
+        filter: (node) => {
+          return (
+            node.isSameNode(dimmerRef.current) ||
+            node.isSameNode(containerRef.current)
+          );
+        },
       },
     );
 
     const composedRefs = useComposedRefs<HTMLDivElement>(
-      wrapperProps?.ref as MutableRefObject<HTMLDivElement | null> | undefined,
+      wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
       wrapperRef,
     );
 
@@ -229,8 +237,6 @@ const ModalContainer = forwardRef(
       containerRef,
       ref as ForwardedRef<HTMLDivElement>,
     );
-
-    const dimmerRef = useRef<HTMLDivElement>(null);
 
     const { isBottomSheetWithHandle, handleVisibilityHidden, ...dragProps } =
       useDraggable({

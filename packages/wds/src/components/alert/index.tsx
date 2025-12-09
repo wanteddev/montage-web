@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useId, useRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { Box, getColorByToken } from '@wanteddev/wds-engine';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
-import { useComposedRefs } from '@radix-ui/react-compose-refs';
+import { composeRefs, useComposedRefs } from '@radix-ui/react-compose-refs';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { hideOthers } from '../../utils/aria-hidden';
@@ -103,13 +103,13 @@ const AlertDimmer = forwardRef(
     { as, ...props }: PolymorphicPropsInternal<AlertDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { disableOutsideClickClose, onDismiss } =
+    const { disableOutsideClickClose, onDismiss, dimmerRef } =
       useAlertContainerContext(ALERT_DIMMER_NAME);
     const { open, setOpen } = useAlertContext(ALERT_DIMMER_NAME);
 
     return (
       <Box
-        ref={ref}
+        ref={composeRefs(ref, dimmerRef as ForwardedRef<T>)}
         as={(as || 'div') as T}
         {...props}
         wds-ignore-dismissable-layer="true"
@@ -186,6 +186,7 @@ const AlertContainer = forwardRef(
     const { open, setOpen, headingId, descriptionId, containerId } =
       useAlertContext(ALERT_CONTAINER_NAME);
 
+    const dimmerRef = useRef<HTMLDivElement | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const composedRef = useComposedRefs(
       containerRef,
@@ -194,6 +195,12 @@ const AlertContainer = forwardRef(
 
     const { isPresent, ref } = useAnimationPresence(open || forceMount, {
       subtree: true,
+      filter: (node) => {
+        return (
+          node.isSameNode(containerRef.current) ||
+          node.isSameNode(dimmerRef.current)
+        );
+      },
     });
 
     useEffect(() => {
@@ -208,6 +215,7 @@ const AlertContainer = forwardRef(
 
     return (
       <AlertContainerProvider
+        dimmerRef={dimmerRef}
         disableOutsideClickClose={disableOutsideClickClose}
         onDismiss={onDismiss}
       >

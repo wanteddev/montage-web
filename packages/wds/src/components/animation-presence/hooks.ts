@@ -1,4 +1,7 @@
 import { useLayoutEffect, useReducer, useState } from 'react';
+import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
+
+import type { AnimationOptions } from './types';
 
 type PresenceState = 'mounted' | 'unmounted' | 'unmountTriggered';
 
@@ -29,13 +32,15 @@ const useSafeLayoutEffect = globalThis?.document ? useLayoutEffect : () => {};
 
 export const useAnimationPresence = (
   present: boolean,
-  options?: GetAnimationsOptions,
+  options?: AnimationOptions,
 ) => {
   const [node, setNode] = useState<HTMLElement | null>(null);
 
   const initialState: PresenceState = present ? 'mounted' : 'unmounted';
 
   const [state, dispatch] = useAnimationPresenceState(initialState);
+
+  const filterCallback = useCallbackRef(options?.filter ?? (() => true));
 
   useSafeLayoutEffect(() => {
     if (present) {
@@ -47,7 +52,13 @@ export const useAnimationPresence = (
 
     let cleanup: Array<() => void> = [];
 
-    const animations = node.getAnimations(options);
+    const animations = node.getAnimations(options).filter(({ effect }) => {
+      if (effect && 'target' in effect && effect.target) {
+        return filterCallback(effect.target as HTMLElement);
+      }
+
+      return false;
+    });
 
     if (animations.length === 0) {
       dispatch('UNMOUNT');
