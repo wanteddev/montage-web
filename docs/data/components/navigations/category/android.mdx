@@ -1,0 +1,85 @@
+---
+title: Category
+description: 선택 가능한 Chip 목록을 표시하는 컴포넌트입니다.
+---
+
+## WantedCategory
+선택 가능한 Chip 목록을 표시하는 컴포넌트입니다.
+문자열 리스트를 기반으로 Chip을 구성하며, 선택 상태를 관리할 수 있습니다.
+
+```kotlin
+var selectedList by remember { mutableStateOf(listOf("태그1")) }
+
+WantedCategory(
+    itemList = listOf("태그1", "태그2", "태그3"),
+    selectedList = selectedList,
+    onClick = { item, isSelected ->
+        selectedList = if (isSelected) {
+            selectedList + item
+        } else {
+            selectedList - item
+        }
+    }
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| itemList | List<String> | 표시할 항목 문자열 리스트입니다. |
+| selectedList | List<String> | 선택된 항목 리스트입니다. |
+| modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
+| disableItemList | List<String> | 비활성화할 항목 리스트입니다. |
+| state | LazyListState | LazyRow의 스크롤 상태를 관리하는 객체입니다. |
+| size | Size | 카테고리 항목의 크기입니다. |
+| horizontalPadding | Boolean | 좌우 여백 적용 여부입니다. |
+| isVerticalPadding | Boolean | 상하 여백 적용 여부입니다. |
+| isAlternative | Boolean | 선택 시 Outlined 스타일 적용 여부입니다. |
+| gradientColor | Color | 좌우 그라디언트 배경 색상입니다. |
+| rightIcon | (@Composable (Dp) -> Unit)? | 우측에 표시할 아이콘 슬롯입니다. |
+| onClick | (String, Boolean) -> Unit | 항목 클릭 시 호출되는 콜백입니다. 선택된 항목과 선택 여부를 전달합니다. |
+
+## Overload
+사용자 정의 콘텐츠로 구성할 수 있는 Category 컴포넌트입니다.
+LazyListScope를 통해 항목을 직접 구성할 수 있으며, 그라디언트 효과와 우측 아이콘을 지원합니다.
+
+```kotlin
+WantedCategory {
+    items(tagList) { tag ->
+        WantedActionChip(
+            text = tag,
+            onClick = { /* 처리 */ }
+        )
+    }
+}
+```
+<details>
+  <summary>Parameters</summary>
+
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
+  | state | LazyListState | LazyRow의 스크롤 상태를 관리하는 객체입니다. |
+  | size | Size | 액션칩의 크기 및 여백 설정입니다. |
+  | horizontalPadding | Boolean | 좌우 패딩 적용 여부입니다. |
+  | isVerticalPadding | Boolean | 상하 패딩 적용 여부입니다. |
+  | gradientColor | Color | 좌우 그라디언트 색상입니다. |
+  | rightIcon | (@Composable (Dp) -> Unit)? | 우측 아이콘 슬롯입니다. |
+  | content | LazyListScope.() -> Unit | 내부 아이템을 구성하는 블록입니다. |
+
+</details>
+
+## Advanced
+### WantedCategoryDefaults
+카테고리 컴포넌트에서 사용하는 설정 값을 정의하는 객체입니다.
+
+
+## Enum
+### Size
+| 값 | 설명 |
+|:---|:---|
+| Small | 작은 크기의 카테고리 항목입니다. |
+| Medium | 중간 크기의 카테고리 항목입니다. |
+| Large | 큰 크기의 카테고리 항목입니다. |
+| XLarge | 매우 큰 크기의 카테고리 항목입니다. |

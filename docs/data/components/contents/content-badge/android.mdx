@@ -1,0 +1,115 @@
+---
+title: ContentBadge
+description: 텍스트와 아이콘, 배경 스타일을 조합하여 Content badge를 구성하는 컴포넌트입니다.
+---
+
+## WantedContentBadge
+텍스트와 아이콘, 배경 스타일을 조합하여 Content badge를 구성하는 컴포넌트입니다.
+Accent 또는 Neutral 컬러 테마를 선택할 수 있으며, 크기와 테두리 스타일을 설정할 수 있습니다.
+클릭 이벤트, 좌우 아이콘 표시 등 다양한 커스터마이징이 가능합니다.
+
+```kotlin
+WantedContentBadge(
+    text = "Badge",
+    size = ContentBadgeSize.Small,
+    color = ContentBadgeColor.Accent,
+    leadingDrawable = R.drawable.ic_icon,
+    trailingDrawable = R.drawable.ic_icon,
+    onClick = { /* 클릭 처리 */ }
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| text | String | 배지에 표시할 텍스트입니다. |
+| modifier | Modifier | 배지 외형과 배치를 설정합니다. |
+| type | ContentBadgeType | Solid 또는 Outlined 형식의 배지 스타일입니다. |
+| size | ContentBadgeSize | 배지 크기를 지정합니다 (XSmall, Small, Large). |
+| color | ContentBadgeColor | 컬러 테마를 지정합니다 (Neutral, Accent). |
+| accentDefault | WantedContentBadgeDefault | Accent 또는 Neutral 컬러 설정의 기본값을 지정합니다. |
+| leadingDrawable | Int? | 텍스트 왼쪽에 표시할 아이콘 리소스 ID입니다. |
+| trailingDrawable | Int? | 텍스트 오른쪽에 표시할 아이콘 리소스 ID입니다. |
+| onClick | (() -> Unit)? | 클릭 시 호출되는 콜백 함수입니다. |
+
+
+## Advanced
+### WantedContentBadgeDefault
+Content badge의 시각적 속성을 정의하는 데이터 클래스입니다.
+텍스트 또는 아이콘 색상(contentColor), 배경색(backgroundColor), 테두리 색상(outLineColor)을 설정합니다.
+
+<details>
+  <summary>Properties</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | contentColor | Color | 콘텐츠 색상입니다. |
+  | backgroundColor | Color | 배경 색상입니다. 기본값은 contentColor에 OPACITY_8을 적용한 색입니다. |
+  | outLineColor | Color | 테두리 색상입니다. 기본값은 contentColor입니다. |
+
+</details>
+<br />
+### WantedContentBadgeDefaults
+기본 Content badge 구성을 제공하는 객체입니다.
+Accent, Neutral 스타일의 구성을 제공합니다.
+
+### getAccentDefault
+Accent 스타일의 기본 Content badge를 반환합니다.
+
+```kotlin
+val badgeDefault = WantedContentBadgeDefaults.getAccentDefault()
+WantedContentBadge(
+    text = "New",
+    badgeDefault = badgeDefault
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | contentColor | Color | 콘텐츠 색상입니다. 기본값은 cyan 계열 색상입니다. |
+  | backgroundColor | Color | 배경 색상입니다. 기본값은 contentColor에 OPACITY_8을 적용한 색입니다. |
+  | outLineColor | Color | 테두리 색상입니다. 기본값은 contentColor입니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedContentBadgeDefault | 강조 배지 구성을 반환합니다. |
+
+</details>
+<br />
+### getNeutralDefault
+Neutral 스타일의 기본 Content badge를 반환합니다.
+
+```kotlin
+val badgeDefault = WantedContentBadgeDefaults.getNeutralDefault()
+WantedContentBadge(
+    text = "Label",
+    badgeDefault = badgeDefault
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | contentColor | Color | 콘텐츠 색상입니다. 기본값은 label_alternative 색상입니다. |
+
+</details>
+<br />
+<details>
+  <summary>Return</summary>
+
+  | 타입 | 설명 |
+  |:---|:---|
+  | WantedContentBadgeDefault | 중립 배지 구성을 반환합니다. |
+
+</details>
+<br />

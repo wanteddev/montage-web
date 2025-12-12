@@ -1,0 +1,34 @@
+---
+title: Alert
+description: 확인 및 취소 버튼이 있는 기본 알림 dialog입니다.
+---
+
+## WantedAlert
+확인 및 취소 버튼이 있는 기본 알림 dialog입니다.
+제목, 메시지, 확인/취소 텍스트 및 클릭 이벤트를 전달하여 간단한 사용자 확인 dialog를 구성할 수 있습니다.
+`isNegative` 값에 따라 확인 버튼의 스타일이 Positive 또는 Negative로 설정됩니다.
+
+```kotlin
+WantedAlert(
+    title = "삭제하시겠습니까?",
+    message = "삭제하면 되돌릴 수 없습니다.",
+    confirm = "삭제",
+    cancel = "취소",
+    onClickConfirm = { /* 삭제 처리 */ },
+    onClickCancel = { /* 취소 처리 */ },
+    onDismissRequest = { /* 외부 클릭 시 */ }
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| message | String | 다이얼로그 본문에 표시될 메시지입니다. |
+| confirm | String | 확인 버튼에 표시될 텍스트입니다. |
+| onClickConfirm | () -> Unit | 확인 버튼 클릭 시 호출되는 콜백입니다. |
+| properties | DialogProperties | 다이얼로그의 속성입니다. 기본값은 `DialogProperties()`입니다. |
+| title | String? | 다이얼로그 상단에 표시할 제목입니다. 선택적으로 설정 가능합니다. |
+| isNegative | Boolean | true일 경우 확인 버튼을 Negative 스타일로 표시합니다. |
+| cancel | String? | 취소 버튼에 표시할 텍스트입니다. null일 경우 표시되지 않습니다. |
+| onClickCancel | (() -> Unit)? | 취소 버튼 클릭 시 호출되는 콜백입니다. |
+| onDismissRequest | () -> Unit | 다이얼로그 외부 클릭 등으로 닫힐 때 호출되는 콜백입니다. |

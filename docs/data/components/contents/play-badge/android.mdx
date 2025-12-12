@@ -1,0 +1,39 @@
+---
+title: PlayBadge
+description: 재생 아이콘을 시각적으로 구분할 수 있도록 표시하는 컴포넌트입니다.
+---
+
+## WantedPlayBadge
+재생 아이콘을 시각적으로 구분할 수 있도록 표시하는 컴포넌트입니다.
+배경과 아이콘으로 구성되며, 크기 및 대체 색상 사용 여부를 설정할 수 있습니다.
+Size에 따라 전체 크기와 아이콘 크기가 달라집니다.
+
+```kotlin
+WantedPlayBadge(
+    size = Size.Medium,
+    isAlternative = true,
+    modifier = Modifier
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| size | Size | 배지의 크기 옵션입니다. Small, Medium, Large 세 가지 크기를 제공합니다. |
+| isAlternative | Boolean | true일 경우 대체 색상(더 어두운 회색 계열 배경)을 사용합니다. |
+| modifier | Modifier | 배지의 외형, 정렬, 패딩 등을 제어하는 Modifier입니다. |
+
+
+## Advanced
+### WantedPlayBadgeDefaults
+Play badge 컴포넌트에서 사용되는 설정값을 정의하는 객체입니다.
+주로 badge의 크기와 관련된 정보를 제공합니다.
+
+
+## Enum
+### Size
+| 값 | 설명 |
+|:---|:---|
+| Small | 컨테이너 36dp, 아이콘 24dp입니다. |
+| Medium | 컨테이너 60dp, 아이콘 40dp입니다. |
+| Large | 컨테이너 80dp, 아이콘 56dp입니다. |

@@ -1,0 +1,72 @@
+---
+title: NumberPicker
+description: 숫자 범위를 기준으로 자동 생성된 리스트를 사용하여 숫자를 선택할 수 있는 Wheel 형태의 NumberPicker입니다.
+---
+
+## WantedNumberPicker
+숫자 범위를 기준으로 자동 생성된 리스트를 사용하여 숫자를 선택할 수 있는 Wheel 형태의 NumberPicker입니다.
+start부터 end까지 지정한 step 간격의 숫자를 리스트로 생성하여 표시하며, 선택한 값은 콜백으로 반환됩니다.
+내부적으로 WantedStringPicker를 사용하여 Wheel UI를 제공합니다.
+
+```kotlin
+WantedNumberPicker(
+    start = 1,
+    end = 12,
+    step = 1,
+    selectedValue = 5,
+    onSelect = { index, value, enabled ->
+        // 선택된 숫자 처리
+    }
+)
+```
+
+### Parameters
+| 이름 | 타입 | 설명 |
+|:---|:---|:---|
+| start | Int | 시작 숫자입니다 |
+| end | Int | 종료 숫자입니다 |
+| step | Int | 숫자 간격입니다 |
+| modifier | Modifier | 외형을 설정하는 Modifier입니다 |
+| itemList | List<Int> | 내부에서 자동 생성된 숫자 리스트입니다 |
+| selectedValue | Int | 기본 선택값입니다 |
+| enableMinValue | Int | 선택 가능 최소값입니다 |
+| enableMaxValue | Int | 선택 가능 최대값입니다 |
+| pagerState | PagerState | 스크롤 상태를 관리하는 Pager 상태입니다 |
+| textStyle | TextStyle | 숫자 텍스트의 스타일입니다 |
+| itemSize | Dp | 각 항목의 높이입니다 |
+| visibleCount | Int | 화면에 표시될 항목 수입니다 |
+| userScrollEnabled | Boolean | 사용자의 스크롤 가능 여부입니다 |
+| onSelect | (Int, Int, Boolean) -> Unit | 선택 이벤트 콜백입니다 |
+
+## Overload
+숫자 리스트를 직접 전달하여 사용할 수 있는 NumberPicker 컴포넌트입니다.
+전달된 리스트에서 인덱스를 기준으로 선택하며, 선택 상태는 콜백으로 전달됩니다.
+사용자는 직접 리스트를 생성하여 원하는 숫자 구성을 조정할 수 있습니다.
+
+```kotlin
+WantedNumberPicker(
+    itemList = listOf(0, 15, 30, 45),
+    selectedIndex = 2,
+    onSelect = { index, enabled ->
+        // index 처리
+    }
+)
+```
+<details>
+  <summary>Parameters</summary>
+
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | modifier | Modifier | 외형을 설정하는 Modifier입니다 |
+  | itemList | List<Int> | 표시할 숫자 리스트입니다 |
+  | selectedIndex | Int | 선택된 인덱스입니다 |
+  | enableStartIndex | Int | 선택 가능한 시작 인덱스입니다 |
+  | enableEndIndex | Int | 선택 가능한 종료 인덱스입니다 |
+  | pagerState | PagerState | 스크롤 상태를 관리하는 Pager 상태입니다 |
+  | textStyle | TextStyle | 숫자 텍스트 스타일입니다 |
+  | itemSize | Dp | 각 항목의 높이입니다 |
+  | visibleCount | Int | 화면에 표시할 항목 개수입니다 |
+  | onSelect | (Int, Boolean) -> Unit | 선택 이벤트 콜백입니다 |
+
+</details>
