@@ -5,6 +5,6 @@
     "allowJs": true,
     "checkJs": false
   },
-  "include": ["next-env.d.ts", "next.config.js", "scripts/**/*.mjs"],
+  "include": ["next-env.d.ts", "next.config.js"],
   "exclude": ["node_modules", ".next"]
 }

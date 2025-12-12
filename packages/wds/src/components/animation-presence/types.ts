@@ -9,7 +9,9 @@ export type AnimationOptions = Merge<
 >;
 
 export type AnimationPresenceProps = {
+  /** Whether the animation presence is present. */
   present?: boolean;
   children?: ReactNode;
+  /** The options for the animation presence. */
   options?: AnimationOptions;
 };

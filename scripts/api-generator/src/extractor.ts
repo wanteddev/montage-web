@@ -268,15 +268,7 @@ export class Extractor {
    * Generic 타입이나 utility 타입 조합
    */
   private isComplexTypeAnnotation(text: string): boolean {
-    const utilityTypes = [
-      'Merge',
-      'Omit',
-      'Pick',
-      'Partial',
-      'Required',
-      'ComponentPropsWithoutRef',
-      'ComponentProps',
-    ];
+    const utilityTypes = ['ComponentPropsWithoutRef', 'ComponentProps'];
 
     return utilityTypes.some((t) => text.includes(`${t}<`));
   }

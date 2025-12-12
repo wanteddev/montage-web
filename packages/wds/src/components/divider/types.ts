@@ -7,9 +7,13 @@ import type {
 } from '@wanteddev/wds-engine';
 
 export type DividerDefaultProps = WithSxProps<{
+  /** Whether the divider is vertical. */
   vertical?: boolean;
+  /** The color of the divider. */
   color?: ThemeColorsToken;
+  /** The size of the divider. */
   size?: CSSProperties['width'];
+  /** The thickness of the divider. */
   thickness?: CSSProperties['width'];
 }>;
 

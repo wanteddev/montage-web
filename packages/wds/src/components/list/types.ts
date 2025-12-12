@@ -13,23 +13,29 @@ export type ListProps = FlexBoxProps;
 
 export type ListCellDefaultProps = WithSxProps<{
   children?: ReactNode;
+  /** The vertical padding of the cell. */
   verticalPadding?: 'small' | 'medium' | 'large' | 'none';
-  fillWidth?: boolean;
   /**
-   * When `fillWidth` is false, the left and right padding of the interaction can be specified.
+   * Whether to fill the width of the parent.
+   * Now, the interaction's padding inline is included in the overall width and the interaction's border radius has been removed.
    */
+  fillWidth?: boolean;
+  /** When `fillWidth` is false, the left and right padding of the interaction can be specified. */
   interactionPadding?: CSSProperties['paddingLeft'];
+  /** Show ellipsis when text overflows. */
   ellipsis?: boolean;
+  /** Whether to show the divider. */
   divider?: boolean;
-
-  /**
-   /**
-    * Used to indicate the selected style.
-    */
+  /** Whether the cell is selected. */
   selected?: boolean;
+  /** Whether to disable the cell. */
   disabled?: boolean;
+  /** Whether to disable the interaction. */
   disableInteraction?: boolean;
-
+  /**
+   * Used to modify the style of rendered text.
+   * Due to the internal DOM structure, this option must be used to style the text.
+   */
   textProps?: Merge<
     TypographyProps,
     {
@@ -39,7 +45,15 @@ export type ListCellDefaultProps = WithSxProps<{
       sx?: SxProp;
     }
   >;
+  /**
+   * Content displayed in the leading area.
+   * Pass an element wrapped with `ListCellContent`.
+   */
   leadingContent?: ReactNode;
+  /**
+   * Content displayed in the trailing area.
+   * Pass an element wrapped with `ListCellContent`.
+   */
   trailingContent?: ReactNode;
 }>;
 
@@ -56,6 +70,7 @@ export type ListCellProps = Merge<
 >;
 
 export type ListCellContentProps = WithSxProps<{
+  /** The variant of the content. */
   variant?:
     | 'icon'
     | 'radio'
@@ -71,6 +86,9 @@ export type ListCellContentProps = WithSxProps<{
     | 'thumbnail'
     | 'custom';
   disabled?: boolean;
+  /**
+   * Displays the chevron when the variant is 'chevron'.
+   */
   chevron?: boolean;
   children?: ReactNode;
 }>;

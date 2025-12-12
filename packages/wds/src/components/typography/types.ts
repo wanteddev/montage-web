@@ -32,8 +32,14 @@ export type TypographyWeight = 'regular' | 'medium' | 'bold';
 export type TypographyDefaultProps = WithSxProps<{
   variant?: TypographyVariant;
   weight?: TypographyWeight;
+  /**
+   * Whether to wrap the text.
+   * If `noWrap` is set to true, the text will not wrap and overflowing content will be displayed with ellipsis.
+   */
   noWrap?: boolean;
+  /** The alignment of the text. */
   align?: CSSProperties['textAlign'];
+  /** The display of the text. */
   display?: CSSProperties['display'];
   color?: ThemeColorsToken;
   children?: ReactNode;
