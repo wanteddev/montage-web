@@ -44,7 +44,7 @@ export type AutocompleteListProps = Merge<
      * When `asSelect=true`, the first focus is not specified.
      */
     disableTrappedContent?: boolean;
-    /** Keeps the alert mounted in the DOM even when open is false. */
+    /** Keeps the autocomplete list mounted in the DOM even when open is false. */
     forceMount?: boolean;
   },
   PopperContentProps
