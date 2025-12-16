@@ -16,6 +16,7 @@ const HeadingLink = ({ id, children, ...props }: Props) => (
       data-role="heading-link-area"
       alignItems="center"
       justifyContent="center"
+      as="span"
     >
       <IconButton
         as={Link}
