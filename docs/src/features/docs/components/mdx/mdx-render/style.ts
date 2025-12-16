@@ -12,8 +12,10 @@ export const mdxRootStyle = (theme: Theme) => css`
     overflow-wrap: break-word;
 
     [data-role='property-type'] {
+      font-family: inherit !important;
       ${typographyStyle('label2', 'regular')}
       color: ${theme.semantic.accent.background.redOrange};
+      background-color: transparent;
     }
 
     :is(code),
