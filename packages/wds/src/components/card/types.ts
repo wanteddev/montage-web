@@ -28,12 +28,12 @@ export type CardProps = Merge<
 export type CardThumbnailDefaultProps = Merge<
   {
     /**
-     * Leading content are displayed as overlay areas on top of the thumbnail.
+     * Leading content is displayed as overlay areas on top of the thumbnail.
      * Place them in the leading area by wrapping them with CardThumbnailContent.
      */
     leadingContent?: ReactNode;
     /**
-     * Trailing content are displayed as overlay areas on top of the thumbnail.
+     * Trailing content is displayed as overlay areas on top of the thumbnail.
      * Place them in the trailing area by wrapping them with CardThumbnailContent.
      */
     trailingContent?: ReactNode;

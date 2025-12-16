@@ -27,7 +27,7 @@ export type DateCalendarProps = WithSxProps<{
   locale?: string;
   /** The timezone of the date. */
   timezone?: string;
-  /** Callback function when the value changes. */
+  /** Callback function when the date selection is completed. */
   onChangeComplete?: (value: DateType) => void;
   /** Whether the date is read only. */
   readOnly?: boolean;

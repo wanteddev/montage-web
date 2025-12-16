@@ -55,7 +55,7 @@ type ModalContainerDefaultProps = WithSxProps<{
    * for example using framer-motion.
    */
   dimmer?: ReactNode;
-  /** The container element where the alert will be rendered when using a portal. */
+  /** The container element where the modal will be rendered when using a portal. */
   container?: PortalProps['container'];
   /** Whether to disable the outside click close. */
   disableOutsideClickClose?: boolean;
