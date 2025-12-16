@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "wds-mcp-server": {
+      "command": "node",
+      "args": ["packages/wds-mcp/bin/wds-mcp"],
+      "env": {
+        "NODE_ENV": "cli"
+      }
+    }
+  }
+}

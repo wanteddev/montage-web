@@ -1,0 +1,45 @@
+{
+  "name": "@wanteddev/wds-mcp",
+  "version": "2.0.0",
+  "dependencies": {
+    "@figma/rest-api-spec": "^0.33.0",
+    "@modelcontextprotocol/sdk": "1.24.3",
+    "@wanteddev/wds-icon": "workspace:*",
+    "@wanteddev/wds-theme": "workspace:*",
+    "axios": "^1.8.4",
+    "change-case": "^5.4.3",
+    "cheerio": "^1.0.0",
+    "express": "^5.1.0",
+    "turndown": "^7.2.2",
+    "typescript": "^5.4.2",
+    "zod": "^4.0.10",
+    "zod-to-json-schema": "^3.24.6"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "watch": "tsc && tsup --watch",
+    "build": "tsc && tsup"
+  },
+  "repository": {
+    "url": "https://github.com/wanteddev/wds",
+    "type": "git",
+    "directory": "packages/wds-mcp"
+  },
+  "bin": {
+    "wds-mcp": "bin/wds-mcp"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/turndown": "^5.0.6"
+  }
+}
