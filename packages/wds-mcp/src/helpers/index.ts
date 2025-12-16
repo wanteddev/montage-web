@@ -4,8 +4,10 @@ import { load } from 'cheerio';
 
 import api from '../../../../docs/generated/api.json' assert { type: 'json' };
 
+const componentApi = api;
+
 export const listComponents = () => {
-  const components = api.map((component) => component.name).sort();
+  const components = componentApi.map((component) => component.name).sort();
 
   const parsedComponents: Array<{
     name: string;
