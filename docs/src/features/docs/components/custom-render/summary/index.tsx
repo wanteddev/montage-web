@@ -23,7 +23,7 @@ const CustomRenderSummary = ({
         <DocsTitle title={title} description={description} />
       </FlexBox>
 
-      <DocsThumbnail src={thumbnail} alt={title} />
+      <DocsThumbnail src={thumbnail} alt={title} aria-hidden />
 
       {children}
     </>

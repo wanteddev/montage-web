@@ -99,6 +99,7 @@ const DocsCollection = ({ category }: Props) => {
                     <CardThumbnail
                       src={getImageUrl(data.image ?? '/images/placeholder.png')}
                       alt={data.title}
+                      aria-hidden
                       ratio="16:9"
                       width="100%"
                     />

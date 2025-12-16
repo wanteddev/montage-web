@@ -27,6 +27,7 @@ const Principles = () => {
             src={getImageUrl(principle.image)}
             ratio="1:1"
             alt={principle.title}
+            aria-hidden
             sx={thumbnailStyle}
           />
           <FlexBox flexDirection="column" gap="6px">

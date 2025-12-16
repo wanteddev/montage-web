@@ -95,6 +95,7 @@ const FoundationsElevationNormal = () => {
       <Thumbnail
         src={getImageUrl('/foundations/elevation/Image-2.png')}
         alt="Composition"
+        aria-hidden
         radius
         border
         sx={{

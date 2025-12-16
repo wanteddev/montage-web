@@ -45,6 +45,7 @@ const UtilitiesTab = () => {
           width={760}
           height={232}
           alt="Utilities Overview"
+          aria-hidden
           fetchPriority="high"
           priority
         />

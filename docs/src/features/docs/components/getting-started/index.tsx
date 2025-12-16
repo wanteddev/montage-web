@@ -17,6 +17,7 @@ const GettingStarted = () => {
         radius
         src={getImageUrl('/getting-started/overview/Image.png')}
         alt="Getting Started"
+        aria-hidden
         sx={thumbnailStyle}
       />
 
