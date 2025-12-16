@@ -182,12 +182,17 @@ server.registerTool(
 
     const guideUrls = await getGuideUrls();
 
-    const fetchUrl = guideUrls.find((url) =>
-      customComponentPath
-        ? url.endsWith(customComponentPath) ||
-          url.endsWith(`${customComponentPath}/web`)
-        : url.includes(componentSlug) || url.includes(`${componentSlug}/web`),
-    );
+    const fetchUrl =
+      guideUrls.find((url) =>
+        customComponentPath
+          ? url.endsWith(`${customComponentPath}/web`)
+          : url.endsWith(`${componentSlug}/web`),
+      ) ??
+      guideUrls.find((url) =>
+        customComponentPath
+          ? url.endsWith(`${customComponentPath}`)
+          : url.endsWith(`${componentSlug}`),
+      );
 
     if (!fetchUrl) {
       return {
