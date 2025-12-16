@@ -27,8 +27,8 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "watch": "tsc && tsup --watch",
-    "build": "tsc && tsup"
+    "watch": "tsc && tsdown --watch",
+    "build": "tsc && tsdown"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",
