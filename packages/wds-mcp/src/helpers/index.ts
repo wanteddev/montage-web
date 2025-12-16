@@ -68,28 +68,6 @@ export const listTokens = () => {
   });
 };
 
-export const listUtilityFunctions = () => {
-  return [
-    'addOpacity',
-    'ariaHidden',
-    'containerStyle',
-    'ellipsisTypographyStyle',
-    'gradient',
-    'listStyle',
-    'respondTo',
-    'respondDown',
-    'respondMore',
-    'respondUp',
-    'useMediaQuery',
-    'typographyStyle',
-    'useAlert',
-    'useSize',
-    'useSnackbar',
-    'useThemeControl',
-    'useToast',
-  ];
-};
-
 export const getGuideUrls = async () => {
   const sitemap = await fetch('https://montage.wanted.co.kr/sitemap.xml');
   const sitemapXml = await sitemap.text();

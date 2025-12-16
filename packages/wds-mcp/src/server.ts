@@ -2,17 +2,11 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import TurndownService from 'turndown';
 import * as cheerio from 'cheerio';
 import * as z from 'zod';
-import { kebabCase } from 'change-case';
+import { camelCase, kebabCase } from 'change-case';
 
 import { version } from '../package.json';
 
-import {
-  getGuideUrls,
-  listComponents,
-  listIcons,
-  listTokens,
-  listUtilityFunctions,
-} from './helpers';
+import { getGuideUrls, listComponents, listIcons, listTokens } from './helpers';
 
 const server = new McpServer({
   name: 'WDS, Wanted Design System',
@@ -344,7 +338,23 @@ server.registerTool(
     description: 'List all of the utility functions available from WDS',
   },
   async () => {
-    const utilityFunctions = listUtilityFunctions();
+    const guideUrls = await getGuideUrls();
+
+    const utilityUrls = guideUrls.filter(
+      (url) =>
+        url.includes('/web-utilities/') &&
+        !url.endsWith('/navigation') &&
+        !url.endsWith('/media'),
+    );
+
+    const utilityFunctions = [
+      ...utilityUrls.map((value) => camelCase(value)),
+      'respondTo',
+      'respondDown',
+      'respondMore',
+      'respondUp',
+      'useMediaQuery',
+    ];
 
     return {
       content: [
