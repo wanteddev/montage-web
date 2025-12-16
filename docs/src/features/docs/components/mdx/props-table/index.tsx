@@ -83,6 +83,12 @@ const PropsTable = ({ component, fallback }: Props) => {
                 <span data-role="property-type" title={type}>
                   {type}
                 </span>
+                <Box
+                  aria-hidden
+                  sx={{ width: 0, height: 0, overflow: 'hidden' }}
+                >
+                  {description}
+                </Box>
               </TableCell>
               <TableCell>
                 <Box sx={defaultValueStyle}>
