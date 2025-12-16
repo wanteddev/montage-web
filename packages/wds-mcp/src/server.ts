@@ -22,7 +22,15 @@ const server = new McpServer({
 const turndownService = new TurndownService({
   headingStyle: 'atx',
 })
-  .remove((node) => node.getAttribute('data-role') === 'heading-link-area')
+  .remove((node) => {
+    return [
+      'heading-link-area',
+      'demo-viewport',
+      'demo-toolbar',
+      'route-tab',
+    ].includes(node.getAttribute('data-role') ?? '');
+  })
+  .remove('style')
   .remove('footer');
 
 server.registerTool(
@@ -145,10 +153,14 @@ server.registerTool(
   },
   async ({ componentName }) => {
     const components = listComponents();
+    const lowerCaseComponentName = componentName.toLowerCase();
     const match = components.find((component) => {
       return (
-        component.name === componentName ||
-        component.name.toLowerCase() === componentName.toLowerCase()
+        component.name.toLowerCase() === lowerCaseComponentName ||
+        component.subComponents.some(
+          (subComponent) =>
+            subComponent.toLowerCase() === lowerCaseComponentName,
+        )
       );
     });
 
@@ -163,7 +175,9 @@ server.registerTool(
       };
     }
 
-    const componentSlug = kebabCase(componentName);
+    const parentComponentName = match.name;
+
+    const componentSlug = kebabCase(parentComponentName);
     const componentPathMap: Record<string, string> = {
       list: 'list-cell',
       stepper: 'progress-tracker',
