@@ -6,8 +6,14 @@ import type {
 } from '@wanteddev/wds-engine';
 
 type AvatarGroupDefaultProps = WithSxProps<{
+  /**
+   * The size of the avatar group.
+   * It is recommended to use sizes consistent with `Avatar` for visual harmony.
+   */
   size?: 'xsmall' | 'small';
+  /** The content of the avatar group. Use `Avatar` components as the children. */
   children?: ReactNode;
+  /** The content displayed in the trailing area. */
   trailingContent?: ReactNode;
 }>;
 

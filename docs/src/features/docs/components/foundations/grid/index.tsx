@@ -45,6 +45,7 @@ const FoundationsGrid = () => {
       <Thumbnail
         src={getImageUrl('/foundations/grid/Image.png')}
         alt="Spacing"
+        aria-hidden
         radius
         border
         ratio="21:9"
@@ -70,6 +71,7 @@ const FoundationsGrid = () => {
       <Thumbnail
         src={getImageUrl('/foundations/grid/Image-1.png')}
         alt="Mobile layout"
+        aria-hidden
         radius
         border
         ratio="21:9"
@@ -86,6 +88,7 @@ const FoundationsGrid = () => {
       <Thumbnail
         src={getImageUrl('/foundations/grid/Image-2.png')}
         alt="Tablet layout"
+        aria-hidden
         radius
         border
         ratio="21:9"
@@ -102,6 +105,7 @@ const FoundationsGrid = () => {
       <Thumbnail
         src={getImageUrl('/foundations/grid/Image-3.png')}
         alt="Desktop layout"
+        aria-hidden
         radius
         border
         ratio="21:9"

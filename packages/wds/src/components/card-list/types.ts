@@ -4,7 +4,15 @@ import type { ReactNode } from 'react';
 import type { CardProps, CardThumbnailProps } from '../card/types';
 
 type CardListDefaultProps = WithSxProps<{
+  /**
+   * Content displayed in the leading area.
+   * Pass an element wrapped with `CardListContent`.
+   */
   leadingContent?: ReactNode;
+  /**
+   * Content displayed in the trailing area.
+   * Pass an element wrapped with `CardListContent`.
+   */
   trailingContent?: ReactNode;
   children?: ReactNode;
 }>;
@@ -21,7 +29,9 @@ export type CardListContentProps = Merge<
 >;
 
 export type CardListSkeletonDefaultProps = {
+  /** Whether to show the leading content. */
   hasLeadingContent?: boolean;
+  /** Whether to show the trailing content. */
   hasTrailingContent?: boolean;
 };
 export type CardListSkeletonProps = Merge<

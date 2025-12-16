@@ -10,15 +10,21 @@ export type IconButtonVariant = 'normal' | 'background' | 'outlined' | 'solid';
 
 export type IconButtonDefaultProps = WithSxProps<{
   variant?: IconButtonVariant;
+  /** Whether the icon button is disabled. */
   disabled?: boolean;
+  /** Whether to disable the interaction. */
   disableInteraction?: boolean;
+  /** The size of the icon button. */
   size?: number | 'medium' | 'small';
+  /** The color of the icon. */
   color?: ThemeColorsToken;
+  /** The color of the icon button when the interaction is triggered. */
   interactionColor?: ThemeColorsToken;
   /**
    * When using `background` button, if `alternative` is true, the dark theme is activated.
    */
   alternative?: boolean;
+  /** The content of the icon button. Use icon component as the children. */
   children?: ReactNode;
 }>;
 

@@ -1,5 +1,5 @@
 'use client';
-import { FlexBox, Loading, ScrollArea } from '@wanteddev/wds';
+import { Box, FlexBox, Loading, ScrollArea } from '@wanteddev/wds';
 
 import DelayMount from '@/components/delay-mount';
 
@@ -56,7 +56,10 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
       <ScrollArea
         scrollbars="horizontal"
         sx={hideCode && { borderRadius: 'inherit' }}
-        viewportProps={{ sx: demoStyle({ hideCode, isTransparent }) }}
+        data-role="demo-viewport"
+        viewportProps={{
+          sx: demoStyle({ hideCode, isTransparent }),
+        }}
       >
         <FlexBox alignItems="center" flexDirection="column">
           {element}
@@ -87,7 +90,13 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
                   justifyContent="center"
                   sx={editorFallbackStyle}
                 >
-                  <Loading variant="circular" />
+                  <Loading variant="circular" aria-hidden />
+                  <Box
+                    as="pre"
+                    sx={{ height: 0, width: 0, overflow: 'hidden' }}
+                  >
+                    <code>{value}</code>
+                  </Box>
                 </FlexBox>
               }
             >

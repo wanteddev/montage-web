@@ -31,6 +31,7 @@ const SectionAnatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
             src={getImageUrl(src)}
             portrait={portrait}
             alt="thumbnail"
+            aria-hidden
             width="100%"
             sx={anatomyThumbnailStyle}
             ratio={ratio}

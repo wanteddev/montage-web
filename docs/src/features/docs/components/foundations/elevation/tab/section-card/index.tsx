@@ -23,6 +23,7 @@ const SectionCard = ({ data, sx }: Props) => {
               radius
               width="100%"
               src={getImageUrl(item.image)}
+              aria-hidden
               alt={item.title}
               sx={sectionCardStyle}
             />

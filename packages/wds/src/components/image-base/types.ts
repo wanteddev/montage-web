@@ -1,14 +1,12 @@
-import type { Merge } from '@wanteddev/wds-engine';
 import type { ImgHTMLAttributes } from 'react';
 
-export type ImageBaseProps = Merge<
-  {
-    onLoad?: () => void;
-    onError?: () => void;
-    onAbort?: () => void;
-  },
-  Pick<
-    ImgHTMLAttributes<HTMLImageElement>,
-    'src' | 'srcSet' | 'alt' | 'referrerPolicy' | 'crossOrigin'
-  >
->;
+export type ImageBaseProps = {
+  onLoad?: () => void;
+  onError?: () => void;
+  onAbort?: () => void;
+  src?: ImgHTMLAttributes<HTMLImageElement>['src'];
+  srcSet?: ImgHTMLAttributes<HTMLImageElement>['srcSet'];
+  alt?: ImgHTMLAttributes<HTMLImageElement>['alt'];
+  referrerPolicy?: ImgHTMLAttributes<HTMLImageElement>['referrerPolicy'];
+  crossOrigin?: ImgHTMLAttributes<HTMLImageElement>['crossOrigin'];
+};

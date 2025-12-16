@@ -77,6 +77,7 @@ const BehindItem = ({
         <Thumbnail
           ratio="3:2"
           src={getImageUrl(image)}
+          aria-hidden
           alt={title.replace(/<[^>]+>/g, '')}
           width="100%"
           sx={thumbnailStyle}

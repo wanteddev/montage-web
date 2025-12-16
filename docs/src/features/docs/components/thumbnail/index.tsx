@@ -51,6 +51,7 @@ const DocsThumbnail = ({ src, alt }: Props) => {
         width={760}
         height={326}
         alt={alt ?? frontmatter?.title ?? 'thumbnail'}
+        aria-hidden
         fetchPriority="high"
         priority
       />

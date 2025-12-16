@@ -6,10 +6,15 @@ import type {
 } from '@wanteddev/wds-engine';
 
 type ProgressStepIndicatorDefaultProps = WithSxProps<{
+  /** The size of the progress step indicator. */
   size?: 'small' | 'medium';
+  /** Whether to show the divider. */
   divider?: boolean;
+  /** The value of the progress step indicator. */
   value?: string;
+  /** The default value of the progress step indicator. */
   defaultValue?: string;
+  /** Callback function when the value changes. */
   onValueChange?: (value: string) => void;
   children?: ReactNode;
 }>;

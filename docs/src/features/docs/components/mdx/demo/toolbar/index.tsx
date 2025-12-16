@@ -43,6 +43,7 @@ const Toolbar = ({
       alignItems="center"
       justifyContent="space-between"
       gap="16px"
+      data-role="demo-toolbar"
       sx={toolbarStyle}
     >
       <FlexBox sx={errorStyle} gap="4px" alignItems="center">

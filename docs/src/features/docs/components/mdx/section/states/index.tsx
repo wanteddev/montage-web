@@ -58,6 +58,7 @@ const SectionStates = ({
         {src && (
           <Thumbnail
             aria-labelledby="states"
+            aria-hidden
             src={getImageUrl(src)}
             alt="component states"
             width="100%"

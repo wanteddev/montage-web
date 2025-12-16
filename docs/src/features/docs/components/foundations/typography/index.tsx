@@ -35,6 +35,7 @@ const FoundationsTypography = () => {
       <Thumbnail
         src={getImageUrl('/foundations/typography/Image.png')}
         alt="Pretendard JP"
+        aria-hidden
         radius
         border
         sx={{
@@ -55,6 +56,7 @@ const FoundationsTypography = () => {
       <Thumbnail
         src={getImageUrl('/foundations/typography/Image-1.png')}
         alt="Word break"
+        aria-hidden
         ratio="21:9"
         radius
         border

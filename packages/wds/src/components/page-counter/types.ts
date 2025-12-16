@@ -6,8 +6,11 @@ import type {
 
 type PageCounterDefaultProps = WithSxProps<{
   size?: 'small' | 'medium';
+  /** The total number of pages. */
   totalPages: number;
+  /** The current page number. */
   currentPage?: number;
+  /** Whether to use the alternative background style. */
   alternative?: boolean;
 }>;
 

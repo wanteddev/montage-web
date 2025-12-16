@@ -12,18 +12,29 @@ export type SnackbarProps = Pick<
   'duration' | 'variant' | 'onAnimationEnd'
 > &
   WithSxProps<{
+    /** Whether the snackbar is open by default. */
     defaultOpen?: boolean;
+    /** Whether the snackbar is open. */
     open?: boolean;
+    /** Callback function when the open state changes. */
     onOpenChange?: (open: boolean) => void;
+    /** The container of the snackbar. */
     container?: PortalOrFragmentProps['container'];
     disablePortal?: PortalOrFragmentProps['disablePortal'];
+    /** The children of the snackbar. */
     children?: ReactNode;
+    /** Whether the animation is disabled. */
     disableAnimation?: boolean;
+    /** Keeps the snackbar mounted in the DOM even when open is false. */
     forceMount?: boolean;
   }>;
 
 export type SnackbarContentProps = Merge<
-  { extraContent?: ReactNode },
+  {
+    /** The extra content of the snackbar. Pass an element wrapped with `SnackbarExtraContent`. */
+    extraContent?: ReactNode;
+    children?: ReactNode;
+  },
   FlexBoxProps
 >;
 export type SnackbarHeadingProps = TypographyProps;

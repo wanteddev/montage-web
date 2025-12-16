@@ -7,17 +7,29 @@ import type { ReactNode } from 'react';
 
 export type CheckboxDefaultProps = WithSxProps<{
   name?: string;
+  /** Whether the checkbox is checked. */
   checked?: boolean;
+  /** Whether the checkbox is checked by default. */
   defaultChecked?: boolean;
-  icon?: ReactNode;
-  disabled?: boolean;
-  required?: boolean;
-  bold?: boolean;
-  size?: 'medium' | 'small';
-  invalid?: boolean;
-  indeterminate?: boolean;
-  indeterminateIcon?: ReactNode;
+  /** Callback function when the checked state changes. */
   onCheckedChange?: (state: boolean) => void;
+  /** Use this prop to provide a custom check icon. */
+  icon?: ReactNode;
+  /** Whether the checkbox is disabled. */
+  disabled?: boolean;
+  /** Whether the checkbox is required. */
+  required?: boolean;
+  /** Whether to use bold style for `~ label` element. */
+  bold?: boolean;
+  /** The size of the checkbox. */
+  size?: 'medium' | 'small';
+  /** Whether the checkbox is invalid. */
+  invalid?: boolean;
+  /** Whether the checkbox is indeterminate. */
+  indeterminate?: boolean;
+  /** Use this prop to provide a custom indeterminate icon. */
+  indeterminateIcon?: ReactNode;
+  /** If you want to remove the left/right spacing to align items, use this prop. */
   tight?: boolean;
 }>;
 

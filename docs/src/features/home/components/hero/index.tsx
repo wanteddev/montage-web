@@ -109,6 +109,7 @@ const Hero = () => {
                           as="img"
                           src={getImageUrl(j.src)}
                           alt={`marquee-image-${j.id}`}
+                          aria-hidden
                         />
                       </Box>
                     ))}
@@ -142,6 +143,7 @@ const Hero = () => {
                           as="img"
                           src={getImageUrl(j.src)}
                           alt={`marquee-image-${j.id}`}
+                          aria-hidden
                         />
                       </Box>
                     ))}

@@ -7,22 +7,27 @@ import type {
 } from '@wanteddev/wds-engine';
 
 export type CategoryProps = {
+  /** The default value of the category. */
   defaultValue?: string;
+  /** The value of the category. */
   value?: string;
-  onValueChange?: (tab: string) => void;
-  /**
-   * When the value is changed, the scroll does not move.
-   */
+  /** Callback function when the value changes. */
+  onValueChange?: (value: string) => void;
+  /** When the value is changed, the scroll does not move. */
   disableScrollMoveOnChange?: boolean;
   children?: ReactNode;
 };
 
 type CategoryListDefaultProps = WithSxProps<{
   size?: 'small' | 'medium' | 'large' | 'xlarge';
+  /** Whether to add vertical padding. */
   verticalPadding?: boolean;
+  /** Whether to add horizontal padding. */
   horizontalPadding?: boolean;
   variant?: 'normal' | 'alternative';
+  /** The icon button of the category list. */
   iconButton?: ReactNode;
+  /** The content of the category list. Use `CategoryListItem` components as the children. */
   children?: ReactNode;
 }>;
 
@@ -49,6 +54,7 @@ export type CategoryListItemProps = Merge<
 
 export type CategoryPanelProps = WithSxProps<{
   value: string;
+  /** The mount mode of the category panel. */
   mountMode?: 'only-active' | 'force-mount' | 'always';
   children?: ReactNode;
 }>;

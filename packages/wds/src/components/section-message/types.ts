@@ -3,19 +3,22 @@ import type { ReactNode } from 'react';
 
 export type SectionMessageProps = WithSxProps<{
   variant?: 'info' | 'positive' | 'cautionary' | 'negative' | 'custom';
+  /** The content of the section message. */
   children?: ReactNode;
+  /** Whether the section message is open. */
   open?: boolean;
+  /** Whether the section message is open by default. */
   defaultOpen?: boolean;
+  /** Callback function when the open state changes. */
   onOpenChange?: (state: boolean) => void;
-  /**
-   * Displays the close button.
-   */
+  /** Whether to display the close button. */
   closeButton?: boolean;
-  /**
-   * Displays the icon according to the `variant`.
-   */
+  /** The icon of the section message. */
   leadingContent?: ReactNode;
+  /** The trailing button of the section message. */
   trailingButton?: ReactNode;
+  /** The description of the section message. */
   description?: ReactNode;
+  /** The bottom button of the section message. */
   bottomButton?: ReactNode;
 }>;

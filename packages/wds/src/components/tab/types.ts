@@ -6,20 +6,25 @@ import type {
 } from '@wanteddev/wds-engine';
 
 export type TabProps = {
+  /** The default value of the tab. */
   defaultValue?: string;
+  /** The value of the tab. */
   value?: string;
+  /** Callback function when the value changes. */
   onValueChange?: (tab: string) => void;
-  /**
-   * When the value is changed, the scroll does not move.
-   */
+  /** Whether to disable the scroll move on change. */
   disableScrollMoveOnChange?: boolean;
   children?: ReactNode;
 };
 
 type TabListDefaultProps = WithSxProps<{
+  /** The size of the tab list. */
   size?: 'small' | 'medium' | 'large';
+  /** Whether to enable the horizontal padding. */
   horizontalPadding?: boolean;
+  /** The icon button of the tab list. */
   iconButton?: ReactNode;
+  /** The resize mode of the tab list. */
   resize?: 'hug' | 'fill';
   children?: ReactNode;
 }>;

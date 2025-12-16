@@ -80,9 +80,13 @@ const PropsTable = ({ component, fallback }: Props) => {
                 </FlexBox>
               </TableCell>
               <TableCell>
-                <span data-role="property-type" title={type}>
-                  {type}
-                </span>
+                <code data-role="property-type">{type}</code>
+                <Box
+                  aria-hidden
+                  sx={{ width: 0, height: 0, overflow: 'hidden' }}
+                >
+                  {description}
+                </Box>
               </TableCell>
               <TableCell>
                 <Box sx={defaultValueStyle}>

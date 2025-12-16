@@ -14,6 +14,7 @@ export type GridDefaultProps = WithSxProps<{
   spacing?: GridSpacing;
   rowSpacing?: GridSpacing;
   columnSpacing?: GridSpacing;
+  /** The content of the grid. Use `GridItem` components as the children. */
   children?: ReactNode;
 }>;
 

@@ -24,6 +24,7 @@ const FoundationsOverview = () => {
       <Thumbnail
         src={getImageUrl('/foundations/overview/Image.png')}
         alt="Foundations Overview"
+        aria-hidden
         radius
         sx={thumbnailStyle}
       />

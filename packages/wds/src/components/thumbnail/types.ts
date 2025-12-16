@@ -8,6 +8,7 @@ import type {
 } from '@wanteddev/wds-engine';
 
 type ThumbnailDefaultProps = WithSxProps<{
+  /** The ratio of the thumbnail. */
   ratio?:
     | '1:1'
     | '5:4'
@@ -18,11 +19,19 @@ type ThumbnailDefaultProps = WithSxProps<{
     | '16:9'
     | '2:1'
     | '21:9';
+  /**
+   * Whether to enable portrait mode.
+   * The aspect ratio is now specified as height:width instead of width:height.
+   */
   portrait?: boolean;
+  /** Whether to enable the border. */
   border?: boolean;
+  /** Whether to enable the radius. */
   radius?: boolean;
   children?: ReactNode;
+  /** The overlay of the thumbnail. */
   overlay?: ReactNode;
+  /** The width of the thumbnail. */
   width?: CSSProperties['width'];
 }>;
 
