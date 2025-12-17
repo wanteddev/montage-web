@@ -41,14 +41,14 @@ server.registerTool(
           type: 'text',
           text: `The following components are available in the @wanteddev/wds in TypeScript projects:
 				
-				${components
-          .map((component) =>
-            component.subComponents.length > 0
-              ? `- ${component.name}
+${components
+  .map((component) =>
+    component.subComponents.length > 0
+      ? `- ${component.name}
   - ${component.subComponents.join('\n  - ')}`
-              : `- ${component.name}`,
-          )
-          .join('\n')}
+      : `- ${component.name}`,
+  )
+  .join('\n')}
 				
 				You can use the \`get_component\` tool to obtain more information about a specific component. For even more comprehensive details, try entering a parent component rather than a subcomponent. All of these components are available from the @wanteddev/wds package.`,
         },
@@ -68,12 +68,12 @@ server.registerTool(
       content: [
         {
           type: 'text',
-          text: `When writing code that uses Primer, follow these guidelines:
+          text: `When writing code that uses WDS, follow these guidelines:
 
 ## Styling
 
-If you need custom style, create a style.ts file and import that.
-If your custom style is very short (about 1-3 lines), you may write it inline instead.
+**If you need custom style, create a style.ts file and import that.**
+**If your custom style is very short (about 1-3 lines), you may write it inline instead.**
 
 for example
 \`\`\`tsx
@@ -246,9 +246,27 @@ server.registerTool(
           type: 'text',
           text: `The following icons are available in the @wanteddev/wds-icon in TypeScript projects:
 
-${listIcons().join('\n- ')}
+- ${listIcons().join('\n- ')}
 
-You can use these components from the @wanteddev/wds-icon package.`,
+You can use these components from the @wanteddev/wds-icon package.
+If you want to change icon size, you can use the \`sx\` prop.
+For example, you can use them like this: 
+
+\`\`\`tsx
+import { IconBlank } from '@wanteddev/wds-icon';
+
+<IconBlank sx={{ fontSize: '24px' }} />
+\`\`\`
+
+And if you want to change icon color, also you can use the \`sx\` prop.
+For example, you can use them like this: 
+
+\`\`\`tsx
+import { IconBlankColor } from '@wanteddev/wds-icon';
+
+<IconBlankColor sx={theme => ({ color: theme.semantic.label.normal })} />
+\`\`\`
+`,
         },
       ],
     };
@@ -265,16 +283,17 @@ server.registerTool(
           type: 'text',
           text: `The following tokens are available in the @wanteddev/wds:
 
-${listTokens().join('\n')}
+- ${listTokens().join('\n')}
+
+Do not use spacing tokens.
 
 If you want to know more about how to use colors, you can use the \`get_color_usage\` tool for detailed guidance.
 
 You can use these tokens from the @wanteddev/wds package.
-
 For example, you can use them like this: 
 \`\`\`tsx
 import { css } from '@wanteddev/wds';
-import type { Theme } from '@wanteddev/wds-theme';
+import type { Theme } from '@wanteddev/wds';
 
 const buttonStyle = (theme: Theme) => css\`
   color: \${theme.semantic.label.normal};
@@ -286,8 +305,6 @@ or with the Typography component like:
 \`\`\`tsx
 <Typography color="semantic.label.normal" />
 \`\`\`
-
-Do not use spacing tokens.
 `,
         },
       ],
@@ -365,7 +382,7 @@ server.registerTool(
       content: [
         {
           type: 'text',
-          text: `The following utility functions are available in the @wanteddev/wds:\n${utilityFunctions.join('\n- ')}`,
+          text: `The following utility functions are available in the @wanteddev/wds:\n- ${utilityFunctions.join('\n- ')}`,
         },
       ],
     };
