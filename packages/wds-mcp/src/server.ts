@@ -2,11 +2,18 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import TurndownService from 'turndown';
 import * as cheerio from 'cheerio';
 import * as z from 'zod';
-import { camelCase, kebabCase } from 'change-case';
 
 import { version } from '../package.json';
 
-import { getGuideUrls, listComponents, listIcons, listTokens } from './helpers';
+import {
+  getComponentUrl,
+  getUtilityFunctionUrl,
+  listComponents,
+  listIcons,
+  listTokens,
+  listUtilityFunctions,
+} from './helpers';
+import { DOCS_COLOR_USAGE_URL, DOCS_SELECTOR } from './constants';
 
 const server = new McpServer({
   name: 'WDS, Wanted Design System',
@@ -169,30 +176,7 @@ server.registerTool(
       };
     }
 
-    const parentComponentName = match.name;
-
-    const componentSlug = kebabCase(parentComponentName);
-    const componentPathMap: Record<string, string> = {
-      list: 'list-cell',
-      stepper: 'progress-tracker',
-      'card-list': 'card',
-      modal: 'popup',
-    };
-    const customComponentPath = componentPathMap[componentSlug];
-
-    const guideUrls = await getGuideUrls();
-
-    const fetchUrl =
-      guideUrls.find((url) =>
-        customComponentPath
-          ? url.endsWith(`${customComponentPath}/web`)
-          : url.endsWith(`${componentSlug}/web`),
-      ) ??
-      guideUrls.find((url) =>
-        customComponentPath
-          ? url.endsWith(`${customComponentPath}`)
-          : url.endsWith(`${componentSlug}`),
-      );
+    const fetchUrl = await getComponentUrl(match.name);
 
     if (!fetchUrl) {
       return {
@@ -215,7 +199,7 @@ server.registerTool(
     }
 
     const $ = cheerio.load(html);
-    const source = $('[data-algolia-page-scope="true"]').html();
+    const source = $(DOCS_SELECTOR).html();
 
     if (!source) {
       return {
@@ -323,9 +307,7 @@ server.registerTool(
   'get_color_usage',
   { description: 'Get the guidelines for how to apply color' },
   async () => {
-    const response = await fetch(
-      'https://montage.wanted.co.kr/docs/foundations/base-material/colors/semantic',
-    );
+    const response = await fetch(DOCS_COLOR_USAGE_URL);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch - ${response.statusText}`);
@@ -367,23 +349,7 @@ server.registerTool(
     description: 'List all of the utility functions available from WDS',
   },
   async () => {
-    const guideUrls = await getGuideUrls();
-
-    const utilityUrls = guideUrls.filter(
-      (url) =>
-        url.includes('/web-utilities/') &&
-        !url.endsWith('/navigation') &&
-        !url.endsWith('/media'),
-    );
-
-    const utilityFunctions = [
-      ...utilityUrls.map((value) => camelCase(value)),
-      'respondTo',
-      'respondDown',
-      'respondMore',
-      'respondUp',
-      'useMediaQuery',
-    ];
+    const utilityFunctions = await listUtilityFunctions();
 
     return {
       content: [
@@ -407,20 +373,7 @@ server.registerTool(
     }),
   },
   async ({ functionName }) => {
-    const utilityFunctionPathMap: Record<string, string> = {
-      respondTo: 'media',
-      respondDown: 'media',
-      respondMore: 'media',
-      respondUp: 'media',
-      useMediaQuery: 'media',
-    };
-    const customUtilityFunctionPath = utilityFunctionPathMap[functionName];
-
-    const guideUrls = await getGuideUrls();
-
-    const fetchUrl = guideUrls.find((url) =>
-      url.endsWith(kebabCase(customUtilityFunctionPath ?? functionName)),
-    );
+    const fetchUrl = await getUtilityFunctionUrl(functionName);
 
     if (!fetchUrl) {
       return {
@@ -443,7 +396,7 @@ server.registerTool(
     }
 
     const $ = cheerio.load(html);
-    const source = $('[data-algolia-page-scope="true"]').html();
+    const source = $(DOCS_SELECTOR).html();
 
     if (!source) {
       return {
