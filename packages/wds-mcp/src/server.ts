@@ -233,8 +233,10 @@ server.registerTool(
 
 ${text}
 
-If the component supports the \`xs\`, \`sm\`, \`md\`, \`lg\`, and \`xl\` props, you can override its props starting from each corresponding breakpoint and above.
-`,
+- If the component supports the \`xs\`, \`sm\`, \`md\`, \`lg\`, and \`xl\` props, you can override its props starting from each corresponding breakpoint and above.
+- For information about ThemeColorsToken types, you can use the \`list_tokens\` tool. The token values are strings like \`'semantic.label.normal'\`.
+- The \`sx\` prop works the same as Emotion's \`css\` prop.
+- For detailed coding guidelines, please use the \`wds_coding_guidelines\` tool.`,
         },
       ],
     };
