@@ -229,7 +229,12 @@ server.registerTool(
       content: [
         {
           type: 'text',
-          text: `Here is the documentation for ${componentName} usage guide WDS:\n${text}`,
+          text: `Here is the documentation for ${componentName} usage guide WDS:
+
+${text}
+
+If the component supports the \`xs\`, \`sm\`, \`md\`, \`lg\`, and \`xl\` props, you can override its props starting from each corresponding breakpoint and above.
+`,
         },
       ],
     };
