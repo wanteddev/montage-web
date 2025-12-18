@@ -8,7 +8,7 @@
     "change-case": "^5.4.3",
     "cheerio": "^1.0.0",
     "turndown": "^7.2.2",
-    "typescript": "^5.4.2",
+    "typescript": "^5.9.3",
     "zod": "^4.0.10"
   },
   "files": [

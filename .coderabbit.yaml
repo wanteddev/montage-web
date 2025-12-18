@@ -1,13 +1,16 @@
 # yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
-language: 'en-US'
+language: 'ko-KR'
 early_access: false
 reviews:
   profile: 'chill'
   request_changes_workflow: false
   high_level_summary: true
-  poem: true
+  poem: false
   review_status: true
   collapse_walkthrough: false
+  finishing_touches:
+    unit_tests:
+      enabled: true
   auto_review:
     enabled: true
     drafts: false
@@ -18,3 +21,65 @@ reviews:
       - 'v*'
 chat:
   auto_reply: true
+code_generation:
+  unit_tests:
+    path_instructions:
+      - path: 'packages/wds/**/*.tsx'
+        instructions: |
+          Please write unit tests for the following code.
+
+          ## Unit Test Guidelines
+
+          ### For Logic Changes
+          - Write tests in `packages/wds/components/{ComponentName}/index.test.tsx`
+          - Group related test cases using `describe` blocks to describe specific scenarios/contexts
+          - Include accessibility (a11y) tests when applicable using testing-library's accessibility utilities
+          - All test case descriptions must be written in English
+
+          ### For UI/Visual Changes
+          - Write visual test fixtures in `tests/visual/src/fixtures/{component-name}.tsx`
+
+          ### Test Structure Example For Logic Changes
+
+          - Refer to `packages/wds/src/components/date-calendar/index.test.tsx` for proper test organization and best practices.
+          - Group related test cases using `describe` blocks to describe specific scenarios/contexts.
+          - Use `beforeEach` and `afterEach` hooks for setup and cleanup, such as resetting mocks and cleaning up the rendered DOM.
+          - Use `it` blocks with clear, English descriptions for each test case.
+          - Example (based on `date-calendar` tests):
+
+          ```tsx
+          describe('when given DateCalendar component', () => {
+            const defaultProps = {
+              defaultValue: new Date('2025-01-01T10:00:00'),
+              onChange: vi.fn(),
+              locale: 'en-US',
+            };
+
+            beforeEach(() => {
+              vi.clearAllMocks();
+            });
+
+            afterEach(() => {
+              cleanup();
+            });
+
+            it('should handle date selection', () => {
+              const onChange = vi.fn();
+              render(<DateCalendar {...defaultProps} onChange={onChange} />);
+              const dateButton = screen.getByText('15');
+              fireEvent.click(dateButton);
+
+              expect(onChange).toHaveBeenCalledWith(expect.any(Date));
+            });
+
+            // Add more test cases as needed
+
+            it('should pass accessibility tests', async () => {
+              const { rerender } = render(<DateCalendar {...defaultProps} />);
+              expect(await axe(screen.getByRole('rowgroup'))).toHaveNoViolations();
+              // Additional accessibility assertions...
+            });
+          });
+          ```
+
+          - Be sure to include accessibility and edge case tests where applicable.
