@@ -30,9 +30,9 @@ const nextConfig = {
   generateBuildId: () => {
     return buildId;
   },
+  reactCompiler: true,
   experimental: {
     scrollRestoration: true,
-    reactCompiler: true,
     staleTimes: {
       static: 30,
     },
@@ -47,9 +47,6 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
 };
 
