@@ -114,6 +114,32 @@ export const wrapperStyle = css\`
 export const buttonStyle = (theme: Theme) => css\`
   color: \${theme.semantic.label.normal};
 \`;
+\`\`\`
+
+
+// Note: You don't need to explicitly pass the theme to the style function when using the \`sx\` prop. The theme is automatically provided by the system.
+
+\`\`\`tsx
+<Button sx={buttonStyle} /> // this is sufficient; you don't have to call buttonStyle(theme)
+\`\`\`
+
+
+Conditional styling
+
+\`\`\`tsx
+import { buttonStyle } from './style';
+
+<Button sx={buttonStyle(true)} />
+
+// style.ts
+import { css } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
+
+export const buttonStyle = (flag: boolean) => (theme: Theme) => css\`
+  color: \${flag ? theme.semantic.label.normal : theme.semantic.label.assistive};
+\`;
+\`\`\`
 
 ## Theme
 
