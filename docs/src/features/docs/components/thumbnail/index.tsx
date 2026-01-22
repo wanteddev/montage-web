@@ -11,14 +11,16 @@ import { getFrontmatterImage } from '../../helpers/mdx.client';
 
 import { thumbnailStyle } from './style';
 
+import type { SxProp } from '@wanteddev/wds';
 import type { SlugParams } from '../lnb/types';
 
 type Props = {
   src?: string;
   alt?: string;
+  sx?: SxProp;
 };
 
-const DocsThumbnail = ({ src, alt }: Props) => {
+const DocsThumbnail = ({ src, alt, sx }: Props) => {
   const { allFrontmatter } = useMDXContext();
   const { slug = [] } = useParams<SlugParams>();
 
@@ -44,7 +46,7 @@ const DocsThumbnail = ({ src, alt }: Props) => {
   }
 
   return (
-    <Box sx={thumbnailStyle}>
+    <Box sx={[thumbnailStyle, sx]}>
       <Box
         as={Image}
         src={getImageUrl(image)}

@@ -1,29 +1,19 @@
-import { ContentBadge, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { ContentBadge, FlexBox } from '@wanteddev/wds';
 import { IconGlobe } from '@wanteddev/wds-icon';
 
-import { getImageUrl } from '@/helpers/image';
-
 import { sectionLayoutStyle } from '../style';
-import { Heading2, SectionDescription } from '../layout';
-import { sectionFigureThumbnailStyle } from '../figure/style';
-import { anatomyItemPinStyle, anatomyItemStyle } from '../anatomy/style';
-
-import type { SxProp, ThumbnailProps } from '@wanteddev/wds';
+import { Heading2, SectionDescription, SectionThumbnail } from '../layout';
 
 type SectionStatesProps = {
   description?: string;
-  options?: Array<string>;
   src?: string;
-  ratio?: ThumbnailProps['ratio'];
-  portrait?: ThumbnailProps['portrait'];
+  ratio?: string;
   isWebOnly?: boolean;
 };
 
 const SectionStates = ({
   description,
-  options,
-  ratio = '21:9',
-  portrait,
+  ratio = '21 / 9',
   src,
   isWebOnly,
 }: SectionStatesProps) => {
@@ -47,7 +37,7 @@ const SectionStates = ({
                   />
                 }
                 accentColor="semantic.accent.foreground.purple"
-                sx={{ flexShrink: 0 }}
+                sx={{ flexShrink: 0, marginLeft: '2px' }}
               >
                 Web only
               </ContentBadge>
@@ -55,73 +45,12 @@ const SectionStates = ({
           }
         />
 
-        {src && (
-          <Thumbnail
-            aria-labelledby="states"
-            aria-hidden
-            src={getImageUrl(src)}
-            alt="component states"
-            width="100%"
-            sx={sectionFigureThumbnailStyle}
-            loading="lazy"
-            ratio={ratio}
-            portrait={portrait}
-          />
-        )}
+        <SectionThumbnail src={src} ratio={ratio} />
 
         <SectionDescription content={description} />
-
-        {options && (
-          <SectionStatesItem
-            options={options}
-            sx={
-              Boolean(description) && {
-                paddingInline: '12px',
-                marginTop: '24px',
-              }
-            }
-          />
-        )}
       </FlexBox>
     </FlexBox>
   );
 };
 
-type SectionStatesItemProps = {
-  options: Array<string>;
-  sx?: SxProp;
-};
-
-const SectionStatesItem = ({ options, sx }: SectionStatesItemProps) => {
-  return (
-    <FlexBox
-      flexWrap="wrap"
-      rowGap="8px"
-      columnGap="64px"
-      flex="1 0 auto"
-      sx={sx}
-    >
-      {options.map((value, i) => (
-        <FlexBox
-          key={value + i}
-          sx={[anatomyItemStyle, { width: 200 }]}
-          alignItems="center"
-          gap="12px"
-        >
-          <Typography variant="caption1" weight="bold" sx={anatomyItemPinStyle}>
-            <span>{i + 1}</span>
-          </Typography>
-          <Typography
-            variant="label1"
-            weight="bold"
-            color="semantic.label.normal"
-          >
-            {value}
-          </Typography>
-        </FlexBox>
-      ))}
-    </FlexBox>
-  );
-};
-
-export { SectionStates, SectionStatesItem };
+export default SectionStates;

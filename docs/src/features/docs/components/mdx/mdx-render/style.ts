@@ -30,7 +30,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
     :is(strong),
     strong {
-      ${typographyStyle('body1', 'bold')}
+      ${typographyStyle('body2-reading', 'bold')}
     }
 
     :is(img),
@@ -74,7 +74,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h2),
     h2 {
       margin-top: 32px;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       padding-top: 32px;
       border-top: 1px solid ${theme.semantic.line.normal.alternative};
 
@@ -88,13 +88,13 @@ export const mdxRootStyle = (theme: Theme) => css`
     :is(h3),
     h3 {
       margin-top: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
     }
 
     :is(h4),
     h4 {
       margin-top: 8px;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     :is(h5),
@@ -162,7 +162,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     hr {
       margin: 16px 0px;
       border: none;
-      border-top: 1px solid ${theme.semantic.line.normal.alternative};
+      border-top: 1px solid ${theme.semantic.line.normal.neutral};
     }
 
     :is(blockquote),
@@ -197,7 +197,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
       summary {
         margin-left: -16px;
-        ${typographyStyle('body1', 'regular')}
+        ${typographyStyle('body2-reading', 'regular')}
       }
 
       &[open] {

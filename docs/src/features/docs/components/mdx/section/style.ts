@@ -22,7 +22,9 @@ export const sectionLayoutStyle = (theme: Theme) => css`
     margin-bottom: 108px;
   }
 
-  [data-role='section-figure-group']:first-of-type {
-    margin-top: 24px;
+  [data-role='section-figure-group']:not(:first-of-type) {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid ${theme.semantic.line.normal.alternative};
   }
 `;

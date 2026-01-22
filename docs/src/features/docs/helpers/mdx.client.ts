@@ -113,6 +113,29 @@ export const getFrontmatterImage = (
   return item.image;
 };
 
+export const getFrontmatterOgImage = (
+  item: Frontmatter,
+  allFrontmatter: Array<Frontmatter>,
+) => {
+  if (PLATFORM_PATTERN_WITHOUT_DESIGN.test(item.slug.toString())) {
+    const designPage = allFrontmatter.find((v) =>
+      v.slug
+        .toString()
+        .includes(
+          item.slug
+            .toString()
+            .replace(PLATFORM_PATTERN_WITHOUT_DESIGN, 'design'),
+        ),
+    );
+
+    if (designPage) {
+      return designPage.ogImage ?? designPage.image;
+    }
+  }
+
+  return item.ogImage ?? item.image;
+};
+
 export const getFrontmatterDefaultImage = (item: Frontmatter) => {
   const baseSlug = item.slug.at(0)!;
 

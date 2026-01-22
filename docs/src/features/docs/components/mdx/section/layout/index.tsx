@@ -1,12 +1,14 @@
-import { Box, FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
 import { Fragment, memo, useMemo } from 'react';
 
 import { useHeadingContext } from '@/features/docs/contexts';
+import { getImageUrl } from '@/helpers/image';
 
 import HeadingLink from '../../heading-link';
 import { sectionLayoutStyle } from '../style';
 
 import { hasList, renderParsedContent } from './helpers';
+import { sectionThumbnailStyle } from './style';
 
 import type { SxProp } from '@wanteddev/wds';
 import type { PropsWithChildren, ReactNode } from 'react';
@@ -33,7 +35,7 @@ const Heading2 = memo(
       <Typography
         as="h2"
         data-heading=""
-        variant="title3"
+        variant="heading1"
         weight="bold"
         color="semantic.label.normal"
         id={id}
@@ -62,7 +64,7 @@ const Heading3 = memo(({ content, sx }: HeadingProps) => {
     <Typography
       as="h3"
       data-heading=""
-      variant="heading2"
+      variant="headline2"
       weight="bold"
       color="semantic.label.normal"
       id={id}
@@ -75,95 +77,103 @@ const Heading3 = memo(({ content, sx }: HeadingProps) => {
 
 type SectionDescriptionProps = {
   content?: ReactNode;
-  disablePadding?: boolean;
 };
 
-const SectionDescription = memo(
-  ({ content, disablePadding = false }: SectionDescriptionProps) => {
-    const isString = typeof content === 'string';
-    const hasListContent = isString && hasList(content);
+const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
+  const isString = typeof content === 'string';
+  const hasListContent = isString && hasList(content);
 
-    const renderContent = useMemo(
-      () => (isString ? renderParsedContent(content) : null),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [],
-    );
+  const renderContent = useMemo(
+    () => (isString ? renderParsedContent(content) : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
-    if (!content) return null;
+  if (!content) return null;
 
-    if (!isString) {
-      return content;
-    }
+  if (!isString) {
+    return content;
+  }
 
-    if (!hasListContent) {
-      return (
-        <Typography
-          variant="body2-reading"
-          weight="regular"
-          as="p"
-          color="semantic.label.neutral"
-          sx={{
-            marginBottom: '0 !important',
-            paddingInline: '12px !important',
-            ...(disablePadding && { paddingInline: '0px !important' }),
-          }}
-        >
-          {content.split('\n').map((line, index) => (
-            <Fragment key={index}>
-              {line}
-              <br />
-            </Fragment>
-          ))}
-        </Typography>
-      );
-    }
-
+  if (!hasListContent) {
     return (
-      <Box
+      <Typography
+        variant="body2-reading"
+        weight="regular"
+        as="p"
+        color="semantic.label.neutral"
         sx={{
           marginBottom: '0 !important',
-          paddingInline: '12px !important',
-          ...(disablePadding && { paddingInline: '0px !important' }),
         }}
       >
-        {renderContent}
-      </Box>
+        {content.split('\n').map((line, index) => (
+          <Fragment key={index}>
+            {line}
+            <br />
+          </Fragment>
+        ))}
+      </Typography>
     );
-  },
-);
+  }
+
+  return (
+    <Box
+      sx={{
+        marginBottom: '0 !important',
+      }}
+    >
+      {renderContent}
+    </Box>
+  );
+});
+
+type Props = {
+  src?: string;
+  ratio?: string;
+};
+
+const SectionThumbnail = memo(({ src, ratio }: Props) => {
+  if (!src) return null;
+
+  return (
+    <Thumbnail
+      src={getImageUrl(src)}
+      alt="hidden"
+      aria-hidden
+      width="100%"
+      sx={sectionThumbnailStyle(ratio ?? '21 / 9')}
+      loading="lazy"
+      radius
+    />
+  );
+});
 
 type SectionLayoutProps = PropsWithChildren<{
   title?: string;
   description?: string;
-  direction?: 'row' | 'column';
-  disablePadding?: boolean;
 }>;
 
 const SectionLayout = ({
   title,
   children,
   description,
-  direction = 'column',
-  disablePadding = false,
 }: SectionLayoutProps) => {
   return (
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
       <FlexBox flexDirection="column">
         <Heading2 content={title} />
 
-        <SectionDescription
-          content={description}
-          disablePadding={disablePadding}
-        />
+        <SectionDescription content={description} />
       </FlexBox>
-      <FlexBox
-        flexDirection={direction}
-        gap={direction === 'row' ? '20px' : '64px'}
-      >
-        {children}
-      </FlexBox>
+      <FlexBox flexDirection="column">{children}</FlexBox>
     </FlexBox>
   );
 };
 
-export { SectionLayout, Heading2, Heading3, SectionDescription };
+export {
+  SectionLayout,
+  Heading2,
+  Heading3,
+  SectionDescription,
+  SectionThumbnail,
+};

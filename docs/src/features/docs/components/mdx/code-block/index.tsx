@@ -10,7 +10,7 @@ import diff from 'refractor/diff';
 import kotlin from 'refractor/kotlin';
 import swift from 'refractor/swift';
 import { toHtml } from 'hast-util-to-html';
-import { Box, ContentBadge, IconButton, useToast } from '@wanteddev/wds';
+import { Box, IconButton, useToast } from '@wanteddev/wds';
 import { IconCopy } from '@wanteddev/wds-icon';
 
 import { codeBlockStyle, copyButtonStyle, inlineCodeStyle } from './style';
@@ -35,13 +35,9 @@ const CodeBlock = ({ children, ...props }: Props) => {
   if (!props.className) {
     return (
       <code {...props}>
-        <ContentBadge
-          color="accent"
-          accentColor="semantic.accent.foreground.blue"
-          sx={inlineCodeStyle}
-        >
+        <Box as="span" sx={inlineCodeStyle}>
           {children}
-        </ContentBadge>
+        </Box>
       </code>
     );
   }

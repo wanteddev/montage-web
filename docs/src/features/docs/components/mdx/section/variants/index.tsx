@@ -39,21 +39,8 @@ import {
   makeSectionVariantDemoCode,
 } from './helpers';
 
-import type {
-  SectionSelectedVariants,
-  SectionVariantsRender,
-  SectionVariants as SectionVariantsType,
-} from './types';
+import type { SectionSelectedVariants } from './types';
 import type { PropsWithChildren } from 'react';
-
-type SectionVariantsProps = {
-  components: Array<string>;
-  internals?: Array<string>;
-  icons?: Array<string>;
-  variants: SectionVariantsType;
-  render?: SectionVariantsRender;
-  states?: string;
-};
 
 const SectionVariants = ({
   components,

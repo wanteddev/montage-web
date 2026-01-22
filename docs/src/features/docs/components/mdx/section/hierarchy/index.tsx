@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Wds from '@wanteddev/wds';
-import { ContentBadge, FlexBox } from '@wanteddev/wds';
+import { FlexBox } from '@wanteddev/wds';
 import { useMemo } from 'react';
 
 import { Heading2, SectionDescription } from '../layout';
@@ -24,24 +24,21 @@ const SectionHierarchy = ({
     <FlexBox
       flexDirection="column"
       data-role="hierarchy"
-      gap="56px"
       sx={sectionLayoutStyle}
     >
-      <Heading2 content={title} />
+      <Heading2 content={title} sx={{ marginBottom: '12px !important' }} />
       <FlexBox flexDirection="column">{children}</FlexBox>
     </FlexBox>
   );
 };
 
 type SectionHierarchyItemProps = {
-  level: number;
   description: string;
   render: string;
   components: Array<string>;
 };
 
 const SectionHierarchyItem = ({
-  level,
   description,
   render,
   components,
@@ -67,16 +64,6 @@ const SectionHierarchyItem = ({
 
   return (
     <FlexBox sx={sectionHierarchyItemStyle}>
-      <ContentBadge
-        color="neutral"
-        size="small"
-        variant="solid"
-        neutralColor="semantic.label.normal"
-        sx={{ flexShrink: 0, marginRight: '12px', width: '36px' }}
-      >
-        Lv.{level}
-      </ContentBadge>
-
       {element}
 
       <SectionDescription content={description} />

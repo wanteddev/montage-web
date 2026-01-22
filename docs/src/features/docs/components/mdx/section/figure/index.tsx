@@ -1,32 +1,22 @@
 import { FlexBox, Typography } from '@wanteddev/wds';
-import { Thumbnail } from '@wanteddev/wds';
 import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
 
-import { getImageUrl } from '@/helpers/image';
+import { SectionDescription, SectionThumbnail } from '../layout';
 
-import { SectionDescription } from '../layout';
+import { sectionFigureStyle, sectionFigureVariantStyle } from './style';
 
-import {
-  sectionFigureStyle,
-  sectionFigureThumbnailStyle,
-  sectionFigureVariantStyle,
-} from './style';
-
-import type { ThumbnailProps } from '@wanteddev/wds';
 import type { ReactNode } from 'react';
 
 type Props = {
   title?: string;
   description?: ReactNode;
   src?: string;
-  ratio?: ThumbnailProps['ratio'];
-  portrait?: ThumbnailProps['portrait'];
+  ratio?: string;
   variant?: 'positive' | 'negative';
 };
 
 const SectionFigure = ({
-  ratio = '21:9',
-  portrait,
+  ratio = '21 / 9',
   title,
   src,
   description,
@@ -34,50 +24,41 @@ const SectionFigure = ({
 }: Props) => {
   return (
     <FlexBox flexDirection="column" sx={sectionFigureStyle} flex="1 1 0%">
-      {src && (
-        <Thumbnail
-          src={getImageUrl(src)}
-          alt={title ?? 'thumbnail'}
-          aria-hidden
-          width="100%"
-          sx={[sectionFigureThumbnailStyle, variant && { marginBottom: 12 }]}
-          ratio={ratio}
-          loading="lazy"
-          radius
-          portrait={portrait}
-        />
-      )}
-      {variant ? (
-        <FlexBox gap="16px" sx={sectionFigureVariantStyle(variant)}>
-          {variant === 'positive' ? (
-            <IconCircleCheckFill aria-hidden sx={{ fontSize: 40 }} />
-          ) : (
-            <IconCircleCloseFill aria-hidden sx={{ fontSize: 40 }} />
-          )}
-          <FlexBox
-            flexDirection="column"
-            gap="2px"
-            sx={{
-              ['&& p']: {
-                marginBottom: '0 !important',
-                paddingInline: '0px !important',
-              },
-            }}
-          >
-            <Typography
-              color={
-                variant === 'positive'
-                  ? 'semantic.status.positive'
-                  : 'semantic.status.negative'
-              }
-              variant="headline2"
-              weight="bold"
-            >
-              {variant === 'positive' ? 'Do' : "Don't"}
-            </Typography>
+      <SectionThumbnail src={src} ratio={ratio} />
 
-            <SectionDescription content={description} />
+      {variant ? (
+        <FlexBox
+          gap="6px"
+          sx={sectionFigureVariantStyle(variant)}
+          flexDirection="column"
+        >
+          <FlexBox gap="8px" alignItems="cener">
+            {variant === 'positive' ? (
+              <>
+                <IconCircleCheckFill aria-hidden sx={{ fontSize: 24 }} />
+                <Typography
+                  variant="headline1"
+                  weight="bold"
+                  color="semantic.label.normal"
+                >
+                  Do
+                </Typography>
+              </>
+            ) : (
+              <>
+                <IconCircleCloseFill aria-hidden sx={{ fontSize: 24 }} />
+                <Typography
+                  variant="headline1"
+                  weight="bold"
+                  color="semantic.label.normal"
+                >
+                  Don’t
+                </Typography>
+              </>
+            )}
           </FlexBox>
+
+          <SectionDescription content={description} />
         </FlexBox>
       ) : (
         <FlexBox flexDirection="column" gap="4px">
