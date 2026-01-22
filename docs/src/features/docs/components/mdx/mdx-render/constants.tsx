@@ -120,6 +120,8 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionFigure,
   SectionStates,
   SectionCustomize,
+  // WIP
+  SectionStatesItem: () => null,
   SectionHierarchy,
   SectionHierarchyItem,
   SectionVariants,
