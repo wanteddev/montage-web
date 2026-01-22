@@ -3,7 +3,6 @@ import { addOpacity, css, typographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
-  padding-right: 1px;
   color: ${theme.semantic.label.neutral};
   ${typographyStyle('body2-reading', 'regular')}
 
