@@ -22,7 +22,7 @@ const SectionAnatomy = ({ ratio = '21 / 9', data, src }: Props) => {
         <FlexBox
           flexWrap="wrap"
           flex="1 0 auto"
-          rowGap="8px"
+          rowGap="16px"
           columnGap="32px"
           as="ol"
           sx={anatomyListStyle}
