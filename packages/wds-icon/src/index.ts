@@ -305,6 +305,7 @@ export { default as IconSun } from './icon-sun';
 export { default as IconSymbol } from './icon-symbol';
 export { default as IconTag } from './icon-tag';
 export { default as IconTagFill } from './icon-tag-fill';
+export { default as IconTelescope } from './icon-telescope';
 export { default as IconTemplate } from './icon-template';
 export { default as IconTemplateFill } from './icon-template-fill';
 export { default as IconTextFormat } from './icon-text-format';
