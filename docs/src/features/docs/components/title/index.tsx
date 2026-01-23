@@ -75,11 +75,10 @@ const DocsTitle = ({
       {Boolean(description) && (
         <Typography
           variant="body2-reading"
-          weight="regular"
+          weight="medium"
           color="semantic.label.neutral"
           sx={[
             {
-              maxWidth: '640px',
               marginTop: '24px',
             },
             breakWordStyle,

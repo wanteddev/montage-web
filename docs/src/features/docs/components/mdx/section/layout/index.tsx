@@ -99,7 +99,7 @@ const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
     return (
       <Typography
         variant="body2-reading"
-        weight="regular"
+        weight="medium"
         as="p"
         color="semantic.label.neutral"
         sx={{

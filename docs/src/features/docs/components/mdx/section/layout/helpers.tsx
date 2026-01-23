@@ -87,7 +87,7 @@ export const renderParsedContent = (content: string) => {
       elements.push(
         <Typography
           variant="body2-reading"
-          weight={isStrong ? 'bold' : 'regular'}
+          weight={isStrong ? 'bold' : 'medium'}
           as="p"
           color="semantic.label.neutral"
           key={`text-${elements.length}`}

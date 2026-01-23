@@ -4,7 +4,7 @@ import type { Theme } from '@wanteddev/wds';
 
 export const mdxRootStyle = (theme: Theme) => css`
   color: ${theme.semantic.label.neutral};
-  ${typographyStyle('body2-reading', 'regular')}
+  ${typographyStyle('body2-reading', 'medium')}
 
   & > :not(:is([data-role="demo"])):not(:is([data-role="hierarchy"])):not(:is([data-role="variants"])) {
     word-break: keep-all;
@@ -12,7 +12,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
     [data-role='property-type'] {
       font-family: inherit !important;
-      ${typographyStyle('label2', 'regular')}
+      ${typographyStyle('label2', 'medium')}
       color: ${theme.semantic.accent.background.redOrange};
       background-color: transparent;
     }
@@ -195,7 +195,7 @@ export const mdxRootStyle = (theme: Theme) => css`
 
       summary {
         margin-left: -16px;
-        ${typographyStyle('body2-reading', 'regular')}
+        ${typographyStyle('body2-reading', 'medium')}
       }
 
       &[open] {

@@ -103,7 +103,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
     <Typography
       {...props}
       variant="body2-reading"
-      weight="regular"
+      weight="medium"
       as="p"
       display="block"
     />
