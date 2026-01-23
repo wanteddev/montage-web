@@ -26,23 +26,6 @@ export const customizeStyle = (theme: Theme) => css`
 `;
 
 export const customizeOptionStyle = (theme: Theme) => css`
-  padding: 2px 4px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 138.5%;
-  letter-spacing: -0.007px;
-  display: inline-flex;
   color: ${theme.semantic.label.alternative};
-  position: relative;
-
-  &::before {
-    content: '';
-    position: absolute;
-    border-radius: inherit;
-    inset: 0;
-    background-color: ${theme.semantic.label.alternative};
-    opacity: ${theme.opacity[8]};
-  }
+  background-color: ${theme.semantic.fill.normal};
 `;

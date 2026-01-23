@@ -34,11 +34,9 @@ const CodeBlock = ({ children, ...props }: Props) => {
 
   if (!props.className) {
     return (
-      <code {...props}>
-        <Box as="span" sx={inlineCodeStyle}>
-          {children}
-        </Box>
-      </code>
+      <Box as="code" {...props} sx={inlineCodeStyle}>
+        {children}
+      </Box>
     );
   }
 

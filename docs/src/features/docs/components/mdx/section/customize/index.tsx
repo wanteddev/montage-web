@@ -33,14 +33,13 @@ const SectionCustomize = ({ data }: Props) => {
 
             <FlexBox gap="12px" flexWrap="wrap">
               {v.options.map((option) => (
-                <code key={option}>
-                  <Box
-                    color="neutral"
-                    sx={[inlineCodeStyle, customizeOptionStyle]}
-                  >
-                    {option}
-                  </Box>
-                </code>
+                <Box
+                  key={option}
+                  as="code"
+                  sx={[inlineCodeStyle, customizeOptionStyle]}
+                >
+                  {option}
+                </Box>
               ))}
             </FlexBox>
           </FlexBox>

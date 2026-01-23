@@ -3,16 +3,16 @@ import { css, respondTo } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const sectionLayoutStyle = (theme: Theme) => css`
-  && {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin-top: 0px;
-      padding-top: 0px;
-      border: none;
+  &:not(:is([data-role='variants'])):not(:is([data-role='hierarchy'])) {
+    h2 {
+      padding-top: 0px !important;
+      margin-top: 0px !important;
+      margin-bottom: 32px !important;
+    }
+
+    h3 {
+      margin-top: 0px !important;
+      margin-bottom: 24px !important;
     }
   }
 

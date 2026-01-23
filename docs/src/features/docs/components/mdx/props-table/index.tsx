@@ -16,7 +16,7 @@ import {
 
 import CodeBlock from '../code-block';
 
-import { defaultValueStyle, nameStyle } from './style';
+import { defaultValueStyle } from './style';
 
 import type { ComponentInfo } from '@/features/docs/types';
 
@@ -57,11 +57,9 @@ const PropsTable = ({ component, fallback }: Props) => {
             <TableRow key={name}>
               <TableCell>
                 <FlexBox alignItems="center" gap="4px">
-                  <Box sx={nameStyle}>
-                    <CodeBlock>
-                      {`${name}${!isOptional && name !== 'as' ? ' *' : ''}`}
-                    </CodeBlock>
-                  </Box>
+                  <CodeBlock>
+                    {`${name}${!isOptional && name !== 'as' ? ' *' : ''}`}
+                  </CodeBlock>
                   {description && (
                     <Tooltip>
                       <TooltipTrigger>

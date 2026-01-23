@@ -32,12 +32,12 @@ const SectionFigure = ({
           sx={sectionFigureVariantStyle(variant)}
           flexDirection="column"
         >
-          <FlexBox gap="8px" alignItems="cener">
+          <FlexBox gap="6px" alignItems="center">
             {variant === 'positive' ? (
               <>
-                <IconCircleCheckFill aria-hidden sx={{ fontSize: 24 }} />
+                <IconCircleCheckFill aria-hidden sx={{ fontSize: 20 }} />
                 <Typography
-                  variant="headline1"
+                  variant="headline2"
                   weight="bold"
                   color="semantic.label.normal"
                 >
@@ -46,9 +46,9 @@ const SectionFigure = ({
               </>
             ) : (
               <>
-                <IconCircleCloseFill aria-hidden sx={{ fontSize: 24 }} />
+                <IconCircleCloseFill aria-hidden sx={{ fontSize: 20 }} />
                 <Typography
-                  variant="headline1"
+                  variant="headline2"
                   weight="bold"
                   color="semantic.label.normal"
                 >
