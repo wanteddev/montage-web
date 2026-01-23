@@ -29,28 +29,28 @@ module.exports = {
         ],
       },
     ],
-  },
-  render: (value) => {
-    const variant = value['Variants'].toLowerCase();
-    const interaction = value['Interaction'] === 'True';
-    const pushBadge = value['Push badge'] === 'True';
+    render: (value) => {
+      const variant = value['Variants'].toLowerCase();
+      const interaction = value['Interaction'] === 'True';
+      const pushBadge = value['Push badge'] === 'True';
 
-    const avatar = `<Avatar size="xlarge" variant="${variant}" />`;
+      const avatar = `<Avatar size="xlarge" variant="${variant}" />`;
 
-    if (interaction) {
+      if (interaction) {
+        return `
+          <AvatarButton>
+            ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
+            ${avatar}
+            ${pushBadge ? `</PushBadge>` : ''}
+          </AvatarButton>
+        `;
+      }
+
       return `
-        <AvatarButton>
-          ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
+        ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
           ${avatar}
-          ${pushBadge ? `</PushBadge>` : ''}
-        </AvatarButton>
+        ${pushBadge ? `</PushBadge>` : ''}
       `;
-    }
-
-    return `
-      ${pushBadge ? `<PushBadge size="small" variant="dot">` : ''}
-        ${avatar}
-      ${pushBadge ? `</PushBadge>` : ''}
-    `;
+    },
   },
 };

@@ -28,22 +28,22 @@ module.exports = {
         ],
       },
     ],
-  },
-  render: (value) => {
-    const fillWidth = value['Fill width'] === 'True';
-    const verticalPadding = value['Vertical padding'];
+    render: (value) => {
+      const fillWidth = value['Fill width'] === 'True';
+      const verticalPadding = value['Vertical padding'];
 
-    return `
-      <Accordion sx={{ width: '80%' }}>
-        <AccordionSummary fillWidth={${fillWidth}} verticalPadding="${verticalPadding.toLowerCase()}">
-          Heading
-        </AccordionSummary>
-        <AccordionDetails>
-          <AccordionDescription>
-            We are building a world where everyone can work and grow authentically.
-          </AccordionDescription>
-        </AccordionDetails>
-      </Accordion>
-    `;
+      return `
+        <Accordion sx={{ width: '80%' }}>
+          <AccordionSummary fillWidth={${fillWidth}} verticalPadding="${verticalPadding.toLowerCase()}">
+            Heading
+          </AccordionSummary>
+          <AccordionDetails>
+            <AccordionDescription>
+              We are building a world where everyone can work and grow authentically.
+            </AccordionDescription>
+          </AccordionDetails>
+        </Accordion>
+      `;
+    },
   },
 };
