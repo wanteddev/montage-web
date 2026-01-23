@@ -36,6 +36,7 @@ const SectionAnatomy = ({ ratio = '21 / 9', data, src }: Props) => {
               weight="medium"
               color="semantic.label.normal"
             >
+              <span>{i + 1}.&nbsp;</span>
               {value}
             </Typography>
           ))}
