@@ -3,7 +3,7 @@ import { addOpacity, css, typographyStyle } from '@wanteddev/wds';
 import type { Theme } from '@wanteddev/wds';
 
 export const inlineCodeStyle = (theme: Theme) => css`
-  padding: 2px 4px;
+  padding: 3px 6px;
   border-radius: 6px;
   white-space: break-spaces;
   leading-trim: both;
