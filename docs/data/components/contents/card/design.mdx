@@ -1,72 +1,67 @@
 ---
 title: Card
-description: 콘텐츠에 대한 정보를 간략하게 표현하는 기본 카드 요소입니다. 이미지, 텍스트, 뱃지 등 다양한 요소를 조합하여 각 항목의 정보를 시각적으로 일관성 있게 전달합니다.
-image: /components/contents/card/design/Thumbnails.png
+description: 콘텐츠에 대한 정보를 간략하게 표현하는 기본 카드 요소입니다. \n이미지, 텍스트, 뱃지 등 다양한 요소를 조합하여 각 항목의 정보를 시각적으로 일관성 있게 전달합니다.
+image: /components/contents/card/design/Image.png
+ogImage: /components/contents/card/design/Thumbnails.png
 createdAt: 2025-09-30
-updatedAt: 2025-09-30
+updatedAt: 2026-01-23
 ---
 
 <SectionAnatomy
-  src="/components/contents/card/design/Image.png"
-  ratio="16:9"
+  src="/components/contents/card/design/Image-1.png"
+  ratio="760 / 529"
   data={[
-    'Container',
-    'Heading',
-    'Caption',
-    'Thumbnail',
-    'Top content',
-    'Sub caption',
-    'Extra caption',
-    'Bottom content',
+    'Thumbnail','Overlay caption','Toggle icon','Top content','Heading','Caption','Sub caption','Extra caption','Bottom content','Container'
   ]}
 />
+  
 
 <SectionVariants
   components={['FlexBox', 'Card', 'CardThumbnail', 'CardTitle', 'CardCaption', 'CardContent', 'CardThumbnailContent', 'ToggleIcon']}
   icons={['IconBookmark']}
   render={(value) => {
-    const platform = value['Platform'].toLowerCase();
+      const platform = value['Platform'].toLowerCase();
 
-    return `
-      <FlexBox
-        sx={(theme) => ({
-          width: "${platform === 'desktop' ? '60%' : '45%'}",
-          padding: '16px',
-          borderRadius: '20px',
-          backgroundColor: theme.semantic.background.normal.normal
-        })}
-      >
-        <Card platform="${platform}">
-          <CardThumbnail
-            leadingContent={(
-              <CardThumbnailContent variant="text">
-                Overlay caption
-              </CardThumbnailContent>
-            )}
-            trailingContent={(
-              <CardThumbnailContent variant="toggle-icon">
-                <ToggleIcon 
-                  active={false} 
-                >
-                  <IconBookmark />
-                </ToggleIcon>
-              </CardThumbnailContent>
-            )}
-          />
-          <CardContent>
-            <CardTitle>Heading</CardTitle>
-            <CardCaption>Caption</CardCaption>
-          </CardContent>
-        </Card>
-      </FlexBox>
-    `;
-  }}
+      return `
+        <FlexBox
+          sx={(theme) => ({
+            width: "${platform === 'desktop' ? '60%' : '45%'}",
+            padding: '16px',
+            borderRadius: '20px',
+            backgroundColor: theme.semantic.background.normal.normal
+          })}
+        >
+          <Card platform="${platform}">
+            <CardThumbnail
+              leadingContent={(
+                <CardThumbnailContent variant="text">
+                  Overlay caption
+                </CardThumbnailContent>
+              )}
+              trailingContent={(
+                <CardThumbnailContent variant="toggle-icon">
+                  <ToggleIcon 
+                    active={false} 
+                  >
+                    <IconBookmark />
+                  </ToggleIcon>
+                </CardThumbnailContent>
+              )}
+            />
+            <CardContent>
+              <CardTitle>Heading</CardTitle>
+              <CardCaption>Caption</CardCaption>
+            </CardContent>
+          </Card>
+        </FlexBox>
+      `;
+    }}
   variants={[
     {
       key: 'Platform',
       options: [
         { label: 'Desktop', value: { platform: 'desktop' } },
-        { label: 'Mobile', value: { platform: 'mobile' } },
+        { label: 'Mobile', value: { platform: 'mobile' } }
       ]
     }
   ]}
@@ -75,90 +70,79 @@ updatedAt: 2025-09-30
 
 <SectionLayout title="Platform">
   <SectionFigure
-    ratio="1.618:1"
-    description="카드가 표시될 디바이스 환경에 맞춰 데스크톱과 모바일로 구분하여 사용합니다. 썸네일은 데스크톱에서 3:2, 모바일에서 4:3 비율을 기본으로 두며 필요한 경우 자유롭게 변경하여 사용할 수 있습니다."
-    src="/components/contents/card/design/Image-1.png"
+    ratio="152 / 97"
+    src="/components/contents/card/design/Image-2.png"
+    description="카드가 표시될 디바이스 환경에 맞춰 데스크톱과 모바일로 구분하여 사용합니다. 썸네일은 데스크톱에서 3:2, 모바일에서 4:3 비율을 기본으로 하며 필요한 경우 자유롭게 변경하여 사용할 수 있습니다."
   />
 </SectionLayout>
 
 <SectionLayout title="Skeleton">
   <SectionFigure
-    ratio="16:9"
+    ratio="20 / 11"
+    src="/components/contents/card/design/Image-3.png"
     description="카드의 정해진 규격의 데이터를 불러올 때 Skeleton을 사용해 로딩 상태를 보여줍니다."
-    src="/components/contents/card/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Content order">
   <SectionFigure
-    ratio="2:1"
-    description="접근성을 보장하기 위해 화면에 보이는 콘텐츠의 시각적 순서와 코드(DOM)의 구조적 순서를 일치시켜야 합니다. 스크린 리더가 눈으로 읽는 것과 동일하게 페이지를 읽도록 하여 사용자가 맥락을 올바르게 이해하도록 돕습니다. 또한, 키보드 사용자가 Tab 키로 탐색할 때 초점이 예측 가능한 순서로 이동하도록 합니다."
-    src="/components/contents/card/design/Image-3.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="Alternative text">
-  <SectionFigure
-    ratio="16:9"
-    description={`이미지를 볼 수 없는 스크린 리더 사용자의 접근을 보장하기 위해 alt 속성을 통해 썸네일 이미지가 어떤 내용인지 설명하는 대체 텍스트를 제공해야 합니다. Heading, Caption을 통해 이미지가 전달하는 바를 명확하게 전달한 경우 장식용 이미지(alt=\"\")로 처리하여, 스크린 리더가 불필요하게 동일한 정보를 중복해서 읽지 않도록 합니다.`}
+    ratio="760 / 369"
     src="/components/contents/card/design/Image-4.png"
+    description="접근성을 보장하기 위해 화면에 보이는 콘텐츠의 시각적 순서와 코드(DOM)의 구조적 순서를 일치시켜야 합니다. 스크린 리더가 눈으로 읽는 것과 동일하게 페이지를 읽도록 하여 사용자가 맥락을 올바르게 이해하도록 돕습니다. 또한, 키보드 사용자가 Tab 키로 탐색할 때 초점이 예측 가능한 순서로 이동하도록 합니다."
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
-  <SectionFigureGroup title="Entry point">
-    <SectionFigure
-      ratio="16:9"
-      description="Card에 표기한 요약된 정보의 상세 페이지로 이동하거나, 다음 단계로 탐색을 유도하는 진입점 역할을 할 수 있습니다. "
-      src="/components/contents/card/design/Image-5.png"
-    />
-  </SectionFigureGroup>
-
   <SectionFigureGroup title="Customize">
     <SectionFigure
-      ratio="16:9"
+      ratio="380 / 233"
+      src="/components/contents/card/design/Image-5.png"
       description="Heading 상단과 Caption 하단에 추가 요소를 넣어 부가적인 정보를 표기할 수 있습니다."
-      src="/components/contents/card/design/Image-6.png"
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Text ellipsis">
     <SectionFigure
-      ratio="21:9"
+      ratio="380 / 183"
+      src="/components/contents/card/design/Image-6.png"
       description="Heading과 Caption은 최대 표시 줄 수를 초과할 경우 말줄임 처리합니다. Heading은 최대 2줄, Caption은 최대 1줄로 표기합니다."
-      src="/components/contents/card/design/Image-7.png"
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Overflow cue">
     <SectionFigure
-      ratio="21:9"
+      ratio="380 / 183"
+      src="/components/contents/card/design/Image-7.png"
       description="반응형 화면, 특히 모바일에서 여러 카드를 가로로 나열할 때, 화면 가장자리에 다음 카드의 일부가 보이도록 배치하세요. 사용자에게 숨겨진 목록의 존재를 시각적 단서를 제공하여 알리고, 탐색을 유도할 수 있습니다."
-      src="/components/contents/card/design/Image-8.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="3:2"
-    description="카드를 Grid, Carousel 형태로 배열하여 여러 항목을 효과적으로 탐색합니다."
-    src="/components/contents/card/design/Image-9.png"
-  />
-  <SectionFigure
-    variant="negative"
-    description="Heading과 Caption을 임의로 변경하여 정보 위계를 불분명하게 사용하지 마세요."
-    src="/components/contents/card/design/Image-10.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 51"
+      src="/components/contents/card/design/Image-8.png"
+      variant="positive"
+      description="카드를 Grid, Carousel 형태로 배열하여 화면을 효율적으로 활용합니다."
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="760 / 337"
+      src="/components/contents/card/design/Image-9.png"
+      variant="negative"
+      description="Heading과 Caption을 임의로 변경하여 정보 위계를 불분명하게 사용하지 않습니다."
+    />
+  </SectionFigureGroup>
 </SectionLayout>
-
 
 <SectionCustomize
   data={[
-    {
-      key: 'Normal card',
-      options: ['width', 'thumbnailAspectRatio']
-    },
-  ]}
+  {
+    "key": "Normal card",
+    "options": [
+      "width",
+      "thumbnailAspectRatio"
+    ]
+  }
+]}
 />

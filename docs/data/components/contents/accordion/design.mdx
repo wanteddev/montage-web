@@ -1,153 +1,149 @@
 ---
 title: Accordion
-description: 콘텐츠의 숨겨진 내용을 확장하거나 축소하여 보여주는 요소입니다. 클릭하여 원하는 정보만 선택적으로 볼 수 있어, 제한된 공간에서 많은 정보를 효율적으로 구성하고 탐색할 수 있도록 돕습니다.
-image: /components/contents/accordion/design/Thumbnails.png
+description: 콘텐츠의 숨겨진 내용을 확장하거나 축소하여 보여주는 요소입니다. 클릭하여 원하는 정보만 선택적으로 볼 수 있어, \n제한된 공간에서 많은 정보를 효율적으로 구성하고 탐색할 수 있도록 돕습니다.
+image: /components/contents/accordion/design/Image.png
+ogImage: /components/contents/accordion/design/Thumbnails.png
 createdAt: 2025-09-30
-updatedAt: 2025-09-30
+updatedAt: 2026-01-23
 ---
 
 <SectionAnatomy
-  src="/components/contents/accordion/design/Image.png"
-  ratio="21:9"
+  src="/components/contents/accordion/design/Image-1.png"
+  ratio="760 / 369"
   data={[
-    'Heading',
-    'Leading icon',
-    'Description',
-    'Trailing content',
-    'Divider',
+    'Heading','Leading icon','Description','Trailing content','Divider(Optional)'
   ]}
 />
+  
 
 <SectionVariants
   components={['Accordion', 'AccordionSummary', 'AccordionDetails', 'AccordionDescription']}
   icons={[]}
-  render={(value) => {
-    const fillWidth = value['Fill width'] === 'True';
-    const verticalPadding = value['Vertical padding'];
-    
-    return `
-      <Accordion sx={{ width: '80%' }}>
-        <AccordionSummary fillWidth={${fillWidth}} verticalPadding="${verticalPadding.toLowerCase()}">
-          Heading
-        </AccordionSummary>
-        <AccordionDetails>
-          <AccordionDescription>
-            We are building a world where everyone can work and grow authentically.
-          </AccordionDescription>
-        </AccordionDetails>
-      </Accordion>
-    `;
-  }}
   variants={[
     {
       key: 'Fill width',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
     },
     {
       key: 'Vertical padding',
-      defaultValue: 'Large',
       options: [
         { label: 'Small', value: {} },
         { label: 'Medium', value: {} },
-        { label: 'Large', value: {} },
+        { label: 'Large', value: {} }
       ]
     }
   ]}
 />
 
+
 <SectionStates
-  src="/components/contents/accordion/design/Image-1.png"
-  ratio="21:9"
-  options={['Normal', 'Hovered', 'Pressed']}
+  ratio="19 / 8"
+  src="/components/contents/accordion/design/Image-2.png"
 />
 
 <SectionLayout title="Fill width">
   <SectionFigure
+    ratio="95 / 52"
+    src="/components/contents/accordion/design/Image-3.png"
     description="항목 내부에 좌우 여백을 포함하거나, 여백 없이 컨테이너 너비를 모두 채워 사용할 수 있습니다."
-    src="/components/contents/accordion/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Vertical padding">
   <SectionFigure
-    description="화면 위계에 따라 상하 여백을 변경해 사용합니다. Heading의 Line height에 따라 높이가 결정됩니다."
-    src="/components/contents/accordion/design/Image-3.png"
+    ratio="95 / 52"
+    src="/components/contents/accordion/design/Image-4.png"
+    description="상하 여백은 화면 내 배치와 정보의 계층 구조에 맞춰 유연하게 사용할 수 있습니다."
   />
 </SectionLayout>
 
 <SectionLayout title="Expanded">
   <SectionFigure
-    ratio="16:9"
+    ratio="95 / 51"
+    src="/components/contents/accordion/design/Image-5.png"
     description="항목 클릭 시 하위 내용을 펼쳐 볼 수 있으며, Chevron 방향이 반전되는 애니메이션이 적용됩니다. 여러 항목이 함께 펼쳐질 수 있습니다."
-    src="/components/contents/accordion/design/Image-4.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Leading icon">
   <SectionFigure
-    ratio="2:1"
+    ratio="19 / 10"
+    src="/components/contents/accordion/design/Image-6.png"
     description="Leading icon은 Heading 좌측에 위치하며, 항목의 성격이나 카테고리를 시각적으로 표현합니다."
-    src="/components/contents/accordion/design/Image-5.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Trailing content">
   <SectionFigure
-    ratio="2:1"
+    ratio="19 / 10"
+    src="/components/contents/accordion/design/Image-7.png"
     description="Trailing content는 Heading 우측에 위치하는 요소를 의미합니다. 아이콘과 버튼으로 사용할 수 있습니다."
-    src="/components/contents/accordion/design/Image-6.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Divider">
   <SectionFigure
-    ratio="21:9"
+    ratio="95 / 34"
+    src="/components/contents/accordion/design/Image-8.png"
     description="구분선을 사용해 각 항목을 명확하게 구분할 수 있습니다. 구분선을 사용하는 경우 목록의 마지막 항목엔 사용하지 않습니다."
-    src="/components/contents/accordion/design/Image-7.png"
   />
 </SectionLayout>
 
-
 <SectionLayout title="Clickable area">
   <SectionFigure
-    ratio="16:9"
+    ratio="152 / 93"
+    src="/components/contents/accordion/design/Image-9.png"
     description="Heading을 포함한 전체 영역을 눌렀을 때 콘텐츠 영역이 확장됩니다. Trailing content에 Icon button을 사용한 경우, Icon button 인터랙션이 적용되며 별도 액션을 지정할 수 있습니다."
-    src="/components/contents/accordion/design/Image-8.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Nested accordions">
     <SectionFigure
-      ratio="16:10"
-      description="Accordion 하위에 또 다른 Accordion을 배치하여 복잡한 계층 구조를 표현할 수 있습니다. 이때, 하위 항목은 좌측에 추가적인 여백(들여 쓰기)을 주어 상위 항목과의 시각적 위계를 명확히 구분해야 합니다."
-      src="/components/contents/accordion/design/Image-9.png"
+      ratio="38 / 23"
+      src="/components/contents/accordion/design/Image-10.png"
+      description="Accordion 하위에 또 다른 Accodrion을 배치하여 복잡한 계층 구조를 표현할 수 있습니다. 이때, 하위 항목은 좌측에 추가적인 여백(들여 쓰기)을 주어 상위 항목과의 시각적 위계를 명확히 구분해야 합니다."
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Text overflow">
     <SectionFigure
-      ratio="16:9"
+      ratio="760 / 331"
+      src="/components/contents/accordion/design/Image-11.png"
       description="Heading과 콘텐츠의 길이가 길어지는 경우 제한 없이 여러 줄로 나타납니다."
-      src="/components/contents/accordion/design/Image-10.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="16:10"
-    description="Accordion이 포함한 콘텐츠를 예상할 수 있도록 명확하고 간결한 Heading을 사용하세요."
-    src="/components/contents/accordion/design/Image-11.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="16:10"
-    description="한 페이지나 시스템 내에서 열림, 닫힘을 의미하는 아이콘을 여러 스타일로 혼용하지 마세요."
-    src="/components/contents/accordion/design/Image-12.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 47"
+      src="/components/contents/accordion/design/Image-12.png"
+      variant="positive"
+      description="Accordion이 포함한 콘텐츠를 예상할 수 있도록 명확하고 간결한 Heading을 사용하세요."
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 47"
+      src="/components/contents/accordion/design/Image-13.png"
+      variant="negative"
+      description="한 페이지나 시스템 내에서 열림, 닫힘을 의미하는 아이콘을 여러 스타일로 혼용하지 마세요."
+    />
+  </SectionFigureGroup>
 </SectionLayout>
+
+<SectionCustomize
+  data={[
+  {
+    "key": "Accordion",
+    "options": [
+      "typography",
+      "contentColor"
+    ]
+  }
+]}
+/>

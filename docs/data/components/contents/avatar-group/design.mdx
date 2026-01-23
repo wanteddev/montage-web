@@ -1,106 +1,118 @@
 ---
 title: Avatar group
-description: Avatar group은 여러 사용자를 그룹으로 묶어 표시하는 요소입니다. 겹쳐진 아바타 목록을 통해 공간을 효율적으로 사용하며, 그룹에 속한 멤버들을 직관적으로 보여주고 추가 멤버 수를 표시할 수 있습니다.
-image: /components/contents/avatar-group/design/Thumbnails.png
+description: Avatar Group은 여러 사용자를 그룹으로 묶어 표시하는 요소입니다. 겹쳐진 아바타 목록을 통해 공간을 효율적으로 사용하며, 그룹에 속한 멤버들을 직관적으로 보여주고 추가 멤버 수를 표시할 수 있습니다.
+image: /components/contents/avatar-group/design/Image.png
+ogImage: /components/contents/avatar-group/design/Thumbnails.png
 createdAt: 2025-09-30
-updatedAt: 2025-09-30
+updatedAt: 2026-01-23
 ---
 
 <SectionAnatomy
-  src="/components/contents/avatar-group/design/Image.png"
-  ratio="21:9"
+  src="/components/contents/avatar-group/design/Image-1.png"
+  ratio="19 / 6"
   data={[
-    'Container',
-    'Avatar',
-    'Trailing content',
+    'Container','Avatar','Trailing content'
   ]}
 />
+  
 
 <SectionVariants
   components={['AvatarGroup', 'Avatar', 'TextButton']}
   icons={[]}
   render={(value) => {
-    const variant = value['Variants'].toLowerCase();
-    const trailingContent = value['Trailing content'] === 'True'
-      ? '<TextButton color="assistive" size="small">외 0명</TextButton>'
-      : 'null';
-    
-    return `
-      <AvatarGroup size="small" trailingContent={${trailingContent}}>
-        <Avatar size="small" variant="${variant}" />
-        <Avatar size="small" variant="${variant}" />
-        <Avatar size="small" variant="${variant}" />
-        <Avatar size="small" variant="${variant}" />
-        <Avatar size="small" variant="${variant}" />
-      </AvatarGroup>
-    `;
-  }}
+      const variant = value['Variants'].toLowerCase();
+      const trailingContent =
+        value['Trailing content'] === 'True'
+          ? '<TextButton color="assistive" size="small">외 0명</TextButton>'
+          : 'null';
+
+      return `
+        <AvatarGroup size="small" trailingContent={${trailingContent}}>
+          <Avatar size="small" variant="${variant}" />
+          <Avatar size="small" variant="${variant}" />
+          <Avatar size="small" variant="${variant}" />
+          <Avatar size="small" variant="${variant}" />
+          <Avatar size="small" variant="${variant}" />
+        </AvatarGroup>
+      `;
+    }}
   variants={[
     {
       key: 'Variants',
       options: [
         { label: 'Person', value: {} },
         { label: 'Company', value: {} },
-        { label: 'Academy', value: {} },
+        { label: 'Academy', value: {} }
       ]
     },
     {
       key: 'Trailing content',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
     }
   ]}
 />
 
+
 <SectionLayout title="Size">
   <SectionFigure
+    ratio="95 / 3"
+    src="/components/contents/avatar-group/design/Image-2.png"
     description="예외적으로 Variant에 없는 사이즈를 사용할 경우 4배수 크기로 작업합니다."
-    src="/components/contents/avatar-group/design/Image-1.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Stacking">
   <SectionFigure
+    ratio="380 / 99"
+    src="/components/contents/avatar-group/design/Image-3.png"
     description="왼쪽에서 오른쪽 순으로 Avatar가 쌓이며, -8px 간격으로 겹쳐 배치합니다."
-    src="/components/contents/avatar-group/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Overflow">
   <SectionFigure
+    ratio="76 / 31"
+    src="/components/contents/avatar-group/design/Image-4.png"
     description="화면에 표기하지 않고 생략한 Avatar 수를 텍스트나 Text button을 통해 표기합니다. 최대 5개의 Avatar를 부분적으로 겹쳐 표시할 수 있습니다."
-    src="/components/contents/avatar-group/design/Image-3.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Border">
   <SectionFigure
+    ratio="95 / 24"
+    src="/components/contents/avatar-group/design/Image-5.png"
     description="각각의 Avatar가 겹쳐 보일 때, 개별 항목을 명확하게 구분하기 위한 외곽선을 Avatar 바깥으로 추가합니다. 외곽선은 흰색으로, 개별 Avatar 내부에 정의된 외곽선과 대비되어 각각의 개체로 명확하게 인지되도록 돕습니다."
-    src="/components/contents/avatar-group/design/Image-4.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
-  <SectionFigureGroup title="Displays initials">
-    <SectionFigure
-      ratio="21:9"
-      description="사용자의 프로필 이미지가 없는 경우, 프로필 이름의 첫 글자를 노출할 수 있습니다."
-      src="/components/contents/avatar-group/design/Image-5.png"
+    <SectionFigureGroup title="Display initials">
+      <SectionFigure
+        ratio="95 / 24"
+        src="/components/contents/avatar-group/design/Image-6.png"
+        description="사용자의 프로필 이미지가 없는 경우, 프로필 이름의 첫 글자를 노출할 수 있습니다."
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    description="화면 공간에 맞게 Avatar 수를 제한해 사용합니다."
-    src="/components/contents/avatar-group/design/Image-6.png"
-  />
-  <SectionFigure
-    variant="negative"
-    description="Avatar를 변형해 생략된 항목의 개수를 표기하지 않습니다."
-    src="/components/contents/avatar-group/design/Image-7.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 149"
+      src="/components/contents/avatar-group/design/Image-7.png"
+      variant="positive"
+      description="화면 공간에 맞게 Avatar 수를 제한해 사용합니다."
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="95 / 44"
+      src="/components/contents/avatar-group/design/Image-8.png"
+      variant="negative"
+      description="Avatar를 변형해 생략된 항목의 개수를 표기하지 않습니다."
+    />
+  </SectionFigureGroup>
 </SectionLayout>
