@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/wanteddev/wds/compare/v3.1.1...v3.2.0) (2026-01-26)
+
+### Features
+
+- react 최신 버전 반영 ([#496](https://github.com/wanteddev/wds/issues/496)) ([4f01578](https://github.com/wanteddev/wds/commit/4f01578fa60abaa1764231781d97ec819ff9f2d4))
+
 ## [3.1.1](https://github.com/wanteddev/wds/compare/v3.1.0...v3.1.1) (2025-12-09)
 
 **Note:** Version bump only for package @wanteddev/wds-engine
