@@ -68,9 +68,6 @@ const SectionFigure = ({
               variant="headline2"
               weight="bold"
               color="semantic.label.normal"
-              sx={{
-                paddingInline: '12px !important',
-              }}
             >
               {title}
             </Typography>

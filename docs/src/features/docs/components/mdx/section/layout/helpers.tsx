@@ -92,7 +92,7 @@ export const renderParsedContent = (content: string) => {
           color="semantic.label.neutral"
           key={`text-${elements.length}`}
           sx={{
-            marginBottom: isNextItemList ? '12px !important' : '0',
+            marginBottom: isNextItemList ? '24px !important' : '0',
             marginTop: shouldHasMarginTop ? '24px !important' : '0',
           }}
         >
