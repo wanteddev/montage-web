@@ -16,10 +16,7 @@ import { sectionLayoutStyle } from '../style';
 import { kbdStyle } from './style';
 
 type Props = {
-  contents?: Array<{
-    keys: Array<string>;
-    description: string;
-  }>;
+  contents?: Array<SectionAccessibilityProps>;
 };
 
 const SectionAccessibility = ({ contents }: Props) => {

@@ -32,7 +32,15 @@ declare type SectionHierarchyRenderProps = {
   components: Array<string>;
 };
 
+declare type SectionAccessibilityProps = {
+  keys: Array<string>;
+  description: string;
+};
+
 declare type SectionConfig = {
   variants?: SectionVariantsProps;
   hierarchy?: Array<SectionHierarchyRenderProps>;
+  accessibility?:
+    | Array<SectionAccessibilityProps>
+    | Array<SectionAccessibilityProps & { title: string }>;
 };
