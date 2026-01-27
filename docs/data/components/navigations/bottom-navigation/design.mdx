@@ -1,85 +1,78 @@
 ---
 title: Bottom navigation
 description: 모바일 앱의 하단에 고정되어 주요 섹션 간 빠른 전환을 제공하는 네비게이션 요소입니다. 엄지로 쉽게 접근할 수 있는 위치에 3-5개의 핵심 기능을 배치하여 앱의 주요 영역으로 한 번에 이동할 수 있게 합니다.
+image: /components/navigations/bottom-navigation/design/Image.png
+ogImage: /components/navigations/bottom-navigation/design/Thumbnails.png
 createdAt: 2025-10-02
-updatedAt: 2025-10-02
-image: /components/navigations/bottom-navigation/design/Thumbnails.png
+updatedAt: 2026-01-27
 ---
 
 <SectionAnatomy
-  src="/components/navigations/bottom-navigation/design/Image.png"
-  ratio="21:9"
+  src="/components/navigations/bottom-navigation/design/Image-1.png"
+  ratio="380 / 163"
   data={[
-    'Container',
-    'Active tab',
-    'Inactive tab',
-    'Divider',
+    'Container','Active tab','Inactive tab','Divider'
   ]}
 />
+  
 
 <SectionStates
-  src="/components/navigations/bottom-navigation/design/Image-1.png"
-  ratio="21:9"
-  options={['Normal','Hovered', 'Pressed']}
+  ratio="190 / 99"
+  src="/components/navigations/bottom-navigation/design/Image-2.png"
 />
 
 <SectionLayout title="Size">
   <SectionFigure
-    ratio="16:9"
-    description="- Web: 높이 58px이 고정되며 너비는 해상도에 비례하여 넓어집니다. 
+    ratio="95 / 3"
+    src="/components/navigations/bottom-navigation/design/Image-3.png"
+    description="- Web: 높이 58px이 고정되며 너비는 해상도에 비례하여 넓어집니다.
 - iOS: iPhone 8 이하에서는 49pt, iPhoneX이상에서는 Safe area를 포함하여 83pt를 유지합니다.(49+34pt)
 - Android: 기본 높이 64dp, Safe area가 있을 시 14dp가 추가 됩니다."
-    src="/components/navigations/bottom-navigation/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Login">
   <SectionFigure
-    ratio="21:9"
-    description="로그인할 시 Avatar가 활성화되며 Fallback이 아닌 개인이 설정한 프로필 이미지가 표현됩니다."
-    src="/components/navigations/bottom-navigation/design/Image-3.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="Scroll">
-  <SectionFigure
-    ratio="21:9"
-    description="스크롤이 끝나는 시점에 Background의 효과 및 배경이 모두 제거됩니다."
+    ratio="95 / 36"
     src="/components/navigations/bottom-navigation/design/Image-4.png"
+    description="로그인할 시 Avatar가 활성화되며 Fallback이 아닌 개인이 설정한 프로필 이미지가 표현됩니다."
   />
 </SectionLayout>
 
 <SectionLayout title="Background">
   <SectionFigure
-    ratio="21:9"
+    ratio="190 / 81"
+    src="/components/navigations/bottom-navigation/design/Image-5.png"
     description="Web, iOS
 - Chrome 효과가 적용되어 뒷 배경의 색상 등이 자연스럽게 비치게 됩니다.
-
 Android
 - 흰 배경색이 적용되어 뒷 배경이 보이지 않습니다."
-    src="/components/navigations/bottom-navigation/design/Image-5.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Max tab and label">
   <SectionFigure
-    ratio="21:9"
-    description="배치가 가능한 최대 탭의 개수는 5개까지입니다. Label은 최대 6자 이상 넘어가지 않도록 사용하는 것을 권장합니다."
+    ratio="760 / 211"
     src="/components/navigations/bottom-navigation/design/Image-6.png"
+    description="배치가 가능한 최대 탭의 개수는 5개까지입니다. Label은 최대 6자 이상 넘어가지 않도록 사용하는 것을 권장합니다."
   />
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="21:9"
-    variant="positive"
-    description="각 탭에서 처음 노출되는 1Depth 페이지에서만 위치합니다."
-    src="/components/navigations/bottom-navigation/design/Image-7.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="개별적으로 Active 색상을 변경하지 않습니다."
-    src="/components/navigations/bottom-navigation/design/Image-8.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 33"
+      src="/components/navigations/bottom-navigation/design/Image-7.png"
+      variant="positive"
+      description="각 탭에서 처음 노출되는 1Depth 페이지에서만 위치합니다."
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 33"
+      src="/components/navigations/bottom-navigation/design/Image-8.png"
+      variant="negative"
+      description="개별적으로 Active 색상을 변경하지 않습니다."
+    />
+  </SectionFigureGroup>
 </SectionLayout>

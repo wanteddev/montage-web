@@ -1,30 +1,29 @@
 ---
 title: Page counter
-description: 콘텐츠에서 사용자의 현재 위치를 안내하는 정보성 컴포넌트입니다. 인터랙션이 없는 수동적 요소로 갤러리, 슬라이더, 문서 뷰어 등에서 진행 상황을 숫자로 간결하게 전달합니다. 
+description: 콘텐츠에서 사용자의 현재 위치를 안내하는 정보성 컴포넌트입니다. \n인터랙션이 없는 수동적 요소로 갤러리, 슬라이더, 문서 뷰어 등에서 진행 상황을 숫자로 간결하게 전달합니다. 
+image: /components/navigations/page-counter/design/Image.png
+ogImage: /components/navigations/page-counter/design/Thumbnails.png
 createdAt: 2025-10-13
-updatedAt: 2025-10-13
-image: /components/navigations/page-counter/design/Thumbnails.png
+updatedAt: 2026-01-27
 ---
 
 <SectionAnatomy
-  src="/components/navigations/page-counter/design/Image.png"
-  ratio="21:9"
+  src="/components/navigations/page-counter/design/Image-1.png"
+  ratio="380 / 109"
   data={[
-    'Container',
-    'Current page number',
-    'Total page number',
+    'Container','Current page number','Total page number'
   ]}
 />
-
+  
 
 <SectionVariants
   components={['Thumbnail', 'PageCounter']}
   icons={[]}
   render={(value) => {
-    const alternative = (value['Variants'] === 'Alternative').toString();
-    const size = value['Size'].toLowerCase();
+      const alternative = (value['Variants'] === 'Alternative').toString();
+      const size = value['Size'].toLowerCase();
 
-    return `
+      return `
       <Thumbnail
         src="/components/navigations/page-counter/design/Variants.png"
         ratio="1:1"
@@ -40,71 +39,75 @@ image: /components/navigations/page-counter/design/Thumbnails.png
           }
         }}
       />
-    `
-  }}
+    `;
+    }}
   variants={[
     {
       key: 'Variants',
       options: [
-        { label: 'Normal', value: { } },
-        { label: 'Alternative', value: { } },
+        { label: 'Normal', value: {} },
+        { label: 'Alternative', value: {} }
       ]
     },
     {
       key: 'Size',
       options: [
-        { label: 'Small', value: { } },
-        { label: 'Medium', value: { } },
+        { label: 'Small', value: {} },
+        { label: 'Medium', value: {} }
       ]
-    },
+    }
   ]}
 />
 
+
 <SectionLayout title="Moving control">
   <SectionFigure
-    ratio="16:9"
+    ratio="19 / 9"
+    src="/components/navigations/page-counter/design/Image-2.png"
     description="다음, 이전 화면 이동은 해당 컴포넌트와 별개의 요소로 작동되며, Counter는 전체 콘텐츠 중 사용자가 현재 보고 있는 위치를 숫자로 제공하는 역할만을 수행합니다."
-    src="/components/navigations/page-counter/design/Image-1.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Positioning">
   <SectionFigure
-    ratio="16:9"
+    ratio="19 / 9"
+    src="/components/navigations/page-counter/design/Image-3.png"
     description="이미지 내부에 16px의 여백을 두고 위치할 수 있으며 상단과 하단의 좌측, 중앙, 우측에 끝에 자유롭게 배치할 수 있습니다."
-    src="/components/navigations/page-counter/design/Image-2.png"
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Normal">
     <SectionFigure
-      ratio="16:9"
+      ratio="19 / 9"
+      src="/components/navigations/page-counter/design/Image-4.png"
       description="기본 타입은 Web, iOS에서 사용되며, Chrome 효과로 배경 요소와 자연스러운 구분이 가능합니다."
-      src="/components/navigations/page-counter/design/Image-3.png"
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Alternative">
     <SectionFigure
-      ratio="16:9"
+      ratio="19 / 9"
+      src="/components/navigations/page-counter/design/Image-5.png"
       description="Android에서 Page counter를 사용할 시 Alternative 타입 사용을 권장합니다."
-      src="/components/navigations/page-counter/design/Image-4.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="16:9"
-    variant="positive"
-    description="모바일에서 Page counter 대신 Top navigation의 제목 영역을 활용하여 숫자를 표현할 수 있습니다."
-    src="/components/navigations/page-counter/design/Image-5.png"
-  />
-  <SectionFigure
-    ratio="3:2"
-    variant="negative"
-    description="컨트롤 되는 요소와 매칭이 어려운 위치에 배치하지 않습니다."
-    src="/components/navigations/page-counter/design/Image-6.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="2 / 1"
+      src="/components/navigations/page-counter/design/Image-6.png"
+      variant="positive"
+      description="모바일에서 Page counter 대신 Top navigation의 제목 영역을 활용하여 숫자를 표현할 수 있습니다."
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 25"
+      src="/components/navigations/page-counter/design/Image-7.png"
+      variant="negative"
+      description="컨트롤 되는 요소와 매칭이 어려운 위치에 배치하지 않습니다."
+    />
+  </SectionFigureGroup>
 </SectionLayout>
