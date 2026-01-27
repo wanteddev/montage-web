@@ -4,7 +4,7 @@ description: 콘텐츠를 하나의 리스트 단위로 표현하는 요소로, 
 image: /components/contents/list-cell/design/Image.png
 ogImage: /components/contents/list-cell/design/Thumbnails.png
 createdAt: 2025-09-30
-updatedAt: 2026-01-23
+updatedAt: 2026-01-26
 ---
 
 <SectionAnatomy
@@ -112,6 +112,7 @@ updatedAt: 2026-01-23
     },
     {
       key: 'Vertical padding',
+      defaultValue: 'Medium',
       options: [
         { label: 'None', value: {} },
         { label: 'Small', value: {} },
@@ -128,6 +129,7 @@ updatedAt: 2026-01-23
     },
     {
       key: 'Description',
+      defaultValue: 'True',
       options: [
         { label: 'False', value: {} },
         { label: 'True', value: {} }
@@ -135,6 +137,7 @@ updatedAt: 2026-01-23
     },
     {
       key: 'Leading content',
+      defaultValue: 'Icon',
       options: [
         { label: 'None', value: {} },
         { label: 'Icon', value: {} },
@@ -147,6 +150,7 @@ updatedAt: 2026-01-23
     },
     {
       key: 'Trailing content',
+      defaultValue: 'Value',
       options: [
         { label: 'None', value: {} },
         { label: 'Icon', value: {} },
@@ -233,7 +237,7 @@ updatedAt: 2026-01-23
     <SectionFigure
       ratio="38 / 21"
       src="/components/contents/list-cell/design/Image-10.png"
-      description="- 다중 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Checkbox를 선택 적용합니다.
+      description="다중 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Checkbox를 선택 적용합니다.
 - Cell: 공백을 포함한 모든 영역이 터치 영역
 - Input: Control과 Label 영역만 터치 영역"
     />
