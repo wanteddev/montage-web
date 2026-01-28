@@ -16,12 +16,7 @@ const ListGroup = ({ items }: ListGroupProps) => {
       weight="medium"
       as="ul"
       color="semantic.label.neutral"
-      sx={[
-        {
-          marginBottom: '0 !important',
-        },
-        ulStyle,
-      ]}
+      sx={ulStyle}
     >
       {items.map((item, index) => (
         <Fragment key={index}>

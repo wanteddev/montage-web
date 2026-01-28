@@ -31,7 +31,7 @@ const SectionAccessibility = ({ contents }: Props) => {
 
 const SectionAccessibilityTable = ({ contents }: Props) => {
   return (
-    <Table sx={{ borderRadius: 20 }}>
+    <Table sx={{ borderRadius: 10 }}>
       <TableHead>
         <TableRow>
           <TableHeadCell color="semantic.label.normal">Key</TableHeadCell>

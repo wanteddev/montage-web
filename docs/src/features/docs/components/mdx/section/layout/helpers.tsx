@@ -71,6 +71,9 @@ export const renderParsedContent = (content: string) => {
     }
   };
 
+  const hasMoreTextItem =
+    parsedContent.filter((v) => v.type === 'text').length >= 2;
+
   parsedContent.forEach((item, idx) => {
     if (item.type === 'text') {
       const isStrong =
@@ -79,9 +82,14 @@ export const renderParsedContent = (content: string) => {
 
       const isNextItemList = parsedContent[idx + 1]?.type === 'list';
       const isPrevItemList = parsedContent[idx - 1]?.type === 'list';
-      const isPrevItemText = parsedContent[idx - 1]?.type === 'text';
 
-      const shouldHasMarginTop = (isPrevItemText && isStrong) || isPrevItemList;
+      const shouldHasMarginTop = isPrevItemList;
+
+      let marginBottom = '0';
+
+      if (isNextItemList) {
+        marginBottom = hasMoreTextItem ? '6px !important' : '24px !important';
+      }
 
       flushList();
       elements.push(
@@ -92,7 +100,7 @@ export const renderParsedContent = (content: string) => {
           color="semantic.label.neutral"
           key={`text-${elements.length}`}
           sx={{
-            marginBottom: isNextItemList ? '24px !important' : '0',
+            marginBottom,
             marginTop: shouldHasMarginTop ? '24px !important' : '0',
           }}
         >
