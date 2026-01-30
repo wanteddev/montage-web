@@ -43,11 +43,11 @@ module.exports = {
   hierarchy: [
     {
       components: ['SegmentedControl', 'SegmentedControlItem'],
-      render: `<SegmentedControl value="active" variant="solid" sx={{maxWidth: 335}}><SegmentedControlItem value="active" leadingContent={<IconList />}>Active</SegmentedControlItem><SegmentedControlItem value="inactive1" leadingContent={<IconList />}>Inactive</SegmentedControlItem></SegmentedControl>`,
+      render: `<SegmentedControl value="active" variant="solid" sx={{width:180}}><SegmentedControlItem value="active">Active</SegmentedControlItem><SegmentedControlItem value="inactive">Inactive</SegmentedControlItem></SegmentedControl>`,
     },
     {
       components: ['SegmentedControl', 'SegmentedControlItem'],
-      render: `<SegmentedControl value="active" variant="outlined" sx={{maxWidth: 335}}><SegmentedControlItem value="active" leadingContent={<IconList />}>Active</SegmentedControlItem><SegmentedControlItem value="inactive1" leadingContent={<IconList />}>Inactive</SegmentedControlItem></SegmentedControl>`,
+      render: `<SegmentedControl value="active" variant="outlined" sx={{width:180}}><SegmentedControlItem value="active">Active</SegmentedControlItem><SegmentedControlItem value="inactive">Inactive</SegmentedControlItem></SegmentedControl>`,
     },
   ],
   accessibility: [
