@@ -1,132 +1,145 @@
 ---
 title: Checkbox
 description: Input의 checkbox는 Label을 포함한 Checkbox로, 하나 이상의 선택지를 선택하거나 해제할 수 있습니다. 복수 선택이 가능하며, 항목의 ‘선택됨’ 또는 ‘선택되지 않음’ 상태를 명확하게 표현합니다.
-image: /components/selection-and-input/checkbox/design/Thumbnails.png
+image: /components/selection-and-input/checkbox/design/Image.png
+ogImage: /components/selection-and-input/checkbox/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2025-10-14
+updatedAt: 2026-01-30
 ---
 
 <SectionAnatomy
-  src="/components/selection-and-input/checkbox/design/Image.png"
-  ratio="16:9"
+  src="/components/selection-and-input/checkbox/design/Image-1.png"
+  ratio="95 / 33"
   data={[
-    'Control',
-    'Label',
+    'Control','Label'
   ]}
 />
+  
 
 <SectionVariants
   components={['FormField', 'FlexBox', 'FormControl', 'FormLabel', 'Checkbox']}
+  icons={[]}
   render={(value) => {
-    const tight = value['Tight'] === 'True'
-    const size = value['Size'].toLowerCase()
-    const bold = value['Bold'] === 'True'
+      const tight = value['Tight'] === 'True';
+      const size = value['Size'].toLowerCase();
+      const bold = value['Bold'] === 'True';
 
-    const gap = tight ? '10px' : '8px'
+      const gap = tight ? '10px' : '8px';
 
-    return `
-      <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
-        <FormControl>
-          <Checkbox
-            size="${size}"
-            bold={${bold}}
-            tight={${tight}}
-          />
-        </FormControl>
-        <FormLabel>Checkbox</FormLabel>
-      </FormField>
-    `;
-  }}
+      return `
+        <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
+          <FormControl>
+            <Checkbox
+              size="${size}"
+              bold={${bold}}
+              tight={${tight}}
+            />
+          </FormControl>
+          <FormLabel>Checkbox</FormLabel>
+        </FormField>
+      `;
+    }}
   variants={[
     {
       key: 'Size',
       defaultValue: 'Medium',
       options: [
         { label: 'Small', value: {} },
-        { label: 'Medium', value: {} },
+        { label: 'Medium', value: {} }
       ]
     },
     {
       key: 'Tight',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
-      ],
+        { label: 'True', value: {} }
+      ]
     },
     {
       key: 'Bold',
       defaultValue: 'False',
       options: [
         { label: 'True', value: {} },
-        { label: 'False', value: {} },
-      ],
-    },
+        { label: 'False', value: {} }
+      ]
+    }
   ]}
 />
 
-<SectionStates
-  src="/components/selection-and-input/checkbox/design/Image-1.png"
-  ratio="16:9"
-  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
-/>
 
+<SectionStates
+  ratio="76 / 37"
+  src="/components/selection-and-input/checkbox/design/Image-2.png"
+/>
 
 <SectionLayout title="Clickable area">
   <SectionFigure
-    title="Usage"
-    ratio="16:10"
-    description="다중 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Checkbox를 선택 적용합니다.
-
+    ratio="760 / 257"
+    src="/components/selection-and-input/checkbox/design/Image-3.png"
+    description={`다중 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Checkbox를 선택 적용합니다.
 - Input/Checkbox: Control과 Label 영역만 터치 영역
-- Cell: 공백을 포함한 모든 영역이 터치 영역"
-    src="/components/selection-and-input/checkbox/design/Image-2.png"
+- Cell: 공백을 포함한 모든 영역이 터치 영역`}
   />
 </SectionLayout>
 
-<SectionHierarchy title="Check hierarchy">
+<SectionHierarchy>
   <SectionHierarchyItem
-    level={2}
-    description="상위 항목의 동의 및 선택 여부를 표현합니다."
-    components={['FormField', 'FormControl', 'FormLabel', 'Checkbox']}
+    description={`Level.2 → 상위 항목의 동의 및 선택 여부를 표현합니다.`}
+    components={[
+  "FormField",
+  "FormControl",
+  "FormLabel",
+  "Checkbox"
+]}
     render={`<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox defaultChecked /></FormControl><FormLabel sx={{ padding: "1px 0px" }}>Medium</FormLabel></FormField>`}
   />
   <SectionHierarchyItem
-    level={1}
-    description="하위 항목의 동의 및 선택 여부를 표현합니다."
-    components={['FormField', 'FormControl', 'FormLabel', 'Checkbox']}
+    description={`Level.1 → 하위 항목의 동의 및 선택 여부를 표현합니다.`}
+    components={[
+  "FormField",
+  "FormControl",
+  "FormLabel",
+  "Checkbox"
+]}
     render={`<FormField flexDirection="row" gap="8px" sx={{ width:'88px' }}><FormControl><Checkbox size="small" defaultChecked /></FormControl><FormLabel>Small</FormLabel></FormField>`}
   />
 </SectionHierarchy>
 
 <SectionLayout title="Gap">
   <SectionFigure
-    ratio="2:1"
-    description="반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 간격을 두는 것을 권장합니다.
-간격을 8px 이상으로 조절할 시에는 4배수 단위로 변경합니다."
-    src="/components/selection-and-input/checkbox/design/Image-3.png"
+    ratio="190 / 79"
+    src="/components/selection-and-input/checkbox/design/Image-4.png"
+    description={`반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 간격을 두는 것을 권장합니다. 간격을 8px 이상으로 조절할 시에는 4배수 단위로 변경합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="16:10"
-    description="사용성을 고려하여 터치 영역에 따라 Cell과 Input을 적절히 배치하여 사용합니다."
-    src="/components/selection-and-input/checkbox/design/Image-4.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="21:9"
-    description="Control을 우측에 배치하여 사용하지 않습니다."
-    src="/components/selection-and-input/checkbox/design/Image-5.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="760 / 403"
+      src="/components/selection-and-input/checkbox/design/Image-5.png"
+      variant="positive"
+      description={`사용성을 고려하여 터치 영역에 따라 Cell과 Input을 적절히 배치하여 사용합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 163"
+      src="/components/selection-and-input/checkbox/design/Image-6.png"
+      variant="negative"
+      description={`Control을 우측에 배치하여 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionCustomize
   data={[
-    {
-      key: 'Label',
-      options: ['typography', 'typographyColor']
-    }
-  ]}
+  {
+    "key": "Label",
+    "options": [
+      "typography",
+      "typographyColor"
+    ]
+  }
+]}
 />

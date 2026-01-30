@@ -4,7 +4,7 @@ description: 특정 UI 요소 위에서 해당 요소에 대한 추가적인 정
 image: /components/presentation/popover/design/Image.png
 ogImage: /components/presentation/popover/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-01-27
+updatedAt: 2026-01-30
 ---
 
 <SectionAnatomy
@@ -94,7 +94,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="95 / 3"
     src="/components/presentation/popover/design/Image-2.png"
-    description="최소 너비는 140px, 최대 너비는 360px로 제한합니다. 표시할 내용이 최대 너비를 초과할 경우 텍스트는 줄바꿈 처리합니다."
+    description={`최소 너비는 140px, 최대 너비는 360px로 제한합니다. 표시할 내용이 최대 너비를 초과할 경우 텍스트는 줄바꿈 처리합니다.`}
   />
 </SectionLayout>
 
@@ -102,7 +102,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="38 / 13"
     src="/components/presentation/popover/design/Image-3.png"
-    description="Close button을 추가해 사용자가 직접 요소를 닫을 수 있는 방법을 제공할 수 있습니다. 내부에 중요한 내용이나 액션이 포함되었거나, 사용자의 인터랙션이 없어도 항상 띄워져 있을 때 사용할 수 있습니다."
+    description={`Close button을 추가해 사용자가 직접 요소를 닫을 수 있는 방법을 제공할 수 있습니다. 내부에 중요한 내용이나 액션이 포함되었거나, 사용자의 인터랙션이 없어도 항상 띄워져 있을 때 사용할 수 있습니다.`}
   />
 </SectionLayout>
 
@@ -110,7 +110,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="38 / 13"
     src="/components/presentation/popover/design/Image-4.png"
-    description="하단에 액션 버튼을 추가하여 사용자의 행동을 유도할 수 있습니다. 주요 액션과 보조 액션으로 구성할 수 있으며, 최대 2개까지 사용하는 것을 권장합니다."
+    description={`하단에 액션 버튼을 추가하여 사용자의 행동을 유도할 수 있습니다. 주요 액션과 보조 액션으로 구성할 수 있으며, 최대 2개까지 사용하는 것을 권장합니다.`}
   />
 </SectionLayout>
 
@@ -118,7 +118,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="20 / 9"
     src="/components/presentation/popover/design/Image-5.png"
-    description="특정 요소를 클릭하거나 탭할 때 띄우는 것을 기본으로 합니다. 새로운 기능 소개나 온보딩 가이드처럼 사용자의 주목이 필요한 경우, 사용자의 별도 조작 없이 항상 표시되도록 사용할 수 있습니다."
+    description={`특정 요소를 클릭하거나 탭할 때 띄우는 것을 기본으로 합니다. 새로운 기능 소개나 온보딩 가이드처럼 사용자의 주목이 필요한 경우, 사용자의 별도 조작 없이 항상 표시되도록 사용할 수 있습니다.`}
   />
 </SectionLayout>
 
@@ -126,7 +126,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="95 / 62"
     src="/components/presentation/popover/design/Image-6.png"
-    description="트리거 요소로부터 Top, Bottom, Right, Left로 위치를 조정하여 사용할 수 있습니다."
+    description={`트리거 요소로부터 Top, Bottom, Right, Left로 위치를 조정하여 사용할 수 있습니다.`}
   />
 </SectionLayout>
 
@@ -135,17 +135,17 @@ updatedAt: 2026-01-27
     <SectionFigure
       ratio="19 / 7"
       src="/components/presentation/popover/design/Image-7.png"
-      description="특정 요소 클릭 시 표시되는 방식을 기본으로 합니다. 다만, 액션이 포함되지 않은 단순한 정보의 경우 Tooltip을 사용하는 것을 권장합니다."
+      description={`특정 요소 클릭 시 표시되는 방식을 기본으로 합니다. 다만, 액션이 포함되지 않은 단순한 정보의 경우 Tooltip을 사용하는 것을 권장합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Always on">
     <SectionFigure
       ratio="760 / 539"
       src="/components/presentation/popover/design/Image-8.png"
-      description="첫 진입 시 온보딩 가이드나 업데이트 정보를 알리고자 할 때 별도 조작없이 항상 노출되는 방식으로 사용할 수 있습니다. 이 경우 Popover를 닫는 방식은 아래 옵션 중에서 사용자가 자유롭게 지정할 수 있습니다. 만약 스크롤 시에도 계속 노출되도록 설정했다면, Popover가 GNB(상단 메뉴) 영역에 닿았을 때 잠시 사라지도록 처리해 화면 가림을 방지하는 것을 권장합니다.
+      description={`첫 진입 시 온보딩 가이드나 업데이트 정보를 알리고자 할 때 별도 조작없이 항상 노출되는 방식으로 사용할 수 있습니다. 이 경우 Popover를 닫는 방식은 아래 옵션 중에서 사용자가 자유롭게 지정할 수 있습니다. 만약 스크롤 시에도 계속 노출되도록 설정했다면, Popover가 GNB(상단 메뉴) 영역에 닿았을 때 잠시 사라지도록 처리해 화면 가림을 방지하는 것을 권장합니다.
 - 스크롤 또는 외부 영역 클릭 시 닫기
 - Popover를 표시한 요소 클릭 시 닫기
-- 닫히지 않도록 고정"
+- 닫히지 않도록 고정`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -156,7 +156,7 @@ updatedAt: 2026-01-27
       ratio="19 / 7"
       src="/components/presentation/popover/design/Image-9.png"
       variant="positive"
-      description="Popover는 한 번에 하나만 표시하세요."
+      description={`Popover는 한 번에 하나만 표시합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
@@ -164,7 +164,7 @@ updatedAt: 2026-01-27
       ratio="19 / 7"
       src="/components/presentation/popover/design/Image-10.png"
       variant="negative"
-      description="단순한 정보를 안내할 경우 Popover를 사용하지 마세요."
+      description={`단순한 정보를 안내할 경우 Popover를 사용하지 않습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>

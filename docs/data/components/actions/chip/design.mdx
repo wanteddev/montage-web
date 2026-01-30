@@ -4,7 +4,7 @@ description: 간결한 정보나 선택 상태를 시각적으로 표현합니�
 image: /components/actions/chip/design/Image.png
 ogImage: /components/actions/chip/design/Thumbnails.png
 createdAt: 2025-05-12
-updatedAt: 2026-01-23
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
@@ -56,7 +56,7 @@ updatedAt: 2026-01-23
   <SectionFigure
     ratio="380 / 103"
     src="/components/actions/chip/design/Image-3.png"
-    description="좌우 너비는 자유롭게 커스터마이징하여 사용할 수 있으나 높이는 변경할 수 없습니다."
+    description={`좌우 너비는 자유롭게 커스터마이징하여 사용할 수 있으나 높이는 변경할 수 없습니다.`}
   />
 </SectionLayout>
 
@@ -65,28 +65,28 @@ updatedAt: 2026-01-23
     <SectionFigure
       ratio="152 / 71"
       src="/components/actions/chip/design/Image-4.png"
-      description="클릭으로 상태로 변경할 수 있습니다. 선택할 수 있는 모든 값이 한 화면에 보일 때 사용하는 것을 권장합니다. 요소를 나열할 시 요소 간의 간격을 균일하게 유지하며 레이아웃을 채웁니다."
+      description={`클릭으로 상태로 변경할 수 있습니다. 선택할 수 있는 모든 값이 한 화면에 보일 때 사용하는 것을 권장합니다. 요소를 나열할 시 요소 간의 간격을 균일하게 유지하며 레이아웃을 채웁니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Select chip">
     <SectionFigure
       ratio="190 / 69"
       src="/components/actions/chip/design/Image-5.png"
-      description="Select에서 사용할 때 선택된 값을 표현할 수 있습니다."
+      description={`Select에서 사용할 때 선택된 값을 표현할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionHierarchy>
   <SectionHierarchyItem
-    description="Level.2 → Solid는 Active 상태에서 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다."
+    description={`Level.2 → Solid는 Active 상태에서 Outlined보다 높은 위계를 가지며 화면 전체를 컨트롤 합니다.`}
     components={[
   "Chip"
 ]}
     render={`<Chip size="xsmall" active>Chip</Chip>`}
   />
   <SectionHierarchyItem
-    description="Level.1 → Outlined는 Active 상태에서 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다."
+    description={`Level.1 → Outlined는 Active 상태에서 Solid보다 낮은 위계를 가지며 일부 영역, 다중 선택 시 사용합니다.`}
     components={[
   "Chip"
 ]}
@@ -99,14 +99,14 @@ updatedAt: 2026-01-23
     <SectionFigure
       ratio="95 / 37"
       src="/components/actions/chip/design/Image-6.png"
-      description="클릭으로 삭제, 추가, 이동이 가능한 값을 표현할 때 Chip을 사용합니다."
+      description={`클릭으로 삭제, 추가, 이동이 가능한 값을 표현할 때 Chip을 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Category">
     <SectionFigure
       ratio="95 / 37"
       src="/components/actions/chip/design/Image-7.png"
-      description="Tab보다 낮은 레벨로 화면 혹은 섹션에 뿌려지는 값을 구분할 때 Chip으로 구성된 카테고리를 사용합니다."
+      description={`Tab보다 낮은 레벨로 화면 혹은 섹션에 뿌려지는 값을 구분할 때 Chip으로 구성된 카테고리를 사용합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -117,7 +117,7 @@ updatedAt: 2026-01-23
       ratio="95 / 37"
       src="/components/actions/chip/design/Image-8.png"
       variant="positive"
-      description="Tab의 하위에서 카테고리를 구분하여 사용할 수 있어요."
+      description={`Tab의 하위에서 카테고리를 구분하여 사용할 수 있어요.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
@@ -125,7 +125,7 @@ updatedAt: 2026-01-23
       ratio="95 / 37"
       src="/components/actions/chip/design/Image-9.png"
       variant="negative"
-      description="Border의 색상이나 둥글기를 임의로 변경하여 사용하지 않습니다."
+      description={`Border의 색상이나 둥글기를 임의로 변경하여 사용하지 않습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>

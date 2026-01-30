@@ -219,6 +219,7 @@ const parseSectionVariants = async (pageName: string, group: string) => {
   const icons = variants.icons || [];
   const internals = variants.internals || [];
   const render = variants.render;
+  const states = variants.states;
   const variantsData = variants.variants || [];
 
   const formatValue = (val: unknown) => {
@@ -302,11 +303,13 @@ ${options}
       ? `  internals={[${internals.map((i) => `'${i}'`).join(', ')}]}\n`
       : '';
 
+  const statesPart = states ? `  states={${formatValue(states)}}\n` : '';
+
   const renderPart = render ? `  render={${formatValue(render)}}\n` : '';
 
   return `\n\n<SectionVariants
   components={[${components.map((c) => `'${c}'`).join(', ')}]}
-${iconsPart}${internalPart}${renderPart}  variants={[
+${iconsPart}${internalPart}${statesPart}${renderPart}  variants={[
 ${variantsString}
   ]}
 />
@@ -353,7 +356,7 @@ const parseSectionLayout = (
       <SectionFigure
         ratio="${ratio}"
         src="/components/${group}/${pageName}/design/{imageName}"
-        description="${description}"
+        description={\`${description}\`}
     />
   </SectionFigureGroup>
 </SectionLayout>`;
@@ -363,7 +366,7 @@ const parseSectionLayout = (
   <SectionFigure
     ratio="${ratio}"
     src="/components/${group}/${pageName}/design/{imageName}"
-    description="${description}"
+    description={\`${description}\`}
   />
 </SectionLayout>`;
   }
@@ -379,7 +382,7 @@ const parseSectionLayout = (
     <SectionFigure
       ratio="${ratio}"
       src="/components/${group}/${pageName}/design/{imageName}"
-      description="${getDescriptionOfFigure(figure)}"
+      description={\`${getDescriptionOfFigure(figure)}\`}
     />
   </SectionFigureGroup>`;
   });
@@ -457,7 +460,7 @@ const parseSectionHierarchy = async (
     const description = getCharacters(contentList[i].children[1]);
 
     result += `\n  <SectionHierarchyItem
-    description="${description}"
+    description={\`${description}\`}
     components={${JSON.stringify(item.components, null, 2)}}
     render={\`${item.render}\`}
   />`;
@@ -533,7 +536,7 @@ const parseSectionHowToUse = (
       ratio="${ratio}"
       src="/components/${group}/${pageName}/design/{imageName}"
       variant="${variant}"
-      description="${description}"
+      description={\`${description}\`}
     />
   </SectionFigureGroup>`;
   });
@@ -579,7 +582,7 @@ const parseSectionSize = (
   <SectionFigure
     ratio="${ratio}"
     src="/components/${group}/${pageName}/design/{imageName}"
-    description="${description}"
+    description={\`${description}\`}
   />
 </SectionLayout>`;
   }
@@ -594,7 +597,7 @@ const parseSectionSize = (
 <SectionFigure
   ratio="${ratio}"
   src="/components/${group}/${pageName}/design/{imageName}"
-  description="${getDescriptionOfFigure(usage)}"
+  description={\`${getDescriptionOfFigure(usage)}\`}
 />
 </SectionFigureGroup>`;
   });

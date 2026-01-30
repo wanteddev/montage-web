@@ -85,32 +85,44 @@ export const getDescriptionOfFigure = (figure: FigmaNode) => {
 
   return figures
     .map((data) => {
-      const options = data.children
-        .filter(({ type, visible }) => type === 'TEXT' && visible !== false)
-        .map((node) => {
-          if (
-            (node as unknown as TextNode).lineTypes.some(
-              (type) => type !== 'NONE',
-            )
-          ) {
-            return {
-              text: getCharacters(node),
-              type: 'LINE',
-            };
-          }
+      const filteredOptions = data.children.filter(
+        ({ type, visible }) => type === 'TEXT' && visible !== false,
+      );
 
-          return {
-            text: getCharacters(node),
-            type: 'NONE',
-          };
-        })
-        .filter(({ text }) => Boolean(text));
+      const options: Array<{
+        text: string;
+        type: 'LINE' | 'NONE';
+        depth?: number;
+      }> = [];
+
+      filteredOptions.forEach((option) => {
+        const text = getCharacters(option);
+        const textNode = option as unknown as TextNode;
+
+        if (textNode.lineTypes.some((type) => type !== 'NONE')) {
+          if (text.includes('\n')) {
+            const splitText = text.split('\n');
+
+            splitText.forEach((line, index) => {
+              options.push({
+                text: line,
+                type: 'LINE',
+                depth: textNode.lineIndentations[index] ?? 0,
+              });
+            });
+          } else {
+            options.push({ text, type: 'LINE' });
+          }
+        } else {
+          options.push({ text, type: 'NONE' });
+        }
+      });
 
       if (options.length > 1) {
         return options
-          .map(({ text, type }) => {
+          .map(({ text, type, depth }) => {
             if (type === 'LINE') {
-              return `- ${text}`;
+              return `${'  '.repeat(depth ?? 0)}- ${text}`;
             }
 
             return text;

@@ -4,7 +4,7 @@ description: 특정 UI 요소 위에서 해당 요소에 대한 간략한 레이
 image: /components/presentation/tooltip/design/Image.png
 ogImage: /components/presentation/tooltip/design/Thumbnails.png
 createdAt: 2025-10-15
-updatedAt: 2026-01-27
+updatedAt: 2026-01-30
 ---
 
 <SectionAnatomy
@@ -93,9 +93,9 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="95 / 3"
     src="/components/presentation/tooltip/design/Image-2.png"
-    description="최대 너비는 280px로 제한하며, 표시할 내용이 최대 너비를 초과할 경우 텍스트는 줄바꿈 처리합니다. 최소 너비는 Small인 경우 36px, Medium인 경우 64px로 제한합니다.
+    description={`최대 너비는 280px로 제한하며, 표시할 내용이 최대 너비를 초과할 경우 텍스트는 줄바꿈 처리합니다. 최소 너비는 Small인 경우 36px, Medium인 경우 64px로 제한합니다.
 - Small: Hover 시 아이콘 버튼의 역할을 안내하거나 텍스트가 말줄임 처리된 경우 전체 텍스트를 보여주는 등 데스크톱에서 보조적인 정보를 제공할 때 사용합니다.
-- Medium: 신규 기능의 위치를 안내하거나  온보딩을 제공하는 등 모든 플랫폼에서 기본으로 사용할 수 있습니다."
+- Medium: 신규 기능의 위치를 안내하거나  온보딩을 제공하는 등 모든 플랫폼에서 기본으로 사용할 수 있습니다.`}
   />
 </SectionLayout>
 
@@ -103,7 +103,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="19 / 10"
     src="/components/presentation/tooltip/design/Image-3.png"
-    description="Tooltip은 트리거 요소에 마우스 호버 시 나타나는 것을 기본으로 합니다. 다만 의도와 목적에 따라 항상 노출되도록 변경해 사용할 수 있습니다."
+    description={`Tooltip은 트리거 요소에 마우스 호버 시 나타나는 것을 기본으로 합니다. 다만 의도와 목적에 따라 항상 노출되도록 변경해 사용할 수 있습니다.`}
   />
 </SectionLayout>
 
@@ -111,7 +111,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="95 / 31"
     src="/components/presentation/tooltip/design/Image-4.png"
-    description="자주 사용하는 기능의 키보드 단축키를 안내할 경우 Shortcut을 표시할 수 있습니다."
+    description={`자주 사용하는 기능의 키보드 단축키를 안내할 경우 Shortcut을 표시할 수 있습니다.`}
   />
 </SectionLayout>
 
@@ -119,8 +119,8 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="19 / 12"
     src="/components/presentation/tooltip/design/Image-5.png"
-    description="화면 영역을 벗어나 툴팁이 잘려 보이는 것을 방지하기 위해, 트리거 요소의 위치에 따라 Arrow의 방향을 적절히 조정하여 
-사용하세요."
+    description={`화면 영역을 벗어나 툴팁이 잘려 보이는 것을 방지하기 위해, 트리거 요소의 위치에 따라 Arrow의 방향을 적절히 조정하여 
+사용하세요.`}
   />
 </SectionLayout>
 
@@ -129,17 +129,17 @@ updatedAt: 2026-01-27
     <SectionFigure
       ratio="76 / 25"
       src="/components/presentation/tooltip/design/Image-6.png"
-      description="웹에서는 특정 요소에 마우스를 올렸을 때 Tooltip을 표시하는 것을 기본으로 하지만, 모바일에서는 제공하지 않습니다. 마우스 커서가 Tooltip이 표시된 요소를 벗어나거나 페이지를 스크롤하면 툴팁은 자동으로 닫힙니다."
+      description={`웹에서는 특정 요소에 마우스를 올렸을 때 Tooltip을 표시하는 것을 기본으로 하지만, 모바일에서는 제공하지 않습니다. 마우스 커서가 Tooltip이 표시된 요소를 벗어나거나 페이지를 스크롤하면 툴팁은 자동으로 닫힙니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Always on">
     <SectionFigure
       ratio="19 / 16"
       src="/components/presentation/tooltip/design/Image-7.png"
-      description="중요한 가이드나 업데이트 정보를 알리고자 할 때 Tooltip이 항상 노출되도록 고정해 사용할 수 있습니다. 이 경우 Tooltip을 닫는 방식은 아래 옵션 중에서 사용자가 자유롭게 지정할 수 있습니다. 만약 스크롤 시에도 툴팁이 계속 노출되도록 설정했다면, Tooltip이 GNB(상단 메뉴) 영역에 닿았을 때 잠시 사라지도록 처리해 화면 가림을 방지하는 것을 권장합니다.
+      description={`중요한 가이드나 업데이트 정보를 알리고자 할 때 Tooltip이 항상 노출되도록 고정해 사용할 수 있습니다. 이 경우 Tooltip을 닫는 방식은 아래 옵션 중에서 사용자가 자유롭게 지정할 수 있습니다. 만약 스크롤 시에도 툴팁이 계속 노출되도록 설정했다면, Tooltip이 GNB(상단 메뉴) 영역에 닿았을 때 잠시 사라지도록 처리해 화면 가림을 방지하는 것을 권장합니다.
 - 스크롤 또는 외부 영역 클릭 시 닫기
 - Tooltip을 표시한 요소 클릭 시 닫기
-- 닫히지 않도록 고정"
+- 닫히지 않도록 고정`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -150,7 +150,7 @@ updatedAt: 2026-01-27
       ratio="380 / 197"
       src="/components/presentation/tooltip/design/Image-8.png"
       variant="positive"
-      description="아이콘 버튼처럼 의미가 명확하지 않은 요소에 설명을 제공할 때 사용하세요."
+      description={`아이콘 버튼처럼 의미가 명확하지 않은 요소에 설명을 제공할 때 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
@@ -158,7 +158,7 @@ updatedAt: 2026-01-27
       ratio="38 / 17"
       src="/components/presentation/tooltip/design/Image-9.png"
       variant="negative"
-      description="모바일에서 Small 사이즈를 사용하지 않습니다."
+      description={`모바일에서 Small 사이즈를 사용하지 않습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>

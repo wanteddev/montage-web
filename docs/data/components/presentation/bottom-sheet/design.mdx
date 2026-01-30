@@ -4,7 +4,7 @@ description: 사용자가 현재 맥락과 밀접한 관련이 있는 범위가 
 image: /components/presentation/bottom-sheet/design/Image.png
 ogImage: /components/presentation/bottom-sheet/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-01-27
+updatedAt: 2026-01-30
 ---
 
 <SectionAnatomy
@@ -20,9 +20,9 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="76 / 41"
     src="/components/presentation/bottom-sheet/design/Image-2.png"
-    description="Bottom sheet는 Handle을 기본 형태로 사용합니다. Handle 영역을 잡아 끌거나 Dimmer 영역을 터치할 경우 Bottomsheet가 내려갑니다.
+    description={`Bottom sheet는 Handle을 기본 형태로 사용합니다. Handle 영역을 잡아 끌거나 Dimmer 영역을 터치할 경우 Bottomsheet가 내려갑니다.
 - Handle=True: 기본 동작으로 바텀시트를 닫거나 축소, 확장시킵니다.
-- Handle=False: 특정 버튼을 눌러 바텀시트를 닫을 수 있도록 제한할 때 Handle을 제거하여 사용합니다."
+- Handle=False: 특정 버튼을 눌러 바텀시트를 닫을 수 있도록 제한할 때 Handle을 제거하여 사용합니다.`}
   />
 </SectionLayout>
 
@@ -30,8 +30,8 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="38 / 29"
     src="/components/presentation/bottom-sheet/design/Image-3.png"
-    description="- Web: 브라우저 화면 상단에서 40px 아래까지 확장 가능합니다.
-- App: 상태바(Status bar)를 제외한 화면에서 상단 10px 아래까지 확장 가능합니다."
+    description={`- Web: 브라우저 화면 상단에서 40px 아래까지 확장 가능합니다.
+- App: 상태바(Status bar)를 제외한 화면에서 상단 10px 아래까지 확장 가능합니다.`}
   />
 </SectionLayout>
 
@@ -40,28 +40,28 @@ updatedAt: 2026-01-27
     <SectionFigure
       ratio="380 / 263"
       src="/components/presentation/bottom-sheet/design/Image-4.png"
-      description="콘텐츠 영역의 높이만큼 Bottom sheet의 컨테이너 높이가 조정되는 타입으로 별도 여백의 활용 없이 콘텐츠만 명확하게 사용자에게 전달할 때 사용합니다."
+      description={`콘텐츠 영역의 높이만큼 Bottom sheet의 컨테이너 높이가 조정되는 타입으로 별도 여백의 활용 없이 콘텐츠만 명확하게 사용자에게 전달할 때 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Flexible">
     <SectionFigure
       ratio="380 / 263"
       src="/components/presentation/bottom-sheet/design/Image-5.png"
-      description="최대 높이의 50%만 올라오며 스크롤을 하거나 혹은 핸들을 잡고 끌어올리면 최대 높이까지 늘어나는 타입입니다. 리스트를 탐색할 때 사용하면 사용자에게 더 나은 편의성을 제공할 수 있습니다."
+      description={`최대 높이의 50%만 올라오며 스크롤을 하거나 혹은 핸들을 잡고 끌어올리면 최대 높이까지 늘어나는 타입입니다. 리스트를 탐색할 때 사용하면 사용자에게 더 나은 편의성을 제공할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Fill">
     <SectionFigure
       ratio="380 / 263"
       src="/components/presentation/bottom-sheet/design/Image-6.png"
-      description="콘텐츠의 높이 여부와 관계 없이 항상 화면을 모두 채우는 형태의 타입입니다. 상세 정책과 같이 줄 글이 많거나 매우 긴 콘텐츠를 제공할 때 사용을 권장합니다."
+      description={`콘텐츠의 높이 여부와 관계 없이 항상 화면을 모두 채우는 형태의 타입입니다. 상세 정책과 같이 줄 글이 많거나 매우 긴 콘텐츠를 제공할 때 사용을 권장합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Fixed">
     <SectionFigure
       ratio="380 / 263"
       src="/components/presentation/bottom-sheet/design/Image-7.png"
-      description="최대 높이 이전까지 사용자가 자유롭게 8배수 단위로 높이를 지정하여 사용합니다. Bottomsheet에서 탭과 같은 요소로 화면을 분할하는 UX를 디자인할 시 높이를 고정해야할 때 사용할 수 있습니다."
+      description={`최대 높이 이전까지 사용자가 자유롭게 8배수 단위로 높이를 지정하여 사용합니다. Bottom sheet에서 탭과 같은 요소로 화면을 분할하는 UX를 디자인할 시 높이를 고정해야할 때 사용할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -70,9 +70,9 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="190 / 129"
     src="/components/presentation/bottom-sheet/design/Image-8.png"
-    description="- Strong: 버튼을 상하로 배치하여 의도적으로 Main action을 강조할 때 사용합니다.
+    description={`- Strong: 버튼을 상하로 배치하여 의도적으로 Main action을 강조할 때 사용합니다.
 - Neutral: 버튼이 양 옆으로 배치되어 Main action과 Sub action의 선택을 대등하게 제공해야 할 때 사용합니다.
-- Cancel: ‘취소’, ‘확인’ 등 단순 Bottomsheet를 종료하는 용도로 사용합니다."
+- Cancel: ‘취소’, ‘확인’ 등 단순 Bottomsheet를 종료하는 용도로 사용합니다.`}
   />
 </SectionLayout>
 
@@ -81,28 +81,28 @@ updatedAt: 2026-01-27
     <SectionFigure
       ratio="380 / 211"
       src="/components/presentation/bottom-sheet/design/Image-9.png"
-      description="콘텐츠의 편집 영역이 광범위하거나 화면 내에서 Depth가 생길 시 Full modal을 활용하여 확장성있게 대응할 수 있도록 설계하는 것을 권장합니다."
+      description={`콘텐츠의 편집 영역이 광범위하거나 화면 내에서 Depth가 생길 시 Full modal을 활용하여 확장성있게 대응할 수 있도록 설계하는 것을 권장합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Picker">
     <SectionFigure
       ratio="380 / 271"
       src="/components/presentation/bottom-sheet/design/Image-10.png"
-      description="모바일에서 Date, Time picker를 바텀시트로 호출하여 사용합니다."
+      description={`모바일에서 Date, Time picker를 바텀시트로 호출하여 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Menu">
     <SectionFigure
       ratio="380 / 271"
       src="/components/presentation/bottom-sheet/design/Image-11.png"
-      description="모바일에서 Menu 호출 시 Bottom sheet를 활용합니다."
+      description={`모바일에서 Menu 호출 시 Bottom sheet를 활용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Action sheet">
     <SectionFigure
       ratio="19 / 10"
       src="/components/presentation/bottom-sheet/design/Image-12.png"
-      description="App은 각 플랫폼에서 제공하는 Action sheet를 사용하며 Web은 Bottom sheet를 활용하여 Action sheet를 구성합니다."
+      description={`App은 각 플랫폼에서 제공하는 Action sheet를 사용하며 Web은 Bottom sheet를 활용하여 Action sheet를 구성합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -113,7 +113,7 @@ updatedAt: 2026-01-27
       ratio="10 / 7"
       src="/components/presentation/bottom-sheet/design/Image-13.png"
       variant="positive"
-      description="Bottom sheet에서 높이의 변화가 없는 간단한 편집을 수행할 수 있습니다."
+      description={`Bottom sheet에서 높이의 변화가 없는 간단한 편집을 수행할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
@@ -121,7 +121,7 @@ updatedAt: 2026-01-27
       ratio="10 / 7"
       src="/components/presentation/bottom-sheet/design/Image-14.png"
       variant="negative"
-      description="Bottom sheet에서 이중으로 모달을 띄우는 것을 지양합니다."
+      description={`Bottom sheet에서 이중으로 모달을 띄우는 것을 지양합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>

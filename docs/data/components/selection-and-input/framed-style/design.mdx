@@ -1,145 +1,145 @@
 ---
 title: Framed style
 description: 여러 요소를 하나의 프레임으로 감싸 정보의 그룹화를 명확히 하기 위한 컴포넌트입니다. 그룹 단위의 선택된 상태를 시각적으로 강조하기 위해 사용합니다.
-image: /components/selection-and-input/framed-style/design/Thumbnails.png
+image: /components/selection-and-input/framed-style/design/Image.png
+ogImage: /components/selection-and-input/framed-style/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2025-10-14
+updatedAt: 2026-01-30
 ---
 
 <SectionAnatomy
-  src="/components/selection-and-input/framed-style/design/Image.png"
-  ratio="21:9"
+  src="/components/selection-and-input/framed-style/design/Image-1.png"
+  ratio="95 / 34"
   data={[
-    'Container',
-    'Contents',
+    'Container','Contents'
   ]}
 />
+  
 
 <SectionVariants
   components={['Box', 'framedStyle']}
-  states={`
-    const [selected, setSelected] = React.useState(false);
-  `}
+  icons={[]}
+  states={'const [selected, setSelected] = React.useState(false);'}
   render={(value) => {
-    const invalid = value['Status'] === 'Negative';
+      const invalid = value['Status'] === 'Negative';
 
-    return `
-      <Box
-        tabIndex={0}
-        onClick={() => setSelected(!selected)}
-        sx={[
-          framedStyle({
-            invalid: ${invalid},
-            selected,
-          }),
-          {
-            width: '80%',
-          },
-        ]}
-      >
+      return `
         <Box
-          sx={theme => ({
-            width: '100%',
-            height: '64px',
-            backgroundColor: theme.semantic.accent.background.violet,
-            opacity: theme.opacity[8]
-          })}
-        />
-      </Box>
-    `;
-  }}
+          tabIndex={0}
+          onClick={() => setSelected(!selected)}
+          sx={[
+            framedStyle({
+              invalid: ${invalid},
+              selected,
+            }),
+            {
+              width: '80%',
+            },
+          ]}
+        >
+          <Box
+            sx={theme => ({
+              width: '100%',
+              height: '64px',
+              backgroundColor: theme.semantic.accent.background.violet,
+              opacity: theme.opacity[8]
+            })}
+          />
+        </Box>
+      `;
+    }}
   variants={[
     {
       key: 'Status',
       options: [
-        { label: 'Normal', value: {  } },
-        { label: 'Negative', value: {  } },
+        { label: 'Normal', value: {} },
+        { label: 'Negative', value: {} }
       ]
-    },
+    }
   ]}
 />
 
+
 <SectionStates
-  src="/components/selection-and-input/framed-style/design/Image-1.png"
-  ratio="16:9"
-  options={['Normal', 'Negative', 'Disabled']}
+  ratio="380 / 267"
+  src="/components/selection-and-input/framed-style/design/Image-2.png"
 />
 
 <SectionLayout title="Size">
   <SectionFigure
-    ratio="3:2"
-    description="콘텐츠 영역에 들어갈 요소 크기에 따라 상하좌우 간격과 모서리 둥글기를 변경해 사용할 수 있습니다."
-    src="/components/selection-and-input/framed-style/design/Image-2.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="Vertical padding">
-  <SectionFigure
-    ratio="21:9"
-    description="상하 여백은 Cell 컴포넌트와 함께 사용될 것을 고려해 최소한으로 설정되어 있습니다. 만약 Cell이 아닌 다른 요소를 내부에 배치할 경우, 시각적 균형을 위해 좌우 여백과 동일한 값을 상하 여백에 직접 추가하는 것을 권장합니다."
+    ratio="95 / 6"
     src="/components/selection-and-input/framed-style/design/Image-3.png"
+    description={`콘텐츠 영역에 들어갈 요소 크기에 따라 상하좌우 간격과 모서리 둥글기를 변경해 사용할 수 있습니다. Cell이 아닌 다른 요소를 내부에 배치할 경우, 시각적 균형을 위해 좌우 여백과 동일한 값을 상하 여백에 직접 추가하는 것을 권장합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="With cell">
   <SectionFigure
-    ratio="21:9"
-    description="내부에 Cell 컴포넌트를 배치하여, 단독으로 사용할 때보다 정보를 더 명확한 그룹으로 묶어줄 수 있습니다. 테두리와 그림자 효과를 통해 그룹 전체가 선택되었음을 시각적으로 강조하기위해 사용합니다."
+    ratio="38 / 15"
     src="/components/selection-and-input/framed-style/design/Image-4.png"
+    description={`내부에 Cell 컴포넌트를 배치하여, 단독으로 사용할 때보다 정보를 더 명확한 그룹으로 묶어줄 수 있습니다. 테두리와 그림자 효과를 통해 그룹 전체가 선택되었음을 시각적으로 강조하기위해 사용합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Selection lists">
     <SectionFigure
-      ratio="16:9"
-      description="여러 선택 항목을 표시하고, 선택된 항목을 강조하기 위한 용도로 사용할 수 있습니다. 내부 Content에 Cell을 사용하여 다양한 형태의 항목을 제공할 수 있습니다."
+      ratio="76 / 41"
       src="/components/selection-and-input/framed-style/design/Image-5.png"
+      description={`여러 선택 항목을 표시하고, 선택된 항목을 강조하기 위한 용도로 사용할 수 있습니다. 내부 Content에 Cell을 사용하여 다양한 형태의 항목을 제공할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Selection group">
     <SectionFigure
-      ratio="4:3"
-      description="특정 카테고리에 속한 여러 선택지를 시각적으로 통일된 하나의 그룹으로 묶여보일 수 있도록 합니다."
+      ratio="38 / 23"
       src="/components/selection-and-input/framed-style/design/Image-6.png"
+      description={`특정 카테고리에 속한 여러 선택지를 시각적으로 통일된 하나의 그룹으로 묶여보일 수 있도록 합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Style customize">
     <SectionFigure
-      ratio="5:4"
-      description="Content에 표시되는 항목에 맞게 모서리 둥글기와 여백을 조정해 사용할 수 있습니다. 기본으로 제공하는 Small, Medium, Large, Xlarge를 사용할 때 필요 시 내부 Content에 간격을 추가해 사용할 수 있습니다."
+      ratio="190 / 61"
       src="/components/selection-and-input/framed-style/design/Image-7.png"
+      description={`Content에 표시되는 항목에 맞게 모서리 둥글기와 여백을 조정해 사용할 수 있습니다. 기본으로 제공하는 Small, Medium, Large, Xlarge를 사용할 때 필요 시 내부 Content에 간격을 추가해 사용할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Shadow customize">
     <SectionFigure
-      ratio="16:10"
-      description="Hovered와 같이 특정 상태를 강조하기 위해 Shadow 스타일을 커스터마이징할 수 있습니다."
+      ratio="95 / 53"
       src="/components/selection-and-input/framed-style/design/Image-8.png"
+      description={`Hovered와 같이 특정 상태를 강조하기 위해 Shadow 스타일을 커스터마이징할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="16:9"
-    description="선택된 항목이 명확히 구분될 수 있도록 사용하세요."
-    src="/components/selection-and-input/framed-style/design/Image-9.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="16:9"
-    description="Control 요소의 선택 상태와 Selected 상태를 다르게 사용하지 마세요."
-    src="/components/selection-and-input/framed-style/design/Image-10.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 43"
+      src="/components/selection-and-input/framed-style/design/Image-9.png"
+      variant="positive"
+      description={`선택된 항목이 명확히 구분될 수 있도록 사용하세요.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="76 / 41"
+      src="/components/selection-and-input/framed-style/design/Image-10.png"
+      variant="negative"
+      description={`Control 요소의 선택 상태와 Selected 상태를 다르게 사용하지 마세요.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionCustomize
   data={[
-    {
-      key: 'Framed style',
-      options: ['radius', 'padding', 'shadow']
-    }
-  ]}
+  {
+    "key": "Framed style",
+    "options": [
+      "radius",
+      "padding",
+      "shadow"
+    ]
+  }
+]}
 />

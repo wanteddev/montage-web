@@ -1,10 +1,10 @@
 ---
-title: Auto complete
+title: Autocomplete
 description: 사용자가 텍스트를 입력할 때 실시간으로 관련된 옵션을 제안하여 빠르고 정확한 입력을 돕는 요소입니다. \n텍스트 입력 필드와 Menu가 결합된 형태로, 입력 오류를 방지하며 사용자가 가능한 옵션을 탐색할 수 있도록 지원합니다.
 image: /components/presentation/autocomplete/design/Image.png
 ogImage: /components/presentation/autocomplete/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-01-27
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
@@ -171,7 +171,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="76 / 55"
     src="/components/presentation/autocomplete/design/Image-3.png"
-    description="400px의 고정된 높이를 가지고 있습니다. 단, 내부 콘텐츠들의 높이가 400px을 초과하지 않을 경우 내부 콘텐츠에 맞게 높이 가 조정됩니다. 호출 요소와의 간격유지를 위해 8px의 상하 여백을 포함합니다."
+    description={`400px의 고정된 높이를 가지고 있습니다. 단, 내부 콘텐츠들의 높이가 400px을 초과하지 않을 경우 내부 콘텐츠에 맞게 높이 가 조정됩니다. 호출 요소와의 간격유지를 위해 8px의 상하 여백을 포함합니다.`}
   />
 </SectionLayout>
 
@@ -179,8 +179,8 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="76 / 55"
     src="/components/presentation/autocomplete/design/Image-4.png"
-    description="- Width: 최소 140px, Default로 320px의 너비를 유지합니다. 단, 8배수 간격으로 너비를 늘릴 수 있습니다.
-- Height: 최대 400px의 높이를 가집니다."
+    description={`- Width: 최소 140px, Default로 320px의 너비를 유지합니다. 단, 8배수 간격으로 너비를 늘릴 수 있습니다.
+- Height: 최대 400px의 높이를 가집니다.`}
   />
 </SectionLayout>
 
@@ -188,7 +188,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="190 / 109"
     src="/components/presentation/autocomplete/design/Image-5.png"
-    description="일정 구간마다 섹션의 타이틀을 둘 수 있습니다. 타이틀은 스크롤 시 상단에 고정됩니다."
+    description={`일정 구간마다 섹션의 타이틀을 둘 수 있습니다. 타이틀은 스크롤 시 상단에 고정됩니다.`}
   />
 </SectionLayout>
 
@@ -197,23 +197,23 @@ updatedAt: 2026-01-27
     <SectionFigure
       ratio="38 / 17"
       src="/components/presentation/autocomplete/design/Image-6.png"
-      description="Combobox는 사용자가 직접 입력과 선택을 동시에 할 수 있는 필드 요소로 값을 보다 정확하게 입력할 수 있습니다. 입력한 값은 ‘Chip’, 혹은 ‘Text’로 표현됩니다.
+      description={`Combobox는 사용자가 직접 입력과 선택을 동시에 할 수 있는 필드 요소로 값을 보다 정확하게 입력할 수 있습니다. 입력한 값은 ‘Chip’, 혹은 ‘Text’로 표현됩니다.
 - Render=Chip: 2개 이상의 값이 입력 될 때 사용 권장합니다.
-- Render=Text: 1개의 값만 입력 될 때 사용 권장합니다."
+- Render=Text: 1개의 값만 입력 될 때 사용 권장합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="With text field">
     <SectionFigure
       ratio="38 / 17"
       src="/components/presentation/autocomplete/design/Image-7.png"
-      description="이메일, 사용자 검색과 같은 상황에서 타이핑의 수고를 줄임과 동시에 입력 오류를 방지할 때 사용합니다."
+      description={`이메일, 사용자 검색과 같은 상황에서 타이핑의 수고를 줄임과 동시에 입력 오류를 방지할 때 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="With select">
     <SectionFigure
       ratio="38 / 17"
       src="/components/presentation/autocomplete/design/Image-8.png"
-      description="Select에서는 Menu와 Auto complete가 조합된 형태를 사용할 수 있습니다. 선택할 수 있는 리스트의 양이 50개 이상일 때 Search field를 함께 배치함으로써 항목의 탐색이 용이하도록 돕습니다."
+      description={`Select에서는 Menu와 Auto complete가 조합된 형태를 사용할 수 있습니다. 선택할 수 있는 리스트의 양이 50개 이상일 때 Search field를 함께 배치함으로써 항목의 탐색이 용이하도록 돕습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -224,7 +224,7 @@ updatedAt: 2026-01-27
       ratio="19 / 12"
       src="/components/presentation/autocomplete/design/Image-9.png"
       variant="positive"
-      description="Divider가 위치할 수 있으며 아이콘 변경, 타입이 다른 Cell이 함께 쓰일 수 있습니다."
+      description={`Divider가 위치할 수 있으며 아이콘 변경, 타입이 다른 Cell이 함께 쓰일 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
@@ -232,7 +232,7 @@ updatedAt: 2026-01-27
       ratio="19 / 12"
       src="/components/presentation/autocomplete/design/Image-10.png"
       variant="negative"
-      description="Auto Complete에 Action area를 배치할 수 없습니다."
+      description={`Auto Complete에 Action area를 배치할 수 없습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>

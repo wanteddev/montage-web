@@ -42,5 +42,5 @@ declare type SectionConfig = {
   hierarchy?: Array<SectionHierarchyRenderProps>;
   accessibility?:
     | Array<SectionAccessibilityProps>
-    | Array<SectionAccessibilityProps & { title: string }>;
+    | Array<{ title: string; contents: Array<SectionAccessibilityProps> }>;
 };

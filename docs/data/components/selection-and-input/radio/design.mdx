@@ -1,108 +1,116 @@
 ---
 title: Radio
-description: "Radio는 Label을 포함한 Radio로 여러 선택지 중 단 하나만 선택할 수 있도록 하는 요소입니다.\n사용자는 동일한 그룹 내에서 오직 하나의 항목만 선택 가능하며, 선택 시 다른 항목은 자동으로 해제됩니다."
-image: /components/selection-and-input/radio/design/Thumbnails.png
+description: Radio는 Label을 포함한 Radio로 여러 선택지 중 단 하나만 선택할 수 있도록 하는 요소입니다. 사용자는 동일한 그룹 내에서 오직 하나의 항목만 선택 가능하며, 선택 시 다른 항목은 자동으로 해제됩니다.
+image: /components/selection-and-input/radio/design/Image.png
+ogImage: /components/selection-and-input/radio/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2025-10-14
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/selection-and-input/radio/design/Image.png"
-  ratio="21:9"
+  src="/components/selection-and-input/radio/design/Image-1.png"
+  ratio="95 / 33"
   data={[
-    'Control',
-    'Label',
+    'Control','Label'
   ]}
 />
+  
 
 <SectionVariants
   components={['FormField', 'FlexBox', 'FormControl', 'FormLabel', 'RadioGroup', 'RadioGroupItem']}
+  icons={[]}
   render={(value) => {
-    const tight = value['Tight'] === 'True'
-    const size = value['Size'].toLowerCase()
+      const tight = value['Tight'] === 'True';
+      const size = value['Size'].toLowerCase();
 
-    const gap = tight ? '10px' : '8px'
+      const gap = tight ? '10px' : '8px';
 
-    return `
-      <RadioGroup name="radio">
-        <FormField flexDirection="row" gap="${gap}" alignItems="center">
-          <FormControl>
-            <RadioGroupItem
-              value="radio"
-              size="${size}"
-              tight={${tight}}
-            />
-          </FormControl>
-          <FormLabel>Radio</FormLabel>
-        </FormField>
-      </RadioGroup>
-    `;
-  }}
+      return `
+        <RadioGroup name="radio">
+          <FormField flexDirection="row" gap="${gap}" alignItems="center">
+            <FormControl>
+              <RadioGroupItem
+                value="radio"
+                size="${size}"
+                tight={${tight}}
+              />
+            </FormControl>
+            <FormLabel>Radio</FormLabel>
+          </FormField>
+        </RadioGroup>
+      `;
+    }}
   variants={[
     {
       key: 'Size',
       defaultValue: 'Medium',
       options: [
         { label: 'Small', value: {} },
-        { label: 'Medium', value: {} },
+        { label: 'Medium', value: {} }
       ]
     },
     {
       key: 'Tight',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
-      ],
-    },
+        { label: 'True', value: {} }
+      ]
+    }
   ]}
 />
 
+
 <SectionStates
-  src="/components/selection-and-input/radio/design/Image-1.png"
-  ratio="2:1"
-  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
+  ratio="76 / 37"
+  src="/components/selection-and-input/radio/design/Image-2.png"
 />
 
 <SectionLayout title="Clickable area">
   <SectionFigure
-    ratio="16:10"
-    description="단일 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Radio를 선택 적용합니다.
-
+    ratio="760 / 257"
+    src="/components/selection-and-input/radio/design/Image-3.png"
+    description={`단일 항목을 선택할 때 사용하며 터치 영역에 따라 Cell 혹은 Input/Radio를 선택 적용합니다.
 - Input/Radio: Control과 Label 영역만 터치 영역
-- Cell: 공백을 포함한 모든 영역이 터치 영역"
-    src="/components/selection-and-input/radio/design/Image-2.png"
+- Cell: 공백을 포함한 모든 영역이 터치 영역`}
   />
 </SectionLayout>
 
 <SectionLayout title="Gap">
   <SectionFigure
-    ratio="2:1"
-    description="반복하여 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 최소 8px 이상의 간격을 두는 것을 권장합니다.
-간격을 조정할 시에는 4배수 간격으로 변경합니다."
-    src="/components/selection-and-input/radio/design/Image-3.png"
+    ratio="190 / 79"
+    src="/components/selection-and-input/radio/design/Image-4.png"
+    description={`반복하여 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 최소 8px 이상의 간격을 두는 것을 권장합니다.
+간격을 조정할 시에는 4배수 간격으로 변경합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="21:9"
-    description="Framed style과 함께 활용하여 명확성을 높일 수 있습니다."
-    src="/components/selection-and-input/radio/design/Image-4.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="21:9"
-    description="Control을 우측에 배치하여 사용하지 않습니다."
-    src="/components/selection-and-input/radio/design/Image-5.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 181"
+      src="/components/selection-and-input/radio/design/Image-5.png"
+      variant="positive"
+      description={`Framed style과 함께 활용하여 명확성을 높일 수 있습니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 163"
+      src="/components/selection-and-input/radio/design/Image-6.png"
+      variant="negative"
+      description={`Control을 우측에 배치하여 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionCustomize
   data={[
-    {
-      key: 'Label',
-      options: ['typography', 'typographyColor']
-    }
-  ]}
+  {
+    "key": "Label",
+    "options": [
+      "typography",
+      "typographyColor"
+    ]
+  }
+]}
 />

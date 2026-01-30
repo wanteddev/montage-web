@@ -4,7 +4,7 @@ description: 사용자가 옵션을 선택할 수 있는 요소로 버튼, 셀�
 image: /components/presentation/menu/design/Image.png
 ogImage: /components/presentation/menu/design/Thumbnails.png
 createdAt: 2025-10-14
-updatedAt: 2026-01-27
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
@@ -123,7 +123,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="95 / 3"
     src="/components/presentation/menu/design/Image-3.png"
-    description="Action area 유무에 관계없이 기본 400px의 고정 된 높이를 가지고 있습니다. 단, 내부 콘텐츠들의 높이가 400px을 초과하지 않을 경우 내부 콘텐츠에 맞게 높이 가 조정됩니다. 호출 요소와의 간격유지를 위해 8px의 상하 여백을 포함합니다."
+    description={`Action area 유무에 관계없이 기본 400px의 고정 된 높이를 가지고 있습니다. 단, 내부 콘텐츠들의 높이가 400px을 초과하지 않을 경우 내부 콘텐츠에 맞게 높이 가 조정됩니다. 호출 요소와의 간격유지를 위해 8px의 상하 여백을 포함합니다.`}
   />
 </SectionLayout>
 
@@ -131,8 +131,8 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="76 / 55"
     src="/components/presentation/menu/design/Image-4.png"
-    description="- Width: 최소 140px, 최대 320px의 너비를 유지합니다.
-- Height: Action area 포함 여부와 관계 없이 최대 400px의 고정 높이를 가집니다."
+    description={`- Width: 최소 140px, 최대 320px의 너비를 유지합니다.
+- Height: Action area 포함 여부와 관계 없이 최대 400px의 고정 높이를 가집니다.`}
   />
 </SectionLayout>
 
@@ -140,7 +140,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="38 / 25"
     src="/components/presentation/menu/design/Image-5.png"
-    description="일정 구간마다 섹션의 타이틀을 둘 수 있습니다. 이 때 타이틀은 스크롤 시 상단에 고정이 됩니다."
+    description={`일정 구간마다 섹션의 타이틀을 둘 수 있습니다. 이 때 타이틀은 스크롤 시 상단에 고정이 됩니다.`}
   />
 </SectionLayout>
 
@@ -148,7 +148,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="190 / 81"
     src="/components/presentation/menu/design/Image-6.png"
-    description="Leading contents는 기본적으로 ‘선택'하는 Checkbox, Radio와 같은 Control 요소들이 배치됩니다."
+    description={`Leading contents는 기본적으로 ‘선택'하는 Checkbox, Radio와 같은 Control 요소들이 배치됩니다.`}
   />
 </SectionLayout>
 
@@ -156,7 +156,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="19 / 7"
     src="/components/presentation/menu/design/Image-7.png"
-    description="Trailing contents는 Check icon, Badge, Value 등 항목의 상태를 표현하는 요소들이 배치 될 수 있습니다. 단, 다른 타입의 Trailing contents 요소를 함께 혼용하여 배치하는 것을 권장하지 않습니다."
+    description={`Trailing contents는 Check icon, Badge, Value 등 항목의 상태를 표현하는 요소들이 배치 될 수 있습니다. 단, 다른 타입의 Trailing contents 요소를 함께 혼용하여 배치하는 것을 권장하지 않습니다.`}
   />
 </SectionLayout>
 
@@ -164,7 +164,7 @@ updatedAt: 2026-01-27
   <SectionFigure
     ratio="190 / 81"
     src="/components/presentation/menu/design/Image-8.png"
-    description="Trailing content에 사용자가 특정 요소를 주입할 경우 Check Icon 보다 우선 순위를 가집니다."
+    description={`Trailing content에 사용자가 특정 요소를 주입할 경우 Check Icon 보다 우선 순위를 가집니다.`}
   />
 </SectionLayout>
 
@@ -173,21 +173,21 @@ updatedAt: 2026-01-27
     <SectionFigure
       ratio="95 / 46"
       src="/components/presentation/menu/design/Image-9.png"
-      description="Normal은 별도 액션 없이 단일 아이템 선택 시 값이 바로 적용될 때 사용합니다. 선택한 값의 적용, 변동이 잦아도 문제가 없을 시 사용합니다. 선택된 값은 우측의 Check icon으로 표현합니다."
+      description={`Normal은 별도 액션 없이 단일 아이템 선택 시 값이 바로 적용될 때 사용합니다. 선택한 값의 적용, 변동이 잦아도 문제가 없을 시 사용합니다. 선택된 값은 우측의 Check icon으로 표현합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Single select - Radio">
     <SectionFigure
       ratio="2 / 1"
       src="/components/presentation/menu/design/Image-10.png"
-      description="Radio는 단일 선택한 값을 사용자가 확인하고 비교적 신중하게 적용해야할 때 사용합니다."
+      description={`Radio는 단일 선택한 값을 사용자가 확인하고 비교적 신중하게 적용해야할 때 사용합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Multiple select - Checkbox">
     <SectionFigure
       ratio="2 / 1"
       src="/components/presentation/menu/design/Image-11.png"
-      description="Checkbox는 다중 아이템 선택 시 값을 사용자가 확인하고 비교적 신중하게 적용해야할 때 사용합니다."
+      description={`Checkbox는 다중 아이템 선택 시 값을 사용자가 확인하고 비교적 신중하게 적용해야할 때 사용합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -198,7 +198,7 @@ updatedAt: 2026-01-27
       ratio="190 / 81"
       src="/components/presentation/menu/design/Image-12.png"
       variant="positive"
-      description="선택 가능 영역을 List cell 전체로 두어 사용성을 높입니다."
+      description={`선택 가능 영역을 List cell 전체로 두어 사용성을 높입니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup>
@@ -206,7 +206,7 @@ updatedAt: 2026-01-27
       ratio="190 / 81"
       src="/components/presentation/menu/design/Image-13.png"
       variant="negative"
-      description="선택할 값이 명확하게 보일 수 있도록 항목에 말줄임을 사용하지 않습니다."
+      description={`선택할 값이 명확하게 보일 수 있도록 항목에 말줄임을 사용하지 않습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
