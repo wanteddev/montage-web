@@ -303,7 +303,7 @@ ${options}
       ? `  internals={[${internals.map((i) => `'${i}'`).join(', ')}]}\n`
       : '';
 
-  const statesPart = states ? `  states={${formatValue(states)}}\n` : '';
+  const statesPart = states ? `  states={\`${states}\`}\n` : '';
 
   const renderPart = render ? `  render={${formatValue(render)}}\n` : '';
 
