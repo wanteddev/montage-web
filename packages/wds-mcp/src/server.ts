@@ -7,6 +7,7 @@ import { version } from '../package.json';
 
 import {
   getComponentUrl,
+  getGettingStarted,
   getUtilityFunctionUrl,
   listComponents,
   listIcons,
@@ -46,18 +47,19 @@ server.registerTool(
       content: [
         {
           type: 'text',
-          text: `The following components are available in the @wanteddev/wds in TypeScript projects:
-				
+          text: `When using components, if you are unsure how to use them, **must** use the \`get_component\` tool.
+To obtain detailed information about a specific component, you can use the \`get_component\` tool. For more comprehensive details, try entering the parent component instead of a child component.
+All these components are available in the @wanteddev/wds package.
+
+The following components are available in the @wanteddev/wds in TypeScript projects:
+
 ${components
   .map((component) =>
     component.subComponents.length > 0
-      ? `- ${component.name}
-  - ${component.subComponents.join('\n  - ')}`
+      ? `- ${component.name}\n  Sub-components: ${component.subComponents.join(', ')}`
       : `- ${component.name}`,
   )
-  .join('\n')}
-				
-				You can use the \`get_component\` tool to obtain more information about a specific component. For even more comprehensive details, try entering a parent component rather than a subcomponent. All of these components are available from the @wanteddev/wds package.`,
+  .join('\n')}`,
         },
       ],
     };
@@ -76,6 +78,15 @@ server.registerTool(
         {
           type: 'text',
           text: `When writing code that uses WDS, follow these guidelines:
+
+## Form
+
+When using form-related components (e.g., Checkbox, RadioGroup, TextField, Select, Switch, etc.), you should:
+
+1. **Always look up the usage** of the component using the \`get_component\` tool before implementing
+2. **Strongly consider using them with the Form component** for better form state management, validation, and accessibility
+3. Form components provide built-in support for labels, error messages, and form control states
+
 
 ## Styling
 
@@ -139,6 +150,22 @@ import type { Theme } from '@wanteddev/wds';
 export const buttonStyle = (flag: boolean) => (theme: Theme) => css\`
   color: \${flag ? theme.semantic.label.normal : theme.semantic.label.assistive};
 \`;
+\`\`\`
+
+**Prefer using component props over custom styles whenever possible.**
+
+When a component provides props to control layout, spacing, or appearance, use them instead of writing custom Style.
+
+\`\`\`tsx
+// ✅ Good - using component props
+<FlexBox flexDirection="column" gap="12px" alignItems="center">
+  <Typography>Content</Typography>
+</FlexBox>
+
+// ❌ Avoid - using custom styles when props are available
+<FlexBox sx={{ flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+  <Typography>Content</Typography>
+</FlexBox>
 \`\`\`
 
 ## Theme
@@ -437,6 +464,26 @@ server.registerTool(
         {
           type: 'text',
           text: `Here is the documentation for ${functionName} usage guide WDS:\n${text}`,
+        },
+      ],
+    };
+  },
+);
+
+server.registerTool(
+  'getting_started',
+  {
+    description:
+      'Installation steps, and initial configuration guides to help you quickly start using WDS in your codebase.',
+  },
+  () => {
+    const content = getGettingStarted();
+
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `Here is the documentation for getting started with WDS:\n${content}`,
         },
       ],
     };

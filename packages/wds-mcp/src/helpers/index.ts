@@ -4,6 +4,7 @@ import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
 
 import api from '../../../../docs/generated/api.json' assert { type: 'json' };
+import readme from '../../../wds/README.md';
 import { DOCS_BASE_URL } from '../constants';
 
 const componentApi = api;
@@ -155,4 +156,8 @@ export const getUtilityFunctionUrl = async (functionName: string) => {
   return guideUrls.find((url) =>
     url.endsWith(kebabCase(customUtilityFunctionPath ?? functionName)),
   );
+};
+
+export const getGettingStarted = () => {
+  return readme;
 };
