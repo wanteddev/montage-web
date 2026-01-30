@@ -397,6 +397,32 @@ const parseSectionStates = (
   pageName: string,
   group: string,
 ) => {
+  const data = content.children.filter(
+    (node) =>
+      node.name === 'List' &&
+      node.visible !== false &&
+      node.children.length > 0,
+  );
+
+  if (data.length > 1) {
+    return `\n\n<SectionLayout title="States">
+${data
+  .map((item) => {
+    const figure = item.children[0];
+    const title = getCharacters(figure.children[0].children[1]);
+    const ratio = getImageRatio(figure.children[1]);
+
+    return `  <SectionFigureGroup title="${title}">
+    <SectionFigure
+      ratio="${ratio}"
+      src="/components/${group}/${pageName}/design/{imageName}"
+    />
+  </SectionFigureGroup>`;
+  })
+  .join('')}
+</SectionLayout>`;
+  }
+
   const ratio = getImageRatio(content.children[1]);
 
   const isWebOnly = content.children.find((node) =>

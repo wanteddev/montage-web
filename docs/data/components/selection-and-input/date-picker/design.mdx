@@ -137,15 +137,25 @@ updatedAt: 2026-01-30
 />
 
 
-<SectionStates
-  ratio="190 / 121"
-  src="/components/selection-and-input/date-picker/design/Image-2.png"
-/>
+<SectionLayout title="States">
+  <SectionFigureGroup title="Normal">
+    <SectionFigure
+      ratio="380 / 183"
+      src="/components/selection-and-input/date-picker/design/Image-2.png"
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup title="Range">
+    <SectionFigure
+      ratio="76 / 31"
+      src="/components/selection-and-input/date-picker/design/Image-3.png"
+    />
+  </SectionFigureGroup>
+</SectionLayout>
 
 <SectionLayout title="Size">
   <SectionFigure
     ratio="76 / 53"
-    src="/components/selection-and-input/date-picker/design/Image-3.png"
+    src="/components/selection-and-input/date-picker/design/Image-4.png"
     description={`Action area 여부에 따라 높이가 차이 날 수 있습니다. Picker 호출 시 호출 요소와의 간격 유지를 위해 8px의 Safe area를 유지합니다.`}
   />
 </SectionLayout>
@@ -153,7 +163,7 @@ updatedAt: 2026-01-30
 <SectionLayout title="Range select">
   <SectionFigure
     ratio="380 / 273"
-    src="/components/selection-and-input/date-picker/design/Image-4.png"
+    src="/components/selection-and-input/date-picker/design/Image-5.png"
     description={`각각의 싱글 필드로 시작, 종료 날짜를 선택하여 기간을 지정합니다. 사용자 혹은 특정 프로젝트 내에서 지정 날짜를 제공하지 않을 시 ‘오늘’을 기준으로 캘린더 뷰를 제공합니다.`}
   />
 </SectionLayout>
@@ -161,7 +171,7 @@ updatedAt: 2026-01-30
 <SectionLayout title="Format type">
   <SectionFigure
     ratio="95 / 39"
-    src="/components/selection-and-input/date-picker/design/Image-5.png"
+    src="/components/selection-and-input/date-picker/design/Image-6.png"
     description={`다양한 날짜 포맷의 사용을 방지하고자 디자인에서는 포맷을 제한하고 있습니다. 기본 표현 방식을 권장하고 있으나 표현 공간이 협소할 때에는 Short, 특정 지정된 날짜를 강조하고자 할 때에는 Long 타입을 사용할 수 있습니다.
 - 개발 지원 포맷 = YYYY(2025), YY(25) / M(1), MM(01), MMM(Jan), MMMM(January) / D(1), DD(01)
 - 디자인 지원 포맷 = YYYY. MM. DD(2025. 03. 05),YYYY년 M월 D일(2025년 3월 5일), YY/M/D
@@ -174,7 +184,7 @@ updatedAt: 2026-01-30
 <SectionLayout title="Localization">
   <SectionFigure
     ratio="95 / 48"
-    src="/components/selection-and-input/date-picker/design/Image-6.png"
+    src="/components/selection-and-input/date-picker/design/Image-7.png"
     description={`- Locale: ko-KR을 기본 값으로 두고 있으며, Locale에 따라 시간 표현 방식과 Format에 영향을 미칩니다. 이 때 국가 코드 별 연도, 월, 일의 표기 방법을 고려하여 작업합니다.
 - Timezone: 사용자의 환경에 따라 결정 됩니다.`}
   />
@@ -350,7 +360,7 @@ updatedAt: 2026-01-30
 <SectionLayout title="Mobile">
   <SectionFigure
     ratio="380 / 299"
-    src="/components/selection-and-input/date-picker/design/Image-7.png"
+    src="/components/selection-and-input/date-picker/design/Image-8.png"
     description={`- Web: Picker는 Popover 형태로 사용하며 Bottom sheet, Modal 등으로 형태를 변경할 수 없습니다. 화면에서 필드의 위치에 따라 Picker가 뜨는 위치를 자동으로 계산하여 노출됩니다.
 - iOS: Native Wheel, Calender를 사용합니다. Bottom sheet, Popup modal을 자유롭게 활용할 수 있습니다.
 - Android: Native를 사용합니다. Input, Picker, Wheel 등 상황에 맞게 다양한 타입으로 사용할 수 있습니다.`}
@@ -361,14 +371,14 @@ updatedAt: 2026-01-30
   <SectionFigureGroup title="Current time">
     <SectionFigure
       ratio="152 / 65"
-      src="/components/selection-and-input/date-picker/design/Image-8.png"
+      src="/components/selection-and-input/date-picker/design/Image-9.png"
       description={`사용자가 ‘오늘’ 날짜를 입력해야 할 때에는 편의상 바로 ‘오늘’ 날짜를 적용할 수 있도록 버튼을 제공합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Icon button">
     <SectionFigure
       ratio="19 / 6"
-      src="/components/selection-and-input/date-picker/design/Image-9.png"
+      src="/components/selection-and-input/date-picker/design/Image-10.png"
       description={`Text field를 기본으로 사용할 때에는 Picker 호출이라는 명확한 행동을 사용자가 유추할 수 있도록 Trailing content에 Icon button을 배치하여 사용합니다. 날짜는 Field에 직접 입력하거나 Icon button을 눌러 Picker로 선택 할 수 있습니다.`}
     />
   </SectionFigureGroup>
@@ -378,7 +388,7 @@ updatedAt: 2026-01-30
   <SectionFigureGroup>
     <SectionFigure
       ratio="380 / 157"
-      src="/components/selection-and-input/date-picker/design/Image-10.png"
+      src="/components/selection-and-input/date-picker/design/Image-11.png"
       variant="positive"
       description={`Placeholder 혹은 Heading으로 입력 폼에 대한 명확한 입력 형식을 안내합니다.`}
     />
@@ -386,7 +396,7 @@ updatedAt: 2026-01-30
   <SectionFigureGroup>
     <SectionFigure
       ratio="380 / 157"
-      src="/components/selection-and-input/date-picker/design/Image-11.png"
+      src="/components/selection-and-input/date-picker/design/Image-12.png"
       variant="negative"
       description={`Picker의 폭을 임의로 늘리거나 줄이지 마세요.`}
     />
