@@ -3,7 +3,7 @@ import { chunk, sleep } from './helpers';
 import { parsePagesOfFile } from './parser';
 import { executeImageProcessor, processPage } from './processor';
 
-const IMAGE_CHUNK_SIZE = 12;
+const IMAGE_CHUNK_SIZE = 14;
 const PAGE_CHUNK_SIZE = 4;
 
 const main = async () => {
@@ -27,7 +27,7 @@ const main = async () => {
     await Promise.all(currentChunk.map((p) => processPage(p, p.fileKey)));
 
     if (i < pageChunks.length - 1) {
-      await sleep(1500);
+      await sleep(2500);
     }
   }
 

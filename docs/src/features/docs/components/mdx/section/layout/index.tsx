@@ -77,9 +77,10 @@ const Heading3 = memo(({ content, sx }: HeadingProps) => {
 
 type SectionDescriptionProps = {
   content?: ReactNode;
+  sx?: SxProp;
 };
 
-const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
+const SectionDescription = memo(({ content, sx }: SectionDescriptionProps) => {
   const isString = typeof content === 'string';
   const hasListContent = isString && hasList(content);
 
@@ -102,9 +103,12 @@ const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
         weight="medium"
         as="p"
         color="semantic.label.neutral"
-        sx={{
-          marginBottom: '0 !important',
-        }}
+        sx={[
+          {
+            marginBottom: '0 !important',
+          },
+          sx,
+        ]}
       >
         {content.split('\n').map((line, index) => (
           <Fragment key={index}>
@@ -118,9 +122,12 @@ const SectionDescription = memo(({ content }: SectionDescriptionProps) => {
 
   return (
     <Box
-      sx={{
-        marginBottom: '0 !important',
-      }}
+      sx={[
+        {
+          marginBottom: '0 !important',
+        },
+        sx,
+      ]}
     >
       {renderContent}
     </Box>
@@ -163,7 +170,10 @@ const SectionLayout = ({
       <FlexBox flexDirection="column">
         <Heading2 content={title} />
 
-        <SectionDescription content={description} />
+        <SectionDescription
+          content={description}
+          sx={{ marginBottom: '32px !important' }}
+        />
       </FlexBox>
       <FlexBox flexDirection="column">{children}</FlexBox>
     </FlexBox>

@@ -594,11 +594,11 @@ const parseSectionSize = (
     const ratio = getImageRatio(usage.children[1]);
 
     result += `\n  <SectionFigureGroup title="${subtitle}">
-<SectionFigure
-  ratio="${ratio}"
-  src="/components/${group}/${pageName}/design/{imageName}"
-  description={\`${getDescriptionOfFigure(usage)}\`}
-/>
+    <SectionFigure
+      ratio="${ratio}"
+      src="/components/${group}/${pageName}/design/{imageName}"
+      description={\`${getDescriptionOfFigure(usage)}\`}
+    />
 </SectionFigureGroup>`;
   });
 
