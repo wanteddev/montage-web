@@ -4,17 +4,13 @@ import path from 'node:path';
 import { getImages, getNodes } from './api';
 import { parseComponentFrontmatter, parseComponentSections } from './parser';
 import {
-  chunk,
   getComponentDirectory,
   getComponentImageDirectory,
   getImageNames,
-  sleep,
 } from './helpers';
 
 import type { FrameNode } from '@figma/rest-api-spec';
 import type { FigmaNode, Page } from './types';
-
-const imageProcessor = new Set<() => Promise<void>>();
 
 export const processPage = async (page: Page, fileKey: string) => {
   console.log(`Processing page ${page.name}`);
@@ -41,7 +37,7 @@ export const processPage = async (page: Page, fileKey: string) => {
     page.group,
   );
 
-  addImageProcessor(images, fileKey, page.name, page.group);
+  await processImageDownload(images, fileKey, page.name, page.group);
 
   if (isUpdated) {
     fs.writeFileSync(
@@ -80,7 +76,7 @@ const processComponentGuide = async (
   return { content: frontmatter + content, isUpdated: true };
 };
 
-const addImageProcessor = (
+const processImageDownload = async (
   image: FigmaNode,
   fileKey: string,
   pageName: string,
@@ -96,56 +92,40 @@ const addImageProcessor = (
     .filter((node) => node.visible !== false)
     .map(({ id }) => id);
 
-  imageProcessor.add(async () => {
-    console.log(`Get download urls for images ${pageName}`);
+  console.log(`Get download urls for images ${pageName}`);
 
-    const files = fs.globSync(path.join(directory, 'Image*.png'));
+  const files = fs.globSync(path.join(directory, 'Image*.png'));
 
-    files.forEach((file) => {
-      fs.rmSync(file);
-    });
-
-    const imageDownloadUrls = await getImages(fileKey, {
-      ids: imageIds.join(','),
-      scale: 2,
-      format: 'png',
-    });
-
-    if (Object.keys(imageDownloadUrls.images).length === 0) {
-      throw new Error(`No images found for ${pageName}`);
-    }
-
-    const entries = Object.entries(imageDownloadUrls.images);
-
-    for (let i = 0; i < entries.length; i++) {
-      const [id, url] = entries[i];
-
-      const fileResponse = await fetch(url as string);
-
-      if (!fileResponse.ok) {
-        throw new Error(`Failed to download image ${id} for ${pageName}`);
-      }
-
-      const imageBuffer = await fileResponse.arrayBuffer();
-
-      fs.writeFileSync(
-        path.join(directory, getImageNames(i)),
-        Buffer.from(imageBuffer),
-      );
-    }
+  files.forEach((file) => {
+    fs.rmSync(file);
   });
-};
 
-export const executeImageProcessor = async (chunkSize = 3) => {
-  const chunks = chunk(Array.from(imageProcessor), chunkSize);
+  const imageDownloadUrls = await getImages(fileKey, {
+    ids: imageIds.join(','),
+    scale: 2,
+    format: 'png',
+  });
 
-  for (let i = 0; i < chunks.length; i++) {
-    const currentChunk = chunks[i];
+  if (Object.keys(imageDownloadUrls.images).length === 0) {
+    throw new Error(`No images found for ${pageName}`);
+  }
 
-    await Promise.all(currentChunk.map((processor) => processor()));
+  const entries = Object.entries(imageDownloadUrls.images);
 
-    if (i < chunks.length - 1) {
-      await sleep(800);
+  for (let i = 0; i < entries.length; i++) {
+    const [id, url] = entries[i];
+
+    const fileResponse = await fetch(url as string);
+
+    if (!fileResponse.ok) {
+      throw new Error(`Failed to download image ${id} for ${pageName}`);
     }
+
+    const imageBuffer = await fileResponse.arrayBuffer();
+
+    fs.writeFileSync(
+      path.join(directory, getImageNames(i)),
+      Buffer.from(imageBuffer),
+    );
   }
 };

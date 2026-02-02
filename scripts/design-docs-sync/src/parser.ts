@@ -405,21 +405,20 @@ const parseSectionStates = (
   );
 
   if (data.length > 1) {
-    return `\n\n<SectionLayout title="States">
-${data
-  .map((item) => {
-    const figure = item.children[0];
-    const title = getCharacters(figure.children[0].children[1]);
-    const ratio = getImageRatio(figure.children[1]);
+    return `\n\n<SectionLayout title="States">${data
+      .map((item) => {
+        const figure = item.children[0];
+        const title = getCharacters(figure.children[0].children[1]);
+        const ratio = getImageRatio(figure.children[1]);
 
-    return `  <SectionFigureGroup title="${title}">
+        return `\n  <SectionFigureGroup title="${title}">
     <SectionFigure
       ratio="${ratio}"
       src="/components/${group}/${pageName}/design/{imageName}"
     />
   </SectionFigureGroup>`;
-  })
-  .join('')}
+      })
+      .join('')}
 </SectionLayout>`;
   }
 
