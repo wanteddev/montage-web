@@ -282,7 +282,7 @@ ${text}
 
 server.registerTool(
   'list_icons',
-  { description: 'List all of the components available from WDS' },
+  { description: 'List all of the icons available from WDS' },
   async () => {
     return {
       content: [

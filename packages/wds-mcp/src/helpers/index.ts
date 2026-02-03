@@ -3,7 +3,7 @@ import { theme } from '@wanteddev/wds-theme';
 import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
 
-import api from '../../../../docs/generated/api.json' assert { type: 'json' };
+import api from '../../../../docs/generated/api.json';
 import readme from '../../../wds/README.md';
 import { DOCS_BASE_URL } from '../constants';
 
