@@ -45,7 +45,7 @@ export const codeBlockStyle = (theme: Theme) => css`
   }
 
   .token.function-variable {
-    color: ${theme.semantic.label.neutral};
+    color: ${theme.semantic.label.strong};
   }
 
   .token.number,

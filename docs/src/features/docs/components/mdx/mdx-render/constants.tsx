@@ -27,6 +27,7 @@ import {
   SectionAccessibilityTable,
 } from '../section/accessibility';
 import Anchor from '../anchor';
+import VariantGrid from '../../foundations/typography/variant-grid';
 
 import type { ReactNode } from 'react';
 
@@ -112,6 +113,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   code: CodeBlock,
   Demo,
   PropsTable,
+  TypographyVariantsGrid: VariantGrid,
   SectionLayout,
   SectionAnatomy,
   SectionFigureGroup,
