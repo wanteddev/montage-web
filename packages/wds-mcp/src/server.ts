@@ -327,7 +327,7 @@ server.registerTool(
           type: 'text',
           text: `The following tokens are available in the @wanteddev/wds:
 
-- ${listTokens().join('\n')}
+${listTokens().join('\n')}
 
 Do not use spacing tokens.
 

@@ -4,7 +4,7 @@ Powered by [Emotion](https://github.com/emotion-js/emotion).
 
 ## Install
 
-```
+```sh
 pnpm i @wanteddev/wds @wanteddev/wds-icon
 ```
 
@@ -19,7 +19,7 @@ import { ThemeProvider } from '@wanteddev/wds';
 
 import App from './App';
 
-import '@wantddev/wds/global.css';
+import '@wanteddev/wds/global.css';
 
 const root = createRoot(document.getElementById('app')!);
 
@@ -43,7 +43,7 @@ import { ThemeProvider, CacheProvider, createCache } from '@wanteddev/wds';
 
 import App from './App';
 
-import '@wantddev/wds/global.css';
+import '@wanteddev/wds/global.css';
 
 const root = createRoot(document.getElementById('app')!);
 
@@ -70,12 +70,12 @@ pnpm i @wanteddev/wds-nextjs
 // app/layout.tsx
 'use client';
 import { Head } from '@wanted-frontend/config';
-import { ThemeProvider } from '@wantddev/wds';
-import { AppRouterCacheProvider } from '@wantddev/wds-nextjs';
+import { ThemeProvider } from '@wanteddev/wds';
+import { AppRouterCacheProvider } from '@wanteddev/wds-nextjs';
 
 import type { PropsWithChildren } from 'react';
 
-import '@wantddev/wds/global.css';
+import '@wanteddev/wds/global.css';
 
 const RootLayout = (props: PropsWithChildren) => {
   return (
@@ -101,13 +101,13 @@ Use [Pretend option](https://emotion.sh/docs/@emotion/cache#prepend) allows you 
 // app/layout.tsx
 'use client';
 import { Head } from '@wanted-frontend/config';
-import { ThemeProvider } from '@wantddev/wds';
-import { AppRouterCacheProvider } from '@wantddev/wds-nextjs';
+import { ThemeProvider } from '@wanteddev/wds';
+import { AppRouterCacheProvider } from '@wanteddev/wds-nextjs';
 import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 
 import type { PropsWithChildren } from 'react';
 
-import '@wantddev/wds/global.css';
+import '@wanteddev/wds/global.css';
 
 const RootLayout = (props: PropsWithChildren) => {
   return (
@@ -295,7 +295,11 @@ import type { EmotionCacheProviderProps } from '@wanteddev/wds-nextjs';
 
 import '@wanteddev/wds/global.css';
 
-const MyApp = ({ Component, pageProps, emotionCache }: AppProps & ) => {
+const MyApp = ({
+  Component,
+  pageProps,
+  emotionCache,
+}: AppProps & EmotionCacheProviderProps) => {
   return (
     <AppCacheProvider emotionCache={emotionCache}>
       <ThemeProvider provider={StyledComponentsProvider}>

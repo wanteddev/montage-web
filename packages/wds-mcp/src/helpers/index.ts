@@ -106,7 +106,11 @@ export const listUtilityFunctions = async () => {
   );
 
   return [
-    ...utilityUrls.map((value) => camelCase(value)),
+    ...utilityUrls.map((value) => {
+      const pathname = new URL(value).pathname;
+      const slug = pathname.split('/').pop() ?? '';
+      return camelCase(slug.replace(/^web-utilities-/, ''));
+    }),
     'respondTo',
     'respondDown',
     'respondMore',
