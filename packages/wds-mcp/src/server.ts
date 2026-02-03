@@ -233,7 +233,12 @@ server.registerTool(
 
     if (!fetchUrl) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to fetch the documentation for ${componentName} usage guide WDS.`,
+          },
+        ],
       };
     }
 
@@ -247,7 +252,12 @@ server.registerTool(
 
     if (!html) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to parse the documentation for ${componentName} usage guide WDS.`,
+          },
+        ],
       };
     }
 
@@ -256,7 +266,12 @@ server.registerTool(
 
     if (!source) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to parse the documentation for ${componentName} usage guide WDS.`,
+          },
+        ],
       };
     }
 
@@ -370,16 +385,26 @@ server.registerTool(
 
     if (!html) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to fetch the documentation for color usage guide WDS.`,
+          },
+        ],
       };
     }
 
     const $ = cheerio.load(html);
-    const source = $('[data-algolia-page-scope="true"]').html();
+    const source = $(DOCS_SELECTOR).html();
 
     if (!source) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to parse the documentation for color usage guide WDS.`,
+          },
+        ],
       };
     }
 
@@ -430,7 +455,12 @@ server.registerTool(
 
     if (!fetchUrl) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `There is no utility function named \`${functionName}\` in the @wanteddev/wds package. For a full list of utility functions, use the \`list_utility_functions\` tool.`,
+          },
+        ],
       };
     }
 
@@ -444,7 +474,12 @@ server.registerTool(
 
     if (!html) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to fetch the documentation for ${functionName} usage guide WDS.`,
+          },
+        ],
       };
     }
 
@@ -453,7 +488,12 @@ server.registerTool(
 
     if (!source) {
       return {
-        content: [],
+        content: [
+          {
+            type: 'text',
+            text: `Failed to parse the documentation for ${functionName} usage guide WDS.`,
+          },
+        ],
       };
     }
 
