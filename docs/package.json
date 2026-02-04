@@ -20,6 +20,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.1",
     "@lezer/highlight": "^1.2.1",
+    "@next/third-parties": "^16.1.6",
     "@tanstack/react-virtual": "^3.11.2",
     "@wanteddev/wds": "workspace:*",
     "@wanteddev/wds-icon": "workspace:*",
