@@ -134,13 +134,13 @@ export const getComponentUrl = async (componentName: string) => {
   return (
     guideUrls.find((url) =>
       customComponentPath
-        ? url.endsWith(`${customComponentPath}/web`)
-        : url.endsWith(`${componentSlug}/web`),
+        ? url.endsWith(`/${customComponentPath}/web`)
+        : url.endsWith(`/${componentSlug}/web`),
     ) ??
     guideUrls.find((url) =>
       customComponentPath
-        ? url.endsWith(`${customComponentPath}`)
-        : url.endsWith(`${componentSlug}`),
+        ? url.endsWith(`/${customComponentPath}`)
+        : url.endsWith(`/${componentSlug}`),
     )
   );
 };
