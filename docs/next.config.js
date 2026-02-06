@@ -6,10 +6,12 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 
 const previewHash = process.env.PREVIEW_HASH;
+const versionPath = process.env.VERSION_PATH; // e.g., "3.4.x"
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDev = process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'dev';
 const isPreview = Boolean(previewHash);
+const isVersioned = Boolean(versionPath);
 
 const commitHash = exec('git rev-parse --short HEAD').stdout.trim();
 const host = isDev
@@ -18,15 +20,25 @@ const host = isDev
 
 const buildId = previewHash ?? commitHash;
 
-const assetPrefix = isPreview ? `${host}/${buildId}` : host;
-
-const basePath = isDev && isPreview ? `/${buildId}` : undefined;
+const paths = isPreview
+  ? {
+      basePath: isDev ? `/${buildId}` : undefined,
+      assetPrefix: `${host}/${buildId}`,
+      publicBasePath: host,
+    }
+  : isVersioned
+    ? {
+        basePath: `/${versionPath}`,
+        assetPrefix: `${host}/${versionPath}`,
+        publicBasePath: `${host}/${versionPath}`,
+      }
+    : { basePath: undefined, assetPrefix: host, publicBasePath: host };
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   output: 'export',
-  basePath,
+  basePath: paths.basePath,
   generateBuildId: () => {
     return buildId;
   },
@@ -38,12 +50,12 @@ const nextConfig = {
     },
   },
   trailingSlash: false,
-  assetPrefix: isProduction ? assetPrefix : undefined,
+  assetPrefix: isProduction ? paths.assetPrefix : undefined,
   transpilePackages: ['next-mdx-remote'],
   env: {
     APP_BUILD_ID: buildId,
-    NEXT_PUBLIC_BASE_PATH: host,
-    NEXT_PUBLIC_ASSET_PREFIX: assetPrefix,
+    NEXT_PUBLIC_BASE_PATH: paths.publicBasePath,
+    NEXT_PUBLIC_ASSET_PREFIX: paths.assetPrefix,
   },
   images: {
     unoptimized: true,

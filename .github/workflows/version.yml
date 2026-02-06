@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
     inputs:
       increment:
-        description: "SemVer Increment (prepatch = bump alpha)"
+        description: 'SemVer Increment (prepatch = bump alpha)'
         required: true
-        default: "prepatch"
+        default: 'prepatch'
         type: choice
         options:
           - prerelease
@@ -19,8 +19,8 @@ on:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   GH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  SLACK_CHANNEL: "#wds-deploy"
-  SERVICE: "WDS"
+  SLACK_CHANNEL: '#wds-deploy'
+  SERVICE: 'WDS'
 
 jobs:
   deploy:
@@ -45,6 +45,16 @@ jobs:
       - run: echo ""
       - name: Publish
         run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} --yes ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --registry https://npm.pkg.github.com/ --yes --conventional-commits --create-release=github
+
+      - name: Get published version
+        id: version
+        run: |
+          git pull
+          VERSION=$(node -e "console.log(require('./lerna.json').version)")
+          VERSION_PATH=$(echo $VERSION | sed 's/\.[0-9]*$/.x/')
+          echo "version_path=$VERSION_PATH" >> $GITHUB_OUTPUT
+    outputs:
+      version_path: ${{ steps.version.outputs.version_path }}
 
   deploy-success:
     runs-on: ubuntu-latest
@@ -117,6 +127,7 @@ jobs:
     uses: ./.github/workflows/docs-deploy.yml
     secrets: inherit
     needs: [deploy]
-    if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') }}
+    if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') && (inputs.increment == 'minor' || inputs.increment == 'major') }}
     with:
       server_type: www
+      version_path: ${{ needs.deploy.outputs.version_path || '' }}
