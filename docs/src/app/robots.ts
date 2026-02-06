@@ -25,7 +25,7 @@ const robots = (): MetadataRoute.Robots => {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '*.txt$',
+      disallow: ['*.txt$', '/*.*.x'],
     },
     sitemap: `${process.env.NEXT_PUBLIC_BASE_PATH}/sitemap.xml`,
   };
