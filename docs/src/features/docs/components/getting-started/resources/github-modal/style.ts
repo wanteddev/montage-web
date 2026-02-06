@@ -1,4 +1,6 @@
-import { css, keyframes } from '@wanteddev/wds';
+import { css, keyframes, typographyStyle } from '@wanteddev/wds';
+
+import type { Theme } from '@wanteddev/wds';
 
 const mountKeyframes = keyframes`
   from {
@@ -37,6 +39,11 @@ export const modalContainerStyle = css`
   }
 `;
 
-export const modalContentStyle = css`
-  padding-top: var(--wds-modal-content-margin, 20px);
+export const contentButtonStyle = (theme: Theme) => css`
+  background-color: transparent;
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
+  color: ${theme.semantic.label.normal};
+  ${typographyStyle('body2', 'bold')}
 `;
