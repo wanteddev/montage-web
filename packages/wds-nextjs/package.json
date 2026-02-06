@@ -25,7 +25,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "watch": "tsdown --watch",
-    "build": "tsdown"
+    "build": "tsc --noEmit && tsdown"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",

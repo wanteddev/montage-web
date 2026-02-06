@@ -55,6 +55,14 @@ export type DistributiveOmit<T, K extends keyof any> = T extends any
 export type Merge<T, K> = T & DistributiveOmit<K, keyof T>;
 
 /**
+ * Merges custom props with element props, excluding the element's `as` prop
+ * to prevent conflicts with the polymorphic `as` prop
+ * (e.g., Next.js Link's `as?: Url`).
+ */
+type MergeElementProps<P, C extends ElementType> = P &
+  DistributiveOmit<ComponentPropsWithoutRef<C>, keyof P | 'as'>;
+
+/**
  * Adds the `sx` prop to a given props type for custom Emotion styling.
  *
  * @example
@@ -88,9 +96,9 @@ export { CSSInterpolation };
  * @example
  * type Props = OverrideProps<{ custom: string }, 'a'>;
  */
-export type OverrideProps<P, C extends ElementType> = Merge<
+export type OverrideProps<P, C extends ElementType> = MergeElementProps<
   P,
-  ComponentPropsWithoutRef<C>
+  C
 > & {
   ref?: Ref<ComponentRef<C>>;
   sx?: SxProp;
@@ -105,9 +113,9 @@ export type OverrideProps<P, C extends ElementType> = Merge<
  * @example
  * type Props = OverridePropsInternal<{ custom: string }, 'a'>;
  */
-export type OverridePropsInternal<P, C extends ElementType> = Merge<
+export type OverridePropsInternal<P, C extends ElementType> = MergeElementProps<
   P,
-  ComponentPropsWithoutRef<C>
+  C
 > & {
   ref?: Ref<ComponentRef<C>>;
 };
@@ -163,10 +171,10 @@ export interface PolymorphicComponent<P, E extends ElementType = 'div'> {
  * @template P Custom props
  * @template E React element type (default: 'div')
  */
-export type DefaultComponentProps<P, E extends ElementType = 'div'> = Merge<
+export type DefaultComponentProps<
   P,
-  ComponentPropsWithoutRef<E>
-> & {
+  E extends ElementType = 'div',
+> = MergeElementProps<P, E> & {
   sx?: SxProp;
   ref?: Ref<ComponentRef<E>>;
 };
@@ -190,7 +198,7 @@ export type DefaultComponentProps<P, E extends ElementType = 'div'> = Merge<
 export type DefaultComponentPropsInternal<
   P,
   E extends ElementType = 'div',
-> = Merge<P, ComponentPropsWithoutRef<E>> & {
+> = MergeElementProps<P, E> & {
   ref?: Ref<ComponentRef<E>>;
 };
 

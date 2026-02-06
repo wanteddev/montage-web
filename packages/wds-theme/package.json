@@ -24,7 +24,7 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "tsdown",
+    "build": "tsc --noEmit && tsdown",
     "watch": "tsdown --watch"
   },
   "repository": {

@@ -38,16 +38,18 @@ export type AutocompleteFieldProps = SlotProps;
 
 export type AutocompleteTriggerProps = PropsWithChildren;
 
-export type AutocompleteListProps = Merge<
-  {
-    /**
-     * When `asSelect=true`, the first focus is not specified.
-     */
-    disableTrappedContent?: boolean;
-    /** Keeps the autocomplete list mounted in the DOM even when open is false. */
-    forceMount?: boolean;
-  },
-  PopperContentProps
+export type AutocompleteListProps = WithSxProps<
+  Merge<
+    {
+      /**
+       * When `asSelect=true`, the first focus is not specified.
+       */
+      disableTrappedContent?: boolean;
+      /** Keeps the autocomplete list mounted in the DOM even when open is false. */
+      forceMount?: boolean;
+    },
+    PopperContentProps
+  >
 >;
 
 export type AutocompleteGroupProps = Merge<
