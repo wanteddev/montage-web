@@ -289,6 +289,10 @@ const ModalContainer = forwardRef(
 
     if (!isPresent) return null;
 
+    const grabberHeightGuard = isBottomSheetWithHandle
+      ? BOTTOM_SHEET_PEEK_PADDING
+      : 0;
+
     return (
       <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
@@ -413,10 +417,7 @@ const ModalContainer = forwardRef(
                       },
                       style: {
                         scrollPaddingTop:
-                          topNavigationHeight +
-                          (isBottomSheetWithHandle
-                            ? BOTTOM_SHEET_PEEK_PADDING
-                            : 0),
+                          topNavigationHeight + grabberHeightGuard,
                         scrollPaddingBottom: actionAreaHeight,
                       },
                     }}
@@ -427,8 +428,10 @@ const ModalContainer = forwardRef(
                       flex="1"
                       data-role="modal-container-wrapper"
                       sx={{
+                        '--wds-modal-grabber-height-guard': `${grabberHeightGuard}px`,
                         ['&:has([data-role="modal-container-grabber"])']: {
-                          paddingTop: BOTTOM_SHEET_PEEK_PADDING,
+                          paddingTop:
+                            'var(--wds-modal-grabber-height-guard, 0px)',
                         },
                       }}
                       {...dragProps}

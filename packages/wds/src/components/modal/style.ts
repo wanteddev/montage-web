@@ -153,7 +153,7 @@ export const modalContainerStyle =
     [wds-component='top-navigation'] {
       z-index: 5;
       position: sticky;
-      top: 0px;
+      top: var(--wds-modal-grabber-height-guard, 0px);
       left: 0px;
     }
 
@@ -519,7 +519,9 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
 export const modalGrabberStyle = (theme: Theme) => css`
   min-width: inherit;
   position: absolute;
-  padding: 7px 2px 8px 2px;
+  padding: 7px 2px 0px 2px;
+  margin-bottom: 8px;
+  background-color: ${theme.semantic.background.normal.normal};
   width: 100%;
   top: 0;
   left: 0;
