@@ -39,6 +39,9 @@ importers:
       '@types/inquirer':
         specifier: ^9.0.7
         version: 9.0.7
+      '@types/node':
+        specifier: ^22.17.0
+        version: 22.17.0
       '@types/react':
         specifier: ^19.2.7
         version: 19.2.7
@@ -413,9 +416,6 @@ importers:
         specifier: ^5.0.8
         version: 5.0.8(@types/react@19.2.7)(react@19.2.3)(use-sync-external-store@1.5.0(react@19.2.3))
     devDependencies:
-      '@types/node':
-        specifier: ^22.13.14
-        version: 22.17.0
       '@types/object-path':
         specifier: ^0.11.4
         version: 0.11.4

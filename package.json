@@ -46,6 +46,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.17.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@types/shelljs": "^0.8.15",

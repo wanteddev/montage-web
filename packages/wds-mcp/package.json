@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-mcp",
-  "version": "3.2.0",
+  "version": "0.0.7",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.24.3",
     "@wanteddev/wds-icon": "workspace:*",
