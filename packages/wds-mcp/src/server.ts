@@ -7,6 +7,7 @@ import { version } from '../package.json';
 
 import {
   getComponentUrl,
+  getDocsBaseUrl,
   getGettingStarted,
   getUtilityFunctionUrl,
   listComponents,
@@ -229,7 +230,7 @@ server.registerTool(
       };
     }
 
-    const fetchUrl = await getComponentUrl(match.name);
+    const fetchUrl = await getComponentUrl(match.name, version);
 
     if (!fetchUrl) {
       return {
@@ -375,7 +376,9 @@ server.registerTool(
   'get_color_usage',
   { description: 'Get the guidelines for how to apply color' },
   async () => {
-    const response = await fetch(DOCS_COLOR_USAGE_URL);
+    const response = await fetch(
+      `${getDocsBaseUrl(version)}/${DOCS_COLOR_USAGE_URL}`,
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch - ${response.statusText}`);
@@ -427,7 +430,7 @@ server.registerTool(
     description: 'List all of the utility functions available from WDS',
   },
   async () => {
-    const utilityFunctions = await listUtilityFunctions();
+    const utilityFunctions = await listUtilityFunctions(version);
 
     return {
       content: [
@@ -451,7 +454,7 @@ server.registerTool(
     }),
   },
   async ({ functionName }) => {
-    const fetchUrl = await getUtilityFunctionUrl(functionName);
+    const fetchUrl = await getUtilityFunctionUrl(functionName, version);
 
     if (!fetchUrl) {
       return {

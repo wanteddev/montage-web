@@ -4,6 +4,14 @@ Powered by [Emotion](https://github.com/emotion-js/emotion).
 
 ## Install
 
+Before installing, add the following to your `.npmrc` file:
+
+```sh
+@wanteddev:registry=https://npm.pkg.github.com/
+```
+
+Then install the packages:
+
 ```sh
 pnpm i @wanteddev/wds @wanteddev/wds-icon
 ```
