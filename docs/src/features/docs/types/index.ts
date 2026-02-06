@@ -7,7 +7,8 @@ export type Frontmatter = {
   originSlug: Array<string>;
   createdAt?: string;
   updatedAt?: string;
-  isPrivate?: boolean;
+  isExternal?: boolean;
+  url?: string;
 };
 
 export type GroupedPages = Record<

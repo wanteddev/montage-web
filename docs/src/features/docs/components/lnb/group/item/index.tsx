@@ -7,7 +7,7 @@ import {
   TooltipTrigger,
 } from '@wanteddev/wds';
 import Link from 'next/link';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { IconArrowRightThick } from '@wanteddev/wds-icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
@@ -26,6 +26,7 @@ type Props = PropsWithChildren<{
   trailingContent?: ReactNode;
   onClick?: () => void;
   wrapperSx?: SxProp;
+  isExternal?: boolean;
 }>;
 
 const LnbGroupItem = ({
@@ -38,6 +39,7 @@ const LnbGroupItem = ({
   trailingContent,
   onClick,
   wrapperSx,
+  isExternal,
 }: Props) => {
   const { handleRouteChange } = useRouteScroll(
     useCallback(() => {
@@ -66,9 +68,21 @@ const LnbGroupItem = ({
     }
   }, []);
 
-  const routeProps = href
-    ? { role: 'link', href, onClick: handleRouteChange, as: Link }
-    : { role: 'button', onClick, as: 'div' };
+  const routeProps = useMemo(() => {
+    if (isExternal) {
+      return {
+        role: 'link',
+        href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        as: Link,
+      };
+    }
+
+    return href
+      ? { role: 'link', href, onClick: handleRouteChange, as: Link }
+      : { role: 'button', onClick, as: 'div' };
+  }, [href, isExternal, handleRouteChange, onClick]);
 
   return (
     <Tooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>

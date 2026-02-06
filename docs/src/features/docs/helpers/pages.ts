@@ -45,7 +45,7 @@ export const parseGroupedPages = (
   const grouped: GroupedPages = {};
 
   frontmatters.forEach((frontmatter) => {
-    if (frontmatter.isPrivate || frontmatter.slug.length === 0) return;
+    if (frontmatter.slug.length === 0) return;
 
     const [firstSlug, ...restSlugs] = frontmatter.slug;
 
@@ -57,7 +57,7 @@ export const parseGroupedPages = (
 
     // slug가 1개인 경우 (최상위 페이지)
     if (restSlugs.length === 0) {
-      grouped[firstSlug].push(frontmatter);
+      grouped[firstSlug]!.push(frontmatter);
       return;
     }
 
@@ -69,12 +69,12 @@ export const parseGroupedPages = (
     }
 
     if (!thirdSlug) {
-      grouped[firstSlug].push(frontmatter);
+      grouped[firstSlug]!.push(frontmatter);
       return;
     }
 
     // 두 번째 레벨 그룹 찾기 또는 생성
-    let secondLevelGroup = grouped[firstSlug].find(
+    let secondLevelGroup = grouped[firstSlug]!.find(
       (
         item: Frontmatter | Record<string, Array<Frontmatter>>,
       ): item is Record<string, Array<Frontmatter>> =>
@@ -83,7 +83,7 @@ export const parseGroupedPages = (
 
     if (!secondLevelGroup) {
       secondLevelGroup = { [secondSlug]: [] };
-      grouped[firstSlug].push(secondLevelGroup);
+      grouped[firstSlug]!.push(secondLevelGroup);
     }
 
     // 두 번째 레벨에 페이지 추가
@@ -95,7 +95,7 @@ export const parseGroupedPages = (
       return;
     }
 
-    secondLevelGroup[secondSlug].push(frontmatter);
+    secondLevelGroup[secondSlug]!.push(frontmatter);
   });
 
   DOCS_PAGES.forEach((page) => {
@@ -113,12 +113,13 @@ export const parseGroupedPages = (
       title: page.title,
       slug: page.slug,
       originSlug: page.slug,
-      isPrivate: page.isPrivate,
+      url: page.url,
+      isExternal: page.isExternal,
     };
 
     // slug가 1개인 경우 (최상위 페이지)
     if (restSlugs.length === 0) {
-      grouped[firstSlug].push(pageFrontmatter);
+      grouped[firstSlug]!.push(pageFrontmatter);
       return;
     }
 
@@ -130,12 +131,12 @@ export const parseGroupedPages = (
     }
 
     if (!thirdSlug) {
-      grouped[firstSlug].push(pageFrontmatter);
+      grouped[firstSlug]!.push(pageFrontmatter);
       return;
     }
 
     // 두 번째 레벨 그룹 찾기 또는 생성
-    let secondLevelGroup = grouped[firstSlug].find(
+    let secondLevelGroup = grouped[firstSlug]!.find(
       (
         item: Frontmatter | Record<string, Array<Frontmatter>>,
       ): item is Record<string, Array<Frontmatter>> =>
@@ -144,7 +145,7 @@ export const parseGroupedPages = (
 
     if (!secondLevelGroup) {
       secondLevelGroup = { [secondSlug]: [] };
-      grouped[firstSlug].push(secondLevelGroup);
+      grouped[firstSlug]!.push(secondLevelGroup);
     }
 
     // 두 번째 레벨에 페이지 추가
@@ -152,7 +153,7 @@ export const parseGroupedPages = (
       secondLevelGroup[secondSlug] = [];
     }
 
-    secondLevelGroup[secondSlug].push(pageFrontmatter);
+    secondLevelGroup[secondSlug]!.push(pageFrontmatter);
   });
 
   // 각 그룹 정렬

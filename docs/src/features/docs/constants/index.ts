@@ -14,17 +14,20 @@ export const DOCS_PAGES = [
   {
     title: 'Web',
     slug: ['getting-started', 'platform', 'web'],
-    isPrivate: true,
+    url: 'https://github.com/wanteddev/wds/blob/main/packages/wds/README.md',
+    isExternal: true,
   },
   {
     title: 'iOS',
     slug: ['getting-started', 'platform', 'ios'],
-    isPrivate: true,
+    url: 'https://github.com/wanteddev/montage-ios',
+    isExternal: true,
   },
   {
     title: 'Android',
     slug: ['getting-started', 'platform', 'android'],
-    isPrivate: true,
+    url: 'https://github.com/wanteddev/montage-android',
+    isExternal: true,
   },
   {
     title: 'Overview',

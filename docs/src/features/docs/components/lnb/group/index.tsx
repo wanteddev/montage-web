@@ -1,6 +1,6 @@
 import { FlexBox, List, ListCellContent, Typography } from '@wanteddev/wds';
 import { usePathname } from 'next/navigation';
-import { IconLock } from '@wanteddev/wds-icon';
+import { IconArrowUpRight } from '@wanteddev/wds-icon';
 import { useState } from 'react';
 
 import {
@@ -80,20 +80,21 @@ const LnbGroup = ({ frontmatters }: Props) => {
 
                   {items.map((child, childIdx) => {
                     if (isFrontmatter(child)) {
-                      if (child.isPrivate) {
+                      if (child.isExternal) {
                         return (
                           <LnbGroupItem
                             key={child.slug.toString() + childIdx}
                             depth="2"
                             trailingContent={
                               <ListCellContent variant="icon">
-                                <IconLock
+                                <IconArrowUpRight
                                   aria-hidden
                                   sx={{ fontSize: '16px', margin: '4px 3px' }}
                                 />
                               </ListCellContent>
                             }
-                            onClick={() => setIsForbiddenModalOpen(true)}
+                            href={child.url}
+                            isExternal
                           >
                             {child.title}
                           </LnbGroupItem>
