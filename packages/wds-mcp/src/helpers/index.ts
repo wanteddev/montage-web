@@ -11,7 +11,11 @@ import { DOCS_BASE_URL } from '../constants';
 const componentApi = api;
 
 export const getDocsBaseUrl = (version: string) => {
-  const parsedVersion = semver.parse(version)!;
+  const parsedVersion = semver.parse(version);
+
+  if (!parsedVersion) {
+    return DOCS_BASE_URL;
+  }
 
   if (parsedVersion.compare('3.2.0') < 0) {
     return `${DOCS_BASE_URL}/3.2.x`;
