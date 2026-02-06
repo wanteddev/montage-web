@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-lottie",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "files": [
     "dist"
   ],
@@ -23,7 +23,7 @@
   },
   "scripts": {
     "watch": "tsdown --watch",
-    "build": "tsdown",
+    "build": "tsc --noEmit && tsdown",
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },

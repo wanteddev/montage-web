@@ -4,11 +4,37 @@ Powered by [Emotion](https://github.com/emotion-js/emotion).
 
 ## Install
 
+Before installing, add the following to your `.npmrc` file:
+
+```sh
+@wanteddev:registry=https://npm.pkg.github.com/
+```
+
+Then install the packages:
+
 ```sh
 pnpm i @wanteddev/wds @wanteddev/wds-icon
 ```
 
 ## Usage
+
+You need to load the Pretendard font.
+
+```html
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+<link
+  rel="stylesheet"
+  as="style"
+  crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp-dynamic-subset.min.css"
+/>
+<link
+  rel="stylesheet"
+  as="style"
+  crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css"
+/>
+```
 
 ### React
 

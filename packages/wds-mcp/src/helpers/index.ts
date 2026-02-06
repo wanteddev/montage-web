@@ -2,6 +2,7 @@ import * as icons from '@wanteddev/wds-icon';
 import { theme } from '@wanteddev/wds-theme';
 import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
+import semver from 'semver';
 
 import api from '../../../../docs/generated/api.json';
 import readme from '../../../wds/README.md';
@@ -9,8 +10,22 @@ import { DOCS_BASE_URL } from '../constants';
 
 const componentApi = api;
 
-export const getGuideUrls = async () => {
-  const sitemap = await fetch(`${DOCS_BASE_URL}/sitemap.xml`);
+export const getDocsBaseUrl = (version: string) => {
+  const parsedVersion = semver.parse(version);
+
+  if (!parsedVersion) {
+    return DOCS_BASE_URL;
+  }
+
+  if (parsedVersion.compare('3.2.0') < 0) {
+    return `${DOCS_BASE_URL}/3.2.x`;
+  }
+
+  return `${DOCS_BASE_URL}/${parsedVersion.major}.${parsedVersion.minor}.x`;
+};
+
+export const getGuideUrls = async (version: string) => {
+  const sitemap = await fetch(`${getDocsBaseUrl(version)}/sitemap.xml`);
   const sitemapXml = await sitemap.text();
 
   const $sitemap = load(sitemapXml);
@@ -95,8 +110,8 @@ export const listTokens = () => {
   });
 };
 
-export const listUtilityFunctions = async () => {
-  const guideUrls = await getGuideUrls();
+export const listUtilityFunctions = async (version: string) => {
+  const guideUrls = await getGuideUrls(version);
 
   const utilityUrls = guideUrls.filter(
     (url) =>
@@ -119,7 +134,10 @@ export const listUtilityFunctions = async () => {
   ];
 };
 
-export const getComponentUrl = async (componentName: string) => {
+export const getComponentUrl = async (
+  componentName: string,
+  version: string,
+) => {
   const componentSlug = kebabCase(componentName);
   const componentPathMap: Record<string, string> = {
     list: 'list-cell',
@@ -129,23 +147,26 @@ export const getComponentUrl = async (componentName: string) => {
   };
   const customComponentPath = componentPathMap[componentSlug];
 
-  const guideUrls = await getGuideUrls();
+  const guideUrls = await getGuideUrls(version);
 
   return (
     guideUrls.find((url) =>
       customComponentPath
-        ? url.endsWith(`${customComponentPath}/web`)
-        : url.endsWith(`${componentSlug}/web`),
+        ? url.endsWith(`/${customComponentPath}/web`)
+        : url.endsWith(`/${componentSlug}/web`),
     ) ??
     guideUrls.find((url) =>
       customComponentPath
-        ? url.endsWith(`${customComponentPath}`)
-        : url.endsWith(`${componentSlug}`),
+        ? url.endsWith(`/${customComponentPath}`)
+        : url.endsWith(`/${componentSlug}`),
     )
   );
 };
 
-export const getUtilityFunctionUrl = async (functionName: string) => {
+export const getUtilityFunctionUrl = async (
+  functionName: string,
+  version: string,
+) => {
   const utilityFunctionPathMap: Record<string, string> = {
     respondTo: 'media',
     respondDown: 'media',
@@ -155,7 +176,7 @@ export const getUtilityFunctionUrl = async (functionName: string) => {
   };
   const customUtilityFunctionPath = utilityFunctionPathMap[functionName];
 
-  const guideUrls = await getGuideUrls();
+  const guideUrls = await getGuideUrls(version);
 
   return guideUrls.find((url) =>
     url.endsWith(kebabCase(customUtilityFunctionPath ?? functionName)),

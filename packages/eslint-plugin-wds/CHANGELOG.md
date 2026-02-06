@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/wanteddev/wds/compare/v3.2.0...v3.2.1) (2026-02-06)
+
+### Bug Fixes
+
+- **wds:** next.js 16부터 as={Link} 사용시 타입 오류 나는 현상 ([#503](https://github.com/wanteddev/wds/issues/503)) ([bd54d39](https://github.com/wanteddev/wds/commit/bd54d39492ac85da28a3b375c8c82b40dcc348f2))
+
 # [3.2.0](https://github.com/wanteddev/wds/compare/v3.1.1...v3.2.0) (2026-01-26)
 
 **Note:** Version bump only for package @wanteddev/eslint-plugin-wds

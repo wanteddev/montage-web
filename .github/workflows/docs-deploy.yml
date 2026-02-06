@@ -23,12 +23,22 @@ on:
         options:
           - "www"
           - "dev"
+      version_path:
+        description: "Versioned docs path (e.g., 3.4.x)"
+        required: false
+        default: ""
+        type: string
   workflow_call:
     inputs:
       server_type:
         description: Server type
         required: false
         default: "dev"
+        type: string
+      version_path:
+        description: "Versioned docs path (e.g., 3.4.x). When set, deploys to /{version_path}/ instead of root."
+        required: false
+        default: ""
         type: string
 
 env:
@@ -83,6 +93,7 @@ jobs:
           echo "AWS_REGION=$AWS_REGION" >> $GITHUB_OUTPUT
           echo "SERVER_TYPE=$SERVER_TYPE" >> $GITHUB_OUTPUT
           echo "CLOUDFRONT_DISTRIBUTION_ID=$CLOUDFRONT_DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+          echo "VERSION_PATH=${{ inputs.version_path }}" >> $GITHUB_OUTPUT
     outputs:
       is_preview: ${{ steps.env-vars.outputs.IS_PREVIEW }}
       node_version: ${{ steps.env-vars.outputs.NODE_VERSION }}
@@ -91,6 +102,7 @@ jobs:
       bucket: ${{ steps.env-vars.outputs.BUCKET }}
       cloudfront_distribution_id: ${{ steps.env-vars.outputs.CLOUDFRONT_DISTRIBUTION_ID }}
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
+      version_path: ${{ steps.env-vars.outputs.VERSION_PATH }}
 
   set-pnpm:
     needs: [set-env]
@@ -117,6 +129,8 @@ jobs:
 
         if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
           NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} PREVIEW_HASH=${{ needs.set-env.outputs.short_commit_hash }} pnpm -F docs build
+        elif [ -n "${{ needs.set-env.outputs.version_path }}" ]; then
+          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} VERSION_PATH=${{ needs.set-env.outputs.version_path }} pnpm -F docs build
         else
           NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
         fi
@@ -137,6 +151,9 @@ jobs:
         if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
           S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}"
           CLOUDFRONT_PATH="/${{ needs.set-env.outputs.short_commit_hash }}/*"
+        elif [ -n "${{ needs.set-env.outputs.version_path }}" ]; then
+          S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.version_path }}"
+          CLOUDFRONT_PATH="/${{ needs.set-env.outputs.version_path }}/*"
         else
           S3_PATH="s3://${{ needs.set-env.outputs.bucket }}"
           CLOUDFRONT_PATH="/*"

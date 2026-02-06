@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds-codemod",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "dependencies": {
     "execa": "4.0.3",
     "inquirer": "7.3.3",
@@ -20,7 +20,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "watch": "tsdown --watch",
-    "build": "tsdown"
+    "build": "tsc --noEmit && tsdown"
   },
   "repository": {
     "url": "https://github.com/wanteddev/wds",

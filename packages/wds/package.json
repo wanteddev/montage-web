@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "files": [
     "dist",
     "types.d.ts"
@@ -28,7 +28,7 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "tsdown && node scripts/build.mjs",
+    "build": "tsc --noEmit && tsdown && node scripts/build.mjs",
     "watch": "tsdown --watch && node scripts/build.mjs"
   },
   "repository": {
@@ -37,7 +37,6 @@
     "directory": "packages/wds"
   },
   "devDependencies": {
-    "@types/node": "^22.13.14",
     "@types/object-path": "^0.11.4",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
