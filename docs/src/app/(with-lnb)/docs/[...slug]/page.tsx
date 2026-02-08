@@ -32,7 +32,7 @@ export const dynamic = 'force-static';
 
 export const generateStaticParams = async () => {
   const frontmatter = (await getAllFrontmatter()).filter(
-    (item) => !item.isPrivate,
+    (item) => !item.isExternal,
   );
 
   return frontmatter;
