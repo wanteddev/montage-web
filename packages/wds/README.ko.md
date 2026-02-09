@@ -6,13 +6,13 @@ Powered by [Emotion](https://github.com/emotion-js/emotion).
 
 ## Install
 
-Before installing, add the following to your `.npmrc` file:
+설치하기 전에 `.npmrc` 파일에 다음과 같은 설정이 필요합니다.
 
 ```sh
 @wanteddev:registry=https://npm.pkg.github.com/
 ```
 
-Then install the packages:
+그런 다음 패키지를 설치할 수 있습니다.
 
 ```sh
 pnpm i @wanteddev/wds @wanteddev/wds-icon
@@ -20,7 +20,7 @@ pnpm i @wanteddev/wds @wanteddev/wds-icon
 
 ## Usage
 
-You need to load the Pretendard font.
+Pretendard 를 사용하기 때문에 폰트를 불러와야 합니다.
 
 ```html
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -60,9 +60,9 @@ root.render(
 );
 ```
 
-If you use it with scss, styled-components, etc.
+만약, scss 혹은 styled-components 등을 사용한다면
 
-Use [Pretend option](https://emotion.sh/docs/@emotion/cache#prepend) allows you to determine whether to prepend style tags to DOM nodes.
+[Pretend 옵션](https://emotion.sh/docs/@emotion/cache#prepend)을 사용하면 스타일 태그를 DOM 노드에 앞부분에 추가할지 여부를 설정할 수 있습니다.
 
 ```tsx
 // App.tsx
@@ -121,9 +121,9 @@ const RootLayout = (props: PropsWithChildren) => {
 export default RootLayout;
 ```
 
-If you use it with scss, styled-components, etc.
+만약, scss 혹은 styled-components 등을 사용한다면
 
-Use [Pretend option](https://emotion.sh/docs/@emotion/cache#prepend) allows you to determine whether to prepend style tags to DOM nodes.
+[Pretend 옵션](https://emotion.sh/docs/@emotion/cache#prepend)을 사용하면 스타일 태그를 DOM 노드에 앞부분에 추가할지 여부를 설정할 수 있습니다.
 
 ```tsx
 // app/layout.tsx
@@ -228,9 +228,9 @@ class MyDocument extends Document<DocumentHeadTagsProps> {
 export default MyDocument;
 ```
 
-If you use it with scss, styled-components, etc.
+만약, scss 혹은 styled-components 등을 사용한다면
 
-Use [Pretend option](https://emotion.sh/docs/@emotion/cache#prepend) allows you to determine whether to prepend style tags to DOM nodes.
+[Pretend 옵션](https://emotion.sh/docs/@emotion/cache#prepend)을 사용하면 스타일 태그를 DOM 노드에 앞부분에 추가할지 여부를 설정할 수 있습니다.
 
 ```tsx
 // _document.tsx
