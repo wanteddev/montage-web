@@ -19,7 +19,6 @@ export const thumbnailStyle = (theme: Theme) => css`
 
 export const descriptionStyle = (theme: Theme) => css`
   && {
-    margin-bottom: 40px;
     max-width: unset;
     white-space: pre-line;
 

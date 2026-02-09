@@ -28,7 +28,7 @@ const GettingStarted = () => {
         weight="medium"
         color="semantic.label.neutral"
         as="p"
-        sx={descriptionStyle}
+        sx={[descriptionStyle, { marginBottom: '40px' }]}
       >
         {`원티드의 디자인 시스템 '몽타주(Montage)'는 영화에서 여러 장면을 조합해 새로운 초상을 만드는 몽타주 기법처럼,
 우리 각자의 스타일과 구성 요소가 결합함으로써 더욱 아름답고 직관적인 서비스를 만들어가는 것을 의미합니다.
@@ -37,13 +37,19 @@ const GettingStarted = () => {
 
       <Resources />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider
+        color="semantic.line.normal.alternative"
+        sx={{ marginBlock: '64px' }}
+      />
 
       <Heading2 content="Design Principles" />
 
       <Principles />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider
+        color="semantic.line.normal.alternative"
+        sx={{ marginBlock: '64px' }}
+      />
 
       <Heading2 content="Getting Started" />
 
