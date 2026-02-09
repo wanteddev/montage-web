@@ -4,7 +4,7 @@ Wanted Lab Design System for Web
 
 [English](./README.md) | [한국어](./README.ko.md)
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wanteddev/wds/blob/HEAD/LICENSE.md)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wanteddev/montage-web/blob/HEAD/LICENSE.md)
 
 ## Documentation
 

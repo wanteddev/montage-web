@@ -13,7 +13,7 @@ The versions of the project that are currently supported with security updates.
 
 ## Reporting a vulnerability
 
-If you discover a security vulnerability, please report it through [GitHub Security Advisories](https://github.com/wanteddev/wds/security/advisories/new). **Do not open a public issue.**
+If you discover a security vulnerability, please report it through [GitHub Security Advisories](https://github.com/wanteddev/montage-web/security/advisories/new). **Do not open a public issue.**
 
 ### What to include
 

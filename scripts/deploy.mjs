@@ -90,7 +90,7 @@ const main = async () => {
     console.log('Deployment successfully triggered, view the output logs in');
     console.log(
       '\x1b[32m%s\x1b[0m',
-      'https://github.com/wanteddev/wds/actions/workflows/version.yml',
+      'https://github.com/wanteddev/montage-web/actions/workflows/version.yml',
     );
   });
 };

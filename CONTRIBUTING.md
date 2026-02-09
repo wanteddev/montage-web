@@ -103,8 +103,8 @@ git checkout -b feature/your-feature
 
 ## Reporting Issues
 
-- **Bug Reports** - Use the [Bug Report](https://github.com/wanteddev/wds/issues/new?template=bug.yml) template
-- **Questions, Feature Requests** - Use [GitHub Discussions](https://github.com/wanteddev/wds/discussions)
+- **Bug Reports** - Use the [Bug Report](https://github.com/wanteddev/montage-web/issues/new?template=bug.yml) template
+- **Questions, Feature Requests** - Use [GitHub Discussions](https://github.com/wanteddev/montage-web/discussions)
 
 ## License
 
