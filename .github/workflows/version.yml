@@ -19,7 +19,6 @@ on:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   GH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  SLACK_CHANNEL: '#wds-deploy'
   SERVICE: 'WDS'
 
 jobs:
@@ -72,12 +71,12 @@ jobs:
           echo "RELEASE=${RELEASE}" >> $GITHUB_ENV
 
       - name: Post Slack Message - Deploy Success
-        uses: slackapi/slack-github-action@v1.21.0
-        with:
-          channel-id: ${{ env.SLACK_CHANNEL }}
-          payload: |
-            {
-              "text": "${{ env.SERVICE }} ${{ inputs.increment }} 배포 완료",
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.DEPLOY_SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "",
               "attachments": [
                 {
                   "color": "00E5BA",
@@ -119,9 +118,8 @@ jobs:
                   ]
                 }
               ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.DEPLOY_SLACK_WEBHOOK_URL }}
+            }' \
+            "$SLACK_WEBHOOK_URL"
 
   deploy-docs:
     uses: ./.github/workflows/docs-deploy.yml

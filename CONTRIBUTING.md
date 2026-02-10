@@ -62,7 +62,7 @@ This is a monorepo managed with [Lerna](https://lerna.js.org/) and [Nx](https://
 
 We follow [Conventional Commits](https://www.conventionalcommits.org/). Each commit message should be structured as:
 
-```
+```txt
 <type>(<scope>): <description>
 ```
 
