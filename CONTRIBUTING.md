@@ -12,8 +12,8 @@ Thank you for your interest in contributing to Montage. This guide will help you
 1. Fork and clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/wds.git
-cd wds
+git clone https://github.com/<your-username>/montage-web.git
+cd montage-web
 ```
 
 2. Set up Node.js and pnpm:
