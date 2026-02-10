@@ -40,7 +40,6 @@ jobs:
           channel-id: '#product-web-team-pr'
           payload: |
             {
-              "text": "",
               "attachments": [{
                 "color": "${{ (job.status == 'success' && 'good') || (job.status == 'failure' && 'danger') || 'warning' }}",
                 "fields": [
