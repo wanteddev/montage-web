@@ -112,20 +112,20 @@ const processImageDownload = async (
 
   const entries = Object.entries(imageDownloadUrls.images);
 
-  for (let i = 0; i < entries.length; i++) {
-    const [id, url] = entries[i];
+  await Promise.all(
+    entries.map(async ([id, url], i) => {
+      const fileResponse = await fetch(url as string);
 
-    const fileResponse = await fetch(url as string);
+      if (!fileResponse.ok) {
+        throw new Error(`Failed to download image ${id} for ${pageName}`);
+      }
 
-    if (!fileResponse.ok) {
-      throw new Error(`Failed to download image ${id} for ${pageName}`);
-    }
+      const imageBuffer = await fileResponse.arrayBuffer();
 
-    const imageBuffer = await fileResponse.arrayBuffer();
-
-    fs.writeFileSync(
-      path.join(directory, getImageNames(i)),
-      Buffer.from(imageBuffer),
-    );
-  }
+      fs.writeFileSync(
+        path.join(directory, getImageNames(i)),
+        Buffer.from(imageBuffer),
+      );
+    }),
+  );
 };
