@@ -4,7 +4,7 @@ description: 사용자 또는 기업, 학교를 나타내는 대표 이미지 �
 image: /components/contents/avatar/design/Image.png
 ogImage: /components/contents/avatar/design/Thumbnails.png
 createdAt: 2025-09-30
-updatedAt: 2026-01-29
+updatedAt: 2026-02-10
 ---
 
 <SectionAnatomy
@@ -78,7 +78,7 @@ updatedAt: 2026-01-29
   <SectionFigure
     ratio="95 / 3"
     src="/components/contents/avatar/design/Image-3.png"
-    description={`예외적으로 Variant에 없는 사이즈를 사용할 경우 4배수 크기로 작업합니다.`}
+    description={`예외적으로 Variant에 없는 사이즈를 사용할 경우 4배수 크기로 작업합니다. 사이즈 커스터마이징을 할 경우 모서리 둥글기는 사이즈의 0.25배로 사용합니다. 이 때, 지정된 값이 홀수라면 짝수로 올려 사용합니다.`}
   />
 </SectionLayout>
 
@@ -86,7 +86,10 @@ updatedAt: 2026-01-29
   <SectionFigure
     ratio="95 / 27"
     src="/components/contents/avatar/design/Image-4.png"
-    description={`프로필에 업데이트 정보가 있을 때 Avatar 우측 상단에 Push badge로 표기합니다. 노출 기한은 각 프로젝트에서 자유롭게 지정할 수 있습니다.`}
+    description={`프로필에 업데이트 정보가 있을 때 Avatar 우측 상단에 Push badge로 표기합니다. 노출 기한은 각 프로젝트에서 자유롭게 지정할 수 있습니다. Avatar 사이즈를 커스터마이징해서 사용하는 경우 Push badge는 아래 규칙에 맞게 사용합니다.
+- Avatar 사이즈≤36일 때 Push badge=Xsmall
+- Avatar 사이즈=37~52일 때  Push badge=Small
+- Avatar 사이즈≥53일 때  Push badge=Medium`}
   />
 </SectionLayout>
 
@@ -139,7 +142,8 @@ updatedAt: 2026-01-29
     "key": "Avatar",
     "options": [
       "borderColor",
-      "borderWeight"
+      "borderWeight",
+      "size"
     ]
   }
 ]}
