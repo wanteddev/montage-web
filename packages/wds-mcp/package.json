@@ -29,7 +29,7 @@
     "build": "pnpm -w run build:api && tsdown"
   },
   "repository": {
-    "url": "https://github.com/wanteddev/wds",
+    "url": "https://github.com/wanteddev/montage-web",
     "type": "git",
     "directory": "packages/wds-mcp"
   },

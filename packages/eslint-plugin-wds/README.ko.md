@@ -2,7 +2,7 @@
 
 [English](./README.md) | [한국어](./README.ko.md)
 
-## Install
+## 설치
 
 ```sh
 pnpm install -D @wanteddev/eslint-plugin-wds
@@ -16,7 +16,7 @@ Legacy config
   ]
 ```
 
-or
+또는
 
 ```json
   "extends": [
@@ -32,7 +32,7 @@ import wdsPlugin from '@wanteddev/eslint-plugin-wds';
 export default [wdsPlugin.flatConfig.recommended];
 ```
 
-or
+또는
 
 ```ts
 import wdsPlugin from '@wanteddev/eslint-plugin-wds';
@@ -40,11 +40,11 @@ import wdsPlugin from '@wanteddev/eslint-plugin-wds';
 export default [wdsPlugin.flatConfig.strict];
 ```
 
-## Rules
+## 규칙
 
 ### icon-button-uses-name
 
-When using an icon as a button, you must specify the `name` or `aria-label` attribute.
+아이콘을 버튼으로 사용할 때 `name` 혹은 `aria-label` 옵션을 지정해야 합니다.
 
 ```tsx
 <IconButton>
@@ -52,7 +52,7 @@ When using an icon as a button, you must specify the `name` or `aria-label` attr
 </IconButton>
 ```
 
-Without this attribute, screen readers cannot identify the purpose of the button.
+해당 옵션이 없는 경우 스크린리더가 해당 버튼이 어떤 버튼인지 알 수 없어 지정해 주어야 합니다.
 
 ```tsx
 // good
@@ -60,7 +60,7 @@ Without this attribute, screen readers cannot identify the purpose of the button
   <IconCloseThick />
 </IconButton>
 
-<Button iconOnly aria-label="Remove bookmark">
+<Button iconOnly aria-label="북마크 해제">
   <IconBookFill />
 </Button>
 
@@ -76,23 +76,23 @@ Without this attribute, screen readers cannot identify the purpose of the button
 
 ### image-uses-alt
 
-Visual images such as avatars and thumbnails must provide an `alt` attribute for screen readers.
+아바타, 썸네일 등 시각적 이미지는 스크린리더를 위한 `alt` 속성을 반드시 제공해야 합니다.
 
 ```tsx
 <Avatar src="https://example.com/user.png" />
 ```
 
-Without `alt`, screen readers cannot properly describe the image. Always provide alternative text.
+`alt`가 없는 경우 스크린리더가 이미지를 적절히 인식하지 못하므로 대체 텍스트를 제공해야 합니다.
 
 ```tsx
 // good
-<Avatar alt="Jane's profile photo" src="https://example.com/user.png" />
+<Avatar alt="OOO님 프로필 이미지" src="https://example.com/user.png" />
 
-<Thumbnail alt="About page" src="/thumb.png" />
+<Thumbnail alt="about 페이지" src="/thumb.png" />
 
-<CardThumbnail alt="Frontend developer job posting" src="/cover.png" />
+<CardThumbnail alt="원티드랩 프론트엔드 개발자 공고" src="/cover.png" />
 
-<Box as="img" alt="High-five event" src="/banner.png" />
+<Box as="img" alt="하이파이브 이벤트" src="/banner.png" />
 
 // bad
 <Avatar src="https://example.com/user.png" />
