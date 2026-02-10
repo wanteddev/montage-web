@@ -35,12 +35,13 @@ jobs:
 
             core.setOutput('title', title);
       - name: Send Slack Notification
-        uses: slackapi/slack-github-action@v1.21.0
-        with:
-          channel-id: '#product-web-team-pr'
-          payload: |
-            {
-              "text": "[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }} - PR 리뷰 요청",
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+            --data '{
+              "text": "",
               "attachments": [
                 {
                   "color": "${{ (job.status == 'success' && 'good') || (job.status == 'failure' && 'danger') || 'warning' }}",
@@ -92,7 +93,5 @@ jobs:
                   ]
                 }
               ]
-            }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+            }' \
+            "$SLACK_WEBHOOK_URL"
