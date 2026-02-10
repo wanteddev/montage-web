@@ -20,13 +20,13 @@ export const DOCS_PAGES = [
   {
     title: 'iOS',
     slug: ['getting-started', 'platform', 'ios'],
-    url: 'https://github.com/wanteddev/montage-ios',
+    url: 'https://github.com/wanteddev/montage-ios/blob/develop/README.md',
     isExternal: true,
   },
   {
     title: 'Android',
     slug: ['getting-started', 'platform', 'android'],
-    url: 'https://github.com/wanteddev/montage-android',
+    url: 'https://github.com/wanteddev/montage-android/blob/develop/README.md',
     isExternal: true,
   },
   {
