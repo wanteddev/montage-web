@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Q&A
+    url: https://github.com/wanteddev/montage-web/discussions/categories/q-a
+    about: Ask questions and get help via GitHub Discussions.
+  - name: RFC (Request for Comments)
+    url: https://github.com/wanteddev/montage-web/discussions/categories/rfc
+    about: Propose new ideas or discuss changes via RFC.

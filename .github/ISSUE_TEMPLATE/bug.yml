@@ -1,25 +1,54 @@
 name: 'Bug Report'
 title: 'Bug: '
-description: Bug Report for wds
-assignees: Sh031224
+description: Report a bug in WDS
 labels:
   - 'bug'
 body:
   - type: textarea
     attributes:
-      label: 요약
-      description: 버그에 대한 요약을 입력해주세요.
+      label: Summary
+      description: Provide a brief summary of the bug.
     validations:
       required: true
   - type: textarea
     attributes:
-      label: 상세
-      description: 버그에 대한 상세 내용을 입력해주세요.
+      label: Steps to Reproduce
+      description: Describe the steps to reproduce the bug.
+      value: |
+        1.
+        2.
+        3.
     validations:
       required: true
   - type: textarea
     attributes:
-      label: 환경
-      description: 패키지 버전 및 실행 환경에 대해 입력해주세요.
+      label: Expected Behavior
+      description: Describe what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual Behavior
+      description: Describe what actually happened.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: WDS Version
+      description: Which version of WDS are you using?
+      placeholder: e.g. 3.0.0
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Browser
+      description: Browser name and version.
+      placeholder: e.g. Chrome 120
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Additional Information
+      description: Any additional context, screenshots, or error logs.
     validations:
       required: false
