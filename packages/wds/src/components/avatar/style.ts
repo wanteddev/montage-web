@@ -105,7 +105,7 @@ const avatarSizeStyle = (
   };
 
   if (typeof size === 'number') {
-    const customRadius = Math.round(size * 0.25 / 2) * 2;
+    const customRadius = Math.ceil((size * 0.25) / 2) * 2;
 
     return css`
       width: ${size}px;
