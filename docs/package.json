@@ -52,7 +52,7 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.0.10",
+    "@next/bundle-analyzer": "^16.1.6",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.13.14",

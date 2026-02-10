@@ -178,9 +178,10 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
         </MDXProvider>
       </body>
 
-      {process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'www' && (
-        <GoogleAnalytics gaId="G-XX1CL3693S" />
-      )}
+      {process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'www' &&
+        process.env.NEXT_PUBLIC_IS_CUSTOM_VERSION !== 'true' && (
+          <GoogleAnalytics gaId="G-XX1CL3693S" />
+        )}
     </html>
   );
 };
