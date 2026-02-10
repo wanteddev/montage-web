@@ -105,12 +105,18 @@ const avatarSizeStyle = (
   };
 
   if (typeof size === 'number') {
+    let customRadius = size / 4;
+
+    if (customRadius % 2 !== 0) {
+      customRadius += 1;
+    }
+
     return css`
       width: ${size}px;
       height: ${size}px;
       font-size: calc(${size}px / 1.5);
 
-      ${getBorderRadius(size / 4.8 > 6 ? size / 4.8 : 6)}
+      ${getBorderRadius(customRadius)}
     `;
   }
 
