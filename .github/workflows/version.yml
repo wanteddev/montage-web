@@ -77,7 +77,7 @@ jobs:
           channel-id: ${{ env.SLACK_CHANNEL }}
           payload: |
             {
-              "text": "",
+              "text": "${{ env.SERVICE }} ${{ inputs.increment }} 배포 완료",
               "attachments": [
                 {
                   "color": "00E5BA",
@@ -121,7 +121,7 @@ jobs:
               ]
             }
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.DEPLOY_SLACK_BOT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.DEPLOY_SLACK_WEBHOOK_URL }}
 
   deploy-docs:
     uses: ./.github/workflows/docs-deploy.yml

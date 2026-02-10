@@ -40,27 +40,59 @@ jobs:
           channel-id: '#product-web-team-pr'
           payload: |
             {
-              "attachments": [{
-                "color": "${{ (job.status == 'success' && 'good') || (job.status == 'failure' && 'danger') || 'warning' }}",
-                "fields": [
-                  {
-                    "title": "PR 제목",
-                    "value": "[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }}",
-                    "short": false
-                  },
-                  {
-                    "title": "작성자",
-                    "value": "${{ github.event.pull_request.user.login }} (c.c <!subteam^S084RSQ5JJW>)",
-                    "short": false
-                  }
-                ],
-                "title": ">>> 리뷰하러 가기 >>>",
-                "title_link": "${{ github.event.pull_request.html_url }}",
-                "thumb_url": "${{ github.event.pull_request.user.avatar_url }}",
-                "footer": "리뷰 및 승인 부탁드립니다",
-                "footer_icon": "https://wanted-dev.static.wanted.co.kr/images/icons/star_fill.svg"
-              }]
+              "text": "[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }} - PR 리뷰 요청",
+              "attachments": [
+                {
+                  "color": "${{ (job.status == 'success' && 'good') || (job.status == 'failure' && 'danger') || 'warning' }}",
+                  "blocks": [
+                    {
+                      "type": "header",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "PR 리뷰 요청"
+                      }
+                    },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": ">*PR 제목*\n>[${{ github.event.repository.name }}] ${{ steps.parse-title.outputs.title }}\n>\n>*작성자*\n>${{ github.event.pull_request.user.login }} (c.c <!subteam^S084RSQ5JJW>)"
+                        }
+                      ],
+                      "accessory": {
+                        "type": "image",
+                        "image_url": "${{ github.event.pull_request.user.avatar_url }}",
+                        "alt_text": "${{ github.event.pull_request.user.login }}"
+                      }
+                    },
+                    {
+                      "type": "context",
+                      "elements": [
+                        {
+                          "type": "mrkdwn",
+                          "text": ":eyes: 리뷰 및 승인 부탁드립니다"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "actions",
+                      "elements": [
+                        {
+                          "type": "button",
+                          "text": {
+                            "type": "plain_text",
+                            "text": "리뷰하러 가기"
+                          },
+                          "url": "${{ github.event.pull_request.html_url }}",
+                          "style": "primary"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
