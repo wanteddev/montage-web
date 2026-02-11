@@ -56,14 +56,6 @@ const Resources = () => {
           >
             Github Repository
           </Typography>
-
-          <IconArrowUpRight
-            aria-hidden
-            sx={(theme) => ({
-              color: theme.semantic.label.normal,
-              fontSize: '20px',
-            })}
-          />
         </FlexBox>
       </FlexBox>
 

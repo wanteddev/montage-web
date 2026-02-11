@@ -38,7 +38,7 @@ const Footer = ({ sx }: Props) => {
       justifyContent="space-between"
     >
       <Box as="p" sx={footerLinkStyle}>
-        © 2025 Wanted Lab, Inc.
+        © 2026 Wanted Lab, Inc.
       </Box>
 
       <FlexBox gap="40px">
@@ -65,6 +65,10 @@ const Footer = ({ sx }: Props) => {
                   e.defaultPrevented = true;
                   handleRouteChange();
                 }}
+                textProps={{
+                  variant: 'label1',
+                  weight: 'medium',
+                }}
               >
                 Terms of use
               </MenuItem>
@@ -77,20 +81,16 @@ const Footer = ({ sx }: Props) => {
                   e.defaultPrevented = true;
                   handleRouteChange();
                 }}
+                textProps={{
+                  variant: 'label1',
+                  weight: 'medium',
+                }}
               >
                 Release note
               </MenuItem>
             </MenuList>
           </MenuContent>
         </Menu>
-        {/* <Box
-          as={Link}
-          href="/docs/getting-started/terms-of-use"
-          sx={footerLinkStyle}
-          onClick={handleRouteChange}
-        >
-          Terms of Use
-        </Box> */}
       </FlexBox>
     </FlexBox>
   );

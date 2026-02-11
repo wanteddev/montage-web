@@ -21,10 +21,6 @@ export const tabStyle = (theme: Theme) => css`
     margin-left: calc(var(--layout-padding-inline) * -1);
   }
 
-  &::after {
-    background-color: ${theme.semantic.line.solid.neutral};
-  }
-
   & + h1,
   & + h2,
   & + h3 {
