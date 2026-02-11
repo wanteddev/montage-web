@@ -23,7 +23,7 @@ const ElevationTab = () => {
   return (
     <>
       <Divider
-        color="semantic.line.solid.neutral"
+        color="semantic.line.normal.neutral"
         sx={{ marginTop: '56px', marginBottom: '80px' }}
       />
 
@@ -34,7 +34,7 @@ const ElevationTab = () => {
       />
 
       <SectionCard
-        sx={{ marginBottom: '56px' }}
+        sx={{ marginBottom: '64px' }}
         data={[
           {
             title: 'Normal',
@@ -51,7 +51,7 @@ const ElevationTab = () => {
         ]}
       />
 
-      <RouteTab tabs={tabs} />
+      <RouteTab tabs={tabs} sx={{ marginTop: '0px' }} />
     </>
   );
 };

@@ -1,6 +1,5 @@
-import { FlexBox, List, ListCellContent, Typography } from '@wanteddev/wds';
+import { FlexBox, List, Typography } from '@wanteddev/wds';
 import { usePathname } from 'next/navigation';
-import { IconArrowUpRight } from '@wanteddev/wds-icon';
 
 import {
   getFrontmatterGroupKey,
@@ -75,14 +74,6 @@ const LnbGroup = ({ frontmatters }: Props) => {
                         <LnbGroupItem
                           key={child.slug.toString() + childIdx}
                           depth="2"
-                          trailingContent={
-                            <ListCellContent variant="icon">
-                              <IconArrowUpRight
-                                aria-hidden
-                                sx={{ fontSize: '16px', margin: '4px 3px' }}
-                              />
-                            </ListCellContent>
-                          }
                           href={child.url}
                           isExternal
                         >

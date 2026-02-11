@@ -1,5 +1,5 @@
 'use client';
-import { Box, Divider, Thumbnail, Typography } from '@wanteddev/wds';
+import { Box, Thumbnail, Typography } from '@wanteddev/wds';
 
 import { getImageUrl } from '@/helpers/image';
 
@@ -79,12 +79,10 @@ const FoundationsElevationNormal = () => {
         }))}
       />
 
-      <Divider
-        color="semantic.line.solid.neutral"
-        sx={{ '&&': { marginTop: '64px', marginBottom: '32px' } }}
+      <Heading2
+        content="Composition"
+        sx={{ '&&:first-of-type': { marginTop: '120px' } }}
       />
-
-      <Heading2 content="Composition" />
 
       <p>
         더 자연스럽고 현실과 유사한 깊이감을 표현하기 위해 물체 주변으로
@@ -104,9 +102,7 @@ const FoundationsElevationNormal = () => {
         }}
       />
 
-      <Divider color="semantic.line.solid.neutral" />
-
-      <Heading2 content="Style" />
+      <Heading2 content="Style" sx={{ marginTop: '120px' }} />
 
       <StyleGrid />
     </>

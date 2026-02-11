@@ -8,7 +8,10 @@ import {
 } from '@wanteddev/wds';
 import Link from 'next/link';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { IconArrowRightThick } from '@wanteddev/wds-icon';
+import {
+  IconArrowRightThick,
+  IconArrowUpRightThick,
+} from '@wanteddev/wds-icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
@@ -110,7 +113,17 @@ const LnbGroupItem = ({
             aria-disabled={disabled}
             sx={[lnbItemStyle, sx]}
             trailingContent={
-              trailingContent ?? (
+              trailingContent ?? isExternal ? (
+                <ListCellContent
+                  variant="icon"
+                  data-role="lnb-group-item-arrow"
+                >
+                  <IconArrowUpRightThick
+                    aria-hidden
+                    sx={{ fontSize: '16px' }}
+                  />
+                </ListCellContent>
+              ) : (
                 <ListCellContent
                   variant="icon"
                   data-role="lnb-group-item-arrow"

@@ -12,7 +12,7 @@ export const searchPanelStyle = (theme: Theme) => css`
     theme.opacity[88],
   )};
   box-shadow: ${theme.semantic.elevation.shadow.normal.small};
-  border: 1px solid ${theme.semantic.line.solid.neutral};
+  border: 1px solid ${theme.semantic.line.normal.neutral};
   padding: 10px 16px;
   border-radius: 16px;
   backdrop-filter: blur(32px);
@@ -23,7 +23,7 @@ export const searchInputStyle = (theme: Theme) => css`
   padding: 4px 8px;
   border-radius: 8px;
   border: none;
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.solid.neutral};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
   background-color: ${theme.semantic.background.elevated.normal};
   color: ${theme.semantic.label.normal};
   ${typographyStyle('label1', 'regular')}
@@ -47,7 +47,7 @@ export const searchInputStyle = (theme: Theme) => css`
 export const searchInputToggleStyle = (theme: Theme) => css`
   border-radius: 8px;
   color: ${theme.semantic.label.normal};
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.solid.neutral};
+  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
   transition:
     box-shadow ease 0.2s,
     background-color ease 0.2s,

@@ -1,5 +1,5 @@
 'use client';
-import { Box, Divider, Typography } from '@wanteddev/wds';
+import { Box, Typography } from '@wanteddev/wds';
 
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 
@@ -38,12 +38,10 @@ const FoundationsElevationSpread = () => {
         }))}
       />
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginTop: '64px', marginBottom: '32px' } }}
+      <Heading2
+        content="Style"
+        sx={{ '&&:first-of-type': { marginTop: '120px' } }}
       />
-
-      <Heading2 content="Style" />
 
       <StyleGrid />
     </>

@@ -160,7 +160,7 @@ export const mdxRootStyle = (theme: Theme) => css`
     hr {
       margin: 16px 0px;
       border: none;
-      border-top: 1px solid ${theme.semantic.line.solid.neutral};
+      border-top: 1px solid ${theme.semantic.line.normal.neutral};
     }
 
     :is(blockquote),
