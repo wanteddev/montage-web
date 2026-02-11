@@ -12,7 +12,7 @@ const FoundationsTypography = () => {
     <>
       <Divider
         color="semantic.line.normal.neutral"
-        sx={{ '&&': { marginBlock: '48px 56px' } }}
+        sx={{ '&&': { marginBlock: '40px 32px' } }}
       />
 
       <Heading2 content="Basic typography" />
@@ -40,13 +40,11 @@ const FoundationsTypography = () => {
         border
         sx={{
           aspectRatio: '390 / 73',
-          marginTop: '40px',
+          marginTop: '32px',
         }}
       />
 
-      <Divider color="semantic.line.normal.alternative" />
-
-      <Heading2 content="Word break" />
+      <Heading2 content="Word break" sx={{ marginTop: '120px' }} />
 
       <p>
         원티드랩에서는 개발 시 텍스트가 음절별로 나뉘어서 줄바꿈이 됩니다.
@@ -61,13 +59,11 @@ const FoundationsTypography = () => {
         radius
         border
         sx={{
-          marginTop: '40px',
+          marginTop: '32px',
         }}
       />
 
-      <Divider color="semantic.line.normal.alternative" />
-
-      <Heading2 content="Style" />
+      <Heading2 content="Style" sx={{ marginTop: '120px' }} />
 
       <VariantGrid />
     </>

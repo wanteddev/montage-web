@@ -1,19 +1,20 @@
-import { css } from '@wanteddev/wds';
+import { addOpacity, css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const inlineCodeStyle = css`
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-size: 90%;
+export const inlineCodeStyle = (theme: Theme) => css`
+  padding: 3px 6px;
+  border-radius: 6px;
   white-space: break-spaces;
   leading-trim: both;
-  font-size: 0.8125rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 138.5%;
-  letter-spacing: -0.005em;
+  ${typographyStyle('label2', 'medium')}
   display: inline;
+  color: ${theme.semantic.accent.foreground.blue};
+  position: relative;
+  background-color: ${addOpacity(
+    theme.semantic.accent.foreground.blue,
+    theme.opacity[8],
+  )};
 `;
 
 export const codeBlockStyle = (theme: Theme) => css`

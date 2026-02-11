@@ -21,7 +21,7 @@ const Anchor = ({ href, ...props }: Props) => {
     <Typography
       {...props}
       variant="body1"
-      weight="regular"
+      weight="medium"
       as={isExternal ? 'a' : Link}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}

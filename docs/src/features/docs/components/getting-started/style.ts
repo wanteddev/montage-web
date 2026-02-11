@@ -21,7 +21,6 @@ export const descriptionStyle = (theme: Theme) => css`
   && {
     max-width: unset;
     white-space: pre-line;
-    margin-bottom: 40px;
 
     ${respondTo(theme.breakpoint.sm)} {
       white-space: initial;

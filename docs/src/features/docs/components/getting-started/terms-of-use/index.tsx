@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Divider } from '@wanteddev/wds';
+import { Box } from '@wanteddev/wds';
 
 import { Heading2, Heading3 } from '../../mdx/section/layout';
 
@@ -9,11 +9,6 @@ import { linkStyle, listStyle, textStyle } from './style';
 const TermsOfUse = () => {
   return (
     <>
-      <Divider
-        color="semantic.line.normal.neutral"
-        sx={{ '&&': { marginTop: '40px', marginBottom: '32px' } }}
-      />
-
       <Heading2 content="1. 약관 적용" />
 
       <Box as="p" sx={textStyle}>
@@ -43,12 +38,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
-
-      <Heading2 content="2. 라이선스" />
+      <Heading2 content="2. 라이선스" sx={{ marginTop: '64px' }} />
 
       <Box as="p" sx={[{ margin: '0px 0px 40px' }, textStyle]}>
         본 시스템은{' '}
@@ -100,12 +90,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
-
-      <Heading2 content="3. 브랜드 가이드라인" />
+      <Heading2 content="3. 브랜드 가이드라인" sx={{ marginTop: '64px' }} />
 
       <Heading3
         content="1. 원티드 브랜드 자산 사용"
@@ -132,12 +117,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
-
-      <Heading2 content="4. 기여 가이드라인" />
+      <Heading2 content="4. 기여 가이드라인" sx={{ marginTop: '64px' }} />
 
       <Heading3 content="1. 기여 방법" sx={{ marginTop: '8px' }} />
 
@@ -160,12 +140,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
-
-      <Heading2 content="5. 면책 조항" />
+      <Heading2 content="5. 면책 조항" sx={{ marginTop: '64px' }} />
 
       <Box as="p" sx={textStyle}>
         본 시스템은 &quot;있는 그대로&quot; 제공되며, 특정 목적에의 적합성,
@@ -173,12 +148,7 @@ const TermsOfUse = () => {
         또는 묵시적 보증도 하지 않습니다.
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
-
-      <Heading2 content="6. 개인정보 보호" />
+      <Heading2 content="6. 개인정보 보호" sx={{ marginTop: '64px' }} />
 
       <Box as="ul" sx={listStyle(true)}>
         <li>본 시스템 자체는 사용자의 개인정보를 수집하지 않습니다.</li>
@@ -188,12 +158,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
-
-      <Heading2 content="7. 약관의 변경" />
+      <Heading2 content="7. 약관의 변경" sx={{ marginTop: '64px' }} />
 
       <Box as="ul" sx={listStyle(true)}>
         <li>본 약관은 필요에 따라 변경될 수 있습니다.</li>

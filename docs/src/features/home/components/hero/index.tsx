@@ -58,7 +58,7 @@ const Hero = () => {
             <FadeInOut duration={600} delay={200}>
               <Typography
                 variant="label2"
-                weight="regular"
+                weight="medium"
                 as="p"
                 color="semantic.label.normal"
                 align="center"

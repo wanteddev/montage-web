@@ -1,103 +1,120 @@
 ---
 title: Check mark
 description: 약관 혹은 동의 내용에 관하여 사용자의 읽음, 확인 등의 상태 여부를 표현하는 요소입니다.
-image: /components/selection-and-input/check-mark/design/Thumbnails.png
+image: /components/selection-and-input/check-mark/design/Image.png
+ogImage: /components/selection-and-input/check-mark/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2025-10-14
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/selection-and-input/check-mark/design/Image.png"
-  ratio="16:9"
+  src="/components/selection-and-input/check-mark/design/Image-1.png"
+  ratio="95 / 33"
   data={[
-    'Control',
-    'Label',
+    'Control','Label'
   ]}
 />
+  
 
 <SectionVariants
   components={['FormField', 'FlexBox', 'FormControl', 'FormLabel', 'CheckMark']}
+  icons={[]}
   render={(value) => {
-    const tight = value['Tight'] === 'True'
-    const size = value['Size'].toLowerCase()
+      const tight = value['Tight'] === 'True';
+      const size = value['Size'].toLowerCase();
 
-    const gap = tight ? '6px' : '4px'
+      const gap = tight ? '6px' : '4px';
 
-    return `
-      <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
-        <FormControl>
-          <CheckMark
-            defaultChecked
-            size="${size}"
-            tight={${tight}}
-          />
-        </FormControl>
-        <FormLabel>Check mark</FormLabel>
-      </FormField>
-    `;
-  }}
+      return `
+        <FormField sx={{ width: '75%' }} flexDirection="row" gap="${gap}" alignItems="center" justifyContent="center">
+          <FormControl>
+            <CheckMark
+              defaultChecked
+              size="${size}"
+              tight={${tight}}
+            />
+          </FormControl>
+          <FormLabel>Check mark</FormLabel>
+        </FormField>
+      `;
+    }}
   variants={[
     {
       key: 'Size',
       defaultValue: 'Medium',
       options: [
         { label: 'Small', value: {} },
-        { label: 'Medium', value: {} },
+        { label: 'Medium', value: {} }
       ]
     },
     {
       key: 'Tight',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
-      ],
-    },
+        { label: 'True', value: {} }
+      ]
+    }
   ]}
 />
 
-<SectionStates
-  src="/components/selection-and-input/check-mark/design/Image-1.png"
-  ratio="3:2"
-  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
-/>
 
+<SectionStates
+  ratio="40 / 19"
+  src="/components/selection-and-input/check-mark/design/Image-2.png"
+/>
 
 <SectionLayout title="Clickable area">
   <SectionFigure
-    ratio="21:9"
-    description="Checkmark의 Label까지 인터랙션 영역에 포함됩니다. Label에 Hover 시 Control 영역에 인터랙션이 적용됩니다."
-    src="/components/selection-and-input/check-mark/design/Image-2.png"
+    ratio="95 / 33"
+    src="/components/selection-and-input/check-mark/design/Image-3.png"
+    description={`Checkmark의 Label까지 인터랙션 영역에 포함됩니다. Label에 Hover 시 Control 영역에 인터랙션이 적용됩니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Information confirm">
   <SectionFigure
-    ratio="16:10"
-    description="약관이나 특정 내용의 숙지 여부를 확인하는 용도로 사용합니다. Inactive를 기본 값으로 권장하지만, 상황에 따라 Active를 기본값으로 둘 수 있습니다."
-    src="/components/selection-and-input/check-mark/design/Image-3.png"
+    ratio="95 / 42"
+    src="/components/selection-and-input/check-mark/design/Image-4.png"
+    description={`약관이나 특정 내용의 숙지 여부를 확인하는 용도로 사용합니다. Inactive를 기본 값으로 권장하지만, 상황에 따라 Active를 기본값으로 둘 수 있습니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Gap">
   <SectionFigure
-    ratio="2:1"
-    description="반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 간격을 두는 것을 권장합니다.
-간격을 8px 이상으로 조절할 시에는 4배수 단위로 높입니다."
-    src="/components/selection-and-input/check-mark/design/Image-4.png"
+    ratio="5 / 2"
+    src="/components/selection-and-input/check-mark/design/Image-5.png"
+    description={`반복하여 List로 배치할 시 모바일에서 터치영역의 안정성을 유지하기 위해 8px 이상의 간격을 두는 것을 권장합니다.
+간격을 8px 이상으로 조절할 시에는 4배수 단위로 높입니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="16:10"
-    description="체크박스 내용의 상세 정보 동의 여부를 확인할 때 사용할 수 있습니다."
-    src="/components/selection-and-input/check-mark/design/Image-5.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="21:9"
-    description="다중 선택의 용도로 사용하지 않습니다."
-    src="/components/selection-and-input/check-mark/design/Image-6.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="760 / 403"
+      src="/components/selection-and-input/check-mark/design/Image-6.png"
+      variant="positive"
+      description={`체크박스 내용의 상세 정보 동의 여부를 확인할 때 사용할 수 있습니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 163"
+      src="/components/selection-and-input/check-mark/design/Image-7.png"
+      variant="negative"
+      description={`다중 선택의 용도로 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
+
+<SectionCustomize
+  data={[
+  {
+    "key": "Checkmark",
+    "options": [
+      "typography",
+      "typographyColor"
+    ]
+  }
+]}
+/>

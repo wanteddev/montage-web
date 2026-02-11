@@ -22,7 +22,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   });
 
   const staticSitemap: MetadataRoute.Sitemap = [
-    ...DOCS_PAGES.filter((page) => !page.isPrivate),
+    ...DOCS_PAGES.filter((page) => !page.isExternal),
     { slug: ['foundations', 'base-material', 'colors', 'atomic'] },
     {
       slug: ['foundations', 'base-material', 'elevation', 'spread'],

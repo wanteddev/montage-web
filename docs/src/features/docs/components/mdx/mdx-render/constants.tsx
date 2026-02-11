@@ -18,7 +18,7 @@ import SectionAnatomy from '../section/anatomy';
 import { SectionLayout } from '../section/layout';
 import SectionFigureGroup from '../section/figure-group';
 import SectionFigure from '../section/figure';
-import { SectionStates, SectionStatesItem } from '../section/states';
+import SectionStates from '../section/states';
 import SectionCustomize from '../section/customize';
 import { SectionHierarchy, SectionHierarchyItem } from '../section/hierarchy';
 import SectionVariants from '../section/variants';
@@ -39,7 +39,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
     <Typography
       {...props}
       data-heading=""
-      variant="title3"
+      variant="heading1"
       weight="bold"
       as="h2"
       id={id}
@@ -51,7 +51,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
     <Typography
       {...props}
       data-heading=""
-      variant="heading2"
+      variant="headline2"
       weight="bold"
       as="h3"
       id={id}
@@ -64,7 +64,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       {...props}
       data-heading=""
       display="block"
-      variant="headline1"
+      variant="body1"
       weight="bold"
       as="h4"
       id={id}
@@ -77,7 +77,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       {...props}
       data-heading=""
       display="block"
-      variant="body2"
+      variant="label2"
       weight="bold"
       as="h5"
       id={id}
@@ -90,7 +90,7 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
       {...props}
       data-heading=""
       display="block"
-      variant="label2"
+      variant="caption2"
       weight="medium"
       as="h6"
       color="semantic.label.alternative"
@@ -102,8 +102,8 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   p: (props) => (
     <Typography
       {...props}
-      variant="body1"
-      weight="regular"
+      variant="body2-reading"
+      weight="medium"
       as="p"
       display="block"
     />
@@ -119,8 +119,9 @@ export const MDX_COMPONENTS: { [key: string]: (props: any) => ReactNode } = {
   SectionFigureGroup,
   SectionFigure,
   SectionStates,
-  SectionStatesItem,
   SectionCustomize,
+  // WIP
+  SectionStatesItem: () => null,
   SectionHierarchy,
   SectionHierarchyItem,
   SectionVariants,

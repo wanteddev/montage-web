@@ -4,6 +4,8 @@ Wanted Lab 웹 디자인 시스템
 
 [English](./README.md) | [한국어](./README.ko.md)
 
+![hero](https://static.wanted.co.kr/montage-github/thumbnail.png)
+
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/wanteddev/montage-web/blob/HEAD/LICENSE.md)
 
 ## 문서

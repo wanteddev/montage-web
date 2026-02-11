@@ -170,10 +170,26 @@ export const useDocSearch = ({
                     ({ slug }) => slug.at(0) === 'utilities',
                   );
 
+                  const platformOrder: Record<string, number> = {
+                    design: 0,
+                    web: 1,
+                    ios: 2,
+                    android: 3,
+                  };
+
                   return [
-                    ...componentsFrontmatter.sort((a, b) =>
-                      a.title.localeCompare(b.title),
-                    ),
+                    ...componentsFrontmatter.sort((a, b) => {
+                      const titleCompare = a.title.localeCompare(b.title);
+
+                      if (titleCompare !== 0) {
+                        return titleCompare;
+                      }
+
+                      return (
+                        (platformOrder[a.slug.at(-1) ?? ''] ?? Infinity) -
+                        (platformOrder[b.slug.at(-1) ?? ''] ?? Infinity)
+                      );
+                    }),
                     ...utilitiesFrontmatter.sort((a, b) =>
                       a.title.localeCompare(b.title),
                     ),

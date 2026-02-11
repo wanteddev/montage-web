@@ -55,7 +55,7 @@ const DocsSummary = () => {
 
   return (
     <>
-      <FlexBox flexDirection="column" sx={{ marginBottom: '24px' }}>
+      <FlexBox flexDirection="column">
         <DocsTitle />
       </FlexBox>
 
@@ -65,7 +65,7 @@ const DocsSummary = () => {
         <RouteTab tabs={tabs} />
       ) : (
         <Divider
-          sx={{ margin: '40px 0px 64px' }}
+          sx={{ margin: '64px 0px 64px' }}
           color="semantic.line.normal.neutral"
         />
       )}

@@ -35,7 +35,7 @@ const PropsTable = ({ component, fallback }: Props) => {
       aria-label={`${component} props`}
       sx={(theme) => ({
         marginBottom: 40,
-        '--wds-table-border-color': theme.semantic.line.solid.alternative,
+        '--wds-table-border-color': theme.semantic.line.normal.neutral,
       })}
     >
       <colgroup>

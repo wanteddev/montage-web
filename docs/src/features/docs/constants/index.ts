@@ -14,17 +14,20 @@ export const DOCS_PAGES = [
   {
     title: 'Web',
     slug: ['getting-started', 'platform', 'web'],
-    isPrivate: true,
+    url: 'https://github.com/wanteddev/wds/blob/main/packages/wds/README.md',
+    isExternal: true,
   },
   {
     title: 'iOS',
     slug: ['getting-started', 'platform', 'ios'],
-    isPrivate: true,
+    url: 'https://github.com/wanteddev/montage-ios/blob/develop/README.md',
+    isExternal: true,
   },
   {
     title: 'Android',
     slug: ['getting-started', 'platform', 'android'],
-    isPrivate: true,
+    url: 'https://github.com/wanteddev/montage-android/blob/develop/README.md',
+    isExternal: true,
   },
   {
     title: 'Overview',
@@ -53,5 +56,9 @@ export const DOCS_PAGES = [
   {
     title: 'Overview',
     slug: ['utilities'],
+  },
+  {
+    title: 'Overview',
+    slug: ['release-note'],
   },
 ];

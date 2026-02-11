@@ -56,6 +56,8 @@ const nextConfig = {
     APP_BUILD_ID: buildId,
     NEXT_PUBLIC_BASE_PATH: paths.publicBasePath,
     NEXT_PUBLIC_ASSET_PREFIX: paths.assetPrefix,
+    NEXT_PUBLIC_SERVER_TYPE: process.env.NEXT_PUBLIC_SERVER_TYPE ?? 'dev',
+    NEXT_PUBLIC_IS_CUSTOM_VERSION: isVersioned || isPreview ? 'true' : 'false',
   },
   images: {
     unoptimized: true,

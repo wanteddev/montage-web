@@ -1,71 +1,73 @@
 ---
 title: Progress indicator
-description: "작업의 진행 상태를 시각적으로 표현하는 선형 요소입니다. 사용자에게 현재 진행 중인 작업의 완료율을\n직관적으로 전달하여 대기 시간에 대한 예측 가능성을 제공합니다."
+description: 작업의 진행 상태를 시각적으로 표현하는 선형 요소입니다. 사용자에게 현재 진행 중인 작업의 완료율을 \n직관적으로 전달하여 대기 시간에 대한 예측 가능성을 제공합니다.
+image: /components/navigations/progress-indicator/design/Image.png
+ogImage: /components/navigations/progress-indicator/design/Thumbnails.png
 createdAt: 2025-10-13
-updatedAt: 2025-10-13
-image: /components/navigations/progress-indicator/design/Thumbnails.png
+updatedAt: 2026-01-30
 ---
 
 <SectionAnatomy
-  src="/components/navigations/progress-indicator/design/Image.png"
-  ratio="21:9"
+  src="/components/navigations/progress-indicator/design/Image-1.png"
+  ratio="95 / 32"
   data={[
-    'Indicator',
-    'Track'
+    'Indicator','Track'
   ]}
 />
+  
 
 <SectionStates
-  src="/components/navigations/progress-indicator/design/Image-1.png"
-  ratio="21:9"
-  options={['Normal', 'Progress']}
+  ratio="190 / 51"
+  src="/components/navigations/progress-indicator/design/Image-2.png"
 />
 
 <SectionLayout title="Height">
   <SectionFigure
-    ratio="21:9"
-    description="높이는 Small(2px), Medium(4px), Large(6px) 3가지로 제공됩니다. Medium, Large는 태블릿, 데스크톱 환경에서만 사용을 권장합니다."
-    src="/components/navigations/progress-indicator/design/Image-2.png"
+    ratio="380 / 123"
+    src="/components/navigations/progress-indicator/design/Image-3.png"
+    description={`높이는 Small(2px), Medium(4px), Large(6px) 3가지로 제공됩니다. Medium, Large는 태블릿, 데스크톱 환경에서만 사용을 권장합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Progress">
     <SectionFigure
-      ratio="16:10"
-      description="Top navigation에 고정하여 사용하며 5개 이상의 많은 단계를 간단한 막대 형태로 안내합니다. 사용자에게 대략적으로 남은 단계 및 시간에 대한 예측 가능성을 제공합니다."
-      src="/components/navigations/progress-indicator/design/Image-3.png"
+      ratio="19 / 8"
+      src="/components/navigations/progress-indicator/design/Image-4.png"
+      description={`Top navigation에 고정하여 사용하며 5개 이상의 많은 단계를 간단한 막대 형태로 안내합니다. 사용자에게 대략적으로 남은 단계 및 시간에 대한 예측 가능성을 제공합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Reading progress">
     <SectionFigure
-      ratio="21:9"
-      description="문서 혹은 기사와 같이 긴 형식의 콘텐츠를 제공할 때 독자가 얼마나 읽었는지에 대한 시각적 피드백을 제공합니다. 너무 짧은 글에서는 사용하지 않으며 모바일에서는 스크롤바와 충돌하지 않도록 주의합니다."
-      src="/components/navigations/progress-indicator/design/Image-4.png"
+      ratio="19 / 8"
+      src="/components/navigations/progress-indicator/design/Image-5.png"
+      description={`문서 혹은 기사와 같이 긴 형식의 콘텐츠를 제공할 때 독자가 얼마나 읽었는지에 대한 시각적 피드백을 제공합니다. 너무 짧은 글에서는 사용하지 않으며 모바일에서는 스크롤바와 충돌하지 않도록 주의합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Download and upload">
     <SectionFigure
-      ratio="21:9"
-      description="파일의 ‘다운로드, 업로드, 변환’ 시 변환 소요 시간 예측 가능성을 제공합니다. 또한 파일 준비중, 진행중, 일시정지, 오류 등 상태를 사용자가 명확하게 인지할 수 있도록 정보를 제공합니다."
-      src="/components/navigations/progress-indicator/design/Image-5.png"
+      ratio="190 / 53"
+      src="/components/navigations/progress-indicator/design/Image-6.png"
+      description={`파일의 ‘다운로드, 업로드, 변환’ 시 변환 소요 시간 예측 가능성을 제공합니다. 또한 파일 준비중, 진행중, 일시정지, 오류 등 상태를 사용자가 명확하게 인지할 수 있도록 정보를 제공합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="21:9"
-    variant="positive"
-    description="긴 작업의 경우 취소, 멈추기 등의 중단 옵션을 제공합니다."
-    src="/components/navigations/progress-indicator/design/Image-6.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="Loading 요소 2개를 동시에 적용하지 마세요."
-    src="/components/navigations/progress-indicator/design/Image-7.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="8 / 3"
+      src="/components/navigations/progress-indicator/design/Image-7.png"
+      variant="positive"
+      description={`긴 작업의 경우 취소, 멈추기 등의 중단 옵션을 제공합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="19 / 9"
+      src="/components/navigations/progress-indicator/design/Image-8.png"
+      variant="negative"
+      description={`Loading 요소 2개를 동시에 적용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>

@@ -1,67 +1,44 @@
-import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { FlexBox, Typography } from '@wanteddev/wds';
 
-import { getImageUrl } from '@/helpers/image';
-
-import { Heading2 } from '../layout';
+import { Heading2, SectionThumbnail } from '../layout';
 import { sectionLayoutStyle } from '../style';
 
-import {
-  anatomyItemPinStyle,
-  anatomyItemStyle,
-  anatomyThumbnailStyle,
-} from './style';
-
-import type { ThumbnailProps } from '@wanteddev/wds';
+import { anatomyItemStyle, anatomyListStyle } from './style';
 
 type Props = {
   data: Array<string>;
   src?: string;
-  portrait?: ThumbnailProps['portrait'];
-  ratio?: ThumbnailProps['ratio'];
+  ratio?: string;
 };
 
-const SectionAnatomy = ({ ratio = '21:9', portrait, data, src }: Props) => {
+const SectionAnatomy = ({ ratio = '21 / 9', data, src }: Props) => {
   return (
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
       <Heading2 content="Anatomy" />
 
-      <FlexBox flexDirection="column" gap="24px">
-        {src && (
-          <Thumbnail
-            src={getImageUrl(src)}
-            portrait={portrait}
-            alt="thumbnail"
-            aria-hidden
-            width="100%"
-            sx={anatomyThumbnailStyle}
-            ratio={ratio}
-            loading="lazy"
-          />
-        )}
+      <FlexBox flexDirection="column">
+        <SectionThumbnail src={src} ratio={ratio} />
 
-        <FlexBox flexWrap="wrap" flex="1 0 auto" rowGap="8px" columnGap="80px">
+        <FlexBox
+          flexWrap="wrap"
+          flex="1 0 auto"
+          rowGap="16px"
+          columnGap="32px"
+          as="ol"
+          sx={anatomyListStyle}
+        >
           {data.map((value, i) => (
-            <FlexBox
+            <Typography
               key={value + i}
               sx={anatomyItemStyle}
-              alignItems="center"
-              gap="12px"
+              as="li"
+              variant="body2"
+              weight="medium"
+              color="semantic.label.normal"
             >
-              <Typography
-                variant="caption1"
-                weight="bold"
-                sx={anatomyItemPinStyle}
-              >
-                <span>{i + 1}</span>
-              </Typography>
-              <Typography
-                variant="label1"
-                weight="bold"
-                color="semantic.label.normal"
-              >
-                {value}
-              </Typography>
-            </FlexBox>
+              <span>{i + 1}.&nbsp;</span>
+              {value}
+            </Typography>
           ))}
         </FlexBox>
       </FlexBox>

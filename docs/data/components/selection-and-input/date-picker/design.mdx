@@ -1,65 +1,59 @@
 ---
 title: Date picker
 description: 캘린더를 통해 특정 날짜를 선택할 수 있게 해주는 요소로 월 단위 탐색, 연도 선택, 오늘 날짜 표시 등의 기능을 제공하며, 날짜 형식 오류를 방지하고 일관된 데이터 입력을 보장합니다.
-image: /components/selection-and-input/date-picker/design/Thumbnails.png
+image: /components/selection-and-input/date-picker/design/Image.png
+ogImage: /components/selection-and-input/date-picker/design/Thumbnails.png
 createdAt: 2025-04-03
-updatedAt: 2025-10-14
+updatedAt: 2026-02-01
 ---
 
 <SectionAnatomy
-  src="/components/selection-and-input/date-picker/design/Image.png"
-  ratio="16:10"
+  src="/components/selection-and-input/date-picker/design/Image-1.png"
+  ratio="380 / 271"
   data={[
-    'Year and month control',
-    'Navigation',
-    'Current date',
-    'Start day',
-    'Range of selected days',
-    'End day',
-    'Picker action area',
+    'Year and month control','Navigation','Current date','Start day','Range of selected days','End day','Picker action area'
   ]}
 />
+  
 
 <SectionVariants
   components={['FormField', 'FormControl', 'FormMessage', 'FormLabel', 'DatePicker', 'PickerActionArea', 'PickerActionAreaButton', 'ContentBadge', 'Button', 'Checkbox']}
   icons={['IconSparkle', 'IconRefresh']}
-  states={`
-    const [value, setValue] = React.useState(null);
-  `}
+  states={`const [value, setValue] = React.useState(null);`}
   render={(value) => {
-    const props = {};
+      const props = {};
 
-    switch (value['Variants']) {
-      case 'YYYY.MM.DD':
-        props.format = 'YYYY.MM.DD';
-        break;
-      case 'YYYY.MM':
-        props.format = 'YYYY.MM';
-        props.views = ['year', 'month'];
-        break;
-    }
+      switch (value['Variants']) {
+        case 'YYYY.MM.DD':
+          props.format = 'YYYY.MM.DD';
+          break;
+        case 'YYYY.MM':
+          props.format = 'YYYY.MM';
+          props.views = ['year', 'month'];
+          break;
+      }
 
-    let actionArea = 'null';
+      let actionArea = 'null';
 
-    if (value['Action area'] === 'True') {
-      props.disableLastUnitClickClose = true;
-      switch (value['Action area/Leading contents']) {
-        case 'Badge':
-          actionArea = `
+      if (value['Action area'] === 'True') {
+        props.disableLastUnitClickClose = true;
+        switch (value['Action area/Leading contents']) {
+          case 'Badge':
+            actionArea = `
             <PickerActionArea>
               <ContentBadge color="neutral">가능</ContentBadge>
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
-          break;
-        case 'Button':
-          actionArea = `
+            break;
+          case 'Button':
+            actionArea = `
             <PickerActionArea>
               <PickerActionAreaButton variant="now">오늘</PickerActionAreaButton>
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
-          break;
-        case 'Checkbox':
-          actionArea = `
+            break;
+          case 'Checkbox':
+            actionArea = `
             <PickerActionArea>
               <FormField gap="8px" flexDirection="row" alignItems="center">
                 <FormControl>
@@ -69,35 +63,34 @@ updatedAt: 2025-10-14
               </FormField>
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
-          break;
-        case 'Icon':
-          actionArea = `
+            break;
+          case 'Icon':
+            actionArea = `
             <PickerActionArea>
               <IconSparkle sx={theme => ({ fontSize: 24, color: theme.semantic.label.normal })} />
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
-          break;
-        case 'Icon button':
-          actionArea = `
+            break;
+          case 'Icon button':
+            actionArea = `
             <PickerActionArea>
               <Button variant="outlined" iconOnly size="small" color="assistive" onClick={() => setValue(null)}>
                 <IconRefresh />
               </Button>
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
-          break;
-        case 'None':
-          actionArea = `
+            break;
+          case 'None':
+            actionArea = `
             <PickerActionArea>
               <div />
               <PickerActionAreaButton variant="accept">적용</PickerActionAreaButton>
             </PickerActionArea>`;
-          break;
+            break;
+        }
       }
-    }
 
-
-    return `
+      return `
       <FormField sx={{ width: '75%' }}>
         <FormLabel required>Heading</FormLabel>
         <FormControl>
@@ -112,21 +105,21 @@ updatedAt: 2025-10-14
         <FormMessage>Description</FormMessage>
       </FormField>
     `;
-  }}
+    }}
   variants={[
     {
       key: 'Variants',
       options: [
         { label: 'YYYY.MM.DD', value: {} },
-        { label: 'YYYY.MM', value: {} },
+        { label: 'YYYY.MM', value: {} }
       ]
     },
     {
       key: 'Action area',
       options: [
         { label: 'True', value: {} },
-        { label: 'False', value: {} },
-      ],
+        { label: 'False', value: {} }
+      ]
     },
     {
       key: 'Action area/Leading contents',
@@ -137,264 +130,275 @@ updatedAt: 2025-10-14
         { label: 'Button', value: {} },
         { label: 'Checkbox', value: {} },
         { label: 'Icon', value: {} },
-        { label: 'Icon button', value: {} },
+        { label: 'Icon button', value: {} }
       ]
-    },
+    }
   ]}
 />
+
 
 <SectionLayout title="States">
   <SectionFigureGroup title="Normal">
     <SectionFigure
-      src="/components/selection-and-input/date-picker/design/Image-1.png"
-      ratio="21:9"
-      description={
-        <SectionStatesItem options={['Normal', 'Hovered', 'Pressed', 'Disabled']} />
-      }
+      ratio="380 / 183"
+      src="/components/selection-and-input/date-picker/design/Image-2.png"
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Range">
     <SectionFigure
-      src="/components/selection-and-input/date-picker/design/Image-2.png"
-      ratio="21:9"
-      description={
-        <SectionStatesItem options={['Leading', 'Middle', 'Trailing']} />
-      }
+      ratio="76 / 31"
+      src="/components/selection-and-input/date-picker/design/Image-3.png"
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="Size">
   <SectionFigure
-    src="/components/selection-and-input/date-picker/design/Image-3.png"
-    ratio="3:2"
-    description="Action area 여부에 따라 높이가 차이 날 수 있습니다. Picker 호출 시 호출 요소와의 간격 유지를 위해 8px의 Safe area를 유지합니다."
-  />
-</SectionLayout>
-
-<SectionLayout title="Default date">
-  <SectionFigure
+    ratio="76 / 53"
     src="/components/selection-and-input/date-picker/design/Image-4.png"
-    ratio="4:3"
-    description="사용자 혹은 특정 프로젝트 내에서 지정 날짜를 제공하지 않을 시 ‘오늘’을 기준으로 캘린더 뷰를 제공합니다."
+    description={`Action area 여부에 따라 높이가 차이 날 수 있습니다. Picker 호출 시 호출 요소와의 간격 유지를 위해 8px의 Safe area를 유지합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Range select">
   <SectionFigure
+    ratio="380 / 273"
     src="/components/selection-and-input/date-picker/design/Image-5.png"
-    ratio="4:3"
-    description="각각의 싱글 필드로 시작, 종료 날짜를 선택하여 기간을 지정합니다."
+    description={`각각의 싱글 필드로 시작, 종료 날짜를 선택하여 기간을 지정합니다. 사용자 혹은 특정 프로젝트 내에서 지정 날짜를 제공하지 않을 시 ‘오늘’을 기준으로 캘린더 뷰를 제공합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Format type">
   <SectionFigure
+    ratio="95 / 39"
     src="/components/selection-and-input/date-picker/design/Image-6.png"
-    ratio="2:1"
     description={`다양한 날짜 포맷의 사용을 방지하고자 디자인에서는 포맷을 제한하고 있습니다. 기본 표현 방식을 권장하고 있으나 표현 공간이 협소할 때에는 Short, 특정 지정된 날짜를 강조하고자 할 때에는 Long 타입을 사용할 수 있습니다.
-
 - 개발 지원 포맷 = YYYY(2025), YY(25) / M(1), MM(01), MMM(Jan), MMMM(January) / D(1), DD(01)
 - 디자인 지원 포맷 = YYYY. MM. DD(2025. 03. 05),YYYY년 M월 D일(2025년 3월 5일), YY/M/D
-- 표현 방식 예시
+  - 표현 방식 예시
     - 포맷: YYYY. MM. DD
-    - 결과: 2025. 01. 05`}
+    - 결과: 2025. 01. 01`}
   />
 </SectionLayout>
 
 <SectionLayout title="Localization">
   <SectionFigure
+    ratio="95 / 48"
     src="/components/selection-and-input/date-picker/design/Image-7.png"
-    ratio="16:9"
     description={`- Locale: ko-KR을 기본 값으로 두고 있으며, Locale에 따라 시간 표현 방식과 Format에 영향을 미칩니다. 이 때 국가 코드 별 연도, 월, 일의 표기 방법을 고려하여 작업합니다.
 - Timezone: 사용자의 환경에 따라 결정 됩니다.`}
   />
 </SectionLayout>
 
-<SectionLayout title="Trigger components">
-  <SectionFigure
-    src="/components/selection-and-input/date-picker/design/Image-8.png"
-    ratio="21:9"
-    description="Datepicker를 호출하는 컴포넌트는 기본적으로 Text field로 지정되어 있지만 상황에 따라 호출 요소를 자유롭게 커스터마이징하여 사용할 수 있습니다. "
-  />
-</SectionLayout>
-
 <SectionLayout title="Accessibility">
+
   <SectionFigureGroup title="Date picker field">
     <SectionFigure
       description={(
         <SectionAccessibilityTable
           contents={[
-            {
-              keys: ['ArrowRight'],
-              description: '다음 항목으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowLeft'],
-              description: '이전 항목으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowUp'],
-              description: '선택된 항목을 다음 값으로 변경합니다.',
-            },
-            {
-              keys: ['ArrowDown'],
-              description: '선택된 항목을 이전 값으로 변경합니다.',
-            },
-            {
-              keys: ['End'],
-              description: '선택된 항목을 마지막 값으로 변경합니다.',
-            },
-            {
-              keys: ['Home'],
-              description: '선택된 항목을 첫 번째 값으로 변경합니다.',
-            },
-          ]}
+  {
+    "keys": [
+      "ArrowRight"
+    ],
+    "description": "다음 항목으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowLeft"
+    ],
+    "description": "이전 항목으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowUp"
+    ],
+    "description": "선택된 항목을 다음 값으로 변경합니다."
+  },
+  {
+    "keys": [
+      "ArrowDown"
+    ],
+    "description": "선택된 항목을 이전 값으로 변경합니다."
+  },
+  {
+    "keys": [
+      "End"
+    ],
+    "description": "선택된 항목을 마지막 값으로 변경합니다."
+  },
+  {
+    "keys": [
+      "Home"
+    ],
+    "description": "선택된 항목을 첫 번째 값으로 변경합니다."
+  }
+]}
         />
       )}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Year and month view">
     <SectionFigure
       description={(
         <SectionAccessibilityTable
           contents={[
-            {
-              keys: ['ArrowRight'],
-              description: '다음 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowLeft'],
-              description: '이전 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowUp'],
-              description: '상단 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowDown'],
-              description: '하단 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['Home'],
-              description: '첫 번째 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['End'],
-              description: '마지막 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['Escape'],
-              description: 'Picker를 닫습니다.',
-            }
-          ]}
+  {
+    "keys": [
+      "ArrowRight"
+    ],
+    "description": "다음 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowLeft"
+    ],
+    "description": "이전 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowUp"
+    ],
+    "description": "상단 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowDown"
+    ],
+    "description": "하단 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "Home"
+    ],
+    "description": "첫 번째 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "End"
+    ],
+    "description": "마지막 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "Escape"
+    ],
+    "description": "Picker를 닫습니다."
+  }
+]}
         />
       )}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Day view">
     <SectionFigure
       description={(
         <SectionAccessibilityTable
           contents={[
-            {
-              keys: ['ArrowRight'],
-              description: '다음 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowLeft'],
-              description: '이전 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowUp'],
-              description: '일주일 전 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['ArrowDown'],
-              description: '일주일 후 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['Home'],
-              description: '첫 번째 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['End'],
-              description: '마지막 값으로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['PageUp'],
-              description: '다음 달로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['PageDown'],
-              description: '이전 달로 포커스를 이동합니다.',
-            },
-            {
-              keys: ['Escape'],
-              description: 'Picker를 닫습니다.',
-            }
-          ]}
+  {
+    "keys": [
+      "ArrowRight"
+    ],
+    "description": "다음 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowLeft"
+    ],
+    "description": "이전 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowUp"
+    ],
+    "description": "일주일 전 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "ArrowDown"
+    ],
+    "description": "일주일 후 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "Home"
+    ],
+    "description": "첫 번째 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "End"
+    ],
+    "description": "마지막 값으로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "PageUp"
+    ],
+    "description": "다음 달로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "PageDown"
+    ],
+    "description": "이전 달로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "Escape"
+    ],
+    "description": "Picker를 닫습니다."
+  }
+]}
         />
       )}
     />
   </SectionFigureGroup>
 </SectionLayout>
+    
 
 <SectionLayout title="Mobile">
-  <SectionFigureGroup title="iOS">
-    <SectionFigure
-      ratio="16:9"
-      description="iOS Native Wheel, Calender를 사용합니다. Bottom sheet, Popup modal을 자유롭게 활용할 수 있습니다. "
-      src="/components/selection-and-input/date-picker/design/Image-9.png"
-    />
-  </SectionFigureGroup>
-  <SectionFigureGroup title="Android">
-    <SectionFigure
-      ratio="5:4"
-      description="Android Native를 사용합니다. Input, Picker, Wheel 등 상황에 맞게 다양한 타입으로 사용할 수 있습니다. "
-      src="/components/selection-and-input/date-picker/design/Image-10.png"
-    />
-  </SectionFigureGroup>
-  <SectionFigureGroup title="Mobile web">
-    <SectionFigure
-      ratio="3:2"
-      description="Picker는 Popover 형태로 사용하며 Bottom sheet, Modal 등으로 형태를 변경할 수 없습니다. 화면에서 필드의 위치에 따라 Picker가 뜨는 위치를 자동으로 계산하여 노출됩니다."
-      src="/components/selection-and-input/date-picker/design/Image-11.png"
-    />
-  </SectionFigureGroup>
+  <SectionFigure
+    ratio="380 / 299"
+    src="/components/selection-and-input/date-picker/design/Image-8.png"
+    description={`- Web: Picker는 Popover 형태로 사용하며 Bottom sheet, Modal 등으로 형태를 변경할 수 없습니다. 화면에서 필드의 위치에 따라 Picker가 뜨는 위치를 자동으로 계산하여 노출됩니다.
+- iOS: Native Wheel, Calender를 사용합니다. Bottom sheet, Popup modal을 자유롭게 활용할 수 있습니다.
+- Android: Native를 사용합니다. Input, Picker, Wheel 등 상황에 맞게 다양한 타입으로 사용할 수 있습니다.`}
+  />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Current time">
     <SectionFigure
-      ratio="21:9"
-      description="사용자가 ‘오늘’ 날짜를 입력해야 할 때에는 편의상 바로 ‘오늘’ 날짜를 적용할 수 있도록 버튼을 제공합니다."
-      src="/components/selection-and-input/date-picker/design/Image-12.png"
+      ratio="152 / 65"
+      src="/components/selection-and-input/date-picker/design/Image-9.png"
+      description={`사용자가 ‘오늘’ 날짜를 입력해야 할 때에는 편의상 바로 ‘오늘’ 날짜를 적용할 수 있도록 버튼을 제공합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Icon button">
     <SectionFigure
-      ratio="21:9"
-      description="Text field를 기본으로 사용할 때에는 Picker 호출이라는 명확한 행동을 사용자가 유추할 수 있도록 Trailing content에 Icon button을 배치하여 사용합니다. 날짜는 Field에 직접 입력하거나 Icon button을 눌러 Picker로 선택 할 수 있습니다."
-      src="/components/selection-and-input/date-picker/design/Image-13.png"
+      ratio="19 / 6"
+      src="/components/selection-and-input/date-picker/design/Image-10.png"
+      description={`Text field를 기본으로 사용할 때에는 Picker 호출이라는 명확한 행동을 사용자가 유추할 수 있도록 Trailing content에 Icon button을 배치하여 사용합니다. 날짜는 Field에 직접 입력하거나 Icon button을 눌러 Picker로 선택 할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="21:9"
-    variant="positive"
-    description="Placeholder 혹은 Heading으로 입력 폼에 대한 명확한 입력 형식을 안내합니다."
-    src="/components/selection-and-input/date-picker/design/Image-14.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="Picker의 폭을 임의로 늘리거나 줄이지 마세요."
-    src="/components/selection-and-input/date-picker/design/Image-15.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 157"
+      src="/components/selection-and-input/date-picker/design/Image-11.png"
+      variant="positive"
+      description={`Placeholder 혹은 Heading으로 입력 폼에 대한 명확한 입력 형식을 안내합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 157"
+      src="/components/selection-and-input/date-picker/design/Image-12.png"
+      variant="negative"
+      description={`Picker의 폭을 임의로 늘리거나 줄이지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>

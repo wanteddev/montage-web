@@ -1,26 +1,26 @@
 ---
 title: Toast
-description: 사용자의 행동에 대한 간단한 피드백을 제공하는 알림 창입니다. 화면 하단에 나타나 사용자의 현재 작업을 방해하지 않으며, 일정 시간이 지나면 자동으로 사라집니다.
-image: /components/feedback/toast/design/Thumbnails.png
+description: 사용자의 행동에 대한 간단한 피드백을 제공하는 알림 창입니다. \n화면 하단에 나타나 사용자의 현재 작업을 방해하지 않으며, 일정 시간이 지나면 자동으로 사라집니다.
+image: /components/feedback/toast/design/Image.png
+ogImage: /components/feedback/toast/design/Thumbnails.png
 createdAt: 2025-10-01
-updatedAt: 2025-10-01
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/feedback/toast/design/Image.png"
-  ratio="21:9"
+  src="/components/feedback/toast/design/Image-1.png"
+  ratio="380 / 147"
   data={[
-    'Container',
-    'Leading icon',
-    'Message',
+    'Container','Leading icon','Message'
   ]}
 />
+  
 
 <SectionVariants
   components={['Toast', 'ToastContainer', 'ToastContent', 'ToastIcon']}
   icons={['IconBlank']}
   render={(value) => {
-    return `
+      return `
       <Toast open disablePortal disableAnimation variant="${value['Variants'].toLowerCase()}">
         <ToastContainer>
           <ToastIcon>${value['Leading icon'] === 'True' && value['Variants'] === 'Normal' ? '<IconBlank sx={theme => ({ color: theme.semantic.static.white })} />' : ''}</ToastIcon>
@@ -28,7 +28,7 @@ updatedAt: 2025-10-01
         </ToastContainer>
       </Toast>
     `;
-  }}
+    }}
   variants={[
     {
       key: 'Variants',
@@ -36,7 +36,7 @@ updatedAt: 2025-10-01
         { label: 'Normal', value: {} },
         { label: 'Positive', value: {} },
         { label: 'Cautionary', value: {} },
-        { label: 'Negative', value: {} },
+        { label: 'Negative', value: {} }
       ]
     },
     {
@@ -44,93 +44,102 @@ updatedAt: 2025-10-01
       disabled: (value) => value['Variants'] !== 'Normal',
       options: [
         { label: 'True', value: {} },
-        { label: 'False', value: {} },
+        { label: 'False', value: {} }
       ]
-    },
+    }
   ]}
 />
 
+
 <SectionLayout title="Size">
   <SectionFigure
-    ratio="2:1"
-    description="기본 높이는 54px로, 텍스트는 최대 2줄까지 표시됩니다. 최대 너비는 420px로 제한합니다."
-    src="/components/feedback/toast/design/Image-1.png"
+    ratio="95 / 3"
+    src="/components/feedback/toast/design/Image-2.png"
+    description={`기본 높이는 54px로, 텍스트는 최대 2줄까지 표시됩니다. 최대 너비는 420px로 제한합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Status">
   <SectionFigure
-    ratio="16:9"
-    description="메시지의 성격에 따라 아이콘과 색상을 구분하여, 사용자가 상황을 즉시 인지할 수 있도록 돕습니다.
-
+    ratio="95 / 51"
+    src="/components/feedback/toast/design/Image-3.png"
+    description={`메시지의 성격에 따라 아이콘과 색상을 구분하여, 사용자가 상황을 즉시 인지할 수 있도록 돕습니다.
 - Normal: 단순 정보 전달이나 상태 변경을 알리는 등 중립적인 피드백에 사용합니다.
 - Positive: 사용자가 요청한 작업이 성공적으로 완료되었음을 알리는 긍정적인 피드백에 사용합니다.
 - Cautionary: 치명적인 오류는 아니지만, 사용자에게 주의가 필요한 상황을 알리기 위해 사용합니다.
-- Negative: 작업이 실패했거나 오류가 발생했음을 알리는 부정적인 피드백입니다."
-    src="/components/feedback/toast/design/Image-2.png"
+- Negative: 작업이 실패했거나 오류가 발생했음을 알리는 부정적인 피드백입니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Position - iOS">
     <SectionFigure
-      ratio="1:1"
-      description="화면 좌우에 20px의 여백을 두는 것을 기본으로 합니다. 화면 너비가 넓어질 경우, Toast는 최대 너비(420px)를 유지하며 
+      ratio="760 / 743"
+      src="/components/feedback/toast/design/Image-4.png"
+      description={`화면 좌우에 20px의 여백을 두는 것을 기본으로 합니다. 화면 너비가 넓어질 경우, Toast는 최대 너비(420px)를 유지하며 
 화면 중앙에 위치합니다. 화면 하단 UI 요소와의 상호작용을 방해하지 않도록 다음과 같이 사용하는 것을 권장합니다.
-
 - Default: Safe area 영역을 제외하고 20pt 위에서 노출합니다.
 - Bottom navigation이 있는 경우: Bottom navigation으로부터 20pt 위에 노출합니다.
-- Action area가 있는 경우: Extra 영역을 제외한 Action area 영역 바로 위에 붙어서 노출합니다."
-      src="/components/feedback/toast/design/Image-3.png"
+- Action area가 있는 경우: Extra 영역을 제외한 Action area 영역 바로 위에 붙어서 노출합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Position - Android">
     <SectionFigure
-      ratio="1:1"
-      description="화면 좌우에 20dp의 여백을 두는 것을 기본으로 합니다. 화면 너비가 넓어질 겨우, Toast는 최대 너비(420px)를 유지하며
+      ratio="760 / 743"
+      src="/components/feedback/toast/design/Image-5.png"
+      description={`화면 좌우에 20dp의 여백을 두는 것을 기본으로 합니다. 화면 너비가 넓어질 겨우, Toast는 최대 너비(420px)를 유지하며
 화면 중앙에 위치합니다. Android OS 가이드라인에 따라 다음 기준에 맞춰 사용하는 것을 권장합니다.
-
 - Default: Safe area 영역을 제외하고 16dp 위에서 노출합니다.
 - Bottom navigation이 있는 경우: Bottom navigation으로부터 16dp 위에서 노출합니다.
-- Action area가 있는 경우: Safe area 영역을 제외하고 16dp 위에서 노출"
-      src="/components/feedback/toast/design/Image-4.png"
+- Action area가 있는 경우: Safe area 영역을 제외하고 16dp 위에서 노출합니다.`}
     />
   </SectionFigureGroup>
-
-  <SectionFigureGroup title="Position - Web mobile">
+  <SectionFigureGroup title="Position - Web Mobile">
     <SectionFigure
-      ratio="1:1"
-      description="화면 좌우에 20px의 여백을 두는 것을 기본으로 합니다. 화면 너비가 넓어질 경우, Toast는 최대 너비(420px)를 유지하며 
+      ratio="190 / 221"
+      src="/components/feedback/toast/design/Image-6.png"
+      description={`화면 좌우에 20px의 여백을 두는 것을 기본으로 합니다. 화면 너비가 넓어질 경우, Toast는 최대 너비(420px)를 유지하며 
 화면 중앙에 위치합니다. 모바일 웹에서 화면 하단 UI 요소와의 상호작용을 방해하지 않도록 다음과 같이 사용하는 것을 권장합니다.
-
 - Default: Safe area 영역을 제외하고 20px 위에서 노출합니다.
 - Bottom navigation이 있는 경우: Bottom navigation으로부터 20px 위에 노출합니다.
-- Action area가 있는 경우: Extra 영역을 제외한 Action area 영역 바로 위에 붙어서 노출합니다."
-      src="/components/feedback/toast/design/Image-5.png"
+- Action area가 있는 경우: Extra 영역을 제외한 Action area 영역 바로 위에 붙어서 노출합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Position - Web desktop">
     <SectionFigure
-      ratio="2:1"
-      description="데스크톱 웹에서는 화면 하단으로부터 40px 위에 위치가 고정되며, 임의로 변경할 수 없습니다. 화면이 768px 이상일 때 Toast의 최소 너비는 356px로 제한합니다."
-      src="/components/feedback/toast/design/Image-6.png"
+      ratio="19 / 8"
+      src="/components/feedback/toast/design/Image-7.png"
+      description={`데스크톱 웹에서는 화면 하단으로부터 40px 위에 위치가 고정되며, 임의로 변경할 수 없습니다. 화면이 768px 이상일 때 Toast의 최소 너비는 356px로 제한합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="2:1"
-    description="간결하고 명확한 메시지를 즉각적으로 제공합니다."
-    src="/components/feedback/toast/design/Image-7.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="2:1"
-    description="사용자의 상호작용을 유도하는 액션을 제공하지 않습니다."
-    src="/components/feedback/toast/design/Image-8.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="19 / 8"
+      src="/components/feedback/toast/design/Image-8.png"
+      variant="positive"
+      description={`간결하고 명확한 메시지를 즉각적으로 제공합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="19 / 8"
+      src="/components/feedback/toast/design/Image-9.png"
+      variant="negative"
+      description={`사용자의 상호작용을 유도하는 액션을 제공하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
+
+<SectionCustomize
+  data={[
+  {
+    "key": "List cell",
+    "options": [
+      "icon"
+    ]
+  }
+]}
+/>

@@ -1,19 +1,20 @@
 ---
 title: Icon button
-description: 텍스트 라벨 없이 아이콘만으로 특정 액션을 수행하는 버튼 요소입니다. 공간이 제한적이거나 사용자가 즉시 이해할 수 있는 표준적인 기능을 간결하게 제공할 때 사용합니다.
-image: /components/actions/icon-button/design/Thumbnails.png
-createdAt: 2025-06-04
-updatedAt: 2025-09-30
+description: 텍스트 라벨 없이 아이콘만으로 특정 액션을 수행하는 버튼 요소입니다. \n공간이 제한적이거나 사용자가 즉시 이해할 수 있는 표준적인 기능을 간결하게 제공할 때 사용합니다.
+image: /components/actions/icon-button/design/Image.png
+ogImage: /components/actions/icon-button/design/Thumbnails.png
+createdAt: 2026-01-21
+updatedAt: 2026-02-10
 ---
 
 <SectionAnatomy
-  src="/components/actions/icon-button/design/Image.png"
-  ratio="21:9"
+  src="/components/actions/icon-button/design/Image-1.png"
+  ratio="19 / 6"
   data={[
-    'Icon',
-    'Container',
+    'Icon','Container'
   ]}
 />
+  
 
 <SectionVariants
   components={['IconButton']}
@@ -25,123 +26,134 @@ updatedAt: 2025-09-30
         { label: 'Normal', value: { variant: 'normal', children: '<IconHistory />' } },
         { label: 'Solid', value: { variant: 'solid', children: '<IconHistory />' } },
         { label: 'Outlined', value: { variant: 'outlined', children: '<IconHistory />' } },
-        { label: 'Background', value: { variant: 'background', children: '<IconHistory />' } },
-      ],
+        { label: 'Background', value: { variant: 'background', children: '<IconHistory />' } }
+      ]
     },
     {
       key: 'Alternative',
       disabled: (value) => value['Variants'] !== 'Background',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: { alternative: true } },
-      ],
-    },
+        { label: 'True', value: { alternative: true } }
+      ]
+    }
   ]}
 />
 
+
 <SectionStates
-  src="/components/actions/icon-button/design/Image-1.png"
-  ratio="3:2"
-  options={['Normal','Hovered', 'Pressed', 'Disabled']}
+  ratio="380 / 229"
+  src="/components/actions/icon-button/design/Image-2.png"
 />
 
 <SectionLayout title="Size">
-  <SectionFigureGroup title="Normal, Background">
+  <SectionFigureGroup title="Normal/Background">
     <SectionFigure
-      ratio="21:9"
-      description="24px을 기준으로, 4배수로 크기를 줄이거나 늘리며 커스터마이징할 수 있습니다. 인터랙션 영역이 요소에 포함되어있지 않기 때문에 배치할 시 인터랙션 영역을 충분히 확보하여 디자인합니다."
-      src="/components/actions/icon-button/design/Image-2.png"
-    />
-  </SectionFigureGroup>
-
-  <SectionFigureGroup title="Solid, Outlined">
-    <SectionFigure
-      ratio="21:9"
-      description="기본적으로 제공되는 사이즈가 존재하지만 아이콘 크기와 패딩을 조절함으로써 커스터마이징이 가능합니다. 크기와 패딩의 커스터마이징은 4배수 간격으로 제한합니다."
+      ratio="380 / 103"
       src="/components/actions/icon-button/design/Image-3.png"
+      description={`24px을 기준으로, 4배수로 크기를 줄이거나 늘리며 커스터마이징할 수 있습니다.`}
     />
-  </SectionFigureGroup>
+</SectionFigureGroup>
+  <SectionFigureGroup title="Solid/Outlined">
+    <SectionFigure
+      ratio="380 / 103"
+      src="/components/actions/icon-button/design/Image-4.png"
+      description={`기본적으로 제공되는 사이즈가 존재하지만 아이콘 크기와 패딩을 조절함으로써 크기의 커스터마이징이 가능합니다. 크기와 패딩의 커스터마이징은 2배수 간격으로 제한합니다.`}
+    />
+</SectionFigureGroup>
 </SectionLayout>
 
-
 <SectionLayout title="Usage">
-  <SectionFigureGroup title="Normal - Push badge">
-    <SectionFigure
-      ratio="21:9"
-      description="신규 콘텐츠에 대한 알림을 Push badge로 제공할 수 있습니다.  Dot 뿐 아니라 New, Number 등 Push badge의 모든 Variants들을 상황에 맞게 자유롭게 배치하여 사용할 수 있습니다."
-      src="/components/actions/icon-button/design/Image-4.png"
-    />
-  </SectionFigureGroup>
-  <SectionFigureGroup title="Normal - Gap">
-    <SectionFigure
-      ratio="21:9"
-      description="Normal은 인터랙션 영역을 포함하고 있지 않기 때문에 나란히 아이콘 버튼을 여러 개 위치시킬 때 최소 12px 이상의 Gap을 유지할 수 있도록 유의하여 디자인합니다."
-      src="/components/actions/icon-button/design/Image-5.png"
-    />
-  </SectionFigureGroup>
   <SectionFigureGroup title="Background - Overlay with image">
     <SectionFigure
-      ratio="16:9"
-      description="배경이 있을 시 사용하는 배경 전용 버튼입니다. Web, iOS에서는 Material 효과로 배경의 색상이 함께 자연스럽게 어우러집니다. Android는 Alternative 옵션 사용을 권장합니다."
-      src="/components/actions/icon-button/design/Image-6.png"
+      ratio="152 / 77"
+      src="/components/actions/icon-button/design/Image-5.png"
+      description={`배경이 있을 시 사용하는 배경 전용 버튼입니다. Web, iOS에서는 Material 효과로 배경의 색상이 함께 자연스럽게 어우러집니다. Android는 Alternative 옵션 사용을 권장합니다.`}
     />
   </SectionFigureGroup>
-  <SectionFigureGroup title="Solid, Outlined - Floating">
+  <SectionFigureGroup title="Floating button">
     <SectionFigure
-      ratio="21:9"
-      description="화면의 특정 영역에 고정되어서 중요한 행동을 유도하는 용도로 사용할 수 있습니다."
-      src="/components/actions/icon-button/design/Image-7.png"
+      ratio="760 / 259"
+      src="/components/actions/icon-button/design/Image-6.png"
+      description={`화면의 특정 영역에 고정되어서 중요한 행동을 강하게 유도하는 용도로 사용할 수 있습니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Conditional button">
     <SectionFigure
-      ratio="21:9"
-      description="특정 값이 충족되었을 때 버튼이 활성화 됩니다."
-      src="/components/actions/icon-button/design/Image-8.png"
+      ratio="19 / 8"
+      src="/components/actions/icon-button/design/Image-7.png"
+      description={`화면의 특정 영역에 고정되어서 중요한 행동을 강하게 유도하는 용도로 사용할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
+<SectionLayout title="Gap">
+  <SectionFigure
+    ratio="380 / 183"
+    src="/components/actions/icon-button/design/Image-8.png"
+    description={`Normal은 인터랙션 영역을 포함하고 있지 않기 때문에 나란히 아이콘 버튼을 여러 개 위치시킬 때 최소 12px 이상의 Gap을 유지할 수 있도록 유의하여 디자인합니다.`}
+  />
+</SectionLayout>
+
 <SectionLayout title="Scale with icon padding">
   <SectionFigure
-    ratio="21:9"
-    description="Solid, Outlined을 커스터마이징할 때 Padding을 함께 조절하면 아이콘의 크기도 바꿀 수 있습니다.  Padding을 따로 조절하지 않을 시 아이콘은 기본 사이즈를 유지하게 됩니다. Icon layer를 Fill로 변경하면 Padding을 조절함에 따라 아이콘의 크기도 함께 바뀌게 됩니다."
+    ratio="190 / 63"
     src="/components/actions/icon-button/design/Image-9.png"
+    description={`Solid, Outlined을 커스터마이징할 때 Padding을 함께 조절하면 아이콘의 크기도 바꿀 수 있습니다.  Padding을 따로 조절하지 않을 시 아이콘은 기본 사이즈를 유지하게 됩니다. Icon layer를 Fill로 변경하면 Padding을 조절함에 따라 아이콘의 크기도 함께 바뀌게 됩니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="21:9"
-    variant="positive"
-    description="Solid, Outlined icon button은 Background, Border 색상을 변경하여 사용할 수 있습니다."
-    src="/components/actions/icon-button/design/Image-10.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="Action area에 배치하여 사용하지 마세요."
-    src="/components/actions/icon-button/design/Image-11.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="760 / 239"
+      src="/components/actions/icon-button/design/Image-10.png"
+      variant="positive"
+      description={`Solid는 Background 색상을 변경하여 사용할 수 있습니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 13"
+      src="/components/actions/icon-button/design/Image-11.png"
+      variant="negative"
+      description={`Action area에 배치하여 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
 
 <SectionCustomize
   data={[
-    {
-      key: 'Normal',
-      options: ['size', 'iconColor']
-    },
-    {
-      key: 'Background',
-      options: ['size', 'iconColor']
-    },
-    {
-      key: 'Solid',
-      options: ['padding', 'backgroundColor', 'iconColor']
-    },
-    {
-      key: 'Outlined',
-      options: ['padding', 'backgroundColor', 'borderColor', 'iconColor']
-    },
-  ]}
+  {
+    "key": "Normal",
+    "options": [
+      "size",
+      "iconColor"
+    ]
+  },
+  {
+    "key": "Background",
+    "options": [
+      "size",
+      "iconColor"
+    ]
+  },
+  {
+    "key": "Solid",
+    "options": [
+      "padding",
+      "backgroundColor",
+      "iconColor"
+    ]
+  },
+  {
+    "key": "Outlined",
+    "options": [
+      "padding",
+      "backgroundColor",
+      "borderColor",
+      "iconColor"
+    ]
+  }
+]}
 />

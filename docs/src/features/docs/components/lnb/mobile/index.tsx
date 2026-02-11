@@ -42,7 +42,9 @@ const LnbMobile = () => {
 
   const currentSlug = pathname.split('/').filter(Boolean);
 
-  const groupKey = currentSlug.at(1);
+  const lastSlug = currentSlug.at(-1);
+
+  const groupKey = lastSlug === 'release-note' ? null : currentSlug.at(1);
 
   const containerRef = useRef<HTMLDivElement>(null);
 

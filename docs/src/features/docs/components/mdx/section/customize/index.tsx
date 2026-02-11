@@ -1,11 +1,11 @@
-import { ContentBadge, Divider, FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Typography } from '@wanteddev/wds';
 import { Fragment } from 'react';
 
 import { sectionLayoutStyle } from '../style';
 import { Heading2 } from '../layout';
 import { inlineCodeStyle } from '../../code-block/style';
 
-import { customizeStyle } from './style';
+import { customizeOptionStyle, customizeStyle } from './style';
 
 type Props = {
   data: Array<{
@@ -17,39 +17,30 @@ type Props = {
 const SectionCustomize = ({ data }: Props) => {
   return (
     <FlexBox flexDirection="column" sx={sectionLayoutStyle}>
-      <Heading2 content="Customize" />
+      <Heading2 content="Customize" sx={{ marginBottom: '12px !important' }} />
 
       {data.map((v) => (
         <Fragment key={v.key}>
           <FlexBox sx={customizeStyle}>
             <Typography
-              variant="label1"
+              variant="headline2"
               weight="bold"
               color="semantic.label.strong"
-              sx={{ minWidth: 120 }}
+              sx={{ minWidth: 160 }}
             >
               {v.key}
             </Typography>
 
-            <FlexBox gap="6px" flexWrap="wrap">
+            <FlexBox gap="12px" flexWrap="wrap">
               {v.options.map((option) => (
-                <code key={option}>
-                  <ContentBadge
-                    color="accent"
-                    accentColor="semantic.accent.foreground.blue"
-                    sx={inlineCodeStyle}
-                  >
+                <Box key={option}>
+                  <Box as="code" sx={[inlineCodeStyle, customizeOptionStyle]}>
                     {option}
-                  </ContentBadge>
-                </code>
+                  </Box>
+                </Box>
               ))}
             </FlexBox>
           </FlexBox>
-
-          <Divider
-            color="semantic.line.normal.alternative"
-            sx={{ margin: '0 !important' }}
-          />
         </Fragment>
       ))}
     </FlexBox>

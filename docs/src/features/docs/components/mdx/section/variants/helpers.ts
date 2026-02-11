@@ -1,7 +1,7 @@
-import type { SectionSelectedVariants, SectionVariants } from './types';
+import type { SectionSelectedVariants } from './types';
 
 export const getVariantValueWithDisabled = (
-  variants: SectionVariants,
+  variants: SectionVariantsType,
   newVariant: SectionSelectedVariants,
 ) => {
   const getDefaultOption = (key: string) => {

@@ -1,20 +1,20 @@
 ---
 title: Action area
 description: 모달 혹은 화면 하단 영역에서 메인, 대체, 보조 행동을 할 수 있는 다양한 레벨의 버튼 묶음을 제공합니다.
-image: /components/actions/action-area/design/Thumbnails.png
-createdAt: 2025-05-12
-updatedAt: 2025-09-30
+image: /components/actions/action-area/design/Image.png
+ogImage: /components/actions/action-area/design/Thumbnails.png
+createdAt: 2026-01-21
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/actions/action-area/design/Image.png"
-  ratio="21:9"
+  src="/components/actions/action-area/design/Image-1.png"
+  ratio="380 / 163"
   data={[
-    'Main action',
-    'Alternative action',
-    'Sub action',
+    'Main action','Alternative action','Sub action'
   ]}
 />
+  
 
 <SectionVariants
   components={['ActionArea', 'ActionAreaButton']}
@@ -23,10 +23,28 @@ updatedAt: 2025-09-30
     {
       key: 'Variants',
       options: [
-        { label: 'Strong', value: { variant: 'strong', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal }) } },
-        { label: 'Neutral', value: { variant: 'neutral', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal, '[data-role="action-area-wrapper"]': { flexDirection: 'row-reverse' } }) } },
-        { label: 'Compact', value: { variant: 'compact', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal, '[data-role="action-area-wrapper"]': { flexDirection: 'row-reverse' } }) } },
-        { label: 'Cancel', value: { variant: 'cancel', children: '<ActionAreaButton>Cancel</ActionAreaButton>', sx: (theme) => ({ width: '90%', backgroundColor: theme.semantic.background.normal.normal }) } },
+        { label: 'Strong', value: { variant: 'strong', sx: (theme) => ({
+                width: '90%',
+                backgroundColor: theme.semantic.background.normal.normal,
+              }) } },
+        { label: 'Neutral', value: { variant: 'neutral', sx: (theme) => ({
+                width: '90%',
+                backgroundColor: theme.semantic.background.normal.normal,
+                '[data-role="action-area-wrapper"]': {
+                  flexDirection: 'row-reverse',
+                },
+              }) } },
+        { label: 'Compact', value: { variant: 'compact', sx: (theme) => ({
+                width: '90%',
+                backgroundColor: theme.semantic.background.normal.normal,
+                '[data-role="action-area-wrapper"]': {
+                  flexDirection: 'row-reverse',
+                },
+              }) } },
+        { label: 'Cancel', value: { variant: 'cancel', children: '<ActionAreaButton>Cancel</ActionAreaButton>', sx: (theme) => ({
+                width: '90%',
+                backgroundColor: theme.semantic.background.normal.normal,
+              }) } }
       ]
     },
     {
@@ -35,42 +53,51 @@ updatedAt: 2025-09-30
       options: [
         { label: 'With alternative action', value: { children: '<><ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="alternative">Alternative</ActionAreaButton></>' } },
         { label: 'With sub action', value: { children: '<><ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="sub">Sub action</ActionAreaButton></>' } },
-        { label: 'Main only', value: { children: '<ActionAreaButton>Main action</ActionAreaButton>' } },
+        { label: 'Main only', value: { children: '<ActionAreaButton>Main action</ActionAreaButton>' } }
       ]
     },
     {
       key: 'Sub button option',
-      disabled: (value) => value['Combination'] !== 'With sub action' || value['Variants'] !== 'Neutral',
+      disabled: (value) =>
+          value['Combination'] !== 'With sub action' ||
+          value['Variants'] !== 'Neutral',
       options: [
         { label: 'Label', value: { children: '<><ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="sub">Alternative</ActionAreaButton></>' } },
-        { label: 'With icon', value: { children: '<><ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="sub" iconOnly><IconRefresh/></ActionAreaButton></>' } },
+        { label: 'With icon', value: { children: '<><ActionAreaButton>Main action</ActionAreaButton><ActionAreaButton variant="sub" iconOnly><IconRefresh/></ActionAreaButton></>' } }
       ]
     }
   ]}
 />
 
+
+<SectionLayout title="Scrolled">
+  <SectionFigure
+    ratio="760 / 609"
+    src="/components/actions/action-area/design/Image-2.png"
+    description={`모든 타입에 관계 없이 기본적으로 스크롤 효과가 Gradient로 적용됩니다. 단, Extra content를 활용할 때에는 기본 스크롤 효과가 Divider로 변경되며 상황에 따라 Divider를 제거할 수 있습니다.`}
+  />
+</SectionLayout>
+
 <SectionLayout title="With alternative">
   <SectionFigureGroup title="Strong">
     <SectionFigure
-      ratio="16:10"
-      description="Label이 7자 ‘이상’일 시 Strong 타입 사용을 권장합니다. 메인 행동을 대체하는 동등한 선택지를 제공할 때 Alternative action을 사용합니다."
-      src="/components/actions/action-area/design/Image-1.png"
+      ratio="760 / 259"
+      src="/components/actions/action-area/design/Image-3.png"
+      description={`Label이 7자 ‘이상’일 시 Strong 타입 사용을 권장합니다. 메인 행동을 대체하는 동등한 선택지를 제공할 때 Alternative action을 사용합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Neutral">
     <SectionFigure
-      ratio="21:9"
-      description="Label이 7자 ‘미만’일 시 Neutral 타입 사용을 권장합니다. 메인 행동을 대체하는 동등한 선택지를 제공할 때 Alternative action을 사용합니다."
-      src="/components/actions/action-area/design/Image-2.png"
+      ratio="760 / 259"
+      src="/components/actions/action-area/design/Image-4.png"
+      description={`Label이 7자 ‘미만’일 시 Neutral 타입 사용을 권장합니다. 메인 행동을 대체하는 동등한 선택지를 제공할 때 Alternative action을 사용합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Compact">
     <SectionFigure
-      ratio="21:9"
-      description="너비 560px 이상의 Modal 혹은 데스크톱 해상도에서 사용을 권장합니다. 메인 행동을 대체하는 동등한 선택지를 제공할 때 Alternative action을 사용합니다. 앱에서는 사용을 권장하지 않습니다."
-      src="/components/actions/action-area/design/Image-3.png"
+      ratio="760 / 259"
+      src="/components/actions/action-area/design/Image-5.png"
+      description={`너비 560px 이상의 Modal 혹은 데스크톱 해상도에서 사용을 권장합니다. 메인 행동을 대체하는 동등한 선택지를 제공할 때 Alternative action을 사용합니다. 앱에서는 사용을 권장하지 않습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -78,109 +105,59 @@ updatedAt: 2025-09-30
 <SectionLayout title="With sub">
   <SectionFigureGroup title="Strong">
     <SectionFigure
-      ratio="1.618:1"
-      description="‘닫기, 취소, 돌아가기’ 등 화면을 이탈하는 선택지를 제공할 때 사용합니다. 메인 액션을 보다 강하게 유도하는 성격을 띌 때 사용합니다."
-      src="/components/actions/action-area/design/Image-4.png"
+      ratio="760 / 259"
+      src="/components/actions/action-area/design/Image-6.png"
+      description={`‘일주일간 보지 않기, 하루동안 보지 않기’ 등 특정 기간동안 콘텐츠를 노출하지 않는 선택지를 제공할 때 사용합니다. 서브 액션보다 메인 액션을 더욱 강하게 유도할 때 사용합니다.`}
     />
   </SectionFigureGroup>
-  
   <SectionFigureGroup title="Neutral">
     <SectionFigure
-      ratio="2:1"
-      description="‘닫기, 취소, 돌아가기’ 등 화면을 이탈하는 선택지를 제공할 때 사용합니다. 모바일과 데스크톱 모두 사용할 수 있습니다."
-      src="/components/actions/action-area/design/Image-5.png"
+      ratio="19 / 11"
+      src="/components/actions/action-area/design/Image-7.png"
+      description={`모바일과 데스크톱에서 ‘나중에, 닫기, 취소, 돌아가기’ 등 화면을 이탈하는 선택지를 제공할 때 사용합니다. ‘재설정, 북마크’ 등 아이콘만으로 사용자가 행동을 인지할 수 있는 가벼운 행동을 제시할 때 Assistive 버튼의 Icon only를 사용합니다.`}
     />
   </SectionFigureGroup>
-
-  <SectionFigureGroup title="Neutral - Icon only">
-    <SectionFigure
-      ratio="16:9"
-      description="‘재설정, 북마크’ 등 아이콘만으로 사용자가 행동을 인지할 수 있는 가벼운 행동을 제시할 때 Assistive 버튼의 Icon only를 사용합니다."
-      src="/components/actions/action-area/design/Image-6.png"
-    />
-  </SectionFigureGroup>
-
   <SectionFigureGroup title="Compact">
     <SectionFigure
-      ratio="21:9"
-      description="‘닫기, 취소, 돌아가기’ 등 화면을 이탈하는 선택지를 제공할 때 사용합니다. 웹에서의 사용을 권장합니다."
-      src="/components/actions/action-area/design/Image-7.png"
-    />
-  </SectionFigureGroup>
-
-  <SectionFigureGroup title="Compact - Icon only">
-    <SectionFigure
-      ratio="16:9"
-      description="Compact 타입에서는 가벼운 행동을 제시할 때 Compact Content를 활용하여 Icon only 버튼을 사용합니다."
+      ratio="95 / 42"
       src="/components/actions/action-area/design/Image-8.png"
+      description={`웹의 너비 560px 이상의 모달에서 ‘닫기, 취소, 돌아가기’ 등 화면을 이탈하는 선택지를 제공할 때 사용합니다. Compact 타입에서는 가벼운 행동을 제시할 때 Compact content를 활용하여 Icon only 버튼을 사용합니다.`}
     />
   </SectionFigureGroup>
-</SectionLayout>
-
-<SectionLayout title="Cancel">
-  <SectionFigure
-    ratio="21:9"
-    title="Usage"
-    description="단순 내용을 확인하고 닫는 용도로 Cancel 타입을 사용합니다."
-    src="/components/actions/action-area/design/Image-9.png"
-  />
 </SectionLayout>
 
 <SectionLayout title="Extra">
-  <SectionFigureGroup title="Strong, Neutral">
+  <SectionFigureGroup title="Strong/Neutral">
     <SectionFigure
-      ratio="16:10"
-      description="개발에는 기본적으로 Slot으로 처리되어 있으며 해당 영역에 어떠한 콘텐츠든 들어갈 수 있습니다. 단, 디자이너들이 자주 사용하는 요소들은 작업 편의에 의하여 몇 가지 기본 Preset을 제공합니다. 기본 동작은 스크롤에 관계없이 Extra 영역 상단에 Divider를 제공하지만, 필요에 따라 제거할 수 있습니다."
-      src="/components/actions/action-area/design/Image-10.png"
+      ratio="380 / 159"
+      src="/components/actions/action-area/design/Image-9.png"
+      description={`Extra 영역은 개발에서 기본적으로 Slot으로 처리되어 있으며 다양한 콘텐츠가 자유롭게 위치할 수 있습니다. 기본 동작은 스크롤에 관계없이 Extra 영역을 구분하는 Divider를 제공하지만, 필요에 따라 제거할 수 있습니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Compact">
     <SectionFigure
-      ratio="16:10"
-      description="Compact 타입에는 Extra와 Extra contents 두 가지 영역이 존재합니다. 모든 타입에 상관없이 기본 Slot으로 처리되어 있으며, 몇 개의 Preset을 제공하고 있습니다. 필요에 따라 Extra와 Extra contents를 동시에 활성화하여 사용할 수 있습니다.
-Extra contents에는 추가 버튼을 배치할 수 있습니다."
-      src="/components/actions/action-area/design/Image-11.png"
-    />
-  </SectionFigureGroup>
-</SectionLayout>
-
-<SectionLayout title="Sticky">
-  <SectionFigureGroup title="Keyboard">
-    <SectionFigure
-      ratio="21:9"
-      src="/components/actions/action-area/design/Image-12.png"
-      description="키보드에 Sticky하여 사용할 시 그라디언트 효과가 적용됩니다."
-    />
-  </SectionFigureGroup>
-
-  <SectionFigureGroup title="Clear background">
-    <SectionFigure
-      ratio="21:9"
-      description="Sticky된 상태로 스크롤할 시 그라데이션이 활성화되며 맨 하단 페이지에 도달할 때 제거됩니다. 단, 모든 플랫폼이 동일하게 컴포넌트 자체에서 스크롤 뷰를 포함하지 않아 스크롤 상태를 알 수 없기 때문에 Clear background라는 Property로 수동 조절할 수 있도록 개발 되었습니다."
-      src="/components/actions/action-area/design/Image-13.png"
+      ratio="5 / 2"
+      src="/components/actions/action-area/design/Image-10.png"
+      description={`Compact 타입에는 Extra와 Compact content 두 가지 영역을 제공합니다. 개발에서는 두 영역 모두 Slot으로 처리되어 있습니다. 필요에 따라 두 영역을 동시에 활성화하여 사용할 수 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    description="유저가 분명히 인지해야 할 내용의 경우 단순 ‘확인’의 용도여도 Primary 버튼을 활용할 수 있습니다."
-    src="/components/actions/action-area/design/Image-14.png"
-  />
-  <SectionFigure
-    variant="negative"
-    description="닫기와 내비게이션의 X 버튼을 함께 사용하지 않습니다."
-    src="/components/actions/action-area/design/Image-15.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="152 / 63"
+      src="/components/actions/action-area/design/Image-11.png"
+      variant="positive"
+      description={`유저가 분명히 인지해야 할 내용의 경우 단순 ‘확인’의 용도여도 Primary 버튼을 활용할 수 있습니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="95 / 51"
+      src="/components/actions/action-area/design/Image-12.png"
+      variant="negative"
+      description={`닫기와 내비게이션의 X 버튼을 함께 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
-
-<SectionCustomize
-  data={[
-    {
-      key: 'Solid button',
-      options: ['contentColor', 'backgroundColor']
-    }
-  ]}
-/>

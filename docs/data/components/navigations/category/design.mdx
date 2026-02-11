@@ -1,88 +1,87 @@
 ---
 title: Category
-description: "메인 카테고리 탭 아래에서 콘텐츠를 더욱 세분화하여 구분하는 하위 네비게이션 요소입니다. 사용자가\n대분류에서 소분류로 자연스럽게 탐색할 수 있도록 돕고, 정보 구조를 명확하게 전달하는 역할을 합니다."
+description: 메인 카테고리 탭 아래에서 콘텐츠를 더욱 세분화하여 구분하는 하위 네비게이션 요소입니다. 사용자가 \n대분류에서 소분류로 자연스럽게 탐색할 수 있도록 돕고, 정보 구조를 명확하게 전달하는 역할을 합니다.
+image: /components/navigations/category/design/Image.png
+ogImage: /components/navigations/category/design/Thumbnails.png
 createdAt: 2025-10-02
-updatedAt: 2025-10-02
-image: /components/navigations/category/design/Thumbnails.png
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/navigations/category/design/Image.png"
-  ratio="16:9"
+  src="/components/navigations/category/design/Image-1.png"
+  ratio="380 / 159"
   data={[
-    'Active chip',
-    'Inactive chip',
-    'Icon button',
+    'Active chip','Inactive chip','Icon button'
   ]}
 />
-
+  
 
 <SectionVariants
   components={['Category', 'CategoryList', 'CategoryListItem', 'IconButton']}
   icons={['IconBlank']}
   render={(value) => {
-    const variant = value['Variants'].toLowerCase();
-    const horizontalPadding = value['Horizontal padding'].toLowerCase();
-    const size = value['Size'].toLowerCase();
-    const verticalPadding = value['Vertical padding'].toLowerCase();
-    let iconButton = 'null';
+      const variant = value['Variants'].toLowerCase();
+      const horizontalPadding = value['Horizontal padding'].toLowerCase();
+      const size = value['Size'].toLowerCase();
+      const verticalPadding = value['Vertical padding'].toLowerCase();
+      let iconButton = 'null';
 
-    let iconButtonSize;
+      let iconButtonSize;
 
-    switch (size) {
-      case 'small':
-        iconButtonSize = 20;
-        break;
-      case 'medium':
-        iconButtonSize = 22;
-        break;
-      case 'large':
-        iconButtonSize = 24;
-        break;
-      case 'xlarge':
-        iconButtonSize = 24;
-        break;
-    }
+      switch (size) {
+        case 'small':
+          iconButtonSize = 20;
+          break;
+        case 'medium':
+          iconButtonSize = 22;
+          break;
+        case 'large':
+          iconButtonSize = 24;
+          break;
+        case 'xlarge':
+          iconButtonSize = 24;
+          break;
+      }
 
-    if (value['Icon button'] === 'True') {
-      iconButton = `<IconButton size={${iconButtonSize}}><IconBlank /></IconButton>`;
-    }
+      if (value['Icon button'] === 'True') {
+        iconButton = `<IconButton size={${iconButtonSize}}><IconBlank /></IconButton>`;
+      }
 
-    return `
-      <Category value="0">
-        <CategoryList
-          variant="${variant}"
-          sx={theme => ({ width: '80%', backgroundColor: theme.semantic.background.normal.normal })}
-          horizontalPadding={${horizontalPadding}}
-          verticalPadding={${verticalPadding}}
-          iconButton={${iconButton}}
-          size="${size}"
-        >
-          <CategoryListItem value="0">
-            Active
-          </CategoryListItem>
-          <CategoryListItem value="1">
-            Inactive
-          </CategoryListItem>
-          <CategoryListItem value="2">
-            Inactive
-          </CategoryListItem>
-          <CategoryListItem value="3">
-            Inactive
-          </CategoryListItem>
-          <CategoryListItem value="4">
-            Inactive
-          </CategoryListItem>
-        </CategoryList>
-      </Category>
-    `;
-  }}
+      return `
+        <Category value="0">
+          <CategoryList
+            variant="${variant}"
+            sx={theme => ({ width: '80%', backgroundColor: theme.semantic.background.normal.normal })}
+            horizontalPadding={${horizontalPadding}}
+            verticalPadding={${verticalPadding}}
+            iconButton={${iconButton}}
+            size="${size}"
+          >
+            <CategoryListItem value="0">
+              Active
+            </CategoryListItem>
+            <CategoryListItem value="1">
+              Inactive
+            </CategoryListItem>
+            <CategoryListItem value="2">
+              Inactive
+            </CategoryListItem>
+            <CategoryListItem value="3">
+              Inactive
+            </CategoryListItem>
+            <CategoryListItem value="4">
+              Inactive
+            </CategoryListItem>
+          </CategoryList>
+        </Category>
+      `;
+    }}
   variants={[
     {
       key: 'Variants',
       options: [
         { label: 'Normal', value: {} },
-        { label: 'Alternative', value: {} },
+        { label: 'Alternative', value: {} }
       ]
     },
     {
@@ -92,174 +91,184 @@ image: /components/navigations/category/design/Thumbnails.png
         { label: 'Small', value: {} },
         { label: 'Medium', value: {} },
         { label: 'Large', value: {} },
-        { label: 'Xlarge', value: {} },
+        { label: 'Xlarge', value: {} }
       ]
     },
     {
       key: 'Horizontal padding',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
     },
     {
       key: 'Vertical padding',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
     },
     {
       key: 'Icon button',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
-    },
+    }
   ]}
 />
 
+
 <SectionStates
-  src="/components/navigations/category/design/Image-1.png"
-  ratio="16:9"
-  options={['Normal','Hovered', 'Pressed', 'Disabled']}
+  ratio="380 / 187"
+  src="/components/navigations/category/design/Image-2.png"
 />
 
 <SectionLayout title="Size and gap">
   <SectionFigure
-    ratio="21:9"
-    description="모든 플랫폼에서 Medium을 기본 사이즈로 둡니다. 간격 및 텍스트 사이즈는 임의로 조절할 수 없으며 다양한 사이즈를 선택하여 사용할 수 있습니다. Large, Xlarge는 데스트톱에서만 사용하는 것을 권장합니다. "
-    src="/components/navigations/category/design/Image-2.png"
+    ratio="760 / 351"
+    src="/components/navigations/category/design/Image-3.png"
+    description={`모든 플랫폼에서 Medium을 기본 사이즈로 둡니다. 간격 및 텍스트 사이즈는 임의로 조절할 수 없으며 다양한 사이즈를 선택하여 사용할 수 있습니다. Large, Xlarge는 데스트톱에서만 사용하는 것을 권장합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Horizontal padding">
   <SectionFigure
-    ratio="21:9"
-    description="<strong>Horizontal padding= True</strong>
+    ratio="19 / 8"
+    src="/components/navigations/category/design/Image-4.png"
+    description={`Horizontal padding=True
 - 횡스크롤 시 맨 끝 좌측, 우측에 기본 여백을 확보합니다.
-
-<strong>Horizontal padding= False</strong>
-- 요소를 감싸는 Container가 여백을 포함하고 있을 경우 해당 옵션을 사용하지 않습니다."
-    src="/components/navigations/category/design/Image-3.png"
+Horizontal padding=False
+- 요소를 감싸는 Container가 여백을 포함하고 있을 경우 해당 옵션을 사용하지 않습니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Vertical padding">
   <SectionFigure
-    ratio="21:9"
-    description="<strong>Vertical padding= True</strong>
-- 요소가 상단에 Fixed될 시 기본 상, 하 여백을 확보합니다. 
-
-<strong>Vertical padding= False</strong>
-- 요소를 감싸는 Container가 있을 때 Container의 Padding을 상속 받기 때문에 활용하지 않습니다."
-    src="/components/navigations/category/design/Image-4.png"
+    ratio="19 / 8"
+    src="/components/navigations/category/design/Image-5.png"
+    description={`Vertical padding=True
+- 요소가 상단에 Fixed될 시 기본 상, 하 여백을 확보합니다.
+Vertical padding=False
+- 요소를 감싸는 Container가 있을 때 Container의 Padding을 상속 받기 때문에 활용하지 않습니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Horizontal scroll">
   <SectionFigureGroup title="Top fixed">
     <SectionFigure
-      ratio="3:2"
-      description="Navigation의 Toolbar를 활용하여 Tab을 상단에 고정할 시 Padding 옵션을 활성화합니다. 횡스크롤 시 그라디언트가 적용되지 않습니다."
-      src="/components/navigations/category/design/Image-5.png"
+      ratio="190 / 119"
+      src="/components/navigations/category/design/Image-6.png"
+      description={`Navigation의 Toolbar를 활용하여 Tab을 상단에 고정할 시 Padding 옵션을 활성화합니다. 횡스크롤 시 그라디언트가 적용되지 않습니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="In container">
     <SectionFigure
-      ratio="21:9"
-      description="Category가 어떠한 Container 요소 내부에 위치할 시 Padding 옵션을 비활성화하며, 횡스크롤 시 그라디언트가 적용됩니다."
-      src="/components/navigations/category/design/Image-6.png"
+      ratio="95 / 52"
+      src="/components/navigations/category/design/Image-7.png"
+      description={`Category가 어떠한 Container 요소 내부에 위치할 시 Padding 옵션을 비활성화하며, 횡스크롤 시 그라디언트가 적용됩니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="Icon button">
   <SectionFigure
-    ratio="21:9"
-    description="필터, 키워드 입력 등 유저의 편의성 및 행동을 유도하는 요소를 위치시킬 수 있습니다. Icon button은 횡스크롤 시 고정됩니다."
-    src="/components/navigations/category/design/Image-7.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="Icon">
-  <SectionFigure
-    ratio="21:9"
-    description="특히 강조할 요소를 표현하거나 인지하기 어려운 카테고리명을 가지고 있을 때 구분에 용이하도록 돕는 용도로 아이콘 사용을 권장합니다."
+    ratio="19 / 8"
     src="/components/navigations/category/design/Image-8.png"
+    description={`필터, 키워드 입력 등 유저의 편의성 및 행동을 유도하는 요소를 위치시킬 수 있습니다. Icon button은 횡스크롤 시 고정됩니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Solid">
     <SectionFigure
-      ratio="2:1"
-      description="최상단 카테고리를 구분하는 용도로 사용할 시 주목도가 높은 Solid 타입 사용을 권장합니다."
+      ratio="19 / 8"
       src="/components/navigations/category/design/Image-9.png"
+      description={`최상단 카테고리를 구분하는 용도로 사용할 시 주목도가 높은 Solid 타입 사용을 권장합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Outlined">
     <SectionFigure
-      ratio="16:9"
-      description="화면 전체가 아닌 일부 Section의 카테고리를 변경할 때 사용합니다. Horizontal, Vertical padding의 옵션을 모두 비활성화하여 사용합니다."
+      ratio="19 / 8"
       src="/components/navigations/category/design/Image-10.png"
+      description={`화면 전체가 아닌 일부 Section의 카테고리를 변경할 때 사용합니다. Horizontal, Vertical padding의 옵션을 모두 비활성화하여 사용합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionHierarchy>
   <SectionHierarchyItem
-    level={2}
-    description="화면의 최상단 영역에서 내려지는 콘텐츠를 구분합니다."
-    components={['Category', 'CategoryList', 'CategoryListItem']}
+    description={`Level.2 → 화면의 최상단 영역에서 내려지는 콘텐츠를 구분합니다.`}
+    components={[
+  "Category",
+  "CategoryList",
+  "CategoryListItem"
+]}
     render={`<Category value=""><CategoryList sx={{ width: "76px" }}><CategoryListItem value="">Solid</CategoryListItem></CategoryList></Category>`}
   />
   <SectionHierarchyItem
-    level={1}
-    description="일정 영역, 카드 등 일부 영역의 콘텐츠를 구분합니다."
-    components={['Category', 'CategoryList', 'CategoryListItem']}
+    description={`Level.1 → 일정 영역, 카드 등 일부 영역의 콘텐츠를 구분합니다.`}
+    components={[
+  "Category",
+  "CategoryList",
+  "CategoryListItem"
+]}
     render={`<Category value=""><CategoryList variant="alternative" sx={{ width: "76px" }}><CategoryListItem value="">Outlined</CategoryListItem></CategoryList></Category>`}
   />
 </SectionHierarchy>
 
 <SectionAccessibility
   contents={[
-    {
-      keys: ['ArrowRight'],
-      description: '다음 요소로 값을 변경합니다. (Category 내부에서 순환)',
-    },
-    {
-      keys: ['ArrowLeft'],
-      description: '이전 요소로 값을 변경합니다. (Category 내부에서 순환)',
-    },
-    {
-      keys: ['Home', 'PageUp'],
-      description: '첫 번째 요소로 포커스를 이동합니다.',
-    },
-    {
-      keys: ['End', 'PageDown'],
-      description: '마지막 요소로 포커스를 이동합니다.',
-    },
-    {
-      keys: ['Enter'],
-      description: '현재 포커스된 요소를 클릭합니다.',
-    }
-  ]}
+  {
+    "keys": [
+      "ArrowRight"
+    ],
+    "description": "다음 요소로 값을 변경합니다. (Category 내부에서 순환)"
+  },
+  {
+    "keys": [
+      "ArrowLeft"
+    ],
+    "description": "이전 요소로 값을 변경합니다. (Category 내부에서 순환)"
+  },
+  {
+    "keys": [
+      "Home",
+      "PageUp"
+    ],
+    "description": "첫 번째 요소로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "End",
+      "PageDown"
+    ],
+    "description": "마지막 요소로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "Enter"
+    ],
+    "description": "현재 포커스된 요소를 클릭합니다."
+  }
+]}
 />
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="16:9"
-    variant="positive"
-    description="탭의 하위 카테고리를 한번 더 구분할 때에는 Solid 타입 사용을 권장합니다."
-    src="/components/navigations/category/design/Image-11.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="다른 타입의 카테고리를 연달아 배치하여 사용하지 않습니다. "
-    src="/components/navigations/category/design/Image-12.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="19 / 8"
+      src="/components/navigations/category/design/Image-11.png"
+      variant="positive"
+      description={`탭의 하위 카테고리를 한번 더 구분할 때에는 Solid 타입 사용을 권장합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="19 / 8"
+      src="/components/navigations/category/design/Image-12.png"
+      variant="negative"
+      description={`다른 타입의 카테고리를 연달아 배치하여 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>

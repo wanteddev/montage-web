@@ -16,7 +16,7 @@ const ColorsTab = () => {
     });
   }, []);
 
-  return <RouteTab tabs={tabs} />;
+  return <RouteTab tabs={tabs} sx={{ marginTop: '40px' }} />;
 };
 
 export default ColorsTab;

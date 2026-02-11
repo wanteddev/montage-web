@@ -7,7 +7,7 @@ export const tokenThumbnailStyle = (theme: Theme) => css`
     border-radius: 32px;
 
     &::after {
-      border: 1px solid ${theme.semantic.line.normal.neutral};
+      border: 1px solid ${theme.semantic.line.solid.neutral};
     }
   }
 `;

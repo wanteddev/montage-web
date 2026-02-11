@@ -8,7 +8,7 @@ import {
 import {
   getFrontmatterDefaultImage,
   getFrontmatterDescription,
-  getFrontmatterImage,
+  getFrontmatterOgImage,
   getFrontmatterTitle,
 } from '@/features/docs/helpers/mdx.client';
 import MDXRender from '@/features/docs/components/mdx/mdx-render';
@@ -32,7 +32,7 @@ export const dynamic = 'force-static';
 
 export const generateStaticParams = async () => {
   const frontmatter = (await getAllFrontmatter()).filter(
-    (item) => !item.isPrivate,
+    (item) => !item.isExternal,
   );
 
   return frontmatter;
@@ -48,7 +48,7 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
     const title = getFrontmatterTitle(frontmatter);
     const description = getFrontmatterDescription(frontmatter, allFrontmatter);
     const image =
-      getFrontmatterImage(frontmatter, allFrontmatter) ??
+      getFrontmatterOgImage(frontmatter, allFrontmatter) ??
       getFrontmatterDefaultImage(frontmatter);
 
     return createMetadata({

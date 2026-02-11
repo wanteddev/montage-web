@@ -3,20 +3,42 @@ import fs from 'node:fs';
 
 import { Parser } from './parser';
 
-const tsconfigPath = path.join(
-  process.cwd(),
-  '../../packages/wds/tsconfig.json',
-);
+const componentFilter = /components\/.*\/(?!.*\.test\.tsx?$).*\.tsx?$/;
 
-const parser = new Parser(tsconfigPath);
+const packages = [
+  {
+    tsconfigPath: path.join(process.cwd(), '../../packages/wds/tsconfig.json'),
+  },
+  {
+    tsconfigPath: path.join(
+      process.cwd(),
+      '../../packages/wds-engine/tsconfig.json',
+    ),
+    filter: /components\/force-theme\//,
+  },
+];
 
-const exportDeclarations = parser
-  .getExportedItems()
-  .filter((item) =>
-    item.filePath.match(/components\/.*\/(?!.*\.test\.tsx?$).*\.tsx?$/),
-  );
+const componentApi = packages
+  .flatMap(({ tsconfigPath, filter }) => {
+    const parser = new Parser(tsconfigPath);
 
-const componentApi = parser.parse(exportDeclarations);
+    const exportDeclarations = parser
+      .getExportedItems()
+      .filter(
+        (item) =>
+          item.filePath.match(componentFilter) &&
+          (!filter || item.filePath.match(filter)),
+      );
+
+    return parser.parse(exportDeclarations);
+  })
+  .filter((item, index, self) => {
+    return (
+      self.findIndex(
+        (other) => other.name === item.name && other.filePath === item.filePath,
+      ) === index
+    );
+  });
 
 const outputDirectory = path.join(process.cwd(), '../../docs/generated');
 

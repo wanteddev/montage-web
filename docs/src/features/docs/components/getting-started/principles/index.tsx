@@ -18,7 +18,7 @@ const Principles = () => {
       items={PRINCIPLES.map((principle, idx) => (
         <FlexBox
           key={principle.title}
-          gap="12px"
+          gap="16px"
           flexDirection="column"
           aria-labelledby={`carousel-${id}-${idx}`}
           aria-describedby={`carousel-${id}-${idx}-description`}
@@ -30,9 +30,9 @@ const Principles = () => {
             aria-hidden
             sx={thumbnailStyle}
           />
-          <FlexBox flexDirection="column" gap="6px">
+          <FlexBox flexDirection="column" gap="8px">
             <Typography
-              variant="heading1"
+              variant="heading2"
               weight="bold"
               as="p"
               color="semantic.label.normal"
@@ -42,8 +42,8 @@ const Principles = () => {
               {principle.title}
             </Typography>
             <Typography
-              variant="label2"
-              weight="medium"
+              variant="label1-reading"
+              weight="regular"
               as="p"
               color="semantic.label.neutral"
               align="center"

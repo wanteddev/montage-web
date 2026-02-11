@@ -1,3 +1,5 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 import Gnb from '@/features/layout/components/gnb';
 import { MDXProvider } from '@/features/docs/contexts';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
@@ -7,7 +9,7 @@ import { createMetadata } from '@/helpers/metadata';
 
 import Providers from './providers';
 
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import '@wanteddev/wds/global.css';
 
@@ -15,6 +17,22 @@ export const metadata: Metadata = createMetadata({
   title: 'Wanted Design System',
   metadataBase: process.env.NEXT_PUBLIC_BASE_PATH!,
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: [
+    {
+      media: '(prefers-color-scheme: light)',
+      color: '#ffffff',
+    },
+    {
+      media: '(prefers-color-scheme: dark)',
+      color: '#1B1C1E',
+    },
+  ],
+};
 
 const RootLayout = async ({ children }: LayoutProps<'/'>) => {
   const allFrontmatter = await getAllFrontmatter();
@@ -24,10 +42,6 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
     <html suppressHydrationWarning lang="ko">
       <head>
         <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, viewport-fit=cover"
-        />
-        <meta
           name="theme-color"
           content="#ffffff"
           media="(prefers-color-scheme: light)"
@@ -36,16 +50,6 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           name="msapplication-TileColor"
           content="#ffffff"
           media="(prefers-color-scheme: light)"
-        />
-        <meta
-          name="theme-color"
-          content="#1B1C1E"
-          media="(prefers-color-scheme: dark)"
-        />
-        <meta
-          name="msapplication-TileColor"
-          content="#1B1C1E"
-          media="(prefers-color-scheme: dark)"
         />
         <link rel="preconnect" href="https://static.wanted.co.kr" />
         <meta
@@ -173,6 +177,11 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           </Providers>
         </MDXProvider>
       </body>
+
+      {process.env.NEXT_PUBLIC_SERVER_TYPE?.toLowerCase() === 'www' &&
+        process.env.NEXT_PUBLIC_IS_CUSTOM_VERSION !== 'true' && (
+          <GoogleAnalytics gaId="G-XX1CL3693S" />
+        )}
     </html>
   );
 };

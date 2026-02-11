@@ -13,15 +13,10 @@ const ListGroup = ({ items }: ListGroupProps) => {
   return (
     <Typography
       variant="body2-reading"
-      weight="regular"
+      weight="medium"
       as="ul"
       color="semantic.label.neutral"
-      sx={[
-        {
-          marginBottom: '0 !important',
-        },
-        ulStyle,
-      ]}
+      sx={ulStyle}
     >
       {items.map((item, index) => (
         <Fragment key={index}>

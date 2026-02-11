@@ -1,94 +1,100 @@
 ---
 title: Top navigation
-description: 앱과 모바일 웹의 최상단에 위치하는 주요 탐색 요소입니다. 사용자가 서비스의 핵심 섹션과 기능에 빠르게 접근할 수 있도록 돕습니다.
+description: 앱과 모바일 웹의 최상단에 위치하는 주요 탐색 요소입니다. \n사용자가 서비스의 핵심 섹션과 기능에 빠르게 접근할 수 있도록 돕습니다.
+image: /components/navigations/top-navigation/design/Image.png
+ogImage: /components/navigations/top-navigation/design/Thumbnails.png
 createdAt: 2025-10-02
-updatedAt: 2025-10-02
-image: /components/navigations/top-navigation/design/Thumbnails.png
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/navigations/top-navigation/design/Image.png"
-  ratio="16:9"
+  src="/components/navigations/top-navigation/design/Image-1.png"
+  ratio="380 / 217"
   data={[
-    'Page title',
-    'Trailing button',
-    'Avatar',
-    'Leading button',
-    'Toolbar',
+    'Page title','Trailing button','Avatar','Leading button','Toolbar'
   ]}
 />
-
+  
 
 <SectionVariants
   components={['TopNavigation', 'TopNavigationButton', 'Tab', 'TabList', 'TabListItem', 'SegmentedControl', 'SegmentedControlItem', 'FlexBox', 'Avatar', 'SearchField']}
   icons={['IconChevronLeft', 'IconClose']}
   render={(value) => {
-    const variant = value['Variants'].toLowerCase();
-    const avatar = value['Avatar'] === 'True' ? '<Avatar size="xsmall" />' : '';
-    const tab = '<Tab defaultValue=""><TabList horizontalPadding size="medium"><TabListItem value="">Label</TabListItem><TabListItem value="1">Label</TabListItem><TabListItem value="2">Label</TabListItem></TabList></Tab>';
-    const segmentedControl = '<FlexBox sx={{width: "100%", padding: "8px 20px"}}><SegmentedControl size="small" defaultValue=""><SegmentedControlItem value="">Label</SegmentedControlItem><SegmentedControlItem value="1">Label</SegmentedControlItem><SegmentedControlItem value="2">Label</SegmentedControlItem></SegmentedControl></FlexBox>';
+      const variant = value['Variants'].toLowerCase();
+      const avatar =
+        value['Avatar'] === 'True' ? '<Avatar size="xsmall" />' : '';
+      const tab =
+        '<Tab defaultValue=""><TabList horizontalPadding size="medium"><TabListItem value="">Label</TabListItem><TabListItem value="1">Label</TabListItem><TabListItem value="2">Label</TabListItem></TabList></Tab>';
+      const segmentedControl =
+        '<FlexBox sx={{width: "100%", padding: "8px 20px"}}><SegmentedControl size="small" defaultValue=""><SegmentedControlItem value="">Label</SegmentedControlItem><SegmentedControlItem value="1">Label</SegmentedControlItem><SegmentedControlItem value="2">Label</SegmentedControlItem></SegmentedControl></FlexBox>';
 
-    let trailingContent = '';
-    let leadingContent = '';
+      let trailingContent = '';
+      let leadingContent = '';
 
-    switch (value['Trailing button area']) {
-      case 'Icon button':
-        trailingContent = '<TopNavigationButton variant="icon"><IconClose /></TopNavigationButton>';
-        break;
-      case 'Text button':
-        trailingContent = '<TopNavigationButton variant="text" color="primary">완료</TopNavigationButton>';
-        break;
-    }
+      switch (value['Trailing button area']) {
+        case 'Icon button':
+          trailingContent =
+            '<TopNavigationButton variant="icon"><IconClose /></TopNavigationButton>';
+          break;
+        case 'Text button':
+          trailingContent =
+            '<TopNavigationButton variant="text" color="primary">완료</TopNavigationButton>';
+          break;
+      }
 
-    if (avatar) {
-      trailingContent = `<>${trailingContent}${avatar}</>`;
-    }
+      if (avatar) {
+        trailingContent = `<>${trailingContent}${avatar}</>`;
+      }
 
-    switch (value['Leading button area']) {
-      case 'Back button':
-        leadingContent = '<TopNavigationButton variant="icon"><IconChevronLeft /></TopNavigationButton>';
-        break;
-      case 'Text button':
-        leadingContent = '<TopNavigationButton variant="text" color="primary">취소</TopNavigationButton>';
-        break;
-    }
+      switch (value['Leading button area']) {
+        case 'Back button':
+          leadingContent =
+            '<TopNavigationButton variant="icon"><IconChevronLeft /></TopNavigationButton>';
+          break;
+        case 'Text button':
+          leadingContent =
+            '<TopNavigationButton variant="text" color="primary">취소</TopNavigationButton>';
+          break;
+      }
 
-    let toolbar = '';
+      let toolbar = '';
 
-    if (value['Toolbar'] === 'True') {
-      toolbar = tab;
-    }
+      if (value['Toolbar'] === 'True') {
+        toolbar = tab;
+      }
 
-    if (value['Extra toolbar'] === 'True') {
-      toolbar = `<>${tab}${segmentedControl}</>`;
-    }
+      if (value['Extra toolbar'] === 'True') {
+        toolbar = `<>${tab}${segmentedControl}</>`;
+      }
 
-  
+      let title = '';
 
-    let title = '';
+      if (value['Title'] === 'True') {
+        title = 'Title';
+      }
 
-    if (value['Title'] === 'True') {
-      title = 'Title'
-    }
+      if (variant === 'search') {
+        title =
+          '<SearchField size="small" placeholder="Enter search keyword." />';
+      }
 
-    if (variant === 'search') {
-      title = '<SearchField size="small" placeholder="Enter search keyword." />';
-    }
+      const sx =
+        variant === 'floating'
+          ? '{ width: "90%", height: "56px" }'
+          : '{ width: "90%" }';
 
-    const sx = variant === 'floating' ? '{ width: "90%", height: "56px" }' : '{ width: "90%" }';
-
-    return `
-      <TopNavigation
-        leadingContent={${leadingContent || 'null'}}
-        trailingContent={${trailingContent || 'null'}}
-        toolbar={${toolbar || 'null'}}
-        variant="${variant}"
-        sx={${sx}}
-      >
-        ${title}
-      </TopNavigation>
-    `;
-  }}
+      return `
+        <TopNavigation
+          leadingContent={${leadingContent || 'null'}}
+          trailingContent={${trailingContent || 'null'}}
+          toolbar={${toolbar || 'null'}}
+          variant="${variant}"
+          sx={${sx}}
+        >
+          ${title}
+        </TopNavigation>
+      `;
+    }}
   variants={[
     {
       key: 'Variants',
@@ -96,7 +102,7 @@ image: /components/navigations/top-navigation/design/Thumbnails.png
         { label: 'Normal', value: {} },
         { label: 'Display', value: {} },
         { label: 'Floating', value: {} },
-        { label: 'Search', value: {} },
+        { label: 'Search', value: {} }
       ]
     },
     {
@@ -104,17 +110,17 @@ image: /components/navigations/top-navigation/design/Thumbnails.png
       disabled: (value) => value['Variants'] === 'Search',
       options: [
         { label: 'True', value: {} },
-        { label: 'False', value: {} },
+        { label: 'False', value: {} }
       ]
     },
     {
       key: 'Leading button area',
-      defaultValue: 'Back button',
       disabled: (value) => value['Variants'] === 'Display',
+      defaultValue: 'Back button',
       options: [
         { label: 'None', value: {} },
         { label: 'Back button', value: {} },
-        { label: 'Text button', value: {} },
+        { label: 'Text button', value: {} }
       ]
     },
     {
@@ -123,7 +129,7 @@ image: /components/navigations/top-navigation/design/Thumbnails.png
       options: [
         { label: 'None', value: {} },
         { label: 'Icon button', value: {} },
-        { label: 'Text button', value: {} },
+        { label: 'Text button', value: {} }
       ]
     },
     {
@@ -131,15 +137,16 @@ image: /components/navigations/top-navigation/design/Thumbnails.png
       disabled: (value) => value['Variants'] === 'Floating',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
     },
     {
       key: 'Extra toolbar',
-      disabled: (value) => value['Toolbar'] === 'False' || value['Variants'] === 'Floating',
+      disabled: (value) =>
+          value['Toolbar'] === 'False' || value['Variants'] === 'Floating',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
     },
     {
@@ -147,110 +154,78 @@ image: /components/navigations/top-navigation/design/Thumbnails.png
       disabled: (value) => value['Variants'] !== 'Display',
       options: [
         { label: 'False', value: {} },
-        { label: 'True', value: {} },
+        { label: 'True', value: {} }
       ]
-    },
+    }
   ]}
 />
 
 
 <SectionStates
-  src="/components/navigations/top-navigation/design/Image-1.png"
-  ratio="1:1"
-  options={['Normal(Background=False)','Scrolled(Background=True)']}
+  ratio="76 / 63"
+  src="/components/navigations/top-navigation/design/Image-2.png"
 />
 
 <SectionLayout title="Page depth">
   <SectionFigure
-    ratio="21:9"
-    description="서비스의 최상위 페이지에서 사용자가 위치를 명확하게 인지할 수 있도록 Display 타입을 사용하여 페이지 명을 강조합니다. 페이지 Depth가 발생할 시 Normal을 사용하여 화면의 사용성을 높입니다."
-    src="/components/navigations/top-navigation/design/Image-2.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="Text ellipsis">
-  <SectionFigure
-    ratio="21:9"
-    description="페이지명이 최대 영역을 초과할 시 말줄임이 적용됩니다.
-
-- Normal: 최대 1줄 이상 넘어갈 시 말줄임 표시
-- Display: 최대 1줄 이상 넘어갈 시 말줄임 표시"
+    ratio="95 / 42"
     src="/components/navigations/top-navigation/design/Image-3.png"
+    description={`서비스의 최상위 페이지에서 사용자가 위치를 명확하게 인지할 수 있도록 Display 타입을 사용하여 페이지 명을 강조합니다. 페이지 Depth가 발생할 시 Normal을 사용하여 화면의 사용성을 높입니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Leading button">
   <SectionFigure
-    ratio="21:9"
-    description="Leading button은 주로 행동을 멈추거나 페이지 맥락에서 벗어날 수 있는 요소들을 위치시킬 수 있습니다. 단, 상황에 따라서 예외적으로 페이지의 행동을 돕는 Icon button이 위치할 수 있습니다."
+    ratio="190 / 83"
     src="/components/navigations/top-navigation/design/Image-4.png"
+    description={`Leading button은 주로 행동을 멈추거나 페이지 맥락에서 벗어날 수 있는 요소들을 위치시킬 수 있습니다. 단, 상황에 따라서 예외적으로 페이지의 행동을 돕는 Icon button이 위치할 수 있습니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Trailing button">
   <SectionFigure
-    ratio="21:9"
-    description="Trailing button은 페이지 맥락과 이어지는 요소들을 배치하여 행동을 더욱 풍부하게 확장시킬 수 있습니다."
+    ratio="95 / 31"
     src="/components/navigations/top-navigation/design/Image-5.png"
-  />
-</SectionLayout>
-
-<SectionLayout title="Avatar">
-  <SectionFigure
-    ratio="21:9"
-    description="Display 타입에서는 아바타의 배치가 가능합니다. 1depth 페이지에서 프로필 정보에 사용자가 쉽게 접근할 수 있도록 배치할 수 있습니다."
-    src="/components/navigations/top-navigation/design/Image-6.png"
+    description={`Trailing button은 페이지 맥락과 이어지는 요소들을 배치하여 행동을 더욱 풍부하게 확장시킬 수 있습니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Toolbar">
   <SectionFigure
-    ratio="16:10"
-    description="Tab, Category, Segmented control과 같이 페이지에 내려지는 값의 필터 혹은 화면의 분할 요소들을 배치하여 영역을 더욱 풍부하게 사용할 수 있습니다. Toolbar를 활성화 할 시 Top navigation의 Divider가 Tab의 Divider를 대신합니다. "
-    src="/components/navigations/top-navigation/design/Image-7.png"
+    ratio="38 / 15"
+    src="/components/navigations/top-navigation/design/Image-6.png"
+    description={`Tab, Category, Segmented control과 같이 페이지에 내려지는 값의 필터 혹은 화면의 분할 요소들을 배치하여 영역을 더욱 풍부하게 사용할 수 있습니다. Toolbar를 활성화 할 시 Top navigation의 Divider가 Tab의 Divider를 대신합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Scrolled">
   <SectionFigureGroup title="Background effect">
     <SectionFigure
-      ratio="5:4"
-      description="<strong>Web, iOS</strong>
+      ratio="76 / 63"
+      src="/components/navigations/top-navigation/design/Image-7.png"
+      description={`Web, iOS
 - Normal, Display: 스크롤 시 Chrome 효과가 적용되어 배경 색상이 자연스럽게 비칩니다. 배경 색상을 커스터마이징 할 수 있습니다.
 - Floating: 스크롤 시 Blur 효과와 그라디언트로 화면과 자연스러운 구분을 만들어냅니다. 그라디언트는 선택 적용할 수 있습니다.
-
-<strong>Android</strong>
+Android
 - Normal, Display: 스크롤 시 흰 배경색이 적용되어 뒷 배경이 보이지 않습니다. 배경 색상을 커스터마이징 할 수 있습니다.
-- Floating: 스크롤 시 그라디언트로 화면과 자연스러운 구분을 만들어냅니다. 그라디언트는 선택 적용할 수 있습니다."
-      src="/components/navigations/top-navigation/design/Image-8.png"
+- Floating: 스크롤 시 그라디언트로 화면과 자연스러운 구분을 만들어냅니다. 그라디언트는 선택 적용할 수 있습니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Default behavior - 1depth">
     <SectionFigure
-      ratio="16:9"
-      description="1depth에서 Top navigation의 Scroll 기본 권장 동작은 아래와 같습니다.
-
+      ratio="76 / 41"
+      src="/components/navigations/top-navigation/design/Image-8.png"
+      description={`1depth에서 Top navigation의 Scroll 기본 권장 동작은 아래와 같습니다.
 - Normal: Top navigation이 위치합니다.
 - Scroll down: Top navigation이 숨김처리 됩니다.
-- Scroll up: Top navigation이 노출됩니다."
-      src="/components/navigations/top-navigation/design/Image-9.png"
+- Floating: 스크롤 시 그라디언트로 화면과 자연스러운 구분을 만들어냅니다. 그라디언트는 선택 적용할 수 있습니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Default behavior - 1depth or more">
     <SectionFigure
-      ratio="16:9"
-      description="Normal일 경우 스크롤 여부와 관계 없이 상시 Sticky 되어 노출됩니다."
-      src="/components/navigations/top-navigation/design/Image-10.png"
-    />
-  </SectionFigureGroup>
-
-  <SectionFigureGroup title="Sticky toolbar">
-    <SectionFigure
-      ratio="16:9"
-      description="Toolbar에 들어가는 요소들이 상단에 Sticky 될 시 Navigation bar를 숨김 처리하여 사용자가 콘텐츠 영역을 효율적으로 소비할 수 있도록 디자인하는 것을 권장합니다."
-      src="/components/navigations/top-navigation/design/Image-11.png"
+      ratio="76 / 41"
+      src="/components/navigations/top-navigation/design/Image-9.png"
+      description={`Normal일 경우 스크롤 여부와 관계 없이 상시 Sticky 되어 노출됩니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
@@ -258,40 +233,42 @@ image: /components/navigations/top-navigation/design/Thumbnails.png
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Title action">
     <SectionFigure
-      ratio="2:1"
-      description="화면 전체에 필터를 거는 요소를 배치하여 화면을 효율적으로 사용할 수 있습니다. 페이지 명의 길이, Trailing button 요소의 갯수에 따라 좌측, 우측 정렬을 유동적으로 지정할 수 있습니다."
-      src="/components/navigations/top-navigation/design/Image-12.png"
+      ratio="76 / 31"
+      src="/components/navigations/top-navigation/design/Image-10.png"
+      description={`화면 전체에 필터를 거는 요소를 배치하여 화면을 효율적으로 사용할 수 있습니다. 페이지 명의 길이, Trailing button 요소의 갯수에 따라 좌측, 우측 정렬을 유동적으로 지정할 수 있습니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Edit mode">
     <SectionFigure
-      ratio="16:9"
-      description="편집 모드의 화면을 설계할 때 편집자가 개념을 헷갈리지 않도록 ‘취소, 저장, 완료, 변경’ 등 명확한 Label을 제공합니다. "
-      src="/components/navigations/top-navigation/design/Image-13.png"
+      ratio="76 / 31"
+      src="/components/navigations/top-navigation/design/Image-11.png"
+      description={`편집 모드의 화면을 설계할 때 편집자가 개념을 헷갈리지 않도록 ‘취소, 저장, 완료, 변경’ 등 명확한 Label을 제공합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="Floating">
     <SectionFigure
-      ratio="16:9"
-      description="배경에 이미지 혹은 색상이 다양하게 들어갈 때 Floating을 사용하여 더욱 이미지를 강조합니다. 스크롤 시 그라디언트 효과가 적용됩니다. "
-      src="/components/navigations/top-navigation/design/Image-14.png"
+      ratio="76 / 43"
+      src="/components/navigations/top-navigation/design/Image-12.png"
+      description={`배경에 이미지 혹은 색상이 다양하게 들어갈 때 Floating을 사용하여 더욱 이미지를 강조합니다. 스크롤 시 그라디언트 효과가 적용됩니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="21:9"
-    variant="positive"
-    description="페이지명은 가급적 짧고 명확한 Label을 사용합니다. Title영역을 넘길 시 말줄임 표시를 권장합니다."
-    src="/components/navigations/top-navigation/design/Image-15.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="Trailing 영역은 Avatar를 제외한 4개 이상의 요소를 배치하여 복잡도를 높이지 않습니다."
-    src="/components/navigations/top-navigation/design/Image-16.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 15"
+      src="/components/navigations/top-navigation/design/Image-13.png"
+      variant="positive"
+      description={`페이지명은 가급적 짧고 명확한 Label을 사용합니다. Title영역을 넘길 시 말줄임 표시를 권장합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 15"
+      src="/components/navigations/top-navigation/design/Image-14.png"
+      variant="negative"
+      description={`Trailing 영역은 Avatar를 제외한 4개 이상의 요소를 배치하여 복잡도를 높이지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>

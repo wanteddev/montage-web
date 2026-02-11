@@ -4,10 +4,10 @@ import type { Theme } from '@wanteddev/wds';
 
 export const sectionHierarchyItemStyle = (theme: Theme) => css`
   padding: 20px 0px;
-  gap: 20px;
+  gap: 32px;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid ${theme.semantic.line.normal.alternative};
+  position: relative;
 
   ${respondTo(theme.breakpoint.sm)} {
     flex-direction: column;
@@ -15,7 +15,13 @@ export const sectionHierarchyItemStyle = (theme: Theme) => css`
     align-items: initial;
   }
 
-  &:last-of-type {
-    border: none;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: ${theme.semantic.line.normal.alternative};
   }
 `;

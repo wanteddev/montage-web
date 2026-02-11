@@ -18,6 +18,8 @@ Then install the packages:
 pnpm i @wanteddev/wds @wanteddev/wds-icon
 ```
 
+> **⚠️ Important:** All `@wanteddev/wds-*` packages (e.g. `@wanteddev/wds`, `@wanteddev/wds-icon`, `@wanteddev/wds-nextjs`) must be installed with the **same version**. If the versions are mismatched, multiple theme contexts may be created, which can lead to unexpected styling issues.
+
 ## Usage
 
 You need to load the Pretendard font.

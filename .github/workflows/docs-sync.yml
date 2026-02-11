@@ -1,0 +1,131 @@
+name: Docs Sync
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Platform
+        required: true
+        default: 'mobile'
+        type: choice
+        options:
+          - 'mobile'
+          - 'design'
+
+env:
+  FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+
+jobs:
+  sync-mobile-docs:
+    if: inputs.platform == 'mobile'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Extract current branch name
+        shell: bash
+        run: echo "base_branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract-current-branch
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Check existing PR and checkout branch
+        id: check-branch
+        run: |
+          EXISTING_BRANCH=$(gh pr list --base ${{ steps.extract-current-branch.outputs.base_branch }} --search "docs: sync from mobile document" --json headRefName --jq '.[0].headRefName')
+
+          if [ -n "$EXISTING_BRANCH" ]; then
+            echo "branch=$EXISTING_BRANCH" >> $GITHUB_OUTPUT
+            echo "branch_exists=true" >> $GITHUB_OUTPUT
+
+            git fetch origin $EXISTING_BRANCH
+            git checkout $EXISTING_BRANCH
+          else
+            BRANCH="feature/sync-docs/${{ github.run_id }}"
+
+            echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+            echo "branch_exists=false" >> $GITHUB_OUTPUT
+            git checkout -b $BRANCH
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Mobile Docs
+        uses: ./.github/actions/generate-mobile-docs
+        timeout-minutes: 15
+        with:
+          gh_token: ${{ secrets.GH_TOKEN }}
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push to existing branch
+        run: |
+          git commit -am "docs: sync with mobile docs" --no-verify || echo "No changes to commit"
+          git push origin ${{ steps.check-branch.outputs.branch }}
+
+      - name: Create New PR
+        if: steps.check-branch.outputs.branch_exists == 'false'
+        run: |
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+
+  sync-design-docs:
+    if: inputs.platform == 'design'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Extract current branch name
+        shell: bash
+        run: echo "base_branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract-current-branch
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Check existing PR and checkout branch
+        id: check-branch
+        run: |
+          EXISTING_BRANCH=$(gh pr list --base ${{ steps.extract-current-branch.outputs.base_branch }} --search "docs: sync from design document" --json headRefName --jq '.[0].headRefName')
+
+          if [ -n "$EXISTING_BRANCH" ]; then
+            echo "branch=$EXISTING_BRANCH" >> $GITHUB_OUTPUT
+            echo "branch_exists=true" >> $GITHUB_OUTPUT
+
+            git fetch origin $EXISTING_BRANCH
+            git checkout $EXISTING_BRANCH
+          else
+            BRANCH="feature/sync-docs/${{ github.run_id }}"
+
+            echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+            echo "branch_exists=false" >> $GITHUB_OUTPUT
+            git checkout -b $BRANCH
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Mobile Docs
+        timeout-minutes: 15
+        run: |
+          pnpm -F design-docs-sync start
+
+      - run: git config user.name "github-actions[bot]"
+      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and push to existing branch
+        run: |
+          git commit -am "docs: sync with design docs" --no-verify || echo "No changes to commit"
+          git push origin ${{ steps.check-branch.outputs.branch }}
+
+      - name: Create New PR
+        if: steps.check-branch.outputs.branch_exists == 'false'
+        run: |
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}

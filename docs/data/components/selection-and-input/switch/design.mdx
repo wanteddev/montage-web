@@ -1,78 +1,82 @@
 ---
 title: Switch
 description: 선택된 항목을 시각적으로 강조 되는 형태의 구조로 같은 콘텐츠 영역 내에서 보기 방식이나 필터를 변경할 때 사용될 수 있습니다. 
-image: /components/selection-and-input/switch/design/Thumbnails.png
+image: /components/selection-and-input/switch/design/Image.png
+ogImage: /components/selection-and-input/switch/design/Thumbnails.png
 createdAt: 2025-08-11
-updatedAt: 2025-10-14
+updatedAt: 2026-02-01
 ---
 
 <SectionAnatomy
-  src="/components/selection-and-input/switch/design/Image.png"
-  ratio="21:9"
+  src="/components/selection-and-input/switch/design/Image-1.png"
+  ratio="95 / 29"
   data={[
-    'Thumb',
-    'Container'
+    'Thumb','Container'
   ]}
 />
+  
 
 <SectionStates
-  src="/components/selection-and-input/switch/design/Image-1.png"
-  ratio="21:9"
-  options={['Normal', 'Hovered', 'Pressed', 'Disabled']}
+  ratio="380 / 203"
+  src="/components/selection-and-input/switch/design/Image-2.png"
 />
 
 <SectionLayout title="Size">
   <SectionFigure
-    ratio="21:9"
-    description="높이 24px, 32px를 기준으로 Small, Medium을 구분하여 사용합니다."
-    src="/components/selection-and-input/switch/design/Image-2.png"
+    ratio="380 / 99"
+    src="/components/selection-and-input/switch/design/Image-3.png"
+    description={`높이 24px, 32px를 기준으로 Small, Medium을 구분하여 사용합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Form">
   <SectionFigure
-    ratio="21:9"
-    description="Web과 Android는 커스터마이징한 Switch를 사용하며 iOS는 플랫폼에서 제공하는 순정 Toggle을 사용합니다. "
-    src="/components/selection-and-input/switch/design/Image-3.png"
+    ratio="19 / 5"
+    src="/components/selection-and-input/switch/design/Image-4.png"
+    description={`Web과 Android는 커스터마이징한 Switch를 사용하며 iOS는 플랫폼에서 제공하는 순정 Toggle을 사용합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Clickable area">
   <SectionFigure
-    ratio="21:9"
-    description="Switch는 Label을 포함하지 않은 Control을 터치 영역으로 사용하도록 권장합니다. 단, 컴포넌트 별로 터치 영역이 다르기 때문에 용도와 사용 가이드에 따라 적절한 컴포넌트를 선택 적용하여 사용합니다."
-    src="/components/selection-and-input/switch/design/Image-4.png"
+    ratio="190 / 67"
+    src="/components/selection-and-input/switch/design/Image-5.png"
+    description={`Switch는 Label을 포함하지 않은 Control을 터치 영역으로 사용하도록 권장합니다. 단, 컴포넌트 별로 터치 영역이 다르기 때문에 용도와 사용 가이드에 따라 적절한 컴포넌트를 선택 적용하여 사용합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Medium">
     <SectionFigure
-      ratio="21:9"
-      description="시스템의 전체 설정과 같이 중요도가 높은 옵션을 컨트롤 하거나 정밀하게 컨트롤할 수 없는 모바일 환경에서는 가급적Medium 사이즈 사용을 권장합니다."
-      src="/components/selection-and-input/switch/design/Image-5.png"
+      ratio="76 / 33"
+      src="/components/selection-and-input/switch/design/Image-6.png"
+      description={`시스템의 전체 설정과 같이 중요도가 높은 옵션을 컨트롤 하거나 정밀하게 컨트롤할 수 없는 모바일 환경에서는 가급적Medium 사이즈 사용을 권장합니다.`}
     />
   </SectionFigureGroup>
   <SectionFigureGroup title="Small">
     <SectionFigure
-      ratio="16:10"
-      description="테이블이나 리스트 등 반복적으로 노출되는 컴포넌트의 내부에 사용되거나 데스크톱 위주의 밀도 높은 UI를 구성할 때 Small사용을 권장하고 있습니다."
-      src="/components/selection-and-input/switch/design/Image-6.png"
+      ratio="190 / 77"
+      src="/components/selection-and-input/switch/design/Image-7.png"
+      description={`테이블이나 리스트 등 반복적으로 노출되는 컴포넌트의 내부에 사용되거나 데스크톱 위주의 밀도 높은 UI를 구성할 때 Small사용을 권장하고 있습니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    variant="positive"
-    ratio="21:9"
-    description="중요도가 높은 요소에 배치할 시 Medium을 사용하여 사용성을 올리세요."
-    src="/components/selection-and-input/switch/design/Image-7.png"
-  />
-  <SectionFigure
-    variant="negative"
-    ratio="21:9"
-    description="사용성을 위해 Control 요소를 좌측에 두고 사용하지 마세요."
-    src="/components/selection-and-input/switch/design/Image-8.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="190 / 63"
+      src="/components/selection-and-input/switch/design/Image-8.png"
+      variant="positive"
+      description={`중요도가 높은 요소에 배치할 시 Medium을 사용하여 사용성을 올립니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="380 / 103"
+      src="/components/selection-and-input/switch/design/Image-9.png"
+      variant="negative"
+      description={`사용성을 위해 Control 요소를 좌측에 두고 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>

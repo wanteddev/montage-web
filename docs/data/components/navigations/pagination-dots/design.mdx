@@ -1,29 +1,30 @@
 ---
 title: Pagination dots
-description: "많은 페이지를 점 형태로 축약하여 표현하는 네비게이션 요소입니다. 전통적인 숫자 기반 Pagination의\n기능을 유지하면서도 시각적으로는 단순한 점 형태를 사용합니다."
+description: 많은 페이지를 점 형태로 축약하여 표현하는 네비게이션 요소입니다. 전통적인 숫자 기반 Pagination의 \n기능을 유지하면서도 시각적으로는 단순한 점 형태를 사용합니다.
+image: /components/navigations/pagination-dots/design/Image.png
+ogImage: /components/navigations/pagination-dots/design/Thumbnails.png
 createdAt: 2025-10-13
-updatedAt: 2025-10-13
-image: /components/navigations/pagination-dots/design/Thumbnails.png
+updatedAt: 2026-01-29
 ---
 
 <SectionAnatomy
-  src="/components/navigations/pagination-dots/design/Image.png"
-  ratio="21:9"
+  src="/components/navigations/pagination-dots/design/Image-1.png"
+  ratio="19 / 5"
   data={[
-    'Active dot',
-    'Inactive dot',
+    'Active dot','Inactive dot'
   ]}
 />
+  
 
 <SectionVariants
   components={['FlexBox', 'Thumbnail', 'PaginationDots']}
   icons={[]}
   internals={['Carousel']}
   render={(value) => {
-    const color = value['Variants'].toLowerCase();
-    const size = value['Size'].toLowerCase();
+      const color = value['Variants'].toLowerCase();
+      const size = value['Size'].toLowerCase();
 
-    return `
+      return `
       <FlexBox sx={{ width: '55%' }}>
         <Carousel
           paginationDots={{ color: "${color}", size: "${size}" }}
@@ -38,104 +39,112 @@ image: /components/navigations/pagination-dots/design/Thumbnails.png
           ]}
         />
       </FlexBox>
-    `
-  }}
+    `;
+    }}
   variants={[
     {
       key: 'Variants',
       options: [
-        { label: 'Normal', value: { } },
-        { label: 'White', value: { } },
+        { label: 'Normal', value: {} },
+        { label: 'White', value: {} }
       ]
     },
     {
       key: 'Size',
       options: [
         { label: 'Small', value: {} },
-        { label: 'Medium', value: {} },
+        { label: 'Medium', value: {} }
       ]
-    },
+    }
   ]}
 />
 
-<SectionLayout title="Dot scale">
-  <SectionFigure
-    ratio="21:9"
-    description="점은 최대 5개까지 표현되며 양 끝으로 이동 할수록 점의 사이즈가 줄어듭니다. 가장 처음과 끝 페이지가 현재 페이지일 때 기존 점 크기가 유지됩니다."
-    src="/components/navigations/pagination-dots/design/Image-1.png"
-  />
-</SectionLayout>
 
 <SectionLayout title="Click event">
   <SectionFigure
-    ratio="21:9"
-    description="기본적으로 최대 5개의 점이 표현됩니다. 점에 호버 할 시 모든 페이지가 점으로 표현되며 점을 Click하여 해당 페이지 혹은 이미지로 이동이 가능합니다."
+    ratio="760 / 263"
     src="/components/navigations/pagination-dots/design/Image-2.png"
+    description={`기본적으로 최대 5개의 점이 표현됩니다. 점에 호버 할 시 모든 페이지가 점으로 표현되며 점을 Click하여 해당 페이지 혹은 이미지로 이동이 가능합니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Carousel">
   <SectionFigure
-    ratio="21:9"
-    description="콘텐츠나 이미지를 자동으로 순환시킬 수 있습니다. 순환 시간은 프로젝트 내에서 자유롭게 결정할 수 있으며 순환 동작은 Pagination dots에 포함되어있지 않습니다."
+    ratio="380 / 161"
     src="/components/navigations/pagination-dots/design/Image-3.png"
+    description={`콘텐츠나 이미지를 자동으로 순환시킬 수 있습니다. 순환 시간은 프로젝트 내에서 자유롭게 결정할 수 있으며 순환 동작은 Pagination dots에 포함되어있지 않습니다.`}
   />
 </SectionLayout>
 
 <SectionLayout title="Usage">
   <SectionFigureGroup title="Normal">
     <SectionFigure
-      ratio="21:9"
-      description="요소와 20px 이상의 간격을 유지하여 배치합니다. 페이지 혹은 콘텐츠 외부에 위치하여 Indicator의 명시성을 확보합니다."
+      ratio="19 / 7"
       src="/components/navigations/pagination-dots/design/Image-4.png"
+      description={`요소와 20px 이상의 간격을 유지하여 배치합니다. 페이지 혹은 콘텐츠 외부에 위치하여 Indicator의 명시성을 확보합니다.`}
     />
   </SectionFigureGroup>
-
   <SectionFigureGroup title="White">
     <SectionFigure
-      ratio="21:9"
-      description="이미지 내부에 위치할 수 있으며 상하좌우 16px 이상의 여백을 두고 배치합니다."
+      ratio="19 / 7"
       src="/components/navigations/pagination-dots/design/Image-5.png"
+      description={`이미지 내부에 위치할 수 있으며 상하좌우 16px 이상의 여백을 두고 배치합니다.`}
     />
   </SectionFigureGroup>
 </SectionLayout>
 
 <SectionAccessibility
   contents={[
-    {
-      keys: ['ArrowRight'],
-      description: '다음 요소로 값을 변경합니다. (Dots 내부에서 순환)',
-    },
-    {
-      keys: ['ArrowLeft'],
-      description: '이전 요소로 값을 변경합니다. (Dots 내부에서 순환)',
-    },
-    {
-      keys: ['Home', 'PageUp'],
-      description: '첫 번째 요소로 포커스를 이동합니다.',
-    },
-    {
-      keys: ['End', 'PageDown'],
-      description: '마지막 요소로 포커스를 이동합니다.',
-    },
-    {
-      keys: ['Enter'],
-      description: '현재 포커스된 요소를 클릭합니다.',
-    }
-  ]}
+  {
+    "keys": [
+      "ArrowRight"
+    ],
+    "description": "다음 요소로 값을 변경합니다. (Dots 내부에서 순환)"
+  },
+  {
+    "keys": [
+      "ArrowLeft"
+    ],
+    "description": "이전 요소로 값을 변경합니다. (Dots 내부에서 순환)"
+  },
+  {
+    "keys": [
+      "Home",
+      "PageUp"
+    ],
+    "description": "첫 번째 요소로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "End",
+      "PageDown"
+    ],
+    "description": "마지막 요소로 포커스를 이동합니다."
+  },
+  {
+    "keys": [
+      "Enter"
+    ],
+    "description": "현재 포커스된 요소를 클릭합니다."
+  }
+]}
 />
 
 <SectionLayout title="How to use">
-  <SectionFigure
-    ratio="16:9"
-    variant="positive"
-    description="이미지의 순서를 명확히 안내해야할 경우 Counter 요소와 함께 배치하여 사용합니다."
-    src="/components/navigations/pagination-dots/design/Image-6.png"
-  />
-  <SectionFigure
-    ratio="21:9"
-    variant="negative"
-    description="요소의 Background, Color 등을 커스터마이징하여 사용하지 않습니다."
-    src="/components/navigations/pagination-dots/design/Image-7.png"
-  />
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 21"
+      src="/components/navigations/pagination-dots/design/Image-6.png"
+      variant="positive"
+      description={`이미지의 순서를 명확히 안내해야할 경우 Counter 요소와 함께 배치하여 사용합니다.`}
+    />
+  </SectionFigureGroup>
+  <SectionFigureGroup>
+    <SectionFigure
+      ratio="38 / 21"
+      src="/components/navigations/pagination-dots/design/Image-7.png"
+      variant="negative"
+      description={`요소의 Background, Color 등을 커스터마이징하여 사용하지 않습니다.`}
+    />
+  </SectionFigureGroup>
 </SectionLayout>
