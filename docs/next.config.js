@@ -5,14 +5,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const assetPrefix = `https://wanteddev.github.io/wds`;
+const assetPrefix = `https://wanteddev.github.io/montage-web`;
 
 const commitHash = exec('git rev-parse HEAD').stdout.substring(0, 9);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  basePath: '/wds',
+  basePath: '/montage-web',
   output: 'export',
   generateBuildId: () => {
     return commitHash;

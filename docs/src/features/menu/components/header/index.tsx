@@ -42,7 +42,7 @@ const Header = () => {
             size={18}
             sm={{ size: 20 }}
             as={Link}
-            href="https://github.com/wanteddev/wds"
+            href="https://github.com/wanteddev/montage-web"
             target="_blank"
           >
             <IconGithub />
