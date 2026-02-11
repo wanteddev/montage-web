@@ -1567,6 +1567,11 @@ Button(action: {}) {
 </details>
 <details>
 
+<summary>``case telescope``</summary>
+
+</details>
+<details>
+
 <summary>``case template``</summary>
 
 </details>

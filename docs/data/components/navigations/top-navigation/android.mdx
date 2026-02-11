@@ -21,7 +21,8 @@ WantedTopAppBar(
 | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
 | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
 | variant | Variant | 앱바 형태입니다. |
-| background | Color | 앱바 배경 색상입니다. |
+| backgroundColor | Color | 앱바 배경 색상입니다. |
+| background | Boolean | 앱바 배경을 표시할지 여부입니다. |
 | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
 | navigationIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
 | title | (@Composable () -> Unit)? | 타이틀 슬롯입니다. |
@@ -47,7 +48,8 @@ WantedTopAppBar(
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
   | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
   | variant | Variant | 앱바 형태입니다. |
-  | background | Color | 앱바 배경 색상입니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
   | titleAlignCenter | Boolean | 타이틀 중앙 정렬 여부입니다. |
   | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
   | title | String | 타이틀 텍스트입니다. |
@@ -76,12 +78,60 @@ WantedBackTopAppBar(
   | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
   | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
   | variant | Variant | 앱바 형태입니다. |
-  | background | Color | 앱바 배경 색상입니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
   | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
   | titleAlignCenter | Boolean | 타이틀 중앙 정렬 여부입니다. |
   | title | String | 타이틀 텍스트입니다. |
   | actions | (@Composable RowScope.() -> Unit)? | 우측 액션 슬롯입니다. |
   | onClickBack | () -> Unit | 뒤로 가기 버튼 클릭 시 호출되는 콜백입니다. |
+
+</details>
+<br />
+### WantedSearchTopAppBar
+검색 기능을 제공하는 TopAppBar 컴포넌트입니다.
+좌측에 뒤로가기 버튼과 검색 입력 필드를 포함한 상단 앱바로, 검색어 입력, 포커스 관리, 키보드 액션 등의 기능을 제공합니다.
+
+```kotlin
+WantedSearchTopAppBar(
+    text = searchText,
+    placeholder = "검색어를 입력하세요",
+    onValueChange = { newText -> searchText = newText },
+    onClickBack = { navController.popBackStack() },
+    actions = {
+        IconButton(onClick = { /* 검색 */ }) {
+            Icon(...)
+        }
+    }
+)
+```
+
+<details>
+  <summary>Parameters</summary>
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | text | String | 검색 필드에 표시될 텍스트입니다. |
+  | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
+  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
+  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
+  | placeholder | String | 검색 필드의 플레이스홀더 텍스트입니다. |
+  | enabled | Boolean | 검색 필드 활성화 여부입니다. |
+  | size | Size | 검색 필드의 크기입니다. |
+  | maxWordCount | Int | 최대 입력 가능한 글자 수입니다. |
+  | enabledOverflowText | Boolean | 텍스트 오버플로우 허용 여부입니다. |
+  | interactionSource | MutableInteractionSource? | 사용자 인터랙션 상태를 추적하는 객체입니다. |
+  | keyboardOptions | KeyboardOptions | 키보드 옵션입니다. |
+  | keyboardActions | KeyboardActions | 키보드 액션 핸들러입니다. |
+  | focused | State<Boolean>? | 검색 필드의 포커스 상태입니다. |
+  | textStyle | TextStyle | 검색 텍스트의 스타일입니다. |
+  | cursorBrush | Brush | 커서의 브러시(색상)입니다. |
+  | focusRequester | FocusRequester? | 포커스 요청을 위한 객체입니다. |
+  | actions | (@Composable RowScope.() -> Unit)? | 우측 액션 슬롯입니다. |
+  | onClickBack | () -> Unit | 뒤로가기 버튼 클릭 시 호출되는 콜백입니다. |
+  | onValueChange | (String) -> Unit | 검색어 변경 시 호출되는 콜백입니다. |
 
 </details>
 <br />
