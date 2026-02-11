@@ -22,7 +22,7 @@ export const tabStyle = (theme: Theme) => css`
   }
 
   &::after {
-    background-color: ${theme.semantic.line.normal.neutral};
+    background-color: ${theme.semantic.line.solid.neutral};
   }
 
   & + h1,

@@ -23,7 +23,7 @@ const ElevationTab = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.neutral"
+        color="semantic.line.solid.neutral"
         sx={{ marginTop: '56px', marginBottom: '80px' }}
       />
 

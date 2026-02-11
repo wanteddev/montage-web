@@ -53,7 +53,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.primary, 'primary')}
 
-      <Heading2 content="Label" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Label" sx={{ marginTop: '64px' }} />
 
       <p>
         화면 내에서 가장 중요한 요소를 표현할 때 사용합니다. Normal, Strong,
@@ -63,7 +63,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.label, 'label')}
 
-      <Heading2 content="Fill" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Fill" sx={{ marginTop: '64px' }} />
 
       <p>
         어떠한 요소에서 배경 색상이 필요한 경우 사용하는 투명도가 포함된
@@ -73,7 +73,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.fill, 'fill')}
 
-      <Heading2 content="Line - Normal" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Line - Normal" sx={{ marginTop: '64px' }} />
 
       <p>
         Divider, Border 등 요소 간의 구분이 필요한 경우 사용합니다. 투명 값이
@@ -82,7 +82,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.line.normal, 'line-normal')}
 
-      <Heading2 content="Line - Solid" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Line - Solid" sx={{ marginTop: '64px' }} />
 
       <p>
         Border와 Divider를 중첩하여 사용할 때 중첩을 방지 하고자 사용합니다.
@@ -90,7 +90,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.line.solid, 'line-solid')}
 
-      <Heading2 content="Background - Normal" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Background - Normal" sx={{ marginTop: '64px' }} />
 
       <p>
         일반적인 화면의 배경 색상으로 활용합니다. 카드 UI와 같이 어떠한 요소와
@@ -99,7 +99,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.background.normal, 'background-normal')}
 
-      <Heading2 content="Background - Elevated" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Background - Elevated" sx={{ marginTop: '64px' }} />
 
       <p>
         모달과 같이 층위가 있는 페이지 사용하는 배경 색상으로 다크 모드에서
@@ -108,7 +108,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.background.elevated, 'background-elevated')}
 
-      <Heading2 content="Background - Transparent" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Background - Transparent" sx={{ marginTop: '64px' }} />
 
       <p>
         Chrome 효과를 적용할 때 사용하는 투명도가 포함 된 배경 색상입니다.
@@ -120,7 +120,7 @@ const FoundationsColorsSemantic = () => {
         'background-transparent',
       )}
 
-      <Heading2 content="Static" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Static" sx={{ marginTop: '64px' }} />
 
       <p>
         Light, Dark 테마에 상관없이 고정된 고유 색으로 테마가 변경되더라도
@@ -129,7 +129,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.static, 'static')}
 
-      <Heading2 content="Inverse" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Inverse" sx={{ marginTop: '64px' }} />
 
       <p>
         테마의 대비가 반대인 요소에 적용하는 색상입니다. 주로 Tooltip과 같이
@@ -138,7 +138,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.inverse, 'inverse')}
 
-      <Heading2 content="Interaction" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Interaction" sx={{ marginTop: '64px' }} />
 
       <p>
         상호작용 요소에서 활성화가 가능하거나 상호작용이 불가능한 상태를 표현할
@@ -147,7 +147,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.interaction, 'interaction')}
 
-      <Heading2 content="Status" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Status" sx={{ marginTop: '64px' }} />
 
       <p>
         Positive, Cautionary, Negative 등 요소의 상태를 표현해야할 때
@@ -156,7 +156,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.status, 'status')}
 
-      <Heading2 content="Accent - Foreground" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Accent - Foreground" sx={{ marginTop: '64px' }} />
 
       <p>
         시각적 대비를 명확하게 유지하기 위해 앞쪽 요소에 사용하는 색상입니다.
@@ -164,7 +164,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.accent.foreground, 'accent-foreground')}
 
-      <Heading2 content="Accent - Background" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Accent - Background" sx={{ marginTop: '64px' }} />
 
       <p>
         시각적 대비를 명확하게 유지하기 위해 배경과 같은 뒤쪽 요소에 사용하는
@@ -173,7 +173,7 @@ const FoundationsColorsSemantic = () => {
 
       {renderPalette(theme.semantic.accent.background, 'accent-background')}
 
-      <Heading2 content="Material" sx={{ marginTop: '88px' }} />
+      <Heading2 content="Material" sx={{ marginTop: '64px' }} />
 
       <p>
         모달과 같이 층위가 생길 때 배경과의 구분을 위해 어둡게 표시해야할 때

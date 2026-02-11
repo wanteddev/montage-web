@@ -80,7 +80,7 @@ const FoundationsElevationNormal = () => {
       />
 
       <Divider
-        color="semantic.line.normal.alternative"
+        color="semantic.line.solid.neutral"
         sx={{ '&&': { marginTop: '50px', marginBottom: '24px' } }}
       />
 

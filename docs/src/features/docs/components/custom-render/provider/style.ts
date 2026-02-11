@@ -6,10 +6,10 @@ export const wrapperStyle = (theme: Theme) => css`
   word-break: keep-all;
   overflow-wrap: break-word;
   color: ${theme.semantic.label.neutral};
-  ${typographyStyle('body2-reading', 'regular')}
+  ${typographyStyle('body2-reading', 'medium')}
 
-  p {
-    max-width: 640px;
+  strong {
+    ${typographyStyle('body2-reading', 'bold')}
   }
 
   img {
@@ -42,7 +42,7 @@ export const wrapperStyle = (theme: Theme) => css`
     border-radius: 24px;
 
     &::after {
-      border: 1px solid ${theme.semantic.line.normal.alternative};
+      border: 1px solid ${theme.semantic.line.solid.neutral};
     }
   }
 
@@ -68,6 +68,6 @@ export const wrapperStyle = (theme: Theme) => css`
   }
 
   hr {
-    margin: 72px 0px;
+    margin: 64px 0px;
   }
 `;

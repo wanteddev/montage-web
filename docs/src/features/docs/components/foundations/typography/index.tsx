@@ -11,8 +11,8 @@ const FoundationsTypography = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.neutral"
-        sx={{ '&&': { marginBlock: '48px 56px' } }}
+        color="semantic.line.solid.neutral"
+        sx={{ '&&': { marginBlock: '40px 32px' } }}
       />
 
       <Heading2 content="Basic typography" />
@@ -44,7 +44,7 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="Word break" />
 
@@ -65,7 +65,7 @@ const FoundationsTypography = () => {
         }}
       />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="Style" />
 

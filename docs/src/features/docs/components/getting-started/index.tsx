@@ -37,19 +37,13 @@ const GettingStarted = () => {
 
       <Resources />
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ marginBlock: '64px' }}
-      />
+      <Divider color="semantic.line.normal.alternative" />
 
       <Heading2 content="Design Principles" />
 
       <Principles />
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ marginBlock: '64px' }}
-      />
+      <Divider color="semantic.line.normal.alternative" />
 
       <Heading2 content="Getting Started" />
 

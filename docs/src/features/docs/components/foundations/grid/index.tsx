@@ -12,8 +12,8 @@ const FoundationsGrid = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.neutral"
-        sx={{ '&&': { marginBlock: '48px 56px' } }}
+        color="semantic.line.solid.neutral"
+        sx={{ '&&': { marginBlock: '40px 32px' } }}
       />
 
       <Heading2 content="Artboard size" />
@@ -26,13 +26,13 @@ const FoundationsGrid = () => {
 
       <ArtboardSizeGrid />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="Breakpoint" />
 
       <BreakpointGrid />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="Spacing" />
 
@@ -50,11 +50,11 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '40px',
+          marginTop: '12px',
         }}
       />
 
-      <Divider color="semantic.line.normal.alternative" />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="Layout" />
 
@@ -76,7 +76,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '40px',
+          marginTop: '12px',
           marginBottom: '64px',
         }}
       />
@@ -93,7 +93,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '40px',
+          marginTop: '12px',
           marginBottom: '64px',
         }}
       />
@@ -110,7 +110,7 @@ const FoundationsGrid = () => {
         border
         ratio="21:9"
         sx={{
-          marginTop: '40px',
+          marginTop: '12px',
         }}
       />
     </>

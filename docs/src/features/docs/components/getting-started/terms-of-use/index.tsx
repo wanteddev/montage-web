@@ -10,8 +10,8 @@ const TermsOfUse = () => {
   return (
     <>
       <Divider
-        color="semantic.line.normal.neutral"
-        sx={{ '&&': { marginTop: '40px', marginBottom: '32px' } }}
+        color="semantic.line.solid.neutral"
+        sx={{ '&&': { marginBlock: '40px 32px' } }}
       />
 
       <Heading2 content="1. 약관 적용" />
@@ -43,10 +43,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="2. 라이선스" />
 
@@ -100,10 +97,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="3. 브랜드 가이드라인" />
 
@@ -132,10 +126,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="4. 기여 가이드라인" />
 
@@ -160,10 +151,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="5. 면책 조항" />
 
@@ -173,10 +161,7 @@ const TermsOfUse = () => {
         또는 묵시적 보증도 하지 않습니다.
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="6. 개인정보 보호" />
 
@@ -188,10 +173,7 @@ const TermsOfUse = () => {
         </li>
       </Box>
 
-      <Divider
-        color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginBlock: '64px' } }}
-      />
+      <Divider color="semantic.line.solid.neutral" />
 
       <Heading2 content="7. 약관의 변경" />
 
