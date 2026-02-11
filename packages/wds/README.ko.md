@@ -18,6 +18,8 @@ Powered by [Emotion](https://github.com/emotion-js/emotion).
 pnpm i @wanteddev/wds @wanteddev/wds-icon
 ```
 
+> **⚠️ 주의:** `@wanteddev/wds-*` 관련 패키지(예: `@wanteddev/wds`, `@wanteddev/wds-icon`, `@wanteddev/wds-nextjs`)는 모두 **동일한 버전**으로 설치해야 합니다. 버전이 일치하지 않으면 theme context가 중복으로 생성되어 예기치 않은 스타일 문제가 발생할 수 있습니다.
+
 ## Usage
 
 Pretendard 를 사용하기 때문에 폰트를 불러와야 합니다.

@@ -1,31 +1,33 @@
 # Tests
 
-테스트 작성법은 본 문서에서 확인하실 수 있습니다.
+You can find instructions on how to write tests in this document.
 
-commonjs test와 tree-shaking test는 추가로 작성할 필요가 없습니다.
-unit test와 visual test만 작성하는 것을 권장합니다.
+[English](./README.md) | [한국어](./README.ko.md)
+
+There is no need to write commonjs tests or tree-shaking tests separately.
+We recommend writing only unit tests and visual tests.
 
 ## Unit test
 
-unit test의 경우 `packages/*/src/` 에 `*/index.test.(ts|tsx)` 로 작성합니다.
+Unit tests should be written as `*/index.test.(ts|tsx)` inside `packages/*/src/`.
 
-`testing-library/react` 를 이용하여 유닛 테스트를 작성합니다.
+Use `testing-library/react` to write unit tests.
 
 ```tsx
 import { cleanup } from '@testing-library/react';
 
-describe('주어진 상황', () => {
+describe('given situation', () => {
   afterEach(() => {
     cleanup();
   });
 
-  it('원하는 결과', () => {});
+  it('expected result', () => {});
 });
 ```
 
-주어진 상황과, 원하는 결과로 테스트 케이스를 작성합니다.
+Write test cases with a given situation and an expected result.
 
-또한, 디자인시스템 컴포넌트의 경우 접근성 테스트를 하는 것이 좋습니다.
+Also, for design system components, it is recommended to include accessibility tests.
 
 ```tsx
 import { axe } from 'vitest-axe';
@@ -39,13 +41,13 @@ describe('...', () => {
 });
 ```
 
-유닛 테스트를 실행할 때에는 `pnpm run test:unit` 혹은 `pnpm run test:unit:watch` 로 실행할 수 있습니다.
+You can run unit tests with `pnpm run test:unit` or `pnpm run test:unit:watch`.
 
 ## Visual test
 
-`tests/visual/src/fixtures` 에 `컴포넌트명.tsx` 로 파일을 생성합니다.
+Create a file named `ComponentName.tsx` in `tests/visual/src/fixtures`.
 
-그 이후 아래 코드처럼 `export const ${테스트케이스}` 로 작성하면 됩니다.
+Then, write `export const ${TestCase}` as shown in the code below.
 
 ```tsx
 // example
@@ -56,9 +58,9 @@ export const BasicTest = () => {
 };
 ```
 
-visual test의 경우 CI 단계에서 실행되는 결과와 로컬 환경에서 실행되는 결과가 다릅니다.
+Visual test results may differ between the CI environment and the local environment.
 
-때문에 로컬에서는 `pnpm run test:visual --update` 로 테스트가 정상적으로 실행되는지만 확인하고
-변경된 `tests/visual/__screenshots__` 는 커밋하지 않습니다.
+Therefore, on local, just verify that the tests run successfully with `pnpm run test:visual --update`
+and do not commit the changed `tests/visual/__screenshots__`.
 
-`visual-test-update` Github Action을 실행하여 업데이트가 가능합니다.
+You can update screenshots by running the `visual-test-update` Github Action.
