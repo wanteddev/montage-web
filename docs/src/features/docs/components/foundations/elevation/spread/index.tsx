@@ -40,7 +40,7 @@ const FoundationsElevationSpread = () => {
 
       <Divider
         color="semantic.line.normal.alternative"
-        sx={{ '&&': { marginTop: '50px', marginBottom: '24px' } }}
+        sx={{ '&&': { marginTop: '64px', marginBottom: '32px' } }}
       />
 
       <Heading2 content="Style" />
