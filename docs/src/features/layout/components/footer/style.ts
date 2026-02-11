@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
@@ -25,4 +25,16 @@ export const footerLinkStyle = (theme: Theme) => css`
   line-height: 142.9%;
   letter-spacing: 0.203px;
   color: ${theme.semantic.label.neutral};
+`;
+
+export const footerTextButtonStyle = (theme: Theme) => css`
+  color: ${theme.semantic.label.neutral};
+  gap: 2px;
+
+  & > span {
+    ${typographyStyle('label2', 'bold')}
+  }
+  svg {
+    font-size: 16px;
+  }
 `;

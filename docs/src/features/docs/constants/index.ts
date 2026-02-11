@@ -57,4 +57,8 @@ export const DOCS_PAGES = [
     title: 'Overview',
     slug: ['utilities'],
   },
+  {
+    title: 'Overview',
+    slug: ['release-note'],
+  },
 ];
