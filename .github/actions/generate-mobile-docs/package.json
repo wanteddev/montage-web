@@ -19,7 +19,7 @@
     "build": "esbuild src/index.ts --platform=node --bundle --outfile=dist/index.js"
   },
   "repository": {
-    "url": "https://github.com/wanteddev/wds",
+    "url": "https://github.com/wanteddev/montage-web",
     "type": "git",
     "directory": ".github/actions/generate-mobile-docs"
   },
