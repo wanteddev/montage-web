@@ -152,6 +152,7 @@ export { default as IconFilterFill } from './icon-filter-fill';
 export { default as IconFire } from './icon-fire';
 export { default as IconFireFill } from './icon-fire-fill';
 export { default as IconFlag } from './icon-flag';
+export { default as IconFlagFill } from './icon-flag-fill';
 export { default as IconFlipBackward } from './icon-flip-backward';
 export { default as IconFolder } from './icon-folder';
 export { default as IconFolderFill } from './icon-folder-fill';
