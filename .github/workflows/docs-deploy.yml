@@ -4,41 +4,41 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
-      - "figma/**"
+      - 'figma/**'
   workflow_dispatch:
     inputs:
       algolia:
         description: Run algolia crawler
         required: false
-        default: "false"
+        default: 'false'
         type: choice
         options:
-          - "true"
-          - "false"
+          - 'true'
+          - 'false'
       server_type:
         description: Server type
         required: false
-        default: "dev"
+        default: 'dev'
         type: choice
         options:
-          - "www"
-          - "dev"
+          - 'www'
+          - 'dev'
       version_path:
-        description: "Versioned docs path (e.g., 3.4.x)"
+        description: 'Versioned docs path (e.g., 3.4.x)'
         required: false
-        default: ""
+        default: ''
         type: string
   workflow_call:
     inputs:
       server_type:
         description: Server type
         required: false
-        default: "dev"
+        default: 'dev'
         type: string
       version_path:
-        description: "Versioned docs path (e.g., 3.4.x). When set, deploys to /{version_path}/ instead of root."
+        description: 'Versioned docs path (e.g., 3.4.x). When set, deploys to /{version_path}/ instead of root.'
         required: false
-        default: ""
+        default: ''
         type: string
 
 env:
@@ -104,80 +104,69 @@ jobs:
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
       version_path: ${{ steps.env-vars.outputs.VERSION_PATH }}
 
-  set-pnpm:
+  deploy-docs:
     needs: [set-env]
-    uses: wanteddev/github-actions-module/.github/workflows/pnpm.yml@main
-    with:
-      node_version: ${{ needs.set-env.outputs.node_version }}
-    secrets: inherit
-
-  build-react:
-    needs: [set-env, set-pnpm]
-    uses: wanteddev/github-actions-module/.github/workflows/build-react-v2.yml@main
-    with:
-      node_version: ${{ needs.set-env.outputs.node_version }}
-      package_cache_key: ${{ needs.set-pnpm.outputs.pnpm_cache_key }}
-      package_manager: pnpm
-      build_cache_path: |
-        .nx/cache
-        docs/.next/cache
-      build_cache_key: ${{ github.repository }}-${{ github.ref_name }}-${{ needs.set-env.outputs.server_type }}-build
-      build_path: docs/out
-      server_type: ${{ needs.set-env.outputs.server_type }}
-      build_command: |
-        pnpm run build
-
-        if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
-          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} PREVIEW_HASH=${{ needs.set-env.outputs.short_commit_hash }} pnpm -F docs build
-        elif [ -n "${{ needs.set-env.outputs.version_path }}" ]; then
-          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} VERSION_PATH=${{ needs.set-env.outputs.version_path }} pnpm -F docs build
-        else
-          NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
-        fi
-
-    secrets: inherit
-
-  push-s3:
-    needs: [set-env, set-pnpm, build-react]
-    uses: wanteddev/github-actions-module/.github/workflows/push-s3.yml@main
-    with:
-      aws_region: ${{ needs.set-env.outputs.aws_region }}
-      server_type: ${{ needs.set-env.outputs.server_type }}
-      build_path: docs/out
-      build_cache_key: ${{ needs.build-react.outputs.build_cache_key }}
-      run_command: |
-        echo "build files to s3"
-
-        if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
-          S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}"
-          CLOUDFRONT_PATH="/${{ needs.set-env.outputs.short_commit_hash }}/*"
-        elif [ -n "${{ needs.set-env.outputs.version_path }}" ]; then
-          S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.version_path }}"
-          CLOUDFRONT_PATH="/${{ needs.set-env.outputs.version_path }}/*"
-        else
-          S3_PATH="s3://${{ needs.set-env.outputs.bucket }}"
-          CLOUDFRONT_PATH="/*"
-        fi
-
-        aws s3 sync docs/out $S3_PATH --exclude "*.html" --exclude "*.txt"
-        aws s3 sync docs/out $S3_PATH --exclude "*" --include "*.html" --include "*.txt" --cache-control "no-cache, no-store, must-revalidate"
-        aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "$CLOUDFRONT_PATH"
-    secrets: inherit
-
-  cleanup-cache:
-    needs: [set-env, set-pnpm, build-react, push-s3]
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      contents: read
     steps:
-      - run: |
-          gh cache delete ${{ needs.build-react.outputs.build_cache_key }} --repo "${{ github.repository }}"
-    env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build packages
+        uses: ./.github/actions/package-build
+        with:
+          cache: true
+
+      - name: Build React
+        run: |
+          pnpm run build
+
+          if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
+            NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} PREVIEW_HASH=${{ needs.set-env.outputs.short_commit_hash }} pnpm -F docs build
+          elif [ -n "${{ needs.set-env.outputs.version_path }}" ]; then
+            NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} VERSION_PATH=${{ needs.set-env.outputs.version_path }} pnpm -F docs build
+          else
+            NEXT_PUBLIC_SERVER_TYPE=${{ needs.set-env.outputs.server_type }} pnpm -F docs build
+          fi
+
+      - name: Configure AWS credentials DEV
+        if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
+          aws-region: ap-northeast-2
+
+      - name: Configure AWS credentials
+        if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
+          aws-region: ap-northeast-2
+
+      - name: Upload assets to S3
+        run: |
+          echo "build files to s3"
+
+          if [ "${{ needs.set-env.outputs.is_preview }}" = "true" ]; then
+            S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.short_commit_hash }}"
+            CLOUDFRONT_PATH="/${{ needs.set-env.outputs.short_commit_hash }}/*"
+          elif [ -n "${{ needs.set-env.outputs.version_path }}" ]; then
+            S3_PATH="s3://${{ needs.set-env.outputs.bucket }}/${{ needs.set-env.outputs.version_path }}"
+            CLOUDFRONT_PATH="/${{ needs.set-env.outputs.version_path }}/*"
+          else
+            S3_PATH="s3://${{ needs.set-env.outputs.bucket }}"
+            CLOUDFRONT_PATH="/*"
+          fi
+
+          aws s3 sync docs/out $S3_PATH --exclude "*.html" --exclude "*.txt"
+          aws s3 sync docs/out $S3_PATH --exclude "*" --include "*.html" --include "*.txt" --cache-control "no-cache, no-store, must-revalidate"
+          aws cloudfront create-invalidation --distribution-id ${{ needs.set-env.outputs.cloudfront_distribution_id }} --paths "$CLOUDFRONT_PATH"
 
   create-pull-request-comment:
-    needs: [set-env, push-s3]
+    needs: [set-env, deploy-docs]
     runs-on: ubuntu-latest
     if: ${{ needs.set-env.outputs.is_preview == 'true' }}
     permissions:
@@ -222,7 +211,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
 
   algolia:
-    needs: [push-s3]
+    needs: [deploy-docs]
     if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
     runs-on: ubuntu-latest
 
