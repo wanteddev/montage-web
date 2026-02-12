@@ -111,10 +111,10 @@ module.exports = {
       `;
 
       return `
-        <FlexBox gap="12px" flexDirection="column">
+        <FlexBox gap="24px" flexDirection="column">
           <Modal>
             <ModalTrigger>
-              <Button sx={{ width: '100px' }}>Medium</Button>
+              <Button sx={{ width: '188px' }}>Open medium popup</Button>
             </ModalTrigger>
   
             ${getModalContainer('medium')}
@@ -122,7 +122,7 @@ module.exports = {
   
           <Modal>
             <ModalTrigger>
-              <Button sx={{ width: '100px' }}>Large</Button>
+              <Button sx={{ width: '188px' }}>Open large popup</Button>
             </ModalTrigger>
   
             ${getModalContainer('large')}
@@ -130,7 +130,7 @@ module.exports = {
   
           <Modal>
             <ModalTrigger>
-              <Button sx={{ width: '100px' }}>XLarge</Button>
+              <Button sx={{ width: '188px' }}>Open xlarge popup</Button>
             </ModalTrigger>
   
             ${getModalContainer('xlarge')}
