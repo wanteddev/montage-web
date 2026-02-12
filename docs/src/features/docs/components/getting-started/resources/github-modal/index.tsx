@@ -64,7 +64,7 @@ const GithubModal = ({ open, onOpenChange }: Props) => {
               <Box
                 onClick={handleClick}
                 as={Link}
-                href="https://github.com/wanteddev/wds"
+                href="https://github.com/wanteddev/montage-web"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={contentButtonStyle}

@@ -14,19 +14,19 @@ export const DOCS_PAGES = [
   {
     title: 'Web',
     slug: ['getting-started', 'platform', 'web'],
-    url: 'https://github.com/wanteddev/wds/blob/main/packages/wds/README.md',
+    url: 'https://github.com/wanteddev/montage-web/blob/main/packages/wds/README.md',
     isExternal: true,
   },
   {
     title: 'iOS',
     slug: ['getting-started', 'platform', 'ios'],
-    url: 'https://github.com/wanteddev/montage-ios/blob/develop/README.md',
+    url: 'https://github.com/wanteddev/montage-ios/blob/main/GETTINGSTARTED.md',
     isExternal: true,
   },
   {
     title: 'Android',
     slug: ['getting-started', 'platform', 'android'],
-    url: 'https://github.com/wanteddev/montage-android/blob/develop/README.md',
+    url: 'https://github.com/wanteddev/montage-android/blob/main/GETTING_STARTED.en.md',
     isExternal: true,
   },
   {
