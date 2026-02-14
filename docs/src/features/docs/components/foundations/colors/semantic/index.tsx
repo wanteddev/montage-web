@@ -171,7 +171,7 @@ const FoundationsColorsSemantic = () => {
 
       <p>
         시각적 대비를 명확하게 유지하기 위해 배경과 같은 뒤쪽 요소에 사용하는
-        색상입니다. 사용합니다.
+        색상입니다.
       </p>
 
       {renderPalette(theme.semantic.accent.background, 'accent-background')}
