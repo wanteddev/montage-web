@@ -39,6 +39,7 @@ export const [ModalDimmerProvider, useModalDimmerContext] =
 type ModalNavigationContextValue = {
   titleId: string;
   onOpenChange: (open: boolean) => void;
+  sticky: boolean;
 };
 
 export const [ModalNavigationProvider, useModalNavigationContext] =

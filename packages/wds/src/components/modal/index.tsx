@@ -289,6 +289,10 @@ const ModalContainer = forwardRef(
 
     if (!isPresent) return null;
 
+    const grabberHeightGuard = isBottomSheetWithHandle
+      ? BOTTOM_SHEET_PEEK_PADDING
+      : 0;
+
     return (
       <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
@@ -413,10 +417,7 @@ const ModalContainer = forwardRef(
                       },
                       style: {
                         scrollPaddingTop:
-                          topNavigationHeight +
-                          (isBottomSheetWithHandle
-                            ? BOTTOM_SHEET_PEEK_PADDING
-                            : 0),
+                          topNavigationHeight + grabberHeightGuard,
                         scrollPaddingBottom: actionAreaHeight,
                       },
                     }}
@@ -427,8 +428,10 @@ const ModalContainer = forwardRef(
                       flex="1"
                       data-role="modal-container-wrapper"
                       sx={{
+                        '--wds-modal-grabber-height-guard': `${grabberHeightGuard}px`,
                         ['&:has([data-role="modal-container-grabber"])']: {
-                          paddingTop: BOTTOM_SHEET_PEEK_PADDING,
+                          paddingTop:
+                            'var(--wds-modal-grabber-height-guard, 0px)',
                         },
                       }}
                       {...dragProps}
@@ -525,6 +528,7 @@ const ModalScrollProvider = ({
     'ModalContextProviders',
   );
 
+  const [navigationSticky, setNavigationSticky] = useState(false);
   const [actionAreaSticky, setActionAreaSticky] = useState(false);
 
   const handleResize = useCallback(() => {
@@ -532,6 +536,7 @@ const ModalScrollProvider = ({
       return;
     }
 
+    setNavigationSticky(innerContainer.scrollTop > 0);
     setActionAreaSticky(
       innerContainer.scrollHeight - innerContainer.clientHeight >
         innerContainer.scrollTop,
@@ -550,6 +555,7 @@ const ModalScrollProvider = ({
     const handleOnScroll = (e: Event) => {
       const target = e.target as HTMLElement;
 
+      setNavigationSticky(target.scrollTop > 0);
       setActionAreaSticky(
         target.scrollHeight - target.clientHeight > target.scrollTop,
       );
@@ -564,6 +570,7 @@ const ModalScrollProvider = ({
     <ModalNavigationProvider
       titleId={context.titleId}
       onOpenChange={context.onOpenChange}
+      sticky={sticky && navigationSticky}
     >
       <ModalActionAreaProvider sticky={sticky && actionAreaSticky}>
         {children}
@@ -582,17 +589,21 @@ const ModalNavigation = forwardRef<
       trailingContent = <ModalClose />,
       variant,
       children,
+      background,
       ...props
     },
     ref,
   ) => {
-    const { titleId } = useModalNavigationContext(MODAL_NAVIGATION_NAME);
+    const { titleId, sticky } = useModalNavigationContext(
+      MODAL_NAVIGATION_NAME,
+    );
 
     return (
       <TopNavigation
         titleId={titleId}
         leadingContent={leadingContent}
         trailingContent={trailingContent}
+        background={background ?? sticky}
         {...props}
         variant={variant === 'emphasized' ? undefined : variant}
         sx={[modalNavigationStyle({ variant }), props.sx]}
