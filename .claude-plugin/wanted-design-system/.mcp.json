@@ -1,0 +1,6 @@
+{
+  "wds-mcp-server": {
+    "command": "npx",
+    "args": ["-y", "@wanteddev/wds-mcp@latest"]
+  }
+}

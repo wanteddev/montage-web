@@ -1,0 +1,11 @@
+{
+  "name": "wanted-design-system",
+  "version": "1.0.1",
+  "description": "Wanted Design System Plugin",
+  "author": {
+    "name": "Sh031224"
+  },
+  "keywords": ["design-system", "wanted", "design-system-plugin", "wds"],
+  "license": "MIT",
+  "skills": "./skills/"
+}
