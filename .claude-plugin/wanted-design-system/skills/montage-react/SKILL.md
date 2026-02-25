@@ -1,11 +1,11 @@
 ---
 name: montage-react
-description: React 프로젝트에서 WDS 기반 컴포넌트 개발 가이드. React UI 컴포넌트, 스타일링, 아이콘 작업 시 사용
+description: React 프로젝트에서 Montage(WDS) 기반 컴포넌트 개발 가이드. React UI 컴포넌트, 스타일링, 아이콘 작업 시 사용
 ---
 
-# wds-react
+# montage-react
 
-React 프로젝트에서 Wanted Design System(WDS)을 기반으로 컴포넌트를 개발할 때 자동으로 적용되는 skill입니다.
+React 프로젝트에서 Wanted Design System(WDS, Montage)을 기반으로 컴포넌트를 개발할 때 자동으로 적용되는 skill입니다.
 
 ## When to use
 

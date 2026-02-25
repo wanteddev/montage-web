@@ -32,7 +32,7 @@ Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
 | `get_utility_function`   | 유틸리티 함수 상세 조회   |
 | `getting_started`        | WDS 초기 셋팅 가이드 조회 |
 
-### Skill: wds-react
+### Skill: montage-react
 
 React 프로젝트에서 컴포넌트/UI 작업 시 자동으로 적용되는 skill입니다.
 
@@ -46,7 +46,7 @@ React 프로젝트에서 컴포넌트/UI 작업 시 자동으로 적용되는 sk
 **워크플로우:**
 
 1. 코딩 가이드라인 확인 (필수)
-2. WDS 컴포넌트 조회 및 활용
+2. Montage 컴포넌트 조회 및 활용
 3. 디자인 토큰 적용
 4. 아이콘 사용
 5. 유틸리티 함수 활용

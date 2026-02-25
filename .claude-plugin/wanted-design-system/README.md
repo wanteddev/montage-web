@@ -32,7 +32,7 @@ The following tools are available through the `@wanteddev/wds-mcp` MCP server:
 | `get_utility_function`   | View detailed utility function specs |
 | `getting_started`        | View WDS initial setup guide         |
 
-### Skill: wds-react
+### Skill: montage-react
 
 A skill that is automatically applied when working on components/UI in React projects.
 
@@ -46,7 +46,7 @@ A skill that is automatically applied when working on components/UI in React pro
 **Workflow:**
 
 1. Check coding guidelines (required)
-2. Look up and utilize WDS components
+2. Look up and utilize Montage components
 3. Apply design tokens
 4. Use icons
 5. Utilize utility functions
