@@ -29,7 +29,7 @@ AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아�
 ```json
 {
   "mcpServers": {
-    "wds-mcp-server": {
+    "montage-mcp-server": {
       "command": "npx",
       "args": ["-y", "@wanteddev/wds-mcp@latest"]
     }
@@ -40,5 +40,5 @@ AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아�
 ### Claude Code
 
 ```bash
-claude mcp add wds-mcp-server -- npx -y @wanteddev/wds-mcp@latest
+claude mcp add montage-mcp-server -- npx -y @wanteddev/wds-mcp@latest
 ```

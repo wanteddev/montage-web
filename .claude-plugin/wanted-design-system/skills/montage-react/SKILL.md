@@ -1,5 +1,5 @@
 ---
-name: wds-react
+name: montage-react
 description: React 프로젝트에서 WDS 기반 컴포넌트 개발 가이드. React UI 컴포넌트, 스타일링, 아이콘 작업 시 사용
 ---
 
@@ -21,7 +21,7 @@ React 프로젝트에서 Wanted Design System(WDS)을 기반으로 컴포넌트�
 처음부터 React.js, Next.js 셋팅을 할 때에는 도구를 활용합니다.
 
 ```
-mcp__wds-mcp-server__getting_started
+mcp__montage-mcp-server__getting_started
 ```
 
 ### 1. 코딩 가이드라인 확인 (필수)
@@ -29,7 +29,7 @@ mcp__wds-mcp-server__getting_started
 컴포넌트 작성 전 **반드시** WDS 코딩 가이드라인을 먼저 확인합니다.
 
 ```
-mcp__wds-mcp-server__wds_coding_guidelines
+mcp__montage-mcp-server__wds_coding_guidelines
 ```
 
 ### 2. 컴포넌트 개발 워크플로우
@@ -39,13 +39,13 @@ mcp__wds-mcp-server__wds_coding_guidelines
 새 컴포넌트를 만들기 전, WDS에서 제공하는 컴포넌트가 있는지 **반드시** 확인합니다.
 
 ```
-mcp__wds-mcp-server__list_components
+mcp__montage-mcp-server__list_components
 ```
 
 적합한 컴포넌트가 있다면 사용 방법을 추론하지 말고 **최대한 상세 스펙을 조회**합니다.
 
 ```
-mcp__wds-mcp-server__get_component({ componentName: "컴포넌트명" })
+mcp__montage-mcp-server__get_component({ componentName: "컴포넌트명" })
 ```
 
 #### 2.2 컴포넌트 사용 원칙
@@ -62,7 +62,7 @@ mcp__wds-mcp-server__get_component({ componentName: "컴포넌트명" })
 토큰에는 색상, 미디어 사이즈, 쉐도우 값 등이 사용됩니다. spacing 값은 사용하지 마세요.
 
 ```
-mcp__wds-mcp-server__list_tokens
+mcp__montage-mcp-server__list_tokens
 ```
 
 #### 3.2 색상 사용법
@@ -70,7 +70,7 @@ mcp__wds-mcp-server__list_tokens
 색상 적용 시 올바른 사용법을 확인합니다.
 
 ```
-mcp__wds-mcp-server__get_color_usage
+mcp__montage-mcp-server__get_color_usage
 ```
 
 #### 3.3 토큰 사용 원칙
@@ -84,7 +84,7 @@ mcp__wds-mcp-server__get_color_usage
 아이콘이 필요한 경우 WDS 아이콘 라이브러리를 사용합니다.
 
 ```
-mcp__wds-mcp-server__list_icons
+mcp__montage-mcp-server__list_icons
 ```
 
 ### 5. 유틸리티 함수 활용
@@ -92,13 +92,13 @@ mcp__wds-mcp-server__list_icons
 WDS에서 제공하는 유틸리티 함수를 활용합니다.
 
 ```
-mcp__wds-mcp-server__list_utility_functions
+mcp__montage-mcp-server__list_utility_functions
 ```
 
 필요한 유틸리티의 상세 사용법 확인:
 
 ```
-mcp__wds-mcp-server__get_utility_function({ name: "함수명" })
+mcp__montage-mcp-server__get_utility_function({ name: "함수명" })
 ```
 
 ## Checklist
