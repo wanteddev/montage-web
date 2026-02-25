@@ -39,7 +39,7 @@ pnpm -F docs dev
 
 ## Package Dependency Graph
 
-```
+```text
 wds-theme (design tokens, no React dependency)
     ↓
 wds-engine (Box, ThemeProvider, polymorphic types — depends on wds-theme + Emotion)
@@ -86,7 +86,7 @@ const MyComponent = forwardRef(
 
 Each component follows this layout:
 
-```
+```text
 component-name/
 ├── index.tsx       # Implementation (uses Box from wds-engine)
 ├── types.ts        # Props defined with WithSxProps<{...}> + ResponsiveProps
