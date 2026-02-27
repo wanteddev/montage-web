@@ -28,6 +28,80 @@ ModalNavigation()
 
 ## Topics
 
+### Structures
+
+<details>
+
+<summary>``struct Variant``</summary>
+
+
+내비게이션 바의 외관을 정의하는 구조체입니다.
+#### Instance Properties
+
+<details>
+
+<summary>``var description: String``</summary>
+
+</details>
+
+#### Type Properties
+
+<details>
+
+<summary>``static let display: ModalNavigation.Variant``</summary>
+
+
+제목이 별도 줄에 표시되는 확장된 스타일
+</details>
+<details>
+
+<summary>``static let emphasized: ModalNavigation.Variant``</summary>
+
+
+강조된 큰 제목 스타일
+</details>
+<details>
+
+<summary>~~``static let extended: ModalNavigation.Variant``~~</summary>
+
+
+제목이 별도 줄에 표시되는 확장된 스타일
+>  **Deprecated**
+>
+>  이름이 `display`로 변경되었습니다. 다음 메이저 업데이트 때 제거될 예정입니다.
+
+</details>
+<details>
+
+<summary>``static let floating: ModalNavigation.Variant``</summary>
+
+
+플로팅 스타일 (그라디언트, Progressive Blur 적용)
+</details>
+<details>
+
+<summary>``static let normal: ModalNavigation.Variant``</summary>
+
+
+기본 스타일의 내비게이션 바
+</details>
+
+#### Type Methods
+
+<details>
+
+<summary>~~``static func floating(alternative: Bool, background: Bool) -> Variant``~~</summary>
+
+
+플로팅 스타일
+>  **Deprecated**
+>
+>  파라메터 제거되었습니다. `.floating`으로 사용하십시오. 다음 메이저 업데이트 때 제거될 예정입니다.
+
+</details>
+
+</details>
+
 ### Initializers
 
 <details>
@@ -205,53 +279,6 @@ ModalNavigation()
 - **Return Value**
 
   수정된 내비게이션 바 뷰
-</details>
-
-### Enumerations
-
-<details>
-
-<summary>``enum Variant``</summary>
-
-
-내비게이션 바의 외관을 정의하는 열거형입니다.
-#### Enumeration Cases
-
-<details>
-
-<summary>``case emphasized``</summary>
-
-
-강조된 큰 제목 스타일
-</details>
-<details>
-
-<summary>``case extended``</summary>
-
-
-제목이 별도 줄에 표시되는 확장된 스타일
-</details>
-<details>
-
-<summary>``case floating(alternative: Bool, background: Bool)``</summary>
-
-
-배경이 투명한 플로팅 스타일
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `alternative` | 대체 아이콘 사용 여부, 생략하면 기본값으로 `false` 적용 |
-  | `background` | 배경 표시 여부, 생략하면 기본값으로 `true` 적용 |
-</details>
-<details>
-
-<summary>``case normal``</summary>
-
-
-기본 스타일의 내비게이션 바
-</details>
-
 </details>
 
 ## Relationships
