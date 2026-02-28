@@ -246,7 +246,7 @@ ListCell(title: "커스텀 셀", onTap: {
 <summary>``func titleColor(Color.Semantic) -> ListCell``</summary>
 
 
-타이틀 텍스트의    속성을 조정합니다.
+타이틀 텍스트의 `color` 속성을 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -261,7 +261,7 @@ ListCell(title: "커스텀 셀", onTap: {
 <summary>``func titleVariant(Typography.Variant) -> ListCell``</summary>
 
 
-타이틀 텍스트의    속성을 조정합니다.
+타이틀 텍스트의 `variant` 속성을 조정합니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -276,7 +276,7 @@ ListCell(title: "커스텀 셀", onTap: {
 <summary>``func titleWeight(Typography.Weight) -> ListCell``</summary>
 
 
-타이틀 텍스트의    속성을 조정합니다.
+타이틀 텍스트의 `weight` 속성을 조정합니다.
 
 - **Parameters**
   | Parameter | Description |

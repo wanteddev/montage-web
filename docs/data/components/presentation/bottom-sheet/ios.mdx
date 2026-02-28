@@ -217,7 +217,7 @@ YourView()
 
 <details>
 
-<summary>``func bottomSheet<V>(isPresented: Binding<Bool>, isFullScreenCover: Bool, needHandle: Bool, resize: BottomSheet.Resize, ignoresEdgeInsets: Bool, actionAreaModel: ActionArea.Model?, navigation: (() -> ModalNavigation)?, () -> V) -> some View``</summary>
+<summary>``func bottomSheet<V>(isPresented: Binding<Bool>, isFullScreenCover: Bool, needHandle: Bool, resize: BottomSheet.Resize, ignoresEdgeInsets: Bool, actionAreaModel: ActionArea.Model?, navigation: (() -> ModalNavigation)?, onDismiss: (() -> Void)?, () -> V) -> some View``</summary>
 
 
 바텀 시트 모달을 표시합니다.
@@ -232,6 +232,7 @@ YourView()
   | `ignoresEdgeInsets` | 모달 내용이 Edge 인셋을 무시할지 여부 |
   | `actionAreaModel` | 모달 하단에 표시할 액션 영역 모델, 생략하면 기본값으로 `nil` 적용 |
   | `navigation` | 모달 상단에 표시할 네비게이션 클로저, 생략하면 기본값으로 `nil` 적용 |
+  | `onDismiss` | 모달이 닫힐때 호출될 클로저 |
   | `content` | 모달에 표시할 콘텐츠 클로저 |
 - **Return Value**
 

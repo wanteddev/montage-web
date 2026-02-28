@@ -47,6 +47,10 @@ Conforms To
 
 `Swift.Copyable`
 
+`Swift.Sendable`
+
+`Swift.SendableMetatype`
+
 `SwiftUICore.Animatable`
 
 `SwiftUICore.Layout`

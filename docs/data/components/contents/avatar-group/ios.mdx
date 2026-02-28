@@ -42,12 +42,27 @@ AvatarGroup(
 <summary>``init([String], variant: Avatar.Variant, size: Size, onTap: ((_ index: Int) -> Void)?)``</summary>
 
 
-그룹 아바타를 초기화합니다.
+URL 문자열 배열로 그룹 아바타를 초기화합니다.
 
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
   | `imageUrls` | 표시할 이미지의 URL 문자열 배열 (최대 5개) |
+  | `variant` | 아바타 유형 |
+  | `size` | 그룹 아바타 크기 |
+  | `onTap` | 각 아바타 탭 시 실행할 액션 (인덱스가 전달됨), 생략하면 기본값으로 `nil` 적용 |
+</details>
+<details>
+
+<summary>``init([Image], variant: Avatar.Variant, size: Size, onTap: ((_ index: Int) -> Void)?)``</summary>
+
+
+SwiftUI Image 배열로 그룹 아바타를 초기화합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `images` | 표시할 SwiftUI Image 배열 (최대 5개) |
   | `variant` | 아바타 유형 |
   | `size` | 그룹 아바타 크기 |
   | `onTap` | 각 아바타 탭 시 실행할 액션 (인덱스가 전달됨), 생략하면 기본값으로 `nil` 적용 |
@@ -65,6 +80,21 @@ AvatarGroup(
 
 ### Instance Methods
 
+<details>
+
+<summary>``func contentMode(ContentMode) -> AvatarGroup``</summary>
+
+
+이미지의 콘텐츠 모드를 설정합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `contentMode` | 콘텐츠 모드, `.fit` 또는 `.fill` |
+- **Return Value**
+
+  수정된 그룹 아바타 인스턴스
+</details>
 <details>
 
 <summary>``func trailingContent<V>(() -> V) -> AvatarGroup``</summary>

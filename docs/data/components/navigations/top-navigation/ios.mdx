@@ -193,10 +193,10 @@ TopNavigation을 초기화합니다.
 </details>
 <details>
 
-<summary>``func searchField(placeholder: String?, searchTerm: Binding<String>, focused: Binding<Bool>?, onSubmit: (() -> Void)?) -> TopNavigation``</summary>
+<summary>``func searchField(placeholder: String?, searchTerm: Binding<String>, focused: Binding<Bool>?, onSubmit: (() -> Void)?, onTextChange: ((String) -> Void)?, onFocusChange: ((Bool) -> Void)?) -> TopNavigation``</summary>
 
 
-검색 필드의 속성과 동작을 설정합니다. variant가   일 때만 적용됩니다.
+검색 필드의 속성과 동작을 설정합니다. variant가 `.search`일 때만 적용됩니다.
 
 - **Parameters**
   | Parameter | Description |
@@ -205,6 +205,8 @@ TopNavigation을 초기화합니다.
   | `searchTerm` | 검색어 바인딩 변수 |
   | `focused` | 검색 필드의 포커스 상태 바인딩 변수, 생략하면 기본값으로 `nil` 적용 |
   | `onSubmit` | 검색어 제출 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+  | `onTextChange` | 검색어 텍스트 변경 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
+  | `onFocusChange` | 검색 필드 포커스 변경 시 호출될 클로저, 생략하면 기본값으로 `nil` 적용 |
 - **Return Value**
 
   수정된 인스턴스를 반환합니다.
