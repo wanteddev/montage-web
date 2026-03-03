@@ -30083,12 +30083,17 @@ var BaseModule = class {
         const designSlug = f.split("/");
         return designSlug.at(designSlug.length - 2).replace(/-/g, "") === (customTitle || title);
       });
+      let fileContent = import_node_fs.default.readFileSync(file, "utf8");
+      fileContent = fileContent.replace(
+        /^(---\n[\s\S]*?\n---)/,
+        (frontmatter) => frontmatter.replace(/`/g, "")
+      );
       if (designFile) {
-        this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = import_node_fs.default.readFileSync(file, "utf8");
+        this.tempFiles[designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)] = fileContent;
       } else {
         const matchUtilityPath = file.match(/\/utilities\/([^/]+)\//)?.[1];
         const utilityPath = matchUtilityPath ?? `${this.PLATFORM}-utilities`;
-        this.tempFiles[`docs/data/utilities/${utilityPath}/${title}.mdx`] = import_node_fs.default.readFileSync(file, "utf8");
+        this.tempFiles[`docs/data/utilities/${utilityPath}/${title}.mdx`] = fileContent;
       }
     }
     return this;

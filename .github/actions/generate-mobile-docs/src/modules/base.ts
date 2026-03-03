@@ -66,17 +66,24 @@ export default abstract class BaseModule {
         );
       });
 
+      let fileContent = fs.readFileSync(file, 'utf8');
+
+      fileContent = fileContent.replace(
+        /^(---\n[\s\S]*?\n---)/,
+        (frontmatter) => frontmatter.replace(/`/g, ''),
+      );
+
       if (designFile) {
         this.tempFiles[
           designFile.replace(/design\.mdx$/, `${this.PLATFORM}.mdx`)
-        ] = fs.readFileSync(file, 'utf8');
+        ] = fileContent;
       } else {
         const matchUtilityPath = file.match(/\/utilities\/([^/]+)\//)?.[1];
 
         const utilityPath = matchUtilityPath ?? `${this.PLATFORM}-utilities`;
 
         this.tempFiles[`docs/data/utilities/${utilityPath}/${title}.mdx`] =
-          fs.readFileSync(file, 'utf8');
+          fileContent;
       }
     }
 
