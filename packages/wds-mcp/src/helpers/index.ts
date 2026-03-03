@@ -1,5 +1,5 @@
 import * as icons from '@wanteddev/wds-icon';
-import { theme } from '@wanteddev/wds-theme';
+import { darkOriginTheme, lightOriginTheme, theme } from '@wanteddev/wds-theme';
 import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
 import semver from 'semver';
@@ -105,8 +105,16 @@ export const listIcons = () => {
 };
 
 export const listTokens = () => {
-  return Object.entries(theme.light).map((token) => {
-    return `<token name="${token[0]}" value="${JSON.stringify(token[1])}" />`;
+  return Object.entries(theme.light).map(([name, value]) => {
+    if (name === 'atomic') {
+      return `<token name="${name}" value="${JSON.stringify(value)}" resolvedValue="${JSON.stringify(lightOriginTheme.atomic)}" />`;
+    }
+
+    if (name === 'semantic') {
+      return `<token name="${name}" value="${JSON.stringify(value)}" lightResolvedValue="${JSON.stringify(lightOriginTheme.semantic)}" darkResolvedValue="${JSON.stringify(darkOriginTheme.semantic)}" />`;
+    }
+
+    return `<token name="${name}" value="${JSON.stringify(value)}" />`;
   });
 };
 
