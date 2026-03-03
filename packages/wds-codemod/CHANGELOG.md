@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/wanteddev/montage-web/compare/v3.2.1...v3.3.0) (2026-03-03)
+
+### Features
+
+- wds -> montage-web 저장소 이름 변경 대응 ([#505](https://github.com/wanteddev/montage-web/issues/505)) ([8fd2c1d](https://github.com/wanteddev/montage-web/commit/8fd2c1d45dec14d59d530e0bdea99a415ca08a3f))
+
 ## [3.2.1](https://github.com/wanteddev/wds/compare/v3.2.0...v3.2.1) (2026-02-06)
 
 ### Bug Fixes

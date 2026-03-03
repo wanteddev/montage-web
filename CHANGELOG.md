@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/wanteddev/montage-web/compare/v3.2.1...v3.3.0) (2026-03-03)
+
+### Features
+
+- wds -> montage-web 저장소 이름 변경 대응 ([#505](https://github.com/wanteddev/montage-web/issues/505)) ([8fd2c1d](https://github.com/wanteddev/montage-web/commit/8fd2c1d45dec14d59d530e0bdea99a415ca08a3f))
+- **wds-mcp,ci:** versioned docs 배포 지원 ([#504](https://github.com/wanteddev/montage-web/issues/504)) ([80f5370](https://github.com/wanteddev/montage-web/commit/80f53708ab42ae59b71c754284ba5fd4858aac06))
+- **wds:** avatar 커스텀 사이즈 border-radius 계산 로직 개선 ([#506](https://github.com/wanteddev/montage-web/issues/506)) ([1640b8b](https://github.com/wanteddev/montage-web/commit/1640b8ba0f72deb56809188cbd41b0b051bf3cbe))
+- **wds:** modal navigation의 background 옵션 자동으로 설정하도록 변경 ([#501](https://github.com/wanteddev/montage-web/issues/501)) ([59374c1](https://github.com/wanteddev/montage-web/commit/59374c164d40d77a1efcbeec16dd60a339fce1c4))
+
 ## [3.2.1](https://github.com/wanteddev/wds/compare/v3.2.0...v3.2.1) (2026-02-06)
 
 ### Bug Fixes
