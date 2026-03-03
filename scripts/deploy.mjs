@@ -77,7 +77,7 @@ const main = async () => {
     -X POST \
     -H "Accept: application/vnd.github.v3+json" \
     -H "Authorization: token ${token}" \
-    https://api.github.com/repos/wanteddev/wds/actions/workflows/version.yml/dispatches \
+    https://api.github.com/repos/wanteddev/montage-web/actions/workflows/version.yml/dispatches \
     -d '{"ref":"${branchName}", "inputs": { "increment": "${version}" }}'`;
 
   shelljs.exec(command, { fatal: true }, (code, _stdout, stderr) => {
