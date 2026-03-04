@@ -1,0 +1,92 @@
+---
+title: Divider
+description: Divider는 콘텐츠 사이에 구분선을 표시하는 컴포넌트입니다.
+createdAt: 2026-03-04
+---
+
+## Introduce
+
+콘텐츠 영역을 시각적으로 구분할 때 사용하는 컴포넌트입니다.
+
+수평/수직 방향, 색상, 크기, 두께를 자유롭게 조절할 수 있습니다.
+
+<Demo code={`import { Divider, FlexBox, Typography } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Typography variant="body1">위 영역</Typography>
+      <Divider />
+      <Typography variant="body1">아래 영역</Typography>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Vertical
+
+`vertical` 옵션을 사용하면 수직 구분선을 표시할 수 있습니다.
+
+<Demo code={`import { Divider, FlexBox, Typography } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox alignItems="center" gap="12px">
+      <Typography variant="body1">왼쪽</Typography>
+      <Divider vertical size="20px" />
+      <Typography variant="body1">오른쪽</Typography>
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Color
+
+`color` 옵션을 통해 테마 토큰 기반의 색상을 지정할 수 있습니다.
+
+<Demo code={`import { Divider, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Divider />
+      <Divider color="semantic.line.normal.strong" />
+      <Divider color="semantic.primary.normal" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## Size & Thickness
+
+`size`는 구분선의 길이, `thickness`는 구분선의 두께를 조절합니다.
+
+<Demo code={`import { Divider, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" sx={{ width: '100%' }}>
+      <Divider size="50%" />
+      <Divider thickness="3px" />
+      <Divider size="200px" thickness="2px" />
+    </FlexBox>
+  );
+}
+
+export default Demo;`}
+/>
+
+## API
+
+정해진 breakpoint에 따라 아래 옵션을 override 할 수 있습니다.
+- size
+- thickness
+- vertical
+
+<PropsTable component="Divider" />
