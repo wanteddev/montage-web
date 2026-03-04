@@ -1,0 +1,11 @@
+{
+  "name": "montage-web-guide",
+  "version": "1.0.0",
+  "description": "Wanted Design System Plugin",
+  "author": {
+    "name": "Sh031224"
+  },
+  "keywords": ["design-system", "wanted", "design-system-plugin", "wds"],
+  "license": "MIT",
+  "skills": "./skills/"
+}

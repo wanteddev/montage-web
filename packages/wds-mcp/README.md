@@ -29,7 +29,7 @@ Add the following to your `.cursor/mcp.json`:
 ```json
 {
   "mcpServers": {
-    "wds-mcp-server": {
+    "montage-mcp-server": {
       "command": "npx",
       "args": ["-y", "@wanteddev/wds-mcp@latest"]
     }
@@ -40,5 +40,5 @@ Add the following to your `.cursor/mcp.json`:
 ### Claude Code
 
 ```bash
-claude mcp add wds-mcp-server -- npx -y @wanteddev/wds-mcp@latest
+claude mcp add montage-mcp-server -- npx -y @wanteddev/wds-mcp@latest
 ```

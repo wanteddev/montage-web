@@ -1,0 +1,15 @@
+{
+  "name": "montage-web",
+  "owner": {
+    "name": "wanteddev"
+  },
+  "version": "1.0.0",
+  "description": "Wanted Lab Design System for Web",
+  "plugins": [
+    {
+      "name": "montage-web-guide",
+      "source": "./.claude-plugin/montage-web-guide",
+      "description": "Guide to use Wanted Lab Design System for Web"
+    }
+  ]
+}
