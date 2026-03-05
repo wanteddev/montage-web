@@ -1,21 +1,19 @@
 name: MCP Deploy
 on:
-  push:
-  # workflow_dispatch:
-  #   inputs:
-  #     server_type:
-  #       description: 'Server type'
-  #       required: true
-  #       default: 'dev'
-  #       type: choice
-  #       options:
-  #         - 'www'
-  #         - 'dev'
+  workflow_dispatch:
+    inputs:
+      server_type:
+        description: 'Server type'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - 'www'
+          - 'dev'
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   ECR_REPOSITORY: 'montage-mcp'
-  SERVER_TYPE: 'dev'
 
 jobs:
   set-env:
@@ -26,7 +24,7 @@ jobs:
         id: env-vars
         run: |
           echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_OUTPUT
-          echo "SERVER_TYPE=${{ env.SERVER_TYPE }}" >> $GITHUB_OUTPUT
+          echo "SERVER_TYPE=${{ inputs.server_type }}" >> $GITHUB_OUTPUT
           echo "ECR_REPOSITORY=$ECR_REPOSITORY/$SERVER_TYPE" >> $GITHUB_OUTPUT
     outputs:
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
@@ -49,7 +47,7 @@ jobs:
         run: pnpm lerna run build --scope @wanteddev/wds-mcp --include-dependencies
 
       - name: Deploy standalone wds-mcp
-        run: pnpm deploy --filter @wanteddev/wds-mcp --prod /app/standalone --legacy
+        run: pnpm deploy --filter @wanteddev/wds-mcp --prod standalone --legacy
 
       - name: Configure AWS credentials DEV
         if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
