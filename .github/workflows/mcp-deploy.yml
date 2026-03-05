@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_OUTPUT
           echo "SERVER_TYPE=${{ inputs.server_type }}" >> $GITHUB_OUTPUT
-          echo "ECR_REPOSITORY=$ECR_REPOSITORY/$SERVER_TYPE" >> $GITHUB_OUTPUT
+          echo "ECR_REPOSITORY=$ECR_REPOSITORY/${{ inputs.server_type }}" >> $GITHUB_OUTPUT
     outputs:
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
       short_sha: ${{ steps.env-vars.outputs.SHORT_SHA }}
