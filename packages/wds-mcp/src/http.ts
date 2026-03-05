@@ -1,11 +1,13 @@
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { createMcpExpressApp } from '@modelcontextprotocol/sdk/server/express.js';
+import express from 'express';
 
 import { getServer } from './server';
 
 const PORT = parseInt(process.env.PORT ?? '3000', 10);
 
-const app = createMcpExpressApp();
+const app = express();
+
+app.use(express.json());
 
 app.get('/health', (_, res) => {
   res.status(200).json({ status: 'ok' });
