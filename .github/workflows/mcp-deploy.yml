@@ -24,6 +24,11 @@ jobs:
     name: Set Env
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
       - name: Set Environment Variable
         id: env-vars
         run: |
