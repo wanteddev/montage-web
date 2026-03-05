@@ -73,7 +73,7 @@ jobs:
 
       - name: Build and Push Mcp docker image
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry-url }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ needs.set-env.outputs.ecr_repository }}
           IMAGE_TAG: ${{ needs.set-env.outputs.short_sha }}
         run: |
