@@ -15,6 +15,10 @@ env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   ECR_REPOSITORY: 'montage-mcp'
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   set-env:
     name: Set Env
