@@ -13,9 +13,9 @@ on:
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  ECR_REPOSITORY: 'montage-mcp'
   AWS_REGION: ap-northeast-2
-  TASK_DEFINITION: 'montage-mcp'
+
+  SERVICE: 'montage-mcp'
 
 permissions:
   id-token: write
@@ -36,10 +36,10 @@ jobs:
         run: |
           echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_OUTPUT
           echo "SERVER_TYPE=${{ inputs.server_type }}" >> $GITHUB_OUTPUT
-          echo "ECR_REPOSITORY=$ECR_REPOSITORY/${{ inputs.server_type }}" >> $GITHUB_OUTPUT
-          echo "TASK_DEFINITION=$TASK_DEFINITION-${{ inputs.server_type }}" >> $GITHUB_OUTPUT
-          echo "ECS_SERVICE=$ECS_SERVICE-${{ inputs.server_type }}-service" >> $GITHUB_OUTPUT
-          echo "ECS_CLUSTER=$ECS_CLUSTER" >> $GITHUB_OUTPUT
+          echo "ECR_REPOSITORY=$SERVICE/${{ inputs.server_type }}" >> $GITHUB_OUTPUT
+          echo "TASK_DEFINITION=$SERVICE-${{ inputs.server_type }}" >> $GITHUB_OUTPUT
+          echo "ECS_SERVICE=$SERVICE-${{ inputs.server_type }}-service" >> $GITHUB_OUTPUT
+          echo "ECS_CLUSTER=montage-${{ inputs.server_type }}-cluster" >> $GITHUB_OUTPUT
     outputs:
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
       short_sha: ${{ steps.env-vars.outputs.SHORT_SHA }}
@@ -71,14 +71,14 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
-          aws-region: ap-northeast-2
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Configure AWS credentials
         if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
-          aws-region: ap-northeast-2
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR Private
         id: login-ecr
