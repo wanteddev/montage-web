@@ -1,0 +1,84 @@
+name: MCP Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      server_type:
+        description: 'Server type'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - 'www'
+          - 'dev'
+
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+  ECR_REPOSITORY: 'montage-mcp'
+
+jobs:
+  set-env:
+    name: Set Env
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Environment Variable
+        id: env-vars
+        run: |
+          echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_OUTPUT
+          echo "SERVER_TYPE=$SERVER_TYPE" >> $GITHUB_OUTPUT
+          echo "ECR_REPOSITORY=$ECR_REPOSITORY/$SERVER_TYPE" >> $GITHUB_OUTPUT
+    outputs:
+      server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
+      short_sha: ${{ steps.env-vars.outputs.SHORT_SHA }}
+      ecr_repository: ${{ steps.env-vars.outputs.ECR_REPOSITORY }}
+
+  deploy:
+    needs: [set-env]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Install dependencies
+        uses: ./.github/actions/pnpm-install
+
+      - name: Build wds-mcp
+        run: pnpm lerna run build --scope @wanteddev/wds-mcp --include-dependencies
+
+      - name: Deploy standalone wds-mcp
+        run: pnpm deploy --filter @wanteddev/wds-mcp --prod /app/standalone --legacy
+
+      - name: Configure AWS credentials DEV
+        if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
+          aws-region: ap-northeast-2
+
+      - name: Configure AWS credentials
+        if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
+          aws-region: ap-northeast-2
+
+      - name: Login to Amazon ECR Private
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and Push Mcp docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry-url }}
+          ECR_REPOSITORY: ${{ needs.set-env.outputs.ecr_repository }}
+          IMAGE_TAG: ${{ needs.set-env.outputs.short_sha }}
+        run: |
+          DOCKER_BUILDKIT=1 docker build \
+          --platform=linux/amd64 \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
+          -f Dockerfile \
+          --build-arg BUILDKIT_INLINE_CACHE=1 \
+          --cache-from $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG

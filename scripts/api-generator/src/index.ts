@@ -50,3 +50,18 @@ fs.writeFileSync(
   path.join(outputDirectory, 'api.json'),
   JSON.stringify(componentApi, null, 2),
 );
+
+const iconBarrelPath = path.join(
+  process.cwd(),
+  '../../packages/wds-icon/src/index.ts',
+);
+const iconBarrelContent = fs.readFileSync(iconBarrelPath, 'utf-8');
+const iconNames = Array.from(
+  iconBarrelContent.matchAll(/export\s*\{\s*default\s+as\s+(\w+)\s*\}/g),
+  (match) => match[1],
+);
+
+fs.writeFileSync(
+  path.join(outputDirectory, 'icons.json'),
+  JSON.stringify(iconNames, null, 2),
+);

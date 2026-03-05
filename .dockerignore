@@ -1,0 +1,17 @@
+.git
+.nx
+.cache
+coverage
+*.log
+
+# Tests & docs (not needed for MCP server)
+tests
+docs/src
+docs/public
+docs/.next
+
+# IDE & OS
+.vscode
+.idea
+*.swp
+.DS_Store
