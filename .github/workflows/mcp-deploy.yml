@@ -14,6 +14,8 @@ on:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   ECR_REPOSITORY: 'montage-mcp'
+  AWS_REGION: ap-northeast-2
+  TASK_DEFINITION: 'montage-mcp'
 
 permissions:
   id-token: write
@@ -35,10 +37,16 @@ jobs:
           echo "SHORT_SHA=`git rev-parse --short HEAD`" >> $GITHUB_OUTPUT
           echo "SERVER_TYPE=${{ inputs.server_type }}" >> $GITHUB_OUTPUT
           echo "ECR_REPOSITORY=$ECR_REPOSITORY/${{ inputs.server_type }}" >> $GITHUB_OUTPUT
+          echo "TASK_DEFINITION=$TASK_DEFINITION-${{ inputs.server_type }}" >> $GITHUB_OUTPUT
+          echo "ECS_SERVICE=$ECS_SERVICE-${{ inputs.server_type }}-service" >> $GITHUB_OUTPUT
+          echo "ECS_CLUSTER=$ECS_CLUSTER" >> $GITHUB_OUTPUT
     outputs:
       server_type: ${{ steps.env-vars.outputs.SERVER_TYPE }}
       short_sha: ${{ steps.env-vars.outputs.SHORT_SHA }}
       ecr_repository: ${{ steps.env-vars.outputs.ECR_REPOSITORY }}
+      task_definition: ${{ steps.env-vars.outputs.TASK_DEFINITION }}
+      ecs_service: ${{ steps.env-vars.outputs.ECS_SERVICE }}
+      ecs_cluster: ${{ steps.env-vars.outputs.ECS_CLUSTER }}
 
   deploy:
     needs: [set-env]
@@ -91,3 +99,37 @@ jobs:
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  deploy-ecs:
+    needs: [set-env, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials DEV
+        if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_DEV }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Configure AWS credentials
+        if: ${{ !startsWith(needs.set-env.outputs.server_type, 'dev') }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task definition
+        env:
+          TASK_DEFINITION: ${{ needs.set-env.outputs.task_definition }}
+        run: |
+          aws ecs describe-task-definition --task-definition $TASK_DEFINITION --query taskDefinition > task-definition.json
+
+      - name: Deploy Amazon ECS task definition
+        id: ecs-deploy
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        timeout-minutes: 10
+        with:
+          task-definition: task-definition.json
+          service: ${{ needs.set-env.outputs.ecs_service }}
+          cluster: ${{ needs.set-env.outputs.ecs_cluster }}
+          wait-for-service-stability: true
