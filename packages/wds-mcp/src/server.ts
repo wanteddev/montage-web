@@ -17,38 +17,39 @@ import {
 } from './helpers';
 import { DOCS_COLOR_USAGE_URL, DOCS_SELECTOR } from './constants';
 
-const server = new McpServer({
-  name: 'WDS, Wanted Design System',
-  version,
-});
+const getServer = () => {
+  const server = new McpServer({
+    name: 'WDS, Wanted Design System',
+    version,
+  });
 
-const turndownService = new TurndownService({
-  headingStyle: 'atx',
-})
-  .remove((node) => {
-    return [
-      'heading-link-area',
-      'demo-viewport',
-      'demo-toolbar',
-      'route-tab',
-    ].includes(node.getAttribute('data-role') ?? '');
+  const turndownService = new TurndownService({
+    headingStyle: 'atx',
   })
-  .remove('style')
-  .remove('footer');
+    .remove((node) => {
+      return [
+        'heading-link-area',
+        'demo-viewport',
+        'demo-toolbar',
+        'route-tab',
+      ].includes(node.getAttribute('data-role') ?? '');
+    })
+    .remove('style')
+    .remove('footer');
 
-server.registerTool(
-  'list_components',
-  {
-    description: 'List all components in the Wanted Design System',
-  },
-  async () => {
-    const components = listComponents();
+  server.registerTool(
+    'list_components',
+    {
+      description: 'List all components in the Wanted Design System',
+    },
+    async () => {
+      const components = listComponents();
 
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `When using components, if you are unsure how to use them, **must** use the \`get_component\` tool.
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `When using components, if you are unsure how to use them, **must** use the \`get_component\` tool.
 To obtain detailed information about a specific component, you can use the \`get_component\` tool. For more comprehensive details, try entering the parent component instead of a child component.
 All these components are available in the @wanteddev/wds package.
 
@@ -61,24 +62,24 @@ ${components
       : `- ${component.name}`,
   )
   .join('\n')}`,
-        },
-      ],
-    };
-  },
-);
+          },
+        ],
+      };
+    },
+  );
 
-server.registerTool(
-  'wds_coding_guidelines',
-  {
-    description:
-      'Get the guidelines when writing code that uses WDS or for UI code that you are creating',
-  },
-  async () => {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `When writing code that uses WDS, follow these guidelines:
+  server.registerTool(
+    'wds_coding_guidelines',
+    {
+      description:
+        'Get the guidelines when writing code that uses WDS or for UI code that you are creating',
+    },
+    async () => {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `When writing code that uses WDS, follow these guidelines:
 
 ## Form
 
@@ -189,100 +190,100 @@ The following list of coding guidelines must be followed:
 
 - Use the sx prop for styling components.
 - Use the Box component for styling components.`,
-        },
-      ],
-    };
-  },
-);
+          },
+        ],
+      };
+    },
+  );
 
-server.registerTool(
-  'get_component',
-  {
-    description:
-      'Retrieve documentation and usage details for a specific React component from the @wanteddev/wds package by its name. This tool provides the official WDS documentation for any listed component, making it easy to inspect, reuse, or integrate components in your project.',
-    inputSchema: z.object({
-      componentName: z
-        .string()
-        .describe('The name of the component to get documentation for'),
-    }),
-  },
-  async ({ componentName }) => {
-    const components = listComponents();
-    const lowerCaseComponentName = componentName.toLowerCase();
-    const match = components.find((component) => {
-      return (
-        component.name.toLowerCase() === lowerCaseComponentName ||
-        component.subComponents.some(
-          (subComponent) =>
-            subComponent.toLowerCase() === lowerCaseComponentName,
-        )
-      );
-    });
+  server.registerTool(
+    'get_component',
+    {
+      description:
+        'Retrieve documentation and usage details for a specific React component from the @wanteddev/wds package by its name. This tool provides the official WDS documentation for any listed component, making it easy to inspect, reuse, or integrate components in your project.',
+      inputSchema: z.object({
+        componentName: z
+          .string()
+          .describe('The name of the component to get documentation for'),
+      }),
+    },
+    async ({ componentName }) => {
+      const components = listComponents();
+      const lowerCaseComponentName = componentName.toLowerCase();
+      const match = components.find((component) => {
+        return (
+          component.name.toLowerCase() === lowerCaseComponentName ||
+          component.subComponents.some(
+            (subComponent) =>
+              subComponent.toLowerCase() === lowerCaseComponentName,
+          )
+        );
+      });
 
-    if (!match) {
+      if (!match) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `There is no component named \`${componentName}\` in the @wanteddev/wds package. For a full list of components, use the \`list_components\` tool.`,
+            },
+          ],
+        };
+      }
+
+      const fetchUrl = await getComponentUrl(match.name, version);
+
+      if (!fetchUrl) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to fetch the documentation for ${componentName} usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const response = await fetch(fetchUrl);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch - ${response.statusText}`);
+      }
+
+      const html = await response.text();
+
+      if (!html) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to parse the documentation for ${componentName} usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const $ = cheerio.load(html);
+      const source = $(DOCS_SELECTOR).html();
+
+      if (!source) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to parse the documentation for ${componentName} usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const text = turndownService.turndown(source);
+
       return {
         content: [
           {
             type: 'text',
-            text: `There is no component named \`${componentName}\` in the @wanteddev/wds package. For a full list of components, use the \`list_components\` tool.`,
-          },
-        ],
-      };
-    }
-
-    const fetchUrl = await getComponentUrl(match.name, version);
-
-    if (!fetchUrl) {
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Failed to fetch the documentation for ${componentName} usage guide WDS.`,
-          },
-        ],
-      };
-    }
-
-    const response = await fetch(fetchUrl);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch - ${response.statusText}`);
-    }
-
-    const html = await response.text();
-
-    if (!html) {
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Failed to parse the documentation for ${componentName} usage guide WDS.`,
-          },
-        ],
-      };
-    }
-
-    const $ = cheerio.load(html);
-    const source = $(DOCS_SELECTOR).html();
-
-    if (!source) {
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Failed to parse the documentation for ${componentName} usage guide WDS.`,
-          },
-        ],
-      };
-    }
-
-    const text = turndownService.turndown(source);
-
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Here is the documentation for ${componentName} usage guide WDS:
+            text: `Here is the documentation for ${componentName} usage guide WDS:
 
 ${text}
 
@@ -290,21 +291,21 @@ ${text}
 - For information about ThemeColorsToken types, you can use the \`list_tokens\` tool. The token values are strings like \`'semantic.label.normal'\`.
 - The \`sx\` prop works the same as Emotion's \`css\` prop.
 - For detailed coding guidelines, please use the \`wds_coding_guidelines\` tool.`,
-        },
-      ],
-    };
-  },
-);
+          },
+        ],
+      };
+    },
+  );
 
-server.registerTool(
-  'list_icons',
-  { description: 'List all of the icons available from WDS' },
-  async () => {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `The following icons are available in the @wanteddev/wds-icon in TypeScript projects:
+  server.registerTool(
+    'list_icons',
+    { description: 'List all of the icons available from WDS' },
+    async () => {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `The following icons are available in the @wanteddev/wds-icon in TypeScript projects:
 
 - ${listIcons().join('\n- ')}
 
@@ -327,21 +328,21 @@ import { IconBlankColor } from '@wanteddev/wds-icon';
 <IconBlankColor sx={theme => ({ color: theme.semantic.label.normal })} />
 \`\`\`
 `,
-        },
-      ],
-    };
-  },
-);
+          },
+        ],
+      };
+    },
+  );
 
-server.registerTool(
-  'list_tokens',
-  { description: 'List all of the tokens available from WDS' },
-  async () => {
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `The following tokens are available in the @wanteddev/wds:
+  server.registerTool(
+    'list_tokens',
+    { description: 'List all of the tokens available from WDS' },
+    async () => {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `The following tokens are available in the @wanteddev/wds:
 
 ${listTokens().join('\n')}
 
@@ -366,171 +367,176 @@ or with the Typography component like:
 <Typography color="semantic.label.normal" />
 \`\`\`
 `,
-        },
-      ],
-    };
-  },
-);
+          },
+        ],
+      };
+    },
+  );
 
-server.registerTool(
-  'get_color_usage',
-  { description: 'Get the guidelines for how to apply color' },
-  async () => {
-    const response = await fetch(
-      `${getDocsBaseUrl(version)}/${DOCS_COLOR_USAGE_URL}`,
-    );
+  server.registerTool(
+    'get_color_usage',
+    { description: 'Get the guidelines for how to apply color' },
+    async () => {
+      const response = await fetch(
+        `${getDocsBaseUrl(version)}/${DOCS_COLOR_USAGE_URL}`,
+      );
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch - ${response.statusText}`);
-    }
+      if (!response.ok) {
+        throw new Error(`Failed to fetch - ${response.statusText}`);
+      }
 
-    const html = await response.text();
+      const html = await response.text();
 
-    if (!html) {
+      if (!html) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to fetch the documentation for color usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const $ = cheerio.load(html);
+      const source = $(DOCS_SELECTOR).html();
+
+      if (!source) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to parse the documentation for color usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const text = turndownService.turndown(source);
+
       return {
         content: [
           {
             type: 'text',
-            text: `Failed to fetch the documentation for color usage guide WDS.`,
+            text: `Here is the documentation for color usage guide WDS:\n${text}`,
           },
         ],
       };
-    }
+    },
+  );
 
-    const $ = cheerio.load(html);
-    const source = $(DOCS_SELECTOR).html();
+  server.registerTool(
+    'list_utility_functions',
+    {
+      description: 'List all of the utility functions available from WDS',
+    },
+    async () => {
+      const utilityFunctions = await listUtilityFunctions(version);
 
-    if (!source) {
       return {
         content: [
           {
             type: 'text',
-            text: `Failed to parse the documentation for color usage guide WDS.`,
+            text: `The following utility functions are available in the @wanteddev/wds:\n- ${utilityFunctions.join('\n- ')}`,
           },
         ],
       };
-    }
+    },
+  );
 
-    const text = turndownService.turndown(source);
+  server.registerTool(
+    'get_utility_function',
+    {
+      description: 'Get the guidelines for how to apply a utility function',
+      inputSchema: z.object({
+        functionName: z
+          .string()
+          .describe(
+            'The name of the utility function to get documentation for',
+          ),
+      }),
+    },
+    async ({ functionName }) => {
+      const fetchUrl = await getUtilityFunctionUrl(functionName, version);
 
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Here is the documentation for color usage guide WDS:\n${text}`,
-        },
-      ],
-    };
-  },
-);
+      if (!fetchUrl) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `There is no utility function named \`${functionName}\` in the @wanteddev/wds package. For a full list of utility functions, use the \`list_utility_functions\` tool.`,
+            },
+          ],
+        };
+      }
 
-server.registerTool(
-  'list_utility_functions',
-  {
-    description: 'List all of the utility functions available from WDS',
-  },
-  async () => {
-    const utilityFunctions = await listUtilityFunctions(version);
+      const response = await fetch(fetchUrl);
 
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `The following utility functions are available in the @wanteddev/wds:\n- ${utilityFunctions.join('\n- ')}`,
-        },
-      ],
-    };
-  },
-);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch - ${response.statusText}`);
+      }
 
-server.registerTool(
-  'get_utility_function',
-  {
-    description: 'Get the guidelines for how to apply a utility function',
-    inputSchema: z.object({
-      functionName: z
-        .string()
-        .describe('The name of the utility function to get documentation for'),
-    }),
-  },
-  async ({ functionName }) => {
-    const fetchUrl = await getUtilityFunctionUrl(functionName, version);
+      const html = await response.text();
 
-    if (!fetchUrl) {
+      if (!html) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to fetch the documentation for ${functionName} usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const $ = cheerio.load(html);
+      const source = $(DOCS_SELECTOR).html();
+
+      if (!source) {
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `Failed to parse the documentation for ${functionName} usage guide WDS.`,
+            },
+          ],
+        };
+      }
+
+      const text = turndownService.turndown(source);
+
       return {
         content: [
           {
             type: 'text',
-            text: `There is no utility function named \`${functionName}\` in the @wanteddev/wds package. For a full list of utility functions, use the \`list_utility_functions\` tool.`,
+            text: `Here is the documentation for ${functionName} usage guide WDS:\n${text}`,
           },
         ],
       };
-    }
+    },
+  );
 
-    const response = await fetch(fetchUrl);
+  server.registerTool(
+    'getting_started',
+    {
+      description:
+        'Installation steps, and initial configuration guides to help you quickly start using WDS in your codebase.',
+    },
+    () => {
+      const content = getGettingStarted();
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch - ${response.statusText}`);
-    }
-
-    const html = await response.text();
-
-    if (!html) {
       return {
         content: [
           {
             type: 'text',
-            text: `Failed to fetch the documentation for ${functionName} usage guide WDS.`,
+            text: `Here is the documentation for getting started with WDS:\n${content}`,
           },
         ],
       };
-    }
+    },
+  );
 
-    const $ = cheerio.load(html);
-    const source = $(DOCS_SELECTOR).html();
+  return server;
+};
 
-    if (!source) {
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `Failed to parse the documentation for ${functionName} usage guide WDS.`,
-          },
-        ],
-      };
-    }
-
-    const text = turndownService.turndown(source);
-
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Here is the documentation for ${functionName} usage guide WDS:\n${text}`,
-        },
-      ],
-    };
-  },
-);
-
-server.registerTool(
-  'getting_started',
-  {
-    description:
-      'Installation steps, and initial configuration guides to help you quickly start using WDS in your codebase.',
-  },
-  () => {
-    const content = getGettingStarted();
-
-    return {
-      content: [
-        {
-          type: 'text',
-          text: `Here is the documentation for getting started with WDS:\n${content}`,
-        },
-      ],
-    };
-  },
-);
-
-export { server };
+export { getServer };

@@ -1,14 +1,15 @@
-import * as icons from '@wanteddev/wds-icon';
 import { darkOriginTheme, lightOriginTheme, theme } from '@wanteddev/wds-theme';
 import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
 import semver from 'semver';
 
 import api from '../../../../docs/generated/api.json';
+import icons from '../../../../docs/generated/icons.json';
 import readme from '../../../wds/README.md';
 import { DOCS_BASE_URL } from '../constants';
 
 const componentApi = api;
+const iconNames = icons;
 
 export const getDocsBaseUrl = (version: string) => {
   const parsedVersion = semver.parse(version);
@@ -98,11 +99,7 @@ export const listComponents = () => {
   return parsedComponents;
 };
 
-export const listIcons = () => {
-  const iconList = Object.keys(icons).sort();
-
-  return iconList;
-};
+export const listIcons = () => iconNames;
 
 export const listTokens = () => {
   return Object.entries(theme.light).map(([name, value]) => {
