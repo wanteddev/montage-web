@@ -99,7 +99,7 @@ export const listComponents = () => {
   return parsedComponents;
 };
 
-export const listIcons = () => iconNames.sort();
+export const listIcons = () => iconNames;
 
 export const listTokens = () => {
   return Object.entries(theme.light).map(([name, value]) => {

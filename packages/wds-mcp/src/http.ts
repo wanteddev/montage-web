@@ -15,17 +15,19 @@ app.get('/health', (_, res) => {
 
 app.post('/mcp', async (req, res) => {
   const server = getServer();
+
+  const transport = new StreamableHTTPServerTransport({
+    sessionIdGenerator: undefined,
+  });
+
+  res.once('close', () => {
+    transport.close();
+    server.close();
+  });
+
   try {
-    const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
-    });
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
-
-    res.on('close', () => {
-      transport.close();
-      server.close();
-    });
   } catch (error) {
     console.error('Error handling MCP request:', error);
 
@@ -69,7 +71,7 @@ app.delete('/mcp', (_, res) => {
 });
 
 // Start the server
-app.listen(PORT, (error) => {
+const httpServer = app.listen(PORT, (error) => {
   if (error) {
     console.error('Failed to start server:', error);
     process.exit(1);
@@ -78,8 +80,11 @@ app.listen(PORT, (error) => {
   console.log(`MCP Stateless Streamable HTTP Server listening on port ${PORT}`);
 });
 
-// Handle server shutdown
-process.on('SIGINT', async () => {
+const shutdown = () => {
   console.log('Shutting down server...');
-  process.exit(0);
-});
+  httpServer.close(() => process.exit(0));
+};
+
+// Handle server shutdown
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
