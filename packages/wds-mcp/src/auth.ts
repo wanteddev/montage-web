@@ -105,20 +105,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     client: OAuthClientInformationFull,
     authorizationCode: string,
   ) {
-    console.log('[exchangeAuthorizationCode] start', {
-      clientId: client.client_id,
-      authorizationCode,
-    });
-
     const codeInfo = authCodes.get(authorizationCode);
 
     if (!codeInfo || codeInfo.clientId !== client.client_id) {
-      console.error('[exchangeAuthorizationCode] invalid code', { codeInfo });
       throw new Error('Invalid authorization code');
     }
 
     // Exchange the Google auth code for tokens
-    console.log('[exchangeAuthorizationCode] exchanging with Google...');
     const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -133,10 +126,6 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
     if (!tokenResponse.ok) {
       const error = await tokenResponse.text();
-      console.error(
-        '[exchangeAuthorizationCode] Google token exchange failed:',
-        error,
-      );
       throw new Error(`Failed to exchange code with Google: ${error}`);
     }
 
@@ -146,9 +135,6 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       expires_in: number;
     };
 
-    console.log(
-      '[exchangeAuthorizationCode] Google tokens received, exchanging with Firebase...',
-    );
     // Exchange Google ID token for Firebase ID token via REST API
     const firebaseResponse = await fetch(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${FIREBASE_API_KEY}`,
@@ -166,14 +152,9 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
     if (!firebaseResponse.ok) {
       const error = await firebaseResponse.text();
-      console.error(
-        '[exchangeAuthorizationCode] Firebase signInWithIdp failed:',
-        error,
-      );
       throw new Error(`Firebase sign-in failed: ${error}`);
     }
 
-    console.log('[exchangeAuthorizationCode] Firebase tokens received');
     const firebaseTokens = (await firebaseResponse.json()) as {
       idToken: string;
       expiresIn: string;
@@ -200,12 +181,7 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
   },
 
   async verifyAccessToken(token: string): Promise<AuthInfo> {
-    console.log('[verifyAccessToken] verifying token...');
     const decoded = await firebaseAuth.verifyIdToken(token).catch((error) => {
-      console.error(
-        '[verifyAccessToken] Firebase verifyIdToken failed:',
-        error,
-      );
       throw error;
     });
 
@@ -225,8 +201,6 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
 export const handleGoogleCallback = async (req: Request, res: Response) => {
   const { code, state, error } = req.query;
-
-  console.log('handleGoogleCallback', { code, state, error });
 
   if (error) {
     res.status(400).json({ error: `Google OAuth error: ${error}` });
