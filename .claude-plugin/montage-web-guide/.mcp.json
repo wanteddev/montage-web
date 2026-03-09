@@ -1,6 +1,6 @@
 {
   "montage-mcp-server": {
-    "command": "npx",
-    "args": ["-y", "@wanteddev/wds-mcp@latest"]
+    "type": "http",
+    "url": "https://montage-mcp.wanted.co.kr/mcp"
   }
 }
