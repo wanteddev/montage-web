@@ -1,7 +1,14 @@
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
+import { mcpAuthRouter } from '@modelcontextprotocol/sdk/server/auth/router.js';
+import { requireBearerAuth } from '@modelcontextprotocol/sdk/server/auth/middleware/bearerAuth.js';
 import express from 'express';
 
 import { getServer } from './server';
+import {
+  createOAuthProvider,
+  getServerUrl,
+  handleGoogleCallback,
+} from './auth';
 
 const PORT = parseInt(process.env.PORT ?? '3000', 10);
 
@@ -9,11 +16,28 @@ const app = express();
 
 app.use(express.json());
 
+const provider = createOAuthProvider();
+
+// MCP OAuth routes (metadata, authorize, token, register, revoke)
+app.use(
+  mcpAuthRouter({
+    provider,
+    issuerUrl: new URL(getServerUrl()),
+    scopesSupported: ['openid', 'email', 'profile'],
+  }),
+);
+
+// Google OAuth callback
+app.get('/oauth/google/callback', handleGoogleCallback);
+
 app.get('/health', (_, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-app.post('/mcp', async (req, res) => {
+// Bearer auth middleware for MCP endpoints
+const auth = requireBearerAuth({ verifier: provider });
+
+app.post('/mcp', auth, async (req, res) => {
   const server = getServer();
 
   const transport = new StreamableHTTPServerTransport({
