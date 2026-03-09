@@ -18,6 +18,7 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID ?? '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? '';
 const FIREBASE_API_KEY = process.env.FIREBASE_API_KEY ?? '';
 const ALLOWED_DOMAIN = 'wantedlab.com';
+const FETCH_TIMEOUT_MS = 10_000;
 
 const firebaseApp = initializeApp(
   {
@@ -45,9 +46,40 @@ interface StoredAuthCode {
   codeChallenge: string;
 }
 
-const registeredClients = new Map<string, OAuthClientInformationFull>();
-const pendingAuths = new Map<string, PendingAuth>();
-const authCodes = new Map<string, StoredAuthCode>();
+const TTL = {
+  CLIENT: 24 * 60 * 60 * 1000, // 24h
+  PENDING_AUTH: 10 * 60 * 1000, // 10min
+  AUTH_CODE: 5 * 60 * 1000, // 5min
+} as const;
+
+class TtlMap<K, V> {
+  private map = new Map<K, { value: V; expiresAt: number }>();
+
+  set(key: K, value: V, ttl: number) {
+    this.map.set(key, { value, expiresAt: Date.now() + ttl });
+  }
+
+  get(key: K): V | undefined {
+    const entry = this.map.get(key);
+
+    if (!entry) return undefined;
+
+    if (Date.now() > entry.expiresAt) {
+      this.map.delete(key);
+      return undefined;
+    }
+
+    return entry.value;
+  }
+
+  delete(key: K) {
+    this.map.delete(key);
+  }
+}
+
+const registeredClients = new TtlMap<string, OAuthClientInformationFull>();
+const pendingAuths = new TtlMap<string, PendingAuth>();
+const authCodes = new TtlMap<string, StoredAuthCode>();
 
 export const getServerUrl = () =>
   process.env.MCP_SERVER_URL || 'http://localhost:3000';
@@ -56,7 +88,7 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
   clientsStore: {
     getClient: async (clientId: string) => registeredClients.get(clientId),
     registerClient: async (client: OAuthClientInformationFull) => {
-      registeredClients.set(client.client_id, client);
+      registeredClients.set(client.client_id, client, TTL.CLIENT);
       return client;
     },
   },
@@ -83,12 +115,16 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     googleAuthUrl.searchParams.set('access_type', 'offline');
     googleAuthUrl.searchParams.set('prompt', 'consent');
 
-    pendingAuths.set(state, {
-      clientId: client.client_id,
-      redirectUri: params.redirectUri,
-      originalState: params.state,
-      codeChallenge: params.codeChallenge,
-    });
+    pendingAuths.set(
+      state,
+      {
+        clientId: client.client_id,
+        redirectUri: params.redirectUri,
+        originalState: params.state,
+        codeChallenge: params.codeChallenge,
+      },
+      TTL.PENDING_AUTH,
+    );
 
     res.redirect(googleAuthUrl.toString());
   },
@@ -122,6 +158,12 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
         redirect_uri: `${getServerUrl()}/oauth/google/callback`,
         grant_type: 'authorization_code',
       }),
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    }).catch((error) => {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error('Google token exchange timed out');
+      }
+      throw error;
     });
 
     if (!tokenResponse.ok) {
@@ -147,8 +189,14 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
           returnIdToken: true,
           returnSecureToken: true,
         }),
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
       },
-    );
+    ).catch((error) => {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error('Firebase sign-in timed out');
+      }
+      throw error;
+    });
 
     if (!firebaseResponse.ok) {
       const error = await firebaseResponse.text();
@@ -202,13 +250,8 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 export const handleGoogleCallback = async (req: Request, res: Response) => {
   const { code, state, error } = req.query;
 
-  if (error) {
-    res.status(400).json({ error: `Google OAuth error: ${error}` });
-    return;
-  }
-
-  if (typeof state !== 'string' || typeof code !== 'string') {
-    res.status(400).json({ error: 'Missing code or state parameter' });
+  if (typeof state !== 'string') {
+    res.status(400).json({ error: 'Missing state parameter' });
     return;
   }
 
@@ -221,13 +264,32 @@ export const handleGoogleCallback = async (req: Request, res: Response) => {
 
   pendingAuths.delete(state);
 
+  if (error || typeof code !== 'string') {
+    const redirectUrl = new URL(pending.redirectUri);
+    redirectUrl.searchParams.set(
+      'error',
+      typeof error === 'string' ? error : 'missing_code',
+    );
+
+    if (pending.originalState) {
+      redirectUrl.searchParams.set('state', pending.originalState);
+    }
+
+    res.redirect(redirectUrl.toString());
+    return;
+  }
+
   const ourCode = crypto.randomUUID();
 
-  authCodes.set(ourCode, {
-    googleCode: code,
-    clientId: pending.clientId,
-    codeChallenge: pending.codeChallenge,
-  });
+  authCodes.set(
+    ourCode,
+    {
+      googleCode: code,
+      clientId: pending.clientId,
+      codeChallenge: pending.codeChallenge,
+    },
+    TTL.AUTH_CODE,
+  );
 
   const redirectUrl = new URL(pending.redirectUri);
   redirectUrl.searchParams.set('code', ourCode);
