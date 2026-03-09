@@ -10,6 +10,13 @@ on:
         options:
           - 'www'
           - 'dev'
+  workflow_call:
+    inputs:
+      server_type:
+        description: Server type
+        required: false
+        default: 'dev'
+        type: string
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}

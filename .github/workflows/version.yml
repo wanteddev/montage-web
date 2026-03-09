@@ -129,3 +129,11 @@ jobs:
     with:
       server_type: www
       version_path: ${{ needs.deploy.outputs.version_path || '' }}
+
+  deploy-mcp-server:
+    uses: ./.github/workflows/mcp-deploy.yml
+    secrets: inherit
+    needs: [deploy]
+    if: ${{ needs.deploy.result == 'success' && !contains(inputs.increment, 'pre') && (inputs.increment == 'minor' || inputs.increment == 'major') }}
+    with:
+      server_type: www
