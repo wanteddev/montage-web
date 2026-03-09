@@ -98,6 +98,10 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     params: AuthorizationParams,
     res: Response,
   ) {
+    if (!client.redirect_uris.includes(params.redirectUri)) {
+      throw new Error('Redirect URI not registered for this client');
+    }
+
     const state = crypto.randomUUID();
 
     const googleAuthUrl = new URL(
