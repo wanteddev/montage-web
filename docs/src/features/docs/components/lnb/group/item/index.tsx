@@ -87,6 +87,16 @@ const LnbGroupItem = ({
       : { role: 'button', onClick, as: 'div' };
   }, [href, isExternal, handleRouteChange, onClick]);
 
+  const isRootDepth = depth === '0';
+
+  const color = useMemo(() => {
+    if (depth === '0') {
+      return 'semantic.label.neutral';
+    }
+
+    return isActive ? 'semantic.label.normal' : 'semantic.label.alternative';
+  }, [depth, isActive]);
+
   return (
     <Tooltip open={tooltipOpen} onOpenChange={handleTooltipOpenChange}>
       <TooltipTrigger>
@@ -100,11 +110,9 @@ const LnbGroupItem = ({
             data-depth={depth}
             aria-current={isActive ? 'page' : undefined}
             textProps={{
-              variant: depth === '0' ? 'headline2' : 'body2',
-              weight: isActive ? 'bold' : 'medium',
-              color: isActive
-                ? 'semantic.label.normal'
-                : 'semantic.label.alternative',
+              variant: isRootDepth ? 'heading2' : 'body2',
+              weight: isActive || isRootDepth ? 'bold' : 'medium',
+              color,
               lg: {
                 variant: 'label1',
               },

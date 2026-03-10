@@ -180,7 +180,7 @@ const LnbMobile = () => {
                 <FlexBox
                   flexDirection="column"
                   sx={frontmatterWrapperStyle}
-                  gap="4px"
+                  gap="8px"
                 >
                   <LnbGroupItem
                     depth="0"
