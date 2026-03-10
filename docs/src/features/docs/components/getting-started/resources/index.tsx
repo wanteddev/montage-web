@@ -58,7 +58,7 @@ const Resources = () => {
               as="p"
               color="semantic.label.normal"
             >
-              Github Repository
+              GitHub Repository
             </Typography>
           </FlexBox>
         </WithInteraction>
