@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.1](https://github.com/wanteddev/montage-web/compare/v3.3.0...v3.3.1) (2026-03-11)
+
+### Features
+
+- **wds-mcp:** oauth 인증 추가 ([#517](https://github.com/wanteddev/montage-web/issues/517)) ([3a3718f](https://github.com/wanteddev/montage-web/commit/3a3718ff562f84d2d0610c060ea3fdf5b963cfbf))
+
 # [3.3.0](https://github.com/wanteddev/montage-web/compare/v3.2.1...v3.3.0) (2026-03-03)
 
 ### Features
