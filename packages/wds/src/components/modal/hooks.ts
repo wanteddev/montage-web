@@ -73,7 +73,7 @@ export const useDraggable = ({
     peekHeight.current = givenPeekHeight ?? 0;
   }, [givenPeekHeight]);
 
-  const hasPeek = peekHeight.current > 0;
+  const hasPeek = () => peekHeight.current > 0;
 
   const handleVisibilityHidden = () => {
     const container = context.containerRef.current;
@@ -82,7 +82,7 @@ export const useDraggable = ({
       return;
     }
 
-    if (hasPeek) {
+    if (hasPeek()) {
       context.setVisibility('hidden');
     } else {
       resetDragStyles(container, dimmerRef.current);
@@ -96,7 +96,7 @@ export const useDraggable = ({
       return;
     }
 
-    if (context.visibility === 'hidden' && context.open && hasPeek) {
+    if (context.visibility === 'hidden' && context.open && hasPeek()) {
       container.style.removeProperty('transition');
       container.style.setProperty(
         '--wds-modal-translate',
@@ -125,7 +125,7 @@ export const useDraggable = ({
         (e.target as HTMLElement).closest(
           '[data-role="modal-container-grabber"]',
         ) ||
-        (peekHeight.current > 0 &&
+        (hasPeek() &&
           (e.target as HTMLElement).closest(
             '[wds-component="top-navigation"]',
           )) ||
@@ -238,7 +238,7 @@ export const useDraggable = ({
       }
 
       if (window.innerHeight - clientY <= totalHeight / 1.25) {
-        if (peekHeight.current > 0) {
+        if (hasPeek()) {
           context.setVisibility('hidden');
           applyPeekState(container, dimmerRef.current, peekHeight.current);
         } else {
