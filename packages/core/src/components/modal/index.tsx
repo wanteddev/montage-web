@@ -9,8 +9,8 @@ import {
 } from 'react';
 import { useComposedRefs } from '@radix-ui/react-compose-refs';
 import { Slot } from '@radix-ui/react-slot';
-import { Box } from '@wanteddev/wds-engine';
-import { IconClose } from '@wanteddev/wds-icon';
+import { Box } from '@montage-ui/engine';
+import { IconClose } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
 import { flushSync } from 'react-dom';
@@ -63,7 +63,7 @@ import type {
   DefaultComponentPropsInternal,
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
-} from '@wanteddev/wds-engine';
+} from '@montage-ui/engine';
 import type {
   ElementType,
   ForwardedRef,

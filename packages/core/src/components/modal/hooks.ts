@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useTheme } from '@wanteddev/wds-engine';
+import { useTheme } from '@montage-ui/engine';
 
 import { getPreviousValue } from '../../utils/internal/responsive-props';
 
@@ -15,7 +15,7 @@ import {
 } from './helpers';
 
 import type { RefObject } from 'react';
-import type { BreakPoint } from '@wanteddev/wds-engine';
+import type { BreakPoint } from '@montage-ui/engine';
 import type { ModalContainerProps } from './types';
 
 export const useDraggable = ({

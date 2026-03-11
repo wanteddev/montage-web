@@ -1,4 +1,4 @@
-import { css, keyframes } from '@wanteddev/wds-engine';
+import { css, keyframes } from '@montage-ui/engine';
 
 import {
   createResponsiveStyle,
@@ -9,7 +9,7 @@ import { toCssValue } from '../../utils/internal/css';
 
 import { BOTTOM_SHEET_SHADOW } from './constants';
 
-import type { Theme } from '@wanteddev/wds-engine';
+import type { Theme } from '@montage-ui/engine';
 import type {
   ModalContainerProps,
   ModalContentProps,
