@@ -226,10 +226,6 @@ Bottom sheet의 상단에 핸들을 표시하여 드래그로 숨기고 열 수 
 - true
 - false (default)
 
-handle이 활성화된 경우 dimmer 영역 클릭 시 닫히지 않고 아래로 숨겨집니다.
-
-이 때 숨겨지는 영역의 높이는 ModalNavigation의 높이를 사용합니다.
-
 <Demo code={`import {
   FlexBox,
   Button,
@@ -282,7 +278,9 @@ export default Demo;`}
 
 ### Peek height
 
-`peekHeight` 옵션을 사용하면 숨겨지는 영역의 높이를 조정할 수 있습니다.
+`peekHeight` 옵션을 0보다 큰 값으로 설정하면 handle로 조작 혹은 dimmer 영역 클릭 시 닫히지 않고 아래로 숨겨집니다.
+
+이 때 숨겨지는 영역의 높이는 `peekHeight` 값을 사용합니다.
 
 <Demo code={`import {
   FlexBox,
@@ -335,7 +333,7 @@ export default Demo;`}
 
 아래로 숨겨지거나 다시 나타날 때 `onVisibilityChange` 콜백을 사용할 수 있습니다.
 
-해당 콜백을 사용하여 아래로 숨김 처리 되지 않고 바로 닫히게 구성할 수 있습니다.
+해당 콜백을 사용하여 특정 상황에서 아래로 숨김 처리 되지 않고 바로 닫히게 구성할 수 있습니다.
 
 <Demo code={`import { useState } from 'react';
 import {
