@@ -29,7 +29,7 @@ mcp__montage-mcp-server__getting_started
 컴포넌트 작성 전 **반드시** WDS 코딩 가이드라인을 먼저 확인합니다.
 
 ```
-mcp__montage-mcp-server__wds_coding_guidelines
+mcp__montage-mcp-server__montage_coding_guidelines
 ```
 
 ### 2. 컴포넌트 개발 워크플로우
@@ -45,7 +45,7 @@ mcp__montage-mcp-server__list_components
 적합한 컴포넌트가 있다면 사용 방법을 추론하지 말고 **최대한 상세 스펙을 조회**합니다.
 
 ```
-mcp__montage-mcp-server__get_component({ componentName: "컴포넌트명" })
+mcp__montage-mcp-server__get_component({ name: "컴포넌트명" })
 ```
 
 #### 2.2 컴포넌트 사용 원칙

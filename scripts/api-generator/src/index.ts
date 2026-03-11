@@ -7,12 +7,12 @@ const componentFilter = /components\/.*\/(?!.*\.test\.tsx?$).*\.tsx?$/;
 
 const packages = [
   {
-    tsconfigPath: path.join(process.cwd(), '../../packages/wds/tsconfig.json'),
+    tsconfigPath: path.join(process.cwd(), '../../packages/core/tsconfig.json'),
   },
   {
     tsconfigPath: path.join(
       process.cwd(),
-      '../../packages/wds-engine/tsconfig.json',
+      '../../packages/engine/tsconfig.json',
     ),
     filter: /components\/force-theme\//,
   },
@@ -53,7 +53,7 @@ fs.writeFileSync(
 
 const iconBarrelPath = path.join(
   process.cwd(),
-  '../../packages/wds-icon/src/index.ts',
+  '../../packages/icon/src/index.ts',
 );
 const iconBarrelContent = fs.readFileSync(iconBarrelPath, 'utf-8');
 const iconNames = Array.from(

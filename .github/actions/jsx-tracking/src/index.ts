@@ -159,9 +159,9 @@ const run = async () => {
           ImportDeclaration(importPath) {
             const source = importPath.node.source.value;
             if (
-              source.startsWith('@wanteddev/wds') ||
-              source.startsWith('@wanteddev/wds-icon') ||
-              source.startsWith('@wanteddev/wds-lottie')
+              source.startsWith('@montage-ui/core') ||
+              source.startsWith('@montage-ui/icon') ||
+              source.startsWith('@montage-ui/lottie')
             ) {
               importPath.node.specifiers.forEach((specifier) => {
                 if (

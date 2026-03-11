@@ -18,7 +18,9 @@ A plugin that includes the Wanted Design System (WDS) MCP server and skills.
 
 ### MCP Server
 
-The following tools are available through the `@wanteddev/wds-mcp` MCP server:
+> **Note:** You need to log in with your @wantedlab.com Google account to use these services.
+
+The following tools are available through the `@wanteddev/montage-mcp` MCP server:
 
 | Tool                     | Description                          |
 | ------------------------ | ------------------------------------ |

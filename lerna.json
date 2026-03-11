@@ -1,8 +1,7 @@
 {
   "$schema": "https://unpkg.com/lerna@8.1.2/schemas/lerna-schema.json",
   "version": "3.4.0",
-  "packages": ["packages/*"],
-  "npmClient": "pnpm",
+  "packages": ["packages/*", "internal/*"],
   "command": {
     "version": {
       "conventionalCommits": true,

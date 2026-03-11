@@ -1,8 +1,8 @@
-import { Box, ScrollArea, Typography } from '@wanteddev/wds';
+import { Box, ScrollArea, Typography } from '@montage-ui/core';
 
 import { gridCellStyle, gridHeadCellStyle, gridHeaderStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 import type { PropsWithChildren } from 'react';
 
 type WithSxProps<T> = T & { sx?: SxProp };

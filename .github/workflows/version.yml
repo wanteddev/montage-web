@@ -19,7 +19,7 @@ on:
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   GH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  SERVICE: 'WDS'
+  SERVICE: 'Montage web'
 
 jobs:
   deploy:
@@ -43,7 +43,7 @@ jobs:
       - run: git config user.email "github-actions[bot]@users.noreply.github.com"
       - run: echo ""
       - name: Publish
-        run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} --yes ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --registry https://npm.pkg.github.com/ --yes --conventional-commits --create-release=github
+        run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --create-release=github --yes
 
       - name: Get published version
         id: version

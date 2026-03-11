@@ -1,5 +1,5 @@
 'use client';
-import { Typography } from '@wanteddev/wds';
+import { Typography } from '@montage-ui/core';
 import { useParams } from 'next/navigation';
 import { Fragment, useMemo } from 'react';
 

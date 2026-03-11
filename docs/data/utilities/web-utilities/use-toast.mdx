@@ -10,7 +10,7 @@ createdAt: 2025-06-19
 
 [RegionConfig](/docs/utilities/web-utility-components/region-config) 컴포넌트를 활용하여 노출되는 위치를 조정할 수 있습니다.
 
-<Demo code={`import { useToast, Button } from '@wanteddev/wds';
+<Demo code={`import { useToast, Button } from '@montage-ui/core';
 
 const Demo = () => {
   const toast = useToast();
@@ -34,8 +34,8 @@ export default Demo;`}
 
 Toast 에서 사용할 수 있는 `variant`, `duration`, `onAnimationEnd` 을 그대로 사용할 수 있습니다.
 
-<Demo code={`import { FlexBox, useToast, Button } from '@wanteddev/wds';
-import { IconCircleFill } from '@wanteddev/wds-icon';
+<Demo code={`import { FlexBox, useToast, Button } from '@montage-ui/core';
+import { IconCircleFill } from '@montage-ui/icon';
 
 const Demo = () => {
   const toast = useToast();
@@ -73,7 +73,7 @@ export default Demo;`}
 
 id를 직접 주입하고 `useRegionStore`와 함께 사용하여 열리고 닫히는 상태를 추가적으로 컨트롤 할 수 있습니다.
 
-<Demo code={`import { FlexBox, useToast, Button, useRegionStore } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, useToast, Button, useRegionStore } from '@montage-ui/core';
 import { useId, useEffect } from 'react';
  
 const Demo = () => {

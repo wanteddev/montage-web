@@ -18,6 +18,8 @@ Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
 
 ### MCP 서버
 
+> **Note:** @wantedlab.com 구글 계정 로그인이 필요합니다.
+
 `@wanteddev/wds-mcp` MCP 서버를 통해 다음 도구를 사용할 수 있습니다:
 
 | 도구                     | 설명                      |

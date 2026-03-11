@@ -16,6 +16,8 @@ const typescriptProject = [
   'docs/tsconfig.node.json',
   'packages/*/tsconfig.json',
   'packages/*/tsconfig.node.json',
+  'internal/*/tsconfig.json',
+  'internal/*/tsconfig.node.json',
   'tests/*/tsconfig.json',
   'tests/*/tsconfig.node.json',
   'scripts/api-generator/tsconfig.json',

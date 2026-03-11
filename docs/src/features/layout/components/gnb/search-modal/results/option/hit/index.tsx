@@ -1,4 +1,4 @@
-import { Box, FlexBox, Typography, WithInteraction } from '@wanteddev/wds';
+import { Box, FlexBox, Typography, WithInteraction } from '@montage-ui/core';
 import {
   type HTMLAttributes,
   type PropsWithChildren,

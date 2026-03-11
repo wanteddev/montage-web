@@ -1,4 +1,4 @@
-import { FlexBox, PaginationDots, Thumbnail } from '@wanteddev/wds';
+import { FlexBox, PaginationDots, Thumbnail } from '@montage-ui/core';
 import useEmblaCarousel from 'embla-carousel-react';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 import AutoPlayPlugin from 'embla-carousel-autoplay';
@@ -8,7 +8,7 @@ import { getImageUrl } from '@/helpers/image';
 
 import { carouselContentStyle, carouselStyle } from './style';
 
-import type { PaginationDotsProps } from '@wanteddev/wds';
+import type { PaginationDotsProps } from '@montage-ui/core';
 
 type Props = {
   paginationDots?: PaginationDotsProps;

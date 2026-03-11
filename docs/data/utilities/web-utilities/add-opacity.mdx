@@ -9,9 +9,9 @@ createdAt: 2025-06-17
 테마 팔레트에 투명도를 조절할 때 사용합니다.
 
 ```ts
-import { addOpacity, css } from '@wanteddev/wds';
+import { addOpacity, css } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
   background-color: ${addOpacity(
@@ -34,9 +34,9 @@ export const exampleStyle = (theme: Theme) => css`
 Custom Hex 색상에도 사용할 수 있습니다.
 
 ```ts
-import { addOpacity, css } from '@wanteddev/wds';
+import { addOpacity, css } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
   background-color: ${addOpacity('#000000', theme.opacity[12])};

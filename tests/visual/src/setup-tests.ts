@@ -1,5 +1,5 @@
-import '@wanteddev/wds/theme.css';
-import '@wanteddev/wds/reset.css';
+import '@montage-ui/core/theme.css';
+import '@montage-ui/core/reset.css';
 
 // Disable hover states for visual regression tests by moving mouse to corner
 if (typeof document !== 'undefined') {
