@@ -521,7 +521,7 @@ export const modalGrabberStyle = (theme: Theme) => css`
   position: absolute;
   padding: 7px 2px 0px 2px;
   margin-bottom: 8px;
-  background-color: ${theme.semantic.background.normal.normal};
+  background-color: ${theme.semantic.background.elevated.normal};
   width: 100%;
   top: 0;
   left: 0;
