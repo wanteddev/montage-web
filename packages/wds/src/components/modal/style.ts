@@ -519,15 +519,24 @@ export const modalNavigationStyle = ({ variant }: ModalNavigationProps) => {
 export const modalGrabberStyle = (theme: Theme) => css`
   min-width: inherit;
   position: absolute;
-  padding: 7px 2px 0px 2px;
-  margin-bottom: 8px;
-  background-color: ${theme.semantic.background.elevated.normal};
+  padding: 7px 2px;
   width: 100%;
   top: 0;
   left: 0;
   transform: translate3d(0, 0, 0);
   z-index: 10;
   touch-action: pan-y;
+
+  &::before {
+    content: '';
+    background-color: ${theme.semantic.background.elevated.normal};
+    width: 100%;
+    height: calc(100% - 7px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 
   &::after {
     content: '';

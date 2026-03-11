@@ -35,7 +35,8 @@ type ModalContainerDefaultProps = WithSxProps<{
   handle?: boolean;
   /**
    * When `variant=bottom` and `handle=true`, sets the bottom sheet's peek height (px).
-   * If the peek height is not set, the bottom sheet will be peeked with navigation height.
+   * Defaults to 0, which means the bottom sheet will close completely when dragged down.
+   * If set to a value greater than 0, the bottom sheet will peek at the given height.
    */
   peekHeight?: number;
   /**

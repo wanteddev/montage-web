@@ -4,13 +4,16 @@ import { useTheme } from '@wanteddev/wds-engine';
 import { useMedia } from '../../hooks/internal/use-media';
 import { getPreviousValue } from '../../utils/internal/responsive-props';
 
-import {
-  BOTTOM_SHEET_PEEK_PADDING,
-  BOTTOM_SHEET_SHADOW,
-  MODAL_NAME,
-} from './constants';
+import { BOTTOM_SHEET_SHADOW, MODAL_NAME } from './constants';
 import { useModalContext } from './contexts';
-import { calcOpacityRatio, isMouseDownOnPeek, isTouchEvent } from './helpers';
+import {
+  applyPeekState,
+  applyVisibleState,
+  calcOpacityRatio,
+  isMouseDownOnPeek,
+  isTouchEvent,
+  resetDragStyles,
+} from './helpers';
 
 import type { RefObject } from 'react';
 import type { BreakPoint } from '@wanteddev/wds-engine';
@@ -25,10 +28,8 @@ export const useDraggable = ({
   md,
   lg,
   xl,
-  target,
   dimmerRef,
 }: Omit<ModalContainerProps, 'target'> & {
-  target: HTMLDivElement | null;
   dimmerRef: RefObject<HTMLDivElement | null>;
 }) => {
   const theme = useTheme();
@@ -60,36 +61,19 @@ export const useDraggable = ({
 
   const isDragging = useRef(false);
 
-  const topNavigationHeight = useRef(0);
-
   const startedY = useRef(0);
 
   useEffect(() => {
     setIsBottomSheet(variant === 'bottom');
   }, [variant, setIsBottomSheet]);
 
-  const peekHeight = useRef(
-    givenPeekHeight !== undefined ? Math.max(givenPeekHeight, 20) : undefined,
-  );
+  const peekHeight = useRef(givenPeekHeight ?? 0);
 
   useEffect(() => {
-    peekHeight.current =
-      givenPeekHeight !== undefined ? Math.max(givenPeekHeight, 20) : undefined;
+    peekHeight.current = givenPeekHeight ?? 0;
   }, [givenPeekHeight]);
 
-  const calcTopNavigationHeight = () => {
-    const topNavigation = target?.querySelector(
-      '[wds-component="top-navigation"]',
-    );
-
-    const topNavigationToolbarHeight =
-      target?.querySelector('[data-role="top-navigation-toolbar"]')
-        ?.clientHeight ?? 0;
-
-    topNavigationHeight.current = topNavigation
-      ? topNavigation.clientHeight - topNavigationToolbarHeight
-      : 20;
-  };
+  const hasPeek = () => peekHeight.current > 0;
 
   const handleVisibilityHidden = () => {
     const container = context.containerRef.current;
@@ -98,7 +82,12 @@ export const useDraggable = ({
       return;
     }
 
-    context.setVisibility('hidden');
+    if (hasPeek()) {
+      context.setVisibility('hidden');
+    } else {
+      resetDragStyles(container, dimmerRef.current);
+      context.onOpenChange(false);
+    }
   };
 
   useEffect(() => {
@@ -107,16 +96,11 @@ export const useDraggable = ({
       return;
     }
 
-    calcTopNavigationHeight();
-
-    if (context.visibility === 'hidden' && context.open) {
+    if (context.visibility === 'hidden' && context.open && hasPeek()) {
       container.style.removeProperty('transition');
       container.style.setProperty(
         '--wds-modal-translate',
-        `calc(100% - ${
-          peekHeight.current ??
-          topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
-        }px)`,
+        `calc(100% - ${peekHeight.current}px)`,
       );
       dimmerRef.current?.style.removeProperty('transition');
       dimmerRef.current?.style.removeProperty('opacity');
@@ -141,14 +125,12 @@ export const useDraggable = ({
         (e.target as HTMLElement).closest(
           '[data-role="modal-container-grabber"]',
         ) ||
-        isMouseDownOnPeek(
-          e,
-          peekHeight.current ??
-            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING,
-        )
+        (hasPeek() &&
+          (e.target as HTMLElement).closest(
+            '[wds-component="top-navigation"]',
+          )) ||
+        isMouseDownOnPeek(e, peekHeight.current)
       ) {
-        calcTopNavigationHeight();
-
         startedY.current = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
         isDragging.current = true;
         context.containerRef.current?.style.setProperty('transition', 'none');
@@ -172,10 +154,7 @@ export const useDraggable = ({
       const clientY = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
 
       const minPosition = window.innerHeight - container.clientHeight;
-      const maxPosition =
-        window.innerHeight -
-        (peekHeight.current ??
-          topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING);
+      const maxPosition = window.innerHeight - peekHeight.current;
 
       const handleOpacityRatioStyle = (input: number) => {
         dimmerRef.current?.style.setProperty(
@@ -195,9 +174,7 @@ export const useDraggable = ({
       // Dragging down
       if (diffY > 0) {
         if (context.visibility === 'hidden') {
-          const nextPosition =
-            (peekHeight.current ??
-              topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING) - diffY;
+          const nextPosition = peekHeight.current - diffY;
           handleOpacityRatioStyle(window.innerHeight - nextPosition);
           return container.style.setProperty(
             '--wds-modal-translate',
@@ -215,10 +192,7 @@ export const useDraggable = ({
 
       // Dragging up
       if (diffY < 0 && context.visibility === 'hidden') {
-        const nextPosition =
-          Math.abs(diffY) +
-          (peekHeight.current ??
-            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING);
+        const nextPosition = Math.abs(diffY) + peekHeight.current;
 
         if (minPosition >= window.innerHeight - nextPosition) {
           handleOpacityRatioStyle(minPosition);
@@ -255,40 +229,25 @@ export const useDraggable = ({
       // Prevent action if moved less than or equal to 10px
       if (Math.abs(startedY.current - clientY) <= 10) {
         if (context.visibility === 'hidden') {
-          container.style.setProperty(
-            '--wds-modal-translate',
-            `calc(100% - ${
-              peekHeight.current ??
-              topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
-            }px)`,
-          );
-          container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
-          dimmerRef.current?.style.setProperty('opacity', '0');
+          applyPeekState(container, dimmerRef.current, peekHeight.current);
         } else {
-          container.style.setProperty('--wds-modal-translate', '0px');
-          container.style.removeProperty('box-shadow');
-          dimmerRef.current?.style.setProperty('opacity', '1');
+          applyVisibleState(container, dimmerRef.current);
         }
 
         return;
       }
 
       if (window.innerHeight - clientY <= totalHeight / 1.25) {
-        context.setVisibility('hidden');
-        container.style.setProperty(
-          '--wds-modal-translate',
-          `calc(100% - ${
-            peekHeight.current ??
-            topNavigationHeight.current + BOTTOM_SHEET_PEEK_PADDING
-          }px)`,
-        );
-        container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
-        dimmerRef.current?.style.setProperty('opacity', '0');
+        if (hasPeek()) {
+          context.setVisibility('hidden');
+          applyPeekState(container, dimmerRef.current, peekHeight.current);
+        } else {
+          resetDragStyles(container, dimmerRef.current);
+          context.onOpenChange(false);
+        }
       } else {
         context.setVisibility('visible');
-        container.style.setProperty('--wds-modal-translate', '0px');
-        container.style.removeProperty('box-shadow');
-        dimmerRef.current?.style.setProperty('opacity', '1');
+        applyVisibleState(container, dimmerRef.current);
       }
     };
 

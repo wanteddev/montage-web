@@ -248,7 +248,6 @@ const ModalContainer = forwardRef(
         md,
         lg,
         xl,
-        target: context.innerContainer,
         dimmerRef,
       });
 
