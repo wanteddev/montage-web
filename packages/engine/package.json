@@ -27,6 +27,11 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix"
   },
+  "license": "MIT",
+  "homepage": "https://montage.wanted.co.kr",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "url": "https://github.com/wanteddev/montage-web",
     "type": "git",
