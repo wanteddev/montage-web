@@ -1,6 +1,6 @@
-import { css, respondMore } from '@wanteddev/wds';
+import { css, respondMore } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const sidebarStyle = (theme: Theme) => css`
   width: 160px;

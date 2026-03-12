@@ -7,9 +7,9 @@ createdAt: 2025-06-17
 ## respondTo, respondDown
 
 ```ts
-import { css, respondTo } from '@wanteddev/wds';
+import { css, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
   width: 100px;
@@ -35,9 +35,9 @@ export const exampleStyle = (theme: Theme) => css`
 ## respondMore, respondUp
 
 ```ts
-import { css, respondMore } from '@wanteddev/wds';
+import { css, respondMore } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
   width: 50px;
@@ -65,7 +65,7 @@ export const exampleStyle = (theme: Theme) => css`
 Theme 객체를 직접 꺼내 위 유틸리티와 함께 사용할 수 있습니다.
 
 ```tsx
-import { Box, useMediaQuery } from '@wanteddev/wds';
+import { Box, useMediaQuery } from '@montage-ui/core';
 
 const Component = () => {
   const { respondTo, respondMore, respondUp, respondDown, breakpoint } = useMediaQuery();

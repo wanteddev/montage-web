@@ -6,8 +6,8 @@ import {
   Typography,
   WithInteraction,
   useThemeControl,
-} from '@wanteddev/wds';
-import { IconMenu, IconMoon, IconSearch, IconSun } from '@wanteddev/wds-icon';
+} from '@montage-ui/core';
+import { IconMenu, IconMoon, IconSearch, IconSun } from '@montage-ui/icon';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback } from 'react';

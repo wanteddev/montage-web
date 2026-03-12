@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Slider } from '@wanteddev/wds';
+import { Slider } from '@montage-ui/core';
 
 figma.connect(Slider, '<FIGMA_SLIDER>', {
   props: {

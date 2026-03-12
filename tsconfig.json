@@ -5,12 +5,12 @@
     "removeComments": false,
     "baseUrl": "./",
     "paths": {
-      "@wanteddev/wds": ["packages/wds/src"],
-      "@wanteddev/wds-icon": ["packages/wds-icon/src"],
-      "@wanteddev/wds-nextjs": ["packages/wds-nextjs/src"],
-      "@wanteddev/wds-engine": ["packages/wds-engine/src"],
-      "@wanteddev/wds-theme": ["packages/wds-theme/src"],
-      "@wanteddev/wds-lottie": ["packages/wds-lottie/src"]
+      "@montage-ui/core": ["packages/core/src"],
+      "@montage-ui/icon": ["packages/icon/src"],
+      "@montage-ui/nextjs": ["packages/nextjs/src"],
+      "@montage-ui/engine": ["packages/engine/src"],
+      "@montage-ui/theme": ["packages/theme/src"],
+      "@montage-ui/lottie": ["packages/lottie/src"]
     }
   },
   "include": ["figma/**/*"],

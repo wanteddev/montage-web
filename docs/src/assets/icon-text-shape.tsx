@@ -1,6 +1,6 @@
-import { Box } from '@wanteddev/wds';
+import { Box } from '@montage-ui/core';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = {
   sx?: SxProp;
