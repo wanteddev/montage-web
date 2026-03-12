@@ -1,4 +1,4 @@
-# `@wanteddev/wds`
+# `@montage-ui/core`
 
 Powered by [Emotion](https://github.com/emotion-js/emotion).
 
@@ -6,19 +6,11 @@ Powered by [Emotion](https://github.com/emotion-js/emotion).
 
 ## Install
 
-설치하기 전에 `.npmrc` 파일에 다음과 같은 설정이 필요합니다.
-
 ```sh
-@wanteddev:registry=https://npm.pkg.github.com/
+pnpm i @montage-ui/core @montage-ui/icon
 ```
 
-그런 다음 패키지를 설치할 수 있습니다.
-
-```sh
-pnpm i @wanteddev/wds @montage-ui/icon
-```
-
-> **⚠️ 주의:** `@wanteddev/wds-*` 관련 패키지(예: `@wanteddev/wds`, `@montage-ui/icon`, `@montage-ui/nextjs`)는 모두 **동일한 버전**으로 설치해야 합니다. 버전이 일치하지 않으면 theme context가 중복으로 생성되어 예기치 않은 스타일 문제가 발생할 수 있습니다.
+> **⚠️ 주의:** `@@montage-ui/*` 관련 패키지(예: `@montage-ui/core`, `@montage-ui/icon`, `@montage-ui/nextjs`)는 모두 **동일한 버전**으로 설치해야 합니다. 버전이 일치하지 않으면 theme context가 중복으로 생성되어 예기치 않은 스타일 문제가 발생할 수 있습니다.
 
 ## Usage
 
@@ -49,7 +41,7 @@ import { ThemeProvider } from '@montage-ui/core';
 
 import App from './App';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 const root = createRoot(document.getElementById('app')!);
 
@@ -73,11 +65,11 @@ import { ThemeProvider, CacheProvider, createCache } from '@montage-ui/core';
 
 import App from './App';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 const root = createRoot(document.getElementById('app')!);
 
-const cache = createCache({ key: 'wds', prepend: true });
+const cache = createCache({ key: 'montage', prepend: true });
 
 root.render(
   <CacheProvider value={cache}>
@@ -105,7 +97,7 @@ import { AppRouterCacheProvider } from '@montage-ui/nextjs';
 
 import type { PropsWithChildren } from 'react';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 const RootLayout = (props: PropsWithChildren) => {
   return (
@@ -137,7 +129,7 @@ import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 
 import type { PropsWithChildren } from 'react';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 const RootLayout = (props: PropsWithChildren) => {
   return (
@@ -173,7 +165,7 @@ import { AppCacheProvider } from '@montage-ui/nextjs';
 import type { AppProps } from 'next/app';
 import type { EmotionCacheProviderProps } from '@montage-ui/nextjs';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 const MyApp = ({
   Component,
@@ -254,7 +246,7 @@ const createEmotionCache = () => {
     insertionPoint = emotionInsertionPoint ?? undefined;
   }
 
-  return createCache({ key: 'wds', insertionPoint, prepend: true });
+  return createCache({ key: 'montage', insertionPoint, prepend: true });
 };
 
 const emotionCache = createEmotionCache();
@@ -320,7 +312,7 @@ import { ThemeProvider as StyledComponentsProvider } from 'styled-components';
 import type { AppProps } from 'next/app';
 import type { EmotionCacheProviderProps } from '@montage-ui/nextjs';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 const MyApp = ({
   Component,

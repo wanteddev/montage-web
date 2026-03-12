@@ -7,7 +7,7 @@ import type { AnimationConfig, AnimationItem } from 'lottie-web';
 import type { ComponentPropsWithoutRef } from 'react';
 
 /**
- * @deprecated use `@wanteddev/wds` Loading instead
+ * @deprecated use `@montage-ui/core` Loading instead
  */
 const Loading = memo(
   forwardRef<
