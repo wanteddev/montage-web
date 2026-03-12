@@ -10,8 +10,6 @@ It provides AI coding assistants with access to WDS component documentation, des
 
 ## Available Tools
 
-Montage
-
 | Tool                        | Description                                                  |
 | --------------------------- | ------------------------------------------------------------ |
 | `list_components`           | List all available Montage components                        |
@@ -26,7 +24,17 @@ Montage
 
 ## Setup
 
-### Cursor
+We recommend installing via the [Claude Plugin](../../.claude-plugin/montage-web-guide/README.md), which includes the MCP server along with skills for streamlined development.
+
+```bash
+claude plugin add wanteddev/montage-web
+```
+
+### Manual Setup (with a pinned version)
+
+If you want to pin a specific version, you can set it up manually:
+
+#### Cursor
 
 Add the following to your `.cursor/mcp.json`:
 
@@ -35,14 +43,14 @@ Add the following to your `.cursor/mcp.json`:
   "mcpServers": {
     "montage-mcp-server": {
       "command": "npx",
-      "args": ["-y", "@wanteddev/montage-mcp@latest"]
+      "args": ["-y", "@wanteddev/montage-mcp@3.4.0"]
     }
   }
 }
 ```
 
-### Claude Code
+#### Claude Code
 
 ```bash
-claude mcp add montage-mcp-server -- npx -y @wanteddev/montage-mcp@latest
+claude mcp add montage-mcp-server -- npx -y @wanteddev/montage-mcp@3.4.0
 ```

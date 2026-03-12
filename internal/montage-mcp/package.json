@@ -1,5 +1,6 @@
 {
   "name": "@wanteddev/montage-mcp",
+  "description": "MCP server for AI-assisted development with the Montage design system",
   "version": "3.4.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.24.3",

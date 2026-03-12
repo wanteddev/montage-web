@@ -1,5 +1,6 @@
 {
   "name": "@montage-ui/codemod",
+  "description": "Codemod scripts for migrating between Montage major versions",
   "version": "3.4.0",
   "dependencies": {
     "execa": "4.0.3",

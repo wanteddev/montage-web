@@ -1,5 +1,6 @@
 {
   "name": "@montage-ui/nextjs",
+  "description": "Next.js integration for the Montage design system",
   "version": "3.4.0",
   "files": [
     "dist"

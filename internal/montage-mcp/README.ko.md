@@ -24,7 +24,17 @@ AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아�
 
 ## 설정
 
-### Cursor
+MCP 서버와 스킬을 함께 포함하는 [Claude Plugin](../../.claude-plugin/montage-web-guide/README.ko.md)을 통한 설치를 권장합니다.
+
+```bash
+claude plugin add wanteddev/montage-web
+```
+
+### 수동 설정 (특정 버전 고정)
+
+특정 버전을 고정하여 사용하고 싶은 경우, 수동으로 설정할 수 있습니다:
+
+#### Cursor
 
 `.cursor/mcp.json`에 다음을 추가하세요:
 
@@ -33,14 +43,14 @@ AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아�
   "mcpServers": {
     "montage-mcp-server": {
       "command": "npx",
-      "args": ["-y", "@wanteddev/montage-mcp@latest"]
+      "args": ["-y", "@wanteddev/montage-mcp@3.4.0"]
     }
   }
 }
 ```
 
-### Claude Code
+#### Claude Code
 
 ```bash
-claude mcp add montage-mcp-server -- npx -y @wanteddev/montage-mcp@latest
+claude mcp add montage-mcp-server -- npx -y @wanteddev/montage-mcp@3.4.0
 ```

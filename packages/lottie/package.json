@@ -1,5 +1,6 @@
 {
   "name": "@montage-ui/lottie",
+  "description": "Lottie animation components for the Montage design system",
   "version": "3.4.0",
   "files": [
     "dist"

@@ -1,5 +1,6 @@
 {
   "name": "@montage-ui/theme",
+  "description": "Design tokens and theme definitions for the Montage design system",
   "version": "3.4.0",
   "files": [
     "dist"

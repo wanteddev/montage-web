@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## Project Overview
 
-Montage (formerly WDS) is Wanted Lab's design system for web. It's a Lerna + Nx monorepo containing 9 packages, all published under `@wanteddev/*` to GitHub Package Registry.
+Montage (formerly WDS) is Wanted Lab's design system for web. It's a Lerna + Nx monorepo. Public packages are published under `@montage-ui/*` to npm registry, while internal packages (e.g., `@wanteddev/montage-mcp`) are published to GitHub Package Registry.
 
 ## Common Commands
 
@@ -16,7 +16,7 @@ pnpm build
 pnpm test:unit
 
 # Run a single test file
-pnpm vitest run packages/wds/src/components/button/index.test.tsx
+pnpm vitest run packages/core/src/components/button/index.test.tsx
 
 # Watch mode for tests
 pnpm test:unit:watch
@@ -40,16 +40,16 @@ pnpm -F docs dev
 ## Package Dependency Graph
 
 ```text
-wds-theme (design tokens, no React dependency)
+@montage-ui/theme (design tokens, no React dependency)
     ↓
-wds-engine (Box, ThemeProvider, polymorphic types — depends on wds-theme + Emotion)
+@montage-ui/engine (Box, ThemeProvider, polymorphic types — depends on theme + Emotion)
     ↓
-wds, wds-icon, wds-lottie (UI components — depend on wds-engine)
+@montage-ui/core, @montage-ui/icon, @montage-ui/lottie (UI components — depend on engine)
     ↓
-wds-nextjs (Next.js integration — depends on wds-engine)
+@montage-ui/nextjs (Next.js integration — depends on engine)
 ```
 
-Tooling packages (`wds-codemod`, `wds-mcp`, `eslint-plugin-wds`) are standalone.
+Tooling packages (`@montage-ui/codemod`, `@montage-ui/eslint-plugin`) are standalone. `@wanteddev/montage-mcp` is an internal package under `internal/montage-mcp`.
 
 ## Architecture
 
@@ -88,7 +88,7 @@ Each component follows this layout:
 
 ```text
 component-name/
-├── index.tsx       # Implementation (uses Box from wds-engine)
+├── index.tsx       # Implementation (uses Box from @montage-ui/engine)
 ├── types.ts        # Props defined with WithSxProps<{...}> + ResponsiveProps
 ├── style.ts        # Style functions using theme tokens
 ├── constants.ts    # Optional constants
@@ -99,9 +99,9 @@ component-name/
 
 Three-layer architecture:
 
-1. **wds-theme**: Raw atomic tokens + semantic tokens (light/dark) + design tokens (spacing, opacity, breakpoint, zIndex)
-2. **wds-engine**: Emotion-based runtime (ThemeProvider, Box with `sx` prop, `useSxProps` hook)
-3. **wds**: Components compose styles using theme tokens via style functions
+1. **@montage-ui/theme**: Raw atomic tokens + semantic tokens (light/dark) + design tokens (spacing, opacity, breakpoint, zIndex)
+2. **@montage-ui/engine**: Emotion-based runtime (ThemeProvider, Box with `sx` prop, `useSxProps` hook)
+3. **@montage-ui/core**: Components compose styles using theme tokens via style functions
 
 ### Responsive Props
 
@@ -135,7 +135,7 @@ type ButtonProps = Merge<
 - Unit tests use **Vitest** with **@testing-library/react** and **vitest-axe** for accessibility
 - Test globals are enabled (`describe`, `it`, `expect`, `vi` available without imports)
 - Setup mocks: `matchMedia`, `ResizeObserver`, `HTMLCanvasElement`
-- Bundle size limits enforced via **size-limit** (e.g., wds: 5KB gzipped)
+- Bundle size limits enforced via **size-limit** (e.g., core: 5KB gzipped)
 
 ## CI Checks on PRs
 
