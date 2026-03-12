@@ -70,8 +70,8 @@ export const makeSectionVariantDemoCode = (
       .join(' ')} />
   `;
 
-  return `import { ${components.join(', ')} } from '@wanteddev/wds';
-  import { ${icons.join(', ')} } from '@wanteddev/wds-icon';
+  return `import { ${components.join(', ')} } from '@montage-ui/core';
+  import { ${icons.join(', ')} } from '@montage-ui/icon';
   import { ${internals.join(', ')} } from 'internal';
   import * as React from 'react';
 

@@ -1,4 +1,4 @@
-import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { FlexBox, Thumbnail, Typography } from '@montage-ui/core';
 import { useId } from 'react';
 
 import Carousel from '@/components/carousel';

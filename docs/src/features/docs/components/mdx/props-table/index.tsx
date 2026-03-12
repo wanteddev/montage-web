@@ -1,5 +1,5 @@
 'use client';
-import { IconCircleInfo } from '@wanteddev/wds-icon';
+import { IconCircleInfo } from '@montage-ui/icon';
 import {
   Box,
   FlexBox,
@@ -12,7 +12,7 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 
 import CodeBlock from '../code-block';
 

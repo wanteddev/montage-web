@@ -5,7 +5,7 @@ import {
   PopoverTrigger,
   Thumbnail,
   Typography,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import { pathCase, sentenceCase } from 'change-case';
 
 import Carousel from '@/components/carousel';

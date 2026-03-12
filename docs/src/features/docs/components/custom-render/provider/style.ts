@@ -1,6 +1,6 @@
-import { css, typographyStyle } from '@wanteddev/wds';
+import { css, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const wrapperStyle = (theme: Theme) => css`
   word-break: keep-all;

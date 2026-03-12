@@ -1,10 +1,16 @@
-import { FlexBox, Grid, GridItem, Thumbnail, Typography } from '@wanteddev/wds';
+import {
+  FlexBox,
+  Grid,
+  GridItem,
+  Thumbnail,
+  Typography,
+} from '@montage-ui/core';
 
 import { getImageUrl } from '@/helpers/image';
 
 import { sectionCardStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = {
   data: Array<{ title: string; description: string; image: string }>;

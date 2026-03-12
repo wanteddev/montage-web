@@ -1,4 +1,4 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
+import { FlexBox, Typography } from '@montage-ui/core';
 
 const Steps = () => {
   return (

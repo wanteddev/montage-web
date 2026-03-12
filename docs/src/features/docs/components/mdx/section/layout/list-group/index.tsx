@@ -1,4 +1,4 @@
-import { Typography } from '@wanteddev/wds';
+import { Typography } from '@montage-ui/core';
 import { Fragment } from 'react';
 
 import { ulStyle } from './style';

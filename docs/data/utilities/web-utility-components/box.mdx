@@ -11,7 +11,7 @@ createdAt: 2025-04-30
 - 모든 디자인시스템 컴포넌트는 Box를 기반으로 설계되었기 때문에 sx prop을 사용할 수 있어요.
 - emotion에서 제공하는 css, keyframes, ClassNames 모두 사용할 수 있어요.
 
-<Demo code={`import { Box } from '@wanteddev/wds';
+<Demo code={`import { Box } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -30,7 +30,7 @@ export default Demo;
 ## With css function
 
 <Demo
-  code={`import { Box, css, FlexBox } from '@wanteddev/wds';
+  code={`import { Box, css, FlexBox } from '@montage-ui/core';
 
 const widthStyle = css\`
   width: 50px;
@@ -77,7 +77,7 @@ export default Demo;
 ## With keyframes function
 
 <Demo
-  code={`import { Box, css, keyframes } from '@wanteddev/wds';
+  code={`import { Box, css, keyframes } from '@montage-ui/core';
 
 const bounce = keyframes\`
   from, 20%, 53%, 80%, to {

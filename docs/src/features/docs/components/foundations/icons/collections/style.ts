@@ -1,6 +1,6 @@
-import { addOpacity, css, respondTo } from '@wanteddev/wds';
+import { addOpacity, css, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const iconGridStyle = (theme: Theme) => css`
   display: grid;

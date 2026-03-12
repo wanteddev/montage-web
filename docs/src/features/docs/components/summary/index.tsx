@@ -1,4 +1,4 @@
-import { Divider, FlexBox } from '@wanteddev/wds';
+import { Divider, FlexBox } from '@montage-ui/core';
 import { useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { sentenceCase } from 'change-case';

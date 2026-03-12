@@ -89,10 +89,10 @@ const main = async () => {
       ? `/**\n * ${description.split('\n').join('\n * ')}\n */`
       : '';
 
-    const fileContent = `import { Box } from '@wanteddev/wds-engine';
+    const fileContent = `import { Box } from '@montage-ui/engine';
     import { forwardRef } from 'react';
 
-    import type { SxProp } from '@wanteddev/wds-engine';
+    import type { SxProp } from '@montage-ui/engine';
     import type { ComponentPropsWithoutRef } from 'react';
 
     type Props = ComponentPropsWithoutRef<'svg'> & {
@@ -164,7 +164,7 @@ const main = async () => {
       .map(([name]) => pascalCase(name))
       .join(
         ', ',
-      )}, ${ignoreSyncIcons.map((icon) => icon.name).join(', ')} } from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
+      )}, ${ignoreSyncIcons.map((icon) => icon.name).join(', ')} } from "@montage-ui/icon";\n${figmaConnectContents.join('\n')}`,
   );
 
   await Promise.all(

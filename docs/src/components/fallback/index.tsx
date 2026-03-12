@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, FlexBox, Typography } from '@wanteddev/wds';
+import { Box, Button, FlexBox, Typography } from '@montage-ui/core';
 import Link from 'next/link';
 
 import { fallbackTitleStyle } from './style';

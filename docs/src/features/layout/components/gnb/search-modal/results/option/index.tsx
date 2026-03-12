@@ -1,4 +1,4 @@
-import { Box, FlexBox, IconButton, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, IconButton, Typography } from '@montage-ui/core';
 import { useMemo } from 'react';
 import {
   IconArrowRight,
@@ -6,7 +6,7 @@ import {
   IconComponentFill,
   IconHistory,
   IconUtilityFill,
-} from '@wanteddev/wds-icon';
+} from '@montage-ui/icon';
 
 import IconTextShape from '@/assets/icon-text-shape';
 
@@ -14,7 +14,7 @@ import { isPageLevel, parseStringFromHit } from '../../helpers';
 
 import SearchOptionHit from './hit';
 
-import type { ListCell } from '@wanteddev/wds';
+import type { ListCell } from '@montage-ui/core';
 import type { DocSearchHit, InternalDocSearchHit } from '../../types';
 import type { ComponentPropsWithoutRef } from 'react';
 

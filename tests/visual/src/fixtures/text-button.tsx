@@ -1,5 +1,5 @@
-import { TextButton } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+import { TextButton } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 export const PrimaryTextButton = () => {
   return (

@@ -1,4 +1,4 @@
-import { Checkbox } from '@wanteddev/wds';
+import { Checkbox } from '@montage-ui/core';
 
 export const MediumCheckbox = () => {
   return (

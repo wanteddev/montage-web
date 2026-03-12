@@ -3,8 +3,8 @@ import {
   PopoverContent,
   Typography,
   useThemeControl,
-} from '@wanteddev/wds';
-import { IconMoon, IconSun } from '@wanteddev/wds-icon';
+} from '@montage-ui/core';
+import { IconMoon, IconSun } from '@montage-ui/icon';
 
 import { breakWordStyle } from '@/styles/text';
 

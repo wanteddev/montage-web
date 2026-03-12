@@ -1,5 +1,5 @@
-import { TextField, TextFieldContent } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+import { TextField, TextFieldContent } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 export const DefaultTextField = () => {
   return (

@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css } from '@montage-ui/core';
 
 export const carouselWrapperStyle = css`
   width: calc(100% + var(--layout-padding-inline) * 2);
