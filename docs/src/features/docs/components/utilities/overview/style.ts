@@ -1,6 +1,6 @@
-import { css, respondTo } from '@wanteddev/wds';
+import { css, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const headingStyle = css`
   &&:first-of-type {

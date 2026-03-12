@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css } from '@montage-ui/core';
 
 export const titleSectionWrapperStyle = css`
   margin-bottom: 24px;

@@ -7,7 +7,7 @@ import {
   TableHeadCell,
   TableRow,
   Typography,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 
 import HeadingLink from '../heading-link';
 import CodeBlock from '../code-block';

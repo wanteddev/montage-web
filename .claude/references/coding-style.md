@@ -40,7 +40,7 @@ The component is then re-exported from `packages/wds/src/components/index.ts` wi
 ### Non-responsive component
 
 ```ts
-import type { WithSxProps } from '@wanteddev/wds-engine';
+import type { WithSxProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
 
 export type ContentBadgeDefaultProps = WithSxProps<{
@@ -100,11 +100,11 @@ See [architecture.md](./architecture.md#component-type-system) for `DefaultCompo
 
 ```tsx
 import { forwardRef } from 'react';
-import { Box } from '@wanteddev/wds-engine';
+import { Box } from '@montage-ui/engine';
 
 import { contentBadgeStyle } from './style';
 
-import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
+import type { DefaultComponentPropsInternal } from '@montage-ui/engine';
 import type { ContentBadgeProps } from './types';
 
 const ContentBadge = forwardRef<
@@ -195,7 +195,7 @@ Three groups, blank line between each:
 ```tsx
 // 1) Value imports — external (react first), then internal (parent → sibling)
 import { forwardRef, useId } from 'react';
-import { Box } from '@wanteddev/wds-engine';
+import { Box } from '@montage-ui/engine';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { WithInteraction } from '../with-interaction';
@@ -207,7 +207,7 @@ import { buttonStyle } from './style';
 import type {
   PolymorphicComponentInternal,
   PolymorphicPropsInternal,
-} from '@wanteddev/wds-engine';
+} from '@montage-ui/engine';
 import type { ElementType, ForwardedRef, SyntheticEvent } from 'react';
 import type { ButtonProps } from './types';
 ```
@@ -221,8 +221,8 @@ ESLint's `import/order` enforces the value-import ordering; the type-only block 
 When the style needs theme tokens, use the curried form:
 
 ```ts
-import { css } from '@wanteddev/wds-engine';
-import type { Theme } from '@wanteddev/wds-engine';
+import { css } from '@montage-ui/engine';
+import type { Theme } from '@montage-ui/engine';
 import type { ButtonProps } from './types';
 
 export const buttonStyle =

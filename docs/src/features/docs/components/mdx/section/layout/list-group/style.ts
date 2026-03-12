@@ -1,4 +1,4 @@
-import { css } from '@wanteddev/wds';
+import { css } from '@montage-ui/core';
 
 export const ulStyle = css`
   list-style-type: disc;

@@ -1,6 +1,6 @@
-import { css, gradient } from '@wanteddev/wds';
+import { css, gradient } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const focusGuardStyle = (theme: Theme) => css`
   border: 1px solid ${theme.semantic.line.normal.normal};
