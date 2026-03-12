@@ -1,5 +1,5 @@
 {
-  "name": "@wanteddev/api-generator",
+  "name": "@montage-ui/api-generator",
   "private": true,
   "scripts": {
     "build": "tsx src/index.ts"

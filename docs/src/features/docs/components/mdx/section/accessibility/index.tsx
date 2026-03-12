@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeadCell,
   TableRow,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import { Fragment } from 'react';
 
 import { Heading2 } from '../layout';

@@ -1,6 +1,6 @@
-import { addOpacity, css, typographyStyle } from '@wanteddev/wds';
+import { addOpacity, css, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const inlineCodeStyle = (theme: Theme) => css`
   padding: 3px 6px;

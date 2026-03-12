@@ -14,21 +14,21 @@ Visit [https://montage.wanted.co.kr](https://montage.wanted.co.kr) to view the d
 
 ## Packages
 
-| Package                                                        | Description                                    |
-| -------------------------------------------------------------- | ---------------------------------------------- |
-| [`@wanteddev/wds`](./packages/wds)                             | Core UI component library                      |
-| [`@wanteddev/wds-engine`](./packages/wds-engine)               | Styling engine                                 |
-| [`@wanteddev/wds-theme`](./packages/wds-theme)                 | Design tokens and theme definitions            |
-| [`@wanteddev/wds-icon`](./packages/wds-icon)                   | Icon components                                |
-| [`@wanteddev/wds-lottie`](./packages/wds-lottie)               | Lottie animation components                    |
-| [`@wanteddev/wds-nextjs`](./packages/wds-nextjs)               | Next.js integration (App Router & Page Router) |
-| [`@wanteddev/wds-codemod`](./packages/wds-codemod)             | Codemod scripts for migrations                 |
-| [`@wanteddev/wds-mcp`](./packages/wds-mcp)                     | MCP server for AI-assisted development         |
-| [`@wanteddev/eslint-plugin-wds`](./packages/eslint-plugin-wds) | ESLint plugin for WDS best practices           |
+| Package                                                 | Description                                    |
+| ------------------------------------------------------- | ---------------------------------------------- |
+| [`@montage-ui/core`](./packages/core)                   | Core UI component library                      |
+| [`@montage-ui/engine`](./packages/engine)               | Styling engine                                 |
+| [`@montage-ui/theme`](./packages/theme)                 | Design tokens and theme definitions            |
+| [`@montage-ui/icon`](./packages/icon)                   | Icon components                                |
+| [`@montage-ui/lottie`](./packages/lottie)               | Lottie animation components                    |
+| [`@montage-ui/nextjs`](./packages/nextjs)               | Next.js integration (App Router & Page Router) |
+| [`@montage-ui/codemod`](./packages/codemod)             | Codemod scripts for migrations                 |
+| [`@montage-ui/eslint-plugin`](./packages/eslint-plugin) | ESLint plugin for Montage best practices       |
+| [`@wanteddev/montage-mcp`](./internal/montage-mcp)      | MCP server for AI-assisted development         |
 
 ## Getting Started
 
-Please refer to the [`@wanteddev/wds` README](./packages/wds/README.md) for installation and usage instructions.
+Please refer to the [`@montage-ui/core` README](./packages/core/README.md) for installation and usage instructions.
 
 ## Contributing
 
