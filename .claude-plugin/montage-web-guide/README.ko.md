@@ -1,6 +1,6 @@
 # Wanted Design System
 
-Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
+Wanted Design System(Montage UI) MCP와 skill이 포함된 플러그인입니다.
 
 [English](./README.md) | [한국어](./README.ko.md)
 
@@ -20,19 +20,19 @@ Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
 
 > **Note:** @wantedlab.com 구글 계정 로그인이 필요합니다.
 
-`@wanteddev/wds-mcp` MCP 서버를 통해 다음 도구를 사용할 수 있습니다:
+`@wanteddev/montage-mcp` MCP 서버를 통해 다음 도구를 사용할 수 있습니다:
 
-| 도구                     | 설명                      |
-| ------------------------ | ------------------------- |
-| `wds_coding_guidelines`  | WDS 코딩 가이드라인 조회  |
-| `list_components`        | 컴포넌트 목록 조회        |
-| `get_component`          | 컴포넌트 상세 스펙 조회   |
-| `list_tokens`            | 디자인 토큰 목록 조회     |
-| `get_color_usage`        | 색상 토큰 사용법 조회     |
-| `list_icons`             | 아이콘 목록 조회          |
-| `list_utility_functions` | 유틸리티 함수 목록 조회   |
-| `get_utility_function`   | 유틸리티 함수 상세 조회   |
-| `getting_started`        | WDS 초기 셋팅 가이드 조회 |
+| 도구                        | 설명                             |
+| --------------------------- | -------------------------------- |
+| `montage_coding_guidelines` | Montage UI 코딩 가이드라인 조회  |
+| `list_components`           | 컴포넌트 목록 조회               |
+| `get_component`             | 컴포넌트 상세 스펙 조회          |
+| `list_tokens`               | 디자인 토큰 목록 조회            |
+| `get_color_usage`           | 색상 토큰 사용법 조회            |
+| `list_icons`                | 아이콘 목록 조회                 |
+| `list_utility_functions`    | 유틸리티 함수 목록 조회          |
+| `get_utility_function`      | 유틸리티 함수 상세 조회          |
+| `getting_started`           | Montage UI 초기 셋팅 가이드 조회 |
 
 ### Skill: montage-react
 

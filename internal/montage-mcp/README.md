@@ -10,17 +10,19 @@ It provides AI coding assistants with access to WDS component documentation, des
 
 ## Available Tools
 
-| Tool                     | Description                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| `list_components`        | List all available WDS components                            |
-| `get_component`          | Get documentation and usage details for a specific component |
-| `wds_coding_guidelines`  | Get coding guidelines for writing WDS-based UI code          |
-| `list_icons`             | List all available icons from `@montage-ui/icon`             |
-| `list_tokens`            | List all available design tokens                             |
-| `get_color_usage`        | Get guidelines for applying colors                           |
-| `list_utility_functions` | List all available utility functions                         |
-| `get_utility_function`   | Get documentation for a specific utility function            |
-| `getting_started`        | Get installation and initial configuration guide             |
+Montage
+
+| Tool                        | Description                                                  |
+| --------------------------- | ------------------------------------------------------------ |
+| `list_components`           | List all available Montage components                        |
+| `get_component`             | Get documentation and usage details for a specific component |
+| `montage_coding_guidelines` | Get coding guidelines for writing Montage-based UI code      |
+| `list_icons`                | List all available icons from `@montage-ui/icon`             |
+| `list_tokens`               | List all available design tokens                             |
+| `get_color_usage`           | Get guidelines for applying colors                           |
+| `list_utility_functions`    | List all available utility functions                         |
+| `get_utility_function`      | Get documentation for a specific utility function            |
+| `getting_started`           | Get installation and initial configuration guide             |
 
 ## Setup
 

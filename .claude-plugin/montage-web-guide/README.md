@@ -1,6 +1,6 @@
 # Wanted Design System
 
-A plugin that includes the Wanted Design System (WDS) MCP server and skills.
+A plugin that includes the Wanted Design System (Montage UI) MCP server and skills.
 
 [English](./README.md) | [한국어](./README.ko.md)
 
@@ -22,17 +22,17 @@ A plugin that includes the Wanted Design System (WDS) MCP server and skills.
 
 The following tools are available through the `@wanteddev/montage-mcp` MCP server:
 
-| Tool                     | Description                          |
-| ------------------------ | ------------------------------------ |
-| `wds_coding_guidelines`  | View WDS coding guidelines           |
-| `list_components`        | List available components            |
-| `get_component`          | View detailed component specs        |
-| `list_tokens`            | List design tokens                   |
-| `get_color_usage`        | View color token usage guide         |
-| `list_icons`             | List available icons                 |
-| `list_utility_functions` | List utility functions               |
-| `get_utility_function`   | View detailed utility function specs |
-| `getting_started`        | View WDS initial setup guide         |
+| Tool                        | Description                          |
+| --------------------------- | ------------------------------------ |
+| `montage_coding_guidelines` | View Montage UI coding guidelines    |
+| `list_components`           | List available components            |
+| `get_component`             | View detailed component specs        |
+| `list_tokens`               | List design tokens                   |
+| `get_color_usage`           | View color token usage guide         |
+| `list_icons`                | List available icons                 |
+| `list_utility_functions`    | List utility functions               |
+| `get_utility_function`      | View detailed utility function specs |
+| `getting_started`           | View Montage UI initial setup guide  |
 
 ### Skill: montage-react
 
