@@ -1,5 +1,5 @@
 'use client';
-import { Divider } from '@wanteddev/wds';
+import { Divider } from '@montage-ui/core';
 import { useMemo } from 'react';
 import { sentenceCase } from 'change-case';
 

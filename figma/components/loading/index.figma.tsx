@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Loading } from '@wanteddev/wds';
+import { Loading } from '@montage-ui/core';
 
 figma.connect(Loading, '<FIGMA_LOADING_CIRCULAR>', {
   example: () => <Loading variant="circular" />,

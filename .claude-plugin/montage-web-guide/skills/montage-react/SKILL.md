@@ -1,6 +1,6 @@
 ---
 name: montage-react
-description: Guide for building UI with Montage (Wanted Design System) in React/Next.js projects. Triggers on component implementation, page/screen creation, styling (sx, theme, design tokens), icons, and utility functions. Active in projects using @wanteddev/wds packages.
+description: Guide for building UI with Montage (Wanted Design System) in React/Next.js projects. Triggers on component implementation, page/screen creation, styling (sx, theme, design tokens), icons, and utility functions. Active in projects using @montage-ui/core packages.
 ---
 
 # montage-react
@@ -11,7 +11,7 @@ Skill that is automatically applied when developing components based on Wanted D
 
 Apply this skill when any of the following conditions are met:
 
-- Working in a project that uses Montage packages such as `@wanteddev/wds`, `@wanteddev/wds-icon`, `@wanteddev/wds-dummy`, `@wanteddev/wds-brand`
+- Working in a project that uses Montage packages such as `@montage-ui/core`, `@montage-ui/icon`, `@montage-ui/dummy`, `@montage-ui/brand`
 - Creating, modifying, or looking up UI components
 - Implementing pages or screens
 - Working on styling (sx prop, theme tokens, colors, typography)
@@ -89,7 +89,7 @@ Follow these patterns for vibe design or page implementation requests.
 Basic page skeleton:
 
 ```tsx
-import { Box, FlexBox, containerStyle } from '@wanteddev/wds';
+import { Box, FlexBox, containerStyle } from '@montage-ui/core';
 
 <FlexBox flexDirection="column" sx={{ minHeight: '100vh' }}>
   <Box as="header" sx={containerStyle(true)}>
@@ -185,9 +185,9 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
 
   ```ts
   // use addOpacity utility
-  import { addOpacity } from '@wanteddev/wds';
+  import { addOpacity } from '@montage-ui/core';
 
-  import type { Theme } from '@wanteddev/wds';
+  import type { Theme } from '@montage-ui/core';
 
   const wrapperStyle = (theme: Theme) => css`
     background-color: addOpacity(
@@ -205,9 +205,9 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
 
     ```ts
     // style.ts
-    import { css } from '@wanteddev/wds';
+    import { css } from '@montage-ui/core';
 
-    import type { Theme } from '@wanteddev/wds';
+    import type { Theme } from '@montage-ui/core';
 
     export const overlayStyle = (theme: Theme) => css`
       position: relative;
@@ -233,17 +233,17 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
 
 - Do not use spacing tokens. Use px values directly.
 
-### 8. Dummy Layout Components (`@wanteddev/wds-dummy`)
+### 8. Dummy Layout Components (`@montage-ui/dummy`)
 
-The `@wanteddev/wds-dummy` package provides presentational-only reference scaffolds (`NavBar`, `Footer`, `BottomTabBar`) that mirror the wanted.co.kr layout.
+The `@montage-ui/dummy` package provides presentational-only reference scaffolds (`NavBar`, `Footer`, `BottomTabBar`) that mirror the wanted.co.kr layout.
 
 - **Use for**: demo pages, sandboxes, storybook entries, visual previews — anywhere a realistic-looking GNB / Footer / mobile tab bar is needed without wiring real behavior.
-- **Do NOT use as-is in production.** They take no behavior props (no `onClick`, no routing, no state). For real product code, copy the structure and rebuild it against your own data, links, and handlers using primitives from `@wanteddev/wds`.
+- **Do NOT use as-is in production.** They take no behavior props (no `onClick`, no routing, no state). For real product code, copy the structure and rebuild it against your own data, links, and handlers using primitives from `@montage-ui/core`.
 - All three are `forwardRef` components and accept a standard `sx` prop. `BottomTabBar` is intended for viewports below the `sm` breakpoint — wrap it accordingly if you also render `NavBar` on the same page.
 - Look up the full list and usage via `mcp__montage-mcp-server__list_dummy_components`. To see the exact JSX (e.g. to copy and adapt), read the source from `packages/wds-dummy/src/components/<component>/index.tsx`.
 
 ```tsx
-import { NavBar, Footer, BottomTabBar } from '@wanteddev/wds-dummy';
+import { NavBar, Footer, BottomTabBar } from '@montage-ui/dummy';
 
 <>
   <NavBar />
@@ -257,7 +257,7 @@ import { NavBar, Footer, BottomTabBar } from '@wanteddev/wds-dummy';
 
 Official Wanted brand marks. **Use as-is** — do not recolor, restyle, redraw, or crop.
 
-#### 9.1 Full wordmark — `LogoWanted` (`@wanteddev/wds-brand`)
+#### 9.1 Full wordmark — `LogoWanted` (`@montage-ui/brand`)
 
 Use when you need the **"[symbol] wanted" wordmark** (symbol + text together) — e.g. GNB, footer, splash, marketing surfaces.
 
@@ -266,13 +266,13 @@ Use when you need the **"[symbol] wanted" wordmark** (symbol + text together) �
 - Keep the default `112:32` (≈ 3.5:1) aspect ratio when resizing.
 
 ```tsx
-import { LogoWanted } from '@wanteddev/wds-brand';
+import { LogoWanted } from '@montage-ui/brand';
 
 <LogoWanted aria-label="Wanted Logo" />
 <LogoWanted width={168} height={48} aria-label="Wanted Logo" />;
 ```
 
-#### 9.2 Symbol only — `IconSymbol` (`@wanteddev/wds-icon`)
+#### 9.2 Symbol only — `IconSymbol` (`@montage-ui/icon`)
 
 Use when you need **just the Wanted symbol mark** (no wordmark) — e.g. favicons, app icons, compact headers, loading indicators, badges. Renders as a 1:1 square.
 
@@ -280,7 +280,7 @@ Use when you need **just the Wanted symbol mark** (no wordmark) — e.g. favicon
 - Do **not** crop or extract the symbol portion of `LogoWanted` to fake a symbol-only mark — always use `IconSymbol`.
 
 ```tsx
-import { IconSymbol } from '@wanteddev/wds-icon';
+import { IconSymbol } from '@montage-ui/icon';
 
 <IconSymbol sx={{ fontSize: '32px' }} />;
 ```
@@ -298,6 +298,6 @@ Verify the following after completing a component/page:
 - [ ] Used FlexBox/Grid/containerStyle appropriately for layout?
 - [ ] Used Montage icons? (when applicable)
 - [ ] Used appropriate responsive method when needed?
-- [ ] For demo/preview pages, used `@wanteddev/wds-dummy` scaffolds instead of hand-rolling a fake GNB/Footer/tab bar?
-- [ ] For the Wanted wordmark, used `LogoWanted` from `@wanteddev/wds-brand` (not a custom SVG)?
-- [ ] For the symbol-only mark, used `IconSymbol` from `@wanteddev/wds-icon` (not a cropped `LogoWanted`)?
+- [ ] For demo/preview pages, used `@montage-ui/dummy` scaffolds instead of hand-rolling a fake GNB/Footer/tab bar?
+- [ ] For the Wanted wordmark, used `LogoWanted` from `@montage-ui/brand` (not a custom SVG)?
+- [ ] For the symbol-only mark, used `IconSymbol` from `@montage-ui/icon` (not a cropped `LogoWanted`)?

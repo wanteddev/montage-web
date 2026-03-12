@@ -18,7 +18,7 @@ on:
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
-  SERVICE: 'WDS'
+  SERVICE: 'Montage web'
 
 jobs:
   deploy:
@@ -26,6 +26,9 @@ jobs:
       packages: write
       contents: write
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     steps:
       - name: Generate GitHub App Token
         id: app-token
@@ -68,7 +71,7 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} --yes ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --registry https://npm.pkg.github.com/ --yes --conventional-commits --create-release=github
+        run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --create-release=github --yes
 
       - name: Get published version
         id: version

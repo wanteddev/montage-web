@@ -8,8 +8,8 @@ import {
   PopoverTrigger,
   Typography,
   WithInteraction,
-} from '@wanteddev/wds';
-import * as Icons from '@wanteddev/wds-icon';
+} from '@montage-ui/core';
+import * as Icons from '@montage-ui/icon';
 import { useCallback } from 'react';
 import { camelCase } from 'change-case';
 

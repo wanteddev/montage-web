@@ -1,4 +1,4 @@
-import { Typography } from '@wanteddev/wds';
+import { Typography } from '@montage-ui/core';
 import Link from 'next/link';
 import { useCallback } from 'react';
 

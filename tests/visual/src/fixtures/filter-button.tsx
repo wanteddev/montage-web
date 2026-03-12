@@ -1,4 +1,4 @@
-import { FilterButton } from '@wanteddev/wds';
+import { FilterButton } from '@montage-ui/core';
 
 export const SolidFilterButton = () => {
   return (
