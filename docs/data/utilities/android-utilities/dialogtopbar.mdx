@@ -28,6 +28,34 @@ WantedDialogTopAppBar(
 | navigationIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
 | actions | (@Composable RowScope.() -> Unit)? | 우측 액션 슬롯입니다. |
 
+## Overload
+닫기 버튼이 포함된 다이얼로그용 TopAppBar 컴포넌트입니다.
+우측에 닫기 아이콘이 고정으로 배치됩니다.
+
+```kotlin
+WantedDialogTopAppBar(
+    title = "제목",
+    navigationIcon = { },
+    actions = { }
+)
+```
+<details>
+  <summary>Parameters</summary>
+
+
+  | 이름 | 타입 | 설명 |
+  |:---|:---|:---|
+  | modifier | Modifier | 컴포넌트에 적용할 Modifier입니다. |
+  | windowInsets | WindowInsets | 적용할 WindowInsets입니다. |
+  | backgroundColor | Color | 앱바 배경 색상입니다. |
+  | background | Boolean | 앱바 배경을 표시할지 여부입니다. |
+  | variant | Variant | 앱바 형태입니다. |
+  | scrollableState | ScrollableState? | 스크롤 상태를 관리하는 객체입니다. |
+  | navigationIcon | (@Composable () -> Unit)? | 좌측 아이콘 슬롯입니다. |
+  | title | (@Composable () -> Unit)? | 타이틀 텍스트 슬롯입니다. |
+  | actions | (@Composable RowScope.() -> Unit)? | 우측 액션 슬롯입니다. |
+
+</details>
 
 ## Advanced
 ### WantedDialogCloseTopAppBar

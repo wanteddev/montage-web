@@ -652,6 +652,11 @@ Button(action: {}) {
 </details>
 <details>
 
+<summary>``case crop``</summary>
+
+</details>
+<details>
+
 <summary>``case crown``</summary>
 
 </details>
@@ -808,6 +813,11 @@ Button(action: {}) {
 <details>
 
 <summary>``case flagFill``</summary>
+
+</details>
+<details>
+
+<summary>``case flip``</summary>
 
 </details>
 <details>
@@ -1418,6 +1428,11 @@ Button(action: {}) {
 <details>
 
 <summary>``case rightSide``</summary>
+
+</details>
+<details>
+
+<summary>``case rotate``</summary>
 
 </details>
 <details>
