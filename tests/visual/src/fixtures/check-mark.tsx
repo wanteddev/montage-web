@@ -1,4 +1,4 @@
-import { CheckMark } from '@wanteddev/wds';
+import { CheckMark } from '@montage-ui/core';
 
 export const MediumCheckMark = () => {
   return (

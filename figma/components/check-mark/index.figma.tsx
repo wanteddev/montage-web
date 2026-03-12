@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { CheckMark, FormControl, FormField, FormLabel } from '@wanteddev/wds';
+import { CheckMark, FormControl, FormField, FormLabel } from '@montage-ui/core';
 
 figma.connect(CheckMark, '<FIGMA_CONTROL_CHECK_MARK>', {
   props: {

@@ -1,4 +1,4 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
+import { FlexBox, Typography } from '@montage-ui/core';
 
 import { Heading2, SectionThumbnail } from '../layout';
 import { sectionLayoutStyle } from '../style';

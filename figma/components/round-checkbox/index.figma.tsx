@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { RoundCheckbox } from '@wanteddev/wds';
+import { RoundCheckbox } from '@montage-ui/core';
 
 figma.connect(RoundCheckbox, '<FIGMA_CONTROL_ROUND_CHECKBOX>', {
   props: {

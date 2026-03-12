@@ -14,9 +14,9 @@ description: Typography 스타일을 유틸리티로 제공해주는 함수입�
 ### Sx prop
 
 ```tsx
-import { Box, css, typographyStyle } from '@wanteddev/wds';
+import { Box, css, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 const Component = () => {
   return (
@@ -30,9 +30,9 @@ const Component = () => {
 ### Css function
 
 ```ts
-import { css, typographyStyle } from '@wanteddev/wds';
+import { css, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const exampleStyle = (theme: Theme) => css`
   ${typographyStyle('title1', 'bold')}

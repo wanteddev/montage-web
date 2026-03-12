@@ -1,0 +1,48 @@
+{
+  "name": "@montage-ui/theme",
+  "description": "Design tokens and theme definitions for the Montage design system",
+  "version": "3.9.0",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "types": "./dist/index.d.ts",
+      "module": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "build": "tsc --noEmit && tsdown",
+    "watch": "tsdown --watch"
+  },
+  "license": "MIT",
+  "homepage": "https://montage.wanted.co.kr",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "url": "https://github.com/wanteddev/montage-web",
+    "type": "git",
+    "directory": "packages/theme"
+  },
+  "devDependencies": {
+    "@types/object-path": "^0.11.4",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "object-path": "^0.11.8"
+  }
+}

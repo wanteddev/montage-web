@@ -9,7 +9,7 @@ createdAt: 2025-09-23
 입력 가능한 요소에 자동완성을 지원할 때 사용합니다.
 option 종류가 많을 경우 `debounce` 를 활용해서 속도를 최적화해서 사용하는 것을 추천합니다.
 
-<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@wanteddev/wds';
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, TextField, AutocompleteOption } from '@montage-ui/core';
 import { useState, useEffect, useMemo } from 'react';
 
 const fruits = [
@@ -87,7 +87,7 @@ Autocomplete는 여러 컴포넌트를 조합해서 사용합니다.
 
 `inputValue`, `value` 총 2가지 값으로 관리하며 올바른 값을 선택한 경우 value의 값이 변경됩니다. 
 
-<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox, Typography } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox, Typography } from '@montage-ui/core';
 import { useState, useMemo } from 'react';
 
 const fruits = [
@@ -143,7 +143,7 @@ export default Demo;`}
 
 간단한 하이라이트는 함수로 직접 처리할 수 있습니다.
 
-<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@montage-ui/core';
 import { useState, useMemo } from 'react';
 
 const fruits = [
@@ -207,7 +207,7 @@ export default Demo;`}
 
 또한 `autosuggest-highlight` 라는 라이브러리를 사용해서 다양한 필터 케이스를 대응할 수 있습니다.
 
-<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Box, Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@montage-ui/core';
 import { useState, useMemo } from 'react';
 
 import parse from 'autosuggest-highlight/parse';
@@ -271,7 +271,7 @@ export default Demo;`}
 
 Email 자동완성을 지원할 수 있습니다.
 
-<Demo code={`import { Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Autocomplete, AutocompleteField, AutocompleteList, TextField, TextFieldButton, AutocompleteOption, Label, FlexBox } from '@montage-ui/core';
 import { useState, useEffect, useMemo } from 'react';
 
 const options = ['@naver.com', '@wantedlab.com', '@hanmail.net', '@gmail.com'];
@@ -318,7 +318,7 @@ export default Demo;`}
 
 `AutocompleteGroup` 을 통해 각 섹션을 구분할 수 있습니다.
 
-<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, AutocompleteGroup, AutocompleteOption, TextField } from '@wanteddev/wds';
+<Demo code={`import { Typography, Autocomplete, AutocompleteField, AutocompleteList, AutocompleteGroup, AutocompleteOption, TextField } from '@montage-ui/core';
 import { useState, useEffect, useMemo } from 'react';
 
 const fruits = [

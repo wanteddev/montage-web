@@ -1,4 +1,4 @@
-import { Box, Slot } from '@wanteddev/wds';
+import { Box, Slot } from '@montage-ui/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import type { PropsWithChildren } from 'react';
