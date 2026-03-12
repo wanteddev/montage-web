@@ -1,10 +1,10 @@
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 import { EditorView } from '@codemirror/view';
-import { addOpacity } from '@wanteddev/wds';
+import { addOpacity } from '@montage-ui/core';
 
 import type { Extension } from '@codemirror/state';
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 const tagStyleHighlighter = (theme: Theme) =>
   HighlightStyle.define([

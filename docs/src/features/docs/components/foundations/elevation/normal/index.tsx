@@ -1,5 +1,5 @@
 'use client';
-import { Box, Thumbnail, Typography } from '@wanteddev/wds';
+import { Box, Thumbnail, Typography } from '@montage-ui/core';
 
 import { getImageUrl } from '@/helpers/image';
 

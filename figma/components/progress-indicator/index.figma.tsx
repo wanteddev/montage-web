@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { ProgressIndicator } from '@wanteddev/wds';
+import { ProgressIndicator } from '@montage-ui/core';
 
 figma.connect(ProgressIndicator, '<FIGMA_PROGRESS_INDICATOR>', {
   props: {

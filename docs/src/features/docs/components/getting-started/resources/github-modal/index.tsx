@@ -8,7 +8,7 @@ import {
   ModalContentItem,
   ModalDimmer,
   WithInteraction,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import Link from 'next/link';
 
 import {

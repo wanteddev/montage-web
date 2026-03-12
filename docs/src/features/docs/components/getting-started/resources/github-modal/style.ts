@@ -1,6 +1,6 @@
-import { css, keyframes, typographyStyle } from '@wanteddev/wds';
+import { css, keyframes, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 const mountKeyframes = keyframes`
   from {

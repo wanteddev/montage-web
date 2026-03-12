@@ -1,5 +1,5 @@
 'use client';
-import { FlexBox } from '@wanteddev/wds';
+import { FlexBox } from '@montage-ui/core';
 
 import Sidebar from '@/features/docs/components/sidebar';
 import Lnb from '@/features/docs/components/lnb';

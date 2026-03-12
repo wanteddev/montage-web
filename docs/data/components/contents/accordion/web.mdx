@@ -9,7 +9,7 @@ updatedAt: 2025-06-17
 
 내용을 최소화하거나 펼칠 때 사용합니다.
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -55,8 +55,8 @@ trailingContent가 a 태그이거나 클릭 이벤트가 있는 경우 `e.stopPr
 
 `AccordionSummaryContent` 컴포넌트로 감싸서 사용하고, `rotate` 옵션을 통해 열리고 닫힐 때 회전 여부를 결정할 수 있습니다.
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton, FlexBox } from '@wanteddev/wds';
-import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown, IconPlus } from '@wanteddev/wds-icon';
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionSummaryContent, IconButton, FlexBox } from '@montage-ui/core';
+import { IconCircleCheckFill, IconChevronDown, IconArrowRight, IconCaretDown, IconPlus } from '@montage-ui/icon';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -205,7 +205,7 @@ export default Demo;`}
 
 AccordionSummary의 `verticalPadding`, `fillWidth`으로 간격을 조정할 수 있습니다.
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -283,7 +283,7 @@ Accordion을 중첩해서 사용할 수 있습니다.
 > 중첩 인터렉션 영역이 잘리는 경우가 생길 수 있습니다.
 > `disableAnimation` 를 사용하거나 하위 Accordion은 `fillWidth` 로 사용하여 인터렉션 영역을 보호할 수 있습니다.
 
-<Demo code={`import { FlexBox, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Accordion, AccordionSummary, AccordionDetails, AccordionDescription } from '@montage-ui/core';
 import type { CSSProperties } from 'react';
 
 const Demo = () => {
@@ -359,8 +359,8 @@ export default Demo;`}
 
 `AccordionContent`를 이용하여 `AccordionDetails` 내부에 콘텐츠를 추가할 수 있습니다.
 
-<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionContent, TextButton } from '@wanteddev/wds';
-import { IconExternalLink } from '@wanteddev/wds-icon';
+<Demo code={`import { Accordion, AccordionSummary, AccordionDetails, AccordionDescription, AccordionContent, TextButton } from '@montage-ui/core';
+import { IconExternalLink } from '@montage-ui/icon';
 
 const Demo = () => {
   return (

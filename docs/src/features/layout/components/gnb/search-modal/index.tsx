@@ -9,9 +9,9 @@ import {
   ModalNavigation,
   SearchField,
   Typography,
-} from '@wanteddev/wds';
-import { FlexBox } from '@wanteddev/wds';
-import { IconArrowTurnDownLeft, IconChevronLeft } from '@wanteddev/wds-icon';
+} from '@montage-ui/core';
+import { FlexBox } from '@montage-ui/core';
+import { IconArrowTurnDownLeft, IconChevronLeft } from '@montage-ui/icon';
 
 import AlgoliaLogo from '@/assets/algolia-logo';
 

@@ -1,4 +1,4 @@
-import { Box, FlexBox, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Typography } from '@montage-ui/core';
 import { Fragment } from 'react';
 
 import { sectionLayoutStyle } from '../style';

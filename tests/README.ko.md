@@ -51,10 +51,10 @@ describe('...', () => {
 
 ```tsx
 // example
-import { Test } from '@wanteddev/wds';
+import { Button } from '@montage-ui/core';
 
-export const BasicTest = () => {
-  return <Test />;
+export const BasicButton = () => {
+  return <Button />;
 };
 ```
 

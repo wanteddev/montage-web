@@ -1,4 +1,4 @@
-import { ProgressIndicator } from '@wanteddev/wds';
+import { ProgressIndicator } from '@montage-ui/core';
 
 export const ProgressIndicatorDefault = () => {
   return (

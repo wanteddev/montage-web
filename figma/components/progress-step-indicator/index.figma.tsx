@@ -3,7 +3,7 @@ import { figma } from '@figma/code-connect';
 import {
   ProgressStepIndicator,
   ProgressStepIndicatorItem,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 
 figma.connect(ProgressStepIndicator, '<FIGMA_PROGRESS_STEP_INDICATOR>', {
   props: {

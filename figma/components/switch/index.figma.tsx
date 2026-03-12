@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Switch } from '@wanteddev/wds';
+import { Switch } from '@montage-ui/core';
 
 figma.connect(Switch, '<FIGMA_CONTROL_SWITCH>', {
   props: {

@@ -1,6 +1,6 @@
-import { css, gradient, keyframes, respondTo } from '@wanteddev/wds';
+import { css, gradient, keyframes, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 const mountKeyframe = keyframes`
   0% {

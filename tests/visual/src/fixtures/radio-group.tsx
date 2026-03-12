@@ -1,4 +1,4 @@
-import { RadioGroup, RadioGroupItem } from '@wanteddev/wds';
+import { RadioGroup, RadioGroupItem } from '@montage-ui/core';
 
 export const HorizontalRadioGroup = () => {
   return (

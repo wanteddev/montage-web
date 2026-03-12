@@ -1,6 +1,6 @@
-import { css } from '@wanteddev/wds';
+import { css } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const gridHeaderStyle = (theme: Theme) => css`
   border-bottom: 1px solid ${theme.semantic.line.normal.alternative};

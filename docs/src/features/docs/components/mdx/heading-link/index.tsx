@@ -1,5 +1,5 @@
-import { Box, FlexBox, IconButton } from '@wanteddev/wds';
-import { IconLink } from '@wanteddev/wds-icon';
+import { Box, FlexBox, IconButton } from '@montage-ui/core';
+import { IconLink } from '@montage-ui/icon';
 import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';

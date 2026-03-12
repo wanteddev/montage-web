@@ -1,7 +1,7 @@
-import { respondTo } from '@wanteddev/wds';
-import { css } from '@wanteddev/wds';
+import { respondTo } from '@montage-ui/core';
+import { css } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const itemWrapperStyle = (theme: Theme) => css`
   padding-top: 28px;

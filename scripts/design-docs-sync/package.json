@@ -1,5 +1,5 @@
 {
-  "name": "@wanteddev/design-docs-sync",
+  "name": "@montage-ui/design-docs-sync",
   "private": true,
   "scripts": {
     "start": "tsx src/index.ts"

@@ -6,7 +6,7 @@ import {
   TooltipContent,
   TooltipGroup,
   TooltipTrigger,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import { forwardRef, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
@@ -27,7 +27,7 @@ import {
   IconReplaceAll,
   IconTextFormat,
   IconWholeWord,
-} from '@wanteddev/wds-icon';
+} from '@montage-ui/icon';
 
 import {
   searchInputStyle,

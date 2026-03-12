@@ -1,5 +1,5 @@
-import { FlexBox, Typography, WithInteraction } from '@wanteddev/wds';
-import { IconArrowUpRight } from '@wanteddev/wds-icon';
+import { FlexBox, Typography, WithInteraction } from '@montage-ui/core';
+import { IconArrowUpRight } from '@montage-ui/icon';
 import Link from 'next/link';
 import { useState } from 'react';
 

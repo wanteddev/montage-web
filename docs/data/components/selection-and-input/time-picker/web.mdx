@@ -12,7 +12,7 @@ createdAt: 2025-05-12
 - 기본적으로 TextField 컴포넌트를 사용합니다.
 - 항상 유효한 Date 값을 가지고 있지는 않습니다. Invalid date 상태를 가질 수 있습니다.
 
-<Demo code={`import { TimePicker } from '@wanteddev/wds';
+<Demo code={`import { TimePicker } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -38,7 +38,7 @@ input에 시간이 표시되는 format 을 지정할 수 있습니다.
 12시간 형식일 경우 `a` 또는 `A`와 `h` 또는 `hh`를 함께 사용해야하며
 24시간 형식일 경우 `H` 또는 `HH`만 사용합니다.
 
-<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -65,7 +65,7 @@ export default Demo;`}
   - 기본적으로 timezone은 사용자의 환경에 따라 결정됩니다.
   - [dayjs](https://day.js.org/docs/en/timezone/timezone) 에서 지원하는 timezone과 `UTC` 를 모두 import 없이 사용할 수 있습니다.
 
-<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -85,7 +85,7 @@ export default Demo;`}
 
 `'meridiem' | 'hour' | 'minute' | 'second'` 를 지원합니다.
 
-<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
 
@@ -120,7 +120,7 @@ export default Demo;`}
 
 `Checkbox` 컴포넌트와 함께 사용할 때에는 `disableLastUnitClickClose` prop 을 사용하여 더욱 자연스러운 동작을 구현할 수 있
 
-<Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox, PickerActionArea, PickerActionAreaButton, FormField, FormControl, FormLabel, Checkbox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -185,7 +185,7 @@ export default Demo;`}
 - Invalid date 상태를 가질 수 있습니다.
 
 
-<Demo code={`import { TimePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@montage-ui/core';
 import { Controller, useForm } from 'react-hook-form';
 
 const minTime = new Date(new Date().setHours(10, 0, 0));
@@ -259,7 +259,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormErrorMessage`
 
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TimePicker } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TimePicker } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -284,7 +284,7 @@ export default Demo;`}
 
 > react 18.3 미만의 버전을 사용 중이라면, `forwardRef` 를 필수로 작성해주세요.
 
-<Demo code={`import { TimePicker, TimePickerFieldProps, Chip, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, TimePickerFieldProps, Chip, FlexBox } from '@montage-ui/core';
 import { forwardRef, useState } from 'react';
 
 const CustomChipField = forwardRef<HTMLDivElement, TimePickerFieldProps>(
@@ -342,7 +342,7 @@ export default Demo;`}
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
-<Demo code={`import { TimePicker, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { TimePicker, FlexBox } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {

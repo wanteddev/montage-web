@@ -1,4 +1,4 @@
-import { Box, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Thumbnail, Typography } from '@montage-ui/core';
 import { Fragment, memo, useMemo } from 'react';
 
 import { useHeadingContext } from '@/features/docs/contexts';
@@ -10,7 +10,7 @@ import { sectionLayoutStyle } from '../style';
 import { hasList, renderParsedContent } from './helpers';
 import { sectionThumbnailStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 import type { PropsWithChildren, ReactNode } from 'react';
 
 type HeadingProps = {

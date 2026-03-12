@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { FilterButton } from '@wanteddev/wds';
+import { FilterButton } from '@montage-ui/core';
 
 figma.connect(FilterButton, '<FIGMA_FILTER_BUTTON>', {
   props: {

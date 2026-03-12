@@ -1,7 +1,7 @@
 'use client';
-import { FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { FlexBox, Thumbnail, Typography } from '@montage-ui/core';
 import Link from 'next/link';
-import { IconArrowRightThick } from '@wanteddev/wds-icon';
+import { IconArrowRightThick } from '@montage-ui/icon';
 import { useCallback } from 'react';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';

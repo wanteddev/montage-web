@@ -1,6 +1,6 @@
-import { css, respondMore, respondTo } from '@wanteddev/wds';
+import { css, respondMore, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const accordionSummaryStyle = (theme: Theme) => css`
   && {

@@ -1,9 +1,9 @@
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { useToast } from '@wanteddev/wds';
+import { useToast } from '@montage-ui/core';
 import * as React from 'react';
-import * as Wds from '@wanteddev/wds';
-import * as WdsIcon from '@wanteddev/wds-icon';
+import * as Wds from '@montage-ui/core';
+import * as WdsIcon from '@montage-ui/icon';
 import * as reactVirtual from '@tanstack/react-virtual';
 import * as HookForm from 'react-hook-form';
 import * as reactSpring from 'react-spring';
@@ -16,7 +16,7 @@ import dynamic from 'next/dynamic';
 import { useRunner } from './react-runner';
 
 const WdsLottieLoading = dynamic(
-  () => import('@wanteddev/wds-lottie').then(({ Loading }) => Loading),
+  () => import('@montage-ui/lottie').then(({ Loading }) => Loading),
   { ssr: false },
 );
 
@@ -31,9 +31,9 @@ export const useReactDemoRunner = ({ code }: UseReactDemoRunnerParams) => {
     return {
       import: {
         react: React,
-        '@wanteddev/wds': Wds,
-        '@wanteddev/wds-icon': WdsIcon,
-        '@wanteddev/wds-lottie': { Loading: WdsLottieLoading },
+        '@montage-ui/core': Wds,
+        '@montage-ui/icon': WdsIcon,
+        '@montage-ui/lottie': { Loading: WdsLottieLoading },
         '@tanstack/react-virtual': reactVirtual,
         'react-hook-form': HookForm,
         'copy-to-clipboard': copy,

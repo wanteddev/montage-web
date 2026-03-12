@@ -1,4 +1,4 @@
-import { Avatar, AvatarButton, PushBadge } from '@wanteddev/wds';
+import { Avatar, AvatarButton, PushBadge } from '@montage-ui/core';
 
 export const DefaultAvatarButton = () => {
   return (

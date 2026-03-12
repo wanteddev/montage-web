@@ -8,7 +8,7 @@ import {
   FlexBox,
   Grid,
   GridItem,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import { capitalCase } from 'change-case';
 import Link from 'next/link';
 

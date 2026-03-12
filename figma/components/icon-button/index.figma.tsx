@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { IconButton, PushBadge } from '@wanteddev/wds';
+import { IconButton, PushBadge } from '@montage-ui/core';
 
 figma.connect(IconButton, '<FIGMA_ICON_BUTTON_NORMAL>', {
   props: {

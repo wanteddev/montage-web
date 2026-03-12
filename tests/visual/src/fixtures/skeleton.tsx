@@ -1,4 +1,4 @@
-import { Skeleton } from '@wanteddev/wds';
+import { Skeleton } from '@montage-ui/core';
 
 export const TextSkeleton = () => {
   return (
