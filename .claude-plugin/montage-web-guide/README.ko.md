@@ -1,6 +1,6 @@
 # Wanted Design System
 
-Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
+Wanted Design System(Montage UI) MCP와 skill이 포함된 플러그인입니다.
 
 [English](./README.md) | [한국어](./README.ko.md)
 
@@ -18,11 +18,11 @@ Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
 
 ### MCP 서버
 
-`@wanteddev/wds-mcp` MCP 서버를 통해 다음 도구를 사용할 수 있습니다:
+> **Note:** @wantedlab.com 구글 계정 로그인이 필요합니다.
 
 | 도구                     | 설명                                                                          |
 | ------------------------ | ----------------------------------------------------------------------------- |
-| `wds_coding_guidelines`  | WDS 코딩 가이드라인 조회                                                      |
+| `wds_coding_guidelines`  | Montage UI 코딩 가이드라인 조회                                               |
 | `list_components`        | 컴포넌트 목록 조회                                                            |
 | `get_component`          | 컴포넌트 상세 스펙 조회                                                       |
 | `list_tokens`            | 디자인 토큰 목록 조회                                                         |
@@ -32,7 +32,7 @@ Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
 | `get_utility_function`   | 유틸리티 함수 상세 조회                                                       |
 | `list_dummy_components`  | 데모/프리뷰용 레이아웃 스캐폴드(`NavBar`, `Footer`, `BottomTabBar`) 목록 조회 |
 | `list_brand_assets`      | Wanted 브랜드 마크 목록 조회 (`LogoWanted` 워드마크, `IconSymbol` 심볼 전용)  |
-| `getting_started`        | WDS 초기 셋팅 가이드 조회                                                     |
+| `getting_started`        | Montage UI 초기 셋팅 가이드 조회                                              |
 | `health_check`           | MCP 서버 상태 확인                                                            |
 
 ### Skill: montage-react

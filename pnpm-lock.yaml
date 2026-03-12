@@ -212,6 +212,18 @@ importers:
       '@lezer/highlight':
         specifier: ^1.2.3
         version: 1.2.3
+      '@montage-ui/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      '@montage-ui/icon':
+        specifier: workspace:*
+        version: link:../packages/icon
+      '@montage-ui/lottie':
+        specifier: workspace:*
+        version: link:../packages/lottie
+      '@montage-ui/nextjs':
+        specifier: workspace:*
+        version: link:../packages/nextjs
       '@next/third-parties':
         specifier: ^16.2.2
         version: 16.2.2(next@16.2.2(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(@playwright/test@1.56.1)(babel-plugin-macros@3.1.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
@@ -224,18 +236,6 @@ importers:
       '@tanstack/react-virtual':
         specifier: ^3.13.23
         version: 3.13.23(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@wanteddev/wds':
-        specifier: workspace:*
-        version: link:../packages/wds
-      '@wanteddev/wds-icon':
-        specifier: workspace:*
-        version: link:../packages/wds-icon
-      '@wanteddev/wds-lottie':
-        specifier: workspace:*
-        version: link:../packages/wds-lottie
-      '@wanteddev/wds-nextjs':
-        specifier: workspace:*
-        version: link:../packages/wds-nextjs
       algoliasearch:
         specifier: ^5.50.1
         version: 5.50.1
@@ -340,36 +340,95 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/eslint-plugin-wds:
+  internal/montage-mcp:
     dependencies:
-      jsx-ast-utils:
-        specifier: ^3.3.5
-        version: 3.3.5
+      '@modelcontextprotocol/sdk':
+        specifier: 1.29.0
+        version: 1.29.0(zod@4.3.6)
+      '@montage-ui/theme':
+        specifier: workspace:*
+        version: link:../../packages/theme
+      change-case:
+        specifier: ^5.4.4
+        version: 5.4.4
+      cheerio:
+        specifier: ^1.2.0
+        version: 1.2.0
+      express:
+        specifier: ^5.2.1
+        version: 5.2.1
+      firebase-admin:
+        specifier: ^13.7.0
+        version: 13.7.0(encoding@0.1.13)
+      semver:
+        specifier: ^7.7.4
+        version: 7.7.4
+      turndown:
+        specifier: ^7.2.4
+        version: 7.2.4
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
-      '@types/eslint':
-        specifier: ^8.56.12
-        version: 8.56.12
-      '@types/estree':
-        specifier: ^1.0.8
-        version: 1.0.8
-      '@types/estree-jsx':
-        specifier: ^1.0.5
-        version: 1.0.5
-      '@types/jsx-ast-utils':
-        specifier: ^3.3.1
-        version: 3.3.1
-      eslint:
-        specifier: ^8.57.1
-        version: 8.57.1
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
+      '@types/semver':
+        specifier: ^7.7.1
+        version: 7.7.1
+      '@types/turndown':
+        specifier: ^5.0.6
+        version: 5.0.6
+
+  packages/brand:
+    dependencies:
+      '@montage-ui/engine':
+        specifier: workspace:*
+        version: link:../engine
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds:
+  packages/codemod:
+    dependencies:
+      execa:
+        specifier: 4.0.3
+        version: 4.0.3
+      inquirer:
+        specifier: 7.3.3
+        version: 7.3.3
+      jscodeshift:
+        specifier: 17.1.1
+        version: 17.1.1(@babel/preset-env@7.25.7(@babel/core@7.29.0))
+      meow:
+        specifier: 7.0.1
+        version: 7.0.1
+    devDependencies:
+      '@types/jscodeshift':
+        specifier: 0.12.0
+        version: 0.12.0
+
+  packages/core:
     dependencies:
       '@floating-ui/react':
         specifier: ^0.27.19
         version: 0.27.19(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@montage-ui/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@montage-ui/icon':
+        specifier: workspace:*
+        version: link:../icon
       '@radix-ui/primitive':
         specifier: ^1.1.3
         version: 1.1.3
@@ -409,12 +468,6 @@ importers:
       '@radix-ui/react-use-size':
         specifier: ^1.1.1
         version: 1.1.1(@types/react@19.2.14)(react@19.2.4)
-      '@wanteddev/wds-engine':
-        specifier: workspace:*
-        version: link:../wds-engine
-      '@wanteddev/wds-icon':
-        specifier: workspace:*
-        version: link:../wds-icon
       aria-hidden:
         specifier: ^1.2.6
         version: 1.2.6
@@ -456,11 +509,20 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds-brand:
+  packages/dummy:
     dependencies:
-      '@wanteddev/wds-engine':
+      '@montage-ui/brand':
         specifier: workspace:*
-        version: link:../wds-engine
+        version: link:../brand
+      '@montage-ui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@montage-ui/engine':
+        specifier: workspace:*
+        version: link:../engine
+      '@montage-ui/icon':
+        specifier: workspace:*
+        version: link:../icon
     devDependencies:
       '@types/react':
         specifier: ^19.2.14
@@ -472,51 +534,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds-codemod:
-    dependencies:
-      execa:
-        specifier: 4.0.3
-        version: 4.0.3
-      inquirer:
-        specifier: 7.3.3
-        version: 7.3.3
-      jscodeshift:
-        specifier: 17.1.1
-        version: 17.1.1(@babel/preset-env@7.25.7(@babel/core@7.29.0))
-      meow:
-        specifier: 7.0.1
-        version: 7.0.1
-    devDependencies:
-      '@types/jscodeshift':
-        specifier: 0.12.0
-        version: 0.12.0
-
-  packages/wds-dummy:
-    dependencies:
-      '@wanteddev/wds':
-        specifier: workspace:*
-        version: link:../wds
-      '@wanteddev/wds-brand':
-        specifier: workspace:*
-        version: link:../wds-brand
-      '@wanteddev/wds-engine':
-        specifier: workspace:*
-        version: link:../wds-engine
-      '@wanteddev/wds-icon':
-        specifier: workspace:*
-        version: link:../wds-icon
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.14
-        version: 19.2.14
-      react:
-        specifier: ^19.2.4
-        version: 19.2.4
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-
-  packages/wds-engine:
+  packages/engine:
     dependencies:
       '@emotion/cache':
         specifier: ^11.14.0
@@ -524,9 +542,9 @@ importers:
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.2.14)(react@19.2.4)
-      '@wanteddev/wds-theme':
+      '@montage-ui/theme':
         specifier: workspace:*
-        version: link:../wds-theme
+        version: link:../theme
       csstype:
         specifier: ^3.2.3
         version: 3.2.3
@@ -547,11 +565,36 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds-icon:
+  packages/eslint-plugin:
     dependencies:
-      '@wanteddev/wds-engine':
+      jsx-ast-utils:
+        specifier: ^3.3.5
+        version: 3.3.5
+    devDependencies:
+      '@types/eslint':
+        specifier: ^8.56.12
+        version: 8.56.12
+      '@types/estree':
+        specifier: ^1.0.8
+        version: 1.0.8
+      '@types/estree-jsx':
+        specifier: ^1.0.5
+        version: 1.0.5
+      '@types/jsx-ast-utils':
+        specifier: ^3.3.1
+        version: 3.3.1
+      eslint:
+        specifier: ^8.57.1
+        version: 8.57.1
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/icon:
+    dependencies:
+      '@montage-ui/engine':
         specifier: workspace:*
-        version: link:../wds-engine
+        version: link:../engine
     devDependencies:
       '@types/react':
         specifier: ^19.2.14
@@ -563,14 +606,14 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds-lottie:
+  packages/lottie:
     dependencies:
+      '@montage-ui/engine':
+        specifier: workspace:*
+        version: link:../engine
       '@radix-ui/react-compose-refs':
         specifier: ^1.1.2
         version: 1.1.2(@types/react@19.2.14)(react@19.2.4)
-      '@wanteddev/wds-engine':
-        specifier: workspace:*
-        version: link:../wds-engine
       lottie-web:
         specifier: ^5.13.0
         version: 5.13.0
@@ -585,57 +628,14 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds-mcp:
-    dependencies:
-      '@modelcontextprotocol/sdk':
-        specifier: 1.29.0
-        version: 1.29.0(zod@4.3.6)
-      '@wanteddev/wds-theme':
-        specifier: workspace:*
-        version: link:../wds-theme
-      change-case:
-        specifier: ^5.4.4
-        version: 5.4.4
-      cheerio:
-        specifier: ^1.2.0
-        version: 1.2.0
-      express:
-        specifier: ^5.2.1
-        version: 5.2.1
-      firebase-admin:
-        specifier: ^13.7.0
-        version: 13.7.0(encoding@0.1.13)
-      semver:
-        specifier: ^7.7.4
-        version: 7.7.4
-      turndown:
-        specifier: ^7.2.4
-        version: 7.2.4
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-      zod:
-        specifier: ^4.3.6
-        version: 4.3.6
-    devDependencies:
-      '@types/express':
-        specifier: ^5.0.6
-        version: 5.0.6
-      '@types/semver':
-        specifier: ^7.7.1
-        version: 7.7.1
-      '@types/turndown':
-        specifier: ^5.0.6
-        version: 5.0.6
-
-  packages/wds-nextjs:
+  packages/nextjs:
     dependencies:
       '@emotion/server':
         specifier: ^11.11.0
         version: 11.11.0
-      '@wanteddev/wds-engine':
+      '@montage-ui/engine':
         specifier: workspace:*
-        version: link:../wds-engine
+        version: link:../engine
     devDependencies:
       '@types/react':
         specifier: ^19.2.14
@@ -650,7 +650,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
-  packages/wds-theme:
+  packages/theme:
     dependencies:
       object-path:
         specifier: ^0.11.8
@@ -697,9 +697,9 @@ importers:
 
   tests/commonjs:
     devDependencies:
-      '@wanteddev/wds':
+      '@montage-ui/core':
         specifier: workspace:*
-        version: link:../../packages/wds
+        version: link:../../packages/core
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -713,27 +713,27 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
     devDependencies:
+      '@montage-ui/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@montage-ui/icon':
+        specifier: workspace:*
+        version: link:../../packages/icon
       '@vitejs/plugin-react-swc':
         specifier: ^4.3.0
         version: 4.3.0(vite@8.0.3(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@25.5.2)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3))
-      '@wanteddev/wds':
-        specifier: workspace:*
-        version: link:../../packages/wds
-      '@wanteddev/wds-icon':
-        specifier: workspace:*
-        version: link:../../packages/wds-icon
       rolldown-vite:
         specifier: ^7.3.1
         version: 7.3.1(@emnapi/core@1.9.2)(@emnapi/runtime@1.9.2)(@types/node@25.5.2)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(tsx@4.21.0)(yaml@2.8.3)
 
   tests/visual:
     devDependencies:
-      '@wanteddev/wds':
+      '@montage-ui/core':
         specifier: workspace:*
-        version: link:../../packages/wds
-      '@wanteddev/wds-icon':
+        version: link:../../packages/core
+      '@montage-ui/icon':
         specifier: workspace:*
-        version: link:../../packages/wds-icon
+        version: link:../../packages/icon
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -9485,10 +9485,12 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   validate-npm-package-license@3.0.4:
@@ -13189,7 +13191,7 @@ snapshots:
   '@types/body-parser@1.19.6':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
 
   '@types/caseless@0.12.5':
     optional: true
@@ -13201,7 +13203,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
 
   '@types/conventional-commits-parser@5.0.2':
     dependencies:
@@ -13226,7 +13228,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.1.1':
     dependencies:
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
       '@types/qs': 6.15.0
       '@types/range-parser': 1.2.7
       '@types/send': 1.2.1
@@ -13276,7 +13278,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
 
   '@types/jsx-ast-utils@3.3.1':
     dependencies:
@@ -13303,6 +13305,7 @@ snapshots:
   '@types/node@25.5.2':
     dependencies:
       undici-types: 7.18.2
+    optional: true
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -13335,7 +13338,7 @@ snapshots:
   '@types/request@2.48.13':
     dependencies:
       '@types/caseless': 0.12.5
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
       '@types/tough-cookie': 4.0.5
       form-data: 2.5.5
     optional: true
@@ -13344,12 +13347,12 @@ snapshots:
 
   '@types/send@1.2.1':
     dependencies:
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
 
   '@types/serve-static@2.2.0':
     dependencies:
       '@types/http-errors': 2.0.5
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
 
   '@types/shelljs@0.8.17':
     dependencies:
@@ -18659,7 +18662,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 25.5.2
+      '@types/node': 22.19.17
       long: 5.3.2
     optional: true
 
@@ -20121,7 +20124,8 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.18.2: {}
+  undici-types@7.18.2:
+    optional: true
 
   undici@5.29.0:
     dependencies:

@@ -1,6 +1,6 @@
 # Wanted Design System
 
-A plugin that includes the Wanted Design System (WDS) MCP server and skills.
+A plugin that includes the Wanted Design System (Montage UI) MCP server and skills.
 
 [English](./README.md) | [한국어](./README.ko.md)
 
@@ -18,11 +18,11 @@ A plugin that includes the Wanted Design System (WDS) MCP server and skills.
 
 ### MCP Server
 
-The following tools are available through the `@wanteddev/wds-mcp` MCP server:
+> **Note:** You need to log in with your @wantedlab.com Google account to use these services.
 
 | Tool                     | Description                                                                               |
 | ------------------------ | ----------------------------------------------------------------------------------------- |
-| `wds_coding_guidelines`  | View WDS coding guidelines                                                                |
+| `wds_coding_guidelines`  | View Montage UI coding guidelines                                                         |
 | `list_components`        | List available components                                                                 |
 | `get_component`          | View detailed component specs                                                             |
 | `list_tokens`            | List design tokens                                                                        |
@@ -32,7 +32,7 @@ The following tools are available through the `@wanteddev/wds-mcp` MCP server:
 | `get_utility_function`   | View detailed utility function specs                                                      |
 | `list_dummy_components`  | List dummy layout scaffolds (`NavBar`, `Footer`, `BottomTabBar`) for demo / preview pages |
 | `list_brand_assets`      | List Wanted brand marks (`LogoWanted` wordmark, `IconSymbol` symbol-only)                 |
-| `getting_started`        | View WDS initial setup guide                                                              |
+| `getting_started`        | View Montage UI initial setup guide                                                       |
 | `health_check`           | Check MCP server health status                                                            |
 
 ### Skill: montage-react

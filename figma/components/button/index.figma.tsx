@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Button } from '@wanteddev/wds';
+import { Button } from '@montage-ui/core';
 
 figma.connect(Button, '<FIGMA_BUTTON>', {
   props: {

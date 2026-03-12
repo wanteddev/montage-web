@@ -84,15 +84,19 @@ const main = async () => {
   data.forEach((icon) => {
     const { name, content, id, parsedName, description } = icon;
     const fileName = kebabCase(name);
+<<<<<<< HEAD
 
     const comment = description
       ? `/**\n * ${description.split('\n').join('\n * ')}\n */`
       : '';
 
     const fileContent = `import { Box } from '@wanteddev/wds-engine';
+=======
+    const fileContent = `import { Box } from '@montage-ui/engine';
+>>>>>>> 2020a5763 (feat(*): npm registry로 이전 및 패키지명 변경 (#519))
     import { forwardRef } from 'react';
 
-    import type { SxProp } from '@wanteddev/wds-engine';
+    import type { SxProp } from '@montage-ui/engine';
     import type { ComponentPropsWithoutRef } from 'react';
 
     type Props = ComponentPropsWithoutRef<'svg'> & {
@@ -164,7 +168,7 @@ const main = async () => {
       .map(([name]) => pascalCase(name))
       .join(
         ', ',
-      )}, ${ignoreSyncIcons.map((icon) => icon.name).join(', ')} } from "@wanteddev/wds-icon";\n${figmaConnectContents.join('\n')}`,
+      )}, ${ignoreSyncIcons.map((icon) => icon.name).join(', ')} } from "@montage-ui/icon";\n${figmaConnectContents.join('\n')}`,
   );
 
   await Promise.all(

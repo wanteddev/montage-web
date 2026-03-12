@@ -77978,7 +77978,7 @@ var run = async () => {
         (0, import_traverse.default)(ast, {
           ImportDeclaration(importPath) {
             const source = importPath.node.source.value;
-            if (source.startsWith("@wanteddev/wds") || source.startsWith("@wanteddev/wds-icon") || source.startsWith("@wanteddev/wds-lottie")) {
+            if (source.startsWith("@montage-ui/core") || source.startsWith("@montage-ui/icon") || source.startsWith("@montage-ui/lottie")) {
               importPath.node.specifiers.forEach((specifier) => {
                 if (t.isImportSpecifier(specifier) && t.isIdentifier(specifier.local) && "imported" in specifier && t.isIdentifier(specifier.imported)) {
                   wdsComponents.set(

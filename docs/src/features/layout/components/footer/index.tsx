@@ -8,16 +8,16 @@ import {
   MenuList,
   MenuTrigger,
   TextButton,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import Link from 'next/link';
 import { useCallback } from 'react';
-import { IconCaretDown } from '@wanteddev/wds-icon';
+import { IconCaretDown } from '@montage-ui/icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { footerLinkStyle, footerStyle, footerTextButtonStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = {
   sx?: SxProp;
