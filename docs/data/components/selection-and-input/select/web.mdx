@@ -8,7 +8,7 @@ createdAt: 2025-08-12
 
 `Select`는 여러 옵션 중 하나의 값을 선택할 수 있습니다.
 
-<Demo code={`import { Select, Option, OptionGroup } from '@wanteddev/wds';
+<Demo code={`import { Select, Option, OptionGroup } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -35,7 +35,7 @@ export default Demo;`}
 
 `SelectMultiple` 을 사용하여 여러 옵션 중 하나 이상의 값을 선택할 수 있습니다.
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -64,8 +64,8 @@ export default Demo;`}
 
 Chip에 onClick이 들어가는 경우 `e.stopPropagation()` 을 통해 메뉴가 열리고 닫히는 동작을 막을 수 있습니다.
 
-<Demo code={`import { Chip, SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
-import { IconCloseThick } from '@wanteddev/wds-icon';
+<Demo code={`import { Chip, SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
+import { IconCloseThick } from '@montage-ui/icon';
 import { useState, useRef } from 'react';
 
 const Demo = () => {
@@ -119,7 +119,7 @@ export default Demo;`}
 
 `allSelectedLabel` prop을 사용하여 모든 옵션이 선택되었을 때 표시할 label을 커스텀할 수 있습니다.
 
-<Demo code={`import { SelectMultiple, Option, OptionGroup } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Option, OptionGroup } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -164,7 +164,7 @@ export default Demo;`}
 - radio (single only)
 - checkbox (multiple only)
 
-<Demo code={`import { SelectMultiple, Select, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { SelectMultiple, Select, Option, OptionGroup, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -210,7 +210,7 @@ validation 을 통해 여러 상태를 표현할 수 있습니다.
 - invalid (negative)
 - disabled
 
-<Demo code={`import { Select, Option, OptionGroup, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Select, Option, OptionGroup, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -271,8 +271,8 @@ export default Demo;`}
 
 `SelectContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+<Demo code={`import { Select, Option, OptionGroup, SelectContent, FlexBox, IconButton } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
@@ -335,8 +335,8 @@ export default Demo;`}
 
 `OptionContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { Select, Option, OptionContent, FlexBox, IconButton, Avatar, ContentBadge } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+<Demo code={`import { Select, Option, OptionContent, FlexBox, IconButton, Avatar, ContentBadge } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
@@ -394,8 +394,8 @@ Action Area 영역을 사용한다면 `enableMenuActionArea` prop 을 주어 `va
 - value: 실제 값
 - menuValue: 메뉴에서 선택된 값
 
-<Demo code={`import { Select, Option, OptionGroup, MenuActionArea, MenuActionAreaContent, Button } from '@wanteddev/wds';
-import { IconRefresh } from '@wanteddev/wds-icon';
+<Demo code={`import { Select, Option, OptionGroup, MenuActionArea, MenuActionAreaContent, Button } from '@montage-ui/core';
+import { IconRefresh } from '@montage-ui/icon';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -468,7 +468,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormMessage`
 - `FormErrorMessage`
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, Select, Option, OptionGroup } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, Select, Option, OptionGroup } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -513,7 +513,7 @@ export default Demo;`}
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components)를 참조해주세요.
 
-<Demo code={`import { FlexBox, Select, Option, OptionGroup } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Select, Option, OptionGroup } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -553,7 +553,7 @@ export default Demo;`}
 
 `react-hook-form`과 유연하게 조합해서 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, Select, Option, OptionGroup, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, Select, Option, OptionGroup, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {

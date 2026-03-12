@@ -1,6 +1,6 @@
-import { css, respondTo } from '@wanteddev/wds';
+import { css, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const sectionLayoutStyle = (theme: Theme) => css`
   &:not(:is([data-role='variants'])):not(:is([data-role='hierarchy'])) {

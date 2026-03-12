@@ -1,5 +1,5 @@
 'use client';
-import { Divider, Thumbnail, Typography } from '@wanteddev/wds';
+import { Divider, Thumbnail, Typography } from '@montage-ui/core';
 
 import { getImageUrl } from '@/helpers/image';
 
