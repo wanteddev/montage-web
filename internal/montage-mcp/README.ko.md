@@ -4,7 +4,7 @@
 
 Wanted Design System을 위한 MCP (Model Context Protocol) 서버입니다.
 
-AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아이콘, 코딩 가이드라인에 대한 접근을 제공합니다.
+AI 코딩 어시스턴트에게 Montage 컴포넌트 문서, 디자인 토큰, 아이콘, 코딩 가이드라인에 대한 접근을 제공합니다.
 
 > **Note:** 이 패키지는 private package로 GitHub Package Registry에 배포됩니다.
 

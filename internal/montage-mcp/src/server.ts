@@ -202,14 +202,14 @@ The following list of coding guidelines must be followed:
       description:
         'Retrieve documentation and usage details for a specific React component from the @montage-ui/core package by its name. This tool provides the official Montage ui documentation for any listed component, making it easy to inspect, reuse, or integrate components in your project.',
       inputSchema: z.object({
-        componentName: z
+        name: z
           .string()
           .describe('The name of the component to get documentation for'),
       }),
     },
-    async ({ componentName }) => {
+    async ({ name }) => {
       const components = listComponents();
-      const lowerCaseComponentName = componentName.toLowerCase();
+      const lowerCaseComponentName = name.toLowerCase();
       const match = components.find((component) => {
         return (
           component.name.toLowerCase() === lowerCaseComponentName ||
@@ -225,7 +225,7 @@ The following list of coding guidelines must be followed:
           content: [
             {
               type: 'text',
-              text: `There is no component named \`${componentName}\` in the @montage-ui/core package. For a full list of components, use the \`list_components\` tool.`,
+              text: `There is no component named \`${name}\` in the @montage-ui/core package. For a full list of components, use the \`list_components\` tool.`,
             },
           ],
         };
@@ -238,7 +238,7 @@ The following list of coding guidelines must be followed:
           content: [
             {
               type: 'text',
-              text: `Failed to fetch the documentation for ${componentName} usage guide Montage ui.`,
+              text: `Failed to fetch the documentation for ${name} usage guide Montage ui.`,
             },
           ],
         };
@@ -257,7 +257,7 @@ The following list of coding guidelines must be followed:
           content: [
             {
               type: 'text',
-              text: `Failed to parse the documentation for ${componentName} usage guide Montage ui.`,
+              text: `Failed to parse the documentation for ${name} usage guide Montage ui.`,
             },
           ],
         };
@@ -271,7 +271,7 @@ The following list of coding guidelines must be followed:
           content: [
             {
               type: 'text',
-              text: `Failed to parse the documentation for ${componentName} usage guide Montage ui.`,
+              text: `Failed to parse the documentation for ${name} usage guide Montage ui.`,
             },
           ],
         };
@@ -283,7 +283,7 @@ The following list of coding guidelines must be followed:
         content: [
           {
             type: 'text',
-            text: `Here is the documentation for ${componentName} usage guide Montage ui:
+            text: `Here is the documentation for ${name} usage guide Montage ui:
 
 ${text}
 

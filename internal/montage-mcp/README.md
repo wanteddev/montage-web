@@ -4,7 +4,7 @@
 
 MCP (Model Context Protocol) server for the Wanted Design System.
 
-It provides AI coding assistants with access to WDS component documentation, design tokens, icons, and coding guidelines.
+It provides AI coding assistants with access to Montage component documentation, design tokens, icons, and coding guidelines.
 
 > **Note:** This package is published as a private package to the GitHub Package Registry.
 

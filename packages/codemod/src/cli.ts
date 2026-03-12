@@ -24,7 +24,7 @@ const run = () => {
     help: `
     Usage
       $ npx @montage-ui/codemod <transform> <path> <...options>
-        transform    One of the choices from https://github.com/wanteddev/montage-web/tree/main/packages/wds-codemod
+        transform    One of the choices from https://github.com/wanteddev/montage-web/tree/main/packages/codemod
         path         Files or directory to transform. Can be a glob like pages/**.js
     `,
     flags: {
