@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Box, Tab, TabList, TabListItem } from '@wanteddev/wds';
+import { Box, Tab, TabList, TabListItem } from '@montage-ui/core';
 import Link from 'next/link';
 
 import useThrottle from '@/hooks/use-throttle';
@@ -11,7 +11,7 @@ import useRouteScroll from '../../hooks/use-route-scroll';
 
 import { tabScrollStyle, tabStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = {
   tabs: Array<{

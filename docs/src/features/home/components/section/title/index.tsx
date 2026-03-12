@@ -1,4 +1,4 @@
-import { Box, type SxProp } from '@wanteddev/wds';
+import { Box, type SxProp } from '@montage-ui/core';
 
 import { titleStyle } from './style';
 

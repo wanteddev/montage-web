@@ -2,6 +2,10 @@
 
 This file provides guidance to AI coding agents when working with code in this repository.
 
+## Project Overview
+
+Montage (formerly WDS) is Wanted Lab's design system for web. It's a Lerna + Nx monorepo. Public packages are published under `@montage-ui/*` to npm registry, while internal packages (e.g., `@wanteddev/montage-mcp`) are published to GitHub Package Private Registry.
+
 ## Common Commands
 
 ```bash
@@ -12,7 +16,7 @@ pnpm build
 pnpm test:unit
 
 # Run a single test file
-pnpm vitest run packages/wds/src/components/button/index.test.tsx
+pnpm vitest run packages/core/src/components/button/index.test.tsx
 
 # Watch mode for tests
 pnpm test:unit:watch

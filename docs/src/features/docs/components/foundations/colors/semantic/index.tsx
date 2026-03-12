@@ -1,5 +1,5 @@
 'use client';
-import { FlexBox, Typography, useTheme } from '@wanteddev/wds';
+import { FlexBox, Typography, useTheme } from '@montage-ui/core';
 import { capitalCase } from 'change-case';
 
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';

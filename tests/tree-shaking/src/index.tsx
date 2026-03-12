@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button, ThemeProvider } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+import { Button, ThemeProvider } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

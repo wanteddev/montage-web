@@ -11,7 +11,7 @@ import Providers from './providers';
 
 import type { Metadata, Viewport } from 'next';
 
-import '@wanteddev/wds/global.css';
+import '@montage-ui/core/global.css';
 
 export const metadata: Metadata = createMetadata({
   title: 'Wanted Design System',

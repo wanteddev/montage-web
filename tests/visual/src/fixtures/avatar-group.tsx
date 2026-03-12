@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup } from '@wanteddev/wds';
+import { Avatar, AvatarGroup } from '@montage-ui/core';
 
 export const SmallAvatarGroup = () => {
   return (

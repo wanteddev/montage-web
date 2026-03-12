@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { ToggleIcon } from '@wanteddev/wds';
+import { ToggleIcon } from '@montage-ui/core';
 
 figma.connect(ToggleIcon, '<FIGMA_TOGGLE_ICON>', {
   props: {

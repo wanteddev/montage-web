@@ -1,5 +1,5 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
-import { IconCircleCheckFill, IconCircleCloseFill } from '@wanteddev/wds-icon';
+import { FlexBox, Typography } from '@montage-ui/core';
+import { IconCircleCheckFill, IconCircleCloseFill } from '@montage-ui/icon';
 
 import { SectionDescription, SectionThumbnail } from '../layout';
 

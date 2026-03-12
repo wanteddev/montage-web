@@ -1,4 +1,4 @@
-import { FlexBox } from '@wanteddev/wds';
+import { FlexBox } from '@montage-ui/core';
 
 import Hero from '@/features/home/components/hero';
 import HomeLayout from '@/features/home/components/layout';

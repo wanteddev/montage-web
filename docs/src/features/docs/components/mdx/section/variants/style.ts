@@ -1,6 +1,6 @@
-import { css, respondMore, respondTo, typographyStyle } from '@wanteddev/wds';
+import { css, respondMore, respondTo, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const sectionVariantsDemoStyle = (theme: Theme) => css`
   aspect-ratio: 1/1;

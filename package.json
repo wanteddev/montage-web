@@ -1,5 +1,5 @@
 {
-  "name": "@wanteddev/wds",
+  "name": "@montage-ui/root",
   "private": true,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -13,16 +13,16 @@
   },
   "scripts": {
     "build": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run build",
-    "build:api": "pnpm -F @wanteddev/api-generator build",
+    "build:api": "pnpm -F @montage-ui/api-generator build",
     "lint": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
     "watch": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna watch -- echo \\$LERNA_PACKAGE_NAME \\$LERNA_FILE_CHANGES",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
-    "test:visual": "pnpm -F @wanteddev/test-visual test",
-    "test:visual:watch": "pnpm -F @wanteddev/test-visual test:watch",
-    "test:commonjs": "pnpm -F @wanteddev/test-commonjs test",
-    "test:treeshaking": "pnpm -F @wanteddev/test-tree-shaking test",
+    "test:visual": "pnpm -F @montage-ui/test-visual test",
+    "test:visual:watch": "pnpm -F @montage-ui/test-visual test:watch",
+    "test:commonjs": "pnpm -F @montage-ui/test-commonjs test",
+    "test:treeshaking": "pnpm -F @montage-ui/test-tree-shaking test",
     "lerna-deploy": "lerna publish --include-merged-tags",
     "deploy": "node scripts/deploy.mjs",
     "deploy:docs": "node scripts/docs-deploy.mjs",

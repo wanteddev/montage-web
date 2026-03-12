@@ -1,6 +1,6 @@
 'use client';
 
-import { Box } from '@wanteddev/wds';
+import { Box } from '@montage-ui/core';
 
 import { Heading2, Heading3 } from '../../mdx/section/layout';
 

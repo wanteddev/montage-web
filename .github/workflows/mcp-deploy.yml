@@ -67,13 +67,13 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
 
-      - name: Build wds-mcp
-        run: pnpm lerna run build --scope @wanteddev/wds-mcp --include-dependencies
+      - name: Build montage-mcp
+        run: pnpm lerna run build --scope @wanteddev/montage-mcp --include-dependencies
         env:
           MCP_TRACK_CLIENT_ID: ${{ secrets.MCP_TRACK_CLIENT_ID }}
 
-      - name: Deploy standalone wds-mcp
-        run: pnpm deploy --filter @wanteddev/wds-mcp --prod standalone --legacy
+      - name: Deploy standalone montage-mcp
+        run: pnpm deploy --filter @wanteddev/montage-mcp --prod standalone --legacy
 
       - name: Configure AWS credentials DEV
         if: ${{ startsWith(needs.set-env.outputs.server_type, 'dev') }}

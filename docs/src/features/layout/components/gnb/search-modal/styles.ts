@@ -1,6 +1,6 @@
-import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
+import { addOpacity, css, respondMore, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const modalWrapperStyle = (theme: Theme) => css`
   ${respondMore(theme.breakpoint.sm)} {

@@ -4,7 +4,7 @@ import {
   FormLabel,
   RadioGroup,
   RadioGroupItem,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import {
   FlexBox,
   IconButton,
@@ -14,12 +14,12 @@ import {
   ScrollArea,
   Typography,
   useTheme,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import * as React from 'react';
-import * as Wds from '@wanteddev/wds';
-import * as WdsIcon from '@wanteddev/wds-icon';
+import * as Wds from '@montage-ui/core';
+import * as WdsIcon from '@montage-ui/icon';
 import { memo, useEffect, useMemo, useState } from 'react';
-import { IconTune } from '@wanteddev/wds-icon';
+import { IconTune } from '@montage-ui/icon';
 
 import { Heading2 } from '../layout';
 import { sectionLayoutStyle } from '../style';
@@ -264,8 +264,8 @@ const SectionVariantsItemDemo = memo(
       return {
         import: {
           react: React,
-          '@wanteddev/wds': Wds,
-          '@wanteddev/wds-icon': WdsIcon,
+          '@montage-ui/core': Wds,
+          '@montage-ui/icon': WdsIcon,
           internal: { Carousel },
         },
       };

@@ -1,6 +1,6 @@
-import { css, ellipsisTypographyStyle, respondMore } from '@wanteddev/wds';
+import { css, ellipsisTypographyStyle, respondMore } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const lnbItemStyle = (theme: Theme) => css`
   && {

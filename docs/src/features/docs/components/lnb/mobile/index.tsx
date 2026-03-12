@@ -10,9 +10,9 @@ import {
   ModalNavigation,
   ModalNavigationButton,
   Typography,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { IconArrowLeft, IconClose } from '@wanteddev/wds-icon';
+import { IconArrowLeft, IconClose } from '@montage-ui/icon';
 import { usePathname } from 'next/navigation';
 import { sentenceCase } from 'change-case';
 

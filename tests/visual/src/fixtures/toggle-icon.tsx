@@ -1,5 +1,5 @@
-import { ToggleIcon } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+import { ToggleIcon } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 export const DefaultToggleIcon = () => {
   return (

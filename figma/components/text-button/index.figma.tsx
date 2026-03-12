@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { TextButton } from '@wanteddev/wds';
+import { TextButton } from '@montage-ui/core';
 
 figma.connect(TextButton, '<FIGMA_TEXT_BUTTON>', {
   props: {

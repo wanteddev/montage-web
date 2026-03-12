@@ -7,7 +7,7 @@
 Button의 `color="secondary"` 가 제거되었습니다. 기존 secondary는 assistive로 대체됩니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest button-secondary-migration
+npx @montage-ui/codemod@latest button-secondary-migration
 ```
 
 ## ListCell
@@ -15,7 +15,7 @@ npx @wanteddev/wds-codemod@latest button-secondary-migration
 ListCell 컴포넌트의 active 옵션이 selected로 변경됩니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest list-cell-active-to-selected
+npx @montage-ui/codemod@latest list-cell-active-to-selected
 ```
 
 ### Switch
@@ -42,7 +42,7 @@ ex) bottom-center -> top-center
 - AutocompleteList, MenuContent, PopoverContent, TooltipContent, PopperContent, TimePicker, DatePicker, Select, SelectMultiple
 
 ```sh
-npx @wanteddev/wds-codemod@latest compact-tooltip-migration
+npx @montage-ui/codemod@latest compact-tooltip-migration
 ```
 
 #### PopoverContent
@@ -74,7 +74,7 @@ Thumbnail, CardThumbnail, Avatar에 기본적으로 적용되던 이미지 optim
 Dialog 컴포넌트가 Alert 컴포넌트로 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest dialog-to-alert
+npx @montage-ui/codemod@latest dialog-to-alert
 ```
 
 접근성을 위한 AlertTrigger (DialogTrigger) 컴포넌트가 추가되었습니다.
@@ -112,7 +112,7 @@ Elevation Shadow 토큰이 변경되었습니다.
 - Normal → XSmall, Emphasize → Small, Strong → Medium, Bold → Large, Heavy → XLarge
 
 ```sh
-npx @wanteddev/wds-codemod@latest shadow-migration
+npx @montage-ui/codemod@latest shadow-migration
 ```
 
 ### Tooltip
@@ -136,7 +136,7 @@ TextFieldButton의 경우 TextField에 trailingButton 옵션으로 사용하도�
 ChipAction 컴포넌트가 Chip 컴포넌트로 변경되었고, ChipFiler 컴포넌트가 FilterButton 컴포넌트로 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest chip-naming-migration
+npx @montage-ui/codemod@latest chip-naming-migration
 ```
 
 ### EmptyState
@@ -144,7 +144,7 @@ npx @wanteddev/wds-codemod@latest chip-naming-migration
 EmptyState 컴포넌트가 FallbackView 컴포넌트로 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest empty-state-to-fallback-view
+npx @montage-ui/codemod@latest empty-state-to-fallback-view
 ```
 
 ### ProgressTrackDesktop
@@ -152,7 +152,7 @@ npx @wanteddev/wds-codemod@latest empty-state-to-fallback-view
 ProgressTrackDesktop 컴포넌트가 Stepper 컴포넌트로 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest stepper-migration
+npx @montage-ui/codemod@latest stepper-migration
 ```
 
 ### TextButton
@@ -160,7 +160,7 @@ npx @wanteddev/wds-codemod@latest stepper-migration
 TextButton 컴포넌트의 variant 옵션이 color로 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest text-button-variant-to-color
+npx @montage-ui/codemod@latest text-button-variant-to-color
 ```
 
 ### Typography
@@ -168,7 +168,7 @@ npx @wanteddev/wds-codemod@latest text-button-variant-to-color
 Typography의 title1이 display3로 변경되었고 기존 title1 스타일이 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest typography-title1-to-display3
+npx @montage-ui/codemod@latest typography-title1-to-display3
 ```
 
 ### Pagination
@@ -178,7 +178,7 @@ PaginationDot 컴포넌트가 PaginationDots 컴포넌트로 변경되었고 tot
 PaginationCounter 컴포넌트가 PageCounter 변경되었고 totalPage 옵션이 totalPages 으로 변경되었습니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest pagination-migration
+npx @montage-ui/codemod@latest pagination-migration
 ```
 
 ### SectionMessage
@@ -186,7 +186,7 @@ npx @wanteddev/wds-codemod@latest pagination-migration
 SectionMessage 컴포넌트의 show, defaultShow, onShowChange 옵션이 open, defaultOpen, onOpenChange로 변경됩니다.
 
 ```sh
-npx @wanteddev/wds-codemod@latest section-message-show-to-open
+npx @montage-ui/codemod@latest section-message-show-to-open
 ```
 
 ## 2.0.0 (2025-04-30)
@@ -201,7 +201,7 @@ TabList, CategoryList 의 rightContent는 iconButton으로 변경돼요.
 나머지 leftContent, rightContent는 모두 leadingContent, trailingContent로 변경돼요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest leading-trailing-migration src
+npx @montage-ui/codemod@latest leading-trailing-migration src
 ```
 
 data-role, wds-component를 사용하는 부분은 직접 확인이 필요해요.
@@ -229,7 +229,7 @@ ChipAction, ChipFilter, ContentBadge의 variant filled가 지원 종료돼요.
 variant='solid' 로 사용해주세요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest filled-variant-to-solid src
+npx @montage-ui/codemod@latest filled-variant-to-solid src
 ```
 
 ### Theme Palette
@@ -240,7 +240,7 @@ Accent 색상이 Accent/Background, Accent/Foreground로 나누어져요.
 기존 색상은 Accent/Background 로 마이그레이션 하며, ContentBadge에서 사용하는 색상은 Accent/Foreground로 마이그레이션이 필요해요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest palette-to-atomic-semantic src
+npx @montage-ui/codemod@latest palette-to-atomic-semantic src
 ```
 
 ![image](https://github.com/user-attachments/assets/5c16c9d9-4010-4a90-8253-993a18fe16bd)
@@ -258,7 +258,7 @@ Typography의 variant명이 kebab-case로 변경되고 display 기본 동작이 
 Typography의 display 동작이 변경됨으로 깨지는 부분이 없는지 확인이 필요해요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest typography-variant-cases src
+npx @montage-ui/codemod@latest typography-variant-cases src
 ```
 
 ### SectionMessage
@@ -278,7 +278,7 @@ MenuBottom, MenuBottomContent 컴포넌트명이 변경되었어요.
 - MenuBottomContent -> MenuActionAreaContent
 
 ```sh
-npx @wanteddev/wds-codemod@latest menu-bottom-migration src
+npx @montage-ui/codemod@latest menu-bottom-migration src
 ```
 
 wds-component 속성을 사용하는 부분은 수동으로 마이그레이션이 필요해요.
@@ -297,7 +297,7 @@ IconButton, AvatarButton에 pushBadge 옵션이 제거되었어요.
 Avatar의 variant='academic' 이 academy로 변경되었어요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest avatar-migration src
+npx @montage-ui/codemod@latest avatar-migration src
 ```
 
 ### Toast, Snackbar
@@ -310,7 +310,7 @@ useToast의 variant명이 변경되었어요.
 - custom -> 제거(normal로 통합)
 
 ```sh
-npx @wanteddev/wds-codemod@latest toast-migration src
+npx @montage-ui/codemod@latest toast-migration src
 ```
 
 - useToast, useSnackbar의 애니메이션이 더 매끄럽게 수정되었어요.
@@ -326,7 +326,7 @@ EmptyStateText, Slider, useSnackbar의 heading 옵션이 title로 변경되었�
 - useSnackbar heading -> title
 
 ```sh
-npx @wanteddev/wds-codemod@latest heading-to-title src
+npx @montage-ui/codemod@latest heading-to-title src
 ```
 
 아래 부분은 수동 대응이 필요해요.
@@ -342,7 +342,7 @@ ActionArea, PickerActionArea의 옵션명이 변경되었어요.
 - sticky 옵션명이 background로 변경되었어요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest action-area-migration src
+npx @montage-ui/codemod@latest action-area-migration src
 ```
 
 ### TextInput
@@ -359,7 +359,7 @@ TextInput 관련 컴포넌트가 모두 TextField라는 이름으로 변경되�
 - DatePickerInputProps -> DatePickerFieldProps
 
 ```sh
-npx @wanteddev/wds-codemod@latest input-to-field src
+npx @montage-ui/codemod@latest input-to-field src
 ```
 
 아래 부분은 수동으로 대응이 필요해요.
@@ -381,7 +381,7 @@ npx @wanteddev/wds-codemod@latest input-to-field src
 NestedCheckbox가 CheckMark로 변경되었어요.</summary>
 
 ```sh
-npx @wanteddev/wds-codemod@latest check-mark-migration src
+npx @montage-ui/codemod@latest check-mark-migration src
 ```
 
 ### PlayIconBadge
@@ -389,7 +389,7 @@ npx @wanteddev/wds-codemod@latest check-mark-migration src
 PlayIconBadge가 PlayBadge로 변경되었어요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest play-badge-migration src
+npx @montage-ui/codemod@latest play-badge-migration src
 ```
 
 ### IconCircleClose
@@ -397,7 +397,7 @@ npx @wanteddev/wds-codemod@latest play-badge-migration src
 기존 IconCircleClose 아이콘 이름이 IconCircleCloseFill로 변경되고 신규 IconCircleClose 아이콘이 추가되었어요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest icon-circle-close-migration src
+npx @montage-ui/codemod@latest icon-circle-close-migration src
 ```
 
 AS-IS
@@ -414,7 +414,7 @@ Modal의 huge 사이즈가 제거되었고 medium-fixed 사이즈 옵션을 size
 - 기본값이 fixed에서 hug로 변경되었어요.
 
 ```sh
-npx @wanteddev/wds-codemod@latest modal-migration src
+npx @montage-ui/codemod@latest modal-migration src
 ```
 
 size="huge" 의 경우 수동으로 대응이 필요해요.
@@ -430,14 +430,14 @@ padding 옵션이 동작에 따라 horizontalPadding, verticalPadding으로 변�
   - padding -> verticalPadding
 
 ```sh
-npx @wanteddev/wds-codemod@latest padding-to-vertical-padding src
+npx @montage-ui/codemod@latest padding-to-vertical-padding src
 ```
 
 - TabList
   - padding -> horizontalPadding
 
 ```sh
-npx @wanteddev/wds-codemod@latest padding-to-horizontal-padding src
+npx @montage-ui/codemod@latest padding-to-horizontal-padding src
 ```
 
 ### Size
@@ -478,7 +478,7 @@ ContentBadge
   - large -> medium
 
 ```sh
-npx @wanteddev/wds-codemod@latest size-migration src
+npx @montage-ui/codemod@latest size-migration src
 ```
 
 아래 부분은 수동 대응이 필요합니다.

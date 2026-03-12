@@ -1,8 +1,8 @@
-import { FlexBox } from '@wanteddev/wds';
+import { FlexBox } from '@montage-ui/core';
 
 import { wrapperStyle } from './style';
 
-import type { FlexBoxProps } from '@wanteddev/wds';
+import type { FlexBoxProps } from '@montage-ui/core';
 
 type Props = FlexBoxProps;
 

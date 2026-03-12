@@ -1,4 +1,4 @@
-import { Box, FlexBox, Slot } from '@wanteddev/wds';
+import { Box, FlexBox, Slot } from '@montage-ui/core';
 import useEmblaCarousel from 'embla-carousel-react';
 import { WheelGesturesPlugin } from 'embla-carousel-wheel-gestures';
 
@@ -14,7 +14,7 @@ import type {
   ReactNode,
   RefObject,
 } from 'react';
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = PropsWithChildren<{
   sx?: SxProp;

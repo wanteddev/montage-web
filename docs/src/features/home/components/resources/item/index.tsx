@@ -1,6 +1,6 @@
-import { Box, Divider, FlexBox, Typography } from '@wanteddev/wds';
+import { Box, Divider, FlexBox, Typography } from '@montage-ui/core';
 import Link from 'next/link';
-import { IconArrowUpRight } from '@wanteddev/wds-icon';
+import { IconArrowUpRight } from '@montage-ui/icon';
 import { useCallback, useEffect, useRef } from 'react';
 
 import {

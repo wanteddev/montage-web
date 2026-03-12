@@ -1,4 +1,4 @@
-import { Divider } from '@wanteddev/wds';
+import { Divider } from '@montage-ui/core';
 
 export const HorizontalDivider = () => {
   return (

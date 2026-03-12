@@ -1,5 +1,5 @@
-import { IconButton } from '@wanteddev/wds';
-import { IconBlank } from '@wanteddev/wds-icon';
+import { IconButton } from '@montage-ui/core';
+import { IconBlank } from '@montage-ui/icon';
 
 export const SolidIconButton = () => {
   return (

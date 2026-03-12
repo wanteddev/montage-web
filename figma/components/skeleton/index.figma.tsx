@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Skeleton } from '@wanteddev/wds';
+import { Skeleton } from '@montage-ui/core';
 
 figma.connect(Skeleton, '<FIGMA_SKELETON_TEXT>', {
   props: {

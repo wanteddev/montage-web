@@ -1,4 +1,4 @@
-import { Avatar } from '@wanteddev/wds';
+import { Avatar } from '@montage-ui/core';
 
 export const PersonAvatar = () => {
   return (

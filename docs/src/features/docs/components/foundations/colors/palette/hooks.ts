@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { useToast } from '@wanteddev/wds';
+import { useToast } from '@montage-ui/core';
 
 import { rgbaToHex } from './helpers';
 

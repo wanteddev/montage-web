@@ -1,5 +1,5 @@
 'use client';
-import { FlexBox } from '@wanteddev/wds';
+import { FlexBox } from '@montage-ui/core';
 
 import FadeInOut from '@/components/fade-in-out';
 

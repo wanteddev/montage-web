@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Avatar, AvatarGroup } from '@wanteddev/wds';
+import { Avatar, AvatarGroup } from '@montage-ui/core';
 
 figma.connect('<FIGMA_AVATAR_GROUP>', {
   props: {

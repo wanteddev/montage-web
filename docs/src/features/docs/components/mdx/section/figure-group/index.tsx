@@ -1,4 +1,4 @@
-import { FlexBox } from '@wanteddev/wds';
+import { FlexBox } from '@montage-ui/core';
 
 import { Heading3 } from '../layout';
 import { sectionLayoutStyle } from '../style';

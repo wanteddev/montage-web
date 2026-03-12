@@ -7,13 +7,13 @@ import {
   TooltipGroup,
   TooltipTrigger,
   Typography,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import {
   IconCircleExclamationFill,
   IconCopy,
   IconImage,
   IconRefresh,
-} from '@wanteddev/wds-icon';
+} from '@montage-ui/icon';
 
 import { errorStyle, toolbarStyle } from './style';
 

@@ -8,7 +8,7 @@ createdAt: 2025-05-12
 
 `TextArea` 는 입력한 텍스트에 따라 자동으로 높이가 늘어나는 컴포넌트입니다.
 
-<Demo code={`import { TextArea } from '@wanteddev/wds';
+<Demo code={`import { TextArea } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -23,7 +23,7 @@ export default Demo;`}
 
 `minRows`, `maxRows` prop 으로 최대 / 최소로 늘어나는 line 수를 정할 수 있습니다.
 
-<Demo code={`import { TextArea } from '@wanteddev/wds';
+<Demo code={`import { TextArea } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -46,7 +46,7 @@ validation 을 통해 여러 상태를 표현할 수 있습니다.
 - readOnly
 - disabled
 
-<Demo code={`import { FlexBox, TextArea } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, TextArea } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -71,7 +71,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormMessage`
 - `FormErrorMessage`
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TextArea } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, TextArea } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -104,8 +104,8 @@ export default Demo;`}
 
 해당 옵션을 사용할 때에는 `TextAreaContent` 로 감싸서 사용합니다.
 
-<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, FilterButton, IconButton, TextButton } from '@wanteddev/wds';
-import { IconBlank, IconCopy, IconSendFill } from '@wanteddev/wds-icon';
+<Demo code={`import { FlexBox, TextArea, TextAreaContent, ContentBadge, FilterButton, IconButton, TextButton } from '@montage-ui/core';
+import { IconBlank, IconCopy, IconSendFill } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
@@ -225,7 +225,7 @@ export default Demo;`}
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
-<Demo code={`import { FlexBox, TextArea } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, TextArea } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {
@@ -255,7 +255,7 @@ export default Demo;`}
 
 `react-hook-form` 과 유연하게 조합해서 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox, TextArea, TextAreaContent, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox, TextArea, TextAreaContent, FormField, FormControl, FormLabel, FormErrorMessage, FormMessage } from '@montage-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 
 const Demo = () => {

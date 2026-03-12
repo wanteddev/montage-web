@@ -10,7 +10,7 @@ updatedAt: 2025-06-17
 
 Primary(Default), Assistive로 구성되어있습니다.
 
-<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Button } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -28,7 +28,7 @@ export default Demo;`}
 
 Primary(Default), Assistive로 구성되어있습니다.
 
-<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, Button } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -50,8 +50,8 @@ export default Demo;`}
 leadingContent, trailingContent을 사용하여 아이콘과 함께 배치할 수 있습니다.<br/>
 단, leading, trailingContent를 동시에 적용하는 것은 지양합니다.
 
-<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
-import { IconPlus, IconTrash } from '@wanteddev/wds-icon';
+<Demo code={`import { FlexBox, Button } from '@montage-ui/core';
+import { IconPlus, IconTrash } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
@@ -82,8 +82,8 @@ export default Demo;`}
 iconOnly prop 을 사용하면 아이콘만 단독으로 배치할 수 있습니다.<br/>
 다른 Solid, Outlined Button과 나란히 함께 사용할 때 iconOnly를 사용합니다.
 
-<Demo code={`import { FlexBox, Button } from '@wanteddev/wds';
-import { IconPlusThick } from '@wanteddev/wds-icon';
+<Demo code={`import { FlexBox, Button } from '@montage-ui/core';
+import { IconPlusThick } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
@@ -111,7 +111,7 @@ export default Demo;`}
 
 모든 타입의 버튼은 `small`, `medium(Default)`, `large` 3개의 사이즈를 제공합니다.
 
-<Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -180,7 +180,7 @@ export default Demo;`}
 
 이벤트 실행을 막지 않기 위해서 `disableLoadingPreventEvents` 을 사용할 수 있습니다.
 
-<Demo code={`import { Button, FlexBox } from '@wanteddev/wds';
+<Demo code={`import { Button, FlexBox } from '@montage-ui/core';
 import { useState, useEffect } from 'react';
 
 const Demo = () => {

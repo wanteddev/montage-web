@@ -1,5 +1,5 @@
 'use client';
-import { Box } from '@wanteddev/wds';
+import { Box } from '@montage-ui/core';
 import Image from 'next/image';
 import { useMemo } from 'react';
 

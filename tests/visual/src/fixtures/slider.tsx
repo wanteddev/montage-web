@@ -1,4 +1,4 @@
-import { Slider } from '@wanteddev/wds';
+import { Slider } from '@montage-ui/core';
 
 export const SingleSlider = () => {
   return (

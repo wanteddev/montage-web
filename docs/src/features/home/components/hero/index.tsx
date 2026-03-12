@@ -1,6 +1,6 @@
 'use client';
-import { Box, Typography } from '@wanteddev/wds';
-import { FlexBox } from '@wanteddev/wds';
+import { Box, Typography } from '@montage-ui/core';
+import { FlexBox } from '@montage-ui/core';
 import Link from 'next/link';
 
 import { breakWordStyle } from '@/styles/text';

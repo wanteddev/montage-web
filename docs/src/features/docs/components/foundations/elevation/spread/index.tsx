@@ -1,5 +1,5 @@
 'use client';
-import { Box, Typography } from '@wanteddev/wds';
+import { Box, Typography } from '@montage-ui/core';
 
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';
 

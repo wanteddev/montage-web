@@ -6,8 +6,8 @@ import {
   AccordionSummary,
   AccordionSummaryContent,
   FlexBox,
-} from '@wanteddev/wds';
-import { IconMinusThick, IconPlusThick } from '@wanteddev/wds-icon';
+} from '@montage-ui/core';
+import { IconMinusThick, IconPlusThick } from '@montage-ui/icon';
 
 import { breakWordStyle } from '@/styles/text';
 import FadeInOut from '@/components/fade-in-out';

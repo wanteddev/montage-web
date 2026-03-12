@@ -1,7 +1,7 @@
 'use client';
 import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
-import { Box } from '@wanteddev/wds';
+import { Box } from '@montage-ui/core';
 import Image from 'next/image';
 
 import { getImageUrl } from '@/helpers/image';
@@ -11,7 +11,7 @@ import { getFrontmatterImage } from '../../helpers/mdx.client';
 
 import { thumbnailStyle } from './style';
 
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 import type { SlugParams } from '../lnb/types';
 
 type Props = {

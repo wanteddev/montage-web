@@ -1,4 +1,4 @@
-import { Chip } from '@wanteddev/wds';
+import { Chip } from '@montage-ui/core';
 
 export const SolidChip = () => {
   return (

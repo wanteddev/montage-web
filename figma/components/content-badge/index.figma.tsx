@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { ContentBadge } from '@wanteddev/wds';
+import { ContentBadge } from '@montage-ui/core';
 
 figma.connect(ContentBadge, '<FIGMA_CONTENT_BADGE>', {
   props: {

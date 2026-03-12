@@ -1,6 +1,6 @@
-import { addOpacity, css, respondMore, respondTo } from '@wanteddev/wds';
+import { addOpacity, css, respondMore, respondTo } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const gnbWrapperStyle = (theme: Theme) => css`
   position: sticky;

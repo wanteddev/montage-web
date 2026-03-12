@@ -1,4 +1,4 @@
-import { ContentBadge } from '@wanteddev/wds';
+import { ContentBadge } from '@montage-ui/core';
 
 export const SolidContentBadge = () => {
   return (

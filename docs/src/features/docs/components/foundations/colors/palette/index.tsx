@@ -4,8 +4,8 @@ import {
   IconButton,
   Popover,
   PopoverTrigger,
-} from '@wanteddev/wds';
-import { IconCopy } from '@wanteddev/wds-icon';
+} from '@montage-ui/core';
+import { IconCopy } from '@montage-ui/icon';
 import { capitalCase } from 'change-case';
 
 import { breakWordStyle } from '@/styles/text';
@@ -21,7 +21,7 @@ import { hexToRgbaSlash } from './helpers';
 import { useCopyToClipboard, useElementPosition, useHexColor } from './hooks';
 
 import type { CSSProperties, PropsWithChildren } from 'react';
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type PaletteProps = PropsWithChildren<{
   sx?: SxProp;

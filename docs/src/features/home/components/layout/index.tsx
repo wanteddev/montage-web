@@ -1,6 +1,6 @@
 'use client';
-import { respondTo } from '@wanteddev/wds';
-import { FlexBox } from '@wanteddev/wds';
+import { respondTo } from '@montage-ui/core';
+import { FlexBox } from '@montage-ui/core';
 
 import type { PropsWithChildren } from 'react';
 

@@ -1,7 +1,7 @@
 import { useQueries } from '@tanstack/react-query';
-import { ContentBadge, FlexBox, Loading, Typography } from '@wanteddev/wds';
+import { ContentBadge, FlexBox, Loading, Typography } from '@montage-ui/core';
 import Link from 'next/link';
-import { IconCircleExclamationFill } from '@wanteddev/wds-icon';
+import { IconCircleExclamationFill } from '@montage-ui/icon';
 import semver from 'semver';
 
 import { getGithubReleaseQueryOptions } from './helpers';

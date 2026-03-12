@@ -1,13 +1,13 @@
 {
-  "name": "@wanteddev/test-visual",
+  "name": "@montage-ui/test-visual",
   "private": true,
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@wanteddev/wds": "workspace:*",
-    "@wanteddev/wds-icon": "workspace:*",
+    "@montage-ui/core": "workspace:*",
+    "@montage-ui/icon": "workspace:*",
     "typescript": "^5.9.3"
   }
 }

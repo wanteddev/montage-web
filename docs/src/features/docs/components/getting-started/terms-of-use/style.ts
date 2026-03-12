@@ -1,6 +1,6 @@
-import { css, respondTo, typographyStyle } from '@wanteddev/wds';
+import { css, respondTo, typographyStyle } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const linkStyle = css`
   text-decoration-line: underline;

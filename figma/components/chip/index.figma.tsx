@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Chip } from '@wanteddev/wds';
+import { Chip } from '@montage-ui/core';
 
 figma.connect(Chip, '<FIGMA_CHIP>', {
   props: {

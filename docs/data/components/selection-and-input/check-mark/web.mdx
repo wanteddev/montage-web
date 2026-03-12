@@ -8,7 +8,7 @@ createdAt: 2025-05-12
 
 `CheckMark` 는 기본적으로 테두리가 없는 체크 박스 형태의 컴포넌트입니다.
 
-<Demo code={`import { CheckMark } from '@wanteddev/wds';
+<Demo code={`import { CheckMark } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -28,7 +28,7 @@ export default Demo;`}
 
 medium 사이즈와 함께 Label을 사용할 때는 Label에 padding-y 1px 혹은 alignItems center로 정렬을 맞춰야 합니다.
 
-<Demo code={`import { FlexBox, CheckMark, Label } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, CheckMark, Label } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -54,7 +54,7 @@ export default Demo;`}
 
 `tight` prop 을 사용하면 체크 박스의 좌우 여백을 조정할 수 있습니다.
 
-<Demo code={`import { CheckMark, FlexBox, Label } from '@wanteddev/wds';
+<Demo code={`import { CheckMark, FlexBox, Label } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -100,7 +100,7 @@ Form과 관련된 컴포넌트와 함께 사용할 수 있습니다.
 - `FormMessage`
 - `FormErrorMessage`
 
-<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, CheckMark } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, FormField, FormControl, FormLabel, FormMessage, FormErrorMessage, CheckMark } from '@montage-ui/core';
 
 const Demo = () => {
   return (
@@ -125,8 +125,8 @@ export default Demo;`}
 
 `icon` props 을 사용해서 아이콘을 커스텀할 수 있습니다.
 
-<Demo code={`import { CheckMark } from '@wanteddev/wds';
-import { IconCircleCheckFill } from '@wanteddev/wds-icon';
+<Demo code={`import { CheckMark } from '@montage-ui/core';
+import { IconCircleCheckFill } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
@@ -145,7 +145,7 @@ export default Demo;`}
 
 > 제어 컴포넌트와 비제어 컴포넌트는 [React 공식 문서](https://react.dev/learn/sharing-state-between-components#controlled-and-uncontrolled-components) 를 참조해주세요.
 
-<Demo code={`import { FlexBox, CheckMark } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, CheckMark } from '@montage-ui/core';
 import { useState } from 'react';
 
 const Demo = () => {

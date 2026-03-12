@@ -1,6 +1,6 @@
 import { figma } from '@figma/code-connect';
 
-import { Avatar, AvatarButton, PushBadge } from '@wanteddev/wds';
+import { Avatar, AvatarButton, PushBadge } from '@montage-ui/core';
 
 figma.connect('<FIGMA_AVATAR>', {
   props: {

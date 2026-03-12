@@ -1,6 +1,6 @@
-import { addOpacity, css, gradient } from '@wanteddev/wds';
+import { addOpacity, css, gradient } from '@montage-ui/core';
 
-import type { Theme } from '@wanteddev/wds';
+import type { Theme } from '@montage-ui/core';
 
 export const demoWrapperStyle = (theme: Theme) => css`
   background-color: ${theme.semantic.background.normal.normal};

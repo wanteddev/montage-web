@@ -1,6 +1,6 @@
 'use client';
-import { AppRouterCacheProvider } from '@wanteddev/wds-nextjs';
-import { Global, ThemeProvider, respondMore } from '@wanteddev/wds';
+import { AppRouterCacheProvider } from '@montage-ui/nextjs';
+import { Global, ThemeProvider, respondMore } from '@montage-ui/core';
 import { type PropsWithChildren, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 

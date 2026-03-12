@@ -8,7 +8,7 @@ createdAt: 2025-06-19
 
 `theme` 는 `'light' | 'dark'` 타입의 테마 값을 반환합니다.
 
-<Demo code={`import { NoSsr, Button, useThemeControl } from '@wanteddev/wds';
+<Demo code={`import { NoSsr, Button, useThemeControl } from '@montage-ui/core';
 
 const Demo = () => {
   const { theme, setTheme } = useThemeControl();
@@ -38,7 +38,7 @@ export default Demo;`}
 
 또한 `ThemeProvider` 컴포넌트의 `enableSystem` 속성을 `true` 로 설정한 경우 `system` 값으로 테마를 지정할 수 있습니다.
 
-<Demo code={`import { NoSsr, RadioGroup, RadioGroupItem, FormField, FormLabel, FormControl, useThemeControl } from '@wanteddev/wds';
+<Demo code={`import { NoSsr, RadioGroup, RadioGroupItem, FormField, FormLabel, FormControl, useThemeControl } from '@montage-ui/core';
 
 const Demo = () => {
   const { themeOriginValue, setTheme } = useThemeControl();

@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { FlexBox, ScrollArea, Typography } from '@wanteddev/wds';
+import { FlexBox, ScrollArea, Typography } from '@montage-ui/core';
 import { usePathname } from 'next/navigation';
 
 import useThrottle from '@/hooks/use-throttle';

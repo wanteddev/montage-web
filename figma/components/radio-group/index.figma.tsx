@@ -5,7 +5,7 @@ import {
   FormField,
   FormLabel,
   RadioGroupItem,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 
 figma.connect(RadioGroupItem, '<FIGMA_CONTROL_RADIO>', {
   props: {

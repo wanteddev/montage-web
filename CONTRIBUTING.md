@@ -46,17 +46,17 @@ pnpm -F docs dev
 
 This is a monorepo managed with [Lerna](https://lerna.js.org/) and [Nx](https://nx.dev/).
 
-| Package                      | Description                            |
-| ---------------------------- | -------------------------------------- |
-| `packages/wds`               | Core UI component library              |
-| `packages/wds-engine`        | Styling engine (Box, ThemeProvider)    |
-| `packages/wds-theme`         | Design tokens and theme definitions    |
-| `packages/wds-icon`          | Icon components                        |
-| `packages/wds-lottie`        | Lottie animation components            |
-| `packages/wds-nextjs`        | Next.js integration                    |
-| `packages/wds-codemod`       | Codemod scripts for migrations         |
-| `packages/wds-mcp`           | MCP server for AI-assisted development |
-| `packages/eslint-plugin-wds` | ESLint plugin for WDS best practices   |
+| Package                                                 | Description                                    |
+| ------------------------------------------------------- | ---------------------------------------------- |
+| [`@montage-ui/core`](./packages/core)                   | Core UI component library                      |
+| [`@montage-ui/engine`](./packages/engine)               | Styling engine                                 |
+| [`@montage-ui/theme`](./packages/theme)                 | Design tokens and theme definitions            |
+| [`@montage-ui/icon`](./packages/icon)                   | Icon components                                |
+| [`@montage-ui/lottie`](./packages/lottie)               | Lottie animation components                    |
+| [`@montage-ui/nextjs`](./packages/nextjs)               | Next.js integration (App Router & Page Router) |
+| [`@montage-ui/codemod`](./packages/codemod)             | Codemod scripts for migrations                 |
+| [`@montage-ui/eslint-plugin`](./packages/eslint-plugin) | ESLint plugin for Montage best practices       |
+| [`@wanteddev/montage-mcp`](./internal/montage-mcp)      | MCP server for AI-assisted development         |
 
 ## Commit Convention
 

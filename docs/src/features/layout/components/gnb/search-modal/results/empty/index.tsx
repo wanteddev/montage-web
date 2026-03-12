@@ -1,5 +1,5 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
-import { IconInbox } from '@wanteddev/wds-icon';
+import { FlexBox, Typography } from '@montage-ui/core';
+import { IconInbox } from '@montage-ui/icon';
 
 type Props = {
   query: string;

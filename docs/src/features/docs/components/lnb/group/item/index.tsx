@@ -5,20 +5,17 @@ import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import Link from 'next/link';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import {
-  IconArrowRightThick,
-  IconArrowUpRightThick,
-} from '@wanteddev/wds-icon';
+import { IconArrowRightThick, IconArrowUpRightThick } from '@montage-ui/icon';
 
 import useRouteScroll from '@/features/docs/hooks/use-route-scroll';
 
 import { lnbItemStyle } from './style';
 
 import type { PropsWithChildren, ReactNode } from 'react';
-import type { SxProp } from '@wanteddev/wds';
+import type { SxProp } from '@montage-ui/core';
 
 type Props = PropsWithChildren<{
   href?: string;

@@ -1,5 +1,5 @@
-import { ContentBadge, FlexBox } from '@wanteddev/wds';
-import { IconGlobe } from '@wanteddev/wds-icon';
+import { ContentBadge, FlexBox } from '@montage-ui/core';
+import { IconGlobe } from '@montage-ui/icon';
 
 import { sectionLayoutStyle } from '../style';
 import { Heading2, SectionDescription, SectionThumbnail } from '../layout';

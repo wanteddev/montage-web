@@ -1,5 +1,5 @@
 'use client';
-import { FlexBox, ScrollArea } from '@wanteddev/wds';
+import { FlexBox, ScrollArea } from '@montage-ui/core';
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
