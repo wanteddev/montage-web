@@ -12,7 +12,8 @@ region status (`useSnackbar`, `useToast`) 의 노출 위치를 조정합니다.
 ActionArea의 상단에 토스트를 표시하려면 아래와 같이 작성합니다.
 
 ```tsx
-import { RegionConfig, ActionArea, ActionAreaButton } from '@wanteddev/wds';
+import { RegionConfig, ActionArea, ActionAreaButton, useSize } from '@montage-ui/core';
+import { useState } from 'react';
 
 const Demo = () => {
   const [node, setNode] = useState<HTMLElement | null>(null);

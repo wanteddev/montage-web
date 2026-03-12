@@ -1,4 +1,4 @@
-import { Switch } from '@wanteddev/wds';
+import { Switch } from '@montage-ui/core';
 
 export const MediumSwitch = () => {
   return (

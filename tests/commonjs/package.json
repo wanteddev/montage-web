@@ -1,11 +1,11 @@
 {
-  "name": "@wanteddev/test-commonjs",
+  "name": "@montage-ui/test-commonjs",
   "private": true,
   "scripts": {
     "test": "node ./src/index.cjs"
   },
   "devDependencies": {
-    "@wanteddev/wds": "workspace:*",
+    "@montage-ui/core": "workspace:*",
     "typescript": "^5.9.3"
   }
 }

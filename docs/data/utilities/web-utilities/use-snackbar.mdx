@@ -10,7 +10,7 @@ createdAt: 2025-06-17
 
 [RegionConfig](/docs/utilities/web-utility-components/region-config) 컴포넌트를 활용하여 노출되는 위치를 조정할 수 있습니다.
 
-<Demo code={`import { useSnackbar, Button } from '@wanteddev/wds';
+<Demo code={`import { useSnackbar, Button } from '@montage-ui/core';
 
 const Demo = () => {
   const snackbar = useSnackbar();
@@ -37,8 +37,8 @@ export default Demo;`}
 
 Snackbar 에서 사용할 수 있는 `variant`, `action`, `extraContent`, `duration`, `onAnimationEnd`, `closeButton` 을 그대로 사용할 수 있습니다.
 
-<Demo code={`import { FlexBox, useSnackbar, Button, Avatar } from '@wanteddev/wds';
-import { IconCircleFill } from '@wanteddev/wds-icon';
+<Demo code={`import { FlexBox, useSnackbar, Button, Avatar } from '@montage-ui/core';
+import { IconCircleFill } from '@montage-ui/icon';
 
 const description = '설명이 두 줄 이상 들어갈 때 예외적으로 쓸 수 있게끔 고려해두었습니다.';
 const title = '메시지에 마침표를 찍어요.';
@@ -70,7 +70,7 @@ export default Demo;`}
 
 id를 직접 주입하고 `useRegionStore`와 함께 사용하여 열리고 닫히는 상태를 추가적으로 컨트롤 할 수 있어요.
 
-<Demo code={`import { FlexBox, useSnackbar, Button, useRegionStore } from '@wanteddev/wds';
+<Demo code={`import { FlexBox, useSnackbar, Button, useRegionStore } from '@montage-ui/core';
 import { useId, useEffect } from 'react';
  
 const Demo = () => {
