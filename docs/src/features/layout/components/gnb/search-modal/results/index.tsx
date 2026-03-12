@@ -1,4 +1,4 @@
-import { FlexBox, List, Typography } from '@wanteddev/wds';
+import { FlexBox, List, Typography } from '@montage-ui/core';
 
 import SearchOption from './option';
 import SearchResultEmpty from './empty';

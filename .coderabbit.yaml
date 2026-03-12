@@ -24,14 +24,14 @@ chat:
 code_generation:
   unit_tests:
     path_instructions:
-      - path: 'packages/wds/**/*.tsx'
+      - path: 'packages/core/**/*.tsx'
         instructions: |
           Please write unit tests for the following code.
 
           ## Unit Test Guidelines
 
           ### For Logic Changes
-          - Write tests in `packages/wds/src/components/{ComponentName}/index.test.tsx`
+          - Write tests in `packages/core/src/components/{ComponentName}/index.test.tsx`
           - Group related test cases using `describe` blocks to describe specific scenarios/contexts
           - Include accessibility (a11y) tests when applicable using testing-library's accessibility utilities
           - All test case descriptions must be written in English
@@ -41,7 +41,7 @@ code_generation:
 
           ### Test Structure Example For Logic Changes
 
-          - Refer to `packages/wds/src/components/date-calendar/index.test.tsx` for proper test organization and best practices.
+          - Refer to `packages/core/src/components/date-calendar/index.test.tsx` for proper test organization and best practices.
           - Group related test cases using `describe` blocks to describe specific scenarios/contexts.
           - Use `beforeEach` and `afterEach` hooks for setup and cleanup, such as resetting mocks and cleaning up the rendered DOM.
           - Use `it` blocks with clear, English descriptions for each test case.

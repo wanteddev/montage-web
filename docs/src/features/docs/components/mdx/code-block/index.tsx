@@ -10,8 +10,8 @@ import diff from 'refractor/diff';
 import kotlin from 'refractor/kotlin';
 import swift from 'refractor/swift';
 import { toHtml } from 'hast-util-to-html';
-import { Box, IconButton, useToast } from '@wanteddev/wds';
-import { IconCopy } from '@wanteddev/wds-icon';
+import { Box, IconButton, useToast } from '@montage-ui/core';
+import { IconCopy } from '@montage-ui/icon';
 
 import { codeBlockStyle, copyButtonStyle, inlineCodeStyle } from './style';
 

@@ -1,5 +1,5 @@
 'use client';
-import { Box, FlexBox, Loading, ScrollArea } from '@wanteddev/wds';
+import { Box, FlexBox, Loading, ScrollArea } from '@montage-ui/core';
 
 import DelayMount from '@/components/delay-mount';
 

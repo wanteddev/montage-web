@@ -1,0 +1,42 @@
+{
+  "name": "@montage-ui/codemod",
+  "description": "Codemod scripts for migrating between Montage major versions",
+  "version": "3.8.1",
+  "dependencies": {
+    "execa": "4.0.3",
+    "inquirer": "7.3.3",
+    "jscodeshift": "17.1.1",
+    "meow": "7.0.1"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "watch": "tsdown --watch",
+    "build": "tsc --noEmit && tsdown"
+  },
+  "license": "MIT",
+  "homepage": "https://montage.wanted.co.kr",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "url": "https://github.com/wanteddev/montage-web",
+    "type": "git",
+    "directory": "packages/codemod"
+  },
+  "bin": {
+    "montage-codemod": "bin/montage-codemod"
+  },
+  "devDependencies": {
+    "@types/jscodeshift": "0.12.0"
+  }
+}
