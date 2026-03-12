@@ -1,4 +1,4 @@
-import { Box, ScrollArea } from '@wanteddev/wds';
+import { Box, ScrollArea } from '@montage-ui/core';
 
 import { preStyle, preWrapperStyle } from './style';
 

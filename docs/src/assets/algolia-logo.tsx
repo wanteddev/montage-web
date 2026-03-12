@@ -1,4 +1,4 @@
-import { Box } from '@wanteddev/wds';
+import { Box } from '@montage-ui/core';
 
 const AlgoliaLogo = () => {
   return (

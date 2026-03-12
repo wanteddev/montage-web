@@ -45,7 +45,7 @@ import {
   Typography,
   useCallbackRef,
   useTheme,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import {
   bracketMatching,
   defaultHighlightStyle,

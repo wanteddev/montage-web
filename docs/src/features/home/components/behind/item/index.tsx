@@ -1,7 +1,7 @@
-import { Box, FlexBox, Thumbnail, Typography } from '@wanteddev/wds';
+import { Box, FlexBox, Thumbnail, Typography } from '@montage-ui/core';
 import Link from 'next/link';
 import { useId } from 'react';
-import { IconArrowUpRight } from '@wanteddev/wds-icon';
+import { IconArrowUpRight } from '@montage-ui/icon';
 
 import { breakWordStyle } from '@/styles/text';
 import { getImageUrl } from '@/helpers/image';
