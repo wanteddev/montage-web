@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: "code connect push 여부"
+        description: 'code connect push 여부'
         type: choice
         required: false
-        default: "true"
+        default: 'true'
         options:
-          - "true"
-          - "false"
+          - 'true'
+          - 'false'
 
 env:
   NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   sync:
-    uses: wanteddev/wds/.github/workflows/figma-icon-sync.yml@main
+    uses: wanteddev/montage-web/.github/workflows/figma-icon-sync.yml@main
     with:
       output_dir: output
     secrets: inherit
