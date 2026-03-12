@@ -102,8 +102,8 @@ const Demo = () => {
     const result = await alert({
       title: '정말로 삭제하시겠습니까?',
       content: '삭제된 내용은 복구할 수 없습니다.',
-      confirm: <DialogActionAreaButton>확인</DialogActionAreaButton>,
-      cancel: <DialogActionAreaButton variant="assistive">취소</DialogActionAreaButton>,
+      confirm: <AlertActionAreaButton>확인</AlertActionAreaButton>,
+      cancel: <AlertActionAreaButton variant="assistive">취소</AlertActionAreaButton>,
       sx: { padding: 40 }
     });
 

@@ -350,7 +350,7 @@ const Demo = () => {
   const [value, setValue] = useState(new Date());
 
   return (
-    <FlexBox alignItems="center" flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
+    <FlexBox alignItems="center" flexDirection="column" gap="12px" sx={{ width: '100%' }}>
       <DatePicker defaultValue={new Date()} width="40%" />
       <DatePicker value={value} onChange={setValue} width="40%" />
     </FlexBox>

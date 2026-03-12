@@ -51,7 +51,7 @@ const Demo = () => {
         <Label>Radio group</Label>
         <FlexBox gap="8px" flexDirection="column">
           <FlexBox gap="8px">
-            <RadioGroupItem size="small id="small" value="small" />
+            <RadioGroupItem size="small" id="small" value="small" />
             <Label htmlFor="small">Small</Label>
           </FlexBox>
           <FlexBox gap="8px">
@@ -259,7 +259,7 @@ const items = [
 const Demo = () => {
   const form = useForm({
     defaultValues: {
-      value: '',
+      selected: '',
     },
   });
 
