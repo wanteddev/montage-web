@@ -10,17 +10,17 @@ AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아�
 
 ## 제공 도구
 
-| 도구                     | 설명                                                |
-| ------------------------ | --------------------------------------------------- |
-| `list_components`        | 사용 가능한 모든 WDS 컴포넌트 목록 조회             |
-| `get_component`          | 특정 컴포넌트의 문서 및 사용법 조회                 |
-| `wds_coding_guidelines`  | WDS 기반 UI 코드 작성 가이드라인 조회               |
-| `list_icons`             | `@montage-ui/icon`에서 사용 가능한 아이콘 목록 조회 |
-| `list_tokens`            | 사용 가능한 디자인 토큰 목록 조회                   |
-| `get_color_usage`        | 색상 적용 가이드라인 조회                           |
-| `list_utility_functions` | 사용 가능한 유틸리티 함수 목록 조회                 |
-| `get_utility_function`   | 특정 유틸리티 함수의 문서 조회                      |
-| `getting_started`        | 설치 및 초기 설정 가이드 조회                       |
+| 도구                        | 설명                                                |
+| --------------------------- | --------------------------------------------------- |
+| `list_components`           | 사용 가능한 모든 Montage 컴포넌트 목록 조회         |
+| `get_component`             | 특정 컴포넌트의 문서 및 사용법 조회                 |
+| `montage_coding_guidelines` | Montage 기반 UI 코드 작성 가이드라인 조회           |
+| `list_icons`                | `@montage-ui/icon`에서 사용 가능한 아이콘 목록 조회 |
+| `list_tokens`               | 사용 가능한 디자인 토큰 목록 조회                   |
+| `get_color_usage`           | 색상 적용 가이드라인 조회                           |
+| `list_utility_functions`    | 사용 가능한 유틸리티 함수 목록 조회                 |
+| `get_utility_function`      | 특정 유틸리티 함수의 문서 조회                      |
+| `getting_started`           | 설치 및 초기 설정 가이드 조회                       |
 
 ## 설정
 
