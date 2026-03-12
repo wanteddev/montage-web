@@ -1,3 +1,12 @@
+export const MONTAGE_SOURCES: Array<string> = [
+  '@montage-ui/core',
+  '@wanteddev/wds',
+];
+export const MONTAGE_ICON_SOURCES: Array<string> = [
+  '@montage-ui/icon',
+  '@wanteddev/wds-icon',
+];
+
 export const MIGRATION_TRANSFORMS = {
   v2: {
     'list-cell-migration': 'List Cell Migration',

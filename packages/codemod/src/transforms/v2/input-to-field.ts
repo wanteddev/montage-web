@@ -1,4 +1,5 @@
 import { findImportDeclaration, getImportedName } from '../../helpers';
+import { WDS_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -10,7 +11,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // text-input -> text-field
   const textInputImport = findImportDeclaration(
     'TextInput',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -28,7 +29,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // text-input-button -> text-field-button
   const textInputButtonImport = findImportDeclaration(
     'TextInputButton',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -46,7 +47,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // text-input-content -> text-field-content
   const textInputContentImport = findImportDeclaration(
     'TextInputContent',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -64,7 +65,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // search-input -> search-field
   const searchInputImport = findImportDeclaration(
     'SearchInput',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -82,7 +83,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // pagination-input -> pagination-field
   const paginationInputImport = findImportDeclaration(
     'PaginationInput',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -100,7 +101,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // TimePickerInputProps -> TimePickerFieldProps
   const timePickerInputPropsImport = findImportDeclaration(
     'TimePickerInputProps',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -118,7 +119,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // DatePickerInputProps -> DatePickerFieldProps
   const datePickerInputPropsImport = findImportDeclaration(
     'TimePickerInputProps',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -136,7 +137,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // AutocompleteInput -> AutocompleteField
   const autocompleteFieldImport = findImportDeclaration(
     'AutocompleteInput',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -151,7 +152,6 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
     hasChanges = true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return hasChanges ? root.toSource(options) : file.source;
 };
 

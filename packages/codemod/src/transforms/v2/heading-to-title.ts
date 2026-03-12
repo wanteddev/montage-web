@@ -1,4 +1,5 @@
 import { findImportDeclaration, getLocalName } from '../../helpers';
+import { WDS_SOURCES } from '../../constants';
 
 import type {
   API,
@@ -16,7 +17,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // EmptyStateText heading -> title
   const emptyStateTextImport = findImportDeclaration(
     'EmptyStateText',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
@@ -39,12 +40,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   }
 
   // Slider heading -> title
-  const sliderImport = findImportDeclaration(
-    'Slider',
-    '@wanteddev/wds',
-    j,
-    root,
-  );
+  const sliderImport = findImportDeclaration('Slider', WDS_SOURCES, j, root);
 
   if (sliderImport) {
     root
@@ -66,7 +62,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // useSnackbar heading -> title
   const useSnackbarImport = findImportDeclaration(
     'useSnackbar',
-    '@wanteddev/wds',
+    WDS_SOURCES,
     j,
     root,
   );
