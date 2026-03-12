@@ -17,7 +17,6 @@ on:
           - major
 
 env:
-  NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   GH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
   SERVICE: 'Montage web'
 
@@ -27,6 +26,9 @@ jobs:
       packages: write
       contents: write
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -42,6 +44,8 @@ jobs:
       - run: git config user.name "github-actions[bot]"
       - run: git config user.email "github-actions[bot]@users.noreply.github.com"
       - run: echo ""
+      - name: Configure GitHub Package Registry token
+        run: npm config set //npm.pkg.github.com/:_authToken ${{ secrets.NODE_AUTH_TOKEN }}
       - name: Publish
         run: pnpm run lerna-deploy ${{ inputs.increment }} --force-publish --dist-tag ${{ contains(inputs.increment, 'pre') && 'alpha' || 'latest' }} ${{ contains(inputs.increment, 'pre') && '--conventional-prerelease' || '--conventional-commits' }} --create-release=github --yes
 
