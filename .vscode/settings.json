@@ -3,7 +3,8 @@
   "eslint.workingDirectories": [
     { "pattern": ".github/actions/*/" },
     { "pattern": "docs/" },
-    { "pattern": "packages/*/" }
+    { "pattern": "packages/*/" },
+    { "pattern": "internal/*/" }
   ],
   "eslint.useFlatConfig": true,
   "editor.formatOnSave": true,

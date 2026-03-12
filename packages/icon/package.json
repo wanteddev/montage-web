@@ -1,0 +1,58 @@
+{
+  "name": "@montage-ui/icon",
+  "description": "Icon components for the Montage design system",
+  "version": "3.11.1",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "types": "./dist/index.d.ts",
+      "module": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "license": "MIT",
+  "homepage": "https://montage.wanted.co.kr",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "url": "https://github.com/wanteddev/montage-web",
+    "type": "git",
+    "directory": "packages/icon"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && tsdown",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "watch": "tsup --watch"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "react": "^19.2.4",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@montage-ui/engine": "workspace:*"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.0.0 || ^19.0.0",
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    }
+  }
+}

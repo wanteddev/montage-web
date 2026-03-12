@@ -1,5 +1,5 @@
-import { FlexBox, Typography } from '@wanteddev/wds';
-import { IconSearch } from '@wanteddev/wds-icon';
+import { FlexBox, Typography } from '@montage-ui/core';
+import { IconSearch } from '@montage-ui/icon';
 
 const SearchResultInitial = () => {
   return (
