@@ -30,7 +30,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       const oldName = findMatchingOldName(importSource);
 
       if (oldName) {
-        const newName = PACKAGE_NAME_MAP[oldName];
+        const newName = PACKAGE_NAME_MAP[oldName]!;
         path.node.source.value = importSource.replace(oldName, newName);
         hasChanges = true;
       }

@@ -1,5 +1,5 @@
 import { findImportDeclaration, getImportedName } from '../../helpers';
-import { WDS_ICON_SOURCES } from '../../constants';
+import { MONTAGE_ICON_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -12,7 +12,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   const wdsIconImport = root
     .find(j.ImportDeclaration)
     .filter((path) =>
-      WDS_ICON_SOURCES.includes(path.node.source.value as string),
+      MONTAGE_ICON_SOURCES.includes(path.node.source.value as string),
     );
 
   if (wdsIconImport.length < 1) {
@@ -22,7 +22,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // icon-circle-close -> icon-circle-close-fill
   const iconCircleCloseImport = findImportDeclaration(
     'IconCircleClose',
-    WDS_ICON_SOURCES,
+    MONTAGE_ICON_SOURCES,
     j,
     root,
   );

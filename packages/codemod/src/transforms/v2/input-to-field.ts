@@ -1,5 +1,5 @@
 import { findImportDeclaration, getImportedName } from '../../helpers';
-import { WDS_SOURCES } from '../../constants';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -11,7 +11,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // text-input -> text-field
   const textInputImport = findImportDeclaration(
     'TextInput',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -29,7 +29,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // text-input-button -> text-field-button
   const textInputButtonImport = findImportDeclaration(
     'TextInputButton',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -47,7 +47,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // text-input-content -> text-field-content
   const textInputContentImport = findImportDeclaration(
     'TextInputContent',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -65,7 +65,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // search-input -> search-field
   const searchInputImport = findImportDeclaration(
     'SearchInput',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -83,7 +83,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // pagination-input -> pagination-field
   const paginationInputImport = findImportDeclaration(
     'PaginationInput',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -101,7 +101,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // TimePickerInputProps -> TimePickerFieldProps
   const timePickerInputPropsImport = findImportDeclaration(
     'TimePickerInputProps',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -119,7 +119,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // DatePickerInputProps -> DatePickerFieldProps
   const datePickerInputPropsImport = findImportDeclaration(
     'TimePickerInputProps',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -137,7 +137,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // AutocompleteInput -> AutocompleteField
   const autocompleteFieldImport = findImportDeclaration(
     'AutocompleteInput',
-    WDS_SOURCES,
+    MONTAGE_SOURCES,
     j,
     root,
   );
