@@ -447,7 +447,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (accordionSummaryImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: accordionSummaryImport.imported.name },
+        name: { name: getLocalName(accordionSummaryImport) },
       })
       .forEach((comp) => {
         const textProps = (

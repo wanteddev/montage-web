@@ -5,6 +5,11 @@ const PACKAGE_NAME_MAP: Record<string, string> = {
   '@wanteddev/wds-icon': '@montage-ui/icon',
   '@wanteddev/wds-nextjs': '@montage-ui/nextjs',
   '@wanteddev/wds-lottie': '@montage-ui/lottie',
+  '@wanteddev/wds-theme': '@montage-ui/theme',
+  '@wanteddev/wds-engine': '@montage-ui/engine',
+  '@wanteddev/wds-codemod': '@montage-ui/codemod',
+  '@wanteddev/wds-eslint-plugin': '@montage-ui/eslint-plugin',
+  '@wanteddev/wds-mcp': '@wanteddev/montage-mcp',
 };
 
 const findMatchingOldName = (importSource: string) => {

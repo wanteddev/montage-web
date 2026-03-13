@@ -118,7 +118,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   // DatePickerInputProps -> DatePickerFieldProps
   const datePickerInputPropsImport = findImportDeclaration(
-    'TimePickerInputProps',
+    'DatePickerInputProps',
     MONTAGE_SOURCES,
     j,
     root,
