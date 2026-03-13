@@ -42,4 +42,7 @@ export const MIGRATION_TRANSFORMS = {
     'chip-naming-migration': 'Chip Naming Migration',
     'shadow-migration': 'Shadow Migration',
   },
+  v4: {
+    'package-name-migration': 'Package Name Migration',
+  },
 };
