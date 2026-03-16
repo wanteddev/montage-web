@@ -3,6 +3,7 @@ import {
   findImportDeclaration,
   getLocalName,
 } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,
@@ -24,17 +25,19 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   const j = api.jscodeshift.withParser('tsx');
   const root = j(file.source);
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   const typographyImport = findImportDeclaration(
     'Typography',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -57,7 +60,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const cardTitleImport = findImportDeclaration(
     'CardTitle',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -80,7 +83,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const cardCaptionImport = findImportDeclaration(
     'CardCaption',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -103,7 +106,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const emptyStateTextImport = findImportDeclaration(
     'EmptyStateText',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -126,7 +129,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const formLabelImport = findImportDeclaration(
     'FormLabel',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -149,7 +152,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const formMessageImport = findImportDeclaration(
     'FormMessage',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -172,7 +175,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const formErrorMessageImport = findImportDeclaration(
     'FormErrorMessage',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -193,7 +196,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
   }
 
-  const labelImport = findImportDeclaration('Label', '@wanteddev/wds', j, root);
+  const labelImport = findImportDeclaration('Label', MONTAGE_SOURCES, j, root);
 
   if (labelImport) {
     root
@@ -213,7 +216,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const autocompleteOptionImport = findImportDeclaration(
     'AutocompleteOption',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -240,7 +243,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const menuItemImport = findImportDeclaration(
     'MenuItem',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -267,7 +270,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const optionImport = findImportDeclaration(
     'Option',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -294,7 +297,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const modalHeadingImport = findImportDeclaration(
     'ModalHeading',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -317,7 +320,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const modalSummaryImport = findImportDeclaration(
     'ModalSummary',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -340,7 +343,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const modalDescriptionImport = findImportDeclaration(
     'ModalDescription',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -363,7 +366,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const tableCellImport = findImportDeclaration(
     'TableCell',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -386,7 +389,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const tableHeadCellImport = findImportDeclaration(
     'TableHeadCell',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -409,7 +412,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const listCellImport = findImportDeclaration(
     'ListCell',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -436,7 +439,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const accordionSummaryImport = findImportDeclaration(
     'AccordionSummary',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -444,7 +447,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   if (accordionSummaryImport) {
     root
       .find(j.JSXOpeningElement, {
-        name: { name: accordionSummaryImport.imported.name },
+        name: { name: getLocalName(accordionSummaryImport) },
       })
       .forEach((comp) => {
         const textProps = (
@@ -463,7 +466,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const typographyStyleImport = findImportDeclaration(
     'typographyStyle',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
