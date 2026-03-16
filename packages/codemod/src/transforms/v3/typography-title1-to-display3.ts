@@ -3,6 +3,7 @@ import {
   findImportDeclaration,
   getLocalName,
 } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,
@@ -31,7 +32,7 @@ const changeTypographyVariant = (
 ) => {
   const importDeclaration = findImportDeclaration(
     componentName,
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -60,7 +61,7 @@ const changeTextPropsTypographyVariant = (
 ) => {
   const importDeclaration = findImportDeclaration(
     componentName,
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -86,11 +87,13 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   const j = api.jscodeshift.withParser('tsx');
   const root = j(file.source);
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
@@ -135,7 +138,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const typographyStyleImport = findImportDeclaration(
     'typographyStyle',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
