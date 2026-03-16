@@ -1,5 +1,33 @@
 # Migration Guide
 
+## 4.0.0
+
+### 패키지명 변경
+
+모든 패키지가 `@wanteddev/*`에서 `@montage-ui/*`로 변경되었습니다.
+
+| 기존                           | 변경                        |
+| ------------------------------ | --------------------------- |
+| `@wanteddev/wds`               | `@montage-ui/core`          |
+| `@wanteddev/wds-icon`          | `@montage-ui/icon`          |
+| `@wanteddev/wds-nextjs`        | `@montage-ui/nextjs`        |
+| `@wanteddev/wds-lottie`        | `@montage-ui/lottie`        |
+| `@wanteddev/wds-codemod`       | `@montage-ui/codemod`       |
+| `@wanteddev/wds-theme`         | `@montage-ui/theme`         |
+| `@wanteddev/wds-engine`        | `@montage-ui/engine`        |
+| `@wanteddev/eslint-plugin-wds` | `@montage-ui/eslint-plugin` |
+
+import 경로를 자동으로 변환하려면 아래 codemod를 실행하세요:
+
+```sh
+npx @montage-ui/codemod@latest package-name-migration src
+```
+
+codemod는 import 선언만 변환합니다. 아래 항목은 수동 확인이 필요합니다:
+
+- `package.json`의 dependencies 패키지명 변경
+- ESLint 설정에서 `@wanteddev/eslint-plugin-wds` → `@montage-ui/eslint-plugin`
+
 ## 3.0.0 (2025-11-12)
 
 ### Button

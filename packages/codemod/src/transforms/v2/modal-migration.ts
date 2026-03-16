@@ -1,4 +1,5 @@
 import { findImportDeclaration, getLocalName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options, Property } from 'jscodeshift';
 
@@ -9,7 +10,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const modalContainerImport = findImportDeclaration(
     'ModalContainer',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
