@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 오른쪽 화살표를 표현합니다.
+ * 키워드: 애로우, Arrow, 화살표, 꺽쇠, Right
+ */
 const IconArrowRight = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

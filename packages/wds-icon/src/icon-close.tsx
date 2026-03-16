@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 요소를 닫을 때 사용합니다.
+ * 키워드: 닫기, Close
+ */
 const IconClose = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

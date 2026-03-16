@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 하트 속 하트를 표현합니다.
+ * 키워드: Heart Double, 더블 하트
+ */
 const IconHeartInHeartFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

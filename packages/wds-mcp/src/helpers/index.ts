@@ -9,7 +9,7 @@ import readme from '../../../wds/README.md';
 import { DOCS_BASE_URL } from '../constants';
 
 const componentApi = api;
-const iconNames = icons;
+const iconNames = icons.map((icon) => icon.name);
 
 export const getDocsBaseUrl = (version: string) => {
   const parsedVersion = semver.parse(version);

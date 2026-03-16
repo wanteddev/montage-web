@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 인증된 상태, 우수한 상태를 표현합니다.
+ * 키워드: 인증, 별, 뱃지, 우수한, Verified, Star, Badge, Extraordinary
+ */
 const IconVerifiedStar = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

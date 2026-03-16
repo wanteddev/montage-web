@@ -8,6 +8,9 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 한국어 또는 한글을 표현합니다.
+ */
 const IconSquareHangul = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

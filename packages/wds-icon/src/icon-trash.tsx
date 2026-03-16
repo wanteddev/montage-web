@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 내용을 삭제할 때 사용합니다.
+ * 키워드: 휴지통, 쓰레기통, Rubbish, Garbage, Can, Delete, 삭제, 제거, Bin
+ */
 const IconTrash = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

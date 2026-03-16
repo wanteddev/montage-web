@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 원형을 표현합니다.
+ * 키워드: Oval
+ */
 const IconCircleFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

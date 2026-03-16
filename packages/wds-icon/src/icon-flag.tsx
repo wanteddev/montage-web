@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 깃발을 표현합니다.
+ * 키워드: 휘날림, milestone, 마일스톤
+ */
 const IconFlag = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

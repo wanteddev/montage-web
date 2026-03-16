@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 로그인을 표현합니다.
+ * 키워드: sign in
+ */
 const IconLogin = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

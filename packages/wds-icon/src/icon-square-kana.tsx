@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 일본어, 가나 문자를 표현합니다.
+ * 키워드: Japanese, Gana Moji, character, 일본어, 히라가나, 가타카나, 문자
+ */
 const IconSquareKana = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

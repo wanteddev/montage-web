@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 정보를 수정할 때 사용합니다.
+ * 키워드: Edit, 연필, 펜슬, 적다, 쓰다, Write
+ */
 const IconPencil = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

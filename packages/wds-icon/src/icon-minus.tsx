@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 요소를 제거할 때 사용합니다.
+ * 키워드: Delete, 마이너스, 빼기
+ */
 const IconMinus = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

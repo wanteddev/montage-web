@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 내용을 업로드할 때 사용합니다.
+ * 키워드: 업로드, Upload, File, Content, 콘텐츠, 파일
+ */
 const IconUpload = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

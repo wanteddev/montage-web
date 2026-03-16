@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 시간을 표현합니다.
+ * 키워드: 시계
+ */
 const IconClock = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

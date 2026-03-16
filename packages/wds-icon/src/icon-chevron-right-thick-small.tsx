@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 오른쪽 꺽쇠를 표현합니다. 여백, 두께, 사이즈를 조정할 수 있습니다.
+ * 키워드: 취베른, 꺽쇠, 앞으로 가기, Chevron, Forward, Right, Size, Tight, Small
+ */
 const IconChevronRightThickSmall = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

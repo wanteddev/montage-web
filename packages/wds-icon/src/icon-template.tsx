@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 레이아웃을 표현합니다.
+ * 키워드: 템플릿, 레이아웃, 스플릿, Template, Layout, Split
+ */
 const IconTemplate = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

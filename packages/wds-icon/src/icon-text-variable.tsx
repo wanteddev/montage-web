@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 텍스트 변수를 표현합니다.
+ * 키워드: 텍스트 베리어블
+ */
 const IconTextVariable = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

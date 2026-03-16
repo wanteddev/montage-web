@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 기록을 표시할 때 사용합니다.
+ * 히스토리, History, 기록, 예전 기록
+ */
 const IconHistory = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

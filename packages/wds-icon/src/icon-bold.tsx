@@ -8,6 +8,9 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 키워드:
+ */
 const IconBold = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

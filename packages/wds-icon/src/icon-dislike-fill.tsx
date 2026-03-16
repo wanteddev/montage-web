@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 내용을 비추천할 때 사용합니다.
+ * 키워드: 반대, Thumbs Down, 노따봉, Bad
+ */
 const IconDislikeFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 새 창으로 정보를 표시할 때 사용합니다.
+ * 키워드: 바깥 링크, 외부 링크, 새 창, Another Window, External Link
+ */
 const IconExternalLink = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box
