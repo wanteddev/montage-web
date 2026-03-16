@@ -171,9 +171,9 @@ const main = async () => {
   );
 
   shelljs.exec(
-    'pnpm jscodeshift ./packages/wds-icon/src --extensions=tsx, --parasr=tsx --transform=./packages/wds-codemod/src/transforms/svg-use-id.ts',
+    'pnpm jscodeshift ./packages/icon/src --extensions=tsx, --parasr=tsx --transform=./packages/codemod/src/transforms/svg-use-id.ts',
   );
-  shelljs.exec('pnpm -F wds-icon lint:fix src');
+  shelljs.exec('pnpm -F icon lint:fix src');
 
   rmSync(outputDir, { recursive: true, force: true });
 
