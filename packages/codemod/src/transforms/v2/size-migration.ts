@@ -3,6 +3,7 @@ import {
   findImportDeclaration,
   getLocalName,
 } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -11,30 +12,32 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   const root = j(file.source);
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   const targetImports = [
-    findImportDeclaration('TopNavigationButton', '@wanteddev/wds', j, root),
-    findImportDeclaration('ModalNavigationButton', '@wanteddev/wds', j, root),
-    findImportDeclaration('Switch', '@wanteddev/wds', j, root),
-    findImportDeclaration('ScrollArea', '@wanteddev/wds', j, root),
-    findImportDeclaration('RoundCheckbox', '@wanteddev/wds', j, root),
-    findImportDeclaration('RadioGroupItem', '@wanteddev/wds', j, root),
-    findImportDeclaration('Radio', '@wanteddev/wds', j, root),
-    findImportDeclaration('PaginationDot', '@wanteddev/wds', j, root),
-    findImportDeclaration('PaginationCounter', '@wanteddev/wds', j, root),
-    findImportDeclaration('IconButton', '@wanteddev/wds', j, root),
-    findImportDeclaration('ChipFilter', '@wanteddev/wds', j, root),
-    findImportDeclaration('ChipAction', '@wanteddev/wds', j, root),
-    findImportDeclaration('Checkbox', '@wanteddev/wds', j, root),
-    findImportDeclaration('CheckMark', '@wanteddev/wds', j, root),
-    findImportDeclaration('NestedCheckbox', '@wanteddev/wds', j, root),
+    findImportDeclaration('TopNavigationButton', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('ModalNavigationButton', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('Switch', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('ScrollArea', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('RoundCheckbox', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('RadioGroupItem', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('Radio', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('PaginationDot', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('PaginationCounter', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('IconButton', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('ChipFilter', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('ChipAction', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('Checkbox', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('CheckMark', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('NestedCheckbox', MONTAGE_SOURCES, j, root),
   ];
 
   for (const targetImport of targetImports) {
@@ -58,7 +61,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
       });
   }
 
-  const tabImport = findImportDeclaration('TabList', '@wanteddev/wds', j, root);
+  const tabImport = findImportDeclaration('TabList', MONTAGE_SOURCES, j, root);
 
   if (tabImport) {
     root
@@ -80,11 +83,11 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   }
 
   const listCellImports = [
-    findImportDeclaration('ListCell', '@wanteddev/wds', j, root),
-    findImportDeclaration('AutocompleteOption', '@wanteddev/wds', j, root),
-    findImportDeclaration('AccordionSummary', '@wanteddev/wds', j, root),
-    findImportDeclaration('MenuItem', '@wanteddev/wds', j, root),
-    findImportDeclaration('Option', '@wanteddev/wds', j, root),
+    findImportDeclaration('ListCell', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('AutocompleteOption', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('AccordionSummary', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('MenuItem', MONTAGE_SOURCES, j, root),
+    findImportDeclaration('Option', MONTAGE_SOURCES, j, root),
   ];
 
   for (const targetImport of listCellImports) {
@@ -123,7 +126,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const modalContainerImport = findImportDeclaration(
     'ModalContainer',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -155,7 +158,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const contentBadgeImport = findImportDeclaration(
     'ContentBadge',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
