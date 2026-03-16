@@ -1,4 +1,5 @@
 import { findImportDeclaration, getImportedName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -8,18 +9,20 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   // chip-action -> chip
   const chipActionImport = findImportDeclaration(
     'ChipAction',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -37,7 +40,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // chip-filter -> filter-button
   const chipFilterImport = findImportDeclaration(
     'ChipFilter',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );

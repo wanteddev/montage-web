@@ -1,4 +1,5 @@
 import { findImportDeclaration, getLocalName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,
@@ -16,7 +17,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // EmptyStateText heading -> title
   const emptyStateTextImport = findImportDeclaration(
     'EmptyStateText',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -41,7 +42,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // Slider heading -> title
   const sliderImport = findImportDeclaration(
     'Slider',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -66,7 +67,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // useSnackbar heading -> title
   const useSnackbarImport = findImportDeclaration(
     'useSnackbar',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );

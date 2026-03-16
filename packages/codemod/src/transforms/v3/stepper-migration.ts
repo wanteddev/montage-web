@@ -1,4 +1,5 @@
 import { findImportDeclaration, getImportedName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -8,18 +9,20 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   // progress-tracker-desktop -> stepper
   const progressTrackerDesktopImport = findImportDeclaration(
     'ProgressTrackerDesktop',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -39,7 +42,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // progress-tracker-desktop-item -> stepper-item
   const progressTrackerDesktopItemImport = findImportDeclaration(
     'ProgressTrackerDesktopItem',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );

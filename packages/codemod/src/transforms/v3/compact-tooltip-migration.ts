@@ -4,6 +4,7 @@ import {
   getImportedName,
   getLocalName,
 } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type {
   API,
@@ -33,25 +34,27 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   // compact-tooltip -> tooltip
   const compactTooltipImport = findImportDeclaration(
     'CompactTooltip',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
 
   const tooltipImport = findImportDeclaration(
     'Tooltip',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -90,14 +93,14 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // compact-tooltip-trigger -> tooltip-trigger
   const compactTooltipTriggerImport = findImportDeclaration(
     'CompactTooltipTrigger',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
 
   const tooltipTriggerImport = findImportDeclaration(
     'TooltipTrigger',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -136,14 +139,14 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // compact-tooltip-content -> tooltip-content
   const compactTooltipContentImport = findImportDeclaration(
     'CompactTooltipContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
 
   const tooltipContentImport = findImportDeclaration(
     'TooltipContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -217,7 +220,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const popperContentImport = findImportDeclaration(
     'PopperContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -261,7 +264,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const autocompleteListImport = findImportDeclaration(
     'AutocompleteList',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -301,7 +304,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const menuContentImport = findImportDeclaration(
     'MenuContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -341,7 +344,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const timePickerImport = findImportDeclaration(
     'TimePicker',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -379,7 +382,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const datePickerImport = findImportDeclaration(
     'DatePicker',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -416,7 +419,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const selectImport = findImportDeclaration(
     'Select',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -454,7 +457,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const selectMultipleImport = findImportDeclaration(
     'SelectMultiple',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -492,7 +495,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const popoverContentImport = findImportDeclaration(
     'PopoverContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -548,7 +551,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const newTooltipContentImport = findImportDeclaration(
     'TooltipContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );

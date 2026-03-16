@@ -1,4 +1,5 @@
 import { findImportDeclaration, getLocalName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -9,14 +10,14 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const actionAreaImport = findImportDeclaration(
     'ActionArea',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
 
   const pickerActionAreaImport = findImportDeclaration(
     'PickerActionArea',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );

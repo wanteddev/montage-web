@@ -1,3 +1,5 @@
+import { MONTAGE_SOURCES } from '../../constants';
+
 import type { API, ASTPath, FileInfo, Options } from 'jscodeshift';
 
 const migrationSet = new Map([
@@ -12,11 +14,13 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   const j = api.jscodeshift.withParser('tsx');
   const root = j(file.source);
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 

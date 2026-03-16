@@ -1,3 +1,12 @@
+export const MONTAGE_SOURCES: Array<string> = [
+  '@montage-ui/core',
+  '@wanteddev/wds',
+];
+export const MONTAGE_ICON_SOURCES: Array<string> = [
+  '@montage-ui/icon',
+  '@wanteddev/wds-icon',
+];
+
 export const MIGRATION_TRANSFORMS = {
   v2: {
     'list-cell-migration': 'List Cell Migration',
@@ -32,5 +41,8 @@ export const MIGRATION_TRANSFORMS = {
     'section-message-show-to-open': 'Section Message Show to Open',
     'chip-naming-migration': 'Chip Naming Migration',
     'shadow-migration': 'Shadow Migration',
+  },
+  v4: {
+    'package-name-migration': 'Package Name Migration',
   },
 };

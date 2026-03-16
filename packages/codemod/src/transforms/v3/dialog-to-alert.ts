@@ -1,4 +1,5 @@
 import { findImportDeclaration, getImportedName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -8,18 +9,20 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   // dialog -> alert
   const dialogImport = findImportDeclaration(
     'Dialog',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -37,7 +40,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-dimmer -> alert-dimmer
   const dialogDimmerImport = findImportDeclaration(
     'DialogDimmer',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -55,7 +58,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-container -> alert-container
   const dialogContainerImport = findImportDeclaration(
     'DialogContainer',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -73,7 +76,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-content -> alert-content
   const dialogContentImport = findImportDeclaration(
     'DialogContent',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -91,7 +94,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-heading -> alert-heading
   const dialogHeadingImport = findImportDeclaration(
     'DialogHeading',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -109,7 +112,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-description -> alert-description
   const dialogDescriptionImport = findImportDeclaration(
     'DialogDescription',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -126,7 +129,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-action-area -> alert-action-area
   const dialogActionAreaImport = findImportDeclaration(
     'DialogActionArea',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -143,7 +146,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-button -> alert-action-area-button
   const dialogButtonImport = findImportDeclaration(
     'DialogButton',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -161,7 +164,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // dialog-button -> alert-action-area-button
   const dialogActionAreaButtonImport = findImportDeclaration(
     'DialogActionAreaButton',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -181,7 +184,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   // use-dialog -> use-alert
   const useDialogImport = findImportDeclaration(
     'useDialog',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );

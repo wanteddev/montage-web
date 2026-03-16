@@ -3,6 +3,7 @@ import {
   findImportDeclaration,
   getLocalName,
 } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, CallExpression, FileInfo, Options } from 'jscodeshift';
 
@@ -13,7 +14,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const useToastImport = findImportDeclaration(
     'useToast',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
