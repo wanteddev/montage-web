@@ -1,4 +1,5 @@
 import { findImportDeclaration, getLocalName } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, JSXAttribute, Options } from 'jscodeshift';
 
@@ -7,17 +8,19 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
   const root = j(file.source);
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   const sectionMessageImport = findImportDeclaration(
     'SectionMessage',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
