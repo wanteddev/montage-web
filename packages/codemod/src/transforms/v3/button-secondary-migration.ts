@@ -3,6 +3,7 @@ import {
   findImportDeclaration,
   getLocalName,
 } from '../../helpers';
+import { MONTAGE_SOURCES } from '../../constants';
 
 import type { API, FileInfo, Options } from 'jscodeshift';
 
@@ -12,17 +13,19 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   let hasChanges = false;
 
-  const wdsImport = root.find(j.ImportDeclaration, {
-    source: { value: '@wanteddev/wds' },
-  });
+  const montageImport = root
+    .find(j.ImportDeclaration)
+    .filter((path) =>
+      MONTAGE_SOURCES.includes(path.node.source.value as string),
+    );
 
-  if (wdsImport.length < 1) {
+  if (montageImport.length < 1) {
     return file.source;
   }
 
   const buttonImport = findImportDeclaration(
     'Button',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -51,7 +54,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const actionAreaButtonImport = findImportDeclaration(
     'ActionAreaButton',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -80,7 +83,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const emptyStateButtonImport = findImportDeclaration(
     'EmptyStateButton',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
@@ -109,7 +112,7 @@ const transformer = (file: FileInfo, api: API, options: Options) => {
 
   const fallbackViewButtonImport = findImportDeclaration(
     'FallbackViewButton',
-    '@wanteddev/wds',
+    MONTAGE_SOURCES,
     j,
     root,
   );
