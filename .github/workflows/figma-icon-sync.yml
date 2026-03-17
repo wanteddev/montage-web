@@ -215,7 +215,7 @@ jobs:
                             response.componentSets,
                             component.id,
                           )
-                            ? response.componentSets[component.id].description.replaceAll('\u001f', ' ')
+                            ? response.componentSets[component.id].description.replaceAll('\u001f', ' ').replaceAll('\u200b', '')
                             : null;
 
                           idsToNameAndComponentSetId[child.id] = {
