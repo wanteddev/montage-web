@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useEffect, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import { IconCalendar } from '@wanteddev/wds-icon';
 import { useControllableState } from '@radix-ui/react-use-controllable-state';
 import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
@@ -7,28 +7,33 @@ import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { TextField, TextFieldContent } from '../text-field';
 import { IconButton } from '../icon-button';
-import { DateCalendar } from '../date-calendar';
+import { DateRangeCalendar } from '../date-range-calendar';
 import { Popper, PopperAnchor, PopperContent } from '../popper';
 import { DismissableLayer } from '../dismissable-layer';
 import { FocusScope } from '../focus-scope';
 import { FlexBox } from '../flex-box';
-import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 import { extendDayjs } from '../../utils/internal/date';
+import { splitResponsiveProps } from '../../utils/internal/responsive-props';
+import { DEFAULT_RANGE_VALUE } from '../date-range-calendar/constants';
+import { PickerActionAreaProvider } from '../picker-action-area/contexts';
 
-import { datePopperStyle } from './style';
-import { useDateField } from './hooks';
+import { isInvalidDateRange } from './helpers';
+import { dateRangePopperStyle } from './style';
+import { useDateRangeField } from './hooks';
 
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
-import type { DatePickerFieldProps, DatePickerProps } from './types';
+import type { DateRangePickerFieldProps, DateRangePickerProps } from './types';
 import type { DateType } from '../date-calendar/types';
 import type { DateRangeType } from '../date-range-calendar/types';
 
 extendDayjs();
 
-const DatePicker = forwardRef<
+const calendarKeys = ['calendars'] as Array<'calendars'>;
+
+const DateRangePicker = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<DatePickerProps, 'input'>
+  DefaultComponentPropsInternal<DateRangePickerProps, 'input'>
 >(
   (
     {
@@ -40,13 +45,10 @@ const DatePicker = forwardRef<
       defaultOpen,
       open: originOpen,
       onOpenChange,
-      defaultView,
       view,
-      views,
-      onViewChange,
       contentProps,
       format = 'YYYY.MM.DD',
-      placeholder = format,
+      placeholder,
       min,
       max,
       locale = 'ko-KR',
@@ -57,11 +59,23 @@ const DatePicker = forwardRef<
       input,
       actionArea,
       invalid: originInvalid,
-      disableLastUnitClickClose,
+      disableLastDateClickClose,
+      calendars,
+      xs,
+      sm,
+      md,
+      lg,
+      xl,
       ...props
     },
     forwardedRef,
   ) => {
+    const xsSplit = useMemo(() => splitResponsiveProps(xs, calendarKeys), [xs]);
+    const smSplit = useMemo(() => splitResponsiveProps(sm, calendarKeys), [sm]);
+    const mdSplit = useMemo(() => splitResponsiveProps(md, calendarKeys), [md]);
+    const lgSplit = useMemo(() => splitResponsiveProps(lg, calendarKeys), [lg]);
+    const xlSplit = useMemo(() => splitResponsiveProps(xl, calendarKeys), [xl]);
+
     const ref = useRef<HTMLDivElement>(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
 
@@ -71,9 +85,9 @@ const DatePicker = forwardRef<
       onChange: onOpenChange,
     });
 
-    const [value, setValue] = useControllableState({
+    const [value, setValue] = useControllableState<DateRangeType>({
       prop: originValue,
-      defaultProp: defaultValue,
+      defaultProp: defaultValue ?? DEFAULT_RANGE_VALUE,
       onChange: onChange,
     });
 
@@ -92,20 +106,20 @@ const DatePicker = forwardRef<
       ...otherContentProps
     } = contentProps || {};
 
-    const Component = input ?? DatePickerField;
+    const Component = input ?? DateRangePickerField;
 
     const {
       inputRef,
       inputValue,
       focusedSection,
-      handleBlur,
-      handleClick,
-      handleFocus,
-      handleKeyDown,
       handlePaste,
+      handleFocus,
+      handleClick,
+      handleBlur,
+      handleKeyDown,
       handleValueChange,
       handleInputValueChange,
-    } = useDateField({
+    } = useDateRangeField({
       value,
       format,
       locale,
@@ -115,38 +129,38 @@ const DatePicker = forwardRef<
       disabled,
     });
 
-    const invalid =
-      originInvalid ||
-      (!onChange && Boolean(value) && isNaN(new Date(value!).getTime()));
+    const invalid = originInvalid || (!onChange && isInvalidDateRange(value));
 
     const handleChangeCompleteCallback = useCallbackRef(onChangeComplete);
 
     const handleChangeComplete = useCallback(
-      (v: DateType) => {
+      (v: DateRangeType) => {
         handleValueChange(v);
         handleChangeCompleteCallback(v);
 
-        if (!disableLastUnitClickClose) {
+        if (!disableLastDateClickClose) {
           setOpen(false);
         }
       },
       [
         handleValueChange,
         handleChangeCompleteCallback,
-        disableLastUnitClickClose,
+        disableLastDateClickClose,
         setOpen,
       ],
     );
 
     const handleChangeCompleteActionArea = useCallback(
-      (v: DateType | DateRangeType) => {
-        handleChangeComplete(v as DateType);
+      (v: DateRangeType | DateType) => {
+        handleChangeComplete(v as DateRangeType);
         setOpen(false);
       },
       [handleChangeComplete, setOpen],
     );
 
     const composedInputRef = useComposedRefs(originInputRef, inputRef);
+
+    const resolvedPlaceholder = placeholder ?? `${format} - ${format}`;
 
     useEffect(() => {
       if (open) {
@@ -162,19 +176,24 @@ const DatePicker = forwardRef<
         <PopperAnchor
           ref={composedRefs}
           onChange={() => {}}
-          inputMode={focusedSection?.type}
           aria-haspopup="dialog"
           aria-expanded={open}
-          data-role="date-picker-field"
+          data-role="date-range-picker-field"
           role="combobox"
           {...props}
           {...({
+            xs: xsSplit.rest,
+            sm: smSplit.rest,
+            md: mdSplit.rest,
+            lg: lgSplit.rest,
+            xl: xlSplit.rest,
             type: 'text',
             autoComplete: 'off',
             readOnly,
             disabled,
-            placeholder,
+            placeholder: resolvedPlaceholder,
             invalid,
+            inputMode: focusedSection?.type,
             onFocus: composeEventHandlers(props.onFocus, handleFocus),
             onClick: composeEventHandlers(props.onClick, handleClick),
             onKeyDown: composeEventHandlers(props.onKeyDown, handleKeyDown),
@@ -186,13 +205,14 @@ const DatePicker = forwardRef<
               <>
                 {props.trailingContent}
                 <TextFieldContent
-                  data-role="date-picker-calendar-icon"
+                  data-role="date-range-picker-calendar-icon"
                   variant="icon-button"
                 >
                   <IconButton
-                    aria-label="Toggle date picker"
+                    aria-label="Toggle date range picker"
                     disabled={disabled || readOnly}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       handleInputValueChange();
                       setOpen((prev) => !prev);
                     }}
@@ -228,7 +248,7 @@ const DatePicker = forwardRef<
                   if (
                     ref.current?.contains(e.target as HTMLElement) &&
                     (e.target as HTMLElement).closest(
-                      '[data-role="date-picker-calendar-icon"]',
+                      '[data-role="date-range-picker-calendar-icon"]',
                     )
                   ) {
                     e.preventDefault();
@@ -240,24 +260,27 @@ const DatePicker = forwardRef<
               >
                 <FlexBox
                   flexDirection="column"
-                  data-role="date-picker-wrapper"
-                  sx={[datePopperStyle, contentSx]}
+                  data-role="date-range-picker-wrapper"
+                  sx={[dateRangePopperStyle, contentSx]}
                 >
-                  <DateCalendar
+                  <DateRangeCalendar
                     min={min}
                     max={max}
                     timezone={timezone}
                     locale={locale}
                     onChangeComplete={handleChangeComplete}
                     view={view}
-                    defaultView={defaultView}
-                    onViewChange={onViewChange}
-                    views={views}
                     value={value}
                     onChange={handleValueChange}
                     readOnly={readOnly}
                     disabled={disabled}
                     yearsOrder={yearsOrder}
+                    calendars={calendars}
+                    xs={xsSplit.picked}
+                    sm={smSplit.picked}
+                    md={mdSplit.picked}
+                    lg={lgSplit.picked}
+                    xl={xlSplit.picked}
                   />
 
                   <PickerActionAreaProvider
@@ -265,6 +288,7 @@ const DatePicker = forwardRef<
                     value={value}
                     initialValue={initialValue}
                     onChangeComplete={handleChangeCompleteActionArea}
+                    mode="range"
                   >
                     {actionArea}
                   </PickerActionAreaProvider>
@@ -278,17 +302,17 @@ const DatePicker = forwardRef<
   },
 );
 
-DatePicker.displayName = 'DatePicker';
+DateRangePicker.displayName = 'DateRangePicker';
 
-const DatePickerField = forwardRef<
+const DateRangePickerField = forwardRef<
   HTMLDivElement,
-  DefaultComponentPropsInternal<DatePickerFieldProps, 'input'>
+  DefaultComponentPropsInternal<DateRangePickerFieldProps, 'input'>
 >(({ inputRef, ...props }, ref) => (
   <TextField {...props} ref={inputRef} wrapperRef={ref} />
 ));
 
-DatePickerField.displayName = 'DatePickerField';
+DateRangePickerField.displayName = 'DateRangePickerField';
 
-export { DatePicker };
+export { DateRangePicker };
 
-export type { DatePickerProps, DatePickerFieldProps, DateType };
+export type { DateRangePickerProps, DateRangePickerFieldProps };

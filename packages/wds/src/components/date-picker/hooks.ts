@@ -1,21 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import dayjs from 'dayjs';
 import { flushSync } from 'react-dom';
 
 import {
   dateTypeToDateObject,
-  dayjsTimezone,
-  getMeridiem,
   isDateTypeEmpty,
   isValidDate,
 } from '../date-calendar/helpers';
 
 import {
+  getBoundSectionValue,
   getClosetSection,
   getDateformatSections,
-  getNumericFormatRange,
+  getIncrementedSectionValue,
   getRegexFormat,
   parseFromFormat,
+  processCharacterInput,
   toFormat,
 } from './helpers';
 
@@ -490,239 +489,57 @@ export const useDateField = ({
 
           return;
         case 'ArrowUp':
+        case 'ArrowDown': {
           e.preventDefault();
 
           if (readOnly || disabled) {
             return;
           }
 
-          if (focusedSection.type === 'text') {
-            const optionIndex = focusedSection.options.indexOf(
-              focusedSection.value,
-            );
+          const direction = e.key === 'ArrowUp' ? 'up' : 'down';
+          const newSectionVal = getIncrementedSectionValue(
+            focusedSection,
+            direction,
+            value,
+            timezone,
+          );
+          if (newSectionVal == null) return;
 
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              focusedSection.options[
-                optionIndex === -1
-                  ? 0
-                  : (optionIndex + 1) % focusedSection.options.length
-              ] +
-              inputValue.slice(focusedSection.endIndex);
+          const newInputValue =
+            inputValue.slice(0, focusedSection.startIndex) +
+            newSectionVal +
+            inputValue.slice(focusedSection.endIndex);
 
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
+          const newSectionValue = getDateformatSections(
+            newInputValue,
+            format,
+            locale,
+          );
 
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
+          const parsedDate = parseFromFormat(
+            newInputValue,
+            format,
+            value,
+            locale,
+            timezone,
+          );
 
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
-          } else {
-            const { minValue, maxValue } = getNumericFormatRange(
-              focusedSection.format,
-              value,
-              timezone,
-            );
-
-            let newParsedValue: string;
-
-            if (isNaN(parseInt(focusedSection.value))) {
-              if (
-                focusedSection.format === 'YY' ||
-                focusedSection.format === 'YYYY'
-              ) {
-                newParsedValue = dayjsTimezone(dayjs(), timezone).format(
-                  focusedSection.format,
-                );
-              } else {
-                newParsedValue = minValue
-                  .toString()
-                  .padStart(focusedSection.format.length, '0');
-              }
-            } else if (maxValue <= parseInt(focusedSection.value)) {
-              newParsedValue = minValue
-                .toString()
-                .padStart(focusedSection.format.length, '0');
-            } else {
-              newParsedValue = (parseInt(focusedSection.value) + 1)
-                .toString()
-                .padStart(focusedSection.format.length, '0');
-            }
-
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              newParsedValue +
-              inputValue.slice(focusedSection.endIndex);
-
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
-
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
-
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
+          setInputValue(newInputValue);
+          setSections(newSectionValue);
+          setFocusedSection(newSectionValue[focusedSection.index]);
+          if (parsedDate) {
+            setValue(parsedDate);
+            isTriggeredChange.current = true;
           }
+
+          requestAnimationFrame(() => {
+            inputRef.current?.setSelectionRange(
+              newSectionValue[focusedSection.index]!.startIndex,
+              newSectionValue[focusedSection.index]!.endIndex,
+            );
+          });
           return;
-        case 'ArrowDown':
-          e.preventDefault();
-
-          if (readOnly || disabled) {
-            return;
-          }
-
-          if (focusedSection.type === 'text') {
-            const optionIndex = focusedSection.options.indexOf(
-              focusedSection.value,
-            );
-
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              focusedSection.options[
-                optionIndex === -1
-                  ? focusedSection.options.length - 1
-                  : optionIndex === 0
-                    ? focusedSection.options.length - 1
-                    : optionIndex - 1
-              ] +
-              inputValue.slice(focusedSection.endIndex);
-
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
-
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
-
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
-          } else {
-            const { minValue, maxValue } = getNumericFormatRange(
-              focusedSection.format,
-              value,
-              timezone,
-            );
-
-            let newParsedValue: string;
-
-            if (isNaN(parseInt(focusedSection.value))) {
-              if (
-                focusedSection.format === 'YY' ||
-                focusedSection.format === 'YYYY'
-              ) {
-                newParsedValue = dayjsTimezone(dayjs(), timezone).format(
-                  focusedSection.format,
-                );
-              } else {
-                newParsedValue = minValue
-                  .toString()
-                  .padStart(focusedSection.format.length, '0');
-              }
-            } else if (minValue >= parseInt(focusedSection.value)) {
-              newParsedValue = maxValue
-                .toString()
-                .padStart(focusedSection.format.length, '0');
-            } else {
-              newParsedValue = (parseInt(focusedSection.value) - 1)
-                .toString()
-                .padStart(focusedSection.format.length, '0');
-            }
-
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              newParsedValue +
-              inputValue.slice(focusedSection.endIndex);
-
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
-
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
-
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
-          }
-          return;
+        }
         case 'ArrowRight':
           e.preventDefault();
           if (focusedSection.index === sections.length - 1) {
@@ -762,182 +579,58 @@ export const useDateField = ({
           });
           return;
         case 'Home':
+        case 'End': {
           e.preventDefault();
 
           if (readOnly || disabled) {
             return;
           }
 
-          if (focusedSection.type === 'text') {
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              focusedSection.options[0] +
-              inputValue.slice(focusedSection.endIndex);
+          const bound = e.key === 'Home' ? 'home' : 'end';
+          const boundVal = getBoundSectionValue(
+            focusedSection,
+            bound,
+            value,
+            timezone,
+          );
+          if (boundVal == null) return;
 
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
+          const newInputValue =
+            inputValue.slice(0, focusedSection.startIndex) +
+            boundVal +
+            inputValue.slice(focusedSection.endIndex);
 
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
+          const newSectionValue = getDateformatSections(
+            newInputValue,
+            format,
+            locale,
+          );
 
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
+          const parsedDate = parseFromFormat(
+            newInputValue,
+            format,
+            value,
+            locale,
+            timezone,
+          );
 
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
-          } else {
-            const { minValue } = getNumericFormatRange(
-              focusedSection.format,
-              value,
-              timezone,
-            );
-
-            const newParsedValue = minValue
-              .toString()
-              .padStart(focusedSection.format.length, '0');
-
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              newParsedValue +
-              inputValue.slice(focusedSection.endIndex);
-
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
-
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
-
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
+          setInputValue(newInputValue);
+          setSections(newSectionValue);
+          setFocusedSection(newSectionValue[focusedSection.index]);
+          if (parsedDate) {
+            setValue(parsedDate);
+            isTriggeredChange.current = true;
           }
+
+          requestAnimationFrame(() => {
+            inputRef.current?.setSelectionRange(
+              newSectionValue[focusedSection.index]!.startIndex,
+              newSectionValue[focusedSection.index]!.endIndex,
+            );
+          });
           return;
-        case 'End':
-          e.preventDefault();
-
-          if (readOnly || disabled) {
-            return;
-          }
-
-          if (focusedSection.type === 'text') {
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              focusedSection.options[focusedSection.options.length - 1] +
-              inputValue.slice(focusedSection.endIndex);
-
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
-
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
-
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
-          } else {
-            const { maxValue } = getNumericFormatRange(
-              focusedSection.format,
-              value,
-              timezone,
-            );
-
-            const newParsedValue = maxValue
-              .toString()
-              .padStart(focusedSection.format.length, '0');
-
-            const newInputValue =
-              inputValue.slice(0, focusedSection.startIndex) +
-              newParsedValue +
-              inputValue.slice(focusedSection.endIndex);
-
-            const newSectionValue = getDateformatSections(
-              newInputValue,
-              format,
-              locale,
-            );
-
-            const parsedDate = parseFromFormat(
-              newInputValue,
-              format,
-              value,
-              locale,
-              timezone,
-            );
-
-            setInputValue(newInputValue);
-            setSections(newSectionValue);
-            setFocusedSection(newSectionValue[focusedSection.index]);
-            if (parsedDate) {
-              setValue(parsedDate);
-              isTriggeredChange.current = true;
-            }
-
-            requestAnimationFrame(() => {
-              inputRef.current?.setSelectionRange(
-                newSectionValue[focusedSection.index]!.startIndex,
-                newSectionValue[focusedSection.index]!.endIndex,
-              );
-            });
-          }
-          return;
+        }
       }
-
-      const lowerKey = e.key.toLowerCase();
 
       if (e.ctrlKey || e.metaKey || e.altKey || readOnly || disabled) {
         return;
@@ -945,155 +638,54 @@ export const useDateField = ({
 
       e.preventDefault();
 
-      if (focusedSection.type === 'text') {
-        const foundOption = focusedSection.options.filter((v) => {
-          if (/^a$/i.test(focusedSection.format)) {
-            const meridiem = getMeridiem(locale);
-            const [am, pm] = meridiem.map((m) =>
-              focusedSection.format === 'a' ? m.lower : m.upper,
-            );
+      const charResult = processCharacterInput(
+        e.key,
+        focusedSection,
+        sectionValueRef.current,
+        inputValue,
+        locale,
+        value,
+        timezone,
+      );
 
-            return new RegExp(
-              `^${lowerKey === 'a' ? am : lowerKey === 'p' ? pm : '$^'}`,
-            ).test(v);
-          }
+      if (!charResult) return;
 
-          return new RegExp(
-            '^' + String.raw`${sectionValueRef.current}${lowerKey}`,
-          ).test(v.toLowerCase());
-        });
+      const { newInput: newInputValue, isFinished, newSectionRef } = charResult;
+      sectionValueRef.current = newSectionRef;
 
-        let newInputValue: string;
-        let isFinished = false;
+      const newSectionValue = getDateformatSections(
+        newInputValue,
+        format,
+        locale,
+      );
 
-        if (foundOption.length > 0) {
-          newInputValue =
-            inputValue.slice(0, focusedSection.startIndex) +
-            foundOption[0] +
-            inputValue.slice(focusedSection.endIndex);
-
-          sectionValueRef.current += lowerKey;
-          isFinished = foundOption.length === 1;
-        } else {
-          sectionValueRef.current = lowerKey;
-
-          const fallbackOption = focusedSection.options.filter((v) =>
-            new RegExp('^' + String.raw`${sectionValueRef.current}`).test(
-              v.toLowerCase(),
-            ),
-          );
-
-          if (fallbackOption.length === 0) {
-            return;
-          }
-
-          newInputValue =
-            inputValue.slice(0, focusedSection.startIndex) +
-            fallbackOption[0] +
-            inputValue.slice(focusedSection.endIndex);
-
-          isFinished = fallbackOption.length === 1;
-        }
-
-        const newSectionValue = getDateformatSections(
+      if (isFinished) {
+        setInputValue(newInputValue);
+        setSections(newSectionValue);
+        handleNextSection(newInputValue, newSectionValue);
+      } else {
+        const parsedDate = parseFromFormat(
           newInputValue,
           format,
-          locale,
-        );
-
-        if (isFinished) {
-          setInputValue(newInputValue);
-          setSections(newSectionValue);
-          handleNextSection(newInputValue, newSectionValue);
-        } else {
-          const parsedDate = parseFromFormat(
-            newInputValue,
-            format,
-            value,
-            locale,
-            timezone,
-          );
-
-          setInputValue(newInputValue);
-          setSections(newSectionValue);
-          setFocusedSection(newSectionValue[focusedSection.index]);
-          if (parsedDate) {
-            setValue(parsedDate);
-            isTriggeredChange.current = true;
-          }
-
-          requestAnimationFrame(() => {
-            inputRef.current?.setSelectionRange(
-              newSectionValue[focusedSection.index]!.startIndex,
-              newSectionValue[focusedSection.index]!.endIndex,
-            );
-          });
-        }
-      } else {
-        // numeric
-        const numericValue = parseInt(lowerKey);
-
-        if (isNaN(numericValue)) {
-          return;
-        }
-
-        const { isComplete } = getNumericFormatRange(
-          focusedSection.format,
           value,
+          locale,
           timezone,
         );
 
-        sectionValueRef.current = (sectionValueRef.current + lowerKey).slice(
-          (focusedSection.format.length === 1
-            ? 2
-            : focusedSection.format.length) * -1,
-        );
-
-        const newInputValue =
-          inputValue.slice(0, focusedSection.startIndex) +
-          inputValue
-            .slice(focusedSection.startIndex)
-            .replace(
-              focusedSection.value,
-              sectionValueRef.current
-                .replace(/^0+/, '')
-                .padStart(focusedSection.format.length, '0'),
-            );
-
-        const newSectionValue = getDateformatSections(
-          newInputValue,
-          format,
-          locale,
-        );
-
-        if (isComplete(sectionValueRef.current)) {
-          setInputValue(newInputValue);
-          setSections(newSectionValue);
-          handleNextSection(newInputValue, newSectionValue);
-        } else {
-          const parsedDate = parseFromFormat(
-            newInputValue,
-            format,
-            value,
-            locale,
-            timezone,
-          );
-
-          setInputValue(newInputValue);
-          setSections(newSectionValue);
-          setFocusedSection(newSectionValue[focusedSection.index]);
-          if (parsedDate) {
-            setValue(parsedDate);
-            isTriggeredChange.current = true;
-          }
-
-          requestAnimationFrame(() => {
-            inputRef.current?.setSelectionRange(
-              newSectionValue[focusedSection.index]!.startIndex,
-              newSectionValue[focusedSection.index]!.endIndex,
-            );
-          });
+        setInputValue(newInputValue);
+        setSections(newSectionValue);
+        setFocusedSection(newSectionValue[focusedSection.index]);
+        if (parsedDate) {
+          setValue(parsedDate);
+          isTriggeredChange.current = true;
         }
+
+        requestAnimationFrame(() => {
+          inputRef.current?.setSelectionRange(
+            newSectionValue[focusedSection.index]!.startIndex,
+            newSectionValue[focusedSection.index]!.endIndex,
+          );
+        });
       }
     },
     [
