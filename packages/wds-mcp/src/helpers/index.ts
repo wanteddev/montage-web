@@ -145,6 +145,7 @@ export const getComponentUrl = async (
 ) => {
   const componentSlug = kebabCase(componentName);
   const componentPathMap: Record<string, string> = {
+    'date-range-picker': 'date-picker',
     list: 'list-cell',
     stepper: 'progress-tracker',
     'card-list': 'card',
