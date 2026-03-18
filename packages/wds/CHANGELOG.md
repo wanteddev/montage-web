@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.1](https://github.com/wanteddev/montage-web/compare/v3.4.0...v3.4.1) (2026-03-18)
+
+### Bug Fixes
+
+- **wds:** date picker, time picker의 invalid/reset 아이콘 표시 오류 수정 ([#523](https://github.com/wanteddev/montage-web/issues/523)) ([0a5fb47](https://github.com/wanteddev/montage-web/commit/0a5fb471c36efcfc9398eeeb432a53fe16401cfa))
+
 # [3.4.0](https://github.com/wanteddev/montage-web/compare/v3.3.1...v3.4.0) (2026-03-12)
 
 **Note:** Version bump only for package @wanteddev/wds
