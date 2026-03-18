@@ -168,7 +168,7 @@ const TimePicker = forwardRef<
           inputMode={focusedSection?.type}
           aria-haspopup="dialog"
           aria-expanded={open}
-          data-role="time-picker-input"
+          data-role="time-picker-field"
           role="combobox"
           {...({
             ...props,
