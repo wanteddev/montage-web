@@ -84,6 +84,7 @@ const DocsCollection = ({ category }: Props) => {
                 >
                   <Card
                     as={Link}
+                    prefetch={false}
                     onClick={handleRouteChange}
                     href={`/docs/${data.slug.join('/')}`}
                     sx={{

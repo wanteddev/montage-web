@@ -45,7 +45,6 @@ const nextConfig = {
   reactCompiler: true,
   experimental: {
     scrollRestoration: true,
-    prefetchInlining: true,
   },
   trailingSlash: false,
   assetPrefix: isProduction ? paths.assetPrefix : undefined,
