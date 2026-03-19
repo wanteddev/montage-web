@@ -21,8 +21,6 @@ import { useComposedRefs } from '@radix-ui/react-compose-refs';
 
 import { FlexBox } from '../flex-box';
 import { IconButton } from '../icon-button';
-import { Grid } from '../grid';
-import { GridItem } from '../grid-item';
 import { WithInteraction } from '../with-interaction';
 import { ScrollArea } from '../scroll-area';
 import { Typography } from '../typography';
@@ -53,7 +51,6 @@ import {
 } from './helpers';
 import {
   rangeCalendarContainerStyle,
-  rangeDateItemStyle,
   rangeDayCellStyle,
   rangeDayItemStyle,
   rangeGridWrapperStyle,
@@ -79,7 +76,6 @@ import type {
   DateRangeCalendarProps,
   DateRangeType,
   RangeDateItemProps,
-  RangeDayItemProps,
 } from './types';
 
 extendDayjs();
@@ -697,8 +693,8 @@ const RangeDayGrid = memo(({ panelMonth, panelIndex }: RangeDayGridProps) => {
                 data-range-start={isRangeStart ? true : undefined}
                 data-range-end={isRangeEnd ? true : undefined}
               >
-                <RangeDayItem
-                  sx={{ width: '32px' }}
+                <RangeDateItem
+                  sx={{ width: '32px', borderRadius: '999px' }}
                   role="gridcell"
                   disabled={day.disabled}
                   isActive={isSelected}
@@ -717,7 +713,7 @@ const RangeDayGrid = memo(({ panelMonth, panelIndex }: RangeDayGridProps) => {
                   }}
                 >
                   {day.label}
-                </RangeDayItem>
+                </RangeDateItem>
               </Box>
             );
           })}
@@ -763,8 +759,8 @@ const RangeMonthPanel = memo(() => {
     [rangeValue, hoveredDate, activePosition, timezone],
   );
 
-  const monthRange = useMemo(() => {
-    return new Array(12).fill(0).map((_, i) => {
+  const { monthRange, monthRows } = useMemo(() => {
+    const range = new Array(12).fill(0).map((_, i) => {
       const minDate = dayjsTimezone(
         dayjs(min ?? ACCESSIBLE_MIN_DATE),
         timezone,
@@ -792,6 +788,15 @@ const RangeMonthPanel = memo(() => {
               dayjsTimezone(dayjs(defaultSelectedDate), timezone).year()),
       };
     });
+
+    const rows = new Array(Math.ceil(range.length / 3)).fill(0).map((_, i) => {
+      return range.slice(i * 3, (i + 1) * 3);
+    });
+
+    return {
+      monthRange: range,
+      monthRows: rows,
+    };
   }, [min, timezone, max, locale, defaultSelectedDate]);
 
   const [focusedIdx, setFocusedIdx] = useState(
@@ -863,19 +868,48 @@ const RangeMonthPanel = memo(() => {
         e.currentTarget.getAttribute('data-month-index') ?? '0',
       );
       let newMonth: number;
+      let yearDelta = 0;
 
       switch (e.key) {
         case 'ArrowUp':
-          newMonth = Math.max(0, currentMonth - 3);
+          if (currentMonth < 3) {
+            yearDelta = -1;
+            newMonth = currentMonth + 9;
+          } else {
+            newMonth = currentMonth - 3;
+          }
           break;
         case 'ArrowDown':
-          newMonth = Math.min(11, currentMonth + 3);
+          if (currentMonth > 8) {
+            yearDelta = 1;
+            newMonth = currentMonth - 9;
+          } else {
+            newMonth = currentMonth + 3;
+          }
           break;
         case 'ArrowLeft':
-          newMonth = Math.max(0, currentMonth - 1);
+          if (currentMonth === 0) {
+            yearDelta = -1;
+            newMonth = 11;
+          } else {
+            newMonth = currentMonth - 1;
+          }
           break;
         case 'ArrowRight':
-          newMonth = Math.min(11, currentMonth + 1);
+          if (currentMonth === 11) {
+            yearDelta = 1;
+            newMonth = 0;
+          } else {
+            newMonth = currentMonth + 1;
+          }
+          break;
+        case 'PageUp':
+          yearDelta = -1;
+          newMonth = currentMonth;
+          break;
+        case 'PageDown':
+          yearDelta = 1;
+          newMonth = currentMonth;
           break;
         case 'Home':
           newMonth = 0;
@@ -889,23 +923,78 @@ const RangeMonthPanel = memo(() => {
 
       e.preventDefault();
 
-      setFocusedIdx(monthRange.findIndex((v) => v.value === newMonth));
+      if (yearDelta !== 0) {
+        const newDate = dayjsTimezone(dayjs(defaultSelectedDate), timezone).add(
+          yearDelta,
+          'year',
+        );
 
-      const monthDate = dateTypeToDateObject(
-        dayjsTimezone(dayjs(defaultSelectedDate), timezone).set(
-          'month',
-          newMonth,
-        ),
-        timezone,
-      );
-      setHoveredDate(monthDate);
+        const clamped = findClosestEnableDate({
+          min,
+          max,
+          value: dateTypeToDateObject(newDate.set('month', newMonth), timezone),
+          timezone,
+        });
 
-      const mv = `${dayjsTimezone(dayjs(defaultSelectedDate), timezone).year()}-${String(newMonth + 1).padStart(2, '0')}`;
-      requestAnimationFrame(() => {
-        focusRangeDate('month', mv, containerRef);
-      });
+        setDefaultSelectedDate(
+          dateTypeToDateObject(
+            dayjsTimezone(dayjs(clamped), timezone).startOf('month'),
+            timezone,
+          ),
+        );
+
+        const clampedMonth = dayjsTimezone(dayjs(clamped), timezone).month();
+        setFocusedIdx(monthRange.findIndex((v) => v.value === clampedMonth));
+
+        if (!disabled && !readOnly) {
+          setHoveredDate(clamped);
+        }
+
+        const clampedYear = dayjsTimezone(dayjs(clamped), timezone).year();
+        const mv = `${clampedYear}-${String(clampedMonth + 1).padStart(2, '0')}`;
+        requestAnimationFrame(() => {
+          focusRangeDate('month', mv, containerRef);
+        });
+      } else {
+        const clamped = findClosestEnableDate({
+          min,
+          max,
+          timezone,
+          value: dateTypeToDateObject(
+            dayjsTimezone(dayjs(defaultSelectedDate), timezone).set(
+              'month',
+              newMonth,
+            ),
+            timezone,
+          ),
+        });
+        const clampedMonth = dayjsTimezone(dayjs(clamped), timezone).month();
+        const clampedYear = dayjsTimezone(dayjs(clamped), timezone).year();
+
+        setFocusedIdx(monthRange.findIndex((v) => v.value === clampedMonth));
+
+        if (!disabled && !readOnly) {
+          setHoveredDate(clamped);
+        }
+
+        const mv = `${clampedYear}-${String(clampedMonth + 1).padStart(2, '0')}`;
+        requestAnimationFrame(() => {
+          focusRangeDate('month', mv, containerRef);
+        });
+      }
     },
-    [containerRef, defaultSelectedDate, monthRange, setHoveredDate, timezone],
+    [
+      containerRef,
+      defaultSelectedDate,
+      disabled,
+      max,
+      min,
+      monthRange,
+      readOnly,
+      setDefaultSelectedDate,
+      setHoveredDate,
+      timezone,
+    ],
   );
 
   return (
@@ -917,7 +1006,6 @@ const RangeMonthPanel = memo(() => {
       <ScrollArea
         sx={rangePanelWrapperStyle}
         zIndex={11}
-        role="radiogroup"
         aria-label="Select month"
       >
         <FlexBox
@@ -980,74 +1068,82 @@ const RangeMonthPanel = memo(() => {
           </FlexBox>
         </FlexBox>
 
-        <FlexBox sx={{ paddingBottom: 12 }} flexDirection="column">
-          <Grid columnSpacing={2} rowSpacing={0} sx={rangeGridWrapperStyle}>
-            {monthRange.map((month, i) => {
-              const monthDate = dateTypeToDateObject(
-                dayjsTimezone(dayjs(defaultSelectedDate), timezone).set(
-                  'month',
-                  month.value,
-                ),
-                timezone,
-              );
-              const year = dayjsTimezone(
-                dayjs(defaultSelectedDate),
-                timezone,
-              ).year();
-              const monthVal = `${year}-${String(month.value + 1).padStart(2, '0')}`;
+        <FlexBox sx={{ paddingBottom: 12 }} flexDirection="column" role="grid">
+          <FlexBox flexDirection="column" sx={rangeGridWrapperStyle}>
+            {monthRows.map((rowMonths, rowIdx) => (
+              <FlexBox
+                key={`month-row-${rowIdx}`}
+                role="row"
+                aria-rowindex={rowIdx + 1}
+              >
+                {rowMonths.map((month, colIndex) => {
+                  const monthDate = dateTypeToDateObject(
+                    dayjsTimezone(dayjs(defaultSelectedDate), timezone).set(
+                      'month',
+                      month.value,
+                    ),
+                    timezone,
+                  );
+                  const year = dayjsTimezone(
+                    dayjs(defaultSelectedDate),
+                    timezone,
+                  ).year();
+                  const monthVal = `${year}-${String(month.value + 1).padStart(2, '0')}`;
 
-              const isRangeStart = isSameDateForView(
-                monthDate,
-                displayRange[0],
-                'month',
-                timezone,
-              );
-              const isRangeEnd = isSameDateForView(
-                monthDate,
-                displayRange[1],
-                'month',
-                timezone,
-              );
-              const isInRange = isDateInRangeForView(
-                monthDate,
-                displayRange[0],
-                displayRange[1],
-                'month',
-                timezone,
-              );
+                  const isRangeStart = isSameDateForView(
+                    monthDate,
+                    displayRange[0],
+                    'month',
+                    timezone,
+                  );
+                  const isRangeEnd = isSameDateForView(
+                    monthDate,
+                    displayRange[1],
+                    'month',
+                    timezone,
+                  );
+                  const isInRange = isDateInRangeForView(
+                    monthDate,
+                    displayRange[0],
+                    displayRange[1],
+                    'month',
+                    timezone,
+                  );
 
-              return (
-                <GridItem columns={4} key={`${year}-${month.label}`}>
-                  <Box
-                    sx={rangeMonthYearCellStyle}
-                    data-in-range={isInRange ? true : undefined}
-                    data-range-start={isRangeStart ? true : undefined}
-                    data-range-end={isRangeEnd ? true : undefined}
-                  >
-                    <RangeDateItem
-                      sx={{ width: 'calc(100% - 4px)' }}
-                      onClick={handleClick(month.value)}
-                      disabled={month.disabled}
-                      isCurrent={
-                        now.month() === month.value && now.year() === year
-                      }
-                      isActive={isRangeStart || isRangeEnd}
-                      data-month={monthVal}
-                      data-month-index={month.value}
-                      aria-label={month.label}
-                      tabIndex={focusedIdx === i ? 0 : -1}
-                      onKeyDown={handleKeyDown}
-                      onMouseEnter={() => {
-                        if (!disabled && !readOnly) setHoveredDate(monthDate);
-                      }}
+                  return (
+                    <Box
+                      key={`${year}-${month.label}`}
+                      sx={[rangeMonthYearCellStyle, { flex: '1 0 0' }]}
+                      data-in-range={isInRange ? true : undefined}
+                      data-range-start={isRangeStart ? true : undefined}
+                      data-range-end={isRangeEnd ? true : undefined}
                     >
-                      {month.label}
-                    </RangeDateItem>
-                  </Box>
-                </GridItem>
-              );
-            })}
-          </Grid>
+                      <RangeDateItem
+                        sx={{ width: 'calc(100% - 4px)' }}
+                        onClick={handleClick(month.value)}
+                        disabled={month.disabled}
+                        isCurrent={
+                          now.month() === month.value && now.year() === year
+                        }
+                        isActive={isRangeStart || isRangeEnd}
+                        data-month={monthVal}
+                        data-month-index={month.value}
+                        aria-colindex={colIndex + 1}
+                        aria-label={month.label}
+                        tabIndex={focusedIdx === month.value ? 0 : -1}
+                        onKeyDown={handleKeyDown}
+                        onMouseEnter={() => {
+                          if (!disabled && !readOnly) setHoveredDate(monthDate);
+                        }}
+                      >
+                        {month.label}
+                      </RangeDateItem>
+                    </Box>
+                  );
+                })}
+              </FlexBox>
+            ))}
+          </FlexBox>
         </FlexBox>
       </ScrollArea>
     </FlexBox>
@@ -1092,7 +1188,7 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
     [rangeValue, hoveredDate, activePosition, timezone],
   );
 
-  const yearRange = useMemo(() => {
+  const { yearRange, yearRows } = useMemo(() => {
     const startDate = dayjsTimezone(
       dayjs(min ?? ACCESSIBLE_MIN_DATE),
       timezone,
@@ -1106,7 +1202,15 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
       current = current.add(1, 'year');
     }
 
-    return yearsOrder === 'asc' ? years : years.reverse();
+    const range = yearsOrder === 'asc' ? years : years.reverse();
+    const rows = new Array(Math.ceil(range.length / 3)).fill(0).map((_, i) => {
+      return range.slice(i * 3, (i + 1) * 3);
+    });
+
+    return {
+      yearRange: range,
+      yearRows: rows,
+    };
   }, [min, timezone, max, yearsOrder]);
 
   const [focusedIdx, setFocusedIdx] = useState(yearRange.length > 0 ? 0 : -1);
@@ -1253,12 +1357,7 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
       alignItems="flex-start"
       sx={rangePanelStyle}
     >
-      <ScrollArea
-        sx={rangePanelWrapperStyle}
-        zIndex={11}
-        role="radiogroup"
-        aria-label="Select year"
-      >
+      <ScrollArea sx={rangePanelWrapperStyle} zIndex={11}>
         <FlexBox
           sx={rangeStickyHeaderStyle}
           data-role="date-range-calendar-header"
@@ -1272,39 +1371,51 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
           </FlexBox>
         </FlexBox>
 
-        <FlexBox sx={{ paddingBottom: 12 }} flexDirection="column">
-          <Grid columnSpacing={2} rowSpacing={0} sx={rangeGridWrapperStyle}>
-            {yearRange.map((year, i) => {
-              const yearDate = dateTypeToDateObject(
-                dayjs(defaultSelectedDate).set('year', year),
-                timezone,
-              );
-              const yearVal = String(year);
+        <FlexBox
+          sx={{ paddingBottom: 12 }}
+          flexDirection="column"
+          role="grid"
+          aria-label="Select year range"
+        >
+          {yearRows.map((rowYears, rowIdx) => (
+            <FlexBox
+              key={`year-row-${rowIdx}`}
+              role="row"
+              aria-rowindex={rowIdx + 1}
+            >
+              {rowYears.map((year, colIndex) => {
+                const yearDate = dateTypeToDateObject(
+                  dayjs(defaultSelectedDate).set('year', year),
+                  timezone,
+                );
+                const yearVal = String(year);
 
-              const isRangeStart = isSameDateForView(
-                yearDate,
-                displayRange[0],
-                'year',
-                timezone,
-              );
-              const isRangeEnd = isSameDateForView(
-                yearDate,
-                displayRange[1],
-                'year',
-                timezone,
-              );
-              const isInRange = isDateInRangeForView(
-                yearDate,
-                displayRange[0],
-                displayRange[1],
-                'year',
-                timezone,
-              );
+                const isRangeStart = isSameDateForView(
+                  yearDate,
+                  displayRange[0],
+                  'year',
+                  timezone,
+                );
+                const isRangeEnd = isSameDateForView(
+                  yearDate,
+                  displayRange[1],
+                  'year',
+                  timezone,
+                );
+                const isInRange = isDateInRangeForView(
+                  yearDate,
+                  displayRange[0],
+                  displayRange[1],
+                  'year',
+                  timezone,
+                );
 
-              return (
-                <GridItem columns={4} key={`${year}-year`}>
+                const yearIdx = yearRange.indexOf(year);
+
+                return (
                   <Box
-                    sx={rangeMonthYearCellStyle}
+                    key={`${year}-year`}
+                    sx={[rangeMonthYearCellStyle, { flex: '1 0 0' }]}
                     data-in-range={isInRange ? true : undefined}
                     data-range-start={isRangeStart ? true : undefined}
                     data-range-end={isRangeEnd ? true : undefined}
@@ -1315,9 +1426,10 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
                       data-year={yearVal}
                       isCurrent={now.year() === year}
                       isActive={isRangeStart || isRangeEnd}
-                      aria-label={`${year} Year`}
+                      aria-label={year.toString()}
+                      aria-colindex={colIndex + 1}
                       onKeyDown={handleKeyDown}
-                      tabIndex={focusedIdx === i ? 0 : -1}
+                      tabIndex={focusedIdx === yearIdx ? 0 : -1}
                       onMouseEnter={() => {
                         if (!disabled && !readOnly) setHoveredDate(yearDate);
                       }}
@@ -1325,10 +1437,10 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
                       {year}
                     </RangeDateItem>
                   </Box>
-                </GridItem>
-              );
-            })}
-          </Grid>
+                );
+              })}
+            </FlexBox>
+          ))}
         </FlexBox>
       </ScrollArea>
     </FlexBox>
@@ -1351,31 +1463,6 @@ const PanelHeaderLabel = memo(({ label }: PanelHeaderLabelProps) => {
 
 PanelHeaderLabel.displayName = 'PanelHeaderLabel';
 
-const RangeDayItem = forwardRef<
-  HTMLButtonElement,
-  DefaultComponentPropsInternal<RangeDayItemProps, 'button'>
->(({ disabled, isCurrent, isOtherMonth, isActive, ...props }, ref) => {
-  return (
-    <WithInteraction disabled={disabled} variant="light">
-      <Box
-        as="button"
-        disabled={disabled}
-        ref={ref}
-        role="gridcell"
-        type="button"
-        {...props}
-        aria-selected={isActive}
-        aria-disabled={disabled}
-        aria-current={isCurrent ? 'date' : undefined}
-        data-other-month={isOtherMonth}
-        sx={[rangeDayItemStyle, props.sx]}
-      />
-    </WithInteraction>
-  );
-});
-
-RangeDayItem.displayName = 'RangeDayItem';
-
 const RangeDateItem = memo(
   forwardRef<
     HTMLButtonElement,
@@ -1387,14 +1474,14 @@ const RangeDateItem = memo(
           as="button"
           disabled={disabled}
           ref={ref}
-          role="radio"
+          role="gridcell"
           type="button"
           {...props}
-          aria-checked={isActive}
+          aria-selected={isActive}
           aria-disabled={disabled}
           aria-current={isCurrent ? 'date' : undefined}
           data-other-month={isOtherMonth}
-          sx={[rangeDateItemStyle, props.sx]}
+          sx={[rangeDayItemStyle, props.sx]}
         />
       </WithInteraction>
     );

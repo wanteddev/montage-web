@@ -5,7 +5,6 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DateRangePicker } from '.';
 
@@ -359,6 +358,6 @@ describe('when given date range picker component', () => {
 
     fireEvent.click(screen.getByLabelText('Toggle date range picker'));
 
-    expect(screen.getByRole('radiogroup')).toBeInTheDocument();
+    expect(screen.getAllByRole('grid').length).toBeGreaterThanOrEqual(1);
   });
 });

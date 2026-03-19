@@ -59,8 +59,6 @@ export const dateCalendarWrapperStyle = css`
 export const dateYearMonthWrapperStyle = css`
   padding: 2px 12px;
   outline: none;
-  row-gap: 2px;
-  column-gap: 0px;
 `;
 
 export const dayItemButtonStyle = (theme: Theme) => css`

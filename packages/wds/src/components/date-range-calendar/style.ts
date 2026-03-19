@@ -59,7 +59,6 @@ export const rangeGridWrapperStyle = css`
   column-gap: 0px;
 `;
 
-/** Shared range cell base — holds the range band ::before pseudo-element */
 const rangeCellBaseStyle = (theme: Theme) => css`
   position: relative;
   display: flex;
@@ -106,17 +105,14 @@ const rangeCellBaseStyle = (theme: Theme) => css`
   }
 `;
 
-/** Day cell wrapper — holds the range band ::before and the pill button */
 export const rangeDayCellStyle = (theme: Theme) => css`
   ${rangeCellBaseStyle(theme)}
   width: 36px;
 `;
 
-/** Month/Year cell wrapper for range band */
 export const rangeMonthYearCellStyle = rangeCellBaseStyle;
 
-/** Shared range item base — color, border, padding, typography, states */
-const rangeItemBaseStyle = (theme: Theme) => css`
+export const rangeDayItemStyle = (theme: Theme) => css`
   color: ${theme.semantic.label.normal};
   border: none;
   padding: 7px 0px;
@@ -124,6 +120,8 @@ const rangeItemBaseStyle = (theme: Theme) => css`
   background-color: transparent;
   position: relative;
   z-index: 1;
+  border-radius: 8px;
+  height: fit-content;
 
   ${typographyStyle('label2', 'medium')}
 
@@ -165,33 +163,12 @@ const rangeItemBaseStyle = (theme: Theme) => css`
       opacity: 0.06;
     }
   }
-`;
-
-/** Day button inside the range cell */
-export const rangeDayItemStyle = (theme: Theme) => css`
-  ${rangeItemBaseStyle(theme)}
-  border-radius: 10000px;
 
   &[aria-selected='true'] {
     color: ${theme.semantic.static.white};
     background-color: ${theme.semantic.primary.normal};
     &:disabled,
     &[data-other-month='true'] {
-      color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
-      background-color: ${theme.semantic.primary.normal};
-    }
-  }
-`;
-
-/** Month/Year button inside the range cell */
-export const rangeDateItemStyle = (theme: Theme) => css`
-  ${rangeItemBaseStyle(theme)}
-  border-radius: 8px;
-
-  &[aria-checked='true'] {
-    color: ${theme.semantic.static.white};
-    background-color: ${theme.semantic.primary.normal};
-    &:disabled {
       color: ${addOpacity(theme.semantic.static.white, theme.opacity[43])};
       background-color: ${theme.semantic.primary.normal};
     }

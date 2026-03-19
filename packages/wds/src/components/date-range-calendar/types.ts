@@ -50,6 +50,4 @@ export type RangeItemProps = WithSxProps<{
   isInRange?: boolean;
 }>;
 
-export type RangeDayItemProps = RangeItemProps;
-
 export type RangeDateItemProps = RangeItemProps;

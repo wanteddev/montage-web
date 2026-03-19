@@ -141,7 +141,7 @@ describe('when given date range calendar component', () => {
   it('should render month view', () => {
     render(<DateRangeCalendar {...defaultProps} view="month" />);
 
-    expect(screen.getByRole('radiogroup')).toBeInTheDocument();
+    expect(screen.getByRole('grid')).toBeInTheDocument();
     expect(screen.getByText('Jan')).toBeInTheDocument();
     expect(screen.getByText('Dec')).toBeInTheDocument();
   });
@@ -172,10 +172,8 @@ describe('when given date range calendar component', () => {
   it('should render year view', () => {
     render(<DateRangeCalendar {...defaultProps} view="year" />);
 
-    expect(screen.getByRole('radiogroup')).toBeInTheDocument();
-    expect(
-      screen.getByRole('radio', { name: '2025 Year' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('grid')).toBeInTheDocument();
+    expect(screen.getByRole('gridcell', { name: '2025' })).toBeInTheDocument();
   });
 
   it('should handle year range selection', () => {
@@ -191,10 +189,10 @@ describe('when given date range calendar component', () => {
       />,
     );
 
-    fireEvent.click(screen.getByRole('radio', { name: '2024 Year' }));
+    fireEvent.click(screen.getByRole('gridcell', { name: '2024' }));
     expect(onChange).toHaveBeenCalledWith([expect.any(Date), undefined]);
 
-    fireEvent.click(screen.getByRole('radio', { name: '2026 Year' }));
+    fireEvent.click(screen.getByRole('gridcell', { name: '2026' }));
     expect(onChangeComplete).toHaveBeenCalledWith([
       expect.any(Date),
       expect.any(Date),
@@ -204,13 +202,13 @@ describe('when given date range calendar component', () => {
   it('should handle keyboard navigation in year view', async () => {
     render(<DateRangeCalendar {...defaultProps} view="year" />);
 
-    const year2025 = screen.getByRole('radio', { name: '2025 Year' });
+    const year2025 = screen.getByRole('gridcell', { name: '2025' });
     year2025.focus();
 
     fireEvent.keyDown(year2025, { key: 'ArrowRight' });
 
     await waitFor(() => {
-      expect(screen.getByRole('radio', { name: '2026 Year' })).toHaveFocus();
+      expect(screen.getByRole('gridcell', { name: '2026' })).toHaveFocus();
     });
   });
 
@@ -256,12 +254,18 @@ describe('when given date range calendar component', () => {
   it('should pass accessibility tests for month view', async () => {
     render(<DateRangeCalendar {...defaultProps} view="month" />);
 
-    expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
+    const grids = screen.getAllByRole('grid');
+    for (const grid of grids) {
+      expect(await axe(grid)).toHaveNoViolations();
+    }
   });
 
   it('should pass accessibility tests for year view', async () => {
     render(<DateRangeCalendar {...defaultProps} view="year" />);
 
-    expect(await axe(screen.getByRole('radiogroup'))).toHaveNoViolations();
+    const grids = screen.getAllByRole('grid');
+    for (const grid of grids) {
+      expect(await axe(grid)).toHaveNoViolations();
+    }
   });
 });
