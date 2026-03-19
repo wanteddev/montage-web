@@ -112,8 +112,7 @@ const DateRangeCalendar = forwardRef<
 
     const breakpoints = useMemo(
       () => Object.keys(theme.breakpoint) as Array<keyof BreakPoint>,
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      Object.values(theme),
+      [theme.breakpoint],
     );
 
     const calendars =
