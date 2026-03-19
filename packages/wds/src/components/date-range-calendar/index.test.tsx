@@ -35,7 +35,9 @@ describe('when given date range calendar component', () => {
   it('should render day view by default', () => {
     render(<DateRangeCalendar {...defaultProps} />);
 
-    expect(screen.getByRole('grid')).toBeInTheDocument();
+    const grid = screen.getByRole('grid', { name: 'Select day range' });
+    expect(grid).toBeInTheDocument();
+    expect(grid).toHaveAttribute('aria-multiselectable');
     expect(screen.getByText('January 2025')).toBeInTheDocument();
   });
 
@@ -118,8 +120,6 @@ describe('when given date range calendar component', () => {
       />,
     );
 
-    // February 2025 starts on Saturday, so there are leading empty cells
-    // Day "1" should appear only once (Feb 1), not as Jan 31's neighbor
     const dayOnes = screen.getAllByText('1');
     expect(dayOnes).toHaveLength(1);
   });
@@ -130,7 +130,6 @@ describe('when given date range calendar component', () => {
     const day15 = screen.getByText('15');
     day15.focus();
 
-    // ArrowRight moves to next day (uses requestAnimationFrame)
     fireEvent.keyDown(day15, { key: 'ArrowRight' });
 
     await waitFor(() => {
@@ -141,7 +140,9 @@ describe('when given date range calendar component', () => {
   it('should render month view', () => {
     render(<DateRangeCalendar {...defaultProps} view="month" />);
 
-    expect(screen.getByRole('grid')).toBeInTheDocument();
+    const grid = screen.getByRole('grid', { name: 'Select month range' });
+    expect(grid).toBeInTheDocument();
+    expect(grid).toHaveAttribute('aria-multiselectable');
     expect(screen.getByText('Jan')).toBeInTheDocument();
     expect(screen.getByText('Dec')).toBeInTheDocument();
   });
@@ -172,7 +173,9 @@ describe('when given date range calendar component', () => {
   it('should render year view', () => {
     render(<DateRangeCalendar {...defaultProps} view="year" />);
 
-    expect(screen.getByRole('grid')).toBeInTheDocument();
+    const grid = screen.getByRole('grid', { name: 'Select year range' });
+    expect(grid).toBeInTheDocument();
+    expect(grid).toHaveAttribute('aria-multiselectable');
     expect(screen.getByRole('gridcell', { name: '2025' })).toBeInTheDocument();
   });
 
@@ -241,31 +244,31 @@ describe('when given date range calendar component', () => {
 
     const headerLabel = screen.getByText('January 2025');
 
-    // Header should be a non-interactive label, not a button
     expect(headerLabel.closest('button')).toBeNull();
   });
 
   it('should pass accessibility tests for day view', async () => {
     render(<DateRangeCalendar {...defaultProps} />);
 
-    expect(await axe(screen.getByRole('rowgroup'))).toHaveNoViolations();
+    const rowgroup = screen.getByRole('rowgroup');
+    expect(await axe(rowgroup)).toHaveNoViolations();
   });
 
   it('should pass accessibility tests for month view', async () => {
     render(<DateRangeCalendar {...defaultProps} view="month" />);
 
-    const grids = screen.getAllByRole('grid');
-    for (const grid of grids) {
-      expect(await axe(grid)).toHaveNoViolations();
+    const rows = screen.getAllByRole('row');
+    for (const row of rows) {
+      expect(await axe(row)).toHaveNoViolations();
     }
   });
 
   it('should pass accessibility tests for year view', async () => {
     render(<DateRangeCalendar {...defaultProps} view="year" />);
 
-    const grids = screen.getAllByRole('grid');
-    for (const grid of grids) {
-      expect(await axe(grid)).toHaveNoViolations();
+    const rows = screen.getAllByRole('row');
+    for (const row of rows) {
+      expect(await axe(row)).toHaveNoViolations();
     }
   });
 });

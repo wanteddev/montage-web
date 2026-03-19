@@ -309,7 +309,8 @@ const RangeDayPanel = memo(({ panelIndex }: RangeDayPanelProps) => {
         sx={rangePanelWrapperStyle}
         zIndex={11}
         role="grid"
-        aria-label={`Select day - ${headerLabel}`}
+        aria-multiselectable
+        aria-label="Select day range"
       >
         <FlexBox
           sx={rangeStickyHeaderStyle}
@@ -1006,7 +1007,9 @@ const RangeMonthPanel = memo(() => {
       <ScrollArea
         sx={rangePanelWrapperStyle}
         zIndex={11}
-        aria-label="Select month"
+        role="grid"
+        aria-label="Select month range"
+        aria-multiselectable
       >
         <FlexBox
           sx={rangeStickyHeaderStyle}
@@ -1068,7 +1071,7 @@ const RangeMonthPanel = memo(() => {
           </FlexBox>
         </FlexBox>
 
-        <FlexBox sx={{ paddingBottom: 12 }} flexDirection="column" role="grid">
+        <FlexBox sx={{ paddingBottom: 12 }}>
           <FlexBox flexDirection="column" sx={rangeGridWrapperStyle}>
             {monthRows.map((rowMonths, rowIdx) => (
               <FlexBox
@@ -1334,7 +1337,9 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
         dayjs(defaultSelectedDate).set('year', clampedYear),
         timezone,
       );
-      setHoveredDate(yearDate);
+      if (!disabled && !readOnly) {
+        setHoveredDate(yearDate);
+      }
 
       requestAnimationFrame(() => {
         focusRangeDate('year', String(clampedYear), containerRef);
@@ -1343,8 +1348,10 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
     [
       containerRef,
       defaultSelectedDate,
+      disabled,
       max,
       min,
+      readOnly,
       setHoveredDate,
       timezone,
       yearRange,
@@ -1357,7 +1364,13 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
       alignItems="flex-start"
       sx={rangePanelStyle}
     >
-      <ScrollArea sx={rangePanelWrapperStyle} zIndex={11}>
+      <ScrollArea
+        sx={rangePanelWrapperStyle}
+        zIndex={11}
+        role="grid"
+        aria-label="Select year range"
+        aria-multiselectable
+      >
         <FlexBox
           sx={rangeStickyHeaderStyle}
           data-role="date-range-calendar-header"
@@ -1371,76 +1384,73 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
           </FlexBox>
         </FlexBox>
 
-        <FlexBox
-          sx={{ paddingBottom: 12 }}
-          flexDirection="column"
-          role="grid"
-          aria-label="Select year range"
-        >
-          {yearRows.map((rowYears, rowIdx) => (
-            <FlexBox
-              key={`year-row-${rowIdx}`}
-              role="row"
-              aria-rowindex={rowIdx + 1}
-            >
-              {rowYears.map((year, colIndex) => {
-                const yearDate = dateTypeToDateObject(
-                  dayjs(defaultSelectedDate).set('year', year),
-                  timezone,
-                );
-                const yearVal = String(year);
+        <FlexBox sx={{ paddingBottom: 12 }}>
+          <FlexBox sx={rangeGridWrapperStyle} flexDirection="column">
+            {yearRows.map((rowYears, rowIdx) => (
+              <FlexBox
+                key={`year-row-${rowIdx}`}
+                role="row"
+                aria-rowindex={rowIdx + 1}
+              >
+                {rowYears.map((year, colIndex) => {
+                  const yearDate = dateTypeToDateObject(
+                    dayjs(defaultSelectedDate).set('year', year),
+                    timezone,
+                  );
+                  const yearVal = String(year);
 
-                const isRangeStart = isSameDateForView(
-                  yearDate,
-                  displayRange[0],
-                  'year',
-                  timezone,
-                );
-                const isRangeEnd = isSameDateForView(
-                  yearDate,
-                  displayRange[1],
-                  'year',
-                  timezone,
-                );
-                const isInRange = isDateInRangeForView(
-                  yearDate,
-                  displayRange[0],
-                  displayRange[1],
-                  'year',
-                  timezone,
-                );
+                  const isRangeStart = isSameDateForView(
+                    yearDate,
+                    displayRange[0],
+                    'year',
+                    timezone,
+                  );
+                  const isRangeEnd = isSameDateForView(
+                    yearDate,
+                    displayRange[1],
+                    'year',
+                    timezone,
+                  );
+                  const isInRange = isDateInRangeForView(
+                    yearDate,
+                    displayRange[0],
+                    displayRange[1],
+                    'year',
+                    timezone,
+                  );
 
-                const yearIdx = yearRange.indexOf(year);
+                  const yearIdx = yearRange.indexOf(year);
 
-                return (
-                  <Box
-                    key={`${year}-year`}
-                    sx={[rangeMonthYearCellStyle, { flex: '1 0 0' }]}
-                    data-in-range={isInRange ? true : undefined}
-                    data-range-start={isRangeStart ? true : undefined}
-                    data-range-end={isRangeEnd ? true : undefined}
-                  >
-                    <RangeDateItem
-                      sx={{ width: 'calc(100% - 4px)' }}
-                      onClick={handleClick(year)}
-                      data-year={yearVal}
-                      isCurrent={now.year() === year}
-                      isActive={isRangeStart || isRangeEnd}
-                      aria-label={year.toString()}
-                      aria-colindex={colIndex + 1}
-                      onKeyDown={handleKeyDown}
-                      tabIndex={focusedIdx === yearIdx ? 0 : -1}
-                      onMouseEnter={() => {
-                        if (!disabled && !readOnly) setHoveredDate(yearDate);
-                      }}
+                  return (
+                    <Box
+                      key={`${year}-year`}
+                      sx={[rangeMonthYearCellStyle, { flex: '1 0 0' }]}
+                      data-in-range={isInRange ? true : undefined}
+                      data-range-start={isRangeStart ? true : undefined}
+                      data-range-end={isRangeEnd ? true : undefined}
                     >
-                      {year}
-                    </RangeDateItem>
-                  </Box>
-                );
-              })}
-            </FlexBox>
-          ))}
+                      <RangeDateItem
+                        sx={{ width: 'calc(100% - 4px)' }}
+                        onClick={handleClick(year)}
+                        data-year={yearVal}
+                        isCurrent={now.year() === year}
+                        isActive={isRangeStart || isRangeEnd}
+                        aria-label={year.toString()}
+                        aria-colindex={colIndex + 1}
+                        onKeyDown={handleKeyDown}
+                        tabIndex={focusedIdx === yearIdx ? 0 : -1}
+                        onMouseEnter={() => {
+                          if (!disabled && !readOnly) setHoveredDate(yearDate);
+                        }}
+                      >
+                        {year}
+                      </RangeDateItem>
+                    </Box>
+                  );
+                })}
+              </FlexBox>
+            ))}
+          </FlexBox>
         </FlexBox>
       </ScrollArea>
     </FlexBox>
