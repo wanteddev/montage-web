@@ -83,7 +83,13 @@ const LnbGroupItem = ({
     }
 
     return href
-      ? { role: 'link', href, onClick: handleRouteChange, as: Link }
+      ? {
+          role: 'link',
+          href,
+          onClick: handleRouteChange,
+          as: Link,
+          prefetch: false,
+        }
       : { role: 'button', onClick, as: 'div' };
   }, [href, isExternal, handleRouteChange, onClick]);
 

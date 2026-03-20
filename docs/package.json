@@ -20,7 +20,7 @@
     "@codemirror/state": "^6.5.2",
     "@codemirror/view": "^6.38.1",
     "@lezer/highlight": "^1.2.1",
-    "@next/third-parties": "^16.1.6",
+    "@next/third-parties": "^16.2.0",
     "@octokit/core": "^7.0.6",
     "@tanstack/react-query": "^5.90.20",
     "@tanstack/react-virtual": "^3.11.2",
@@ -39,7 +39,7 @@
     "hast-util-to-html": "^9.0.0",
     "lottie-web": "^5.12.2",
     "mdast-util-mdx-jsx": "^3.2.0",
-    "next": "^16.1.6",
+    "next": "^16.2.0",
     "next-mdx-remote": "^5.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -55,7 +55,7 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.1.6",
+    "@next/bundle-analyzer": "^16.2.0",
     "@types/autosuggest-highlight": "^3.2.3",
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.13.14",

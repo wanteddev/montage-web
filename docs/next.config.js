@@ -45,9 +45,6 @@ const nextConfig = {
   reactCompiler: true,
   experimental: {
     scrollRestoration: true,
-    staleTimes: {
-      static: 30,
-    },
   },
   trailingSlash: false,
   assetPrefix: isProduction ? paths.assetPrefix : undefined,
