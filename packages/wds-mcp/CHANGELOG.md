@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.2](https://github.com/wanteddev/montage-web/compare/v3.4.1...v3.4.2) (2026-03-25)
+
+### Features
+
+- **wds-mcp:** refresh token 지원 및 Firestore 영속 저장 ([#526](https://github.com/wanteddev/montage-web/issues/526)) ([c73a2bb](https://github.com/wanteddev/montage-web/commit/c73a2bbbe2ee6f98a6731bd0d6134e3b35d3804f))
+
 ## [3.4.1](https://github.com/wanteddev/montage-web/compare/v3.4.0...v3.4.1) (2026-03-18)
 
 **Note:** Version bump only for package @wanteddev/wds-mcp
