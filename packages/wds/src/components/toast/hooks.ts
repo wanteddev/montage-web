@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { isCursorDevice } from './helpers';
+
 import type { CSSProperties } from 'react';
 import type { RegionToastItem } from '../../stores/region-store';
 
@@ -78,6 +80,7 @@ export const useToastAnimation = ({
 
   const handleMouseEnter = () => {
     if (
+      isCursorDevice() &&
       timeoutRef.current &&
       startTimeRef.current &&
       remainingTimeRef.current
