@@ -50,6 +50,10 @@ export const DOCS_PAGES = [
     slug: ['foundations', 'base-material', 'typography'],
   },
   {
+    title: 'Icons',
+    slug: ['foundations', 'base-material', 'icons'],
+  },
+  {
     title: 'Overview',
     slug: ['components'],
   },

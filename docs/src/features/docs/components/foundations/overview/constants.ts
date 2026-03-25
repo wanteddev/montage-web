@@ -17,6 +17,12 @@ export const BASE_MATERIAL_ITEMS = [
     href: '/docs/foundations/base-material/grid',
   },
   {
+    title: 'Icons',
+    description:
+      '아이콘을 사용하여 인터페이스를 빠르게 이해하고 탐색할 수 있도록 돕습니다.',
+    href: '/docs/foundations/base-material/icons',
+  },
+  {
     title: 'Elevation',
     description: '컴포넌트 간의 명확한 깊이감과 시각적 계층을 만들어냅니다.',
     href: '/docs/foundations/base-material/elevation/normal',
