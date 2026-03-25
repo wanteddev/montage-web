@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
-export const isNotPointerDevice = () =>
-  window.matchMedia('(pointer: coarse)').matches;
+export const isCursorDevice = () =>
+  window.matchMedia('(pointer: fine)').matches;
 
 export const makeTransitionStyle = ({
   open,

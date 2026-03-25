@@ -52,6 +52,8 @@ describe('when given toast component', () => {
   });
 
   it('should not close toast if mouse is over the toast container after open', () => {
+    window.matchMedia = vi.fn().mockReturnValue({ matches: true });
+
     expect(screen.getByTestId('toast-container')).toBeInTheDocument();
 
     act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
@@ -63,6 +65,20 @@ describe('when given toast component', () => {
     expect(screen.getByTestId('toast-container')).toBeInTheDocument();
 
     fireEvent.mouseLeave(screen.getByTestId('toast-container'));
+
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+
+    expect(screen.queryByTestId('toast-container')).not.toBeInTheDocument();
+  });
+
+  it('should close toast even if mouse is over the toast container on non-cursor device', () => {
+    window.matchMedia = vi.fn().mockReturnValue({ matches: false });
+
+    expect(screen.getByTestId('toast-container')).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+
+    fireEvent.mouseEnter(screen.getByTestId('toast-container'));
 
     act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
 

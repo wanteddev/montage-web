@@ -78,6 +78,8 @@ describe('when given snackbar component', () => {
   });
 
   it('should not close snackbar if mouse is over the toast container after open', () => {
+    window.matchMedia = vi.fn().mockReturnValue({ matches: true });
+
     expect(screen.getByTestId('snackbar')).toBeInTheDocument();
 
     act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
@@ -89,6 +91,20 @@ describe('when given snackbar component', () => {
     expect(screen.getByTestId('snackbar')).toBeInTheDocument();
 
     fireEvent.mouseLeave(screen.getByTestId('snackbar'));
+
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+
+    expect(screen.queryByTestId('snackbar')).not.toBeInTheDocument();
+  });
+
+  it('should close snackbar even if mouse is over the toast container on non-cursor device', () => {
+    window.matchMedia = vi.fn().mockReturnValue({ matches: false });
+
+    expect(screen.getByTestId('snackbar')).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
+
+    fireEvent.mouseEnter(screen.getByTestId('snackbar'));
 
     act(() => vi.advanceTimersByTime(DEFAULT_DURATION / 2));
 
