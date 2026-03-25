@@ -101,7 +101,6 @@ const marquee = keyframes`
 export const marqueeWrapperStyle = (theme: Theme) => css`
   width: calc(100% + (var(--layout-padding-inline) * 2));
   max-width: 1600px;
-  margin-left: calc(var(--layout-padding-inline) * -1);
   position: relative;
   overflow: hidden;
   gap: 12px;
