@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 
 import type {
   AuthorizationParams,
@@ -32,6 +33,8 @@ const firebaseApp = initializeApp(
 );
 
 const firebaseAuth = getAuth(firebaseApp);
+const firestore = getFirestore(firebaseApp, 'montage-storage');
+const refreshTokensCollection = firestore.collection('refreshTokens');
 
 interface PendingAuth {
   clientId: string;
@@ -80,6 +83,36 @@ class TtlMap<K, V> {
 const registeredClients = new TtlMap<string, OAuthClientInformationFull>();
 const pendingAuths = new TtlMap<string, PendingAuth>();
 const authCodes = new TtlMap<string, StoredAuthCode>();
+
+interface StoredRefreshToken {
+  clientId: string;
+  googleRefreshToken: string;
+}
+
+const refreshTokenStore = {
+  async set(mcpToken: string, value: StoredRefreshToken) {
+    await refreshTokensCollection.doc(mcpToken).set({
+      clientId: value.clientId,
+      googleRefreshToken: value.googleRefreshToken,
+    });
+  },
+
+  async get(mcpToken: string, clientId: string): Promise<string | undefined> {
+    const doc = await refreshTokensCollection.doc(mcpToken).get();
+
+    if (!doc.exists) return undefined;
+
+    const data = doc.data() as StoredRefreshToken;
+
+    if (data.clientId !== clientId) return undefined;
+
+    return data.googleRefreshToken;
+  },
+
+  async delete(mcpToken: string) {
+    await refreshTokensCollection.doc(mcpToken).delete();
+  },
+};
 
 export const getServerUrl = () =>
   process.env.MCP_SERVER_URL || 'http://localhost:3000';
@@ -179,6 +212,7 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       access_token: string;
       id_token: string;
       expires_in: number;
+      refresh_token?: string;
     };
 
     // Exchange Google ID token for Firebase ID token via REST API
@@ -219,17 +253,126 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
     authCodes.delete(authorizationCode);
 
-    // Return the Firebase ID token — verifiable statelessly via firebaseAuth.verifyIdToken()
+    // Store Google refresh token for later token renewal
+    const tokens: OAuthTokens = {
+      access_token: firebaseTokens.idToken,
+      token_type: 'bearer',
+      expires_in: Number(firebaseTokens.expiresIn),
+      scope: 'openid email profile',
+    };
+
+    if (googleTokens.refresh_token) {
+      const mcpRefreshToken = crypto.randomUUID();
+      await refreshTokenStore.set(mcpRefreshToken, {
+        clientId: client.client_id,
+        googleRefreshToken: googleTokens.refresh_token,
+      });
+      tokens.refresh_token = mcpRefreshToken;
+    }
+
+    return tokens;
+  },
+
+  async exchangeRefreshToken(
+    client: OAuthClientInformationFull,
+    refreshToken: string,
+  ) {
+    const googleRefreshToken = await refreshTokenStore.get(
+      refreshToken,
+      client.client_id,
+    );
+
+    if (!googleRefreshToken) {
+      throw new Error('Invalid or expired refresh token');
+    }
+
+    // Use Google refresh token to get new tokens
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        refresh_token: googleRefreshToken,
+        client_id: GOOGLE_CLIENT_ID,
+        client_secret: GOOGLE_CLIENT_SECRET,
+        grant_type: 'refresh_token',
+      }),
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    }).catch((error) => {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error('Google token refresh timed out');
+      }
+      throw error;
+    });
+
+    if (!tokenResponse.ok) {
+      const error = await tokenResponse.text();
+
+      // Only delete on permanent failures (token revoked/invalid)
+      if (tokenResponse.status === 400 || tokenResponse.status === 401) {
+        await refreshTokenStore.delete(refreshToken);
+      }
+
+      throw new Error(`Failed to refresh Google token: ${error}`);
+    }
+
+    const googleTokens = (await tokenResponse.json()) as {
+      access_token: string;
+      id_token: string;
+      expires_in: number;
+      refresh_token?: string;
+    };
+
+    // Google may rotate refresh tokens
+    if (googleTokens.refresh_token) {
+      await refreshTokenStore.set(refreshToken, {
+        clientId: client.client_id,
+        googleRefreshToken: googleTokens.refresh_token,
+      });
+    }
+
+    // Exchange new Google ID token for Firebase ID token
+    const firebaseResponse = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${FIREBASE_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postBody: `id_token=${googleTokens.id_token}&providerId=google.com`,
+          requestUri: getServerUrl(),
+          returnIdToken: true,
+          returnSecureToken: true,
+        }),
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      },
+    ).catch((error) => {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error('Firebase sign-in timed out');
+      }
+      throw error;
+    });
+
+    if (!firebaseResponse.ok) {
+      const error = await firebaseResponse.text();
+      throw new Error(`Firebase sign-in failed: ${error}`);
+    }
+
+    const firebaseTokens = (await firebaseResponse.json()) as {
+      idToken: string;
+      expiresIn: string;
+      email?: string;
+    };
+
+    if (!firebaseTokens.email?.endsWith(`@${ALLOWED_DOMAIN}`)) {
+      throw new Error(`Access restricted to @${ALLOWED_DOMAIN} accounts`);
+    }
+
     return {
       access_token: firebaseTokens.idToken,
       token_type: 'bearer',
       expires_in: Number(firebaseTokens.expiresIn),
       scope: 'openid email profile',
+      refresh_token: refreshToken,
     } as OAuthTokens;
-  },
-
-  async exchangeRefreshToken() {
-    throw new Error('Refresh tokens not supported');
   },
 
   async verifyAccessToken(token: string): Promise<AuthInfo> {
