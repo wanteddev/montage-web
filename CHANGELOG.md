@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.3](https://github.com/wanteddev/montage-web/compare/v3.4.2...v3.4.3) (2026-03-25)
+
+### Bug Fixes
+
+- **wds:** 모바일에서 토스트가 닫히지 않는 문제 수정 ([#528](https://github.com/wanteddev/montage-web/issues/528)) ([2333887](https://github.com/wanteddev/montage-web/commit/23338877f3d0ac22c2ca0ba6ba6adcf2b4ec3f1c))
+
 ## [3.4.2](https://github.com/wanteddev/montage-web/compare/v3.4.1...v3.4.2) (2026-03-25)
 
 ### Features
