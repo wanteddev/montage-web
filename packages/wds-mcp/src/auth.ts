@@ -84,19 +84,29 @@ const registeredClients = new TtlMap<string, OAuthClientInformationFull>();
 const pendingAuths = new TtlMap<string, PendingAuth>();
 const authCodes = new TtlMap<string, StoredAuthCode>();
 
+interface StoredRefreshToken {
+  clientId: string;
+  googleRefreshToken: string;
+}
+
 const refreshTokenStore = {
-  async set(mcpToken: string, googleToken: string) {
+  async set(mcpToken: string, value: StoredRefreshToken) {
     await refreshTokensCollection.doc(mcpToken).set({
-      googleRefreshToken: googleToken,
+      clientId: value.clientId,
+      googleRefreshToken: value.googleRefreshToken,
     });
   },
 
-  async get(mcpToken: string): Promise<string | undefined> {
+  async get(mcpToken: string, clientId: string): Promise<string | undefined> {
     const doc = await refreshTokensCollection.doc(mcpToken).get();
 
     if (!doc.exists) return undefined;
 
-    return (doc.data() as { googleRefreshToken: string }).googleRefreshToken;
+    const data = doc.data() as StoredRefreshToken;
+
+    if (data.clientId !== clientId) return undefined;
+
+    return data.googleRefreshToken;
   },
 
   async delete(mcpToken: string) {
@@ -253,7 +263,10 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
     if (googleTokens.refresh_token) {
       const mcpRefreshToken = crypto.randomUUID();
-      await refreshTokenStore.set(mcpRefreshToken, googleTokens.refresh_token);
+      await refreshTokenStore.set(mcpRefreshToken, {
+        clientId: client.client_id,
+        googleRefreshToken: googleTokens.refresh_token,
+      });
       tokens.refresh_token = mcpRefreshToken;
     }
 
@@ -261,10 +274,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
   },
 
   async exchangeRefreshToken(
-    _client: OAuthClientInformationFull,
+    client: OAuthClientInformationFull,
     refreshToken: string,
   ) {
-    const googleRefreshToken = await refreshTokenStore.get(refreshToken);
+    const googleRefreshToken = await refreshTokenStore.get(
+      refreshToken,
+      client.client_id,
+    );
 
     if (!googleRefreshToken) {
       throw new Error('Invalid or expired refresh token');
@@ -308,7 +324,10 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
     // Google may rotate refresh tokens
     if (googleTokens.refresh_token) {
-      await refreshTokenStore.set(refreshToken, googleTokens.refresh_token);
+      await refreshTokenStore.set(refreshToken, {
+        clientId: client.client_id,
+        googleRefreshToken: googleTokens.refresh_token,
+      });
     }
 
     // Exchange new Google ID token for Firebase ID token
