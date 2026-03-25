@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
 
 import type {
   AuthorizationParams,
@@ -32,6 +33,8 @@ const firebaseApp = initializeApp(
 );
 
 const firebaseAuth = getAuth(firebaseApp);
+const firestore = getFirestore(firebaseApp, 'montage-storage');
+const refreshTokensCollection = firestore.collection('refreshTokens');
 
 interface PendingAuth {
   clientId: string;
@@ -80,6 +83,26 @@ class TtlMap<K, V> {
 const registeredClients = new TtlMap<string, OAuthClientInformationFull>();
 const pendingAuths = new TtlMap<string, PendingAuth>();
 const authCodes = new TtlMap<string, StoredAuthCode>();
+
+const refreshTokenStore = {
+  async set(mcpToken: string, googleToken: string) {
+    await refreshTokensCollection.doc(mcpToken).set({
+      googleRefreshToken: googleToken,
+    });
+  },
+
+  async get(mcpToken: string): Promise<string | undefined> {
+    const doc = await refreshTokensCollection.doc(mcpToken).get();
+
+    if (!doc.exists) return undefined;
+
+    return (doc.data() as { googleRefreshToken: string }).googleRefreshToken;
+  },
+
+  async delete(mcpToken: string) {
+    await refreshTokensCollection.doc(mcpToken).delete();
+  },
+};
 
 export const getServerUrl = () =>
   process.env.MCP_SERVER_URL || 'http://localhost:3000';
@@ -179,6 +202,7 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       access_token: string;
       id_token: string;
       expires_in: number;
+      refresh_token?: string;
     };
 
     // Exchange Google ID token for Firebase ID token via REST API
@@ -219,17 +243,107 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
 
     authCodes.delete(authorizationCode);
 
-    // Return the Firebase ID token — verifiable statelessly via firebaseAuth.verifyIdToken()
+    // Store Google refresh token for later token renewal
+    const tokens: OAuthTokens = {
+      access_token: firebaseTokens.idToken,
+      token_type: 'bearer',
+      expires_in: Number(firebaseTokens.expiresIn),
+      scope: 'openid email profile',
+    };
+
+    if (googleTokens.refresh_token) {
+      const mcpRefreshToken = crypto.randomUUID();
+      await refreshTokenStore.set(mcpRefreshToken, googleTokens.refresh_token);
+      tokens.refresh_token = mcpRefreshToken;
+    }
+
+    return tokens;
+  },
+
+  async exchangeRefreshToken(
+    _client: OAuthClientInformationFull,
+    refreshToken: string,
+  ) {
+    const googleRefreshToken = await refreshTokenStore.get(refreshToken);
+
+    if (!googleRefreshToken) {
+      throw new Error('Invalid or expired refresh token');
+    }
+
+    // Use Google refresh token to get new tokens
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        refresh_token: googleRefreshToken,
+        client_id: GOOGLE_CLIENT_ID,
+        client_secret: GOOGLE_CLIENT_SECRET,
+        grant_type: 'refresh_token',
+      }),
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    }).catch((error) => {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error('Google token refresh timed out');
+      }
+      throw error;
+    });
+
+    if (!tokenResponse.ok) {
+      // Google refresh token may have been revoked
+      await refreshTokenStore.delete(refreshToken);
+      const error = await tokenResponse.text();
+      throw new Error(`Failed to refresh Google token: ${error}`);
+    }
+
+    const googleTokens = (await tokenResponse.json()) as {
+      access_token: string;
+      id_token: string;
+      expires_in: number;
+    };
+
+    // Exchange new Google ID token for Firebase ID token
+    const firebaseResponse = await fetch(
+      `https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key=${FIREBASE_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          postBody: `id_token=${googleTokens.id_token}&providerId=google.com`,
+          requestUri: getServerUrl(),
+          returnIdToken: true,
+          returnSecureToken: true,
+        }),
+        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+      },
+    ).catch((error) => {
+      if (error instanceof DOMException && error.name === 'TimeoutError') {
+        throw new Error('Firebase sign-in timed out');
+      }
+      throw error;
+    });
+
+    if (!firebaseResponse.ok) {
+      const error = await firebaseResponse.text();
+      throw new Error(`Firebase sign-in failed: ${error}`);
+    }
+
+    const firebaseTokens = (await firebaseResponse.json()) as {
+      idToken: string;
+      expiresIn: string;
+      email?: string;
+    };
+
+    if (!firebaseTokens.email?.endsWith(`@${ALLOWED_DOMAIN}`)) {
+      throw new Error(`Access restricted to @${ALLOWED_DOMAIN} accounts`);
+    }
+
     return {
       access_token: firebaseTokens.idToken,
       token_type: 'bearer',
       expires_in: Number(firebaseTokens.expiresIn),
       scope: 'openid email profile',
+      refresh_token: refreshToken,
     } as OAuthTokens;
-  },
-
-  async exchangeRefreshToken() {
-    throw new Error('Refresh tokens not supported');
   },
 
   async verifyAccessToken(token: string): Promise<AuthInfo> {
