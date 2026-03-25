@@ -10,6 +10,7 @@ import {
   ModalNavigation,
   Typography,
   WithInteraction,
+  useToast,
 } from '@wanteddev/wds';
 import * as Icons from '@wanteddev/wds-icon';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -29,6 +30,7 @@ type Props = {
 };
 
 const Collections = ({ icons }: Props) => {
+  const toast = useToast();
   const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
   const iconDetailRef = useRef<HTMLDivElement>(null);
 
@@ -40,7 +42,7 @@ const Collections = ({ icons }: Props) => {
     setSelectedIcon(null);
   };
 
-  const handleDownloadSvg = useCallback(() => {
+  const createSvg = useCallback(() => {
     const svgElement = iconDetailRef.current?.querySelector('svg');
     if (!svgElement || !selectedIcon) return;
 
@@ -53,16 +55,35 @@ const Collections = ({ icons }: Props) => {
     }
 
     const svgString = new XMLSerializer().serializeToString(cloned);
+
+    return svgString.replaceAll('currentColor', '#171719');
+  }, [selectedIcon]);
+
+  const handleDownloadSvg = useCallback(() => {
+    const svgString = createSvg();
+
+    if (!svgString) return;
+
     const blob = new Blob([svgString], { type: 'image/svg+xml' });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${camelCase(selectedIcon.replace('Icon', ''))}.svg`;
+    a.download = `${camelCase(selectedIcon!.replace('Icon', ''))}.svg`;
     a.click();
 
     URL.revokeObjectURL(url);
-  }, [selectedIcon]);
+  }, [selectedIcon, createSvg]);
+
+  const handleCopySvg = useCallback(() => {
+    const svgString = createSvg();
+    if (!svgString) return;
+    navigator.clipboard.writeText(svgString);
+    toast({
+      variant: 'positive',
+      content: '클립보드에 복사되었습니다.',
+    });
+  }, [createSvg, toast]);
 
   const SelectedIconComponent = useMemo(() => {
     if (!selectedIcon) return null;
@@ -155,7 +176,7 @@ const Collections = ({ icons }: Props) => {
           <ActionArea variant="strong">
             <ActionAreaButton
               variant="alternative"
-              onClick={handleCloseModal}
+              onClick={handleCopySvg}
               trailingContent={<Icons.IconCopy />}
             >
               SVG 복사
