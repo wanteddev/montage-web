@@ -289,9 +289,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     });
 
     if (!tokenResponse.ok) {
-      // Google refresh token may have been revoked
-      await refreshTokenStore.delete(refreshToken);
       const error = await tokenResponse.text();
+
+      // Only delete on permanent failures (token revoked/invalid)
+      if (tokenResponse.status === 400 || tokenResponse.status === 401) {
+        await refreshTokenStore.delete(refreshToken);
+      }
+
       throw new Error(`Failed to refresh Google token: ${error}`);
     }
 
