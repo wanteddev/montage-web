@@ -299,7 +299,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       access_token: string;
       id_token: string;
       expires_in: number;
+      refresh_token?: string;
     };
+
+    // Google may rotate refresh tokens
+    if (googleTokens.refresh_token) {
+      await refreshTokenStore.set(refreshToken, googleTokens.refresh_token);
+    }
 
     // Exchange new Google ID token for Firebase ID token
     const firebaseResponse = await fetch(
