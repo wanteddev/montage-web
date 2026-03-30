@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 정보를 고정할 때 사용합니다.
+ * 키워드: 핀, 고정, Pin, Fixed
+ **/
 const IconPinFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

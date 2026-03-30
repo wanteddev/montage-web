@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 네이버 블로그 로고를 표현합니다.
+ * 키워드: Blog, 네이버 블로그 logo
+ **/
 const IconLogoNaverBlog = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -54,10 +54,15 @@ const main = async () => {
 
       const filenameWithoutExtension = filename.replace('.svg', '');
 
+      const { id, description } = result.find(
+        (r) => r.name === filenameWithoutExtension,
+      );
+
       return {
         name: `Icon${pascalCase(filenameWithoutExtension)}`,
         content,
-        id: result.find((r) => r.name === filenameWithoutExtension).id,
+        id,
+        description,
         parsedName: filenameWithoutExtension,
       };
     });
@@ -73,8 +78,13 @@ const main = async () => {
   const figmaConnectContents = [];
 
   data.forEach((icon) => {
-    const { name, content, id, parsedName } = icon;
+    const { name, content, id, parsedName, description } = icon;
     const fileName = kebabCase(name);
+
+    const comment = description
+      ? `/**\n * ${description.split('\n').join('\n * ')}\n **/`
+      : '';
+
     const fileContent = `import { Box } from '@wanteddev/wds-engine';
     import { forwardRef } from 'react';
 
@@ -85,6 +95,7 @@ const main = async () => {
       sx?: SxProp;
     };
 
+    ${comment}
     const ${name} = forwardRef<SVGSVGElement, Props>((props, ref) => {
       return (
         ${content

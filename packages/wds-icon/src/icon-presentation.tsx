@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 프리젠테이션을 표현합니다.
+ * 키워드: stand, 스탠드, presentation, workshop, 워크숍
+ **/
 const IconPresentation = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

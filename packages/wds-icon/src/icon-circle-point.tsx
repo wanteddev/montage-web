@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 포인트를 표현합니다.
+ * 키워드: Wanted Point, 원티드 포인트
+ **/
 const IconCirclePoint = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

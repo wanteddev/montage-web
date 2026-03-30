@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 데스크톱 기기를 표현합니다.
+ * 키워드: Computer, PC, 컴퓨터, 모니터, Monitor
+ **/
 const IconDesktopFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

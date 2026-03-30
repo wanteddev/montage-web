@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 티켓을 표현합니다.
+ * 키워드: Ticket, Coupon, 쿠폰
+ **/
 const IconTicket = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

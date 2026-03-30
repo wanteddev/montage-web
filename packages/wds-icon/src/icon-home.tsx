@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 메인 화면 또는 홈을 표시할 때 사용합니다.
+ * 키워드: 홈, 홈 화면, Home, Main
+ **/
 const IconHome = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

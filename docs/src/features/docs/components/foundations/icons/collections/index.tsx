@@ -1,50 +1,47 @@
 import {
-  ActionArea,
-  ActionAreaButton,
   Box,
+  ContentBadge,
   FlexBox,
-  Modal,
-  ModalContainer,
-  ModalContent,
-  ModalContentItem,
-  ModalNavigation,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
   Typography,
   WithInteraction,
-  useToast,
 } from '@wanteddev/wds';
 import * as Icons from '@wanteddev/wds-icon';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { camelCase, capitalCase } from 'change-case';
+import { useCallback } from 'react';
+import { camelCase } from 'change-case';
+
+import { breakWordStyle } from '@/styles/text';
+
+import { getKeywords } from '../helpers';
 
 import {
   iconDetailWrapperStyle,
   iconGridStyle,
   iconItemStyle,
-  iconItemWrapperStyle,
-  iconNameStyle,
-  summaryWrapperStyle,
+  iconPopoverWrapperStyle,
 } from './style';
 
+import type { MouseEvent } from 'react';
+
+type IconItem = {
+  name: string;
+  description: string;
+};
+
 type Props = {
-  icons: Array<string>;
+  icons: Array<IconItem>;
 };
 
 const Collections = ({ icons }: Props) => {
-  const toast = useToast();
-  const [selectedIcon, setSelectedIcon] = useState<string | null>(null);
-  const iconDetailRef = useRef<HTMLDivElement>(null);
+  const createSvg = useCallback((target: HTMLElement) => {
+    const svgElement = target
+      .closest('[data-role="icon-detail-popover"]')
+      ?.querySelector('[data-role="icon-component-for-download"]');
 
-  const handleClickIcon = (icon: string) => {
-    setSelectedIcon(icon);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedIcon(null);
-  };
-
-  const createSvg = useCallback(() => {
-    const svgElement = iconDetailRef.current?.querySelector('svg');
-    if (!svgElement || !selectedIcon) return;
+    if (!svgElement) return;
 
     const cloned = svgElement.cloneNode(true) as SVGSVGElement;
     cloned.removeAttribute('style');
@@ -57,40 +54,26 @@ const Collections = ({ icons }: Props) => {
     const svgString = new XMLSerializer().serializeToString(cloned);
 
     return svgString.replaceAll('currentColor', '#171719');
-  }, [selectedIcon]);
+  }, []);
 
-  const handleDownloadSvg = useCallback(() => {
-    const svgString = createSvg();
+  const handleDownloadSvg = useCallback(
+    (name: string) => (e: MouseEvent) => {
+      const svgString = createSvg(e.target as HTMLElement);
 
-    if (!svgString) return;
+      if (!svgString) return;
 
-    const blob = new Blob([svgString], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
+      const blob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${camelCase(selectedIcon!.replace('Icon', ''))}.svg`;
-    a.click();
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${camelCase(name.replace('Icon', ''))}.svg`;
+      a.click();
 
-    URL.revokeObjectURL(url);
-  }, [selectedIcon, createSvg]);
-
-  const handleCopySvg = useCallback(() => {
-    const svgString = createSvg();
-    if (!svgString) return;
-    navigator.clipboard.writeText(svgString);
-    toast({
-      variant: 'positive',
-      content: '클립보드에 복사되었습니다.',
-    });
-  }, [createSvg, toast]);
-
-  const SelectedIconComponent = useMemo(() => {
-    if (!selectedIcon) return null;
-    const IconComponent = Icons[selectedIcon as keyof typeof Icons];
-
-    return <IconComponent aria-hidden />;
-  }, [selectedIcon]);
+      URL.revokeObjectURL(url);
+    },
+    [createSvg],
+  );
 
   if (icons.length === 0) return null;
 
@@ -98,99 +81,91 @@ const Collections = ({ icons }: Props) => {
     <>
       <Box sx={iconGridStyle}>
         {icons.map((icon) => {
-          const IconComponent = Icons[icon as keyof typeof Icons];
+          const IconComponent = Icons[icon.name as keyof typeof Icons];
 
           return (
-            <Box key={icon} sx={iconItemWrapperStyle}>
-              <WithInteraction scale>
-                <FlexBox
-                  flexDirection="column"
-                  alignItems="center"
-                  gap="12px"
-                  as="button"
-                  type="button"
-                  onClick={() => handleClickIcon(icon)}
-                  aria-label={`Show detail ${icon}`}
-                  sx={iconItemStyle}
-                >
-                  <IconComponent aria-hidden />
-
-                  <Typography
-                    variant="caption1"
-                    weight="medium"
-                    as="p"
-                    sx={iconNameStyle}
+            <Popover key={icon.name}>
+              <PopoverTrigger>
+                <WithInteraction scale variant="light">
+                  <FlexBox
+                    flexDirection="column"
+                    alignItems="center"
+                    gap="12px"
+                    as="button"
+                    type="button"
+                    aria-label={`Show detail ${icon.name}`}
+                    sx={iconItemStyle}
                   >
-                    {capitalCase(icon.replace('Icon', ''))}
-                  </Typography>
+                    <IconComponent aria-hidden />
+                  </FlexBox>
+                </WithInteraction>
+              </PopoverTrigger>
+
+              <PopoverContent
+                variant="custom"
+                sx={{
+                  padding: '20px 24px',
+                }}
+                data-role="icon-detail-popover"
+                wrapperProps={{ sx: iconPopoverWrapperStyle }}
+              >
+                <FlexBox flexDirection="column" gap="16px" flex="1">
+                  <FlexBox gap="12px" justifyContent="space-between">
+                    <Typography
+                      variant="headline2"
+                      weight="bold"
+                      color="semantic.label.normal"
+                      sx={breakWordStyle}
+                    >
+                      {camelCase(icon.name.replace('Icon', ''))}
+                    </Typography>
+
+                    <IconButton
+                      aria-label={`Download ${icon.name} svg`}
+                      size={20}
+                      onClick={handleDownloadSvg(icon.name)}
+                    >
+                      <Icons.IconDownload aria-hidden />
+                    </IconButton>
+                  </FlexBox>
+
+                  <FlexBox sx={iconDetailWrapperStyle}>
+                    <IconComponent
+                      data-role="icon-component-for-download"
+                      aria-hidden
+                    />
+                  </FlexBox>
+
+                  {getKeywords(icon.description).length > 0 && (
+                    <FlexBox gap="12px" flexDirection="column">
+                      <Typography
+                        color="semantic.label.neutral"
+                        variant="label1"
+                        weight="medium"
+                      >
+                        Keyword
+                      </Typography>
+
+                      <FlexBox flexWrap="wrap" gap="6px">
+                        {getKeywords(icon.description).map((keyword, i) => (
+                          <ContentBadge
+                            color="neutral"
+                            size="xsmall"
+                            variant="solid"
+                            key={i}
+                          >
+                            {keyword}
+                          </ContentBadge>
+                        ))}
+                      </FlexBox>
+                    </FlexBox>
+                  )}
                 </FlexBox>
-              </WithInteraction>
-            </Box>
+              </PopoverContent>
+            </Popover>
           );
         })}
       </Box>
-
-      <Modal
-        open={Boolean(selectedIcon)}
-        onOpenChange={(open) => !open && handleCloseModal()}
-        onVisibilityChange={(visibility) =>
-          visibility === 'hidden' && handleCloseModal()
-        }
-      >
-        <ModalContainer
-          size="medium"
-          variant="bottom"
-          handle
-          sm={{ variant: 'popup', size: 'xlarge' }}
-        >
-          <ModalNavigation variant="emphasized">
-            {selectedIcon?.replace('Icon', '')}
-          </ModalNavigation>
-
-          <ModalContent sx={{ paddingBlock: '0px' }}>
-            <ModalContentItem flexDirection="column" gap="32px">
-              <FlexBox ref={iconDetailRef} sx={iconDetailWrapperStyle}>
-                {SelectedIconComponent}
-              </FlexBox>
-
-              <Box sx={summaryWrapperStyle}>
-                <Typography
-                  variant="label1"
-                  weight="bold"
-                  color="semantic.label.strong"
-                >
-                  Name
-                </Typography>
-
-                <Typography
-                  color="semantic.label.neutral"
-                  variant="label1"
-                  weight="medium"
-                >
-                  {camelCase(selectedIcon?.replace('Icon', '') ?? '')}
-                </Typography>
-              </Box>
-            </ModalContentItem>
-          </ModalContent>
-
-          <ActionArea variant="strong">
-            <ActionAreaButton
-              variant="alternative"
-              onClick={handleCopySvg}
-              trailingContent={<Icons.IconCopy />}
-            >
-              SVG 복사
-            </ActionAreaButton>
-            <ActionAreaButton
-              variant="main"
-              onClick={handleDownloadSvg}
-              trailingContent={<Icons.IconDownload />}
-            >
-              다운로드
-            </ActionAreaButton>
-          </ActionArea>
-        </ModalContainer>
-      </Modal>
     </>
   );
 };

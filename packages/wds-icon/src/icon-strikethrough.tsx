@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 텍스트에 취소선을 표현합니다.
+ * 키워드: 취소선
+ **/
 const IconStrikethrough = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

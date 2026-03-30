@@ -7,7 +7,7 @@ import type { Metadata } from 'next';
 
 const TITLE = 'Icons';
 const DESCRIPTION =
-  '아이콘은 기능이나 콘텐츠를 시각적으로 표현하는 그래픽 요소로, 사용자가 인터페이스를 빠르게 이해하고 탐색할 수 있도록 돕습니다.';
+  '원티드의 아이콘은 기능이나 콘텐츠를 시각적으로 표현하는 요소로, 사용자가 인터페이스를 빠르게 탐색할 수 있도록 돕습니다.';
 
 export const metadata: Metadata = createMetadata({
   title: TITLE,

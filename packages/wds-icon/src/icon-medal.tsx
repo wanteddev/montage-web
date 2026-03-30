@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 메달을 표현합니다.
+ * 키워드: award, medal, 어워드
+ **/
 const IconMedal = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

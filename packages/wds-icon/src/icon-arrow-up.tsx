@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 위쪽 화살표를 표현합니다.
+ * 키워드: 애로우, Arrow, 화살표, 꺽쇠, Top
+ **/
 const IconArrowUp = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

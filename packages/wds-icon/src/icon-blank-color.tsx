@@ -8,6 +8,9 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 기본 표시를 위한 아이콘으로, 쓰지 않습니다.
+ **/
 const IconBlankColor = forwardRef<SVGSVGElement, Props>((props, ref) => {
   const id1 = useId();
   const id2 = useId();

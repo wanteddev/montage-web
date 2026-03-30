@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 메시지를 표현합니다.
+ * 키워드: 메시지
+ **/
 const IconMessageFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

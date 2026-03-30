@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 입력한 내용을 전송할 때 사용합니다.
+ * 키워드: Message, Messenger, Sent, Paper Plane, 종이비행기, 보내기
+ **/
 const IconSendFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 인용구를 표현할 때 사용합니다.
+ * 키워드: quote, 인용, 견적, 따옴표
+ **/
 const IconQuote = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

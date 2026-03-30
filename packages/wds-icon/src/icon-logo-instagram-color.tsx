@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 인스타그램 로고를 표현합니다.
+ * 키워드: 인스타그램, 인스타, 로고, Instagram, Insta, IG logo, 메타, Meta
+ **/
 const IconLogoInstagramColor = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     const imageId = useId();

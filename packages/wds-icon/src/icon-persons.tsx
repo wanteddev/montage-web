@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 여러 사람이 있는 그룹을 표현합니다.
+ * 키워드: Group, People, Persons, Profiles, 프로필, 그룹, 피플, 사람들, 모임
+ **/
 const IconPersons = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

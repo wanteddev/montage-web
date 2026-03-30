@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 개인정보가 포함된 폴더를 표현합니다.
+ * 키워드: Job File, 프로필 폴더, Profile
+ **/
 const IconFolderJobFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

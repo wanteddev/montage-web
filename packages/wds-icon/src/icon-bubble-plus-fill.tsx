@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 댓글이나 대화를 추가할 때 사용합니다.
+ * 키워드: Conversation, Comment, Add, Bubble, 추가, 코멘트, 대화, 댓글
+ **/
 const IconBubblePlusFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

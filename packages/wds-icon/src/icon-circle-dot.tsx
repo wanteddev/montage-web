@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 라디오 버튼을 표현합니다.
+ * 키워드: 서클 닷
+ **/
 const IconCircleDot = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

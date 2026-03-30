@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 대화를 표현합니다.
+ * 키워드: Conversation, 대화, 채팅
+ **/
 const IconChat = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

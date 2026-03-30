@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 내용을 추가할 때 사용합니다.
+ * 키워드: Plus, 플러스, Add
+ **/
 const IconPlusThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

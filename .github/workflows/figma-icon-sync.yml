@@ -4,7 +4,7 @@ on:
     inputs:
       output_dir:
         type: string
-        description: "output directory"
+        description: 'output directory'
         required: true
         default: output
     outputs:
@@ -169,12 +169,16 @@ jobs:
 
               ROOT_TRAVERSE_COLOR_LOGO_IDS.forEach(
                 (id) =>
-                  (colorLogoParentNode = colorLogoParentNode.children.find((a) => a.id === id)),
+                  (colorLogoParentNode = colorLogoParentNode.children.find(
+                    (a) => a.id === id,
+                  )),
               );
 
               ROOT_TRAVERSE_COLOR_NORMAL_IDS.forEach(
                 (id) =>
-                  (colorNormalParentNode = colorNormalParentNode.children.find((a) => a.id === id)),
+                  (colorNormalParentNode = colorNormalParentNode.children.find(
+                    (a) => a.id === id,
+                  )),
               );
 
               ROOT_TRAVERSE_NAVIGATION_IDS.forEach(
@@ -207,7 +211,11 @@ jobs:
                               .join('') +
                             type;
 
-                          idsToNameAndComponentSetId[child.id] = [name, component.id];
+                          idsToNameAndComponentSetId[child.id] = {
+                            name,
+                            id: component.id,
+                            description: response.componentSets[component.id]?.description,
+                          };
                         });
                       }
                     }
@@ -226,7 +234,11 @@ jobs:
               const processNodeId = async (nodeId) => {
                 const fileResponse = await fetch(images[nodeId], { method: 'GET' });
                 const svg = await fileResponse.text();
-                const [name, componentSetId] = idsToNameAndComponentSetId[nodeId];
+                const {
+                  name,
+                  id: componentSetId,
+                  description,
+                } = idsToNameAndComponentSetId[nodeId];
 
                 const parsedName = name
                   .replace('Icon', '')
@@ -244,6 +256,7 @@ jobs:
                   content: svg,
                   id: componentSetId.replace(':', '-'),
                   parsedName: name.includes('Color') ? parsedName + 'Color' : parsedName,
+                  description,
                 });
               };
 
@@ -301,7 +314,11 @@ jobs:
                 );
               });
 
-              const result = data.map(({ id, parsedName }) => ({ id, name: parsedName }));
+              const result = data.map(({ id, parsedName, description }) => ({
+                id,
+                name: parsedName,
+                description,
+              }));
 
               fs.writeFileSync(
                 path.join(process.env.OUTPUT_DIR, 'result.json'),

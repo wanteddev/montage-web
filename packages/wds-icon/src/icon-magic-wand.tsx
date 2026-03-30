@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 정보를 생성하거나 랜덤 표시할 때 사용합니다.
+ * 키워드: 마법봉, Magic, Wand, 반짝, 랜덤, Random, Magical, Surprise me, 다른
+ **/
 const IconMagicWand = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

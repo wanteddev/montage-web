@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 구글 로고를 표현합니다.
+ * 키워드: 구글, 로고, Google, Icon, Size, Small
+ **/
 const IconLogoGoogleColor = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

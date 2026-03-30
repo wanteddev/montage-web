@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 캘린더 속 사람을 표현합니다.
+ * 키워드: 이벤트, Event
+ **/
 const IconCalendarPerson = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

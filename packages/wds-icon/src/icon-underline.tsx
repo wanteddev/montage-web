@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 텍스트의 밑줄을 표현합니다.
+ * 키워드: 강조, 밑줄, underline, underscore
+ **/
 const IconUnderline = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

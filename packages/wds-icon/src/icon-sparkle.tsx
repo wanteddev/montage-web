@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 반짝임을 표현합니다.
+ * 키워드: stars, new, smart, 신규, AI, 스마트
+ **/
 const IconSparkle = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

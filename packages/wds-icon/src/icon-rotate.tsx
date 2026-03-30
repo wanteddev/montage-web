@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 회전을 표현합니다.
+ * 키워드: rotate, 회전, 돌리기
+ **/
 const IconRotate = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box
