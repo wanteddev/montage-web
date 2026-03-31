@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 문서를 표현합니다.
+ * 키워드: Page, 접힌 페이지, 파일, 문서, Docs, Folded
+ */
 const IconDocumentFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

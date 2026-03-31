@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 망원경을 표현합니다.
+ * 키워드: telescope, 망원경, 둘러보기, 보기
+ */
 const IconTelescope = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 코드 에디터에서 문자열을 하나씩 바꾸는 기능을 표현합니다.
+ * 키워드: Replace, 대치, 치환, 코드 에디터, code editor
+ */
 const IconReplace = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

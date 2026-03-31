@@ -343,3 +343,4 @@ figma.connect(IconWrite, "<FIGMA_ICONS_BASE>?node-id=9450-17687", { variant: { N
 figma.connect(IconZepFast, "<FIGMA_ICONS_BASE>?node-id=34197-131053", { variant: { Name: 'zepFast' }, example: () => <IconZepFast /> });
 figma.connect(IconZepFastFill, "<FIGMA_ICONS_BASE>?node-id=34197-131053", { variant: { Name: 'zepFastFill' }, example: () => <IconZepFastFill /> });
 figma.connect(IconLogoInstagramColor, "<FIGMA_ICONS_BASE>?node-id=11670-22176", { variant: { Name: 'logoInstagram' }, example: () => <IconLogoInstagramColor /> });
+figma.connect(IconBlankColor, "<FIGMA_ICONS_BASE>?node-id=8-731", { variant: { Name: 'blank' }, example: () => <IconBlankColor /> });

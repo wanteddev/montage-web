@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * AI 이전 대화 기록 보관 기능을 표현합니다.
+ * 키워드: Storage, 보관함, AI, 보관, 이전 대화 기록, 이전 대화, 대화 기록, 채용 에이전트, AI 추천 포지션
+ */
 const IconStorage = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

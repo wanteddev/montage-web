@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 한국어 또는 한글을 표현합니다.
+ * 키워드: 한글, Korean, 한국어
+ */
 const IconSquareHangul = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

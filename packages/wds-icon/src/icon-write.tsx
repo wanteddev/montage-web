@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 내용을 새로 작성할 때 사용합니다.
+ * 키워드: Write, Pencil, Note, Create, 글쓰기, 추가, 쓰기, 연필, 노트, 공책
+ */
 const IconWrite = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

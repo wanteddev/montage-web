@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 구글 플레이 로고를 표현합니다.
+ * 키워드: 플레이, 구글, 플레이스토어, Google, Playstore, Play logo
+ */
 const IconLogoGooglePlay = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

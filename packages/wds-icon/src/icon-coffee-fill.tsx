@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 커피를 표현합니다.
+ * 키워드: coffee, coffeechat, 커피챗
+ */
 const IconCoffeeFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

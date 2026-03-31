@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 사람을 추가하거나 초대할 때 사용합니다.
+ * 키워드: 사람, 사람 추가, 인원, 유저, 프로필, Person Plus, Add People, Gather People, User, Profile
+ */
 const IconPersonPlus = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

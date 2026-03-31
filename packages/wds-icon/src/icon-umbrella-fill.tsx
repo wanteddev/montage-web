@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 우산을 표현합니다.
+ * 키워드: Rain, 비, 날씨, Weather
+ */
 const IconUmbrellaFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

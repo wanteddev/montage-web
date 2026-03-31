@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 링크드인 로고를 표현합니다.
+ * 키워드: 링크드인, LinkedIn logo
+ */
 const IconLogoLinkedIn = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

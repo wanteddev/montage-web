@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 이미지를 표현합니다.
+ * 키워드: 이미지 아이콘, 첨부, 업로드, place image, upload
+ */
 const IconImage = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

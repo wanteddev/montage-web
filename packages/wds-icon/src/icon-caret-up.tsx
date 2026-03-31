@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 작은 위쪽 화살표를 표현합니다.
+ * 키워드: Up, Top, Caret, 캐릿
+ */
 const IconCaretUp = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

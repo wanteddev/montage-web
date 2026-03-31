@@ -8,6 +8,10 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
+/**
+ * 오른쪽으로 들어가는 화살표를 표현합니다.
+ * 키워드: Indent, 개행
+ */
 const IconArrowTurnDownRight = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (
