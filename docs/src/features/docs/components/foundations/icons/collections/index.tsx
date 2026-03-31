@@ -104,7 +104,7 @@ const Collections = ({ icons }: Props) => {
               <PopoverContent
                 variant="custom"
                 sx={{
-                  padding: '20px 24px',
+                  padding: '20px 24px 24px',
                 }}
                 data-role="icon-detail-popover"
                 wrapperProps={{ sx: iconPopoverWrapperStyle }}
