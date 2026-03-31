@@ -86,7 +86,7 @@ const Collections = ({ icons }: Props) => {
           return (
             <Popover key={icon.name}>
               <PopoverTrigger>
-                <WithInteraction scale variant="light">
+                <WithInteraction variant="light">
                   <FlexBox
                     flexDirection="column"
                     alignItems="center"

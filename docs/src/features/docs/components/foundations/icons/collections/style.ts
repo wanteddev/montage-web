@@ -34,7 +34,6 @@ export const iconItemStyle = (theme: Theme) => css`
     & > [wds-component='with-interaction'] {
       background-color: ${theme.semantic.primary.normal};
       opacity: 0.06;
-      transform: translate(-50%, -50%) scale(1);
     }
   }
 
