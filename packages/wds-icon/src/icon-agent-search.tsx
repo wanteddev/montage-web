@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * AI 에이전틱 검색 기능을 표현합니다.
  * 키워드: AI, AI agent, 에이전트, 검색, AI search, Agent Search, 에이전트 서치, 채용 에이전트
- **/
+ */
 const IconAgentSearch = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 유튜브 로고를 표현합니다.
  * 키워드: YouTube, 유튭, 유튜브, 로고, Icon, Size, Small
- **/
+ */
 const IconLogoYoutubeColor = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

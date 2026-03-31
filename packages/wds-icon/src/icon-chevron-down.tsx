@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 아래쪽 방향의 꺽쇠를 표현합니다. 굵기와 사이즈 옵션을 조절할 수 있습니다.
  * 키워드: Chevron, Arrow, Down, Bottom, 꺽쇠, 아래,  화살표, 표시, 하단
- **/
+ */
 const IconChevronDown = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 삼각형을 표현합니다.
  * 키워드: Triangle, 삼각형
- **/
+ */
 const IconTriangleFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

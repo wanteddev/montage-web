@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 인증된 상태를 표현합니다.
  * 키워드: 인증, 체크, 뱃지, 확인, Verified, Check, Badge
- **/
+ */
 const IconVerifiedCheck = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 특정 정보를 즐겨찾을 때 사용합니다.
  * 키워드: Favorite, Star, 즐겨찾기, 선호하는 정보, 별
- **/
+ */
 const IconStarFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

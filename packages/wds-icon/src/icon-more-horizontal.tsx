@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 추가 요소를 표시할 때 사용합니다.
  * 키워드: More, 3dots, see more, 추가, 땡땡떙
- **/
+ */
 const IconMoreHorizontal = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

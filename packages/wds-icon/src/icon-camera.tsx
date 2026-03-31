@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 사진을 촬영할 때 사용합니다.
  * 키워드: 사진, Capture, Camera, 캡쳐, 촬영
- **/
+ */
 const IconCamera = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

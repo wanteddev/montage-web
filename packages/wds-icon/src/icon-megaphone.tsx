@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 알리는 상황에서 사용합니다.
  * 키워드: Announcement
- **/
+ */
 const IconMegaphone = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

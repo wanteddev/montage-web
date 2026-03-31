@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 정보를 필터링할 때 사용합니다.
  * 키워드: 필터, Filter, 깔때기
- **/
+ */
 const IconFilterFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

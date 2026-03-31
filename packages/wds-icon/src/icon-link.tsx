@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * URL을 복사할 때 사용합니다.
  * 키워드: URL, Link, 인터넷, 온라인, Online, Internet, 링크, 주소창
- **/
+ */
 const IconLink = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

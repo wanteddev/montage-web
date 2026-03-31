@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 데스크톱 기기를 표현합니다.
  * 키워드: Computer, PC, 컴퓨터, 모니터, Monitor
- **/
+ */
 const IconDesktop = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

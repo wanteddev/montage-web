@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 모바일 환경 하단의 내비게이션 바에 들어가는 아이콘입니다.
  * 키워드: 소셜 내비게이션, Social navigation
- **/
+ */
 const IconNavigationSocial = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

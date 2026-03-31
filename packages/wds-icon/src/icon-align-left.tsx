@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 왼쪽 정렬을 표현합니다.
  * 키워드: paragraph, 얼라인
- **/
+ */
 const IconAlignLeft = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

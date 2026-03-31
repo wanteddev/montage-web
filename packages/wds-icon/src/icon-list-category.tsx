@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 여러 목록을 표현합니다.
  * 키워드: 리스트, 메뉴, List, Menu
- **/
+ */
 const IconListCategory = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

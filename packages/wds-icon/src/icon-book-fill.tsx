@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 책을 표현합니다.
  * 키워드: 책, Book, Library, 도서관, 북
- **/
+ */
 const IconBookFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

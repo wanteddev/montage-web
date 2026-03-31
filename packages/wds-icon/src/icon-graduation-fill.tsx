@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 학위, 교육 이력을 표현합니다.
  * 키워드: 졸업, 학사모, Graduation, Education, 교육과정, 학위, Degree
- **/
+ */
 const IconGraduationFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 즐겨찾기한 폴더를 표현합니다.
  * 키워드: Menu Star
- **/
+ */
 const IconFolderStar = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

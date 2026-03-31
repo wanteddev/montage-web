@@ -70,7 +70,7 @@ const icons = iconExports.map(({ name, modulePath }) => {
 
   if (fs.existsSync(filePath)) {
     const content = fs.readFileSync(filePath, 'utf-8');
-    const jsdocMatch = content.match(/\/\*\*\s*\n([\s\S]*?)\*\*\//);
+    const jsdocMatch = content.match(/\/\*\*\s*\n([\s\S]*?)\*\//);
     if (jsdocMatch) {
       description = jsdocMatch[1]
         .split('\n')

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 추가적인 정보를 분명히 표시할 때 사용합니다.
  * 키워드: 더 많은 정보, More, 땡땡땡, 3 dots, additional information
- **/
+ */
 const IconSquareMore = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

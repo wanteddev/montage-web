@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 다이아몬드를 표현합니다.
  * 키워드: 보석, Jewelry, 주얼리
- **/
+ */
 const IconDiamond = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

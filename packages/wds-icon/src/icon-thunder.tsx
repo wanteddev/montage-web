@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 번개처럼 빠른 상태 및 연상되는 기능을 표현합니다.
  * 키워드: Lightning, Zap, Thunder, 번개, 빠름, 우사인볼트, Volt, Fast
- **/
+ */
 const IconThunder = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

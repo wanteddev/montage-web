@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 태그를 표현합니다.
  * 키워드: tag, label, 라벨
- **/
+ */
 const IconTagFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

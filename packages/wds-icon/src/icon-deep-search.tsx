@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 딥서치 기능을 표현합니다.
  * 키워드: Deep Search, Search, 검색, 검색 관리, 딥서치, Deep Search, 리스트, 검색 리스트
- **/
+ */
 const IconDeepSearch = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

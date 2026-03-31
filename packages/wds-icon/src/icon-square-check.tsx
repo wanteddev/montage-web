@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 체크박스를 표현합니다.
  * 키워드: 박스 체크, Box Check
- **/
+ */
 const IconSquareCheck = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

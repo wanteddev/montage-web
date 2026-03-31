@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 초기화를 표현합니다.
  * 키워드: Arrow Counter Clockwise, 반시계 화살표
- **/
+ */
 const IconReset = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

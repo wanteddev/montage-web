@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 셀렉트 박스를 표현합니다.
  * 키워드: 박스 캐럿, Box Caret
- **/
+ */
 const IconSquareCaret = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

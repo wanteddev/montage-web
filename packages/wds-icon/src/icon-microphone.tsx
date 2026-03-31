@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 마이크를 표현합니다.
  * 키워드: record, 마이크, 녹음
- **/
+ */
 const IconMicrophone = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

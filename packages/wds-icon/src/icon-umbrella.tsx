@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 우산을 표현합니다.
  * 키워드: Rain, 비, 날씨, Weather
- **/
+ */
 const IconUmbrella = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

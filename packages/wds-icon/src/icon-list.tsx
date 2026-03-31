@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 리스트로 표시할 때 사용합니다.
  * 키워드: 불릿 리스트, Unordered List, Bullet List
- **/
+ */
 const IconList = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

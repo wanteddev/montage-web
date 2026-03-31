@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 읽은 이메일을 표현합니다.
  * 키워드: Email, Mail, Letter, 이메일, 편지, 레터
- **/
+ */
 const IconMailOpen = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

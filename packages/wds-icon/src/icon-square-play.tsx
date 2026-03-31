@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 동영상 프레임을 표현합니다.
  * 키워드: video, 비디오
- **/
+ */
 const IconSquarePlay = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

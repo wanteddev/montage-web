@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 작은 아래쪽 화살표를 표현합니다.
  * 키워드: Bottom, Down, Caret, 캐릿
- **/
+ */
 const IconCaretDown = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 네이버 블로그 로고를 표현합니다.
  * 키워드: Naver Blog, 네이버 블로그, 로고, Icon, Size, Small
- **/
+ */
 const IconLogoNaverBlogColor = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

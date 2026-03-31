@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 업데이트된 내용을 표현합니다.
  * 키워드: 점, Dot
- **/
+ */
 const IconDot = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

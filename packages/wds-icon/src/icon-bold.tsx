@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 텍스트의 두께를 표현합니다.
  * 키워드: Bold, 두께, B, b, 폰트, 볼드
- **/
+ */
 const IconBold = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

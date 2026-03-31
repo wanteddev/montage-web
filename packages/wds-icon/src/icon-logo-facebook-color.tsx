@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 페이스북 로고를 표현합니다.
  * 키워드: 페이스북, 로고, 페북, Facebook, Meta, Icon, Size, Small
- **/
+ */
 const IconLogoFacebookColor = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

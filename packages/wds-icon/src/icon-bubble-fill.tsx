@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 댓글을 표현합니다.
  * 키워드: Comment, Bubble, 버블, 코멘트, 댓글, 답글, Reply
- **/
+ */
 const IconBubbleFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 정보의 변화가 없음을 표현합니다.
  * 키워드: 수평라인, 라인, 수평선, Horizontal Line
- **/
+ */
 const IconLineHorizontalThick = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

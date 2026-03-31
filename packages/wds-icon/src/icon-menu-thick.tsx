@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 메뉴를 표시할 때 사용합니다.
  * 키워드: hamburger, 햄버거, 삼선 메뉴, menu
- **/
+ */
 const IconMenuThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

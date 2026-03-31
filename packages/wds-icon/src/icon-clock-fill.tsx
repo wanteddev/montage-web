@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 시간을 표현합니다.
  * 키워드: 시계, clock
- **/
+ */
 const IconClockFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

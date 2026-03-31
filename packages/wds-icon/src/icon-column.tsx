@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 컬럼을 표현합니다.
  * 키워드: 계층, 칸반, Kanban
- **/
+ */
 const IconColumn = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

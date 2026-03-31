@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 컴포넌트를 표현합니다.
  * 키워드: Component
- **/
+ */
 const IconComponent = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

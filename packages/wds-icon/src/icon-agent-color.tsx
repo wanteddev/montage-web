@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 에이전트를 표현합니다.
  * 키워드: agent, AI, 에이전트
- **/
+ */
 const IconAgentColor = forwardRef<SVGSVGElement, Props>((props, ref) => {
   const id1 = useId();
   return (

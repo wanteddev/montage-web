@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 속도를 표현합니다.
  * 키워드: thunder, 번개, 속도, fast
- **/
+ */
 const IconZepFastFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

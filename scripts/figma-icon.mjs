@@ -86,7 +86,7 @@ const main = async () => {
     const fileName = kebabCase(name);
 
     const comment = description
-      ? `/**\n * ${description.split('\n').join('\n * ')}\n **/`
+      ? `/**\n * ${description.split('\n').join('\n * ')}\n */`
       : '';
 
     const fileContent = `import { Box } from '@wanteddev/wds-engine';

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 안드로이드 기기를 표현합니다.
  * 키워드: 안드로이드, Android
- **/
+ */
 const IconAndroid = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

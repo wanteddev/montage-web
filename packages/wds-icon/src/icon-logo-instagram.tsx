@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 인스타그램 로고를 표현합니다.
  * 키워드: 인스타그램, 인스타, 로고, Instagram, Insta, IG logo, 메타, Meta
- **/
+ */
 const IconLogoInstagram = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 알파벳, 라틴 문자를 표현합니다.
  * 키워드: Latin, English, International, Global, Letter, Alphabet, 영어, 글로벌, 문자, 알파벳
- **/
+ */
 const IconSquareLatin = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

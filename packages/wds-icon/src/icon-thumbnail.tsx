@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 여러 정보를 썸네일 형태로 표시할 때 사용합니다.
  * 키워드: Gallery, 갤러리, 썸네일, Thumbnail
- **/
+ */
 const IconThumbnail = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -10,7 +10,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 기본 표시를 위한 아이콘으로, 쓰지 않습니다.
- **/
+ */
 const IconBlank = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

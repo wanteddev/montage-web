@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 마이크로소프트 로고를 표현합니다.
  * 키워드: 마소
- **/
+ */
 const IconLogoMicrosoft = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

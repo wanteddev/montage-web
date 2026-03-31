@@ -11,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 첨부파일을 표현합니다.
  * 키워드: paperclip, 클립
- **/
+ */
 const IconAttachment = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box
