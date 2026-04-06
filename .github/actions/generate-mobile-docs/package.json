@@ -6,7 +6,7 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/exec": "^1.1.1",
-    "glob": "^11.0.3",
+    "glob": "^11.1.0",
     "gray-matter": "^4.0.3",
     "typescript": "^5.9.3"
   },
@@ -16,7 +16,7 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "esbuild src/index.ts --platform=node --bundle --outfile=dist/index.js"
+    "build": "esbuild src/index.ts --platform=node --bundle --format=esm --outfile=dist/index.mjs --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\""
   },
   "repository": {
     "url": "https://github.com/wanteddev/montage-web",
@@ -24,6 +24,6 @@
     "directory": ".github/actions/generate-mobile-docs"
   },
   "devDependencies": {
-    "esbuild": "^0.20.2"
+    "esbuild": "^0.25.12"
   }
 }

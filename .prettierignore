@@ -4,3 +4,5 @@ docs/data/**/*.mdx
 docs/data/**/*.md
 
 figma/icons/index.figma.tsx
+/.nx/cache
+/.nx/workspace-data
