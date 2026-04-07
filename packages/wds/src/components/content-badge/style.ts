@@ -40,8 +40,7 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
         ${typographyStyle('label2', 'medium')}
 
         svg {
-          width: 14px;
-          height: 14px;
+          font-size: 14px;
         }
       `;
     case 'small':
@@ -52,8 +51,7 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
         ${typographyStyle('caption1', 'medium')}
 
         svg {
-          width: 14px;
-          height: 14px;
+          font-size: 14px;
         }
       `;
     case 'xsmall':
@@ -64,8 +62,7 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
         ${typographyStyle('caption2', 'medium')}
 
         svg {
-          width: 12px;
-          height: 12px;
+          font-size: 12px;
         }
       `;
   }
