@@ -56,17 +56,18 @@ export default Demo;`}
 - medium
 
 <Demo code={`import { ContentBadge, FlexBox } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <ContentBadge color="neutral" size="xsmall">
+      <ContentBadge color="neutral" size="xsmall" leadingContent={<IconPlusThick />}>
         Content badge
       </ContentBadge>
-      <ContentBadge color="neutral" size="small">
+      <ContentBadge color="neutral" size="small" leadingContent={<IconPlusThick />}>
         Content badge
       </ContentBadge>
-      <ContentBadge color="neutral" size="medium">
+      <ContentBadge color="neutral" size="medium" leadingContent={<IconPlusThick />}>
         Content badge
       </ContentBadge>
     </FlexBox>
