@@ -110,6 +110,7 @@ export const getSourceBySlug = async (slug: Array<string>) => {
 
   return serialize<unknown, Frontmatter>(source, {
     parseFrontmatter: true,
+    blockJS: false,
     mdxOptions: {
       rehypePlugins: [rehypeSlug],
       remarkPlugins: [remarkGfm, remarkStyle, remarkTable, remarkPropsTable],
