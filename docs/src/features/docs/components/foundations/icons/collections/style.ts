@@ -26,6 +26,7 @@ export const iconItemStyle = (theme: Theme) => css`
   justify-content: center;
   box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.alternative};
   transition: box-shadow 0.15s ease;
+  color: ${theme.semantic.label.normal};
 
   &[aria-expanded='true'] {
     box-shadow: inset 0 0 0 1px
