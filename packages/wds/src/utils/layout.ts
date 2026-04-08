@@ -15,19 +15,13 @@ export const containerStyle = (xl?: boolean) => (theme: Theme) => css`
 
   ${respondMore(theme.breakpoint.sm)} {
     width: 90%;
-    max-width: 1060px;
+
+    ${xl
+      ? css`
+          max-width: 1400px;
+        `
+      : css`
+          max-width: 1060px;
+        `}
   }
-
-  ${xl &&
-  css`
-    ${respondMore(theme.breakpoint.lg)} {
-      width: 90%;
-      max-width: 1400px;
-    }
-
-    ${respondMore(theme.breakpoint.xl)} {
-      width: 90%;
-      max-width: 1400px;
-    }
-  `}
 `;
