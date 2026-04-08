@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.4](https://github.com/wanteddev/montage-web/compare/v3.4.3...v3.4.4) (2026-04-08)
+
+### Bug Fixes
+
+- **docs:** 아이콘 문서 페이지 아이콘 색상 지정 ([#534](https://github.com/wanteddev/montage-web/issues/534)) ([4bd51c0](https://github.com/wanteddev/montage-web/commit/4bd51c0f653d5dbae083b21ae1819d97e542a7ec))
+- **wds:** containerStyle xl breakpoint 스타일 수정 ([#532](https://github.com/wanteddev/montage-web/issues/532)) ([fa0284d](https://github.com/wanteddev/montage-web/commit/fa0284dbe2a0dd32ce8d912d7d5b0f72cbaaa8ac))
+- **wds:** fallback-view title 색상이 상속되지 않도록 수정 ([#533](https://github.com/wanteddev/montage-web/issues/533)) ([b6b41a9](https://github.com/wanteddev/montage-web/commit/b6b41a9593a3f1936e8e6f678dd47ee33a58a114))
+
 ## [3.4.3](https://github.com/wanteddev/montage-web/compare/v3.4.2...v3.4.3) (2026-03-25)
 
 ### Bug Fixes
