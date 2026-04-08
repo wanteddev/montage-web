@@ -1,7 +1,7 @@
 {
   "name": "generate-mobile-docs",
   "version": "0.0.0",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "private": true,
   "dependencies": {
     "@actions/core": "^1.11.1",

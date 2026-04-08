@@ -2,7 +2,7 @@
   "name": "@wanteddev/wds-mcp",
   "version": "3.4.3",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@modelcontextprotocol/sdk": "1.29.0",
     "@wanteddev/wds-theme": "workspace:*",
     "change-case": "^5.4.4",
     "cheerio": "^1.2.0",

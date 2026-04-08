@@ -5,8 +5,7 @@
       "cache": true
     },
     "watch": {
-      "dependsOn": ["^watch"],
-      "cache": true
+      "dependsOn": ["^watch"]
     },
     "lint:fix": {
       "cache": true
