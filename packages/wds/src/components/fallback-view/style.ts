@@ -23,6 +23,7 @@ export const fallbackViewStyle =
 
     [data-role='fallback-view-text-title'] {
       text-align: center;
+      color: ${theme.semantic.label.normal};
     }
     [data-role='fallback-view-text-description'] {
       text-align: center;
