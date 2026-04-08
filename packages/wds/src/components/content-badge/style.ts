@@ -34,8 +34,8 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
   switch (size) {
     case 'medium':
       return css`
-        border-radius: 10px;
-        padding: 7px 8px;
+        border-radius: 8px;
+        padding: 5px 8px;
         gap: 4px;
         ${typographyStyle('label2', 'medium')}
 
