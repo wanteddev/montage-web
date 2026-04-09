@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.5](https://github.com/wanteddev/montage-web/compare/v3.4.4...v3.4.5) (2026-04-09)
+
+### Bug Fixes
+
+- **wds:** next-themes hydration 이슈로 인한 scriptProps 설정 ([#535](https://github.com/wanteddev/montage-web/issues/535)) ([fd4cdb6](https://github.com/wanteddev/montage-web/commit/fd4cdb6ae27d0077c6076b32ec684f240a0946d3))
+
 ## [3.4.4](https://github.com/wanteddev/montage-web/compare/v3.4.3...v3.4.4) (2026-04-08)
 
 ### Bug Fixes
