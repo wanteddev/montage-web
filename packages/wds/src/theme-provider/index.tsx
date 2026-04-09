@@ -29,8 +29,15 @@ const ThemeProvider = ({
   disableDefaultGlobalStyle = false,
   provider,
 }: Props) => {
+  // https://github.com/pacocoursey/next-themes/issues/387#issuecomment-4181891723
+  const scriptProps =
+    typeof window === 'undefined'
+      ? undefined
+      : ({ type: 'application/json' } as const);
+
   return (
     <NextThemeProvider
+      scriptProps={scriptProps}
       themes={enableDarkMode ? ['light', 'dark'] : ['light']}
       enableSystem={enableDarkMode || false}
       enableColorScheme
