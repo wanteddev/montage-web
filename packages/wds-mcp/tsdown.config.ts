@@ -15,8 +15,21 @@ const rawTextPlugin = () => ({
   },
 });
 
+const jsonPlugin = () => ({
+  name: 'json-default-export',
+  load(id: string) {
+    if (id.endsWith('.json') && !id.endsWith('package.json')) {
+      const content = fs.readFileSync(id, 'utf-8');
+      return {
+        code: `export default (${content});`,
+        moduleType: 'js',
+      };
+    }
+  },
+});
+
 export default defineConfiguration({
   entry: ['src/**/*.ts', 'src/**/*.tsx'],
   format: ['esm'],
-  plugins: [rawTextPlugin()],
+  plugins: [rawTextPlugin(), jsonPlugin()],
 });

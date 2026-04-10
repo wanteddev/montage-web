@@ -1,6 +1,6 @@
 ---
 name: montage-react
-description: React 프로젝트에서 Montage(WDS) 기반 컴포넌트 개발 가이드. React UI 컴포넌트, 스타일링, 아이콘 작업 시 사용
+description: React/Next.js 프로젝트에서 Montage(WDS, Wanted Design System) 기반 UI 개발 가이드. 컴포넌트 구현, 페이지/화면 생성, 스타일링(sx, theme, 디자인 토큰), 아이콘, 유틸리티 함수 사용 시 트리거. @wanteddev/wds 패키지 사용 프로젝트에서 활성화
 ---
 
 # montage-react
@@ -9,22 +9,37 @@ React 프로젝트에서 Wanted Design System(WDS, Montage)을 기반으로 컴�
 
 ## When to use
 
-다음 조건에 해당하면 이 skill을 자동으로 적용합니다:
+다음 조건 중 하나라도 해당하면 이 skill을 적용합니다:
 
-- React 프로젝트에서 작업할 때 (package.json에 react 의존성이 있는 경우)
-- UI 컴포넌트를 생성하거나 수정할 때
-- 스타일링 작업을 할 때
-- 아이콘을 사용할 때
+- `@wanteddev/wds`, `@wanteddev/wds-icon` 등 WDS 패키지를 사용하는 프로젝트에서 작업할 때
+- UI 컴포넌트를 생성, 수정, 또는 조회할 때 (예: "Button 만들어줘", "Modal 사용법 알려줘", "Table 컴포넌트 조회해줘")
+- 페이지나 화면을 구현할 때 (예: "로그인 페이지 만들어줘", "대시보드 화면 구현해줘")
+- 스타일링 작업을 할 때 (예: sx prop, theme 토큰, 색상, 타이포그래피)
+- 아이콘을 찾거나 사용할 때 (예: "아이콘 목록 보여줘", "검색 아이콘 뭐 있어?")
+- Figma 디자인을 코드로 구현할 때
+- WDS/Montage/디자인 시스템에 대해 질문할 때
 
 ## Instructions
+
+### 0. MCP 서버 연결 확인 (필수, 최우선)
+
+MCP 도구를 사용하기 전에 **반드시** `montage-mcp-server` MCP 서버의 연결 상태를 확인합니다.
+
+`mcp__montage-mcp-server__list_components`를 호출하여 연결 상태를 확인합니다.
+
+- **도구를 찾을 수 없는 경우** (MCP 서버 미연결): 사용자에게 MCP 서버가 연결되어 있지 않다고 안내합니다. `/mcp` 명령어를 실행하여 `montage-mcp-server`를 연결하도록 안내합니다.
+- **인증 오류가 발생하는 경우**: 사용자에게 로그인이 필요하다고 안내합니다. `/mcp` 명령어를 실행하면 인증 절차를 진행할 수 있다고 안내합니다.
+- **기타 오류가 발생하는 경우**: 사용자에게 MCP 서버에 접근할 수 없다고 안내하고, 나중에 다시 시도하도록 제안합니다.
+
+연결 확인에 실패하면 이후 단계를 진행하지 않고, 사용자의 응답을 기다립니다.
+
+### 1. 코딩 가이드라인 확인 (필수)
 
 처음부터 React.js, Next.js 셋팅을 할 때에는 도구를 활용합니다.
 
 ```
 mcp__montage-mcp-server__getting_started
 ```
-
-### 1. 코딩 가이드라인 확인 (필수)
 
 컴포넌트 작성 전 **반드시** WDS 코딩 가이드라인을 먼저 확인합니다.
 
