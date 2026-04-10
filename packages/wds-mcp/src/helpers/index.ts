@@ -3,12 +3,11 @@ import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
 import semver from 'semver';
 
-import api from '../../../../docs/generated/api.json';
+import componentApi from '../../../../docs/generated/api.json';
 import icons from '../../../../docs/generated/icons.json';
 import readme from '../../../wds/README.md';
 import { DOCS_BASE_URL } from '../constants';
 
-const componentApi = api;
 const iconNames = icons.map(({ name }) => name);
 
 export const getDocsBaseUrl = (version: string) => {
@@ -48,55 +47,25 @@ export const getGuideUrls = async (version: string) => {
 };
 
 export const listComponents = () => {
-  const components = componentApi.map((component) => component.name).sort();
+  const componentDir = (filePath: string) =>
+    filePath.split('/components/')[1]?.split('/')[0] ?? '';
 
-  const parsedComponents: Array<{
-    name: string;
-    subComponents: Array<string>;
-  }> = [];
+  const groups = new Map<string, Array<string>>();
 
-  for (const name of components) {
-    if (['ListCell', 'FormField'].includes(name)) {
-      parsedComponents.push({
-        name,
-        subComponents: [],
-      });
-      continue;
+  for (const component of componentApi) {
+    const dir = componentDir(component.filePath);
+    const existing = groups.get(dir);
+    if (existing) {
+      existing.push(component.name);
+    } else {
+      groups.set(dir, [component.name]);
     }
-
-    const parentComponentIdx = parsedComponents.findIndex(
-      (component) =>
-        name.startsWith(component.name) ||
-        ([
-          'FormControl',
-          'FormLabel',
-          'FormMessage',
-          'FormErrorMessage',
-        ].includes(name) &&
-          component.name === 'FormField'),
-    );
-
-    if (parentComponentIdx === -1) {
-      parsedComponents.push({
-        name,
-        subComponents: [],
-      });
-      continue;
-    }
-
-    const parentComponent = parsedComponents[parentComponentIdx]!;
-
-    if (
-      parentComponent.subComponents.includes(name) ||
-      parentComponent.name === name
-    ) {
-      continue;
-    }
-
-    parentComponent.subComponents.push(name);
   }
 
-  return parsedComponents;
+  return Array.from(groups.values()).map((names) => ({
+    name: names[0]!,
+    subComponents: names.slice(1),
+  }));
 };
 
 export const listIcons = () => iconNames;
