@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.6](https://github.com/wanteddev/montage-web/compare/v3.4.5...v3.4.6) (2026-04-10)
+
+### Bug Fixes
+
+- **wds-mcp:** 컴포넌트 그룹핑 로직 및 JSON 빌드 오류 수정 ([#536](https://github.com/wanteddev/montage-web/issues/536)) ([9e2066c](https://github.com/wanteddev/montage-web/commit/9e2066c85fb641490d63eeb206f79fd6e7a8f04b))
+
 ## [3.4.5](https://github.com/wanteddev/montage-web/compare/v3.4.4...v3.4.5) (2026-04-09)
 
 **Note:** Version bump only for package @wanteddev/wds-mcp
