@@ -47,13 +47,21 @@ export const getGuideUrls = async (version: string) => {
 };
 
 export const listComponents = () => {
-  const componentDir = (filePath: string) =>
-    filePath.split('/components/')[1]?.split('/')[0] ?? '';
+  function getComponentDir(filePath: string | undefined): string | undefined {
+    if (!filePath) return undefined;
+    return filePath.split('/components/')[1]?.split('/')[0];
+  }
 
   const groups = new Map<string, Array<string>>();
 
   for (const component of componentApi) {
-    const dir = componentDir(component.filePath);
+    const dir = getComponentDir(component.filePath);
+
+    if (!dir) {
+      groups.set(component.name, [component.name]);
+      continue;
+    }
+
     const existing = groups.get(dir);
     if (existing) {
       existing.push(component.name);
@@ -62,10 +70,17 @@ export const listComponents = () => {
     }
   }
 
-  return Array.from(groups.values()).map((names) => ({
-    name: names[0]!,
-    subComponents: names.slice(1),
-  }));
+  return Array.from(groups.entries()).map(([dir, names]) => {
+    const dirPascalCase = dir
+      .split('-')
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join('');
+    const primaryIdx = names.findIndex((n) => n === dirPascalCase);
+    const primary = primaryIdx !== -1 ? names[primaryIdx]! : names[0]!;
+    const subComponents = names.filter((n) => n !== primary);
+
+    return { name: primary, subComponents };
+  });
 };
 
 export const listIcons = () => iconNames;
