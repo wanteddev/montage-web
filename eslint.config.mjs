@@ -239,6 +239,7 @@ export default defineConfig(
     '.nx',
     '**/node_modules',
     '**/dist',
+    'packages/**/bin',
     'docs/src/data.json',
     'docs/next-env.d.ts',
     'docs/.next',
