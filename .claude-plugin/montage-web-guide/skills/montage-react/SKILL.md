@@ -64,11 +64,11 @@ mcp__montage-mcp-server__get_component({ componentName: "ComponentName" })
 
 **Important**: Looking up the **parent component** instead of a sub-component gives you the full composition pattern (Anatomy) and all APIs at once.
 
-- For Modal: `get_component("Modal")` — includes ModalContainer, ModalNavigation, etc.
-- For Card: `get_component("Card")` — includes CardThumbnail, CardContent, etc.
-- For Tab: `get_component("Tab")` — includes TabList, TabListItem, TabPanel, etc.
+- For Modal: `get_component({ componentName: "Modal" })` — includes ModalContainer, ModalNavigation, etc.
+- For Card: `get_component({ componentName: "Card" })` — includes CardThumbnail, CardContent, etc.
+- For Tab: `get_component({ componentName: "Tab" })` — includes TabList, TabListItem, TabPanel, etc.
 
-When unsure which Typography variant to use, call `get_component("Typography")` to check the size table for each variant.
+When unsure which Typography variant to use, call `get_component({ componentName: "Typography" })` to check the size table for each variant.
 
 #### 2.2 Prefer Montage Components
 
@@ -175,21 +175,57 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
 
 - **Never use CSS variable (`var(--semantic-...)`) directly.** Always access colors through the `theme` callback (e.g., `sx={theme => ({ color: theme.semantic.label.normal })}`). CSS variable names are internal implementation details and may change without notice.
 - Colors: use semantic color tokens instead of `#RRGGBB` (fall back to atomic colors if not possible). Use `get_color_usage` to look up which token to use for a given purpose.
-- Typography: use the Typography component or `typographyStyle` utility. Use `get_component("Typography")` to look up the variant/size table.
+- Typography: use the Typography component or `typographyStyle` utility. Use `get_component({ componentName: "Typography" })` to look up the variant/size table.
 - Shadows: use `theme.semantic.elevation.shadow.normal.*`
 - Opacity: **must** use `addOpacity` utility + `theme.opacity[N]`. Theme color values are CSS variables (e.g. `var(--semantic-primary-normal)`), so appending hex alpha strings directly will **NOT** work. Available opacity keys: `0, 5, 8, 12, 16, 22, 28, 35, 43, 52, 61, 74, 88, 97, 100`.
 
-  ```tsx
-  // WRONG - never do this. The result is broken CSS like "var(--semantic-primary-normal)0A"
-  backgroundColor: theme.semantic.primary.normal + '0A';
-  border: `1px solid ${theme.semantic.primary.normal}33`;
-
-  // CORRECT - use addOpacity utility
+  ```ts
+  // use addOpacity utility
   import { addOpacity } from '@wanteddev/wds';
 
-  backgroundColor: addOpacity(theme.semantic.primary.normal, theme.opacity[5]);
-  border: `1px solid ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])}`;
+  import type { Theme } from '@wanteddev/wds';
+
+  const wrapperStyle = (theme: Theme) => css`
+    background-color: addOpacity(
+      theme.semantic.primary.normal,
+      theme.opacity[5]
+    );
+    border: 1px solid
+      ${addOpacity(theme.semantic.primary.normal, theme.opacity[22])};
+  `;
   ```
+
+  **When implementing a Figma design:**
+  - If Figma specifies an opacity value that does not match any `theme.opacity[N]` key, use the raw number directly (e.g., `opacity: 0.07`) instead of a token.
+  - If the Figma design renders the opacity as a **colored overlay layer** (not fading the element itself), implement it via `::before` / `::after` pseudo-element so child content stays fully opaque. When the parent has `border-radius`, the pseudo-element **must** also set `borderRadius: 'inherit'`, otherwise the overlay will overflow the rounded corners.
+
+    ```ts
+    // style.ts
+    import { css } from '@wanteddev/wds';
+
+    import type { Theme } from '@wanteddev/wds';
+
+    export const overlayStyle = (theme: Theme) => css`
+      position: relative;
+      border-radius: 12px;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background-color: ${theme.semantic.fill.normal};
+        opacity: ${theme.opacity[8]};
+      }
+    `;
+    ```
+
+    ```tsx
+    // index.tsx
+    import { overlayStyle } from './style';
+
+    <Box sx={overlayStyle} />;
+    ```
 
 - Do not use spacing tokens. Use px values directly.
 
