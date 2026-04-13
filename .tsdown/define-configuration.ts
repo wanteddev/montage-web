@@ -1,8 +1,8 @@
 import { defineConfig } from 'tsdown';
 
-import type { Options } from 'tsdown';
+import type { UserConfig } from 'tsdown';
 
-export const defineConfiguration = (opts: Partial<Options>) =>
+export const defineConfiguration = (opts: Partial<UserConfig>) =>
   defineConfig({
     format: ['cjs', 'esm'],
     target: ['chrome91', 'firefox90', 'edge91', 'safari15', 'ios15', 'opera77'],
@@ -10,8 +10,11 @@ export const defineConfiguration = (opts: Partial<Options>) =>
     dts: true,
     clean: true,
     treeshake: true,
-    bundle: true,
-    external: ['react', 'react-dom', 'next'],
+    deps: {
+      neverBundle: ['react', 'react-dom', 'next'],
+      ...opts.deps,
+    },
+    fixedExtension: false,
     cjsDefault: false,
     ...opts,
     outputOptions: {
