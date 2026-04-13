@@ -7,12 +7,12 @@ import { getFirestore } from 'firebase-admin/firestore';
 import type {
   AuthorizationParams,
   OAuthServerProvider,
-} from '@modelcontextprotocol/sdk/server/auth/provider';
-import type { AuthInfo } from '@modelcontextprotocol/sdk/server/auth/types';
+} from '@modelcontextprotocol/sdk/server/auth/provider.js';
+import type { AuthInfo } from '@modelcontextprotocol/sdk/server/auth/types.js';
 import type {
   OAuthClientInformationFull,
   OAuthTokens,
-} from '@modelcontextprotocol/sdk/shared/auth';
+} from '@modelcontextprotocol/sdk/shared/auth.js';
 import type { Request, Response } from 'express';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID ?? '';
