@@ -35,6 +35,7 @@ const firebaseApp = initializeApp(
 const firebaseAuth = getAuth(firebaseApp);
 const firestore = getFirestore(firebaseApp, 'montage-storage');
 const refreshTokensCollection = firestore.collection('refreshTokens');
+const clientsCollection = firestore.collection('clients');
 
 interface PendingAuth {
   clientId: string;
@@ -50,7 +51,6 @@ interface StoredAuthCode {
 }
 
 const TTL = {
-  CLIENT: 24 * 60 * 60 * 1000, // 24h
   PENDING_AUTH: 10 * 60 * 1000, // 10min
   AUTH_CODE: 5 * 60 * 1000, // 5min
 } as const;
@@ -80,7 +80,22 @@ class TtlMap<K, V> {
   }
 }
 
-const registeredClients = new TtlMap<string, OAuthClientInformationFull>();
+const clientRegistrationStore = {
+  async set(clientId: string, client: OAuthClientInformationFull) {
+    await clientsCollection
+      .doc(clientId)
+      .set(JSON.parse(JSON.stringify(client)));
+  },
+
+  async get(clientId: string): Promise<OAuthClientInformationFull | undefined> {
+    const doc = await clientsCollection.doc(clientId).get();
+
+    if (!doc.exists) return undefined;
+
+    return doc.data() as OAuthClientInformationFull;
+  },
+};
+
 const pendingAuths = new TtlMap<string, PendingAuth>();
 const authCodes = new TtlMap<string, StoredAuthCode>();
 
@@ -119,9 +134,10 @@ export const getServerUrl = () =>
 
 export const createOAuthProvider = (): OAuthServerProvider => ({
   clientsStore: {
-    getClient: async (clientId: string) => registeredClients.get(clientId),
+    getClient: async (clientId: string) =>
+      clientRegistrationStore.get(clientId),
     registerClient: async (client: OAuthClientInformationFull) => {
-      registeredClients.set(client.client_id, client, TTL.CLIENT);
+      await clientRegistrationStore.set(client.client_id, client);
       return client;
     },
   },
