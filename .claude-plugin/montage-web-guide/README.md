@@ -31,6 +31,7 @@ The following tools are available through the `@wanteddev/wds-mcp` MCP server:
 | `list_utility_functions` | List utility functions               |
 | `get_utility_function`   | View detailed utility function specs |
 | `getting_started`        | View WDS initial setup guide         |
+| `health_check`           | Check MCP server health status       |
 
 ### Skill: montage-react
 

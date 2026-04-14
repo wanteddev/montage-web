@@ -31,6 +31,7 @@ Wanted Design System(WDS) MCP와 skill이 포함된 플러그인입니다.
 | `list_utility_functions` | 유틸리티 함수 목록 조회   |
 | `get_utility_function`   | 유틸리티 함수 상세 조회   |
 | `getting_started`        | WDS 초기 셋팅 가이드 조회 |
+| `health_check`           | MCP 서버 상태 확인        |
 
 ### Skill: montage-react
 
