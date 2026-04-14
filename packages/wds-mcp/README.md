@@ -19,6 +19,7 @@ It provides AI coding assistants with access to WDS component documentation, des
 | `list_utility_functions` | List all available utility functions                         |
 | `get_utility_function`   | Get documentation for a specific utility function            |
 | `getting_started`        | Get installation and initial configuration guide             |
+| `health_check`           | Check the health status of the MCP server                    |
 
 ## Setup
 

@@ -536,6 +536,33 @@ or with the Typography component like:
     },
   );
 
+  server.registerTool(
+    'health_check',
+    {
+      description:
+        'Check the health status of the Montage MCP server. Returns server name, version, and status.',
+    },
+    () => {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: JSON.stringify(
+              {
+                status: 'ok',
+                name: 'Montage, Wanted Design System',
+                version,
+                timestamp: new Date().toISOString(),
+              },
+              null,
+              2,
+            ),
+          },
+        ],
+      };
+    },
+  );
+
   return server;
 };
 

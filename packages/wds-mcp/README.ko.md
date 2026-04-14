@@ -19,6 +19,7 @@ AI 코딩 어시스턴트에게 WDS 컴포넌트 문서, 디자인 토큰, 아�
 | `list_utility_functions` | 사용 가능한 유틸리티 함수 목록 조회                    |
 | `get_utility_function`   | 특정 유틸리티 함수의 문서 조회                         |
 | `getting_started`        | 설치 및 초기 설정 가이드 조회                          |
+| `health_check`           | MCP 서버의 상태 확인                                   |
 
 ## 설정
 
