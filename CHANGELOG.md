@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.4.7](https://github.com/wanteddev/montage-web/compare/v3.4.6...v3.4.7) (2026-04-14)
+
+### Bug Fixes
+
+- **wds-mcp:** oauth 클라이언트 등록 정보를 Firestore에 저장 ([#538](https://github.com/wanteddev/montage-web/issues/538)) ([2cd8173](https://github.com/wanteddev/montage-web/commit/2cd817397f45e83be4843a38482ee76d4eece259))
+
 ## [3.4.6](https://github.com/wanteddev/montage-web/compare/v3.4.5...v3.4.6) (2026-04-10)
 
 ### Bug Fixes
