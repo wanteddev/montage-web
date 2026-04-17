@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { composeEventHandlers } from '@radix-ui/primitive';
 
 import { ActionArea } from '../action-area';
@@ -44,8 +44,22 @@ const PickerActionAreaButton = forwardRef(
     }: PolymorphicPropsInternal<PickerActionAreaButtonProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { initialValue, value, timezone, onChangeComplete } =
+    const { initialValue, value, timezone, onChangeComplete, mode } =
       usePickerActionAreaContext(PICKER_ACTION_AREA_BUTTON_NAME);
+
+    const isRange = mode === 'range';
+
+    useEffect(() => {
+      if (
+        variant === 'now' &&
+        isRange &&
+        process.env.NODE_ENV !== 'production'
+      ) {
+        console.warn(
+          '[WDS] PickerActionAreaButton: "now" variant is not supported in DateRangePicker. Use "accept", "cancel", or "reset" instead.',
+        );
+      }
+    }, [variant, isRange]);
 
     switch (variant) {
       case 'now':
@@ -54,16 +68,18 @@ const PickerActionAreaButton = forwardRef(
             ref={ref}
             color="assistive"
             size="small"
+            disabled={isRange}
             {...props}
-            onClick={composeEventHandlers(props.onClick, () => {
-              onChangeComplete(dateTypeToDateObject(new Date(), timezone));
-            })}
-            sx={[
-              {
-                margin: '0px 6px',
-              },
-              props.sx,
-            ]}
+            onClick={
+              isRange
+                ? undefined
+                : composeEventHandlers(props.onClick, () => {
+                    onChangeComplete(
+                      dateTypeToDateObject(new Date(), timezone),
+                    );
+                  })
+            }
+            sx={[{ margin: '0px 6px' }, props.sx]}
           />
         );
       case 'cancel':
@@ -76,12 +92,7 @@ const PickerActionAreaButton = forwardRef(
             onClick={composeEventHandlers(props.onClick, () => {
               onChangeComplete(initialValue.current);
             })}
-            sx={[
-              {
-                margin: '0px 6px',
-              },
-              props.sx,
-            ]}
+            sx={[{ margin: '0px 6px' }, props.sx]}
           />
         );
       case 'reset':
@@ -92,14 +103,9 @@ const PickerActionAreaButton = forwardRef(
             size="small"
             {...props}
             onClick={composeEventHandlers(props.onClick, () => {
-              onChangeComplete(undefined);
+              onChangeComplete(isRange ? [undefined, undefined] : undefined);
             })}
-            sx={[
-              {
-                margin: '0px 6px',
-              },
-              props.sx,
-            ]}
+            sx={[{ margin: '0px 6px' }, props.sx]}
           />
         );
       case 'accept':
@@ -112,12 +118,7 @@ const PickerActionAreaButton = forwardRef(
             onClick={composeEventHandlers(props.onClick, () => {
               onChangeComplete(value);
             })}
-            sx={[
-              {
-                margin: '0px 6px',
-              },
-              props.sx,
-            ]}
+            sx={[{ margin: '0px 6px' }, props.sx]}
           />
         );
       default:
@@ -127,12 +128,7 @@ const PickerActionAreaButton = forwardRef(
             color="assistive"
             size="small"
             {...props}
-            sx={[
-              {
-                margin: '0px 6px',
-              },
-              props.sx,
-            ]}
+            sx={[{ margin: '0px 6px' }, props.sx]}
           />
         );
     }

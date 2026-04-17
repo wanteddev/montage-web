@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTheme } from '@wanteddev/wds-engine';
 
+import { useMedia } from '../../hooks/internal/use-media';
 import { getPreviousValue } from '../../utils/internal/responsive-props';
 
 import {
@@ -34,8 +35,7 @@ export const useDraggable = ({
 
   const breakpoint = useMemo(
     () => Object.keys(theme.breakpoint) as Array<keyof BreakPoint>,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    Object.values(theme),
+    [theme.breakpoint],
   );
 
   const variant = useMedia(
@@ -311,53 +311,4 @@ export const useDraggable = ({
     onMouseDown,
     onTouchStart: onMouseDown,
   };
-};
-
-const useMedia = <T>(
-  queries: Array<string>,
-  values: Array<T>,
-  defaultValue: T,
-): T => {
-  const [value, setValue] = useState(defaultValue);
-
-  const mediaQueryLists = useMemo(() => {
-    if (typeof window === 'undefined') {
-      return [];
-    }
-
-    return queries.map(function (q) {
-      return window.matchMedia(q);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, Object.values(queries));
-
-  const getValue = useCallback(() => {
-    if (typeof window === 'undefined') {
-      return defaultValue;
-    }
-
-    const index = mediaQueryLists.findIndex((mql) => mql.matches);
-
-    return typeof values[index] !== 'undefined'
-      ? (values[index] as T)
-      : defaultValue;
-  }, [defaultValue, values, mediaQueryLists]);
-
-  useEffect(() => {
-    const handler = () => {
-      setValue(getValue);
-    };
-
-    mediaQueryLists.forEach((mql) => {
-      handler();
-      mql.addEventListener('change', handler);
-    });
-
-    return () =>
-      mediaQueryLists.forEach((mql) =>
-        mql.removeEventListener('change', handler),
-      );
-  }, [mediaQueryLists, getValue]);
-
-  return value;
 };

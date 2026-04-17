@@ -24,6 +24,7 @@ import { timePickerStyle } from './style';
 import type { SlotProps } from '@radix-ui/react-slot';
 import type { TimePickerFieldProps, TimePickerProps } from './types';
 import type { DateType } from '../date-picker';
+import type { DateRangeType } from '../date-range-calendar/types';
 
 extendDayjs();
 
@@ -144,8 +145,8 @@ const TimePicker = forwardRef<
     );
 
     const handleChangeCompleteActionArea = useCallback(
-      (v: DateType) => {
-        handleChangeComplete(v);
+      (v: DateType | DateRangeType) => {
+        handleChangeComplete(v as DateType);
         setOpen(false);
       },
       [handleChangeComplete, setOpen],

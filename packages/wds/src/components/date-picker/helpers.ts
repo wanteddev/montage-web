@@ -730,3 +730,173 @@ export const getNumericFormatRange = (
       };
   }
 };
+
+/**
+ * Computes the new section value string for ArrowUp/ArrowDown.
+ */
+export const getIncrementedSectionValue = (
+  section: DateFormatSection,
+  direction: 'up' | 'down',
+  value: DateType,
+  timezone: string | undefined,
+): string | undefined => {
+  if (section.type === 'text') {
+    const optionIndex = section.options.indexOf(section.value);
+
+    if (direction === 'up') {
+      return section.options[
+        optionIndex === -1 ? 0 : (optionIndex + 1) % section.options.length
+      ];
+    }
+
+    return section.options[
+      optionIndex === -1
+        ? section.options.length - 1
+        : optionIndex === 0
+          ? section.options.length - 1
+          : optionIndex - 1
+    ];
+  }
+
+  const { minValue, maxValue } = getNumericFormatRange(
+    section.format,
+    value,
+    timezone,
+  );
+
+  const parsed = parseInt(section.value);
+
+  if (isNaN(parsed)) {
+    if (section.format === 'YY' || section.format === 'YYYY') {
+      return dayjsTimezone(dayjs(), timezone).format(section.format);
+    }
+    return minValue.toString().padStart(section.format.length, '0');
+  }
+
+  if (direction === 'up') {
+    return (maxValue <= parsed ? minValue : parsed + 1)
+      .toString()
+      .padStart(section.format.length, '0');
+  }
+
+  return (minValue >= parsed ? maxValue : parsed - 1)
+    .toString()
+    .padStart(section.format.length, '0');
+};
+
+/**
+ * Computes the section value string for Home/End.
+ */
+export const getBoundSectionValue = (
+  section: DateFormatSection,
+  bound: 'home' | 'end',
+  value: DateType,
+  timezone: string | undefined,
+): string | undefined => {
+  if (section.type === 'text') {
+    return bound === 'home'
+      ? section.options[0]
+      : section.options[section.options.length - 1];
+  }
+
+  const { minValue, maxValue } = getNumericFormatRange(
+    section.format,
+    value,
+    timezone,
+  );
+
+  const target = bound === 'home' ? minValue : maxValue;
+  return target.toString().padStart(section.format.length, '0');
+};
+
+/**
+ * Processes a character key input into a section.
+ * Returns the new input string, whether input is finished, and the updated ref value.
+ * Returns `undefined` if the key is not valid for the section.
+ */
+export const processCharacterInput = (
+  key: string,
+  section: DateFormatSection,
+  currentSectionRef: string,
+  currentInput: string,
+  locale: string | undefined,
+  value: DateType,
+  timezone: string | undefined,
+):
+  | {
+      newInput: string;
+      isFinished: boolean;
+      newSectionRef: string;
+    }
+  | undefined => {
+  const lowerKey = key.toLowerCase();
+
+  if (section.type === 'text') {
+    const foundOption = section.options.filter((v) => {
+      if (/^a$/i.test(section.format)) {
+        const meridiem = getMeridiem(locale);
+        const [am, pm] = meridiem.map((m) =>
+          section.format === 'a' ? m.lower : m.upper,
+        );
+        return new RegExp(
+          `^${lowerKey === 'a' ? am : lowerKey === 'p' ? pm : '$^'}`,
+        ).test(v);
+      }
+      return new RegExp('^' + String.raw`${currentSectionRef}${lowerKey}`).test(
+        v.toLowerCase(),
+      );
+    });
+
+    if (foundOption.length > 0) {
+      return {
+        newInput:
+          currentInput.slice(0, section.startIndex) +
+          foundOption[0] +
+          currentInput.slice(section.endIndex),
+        isFinished: foundOption.length === 1,
+        newSectionRef: currentSectionRef + lowerKey,
+      };
+    }
+
+    const resetRef = lowerKey;
+    const fallbackOption = section.options.filter((v) =>
+      new RegExp('^' + String.raw`${resetRef}`).test(v.toLowerCase()),
+    );
+
+    if (fallbackOption.length === 0) return undefined;
+
+    return {
+      newInput:
+        currentInput.slice(0, section.startIndex) +
+        fallbackOption[0] +
+        currentInput.slice(section.endIndex),
+      isFinished: fallbackOption.length === 1,
+      newSectionRef: resetRef,
+    };
+  }
+
+  // numeric
+  const numericValue = parseInt(lowerKey);
+  if (isNaN(numericValue)) return undefined;
+
+  const { isComplete } = getNumericFormatRange(section.format, value, timezone);
+
+  const newSectionRef = (currentSectionRef + lowerKey).slice(
+    (section.format.length === 1 ? 2 : section.format.length) * -1,
+  );
+
+  const newInput =
+    currentInput.slice(0, section.startIndex) +
+    currentInput
+      .slice(section.startIndex)
+      .replace(
+        section.value,
+        newSectionRef.replace(/^0+/, '').padStart(section.format.length, '0'),
+      );
+
+  return {
+    newInput,
+    isFinished: isComplete(newSectionRef),
+    newSectionRef,
+  };
+};

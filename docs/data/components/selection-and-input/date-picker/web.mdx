@@ -360,6 +360,166 @@ const Demo = () => {
 export default Demo;`}
 />
 
+## Range picker
+
+`DateRangePicker` 컴포넌트를 사용하여 두 개의 날짜 범위를 선택할 수 있습니다.
+
+<Demo code={`import { DateRangePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
+      <DateRangePicker width="70%" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Calendars
+
+Range picker에서는 `calendars` prop 을 사용하여 달력의 개수를 조정할 수 있습니다.
+
+- Responsive props 를 지원하여 Breakpoint 별로 달력의 개수를 조정할 수 있습니다.
+
+<Demo code={`import { DateRangePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
+      <DateRangePicker width="70%" calendars={1} format="YYYY.MM.DD" />
+      <DateRangePicker width="70%" calendars={2} format="YYYY.MM.DD" />
+      <DateRangePicker width="70%" calendars={3} format="YYYY.MM.DD" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### View
+
+Range picker에서는 `view` prop 을 사용하여 선택 UI를 조정할 수 있습니다.
+
+- `'year' | 'month' | 'day'` 를 지원합니다.
+
+<Demo code={`import { DateRangePicker, FlexBox } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
+      <DateRangePicker width="70%" view="day" format="YYYY.MM.DD" />
+      <DateRangePicker width="70%" view="month" format="YYYY.MM" />
+      <DateRangePicker width="70%" view="year" format="YYYY" />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Validation
+
+일반 Picker와 같이 `min`, `max` prop 을 사용하여 최소값과 최대값을 설정할 수 있습니다.
+
+<Demo code={`import { DateRangePicker, FlexBox, FormErrorMessage, FormField, FormLabel, FormControl } from '@wanteddev/wds';
+import { Controller, useForm } from 'react-hook-form';
+
+const minDate = new Date('2000-01-01');
+const maxDate = new Date('2025-12-31');
+
+const Demo = () => {
+  const form = useForm({
+    defaultValues: {
+      date: [null, null],
+    },
+    mode: 'onChange'
+  });
+
+  return (
+    <FlexBox as="form">
+      <Controller
+        control={form.control}
+        name="date"
+        rules={{
+          validate: (value) => {
+            const [startDate, endDate] = value;
+            if (isNaN(new Date(startDate).getTime()) || isNaN(new Date(endDate).getTime())) {
+              return '유효한 날짜를 입력해주세요.';
+            }
+
+            if (new Date(startDate).getTime() < minDate.getTime() || new Date(endDate).getTime() < minDate.getTime()) {
+              return '최소 날짜는 2000년 1월 1일 이상이어야 합니다.';
+            }
+
+            if (new Date(startDate).getTime() > maxDate.getTime() || new Date(endDate).getTime() > maxDate.getTime()) {
+              return '최대 날짜는 2025년 12월 31일 이하이어야 합니다.';
+            }
+            
+          return true;
+          },
+        }}
+        render={({ field, formState }) => (
+          <FormField>
+            <FormLabel>날짜</FormLabel>
+
+            <FormControl>
+              <DateRangePicker
+                min={minDate}
+                max={maxDate}
+                format="YYYY.MM.DD"
+                width="300px"
+                inputRef={field.ref}
+                value={field.value}
+                onChange={field.onChange}
+                invalid={!!formState.errors.date}
+              />
+            </FormControl>
+
+            <FormErrorMessage>{formState.errors.date?.message}</FormErrorMessage>
+          </FormField>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Action area
+
+Range picker에서도 `PickerActionArea` 를 사용하여 하단 영역의 버튼 추가할 수 있습니다.
+
+`now` 를 제외한 3가지 variant를 사용할 수 있습니다.
+- accept
+- cancel
+- reset
+
+`Checkbox` 컴포넌트와 함께 사용할 때에는 `disableLastDateClickClose` prop 을 사용하여 더욱 자연스러운 동작을 구현할 수 있습니다.
+
+<Demo code={`import { DateRangePicker, FlexBox, PickerActionArea, PickerActionAreaButton } from '@wanteddev/wds';
+
+const Demo = () => {
+  return (
+    <FlexBox flexDirection="column" gap="12px" alignItems="center" sx={{ width: '100%' }}>
+      <DateRangePicker
+        width="70%"
+        actionArea={(
+          <PickerActionArea>
+            <PickerActionAreaButton variant="cancel">취소</PickerActionAreaButton>
+            <PickerActionAreaButton variant="accept">확인</PickerActionAreaButton>
+          </PickerActionArea>
+        )}
+      />
+    </FlexBox>
+  )
+}
+
+export default Demo;`}
+/>
+
 ## Accessibility
 
 [WAI-ARIA Datepicker dialog](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/) 패턴 대부분을 지원합니다.
@@ -372,6 +532,10 @@ export default Demo;`}
 ### DatePicker
 
 <PropsTable component="DatePicker" />
+
+### DateRangePicker
+
+<PropsTable component="DateRangePicker" />
 
 ### PickerActionArea
 
