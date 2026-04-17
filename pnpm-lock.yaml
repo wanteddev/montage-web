@@ -170,8 +170,8 @@ importers:
         specifier: ^7.29.0
         version: 7.29.0
       '@slack/webhook':
-        specifier: ^7.0.8
-        version: 7.0.8
+        specifier: ^7.0.9
+        version: 7.0.9
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -638,8 +638,8 @@ importers:
   scripts/design-docs-sync:
     dependencies:
       axios:
-        specifier: ^1.14.0
-        version: 1.14.0
+        specifier: ^1.15.0
+        version: 1.15.0
       ts-morph:
         specifier: ^27.0.2
         version: 27.0.2
@@ -3592,8 +3592,8 @@ packages:
     resolution: {integrity: sha512-eWX2mdt1ktpn8+40iiMc404uGrih+2fxiky3zBcPjtXKj6HLRdYlmhrPkJi7JTJm8dpXR6BWVWEDBXtaWMKD6A==}
     engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
 
-  '@slack/webhook@7.0.8':
-    resolution: {integrity: sha512-x3gttyRJGZSeIm+juObzYsYEMa/weoeZUU3WDWwOCwmHhShSwtq1sj1jvuKx0mLNIA6VveVlc4zWvluhA6qcxg==}
+  '@slack/webhook@7.0.9':
+    resolution: {integrity: sha512-hMfkQ5Y3Y7FtL+ZYhcxFblidx4Z2LPRFrhY1KJb6NqQdnK6kzTzTS1mjH5taVQIB496eqwpg9FE9mq9BFx0DWw==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
 
   '@standard-schema/spec@1.1.0':
@@ -4395,8 +4395,8 @@ packages:
   axios@1.12.0:
     resolution: {integrity: sha512-oXTDccv8PcfjZmPGlWsPSwtOJCZ/b6W5jAMCNcfwJbCzDckwG0jrYJFaWH1yvivfCXjVzV/SPDEhMB3Q+DSurg==}
 
-  axios@1.14.0:
-    resolution: {integrity: sha512-3Y8yrqLSwjuzpXuZ0oIYZ/XGgLwUIBU3uLvbcpb0pidD9ctpShJd43KSlEEkVQg6DS0G9NKyzOvBfUtDKEyHvQ==}
+  axios@1.15.0:
+    resolution: {integrity: sha512-wWyJDlAatxk30ZJer+GeCWS209sA42X+N5jU2jy6oHTp7ufw8uzUTVFBX9+wTfAlhiJXGS0Bq7X6efruWjuK9Q==}
 
   babel-jest@29.7.0:
     resolution: {integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==}
@@ -12976,11 +12976,11 @@ snapshots:
 
   '@slack/types@2.20.1': {}
 
-  '@slack/webhook@7.0.8':
+  '@slack/webhook@7.0.9':
     dependencies:
       '@slack/types': 2.20.1
-      '@types/node': 25.5.2
-      axios: 1.14.0
+      '@types/node': 22.19.17
+      axios: 1.15.0
     transitivePeerDependencies:
       - debug
 
@@ -13847,7 +13847,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.14.0:
+  axios@1.15.0:
     dependencies:
       follow-redirects: 1.15.11
       form-data: 4.0.5

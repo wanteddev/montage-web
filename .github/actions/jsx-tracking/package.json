@@ -9,7 +9,7 @@
     "@babel/parser": "^7.29.2",
     "@babel/traverse": "^7.29.0",
     "@babel/types": "^7.29.0",
-    "@slack/webhook": "^7.0.8",
+    "@slack/webhook": "^7.0.9",
     "typescript": "^5.9.3"
   },
   "engines": {
