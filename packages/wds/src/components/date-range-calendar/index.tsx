@@ -1071,7 +1071,7 @@ const RangeMonthPanel = memo(() => {
         </FlexBox>
 
         <FlexBox sx={{ paddingBottom: 12 }}>
-          <FlexBox flexDirection="column" sx={rangeGridWrapperStyle}>
+          <FlexBox flex="1" flexDirection="column" sx={rangeGridWrapperStyle}>
             {monthRows.map((rowMonths, rowIdx) => (
               <FlexBox
                 key={`month-row-${rowIdx}`}
@@ -1384,7 +1384,7 @@ const RangeYearPanel = memo(({ yearsOrder = 'asc' }: RangeYearPanelProps) => {
         </FlexBox>
 
         <FlexBox sx={{ paddingBottom: 12 }}>
-          <FlexBox sx={rangeGridWrapperStyle} flexDirection="column">
+          <FlexBox flex="1" sx={rangeGridWrapperStyle} flexDirection="column">
             {yearRows.map((rowYears, rowIdx) => (
               <FlexBox
                 key={`year-row-${rowIdx}`}
