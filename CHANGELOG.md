@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/wanteddev/montage-web/compare/v3.4.7...v3.5.0) (2026-04-17)
+
+### Bug Fixes
+
+- **wds-mcp:** card-list 컴포넌트 문서 경로 매핑 수정 ([c811a95](https://github.com/wanteddev/montage-web/commit/c811a952a566b83264efc092a8c3e8e1fdaa6f63))
+- **wds:** date range calendar의 month, year view 디자인 오류 수정 ([b8ef1de](https://github.com/wanteddev/montage-web/commit/b8ef1deb405d4351fe40b2fecfb0ab8209f89bda))
+
+### Features
+
+- **wds:** date range calendar, date range picker 컴포넌트 추가 ([#524](https://github.com/wanteddev/montage-web/issues/524)) ([d6e54e9](https://github.com/wanteddev/montage-web/commit/d6e54e913fd9b5157e22abb3df87b22896ae2d98))
+
 ## [3.4.7](https://github.com/wanteddev/montage-web/compare/v3.4.6...v3.4.7) (2026-04-14)
 
 ### Bug Fixes
