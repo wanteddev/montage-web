@@ -132,7 +132,7 @@ export const getComponentUrl = async (
     'date-range-picker': 'date-picker',
     list: 'list-cell',
     stepper: 'progress-tracker',
-    'card-list': 'card',
+    'card-list': 'list-card',
     modal: 'popup',
   };
   const customComponentPath = componentPathMap[componentSlug];
