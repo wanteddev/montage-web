@@ -273,6 +273,14 @@ export const scrollWrapperStyle = css`
   [data-radix-scroll-area-viewport] {
     scroll-behavior: smooth;
   }
+
+  [data-role='scroll-area-vertical-bar'] {
+    display: none;
+  }
+
+  [data-role='scroll-area-horizontal-bar'] {
+    display: none;
+  }
 `;
 
 export const tabListWrapperStyle = (theme: Theme) => css`
