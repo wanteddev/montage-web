@@ -10,7 +10,7 @@ type PageCounterDefaultProps = WithSxProps<{
   totalPages: number;
   /** The current page number. */
   currentPage?: number;
-  /** Whether to use the alternative background style. */
+  /** If true, renders a fallback style that looks natural in environments where `blur` is not supported. */
   alternative?: boolean;
 }>;
 
