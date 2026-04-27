@@ -20,12 +20,10 @@ const getSubject = (preSubject, issueNo) => {
 
 const getDescription = (preDescription, issueNo) => {
   const jiraIssueUrl = issueNo
-    ? `- https://wantedlab.atlassian.net/browse/${issueNo} \n`
+    ? `https://wantedlab.atlassian.net/browse/${issueNo} \n`
     : '';
-  const identity = exec('git var GIT_AUTHOR_IDENT');
-  const author = identity.split(' ')[0];
 
-  return `- ${author}\n${jiraIssueUrl}${preDescription}`.replace(/,/gi, '');
+  return `${jiraIssueUrl}${preDescription}`.replace(/,/gi, '');
 };
 
 const getJiraIssueNumber = (branch) =>
