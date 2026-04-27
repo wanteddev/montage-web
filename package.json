@@ -14,7 +14,6 @@
   "scripts": {
     "build": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run build",
     "build:api": "pnpm -F @wanteddev/api-generator build",
-    "dev": "lerna run dev --no-cache --continue",
     "lint": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna run lint",
     "clean": "pnpm store prune && rm -rf node_modules",
     "watch": "NX_REJECT_UNKNOWN_LOCAL_CACHE=0 lerna watch -- echo \\$LERNA_PACKAGE_NAME \\$LERNA_FILE_CHANGES",
