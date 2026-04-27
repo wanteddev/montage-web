@@ -53,6 +53,7 @@ const TopNavigation = forwardRef<
         wds-component="top-navigation"
         ref={ref}
         flexDirection="column"
+        data-background={background}
         {...props}
         data-variant={variant}
         sx={[
