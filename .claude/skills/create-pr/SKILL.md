@@ -336,7 +336,7 @@ Visual regression snapshots are taken in GitHub Actions — local environments p
 
 3. If the diff is **not** intentional, don't update the snapshots — fix the underlying regression in the component/style.
 
-See [coding-style.md › Visual regression tests](../../references/coding-style.md#visual-regression-tests) for the longer explanation.
+See [workflow.md › Visual regression tests](../../references/workflow.md#visual-regression-tests) for the longer explanation.
 
 ## Why these defaults
 
