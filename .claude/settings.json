@@ -1,0 +1,22 @@
+{
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true,
+    "atlassian@claude-plugins-official": true
+  },
+  "permissions": {
+    "deny": ["Read(**/.env*)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/scripts/format-on-write.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}
