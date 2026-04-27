@@ -22,6 +22,7 @@ These are non-negotiable. Build the workflow around them.
 4. **Never push to `main`/`master`** — abort and ask the user to switch to a feature branch.
 5. **Never use `--no-verify`** to skip hooks. If a hook fails, surface the error and let the user decide.
 6. **Never use `git add -A` / `git add .`** — stage files by name. Wildcards routinely sweep up `.env`, credentials, and stray build artifacts.
+7. **Every commit you author must end with a `Co-Authored-By: Claude ...` trailer.** This is required by the top-level system instructions and is easy to forget when copying the heredoc template — surface it explicitly here. See step 3 for the exact format.
 
 ## Workflow
 
@@ -59,16 +60,20 @@ If `git status --porcelain` is non-empty:
    - Read recent commits (`git log --oneline -10`) to match the repo's style — this codebase uses Conventional Commits (`feat(scope): ...`, `fix(scope): ...`, `chore: ...`).
    - Draft a commit message that focuses on **why**, not **what**. One subject line, optional body.
    - Stage files **by name** (never `-A` / `.`). Skip anything that looks like a secret (`.env*`, `credentials*`, `*.pem`).
-   - Commit with a heredoc to preserve formatting:
+   - Commit with a heredoc to preserve formatting. **The trailing `Co-Authored-By: Claude ...` trailer is mandatory** — it's required by the top-level system instructions, and it's easy to forget when copying this template. Put it as the last line, separated by a blank line so git's trailer parser picks it up:
 
      ```bash
      git commit -m "$(cat <<'EOF'
      feat(scope): short subject
 
      Optional body explaining why.
+
+     Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>
      EOF
      )"
      ```
+
+     Match the trailer line to whichever Claude model is actually authoring the commit (e.g. `Claude Sonnet 4.6`, `Claude Haiku 4.5`).
 
    - If a pre-commit hook fails, fix the underlying issue and create a **new** commit. Never `--amend` to dodge the failure (the failed commit didn't happen, so amend would rewrite the previous one).
 
