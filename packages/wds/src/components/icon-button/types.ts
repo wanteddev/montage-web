@@ -21,7 +21,7 @@ export type IconButtonDefaultProps = WithSxProps<{
   /** The color of the icon button when the interaction is triggered. */
   interactionColor?: ThemeColorsToken;
   /**
-   * When using `background` button, if `alternative` is true, the dark theme is activated.
+   * When `variant` is `background`, if `alternative` is true, the icon button uses a dark-colored background.
    */
   alternative?: boolean;
   /** The content of the icon button. Use icon component as the children. */

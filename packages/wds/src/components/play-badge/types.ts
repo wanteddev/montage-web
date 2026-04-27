@@ -7,7 +7,7 @@ import type {
 export type PlayBadgeDefaultProps = WithSxProps<{
   /** The size of the play badge. */
   size?: 'medium' | 'large' | 'small';
-  /** Whether to use the alternative background style. */
+  /** If true, renders a fallback style that looks natural in environments where `blur` is not supported. */
   alternative?: boolean;
 }>;
 
