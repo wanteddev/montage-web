@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
+
+### Bug Fixes
+
+- **wds:** pagination dot color가 white일 때 숨김 처리된 dot이 보이는 버그 수정 ([#542](https://github.com/wanteddev/montage-web/issues/542)) ([ff47549](https://github.com/wanteddev/montage-web/commit/ff47549cec2fc756a1023813d9a6b4f49c4a6eb7))
+
+### Features
+
+- **wds:** tab/category 스크롤바 숨김 및 top-navigation data-background 추가 ([#541](https://github.com/wanteddev/montage-web/issues/541)) ([ede667f](https://github.com/wanteddev/montage-web/commit/ede667f1c9e7598ea557a6f049d5135f1f6c158d))
+
 # [3.5.0](https://github.com/wanteddev/montage-web/compare/v3.4.7...v3.5.0) (2026-04-17)
 
 ### Bug Fixes
