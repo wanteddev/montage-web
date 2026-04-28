@@ -78,7 +78,7 @@ export const summaryStyle = (theme: Theme) => css`
       word-break: break-all;
     }
 
-    p + p::before {
+    & + &::before {
       content: '|';
       margin: 0 8px;
       color: ${theme.semantic.line.normal.normal};

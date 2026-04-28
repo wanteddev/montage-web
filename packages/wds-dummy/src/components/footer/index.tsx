@@ -50,7 +50,7 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
             <FlexBox
               gap="8px 24px"
               flexWrap="wrap"
-              justify-content="flex-start"
+              justifyContent="flex-start"
               sm={{
                 gap: '32px',
                 flexWrap: 'initial',
@@ -251,22 +251,46 @@ const Footer = forwardRef<HTMLDivElement, DefaultComponentProps<{}, 'div'>>(
                 margin: '8px 0px',
               }}
             >
-              <IconButton size={20} color="semantic.label.alternative">
+              <IconButton
+                size={20}
+                color="semantic.label.alternative"
+                aria-label="인스타그램"
+              >
                 <IconLogoInstagram />
               </IconButton>
-              <IconButton size={20} color="semantic.label.alternative">
+              <IconButton
+                size={20}
+                color="semantic.label.alternative"
+                aria-label="페이스북"
+              >
                 <IconLogoFacebook />
               </IconButton>
-              <IconButton size={20} color="semantic.label.alternative">
+              <IconButton
+                size={20}
+                color="semantic.label.alternative"
+                aria-label="유튜브"
+              >
                 <IconLogoYoutube />
               </IconButton>
-              <IconButton size={20} color="semantic.label.alternative">
+              <IconButton
+                size={20}
+                color="semantic.label.alternative"
+                aria-label="네이버 블로그"
+              >
                 <IconLogoNaverBlog />
               </IconButton>
-              <IconButton size={20} color="semantic.label.alternative">
+              <IconButton
+                size={20}
+                color="semantic.label.alternative"
+                aria-label="App Store"
+              >
                 <IconLogoApple />
               </IconButton>
-              <IconButton size={20} color="semantic.label.alternative">
+              <IconButton
+                size={20}
+                color="semantic.label.alternative"
+                aria-label="Google Play"
+              >
                 <IconLogoGooglePlay />
               </IconButton>
             </FlexBox>
