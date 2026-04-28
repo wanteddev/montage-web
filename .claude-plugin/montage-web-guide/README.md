@@ -20,18 +20,20 @@ A plugin that includes the Wanted Design System (WDS) MCP server and skills.
 
 The following tools are available through the `@wanteddev/wds-mcp` MCP server:
 
-| Tool                     | Description                          |
-| ------------------------ | ------------------------------------ |
-| `wds_coding_guidelines`  | View WDS coding guidelines           |
-| `list_components`        | List available components            |
-| `get_component`          | View detailed component specs        |
-| `list_tokens`            | List design tokens                   |
-| `get_color_usage`        | View color token usage guide         |
-| `list_icons`             | List available icons                 |
-| `list_utility_functions` | List utility functions               |
-| `get_utility_function`   | View detailed utility function specs |
-| `getting_started`        | View WDS initial setup guide         |
-| `health_check`           | Check MCP server health status       |
+| Tool                     | Description                                                                               |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| `wds_coding_guidelines`  | View WDS coding guidelines                                                                |
+| `list_components`        | List available components                                                                 |
+| `get_component`          | View detailed component specs                                                             |
+| `list_tokens`            | List design tokens                                                                        |
+| `get_color_usage`        | View color token usage guide                                                              |
+| `list_icons`             | List available icons                                                                      |
+| `list_utility_functions` | List utility functions                                                                    |
+| `get_utility_function`   | View detailed utility function specs                                                      |
+| `list_dummy_components`  | List dummy layout scaffolds (`NavBar`, `Footer`, `BottomTabBar`) for demo / preview pages |
+| `list_brand_assets`      | List Wanted brand marks (`LogoWanted` wordmark, `IconSymbol` symbol-only)                 |
+| `getting_started`        | View WDS initial setup guide                                                              |
+| `health_check`           | Check MCP server health status                                                            |
 
 ### Skill: montage-react
 
@@ -43,6 +45,8 @@ A skill that is automatically applied when working on components/UI in React pro
 - When creating or modifying UI components
 - When working on styling
 - When using icons
+- When a placeholder GNB / Footer / bottom tab bar is needed for a demo or preview page
+- When the Wanted brand logo (wordmark or symbol) is needed
 
 **Workflow:**
 
