@@ -20,7 +20,7 @@ export const navBarStyle = (theme: Theme) => css`
   z-index: 800;
 
   ${respondTo(theme.breakpoint.md)} {
-    &[data-is-sticky='true'] {
+    &[data-is-sticky='false'] {
       border-bottom: none;
     }
   }

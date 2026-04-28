@@ -6,9 +6,9 @@ export const useIsNavSticky = () => {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY === 0) {
-        setIsSticky(true);
-      } else {
         setIsSticky(false);
+      } else {
+        setIsSticky(true);
       }
     };
 
