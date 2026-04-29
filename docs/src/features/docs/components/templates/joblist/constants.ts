@@ -1,7 +1,7 @@
 export const DESIGN_INTENT = [
   '"검색 결과/필터링" 화면 패턴입니다. 사용자가 카테고리·경력·정렬·필터 조건으로 다수의 포지션을 좁혀가며 비교·탐색할 수 있도록 카드 그리드를 풀폭으로 노출합니다.',
   '상단에는 두 개의 SectionHeader(Title/Subtitle 변형 — 직군 카테고리와 경력 조건)를 좌우로 배치해 현재 검색 컨텍스트를 명확히 보여줍니다. 우측에는 정렬 토글(최신순/추천순/인기순)을 두어 정렬 변경 비용을 낮춥니다.',
-  '필터 칩 행은 자주 쓰는 조건(글로벌 TOP, 대규모 채용, 적극 채용 등)을 한 줄에 노출해 한 클릭으로 결과를 좁힐 수 있게 합니다. ContentChip으로 통일된 시각 위계를 갖고, 좌측의 토글 칩(서울 전체 등)은 multi-select 가능한 드롭다운입니다.',
+  '필터 칩 행은 자주 쓰는 조건(글로벌 TOP, 대규모 채용, 적극 채용 등)을 한 줄에 노출해 한 클릭으로 결과를 좁힐 수 있게 합니다. Chip으로 통일된 시각 위계를 갖고, 좌측의 토글 칩(서울 전체 등)은 multi-select 가능한 드롭다운입니다.',
   '결과는 5컬럼 카드 그리드로 표시하고, cardGap(20px)으로 정렬됩니다. 각 카드는 합격보상금 overlay + 북마크 토글이 일관되게 배치되어 동일한 패턴으로 인지됩니다.',
   '본문 마지막 행과 Footer 사이는 screenMarginBottom(160px)으로 끝맺음을 명확히 하고, Footer는 home 화면과 동일한 구성으로 일관성을 유지합니다.',
 ];
@@ -90,9 +90,9 @@ export const COMPONENT_USAGE = [
       '우측 정렬 토글(최신순/추천순/인기순). 활성 상태는 color="primary", 비활성은 color="assistive"로 시각 위계를 줍니다.',
   },
   {
-    name: 'ContentChip (@wanteddev/wds)',
+    name: 'Chip (@wanteddev/wds)',
     usage:
-      '필터 칩 행. 토글 칩(서울 전체/채용조건/기술스택)은 trailing icon으로 chevron-down, 텍스트 칩은 일반 ContentChip으로 사용해 시각 차이를 줍니다.',
+      '필터 칩 행. 토글 칩(서울 전체/채용조건/기술스택)은 trailing icon으로 chevron-down, 텍스트 칩은 일반 Chip으로 사용해 시각 차이를 줍니다.',
   },
   {
     name: 'Card · CardThumbnail · CardThumbnailContent · CardContent · CardTitle · CardCaption (@wanteddev/wds)',
@@ -122,7 +122,7 @@ export const COMPONENT_USAGE = [
   },
 ];
 
-export const JOBLIST_SOURCE_CODE = `import { Avatar, AvatarButton, Box, Button, Card, CardCaption, CardContent, CardThumbnail, CardThumbnailContent, CardTitle, ContentChip, Divider, FlexBox, IconButton, SectionHeader, TextButton, Typography, css } from '@wanteddev/wds';
+export const JOBLIST_SOURCE_CODE = `import { Avatar, AvatarButton, Box, Button, Card, CardCaption, CardContent, CardThumbnail, CardThumbnailContent, CardTitle, Chip, Divider, FlexBox, IconButton, SectionHeader, TextButton, Typography, css } from '@wanteddev/wds';
 import { IconBell, IconBookmark, IconChevronDown, IconListCategory, IconLogoApple, IconLogoFacebook, IconLogoGooglePlay, IconLogoInstagram, IconLogoNaverBlog, IconLogoYoutube, IconSearch } from '@wanteddev/wds-icon';
 import { Fragment } from 'react';
 
@@ -420,18 +420,18 @@ const Demo = () => (
       {/* 필터 칩 행 */}
       <Box sx={filterRowStyle}>
         {TOGGLE_CHIPS.map((label) => (
-          <ContentChip
+          <Chip
             key={label}
             size="medium"
             trailingContent={<IconChevronDown />}
           >
             {label}
-          </ContentChip>
+          </Chip>
         ))}
         {FILTER_CHIPS.map((label) => (
-          <ContentChip key={label} size="medium">
+          <Chip key={label} size="medium">
             {label}
-          </ContentChip>
+          </Chip>
         ))}
       </Box>
 
