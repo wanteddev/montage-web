@@ -4,6 +4,9 @@ export type Theme = typeof lightTheme | typeof darkTheme;
 
 export type BreakPoint = Theme['breakpoint'];
 export type Spacing = Theme['spacing'];
+export type SpacingScale = Theme['spacingScale'];
+export type Radius = Theme['radius'];
+export type Layout = Theme['layout'];
 
 type MergeWithDot<T extends string> = T extends '' ? '' : `.${T}`;
 
