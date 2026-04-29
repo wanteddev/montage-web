@@ -42,6 +42,18 @@ export const DOCS_PAGES = [
     slug: ['foundations', 'base-material', 'grid'],
   },
   {
+    title: 'Spacing',
+    slug: ['foundations', 'base-material', 'spacing'],
+  },
+  {
+    title: 'Radius',
+    slug: ['foundations', 'base-material', 'radius'],
+  },
+  {
+    title: 'Layout',
+    slug: ['foundations', 'base-material', 'layout'],
+  },
+  {
     title: 'Elevation',
     slug: ['foundations', 'base-material', 'elevation', 'normal'],
   },
@@ -56,6 +68,22 @@ export const DOCS_PAGES = [
   {
     title: 'Overview',
     slug: ['components'],
+  },
+  {
+    title: 'Overview',
+    slug: ['templates'],
+  },
+  {
+    title: 'Explore',
+    slug: ['templates', 'research'],
+  },
+  {
+    title: 'Joblist',
+    slug: ['templates', 'joblist'],
+  },
+  {
+    title: 'Test',
+    slug: ['templates', 'test'],
   },
   {
     title: 'Overview',

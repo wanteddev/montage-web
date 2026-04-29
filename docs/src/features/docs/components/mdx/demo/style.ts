@@ -2,31 +2,61 @@ import { addOpacity, css, gradient } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
-export const demoWrapperStyle = (theme: Theme) => css`
-  background-color: ${theme.semantic.background.normal.normal};
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 20px;
-`;
+type DemoWrapperStyleParams = {
+  embedded?: boolean;
+};
+
+export const demoWrapperStyle =
+  ({ embedded }: DemoWrapperStyleParams = {}) =>
+  (theme: Theme) => css`
+    ${embedded
+      ? css`
+          background-color: transparent;
+          border-radius: 0;
+          margin-bottom: 0;
+        `
+      : css`
+          background-color: ${theme.semantic.background.normal.normal};
+          border-radius: 16px;
+          overflow: hidden;
+          margin-bottom: 20px;
+        `}
+  `;
 
 type DemoStyleParams = {
   hideCode?: boolean;
   isTransparent: boolean;
+  previewBackground?: 'normal' | 'alternative';
+  embedded?: boolean;
 };
 
 export const demoStyle =
-  ({ hideCode, isTransparent }: DemoStyleParams) =>
+  ({
+    hideCode,
+    isTransparent,
+    previewBackground = 'normal',
+    embedded,
+  }: DemoStyleParams) =>
   (theme: Theme) => css`
     padding: 40px 16px;
-    border-top-right-radius: 16px;
-    border-top-left-radius: 16px;
-    box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
-    background-color: ${theme.semantic.background.normal.normal};
+    ${embedded
+      ? css`
+          border-radius: 0;
+        `
+      : css`
+          border-top-right-radius: 16px;
+          border-top-left-radius: 16px;
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+        `}
+    background-color: ${previewBackground === 'alternative'
+      ? theme.semantic.background.normal.alternative
+      : theme.semantic.background.normal.normal};
     position: relative;
     display: flex;
     flex-direction: column;
 
     ${hideCode &&
+    !embedded &&
     css`
       border-radius: inherit;
     `}
@@ -65,15 +95,22 @@ export const demoStyle =
 
 type EditorWrapperStyleParams = {
   hasError: boolean;
+  embedded?: boolean;
 };
 
 export const editorWrapperStyle =
-  ({ hasError }: EditorWrapperStyleParams) =>
+  ({ hasError, embedded }: EditorWrapperStyleParams) =>
   (theme: Theme) => css`
     max-height: var(--demo-editor-height);
     position: relative;
-    border-bottom-right-radius: 16px;
-    border-bottom-left-radius: 16px;
+    ${embedded
+      ? css`
+          border-radius: 0;
+        `
+      : css`
+          border-bottom-right-radius: 16px;
+          border-bottom-left-radius: 16px;
+        `}
 
     &::before {
       z-index: 1;
@@ -85,9 +122,15 @@ export const editorWrapperStyle =
       height: 100%;
       pointer-events: none;
       transition: box-shadow ease 0.2s;
-      box-shadow:
-        inset 0 0 0 1px ${theme.semantic.line.normal.normal},
-        inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+      ${embedded
+        ? css`
+            box-shadow: none;
+          `
+        : css`
+            box-shadow:
+              inset 0 0 0 1px ${theme.semantic.line.normal.normal},
+              inset 0 0 0 1px ${theme.semantic.background.elevated.normal};
+          `}
     }
 
     ${hasError
@@ -126,30 +169,43 @@ export const editorWrapperStyle =
         `}
   `;
 
-export const editorFallbackStyle = (theme: Theme) => css`
-  box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
-  border-bottom-right-radius: 16px;
-  border-bottom-left-radius: 16px;
-  height: var(--demo-editor-height);
-  background-color: ${theme.semantic.background.elevated.normal};
-  svg {
-    z-index: 1;
-  }
+type EditorFallbackStyleParams = {
+  embedded?: boolean;
+};
 
-  &::before {
-    height: 130px;
-    position: absolute;
-    content: '';
-    z-index: 0;
-    bottom: 1px;
-    left: 1px;
-    width: calc(100% - 2px);
-    border-radius: inherit;
-    ${gradient(
-      theme.semantic.background.normal.alternative,
-      'top',
-      '100%',
-      'mask',
-    )}
-  }
-`;
+export const editorFallbackStyle =
+  ({ embedded }: EditorFallbackStyleParams = {}) =>
+  (theme: Theme) => css`
+    ${embedded
+      ? css`
+          box-shadow: none;
+          border-radius: 0;
+        `
+      : css`
+          box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.normal};
+          border-bottom-right-radius: 16px;
+          border-bottom-left-radius: 16px;
+        `}
+    height: var(--demo-editor-height);
+    background-color: ${theme.semantic.background.elevated.normal};
+    svg {
+      z-index: 1;
+    }
+
+    &::before {
+      height: 130px;
+      position: absolute;
+      content: '';
+      z-index: 0;
+      bottom: 1px;
+      left: 1px;
+      width: calc(100% - 2px);
+      border-radius: inherit;
+      ${gradient(
+        theme.semantic.background.normal.alternative,
+        'top',
+        '100%',
+        'mask',
+      )}
+    }
+  `;

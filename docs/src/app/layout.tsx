@@ -1,10 +1,9 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-import Gnb from '@/features/layout/components/gnb';
 import { MDXProvider } from '@/features/docs/contexts';
 import { getAllFrontmatter } from '@/features/docs/helpers/mdx';
-import LnbMobile from '@/features/docs/components/lnb/mobile';
 import { parseGroupedPages } from '@/features/docs/helpers/pages';
+import ConditionalChrome from '@/features/layout/components/conditional-chrome';
 import { createMetadata } from '@/helpers/metadata';
 
 import Providers from './providers';
@@ -169,9 +168,7 @@ const RootLayout = async ({ children }: LayoutProps<'/'>) => {
           groupedPages={groupedPages}
         >
           <Providers>
-            <LnbMobile />
-
-            <Gnb />
+            <ConditionalChrome />
 
             {children}
           </Providers>

@@ -15,6 +15,11 @@ export const GNB_NAVIGATION_LINKS = [
     slug: 'components',
   },
   {
+    label: 'Templates',
+    href: '/docs/templates',
+    slug: 'templates',
+  },
+  {
     label: 'Utilities',
     href: '/docs/utilities',
     slug: 'utilities',

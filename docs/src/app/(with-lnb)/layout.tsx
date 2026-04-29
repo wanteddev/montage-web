@@ -1,5 +1,6 @@
 'use client';
-import { FlexBox } from '@wanteddev/wds';
+import { Box, FlexBox } from '@wanteddev/wds';
+import { usePathname } from 'next/navigation';
 
 import Sidebar from '@/features/docs/components/sidebar';
 import Lnb from '@/features/docs/components/lnb';
@@ -10,49 +11,61 @@ import type { PropsWithChildren } from 'react';
 export const dynamic = 'force-static';
 
 const WithLnbLayout = ({ children }: PropsWithChildren) => {
+  const pathname = usePathname();
+  const hideSidebar = pathname.startsWith('/docs/templates');
+
   return (
-    <FlexBox
-      gap="40px"
+    <Box
       sx={{
         width: '100%',
-        margin: '0 auto',
-        maxWidth: 'var(--layout-max-width)',
-        boxSizing: 'content-box',
+        padding: '0 var(--layout-padding-inline)',
+        boxSizing: 'border-box',
       }}
     >
-      <Lnb />
-
       <FlexBox
-        as="main"
-        gap="20px"
-        sx={{ width: '100%' }}
-        sm={{ justifyContent: 'center' }}
-        lg={{
-          sx: { width: 'calc(100% - 200px)', paddingLeft: '60px' },
+        gap="40px"
+        sx={{
+          width: '100%',
+          margin: '0 auto',
+          maxWidth: 'var(--layout-max-width)',
         }}
       >
+        <Lnb />
+
         <FlexBox
-          data-algolia-page-scope
-          flexDirection="column"
-          sx={{
-            padding: '56px var(--layout-padding-inline) 0px',
-            width: '100%',
-            maxWidth: 'min(840px, 100%)',
+          as="main"
+          gap="20px"
+          sx={{ width: '100%', minWidth: 0 }}
+          sm={{ justifyContent: 'center' }}
+          lg={{
+            sx: hideSidebar
+              ? { paddingLeft: '60px' }
+              : { width: 'calc(100% - 200px)', paddingLeft: '60px' },
           }}
-          flex="1 1 0"
         >
-          {children}
-
-          <Footer
+          <FlexBox
+            data-algolia-page-scope
+            flexDirection="column"
             sx={{
-              marginTop: '120px',
+              paddingTop: '56px',
+              width: '100%',
+              maxWidth: hideSidebar ? 'none' : 'min(840px, 100%)',
             }}
-          />
-        </FlexBox>
+            flex="1 1 0"
+          >
+            {children}
 
-        <Sidebar />
+            <Footer
+              sx={{
+                marginTop: '120px',
+              }}
+            />
+          </FlexBox>
+
+          {!hideSidebar && <Sidebar />}
+        </FlexBox>
       </FlexBox>
-    </FlexBox>
+    </Box>
   );
 };
 

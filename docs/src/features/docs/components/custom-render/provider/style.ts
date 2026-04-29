@@ -2,30 +2,32 @@ import { css, typographyStyle } from '@wanteddev/wds';
 
 import type { Theme } from '@wanteddev/wds';
 
+const NOT_IN_PREVIEW = `:not([data-role='demo-viewport'] *)`;
+
 export const wrapperStyle = (theme: Theme) => css`
   word-break: keep-all;
   overflow-wrap: break-word;
   color: ${theme.semantic.label.neutral};
   ${typographyStyle('body2-reading', 'medium')}
 
-  strong {
+  strong${NOT_IN_PREVIEW} {
     ${typographyStyle('body2-reading', 'bold')}
   }
 
-  img {
+  img${NOT_IN_PREVIEW} {
     max-width: 100%;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
+  h1${NOT_IN_PREVIEW},
+    h2${NOT_IN_PREVIEW},
+    h3${NOT_IN_PREVIEW},
+    h4${NOT_IN_PREVIEW},
+    h5${NOT_IN_PREVIEW},
+    h6${NOT_IN_PREVIEW} {
     color: ${theme.semantic.label.normal};
   }
 
-  h2 {
+  h2${NOT_IN_PREVIEW} {
     margin-bottom: 24px;
 
     &:first-of-type {
@@ -33,11 +35,11 @@ export const wrapperStyle = (theme: Theme) => css`
     }
   }
 
-  h3 {
+  h3${NOT_IN_PREVIEW} {
     margin-bottom: 16px;
   }
 
-  figure {
+  figure${NOT_IN_PREVIEW} {
     width: 100%;
     border-radius: 24px;
 
@@ -46,8 +48,7 @@ export const wrapperStyle = (theme: Theme) => css`
     }
   }
 
-  ol,
-  ul {
+  ol${NOT_IN_PREVIEW}, ul${NOT_IN_PREVIEW} {
     list-style-type: disc;
     padding-left: 24px;
     margin-bottom: 16px;
@@ -67,7 +68,7 @@ export const wrapperStyle = (theme: Theme) => css`
     }
   }
 
-  hr {
+  hr${NOT_IN_PREVIEW} {
     margin: 64px 0px;
   }
 `;

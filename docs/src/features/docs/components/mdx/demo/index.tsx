@@ -17,9 +17,24 @@ type Props = {
   code: string;
   hideCode?: boolean;
   defaultIsTransparent?: boolean;
+  previewMaxWidth?: number;
+  viewMode?: 'preview' | 'code' | 'both';
+  previewBackground?: 'normal' | 'alternative';
+  embedded?: boolean;
 };
 
-const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
+const Demo = ({
+  code,
+  hideCode,
+  defaultIsTransparent,
+  previewMaxWidth,
+  viewMode = 'both',
+  previewBackground,
+  embedded,
+}: Props) => {
+  const showPreview = viewMode !== 'code';
+  const showCode = !hideCode && viewMode !== 'preview';
+
   const { value, handleValueChange, element, error } = useReactDemoRunner({
     code,
   });
@@ -51,22 +66,38 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
             : 'clamp(300px, 60dvh, 960px)',
         } as React.CSSProperties
       }
-      sx={demoWrapperStyle}
+      sx={demoWrapperStyle({ embedded })}
     >
-      <ScrollArea
-        scrollbars="horizontal"
-        sx={hideCode && { borderRadius: 'inherit' }}
-        data-role="demo-viewport"
-        viewportProps={{
-          sx: demoStyle({ hideCode, isTransparent }),
-        }}
-      >
-        <FlexBox alignItems="center" flexDirection="column">
-          {element}
-        </FlexBox>
-      </ScrollArea>
+      {showPreview && (
+        <ScrollArea
+          scrollbars="horizontal"
+          sx={{
+            ...(!showCode ? { borderRadius: 'inherit' } : {}),
+            ...(previewMaxWidth != null
+              ? {
+                  maxWidth: `${previewMaxWidth}px`,
+                  margin: '0 auto',
+                  transition: 'max-width 240ms ease',
+                }
+              : {}),
+          }}
+          data-role="demo-viewport"
+          viewportProps={{
+            sx: demoStyle({
+              hideCode: !showCode,
+              isTransparent,
+              previewBackground,
+              embedded,
+            }),
+          }}
+        >
+          <FlexBox alignItems="center" flexDirection="column">
+            {element}
+          </FlexBox>
+        </ScrollArea>
+      )}
 
-      {!hideCode && (
+      {showCode && (
         <FlexBox flexDirection="column">
           <Toolbar
             errorMessage={error?.toString()}
@@ -80,7 +111,7 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
 
           <FlexBox
             flexDirection="column"
-            sx={editorWrapperStyle({ hasError: Boolean(error) })}
+            sx={editorWrapperStyle({ hasError: Boolean(error), embedded })}
           >
             <DelayMount
               delay={300}
@@ -88,7 +119,7 @@ const Demo = ({ code, hideCode, defaultIsTransparent }: Props) => {
                 <FlexBox
                   alignItems="center"
                   justifyContent="center"
-                  sx={editorFallbackStyle}
+                  sx={editorFallbackStyle({ embedded })}
                 >
                   <Loading variant="circular" aria-hidden />
                   <Box
