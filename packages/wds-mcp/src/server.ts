@@ -42,6 +42,10 @@ const getServer = ({ transport, platform, trackContext }: GetServerOptions) => {
     toolConfig: Parameters<typeof original>[1],
     toolHandler: Parameters<typeof original>[2],
   ) => {
+    const hasInputSchema = Boolean(
+      (toolConfig as { inputSchema?: unknown }).inputSchema,
+    );
+
     const wrapped = (async (toolArgs: unknown, extra: unknown) => {
       const start = Date.now();
       let status = 'success';
@@ -54,6 +58,11 @@ const getServer = ({ transport, platform, trackContext }: GetServerOptions) => {
         status = 'failure';
         throw error;
       } finally {
+        const params: Record<string, unknown> =
+          hasInputSchema && toolArgs && typeof toolArgs === 'object'
+            ? (toolArgs as Record<string, unknown>)
+            : {};
+
         void trackEvent({
           name: 'tool_call',
           toolName,
@@ -61,10 +70,7 @@ const getServer = ({ transport, platform, trackContext }: GetServerOptions) => {
           platform,
           clientId: trackContext.clientId,
           deviceId: trackContext.deviceId,
-          params:
-            toolArgs && typeof toolArgs === 'object'
-              ? (toolArgs as Record<string, unknown>)
-              : {},
+          params,
           metadata: {
             durationMs: Date.now() - start,
             status,
