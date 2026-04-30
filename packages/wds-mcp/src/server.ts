@@ -16,12 +16,68 @@ import {
   listUtilityFunctions,
 } from './helpers';
 import { DOCS_COLOR_USAGE_URL, DOCS_SELECTOR } from './constants';
+import { type Platform, trackEvent } from './track';
 
-const getServer = () => {
+export type TrackContext = {
+  clientId: string;
+  deviceId?: string | null;
+};
+
+export type GetServerOptions = {
+  transport: 'http' | 'stdio';
+  platform: Platform;
+  trackContext: TrackContext;
+};
+
+const getServer = ({ transport, platform, trackContext }: GetServerOptions) => {
   const server = new McpServer({
     name: 'WDS, Wanted Design System',
     version,
   });
+
+  const original = server.registerTool.bind(server);
+
+  server.registerTool = ((
+    toolName: Parameters<typeof original>[0],
+    toolConfig: Parameters<typeof original>[1],
+    toolHandler: Parameters<typeof original>[2],
+  ) => {
+    const wrapped = (async (toolArgs: unknown, extra: unknown) => {
+      const start = Date.now();
+      let status = 'success';
+
+      try {
+        return await (
+          toolHandler as (...args: Array<unknown>) => Promise<unknown>
+        )(toolArgs, extra);
+      } catch (error) {
+        status = 'failure';
+        throw error;
+      } finally {
+        void trackEvent({
+          name: 'tool_call',
+          toolName,
+          transport,
+          platform,
+          clientId: trackContext.clientId,
+          deviceId: trackContext.deviceId,
+          params:
+            toolArgs && typeof toolArgs === 'object'
+              ? (toolArgs as Record<string, unknown>)
+              : {},
+          metadata: {
+            durationMs: Date.now() - start,
+            status,
+            version,
+          },
+        }).catch(() => {
+          // 텔레메트리 실패는 tool 결과에 영향 주지 않음
+        });
+      }
+    }) as Parameters<typeof original>[2];
+
+    return original(toolName, toolConfig, wrapped);
+  }) as typeof server.registerTool;
 
   const turndownService = new TurndownService({
     headingStyle: 'atx',
