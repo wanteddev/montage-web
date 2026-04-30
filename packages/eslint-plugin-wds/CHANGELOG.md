@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/wanteddev/montage-web/compare/v3.5.1...v3.6.0) (2026-04-30)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
 ## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
 
 **Note:** Version bump only for package @wanteddev/eslint-plugin-wds

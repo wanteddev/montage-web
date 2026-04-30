@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/wds",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "files": [
     "dist",
     "types.d.ts"

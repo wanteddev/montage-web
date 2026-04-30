@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/wanteddev/montage-web/compare/v3.5.1...v3.6.0) (2026-04-30)
+
+### Features
+
+- **wds:** content badge 스타일 수정 및 데모 텍스트 변경 ([#531](https://github.com/wanteddev/montage-web/issues/531)) ([d1feb21](https://github.com/wanteddev/montage-web/commit/d1feb219b0a8b96a18c3e593a8c779cbc6317ce0))
+
 ## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
 
 ### Bug Fixes

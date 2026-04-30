@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/wanteddev/montage-web/compare/v3.5.1...v3.6.0) (2026-04-30)
+
+### Features
+
+- add wds-dummy/wds-brand packages and wire them into MCP ([#544](https://github.com/wanteddev/montage-web/issues/544)) ([45dfa1a](https://github.com/wanteddev/montage-web/commit/45dfa1ad2424d362124750fb5d4a8f64986d0980))
+- **wds-mcp:** WRP-538 /track 엔드포인트 추가 및 사용 텔레메트리 통합 ([#547](https://github.com/wanteddev/montage-web/issues/547)) ([0fc2ade](https://github.com/wanteddev/montage-web/commit/0fc2ade879c6a3534308a520befde07848ff70fa))
+
 ## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
 
 **Note:** Version bump only for package @wanteddev/wds-mcp
