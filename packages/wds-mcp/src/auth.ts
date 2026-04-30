@@ -40,7 +40,9 @@ const firebaseApp = initializeApp(
 );
 
 const firebaseAuth = getAuth(firebaseApp);
-const firestore = getFirestore(firebaseApp, 'montage-storage');
+
+export const firestore = getFirestore(firebaseApp, 'montage-storage');
+
 const refreshTokensCollection = firestore.collection('refreshTokens');
 const clientsCollection = firestore.collection('clients');
 

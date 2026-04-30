@@ -31,5 +31,11 @@ const jsonPlugin = () => ({
 export default defineConfiguration({
   entry: ['src/**/*.ts', 'src/**/*.tsx'],
   format: ['esm'],
+  define: {
+    // This is private package, inject client id in bundle file
+    'process.env.MCP_TRACK_CLIENT_ID': JSON.stringify(
+      process.env.MCP_TRACK_CLIENT_ID ?? '',
+    ),
+  },
   plugins: [rawTextPlugin(), jsonPlugin()],
 });

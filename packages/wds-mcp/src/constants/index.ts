@@ -1,4 +1,4 @@
-export const DOCS_BASE_URL = 'https://montage.wanted.co.kr';
+export const DOCS_BASE_URL = 'http://localhost:3000';
 
 export const DOCS_COLOR_USAGE_URL =
   'docs/foundations/base-material/colors/semantic';
