@@ -54,7 +54,7 @@ const getServer = ({ transport, platform, trackContext }: GetServerOptions) => {
         status = 'failure';
         throw error;
       } finally {
-        await trackEvent({
+        void trackEvent({
           name: 'tool_call',
           toolName,
           transport,
@@ -70,6 +70,8 @@ const getServer = ({ transport, platform, trackContext }: GetServerOptions) => {
             status,
             version,
           },
+        }).catch(() => {
+          // 텔레메트리 실패는 tool 결과에 영향 주지 않음
         });
       }
     }) as Parameters<typeof original>[2];

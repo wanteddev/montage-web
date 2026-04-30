@@ -84,7 +84,7 @@ export const deriveUserIdHint = (): string | null => {
     }).trim();
 
     if (gitEmail) {
-      return gitEmail.trim().toLowerCase();
+      return gitEmail.toLowerCase();
     }
   } catch {
     // git 미설치 또는 user.email 미설정

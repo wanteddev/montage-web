@@ -1,3 +1,5 @@
+import crypto from 'node:crypto';
+
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { mcpAuthRouter } from '@modelcontextprotocol/sdk/server/auth/router.js';
 import { requireBearerAuth } from '@modelcontextprotocol/sdk/server/auth/middleware/bearerAuth.js';
@@ -57,6 +59,9 @@ app.get('/health', (_, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
+const sha256 = (input: string): string =>
+  crypto.createHash('sha256').update(input).digest('hex');
+
 app.post('/track', async (req, res) => {
   const event = req.body as TrackEvent | undefined;
 
@@ -67,6 +72,11 @@ app.post('/track', async (req, res) => {
 
   if (!event.clientId || !['web', 'ios', 'android'].includes(event.platform)) {
     res.status(400).json({ error: 'invalid client id or platform' });
+    return;
+  }
+
+  if (!['http', 'stdio'].includes(event.transport)) {
+    res.status(400).json({ error: 'invalid transport' });
     return;
   }
 
@@ -89,11 +99,15 @@ app.post('/track', async (req, res) => {
       '';
     const userAgent = req.header('User-Agent') ?? '';
 
-    deviceId = `synthetic-${ip}|${userAgent}`;
+    deviceId = `synthetic-${sha256(`${ip}|${userAgent}`).slice(0, 16)}`;
   }
 
   try {
-    await telemetryCollection.add(event);
+    await telemetryCollection.add({
+      ...event,
+      deviceId,
+      timestamp: event.timestamp ?? new Date().toISOString(),
+    });
   } catch (error) {
     console.error('Failed to persist telemetry event:', error, event);
   }
