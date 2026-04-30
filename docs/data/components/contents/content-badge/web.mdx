@@ -16,7 +16,7 @@ updatedAt: 2025-06-17
 const Demo = () => {
   return (
     <ContentBadge color="neutral" size="small">
-      Content badge
+      텍스트
     </ContentBadge>
   )
 }
@@ -36,10 +36,10 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center" sx={{ width: '100%' }}>
       <ContentBadge color="neutral" size="small" variant="solid">
-        Content badge
+        텍스트
       </ContentBadge>
       <ContentBadge color="neutral" size="small" variant="outlined">
-        Content badge
+        텍스트
       </ContentBadge>
     </FlexBox>
   )
@@ -56,18 +56,19 @@ export default Demo;`}
 - medium
 
 <Demo code={`import { ContentBadge, FlexBox } from '@wanteddev/wds';
+import { IconPlusThick } from '@wanteddev/wds-icon';
 
 const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
-      <ContentBadge color="neutral" size="xsmall">
-        Content badge
+      <ContentBadge color="neutral" size="xsmall" leadingContent={<IconPlusThick />}>
+        텍스트
       </ContentBadge>
-      <ContentBadge color="neutral" size="small">
-        Content badge
+      <ContentBadge color="neutral" size="small" leadingContent={<IconPlusThick />}>
+        텍스트
       </ContentBadge>
-      <ContentBadge color="neutral" size="medium">
-        Content badge
+      <ContentBadge color="neutral" size="medium" leadingContent={<IconPlusThick />}>
+        텍스트
       </ContentBadge>
     </FlexBox>
   )
@@ -90,10 +91,10 @@ const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="12px">
       <ContentBadge color="neutral" size="medium">
-        Content badge
+        텍스트
       </ContentBadge>
       <ContentBadge color="neutral" neutralColor="semantic.label.strong" size="medium">
-        Content badge
+        텍스트
       </ContentBadge>
     </FlexBox>
   )
@@ -116,73 +117,73 @@ const Demo = () => {
     <FlexBox flexDirection="column" gap="24px" alignItems="center">
       <FlexBox gap="12px" flexWrap="wrap" sx={{ width: '85%' }}>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.red">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.redOrange">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.orange">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.lime">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.green">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.cyan">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.lightBlue">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.blue">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.violet">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.purple">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge color="accent" size="medium" accentColor="semantic.accent.foreground.pink">
-          Content badge
+          텍스트
         </ContentBadge>
       </FlexBox>
 
       <FlexBox gap="12px" flexWrap="wrap" sx={{ width: '85%' }}>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.red">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.redOrange">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.orange">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.lime">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.green">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.cyan">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.lightBlue">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.blue">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.violet">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.purple">
-          Content badge
+          텍스트
         </ContentBadge>
         <ContentBadge variant="outlined" size="medium" color="accent" accentColor="semantic.accent.foreground.pink">
-          Content badge
+          텍스트
         </ContentBadge>
       </FlexBox>
     </FlexBox>
@@ -203,10 +204,10 @@ const Demo = () => {
   return (
     <FlexBox flexDirection="column" gap="12px">
       <ContentBadge color="neutral" leadingContent={<IconPlusThick />}>
-        Content badge
+        텍스트
       </ContentBadge>
       <ContentBadge color="neutral" trailingContent={<IconPlusThick />}>
-        Content badge
+        텍스트
       </ContentBadge>
     </FlexBox>
   )

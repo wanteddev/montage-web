@@ -34,24 +34,36 @@ const getSizeStyle = ({ size }: ContentBadgeProps) => {
   switch (size) {
     case 'medium':
       return css`
-        border-radius: 8px;
-        padding: 7px 8px;
+        border-radius: 10px;
+        padding: 5px 8px;
         gap: 4px;
         ${typographyStyle('label2', 'medium')}
+
+        svg {
+          font-size: 14px;
+        }
       `;
     case 'small':
       return css`
-        border-radius: 6px;
+        border-radius: 8px;
         padding: 4px 6px;
-        gap: 3px;
+        gap: 4px;
         ${typographyStyle('caption1', 'medium')}
+
+        svg {
+          font-size: 14px;
+        }
       `;
     case 'xsmall':
       return css`
-        border-radius: 6px;
+        border-radius: 8px;
         padding: 3px 6px;
         gap: 2px;
         ${typographyStyle('caption2', 'medium')}
+
+        svg {
+          font-size: 12px;
+        }
       `;
   }
 };
