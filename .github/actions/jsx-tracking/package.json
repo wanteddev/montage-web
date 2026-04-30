@@ -1,15 +1,15 @@
 {
   "name": "jsx-tracking",
   "version": "0.0.0",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "private": true,
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/exec": "^1.1.1",
-    "@babel/parser": "^7.27.0",
-    "@babel/traverse": "^7.27.0",
-    "@babel/types": "^7.27.0",
-    "@slack/webhook": "^7.0.5",
+    "@babel/parser": "^7.29.2",
+    "@babel/traverse": "^7.29.0",
+    "@babel/types": "^7.29.0",
+    "@slack/webhook": "^7.0.9",
     "typescript": "^5.9.3"
   },
   "engines": {
@@ -18,7 +18,7 @@
   "scripts": {
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "build": "esbuild src/index.ts --platform=node --bundle --outfile=dist/index.js"
+    "build": "esbuild src/index.ts --platform=node --bundle --format=esm --outfile=dist/index.mjs --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\""
   },
   "repository": {
     "url": "https://github.com/wanteddev/montage-web",
@@ -26,7 +26,7 @@
     "directory": ".github/actions/jsx-tracking"
   },
   "devDependencies": {
-    "@types/babel__traverse": "^7.20.7",
-    "esbuild": "^0.20.2"
+    "@types/babel__traverse": "^7.28.0",
+    "esbuild": "^0.25.0"
   }
 }

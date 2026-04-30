@@ -3,7 +3,7 @@ description: Tracking JSX usage in other repositories
 
 runs:
   using: 'node20'
-  main: 'dist/index.js'
+  main: 'dist/index.mjs'
 inputs:
   gh_token:
     description: github token

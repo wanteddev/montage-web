@@ -3,6 +3,13 @@ import crypto from 'node:crypto';
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
+import {
+  AccessDeniedError,
+  InvalidGrantError,
+  InvalidRequestError,
+  InvalidTokenError,
+  ServerError,
+} from '@modelcontextprotocol/sdk/server/auth/errors.js';
 
 import type {
   AuthorizationParams,
@@ -33,8 +40,11 @@ const firebaseApp = initializeApp(
 );
 
 const firebaseAuth = getAuth(firebaseApp);
-const firestore = getFirestore(firebaseApp, 'montage-storage');
+
+export const firestore = getFirestore(firebaseApp, 'montage-storage');
+
 const refreshTokensCollection = firestore.collection('refreshTokens');
+const clientsCollection = firestore.collection('clients');
 
 interface PendingAuth {
   clientId: string;
@@ -50,7 +60,6 @@ interface StoredAuthCode {
 }
 
 const TTL = {
-  CLIENT: 24 * 60 * 60 * 1000, // 24h
   PENDING_AUTH: 10 * 60 * 1000, // 10min
   AUTH_CODE: 5 * 60 * 1000, // 5min
 } as const;
@@ -80,7 +89,30 @@ class TtlMap<K, V> {
   }
 }
 
-const registeredClients = new TtlMap<string, OAuthClientInformationFull>();
+const clientRegistrationStore = {
+  async set(clientId: string, client: OAuthClientInformationFull) {
+    try {
+      await clientsCollection
+        .doc(clientId)
+        .set(JSON.parse(JSON.stringify(client)));
+    } catch {
+      throw new ServerError('Failed to persist client registration');
+    }
+  },
+
+  async get(clientId: string): Promise<OAuthClientInformationFull | undefined> {
+    try {
+      const doc = await clientsCollection.doc(clientId).get();
+
+      if (!doc.exists) return undefined;
+
+      return doc.data() as OAuthClientInformationFull;
+    } catch {
+      throw new ServerError('Failed to load client registration');
+    }
+  },
+};
+
 const pendingAuths = new TtlMap<string, PendingAuth>();
 const authCodes = new TtlMap<string, StoredAuthCode>();
 
@@ -119,9 +151,10 @@ export const getServerUrl = () =>
 
 export const createOAuthProvider = (): OAuthServerProvider => ({
   clientsStore: {
-    getClient: async (clientId: string) => registeredClients.get(clientId),
+    getClient: async (clientId: string) =>
+      clientRegistrationStore.get(clientId),
     registerClient: async (client: OAuthClientInformationFull) => {
-      registeredClients.set(client.client_id, client, TTL.CLIENT);
+      await clientRegistrationStore.set(client.client_id, client);
       return client;
     },
   },
@@ -132,7 +165,9 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     res: Response,
   ) {
     if (!client.redirect_uris.includes(params.redirectUri)) {
-      throw new Error('Redirect URI not registered for this client');
+      throw new InvalidRequestError(
+        'Redirect URI not registered for this client',
+      );
     }
 
     const state = crypto.randomUUID();
@@ -181,7 +216,7 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     const codeInfo = authCodes.get(authorizationCode);
 
     if (!codeInfo || codeInfo.clientId !== client.client_id) {
-      throw new Error('Invalid authorization code');
+      throw new InvalidGrantError('Invalid authorization code');
     }
 
     // Exchange the Google auth code for tokens
@@ -198,14 +233,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     }).catch((error) => {
       if (error instanceof DOMException && error.name === 'TimeoutError') {
-        throw new Error('Google token exchange timed out');
+        throw new ServerError('Google token exchange timed out');
       }
-      throw error;
+      throw new ServerError('Google token exchange failed');
     });
 
     if (!tokenResponse.ok) {
-      const error = await tokenResponse.text();
-      throw new Error(`Failed to exchange code with Google: ${error}`);
+      throw new InvalidGrantError('Failed to exchange code with Google');
     }
 
     const googleTokens = (await tokenResponse.json()) as {
@@ -231,14 +265,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       },
     ).catch((error) => {
       if (error instanceof DOMException && error.name === 'TimeoutError') {
-        throw new Error('Firebase sign-in timed out');
+        throw new ServerError('Firebase sign-in timed out');
       }
-      throw error;
+      throw new ServerError('Firebase sign-in failed');
     });
 
     if (!firebaseResponse.ok) {
-      const error = await firebaseResponse.text();
-      throw new Error(`Firebase sign-in failed: ${error}`);
+      throw new ServerError('Firebase sign-in failed');
     }
 
     const firebaseTokens = (await firebaseResponse.json()) as {
@@ -248,7 +281,9 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     };
 
     if (!firebaseTokens.email?.endsWith(`@${ALLOWED_DOMAIN}`)) {
-      throw new Error(`Access restricted to @${ALLOWED_DOMAIN} accounts`);
+      throw new AccessDeniedError(
+        `Access restricted to @${ALLOWED_DOMAIN} accounts`,
+      );
     }
 
     authCodes.delete(authorizationCode);
@@ -283,7 +318,7 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     );
 
     if (!googleRefreshToken) {
-      throw new Error('Invalid or expired refresh token');
+      throw new InvalidGrantError('Invalid or expired refresh token');
     }
 
     // Use Google refresh token to get new tokens
@@ -299,20 +334,18 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     }).catch((error) => {
       if (error instanceof DOMException && error.name === 'TimeoutError') {
-        throw new Error('Google token refresh timed out');
+        throw new ServerError('Google token refresh timed out');
       }
-      throw error;
+      throw new ServerError('Google token refresh failed');
     });
 
     if (!tokenResponse.ok) {
-      const error = await tokenResponse.text();
-
       // Only delete on permanent failures (token revoked/invalid)
       if (tokenResponse.status === 400 || tokenResponse.status === 401) {
         await refreshTokenStore.delete(refreshToken);
       }
 
-      throw new Error(`Failed to refresh Google token: ${error}`);
+      throw new InvalidGrantError('Failed to refresh Google token');
     }
 
     const googleTokens = (await tokenResponse.json()) as {
@@ -346,14 +379,13 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
       },
     ).catch((error) => {
       if (error instanceof DOMException && error.name === 'TimeoutError') {
-        throw new Error('Firebase sign-in timed out');
+        throw new ServerError('Firebase sign-in timed out');
       }
-      throw error;
+      throw new ServerError('Firebase sign-in failed');
     });
 
     if (!firebaseResponse.ok) {
-      const error = await firebaseResponse.text();
-      throw new Error(`Firebase sign-in failed: ${error}`);
+      throw new ServerError('Firebase sign-in failed');
     }
 
     const firebaseTokens = (await firebaseResponse.json()) as {
@@ -363,7 +395,9 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
     };
 
     if (!firebaseTokens.email?.endsWith(`@${ALLOWED_DOMAIN}`)) {
-      throw new Error(`Access restricted to @${ALLOWED_DOMAIN} accounts`);
+      throw new AccessDeniedError(
+        `Access restricted to @${ALLOWED_DOMAIN} accounts`,
+      );
     }
 
     return {
@@ -376,12 +410,14 @@ export const createOAuthProvider = (): OAuthServerProvider => ({
   },
 
   async verifyAccessToken(token: string): Promise<AuthInfo> {
-    const decoded = await firebaseAuth.verifyIdToken(token).catch((error) => {
-      throw error;
+    const decoded = await firebaseAuth.verifyIdToken(token).catch(() => {
+      throw new InvalidTokenError('Invalid or expired token');
     });
 
     if (!decoded.email?.endsWith(`@${ALLOWED_DOMAIN}`)) {
-      throw new Error(`Access restricted to @${ALLOWED_DOMAIN} accounts`);
+      throw new InvalidTokenError(
+        `Access restricted to @${ALLOWED_DOMAIN} accounts`,
+      );
     }
 
     return {

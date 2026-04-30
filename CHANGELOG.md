@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
+
+### Bug Fixes
+
+- **wds:** pagination dot color가 white일 때 숨김 처리된 dot이 보이는 버그 수정 ([#542](https://github.com/wanteddev/montage-web/issues/542)) ([ff47549](https://github.com/wanteddev/montage-web/commit/ff47549cec2fc756a1023813d9a6b4f49c4a6eb7))
+
+### Features
+
+- **wds:** tab/category 스크롤바 숨김 및 top-navigation data-background 추가 ([#541](https://github.com/wanteddev/montage-web/issues/541)) ([ede667f](https://github.com/wanteddev/montage-web/commit/ede667f1c9e7598ea557a6f049d5135f1f6c158d))
+
+# [3.5.0](https://github.com/wanteddev/montage-web/compare/v3.4.7...v3.5.0) (2026-04-17)
+
+### Bug Fixes
+
+- **wds-mcp:** card-list 컴포넌트 문서 경로 매핑 수정 ([c811a95](https://github.com/wanteddev/montage-web/commit/c811a952a566b83264efc092a8c3e8e1fdaa6f63))
+- **wds:** date range calendar의 month, year view 디자인 오류 수정 ([b8ef1de](https://github.com/wanteddev/montage-web/commit/b8ef1deb405d4351fe40b2fecfb0ab8209f89bda))
+
+### Features
+
+- **wds:** date range calendar, date range picker 컴포넌트 추가 ([#524](https://github.com/wanteddev/montage-web/issues/524)) ([d6e54e9](https://github.com/wanteddev/montage-web/commit/d6e54e913fd9b5157e22abb3df87b22896ae2d98))
+
+## [3.4.7](https://github.com/wanteddev/montage-web/compare/v3.4.6...v3.4.7) (2026-04-14)
+
+### Bug Fixes
+
+- **wds-mcp:** oauth 클라이언트 등록 정보를 Firestore에 저장 ([#538](https://github.com/wanteddev/montage-web/issues/538)) ([2cd8173](https://github.com/wanteddev/montage-web/commit/2cd817397f45e83be4843a38482ee76d4eece259))
+
+## [3.4.6](https://github.com/wanteddev/montage-web/compare/v3.4.5...v3.4.6) (2026-04-10)
+
+### Bug Fixes
+
+- **wds-mcp:** 컴포넌트 그룹핑 로직 및 JSON 빌드 오류 수정 ([#536](https://github.com/wanteddev/montage-web/issues/536)) ([9e2066c](https://github.com/wanteddev/montage-web/commit/9e2066c85fb641490d63eeb206f79fd6e7a8f04b))
+
+## [3.4.5](https://github.com/wanteddev/montage-web/compare/v3.4.4...v3.4.5) (2026-04-09)
+
+### Bug Fixes
+
+- **wds:** next-themes hydration 이슈로 인한 scriptProps 설정 ([#535](https://github.com/wanteddev/montage-web/issues/535)) ([fd4cdb6](https://github.com/wanteddev/montage-web/commit/fd4cdb6ae27d0077c6076b32ec684f240a0946d3))
+
+## [3.4.4](https://github.com/wanteddev/montage-web/compare/v3.4.3...v3.4.4) (2026-04-08)
+
+### Bug Fixes
+
+- **docs:** 아이콘 문서 페이지 아이콘 색상 지정 ([#534](https://github.com/wanteddev/montage-web/issues/534)) ([4bd51c0](https://github.com/wanteddev/montage-web/commit/4bd51c0f653d5dbae083b21ae1819d97e542a7ec))
+- **wds:** containerStyle xl breakpoint 스타일 수정 ([#532](https://github.com/wanteddev/montage-web/issues/532)) ([fa0284d](https://github.com/wanteddev/montage-web/commit/fa0284dbe2a0dd32ce8d912d7d5b0f72cbaaa8ac))
+- **wds:** fallback-view title 색상이 상속되지 않도록 수정 ([#533](https://github.com/wanteddev/montage-web/issues/533)) ([b6b41a9](https://github.com/wanteddev/montage-web/commit/b6b41a9593a3f1936e8e6f678dd47ee33a58a114))
+
 ## [3.4.3](https://github.com/wanteddev/montage-web/compare/v3.4.2...v3.4.3) (2026-03-25)
 
 ### Bug Fixes

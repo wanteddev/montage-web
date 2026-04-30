@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
+
+**Note:** Version bump only for package @wanteddev/wds-mcp
+
+# [3.5.0](https://github.com/wanteddev/montage-web/compare/v3.4.7...v3.5.0) (2026-04-17)
+
+### Bug Fixes
+
+- **wds-mcp:** card-list 컴포넌트 문서 경로 매핑 수정 ([c811a95](https://github.com/wanteddev/montage-web/commit/c811a952a566b83264efc092a8c3e8e1fdaa6f63))
+
+### Features
+
+- **wds:** date range calendar, date range picker 컴포넌트 추가 ([#524](https://github.com/wanteddev/montage-web/issues/524)) ([d6e54e9](https://github.com/wanteddev/montage-web/commit/d6e54e913fd9b5157e22abb3df87b22896ae2d98))
+
+## [3.4.7](https://github.com/wanteddev/montage-web/compare/v3.4.6...v3.4.7) (2026-04-14)
+
+### Bug Fixes
+
+- **wds-mcp:** oauth 클라이언트 등록 정보를 Firestore에 저장 ([#538](https://github.com/wanteddev/montage-web/issues/538)) ([2cd8173](https://github.com/wanteddev/montage-web/commit/2cd817397f45e83be4843a38482ee76d4eece259))
+
+## [3.4.6](https://github.com/wanteddev/montage-web/compare/v3.4.5...v3.4.6) (2026-04-10)
+
+### Bug Fixes
+
+- **wds-mcp:** 컴포넌트 그룹핑 로직 및 JSON 빌드 오류 수정 ([#536](https://github.com/wanteddev/montage-web/issues/536)) ([9e2066c](https://github.com/wanteddev/montage-web/commit/9e2066c85fb641490d63eeb206f79fd6e7a8f04b))
+
+## [3.4.5](https://github.com/wanteddev/montage-web/compare/v3.4.4...v3.4.5) (2026-04-09)
+
+**Note:** Version bump only for package @wanteddev/wds-mcp
+
+## [3.4.4](https://github.com/wanteddev/montage-web/compare/v3.4.3...v3.4.4) (2026-04-08)
+
+**Note:** Version bump only for package @wanteddev/wds-mcp
+
 ## [3.4.3](https://github.com/wanteddev/montage-web/compare/v3.4.2...v3.4.3) (2026-03-25)
 
 **Note:** Version bump only for package @wanteddev/wds-mcp

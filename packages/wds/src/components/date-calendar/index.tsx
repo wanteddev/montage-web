@@ -1118,6 +1118,8 @@ const DayCalendar = memo(
         ref={ref}
         role="rowgroup"
         {...props}
+        columnGap="0px"
+        rowGap="2px"
         sx={[dateYearMonthWrapperStyle, props.sx]}
       >
         {dayRangeRow.map((days, idx) => (

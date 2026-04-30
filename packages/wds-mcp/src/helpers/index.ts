@@ -3,12 +3,11 @@ import { load } from 'cheerio';
 import { camelCase, kebabCase } from 'change-case';
 import semver from 'semver';
 
-import api from '../../../../docs/generated/api.json';
+import componentApi from '../../../../docs/generated/api.json';
 import icons from '../../../../docs/generated/icons.json';
 import readme from '../../../wds/README.md';
 import { DOCS_BASE_URL } from '../constants';
 
-const componentApi = api;
 const iconNames = icons.map(({ name }) => name);
 
 export const getDocsBaseUrl = (version: string) => {
@@ -48,55 +47,40 @@ export const getGuideUrls = async (version: string) => {
 };
 
 export const listComponents = () => {
-  const components = componentApi.map((component) => component.name).sort();
-
-  const parsedComponents: Array<{
-    name: string;
-    subComponents: Array<string>;
-  }> = [];
-
-  for (const name of components) {
-    if (['ListCell', 'FormField'].includes(name)) {
-      parsedComponents.push({
-        name,
-        subComponents: [],
-      });
-      continue;
-    }
-
-    const parentComponentIdx = parsedComponents.findIndex(
-      (component) =>
-        name.startsWith(component.name) ||
-        ([
-          'FormControl',
-          'FormLabel',
-          'FormMessage',
-          'FormErrorMessage',
-        ].includes(name) &&
-          component.name === 'FormField'),
-    );
-
-    if (parentComponentIdx === -1) {
-      parsedComponents.push({
-        name,
-        subComponents: [],
-      });
-      continue;
-    }
-
-    const parentComponent = parsedComponents[parentComponentIdx]!;
-
-    if (
-      parentComponent.subComponents.includes(name) ||
-      parentComponent.name === name
-    ) {
-      continue;
-    }
-
-    parentComponent.subComponents.push(name);
+  function getComponentDir(filePath: string | undefined): string | undefined {
+    if (!filePath) return undefined;
+    return filePath.split('/components/')[1]?.split('/')[0];
   }
 
-  return parsedComponents;
+  const groups = new Map<string, Array<string>>();
+
+  for (const component of componentApi) {
+    const dir = getComponentDir(component.filePath);
+
+    if (!dir) {
+      groups.set(component.name, [component.name]);
+      continue;
+    }
+
+    const existing = groups.get(dir);
+    if (existing) {
+      existing.push(component.name);
+    } else {
+      groups.set(dir, [component.name]);
+    }
+  }
+
+  return Array.from(groups.entries()).map(([dir, names]) => {
+    const dirPascalCase = dir
+      .split('-')
+      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+      .join('');
+    const primaryIdx = names.findIndex((n) => n === dirPascalCase);
+    const primary = primaryIdx !== -1 ? names[primaryIdx]! : names[0]!;
+    const subComponents = names.filter((n) => n !== primary);
+
+    return { name: primary, subComponents };
+  });
 };
 
 export const listIcons = () => iconNames;
@@ -145,9 +129,10 @@ export const getComponentUrl = async (
 ) => {
   const componentSlug = kebabCase(componentName);
   const componentPathMap: Record<string, string> = {
+    'date-range-picker': 'date-picker',
     list: 'list-cell',
     stepper: 'progress-tracker',
-    'card-list': 'card',
+    'card-list': 'list-card',
     modal: 'popup',
   };
   const customComponentPath = componentPathMap[componentSlug];

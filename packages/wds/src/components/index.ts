@@ -16,6 +16,8 @@ export * from './filter-button';
 export * from './content-badge';
 export * from './date-calendar';
 export * from './date-picker';
+export * from './date-range-calendar';
+export * from './date-range-picker';
 export * from './alert';
 export * from './dismissable-layer';
 export * from './divider';

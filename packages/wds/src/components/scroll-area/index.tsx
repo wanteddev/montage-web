@@ -114,6 +114,7 @@ const ScrollBar = forwardRef<
     forceMount
     ref={ref}
     orientation={orientation}
+    data-role={`scroll-area-${orientation}-bar`}
     {...props}
     sx={[scrollBarStyle({ orientation, size }), props.sx]}
   >

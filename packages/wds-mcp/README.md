@@ -8,17 +8,20 @@ It provides AI coding assistants with access to WDS component documentation, des
 
 ## Available Tools
 
-| Tool                     | Description                                                  |
-| ------------------------ | ------------------------------------------------------------ |
-| `list_components`        | List all available WDS components                            |
-| `get_component`          | Get documentation and usage details for a specific component |
-| `wds_coding_guidelines`  | Get coding guidelines for writing WDS-based UI code          |
-| `list_icons`             | List all available icons from `@wanteddev/wds-icon`          |
-| `list_tokens`            | List all available design tokens                             |
-| `get_color_usage`        | Get guidelines for applying colors                           |
-| `list_utility_functions` | List all available utility functions                         |
-| `get_utility_function`   | Get documentation for a specific utility function            |
-| `getting_started`        | Get installation and initial configuration guide             |
+| Tool                     | Description                                                                                                                          |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `list_components`        | List all available WDS components                                                                                                    |
+| `get_component`          | Get documentation and usage details for a specific component                                                                         |
+| `wds_coding_guidelines`  | Get coding guidelines for writing WDS-based UI code                                                                                  |
+| `list_icons`             | List all available icons from `@wanteddev/wds-icon`                                                                                  |
+| `list_tokens`            | List all available design tokens                                                                                                     |
+| `get_color_usage`        | Get guidelines for applying colors                                                                                                   |
+| `list_utility_functions` | List all available utility functions                                                                                                 |
+| `get_utility_function`   | Get documentation for a specific utility function                                                                                    |
+| `list_dummy_components`  | List presentational dummy layout scaffolds (`NavBar`, `Footer`, `BottomTabBar`) from `@wanteddev/wds-dummy` for demo / preview pages |
+| `list_brand_assets`      | List official Wanted brand marks (`LogoWanted` from `@wanteddev/wds-brand`, `IconSymbol` from `@wanteddev/wds-icon`)                 |
+| `getting_started`        | Get installation and initial configuration guide                                                                                     |
+| `health_check`           | Check the health status of the MCP server                                                                                            |
 
 ## Setup
 

@@ -139,6 +139,15 @@ export default defineConfig(
   },
 
   {
+    files: ['packages/wds-mcp/**/*.ts'],
+    rules: {
+      'import/no-unresolved': [
+        'error',
+        { ignore: ['@modelcontextprotocol/sdk/.*'] },
+      ],
+    },
+  },
+  {
     files: ['**/*.test.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-unnecessary-condition': 'off',
@@ -239,6 +248,7 @@ export default defineConfig(
     '.nx',
     '**/node_modules',
     '**/dist',
+    'packages/**/bin',
     'docs/src/data.json',
     'docs/next-env.d.ts',
     'docs/.next',

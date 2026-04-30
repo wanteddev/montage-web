@@ -1,6 +1,6 @@
 {
   "name": "@wanteddev/eslint-plugin-wds",
-  "version": "3.4.3",
+  "version": "3.5.1",
   "files": [
     "dist"
   ],
@@ -33,11 +33,11 @@
     "directory": "packages/eslint-plugin-wds"
   },
   "devDependencies": {
-    "@types/eslint": "^8.56.5",
+    "@types/eslint": "^8.56.12",
     "@types/estree": "^1.0.8",
     "@types/estree-jsx": "^1.0.5",
     "@types/jsx-ast-utils": "^3.3.1",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {

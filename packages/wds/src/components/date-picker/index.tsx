@@ -22,6 +22,7 @@ import type { SlotProps } from '@radix-ui/react-slot';
 import type { DefaultComponentPropsInternal } from '@wanteddev/wds-engine';
 import type { DatePickerFieldProps, DatePickerProps } from './types';
 import type { DateType } from '../date-calendar/types';
+import type { DateRangeType } from '../date-range-calendar/types';
 
 extendDayjs();
 
@@ -138,8 +139,8 @@ const DatePicker = forwardRef<
     );
 
     const handleChangeCompleteActionArea = useCallback(
-      (v: DateType) => {
-        handleChangeComplete(v);
+      (v: DateType | DateRangeType) => {
+        handleChangeComplete(v as DateType);
         setOpen(false);
       },
       [handleChangeComplete, setOpen],

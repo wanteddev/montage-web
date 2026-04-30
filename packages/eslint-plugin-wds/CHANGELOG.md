@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.1](https://github.com/wanteddev/montage-web/compare/v3.5.0...v3.5.1) (2026-04-27)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
+# [3.5.0](https://github.com/wanteddev/montage-web/compare/v3.4.7...v3.5.0) (2026-04-17)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
+## [3.4.7](https://github.com/wanteddev/montage-web/compare/v3.4.6...v3.4.7) (2026-04-14)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
+## [3.4.6](https://github.com/wanteddev/montage-web/compare/v3.4.5...v3.4.6) (2026-04-10)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
+## [3.4.5](https://github.com/wanteddev/montage-web/compare/v3.4.4...v3.4.5) (2026-04-09)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
+## [3.4.4](https://github.com/wanteddev/montage-web/compare/v3.4.3...v3.4.4) (2026-04-08)
+
+**Note:** Version bump only for package @wanteddev/eslint-plugin-wds
+
 ## [3.4.3](https://github.com/wanteddev/montage-web/compare/v3.4.2...v3.4.3) (2026-03-25)
 
 **Note:** Version bump only for package @wanteddev/eslint-plugin-wds

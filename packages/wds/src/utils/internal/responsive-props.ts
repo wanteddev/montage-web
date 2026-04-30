@@ -121,3 +121,36 @@ export const getPreviousValue = <T extends object, K extends keyof T>(
       return objectPath.get(params.xs || {}, key as string) ?? defaultValue;
   }
 };
+
+/**
+ * Splits responsive breakpoint props by specified keys.
+ * Returns `picked` containing only the specified keys and `rest` containing everything else.
+ */
+export const splitResponsiveProps = <
+  T extends Record<string, unknown>,
+  K extends keyof T,
+>(
+  bp: T | undefined,
+  keys: Array<K>,
+): { picked: Pick<T, K> | undefined; rest: Omit<T, K> | undefined } => {
+  if (!bp) return { picked: undefined, rest: undefined };
+
+  const picked = {} as Record<string, unknown>;
+  const rest = {} as Record<string, unknown>;
+
+  for (const [k, v] of Object.entries(bp)) {
+    if (keys.includes(k as K)) {
+      picked[k] = v;
+    } else {
+      rest[k] = v;
+    }
+  }
+
+  const hasPicked = Object.keys(picked).length > 0;
+  const hasRest = Object.keys(rest).length > 0;
+
+  return {
+    picked: hasPicked ? (picked as Pick<T, K>) : undefined,
+    rest: hasRest ? (rest as Omit<T, K>) : undefined,
+  };
+};

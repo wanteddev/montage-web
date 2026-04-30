@@ -109,7 +109,12 @@ export const textFieldWrapperStyle =
                 :has(
                     input[data-role='date-picker-field'][aria-expanded='true']
                   ),
-                :has(input[data-role='time-picker-field'][aria-expanded='true'])
+                :has(
+                    input[data-role='time-picker-field'][aria-expanded='true']
+                  ),
+                :has(
+                    input[data-role='date-range-picker-field'][aria-expanded='true']
+                  )
               ) {
               ${invalid
                 ? css`
@@ -203,7 +208,8 @@ export const textFieldWrapperStyle =
     @supports selector(:has(*)) {
       &:where(
           :has(input[data-role='date-picker-field']),
-          :has(input[data-role='time-picker-field'])
+          :has(input[data-role='time-picker-field']),
+          :has(input[data-role='date-range-picker-field'])
         ) {
         [data-role='text-field-reset'],
         [data-role='text-field-invalid'],

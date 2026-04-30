@@ -38,6 +38,8 @@ jobs:
 
       - name: Build packages
         uses: ./.github/actions/package-build
+        env:
+          MCP_TRACK_CLIENT_ID: ${{ secrets.MCP_TRACK_CLIENT_ID }}
 
       - run: git config user.name "github-actions[bot]"
       - run: git config user.email "github-actions[bot]@users.noreply.github.com"
