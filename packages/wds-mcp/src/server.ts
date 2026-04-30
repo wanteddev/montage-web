@@ -593,6 +593,109 @@ or with the Typography component like:
   );
 
   server.registerTool(
+    'list_dummy_components',
+    {
+      description:
+        'List presentational dummy layout components (NavBar, Footer, BottomTabBar) provided by the @wanteddev/wds-dummy package. These are reference scaffolds for demos and previews — render UI only, expose no behavior props, and should NOT be reused as-is in production code.',
+    },
+    async () => {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `The following dummy components are available in the @wanteddev/wds-dummy package.
+
+## Intent
+
+These are **presentational-only reference scaffolds** that mirror the wanted.co.kr layout. Use them when you need a realistic-looking GNB / Footer / mobile tab bar for a demo, sandbox, storybook page, or visual preview.
+
+**Do NOT use them as-is in production.** They take no behavior props (no \`onClick\`, no routing, no state). For real product code, copy the structure and rebuild it against your own data, links, and handlers using primitives from \`@wanteddev/wds\`.
+
+## Components
+
+- **NavBar** — Top global navigation bar (logo + main menu + sign-up / enterprise / search / menu buttons). Becomes sticky on scroll.
+- **Footer** — Site footer (logo, link list, company info, social icon buttons, copyright).
+- **BottomTabBar** — Mobile-only bottom tab bar. Rendered only below the \`sm\` breakpoint; the component itself does not hide on larger screens, so wrap it accordingly if needed.
+
+All three are \`forwardRef\` components, accept a standard \`sx\` prop, and render as a \`div\` (or semantic equivalent).
+
+## Usage
+
+\`\`\`tsx
+import { NavBar, Footer, BottomTabBar } from '@wanteddev/wds-dummy';
+
+export default function DemoPage() {
+  return (
+    <>
+      <NavBar />
+      <main>{/* page content */}</main>
+      <Footer />
+      <BottomTabBar />
+    </>
+  );
+}
+\`\`\`
+
+If you need to know the exact JSX of a dummy component (to copy and adapt it for production), read the source from \`packages/wds-dummy/src/components/<component>/index.tsx\` directly — there is no separate docs page for these.`,
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
+    'list_brand_assets',
+    {
+      description:
+        'List Wanted brand assets (e.g. LogoWanted) provided by the @wanteddev/wds-brand package. These are official brand marks — use them as-is, do not recolor or restyle.',
+    },
+    async () => {
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `The following brand assets are available in the @wanteddev/wds-brand package.
+
+## Intent
+
+These are **official Wanted brand marks**. Use them whenever you need the Wanted logo in any UI. Do not recolor, restyle, or redraw them — they ship with the correct gradient and proportions baked in.
+
+## Assets
+
+- **LogoWanted** (\`@wanteddev/wds-brand\`) — The full **"[symbol] wanted" wordmark** (symbol + text), rendered as an inline SVG with the official brand gradient.
+  - Props: \`width\` (default \`112\`), \`height\` (default \`32\`), plus standard \`sx\` and any \`<svg>\` attributes.
+  - Forwards ref to the underlying \`SVGSVGElement\`.
+  - Pass \`aria-label\` (e.g. \`"Wanted Logo"\`) when the logo is the only content of an interactive or landmark element.
+
+- **IconSymbol** (\`@wanteddev/wds-icon\`) — The **symbol mark only** (no wordmark), rendered as a 1:1 square icon. Use this when you need just the Wanted symbol — e.g. favicons, app icons, compact headers, loading indicators, badges.
+  - Sized via \`fontSize\` (defaults to \`1em\`); built-in \`<title>\` provides accessible name "원티드 심벌".
+  - Do **not** crop or extract the symbol portion of \`LogoWanted\` to fake a symbol-only mark — always use \`IconSymbol\`.
+
+## Usage
+
+\`\`\`tsx
+// Full wordmark
+import { LogoWanted } from '@wanteddev/wds-brand';
+
+<LogoWanted aria-label="Wanted Logo" />
+
+// Custom size — keep the 112:32 (≈ 3.5:1) aspect ratio
+<LogoWanted width={168} height={48} aria-label="Wanted Logo" />
+
+// Symbol only
+import { IconSymbol } from '@wanteddev/wds-icon';
+
+<IconSymbol sx={{ fontSize: '32px' }} />
+\`\`\`
+
+Prefer these over importing or recreating any other Wanted logo SVG.`,
+          },
+        ],
+      };
+    },
+  );
+
+  server.registerTool(
     'health_check',
     {
       description:

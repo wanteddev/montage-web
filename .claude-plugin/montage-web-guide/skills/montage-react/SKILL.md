@@ -11,11 +11,13 @@ Skill that is automatically applied when developing components based on Wanted D
 
 Apply this skill when any of the following conditions are met:
 
-- Working in a project that uses Montage packages such as `@wanteddev/wds`, `@wanteddev/wds-icon`
+- Working in a project that uses Montage packages such as `@wanteddev/wds`, `@wanteddev/wds-icon`, `@wanteddev/wds-dummy`, `@wanteddev/wds-brand`
 - Creating, modifying, or looking up UI components
 - Implementing pages or screens
 - Working on styling (sx prop, theme tokens, colors, typography)
 - Finding or using icons
+- Need a placeholder GNB / Footer / bottom tab bar for a demo or preview page
+- Need to render the Wanted brand logo
 - Implementing Figma designs as code
 - Asking questions about Montage / design system
 
@@ -51,6 +53,8 @@ When setting up React.js or Next.js from scratch, use:
 - `mcp__montage-mcp-server__list_tokens` — when custom styling is required
 - `mcp__montage-mcp-server__get_color_usage` — when color application is needed
 - `mcp__montage-mcp-server__list_icons` — when icons are needed
+- `mcp__montage-mcp-server__list_dummy_components` — when a placeholder GNB / Footer / bottom tab bar is needed for a demo or preview
+- `mcp__montage-mcp-server__list_brand_assets` — when the Wanted brand logo (or other brand mark) is needed
 
 ### 2. Component Usage Principles
 
@@ -229,6 +233,60 @@ Use Montage design tokens instead of hardcoded values. Look up available tokens 
 
 - Do not use spacing tokens. Use px values directly.
 
+### 8. Dummy Layout Components (`@wanteddev/wds-dummy`)
+
+The `@wanteddev/wds-dummy` package provides presentational-only reference scaffolds (`NavBar`, `Footer`, `BottomTabBar`) that mirror the wanted.co.kr layout.
+
+- **Use for**: demo pages, sandboxes, storybook entries, visual previews — anywhere a realistic-looking GNB / Footer / mobile tab bar is needed without wiring real behavior.
+- **Do NOT use as-is in production.** They take no behavior props (no `onClick`, no routing, no state). For real product code, copy the structure and rebuild it against your own data, links, and handlers using primitives from `@wanteddev/wds`.
+- All three are `forwardRef` components and accept a standard `sx` prop. `BottomTabBar` is intended for viewports below the `sm` breakpoint — wrap it accordingly if you also render `NavBar` on the same page.
+- Look up the full list and usage via `mcp__montage-mcp-server__list_dummy_components`. To see the exact JSX (e.g. to copy and adapt), read the source from `packages/wds-dummy/src/components/<component>/index.tsx`.
+
+```tsx
+import { NavBar, Footer, BottomTabBar } from '@wanteddev/wds-dummy';
+
+<>
+  <NavBar />
+  <main>{/* page content */}</main>
+  <Footer />
+  <BottomTabBar />
+</>;
+```
+
+### 9. Brand Assets
+
+Official Wanted brand marks. **Use as-is** — do not recolor, restyle, redraw, or crop.
+
+#### 9.1 Full wordmark — `LogoWanted` (`@wanteddev/wds-brand`)
+
+Use when you need the **"[symbol] wanted" wordmark** (symbol + text together) — e.g. GNB, footer, splash, marketing surfaces.
+
+- Props: `width` (default `112`), `height` (default `32`), plus standard `sx` and any `<svg>` attributes. Forwards ref to `SVGSVGElement`.
+- Pass `aria-label` (e.g. `"Wanted Logo"`) when the logo stands alone in an interactive or landmark element.
+- Keep the default `112:32` (≈ 3.5:1) aspect ratio when resizing.
+
+```tsx
+import { LogoWanted } from '@wanteddev/wds-brand';
+
+<LogoWanted aria-label="Wanted Logo" />
+<LogoWanted width={168} height={48} aria-label="Wanted Logo" />;
+```
+
+#### 9.2 Symbol only — `IconSymbol` (`@wanteddev/wds-icon`)
+
+Use when you need **just the Wanted symbol mark** (no wordmark) — e.g. favicons, app icons, compact headers, loading indicators, badges. Renders as a 1:1 square.
+
+- Sized via `fontSize` (defaults to `1em`). Built-in `<title>` provides accessible name "원티드 심벌".
+- Do **not** crop or extract the symbol portion of `LogoWanted` to fake a symbol-only mark — always use `IconSymbol`.
+
+```tsx
+import { IconSymbol } from '@wanteddev/wds-icon';
+
+<IconSymbol sx={{ fontSize: '32px' }} />;
+```
+
+Look up the full list of brand assets via `mcp__montage-mcp-server__list_brand_assets`. Prefer these over importing or recreating any other Wanted logo SVG.
+
 ## Checklist
 
 Verify the following after completing a component/page:
@@ -240,3 +298,6 @@ Verify the following after completing a component/page:
 - [ ] Used FlexBox/Grid/containerStyle appropriately for layout?
 - [ ] Used Montage icons? (when applicable)
 - [ ] Used appropriate responsive method when needed?
+- [ ] For demo/preview pages, used `@wanteddev/wds-dummy` scaffolds instead of hand-rolling a fake GNB/Footer/tab bar?
+- [ ] For the Wanted wordmark, used `LogoWanted` from `@wanteddev/wds-brand` (not a custom SVG)?
+- [ ] For the symbol-only mark, used `IconSymbol` from `@wanteddev/wds-icon` (not a cropped `LogoWanted`)?

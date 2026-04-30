@@ -456,6 +456,22 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  packages/wds-brand:
+    dependencies:
+      '@wanteddev/wds-engine':
+        specifier: workspace:*
+        version: link:../wds-engine
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
   packages/wds-codemod:
     dependencies:
       execa:
@@ -474,6 +490,31 @@ importers:
       '@types/jscodeshift':
         specifier: 0.12.0
         version: 0.12.0
+
+  packages/wds-dummy:
+    dependencies:
+      '@wanteddev/wds':
+        specifier: workspace:*
+        version: link:../wds
+      '@wanteddev/wds-brand':
+        specifier: workspace:*
+        version: link:../wds-brand
+      '@wanteddev/wds-engine':
+        specifier: workspace:*
+        version: link:../wds-engine
+      '@wanteddev/wds-icon':
+        specifier: workspace:*
+        version: link:../wds-icon
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
+      react:
+        specifier: ^19.2.4
+        version: 19.2.4
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/wds-engine:
     dependencies:
