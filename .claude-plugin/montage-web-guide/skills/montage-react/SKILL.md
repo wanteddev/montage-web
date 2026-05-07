@@ -45,7 +45,7 @@ When setting up React.js or Next.js from scratch, use:
 
 **Always call in parallel**:
 
-- `mcp__montage-mcp-server__wds_coding_guidelines` — coding guidelines
+- `mcp__montage-mcp-server__montage_coding_guidelines` — coding guidelines
 - `mcp__montage-mcp-server__list_components` — available component list
 
 **Add in parallel when needed**:
@@ -240,7 +240,7 @@ The `@montage-ui/dummy` package provides presentational-only reference scaffolds
 - **Use for**: demo pages, sandboxes, storybook entries, visual previews — anywhere a realistic-looking GNB / Footer / mobile tab bar is needed without wiring real behavior.
 - **Do NOT use as-is in production.** They take no behavior props (no `onClick`, no routing, no state). For real product code, copy the structure and rebuild it against your own data, links, and handlers using primitives from `@montage-ui/core`.
 - All three are `forwardRef` components and accept a standard `sx` prop. `BottomTabBar` is intended for viewports below the `sm` breakpoint — wrap it accordingly if you also render `NavBar` on the same page.
-- Look up the full list and usage via `mcp__montage-mcp-server__list_dummy_components`. To see the exact JSX (e.g. to copy and adapt), read the source from `packages/wds-dummy/src/components/<component>/index.tsx`.
+- Look up the full list and usage via `mcp__montage-mcp-server__list_dummy_components`. To see the exact JSX (e.g. to copy and adapt), read the source from `packages/dummy/src/components/<component>/index.tsx`.
 
 ```tsx
 import { NavBar, Footer, BottomTabBar } from '@montage-ui/dummy';

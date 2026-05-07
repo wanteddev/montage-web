@@ -642,8 +642,7 @@ export default function DemoPage() {
   );
 }
 \`\`\`
-
-If you need to know the exact JSX of a dummy component (to copy and adapt it for production), read the source from \`packages/wds-dummy/src/components/<component>/index.tsx\` directly — there is no separate docs page for these.`,
+`,
           },
         ],
       };

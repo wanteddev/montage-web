@@ -106,16 +106,12 @@ export const textFieldWrapperStyle =
           @supports selector(:has(*)) {
             &:where(:has(input:focus)),
             &:where(
-                :has(
-                    input[data-role='date-picker-field'][aria-expanded='true']
-                  ),
-                :has(
-                    input[data-role='time-picker-field'][aria-expanded='true']
-                  ),
-                :has(
-                    input[data-role='date-range-picker-field'][aria-expanded='true']
-                  )
-              ) {
+              :has(input[data-role='date-picker-field'][aria-expanded='true']),
+              :has(input[data-role='time-picker-field'][aria-expanded='true']),
+              :has(
+                input[data-role='date-range-picker-field'][aria-expanded='true']
+              )
+            ) {
               ${invalid
                 ? css`
                     [data-role='text-field-wrapper'] {
@@ -160,11 +156,9 @@ export const textFieldWrapperStyle =
           @supports not selector(:has(*)) {
             &:where(:focus-within),
             &:where(
-                :has(
-                    input[data-role='date-picker-field'][aria-expanded='true']
-                  ),
-                :has(input[data-role='time-picker-field'][aria-expanded='true'])
-              ) {
+              :has(input[data-role='date-picker-field'][aria-expanded='true']),
+              :has(input[data-role='time-picker-field'][aria-expanded='true'])
+            ) {
               ${invalid
                 ? css`
                     [data-role='text-field-wrapper'] {
@@ -207,10 +201,10 @@ export const textFieldWrapperStyle =
 
     @supports selector(:has(*)) {
       &:where(
-          :has(input[data-role='date-picker-field']),
-          :has(input[data-role='time-picker-field']),
-          :has(input[data-role='date-range-picker-field'])
-        ) {
+        :has(input[data-role='date-picker-field']),
+        :has(input[data-role='time-picker-field']),
+        :has(input[data-role='date-range-picker-field'])
+      ) {
         [data-role='text-field-reset'],
         [data-role='text-field-invalid'],
         [data-role='text-field-positive'] {

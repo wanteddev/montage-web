@@ -8,6 +8,8 @@ const PACKAGE_NAME_MAP: Record<string, string> = {
   '@wanteddev/wds-theme': '@montage-ui/theme',
   '@wanteddev/wds-engine': '@montage-ui/engine',
   '@wanteddev/wds-codemod': '@montage-ui/codemod',
+  '@wanteddev/wds-dummy': '@montage-ui/dummy',
+  '@wanteddev/wds-brand': '@montage-ui/brand',
   '@wanteddev/wds-eslint-plugin': '@montage-ui/eslint-plugin',
   '@wanteddev/wds-mcp': '@wanteddev/montage-mcp',
 };
