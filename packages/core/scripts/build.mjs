@@ -70,28 +70,24 @@ html[data-theme='dark'] {
 }
 `;
 
-fs.writeFile(
-  path.join(path.dirname(import.meta.dirname), 'dist', 'reset.css'),
-  reset,
-  () => {
-    console.log('Build done by reset.css');
-  },
-);
+const dts = `export {}`;
 
-fs.writeFile(
-  path.join(path.dirname(import.meta.dirname), 'dist', 'theme.css'),
-  content,
-  () => {
-    console.log('Build done by theme.css');
-  },
-);
+const buildPath = (url) =>
+  path.join(path.dirname(import.meta.dirname), 'dist', url);
 
-fs.writeFile(
-  path.join(path.dirname(import.meta.dirname), 'dist', 'global.css'),
+fs.writeFileSync(buildPath('reset.css'), reset);
+
+fs.writeFileSync(buildPath('reset.css.d.ts'), dts);
+
+fs.writeFileSync(buildPath('theme.css'), content);
+
+fs.writeFileSync(buildPath('theme.css.d.ts'), dts);
+
+fs.writeFileSync(
+  buildPath('global.css'),
   `${reset}
 
 ${content}`,
-  () => {
-    console.log('Build done by global.css(include reset.css, theme.css)');
-  },
 );
+
+fs.writeFileSync(buildPath('global.css.d.ts'), dts);
