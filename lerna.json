@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/lerna@9.0.7/schemas/lerna-schema.json",
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "version": "3.12.0",
   "packages": ["packages/*", "internal/*"],
   "npmClient": "pnpm",
