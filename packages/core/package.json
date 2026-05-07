@@ -12,9 +12,18 @@
   "module": "./dist/index.mjs",
   "exports": {
     "./package.json": "./package.json",
-    "./global.css": "./dist/global.css",
-    "./theme.css": "./dist/theme.css",
-    "./reset.css": "./dist/reset.css",
+    "./global.css": {
+      "default": "./dist/global.css",
+      "types": "./dist/global.css.d.ts"
+    },
+    "./theme.css": {
+      "default": "./dist/theme.css",
+      "types": "./dist/theme.css.d.ts"
+    },
+    "./reset.css": {
+      "default": "./dist/reset.css",
+      "types": "./dist/reset.css.d.ts"
+    },
     ".": {
       "import": {
         "types": "./dist/index.d.mts",
