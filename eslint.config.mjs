@@ -141,7 +141,7 @@ export default defineConfig(
   },
 
   {
-    files: ['packages/wds-mcp/**/*.ts'],
+    files: ['internal/montage-mcp/**/*.ts'],
     rules: {
       'import/no-unresolved': [
         'error',

@@ -10,20 +10,20 @@ It provides AI coding assistants with access to Montage component documentation,
 
 ## Available Tools
 
-| Tool                        | Description                                                                                                                          |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `list_components`           | List all available Montage components                                                                                                |
-| `get_component`             | Get documentation and usage details for a specific component                                                                         |
-| `montage_coding_guidelines` | Get coding guidelines for writing Montage-based UI code                                                                              |
-| `list_icons`                | List all available icons from `@montage-ui/icon`                                                                                     |
-| `list_tokens`               | List all available design tokens                                                                                                     |
-| `get_color_usage`           | Get guidelines for applying colors                                                                                                   |
-| `list_utility_functions`    | List all available utility functions                                                                                                 |
-| `get_utility_function`      | Get documentation for a specific utility function                                                                                    |
-| `list_dummy_components`     | List presentational dummy layout scaffolds (`NavBar`, `Footer`, `BottomTabBar`) from `@wanteddev/wds-dummy` for demo / preview pages |
-| `list_brand_assets`         | List official Wanted brand marks (`LogoWanted` from `@wanteddev/wds-brand`, `IconSymbol` from `@wanteddev/wds-icon`)                 |
-| `getting_started`           | Get installation and initial configuration guide                                                                                     |
-| `health_check`              | Check the health status of the MCP server                                                                                            |
+| Tool                        | Description                                                                                                                      |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `list_components`           | List all available Montage components                                                                                            |
+| `get_component`             | Get documentation and usage details for a specific component                                                                     |
+| `montage_coding_guidelines` | Get coding guidelines for writing Montage-based UI code                                                                          |
+| `list_icons`                | List all available icons from `@montage-ui/icon`                                                                                 |
+| `list_tokens`               | List all available design tokens                                                                                                 |
+| `get_color_usage`           | Get guidelines for applying colors                                                                                               |
+| `list_utility_functions`    | List all available utility functions                                                                                             |
+| `get_utility_function`      | Get documentation for a specific utility function                                                                                |
+| `list_dummy_components`     | List presentational dummy layout scaffolds (`NavBar`, `Footer`, `BottomTabBar`) from `montage-ui/dummy` for demo / preview pages |
+| `list_brand_assets`         | List official Wanted brand marks (`LogoWanted` from `montage-ui/brand`, `IconSymbol` from `montage-ui/icon`)                     |
+| `getting_started`           | Get installation and initial configuration guide                                                                                 |
+| `health_check`              | Check the health status of the MCP server                                                                                        |
 
 ## Setup
 
