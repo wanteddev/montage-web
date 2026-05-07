@@ -5,22 +5,22 @@ import rules from './rules';
 import type { ESLint, Linter } from 'eslint';
 
 const recommendedRules = {
-  '@wanteddev/wds/icon-button-uses-name': 'warn',
-  '@wanteddev/wds/image-uses-alt': 'warn',
-} satisfies Record<`@wanteddev/wds/${keyof typeof rules}`, Linter.RuleEntry>;
+  '@montage-ui/icon-button-uses-name': 'warn',
+  '@montage-ui/image-uses-alt': 'warn',
+} satisfies Record<`@montage-ui/${keyof typeof rules}`, Linter.RuleEntry>;
 
 const strictRules = {
-  '@wanteddev/wds/icon-button-uses-name': 'error',
-  '@wanteddev/wds/image-uses-alt': 'error',
-} satisfies Record<`@wanteddev/wds/${keyof typeof rules}`, Linter.RuleEntry>;
+  '@montage-ui/icon-button-uses-name': 'error',
+  '@montage-ui/image-uses-alt': 'error',
+} satisfies Record<`@montage-ui/${keyof typeof rules}`, Linter.RuleEntry>;
 
 const configs = {
   recommended: {
-    plugins: ['@montage-ui/core'],
+    plugins: ['@montage-ui'],
     rules: recommendedRules,
   },
   strict: {
-    plugins: ['@montage-ui/core'],
+    plugins: ['@montage-ui'],
     rules: strictRules,
   },
 } satisfies ESLint.Plugin['configs'];
@@ -36,17 +36,18 @@ const plugin = {
 
 const flatConfig: Record<keyof typeof configs, Linter.FlatConfig> = {
   recommended: {
-    name: '@wanteddev/wds/recommended',
+    name: '@montage-ui/recommended',
     plugins: {
-      '@montage-ui/core': plugin,
+      '@montage-ui': plugin,
     },
     rules: recommendedRules,
   } as Linter.FlatConfig,
   strict: {
-    name: '@wanteddev/wds/strict',
+    name: '@montage-ui/strict',
     plugins: {
-      '@montage-ui/core': plugin,
+      '@montage-ui': plugin,
     },
+    rules: strictRules,
   } as Linter.FlatConfig,
 };
 

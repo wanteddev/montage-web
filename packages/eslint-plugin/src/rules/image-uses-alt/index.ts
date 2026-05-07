@@ -12,7 +12,7 @@ const TARGET_COMPONENTS = ['Avatar', 'Thumbnail', 'CardThumbnail', 'Box'];
 export default {
   meta: {
     docs: {
-      url: 'https://github.com/wanteddev/montage-web/tree/main/packages/eslint-plugin-wds/README.md#image-uses-alt',
+      url: 'https://github.com/wanteddev/montage-web/tree/main/packages/eslint-plugin/README.md#image-uses-alt',
       description: 'Required alt prop for wds image components',
     },
     messages: {

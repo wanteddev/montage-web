@@ -79,11 +79,11 @@ export const accordionSummaryContentStyle = ({
     }
 
     &:not(
-        :is(
-            [data-role='list-item-trailing-content'],
-            [data-role='accordion-summary-expand-icon']
-          )
-      ) {
+      :is(
+        [data-role='list-item-trailing-content'],
+        [data-role='accordion-summary-expand-icon']
+      )
+    ) {
       padding: 2px;
     }
   `}

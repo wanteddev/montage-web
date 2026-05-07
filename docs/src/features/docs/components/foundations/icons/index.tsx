@@ -6,7 +6,7 @@ import {
   SearchField,
   SegmentedControl,
   SegmentedControlItem,
-} from '@wanteddev/wds';
+} from '@montage-ui/core';
 import { useMemo, useState } from 'react';
 
 import { Heading2 } from '@/features/docs/components/mdx/section/layout';

@@ -85,8 +85,8 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-            [wds-component='top-navigation'][data-variant='floating']
-          ) {
+          [wds-component='top-navigation'][data-variant='floating']
+        ) {
           background: initial;
           will-change: unset;
         }
@@ -104,8 +104,8 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-            [wds-component='top-navigation'][data-variant='floating']
-          ) {
+          [wds-component='top-navigation'][data-variant='floating']
+        ) {
           background: initial;
           will-change: unset;
         }
@@ -123,8 +123,8 @@ const modalContainerWrapperVariant = (
         }
 
         [data-role='modal-container-scroll-area']:has(
-            [wds-component='top-navigation'][data-variant='floating']
-          ) {
+          [wds-component='top-navigation'][data-variant='floating']
+        ) {
           background: inherit;
           will-change: backdrop-filter;
         }
