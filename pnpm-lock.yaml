@@ -152,37 +152,6 @@ importers:
         specifier: ^0.25.12
         version: 0.25.12
 
-  .github/actions/jsx-tracking:
-    dependencies:
-      '@actions/core':
-        specifier: ^1.11.1
-        version: 1.11.1
-      '@actions/exec':
-        specifier: ^1.1.1
-        version: 1.1.1
-      '@babel/parser':
-        specifier: ^7.29.2
-        version: 7.29.2
-      '@babel/traverse':
-        specifier: ^7.29.0
-        version: 7.29.0
-      '@babel/types':
-        specifier: ^7.29.0
-        version: 7.29.0
-      '@slack/webhook':
-        specifier: ^7.0.9
-        version: 7.0.9
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-    devDependencies:
-      '@types/babel__traverse':
-        specifier: ^7.28.0
-        version: 7.28.0
-      esbuild:
-        specifier: ^0.25.0
-        version: 0.25.12
-
   docs:
     dependencies:
       '@algolia/autocomplete-core':
@@ -3628,14 +3597,6 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       size-limit: 11.2.0
-
-  '@slack/types@2.20.1':
-    resolution: {integrity: sha512-eWX2mdt1ktpn8+40iiMc404uGrih+2fxiky3zBcPjtXKj6HLRdYlmhrPkJi7JTJm8dpXR6BWVWEDBXtaWMKD6A==}
-    engines: {node: '>= 12.13.0', npm: '>= 6.12.0'}
-
-  '@slack/webhook@7.0.9':
-    resolution: {integrity: sha512-hMfkQ5Y3Y7FtL+ZYhcxFblidx4Z2LPRFrhY1KJb6NqQdnK6kzTzTS1mjH5taVQIB496eqwpg9FE9mq9BFx0DWw==}
-    engines: {node: '>= 18', npm: '>= 8.6.0'}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -13014,16 +12975,6 @@ snapshots:
   '@size-limit/file@11.2.0(size-limit@11.2.0)':
     dependencies:
       size-limit: 11.2.0
-
-  '@slack/types@2.20.1': {}
-
-  '@slack/webhook@7.0.9':
-    dependencies:
-      '@slack/types': 2.20.1
-      '@types/node': 22.19.17
-      axios: 1.15.0
-    transitivePeerDependencies:
-      - debug
 
   '@standard-schema/spec@1.1.0': {}
 
