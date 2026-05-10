@@ -11,10 +11,12 @@ enum Skeleton
 
 데이터 로딩 중에 UI의 구조를 미리 보여주는 스켈레톤 뷰를 제공합니다. 텍스트, 사각형, 원형 등 다양한 형태의 스켈레톤 로딩 플레이스홀더를 지원합니다.
 
+텍스트 스켈레톤은 `Typography.Variant`의 `lineHeight`를 기반으로 줄 수를 자동 계산하고, 첫 줄은 100%, 나머지는 가변 길이로 표시합니다.
+
 ```swift
-// 텍스트 스켈레톤 사용
+// 자동 텍스트 스켈레톤 (variant 기반 자동 계산)
 Text("콘텐츠")
-    .skeleton(isPresented: isLoading, kind: .text(lineNumber: 3))
+    .skeleton(isPresented: isLoading, kind: .text(variant: .body1))
 
 // 이미지를 위한 원형 스켈레톤 사용
 Image(systemName: "person.circle")
@@ -33,6 +35,107 @@ contentView
 
 ### Structures
 
+<details>
+
+<summary>``struct Kind``</summary>
+
+
+스켈레톤 요소의 종류를 지정하는 구조체입니다.
+#### Instance Properties
+
+<details>
+
+<summary>``var isCircle: Bool``</summary>
+
+
+원형 종류인지 여부
+</details>
+<details>
+
+<summary>``var isRectangle: Bool``</summary>
+
+
+사각형 종류인지 여부
+</details>
+<details>
+
+<summary>``var isText: Bool``</summary>
+
+
+텍스트 종류인지 여부
+</details>
+
+#### Type Properties
+
+<details>
+
+<summary>``static var circle: Kind``</summary>
+
+
+원형 스켈레톤
+</details>
+
+#### Type Methods
+
+<details>
+
+<summary>``static func rectangle(cornerRadius: CGFloat) -> Kind``</summary>
+
+
+사각형 모양의 스켈레톤을 생성합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `cornerRadius` | 모서리 둥글기, 생략하면 기본값으로 `3` 적용 |
+- **Return Value**
+
+  사각형 스켈레톤 Kind
+</details>
+<details>
+
+<summary>~~``static func text(alignment: Align, lengths: [Length], cornerRadius: CGFloat, lineNumber: Int) -> Kind``~~</summary>
+
+
+텍스트 줄을 나타내는 스켈레톤을 생성합니다.
+>  **Deprecated**
+>
+>  text(variant:alignment:cornerRadius:)를 사용하세요
+
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `alignment` | 텍스트 정렬 방식 |
+  | `lengths` | 각 줄의 상대적 길이 |
+  | `cornerRadius` | 모서리 둥글기 |
+  | `lineNumber` | 텍스트 줄 수. `0`이면 자동 계산 |
+- **Return Value**
+
+  텍스트 스켈레톤 Kind
+</details>
+<details>
+
+<summary>``static func text(variant: Typography.Variant, alignment: Align, cornerRadius: CGFloat) -> Kind``</summary>
+
+
+텍스트 줄을 나타내는 스켈레톤을 생성합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `variant` | 텍스트의 타이포그래피 변형. `lineHeight`를 기준으로 줄 수를 자동 계산합니다 |
+  | `alignment` | 텍스트 정렬 방식, 생략하면 기본값으로 `.leading` 적용 |
+  | `cornerRadius` | 모서리 둥글기, 생략하면 기본값으로 `3` 적용 |
+- **Return Value**
+
+  텍스트 스켈레톤 Kind
+- **Discussion**
+
+  `variant`의 `lineHeight`를 기반으로 뷰 높이에 맞는 줄 수를 자동 계산하고, 첫 줄은 100%, 나머지는 가변 길이로 표시합니다.
+</details>
+
+</details>
 <details>
 
 <summary>``struct SkeletonView``</summary>
@@ -129,50 +232,6 @@ contentView
 
 
 우측 정렬
-</details>
-
-</details>
-<details>
-
-<summary>``enum Kind``</summary>
-
-
-스켈레톤 요소의 종류를 지정하는 열거형입니다.
-#### Enumeration Cases
-
-<details>
-
-<summary>``case circle``</summary>
-
-
-원형 스켈레톤
-</details>
-<details>
-
-<summary>``case rectangle(cornerRadius: CGFloat)``</summary>
-
-
-사각형 모양의 스켈레톤
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `cornerRadius` | 모서리 둥글기, 생략하면 기본값으로 `3` 적용 |
-</details>
-<details>
-
-<summary>``case text(alignment: Align, lengths: [Length], cornerRadius: CGFloat, lineNumber: Int)``</summary>
-
-
-텍스트 줄을 나타내는 스켈레톤
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `alignment` | 텍스트 정렬 방식, 생략하면 기본값으로 `.leading` 적용 |
-  | `lengths` | 각 줄의 상대적 길이, 생략하면 기본값으로 `[._100]` 적용 |
-  | `cornerRadius` | 모서리 둥글기, 생략하면 기본값으로 `3` 적용 |
-  | `lineNumber` | 텍스트 줄 수, 생략하면 기본값으로 `1` 적용 |
 </details>
 
 </details>

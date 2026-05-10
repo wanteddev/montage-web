@@ -146,6 +146,21 @@ ModalNavigation()
 </details>
 <details>
 
+<summary>``func fixedBackgroundOpacity(CGFloat) -> ModalNavigation``</summary>
+
+
+내비게이션 바의 배경 불투명도를 고정값으로 설정합니다. 스크롤에 따른 자동 조절을 비활성화하고 항상 일정한 불투명도를 유지합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `fixedBackgroundOpacity` | 고정 배경 불투명도 (0에서 1 사이의 값) |
+- **Return Value**
+
+  수정된 내비게이션 바 뷰
+</details>
+<details>
+
 <summary>``func leadingContent<V>(() -> V) -> ModalNavigation``</summary>
 
 
@@ -178,6 +193,16 @@ ModalNavigation()
   >
   > titleView(_:)와 함께 사용될 경우 이 메서드로 설정된 텍스트만 표시됩니다.
 
+</details>
+<details>
+
+<summary>``func noMaterialBackground() -> ModalNavigation``</summary>
+
+
+내비게이션 바의 배경에 머티리얼 효과를 적용하지 않습니다.
+- **Return Value**
+
+  수정된 내비게이션 바 뷰
 </details>
 <details>
 
@@ -226,7 +251,7 @@ ModalNavigation()
 - **Discussion**
   >  **Note**
   >
-  > Title(:) 메서드로 설정된 텍스트만 표시됩니다.
+  > Title(*:)와 함께 사용될 경우 title(*:) 메서드로 설정된 텍스트만 표시됩니다.
 
 </details>
 <details>

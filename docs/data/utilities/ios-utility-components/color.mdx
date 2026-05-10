@@ -27,6 +27,24 @@ let swiftUIColor = SwiftUI.Color.semantic(.primaryNormal)
 >
 > UI 구성요소를 개발할 때는 직접 Atomic 색상을 사용하기보다 Semantic 색상을 사용하는 것이 권장됩니다. 이는 다크 모드와 같은 다양한 환경에서 일관된 디자인을 유지하는 데 도움이 됩니다.
 
+>  **Warning**
+>
+> **`Color` 네임스페이스 충돌**
+>
+> Montage는 `public enum Color`(이 문서의 enum)와 `extension SwiftUI.Color { static func semantic/atomic }`를 동시에 정의합니다. 그래서 표현식 `Color.semantic(.foo)`는 SwiftUI.Color로 잘 해석되지만, **타입 어노테이션 위치**에서 그냥 `Color`라고 쓰면 컴파일러가 `Montage.Color`(enum)로 추론하여 `Cannot convert value of type 'SwiftUI.Color' to specified type 'Color'` 에러를 냅니다.
+>
+> stored property·return type·parameter type 등 타입 위치에는 반드시 **`SwiftUI.Color`** 로 한정 표기하십시오.
+>
+> ```swift
+> // ✅ 올바름
+> private var backgroundColor: SwiftUI.Color {
+>     Color.semantic(.backgroundElevatedAlternative)
+> }
+>
+> // ❌ 빌드 실패
+> private var backgroundColor: Color { Color.semantic(.backgroundElevatedAlternative) }
+> ```
+
 ## Topics
 
 ### Enumerations
