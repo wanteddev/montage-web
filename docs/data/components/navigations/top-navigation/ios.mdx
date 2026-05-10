@@ -250,7 +250,7 @@ TopNavigation을 초기화합니다.
   타이틀에는 텍스트 또는 커스텀 뷰를 사용할 수 있으며, ViewBuilder를 통해 정의됩니다.
   >  **Note**
   >
-  > Title(:) 메서드로 설정된 텍스트만 표시됩니다.
+  > Title(*:)와 함께 사용될 경우 title(*:) 메서드로 설정된 텍스트만 표시됩니다.
 
 </details>
 <details>
