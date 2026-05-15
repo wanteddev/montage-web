@@ -1,6 +1,7 @@
 import { css } from '@montage-ui/engine';
 
 import { typographyStyle } from '../../utils/typography';
+import { addOpacity } from '../../utils/color';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
 import type { ButtonProps } from './types';
@@ -64,25 +65,26 @@ export const buttonStyle =
     )}
   `;
 
-const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
-  const fontWeight = color === 'assistive' ? 'medium' : 'bold';
+const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
+  // All variants/colors use SemiBold per the 2026 design refresh.
+  const fontWeight = 'bold';
 
   switch (size) {
     case 'large':
       return css`
-        border-radius: 12px;
-        padding: 12px 28px;
+        border-radius: 14px;
+        padding: 13px 20px;
         gap: 6px;
 
         [data-role='button-loading'] {
-          width: 18px;
-          height: 18px;
+          width: 16px;
+          height: 16px;
         }
 
         ${iconOnly
           ? css`
-              padding: 12px;
-              font-size: 24px;
+              padding: 14px;
+              font-size: 20px;
 
               svg {
                 flex-shrink: 0;
@@ -93,25 +95,25 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
                 font-size: 20px;
               }
               & > span {
-                ${typographyStyle('body1', fontWeight)}
+                ${typographyStyle('body2', fontWeight)}
               }
             `}
       `;
     case 'medium':
       return css`
-        border-radius: 10px;
-        padding: 9px 20px;
-        gap: 5px;
+        border-radius: 12px;
+        padding: 10px 16px;
+        gap: 4px;
 
         [data-role='button-loading'] {
-          width: 16px;
-          height: 16px;
+          width: 14px;
+          height: 14px;
         }
 
         ${iconOnly
           ? css`
-              padding: 10px;
-              font-size: 20px;
+              padding: 11px;
+              font-size: 18px;
 
               svg {
                 flex-shrink: 0;
@@ -122,25 +124,25 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
                 font-size: 18px;
               }
               & > span {
-                ${typographyStyle('body2', fontWeight)}
+                ${typographyStyle('label1', fontWeight)}
               }
             `}
       `;
     case 'small':
       return css`
-        border-radius: 8px;
-        padding: 7px 14px;
+        border-radius: 10px;
+        padding: 8px 12px;
         gap: 4px;
 
         [data-role='button-loading'] {
-          width: 14px;
-          height: 14px;
+          width: 12px;
+          height: 12px;
         }
 
         ${iconOnly
           ? css`
-              padding: 7px;
-              font-size: 18px;
+              padding: 8px;
+              font-size: 16px;
 
               svg {
                 flex-shrink: 0;
@@ -151,7 +153,36 @@ const buttonSizeStyle = ({ size, iconOnly, color }: ButtonProps = {}) => {
                 font-size: 16px;
               }
               & > span {
-                ${typographyStyle('label2', fontWeight)}
+                ${typographyStyle('caption1', fontWeight)}
+              }
+            `}
+      `;
+    case 'xsmall':
+      return css`
+        border-radius: 10px;
+        padding: 6px 10px;
+        gap: 4px;
+
+        [data-role='button-loading'] {
+          width: 12px;
+          height: 12px;
+        }
+
+        ${iconOnly
+          ? css`
+              padding: 7px;
+              font-size: 14px;
+
+              svg {
+                flex-shrink: 0;
+              }
+            `
+          : css`
+              & > svg {
+                font-size: 14px;
+              }
+              & > span {
+                ${typographyStyle('caption1', fontWeight)}
               }
             `}
       `;
@@ -198,6 +229,26 @@ const buttonColorStyle = (
           background-color: ${theme.semantic.interaction.disable};
           box-shadow: none;
           backdrop-filter: none;
+        }
+      `;
+    case variant === 'solid' && color === 'negative':
+      return css`
+        color: ${theme.semantic.accent.foreground.red};
+        background-color: ${addOpacity(
+          theme.semantic.status.negative,
+          theme.opacity[12],
+        )};
+        box-shadow: none;
+
+        [data-role='button-loading'] {
+          color: inherit;
+        }
+
+        &:disabled,
+        &[aria-disabled='true'] {
+          color: ${theme.semantic.label.assistive};
+          background-color: ${theme.semantic.interaction.disable};
+          box-shadow: none;
         }
       `;
     case variant === 'outlined' && color === 'primary':

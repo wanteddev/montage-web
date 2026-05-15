@@ -59,8 +59,12 @@ export type ActionAreaButtonProps = WithSxProps<{
   buttonVariant?: ButtonProps['variant'];
   /**
    * When overriding the color of the `Button`.
+   *
+   * `negative` is intentionally excluded — action-area buttons are not for
+   * destructive actions, and allowing it would conflict with the Button type
+   * guarantee that `negative` is only valid with `solid` variant.
    */
-  buttonColor?: ButtonProps['color'];
+  buttonColor?: Exclude<NonNullable<ButtonProps['color']>, 'negative'>;
   /**
    * Whether to show the loading indicator.
    */

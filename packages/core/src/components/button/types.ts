@@ -3,17 +3,25 @@ import type { ReactNode } from 'react';
 
 export type ButtonVariant = 'solid' | 'outlined';
 
-export type ButtonColor = 'primary' | 'assistive';
+export type ButtonColor = 'primary' | 'assistive' | 'negative';
+
+export type ButtonSize = 'xsmall' | 'small' | 'medium' | 'large';
 
 export type ButtonDefaultProps = WithSxProps<{
-  size?: 'small' | 'medium' | 'large';
+  size?: ButtonSize;
   /** Whether the button is disabled. */
   disabled?: boolean;
   /** Whether to disable the interaction. */
   disableInteraction?: boolean;
   /** The variant of the button. */
   variant?: ButtonVariant;
-  /** The color of the button. */
+  /**
+   * The color of the button.
+   *
+   * Note: `negative` is only supported with `variant="solid"`. Pairing it with
+   * `variant="outlined"` falls through to no styled output and will emit a
+   * development-time warning.
+   */
   color?: ButtonColor;
   /** Whether the button is full width. */
   fullWidth?: boolean;
