@@ -66,9 +66,6 @@ export const buttonStyle =
   `;
 
 const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
-  // All variants/colors use SemiBold per the 2026 design refresh.
-  const fontWeight = 'bold';
-
   switch (size) {
     case 'large':
       return css`
@@ -95,7 +92,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 20px;
               }
               & > span {
-                ${typographyStyle('body2', fontWeight)}
+                ${typographyStyle('body2', 'bold')}
               }
             `}
       `;
@@ -124,7 +121,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 18px;
               }
               & > span {
-                ${typographyStyle('label1', fontWeight)}
+                ${typographyStyle('label1', 'bold')}
               }
             `}
       `;
@@ -153,7 +150,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 16px;
               }
               & > span {
-                ${typographyStyle('caption1', fontWeight)}
+                ${typographyStyle('caption1', 'bold')}
               }
             `}
       `;
@@ -182,7 +179,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
                 font-size: 14px;
               }
               & > span {
-                ${typographyStyle('caption1', fontWeight)}
+                ${typographyStyle('caption1', 'bold')}
               }
             `}
       `;
