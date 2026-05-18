@@ -55,9 +55,7 @@ const Button = forwardRef(
       variant === 'outlined' &&
       color === 'negative'
     ) {
-      console.warn(
-        '[Button] `color="negative"` is only supported with `variant="solid"`. Falling back to no styled color.',
-      );
+      throw new Error('color="negative" is only supported with variant="solid" in Button')
     }
 
     const handlePreventEventsLoading = (e: SyntheticEvent) => {
