@@ -135,6 +135,24 @@ Accordion(title: "커스텀 스타일")
 </details>
 <details>
 
+<summary>``func leadingContent<V>(() -> V) -> Accordion``</summary>
+
+
+아코디언 제목 앞에 커스텀 컨텐츠를 추가합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `leadingContent` | 표시할 커스텀 컨텐츠 뷰 |
+- **Return Value**
+
+  수정된 아코디언 인스턴스
+- **Discussion**
+
+  `leadingIcon`과 동일한 슬롯을 공유하므로, 두 모디파이어를 함께 호출하면 마지막에 호출된 쪽이 적용됩니다.
+</details>
+<details>
+
 <summary>``func leadingIcon(Icon?, color: SwiftUI.Color?) -> Accordion``</summary>
 
 
@@ -148,6 +166,9 @@ Accordion(title: "커스텀 스타일")
 - **Return Value**
 
   수정된 아코디언 인스턴스
+- **Discussion**
+
+  `leadingContent { ... }`와 동일한 슬롯을 공유하므로, 두 모디파이어를 함께 호출하면 마지막에 호출된 쪽이 적용됩니다.
 </details>
 <details>
 
@@ -168,7 +189,29 @@ Accordion(title: "커스텀 스타일")
 </details>
 <details>
 
-<summary>``func trailingContent<V>(() -> V) -> Accordion``</summary>
+<summary>~~``func trailingContent<V>(() -> V) -> Accordion``~~</summary>
+
+
+아코디언 헤더 우측에 커스텀 컨텐츠를 추가합니다.
+>  **Deprecated**
+>
+>  확장 상태를 인자로 받는 오버로드를 사용하세요: trailingContent { isExpanded in ... }
+
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `trailingContent` | 표시할 커스텀 컨텐츠 뷰 |
+- **Return Value**
+
+  수정된 아코디언 인스턴스
+- **Discussion**
+
+  이 수정자를 사용하면 기본 화살표 아이콘이 대체됩니다.
+</details>
+<details>
+
+<summary>``func trailingContent<V>((Bool) -> V) -> Accordion``</summary>
 
 
 아코디언 헤더 우측에 커스텀 컨텐츠를 추가합니다.
@@ -176,7 +219,7 @@ Accordion(title: "커스텀 스타일")
 - **Parameters**
   | Parameter | Description |
   | --- | --- |
-  | `trailingContent` | 표시할 커스텀 컨텐츠 뷰 |
+  | `trailingContent` | 표시할 컨텐츠를 생성하는 클로저 (아코디언이 펼쳐진 상태를 파라미터로 받음) |
 - **Return Value**
 
   수정된 아코디언 인스턴스

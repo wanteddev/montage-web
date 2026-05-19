@@ -227,6 +227,11 @@ Button(action: {}) {
 </details>
 <details>
 
+<summary>``case bulbFill``</summary>
+
+</details>
+<details>
+
 <summary>``case businessBag``</summary>
 
 </details>
@@ -523,6 +528,11 @@ Button(action: {}) {
 <details>
 
 <summary>``case circlePoint``</summary>
+
+</details>
+<details>
+
+<summary>``case circlePointFill``</summary>
 
 </details>
 <details>
@@ -1378,6 +1388,16 @@ Button(action: {}) {
 <details>
 
 <summary>``case plusThick``</summary>
+
+</details>
+<details>
+
+<summary>``case pouch``</summary>
+
+</details>
+<details>
+
+<summary>``case pouchFill``</summary>
 
 </details>
 <details>
