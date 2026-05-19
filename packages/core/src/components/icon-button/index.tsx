@@ -65,7 +65,7 @@ const IconButton = forwardRef(
         case 'background':
           return 'calc(100% + 8px)';
         case 'normal':
-          return 'calc(100% + 16px)';
+          return 'calc(100% + 12px)';
       }
     };
 

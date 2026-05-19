@@ -191,14 +191,16 @@ const iconButtonColorStyle = (
         border: none;
         box-shadow: none;
 
-        ${Boolean(interactionColor) &&
-        css`
-          & > [wds-component='with-interaction'] {
+        & > [wds-component='with-interaction'] {
+          border-radius: 10px;
+          ${Boolean(interactionColor) &&
+          css`
             background-color: ${getColorByToken(theme, interactionColor!)};
-          }
-        `}
+          `}
+        }
 
-        &:disabled, &[aria-disabled='true'] {
+        &:disabled,
+        &[aria-disabled='true'] {
           background-color: transparent;
           color: ${theme.semantic.label.disable};
           box-shadow: none;
