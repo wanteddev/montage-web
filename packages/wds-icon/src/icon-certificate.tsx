@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 인증을 표현합니다.
- * 키워드: certification
- */
 const IconCertificate = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

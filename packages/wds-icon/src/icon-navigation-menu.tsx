@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 모바일 환경 하단의 내비게이션 바에 들어가는 아이콘입니다.
- * 키워드: 메뉴 내비게이션, Menu, Hamburger, Three lines
- */
 const IconNavigationMenu = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

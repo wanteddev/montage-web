@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 인스턴스를 표현합니다.
- * 키워드: Instance
- */
 const IconInstance = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

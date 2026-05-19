@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 폴더를 표현합니다.
- * 키워드: 폴더, 파일들, 모음, Stacked, Gathered
- */
 const IconFolder = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

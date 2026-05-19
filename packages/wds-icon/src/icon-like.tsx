@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 내용을 추천할 때 사용합니다.
- * 키워드: Thumb, 엄지척, Thumbsup, Like, 좋아요, 따봉, 굿, Good
- */
 const IconLike = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

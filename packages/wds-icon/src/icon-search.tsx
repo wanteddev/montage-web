@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 검색 관련 정보를 표현하고 싶을 때 사용합니다.
- * 키워드: Find, 돋보기, 찾기, Search
- */
 const IconSearch = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

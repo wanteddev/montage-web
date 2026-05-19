@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 텍스트 포맷을 표현합니다.
- * 키워드: Type
- */
 const IconTextFormat = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

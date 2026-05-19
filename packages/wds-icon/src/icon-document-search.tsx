@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 문서 검색을 표현합니다.
- * 키워드: search, 검색, document, 문서
- */
 const IconDocumentSearch = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

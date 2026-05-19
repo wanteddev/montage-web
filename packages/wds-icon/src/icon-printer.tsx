@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 프린터를 표현합니다.
- * 키워드: printer
- */
 const IconPrinter = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

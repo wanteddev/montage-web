@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 해를 표현합니다.
- * 키워드: 라이트모드, light, weather
- */
 const IconSun = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

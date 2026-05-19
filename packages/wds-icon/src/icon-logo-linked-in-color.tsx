@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 링크드인 로고를 표현합니다.
- * 키워드: 링크드인, 로고, Linkedin, Icon, Size, Small
- */
 const IconLogoLinkedInColor = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

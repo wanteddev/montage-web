@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 요소를 확장하거나 확대할 때 사용합니다.
- * 키워드: Expand, 확대, 확장, 전체
- */
 const IconFull = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 달을 표현합니다.
- * 키워드: 다크모드, dark, night, night time, weather
- */
 const IconMoon = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

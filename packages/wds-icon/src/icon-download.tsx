@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 에셋을 다운로드할 때 사용합니다.
- * 키워드: 다운로드, Download
- */
 const IconDownload = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

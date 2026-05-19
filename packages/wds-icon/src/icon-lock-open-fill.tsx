@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 비공개 정보를 해제할 때 사용합니다.
- * 키워드: 잠금 해제, unlock, 딸깍 open, 열린 자물쇠
- */
 const IconLockOpenFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

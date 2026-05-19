@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 사각형을 표현합니다.
- * 키워드: Square, Rectangle, 정사각형, 사각형
- */
 const IconSquareFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

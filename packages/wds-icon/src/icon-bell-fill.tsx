@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 새 정보와 관련한 내용을 표현할 때 사용합니다.
- * 키워드: 노티피케이션, 벨, 알람, ring, bell, alarm center, notification, noti, notify
- */
 const IconBellFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

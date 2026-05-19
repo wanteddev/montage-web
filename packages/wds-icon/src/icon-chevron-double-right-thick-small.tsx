@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 오른쪽으로 큰 상태 변화를 표현합니다.
- * 키워드: 오른쪽 꺽쇠, 굵은, 얇은, 작은, 큰, double chevron, right, small, big
- */
 const IconChevronDoubleRightThickSmall = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 현재 또는 특정 위치를 표현합니다.
- * 키워드: GPS, Location, Place, 좌표, 위치
- */
 const IconLocation = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

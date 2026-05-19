@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 프로필을 표현합니다.
- * 키워드: Profile, 사람, Human, Person, 인간, 유저, User, Profile, 프로필
- */
 const IconPerson = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

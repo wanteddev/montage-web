@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 정상적으로 확인된 상태를 표현합니다.
- * 키워드: 체크, 확인, Check, Checked, Confirm
- */
 const IconCircleCheck = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

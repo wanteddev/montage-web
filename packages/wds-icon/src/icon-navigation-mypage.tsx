@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 모바일 환경 하단의 내비게이션 바에 들어가는 아이콘입니다. 회원이 등록한 프로필 이미지가 있을 경우 그 이미지를 보여줍니다.
- * 키워드: 마이원티드, 마이페이지, My wanted page
- */
 const IconNavigationMypage = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

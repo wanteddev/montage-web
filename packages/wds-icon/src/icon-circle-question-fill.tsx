@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 이해에 도움이 되는 정보를 표시할 때 사용합니다.
- * 키워드: 물음표, 추가 정보, Question, Additional Information
- */
 const IconCircleQuestionFill = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

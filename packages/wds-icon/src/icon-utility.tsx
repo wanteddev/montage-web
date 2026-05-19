@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 유틸리티를 표현합니다.
- * 키워드: 공구, utility
- */
 const IconUtility = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

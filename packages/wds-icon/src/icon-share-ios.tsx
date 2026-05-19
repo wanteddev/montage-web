@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * iOS에서 내용을 공유할 때 사용합니다.
- * 키워드: Share, iOS, Contents, Link, Clipboard, 아이오에스, 애플, 클립보드, 공유, 링크, 콘텐츠
- */
 const IconShareIos = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

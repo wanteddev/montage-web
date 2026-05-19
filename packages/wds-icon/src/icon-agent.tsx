@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 원티드 에이전트 아이콘을 표현합니다.
- * 키워드: 에이전트, Agent, 원티드 AI, 원티드 에이전트
- */
 const IconAgent = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

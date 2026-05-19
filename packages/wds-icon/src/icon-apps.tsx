@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 여러 앱 리스트를 표현합니다.
- * 키워드: 전체보기, All, More, App
- */
 const IconApps = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

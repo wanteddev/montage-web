@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 여권, 비자를 표현합니다.
- * 키워드: 여권, 비자, passport, visa
- */
 const IconPassportFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

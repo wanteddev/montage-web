@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 불꽃을 표현합니다.
- * 키워드: Featured, Hot, 인기
- */
 const IconFire = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

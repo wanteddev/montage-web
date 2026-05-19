@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 콘텐츠를 일시정지할 때 사용합니다.
- * 키워드: Pause, 일시정지, 정지, 잠깐, Wait
- */
 const IconPause = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

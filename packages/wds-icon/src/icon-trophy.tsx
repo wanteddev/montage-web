@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 우수한 상태 및 정보를 표현합니다.
- * 키워드: 트로피, 우승, 우수한, 최고, Trophy, Best, Extraordinary
- */
 const IconTrophy = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

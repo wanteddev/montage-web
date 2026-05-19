@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 쌓인 동전을 표현합니다.
- * 키워드: Coins, Stacked rewards 리워드, 코인, 동전, Money, 돈
- */
 const IconCoinsFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

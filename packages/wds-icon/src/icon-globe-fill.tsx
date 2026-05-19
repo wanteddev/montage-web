@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 국가나 언어를 변경할 때 사용합니다.
- * 키워드: 글로벌, Globe, Global, 지구본
- */
 const IconGlobeFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

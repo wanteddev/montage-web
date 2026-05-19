@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 브런치 로고를 표현합니다.
- * 키워드: 브런치스토리
- */
 const IconLogoBrunch = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

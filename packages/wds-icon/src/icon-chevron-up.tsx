@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 위쪽 방향의 꺽쇠를 표현합니다. 굵기와 사이즈 옵션을 조절할 수 있습니다.
- * 키워드: Chevron, Arrow, Up, Top, 꺽쇠, 위, 화살표, 표시, 상단
- */
 const IconChevronUp = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 회사를 추가할 때 사용합니다.
- * 키워드: 팔로우, 회사, 추가, 더하기, Add, Follow, Company
- */
 const IconCompanyPlus = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

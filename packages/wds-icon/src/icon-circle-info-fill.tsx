@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 정보를 표시할 때 사용합니다.
- * 키워드: Additional Information, Info
- */
 const IconCircleInfoFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

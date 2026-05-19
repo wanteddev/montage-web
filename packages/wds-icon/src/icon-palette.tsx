@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 팔레트를 표현합니다.
- * 키워드: palette, 팔레트
- */
 const IconPalette = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

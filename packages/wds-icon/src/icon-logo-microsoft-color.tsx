@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 마이크로소프트 로고를 표현합니다.
- * 키워드: 마소
- */
 const IconLogoMicrosoftColor = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

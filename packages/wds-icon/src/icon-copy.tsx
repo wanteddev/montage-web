@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 정보를 복사할 때 사용합니다.
- * 키워드: 복사, 복붙, Copy, Clipboard, Paste
- */
 const IconCopy = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

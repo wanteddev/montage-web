@@ -267,6 +267,7 @@ export { default as IconPinFill } from './icon-pin-fill';
 export { default as IconPlay } from './icon-play';
 export { default as IconPlus } from './icon-plus';
 export { default as IconPlusThick } from './icon-plus-thick';
+export { default as IconPouch } from './icon-pouch';
 export { default as IconPresentation } from './icon-presentation';
 export { default as IconPrinter } from './icon-printer';
 export { default as IconQuestion } from './icon-question';

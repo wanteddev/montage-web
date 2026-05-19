@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 가운데 정렬을 표현합니다.
- * 키워드: paragraph, 얼라인
- */
 const IconAlignCenter = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

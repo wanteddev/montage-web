@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 마이크 해제를 표현합니다.
- * 키워드: Microphone off, 마이크 끄기
- */
 const IconMicrophoneSlashFill = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {
     return (

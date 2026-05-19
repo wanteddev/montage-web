@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 순서를 변경할 때 사용합니다.
- * 키워드: Swap, 스왑, 변경, 바꾸기, 전환
- */
 const IconChange = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 이미지 크롭을 표현합니다.
- * 키워드: crop, 크롭, 자르기, 이미지 크롭
- */
 const IconCrop = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box

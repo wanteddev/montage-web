@@ -8,10 +8,6 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
   sx?: SxProp;
 };
 
-/**
- * 회사를 표현합니다.
- * 키워드: 회사, Company
- */
 const IconCompany = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
     <Box
