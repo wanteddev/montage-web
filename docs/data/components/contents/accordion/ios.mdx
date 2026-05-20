@@ -195,7 +195,7 @@ Accordion(title: "커스텀 스타일")
 아코디언 헤더 우측에 커스텀 컨텐츠를 추가합니다.
 >  **Deprecated**
 >
->  확장 상태를 인자로 받는 오버로드를 사용하세요: trailingContent { isExpanded in ... }
+>  확장 상태를 인자로 받는 오버로드를 사용하세요: `trailingContent { isExpanded in ... }`
 
 
 - **Parameters**
