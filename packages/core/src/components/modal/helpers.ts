@@ -255,8 +255,6 @@ export const computeFullMaxHeight = (): number => {
  *   downward as a whole while its `height` stays fixed.
  * - `height`: inline `height` is updated, growing or shrinking the sheet
  *   from its top edge.
- *
- * See BEHAVIOR.md §7 for the full mode-selection table.
  */
 export const resolveDragMode = ({
   isFlexible,
@@ -348,7 +346,7 @@ const projectReleaseHeight = (releasedHeight: number, velocityY: number) =>
 
 /**
  * Decide which snap (or close) to settle on when a `flexible` sheet drag
- * ends. See BEHAVIOR.md §7-1.
+ * ends.
  *
  * The release position is projected forward by `velocity * PROJECTION_MS`,
  * then the candidate snap nearest that projected position wins. This makes

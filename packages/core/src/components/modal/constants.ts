@@ -83,7 +83,7 @@ export const BOTTOM_SHEET_HALF_RATIO = 0.5;
  * Tuned tighter than the canonical iOS scroll-deceleration band (~250ms) so
  * the gesture has to commit more deliberately to throw past an adjacent snap.
  * A "normal fling" (~1.5 px/ms) reaches the next snap; only a strong fling
- * (~3.5 px/ms+) clearly crosses two snaps. See BEHAVIOR.md §7-1.
+ * (~3.5 px/ms+) clearly crosses two snaps.
  */
 export const BOTTOM_SHEET_PROJECTION_MS = 150;
 
@@ -103,7 +103,6 @@ export const BOTTOM_SHEET_MIN_PROJECTION_DELTA = 5;
 export const BOTTOM_SHEET_VELOCITY_WINDOW_MS = 100;
 
 /**
- * Dimmer opacity at or below which the sheet renders its peek shadow. Mirrors
- * the visual cut-off described in BEHAVIOR.md §8.
+ * Dimmer opacity at or below which the sheet renders its peek shadow.
  */
 export const BOTTOM_SHEET_SHADOW_OPACITY_THRESHOLD = 0.25;
