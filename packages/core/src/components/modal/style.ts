@@ -8,6 +8,7 @@ import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import { toCssValue } from '../../utils/internal/css';
 
 import {
+  BOTTOM_SHEET_SETTLE_DURATION_MS,
   BOTTOM_SHEET_SETTLE_TRANSITION,
   BOTTOM_SHEET_SHADOW,
 } from './constants';
@@ -484,7 +485,8 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
           box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
         pointer-events: auto;
         transform: translateY(var(--wds-modal-translate, 0px));
-        animation: 0.2s ease ${modalBottomMountKeyframes};
+        animation: ${BOTTOM_SHEET_SETTLE_DURATION_MS}ms ease
+          ${modalBottomMountKeyframes};
 
         &[data-status='open'] {
           transform: translateY(var(--wds-modal-translate, 0px));

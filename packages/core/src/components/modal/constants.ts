@@ -33,9 +33,8 @@ export const BOTTOM_SHEET_RUBBER_BAND_MAX_PX = 40;
  * `cubic-bezier(0.32, 0.72, 0, 1)` is the iOS sheet curve: nearly-linear initial
  * motion that eases hard into the target.
  */
-export const BOTTOM_SHEET_SETTLE_EASING = 'cubic-bezier(0.32, 0.72, 0, 1)';
 export const BOTTOM_SHEET_SETTLE_DURATION_MS = 280;
-export const BOTTOM_SHEET_SETTLE_TRANSITION = `${BOTTOM_SHEET_SETTLE_DURATION_MS}ms ${BOTTOM_SHEET_SETTLE_EASING}`;
+export const BOTTOM_SHEET_SETTLE_TRANSITION = `${BOTTOM_SHEET_SETTLE_DURATION_MS}ms ease`;
 
 /**
  * Spring parameters for gesture-release settle. Drives a damped harmonic

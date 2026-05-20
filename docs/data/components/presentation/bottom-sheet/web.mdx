@@ -173,6 +173,9 @@ const Demo = () => {
         </ModalTrigger>
 
         <ModalContainer variant="bottom" resize="hug">
+          <ModalNavigation>
+            Hug
+          </ModalNavigation>
           <ModalContent>
             <ModalContentItem>
               <ModalHeading>Heading</ModalHeading>
@@ -527,10 +530,11 @@ import {
 } from '@montage-ui/core';
 
 const Demo = () => {
+  const [open, setOpen] = useState(false);
   const [snap, setSnap] = useState('half');
 
   return (
-    <Modal>
+    <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
         <Button>Snap change</Button>
       </ModalTrigger>
@@ -555,8 +559,10 @@ const Demo = () => {
           </ModalContentItem>
         </ModalContent>
 
-        <ActionArea>
-          <ActionAreaButton>Main action</ActionAreaButton>
+        <<ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
+            Close sheet
+          </ActionAreaButton>
         </ActionArea>
       </ModalContainer>
     </Modal>
