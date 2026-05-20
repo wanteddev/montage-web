@@ -7,7 +7,10 @@ import {
 import { ellipsisTypographyStyle, typographyStyle } from '../../utils';
 import { toCssValue } from '../../utils/internal/css';
 
-import { BOTTOM_SHEET_SHADOW } from './constants';
+import {
+  BOTTOM_SHEET_SETTLE_TRANSITION,
+  BOTTOM_SHEET_SHADOW,
+} from './constants';
 
 import type { Theme } from '@montage-ui/engine';
 import type {
@@ -22,13 +25,25 @@ export const modalDimmerStyle = (theme: Theme) => css`
   z-index: -1;
   background-color: ${theme.semantic.material.dimmer};
 
-  &[data-visibility='visible'] {
-    transition: opacity ease 200ms;
+  &[data-snap='full'],
+  &[data-snap='half'] {
+    transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
     opacity: 1;
   }
 
-  &[data-visibility='hidden'] {
-    transition: opacity ease 200ms;
+  &[data-snap='peek'] {
+    transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  /*
+   * iOS \`largestUndimmedDetentIdentifier\`-style override. When the largest
+   * undimmed snap is \`half\`, the dimmer must also be transparent and
+   * non-blocking at \`half\` so pointer events fall through to the content
+   * behind the sheet. Only \`full\` keeps a visible dimmer.
+   */
+  &[data-largest-undimmed-snap='half'][data-snap='half'] {
     pointer-events: none;
     opacity: 0;
   }
@@ -45,7 +60,8 @@ export const modalContainerWrapperStyle =
     left: 0px;
     top: 0px;
 
-    &[data-visibility='hidden'] {
+    &[data-snap='peek'],
+    &[data-largest-undimmed-snap='half'][data-snap='half'] {
       pointer-events: none;
     }
 
@@ -119,7 +135,7 @@ const modalContainerWrapperVariant = (
         [data-role='modal-dimmer'][data-status='close'] {
           opacity: 0;
           pointer-events: none;
-          transition: opacity ease 200ms;
+          transition: opacity ${BOTTOM_SHEET_SETTLE_TRANSITION};
         }
 
         [data-role='modal-container-scroll-area']:has(
@@ -166,6 +182,7 @@ export const modalContainerStyle =
 
     ${modalContainerSize(size, resize)}
     ${modalContainerVariant(variant)}
+    ${modalContainerBottomResize(variant, resize)}
 
     ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
@@ -188,6 +205,20 @@ export const modalContainerStyle =
               { xs, sm, md, lg, xl },
               'variant',
               variant,
+              breakpoint!,
+            ),
+          )}
+          ${modalContainerBottomResize(
+            getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'variant',
+              variant,
+              breakpoint!,
+            ),
+            getPreviousValue(
+              { xs, sm, md, lg, xl },
+              'resize',
+              resize,
               breakpoint!,
             ),
           )}
@@ -390,12 +421,12 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
           user-select: initial;
         }
 
-        &[data-status='open'][data-visibility='visible'] {
+        &[data-status='open']:not([data-snap='peek']) {
           box-shadow: none;
           transition: none;
         }
 
-        &[data-status='open'][data-visibility='hidden'] {
+        &[data-status='open'][data-snap='peek'] {
           box-shadow: none;
           transition: initial;
         }
@@ -422,28 +453,35 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
           user-select: initial;
         }
 
-        &[data-status='open'][data-visibility='visible'] {
+        &[data-status='open']:not([data-snap='peek']) {
           box-shadow: none;
           transition: none;
         }
 
-        &[data-status='open'][data-visibility='hidden'] {
+        &[data-status='open'][data-snap='peek'] {
           box-shadow: none;
           transition: initial;
         }
       `;
     case 'bottom':
       return css`
+        --wds-modal-default-max-height: calc(
+          100% - env(safe-area-inset-top, 0px) - 40px
+        );
         padding: 0px 0px env(safe-area-inset-bottom, 0px) 0px;
-        max-height: calc(100% - env(safe-area-inset-top, 0px) - 40px);
+        height: var(--wds-modal-max-height, auto);
+        max-height: var(
+          --wds-modal-max-height,
+          var(--wds-modal-default-max-height)
+        );
         border-radius: 12px 12px 0px 0px;
         max-width: 480px;
         width: 100%;
         min-width: initial;
         overflow: hidden;
         transition:
-          transform 200ms ease,
-          box-shadow 200ms ease;
+          transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
+          box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
         pointer-events: auto;
         transform: translateY(var(--wds-modal-translate, 0px));
         animation: 0.2s ease ${modalBottomMountKeyframes};
@@ -460,17 +498,73 @@ const modalContainerVariant = (variant: ModalContainerProps['variant']) => {
           user-select: none;
         }
 
-        &[data-status='open'][data-visibility='visible'] {
+        &[data-status='open']:not([data-snap='peek']) {
           box-shadow: none;
         }
 
-        &[data-status='open'][data-visibility='hidden'] {
+        &[data-status='open'][data-snap='peek'],
+        &[data-status='open'][data-largest-undimmed-snap='half'][data-snap='half'] {
           box-shadow: ${BOTTOM_SHEET_SHADOW};
           transition:
-            transform 200ms ease,
-            box-shadow 200ms ease;
+            transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
+            box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
         }
       `;
+  }
+};
+
+const modalContainerBottomResize = (
+  variant: ModalContainerProps['variant'],
+  resize: ModalContainerProps['resize'],
+) => {
+  if (variant !== 'bottom') return null;
+
+  switch (resize) {
+    case 'fill':
+      return css`
+        height: var(
+          --wds-modal-max-height,
+          var(--wds-modal-default-max-height)
+        );
+      `;
+    case 'flexible':
+      /**
+       * Make the sheet's DOM height equal its full-state height at every
+       * non-half snap so the peek state translate (`100% - peekHeight`) is
+       * computed against a stable, full-size container:
+       * - full: height = max-height
+       * - peek: height = max-height (same as full — translate slides it down)
+       * - half: height = max-height / 2
+       *
+       * Mid-drag the inline height tracks the finger in real time so the
+       * sheet itself grows or shrinks. On release the inline is cleared and
+       * the CSS data-snap height drives a smooth 200ms settle.
+       */
+      return css`
+        transition:
+          transform ${BOTTOM_SHEET_SETTLE_TRANSITION},
+          height ${BOTTOM_SHEET_SETTLE_TRANSITION},
+          box-shadow ${BOTTOM_SHEET_SETTLE_TRANSITION};
+
+        &[data-snap='full'] {
+          height: var(
+            --wds-modal-max-height,
+            var(--wds-modal-default-max-height)
+          );
+        }
+
+        &[data-snap='half'],
+        &[data-snap='peek'] {
+          height: var(
+            --wds-modal-max-height,
+            calc(var(--wds-modal-default-max-height) * 0.5)
+          );
+        }
+      `;
+    case 'fixed':
+    case 'hug':
+    default:
+      return null;
   }
 };
 

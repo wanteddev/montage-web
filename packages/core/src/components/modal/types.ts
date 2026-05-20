@@ -15,6 +15,8 @@ import type { PortalProps } from '../portal/types';
 import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 import type { TypographyProps } from '../typography/types';
 
+export type ModalBottomSheetSnap = 'peek' | 'half' | 'full';
+
 export type ModalProps = WithSxProps<{
   /** Whether the modal is open. */
   open?: boolean;
@@ -22,8 +24,6 @@ export type ModalProps = WithSxProps<{
   defaultOpen?: boolean;
   /** Callback function when the open state changes. */
   onOpenChange?: (open: boolean) => void;
-  /** When `variant=bottom` and `handle=true`, this function is executed when the display is changed by dragging. */
-  onVisibilityChange?: (visibility: 'visible' | 'hidden') => void;
   children?: ReactNode;
 }>;
 
@@ -45,8 +45,46 @@ type ModalContainerDefaultProps = WithSxProps<{
   sticky?: boolean;
   /** The size of the modal. */
   size?: 'small' | 'medium' | 'large' | 'xlarge';
-  /** The resize mode of the modal. */
-  resize?: 'hug' | 'fixed';
+  /**
+   * The resize mode of the modal.
+   *
+   * - `popup` / `full` variants: `'hug' | 'fixed'`
+   * - `bottom` variant:
+   *   - `'hug'` (default): height grows with content
+   *   - `'fill'`: always at the max height of the viewport
+   *   - `'flexible'`: starts at half of the max height and expands to full on drag/scroll
+   *
+   * `'fixed'` has no effect on the `bottom` variant.
+   */
+  resize?: 'hug' | 'fixed' | 'flexible' | 'fill';
+  /**
+   * Controlled snap value (`variant='bottom'` only). Pair with `onSnapChange`.
+   */
+  snap?: ModalBottomSheetSnap;
+  /**
+   * When `variant=bottom` and `resize=flexible`, the initial snap point.
+   * Defaults to `'half'`. Ignored for other variants/resize modes.
+   */
+  defaultSnap?: 'half' | 'full';
+  /**
+   * Fired whenever the bottom sheet snaps to a different position.
+   *
+   * - `'peek'`: the sheet is collapsed to `peekHeight`
+   * - `'half'`: only available with `resize='flexible'`.
+   * - `'full'`: the sheet covers its allowed area.
+   */
+  onSnapChange?: (snap: ModalBottomSheetSnap) => void;
+  /**
+   * The largest snap at which the dimmer remains hidden — analogous to iOS's
+   * `largestUndimmedDetentIdentifier`. Snaps **at or below** this value have
+   * no dimmer (and let pointer events pass through to content behind).
+   *
+   * - `'peek'` (default): only `peek` is undimmed. `half`/`full` show the dimmer.
+   * - `'half'`: `peek` and `half` are undimmed; only `full` shows the dimmer.
+   *   Only effective with `resize='flexible'` (no `half` snap otherwise).
+   */
+  largestUndimmedSnap?: 'peek' | 'half';
+  enableHalfSnapScroll?: boolean;
   children?: ReactNode;
   /** The props of the wrapper. */
   wrapperProps?: DefaultComponentProps<{}, 'div'>;
