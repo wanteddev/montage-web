@@ -20,7 +20,7 @@ import {
   computeFullMaxHeight,
   isMouseDownOnPeek,
   isTouchEvent,
-  isUserSelectingText,
+  isTouchInsideTextSelection,
   readVisualHeight,
   resolveFlexibleReleaseSnap,
   resolveNonFlexibleReleaseSnap,
@@ -506,11 +506,11 @@ export const useDraggable = ({
     const touch = e.touches[0];
     if (!touch) return;
 
-    // Defer entirely to native text-selection when an active selection range
-    // exists — typically the user long-pressed and is now dragging to extend
-    // the selection. Capturing here would `preventDefault()` and block the
-    // browser's selection extension while also moving the sheet.
-    if (isUserSelectingText()) return;
+    // Defer to native text-selection only when the touch lands inside the
+    // active selection's bounds — i.e. the gesture is *for* the selection
+    // (extension, handle drag, drag-and-drop). A stale selection sitting
+    // elsewhere on the page must not block normal sheet drag.
+    if (isTouchInsideTextSelection(touch.clientX, touch.clientY)) return;
 
     const deltaY = touch.clientY - startedY.current;
 
@@ -583,7 +583,7 @@ export const useDraggable = ({
    * before `applySnap` strips inline overrides — otherwise the previous
    * snap's CSS rule would briefly resolve and trigger a visible jump.
    * `applySnap` itself now removes the inline `transition: none` last
-   * (see helpers.tsx) so the spring → CSS handoff happens with no easing
+   * (see helpers.ts) so the spring → CSS handoff happens with no easing
    * artifact.
    */
   const settleToSnap = useCallback(
@@ -805,12 +805,16 @@ export const useDraggable = ({
         return;
       }
 
-      // Pause the drag while the user is selecting text. Skipping
-      // `preventDefault` lets the browser's selection extension proceed; we
-      // also skip the velocity sample + style update so the sheet freezes
-      // at its last position. When the user releases, `onMouseUp` settles
-      // from that frozen position naturally.
-      if (isUserSelectingText()) return;
+      // Pause the drag while the current pointer is over the active text
+      // selection (extending the selection, dragging a handle, drag-and-
+      // drop). Skipping `preventDefault` lets the browser's native
+      // selection handling run; skipping the style update freezes the
+      // sheet at its last position. When the user releases, `onMouseUp`
+      // settles from that frozen position. A stale selection that's not
+      // under the pointer does not pause anything.
+      const clientX = isTouchEvent(e) ? e.touches[0]!.clientX : e.clientX;
+      const clientYCheck = isTouchEvent(e) ? e.touches[0]!.clientY : e.clientY;
+      if (isTouchInsideTextSelection(clientX, clientYCheck)) return;
 
       e.preventDefault();
 
@@ -838,10 +842,11 @@ export const useDraggable = ({
       // diffY > 0 (down): sheet shrinks; diffY < 0 (up): sheet grows.
       let visualHeight = Math.max(0, startedVisualHeight.current - diffY);
 
-      // Top-edge rubber-band — applied universally. `applyDragStyles` splits
-      // the overshoot into a height increase (flexible: CSS height rule
-      // allows growth) or a translate offset (non-flexible: height is
-      // content-driven, expressed via `--wds-modal-overshoot`).
+      // Top-edge rubber-band — applied universally. `applyDragStyles` will
+      // push the rubber-banded `visualHeight` into `--wds-modal-max-height`
+      // (and for non-flexible variants override the translate-mode
+      // `fixedHeight`) so the lifted CSS `height` rule grows the element
+      // past its natural full size.
       if (visualHeight > startedFullMaxHeight.current) {
         visualHeight =
           startedFullMaxHeight.current +

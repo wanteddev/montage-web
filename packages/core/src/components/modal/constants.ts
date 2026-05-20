@@ -26,12 +26,11 @@ export const BOTTOM_SHEET_TOP_INSET_PX = 40;
 export const BOTTOM_SHEET_RUBBER_BAND_MAX_PX = 40;
 
 /**
- * Spring-out easing for sheet settle transitions (transform / max-height /
- * box-shadow / dimmer opacity). The standard CSS `ease` curve front-loads
- * acceleration which clashes with the projection-based snap model — the user
- * already imparted velocity, so the settle should decelerate, not re-accelerate.
- * `cubic-bezier(0.32, 0.72, 0, 1)` is the iOS sheet curve: nearly-linear initial
- * motion that eases hard into the target.
+ * CSS transition used for *non-gesture* sheet movement — snap changes
+ * triggered programmatically (open/close, controlled `snap` prop change,
+ * responsive variant flip). Gesture releases bypass this entirely and
+ * settle via the velocity-seeded spring, so this curve only needs to feel
+ * tidy on its own; `ease` is intentional.
  */
 export const BOTTOM_SHEET_SETTLE_DURATION_MS = 280;
 export const BOTTOM_SHEET_SETTLE_TRANSITION = `${BOTTOM_SHEET_SETTLE_DURATION_MS}ms ease`;

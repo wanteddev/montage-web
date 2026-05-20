@@ -13,17 +13,33 @@ export const isTouchEvent = (
 ): value is TouchEvent | React.TouchEvent => value.type.includes('touch');
 
 /**
- * Whether the user currently has a non-empty text selection range. Used by
- * the drag handlers to defer touchmove events to native text-selection
- * extension: capturing those moves would block the selection (via
- * `preventDefault`) and simultaneously move the sheet, neither of which is
- * what the user is asking for.
+ * Whether the given touch point lands inside (or just outside) the active
+ * text-selection range. Used by the drag handlers to defer to native
+ * selection only when the gesture is *for* the selection — i.e. the user
+ * is dragging from inside the selected text (extension, handle drag,
+ * drag-and-drop). A merely-still-on-screen stale selection elsewhere in
+ * the document must not block sheet drag.
+ *
+ * Includes a small tolerance so iOS selection handles (which sit a few px
+ * outside the range bounds) still register as "inside".
  */
-export const isUserSelectingText = (): boolean => {
+export const isTouchInsideTextSelection = (
+  clientX: number,
+  clientY: number,
+): boolean => {
   if (typeof window === 'undefined') return false;
   const selection = window.getSelection();
   if (!selection || selection.isCollapsed) return false;
-  return selection.toString().length > 0;
+  if (selection.toString().length === 0) return false;
+  if (selection.rangeCount === 0) return false;
+  const rect = selection.getRangeAt(0).getBoundingClientRect();
+  const TOLERANCE = 20;
+  return (
+    clientX >= rect.left - TOLERANCE &&
+    clientX <= rect.right + TOLERANCE &&
+    clientY >= rect.top - TOLERANCE &&
+    clientY <= rect.bottom + TOLERANCE
+  );
 };
 
 export const calcOpacityRatio = (

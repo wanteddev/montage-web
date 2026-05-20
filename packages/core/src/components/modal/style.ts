@@ -539,8 +539,9 @@ const modalContainerBottomResize = (
        * - half: height = max-height / 2
        *
        * Mid-drag the inline height tracks the finger in real time so the
-       * sheet itself grows or shrinks. On release the inline is cleared and
-       * the CSS data-snap height drives a smooth 200ms settle.
+       * sheet itself grows or shrinks. On gesture release the spring drives
+       * the settle (see hooks.ts:settleToSnap); for programmatic snap
+       * changes the `BOTTOM_SHEET_SETTLE_TRANSITION` curve takes over.
        */
       return css`
         transition:

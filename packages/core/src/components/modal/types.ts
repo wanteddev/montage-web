@@ -46,44 +46,36 @@ type ModalContainerDefaultProps = WithSxProps<{
   /** The size of the modal. */
   size?: 'small' | 'medium' | 'large' | 'xlarge';
   /**
-   * The resize mode of the modal.
-   *
-   * - `popup` / `full` variants: `'hug' | 'fixed'`
-   * - `bottom` variant:
-   *   - `'hug'` (default): height grows with content
-   *   - `'fill'`: always at the max height of the viewport
-   *   - `'flexible'`: starts at half of the max height and expands to full on drag/scroll
-   *
-   * `'fixed'` has no effect on the `bottom` variant.
+   * Sizing mode within the variant's layout.
+   * - `'hug'` (default): hug content.
+   * - `'fixed'`: fixed by `size` — `popup`/`full` only.
+   * - `'fill'`: viewport-max — `bottom` only.
+   * - `'flexible'`: multi-snap (`peek`/`half`/`full`) — `bottom` only.
    */
   resize?: 'hug' | 'fixed' | 'flexible' | 'fill';
-  /**
-   * Controlled snap value (`variant='bottom'` only). Pair with `onSnapChange`.
-   */
+  /** Controlled snap (`variant='bottom'`). Pair with `onSnapChange`. */
   snap?: ModalBottomSheetSnap;
   /**
-   * When `variant=bottom` and `resize=flexible`, the initial snap point.
-   * Defaults to `'half'`. Ignored for other variants/resize modes.
+   * Initial snap at mount (`variant='bottom'` + `resize='flexible'`). Not
+   * reactive — use controlled `snap` to drive it dynamically.
    */
   defaultSnap?: 'half' | 'full';
-  /**
-   * Fired whenever the bottom sheet snaps to a different position.
-   *
-   * - `'peek'`: the sheet is collapsed to `peekHeight`
-   * - `'half'`: only available with `resize='flexible'`.
-   * - `'full'`: the sheet covers its allowed area.
-   */
+  /** Fires on snap commit (release + settle, or programmatic). Not mid-drag. */
   onSnapChange?: (snap: ModalBottomSheetSnap) => void;
   /**
-   * The largest snap at which the dimmer remains hidden — analogous to iOS's
-   * `largestUndimmedDetentIdentifier`. Snaps **at or below** this value have
-   * no dimmer (and let pointer events pass through to content behind).
-   *
-   * - `'peek'` (default): only `peek` is undimmed. `half`/`full` show the dimmer.
-   * - `'half'`: `peek` and `half` are undimmed; only `full` shows the dimmer.
-   *   Only effective with `resize='flexible'` (no `half` snap otherwise).
+   * Largest snap at which the dimmer stays hidden — iOS
+   * `largestUndimmedDetentIdentifier` equivalent. Snaps ≤ this value pass
+   * pointer events through.
+   * - `'peek'` (default): only `peek` undimmed.
+   * - `'half'`: `peek` + `half` undimmed (`resize='flexible'` only).
    */
   largestUndimmedSnap?: 'peek' | 'half';
+  /**
+   * At `half` with scrollable body: `true` defers to native scroll until
+   * the scroll boundary, then transfers to sheet collapse (iOS Maps feel).
+   * `false` (default) lets viewport drag always drive the sheet.
+   * `full` always uses native scroll regardless.
+   */
   enableHalfSnapScroll?: boolean;
   children?: ReactNode;
   /** The props of the wrapper. */
