@@ -97,7 +97,7 @@ TextField(text: $inputText)
 
 <details>
 
-<summary>``init(variant: Button.Color, title: String, handler: (() -> Void)?)``</summary>
+<summary>``init(variant: Button.Color, title: String, disable: Bool, handler: (() -> Void)?)``</summary>
 
 
 트레일링 버튼을 초기화합니다.
@@ -107,6 +107,7 @@ TextField(text: $inputText)
   | --- | --- |
   | `variant` | 버튼의 변형 스타일 |
   | `title` | 버튼에 표시할 텍스트 |
+  | `disable` | 트레일링 버튼만 비활성화할지 여부, 생략하면 기본값으로 `false` 적용 |
   | `handler` | 버튼 클릭 시 실행할 핸들러 |
 </details>
 
