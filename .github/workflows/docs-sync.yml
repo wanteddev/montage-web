@@ -63,8 +63,6 @@ jobs:
       - name: Generate Mobile Docs
         uses: ./.github/actions/generate-mobile-docs
         timeout-minutes: 15
-        with:
-          gh_token: ${{ secrets.GH_TOKEN }}
 
       - name: Get GitHub App user info
         id: app-user

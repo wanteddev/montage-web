@@ -2,7 +2,6 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 import { globSync } from 'glob';
-import * as core from '@actions/core';
 import * as exec from '@actions/exec';
 
 export type CustomComponentMap = Record<string, string>;
@@ -38,12 +37,8 @@ export default abstract class BaseModule {
   }
 
   public async gitClone() {
-    const ghToken = core.getInput('gh_token', { required: true });
-
     return exec
-      .exec(
-        `git clone https://wantedFE:${ghToken}@github.com/wanteddev/${this.REPOSITORY}.git`,
-      )
+      .exec(`git clone https://github.com/wanteddev/${this.REPOSITORY}.git`)
       .then(() => this);
   }
 
