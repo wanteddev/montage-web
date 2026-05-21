@@ -214,7 +214,7 @@ jobs:
                           idsToNameAndComponentSetId[child.id] = {
                             name,
                             id: component.id,
-                            description: response.componentSets[component.id]?.description,
+                            description: response.components[child.id]?.description,
                           };
                         });
                       }
