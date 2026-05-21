@@ -10,14 +10,25 @@ on:
         options:
           - 'mobile'
           - 'design'
+  workflow_call:
+    outputs:
+      branch:
+        description: 'mobile docs sync로 생성/사용된 브랜치 이름'
+        value: ${{ jobs.sync-mobile-docs.outputs.branch }}
+      has_changes:
+        description: 'mobile docs sync에서 실제 변경사항이 push되었는지 여부 (true/false)'
+        value: ${{ jobs.sync-mobile-docs.outputs.has_changes }}
 
 env:
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
 
 jobs:
   sync-mobile-docs:
-    if: inputs.platform == 'mobile'
+    if: ${{ github.event_name == 'workflow_call' || inputs.platform == 'mobile' }}
     runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.check-branch.outputs.branch }}
+      has_changes: ${{ steps.commit.outputs.has_changes }}
     steps:
       - name: Generate GitHub App Token
         id: app-token
@@ -105,7 +116,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
 
   sync-design-docs:
-    if: inputs.platform == 'design'
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.platform == 'design' }}
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App Token
