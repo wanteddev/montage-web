@@ -4,11 +4,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
-      - "**/*.md"
-      - "**/*.mdx"
-      - "docs/**"
-      - "figma/**"
-      - ".github/**"
+      - '**/*.md'
+      - '**/*.mdx'
+      - 'docs/**'
+      - 'figma/**'
+      - '.github/**'
 
 permissions:
   contents: read
@@ -19,6 +19,13 @@ jobs:
     if: "${{ github.event.pull_request.draft == false && github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'ci: skip test') }}"
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -33,7 +40,7 @@ jobs:
       - name: Run Size Limit
         uses: andresz1/size-limit-action@v1.8.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
           package_manager: pnpm
           skip_step: build
 
