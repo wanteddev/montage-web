@@ -3,7 +3,6 @@ import primitive from '../primitive';
 const spacing = {
   0: primitive[0],
   0.5: '0.5px',
-  1: primitive[1],
   2: primitive[2],
   4: primitive[4],
   6: primitive[6],
