@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 위쪽 화살표를 표현합니다.
- * 키워드: 애로우, Arrow, 화살표, 꺽쇠, Top
+ * 키워드: 애로우, Arrow, 화살표, Top, Thick
+ * 속성: Outlined
  */
 const IconArrowUpThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 설정으로 이동할 때 사용합니다.
  * 키워드: Gear, Setting, 설정, 톱니바퀴
+ * 속성: Outlined
  */
 const IconSetting = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

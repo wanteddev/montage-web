@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 마이크 해제를 표현합니다.
- * 키워드: Microphone off, 마이크 끄기
+ * 키워드: Microphone Off, 마이크 끄기
+ * 속성: Outlined
  */
 const IconMicrophoneSlash = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

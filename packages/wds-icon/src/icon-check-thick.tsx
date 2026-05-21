@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 선택 여부를 표시할 때 사용합니다.
- * 키워드: 확인, 체크, 첵, check, checked, confirm
+ * 키워드: Thick, 확인, 체크, 첵, Check, Checked, Confirm
+ * 속성: Outlined
  */
 const IconCheckThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

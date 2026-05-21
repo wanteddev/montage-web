@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 에디터 등에서 코드 에디터를 여는 기능을 지칭할 때 사용합니다.
- * 키워드: 코드, 에디터, editor, code
+ * 키워드: 코드, 에디터, Editor, Code
+ * 속성: Outlined
  */
 const IconCode = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

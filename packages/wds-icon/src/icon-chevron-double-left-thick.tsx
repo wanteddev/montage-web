@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 왼쪽으로 큰 상태 변화를 표현합니다.
- * 키워드: 왼쪽 꺽쇠, 굵은, 얇은, 작은, 큰, double chevron, left, small, big
+ * 키워드: Thick, 왼쪽 꺾쇠, 굵은, 얇은, 작은, 큰, Double Chevron, Left
+ * 속성: Outlined
  */
 const IconChevronDoubleLeftThick = forwardRef<SVGSVGElement, Props>(
   (props, ref) => {

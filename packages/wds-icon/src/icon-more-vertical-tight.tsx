@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 한정된 공간에 추가 요소를 표시할 때 사용합니다.
- * 키워드: More, 3dots, see more, 추가, 땡땡떙
+ * 키워드: More, 3dots, See More, 추가, 땡땡땡, Tight
+ * 속성: Outlined
  */
 const IconMoreVerticalTight = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 키보드를 표시할 때 사용합니다.
  * 키워드: Keyboard, 키보드
+ * 속성: Outlined
  */
 const IconKeyboard = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

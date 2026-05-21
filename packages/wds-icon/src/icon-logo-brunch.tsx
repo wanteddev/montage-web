@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 브런치 로고를 표현합니다.
  * 키워드: 브런치스토리
+ * 속성: Outlined
  */
 const IconLogoBrunch = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

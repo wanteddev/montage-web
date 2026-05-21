@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 메인 화면 또는 홈을 표시할 때 사용합니다.
  * 키워드: 홈, 홈 화면, Home, Main
+ * 속성: Outlined
  */
 const IconHome = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

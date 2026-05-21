@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 되돌리기를 표현합니다.
- * 키워드: flip, backward, reverse, undo
+ * 키워드: Flip, Backward, Reverse, Undo
+ * 속성: Outlined
  */
 const IconFlipBackward = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

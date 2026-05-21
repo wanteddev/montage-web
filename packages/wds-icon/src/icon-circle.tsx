@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 원형을 표현합니다.
  * 키워드: Oval, 원형
+ * 속성: Outlined
  */
 const IconCircle = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

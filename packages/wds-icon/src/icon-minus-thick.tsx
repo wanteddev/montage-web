@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 요소를 제거할 때 사용합니다.
- * 키워드: Delete, 마이너스, 빼기
+ * 키워드: Thick, Delete, 마이너스, 빼기, Thick
+ * 속성: Outlined
  */
 const IconMinusThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

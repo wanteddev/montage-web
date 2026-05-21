@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 콘텐츠를 재생할 때 사용합니다.
  * 키워드: 플레이, Play, Resume, 재생
+ * 속성: Outlined
  */
 const IconPlay = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

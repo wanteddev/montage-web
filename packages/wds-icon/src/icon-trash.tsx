@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 내용을 삭제할 때 사용합니다.
  * 키워드: 휴지통, 쓰레기통, Rubbish, Garbage, Can, Delete, 삭제, 제거, Bin
+ * 속성: Outlined
  */
 const IconTrash = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

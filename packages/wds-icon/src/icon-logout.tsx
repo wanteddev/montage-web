@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 로그아웃을 표현합니다.
- * 키워드: sign out
+ * 키워드: Sign Out
+ * 속성: Outlined
  */
 const IconLogout = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

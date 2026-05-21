@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 정보를 비공개할 때 사용합니다.
- * 키워드: 잠김, 잠금, 닫힌 자물쇠, locked, lock, closed
+ * 키워드: 잠김, 잠금, 닫힌 자물쇠, Locked, Lock, Closed
+ * 속성: Outlined
  */
 const IconLock = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

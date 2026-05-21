@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 텍스트 변수를 표현합니다.
  * 키워드: 텍스트 베리어블
+ * 속성: Outlined
  */
 const IconTextVariable = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

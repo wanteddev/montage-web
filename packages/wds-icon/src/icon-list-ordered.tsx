@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 숫자 리스트로 표시할 때 사용합니다.
  * 키워드: 숫자 리스트, Ordered Lists
+ * 속성: Outlined
  */
 const IconListOrdered = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

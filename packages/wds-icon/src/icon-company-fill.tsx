@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 회사를 표현합니다.
  * 키워드: 회사, Company
+ * 속성: Solid
  */
 const IconCompanyFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

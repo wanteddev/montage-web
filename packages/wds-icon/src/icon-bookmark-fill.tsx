@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 북마크나 저장을 표시할 때 사용합니다.
  * 키워드: 북마크, Bookmark, Save, 저장, 추가, Add
+ * 속성: Solid
  */
 const IconBookmarkFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

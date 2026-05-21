@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 요소를 추가할 때 사용합니다.
  * 키워드: 플러스, 추가, Add, Plus
+ * 속성: Outlined
  */
 const IconCirclePlus = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

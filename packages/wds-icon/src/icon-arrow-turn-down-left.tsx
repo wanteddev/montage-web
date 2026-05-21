@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 왼쪽으로 들어가는 화살표를 표현합니다.
  * 키워드: Select, Enter, 선택, 엔터
+ * 속성: Outlined
  */
 const IconArrowTurnDownLeft = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

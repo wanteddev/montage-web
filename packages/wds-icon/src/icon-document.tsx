@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 문서를 표현합니다.
  * 키워드: Page, 접힌 페이지, 파일, 문서, Docs, Folded
+ * 속성: Outlined
  */
 const IconDocument = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

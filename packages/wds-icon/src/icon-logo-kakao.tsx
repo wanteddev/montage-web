@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 카카오 로고를 표현합니다.
- * 키워드: 카카오톡, 카카오, KakaoTalk, Kakao logo
+ * 키워드: 카카오톡, 카카오, KakaoTalk, Kakao Logo
+ * 속성: Outlined
  */
 const IconLogoKakao = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

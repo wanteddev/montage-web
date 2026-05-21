@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 일정과 관련한 기능을 표시할 때 사용합니다.
  * 키워드: Monthly, 캘린더, 달력
+ * 속성: Outlined
  */
 const IconCalendar = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

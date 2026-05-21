@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 내용을 공유할 때 사용합니다. Android/웹에서 사용합니다.
  * 키워드: Share, 공유
+ * 속성: Outlined
  */
 const IconShare = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

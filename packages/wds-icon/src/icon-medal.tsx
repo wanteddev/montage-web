@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 메달을 표현합니다.
- * 키워드: award, medal, 어워드
+ * 키워드: Award, Medal, 어워드
+ * 속성: Outlined
  */
 const IconMedal = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

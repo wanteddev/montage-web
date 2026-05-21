@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 이해에 도움이 되는 정보를 표시할 때 사용합니다.
- * 키워드: 물음표, Question, Why, 왜, Additional help
+ * 키워드: 물음표, Question, Why, 왜, Additional Help
+ * 속성: Outlined
  */
 const IconQuestion = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 중국어 또는 한자를 표현합니다.
  * 키워드: Chinese Character, Kanji, Hanja, 한자, 문자, 중국어
+ * 속성: Outlined
  */
 const IconSquareHan = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

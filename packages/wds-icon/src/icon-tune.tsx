@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 옵션 또는 필터를 조정할 때 사용합니다.
- * 키워드: 튠, Tune, 튜닝, 옵션 설정, 조정, options, settings, adjustment
+ * 키워드: 튠, Tune, 튜닝, 옵션 설정, 조정, Options, Settings, Adjustment
+ * 속성: Outlined
  */
 const IconTune = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

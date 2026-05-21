@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 국가나 언어를 변경할 때 사용합니다.
  * 키워드: 글로벌, Globe, Global, 지구본
+ * 속성: Solid
  */
 const IconGlobeFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

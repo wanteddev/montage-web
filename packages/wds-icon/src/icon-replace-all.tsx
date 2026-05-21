@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 코드 에디터에서 문자열을 한 번에 전부 바꾸는 기능을 표현합니다.
- * 키워드: Replace all, 대치, 치환, 코드 에디터, code editor, 모두 치환
+ * 키워드: Replace All, 대치, 치환, 코드 에디터, Code Editor, 모두 치환
+ * 속성: Outlined
  */
 const IconReplaceAll = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

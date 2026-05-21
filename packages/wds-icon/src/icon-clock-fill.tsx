@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 시간을 표현합니다.
- * 키워드: 시계, clock
+ * 키워드: 시계, Clock
+ * 속성: Solid
  */
 const IconClockFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

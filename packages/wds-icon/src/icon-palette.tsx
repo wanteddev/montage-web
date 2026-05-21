@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 팔레트를 표현합니다.
- * 키워드: palette, 팔레트
+ * 키워드: Palette, 팔레트
+ * 속성: Outlined
  */
 const IconPalette = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

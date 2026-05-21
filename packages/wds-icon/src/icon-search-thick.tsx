@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 검색 관련 정보를 표현하고 싶을 때 사용합니다.
- * 키워드: Find, 돋보기, 찾기, Search
+ * 키워드: Thick, Find, 돋보기, 찾기, Search, Thick
+ * 속성: Outlined
  */
 const IconSearchThick = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

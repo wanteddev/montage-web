@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 아래쪽 화살표를 표현합니다.
- * 키워드: 애로우, Arrow, 화살표, 꺽쇠, Bottom
+ * 키워드: 애로우, Arrow, 화살표, Bottom
+ * 속성: Outlined
  */
 const IconArrowDown = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

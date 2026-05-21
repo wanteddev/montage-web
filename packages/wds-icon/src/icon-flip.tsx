@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 좌우반전을 표현합니다.
- * 키워드: flip, reflect, 좌우반전, 반전
+ * 키워드: Flip, Reflect, 좌우반전, 반전
+ * 속성: Outlined
  */
 const IconFlip = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

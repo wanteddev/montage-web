@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 이메일을 표현합니다.
  * 키워드: Email, Mail, Letter, 이메일, 편지, 레터
+ * 속성: Outlined
  */
 const IconMail = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

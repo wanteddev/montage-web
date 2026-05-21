@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 우측 메뉴를 표현합니다.
  * 키워드: Right, Side, LNB, 오른쪽, 우측, 사이드, 메뉴
+ * 속성: Outlined
  */
 const IconRightSide = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 여권, 비자를 표현합니다.
- * 키워드: 여권, 비자, passport, visa
+ * 키워드: 여권, 비자, Passport, Visa
+ * 속성: Solid
  */
 const IconPassportFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
