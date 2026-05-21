@@ -192,7 +192,7 @@ jobs:
 
               const getIconNames = (nodes, type = '') => {
                 if (nodes) {
-                  nodes.children.forEach((component, i) => {
+                  nodes.children.forEach((component) => {
                     if (component.type === 'COMPONENT_SET') {
                       const components = component.children.filter(
                         (child) => child.type === 'COMPONENT',
