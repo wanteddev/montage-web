@@ -19,8 +19,17 @@ jobs:
     if: inputs.platform == 'mobile'
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Extract current branch name
         shell: bash
@@ -49,7 +58,7 @@ jobs:
             git checkout -b $BRANCH
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Generate Mobile Docs
         uses: ./.github/actions/generate-mobile-docs
@@ -57,8 +66,18 @@ jobs:
         with:
           gh_token: ${{ secrets.GH_TOKEN }}
 
-      - run: git config user.name "github-actions[bot]"
-      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get GitHub App user info
+        id: app-user
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          APP_SLUG="${{ steps.app-token.outputs.app-slug }}"
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "name=${APP_SLUG}[bot]" >> $GITHUB_OUTPUT
+          echo "email=${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com" >> $GITHUB_OUTPUT
+
+      - run: git config user.name "${{ steps.app-user.outputs.name }}"
+      - run: git config user.email "${{ steps.app-user.outputs.email }}"
 
       - name: Commit and push to existing branch
         run: |
@@ -70,15 +89,24 @@ jobs:
         run: |
           gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
 
   sync-design-docs:
     if: inputs.platform == 'design'
     runs-on: ubuntu-latest
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Extract current branch name
         shell: bash
@@ -107,15 +135,25 @@ jobs:
             git checkout -b $BRANCH
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Generate Mobile Docs
         timeout-minutes: 15
         run: |
           pnpm -F design-docs-sync start
 
-      - run: git config user.name "github-actions[bot]"
-      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Get GitHub App user info
+        id: app-user
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          APP_SLUG="${{ steps.app-token.outputs.app-slug }}"
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "name=${APP_SLUG}[bot]" >> $GITHUB_OUTPUT
+          echo "email=${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com" >> $GITHUB_OUTPUT
+
+      - run: git config user.name "${{ steps.app-user.outputs.name }}"
+      - run: git config user.email "${{ steps.app-user.outputs.email }}"
 
       - name: Commit and push to existing branch
         run: |
@@ -127,5 +165,5 @@ jobs:
         run: |
           gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document"
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}

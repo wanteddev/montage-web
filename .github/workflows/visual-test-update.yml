@@ -8,8 +8,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -23,10 +32,20 @@ jobs:
       - name: Run Visual Test and update screenshots
         run: pnpm run test:visual --update
 
+      - name: Get GitHub App user info
+        id: app-user
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          APP_SLUG="${{ steps.app-token.outputs.app-slug }}"
+          USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          echo "name=${APP_SLUG}[bot]" >> $GITHUB_OUTPUT
+          echo "email=${USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com" >> $GITHUB_OUTPUT
+
       - name: Create Branch And Commit
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "${{ steps.app-user.outputs.name }}"
+          git config user.email "${{ steps.app-user.outputs.email }}"
           git add .
           git commit -m "chore(ci): update visual test screenshots" --no-verify
           git push origin ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
