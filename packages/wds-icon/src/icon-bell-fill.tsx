@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 새 정보와 관련한 내용을 표현할 때 사용합니다.
- * 키워드: 노티피케이션, 벨, 알람, ring, bell, alarm center, notification, noti, notify
+ * 키워드: 노티피케이션, 벨, 알람, Ring, Bell, Alarm Center, Notification, Noti, Notify
+ * 속성: Solid
  */
 const IconBellFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

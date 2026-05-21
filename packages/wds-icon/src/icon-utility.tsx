@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 유틸리티를 표현합니다.
- * 키워드: 공구, utility
+ * 키워드: 공구, Utility
+ * 속성: Outlined
  */
 const IconUtility = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

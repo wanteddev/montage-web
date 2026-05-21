@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 코드 에디터에서 단어 선택 기능을 표현합니다.
- * 키워드: Whole Word, 코드 에디터, code editor, word, code
+ * 키워드: Whole Word, 코드 에디터, Code Editor, Word, Code
+ * 속성: Outlined
  */
 const IconWholeWord = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

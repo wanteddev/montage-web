@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 정보를 고정할 때 사용합니다.
  * 키워드: 핀, 고정, Pin, Fixed
+ * 속성: Solid
  */
 const IconPinFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

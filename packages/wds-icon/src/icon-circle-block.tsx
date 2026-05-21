@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 금지된 상황을 표현합니다.
  * 키워드: Stop, 멈춤, 밴, Banned, Prohibited, 금지, Blocked, No, 그만, 멈춰, 동그란 금지
+ * 속성: Outlined
  */
 const IconCircleBlock = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

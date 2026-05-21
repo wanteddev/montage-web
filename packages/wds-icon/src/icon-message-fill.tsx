@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 메시지를 표현합니다.
  * 키워드: 메시지
+ * 속성: Solid
  */
 const IconMessageFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

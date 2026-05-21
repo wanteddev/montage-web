@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 회사를 추가할 때 사용합니다.
  * 키워드: 팔로우, 회사, 추가, 더하기, Add, Follow, Company
+ * 속성: Solid
  */
 const IconCompanyPlusFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

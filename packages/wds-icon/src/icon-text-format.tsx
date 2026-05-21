@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 텍스트 포맷을 표현합니다.
  * 키워드: Type
+ * 속성: Outlined
  */
 const IconTextFormat = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

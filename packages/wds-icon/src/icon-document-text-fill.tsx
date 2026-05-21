@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 정보가 포함된 문서를 표현합니다.
  * 키워드: 문서, 접힌, 내용 있는, Written, Docs, Filled, Information, Folded
+ * 속성: Solid
  */
 const IconDocumentTextFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

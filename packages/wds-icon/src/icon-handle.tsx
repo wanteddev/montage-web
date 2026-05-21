@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 요소를 옮길 때 사용합니다.
  * 키워드: Grabber, 그랩, 그래빙, 핸들러, 핸들, 옮기기
+ * 속성: Outlined
  */
 const IconHandle = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

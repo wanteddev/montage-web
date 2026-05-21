@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 망원경을 표현합니다.
- * 키워드: telescope, 망원경, 둘러보기, 보기
+ * 키워드: Telescope, 망원경, 둘러보기, 보기
+ * 속성: Outlined
  */
 const IconTelescope = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

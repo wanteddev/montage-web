@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 정보를 지울 때 사용합니다.
  * 키워드: Closed, Delete, 삭제, 제거, 닫기
+ * 속성: Solid
  */
 const IconCircleCloseFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

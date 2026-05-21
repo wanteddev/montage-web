@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 알림으로 추가할 때 사용합니다.
  * 키워드: 알림 설정 추가, Alarm, Bell, 벨, Add
+ * 속성: Outlined
  */
 const IconBellPlus = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

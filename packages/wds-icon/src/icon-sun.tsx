@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 해를 표현합니다.
- * 키워드: 라이트모드, light, weather
+ * 키워드: 라이트모드, Light, Weather
+ * 속성: Outlined
  */
 const IconSun = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

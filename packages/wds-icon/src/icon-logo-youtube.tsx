@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 유튜브 로고를 표현합니다.
- * 키워드: 유튜브, YouTube logo
+ * 키워드: 유튜브, YouTube Logo
+ * 속성: Outlined
  */
 const IconLogoYoutube = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 채용, 커리어를 표현합니다.
  * 키워드: Brief Case, Careerbox, Business, 브리프케이스, 채용, 비즈니스, 비지니스, 커리어 박스, 가방
+ * 속성: Solid
  */
 const IconBusinessBagFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

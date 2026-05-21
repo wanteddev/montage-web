@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * AI 맞춤 리뷰 기능을 표현합니다.
  * 키워드: AI Review, Review, AI, Ai, Sparkle, Star, 이력서 리뷰, 맞춤 리뷰, 이력서 코칭, 맞춤 포지션 리뷰, 포지션 리뷰, 스마트
+ * 속성: Outlined
  */
 const IconAiReview = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

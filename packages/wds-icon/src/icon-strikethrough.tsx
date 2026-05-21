@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 텍스트에 취소선을 표현합니다.
  * 키워드: 취소선
+ * 속성: Outlined
  */
 const IconStrikethrough = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

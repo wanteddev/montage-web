@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 코드 에디터에서 정규식을 표현합니다.
- * 키워드: 정규식, Regex, Regular Expression, 코드 에디터, code editor
+ * 키워드: 정규식, Regex, Regular Expression, 코드 에디터, Code Editor
+ * 속성: Outlined
  */
 const IconRegex = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

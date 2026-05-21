@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 나침반을 표현합니다.
  * 키워드: 콤파스, 컴파스, 나침반, 방향, Direction, Compass, Way, Path
+ * 속성: Outlined
  */
 const IconCompass = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

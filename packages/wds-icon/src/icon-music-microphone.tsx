@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 무대용 마이크를 표현합니다.
- * 키워드: 세미나, seminar
+ * 키워드: 세미나, Seminar
+ * 속성: Outlined
  */
 const IconMusicMicrophone = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

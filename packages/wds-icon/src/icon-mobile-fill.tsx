@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 모바일 기기를 표현합니다.
  * 키워드: Phone, Mobile, 핸드폰, 모바일
+ * 속성: Solid
  */
 const IconMobileFill = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

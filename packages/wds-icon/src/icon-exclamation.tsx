@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 경고하는 상황을 표현합니다.
  * 키워드: 느낌표, 경고, 주의, 부적합, Warning
+ * 속성: Outlined
  */
 const IconExclamation = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

@@ -11,6 +11,7 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 /**
  * 순서를 변경할 때 사용합니다.
  * 키워드: Swap, 스왑, 변경, 바꾸기, 전환
+ * 속성: Outlined
  */
 const IconChange = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

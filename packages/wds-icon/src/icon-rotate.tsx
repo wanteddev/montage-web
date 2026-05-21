@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 회전을 표현합니다.
- * 키워드: rotate, 회전, 돌리기
+ * 키워드: Rotate, 회전, 돌리기
+ * 속성: Outlined
  */
 const IconRotate = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

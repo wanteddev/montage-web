@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 애플 로고를 표현합니다.
- * 키워드: Apple logo, 애플 로고
+ * 키워드: Apple Logo, 애플 로고
+ * 속성: Outlined
  */
 const IconLogoApple = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (

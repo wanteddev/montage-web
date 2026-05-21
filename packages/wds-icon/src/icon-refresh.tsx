@@ -10,7 +10,8 @@ type Props = ComponentPropsWithoutRef<'svg'> & {
 
 /**
  * 새로고침 관련 정보를 표현할 때 사용합니다.
- * 키워드: 리프레시, F5, cmd+R, 새로고침, Refresh
+ * 키워드: 리프레시, F5, Cmd+R, 새로고침, Refresh
+ * 속성: Outlined
  */
 const IconRefresh = forwardRef<SVGSVGElement, Props>((props, ref) => {
   return (
