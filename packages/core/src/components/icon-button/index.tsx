@@ -65,7 +65,11 @@ const IconButton = forwardRef(
         case 'background':
           return 'calc(100% + 8px)';
         case 'normal':
-          return 'calc(100% + 16px)';
+          if (size === 'small') return '24px';
+          if (size === 'medium') return '28px';
+          if (size === 'large') return '32px';
+          if (size === 'xlarge') return '40px';
+          return 'calc(100% + 12px)';
       }
     };
 
@@ -90,7 +94,7 @@ const IconButton = forwardRef(
         color={interactionColor}
         disabled={disableInteraction || disabled}
         variant={getInteractionVariant()}
-        scale={variant === 'normal'}
+        scale={false}
       >
         <Box
           as={(as || 'button') as ElementType}
