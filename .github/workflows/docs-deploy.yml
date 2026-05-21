@@ -173,9 +173,14 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
-      - run: git config user.name "github-actions[bot]"
-      - run: git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Get existing comment ID
         id: get-comment
         run: |
@@ -188,7 +193,7 @@ jobs:
             echo "comment_id=" >> $GITHUB_OUTPUT
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
 
       - name: Create or Update Pull Request Comment
         run: |
@@ -207,7 +212,7 @@ jobs:
             echo "Created new comment"
           fi
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
 
   algolia:
