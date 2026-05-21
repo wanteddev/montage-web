@@ -83,12 +83,21 @@ jobs:
       - run: git config user.email "${{ steps.app-user.outputs.email }}"
 
       - name: Commit and push to existing branch
+        id: commit
         run: |
-          git commit -am "docs: sync with mobile docs" --no-verify || echo "No changes to commit"
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "변경사항이 없어 push와 PR 생성을 건너뜁니다."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "docs: sync with mobile docs" --no-verify
           git push origin ${{ steps.check-branch.outputs.branch }}
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Create New PR
-        if: steps.check-branch.outputs.branch_exists == 'false'
+        if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
           gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document"
         env:
@@ -164,12 +173,21 @@ jobs:
       - run: git config user.email "${{ steps.app-user.outputs.email }}"
 
       - name: Commit and push to existing branch
+        id: commit
         run: |
-          git commit -am "docs: sync with design docs" --no-verify || echo "No changes to commit"
+          set -euo pipefail
+          git add -A
+          if git diff --cached --quiet; then
+            echo "변경사항이 없어 push와 PR 생성을 건너뜁니다."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "docs: sync with design docs" --no-verify
           git push origin ${{ steps.check-branch.outputs.branch }}
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Create New PR
-        if: steps.check-branch.outputs.branch_exists == 'false'
+        if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
           gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document"
         env:
