@@ -3,7 +3,9 @@ import type { darkTheme, lightTheme } from '../theme';
 export type Theme = typeof lightTheme | typeof darkTheme;
 
 export type BreakPoint = Theme['breakpoint'];
+export type Primitive = Theme['primitive'];
 export type Spacing = Theme['spacing'];
+export type Radius = Theme['radius'];
 
 type MergeWithDot<T extends string> = T extends '' ? '' : `.${T}`;
 
