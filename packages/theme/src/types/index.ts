@@ -6,6 +6,7 @@ export type BreakPoint = Theme['breakpoint'];
 export type Primitive = Theme['primitive'];
 export type Spacing = Theme['spacing'];
 export type Radius = Theme['radius'];
+export type Dimension = Theme['dimension'];
 
 type MergeWithDot<T extends string> = T extends '' ? '' : `.${T}`;
 
