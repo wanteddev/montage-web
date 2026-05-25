@@ -11,6 +11,12 @@ on:
           - 'mobile'
           - 'design'
   workflow_call:
+    inputs:
+      platform:
+        description: Platform
+        required: false
+        default: 'mobile'
+        type: string
     outputs:
       branch:
         description: 'mobile docs sync로 생성/사용된 브랜치 이름'
@@ -24,7 +30,7 @@ env:
 
 jobs:
   sync-mobile-docs:
-    if: ${{ github.event_name == 'workflow_call' || inputs.platform == 'mobile' }}
+    if: ${{ inputs.platform == 'mobile' }}
     runs-on: ubuntu-latest
     outputs:
       branch: ${{ steps.check-branch.outputs.branch }}
@@ -110,13 +116,13 @@ jobs:
       - name: Create New PR
         if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
-          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document"
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document" --label "ci: skip document deploy" --label "ci: skip test"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
 
   sync-design-docs:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.platform == 'design' }}
+    if: ${{ inputs.platform == 'design' }}
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App Token
@@ -200,7 +206,7 @@ jobs:
       - name: Create New PR
         if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
-          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document"
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document" --label "ci: skip document deploy" --label "ci: skip test"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
