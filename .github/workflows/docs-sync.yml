@@ -116,7 +116,7 @@ jobs:
       - name: Create New PR
         if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
-          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document"
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from mobile document" --body "sync from mobile document" --label "ci: skip document deploy" --label "ci: skip test"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
@@ -206,7 +206,7 @@ jobs:
       - name: Create New PR
         if: steps.check-branch.outputs.branch_exists == 'false' && steps.commit.outputs.has_changes == 'true'
         run: |
-          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document"
+          gh pr create -B ${{ steps.extract-current-branch.outputs.base_branch }} -H ${{ steps.check-branch.outputs.branch }} --title "docs: sync from design document" --body "sync from design document" --label "ci: skip document deploy" --label "ci: skip test"
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
