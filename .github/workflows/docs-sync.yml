@@ -11,6 +11,12 @@ on:
           - 'mobile'
           - 'design'
   workflow_call:
+    inputs:
+      platform:
+        description: Platform
+        required: false
+        default: 'mobile'
+        type: string
     outputs:
       branch:
         description: 'mobile docs sync로 생성/사용된 브랜치 이름'
@@ -24,7 +30,7 @@ env:
 
 jobs:
   sync-mobile-docs:
-    if: ${{ github.event_name == 'workflow_call' || inputs.platform == 'mobile' }}
+    if: ${{ inputs.platform == 'mobile' }}
     runs-on: ubuntu-latest
     outputs:
       branch: ${{ steps.check-branch.outputs.branch }}
@@ -116,7 +122,7 @@ jobs:
           GH_REPO: ${{ github.repository }}
 
   sync-design-docs:
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.platform == 'design' }}
+    if: ${{ inputs.platform == 'design' }}
     runs-on: ubuntu-latest
     steps:
       - name: Generate GitHub App Token
