@@ -122,18 +122,17 @@ Checkbox(state: .unchecked, size: .small) { state in
 </details>
 <details>
 
-<summary>``func label(String) -> Checkbox``</summary>
+<summary>``func label(String, fillWidth: Bool) -> Checkbox``</summary>
 
 
 레이블 텍스트를 설정합니다.
-
-- **Parameters**
-  | Parameter | Description |
-  | --- | --- |
-  | `text` | 레이블에 표시할 텍스트 |
 - **Return Value**
 
   수정된 체크박스 컴포넌트
+- **Discussion**
+  - text: 레이블에 표시할 텍스트
+  - fillWidth: 수평으로 주어진 공간을 다 채우도록 설정합니다. 생략하면 기본값으로 `true` 적용
+
 </details>
 <details>
 

@@ -190,10 +190,14 @@ Button(text: "저장")
 </details>
 <details>
 
-<summary>``func fill(horizontal: Bool, vertical: Bool) -> Button``</summary>
+<summary>~~``func fill(horizontal: Bool, vertical: Bool) -> Button``~~</summary>
 
 
 버튼이 수평 또는 수직 방향으로 공간을 채우도록 설정합니다.
+>  **Deprecated**
+>
+>  `fillWidth(_:Bool)`을 사용하세요. 참고: `vertical` 파라미터는 더 이상 지원되지 않습니다.
+
 
 - **Parameters**
   | Parameter | Description |
@@ -215,6 +219,29 @@ Button(text: "저장")
   // 가로, 세로 모두 채우는 버튼
   Button(variant: .outlined, text: "영역 전체 채우기")
       .fill(horizontal: true, vertical: true)
+  ```
+
+</details>
+<details>
+
+<summary>``func fillWidth(Bool) -> Button``</summary>
+
+
+버튼이 수평으로 공간을 채우도록 설정합니다.
+
+- **Parameters**
+  | Parameter | Description |
+  | --- | --- |
+  | `fillWidth` | 채우기 여부, 생략하면 기본값으로 `true` 적용 |
+- **Return Value**
+
+  수정된 버튼 인스턴스
+- **Discussion**
+
+  ```swift
+  // 부모 뷰의 가로 너비를 모두 채우는 버튼
+  Button(text: "전체 확인")
+      .fillWidth(true)
   ```
 
 </details>
