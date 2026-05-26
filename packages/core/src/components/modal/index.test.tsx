@@ -125,18 +125,193 @@ describe('when given bottom sheet variant', () => {
     expect(
       document.querySelector('[data-role="modal-container-grabber"]'),
     ).toBeInTheDocument();
-    expect(dialog).toHaveAttribute('data-visibility', 'visible');
+    expect(dialog).toHaveAttribute('data-snap', 'full');
 
     const dimmer = document.querySelector('[data-role="modal-dimmer"]');
     expect(dimmer).toBeTruthy();
     if (dimmer) fireEvent.click(dimmer);
 
-    // should still exist but be hidden (peek state)
+    // should still exist but be at the peek snap
     expect(screen.getByRole('dialog')).toBeInTheDocument();
-    expect(screen.getByRole('dialog')).toHaveAttribute(
-      'data-visibility',
-      'hidden',
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'peek');
+  });
+});
+
+describe('when given flexible bottom sheet', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
+  it('seeds the half snap by default when flexible', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer variant="bottom" resize="flexible" handle>
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
     );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'half');
+  });
+
+  it('seeds the snap given by defaultSnap', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          defaultSnap="full"
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'full');
+  });
+
+  it('collapses to peek on dimmer click when peekHeight is set', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          peekHeight={64}
+          defaultSnap="full"
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (dimmer) fireEvent.click(dimmer);
+    expect(screen.getByRole('dialog')).toHaveAttribute('data-snap', 'peek');
+  });
+
+  it('closes on dimmer click when peekHeight is not set', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer variant="bottom" resize="flexible" handle>
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (dimmer) fireEvent.click(dimmer);
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+  });
+
+  it('fires onSnapChange when the snap transitions', () => {
+    const onSnapChange = vi.fn();
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer
+          variant="bottom"
+          resize="flexible"
+          handle
+          peekHeight={64}
+          defaultSnap="full"
+          onSnapChange={onSnapChange}
+        >
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    onSnapChange.mockClear();
+
+    const dimmer = document.querySelector('[data-role="modal-dimmer"]');
+    if (dimmer) fireEvent.click(dimmer);
+
+    expect(onSnapChange).toHaveBeenCalledWith('peek');
+  });
+
+  it('renders the grabber and accepts mousedown without throwing', () => {
+    render(
+      <Modal>
+        <ModalTrigger>
+          <Button data-testid="trigger">Open</Button>
+        </ModalTrigger>
+        <ModalContainer variant="bottom" resize="flexible" handle>
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+        </ModalContainer>
+      </Modal>,
+    );
+
+    fireEvent.click(screen.getByTestId('trigger'));
+    const grabber = document.querySelector(
+      '[data-role="modal-container-grabber"]',
+    );
+    expect(grabber).toBeInTheDocument();
+    // Smoke check only — release resolution depends on computed height /
+    // bounding rect, which jsdom returns as 0 / empty, so we can't drive a
+    // full gesture here. The release math is covered in helpers.test.tsx.
+    if (grabber) {
+      expect(() =>
+        fireEvent.mouseDown(grabber, { clientY: 200 }),
+      ).not.toThrow();
+    }
   });
 });
 

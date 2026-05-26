@@ -15,6 +15,8 @@ import type { PortalProps } from '../portal/types';
 import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
 import type { TypographyProps } from '../typography/types';
 
+export type ModalBottomSheetSnap = 'peek' | 'half' | 'full';
+
 export type ModalProps = WithSxProps<{
   /** Whether the modal is open. */
   open?: boolean;
@@ -22,8 +24,6 @@ export type ModalProps = WithSxProps<{
   defaultOpen?: boolean;
   /** Callback function when the open state changes. */
   onOpenChange?: (open: boolean) => void;
-  /** When `variant=bottom` and `handle=true`, this function is executed when the display is changed by dragging. */
-  onVisibilityChange?: (visibility: 'visible' | 'hidden') => void;
   children?: ReactNode;
 }>;
 
@@ -45,8 +45,38 @@ type ModalContainerDefaultProps = WithSxProps<{
   sticky?: boolean;
   /** The size of the modal. */
   size?: 'small' | 'medium' | 'large' | 'xlarge';
-  /** The resize mode of the modal. */
-  resize?: 'hug' | 'fixed';
+  /**
+   * Sizing mode within the variant's layout.
+   * - `'hug'` (default): hug content.
+   * - `'fixed'`: fixed by `size` — `popup`/`full` only.
+   * - `'fill'`: viewport-max — `bottom` only.
+   * - `'flexible'`: multi-snap (`peek`/`half`/`full`) — `bottom` only.
+   */
+  resize?: 'hug' | 'fixed' | 'flexible' | 'fill';
+  /** Controlled snap (`variant='bottom'`). Pair with `onSnapChange`. */
+  snap?: ModalBottomSheetSnap;
+  /**
+   * Initial snap at mount (`variant='bottom'` + `resize='flexible'`). Not
+   * reactive — use controlled `snap` to drive it dynamically.
+   */
+  defaultSnap?: 'half' | 'full';
+  /** Fires on snap commit (release + settle, or programmatic). Not mid-drag. */
+  onSnapChange?: (snap: ModalBottomSheetSnap) => void;
+  /**
+   * Largest snap at which the dimmer stays hidden — iOS
+   * `largestUndimmedDetentIdentifier` equivalent. Snaps ≤ this value pass
+   * pointer events through.
+   * - `'peek'` (default): only `peek` undimmed.
+   * - `'half'`: `peek` + `half` undimmed (`resize='flexible'` only).
+   */
+  largestUndimmedSnap?: 'peek' | 'half';
+  /**
+   * At `half` with scrollable body: `true` defers to native scroll until
+   * the scroll boundary, then transfers to sheet collapse (iOS Maps feel).
+   * `false` (default) lets viewport drag always drive the sheet.
+   * `full` always uses native scroll regardless.
+   */
+  enableHalfSnapScroll?: boolean;
   children?: ReactNode;
   /** The props of the wrapper. */
   wrapperProps?: DefaultComponentProps<{}, 'div'>;

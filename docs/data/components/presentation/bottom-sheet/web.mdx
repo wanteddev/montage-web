@@ -86,7 +86,6 @@ Bottom sheet 는 여러 컴포넌트를 조합해서 사용합니다.
 </Modal>
 ```
 
-
 ## Sizes
 
 1가지 사이즈만 사용합니다.
@@ -143,8 +142,11 @@ export default Demo;`}
 ## Resize
 
 resize 옵션을 사용하면 Bottom sheet가 차지하는 높이를 조정할 수 있습니다.
-- hug (default)
-- fixed
+
+- `hug` (default) — 컨텐츠 크기에 맞춥니다.
+- `fixed` — `size` 별 고정 높이를 사용합니다.
+- `fill` — 화면이 허용하는 최대 높이까지 시트를 채웁니다.
+- `flexible` — 최대 높이의 절반(half)만 노출되며, 위로 끌어올리면 최대 높이(full)까지 확장됩니다. [Flexible usage](#basic-flexible-sheet)
 
 <Demo code={`import {
   FlexBox,
@@ -171,6 +173,9 @@ const Demo = () => {
         </ModalTrigger>
 
         <ModalContainer variant="bottom" resize="hug">
+          <ModalNavigation>
+            Hug
+          </ModalNavigation>
           <ModalContent>
             <ModalContentItem>
               <ModalHeading>Heading</ModalHeading>
@@ -212,6 +217,32 @@ const Demo = () => {
           </ActionArea>
         </ModalContainer>
       </Modal>
+
+      <Modal>
+        <ModalTrigger>
+          <Button>Fill</Button>
+        </ModalTrigger>
+
+        <ModalContainer variant="bottom" resize="fill">
+          <ModalNavigation>
+            Fill
+          </ModalNavigation>
+
+          <ModalContent>
+            <ModalContentItem>
+              <ModalHeading>Heading</ModalHeading>
+              <ModalSummary>Summary</ModalSummary>
+              <ModalDescription>Description</ModalDescription>
+            </ModalContentItem>
+          </ModalContent>
+
+          <ActionArea>
+            <ActionAreaButton>
+              Main action
+            </ActionAreaButton>
+          </ActionArea>
+        </ModalContainer>
+      </Modal>
     </FlexBox>
   )
 }
@@ -219,10 +250,10 @@ const Demo = () => {
 export default Demo;`}
 />
 
-
 ## Handle
 
 Bottom sheet의 상단에 핸들을 표시하여 드래그로 숨기고 열 수 있는 옵션을 사용할 수 있습니다.
+
 - true
 - false (default)
 
@@ -274,7 +305,6 @@ const Demo = () => {
 
 export default Demo;`}
 />
-
 
 ### Peek height
 
@@ -329,11 +359,155 @@ const Demo = () => {
 export default Demo;`}
 />
 
-### Visibility
+## Basic flexible sheet
 
-아래로 숨겨지거나 다시 나타날 때 `onVisibilityChange` 콜백을 사용할 수 있습니다.
+`resize="flexible"` 옵션은 처음에는 최대 높이의 50%(`half`)만 노출되었다가, 핸들을 위로 끌어올리거나 시트 내부에서 위로 스와이프하면 최대 높이(`full`)까지 확장되는 동작을 제공합니다.
 
-해당 콜백을 사용하여 특정 상황에서 아래로 숨김 처리 되지 않고 바로 닫히게 구성할 수 있습니다.
+- 해당 옵션을 사용하면 자동으로 `handle={true}`로 간주합니다.
+- 초기 스냅을 `full`로 시작하려면 `defaultSnap="full"` 을 사용합니다.
+- 스냅이 변경될 때마다 `onSnapChange(snap)` 콜백이 호출됩니다. (`'peek' (peekHeight가 있을 때만) | 'half' | 'full'`)
+
+<Demo code={`import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalSummary,
+  ModalTrigger,
+} from '@montage-ui/core';
+
+const Demo = () => {
+  return (
+    <Modal>
+      <ModalTrigger>
+        <Button>Flexible</Button>
+      </ModalTrigger>
+
+      <ModalContainer variant="bottom" resize="flexible" handle>
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>핸들을 위로 끌어올리거나 컨텐츠를 위로 스와이프하면 full로 확장됩니다.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
+          </ModalContentItem>
+           <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>핸들을 위로 끌어올리거나 컨텐츠를 위로 스와이프하면 full로 확장됩니다.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
+          </ModalContentItem>
+           <ModalContentItem>
+            <ModalHeading>Heading</ModalHeading>
+            <ModalSummary>핸들을 위로 끌어올리거나 컨텐츠를 위로 스와이프하면 full로 확장됩니다.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton>
+            Main action
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+## Snap change
+
+`resize="flexible"` 인 시트에서 스냅(`'peek' | 'half' | 'full'`)이 변경될 때마다 `onSnapChange` 콜백이 호출됩니다.
+
+현재 스냅에 따라 외부 상태를 동기화하거나, 특정 스냅에서 부가 UI를 표시할 때 사용합니다.
+
+`defaultSnap` 으로 초기 스냅을 지정할 수 있으며 (`'half'` 가 기본값), `peekHeight` 와 함께 사용하면 `peek ↔ half ↔ full` 3단 스냅이 활성화됩니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalTrigger,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalSummary,
+} from '@montage-ui/core';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+  const [snap, setSnap] = useState('half');
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
+        <Button>Snap change</Button>
+      </ModalTrigger>
+
+      <ModalContainer
+        variant="bottom"
+        resize="flexible"
+        defaultSnap="half"
+        peekHeight={72}
+        handle
+        onSnapChange={setSnap}
+      >
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>현재 스냅: {snap}</ModalHeading>
+            <ModalSummary>핸들을 끌어올리거나 컨텐츠를 위로 스와이프해보세요.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
+            Close sheet
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Largest undimmed snap
+
+`largestUndimmedSnap` 은 dimmer가 꺼지는 스냅을 지정합니다. 지정한 스냅 **이하의** 모든 스냅에서는 dimmer가 표시되지 않고, 시트 뒤 콘텐츠로 포인터 이벤트가 통과합니다.
+
+iOS의 `largestUndimmedDetentIdentifier` 와 같은 역할을 합니다.
+
+- `'peek'` (기본값): `peek` 만 undimmed. `half` / `full` 에서는 dimmer가 표시됩니다.
+- `'half'`: `peek` 과 `half` 모두 undimmed. `full` 에서만 dimmer가 표시됩니다. (`resize="flexible"` 에서만 유효)
+
+지도 위에 시트를 띄우고 half 상태에서도 지도를 조작 가능하게 하는 등의 UX 에 사용합니다.
 
 <Demo code={`import { useState } from 'react';
 import {
@@ -354,30 +528,99 @@ const Demo = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Modal
-      open={open}
-      onOpenChange={setOpen}
-      onVisibilityChange={(visibility) => {
-        if (visibility === 'hidden') {
-          setOpen(false)
-        }
-      }}
-    >
+    <Modal open={open} onOpenChange={setOpen}>
       <ModalTrigger>
-        <Button>Visibility</Button>
+        <Button>Largest undimmed = half</Button>
       </ModalTrigger>
 
-      <ModalContainer variant="bottom" handle peekHeight={76}>
+      <ModalContainer
+        variant="bottom"
+        resize="flexible"
+        defaultSnap="half"
+        peekHeight={96}
+        largestUndimmedSnap="half"
+        handle
+      >
         <ModalContent>
           <ModalContentItem>
-            <ModalHeading>Heading</ModalHeading>
-            <ModalSummary>Summary</ModalSummary>
-            <ModalDescription>Description</ModalDescription>
+            <ModalHeading>Half 까지 undimmed</ModalHeading>
+            <ModalSummary>full 로 끌어올렸을 때만 dimmer 가 표시됩니다.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 30 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
           </ModalContentItem>
         </ModalContent>
 
-        <ActionArea variant="cancel">
-          <ActionAreaButton onClick={() => setOpen(false)}>
+        <ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
+            Close sheet
+          </ActionAreaButton>
+        </ActionArea>
+      </ModalContainer>
+    </Modal>
+  )
+}
+
+export default Demo;`}
+/>
+
+### Half snap scroll
+
+`enableHalfSnapScroll` 은 half 스냅 + 스크롤 가능한 콘텐츠가 함께 있을 때의 제스처 라우팅 정책을 토글합니다.
+
+- `false` (default): half 에서의 viewport 드래그는 항상 시트를 움직입니다. 시트가 정책상 우선이므로 본문 스크롤은 발생하지 않습니다. 짧은 콘텐츠 또는 시트 자체가 주된 인터랙션인 경우 적합합니다.
+- `true`: half 상태에서 스크롤 가능한 콘텐츠가 있으면 본문 스크롤이 먼저 동작합니다.
+
+`full` 스냅에서는 이 옵션과 무관하게 항상 본문 스크롤이 우선으로 동작합니다.
+
+<Demo code={`import { useState } from 'react';
+import {
+  Button,
+  Modal,
+  ActionArea,
+  ActionAreaButton,
+  ModalTrigger,
+  ModalContainer,
+  ModalContent,
+  ModalContentItem,
+  ModalDescription,
+  ModalHeading,
+  ModalSummary,
+} from '@montage-ui/core';
+
+const Demo = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Modal open={open} onOpenChange={setOpen}>
+      <ModalTrigger>
+        <Button>Half snap scroll</Button>
+      </ModalTrigger>
+
+      <ModalContainer
+        variant="bottom"
+        resize="flexible"
+        defaultSnap="half"
+        peekHeight={96}
+        enableHalfSnapScroll
+        handle
+      >
+        <ModalContent>
+          <ModalContentItem>
+            <ModalHeading>Scroll → 경계 → 시트 축소</ModalHeading>
+            <ModalSummary>half 에서 스크롤하다 맨 위에 닿으면 ↓ 드래그가 시트를 닫는 제스처로 자동 전환됩니다.</ModalSummary>
+            <ModalDescription>
+              {Array.from({ length: 60 }).map((_, i) => (
+                <span key={i} style={{ display: 'block' }}>Scrollable line #{i + 1}</span>
+              ))}
+            </ModalDescription>
+          </ModalContentItem>
+        </ModalContent>
+
+        <ActionArea>
+          <ActionAreaButton onClick={() => setOpen(false)} variant="alternative">
             Close sheet
           </ActionAreaButton>
         </ActionArea>
@@ -411,10 +654,9 @@ export default Demo;`}
 } from '@montage-ui/core';
 
 const Demo = () => {
-
   return (
     <Modal>
-       <ModalTrigger>
+      <ModalTrigger>
         <Button>Full modal</Button>
       </ModalTrigger>
 
@@ -443,7 +685,6 @@ const Demo = () => {
 
 export default Demo;`}
 />
-
 
 ## API
 
