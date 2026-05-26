@@ -46,9 +46,17 @@ const Button = forwardRef(
         case 'outlined':
           return 'light';
         case 'solid':
-          return color === 'primary' ? 'strong' : 'normal';
+          return color === 'assistive' ? 'normal' : 'strong';
       }
     };
+
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      variant === 'outlined' &&
+      color === 'negative'
+    ) {
+      throw new Error('color="negative" is only supported with variant="solid" in Button')
+    }
 
     const handlePreventEventsLoading = (e: SyntheticEvent) => {
       if (loading && !disableLoadingPreventEvents) {
