@@ -1,6 +1,7 @@
 import primitive from '../primitive';
 
 const dimension = {
+  12: primitive[12],
   14: primitive[14],
   16: primitive[16],
   18: primitive[18],
