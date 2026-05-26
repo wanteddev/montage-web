@@ -119,57 +119,45 @@ export default Demo;`}
 
 ## Sizes
 
-`normal` variant는 4가지 프리셋 (`small` / `medium` / `large` / `xlarge`)을 제공하며, 아이콘 px 기준입니다.
+2가지 사이즈를 제공합니다.
+- small
+- medium (default)
 
-`solid` / `outlined` variant는 2가지 프리셋 (`small` / `medium`)을 제공하며, 컨테이너 px 기준입니다. `large`/`xlarge`를 전달하면 `medium`으로 폴백됩니다.
+`normal` variant와 `background` variant는 `small` 사이즈를 지원하지 않습니다.
 
-`background` variant는 프리셋 없이 number 타입으로만 커스텀할 수 있습니다 (기본 24).
-
-`normal` / `solid` / `outlined`도 number 타입으로 커스텀 할 수 있습니다.
+number 타입 옵션을 넣어 크기를 커스텀 할 수 있습니다.
 
 <Demo code={`import { TextButton, FlexBox, IconButton, Typography } from '@montage-ui/core';
 import { IconBlank } from '@montage-ui/icon';
 
 const Demo = () => {
   return (
-    <FlexBox gap="16px" flexDirection="column" alignItems="flex-start">
+    <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center">
-        <Typography variant="body2-reading" style={{ width: 80 }}>Normal</Typography>
+        <Typography variant="body2-reading">Medium</Typography>
         <FlexBox gap="12px" alignItems="center">
-          <IconButton size="small" variant="normal" aria-label="Small normal icon button">
-            <IconBlank />
-          </IconButton>
           <IconButton size="medium" variant="normal" aria-label="Medium normal icon button">
             <IconBlank />
           </IconButton>
-          <IconButton size="large" variant="normal" aria-label="Large normal icon button">
-            <IconBlank />
-          </IconButton>
-          <IconButton size="xlarge" variant="normal" aria-label="Xlarge normal icon button">
-            <IconBlank />
-          </IconButton>
-        </FlexBox>
-      </FlexBox>
-
-      <FlexBox gap="12px" alignItems="center">
-        <Typography variant="body2-reading" style={{ width: 80 }}>Outlined</Typography>
-        <FlexBox gap="12px" alignItems="center">
-          <IconButton size="small" variant="outlined" aria-label="Small outlined icon button">
+          <IconButton size="medium" variant="background" aria-label="Medium background icon button">
             <IconBlank />
           </IconButton>
           <IconButton size="medium" variant="outlined" aria-label="Medium outlined icon button">
             <IconBlank />
           </IconButton>
+          <IconButton size="medium" variant="solid" aria-label="Medium solid icon button">
+            <IconBlank />
+          </IconButton>
         </FlexBox>
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
-        <Typography variant="body2-reading" style={{ width: 80 }}>Solid</Typography>
+        <Typography variant="body2-reading">Small</Typography>
         <FlexBox gap="12px" alignItems="center">
-          <IconButton size="small" variant="solid" aria-label="Small solid icon button">
+          <IconButton size="small" variant="outlined" aria-label="Small outlined icon button">
             <IconBlank />
           </IconButton>
-          <IconButton size="medium" variant="solid" aria-label="Medium solid icon button">
+          <IconButton size="small" variant="solid" aria-label="Small solid icon button">
             <IconBlank />
           </IconButton>
         </FlexBox>

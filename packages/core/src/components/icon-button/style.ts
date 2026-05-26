@@ -6,64 +6,6 @@ import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import type { IconButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
-const ICON_SIZE_PRESET = {
-  xlarge: 24,
-  large: 20,
-  medium: 18,
-  small: 16,
-} as const;
-
-const NORMAL_INTERACTION_HEIGHT = {
-  xlarge: 40,
-  large: 32,
-  medium: 28,
-  small: 24,
-} as const;
-
-const RADIUS_TOKEN_KEYS = [0, 4, 8, 10, 12, 14, 16, 20, 24] as const;
-
-const snapToRadiusToken = (
-  value: number,
-): (typeof RADIUS_TOKEN_KEYS)[number] => {
-  return RADIUS_TOKEN_KEYS.reduce((closest, current) =>
-    Math.abs(current - value) < Math.abs(closest - value) ? current : closest,
-  );
-};
-
-const getNormalInteractionHeight = (size: IconButtonProps['size']): number => {
-  if (typeof size === 'string' && size in NORMAL_INTERACTION_HEIGHT) {
-    return NORMAL_INTERACTION_HEIGHT[
-      size as keyof typeof NORMAL_INTERACTION_HEIGHT
-    ];
-  }
-  if (typeof size === 'number') return size + 12;
-  return 24 + 12;
-};
-
-const interactionChildStyle = (
-  params: Pick<IconButtonProps, 'variant' | 'size'>,
-  theme: Theme,
-) => {
-  switch (params.variant) {
-    case 'normal': {
-      const h = getNormalInteractionHeight(params.size);
-      const radiusToken = snapToRadiusToken(h * 0.3);
-      return css`
-        height: ${h}px;
-        border-radius: ${theme.radius[radiusToken]};
-      `;
-    }
-    case 'background':
-      return css`
-        height: calc(100% + 8px);
-      `;
-    case 'outlined':
-    case 'solid':
-    default:
-      return null;
-  }
-};
-
 const getIconButtonSize = ({
   variant,
   size,
@@ -71,16 +13,7 @@ const getIconButtonSize = ({
   switch (variant) {
     case 'outlined':
     case 'solid':
-      if (size === 'large' || size === 'xlarge') return 'medium';
       return size ?? 'medium';
-    case 'normal':
-      if (typeof size === 'number') return size;
-      if (size && size in ICON_SIZE_PRESET) {
-        return ICON_SIZE_PRESET[size as keyof typeof ICON_SIZE_PRESET];
-      }
-      return 24;
-    case 'background':
-      return typeof size === 'number' ? size : 24;
     default:
       return typeof size === 'number' ? size : 24;
   }
@@ -105,10 +38,6 @@ export const iconButtonStyle =
     & > [wds-component='with-interaction'] {
       width: auto;
       aspect-ratio: 1 / 1;
-      ${interactionChildStyle(
-        { size: props.size, variant: props.variant },
-        theme,
-      )}
     }
 
     ${iconButtonSizeStyle({ size: props.size, variant: props.variant })}
@@ -120,12 +49,6 @@ export const iconButtonStyle =
     )(
       (params = {}) => css`
         ${iconButtonSizeStyle({ size: params.size, variant: props.variant })}
-        & > [wds-component='with-interaction'] {
-          ${interactionChildStyle(
-            { size: params.size, variant: props.variant },
-            theme,
-          )}
-        }
         ${params.sx}
       `,
     )}
@@ -156,7 +79,7 @@ const iconButtonSizeStyle = (
 
       ${(variant === 'solid' || variant === 'outlined') &&
       css`
-        padding: 7px;
+        padding: 6px;
         width: ${size}px;
         height: ${size}px;
 
@@ -193,7 +116,7 @@ const iconButtonSizeStyle = (
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
-          padding: 11px;
+          padding: 10px;
           width: 40px;
           height: 40px;
 
@@ -227,7 +150,7 @@ const iconButtonSizeStyle = (
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
-          padding: 8px;
+          padding: 7px;
           width: 32px;
           height: 32px;
 
@@ -268,15 +191,14 @@ const iconButtonColorStyle = (
         border: none;
         box-shadow: none;
 
-        & > [wds-component='with-interaction'] {
-          ${Boolean(interactionColor) &&
-          css`
+        ${Boolean(interactionColor) &&
+        css`
+          & > [wds-component='with-interaction'] {
             background-color: ${getColorByToken(theme, interactionColor!)};
-          `}
-        }
+          }
+        `}
 
-        &:disabled,
-        &[aria-disabled='true'] {
+        &:disabled, &[aria-disabled='true'] {
           background-color: transparent;
           color: ${theme.semantic.label.disable};
           box-shadow: none;
