@@ -34,3 +34,65 @@ export const OutlinedButton = () => {
     </>
   );
 };
+
+export const SolidNegativeButton = () => {
+  return (
+    <>
+      <Button variant="solid" color="negative" size="large">
+        Button
+      </Button>
+      <Button variant="solid" color="negative" size="medium">
+        Button
+      </Button>
+      <Button variant="solid" color="negative" size="small">
+        Button
+      </Button>
+      <Button variant="solid" color="negative" size="xsmall">
+        Button
+      </Button>
+      <Button variant="solid" color="negative" size="large" iconOnly>
+        <IconBlank />
+      </Button>
+      <Button variant="solid" color="negative" size="medium" iconOnly>
+        <IconBlank />
+      </Button>
+      <Button variant="solid" color="negative" size="small" iconOnly>
+        <IconBlank />
+      </Button>
+      <Button variant="solid" color="negative" size="xsmall" iconOnly>
+        <IconBlank />
+      </Button>
+    </>
+  );
+};
+
+export const XsmallButton = () => {
+  return (
+    <>
+      <Button variant="solid" size="xsmall">
+        Button
+      </Button>
+      <Button variant="solid" color="assistive" size="xsmall">
+        Button
+      </Button>
+      <Button variant="outlined" size="xsmall">
+        Button
+      </Button>
+      <Button variant="outlined" color="assistive" size="xsmall">
+        Button
+      </Button>
+      <Button variant="solid" size="xsmall" iconOnly>
+        <IconBlank />
+      </Button>
+      <Button variant="solid" color="assistive" size="xsmall" iconOnly>
+        <IconBlank />
+      </Button>
+      <Button variant="outlined" size="xsmall" iconOnly>
+        <IconBlank />
+      </Button>
+      <Button variant="outlined" color="assistive" size="xsmall" iconOnly>
+        <IconBlank />
+      </Button>
+    </>
+  );
+};
