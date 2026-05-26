@@ -8,7 +8,7 @@ updatedAt: 2025-06-17
 
 ### Solid button
 
-Primary(Default), Assistive로 구성되어있습니다.
+Primary(Default), Assistive, Negative로 구성되어있습니다. `negative`는 파괴적/경고성 행동에 사용하며 `variant="solid"`에서만 동작합니다.
 
 <Demo code={`import { FlexBox, Button } from '@montage-ui/core';
 
@@ -17,6 +17,7 @@ const Demo = () => {
     <FlexBox gap="12px" justifyContent="center" flexWrap="wrap">
       <Button color="primary">Primary</Button>
       <Button color="assistive">Assistive</Button>
+      <Button color="negative">Negative</Button>
     </FlexBox>
   )
 }
@@ -109,7 +110,7 @@ export default Demo;`}
 
 ## Sizes
 
-모든 타입의 버튼은 `small`, `medium(Default)`, `large` 3개의 사이즈를 제공합니다.
+모든 타입의 버튼은 `xsmall`, `small`, `medium(Default)`, `large` 4개의 사이즈를 제공합니다.
 
 <Demo code={`import { Button, FlexBox } from '@montage-ui/core';
 
@@ -117,6 +118,9 @@ const Demo = () => {
   return (
     <FlexBox gap="12px" flexDirection="column" alignItems="center">
       <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="solid" color="primary" size="xsmall">
+          Xsmall
+        </Button>
         <Button variant="solid" color="primary" size="small">
           Small
         </Button>
@@ -129,6 +133,9 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="solid" color="assistive" size="xsmall">
+          Xsmall
+        </Button>
         <Button variant="solid" color="assistive" size="small">
           Small
         </Button>
@@ -141,6 +148,24 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="solid" color="negative" size="xsmall">
+          Xsmall
+        </Button>
+        <Button variant="solid" color="negative" size="small">
+          Small
+        </Button>
+        <Button variant="solid" color="negative" size="medium">
+          Medium
+        </Button>
+        <Button variant="solid" color="negative" size="large">
+          Large
+        </Button>
+      </FlexBox>
+
+      <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="outlined" color="primary" size="xsmall">
+          Xsmall
+        </Button>
         <Button variant="outlined" color="primary" size="small">
           Small
         </Button>
@@ -153,6 +178,9 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
+        <Button variant="outlined" color="assistive" size="xsmall">
+          Xsmall
+        </Button>
         <Button variant="outlined" color="assistive" size="small">
           Small
         </Button>
