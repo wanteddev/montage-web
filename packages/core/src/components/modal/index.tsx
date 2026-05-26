@@ -12,8 +12,6 @@ import { Slot } from '@radix-ui/react-slot';
 import { Box } from '@montage-ui/engine';
 import { IconClose } from '@montage-ui/icon';
 import { composeEventHandlers } from '@radix-ui/primitive';
-import { useCallbackRef } from '@radix-ui/react-use-callback-ref';
-import { flushSync } from 'react-dom';
 
 import { hideOthers } from '../../utils';
 import { RemoveScroll } from '../remove-scroll';
@@ -92,7 +90,6 @@ const Modal = ({
   open: openProp,
   defaultOpen,
   onOpenChange,
-  onVisibilityChange,
 }: ModalProps) => {
   const [open, setOpen] = useControllableState({
     prop: openProp,
@@ -102,47 +99,12 @@ const Modal = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [isBottomSheet, setIsBottomSheet] = useState(false);
-  const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
-
   const [innerContainer, setInnerContainer] = useState<HTMLDivElement | null>(
     null,
   );
 
-  const onVisibilityChangeCallback = useCallbackRef(onVisibilityChange);
-
-  useEffect(() => {
-    // variant="bottom" sm={{ variant: 'popup' }} 일 때 예외 처리
-    if (!isBottomSheet && open && visibility === 'hidden') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisibility('visible');
-      setOpen(false);
-    }
-  }, [isBottomSheet, open, visibility, setOpen, setVisibility]);
-
-  useEffect(() => {
-    if (!open) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisibility('visible');
-    }
-  }, [open]);
-
   return (
     <ModalProvider
-      isBottomSheet={isBottomSheet}
-      setIsBottomSheet={setIsBottomSheet}
-      visibility={visibility}
-      setVisibility={useCallback(
-        (value) => {
-          flushSync(() => {
-            onVisibilityChangeCallback(value);
-            setVisibility(value);
-          });
-
-          containerRef.current?.focus();
-        },
-        [onVisibilityChangeCallback],
-      )}
       containerRef={containerRef}
       innerContainer={innerContainer}
       setInnerContainer={setInnerContainer}
@@ -201,10 +163,15 @@ const ModalContainer = forwardRef(
       disablePortal = false,
       disableFocusScope = false,
       disableAriaHiddenOthers = false,
+      enableHalfSnapScroll = false,
       forceMount = false,
       sticky = true,
       wrapperProps,
       peekHeight,
+      snap: snapProp,
+      defaultSnap = 'half',
+      onSnapChange,
+      largestUndimmedSnap = 'peek',
       dimmer = <ModalDimmer />,
       ...props
     }: PolymorphicPropsInternal<ModalContainerProps, T>,
@@ -214,6 +181,13 @@ const ModalContainer = forwardRef(
       useModalContext(MODAL_CONTAINER_NAME);
 
     const dimmerRef = useRef<HTMLDivElement>(null);
+
+    const [isBottomSheet, setIsBottomSheet] = useState(false);
+    const [snap = defaultSnap, setSnap] = useControllableState({
+      prop: snapProp,
+      defaultProp: defaultSnap,
+      onChange: onSnapChange,
+    });
 
     const { isPresent, ref: wrapperRef } = useAnimationPresence(
       open || forceMount,
@@ -228,6 +202,27 @@ const ModalContainer = forwardRef(
       },
     );
 
+    // Reset snap once the exit animation completes. For `forceMount=false` the
+    // component unmounts and this never fires (state dies with the tree). For
+    // `forceMount=true` it ensures the next open starts at `full` instead of
+    // whatever snap was active when the user dismissed the sheet.
+    useEffect(() => {
+      if (!isPresent) setSnap(defaultSnap);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isPresent]);
+
+    // Edge case: when a responsive `variant` flips away from `bottom` (e.g.
+    // `variant="bottom" sm={{ variant: 'popup' }}`) while the sheet is in
+    // `peek`, peek is no longer a valid state for the new variant — reset
+    // snap to `full` and close.
+    useEffect(() => {
+      if (!isBottomSheet && open && snap === 'peek') {
+        setSnap(defaultSnap);
+        onOpenChange(false);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isBottomSheet, open, snap, onOpenChange]);
+
     const composedRefs = useComposedRefs<HTMLDivElement>(
       wrapperProps?.ref as RefObject<HTMLDivElement | null> | undefined,
       wrapperRef,
@@ -238,17 +233,24 @@ const ModalContainer = forwardRef(
       ref as ForwardedRef<HTMLDivElement>,
     );
 
-    const { isBottomSheetWithHandle, handleVisibilityHidden, ...dragProps } =
+    const { isBottomSheetWithHandle, collapseToPeekOrClose, ...dragProps } =
       useDraggable({
         peekHeight,
         variant,
+        resize,
         handle,
+        defaultSnap,
         xs,
         sm,
         md,
         lg,
         xl,
         dimmerRef,
+        snap,
+        enableHalfSnapScroll,
+        largestUndimmedSnap,
+        setSnap,
+        setIsBottomSheet,
       });
 
     const topNavigationHeight =
@@ -264,13 +266,27 @@ const ModalContainer = forwardRef(
           null,
       )?.height ?? 0;
 
+    const isPeek = snap === 'peek';
+    // True when the current snap is "undimmed" — the dimmer is invisible and
+    // pointer-events fall through to content behind the sheet. Mirrors iOS's
+    // `largestUndimmedDetentIdentifier`: every consequence of "no scrim" —
+    // focus trap, aria-hidden on siblings, body scroll lock, outside-click /
+    // focus-outside dismiss — is suppressed in lockstep so the modal does not
+    // try to be the only-thing-on-screen while it visually isn't.
+    const isUndimmed =
+      isPeek || (snap === 'half' && largestUndimmedSnap === 'half');
+    const isVisible = !isUndimmed;
+
     useEffect(() => {
       const content = containerRef.current;
 
       if (content && isPresent && !disableAriaHiddenOthers) {
         const undo = hideOthers(content);
 
-        if (isBottomSheetWithHandle && context.visibility === 'hidden') {
+        // Undimmed snaps leave the rest of the page visible AND interactive —
+        // hiding it from screen readers would create a mismatch where sighted
+        // users can still tab/click into the background but AT users can't.
+        if (isBottomSheetWithHandle && isUndimmed) {
           undo();
 
           return;
@@ -281,7 +297,7 @@ const ModalContainer = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
       isBottomSheetWithHandle,
-      context.visibility,
+      isUndimmed,
       isPresent,
       disableAriaHiddenOthers,
     ]);
@@ -295,9 +311,8 @@ const ModalContainer = forwardRef(
     return (
       <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
-          data-visibility={
-            isBottomSheetWithHandle ? context.visibility : undefined
-          }
+          data-snap={snap}
+          data-largest-undimmed-snap={largestUndimmedSnap}
           {...wrapperProps}
           ref={composedRefs}
           sx={[
@@ -316,15 +331,17 @@ const ModalContainer = forwardRef(
           <ModalDimmerProvider
             disableOutsideClickClose={disableOutsideClickClose}
             isBottomSheetWithHandle={isBottomSheetWithHandle}
-            handleVisibilityHidden={handleVisibilityHidden}
+            collapseToPeekOrClose={collapseToPeekOrClose}
             dimmerRef={dimmerRef}
+            snap={snap}
+            largestUndimmedSnap={largestUndimmedSnap}
           >
             {dimmer}
           </ModalDimmerProvider>
 
           <FocusScope
-            loop={open && context.visibility === 'visible'}
-            trapped={open && context.visibility === 'visible'}
+            loop={open && isVisible}
+            trapped={open && isVisible}
             disableFocusScope={disableFocusScope}
           >
             <DismissableLayer
@@ -336,7 +353,7 @@ const ModalContainer = forwardRef(
                 const isRightClick =
                   originalEvent.button === 2 || ctrlLeftClick;
 
-                if (isRightClick || disableOutsideClickClose)
+                if (isRightClick || disableOutsideClickClose || isUndimmed)
                   e.preventDefault();
               }}
               onEscapeKeyDown={(e: KeyboardEvent) => {
@@ -345,10 +362,7 @@ const ModalContainer = forwardRef(
                 }
               }}
               onFocusOutside={(e) => {
-                if (
-                  disableOutsideClickClose ||
-                  context.visibility === 'hidden'
-                ) {
+                if (disableOutsideClickClose || isUndimmed) {
                   e.preventDefault();
                 }
               }}
@@ -356,17 +370,13 @@ const ModalContainer = forwardRef(
                 if (!isBottomSheetWithHandle) {
                   onOpenChange(false);
                 } else {
-                  handleVisibilityHidden();
+                  collapseToPeekOrClose();
                 }
               }}
               ref={composedContainerRefs}
             >
               <RemoveScroll
-                enabled={
-                  open &&
-                  context.visibility === 'visible' &&
-                  !disableRemoveScroll
-                }
+                enabled={open && isVisible && !disableRemoveScroll}
                 as={Slot}
                 allowPinchZoom
               >
@@ -374,7 +384,7 @@ const ModalContainer = forwardRef(
                   role="dialog"
                   aria-modal={
                     open &&
-                    context.visibility === 'visible' &&
+                    isVisible &&
                     (!disableRemoveScroll || !disableFocusScope)
                   }
                   id={context.containerId}
@@ -382,7 +392,8 @@ const ModalContainer = forwardRef(
                   aria-labelledby={`${context.titleId} ${context.headingId}`}
                   {...props}
                   wds-ignore-dismissable-layer="true"
-                  data-visibility={context.visibility}
+                  data-snap={snap}
+                  data-largest-undimmed-snap={largestUndimmedSnap}
                   data-status={open ? 'open' : 'close'}
                   sx={[
                     modalContainerStyle({
@@ -469,21 +480,25 @@ const ModalDimmer = forwardRef(
     { as, ...props }: PolymorphicPropsInternal<ModalDimmerProps, T>,
     ref: ForwardedRef<T>,
   ) => {
-    const { open, visibility, onOpenChange } =
-      useModalContext(MODAL_DIMMER_NAME);
+    const { open, onOpenChange } = useModalContext(MODAL_DIMMER_NAME);
 
     const {
       isBottomSheetWithHandle,
       dimmerRef,
-      handleVisibilityHidden,
+      collapseToPeekOrClose,
       disableOutsideClickClose,
+      snap,
+      largestUndimmedSnap,
     } = useModalDimmerContext(MODAL_DIMMER_NAME);
 
     return (
       <Box
         data-role="modal-dimmer"
         data-status={open ? 'open' : 'close'}
-        data-visibility={isBottomSheetWithHandle ? visibility : undefined}
+        data-snap={isBottomSheetWithHandle ? snap : undefined}
+        data-largest-undimmed-snap={
+          isBottomSheetWithHandle ? largestUndimmedSnap : undefined
+        }
         as={as || 'div'}
         {...props}
         wds-ignore-dismissable-layer="true"
@@ -506,9 +521,9 @@ const ModalDimmer = forwardRef(
 
           if (!isBottomSheetWithHandle) {
             onOpenChange(false);
-          } else if (visibility === 'visible') {
+          } else if (snap !== 'peek') {
             e.preventDefault();
-            handleVisibilityHidden();
+            collapseToPeekOrClose();
           }
         })}
         sx={[modalDimmerStyle, props.sx]}

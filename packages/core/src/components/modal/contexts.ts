@@ -5,6 +5,7 @@ import createLooseContext from '../../hooks/internal/use-loose-context';
 import { MODAL_CONTAINER_NAME, MODAL_NAME } from './constants';
 
 import type { RefObject } from 'react';
+import type { ModalBottomSheetSnap } from './types';
 
 type ModalContextValue = {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -17,10 +18,6 @@ type ModalContextValue = {
   descriptionId: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  isBottomSheet: boolean;
-  setIsBottomSheet: (isBottomSheet: boolean) => void;
-  visibility: 'hidden' | 'visible';
-  setVisibility: (visibility: 'hidden' | 'visible') => void;
 };
 
 export const [ModalProvider, useModalContext] =
@@ -29,8 +26,10 @@ export const [ModalProvider, useModalContext] =
 type ModalDimmerContextValue = {
   dimmerRef: RefObject<HTMLDivElement | null>;
   isBottomSheetWithHandle: boolean;
-  handleVisibilityHidden: () => void;
+  collapseToPeekOrClose: () => void;
   disableOutsideClickClose?: boolean;
+  snap: ModalBottomSheetSnap;
+  largestUndimmedSnap: 'peek' | 'half';
 };
 
 export const [ModalDimmerProvider, useModalDimmerContext] =
