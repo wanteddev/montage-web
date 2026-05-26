@@ -40,6 +40,30 @@ const getNormalInteractionHeight = (size: IconButtonProps['size']): number => {
   return 24 + 12;
 };
 
+const interactionChildStyle = (
+  params: Pick<IconButtonProps, 'variant' | 'size'>,
+  theme: Theme,
+) => {
+  switch (params.variant) {
+    case 'normal': {
+      const h = getNormalInteractionHeight(params.size);
+      const radiusToken = snapToRadiusToken(h * 0.3);
+      return css`
+        height: ${h}px;
+        border-radius: ${theme.radius[radiusToken]};
+      `;
+    }
+    case 'background':
+      return css`
+        height: calc(100% + 8px);
+      `;
+    case 'outlined':
+    case 'solid':
+    default:
+      return null;
+  }
+};
+
 const getIconButtonSize = ({
   variant,
   size,
@@ -81,6 +105,10 @@ export const iconButtonStyle =
     & > [wds-component='with-interaction'] {
       width: auto;
       aspect-ratio: 1 / 1;
+      ${interactionChildStyle(
+        { size: props.size, variant: props.variant },
+        theme,
+      )}
     }
 
     ${iconButtonSizeStyle({ size: props.size, variant: props.variant })}
@@ -92,6 +120,12 @@ export const iconButtonStyle =
     )(
       (params = {}) => css`
         ${iconButtonSizeStyle({ size: params.size, variant: props.variant })}
+        & > [wds-component='with-interaction'] {
+          ${interactionChildStyle(
+            { size: params.size, variant: props.variant },
+            theme,
+          )}
+        }
         ${params.sx}
       `,
     )}
@@ -214,21 +248,17 @@ const iconButtonSizeStyle = (
 const iconButtonColorStyle = (
   {
     variant,
-    size,
     color,
     interactionColor,
     alternative,
   }: Pick<
     IconButtonProps,
-    'variant' | 'size' | 'color' | 'interactionColor' | 'alternative'
+    'variant' | 'color' | 'interactionColor' | 'alternative'
   >,
   theme: Theme,
 ) => {
   switch (variant) {
-    case 'normal': {
-      const radiusToken = snapToRadiusToken(
-        getNormalInteractionHeight(size) * 0.3,
-      );
+    case 'normal':
       return css`
         background-color: transparent;
         ${Boolean(color) &&
@@ -239,7 +269,6 @@ const iconButtonColorStyle = (
         box-shadow: none;
 
         & > [wds-component='with-interaction'] {
-          border-radius: ${theme.radius[radiusToken]};
           ${Boolean(interactionColor) &&
           css`
             background-color: ${getColorByToken(theme, interactionColor!)};
@@ -254,7 +283,6 @@ const iconButtonColorStyle = (
           border: none;
         }
       `;
-    }
     case 'background':
       return css`
         border: none;

@@ -57,22 +57,6 @@ const IconButton = forwardRef(
       }
     }, [context, originColor, variant]);
 
-    const getInteractionSize = () => {
-      switch (variant) {
-        case 'outlined':
-        case 'solid':
-          return '100%';
-        case 'background':
-          return 'calc(100% + 8px)';
-        case 'normal':
-          if (size === 'small') return '24px';
-          if (size === 'medium') return '28px';
-          if (size === 'large') return '32px';
-          if (size === 'xlarge') return '40px';
-          return 'calc(100% + 12px)';
-      }
-    };
-
     const getInteractionVariant = () => {
       switch (variant) {
         case 'normal':
@@ -85,12 +69,9 @@ const IconButton = forwardRef(
       }
     };
 
-    const interactionSize = getInteractionSize();
-
     return (
       <WithInteraction
         width="auto"
-        height={interactionSize}
         color={interactionColor}
         disabled={disableInteraction || disabled}
         variant={getInteractionVariant()}
