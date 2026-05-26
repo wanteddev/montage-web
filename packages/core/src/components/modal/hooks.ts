@@ -25,13 +25,322 @@ import {
   resolveFlexibleReleaseSnap,
   resolveNonFlexibleReleaseSnap,
   rubberBand,
+  runSpring,
 } from './helpers';
-import { runSpring } from './spring';
 
 import type { RefObject } from 'react';
 import type { BreakPoint } from '@montage-ui/engine';
-import type { SpringHandle } from './spring';
+import type { SpringHandle } from './helpers';
 import type { ModalBottomSheetSnap, ModalContainerProps } from './types';
+
+type ResponsiveSlice = Pick<
+  ModalContainerProps,
+  'variant' | 'resize' | 'handle' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+>;
+
+/**
+ * Resolve `variant` / `handle` / `resize` against the current breakpoint, then
+ * derive the booleans the rest of the drag machinery branches on:
+ *
+ *  - `isBottom`   — sheet is in its bottom-anchored layout
+ *  - `isFlexible` — bottom + `resize='flexible'`; enables half snap & height-mode drags
+ *  - `isEnabled`  — gesture handling is on (grabber present *or* flexible)
+ */
+export const useResponsiveBottomSheetProps = ({
+  variant: givenVariant,
+  handle: givenHandle,
+  resize: givenResize,
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+}: ResponsiveSlice) => {
+  const theme = useTheme();
+
+  const breakpoint = useMemo(
+    () => Object.keys(theme.breakpoint) as Array<keyof BreakPoint>,
+    [theme.breakpoint],
+  );
+
+  const variant = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', givenVariant, v),
+    ),
+    givenVariant,
+  );
+
+  const handle = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', givenHandle, v),
+    ),
+    givenHandle,
+  );
+
+  const resize = useMedia(
+    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
+    breakpoint.map((v) =>
+      getPreviousValue({ xs, sm, md, lg, xl }, 'resize', givenResize, v),
+    ),
+    givenResize,
+  );
+
+  const isBottom = variant === 'bottom';
+  const isFlexible = isBottom && resize === 'flexible';
+  // Dragging is enabled when there's a grabber handle OR when the sheet is flexible
+  // (so half/full snap transitions can happen via gesture).
+  const isEnabled = isBottom && (Boolean(handle) || isFlexible);
+
+  return { variant, handle, resize, isBottom, isFlexible, isEnabled };
+};
+
+type UseSpringSettleProps = {
+  dimmerRef: RefObject<HTMLDivElement | null>;
+  setSnap: (snap: ModalBottomSheetSnap) => void;
+  snapRef: RefObject<ModalBottomSheetSnap>;
+  peekHeightRef: RefObject<number>;
+  startedVisualHeightRef: RefObject<number>;
+  startedMaxHeightRef: RefObject<number>;
+  startedFullMaxHeightRef: RefObject<number>;
+  isFlexible: boolean;
+  isOpen: boolean;
+  applyDragStyles: (
+    container: HTMLDivElement,
+    visualHeight: number,
+    diffY: number,
+    maxHeight: number,
+  ) => void;
+};
+
+/**
+ * Owns the post-release settle spring. Exposes `settleToSnap` for drag release
+ * paths, `cancelSpring` for any code path that needs to interrupt the spring
+ * (snap change, modal close, new drag), and `settlingTargetSnap` so callers
+ * can read the in-flight committed destination while `snapRef` is still lagging.
+ */
+export const useSpringSettle = ({
+  dimmerRef,
+  setSnap,
+  snapRef,
+  peekHeightRef,
+  startedVisualHeightRef,
+  startedMaxHeightRef,
+  startedFullMaxHeightRef,
+  isFlexible,
+  isOpen,
+  applyDragStyles,
+}: UseSpringSettleProps) => {
+  // In-flight spring driving the post-release settle animation. Cancelled on
+  // a new drag (so the user can grab the sheet mid-spring) and on modal
+  // close / unmount (so frames don't keep firing against a detached node).
+  const springHandleRef = useRef<SpringHandle | null>(null);
+  // The snap the in-flight spring is settling toward. `snapRef.current` lags
+  // until `onComplete` flushes the state, so any code path that needs to
+  // know the sheet's *committed* destination mid-spring (e.g. viewport drag
+  // capture rules, the next `beginDrag`'s `startedSnap`) should read this
+  // first. Cleared on cancel and on spring complete.
+  const settlingTargetSnap = useRef<ModalBottomSheetSnap | null>(null);
+
+  const cancelSpring = useCallback(() => {
+    springHandleRef.current?.cancel();
+    springHandleRef.current = null;
+    settlingTargetSnap.current = null;
+  }, []);
+
+  // Cancel the in-flight settle spring when the modal closes or the hook
+  // unmounts so rAF callbacks don't keep touching styles on a detached node.
+  useEffect(() => {
+    if (!isOpen) cancelSpring();
+    return () => cancelSpring();
+  }, [isOpen, cancelSpring]);
+
+  /**
+   * Commit a snap as the final position after a drag using a velocity-seeded
+   * spring. The CSS-transition path can't carry release velocity into the
+   * settle (cubic-bezier shape is fixed regardless of how fast the finger was
+   * moving), so iOS-style "fling lands here, slow drop sits there" feel was
+   * impossible to reproduce. Instead we drive a damped harmonic oscillator on
+   * the sheet's visual height per animation frame and reuse the existing drag
+   * style code so mode transitions (height ↔ translate, peek/full boundaries)
+   * stay consistent through the settle.
+   *
+   * - `from`     = sheet height at release (`releasedHeight`)
+   * - `to`       = target snap's visual height (full / half / peek)
+   * - `velocity` = finger velocity remapped into sheet-height units (px/s):
+   *                downward finger = shrinking sheet → invert sign.
+   *
+   * On completion: `flushSync` the snap state so `data-snap` is on the DOM
+   * before `applySnap` strips inline overrides — otherwise the previous
+   * snap's CSS rule would briefly resolve and trigger a visible jump.
+   * `applySnap` itself now removes the inline `transition: none` last
+   * (see helpers.ts) so the spring → CSS handoff happens with no easing
+   * artifact.
+   */
+  const settleToSnap = useCallback(
+    (
+      container: HTMLDivElement,
+      targetSnap: ModalBottomSheetSnap,
+      releasedHeight: number,
+      releaseVelocityPxPerMs: number,
+    ) => {
+      cancelSpring();
+      // Publish the in-flight target so viewport drag-capture and the next
+      // `beginDrag` (if the user re-grabs mid-spring) can see the committed
+      // destination — `snapRef.current` only updates in `onComplete`.
+      settlingTargetSnap.current = targetSnap;
+
+      // Spring targets resolve against the snap-INDEPENDENT full max
+      // (`startedFullMaxHeight`) — otherwise a half-start fling to `full`
+      // would target halfHeight, settle there, and then jump to the real
+      // full height when CSS picks up after `applySnap`.
+      const fullMaxHeight = startedFullMaxHeightRef.current;
+      const halfHeight = fullMaxHeight * BOTTOM_SHEET_HALF_RATIO;
+      const targetVisualHeight =
+        targetSnap === 'full'
+          ? fullMaxHeight
+          : targetSnap === 'half'
+            ? halfHeight
+            : peekHeightRef.current;
+      const maxHeight = startedMaxHeightRef.current;
+
+      // Finger velocity (px/ms, +down) → visual-height velocity (px/s, +grow).
+      // Sheet visual height decreases as the finger moves down, so the sign
+      // flips. ×1000 converts ms → s for consistency with the spring integrator.
+      const heightVelocity = -releaseVelocityPxPerMs * 1000;
+
+      springHandleRef.current = runSpring({
+        from: releasedHeight,
+        to: targetVisualHeight,
+        velocity: heightVelocity,
+        onUpdate: (visualHeight) => {
+          const clamped = Math.max(0, visualHeight);
+          const diffY = startedVisualHeightRef.current - clamped;
+          applyDragStyles(container, clamped, diffY, maxHeight);
+        },
+        onComplete: () => {
+          springHandleRef.current = null;
+          settlingTargetSnap.current = null;
+          if (targetSnap !== snapRef.current) {
+            flushSync(() => {
+              setSnap(targetSnap);
+            });
+          }
+          applySnap(container, dimmerRef.current, targetSnap, {
+            peekHeight: peekHeightRef.current,
+          });
+        },
+      });
+    },
+    // `applyDragStyles` is intentionally omitted: it's a per-render closure
+    // in the caller, so listing it would re-create `settleToSnap` every
+    // render and force the mousemove/up `useEffect` to re-bind window
+    // listeners. `isFlexible` already triggers re-creation on the only axis
+    // that matters for behavior (responsive variant flip).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cancelSpring, dimmerRef, setSnap, isFlexible],
+  );
+
+  return { cancelSpring, settleToSnap, settlingTargetSnap };
+};
+
+type UseSnapLifecycleProps = {
+  containerRef: RefObject<HTMLDivElement | null>;
+  dimmerRef: RefObject<HTMLDivElement | null>;
+  snap: ModalBottomSheetSnap;
+  setSnap: (snap: ModalBottomSheetSnap) => void;
+  snapRef: RefObject<ModalBottomSheetSnap>;
+  defaultSnap: ModalBottomSheetSnap | undefined;
+  peekHeightRef: RefObject<number>;
+  hasPeek: () => boolean;
+  isDraggingRef: RefObject<boolean>;
+  cancelSpring: () => void;
+  isBottom: boolean;
+  isFlexible: boolean;
+  isEnabled: boolean;
+  isOpen: boolean;
+};
+
+/**
+ * Coordinates `snap` state with the inline styles `applySnap` controls:
+ *
+ *  - Seeds snap from `defaultSnap` (flexible) or 'full' on open.
+ *  - Pushes `applySnap` whenever snap changes outside of a drag, cancelling
+ *    any in-flight settle spring so the spring's per-frame writes don't fight
+ *    the style clear.
+ *  - Resets inline overrides on close so the sheet returns to its CSS default
+ *    on the next open.
+ *  - Keeps `snapRef` in sync with the current `snap` state.
+ */
+export const useSnapLifecycle = ({
+  containerRef,
+  dimmerRef,
+  snap,
+  setSnap,
+  snapRef,
+  defaultSnap,
+  peekHeightRef,
+  hasPeek,
+  isDraggingRef,
+  cancelSpring,
+  isBottom,
+  isFlexible,
+  isEnabled,
+  isOpen,
+}: UseSnapLifecycleProps) => {
+  useEffect(() => {
+    snapRef.current = snap;
+  }, [snap, snapRef]);
+
+  // When the modal opens, seed snap from defaultSnap (flexible) or 'full'.
+  useEffect(() => {
+    if (!isBottom || !isOpen) return;
+    if (snapRef.current === 'peek') return;
+
+    if (isFlexible) {
+      setSnap(defaultSnap ?? 'half');
+    } else if (snapRef.current !== 'full') {
+      setSnap('full');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBottom, isFlexible, isOpen]);
+
+  // Apply snap → inline height whenever snap changes outside of an active drag.
+  // `applySnap` is the single source of truth for the sheet's visual height.
+  //
+  // External `setSnap` calls (dimmer click, ESC, responsive variant flip,
+  // controlled `snap` prop change) must cancel any in-flight settle spring,
+  // otherwise the spring's per-frame `onUpdate` keeps overwriting the inline
+  // styles that `applySnap` is trying to clear. When the spring completes
+  // naturally it nulls its handle first, so the cancel here is a no-op on
+  // that path.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !isBottom || isDraggingRef.current) return;
+    if (snap === 'peek' && !hasPeek()) return;
+
+    cancelSpring();
+    applySnap(container, dimmerRef.current, snap, {
+      peekHeight: peekHeightRef.current,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snap, isBottom]);
+
+  // Reset inline height when the modal closes so it returns to its CSS default
+  // on next open.
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!isEnabled || !container) return;
+    if (isOpen) return;
+
+    container.style.removeProperty('transition');
+    container.style.removeProperty('--wds-modal-translate');
+    dimmerRef.current?.style.removeProperty('transition');
+    dimmerRef.current?.style.removeProperty('opacity');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEnabled, isOpen]);
+};
 
 type UseDraggableProps = Pick<
   ModalContainerProps,
@@ -72,43 +381,16 @@ export const useDraggable = ({
   setSnap,
   setIsBottomSheet,
 }: UseDraggableProps) => {
-  const theme = useTheme();
-
-  const breakpoint = useMemo(
-    () => Object.keys(theme.breakpoint) as Array<keyof BreakPoint>,
-    [theme.breakpoint],
-  );
-
-  const variant = useMedia(
-    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
-    breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'variant', givenVariant, v),
-    ),
-    givenVariant,
-  );
-
-  const handle = useMedia(
-    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
-    breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'handle', givenHandle, v),
-    ),
-    givenHandle,
-  );
-
-  const resize = useMedia(
-    breakpoint.map((v) => `(min-width: ${theme.breakpoint[v]})`),
-    breakpoint.map((v) =>
-      getPreviousValue({ xs, sm, md, lg, xl }, 'resize', givenResize, v),
-    ),
-    givenResize,
-  );
-
-  const isBottom = variant === 'bottom';
-  const isFlexible = isBottom && resize === 'flexible';
-
-  // Dragging is enabled when there's a grabber handle OR when the sheet is flexible
-  // (so half/full snap transitions can happen via gesture).
-  const isEnabled = isBottom && (Boolean(handle) || isFlexible);
+  const { isBottom, isFlexible, isEnabled } = useResponsiveBottomSheetProps({
+    variant: givenVariant,
+    handle: givenHandle,
+    resize: givenResize,
+    xs,
+    sm,
+    md,
+    lg,
+    xl,
+  });
 
   const context = useModalContext(MODAL_NAME);
 
@@ -161,16 +443,6 @@ export const useDraggable = ({
   // Rolling window of recent touch samples (y + timestamp). Used to compute
   // release velocity for projection-based snap resolution.
   const velocitySamples = useRef<Array<{ y: number; t: number }>>([]);
-  // In-flight spring driving the post-release settle animation. Cancelled on
-  // a new drag (so the user can grab the sheet mid-spring) and on modal
-  // close / unmount (so frames don't keep firing against a detached node).
-  const springHandleRef = useRef<SpringHandle | null>(null);
-  // The snap the in-flight spring is settling toward. `snapRef.current` lags
-  // until `onComplete` flushes the state, so any code path that needs to
-  // know the sheet's *committed* destination mid-spring (e.g. viewport drag
-  // capture rules, the next `beginDrag`'s `startedSnap`) should read this
-  // first. Cleared on cancel and on spring complete.
-  const settlingTargetSnap = useRef<ModalBottomSheetSnap | null>(null);
   // Peak excursion of `diffY` in either direction during the current drag.
   // `peakDiffYDown` = max positive (furthest down); `peakDiffYUp` = min
   // negative (furthest up). Whichever has larger magnitude is the user's
@@ -196,70 +468,113 @@ export const useDraggable = ({
   // without re-binding.
   const snapRef = useRef<ModalBottomSheetSnap>(snap);
 
-  useEffect(() => {
-    snapRef.current = snap;
-  }, [snap]);
+  const applyDragStyles = (
+    container: HTMLDivElement,
+    visualHeight: number,
+    diffY: number,
+    maxHeight: number,
+  ) => {
+    const fullMax = startedFullMaxHeight.current;
+    // Resolve halfHeight against the snap-INDEPENDENT full max — otherwise a
+    // drag starting at half/peek (where CSS pins the element height to
+    // `default × 0.5`) would yield `halfHeight = quarterHeight` and the
+    // height↔translate mode flip would land at the wrong boundary.
+    const halfHeight = fullMax * BOTTOM_SHEET_HALF_RATIO;
 
-  // When the modal opens, seed snap from defaultSnap (flexible) or 'full'.
-  useEffect(() => {
-    if (!isBottom || !context.open) return;
-    if (snapRef.current === 'peek') return;
-
-    if (isFlexible) {
-      setSnap(givenDefaultSnap ?? 'half');
-    } else if (snapRef.current !== 'full') {
-      setSnap('full');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isBottom, isFlexible, context.open]);
-
-  // Apply snap → inline height whenever snap changes outside of an active drag.
-  // `applySnap` is the single source of truth for the sheet's visual height.
-  //
-  // External `setSnap` calls (dimmer click, ESC, responsive variant flip,
-  // controlled `snap` prop change) must cancel any in-flight settle spring,
-  // otherwise the spring's per-frame `onUpdate` keeps overwriting the inline
-  // styles that `applySnap` is trying to clear. When the spring completes
-  // naturally it nulls its handle first, so the cancel here is a no-op on
-  // that path.
-  useEffect(() => {
-    const container = context.containerRef.current;
-    if (!container || !isBottom || isDragging.current) return;
-    if (snap === 'peek' && !hasPeek()) return;
-
-    cancelSpring();
-    applySnap(container, dimmerRef.current, snap, {
-      peekHeight: peekHeight.current,
+    const dragStyle = computeDragStyle({
+      isFlexible,
+      startedSnap: startedSnap.current,
+      startedVisualHeight: startedVisualHeight.current,
+      startedMaxHeight: maxHeight,
+      visualHeight,
+      diffY,
+      halfHeight,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [snap, isBottom]);
 
-  // Reset inline height when the modal closes so it returns to its CSS default
-  // on next open.
-  useEffect(() => {
-    const container = context.containerRef.current;
-    if (!isEnabled || !container) return;
-    if (context.open) return;
+    if (dragStyle.mode === 'translate') {
+      if (dragStyle.fixedHeight) {
+        container.style.setProperty(
+          '--wds-modal-max-height',
+          `${dragStyle.fixedHeight}px`,
+        );
+      }
+      container.style.setProperty('--wds-modal-translate', dragStyle.translate);
+    } else {
+      container.style.removeProperty('--wds-modal-translate');
+      container.style.setProperty(
+        '--wds-modal-max-height',
+        `${dragStyle.height}px`,
+      );
+    }
 
-    container.style.removeProperty('transition');
-    container.style.removeProperty('--wds-modal-translate');
-    dimmerRef.current?.style.removeProperty('transition');
-    dimmerRef.current?.style.removeProperty('opacity');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEnabled, context.open]);
+    // Top-edge rubber-band override for non-flexible variants — they're
+    // pinned in `translate` mode (peek-formula / full-anchor), so the inline
+    // max-height set above caps at `fixedHeight` (= natural full size) and
+    // doesn't reflect the overshoot. Push the rubber-banded `visualHeight`
+    // straight into the CSS variable so the lifted height rule can grow the
+    // element past its natural size, matching the flexible feel.
+    if (!isFlexible && visualHeight > fullMax) {
+      container.style.setProperty(
+        '--wds-modal-max-height',
+        `${visualHeight}px`,
+      );
+    }
 
-  const cancelSpring = useCallback(() => {
-    springHandleRef.current?.cancel();
-    springHandleRef.current = null;
-    settlingTargetSnap.current = null;
-  }, []);
+    const opacity = computeDimmerOpacityDuringDrag({
+      startedSnap: startedSnap.current,
+      visualHeight,
+      startedMaxHeight: maxHeight,
+      fullMaxHeight: fullMax,
+      peekHeight: peekHeight.current,
+      isFlexible,
+      diffY,
+      largestUndimmedSnap,
+    });
 
-  // Cancel the in-flight settle spring when the modal closes or the hook
-  // unmounts so rAF callbacks don't keep touching styles on a detached node.
-  useEffect(() => {
-    if (!context.open) cancelSpring();
-    return () => cancelSpring();
-  }, [context.open, cancelSpring]);
+    dimmerRef.current?.style.setProperty('opacity', opacity.toFixed(2));
+
+    // Shadow visually separates the sheet from the background whenever the
+    // dimmer can't do it — i.e. any snap that's undimmed. `hasPeek()` covers
+    // the default `peek`-undimmed case; the second condition covers
+    // `largestUndimmedSnap='half'` even when there's no peek configured.
+    const canShowShadow =
+      hasPeek() || (isFlexible && largestUndimmedSnap === 'half');
+    if (opacity <= BOTTOM_SHEET_SHADOW_OPACITY_THRESHOLD && canShowShadow) {
+      container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
+    } else {
+      container.style.removeProperty('box-shadow');
+    }
+  };
+
+  const { cancelSpring, settleToSnap, settlingTargetSnap } = useSpringSettle({
+    dimmerRef,
+    setSnap,
+    snapRef,
+    peekHeightRef: peekHeight,
+    startedVisualHeightRef: startedVisualHeight,
+    startedMaxHeightRef: startedMaxHeight,
+    startedFullMaxHeightRef: startedFullMaxHeight,
+    isFlexible,
+    isOpen: context.open,
+    applyDragStyles,
+  });
+
+  useSnapLifecycle({
+    containerRef: context.containerRef,
+    dimmerRef,
+    snap,
+    setSnap,
+    snapRef,
+    defaultSnap: givenDefaultSnap,
+    peekHeightRef: peekHeight,
+    hasPeek,
+    isDraggingRef: isDragging,
+    cancelSpring,
+    isBottom,
+    isFlexible,
+    isEnabled,
+    isOpen: context.open,
+  });
 
   const collapseToPeekOrClose = useCallback(() => {
     const container = context.containerRef.current;
@@ -564,90 +879,6 @@ export const useDraggable = ({
     e.preventDefault();
   };
 
-  /**
-   * Commit a snap as the final position after a drag using a velocity-seeded
-   * spring. The CSS-transition path can't carry release velocity into the
-   * settle (cubic-bezier shape is fixed regardless of how fast the finger was
-   * moving), so iOS-style "fling lands here, slow drop sits there" feel was
-   * impossible to reproduce. Instead we drive a damped harmonic oscillator on
-   * the sheet's visual height per animation frame and reuse the existing drag
-   * style code so mode transitions (height ↔ translate, peek/full boundaries)
-   * stay consistent through the settle.
-   *
-   * - `from`     = sheet height at release (`releasedHeight`)
-   * - `to`       = target snap's visual height (full / half / peek)
-   * - `velocity` = finger velocity remapped into sheet-height units (px/s):
-   *                downward finger = shrinking sheet → invert sign.
-   *
-   * On completion: `flushSync` the snap state so `data-snap` is on the DOM
-   * before `applySnap` strips inline overrides — otherwise the previous
-   * snap's CSS rule would briefly resolve and trigger a visible jump.
-   * `applySnap` itself now removes the inline `transition: none` last
-   * (see helpers.ts) so the spring → CSS handoff happens with no easing
-   * artifact.
-   */
-  const settleToSnap = useCallback(
-    (
-      container: HTMLDivElement,
-      targetSnap: ModalBottomSheetSnap,
-      releasedHeight: number,
-      releaseVelocityPxPerMs: number,
-    ) => {
-      cancelSpring();
-      // Publish the in-flight target so viewport drag-capture and the next
-      // `beginDrag` (if the user re-grabs mid-spring) can see the committed
-      // destination — `snapRef.current` only updates in `onComplete`.
-      settlingTargetSnap.current = targetSnap;
-
-      // Spring targets resolve against the snap-INDEPENDENT full max
-      // (`startedFullMaxHeight`) — otherwise a half-start fling to `full`
-      // would target halfHeight, settle there, and then jump to the real
-      // full height when CSS picks up after `applySnap`.
-      const fullMaxHeight = startedFullMaxHeight.current;
-      const halfHeight = fullMaxHeight * BOTTOM_SHEET_HALF_RATIO;
-      const targetVisualHeight =
-        targetSnap === 'full'
-          ? fullMaxHeight
-          : targetSnap === 'half'
-            ? halfHeight
-            : peekHeight.current;
-      const maxHeight = startedMaxHeight.current;
-
-      // Finger velocity (px/ms, +down) → visual-height velocity (px/s, +grow).
-      // Sheet visual height decreases as the finger moves down, so the sign
-      // flips. ×1000 converts ms → s for consistency with the spring integrator.
-      const heightVelocity = -releaseVelocityPxPerMs * 1000;
-
-      springHandleRef.current = runSpring({
-        from: releasedHeight,
-        to: targetVisualHeight,
-        velocity: heightVelocity,
-        onUpdate: (visualHeight) => {
-          const clamped = Math.max(0, visualHeight);
-          const diffY = startedVisualHeight.current - clamped;
-          applyDragStyles(container, clamped, diffY, maxHeight);
-        },
-        onComplete: () => {
-          springHandleRef.current = null;
-          settlingTargetSnap.current = null;
-          if (targetSnap !== snapRef.current) {
-            flushSync(() => {
-              setSnap(targetSnap);
-            });
-          }
-          applySnap(container, dimmerRef.current, targetSnap, {
-            peekHeight: peekHeight.current,
-          });
-        },
-      });
-    },
-    // `applyDragStyles` closes over `isFlexible` (non-ref); re-create the
-    // callback so the spring captures a fresh applier when responsive
-    // breakpoints flip the variant.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cancelSpring, dimmerRef, setSnap, isFlexible],
-  );
-
   const dismissAfterDrag = useCallback(() => {
     const container = context.containerRef.current;
     // remove transition none inline style
@@ -655,84 +886,6 @@ export const useDraggable = ({
     dimmerRef.current?.style.removeProperty('transition');
     context.onOpenChange(false);
   }, [context, dimmerRef]);
-
-  const applyDragStyles = (
-    container: HTMLDivElement,
-    visualHeight: number,
-    diffY: number,
-    maxHeight: number,
-  ) => {
-    const fullMax = startedFullMaxHeight.current;
-    // Resolve halfHeight against the snap-INDEPENDENT full max — otherwise a
-    // drag starting at half/peek (where CSS pins the element height to
-    // `default × 0.5`) would yield `halfHeight = quarterHeight` and the
-    // height↔translate mode flip would land at the wrong boundary.
-    const halfHeight = fullMax * BOTTOM_SHEET_HALF_RATIO;
-
-    const dragStyle = computeDragStyle({
-      isFlexible,
-      startedSnap: startedSnap.current,
-      startedVisualHeight: startedVisualHeight.current,
-      startedMaxHeight: maxHeight,
-      visualHeight,
-      diffY,
-      halfHeight,
-    });
-
-    if (dragStyle.mode === 'translate') {
-      if (dragStyle.fixedHeight) {
-        container.style.setProperty(
-          '--wds-modal-max-height',
-          `${dragStyle.fixedHeight}px`,
-        );
-      }
-      container.style.setProperty('--wds-modal-translate', dragStyle.translate);
-    } else {
-      container.style.removeProperty('--wds-modal-translate');
-      container.style.setProperty(
-        '--wds-modal-max-height',
-        `${dragStyle.height}px`,
-      );
-    }
-
-    // Top-edge rubber-band override for non-flexible variants — they're
-    // pinned in `translate` mode (peek-formula / full-anchor), so the inline
-    // max-height set above caps at `fixedHeight` (= natural full size) and
-    // doesn't reflect the overshoot. Push the rubber-banded `visualHeight`
-    // straight into the CSS variable so the lifted height rule can grow the
-    // element past its natural size, matching the flexible feel.
-    if (!isFlexible && visualHeight > fullMax) {
-      container.style.setProperty(
-        '--wds-modal-max-height',
-        `${visualHeight}px`,
-      );
-    }
-
-    const opacity = computeDimmerOpacityDuringDrag({
-      startedSnap: startedSnap.current,
-      visualHeight,
-      startedMaxHeight: maxHeight,
-      fullMaxHeight: fullMax,
-      peekHeight: peekHeight.current,
-      isFlexible,
-      diffY,
-      largestUndimmedSnap,
-    });
-
-    dimmerRef.current?.style.setProperty('opacity', opacity.toFixed(2));
-
-    // Shadow visually separates the sheet from the background whenever the
-    // dimmer can't do it — i.e. any snap that's undimmed. `hasPeek()` covers
-    // the default `peek`-undimmed case; the second condition covers
-    // `largestUndimmedSnap='half'` even when there's no peek configured.
-    const canShowShadow =
-      hasPeek() || (isFlexible && largestUndimmedSnap === 'half');
-    if (opacity <= BOTTOM_SHEET_SHADOW_OPACITY_THRESHOLD && canShowShadow) {
-      container.style.setProperty('box-shadow', BOTTOM_SHEET_SHADOW);
-    } else {
-      container.style.removeProperty('box-shadow');
-    }
-  };
 
   /**
    * Release velocity (px/ms, positive = downward) computed as a recency-
