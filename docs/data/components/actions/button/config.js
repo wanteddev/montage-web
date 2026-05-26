@@ -18,6 +18,16 @@ module.exports = {
         options: [
           { label: 'Primary', value: { color: 'primary' } },
           { label: 'Assistive', value: { color: 'assistive' } },
+          { label: 'Negative', value: { color: 'negative' } },
+        ],
+      },
+      {
+        key: 'Size',
+        options: [
+          { label: 'Xsmall', value: { size: 'xsmall' } },
+          { label: 'Small', value: { size: 'small' } },
+          { label: 'Medium', value: { size: 'medium' } },
+          { label: 'Large', value: { size: 'large' } },
         ],
       },
       {
