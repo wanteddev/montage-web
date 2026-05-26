@@ -1,7 +1,10 @@
 import { addHexOpacity } from '../utils';
 
 import breakpoint from './breakpoint';
+import dimension from './dimension';
 import opacity from './opacity';
+import primitive from './primitive';
+import radius from './radius';
 import spacing from './spacing';
 import zIndex from './z-index';
 import atomic from './atomic';
@@ -25,7 +28,10 @@ export const lightOriginTheme = {
   },
   opacity,
   breakpoint,
+  primitive,
   spacing,
+  radius,
+  dimension,
   zIndex,
 };
 
@@ -47,7 +53,10 @@ export const darkOriginTheme = {
   },
   opacity,
   breakpoint,
+  primitive,
   spacing,
+  radius,
+  dimension,
   zIndex,
 };
 
