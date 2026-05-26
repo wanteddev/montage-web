@@ -1,20 +1,19 @@
 import type { Merge, ResponsiveProps, WithSxProps } from '@montage-ui/engine';
 import type { ReactNode } from 'react';
 
-export type ButtonVariant = 'solid' | 'outlined';
-
-export type ButtonColor = 'primary' | 'assistive';
-
 export type ButtonDefaultProps = WithSxProps<{
-  size?: 'small' | 'medium' | 'large';
+  size?: 'xsmall' | 'small' | 'medium' | 'large';
   /** Whether the button is disabled. */
   disabled?: boolean;
   /** Whether to disable the interaction. */
   disableInteraction?: boolean;
   /** The variant of the button. */
-  variant?: ButtonVariant;
-  /** The color of the button. */
-  color?: ButtonColor;
+  variant?: 'solid' | 'outlined';
+  /**
+   * The color of the button.
+   * `negative` is only supported with `variant="solid"`.
+   */
+  color?: 'primary' | 'assistive' | 'negative';
   /** Whether the button is full width. */
   fullWidth?: boolean;
   /** The content displayed in the leading area. */
