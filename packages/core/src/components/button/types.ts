@@ -11,7 +11,7 @@ export type ButtonDefaultProps = WithSxProps<{
   variant?: 'solid' | 'outlined';
   /**
    * The color of the button.
-   * `negative` is only supported with `variant="solid"`.
+   * `negative` is only supported with `variant="solid"`; combining it with `variant="outlined"` falls back to `primary`.
    */
   color?: 'primary' | 'assistive' | 'negative';
   /** Whether the button is full width. */
