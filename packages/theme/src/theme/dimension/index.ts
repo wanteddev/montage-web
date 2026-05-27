@@ -9,6 +9,7 @@ const dimension = {
   24: primitive[24],
   28: primitive[28],
   32: primitive[32],
+  36: primitive[36],
   40: primitive[40],
   48: primitive[48],
   56: primitive[56],
