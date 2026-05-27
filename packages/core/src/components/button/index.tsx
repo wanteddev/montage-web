@@ -41,22 +41,28 @@ const Button = forwardRef(
   ) => {
     const id = useId();
 
+    const isUnsupportedNegativeOutlined =
+      variant === 'outlined' && color === 'negative';
+
+    if (
+      process.env.NODE_ENV !== 'production' &&
+      isUnsupportedNegativeOutlined
+    ) {
+      console.error(
+        'Button: color="negative" is not supported with variant="outlined". Falling back to color="primary".',
+      );
+    }
+
+    const resolvedColor = isUnsupportedNegativeOutlined ? 'primary' : color;
+
     const getInteractionVariant = () => {
       switch (variant) {
         case 'outlined':
           return 'light';
         case 'solid':
-          return color === 'assistive' ? 'normal' : 'strong';
+          return resolvedColor === 'assistive' ? 'normal' : 'strong';
       }
     };
-
-    if (
-      process.env.NODE_ENV !== 'production' &&
-      variant === 'outlined' &&
-      color === 'negative'
-    ) {
-      throw new Error('color="negative" is only supported with variant="solid" in Button')
-    }
 
     const handlePreventEventsLoading = (e: SyntheticEvent) => {
       if (loading && !disableLoadingPreventEvents) {
@@ -103,7 +109,7 @@ const Button = forwardRef(
               loading,
               size,
               fullWidth,
-              color,
+              color: resolvedColor,
               xs,
               sm,
               md,
