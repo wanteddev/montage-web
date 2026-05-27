@@ -17,7 +17,7 @@ export const buttonStyle =
     box-sizing: border-box;
     line-height: initial;
     white-space: nowrap;
-    height: fit-content;
+    height: auto;
     position: relative;
     cursor: pointer;
 
@@ -70,6 +70,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
     case 'large':
       return css`
         border-radius: 14px;
+        min-height: 48px;
         padding: 13px 20px;
         gap: 6px;
 
@@ -99,6 +100,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
     case 'medium':
       return css`
         border-radius: 12px;
+        min-height: 40px;
         padding: 10px 16px;
         gap: 4px;
 
@@ -128,6 +130,7 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
     case 'small':
       return css`
         border-radius: 10px;
+        min-height: 32px;
         padding: 8px 12px;
         gap: 4px;
 
@@ -156,7 +159,8 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
       `;
     case 'xsmall':
       return css`
-        border-radius: 10px;
+        border-radius: 8px;
+        min-height: 28px;
         padding: 6px 10px;
         gap: 4px;
 
