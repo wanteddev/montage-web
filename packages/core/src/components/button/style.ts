@@ -49,7 +49,7 @@ export const buttonStyle =
     }
 
     ${buttonColorStyle(props, theme)}
-    ${buttonSizeStyle(props)}
+    ${buttonSizeStyle(props, theme)}
     ${props.fullWidth ? 'width: 100%;' : 'width: fit-content;'}
 
     ${createResponsiveStyle(
@@ -57,7 +57,7 @@ export const buttonStyle =
       theme,
     )(
       (params) => css`
-        ${buttonSizeStyle({ ...params, color: props.color })}
+        ${buttonSizeStyle({ ...params, color: props.color }, theme)}
         ${params?.fullWidth && 'width: 100%;'}
         ${params?.fullWidth === false && 'width: fit-content;'}
         ${params?.sx}
@@ -65,23 +65,26 @@ export const buttonStyle =
     )}
   `;
 
-const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
+const buttonSizeStyle = (
+  { size, iconOnly }: ButtonProps = {},
+  theme: Theme,
+) => {
   switch (size) {
     case 'large':
       return css`
-        border-radius: 14px;
-        min-height: 48px;
-        padding: 13px 20px;
-        gap: 6px;
+        border-radius: ${theme.radius[14]};
+        min-height: ${theme.dimension[48]};
+        padding: 13px ${theme.spacing[20]};
+        gap: ${theme.spacing[6]};
 
         [data-role='button-loading'] {
-          width: 16px;
-          height: 16px;
+          width: ${theme.dimension[16]};
+          height: ${theme.dimension[16]};
         }
 
         ${iconOnly
           ? css`
-              padding: 14px;
+              padding: ${theme.spacing[14]};
               font-size: 20px;
 
               svg {
@@ -99,14 +102,14 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
       `;
     case 'medium':
       return css`
-        border-radius: 12px;
-        min-height: 40px;
-        padding: 10px 16px;
-        gap: 4px;
+        border-radius: ${theme.radius[12]};
+        min-height: ${theme.dimension[40]};
+        padding: ${theme.spacing[10]} ${theme.spacing[16]};
+        gap: ${theme.spacing[4]};
 
         [data-role='button-loading'] {
-          width: 14px;
-          height: 14px;
+          width: ${theme.dimension[14]};
+          height: ${theme.dimension[14]};
         }
 
         ${iconOnly
@@ -129,19 +132,19 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
       `;
     case 'small':
       return css`
-        border-radius: 10px;
-        min-height: 32px;
-        padding: 8px 12px;
-        gap: 4px;
+        border-radius: ${theme.radius[10]};
+        min-height: ${theme.dimension[32]};
+        padding: ${theme.spacing[8]} ${theme.spacing[12]};
+        gap: ${theme.spacing[4]};
 
         [data-role='button-loading'] {
-          width: 12px;
-          height: 12px;
+          width: ${theme.dimension[12]};
+          height: ${theme.dimension[12]};
         }
 
         ${iconOnly
           ? css`
-              padding: 8px;
+              padding: ${theme.spacing[8]};
               font-size: 16px;
 
               svg {
@@ -159,14 +162,14 @@ const buttonSizeStyle = ({ size, iconOnly }: ButtonProps = {}) => {
       `;
     case 'xsmall':
       return css`
-        border-radius: 8px;
-        min-height: 28px;
-        padding: 6px 10px;
-        gap: 4px;
+        border-radius: ${theme.radius[8]};
+        min-height: ${theme.dimension[28]};
+        padding: ${theme.spacing[6]} ${theme.spacing[10]};
+        gap: ${theme.spacing[4]};
 
         [data-role='button-loading'] {
-          width: 12px;
-          height: 12px;
+          width: ${theme.dimension[12]};
+          height: ${theme.dimension[12]};
         }
 
         ${iconOnly
