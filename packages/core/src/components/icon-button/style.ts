@@ -53,7 +53,10 @@ const getNormalInteractionShape = (icon: number) => {
 };
 
 const getBackgroundBoxSize = (icon: number) =>
-  nearestToken(icon * 1.5, DIMENSION_TOKENS, 'up');
+  Math.max(
+    MIN_INTERACTION_SIZE,
+    nearestToken(icon * 1.5, DIMENSION_TOKENS, 'up'),
+  );
 
 const resolveNormalIconSize = (size: IconButtonProps['size']): number => {
   if (typeof size === 'number') return size;

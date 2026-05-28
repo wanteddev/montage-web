@@ -129,6 +129,25 @@ describe('IconButton — normal variant size policy', () => {
     },
   );
 
+  it.each([
+    [14, { width: '24px', height: '24px' }],
+    [10, { width: '24px', height: '24px' }],
+  ])(
+    'background variant clamps small number size=%i to ≥24×24 (WCAG 2.2)',
+    (size, expected) => {
+      const { container } = render(
+        <IconButton variant="background" size={size}>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+
+      expect(style.width).toBe(expected.width);
+      expect(style.height).toBe(expected.height);
+    },
+  );
+
   it('background variant defaults icon to 20 (box 32, padding 6)', () => {
     const { container } = render(
       <IconButton variant="background">
