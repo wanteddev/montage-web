@@ -43,10 +43,22 @@ export const BackgroundIconButton = () => {
 export const NormalIconButton = () => {
   return (
     <>
-      <IconButton variant="normal">
+      <IconButton variant="normal" size="xlarge">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size="large">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size="medium">
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size="small">
         <IconBlank />
       </IconButton>
       <IconButton variant="normal" size={28}>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="normal" size="xlarge" disabled>
         <IconBlank />
       </IconButton>
     </>

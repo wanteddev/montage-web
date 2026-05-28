@@ -6,6 +6,43 @@ import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 import type { IconButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
 
+const NORMAL_ICON_SIZE_MAP = {
+  xlarge: 24,
+  large: 20,
+  medium: 18,
+  small: 16,
+} as const;
+
+const RADIUS_TOKENS = [0, 4, 8, 10, 12, 14, 16, 20, 24] as const;
+
+const nearestRadiusToken = (value: number): number => {
+  let best: number = RADIUS_TOKENS[0];
+  let bestDist = Math.abs(value - best);
+  for (const token of RADIUS_TOKENS) {
+    const dist = Math.abs(value - token);
+    if (dist < bestDist) {
+      best = token;
+      bestDist = dist;
+    }
+  }
+  return best;
+};
+
+const getNormalInteractionShape = (icon: number) => {
+  const raw = icon * 1.5;
+  const interaction = raw % 2 === 0 ? raw : raw + 1;
+  const radius = nearestRadiusToken(interaction * 0.3);
+  return { interaction, radius };
+};
+
+const resolveNormalIconSize = (size: IconButtonProps['size']): number => {
+  if (typeof size === 'number') return size;
+  if (size && size in NORMAL_ICON_SIZE_MAP) {
+    return NORMAL_ICON_SIZE_MAP[size as keyof typeof NORMAL_ICON_SIZE_MAP];
+  }
+  return NORMAL_ICON_SIZE_MAP.xlarge;
+};
+
 const getIconButtonSize = ({
   variant,
   size,
@@ -13,6 +50,7 @@ const getIconButtonSize = ({
   switch (variant) {
     case 'outlined':
     case 'solid':
+      if (size === 'xlarge' || size === 'large') return 'medium';
       return size ?? 'medium';
     default:
       return typeof size === 'number' ? size : 24;
@@ -57,8 +95,32 @@ export const iconButtonStyle =
 const iconButtonSizeStyle = (
   params: Pick<IconButtonProps, 'size' | 'variant'>,
 ) => {
-  const size = getIconButtonSize(params);
   const { variant } = params;
+
+  if (variant === 'normal') {
+    const icon = resolveNormalIconSize(params.size);
+    const { interaction, radius } = getNormalInteractionShape(icon);
+    const padding = (interaction - icon) / 2;
+    return css`
+      width: ${interaction}px;
+      height: ${interaction}px;
+      padding: ${padding}px;
+      border-radius: ${radius}px;
+      font-size: ${icon}px;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      [data-role='push-badge-wrapper'] {
+        width: 100%;
+        height: 100%;
+      }
+    `;
+  }
+
+  const size = getIconButtonSize(params);
 
   if (typeof size === 'number') {
     return css`
