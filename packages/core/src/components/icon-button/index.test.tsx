@@ -129,6 +129,21 @@ describe('IconButton — normal variant size policy', () => {
     },
   );
 
+  it('background variant defaults icon to 20 (box 32, padding 6)', () => {
+    const { container } = render(
+      <IconButton variant="background">
+        <svg />
+      </IconButton>,
+    );
+
+    const style = computedStyle(getButton(container));
+
+    expect(style.width).toBe('32px');
+    expect(style.height).toBe('32px');
+    expect(style.padding).toBe('6px');
+    expect(style.fontSize).toBe('20px');
+  });
+
   it('defaults to xlarge when size is not provided', () => {
     const { container } = render(
       <IconButton variant="normal">

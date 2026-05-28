@@ -82,6 +82,8 @@ const getIconButtonSize = ({
     case 'solid':
       if (size === 'xlarge' || size === 'large') return 'medium';
       return size ?? 'medium';
+    case 'background':
+      return typeof size === 'number' ? size : 20;
     default:
       return typeof size === 'number' ? size : 24;
   }
