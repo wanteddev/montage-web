@@ -108,6 +108,27 @@ describe('IconButton — normal variant size policy', () => {
     },
   );
 
+  it.each([
+    ['outlined', 20, '24px'],
+    ['outlined', 10, '24px'],
+    ['solid', 20, '24px'],
+    ['solid', 10, '24px'],
+  ] as const)(
+    '%s variant clamps number size=%i to ≥24×24 (WCAG 2.2)',
+    (variant, size, expectedDim) => {
+      const { container } = render(
+        <IconButton variant={variant} size={size}>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+
+      expect(style.width).toBe(expectedDim);
+      expect(style.height).toBe(expectedDim);
+    },
+  );
+
   it('defaults to xlarge when size is not provided', () => {
     const { container } = render(
       <IconButton variant="normal">

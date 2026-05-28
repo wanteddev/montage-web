@@ -164,6 +164,8 @@ const iconButtonSizeStyle = (
       `;
     }
 
+    const clampedBox = Math.max(MIN_INTERACTION_SIZE, size);
+
     return css`
       font-size: ${size}px;
       width: fit-content;
@@ -177,8 +179,8 @@ const iconButtonSizeStyle = (
       ${(variant === 'solid' || variant === 'outlined') &&
       css`
         padding: 6px;
-        width: ${size}px;
-        height: ${size}px;
+        width: ${clampedBox}px;
+        height: ${clampedBox}px;
 
         svg {
           width: 100%;
