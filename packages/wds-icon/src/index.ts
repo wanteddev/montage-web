@@ -40,6 +40,7 @@ export { default as IconBulbFill } from './icon-bulb-fill';
 export { default as IconBusinessBag } from './icon-business-bag';
 export { default as IconBusinessBagFill } from './icon-business-bag-fill';
 export { default as IconCalendar } from './icon-calendar';
+export { default as IconCalendarFill } from './icon-calendar-fill';
 export { default as IconCalendarPerson } from './icon-calendar-person';
 export { default as IconCamera } from './icon-camera';
 export { default as IconCameraFill } from './icon-camera-fill';
