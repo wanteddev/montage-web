@@ -28,6 +28,19 @@ codemod는 import 선언만 변환합니다. 아래 항목은 수동 확인이 �
 - `package.json`의 dependencies 패키지명 변경
 - ESLint 설정에서 `@wanteddev/eslint-plugin-wds` → `@montage-ui/eslint-plugin`
 
+### Modal
+
+`variant="bottom"`, `handle={true}`의 기본 동작이 변경되었습니다.
+
+- AS-IS
+  - ESC, 핸들 내리기, Dimmer 영역 클릭 시 바텀시트가 아래에 고정되어 닫히지 않습니다.
+  - 바로 닫히게 변경하려면 `onVisibilityChange` 에서 onClose를 호출하여 바로 닫히게 할 수 있습니다.
+- TO-BE
+  - ESC, 핸들 내리기, Dimmer 영역 클릭 시 `ModalContainer`의 `peekHeight`가 지정되지 않으면 바로 닫힙니다.
+  - 아래에 고정되게 하려면 `peekHeight`를 지정해야 합니다.
+
+위 내용에 따라 `onVisibilityChange` 옵션이 제거되었습니다.
+
 ## 3.0.0 (2025-11-12)
 
 ### Button
