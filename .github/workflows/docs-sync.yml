@@ -10,20 +10,19 @@ on:
         options:
           - 'mobile'
           - 'design'
-  workflow_call:
-    inputs:
-      platform:
-        description: Platform
+      deploy:
+        description: Run docs deploy after sync (only when changes are pushed)
         required: false
-        default: 'mobile'
-        type: string
-    outputs:
-      branch:
-        description: 'mobile docs sync로 생성/사용된 브랜치 이름'
-        value: ${{ jobs.sync-mobile-docs.outputs.branch }}
-      has_changes:
-        description: 'mobile docs sync에서 실제 변경사항이 push되었는지 여부 (true/false)'
-        value: ${{ jobs.sync-mobile-docs.outputs.has_changes }}
+        default: false
+        type: boolean
+      server_type:
+        description: Server type for deploy
+        required: false
+        default: 'dev'
+        type: choice
+        options:
+          - 'dev'
+          - 'www'
 
 env:
   FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
@@ -124,6 +123,9 @@ jobs:
   sync-design-docs:
     if: ${{ inputs.platform == 'design' }}
     runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.check-branch.outputs.branch }}
+      has_changes: ${{ steps.commit.outputs.has_changes }}
     steps:
       - name: Generate GitHub App Token
         id: app-token
@@ -210,3 +212,23 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           GH_REPO: ${{ github.repository }}
+
+  deploy-mobile-docs:
+    needs: sync-mobile-docs
+    if: ${{ inputs.deploy && needs.sync-mobile-docs.outputs.has_changes == 'true' }}
+    uses: ./.github/workflows/docs-deploy.yml
+    with:
+      server_type: ${{ inputs.server_type }}
+      ref: ${{ needs.sync-mobile-docs.outputs.branch }}
+      algolia: true
+    secrets: inherit
+
+  deploy-design-docs:
+    needs: sync-design-docs
+    if: ${{ inputs.deploy && needs.sync-design-docs.outputs.has_changes == 'true' }}
+    uses: ./.github/workflows/docs-deploy.yml
+    with:
+      server_type: ${{ inputs.server_type }}
+      ref: ${{ needs.sync-design-docs.outputs.branch }}
+      algolia: true
+    secrets: inherit
