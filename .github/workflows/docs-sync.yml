@@ -18,7 +18,7 @@ on:
       server_type:
         description: Server type for deploy
         required: false
-        default: 'dev'
+        default: 'www'
         type: choice
         options:
           - 'dev'
