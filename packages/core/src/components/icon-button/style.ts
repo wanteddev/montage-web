@@ -14,15 +14,26 @@ const NORMAL_ICON_SIZE_MAP = {
 } as const;
 
 const RADIUS_TOKENS = [0, 4, 8, 10, 12, 14, 16, 20, 24] as const;
+const DIMENSION_TOKENS = [
+  12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 56, 64,
+] as const;
 
-const nearestRadiusToken = (value: number): number => {
-  let best: number = RADIUS_TOKENS[0];
+const nearestToken = (
+  value: number,
+  tokens: ReadonlyArray<number>,
+  tie: 'up' | 'down' = 'down',
+): number => {
+  let best = tokens[0];
   let bestDist = Math.abs(value - best);
-  for (const token of RADIUS_TOKENS) {
+  for (const token of tokens) {
     const dist = Math.abs(value - token);
     if (dist < bestDist) {
       best = token;
       bestDist = dist;
+    } else if (dist === bestDist) {
+      if ((tie === 'up' && token > best) || (tie === 'down' && token < best)) {
+        best = token;
+      }
     }
   }
   return best;
@@ -33,11 +44,16 @@ const MIN_INTERACTION_SIZE = 24;
 
 const getNormalInteractionShape = (icon: number) => {
   const raw = icon * 1.5;
-  const evenCeiled = Math.ceil(raw / 2) * 2;
-  const interaction = Math.max(MIN_INTERACTION_SIZE, evenCeiled);
-  const radius = nearestRadiusToken(interaction * 0.3);
+  const interaction = Math.max(
+    MIN_INTERACTION_SIZE,
+    nearestToken(raw, DIMENSION_TOKENS, 'up'),
+  );
+  const radius = nearestToken(interaction * 0.3, RADIUS_TOKENS, 'down');
   return { interaction, radius };
 };
+
+const getBackgroundBoxSize = (icon: number) =>
+  nearestToken(icon * 1.5, DIMENSION_TOKENS, 'up');
 
 const resolveNormalIconSize = (size: IconButtonProps['size']): number => {
   if (typeof size === 'number') return size;
@@ -127,6 +143,27 @@ const iconButtonSizeStyle = (
   const size = getIconButtonSize(params);
 
   if (typeof size === 'number') {
+    if (variant === 'background') {
+      const box = getBackgroundBoxSize(size);
+      const padding = (box - size) / 2;
+      return css`
+        width: ${box}px;
+        height: ${box}px;
+        padding: ${padding}px;
+        font-size: ${size}px;
+
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+
+        [data-role='push-badge-wrapper'] {
+          width: 100%;
+          height: 100%;
+        }
+      `;
+    }
+
     return css`
       font-size: ${size}px;
       width: fit-content;
@@ -136,12 +173,6 @@ const iconButtonSizeStyle = (
         width: initial;
         height: 1em;
       }
-
-      ${variant === 'background' &&
-      css`
-        padding: 2px;
-        font-size: ${size - 4}px;
-      `}
 
       ${(variant === 'solid' || variant === 'outlined') &&
       css`
@@ -310,12 +341,7 @@ const iconButtonColorStyle = (
         &::before {
           position: absolute;
           content: '';
-          width: auto;
-          height: calc(100% + 8px);
-          aspect-ratio: 1 / 1;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          inset: 0;
           border-radius: inherit;
 
           ${alternative
@@ -425,12 +451,7 @@ export const backgroundBlendStyle = (theme: Theme) => css`
     theme.semantic.static.black,
     theme.opacity[5],
   )};
-  width: auto;
-  height: calc(100% + 8px);
-  aspect-ratio: 1 / 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   border-radius: inherit;
 
   @supports (-webkit-backdrop-filter: none) {

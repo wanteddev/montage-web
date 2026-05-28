@@ -14,11 +14,11 @@ describe('IconButton — normal variant size policy', () => {
 
   it.each([
     ['xlarge', { width: '36px', height: '36px', borderRadius: '10px' }],
-    ['large', { width: '30px', height: '30px', borderRadius: '8px' }],
+    ['large', { width: '32px', height: '32px', borderRadius: '10px' }],
     ['medium', { width: '28px', height: '28px', borderRadius: '8px' }],
     ['small', { width: '24px', height: '24px', borderRadius: '8px' }],
   ] as const)(
-    'applies interaction box (icon ×1.5, even-ceiled) and radius for size=%s',
+    'applies nearest dimension token box (icon ×1.5, tie→up) and radius for size=%s',
     (size, expected) => {
       const { container } = render(
         <IconButton variant="normal" size={size}>
@@ -35,7 +35,7 @@ describe('IconButton — normal variant size policy', () => {
     },
   );
 
-  it('applies the same formula to number size (e.g. 22 → 34 box, r10)', () => {
+  it('applies the same formula to number size (e.g. 22 → 32 box, r10)', () => {
     const { container } = render(
       <IconButton variant="normal" size={22}>
         <svg />
@@ -44,8 +44,8 @@ describe('IconButton — normal variant size policy', () => {
 
     const style = computedStyle(getButton(container));
 
-    expect(style.width).toBe('34px');
-    expect(style.height).toBe('34px');
+    expect(style.width).toBe('32px');
+    expect(style.height).toBe('32px');
     expect(style.borderRadius).toBe('10px');
   });
 
@@ -63,6 +63,28 @@ describe('IconButton — normal variant size policy', () => {
     expect(style.borderRadius).toBe('8px');
     expect(style.padding).toBe('7px');
   });
+
+  it.each([
+    [24, { width: '36px', height: '36px', padding: '6px' }],
+    [20, { width: '32px', height: '32px', padding: '6px' }],
+    [18, { width: '28px', height: '28px', padding: '5px' }],
+    [16, { width: '24px', height: '24px', padding: '4px' }],
+  ])(
+    'applies nearest dimension token box (icon ×1.5, tie→up) for background variant size=%i',
+    (size, expected) => {
+      const { container } = render(
+        <IconButton variant="background" size={size}>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+
+      expect(style.width).toBe(expected.width);
+      expect(style.height).toBe(expected.height);
+      expect(style.padding).toBe(expected.padding);
+    },
+  );
 
   it('defaults to xlarge when size is not provided', () => {
     const { container } = render(

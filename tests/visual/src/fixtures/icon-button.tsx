@@ -30,10 +30,22 @@ export const OutlinedIconButton = () => {
 export const BackgroundIconButton = () => {
   return (
     <>
-      <IconButton variant="background">
+      <IconButton variant="background" size={24}>
         <IconBlank />
       </IconButton>
-      <IconButton variant="background" size={28}>
+      <IconButton variant="background" size={20}>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" size={18}>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" size={16}>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" size={24} alternative>
+        <IconBlank />
+      </IconButton>
+      <IconButton variant="background" size={24} disabled>
         <IconBlank />
       </IconButton>
     </>
