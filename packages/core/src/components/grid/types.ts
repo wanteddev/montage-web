@@ -1,12 +1,12 @@
 import type {
   Merge,
   ResponsiveProps,
-  Spacing,
+  Theme,
   WithSxProps,
 } from '@montage-ui/engine';
 import type { CSSProperties, ReactNode } from 'react';
 
-export type GridSpacing = keyof Spacing;
+export type GridSpacing = keyof Theme['spacing'];
 
 export type GridDefaultProps = WithSxProps<{
   justifyContent?: CSSProperties['justifyContent'];

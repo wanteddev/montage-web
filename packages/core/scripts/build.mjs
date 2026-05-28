@@ -43,15 +43,26 @@ const generateVariable = (token, value) => {
   };`;
 };
 
+const toCssVarSegment = (key) => key.replace(/\./g, '_');
+
 const objectToCssKey = (object, prefix) =>
   Object.entries(object).map((v) => {
+    const segment = toCssVarSegment(v[0]);
     if (typeof v[1] !== 'object') {
-      return generateVariable(`${prefix}-${v[0]}`, v[1]);
+      return generateVariable(`${prefix}-${segment}`, v[1]);
     }
 
-    return objectToCssKey(v[1], `${prefix}-${v[0]}`);
+    return objectToCssKey(v[1], `${prefix}-${segment}`);
   });
 
+const themeInvariant = [
+  ...objectToCssKey(lightOriginTheme.primitive, 'primitive'),
+  ...objectToCssKey(lightOriginTheme.opacity, 'opacity'),
+  ...objectToCssKey(lightOriginTheme.spacing, 'spacing'),
+  ...objectToCssKey(lightOriginTheme.radius, 'radius'),
+  ...objectToCssKey(lightOriginTheme.dimension, 'dimension'),
+  ...objectToCssKey(lightOriginTheme.zIndex, 'zIndex'),
+].flat(Infinity);
 const light = [
   ...objectToCssKey(lightOriginTheme.atomic, 'atomic'),
   ...objectToCssKey(lightOriginTheme.semantic, 'semantic'),
@@ -62,7 +73,7 @@ const dark = [
 ].flat(Infinity);
 
 const content = `:root {
-  ${light.join('\n  ')}
+  ${[...themeInvariant, ...light].join('\n  ')}
 }
 
 html[data-theme='dark'] {
