@@ -271,9 +271,47 @@ Then branch on the result:
 
    Wait for confirmation. If the user confirms it's really major, prefer rebasing locally onto the major branch over just changing `--base` — rebasing surfaces conflicts with the in-progress major work _now_ instead of at merge time.
 
-3. **Major branch exists AND base is already `feature/<version>`** → proceed to step 9, passing `--base feature/<version>` to `gh pr create`.
+3. **Major branch exists AND base is already `feature/<version>`** → proceed to step 8f.
 
 The point of this gate is to prevent breaking changes from leaking into the current major's release line. Don't skip it just because the user is in a hurry — a misrouted major PR is much more expensive to clean up after merge than the 30 seconds of friction here.
+
+#### 8f. Major bump → offer to update `MIGRATION.md`
+
+**This sub-step only runs when the bump type is `major`.** Skip it for patch/minor.
+
+Major releases ship breaking changes, and this repo documents every breaking change in the root `MIGRATION.md` so consumers can upgrade without spelunking through the changelog. The file is organized strictly by version, then by topic:
+
+```markdown
+## <major>.<minor>.<patch> ← H2: target version (e.g. `## 4.0.0`)
+
+### <Component / Area> ← H3: per-change topic (e.g. `### Modal`, `### 패키지명 변경`)
+
+<AS-IS / TO-BE explanation, codemod command, manual steps, etc.>
+```
+
+Before creating the PR, ask the user:
+
+> "이 PR은 major bump(`<target-version>`)으로 판단됐는데, 소비자가 업그레이드할 때 손볼 게 있는 변경인가요? 있다면 `MIGRATION.md`에 가이드를 추가할게요. (예: API 시그니처 변경, prop 제거/이름 변경, 기본 동작 변경, 패키지명 변경 등 — codemod로 자동화 못 하는 사용자 작업이 1줄이라도 있으면 'yes')"
+
+Branch on the answer:
+
+1. **마이그레이션 필요 없음** (순수 내부 리팩터, 의존성 정리만, 사용자 영향 없는 변경) → 그대로 step 9로 진행. `MIGRATION.md`는 건드리지 않는다.
+
+2. **마이그레이션 필요** → 사용자에게 변경 내용을 간단히 받아 (이미 대화 맥락에 있으면 그걸로 충분) `MIGRATION.md` 에 항목을 추가한다.
+
+   작성 규칙 — 위계를 정확히 지킨다:
+   - 파일 최상단에 `# Migration Guide` H1 이 이미 있다. 새로 만들지 말 것.
+   - 대상 버전 `## <target-version>` H2 섹션이 **이미 있으면** 그 섹션 _안에_ 새로운 `### <Topic>` 을 append. 같은 컴포넌트/주제의 H3 가 이미 있으면 그 안에 내용을 합치거나 sub-bullet 으로 정리.
+   - 대상 버전 H2 가 **없으면**, 가장 최신 버전(파일 상단) _위에_ 새 `## <target-version>` 블록을 새로 만든다. 버전 순서는 내림차순 (최신이 위) 이 컨벤션이다.
+   - 본문 톤은 기존 4.0.0 / 3.0.0 섹션을 따른다: AS-IS / TO-BE 대비, 영향 받는 API/컴포넌트, 자동화 가능하면 codemod 명령, 수동 확인 항목.
+   - 한국어로 작성. 코드 블록 / 표 / bullet 자유. 단, 정보가 없는 placeholder("TBD" 등) 는 넣지 말 것 — 사용자가 실제 변경 내용을 안 주면 차라리 그 항목은 빼고 다시 물어본다.
+
+   파일 편집 후:
+   - 변경 사항을 사용자에게 보여주고 한 번 확인받는다 ("이렇게 추가했는데 OK 인가요?").
+   - OK 면 `MIGRATION.md` 한 파일만 staged 해서 별도 커밋을 만든다 — 컨벤션 그대로 `docs(migration): document <target-version> breaking changes for <area>` 같은 형식, 그리고 step 3 의 `Co-Authored-By:` trailer 규칙을 동일하게 적용.
+   - `git push` 로 원격에 반영한 뒤 step 9 로 진행.
+
+   사용자가 변경 내용을 글로 풀어주기 어려워하면, 이 브랜치의 commit 메시지와 diff 를 기반으로 1차 초안을 만들어 보여주고 거기서 다듬는 방향으로 진행한다.
 
 ### 9. Create the PR
 
