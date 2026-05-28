@@ -28,9 +28,13 @@ const nearestRadiusToken = (value: number): number => {
   return best;
 };
 
+// WCAG 2.2 SC 2.5.8 Target Size (Minimum): interactive targets must be ≥ 24×24 CSS px.
+const MIN_INTERACTION_SIZE = 24;
+
 const getNormalInteractionShape = (icon: number) => {
   const raw = icon * 1.5;
-  const interaction = raw % 2 === 0 ? raw : raw + 1;
+  const evenCeiled = Math.ceil(raw / 2) * 2;
+  const interaction = Math.max(MIN_INTERACTION_SIZE, evenCeiled);
   const radius = nearestRadiusToken(interaction * 0.3);
   return { interaction, radius };
 };

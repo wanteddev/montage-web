@@ -49,6 +49,21 @@ describe('IconButton — normal variant size policy', () => {
     expect(style.borderRadius).toBe('10px');
   });
 
+  it('clamps interaction to 24×24 minimum (WCAG 2.2 target size) for small icons', () => {
+    const { container } = render(
+      <IconButton variant="normal" size={10}>
+        <svg />
+      </IconButton>,
+    );
+
+    const style = computedStyle(getButton(container));
+
+    expect(style.width).toBe('24px');
+    expect(style.height).toBe('24px');
+    expect(style.borderRadius).toBe('8px');
+    expect(style.padding).toBe('7px');
+  });
+
   it('defaults to xlarge when size is not provided', () => {
     const { container } = render(
       <IconButton variant="normal">
