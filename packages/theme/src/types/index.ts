@@ -3,10 +3,6 @@ import type { darkTheme, lightTheme } from '../theme';
 export type Theme = typeof lightTheme | typeof darkTheme;
 
 export type BreakPoint = Theme['breakpoint'];
-export type Primitive = Theme['primitive'];
-export type Spacing = Theme['spacing'];
-export type Radius = Theme['radius'];
-export type Dimension = Theme['dimension'];
 
 type MergeWithDot<T extends string> = T extends '' ? '' : `.${T}`;
 
@@ -40,3 +36,8 @@ export type ThemeColorsToken =
       'semantic.platform.ios.navigation' | ThemeShadowToken
     >;
 export type ThemeOpacityToken = ObjectToNestedKeys<Pick<Theme, 'opacity'>>;
+export type ThemePrimitiveToken = ObjectToNestedKeys<Pick<Theme, 'primitive'>>;
+export type ThemeSpacingToken = ObjectToNestedKeys<Pick<Theme, 'spacing'>>;
+export type ThemeDimensionToken = ObjectToNestedKeys<Pick<Theme, 'dimension'>>;
+export type ThemeRadiusToken = ObjectToNestedKeys<Pick<Theme, 'radius'>>;
+export type ThemeZIndexToken = ObjectToNestedKeys<Pick<Theme, 'zIndex'>>;

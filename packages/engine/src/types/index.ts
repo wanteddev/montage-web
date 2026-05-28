@@ -12,11 +12,15 @@ import type { BreakPoint, Theme } from '@montage-ui/theme';
 export {
   type ThemeToken,
   type BreakPoint,
-  type Spacing,
   type Theme,
   type ThemeColorsToken,
   type ThemeShadowToken,
   type ThemeOpacityToken,
+  type ThemePrimitiveToken,
+  type ThemeSpacingToken,
+  type ThemeDimensionToken,
+  type ThemeRadiusToken,
+  type ThemeZIndexToken,
 } from '@montage-ui/theme';
 export type {
   EmotionCache,

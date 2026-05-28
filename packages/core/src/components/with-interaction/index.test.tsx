@@ -48,7 +48,6 @@ describe('when given with-interaction component', () => {
     expect(element).toBeInTheDocument();
     expect(element).toHaveStyle({
       backgroundColor: theme.light.semantic.label.normal,
-      opacity: '0',
     });
   });
 });

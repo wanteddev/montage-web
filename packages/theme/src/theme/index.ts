@@ -60,17 +60,20 @@ export const darkOriginTheme = {
   zIndex,
 };
 
-const addVarPrefix = (obj: any, prefix: string) => {
+const toCssVarSegment = (key: string) => key.replace(/\./g, '_');
+
+const addVarPrefix = (obj: any, prefix: string, convertAll = false) => {
   const newObj: any = {};
 
   for (const key in obj) {
-    const originPrefix = `${prefix}-${key}`;
+    const originPrefix = `${prefix}-${toCssVarSegment(key)}`;
 
     if (typeof obj[key] === 'object') {
-      newObj[key] = addVarPrefix(obj[key], originPrefix);
+      newObj[key] = addVarPrefix(obj[key], originPrefix, convertAll as true);
     } else if (
-      typeof obj[key] === 'string' &&
-      (obj[key].startsWith('#') || prefix.includes('shadow'))
+      convertAll ||
+      (typeof obj[key] === 'string' &&
+        (obj[key].startsWith('#') || prefix.includes('shadow')))
     ) {
       newObj[key] = `var(--${originPrefix})`;
     } else {
@@ -79,6 +82,21 @@ const addVarPrefix = (obj: any, prefix: string) => {
   }
   return newObj;
 };
+
+const primitiveVar = addVarPrefix(
+  primitive,
+  'primitive',
+  true,
+) as typeof primitive;
+const opacityVar = addVarPrefix(opacity, 'opacity', true) as typeof opacity;
+const spacingVar = addVarPrefix(spacing, 'spacing', true) as typeof spacing;
+const radiusVar = addVarPrefix(radius, 'radius', true) as typeof radius;
+const dimensionVar = addVarPrefix(
+  dimension,
+  'dimension',
+  true,
+) as typeof dimension;
+const zIndexVar = addVarPrefix(zIndex, 'zIndex', true) as typeof zIndex;
 
 export const lightTheme = {
   ...lightOriginTheme,
@@ -94,6 +112,13 @@ export const lightTheme = {
       },
     },
   },
+  primitive: primitiveVar,
+  opacity: opacityVar,
+  breakpoint,
+  spacing: spacingVar,
+  radius: radiusVar,
+  dimension: dimensionVar,
+  zIndex: zIndexVar,
 };
 
 export const darkTheme = {
@@ -110,6 +135,13 @@ export const darkTheme = {
       },
     },
   },
+  primitive: primitiveVar,
+  opacity: opacityVar,
+  breakpoint,
+  spacing: spacingVar,
+  radius: radiusVar,
+  dimension: dimensionVar,
+  zIndex: zIndexVar,
 };
 
 export const theme = {

@@ -28,6 +28,75 @@ codemod는 import 선언만 변환합니다. 아래 항목은 수동 확인이 �
 - `package.json`의 dependencies 패키지명 변경
 - ESLint 설정에서 `@wanteddev/eslint-plugin-wds` → `@montage-ui/eslint-plugin`
 
+### Theme 토큰 CSS Variable 화
+
+`theme.primitive`, `theme.opacity`, `theme.spacing`, `theme.radius`, `theme.dimension`, `theme.zIndex` 토큰이 이제 raw 값 대신 `var(--...)` 문자열을 반환합니다. 기존 `theme.atomic`, `theme.semantic`과 동일한 방식으로 통일되어, 컴포넌트에서 사용 시 다크 모드/런타임 오버라이드와 자연스럽게 동작합니다.
+
+```ts
+// AS-IS
+theme.spacing[16]; // '16px'
+theme.opacity[88]; // 0.88
+theme.zIndex.modal; // 1300
+
+// TO-BE
+theme.spacing[16]; // 'var(--spacing-16)'
+theme.opacity[88]; // 'var(--opacity-88)'
+theme.zIndex.modal; // 'var(--zIndex-modal)'
+```
+
+CSS 컨텍스트(template literal, 인라인 style 객체)에서는 그대로 동작합니다. **수동 마이그레이션이 필요한 케이스**는 아래와 같이 raw 값(숫자/`Npx` 문자열)을 가정한 JS 산술 코드입니다.
+
+#### spacing / radius / dimension / primitive — JS 산술 불가
+
+`'16px'` 같은 리터럴이 `'var(--spacing-16)'`로 바뀌면서 `parseInt`/`parseFloat`이 `NaN`을 반환합니다.
+
+```ts
+// AS-IS
+const half = parseInt(theme.spacing[16]) / 2; // 8
+style={{ width: parseInt(theme.dimension[40]) - 4 }}
+
+// TO-BE — CSS calc() 사용 (var()는 calc 내부에서 정상 동작)
+const half = `calc(${theme.spacing[16]} / 2)`;
+style={{ width: `calc(${theme.dimension[40]} - 4px)` }}
+```
+
+JS 레이어에서 정말 숫자 값이 필요하다면 `lightOriginTheme` / `darkOriginTheme`을 import 해서 raw 값을 직접 참조하세요.
+
+#### opacity — JS 산술 불가, CSS에서는 그대로 사용 가능
+
+`theme.opacity[88]`이 `0.88`에서 `'var(--opacity-88)'`로 바뀝니다.
+
+```ts
+// AS-IS
+const dimmed = theme.opacity[88] * 0.5; // 0.44
+rgba(0, 0, 0, ${theme.opacity[43]})
+
+// TO-BE
+// CSS opacity 속성, rgba()의 alpha 자리, calc() 내부에서는 var() 그대로 사용 가능
+opacity: ${theme.opacity[88]};
+rgba(0, 0, 0, ${theme.opacity[43]}) // 동일하게 동작
+// 산술이 필요하면 calc()
+opacity: calc(${theme.opacity[88]} * 0.5);
+```
+
+`addOpacity(color, value)` 유틸은 `value`에 `var(--opacity-*)`를 받아도 정상 동작합니다 (rgba 내부에서 해석).
+
+#### zIndex — JS 산술 불가, CSS calc()로 대체
+
+`theme.zIndex.modal`이 `1300`에서 `'var(--zIndex-modal)'`로 바뀝니다.
+
+```ts
+// AS-IS
+style={{ zIndex: theme.zIndex.modal + 1 }} // 1301
+
+// TO-BE
+style={{ zIndex: `calc(${theme.zIndex.modal} + 1)` }}
+```
+
+또한 React inline style에서 `zIndex` 값이 더 이상 number가 아니라 string이 됩니다. 타입 시그니처(`number | string`)를 받는 곳은 영향 없지만, `number`만 받던 props로 전달하던 코드는 prop 타입을 string으로 확장하거나 raw 값을 사용해야 합니다.
+
+> **breakpoint 토큰은 var 변환에서 제외되었습니다.** `@media (min-width: ...)` 쿼리에는 CSS variable을 사용할 수 없기 때문입니다.
+
 ### Modal
 
 `variant="bottom"`, `handle={true}`의 기본 동작이 변경되었습니다.
