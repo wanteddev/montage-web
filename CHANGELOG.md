@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.8.0](https://github.com/wanteddev/montage-web/compare/v3.7.0...v3.8.0) (2026-05-28)
+
+### Bug Fixes
+
+- **ci:** docs-sync에서 변경사항 없을 때 빈 브랜치/실패 방지 ([#565](https://github.com/wanteddev/montage-web/issues/565)) ([ed2d2a1](https://github.com/wanteddev/montage-web/commit/ed2d2a1303ef36ba7efcc92e2742fd34f20dc5a0))
+
+### Features
+
+- **wds,wds-icon:** icon figma sync and new code connect publish ([#575](https://github.com/wanteddev/montage-web/issues/575)) ([41f4954](https://github.com/wanteddev/montage-web/commit/41f495463006ef1de8e569e4a5c942309ea15a75))
+
 # [3.7.0](https://github.com/wanteddev/montage-web/compare/v3.6.0...v3.7.0) (2026-05-21)
 
 ### Bug Fixes
