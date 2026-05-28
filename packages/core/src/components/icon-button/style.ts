@@ -20,7 +20,7 @@ const DIMENSION_TOKENS = [
 
 const nearestToken = (
   value: number,
-  tokens: ReadonlyArray<number>,
+  tokens: readonly [number, ...Array<number>],
   tie: 'up' | 'down' = 'down',
 ): number => {
   let best = tokens[0];
@@ -63,6 +63,16 @@ const resolveNormalIconSize = (size: IconButtonProps['size']): number => {
   return NORMAL_ICON_SIZE_MAP.xlarge;
 };
 
+const dimensionToken = (theme: Theme, value: number): string =>
+  (theme.dimension as Record<number, string | undefined>)[value] ??
+  `${value}px`;
+
+const spacingToken = (theme: Theme, value: number): string =>
+  (theme.spacing as Record<number, string | undefined>)[value] ?? `${value}px`;
+
+const radiusToken = (theme: Theme, value: number): string =>
+  (theme.radius as Record<number, string | undefined>)[value] ?? `${value}px`;
+
 const getIconButtonSize = ({
   variant,
   size,
@@ -80,7 +90,7 @@ const getIconButtonSize = ({
 export const iconButtonStyle =
   ({ xs, sm, md, lg, xl, ...props }: IconButtonProps) =>
   (theme: Theme) => css`
-    border-radius: 9999px;
+    border-radius: ${theme.radius.full};
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -98,7 +108,7 @@ export const iconButtonStyle =
       aspect-ratio: 1 / 1;
     }
 
-    ${iconButtonSizeStyle({ size: props.size, variant: props.variant })}
+    ${iconButtonSizeStyle({ size: props.size, variant: props.variant }, theme)}
     ${iconButtonColorStyle(props, theme)}
 
   ${createResponsiveStyle(
@@ -106,7 +116,10 @@ export const iconButtonStyle =
       theme,
     )(
       (params = {}) => css`
-        ${iconButtonSizeStyle({ size: params.size, variant: props.variant })}
+        ${iconButtonSizeStyle(
+          { size: params.size, variant: props.variant },
+          theme,
+        )}
         ${params.sx}
       `,
     )}
@@ -114,6 +127,7 @@ export const iconButtonStyle =
 
 const iconButtonSizeStyle = (
   params: Pick<IconButtonProps, 'size' | 'variant'>,
+  theme: Theme,
 ) => {
   const { variant } = params;
 
@@ -122,11 +136,11 @@ const iconButtonSizeStyle = (
     const { interaction, radius } = getNormalInteractionShape(icon);
     const padding = (interaction - icon) / 2;
     return css`
-      width: ${interaction}px;
-      height: ${interaction}px;
-      padding: ${padding}px;
-      border-radius: ${radius}px;
-      font-size: ${icon}px;
+      width: ${dimensionToken(theme, interaction)};
+      height: ${dimensionToken(theme, interaction)};
+      padding: ${spacingToken(theme, padding)};
+      border-radius: ${radiusToken(theme, radius)};
+      font-size: ${dimensionToken(theme, icon)};
 
       svg {
         width: 100%;
@@ -147,10 +161,10 @@ const iconButtonSizeStyle = (
       const box = getBackgroundBoxSize(size);
       const padding = (box - size) / 2;
       return css`
-        width: ${box}px;
-        height: ${box}px;
-        padding: ${padding}px;
-        font-size: ${size}px;
+        width: ${dimensionToken(theme, box)};
+        height: ${dimensionToken(theme, box)};
+        padding: ${spacingToken(theme, padding)};
+        font-size: ${dimensionToken(theme, size)};
 
         svg {
           width: 100%;
@@ -167,7 +181,7 @@ const iconButtonSizeStyle = (
     const clampedBox = Math.max(MIN_INTERACTION_SIZE, size);
 
     return css`
-      font-size: ${size}px;
+      font-size: ${dimensionToken(theme, size)};
       width: fit-content;
       height: fit-content;
 
@@ -178,9 +192,9 @@ const iconButtonSizeStyle = (
 
       ${(variant === 'solid' || variant === 'outlined') &&
       css`
-        padding: 6px;
-        width: ${clampedBox}px;
-        height: ${clampedBox}px;
+        padding: ${theme.spacing[6]};
+        width: ${dimensionToken(theme, clampedBox)};
+        height: ${dimensionToken(theme, clampedBox)};
 
         svg {
           width: 100%;
@@ -198,7 +212,7 @@ const iconButtonSizeStyle = (
   switch (size) {
     case 'medium':
       return css`
-        font-size: 40px;
+        font-size: ${theme.dimension[40]};
         width: fit-content;
         height: fit-content;
 
@@ -209,15 +223,15 @@ const iconButtonSizeStyle = (
 
         ${variant === 'background' &&
         css`
-          padding: 2px;
-          font-size: 36px;
+          padding: ${theme.spacing[2]};
+          font-size: ${theme.dimension[36]};
         `}
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
           padding: 11px;
-          width: 40px;
-          height: 40px;
+          width: ${theme.dimension[40]};
+          height: ${theme.dimension[40]};
 
           svg {
             width: 100%;
@@ -232,7 +246,7 @@ const iconButtonSizeStyle = (
       `;
     case 'small':
       return css`
-        font-size: 32px;
+        font-size: ${theme.dimension[32]};
         width: fit-content;
         height: fit-content;
 
@@ -243,15 +257,15 @@ const iconButtonSizeStyle = (
 
         ${variant === 'background' &&
         css`
-          padding: 2px;
-          font-size: 28px;
+          padding: ${theme.spacing[2]};
+          font-size: ${theme.dimension[28]};
         `}
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
-          padding: 8px;
-          width: 32px;
-          height: 32px;
+          padding: ${theme.spacing[8]};
+          width: ${theme.dimension[32]};
+          height: ${theme.dimension[32]};
 
           svg {
             width: 100%;
