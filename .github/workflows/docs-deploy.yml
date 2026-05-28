@@ -10,11 +10,8 @@ on:
       algolia:
         description: Run algolia crawler
         required: false
-        default: 'false'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
+        default: false
+        type: boolean
       server_type:
         description: Server type
         required: false
@@ -40,6 +37,16 @@ on:
         required: false
         default: ''
         type: string
+      ref:
+        description: 'Branch/tag/sha to checkout. Defaults to the workflow ref.'
+        required: false
+        default: ''
+        type: string
+      algolia:
+        description: Run algolia crawler
+        required: false
+        default: false
+        type: boolean
 
 env:
   NODE_VERSION: 22.18.0
@@ -63,7 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Set Environment Variable
         id: env-vars
@@ -110,7 +117,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
+          ref: ${{ inputs.ref || github.ref }}
 
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -217,7 +224,7 @@ jobs:
 
   algolia:
     needs: [deploy-docs]
-    if: ${{ inputs.algolia == 'true' && inputs.server_type == 'www' }}
+    if: ${{ inputs.algolia && inputs.server_type == 'www' }}
     runs-on: ubuntu-latest
 
     steps:
