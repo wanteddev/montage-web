@@ -213,7 +213,7 @@ const iconButtonSizeStyle = (
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
-          padding: 10px;
+          padding: 11px;
           width: 40px;
           height: 40px;
 
@@ -247,7 +247,7 @@ const iconButtonSizeStyle = (
 
         ${(variant === 'solid' || variant === 'outlined') &&
         css`
-          padding: 7px;
+          padding: 8px;
           width: 32px;
           height: 32px;
 

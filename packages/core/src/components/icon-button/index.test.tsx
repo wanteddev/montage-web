@@ -86,6 +86,28 @@ describe('IconButton — normal variant size policy', () => {
     },
   );
 
+  it.each([
+    ['outlined', 'medium', { width: '40px', height: '40px', padding: '11px' }],
+    ['outlined', 'small', { width: '32px', height: '32px', padding: '8px' }],
+    ['solid', 'medium', { width: '40px', height: '40px', padding: '11px' }],
+    ['solid', 'small', { width: '32px', height: '32px', padding: '8px' }],
+  ] as const)(
+    '%s variant size=%s renders %o (icon = box − 2×padding)',
+    (variant, size, expected) => {
+      const { container } = render(
+        <IconButton variant={variant} size={size}>
+          <svg />
+        </IconButton>,
+      );
+
+      const style = computedStyle(getButton(container));
+
+      expect(style.width).toBe(expected.width);
+      expect(style.height).toBe(expected.height);
+      expect(style.padding).toBe(expected.padding);
+    },
+  );
+
   it('defaults to xlarge when size is not provided', () => {
     const { container } = render(
       <IconButton variant="normal">
