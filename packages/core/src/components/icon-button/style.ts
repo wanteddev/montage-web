@@ -10,10 +10,10 @@ import {
   OUTLINED_SOLID_PRESETS,
 } from './constants';
 import {
+  maxDimensionToken,
+  nearestDimensionToken,
   nearestRadiusToken,
-  nearestSpacingToken,
   resolveCompactSize,
-  resolvePadding,
 } from './helpers';
 
 import type { BackgroundPreset, NormalPreset } from './constants';
@@ -58,65 +58,77 @@ export const iconButtonStyle =
     )}
   `;
 
-const innerSvgStyle = css`
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  [data-role='push-badge-wrapper'] {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-// Exposes the IconButton's padding as `--wds-icon-button-inset` on the adjacent
-// PushBadge sibling so it can align to the icon edge (not the chrome edge).
-// Only normal variant has invisible chrome, so this compensation is scoped to
-// 'normal' — other variants keep the badge at the visible chrome corner.
-const badgeInsetStyle = (padding: string) => css`
+// Exposes the gap between the box edge and the icon edge as
+// `--wds-icon-button-inset` on the adjacent PushBadge sibling so it can align to
+// the icon edge (not the chrome edge). Only normal variant has invisible chrome,
+// so this compensation is scoped to 'normal' — other variants keep the badge at
+// the visible chrome corner.
+const badgeInsetStyle = (inset: string) => css`
   & + [wds-component='push-badge'] {
-    --wds-icon-button-inset: ${padding};
+    --wds-icon-button-inset: ${inset};
   }
 `;
+
+// Icon size ratio for custom `number` sizes. normal / background use 2/3 of the
+// box; outlined / solid use a tighter 0.47. The result snaps to a dimension token.
+const ICON_SIZE_RATIO: Record<
+  NonNullable<IconButtonProps['variant']>,
+  number
+> = {
+  normal: 2 / 3,
+  background: 2 / 3,
+  outlined: 0.47,
+  solid: 0.47,
+};
+
+// Inset compensates the PushBadge for the gap between the box edge and the icon
+// edge: (box − iconSize) / 2.
+const insetPx = (box: number, iconSize: number) => `${(box - iconSize) / 2}px`;
 
 const numberSizeStyle = (
   variant: IconButtonProps['variant'],
   size: number,
   theme: Theme,
 ) => {
-  const box = Math.max(MIN_INTERACTION_SIZE_PX, size);
-  const padding = nearestSpacingToken(theme, box / 6);
+  const box = Math.min(
+    maxDimensionToken(theme),
+    Math.max(MIN_INTERACTION_SIZE_PX, size),
+  );
+  const iconSize = nearestDimensionToken(
+    theme,
+    box * ICON_SIZE_RATIO[variant ?? 'normal'],
+  );
   return css`
     width: ${box}px;
     height: ${box}px;
-    padding: ${padding};
     ${variant === 'normal' &&
     css`
       border-radius: ${nearestRadiusToken(theme, box * 0.3)};
-      ${badgeInsetStyle(padding)}
+      ${badgeInsetStyle(insetPx(box, iconSize))}
     `}
-    ${innerSvgStyle}
+
+    svg {
+      font-size: ${theme.dimension[iconSize as keyof typeof theme.dimension]};
+    }
   `;
 };
 
 const presetSizeStyle = (
   theme: Theme,
   preset: NormalPreset | BackgroundPreset,
-) => {
-  const padding = resolvePadding(theme, preset.padding);
-  return css`
-    width: ${theme.dimension[preset.box]};
-    height: ${theme.dimension[preset.box]};
-    padding: ${padding};
-    ${'radius' in preset &&
-    css`
-      border-radius: ${theme.radius[preset.radius]};
-      ${badgeInsetStyle(padding)}
-    `}
-    ${innerSvgStyle}
-  `;
-};
+) => css`
+  width: ${theme.dimension[preset.box]};
+  height: ${theme.dimension[preset.box]};
+  ${'radius' in preset &&
+  css`
+    border-radius: ${theme.radius[preset.radius]};
+    ${badgeInsetStyle(insetPx(preset.box, preset.iconSize))}
+  `}
+
+  svg {
+    font-size: ${theme.dimension[preset.iconSize]};
+  }
+`;
 
 const iconButtonSizeStyle = (
   params: Pick<IconButtonProps, 'size' | 'variant'>,

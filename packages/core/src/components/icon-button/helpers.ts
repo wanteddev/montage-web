@@ -1,9 +1,6 @@
-import type { CompactSize, PaddingValue } from './constants';
+import type { CompactSize } from './constants';
 import type { IconButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
-
-export const resolvePadding = (theme: Theme, padding: PaddingValue): string =>
-  typeof padding === 'number' ? theme.spacing[padding] : padding;
 
 export const resolveCompactSize = (
   size: IconButtonProps['size'],
@@ -31,10 +28,14 @@ const nearestToken = (
   }, tokens[0] ?? value);
 };
 
-export const nearestSpacingToken = (theme: Theme, value: number): string => {
-  const snapped = nearestToken(value, numericTokenKeys(theme.spacing), 'down');
-  return theme.spacing[snapped as keyof Theme['spacing']];
-};
+// Dimension token keys are their px value, so the snapped key doubles as the
+// resolved icon size in px.
+export const nearestDimensionToken = (theme: Theme, value: number): number =>
+  nearestToken(value, numericTokenKeys(theme.dimension), 'down');
+
+// The largest dimension token (px) — used to cap the custom `number` box size.
+export const maxDimensionToken = (theme: Theme): number =>
+  Math.max(...numericTokenKeys(theme.dimension));
 
 export const nearestRadiusToken = (theme: Theme, value: number): string => {
   const snapped = nearestToken(value, numericTokenKeys(theme.radius), 'down');
