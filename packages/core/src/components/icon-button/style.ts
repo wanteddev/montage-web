@@ -310,7 +310,7 @@ const iconButtonColorStyle = (
 
         &:disabled, &[aria-disabled='true'] {
           color: ${theme.semantic.label.disable};
-          background-color: ${theme.semantic.background.normal.normal};
+          background-color: transparent;
           box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
