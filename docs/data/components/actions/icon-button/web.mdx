@@ -121,15 +121,15 @@ export default Demo;`}
 
 variant 별로 지원하는 size 가 다릅니다.
 
-- `normal`
+- normal
   - `xlarge` (default)
   - `large`
   - `medium`
   - `small`
-- `outlined`, `solid`:
+- outlined, solid:
   - `medium` (default)
-  - `small`. `xlarge`
-- `background`
+  - `small`, `xlarge`
+- background
   - 단일 사이즈(32x32) 고정. `number` 로만 박스 크기를 커스텀할 수 있습니다.
 
 `size={number}` 는 모든 variant 에서 **박스(컨테이너) 크기** 를 의미합니다.
@@ -213,7 +213,7 @@ const Demo = () => {
       </FlexBox>
 
       <FlexBox gap="12px" alignItems="center">
-        <Typography variant="body2-reading">42(Number)</Typography>
+        <Typography variant="body2-reading">{num}(Number)</Typography>
         <FlexBox gap="12px" alignItems="center" flexWrap="wrap">
           <IconButton size={num} variant="normal" aria-label={\`\$\{num\} normal icon button\`}>
             <IconBlank />

@@ -88,7 +88,7 @@ const IconButton = forwardRef(
         color={interactionColor}
         disabled={disableInteraction || disabled}
         variant={getInteractionVariant()}
-        scale={false}
+        scale={variant === 'normal'}
       >
         <Box
           as={(as || 'button') as ElementType}
