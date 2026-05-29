@@ -3,94 +3,22 @@ import { css, getColorByToken } from '@montage-ui/engine';
 import { addOpacity } from '../../utils';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
+import {
+  BACKGROUND_PRESET,
+  MIN_INTERACTION_SIZE_PX,
+  NORMAL_PRESETS,
+  OUTLINED_SOLID_PRESETS,
+} from './constants';
+import {
+  nearestRadiusToken,
+  nearestSpacingToken,
+  resolveCompactSize,
+  resolvePadding,
+} from './helpers';
+
+import type { BackgroundPreset, NormalPreset } from './constants';
 import type { IconButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
-
-const NORMAL_ICON_SIZE_MAP = {
-  xlarge: 24,
-  large: 20,
-  medium: 18,
-  small: 16,
-} as const;
-
-const RADIUS_TOKENS = [0, 4, 8, 10, 12, 14, 16, 20, 24] as const;
-const DIMENSION_TOKENS = [
-  12, 14, 16, 18, 20, 24, 28, 32, 36, 40, 48, 56, 64,
-] as const;
-
-const nearestToken = (
-  value: number,
-  tokens: readonly [number, ...Array<number>],
-  tie: 'up' | 'down' = 'down',
-): number => {
-  let best = tokens[0];
-  let bestDist = Math.abs(value - best);
-  for (const token of tokens) {
-    const dist = Math.abs(value - token);
-    if (dist < bestDist) {
-      best = token;
-      bestDist = dist;
-    } else if (dist === bestDist) {
-      if ((tie === 'up' && token > best) || (tie === 'down' && token < best)) {
-        best = token;
-      }
-    }
-  }
-  return best;
-};
-
-// WCAG 2.2 SC 2.5.8 Target Size (Minimum): interactive targets must be ≥ 24×24 CSS px.
-const MIN_INTERACTION_SIZE = 24;
-
-const getNormalInteractionShape = (icon: number) => {
-  const raw = icon * 1.5;
-  const interaction = Math.max(
-    MIN_INTERACTION_SIZE,
-    nearestToken(raw, DIMENSION_TOKENS, 'up'),
-  );
-  const radius = nearestToken(interaction * 0.3, RADIUS_TOKENS, 'down');
-  return { interaction, radius };
-};
-
-const getBackgroundBoxSize = (icon: number) =>
-  Math.max(
-    MIN_INTERACTION_SIZE,
-    nearestToken(icon * 1.5, DIMENSION_TOKENS, 'up'),
-  );
-
-const resolveNormalIconSize = (size: IconButtonProps['size']): number => {
-  if (typeof size === 'number') return size;
-  if (size && size in NORMAL_ICON_SIZE_MAP) {
-    return NORMAL_ICON_SIZE_MAP[size as keyof typeof NORMAL_ICON_SIZE_MAP];
-  }
-  return NORMAL_ICON_SIZE_MAP.xlarge;
-};
-
-const dimensionToken = (theme: Theme, value: number): string =>
-  (theme.dimension as Record<number, string | undefined>)[value] ??
-  `${value}px`;
-
-const spacingToken = (theme: Theme, value: number): string =>
-  (theme.spacing as Record<number, string | undefined>)[value] ?? `${value}px`;
-
-const radiusToken = (theme: Theme, value: number): string =>
-  (theme.radius as Record<number, string | undefined>)[value] ?? `${value}px`;
-
-const getIconButtonSize = ({
-  variant,
-  size,
-}: Pick<IconButtonProps, 'variant' | 'size'>): IconButtonProps['size'] => {
-  switch (variant) {
-    case 'outlined':
-    case 'solid':
-      if (size === 'xlarge' || size === 'large') return 'medium';
-      return size ?? 'medium';
-    case 'background':
-      return typeof size === 'number' ? size : 20;
-    default:
-      return typeof size === 'number' ? size : 24;
-  }
-};
 
 export const iconButtonStyle =
   ({ xs, sm, md, lg, xl, ...props }: IconButtonProps) =>
@@ -130,159 +58,87 @@ export const iconButtonStyle =
     )}
   `;
 
+const innerSvgStyle = css`
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  [data-role='push-badge-wrapper'] {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+// Exposes the IconButton's padding as `--wds-icon-button-inset` on the adjacent
+// PushBadge sibling so it can align to the icon edge (not the chrome edge).
+// Only normal variant has invisible chrome, so this compensation is scoped to
+// 'normal' — other variants keep the badge at the visible chrome corner.
+const badgeInsetStyle = (padding: string) => css`
+  & + [wds-component='push-badge'] {
+    --wds-icon-button-inset: ${padding};
+  }
+`;
+
+const numberSizeStyle = (
+  variant: IconButtonProps['variant'],
+  size: number,
+  theme: Theme,
+) => {
+  const box = Math.max(MIN_INTERACTION_SIZE_PX, size);
+  const padding = nearestSpacingToken(theme, box / 6);
+  return css`
+    width: ${box}px;
+    height: ${box}px;
+    padding: ${padding};
+    ${variant === 'normal' &&
+    css`
+      border-radius: ${nearestRadiusToken(theme, box * 0.3)};
+      ${badgeInsetStyle(padding)}
+    `}
+    ${innerSvgStyle}
+  `;
+};
+
+const presetSizeStyle = (
+  theme: Theme,
+  preset: NormalPreset | BackgroundPreset,
+) => {
+  const padding = resolvePadding(theme, preset.padding);
+  return css`
+    width: ${theme.dimension[preset.box]};
+    height: ${theme.dimension[preset.box]};
+    padding: ${padding};
+    ${'radius' in preset &&
+    css`
+      border-radius: ${theme.radius[preset.radius]};
+      ${badgeInsetStyle(padding)}
+    `}
+    ${innerSvgStyle}
+  `;
+};
+
 const iconButtonSizeStyle = (
   params: Pick<IconButtonProps, 'size' | 'variant'>,
   theme: Theme,
 ) => {
-  const { variant } = params;
-
-  if (variant === 'normal') {
-    const icon = resolveNormalIconSize(params.size);
-    const { interaction, radius } = getNormalInteractionShape(icon);
-    const padding = (interaction - icon) / 2;
-    return css`
-      width: ${dimensionToken(theme, interaction)};
-      height: ${dimensionToken(theme, interaction)};
-      padding: ${spacingToken(theme, padding)};
-      border-radius: ${radiusToken(theme, radius)};
-      font-size: ${dimensionToken(theme, icon)};
-
-      svg {
-        width: 100%;
-        height: 100%;
-      }
-
-      [data-role='push-badge-wrapper'] {
-        width: 100%;
-        height: 100%;
-      }
-    `;
-  }
-
-  const size = getIconButtonSize(params);
+  const { variant, size } = params;
 
   if (typeof size === 'number') {
-    if (variant === 'background') {
-      const box = getBackgroundBoxSize(size);
-      const padding = (box - size) / 2;
-      return css`
-        width: ${dimensionToken(theme, box)};
-        height: ${dimensionToken(theme, box)};
-        padding: ${spacingToken(theme, padding)};
-        font-size: ${dimensionToken(theme, size)};
-
-        svg {
-          width: 100%;
-          height: 100%;
-        }
-
-        [data-role='push-badge-wrapper'] {
-          width: 100%;
-          height: 100%;
-        }
-      `;
-    }
-
-    const clampedBox = Math.max(MIN_INTERACTION_SIZE, size);
-
-    return css`
-      font-size: ${dimensionToken(theme, size)};
-      width: fit-content;
-      height: fit-content;
-
-      svg {
-        width: initial;
-        height: 1em;
-      }
-
-      ${(variant === 'solid' || variant === 'outlined') &&
-      css`
-        padding: ${theme.spacing[6]};
-        width: ${dimensionToken(theme, clampedBox)};
-        height: ${dimensionToken(theme, clampedBox)};
-
-        svg {
-          width: 100%;
-          height: 100%;
-        }
-      `}
-
-      [data-role="push-badge-wrapper"] {
-        width: 100%;
-        height: 100%;
-      }
-    `;
+    return numberSizeStyle(variant, size, theme);
   }
 
-  switch (size) {
-    case 'medium':
-      return css`
-        font-size: ${theme.dimension[40]};
-        width: fit-content;
-        height: fit-content;
-
-        svg {
-          width: initial;
-          height: 1em;
-        }
-
-        ${variant === 'background' &&
-        css`
-          padding: ${theme.spacing[2]};
-          font-size: ${theme.dimension[36]};
-        `}
-
-        ${(variant === 'solid' || variant === 'outlined') &&
-        css`
-          padding: 11px;
-          width: ${theme.dimension[40]};
-          height: ${theme.dimension[40]};
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
-        `}
-
-        [data-role="push-badge-wrapper"] {
-          width: 100%;
-          height: 100%;
-        }
-      `;
-    case 'small':
-      return css`
-        font-size: ${theme.dimension[32]};
-        width: fit-content;
-        height: fit-content;
-
-        svg {
-          width: initial;
-          height: 1em;
-        }
-
-        ${variant === 'background' &&
-        css`
-          padding: ${theme.spacing[2]};
-          font-size: ${theme.dimension[28]};
-        `}
-
-        ${(variant === 'solid' || variant === 'outlined') &&
-        css`
-          padding: ${theme.spacing[8]};
-          width: ${theme.dimension[32]};
-          height: ${theme.dimension[32]};
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
-        `}
-
-        [data-role="push-badge-wrapper"] {
-          width: 100%;
-          height: 100%;
-        }
-      `;
+  switch (variant) {
+    case 'normal':
+      return presetSizeStyle(theme, NORMAL_PRESETS[size ?? 'xlarge']);
+    case 'background':
+      return presetSizeStyle(theme, BACKGROUND_PRESET);
+    case 'outlined':
+    case 'solid':
+      return presetSizeStyle(
+        theme,
+        OUTLINED_SOLID_PRESETS[resolveCompactSize(size)],
+      );
   }
 };
 
