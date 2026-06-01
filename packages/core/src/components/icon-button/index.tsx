@@ -59,13 +59,11 @@ const IconButton = forwardRef(
 
     const getInteractionSize = () => {
       switch (variant) {
+        case 'normal':
         case 'outlined':
         case 'solid':
-          return '100%';
         case 'background':
-          return 'calc(100% + 8px)';
-        case 'normal':
-          return 'calc(100% + 16px)';
+          return '100%';
       }
     };
 
