@@ -60,99 +60,70 @@ export const pushBadgeStyle =
     ${pushBadgeVariantStyle({ variant }, theme)}
   `;
 
+// Adjacent sibling can expose `--wds-icon-button-inset` to pull the badge
+// inward by that amount (e.g. IconButton normal variant aligning badge to the
+// icon edge instead of the padded chrome edge). Defaults to 0px → no effect.
+const INSET = 'var(--wds-icon-button-inset, 0px)';
+
 const pushBadgePositionStyle = ({ position, invisible }: PushBadgeProps) => {
+  const transform = `${invisible ? 'scale(0)' : 'scale(1)'} translate(-50%, -50%)`;
+
   switch (position) {
     case 'top-left':
       return css`
-        top: calc(0px + var(--wds-push-badge-offset-y));
-        left: calc(0px + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        top: calc(0px + var(--wds-push-badge-offset-y) + ${INSET});
+        left: calc(0px + var(--wds-push-badge-offset-x) + ${INSET});
+        transform: ${transform};
       `;
     case 'top-center':
       return css`
-        top: calc(0px + var(--wds-push-badge-offset-y));
+        top: calc(0px + var(--wds-push-badge-offset-y) + ${INSET});
         left: calc(50% + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        transform: ${transform};
       `;
     case 'top-right':
       return css`
-        top: calc(0px + var(--wds-push-badge-offset-y));
-        left: calc(100% + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        top: calc(0px + var(--wds-push-badge-offset-y) + ${INSET});
+        left: calc(100% + var(--wds-push-badge-offset-x) - ${INSET});
+        transform: ${transform};
       `;
 
     case 'middle-left':
       return css`
         top: calc(50% + var(--wds-push-badge-offset-y));
-        left: calc(0px + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        left: calc(0px + var(--wds-push-badge-offset-x) + ${INSET});
+        transform: ${transform};
       `;
     case 'middle-center':
       return css`
         top: calc(50% + var(--wds-push-badge-offset-y));
         left: calc(50% + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        transform: ${transform};
       `;
     case 'middle-right':
       return css`
         top: calc(50% + var(--wds-push-badge-offset-y));
-        left: calc(100% + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        left: calc(100% + var(--wds-push-badge-offset-x) - ${INSET});
+        transform: ${transform};
       `;
 
     case 'bottom-left':
       return css`
-        top: calc(100% + var(--wds-push-badge-offset-y));
-        left: calc(0px + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        top: calc(100% + var(--wds-push-badge-offset-y) - ${INSET});
+        left: calc(0px + var(--wds-push-badge-offset-x) + ${INSET});
+        transform: ${transform};
       `;
     case 'bottom-center':
       return css`
-        top: calc(100% + var(--wds-push-badge-offset-y));
+        top: calc(100% + var(--wds-push-badge-offset-y) - ${INSET});
         left: calc(50% + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        transform: ${transform};
       `;
     case 'bottom-right':
       return css`
-        top: calc(100% + var(--wds-push-badge-offset-y));
-        left: calc(100% + var(--wds-push-badge-offset-x));
-        transform: scale(0) translate(-50%, -50%);
-        ${!invisible &&
-        css`
-          transform: scale(1) translate(-50%, -50%);
-        `}
+        top: calc(100% + var(--wds-push-badge-offset-y) - ${INSET});
+        left: calc(100% + var(--wds-push-badge-offset-x) - ${INSET});
+        transform: ${transform};
       `;
   }
 };

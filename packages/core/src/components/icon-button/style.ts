@@ -3,26 +3,27 @@ import { css, getColorByToken } from '@montage-ui/engine';
 import { addOpacity } from '../../utils';
 import { createResponsiveStyle } from '../../utils/internal/responsive-props';
 
+import {
+  BACKGROUND_PRESET,
+  MIN_INTERACTION_SIZE_PX,
+  NORMAL_PRESETS,
+  OUTLINED_SOLID_PRESETS,
+} from './constants';
+import {
+  maxDimensionToken,
+  nearestDimensionToken,
+  nearestRadiusToken,
+  resolveCompactSize,
+} from './helpers';
+
+import type { BackgroundPreset, NormalPreset } from './constants';
 import type { IconButtonProps } from './types';
 import type { Theme } from '@montage-ui/engine';
-
-const getIconButtonSize = ({
-  variant,
-  size,
-}: Pick<IconButtonProps, 'variant' | 'size'>): IconButtonProps['size'] => {
-  switch (variant) {
-    case 'outlined':
-    case 'solid':
-      return size ?? 'medium';
-    default:
-      return typeof size === 'number' ? size : 24;
-  }
-};
 
 export const iconButtonStyle =
   ({ xs, sm, md, lg, xl, ...props }: IconButtonProps) =>
   (theme: Theme) => css`
-    border-radius: 9999px;
+    border-radius: ${theme.radius.full};
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -40,7 +41,7 @@ export const iconButtonStyle =
       aspect-ratio: 1 / 1;
     }
 
-    ${iconButtonSizeStyle({ size: props.size, variant: props.variant })}
+    ${iconButtonSizeStyle({ size: props.size, variant: props.variant }, theme)}
     ${iconButtonColorStyle(props, theme)}
 
   ${createResponsiveStyle(
@@ -48,123 +49,108 @@ export const iconButtonStyle =
       theme,
     )(
       (params = {}) => css`
-        ${iconButtonSizeStyle({ size: params.size, variant: props.variant })}
+        ${iconButtonSizeStyle(
+          { size: params.size, variant: props.variant },
+          theme,
+        )}
         ${params.sx}
       `,
     )}
   `;
 
+// Exposes the gap between the box edge and the icon edge as
+// `--wds-icon-button-inset` on the adjacent PushBadge sibling so it can align to
+// the icon edge (not the chrome edge). Only normal variant has invisible chrome,
+// so this compensation is scoped to 'normal' — other variants keep the badge at
+// the visible chrome corner.
+const badgeInsetStyle = (inset: string) => css`
+  & + [wds-component='push-badge'] {
+    --wds-icon-button-inset: ${inset};
+  }
+`;
+
+// Icon size ratio for custom `number` sizes. normal / background use 2/3 of the
+// box; outlined / solid use a tighter 0.47. The result snaps to a dimension token.
+const ICON_SIZE_RATIO: Record<
+  NonNullable<IconButtonProps['variant']>,
+  number
+> = {
+  normal: 2 / 3,
+  background: 2 / 3,
+  outlined: 0.47,
+  solid: 0.47,
+};
+
+// Inset compensates the PushBadge for the gap between the box edge and the icon
+// edge: (box − iconSize) / 2.
+const insetPx = (box: number, iconSize: number) => `${(box - iconSize) / 2}px`;
+
+const numberSizeStyle = (
+  variant: IconButtonProps['variant'],
+  size: number,
+  theme: Theme,
+) => {
+  const box = Math.min(
+    maxDimensionToken(theme),
+    Math.max(MIN_INTERACTION_SIZE_PX, size),
+  );
+  const iconSize = nearestDimensionToken(
+    theme,
+    box * ICON_SIZE_RATIO[variant ?? 'normal'],
+  );
+  return css`
+    width: ${box}px;
+    height: ${box}px;
+    ${variant === 'normal' &&
+    css`
+      border-radius: ${nearestRadiusToken(theme, box * 0.3)};
+      ${badgeInsetStyle(insetPx(box, iconSize))}
+    `}
+
+    svg {
+      font-size: ${theme.dimension[iconSize as keyof typeof theme.dimension]};
+    }
+  `;
+};
+
+const presetSizeStyle = (
+  theme: Theme,
+  preset: NormalPreset | BackgroundPreset,
+) => css`
+  width: ${theme.dimension[preset.box]};
+  height: ${theme.dimension[preset.box]};
+  ${'radius' in preset &&
+  css`
+    border-radius: ${theme.radius[preset.radius]};
+    ${badgeInsetStyle(insetPx(preset.box, preset.iconSize))}
+  `}
+
+  svg {
+    font-size: ${theme.dimension[preset.iconSize]};
+  }
+`;
+
 const iconButtonSizeStyle = (
   params: Pick<IconButtonProps, 'size' | 'variant'>,
+  theme: Theme,
 ) => {
-  const size = getIconButtonSize(params);
-  const { variant } = params;
+  const { variant, size } = params;
 
   if (typeof size === 'number') {
-    return css`
-      font-size: ${size}px;
-      width: fit-content;
-      height: fit-content;
-
-      svg {
-        width: initial;
-        height: 1em;
-      }
-
-      ${variant === 'background' &&
-      css`
-        padding: 2px;
-        font-size: ${size - 4}px;
-      `}
-
-      ${(variant === 'solid' || variant === 'outlined') &&
-      css`
-        padding: 6px;
-        width: ${size}px;
-        height: ${size}px;
-
-        svg {
-          width: 100%;
-          height: 100%;
-        }
-      `}
-
-      [data-role="push-badge-wrapper"] {
-        width: 100%;
-        height: 100%;
-      }
-    `;
+    return numberSizeStyle(variant, size, theme);
   }
 
-  switch (size) {
-    case 'medium':
-      return css`
-        font-size: 40px;
-        width: fit-content;
-        height: fit-content;
-
-        svg {
-          width: initial;
-          height: 1em;
-        }
-
-        ${variant === 'background' &&
-        css`
-          padding: 2px;
-          font-size: 36px;
-        `}
-
-        ${(variant === 'solid' || variant === 'outlined') &&
-        css`
-          padding: 10px;
-          width: 40px;
-          height: 40px;
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
-        `}
-
-        [data-role="push-badge-wrapper"] {
-          width: 100%;
-          height: 100%;
-        }
-      `;
-    case 'small':
-      return css`
-        font-size: 32px;
-        width: fit-content;
-        height: fit-content;
-
-        svg {
-          width: initial;
-          height: 1em;
-        }
-
-        ${variant === 'background' &&
-        css`
-          padding: 2px;
-          font-size: 28px;
-        `}
-
-        ${(variant === 'solid' || variant === 'outlined') &&
-        css`
-          padding: 7px;
-          width: 32px;
-          height: 32px;
-
-          svg {
-            width: 100%;
-            height: 100%;
-          }
-        `}
-
-        [data-role="push-badge-wrapper"] {
-          width: 100%;
-          height: 100%;
-        }
-      `;
+  switch (variant) {
+    case 'normal':
+      return presetSizeStyle(theme, NORMAL_PRESETS[size ?? 'xlarge']);
+    case 'background':
+      return presetSizeStyle(theme, BACKGROUND_PRESET);
+    case 'outlined':
+    case 'solid':
+      return presetSizeStyle(
+        theme,
+        OUTLINED_SOLID_PRESETS[resolveCompactSize(size)],
+      );
   }
 };
 
@@ -244,12 +230,7 @@ const iconButtonColorStyle = (
         &::before {
           position: absolute;
           content: '';
-          width: auto;
-          height: calc(100% + 8px);
-          aspect-ratio: 1 / 1;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          inset: 0;
           border-radius: inherit;
 
           ${alternative
@@ -329,7 +310,7 @@ const iconButtonColorStyle = (
 
         &:disabled, &[aria-disabled='true'] {
           color: ${theme.semantic.label.disable};
-          background-color: ${theme.semantic.background.normal.normal};
+          background-color: transparent;
           box-shadow: inset 0 0 0 1px ${theme.semantic.line.normal.neutral};
         }
       `;
@@ -359,12 +340,7 @@ export const backgroundBlendStyle = (theme: Theme) => css`
     theme.semantic.static.black,
     theme.opacity[5],
   )};
-  width: auto;
-  height: calc(100% + 8px);
-  aspect-ratio: 1 / 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  inset: 0;
   border-radius: inherit;
 
   @supports (-webkit-backdrop-filter: none) {
