@@ -52,14 +52,14 @@ export const textButtonStyle =
     }
 
     ${getColorTheme(props, theme)}
-    ${textButtonSizeStyle(props)}
+    ${textButtonSizeStyle(props, theme)}
 
   ${createResponsiveStyle(
       { xs, sm, md, lg, xl },
       theme,
     )(
       (params = {}) => css`
-        ${textButtonSizeStyle(params)}
+        ${textButtonSizeStyle(params, theme)}
         ${params.sx}
       `,
     )}
@@ -109,49 +109,51 @@ const getColorTheme = (
   }
 };
 
-const textButtonSizeStyle = ({ size }: TextButtonProps) => {
+const textButtonSizeStyle = ({ size }: TextButtonProps, theme: Theme) => {
   switch (size) {
     case 'medium':
       return css`
-        gap: 4px;
-        border-radius: 6px;
-        padding: 4px 0px;
+        gap: ${theme.spacing[4]};
+        border-radius: ${theme.radius[10]};
+        min-height: ${theme.dimension[32]};
+        padding: 5px ${theme.spacing[0]};
 
         [data-role='text-button-loading'] {
-          width: 16px;
-          height: 16px;
+          width: ${theme.dimension[14]};
+          height: ${theme.dimension[14]};
         }
 
         & > [wds-component='with-interaction'] {
-          width: calc(100% + 14px);
+          width: calc(100% + (${theme.spacing[8]} * 2));
           height: 100%;
         }
 
         & > svg {
-          font-size: 20px;
+          font-size: ${theme.dimension[18]};
         }
         & > span {
-          ${typographyStyle('body1', 'bold')}
+          ${typographyStyle('body2', 'bold')}
         }
       `;
     case 'small':
       return css`
-        gap: 4px;
-        border-radius: 6px;
-        padding: 4px 0px;
+        gap: ${theme.spacing[4]};
+        border-radius: ${theme.radius[8]};
+        min-height: ${theme.dimension[28]};
+        padding: ${theme.spacing[4]} ${theme.spacing[0]};
 
         [data-role='text-button-loading'] {
-          width: 14px;
-          height: 14px;
+          width: ${theme.dimension[12]};
+          height: ${theme.dimension[12]};
         }
 
         & > [wds-component='with-interaction'] {
-          width: calc(100% + 12px);
+          width: calc(100% + (${theme.spacing[6]} * 2));
           height: 100%;
         }
 
         & > svg {
-          font-size: 16px;
+          font-size: ${theme.dimension[16]};
         }
         & > span {
           ${typographyStyle('label1', 'bold')}
