@@ -59,7 +59,7 @@ const TextButton = forwardRef(
       <WithInteraction
         color={interactionColor}
         disabled={disableInteraction || disabled}
-        variant={color === 'primary' ? 'strong' : 'light'}
+        variant={color === 'primary' ? 'normal' : 'light'}
         scale
       >
         <Box
