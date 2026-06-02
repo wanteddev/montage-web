@@ -61,6 +61,10 @@ export const getPaginationDotScale = ({
     return 0;
   }
 
+  if (totalPages <= maxDotCount) {
+    return 1;
+  }
+
   // first
   if (
     (visibleArea[0] === 0 && Math.floor(maxDotCount / 2) > index) ||
