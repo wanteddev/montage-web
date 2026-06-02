@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.1](https://github.com/wanteddev/montage-web/compare/v3.8.0...v3.8.1) (2026-06-02)
+
+### Bug Fixes
+
+- **wds:** pagination dot totalPages가 maxDotCount 이하일 때 scale 1 고정 ([#579](https://github.com/wanteddev/montage-web/issues/579)) ([0579b2e](https://github.com/wanteddev/montage-web/commit/0579b2e74abea759a73d738b3ebce3f7a13f7222))
+- **wds:** section header navigation 라인 색상 토큰 수정 ([#580](https://github.com/wanteddev/montage-web/issues/580)) ([50449b0](https://github.com/wanteddev/montage-web/commit/50449b092040c72fdd163c26005c96d63f9eb906))
+
 # [3.8.0](https://github.com/wanteddev/montage-web/compare/v3.7.0...v3.8.0) (2026-05-28)
 
 **Note:** Version bump only for package @wanteddev/wds
