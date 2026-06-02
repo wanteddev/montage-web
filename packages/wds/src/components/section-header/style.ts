@@ -121,7 +121,7 @@ export const sectionHeaderNavigationStyle = (theme: Theme) => css`
   overflow: hidden;
   border-radius: 10px;
   height: 32px;
-  border: 1px solid ${theme.semantic.line.normal.normal};
+  border: 1px solid ${theme.semantic.line.normal.neutral};
 `;
 
 export const sectionHeaderNavigationButtonStyle = (theme: Theme) => css`
