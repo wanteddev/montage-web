@@ -224,6 +224,7 @@ const DatePicker = forwardRef<
             >
               <DismissableLayer
                 asChild
+                disableOutsidePointerEvents
                 onPointerDownOutside={(e) => {
                   if (
                     ref.current?.contains(e.target as HTMLElement) &&

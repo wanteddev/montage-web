@@ -255,7 +255,6 @@ const PopperContent = forwardRef<
     return (
       <PortalOrFragment disablePortal={disablePortal} container={container}>
         <Box
-          data-ignore-dismissable-layer="true"
           ref={refs.setFloating}
           {...wrapperProps}
           data-side={side}
