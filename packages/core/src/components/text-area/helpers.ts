@@ -8,7 +8,7 @@ export const getTextAreaDefaultHeight = ({
   minRows = 2,
 }: Pick<TextAreaProps, 'minRows'>) => {
   return {
-    '--wds-text-area-scroll-height': `${minRows * DEFAULT_LINE_HEIGHT}px`,
-    '--wds-text-area-height': `${minRows * DEFAULT_LINE_HEIGHT}px`,
+    '--text-area-scroll-height': `${minRows * DEFAULT_LINE_HEIGHT}px`,
+    '--text-area-height': `${minRows * DEFAULT_LINE_HEIGHT}px`,
   } as CSSProperties;
 };

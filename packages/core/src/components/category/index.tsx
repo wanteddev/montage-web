@@ -171,7 +171,7 @@ const CategoryList = forwardRef<
       >
         <RovingFocusGroup.Root asChild orientation="horizontal" loop dir="ltr">
           <FlexBox
-            wds-component="category-list"
+            data-component="category-list"
             role="tablist"
             ref={composedRef}
             dir={dir || 'ltr'}
@@ -324,7 +324,7 @@ const CategoryListItem = forwardRef<any, CategoryListItemProps>(
           role="tab"
           ref={composedRefs}
           aria-pressed={undefined}
-          wds-component="category-list-item"
+          data-component="category-list-item"
           aria-selected={isActive}
           aria-disabled={disabled}
           data-value={value}
@@ -421,7 +421,7 @@ const CategoryPanel = forwardRef<
     <Box
       {...props}
       ref={ref}
-      wds-component="category-panel"
+      data-component="category-panel"
       id={`${context.id}-${value}-panel`}
       aria-labelledby={`${context.id}-${value}`}
       role="tabpanel"

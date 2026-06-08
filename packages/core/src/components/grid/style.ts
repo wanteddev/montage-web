@@ -59,16 +59,16 @@ const gridSpacingStyle = (
 
   if (typeof spacing === 'number') {
     return css`
-      --wds-${type}-spacing: ${theme.spacing[spacing]};
+      --${type}-spacing: ${theme.spacing[spacing]};
 
       ${
         type === 'column'
           ? css`
-              margin-top: calc(var(--wds-${type}-spacing) * -1);
+              margin-top: calc(var(--${type}-spacing) * -1);
             `
           : css`
-              width: calc(100% + var(--wds-${type}-spacing));
-              margin-left: calc(var(--wds-${type}-spacing) * -1);
+              width: calc(100% + var(--${type}-spacing));
+              margin-left: calc(var(--${type}-spacing) * -1);
             `
       }
     `;

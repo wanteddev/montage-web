@@ -91,7 +91,7 @@ const checkMarkSizeStyle = ({
             margin: 0 auto;
           }
 
-          [wds-component='with-interaction'] {
+          [data-component='with-interaction'] {
             width: calc(100% + 12px);
           }
         `}
@@ -116,7 +116,7 @@ const checkMarkSizeStyle = ({
             margin: 0 auto;
           }
 
-          [wds-component='with-interaction'] {
+          [data-component='with-interaction'] {
             width: calc(100% + 12px);
           }
         `}

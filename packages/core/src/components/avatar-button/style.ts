@@ -16,7 +16,7 @@ export const avatarButtonStyle = (theme: Theme) => css`
   &:focus-visible {
     outline: none;
 
-    [wds-component='avatar'] {
+    [data-component='avatar'] {
       &::before {
         content: '';
         position: absolute;
@@ -35,7 +35,7 @@ export const avatarButtonStyle = (theme: Theme) => css`
   }
 
   &[aria-expanded='true'] {
-    [wds-component='with-interaction'] {
+    [data-component='with-interaction'] {
       ${activeInteractionStyle(theme)}
     }
   }

@@ -256,13 +256,13 @@ const ModalContainer = forwardRef(
     const topNavigationHeight =
       useSize(
         containerRef.current?.querySelector(
-          '[wds-component="top-navigation"]',
+          '[data-component="top-navigation"]',
         ) ?? null,
       )?.height ?? 0;
 
     const actionAreaHeight =
       useSize(
-        containerRef.current?.querySelector('[wds-component="action-area"]') ??
+        containerRef.current?.querySelector('[data-component="action-area"]') ??
           null,
       )?.height ?? 0;
 
@@ -391,7 +391,7 @@ const ModalContainer = forwardRef(
                   aria-describedby={`${context.descriptionId} ${context.summaryId}`}
                   aria-labelledby={`${context.titleId} ${context.headingId}`}
                   {...props}
-                  wds-ignore-dismissable-layer="true"
+                  data-ignore-dismissable-layer="true"
                   data-snap={snap}
                   data-largest-undimmed-snap={largestUndimmedSnap}
                   data-status={open ? 'open' : 'close'}
@@ -438,10 +438,9 @@ const ModalContainer = forwardRef(
                       flex="1"
                       data-role="modal-container-wrapper"
                       sx={{
-                        '--wds-modal-grabber-height-guard': `${grabberHeightGuard}px`,
+                        '--modal-grabber-height-guard': `${grabberHeightGuard}px`,
                         ['&:has([data-role="modal-container-grabber"])']: {
-                          paddingTop:
-                            'var(--wds-modal-grabber-height-guard, 0px)',
+                          paddingTop: 'var(--modal-grabber-height-guard, 0px)',
                         },
                       }}
                       {...dragProps}
@@ -501,7 +500,7 @@ const ModalDimmer = forwardRef(
         }
         as={as || 'div'}
         {...props}
-        wds-ignore-dismissable-layer="true"
+        data-ignore-dismissable-layer="true"
         ref={useComposedRefs(ref, dimmerRef as ForwardedRef<T>)}
         onPointerDown={composeEventHandlers(
           props.onPointerDown,
@@ -670,7 +669,7 @@ const ModalContent = forwardRef<
 >(
   (
     {
-      gap = 'calc(var(--wds-modal-content-margin, 20px))',
+      gap = 'calc(var(--modal-content-margin, 20px))',
       xs,
       sm,
       md,
@@ -691,7 +690,7 @@ const ModalContent = forwardRef<
         <FlexBox
           ref={ref}
           as="div"
-          wds-component="modal-content"
+          data-component="modal-content"
           flexDirection="column"
           {...props}
           sx={[

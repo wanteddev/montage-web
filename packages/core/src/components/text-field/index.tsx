@@ -94,7 +94,7 @@ const TextField = forwardRef<
       <Box
         className={className}
         style={style}
-        wds-component="text-field"
+        data-component="text-field"
         ref={useComposedRefs(parentRef, wrapperRef)}
         sx={[
           textFieldWrapperStyle({
@@ -211,7 +211,7 @@ const TextFieldContent = forwardRef<
       return (
         <Typography
           as="div"
-          wds-component="text-field-content"
+          data-component="text-field-content"
           variant="body1"
           weight="medium"
           ref={ref}
@@ -225,7 +225,7 @@ const TextFieldContent = forwardRef<
     case 'badge':
       return (
         <FlexBox
-          wds-component="text-field-content"
+          data-component="text-field-content"
           ref={ref}
           sx={[textFieldContentStyle, sx]}
           {...props}
@@ -239,7 +239,7 @@ const TextFieldContent = forwardRef<
           as="div"
           variant="label1"
           weight="bold"
-          wds-component="text-field-content"
+          data-component="text-field-content"
           ref={ref}
           sx={[textFieldContentStyle, { padding: '2px 4px' }, sx]}
           color={color ?? 'semantic.primary.normal'}
@@ -251,7 +251,7 @@ const TextFieldContent = forwardRef<
     case 'icon':
       return (
         <FlexBox
-          wds-component="text-field-content"
+          data-component="text-field-content"
           ref={ref}
           sx={[
             textFieldContentStyle,
@@ -270,7 +270,7 @@ const TextFieldContent = forwardRef<
     case 'icon-button':
       return (
         <FlexBox
-          wds-component="text-field-content"
+          data-component="text-field-content"
           ref={ref}
           sx={[
             textFieldContentStyle,
@@ -289,7 +289,7 @@ const TextFieldContent = forwardRef<
     case 'text-button':
       return (
         <FlexBox
-          wds-component="text-field-content"
+          data-component="text-field-content"
           ref={ref}
           sx={[textFieldContentStyle, sx]}
           alignItems="center"
@@ -302,7 +302,7 @@ const TextFieldContent = forwardRef<
     default:
       return (
         <FlexBox
-          wds-component="text-field-content"
+          data-component="text-field-content"
           ref={ref}
           sx={[textFieldContentStyle, sx]}
           {...props}

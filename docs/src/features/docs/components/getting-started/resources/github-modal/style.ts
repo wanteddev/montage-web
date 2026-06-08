@@ -30,7 +30,7 @@ export const modalDimmerStyle = css`
 `;
 
 export const modalContainerStyle = css`
-  --wds-modal-popup-border-radius: 32px;
+  --modal-popup-border-radius: 32px;
   min-width: unset;
   animation: ${mountKeyframes} 0.3s cubic-bezier(0.2, 0, 0, 1);
 

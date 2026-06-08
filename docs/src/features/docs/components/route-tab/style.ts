@@ -7,7 +7,7 @@ export const tabScrollStyle = css`
 `;
 
 export const tabStyle = (theme: Theme) => css`
-  --wds-tab-padding-y: 16px;
+  --tab-padding-y: 16px;
 
   margin-bottom: 48px;
   position: sticky;
