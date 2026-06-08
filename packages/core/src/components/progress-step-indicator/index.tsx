@@ -76,7 +76,7 @@ const ProgressStepIndicator = forwardRef<
         )}
       >
         <Box
-          wds-component="progress-step-indicator"
+          data-component="progress-step-indicator"
           aria-label="progress"
           ref={ref}
           {...props}
@@ -119,7 +119,7 @@ const ProgressStepIndicatorItem = forwardRef<
     <Box
       as="li"
       ref={ref}
-      wds-component="progress-step-indicator-item"
+      data-component="progress-step-indicator-item"
       aria-label={`Step ${index}`}
       {...props}
       data-is-completed={isCompleted}
