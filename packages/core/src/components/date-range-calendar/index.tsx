@@ -175,7 +175,7 @@ const DateRangeCalendar = forwardRef<
       >
         <FlexBox
           ref={composedRefs}
-          wds-component="date-range-calendar"
+          data-component="date-range-calendar"
           sx={[rangeCalendarContainerStyle, props.sx]}
           onMouseLeave={() => {
             if (!disabled && !readOnly) setHoveredDate(null);
@@ -239,7 +239,7 @@ const RangeDayPanel = memo(({ panelIndex }: RangeDayPanelProps) => {
   const prevArrow = useMemo(() => {
     return (
       <IconButton
-        wds-ignore-first-focus="true"
+        data-ignore-first-focus="true"
         size={18}
         aria-label="Previous month"
         disabled={
@@ -269,7 +269,7 @@ const RangeDayPanel = memo(({ panelIndex }: RangeDayPanelProps) => {
   const nextArrow = useMemo(() => {
     return (
       <IconButton
-        wds-ignore-first-focus="true"
+        data-ignore-first-focus="true"
         size={18}
         aria-label="Next month"
         disabled={
@@ -1018,7 +1018,7 @@ const RangeMonthPanel = memo(() => {
             </FlexBox>
             <FlexBox gap="18px" sx={rangePanelHeaderNavigationStyle}>
               <IconButton
-                wds-ignore-first-focus="true"
+                data-ignore-first-focus="true"
                 size={18}
                 aria-label="Previous year"
                 disabled={
@@ -1041,7 +1041,7 @@ const RangeMonthPanel = memo(() => {
                 <IconChevronLeftSmall />
               </IconButton>
               <IconButton
-                wds-ignore-first-focus="true"
+                data-ignore-first-focus="true"
                 size={18}
                 aria-label="Next year"
                 disabled={

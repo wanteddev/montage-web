@@ -77,7 +77,7 @@ const Radio = forwardRef<
             value={value}
             ref={composedRefs}
             data-tight={tight}
-            wds-component="radio"
+            data-component="radio"
             {...props}
             sx={[
               radioStyle({

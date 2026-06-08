@@ -76,7 +76,7 @@ const PushBadge = forwardRef<
 
         <Box
           as="span"
-          wds-component="push-badge"
+          data-component="push-badge"
           data-variant={variant}
           sx={pushBadgeStyle({ variant, invisible, position })}
         >

@@ -69,7 +69,7 @@ const BottomNavigation = forwardRef(
           ref={ref}
           alignItems="center"
           {...props}
-          wds-component="bottom-navigation"
+          data-component="bottom-navigation"
           data-scroll-end={scrollEnd}
           sx={[bottomNavigationStyle, props.sx]}
         >
@@ -109,7 +109,7 @@ const BottomNavigationItem = forwardRef<any, BottomNavigationItemProps>(
           alignItems="center"
           justifyContent="center"
           flexDirection="column"
-          wds-component="bottom-navigation-item"
+          data-component="bottom-navigation-item"
           aria-current={isActive ? 'page' : undefined}
           aria-labelledby={id}
           sx={[bottomNavigationItemStyle, props.sx]}
